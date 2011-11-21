@@ -85,7 +85,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 						Global.get().Customer()), false, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), false, true) {
+				getMessages().number()), getMessages().number(), false, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -102,33 +102,33 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				getMessages().payeeSince(Global.get().Customer()), true, true));
 
 		list.add(new AmountRequirement(BALANCE, getMessages().pleaseEnter(
-				getConstants().openingBalance()), getConstants()
-				.openingBalance(), true, true));
+				getMessages().openingBalance()),
+				getMessages().openingBalance(), true, true));
 
 		list.add(new DateRequirement(BALANCE_ASOF_DATE, getMessages()
-				.pleaseEnter(getConstants().balanceAsOfDate()), getConstants()
+				.pleaseEnter(getMessages().balanceAsOfDate()), getMessages()
 				.balanceAsOfDate(), true, true));
 
 		list.add(new AddressRequirement(BILLTO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 		list.add(new AddressRequirement(SHIPTO, getMessages().pleaseEnter(
-				getConstants().shipTo()), getConstants().shipTo(), true, true));
+				getMessages().shipTo()), getMessages().shipTo(), true, true));
 
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-				getConstants().phoneNumber()), getConstants().phoneNumber(),
+				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				true, true));
 
 		list.add(new NumberRequirement(FAX, getMessages().pleaseEnter(
-				getConstants().fax()), getConstants().fax(), true, true));
+				getMessages().fax()), getMessages().fax(), true, true));
 
 		list.add(new NameRequirement(EMAIL, getMessages().pleaseEnter(
-				getConstants().email()), getConstants().email(), true, true));
+				getMessages().email()), getMessages().email(), true, true));
 
 		list.add(new NameRequirement(WEBADRESS, getMessages().pleaseEnter(
-				getConstants().webSite()), getConstants().webSite(), true, true));
+				getMessages().webSite()), getMessages().webSite(), true, true));
 
 		list.add(new SalesPersonRequirement(SALESPERSON,
-				"please enter the sales person name", getConstants()
+				"please enter the sales person name", getMessages()
 						.salesPerson(), true, true, null) {
 
 			@Override
@@ -149,7 +149,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShippingMethodRequirement(SHIPPING_METHODS,
-				"please enter the shipping method name", getConstants()
+				"please enter the shipping method name", getMessages()
 						.shippingMethod(), true, true, null) {
 
 			@Override
@@ -175,7 +175,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().shippingMethod());
+						getMessages().shippingMethod());
 			}
 
 		});
@@ -183,7 +183,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		// TODO list.add(new Requirement(PRICE_LEVEL, true, true));
 
 		list.add(new CreditRatingRequirement(CREDIT_RATING,
-				"Please enter the credit rating name", getConstants()
+				"Please enter the credit rating name", getMessages()
 						.creditRating(), true, true, null) {
 
 			@Override
@@ -203,20 +203,21 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new NameRequirement(BANK_NAME, getMessages().pleaseEnter(
-				getConstants().bankName()), getConstants().bankName(), true,
-				true));
+		list
+				.add(new NameRequirement(BANK_NAME, getMessages().pleaseEnter(
+						getMessages().bankName()), getMessages().bankName(),
+						true, true));
 
 		list.add(new NumberRequirement(BANK_ACCOUNT_NUM, getMessages()
-				.pleaseEnter(getConstants().bankAccounts()), getConstants()
+				.pleaseEnter(getMessages().bankAccount()), getMessages()
 				.bankAccountNumber(), true, true));
 
 		list.add(new NameRequirement(BANK_BRANCH, getMessages().pleaseEnter(
-				getConstants().bankBranch()), getConstants().bankBranch(),
-				true, true));
+				getMessages().bankBranch()), getMessages().bankBranch(), true,
+				true));
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseSelect(getConstants().paymentMethod()), getConstants()
+				.pleaseSelect(getMessages().paymentMethod()), getMessages()
 				.paymentMethod(), true, true, null) {
 
 			@Override
@@ -226,8 +227,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getConstants().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -241,12 +242,12 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().paymentMethod());
+						getMessages().paymentMethod());
 			}
 		});
 
 		list.add(new PaymentTermRequirement(PAYMENT_TERMS,
-				"Please enter the payment term name", getConstants()
+				"Please enter the payment term name", getMessages()
 						.paymentTerm(), true, true, null) {
 
 			@Override
@@ -278,8 +279,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		});
 
 		list.add(new NumberRequirement(VATREGISTER_NUM, getMessages()
-				.pleaseEnter(getConstants().vatRegistrationNumber()),
-				getConstants().vatRegistrationNumber(), true, true) {
+				.pleaseEnter(getMessages().vatRegistrationNumber()),
+				getMessages().vatRegistrationNumber(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -293,7 +294,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		});
 
 		list.add(new TaxCodeRequirement(CUSTOMER_VATCODE,
-				"Please enter the tax code name", getConstants().taxCode(),
+				"Please enter the tax code name", getMessages().taxCode(),
 				true, true, null) {
 
 			@Override
@@ -329,23 +330,26 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
-				getMessages().payeeNumber(Global.get().Customer())),
-				getMessages().payeeNumber(Global.get().Customer()), true, true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getPreferences().isTrackTax()
-						&& context.getCompany().getCountryPreferences()
-								.isSalesTaxAvailable()) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-			}
-		});
+		list
+				.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
+						getMessages().payeeNumber(Global.get().Customer())),
+						getMessages().payeeNumber(Global.get().Customer()),
+						true, true) {
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						if (getPreferences().isTrackTax()
+								&& context.getCompany().getCountryPreferences()
+										.isSalesTaxAvailable()) {
+							return super
+									.run(context, makeResult, list, actions);
+						}
+						return null;
+					}
+				});
 
 		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
-				.pleaseEnter(getConstants().serviceTax()), getConstants()
+				.pleaseEnter(getMessages().serviceTax()), getMessages()
 				.serviceTax(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -360,7 +364,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		});
 
 		list.add(new NumberRequirement(TIN_NUM, getMessages().pleaseEnter(
-				getConstants().tinNumber()), getConstants().tinNumber(), true,
+				getMessages().tinNumber()), getMessages().tinNumber(), true,
 				true) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -375,7 +379,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		});
 
 		list.add(new CustomerContactRequirement(CONTACT, getMessages()
-				.pleaseSelect(getConstants().contact()), CONTACT, true, true) {
+				.pleaseSelect(getMessages().contact()), CONTACT, true, true) {
 
 			@Override
 			protected List<ClientContact> getList() {
@@ -535,15 +539,15 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				addFirstMessage(context, "Select a Customer to update.");
 				return "Customers";
 			}
-			ClientPayee customerByName = CommandUtils.getPayeeByName(
-					context.getCompany(), string);
+			ClientPayee customerByName = CommandUtils.getPayeeByName(context
+					.getCompany(), string);
 			if (customerByName == null) {
 				long numberFromString = getNumberFromString(string);
 				if (numberFromString != 0) {
 					string = String.valueOf(numberFromString);
 				}
-				customerByName = CommandUtils.getCustomerByNumber(
-						context.getCompany(), string);
+				customerByName = CommandUtils.getCustomerByNumber(context
+						.getCompany(), string);
 				if (customerByName == null) {
 					addFirstMessage(context, "Select a Customer to update.");
 					return "Customers " + string.trim();
@@ -587,7 +591,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		get(SALESPERSON).setValue(
 				CommandUtils.getServerObjectById(customer.getSalesPerson(),
 						AccounterCoreType.SALES_PERSON));
-		get(PAYMENT_METHOD).setDefaultValue(getConstants().cash());
+		get(PAYMENT_METHOD).setDefaultValue(getMessages().cash());
 		get(CUSTOMER_VATCODE).setValue(
 				CommandUtils.getServerObjectById(customer.getTAXCode(),
 						AccounterCoreType.TAX_CODE));

@@ -40,14 +40,14 @@ public class QuotesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(VIEW_BY).setDefaultValue(getConstants().open());
+		get(VIEW_BY).setDefaultValue(getMessages().open());
 
 	}
 
 	@Override
 	public String getSuccessMessage() {
 
-		return "Success" + getConstants().quotesList();
+		return "Success" + getMessages().quotesList();
 
 	}
 
@@ -64,11 +64,11 @@ public class QuotesListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().open());
-				list.add(getConstants().rejected());
-				list.add(getConstants().accepted());
-				list.add(getConstants().expired());
-				list.add(getConstants().all());
+				list.add(getMessages().open());
+				list.add(getMessages().rejected());
+				list.add(getMessages().accepted());
+				list.add(getMessages().expired());
+				list.add(getMessages().all());
 				return list;
 			}
 		});
@@ -84,13 +84,13 @@ public class QuotesListCommand extends NewAbstractCommand {
 			@Override
 			protected String getShowMessage() {
 
-				return getConstants().quotesList();
+				return getMessages().quotesList();
 			}
 
 			@Override
 			protected String getEmptyString() {
 
-				return getMessages().youDontHaveAny(getConstants().quotes());
+				return getMessages().youDontHaveAny(getMessages().quotes());
 			}
 
 			@Override
@@ -141,19 +141,19 @@ public class QuotesListCommand extends NewAbstractCommand {
 		}
 
 		for (Estimate e : data) {
-			if (viewType.equals(getConstants().open())) {
+			if (viewType.equals(getMessages().open())) {
 				if (e.getStatus() == Estimate.STATUS_OPEN)
 					result.add(e);
 
-			} else if (viewType.equals(getConstants().accepted())) {
+			} else if (viewType.equals(getMessages().accepted())) {
 				if (e.getStatus() == Estimate.STATUS_ACCECPTED) {
 					result.add(e);
 				}
-			} else if (viewType.equals(getConstants().rejected())) {
+			} else if (viewType.equals(getMessages().rejected())) {
 				if (e.getStatus() == Estimate.STATUS_REJECTED) {
 					result.add(e);
 				}
-			} else if (viewType.equals(getConstants().all())) {
+			} else if (viewType.equals(getMessages().all())) {
 				result.add(e);
 
 			}

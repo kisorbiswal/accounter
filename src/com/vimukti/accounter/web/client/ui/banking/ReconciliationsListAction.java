@@ -22,15 +22,15 @@ public class ReconciliationsListAction extends Action {
 	 * Creates new Instance
 	 */
 	public ReconciliationsListAction(String text) {
-		super(Accounter.constants().ReconciliationsList());
-		this.catagory = Accounter.constants().banking();
+		super(Accounter.messages().ReconciliationsList());
+		this.catagory = Accounter.messages().banking();
 	}
 
 	public ReconciliationsListAction(String text,
 			ClientReconciliation reconcilation,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = Accounter.constants().banking();
+		this.catagory = Accounter.messages().banking();
 	}
 
 	@Override

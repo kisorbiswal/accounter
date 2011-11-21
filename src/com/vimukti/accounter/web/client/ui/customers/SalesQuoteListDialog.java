@@ -21,7 +21,7 @@ public class SalesQuoteListDialog extends BaseDialog<ClientEstimate> {
 
 	public SalesQuoteListDialog(SalesOrderView parentView,
 			List<ClientEstimate> estimates) {
-		super(Accounter.constants().quoteList());
+		super(Accounter.messages().quoteList());
 		salesView = parentView;
 		this.estimates = estimates;
 		createControl();
@@ -36,13 +36,13 @@ public class SalesQuoteListDialog extends BaseDialog<ClientEstimate> {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.constants().selectQuote());
+		Label infoLabel = new Label(Accounter.messages().selectQuote());
 
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid<ClientEstimate>(true);
-		grid.addColumns(constants.date(), constants.no(), constants.type(),
-				messages.payeeName(Global.get().Customer()), constants
+		grid.addColumns(messages.date(), messages.no(), messages.type(),
+				messages.payeeName(Global.get().Customer()), messages
 						.total());
 		grid.setCellsWidth(70, 30, 60, -1, 60);
 		grid.setView(this);

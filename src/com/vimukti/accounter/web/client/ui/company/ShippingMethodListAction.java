@@ -29,8 +29,8 @@ public class ShippingMethodListAction extends Action {
 			@Override
 			public void onCreated() {
 				ShippingMethodListDialog dialog = new ShippingMethodListDialog(
-						Accounter.constants().manageShippingMethodList(),
-						Accounter.constants().toAddShippingMethod());
+						Accounter.messages().manageShippingMethodList(),
+						Accounter.messages().toAddShippingMethod());
 				dialog.show();
 
 			}

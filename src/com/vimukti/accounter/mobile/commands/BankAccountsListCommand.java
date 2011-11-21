@@ -32,8 +32,8 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
@@ -85,7 +85,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().bankAccounts();
+				return getMessages().bankAccount();
 			}
 
 			@Override
@@ -107,8 +107,8 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
@@ -142,7 +142,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(VIEW_TYPE).setDefaultValue(getConstants().active());
+		get(VIEW_TYPE).setDefaultValue(getMessages().active());
 
 	}
 

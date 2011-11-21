@@ -23,7 +23,7 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 	 */
 	public SoldDisposedFixedAssetsListAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().fixedAssets();
+		this.catagory = Accounter.messages().fixedAssets();
 	}
 
 	/*

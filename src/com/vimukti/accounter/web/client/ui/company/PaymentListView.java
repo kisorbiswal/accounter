@@ -29,10 +29,10 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	List<PaymentsList> allPayments;
 	private List<PaymentsList> listOfPayments;
 
-	private static String NOT_ISSUED = Accounter.constants().notIssued();
-	private static String ISSUED = Accounter.constants().issued();
-	private static String VOID = Accounter.constants().voided();
-	private static String ALL = Accounter.constants().all();
+	private static String NOT_ISSUED = Accounter.messages().notIssued();
+	private static String ISSUED = Accounter.messages().issued();
+	private static String VOID = Accounter.messages().voided();
+	private static String ALL = Accounter.messages().all();
 	// private static String DELETED = "Deleted";
 
 	private static final int STATUS_NOT_ISSUED = 0;
@@ -56,13 +56,13 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().addNewPayment();
+		return Accounter.messages().addaNewPayment();
 	}
 
 	@Override
 	protected String getListViewHeading() {
 
-		return Accounter.constants().paymentsList();
+		return Accounter.messages().paymentsList();
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants().currentView());
+		viewSelect = new SelectCombo(Accounter.messages().currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(NOT_ISSUED);
@@ -188,7 +188,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().payments();
+		return Accounter.messages().payments();
 	}
 
 }

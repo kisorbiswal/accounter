@@ -19,7 +19,7 @@ public class NoteDialog extends BaseDialog {
 
 	private void createControl() {
 		mainPanel.setSpacing(3);
-		Label noteLbl = new Label(Accounter.constants().note());
+		Label noteLbl = new Label(Accounter.messages().note());
 		noteArea = new TextAreaItem();
 		noteArea.setWidth(100);
 		DynamicForm noteForm = new DynamicForm();
@@ -31,7 +31,7 @@ public class NoteDialog extends BaseDialog {
 		notePanel.add(noteLbl);
 		notePanel.add(noteForm);
 		setBodyLayout(notePanel);
-		okbtn.setText(Accounter.constants().save());
+		okbtn.setText(Accounter.messages().save());
 		setWidth("350px");
 	}
 

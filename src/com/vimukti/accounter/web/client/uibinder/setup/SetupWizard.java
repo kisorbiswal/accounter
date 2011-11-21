@@ -25,7 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
@@ -46,7 +46,7 @@ public class SetupWizard extends VerticalPanel {
 	private int currentViewIndex = START_PAGE;
 	private List<TemplateAccount> selectedAccounts = new ArrayList<TemplateAccount>();
 	private FlexTable progressTable;
-	private AccounterConstants constants = Accounter.constants();
+	private AccounterMessages messages = Accounter.messages();
 
 	private List<AbstractSetupPage> allViewsList, showViewList;
 	private List<Image> images;
@@ -104,7 +104,7 @@ public class SetupWizard extends VerticalPanel {
 			progressPanel = new VerticalPanel();
 			viewButtonPanel = new VerticalPanel();
 			backNextButtonPanel = new HorizontalPanel();
-			progressHeader = new Label(constants.setupProgress());
+			progressHeader = new Label(messages.setupProgress());
 
 			progressPanel.add(progressHeader);
 			progressHeader.addStyleName("progress_header");
@@ -135,10 +135,10 @@ public class SetupWizard extends VerticalPanel {
 			progressPanel.getElement().getParentElement().setClassName(
 					"progress_panel_hide");
 
-			backButton = new Button(constants.back());
-			nextButton = new Button(constants.next());
-			gotoButton = new Button(constants.gotoAccounter());
-			cancelBtn = new Button(constants.cancel());
+			backButton = new Button(messages.back());
+			nextButton = new Button(messages.next());
+			gotoButton = new Button(messages.gotoAccounter());
+			cancelBtn = new Button(messages.cancel());
 
 			backButton.setVisible(false);
 			nextButton.setVisible(false);

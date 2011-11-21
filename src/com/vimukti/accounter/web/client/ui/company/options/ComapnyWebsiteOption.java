@@ -34,12 +34,12 @@ public class ComapnyWebsiteOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		companyWebsiteHeaderLabel.setText(Accounter.constants().webSite());
+		companyWebsiteHeaderLabel.setText(Accounter.messages().webSite());
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().webSite();
+		return Accounter.messages().webSite();
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class ComapnyWebsiteOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return Accounter.constants().webSite();
+		return Accounter.messages().webSite();
 	}
 
 }

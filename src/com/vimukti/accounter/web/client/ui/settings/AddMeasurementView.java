@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -29,7 +29,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 	private UnitsTable unitsTable;
 	private Button addUnitButton;
 	private DynamicForm addMeasurmentForm;
-	private AccounterConstants settingsMessages = Accounter.constants();
+	private AccounterMessages settingsMessages = Accounter.messages();
 
 	public AddMeasurementView() {
 
@@ -126,7 +126,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		// validate units grid
 		// if (nameItem.getValue().toString() == null
 		// || nameItem.getValue().toString().isEmpty()) {
-		// result.addError(nameItem, Accounter.constants()
+		// result.addError(nameItem, messages
 		// .pleaseEnteraValidMeasurementName());
 		// }
 		return result;

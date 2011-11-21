@@ -18,7 +18,7 @@
 //import com.google.gwt.user.client.ui.TextBox;
 //import com.google.gwt.user.client.ui.VerticalPanel;
 //import com.vimukti.accounter.web.client.core.AccounterCommand;
-//import com.vimukti.accounter.web.client.core.AccounterConstants;
+//import com.vimukti.accounter.web.client.core.messages;
 //import com.vimukti.accounter.web.client.core.AccounterCoreType;
 //import com.vimukti.accounter.web.client.core.ClientAccount;
 //import com.vimukti.accounter.web.client.core.ClientContact;
@@ -507,7 +507,7 @@
 //			liabilityAccountCombo.setComboItem(selectedAccount);
 //		} else {
 //			selectedAccount = FinanceApplication.getCompany().getAccountByName(
-//					AccounterConstants.SALES_TAX_PAYABLE);
+//					messages.SALES_TAX_PAYABLE);
 //			liabilityAccountCombo.setComboItem(selectedAccount);
 //		}
 //

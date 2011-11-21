@@ -37,7 +37,7 @@ public class AccountMergeDialog extends BaseDialog implements
 	public AccountMergeDialog(String title, String descript) {
 		super(title, descript);
 		setWidth("650px");
-		okbtn.setText(Accounter.constants().merge());
+		okbtn.setText(Accounter.messages().merge());
 		createControls();
 		center();
 	}
@@ -55,23 +55,23 @@ public class AccountMergeDialog extends BaseDialog implements
 		accountCombo = createAccountCombo();
 		accountCombo1 = createAccountCombo1();
 
-		accountNumberTextItem = new TextItem(Accounter.messages().payeeNumber(
-				Global.get().Account()));
+		accountNumberTextItem = new TextItem(Accounter.messages()
+				.accountNumber());
 		accountNumberTextItem.setHelpInformation(true);
 
-		accountNumberTextItem1 = new TextItem(Accounter.messages().payeeNumber(
-				Global.get().Account()));
+		accountNumberTextItem1 = new TextItem(Accounter.messages()
+				.accountNumber());
 		accountNumberTextItem1.setHelpInformation(true);
 
-		name = new TextItem(Accounter.constants().accountName());
+		name = new TextItem(Accounter.messages().name());
 		name.setHelpInformation(true);
-		name1 = new TextItem(Accounter.constants().accountName());
+		name1 = new TextItem(Accounter.messages().name());
 		name1.setHelpInformation(true);
 
-		balanceTextItem = new TextItem(Accounter.constants().balance());
+		balanceTextItem = new TextItem(Accounter.messages().balance());
 		balanceTextItem.setHelpInformation(true);
 
-		balanceTextItem1 = new TextItem(Accounter.constants().balance());
+		balanceTextItem1 = new TextItem(Accounter.messages().balance());
 		balanceTextItem1.setHelpInformation(true);
 
 		form.setItems(accountCombo, accountNumberTextItem, name,
@@ -89,8 +89,8 @@ public class AccountMergeDialog extends BaseDialog implements
 	}
 
 	private OtherAccountsCombo createAccountCombo1() {
-		accountCombo1 = new OtherAccountsCombo(Accounter.messages().payeeTo(
-				Global.get().Account()), false);
+		accountCombo1 = new OtherAccountsCombo(
+				Accounter.messages().accountTo(), false);
 		accountCombo1.setHelpInformation(true);
 		accountCombo1.setRequired(true);
 		accountCombo1
@@ -109,8 +109,8 @@ public class AccountMergeDialog extends BaseDialog implements
 	}
 
 	private OtherAccountsCombo createAccountCombo() {
-		accountCombo = new OtherAccountsCombo(Accounter.messages().payeeFrom(
-				Global.get().Account()), false);
+		accountCombo = new OtherAccountsCombo(Accounter.messages()
+				.accountFrom(), false);
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 
@@ -154,8 +154,7 @@ public class AccountMergeDialog extends BaseDialog implements
 
 		if ((toAccount.getID() == fromAccount.getID())
 				|| !(toAccount.getType() == fromAccount.getType())) {
-			result.addError(fromAccount, Accounter.messages().notMoveAccount(
-					Global.get().account(), Global.get().Accounts()));
+			result.addError(fromAccount, Accounter.messages().notMoveAccount());
 			return result;
 		}
 		result = form.validate();

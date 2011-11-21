@@ -28,7 +28,7 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().thereAreNo(getConstants().estimate());
+		return getMessages().thereAreNo(getMessages().estimate());
 	}
 
 	@Override
@@ -60,9 +60,9 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 	protected Record createFullRecord(EstimatesAndSalesOrdersList value) {
 		Record rec = new Record(value);
 		if (value.getType() == ClientTransaction.TYPE_ESTIMATE)
-			rec.add("", getConstants().quote());
+			rec.add("", getMessages().quote());
 		else
-			rec.add("", getConstants().salesOrder());
+			rec.add("", getMessages().salesOrder());
 
 		rec.add("", value.getTotal());
 

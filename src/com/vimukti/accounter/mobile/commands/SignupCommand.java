@@ -40,6 +40,7 @@ public class SignupCommand extends NewCommand {
 		return null;
 	}
 
+
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new NameRequirement(FIRST_NAME, "Enter First Name",

@@ -27,7 +27,7 @@ public class Australia extends AbstractCountryPreferences {
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
 
-		return Accounter.constants().july();
+		return Accounter.messages().july();
 	}
 
 }

@@ -11,7 +11,7 @@ public class PriceLevelCombo extends CustomCombo<ClientPriceLevel> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newPriceLevel();
+		return messages.priceLevel();
 	}
 
 	@Override

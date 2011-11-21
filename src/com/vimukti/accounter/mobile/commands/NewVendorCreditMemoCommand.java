@@ -35,12 +35,12 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().create(getConstants().vendorCreditMemo());
+		return getMessages().create(getMessages().vendorCreditMemo());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().vendorCreditMemo());
+		return getMessages().readyToCreate(getMessages().vendorCreditMemo());
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 	@Override
 	public String getSuccessMessage() {
 		return getMessages().createSuccessfully(
-				getConstants().vendorCreditMemo());
+				getMessages().vendorCreditMemo());
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
-				getConstants().Vendor()), getConstants().vendor(), false, true,
+				getMessages().Vendor()), getMessages().vendor(), false, true,
 				null)
 
 		{
@@ -136,13 +136,13 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 		 */
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().creditNoteNo()), getConstants().creditNoteNo(),
+				getMessages().creditNoteNo()), getMessages().creditNoteNo(),
 				true, true));
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().transactionDate()), getConstants()
+				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
-				"please select accountItems", getConstants().Account(), true,
+				"please select accountItems", getMessages().Account(), true,
 				true) {
 
 			@Override
@@ -169,7 +169,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getConstants().items(),
+				"Please Enter Item Name or number", getMessages().items(),
 				true, true) {
 
 			@Override
@@ -207,8 +207,8 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getConstants().taxCode()), getConstants().taxCode(), false,
-				true, null) {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -256,10 +256,10 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-				getConstants().phoneNumber()), getConstants().phoneNumber(),
+				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				true, true));
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 	}
 
 	@Override

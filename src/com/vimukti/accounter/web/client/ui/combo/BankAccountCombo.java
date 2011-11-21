@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -22,7 +21,7 @@ public class BankAccountCombo extends AccountCombo {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.addNew(Global.get().Account());
+		return messages.bankAccount();
 	}
 
 	@Override

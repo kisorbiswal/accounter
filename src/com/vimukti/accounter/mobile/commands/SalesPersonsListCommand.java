@@ -32,7 +32,7 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(VIEW_BY).setDefaultValue(getConstants().active());
+		get(VIEW_BY).setDefaultValue(getMessages().active());
 	}
 
 	@Override
@@ -53,13 +53,13 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
 
-		list.add(new ShowListRequirement<SalesPerson>(getConstants()
+		list.add(new ShowListRequirement<SalesPerson>(getMessages()
 				.salesPersonList(), "", 10) {
 
 			@Override
@@ -69,7 +69,7 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().salesPersonList();
+				return getMessages().salesPersonList();
 			}
 
 			@Override
@@ -115,7 +115,7 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 		Set<SalesPerson> salesPersons = context.getCompany().getSalesPersons();
 		if (salesPersons != null) {
 			for (SalesPerson person : salesPersons) {
-				if (isActive.equals(getConstants().active())) {
+				if (isActive.equals(getMessages().active())) {
 					if (person.isActive()) {
 						list.add(person);
 					}

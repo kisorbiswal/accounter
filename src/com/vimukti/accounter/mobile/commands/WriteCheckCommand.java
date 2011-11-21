@@ -24,7 +24,6 @@ import com.vimukti.accounter.mobile.requirements.PayeeRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -51,12 +50,12 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new PayeeRequirement(PAYEE, getMessages().pleaseEnterName(
-				getConstants().payee()), getConstants().payee(), false, true,
+				getMessages().payee()), getMessages().payee(), false, true,
 				null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().payee());
+				return getMessages().hasSelected(getMessages().payee());
 			}
 
 			@Override
@@ -66,7 +65,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getConstants().payee());
+				return getMessages().youDontHaveAny(getMessages().payee());
 			}
 
 			@Override
@@ -77,7 +76,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 		// list.add(new CurrencyRequirement(CURRENCY,
 		// getMessages().pleaseSelect(
-		// getConstants().currency()), getConstants().currency(), true,
+		// getMessages().currency()), getMessages().currency(), true,
 		// true, null) {
 		// @Override
 		// public Result run(Context context, Result makeResult,
@@ -97,7 +96,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		// });
 		//
 		// list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		// .pleaseSelect(getConstants().currency()), getConstants()
+		// .pleaseSelect(getMessages().currency()), getMessages()
 		// .currency(), true, true) {
 		// @Override
 		// protected String getDisplayValue(Double value) {
@@ -124,12 +123,12 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		// });
 
 		list.add(new AccountRequirement(BANK_ACCOUNT, getMessages()
-				.pleaseEnterNameOrNumber(getConstants().bankAccount()),
-				getConstants().bankAccount(), false, true, null) {
+				.pleaseEnterNameOrNumber(getMessages().bankAccount()),
+				getMessages().bankAccount(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().bankAccount());
+				return getMessages().hasSelected(getMessages().bankAccount());
 			}
 
 			@Override
@@ -162,8 +161,8 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(
-						getConstants().bankAccount());
+				return getMessages()
+						.youDontHaveAny(getMessages().bankAccount());
 			}
 
 			@Override
@@ -174,8 +173,8 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
-				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
-				.Account(), true, true) {
+				.pleaseEnterNameOrNumber(getMessages().Account()),
+				getMessages().Account(), true, true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
@@ -211,20 +210,20 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().date()), getConstants().date(), true, true));
+				getMessages().date()), getMessages().date(), true, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), true, false));
+				getMessages().number()), getMessages().number(), true, false));
 
 		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getConstants().amount()), getConstants().amount(), true, true));
+				getMessages().amount()), getMessages().amount(), true, true));
 
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
-				getConstants().taxCode()), getConstants().taxCode(), false,
-				true, null) {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
 
 			@Override
 			protected List<TAXCode> getLists(Context context) {
@@ -262,7 +261,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 	}
 
 	@Override
@@ -417,13 +416,13 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return writeCheck.getID() == 0 ? getMessages().creating(
-				getConstants().writeCheck()) : "Updating write check";
+				getMessages().writeCheck()) : "Updating write check";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return writeCheck.getID() == 0 ? getMessages().readyToCreate(
-				getConstants().writeCheck())
+				getMessages().writeCheck())
 				: "Write check is ready to update with following details";
 	}
 
@@ -441,8 +440,8 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 	@Override
 	public String getSuccessMessage() {
 		return writeCheck.getID() == 0 ? getMessages().createSuccessfully(
-				getConstants().writeCheck()) : getMessages()
-				.updateSuccessfully(getConstants().writeCheck());
+				getMessages().writeCheck()) : getMessages().updateSuccessfully(
+				getMessages().writeCheck());
 	}
 
 }

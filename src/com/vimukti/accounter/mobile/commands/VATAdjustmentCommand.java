@@ -18,7 +18,6 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxItemRequirement;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -39,12 +38,12 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new TaxAgencyRequirement(TAX_AGENCY, getMessages()
-				.pleaseEnterName(getConstants().taxAgency()), getConstants()
+				.pleaseEnterName(getMessages().taxAgency()), getMessages()
 				.taxAgency(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().taxAgency());
+				return getMessages().hasSelected(getMessages().taxAgency());
 			}
 
 			@Override
@@ -55,7 +54,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getConstants().taxAgency());
+				return getMessages().youDontHaveAny(getMessages().taxAgency());
 			}
 
 			@Override
@@ -99,12 +98,12 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 		 */
 
 		list.add(new TaxItemRequirement(TAX_ITEM, getMessages()
-				.pleaseEnterName(getConstants().taxItem()), getConstants()
+				.pleaseEnterName(getMessages().taxItem()), getMessages()
 				.taxItem(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().taxItem());
+				return getMessages().hasSelected(getMessages().taxItem());
 			}
 
 			@Override
@@ -115,7 +114,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getConstants().taxItem());
+				return getMessages().youDontHaveAny(getMessages().taxItem());
 			}
 
 			@Override
@@ -124,20 +123,14 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new AccountRequirement(ADJUSTMENT_ACCOUNT,
-				getMessages()
-						.pleaseEnterName(
-								getMessages().adjustmentAccount(
-										Global.get().Account())), getMessages()
-						.adjustmentAccount(Global.get().Account()), false,
-				true, null) {
+		list.add(new AccountRequirement(ADJUSTMENT_ACCOUNT, getMessages()
+				.pleaseEnterName(getMessages().adjustmentAccount()),
+				getMessages().adjustmentAccount(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(
-								getMessages().adjustmentAccount(
-										Global.get().Account()));
+				return getMessages().hasSelected(
+						getMessages().adjustmentAccount());
 			}
 
 			@Override
@@ -162,10 +155,8 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages()
-						.youDontHaveAny(
-								getMessages().adjustmentAccount(
-										Global.get().Account()));
+				return getMessages().youDontHaveAny(
+						getMessages().adjustmentAccount());
 			}
 
 			@Override
@@ -175,29 +166,29 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getConstants().amount()), getConstants().amount(), false, true));
+				getMessages().amount()), getMessages().amount(), false, true));
 
 		list.add(new BooleanRequirement(IS_INCREASE_VATLINE, true) {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().increaseVATLine();
+				return getMessages().increaseVATLine();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().decreaseVATLine();
+				return getMessages().decreaseVATLine();
 			}
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().date()), getConstants().date(), true, true));
+				getMessages().date()), getMessages().date(), true, true));
 
 		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
-				getConstants().orderNo()), getConstants().orderNo(), true, true));
+				getMessages().orderNo()), getMessages().orderNo(), true, true));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 	}
 
 	@Override
@@ -244,12 +235,12 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().vatAdjustment());
+		return getMessages().creating(getMessages().vatAdjustment());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().vatAdjustment());
+		return getMessages().readyToCreate(getMessages().vatAdjustment());
 	}
 
 	@Override
@@ -266,7 +257,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().vatAdjustment());
+		return getMessages().createSuccessfully(getMessages().vatAdjustment());
 	}
 
 }

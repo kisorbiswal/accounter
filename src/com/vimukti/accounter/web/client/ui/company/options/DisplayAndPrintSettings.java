@@ -51,9 +51,9 @@ public class DisplayAndPrintSettings extends Composite implements HasText {
 	}
 
 	private void createControls() {
-		deafaultDisplayAndPrintSettingsLabel.setText(Accounter.constants()
+		deafaultDisplayAndPrintSettingsLabel.setText(Accounter.messages()
 				.getDefaultDisplayAndPrintSettings());
-		deafaultDisplayAndPrintSettingsCheckBox.setText(Accounter.constants().getTurnOnTextWrappinginReportColumns());
+		deafaultDisplayAndPrintSettingsCheckBox.setText(Accounter.messages().getTurnOnTextWrappinginReportColumns());
 	}
 
 	@Override

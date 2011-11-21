@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -66,28 +65,28 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 
-		radioButtonHeaderLabel.setText(constants.howIsYourCompanyOrganized());
-		propriterShip = new RadioButton(constants.organisation(), constants
+		radioButtonHeaderLabel.setText(messages.howIsYourCompanyOrganized());
+		propriterShip = new RadioButton(messages.organisation(), messages
 				.soleProprietorship());
-		partnership = new RadioButton(constants.organisation(), constants
+		partnership = new RadioButton(messages.organisation(), messages
 				.partnershipOrLLP());
-		lLC = new RadioButton(constants.organisation(), constants.LLC());
-		corporation = new RadioButton(constants.organisation(), constants
+		lLC = new RadioButton(messages.organisation(), messages.LLC());
+		corporation = new RadioButton(messages.organisation(), messages
 				.corporation());
-		sCorporation = new RadioButton(constants.organisation(), constants
+		sCorporation = new RadioButton(messages.organisation(), messages
 				.sCorporation());
-		nonProfit = new RadioButton(constants.organisation(), constants
+		nonProfit = new RadioButton(messages.organisation(), messages
 				.nonProfit());
-		other = new RadioButton(constants.organisation(), constants.otherNone());
+		other = new RadioButton(messages.organisation(), messages.otherNone());
 
 		Label organizeText = new Label(Accounter.messages()
-				.howIsYourCompanyOrganizedDesc(Global.get().Accounts()));
-		Label uninCorporated = new Label(constants.soleProprietorshipDesc());
-		Label morePartners = new Label(constants.partnershipOrLLPDesc());
-		Label lLCText = new Label(constants.LLCDesc());
-		Label corporationText = new Label(constants.sCorporationDesc());
-		Label sCorporationText = new Label(constants.corporationDesc());
-		Label nonProfitText = new Label(constants.nonProfitDesc());
+				.howIsYourCompanyOrganizedDesc());
+		Label uninCorporated = new Label(messages.soleProprietorshipDesc());
+		Label morePartners = new Label(messages.partnershipOrLLPDesc());
+		Label lLCText = new Label(messages.LLCDesc());
+		Label corporationText = new Label(messages.sCorporationDesc());
+		Label sCorporationText = new Label(messages.corporationDesc());
+		Label nonProfitText = new Label(messages.nonProfitDesc());
 
 		organizeText.addStyleName("organisation_comment");
 		uninCorporated.addStyleName("organisation_comment");
@@ -98,8 +97,8 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 		nonProfitText.addStyleName("organisation_comment");
 		lLCCombo = new ListBox();
 		lLCCombo.addStyleName("organisation_combo");
-		lLCCombo.addItem(constants.llcSingleMemberForm());
-		lLCCombo.addItem(constants.llcMultiMemberForm());
+		lLCCombo.addItem(messages.llcSingleMemberForm());
+		lLCCombo.addItem(messages.llcMultiMemberForm());
 
 		viewPanel.add(organizeText);
 		viewPanel.add(propriterShip);
@@ -203,7 +202,7 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return constants.companyOrganization();
+		return messages.companyOrganization();
 	}
 
 	@Override
@@ -234,7 +233,7 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return constants.company();
+		return messages.company();
 	}
 
 }

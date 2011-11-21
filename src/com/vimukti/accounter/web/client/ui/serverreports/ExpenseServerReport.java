@@ -44,7 +44,7 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().financialYearToDate();
+		return getMessages().financialYearToDate();
 	}
 
 	@Override
@@ -55,19 +55,19 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { " ", getConstants().transactionDate(),
-				getConstants().amount(), getConstants().balance() };
+		return new String[] { " ", getMessages().transactionDate(),
+				getMessages().amount(), getMessages().balance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().expenseReport();
+		return getMessages().expenseReport();
 	}
 
 	@Override
 	public void processRecord(ExpenseList record) {
 		// if (sectionDepth == 0) {
-		// addSection("", getConstants().total(), new int[] { 2 });
+		// addSection("", getMessages().total(), new int[] { 2 });
 		// } else
 		if (sectionDepth == 0) {
 			this.sectionName = record.getName();
@@ -246,8 +246,8 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { " ", getConstants().transactionDate(),
-				getConstants().amount(), getConstants().balance() };
+		return new String[] { " ", getMessages().transactionDate(),
+				getMessages().amount(), getMessages().balance() };
 	}
 
 	@Override

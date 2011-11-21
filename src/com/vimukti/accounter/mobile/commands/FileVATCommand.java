@@ -36,12 +36,12 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new TaxAgencyRequirement(TAX_AGENCY, getMessages()
-				.pleaseEnterName(getConstants().taxAgency()), getConstants()
+				.pleaseEnterName(getMessages().taxAgency()), getMessages()
 				.taxAgency(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().taxAgency());
+				return getMessages().hasSelected(getMessages().taxAgency());
 			}
 
 			@Override
@@ -52,7 +52,7 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getConstants().taxAgency());
+				return getMessages().youDontHaveAny(getMessages().taxAgency());
 			}
 
 			@Override
@@ -96,11 +96,11 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 		 */
 
 		list.add(new DateRequirement(FROM_DATE, getMessages().pleaseEnter(
-				getConstants().fromDate()), getConstants().fromDate(), true,
+				getMessages().fromDate()), getMessages().fromDate(), true,
 				true));
 
 		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
-				getConstants().toDate()), getConstants().toDate(), true, true));
+				getMessages().toDate()), getMessages().toDate(), true, true));
 
 		list.add(new Requirement(BOXES, false, true));
 		list.add(new ShowListRequirement<ClientBox>(BOXES, "", 15) {
@@ -117,16 +117,16 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants()
+				return getMessages()
 						.norecordstoshowinbetweentheselecteddates();
 			}
 
 			@Override
 			protected Record createRecord(ClientBox value) {
 				Record record = new Record(value);
-				record.add("", getConstants().vatLine());
+				record.add("", getMessages().vatLine());
 				record.add("", value.getName());
-				record.add("", getConstants().amount());
+				record.add("", getMessages().amount());
 				record.add("", value.getAmount());
 				return record;
 			}
@@ -203,12 +203,12 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().fileVAT());
+		return getMessages().creating(getMessages().fileVAT());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().fileVAT());
+		return getMessages().readyToCreate(getMessages().fileVAT());
 	}
 
 	@Override
@@ -225,6 +225,6 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().fileVAT());
+		return getMessages().createSuccessfully(getMessages().fileVAT());
 	}
 }

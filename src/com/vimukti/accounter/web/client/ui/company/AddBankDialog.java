@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -19,19 +19,19 @@ public class AddBankDialog extends BaseDialog {
 
 	private TextItem bankNameText;
 	private AccounterAsyncCallback<ClientBank> callBack;
-	AccounterConstants accounterConstants = Accounter.constants();
+	AccounterMessages messages = Accounter.messages();
 
 	public AddBankDialog(AbstractBaseView<ClientBank> parent) {
-		super(Accounter.constants().addBank(), null);
+		super(Accounter.messages().addBank(), null);
 		createControls();
 		center();
 	}
 
 	private void createControls() {
 
-		setText(Accounter.constants().addBank());
+		setText(Accounter.messages().addBank());
 
-		bankNameText = new TextItem(Accounter.constants().bankName());
+		bankNameText = new TextItem(Accounter.messages().bankName());
 		bankNameText.setRequired(true);
 		DynamicForm bankForm = new DynamicForm();
 		bankForm.setFields(bankNameText);
@@ -56,7 +56,7 @@ public class AddBankDialog extends BaseDialog {
 		String itemName = bankNameText.getValue();
 		ClientTAXItem clientTAXItem = company.getTaxItemByName(itemName);
 		if (clientTAXItem != null) {
-			result.addError(this, accounterConstants.alreadyExist());
+			result.addError(this, messages.alreadyExist());
 		}
 		return result;
 	}

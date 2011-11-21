@@ -2,15 +2,13 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class AbstractSetupPage extends Composite {
 
 	protected static ClientCompanyPreferences preferences;
-	protected AccounterConstants accounterConstants = Accounter.constants();
-	protected AccounterMessages accounterMessages = Accounter.messages();
+	protected AccounterMessages messages = Accounter.messages();
 	private static String country;
 	protected static boolean isSkip;
 

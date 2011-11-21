@@ -117,7 +117,7 @@ public class BizDecorPanel extends FlexTable {
 	private void setPanelTitle(String title) {
 		final Label panelTitle = new Label(title);
 		panelTitle.setTitle(Accounter.messages().clickThisObjToOpen(
-				Accounter.constants().link(),
+				Accounter.messages().link(),
 				Accounter.messages().allTransactionDetails(title)));
 		panelTitle.addStyleName("panel-title");
 		panelTitle.addMouseOverHandler(new MouseOverHandler() {

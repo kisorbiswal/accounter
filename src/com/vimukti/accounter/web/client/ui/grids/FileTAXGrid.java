@@ -4,18 +4,15 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class FileTAXGrid extends ListGrid<ClientTAXReturnEntry> {
-
-	private AccounterConstants constants = Accounter.constants();
 
 	public FileTAXGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
 		isEnable = false;
 		init();
-		addEmptyMessage(Accounter.constants().selectTAXAgency());
+		addEmptyMessage(Accounter.messages().selectTAXAgency());
 	}
 
 	@Override
@@ -118,9 +115,9 @@ public class FileTAXGrid extends ListGrid<ClientTAXReturnEntry> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { constants.taxItem(), constants.transactionType(),
-				constants.transactionDate(), constants.grassAmount(),
-				constants.taxAmount(), constants.netAmount() };
+		return new String[] { messages.taxItem(), messages.transactionType(),
+				messages.transactionDate(), messages.grassAmount(),
+				messages.taxAmount(), messages.netAmount() };
 	}
 
 }

@@ -23,12 +23,12 @@ public abstract class PaymentTermRequirement extends
 
 	@Override
 	protected String getSetMessage() {
-		return getMessages().hasSelected(getConstants().paymentTerm());
+		return getMessages().hasSelected(getMessages().paymentTerm());
 	}
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().thereAreNo(getConstants().paymentTerm());
+		return getMessages().thereAreNo(getMessages().paymentTerm());
 	}
 
 	@Override
@@ -38,12 +38,12 @@ public abstract class PaymentTermRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getConstants().paymentTerm()));
+		list.add(getMessages().create(getMessages().paymentTerm()));
 	}
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(getConstants().paymentTerm());
+		return getMessages().pleaseSelect(getMessages().paymentTerm());
 	}
 
 	@Override

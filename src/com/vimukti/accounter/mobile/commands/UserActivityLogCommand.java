@@ -26,11 +26,11 @@ public class UserActivityLogCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new DateRequirement(FROM_DATE, getMessages().pleaseEnter(
-				getConstants().fromDate()), getConstants().fromDate(), true,
+				getMessages().fromDate()), getMessages().fromDate(), true,
 				true));
 
 		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
-				getConstants().toDate()), getConstants().toDate(), true, true));
+				getMessages().toDate()), getMessages().toDate(), true, true));
 
 		list.add(new ShowListRequirement<ClientActivity>("activitylog", "", 5) {
 
@@ -60,12 +60,12 @@ public class UserActivityLogCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().usersActivityLogTitle();
+				return getMessages().usersActivityLogTitle();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants().noRecordsToShow();
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
@@ -118,29 +118,29 @@ public class UserActivityLogCommand extends NewAbstractCommand {
 		int type = activity.getActivityType();
 		switch (type) {
 		case 0:
-			return dataType = getConstants().loggedIn();
+			return dataType = getMessages().loggedIn();
 		case 1:
-			return dataType = getConstants().loggedOut();
+			return dataType = getMessages().loggedOut();
 		case 2:
-			buffer.append(getConstants().added());
+			buffer.append(getMessages().added());
 			buffer.append(" : ");
 			buffer.append(activity.getDataType() != null ? activity
 					.getDataType() : "");
 			return buffer.toString();
 		case 3:
-			buffer.append(getConstants().edited());
+			buffer.append(getMessages().edited());
 			buffer.append(" : ");
 			buffer.append(activity.getDataType() != null ? activity
 					.getDataType() : "");
 			return buffer.toString();
 		case 4:
-			buffer.append(getConstants().deleted());
+			buffer.append(getMessages().deleted());
 			buffer.append(" : ");
 			buffer.append(activity.getDataType() != null ? activity
 					.getDataType() : "");
 			return buffer.toString();
 		case 5:
-			return dataType = getConstants().updatedPreferences();
+			return dataType = getMessages().updatedPreferences();
 		default:
 			break;
 		}

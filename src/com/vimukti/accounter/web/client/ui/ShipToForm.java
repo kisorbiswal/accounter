@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 
 /**
@@ -33,19 +32,19 @@ public class ShipToForm extends DynamicForm {
 
 	public ShipToForm(Set<ClientAddress> addresses) {
 
-		Label l1 = new Label(Accounter.constants().enterAddress());
+		Label l1 = new Label(Accounter.messages().enterAddress());
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		setAddresses(addresses);
-		businessSelect = new SelectCombo(Accounter.constants().shipTo());
+		businessSelect = new SelectCombo(Accounter.messages().shipTo());
 		businessSelect.setHelpInformation(true);
 		// businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
-				Accounter.constants().gwtListBox());
+				Accounter.messages().gwtListBox());
 		List<String> addressTypes = new ArrayList<String>();
 
 		addressTypes.addAll(new ClientAddress().getAddressTypes());
-		addressTypes.remove(Accounter.constants().billTo());
+		addressTypes.remove(Accounter.messages().billTo());
 		businessSelect.initCombo(addressTypes);
 		businessSelect.setDefaultToFirstOption(true);
 
@@ -102,7 +101,7 @@ public class ShipToForm extends DynamicForm {
 			addrArea.setValue(toToSet);
 		} else
 			businessSelect.setDefaultToFirstOption(Boolean.TRUE);
-		setGroupTitle(Accounter.constants().addresses());
+		setGroupTitle(Accounter.messages().addresses());
 		setNumCols(2);
 		// setFields(businessSelect, addrArea);
 		setFields(businessSelect, addrArea);
@@ -179,7 +178,7 @@ public class ShipToForm extends DynamicForm {
 
 					addrArea.setValue(getValidAddress(address));
 
-					businessSelect.setSelected(Accounter.constants().shipTo());
+					businessSelect.setSelected(Accounter.messages().shipTo());
 				}
 
 			}

@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 class Section {
 	String title;
@@ -16,10 +16,9 @@ class Section {
 }
 
 public interface IOptionsAccordionSections {
-	AccounterConstants constants = Accounter.constants();
-	final String COMPANY = constants.company();
-	final String COMPANY_NEW_ACCOUNT = Accounter.messages().newPayee(
-			Global.get().Account());
+	AccounterMessages messages = Accounter.messages();
+	final String COMPANY = messages.company();
+	final String COMPANY_NEW_ACCOUNT = Accounter.messages().newAccount();
 
 	final String CUSTOMERS = Accounter.messages().payees(
 			Global.get().Customer());
@@ -27,21 +26,20 @@ public interface IOptionsAccordionSections {
 			Global.get().Customer());
 	final String CUSTOMERS_NEW = Accounter.messages().newPayee(
 			Global.get().Customer());
-	final String CUSTOMERS_NEW_ITEM = constants.newItem();
-	final String CUSTOMERS_NEW_QUOTE = constants.newQuote();
-	final String CUSTOMERS_NEW_INVOICE = constants.newInvoice();
-	final String CUSTOMER_RECEIVED_PAYMENT = constants.receivedPayment();
-	final String CUSTOMER_NEW_CASH_SALE = constants.newCashSale();
-	final String CUSTOMER_NEW_CREDITS_AND_REFUNDS = constants
-			.creditAndRefunds();
-	final String CUSTOMER_CREDIT_CARD_PROCESSING = constants
+	final String CUSTOMERS_NEW_ITEM = messages.newItem();
+	final String CUSTOMERS_NEW_QUOTE = messages.newQuote();
+	final String CUSTOMERS_NEW_INVOICE = messages.newInvoice();
+	final String CUSTOMER_RECEIVED_PAYMENT = messages.receivedPayment();
+	final String CUSTOMER_NEW_CASH_SALE = messages.newCashSale();
+	final String CUSTOMER_NEW_CREDITS_AND_REFUNDS = messages.creditAndRefunds();
+	final String CUSTOMER_CREDIT_CARD_PROCESSING = messages
 			.creditCardProcessing();
 	final String CUSTOMER_FIND_CUSTOMERS = Accounter.messages().payees(
 			Global.get().Customer());
-	final String CUSTOMER_FIND_ITEMS = constants.products();
-	final String CUSTOMER_FIND_QUOTES = constants.quotes();
-	final String CUSTOMER_FIND_INVOICES = constants.invoices();
-	final String CUSTOMER_FIND_RECEIVED_PAYMENTS = constants.receivedPayments();
+	final String CUSTOMER_FIND_ITEMS = messages.products();
+	final String CUSTOMER_FIND_QUOTES = messages.quotes();
+	final String CUSTOMER_FIND_INVOICES = messages.invoices();
+	final String CUSTOMER_FIND_RECEIVED_PAYMENTS = messages.receivedPayments();
 	final String CUSTOMER_FIND_CUSTOMER_REFUNDS = Accounter.messages()
 			.customerRefunds(Global.get().customer());
 
@@ -51,35 +49,35 @@ public interface IOptionsAccordionSections {
 			Global.get().Vendor());
 	final String VENDORS_NEW_VENDOR = Global.get().messages().newPayee(
 			Global.get().Vendor());
-	final String VENDORS_NEW_ITEM = constants.newProduct();
-	final String VENDORS_ENTER_BILLS = constants.enterBills();
-	final String VENDORS_PAY_BILLS = constants.payBills();
-	final String VENDORS_NEW_CASH_PURCHASE = constants.newCashPurchase();
-	final String VENDORS_ISSUE_PAYMENT = constants.issuePayment();
-	final String VENDORS_NEW_CREDIT_MEMO = constants.newCredit();
+	final String VENDORS_NEW_ITEM = messages.newProduct();
+	final String VENDORS_ENTER_BILLS = messages.enterBills();
+	final String VENDORS_PAY_BILLS = messages.payBills();
+	final String VENDORS_NEW_CASH_PURCHASE = messages.newCashPurchase();
+	final String VENDORS_ISSUE_PAYMENT = messages.issuePayment();
+	final String VENDORS_NEW_CREDIT_MEMO = messages.newCredit();
 	final String VENDORS_FIND_VENDORS = Global.get().messages().payees(
 			Global.get().Vendor());
-	final String VENDORS_FIND_ITEMS = constants.products();
-	final String VENDORS_FIND_BILLS = constants.bills();
+	final String VENDORS_FIND_ITEMS = messages.products();
+	final String VENDORS_FIND_BILLS = messages.bills();
 	final String VENDORS_FIND_VENDOR_PAYMENTS = Global.get().messages()
 			.payeePayment(Global.get().Vendor());
 
-	final String BANKING = constants.banking();
-	final String BANKING_HOME = constants.bankingHome();
+	final String BANKING = messages.banking();
+	final String BANKING_HOME = messages.bankingHome();
 	final String BANKING_NEW_BANK_ACCOUNT = Accounter.messages()
-			.newBankAccount(Global.get().Account());
-	final String BANKING_WRITE_CHECKS = constants.writeChecks();
-	final String BANKING_MAKE_DEPOSIT = constants.makeDeposit();
-	final String BANKING_TRANSFER_FUNDS = constants.transferFunds();
-	final String BANKING_PAY_BILLS = constants.payBills();
-	final String BANKING_CREDITCARD_CHARGE = constants.creditCardCharge();
+			.newBankAccount();
+	final String BANKING_WRITE_CHECKS = messages.writeChecks();
+	final String BANKING_MAKE_DEPOSIT = messages.makeDeposit();
+	final String BANKING_TRANSFER_FUNDS = messages.transferFunds();
+	final String BANKING_PAY_BILLS = messages.payBills();
+	final String BANKING_CREDITCARD_CHARGE = messages.creditCardCharge();
 	final String BANKING_FIND_CHART_OF_ACCOUNTS = Accounter.messages()
-			.chartOfAccounts(Global.get().Accounts());
-	final String BANKING_FIND_PAYMENTS = constants.payments();
+			.chartOfAccounts();
+	final String BANKING_FIND_PAYMENTS = messages.payments();
 
-	final String START_NEW_TASK = constants.startanewTask();
-	final String HOME = constants.companyHome();
-	final String FIND = constants.find();
+	final String START_NEW_TASK = messages.startanewTask();
+	final String HOME = messages.companyHome();
+	final String FIND = messages.find();
 
 	final Section[] sections = {
 
@@ -141,23 +139,22 @@ public interface IOptionsAccordionSections {
 	final String[] sectionLabels = {
 			Accounter.messages().payees(Global.get().Customer()),
 			Global.get().messages().payees(Global.get().Vendor()),
-			constants.employees(), constants.sectionhash1(),
-			constants.sectionhash2(), constants.sectionhash3(),
-			constants.sectionhash4() };
+			messages.employees(), messages.sectionhash1(),
+			messages.sectionhash2(), messages.sectionhash3(),
+			messages.sectionhash4() };
 
 	final String[][][] labels = {
 
 	};
 	final String[] custStartLabels = {
 			Accounter.messages().newPayee(Global.get().Customer()),
-			constants.newProduct(), constants.newQuote(),
-			constants.newInvoice(), constants.receivedPayment(),
-			constants.newCashSale(), constants.newCreditsAndRefunds(),
-			constants.creditCardProcessing() };
+			messages.newProduct(), messages.newQuote(), messages.newInvoice(),
+			messages.receivedPayment(), messages.newCashSale(),
+			messages.newCreditsAndRefunds(), messages.creditCardProcessing() };
 
 	final String[] custFindLabels = {
 			Accounter.messages().payees(Global.get().Customer()),
-			constants.products() };
+			messages.products() };
 
 	// Vendors Section
 	final String[] vendStartLabels = {
@@ -165,18 +162,18 @@ public interface IOptionsAccordionSections {
 			Global.get().messages().vendorBlah(Global.get().Vendor()),
 			Global.get().messages().vendorWhendor(Global.get().Vendor()) };
 
-	final String[] vendFindLabels = { constants.findtis(), constants.findtat(),
-			constants.findbla() };
+	final String[] vendFindLabels = { messages.findtis(), messages.findtat(),
+			messages.findbla() };
 
 	// Employees Section
-	final String[] empStartLabels = { constants.employeeEmpty(),
-			constants.employeeBlah(), constants.employeeTemployee() };
+	final String[] empStartLabels = { messages.employeeEmpty(),
+			messages.employeeBlah(), messages.employeeTemployee() };
 
-	final String[] empFindLabels = { constants.findtis(), constants.findtat(),
-			constants.findbla() };
+	final String[] empFindLabels = { messages.findtis(), messages.findtat(),
+			messages.findbla() };
 
 	// ...
-	final String[] startLabels = { constants.emptyexlematorymark1(),
-			constants.emptyexlematorymark2(), constants.enuffexlematorymark() };
+	final String[] startLabels = { messages.emptyexlematorymark1(),
+			messages.emptyexlematorymark2(), messages.enuffexlematorymark() };
 
 }

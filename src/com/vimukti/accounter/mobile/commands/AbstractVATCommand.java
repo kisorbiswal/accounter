@@ -93,11 +93,11 @@ public abstract class AbstractVATCommand extends AbstractCommand {
 		StringBuilder message = new StringBuilder();
 		if (size > 0) {
 			message.append(getMessages().pleaseSelect(
-					getConstants().taxAgency()));
+					getMessages().taxAgency()));
 		}
 
 		CommandList commandList = new CommandList();
-		commandList.add(getMessages().create(getConstants().taxAgency()));
+		commandList.add(getMessages().create(getMessages().taxAgency()));
 
 		result.add(message.toString());
 		result.add(taxAgenciesList);

@@ -65,19 +65,19 @@ public class PreviousClaimGrid extends BaseListGrid<BillsList> {
 	private String getstatus(int status) {
 		switch (status) {
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE:
-			return Accounter.constants().draft();
+			return Accounter.messages().draft();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE:
-			return Accounter.constants().delete();
+			return Accounter.messages().delete();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL:
-			return Accounter.constants().submitForApproval();
+			return Accounter.messages().submitForApproval();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED:
-			return Accounter.constants().approved();
+			return Accounter.messages().approved();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED:
-			return Accounter.constants().decline();
+			return Accounter.messages().decline();
 		default:
 			break;
 		}
-		return Accounter.constants().draft();
+		return Accounter.messages().draft();
 	}
 
 	@Override
@@ -88,10 +88,10 @@ public class PreviousClaimGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().receiptFrom(),
-				Accounter.constants().receiptDate(),
-				Accounter.constants().dateEntered(),
-				Accounter.constants().status(), Accounter.constants().amount() };
+		return new String[] { Accounter.messages().receiptFrom(),
+				Accounter.messages().receiptDate(),
+				Accounter.messages().dateEntered(),
+				Accounter.messages().status(), Accounter.messages().amount() };
 	}
 
 

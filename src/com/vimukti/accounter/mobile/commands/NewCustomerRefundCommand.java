@@ -108,7 +108,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		 * get(CURRENCY).setDefaultValue(null);
 		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
 		 */
-		get(CHEQUE_NO).setDefaultValue(getConstants().toBePrinted());
+		get(CHEQUE_NO).setDefaultValue(getMessages().toBePrinted());
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new CustomerRequirement(CUSTOMER, getMessages().pleaseSelect(
-				getConstants().payTo()), getConstants().payTo(), false, true,
+				getMessages().payTo()), getMessages().payTo(), false, true,
 				null) {
 
 			@Override
@@ -172,17 +172,17 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		 * } });
 		 */
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().billNo()), getConstants().billNo(), true, true));
+				getMessages().billNo()), getMessages().billNo(), true, true));
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().transactionDate()), getConstants()
+				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
-		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(getConstants().transferTo()),
-				getConstants().transferTo(), false, false, null) {
+		list.add(new AccountRequirement(PAY_FROM, getMessages().pleaseSelect(
+				getMessages().transferTo()), getMessages().transferTo(), false,
+				false, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().payFrom());
+				return getMessages().hasSelected(getMessages().payFrom());
 			}
 
 			@Override
@@ -216,8 +216,8 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(
-						getConstants().bankAccounts());
+				return getMessages()
+						.youDontHaveAny(getMessages().bankAccount());
 			}
 
 			@Override
@@ -226,22 +226,21 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseSelect(getConstants().paymentMethod()), getConstants()
+				.pleaseSelect(getMessages().paymentMethod()), getMessages()
 				.paymentMethod(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getConstants().paymentMethod());
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getConstants().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -254,12 +253,12 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 				 * paymentMethods.values());
 				 */
 				String payVatMethodArray[] = new String[] {
-						getConstants().cash(), getConstants().creditCard(),
-						getConstants().check(), getConstants().directDebit(),
-						getConstants().masterCard(),
-						getConstants().onlineBanking(),
-						getConstants().standingOrder(),
-						getConstants().switchMaestro() };
+						getMessages().cash(), getMessages().creditCard(),
+						getMessages().check(), getMessages().directDebit(),
+						getMessages().masterCard(),
+						getMessages().onlineBanking(),
+						getMessages().standingOrder(),
+						getMessages().switchMaestro() };
 				List<String> wordList = Arrays.asList(payVatMethodArray);
 				return wordList;
 			}
@@ -267,17 +266,17 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().paymentMethod());
+						getMessages().paymentMethod());
 			}
 		});
 		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getConstants().amount()), getConstants().amount(), false, true));
+				getMessages().amount()), getMessages().amount(), false, true));
 
 		list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().toBePrinted();
+				return getMessages().toBePrinted();
 			}
 
 			@Override
@@ -286,8 +285,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
-				getConstants().chequeNo()), getConstants().chequeNo(), true,
-				true) {
+				getMessages().chequeNo()), getMessages().chequeNo(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -296,7 +294,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 	}
 
 	@Override

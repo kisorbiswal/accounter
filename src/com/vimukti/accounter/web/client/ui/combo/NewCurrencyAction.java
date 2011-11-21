@@ -1,15 +1,13 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewCurrencyAction extends Action<ClientCurrency> {
-	private AccounterConstants constants = Global.get().constants();
+	
 
 	public NewCurrencyAction(String text) {
 		super(text);

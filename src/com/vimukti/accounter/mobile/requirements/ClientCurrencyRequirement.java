@@ -33,12 +33,12 @@ public abstract class ClientCurrencyRequirement extends
 
 	@Override
 	protected String getSetMessage() {
-		return getMessages().hasSelected(getConstants().currency());
+		return getMessages().hasSelected(getMessages().currency());
 	}
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(getConstants().currency());
+		return getMessages().pleaseSelect(getMessages().currency());
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public abstract class ClientCurrencyRequirement extends
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().currency());
+		return getMessages().youDontHaveAny(getMessages().currency());
 	}
 
 }

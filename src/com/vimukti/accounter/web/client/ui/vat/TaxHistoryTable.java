@@ -27,7 +27,7 @@ public class TaxHistoryTable extends CellTable<ClientTAXReturn> {
 	TaxHistoryTable(SelectionChangedHandler<ClientTAXReturn> callBack) {
 		initColumns();
 		this.callBack = callBack;
-		HTML emptyMessage = new HTML(Accounter.constants().taxHistoryEmpty());
+		HTML emptyMessage = new HTML(Accounter.messages().taxHistoryEmpty());
 		emptyMessage.setHeight("150px");
 		setEmptyTableWidget(emptyMessage);
 	}
@@ -97,13 +97,13 @@ public class TaxHistoryTable extends CellTable<ClientTAXReturn> {
 			}
 		};
 
-		this.addColumn(periodStartDate, Accounter.constants().periodStartDate());
-		this.addColumn(periodEndDate, Accounter.constants().periodEndDate());
-		this.addColumn(vatFileDate, Accounter.constants().vatFileDate());
-		this.addColumn(netAmountDue, Accounter.constants().netAmountDue());
-		this.addColumn(totalPaymentMade, Accounter.constants()
+		this.addColumn(periodStartDate, Accounter.messages().periodStartDate());
+		this.addColumn(periodEndDate, Accounter.messages().periodEndDate());
+		this.addColumn(vatFileDate, Accounter.messages().vatFileDate());
+		this.addColumn(netAmountDue, Accounter.messages().netAmountDue());
+		this.addColumn(totalPaymentMade, Accounter.messages()
 				.totalPaymentMade());
-		this.addColumn(status, Accounter.constants().select());
+		this.addColumn(status, Accounter.messages().select());
 	}
 
 	public void setData(List<ClientTAXReturn> data) {

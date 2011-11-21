@@ -15,7 +15,7 @@ public class PayBillsAction extends Action {
 	protected PayBillView view;
 
 	public PayBillsAction(String icon) {
-		super(Accounter.constants().payBill());
+		super(Accounter.messages().payBill());
 		this.catagory = Global.get().Vendor();
 	}
 

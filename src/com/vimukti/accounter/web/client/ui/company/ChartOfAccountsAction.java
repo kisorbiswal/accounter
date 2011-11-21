@@ -21,13 +21,13 @@ public class ChartOfAccountsAction extends Action {
 
 	public ChartOfAccountsAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 	}
 
 	public ChartOfAccountsAction(String text, int accountType) {
 		super(text);
 		this.accountType = accountType;
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

@@ -14,7 +14,7 @@ public class ReportsHomeAction extends Action {
 
 	public ReportsHomeAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().report();
+		this.catagory = Accounter.messages().report();
 	}
 
 	// @Override
@@ -30,7 +30,7 @@ public class ReportsHomeAction extends Action {
 					new ReportSectionView(), null, isDependent,
 					ReportsHomeAction.this);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.constants()
+			Accounter.showError(Accounter.messages()
 					.failedtToLoadReportsHome());
 		}
 	}

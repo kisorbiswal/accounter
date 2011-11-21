@@ -30,7 +30,7 @@ public abstract class PurchaseOrderTableRequirements extends
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().thereAreNo(getConstants().purchaseOrder());
+		return getMessages().thereAreNo(getMessages().purchaseOrder());
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public abstract class PurchaseOrderTableRequirements extends
 	@Override
 	protected Record createFullRecord(PurchaseOrdersList value) {
 		Record rec = new Record(value);
-		rec.add("", getConstants().purchaseOrder());
+		rec.add("", getMessages().purchaseOrder());
 		rec.add("", value.getVendorName());
 		rec.add("", value.getBalance());
 		return rec;

@@ -16,7 +16,7 @@ public class BudgetReportAction extends Action {
 	public BudgetReportAction(String text, int i) {
 		super(text);
 		budgetType = i;
-		this.catagory = Accounter.constants().report();
+		this.catagory = Accounter.messages().report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

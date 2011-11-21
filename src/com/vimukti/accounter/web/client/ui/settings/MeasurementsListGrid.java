@@ -46,11 +46,11 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().measurementName(),
-				Accounter.constants().measurementDescription(),
-				Accounter.constants().unitName(),
-				Accounter.constants().getFactorName(),
-				Accounter.constants().delete() };
+		return new String[] { Accounter.messages().measurementName(),
+				Accounter.messages().measurementDescription(),
+				Accounter.messages().unitName(),
+				Accounter.messages().getFactorName(),
+				Accounter.messages().delete() };
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 	@Override
 	public void onDoubleClick(ClientMeasurement obj) {
 		AddMeasurementAction action = new AddMeasurementAction(Accounter
-				.constants().measurement());
+				.messages().measurement());
 		action.run(obj, false);
 	}
 }

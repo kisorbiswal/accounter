@@ -13,7 +13,7 @@ public class StatementReportAction extends Action {
 
 	public StatementReportAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().report();
+		this.catagory = Accounter.messages().report();
 
 	}
 

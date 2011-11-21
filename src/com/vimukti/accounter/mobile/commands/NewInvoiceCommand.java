@@ -97,7 +97,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		});
 		list.add(new EstimatesAndSalesOrderTableRequirement(
 				ESTIMATEANDSALESORDER, getMessages().selectTypeOfThis(
-						getConstants().quote()), getConstants()
+						getMessages().quote()), getMessages()
 						.quoteAndSalesOrderList()) {
 
 			@Override
@@ -140,7 +140,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		 */
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getConstants().items(),
+				"Please Enter Item Name or number", getMessages().items(),
 				false, true) {
 
 			@Override
@@ -162,14 +162,14 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().transactionDate()), getConstants()
+				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), true, true));
+				getMessages().number()), getMessages().number(), true, true));
 
 		list.add(new PaymentTermRequirement(PAYMENT_TERMS, getMessages()
-				.pleaseSelect(getConstants().paymentTerm()), getConstants()
+				.pleaseSelect(getMessages().paymentTerm()), getMessages()
 				.paymentTerm(), true, true, null) {
 
 			@Override
@@ -196,20 +196,20 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
-				getConstants().dueDate()), getConstants().dueDate(), true, true));
+				getMessages().dueDate()), getMessages().dueDate(), true, true));
 
 		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
-				getConstants().orderNo()), getConstants().orderNo(), true, true));
+				getMessages().orderNo()), getMessages().orderNo(), true, true));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 
 		// list.add(new EstimatesAndSalesOrderListRequirement(
 		// ESTIMATEANDSALESORDER, getMessages().selectTypeOfThis(
-		// getConstants().quote()), getConstants()
+		// getMessages().quote()), getMessages()
 		// .quoteAndSalesOrderList(), true, true, null) {
 		//
 		// @Override
@@ -235,7 +235,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		// });
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getConstants().taxCode()), getConstants().taxCode(), false,
+				getMessages().taxCode()), getMessages().taxCode(), false,
 				true, null) {
 
 			@Override
@@ -417,7 +417,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return invoice.getID() == 0 ? getMessages().readyToCreate(
-				getConstants().invoice())
+				getMessages().invoice())
 				: "Invoice ready to update with follwoing details";
 	}
 
@@ -445,8 +445,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	@Override
 	public String getSuccessMessage() {
 		return invoice.getID() == 0 ? getMessages().createSuccessfully(
-				getConstants().invoice()) : getMessages().updateSuccessfully(
-				getConstants().invoice());
+				getMessages().invoice()) : getMessages().updateSuccessfully(
+				getMessages().invoice());
 	}
 
 	@Override

@@ -75,7 +75,7 @@ public abstract class StockAdjustmentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().item();
+				return Accounter.messages().item();
 			}
 
 		});
@@ -94,7 +94,7 @@ public abstract class StockAdjustmentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().comment();
+				return Accounter.messages().comment();
 			}
 		});
 
@@ -117,7 +117,7 @@ public abstract class StockAdjustmentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().availableQty();
+				return Accounter.messages().availableQty();
 			}
 
 			@Override

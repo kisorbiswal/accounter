@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
@@ -22,8 +21,6 @@ public class TransactionPayTAXGrid extends
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXTBOX };
 	private PayTAXView payVATView;
 	ClientCurrency currency = getCompany().getPrimaryCurrency();
-
-	AccounterConstants accounterConstants = Accounter.constants();
 
 	public TransactionPayTAXGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
@@ -80,7 +77,7 @@ public class TransactionPayTAXGrid extends
 			// 2);
 
 		} catch (Exception e) {
-			Accounter.showError(accounterConstants.invalidAmount());
+			Accounter.showError(messages.invalidAmount());
 		}
 		super.editComplete(editingRecord, value, col);
 	}
@@ -92,8 +89,8 @@ public class TransactionPayTAXGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { companyConstants.taxFiledDate(),
-				companyConstants.taxDue(), companyConstants.payment() };
+		return new String[] { messages.taxFiledDate(),
+				messages.taxDue(), messages.payment() };
 	}
 
 	@Override
@@ -196,12 +193,12 @@ public class TransactionPayTAXGrid extends
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 		if (getSelectedRecords().size() == 0) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, messages
 					.pleaseSelectAtLeastOneRecord());
 		} else {
 			for (ClientTransactionPayTAX tax : getSelectedRecords()) {
 				if (!DecimalUtil.isGreaterThan(tax.getAmountToPay(), 0.00)) {
-					result.addError(this, Accounter.constants()
+					result.addError(this, messages
 							.pleaseEnterAmountToPay());
 				}
 

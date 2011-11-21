@@ -32,9 +32,9 @@ public abstract class AccounterAsyncCallback<T> implements AsyncCallback<T> {
 		} else if (exception instanceof StatusCodeException) {
 			if (((StatusCodeException) exception).getStatusCode() == 403) {
 				Accounter
-						.showMessage(Global.get().constants().sessionExpired());
+						.showMessage(Global.get().messages().sessionExpired());
 			} else {
-				Accounter.showInformation(Global.get().constants()
+				Accounter.showInformation(Global.get().messages()
 						.unableToPerformTryAfterSomeTime());
 			}
 		}

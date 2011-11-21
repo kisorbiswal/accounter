@@ -135,7 +135,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
-				getConstants().Vendor()), getConstants().vendor(), false, true,
+				getMessages().Vendor()), getMessages().vendor(), false, true,
 				null)
 
 		{
@@ -197,13 +197,13 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 		 */
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().billNo()), getConstants().billNo(), true, true));
+				getMessages().billNo()), getMessages().billNo(), true, true));
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().transactionDate()), getConstants()
+				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(getConstants().bankAccount()),
-				getConstants().bankAccount(), false, false, null) {
+				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
+				false, false, null) {
 			@Override
 			protected void setCreateCommand(CommandList list) {
 				list.add(new UserCommand("Create BankAccount", "Bank"));
@@ -214,7 +214,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(Global.get().account());
+				return getMessages().hasSelected(getMessages().account());
 			}
 
 			@Override
@@ -240,7 +240,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Accounts());
+				return getMessages().youDontHaveAny(getMessages().Accounts());
 			}
 
 			@Override
@@ -249,22 +249,21 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseSelect(getConstants().paymentMethod()), getConstants()
+				.pleaseSelect(getMessages().paymentMethod()), getMessages()
 				.paymentMethod(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getConstants().paymentMethod());
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getConstants().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -277,12 +276,12 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 				 * paymentMethods.values());
 				 */
 				String payVatMethodArray[] = new String[] {
-						getConstants().cash(), getConstants().creditCard(),
-						getConstants().check(), getConstants().directDebit(),
-						getConstants().masterCard(),
-						getConstants().onlineBanking(),
-						getConstants().standingOrder(),
-						getConstants().switchMaestro() };
+						getMessages().cash(), getMessages().creditCard(),
+						getMessages().check(), getMessages().directDebit(),
+						getMessages().masterCard(),
+						getMessages().onlineBanking(),
+						getMessages().standingOrder(),
+						getMessages().switchMaestro() };
 				List<String> wordList = Arrays.asList(payVatMethodArray);
 				return wordList;
 			}
@@ -290,17 +289,17 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().paymentMethod());
+						getMessages().paymentMethod());
 			}
 		});
 		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getConstants().amount()), getConstants().amount(), false, true));
+				getMessages().amount()), getMessages().amount(), false, true));
 
 		list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().toBePrinted();
+				return getMessages().toBePrinted();
 			}
 
 			@Override
@@ -309,7 +308,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
-				getConstants().checkNo()), getConstants().checkNo(), true, true) {
+				getMessages().checkNo()), getMessages().checkNo(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -321,7 +320,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 
 	}
 

@@ -8,8 +8,6 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -18,11 +16,9 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class CurrencyView extends BaseView<ClientCurrency> {
 	TextItem currencyNameText, formalNameText;
-	private AccounterConstants currencyConstants;
 	private DynamicForm currencyForm;
 	private boolean wait;
 	private ClientCompany company = getCompany();
-	AccounterConstants accounterConstants = Accounter.constants();
 
 	public CurrencyView() {
 		super();
@@ -98,26 +94,26 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 
 		// checks whether the currency is already available or not?
 		if (currency != null) {
-			result.addError(currencyNameText, accounterConstants.alreadyExist());
+			result.addError(currencyNameText, messages.alreadyExist());
 		}
 		return result;
 	}
 
 	private void createControls() {
-		currencyNameText = new TextItem(currencyConstants.currencyName());
+		currencyNameText = new TextItem(messages.currencyName());
 		currencyNameText.setHelpInformation(true);
 		currencyNameText.setWidth(100);
 		currencyNameText.setRequired(true);
 
-		formalNameText = new TextItem(currencyConstants.currencyFormalName());
+		formalNameText = new TextItem(messages.currencyFormalName());
 		formalNameText.setHelpInformation(true);
 		formalNameText.setWidth(100);
 		formalNameText.setRequired(true);
 
-		currencyForm = UIUtils.form(currencyConstants.currency());
+		currencyForm = UIUtils.form(messages.currency());
 		currencyForm.setFields(currencyNameText, formalNameText);
 		currencyForm.setWidth("100%");
-//		currencyForm.getCellFormatter().setWidth(0, 0, "205");
+		// currencyForm.getCellFormatter().setWidth(0, 0, "205");
 
 		if (getData() != null) {
 			currencyNameText.setValue(data.getName());

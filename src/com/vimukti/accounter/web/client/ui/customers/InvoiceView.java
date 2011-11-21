@@ -199,12 +199,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (transaction == null
 				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-			lab1 = new Label(Accounter.constants().invoice());
+			lab1 = new Label(Accounter.messages().invoice());
 		else {
-			lab1 = new Label(Accounter.constants().invoice());
+			lab1 = new Label(Accounter.messages().invoice());
 		}
 
-		lab1.setStyleName(Accounter.constants().labelTitle());
+		lab1.setStyleName(Accounter.messages().labelTitle());
 
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -218,9 +218,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		transactionDateItem.setHelpInformation(true);
 		transactionNumber = createTransactionNumberItem();
 
-		transactionNumber.setTitle(Accounter.constants().invoiceNo());
+		transactionNumber.setTitle(Accounter.messages().invoiceNo());
 		listforms = new ArrayList<DynamicForm>();
-		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter.constants()
+		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter.messages()
 				.brandingTheme());
 
 		locationCombo = createLocationCombo();
@@ -256,7 +256,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		billToTextArea.setHelpInformation(true);
 		billToTextArea.setWidth(100);
 
-		billToTextArea.setTitle(Accounter.constants().billTo());
+		billToTextArea.setTitle(Accounter.messages().billTo());
 		billToTextArea.setDisabled(isInViewMode());
 		billToTextArea.setHelpInformation(true);
 
@@ -289,7 +289,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				.setVerticalAlign(VerticalAlign.TOP);
 
 		// shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "40px");
+		// messages.width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -317,7 +317,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 
 		// custForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "226px");
+		// messages.width(), "226px");
 		custForm.setStyleName("align-form");
 
 		salesPersonCombo = createSalesPersonComboItem();
@@ -328,18 +328,18 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		shippingMethodsCombo = createShippingMethodCombo();
 
-		dueDateItem = new DateField(customerConstants.dueDate());
+		dueDateItem = new DateField(messages.dueDate());
 		dueDateItem.setToolTip(Accounter.messages().selectDateUntilDue(
 				this.getAction().getViewName()));
 		dueDateItem.setHelpInformation(true);
 		dueDateItem.setEnteredDate(getTransactionDate());
 		dueDateItem.setColSpan(1);
-		dueDateItem.setTitle(customerConstants.dueDate());
+		dueDateItem.setTitle(messages.dueDate());
 		dueDateItem.setDisabled(isInViewMode());
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
 
-		orderNumText = new TextItem(Accounter.constants().salesorderno());
+		orderNumText = new TextItem(Accounter.messages().salesorderno());
 		orderNumText.setHelpInformation(true);
 		orderNumText.setWidth(38);
 		if (transaction != null)
@@ -349,7 +349,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			termsForm.setFields(locationCombo);
 		// termsForm.setWidth("100%");
 		termsForm.setIsGroup(true);
-		termsForm.setGroupTitle(customerConstants.terms());
+		termsForm.setGroupTitle(messages.terms());
 		termsForm.setNumCols(2);
 		if (getPreferences().isSalesPersonEnabled()) {
 			termsForm.setFields(salesPersonCombo, payTermsSelect, dueDateItem,
@@ -375,14 +375,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		termsForm.setStyleName("align-form");
 
 		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-		// Accounter.constants().width(), "200px");
+		// messages.width(), "200px");
 		// multi
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
 
 		Button printButton = new Button();
 
-		printButton.setText(Accounter.constants().print());
+		printButton.setText(Accounter.messages().print());
 		printButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -422,12 +422,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		paymentsNonEditableText = new AmountLabel(customerConstants.payments());
+		paymentsNonEditableText = new AmountLabel(messages.payments());
 		paymentsNonEditableText.setDisabled(true);
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 		balanceDueNonEditableText = new AmountLabel(
-				customerConstants.balanceDue());
+				messages.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -651,7 +651,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private ShippingTermsCombo createShippingTermsCombo() {
 
 		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
-				Accounter.constants().shippingTerms());
+				Accounter.messages().shippingTerms());
 		shippingTermsCombo.setHelpInformation(true);
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
@@ -676,7 +676,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected void createButtons(ButtonBar buttonBar) {
 		super.createButtons(buttonBar);
 		if (isInViewMode()) {
-			emailButton = new Button(accounterConstants.email());
+			emailButton = new Button(messages.email());
 			buttonBar.add(emailButton);
 
 			emailButton.addClickHandler(new ClickHandler() {
@@ -690,7 +690,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	}
 
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.constants().productOrServiceItem());
+		setMenuItems(button, Accounter.messages().productOrServiceItem());
 
 	}
 
@@ -1276,19 +1276,19 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				((InvoiceView) this).dueDateItem.getDate(),
 				getTransactionDate())) {
 			result.addError(((InvoiceView) this).dueDateItem, Accounter
-					.constants().the()
+					.messages().the()
 					+ " "
-					+ customerConstants.dueDate()
+					+ messages.dueDate()
 					+ " "
 					+ " "
-					+ Accounter.constants()
+					+ Accounter.messages()
 							.cannotbeearlierthantransactiondate());
 		}
 
 		boolean isSelected = transactionsTree.validateTree();
 		if (!isSelected) {
 			if (transaction.getTotal() <= 0) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, Accounter.messages()
 						.transactiontotalcannotbe0orlessthan0());
 			}
 			result.add(customerTransactionTable.validateGrid());
@@ -1312,14 +1312,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			if (taxCodeSelect != null
 					&& taxCodeSelect.getSelectedValue() == null) {
 				result.addError(taxCodeSelect,
-						accounterConstants.enterTaxCode());
+						messages.enterTaxCode());
 			}
 		} else if (isSelected && isTrackTax() && !isTaxPerDetailLine()
 				&& !transaction.getTransactionItems().isEmpty()) {
 			if (taxCodeSelect != null
 					&& taxCodeSelect.getSelectedValue() == null) {
 				result.addError(taxCodeSelect,
-						accounterConstants.enterTaxCode());
+						messages.enterTaxCode());
 			}
 		}
 		return result;
@@ -1439,7 +1439,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			@Override
 			public void onFailure(Throwable caught) {
 				if (caught instanceof InvocationException) {
-					Accounter.showMessage(Accounter.constants()
+					Accounter.showMessage(Accounter.messages()
 							.sessionExpired());
 				} else {
 					int errorCode = ((AccounterException) caught)
@@ -1557,7 +1557,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().invoice();
+		return Accounter.messages().invoice();
 	}
 
 	@Override

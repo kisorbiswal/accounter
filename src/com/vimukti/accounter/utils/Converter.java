@@ -153,7 +153,8 @@ public class Converter {
 
 			pd4ml.setPageFooter(footer);
 
-			pd4ml.render(reader, outputStream == null ? fos : outputStream);
+			pd4ml.render(reader, fos);
+//			pd4ml.render(reader, outputStream == null ? fos : outputStream);
 		} catch (Exception e) {
 			System.err.println("error occured");
 			e.printStackTrace();

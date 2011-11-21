@@ -52,24 +52,24 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new StringRequirement(TAX_AGENCY_NAME, getMessages()
-				.pleaseEnter(getConstants().taxAgency()), "Tax Agency", false,
+				.pleaseEnter(getMessages().taxAgency()), "Tax Agency", false,
 				true));
 
 		list.add(new BooleanRequirement(IS_ACTIVE, true) {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().active();
+				return getMessages().active();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().inActive();
+				return getMessages().inActive();
 			}
 		});
 
 		list.add(new PaymentTermRequirement(PAYMENT_TERM, getMessages()
-				.pleaseSelect(getConstants().paymentTerm()), getConstants()
+				.pleaseSelect(getMessages().paymentTerm()), getMessages()
 				.paymentTerm(), false, true, new ChangeListner<PaymentTerms>() {
 
 			@Override
@@ -87,7 +87,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 		});
 
 		list.add(new StringListRequirement(VAT_RETURN, getMessages()
-				.pleaseSelect(getConstants().vatReturn()), "Vat Return", false,
+				.pleaseSelect(getMessages().taxReturn()), "Vat Return", false,
 				true, new ChangeListner<String>() {
 
 					@Override
@@ -104,7 +104,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(getConstants().vatReturn());
+				return getMessages().pleaseSelect(getMessages().taxReturn());
 			}
 
 			@Override
@@ -120,9 +120,9 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 		list.add(new AccountRequirement(SALES_ACCOUNT, getMessages()
 				.pleaseSelect(
-						getConstants().sales() + getConstants().liability()
-								+ getConstants().account()), getConstants()
-				.sales() + getConstants().account(), false, true,
+						getMessages().sales() + getMessages().liability()
+								+ getMessages().account()), getMessages()
+				.sales() + getMessages().account(), false, true,
 				new ChangeListner<Account>() {
 
 					@Override
@@ -164,9 +164,9 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 		list.add(new AccountRequirement(PURCHASE_ACCOUNT, getMessages()
 				.pleaseSelect(
-						getConstants().purchase() + getConstants().liability()
-								+ getConstants().account()), getConstants()
-				.purchase() + getConstants().account(), false, true,
+						getMessages().purchase() + getMessages().liability()
+								+ getMessages().account()), getMessages()
+				.purchase() + getMessages().account(), false, true,
 				new ChangeListner<Account>() {
 
 					@Override
@@ -207,24 +207,24 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 		});
 
 		list.add(new AddressRequirement(ADREESS, getMessages().pleaseEnter(
-				getConstants().address()), getConstants().address(), true, true));
+				getMessages().address()), getMessages().address(), true, true));
 
 		list.add(new StringRequirement(PHONE, getMessages().pleaseEnter(
-				getConstants().phoneNumber()), getConstants().phoneNumber(),
+				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				true, true));
 
 		list.add(new StringRequirement(FAX, getMessages().pleaseEnter(
-				getConstants().faxNumber()), getConstants().faxNumber(), true,
+				getMessages().faxNumber()), getMessages().faxNumber(), true,
 				true));
 
 		list.add(new StringRequirement(EMAIL, getMessages().pleaseEnter(
-				getConstants().email()), getConstants().email(), true, true));
+				getMessages().email()), getMessages().email(), true, true));
 
 		list.add(new StringRequirement(WEBSITE, getMessages().pleaseEnter(
-				getConstants().webSite()), getConstants().webSite(), true, true));
+				getMessages().webSite()), getMessages().webSite(), true, true));
 
 		list.add(new CustomerContactRequirement(CONTACTS, getMessages()
-				.pleaseSelect(getConstants().contact()), CONTACTS, true, true) {
+				.pleaseSelect(getMessages().contact()), CONTACTS, true, true) {
 
 			@Override
 			protected List<ClientContact> getList() {

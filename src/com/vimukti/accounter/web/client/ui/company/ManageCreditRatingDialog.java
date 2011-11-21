@@ -59,7 +59,7 @@
 //
 //	@Override
 //	public String[] setColumns() {
-//		return new String[] { constants.Name() };
+//		return new String[] { messages.Name() };
 //	}
 //
 //	@Override

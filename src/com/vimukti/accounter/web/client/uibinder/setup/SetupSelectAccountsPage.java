@@ -71,18 +71,17 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel
-				.setText(Accounter.messages().reviewIncomeAndExpensesAccounts(
-						accounterConstants.Accounts()));
+		headerLabel.setText(Accounter.messages()
+				.reviewIncomeAndExpensesAccounts());
 
-		expensesInfo.setText(accounterConstants.doyouWantToUseStatements());
-		recommendedInfo.setHTML("<b>" + accounterMessages.noteColon() + "</b>"
-				+ accounterMessages.recommendedAccounts() + "<br>"
-				+ accounterMessages.recommendedAccountsComment());
-		restoreButton.setText(accounterConstants.restoreRecommendations());
-		expensesLink.setHTML(accounterMessages.whyshoudIUseRecommended());
-		expensesNote.setHTML(accounterMessages.recommendedNote());
-		selectAllButton.setText(accounterConstants.selectAll());
+		expensesInfo.setText(messages.doyouWantToUseStatements());
+		recommendedInfo.setHTML("<b>" + messages.noteColon() + "</b>"
+				+ messages.recommendedAccounts() + "<br>"
+				+ messages.recommendedAccountsComment());
+		restoreButton.setText(messages.restoreRecommendations());
+		expensesLink.setHTML(messages.whyshoudIUseRecommended());
+		expensesNote.setHTML(messages.recommendedNote());
+		selectAllButton.setText(messages.selectAll());
 		restoreButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -149,8 +148,8 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 		};
 
 		table.addColumn(checkBoxColumn);
-		// table.addColumn(accountNameColumn, accounterConstants.accountName());
-		// table.addColumn(accountTypeColumn, accounterConstants.accountType());
+		// table.addColumn(accountNameColumn, messages.accountName());
+		// table.addColumn(accountTypeColumn, messages.accountType());
 
 		// this.accountsTable.add(table);
 
@@ -216,7 +215,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.Accounts();
+		return messages.Accounts();
 	}
 
 }

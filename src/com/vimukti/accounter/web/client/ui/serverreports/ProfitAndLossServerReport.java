@@ -83,7 +83,7 @@ public class ProfitAndLossServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().financialYearToDate();
+		return getMessages().financialYearToDate();
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class ProfitAndLossServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				getConstants().categoryNumber(),
+				getMessages().categoryNumber(),
 				"",
 				// FIXME for reports these are NULL...
 				"" + getDateByCompanyType(getStartDate()) + " - "
@@ -114,7 +114,7 @@ public class ProfitAndLossServerReport extends
 	public String[] getDynamicHeaders() {
 
 		return new String[] {
-				getConstants().categoryNumber(),
+				getMessages().categoryNumber(),
 				"",
 				"" + getDateByCompanyType(getStartDate()) + " - "
 						+ getDateByCompanyType(getEndDate()),
@@ -128,7 +128,7 @@ public class ProfitAndLossServerReport extends
 
 	@Override
 	public String getTitle() {
-		return getConstants().profitAndLoss();
+		return getMessages().profitAndLoss();
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class ProfitAndLossServerReport extends
 			iniHandler();
 
 		if (sectionDepth == 0) {
-			addTypeSection("", getConstants().netProfit());
+			addTypeSection("", getMessages().netProfit());
 		}
 		addOrdinaryIncomeOrExpenseTypes(record);
 		// if (record.getBaseType() ==
@@ -200,47 +200,47 @@ public class ProfitAndLossServerReport extends
 
 			@Override
 			public void OnSectionAdd(Section<TrialBalance> section) {
-				if (section.title.equals(getConstants().grossProfit())) {
+				if (section.title.equals(getMessages().grossProfit())) {
 					section.data[0] = "";
 				}
 			}
 
 			@Override
 			public void OnSectionEnd(Section<TrialBalance> section) {
-				if (section.title.equals(getConstants().income())) {
+				if (section.title.equals(getMessages().income())) {
 					totalincome = Double.valueOf(section.data[3].toString());
 					totalincome2 = Double.valueOf(section.data[5].toString());
 				}
-				if (section.title.equals(getConstants().costOfGoodSold())) {
+				if (section.title.equals(getMessages().costOfGoodSold())) {
 					totalCGOS = Double.valueOf(section.data[3].toString());
 					totalCGOS2 = Double.valueOf(section.data[5].toString());
 				}
-				if (section.title.equals(getConstants().otherExpense())) {
+				if (section.title.equals(getMessages().otherExpense())) {
 					otherExpense = Double.valueOf(section.data[3].toString());
 					otherExpense2 = Double.valueOf(section.data[5].toString());
 				}
-				if (section.footer.equals(getConstants().grossProfit())) {
+				if (section.footer.equals(getMessages().grossProfit())) {
 					grosProft = totalincome - totalCGOS - otherExpense;
 					section.data[3] = grosProft;
 					grosProft2 = totalincome2 - totalCGOS2 - otherExpense2;
 					section.data[5] = grosProft2;
 				}
-				if (section.title.equals(getConstants().expense())) {
+				if (section.title.equals(getMessages().expense())) {
 					totalexpese = (Double) section.data[3];
 					totalexpese2 = (Double) section.data[5];
 				}
-				if (section.footer.equals(getConstants().netProfit())) {
+				if (section.footer.equals(getMessages().netProfit())) {
 					netProfit = grosProft - totalexpese + otherIncome;
 					section.data[3] = netProfit;
 					netProfit2 = grosProft2 - totalexpese2 + otherIncome2;
 					section.data[5] = netProfit2;
 				}
-				if (section.title.equals(getConstants().otherIncome())) {
+				if (section.title.equals(getMessages().otherIncome())) {
 					otherIncome = Double.valueOf(section.data[3].toString());
 					otherIncome2 = Double.valueOf(section.data[5].toString());
 				}
 
-				if (section.title.equals(getConstants().otherIncomeOrExpense())) {
+				if (section.title.equals(getMessages().otherIncomeOrExpense())) {
 					otherNetIncome = otherIncome - otherExpense;
 					section.data[3] = otherNetIncome;
 					otherNetIncome2 = otherIncome2 - otherExpense2;
@@ -284,23 +284,23 @@ public class ProfitAndLossServerReport extends
 		// }
 		if (record.getAccountType() == ClientAccount.TYPE_INCOME
 				|| record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
-			if (!sectiontypes.contains(getConstants().grossProfit())) {
-				addTypeSection(getConstants().grossProfit(), "", getConstants()
+			if (!sectiontypes.contains(getMessages().grossProfit())) {
+				addTypeSection(getMessages().grossProfit(), "", getMessages()
 						.grossProfit());
 
 			}
 			if (record.getAccountType() == ClientAccount.TYPE_INCOME)
-				if (!sectiontypes.contains(getConstants().income())) {
+				if (!sectiontypes.contains(getMessages().income())) {
 
-					addTypeSection(getConstants().income(), getConstants()
+					addTypeSection(getMessages().income(), getMessages()
 							.incomeTotals());
 				}
 			if (record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD)
-				if (!sectiontypes.contains(getConstants().costOfGoodSold())) {
+				if (!sectiontypes.contains(getMessages().costOfGoodSold())) {
 					closeOtherSections();
-					closeSection(types.indexOf(getConstants().income()));
-					addTypeSection(getConstants().costOfGoodSold(),
-							getConstants().cogsTotal());
+					closeSection(types.indexOf(getMessages().income()));
+					addTypeSection(getMessages().costOfGoodSold(),
+							getMessages().cogsTotal());
 
 				}
 
@@ -308,35 +308,35 @@ public class ProfitAndLossServerReport extends
 
 		if (record.getAccountType() == ClientAccount.TYPE_OTHER_EXPENSE) {
 
-			if (!sectiontypes.contains(getConstants().otherExpense())) {
+			if (!sectiontypes.contains(getMessages().otherExpense())) {
 				for (int i = types.size() - 2; i > 0; i--) {
 					closeSection(i);
 				}
-				addTypeSection(getConstants().otherExpense(), getConstants()
+				addTypeSection(getMessages().otherExpense(), getMessages()
 						.otherExpenseTotals());
 			}
 		}
 
 		if (record.getAccountType() == ClientAccount.TYPE_EXPENSE) {
 
-			if (!sectiontypes.contains(getConstants().expense())) {
+			if (!sectiontypes.contains(getMessages().expense())) {
 				closeAllSection();
-				addTypeSection(getConstants().expense(), getConstants()
+				addTypeSection(getMessages().expense(), getMessages()
 						.expenseTotals());
 			}
 		}
 
 		if (record.getAccountType() == ClientAccount.TYPE_OTHER_INCOME) {
 
-			if (sectiontypes.contains(getConstants().expense())) {
-				closeSection(types.indexOf(getConstants().expense()));
+			if (sectiontypes.contains(getMessages().expense())) {
+				closeSection(types.indexOf(getMessages().expense()));
 			} else {
 				closeAllSection();
 			}
 
-			if (!sectiontypes.contains(getConstants().otherIncome())) {
-				// closeSection(types.indexOf(getConstants().expense()));
-				addTypeSection(getConstants().otherIncome(), getConstants()
+			if (!sectiontypes.contains(getMessages().otherIncome())) {
+				// closeSection(types.indexOf(getMessages().expense()));
+				addTypeSection(getMessages().otherIncome(), getMessages()
 						.otherIncomeTotal());
 			}
 		}
@@ -344,10 +344,10 @@ public class ProfitAndLossServerReport extends
 	}
 
 	public void addOtherIncomeOrExpenseTypes(TrialBalance record) {
-		if (!sectiontypes.contains(getConstants().otherIncomeOrExpense())) {
+		if (!sectiontypes.contains(getMessages().otherIncomeOrExpense())) {
 			closeAllSection();
-			addTypeSection(getConstants().otherIncomeOrExpense(),
-					getConstants().netOtherIncome());
+			addTypeSection(getMessages().otherIncomeOrExpense(),
+					getMessages().netOtherIncome());
 		}
 		// if (record.getAccountType() == ClientAccount.TYPE_OTHER_INCOME) {
 		// if (!sectiontypes.contains(FinanceApplication.constants()
@@ -359,11 +359,11 @@ public class ProfitAndLossServerReport extends
 		// }
 
 		if (record.getAccountType() == ClientAccount.TYPE_OTHER_EXPENSE) {
-			if (!sectiontypes.contains(getConstants().otherExpense())) {
+			if (!sectiontypes.contains(getMessages().otherExpense())) {
 				for (int i = types.size() - 2; i > 0; i--) {
 					closeSection(i);
 				}
-				addTypeSection(getConstants().otherExpense(), getConstants()
+				addTypeSection(getMessages().otherExpense(), getMessages()
 						.otherExpenseTotals());
 			}
 		}
@@ -387,7 +387,7 @@ public class ProfitAndLossServerReport extends
 			// System.out.println("Add:" + curentParent);
 			addSection(record.getAccountNumber() + "-"
 					+ record.getAccountName(), record.getAccountName() + "  "
-					+ getConstants().total(), new int[] { 3, 5 });
+					+ getMessages().total(), new int[] { 3, 5 });
 			return true;
 		}
 		return false;

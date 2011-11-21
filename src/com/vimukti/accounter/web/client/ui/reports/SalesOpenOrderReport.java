@@ -19,13 +19,13 @@ public class SalesOpenOrderReport extends
 	public void init() {
 
 		super.init();
-		toolbar.setDateRanageOptions(Accounter.constants().all(), Accounter
-				.constants().thisWeek(), Accounter.constants().thisMonth(),
-				Accounter.constants().lastWeek(), Accounter.constants()
+		toolbar.setDateRanageOptions(Accounter.messages().all(), Accounter
+				.messages().thisWeek(), Accounter.messages().thisMonth(),
+				Accounter.messages().lastWeek(), Accounter.messages()
 						.lastMonth(),
-				Accounter.constants().thisFinancialYear(), Accounter
-						.constants().lastFinancialYear(), Accounter.constants()
-						.thisFinancialQuarter(), Accounter.constants()
+				Accounter.messages().thisFinancialYear(), Accounter
+						.messages().lastFinancialYear(), Accounter.messages()
+						.thisFinancialQuarter(), Accounter.messages()
 						.lastFinancialQuarter(),
 
 				// FinanceApplication
@@ -34,7 +34,7 @@ public class SalesOpenOrderReport extends
 				// .constants().last6Months(), FinanceApplication
 				// .constants().lastYear(), FinanceApplication
 				// .constants().untilEndOfYear(),
-				Accounter.constants().custom());
+				Accounter.messages().custom());
 	}
 
 	@Override

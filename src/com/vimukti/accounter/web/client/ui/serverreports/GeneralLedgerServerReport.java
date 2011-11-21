@@ -22,6 +22,6 @@ public class GeneralLedgerServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().generalLedgerReport();
+		return Accounter.messages().generalLedgerReport();
 	}
 }

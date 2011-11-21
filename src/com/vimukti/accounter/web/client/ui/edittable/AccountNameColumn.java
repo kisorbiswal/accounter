@@ -44,6 +44,6 @@ public abstract class AccountNameColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().name();
+		return Accounter.messages().name();
 	}
 }

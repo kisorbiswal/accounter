@@ -84,7 +84,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 	public void ShowAddEditDialog(ClientCurrency currency) {
 		clientCurrency = currency;
 		currencyListDialog = new NewCurrencyListDialog(this,
-				constants.addCurrency(), clientCurrency);
+				messages.addCurrency(), clientCurrency);
 		currencyListDialog.show();
 		currencyListDialog.center();
 
@@ -92,7 +92,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { constants.currency() };
+		return new String[] { messages.currency() };
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 		clientCurrency = (ClientCurrency) listGridView.getSelection();
 		ClientCurrency currency = getCompany().getPrimaryCurrency();
 		if (currency != null && clientCurrency.getID() == currency.getID()) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, Accounter.messages()
 					.CannotDeletePrimaryCurrency());
 		}
 		return result;

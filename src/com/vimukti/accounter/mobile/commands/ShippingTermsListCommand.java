@@ -32,7 +32,7 @@ public class ShippingTermsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getConstants().newShippingTerm());
+				list.add(getMessages().newShippingTerm());
 			}
 
 			@Override
@@ -53,17 +53,17 @@ public class ShippingTermsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().shippingTermList();
+				return getMessages().shippingTermList();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants().noRecordsToShow();
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
 			protected String onSelection(ShippingTerms value) {
-				return getConstants().update() + " " + value.getName();
+				return getMessages().update() + " " + value.getName();
 			}
 		});
 	}

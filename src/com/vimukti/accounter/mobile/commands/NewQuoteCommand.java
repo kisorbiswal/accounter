@@ -100,7 +100,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		 */
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getConstants().items(),
+				"Please Enter Item Name or number", getMessages().items(),
 				false, true) {
 
 			@Override
@@ -123,13 +123,13 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().date()), getConstants().date(), true, true));
+				getMessages().date()), getMessages().date(), true, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), true, false));
+				getMessages().number()), getMessages().number(), true, false));
 
 		list.add(new PaymentTermRequirement(PAYMENT_TERMS, getMessages()
-				.pleaseEnterName(getConstants().paymentTerm()), getConstants()
+				.pleaseEnterName(getMessages().paymentTerm()), getMessages()
 				.paymentTerm(), true, true, null) {
 
 			@Override
@@ -140,7 +140,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
-				getConstants().contactName()), getConstants().contacts(), true,
+				getMessages().contactName()), getMessages().contacts(), true,
 				true, null) {
 
 			@Override
@@ -156,25 +156,25 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-				getConstants().phoneNumber()), getConstants().phone(), true,
+				getMessages().phoneNumber()), getMessages().phone(), true,
 				true));
 
 		list.add(new DateRequirement(DELIVERY_DATE, getMessages().pleaseEnter(
-				getConstants().deliveryDate()), getConstants().deliveryDate(),
+				getMessages().deliveryDate()), getMessages().deliveryDate(),
 				true, true));
 
 		list.add(new DateRequirement(EXPIRATION_DATE, getMessages()
-				.pleaseEnter(getConstants().expirationDate()), getConstants()
+				.pleaseEnter(getMessages().expirationDate()), getMessages()
 				.expirationDate(), true, false));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
-				getConstants().taxCode()), getConstants().taxCode(), false,
+				getMessages().taxCode()), getMessages().taxCode(), false,
 				true, null) {
 
 			@Override
@@ -290,13 +290,13 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return estimate.getID() == 0 ? getMessages().creating(
-				getConstants().quote()) : "Quote updating..";
+				getMessages().quote()) : "Quote updating..";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return estimate.getID() == 0 ? getMessages().readyToCreate(
-				getConstants().quote())
+				getMessages().quote())
 				: "Quote is ready to update with following details";
 	}
 
@@ -331,8 +331,8 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 	@Override
 	public String getSuccessMessage() {
 		return estimate.getID() == 0 ? getMessages().createSuccessfully(
-				getConstants().quote()) : getMessages().updateSuccessfully(
-				getConstants().quote());
+				getMessages().quote()) : getMessages().updateSuccessfully(
+				getMessages().quote());
 	}
 
 	@Override

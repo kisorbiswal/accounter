@@ -29,8 +29,8 @@ public class VATItemsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
@@ -47,7 +47,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getConstants().taxItem()));
+				list.add(getMessages().create(getMessages().taxItem()));
 			}
 
 			@Override
@@ -81,12 +81,12 @@ public class VATItemsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().vatItemList();
+				return getMessages().vatItemList();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants().noRecordsToShow();
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
@@ -99,8 +99,8 @@ public class VATItemsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
@@ -126,7 +126,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(CURRENT_VIEW).setDefaultValue(getConstants().active());
+		get(CURRENT_VIEW).setDefaultValue(getMessages().active());
 	}
 
 	@Override

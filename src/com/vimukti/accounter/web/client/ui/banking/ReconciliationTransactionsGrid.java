@@ -12,7 +12,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -26,7 +26,7 @@ import com.vimukti.accounter.web.client.ui.grids.columns.CheckBoxColumn;
 public class ReconciliationTransactionsGrid extends
 		CellTable<ClientReconciliationItem> {
 
-	private AccounterConstants constants = Accounter.constants();
+	private AccounterMessages messages = Accounter.messages();
 	private ListDataProvider<ClientReconciliationItem> dataProvider = new ListDataProvider<ClientReconciliationItem>();
 	private SelectionChangedHandler<ClientReconciliationItem> clearedTransactionCallback;
 	private ReconciliationView view;
@@ -112,13 +112,13 @@ public class ReconciliationTransactionsGrid extends
 			}
 		};
 
-		this.addColumn(date, constants.transactionDate());
-		this.addColumn(transactionID, constants.transaction());
-		this.addColumn(transaction, constants.transactionType());
-		this.addColumn(debit, constants.debit());
-		this.addColumn(credit, constants.credit());
+		this.addColumn(date, messages.transactionDate());
+		this.addColumn(transactionID, messages.transaction());
+		this.addColumn(transaction, messages.transactionType());
+		this.addColumn(debit, messages.debit());
+		this.addColumn(credit, messages.credit());
 		if (!view.isInViewMode()) {
-			this.addColumn(clearCheckbox, constants.clear());
+			this.addColumn(clearCheckbox, messages.clear());
 		}
 
 	}

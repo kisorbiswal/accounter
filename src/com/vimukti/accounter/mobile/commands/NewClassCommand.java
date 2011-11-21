@@ -23,7 +23,7 @@ public class NewClassCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new StringRequirement(CLASS_NAME, getMessages().pleaseEnter(
-				getConstants().className()), "class name", false, true));
+				getMessages().className()), "class name", false, true));
 
 	}
 

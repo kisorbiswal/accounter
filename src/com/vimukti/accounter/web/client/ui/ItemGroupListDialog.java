@@ -5,7 +5,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.company.ItemGroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
@@ -21,7 +20,6 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	ClientItemGroup itemGroup;
 
 	private GroupDialogButtonsHandler dialogButtonsHandler;
-	AccounterConstants accounterConstants = Accounter.constants();
 	List<ClientItemGroup> ItemGroups;
 	private ItemGroupDialog itemGroupDg;
 
@@ -92,7 +90,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	public void showAddEditGroupDialog(ClientItemGroup rec) {
 		itemGroup = rec;
-		itemGroupDg = new ItemGroupDialog(this, Accounter.constants()
+		itemGroupDg = new ItemGroupDialog(this, Accounter.messages()
 				.itemGroup(), "", itemGroup);
 
 		itemGroupDg.show();
@@ -117,7 +115,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.constants().name(),
+		return new String[] { Accounter.messages().name(),
 		// FinanceApplication.constants().price()
 		};
 	}
@@ -136,12 +134,12 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 			ClientItemGroup groupByName = company.getItemGroupByName(name);
 			if (!(itemGroupName.equalsIgnoreCase(name) ? true
 					: groupByName == null)) {
-				result.addError(this, accounterConstants.alreadyExist());
+				result.addError(this, messages.alreadyExist());
 			}
 		} else {
 			ClientItemGroup itemGroupByName = company.getItemGroupByName(name);
 			if (itemGroupByName != null) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, Accounter.messages()
 						.anItemGroupAlreadyExistswiththisname());
 			}
 		}

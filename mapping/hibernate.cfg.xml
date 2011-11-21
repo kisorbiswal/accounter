@@ -76,6 +76,7 @@
 		<!-- <mapping resource="mapping/finance-views.xml" /> -->
 		<mapping resource="mapping/finance-new-mapping.xml" />
 		<mapping resource="mapping/finance-new-queries.xml" />
+		<mapping resource="mapping/finance-translate-mapping.xml" />
 	
 
 

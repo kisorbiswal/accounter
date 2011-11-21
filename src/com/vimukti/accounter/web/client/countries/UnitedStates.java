@@ -38,20 +38,20 @@ public class UnitedStates extends AbstractCountryPreferences {
 	@Override
 	public OrganizationType[] getOrganizationTypes() {
 		OrganizationType[] types = {
-				new OrganizationType("", Accounter.constants()
-						.soleProprietorship(), Accounter.constants()
+				new OrganizationType("", Accounter.messages()
+						.soleProprietorship(), Accounter.messages()
 						.soleProprietorshipDesc()),
-				new OrganizationType("", Accounter.constants()
-						.partnershipOrLLP(), Accounter.constants()
+				new OrganizationType("", Accounter.messages()
+						.partnershipOrLLP(), Accounter.messages()
 						.partnershipOrLLPDesc()),
-				new OrganizationType("", Accounter.constants().LLC(), Accounter
-						.constants().LLCDesc()),
-				new OrganizationType("", Accounter.constants().corporation(),
-						Accounter.constants().corporationDesc()),
-				new OrganizationType("", Accounter.constants().sCorporation(),
-						Accounter.constants().sCorporationDesc()),
-				new OrganizationType("", Accounter.constants().nonProfit(),
-						Accounter.constants().nonProfitDesc()) };
+				new OrganizationType("", Accounter.messages().LLC(), Accounter
+						.messages().LLCDesc()),
+				new OrganizationType("", Accounter.messages().corporation(),
+						Accounter.messages().corporationDesc()),
+				new OrganizationType("", Accounter.messages().sCorporation(),
+						Accounter.messages().sCorporationDesc()),
+				new OrganizationType("", Accounter.messages().nonProfit(),
+						Accounter.messages().nonProfitDesc()) };
 		return types;
 	}
 
@@ -62,7 +62,7 @@ public class UnitedStates extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.constants().october();
+		return Accounter.messages().october();
 	}
 
 	@Override

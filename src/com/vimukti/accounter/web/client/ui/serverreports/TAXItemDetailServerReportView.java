@@ -49,10 +49,10 @@ public class TAXItemDetailServerReportView extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().type(), getConstants().date(),
-				getConstants().noDot(), getConstants().taxRate(),
-				getConstants().grossAmount(), getConstants().taxAmount(),
-				getConstants().netAmount() };
+		return new String[] { getMessages().type(), getMessages().date(),
+				getMessages().noDot(), getMessages().taxRate(),
+				getMessages().grossAmount(), getMessages().taxAmount(),
+				getMessages().netAmount() };
 	}
 
 	@Override
@@ -62,10 +62,10 @@ public class TAXItemDetailServerReportView extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().type(), getConstants().date(),
-				getConstants().noDot(), getConstants().taxRate(),
-				getConstants().grossAmount(), getConstants().taxAmount(),
-				getConstants().netAmount() };
+		return new String[] { getMessages().type(), getMessages().date(),
+				getMessages().noDot(), getMessages().taxRate(),
+				getMessages().grossAmount(), getMessages().taxAmount(),
+				getMessages().netAmount() };
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class TAXItemDetailServerReportView extends
 		if (sectionDepth == 0) {
 			this.sectionName = record.getTaxItemName();
 			this.name = record.getTaxItemName();
-			addSection(sectionName, getConstants().total(), new int[] { 5 });
+			addSection(sectionName, getMessages().total(), new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!name.equals(record.getTaxItemName())) {

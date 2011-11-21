@@ -69,30 +69,30 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 	protected void initGrid() {
 		grid = new VendorPaymentsListGrid(false);
 		grid.init();
-		grid.setViewType(Accounter.constants().notIssued());
+		grid.setViewType(Accounter.messages().notIssued());
 	}
 
 	@Override
 	public void onSuccess(ArrayList<PaymentsList> result) {
 		super.onSuccess(result);
-		grid.setViewType(Accounter.constants().all());
-		filterList(Accounter.constants().all());
+		grid.setViewType(Accounter.messages().all());
+		filterList(Accounter.messages().all());
 	}
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(Accounter.constants().currentView());
+		currentView = new SelectCombo(Accounter.messages().currentView());
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
-		listOfTypes.add(Accounter.constants().notIssued());
-		listOfTypes.add(Accounter.constants().issued());
-		listOfTypes.add(Accounter.constants().voided());
-		listOfTypes.add(Accounter.constants().all());
+		listOfTypes.add(Accounter.messages().notIssued());
+		listOfTypes.add(Accounter.messages().issued());
+		listOfTypes.add(Accounter.messages().voided());
+		listOfTypes.add(Accounter.messages().all());
 		currentView.initCombo(listOfTypes);
 		// if (UIUtils.isMSIEBrowser())
 		// currentView.setWidth("150px");
 
-		currentView.setComboItem(Accounter.constants().notIssued());
+		currentView.setComboItem(Accounter.messages().notIssued());
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

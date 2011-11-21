@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -45,7 +44,7 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return Accounter.constants().gotoBanking();
+		return messages.gotoBanking();
 	}
 
 	@Override
@@ -64,8 +63,7 @@ public class BankingPortlet extends DashBoardPortlet {
 			bankAccounts = getCompany().getActiveBankAccounts(
 					ClientAccount.TYPE_BANK);
 		}
-		Button addAccount = new Button(Accounter.messages().addBankAccount(
-				Global.get().Account().trim()));
+		Button addAccount = new Button(messages.addBankAccount());
 		addAccount.addStyleName("add account_portlet");
 		if (Accounter.getUser().canDoBanking()) {
 			body.add(addAccount);
@@ -101,23 +99,23 @@ public class BankingPortlet extends DashBoardPortlet {
 			for (final ClientAccount account : bankAccounts) {
 				HorizontalPanel hPanel = new HorizontalPanel();
 				final Label accountLabel = new Label(account.getName());
-				accountLabel.addStyleName(Accounter.constants().labelBanking());
+				accountLabel.addStyleName(messages.labelBanking());
 				accountLabel.addMouseOverHandler(new MouseOverHandler() {
 
 					@Override
 					public void onMouseOver(MouseOverEvent event) {
-						accountLabel.getElement().getStyle()
-								.setCursor(Cursor.POINTER);
-						accountLabel.getElement().getStyle()
-								.setTextDecoration(TextDecoration.UNDERLINE);
+						accountLabel.getElement().getStyle().setCursor(
+								Cursor.POINTER);
+						accountLabel.getElement().getStyle().setTextDecoration(
+								TextDecoration.UNDERLINE);
 					}
 				});
 				accountLabel.addMouseOutHandler(new MouseOutHandler() {
 
 					@Override
 					public void onMouseOut(MouseOutEvent event) {
-						accountLabel.getElement().getStyle()
-								.setTextDecoration(TextDecoration.NONE);
+						accountLabel.getElement().getStyle().setTextDecoration(
+								TextDecoration.NONE);
 					}
 				});
 				accountLabel.addClickHandler(new ClickHandler() {
@@ -132,9 +130,9 @@ public class BankingPortlet extends DashBoardPortlet {
 						account.getCurrency());
 				final String currencySymbol = currency == null ? getPrimaryCurrencySymbol()
 						: currency.getSymbol();
-				final Label amountLabel = new Label(
-						DataUtils.getAmountAsString(
-								account.getTotalBalanceInAccountCurrency(),
+				final Label amountLabel = new Label(DataUtils
+						.getAmountAsString(account
+								.getTotalBalanceInAccountCurrency(),
 								currencySymbol));
 				// amountLabel.setStyleName("tool-box");
 				amountLabel.addStyleName("label-banking");
@@ -151,9 +149,8 @@ public class BankingPortlet extends DashBoardPortlet {
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.messages()
-								.failedtogetBankaccountchartvalues(
-										Global.get().account()));
+						Accounter.showError(messages
+								.failedtogetBankaccountchartvalues());
 					}
 
 					@Override
@@ -181,9 +178,11 @@ public class BankingPortlet extends DashBoardPortlet {
 													.getText().equals(
 															account.getName())) {
 												GraphChart chart = new GraphChart();
-												body.insert(
-														chart.createBankingChart(result),
-														++i);
+												body
+														.insert(
+																chart
+																		.createBankingChart(result),
+																++i);
 											}
 										}
 									}

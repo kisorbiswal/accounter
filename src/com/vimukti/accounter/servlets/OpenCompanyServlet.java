@@ -57,7 +57,16 @@ public class OpenCompanyServlet extends BaseServlet {
 		String emailID = (String) request.getSession().getAttribute(EMAIL_ID);
 
 		if (emailID != null) {
+			Session session = HibernateUtil.openSession();
+			FinanceTool financeTool = new FinanceTool();
+			Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+			namedQuery.setParameter(BaseServlet.EMAIL_ID, emailID);
+			Client client = (Client) namedQuery.uniqueResult();
+			String language = getlocale().getISO3Language();
+			HashMap<String, String> keyAndValues = financeTool.getKeyAndValues(
+					client.getID(), language);
 
+			request.setAttribute("messages", keyAndValues);
 			Long serverCompanyID = (Long) request.getSession().getAttribute(
 					COMPANY_ID);
 			String create = (String) request.getSession().getAttribute(CREATE);
@@ -74,13 +83,12 @@ public class OpenCompanyServlet extends BaseServlet {
 			}
 			initComet(request.getSession(), serverCompanyID, emailID);
 
-			Session session = HibernateUtil.openSession();
 			try {
 				Transaction transaction = session.beginTransaction();
 				Company company = getCompany(request);
 				User user = (User) session.getNamedQuery("user.by.emailid")
-						.setParameter("company", company)
-						.setParameter("emailID", emailID).uniqueResult();
+						.setParameter("company", company).setParameter(
+								"emailID", emailID).uniqueResult();
 				if (user == null) {
 					response.sendRedirect(COMPANIES_URL);
 					return;
@@ -95,14 +103,6 @@ public class OpenCompanyServlet extends BaseServlet {
 				// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 				// response.setHeader("Location", "/Accounter.jsp");
 				
-				FinanceTool financeTool = new FinanceTool();
-				Query namedQuery = session.getNamedQuery("getClient.by.mailId");
-				namedQuery.setParameter(BaseServlet.EMAIL_ID, emailID);
-				Client client = (Client) namedQuery.uniqueResult();
-				String language = getlocale().getLanguage();
-				HashMap<String, String> keyAndValues = null;//financeTool.getKeyAndValues(client.getID(), language);
-				
-				request.setAttribute("messages", keyAndValues);
 				request.setAttribute(EMAIL_ID, user.getClient().getEmailId());
 				request.setAttribute(USER_NAME, user.getClient().getFullName());
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()

@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -46,7 +45,7 @@ public class ProfitAndLossByLocationServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		String[] headers = new String[noColumns];
-		headers[0] = getConstants().categoryNumber();
+		headers[0] = getMessages().categoryNumber();
 		if (isLocation) {
 			for (int i = 0; i < locations.size(); i++) {
 				headers[i + 1] = locations.get(i).getLocationName();
@@ -56,23 +55,23 @@ public class ProfitAndLossByLocationServerReport extends
 				headers[i + 1] = classes.get(i).getClassName();
 			}
 		}
-		headers[noColumns - 1] = getConstants().total();
+		headers[noColumns - 1] = getMessages().total();
 		return headers;
 	}
 
 	@Override
 	public String getTitle() {
 		if (!isLocation) {
-			return getConstants().profitAndLossbyClass();
+			return getMessages().profitAndLossbyClass();
 		}
-		return getConstants().profitAndLoss() + "  By  "
-				+ Accounter.messages().location(Global.get().Location());
+		return getMessages().profitAndLoss() + "  By  "
+				+ Global.get().Location();
 	}
 
 	@Override
 	public String[] getColunms() {
 		String[] headers = new String[noColumns];
-		headers[0] = getConstants().categoryNumber();
+		headers[0] = getMessages().categoryNumber();
 		if (isLocation) {
 			for (int i = 0; i < locations.size(); i++) {
 				headers[i + 1] = locations.get(i).getLocationName();
@@ -82,7 +81,7 @@ public class ProfitAndLossByLocationServerReport extends
 				headers[i + 1] = classes.get(i).getClassName();
 			}
 		}
-		headers[noColumns - 1] = getConstants().total();
+		headers[noColumns - 1] = getMessages().total();
 		return headers;
 	}
 
@@ -103,7 +102,7 @@ public class ProfitAndLossByLocationServerReport extends
 		if (this.handler == null)
 			initHandler();
 		if (sectionDepth == 0) {
-			addTypeSection("", getConstants().netProfit());
+			addTypeSection("", getMessages().netProfit());
 		}
 		addOrdinaryIncomeOrExpenseTypes(record);
 
@@ -162,41 +161,41 @@ public class ProfitAndLossByLocationServerReport extends
 
 			@Override
 			public void OnSectionAdd(Section<ProfitAndLossByLocation> section) {
-				if (section.title.equals(getConstants().grossProfit())) {
+				if (section.title.equals(getMessages().grossProfit())) {
 					section.data[0] = "";
 				}
 			}
 
 			@Override
 			public void OnSectionEnd(Section<ProfitAndLossByLocation> section) {
-				if (section.title.equals(getConstants().income())) {
+				if (section.title.equals(getMessages().income())) {
 					totalincome = Double.valueOf(section.data[noColumns - 1]
 							.toString());
 				}
-				if (section.title.equals(getConstants().costOfGoodSold())) {
+				if (section.title.equals(getMessages().costOfGoodSold())) {
 					totalCGOS = Double.valueOf(section.data[noColumns - 1]
 							.toString());
 				}
-				if (section.title.equals(getConstants().otherExpense())) {
+				if (section.title.equals(getMessages().otherExpense())) {
 					otherExpense = Double.valueOf(section.data[noColumns - 1]
 							.toString());
 				}
-				if (section.footer.equals(getConstants().grossProfit())) {
+				if (section.footer.equals(getMessages().grossProfit())) {
 					grosProft = totalincome - totalCGOS - otherExpense;
 					section.data[noColumns - 1] = grosProft;
 				}
-				if (section.title.equals(getConstants().expense())) {
+				if (section.title.equals(getMessages().expense())) {
 					totalexpese = (Double) section.data[noColumns - 1];
 				}
-				if (section.footer.equals(getConstants().netProfit())) {
+				if (section.footer.equals(getMessages().netProfit())) {
 					netIncome = grosProft - totalexpese;
 					section.data[noColumns - 1] = netIncome;
 				}
-				if (section.title.equals(getConstants().otherIncome())) {
+				if (section.title.equals(getMessages().otherIncome())) {
 					otherIncome = Double.valueOf(section.data[noColumns - 1]
 							.toString());
 				}
-				if (section.title.equals(getConstants().otherIncomeOrExpense())) {
+				if (section.title.equals(getMessages().otherIncomeOrExpense())) {
 					otherNetIncome = otherIncome - otherExpense;
 					section.data[noColumns - 1] = otherNetIncome;
 				}
@@ -271,42 +270,42 @@ public class ProfitAndLossByLocationServerReport extends
 
 		if (record.getAccountType() == ClientAccount.TYPE_INCOME
 				|| record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
-			if (!sectiontypes.contains(getConstants().grossProfit())) {
-				addTypeSection(getConstants().grossProfit(), "", getConstants()
+			if (!sectiontypes.contains(getMessages().grossProfit())) {
+				addTypeSection(getMessages().grossProfit(), "", getMessages()
 						.grossProfit());
 
 			}
 			if (record.getAccountType() == ClientAccount.TYPE_INCOME)
-				if (!sectiontypes.contains(getConstants().income())) {
+				if (!sectiontypes.contains(getMessages().income())) {
 
-					addTypeSection(getConstants().income(), getConstants()
+					addTypeSection(getMessages().income(), getMessages()
 							.incomeTotals());
 				}
 			if (record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD)
-				if (!sectiontypes.contains(getConstants().costOfGoodSold())) {
+				if (!sectiontypes.contains(getMessages().costOfGoodSold())) {
 					closeOtherSections();
-					closeSection(types.indexOf(getConstants().income()));
-					addTypeSection(getConstants().costOfGoodSold(),
-							getConstants().cogsTotal());
+					closeSection(types.indexOf(getMessages().income()));
+					addTypeSection(getMessages().costOfGoodSold(),
+							getMessages().cogsTotal());
 				}
 		}
 
 		if (record.getAccountType() == ClientAccount.TYPE_OTHER_EXPENSE) {
 
-			if (!sectiontypes.contains(getConstants().otherExpense())) {
+			if (!sectiontypes.contains(getMessages().otherExpense())) {
 				for (int i = types.size() - 2; i > 0; i--) {
 					closeSection(i);
 				}
-				addTypeSection(getConstants().otherExpense(), getConstants()
+				addTypeSection(getMessages().otherExpense(), getMessages()
 						.otherExpenseTotals());
 			}
 		}
 
 		if (record.getAccountType() == ClientAccount.TYPE_EXPENSE) {
 
-			if (!sectiontypes.contains(getConstants().expense())) {
+			if (!sectiontypes.contains(getMessages().expense())) {
 				closeAllSection();
-				addTypeSection(getConstants().expense(), getConstants()
+				addTypeSection(getMessages().expense(), getMessages()
 						.expenseTotals());
 			}
 		}
@@ -350,7 +349,7 @@ public class ProfitAndLossByLocationServerReport extends
 			}
 			addSection(record.getAccountNumber() + "-"
 					+ record.getAccountName(), record.getAccountName() + "  "
-					+ getConstants().total(), nocolumn);
+					+ getMessages().total(), nocolumn);
 			return true;
 		}
 		return false;

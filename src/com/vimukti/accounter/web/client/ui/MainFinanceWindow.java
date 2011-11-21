@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.company.ItemsAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
@@ -31,7 +32,6 @@ import com.vimukti.accounter.web.client.ui.company.PaymentsAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
-import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossByLocationAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByLocationDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByLocationSummaryAction;
@@ -50,6 +50,8 @@ public class MainFinanceWindow extends VerticalPanel {
 	private HelpItem item;
 	public Map<String, Action> actions;
 	private CometClient cometClient;
+
+	AccounterMessages messages = Accounter.messages();
 
 	public MainFinanceWindow() {
 		initializeActionsWithTokens();
@@ -81,12 +83,12 @@ public class MainFinanceWindow extends VerticalPanel {
 		add(menubar);
 
 		add(viewManager);
-		Label help = new Label(Accounter.constants().helpLinks());
+		Label help = new Label(messages.helpLinks());
 		help.addStyleName("down-panel");
 		if (item == null) {
 			item = new HelpItem();
 		}
-		addStyleName(Accounter.constants().financeWindow());
+		addStyleName(messages.financeWindow());
 
 		if (UIUtils.isMSIEBrowser()) {
 			this.getElement().getStyle().setPaddingTop(0, Unit.PX);
@@ -271,8 +273,7 @@ public class MainFinanceWindow extends VerticalPanel {
 				AccounterAsyncCallback<T> callback = new AccounterAsyncCallback<T>() {
 
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
-								.unableToshowtheview());
+						Accounter.showError(messages.unableToshowtheview());
 					}
 
 					public void onResultSuccess(T result) {
@@ -387,19 +388,19 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(
 				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
-						Accounter.constants().newQuote()).getHistoryToken(),
+						messages.newQuote()).getHistoryToken(),
 				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
-						Accounter.constants().newQuote()));
+						messages.newQuote()));
 		actions.put(
 				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
-						Accounter.constants().newCharge()).getHistoryToken(),
-				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
-						Accounter.constants().newCharge()));
+						messages.newCharge()).getHistoryToken(), ActionFactory
+						.getNewQuoteAction(ClientEstimate.CHARGES,
+								messages.newCharge()));
 		actions.put(
 				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS,
-						Accounter.constants().newCredit()).getHistoryToken(),
-				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS,
-						Accounter.constants().newCredit()));
+						messages.newCredit()).getHistoryToken(), ActionFactory
+						.getNewQuoteAction(ClientEstimate.CREDITS,
+								messages.newCredit()));
 
 		actions.put(ActionFactory.getNewInvoiceAction().getHistoryToken(),
 				ActionFactory.getNewInvoiceAction());
@@ -421,19 +422,19 @@ public class MainFinanceWindow extends VerticalPanel {
 		// actions.put(ActionFactory.getItemsAction().getHistoryToken(),
 		// ActionFactory.getItemsAction());
 		actions.put(
-				ActionFactory.getQuotesAction(Accounter.constants().quotes(),
+				ActionFactory.getQuotesAction(messages.quotes(),
 						ClientEstimate.QUOTES).getHistoryToken(), ActionFactory
-						.getQuotesAction(Accounter.constants().quotes(),
+						.getQuotesAction(messages.quotes(),
 								ClientEstimate.QUOTES));
 		actions.put(
-				ActionFactory.getQuotesAction(Accounter.constants().Charges(),
+				ActionFactory.getQuotesAction(messages.Charges(),
 						ClientEstimate.CHARGES).getHistoryToken(),
-				ActionFactory.getQuotesAction(Accounter.constants().Charges(),
+				ActionFactory.getQuotesAction(messages.Charges(),
 						ClientEstimate.CHARGES));
 		actions.put(
-				ActionFactory.getQuotesAction(Accounter.constants().credits(),
+				ActionFactory.getQuotesAction(messages.credits(),
 						ClientEstimate.CREDITS).getHistoryToken(),
-				ActionFactory.getQuotesAction(Accounter.constants().credits(),
+				ActionFactory.getQuotesAction(messages.credits(),
 						ClientEstimate.CREDITS));
 		actions.put(ActionFactory.getInvoicesAction(null).getHistoryToken(),
 				ActionFactory.getInvoicesAction(null));
@@ -611,15 +612,15 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put("bankAccounts",
 				ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK));
 		actions.put("cashExpenses",
-				ActionFactory.getExpensesAction(Accounter.constants().cash()));
-		actions.put("creditCardExpenses", ActionFactory
-				.getExpensesAction(Accounter.constants().creditCard()));
-		actions.put("employeeExpenses", ActionFactory
-				.getExpensesAction(Accounter.constants().employee()));
+				ActionFactory.getExpensesAction(messages.cash()));
+		actions.put("creditCardExpenses",
+				ActionFactory.getExpensesAction(messages.creditCard()));
+		actions.put("employeeExpenses",
+				ActionFactory.getExpensesAction(messages.employee()));
 		actions.put(ActionFactory.getAccountRegisterAction().getHistoryToken(),
 				ActionFactory.getAccountRegisterAction());
 		actions.put("overDueInvoices",
-				ActionFactory.getInvoicesAction(InvoiceListView.OVER_DUE));
+				ActionFactory.getInvoicesAction(Accounter.messages().overDue()));
 		actions.put(ActionFactory.getUserDetailsAction().getHistoryToken(),
 				ActionFactory.getUserDetailsAction());
 		actions.put(ActionFactory.getPrepare1099MISCAction().getHistoryToken(),

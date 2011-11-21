@@ -45,13 +45,13 @@ public class ReconcillationHistoryCommand extends AbstractCommand {
 		}
 
 		Result makeResult = context.makeResult();
-		makeResult.add(getMessages().readyToCreate(getConstants().account()));
+		makeResult.add(getMessages().readyToCreate(getMessages().account()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 		makeResult.add(actions);
 
-		result = accountRequirement(context, list, BANKACCOUNT, getConstants()
+		result = accountRequirement(context, list, BANKACCOUNT, getMessages()
 				.bankAccount(), new ListFilter<Account>() {
 
 			@Override
@@ -80,7 +80,7 @@ public class ReconcillationHistoryCommand extends AbstractCommand {
 	private Result getReconcillationHistory(Context context) {
 		Result result = context.makeResult();
 		ResultList accountsList = new ResultList("reconlist");
-		result.add(getConstants().ReconciliationsList());
+		result.add(getMessages().ReconciliationsList());
 		List<ClientReconciliation> reconciliationsByBankAccountID = null;
 		ClientAccount bankAccouont = (ClientAccount) get(BANKACCOUNT)
 				.getValue();
@@ -108,11 +108,11 @@ public class ReconcillationHistoryCommand extends AbstractCommand {
 	private Record createReconcillationRecord(ClientReconciliation recon) {
 
 		Record rec = new Record(recon);
-		rec.add("", getConstants().ReconciliationDate());
+		rec.add("", getMessages().ReconciliationDate());
 		rec.add("", recon.getReconcilationDate());
-		rec.add("", getConstants().openingBalance());
+		rec.add("", getMessages().openingBalance());
 		rec.add("", recon.getOpeningBalance());
-		rec.add("", getConstants().ClosingBalance());
+		rec.add("", getMessages().ClosingBalance());
 		rec.add("", recon.getClosingBalance());
 		return rec;
 

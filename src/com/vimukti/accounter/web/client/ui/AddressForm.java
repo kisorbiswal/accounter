@@ -34,16 +34,16 @@ public class AddressForm extends DynamicForm {
 
 	public AddressForm(Set<ClientAddress> addresses) {
 
-		Label l1 = new Label(Accounter.constants().enterAddress());
+		Label l1 = new Label(Accounter.messages().enterAddress());
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		setAddresses(addresses);
 
-		businessSelect = new SelectCombo(Accounter.constants().address());
+		businessSelect = new SelectCombo(Accounter.messages().address());
 		businessSelect.setHelpInformation(true);
 		// businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
-				Accounter.constants().gwtListBox());
+				Accounter.messages().gwtListBox());
 		businessSelect.initCombo(new ClientAddress().getAddressTypes());
 
 		businessSelect
@@ -114,7 +114,7 @@ public class AddressForm extends DynamicForm {
 			addrArea.setValue(toToSet);
 		} else
 			// businessSelect.setDefaultToFirstOption(Boolean.TRUE);
-			setGroupTitle(Accounter.constants().addresses());
+			setGroupTitle(Accounter.messages().addresses());
 		setNumCols(2);
 		setFields(businessSelect, addrArea);
 	}

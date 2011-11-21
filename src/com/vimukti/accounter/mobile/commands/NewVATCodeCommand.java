@@ -44,18 +44,18 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 				"Tax code name"), "Tax code", false, true));
 
 		list.add(new StringRequirement(DESCRIPTION, getMessages().pleaseEnter(
-				getConstants().taxCode()), "Descripiton", true, true));
+				getMessages().taxCode()), "Descripiton", true, true));
 
 		list.add(new BooleanRequirement(IS_TAXABLE, true) {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().taxable();
+				return getMessages().taxable();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().taxExempt();
+				return getMessages().taxExempt();
 			}
 		});
 
@@ -63,17 +63,17 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().active();
+				return getMessages().active();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().inActive();
+				return getMessages().inActive();
 			}
 		});
 
 		list.add(new ListRequirement<TAXItemGroup>(VATITEM_FOR_SALES,
-				getMessages().pleaseSelect(getConstants().taxItemForSales()),
+				getMessages().pleaseSelect(getMessages().taxItemForSales()),
 				"Vat item or Group for Sales", true, true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -89,7 +89,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().vatItemsList());
+						getMessages().vatItemsList());
 			}
 
 			@Override
@@ -118,7 +118,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(
-						getConstants().taxItemForSales());
+						getMessages().taxItemForSales());
 			}
 
 			@Override
@@ -132,9 +132,9 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ListRequirement<TAXItemGroup>(VATITEM_FOR_PURCHASE,
-				getMessages()
-						.pleaseSelect(getConstants().taxItemForPurchases()),
+		list.add(new ListRequirement<TAXItemGroup>(
+				VATITEM_FOR_PURCHASE,
+				getMessages().pleaseSelect(getMessages().taxItemForPurchases()),
 				"Vat item or Group for Purchases", false, true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -180,7 +180,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(
-						getConstants().taxItemForPurchases());
+						getMessages().taxItemForPurchases());
 			}
 
 			@Override

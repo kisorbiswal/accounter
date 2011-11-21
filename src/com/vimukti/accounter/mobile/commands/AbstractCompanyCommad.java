@@ -214,13 +214,13 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 	}
 
 	protected List<String> getFiscalYearMonths() {
-		String[] names = new String[] { getConstants().january(),
-				getConstants().february(), getConstants().march(),
-				getConstants().april(), getConstants().may(),
-				getConstants().june(), getConstants().july(),
-				getConstants().august(), getConstants().september(),
-				getConstants().october(), getConstants().november(),
-				getConstants().december() };
+		String[] names = new String[] { getMessages().january(),
+				getMessages().february(), getMessages().march(),
+				getMessages().april(), getMessages().may(),
+				getMessages().june(), getMessages().july(),
+				getMessages().august(), getMessages().september(),
+				getMessages().october(), getMessages().november(),
+				getMessages().december() };
 		List<String> fiscalYearMonths = new ArrayList<String>();
 		for (int i = 0; i < names.length; i++) {
 			fiscalYearMonths.add(names[i]);
@@ -230,42 +230,42 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 
 	protected List<String> getCustomerTerminologies() {
 		List<String> customerTerms = new ArrayList<String>();
-		customerTerms.add(getConstants().Customer());
-		customerTerms.add(getConstants().Client());
-		customerTerms.add(getConstants().Tenant());
-		customerTerms.add(getConstants().Donar());
-		customerTerms.add(getConstants().Guest());
-		customerTerms.add(getConstants().Member());
-		customerTerms.add(getConstants().Patient());
+		customerTerms.add(getMessages().Customer());
+		customerTerms.add(getMessages().Client());
+		customerTerms.add(getMessages().Tenant());
+		customerTerms.add(getMessages().Donar());
+		customerTerms.add(getMessages().Guest());
+		customerTerms.add(getMessages().Member());
+		customerTerms.add(getMessages().Patient());
 		return customerTerms;
 	}
 
 	protected List<String> getSupplierTerminologies() {
 		List<String> supplierTerms = new ArrayList<String>();
-		supplierTerms.add(getConstants().Supplier());
-		supplierTerms.add(getConstants().Vendor());
+		supplierTerms.add(getMessages().Supplier());
+		supplierTerms.add(getMessages().Vendor());
 		return supplierTerms;
 	}
 
 	protected List<String> getAccountTerminologies() {
 		List<String> accountTerms = new ArrayList<String>();
-		accountTerms.add(getConstants().Account());
-		accountTerms.add(getConstants().Ledger());
-		accountTerms.add(getConstants().Category());
+		accountTerms.add(getMessages().Account());
+		accountTerms.add(getMessages().Ledger());
+		accountTerms.add(getMessages().Category());
 		return accountTerms;
 	}
 
 	protected List<String> getOrganizationTypes() {
 		List<String> orgTypes = new ArrayList<String>();
-		orgTypes.add(getConstants().soleProprietorship());
-		orgTypes.add(getConstants().partnershipOrLLP());
-		orgTypes.add(getConstants().soleProprietorship());
-		orgTypes.add(getConstants().partnershipOrLLP());
-		orgTypes.add(getConstants().LLC());
-		orgTypes.add(getConstants().corporation());
-		orgTypes.add(getConstants().sCorporation());
-		orgTypes.add(getConstants().nonProfit());
-		orgTypes.add(getConstants().otherNone());
+		orgTypes.add(getMessages().soleProprietorship());
+		orgTypes.add(getMessages().partnershipOrLLP());
+		orgTypes.add(getMessages().soleProprietorship());
+		orgTypes.add(getMessages().partnershipOrLLP());
+		orgTypes.add(getMessages().LLC());
+		orgTypes.add(getMessages().corporation());
+		orgTypes.add(getMessages().sCorporation());
+		orgTypes.add(getMessages().nonProfit());
+		orgTypes.add(getMessages().otherNone());
 		return orgTypes;
 	}
 

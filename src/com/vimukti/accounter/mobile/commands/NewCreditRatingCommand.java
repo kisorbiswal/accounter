@@ -26,7 +26,7 @@ public class NewCreditRatingCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new NameRequirement(CREDIT_RATING_NAME, getMessages()
-				.pleaseEnter(getConstants().creditRatingName()), getConstants()
+				.pleaseEnter(getMessages().creditRatingName()), getMessages()
 				.creditRatingName(), false, true));
 
 	}
@@ -42,21 +42,21 @@ public class NewCreditRatingCommand extends NewAbstractCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return creditRating.getID() == 0 ? getMessages().readyToCreate(
-				getConstants().creditRating()) : getMessages().readyToUpdate(
-				getConstants().creditRating());
+				getMessages().creditRating()) : getMessages().readyToUpdate(
+				getMessages().creditRating());
 	}
 
 	@Override
 	public String getSuccessMessage() {
 		return creditRating.getID() == 0 ? getMessages().createSuccessfully(
-				getConstants().creditRating())
+				getMessages().creditRating())
 				: "Credit rating list updated succesfully";
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
 		return creditRating.getID() == 0 ? getMessages().creating(
-				getConstants().creditRating())
+				getMessages().creditRating())
 				: "Update credit rating command activated";
 	}
 

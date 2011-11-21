@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -54,8 +53,6 @@ public class CustomerCreditsAndPaymentsDialiog extends
 	public Double totalBalances = 0.0D;
 	public Double totalAmountToUse = 0.0D;
 
-	private AccounterConstants customerConstants = Accounter.constants();
-
 	public ClientTransactionReceivePayment record;
 
 	public boolean okClicked;
@@ -80,9 +77,9 @@ public class CustomerCreditsAndPaymentsDialiog extends
 	public CustomerCreditsAndPaymentsDialiog(ClientCustomer customer,
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionReceivePayment record) {
-		super(Accounter.constants().applyCreditsAndPaymentsFor(),
+		super(Accounter.messages().applyCreditsAndPaymentsFor(),
 		// + (customer != null ? customer.getName() : ""),
-				Accounter.constants().applyCreditsandPayments());
+				Accounter.messages().applyCreditsandPayments());
 		this.customer = customer;
 		this.canEdit = canEdit;
 		updatedCreditsAndPayments = updatedCustomerCreditsAndPayments;
@@ -96,9 +93,9 @@ public class CustomerCreditsAndPaymentsDialiog extends
 	public CustomerCreditsAndPaymentsDialiog(ClientVendor venddor,
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionPayBill record) {
-		super(Accounter.constants().applyCreditsAndPaymentsFor()
+		super(Accounter.messages().applyCreditsAndPaymentsFor()
 				+ (venddor != null ? venddor.getName() : ""), Accounter
-				.constants().applyCreditsandPayments());
+				.messages().applyCreditsandPayments());
 		this.vendor = venddor;
 		this.canEdit = canEdit;
 		updatedCreditsAndPayments = updatedCustomerCreditsAndPayments;
@@ -115,7 +112,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 			int key,
 			LinkedHashMap<String, List<ClientTransactionCreditsAndPayments>> creditsAndPaymentsMap,
 			IGenericCallback<String> callback) {
-		super(Accounter.constants().applyCreditsAndPaymentsFor(), "");
+		super(Accounter.messages().applyCreditsAndPaymentsFor(), "");
 		this.key = key;
 		// this.creditsAndPaymentsMap = creditsAndPaymentsMap;
 
@@ -199,7 +196,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 			grid.removeAllRecords();
 			grid.setRecords(creditsAndPayments);
 		} else {
-			grid.addEmptyMessage(Accounter.constants()
+			grid.addEmptyMessage(Accounter.messages()
 					.therearenocreditstoshow());
 		}
 		for (ClientCreditsAndPayments cr : creditsAndPayments) {
@@ -233,7 +230,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 		mainPanel.setSpacing(5);
 
 		if (canEdit) {
-			amtDueText = new AmountField(customerConstants.amountDue(), this,getBaseCurrency());
+			amtDueText = new AmountField(messages.amountDue(), this,getBaseCurrency());
 			amtDueText.setColSpan(1);
 			if (transactionPaybill != null)
 				amtDueText.setValue(amountAsString(transactionPaybill
@@ -243,12 +240,12 @@ public class CustomerCreditsAndPaymentsDialiog extends
 			amtDueText.setDisabled(true);
 		}
 
-		totCredAmtText = new AmountField(customerConstants.totalCreditMemo(),
+		totCredAmtText = new AmountField(messages.totalCreditMemo(),
 				this,getBaseCurrency());
 		totCredAmtText.setColSpan(1);
 		totCredAmtText.setDisabled(true);
 
-		cashDiscText = new AmountField(customerConstants.cashDiscount(), this,getBaseCurrency());
+		cashDiscText = new AmountField(messages.cashDiscount(), this,getBaseCurrency());
 		cashDiscText.setColSpan(1);
 		if (transactionPaybill != null)
 			cashDiscText.setValue(amountAsString(transactionPaybill
@@ -257,11 +254,11 @@ public class CustomerCreditsAndPaymentsDialiog extends
 			cashDiscText.setValue(amountAsString(record.getCashDiscount()));
 		cashDiscText.setDisabled(true);
 
-		totBalText = new AmountField(customerConstants.totalBalance(), this,getBaseCurrency());
+		totBalText = new AmountField(messages.totalBalance(), this,getBaseCurrency());
 		totBalText.setColSpan(1);
 		totBalText.setDisabled(true);
 
-		adjPayText = new AmountField(customerConstants.adjustPayment(), this,getBaseCurrency());
+		adjPayText = new AmountField(messages.adjustPayment(), this,getBaseCurrency());
 		adjPayText.setColSpan(1);
 		adjPayText.setDisabled(true);
 
@@ -283,7 +280,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 			else if (record != null)
 				adjPayText.setValue(amountAsString(record.getPayment()));
 		}
-		totAmtUseText = new AmountField(customerConstants.totalAmountToUse(),
+		totAmtUseText = new AmountField(messages.totalAmountToUse(),
 				this,getBaseCurrency());
 		totAmtUseText.setColSpan(1);
 		totAmtUseText.setDisabled(true);
@@ -308,9 +305,9 @@ public class CustomerCreditsAndPaymentsDialiog extends
 		grid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 
 		if (canEdit) {
-			okbtn.setTitle(customerConstants.adjust());
+			okbtn.setTitle(messages.adjust());
 		} else {
-			cancelBtn.setTitle(customerConstants.close());
+			cancelBtn.setTitle(messages.close());
 			okbtn.setVisible(false);
 		}
 
@@ -326,7 +323,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 
 	// public void validateTransaction() throws Exception {
 	// if (!grid.validateGrid()) {
-	// throw new Exception(Accounter.constants()
+	// throw new Exception(messages
 	// .selectatleastSelectRecord());
 	// }
 	// }

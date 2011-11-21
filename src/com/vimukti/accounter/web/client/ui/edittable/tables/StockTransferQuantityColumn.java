@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.edittable.QuantityColumn;
 import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
-import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 import com.vimukti.accounter.web.client.ui.settings.UnitCombo;
 
 public class StockTransferQuantityColumn extends
@@ -64,8 +63,8 @@ public class StockTransferQuantityColumn extends
 		}
 		popup.clear();
 		FlexTable table = new FlexTable();
-		Label valueLabel = new Label(Accounter.constants().value());
-		Label unitLabel = new Label(Accounter.constants().unit());
+		Label valueLabel = new Label(Accounter.messages().value());
+		Label unitLabel = new Label(Accounter.messages().unit());
 
 		ClientUnit unit = Accounter.getCompany().getUnitById(
 				row.getQuantity().getUnit());
@@ -149,7 +148,7 @@ public class StockTransferQuantityColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().transferQuantity();
+		return Accounter.messages().transferQuantity();
 	}
 
 }

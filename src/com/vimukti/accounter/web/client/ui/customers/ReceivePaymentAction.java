@@ -20,7 +20,7 @@ public class ReceivePaymentAction extends Action {
 	protected ReceivePaymentView view;
 
 	public ReceivePaymentAction(String text) {
-		super(Accounter.constants().newReceivePayment());
+		super(Accounter.messages().newReceivePayment());
 		this.catagory = Global.get().Customer();
 	}
 

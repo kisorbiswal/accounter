@@ -57,18 +57,18 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new NameRequirement(NAME, getMessages().pleaseEnter(
-				getConstants().itemName()), getConstants().name(), false, true));
+				getMessages().itemName()), getMessages().name(), false, true));
 
 		list.add(new BooleanRequirement(I_SELL_THIS, true) {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().isellthisservice();
+				return getMessages().isellthisservice();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().idontSellThisService();
+				return getMessages().idontSellThisService();
 			}
 		});
 
@@ -76,17 +76,17 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().iBuyThisItem();
+				return getMessages().iBuyThisItem();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().idontBuyThisService();
+				return getMessages().idontBuyThisService();
 			}
 		});
 
 		list.add(new NameRequirement(SALES_DESCRIPTION, getMessages()
-				.pleaseEnter(getConstants().salesDescription()), getConstants()
+				.pleaseEnter(getMessages().salesDescription()), getMessages()
 				.salesDescription(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -99,8 +99,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		});
 
 		list.add(new AmountRequirement(SALES_PRICE, getMessages().pleaseEnter(
-				getConstants().salesPrice()), getConstants().salesPrice(),
-				true, true) {
+				getMessages().salesPrice()), getMessages().salesPrice(), true,
+				true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -112,10 +112,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		});
 
 		list.add(new AccountRequirement(INCOME_ACCOUNT, getMessages()
-				.pleaseEnter(
-						getMessages().incomeAccount(Global.get().Account())),
-				getMessages().incomeAccount(Global.get().Account()), false,
-				true, null) {
+				.pleaseEnter(getMessages().incomeAccount()), getMessages()
+				.incomeAccount(), false, true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -161,7 +159,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Account());
+				return getMessages().youDontHaveAny(getMessages().Account());
 			}
 
 			@Override
@@ -189,12 +187,12 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().taxable();
+				return getMessages().taxable();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().taxExempt();
+				return getMessages().taxExempt();
 			}
 		});
 
@@ -211,21 +209,21 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().thisIsCommisionItem();
+				return getMessages().thisIsCommisionItem();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().thisIsNoCommisionItem();
+				return getMessages().thisIsNoCommisionItem();
 			}
 		});
 
 		list.add(new AmountRequirement(STANDARD_COST, getMessages()
-				.pleaseEnter(getConstants().standardCost()), getConstants()
+				.pleaseEnter(getMessages().standardCost()), getMessages()
 				.standardCost(), true, true));
 
 		list.add(new ItemGroupRequirement(ITEM_GROUP,
-				"Enter the item group name", getConstants().itemGroup(), true,
+				"Enter the item group name", getMessages().itemGroup(), true,
 				true, null) {
 
 			@Override
@@ -246,7 +244,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		});
 
 		list.add(new TaxCodeRequirement(TAXCODE, "Enter the Tax Code name",
-				getConstants().taxCode(), false, true, null) {
+				getMessages().taxCode(), false, true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -274,18 +272,18 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().active();
+				return getMessages().active();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().inActive();
+				return getMessages().inActive();
 			}
 		});
 
 		list.add(new NameRequirement(PURCHASE_DESCRIPTION, getMessages()
-				.pleaseEnter(getConstants().purchaseDescription()),
-				getConstants().purchaseDescription(), true, true) {
+				.pleaseEnter(getMessages().purchaseDescription()),
+				getMessages().purchaseDescription(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -297,7 +295,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		});
 
 		list.add(new AmountRequirement(PURCHASE_PRICE, getMessages()
-				.pleaseEnter(getConstants().purchasePrice()), getConstants()
+				.pleaseEnter(getMessages().purchasePrice()), getMessages()
 				.purchasePrice(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -310,10 +308,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		});
 
 		list.add(new AccountRequirement(EXPENSE_ACCOUNT, getMessages()
-				.pleaseEnter(
-						getMessages().expenseAccount(Global.get().Account())),
-				getMessages().expenseAccount(Global.get().Account()), false,
-				true, null) {
+				.pleaseEnter(getMessages().expenseAccount()), getMessages()
+				.expenseAccount(), false, true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -350,7 +346,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Account());
+				return getMessages().youDontHaveAny(getMessages().Account());
 			}
 
 			@Override
@@ -487,15 +483,16 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return getItem().getID() == 0 ? getMessages().readyToCreate(
-				getConstants().item())
+				getMessages().item())
 				: "Item is ready to update with following details";
+
 	}
 
 	@Override
 	public String getSuccessMessage() {
 		return getItem().getID() == 0 ? getMessages().createSuccessfully(
-				getConstants().item()) : getMessages().updateSuccessfully(
-				getConstants().item());
+				getMessages().item()) : getMessages().updateSuccessfully(
+				getMessages().item());
 	}
 
 	@Override
@@ -517,8 +514,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 				addFirstMessage(context, "Select an Item to update.");
 				return "Items List";
 			}
-			Item customerByName = CommandUtils.getItemByName(
-					context.getCompany(), string);
+			Item customerByName = CommandUtils.getItemByName(context
+					.getCompany(), string);
 			if (customerByName == null) {
 				addFirstMessage(context, "Select an Item to update.");
 				return "Items List " + string;

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
@@ -57,7 +56,7 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().financialYearToDate();
+		return messages.financialYearToDate();
 	}
 
 	// @Override
@@ -69,15 +68,15 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", Accounter.constants().number(),
-				Accounter.constants().date(), Accounter.constants().name(),
-				Accounter.messages().payeeName(Global.get().Account()),
-				Accounter.constants().amount() };
+		return new String[] { "", messages.number(),
+				messages.date(), messages.name(),
+				messages.accountName(),
+				messages.amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().depositDetail();
+		return messages.depositDetail();
 	}
 
 	@Override

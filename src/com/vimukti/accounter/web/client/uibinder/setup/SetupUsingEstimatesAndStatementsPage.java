@@ -48,19 +48,19 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants
+		headerLabel.setText(messages
 				.wanttoCreateEstimatesInAccounter());
-		estimatesYes.setText(accounterConstants.yes());
-		estimatesNo.setText(accounterConstants.no());
+		estimatesYes.setText(messages.yes());
+		estimatesNo.setText(messages.no());
 		preferences.setDoyouwantEstimates(true);
 		/*
 		 * billingStatements.setHTML(accounterMessages.statementDescription());
-		 * someExampleText.setText(accounterConstants.statementSomeExample());
+		 * someExampleText.setText(messages.statementSomeExample());
 		 * someExampleList.setHTML(accounterMessages.statementlist());
 		 * billingQuestion.setText(accounterMessages.statementQuestion());
-		 * statementYes.setText(accounterConstants.yes());
-		 * statementsNo.setText(accounterConstants.no());
-		 * stmt_header.setText(accounterConstants.doyouWantToUseStatements());
+		 * statementYes.setText(messages.yes());
+		 * statementsNo.setText(messages.no());
+		 * stmt_header.setText(messages.doyouWantToUseStatements());
 		 */
 	}
 
@@ -89,17 +89,17 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	protected boolean validate() {
 		if ((!(estimatesYes.getValue() || estimatesNo.getValue()))
 		/* && (!(statementYes.getValue() || statementsNo.getValue())) */) {
-			Accounter.showError(accounterMessages
-					.pleaseEnter(accounterConstants.details()));
+			Accounter.showError(messages
+					.pleaseEnter(messages.details()));
 			return false;
 		} else if (!(estimatesYes.getValue() || estimatesNo.getValue())) {
-			Accounter.showError(accounterMessages
-					.pleaseEnter(accounterConstants
+			Accounter.showError(messages
+					.pleaseEnter(messages
 							.wanttoCreateEstimatesInAccounter()));
 			return false;
 		}/*
 		 * else if (!(statementYes.getValue() || statementsNo.getValue())) {
-		 * Accounter .showError(accounterMessages.pleaseEnter(accounterConstants
+		 * Accounter .showError(accounterMessages.pleaseEnter(messages
 		 * .doyouWantToUseStatements())); return false; }
 		 */else {
 			return true;
@@ -108,6 +108,6 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.setEstimatesAndStatements();
+		return messages.setEstimatesAndStatements();
 	}
 }

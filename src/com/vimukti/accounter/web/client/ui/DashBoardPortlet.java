@@ -11,10 +11,12 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.widgets.WorkbenchPanel;
 
 public abstract class DashBoardPortlet extends WorkbenchPanel {
 
+	protected AccounterMessages messages = Accounter.messages();
 	private ClientCompanyPreferences preferences = Global.get().preferences();
 	private HTML title = new HTML();
 	private String name;

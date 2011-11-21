@@ -70,9 +70,9 @@ public class WareHouseTransferGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "", Accounter.constants().name(),
-				Accounter.constants().quantity(),
-				Accounter.constants().comment(), Accounter.constants().delete() };
+		return new String[] { "", Accounter.messages().name(),
+				Accounter.messages().quantity(),
+				Accounter.messages().comment(), Accounter.messages().delete() };
 	}
 
 	public void setView(WareHouseTransferView view) {

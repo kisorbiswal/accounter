@@ -36,7 +36,7 @@ public class WarehouseTransferListView extends
 
 					@Override
 					public void onException(AccounterException exception) {
-						grid.addEmptyMessage(constants.noRecordsToShow());
+						grid.addEmptyMessage(messages.noRecordsToShow());
 					}
 
 					@Override
@@ -46,7 +46,7 @@ public class WarehouseTransferListView extends
 						if (result != null && !result.isEmpty()) {
 							grid.addRecords(result);
 						} else {
-							grid.addEmptyMessage(constants.noRecordsToShow());
+							grid.addEmptyMessage(messages.noRecordsToShow());
 						}
 					}
 				});
@@ -61,7 +61,7 @@ public class WarehouseTransferListView extends
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().warehouseTransferList();
+		return Accounter.messages().warehouseTransferList();
 	}
 
 	@Override
@@ -71,12 +71,12 @@ public class WarehouseTransferListView extends
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().addNewWarehouseTransfer();
+		return Accounter.messages().addNewWarehouseTransfer();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().warehouseTransferList();
+		return Accounter.messages().warehouseTransferList();
 	}
 
 	@Override

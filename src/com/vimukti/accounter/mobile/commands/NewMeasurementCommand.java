@@ -105,7 +105,7 @@ public class NewMeasurementCommand extends NewAbstractCommand {
 				true));
 
 		list.add(new MeasurementUnitRequirement(UNIT, getMessages()
-				.pleaseSelect(getConstants().unit()), getConstants().unit(),
+				.pleaseSelect(getMessages().unit()), getMessages().unit(),
 				true, false, true) {
 
 			@Override

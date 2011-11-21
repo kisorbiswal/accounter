@@ -14,10 +14,10 @@ import com.vimukti.accounter.web.client.ui.grids.RecurringsListGrid;
 public class RecurringTransactionsListView extends
 		BaseListView<ClientRecurringTransaction> {
 
-	private final static String ALL = Accounter.constants().all();
-	private final static String SCHEDULES = Accounter.constants().schedule();
-	private final static String REMAINDERS = Accounter.constants().remainder();
-	private final static String TEMPLATES = Accounter.constants().noneJustTemplate();
+	private final static String ALL = Accounter.messages().all();
+	private final static String SCHEDULES = Accounter.messages().schedule();
+	private final static String REMAINDERS = Accounter.messages().remainder();
+	private final static String TEMPLATES = Accounter.messages().noneJustTemplate();
 
 	private String viewType;
 
@@ -51,7 +51,7 @@ public class RecurringTransactionsListView extends
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants().currentView());
+		viewSelect = new SelectCombo(Accounter.messages().currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(ALL);

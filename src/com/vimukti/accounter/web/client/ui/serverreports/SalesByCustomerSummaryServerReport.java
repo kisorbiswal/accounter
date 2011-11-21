@@ -42,7 +42,7 @@ public class SalesByCustomerSummaryServerReport extends
 	public String[] getColunms() {
 		return new String[] { messages.payeeName(Global.get().Customer()),
 				// FinanceApplication.constants().customerGroup(),
-				constants.amount() };
+				messages.amount() };
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class SalesByCustomerSummaryServerReport extends
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
-			addSection("", constants.total(), new int[] { 1 });
+			addSection("", messages.total(), new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -130,7 +130,7 @@ public class SalesByCustomerSummaryServerReport extends
 	public String[] getDynamicHeaders() {
 		return new String[] { messages.payeeName(Global.get().customer()),
 				// FinanceApplication.constants().customerGroup(),
-				constants.amount() };
+				messages.amount() };
 	}
 
 }

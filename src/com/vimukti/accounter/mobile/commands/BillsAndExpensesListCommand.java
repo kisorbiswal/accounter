@@ -45,7 +45,7 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 
-		get(VIEW_BY).setDefaultValue(getConstants().open());
+		get(VIEW_BY).setDefaultValue(getMessages().open());
 
 	}
 
@@ -69,10 +69,10 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().open());
-				list.add(getConstants().voided());
-				list.add(getConstants().overDue());
-				list.add(getConstants().all());
+				list.add(getMessages().open());
+				list.add(getMessages().voided());
+				list.add(getMessages().overDue());
+				list.add(getMessages().all());
 				return list;
 			}
 		});
@@ -87,12 +87,12 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().bills();
+				return getMessages().bills();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getConstants().bills());
+				return getMessages().youDontHaveAny(getMessages().bills());
 			}
 
 			@Override
@@ -137,7 +137,7 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
-		if (viewBY.equalsIgnoreCase(getConstants().open())) {
+		if (viewBY.equalsIgnoreCase(getMessages().open())) {
 
 			for (BillsList rec : allRecords) {
 				if ((rec.getType() == ClientTransaction.TYPE_ENTER_BILL || rec
@@ -148,14 +148,14 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 				}
 			}
 
-		} else if (viewBY.equalsIgnoreCase(getConstants().voided())) {
+		} else if (viewBY.equalsIgnoreCase(getMessages().voided())) {
 			for (BillsList rec : allRecords) {
 				if (rec.isVoided() && !rec.isDeleted()) {
 					list.add(rec);
 				}
 			}
 
-		} else if (viewBY.equalsIgnoreCase(getConstants().overDue())) {
+		} else if (viewBY.equalsIgnoreCase(getMessages().overDue())) {
 			for (BillsList rec : allRecords) {
 				if (rec.getType() == ClientTransaction.TYPE_ENTER_BILL
 						&& new ClientFinanceDate().after(rec.getDueDate())
@@ -165,7 +165,7 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 			}
 
 		}
-		if (viewBY.equalsIgnoreCase(getConstants().all())) {
+		if (viewBY.equalsIgnoreCase(getMessages().all())) {
 			list.addAll(allRecords);
 		}
 		return list;

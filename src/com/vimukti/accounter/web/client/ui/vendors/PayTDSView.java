@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -54,8 +53,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 	private ClientFinanceDate dueDateOnOrBefore;
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
-	private AccounterConstants companyConstants = Accounter.constants();
-	AccounterConstants accounterConstants = Accounter.constants();
+	
 
 	public PayTDSView(int transactionType) {
 		super(ClientTransaction.TYPE_PAY_TAX);
@@ -81,18 +79,18 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .transaction()));
 
-		Label lab = new Label(Accounter.constants().payTDS());
+		Label lab = new Label(Accounter.messages().payTDS());
 		lab.removeStyleName("gwt-Label");
-		lab.setStyleName(Accounter.constants().labelTitle());
+		lab.setStyleName(Accounter.messages().labelTitle());
 		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
 		transNumber = createTransactionNumberItem();
-		transNumber.setTitle(Accounter.constants().no());
+		transNumber.setTitle(Accounter.messages().no());
 		transNumber.setToolTip(Accounter.messages().giveNoTo(
 				this.getAction().getViewName()));
 
-		payFromAccCombo = new PayFromAccountsCombo(companyConstants.payFrom());
+		payFromAccCombo = new PayFromAccountsCombo(messages.payFrom());
 		payFromAccCombo.setHelpInformation(true);
 		payFromAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
@@ -150,7 +148,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 
 		mainform = new DynamicForm();
 		// filterForm.setWidth("100%");
-		mainform = UIUtils.form(companyConstants.filter());
+		mainform = UIUtils.form(messages.filter());
 		mainform.setFields(payFromAccCombo, paymentMethodCombo);
 //		mainform.setWidth("80%");
 
@@ -158,19 +156,19 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		// fileterForm.setFields(billsDue);
 		// fileterForm.setWidth("80%");
 
-		amountText = new AmountField(companyConstants.amount(), this,getBaseCurrency());
+		amountText = new AmountField(messages.amount(), this,getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
-		endingBalanceText = new AmountField(companyConstants.bankBalance(),
+		endingBalanceText = new AmountField(messages.bankBalance(),
 				this,getBaseCurrency());
 		endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);
 
 		balForm = new DynamicForm();
-		balForm = UIUtils.form(companyConstants.balances());
+		balForm = UIUtils.form(messages.balances());
 		balForm.setFields(amountText, endingBalanceText);
 //		balForm.getCellFormatter().setWidth(0, 0, "197px");
 
@@ -198,7 +196,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		topHLay.setCellWidth(rightVlay, "50%");
 		topHLay.setCellHorizontalAlignment(rightVlay, ALIGN_RIGHT);
 
-		Label lab1 = new Label("" + companyConstants.billsToPay() + "");
+		Label lab1 = new Label("" + messages.billsToPay() + "");
 
 		initListGrid();
 

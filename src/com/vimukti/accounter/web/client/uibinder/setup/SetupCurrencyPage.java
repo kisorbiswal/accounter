@@ -63,15 +63,15 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	@Override
 	protected void createControls() {
 		// currenciesList = UIUtils.getCurrenciesList();
-		headerLabel.setText(accounterConstants.selectCurrency());
-		primaryCurrenyLabel.setText(accounterConstants.primaryCurrency());
+		headerLabel.setText(messages.selectCurrency());
+		primaryCurrenyLabel.setText(messages.primaryCurrency());
 		currenciesList = CoreUtils
 				.getCurrencies(new ArrayList<ClientCurrency>());
 		for (ClientCurrency currency : currenciesList) {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
-		isMultiCurrencyAllowed.setText(accounterConstants
+		isMultiCurrencyAllowed.setText(messages
 				.isMultiCurrencyEnable());
 		// currenciesGrid = new CurrenciesGrid();
 		// currenciesGrid.init();
@@ -110,8 +110,8 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	@Override
 	protected boolean validate() {
 		if (primaryCurrencyListBox.getSelectedIndex() == -1) {
-			Accounter.showError(accounterMessages
-					.pleaseselectvalidtransactionGrid(accounterConstants
+			Accounter.showError(messages
+					.pleaseselectvalidtransactionGrid(messages
 							.currency()));
 			return false;
 		} else {
@@ -121,7 +121,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.setCurrency();
+		return messages.currency();
 	}
 
 }

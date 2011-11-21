@@ -1,12 +1,9 @@
 package com.vimukti.accounter.web.client;
 
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public interface IGlobal {
-
-	public AccounterConstants constants();
 
 	public AccounterMessages messages();
 
@@ -16,10 +13,6 @@ public interface IGlobal {
 
 	public String customer();
 
-	public String Account();
-
-	public String account();
-
 	public String Vendor();
 
 	public String vendor();
@@ -27,7 +20,5 @@ public interface IGlobal {
 	public String Location();
 
 	public String toCurrencyFormat(double amount);
-
-	public String Accounts();
 
 }

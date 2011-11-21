@@ -75,12 +75,12 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		// setHeight(450);
 		// setWidth(450);
 		// ListGridField period = new ListGridField("period",
-		// Accounter.constants()
+		// messages
 		// .period());
 		// period.setWidth(90);
 		// addField(period);
 		// ListGridField status = new ListGridField("status",
-		// Accounter.constants()
+		// messages
 		// .status());
 		// status.setWidth(130);
 		// addField(status);
@@ -88,7 +88,7 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		closeButton = new Button();
 		openButton = new Button();
 		changeButton = new Button();
-		closeButton.setTitle(Accounter.constants().closeFiscalYear());
+		closeButton.setTitle(Accounter.messages().closeFiscalYear());
 		addButton(closeButton);
 		closeButton.addClickHandler(new ClickHandler() {
 
@@ -96,19 +96,19 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 			}
 		});
-		openButton.setTitle(Accounter.constants().openFiscalYear());
+		openButton.setTitle(Accounter.messages().openFiscalYear());
 		addButton(openButton);
 		openButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 
 			}
 		});
-		changeButton.setTitle(Accounter.constants().changeStartDate());
+		changeButton.setTitle(Accounter.messages().changeStartDate());
 		addButton(changeButton);
 		changeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				new ChangeStartDateDialog(Accounter.constants().title(),
-						Accounter.constants().description()).show();
+				new ChangeStartDateDialog(Accounter.messages().title(),
+						Accounter.messages().description()).show();
 			}
 		});
 		// setHeight(250);
@@ -120,13 +120,13 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 			}
 
 			public void onFirstButtonClick() {
-				showAddEditFiscalYear(Accounter.constants().createFascalYear(),
-						Accounter.constants().description(), null);
+				showAddEditFiscalYear(Accounter.messages().createFascalYear(),
+						Accounter.messages().description(), null);
 			}
 
 			public void onSecondButtonClick() {
-				showAddEditFiscalYear(Accounter.constants().editFiscalYear(),
-						Accounter.constants().description(), null);
+				showAddEditFiscalYear(Accounter.messages().editFiscalYear(),
+						Accounter.messages().description(), null);
 			}
 
 			public void onThirdButtonClick() {

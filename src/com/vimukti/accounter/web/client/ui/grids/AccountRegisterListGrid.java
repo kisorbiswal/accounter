@@ -9,9 +9,9 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
@@ -40,25 +40,16 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	@Override
 	protected String[] getColumns() {
 		if (accountType == ClientAccount.TYPE_BANK)
-			return new String[] { Accounter.constants().date(),
-					Accounter.constants().type(),
-					(Accounter.constants().checkNo() + "."),
-					Accounter.constants().payTo(),
-					Accounter.constants().memo(), Global.get().account(),
-					Accounter.constants().payment(),
-					Accounter.constants().deposit(),
-					Accounter.constants().currentBalance(),
-					Accounter.constants().voided() };
+			return new String[] { Accounter.messages().date(), messages.type(),
+					(Accounter.messages().checkNo() + "."), messages.payTo(),
+					messages.memo(), messages.Account(), messages.payment(),
+					messages.deposit(), messages.currentBalance(),
+					messages.voided() };
 		else if (accountType == ClientAccount.TYPE_CREDIT_CARD)
-			return new String[] { Accounter.constants().date(),
-					Accounter.constants().type(),
-					Accounter.constants().docNo(),
-					Accounter.constants().payTo(),
-					Accounter.constants().memo(), Global.get().account(),
-					Accounter.constants().charge(),
-					Accounter.constants().payment(),
-					Accounter.constants().currentBalance(),
-					Accounter.constants().voided() };
+			return new String[] { Accounter.messages().date(), messages.type(),
+					messages.docNo(), messages.payTo(), messages.memo(),
+					messages.account(), messages.charge(), messages.payment(),
+					messages.currentBalance(), messages.voided() };
 		return new String[0];
 	}
 
@@ -92,7 +83,8 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 			else if (accountType == ClientAccount.TYPE_CREDIT_CARD)
 				return getCreditAccValue(accRegister.getAmount(), 7);
 		case 8:
-			return DataUtils.amountAsStringWithCurrency(getBalanceValue(accRegister), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					getBalanceValue(accRegister), currency);
 
 		case 9:
 			if (!accRegister.isVoided())
@@ -115,11 +107,13 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		double selectedvalue = value;
 		switch (col) {
 		case 6:
-			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? DataUtils.amountAsStringWithCurrency(
-					selectedvalue, currency) : DataUtils.amountAsStringWithCurrency(0.00, currency);
+			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? DataUtils
+					.amountAsStringWithCurrency(selectedvalue, currency)
+					: DataUtils.amountAsStringWithCurrency(0.00, currency);
 		case 7:
-			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? DataUtils.amountAsStringWithCurrency(
-					selectedvalue, currency) : DataUtils.amountAsStringWithCurrency(0.00, currency);
+			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? DataUtils
+					.amountAsStringWithCurrency(selectedvalue, currency)
+					: DataUtils.amountAsStringWithCurrency(0.00, currency);
 		}
 		return "";
 	}
@@ -134,11 +128,13 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		double selectedvalue = value;
 		switch (col) {
 		case 6:
-			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? DataUtils.amountAsStringWithCurrency(
-					selectedvalue, currency) : DataUtils.amountAsStringWithCurrency(0.00, currency);
+			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? DataUtils
+					.amountAsStringWithCurrency(selectedvalue, currency)
+					: DataUtils.amountAsStringWithCurrency(0.00, currency);
 		case 7:
-			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? DataUtils.amountAsStringWithCurrency(
-					selectedvalue, currency) : DataUtils.amountAsStringWithCurrency(0.00, currency);
+			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? DataUtils
+					.amountAsStringWithCurrency(selectedvalue, currency)
+					: DataUtils.amountAsStringWithCurrency(0.00, currency);
 		}
 		return "";
 	}
@@ -189,7 +185,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	}
 
 	private void showWarningDialog(final AccountRegister obj) {
-		Accounter.showWarning(Accounter.constants()
+		Accounter.showWarning(Accounter.messages()
 				.doyouwanttoVoidtheTransaction(), AccounterType.WARNING,
 				new ErrorDialogHandler() {
 

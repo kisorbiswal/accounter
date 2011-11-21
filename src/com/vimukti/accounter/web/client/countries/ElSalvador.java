@@ -27,7 +27,7 @@ public class ElSalvador extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.constants().january();
+		return Accounter.messages().january();
 	}
 
 }

@@ -51,15 +51,15 @@ public class APAgingSummaryServerReport extends
 	@Override
 	public String[] getColunms() {
 
-		return new String[] { getConstants().creditor(),
-				getConstants().days30(), getConstants().days60(),
-				getConstants().days90(), getConstants().older(),
-				getConstants().totalBalance() };
+		return new String[] { getMessages().creditor(),
+				getMessages().days30(), getMessages().days60(),
+				getMessages().days90(), getMessages().older(),
+				getMessages().totalBalance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().apAgeingSummary();
+		return getMessages().apAgeingSummary();
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class APAgingSummaryServerReport extends
 	@Override
 	public void processRecord(DummyDebitor record) {
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 1, 2, 3, 4, 5 });
+			addSection("", getMessages().total(), new int[] { 1, 2, 3, 4, 5 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -235,10 +235,10 @@ public class APAgingSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().creditor(),
-				getConstants().days30(), getConstants().days60(),
-				getConstants().days90(), getConstants().older(),
-				getConstants().totalBalance() };
+		return new String[] { getMessages().creditor(),
+				getMessages().days30(), getMessages().days60(),
+				getMessages().days90(), getMessages().older(),
+				getMessages().totalBalance() };
 	}
 
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -46,7 +45,7 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 				}
 			};
 			this.addColumn(numberColumn);
-//			this.setColumnWidth(numberColumn, "40px");
+			// this.setColumnWidth(numberColumn, "40px");
 		}
 
 		TextColumn<ClientAccount> nameColumn = new TextColumn<ClientAccount>() {
@@ -57,7 +56,7 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 			}
 		};
 		this.addColumn(nameColumn);
-//		this.setColumnWidth(nameColumn, "100px");
+		// this.setColumnWidth(nameColumn, "100px");
 
 		TextColumn<ClientAccount> typeColumn = new TextColumn<ClientAccount>() {
 
@@ -67,7 +66,7 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 			}
 		};
 		this.addColumn(typeColumn);
-//		this.setColumnWidth(typeColumn, "80px");
+		// this.setColumnWidth(typeColumn, "80px");
 	}
 
 	@Override
@@ -90,8 +89,7 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 	@Override
 	protected ClientAccount getAddNewRow() {
 		ClientAccount account = new ClientAccount();
-		account.setName(Accounter.comboMessages().addNew(
-				Global.get().Account()));
+		account.setName(messages.addaNew(messages.Account()));
 		return account;
 	}
 

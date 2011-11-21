@@ -15,7 +15,7 @@ public class ManageSalesTaxGroupsAction extends Action<ClientTAXGroup> {
 
 	public ManageSalesTaxGroupsAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 	}
 
 	@Override

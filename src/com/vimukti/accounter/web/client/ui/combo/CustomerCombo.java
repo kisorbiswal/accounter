@@ -31,7 +31,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.addNew(Global.get().Customer());
+		return Global.get().Customer();
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 	}
 
 	@Override
-	protected String getColumnData(ClientCustomer object,  int col) {
+	protected String getColumnData(ClientCustomer object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

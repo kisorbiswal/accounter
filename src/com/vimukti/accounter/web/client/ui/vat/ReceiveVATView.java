@@ -21,11 +21,10 @@ import com.vimukti.accounter.web.client.core.ClientTransactionReceiveVAT;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -74,11 +73,9 @@ public class ReceiveVATView extends
 	private ArrayList<ClientReceiveVATEntries> filterList;
 	private ArrayList<ClientReceiveVATEntries> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
-	AccounterConstants accounterConstants = Accounter.constants();
 
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
-	private final AccounterConstants companyConstants = Accounter.constants();
 
 	public ReceiveVATView() {
 		super(ClientTransaction.TYPE_PAY_TAX);
@@ -91,8 +88,8 @@ public class ReceiveVATView extends
 		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .payVAT()));
 
-		Label lab = new Label(Accounter.constants().tAXRefund());
-		lab.setStyleName(Accounter.constants().labelTitle());
+		Label lab = new Label(Accounter.messages().tAXRefund());
+		lab.setStyleName(Accounter.messages().labelTitle());
 		// lab.setHeight("35px");
 		// date = new DateField(companyConstants.date());
 		// date.setHelpInformation(true);
@@ -102,12 +99,12 @@ public class ReceiveVATView extends
 		transactionDateItem = createTransactionDateItem();
 
 		transNumber = createTransactionNumberItem();
-		transNumber.setTitle(Accounter.constants().no());
+		transNumber.setTitle(Accounter.messages().no());
 		transNumber.setToolTip(Accounter.messages().giveNoTo(
 				this.getAction().getViewName()));
 
 		depositInAccCombo = new DepositInAccountCombo(
-				companyConstants.depositIn());
+				messages.depositIn());
 		depositInAccCombo.setHelpInformation(true);
 		depositInAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.DEPOSIT_IN_ACCOUNT));
@@ -142,9 +139,9 @@ public class ReceiveVATView extends
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth(100);
 
-		billsDue = new DateField(companyConstants.returnsDueOnOrBefore());
+		billsDue = new DateField(messages.returnsDueOnOrBefore());
 		billsDue.setHelpInformation(true);
-		billsDue.setTitle(companyConstants.returnsDueOnOrBefore());
+		billsDue.setTitle(messages.returnsDueOnOrBefore());
 		billsDue.setEnteredDate(new ClientFinanceDate());
 		billsDue.setDisabled(isInViewMode());
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -186,7 +183,7 @@ public class ReceiveVATView extends
 
 		mainform = new DynamicForm();
 		// filterForm.setWidth("100%");
-		mainform = UIUtils.form(companyConstants.filter());
+		mainform = UIUtils.form(messages.filter());
 		mainform.setFields(depositInAccCombo, paymentMethodCombo, billsDue);
 		// mainform.setWidth("80%");
 
@@ -194,20 +191,20 @@ public class ReceiveVATView extends
 		// fileterForm.setFields(billsDue);
 		// fileterForm.setWidth("80%");
 
-		amountText = new AmountField(companyConstants.amount(), this,
+		amountText = new AmountField(messages.amount(), this,
 				getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
-		endingBalanceText = new AmountField(companyConstants.bankBalance(),
+		endingBalanceText = new AmountField(messages.bankBalance(),
 				this, getBaseCurrency());
 		endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);
 
 		balForm = new DynamicForm();
-		balForm = UIUtils.form(companyConstants.balances());
+		balForm = UIUtils.form(messages.balances());
 		balForm.setFields(amountText, endingBalanceText);
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -236,7 +233,7 @@ public class ReceiveVATView extends
 		topHLay.setCellWidth(rightVLay, "50%");
 		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
-		Label lab1 = new Label("" + companyConstants.billsToReceive() + "");
+		Label lab1 = new Label("" + messages.billsToReceive() + "");
 
 		initListGrid();
 
@@ -286,7 +283,7 @@ public class ReceiveVATView extends
 		loadData(filterList);
 		int size = grid.getRecords().size();
 		if (size == 0)
-			grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
+			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
 	}
 
 	private void calculateEndingBalance() {
@@ -395,9 +392,9 @@ public class ReceiveVATView extends
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.failedtogettheTransactionPayVATList());
-						grid.addEmptyMessage(Accounter.constants()
+						grid.addEmptyMessage(Accounter.messages()
 								.noFiledTaxEntriesToReceive());
 
 					}
@@ -412,7 +409,7 @@ public class ReceiveVATView extends
 						entries = result;
 						if (result.size() == 0) {
 							// Accounter.showInformation("No PayVAT list to show");
-							grid.addEmptyMessage(Accounter.constants()
+							grid.addEmptyMessage(Accounter.messages()
 									.noFiledTaxEntriesToReceive());
 						} else {
 
@@ -462,7 +459,7 @@ public class ReceiveVATView extends
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.failedToGetTransactionNumber());
 					}
 
@@ -484,18 +481,18 @@ public class ReceiveVATView extends
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+					messages.invalidateDate());
 		}
 		result.add(mainform.validate());
 		if (isInViewMode()) {
 			if (grid.getRecords().isEmpty()) {
-				result.addError(grid, Accounter.constants()
+				result.addError(grid, Accounter.messages()
 						.youdonthaveanyfiledVATentriestoselect());
 			}
 		}
 
 		if (grid == null || grid.getRecords().isEmpty()) {
-			result.addError(grid, Accounter.constants()
+			result.addError(grid, Accounter.messages()
 					.youdonthaveanyfiledVATentriestoselect());
 		} else {
 			result.add(grid.validateGrid());
@@ -503,12 +500,12 @@ public class ReceiveVATView extends
 		if (!(grid.getRecords().isEmpty())
 				&& grid.getSelectedRecords().size() == 0) {
 			result.addError(grid,
-					Accounter.messages().pleaseSelect(constants.fileVAT()));
+					Accounter.messages().pleaseSelect(messages.fileVAT()));
 		}
 		if (isInViewMode()) {
 			if (!AccounterValidator.isPositiveAmount(totalAmount)) {
 				// FIXME Need to Configm Object
-				result.addError("TotalAmount", accounterConstants.amount());
+				result.addError("TotalAmount", messages.amount());
 			}
 		}
 		ClientAccount bankAccount = depositInAccCombo.getSelectedValue();
@@ -517,7 +514,7 @@ public class ReceiveVATView extends
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
 			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
 				result.addError(depositInAccCombo,
-						accounterConstants.selectProperBankAccount());
+						messages.selectProperBankAccount());
 			}
 		}
 		return result;
@@ -648,7 +645,7 @@ public class ReceiveVATView extends
 								@Override
 								public void onException(
 										AccounterException caught) {
-									Accounter.showError(Accounter.constants()
+									Accounter.showError(messages
 											.failedtovoidReceiveVAT());
 
 								}
@@ -714,7 +711,7 @@ public class ReceiveVATView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().tAXRefund();
+		return Accounter.messages().tAXRefund();
 	}
 
 	@Override

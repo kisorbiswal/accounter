@@ -26,7 +26,7 @@ public class ProductCombo extends CustomCombo<ClientItem> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newProductItem();
+		return messages.productItem();
 	}
 
 	@Override

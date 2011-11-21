@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 import java.util.ArrayList;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.ClientStockAdjustment;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -37,7 +36,7 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 
 					@Override
 					public void onException(AccounterException exception) {
-						grid.addEmptyMessage(constants.noRecordsToShow());
+						grid.addEmptyMessage(messages.noRecordsToShow());
 					}
 
 					@Override
@@ -47,7 +46,7 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 						if (result != null && !result.isEmpty()) {
 							grid.addRecords(result);
 						} else {
-							grid.addEmptyMessage(constants.noRecordsToShow());
+							grid.addEmptyMessage(messages.noRecordsToShow());
 						}
 					}
 				});
@@ -55,7 +54,7 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().stockAdjustments();
+		return Accounter.messages().stockAdjustments();
 	}
 
 	@Override
@@ -66,12 +65,12 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 	@Override
 	protected String getAddNewLabelString() {
 		return Accounter.messages().addaNew(
-				Accounter.constants().stockAdjustment());
+				Accounter.messages().stockAdjustment());
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().stockAdjustments();
+		return Accounter.messages().stockAdjustments();
 	}
 
 }

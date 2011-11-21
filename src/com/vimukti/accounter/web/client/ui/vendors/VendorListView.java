@@ -100,7 +100,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 			total += t.getBalance();
 		} else
 			total -= t.getBalance();
-		totalLabel.setText(Accounter.constants().totalOutStandingBalance()
+		totalLabel.setText(Accounter.messages().totalOutStandingBalance()
 
 		+ DataUtils.getAmountAsString(total) + "");
 	}

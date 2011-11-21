@@ -36,8 +36,8 @@ public class CustomerTransactionHistoryServerReport extends
 	@Override
 	public String[] getColunms() {
 
-		return new String[] { Global.get().customer(), getConstants().date(),
-				getConstants().type(), getConstants().noDot(),
+		return new String[] { Global.get().customer(), getMessages().date(),
+				getMessages().type(), getMessages().noDot(),
 				// ".invoicedAmount(),
 				// ".paidAmount(),
 				// ".paymentTerms(),
@@ -45,7 +45,7 @@ public class CustomerTransactionHistoryServerReport extends
 				// ".debit(),
 				// ".credit(),
 				// ".reference(),
-				Global.get().account(), getConstants().amount() };
+				getMessages().Account(), getMessages().amount() };
 
 	}
 
@@ -134,10 +134,10 @@ public class CustomerTransactionHistoryServerReport extends
 		// if (sectionDepth == 0) {
 		// if (constants != null) {
 		// addSection(new String[] { "", "" }, new String[] { "", "", "",
-		// "", constants.total() }, new int[] { 5 });
+		// "", messages.total() }, new int[] { 5 });
 		// } else {
 		// addSection(new String[] { "", "" }, new String[] { "", "", "",
-		// "", Accounter.constants().total() }, new int[] { 5 });
+		// "", messages.total() }, new int[] { 5 });
 		// }
 		//
 		// } else
@@ -220,9 +220,9 @@ public class CustomerTransactionHistoryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 
-		return new String[] { Global.get().customer(), getConstants().date(),
-				getConstants().type(), getConstants().noDot(),
-				Global.get().account(), getConstants().amount() };
+		return new String[] { Global.get().customer(), getMessages().date(),
+				getMessages().type(), getMessages().noDot(),
+				getMessages().Account(), getMessages().amount() };
 
 	}
 

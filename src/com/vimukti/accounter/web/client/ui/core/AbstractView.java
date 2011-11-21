@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
@@ -20,8 +19,7 @@ public abstract class AbstractView<T> extends VerticalPanel {
 
 	protected T data;
 
-	protected AccounterMessages messages = Global.get().messages();
-	protected AccounterConstants constants = Global.get().constants();
+	protected static final AccounterMessages messages = Global.get().messages();
 
 	private ViewManager manager;
 

@@ -28,7 +28,7 @@ public class StartDateDialog extends BaseDialog {
 	protected boolean isDateChanged;
 
 	public StartDateDialog() {
-		super(Accounter.constants().startDate(), "");
+		super(Accounter.messages().startDate(), "");
 		getStartdates();
 		Timer timer = new Timer() {
 			@Override
@@ -49,13 +49,13 @@ public class StartDateDialog extends BaseDialog {
 	}
 
 	private void createControl() {
-		Label introLabel = new Label(Accounter.constants().currentStartDateIs()
+		Label introLabel = new Label(Accounter.messages().currentStartDateIs()
 				+ getStartDateString());
 
 		Label infoLabel = new Label();
-		infoLabel.setText(Accounter.constants()
+		infoLabel.setText(Accounter.messages()
 				.startDateForManagingFixedAsset());
-		HTML prefixText = new HTML(Accounter.constants().newStartDate());
+		HTML prefixText = new HTML(Accounter.messages().newStartDate());
 		dateBox = new ListBox();
 		dateBox.addChangeHandler(new ChangeHandler() {
 
@@ -125,7 +125,7 @@ public class StartDateDialog extends BaseDialog {
 	private void changeStartDate() {
 		String dateString = dateBox.getValue(dateBox.getSelectedIndex());
 		ClientFinanceDate date = UIUtils.stringToDate(dateString, (Accounter
-				.constants().ddMMyyyy()));
+				.messages().ddMMyyyy()));
 
 		AccounterAsyncCallback callBack = new AccounterAsyncCallback() {
 

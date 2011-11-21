@@ -99,9 +99,9 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 	public void showAddEditTermDialog(ClientShippingTerms rec) {
 		String arr[] = new String[2];
-		arr[0] = Accounter.constants().shippingTerm();
-		arr[1] = Accounter.constants().description();
-		inputDlg = new InputDialog(this, Accounter.constants().shippingTerm(),
+		arr[0] = Accounter.messages().shippingTerm();
+		arr[1] = Accounter.messages().description();
+		inputDlg = new InputDialog(this, Accounter.messages().shippingTerm(),
 				"", arr) {
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
@@ -132,8 +132,8 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.constants().name(),
-				Accounter.constants().description() };
+		return new String[] { Accounter.messages().name(),
+				Accounter.messages().description() };
 	}
 
 	@Override
@@ -151,11 +151,11 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 			if (shippingTerm != null) {
 				if (!(shippingTerm.getName().equalsIgnoreCase(termName) ? true
 						: shippingTermByName == null)) {
-					result.addError(this, Accounter.constants().alreadyExist());
+					result.addError(this, Accounter.messages().alreadyExist());
 				}
 			} else {
 				if (shippingTermByName != null) {
-					result.addError(this, Accounter.constants()
+					result.addError(this, Accounter.messages()
 							.shippingTermAlreadyExists());
 				}
 			}

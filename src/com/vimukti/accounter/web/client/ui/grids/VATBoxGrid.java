@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.core.ClientBox;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 
 public class VATBoxGrid extends ListGrid<ClientBox> {
@@ -96,8 +95,8 @@ public class VATBoxGrid extends ListGrid<ClientBox> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().taxLine(),
-				Accounter.constants().amount() };
+		return new String[] { messages.taxLine(),
+				messages.amount() };
 	}
 
 }

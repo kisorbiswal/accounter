@@ -24,24 +24,24 @@ public abstract class ReceiveVatTableRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		NameRequirement vatAgency = new NameRequirement(VAT_AGENCY, "",
-				getConstants().vatAgency(), true, true);
+				getMessages().vatAgency(), true, true);
 		vatAgency.setEditable(false);
 		list.add(vatAgency);
 
 		AmountRequirement taxDue = new AmountRequirement(TAX_DUE, "",
-				getConstants().taxDue(), true, true);
+				getMessages().taxDue(), true, true);
 		taxDue.setEditable(false);
 		list.add(taxDue);
 
 		AmountRequirement amountReceive = new AmountRequirement(AMOUNT,
-				getMessages().pleaseEnter(getConstants().amountToReceive()),
-				getConstants().amountToReceive(), false, true);
+				getMessages().pleaseEnter(getMessages().amountToReceive()),
+				getMessages().amountToReceive(), false, true);
 		list.add(amountReceive);
 	}
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().billsToPay());
+		return getMessages().youDontHaveAny(getMessages().billsToPay());
 	}
 
 	@Override
@@ -74,11 +74,11 @@ public abstract class ReceiveVatTableRequirement extends
 						AccounterCoreType.TAXAGENCY, getCompanyId());
 
 		Record record = new Record(t);
-		record.add("", getConstants().vatAgency());
+		record.add("", getMessages().vatAgency());
 		record.add("", taxAgency.getName());
-		record.add("", getConstants().taxDue());
+		record.add("", getMessages().taxDue());
 		record.add("", t.getTaxDue());
-		record.add("", getConstants().amountToReceive());
+		record.add("", getMessages().amountToReceive());
 		record.add("", t.getAmountToReceive());
 		return record;
 	}
@@ -90,7 +90,7 @@ public abstract class ReceiveVatTableRequirement extends
 
 	@Override
 	protected String getAddMoreString() {
-		return getMessages().addMore(getConstants().billsToReceive());
+		return getMessages().addMore(getMessages().billsToReceive());
 	}
 
 }

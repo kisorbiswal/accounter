@@ -17,9 +17,8 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.Global;
+import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -128,7 +127,7 @@ public class AccountComboCell extends
 
 	private Anchor getAddNewLabel() {
 		Anchor addNew = new Anchor(Accounter.messages().newPayee(
-				Global.get().Account()));
+				Accounter.messages().Account()));
 		addNew.addClickHandler(new ClickHandler() {
 
 			@Override

@@ -24,7 +24,7 @@ public class NewLocationCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new StringRequirement(LOCATION_NAME, getMessages()
-				.pleaseEnter(getConstants().location()), getConstants()
+				.pleaseEnter(getMessages().location()), getMessages()
 				.location(), false, true));
 	}
 

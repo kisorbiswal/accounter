@@ -74,7 +74,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 					showAddEditTaxGroup(taxGroup);
 				} else {
 					Accounter
-							.showError(Accounter.constants().selectATaxGroup());
+							.showError(Accounter.messages().selectATaxGroup());
 					new Exception();
 				}
 			}
@@ -87,7 +87,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 					deleteObject(taxGroup);
 				} else
 					Accounter
-							.showError(Accounter.constants().selectATaxGroup());
+							.showError(Accounter.messages().selectATaxGroup());
 
 			}
 		};
@@ -98,12 +98,12 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 	public void showAddEditTaxGroup(final ClientTAXGroup taxGroup) {
 
 		if (taxGroup != null) {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.constants()
-					.taxGroup(), Accounter.constants().toAddOrRemoveTaxCode(),
+			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.messages()
+					.taxGroup(), Accounter.messages().toAddOrRemoveTaxCode(),
 					taxGroup);
 		} else {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.constants()
-					.taxGroup(), Accounter.constants().toAddOrRemoveTaxCode(),
+			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.messages()
+					.taxGroup(), Accounter.messages().toAddOrRemoveTaxCode(),
 					null);
 		}
 
@@ -133,7 +133,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 		ClientTAXGroup clientTAXGroup = company.getTaxGroupByName(groupName);
 		if (!(taxGroup.getName().equalsIgnoreCase(groupName) ? true
 				: clientTAXGroup == null)) {
-			Accounter.showError(Accounter.constants().alreadyExist());
+			Accounter.showError(Accounter.messages().alreadyExist());
 		} else {
 			taxGroup.setName(groupName);
 			taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
@@ -181,7 +181,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 		ClientTAXGroup taxGroupByName = company.getTaxGroupByName(taxGroup
 				.getName());
 		if (itemByName != null || taxGroupByName != null) {
-			Accounter.showError(Accounter.constants().alreadyExist());
+			Accounter.showError(Accounter.messages().alreadyExist());
 		} else
 			saveOrUpdate(taxGroup);
 
@@ -203,7 +203,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 	@Override
 	public String[] setColumns() {
 
-		return new String[] { constants.name() };
+		return new String[] { messages.name() };
 	}
 
 	@Override

@@ -113,25 +113,25 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	@Override
 	protected String[] getColumns() {
 		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-			return new String[] { Accounter.constants().active(),
-					Accounter.constants().itemName(),
-					Accounter.constants().description(),
-					Accounter.constants().type(),
-					Accounter.constants().salesPrice(),
-					Accounter.constants().purchasePrice(), "" };
+			return new String[] { Accounter.messages().active(),
+					Accounter.messages().itemName(),
+					Accounter.messages().description(),
+					Accounter.messages().type(),
+					Accounter.messages().salesPrice(),
+					Accounter.messages().purchasePrice(), "" };
 		} else if (ItemListView.isPurchaseType) {
-			return new String[] { Accounter.constants().active(),
-					Accounter.constants().itemName(),
-					Accounter.constants().description(),
-					Accounter.constants().type(),
-					Accounter.constants().purchasePrice(), "" };
+			return new String[] { Accounter.messages().active(),
+					Accounter.messages().itemName(),
+					Accounter.messages().description(),
+					Accounter.messages().type(),
+					Accounter.messages().purchasePrice(), "" };
 
 		} else {
-			return new String[] { Accounter.constants().active(),
-					Accounter.constants().itemName(),
-					Accounter.constants().description(),
-					Accounter.constants().type(),
-					Accounter.constants().salesPrice(), "" };
+			return new String[] { Accounter.messages().active(),
+					Accounter.messages().itemName(),
+					Accounter.messages().description(),
+					Accounter.messages().type(),
+					Accounter.messages().salesPrice(), "" };
 
 		}
 	}

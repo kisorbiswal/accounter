@@ -49,13 +49,13 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().create(getConstants().payBill());
+		return getMessages().create(getMessages().payBill());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 
-		return getMessages().readyToCreate(getConstants().payBill());
+		return getMessages().readyToCreate(getMessages().payBill());
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().payBill());
+		return getMessages().createSuccessfully(getMessages().payBill());
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
-				getConstants().Vendor()), getConstants().vendor(), false, true,
+				getMessages().Vendor()), getMessages().vendor(), false, true,
 				new ChangeListner<Vendor>() {
 
 					@Override
@@ -147,12 +147,12 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		 */
 
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(getConstants().bankAccount()),
-				getConstants().bankAccount(), false, false, null) {
+				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
+				false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().payFrom());
+				return getMessages().hasSelected(getMessages().payFrom());
 			}
 
 			@Override
@@ -186,8 +186,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(
-						getConstants().bankAccounts());
+				return getMessages()
+						.youDontHaveAny(getMessages().bankAccount());
 			}
 
 			@Override
@@ -198,26 +198,25 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().billNo()), getConstants().billNo(), true, true));
+				getMessages().billNo()), getMessages().billNo(), true, true));
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().transactionDate()), getConstants()
+				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseSelect(getConstants().paymentMethod()), getConstants()
+				.pleaseSelect(getMessages().paymentMethod()), getMessages()
 				.paymentMethod(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getConstants().paymentMethod());
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getConstants().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -230,12 +229,12 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				 * paymentMethods.values());
 				 */
 				String payVatMethodArray[] = new String[] {
-						getConstants().cash(), getConstants().creditCard(),
-						getConstants().check(), getConstants().directDebit(),
-						getConstants().masterCard(),
-						getConstants().onlineBanking(),
-						getConstants().standingOrder(),
-						getConstants().switchMaestro() };
+						getMessages().cash(), getMessages().creditCard(),
+						getMessages().check(), getMessages().directDebit(),
+						getMessages().masterCard(),
+						getMessages().onlineBanking(),
+						getMessages().standingOrder(),
+						getMessages().switchMaestro() };
 				List<String> wordList = Arrays.asList(payVatMethodArray);
 				return wordList;
 			}
@@ -243,19 +242,19 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().paymentMethod());
+						getMessages().paymentMethod());
 			}
 		});
 
 		list.add(new DateRequirement(FILTER_BY_DUE_ON_BEFORE, getMessages()
-				.pleaseEnter(getConstants().filterByBilldueonorbefore()),
-				getConstants().filterByBilldueonorbefore(), true, true));
+				.pleaseEnter(getMessages().filterByBilldueonorbefore()),
+				getMessages().filterByBilldueonorbefore(), true, true));
 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 
 		list.add(new PaybillTableRequirement(BILLS_DUE, getMessages()
-				.pleaseSelect(getConstants().billsToPay()), getConstants()
+				.pleaseSelect(getMessages().billsToPay()), getMessages()
 				.billsToPay()) {
 
 			@Override

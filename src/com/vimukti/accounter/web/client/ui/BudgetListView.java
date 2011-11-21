@@ -66,7 +66,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().budgetList();
+		return Accounter.messages().budgetList();
 	}
 
 	@Override
@@ -77,13 +77,13 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().addNewBudget();
+		return Accounter.messages().addNewBudget();
 	}
 
 	@Override
 	protected String getViewTitle() {
 		return Accounter.messages()
-				.payees(Global.get().constants().budget());
+				.payees(Global.get().messages().budget());
 
 	}
 
@@ -95,7 +95,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	// @Override
 	// protected SelectCombo getSelectItem() {
-	// currentView = new SelectCombo(Accounter.constants().currentBudget());
+	// currentView = new SelectCombo(messages.currentBudget());
 	// currentView.setHelpInformation(true);
 	//
 	// // listOfBudgets = getCompany().getBudget();

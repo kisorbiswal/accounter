@@ -54,9 +54,8 @@ public class CheckDetailReportView extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", Accounter.constants().number(),
-				Accounter.constants().date(), Accounter.constants().name(),
-				Global.get().account(), Accounter.constants().amount() };
+		return new String[] { "", messages.number(), messages.date(),
+				messages.name(), messages.account(), messages.amount() };
 	}
 
 	@Override
@@ -71,12 +70,12 @@ public class CheckDetailReportView extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().checkDetail();
+		return messages.checkDetail();
 	}
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().financialYearToDate();
+		return messages.financialYearToDate();
 	}
 
 	@Override

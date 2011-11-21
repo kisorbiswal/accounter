@@ -450,15 +450,15 @@ public class ClientCompany implements IAccounterCore {
 	// private List<ClientTaxItem> taxItems;
 
 	public void clientSideInit() {
-		paymentMethods.put("1", Accounter.constants().cash());
-		paymentMethods.put("2", Accounter.constants().check());
-		paymentMethods.put("3", Accounter.constants().creditCard());
+		paymentMethods.put("1", Accounter.messages().cash());
+		paymentMethods.put("2", Accounter.messages().check());
+		paymentMethods.put("3", Accounter.messages().creditCard());
 	}
 
 	public ClientCompany() {
 		// paymentMethods.put("1", "");
-		// paymentMethods.put("2", Accounter.constants().check());
-		// paymentMethods.put("3", Accounter.constants().creditCard());
+		// paymentMethods.put("2", messages.check());
+		// paymentMethods.put("3", messages.creditCard());
 	}
 
 	// List<ClientPayType> payTypes;
@@ -1950,12 +1950,12 @@ public class ClientCompany implements IAccounterCore {
 			}
 		// } catch (Exception e) {
 		// if (e instanceof JavaScriptException) {
-		// Accounter.showInformation(Accounter.constants()
+		// Accounter.showInformation(messages
 		// .exceptionOccur()
 		// + ((JavaScriptException) (e)).getDescription());
 		//
 		// } else {
-		// Accounter.showInformation(Accounter.constants()
+		// Accounter.showInformation(messages
 		// .exceptionOccur() + e.toString());
 		// }
 		// }

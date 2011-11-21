@@ -82,16 +82,16 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	protected String[] getColumns() {
 
 		if (getPreferences().getUseAccountNumbers() == true) {
-			bankingContants = Accounter.constants();
-			return new String[] { bankingContants.active(),
-					bankingContants.no(), bankingContants.name(),
-					bankingContants.type(), bankingContants.balance(),
-					bankingContants.register(), "" };
+			messages = Accounter.messages();
+			return new String[] { messages.active(),
+					messages.no(), messages.name(),
+					messages.type(), messages.balance(),
+					messages.register(), "" };
 		} else {
-			bankingContants = Accounter.constants();
-			return new String[] { bankingContants.active(),
-					bankingContants.name(), bankingContants.type(),
-					bankingContants.balance(), bankingContants.register(), "" };
+			messages = Accounter.messages();
+			return new String[] { messages.active(),
+					messages.name(), messages.type(),
+					messages.balance(), messages.register(), "" };
 		}
 
 	}

@@ -184,11 +184,11 @@ public abstract class AbstractTableRequirement<T> extends
 		setOtherFields(list, obj);
 
 		Record record = new Record(ActionNames.FINISH);
-		record.add("", getConstants().finish());
+		record.add("", getMessages().finish());
 		actions.add(record);
 
 		Record record2 = new Record(ActionNames.DELETE);
-		record2.add("", getConstants().delete());
+		record2.add("", getMessages().delete());
 		actions.add(record2);
 
 		makeResult.add(list);

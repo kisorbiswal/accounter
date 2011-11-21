@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class DashBoardView extends BaseHomeView {
@@ -29,7 +28,7 @@ public class DashBoardView extends BaseHomeView {
 	// private String[] firstColumn;
 
 	public DashBoardView() {
-		// dashboardPreference = Accounter.constants().welcomeBankingSummary();
+		// dashboardPreference = messages.welcomeBankingSummary();
 		/*
 		 * FinanceApplication.getUser().getUserPreferences()
 		 * .getDashBoardPreferences();
@@ -64,17 +63,13 @@ public class DashBoardView extends BaseHomeView {
 		//
 		// getAddableWidgets(widgetOnSectionPage);
 
-		gettingStartedPortlet = new GettingStartedPortlet(Accounter.constants()
+		gettingStartedPortlet = new GettingStartedPortlet(messages
 				.gettingStartedusingAccounter());
 
-		bankingPortlet = new BankingPortlet(Accounter.messages().bankAccounts(
-				Global.get().Accounts()));
-		moneyComingPortlet = new MoneyComingPortlet(Accounter.constants()
-				.moneyComingIn());
-		moneyGoingPortlet = new MoneyGoingPortlet(Accounter.constants()
-				.moneyGoingOut());
-		expenseClaimsPortlet = new ExpenseClaimPortlet(Accounter.constants()
-				.expenseClaims());
+		bankingPortlet = new BankingPortlet(messages.bankAccount());
+		moneyComingPortlet = new MoneyComingPortlet(messages.moneyComingIn());
+		moneyGoingPortlet = new MoneyGoingPortlet(messages.moneyGoingOut());
+		expenseClaimsPortlet = new ExpenseClaimPortlet(messages.expenseClaims());
 		FlexTable fTable = new FlexTable();
 
 		fTable.setWidget(0, 0, bankingPortlet);
@@ -83,10 +78,10 @@ public class DashBoardView extends BaseHomeView {
 		fTable.setWidget(1, 0, expenseClaimsPortlet);
 
 		try {
-			bankingPortlet.getElement().getParentElement()
-					.setClassName("banking-portlet");
-			expenseClaimsPortlet.getElement().getParentElement()
-					.setClassName("expense_claim_portlet");
+			bankingPortlet.getElement().getParentElement().setClassName(
+					"banking-portlet");
+			expenseClaimsPortlet.getElement().getParentElement().setClassName(
+					"expense_claim_portlet");
 		} catch (Exception e) {
 			System.err.println("Exception :" + e);
 		}
@@ -126,13 +121,13 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	// public void getAddableWidgets(String[] widgetOnSectionPage) {
-	// String[] totalWidget = { Accounter.constants().welcome(),
-	// Accounter.constants().bankingSummary(),
-	// Accounter.constants().profitAndLoss(),
-	// Accounter.constants().creditOverview(),
-	// Accounter.constants().debitOverview(),
-	// Accounter.constants().latestQuote(),
-	// Accounter.constants().expenses() };
+	// String[] totalWidget = { messages.welcome(),
+	// messages.bankingSummary(),
+	// messages.profitAndLoss(),
+	// messages.creditOverview(),
+	// messages.debitOverview(),
+	// messages.latestQuote(),
+	// messages.expenses() };
 	//
 	// boolean isAvailable = false;
 	//

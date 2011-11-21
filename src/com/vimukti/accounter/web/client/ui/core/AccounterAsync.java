@@ -21,7 +21,7 @@ public class AccounterAsync {
 //			public void onFailure(Throwable e) {
 //				loadingMessageDialog.removeFromParent();
 //				Accounter
-//						.showError(Accounter.constants().unableToshowtheview());
+//						.showError(messages.unableToshowtheview());
 //			}
 //		});
 	}

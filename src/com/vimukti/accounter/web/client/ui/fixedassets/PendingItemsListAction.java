@@ -20,7 +20,7 @@ public class PendingItemsListAction extends Action {
 
 	public PendingItemsListAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().fixedAssets();
+		this.catagory = Accounter.messages().fixedAssets();
 
 	}
 

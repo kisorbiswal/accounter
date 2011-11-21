@@ -13,7 +13,7 @@ public class FileTAXAction extends Action {
 
 	public FileTAXAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().tax();
+		this.catagory = Accounter.messages().tax();
 	}
 
 	/**
@@ -78,12 +78,12 @@ public class FileTAXAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return Accounter.constants().fileTaxHistoryToken();
+		return Accounter.messages().fileTaxHistoryToken();
 	}
 
 	@Override
 	public String getHelpToken() {
-		return Accounter.constants().filetaxHelp();
+		return Accounter.messages().filetaxHelp();
 	}
 
 }

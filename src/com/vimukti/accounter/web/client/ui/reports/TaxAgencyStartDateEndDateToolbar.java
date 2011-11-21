@@ -32,10 +32,10 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 
 	private void createControls() {
 
-		String[] reportBasisArray = { Accounter.constants().cash(),
-				Accounter.constants().accrual() };
+		String[] reportBasisArray = { Accounter.messages().cash(),
+				Accounter.messages().accrual() };
 
-		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants()
+		taxAgencyCombo = new TAXAgencyCombo(Accounter.messages()
 				.selectTaxAgency(), false);
 		taxAgencyCombo.setHelpInformation(true);
 		taxAgencyCombo
@@ -54,7 +54,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 		selectedAgency = taxAgencyCombo.getSelectedValue();
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setTitle(Accounter.constants().from());
+		fromItem.setTitle(Accounter.messages().from());
 		fromItem.setEnteredDate(new ClientFinanceDate());
 
 		fromItem.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -75,7 +75,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 
-		toItem.setTitle(Accounter.constants().to());
+		toItem.setTitle(Accounter.messages().to());
 		toItem.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override
@@ -87,7 +87,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 
 			}
 		});
-		updateButton = new Button(Accounter.constants().update());
+		updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -101,12 +101,12 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 
 				reportRequest();
 
-				setSelectedDateRange(Accounter.constants().custom());
+				setSelectedDateRange(Accounter.messages().custom());
 			}
 
 		});
 
-		Button printButton = new Button(Accounter.constants().print());
+		Button printButton = new Button(Accounter.messages().print());
 
 		printButton.addClickHandler(new ClickHandler() {
 

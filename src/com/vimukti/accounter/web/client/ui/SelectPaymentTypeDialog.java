@@ -17,7 +17,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 
 	public SelectPaymentTypeDialog() {
-		super(Accounter.constants().selectPaymentType(), Accounter.constants()
+		super(Accounter.messages().selectPaymentType(), Accounter.messages()
 				.selectPaymentType());
 		createControls();
 		center();
@@ -25,7 +25,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		setText(Accounter.constants().selectPaymentType());
+		setText(Accounter.messages().selectPaymentType());
 
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
@@ -42,7 +42,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		typeForm.setWidth("100%");
 
 		typeForm.setIsGroup(true);
-		typeForm.setGroupTitle(Accounter.constants().paymentDocuments());
+		typeForm.setGroupTitle(Accounter.messages().paymentDocuments());
 		typeForm.setFields(typeRadio);
 
 		VerticalPanel mainVLay = new VerticalPanel();

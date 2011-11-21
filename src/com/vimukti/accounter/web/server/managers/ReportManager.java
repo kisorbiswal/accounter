@@ -995,11 +995,11 @@ public class ReportManager extends Manager {
 
 			// Adding Box2 entries to Box4
 			// if (v.getVatItem().getVatReturnBox().getVatBox().equals(
-			// AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
+			// messages.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 			//
 			// VATDetail vd2 = new VATDetail();
 			// vd2
-			// .setBoxName(setVATBoxName(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES));
+			// .setBoxName(setVATBoxName(messages.UK_BOX4_VAT_RECLAMED_ON_PURCHASES));
 			//
 			// vd2.setNetAmount(vd.getNetAmount());
 			// vd2.setPayeeName(vd.getPayeeName());
@@ -1019,13 +1019,13 @@ public class ReportManager extends Manager {
 
 			// Adding RC vat code transaction entry to Box4
 			// if (v.getVatItem().getVatReturnBox().getVatBox().equals(
-			// AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES)
+			// messages.UK_BOX1_VAT_DUE_ON_SALES)
 			// && (v.getVatItem().getVatReturnBox().getTotalBox()
-			// .equals(AccounterConstants.BOX_NONE))) {
+			// .equals(messages.BOX_NONE))) {
 			//
 			// VATDetail vd3 = new VATDetail();
 			// vd3
-			// .setBoxName(setVATBoxName(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES));
+			// .setBoxName(setVATBoxName(messages.UK_BOX4_VAT_RECLAMED_ON_PURCHASES));
 			//
 			// vd3.setNetAmount(vd.getNetAmount());
 			// vd3.setPayeeName(vd.getPayeeName());
@@ -1159,10 +1159,10 @@ public class ReportManager extends Manager {
 
 				// Adding Box2 adjustment entries to Box4
 				// if (v.getVatItem().getVatReturnBox().getVatBox().equals(
-				// AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
+				// messages.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 				// VATDetail vd2 = new VATDetail();
 				// vd2
-				// .setBoxName(setVATBoxName(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES));
+				// .setBoxName(setVATBoxName(messages.UK_BOX4_VAT_RECLAMED_ON_PURCHASES));
 				//
 				// vd2.setTotal(vd.getTotal());
 				// vd2.setPayeeName(vd.getPayeeName());
@@ -1770,14 +1770,14 @@ public class ReportManager extends Manager {
 		for (TAXRateCalculation v : vats) {
 
 			// if (v.getVatItem().getVatReturnBox().getVatBox().equals(
-			// AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES)
+			// messages.UK_BOX1_VAT_DUE_ON_SALES)
 			// && (v.getVatItem().getVatReturnBox().getTotalBox()
-			// .equals(AccounterConstants.BOX_NONE))) {
+			// .equals(messages.BOX_NONE))) {
 			// rcAmount += -1 * (v.getVatAmount());
 			// }
 
 			// if (v.getVatItem().getVatReturnBox().getVatBox().equals(
-			// AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS))
+			// messages.UK_BOX2_VAT_DUE_ON_ACQUISITIONS))
 			// rcAmount += -1 * (v.getVatAmount());
 
 			/*
@@ -1815,7 +1815,7 @@ public class ReportManager extends Manager {
 					// .getVatReturnBox()
 					// .getVatBox()
 					// .equals(
-					// AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
+					// messages.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
 					// vs.setValue(vs.getValue() + rcAmount);
 					// rcAmount = 0.0;
 					// }
@@ -1847,7 +1847,7 @@ public class ReportManager extends Manager {
 					// if (vs
 					// .getVatReturnEntryName()
 					// .equals(
-					// AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
+					// messages.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
 					// vs.setValue(vs.getValue() + box2Amount);
 					// box2Amount = 0.0;
 					// }
@@ -1864,7 +1864,7 @@ public class ReportManager extends Manager {
 						// .getVatReturnBox()
 						// .getVatBox()
 						// .equals(
-						// AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS))
+						// messages.UK_BOX2_VAT_DUE_ON_ACQUISITIONS))
 						// box2Amount += (v.getIncreaseVATLine() == true ? v
 						// .getTotal() : -1 * v.getTotal());
 					}
@@ -1903,9 +1903,9 @@ public class ReportManager extends Manager {
 
 		// for (VATSummary v : vatSummaries) {
 		// if (v.getVatReturnEntryName().equals(
-		// AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS))
+		// messages.UK_BOX2_VAT_DUE_ON_ACQUISITIONS))
 		// v.setVatReturnEntryName("Box 2 "
-		// + AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
+		// + messages.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
 		// }
 
 		return new ArrayList<VATSummary>(vatSummaries);

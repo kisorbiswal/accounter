@@ -77,6 +77,6 @@ public class InvalidEntryException extends Exception {
 		if (this.message != null)
 			return super.getMessage();
 		else
-			return Accounter.constants().invalidEntry() + this.message;
+			return Accounter.messages().invalidEntry() + this.message;
 	}
 }

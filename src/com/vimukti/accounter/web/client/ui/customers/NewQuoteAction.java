@@ -27,11 +27,11 @@ public class NewQuoteAction extends Action {
 		this.title = text;
 
 		if (type == ClientEstimate.QUOTES) {
-			title = Accounter.constants().quote();
+			title = Accounter.messages().quote();
 		} else if (type == ClientEstimate.CHARGES) {
-			title = Accounter.constants().charge();
+			title = Accounter.messages().charge();
 		} else if (type == ClientEstimate.CREDITS) {
-			title = Accounter.constants().credit();
+			title = Accounter.messages().credit();
 		}
 
 	}
@@ -59,13 +59,13 @@ public class NewQuoteAction extends Action {
 					type = ((ClientEstimate) data).getEstimateType();
 					switch (type) {
 					case ClientEstimate.QUOTES:
-						title = Accounter.constants().quote();
+						title = Accounter.messages().quote();
 						break;
 					case ClientEstimate.CHARGES:
-						title = Accounter.constants().charge();
+						title = Accounter.messages().charge();
 						break;
 					case ClientEstimate.CREDITS:
-						title = Accounter.constants().credit();
+						title = Accounter.messages().credit();
 						break;
 					default:
 						break;

@@ -52,17 +52,17 @@ public class PurchaseClosedOrderServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().orderDate(),
-				getConstants().vendor(),
-				getConstants().description(),
-				getConstants().quantity(), getConstants().value() };
+		return new String[] { getMessages().orderDate(),
+				getMessages().vendor(),
+				getMessages().description(),
+				getMessages().quantity(), getMessages().value() };
 
 	}
 
 	@Override
 	public String getTitle() {
 
-		return getConstants().purchaseClosedOrderReport();
+		return getMessages().purchaseClosedOrderReport();
 	}
 
 	@Override
@@ -80,11 +80,11 @@ public class PurchaseClosedOrderServerReport extends
 	@Override
 	public void processRecord(OpenAndClosedOrders record) {
 		if (sectionDepth == 0) {
-			addSection("", getConstants().totalOf(), new int[] { 4 });
+			addSection("", getMessages().totalOf(), new int[] { 4 });
 		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getVendorOrCustomerName();
-			addSection(sectionName, getConstants().totalOf()
+			addSection(sectionName, getMessages().totalOf()
 					+ sectionName, new int[] { 4 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
@@ -149,10 +149,10 @@ public class PurchaseClosedOrderServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().orderDate(),
-				getConstants().vendor(),
-				getConstants().description(),
-				getConstants().quantity(), getConstants().value() };
+		return new String[] { getMessages().orderDate(),
+				getMessages().vendor(),
+				getMessages().description(),
+				getMessages().quantity(), getMessages().value() };
 
 	}
 	

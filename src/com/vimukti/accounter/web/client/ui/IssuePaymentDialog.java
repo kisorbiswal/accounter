@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -199,10 +198,10 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	}
 
 	private void createControls() {
-//		setWidth("80px");
+		// setWidth("80px");
 		mainPanel.setSpacing(3);
 
-		payMethodSelect = new SelectCombo(Accounter.constants().paymentMethod());
+		payMethodSelect = new SelectCombo(messages.paymentMethod());
 		payMethodSelect.setHelpInformation(true);
 		payMethodSelect.setRequired(true);
 		payMethodItemList = new ArrayList<String>();
@@ -224,7 +223,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 				});
 
-		accountCombo = new PayFromAccountsCombo(Global.get().account(), false);
+		accountCombo = new PayFromAccountsCombo(messages.Account(), false);
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 		accountCombo
@@ -246,7 +245,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		paymentMethodSelected(payMethodSelect.getSelectedValue());
 
 		Label label = new Label();
-		label.setText(Accounter.constants().paymentsToBeIssued());
+		label.setText(messages.paymentsToBeIssued());
 		initListGrid();
 
 		mainVLay = new VerticalPanel();
@@ -298,11 +297,11 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		ValidationResult result = FormItem.validate(payMethodSelect,
 				accountCombo);
 		if (grid.getRecords().isEmpty()) {
-			result.addError(grid, Accounter.constants()
+			result.addError(grid, messages
 					.noTransactionIsAvailableToIssuePayments());
 		} else {
 			if (grid.getSelectedRecords().size() == 0)
-				result.addError(grid, Accounter.constants()
+				result.addError(grid, messages
 						.pleaseSelectAnyOneOfTheTransactions());
 		}
 		// result.add(grid.validateGrid());
@@ -316,7 +315,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 			setCheckNo(number);
 		} catch (NumberFormatException e) {
 			valid = false;
-			Accounter.showError(Accounter.constants().invalidChequeNumber());
+			Accounter.showError(messages.invalidChequeNumber());
 		}
 
 		return valid;
@@ -412,7 +411,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 									// .logError(
 									// "Failed to get the IssuePaymentTransactionsList..",
 									// t);
-									grid.addEmptyMessage(Accounter.constants()
+									grid.addEmptyMessage(messages
 											.noRecordsToShow());
 
 								}
@@ -431,7 +430,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 										}
 									} else
 										grid.addEmptyMessage(Accounter
-												.constants().noRecordsToShow());
+												.messages().noRecordsToShow());
 
 								}
 
@@ -465,7 +464,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		emptyLabel.setWidth("25%");
 		totalLabel = new Label();
 		totalLabel.setWidth("30%");
-		totalLabel.setText(Accounter.constants().totalAmount());
+		totalLabel.setText(messages.totalAmount());
 
 		amountLabel = new Label();
 		amountLabel.setText("" + UIUtils.getCurrencySymbol() + "0");
@@ -479,7 +478,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	private void paymentMethodSelected(String selectedpaymentMethod1) {
 		selectedpaymentMethod = selectedpaymentMethod1;
 		if (!selectedpaymentMethod.isEmpty()) {
-			checkNoText = new TextItem(Accounter.constants().startingChequeNo());
+			checkNoText = new TextItem(messages.startingChequeNo());
 			checkNoText.setHelpInformation(true);
 			checkNoText.setWidth(100);
 			// checkNoText.setRequired(true);

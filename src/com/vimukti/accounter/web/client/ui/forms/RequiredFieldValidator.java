@@ -9,7 +9,7 @@ public class RequiredFieldValidator implements Validator {
 	public boolean validate(FormItem formItem) {
 		if (formItem.getMainWidget() instanceof ListBox) {
 			if (formItem.getValue().toString().equalsIgnoreCase(
-					Accounter.constants()
+					Accounter.messages()
 							.emptyValue()))
 
 				return false;

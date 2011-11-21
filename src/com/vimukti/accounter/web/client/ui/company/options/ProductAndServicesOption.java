@@ -75,18 +75,18 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 
-		headerLabel.setText(constants.whatDoYouSell());
+		headerLabel.setText(messages.whatDoYouSell());
 		// servicesOnlyText.setText(constants.whatDoYouSell());
-		servicesOnly.setText(constants.services_labelonly());
-		servicesOnlyText.setText(constants.servicesOnly());
-		productsOnly.setText(constants.products_labelonly());
+		servicesOnly.setText(messages.services_labelonly());
+		servicesOnlyText.setText(messages.servicesOnly());
+		productsOnly.setText(messages.products_labelonly());
 
-		productsOnlyText.setText(constants.productsOnly());
-		both.setText(constants.bothservicesandProduct_labelonly());
-		bothText.setText(constants.bothServicesandProducts());
+		productsOnlyText.setText(messages.productsOnly());
+		both.setText(messages.bothservicesandProduct_labelonly());
+		bothText.setText(messages.bothServicesandProducts());
 
-		inventoryCheckBox.setText(constants.inventoryTracking());
-		warehousesCheckBox.setText(constants.haveMultipleWarehouses());
+		inventoryCheckBox.setText(messages.inventoryTracking());
+		warehousesCheckBox.setText(messages.haveMultipleWarehouses());
 
 		servicesOnly.addClickHandler(new ClickHandler() {
 
@@ -127,7 +127,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return constants.productAndServices();
+		return messages.productAndServices();
 	}
 
 	@Override
@@ -155,7 +155,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return constants.productAndServices();
+		return messages.productAndServices();
 	}
 
 	@Override

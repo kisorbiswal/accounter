@@ -154,7 +154,7 @@ public class ClientMeasurement implements IAccounterCore {
 			}
 		}
 
-		throw new IllegalArgumentException(Accounter.constants()
+		throw new IllegalArgumentException(Accounter.messages()
 				.specifiedunittypenotfoundinmeasure());
 	}
 

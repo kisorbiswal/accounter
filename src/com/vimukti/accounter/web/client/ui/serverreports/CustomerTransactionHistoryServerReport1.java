@@ -33,11 +33,11 @@ public class CustomerTransactionHistoryServerReport1 extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { " ", getConstants().date(),
-				getConstants().noDot(), getConstants().invoicedAmount(),
-				getConstants().paidAmount(), getConstants().balance(),
-				getConstants().paymentTerms(), getConstants().dueDate(),
-				getConstants().debit(), getConstants().credit() };
+		return new String[] { " ", getMessages().date(),
+				getMessages().noDot(), getMessages().invoicedAmount(),
+				getMessages().paidAmount(), getMessages().balance(),
+				getMessages().paymentTerms(), getMessages().dueDate(),
+				getMessages().debit(), getMessages().credit() };
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class CustomerTransactionHistoryServerReport1 extends
 			addSection(sectionName, "", new int[0]);
 		} else if (sectionDepth == 2) {
 			// Inside fist section
-			addSection(getConstants().beginingBalance(), getConstants()
+			addSection(getMessages().beginingBalance(), getMessages()
 					.bankBalance(), new int[] { 3, 5, 8, 9 });
 		} else if (sectionDepth == 3) {
 			// No need to do anything, just allow adding this record
@@ -208,11 +208,11 @@ public class CustomerTransactionHistoryServerReport1 extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { " ", getConstants().date(),
-				getConstants().noDot(), getConstants().invoicedAmount(),
-				getConstants().paidAmount(), getConstants().balance(),
-				getConstants().paymentTerms(), getConstants().dueDate(),
-				getConstants().debit(), getConstants().credit() };
+		return new String[] { " ", getMessages().date(),
+				getMessages().noDot(), getMessages().invoicedAmount(),
+				getMessages().paidAmount(), getMessages().balance(),
+				getMessages().paymentTerms(), getMessages().dueDate(),
+				getMessages().debit(), getMessages().credit() };
 	}
 
 }

@@ -29,7 +29,7 @@ public class AutomaticSequenceAction extends Action {
 	public void run() {
 		try {
 			AutomaticSequenceDialog automaticSequenceDialog = new AutomaticSequenceDialog(
-					Accounter.constants().automaticSequencing(), "");
+					Accounter.messages().automaticSequencing(), "");
 			automaticSequenceDialog.show();
 			automaticSequenceDialog.center();
 		} catch (Exception e) {

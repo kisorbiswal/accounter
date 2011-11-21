@@ -58,7 +58,7 @@ public abstract class WareHouseTransferTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().itemName();
+				return Accounter.messages().itemName();
 			}
 			
 			@Override
@@ -105,7 +105,7 @@ public abstract class WareHouseTransferTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().totalQuantity();
+					return Accounter.messages().totalQuantity();
 				}
 				
 				@Override
@@ -136,15 +136,15 @@ public abstract class WareHouseTransferTable extends
 		List<ClientStockTransferItem> selectedRecords = getSelectedRecords();
 		List<ClientStockTransferItem> allRows = getAllRows();
 		if (allRows == null || allRows.isEmpty()) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, Accounter.messages()
 					.youDontHaveAnyItemsToTransfer());
 		} else if (selectedRecords == null || selectedRecords.isEmpty()) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, Accounter.messages()
 					.pleaseSelectAtLeastOneRecord());
 		} else {
 			for (ClientStockTransferItem item : selectedRecords) {
 				if (item.getQuantity().getValue() == 0) {
-					result.addError(this, Accounter.constants()
+					result.addError(this, Accounter.messages()
 							.transferQuantityShouldntbeZeroForSelectedRecords());
 				}
 			}

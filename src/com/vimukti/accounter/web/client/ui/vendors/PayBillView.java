@@ -27,10 +27,9 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -54,7 +53,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	AmountField endBalText;
 	DateField date;
 	DateField dueDate;
-	AccounterConstants accounterConstants = Accounter.constants();
 	protected String vendorPaymentMethod;
 	private TransactionPayBillTable grid;
 	protected AmountField cashDiscountTextItem;
@@ -217,7 +215,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			tpbRecord.setPayBill(transaction);
 
 			// ClientAccount cashAcc = getCompany().getAccountByName(
-			// gridView.getAttribute(Accounter.constants().cashAccount(),
+			// gridView.getAttribute(messages.cashAccount(),
 			// gridView.indexOf(tpbRecord)));
 			// if (cashAcc != null)
 			// tpbRecord.setDiscountAccount(cashAcc.getID());
@@ -431,15 +429,15 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab = new Label(Accounter.constants().payBill());
+		Label lab = new Label(Accounter.messages().payBill());
 		lab.removeStyleName("gwt-Label");
-		lab.addStyleName(Accounter.constants().labelTitle());
+		lab.addStyleName(Accounter.messages().labelTitle());
 
 		locationCombo = createLocationCombo();
 		locationCombo.setHelpInformation(true);
 
 		// lab.setHeight("50px");
-		date = new DateField(Accounter.constants().date());
+		date = new DateField(Accounter.messages().date());
 		date.setToolTip(Accounter.messages().selectDateWhenTransactioCreated(
 				this.getAction().getViewName()));
 		date.setHelpInformation(true);
@@ -456,7 +454,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						if (newDate != null)
 							setTransactionDate(newDate);
 					} catch (Exception e) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.invalidTransactionDate());
 						setTransactionDate(new ClientFinanceDate());
 						date.setEnteredDate(getTransactionDate());
@@ -482,13 +480,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					}
 				});
 
-		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
+		payFromCombo = createPayFromCombo(Accounter.messages().payFrom());
 		payFromCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		paymentMethodCombo.setDefaultValue(Accounter.constants()
+		paymentMethodCombo.setDefaultValue(Accounter.messages()
 				.onlineBanking());
 
-		dueDate = new DateField(Accounter.constants()
+		dueDate = new DateField(Accounter.messages()
 				.filterByBilldueonorbefore());
 		dueDate.setHelpInformation(true);
 		dueDate.setValue(new ClientFinanceDate());
@@ -533,7 +531,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		// filterForm = new DynamicForm();
 		// filterForm.setIsGroup(true);
-		// filterForm.setGroupTitle(Accounter.constants().Filter());
+		// filterForm.setGroupTitle(messages.Filter());
 		// filterForm.setFields(dueDate);
 
 		DynamicForm dateForm = new DynamicForm();
@@ -548,17 +546,17 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		payForm = new DynamicForm();
 		payForm.setIsGroup(true);
-		payForm.setGroupTitle(Accounter.constants().payment());
+		payForm.setGroupTitle(Accounter.messages().payment());
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
 
-		endBalText = new AmountField(Accounter.constants().bankBalance(), this,
+		endBalText = new AmountField(Accounter.messages().bankBalance(), this,
 				getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		endBalText.setDisabled(true);
-		tdsCombo = new TaxItemCombo(Accounter.constants().tds(),
+		tdsCombo = new TaxItemCombo(Accounter.messages().tds(),
 				ClientTAXAgency.TAX_TYPE_TDS);
 		tdsCombo.setDisabled(isInViewMode());
 		tdsCombo.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
@@ -573,7 +571,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		balForm.setIsGroup(true);
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
-		balForm.setGroupTitle(Accounter.constants().balances());
+		balForm.setGroupTitle(Accounter.messages().balances());
 		balForm.setFields(endBalText, tdsCombo);
 		if (!getCompany().getPreferences().isTDSEnabled()) {
 			tdsCombo.setVisible(false);
@@ -584,7 +582,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// balForm.setFields(classListCombo);
 		// }
 
-		Label lab1 = new Label(Accounter.constants().billsDue());
+		Label lab1 = new Label(Accounter.messages().billsDue());
 
 		initListGrid();
 
@@ -598,7 +596,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
-		unUsedCreditsText = new AmountLabel(Accounter.constants()
+		unUsedCreditsText = new AmountLabel(Accounter.messages()
 				.unusedCredits());
 		unUsedCreditsText.setDisabled(true);
 
@@ -612,7 +610,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		currencyWidget = createCurrencyFactorWidget();
 
-		this.tdsPayableAmount = new AmountLabel(constants.tdsAmount());
+		this.tdsPayableAmount = new AmountLabel(messages.tdsAmount());
 		tdsPayableAmount.setDisabled(true);
 
 		this.amountToVendor = new AmountLabel(messages.payeePayment(Global
@@ -798,7 +796,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						new AccounterAsyncCallback<ArrayList<PayBillTransactionList>>() {
 
 							public void onException(AccounterException caught) {
-								grid.addEmptyMessage(Accounter.constants()
+								grid.addEmptyMessage(Accounter.messages()
 										.noRecordsToShow());
 							}
 
@@ -812,7 +810,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 									clearGrid();
 									filterGrid();
 								} else {
-									grid.addEmptyMessage(Accounter.constants()
+									grid.addEmptyMessage(Accounter.messages()
 											.noRecordsToShow());
 									updateFooterValues();
 								}
@@ -948,7 +946,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+					messages.invalidateDate());
 		}
 		ValidationResult payFormValidationResult = payForm.validate();
 		if (payFormValidationResult.haveErrors()
@@ -978,7 +976,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (isTDSEnable()) {
 			ClientTAXItem selectedValue = tdsCombo.getSelectedValue();
 			if (selectedValue == null) {
-				result.addError(tdsCombo, constants.pleaseSelectTDS());
+				result.addError(tdsCombo, messages.pleaseSelectTDS());
 			}
 		}
 		ClientAccount bankAccount = payFromCombo.getSelectedValue();
@@ -987,7 +985,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
 			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
 				result.addError(payFromCombo,
-						accounterConstants.selectProperBankAccount());
+						messages.selectProperBankAccount());
 			}
 		}
 		return result;
@@ -1065,7 +1063,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		grid.setRecords(records);
 		size = records.size();
 		if (size == 0)
-			grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
+			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
 	}
 
 	public List<DynamicForm> getForms() {
@@ -1116,7 +1114,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 								@Override
 								public void onException(
 										AccounterException caught) {
-									Accounter.showError(Accounter.constants()
+									Accounter.showError(Accounter.messages()
 											.failedtovoidPayBill());
 
 								}
@@ -1155,7 +1153,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					});
 		} else if (transaction.isVoid() || transaction.isDeleted())
 			Accounter
-					.showError(Accounter.constants().failedtovoidTransaction());
+					.showError(Accounter.messages().failedtovoidTransaction());
 	}
 
 	public void updateFootervalues(ClientTransactionPayBill obj, boolean canEdit) {
@@ -1226,7 +1224,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().payBills();
+		return Accounter.messages().payBills();
 	}
 
 	// Update methods

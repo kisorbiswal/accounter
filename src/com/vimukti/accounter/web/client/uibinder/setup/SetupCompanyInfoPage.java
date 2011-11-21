@@ -123,36 +123,36 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.enterYourCompanyInfo());
+		headerLabel.setText(messages.enterYourCompanyInfo());
 
 		// if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_US) {
-		taxIDLabel.setText(accounterConstants.taxId());
+		taxIDLabel.setText(messages.taxId());
 		// } else if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_UK) {
-		// taxIDLabel.setText(accounterConstants.vatNo());
+		// taxIDLabel.setText(messages.vatNo());
 		// } else if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_INDIA) {
 		// taxIDLabel.setText(Accounter.messages().panNumber(
 		// Global.get().Account()));
 		// }
 
-		displayNameLabel.setText(accounterConstants.companyName());
-		legalNameLabel.setText(accounterConstants.legalName());
-		streetAddress2Label.setText(accounterConstants.streetAddress2());
-		streetAdreess1Label.setText(accounterConstants.streetAddress1());
-		cityLabel.setText(accounterConstants.city());
-		stateLabel.setText(accounterConstants.state());
-		zipLabel.setText(accounterConstants.zipCode());
-		countryLabel.setText(accounterConstants.country());
-		phoneLabel.setText(accounterConstants.phone());
-		phone.setTitle(Accounter.messages().phoneNumber(
-				Accounter.constants().company()));
-		faxLabel.setText(accounterConstants.fax());
-		emailAdressLabel.setText(accounterConstants.emailId());
-		webSiteLabel.setText(accounterConstants.webSite());
+		displayNameLabel.setText(messages.companyName());
+		legalNameLabel.setText(messages.legalName());
+		streetAddress2Label.setText(messages.streetAddress2());
+		streetAdreess1Label.setText(messages.streetAddress1());
+		cityLabel.setText(messages.city());
+		stateLabel.setText(messages.state());
+		zipLabel.setText(messages.zipCode());
+		countryLabel.setText(messages.country());
+		phoneLabel.setText(messages.phone());
+		phone.setTitle(Accounter.messages().phoneNumberOf(
+				Accounter.messages().company()));
+		faxLabel.setText(messages.fax());
+		emailAdressLabel.setText(messages.emailId());
+		webSiteLabel.setText(messages.webSite());
 		useFormat.setHTML("");
-		timezone.setText(accounterConstants.timezone());
+		timezone.setText(messages.timezone());
 
 		countries = CoreUtils.getCountriesAsList();
 		for (int i = 0; i < countries.size(); i++) {
@@ -363,7 +363,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			return true;
 
 		} else {
-			Accounter.showError(accounterMessages.pleaseEnter(displayNameLabel
+			Accounter.showError(messages.pleaseEnter(displayNameLabel
 					.getText()));
 			return false;
 		}
@@ -372,7 +372,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.setCompanyInfo();
+		return messages.setCompanyInfo();
 	}
 
 }

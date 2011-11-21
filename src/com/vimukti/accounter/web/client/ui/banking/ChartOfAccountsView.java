@@ -5,12 +5,10 @@ import java.util.List;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -28,7 +26,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	SelectCombo viewSelect;
 	Label addAccLabel, hierLabel, lab1;
 
-	AccounterConstants bankingConstants = Accounter.constants();
 	protected List<ClientAccount> allAccounts;
 	private ClientAccount toBeDelete;
 	private List<ClientAccount> listOfAccounts;
@@ -82,14 +79,14 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.messages().addNew(Global.get().Account());
+			return messages.addNew(messages.Account());
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().payeesList(Global.get().Accounts());
+		return messages.payeesList(messages.Accounts());
 	}
 
 	@Override
@@ -164,7 +161,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected String getViewTitle() {
-		return Global.get().Accounts();
+		return messages.Accounts();
 	}
 
 }

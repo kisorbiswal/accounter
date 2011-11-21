@@ -67,11 +67,11 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { companyConstants.taxAgency(),
-				companyConstants.periodStartDate(),
-				companyConstants.periodEndDate(),
-				companyConstants.taxFiledDate(), companyConstants.taxDue(),
-				companyConstants.totalPaymentMade(), companyConstants.report() };
+		return new String[] { messages.taxAgency(),
+				messages.periodStartDate(),
+				messages.periodEndDate(),
+				messages.taxFiledDate(), messages.taxDue(),
+				messages.totalPaymentMade(), messages.report() };
 	}
 
 	@SuppressWarnings("unchecked")
@@ -154,7 +154,7 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 			return DataUtils.amountAsStringWithCurrency(
 					(obj.getTotal() - obj.getBalance()), currency);
 		case 6:
-			return companyConstants.exceptionDetails();
+			return messages.exceptionDetails();
 		default:
 			break;
 		}

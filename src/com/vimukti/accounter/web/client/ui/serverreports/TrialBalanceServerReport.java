@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -19,7 +18,7 @@ public class TrialBalanceServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return constants.financialYearToDate();
+		return messages.financialYearToDate();
 	}
 
 	@Override
@@ -66,18 +65,18 @@ public class TrialBalanceServerReport extends
 	@Override
 	public String[] getColunms() {
 		if (getPreferences().getUseAccountNumbers() == true) {
-			return new String[] { messages.payeeName(Global.get().Account()),
-					messages.payeeNumber(Global.get().Account()),
-					constants.debit(), constants.credit() };
+			return new String[] { messages.accountName(),
+					messages.accountNumber(), messages.debit(),
+					messages.credit() };
 		} else {
-			return new String[] { messages.payeeName(Global.get().Account()),
-					"", constants.debit(), constants.credit() };
+			return new String[] { messages.accountName(), "", messages.debit(),
+					messages.credit() };
 		}
 	}
 
 	@Override
 	public String getTitle() {
-		return constants.trialBalance();
+		return messages.trialBalance();
 	}
 
 	@Override
@@ -97,7 +96,7 @@ public class TrialBalanceServerReport extends
 	public void processRecord(TrialBalance record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "",
-					constants.total() }, new int[] { 2, 3 });
+					messages.total() }, new int[] { 2, 3 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -188,12 +187,12 @@ public class TrialBalanceServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		if (getPreferences().getUseAccountNumbers() == true) {
-			return new String[] { messages.payeeName(Global.get().Account()),
-					messages.payeeNumber(Global.get().Account()),
-					constants.debit(), constants.credit() };
+			return new String[] { messages.accountName(),
+					messages.accountNumber(), messages.debit(),
+					messages.credit() };
 		} else {
-			return new String[] { messages.payeeName(Global.get().Account()),
-					"", constants.debit(), constants.credit() };
+			return new String[] { messages.accountName(), "", messages.debit(),
+					messages.credit() };
 		}
 	}
 

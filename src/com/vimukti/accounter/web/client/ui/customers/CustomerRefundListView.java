@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -22,14 +21,13 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerRefundListGrid;
  * 
  */
 public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
-	AccounterConstants customerConstants = Accounter.constants();
 	protected List<CustomerRefundsList> transactions;
 	private List<CustomerRefundsList> listOfCustomerRefund;
 
-	private static String NOT_ISSUED = Accounter.constants().notIssued();
-	private static String ISSUED = Accounter.constants().issued();
-	private static String VOID = Accounter.constants().voided();
-	private static String ALL = Accounter.constants().all();
+	private static String NOT_ISSUED = Accounter.messages().notIssued();
+	private static String ISSUED = Accounter.messages().issued();
+	private static String VOID = Accounter.messages().voided();
+	private static String ALL = Accounter.messages().all();
 	// private static String DELETED="Deleted";
 
 	private static final int STATUS_NOT_ISSUED = 0;
@@ -91,7 +89,7 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants().currentView());
+		viewSelect = new SelectCombo(Accounter.messages().currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(NOT_ISSUED);

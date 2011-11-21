@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -30,8 +30,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class RecurringTransactionDialog extends
 		BaseDialog<ClientRecurringTransaction> {
 
-	private final static AccounterConstants CONSTANTS = Accounter.constants();
-	private final static String OPTIONAL_DUE_DATE_OPTION = CONSTANTS
+	private final static AccounterMessages MESSAGES = Accounter.messages();
+	private final static String OPTIONAL_DUE_DATE_OPTION = MESSAGES
 			.ofTheCurrentMonth();
 
 	private TextItem nameField;
@@ -93,7 +93,7 @@ public class RecurringTransactionDialog extends
 	private RecurringTransactionDialog(
 			AbstractTransactionBaseView<? extends ClientTransaction> parentView,
 			ClientRecurringTransaction transaction) {
-		super(CONSTANTS.recurring(), CONSTANTS.recurringDescription());
+		super(MESSAGES.recurring(), MESSAGES.recurringDescription());
 		this.parentView = parentView;
 		existingTransaction = transaction;
 		createControls();
@@ -106,7 +106,7 @@ public class RecurringTransactionDialog extends
 		intervalValueField = new IntervalValueInputField();
 		endDateTypeForm = new DynamicForm();
 
-		unbilledChargesCkBox = new CheckboxItem(CONSTANTS
+		unbilledChargesCkBox = new CheckboxItem(MESSAGES
 				.includeUnbilledCharges());
 
 		initRadioBtns();
@@ -124,30 +124,30 @@ public class RecurringTransactionDialog extends
 
 		DynamicForm form = new DynamicForm();
 
-		nameField = new TextItem(Accounter.constants().name());
+		nameField = new TextItem(Accounter.messages().name());
 		nameField.setRequired(true);
 		nameField.setHelpInformation(true);
 
-		daysInAdvanceField = new TextItem(Accounter.constants().daysInAdvance());
+		daysInAdvanceField = new TextItem(Accounter.messages().daysInAdvance());
 
-		occurrencesField = new TextItem(Accounter.constants()
+		occurrencesField = new TextItem(Accounter.messages()
 				.endAfterSpecifiedOccurences());
 		occurrencesField.setRequired(false);
 		nameField.setHelpInformation(true);
 
-		startDateField = new DateItem(Accounter.constants().startDate());
+		startDateField = new DateItem(Accounter.messages().startDate());
 		startDateField.setRequired(true);
 		startDateField.setHelpInformation(true);
 
-		endDateField = new DateItem(Accounter.constants().endDate());
+		endDateField = new DateItem(Accounter.messages().endDate());
 		endDateField.setHelpInformation(true);
 
-		actionComboField = new SelectCombo(Accounter.constants().action());
+		actionComboField = new SelectCombo(Accounter.messages().action());
 		actionComboField.initCombo(getActionOptions());
 		actionComboField.setRequired(true);
 		actionComboField.setHelpInformation(true);
 
-		dueField = new TextAndComboPairForm(Accounter.constants().due(),
+		dueField = new TextAndComboPairForm(Accounter.messages().due(),
 				getDueDateOptions(true));
 
 		form.setFields(recurringTypeCombo, nameField, startDateField,
@@ -180,8 +180,8 @@ public class RecurringTransactionDialog extends
 	}
 
 	private void initRadioBtns() {
-		onSpecificWeekRadioBtn = new RadioButton(Accounter.constants()
-				.monthly(), Accounter.constants().onSpecificWeek());
+		onSpecificWeekRadioBtn = new RadioButton(Accounter.messages()
+				.monthly(), Accounter.messages().onSpecificWeek());
 		onSpecificWeekRadioBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -199,7 +199,7 @@ public class RecurringTransactionDialog extends
 		});
 
 		onSpecificDayRadioBtn = new RadioButton(
-				Accounter.constants().monthly(), Accounter.constants()
+				Accounter.messages().monthly(), Accounter.messages()
 						.onSpecificDay());
 		onSpecificDayRadioBtn.addClickHandler(new ClickHandler() {
 
@@ -290,13 +290,13 @@ public class RecurringTransactionDialog extends
 			switch (selected) {
 			case 0:// Daily
 				panel = getDailyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(Accounter.constants()
+				intervalValueField.setIntervalTypeLabel(Accounter.messages()
 						.days());
 				break;
 			case 1: // weekly
 				enableAllCombos();
 				panel = getWeeklyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(Accounter.constants()
+				intervalValueField.setIntervalTypeLabel(Accounter.messages()
 						.weeks());
 
 				// need to hide the option "due date of the currenct month" in
@@ -305,7 +305,7 @@ public class RecurringTransactionDialog extends
 				break;
 			case 2: // monthly
 				panel = getMonthlyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(Accounter.constants()
+				intervalValueField.setIntervalTypeLabel(Accounter.messages()
 						.months());
 
 				if (onSpecificWeekRadioBtn.getValue()) {
@@ -316,7 +316,7 @@ public class RecurringTransactionDialog extends
 			case 3: // yearly
 				enableAllCombos();
 				panel = getYearlyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(Accounter.constants()
+				intervalValueField.setIntervalTypeLabel(Accounter.messages()
 						.years());
 				break;
 			}
@@ -336,64 +336,64 @@ public class RecurringTransactionDialog extends
 	}
 
 	private void initCombos() {
-		recurringTypeCombo = createCombo(CONSTANTS.recurringType(),
+		recurringTypeCombo = createCombo(MESSAGES.recurringType(),
 				getRecurringTypeOptions());
 		recurringTypeCombo.setRequired(true);
 
-		dayOfWeekCombo = createCombo(CONSTANTS.dayOfWeek(), getWeekOptions());
-		dayOfMonthCombo = createCombo(CONSTANTS.dayOfMonth(),
+		dayOfWeekCombo = createCombo(MESSAGES.dayOfWeek(), getWeekOptions());
+		dayOfMonthCombo = createCombo(MESSAGES.dayOfMonth(),
 				getMonthDayOptions());
-		weekOfMonthCombo = createCombo(CONSTANTS.weekOfMonth(),
+		weekOfMonthCombo = createCombo(MESSAGES.weekOfMonth(),
 				getMonthWeekOptions());
-		monthOfYearCombo = createCombo(CONSTANTS.month(), getMonthOptions());
-		intervalTypeCombo = createCombo(CONSTANTS.intervalType(),
+		monthOfYearCombo = createCombo(MESSAGES.month(), getMonthOptions());
+		intervalTypeCombo = createCombo(MESSAGES.intervalType(),
 				getIntervalTypeOptions());
 		intervalTypeCombo.setRequired(true);
-		endDateTypeCombo = createCombo(CONSTANTS.endDateType(),
+		endDateTypeCombo = createCombo(MESSAGES.endDateType(),
 				getEndDateTypeOptions());
 		endDateTypeCombo.setRequired(true);
 	}
 
 	private List<String> getEndDateTypeOptions() {
 		List<String> options = new ArrayList<String>();
-		options.add(CONSTANTS.noEndDate());
-		options.add(CONSTANTS.endAfterOccurrences());
-		options.add(CONSTANTS.endDateAfter());
+		options.add(MESSAGES.noEndDate());
+		options.add(MESSAGES.endAfterOccurrences());
+		options.add(MESSAGES.endDateAfter());
 		return options;
 	}
 
 	private List<String> getRecurringTypeOptions() {
 		List<String> options = new ArrayList<String>();
-		options.add(CONSTANTS.schedule());
-		options.add(CONSTANTS.remainder());
-		options.add(CONSTANTS.noneJustTemplate());
+		options.add(MESSAGES.schedule());
+		options.add(MESSAGES.remainder());
+		options.add(MESSAGES.noneJustTemplate());
 		return options;
 	}
 
 	private List<String> getMonthOptions() {
 		List<String> options = new ArrayList<String>();
-		options.add(CONSTANTS.january());
-		options.add(CONSTANTS.february());
-		options.add(CONSTANTS.march());
-		options.add(CONSTANTS.april());
-		options.add(CONSTANTS.may());
-		options.add(CONSTANTS.june());
-		options.add(CONSTANTS.july());
-		options.add(CONSTANTS.august());
-		options.add(CONSTANTS.september());
-		options.add(CONSTANTS.october());
-		options.add(CONSTANTS.november());
-		options.add(CONSTANTS.december());
+		options.add(MESSAGES.january());
+		options.add(MESSAGES.february());
+		options.add(MESSAGES.march());
+		options.add(MESSAGES.april());
+		options.add(MESSAGES.may());
+		options.add(MESSAGES.june());
+		options.add(MESSAGES.july());
+		options.add(MESSAGES.august());
+		options.add(MESSAGES.september());
+		options.add(MESSAGES.october());
+		options.add(MESSAGES.november());
+		options.add(MESSAGES.december());
 		return options;
 	}
 
 	private List<String> getMonthWeekOptions() {
 		List<String> options = new ArrayList<String>();
-		options.add(CONSTANTS.first());
-		options.add(CONSTANTS.second());
-		options.add(CONSTANTS.third());
-		options.add(CONSTANTS.fourth());
-		options.add(CONSTANTS.last());
+		options.add(MESSAGES.first());
+		options.add(MESSAGES.second());
+		options.add(MESSAGES.third());
+		options.add(MESSAGES.fourth());
+		options.add(MESSAGES.last());
 		return options;
 	}
 
@@ -407,13 +407,13 @@ public class RecurringTransactionDialog extends
 
 	private List<String> getWeekOptions() {
 		List<String> weeks = new ArrayList<String>();
-		weeks.add(CONSTANTS.sunday());
-		weeks.add(CONSTANTS.monday());
-		weeks.add(CONSTANTS.tuesday());
-		weeks.add(CONSTANTS.wednesday());
-		weeks.add(CONSTANTS.thursday());
-		weeks.add(CONSTANTS.friday());
-		weeks.add(CONSTANTS.saturday());
+		weeks.add(MESSAGES.sunday());
+		weeks.add(MESSAGES.monday());
+		weeks.add(MESSAGES.tuesday());
+		weeks.add(MESSAGES.wednesday());
+		weeks.add(MESSAGES.thursday());
+		weeks.add(MESSAGES.friday());
+		weeks.add(MESSAGES.saturday());
 		return weeks;
 	}
 
@@ -753,8 +753,8 @@ public class RecurringTransactionDialog extends
 
 	private List<String> getDueDateOptions(boolean optinalRequired) {
 		List<String> options = new ArrayList<String>();
-		options.add(CONSTANTS.daysAfterTheInvoiceDate());
-		options.add(CONSTANTS.ofTheFollowingMonth());
+		options.add(MESSAGES.daysAfterTheInvoiceDate());
+		options.add(MESSAGES.ofTheFollowingMonth());
 		if (optinalRequired) {
 			options.add(OPTIONAL_DUE_DATE_OPTION);
 		}
@@ -771,10 +771,10 @@ public class RecurringTransactionDialog extends
 
 	private List<String> getIntervalTypeOptions() {
 		List<String> options = new ArrayList<String>();
-		options.add(CONSTANTS.daily());
-		options.add(CONSTANTS.weekly());
-		options.add(CONSTANTS.monthly());
-		options.add(CONSTANTS.yearly());
+		options.add(MESSAGES.daily());
+		options.add(MESSAGES.weekly());
+		options.add(MESSAGES.monthly());
+		options.add(MESSAGES.yearly());
 		return options;
 	}
 
@@ -810,7 +810,7 @@ public class RecurringTransactionDialog extends
 
 			int transactionDay;
 
-			if (intervalTypeCombo.getSelectedValue().equals(CONSTANTS.daily())) {
+			if (intervalTypeCombo.getSelectedValue().equals(MESSAGES.daily())) {
 				transactionDay = startDateField.getDay();
 			} else {
 				// The interval type either Month_day or yearly.
@@ -845,7 +845,7 @@ public class RecurringTransactionDialog extends
 		public IntervalValueInputField() {
 			// setGroupTitle(title);
 			setNumCols(4);
-			intervalValueField = new TextItem(CONSTANTS.every());
+			intervalValueField = new TextItem(MESSAGES.every());
 			intervalValueField.setRequired(true);
 			intervalTypeLabel = new LabelItem();
 			setFields(intervalValueField, intervalTypeLabel);

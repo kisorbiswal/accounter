@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.customers.NewLocationDialog;
@@ -16,7 +15,6 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 
 	ClientLocation clientLocation;
 	private GroupDialogButtonsHandler dialogButtonsHandler;
-	AccounterConstants accounterConstants = Accounter.constants();
 	List<ClientLocation> clientLocationGroups;
 	private NewLocationDialog locationGroupDg;
 
@@ -89,7 +87,7 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.constants().locationName(), };
+		return new String[] { Accounter.messages().locationName(), };
 	}
 
 	@Override
@@ -135,14 +133,14 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 			ClientLocation groupByName = company.getLocationByName(name);
 			if (!(locationGroupName.equalsIgnoreCase(name) ? true
 					: groupByName == null)) {
-				result.addError(this, accounterConstants.alreadyExist());
+				result.addError(this, messages.alreadyExist());
 			}
 
 		} else {
 			ClientLocation locationGroupByName = company
 					.getLocationByName(name);
 			if (locationGroupByName != null) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, Accounter.messages()
 						.aLocationAlreadyExistswiththisname());
 			}
 		}

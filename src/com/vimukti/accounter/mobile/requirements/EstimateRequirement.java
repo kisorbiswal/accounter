@@ -16,18 +16,18 @@ public abstract class EstimateRequirement extends ListRequirement<Estimate> {
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().thereAreNo(getConstants().estimate());
+		return getMessages().thereAreNo(getMessages().estimate());
 	}
 
 	@Override
 	protected String getSetMessage() {
-		return getMessages().hasSelected(getConstants().estimate());
+		return getMessages().hasSelected(getMessages().estimate());
 	}
 
 	@Override
 	protected Record createRecord(Estimate value) {
 		Record rec = new Record(value);
-		rec.add("", getConstants().quote());
+		rec.add("", getMessages().quote());
 		rec.add("", value.getTotal());
 
 		return rec;
@@ -40,13 +40,13 @@ public abstract class EstimateRequirement extends ListRequirement<Estimate> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getConstants().quote()));
+		list.add(getMessages().create(getMessages().quote()));
 
 	}
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().selectTypeOfThis(getConstants().quote());
+		return getMessages().selectTypeOfThis(getMessages().quote());
 	}
 
 }

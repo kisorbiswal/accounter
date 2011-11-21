@@ -20,8 +20,6 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -36,9 +34,6 @@ import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
 
 public class TransactionReceivePaymentGrid extends
 		AbstractTransactionGrid<ClientTransactionReceivePayment> {
-	AccounterConstants customerConstants = Accounter.constants();
-	AccounterMessages accounterMessages = Accounter.messages();
-
 	ReceivePaymentView paymentView;
 	ClientCustomer customer;
 	List<Integer> selectedValues = new ArrayList<Integer>();
@@ -105,23 +100,23 @@ public class TransactionReceivePaymentGrid extends
 	@Override
 	protected String[] getColumns() {
 		if (canEdit) {
-			return new String[] { customerConstants.dueDate(),
-					customerConstants.invoice(),
-					customerConstants.invoiceAmount(),
-					customerConstants.amountDue(),
-					customerConstants.discountDate(),
-					customerConstants.cashDiscount(),
-					customerConstants.writeOff(),
-					customerConstants.appliedCredits(),
-					customerConstants.payment() };
+			return new String[] { messages.dueDate(),
+					messages.invoice(),
+					messages.invoiceAmount(),
+					messages.amountDue(),
+					messages.discountDate(),
+					messages.cashDiscount(),
+					messages.writeOff(),
+					messages.appliedCredits(),
+					messages.payment() };
 		} else
-			return new String[] { customerConstants.invoice(),
-					customerConstants.invoiceAmount(),
-					customerConstants.discountDate(),
-					customerConstants.cashDiscount(),
-					customerConstants.writeOff(),
-					customerConstants.appliedCredits(),
-					customerConstants.payment() };
+			return new String[] { messages.invoice(),
+					messages.invoiceAmount(),
+					messages.discountDate(),
+					messages.cashDiscount(),
+					messages.writeOff(),
+					messages.appliedCredits(),
+					messages.payment() };
 	}
 
 	@Override
@@ -224,7 +219,7 @@ public class TransactionReceivePaymentGrid extends
 				double totalValue = item.getCashDiscount() + item.getWriteOff()
 						+ item.getAppliedCredits() + item.getPayment();
 				if (AccounterValidator.isValidReceive_Payment(item
-						.getAmountDue(), totalValue, Accounter.constants()
+						.getAmountDue(), totalValue, Accounter.messages()
 						.receivePaymentExcessDue())) {
 					paymentView.recalculateGridAmounts();
 					updateTotalPayment(0.0);
@@ -262,12 +257,12 @@ public class TransactionReceivePaymentGrid extends
 				.getSelectedRecords()) {
 			double totalValue = getTotalValue(transactionReceivePayment);
 			if (DecimalUtil.isLessThan(totalValue, 0.00)) {
-				result.addError(this, accounterMessages
-						.valueCannotBe0orlessthan0(customerConstants.amount()));
+				result.addError(this, messages
+						.valueCannotBe0orlessthan0(messages.amount()));
 			} else if (DecimalUtil.isGreaterThan(totalValue,
 					transactionReceivePayment.getAmountDue())
 					|| DecimalUtil.isEquals(totalValue, 0)) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, Accounter.messages()
 						.receivePaymentExcessDue());
 			}
 		}
@@ -623,7 +618,7 @@ public class TransactionReceivePaymentGrid extends
 
 	public void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(Accounter.constants()
+			throw new Exception(Accounter.messages()
 					.youdnthaveBalToApplyCredits());
 	}
 
@@ -674,7 +669,7 @@ public class TransactionReceivePaymentGrid extends
 	protected boolean validatePaymentValue() {
 		double totalValue = getTotalValue(selectedObject);
 		if (AccounterValidator.isValidReceive_Payment(selectedObject
-				.getAmountDue(), totalValue, Accounter.constants()
+				.getAmountDue(), totalValue, Accounter.messages()
 				.receiveAmountPayDue())) {
 			return true;
 		} else

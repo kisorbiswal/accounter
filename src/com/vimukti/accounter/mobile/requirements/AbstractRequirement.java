@@ -12,7 +12,6 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public abstract class AbstractRequirement<T> extends Requirement {
@@ -22,7 +21,6 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	public static final String FIRST_MESSAGE = "firstMessage";
 
 	private IGlobal global;
-	private AccounterConstants constants;
 	private AccounterMessages messages;
 	private ClientCompanyPreferences preferences;
 	private Company company;
@@ -37,7 +35,6 @@ public abstract class AbstractRequirement<T> extends Requirement {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		constants = global.constants();
 		messages = global.messages();
 	}
 
@@ -75,10 +72,6 @@ public abstract class AbstractRequirement<T> extends Requirement {
 			result.add(list);
 		}
 		return result;
-	}
-
-	protected AccounterConstants getConstants() {
-		return constants;
 	}
 
 	protected AccounterMessages getMessages() {

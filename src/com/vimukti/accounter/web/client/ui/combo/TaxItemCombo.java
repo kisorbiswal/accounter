@@ -76,7 +76,7 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.addNewItem();
+		return messages.item();
 
 	}
 

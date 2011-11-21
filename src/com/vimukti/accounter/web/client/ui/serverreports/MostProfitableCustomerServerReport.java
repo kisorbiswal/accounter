@@ -36,8 +36,8 @@ public class MostProfitableCustomerServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { Global.get().customer(),
-				getConstants().invoicedAmount(), getConstants().cost(),
-				getConstants().dollarMargin(), getConstants().percMargin() };
+				getMessages().invoicedAmount(), getMessages().cost(),
+				getMessages().dollarMargin(), getMessages().percMargin() };
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class MostProfitableCustomerServerReport extends
 	@Override
 	public void processRecord(MostProfitableCustomers record) {
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 1, 2, 3, 4 });
+			addSection("", getMessages().total(), new int[] { 1, 2, 3, 4 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -160,8 +160,8 @@ public class MostProfitableCustomerServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { Global.get().customer(),
-				getConstants().invoicedAmount(), getConstants().cost(),
-				getConstants().dollarMargin(), getConstants().percMargin() };
+				getMessages().invoicedAmount(), getMessages().cost(),
+				getMessages().dollarMargin(), getMessages().percMargin() };
 	}
 
 }

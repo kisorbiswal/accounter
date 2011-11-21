@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -44,9 +43,9 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		Label label = new Label();
 		label.removeStyleName("gwt-style");
 		label.setWidth("100%");
-		label.addStyleName(Accounter.constants().labelTitle());
-		label.setText(Accounter.constants().taxHistory());
-		this.optionsCombo = new SelectCombo(Accounter.constants().taxFillings());
+		label.addStyleName(messages.labelTitle());
+		label.setText(messages.taxHistory());
+		this.optionsCombo = new SelectCombo(messages.taxFillings());
 		optionsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -76,7 +75,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		this.add(mainPanel);
 		saveAndCloseButton.setVisible(false);
 		saveAndNewButton.setVisible(true);
-		saveAndNewButton.setText(Accounter.constants().payTax());
+		saveAndNewButton.setText(messages.payTax());
 	}
 
 	@Override
@@ -106,9 +105,9 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 	private void initComboItems() {
 		List<String> options = new ArrayList<String>();
-		options.add(new String(Accounter.constants().all()));
-		options.add(new String(Accounter.constants().paid()));
-		options.add(new String(Accounter.constants().unPaid()));
+		options.add(new String(messages.all()));
+		options.add(new String(messages.paid()));
+		options.add(new String(messages.unPaid()));
 		optionsCombo.initCombo(options);
 		optionsCombo.setSelectedItem(0);
 
@@ -159,13 +158,13 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 	private void filterList(String selectItem) {
 		grid.showLoadingImage();
 		grid.removeAllRecords();
-		if (selectItem.equals(constants.paid())) {
+		if (selectItem.equals(messages.paid())) {
 			for (ClientTAXReturn a : clientAbstractTAXReturns) {
 				if (a.getBalance() <= 0) {
 					this.grid.addData(a);
 				}
 			}
-		} else if (selectItem.equals(constants.unPaid())) {
+		} else if (selectItem.equals(messages.unPaid())) {
 			for (ClientTAXReturn a : clientAbstractTAXReturns) {
 				if (a.getBalance() > 0) {
 					this.grid.addData(a);
@@ -178,13 +177,13 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		}
 		grid.removeLoadingImage();
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(constants.noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return constants.taxHistory();
+		return messages.taxHistory();
 	}
 
 	@Override

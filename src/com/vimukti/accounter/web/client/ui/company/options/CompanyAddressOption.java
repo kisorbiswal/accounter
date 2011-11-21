@@ -159,26 +159,26 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 		List<String> countriesList = CoreUtils.getCountriesAsList();
 
 		tradingAddressDescription
-				.setText(constants.tradingAddressDescription());
+				.setText(messages.tradingAddressDescription());
 		tradingAddressDescription.setStyleName("organisation_comment");
-		tradingAddressTitle.setText(constants.tradingAddress());
-		tAddress1Label.setText(constants.address1());
-		tAddress2Label.setText(constants.address2());
-		tCityLabel.setText(constants.city());
-		tStateLabel.setText(constants.state());
-		tPostalCodeLabel.setText(constants.postalCode());
-		tCountryLabel.setText(constants.country());
+		tradingAddressTitle.setText(messages.tradingAddress());
+		tAddress1Label.setText(messages.address1());
+		tAddress2Label.setText(messages.address2());
+		tCityLabel.setText(messages.city());
+		tStateLabel.setText(messages.state());
+		tPostalCodeLabel.setText(messages.postalCode());
+		tCountryLabel.setText(messages.country());
 
-		registeredAddressDescription.setText(constants
+		registeredAddressDescription.setText(messages
 				.registeredAddresDescription());
 		registeredAddressDescription.setStyleName("organisation_comment");
-		registeredAddressTitle.setText(constants.registeredAddress());
-		rAddress1Label.setText(constants.address1());
-		rAddress2Label.setText(constants.address2());
-		rCityLabel.setText(constants.city());
-		rStateComboLabel.setText(constants.state());
-		rPostalCodeLabel.setText(constants.postalCode());
-		rCountryComboLabel.setText(constants.country());
+		registeredAddressTitle.setText(messages.registeredAddress());
+		rAddress1Label.setText(messages.address1());
+		rAddress2Label.setText(messages.address2());
+		rCityLabel.setText(messages.city());
+		rStateComboLabel.setText(messages.state());
+		rPostalCodeLabel.setText(messages.postalCode());
+		rCountryComboLabel.setText(messages.country());
 
 		for (int i = 0; i < countriesList.size(); i++) {
 			tCountryCombo.addItem(countriesList.get(i));
@@ -213,7 +213,7 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 			}
 		});
 		rCountryChanged();
-		isShowRegisteredAddressCheckBox.setText(constants
+		isShowRegisteredAddressCheckBox.setText(messages
 				.registeredAddressComment());
 	}
 
@@ -265,7 +265,7 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().address();
+		return Accounter.messages().address();
 	}
 
 	@Override
@@ -312,7 +312,7 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return constants.address();
+		return messages.address();
 	}
 
 	@UiHandler("isShowRegisteredAddressCheckBox")

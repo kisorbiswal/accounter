@@ -21,7 +21,7 @@ public class CreditRatingListCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new ShowListRequirement<CreditRating>("creditRatingList",
-				getMessages().pleaseSelect(getConstants().creditRating()), 5) {
+				getMessages().pleaseSelect(getMessages().creditRating()), 5) {
 			@Override
 			protected Record createRecord(CreditRating value) {
 				Record record = new Record(value);
@@ -46,12 +46,12 @@ public class CreditRatingListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().creditRatingList();
+				return getMessages().creditRatingList();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants().noRecordsToShow();
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override

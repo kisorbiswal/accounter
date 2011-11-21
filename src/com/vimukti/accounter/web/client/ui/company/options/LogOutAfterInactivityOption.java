@@ -41,7 +41,7 @@ public class LogOutAfterInactivityOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		signoutAfterInactivity.setTitle(constants.signoutafterInactivity());
+		signoutAfterInactivity.setTitle(messages.signoutafterInactivity());
 		signoutAfterInactivity.addItem("1 Hour");
 		signoutAfterInactivity.addItem("2 Hour");
 		signoutAfterInactivity.addItem("3 Hour");
@@ -73,7 +73,7 @@ public class LogOutAfterInactivityOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return constants.company();
+		return messages.company();
 	}
 
 	@Override

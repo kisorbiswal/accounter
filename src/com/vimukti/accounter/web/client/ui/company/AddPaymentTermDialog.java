@@ -23,10 +23,10 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 	private DynamicForm discForm;
 	public DynamicForm nameDescForm;
 	public IntegerField dayText;
-	// public String[] dueValues = { Accounter.constants().currentMonth(),
-	// Accounter.constants().currentQuarter(),
-	// Accounter.constants().currentHalfYear(),
-	// Accounter.constants().currentYear() };
+	// public String[] dueValues = { messages.currentMonth(),
+	// messages.currentQuarter(),
+	// messages.currentHalfYear(),
+	// messages.currentYear() };
 	// private List<String> listOfDueValues;
 	// private Label dayLabel;
 
@@ -47,19 +47,19 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		integerRangeValidator = new IntegerRangeValidator();
 
-		payTermText = new TextItem(Accounter.constants().paymentTerm());
+		payTermText = new TextItem(Accounter.messages().paymentTerm());
 		payTermText.setHelpInformation(true);
 		payTermText.setRequired(true);
 
-		descText = new TextItem(Accounter.constants().description());
+		descText = new TextItem(Accounter.messages().description());
 		descText.setHelpInformation(true);
 
-		dayText = new IntegerField(this, Accounter.constants().dueDays());
+		dayText = new IntegerField(this, Accounter.messages().dueDays());
 		dayText.setHelpInformation(true);
 		// dayText.setWidth(20);
 		dayText.setValidators(integerRangeValidator);
 
-		// dueSelect = new SelectCombo(Accounter.constants().due());
+		// dueSelect = new SelectCombo(messages.due());
 		// dueSelect.setHelpInformation(true);
 		// dueSelect.setWidth(90);
 		// listOfDueValues = new ArrayList<String>();
@@ -79,31 +79,31 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		// }
 		// });
 
-		// dayText = new IntegerField(this, Accounter.constants().and());
-		// dayText = new IntegerField(this, Accounter.constants().dueDays());
+		// dayText = new IntegerField(this, messages.and());
+		// dayText = new IntegerField(this, messages.dueDays());
 		// dayText.setHelpInformation(true);
 		// // dayText.setWidth(20);
 		// dayText.setValidators(integerRangeValidator);
 
 		// dayLabel = new Label();
-		// dayLabel.setText(Accounter.constants().days());
+		// dayLabel.setText(messages.days());
 
 		nameDescForm = new DynamicForm();
 		nameDescForm.setFields(payTermText, descText, dayText);
 		nameDescForm.setSize("100%", "100%");
 
 		// discText = new PercentageField(this,
-		// Accounter.constants().discount());
+		// messages.discount());
 		// discText.setHelpInformation(true);
 		// discText.setColSpan(1);
 		// discText.setWidth(90);
-		// discText.setHint(Accounter.constants().ifpaidwithin());
+		// discText.setHint(messages.ifpaidwithin());
 		//
-		// discDayText = new IntegerField(this, Accounter.constants()
+		// discDayText = new IntegerField(this, messages
 		// .ifpaidwithin());
 		// discDayText.setHelpInformation(true);
 		// discDayText.setColSpan(1);
-		// discDayText.setHint(Accounter.constants().days());
+		// discDayText.setHint(messages.days());
 		// discDayText.setWidth(20);
 
 		dueForm = new DynamicForm();
@@ -117,7 +117,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		dueForm.setStyleName("due_form_table");
 
 		// dayLabel = new Label();
-		// dayLabel.setText(Accounter.constants().days());
+		// dayLabel.setText(messages.days());
 
 		HorizontalPanel duePanel = new HorizontalPanel();
 		// duePanel.setSize("100%", "100%");
@@ -131,12 +131,12 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		discForm.setWidth("100%");
 		discForm.setNumCols(4);
 		discForm.setIsGroup(true);
-		// discForm.setGroupTitle(Accounter.constants().cashDiscount());
+		// discForm.setGroupTitle(messages.cashDiscount());
 		// discForm.setFields(discText, discDayText);
 		discForm.setSize("100%", "100%");
 
 		// Label label2 = new Label();
-		// label2.setText(Accounter.constants().days());
+		// label2.setText(messages.days());
 
 		HorizontalPanel discountPanel = new HorizontalPanel();
 		// discountPanel.setSize("100%", "100%");
@@ -204,7 +204,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		ValidationResult result = new ValidationResult();
 		if (payTermText.getValue().trim() == null
 				|| payTermText.getValue().trim().length() == 0) {
-			result.addError(this, Accounter.constants().pleaseEnterPayTerm());
+			result.addError(this, Accounter.messages().pleaseEnterPayTerm());
 		}
 		return result;
 	}

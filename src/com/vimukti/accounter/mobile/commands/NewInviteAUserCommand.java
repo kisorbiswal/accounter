@@ -34,23 +34,23 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new NameRequirement(FIRST_NAME, getMessages().pleaseEnter(
-				getConstants().firstName()), getConstants().firstName(), false,
+				getMessages().firstName()), getMessages().firstName(), false,
 				true));
 
 		list.add(new NameRequirement(LAST_NAME, getMessages().pleaseEnter(
-				getConstants().lastName()), getConstants().lastName(), false,
+				getMessages().lastName()), getMessages().lastName(), false,
 				true));
 
 		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
-				getConstants().email()), getConstants().email(), false, true));
+				getMessages().email()), getMessages().email(), false, true));
 
 		list.add(new StringListRequirement(LEVEL_ACCESS, getMessages()
-				.pleaseEnter(getConstants().permissions()), getConstants()
+				.pleaseEnter(getMessages().permissions()), getMessages()
 				.permissions(), true, true, null) {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(getConstants().permissions());
+				return getMessages().pleaseSelect(getMessages().permissions());
 			}
 
 			@Override
@@ -60,7 +60,7 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().permissions());
+				return getMessages().hasSelected(getMessages().permissions());
 			}
 
 			@Override
@@ -256,17 +256,17 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().user());
+		return getMessages().readyToCreate(getMessages().user());
 	}
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().user());
+		return getMessages().createSuccessfully(getMessages().user());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().user());
+		return getMessages().creating(getMessages().user());
 	}
 
 	@Override

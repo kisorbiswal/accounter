@@ -42,7 +42,7 @@ public class EmailAlertsOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		emailAlertCheckBox.setText(constants.emailAlerts());
+		emailAlertCheckBox.setText(messages.emailAlerts());
 		emailAlertCheckBox.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -69,7 +69,7 @@ public class EmailAlertsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return constants.company();
+		return messages.company();
 	}
 
 	@Override

@@ -31,7 +31,7 @@ public class CopyThemeAction extends Action {
 	public void run() {
 		try {
 			CopyThemeDialog copyThemeDialog = new CopyThemeDialog(Accounter
-					.constants().copyTheme(), "", (ClientBrandingTheme) data);
+					.messages().copyTheme(), "", (ClientBrandingTheme) data);
 			copyThemeDialog.center();
 			copyThemeDialog.show();
 		} catch (Exception e) {

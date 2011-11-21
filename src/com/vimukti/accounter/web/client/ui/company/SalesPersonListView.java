@@ -52,7 +52,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.constants().addaNewsalesPerson();
+			return Accounter.messages().addaNewsalesPerson();
 		else
 			return "";
 	}
@@ -60,7 +60,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	@Override
 	protected String getListViewHeading() {
 
-		return Accounter.constants().salesPersonList();
+		return Accounter.messages().salesPersonList();
 	}
 
 	// @Override
@@ -154,7 +154,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().salesPersons();
+		return Accounter.messages().salesPersons();
 	}
 
 }

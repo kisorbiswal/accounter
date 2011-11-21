@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.requirements;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.web.client.Global;
 
 public abstract class AccountRequirement extends ListRequirement<Account> {
 
@@ -30,12 +29,12 @@ public abstract class AccountRequirement extends ListRequirement<Account> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(Global.get().Account()));
+		list.add(getMessages().create(getMessages().Account()));
 	}
 
 	@Override
 	protected String getSelectString() {
-		return getMessages().pleaseSelect(Global.get().Account());
+		return getMessages().pleaseSelect(getMessages().Account());
 	}
 
 	@Override

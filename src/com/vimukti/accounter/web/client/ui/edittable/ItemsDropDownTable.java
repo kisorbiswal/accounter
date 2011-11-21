@@ -59,11 +59,13 @@ public class ItemsDropDownTable extends AbstractDropDownTable<ClientItem> {
 		boolean sellServices = company.getPreferences().isSellServices();
 		boolean sellProducts = company.getPreferences().isSellProducts();
 		if (sellServices && sellProducts) {
-			clientItem.setName(Accounter.comboMessages().newItem());
+			clientItem.setName(messages.comboDefaultAddNew(messages.item()));
 		} else if (sellServices) {
-			clientItem.setName(Accounter.comboMessages().newServiceItem());
+			clientItem.setName(messages.comboDefaultAddNew(messages
+					.serviceItem()));
 		} else if (sellProducts) {
-			clientItem.setName(Accounter.comboMessages().newProductItem());
+			clientItem.setName(messages.comboDefaultAddNew(messages
+					.productItem()));
 		}
 		return clientItem;
 	}

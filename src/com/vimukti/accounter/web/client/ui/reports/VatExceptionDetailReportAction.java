@@ -18,7 +18,7 @@ public class VatExceptionDetailReportAction extends Action {
 
 	public VatExceptionDetailReportAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().report();
+		this.catagory = Accounter.messages().report();
 	}
 
 	@Override

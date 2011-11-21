@@ -39,14 +39,14 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return cashPurchase.getID() == 0 ? getMessages().create(
-				getConstants().cashExpense())
+				getMessages().cashExpense())
 				: "Update Cash Expense Command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return cashPurchase.getID() == 0 ? getMessages().readyToCreate(
-				getConstants().cashExpense())
+				getMessages().cashExpense())
 				: "Cash expense is ready to update with following details";
 	}
 
@@ -56,8 +56,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CASH_EXPENSE,
-						context.getCompany()));
+						ClientTransaction.TYPE_CASH_EXPENSE, context
+								.getCompany()));
 		/* get(CURRENCY_FACTOR).setDefaultValue(1.0); */
 
 	}
@@ -65,8 +65,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 	@Override
 	public String getSuccessMessage() {
 		return cashPurchase.getID() == 0 ? getMessages().createSuccessfully(
-				getConstants().cashExpense()) : getMessages()
-				.updateSuccessfully(getConstants().cashExpense());
+				getMessages().cashExpense()) : getMessages()
+				.updateSuccessfully(getMessages().cashExpense());
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
-				getConstants().Vendor()), getConstants().vendor(), false, true,
+				getMessages().Vendor()), getMessages().vendor(), false, true,
 				null)
 
 		{
@@ -139,25 +139,24 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		 */
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().billNo()), getConstants().billNo(), true, true));
+				getMessages().billNo()), getMessages().billNo(), true, true));
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().transactionDate()), getConstants()
+				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseSelect(getConstants().paymentMethod()), getConstants()
+				.pleaseSelect(getMessages().paymentMethod()), getMessages()
 				.paymentMethod(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getConstants().paymentMethod());
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getConstants().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -170,12 +169,12 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				 * paymentMethods.values());
 				 */
 				String payVatMethodArray[] = new String[] {
-						getConstants().cash(), getConstants().creditCard(),
-						getConstants().directDebit(),
-						getConstants().masterCard(),
-						getConstants().onlineBanking(),
-						getConstants().standingOrder(),
-						getConstants().switchMaestro() };
+						getMessages().cash(), getMessages().creditCard(),
+						getMessages().directDebit(),
+						getMessages().masterCard(),
+						getMessages().onlineBanking(),
+						getMessages().standingOrder(),
+						getMessages().switchMaestro() };
 				List<String> wordList = Arrays.asList(payVatMethodArray);
 				return wordList;
 			}
@@ -183,16 +182,16 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().paymentMethod());
+						getMessages().paymentMethod());
 			}
 		});
-		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(getConstants().bankAccount()),
-				getConstants().bankAccount(), false, false, null) {
+		list.add(new AccountRequirement(PAY_FROM, getMessages().pleaseSelect(
+				getMessages().bankAccount()), getMessages().bankAccount(),
+				false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().payFrom());
+				return getMessages().hasSelected(getMessages().payFrom());
 			}
 
 			@Override
@@ -219,8 +218,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(
-						getConstants().bankAccounts());
+				return getMessages()
+						.youDontHaveAny(getMessages().bankAccount());
 			}
 
 			@Override
@@ -229,7 +228,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
-				"please select accountItems", getConstants().Account(), true,
+				"please select accountItems", getMessages().Account(), true,
 				true) {
 
 			@Override
@@ -239,7 +238,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getConstants().items(),
+				"Please Enter Item Name or number", getMessages().items(),
 				true, true) {
 
 			@Override
@@ -261,8 +260,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 		});
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getConstants().taxCode()), getConstants().taxCode(), false,
-				true, null) {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -286,7 +285,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 
 	}
 
@@ -356,7 +355,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select a Cash Expense to update.");
-				return "Cash Expenses List ," + getConstants().cash();
+				return "Cash Expenses List ," + getMessages().cash();
 			}
 			long numberFromString = getNumberFromString(string);
 			if (numberFromString != 0) {
@@ -368,7 +367,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			if (transactionByNum == null) {
 				addFirstMessage(context, "Select a Cash Expense to update.");
 				return "Cash Expenses List " + string + ","
-						+ getConstants().cash();
+						+ getMessages().cash();
 			}
 			cashPurchase = transactionByNum;
 			setValues();

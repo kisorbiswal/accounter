@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import java.util.List;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -54,7 +53,7 @@ public abstract class TransactionJournalEntryTable extends
 		//
 		// @Override
 		// protected String getColumnName() {
-		// return Accounter.constants().voucherNo();
+		// return messages.voucherNo();
 		// }
 		//
 		// @Override
@@ -79,7 +78,7 @@ public abstract class TransactionJournalEntryTable extends
 		//
 		// @Override
 		// protected String getColumnName() {
-		// return Accounter.constants().date();
+		// return messages.date();
 		// }
 		//
 		// @Override
@@ -120,7 +119,7 @@ public abstract class TransactionJournalEntryTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Global.get().Account();
+						return messages.Account();
 			}
 
 			@Override
@@ -143,7 +142,7 @@ public abstract class TransactionJournalEntryTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().memo();
+				return messages.memo();
 			}
 
 			@Override
@@ -173,7 +172,7 @@ public abstract class TransactionJournalEntryTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().debit();
+				return messages.debit();
 			}
 
 			@Override
@@ -203,7 +202,7 @@ public abstract class TransactionJournalEntryTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().credit();
+				return messages.credit();
 			}
 
 			@Override
@@ -222,8 +221,8 @@ public abstract class TransactionJournalEntryTable extends
 		if (this.getAllRows().size() == 0) {
 			result.addError(
 					this,
-					Accounter.messages().thereisNoRecordsTosave(
-							Accounter.constants().journalEntry()));
+					messages.thereisNoRecordsTosave(
+							messages.journalEntry()));
 		}
 		// Validates account name
 		List<ClientTransactionItem> entrylist = this.getAllRows();
@@ -232,7 +231,7 @@ public abstract class TransactionJournalEntryTable extends
 			for (ClientTransactionItem entry2 : entrylist) {
 				long accountId2 = entry2.getAccount();
 				if (!entry.equals(entry2) && accountId == accountId2) {
-					result.addError(this, Accounter.constants()
+					result.addError(this, messages
 							.shouldntSelectSameAccountInMultipleEntries());
 				}
 			}
@@ -240,8 +239,8 @@ public abstract class TransactionJournalEntryTable extends
 		for (ClientTransactionItem entry : entrylist) {
 			if (entry.getAccount() == 0) {
 				result.addError(this,
-						Accounter.messages()
-								.pleaseEnter(Global.get().account()));
+ messages
+								.pleaseEnter(messages.account()));
 			}
 		}
 		return result;

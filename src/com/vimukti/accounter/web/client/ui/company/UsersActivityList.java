@@ -16,11 +16,10 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.PaginationList;
-import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
@@ -29,6 +28,7 @@ import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 public class UsersActivityList extends CellTable<ClientActivity> {
 	private AsyncDataProvider<ClientActivity> listDataProvider;
 	private ClientFinanceDate fromDate, endDate;
+	private AccounterMessages messages = Accounter.messages();
 
 	public UsersActivityList() {
 		createControls();
@@ -150,12 +150,12 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				return DataUtils.getAmountAsString(object.getAmount());
 			}
 		};
-		this.addColumn(dateColumn, Accounter.constants().modifiedTime());
-		this.addColumn(userNameColumn, Accounter.constants().userName());
-		this.addColumn(activityColumn, Accounter.constants().activity());
-		this.addColumn(nameColumn, Accounter.constants().name());
-		this.addColumn(transactionDateColumn, Accounter.constants().date());
-		this.addColumn(amountColumn, Accounter.constants().amount());
+		this.addColumn(dateColumn, messages.modifiedTime());
+		this.addColumn(userNameColumn,messages.userName());
+		this.addColumn(activityColumn, messages.activity());
+		this.addColumn(nameColumn,messages.name());
+		this.addColumn(transactionDateColumn, messages.date());
+		this.addColumn(amountColumn,messages.amount());
 		this.setColumnWidth(dateColumn, "170px");
 		this.setColumnWidth(userNameColumn, "160px");
 		this.setColumnWidth(activityColumn, "200px");
@@ -214,23 +214,23 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		int type = activity.getActivityType();
 		switch (type) {
 		case 0:
-			return Accounter.constants().loggedIn();
+			return messages.loggedIn();
 		case 1:
-			return Accounter.constants().loggedOut();
+			return messages.loggedOut();
 		case 2:
-			buffer.append(Accounter.constants().added());
+			buffer.append(messages.added());
 			buffer.append(" : ");
 			return buffer.toString();
 		case 3:
-			buffer.append(Accounter.constants().edited());
+			buffer.append(messages.edited());
 			buffer.append(" : ");
 			return buffer.toString();
 		case 4:
-			buffer.append(Accounter.constants().deleted());
+			buffer.append(messages.deleted());
 			buffer.append(" : ");
 			return buffer.toString();
 		case 5:
-			return Accounter.constants().updatedPreferences();
+			return messages.updatedPreferences();
 		default:
 			break;
 		}

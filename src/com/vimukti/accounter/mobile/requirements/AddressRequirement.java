@@ -85,26 +85,26 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 					context.setAttribute(ADDRESS_LINE_ATTR, ADDRESS1);
 					return show(context,
 							getMessages()
-									.pleaseEnter(getConstants().address1()),
+									.pleaseEnter(getMessages().address1()),
 							oldAddress.getAddress1(), oldAddress.getAddress1());
 				} else if (selection == CITY) {
 					context.setAttribute(ADDRESS_LINE_ATTR, CITY);
 					return show(context,
-							getMessages().pleaseEnter(getConstants().city()),
+							getMessages().pleaseEnter(getMessages().city()),
 							oldAddress.getCity(), oldAddress.getCity());
 				} else if (selection == STREET) {
 					context.setAttribute(ADDRESS_LINE_ATTR, STREET);
 					return show(
 							context,
 							getMessages().pleaseEnter(
-									getConstants().streetName()),
+									getMessages().streetName()),
 							oldAddress.getStreet(), oldAddress.getStreet());
 				} else if (selection == STATE) {
 					context.setAttribute(ADDRESS_LINE_ATTR, STATE);
 					return show(
 							context,
 							getMessages().pleaseEnter(
-									getConstants().stateOrProvince()),
+									getMessages().stateOrProvince()),
 							oldAddress.getStateOrProvinence(),
 							oldAddress.getStateOrProvinence());
 				} else if (selection == COUNTRY) {
@@ -112,7 +112,7 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 					return show(
 							context,
 							getMessages().pleaseEnter(
-									getConstants().countryRegion()),
+									getMessages().countryRegion()),
 							oldAddress.getCountryOrRegion(),
 							oldAddress.getCountryOrRegion());
 				}
@@ -128,27 +128,27 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 
 		ResultList list = new ResultList(getName());
 		Record record = new Record(ADDRESS1);
-		record.add("", getConstants().address1());
+		record.add("", getMessages().address1());
 		record.add("", oldAddress.getAddress1());
 		list.add(record);
 
 		record = new Record(STREET);
-		record.add("", getConstants().streetName());
+		record.add("", getMessages().streetName());
 		record.add("", oldAddress.getStreet());
 		list.add(record);
 
 		record = new Record(CITY);
-		record.add("", getConstants().city());
+		record.add("", getMessages().city());
 		record.add("", oldAddress.getCity());
 		list.add(record);
 
 		record = new Record(STATE);
-		record.add("", getConstants().stateOrProvince());
+		record.add("", getMessages().stateOrProvince());
 		record.add("", oldAddress.getStateOrProvinence());
 		list.add(record);
 
 		record = new Record(COUNTRY);
-		record.add("", getConstants().countryRegion());
+		record.add("", getMessages().countryRegion());
 		record.add("", oldAddress.getCountryOrRegion());
 		list.add(record);
 
@@ -156,7 +156,7 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 		result.add(getEnterString());
 
 		result.add(list);
-		result.add(getConstants().select());
+		result.add(getMessages().select());
 
 		ResultList finish = new ResultList(ADDRESS_ACTIONS);
 		record = new Record(ActionNames.FINISH);

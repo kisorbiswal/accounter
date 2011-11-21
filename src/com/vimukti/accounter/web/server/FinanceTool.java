@@ -80,6 +80,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
+import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBudget;
@@ -108,7 +109,6 @@ import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
-import com.vimukti.accounter.web.client.translate.ClientLocalMessage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.server.managers.CompanyManager;
 import com.vimukti.accounter.web.server.managers.CustomerManager;
@@ -2288,26 +2288,27 @@ public class FinanceTool {
 	// }
 
 	public ArrayList<ClientMessage> getMessages(int status, String lang,
-			String email, int frm, int limit) {
+			String email, int frm, int limit, String searchTerm) {
 		Session session = null;
 		try {
 			session = HibernateUtil.openSession();
 			List<Message> messages = new ArrayList<Message>();
 			switch (status) {
 			case ClientMessage.ALL:
-				messages = getMessagesList(lang, frm, limit);
+				messages = getMessagesList(lang, frm, limit, searchTerm);
 				break;
 
 			case ClientMessage.UNTRANSLATED:
-				messages = getUntranslatedMessages(lang, frm, limit);
+				messages = getUntranslatedMessages(lang, frm, limit, searchTerm);
 				break;
 
 			case ClientMessage.MYTRANSLATIONS:
-				messages = getMyTranslations(lang, email, frm, limit);
+				messages = getMyTranslations(lang, email, frm, limit,
+						searchTerm);
 				break;
 
 			case ClientMessage.UNCONFIRMED:
-				messages = getUnApprovedMessages(lang, frm, limit);
+				messages = getUnApprovedMessages(lang, frm, limit, searchTerm);
 				break;
 
 			default:
@@ -2355,7 +2356,8 @@ public class FinanceTool {
 		}
 	}
 
-	private List<Message> getUnApprovedMessages(String lang, int frm, int limit) {
+	private List<Message> getUnApprovedMessages(String lang, int frm,
+			int limit, String searchTerm) {
 		List<Message> messages = new ArrayList<Message>();
 
 		Session session = null;
@@ -2363,9 +2365,10 @@ public class FinanceTool {
 			session = HibernateUtil.openSession();
 
 			Query approvedMessagesQuery = session
-					.getNamedQuery("getApprovedMessages")
+					.getNamedQuery("getUnApprovedMessages")
 					.setParameter("lang", lang).setInteger("limt", limit)
-					.setInteger("fm", frm);
+					.setInteger("fm", frm)
+					.setParameter("searchTerm", "%" + searchTerm + "%");
 
 			Iterator iter = approvedMessagesQuery.list().iterator();
 			while (iter.hasNext()) {
@@ -2396,7 +2399,7 @@ public class FinanceTool {
 	}
 
 	private List<Message> getMyTranslations(String lang, String email, int frm,
-			int limit) {
+			int limit, String searchTerm) {
 		List<Message> messages = new ArrayList<Message>();
 
 		Session session = null;
@@ -2410,7 +2413,8 @@ public class FinanceTool {
 					.getNamedQuery("getMyTranslations")
 					.setParameter("lang", lang).setInteger("fm", frm)
 					.setInteger("limt", limit)
-					.setParameter("clientId", client.getID());
+					.setParameter("clientId", client.getID())
+					.setParameter("searchTerm", "%" + searchTerm + "%");
 			List queryList = myTranslationsQuery.list();
 			Iterator i = queryList.iterator();
 			while (i.hasNext()) {
@@ -2441,7 +2445,7 @@ public class FinanceTool {
 	}
 
 	private List<Message> getUntranslatedMessages(String lang, int frm,
-			int limit) {
+			int limit, String searchTerm) {
 		List<Message> messages = new ArrayList<Message>();
 
 		Session session = null;
@@ -2450,7 +2454,8 @@ public class FinanceTool {
 			Query messageIdsQuery = session
 					.getNamedQuery("getUntranslatedMessages")
 					.setParameter("lang", lang).setInteger("limt", limit)
-					.setInteger("fm", frm);
+					.setInteger("fm", frm)
+					.setParameter("searchTerm", "%" + searchTerm + "%");
 			List list = messageIdsQuery.list();
 			Iterator iterator = list.iterator();
 			while (iterator.hasNext()) {
@@ -2472,7 +2477,8 @@ public class FinanceTool {
 		}
 	}
 
-	private ArrayList<Message> getMessagesList(String lang, int frm, int limit) {
+	private ArrayList<Message> getMessagesList(String lang, int frm, int limit,
+			String searchTerm) {
 		List<Message> messages = new ArrayList<Message>();
 
 		Session session = null;
@@ -2480,7 +2486,8 @@ public class FinanceTool {
 			session = HibernateUtil.openSession();
 			Query query = session.getNamedQuery("getMessagesByLimit")
 					.setInteger("fm", frm).setInteger("limt", limit)
-					.setParameter("lang", lang);
+					.setParameter("lang", lang)
+					.setParameter("searchTerm", "%" + searchTerm + "%");
 			List list2 = query.list();
 			Iterator iterator1 = list2.iterator();
 			while (iterator1.hasNext()) {
@@ -2866,24 +2873,23 @@ public class FinanceTool {
 	}
 
 	public boolean canApprove(String userEmail, String lang) {
-		// Session session = null;
-		// try {
-		// session = HibernateUtil.openSession();
-		// Client client = getUserManager().getClient(userEmail);
-		// for (Language language : client.getLanguages()) {
-		// if (language.getLanguageCode().equals(lang)) {
-		// return true;
-		// }
-		// }
-		// return false;
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// return false;
-		// } finally {
-		// if (session != null) {
-		// session.close();
-		// }
-		// }
-		return false;
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+			Client client = getUserManager().getClient(userEmail);
+			for (Language language : client.getLanguages()) {
+				if (language.getLanguageCode().equals(lang)) {
+					return true;
+				}
+			}
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 	}
 }

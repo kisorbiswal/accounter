@@ -17,19 +17,19 @@ public class NewInventoryItemCommand extends NewNonInventoryItemCommand {
 	protected void addRequirements(List<Requirement> list) {
 		super.addRequirements(list);
 
-		list.add(new MeasurementRequirement(getConstants().measurement(),
-				getMessages().pleaseSelect(getConstants().measurement()),
-				getConstants().measurementName(), true, true, null) {
+		list.add(new MeasurementRequirement(getMessages().measurement(),
+				getMessages().pleaseSelect(getMessages().measurement()),
+				getMessages().measurementName(), true, true, null) {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getConstants().inventoryItem()));
+				list.add(getMessages().create(getMessages().inventoryItem()));
 			}
 
 			@Override
 			protected String getSetMessage() {
 				return getMessages()
-						.hasSelected(getConstants().inventoryItem());
+						.hasSelected(getMessages().inventoryItem());
 			}
 
 		});
@@ -37,7 +37,7 @@ public class NewInventoryItemCommand extends NewNonInventoryItemCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getConstants().inventoryItem();
+		return getMessages().inventoryItem();
 	}
 
 	@Override

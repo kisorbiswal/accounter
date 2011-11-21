@@ -47,21 +47,21 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 
-		monthsCheckboxLabel.setText(constants.selectFirstMonthOfFiscalYear());
-		fiscalYearDescriptionLabel.setText(constants.FiscalYearDescription());
+		monthsCheckboxLabel.setText(messages.selectFirstMonthOfFiscalYear());
+		fiscalYearDescriptionLabel.setText(messages.FiscalYearDescription());
 		fiscalYearDescriptionLabel.setStyleName("organisation_comment");
-		monthNames = new String[] { constants.january(), constants.february(),
-				constants.march(), constants.april(), constants.may(),
-				constants.june(), constants.july(), constants.august(),
-				constants.september(), constants.october(),
-				constants.november(), constants.december() };
+		monthNames = new String[] { messages.january(), messages.february(),
+				messages.march(), messages.april(), messages.may(),
+				messages.june(), messages.july(), messages.august(),
+				messages.september(), messages.october(),
+				messages.november(), messages.december() };
 
 		for (int i = 0; i < monthNames.length; i++) {
 			monthNameComboBox.addItem(monthNames[i]);
 			monthNam.add(monthNames[i]);
 		}
 
-		dateItemLable.setText(Accounter.constants().preventPostBefore());
+		dateItemLable.setText(Accounter.messages().preventPostBefore());
 		DateTimeFormat dateFormat = DateTimeFormat
 				.getFormat(getCompanyPreferences().getDateFormat());
 		dateItem.setFormat(new DateBox.DefaultFormat(dateFormat));
@@ -97,7 +97,7 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return constants.company();
+		return messages.company();
 	}
 
 }

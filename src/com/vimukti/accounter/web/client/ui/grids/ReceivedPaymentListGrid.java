@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -65,12 +65,12 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	@Override
 	protected String[] getColumns() {
-		customerConstants = Accounter.constants();
-		return new String[] { customerConstants.type(),
-				customerConstants.paymentDate(), customerConstants.no(),
+		messages = Accounter.messages();
+		return new String[] { messages.type(),
+				messages.paymentDate(), messages.no(),
 				Accounter.messages().payeeName(Global.get().Customer()),
-				customerConstants.payMethod(), customerConstants.checkNo(),
-				customerConstants.amountPaid(), customerConstants.voided()
+				messages.payMethod(), messages.checkNo(),
+				messages.amountPaid(), messages.voided()
 		// , ""
 		};
 	}
@@ -108,7 +108,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 	private void showWarningDialog(final ReceivePaymentsList obj, final int col) {
 		String msg = null;
 		if (col == 7 && !obj.isVoided()) {
-			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
+			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 7) {
 		// msg = "Do you want to Delete the Transaction";

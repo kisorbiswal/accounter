@@ -12,7 +12,7 @@ public class StockAdjustmentsListAction extends Action<ClientStockAdjustment> {
 
 	public StockAdjustmentsListAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().inventory();
+		this.catagory = Accounter.messages().inventory();
 	}
 
 	@Override

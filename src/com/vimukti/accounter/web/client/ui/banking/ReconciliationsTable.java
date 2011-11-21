@@ -36,7 +36,7 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 	public ReconciliationsTable() {
 		initColumns();
 		dataprovider.addDataDisplay(this);
-		HTML emptyMessage = new HTML(Accounter.constants()
+		HTML emptyMessage = new HTML(Accounter.messages()
 				.reconciliationsEmpty());
 		emptyMessage.setHeight("150px");
 		setEmptyTableWidget(emptyMessage);
@@ -59,7 +59,7 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 
 			@Override
 			public String getValue(ClientReconciliation object) {
-				return Accounter.messages().to(
+				return Accounter.messages().oneToOther(
 						object.getStartDate().toString(),
 						object.getEndDate().toString());
 			}
@@ -108,13 +108,13 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 			}
 		};
 
-		this.addColumn(reconciliationDate, Accounter.constants()
+		this.addColumn(reconciliationDate, Accounter.messages()
 				.ReconciliationDate());
-		this.addColumn(reconciliationPeriod, Accounter.constants()
+		this.addColumn(reconciliationPeriod, Accounter.messages()
 				.ReconciliationPeriod());
-		this.addColumn(openingBalance, Accounter.constants().openBalance());
-		this.addColumn(closingBalance, Accounter.constants().ClosingBalance());
-		this.addColumn(show, Accounter.constants().show());
+		this.addColumn(openingBalance, Accounter.messages().openBalance());
+		this.addColumn(closingBalance, Accounter.messages().ClosingBalance());
+		this.addColumn(show, Accounter.messages().show());
 		this.addColumn(delete);
 	}
 

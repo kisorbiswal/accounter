@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Sorting;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public abstract class ReportGridTemplate<R> {
 
@@ -59,7 +59,7 @@ public abstract class ReportGridTemplate<R> {
 
 	public abstract String getBody();
 
-	public abstract String getBody(AccounterConstants accounterConstants);
+	public abstract String getBody(AccounterMessages messages);
 
 	public abstract void addCell(boolean bold, String cellValue, int depth,
 			boolean underline, int cellWidth, int columnType);

@@ -50,9 +50,9 @@ public class SalesByCustomerDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { Global.get().customer(), getConstants().date(),
-				getConstants().type(), getConstants().noDot(),
-				getConstants().amount() };
+		return new String[] { Global.get().customer(), getMessages().date(),
+				getMessages().type(), getMessages().noDot(),
+				getMessages().amount() };
 
 	}
 
@@ -100,12 +100,12 @@ public class SalesByCustomerDetailServerReport extends
 	public void processRecord(SalesByCustomerDetail record) {
 		// if (sectionDepth == 0) {
 		// addSection(new String[] { "", "" }, new String[] { "", "", "",
-		// getConstants().total() }, new int[] { 4 });
+		// getMessages().total() }, new int[] { 4 });
 		// } else
 		if (sectionDepth == 0) {
 			this.sectionName = record.getName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
-					getConstants().total() }, new int[] { 4 });
+					getMessages().total() }, new int[] { 4 });
 			// addSection(sectionName, "", new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
@@ -182,9 +182,9 @@ public class SalesByCustomerDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Global.get().customer(), getConstants().date(),
-				getConstants().type(), getConstants().noDot(),
-				getConstants().amount() };
+		return new String[] { Global.get().customer(), getMessages().date(),
+				getMessages().type(), getMessages().noDot(),
+				getMessages().amount() };
 	}
 
 }

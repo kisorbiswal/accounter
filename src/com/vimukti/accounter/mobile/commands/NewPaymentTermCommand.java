@@ -27,15 +27,15 @@ public class NewPaymentTermCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new StringRequirement(PAYMENT_TERMS, getMessages()
-				.pleaseEnter(getConstants().paymentTerm()), getConstants()
+				.pleaseEnter(getMessages().paymentTerm()), getMessages()
 				.paymentTerm(), false, true));
 
 		list.add(new StringRequirement(DESCRIPTION, getMessages().pleaseEnter(
-				getConstants().paymentTermDescription()), getConstants()
+				getMessages().paymentTermDescription()), getMessages()
 				.paymentTermDescription(), true, true));
 
 		list.add(new NumberRequirement(DUE_DAYS, getMessages().pleaseEnter(
-				getConstants().dueDays()), getConstants().dueDays(), true, true));
+				getMessages().dueDays()), getMessages().dueDays(), true, true));
 
 	}
 

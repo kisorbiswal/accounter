@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -17,8 +16,6 @@ import com.vimukti.accounter.web.client.ui.grids.QuoteListGrid;
 
 public class QuoteListView extends BaseListView<ClientEstimate> {
 
-	private AccounterConstants customerConstants = Accounter.constants();
-
 	protected List<ClientEstimate> estimates;
 
 	private SelectCombo viewSelect;
@@ -27,13 +24,13 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	private int type;
 
-	private static String OPEN = Accounter.constants().open();
-	private static String REJECTED = Accounter.constants().rejected();
-	private static String ACCEPTED = Accounter.constants().accepted();
-	private static String EXPIRED = Accounter.constants().expired();
-	private static String ALL = Accounter.constants().all();
-	private static String CLOSE = Accounter.constants().close();
-	private static String APPLIED = Accounter.constants().applied();
+	private static String OPEN = messages.open();
+	private static String REJECTED = messages.rejected();
+	private static String ACCEPTED = messages.accepted();
+	private static String EXPIRED = messages.expired();
+	private static String ALL = messages.all();
+	private static String CLOSE = messages.close();
+	private static String APPLIED = messages.applied();
 
 	public static final int STATUS_OPEN = 0;
 	public static final int STATUS_REJECTED = 1;
@@ -50,15 +47,14 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	protected Action getAddNewAction() {
 		if (type == ClientEstimate.QUOTES
 				&& Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewQuoteAction(type, Accounter.constants()
-					.newQuote());
+			return ActionFactory.getNewQuoteAction(type, messages.newQuote());
 		else if (getPreferences().isDelayedchargesEnabled()) {
 			if (type == ClientEstimate.CHARGES) {
-				return ActionFactory.getNewQuoteAction(type, Accounter
-						.constants().newCharge());
+				return ActionFactory.getNewQuoteAction(type,
+						messages.newCharge());
 			} else if (type == ClientEstimate.CREDITS) {
-				return ActionFactory.getNewQuoteAction(type, Accounter
-						.constants().newCredit());
+				return ActionFactory.getNewQuoteAction(type,
+						messages.newCredit());
 			}
 		}
 		return null;
@@ -68,12 +64,12 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	protected String getAddNewLabelString() {
 		if (type == ClientEstimate.QUOTES
 				&& Accounter.getUser().canDoInvoiceTransactions())
-			return customerConstants.addaNewQuote();
+			return messages.addaNewQuote();
 		else if (getPreferences().isDelayedchargesEnabled()) {
 			if (type == ClientEstimate.CHARGES) {
-				return customerConstants.addNewCharge();
+				return messages.addNewCharge();
 			} else if (type == ClientEstimate.CREDITS) {
-				return customerConstants.addNewCredit();
+				return messages.addNew(messages.credit());
 			}
 		}
 		return "";
@@ -82,11 +78,11 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	@Override
 	protected String getListViewHeading() {
 		if (type == ClientEstimate.CHARGES) {
-			return Accounter.constants().chargesList();
+			return messages.chargesList();
 		} else if (type == ClientEstimate.CREDITS) {
-			return customerConstants.creditsList();
+			return messages.creditsList();
 		}
-		return Accounter.constants().quotesList();
+		return messages.quotesList();
 	}
 
 	@Override
@@ -117,7 +113,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants().currentView());
+		viewSelect = new SelectCombo(messages.currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(OPEN);
@@ -221,6 +217,6 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().quotes();
+		return messages.quotes();
 	}
 }

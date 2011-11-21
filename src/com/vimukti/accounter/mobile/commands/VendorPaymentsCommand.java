@@ -35,7 +35,7 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(VIEW_BY).setDefaultValue(getConstants().all());
+		get(VIEW_BY).setDefaultValue(getMessages().all());
 	}
 
 	@Override
@@ -56,10 +56,10 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().notIssued());
-				list.add(getConstants().issued());
-				list.add(getConstants().voided());
-				list.add(getConstants().all());
+				list.add(getMessages().notIssued());
+				list.add(getMessages().issued());
+				list.add(getMessages().voided());
+				list.add(getMessages().all());
 				return list;
 			}
 		});
@@ -129,24 +129,24 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 		}
 		if (paymentsLists != null) {
 			for (PaymentsList list : paymentsLists) {
-				if (currentView.equals(getConstants().notIssued())) {
+				if (currentView.equals(getMessages().notIssued())) {
 					if (Utility.getStatus(list.getType(), list.getStatus())
-							.equals(getConstants().notIssued())
+							.equals(getMessages().notIssued())
 							&& !list.isVoided()) {
 						result.add(list);
 					}
-				} else if (currentView.equals(getConstants().issued())) {
+				} else if (currentView.equals(getMessages().issued())) {
 					if (Utility.getStatus(list.getType(), list.getStatus())
-							.equalsIgnoreCase(getConstants().issued())
+							.equalsIgnoreCase(getMessages().issued())
 							&& !list.isVoided()) {
 						result.add(list);
 					}
-				} else if (currentView.equals(getConstants().voided())) {
+				} else if (currentView.equals(getMessages().voided())) {
 					if (list.isVoided()
 							&& list.getStatus() != ClientTransaction.STATUS_DELETED) {
 						result.add(list);
 					}
-				} else if (currentView.equalsIgnoreCase(getConstants().all())) {
+				} else if (currentView.equalsIgnoreCase(getMessages().all())) {
 					result.add(list);
 				}
 			}

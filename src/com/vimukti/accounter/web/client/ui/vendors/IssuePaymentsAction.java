@@ -39,9 +39,10 @@ public class IssuePaymentsAction extends Action {
 
 			@Override
 			public void onCreated() {
-				view = new IssuePaymentView(Accounter.constants()
-						.selectPaymentsToIssue(), Accounter.messages()
-						.selectPaymentMethod(Global.get().Account()));
+				view = new IssuePaymentView(messages
+.selectPaymentsToIssue(),
+						messages
+						.selectPaymentMethod());
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, IssuePaymentsAction.this);
 			}

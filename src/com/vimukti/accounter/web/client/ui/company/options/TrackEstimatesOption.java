@@ -51,9 +51,9 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
-		trackEstimateHeader.setText(constants.trackingEstimates());
-		yesRadioButton.setText(constants.yes());
-		noRadioButton.setText(constants.no());
+		trackEstimateHeader.setText(messages.trackingEstimates());
+		yesRadioButton.setText(messages.yes());
+		noRadioButton.setText(messages.no());
 		useDelayedCharges.setText("Use Delayed Charges");
 		useDelayedCharges.setStyleName("bold");
 		hiddenPanel.setVisible(getCompanyPreferences().isDoyouwantEstimates());
@@ -75,20 +75,20 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 			}
 		});
 
-		dontInclude.setText(constants.dontWantToIncludeEstimates());
-		includeAccepted.setText(constants.includeAcceptedEstimates());
-		includePendingAndAccepted.setText(constants
+		dontInclude.setText(messages.dontWantToIncludeEstimates());
+		includeAccepted.setText(messages.includeAcceptedEstimates());
+		includePendingAndAccepted.setText(messages
 				.includePendingAndAcceptedEstimates());
 	}
 
 	@Override
 	public String getAnchor() {
-		return constants.trackingEstimates();
+		return messages.trackingEstimates();
 	}
 
 	@Override
 	public String getTitle() {
-		return constants.trackingEstimates();
+		return messages.trackingEstimates();
 	}
 
 	@Override

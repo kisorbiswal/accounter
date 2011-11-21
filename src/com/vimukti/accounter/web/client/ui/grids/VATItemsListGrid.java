@@ -61,11 +61,11 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().active(),
-				Accounter.constants().product(),
-				Accounter.constants().vatAgency(),
-				Accounter.constants().description(),
-				Accounter.constants().rate(), "" };
+		return new String[] { Accounter.messages().active(),
+				Accounter.messages().product(),
+				Accounter.messages().vatAgency(),
+				Accounter.messages().description(),
+				Accounter.messages().rate(), "" };
 	}
 
 	/*
@@ -210,7 +210,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	public void deleteFailed(AccounterException caught) {
 		int errorCode = caught.getErrorCode();
 		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
-			Accounter.showError(AccounterExceptions.accounterErrors
+			Accounter.showError(AccounterExceptions.accounterMessages
 					.vatItemInUse());
 			return;
 		}

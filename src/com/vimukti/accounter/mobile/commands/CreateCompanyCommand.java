@@ -122,18 +122,18 @@ public class CreateCompanyCommand extends AbstractCommand {
 
 		Result makeResult = context.makeResult();
 		makeResult.add(getMessages().readyToCreate(
-				getConstants().companyPreferences()));
+				getMessages().companyPreferences()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
-		result = nameRequirement(context, list, NAME, getConstants()
+		result = nameRequirement(context, list, NAME, getMessages()
 				.companyName(),
-				getMessages().pleaseEnter(getConstants().companyName()));
+				getMessages().pleaseEnter(getMessages().companyName()));
 		if (result != null) {
 			return result;
 		}
 
-		result = numberListRequirement(context, getConstants().industry(),
+		result = numberListRequirement(context, getMessages().industry(),
 				getIndustryList(), INDUSTRIES, get(INDUSTRY), list);
 		if (result != null) {
 			return result;
@@ -152,7 +152,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 
 		}
 		result = new Result(getMessages().createSuccessfully(
-				getConstants().companyPreferences()));
+				getMessages().companyPreferences()));
 		return result;
 	}
 
@@ -172,71 +172,71 @@ public class CreateCompanyCommand extends AbstractCommand {
 		selection = context.getSelection(VALUES);
 
 		Result result = nameRequirement(context, list, LEGAL_NAME,
-				getConstants().legalCompanyName(),
-				getMessages().pleaseEnter(getConstants().legalCompanyName()));
+				getMessages().legalCompanyName(),
+				getMessages().pleaseEnter(getMessages().legalCompanyName()));
 		if (result != null) {
 			return result;
 		}
 
-		result = nameRequirement(context, list, TAX_ID, getConstants().taxId(),
-				getMessages().pleaseEnter(getConstants().taxId()));
+		result = nameRequirement(context, list, TAX_ID, getMessages().taxId(),
+				getMessages().pleaseEnter(getMessages().taxId()));
 		if (result != null) {
 			return result;
 		}
-		result = listRequirement(context, getConstants().state(),
+		result = listRequirement(context, getMessages().state(),
 				getStatesList(), COUNTRIES, get(COUNTRY), list);
 		if (result != null) {
 			return result;
 		}
 
-		result = listRequirement(context, getConstants().state(),
+		result = listRequirement(context, getMessages().state(),
 				getCountryList(), STATES, get(STATE), list);
 		if (result != null) {
 			return result;
 		}
 
-		result = nameRequirement(context, list, ADDRESS1, getConstants()
+		result = nameRequirement(context, list, ADDRESS1, getMessages()
 				.address1(),
-				getMessages().pleaseEnter(getConstants().address1()));
+				getMessages().pleaseEnter(getMessages().address1()));
 		if (result != null) {
 			return result;
 		}
 
-		result = nameRequirement(context, list, ADDRESS2, getConstants()
+		result = nameRequirement(context, list, ADDRESS2, getMessages()
 				.address2(),
-				getMessages().pleaseEnter(getConstants().address2()));
+				getMessages().pleaseEnter(getMessages().address2()));
 		if (result != null) {
 			return result;
 		}
 
-		result = nameRequirement(context, list, CITY, getConstants().city(),
-				getMessages().pleaseEnter(getConstants().city()));
+		result = nameRequirement(context, list, CITY, getMessages().city(),
+				getMessages().pleaseEnter(getMessages().city()));
 		if (result != null) {
 			return result;
 		}
 
-		result = nameRequirement(context, list, ZIPCODE, getConstants()
-				.zipCode(), getMessages().pleaseEnter(getConstants().zipCode()));
+		result = nameRequirement(context, list, ZIPCODE, getMessages()
+				.zipCode(), getMessages().pleaseEnter(getMessages().zipCode()));
 		if (result != null) {
 			return result;
 		}
 
-		result = nameRequirement(context, list, PHONE, getConstants()
+		result = nameRequirement(context, list, PHONE, getMessages()
 				.phoneNumber(),
-				getMessages().pleaseEnter(getConstants().phoneNumber()));
+				getMessages().pleaseEnter(getMessages().phoneNumber()));
 		if (result != null) {
 			return result;
 		}
 
 		result = nameRequirement(context, list, FAX,
-				getConstants().faxNumber(),
-				getMessages().pleaseEnter(getConstants().faxNumber()));
+				getMessages().faxNumber(),
+				getMessages().pleaseEnter(getMessages().faxNumber()));
 		if (result != null) {
 			return result;
 		}
 
-		result = emailRequirement(context, list, EMAIL, getConstants().email(),
-				getMessages().pleaseEnter(getConstants().email()));
+		result = emailRequirement(context, list, EMAIL, getMessages().email(),
+				getMessages().pleaseEnter(getMessages().email()));
 		if (result != null) {
 			return result;
 		}
@@ -245,20 +245,20 @@ public class CreateCompanyCommand extends AbstractCommand {
 				context,
 				list,
 				WEB_SITE,
-				getConstants().webSite(),
+				getMessages().webSite(),
 				getMessages().pleaseEnter(
-						getMessages().payeeName(getConstants().webSite())));
+						getMessages().payeeName(getMessages().webSite())));
 		if (result != null) {
 			return result;
 		}
 
-		result = listRequirement(context, getConstants().timezone(),
+		result = listRequirement(context, getMessages().timezone(),
 				getTimeZonesList(), TIME_ZONES, get(TIME_ZONE), list);
 		if (result != null) {
 			return result;
 		}
 
-		result = numberListRequirement(context, getConstants().organisation(),
+		result = numberListRequirement(context, getMessages().organisation(),
 				getOrganizationTypes(), ORGANIZATION_TYPES,
 				get(ORGANIZATION_REFER), list);
 		if (result != null) {
@@ -266,7 +266,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		}
 
 		result = numberListRequirement(context,
-				getMessages().terminology(getConstants().Customer()),
+				getMessages().payeeTerminology(getMessages().Customer()),
 				getCustomerTerminologies(), CUSTOMER_TERMINOLOGIES,
 				get(CUSTOMER_TERMINOLOGY), list);
 		if (result != null) {
@@ -274,7 +274,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		}
 
 		result = numberListRequirement(context,
-				getMessages().terminology(getConstants().Supplier()),
+				getMessages().payeeTerminology(getMessages().Supplier()),
 				getSupplierTerminologies(), SUPPLIER_TERMINOLOGIES,
 				get(SUPPLIER_TERMINOLOGY), list);
 		if (result != null) {
@@ -282,7 +282,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		}
 
 		result = numberListRequirement(context,
-				getMessages().terminology(getConstants().account()),
+				getMessages().payeeTerminology(getMessages().account()),
 				getAccountTerminologies(), ACCOUNT_TERMINOLOGIES,
 				get(ACCOUNT_TERMINOLOGY), list);
 		if (result != null) {
@@ -320,7 +320,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		booleanOptionalRequirement(context, selection, list, MANAGE_BILLS_OWE,
 				"Manage Bills", "Don't Manage Bills");
 
-		result = listRequirement(context, getConstants().fiscalYear(),
+		result = listRequirement(context, getMessages().fiscalYear(),
 				getFiscalYearMonths(), FISCAL_YEAR_LIST, get(FISCAL_YEAR), list);
 		if (result != null) {
 			return result;
@@ -336,7 +336,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		finish.add(
 				"",
 				getMessages().finishToCreate(
-						getConstants().companyPreferences()));
+						getMessages().companyPreferences()));
 		actions.add(finish);
 		return makeResult;
 	}
@@ -410,7 +410,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		}
 
 		Record nameRecord = new Record(requirementvalue);
-		nameRecord.add("", getConstants().currency());
+		nameRecord.add("", getMessages().currency());
 		nameRecord.add("", requirementvalue.getFormalName());
 		nameRecord.add("", requirementvalue.getDisplayName());
 		list.add(nameRecord);
@@ -437,7 +437,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		}
 		if (list.size() > 0) {
 			makeResult.add(getMessages()
-					.pleaseSelect(getConstants().currency()));
+					.pleaseSelect(getMessages().currency()));
 		}
 		makeResult.add(list);
 		return makeResult;
@@ -470,7 +470,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		if (actionName != null && actionName == ActionNames.ADD_MORE_ACCOUNTS) {
 			return accounts(context);
 		}
-		makeResult.add(getConstants().Accounts());
+		makeResult.add(getMessages().Accounts());
 		ResultList itemsList = new ResultList(ACCOUNTS_LIST);
 		for (TemplateAccount account : accountsReqValue) {
 			Record itemRec = new Record(account);
@@ -481,7 +481,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		makeResult.add(itemsList);
 
 		Record moreItems = new Record(ActionNames.ADD_MORE_ACCOUNTS);
-		moreItems.add("", getMessages().addMore(getConstants().Accounts()));
+		moreItems.add("", getMessages().addMore(getMessages().Accounts()));
 		actions.add(moreItems);
 		return null;
 	}
@@ -511,7 +511,7 @@ public class CreateCompanyCommand extends AbstractCommand {
 		}
 		list.setMultiSelection(true);
 		if (list.size() > 0) {
-			result.add(getMessages().pleaseSelect(getConstants().item()));
+			result.add(getMessages().pleaseSelect(getMessages().item()));
 		}
 		result.add(list);
 		return result;
@@ -738,10 +738,8 @@ public class CreateCompanyCommand extends AbstractCommand {
 		preferences.setOrganizationType(organizationRefer);
 		Integer customerTerm = get(CUSTOMER_TERMINOLOGY).getValue();
 		Integer supplierTerm = get(SUPPLIER_TERMINOLOGY).getValue();
-		Integer accountTerm = get(ACCOUNT_TERMINOLOGY).getValue();
 		preferences.setReferCustomers(customerTerm);
 		preferences.setReferVendors(supplierTerm);
-		preferences.setReferAccounts(accountTerm);
 		Integer servProBoth = get(SERVICE_PRODUCTS).getValue();
 		if (servProBoth == 1) {
 			preferences.setSellServices(true);
@@ -785,42 +783,42 @@ public class CreateCompanyCommand extends AbstractCommand {
 
 	private List<String> getOrganizationTypes() {
 		List<String> orgTypes = new ArrayList<String>();
-		orgTypes.add(getConstants().soleProprietorship());
-		orgTypes.add(getConstants().partnershipOrLLP());
-		orgTypes.add(getConstants().soleProprietorship());
-		orgTypes.add(getConstants().partnershipOrLLP());
-		orgTypes.add(getConstants().LLC());
-		orgTypes.add(getConstants().corporation());
-		orgTypes.add(getConstants().sCorporation());
-		orgTypes.add(getConstants().nonProfit());
-		orgTypes.add(getConstants().otherNone());
+		orgTypes.add(getMessages().soleProprietorship());
+		orgTypes.add(getMessages().partnershipOrLLP());
+		orgTypes.add(getMessages().soleProprietorship());
+		orgTypes.add(getMessages().partnershipOrLLP());
+		orgTypes.add(getMessages().LLC());
+		orgTypes.add(getMessages().corporation());
+		orgTypes.add(getMessages().sCorporation());
+		orgTypes.add(getMessages().nonProfit());
+		orgTypes.add(getMessages().otherNone());
 		return orgTypes;
 	}
 
 	private List<String> getAccountTerminologies() {
 		List<String> accountTerms = new ArrayList<String>();
-		accountTerms.add(getConstants().Account());
-		accountTerms.add(getConstants().Ledger());
-		accountTerms.add(getConstants().Category());
+		accountTerms.add(getMessages().Account());
+		accountTerms.add(getMessages().Ledger());
+		accountTerms.add(getMessages().Category());
 		return accountTerms;
 	}
 
 	private List<String> getSupplierTerminologies() {
 		List<String> supplierTerms = new ArrayList<String>();
-		supplierTerms.add(getConstants().Supplier());
-		supplierTerms.add(getConstants().Vendor());
+		supplierTerms.add(getMessages().Supplier());
+		supplierTerms.add(getMessages().Vendor());
 		return supplierTerms;
 	}
 
 	private List<String> getCustomerTerminologies() {
 		List<String> customerTerms = new ArrayList<String>();
-		customerTerms.add(getConstants().Customer());
-		customerTerms.add(getConstants().Client());
-		customerTerms.add(getConstants().Tenant());
-		customerTerms.add(getConstants().Donar());
-		customerTerms.add(getConstants().Guest());
-		customerTerms.add(getConstants().Member());
-		customerTerms.add(getConstants().Patient());
+		customerTerms.add(getMessages().Customer());
+		customerTerms.add(getMessages().Client());
+		customerTerms.add(getMessages().Tenant());
+		customerTerms.add(getMessages().Donar());
+		customerTerms.add(getMessages().Guest());
+		customerTerms.add(getMessages().Member());
+		customerTerms.add(getMessages().Patient());
 		return customerTerms;
 	}
 
@@ -829,13 +827,13 @@ public class CreateCompanyCommand extends AbstractCommand {
 	}
 
 	private List<String> getFiscalYearMonths() {
-		String[] names = new String[] { getConstants().january(),
-				getConstants().february(), getConstants().march(),
-				getConstants().april(), getConstants().may(),
-				getConstants().june(), getConstants().july(),
-				getConstants().august(), getConstants().september(),
-				getConstants().october(), getConstants().november(),
-				getConstants().december() };
+		String[] names = new String[] { getMessages().january(),
+				getMessages().february(), getMessages().march(),
+				getMessages().april(), getMessages().may(),
+				getMessages().june(), getMessages().july(),
+				getMessages().august(), getMessages().september(),
+				getMessages().october(), getMessages().november(),
+				getMessages().december() };
 		List<String> fiscalYearMonths = new ArrayList<String>();
 		for (int i = 0; i < names.length; i++) {
 			fiscalYearMonths.add(names[i]);

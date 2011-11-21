@@ -4,7 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -40,8 +39,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 
 	public CashDiscountDialog(List<ClientAccount> allAccounts,
 			Double cashDiscountValue, IGenericCallback<String> callback) {
-		super(Accounter.constants().cashDiscount(), Accounter.constants()
-				.cashDiscountPleaseAddDetails());
+		super(messages.cashDiscount(), messages.cashDiscountPleaseAddDetails());
 		this.callback = callback;
 		this.allAccounts = allAccounts;
 		this.cashDiscountValue = cashDiscountValue;
@@ -50,17 +48,16 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 	}
 
 	public CashDiscountDialog() {
-		super(Accounter.constants().cashDiscount(), Accounter.constants()
-				.cashDiscountPleaseAddDetails());
+		super(messages.cashDiscount(), messages.cashDiscountPleaseAddDetails());
 		createControls();
 	}
 
 	public CashDiscountDialog(boolean canEdit, Double discountValue,
 			ClientAccount account, ICurrencyProvider currencyProvider) {
-		super(Accounter.constants().cashDiscount(), Accounter.constants()
-				.cashDiscountPleaseAddDetails());
+		super(messages.cashDiscount(), messages.cashDiscountPleaseAddDetails());
 		this.currencyProvider = currencyProvider;
-		this.cashDiscountValue = currencyProvider.getAmountInBaseCurrency(discountValue);
+		this.cashDiscountValue = currencyProvider
+				.getAmountInBaseCurrency(discountValue);
 		this.canEdit = canEdit;
 		this.selectedDiscountAccount = account;
 		createControls();
@@ -90,8 +87,8 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 	private void createControls() {
 
 		mainPanel.setSpacing(5);
-		discAccSelect = new OtherAccountsCombo(Accounter.messages()
-				.discountAccount(Global.get().Account()), false);
+		discAccSelect = new OtherAccountsCombo(messages.discountAccount(),
+				false);
 
 		discAccSelect.setComboItem(selectedDiscountAccount);
 
@@ -105,12 +102,11 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 				});
 		discAccSelect.setRequired(true);
 
-		discAmtText = new AmountField(Accounter.constants().discountAmount(),
-				this,getBaseCurrency());
+		discAmtText = new AmountField(messages.discountAmount(), this,
+				getBaseCurrency());
 		discAmtText.setAmount(currencyProvider
 				.getAmountInTransactionCurrency(cashDiscountValue));
 		discAmtText.setAmount(cashDiscountValue);
-		
 
 		form = new DynamicForm();
 		form.setFields(discAccSelect, discAmtText);

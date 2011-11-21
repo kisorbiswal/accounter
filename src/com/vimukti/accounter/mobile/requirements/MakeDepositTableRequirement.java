@@ -31,20 +31,17 @@ public class MakeDepositTableRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		NameRequirement receivedFrom = new NameRequirement(RECEIVED_FROM, "",
-				getConstants().receivedFrom(), true, true);
+				getMessages().receivedFrom(), true, true);
 		receivedFrom.setEditable(false);
 		list.add(receivedFrom);
 
 		AccountRequirement account = new AccountRequirement(ACCOUNT_FROM,
-				getMessages().pleaseEnter(
-						getMessages().payeeFrom(Global.get().Account())),
-				getMessages().payeeFrom(Global.get().Account()), false, true,
-				null) {
+				getMessages().pleaseEnter(getMessages().accountFrom()),
+				getMessages().accountFrom(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(
-						getMessages().payeeFrom(Global.get().Account()));
+				return getMessages().hasSelected(getMessages().accountFrom());
 			}
 
 			@Override
@@ -70,18 +67,18 @@ public class MakeDepositTableRequirement extends
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Account());
+				return getMessages().youDontHaveAny(getMessages().Accounts());
 			}
 		};
 		list.add(account);
 
 		NameRequirement reference = new NameRequirement(REFERENCE,
-				getMessages().pleaseEnter(getConstants().reference()),
-				getConstants().reference(), true, true);
+				getMessages().pleaseEnter(getMessages().reference()),
+				getMessages().reference(), true, true);
 		list.add(reference);
 
 		AmountRequirement amount = new AmountRequirement(AMOUNT, getMessages()
-				.pleaseEnter(getConstants().amount()), getConstants().amount(),
+				.pleaseEnter(getMessages().amount()), getMessages().amount(),
 				false, true);
 		list.add(amount);
 
@@ -108,7 +105,7 @@ public class MakeDepositTableRequirement extends
 
 	@Override
 	protected void setRequirementsDefaultValues(ClientTransactionMakeDeposit obj) {
-		get(RECEIVED_FROM).setDefaultValue(getConstants().transfer());
+		get(RECEIVED_FROM).setDefaultValue(getMessages().transfer());
 		get(AMOUNT).setDefaultValue(obj.getAmount());
 		get(REFERENCE).setDefaultValue(obj.getReference());
 	}
@@ -128,13 +125,13 @@ public class MakeDepositTableRequirement extends
 				.getClientObjectById(t.getAccount(), AccounterCoreType.ACCOUNT,
 						getCompanyId());
 		Record record = new Record(t);
-		record.add("", getConstants().receivedFrom());
+		record.add("", getMessages().receivedFrom());
 		record.add("", getReceivedFrom(t));
-		record.add("", getMessages().payeeFrom(Global.get().Account()));
+		record.add("", getMessages().accountFrom());
 		record.add("", account == null ? "" : account.getName());
-		record.add("", getConstants().reference());
+		record.add("", getMessages().reference());
 		record.add("", t.getReference());
-		record.add("", getConstants().amount());
+		record.add("", getMessages().amount());
 		record.add("", t.getAmount());
 		return record;
 	}
@@ -142,7 +139,7 @@ public class MakeDepositTableRequirement extends
 	private String getReceivedFrom(ClientTransactionMakeDeposit value) {
 		switch (value.getType()) {
 		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-			return getConstants().transfer();
+			return getMessages().transfer();
 		case ClientTransactionMakeDeposit.TYPE_VENDOR:
 			return Global.get().vendor();
 		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
@@ -164,7 +161,7 @@ public class MakeDepositTableRequirement extends
 
 	@Override
 	protected String getAddMoreString() {
-		return getMessages().addMore(Global.get().Accounts());
+		return getMessages().addMore(getMessages().Accounts());
 	}
 
 }

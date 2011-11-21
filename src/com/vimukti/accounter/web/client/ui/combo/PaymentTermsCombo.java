@@ -27,7 +27,7 @@ public class PaymentTermsCombo extends CustomCombo<ClientPaymentTerms> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newPaymentTerms();
+		return messages.paymentTerms();
 	}
 
 	@Override

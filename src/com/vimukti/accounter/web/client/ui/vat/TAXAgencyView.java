@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -29,7 +28,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
@@ -51,15 +49,11 @@ import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
-	AccounterConstants companyConstants = Accounter.constants();
-
-	private final String ATTR_PRIMARY = Accounter.constants().primary();
-	private final String ATTR_CONTACT_NAME = Accounter.constants()
-			.contactName();
-	private final String ATTR_TITLE = Accounter.constants().title();
-	private final String ATTR_BUSINESS_PHONE = Accounter.constants()
-			.businessPhone();
-	private final String ATTR_EMAIL = Accounter.constants().email();
+	private final String ATTR_PRIMARY = messages.primary();
+	private final String ATTR_CONTACT_NAME = messages.contactName();
+	private final String ATTR_TITLE = messages.title();
+	private final String ATTR_BUSINESS_PHONE = messages.businessPhone();
+	private final String ATTR_EMAIL = messages.email();
 
 	TextItem taxAgencyText, fileAsText;
 
@@ -134,14 +128,14 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
 		// if (!isEdit)
-		// BaseView.errordata.setHTML(FinanceApplication.constants()
+		// BaseView.errordata.setHTML(FinanceApplication.messages()
 		// .duplicationOfTaxAgencyNameAreNotAllowed());
-		// addError(this, Accounter.constants()
+		// addError(this, messages
 		// .duplicationOfTaxAgencyNameAreNotAllowed());
 		// else
-		// BaseView.errordata.setHTML(FinanceApplication.constants()
+		// BaseView.errordata.setHTML(FinanceApplication.messages()
 		// .failedToUpdate());
-		// addError(this, Accounter.constants().failedToUpdate());
+		// addError(this, messages.failedToUpdate());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		AccounterException accounterException = (AccounterException) exception;
@@ -154,11 +148,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	public void saveSuccess(IAccounterCore result) {
 		// if (takenVATAgency == null)
 		// Accounter.showInformation(result.getName()
-		// + FinanceApplication.constants()
+		// + FinanceApplication.messages()
 		// .isCreatedSuccessfully());
 		// else
 		// Accounter.showInformation(result.getName()
-		// + FinanceApplication.constants()
+		// + FinanceApplication.messages()
 		// .isUpdatedSuccessfully());
 		super.saveSuccess(result);
 
@@ -177,9 +171,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		if (taxAgenciesByName != null
 				&& taxAgenciesByName.getID() != this.getData().getID()) {
-			result
-					.addError(taxAgencyText, Accounter.constants()
-							.alreadyExist());
+			result.addError(taxAgencyText, messages.alreadyExist());
 		}
 
 		List<DynamicForm> forms = this.getForms();
@@ -282,17 +274,17 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private VerticalPanel getTopLayout() {
 		Label lab;
-		lab = new Label(Accounter.constants().taxAgency());
-		taxAgencyText = new TextItem(Accounter.constants().taxAgency());
+		lab = new Label(messages.taxAgency());
+		taxAgencyText = new TextItem(messages.taxAgency());
 		taxAgencyText.setHelpInformation(true);
 		lab.removeStyleName("gwt-Label");
-		lab.addStyleName(Accounter.constants().labelTitle());
+		lab.addStyleName(messages.labelTitle());
 		lab.setHeight("35px");
 		taxAgencyText.setWidth(100);
 		taxAgencyText.setRequired(true);
 		taxAgencyText.setDisabled(isInViewMode());
 
-		fileAsText = new TextItem(companyConstants.fileAs());
+		fileAsText = new TextItem(messages.fileAs());
 		fileAsText.setHelpInformation(true);
 		fileAsText.setWidth(100);
 		fileAsText.setDisabled(isInViewMode());
@@ -308,21 +300,20 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			}
 		});
 
-		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
+		taxAgencyForm = UIUtils.form(messages.taxAgency());
 		// taxAgencyForm.setWidth("100%");
 		// taxAgencyForm.getCellFormatter().setWidth(0, 0, "166px");
 		taxAgencyForm.setFields(taxAgencyText);
 
 		accInfoForm = new DynamicForm();
 		accInfoForm = UIUtils.form(Accounter.messages().payeeInformation(
-				Global.get().Account()));
+				messages.Account()));
 
-		statusCheck = new CheckboxItem(companyConstants.active());
+		statusCheck = new CheckboxItem(messages.active());
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		paymentTermsCombo = new PaymentTermsCombo(companyConstants
-				.paymentTerm());
+		paymentTermsCombo = new PaymentTermsCombo(messages.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo.setDisabled(isInViewMode());
 		paymentTermsCombo
@@ -340,7 +331,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		taxTypeCombo = createTaxTypeSelectCombo();
 
-		vatReturnCombo = new SelectCombo(Accounter.constants().vatReturn());
+		vatReturnCombo = new SelectCombo(messages.taxReturn());
 		vatReturnCombo.setHelpInformation(true);
 		if (getCompany().getCountry().equals(
 				CountryPreferenceFactory.UNITED_KINGDOM)) {
@@ -348,8 +339,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		}
 		vatReturnCombo.setDisabled(isInViewMode());
 		vatReturnList = new ArrayList<String>();
-		vatReturnList.add(Accounter.constants().ukVAT());
-		vatReturnList.add(Accounter.constants().vat3Ireland());
+		vatReturnList.add(messages.ukVAT());
+		vatReturnList.add(messages.vat3Ireland());
 		vatReturnCombo.initCombo(vatReturnList);
 		vatReturnCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -364,7 +355,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 					}
 				});
 		liabilitySalesAccountCombo = new VATAgencyAccountCombo(Accounter
-				.messages().salesLiabilityAccount(Global.get().Account()));
+				.messages().salesLiabilityAccount());
 		liabilitySalesAccountCombo.setHelpInformation(true);
 		liabilitySalesAccountCombo.setDisabled(isInViewMode());
 		liabilitySalesAccountCombo
@@ -380,7 +371,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		liabilitySalesAccountCombo.setRequired(true);
 
 		liabilityPurchaseAccountCombo = new VATAgencyAccountCombo(Accounter
-				.messages().purchaseLiabilityAccount(Global.get().Account()));
+				.messages().purchaseLiabilityAccount());
 		liabilityPurchaseAccountCombo.setHelpInformation(true);
 		liabilityPurchaseAccountCombo.setDisabled(isInViewMode());
 		liabilityPurchaseAccountCombo
@@ -395,13 +386,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		liabilityPurchaseAccountCombo.setRequired(true);
 
-		tAXFilingFrequency = new TAXFilingFrequencyCombo(constants
+		tAXFilingFrequency = new TAXFilingFrequencyCombo(messages
 				.taxFilingFrequency());
 		tAXFilingFrequency.setDisabled(isInViewMode());
 		tAXFilingFrequency.initCombo(getTAXFilingFrequencies());
 		tAXFilingFrequency.setSelectedItem(0);
 
-		Label contacts = new Label(companyConstants.contacts());
+		Label contacts = new Label(messages.contacts());
 		initListGrid();
 		if (getPreferences().isTrackPaidTax()) {
 			if (getCompany().getCountry().equals(
@@ -437,7 +428,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				this.getAction().getViewName()));
 		memoArea.setHelpInformation(true);
 		memoArea.setDisabled(isInViewMode());
-		memoArea.setTitle(Accounter.constants().memo());
+		memoArea.setTitle(messages.memo());
 		// memoArea.setWidth("400px");
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
@@ -527,10 +518,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			if (data.getVATReturn() == ClientTAXAgency.RETURN_TYPE_NONE)
 				vatReturnCombo.setComboItem("");
 			else if (data.getVATReturn() == ClientTAXAgency.RETURN_TYPE_UK_VAT)
-				vatReturnCombo.setComboItem(Accounter.constants().ukVAT());
+				vatReturnCombo.setComboItem(messages.ukVAT());
 			else
-				vatReturnCombo
-						.setComboItem(Accounter.constants().vat3Ireland());
+				vatReturnCombo.setComboItem(messages.vat3Ireland());
 
 			if (data.getSalesLiabilityAccount() != 0) {
 				ClientAccount account = getCompany().getAccount(
@@ -644,10 +634,10 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private List<String> getTAXFilingFrequencies() {
 		List<String> list = new ArrayList<String>();
-		list.add(constants.monthly());
-		list.add(constants.quarterly());
-		list.add(constants.halfYearly());
-		list.add(constants.yearly());
+		list.add(messages.monthly());
+		list.add(messages.quarterly());
+		list.add(messages.halfYearly());
+		list.add(messages.yearly());
 		return list;
 	}
 
@@ -873,22 +863,22 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().taxAgency();
+		return messages.taxAgency();
 	}
 
 	private int getTaxType(String taxType) {
 		if (taxType == null) {
 			return 0;
 		}
-		if (taxType.equals(constants.salesTax())) {
+		if (taxType.equals(messages.salesTax())) {
 			return 1;
-		} else if (taxType.equals(constants.vat())) {
+		} else if (taxType.equals(messages.vat())) {
 			return 2;
-		} else if (taxType.equals(constants.serviceTax())) {
+		} else if (taxType.equals(messages.serviceTax())) {
 			return 3;
-		} else if (taxType.equals(constants.tds())) {
+		} else if (taxType.equals(messages.tds())) {
 			return 4;
-		} else if (taxType.equals(constants.other())) {
+		} else if (taxType.equals(messages.other())) {
 			return 5;
 		} else {
 			return 0;
@@ -898,24 +888,24 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private String getTaxTypeString(int type) {
 		switch (type) {
 		case 1:
-			return constants.salesTax();
+			return messages.salesTax();
 		case 2:
-			return constants.vat();
+			return messages.vat();
 		case 3:
-			return constants.serviceTax();
+			return messages.serviceTax();
 		case 4:
-			return constants.tds();
+			return messages.tds();
 		case 5:
-			return constants.other();
+			return messages.other();
 		default:
 			return "";
 		}
 	}
 
 	private SelectCombo createTaxTypeSelectCombo() {
-		SelectCombo taxTypeCombo = new SelectCombo(constants.taxType());
-		String[] types = new String[] { constants.salesTax(), constants.vat(),
-				constants.serviceTax(), constants.tds(), constants.other() };
+		SelectCombo taxTypeCombo = new SelectCombo(messages.taxType());
+		String[] types = new String[] { messages.salesTax(), messages.vat(),
+				messages.serviceTax(), messages.tds(), messages.other() };
 		taxTypeCombo.initCombo(Arrays.asList(types));
 		taxTypeCombo.setDisabled(isInViewMode());
 		taxTypeCombo.setRequired(true);
@@ -983,8 +973,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private List<String> getVatReturns() {
 		List<String> vatReturns = new ArrayList<String>();
-		vatReturns.add(Accounter.constants().ukVAT());
-		vatReturns.add(Accounter.constants().vat3Ireland());
+		vatReturns.add(messages.ukVAT());
+		vatReturns.add(messages.vat3Ireland());
 		return vatReturns;
 	}
 }

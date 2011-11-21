@@ -49,7 +49,7 @@ public class WareHouseItemsListView extends BaseListView<ClientItemStatus> {
 						if (result != null && !result.isEmpty()) {
 							grid.setRecords(result);
 						} else {
-							grid.addEmptyMessage(Accounter.constants()
+							grid.addEmptyMessage(Accounter.messages()
 									.noRecordsToShow());
 						}
 					}
@@ -58,7 +58,7 @@ public class WareHouseItemsListView extends BaseListView<ClientItemStatus> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().items(
+		return Accounter.messages().itemsDash(
 				getCompany().getWarehouse(wareHouse).getName());
 	}
 
@@ -75,7 +75,7 @@ public class WareHouseItemsListView extends BaseListView<ClientItemStatus> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().wareHouseItems();
+		return Accounter.messages().wareHouseItems();
 	}
 
 }

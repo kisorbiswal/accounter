@@ -11,7 +11,7 @@ public class BankNameCombo extends CustomCombo<ClientBank> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newBankName();
+		return messages.bankName();
 	}
 
 	@Override

@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.VATExceptionServerRepor
 public class VATExceptionDetailReportView extends AbstractReportView<VATDetail> {
 
 	public VATExceptionDetailReportView() {
-		super(false, Accounter.constants().noRecordsToShow());
+		super(false, Accounter.messages().noRecordsToShow());
 		this.serverReport = new VATExceptionServerReport(this);
 
 	}

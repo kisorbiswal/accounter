@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -19,7 +18,7 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return Accounter.comboMessages().newTAXAgency();
+		return messages.taxAgency();
 
 	}
 

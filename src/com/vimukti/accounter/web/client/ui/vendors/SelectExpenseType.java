@@ -13,24 +13,24 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 public class SelectExpenseType extends BaseDialog {
 	RadioGroupItem typeRadio;
-	private final String CHECK = Accounter.constants().check();
-	private final String CREDIT_CARD = Accounter.constants().creditCard();
+	private final String CHECK = Accounter.messages().check();
+	private final String CREDIT_CARD = Accounter.messages().creditCard();
 
-	private final String CASH = Accounter.constants().cash();
-	private final String EMPLOYEE = Accounter.constants().employee();
+	private final String CASH = Accounter.messages().cash();
+	private final String EMPLOYEE = Accounter.messages().employee();
 
 	// private ViewConfiguration configuration;
 
 	public SelectExpenseType() {
-		super(Accounter.constants().recordExpenses(), "");
-		setText(Accounter.constants().recordExpenses());
+		super(Accounter.messages().recordExpenses(), "");
+		setText(Accounter.messages().recordExpenses());
 		createControls();
 		center();
 	}
 
 	public SelectExpenseType(AccounterAsyncCallback<IAccounterCore> callBack) {
-		super(Accounter.constants().recordExpenses(), "");
-		setText(Accounter.constants().recordExpenses());
+		super(Accounter.messages().recordExpenses(), "");
+		setText(Accounter.messages().recordExpenses());
 		createControls();
 		center();
 	}
@@ -53,7 +53,7 @@ public class SelectExpenseType extends BaseDialog {
 		typeForm.setWidth("100%");
 		typeForm.setIsGroup(true);
 
-		typeForm.setGroupTitle(Accounter.constants()
+		typeForm.setGroupTitle(Accounter.messages()
 				.selectHowYouPaidForExpense());
 		typeForm.setFields(typeRadio);
 
@@ -80,7 +80,7 @@ public class SelectExpenseType extends BaseDialog {
 		if (!radio.equals(EMPLOYEE) && !radio.equals(CHECK)
 				&& !radio.equals(CREDIT_CARD) && !radio.equals(CASH)
 				&& !radio.equals(EMPLOYEE)) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, Accounter.messages()
 					.pleaseSelectExpenseType());
 		}
 		return result;
@@ -99,7 +99,7 @@ public class SelectExpenseType extends BaseDialog {
 			} else if (radio.equals(CASH)) {
 				ActionFactory.CashExpenseAction().run(null, false);
 			} else {
-				Accounter.showError(Accounter.constants()
+				Accounter.showError(Accounter.messages()
 						.pleaseSelectExpenseType());
 			}
 

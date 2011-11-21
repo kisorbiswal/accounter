@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.VATItemSummaryServerRep
 public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 
 	public VATItemSummaryReport() {
-		super(false, Accounter.constants().noRecordsToShow());
+		super(false, Accounter.messages().noRecordsToShow());
 		this.serverReport = new VATItemSummaryServerReport(this);
 	}
 

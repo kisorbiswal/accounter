@@ -29,8 +29,8 @@ public class VATCodesListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
@@ -47,7 +47,7 @@ public class VATCodesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getConstants().vatCode()));
+				list.add(getMessages().create(getMessages().vatCode()));
 			}
 
 			@Override
@@ -81,12 +81,12 @@ public class VATCodesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().vatCodeList();
+				return getMessages().vatCodeList();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants().noRecordsToShow();
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
@@ -100,8 +100,8 @@ public class VATCodesListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
@@ -123,7 +123,7 @@ public class VATCodesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(CURRENT_VIEW).setDefaultValue(getConstants().active());
+		get(CURRENT_VIEW).setDefaultValue(getMessages().active());
 	}
 
 	@Override

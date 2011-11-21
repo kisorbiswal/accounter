@@ -41,7 +41,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 			type = split[1];
 		}
 		if (type.isEmpty()) {
-			type = getConstants().all();
+			type = getMessages().all();
 		}
 		get(CURRENT_VIEW).setDefaultValue(type);
 		return null;
@@ -59,7 +59,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(CURRENT_VIEW).setDefaultValue(getConstants().all());
+		get(CURRENT_VIEW).setDefaultValue(getMessages().all());
 
 	}
 
@@ -75,9 +75,9 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new ShowListRequirement<BillsList>(getConstants()
+		list.add(new ShowListRequirement<BillsList>(getMessages()
 				.expensesList(), getMessages().pleaseSelect(
-				getConstants().expensesList()), 5) {
+				getMessages().expensesList()), 5) {
 
 			@Override
 			protected String onSelection(BillsList value) {
@@ -87,12 +87,12 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().expensesList();
+				return getMessages().expensesList();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants().noRecordsToShow();
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
@@ -130,10 +130,10 @@ public class ExpensesListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().all());
-				list.add(getConstants().cash());
-				list.add(getConstants().creditCard());
-				list.add(getConstants().voided());
+				list.add(getMessages().all());
+				list.add(getMessages().cash());
+				list.add(getMessages().creditCard());
+				list.add(getMessages().voided());
 				return list;
 			}
 		});
@@ -160,35 +160,35 @@ public class ExpensesListCommand extends NewAbstractCommand {
 	protected List<BillsList> filterList(Context context) {
 		List<BillsList> initialRecords = getExpenses(context);
 		String text = ExpensesListCommand.this.get(CURRENT_VIEW).getValue();
-		if (text.equalsIgnoreCase(getConstants().employee())) {
+		if (text.equalsIgnoreCase(getMessages().employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
 					records.add(record);
 			}
 			return records;
-		} else if (text.equalsIgnoreCase(getConstants().cash())) {
+		} else if (text.equalsIgnoreCase(getMessages().cash())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_CASH_EXPENSE)
 					records.add(record);
 			}
 			return records;
-		} else if (text.equalsIgnoreCase(getConstants().creditCard())) {
+		} else if (text.equalsIgnoreCase(getMessages().creditCard())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE)
 					records.add(record);
 			}
 			return records;
-		} else if (text.equalsIgnoreCase(getConstants().employee())) {
+		} else if (text.equalsIgnoreCase(getMessages().employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
 					records.add(record);
 			}
 			return records;
-		} else if (text.equalsIgnoreCase(getConstants().Voided())) {
+		} else if (text.equalsIgnoreCase(getMessages().Voided())) {
 			List<BillsList> voidedRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
@@ -198,7 +198,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 			}
 			return voidedRecs;
 
-		} else if (text.equalsIgnoreCase(getConstants().all())) {
+		} else if (text.equalsIgnoreCase(getMessages().all())) {
 			return initialRecords;
 		}
 		return new ArrayList<BillsList>();

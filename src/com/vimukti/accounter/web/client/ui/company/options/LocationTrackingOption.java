@@ -147,23 +147,23 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
-		locationTrackingDescriptionLabel.setText(constants
+		locationTrackingDescriptionLabel.setText(messages
 				.locationTrackingDescription());
 		locationTrackingDescriptionLabel.setStyleName("organisation_comment");
-		locationRadioButton.setName(Accounter.constants().locationGroup());
-		locationRadioButton.setHTML(Accounter.constants().location());
-		buisinessRadioButton.setName(Accounter.constants().locationGroup());
-		buisinessRadioButton.setHTML(Accounter.constants().buisiness());
-		departmentRadioButton.setName(Accounter.constants().locationGroup());
-		departmentRadioButton.setHTML(Accounter.constants().department());
-		divisionRadioButton.setName(Accounter.constants().locationGroup());
-		divisionRadioButton.setHTML(Accounter.constants().division());
-		propertyRadioButton.setName(Accounter.constants().locationGroup());
-		propertyRadioButton.setHTML(Accounter.constants().property());
-		storeRadioButton.setName(Accounter.constants().locationGroup());
-		storeRadioButton.setHTML(Accounter.constants().store());
-		territoryRadioButton.setName(Accounter.constants().locationGroup());
-		territoryRadioButton.setHTML(Accounter.constants().territory());
+		locationRadioButton.setName(Accounter.messages().locationGroup());
+		locationRadioButton.setHTML(Accounter.messages().location());
+		buisinessRadioButton.setName(Accounter.messages().locationGroup());
+		buisinessRadioButton.setHTML(Accounter.messages().buisiness());
+		departmentRadioButton.setName(Accounter.messages().locationGroup());
+		departmentRadioButton.setHTML(Accounter.messages().department());
+		divisionRadioButton.setName(Accounter.messages().locationGroup());
+		divisionRadioButton.setHTML(Accounter.messages().division());
+		propertyRadioButton.setName(Accounter.messages().locationGroup());
+		propertyRadioButton.setHTML(Accounter.messages().property());
+		storeRadioButton.setName(Accounter.messages().locationGroup());
+		storeRadioButton.setHTML(Accounter.messages().store());
+		territoryRadioButton.setName(Accounter.messages().locationGroup());
+		territoryRadioButton.setHTML(Accounter.messages().territory());
 		radioButtonPanel.getElement().getStyle()
 				.setPaddingLeft(
 						(messages.useTerminologyFor(Global.get().Location())

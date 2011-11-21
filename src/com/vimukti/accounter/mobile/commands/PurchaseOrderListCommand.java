@@ -31,7 +31,7 @@ public class PurchaseOrderListCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<PurchaseOrdersList>(
 				"purchaseOrderList", getMessages().pleaseSelect(
-						getConstants().purchaseOrder()), 5) {
+						getMessages().purchaseOrder()), 5) {
 			@Override
 			protected Record createRecord(PurchaseOrdersList value) {
 				Record record = new Record(value);
@@ -80,12 +80,12 @@ public class PurchaseOrderListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().purchaseOrderList();
+				return getMessages().purchaseOrderList();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants().noRecordsToShow();
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override

@@ -44,13 +44,13 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		custForm = new DynamicForm();
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setWidth("100%");
-		firstNametext = new TextItem(Accounter.constants().firstName());
+		firstNametext = new TextItem(Accounter.messages().firstName());
 		firstNametext.setRequired(true);
 		firstNametext.setDisabled(isInViewMode());
-		lastNametext = new TextItem(Accounter.constants().lastName());
+		lastNametext = new TextItem(Accounter.messages().lastName());
 		lastNametext.setRequired(true);
 		lastNametext.setDisabled(isInViewMode());
-		emailField = new EmailField(Accounter.constants().email());
+		emailField = new EmailField(Accounter.messages().email());
 		emailField.setRequired(true);
 		emailField.setDisabled(isInViewMode());
 		emailField.addChangeHandler(new ChangeHandler() {
@@ -61,7 +61,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 					final String em = emailField.getValue().toString().trim();
 					if (em.length() != 0) {
 						if (!UIUtils.isValidEmail(em)) {
-							Accounter.showError(Accounter.constants()
+							Accounter.showError(Accounter.messages()
 									.invalidEmail());
 							emailField.setText("");
 						} else {
@@ -86,7 +86,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 																.getEmail())) {
 															Accounter
 																	.showError(Accounter
-																			.constants()
+																			.messages()
 																			.mailExistedAlready());
 															emailField
 																	.setText("");
@@ -100,7 +100,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 														AccounterException caught) {
 													Accounter
 															.showError(Accounter
-																	.constants()
+																	.messages()
 																	.failedtoloadusersList());
 												}
 											});
@@ -110,18 +110,18 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 				}
 			}
 		});
-		userManagementBox = new CheckBox(Accounter.constants()
+		userManagementBox = new CheckBox(Accounter.messages()
 				.allowThisUsertoAddorRemoveusers());
 		// userManagementBox.getElement().getStyle().setPadding(5, Unit.PX);
-		String choose = Accounter.constants()
+		String choose = Accounter.messages()
 				.chooselevelaccessyouwantthisusertohave();
 		Label chooseLabel = new Label(choose);
 		// chooseLabel.getElement().getStyle().setPadding(5, Unit.PX);
-		Label setPerLabel = new Label(Accounter.constants()
+		Label setPerLabel = new Label(Accounter.messages()
 				.setUserpermissions());
 		setPerLabel.addStyleName("inviteUserLabel");
 
-		Label manageLabel = new Label(Accounter.constants().manageUsers());
+		Label manageLabel = new Label(Accounter.messages().manageUsers());
 		manageLabel.addStyleName("inviteUserLabel");
 
 		custForm.setFields(firstNametext, lastNametext, emailField);
@@ -413,7 +413,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 		result.add(FormItem.validate(firstNametext, lastNametext, emailField));
 		if (isEmailIDExist(getData())) {
-			result.addError(emailField, Accounter.constants()
+			result.addError(emailField, Accounter.messages()
 					.userExistsWithThisMailId());
 		}
 		return result;
@@ -443,7 +443,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().inviteUser();
+		return Accounter.messages().inviteUser();
 	}
 
 	@Override

@@ -29,8 +29,8 @@ public class ItemsCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
@@ -44,12 +44,12 @@ public class ItemsCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().itemList();
+				return getMessages().itemList();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants().noRecordsToShow();
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
@@ -121,7 +121,7 @@ public class ItemsCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(ITEMS_TYPE).setDefaultValue(getConstants().active());
+		get(ITEMS_TYPE).setDefaultValue(getMessages().active());
 
 	}
 

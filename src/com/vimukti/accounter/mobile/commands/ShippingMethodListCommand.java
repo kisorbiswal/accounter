@@ -32,7 +32,7 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getConstants().shippingMethod()));
+				list.add(getMessages().create(getMessages().shippingMethod()));
 			}
 
 			@Override
@@ -59,12 +59,12 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getConstants().noRecordsToShow();
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
 			protected String onSelection(ShippingMethod value) {
-				return getConstants().update() + " " + value.getName();
+				return getMessages().update() + " " + value.getName();
 			}
 		});
 	}

@@ -19,7 +19,7 @@ public abstract class ItemRequirement extends ListRequirement<Item> {
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().items());
+		return getMessages().youDontHaveAny(getMessages().items());
 	}
 
 	@Override

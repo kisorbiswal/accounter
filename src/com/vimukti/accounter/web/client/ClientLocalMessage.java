@@ -1,6 +1,8 @@
-package com.vimukti.accounter.web.client.translate;
+package com.vimukti.accounter.web.client;
 
 import java.io.Serializable;
+
+import com.vimukti.accounter.web.client.translate.ClientMessage;
 
 public class ClientLocalMessage implements Serializable {
 	/**
@@ -17,6 +19,8 @@ public class ClientLocalMessage implements Serializable {
 	int votes;
 
 	boolean isApproved;
+	
+	private ClientMessage message;
 
 	public long getId() {
 		return id;
@@ -56,5 +60,13 @@ public class ClientLocalMessage implements Serializable {
 
 	public void setApproved(boolean isApproved) {
 		this.isApproved = isApproved;
+	}
+
+	public void setMessage(ClientMessage message) {
+		this.message = message;
+	}
+
+	public ClientMessage getMessage() {
+		return message;
 	}
 }

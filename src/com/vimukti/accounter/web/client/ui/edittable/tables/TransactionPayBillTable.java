@@ -111,7 +111,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().dueDate();
+					return messages.dueDate();
 				}
 			};
 			this.addColumn(dueDate);
@@ -141,7 +141,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().billNo();
+				return messages.billNo();
 			}
 		};
 		this.addColumn(billNo);
@@ -162,8 +162,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return getColumnNameWithCurrency(Accounter.constants()
-							.originalAmount());
+					return getColumnNameWithCurrency(messages.originalAmount());
 				}
 
 				@Override
@@ -193,8 +192,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return getColumnNameWithCurrency(Accounter.constants()
-							.amountDue());
+					return getColumnNameWithCurrency(messages.amountDue());
 				}
 
 				@Override
@@ -224,7 +222,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().billAmount();
+					return messages.billAmount();
 				}
 
 				@Override
@@ -266,7 +264,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().discountDate();
+				return messages.discountDate();
 			}
 		});
 
@@ -284,7 +282,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().discount();
+				return messages.discount();
 			}
 
 			@Override
@@ -308,7 +306,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().credits();
+				return messages.credits();
 			}
 
 			@Override
@@ -339,8 +337,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return getColumnNameWithBaseCurrency(Accounter.constants()
-							.payments());
+					return getColumnNameWithBaseCurrency(messages.payments());
 				}
 
 				@Override
@@ -385,7 +382,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().referenceNo();
+					return messages.referenceNo();
 				}
 			});
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
@@ -404,7 +401,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().amountPaid();
+					return messages.amountPaid();
 				}
 
 				@Override
@@ -734,7 +731,7 @@ public abstract class TransactionPayBillTable extends
 
 	private void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(Accounter.constants()
+			throw new Exception(messages
 					.youdnthaveBalToApplyCredits());
 	}
 
@@ -819,7 +816,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().tds();
+					return messages.tds();
 				}
 
 				@Override
@@ -859,7 +856,7 @@ public abstract class TransactionPayBillTable extends
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 		if (this.getSelectedRecords().size() == 0) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, messages
 					.pleaseSelectAnyOneOfTheTransactions());
 		}
 
@@ -869,13 +866,13 @@ public abstract class TransactionPayBillTable extends
 
 			double totalValue = getTotalValue(transactionPayBill);
 			if (DecimalUtil.isEquals(totalValue, 0)) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, messages
 						.totalPaymentNotZeroForSelectedRecords());
 			} else if (DecimalUtil
 					.isGreaterThan(totalValue, currencyProvider
 							.getAmountInBaseCurrency(transactionPayBill
 									.getAmountDue()))) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, messages
 						.totalPaymentNotExceedDueForSelectedRecords());
 			}
 		}

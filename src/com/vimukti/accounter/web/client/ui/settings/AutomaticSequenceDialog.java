@@ -5,7 +5,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
@@ -16,7 +16,7 @@ public class AutomaticSequenceDialog extends BaseDialog {
 	private Label invoicePrefixlabel, creditNoteLabel, nextNumberLabel;
 	private TextBox invoiceBox, creditBox, nextBox;
 	private VerticalPanel subLayoutPanel, invoicePanel, creditPanel, nextPanel;
-	private AccounterConstants messages = Accounter.constants();
+	private AccounterMessages messages = Accounter.messages();
 
 	public AutomaticSequenceDialog(String title, String desc) {
 		super(title, desc);

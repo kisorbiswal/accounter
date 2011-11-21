@@ -19,7 +19,7 @@ public class NewNonInventoryItemCommand extends AbstractItemCreateCommand {
 	protected void addRequirements(List<Requirement> list) {
 		super.addRequirements(list);
 		list.add(new NumberRequirement(WEIGHT, getMessages().pleaseEnter(
-				getConstants().weight()), getConstants().weight(), true, true));
+				getMessages().weight()), getMessages().weight(), true, true));
 	}
 
 	@Override

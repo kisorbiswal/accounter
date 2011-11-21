@@ -41,6 +41,6 @@ public class TransactionUnitPriceColumn extends TransactionAmountColumn {
 
 	@Override
 	protected String getColumnName() {
-		return getColumnNameWithCurrency(Accounter.constants().unitPrice());
+		return getColumnNameWithCurrency(Accounter.messages().unitPrice());
 	}
 }

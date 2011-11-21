@@ -20,7 +20,7 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 	private int row;
 
 	public TAXitemExceptionReport() {
-		super(false, Accounter.constants().noRecordsToShow());
+		super(false, Accounter.messages().noRecordsToShow());
 		this.serverReport = new TAXItemExceptionDetailServerReport(this);
 
 	}

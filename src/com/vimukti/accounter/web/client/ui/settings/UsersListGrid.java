@@ -61,11 +61,11 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	@Override
 	protected String[] getColumns() {
 
-		return new String[] { Accounter.constants().firstName(),
-				Accounter.constants().lastName(),
-				Accounter.constants().userRole(),
-				Accounter.constants().emailId(),
-				Accounter.constants().status(), "" };
+		return new String[] { Accounter.messages().firstName(),
+				Accounter.messages().lastName(),
+				Accounter.messages().userRole(),
+				Accounter.messages().emailId(),
+				Accounter.messages().status(), "" };
 	}
 
 	public void setUsersView(UsersView usersView) {
@@ -93,8 +93,8 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 		case 3:
 			return obj.getEmail();
 		case 4:
-			return obj.isActive() ? Accounter.constants().active() : Accounter
-					.constants().inActive();
+			return obj.isActive() ? Accounter.messages().active() : Accounter
+					.messages().inActive();
 		case 5:
 			return Accounter.getFinanceImages().delete();
 		default:
@@ -119,13 +119,13 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 			ClientUser user = Accounter.getUser();
 			if (user.isCanDoUserManagement()) {
 				if (user.getID() == obj.getID()) {
-					Accounter.showInformation(Accounter.constants()
+					Accounter.showInformation(Accounter.messages()
 							.youCantDeleteYourSelf());
 				} else {
 					showWarnDialog(obj);
 				}
 			} else {
-				Accounter.showInformation(Accounter.constants()
+				Accounter.showInformation(Accounter.messages()
 						.youdonthavepermissionstodeleteuser());
 			}
 		}
@@ -168,7 +168,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 		// Accounter.showError(((InvalidOperationException) caught)
 		// .getMessage());
 		// else
-		// Accounter.showError(Accounter.constants().youcantDeleteThisUser());
+		// Accounter.showError(messages.youcantDeleteThisUser());
 		AccounterException accounterException = (AccounterException) caught;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);

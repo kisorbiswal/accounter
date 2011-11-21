@@ -34,7 +34,7 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 		doYouLabelItem.setText("Numbers");
 		useCustomerNo.setText(messages.usePayeeId(Global.get().customer()));
 		useVendorNo.setText(messages.usePayeeId(Global.get().vendor()));
-		useAccountNo.setText(messages.useAccountNos(Global.get().account()));
+		useAccountNo.setText(messages.useAccountNos());
 	}
 
 	@Override

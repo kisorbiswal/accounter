@@ -44,13 +44,13 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getConstants().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected List<String> getLists(Context context) {
-				String payVatMethodArray[] = new String[] { getConstants()
+				String payVatMethodArray[] = new String[] { getMessages()
 						.check() };
 				List<String> wordList = Arrays.asList(payVatMethodArray);
 				return wordList;
@@ -94,8 +94,8 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		 * super.run(context, makeResult, list, actions); } } return null; } });
 		 */
 		list.add(new AccountRequirement(ACCOUNT, getMessages()
-				.pleaseSelectPayFromAccount(getConstants().bankAccount()),
-				getConstants().bankAccount(), false, false, null) {
+				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
+				false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -134,9 +134,9 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
-				getConstants().checkNo()), getConstants().checkNo(), true, true));
+				getMessages().checkNo()), getMessages().checkNo(), true, true));
 		list.add(new IssuePaymentTableRequirement(PAYMENTS_TO_ISSUED,
-				getMessages().selectTypeOfThis(getConstants().payment()),
+				getMessages().selectTypeOfThis(getMessages().payment()),
 				"payments list", false, true) {
 
 			@Override
@@ -340,7 +340,8 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 				break;
 			case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 				record.setCustomerPrepayment(entry.getTransactionId());
-				record.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+				record
+						.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 				break;
 
 			}
@@ -376,7 +377,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().issuePayment());
+		return getMessages().readyToCreate(getMessages().issuePayment());
 	}
 
 	@Override
@@ -387,7 +388,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().issuePayment());
+		return getMessages().createSuccessfully(getMessages().issuePayment());
 	}
 
 	@Override

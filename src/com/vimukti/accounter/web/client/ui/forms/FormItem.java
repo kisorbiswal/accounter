@@ -70,7 +70,7 @@ public abstract class FormItem<T> {
 
 	public void highlight() {
 		getMainWidget().addStyleName("highlightedFormItem");
-		// getMainWidget().setTitle(Accounter.constants().invalidValue());
+		// getMainWidget().setTitle(messages.invalidValue());
 		this.isHighlighted = true;
 
 	}
@@ -347,7 +347,7 @@ public abstract class FormItem<T> {
 		}
 	}
 
-	public String helpMessage = Accounter.constants().help();
+	public String helpMessage = Accounter.messages().help();
 	public PopupPanel popupPanel;
 
 	public void displayHelpMessage(MouseUpEvent event) {

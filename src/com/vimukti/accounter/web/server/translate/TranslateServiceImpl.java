@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.main.ServerLocal;
+import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
-import com.vimukti.accounter.web.client.translate.ClientLocalMessage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.translate.TranslateService;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -83,12 +83,13 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public ArrayList<ClientMessage> getMessages(String lang, int status,
-			int from, int to) {
+			int from, int to, String searchTerm) {
 		String userEmail = getUserEmail();
 		if (userEmail == null) {
 			return null;
 		}
-		return new FinanceTool().getMessages(status, lang, userEmail, from, to);
+		return new FinanceTool().getMessages(status, lang, userEmail, from, to,
+				searchTerm);
 	}
 
 	public List<ClientLanguage> getLanguages() {

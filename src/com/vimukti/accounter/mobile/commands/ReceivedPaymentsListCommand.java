@@ -36,7 +36,7 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(VIEW_BY).setDefaultValue(getConstants().open());
+		get(VIEW_BY).setDefaultValue(getMessages().open());
 
 	}
 
@@ -59,14 +59,16 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().all());
-				list.add(getConstants().paid());
-				list.add(getConstants().voided());
+				list.add(getMessages().all());
+				list.add(getMessages().open());
+				list.add(getMessages().fullyApplied());
+				list.add(getMessages().voided());
+
 				return list;
 			}
 		});
 
-		list.add(new ShowListRequirement<ReceivePaymentsList>(getConstants()
+		list.add(new ShowListRequirement<ReceivePaymentsList>(getMessages()
 				.receivedPayments(), "", NO_OF_RECORDS_TO_SHOW) {
 
 			@Override
@@ -77,13 +79,13 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 			@Override
 			protected String getShowMessage() {
 
-				return getConstants().receivedPayments();
+				return getMessages().receivedPayments();
 			}
 
 			@Override
 			protected String getEmptyString() {
 
-				return "No" + getConstants().receivedPayments();
+				return "No" + getMessages().receivedPayments();
 			}
 
 			@Override
@@ -142,16 +144,16 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 		String text = get(VIEW_BY).getValue();
 		List<ReceivePaymentsList> result = new ArrayList<ReceivePaymentsList>();
 		for (ReceivePaymentsList recievePayment : listOfRecievePayments) {
-			if (text.equals(getConstants().paid())) {
+			if (text.equals(getMessages().paid())) {
 				if (!recievePayment.isVoided()) {
 					result.add(recievePayment);
 				}
-			} else if (text.equals(getConstants().voided())) {
+			} else if (text.equals(getMessages().voided())) {
 				if (recievePayment.isVoided() && !recievePayment.isDeleted()) {
 					result.add(recievePayment);
 				}
 				continue;
-			} else if (text.equals(getConstants().all())) {
+			} else if (text.equals(getMessages().all())) {
 				result.add(recievePayment);
 			}
 		}

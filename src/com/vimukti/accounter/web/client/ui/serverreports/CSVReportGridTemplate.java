@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 
 public class CSVReportGridTemplate<R> extends ReportGridTemplate {
@@ -119,9 +119,9 @@ public class CSVReportGridTemplate<R> extends ReportGridTemplate {
 	}
 
 	@Override
-	public String getBody(AccounterConstants accounterConstants) {
+	public String getBody(AccounterMessages messages) {
 		if (body == null || body.toString().isEmpty()) {
-			body = new StringBuffer(accounterConstants.noRecordsToShow());
+			body = new StringBuffer(messages.noRecordsToShow());
 		} 
 		return this.body.toString();
 	}

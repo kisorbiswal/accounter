@@ -61,14 +61,14 @@ public class BillListView extends BaseListView<BillsList> {
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions()
 				&& getCompany().getPreferences().isKeepTrackofBills())
-			return Accounter.constants().addaNewBill();
+			return Accounter.messages().addaNewBill();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().billsAndItemReceiptsList();
+		return Accounter.messages().billsAndItemReceiptsList();
 	}
 
 	@Override
@@ -115,13 +115,13 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(Accounter.constants().currentView());
+		currentView = new SelectCombo(Accounter.messages().currentView());
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
-		listOfTypes.add(Accounter.constants().open());
-		listOfTypes.add(Accounter.constants().voided());
-		listOfTypes.add(Accounter.constants().overDue());
-		listOfTypes.add(Accounter.constants().all());
+		listOfTypes.add(Accounter.messages().open());
+		listOfTypes.add(Accounter.messages().voided());
+		listOfTypes.add(Accounter.messages().overDue());
+		listOfTypes.add(Accounter.messages().all());
 		currentView.initCombo(listOfTypes);
 
 		// if (UIUtils.isMSIEBrowser())
@@ -130,7 +130,7 @@ public class BillListView extends BaseListView<BillsList> {
 		if (this.viewType != null && !viewType.equals(""))
 			currentView.setComboItem(viewType);
 		else {
-			currentView.setComboItem(Accounter.constants().all());
+			currentView.setComboItem(Accounter.messages().all());
 		}
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -148,7 +148,7 @@ public class BillListView extends BaseListView<BillsList> {
 
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equalsIgnoreCase(Accounter.getFinanceConstants().open())) {
+		if (text.equalsIgnoreCase(Accounter.messages().open())) {
 			ArrayList<BillsList> openRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
@@ -162,7 +162,7 @@ public class BillListView extends BaseListView<BillsList> {
 			grid.setRecords(openRecs);
 			table.setData(openRecs);
 
-		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants()
+		} else if (text.equalsIgnoreCase(Accounter.messages()
 				.voided())) {
 			ArrayList<BillsList> voidedRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
@@ -174,7 +174,7 @@ public class BillListView extends BaseListView<BillsList> {
 			grid.setRecords(voidedRecs);
 			table.setData(voidedRecs);
 
-		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants()
+		} else if (text.equalsIgnoreCase(Accounter.messages()
 				.overDue())) {
 			ArrayList<BillsList> overDueRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
@@ -201,7 +201,7 @@ public class BillListView extends BaseListView<BillsList> {
 		//
 		// grid.setRecords(deletedRecs);
 		// }
-		if (text.equalsIgnoreCase(Accounter.getFinanceConstants().all())) {
+		if (text.equalsIgnoreCase(Accounter.messages().all())) {
 			ArrayList<BillsList> list = new ArrayList<BillsList>();
 			list.addAll(initialRecords);
 			grid.setRecords(initialRecords);
@@ -235,7 +235,7 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().billsAndItemReceipts();
+		return Accounter.messages().billsAndItemReceipts();
 	}
 
 }

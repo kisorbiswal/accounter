@@ -38,9 +38,9 @@ public class SetupTDSSelectionPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.doYouWantTDS());
-		tdsYes.setText(accounterConstants.yes());
-		tdsNo.setText(accounterConstants.no());
+		headerLabel.setText(messages.doYouWantTDS());
+		tdsYes.setText(messages.yes());
+		tdsNo.setText(messages.no());
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class SetupTDSSelectionPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.tdsSelection();
+		return messages.tdsSelection();
 	}
 
 }

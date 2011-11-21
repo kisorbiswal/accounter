@@ -5,22 +5,17 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
-import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
-import com.vimukti.accounter.mobile.requirements.MakeDepositTableRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -41,11 +36,11 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().transactionDate()), getConstants()
+				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), true, false));
+				getMessages().number()), getMessages().number(), true, false));
 		//
 		// list.add(new CurrencyRequirement(CURRENCY,
 		// getMessages().pleaseSelect(
@@ -98,14 +93,14 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_FROM, getMessages()
 				.pleaseEnterName(
-						getMessages().fromAccount(Global.get().Account())),
-				getMessages().fromAccount(Global.get().Account()), false,
-				true, null) {
+						getMessages().fromAccount()),
+				getMessages().fromAccount(), false, true,
+				null) {
 
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(
-						getMessages().fromAccount(Global.get().Account()));
+						getMessages().fromAccount());
 			}
 
 			@Override
@@ -145,15 +140,14 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Accounts());
+				return getMessages().youDontHaveAny(
+						Global.get().messages().Accounts());
 			}
 		});
 
 		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_TO, getMessages()
-				.pleaseEnterName(
-						getMessages().depositAccount(Global.get().Account())),
-				getMessages().depositAccount(Global.get().Account()), false,
-				true, null) {
+				.pleaseEnterName(getMessages().depositAccount()), getMessages()
+				.depositAccount(), false, true, null) {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
@@ -169,8 +163,8 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(
-						getMessages().depositAccount(Global.get().Account()));
+				return getMessages()
+						.hasSelected(getMessages().depositAccount());
 			}
 
 			@Override
@@ -198,18 +192,18 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Accounts());
+				return getMessages().youDontHaveAny(getMessages().Accounts());
 			}
 		});
 
 		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getConstants().amount()), getConstants().amount(), false, true));
+				getMessages().amount()), getMessages().amount(), false, true));
 		// list.add(new MakeDepositTableRequirement(TRANSFERED_ACCOUNT, "",
 		// Global
 		// .get().Accounts()));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 	}
 
 	private void caluclateTotals(ClientMakeDeposit makeDeposit) {
@@ -289,12 +283,12 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().makeDeposit());
+		return getMessages().creating(getMessages().makeDeposit());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().makeDeposit());
+		return getMessages().readyToCreate(getMessages().makeDeposit());
 	}
 
 	@Override
@@ -308,7 +302,7 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().makeDeposit());
+		return getMessages().createSuccessfully(getMessages().makeDeposit());
 	}
 
 }

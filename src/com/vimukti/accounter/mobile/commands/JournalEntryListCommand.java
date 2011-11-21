@@ -48,7 +48,7 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new ShowListRequirement<ClientJournalEntry>(getConstants()
+		list.add(new ShowListRequirement<ClientJournalEntry>(getMessages()
 				.journalEntryList(), "", 10) {
 
 			@Override
@@ -58,7 +58,7 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().journalEntryList();
+				return getMessages().journalEntryList();
 			}
 
 			@Override
@@ -69,17 +69,17 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(ClientJournalEntry entry) {
 				Record record = new Record(entry);
-				record.add("", getConstants().voucherNo());
+				record.add("", getMessages().voucherNo());
 				record.add("", entry.getNumber());
-				record.add("", getConstants().date());
+				record.add("", getMessages().date());
 				record.add("", entry.getDate());
-				record.add("", getConstants().amount());
+				record.add("", getMessages().amount());
 				record.add("", entry.getTotal());
-				record.add("", getConstants().memo());
+				record.add("", getMessages().memo());
 				record.add("", entry.getMemo());
-				record.add("", getConstants().voided());
-				record.add("", entry.isVoid() == true ? getConstants().Voided()
-						: getConstants().nonVoided());
+				record.add("", getMessages().voided());
+				record.add("", entry.isVoid() == true ? getMessages().Voided()
+						: getMessages().nonVoided());
 				return record;
 			}
 

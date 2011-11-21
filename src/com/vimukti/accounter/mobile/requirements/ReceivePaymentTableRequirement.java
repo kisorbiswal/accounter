@@ -23,27 +23,27 @@ public abstract class ReceivePaymentTableRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		DateRequirement billDueDate = new DateRequirement(DUE_DATE,
-				getMessages().pleaseEnter(getConstants().dueDate()),
-				getConstants().dueDate(), true, true);
+				getMessages().pleaseEnter(getMessages().dueDate()),
+				getMessages().dueDate(), true, true);
 		billDueDate.setEditable(false);
 		list.add(billDueDate);
 
 		NumberRequirement billNo = new NumberRequirement(INVOICE_NO, "",
-				getConstants().billNo(), true, true);
+				getMessages().billNo(), true, true);
 		billNo.setEditable(false);
 		list.add(billNo);
 
 		AmountRequirement originalAmount = new AmountRequirement(
-				INVOICE_AMOUNT, "", getConstants().originalAmount(), true, true);
+				INVOICE_AMOUNT, "", getMessages().originalAmount(), true, true);
 		originalAmount.setEditable(false);
 		list.add(originalAmount);
 
 		AmountRequirement amount = new AmountRequirement(AMOUNT_DUE,
-				getMessages().pleaseEnter(getConstants().amountDue()),
-				getConstants().amountDue(), true, true);
+				getMessages().pleaseEnter(getMessages().amountDue()),
+				getMessages().amountDue(), true, true);
 		AmountRequirement receivePayment = new AmountRequirement(PAYMENT,
-				getMessages().pleaseEnter(getConstants().receivedPayment()),
-				getConstants().receivedPayment(), true, true);
+				getMessages().pleaseEnter(getMessages().receivedPayment()),
+				getMessages().receivedPayment(), true, true);
 		list.add(amount);
 		list.add(receivePayment);
 	}
@@ -76,22 +76,22 @@ public abstract class ReceivePaymentTableRequirement extends
 	@Override
 	protected Record createFullRecord(ClientTransactionReceivePayment t) {
 		Record record = new Record(t);
-		record.add("", getConstants().dueDate());
+		record.add("", getMessages().dueDate());
 		record.add("", t.getDueDate());
-		record.add("", getConstants().invoiceNo());
+		record.add("", getMessages().invoiceNo());
 		record.add("", t.getNumber());
-		record.add("", getConstants().invoiceAmount());
+		record.add("", getMessages().invoiceAmount());
 		record.add("", t.getInvoiceAmount());
-		record.add("", getConstants().amountDue());
+		record.add("", getMessages().amountDue());
 		record.add("", t.getAmountDue());
-		record.add("", getConstants().payment());
+		record.add("", getMessages().payment());
 		record.add("", t.getPayment());
 		return record;
 	}
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getConstants().dueForPayment());
+		return getMessages().youDontHaveAny(getMessages().dueForPayment());
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public abstract class ReceivePaymentTableRequirement extends
 
 	@Override
 	protected String getAddMoreString() {
-		return getMessages().addMore(getConstants().dueForPayment());
+		return getMessages().addMore(getMessages().dueForPayment());
 	}
 
 }

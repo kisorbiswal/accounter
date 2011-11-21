@@ -63,12 +63,12 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 		setDefaultValues();
 
 		Result makeResult = context.makeResult();
-		makeResult.add(getMessages().readyToCreate(getConstants().payTax()));
+		makeResult.add(getMessages().readyToCreate(getMessages().payTax()));
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		ResultList actions = new ResultList(ACTIONS);
 
-		result = accountRequirement(context, list, PAY_FROM, getConstants()
+		result = accountRequirement(context, list, PAY_FROM, getMessages()
 				.payFrom(), new ListFilter<Account>() {
 
 			@Override
@@ -84,7 +84,7 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 		}
 
 		result = paymentMethodRequirement(context, list, PAYMENT_METHOD,
-				getConstants().paymentMethod());
+				getMessages().paymentMethod());
 		if (result != null) {
 			return result;
 		}
@@ -140,7 +140,7 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 
 		markDone();
 		Result result = new Result();
-		result.add(getMessages().createSuccessfully(getConstants().payTax()));
+		result.add(getMessages().createSuccessfully(getMessages().payTax()));
 
 		return result;
 	}
@@ -167,29 +167,29 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 		selection = context.getSelection("values");
 
 		Result result = dateOptionalRequirement(context, list, DATE,
-				getConstants().transactionDate(),
-				getMessages().pleaseEnter(getConstants().transactionDate()),
+				getMessages().transactionDate(),
+				getMessages().pleaseEnter(getMessages().transactionDate()),
 				selection);
 		if (result != null) {
 			return result;
 		}
 		result = dateOptionalRequirement(context, list, BILLS_DUE_ONBEFORE,
-				getConstants().billsDueOnOrBefore(),
-				getMessages().pleaseEnter(getConstants().billsDueOnOrBefore()),
+				getMessages().billsDueOnOrBefore(),
+				getMessages().pleaseEnter(getMessages().billsDueOnOrBefore()),
 				selection);
 		if (result != null) {
 			return result;
 		}
 
 		result = numberOptionalRequirement(context, list, selection, ORDER_NO,
-				getConstants().no(),
-				getMessages().pleaseEnter(getConstants().number()));
+				getMessages().no(),
+				getMessages().pleaseEnter(getMessages().number()));
 		if (result != null) {
 			return result;
 		}
 
 		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", getMessages().finishToCreate(getConstants().payTax()));
+		finish.add("", getMessages().finishToCreate(getMessages().payTax()));
 		actions.add(finish);
 
 		return makeResult;
@@ -213,7 +213,7 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 
 		ClientTAXAgency agency = get(TAX_AGENCY).getValue();
 
-		result.add(getConstants().payTax());
+		result.add(getMessages().payTax());
 		ResultList paySalesTaxs = new ResultList("transactionPayTaxes");
 		for (ClientTransactionPayTAX paySalesTax : transPaySalesTaxes) {
 			if (paySalesTax.getTaxAgency() == agency.getID()) {
@@ -259,9 +259,9 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 		}
 		list.setMultiSelection(true);
 		if (list.size() > 0) {
-			result.add(getMessages().selectTypeOfThis(getConstants().tax()));
+			result.add(getMessages().selectTypeOfThis(getMessages().tax()));
 		} else {
-			result.add(getMessages().youDontHaveAny(getConstants().taxes()));
+			result.add(getMessages().youDontHaveAny(getMessages().taxes()));
 		}
 
 		result.add(list);

@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -14,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.grids.VATItemsListGrid;
 public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	private List<ClientTAXItem> listOfVatItems;
-	private AccounterConstants vatMessages = Accounter.constants();
 
 	@Override
 	protected Action getAddNewAction() {
@@ -28,7 +26,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			return vatMessages.addaNewTaxItem();
+			return messages.addaNewTaxItem();
 		} else {
 			return "";
 		}
@@ -36,7 +34,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().vatItemsList();
+		return Accounter.messages().vatItemsList();
 	}
 
 	@Override
@@ -102,7 +100,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().vatItemList();
+		return Accounter.messages().vatItemList();
 	}
 
 }

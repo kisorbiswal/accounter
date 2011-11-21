@@ -37,7 +37,7 @@ public class CustomerListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(VIEW_BY).setDefaultValue(getConstants().active());
+		get(VIEW_BY).setDefaultValue(getMessages().active());
 
 	}
 
@@ -58,8 +58,8 @@ public class CustomerListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().active());
-				list.add(getConstants().inActive());
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
 				return list;
 			}
 		});
@@ -121,7 +121,7 @@ public class CustomerListCommand extends NewAbstractCommand {
 		Set<Customer> customers = context.getCompany().getCustomers();
 		List<Customer> result = new ArrayList<Customer>();
 		for (Customer customer : customers) {
-			if (isActive.equals(getConstants().active())) {
+			if (isActive.equals(getMessages().active())) {
 				if (customer.isActive()) {
 					result.add(customer);
 				}

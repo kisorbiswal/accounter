@@ -95,10 +95,10 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		 * actions); } } return null; } });
 		 */
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().date()), getConstants().date(), true, true));
+				getMessages().date()), getMessages().date(), true, true));
 
 		list.add(new NumberRequirement("CreditNumber", getMessages()
-				.pleaseEnter(getConstants().creditNo()), getConstants()
+				.pleaseEnter(getMessages().creditNo()), getMessages()
 				.creditNo(), true, true));
 		list.add(new ContactRequirement(CONTACT, "Enter contact name",
 				"Contact", true, true, null) {
@@ -117,11 +117,11 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
-				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
-				.Account(), true, true) {
+				.pleaseEnterNameOrNumber(getMessages().Account()),
+				getMessages().Account(), true, true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
@@ -146,7 +146,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getConstants().items(),
+				"Please Enter Item Name or number", getMessages().items(),
 				true, true) {
 
 			@Override
@@ -168,8 +168,8 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getConstants().taxCode()), getConstants().taxCode(), false,
-				true, null) {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -216,7 +216,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 
 	}
 
@@ -294,8 +294,8 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get("CreditNumber").setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
-						context.getCompany()));
+						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO, context
+								.getCompany()));
 		get(CONTACT).setDefaultValue(null);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 		/*

@@ -90,19 +90,19 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 
-		classTrackingdescriptionLabel.setText(constants
+		classTrackingdescriptionLabel.setText(messages
 				.classTrackingDescription());
 		classTrackingdescriptionLabel.setStyleName("organisation_comment");
-		classTrackingCheckBox.setText(Accounter.constants().classTracking());
-		classWarningCheckBox.setText(Accounter.constants().classWarning());
-		// classesOnSalesLabel.setText(Accounter.constants().classesonsales());
-		// onePerTransactionRadio.setName(Accounter.constants()
+		classTrackingCheckBox.setText(Accounter.messages().classTracking());
+		classWarningCheckBox.setText(Accounter.messages().classWarning());
+		// classesOnSalesLabel.setText(messages.classesonsales());
+		// onePerTransactionRadio.setName(messages
 		// .classunderscoretracking());
-		// onePerTransactionRadio.setHTML(Accounter.constants()
+		// onePerTransactionRadio.setHTML(messages
 		// .onepertransaction());
-		// onePerDetailLineRadio.setName(Accounter.constants()
+		// onePerDetailLineRadio.setName(messages
 		// .classunderscoretracking());
-		// onePerDetailLineRadio.setHTML(Accounter.constants().oneperdetailline());
+		// onePerDetailLineRadio.setHTML(messages.oneperdetailline());
 
 		// classOnSalesPanel.getElement().getStyle().setPaddingLeft(15,
 		// Unit.PX);
@@ -133,12 +133,12 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().classTracking();
+		return Accounter.messages().classTracking();
 	}
 
 	@Override
 	public String getAnchor() {
-		return Accounter.constants().classTracking();
+		return Accounter.messages().classTracking();
 	}
 
 }

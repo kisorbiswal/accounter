@@ -15,7 +15,7 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().measurementList();
+		return Accounter.messages().measurementList();
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().measurementList();
+		return Accounter.messages().measurementList();
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().addNewMeasurement();
+		return Accounter.messages().addNewMeasurement();
 	}
 
 	@Override

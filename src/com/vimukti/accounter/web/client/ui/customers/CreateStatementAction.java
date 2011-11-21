@@ -26,7 +26,7 @@ public class CreateStatementAction extends Action {
 
 	@Override
 	public void run() {
-		Accounter.showError(Accounter.constants().notyetimplemented());
+		Accounter.showError(Accounter.messages().notyetimplemented());
 
 	}
 

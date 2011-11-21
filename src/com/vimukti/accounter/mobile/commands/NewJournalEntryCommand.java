@@ -50,27 +50,27 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().journalEntryDate()), getConstants()
+				getMessages().journalEntryDate()), getMessages()
 				.journalEntryDate(), false, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().journalEntryNo()), getConstants()
-				.journalEntryNo(), false, true));
+				getMessages().journalEntryNo()),
+				getMessages().journalEntryNo(), false, true));
 
 		list.add(new AbstractTableRequirement<ClientEntry>(VOUCHER,
-				getMessages().pleaseSelect(getConstants().voucherNo()),
-				getConstants().voucher(), true, false, true) {
+				getMessages().pleaseSelect(getMessages().voucherNo()),
+				getMessages().voucher(), true, false, true) {
 
 			@Override
 			protected void addRequirement(List<Requirement> list) {
 				list.add(new AccountRequirement(ACCOUNT, getMessages()
-						.pleaseEnterNameOrNumber(Global.get().Account()),
-						Global.get().Account(), false, true, null) {
+						.pleaseEnterNameOrNumber(getMessages().Account()),
+						getMessages().Account(), false, true, null) {
 
 					@Override
 					protected String getSetMessage() {
-						return getMessages()
-								.hasSelected(Global.get().Account());
+						return getMessages().hasSelected(
+								getMessages().Account());
 					}
 
 					@Override
@@ -93,13 +93,13 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					@Override
 					protected String getEmptyString() {
 						return getMessages().youDontHaveAny(
-								Global.get().Accounts());
+								getMessages().Accounts());
 					}
 				});
 
 				list.add(new AmountRequirement(CREDITS, getMessages()
-						.pleaseEnter(getConstants().creditAmount()),
-						getConstants().credit(), true, true) {
+						.pleaseEnter(getMessages().creditAmount()),
+						getMessages().credit(), true, true) {
 					@Override
 					public void setValue(Object value) {
 						super.setValue(value);
@@ -120,8 +120,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 				});
 
 				list.add(new AmountRequirement(DEBITS, getMessages()
-						.pleaseEnter(getConstants().debitAmount()),
-						getConstants().debit(), true, true) {
+						.pleaseEnter(getMessages().debitAmount()),
+						getMessages().debit(), true, true) {
 					@Override
 					public void setValue(Object value) {
 						super.setValue(value);
@@ -139,7 +139,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					@Override
 					protected void createRecord(ResultList list) {
 						Record nameRecord = new Record(CREDITS);
-						nameRecord.add(getConstants().credit(),
+						nameRecord.add(getMessages().credit(),
 								currentValue.getCredit());
 						list.add(nameRecord);
 						super.createRecord(list);
@@ -147,14 +147,13 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 				});
 
 				list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-						getConstants().memo()), getConstants().memo(), true,
-						true));
+						getMessages().memo()), getMessages().memo(), true, true));
 
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getConstants().voucher());
+				return getMessages().youDontHaveAny(getMessages().voucher());
 			}
 
 			@Override
@@ -190,11 +189,11 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 				ClientAccount account = ((ClientAccount) CommandUtils
 						.getClientObjectById(t.getAccount(),
 								AccounterCoreType.ACCOUNT, getCompanyId()));
-				record.add(Global.get().Account(), account == null ? ""
-						: account.getDisplayName());
-				record.add(getConstants().credit(), t.getCredit());
-				record.add(getConstants().debit(), t.getDebit());
-				record.add(getConstants().memo(), t.getMemo());
+				record.add(Global.get().messages().Account(),
+						account == null ? "" : account.getDisplayName());
+				record.add(getMessages().credit(), t.getCredit());
+				record.add(getMessages().debit(), t.getDebit());
+				record.add(getMessages().memo(), t.getMemo());
 				return record;
 			}
 
@@ -210,7 +209,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getAddMoreString() {
-				return getConstants().add();
+				return getMessages().add();
 			}
 
 			@Override
@@ -220,7 +219,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 
 	}
 
@@ -234,8 +233,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			totalDebits += item.getDebit();
 		}
 
-		makeResult.add(getConstants().totalDebits() + " : " + totalDebits);
-		makeResult.add(getConstants().totalCredits() + " : " + totalCredits);
+		makeResult.add(getMessages().totalDebits() + " : " + totalDebits);
+		makeResult.add(getMessages().totalCredits() + " : " + totalCredits);
 	}
 
 	@Override
@@ -261,13 +260,13 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 		Result makeResult = new Result();
 
 		if (totalCredits != totalDebits) {
-			makeResult.add(getConstants().totalMustBeSame());
+			makeResult.add(getMessages().totalMustBeSame());
 			return makeResult;
 		}
 
 		if (totalCredits == 0) {
-			makeResult.add(getConstants()
-					.transactiontotalcannotbe0orlessthan0());
+			makeResult
+					.add(getMessages().transactiontotalcannotbe0orlessthan0());
 			return makeResult;
 		}
 
@@ -300,12 +299,12 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().journalEntry());
+		return getMessages().creating(getMessages().journalEntry());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().journalEntry());
+		return getMessages().readyToCreate(getMessages().journalEntry());
 	}
 
 	@Override
@@ -314,6 +313,6 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().journalEntry());
+		return getMessages().createSuccessfully(getMessages().journalEntry());
 	}
 }

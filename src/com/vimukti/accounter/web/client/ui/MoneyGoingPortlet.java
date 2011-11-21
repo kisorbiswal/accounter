@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -40,8 +39,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return Accounter.messages()
-				.goToAccountsPayable(Global.get().Accounts());
+		return messages.goToAccountsPayable();
 	}
 
 	@Override
@@ -71,8 +69,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		FlexTable fTable = new FlexTable();
 
-		Button addPayableInvoiceBtn = new Button(Accounter.constants()
-				.addBill());
+		Button addPayableInvoiceBtn = new Button(messages.addBill());
 		addPayableInvoiceBtn.addStyleName("addButtonPortlet");
 		addPayableInvoiceBtn.addClickHandler(new ClickHandler() {
 
@@ -82,8 +79,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			}
 		});
 
-		draftLabel = getLabel(Accounter.constants().billsDue());
-		overDueLabel = getLabel(Accounter.constants().overDueBills());
+		draftLabel = getLabel(messages.billsDue());
+		overDueLabel = getLabel(messages.overDueBills());
 		overDueLabel.getElement().getStyle().setMarginLeft(10, Unit.PX);
 
 		updateAmounts();
@@ -114,7 +111,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.constants()
+				Accounter.showError(messages
 						.failedtogetmoneygoingportletvalues());
 			}
 
@@ -184,30 +181,30 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				label.getElement().getStyle().setCursor(Cursor.POINTER);
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.UNDERLINE);
+				label.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
 			}
 		});
 		label.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				label.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 			}
 		});
 		label.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
-				if (title.equals(Accounter.constants().billsDue())) {
+				label.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
+				if (title.equals(messages.billsDue())) {
 					ActionFactory.getBillsAction().run(null, true,
-							Accounter.constants().open());
+							messages.open());
 				} else {
 					ActionFactory.getBillsAction().run(null, true,
-							Accounter.constants().overDue());
+							messages.overDue());
 				}
 			}
 		});

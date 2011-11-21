@@ -55,10 +55,10 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().warehouseCode(),
-				Accounter.constants().warehouseName(),
-				Accounter.constants().ddiNumber(),
-				Accounter.constants().items(), Accounter.constants().delete() };
+		return new String[] { Accounter.messages().warehouseCode(),
+				Accounter.messages().warehouseName(),
+				Accounter.messages().ddiNumber(),
+				Accounter.messages().items(), Accounter.messages().delete() };
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 	@Override
 	public void onDoubleClick(ClientWarehouse obj) {
 		WareHouseViewAction action = new WareHouseViewAction(Accounter
-				.constants().wareHouse());
+				.messages().wareHouse());
 		action.run(obj, false);
 	}
 }

@@ -40,8 +40,8 @@ public class VATItemSummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().name(), getConstants().rate(),
-				getConstants().netAmount(), getConstants().taxAmount() };
+		return new String[] { getMessages().name(), getMessages().rate(),
+				getMessages().netAmount(), getMessages().taxAmount() };
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class VATItemSummaryServerReport extends
 
 	@Override
 	public String getTitle() {
-		return getConstants().vatItemSummary();
+		return getMessages().vatItemSummary();
 	}
 
 	@Override
@@ -115,8 +115,8 @@ public class VATItemSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().name(), getConstants().rate(),
-				getConstants().netAmount(), getConstants().taxAmount() };
+		return new String[] { getMessages().name(), getMessages().rate(),
+				getMessages().netAmount(), getMessages().taxAmount() };
 	}
 
 }

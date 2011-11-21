@@ -4,28 +4,26 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 public class PaymentDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
-	private AccounterConstants customerConstants = Accounter.constants();
-	private final String RECEIVE_PAYMENT = customerConstants.receivePayment();
+	private final String RECEIVE_PAYMENT = messages.receivePayment();
 	private final String CUSTOMER_PREPAYMENT = Accounter.messages()
 			.payeePrePayment(Global.get().Customer());
 
 	public PaymentDialog() {
-		super(Accounter.constants().payments(), "");
-		setText(Accounter.constants().payments());
+		super(Accounter.messages().payments(), "");
+		setText(Accounter.messages().payments());
 		createControls();
 		center();
 	}
 
 	public PaymentDialog(AccounterAsyncCallback<IAccounterCore> callBack) {
-		super(Accounter.constants().payments(), "");
-		setText(Accounter.constants().payments());
+		super(Accounter.messages().payments(), "");
+		setText(Accounter.messages().payments());
 		createControls();
 		center();
 	}
@@ -41,7 +39,7 @@ public class PaymentDialog extends BaseDialog {
 		typeForm.setWidth("100%");
 		typeForm.setIsGroup(true);
 
-		typeForm.setGroupTitle(customerConstants.setPaymentType());
+		typeForm.setGroupTitle(messages.setPaymentType());
 		typeForm.setFields(typeRadio);
 
 		VerticalPanel mainVLay = new VerticalPanel();

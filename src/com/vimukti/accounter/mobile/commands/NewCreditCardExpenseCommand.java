@@ -87,7 +87,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		 */
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getConstants().items(),
+				"Please Enter Item Name or number", getMessages().items(),
 				true, true) {
 
 			@Override
@@ -110,8 +110,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
-				.pleaseEnterNameOrNumber(Global.get().Account()), Global.get()
-				.Account(), true, true) {
+				.pleaseEnterNameOrNumber(getMessages().Account()),
+				getMessages().Account(), true, true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
@@ -135,13 +135,13 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().date()), getConstants().date(), true, true));
+				getMessages().date()), getMessages().date(), true, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().number()), getConstants().number(), true, false));
+				getMessages().number()), getMessages().number(), true, false));
 
 		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
-				getConstants().contactName()), getConstants().contacts(), true,
+				getMessages().contactName()), getMessages().contacts(), true,
 				true, null) {
 
 			@Override
@@ -157,27 +157,27 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-				getConstants().phoneNumber()), getConstants().phone(), true,
-				true));
+		list
+				.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
+						getMessages().phoneNumber()), getMessages().phone(),
+						true, true));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().memo()), getConstants().memo(), true, true));
+				getMessages().memo()), getMessages().memo(), true, true));
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseEnterName(getConstants().paymentMethod()),
-				getConstants().paymentMethod(), true, true, null) {
+				.pleaseEnterName(getMessages().paymentMethod()), getMessages()
+				.paymentMethod(), true, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getConstants().paymentMethod());
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getConstants().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -188,16 +188,16 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().paymentMethod());
+						getMessages().paymentMethod());
 			}
 		});
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(getConstants().bankAccount()),
-				getConstants().bankAccount(), false, false, null) {
+				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
+				false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().payFrom());
+				return getMessages().hasSelected(getMessages().payFrom());
 			}
 
 			@Override
@@ -223,7 +223,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Accounts());
+				return getMessages().youDontHaveAny(getMessages().Accounts());
 			}
 
 			@Override
@@ -233,12 +233,12 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new DateRequirement(DELIVERY_DATE, getMessages().pleaseEnter(
-				getConstants().deliveryDate()), getConstants().deliveryDate(),
+				getMessages().deliveryDate()), getMessages().deliveryDate(),
 				true, true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
-				getConstants().taxCode()), getConstants().taxCode(), false,
-				true, new ChangeListner<TAXCode>() {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				new ChangeListner<TAXCode>() {
 
 					@Override
 					public void onSelection(TAXCode value) {
@@ -368,7 +368,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select a Credit Expense to update.");
 				return "Credit Card Expenses List ,"
-						+ getConstants().creditCard();
+						+ getMessages().creditCard();
 			}
 			long numberFromString = getNumberFromString(string);
 			if (numberFromString != 0) {
@@ -380,7 +380,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			if (transactionByNum == null) {
 				addFirstMessage(context, "Select a Credit Expense to update.");
 				return "Credit Card Expenses List " + string + " ,"
-						+ getConstants().creditCard();
+						+ getMessages().creditCard();
 			}
 			creditCardCharge = transactionByNum;
 			setValues();
@@ -428,14 +428,14 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return creditCardCharge.getID() == 0 ? getMessages().creating(
-				getConstants().creditCardExpense())
+				getMessages().creditCardExpense())
 				: "Update Credit Card Expense command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return creditCardCharge.getID() == 0 ? getMessages().readyToCreate(
-				getConstants().creditCardExpense())
+				getMessages().creditCardExpense())
 				: "Credit card expense is ready to update with following details";
 	}
 
@@ -449,7 +449,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		get(CONTACT).setDefaultValue(contact);
 		get(MEMO).setDefaultValue(" ");
 		get("deliveryDate").setDefaultValue(new ClientFinanceDate());
-		get(PAYMENT_METHOD).setDefaultValue(getConstants().creditCard());
+		get(PAYMENT_METHOD).setDefaultValue(getMessages().creditCard());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 		/* get(CURRENCY_FACTOR).setDefaultValue(1.0); */
 	}
@@ -457,9 +457,9 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 	@Override
 	public String getSuccessMessage() {
 		return creditCardCharge.getID() == 0 ? getMessages()
-				.createSuccessfully(getConstants().creditCardExpense())
+				.createSuccessfully(getMessages().creditCardExpense())
 				: getMessages().updateSuccessfully(
-						getConstants().creditCardExpense());
+						getMessages().creditCardExpense());
 	}
 
 	@Override

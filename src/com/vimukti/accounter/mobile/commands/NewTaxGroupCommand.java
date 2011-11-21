@@ -25,10 +25,10 @@ public class NewTaxGroupCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new NameRequirement(NAME, getMessages().pleaseEnter(
-				getConstants().taxGroup() + " " + getConstants().name()),
-				getConstants().taxGroup(), false, true));
+				getMessages().taxGroup() + " " + getMessages().name()),
+				getMessages().taxGroup(), false, true));
 		list.add(new TaxItemsTableRequirement(TAX_ITEMS_LIST, getMessages()
-				.pleaseSelect(getConstants().taxItemsList()), getConstants()
+				.pleaseSelect(getMessages().taxItemsList()), getMessages()
 				.taxItemsList()) {
 
 			@Override
@@ -56,17 +56,17 @@ public class NewTaxGroupCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().taxGroup());
+		return getMessages().readyToCreate(getMessages().taxGroup());
 	}
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().taxGroup());
+		return getMessages().createSuccessfully(getMessages().taxGroup());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().taxGroup());
+		return getMessages().creating(getMessages().taxGroup());
 	}
 
 	@Override

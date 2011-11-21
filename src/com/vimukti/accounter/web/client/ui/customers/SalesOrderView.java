@@ -78,9 +78,9 @@ public class SalesOrderView extends
 	private TextItem customerOrderText;
 	private Label lab1;
 	private ArrayList<ClientEstimate> selectedSalesOrders;
-	private final String OPEN = Accounter.constants().open();
-	private final String COMPLETED = Accounter.constants().completed();
-	private final String CANCELLED = Accounter.constants().cancelled();
+	private final String OPEN = messages.open();
+	private final String COMPLETED = messages.completed();
+	private final String CANCELLED = messages.cancelled();
 	private TextAreaItem billToTextArea;
 	private ShipToForm shipToAddress;
 
@@ -112,9 +112,9 @@ public class SalesOrderView extends
 		emptylabel.setLinkTitle("");
 		emptylabel.setShowTitle(false);
 
-		lab1 = new Label(Accounter.constants().salesOrder());
-		lab1.setStyleName(Accounter.constants().labelTitle());
-		statusSelect = new SelectCombo(Accounter.constants().status());
+		lab1 = new Label(messages.salesOrder());
+		lab1.setStyleName(messages.labelTitle());
+		statusSelect = new SelectCombo(messages.status());
 
 		ArrayList<String> selectComboList = new ArrayList<String>();
 		selectComboList.add(OPEN);
@@ -138,7 +138,7 @@ public class SalesOrderView extends
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(Accounter.constants().orderNo());
+		transactionNumber.setTitle(messages.orderNo());
 		transactionNumber.setWidth(50);
 
 		locationCombo = createLocationCombo();
@@ -179,7 +179,7 @@ public class SalesOrderView extends
 
 		customerCombo.setWidth(100);
 		quoteLabel = new LabelItem();
-		quoteLabel.setValue(Accounter.constants().quotes());
+		quoteLabel.setValue(messages.quotes());
 		quoteLabel.setWidth("100%");
 		quoteLabel.addStyleName("falseHyperlink");
 		quoteLabel.setShowTitle(false);
@@ -190,7 +190,7 @@ public class SalesOrderView extends
 
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(Accounter.constants().billTo());
+		billToTextArea.setTitle(messages.billTo());
 		billToTextArea.setDisabled(true);
 
 		shipToCombo = createShipToComboItem();
@@ -214,13 +214,13 @@ public class SalesOrderView extends
 		if (isInViewMode())
 			shipToAddress.businessSelect.setDisabled(true);
 
-		phoneSelect = new TextItem(customerConstants.phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+		phoneSelect = new TextItem(messages.phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isInViewMode());
 
-		custForm = UIUtils.form(customerConstants.billingAddress());
+		custForm = UIUtils.form(messages.billingAddress());
 		custForm.setNumCols(3);
 		// custForm.setWidth("50%");
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
@@ -310,7 +310,7 @@ public class SalesOrderView extends
 		DynamicForm termsForm = new DynamicForm();
 		termsForm.setWidth("100%");
 		termsForm.setIsGroup(true);
-		termsForm.setGroupTitle(customerConstants.terms());
+		termsForm.setGroupTitle(messages.terms());
 		termsForm.setNumCols(2);
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
@@ -331,7 +331,7 @@ public class SalesOrderView extends
 		}
 		// termsForm.getCellFormatter().setWidth(0, 0, "230px");
 
-		Label lab2 = new Label(customerConstants.productAndService());
+		Label lab2 = new Label(messages.productAndService());
 
 		memoTextAreaItem = createMemoTextAreaItem();
 
@@ -353,13 +353,13 @@ public class SalesOrderView extends
 		// priceLevelSelect = createPriceLevelSelectItem();
 		taxCodeSelect = createTaxCodeSelectItem();
 
-		paymentsNonEditableText = new AmountLabel(customerConstants.payments());
+		paymentsNonEditableText = new AmountLabel(messages.payments());
 		paymentsNonEditableText.setDisabled(true);
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
 		balanceDueNonEditableText = new AmountLabel(
-				customerConstants.balanceDue());
+				messages.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -510,7 +510,7 @@ public class SalesOrderView extends
 	private ShippingTermsCombo createShippingTermsCombo() {
 
 		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
-				Accounter.constants().shippingTerms());
+				messages.shippingTerms());
 		shippingTermsCombo.setHelpInformation(true);
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
@@ -940,7 +940,7 @@ public class SalesOrderView extends
 					&& taxCodeSelect != null
 					&& taxCodeSelect.getValue() != ""
 					&& !taxCodeSelect.getName().equalsIgnoreCase(
-							Accounter.constants().none()))
+							messages.none()))
 				taxCodeSelect.setComboItem(this.taxCode);
 			customerCombo.setComboItem(customer);
 			// if (transactionObject == null)
@@ -1042,10 +1042,10 @@ public class SalesOrderView extends
 
 	protected DateField createDueDateItem() {
 
-		DateField dateItem = new DateField(Accounter.constants().dueDate());
+		DateField dateItem = new DateField(messages.dueDate());
 		dateItem.setToolTip(Accounter.messages().selectDateUntilDue(
 				this.getAction().getViewName()));
-		dateItem.setTitle(Accounter.constants().dueDate());
+		dateItem.setTitle(messages.dueDate());
 		dateItem.setColSpan(1);
 
 		dateItem.setDisabled(isInViewMode());
@@ -1100,12 +1100,12 @@ public class SalesOrderView extends
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				this.dueDateItem.getDate(), getTransactionDate())) {
-			result.addError(this.dueDateItem, Accounter.constants().the()
+			result.addError(this.dueDateItem, messages.the()
 					+ " "
-					+ customerConstants.dueDate()
+					+ messages.dueDate()
 					+ " "
 					+ " "
-					+ Accounter.constants()
+					+ messages
 							.cannotbeearlierthantransactiondate());
 		}
 
@@ -1116,7 +1116,7 @@ public class SalesOrderView extends
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
 					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+							messages.enterTaxCode());
 				}
 
 			}
@@ -1187,7 +1187,7 @@ public class SalesOrderView extends
 
 		if (filteredList.isEmpty()) {
 			dialog.grid
-					.addEmptyMessage(Accounter.constants().noRecordsToShow());
+					.addEmptyMessage(messages.noRecordsToShow());
 		}
 
 	}
@@ -1302,7 +1302,7 @@ public class SalesOrderView extends
 	@Override
 	public void onEdit() {
 		if (transaction.getStatus() == ClientTransaction.STATUS_COMPLETED)
-			Accounter.showError(Accounter.constants()
+			Accounter.showError(messages
 					.completedSalesOrdercantbeedited());
 		else {
 			AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
@@ -1412,7 +1412,7 @@ public class SalesOrderView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().salesOrder();
+		return messages.salesOrder();
 	}
 
 	@Override

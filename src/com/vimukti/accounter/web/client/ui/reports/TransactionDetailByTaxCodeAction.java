@@ -15,7 +15,7 @@ public class TransactionDetailByTaxCodeAction extends Action {
 
 	public TransactionDetailByTaxCodeAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().report();
+		this.catagory = Accounter.messages().report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
@@ -24,7 +24,7 @@ public class TransactionDetailByTaxCodeAction extends Action {
 
 			@Override
 			public void onCreated() {
-				Accounter.showInformation(Accounter.constants()
+				Accounter.showInformation(Accounter.messages()
 						.thisReportNotYetImplemented());
 
 			}

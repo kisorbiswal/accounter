@@ -7,11 +7,11 @@ import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.view.client.CellPreviewEvent;
-import com.google.gwt.view.client.CellPreviewEvent.Handler;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.NoSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
+import com.google.gwt.view.client.CellPreviewEvent.Handler;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -137,7 +137,7 @@ public class BillsTable extends BaseTable<BillsList> {
 				return type1.compareTo(type2);
 			}
 		};
-		this.addColumn(type, Accounter.constants().type());
+		this.addColumn(type, Accounter.messages().type());
 
 		AccounterTextColumn<BillsList> date = new AccounterTextColumn<BillsList>() {
 
@@ -161,7 +161,7 @@ public class BillsTable extends BaseTable<BillsList> {
 				return 0;
 			}
 		};
-		this.addColumn(date, Accounter.constants().date());
+		this.addColumn(date, Accounter.messages().date());
 
 		AccounterTextColumn<BillsList> no = new AccounterTextColumn<BillsList>() {
 
@@ -188,7 +188,7 @@ public class BillsTable extends BaseTable<BillsList> {
 				}
 			}
 		};
-		this.addColumn(no, Accounter.constants().no());
+		this.addColumn(no, Accounter.messages().no());
 
 		AccounterTextColumn<BillsList> vendor = new AccounterTextColumn<BillsList>() {
 
@@ -228,7 +228,7 @@ public class BillsTable extends BaseTable<BillsList> {
 				return o1.getOriginalAmount().compareTo(o2.getOriginalAmount());
 			}
 		};
-		this.addColumn(originalAmount, Accounter.constants().originalAmount());
+		this.addColumn(originalAmount, Accounter.messages().originalAmount());
 
 		DecimalTextColumn<BillsList> balance = new DecimalTextColumn<BillsList>() {
 
@@ -254,7 +254,7 @@ public class BillsTable extends BaseTable<BillsList> {
 				return new Width(65.0);
 			}
 		};
-		this.addColumn(balance, Accounter.constants().balance());
+		this.addColumn(balance, Accounter.messages().balance());
 
 		ImageActionColumn<BillsList> isVoid = new ImageActionColumn<BillsList>() {
 
@@ -272,7 +272,7 @@ public class BillsTable extends BaseTable<BillsList> {
 								.getAccounterCoreType(object.getType()), object
 								.getTransactionId());
 					} else {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.expensecantbevoiditisApproved());
 					}
 				}
@@ -293,7 +293,7 @@ public class BillsTable extends BaseTable<BillsList> {
 			}
 
 		};
-		this.addColumn(isVoid, Accounter.constants().isVoid());
+		this.addColumn(isVoid, Accounter.messages().isVoid());
 	}
 
 }

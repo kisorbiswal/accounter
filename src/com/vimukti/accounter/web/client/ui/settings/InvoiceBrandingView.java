@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
@@ -47,7 +46,6 @@ public class InvoiceBrandingView<T> extends
 	private Button newBrandButton, automaticButton;
 	private HorizontalPanel buttonPanel, showPanel, allPanel, nameAndMenuPanel,
 			buttonPanel2;
-	private AccounterConstants messages = Accounter.constants();
 
 	@Override
 	public void setData(ClientBrandingTheme data) {
@@ -80,10 +78,10 @@ public class InvoiceBrandingView<T> extends
 						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
-		titleLabel = new Label(messages.invoiceBrandingLabel());
+		titleLabel = new Label(messages.invoiceBranding());
 		titleLabel.removeStyleName("gwt-Label");
 
-		titleLabel.setStyleName(Accounter.constants().labelTitle());
+		titleLabel.setStyleName(Accounter.messages().labelTitle());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -96,7 +94,7 @@ public class InvoiceBrandingView<T> extends
 		titlePanel.add(titleLabel);
 
 		buttonPanel = new HorizontalPanel();
-		newBrandButton = new Button(constants.newBrandTheme());
+		newBrandButton = new Button(messages.newBrandTheme());
 		newBrandButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -166,7 +164,7 @@ public class InvoiceBrandingView<T> extends
 
 		subLayPanel = new VerticalPanel();
 
-		editButton = new Button(Accounter.constants().edit());
+		editButton = new Button(Accounter.messages().edit());
 		editButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -177,7 +175,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		});
 
-		copyThemeButton = new Button(Accounter.constants().copy());
+		copyThemeButton = new Button(Accounter.messages().copy());
 		copyThemeButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -186,7 +184,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		});
 
-		deleteButton = new Button(Accounter.constants().delete());
+		deleteButton = new Button(Accounter.messages().delete());
 		deleteButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -351,7 +349,7 @@ public class InvoiceBrandingView<T> extends
 			original.append("/>");
 			uploadPictureHtml = new HTML("" + original);
 		}
-		changeLogoHtml = new HTML(Accounter.constants().changeLogo());
+		changeLogoHtml = new HTML(Accounter.messages().changeLogo());
 		changeLogoHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -377,7 +375,7 @@ public class InvoiceBrandingView<T> extends
 				changeLogo(theme);
 			}
 		});
-		removeLogoHtml = new HTML(Accounter.constants().removeLogo());
+		removeLogoHtml = new HTML(Accounter.messages().removeLogo());
 		removeLogoHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -401,7 +399,7 @@ public class InvoiceBrandingView<T> extends
 			@Override
 			public void onClick(ClickEvent event) {
 				if (theme.getFileName() == null) {
-					Accounter.showInformation(Accounter.constants()
+					Accounter.showInformation(Accounter.messages()
 							.noLogoIsAdded());
 				} else {
 					removeLogo(theme);
@@ -476,7 +474,7 @@ public class InvoiceBrandingView<T> extends
 		buttonPanel2.setWidth("100%");
 
 		// optionsButton.setStyleName("ibutton-right-align") ;
-		if (theme.getName().equalsIgnoreCase(Accounter.constants().standard())) {
+		if (theme.getName().equalsIgnoreCase(Accounter.messages().standard())) {
 			deleteButton.setVisible(false);
 			buttonPanel2.getElement().getParentElement()
 					.setAttribute("width", "12%");
@@ -568,12 +566,12 @@ public class InvoiceBrandingView<T> extends
 		if (object != null) {
 			super.saveSuccess(object);
 		} else
-			saveFailed(new AccounterException(Accounter.constants().failed()));
+			saveFailed(new AccounterException(Accounter.messages().failed()));
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().invoiceBranding();
+		return Accounter.messages().invoiceBranding();
 	}
 
 	@Override

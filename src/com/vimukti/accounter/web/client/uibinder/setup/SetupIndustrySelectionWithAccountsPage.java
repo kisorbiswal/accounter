@@ -98,16 +98,16 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		selectIndustryhead.setText(accounterMessages.getindustryhead());
-		headerLabel.setText(accounterConstants.selectYourIndustry());
+		selectIndustryhead.setText(messages.getindustryhead());
+		headerLabel.setText(messages.selectYourIndustry());
 
-		customizeAccounter.setHTML(accounterMessages.selectIndustryInfoHTML1()
-				+ "<br/>" + accounterMessages.selectIndustryInfoHTML2() + "<a>"
-				+ accounterMessages.selectIndustryInfoAchor1() + "</a>"
-				+ accounterMessages.selectIndustryInfoHTML3() + "<br/><a>"
-				+ accounterMessages.selectIndustryInfoAchor2() + "</a>"
-				+ accounterMessages.selectIndustryInfoHTML4());
-		industryList.setName(accounterConstants.industry());
+		customizeAccounter.setHTML(messages.selectIndustryInfoHTML1()
+				+ "<br/>" + messages.selectIndustryInfoHTML2() + "<a>"
+				+ messages.selectIndustryInfoAchor1() + "</a>"
+				+ messages.selectIndustryInfoHTML3() + "<br/><a>"
+				+ messages.selectIndustryInfoAchor2() + "</a>"
+				+ messages.selectIndustryInfoHTML4());
+		industryList.setName(messages.industry());
 
 		industryList.addChangeHandler(new ChangeHandler() {
 
@@ -123,7 +123,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 		});
 		industryList.setVisibleItemCount(15);
 
-		accountsLabel.setHTML("<b>" + accounterConstants.Accounts() + "</b>");
+		accountsLabel.setHTML("<b>" + messages.Accounts() + "</b>");
 
 		// accountsList
 		// .setName(accounterMessages.accounts(Global.get().Account()));
@@ -169,7 +169,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 	@Override
 	protected boolean validate() {
 		if (industryList.getSelectedIndex() == -1) {
-			Accounter.showError(accounterConstants.selectYourIndustry());
+			Accounter.showError(messages.selectYourIndustry());
 			return false;
 		} else {
 			return true;
@@ -178,7 +178,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.selectIndustryType();
+		return messages.selectIndustryType();
 	}
 
 }

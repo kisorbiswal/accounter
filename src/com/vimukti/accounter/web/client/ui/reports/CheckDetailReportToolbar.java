@@ -26,29 +26,29 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
-		String[] statusArray = { Accounter.constants().cash(),
-				Accounter.constants().check(),
-				Accounter.constants().creditCard(),
-				Accounter.constants().directDebit(),
-				Accounter.constants().masterCard(),
-				Accounter.constants().onlineBanking(),
-				Accounter.constants().standingOrder(),
-				Accounter.constants().switchMaestro() };
+		String[] statusArray = { Accounter.messages().cash(),
+				Accounter.messages().check(),
+				Accounter.messages().creditCard(),
+				Accounter.messages().directDebit(),
+				Accounter.messages().masterCard(),
+				Accounter.messages().onlineBanking(),
+				Accounter.messages().standingOrder(),
+				Accounter.messages().switchMaestro() };
 
-		String[] dateRangeArray = { Accounter.constants().all(),
-				Accounter.constants().thisWeek(),
-				Accounter.constants().thisMonth(),
-				Accounter.constants().lastWeek(),
-				Accounter.constants().lastMonth(),
-				Accounter.constants().thisFinancialYear(),
-				Accounter.constants().lastFinancialYear(),
-				Accounter.constants().thisFinancialQuarter(),
-				Accounter.constants().lastFinancialQuarter(),
-				Accounter.constants().financialYearToDate(),
-				Accounter.constants().custom() };
+		String[] dateRangeArray = { Accounter.messages().all(),
+				Accounter.messages().thisWeek(),
+				Accounter.messages().thisMonth(),
+				Accounter.messages().lastWeek(),
+				Accounter.messages().lastMonth(),
+				Accounter.messages().thisFinancialYear(),
+				Accounter.messages().lastFinancialYear(),
+				Accounter.messages().thisFinancialQuarter(),
+				Accounter.messages().lastFinancialQuarter(),
+				Accounter.messages().financialYearToDate(),
+				Accounter.messages().custom() };
 
 		checkDetailCombo = new ComboBoxItem();
-		checkDetailCombo.setTitle(Accounter.constants().paymentMethod());
+		checkDetailCombo.setTitle(Accounter.messages().paymentMethod());
 		checkDetailCombo.setValueMap(statusArray);
 		checkDetailCombo.setDefaultValue(statusArray[0]);
 		checkDetailCombo.addChangeHandler(new ChangeHandler() {
@@ -65,7 +65,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		});
 
 		dateRangeItem = new ComboBoxItem();
-		dateRangeItem.setTitle(Accounter.constants().dateRange());
+		dateRangeItem.setTitle(Accounter.messages().dateRange());
 		dateRangeItem.setValueMap(dateRangeArray);
 		dateRangeItem.setDefaultValue(dateRangeArray[0]);
 
@@ -81,7 +81,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 
 		fromItem = new DateItem();
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		fromItem.setTitle(Accounter.constants().from());
+		fromItem.setTitle(Accounter.messages().from());
 
 		toItem = new DateItem();
 		ClientFinanceDate date = Accounter.getCompany()
@@ -93,7 +93,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		else
 			toItem.setDatethanFireEvent(new ClientFinanceDate());
 
-		toItem.setTitle(Accounter.constants().to());
+		toItem.setTitle(Accounter.messages().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -102,7 +102,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				endDate = (ClientFinanceDate) toItem.getValue();
 			}
 		});
-		updateButton = new Button(Accounter.constants().update());
+		updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -112,8 +112,8 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				setEndDate(toItem.getDate());
 
 				changeDates(fromItem.getDate(), toItem.getDate());
-				dateRangeItem.setDefaultValue(Accounter.constants().custom());
-				setSelectedDateRange(Accounter.constants().custom());
+				dateRangeItem.setDefaultValue(Accounter.messages().custom());
+				setSelectedDateRange(Accounter.messages().custom());
 
 			}
 		});
@@ -122,7 +122,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		Button printButton = new Button(Accounter.constants().print());
+		Button printButton = new Button(Accounter.messages().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {

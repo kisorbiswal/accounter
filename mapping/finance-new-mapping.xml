@@ -26,6 +26,13 @@
 			<key column="CLIENT_ID"></key>
 			<one-to-many class="User" />
 		</set>
+		<set name="languages" table="CLIENT_LANGUAGES" lazy="false"
+			cascade="all">
+			<key column="CLIENT_ID"></key>
+			<many-to-many column="LANGUAGE_CODE"
+				class="com.vimukti.accounter.web.server.translate.Language" />
+		</set>
+
 	</class>
 
 	<class name="Activation" table="ACTIVATION">

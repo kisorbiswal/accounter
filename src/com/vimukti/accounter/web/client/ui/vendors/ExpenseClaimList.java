@@ -48,7 +48,7 @@ public class ExpenseClaimList extends BaseView {
 	private void createControls() {
 
 		VerticalPanel panel = new VerticalPanel();
-		HTML addNew = new HTML(Accounter.constants().addNewEmployeeExpense());
+		HTML addNew = new HTML(Accounter.messages().addNewEmployeeExpense());
 		addNew.setStyleName("add-new-expense");
 		addNew.getElement().getStyle().setMarginBottom(10, Unit.PX);
 		addNew.addClickHandler(new ClickHandler() {
@@ -62,7 +62,7 @@ public class ExpenseClaimList extends BaseView {
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
-		Button submitApproval = new Button(Accounter.constants()
+		Button submitApproval = new Button(Accounter.messages()
 				.submitForApproval());
 		submitApproval.addClickHandler(new ClickHandler() {
 
@@ -78,14 +78,14 @@ public class ExpenseClaimList extends BaseView {
 							records,
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL);
 				} else {
-					Accounter.showInformation(Accounter.constants()
+					Accounter.showInformation(Accounter.messages()
 							.noRecordsToShow());
 				}
 
 			}
 		});
 
-		Button deleteButton = new Button(Accounter.constants().delete());
+		Button deleteButton = new Button(Accounter.messages().delete());
 		deleteButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -97,7 +97,7 @@ public class ExpenseClaimList extends BaseView {
 					updateSelectedRecords(records,
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 				} else {
-					Accounter.showInformation(Accounter.constants()
+					Accounter.showInformation(Accounter.messages()
 							.noRecordsToShow());
 				}
 			}
@@ -173,7 +173,7 @@ public class ExpenseClaimList extends BaseView {
 							for (BillsList list : result)
 								grid.addData(list);
 						} else {
-							grid.addEmptyMessage(Accounter.constants()
+							grid.addEmptyMessage(Accounter.messages()
 									.noRecordsToShow());
 						}
 
@@ -227,7 +227,7 @@ public class ExpenseClaimList extends BaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().expenseClaims();
+		return Accounter.messages().expenseClaims();
 	}
 
 	@Override

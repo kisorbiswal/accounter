@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -31,8 +30,6 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	private VerticalPanel vPanel;
 	private CheckboxItem defaultWareHouse;
 	private Label titleItem;
-
-	public AccounterConstants settingsConstants = Accounter.constants();
 
 	@Override
 	public void init() {
@@ -126,8 +123,8 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 		mainHLay.setCellHorizontalAlignment(rightSideForm, ALIGN_RIGHT);
 
-		titleItem = new Label(settingsConstants.wareHouse());
-		titleItem.setStyleName(Accounter.constants().labelTitle());
+		titleItem = new Label(messages.wareHouse());
+		titleItem.setStyleName(Accounter.messages().labelTitle());
 
 		vPanel = new VerticalPanel();
 		vPanel.setWidth("100%");
@@ -146,27 +143,27 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		rightSideForm.getElement().getStyle().setFloat(Float.RIGHT);
 
 		addressItem = new TextItem();
-		addressItem.setTitle(settingsConstants.address());
+		addressItem.setTitle(messages.address());
 		addressItem.setDisabled(isInViewMode());
 
 		streetItem = new TextItem();
-		streetItem.setTitle(settingsConstants.streetName());
+		streetItem.setTitle(messages.streetName());
 		streetItem.setDisabled(isInViewMode());
 
 		cityItem = new TextItem();
-		cityItem.setTitle(settingsConstants.city());
+		cityItem.setTitle(messages.city());
 		cityItem.setDisabled(isInViewMode());
 
 		stateItem = new TextItem();
-		stateItem.setTitle(settingsConstants.state());
+		stateItem.setTitle(messages.state());
 		stateItem.setDisabled(isInViewMode());
 
 		countryItem = new TextItem();
-		countryItem.setTitle(settingsConstants.country());
+		countryItem.setTitle(messages.country());
 		countryItem.setDisabled(isInViewMode());
 
 		postalCodeItem = new TextItem();
-		postalCodeItem.setTitle(settingsConstants.postalCode());
+		postalCodeItem.setTitle(messages.postalCode());
 		postalCodeItem.setDisabled(isInViewMode());
 
 		rightSideForm.setFields(addressItem, streetItem, cityItem, stateItem,
@@ -180,33 +177,33 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		// leftSideForm.setWidth("100%");
 
 		warehouseCodeItem = new TextItem();
-		warehouseCodeItem.setTitle(settingsConstants.warehouseCode());
+		warehouseCodeItem.setTitle(messages.warehouseCode());
 		warehouseCodeItem.setRequired(true);
 		warehouseCodeItem.setDisabled(isInViewMode());
 
 		wareHouseNameItem = new TextItem();
-		wareHouseNameItem.setTitle(settingsConstants.wareName());
+		wareHouseNameItem.setTitle(messages.wareName());
 		wareHouseNameItem.setRequired(true);
 		wareHouseNameItem.setDisabled(isInViewMode());
 
 		contactNameItem = new TextItem();
-		contactNameItem.setTitle(settingsConstants.contactName());
+		contactNameItem.setTitle(messages.contactName());
 		contactNameItem.setDisabled(isInViewMode());
 
 		contactNumberItem = new TextItem();
-		contactNumberItem.setTitle(settingsConstants.contactNumber());
+		contactNumberItem.setTitle(messages.contactNumber());
 		contactNumberItem.setDisabled(isInViewMode());
 
 		mobileNumberItem = new TextItem();
-		mobileNumberItem.setTitle(settingsConstants.mobileNumber());
+		mobileNumberItem.setTitle(messages.mobileNumber());
 		mobileNumberItem.setDisabled(isInViewMode());
 
 		DDINumberItem = new TextItem();
-		DDINumberItem.setTitle(settingsConstants.ddiNumber());
+		DDINumberItem.setTitle(messages.ddiNumber());
 		DDINumberItem.setDisabled(isInViewMode());
 
 		defaultWareHouse = new CheckboxItem();
-		defaultWareHouse.setTitle(settingsConstants.defaultWareHouse());
+		defaultWareHouse.setTitle(messages.defaultWareHouse());
 		defaultWareHouse.setDisabled(isInViewMode());
 
 		leftSideForm.setFields(warehouseCodeItem, wareHouseNameItem,
@@ -301,7 +298,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().wareHouse();
+		return Accounter.messages().wareHouse();
 	}
 
 	@Override

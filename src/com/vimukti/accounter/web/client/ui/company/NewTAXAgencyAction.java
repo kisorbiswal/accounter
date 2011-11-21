@@ -23,9 +23,9 @@ public class NewTAXAgencyAction extends Action<ClientTAXAgency> {
 		String flag;
 		// if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_US)
-		// flag = Accounter.constants().company();
+		// flag = messages.company();
 		// else
-		flag = Accounter.constants().tax();
+		flag = Accounter.messages().tax();
 		this.catagory = flag;
 	}
 

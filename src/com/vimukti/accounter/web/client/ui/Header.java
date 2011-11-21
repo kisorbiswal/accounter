@@ -36,7 +36,7 @@ public class Header extends HorizontalPanel {
 
 	private VerticalPanel panel1, panel2;
 	private VerticalPanel panel3;
-	private String gettingStartedStatus = Accounter.constants()
+	private String gettingStartedStatus = Accounter.messages()
 			.hideGettingStarted();
 	private MenuBar helpBar;
 	private ClientCompany company = null;
@@ -70,13 +70,10 @@ public class Header extends HorizontalPanel {
 		if (company != null) {
 			if (Accounter.getCompany().isConfigured()) {
 				userName = new HTML("<a><font color=\"#3299A4\">"
-						+ Accounter.messages().userName(
-								Accounter.getUser().getFullName())
-						+ "<font></a>");
+						+ Accounter.getUser().getFullName() + "<font></a>");
 			} else {
 				userName = new HTML("<font color=\"#3299A4\">"
-						+ Accounter.messages().userName(
-								Accounter.getUser().getFullName()) + "<font>");
+						+ Accounter.getUser().getFullName() + "<font>");
 			}
 		} else {
 			userName = new HTML();
@@ -103,13 +100,13 @@ public class Header extends HorizontalPanel {
 //		userName.setWidth("100%");
 		logout = new Anchor(Accounter.messages().logoutHTML(), "/main/logout");
 		logout.addStyleName("logout-html");
-		// logout.setWidth(((Accounter.constants().logout().length() * 4) + 19)+
+		// logout.setWidth(((messages.logout().length() * 4) + 19)+
 		// "px");
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
 		help = new Anchor(Accounter.messages().helpHTML());
-		// help.setWidth(((Accounter.constants().help().length() * 2) + 19) +
+		// help.setWidth(((messages.help().length() * 2) + 19) +
 		// "px");
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
@@ -179,7 +176,7 @@ public class Header extends HorizontalPanel {
 	}
 
 	public void initializeHelpBar() {
-		MenuItem menuItem = helpBar.addItem(Accounter.constants().help(),
+		MenuItem menuItem = helpBar.addItem(Accounter.messages().help(),
 				getHelpMenuBar());
 		menuItem.getElement().getStyle().setColor("#072027");
 		Image child = new Image();
@@ -204,14 +201,14 @@ public class Header extends HorizontalPanel {
 
 			@Override
 			public void execute() {
-				if (gettingStartedStatus.equals(Accounter.constants()
+				if (gettingStartedStatus.equals(Accounter.messages()
 						.hideGettingStarted())) {
 					// DashBoardView.hideGettingStarted();
-					changeHelpBarContent(Accounter.constants()
+					changeHelpBarContent(Accounter.messages()
 							.showGettingStarted());
 				} else {
 					// DashBoardView.showGettingStarted();
-					changeHelpBarContent(Accounter.constants()
+					changeHelpBarContent(Accounter.messages()
 							.hideGettingStarted());
 				}
 			}

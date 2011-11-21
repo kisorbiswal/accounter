@@ -145,7 +145,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// && taxCodeSelect != null
 		// && taxCodeSelect.getValue() != ""
 		// && !taxCodeSelect.getName().equalsIgnoreCase(
-		// Accounter.constants().none()))
+		// messages.none()))
 		// taxCodeSelect.setComboItem(this.taxCode);
 		// if (this.priceLevel != null && priceLevelSelect != null)
 		// priceLevelSelect.setComboItem(this.priceLevel);
@@ -195,7 +195,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	public void showMenu(Widget button) {
 		setMenuItems(button,
 		// Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+				Accounter.messages().productOrServiceItem());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
 
@@ -309,13 +309,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	}
 
 	private int getStatus(String status) {
-		if (status.equals(customerConstants.open())) {
+		if (status.equals(messages.open())) {
 			return ClientEstimate.STATUS_OPEN;
-		} else if (status.equals(customerConstants.accepted())) {
+		} else if (status.equals(messages.accepted())) {
 			return ClientEstimate.STATUS_ACCECPTED;
-		} else if (status.equals(customerConstants.closed())) {
+		} else if (status.equals(messages.closed())) {
 			return ClientEstimate.STATUS_CLOSE;
-		} else if (status.equals(customerConstants.rejected())) {
+		} else if (status.equals(messages.rejected())) {
 			return ClientEstimate.STATUS_REJECTED;
 		}
 		return -1;
@@ -324,19 +324,19 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private String getStatusString(int status) {
 		switch (status) {
 		case ClientEstimate.STATUS_OPEN:
-			return customerConstants.open();
+			return messages.open();
 
 		case ClientEstimate.STATUS_ACCECPTED:
-			return customerConstants.accepted();
+			return messages.accepted();
 
 		case ClientEstimate.STATUS_CLOSE:
-			return customerConstants.closed();
+			return messages.closed();
 
 		case ClientEstimate.STATUS_REJECTED:
-			return customerConstants.rejected();
+			return messages.rejected();
 
 		case ClientEstimate.STATUS_APPLIED:
-			return customerConstants.closed();
+			return messages.closed();
 
 		default:
 			break;
@@ -346,10 +346,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void createControls() {
-		// setTitle(UIUtils.title(customerConstants.quote()));
+		// setTitle(UIUtils.title(messages.quote()));
 		Label lab1 = new Label(title);
 		// + "(" + getTransactionStatus() + ")");
-		lab1.setStyleName(Accounter.constants().labelTitle());
+		lab1.setStyleName(Accounter.messages().labelTitle());
 		// lab1.setHeight("35px");
 
 		transactionDateItem = createTransactionDateItem();
@@ -393,7 +393,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		contactCombo = createContactComboItem();
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(Accounter.constants().billTo());
+		billToTextArea.setTitle(Accounter.messages().billTo());
 		billToTextArea.setDisabled(true);
 
 		shipToCombo = createShipToComboItem();
@@ -405,7 +405,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				.setVerticalAlign(VerticalAlign.TOP);
 
 		// shipToAddress.getCellFormatter().getElement(0, 0)
-		// .setAttribute(Accounter.constants().width(), "40px");
+		// .setAttribute(messages.width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -423,8 +423,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (transaction != null)
 			shipToAddress.setDisabled(true);
 
-		phoneSelect = new TextItem(customerConstants.phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+		phoneSelect = new TextItem(messages.phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
@@ -443,12 +443,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		custForm.setStyleName("align-form");
 
-		DynamicForm phoneForm = UIUtils.form(customerConstants.phoneNumber());
+		DynamicForm phoneForm = UIUtils.form(messages.phoneNumber());
 		// phoneForm.setWidth("100%");
 		phoneForm.setNumCols(2);
 		phoneForm.setCellSpacing(3);
 
-		statusCombo = new SelectCombo(customerConstants.status());
+		statusCombo = new SelectCombo(messages.status());
 		statusCombo.initCombo(getStatusList());
 		statusCombo.setSelectedItem(0);
 
@@ -456,7 +456,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		payTermsSelect = createPaymentTermsSelectItem();
 
-		quoteExpiryDate = new DateField(customerConstants.expirationDate());
+		quoteExpiryDate = new DateField(messages.expirationDate());
 		quoteExpiryDate.setHelpInformation(true);
 		quoteExpiryDate.setEnteredDate(getTransactionDate());
 		// formItems.add(quoteExpiryDate);
@@ -481,7 +481,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		}
 		phoneForm.setStyleName("align-form");
 		// phoneForm.getCellFormatter().getElement(0, 0)
-		// .setAttribute(Accounter.constants().width(), "203px");
+		// .setAttribute(messages.width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -494,7 +494,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			classListCombo.setDisabled(isInViewMode());
 		}
 
-		Label lab2 = new Label(customerConstants.productAndService());
+		Label lab2 = new Label(messages.productAndService());
 
 		HorizontalPanel buttLabHLay = new HorizontalPanel();
 		buttLabHLay.add(lab2);
@@ -947,12 +947,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
-			result.addError(this.quoteExpiryDate, Accounter.constants().the()
+			result.addError(this.quoteExpiryDate, Accounter.messages().the()
 					+ " "
-					+ customerConstants.expirationDate()
+					+ messages.expirationDate()
 					+ " "
 					+ " "
-					+ Accounter.constants()
+					+ Accounter.messages()
 							.cannotbeearlierthantransactiondate());
 		}
 		result.add(customerTransactionTable.validateGrid());
@@ -961,7 +961,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
 					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+							messages.enterTaxCode());
 				}
 
 			}
@@ -1014,10 +1014,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			@Override
 			public void onFailure(Throwable caught) {
 				if (transaction.getStatus() == QuoteListView.STATUS_ACCECPTED) {
-					Accounter.showError(Accounter.constants()
+					Accounter.showError(Accounter.messages()
 							.thisQuoteAlreadyAccepted());
 				} else if (caught instanceof InvocationException) {
-					Accounter.showMessage(Accounter.constants()
+					Accounter.showMessage(Accounter.messages()
 							.sessionExpired());
 				} else {
 					int errorCode = ((AccounterException) caught)
@@ -1103,7 +1103,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().quote();
+		return Accounter.messages().quote();
 	}
 
 	@Override
@@ -1183,10 +1183,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	public List<String> getStatusList() {
 		ArrayList<String> statuses = new ArrayList<String>();
-		statuses.add(customerConstants.open());
-		statuses.add(customerConstants.accepted());
-		statuses.add(customerConstants.closed());
-		statuses.add(customerConstants.rejected());
+		statuses.add(messages.open());
+		statuses.add(messages.accepted());
+		statuses.add(messages.closed());
+		statuses.add(messages.rejected());
 		return statuses;
 	}
 }

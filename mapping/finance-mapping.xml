@@ -294,7 +294,6 @@
 			<property name="organizationType" column="CP_ORGANIZATION_TYPE"></property>
 			<property name="referCustomers" column="CP_REFER_CUSTOMERS"></property>
 			<property name="referVendors" column="CP_REFER_VENDORS"></property>
-			<property name="referAccounts" column="CP_REFER_ACCOUNTS"></property>
 
 			<property name="locationTrackingId" column="LOCATION_TRACKING_ID"></property>
 

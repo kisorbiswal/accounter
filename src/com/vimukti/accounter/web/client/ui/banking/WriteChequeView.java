@@ -39,7 +39,6 @@ import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -97,7 +96,6 @@ public class WriteChequeView extends
 	protected ClientTAXAgency selectedTaxAgency;
 
 	private DateField date;
-	AccounterConstants accounterConstants = Accounter.constants();
 
 	// private DynamicForm amtForm;
 
@@ -221,10 +219,10 @@ public class WriteChequeView extends
 		transactionVendorAccountTable.updateTotals();
 		this.transactionVendorAccountTable.updateAmountsFromGUI();
 
-		totalTxtTransactionCurrency.setTitle(Accounter.messages()
+		totalTxtTransactionCurrency.setTitle(messages
 				.currencyTotal(formalName));
 
-		totalTxtBaseCurrency.setTitle(Accounter.messages().currencyTotal(
+		totalTxtBaseCurrency.setTitle(messages.currencyTotal(
 				getBaseCurrency().getFormalName()));
 
 		amtText.setCurrency(clientCurrency);
@@ -514,8 +512,9 @@ public class WriteChequeView extends
 			Double transactionTotal = ((ClientWriteCheck) transaction)
 					.getTotal();
 			if (transactionTotal != null && !isAmountChange) {
-				amtText.setAmount(getAmountInTransactionCurrency(transactionTotal
-						.doubleValue()));
+				amtText
+						.setAmount(getAmountInTransactionCurrency(transactionTotal
+								.doubleValue()));
 			}
 
 		}
@@ -531,30 +530,29 @@ public class WriteChequeView extends
 
 		// FIXME Need to validate grids.
 		if (transactionVendorAccountTable.getAllRows().isEmpty()) {
-			result.addError(transactionVendorAccountTable,
-					accounterConstants.blankTransaction());
+			result.addError(transactionVendorAccountTable, messages
+					.blankTransaction());
 		} else {
 			result.add(transactionVendorAccountTable.validateGrid());
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem,
-					accounterConstants.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem, messages
+					.transactiontotalcannotbe0orlessthan0());
 		}
 
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							accounterConstants.enterTaxCode());
+					result.addError(taxCodeSelect, messages.enterTaxCode());
 				}
 
 			}
 		}
 		if (unassignedAmountPanel.isVisible()) {
-			result.addError(unassignedAmountPanel,
-					constants.amountAndTotalShouldEqual());
+			result.addError(unassignedAmountPanel, messages
+					.amountAndTotalShouldEqual());
 		}
 
 		ClientAccount bankAccount = bankAccSelect.getSelectedValue();
@@ -562,8 +560,8 @@ public class WriteChequeView extends
 		if (bankAccount != null) {
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
 			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
-				result.addError(bankAccSelect,
-						accounterConstants.selectProperBankAccount());
+				result.addError(bankAccSelect, messages
+						.selectProperBankAccount());
 			}
 		}
 
@@ -680,9 +678,9 @@ public class WriteChequeView extends
 		listforms = new ArrayList<DynamicForm>();
 
 		// setTitle(bankingConstants.writeCheck());
-		Label lab1 = new Label(Accounter.constants().writeCheck() + "("
+		Label lab1 = new Label(messages.writeCheck() + "("
 				+ getTransactionStatus() + ")");
-		lab1.addStyleName(Accounter.constants().labelTitle());
+		lab1.addStyleName(messages.labelTitle());
 
 		transactionNumber = createTransactionNumberItem();
 		locationCombo = createLocationCombo();
@@ -709,18 +707,18 @@ public class WriteChequeView extends
 		labelLayout.setCellHorizontalAlignment(nHPanel,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		vendorTDSTaxCode = new TaxItemCombo(Accounter.constants().tds(),
+		vendorTDSTaxCode = new TaxItemCombo(messages.tds(),
 				ClientTAXAgency.TAX_TYPE_TDS);
 
 		vendorTDSTaxCode.setDisabled(true);
 
-		balText = new AmountField(Accounter.constants().balance(), this,
+		balText = new AmountField(messages.balance(), this,
 				getBaseCurrency());
 		balText.setWidth(100);
 		balText.setDisabled(true);
 
-		bankAccSelect = new PayFromAccountsCombo(Accounter.messages()
-				.bankAccount(Global.get().Account()));
+		bankAccSelect = new PayFromAccountsCombo(messages
+				.bankAccount());
 		// bankAccSelect.setWidth(100);
 		bankAccSelect.setRequired(true);
 		bankAccSelect.setDisabled(isInViewMode());
@@ -754,7 +752,7 @@ public class WriteChequeView extends
 		// bankAccForm.getCellFormatter().setWidth(0, 0, "232px");
 		// forms.add(bankAccForm);
 
-		paytoSelect = new PayeeCombo(Accounter.constants().payTo());
+		paytoSelect = new PayeeCombo(messages.payTo());
 		// paytoSelect.setWidth(100);
 		// paytoSelect.setRequired(true);
 		paytoSelect.setDisabled(isInViewMode());
@@ -803,7 +801,7 @@ public class WriteChequeView extends
 
 				});
 
-		amtText = new AmountField(Accounter.constants().amount(), this,
+		amtText = new AmountField(messages.amount(), this,
 				getBaseCurrency());
 		amtText.setWidth(100);
 		amtText.setAmount(getAmountInTransactionCurrency(0.00));
@@ -813,8 +811,8 @@ public class WriteChequeView extends
 			@Override
 			public void onBlur(BlurEvent event) {
 				if ((amtText.getAmount() != 0)
-						&& !(DecimalUtil.isEquals(previousValue,
-								amtText.getAmount()))) {
+						&& !(DecimalUtil.isEquals(previousValue, amtText
+								.getAmount()))) {
 					previousValue = amtText.getAmount();
 					isAmountChange = true;
 					validateAmountAndTotal();
@@ -831,7 +829,7 @@ public class WriteChequeView extends
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		toprintCheck = new CheckboxItem(Accounter.constants().toBePrinted());
+		toprintCheck = new CheckboxItem(messages.toBePrinted());
 		toprintCheck.setDisabled(false);
 		toprintCheck.setValue(true);
 
@@ -879,7 +877,7 @@ public class WriteChequeView extends
 
 		vatTotalNonEditableText = new AmountLabel("Tax");
 
-		netAmount = new AmountLabel(Accounter.constants().netAmount());
+		netAmount = new AmountLabel(messages.netAmount());
 
 		HorizontalPanel bottomPanel = new HorizontalPanel();
 		bottomPanel.setWidth("100%");
@@ -918,7 +916,7 @@ public class WriteChequeView extends
 		amountPanel.add(unassignedAmountPanel);
 		amountPanel.add(totalForm);
 
-		Button recalculateButton = new Button(constants.recalculate());
+		Button recalculateButton = new Button(messages.recalculate());
 
 		recalculateButton.addClickHandler(new ClickHandler() {
 
@@ -932,7 +930,7 @@ public class WriteChequeView extends
 		});
 
 		DynamicForm unassignedAmountForm = new DynamicForm();
-		unassignedAmount = new AmountLabel(constants.unassignedAmount());
+		unassignedAmount = new AmountLabel(messages.unassignedAmount());
 		unassignedAmountForm.setFields(unassignedAmount);
 
 		unassignedAmountPanel.add(recalculateButton);
@@ -1224,7 +1222,7 @@ public class WriteChequeView extends
 		// case ClientWriteCheck.TYPE_CUSTOMER:
 		// case ClientWriteCheck.TYPE_VENDOR:
 		// case ClientWriteCheck.TYPE_TAX_AGENCY:
-		// setMenuItems(button, Accounter.messages().accounts(
+		// setMenuItems(button, messages.accounts(
 		// Global.get().Account()), Accounter.constants()
 		// .productItem()
 		// FinanceApplication.constants().comment(),
@@ -1263,7 +1261,7 @@ public class WriteChequeView extends
 		// FinanceApplication.constants().comment());
 		// }
 		// } else
-		setMenuItems(button, Global.get().Account(), Accounter.constants()
+		setMenuItems(button, messages.Account(), messages
 				.productOrServiceItem());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().salesTax()
@@ -1277,13 +1275,13 @@ public class WriteChequeView extends
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		if (payee != null) {
 			if (payee.getType() == ClientWriteCheck.TYPE_CUSTOMER) {
-				if (item.equals(Global.get().Accounts())) {
+				if (item.equals(messages.Accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(Accounter.constants()
+				} else if (item.equals(messages
 						.productOrServiceItem())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 
-				} else if (item.equals(Accounter.constants().comment())) {
+				} else if (item.equals(messages.comment())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
 				}
 				// else if (item.equals("Sales Tax")) {
@@ -1293,23 +1291,22 @@ public class WriteChequeView extends
 				// transactionCustomerTable.add(transactionItem);
 			} else if (payee.getType() == ClientWriteCheck.TYPE_VENDOR
 					|| payee.getType() == ClientWriteCheck.TYPE_TAX_AGENCY) {
-				if (item.equals(Global.get().Accounts())) {
+				if (item.equals(messages.Accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(Accounter.constants()
+				} else if (item.equals(messages
 						.productOrServiceItem())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-				} else if (item.equals(Accounter.constants().comment())) {
+				} else if (item.equals(messages.comment())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
 				}
 				// transactionVendorTable.add(transactionItem);
 			}
 		} else {
-			if (item.equals(Global.get().Accounts())) {
+			if (item.equals(messages.Accounts())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			} else if (item
-					.equals(Accounter.constants().productOrServiceItem())) {
+			} else if (item.equals(messages.productOrServiceItem())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			} else if (item.equals(Accounter.constants().comment())) {
+			} else if (item.equals(messages.comment())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
 			}
 			// else if (item.equals(Accounter.constants().salesTax())) {
@@ -1454,7 +1451,7 @@ public class WriteChequeView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().writeCheck();
+		return messages.writeCheck();
 	}
 
 	protected void initTransactionViewData() {
@@ -1483,7 +1480,8 @@ public class WriteChequeView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+									.getTotal()
+									- transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -1508,9 +1506,9 @@ public class WriteChequeView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		vendorAccountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
+		vendorAccountsDisclosurePanel.setOpen(checkOpen(transaction
+				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
+				true));
 	}
 
 	@Override
@@ -1586,7 +1584,7 @@ public class WriteChequeView extends
 			totalTxtBaseCurrency.hide();
 		} else {
 			totalTxtBaseCurrency.show();
-			totalTxtBaseCurrency.setTitle(Accounter.messages().currencyTotal(
+			totalTxtBaseCurrency.setTitle(messages.currencyTotal(
 					getBaseCurrency().getFormalName()));
 		}
 	}

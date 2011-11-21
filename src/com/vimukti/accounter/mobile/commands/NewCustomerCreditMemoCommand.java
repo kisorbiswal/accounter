@@ -47,14 +47,14 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 	@Override
 	protected String getWelcomeMessage() {
 		return creditMemo.getID() == 0 ? getMessages().create(
-				getConstants().CustomerCreditNote())
+				getMessages().CustomerCreditNote())
 				: "Update Customer Credit Note Command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return creditMemo.getID() == 0 ? getMessages().readyToCreate(
-				getConstants().CustomerCreditNote())
+				getMessages().CustomerCreditNote())
 				: "Customer credit note is ready to update with following details";
 	}
 
@@ -77,8 +77,8 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 	@Override
 	public String getSuccessMessage() {
 		return creditMemo.getID() == 0 ? getMessages().createSuccessfully(
-				getConstants().CustomerCreditNote()) : getMessages()
-				.updateSuccessfully(getConstants().CustomerCreditNote());
+				getMessages().CustomerCreditNote()) : getMessages()
+				.updateSuccessfully(getMessages().CustomerCreditNote());
 	}
 
 	@Override
@@ -140,13 +140,13 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		 * } });
 		 */
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getConstants().creditNoteNo()), getConstants().creditNoteNo(),
+				getMessages().creditNoteNo()), getMessages().creditNoteNo(),
 				true, true));
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
-				getConstants().transactionDate()), getConstants()
+				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
-				"please select accountItems", getConstants().Account(), true,
+				"please select accountItems", getMessages().Account(), true,
 				true) {
 
 			@Override
@@ -171,7 +171,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getConstants().items(),
+				"Please Enter Item Name or number", getMessages().items(),
 				true, true) {
 
 			@Override
@@ -209,7 +209,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			}
 		});
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getConstants().taxCode()), getConstants().taxCode(), false,
+				getMessages().taxCode()), getMessages().taxCode(), false,
 				true, null) {
 
 			@Override
@@ -257,10 +257,10 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		});
 
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-				getConstants().reasonForIssue()), getConstants()
+				getMessages().reasonForIssue()), getMessages()
 				.reasonForIssue(), true, true));
 	}
 

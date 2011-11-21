@@ -111,7 +111,7 @@ public class FileUploadDilaog extends CustomDialog {
 			}
 		});
 		helpHtml.setVisible(false);
-		chooseHtml = new HTML(Accounter.constants().chooseLogo());
+		chooseHtml = new HTML(Accounter.messages().chooseLogo());
 		final FileUpload upload = new FileUpload();
 		/* Default height of upload text box 26 */
 		upload.getElement().setAttribute("size", "33");
@@ -132,7 +132,7 @@ public class FileUploadDilaog extends CustomDialog {
 		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
-		Button closeButton = new Button(Accounter.constants().close());
+		Button closeButton = new Button(Accounter.messages().close());
 		closeButton.setWidth("80px");
 		buttonHlay = new HorizontalPanel();
 		buttonHlay.add(uploadSubmitButton);
@@ -277,7 +277,7 @@ public class FileUploadDilaog extends CustomDialog {
 	protected void processOnUpload() {
 		if (!validateFileItems()) {
 			Accounter
-					.showInformation(Accounter.constants().noImageisselected());
+					.showInformation(Accounter.messages().noImageisselected());
 			return;
 		}
 
@@ -367,7 +367,7 @@ public class FileUploadDilaog extends CustomDialog {
 			final AccounterAsyncCallback<ClientBrandingTheme> callback,
 			String parentId) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
-		builder.setHeader(Accounter.constants().accept(), "text/html");
+		builder.setHeader(Accounter.messages().accept(), "text/html");
 		// Create a callback object to handle the result
 		RequestCallback requestCallback = new RequestCallback() {
 			public void onError(Request request, Throwable exception) {

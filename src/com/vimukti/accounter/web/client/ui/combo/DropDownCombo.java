@@ -26,7 +26,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.view.client.ListDataProvider;
-import com.vimukti.accounter.web.client.externalization.AccounterComboMessges;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.CustomComboItem;
@@ -36,7 +36,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	protected IAccounterComboSelectionChangeHandler<T> handler;
 
-	AccounterComboMessges comboMessages = Accounter.comboMessages();
+	protected AccounterMessages messages = Accounter.messages();
 	private boolean isAddNewRequire;
 	private DropDownTable<T> dropDown;
 	private int cols;
@@ -81,9 +81,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			protected String getColumnValue(T object, int col) {
 				if (object.equals("addNewCaption")) {
 					if (cols > 1)
-						return (col == 1) ? getDefaultAddNewCaption() : "  ";
+						return (col == 1) ? Accounter.messages()
+								.comboDefaultAddNew(getDefaultAddNewCaption())
+								: "  ";
 					else
-						return getDefaultAddNewCaption();
+						return Accounter.messages().comboDefaultAddNew(
+								getDefaultAddNewCaption());
 				}
 				return getColumnData(object, col);
 			}
@@ -428,7 +431,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		if (value == null) {
 			super.setValue("");
 		} else {
-			if (!value.equals(getDefaultAddNewCaption()))
+			if (!value.equals(Accounter.messages().comboDefaultAddNew(
+					getDefaultAddNewCaption())))
 				super.setValue(value);
 		}
 	}
@@ -515,7 +519,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			if (isAddNewRequire) {
 				if (popup.isShowing())
 					popup.hide();
-				//setValue(getDefaultAddNewCaption());
+				// setValue(getDefaultAddNewCaption());
 				onAddNew();
 			} else {
 				selectedObject = comboItems.get(rowIndex
@@ -648,8 +652,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	private void filterValues(char key) {
 
 		String val = getValue() != null ? getValue().toString()
-				+ String.valueOf(key).replace("/", "").trim() : String
-				.valueOf(key).replace("/", "").trim();
+				+ String.valueOf(key).replace("/", "").trim() : String.valueOf(
+				key).replace("/", "").trim();
 
 		resetComboList();
 		if (key == '/') {

@@ -72,21 +72,20 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 			if (vatItem.isPercentage()) {
 				ClientTAXAgency taxAgency = getCompany().getTaxAgency(
 						vatItem.getTaxAgency());
-				if(salesItems){
-					if(taxAgency.getSalesLiabilityAccount() !=0){
-					vatItmsList.add(vatItem);
-						}
-					}
-					if(!salesItems){
-						if(taxAgency.getPurchaseLiabilityAccount() !=0){
+				if (salesItems) {
+					if (taxAgency.getSalesLiabilityAccount() != 0) {
 						vatItmsList.add(vatItem);
-							}
-						}
-						
-				
+					}
 				}
+				if (!salesItems) {
+					if (taxAgency.getPurchaseLiabilityAccount() != 0) {
+						vatItmsList.add(vatItem);
+					}
+				}
+
 			}
-		 
+		}
+
 		return vatItmsList;
 	}
 
@@ -127,8 +126,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 	 */
 	@Override
 	public String getDefaultAddNewCaption() {
-		//return comboMessages.newVATItem();
-		return comboMessages.newTaxItem();
+		return messages.taxItem();
 	}
 
 	/*

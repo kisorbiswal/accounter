@@ -3,6 +3,8 @@ package com.vimukti.accounter.core;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.vimukti.accounter.web.server.translate.Language;
+
 /**
  * This Client Saved in ServerDatabase
  * 
@@ -25,6 +27,7 @@ public class Client {
 	private boolean isRequirePasswordReset = false;
 	private int loginCount;
 	private long lastLoginTime;
+	private Set<Language> languages;
 	private boolean isDeleted;
 
 	public int getLoginCount() {
@@ -169,6 +172,14 @@ public class Client {
 
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
+	}
+
+	public void setLanguages(Set<Language> languages) {
+		this.languages = languages;
+	}
+
+	public Set<Language> getLanguages() {
+		return languages;
 	}
 
 	public boolean isDeleted() {

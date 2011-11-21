@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -44,8 +43,6 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 	public Double totalBalances = 0.0D;
 	public Double totalAmountToUse = 0.0D;
 
-	private AccounterConstants customerConstants = Accounter.constants();
-
 	public ClientTransactionReceivePayment record;
 
 	public boolean okClicked;
@@ -72,9 +69,9 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionReceivePayment record,
 			ICurrencyProvider currencyProvider) {
-		super(Accounter.constants().applyCreditsAndPaymentsFor(),
+		super(Accounter.messages().applyCreditsAndPaymentsFor(),
 		// + (customer != null ? customer.getName() : ""),
-				Accounter.constants().applyCreditsandPayments());
+				Accounter.messages().applyCreditsandPayments());
 		this.currencyProvider = currencyProvider;
 		this.customer = customer;
 		this.canEdit = canEdit;
@@ -91,9 +88,9 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionPayBill record,
 			ICurrencyProvider currencyProvider) {
-		super(Accounter.constants().applyCreditsAndPaymentsFor()
+		super(Accounter.messages().applyCreditsAndPaymentsFor()
 				+ (venddor != null ? venddor.getName() : ""), Accounter
-				.constants().applyCreditsandPayments());
+				.messages().applyCreditsandPayments());
 		this.currencyProvider = currencyProvider;
 		this.vendor = venddor;
 		this.canEdit = canEdit;
@@ -112,7 +109,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			LinkedHashMap<String, List<ClientTransactionCreditsAndPayments>> creditsAndPaymentsMap,
 			IGenericCallback<String> callback,
 			ICurrencyProvider currencyProvider) {
-		super(Accounter.constants().applyCreditsAndPaymentsFor(), "");
+		super(Accounter.messages().applyCreditsAndPaymentsFor(), "");
 		this.currencyProvider = currencyProvider;
 		this.key = key;
 		// this.creditsAndPaymentsMap = creditsAndPaymentsMap;
@@ -203,7 +200,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			grid.removeAllRecords();
 			grid.setRecords(creditsAndPayments);
 		} else {
-			grid.addEmptyMessage(Accounter.constants()
+			grid.addEmptyMessage(Accounter.messages()
 					.therearenocreditstoshow());
 		}
 		for (ClientCreditsAndPayments cr : creditsAndPayments) {
@@ -235,7 +232,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		mainPanel.setSpacing(5);
 
 		if (canEdit) {
-			amtDueText = new AmountField(customerConstants.amountDue(), this,getBaseCurrency());
+			amtDueText = new AmountField(messages.amountDue(), this,getBaseCurrency());
 			amtDueText.setColSpan(1);
 			if (transactionPaybill != null)
 				amtDueText
@@ -273,7 +270,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		grid.setCanEdit(canEdit);
 		grid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 
-		totAmtUseText = new AmountField(customerConstants.totalAmountToUse(),
+		totAmtUseText = new AmountField(messages.totalAmountToUse(),
 				this,getBaseCurrency());
 		totAmtUseText.setColSpan(1);
 		totAmtUseText.setValue("");
@@ -287,9 +284,9 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		});
 
 		if (canEdit) {
-			okbtn.setTitle(customerConstants.adjust());
+			okbtn.setTitle(messages.adjust());
 		} else {
-			cancelBtn.setTitle(customerConstants.close());
+			cancelBtn.setTitle(messages.close());
 			okbtn.setVisible(false);
 		}
 
@@ -372,7 +369,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			}
 		}
 		if (totalAmount > amountDue) {
-			Accounter.showError(Accounter.constants()
+			Accounter.showError(Accounter.messages()
 					.amountToUseMustLessthanTotal());
 			showError();
 		}
@@ -535,11 +532,11 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		double totalAmount = currencyProvider
 				.getAmountInBaseCurrency(totAmtUseText.getAmount());
 		if (updatedCreditsAndPayments.isEmpty() && totalAmount > 0) {
-			Accounter.showError(Accounter.constants().noCreditsToApply());
+			Accounter.showError(Accounter.messages().noCreditsToApply());
 			showError();
 			return false;
 		} else if (totalAmount > amountDue) {
-			Accounter.showError(Accounter.constants()
+			Accounter.showError(Accounter.messages()
 					.amountToUseMustLessthanTotal());
 			showError();
 			return false;

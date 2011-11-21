@@ -3,12 +3,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.ui.Accounter;
-
 public class TAXFilingFrequencyCombo extends CustomCombo<String> {
-
-	private AccounterConstants constants = Accounter.constants();
 
 	public TAXFilingFrequencyCombo(String title) {
 		super(title, false, 1);
@@ -17,10 +12,10 @@ public class TAXFilingFrequencyCombo extends CustomCombo<String> {
 
 	private List<String> getTAXFilingFrequencies() {
 		List<String> list = new ArrayList<String>();
-		list.add(constants.monthly());
-		list.add(constants.quarterly());
-		list.add(constants.halfYearly());
-		list.add(constants.yearly());
+		list.add(messages.monthly());
+		list.add(messages.quarterly());
+		list.add(messages.halfYearly());
+		list.add(messages.yearly());
 		return list;
 	}
 

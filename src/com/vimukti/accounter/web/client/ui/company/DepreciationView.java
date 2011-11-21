@@ -81,11 +81,11 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setSize("100%", "");
 
-		Label titleLabel = new Label(Accounter.constants().depreciation());
-		titleLabel.setStyleName(Accounter.constants().labelTitle());
+		Label titleLabel = new Label(Accounter.messages().depreciation());
+		titleLabel.setStyleName(Accounter.messages().labelTitle());
 		mainPanel.add(titleLabel);
 
-		startDateButton = new Button(Accounter.constants().startDate());
+		startDateButton = new Button(Accounter.messages().startDate());
 		startDateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -95,7 +95,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			}
 		});
 
-		Button rollBackDepreciation = new Button(Accounter.constants()
+		Button rollBackDepreciation = new Button(Accounter.messages()
 				.rollBackDepreciation());
 		rollBackDepreciation.addClickHandler(new ClickHandler() {
 
@@ -111,9 +111,9 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		buttonPanel.add(rollBackDepreciation);
 		mainPanel.add(buttonPanel);
 
-		fromLabel = new Label(Accounter.constants().depricatiedFrom());
+		fromLabel = new Label(Accounter.messages().depricatiedFrom());
 
-		format = DateTimeFormat.getFormat(Accounter.constants().ddMMyyyy());
+		format = DateTimeFormat.getFormat(Accounter.messages().ddMMyyyy());
 		// fromLabel.setText("Depreciate from:  "
 		// + format.format(depreciationStartDate));
 		depreciatedToCombo = new ListBox();
@@ -127,7 +127,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			}
 		});
 
-		Button updateButton = new Button(Accounter.constants().update());
+		Button updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -139,7 +139,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setSpacing(10);
 		panel.add(fromLabel);
-		panel.add(new HTML(Accounter.constants().depreciateTo()));
+		panel.add(new HTML(Accounter.messages().depreciateTo()));
 		panel.add(depreciatedToCombo);
 		// panel.add(updateButton);
 		mainPanel.add(panel);
@@ -185,7 +185,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 							date.getYear(), date.getMonth(), date.getDay() + 1);
 				}
 				fromLabel
-						.setText(Accounter.constants().depreciatefrom()
+						.setText(Accounter.messages().depreciatefrom()
 								+ format.format(depreciationStartDate
 										.getDateAsObject()));
 				for (String dateArray : getDatesArray()) {
@@ -238,7 +238,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		// }
 		// }
 
-		DateTimeFormat format = DateTimeFormat.getFormat(Accounter.constants()
+		DateTimeFormat format = DateTimeFormat.getFormat(Accounter.messages()
 				.ddMMyyyy());
 		List<String> dates = new ArrayList<String>();
 		Calendar fromDateCal = Calendar.getInstance();
@@ -337,7 +337,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.depreciationfailed());
 
 					}
@@ -354,7 +354,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (!(assets.size() > 0)) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, Accounter.messages()
 					.pleaseselectaFixedAsset());
 		}
 		result.add(super.validate());
@@ -390,7 +390,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			String dateString = depreciatedToCombo.getValue(index).toString();
 
 			depreciationEndDate = UIUtils.stringToDate(dateString, Accounter
-					.constants().ddMMyyyy());
+					.messages().ddMMyyyy());
 
 			AccounterAsyncCallback<DepreciableFixedAssetsList> callBack = new AccounterAsyncCallback<DepreciableFixedAssetsList>() {
 
@@ -442,10 +442,10 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 							dummyEntriesList);
 				}
 			} else
-				grid.addEmptyMessage(Accounter.constants()
+				grid.addEmptyMessage(Accounter.messages()
 						.noDepreciableFixedAssetstoshow());
 		} else
-			grid.addEmptyMessage(Accounter.constants()
+			grid.addEmptyMessage(Accounter.messages()
 					.noDepreciableFixedAssetstoshow());
 
 	}
@@ -507,7 +507,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().depreciation();
+		return Accounter.messages().depreciation();
 	}
 
 }

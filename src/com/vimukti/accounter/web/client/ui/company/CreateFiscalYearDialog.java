@@ -30,7 +30,7 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 		this.listOfFiscalYear = listOfperiods;
 		createControls();
 		center();
-		if (title.equalsIgnoreCase(Accounter.constants().editFiscalYear())) {
+		if (title.equalsIgnoreCase(Accounter.messages().editFiscalYear())) {
 			initData();
 		} else {
 			initNewFiscalYearData();
@@ -91,19 +91,19 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 
 	private void createControls() {
 		createFiscalYearLabel = new HTML();
-		createFiscalYearLabel.setHTML(Accounter.constants().createFascalYear());
+		createFiscalYearLabel.setHTML(Accounter.messages().createFascalYear());
 		descriptionLabel = new HTML();
-		descriptionLabel.setHTML(Accounter.constants()
+		descriptionLabel.setHTML(Accounter.messages()
 				.enterAppropriateFiscalYear());
 		startOfFiscalYear = new DateItem();
 		startOfFiscalYear.setHelpInformation(true);
 		startOfFiscalYear.setRequired(true);
 		// startOfFiscalYear.setDisabled(true);
-		startOfFiscalYear.setTitle(Accounter.constants().startOfFiscalYear());
+		startOfFiscalYear.setTitle(Accounter.messages().startOfFiscalYear());
 		endOfFiscalYear = new DateItem();
 		endOfFiscalYear.setRequired(true);
 		endOfFiscalYear.setHelpInformation(true);
-		endOfFiscalYear.setTitle(Accounter.constants().endOfFiscalYear());
+		endOfFiscalYear.setTitle(Accounter.messages().endOfFiscalYear());
 		dynamicForm = new DynamicForm();
 		dynamicForm.setFields(startOfFiscalYear, endOfFiscalYear);
 		mainVlayout = new VerticalPanel();
@@ -220,9 +220,9 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 	@Override
 	protected boolean onOK() {
 		ClientFiscalYear fiscalYear = null;
-		if (title.equalsIgnoreCase(Accounter.constants().editFiscalYear())) {
+		if (title.equalsIgnoreCase(Accounter.messages().editFiscalYear())) {
 			fiscalYear = getEditFiscalYear();
-		} else if (title.equalsIgnoreCase(Accounter.constants()
+		} else if (title.equalsIgnoreCase(Accounter.messages()
 				.createFascalYear())) {
 			fiscalYear = getNewFiscalYear();
 		}

@@ -62,8 +62,8 @@ public class SetupComplitionPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.congratulations());
-		congratulationInfo.setHTML(accounterMessages.setupComplitionDesc());
+		headerLabel.setText(messages.congratulations());
+		congratulationInfo.setHTML(messages.setupComplitionDesc());
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class SetupComplitionPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return accounterConstants.finish();
+		return messages.finish();
 	}
 
 }

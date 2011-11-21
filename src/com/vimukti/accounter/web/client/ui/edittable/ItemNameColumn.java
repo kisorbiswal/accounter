@@ -77,7 +77,7 @@ public abstract class ItemNameColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().name();
+		return Accounter.messages().name();
 	}
 
 	public void setItemForCustomer(boolean isForCustomer) {

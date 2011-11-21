@@ -32,18 +32,18 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 	protected void addRequirements(List<Requirement> list) {
 		// First page
 		list.add(new NameRequirement(COMPANY_NAME, getMessages().pleaseEnter(
-				getConstants().companyName()), getConstants().companyName(),
+				getMessages().companyName()), getMessages().companyName(),
 				false, true));
 
 		list.add(new NameRequirement(LEGAL_NAME, getMessages().pleaseEnter(
-				getConstants().legalName()), getConstants().legalName(), true,
+				getMessages().legalName()), getMessages().legalName(), true,
 				true));
 
 		list.add(new NameRequirement(TAX_ID, getMessages().pleaseEnter(
-				getConstants().taxId()), getConstants().taxId(), true, true));
+				getMessages().taxId()), getMessages().taxId(), true, true));
 
 		list.add(new StringListRequirement(COUNTRY, getMessages()
-				.pleaseEnterName(getConstants().country()), getConstants()
+				.pleaseEnterName(getMessages().country()), getMessages()
 				.country(), true, true, new ChangeListner<String>() {
 
 			@Override
@@ -76,7 +76,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(getConstants().country());
+				return getMessages().pleaseSelect(getMessages().country());
 			}
 
 			@Override
@@ -91,12 +91,12 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().country());
+				return getMessages().hasSelected(getMessages().country());
 			}
 		});
 
 		list.add(new StringListRequirement(STATE, getMessages()
-				.pleaseEnterName(getConstants().state()), getConstants()
+				.pleaseEnterName(getMessages().state()), getMessages()
 				.state(), true, true, null) {
 
 			@Override
@@ -123,7 +123,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(getConstants().state());
+				return getMessages().pleaseSelect(getMessages().state());
 			}
 
 			@Override
@@ -138,38 +138,38 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().state());
+				return getMessages().hasSelected(getMessages().state());
 			}
 		});
 
 		list.add(new NameRequirement(ADDRESS1, getMessages().pleaseEnter(
-				getConstants().address1()), getConstants().address1(), true,
+				getMessages().address1()), getMessages().address1(), true,
 				true));
 
 		list.add(new NameRequirement(ADDRESS2, getMessages().pleaseEnter(
-				getConstants().address2()), getConstants().address2(), true,
+				getMessages().address2()), getMessages().address2(), true,
 				true));
 
 		list.add(new NameRequirement(CITY, getMessages().pleaseEnter(
-				getConstants().city()), getConstants().city(), true, true));
+				getMessages().city()), getMessages().city(), true, true));
 
 		list.add(new NameRequirement(ZIPCODE, getMessages().pleaseEnter(
-				getConstants().zipCode()), getConstants().zipCode(), true, true));
+				getMessages().zipCode()), getMessages().zipCode(), true, true));
 
 		list.add(new NameRequirement(PHONE, getMessages().pleaseEnter(
-				getConstants().phone()), getConstants().phone(), true, true));
+				getMessages().phone()), getMessages().phone(), true, true));
 
 		list.add(new NameRequirement(FAX, getMessages().pleaseEnter(
-				getConstants().fax()), getConstants().fax(), true, true));
+				getMessages().fax()), getMessages().fax(), true, true));
 
 		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
-				getConstants().email()), getConstants().email(), true, true));
+				getMessages().email()), getMessages().email(), true, true));
 
 		list.add(new NameRequirement(WEB_SITE, getMessages().pleaseEnter(
-				getConstants().webSite()), getConstants().webSite(), true, true));
+				getMessages().webSite()), getMessages().webSite(), true, true));
 
 		list.add(new StringListRequirement(TIME_ZONE, getMessages()
-				.pleaseSelect(getConstants().timezone()), getConstants()
+				.pleaseSelect(getMessages().timezone()), getMessages()
 				.timezone(), true, true, null) {
 
 			@Override
@@ -196,7 +196,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(getConstants().timezone());
+				return getMessages().pleaseSelect(getMessages().timezone());
 			}
 
 			@Override
@@ -211,13 +211,13 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().timezone());
+				return getMessages().hasSelected(getMessages().timezone());
 			}
 		});
 
 		// Second Page
 		list.add(new StringListRequirement(INDUSTRY, getMessages()
-				.pleaseSelect(getConstants().industry()), getConstants()
+				.pleaseSelect(getMessages().industry()), getMessages()
 				.industry(), false, true, null) {
 
 			@Override
@@ -244,7 +244,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(getConstants().industry());
+				return getMessages().pleaseSelect(getMessages().industry());
 			}
 
 			@Override
@@ -259,13 +259,13 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().industry());
+				return getMessages().hasSelected(getMessages().industry());
 			}
 		});
 
 		list.add(new StringListRequirement(ORGANIZATION_REFER, getMessages()
-				.pleaseEnterName(getConstants().companyOrganization()),
-				getConstants().companyOrganization(), true, true, null) {
+				.pleaseEnterName(getMessages().companyOrganization()),
+				getMessages().companyOrganization(), true, true, null) {
 
 			@Override
 			protected Record createRecord(String value) {
@@ -286,7 +286,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSelectString() {
-				return getConstants().howisYourCompanyOrganized();
+				return getMessages().howisYourCompanyOrganized();
 			}
 
 			@Override
@@ -312,7 +312,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		list.add(new StringListRequirement(FISCAL_YEAR, getMessages()
-				.pleaseSelect(getConstants().fiscalYear()), getConstants()
+				.pleaseSelect(getMessages().fiscalYear()), getMessages()
 				.fiscalYear(), true, true, null) {
 
 			@Override
@@ -339,7 +339,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(getConstants().fiscalYear());
+				return getMessages().pleaseSelect(getMessages().fiscalYear());
 			}
 
 			@Override
@@ -354,7 +354,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getConstants().fiscalYear());
+				return getMessages().hasSelected(getMessages().fiscalYear());
 			}
 		});
 
@@ -420,7 +420,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getConstants().company());
+		return getMessages().readyToCreate(getMessages().company());
 	}
 
 	@Override
@@ -429,17 +429,17 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		get(STATE).setDefaultValue("Buckinghamshire");
 		get(TIME_ZONE).setDefaultValue(getDefaultTzOffsetStr());
 		get(ORGANIZATION_REFER).setDefaultValue(getOrganizationTypes().get(0));
-		get(FISCAL_YEAR).setDefaultValue(getConstants().april());
+		get(FISCAL_YEAR).setDefaultValue(getMessages().april());
 	}
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getConstants().company());
+		return getMessages().createSuccessfully(getMessages().company());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getConstants().partialCompanySetup());
+		return getMessages().creating(getMessages().partialCompanySetup());
 	}
 
 	@Override

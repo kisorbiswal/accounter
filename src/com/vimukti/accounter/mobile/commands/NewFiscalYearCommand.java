@@ -32,15 +32,15 @@ public class NewFiscalYearCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new DateRequirement(START_DATE, getMessages().pleaseEnter(
-				getConstants().startDate()), getConstants().startDate(), false,
+				getMessages().startDate()), getMessages().startDate(), false,
 				true));
 
 		list.add(new DateRequirement(END_DATE, getMessages().pleaseEnter(
-				getConstants().endDate()), getConstants().endDate(), false,
+				getMessages().endDate()), getMessages().endDate(), false,
 				true));
 
 		list.add(new NumberRequirement(STATUS, getMessages().pleaseEnter(
-				getConstants().status()), getConstants().status(), false, true));
+				getMessages().status()), getMessages().status(), false, true));
 
 	}
 

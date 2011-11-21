@@ -39,13 +39,13 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	@Override
 	protected String getAddNewLabelString() {
 
-		return Accounter.constants().addNewJournalEntry();
+		return Accounter.messages().addNewJournalEntry();
 	}
 
 	@Override
 	protected String getListViewHeading() {
 
-		return Accounter.constants().journalEntryList();
+		return Accounter.messages().journalEntryList();
 	}
 
 	@Override
@@ -84,10 +84,10 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 		// listOfTypes.add(FinanceApplication.constants().cashBasis());
 		// listOfTypes.add(FinanceApplication.constants()
 		// .voidedCashBasis());
-		listOfTypes.add(Accounter.constants().all());
+		listOfTypes.add(Accounter.messages().all());
 		currentView.initCombo(listOfTypes);
 		// currentView.setComboItem(FinanceApplication.constants().all());
-		currentView.setComboItem(Accounter.constants().all());
+		currentView.setComboItem(Accounter.messages().all());
 		currentView
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -186,7 +186,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().journalEntries();
+		return Accounter.messages().journalEntries();
 	}
 
 }

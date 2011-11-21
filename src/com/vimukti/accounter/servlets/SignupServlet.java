@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -16,6 +17,7 @@ import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.server.translate.Language;
 
 public class SignupServlet extends BaseServlet {
 	/**
@@ -118,15 +120,26 @@ public class SignupServlet extends BaseServlet {
 				client.setEmailId(emailId);
 				client.setFirstName(firstName);
 				client.setLastName(lastName);
-				client.setFullName(Global.get().messages()
-						.fullName(firstName, lastName));
+				client.setFullName(firstName + " " + lastName);
 				client.setPassword(passwordWithHash);
 				client.setPhoneNo(phoneNumber);
 				client.setCountry(country);
 				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
+
+				HashSet<Language> languages = new HashSet<Language>();
+
+				Query languageQuery1 = hibernateSession.getNamedQuery(
+						"getLanguageById").setParameter("code", "tel");
+				Language language1 = (Language) languageQuery1.uniqueResult();
+				languages.add(language1);
+
+				Query languageQuery2 = hibernateSession.getNamedQuery(
+						"getLanguageById").setParameter("code", "hin");
+				Language language2 = (Language) languageQuery2.uniqueResult();
+				languages.add(language2);
+				client.setLanguages(languages);
 				client.setDeleted(false);
 				saveEntry(client);
-
 				// Email to that user.
 				sendActivationEmail(token, client);
 				// Send to SignUp Success View

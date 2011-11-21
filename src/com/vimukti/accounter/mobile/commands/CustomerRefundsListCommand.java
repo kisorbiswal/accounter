@@ -41,7 +41,7 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(VIEW_BY).setDefaultValue(getConstants().issued());
+		get(VIEW_BY).setDefaultValue(getMessages().issued());
 
 	}
 
@@ -66,10 +66,10 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add(getConstants().notIssued());
-				list.add(getConstants().issued());
-				list.add(getConstants().voided());
-				list.add(getConstants().all());
+				list.add(getMessages().notIssued());
+				list.add(getMessages().issued());
+				list.add(getMessages().voided());
+				list.add(getMessages().all());
 				return list;
 			}
 		});
@@ -150,22 +150,22 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 
 		List<CustomerRefundsList> newList = new ArrayList<CustomerRefundsList>();
 		for (CustomerRefundsList customerRefund : customerRefundsList) {
-			if (viewType.equals(getConstants().notIssued())) {
+			if (viewType.equals(getMessages().notIssued())) {
 				if ((customerRefund.getStatus() == STATUS_NOT_ISSUED || customerRefund
 						.getStatus() == STATUS_PARTIALLY_PAID)
 						&& (!customerRefund.isVoided()))
 					newList.add(customerRefund);
 			}
-			if (viewType.equals(getConstants().issued())) {
+			if (viewType.equals(getMessages().issued())) {
 				if (customerRefund.getStatus() == STATUS_ISSUED
 						&& (!customerRefund.isVoided()))
 					newList.add(customerRefund);
 			}
-			if (viewType.equals(getConstants().voided())) {
+			if (viewType.equals(getMessages().voided())) {
 				if (customerRefund.isVoided() && !customerRefund.isDeleted())
 					newList.add(customerRefund);
 			}
-			if (viewType.equals(getConstants().all())) {
+			if (viewType.equals(getMessages().all())) {
 
 				newList.add(customerRefund);
 			}

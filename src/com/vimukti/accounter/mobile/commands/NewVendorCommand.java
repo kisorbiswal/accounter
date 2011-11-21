@@ -105,12 +105,12 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().active();
+				return getMessages().active();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().inActive();
+				return getMessages().inActive();
 			}
 		});
 
@@ -123,27 +123,27 @@ public class NewVendorCommand extends NewAbstractCommand {
 				getMessages().payeeBalance(Global.get().Vendor()), true, true));
 
 		list.add(new DateRequirement(BALANCE_AS_OF, getMessages().pleaseEnter(
-				getConstants().balanceAsOfDate()), getConstants()
+				getMessages().balanceAsOfDate()), getMessages()
 				.balanceAsOfDate(), true, true));
 
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getConstants().billTo()), getConstants().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new AddressRequirement(SHIP_TO, getMessages().pleaseEnter(
-				getConstants().shipTo()), getConstants().shipTo(), true, true));
+				getMessages().shipTo()), getMessages().shipTo(), true, true));
 
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-				getConstants().phoneNumber()), getConstants().phoneNumber(),
+				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				true, true));
 
 		list.add(new NumberRequirement(FAX, getMessages().pleaseEnter(
-				getConstants().fax()), getConstants().fax(), true, true));
+				getMessages().fax()), getMessages().fax(), true, true));
 
 		list.add(new NameRequirement(EMAIL, getMessages().pleaseEnter(
-				getConstants().email()), getConstants().email(), true, true));
+				getMessages().email()), getMessages().email(), true, true));
 
 		list.add(new NameRequirement(WEB_PAGE_ADDRESS, getMessages()
-				.pleaseEnter(getConstants().webPageAddress()), getConstants()
+				.pleaseEnter(getMessages().webPageAddress()), getMessages()
 				.webPageAddress(), true, true));
 
 		list.add(new BooleanRequirement(TRACK_PAYMENTS_FOR_1099, true) {
@@ -151,8 +151,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getCompany().getCountry()
-						.equals(CountryPreferenceFactory.UNITED_STATES)) {
+				if (context.getCompany().getCountry().equals(
+						CountryPreferenceFactory.UNITED_STATES)) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -160,17 +160,17 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getTrueString() {
-				return getConstants().trackPaymentsFor1099();
+				return getMessages().trackPaymentsFor1099();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getConstants().dontTrackPaymentsFor1099();
+				return getMessages().dontTrackPaymentsFor1099();
 			}
 		});
 
 		list.add(new CustomerContactRequirement(CONTACTS, getMessages()
-				.pleaseSelect(getConstants().contact()), CONTACTS, true, true) {
+				.pleaseSelect(getMessages().contact()), CONTACTS, true, true) {
 
 			@Override
 			protected List<ClientContact> getList() {
@@ -180,12 +180,12 @@ public class NewVendorCommand extends NewAbstractCommand {
 		});
 
 		list.add(new AccountRequirement(ACCOUNT, getMessages().pleaseSelect(
-				Global.get().Account()), Global.get().Account(), true, true,
+				getMessages().Account()), getMessages().Account(), true, true,
 				null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(Global.get().Account());
+				return getMessages().hasSelected(getMessages().Account());
 			}
 
 			@Override
@@ -196,7 +196,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(Global.get().Accounts());
+				return getMessages().youDontHaveAny(getMessages().Accounts());
 			}
 
 			@Override
@@ -207,17 +207,17 @@ public class NewVendorCommand extends NewAbstractCommand {
 		});
 
 		list.add(new AmountRequirement(CREDIT_LIMIT, getMessages().pleaseEnter(
-				getConstants().creditLimit()), getConstants().creditLimit(),
+				getMessages().creditLimit()), getMessages().creditLimit(),
 				true, true));
 
 		list.add(new ShippingMethodRequirement(SHIPPING_METHODS, getMessages()
-				.pleaseEnter(getConstants().shippingMethod()), getConstants()
+				.pleaseEnter(getMessages().shippingMethod()), getMessages()
 				.shippingMethod(), true, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(
-						getConstants().shippingMethod());
+				return getMessages()
+						.hasSelected(getMessages().shippingMethod());
 			}
 
 			@Override
@@ -229,24 +229,23 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().shippingMethod());
+						getMessages().shippingMethod());
 			}
 		});
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseEnterName(getConstants().paymentMethod()),
-				getConstants().paymentMethod(), true, true, null) {
+				.pleaseEnterName(getMessages().paymentMethod()), getMessages()
+				.paymentMethod(), true, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getConstants().paymentMethod());
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getConstants().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -257,12 +256,12 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
-						getConstants().paymentMethod());
+						getMessages().paymentMethod());
 			}
 		});
 
 		list.add(new PaymentTermRequirement(PAYMENT_TERMS, getMessages()
-				.pleaseSelect(getConstants().paymentTerm()), getConstants()
+				.pleaseSelect(getMessages().paymentTerm()), getMessages()
 				.paymentTerm(), true, true, null) {
 
 			@Override
@@ -273,16 +272,17 @@ public class NewVendorCommand extends NewAbstractCommand {
 		});
 
 		list.add(new NumberRequirement(ACCOUNT_NO, getMessages().pleaseEnter(
-				getMessages().payeeNumber(Global.get().Account())),
-				getMessages().payeeNumber(Global.get().Account()), true, true));
+				getMessages().accountNumber()), getMessages().accountNumber(),
+				true, true));
 
-		list.add(new NameRequirement(BANK_NAME, getMessages().pleaseEnter(
-				getConstants().bankName()), getConstants().bankName(), true,
-				true));
+		list
+				.add(new NameRequirement(BANK_NAME, getMessages().pleaseEnter(
+						getMessages().bankName()), getMessages().bankName(),
+						true, true));
 
 		list.add(new NameRequirement(BANK_BRANCH, getMessages().pleaseEnter(
-				getConstants().bankBranch()), getConstants().bankBranch(),
-				true, true));
+				getMessages().bankBranch()), getMessages().bankBranch(), true,
+				true));
 
 		list.add(new VendorGroupRequirement(VENDOR_GROUP, getMessages()
 				.pleaseEnterName(
@@ -309,8 +309,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 		});
 
 		list.add(new NumberRequirement(VAT_REGISTRATION_NUMBER, getMessages()
-				.pleaseEnter(getConstants().vatRegistrationNumber()),
-				getConstants().vatRegistrationNumber(), true, true) {
+				.pleaseEnter(getMessages().vatRegistrationNumber()),
+				getMessages().vatRegistrationNumber(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -324,7 +324,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 		});
 
 		list.add(new TaxCodeRequirement(VENDOR_VAT_CODE,
-				"Please enter the tax code name", getConstants().taxCode(),
+				"Please enter the tax code name", getMessages().taxCode(),
 				true, true, null) {
 
 			@Override
@@ -348,23 +348,26 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
-				getMessages().payeeNumber(Global.get().Customer())),
-				getMessages().payeeNumber(Global.get().Customer()), true, true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (context.getPreferences().isTrackTax()
-						&& context.getCompany().getCountryPreferences()
-								.isSalesTaxAvailable()) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-			}
-		});
+		list
+				.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
+						getMessages().payeeNumber(Global.get().Customer())),
+						getMessages().payeeNumber(Global.get().Customer()),
+						true, true) {
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						if (context.getPreferences().isTrackTax()
+								&& context.getCompany().getCountryPreferences()
+										.isSalesTaxAvailable()) {
+							return super
+									.run(context, makeResult, list, actions);
+						}
+						return null;
+					}
+				});
 
 		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
-				.pleaseEnter(getConstants().serviceTax()), getConstants()
+				.pleaseEnter(getMessages().serviceTax()), getMessages()
 				.serviceTax(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -379,7 +382,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 		});
 
 		list.add(new NumberRequirement(TIN_NUM, getMessages().pleaseEnter(
-				getConstants().tinNumber()), getConstants().tinNumber(), true,
+				getMessages().tinNumber()), getMessages().tinNumber(), true,
 				true) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -471,8 +474,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 		vendor.setBankName(bankName);
 		vendor.setEmail(emailId);
 
-		if (context.getCompany().getCountry()
-				.equals(CountryPreferenceFactory.UNITED_STATES)) {
+		if (context.getCompany().getCountry().equals(
+				CountryPreferenceFactory.UNITED_STATES)) {
 			boolean isTrackPaymentsFor1099 = get(TRACK_PAYMENTS_FOR_1099)
 					.getValue();
 			vendor.setTrackPaymentsFor1099(isTrackPaymentsFor1099);
@@ -524,15 +527,15 @@ public class NewVendorCommand extends NewAbstractCommand {
 				addFirstMessage(context, "Select a Vendor to update.");
 				return "vendors";
 			}
-			ClientPayee vendorByName = CommandUtils.getPayeeByName(
-					context.getCompany(), string.toLowerCase());
+			ClientPayee vendorByName = CommandUtils.getPayeeByName(context
+					.getCompany(), string.toLowerCase());
 			if (vendorByName == null) {
 				long numberFromString = getNumberFromString(string);
 				if (numberFromString != 0) {
 					string = String.valueOf(numberFromString);
 				}
-				vendorByName = CommandUtils.getVendorByNumber(
-						context.getCompany(), string);
+				vendorByName = CommandUtils.getVendorByNumber(context
+						.getCompany(), string);
 				if (vendorByName == null) {
 					addFirstMessage(context, "Select a Vendor to update.");
 					return "vendors " + string.trim();
@@ -570,7 +573,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 				get(SHIP_TO).setValue(clientAddress);
 			}
 		}
-		get(PAYMENT_METHOD).setDefaultValue(getConstants().cash());
+		get(PAYMENT_METHOD).setDefaultValue(getMessages().cash());
 		get(VENDOR_VAT_CODE).setValue(
 				CommandUtils.getServerObjectById(vendor.getTAXCode(),
 						AccounterCoreType.TAX_CODE));
@@ -632,7 +635,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 		get(BALANCE).setDefaultValue(Double.valueOf(0.0D));
 		get(BALANCE_AS_OF).setDefaultValue(new ClientFinanceDate());
 		get(BILL_TO).setDefaultValue(new ClientAddress());
-		get(PAYMENT_METHOD).setDefaultValue(getConstants().cash());
+		get(PAYMENT_METHOD).setDefaultValue(getMessages().cash());
 	}
 
 	@Override

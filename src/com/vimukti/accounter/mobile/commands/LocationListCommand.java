@@ -54,12 +54,12 @@ public class LocationListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getConstants().locationsList();
+				return getMessages().locationsList();
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getConstants().location());
+				return getMessages().youDontHaveAny(getMessages().location());
 			}
 
 			@Override
@@ -71,7 +71,7 @@ public class LocationListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getConstants().location()));
+				list.add(getMessages().create(getMessages().location()));
 			}
 
 			@Override

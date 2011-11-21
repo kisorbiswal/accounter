@@ -55,16 +55,16 @@ public class TransactionDetailByTaxItemServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", getConstants().taxRate(),
-				getConstants().date(), getConstants().no(),
-				getConstants().name(), getConstants().memo(),
-				getConstants().salesTax(), getConstants().taxableAmount() };
+		return new String[] { "", getMessages().taxRate(),
+				getMessages().date(), getMessages().no(),
+				getMessages().name(), getMessages().memo(),
+				getMessages().salesTax(), getMessages().taxableAmount() };
 
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().transactionDetailByTaxCode();
+		return getMessages().transactionDetailByTaxCode();
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class TransactionDetailByTaxItemServerReport extends
 	@Override
 	public void processRecord(TransactionDetailByTaxItem record) {
 		// if (sectionDepth == 0) {
-		// addSection("", getConstants().total(), new int[] { 6, 7 });
+		// addSection("", getMessages().total(), new int[] { 6, 7 });
 		// } else
 		if (sectionDepth == 0) {
 			this.sectionName = record.getTaxItemName();
@@ -150,10 +150,10 @@ public class TransactionDetailByTaxItemServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", getConstants().taxRate(),
-				getConstants().date(), getConstants().no(),
-				getConstants().name(), getConstants().memo(),
-				getConstants().salesTax(), getConstants().taxableAmount() };
+		return new String[] { "", getMessages().taxRate(),
+				getMessages().date(), getMessages().no(),
+				getMessages().name(), getMessages().memo(),
+				getMessages().salesTax(), getMessages().taxableAmount() };
 	}
 
 }

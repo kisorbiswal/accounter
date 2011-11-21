@@ -30,13 +30,13 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 		mainPanel = new VerticalPanel();
 		Accounter.getCompany();
-		userNameLabel = new Label(Accounter.constants().nameColon()
+		userNameLabel = new Label(Accounter.messages().nameColon()
 				+ Accounter.getUser().getFullName());
 		userNameLabel.setStyleName("user-name");
-		mailIdLabel = new Label(Accounter.constants().mailIDColon()
+		mailIdLabel = new Label(Accounter.messages().mailIDColon()
 				+ Accounter.getUser().getEmail());
 		mailIdLabel.setStyleName("user-name");
-		changePasswordHtml = new Anchor(Accounter.constants().changePassword());
+		changePasswordHtml = new Anchor(Accounter.messages().changePassword());
 		changePasswordHtml.setStyleName("change-password");
 		// changePasswordHtml.setWidth((changePasswordHtml.getText().length() *
 		// 7)
@@ -49,7 +49,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 			}
 		});
 
-		changeProfileHtml = new Anchor(constants.changeProfile());
+		changeProfileHtml = new Anchor(messages.changeProfile());
 		// changeProfileHtml.setWidth((changeProfileHtml.getText().length() * 6)
 		// + "px");
 		changeProfileHtml.addClickHandler(new ClickHandler() {
@@ -57,12 +57,12 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 			public void onClick(ClickEvent event) {
 				// ActionFactory.getEditProfileAction().run(null, false);
 				EditProfileDialog dialog = new EditProfileDialog(Accounter
-						.constants().editProfile(), null);
+						.messages().editProfile(), null);
 				dialog.setCallback(new ActionCallback<ClientUserInfo>() {
 
 					@Override
 					public void actionResult(ClientUserInfo result) {
-						userNameLabel.setText(Accounter.constants().nameColon()
+						userNameLabel.setText(Accounter.messages().nameColon()
 								+ result.getFullName());
 						Accounter.getCompany().processUpdateOrCreateObject(
 								result);
@@ -125,7 +125,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().userDetails();
+		return Accounter.messages().userDetails();
 	}
 
 	@Override
