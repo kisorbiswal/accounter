@@ -888,7 +888,7 @@ public class CreditCardChargeView extends
 		transactionTotalBaseCurrencyText.setAmount(grandTotal);
 		transactionTotalTransactionCurrencyText
 				.setAmount(getAmountInTransactionCurrency(grandTotal));
-		if (isTrackTax()) {
+		if (getPreferences().isTrackPaidTax()) {
 			netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
 			vatTotalNonEditableText
 					.setAmount(getAmountInTransactionCurrency(grandTotal
