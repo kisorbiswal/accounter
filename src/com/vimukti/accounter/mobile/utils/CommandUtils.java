@@ -11,6 +11,7 @@ import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerGroup;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Item;
@@ -28,6 +29,7 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -48,6 +50,7 @@ import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -423,5 +426,173 @@ public class CommandUtils {
 		}
 
 		return clazz;
+	}
+
+	/**
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param companyId
+	 * @return
+	 */
+	public static FinanceDate[] getMinimumAndMaximumDates(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+		List<ClientFinanceDate> dates = getMinimumAndMaximumTransactionDate(companyId);
+		ClientFinanceDate startDate1 = dates.get(0) == null ? new ClientFinanceDate()
+				: dates.get(0);
+		ClientFinanceDate endDate2 = dates.get(1) == null ? new ClientFinanceDate()
+				: dates.get(1);
+
+		FinanceDate transtartDate;
+		if (startDate == null || startDate.isEmpty())
+			transtartDate = new FinanceDate(startDate1);
+		else
+			transtartDate = new FinanceDate(startDate.getDate());
+		FinanceDate tranendDate;
+		if (endDate == null || endDate.isEmpty())
+			tranendDate = new FinanceDate(endDate2);
+		else
+			tranendDate = new FinanceDate(endDate.getDate());
+
+		return new FinanceDate[] { transtartDate, tranendDate };
+	}
+
+	/**
+	 * 
+	 * @param companyId
+	 * @return
+	 */
+	private static List<ClientFinanceDate> getMinimumAndMaximumTransactionDate(
+			long companyId) {
+		ArrayList<ClientFinanceDate> transactionDates = new ArrayList<ClientFinanceDate>();
+		try {
+
+			ClientFinanceDate[] dates = new FinanceTool().getManager()
+					.getMinimumAndMaximumTransactionDate(companyId);
+			transactionDates.add(dates[0]);
+			transactionDates.add(dates[1]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return transactionDates;
+	}
+
+	/**
+	 * get transaction name by the Type.
+	 * 
+	 * @param transactionType
+	 * @return Transaction Name
+	 */
+	public static String getTransactionName(int transactionType) {
+
+		String transactionName = null;
+		switch (transactionType) {
+		case 0:
+			transactionName = AccounterClientConstants.MEMO_OPENING_BALANCE;
+			break;
+		case ClientTransaction.TYPE_CASH_SALES:
+			transactionName = AccounterClientConstants.TYPE_CASH_SALES;
+			break;
+		case ClientTransaction.TYPE_CASH_PURCHASE:
+			transactionName = AccounterClientConstants.TYPE_CASH_PURCHASE;
+			break;
+		case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
+			transactionName = AccounterClientConstants.TYPE_CREDIT_CARD_CHARGE;
+			break;
+		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
+			transactionName = AccounterClientConstants.TYPE_CUSTOMER_CREDIT_MEMO;
+			break;
+		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+			transactionName = AccounterClientConstants.TYPE_CUSTOMER_REFUNDS;
+			break;
+		case ClientTransaction.TYPE_ENTER_BILL:
+			transactionName = AccounterClientConstants.TYPE_ENTER_BILL;
+			break;
+		case ClientTransaction.TYPE_ESTIMATE:
+			transactionName = AccounterClientConstants.TYPE_ESTIMATE;
+			break;
+		case ClientTransaction.TYPE_INVOICE:
+			transactionName = AccounterClientConstants.TYPE_INVOICE;
+			break;
+		case ClientTransaction.TYPE_ISSUE_PAYMENT:
+			transactionName = AccounterClientConstants.TYPE_ISSUE_PAYMENT;
+			break;
+		case ClientTransaction.TYPE_MAKE_DEPOSIT:
+			transactionName = AccounterClientConstants.TYPE_MAKE_DEPOSIT;
+			break;
+		case ClientTransaction.TYPE_PAY_BILL:
+			transactionName = AccounterClientConstants.TYPE_PAY_BILL;
+			break;
+		case ClientTransaction.TYPE_VENDOR_PAYMENT:
+			transactionName = AccounterClientConstants.TYPE_VENDOR_PAYMENT;
+			break;
+		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
+			transactionName = AccounterClientConstants.TYPE_RECEIVE_PAYMENT;
+			break;
+		case ClientTransaction.TYPE_TRANSFER_FUND:
+			transactionName = AccounterClientConstants.TYPE_TRANSFER_FUND;
+			break;
+		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
+			transactionName = AccounterClientConstants.TYPE_VENDOR_CREDIT_MEMO;
+			break;
+		case ClientTransaction.TYPE_WRITE_CHECK:
+			transactionName = AccounterClientConstants.TYPE_WRITE_CHECK;
+			break;
+		case ClientTransaction.TYPE_JOURNAL_ENTRY:
+			transactionName = AccounterClientConstants.TYPE_JOURNAL_ENTRY;
+			break;
+		case ClientTransaction.TYPE_PAY_TAX:
+			transactionName = AccounterClientConstants.TYPE_PAY_TAX;
+			break;
+		case ClientTransaction.TYPE_RECEIVE_TAX:
+			transactionName = AccounterClientConstants.TYPE_RECEIVE_TAX;
+			break;
+		case ClientTransaction.TYPE_SALES_ORDER:
+			transactionName = AccounterClientConstants.TYPE_SALES_ORDER;
+			break;
+		case ClientTransaction.TYPE_PURCHASE_ORDER:
+			transactionName = AccounterClientConstants.TYPE_PURCHASE_ORDER;
+			break;
+		case ClientTransaction.TYPE_ITEM_RECEIPT:
+			transactionName = AccounterClientConstants.TYPE_ITEM_RECEIPT;
+			break;
+		case ClientTransaction.TYPE_CASH_EXPENSE:
+			transactionName = AccounterClientConstants.TYPE_CASH_EXPENSE;
+			break;
+		case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+			transactionName = AccounterClientConstants.TYPE_EMPLOYEE_EXPENSE;
+			break;
+		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+			transactionName = AccounterClientConstants.TYPE_CREDIT_CARD_EXPENSE;
+			break;
+		case ClientTransaction.TYPE_TAX_RETURN:
+			transactionName = AccounterClientConstants.TYPE_VAT_RETURN;
+			break;
+		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+			transactionName = AccounterClientConstants.TYPE_CUSTOMER_PREPAYMENT;
+			break;
+		case ClientTransaction.TYPE_ADJUST_SALES_TAX:
+		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
+			transactionName = Accounter.messages().taxAdjustment();
+			break;
+		}
+		return transactionName;
+	}
+
+	/**
+	 * 
+	 * @param company
+	 * @param string
+	 * @return
+	 */
+	public static Account getaccount(Company company, String string) {
+		Set<Account> accounts = company.getAccounts();
+		for (Account account : accounts) {
+			if (account.getName().equals(string)) {
+				return account;
+			}
+		}
+		return null;
 	}
 }
