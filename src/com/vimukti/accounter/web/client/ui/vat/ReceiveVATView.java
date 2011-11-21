@@ -78,12 +78,13 @@ public class ReceiveVATView extends
 
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
-	private AccounterConstants companyConstants = Accounter.constants();
+	private final AccounterConstants companyConstants = Accounter.constants();
 
 	public ReceiveVATView() {
 		super(ClientTransaction.TYPE_PAY_TAX);
 	}
 
+	@Override
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
@@ -114,6 +115,7 @@ public class ReceiveVATView extends
 		depositInAccCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedDepositInAccount = selectItem;
 						ClientCurrency currency = getCompany().getCurrency(
@@ -373,6 +375,7 @@ public class ReceiveVATView extends
 
 	}
 
+	@Override
 	protected void initPayFromAccounts() {
 		// getPayFromAccounts();
 		// payFromCombo.initCombo(payFromAccounts);
@@ -450,17 +453,20 @@ public class ReceiveVATView extends
 
 	}
 
+	@Override
 	protected void initTransactionNumber() {
 
 		rpcUtilService.getNextTransactionNumber(
 				ClientTransaction.TYPE_RECEIVE_TAX,
 				new AccounterAsyncCallback<String>() {
 
+					@Override
 					public void onException(AccounterException caught) {
 						Accounter.showError(Accounter.constants()
 								.failedToGetTransactionNumber());
 					}
 
+					@Override
 					public void onResultSuccess(String result) {
 						if (result == null)
 							onFailure(null);
@@ -487,12 +493,16 @@ public class ReceiveVATView extends
 						.youdonthaveanyfiledVATentriestoselect());
 			}
 		}
-		if (grid == null || grid.getRecords().isEmpty()
-				|| grid.getSelectedRecords().size() == 0) {
+
+		if (grid == null || grid.getRecords().isEmpty()) {
 			result.addError(grid, Accounter.constants()
 					.youdonthaveanyfiledVATentriestoselect());
 		} else {
 			result.add(grid.validateGrid());
+		}
+		if (grid.getSelectedRecords().size() == 0) {
+			result.addError(grid,
+					Accounter.messages().pleaseSelect(constants.fileVAT()));
 		}
 		if (isInViewMode()) {
 			if (!AccounterValidator.isPositiveAmount(totalAmount)) {
@@ -519,6 +529,7 @@ public class ReceiveVATView extends
 		saveOrUpdate(transaction);
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		transaction.setNumber(transactionNumber);
@@ -617,6 +628,7 @@ public class ReceiveVATView extends
 
 	}
 
+	@Override
 	public void onEdit() {
 
 		if (transaction.canEdit) {
