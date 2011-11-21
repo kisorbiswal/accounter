@@ -47,6 +47,23 @@ public abstract class TransactionItemTableRequirement extends
 			protected List<Item> getLists(Context context) {
 				return getItems(context);
 			}
+
+			@Override
+			public void setValue(Object value) {
+				Item item = (Item) value;
+				super.setValue(value);
+				if (item != null) {
+					if (isSales()) {
+						get(UNITPTICE).setValue(item.getSalesPrice());
+					} else {
+						get(UNITPTICE).setValue(item.getPurchasePrice());
+					}
+					get(TAXCODE).setValue(
+							get(TAXCODE).getValue() == null ? item.getTaxCode()
+									: get(TAXCODE).getValue());
+					get(TAX).setValue(item.isTaxable());
+				}
+			}
 		});
 
 		list.add(new AmountRequirement(QUANITY, "Please Enter Quantity",
@@ -224,5 +241,5 @@ public abstract class TransactionItemTableRequirement extends
 		List<ClientTransactionItem> items = getValue();
 		return items.isEmpty() ? "Add Items" : getMessages().addMore(
 				getMessages().items());
-	}	
+	}
 }
