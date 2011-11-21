@@ -3588,7 +3588,7 @@
 		BETWEEN :startDate AND :endDate
 		AND T.T_TYPE IN (8,1) AND
 		CASE WHEN
-		:locationName IS NULL
+		:locationName IS NULL OR :locationName = ''
 		THEN
 		L.LOCATION_NAME IS NULL
 		ELSE
@@ -3686,7 +3686,7 @@
 		BETWEEN :startDate AND :endDate
 		AND T.T_TYPE IN (8,1) AND
 		CASE WHEN
-		:className IS NULL
+		:className IS NULL OR :className =''
 		THEN AC.CLASS_NAME
 		IS NULL
 		ELSE
