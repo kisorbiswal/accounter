@@ -19,6 +19,7 @@ import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
@@ -88,6 +89,7 @@ public class AuthenticationCommand extends Command {
 				if (!isDone()) {
 					context.setAttribute("input", "userName");
 					makeResult.add("Please enter email.");
+					makeResult.add(new InputType(5));
 					makeResult.setCookie(context.getNetworkId());
 					return makeResult;
 				}
@@ -111,10 +113,12 @@ public class AuthenticationCommand extends Command {
 				if (client != null && !client.isActive()) {
 					context.setAttribute("input", "activation");
 					makeResult.add("Please Enter Activation Code");
+					makeResult.add(new InputType(1));
 					return makeResult;
 				}
 				context.setAttribute("input", "password");
 				makeResult.add("Please Enter password");
+				makeResult.add(new InputType(4));
 				return makeResult;
 			}
 
@@ -129,6 +133,7 @@ public class AuthenticationCommand extends Command {
 					makeResult
 							.add("There is no account found with given Email Id and Password.");
 					makeResult.add("Please enter valid accounter email.");
+					makeResult.add(new InputType(5));
 					CommandList commandList = new CommandList();
 					commandList.add(new UserCommand("signup",
 							"I don't have an account, create", ""));
@@ -141,6 +146,7 @@ public class AuthenticationCommand extends Command {
 				} else {
 					context.setAttribute("input", "activation");
 					makeResult.add("Please Enter Activation Code");
+					makeResult.add(new InputType(1));
 					return makeResult;
 				}
 			}

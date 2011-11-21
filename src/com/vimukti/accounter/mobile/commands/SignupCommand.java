@@ -13,6 +13,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
@@ -39,7 +40,6 @@ public class SignupCommand extends NewCommand {
 	public String getId() {
 		return null;
 	}
-
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -72,6 +72,11 @@ public class SignupCommand extends NewCommand {
 				v = v.toLowerCase();
 				super.setValue(v);
 			}
+
+			@Override
+			public InputType getInputType() {
+				return new InputType(INPUT_TYPE_EMAIL);
+			}
 		});
 
 		list.add(new NameRequirement(PASSOWRD,
@@ -85,6 +90,11 @@ public class SignupCommand extends NewCommand {
 				} else {
 					return null;
 				}
+			}
+
+			@Override
+			public InputType getInputType() {
+				return new InputType(INPUT_TYPE_PASSWORD);
 			}
 		});
 
