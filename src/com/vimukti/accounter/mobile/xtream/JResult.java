@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.ResultList;
 
 public class JResult {
 	List<Object> resultParts = new ArrayList<Object>();
 	public String cookie;
-	public int inputType;
 	public String title;
 	public boolean hideCancel;
 	public boolean showBack;
@@ -33,6 +33,8 @@ public class JResult {
 				commandIndex = jResultList.addAll((CommandList) object,
 						commandIndex);
 				this.resultParts.add(jResultList);
+			} else if (object instanceof InputType) {
+				this.resultParts.add(object);
 			}
 		}
 	}
