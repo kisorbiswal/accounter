@@ -83,6 +83,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 			result.add(list);
 		}
 		result.add(getInputType());
+		result.setShowBack(true);
 		return result;
 	}
 

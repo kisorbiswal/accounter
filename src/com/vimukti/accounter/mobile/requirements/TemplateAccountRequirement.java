@@ -163,6 +163,7 @@ public abstract class TemplateAccountRequirement extends
 				record.add("", getMessages().showAll());
 				actions.add(record);
 				result.add(actions);
+				result.setShowBack(true);
 				return result;
 			}
 			return displayRecords(context, lists, result, RECORDS_TO_SHOW,
@@ -223,11 +224,9 @@ public abstract class TemplateAccountRequirement extends
 		} else {
 			message.append(getEmptyString());
 		}
-		Record back = new Record("Back");
-		back.add("", "Back");
-		customerList.add(back);
 		result.add(message.toString());
 		result.add(customerList);
+		result.setShowBack(true);
 		result.add(actions);
 		return result;
 	}

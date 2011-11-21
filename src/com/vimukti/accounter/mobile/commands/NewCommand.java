@@ -30,6 +30,8 @@ public abstract class NewCommand extends Command {
 		return result;
 	}
 
+	private int requirementNumber;
+
 	// @SuppressWarnings("unchecked")
 	public Result process(Context context) {
 		context.setAttribute("firstMessage", new ArrayList<String>());
@@ -60,13 +62,31 @@ public abstract class NewCommand extends Command {
 		ResultList actions = new ResultList("actions");
 
 		makeResult.add(list);
+
 		List<Requirement> allRequirements = getRequirements();
-		for (Requirement req : allRequirements) {
-			Result result = req.process(context, makeResult, list, actions);
+		String backString = context.getString();
+		if (backString.equalsIgnoreCase("back")) {
+			for (int i = requirementNumber; i > 0; i--) {
+				Requirement requirement = allRequirements.get(i);
+				context.putSelection("values", requirement.getName());
+				Result process = requirement.process(context, makeResult, list,
+						actions);
+				if (process != null) {
+					requirementNumber = i - 1;
+					return process;
+				}
+			}
+			// TODO if user types back for first requirement
+		}
+		for (int i = 0; i < allRequirements.size(); i++) {
+			Result result = allRequirements.get(i).process(context, makeResult,
+					list, actions);
 			if (result != null) {
+				requirementNumber = i - 1;
 				return result;
 			}
 		}
+		requirementNumber = -1;
 		makeResult.add(actions);
 		String finish = getFinishCommandString();
 		if (finish != null) {

@@ -18,11 +18,20 @@ public class NumberRequirement extends SingleRequirement<String> {
 
 	@Override
 	protected String getInputFromContext(Context context) {
-		return context.getString();
+		return context.getString().isEmpty() ? null : context.getString();
 	}
 
 	@Override
 	public InputType getInputType() {
 		return new InputType(INPUT_TYPE_NUMBER);
+	}
+
+	@Override
+	public boolean isDone() {
+		if (!isOptional()) {
+			String value = getValue();
+			return value != null && !value.isEmpty();
+		}
+		return true;
 	}
 }

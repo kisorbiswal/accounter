@@ -140,6 +140,7 @@ public abstract class AbstractTableRequirement<T> extends
 		if (!commandList.isEmpty()) {
 			result.add(commandList);
 		}
+		result.setShowBack(true);
 		return result;
 	}
 
@@ -178,6 +179,7 @@ public abstract class AbstractTableRequirement<T> extends
 		for (Requirement req : requirements) {
 			Result res = req.process(context, makeResult, list, actions);
 			if (res != null) {
+				res.setShowBack(true);
 				return res;
 			}
 		}

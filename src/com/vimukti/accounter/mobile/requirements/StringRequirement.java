@@ -26,4 +26,13 @@ public class StringRequirement extends SingleRequirement<String> {
 	public InputType getInputType() {
 		return new InputType(INPUT_TYPE_STRING);
 	}
+
+	@Override
+	public boolean isDone() {
+		if (!isOptional()) {
+			String value = getValue();
+			return value != null && !value.isEmpty();
+		}
+		return true;
+	}
 }
