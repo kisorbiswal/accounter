@@ -1,16 +1,18 @@
 package com.vimukti.accounter.mobile;
 
 public class InputType {
-	private int type;
+	int type;
+	private int inputType;
 	private String name;
 
-	public InputType(int type) {
-		this(type, "");
+	public InputType(int inputType) {
+		this(inputType, "");
 	}
 
-	public InputType(int type, String name) {
-		this.setType(type);
+	public InputType(int inputType, String name) {
+		this.setInputType(inputType);
 		this.setName(name);
+		this.type = 3;
 	}
 
 	public String getName() {
@@ -21,11 +23,11 @@ public class InputType {
 		this.name = name;
 	}
 
-	public int getType() {
-		return type;
+	public int getInputType() {
+		return inputType;
 	}
 
-	public void setType(int type) {
-		this.type = type;
+	public void setInputType(int inputType) {
+		this.inputType = inputType;
 	}
 }
