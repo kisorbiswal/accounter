@@ -41,11 +41,6 @@ public class SignupCommand extends NewCommand {
 	}
 
 	@Override
-	public String getTitle() {
-		return "Signup";
-	}
-
-	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new NameRequirement(FIRST_NAME, "Enter First Name",
 				"First Name", false, true) {
