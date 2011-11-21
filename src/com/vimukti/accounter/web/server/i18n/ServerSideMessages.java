@@ -25,7 +25,7 @@ public class ServerSideMessages {
 			int index = 0;
 
 			for (Class<?> type : method.getParameterTypes()) {
-				String value=String.valueOf(args[index++]);
+				String value = String.valueOf(args[index++]);
 				msg = msg.replaceFirst("\\{.+?\\}", value);
 			}
 			return msg;
@@ -60,7 +60,7 @@ public class ServerSideMessages {
 					.setString("key", key).uniqueResult();
 			return msg;
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		return "";
 	}
