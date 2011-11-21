@@ -66,7 +66,8 @@ public abstract class NewCommand extends Command {
 		List<Requirement> allRequirements = getRequirements();
 		String backString = context.getString();
 		if (backString.equalsIgnoreCase("back")) {
-			for (int i = requirementNumber; i > 0; i--) {
+			for (int i = requirementNumber; i >= 0; i--) {
+				context.setAttribute("processAttr", "");
 				Requirement requirement = allRequirements.get(i);
 				context.putSelection("values", requirement.getName());
 				Result process = requirement.process(context, makeResult, list,
@@ -78,6 +79,7 @@ public abstract class NewCommand extends Command {
 			}
 			// TODO if user types back for first requirement
 		}
+		actions = new ResultList("actions");
 		for (int i = 0; i < allRequirements.size(); i++) {
 			Result result = allRequirements.get(i).process(context, makeResult,
 					list, actions);
