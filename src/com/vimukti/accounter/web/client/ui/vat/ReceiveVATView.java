@@ -500,7 +500,8 @@ public class ReceiveVATView extends
 		} else {
 			result.add(grid.validateGrid());
 		}
-		if (grid.getSelectedRecords().size() == 0) {
+		if (!(grid.getRecords().isEmpty())
+				&& grid.getSelectedRecords().size() == 0) {
 			result.addError(grid,
 					Accounter.messages().pleaseSelect(constants.fileVAT()));
 		}
