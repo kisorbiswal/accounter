@@ -11,6 +11,7 @@ public class StockAdjustmentAction extends Action<ClientStockAdjustment> {
 
 	public StockAdjustmentAction(String text) {
 		super(text);
+		this.catagory = messages.inventory();
 	}
 
 	@Override
