@@ -1968,6 +1968,7 @@ public class ClientCompany implements IAccounterCore {
 		switch (objectType) {
 
 		case ACCOUNT:
+		case BANK_ACCOUNT:
 
 			deleteAccount(id);
 
