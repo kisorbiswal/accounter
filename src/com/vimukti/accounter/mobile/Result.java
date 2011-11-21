@@ -6,18 +6,9 @@ import java.util.List;
 public class Result {
 	List<Object> resultParts = new ArrayList<Object>();
 	private String cookie;
-	private int inputType;
 	private String title;
 	private boolean hideCancel;
 	private boolean showBack;
-
-	public int getInputType() {
-		return inputType;
-	}
-
-	public void setInputType(int inputType) {
-		this.inputType = inputType;
-	}
 
 	public String getTitle() {
 		return title;
@@ -101,4 +92,7 @@ public class Result {
 		resultParts.add(i, string);
 	}
 
+	public void add(InputType inputType) {
+		resultParts.add(inputType);
+	}
 }

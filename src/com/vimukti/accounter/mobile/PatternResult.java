@@ -10,11 +10,6 @@ import java.util.Collection;
  * 
  */
 public class PatternResult extends Result {
-
-	public void setCommands(CommandList commands) {
-		super.add(commands);
-	}
-
 	/**
 	 * @return
 	 */
@@ -26,6 +21,10 @@ public class PatternResult extends Result {
 			}
 		}
 		return commandList;
+	}
+
+	public void add(Object obj) {
+		resultParts.add(obj);
 	}
 
 }

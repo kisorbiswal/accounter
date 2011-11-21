@@ -145,18 +145,13 @@ public class CommandProcessor {
 		patternResult.setCookie(result.getCookie());
 		patternResult.setHideCancel(result.isHideCancel());
 		patternResult.setShowBack(result.isShowBack());
-		patternResult.setInputType(result.getInputType());
 		patternResult.setTitle(result.getTitle());
 		boolean isCommandList = false;
 		for (Object obj : result.resultParts) {
-			if (obj instanceof String) {
-				patternResult.add((String) obj);
-			} else if (obj instanceof ResultList) {
-				patternResult.add((ResultList) obj);
-			} else if (obj instanceof CommandList) {
+			if (obj instanceof CommandList) {
 				isCommandList = true;
-				patternResult.setCommands((CommandList) obj);
 			}
+			patternResult.add(obj);
 		}
 		if (isCommandList) {
 			return patternResult;
