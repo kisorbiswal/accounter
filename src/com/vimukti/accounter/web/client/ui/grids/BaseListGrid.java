@@ -22,7 +22,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	private List<Integer> cellsWidth = new ArrayList<Integer>();
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
-	protected AccounterMessages messages;
+	protected AccounterMessages messages = Accounter.messages();
 	private int[] columnType;
 	protected double total;
 	protected String viewType;
