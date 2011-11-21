@@ -50,7 +50,7 @@ public class MeasurementListAction extends Action<ClientMeasurement> {
 
 	@Override
 	public String getHelpToken() {
-		return "measurement";
+		return "MeasurementList";
 	}
 
 }
