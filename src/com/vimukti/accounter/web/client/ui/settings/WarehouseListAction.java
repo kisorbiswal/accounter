@@ -56,7 +56,7 @@ public class WarehouseListAction extends Action<ClientWarehouse> {
 
 	@Override
 	public String getHelpToken() {
-		return "warehouse";
+		return "WarehouseList";
 	}
 
 }
