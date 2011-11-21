@@ -241,10 +241,13 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 		ValidationResult result = new ValidationResult();
 		result.add(form.validate());
 		result.add(table.validate());
-		if (fromCombo.getSelectedValue().getID() == toCombo.getSelectedValue()
-				.getID()) {
-			result.addError(form,
-					constants.pleaseSelectDiffWarehousesToTransfer());
+		if (fromCombo.getSelectedValue() != null
+				&& toCombo.getSelectedValue() != null) {
+			if (fromCombo.getSelectedValue().getID() == toCombo
+					.getSelectedValue().getID()) {
+				result.addError(form,
+						constants.pleaseSelectDiffWarehousesToTransfer());
+			}
 		}
 		return result;
 	}
