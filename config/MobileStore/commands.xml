@@ -14,11 +14,9 @@
 	</command>
 
 	<command clazz="CreateFullCompanyCommand" name="Full Company Setup">
-		<alias>Create Company</alias>
 	</command>
 
 	<command clazz="CreatePartialCompanyCommand" name="Partial Company Setup">
-		<alias>Create Company</alias>
 	</command>
 
 	<command clazz="CompanyTypeCommand" name="Company Type Selection">
