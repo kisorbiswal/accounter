@@ -8,6 +8,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AbstractTableRequirement;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
@@ -15,6 +16,7 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientEntry;
@@ -52,8 +54,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 				.journalEntryDate(), false, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getMessages().journalEntryNo()), getMessages()
-				.journalEntryNo(), false, true));
+				getMessages().journalEntryNo()),
+				getMessages().journalEntryNo(), false, true));
 
 		list.add(new AbstractTableRequirement<ClientEntry>(VOUCHER,
 				getMessages().pleaseSelect(getMessages().voucherNo()),
@@ -67,8 +69,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 
 					@Override
 					protected String getSetMessage() {
-						return getMessages()
-								.hasSelected(getMessages().Account());
+						return getMessages().hasSelected(
+								getMessages().Account());
 					}
 
 					@Override
@@ -101,9 +103,19 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					@Override
 					public void setValue(Object value) {
 						super.setValue(value);
-						if (currentValue != null) {
+						if (value != null && currentValue != null) {
+							currentValue.setCredit((Double) value);
 							currentValue.setDebit(0.0d);
 						}
+					}
+
+					@Override
+					public Double getValue() {
+						return currentValue.getCredit();
+					}
+
+					@Override
+					protected void createRecord(ResultList list) {
 					}
 				});
 
@@ -113,15 +125,29 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					@Override
 					public void setValue(Object value) {
 						super.setValue(value);
-						if (currentValue != null) {
+						if (value != null && currentValue != null) {
+							currentValue.setDebit((Double) value);
 							currentValue.setCredit(0.0d);
 						}
+					}
+
+					@Override
+					public Double getValue() {
+						return currentValue.getDebit();
+					}
+
+					@Override
+					protected void createRecord(ResultList list) {
+						Record nameRecord = new Record(CREDITS);
+						nameRecord.add(getMessages().credit(),
+								currentValue.getCredit());
+						list.add(nameRecord);
+						super.createRecord(list);
 					}
 				});
 
 				list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-						getMessages().memo()), getMessages().memo(), true,
-						true));
+						getMessages().memo()), getMessages().memo(), true, true));
 
 			}
 
@@ -134,13 +160,12 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			protected void getRequirementsValues(ClientEntry obj) {
 				Account account = get(ACCOUNT).getValue();
 				String memo = get(MEMO).getValue();
-				double debits = get(DEBITS).getValue();
-				double credits = get(CREDITS).getValue();
-
+				// double debits = get(DEBITS).getValue();
+				// double credits = get(CREDITS).getValue();
 				obj.setAccount(account.getID());
 				obj.setMemo(memo);
-				obj.setDebit(debits);
-				obj.setCredit(credits);
+				// obj.setDebit(debits);
+				// obj.setCredit(credits);
 			}
 
 			@Override
@@ -161,10 +186,11 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected Record createFullRecord(ClientEntry t) {
 				Record record = new Record(t);
-				record.add(getMessages().Account(),
-						((ClientAccount) CommandUtils.getClientObjectById(
-								t.getAccount(), AccounterCoreType.ACCOUNT,
-								getCompanyId())).getDisplayName());
+				ClientAccount account = ((ClientAccount) CommandUtils
+						.getClientObjectById(t.getAccount(),
+								AccounterCoreType.ACCOUNT, getCompanyId()));
+				record.add(Global.get().messages().Account(),
+						account == null ? "" : account.getDisplayName());
 				record.add(getMessages().credit(), t.getCredit());
 				record.add(getMessages().debit(), t.getDebit());
 				record.add(getMessages().memo(), t.getMemo());
@@ -186,6 +212,11 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 				return getMessages().add();
 			}
 
+			@Override
+			public boolean isDone() {
+				List<ClientEntry> values = getValue();
+				return values.size() >= 2;
+			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
@@ -234,8 +265,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 		}
 
 		if (totalCredits == 0) {
-			makeResult.add(getMessages()
-					.transactiontotalcannotbe0orlessthan0());
+			makeResult
+					.add(getMessages().transactiontotalcannotbe0orlessthan0());
 			return makeResult;
 		}
 

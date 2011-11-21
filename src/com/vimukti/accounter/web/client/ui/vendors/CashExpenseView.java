@@ -292,6 +292,7 @@ public class CashExpenseView extends
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
+						paymentMethod = selectItem;
 						paymentMethodSelected(paymentMethodCombo
 								.getSelectedValue());
 						if (paymentMethodCombo.getSelectedValue().equals(
@@ -537,7 +538,6 @@ public class CashExpenseView extends
 		listforms.add(memoForm);
 		listforms.add(totalForm);
 
-
 		settabIndexes();
 		if (isMultiCurrencyEnabled()) {
 			transactionTotalinForeignCurrency.hide();
@@ -630,8 +630,7 @@ public class CashExpenseView extends
 					}
 				}
 			}
-			transactionTotalNonEditableText
-					.setAmount(transaction.getTotal());
+			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 			transactionTotalinForeignCurrency
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getTotal()));
@@ -705,8 +704,7 @@ public class CashExpenseView extends
 		vendorItemTransactionTable.setTaxCode(code, false);
 
 		if (isMultiCurrencyEnabled()) {
-			super.setCurrency(getCompany()
-					.getCurrency(vendor.getCurrency()));
+			super.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
 			setCurrencyFactor(1.0);
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
@@ -730,8 +728,6 @@ public class CashExpenseView extends
 				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 						.getValue());
 		}
-		super.saveAndUpdateView();
-
 		createAlterObject();
 	}
 
@@ -765,8 +761,7 @@ public class CashExpenseView extends
 					.setAmount(getAmountInTransactionCurrency(grandTotal
 							- lineTotal));
 		}
-		transactionTotalNonEditableText
-				.setAmount(grandTotal);
+		transactionTotalNonEditableText.setAmount(grandTotal);
 		transactionTotalinForeignCurrency
 				.setAmount(getAmountInTransactionCurrency(grandTotal));
 	}

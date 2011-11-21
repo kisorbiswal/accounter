@@ -40,10 +40,6 @@ public class SignupCommand extends NewCommand {
 		return null;
 	}
 
-	@Override
-	public String getTitle() {
-		return "Signup";
-	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {

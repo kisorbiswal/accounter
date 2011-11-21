@@ -150,7 +150,7 @@ public class SalesOrderView extends
 		dateNoForm.setFields(statusSelect, transactionDateItem);
 
 		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("99%");
+		datepanel.setWidth("98%");
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);

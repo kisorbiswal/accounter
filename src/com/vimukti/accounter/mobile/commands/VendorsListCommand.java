@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -41,7 +42,14 @@ public class VendorsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(PayeeList value) {
-				return "update vendor " + value.getPayeeName();
+				if (value.getType() == Payee.TYPE_CUSTOMER) {
+					return "Update Customer " + value.getPayeeName();
+				} else if (value.getType() == Payee.TYPE_VENDOR) {
+					return "update vendor " + value.getPayeeName();
+				} else if (value.getType() == Payee.TYPE_TAX_AGENCY) {
+					return "Update TAX Agency " + value.getPayeeName();
+				}
+				return "";
 			}
 
 			@Override

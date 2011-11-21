@@ -46,11 +46,6 @@ public class AuthenticationCommand extends Command {
 	}
 
 	@Override
-	public String getTitle() {
-		return "Login";
-	}
-
-	@Override
 	public Result run(Context context) {
 		Result makeResult = context.makeResult();
 		String name = (String) context.getAttribute("select");

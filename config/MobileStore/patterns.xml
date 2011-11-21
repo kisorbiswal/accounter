@@ -329,7 +329,6 @@
 
 	<pattern>
 		<input>Item</input>
-		<input>Items</input>
 		<input>Product and Service Item</input>
 		<input>Product and Service Items</input>
 		<output>

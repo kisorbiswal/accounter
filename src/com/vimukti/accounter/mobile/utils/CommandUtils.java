@@ -56,7 +56,7 @@ public class CommandUtils {
 	public static ClientPayee getPayeeByName(Company company, String vendorName) {
 		Set<Payee> vendors = company.getPayees();
 		for (Payee vendor : vendors) {
-			if (vendor.getName().toLowerCase().equals(vendorName)) {
+			if (vendor.getName().equals(vendorName)) {
 				if (vendor instanceof Vendor) {
 					return (ClientPayee) getClientObjectById(vendor.getID(),
 							AccounterCoreType.VENDOR, company.getId());

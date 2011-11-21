@@ -38,10 +38,6 @@ public abstract class Command {
 		return null;
 	}
 
-	public String getTitle() {
-		return null;
-	}
-
 	public abstract Result run(Context context);
 
 	public MobileConstants constants() {
