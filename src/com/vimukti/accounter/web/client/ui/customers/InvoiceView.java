@@ -81,7 +81,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private TAXCodeCombo taxCodeSelect;
 	private SalesPersonCombo salesPersonCombo;
 	private Double salesTax = 0.0D;
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 	private DateField deliveryDate;
 	protected ClientSalesPerson salesPerson;
 	private AmountLabel netAmountLabel, vatTotalNonEditableText,
@@ -125,7 +125,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (transaction != null) {
 
-			setBalanceDue(((ClientInvoice) transaction).getBalanceDue());
+			setBalanceDue(transaction.getBalanceDue());
 
 		}
 
@@ -139,7 +139,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (transaction != null) {
 
-			ClientInvoice invoice = (ClientInvoice) transaction;
+			ClientInvoice invoice = transaction;
 
 			setPayments(invoice.getPayments());
 		}
@@ -163,7 +163,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private void initDueDate() {
 
 		if (isInViewMode()) {
-			ClientInvoice invoice = (ClientInvoice) transaction;
+			ClientInvoice invoice = transaction;
 			if (invoice.getDueDate() != 0) {
 				dueDateItem.setEnteredDate(new ClientFinanceDate(invoice
 						.getDueDate()));
@@ -426,8 +426,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		paymentsNonEditableText.setDisabled(true);
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
-		balanceDueNonEditableText = new AmountLabel(
-				messages.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(messages.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -438,6 +437,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				this) {
 			@Override
 			public void updateTransactionTotal() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				InvoiceView.this.updateNonEditableItems();
 			}
 
@@ -462,6 +464,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			@Override
 			public void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				InvoiceView.this.updateNonEditableItems();
 			}
 
@@ -656,6 +661,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
 
+					@Override
 					public void selectedComboBoxItem(
 							ClientShippingTerms selectItem) {
 						shippingTerm = selectItem;
@@ -689,6 +695,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 	}
 
+	@Override
 	public void showMenu(Widget button) {
 		setMenuItems(button, Accounter.messages().productOrServiceItem());
 
@@ -802,13 +809,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 		}
 
-		currencyWidget.setSelectedCurrency(currency);
+		currencyWidget.setSelectedCurrencyFactorInWidget(currency,
+				transactionDateItem.getDate().getDate());
 
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrency(currency);
 			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
-			modifyForeignCurrencyTotalWidget();
 		}
 		transaction.setEstimates(new ArrayList<ClientEstimate>());
 		transaction.setSalesOrders(new ArrayList<ClientSalesOrder>());
@@ -894,7 +901,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			Iterator<ClientAddress> it = addresses.iterator();
 			while (it.hasNext()) {
-				ClientAddress add = (ClientAddress) it.next();
+				ClientAddress add = it.next();
 
 				allAddresses.put(add.getType(), add);
 			}
@@ -1041,6 +1048,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 	}
 
+	@Override
 	protected void shipToAddressSelected(ClientAddress selectItem) {
 		this.shippingAddress = selectItem;
 		if (this.shippingAddress != null && shipToAddress != null)
@@ -1051,7 +1059,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected void initSalesTaxNonEditableItem() {
 
 		if (transaction != null) {
-			Double salesTaxAmout = ((ClientInvoice) transaction).getTaxTotal();
+			Double salesTaxAmout = transaction.getTaxTotal();
 			setSalesTax(salesTaxAmout);
 
 		}
@@ -1072,7 +1080,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
 		if (transaction != null) {
-			Double transactionTotal = ((ClientInvoice) transaction).getTotal();
+			Double transactionTotal = transaction.getTotal();
 			setTransactionTotal(transactionTotal);
 		}
 	}
@@ -1092,7 +1100,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected void initMemoAndReference() {
 		if (this.transaction != null) {
 
-			ClientInvoice invoice = (ClientInvoice) transaction;
+			ClientInvoice invoice = transaction;
 
 			if (invoice.getMemo() != null) {
 				memoTextAreaItem.setValue(invoice.getMemo());
@@ -1135,6 +1143,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		List<ClientTransaction> selectedRecords = transactionsTree
@@ -1224,8 +1233,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			// if (isTaxPerDetailLine()) {
 			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
 					.getAmount()));
-			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-					.getValue());
+			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 			// } else {
 			// if (taxCode != null) {
 			// for (ClientTransactionItem record : customerTransactionTable
@@ -1273,16 +1281,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// 1. IF(!isValidDueOrDeliveryDates(dueDate, transactionDate)) ERROR
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				((InvoiceView) this).dueDateItem.getDate(),
-				getTransactionDate())) {
-			result.addError(((InvoiceView) this).dueDateItem, Accounter
-					.messages().the()
-					+ " "
-					+ messages.dueDate()
-					+ " "
-					+ " "
-					+ Accounter.messages()
-							.cannotbeearlierthantransactiondate());
+				this.dueDateItem.getDate(), getTransactionDate())) {
+			result.addError(this.dueDateItem, Accounter.messages().the() + " "
+					+ messages.dueDate() + " " + " "
+					+ Accounter.messages().cannotbeearlierthantransactiondate());
 		}
 
 		boolean isSelected = transactionsTree.validateTree();
@@ -1311,15 +1313,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (!isSelected && isTrackTax() && !isTaxPerDetailLine()) {
 			if (taxCodeSelect != null
 					&& taxCodeSelect.getSelectedValue() == null) {
-				result.addError(taxCodeSelect,
-						messages.enterTaxCode());
+				result.addError(taxCodeSelect, messages.enterTaxCode());
 			}
 		} else if (isSelected && isTrackTax() && !isTaxPerDetailLine()
 				&& !transaction.getTransactionItems().isEmpty()) {
 			if (taxCodeSelect != null
 					&& taxCodeSelect.getSelectedValue() == null) {
-				result.addError(taxCodeSelect,
-						messages.enterTaxCode());
+				result.addError(taxCodeSelect, messages.enterTaxCode());
 			}
 		}
 		return result;
@@ -1408,6 +1408,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1439,8 +1440,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			@Override
 			public void onFailure(Throwable caught) {
 				if (caught instanceof InvocationException) {
-					Accounter.showMessage(Accounter.messages()
-							.sessionExpired());
+					Accounter
+							.showMessage(Accounter.messages().sessionExpired());
 				} else {
 					int errorCode = ((AccounterException) caught)
 							.getErrorCode();
@@ -1519,7 +1520,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		} else {
 			// if there is only one branding theme
 			ClientBrandingTheme clientBrandingTheme = themesList.get(0);
-			UIUtils.downloadAttachment(((ClientInvoice) transaction).getID(),
+			UIUtils.downloadAttachment(transaction.getID(),
 					ClientTransaction.TYPE_INVOICE, clientBrandingTheme.getID());
 		}
 	}
