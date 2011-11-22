@@ -967,8 +967,6 @@ public abstract class Transaction extends CreatableObject implements
 		if ((this.isVoid && !clonedObject.isVoid)
 				|| (this.isDeleted() && !clonedObject.isDeleted() && !this.isVoid)) {
 
-			Session session = HibernateUtil.getCurrentSession();
-
 			double amount = (isDebitTransaction() ? -1d : 1d) * this.total;
 
 			this.updateEffectedAccount(amount);
@@ -979,6 +977,7 @@ public abstract class Transaction extends CreatableObject implements
 			voidTransactionItems();
 			deleteCreatedEntries(clonedObject);
 			addVoidHistory();
+			cleanTransactionitems(clonedObject);
 		} else if (this.isDeleted && !clonedObject.isDeleted() && this.isVoid) {
 			this.setStatus(STATUS_DELETED);
 		} else if (this.transactionItems != null
