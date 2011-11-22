@@ -28,8 +28,7 @@ public class NewInventoryItemCommand extends NewNonInventoryItemCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getMessages().inventoryItem());
+				return getMessages().hasSelected(getMessages().inventoryItem());
 			}
 
 		});

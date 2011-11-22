@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -240,22 +242,17 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 					@Override
 					public boolean filter(Account account) {
-						if (account.getType() != Account.TYPE_CASH
-								&& account.getType() != Account.TYPE_BANK
-								&& account.getType() != Account.TYPE_INVENTORY_ASSET
-								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
-								&& account.getType() != Account.TYPE_INCOME
-								&& account.getType() != Account.TYPE_OTHER_INCOME
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-								&& account.getType() != Account.TYPE_OTHER_ASSET
-								&& account.getType() != Account.TYPE_EQUITY
-								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
+						if (account.getType() == Account.TYPE_EXPENSE
+								|| account.getType() == Account.TYPE_COST_OF_GOODS_SOLD
+								|| account.getType() == Account.TYPE_OTHER_EXPENSE) {
 							return true;
 						} else {
 							return false;
 						}
+						// return Arrays.asList(Account.TYPE_EXPENSE,
+						// Account.TYPE_COST_OF_GOODS_SOLD,
+						// Account.TYPE_OTHER_EXPENSE).contains(
+						// account.getType());
 					}
 				}, new ArrayList<Account>(context.getCompany().getAccounts()));
 			}
@@ -305,8 +302,8 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				true, true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getMessages().taxCode()), getMessages().taxCode(), false,
-				true, null) {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,

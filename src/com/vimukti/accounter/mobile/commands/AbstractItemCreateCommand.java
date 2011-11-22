@@ -130,30 +130,24 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 				return Utility.filteredList(new ListFilter<Account>() {
 
 					@Override
-					public boolean filter(Account e) {
-						if (e.getType() == Account.TYPE_INCOME) {
-							System.out.println();
-						}
-						if (e.getType() == Account.TYPE_EXPENSE) {
-							System.out.println();
-						}
-
-						if (e.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-								&& e.getType() != Account.TYPE_ACCOUNT_PAYABLE
-								&& e.getType() != Account.TYPE_INVENTORY_ASSET
-								&& e.getType() != Account.TYPE_COST_OF_GOODS_SOLD
-								&& e.getType() != Account.TYPE_OTHER_EXPENSE
-								&& e.getType() != Account.TYPE_EXPENSE
-								&& e.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-								&& e.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-								&& e.getType() != Account.TYPE_FIXED_ASSET
-								&& e.getType() != Account.TYPE_CASH
-								&& e.getType() != Account.TYPE_LONG_TERM_LIABILITY
-								&& e.getType() != Account.TYPE_OTHER_ASSET
-								&& e.getType() != Account.TYPE_EQUITY) {
+					public boolean filter(Account account) {
+						if (account.getType() != Account.TYPE_CASH
+								&& account.getType() != Account.TYPE_BANK
+								&& account.getType() != Account.TYPE_INVENTORY_ASSET
+								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != Account.TYPE_EXPENSE
+								&& account.getType() != Account.TYPE_OTHER_EXPENSE
+								&& account.getType() != Account.TYPE_COST_OF_GOODS_SOLD
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY
+								&& account.getType() != Account.TYPE_OTHER_ASSET
+								&& account.getType() != Account.TYPE_EQUITY) {
 							return true;
+						} else {
+							return false;
 						}
-						return false;
 					}
 				}, new ArrayList<Account>(context.getCompany().getAccounts()));
 			}
