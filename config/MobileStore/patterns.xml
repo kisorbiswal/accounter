@@ -41,7 +41,7 @@
 	</pattern>
 
 	<pattern>
-		<input>Manage Support Lists</input>
+		<input>Manage Support List</input>
 		<output>
 			<command>Customer Group List</command>
 			<command>Vendor Group List</command>
