@@ -728,6 +728,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getTranslationAction()
 				.getHistoryToken(), ActionFactory.getTranslationAction());
 
+		actions.put(ActionFactory.getTAXAgencyListAction()
+				.getHistoryToken(), ActionFactory.getTAXAgencyListAction());
 	}
 
 	public ClientCompany getCompany() {

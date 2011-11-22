@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -275,6 +276,8 @@ public class MacMenuServlet extends BaseServlet {
 				"company/accounter#vatItems");
 		subMenu(vatListValue, iGlobal.messages().taxCodesList(),
 				"company/accounter#vatCodes");
+		subMenu(vatListValue, iGlobal.messages().taxAgency(),
+				"company/accounter#TAXAgencyList");
 		menu(mainValue, iGlobal.messages().taxList(), vatListValue);
 
 		mainMenu(builder, iGlobal.messages().tax(), mainValue);
