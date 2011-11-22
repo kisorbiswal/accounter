@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
@@ -326,20 +327,10 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 					@Override
 					public boolean filter(Account e) {
-						if (e.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-								&& e.getType() != Account.TYPE_ACCOUNT_PAYABLE
-								&& e.getType() != Account.TYPE_INVENTORY_ASSET
-								&& e.getType() != Account.TYPE_INCOME
-								&& e.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-								&& e.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-								&& e.getType() != Account.TYPE_FIXED_ASSET
-								&& e.getType() != Account.TYPE_CASH
-								&& e.getType() != Account.TYPE_LONG_TERM_LIABILITY
-								&& e.getType() != Account.TYPE_OTHER_ASSET
-								&& e.getType() != Account.TYPE_EQUITY) {
-							return true;
-						}
-						return false;
+						return Arrays.asList(Account.TYPE_EXPENSE,
+								Account.TYPE_COST_OF_GOODS_SOLD,
+								Account.TYPE_OTHER_EXPENSE).contains(
+								e.getType());
 					}
 				}, new ArrayList<Account>(context.getCompany().getAccounts()));
 			}
@@ -514,8 +505,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 				addFirstMessage(context, "Select an Item to update.");
 				return "Items List";
 			}
-			Item customerByName = CommandUtils.getItemByName(context
-					.getCompany(), string);
+			Item customerByName = CommandUtils.getItemByName(
+					context.getCompany(), string);
 			if (customerByName == null) {
 				addFirstMessage(context, "Select an Item to update.");
 				return "Items List " + string;

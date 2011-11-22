@@ -56,8 +56,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CASH_EXPENSE, context
-								.getCompany()));
+						ClientTransaction.TYPE_CASH_EXPENSE,
+						context.getCompany()));
 		/* get(CURRENCY_FACTOR).setDefaultValue(1.0); */
 
 	}
@@ -202,12 +202,10 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-
-							if (e.getType() == Account.TYPE_BANK
-									|| e.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
-								return true;
-							}
-							return false;
+							return Arrays.asList(Account.TYPE_EXPENSE,
+									Account.TYPE_COST_OF_GOODS_SOLD,
+									Account.TYPE_OTHER_EXPENSE).contains(
+									e.getType());
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);

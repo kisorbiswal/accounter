@@ -28,6 +28,7 @@ import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
@@ -130,8 +131,20 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 					if (new ListFilter<Account>() {
 
 						@Override
-						public boolean filter(Account e) {
-							if (e.getType() == Account.TYPE_INCOME) {
+						public boolean filter(Account account) {
+							if (account.getType() != ClientAccount.TYPE_CASH
+									&& account.getType() != Account.TYPE_BANK
+									&& account.getType() != Account.TYPE_INVENTORY_ASSET
+									&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+									&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+									&& account.getType() != Account.TYPE_EXPENSE
+									&& account.getType() != Account.TYPE_OTHER_EXPENSE
+									&& account.getType() != Account.TYPE_COST_OF_GOODS_SOLD
+									&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+									&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+									&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY
+									&& account.getType() != Account.TYPE_OTHER_ASSET
+									&& account.getType() != Account.TYPE_EQUITY) {
 								return true;
 							} else {
 								return false;
@@ -294,8 +307,8 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get("CreditNumber").setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO, context
-								.getCompany()));
+						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
+						context.getCompany()));
 		get(CONTACT).setDefaultValue(null);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 		/*

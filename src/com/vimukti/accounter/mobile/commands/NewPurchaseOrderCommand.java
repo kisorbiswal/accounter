@@ -246,9 +246,9 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							return Arrays.asList(Account.TYPE_BANK,
-									Account.TYPE_CREDIT_CARD,
-									Account.TYPE_OTHER_CURRENT_ASSET).contains(
+							return Arrays.asList(Account.TYPE_EXPENSE,
+									Account.TYPE_COST_OF_GOODS_SOLD,
+									Account.TYPE_OTHER_EXPENSE).contains(
 									e.getType());
 						}
 					}.filter(obj)) {
@@ -373,8 +373,8 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 				getMessages().memo()), getMessages().memo(), true, true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getMessages().taxCode()), getMessages().taxCode(), false,
-				true, null) {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,

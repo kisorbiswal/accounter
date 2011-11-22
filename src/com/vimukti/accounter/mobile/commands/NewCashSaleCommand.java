@@ -37,6 +37,7 @@ import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -142,18 +143,19 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account account) {
-							if (account.getType() != Account.TYPE_CASH
-									&& account.getType() != Account.TYPE_BANK
-									&& account.getType() != Account.TYPE_INVENTORY_ASSET
-									&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-									&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
-									&& account.getType() != Account.TYPE_INCOME
-									&& account.getType() != Account.TYPE_OTHER_INCOME
-									&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-									&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-									&& account.getType() != Account.TYPE_OTHER_ASSET
-									&& account.getType() != Account.TYPE_EQUITY
-									&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
+							if (account.getType() != ClientAccount.TYPE_CASH
+									&& account.getType() != ClientAccount.TYPE_BANK
+									&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+									&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+									&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+									&& account.getType() != ClientAccount.TYPE_EXPENSE
+									&& account.getType() != ClientAccount.TYPE_OTHER_EXPENSE
+									&& account.getType() != ClientAccount.TYPE_COST_OF_GOODS_SOLD
+									&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
+									&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+									&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY
+									&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
+									&& account.getType() != ClientAccount.TYPE_EQUITY) {
 								return true;
 							} else {
 								return false;
@@ -216,10 +218,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list
-				.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-						getMessages().phoneNumber()), getMessages().phone(),
-						true, true));
+		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
+				getMessages().phoneNumber()), getMessages().phone(), true, true));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
@@ -238,7 +238,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 						"Create CreditAccount", "CreditAccount"));
 				list.add(new UserCommand("Create BankAccount",
 						"Create FixedAsset Account", "FixedAsset"));
-			} 
+			}
 
 			@Override
 			protected String getSetMessage() {
