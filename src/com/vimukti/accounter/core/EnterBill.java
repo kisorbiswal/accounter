@@ -714,10 +714,11 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				&& enterBill.itemReceipt.purchaseOrder != null) {
 			for (TransactionItem transactionItem : enterBill.itemReceipt.transactionItems) {
 				TransactionItem referringTransactionItem = transactionItem.referringTransactionItem;
-//				if (referringTransactionItem != null
-//						&& !referringTransactionItem.isVoid()) {
-//					referringTransactionItem.usedamt -= transactionItem.lineTotal;
-//				}
+				// if (referringTransactionItem != null
+				// && !referringTransactionItem.isVoid()) {
+				// referringTransactionItem.usedamt -=
+				// transactionItem.lineTotal;
+				// }
 				session.saveOrUpdate(transactionItem);
 
 			}
@@ -1002,42 +1003,46 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	private void createAndSaveEstimates(List<TransactionItem> transactionItems,
 			Session session) {
 		this.estimates.clear();
-		Set<Estimate> estimates = new HashSet<Estimate>();
-		for (TransactionItem transactionItem : transactionItems) {
-			if (transactionItem.isBillable()
-					&& transactionItem.getCustomer() != null) {
-				TransactionItem newTransactionItem = new CloneUtil<TransactionItem>(
-						TransactionItem.class).clone(null, transactionItem,
-						false);
-				newTransactionItem.setId(0);
-				newTransactionItem.setTaxCode(transactionItem.getTaxCode());
-				newTransactionItem.setOnSaveProccessed(false);
-				Estimate estimate = getCustomerEstimate(estimates,
-						newTransactionItem.getCustomer().getID());
-				if (estimate == null) {
-					estimate = new Estimate();
-					estimate.setCompany(getCompany());
-					estimate.setCustomer(newTransactionItem.getCustomer());
-					estimate.setTransactionItems(new ArrayList<TransactionItem>());
-					estimate.setEstimateType(Estimate.BILLABLEEXAPENSES);
-					estimate.setType(Transaction.TYPE_ESTIMATE);
-					estimate.setDate(new FinanceDate());
-					estimate.setExpirationDate(new FinanceDate());
-					estimate.setDeliveryDate(new FinanceDate());
-					estimate.setNumber(NumberUtils.getNextTransactionNumber(
-							Transaction.TYPE_ESTIMATE, getCompany()));
-				}
-				List<TransactionItem> transactionItems2 = estimate
-						.getTransactionItems();
-				transactionItems2.add(newTransactionItem);
-				estimate.setTransactionItems(transactionItems2);
-				estimates.add(estimate);
-			}
-		}
 
-		for (Estimate estimate : estimates) {
-			session.save(estimate);
-			estimate.setEnterBill(this);
+		if (!this.isBecameVoid()) {
+			Set<Estimate> estimates = new HashSet<Estimate>();
+			for (TransactionItem transactionItem : transactionItems) {
+				if (transactionItem.isBillable()
+						&& transactionItem.getCustomer() != null) {
+					TransactionItem newTransactionItem = new CloneUtil<TransactionItem>(
+							TransactionItem.class).clone(null, transactionItem,
+							false);
+					newTransactionItem.setId(0);
+					newTransactionItem.setTaxCode(transactionItem.getTaxCode());
+					newTransactionItem.setOnSaveProccessed(false);
+					Estimate estimate = getCustomerEstimate(estimates,
+							newTransactionItem.getCustomer().getID());
+					if (estimate == null) {
+						estimate = new Estimate();
+						estimate.setCompany(getCompany());
+						estimate.setCustomer(newTransactionItem.getCustomer());
+						estimate.setTransactionItems(new ArrayList<TransactionItem>());
+						estimate.setEstimateType(Estimate.BILLABLEEXAPENSES);
+						estimate.setType(Transaction.TYPE_ESTIMATE);
+						estimate.setDate(new FinanceDate());
+						estimate.setExpirationDate(new FinanceDate());
+						estimate.setDeliveryDate(new FinanceDate());
+						estimate.setNumber(NumberUtils
+								.getNextTransactionNumber(
+										Transaction.TYPE_ESTIMATE, getCompany()));
+					}
+					List<TransactionItem> transactionItems2 = estimate
+							.getTransactionItems();
+					transactionItems2.add(newTransactionItem);
+					estimate.setTransactionItems(transactionItems2);
+					estimates.add(estimate);
+				}
+			}
+
+			for (Estimate estimate : estimates) {
+				session.save(estimate);
+				estimate.setEnterBill(this);
+			}
 		}
 		this.setEstimates(estimates);
 	}
