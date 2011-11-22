@@ -67,8 +67,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 				getMessages().fileAs(), true, true));
 
 		list.add(new NameRequirement(JOB_TITLE, getMessages().pleaseEnter(
-				getMessages().jobTitle()), getMessages().jobTitle(), true,
-				true));
+				getMessages().jobTitle()), getMessages().jobTitle(), true, true));
 
 		list.add(new AddressRequirement(ADDRESS, getMessages().pleaseEnter(
 				getMessages().address()), getMessages().address(), true, true));
@@ -78,12 +77,13 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		list.add(new NumberRequirement(FAX, getMessages().pleaseEnter(
 				getMessages().fax()), getMessages().fax(), true, true));
 
-		list.add(new AccountRequirement(EXPENSE_ACCOUNT, getMessages()
-				.pleaseSelect(
-						getMessages().expense() + " "
-								+ getMessages().account()), getMessages()
-				.expense() + " " + getMessages().account(), true, false,
-				new ChangeListner<Account>() {
+		list.add(new AccountRequirement(EXPENSE_ACCOUNT,
+				getMessages()
+						.pleaseSelect(
+								getMessages().expense() + " "
+										+ getMessages().account()),
+				getMessages().expense() + " " + getMessages().account(), true,
+				false, new ChangeListner<Account>() {
 
 					@Override
 					public void onSelection(Account value) {
@@ -173,16 +173,16 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 
 		list.add(new DateRequirement(DO_BIRTH, getMessages().pleaseEnter(
 				getMessages().dateofBirth()), getMessages().dateofBirth(),
-				true, true));
+				false, true));
 		list.add(new DateRequirement(DO_HIRE, getMessages().pleaseEnter(
-				getMessages().dateofHire()), getMessages().dateofHire(),
-				true, true));
+				getMessages().dateofHire()), getMessages().dateofHire(), false,
+				true));
 		list.add(new DateRequirement(DO_LASTREVIEW, getMessages().pleaseEnter(
 				getMessages().dateofLastReview()), getMessages()
-				.dateofLastReview(), true, true));
+				.dateofLastReview(), false, true));
 		list.add(new DateRequirement(DO_RELEASE, getMessages().pleaseEnter(
-				getMessages().dateofRelease()),
-				getMessages().dateofRelease(), true, true));
+				getMessages().dateofRelease()), getMessages().dateofRelease(),
+				false, true));
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 
@@ -233,8 +233,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 			long mustdate = new ClientFinanceDate().getDate() - 180000;
 			if ((new ClientFinanceDate(mustdate).before(do_birth))) {
 				Result result = new Result();
-				result.add(getMessages()
-						.dateofBirthshouldshowmorethan18years()
+				result.add(getMessages().dateofBirthshouldshowmorethan18years()
 						+ ". Because Sales Person should have 18 years");
 				return result;
 			}
@@ -273,11 +272,11 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 	@Override
 	public String getSuccessMessage() {
 		if (salesPerson.getID() == 0) {
-			return getMessages().createSuccessfully(
-					getMessages().salesPerson());
+			return getMessages()
+					.createSuccessfully(getMessages().salesPerson());
 		} else {
-			return getMessages().updateSuccessfully(
-					getMessages().salesPerson());
+			return getMessages()
+					.updateSuccessfully(getMessages().salesPerson());
 		}
 	}
 
@@ -356,10 +355,6 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		get(E_MAIL).setDefaultValue("");
 		get(WEB_PAGE_ADDRESS).setDefaultValue("");
 		get(GENDER).setDefaultValue(getMessages().unspecified());
-		get(DO_BIRTH).setDefaultValue(new ClientFinanceDate());
-		get(DO_HIRE).setDefaultValue(new ClientFinanceDate());
-		get(DO_LASTREVIEW).setDefaultValue(new ClientFinanceDate());
-		get(DO_RELEASE).setDefaultValue(new ClientFinanceDate());
 		get(MEMO).setDefaultValue("");
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 
