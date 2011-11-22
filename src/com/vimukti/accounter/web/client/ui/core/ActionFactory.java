@@ -822,8 +822,8 @@ public class ActionFactory {
 	}
 
 	public static TAXAgencyListAction getTAXAgencyListAction() {
-		return new TAXAgencyListAction(
-				messages.payeesList(messages.taxAgency()));
+		return new TAXAgencyListAction(messages.payeesList(messages
+				.taxAgencie()));
 	}
 
 	public static BalanceSheetAction getBalanceSheetAction() {
