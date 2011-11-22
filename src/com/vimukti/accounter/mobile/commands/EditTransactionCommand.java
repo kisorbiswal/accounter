@@ -126,7 +126,10 @@ public class EditTransactionCommand extends NewAbstractCommand {
 		Transaction transaction = get(TRANSACTION).getValue();
 		String transactionName = CommandUtils.getTransactionName(transaction
 				.getType());
-
-		return null;
+		Result makeResult = context.makeResult();
+		makeResult.setNextCommand("new " + transactionName + " #"
+				+ transaction.getNumber());
+		markDone();
+		return makeResult;
 	}
 }
