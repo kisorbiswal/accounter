@@ -81,9 +81,16 @@ public class CommandsFactory {
 
 			List<CommandTemplate> commands = (List<CommandTemplate>) object;
 			for (CommandTemplate command : commands) {
-				Class<?> forName = Class
-						.forName("com.vimukti.accounter.mobile.commands."
-								+ command.className);
+				Class<?> forName = null;
+				try {
+					forName = Class
+							.forName("com.vimukti.accounter.mobile.commands."
+									+ command.className);
+				} catch (ClassNotFoundException e) {
+					forName = Class
+							.forName("com.vimukti.accounter.mobile.commands.reports."
+									+ command.className);
+				}
 				this.commands.put(command.name.toLowerCase(), forName);
 				List<String> aliases = command.aliases;
 				if (aliases == null) {
