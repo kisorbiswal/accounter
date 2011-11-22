@@ -58,7 +58,7 @@ public class NewVendorPaymentView extends
 	boolean isChecked = false;
 
 	private ArrayList<DynamicForm> listforms;
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 	private TaxItemCombo tdsCombo;
 	private CheckboxItem amountIncludeTds;
 	private AmountLabel vendorPayment;
@@ -109,9 +109,8 @@ public class NewVendorPaymentView extends
 			}
 
 			if (transaction.isAmountIncludeTDS()) {
-				amountText
-						.setAmount(getAmountInTransactionCurrency((Double) transaction
-								.getUnusedAmount()));
+				amountText.setAmount(getAmountInTransactionCurrency(transaction
+						.getUnusedAmount()));
 			} else {
 				amountText.setAmount(getAmountInTransactionCurrency(transaction
 						.getTotal() - transaction.getTdsTotal()));
@@ -128,7 +127,7 @@ public class NewVendorPaymentView extends
 			if (transaction != null) {
 				printCheck.setDisabled(true);
 				checkNo.setDisabled(true);
-				ClientPayBill clientPayBill = (ClientPayBill) transaction;
+				ClientPayBill clientPayBill = transaction;
 				paymentMethodCombo.setComboItem(clientPayBill
 						.getPaymentMethod());
 				paymentMethodCombo.setDisabled(true);
@@ -264,7 +263,7 @@ public class NewVendorPaymentView extends
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				isChecked = (Boolean) event.getValue();
+				isChecked = event.getValue();
 				if (isChecked) {
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
@@ -272,11 +271,9 @@ public class NewVendorPaymentView extends
 						checkNo.setDisabled(true);
 					} else {
 						if (payFromAccount == null)
-							checkNo.setValue(Accounter.messages()
-									.toBePrinted());
+							checkNo.setValue(Accounter.messages().toBePrinted());
 						else if (isInViewMode()) {
-							checkNo.setValue(((ClientPayBill) transaction)
-									.getCheckNumber());
+							checkNo.setValue(transaction.getCheckNumber());
 						}
 					}
 				} else
@@ -441,6 +438,7 @@ public class NewVendorPaymentView extends
 		adjustBalance();
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		if (transaction != null) {
@@ -548,7 +546,8 @@ public class NewVendorPaymentView extends
 		}
 		vendorBalText.setAmount(vendor.getBalance());
 		adjustBalance();
-		currencyWidget.setSelectedCurrency(clientCurrency);
+		currencyWidget.setSelectedCurrencyFactorInWidget(clientCurrency,
+				transactionDateItem.getValue().getDate());
 	}
 
 	protected void setCheckNumber() {
@@ -556,6 +555,7 @@ public class NewVendorPaymentView extends
 		rpcUtilService.getNextCheckNumber(payFromAccount.getID(),
 				new AccounterAsyncCallback<Long>() {
 
+					@Override
 					public void onException(AccounterException t) {
 						// //UIUtils.logError(
 						// "Failed to get the next check number!!", t);
@@ -563,6 +563,7 @@ public class NewVendorPaymentView extends
 						return;
 					}
 
+					@Override
 					public void onResultSuccess(Long result) {
 						if (result == null)
 							onFailure(null);
@@ -659,8 +660,7 @@ public class NewVendorPaymentView extends
 			vendorCombo.setValue("");
 		}
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					messages.invalidateDate());
+			result.addError(transactionDate, messages.invalidateDate());
 		}
 
 		ClientAccount bankAccount = payFromCombo.getSelectedValue();
@@ -691,6 +691,7 @@ public class NewVendorPaymentView extends
 
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -724,6 +725,7 @@ public class NewVendorPaymentView extends
 
 			Object value = null;
 
+			@Override
 			public void onBlur(BlurEvent event) {
 				try {
 
@@ -760,6 +762,7 @@ public class NewVendorPaymentView extends
 		return blurHandler;
 	}
 
+	@Override
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
