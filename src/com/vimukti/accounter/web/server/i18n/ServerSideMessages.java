@@ -53,11 +53,15 @@ public class ServerSideMessages {
 		Locale locale = ServerLocal.get();
 		Session session = HibernateUtil.getCurrentSession();
 		try {
+			long clientId = 0;
+			if (user != null) {
+				clientId = user.getClient().getID();
+			}
 			String msg = (String) session
 					.getNamedQuery("getLocalMessageForKey")
 					.setString("language", locale.getISO3Language())
-					.setLong("client", user.getClient().getID())
-					.setString("key", key).uniqueResult();
+					.setLong("client", clientId).setString("key", key)
+					.uniqueResult();
 			return msg;
 		} catch (Exception e) {
 			e.printStackTrace();
