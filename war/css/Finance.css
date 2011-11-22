@@ -450,7 +450,7 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 .financialDataTitle {
 	background: none repeat scroll 0 0 #BBBBBB;
 }
-.datePickerMonthSelector,.dateBoxPopup .gwt-DatePicker .datePickerWeekdayLabel,.dateBoxPopup .gwt-DatePicker .datePickerWeekendLabel{
+.datePickerMonthSelector,.dateBoxPopup .gwt-DatePicker .datePickerWeekdayLabel,.dateBoxPopup .gwt-DatePicker .datePickerWeekendLabel,.prenextmonth-okcancel{
 	background:none repeat scroll 0 0 #3299A4 !important;
 }
 .gwt-PopupPanel {
@@ -532,7 +532,7 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 	text-transform: capitalize;
 }
 .blue-day-grid,.blue-month-line,.blue-week-line,.blue-date-picker{
-    width: 184px;
+    width: 205px;
 }
 .blue-week-end,.blue-current-month-week-end,.gwt-DatePicker .datePickerDayIsWeekend {
 	background-color: #EEEEEE;
@@ -544,7 +544,8 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 	border-right: 1px solid #aaa; 
 }
 .blue-current-month-selected {
-	background-color: #CCCCCC;
+	 background-color: #81BCC1;
+     color: white;
 }
 .statusLabelParent,.popupContent table td {
 	vertical-align: middle !important;
@@ -1673,4 +1674,24 @@ input.date-field-textbox{
 }
 .translation_note_label {
 	color: red;
+}
+.nextmonths-years {
+    margin-top: -4px;
+}
+.nextmonths-years .blue-day-grid,.nextmonths-years{
+	width:204px;
+}
+.nextmonths-years .popupContent table .gwt-Button{
+	float:none;
+	padding:0 5px 3px;
+}
+.datePickerMonthSelector .blue-month-line .prenextyear-label{
+	margin-top:4px;
+}
+.currentmonth-hover{
+	border: 1px solid !important;
+    border-radius: 5px 5px 5px 5px;
+}
+.currentmonth{
+	border: 1px solid #3299A4;
 }
