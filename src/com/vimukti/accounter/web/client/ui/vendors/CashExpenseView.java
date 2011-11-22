@@ -132,13 +132,9 @@ public class CashExpenseView extends
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
-			result.addError(deliveryDateItem, messages.the()
-					+ " "
-					+ messages.deliveryDate()
-					+ " "
-					+ " "
-					+ messages
-							.cannotbeearlierthantransactiondate());
+			result.addError(deliveryDateItem,
+					messages.the() + " " + messages.deliveryDate() + " " + " "
+							+ messages.cannotbeearlierthantransactiondate());
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
@@ -154,8 +150,8 @@ public class CashExpenseView extends
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
 			if (!bankCurrency.equals(getBaseCurrency())
 					&& bankCurrency.equals(currency)) {
-				result.addError(payFromCombo, messages
-						.selectProperBankAccount());
+				result.addError(payFromCombo,
+						messages.selectProperBankAccount());
 			}
 		}
 		return result;
@@ -187,8 +183,8 @@ public class CashExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, messages.Accounts(), messages
-				.productOrServiceItem());
+		setMenuItems(button, messages.Accounts(),
+				messages.productOrServiceItem());
 	}
 
 	// @Override
@@ -306,18 +302,15 @@ public class CashExpenseView extends
 
 						if (paymentMethod.equals(messages.check())
 								&& isInViewMode() && payFromAccount != null) {
-							ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
+							ClientCashPurchase cashPurchase = transaction;
 							checkNo.setValue(cashPurchase.getCheckNumber());
 						}
 					}
 				});
 		String listString[] = new String[] { messages.cash(),
-				messages.creditCard(),
-				messages.directDebit(),
-				messages.masterCard(),
-				messages.onlineBanking(),
-				messages.standingOrder(),
-				messages.switchMaestro() };
+				messages.creditCard(), messages.directDebit(),
+				messages.masterCard(), messages.onlineBanking(),
+				messages.standingOrder(), messages.switchMaestro() };
 		selectedComboList = new ArrayList<String>();
 		for (int i = 0; i < listString.length; i++) {
 			selectedComboList.add(listString[i]);
@@ -350,6 +343,9 @@ public class CashExpenseView extends
 
 			@Override
 			protected void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				CashExpenseView.this.updateNonEditableItems();
 			}
 
@@ -388,6 +384,9 @@ public class CashExpenseView extends
 
 			@Override
 			protected void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				CashExpenseView.this.updateNonEditableItems();
 			}
 
@@ -554,9 +553,9 @@ public class CashExpenseView extends
 		this.payFromAccount = account;
 		payFromCombo.setComboItem(payFromAccount);
 		if (account != null
-				&& paymentMethod.equalsIgnoreCase(messages
-						.cheque()) && isInViewMode()) {
-			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
+				&& paymentMethod.equalsIgnoreCase(messages.cheque())
+				&& isInViewMode()) {
+			ClientCashPurchase cashPurchase = transaction;
 			checkNo.setValue(cashPurchase.getCheckNumber());
 		} else {
 			checkNo.setValue("");
@@ -568,6 +567,7 @@ public class CashExpenseView extends
 		rpcUtilService.getNextCheckNumber(payFromAccount.getID(),
 				new AccounterAsyncCallback<Long>() {
 
+					@Override
 					public void onException(AccounterException t) {
 						// //UIUtils.logError(
 						// "Failed to get the next check number!!", t);
@@ -575,6 +575,7 @@ public class CashExpenseView extends
 						return;
 					}
 
+					@Override
 					public void onResultSuccess(Long result) {
 						if (result == null)
 							onFailure(null);
@@ -663,7 +664,7 @@ public class CashExpenseView extends
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
 		if (this.getVendor() != null && this.getVendor() != vendor) {
-			ClientCashPurchase ent = (ClientCashPurchase) this.transaction;
+			ClientCashPurchase ent = this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
 				this.vendorAccountTransactionTable
@@ -693,7 +694,8 @@ public class CashExpenseView extends
 		long currency = vendor.getCurrency();
 		if (currency != 0) {
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-			currencyWidget.setSelectedCurrency(clientCurrency);
+			currencyWidget.setSelectedCurrencyFactorInWidget(clientCurrency,
+					transactionDateItem.getDate().getDate());
 		} else {
 			ClientCurrency clientCurrency = getCompany().getPrimaryCurrency();
 			if (clientCurrency != null) {
@@ -705,9 +707,8 @@ public class CashExpenseView extends
 
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
-			setCurrencyFactor(1.0);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
-			modifyForeignCurrencyTotalWidget();
 		}
 	}
 
@@ -725,22 +726,21 @@ public class CashExpenseView extends
 			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
 					.getAmount()));
 			if (vatinclusiveCheck != null)
-				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
+				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 		}
 		createAlterObject();
 	}
 
 	public void createAlterObject() {
 
-		saveOrUpdate((ClientCashPurchase) transaction);
+		saveOrUpdate(transaction);
 
 	}
 
 	@Override
 	protected void initMemoAndReference() {
 		memoTextAreaItem.setDisabled(true);
-		setMemoTextAreaItem(((ClientCashPurchase) transaction).getMemo());
+		setMemoTextAreaItem(transaction.getMemo());
 		// setRefText(((ClientCashPurchase) transactionObject).getReference());
 	}
 
@@ -770,6 +770,7 @@ public class CashExpenseView extends
 		return new CashPurchaseView();
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -911,9 +912,7 @@ public class CashExpenseView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-
 		modifyForeignCurrencyTotalWidget();
-
 		vendorAccountTransactionTable.updateAmountsFromGUI();
 		vendorItemTransactionTable.updateAmountsFromGUI();
 	}
@@ -924,9 +923,8 @@ public class CashExpenseView extends
 		} else {
 			transactionTotalinForeignCurrency.show();
 			transactionTotalinForeignCurrency.setTitle(messages
-					.currencyTotal(
-							currencyWidget.getSelectedCurrency()
-									.getFormalName()));
+					.currencyTotal(currencyWidget.getSelectedCurrency()
+							.getFormalName()));
 		}
 	}
 }
