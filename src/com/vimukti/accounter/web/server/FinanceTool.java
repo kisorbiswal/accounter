@@ -459,9 +459,7 @@ public class FinanceTool {
 		try {
 			IAccounterCore[] changes = ChangeTracker.getChanges();
 			if (changes != null && changes.length > 0) {
-				log
-						.info("Sending Changes From ChangeTracker:"
-								+ changes.length);
+				log.info("Sending Changes From ChangeTracker:" + changes.length);
 				Session session = null;
 				session = HibernateUtil.getCurrentSession();
 				Company company = getCompany(ServerCompanyID);
@@ -538,8 +536,8 @@ public class FinanceTool {
 				FinanceDate existingLeastStartDate = modifiedStartDate;
 				FinanceDate existingHighestEndDate = modifiedStartDate;
 				Boolean exist = Boolean.FALSE;
-				list = session.getNamedQuery("getFiscalYearf").setEntity(
-						"company", company).list();
+				list = session.getNamedQuery("getFiscalYearf")
+						.setEntity("company", company).list();
 				if (list.size() > 0) {
 					Iterator i = list.iterator();
 					if (i.hasNext()) {
@@ -578,12 +576,12 @@ public class FinanceTool {
 							for (int k = 0; k < diff; k++) {
 
 								cal.set(modifiedYear + k, 0, 1);
-								FinanceDate startDate = (new FinanceDate(cal
-										.getTime()));
+								FinanceDate startDate = (new FinanceDate(
+										cal.getTime()));
 
 								cal.set(modifiedYear + k, 11, 31);
-								FinanceDate endDate = (new FinanceDate(cal
-										.getTime()));
+								FinanceDate endDate = (new FinanceDate(
+										cal.getTime()));
 
 								FiscalYear fs = new FiscalYear();
 								fs.setStartDate(startDate);
@@ -598,12 +596,12 @@ public class FinanceTool {
 							int diff = modifiedYear - existingLeastYear;
 							for (int k = 1; k <= diff; k++) {
 								cal.set(existingLeastYear + k, 0, 1);
-								FinanceDate startDate = (new FinanceDate(cal
-										.getTime()));
+								FinanceDate startDate = (new FinanceDate(
+										cal.getTime()));
 
 								cal.set(existingLeastYear + k, 0, 1);
-								FinanceDate endDate = (new FinanceDate(cal
-										.getTime()));
+								FinanceDate endDate = (new FinanceDate(
+										cal.getTime()));
 								FiscalYear fs = new FiscalYear();
 								fs.setStartDate(startDate);
 								fs.setEndDate(endDate);
@@ -660,8 +658,8 @@ public class FinanceTool {
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
 			Query query = session.getNamedQuery("getJournalEntry.by.id")
-					.setParameter("id", journalEntryId).setEntity("company",
-							company);
+					.setParameter("id", journalEntryId)
+					.setEntity("company", company);
 			List<JournalEntry> list = query.list();
 
 			if (list.size() > 0) {
@@ -677,8 +675,8 @@ public class FinanceTool {
 	public String getNextIssuePaymentCheckNumber(long account, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getNextIssuePaymentCheckNumber")
-				.setParameter("accountID", account).setParameter("companyId",
-						companyId);
+				.setParameter("accountID", account)
+				.setParameter("companyId", companyId);
 		String number = (String) query.uniqueResult();
 
 		if (number != null) {
@@ -714,10 +712,11 @@ public class FinanceTool {
 			FinanceDate paymentDate = null;
 			paymentDate = new FinanceDate(paymentDate1);
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery(
-					"getReceivePaymentTransactionsListForCustomer")
-					.setParameter("customerId", customerId).setParameter(
-							"companyId", companyId);
+			Query query = session
+					.getNamedQuery(
+							"getReceivePaymentTransactionsListForCustomer")
+					.setParameter("customerId", customerId)
+					.setParameter("companyId", companyId);
 			List list = query.list();
 
 			// Query query = session.getNamedQuery(
@@ -727,10 +726,11 @@ public class FinanceTool {
 
 			List<ReceivePaymentTransactionList> queryResult = new ArrayList<ReceivePaymentTransactionList>();
 			Company company = getCompany(companyId);
-			query = session.getNamedQuery(
-					"getEntry.by.customerId.debitand.balanceDue.orderbyid")
-					.setParameter("id", customerId).setParameter("company",
-							company);
+			query = session
+					.getNamedQuery(
+							"getEntry.by.customerId.debitand.balanceDue.orderbyid")
+					.setParameter("id", customerId)
+					.setParameter("company", company);
 
 			List<JournalEntry> openingBalanceEntries = query.list();
 
@@ -743,8 +743,7 @@ public class FinanceTool {
 						je.getDate().getDate()));
 				receivePaymentTransactionList.setNumber(je.getNumber());
 				receivePaymentTransactionList.setInvoiceAmount(je
-						.getDebitTotal()
-						/ currencyFactor);
+						.getDebitTotal() / currencyFactor);
 				receivePaymentTransactionList.setAmountDue(je.getBalanceDue()
 						/ currencyFactor);
 				receivePaymentTransactionList
@@ -809,10 +808,11 @@ public class FinanceTool {
 			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery(
-				"get.canVoidOrEditTransaction.from.transactionID")
-				.setParameter("id", invoiceOrVendorBillId).setParameter(
-						"company", company);
+		Query query = session
+				.getNamedQuery(
+						"get.canVoidOrEditTransaction.from.transactionID")
+				.setParameter("id", invoiceOrVendorBillId)
+				.setParameter("company", company);
 		List list = query.list();
 
 		return (Boolean) list.iterator().next();
@@ -1018,10 +1018,10 @@ public class FinanceTool {
 			Company company = getCompany(companyId);
 			Integer range[] = company.getNominalCodeRange(accountSubBaseType);
 
-			Query query = session.getNamedQuery(
-					"getNextNominalCodeForGivenAccountType").setParameter(
-					"subBaseType", accountSubBaseType).setParameter(
-					"companyId", companyId);
+			Query query = session
+					.getNamedQuery("getNextNominalCodeForGivenAccountType")
+					.setParameter("subBaseType", accountSubBaseType)
+					.setParameter("companyId", companyId);
 			List list = query.list();
 			Long nextNominalCode = (list.size() > 0) ? ((Long) list.get(0)) + 1
 					: range[0];
@@ -1048,9 +1048,10 @@ public class FinanceTool {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery(
-					"getTransactionMakeDeposit.by.id").setParameter("id",
-					transactionMakeDepositId).setEntity("company", company);
+			Query query = session
+					.getNamedQuery("getTransactionMakeDeposit.by.id")
+					.setParameter("id", transactionMakeDepositId)
+					.setEntity("company", company);
 			List list = query.list();
 
 			if (list != null) {
@@ -1184,8 +1185,8 @@ public class FinanceTool {
 			FinanceDate date = fs.getStartDate();
 			Calendar cal = new GregorianCalendar();
 			cal.setTime(date.getAsDateObject());
-			cal.set(Calendar.DAY_OF_MONTH, depStartDateCal
-					.get(Calendar.DAY_OF_MONTH));
+			cal.set(Calendar.DAY_OF_MONTH,
+					depStartDateCal.get(Calendar.DAY_OF_MONTH));
 			cal.set(Calendar.MONTH, depStartDateCal.get(Calendar.MONTH));
 			startDates.add(new ClientFinanceDate(cal.getTime()));
 		}
@@ -1197,10 +1198,11 @@ public class FinanceTool {
 			final long accountId, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getAccountRegister").setParameter(
-				"companyId", companyId).setParameter("accountId", accountId)
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate());
+		Query query = session.getNamedQuery("getAccountRegister")
+				.setParameter("companyId", companyId)
+				.setParameter("accountId", accountId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -1298,9 +1300,9 @@ public class FinanceTool {
 	public String getPreviousTransactionNumber(int transactionType,
 			long maxCount) {
 
-		Query query = HibernateUtil.getCurrentSession().getNamedQuery(
-				"getTransactionNumber.from.typeandId").setParameter(0,
-				transactionType).setParameter(0, maxCount);
+		Query query = HibernateUtil.getCurrentSession()
+				.getNamedQuery("getTransactionNumber.from.typeandId")
+				.setParameter(0, transactionType).setParameter(0, maxCount);
 
 		List list = query.list();
 
@@ -1342,12 +1344,13 @@ public class FinanceTool {
 				if (clientObject.getNumber() == null
 						|| clientObject.getNumber().equals(""))
 					return true;
-				Query query = HibernateUtil.getCurrentSession().getNamedQuery(
-						"getTransaction.by.check.type.number.id").setParameter(
-						"company", company).setParameter("type",
-						clientObject.getType()).setParameter("number",
-						clientObject.getNumber()).setParameter("id",
-						clientObject.getID());
+				Query query = HibernateUtil
+						.getCurrentSession()
+						.getNamedQuery("getTransaction.by.check.type.number.id")
+						.setParameter("company", company)
+						.setParameter("type", clientObject.getType())
+						.setParameter("number", clientObject.getNumber())
+						.setParameter("id", clientObject.getID());
 
 				List list = query.list();
 
@@ -1492,125 +1495,161 @@ public class FinanceTool {
 
 			if (category == Payee.TYPE_CUSTOMER) {
 
-				query = session.getNamedQuery("getCustomersList").setParameter(
-						"companyId", companyId).setParameter(
-						"currentMonthStartDateCal",
-						new FinanceDate(currentMonthStartDateCal.getTime())
-								.getDate()).setParameter(
-						"currentMonthEndDateCal",
-						new FinanceDate(currentMonthEndDateCal.getTime())
-								.getDate()).setParameter(
-						"previousFirstMonthStartDateCal",
-						new FinanceDate(previousFirstMonthStartDateCal
-								.getTime()).getDate()).setParameter(
-						"previousFirstMonthEndDateCal",
-						new FinanceDate(previousFirstMonthEndDateCal.getTime())
-								.getDate()).setParameter(
-						"previousSecondMonthStartDateCal",
-						new FinanceDate(previousSecondMonthStartDateCal
-								.getTime()).getDate())
+				query = session
+						.getNamedQuery("getCustomersList")
+						.setParameter("companyId", companyId)
+						.setParameter(
+								"currentMonthStartDateCal",
+								new FinanceDate(currentMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"currentMonthEndDateCal",
+								new FinanceDate(currentMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthStartDateCal",
+								new FinanceDate(previousFirstMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthEndDateCal",
+								new FinanceDate(previousFirstMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousSecondMonthStartDateCal",
+								new FinanceDate(previousSecondMonthStartDateCal
+										.getTime()).getDate())
 						.setParameter(
 								"previousSecondMonthEndDateCal",
 								new FinanceDate(previousSecondMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousThirdMonthStartDateCal",
 								new FinanceDate(previousThirdMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousThirdMonthEndDateCal",
 								new FinanceDate(previousThirdMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFourthMonthStartDateCal",
 								new FinanceDate(previousFourthMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFourthMonthEndDateCal",
 								new FinanceDate(previousFourthMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFifthMonthStartDateCal",
 								new FinanceDate(previousFifthMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFifthMonthEndDateCal",
 								new FinanceDate(previousFifthMonthEndDateCal
 										.getTime()).getDate());
 
 			} else if (category == Payee.TYPE_VENDOR) {
 
-				query = session.getNamedQuery("getVendorsList").setParameter(
-						"companyId", companyId).setParameter(
-						"currentMonthStartDateCal",
-						new FinanceDate(currentMonthStartDateCal.getTime())
-								.getDate()).setParameter(
-						"currentMonthEndDateCal",
-						new FinanceDate(currentMonthEndDateCal.getTime())
-								.getDate()).setParameter(
-						"previousFirstMonthStartDateCal",
-						new FinanceDate(previousFirstMonthStartDateCal
-								.getTime()).getDate()).setParameter(
-						"previousFirstMonthEndDateCal",
-						new FinanceDate(previousFirstMonthEndDateCal.getTime())
-								.getDate()).setParameter(
-						"previousSecondMonthStartDateCal",
-						new FinanceDate(previousSecondMonthStartDateCal
-								.getTime()).getDate())
+				query = session
+						.getNamedQuery("getVendorsList")
+						.setParameter("companyId", companyId)
+						.setParameter(
+								"currentMonthStartDateCal",
+								new FinanceDate(currentMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"currentMonthEndDateCal",
+								new FinanceDate(currentMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthStartDateCal",
+								new FinanceDate(previousFirstMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthEndDateCal",
+								new FinanceDate(previousFirstMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousSecondMonthStartDateCal",
+								new FinanceDate(previousSecondMonthStartDateCal
+										.getTime()).getDate())
 						.setParameter(
 								"previousSecondMonthEndDateCal",
 								new FinanceDate(previousSecondMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousThirdMonthStartDateCal",
 								new FinanceDate(previousThirdMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousThirdMonthEndDateCal",
 								new FinanceDate(previousThirdMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFourthMonthStartDateCal",
 								new FinanceDate(previousFourthMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFourthMonthEndDateCal",
 								new FinanceDate(previousFourthMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFifthMonthStartDateCal",
 								new FinanceDate(previousFifthMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFifthMonthEndDateCal",
 								new FinanceDate(previousFifthMonthEndDateCal
 										.getTime()).getDate());
 			} else if (category == Payee.TYPE_TAX_AGENCY) {
 
-				query = session.getNamedQuery("getTAXAgencyList").setParameter(
-						"companyId", companyId).setParameter(
-						"currentMonthStartDateCal",
-						new FinanceDate(currentMonthStartDateCal.getTime())
-								.getDate()).setParameter(
-						"currentMonthEndDateCal",
-						new FinanceDate(currentMonthEndDateCal.getTime())
-								.getDate()).setParameter(
-						"previousFirstMonthStartDateCal",
-						new FinanceDate(previousFirstMonthStartDateCal
-								.getTime()).getDate()).setParameter(
-						"previousFirstMonthEndDateCal",
-						new FinanceDate(previousFirstMonthEndDateCal.getTime())
-								.getDate()).setParameter(
-						"previousSecondMonthStartDateCal",
-						new FinanceDate(previousSecondMonthStartDateCal
-								.getTime()).getDate())
+				query = session
+						.getNamedQuery("getTAXAgencyList")
+						.setParameter("companyId", companyId)
+						.setParameter(
+								"currentMonthStartDateCal",
+								new FinanceDate(currentMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"currentMonthEndDateCal",
+								new FinanceDate(currentMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthStartDateCal",
+								new FinanceDate(previousFirstMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthEndDateCal",
+								new FinanceDate(previousFirstMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousSecondMonthStartDateCal",
+								new FinanceDate(previousSecondMonthStartDateCal
+										.getTime()).getDate())
 						.setParameter(
 								"previousSecondMonthEndDateCal",
 								new FinanceDate(previousSecondMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousThirdMonthStartDateCal",
 								new FinanceDate(previousThirdMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousThirdMonthEndDateCal",
 								new FinanceDate(previousThirdMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFourthMonthStartDateCal",
 								new FinanceDate(previousFourthMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFourthMonthEndDateCal",
 								new FinanceDate(previousFourthMonthEndDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFifthMonthStartDateCal",
 								new FinanceDate(previousFifthMonthStartDateCal
-										.getTime()).getDate()).setParameter(
+										.getTime()).getDate())
+						.setParameter(
 								"previousFifthMonthEndDateCal",
 								new FinanceDate(previousFifthMonthEndDateCal
 										.getTime()).getDate());
@@ -1712,10 +1751,10 @@ public class FinanceTool {
 			FinanceDate endDate, long companyId) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		List list = session.getNamedQuery("getDepositDetail").setParameter(
-				"companyId", companyId).setParameter("startDate",
-				startDate.getDate()).setParameter("endDate", endDate.getDate())
-				.list();
+		List list = session.getNamedQuery("getDepositDetail")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate()).list();
 		Map<Long, List<DepositDetail>> map = new LinkedHashMap<Long, List<DepositDetail>>();
 		List<DepositDetail> depositDetails = new ArrayList<DepositDetail>();
 		Iterator it = list.iterator();
@@ -1761,9 +1800,9 @@ public class FinanceTool {
 	public ArrayList<ClientRecurringTransaction> getAllRecurringTransactions(
 			long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		List<RecurringTransaction> transactions = session.getNamedQuery(
-				"list.RecurringTransaction").setEntity("company",
-				getCompany(companyId)).list();
+		List<RecurringTransaction> transactions = session
+				.getNamedQuery("list.RecurringTransaction")
+				.setEntity("company", getCompany(companyId)).list();
 
 		List<ClientRecurringTransaction> clientObjs = new ArrayList<ClientRecurringTransaction>();
 		for (RecurringTransaction recurringTransaction : transactions) {
@@ -1795,67 +1834,67 @@ public class FinanceTool {
 				+ fromClientAccount.getOpeningBalance();
 		try {
 			session.getNamedQuery("update.merge.Account.oldBalance.tonew")
-					.setLong("from", toClientAccount.getID()).setDouble(
-							"balance", mergeBalance).setEntity("company",
-							company).executeUpdate();
+					.setLong("from", toClientAccount.getID())
+					.setDouble("balance", mergeBalance)
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.accounttransaction.old.tonew")
-					.setLong("fromID", fromClientAccount.getID()).setLong(
-							"toID", toClientAccount.getID()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery(
 					"update.merge.accountcustomercreditmemo.old.tonew")
-					.setLong("fromID", fromClientAccount.getID()).setLong(
-							"toID", toClientAccount.getID()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.issuepayment.old.tonew")
-					.setLong("fromID", fromClientAccount.getID()).setLong(
-							"toID", toClientAccount.getID()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery(
-					"update.merge.accounttrasactionexpense.old.tonew").setLong(
-					"fromID", fromClientAccount.getID()).setLong("toID",
-					toClientAccount.getID()).executeUpdate();
+					"update.merge.accounttrasactionexpense.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID()).executeUpdate();
 
-			session.getNamedQuery("update.merge.payexpense.old.tonew").setLong(
-					"fromID", fromClientAccount.getID()).setLong("toID",
-					toClientAccount.getID()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("update.merge.payexpense.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
 			session.getNamedQuery(
-					"update.merge.accountreceivepayment.old.tonew").setLong(
-					"fromID", fromClientAccount.getID()).setLong("toID",
-					toClientAccount.getID()).setEntity("company", company)
-					.executeUpdate();
+					"update.merge.accountreceivepayment.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
 
 			// session.getNamedQuery("update.merge.transactionexpense.old.tonew")
 			// .setLong("fromID", fromClientAccount.getID()).setLong(
 			// "toID", toClientAccount.getID()).setEntity(
 			// "company", company).executeUpdate();
 			session.getNamedQuery("update.merge.transactionitem.old.tonew")
-					.setLong("fromID", fromClientAccount.getID()).setLong(
-							"toID", toClientAccount.getID()).executeUpdate();
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID()).executeUpdate();
 
 			session.getNamedQuery(
 					"update.merge.accounttransactionmakedeposit.old.tonew")
-					.setLong("fromID", fromClientAccount.getID()).setLong(
-							"toID", toClientAccount.getID()).executeUpdate();
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID()).executeUpdate();
 
 			session.getNamedQuery(
 					"update.merge.transactionmakedepositentries.old.tonew")
-					.setLong("fromID", fromClientAccount.getID()).setLong(
-							"toID", toClientAccount.getID()).executeUpdate();
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID()).executeUpdate();
 
 			session.getNamedQuery("update.merge.accountwritecheck.old.tonew")
-					.setLong("fromID", fromClientAccount.getID()).setLong(
-							"toID", toClientAccount.getID()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("delete.account.old").setLong("from",
-					fromClientAccount.getID()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("delete.account.old")
+					.setLong("from", fromClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
 
 			// session.getNamedQuery("delete.account.entry.old").setLong("from",
 			// fromClientAccount.getID()).setEntity("company", company)
@@ -1889,32 +1928,32 @@ public class FinanceTool {
 
 		try {
 			session.getNamedQuery("update.mergeItem.oldcost.tonewcost")
-					.setLong("from", toClientItem.getID()).setBoolean("status",
-							fromClientItem.isActive()).setDouble("price",
-							fromClientItem.getSalesPrice()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("from", toClientItem.getID())
+					.setBoolean("status", fromClientItem.isActive())
+					.setDouble("price", fromClientItem.getSalesPrice())
+					.setEntity("company", company).executeUpdate();
 
 			// session.getNamedQuery("update.merge.itembackup.old.tonew")
 			// .setLong("fromID", fromClientItem.getID())
 			// .setLong("toID", toClientItem.getID())
 			// .setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.itemstatus.old.tonew").setLong(
-					"fromID", fromClientItem.getID()).setLong("toID",
-					toClientItem.getID()).executeUpdate();
+			session.getNamedQuery("update.merge.itemstatus.old.tonew")
+					.setLong("fromID", fromClientItem.getID())
+					.setLong("toID", toClientItem.getID()).executeUpdate();
 
 			session.getNamedQuery("update.merge.itemsalesorder.old.tonew")
-					.setLong("fromID", fromClientItem.getID()).setLong("toID",
-							toClientItem.getID()).setEntity("company", company)
-					.executeUpdate();
+					.setLong("fromID", fromClientItem.getID())
+					.setLong("toID", toClientItem.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.trasactionexpense.old.tonew")
-					.setLong("fromID", fromClientItem.getID()).setLong("toID",
-							toClientItem.getID()).executeUpdate();
+					.setLong("fromID", fromClientItem.getID())
+					.setLong("toID", toClientItem.getID()).executeUpdate();
 
 			session.getNamedQuery("update.merge.trasactionitem.old.tonew")
-					.setLong("fromID", fromClientItem.getID()).setLong("toID",
-							toClientItem.getID()).executeUpdate();
+					.setLong("fromID", fromClientItem.getID())
+					.setLong("toID", toClientItem.getID()).executeUpdate();
 
 			// session.getNamedQuery("delete.item.entry.old").setLong("from",
 			// fromClientItem.getID()).setEntity("company", company)
@@ -1951,8 +1990,8 @@ public class FinanceTool {
 		// Instead of cloning directly on transaction, we'll perform cloning on
 		// client transacton.
 		ClientTransaction clientTransaction = (ClientTransaction) new ClientConvertUtil()
-				.toClientObject(transaction, Util
-						.getClientEqualentClass(transaction.getClass()));
+				.toClientObject(transaction,
+						Util.getClientEqualentClass(transaction.getClass()));
 
 		ClientTransaction clone = new CloneUtil<IAccounterCore>(
 				IAccounterCore.class).clone(null, clientTransaction, true);
@@ -1971,15 +2010,11 @@ public class FinanceTool {
 
 		// reset credits and payments
 		// clone.setCreditsAndPayments(null);
-		clone
-				.setTransactionMakeDeposit(new ArrayList<ClientTransactionMakeDeposit>());
+		clone.setTransactionMakeDeposit(new ArrayList<ClientTransactionMakeDeposit>());
 		clone.setTransactionPayBill(new ArrayList<ClientTransactionPayBill>());
-		clone
-				.setTransactionReceivePayment(new ArrayList<ClientTransactionReceivePayment>());
-		clone
-				.setTransactionIssuePayment(new ArrayList<ClientTransactionIssuePayment>());
-		clone
-				.setTransactionPaySalesTax(new ArrayList<ClientTransactionPayTAX>());
+		clone.setTransactionReceivePayment(new ArrayList<ClientTransactionReceivePayment>());
+		clone.setTransactionIssuePayment(new ArrayList<ClientTransactionIssuePayment>());
+		clone.setTransactionPaySalesTax(new ArrayList<ClientTransactionPayTAX>());
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -2100,8 +2135,8 @@ public class FinanceTool {
 		try {
 
 			ArrayList<Budget> budgetList = new ArrayList<Budget>(session
-					.getNamedQuery("list.Budget").setEntity("company",
-							getCompany(companyId)).list());
+					.getNamedQuery("list.Budget")
+					.setEntity("company", getCompany(companyId)).list());
 
 			List<ClientBudget> clientBudgetObjs = new ArrayList<ClientBudget>();
 
@@ -2125,11 +2160,14 @@ public class FinanceTool {
 			long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		List list = session.getNamedQuery("getTransactionsOfAccount").setLong(
-				"companyId", companyId).setLong("accountId", id).setParameter(
-				"startDate", startDate.getDate()).setParameter("endDate",
-				endDate.getDate()).setLong("openingBalanceAccount",
-				company.getOpeningBalancesAccount().getID()).list();
+		List list = session
+				.getNamedQuery("getTransactionsOfAccount")
+				.setLong("companyId", companyId)
+				.setLong("accountId", id)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setLong("openingBalanceAccount",
+						company.getOpeningBalancesAccount().getID()).list();
 		List<ClientReconciliationItem> reconciliationItems = new ArrayList<ClientReconciliationItem>();
 
 		Iterator iterator = list.iterator();
@@ -2190,9 +2228,11 @@ public class FinanceTool {
 			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		List list = session.getNamedQuery(
-				"get.OpeningBalance.Of.Account.from.Reconciliations").setLong(
-				"accountID", accountID).setEntity("company", company).list();
+		List list = session
+				.getNamedQuery(
+						"get.OpeningBalance.Of.Account.from.Reconciliations")
+				.setLong("accountID", accountID).setEntity("company", company)
+				.list();
 		if (list.isEmpty()) {
 			return 0.0;
 		}
@@ -2478,9 +2518,10 @@ public class FinanceTool {
 		try {
 			session = HibernateUtil.openSession();
 
-			Query approvedMessagesQuery = session.getNamedQuery(
-					"getUnApprovedMessages").setParameter("lang", lang)
-					.setInteger("limt", limit).setInteger("fm", frm)
+			Query approvedMessagesQuery = session
+					.getNamedQuery("getUnApprovedMessages")
+					.setParameter("lang", lang).setInteger("limt", limit)
+					.setInteger("fm", frm)
 					.setParameter("searchTerm", "%" + searchTerm + "%");
 
 			Iterator iter = approvedMessagesQuery.list().iterator();
@@ -2490,9 +2531,9 @@ public class FinanceTool {
 				message.setId(((BigInteger) next[0]).longValue());
 				message.setValue((String) next[1]);
 
-				Query localMessagesQuery = session.getNamedQuery(
-						"getLocalMessagesByMessageId").setParameter(
-						"messageId", message.getId())
+				Query localMessagesQuery = session
+						.getNamedQuery("getLocalMessagesByMessageId")
+						.setParameter("messageId", message.getId())
 						.setParameter("lang", lang);
 				List<LocalMessage> localMessages = localMessagesQuery.list();
 
@@ -2522,11 +2563,12 @@ public class FinanceTool {
 			if (client == null) {
 				return null;
 			}
-			Query myTranslationsQuery = session.getNamedQuery(
-					"getMyTranslations").setParameter("lang", lang).setInteger(
-					"fm", frm).setInteger("limt", limit).setParameter(
-					"clientId", client.getID()).setParameter("searchTerm",
-					"%" + searchTerm + "%");
+			Query myTranslationsQuery = session
+					.getNamedQuery("getMyTranslations")
+					.setParameter("lang", lang).setInteger("fm", frm)
+					.setInteger("limt", limit)
+					.setParameter("clientId", client.getID())
+					.setParameter("searchTerm", "%" + searchTerm + "%");
 			List queryList = myTranslationsQuery.list();
 			Iterator i = queryList.iterator();
 			while (i.hasNext()) {
@@ -2535,9 +2577,9 @@ public class FinanceTool {
 				message.setId(((BigInteger) next[0]).longValue());
 				message.setValue((String) next[1]);
 
-				Query localMessagesQuery = session.getNamedQuery(
-						"getLocalMessagesByMessageId").setParameter(
-						"messageId", message.getId())
+				Query localMessagesQuery = session
+						.getNamedQuery("getLocalMessagesByMessageId")
+						.setParameter("messageId", message.getId())
 						.setParameter("lang", lang);
 				List<LocalMessage> localMessages = localMessagesQuery.list();
 
@@ -2563,9 +2605,10 @@ public class FinanceTool {
 		Session session = null;
 		try {
 			session = HibernateUtil.openSession();
-			Query messageIdsQuery = session.getNamedQuery(
-					"getUntranslatedMessages").setParameter("lang", lang)
-					.setInteger("limt", limit).setInteger("fm", frm)
+			Query messageIdsQuery = session
+					.getNamedQuery("getUntranslatedMessages")
+					.setParameter("lang", lang).setInteger("limt", limit)
+					.setInteger("fm", frm)
 					.setParameter("searchTerm", "%" + searchTerm + "%");
 			List list = messageIdsQuery.list();
 			Iterator iterator = list.iterator();
@@ -2597,8 +2640,8 @@ public class FinanceTool {
 			session = HibernateUtil.openSession();
 			Query query = session.getNamedQuery("getMessagesByLimit")
 					.setInteger("fm", frm).setInteger("limt", limit)
-					.setParameter("lang", lang).setParameter("searchTerm",
-							"%" + searchTerm + "%");
+					.setParameter("lang", lang)
+					.setParameter("searchTerm", "%" + searchTerm + "%");
 			List list2 = query.list();
 			Iterator iterator1 = list2.iterator();
 			while (iterator1.hasNext()) {
@@ -2608,9 +2651,9 @@ public class FinanceTool {
 				message.setId(((BigInteger) next[0]).longValue());
 				message.setValue((String) next[1]);
 
-				Query localMessagesQuery = session.getNamedQuery(
-						"getLocalMessagesByMessageId").setParameter(
-						"messageId", message.getId())
+				Query localMessagesQuery = session
+						.getNamedQuery("getLocalMessagesByMessageId")
+						.setParameter("messageId", message.getId())
 						.setParameter("lang", lang);
 				List<LocalMessage> localMessages = localMessagesQuery.list();
 
@@ -2648,8 +2691,8 @@ public class FinanceTool {
 
 			long clientId = client.getID();
 			Query voteQuery = session.getNamedQuery("getVoteByClientId")
-					.setParameter("clientId", clientId).setParameter(
-							"localMessageId", localMessage.getId());
+					.setParameter("clientId", clientId)
+					.setParameter("localMessageId", localMessage.getId());
 			Vote vote = (Vote) voteQuery.uniqueResult();
 
 			if (vote == null) {
@@ -2691,8 +2734,8 @@ public class FinanceTool {
 			}
 
 			Query namedQuery = session.getNamedQuery("getLocalMessageByClient")
-					.setParameter("clientId", client.getID()).setParameter(
-							"messageId", id).setParameter("lang", lang);
+					.setParameter("clientId", client.getID())
+					.setParameter("messageId", id).setParameter("lang", lang);
 			LocalMessage uniqueResult = (LocalMessage) namedQuery
 					.uniqueResult();
 			if (uniqueResult != null) {
@@ -2833,10 +2876,12 @@ public class FinanceTool {
 				return false;
 			}
 
-			Query messagesQuery = session.getNamedQuery(
-					"getLocalMessagesByMessageId").setParameter("messageId",
-					localMessage.getMessage().getId()).setParameter("lang",
-					localMessage.getLang().getLanguageCode());
+			Query messagesQuery = session
+					.getNamedQuery("getLocalMessagesByMessageId")
+					.setParameter("messageId",
+							localMessage.getMessage().getId())
+					.setParameter("lang",
+							localMessage.getLang().getLanguageCode());
 			List<LocalMessage> list = messagesQuery.list();
 
 			for (LocalMessage locMessage : list) {
@@ -2900,8 +2945,8 @@ public class FinanceTool {
 		company.getPreferences().setPrimaryCurrency(existingCurrency);
 		Query query = session
 				.getNamedQuery("update.primay.currency.in.company")
-				.setParameter("companyId", companyId).setParameter(
-						"currencyId", existingCurrency.getID());
+				.setParameter("companyId", companyId)
+				.setParameter("currencyId", existingCurrency.getID());
 		query.executeUpdate();
 		return existingCurrency.getID();
 	}
@@ -2924,8 +2969,8 @@ public class FinanceTool {
 			session = HibernateUtil.openSession();
 
 			Query query = session.getNamedQuery("getKeyAndValues")
-					.setParameter("clientId", clientId).setParameter("lang",
-							langCode);
+					.setParameter("clientId", clientId)
+					.setParameter("lang", langCode);
 			List list = query.list();
 
 			HashMap<String, String> result = new HashMap<String, String>();
@@ -2965,9 +3010,9 @@ public class FinanceTool {
 			ArrayList<ClientLanguage> result = new ArrayList<ClientLanguage>();
 
 			for (Language language : list) {
-				ClientLanguage clientLanguage = new ClientLanguage(language
-						.getLanguageTooltip(), language.getLangugeName(),
-						language.getLanguageCode());
+				ClientLanguage clientLanguage = new ClientLanguage(
+						language.getLanguageTooltip(),
+						language.getLangugeName(), language.getLanguageCode());
 				result.add(clientLanguage);
 			}
 			return result;
