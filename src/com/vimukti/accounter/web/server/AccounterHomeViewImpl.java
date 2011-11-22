@@ -102,6 +102,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
 	public ArrayList<ClientEnterBill> getBillsOwed() {
 
 		List<ClientEnterBill> clientEnterBills = new ArrayList<ClientEnterBill>();
@@ -134,6 +135,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	 * (com.vimukti.accounter.web.client.core.Company)
 	 */
 
+	@Override
 	public ArrayList<ClientEstimate> getLatestQuotes() {
 		List<ClientEstimate> clientEstimates = new ArrayList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
@@ -162,6 +164,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	 * (com.vimukti.accounter.web.client.core.Company)
 	 */
 
+	@Override
 	public ArrayList<OverDueInvoicesList> getOverDueInvoices() {
 		List<OverDueInvoicesList> invoice = null;
 
@@ -179,6 +182,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<OverDueInvoicesList>(invoice);
 	}
 
+	@Override
 	public ArrayList<BillsList> getBillsAndItemReceiptList(
 			boolean isExpensesList) {
 
@@ -199,6 +203,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
 	public ArrayList<PaymentsList> getPaymentsList() {
 
 		List<PaymentsList> paymentsList = null;
@@ -219,6 +224,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
 	public ArrayList<PayBillTransactionList> getTransactionPayBills() {
 
 		List<PayBillTransactionList> paybillTrList = null;
@@ -283,6 +289,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	//
 	// }
 
+	@Override
 	public ArrayList<PayBillTransactionList> getTransactionPayBills(
 			long vendorId) {
 
@@ -303,6 +310,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<PayBillTransactionList>(paybillTrList);
 	}
 
+	@Override
 	public ArrayList<ClientCreditsAndPayments> getVendorCreditsAndPayments(
 			long vendorId) {
 		List<ClientCreditsAndPayments> clientCreditsAndPaymentsList = new ArrayList<ClientCreditsAndPayments>();
@@ -328,6 +336,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
 	public ArrayList<PaymentsList> getVendorPaymentsList() {
 
 		ArrayList<PaymentsList> vendorPaymentsList = new ArrayList<PaymentsList>();
@@ -346,6 +355,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
 	public ArrayList<IssuePaymentTransactionsList> getChecks() {
 
 		List<IssuePaymentTransactionsList> checks = null;
@@ -366,6 +376,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
 	public ArrayList<IssuePaymentTransactionsList> getChecks(long accountId) {
 
 		List<IssuePaymentTransactionsList> checks = new ArrayList<IssuePaymentTransactionsList>();
@@ -386,6 +397,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
 	public ArrayList<ClientCreditCardCharge> getCreditCardChargesThisMonth(
 			long date) {
 		List<ClientCreditCardCharge> clientCreditCardCharges = new ArrayList<ClientCreditCardCharge>();
@@ -409,6 +421,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientCreditCardCharge>(clientCreditCardCharges);
 	}
 
+	@Override
 	public ArrayList<BillsList> getLatestBills() {
 		List<BillsList> bills = null;
 
@@ -426,6 +439,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<BillsList>(bills);
 	}
 
+	@Override
 	public ArrayList<ClientCashPurchase> getLatestCashPurchases() {
 		List<ClientCashPurchase> clientCashPurchase = new ArrayList<ClientCashPurchase>();
 		List<CashPurchase> serverCashPurchases = null;
@@ -447,6 +461,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientCashPurchase>(clientCashPurchase);
 	}
 
+	@Override
 	public ArrayList<ClientBudget> getBudgetList() {
 
 		List<ClientBudget> budgetList = null;
@@ -460,6 +475,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientBudget>(budgetList);
 	}
 
+	@Override
 	public ArrayList<ClientCashSales> getLatestCashSales() {
 		List<ClientCashSales> clientCashSales = new ArrayList<ClientCashSales>();
 		List<CashSales> serverCashSales = null;
@@ -480,6 +496,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientCashSales>(clientCashSales);
 	}
 
+	@Override
 	public ArrayList<ClientWriteCheck> getLatestChecks() {
 		List<ClientWriteCheck> clientWriteChecks = new ArrayList<ClientWriteCheck>();
 		List<WriteCheck> serverWriteChecks = null;
@@ -500,6 +517,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientWriteCheck>(clientWriteChecks);
 	}
 
+	@Override
 	public ArrayList<ClientCustomerRefund> getLatestCustomerRefunds() {
 		List<ClientCustomerRefund> clientCustomerRefunds = new ArrayList<ClientCustomerRefund>();
 		List<CustomerRefund> serverCustomerRefunds = null;
@@ -522,6 +540,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientCustomerRefund>(clientCustomerRefunds);
 	}
 
+	@Override
 	public ArrayList<ClientCustomer> getLatestCustomers() {
 		List<ClientCustomer> clientCustomers = new ArrayList<ClientCustomer>();
 		List<Customer> serverCustomers = null;
@@ -542,6 +561,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientCustomer>(clientCustomers);
 	}
 
+	@Override
 	public ArrayList<ClientMakeDeposit> getLatestDeposits() {
 		List<ClientMakeDeposit> clientMakeDeposits = new ArrayList<ClientMakeDeposit>();
 		List<MakeDeposit> serverMakeDeposits = null;
@@ -562,6 +582,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientMakeDeposit>(clientMakeDeposits);
 	}
 
+	@Override
 	public ArrayList<ClientTransferFund> getLatestFundsTransfer() {
 		List<ClientTransferFund> clientTransferFunds = new ArrayList<ClientTransferFund>();
 		List<TransferFund> serverTransferFunds = null;
@@ -583,6 +604,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientTransferFund>(clientTransferFunds);
 	}
 
+	@Override
 	public ArrayList<ClientItem> getLatestItems() {
 		List<ClientItem> clientItems = new ArrayList<ClientItem>();
 		List<Item> serverItems = null;
@@ -602,6 +624,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientItem>(clientItems);
 	}
 
+	@Override
 	public ArrayList<PaymentsList> getLatestPayments() {
 		List<PaymentsList> payments = null;
 
@@ -619,6 +642,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<PaymentsList>(payments);
 	}
 
+	@Override
 	public ArrayList<ClientVendor> getLatestVendors() {
 		List<ClientVendor> clientVendors = new ArrayList<ClientVendor>();
 		List<Vendor> serverVendors = null;
@@ -639,6 +663,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientVendor>(clientVendors);
 	}
 
+	@Override
 	public String getNextTransactionNumber(int transactionType) {
 		String nextTransactionNumber = "";
 		try {
@@ -654,6 +679,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
 	public boolean canVoidOrEdit(long invoiceOrVendorBillId) {
 		boolean isCanVoidOrEdit = false;
 		try {
@@ -668,6 +694,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return isCanVoidOrEdit;
 	}
 
+	@Override
 	public ArrayList<ClientCreditsAndPayments> getCustomerCreditsAndPayments(
 			long customerId) {
 		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
@@ -691,6 +718,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientCreditsAndPayments>(clientCreditsAndPayments);
 	}
 
+	@Override
 	public ArrayList<CustomerRefundsList> getCustomerRefundsList() {
 		List<CustomerRefundsList> customerRefundsList = null;
 		try {
@@ -705,6 +733,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<CustomerRefundsList>(customerRefundsList);
 	}
 
+	@Override
 	public ArrayList<ClientEstimate> getEstimates(int type) {
 		List<ClientEstimate> clientEstimate = new ArrayList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
@@ -726,6 +755,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientEstimate>(clientEstimate);
 	}
 
+	@Override
 	public ArrayList<ClientEstimate> getEstimates(long customerId) {
 		List<ClientEstimate> clientEstimate = new ArrayList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
@@ -745,6 +775,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientEstimate>(clientEstimate);
 	}
 
+	@Override
 	public ArrayList<InvoicesList> getInvoiceList() {
 		List<InvoicesList> invoicesList = null;
 
@@ -762,6 +793,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<InvoicesList>(invoicesList);
 	}
 
+	@Override
 	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate) {
 		List<InvoicesList> invoicesList = null;
 		List<InvoicesList> filteredList = null;
@@ -789,6 +821,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<InvoicesList>(filteredList);
 	}
 
+	@Override
 	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate() {
 		List<ClientFinanceDate> transactionDates = new ArrayList<ClientFinanceDate>();
 		try {
@@ -803,6 +836,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientFinanceDate>(transactionDates);
 	}
 
+	@Override
 	public ArrayList<ClientJournalEntry> getJournalEntries() {
 		List<ClientJournalEntry> clientJournalEntries = new ArrayList<ClientJournalEntry>();
 		List<JournalEntry> serverJournalEntries = null;
@@ -825,6 +859,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientJournalEntry>(clientJournalEntries);
 	}
 
+	@Override
 	public ClientJournalEntry getJournalEntry(long journalEntryId) {
 		ClientJournalEntry clientJournalEntry = null;
 		JournalEntry serverJournalEntry = null;
@@ -843,6 +878,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return clientJournalEntry;
 	}
 
+	@Override
 	public Long getNextCheckNumber(long accountId) {
 		Long nextCheckNumber = 0l;
 		try {
@@ -856,12 +892,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return nextCheckNumber;
 	}
 
+	@Override
 	public String getNextIssuepaymentCheckNumber(long accountId)
 			throws AccounterException {
 		return getFinanceTool().getNextIssuePaymentCheckNumber(accountId,
 				getCompanyId());
 	}
 
+	@Override
 	public ArrayList<ClientItem> getPurchaseItems() {
 		List<ClientItem> clientItems = new ArrayList<ClientItem>();
 		List<Item> serverItems = null;
@@ -882,6 +920,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientItem>(clientItems);
 	}
 
+	@Override
 	public ArrayList<ClientItem> getSalesItems() {
 		List<ClientItem> clientItems = new ArrayList<ClientItem>();
 		List<Item> serverItems = null;
@@ -903,6 +942,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientItem>(clientItems);
 	}
 
+	@Override
 	public ArrayList<ClientAccount> getTaxAgencyAccounts() {
 		List<ClientAccount> clientAccount = new ArrayList<ClientAccount>();
 		List<Account> serverAccounts = null;
@@ -923,6 +963,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ClientAccount>(clientAccount);
 	}
 
+	@Override
 	public ArrayList<ReceivePaymentTransactionList> getTransactionReceivePayments(
 			long customerId, long paymentDate) throws AccounterException {
 		List<ReceivePaymentTransactionList> receivePaymentTransactionList = null;
@@ -939,6 +980,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				receivePaymentTransactionList);
 	}
 
+	@Override
 	public boolean isSalesTaxPayableAccount(long accountId) {
 		boolean isSalesTaxPayable = false;
 		try {
@@ -953,6 +995,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return isSalesTaxPayable;
 	}
 
+	@Override
 	public boolean isSalesTaxPayableAccountByName(String accountName) {
 		boolean isSalesTaxPayable = false;
 		try {
@@ -968,6 +1011,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return isSalesTaxPayable;
 	}
 
+	@Override
 	public boolean isTaxAgencyAccount(long accountId) {
 		boolean isTaxAgency = false;
 		try {
@@ -982,6 +1026,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return isTaxAgency;
 	}
 
+	@Override
 	public ArrayList<ReceivePaymentsList> getReceivePaymentsList() {
 
 		try {
@@ -999,6 +1044,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new ArrayList<ReceivePaymentsList>();
 	}
 
+	@Override
 	public ArrayList<ClientItem> getLatestPurchaseItems() {
 		ArrayList<ClientItem> clientItems = new ArrayList<ClientItem>();
 		List<Item> serverItems = null;
@@ -1019,6 +1065,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return clientItems;
 	}
 
+	@Override
 	public ArrayList<PaymentsList> getLatestVendorPayments() {
 		ArrayList<PaymentsList> paymentsList = null;
 
@@ -1036,6 +1083,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return paymentsList;
 	}
 
+	@Override
 	public ArrayList<ClientReceivePayment> getLatestReceivePayments() {
 		ArrayList<ClientReceivePayment> clientReceivePaymentList = new ArrayList<ClientReceivePayment>();
 		ArrayList<ReceivePayment> serverReceivePaymentList = null;
@@ -1058,6 +1106,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return clientReceivePaymentList;
 	}
 
+	@Override
 	public ClientTransactionMakeDeposit getTransactionMakeDeposit(
 			long transactionMakeDepositId) {
 		ClientTransactionMakeDeposit clientTransactionMakeDeposit = null;
@@ -1081,6 +1130,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return clientTransactionMakeDeposit;
 	}
 
+	@Override
 	public ArrayList<ClientTransactionMakeDeposit> getTransactionMakeDeposits() {
 		ArrayList<ClientTransactionMakeDeposit> makeDepositTransactionsList = null;
 
@@ -1180,6 +1230,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
 	public ArrayList<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
 			long customerId) throws AccounterException {
 
@@ -1333,6 +1384,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return 0.0;
 	}
 
+	@Override
 	public Long getNextNominalCode(int accountType) {
 		Long nextTransactionNumber = 0l;
 		try {
@@ -1356,6 +1408,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	 * }
 	 */
 
+	@Override
 	public String getNextFixedAssetNumber() {
 		String nextFixedAssestNumber = "";
 		try {
@@ -1517,6 +1570,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return changePassword;
 	}
 
+	@Override
 	public ArrayList<ClientUserInfo> getAllUsers() throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
@@ -1686,4 +1740,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				getCompanyId());
 	}
 
+	@Override
+	public double getMostRecentTransactionCurrencyFactor(long companyId,
+			long currencyId, long tdate) throws AccounterException {
+		FinanceTool tool = new FinanceTool();
+		return tool.getMostRecentTransactionCurreencyFactorBasedOnCurrency(
+				companyId, currencyId, tdate);
+	}
 }
