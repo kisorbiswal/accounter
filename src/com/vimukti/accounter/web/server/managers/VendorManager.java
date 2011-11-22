@@ -21,6 +21,7 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.CreditsAndPayments;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
@@ -223,8 +224,8 @@ public class VendorManager extends Manager {
 			try {
 				clientVendor = clientConvertUtil.toClientObject(p.getVendor(),
 						ClientVendor.class);
-				clientFinanceDate = clientConvertUtil.toClientObject(
-						p.getDate(), ClientFinanceDate.class);
+				clientFinanceDate = clientConvertUtil.toClientObject(p
+						.getDate(), ClientFinanceDate.class);
 			} catch (Exception e) {
 
 			}
@@ -295,8 +296,7 @@ public class VendorManager extends Manager {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		List<IssuePaymentTransactionsList> issuePaymentTransactionsList = new ArrayList<IssuePaymentTransactionsList>();
-		Query query = session
-				.getNamedQuery("getWriteCheck.by.status")
+		Query query = session.getNamedQuery("getWriteCheck.by.status")
 				.setInteger("status",
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 				.setEntity("company", company);
@@ -322,8 +322,7 @@ public class VendorManager extends Manager {
 				issuePaymentTransactionsList.add(issuePaymentTransaction);
 			}
 		}
-		query = session
-				.getNamedQuery("getCustomerRefund.by.isvoidandstatus")
+		query = session.getNamedQuery("getCustomerRefund.by.isvoidandstatus")
 				.setInteger("status",
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 				.setEntity("company", company);
@@ -349,10 +348,9 @@ public class VendorManager extends Manager {
 			}
 		}
 
-		query = session
-				.getNamedQuery("getPaySalesTax.by.status")
-				.setInteger("status",
-						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+		query = session.getNamedQuery("getPaySalesTax.by.status").setInteger(
+				"status",
+				Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 				.setEntity("company", company);
 		list = query.list();
 
@@ -376,10 +374,9 @@ public class VendorManager extends Manager {
 
 			}
 		}
-		query = session
-				.getNamedQuery("getPayBill.form.status")
-				.setParameter("status",
-						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+		query = session.getNamedQuery("getPayBill.form.status").setParameter(
+				"status",
+				Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 				.setEntity("company", company);
 		list = query.list();
 
@@ -404,8 +401,7 @@ public class VendorManager extends Manager {
 			}
 		}
 
-		query = session
-				.getNamedQuery("getCreditCardCharge.form.status")
+		query = session.getNamedQuery("getCreditCardCharge.form.status")
 				.setParameter("status",
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 				.setEntity("company", company);
@@ -432,8 +428,7 @@ public class VendorManager extends Manager {
 			}
 		}
 
-		query = session
-				.getNamedQuery("getCashPurchase.form.status")
+		query = session.getNamedQuery("getCashPurchase.form.status")
 				.setParameter("status",
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 				.setEntity("company", company);
@@ -486,12 +481,10 @@ public class VendorManager extends Manager {
 			Company company = getCompany(companyId);
 			List<IssuePaymentTransactionsList> issuePaymentTransactionsList = new ArrayList<IssuePaymentTransactionsList>();
 
-			Query query = session
-					.getNamedQuery("getWriteCheck.by.bankacountIdandstatus")
-					.setLong("id", accountId)
-					.setInteger(
-							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			Query query = session.getNamedQuery(
+					"getWriteCheck.by.bankacountIdandstatus").setLong("id",
+					accountId).setInteger("status",
+					Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 					.setEntity("company", company);
 			List list = query.list();
 			if (list != null) {
@@ -551,12 +544,10 @@ public class VendorManager extends Manager {
 				}
 			}
 
-			query = session
-					.getNamedQuery("getPaySalesTax.by.payFromand.isvoid.status")
-					.setParameter("id", accountId)
-					.setParameter(
-							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			query = session.getNamedQuery(
+					"getPaySalesTax.by.payFromand.isvoid.status").setParameter(
+					"id", accountId).setParameter("status",
+					Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
@@ -580,12 +571,10 @@ public class VendorManager extends Manager {
 				}
 			}
 
-			query = session
-					.getNamedQuery("getPayBill.form.accountId.and.status")
-					.setLong("accountId", accountId)
-					.setInteger(
-							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			query = session.getNamedQuery(
+					"getPayBill.form.accountId.and.status").setLong(
+					"accountId", accountId).setInteger("status",
+					Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
@@ -638,12 +627,10 @@ public class VendorManager extends Manager {
 
 				}
 			}
-			query = session
-					.getNamedQuery("getReceiveVAT.form.accountId.and.status")
-					.setParameter("accountId", accountId)
-					.setParameter(
-							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			query = session.getNamedQuery(
+					"getReceiveVAT.form.accountId.and.status").setParameter(
+					"accountId", accountId).setParameter("status",
+					Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
@@ -699,12 +686,10 @@ public class VendorManager extends Manager {
 				}
 			}
 
-			query = session
-					.getNamedQuery("getCashPurchase.form.accountId.and.status")
-					.setParameter("accountId", accountId)
-					.setParameter(
-							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			query = session.getNamedQuery(
+					"getCashPurchase.form.accountId.and.status").setParameter(
+					"accountId", accountId).setParameter("status",
+					Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
@@ -869,11 +854,10 @@ public class VendorManager extends Manager {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
-			Query query = session
-					.getNamedQuery(
-							"getEntry.by.vendorId.creditand.balanceDue.orderbyid")
-					.setParameter("id", vendorId)
-					.setParameter("company", company);
+			Query query = session.getNamedQuery(
+					"getEntry.by.vendorId.creditand.balanceDue.orderbyid")
+					.setParameter("id", vendorId).setParameter("company",
+							company);
 
 			List<JournalEntry> openingBalanceEntries = query.list();
 
@@ -899,8 +883,8 @@ public class VendorManager extends Manager {
 
 			query = session
 					.getNamedQuery("getPayBillTransactionsListForVendor")
-					.setParameter("vendorId", vendorId)
-					.setParameter("companyId", companyId);
+					.setParameter("vendorId", vendorId).setParameter(
+							"companyId", companyId);
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
 			List list = query.list();
@@ -951,9 +935,9 @@ public class VendorManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		Query query = session
-				.getNamedQuery("getcreditandPayments.by.Payieeid.and.balance")
-				.setParameter("id", vendor).setEntity("company", company);
+		Query query = session.getNamedQuery(
+				"getcreditandPayments.by.Payieeid.and.balance").setParameter(
+				"id", vendor).setEntity("company", company);
 		List<CreditsAndPayments> list = query.list();
 
 		// if (list != null) {
@@ -1031,10 +1015,9 @@ public class VendorManager extends Manager {
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		Client1099Form client1099Form = new Client1099Form();
 		Company company = getCompany(companyId);
-		Query query = session
-				.getNamedQuery("get.selected.vendors.enterbills.list.by.id")
-				.setParameter("vendorId", vendorId)
-				.setEntity("company", company);
+		Query query = session.getNamedQuery(
+				"get.selected.vendors.enterbills.list.by.id").setParameter(
+				"vendorId", vendorId).setEntity("company", company);
 		ArrayList<EnterBill> list = (ArrayList<EnterBill>) query.list();
 
 		for (EnterBill enterBill : list) {
@@ -1075,9 +1058,9 @@ public class VendorManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAmountsDueToVendor")
-				.setParameter("companyId", companyId)
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate());
+				.setParameter("companyId", companyId).setParameter("startDate",
+						startDate.getDate()).setParameter("endDate",
+						endDate.getDate());
 
 		List l = query.list();
 
@@ -1220,9 +1203,9 @@ public class VendorManager extends Manager {
 		Company company = getCompany(companyId);
 		org.hibernate.Transaction begintransaction = session.beginTransaction();
 
-		Query query = session
-				.getNamedQuery("get.selected.vendors.enterbills.list.by.id")
-				.setLong("vendorId", vendorId).setEntity("company", company);
+		Query query = session.getNamedQuery(
+				"get.selected.vendors.enterbills.list.by.id").setLong(
+				"vendorId", vendorId).setEntity("company", company);
 		;
 		list = (ArrayList<EnterBill>) query.list();
 
@@ -1333,80 +1316,99 @@ public class VendorManager extends Manager {
 		org.hibernate.Transaction tx = session.beginTransaction();
 		double mergeBalance = fromClientVendor.getBalance()
 				+ toClientVendor.getBalance();
+		try {
+			session.getNamedQuery(
+					"update.mergeVendor.Payee.mergeoldbalance.tonewbalance")
+					.setLong("id", toClientVendor.getID()).setBoolean("status",
+							fromClientVendor.isActive()).setDouble("balance",
+							mergeBalance).setEntity("company", company)
+					.executeUpdate();
 
-		session.getNamedQuery(
-				"update.mergeVendor.Payee.mergeoldbalance.tonewbalance")
-				.setLong("id", toClientVendor.getID())
-				.setBoolean("status", fromClientVendor.isActive())
-				.setDouble("balance", mergeBalance)
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.PurchaseOrder.old.tonew")
+					.setLong("fromID", fromClientVendor.getID()).setLong(
+							"toID", toClientVendor.getID()).setEntity(
+							"company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.PurchaseOrder.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.CashPurchase.old.tonew")
+					.setLong("fromID", fromClientVendor.getID()).setLong(
+							"toID", toClientVendor.getID()).setEntity(
+							"company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.CashPurchase.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery(
+					"update.mergeVendor.CreditCardCharge.old.tonew").setLong(
+					"fromID", fromClientVendor.getID()).setLong("toID",
+					toClientVendor.getID()).setEntity("company", company)
+					.executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.CreditCardCharge.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.EnterBill.old.tonew")
+					.setLong("fromID", fromClientVendor.getID()).setLong(
+							"toID", toClientVendor.getID()).setEntity(
+							"company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.EnterBill.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.ItemReceipt.old.tonew")
+					.setLong("fromID", fromClientVendor.getID()).setLong(
+							"toID", toClientVendor.getID()).setEntity(
+							"company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.ItemReceipt.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.PayBill.old.tonew")
+					.setLong("fromID", fromClientVendor.getID()).setLong(
+							"toID", toClientVendor.getID()).setEntity(
+							"company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.PayBill.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			// session.getNamedQuery(
+			// "update.mergeVendor.transactionMakeDeposit.old.tonew").setLong(
+			// "fromID", fromClientVendor.getID()).setLong("toID",
+			// toClientVendor.getID()).setEntity("company", company)
+			// .executeUpdate();
 
-		session.getNamedQuery(
-				"update.mergeVendor.transactionMakeDeposit.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery(
+					"update.mergeVendor.vendorCreditMemo.old.tonew").setLong(
+					"fromID", fromClientVendor.getID()).setLong("toID",
+					toClientVendor.getID()).setEntity("company", company)
+					.executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.vendorCreditMemo.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.writeCheck.old.tonew")
+					.setLong("fromID", fromClientVendor.getID()).setLong(
+							"toID", toClientVendor.getID()).setEntity(
+							"company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.writeCheck.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			// session.getNamedQuery("update.mergeVendor.Entry.old.tonew").setLong(
+			// "fromID", fromClientVendor.getID()).setLong("toID",
+			// toClientVendor.getID()).setEntity("company", company)
+			// .executeUpdate();
 
-		// session.getNamedQuery("update.mergeVendor.Entry.old.tonew")
-		// .setLong("fromID", fromClientVendor.getID())
-		// .setLong("toID", toClientVendor.getID())
-		// .setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.Item.old.tonew").setLong(
+					"fromID", fromClientVendor.getID()).setLong("toID",
+					toClientVendor.getID()).setEntity("company", company)
+					.executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.Item.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.merge.JournalEntry.old.tonew")
+					.setLong("fromID", fromClientVendor.getID()).setLong(
+							"toID", toClientVendor.getID()).setEntity(
+							"company", company).executeUpdate();
 
-		// session.getNamedQuery("delete.vendorentry.old")
-		// .setLong("from", fromClientVendor.getID())
-		// .setEntity("company", company).executeUpdate();
+			// session.getNamedQuery("delete.vendorentry.old")
+			// .setLong("from", fromClientVendor.getID())
+			// .setEntity("company", company).executeUpdate();
 
-		ServerConvertUtil convertUtil = new ServerConvertUtil();
-		Vendor vendor = new Vendor();
+			// ServerConvertUtil convertUtil = new ServerConvertUtil();
+			// Vendor vendor = new Vendor();
+			//
+			// vendor = convertUtil.toServerObject(vendor, fromClientVendor,
+			// session);
+			// session.delete(vendor);
 
-		vendor = convertUtil.toServerObject(vendor, fromClientVendor, session);
-		session.delete(vendor);
-		tx.commit();
+			Vendor vendor = (Vendor) session.get(Vendor.class, fromClientVendor
+					.getID());
+			company.getCustomers().remove(vendor);
+			session.saveOrUpdate(company);
+			vendor.setCompany(null);
+			session.delete(vendor);
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();
+		}
 
 	}
 
@@ -1418,8 +1420,8 @@ public class VendorManager extends Manager {
 		Query query = session.getNamedQuery("getTransactionHistoryVendors")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate());
+				.setParameter("startDate", startDate.getDate()).setParameter(
+						"endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -1461,10 +1463,9 @@ public class VendorManager extends Manager {
 				.get(Calendar.DAY_OF_MONTH);
 
 		Query query = session.getNamedQuery("getVendorTransactionHistory")
-				.setParameter("companyId", companyId)
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())
-				.setParameter("start", start)
+				.setParameter("companyId", companyId).setParameter("startDate",
+						startDate.getDate()).setParameter("endDate",
+						endDate.getDate()).setParameter("start", start)
 				.setParameter("end", new ClientFinanceDate(end).getDate());
 
 		List l = query.list();
@@ -1530,7 +1531,8 @@ public class VendorManager extends Manager {
 					.longValue());
 			transactionHistory
 					.setBeginningBalance((object[15] != null ? (((Double) object[15])
-							.doubleValue()) : 0.0));
+							.doubleValue())
+							: 0.0));
 			transactionHistory
 					.setStatus((object[16] != null) ? (Integer) object[16] : 0);
 
@@ -1574,8 +1576,8 @@ public class VendorManager extends Manager {
 		Query query = session.getNamedQuery("getPurchasesByVendorDetail")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate());
+				.setParameter("startDate", startDate.getDate()).setParameter(
+						"endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -1636,9 +1638,9 @@ public class VendorManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchasesByVendorSummary")
-				.setParameter("companyId", companyId)
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate());
+				.setParameter("companyId", companyId).setParameter("startDate",
+						startDate.getDate()).setParameter("endDate",
+						endDate.getDate());
 
 		List l = query.list();
 
@@ -1665,12 +1667,11 @@ public class VendorManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		List l = ((Query) session
-				.getNamedQuery("getPurchasesByVendorDetailForParticularVendor")
-				.setParameter("companyId", companyId)
-				.setParameter("vendorName", vendorName)
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())).list();
+		List l = ((Query) session.getNamedQuery(
+				"getPurchasesByVendorDetailForParticularVendor").setParameter(
+				"companyId", companyId).setParameter("vendorName", vendorName)
+				.setParameter("startDate", startDate.getDate()).setParameter(
+						"endDate", endDate.getDate())).list();
 
 		return createPurchasesByVendorDetail(new ArrayList<SalesByCustomerDetail>(
 				l));
