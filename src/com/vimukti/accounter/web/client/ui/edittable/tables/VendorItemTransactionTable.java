@@ -58,8 +58,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 	@Override
 	protected void initColumns() {
 
-		ItemNameColumn transactionItemNameColumn = new ItemNameColumn(
-				isSales(), isCustomerAllowedToAdd) {
+		ItemNameColumn transactionItemNameColumn = new ItemNameColumn(isSales()) {
 
 			@Override
 			protected void setValue(ClientTransactionItem row,
