@@ -358,8 +358,7 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(
-				messages.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(messages.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -375,6 +374,9 @@ public class SalesOrderView extends
 
 			@Override
 			public void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				SalesOrderView.this.updateNonEditableItems();
 			}
 
@@ -968,16 +970,16 @@ public class SalesOrderView extends
 		}
 
 		if (currency.getID() != 0) {
-			currencyWidget.setSelectedCurrency(currency);
+			currencyWidget.setSelectedCurrencyFactorInWidget(currency,
+					transactionDateItem.getDate().getDate());
 		} else {
 			currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
 
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrency(currency);
-			setCurrencyFactor(1.0);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
-			modifyForeignCurrencyTotalWidget();
 		}
 	}
 
@@ -1100,13 +1102,9 @@ public class SalesOrderView extends
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				this.dueDateItem.getDate(), getTransactionDate())) {
-			result.addError(this.dueDateItem, messages.the()
-					+ " "
-					+ messages.dueDate()
-					+ " "
-					+ " "
-					+ messages
-							.cannotbeearlierthantransactiondate());
+			result.addError(this.dueDateItem,
+					messages.the() + " " + messages.dueDate() + " " + " "
+							+ messages.cannotbeearlierthantransactiondate());
 		}
 
 		result.add(customerTransactionTable.validateGrid());
@@ -1115,8 +1113,7 @@ public class SalesOrderView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							messages.enterTaxCode());
+					result.addError(taxCodeSelect, messages.enterTaxCode());
 				}
 
 			}
@@ -1186,8 +1183,7 @@ public class SalesOrderView extends
 		dialog.show();
 
 		if (filteredList.isEmpty()) {
-			dialog.grid
-					.addEmptyMessage(messages.noRecordsToShow());
+			dialog.grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 
 	}
@@ -1302,8 +1298,7 @@ public class SalesOrderView extends
 	@Override
 	public void onEdit() {
 		if (transaction.getStatus() == ClientTransaction.STATUS_COMPLETED)
-			Accounter.showError(messages
-					.completedSalesOrdercantbeedited());
+			Accounter.showError(messages.completedSalesOrdercantbeedited());
 		else {
 			AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
