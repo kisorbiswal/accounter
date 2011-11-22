@@ -84,16 +84,11 @@ public abstract class CustomerContactRequirement extends
 	@Override
 	protected Record createFullRecord(ClientContact t) {
 		Record record = new Record(t);
-		record.add("", getMessages().primary());
-		record.add("", t.isPrimary());
-		record.add("", getMessages().contactName());
-		record.add("", t.getName());
-		record.add("", getMessages().title());
-		record.add("", t.getTitle());
-		record.add("", getMessages().businessPhone());
-		record.add("", t.getBusinessPhone());
-		record.add("", getMessages().email());
-		record.add("", t.getEmail());
+		record.add(getMessages().primary(), t.isPrimary());
+		record.add(getMessages().contactName(), t.getName());
+		record.add(getMessages().title(), t.getTitle());
+		record.add(getMessages().businessPhone(), t.getBusinessPhone());
+		record.add(getMessages().email(), t.getEmail());
 		return record;
 	}
 
