@@ -123,6 +123,9 @@ public class EditTransactionCommand extends NewAbstractCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
+		Transaction transaction = get(TRANSACTION).getValue();
+		String transactionName = CommandUtils.getTransactionName(transaction
+				.getType());
 
 		return null;
 	}
