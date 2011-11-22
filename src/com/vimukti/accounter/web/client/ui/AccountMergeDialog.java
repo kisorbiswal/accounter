@@ -156,33 +156,32 @@ public class AccountMergeDialog extends BaseDialog implements
 			if ((toAccount.getID() == fromAccount.getID())
 					|| !(toAccount.getType() == fromAccount.getType())) {
 				result.addError(fromAccount, Accounter.messages()
-						.notMoveAccount(
-								));
+						.notMoveAccount());
 				return result;
 			}
 
-		if ((toAccount.getID() == fromAccount.getID())
-				|| !(toAccount.getType() == fromAccount.getType())) {
-			result.addError(fromAccount, Accounter.messages().notMoveAccount());
+			if ((toAccount.getID() == fromAccount.getID())
+					|| !(toAccount.getType() == fromAccount.getType())) {
+				result.addError(fromAccount, Accounter.messages()
+						.notMoveAccount());
+				return result;
+			}
+			result = form.validate();
+
+			result = form1.validate();
+
 			return result;
+
 		}
-		result = form.validate();
-
-		result = form1.validate();
-
 		return result;
-
 	}
-		return result;
-		}
 
 	@Override
 	protected boolean onOK() {
 
 		if (fromAccount != null && toAccount != null) {
 			if (fromAccount.getID() == toAccount.getID()) {
-				Accounter
-				.showError("Accounts must be different");
+				Accounter.showError("Accounts must be different");
 				return false;
 			}
 		}
