@@ -188,6 +188,7 @@ public abstract class TransactionItemTableRequirement extends
 	protected ClientTransactionItem getNewObject() {
 		ClientTransactionItem clientTransactionItem = new ClientTransactionItem();
 		clientTransactionItem.setType(ClientTransactionItem.TYPE_ITEM);
+		clientTransactionItem.setTaxable(true);
 		return clientTransactionItem;
 	}
 
