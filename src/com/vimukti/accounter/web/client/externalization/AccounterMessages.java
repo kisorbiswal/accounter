@@ -4474,4 +4474,6 @@ public interface AccounterMessages extends Messages {
 
 	public String totalAmountReported();
 
+	public String taxAgencie();
+
 }
