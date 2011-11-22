@@ -64,7 +64,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private PaymentTermsCombo payTermsSelect;
 	protected DateField quoteExpiryDate;
 	private ArrayList<DynamicForm> listforms;
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 
 	private CustomerItemTransactionTable customerTransactionTable;
 	private AddNewButton itemTableButton;
@@ -119,7 +119,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
-			ClientEstimate ent = (ClientEstimate) this.transaction;
+			ClientEstimate ent = this.transaction;
 
 			if (ent != null && ent.getCustomer() == (customer.getID())) {
 				this.customerTransactionTable.setAllRows(ent
@@ -178,16 +178,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		}
 
 		if (currency.getID() != 0) {
-			currencyWidget.setSelectedCurrency(currency);
+			currencyWidget.setSelectedCurrencyFactorInWidget(currency,
+					transactionDateItem.getDate().getDate());
 		} else {
 			currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
 
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrency(currency);
-			setCurrencyFactor(1.0);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
-			modifyForeignCurrencyTotalWidget();
 		}
 	}
 
@@ -286,8 +286,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		if (isTrackTax()) {
 			if (vatinclusiveCheck != null) {
-				quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
+				quote.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 			}
 			if (salesTax == null)
 				salesTax = 0.0D;
@@ -304,7 +303,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		super.saveAndUpdateView();
 
-		saveOrUpdate((ClientEstimate) transaction);
+		saveOrUpdate(transaction);
 
 	}
 
@@ -518,11 +517,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
+		currencyWidget = createCurrencyFactorWidget();
+
 		customerTransactionTable = new CustomerItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				QuoteView.this.updateNonEditableItems();
 			}
 
@@ -580,7 +584,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			prodAndServiceForm2.setFields(transactionTotalinForeignCurrency);
 		}
 
-		currencyWidget = createCurrencyFactorWidget();
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 
@@ -699,7 +702,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		if (this.transaction != null) {
 
-			String memo = ((ClientEstimate) transaction).getMemo();
+			String memo = transaction.getMemo();
 			if (memo != null) {
 				memoTextAreaItem.setValue(memo);
 			}
@@ -710,7 +713,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void initSalesTaxNonEditableItem() {
 		if (transaction != null) {
-			Double salesTaxAmout = ((ClientEstimate) transaction).getTaxTotal();
+			Double salesTaxAmout = transaction.getTaxTotal();
 			if (salesTaxAmout != null) {
 				salesTaxTextNonEditable
 						.setAmount(getAmountInTransactionCurrency(salesTaxAmout));
@@ -723,7 +726,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
 		if (transaction != null) {
-			Double transactionTotal = ((ClientEstimate) transaction).getTotal();
+			Double transactionTotal = transaction.getTotal();
 			if (transactionTotal != null) {
 				transactionTotalinBaseCurrency
 						.setAmount(getAmountInBaseCurrency(transactionTotal));
@@ -948,20 +951,15 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
 			result.addError(this.quoteExpiryDate, Accounter.messages().the()
-					+ " "
-					+ messages.expirationDate()
-					+ " "
-					+ " "
-					+ Accounter.messages()
-							.cannotbeearlierthantransactiondate());
+					+ " " + messages.expirationDate() + " " + " "
+					+ Accounter.messages().cannotbeearlierthantransactiondate());
 		}
 		result.add(customerTransactionTable.validateGrid());
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							messages.enterTaxCode());
+					result.addError(taxCodeSelect, messages.enterTaxCode());
 				}
 
 			}
@@ -979,6 +977,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		super.onAddNew(item);
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1017,8 +1016,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 					Accounter.showError(Accounter.messages()
 							.thisQuoteAlreadyAccepted());
 				} else if (caught instanceof InvocationException) {
-					Accounter.showMessage(Accounter.messages()
-							.sessionExpired());
+					Accounter
+							.showMessage(Accounter.messages().sessionExpired());
 				} else {
 					int errorCode = ((AccounterException) caught)
 							.getErrorCode();
