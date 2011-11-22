@@ -66,7 +66,7 @@ public abstract class NewCommand extends Command {
 
 		List<Requirement> allRequirements = getRequirements();
 		String backString = context.getString();
-		if (backString.equalsIgnoreCase("back")) {
+		if (backString != null && backString.equalsIgnoreCase("back")) {
 			context.setString("");
 			for (int i = requirementNumber; i >= 0; i--) {
 				context.setAttribute("processAttr", "");
