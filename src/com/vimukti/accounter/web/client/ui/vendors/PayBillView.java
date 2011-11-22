@@ -82,7 +82,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected ClientVendor vendor;
 	protected List<ClientVendor> vendors;
 	protected VendorCombo vendorCombo;
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 	private AmountLabel tdsPayableAmount;
 	private AmountLabel amountToVendor;
 	private double toBeSetEndingBalance;
@@ -146,6 +146,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		// Setting Type of Enter Bill
@@ -483,8 +484,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		payFromCombo = createPayFromCombo(Accounter.messages().payFrom());
 		payFromCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		paymentMethodCombo.setDefaultValue(Accounter.messages()
-				.onlineBanking());
+		paymentMethodCombo
+				.setDefaultValue(Accounter.messages().onlineBanking());
 
 		dueDate = new DateField(Accounter.messages()
 				.filterByBilldueonorbefore());
@@ -722,6 +723,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	}
 
+	@Override
 	protected void vendorSelected(final ClientVendor vendor) {
 
 		long currency = vendor.getCurrency();
@@ -776,14 +778,15 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		initTransactionTotalNonEditableItem();
 
 		if (vendorCurrency.getID() != 0) {
-			currencyWidget.setSelectedCurrency(vendorCurrency);
+			currencyWidget.setSelectedCurrencyFactorInWidget(vendorCurrency,
+					transactionDateItem.getValue().getDate());
 		} else {
 			currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
 
 		if (isMultiCurrencyEnabled() && !isInViewMode()) {
 			super.setCurrency(vendorCurrency);
-			setCurrencyFactor(1.0);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
 		}
 
@@ -795,11 +798,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						vendor.getID(),
 						new AccounterAsyncCallback<ArrayList<PayBillTransactionList>>() {
 
+							@Override
 							public void onException(AccounterException caught) {
 								grid.addEmptyMessage(Accounter.messages()
 										.noRecordsToShow());
 							}
 
+							@Override
 							public void onResultSuccess(
 									ArrayList<PayBillTransactionList> result) {
 
@@ -820,6 +825,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	}
 
+	@Override
 	protected void accountSelected(ClientAccount account) {
 
 		if (account == null)
@@ -926,7 +932,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected void initTransactionTotalNonEditableItem() {
 		if (transaction == null)
 			return;
-		ClientPayBill paybill = ((ClientPayBill) transaction);
+		ClientPayBill paybill = transaction;
 		Double unusedCredits = paybill.getUnUsedCredits();
 		setUnUsedCredits(unusedCredits);
 	}
@@ -945,8 +951,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					messages.invalidateDate());
+			result.addError(transactionDate, messages.invalidateDate());
 		}
 		ValidationResult payFormValidationResult = payForm.validate();
 		if (payFormValidationResult.haveErrors()
@@ -1066,6 +1071,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1097,6 +1103,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	}
 
+	@Override
 	public void onEdit() {
 		if (!transaction.isVoid()) {
 			Accounter.showWarning(AccounterWarningType.PAYBILL_EDITING,
@@ -1152,8 +1159,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						}
 					});
 		} else if (transaction.isVoid() || transaction.isDeleted())
-			Accounter
-					.showError(Accounter.messages().failedtovoidTransaction());
+			Accounter.showError(Accounter.messages().failedtovoidTransaction());
 	}
 
 	public void updateFootervalues(ClientTransactionPayBill obj, boolean canEdit) {
@@ -1229,14 +1235,17 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	// Update methods
 
+	@Override
 	public ClientVendor getVendor() {
 		return vendor;
 	}
 
+	@Override
 	public void setVendor(ClientVendor vendor) {
 		this.vendor = vendor;
 	}
 
+	@Override
 	public VendorCombo createVendorComboItem(String title) {
 
 		VendorCombo vendorCombo = new VendorCombo(title != null ? title
@@ -1278,6 +1287,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// canEdit ? 5 : 3);
 	}
 
+	@Override
 	public PayFromAccountsCombo createPayFromCombo(String title) {
 
 		PayFromAccountsCombo payFromCombo = new PayFromAccountsCombo(title);
@@ -1286,6 +1296,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		payFromCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						accountSelected(selectItem);
 					}
@@ -1311,6 +1322,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			vendorCombo.setComboItem(getVendor());
 	}
 
+	@Override
 	protected void initPayFromAccounts() {
 		// getPayFromAccounts();
 		// payFromCombo.initCombo(payFromAccounts);
