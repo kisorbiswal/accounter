@@ -163,7 +163,10 @@ public class CreditCardExpenseView extends
 							ClientCurrency currency = getCurrency(selectedVendor
 									.getCurrency());
 							if (currency.getID() != 0) {
-								currencyWidget.setSelectedCurrency(currency);
+								currencyWidget
+										.setSelectedCurrencyFactorInWidget(
+												currency, transactionDateItem
+														.getDate().getDate());
 							} else {
 								currencyWidget
 										.setSelectedCurrency(getBaseCurrency());
@@ -176,12 +179,9 @@ public class CreditCardExpenseView extends
 		String listString[] = new String[] {
 				messages.cash(),
 				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.messages().check()),
-				messages.creditCard(),
-				messages.directDebit(),
-				messages.masterCard(),
-				messages.onlineBanking(),
-				messages.standingOrder(),
+						.messages().check()), messages.creditCard(),
+				messages.directDebit(), messages.masterCard(),
+				messages.onlineBanking(), messages.standingOrder(),
 				messages.switchMaestro() };
 
 		if (isInViewMode()) {
@@ -280,8 +280,8 @@ public class CreditCardExpenseView extends
 		// billToAreaItem.setDisabled(true);
 		// formItems.add(billToCombo);
 		phoneSelect = new TextItem(messages.phone());
-		phoneSelect.setToolTip(messages.phoneNumberOf(
-				this.getAction().getCatagory()));
+		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
+				.getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		// formItems.add(phoneSelect);
@@ -357,6 +357,9 @@ public class CreditCardExpenseView extends
 
 			@Override
 			protected void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				CreditCardExpenseView.this.updateNonEditableItems();
 			}
 
@@ -394,6 +397,9 @@ public class CreditCardExpenseView extends
 
 			@Override
 			protected void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				CreditCardExpenseView.this.updateNonEditableItems();
 			}
 
@@ -577,8 +583,7 @@ public class CreditCardExpenseView extends
 		ValidationResult result = super.validate();
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDateItem,
-					messages.invalidateDate());
+			result.addError(transactionDateItem, messages.invalidateDate());
 		}
 
 		// if (vendorCombo.getSelectedValue() == null)
@@ -589,10 +594,8 @@ public class CreditCardExpenseView extends
 		result.add(vendorAccountTransactionTable.validateGrid());
 		result.add(vendorItemTransactionTable.validateGrid());
 		if (payFrmSelect.getSelectedValue() == null) {
-			result.addError(
-					payFrmSelect,
-					messages.pleaseSelect(
-							messages.payFrom()));
+			result.addError(payFrmSelect,
+					messages.pleaseSelect(messages.payFrom()));
 		} else {
 			ClientAccount bankAccount = payFrmSelect.getSelectedValue();
 			// check if the currency of accounts is valid or not
@@ -611,8 +614,7 @@ public class CreditCardExpenseView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							messages.enterTaxCode());
+					result.addError(taxCodeSelect, messages.enterTaxCode());
 				}
 			}
 		}
@@ -918,17 +920,14 @@ public class CreditCardExpenseView extends
 	 * super.validate();
 	 * 
 	 * if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-	 * result.addError(transactionDate,
-	 * messages.invalidateTransactionDate()); }
+	 * result.addError(transactionDate, messages.invalidateTransactionDate()); }
 	 * 
 	 * if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-	 * result.addError(transactionDate,
-	 * messages.invalidateTransactionDate()); }
+	 * result.addError(transactionDate, messages.invalidateTransactionDate()); }
 	 * 
 	 * result.add(vendorForm.validate()); result.add(termsForm.validate()); if
 	 * (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-	 * result.addError(vendorTransactionGrid,
-	 * messages.blankTransaction()); }
+	 * result.addError(vendorTransactionGrid, messages.blankTransaction()); }
 	 * result.add(vendorTransactionGrid.validateGrid()); return result; }
 	 */
 
@@ -990,8 +989,8 @@ public class CreditCardExpenseView extends
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, messages.Accounts(), messages
-				.productOrServiceItem());
+		setMenuItems(button, messages.Accounts(),
+				messages.productOrServiceItem());
 	}
 
 	@Override
