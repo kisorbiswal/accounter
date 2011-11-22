@@ -59,42 +59,35 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 		list.add(new CountryRequirement(COUNTRY, true, true, null));
 
-		list
-				.add(new StringListRequirement(STATE, getMessages()
-						.pleaseEnter(getMessages().state()), getMessages()
-						.state(), true, true, null) {
+		list.add(new StringListRequirement(STATE, getMessages().pleaseEnter(
+				getMessages().state()), getMessages().state(), true, true, null) {
 
-					@Override
-					protected String getSetMessage() {
-						return getMessages().hasSelected(getMessages().state());
-					}
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().state());
+			}
 
-					@Override
-					protected String getSelectString() {
-						return getMessages()
-								.pleaseSelect(getMessages().state());
-					}
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(getMessages().state());
+			}
 
-					@Override
-					protected List<String> getLists(Context context) {
-						return getStatesList((String) get(COUNTRY).getValue());
-					}
+			@Override
+			protected List<String> getLists(Context context) {
+				return getStatesList((String) get(COUNTRY).getValue());
+			}
 
-					@Override
-					protected String getEmptyString() {
-						return null;
-					}
-				});
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+		});
 
-		list
-				.add(new NameRequirement(ADDRESS1, getMessages().pleaseEnter(
-						getMessages().address1()), getMessages().address1(),
-						true, true));
+		list.add(new NameRequirement(ADDRESS1, getMessages().pleaseEnter(
+				getMessages().address1()), getMessages().address1(), true, true));
 
-		list
-				.add(new NameRequirement(ADDRESS2, getMessages().pleaseEnter(
-						getMessages().address2()), getMessages().address2(),
-						true, true));
+		list.add(new NameRequirement(ADDRESS2, getMessages().pleaseEnter(
+				getMessages().address2()), getMessages().address2(), true, true));
 
 		list.add(new NameRequirement(CITY, getMessages().pleaseEnter(
 				getMessages().city()), getMessages().city(), true, true));
@@ -230,38 +223,35 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list
-				.add(new StringListRequirement(SUPPLIER_TERMINOLOGY,
-						getMessages().pleaseEnter(
-								getMessages().payeeTerminology(
-										getMessages().vendor())), getMessages()
-								.payeeTerminology(getMessages().vendor()),
-						true, true, null) {
+		list.add(new StringListRequirement(
+				SUPPLIER_TERMINOLOGY,
+				getMessages().pleaseEnter(
+						getMessages().payeeTerminology(getMessages().vendor())),
+				getMessages().payeeTerminology(getMessages().vendor()), true,
+				true, null) {
 
-					@Override
-					protected String getSelectString() {
-						return getMessages().pleaseSelect(
-								getMessages().payeeTerminology(
-										getMessages().Vendor()));
-					}
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(
+						getMessages().payeeTerminology(getMessages().Vendor()));
+			}
 
-					@Override
-					protected List<String> getLists(Context context) {
-						return getSupplierTerminologies();
-					}
+			@Override
+			protected List<String> getLists(Context context) {
+				return getSupplierTerminologies();
+			}
 
-					@Override
-					protected String getSetMessage() {
-						return getMessages().hasSelected(
-								getMessages().payeeTerminology(
-										getMessages().Vendor()));
-					}
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(
+						getMessages().payeeTerminology(getMessages().Vendor()));
+			}
 
-					@Override
-					protected String getEmptyString() {
-						return null;
-					}
-				});
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+		});
 
 		list.add(new StringListRequirement(ACCOUNT_TERMINOLOGY, getMessages()
 				.payeeTerminology(getMessages().Account()), getMessages()
@@ -479,7 +469,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				getAccountTerminologies().get(0));
 		get(SERVICE_PRODUCTS_BOTH).setDefaultValue(
 				getServiceProductBothList().get(0));
-		get(ONE_PER_TRANSACTION).setDefaultValue(true);
+		// get(ONE_PER_TRANSACTION).setDefaultValue(true);
 		get(SELECT_CURRENCY).setDefaultValue(getCurrenciesList().get(0));
 		get(FISCAL_YEAR).setDefaultValue(getMessages().april());
 	}
@@ -558,7 +548,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			preferences.setSellProducts(true);
 		}
 		preferences.setTaxTrack(trackTax);
-		preferences.setTaxPerDetailLine(onePerTrans);
+		preferences.setTaxPerDetailLine(!onePerTrans);
 		preferences.setTrackPaidTax(trackTaxPad);
 		preferences.setKeepTrackofBills(manageBills);
 		preferences.setDoyouwantEstimates(createEstimates);

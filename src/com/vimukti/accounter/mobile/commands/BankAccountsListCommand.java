@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -46,6 +47,17 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 				record.add("", value.getName());
 				record.add("", value.getCurrentBalance());
 				return record;
+			}
+
+			@Override
+			protected void setSelectCommands(CommandList commandList,
+					Account value) {
+				commandList.add(new UserCommand("Bank Registers", value
+						.getName()));
+				commandList.add(new UserCommand("Edit account", value.getName()));
+				commandList.add(new UserCommand("Delete account", value
+						.getName()));
+
 			}
 
 			@Override

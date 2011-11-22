@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
@@ -94,28 +95,40 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<AccountRegister>("Account Register",
 				"Please Enter name or number", 10) {
+			@Override
+			protected void setSelectCommands(CommandList commandList,
+					AccountRegister value) {
+
+				commandList.add(new UserCommand("Edit Transaction",
+						CommandUtils.getTransactionName(value.getType())));
+
+				commandList.add(new UserCommand("Delete Transaction",
+						CommandUtils.getTransactionName(value.getType())));
+			}
 
 			@Override
 			protected String onSelection(AccountRegister value) {
+
 				return null;
 			}
 
 			@Override
 			protected String getEmptyString() {
-				return "No records to show";
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
 			protected Record createRecord(AccountRegister accRegister) {
 				Record record = new Record(accRegister);
-				record.add("", accRegister.getDate());
-				record.add("",
+				record.add("Date", accRegister.getDate());
+				record.add("Type",
 						CommandUtils.getTransactionName(accRegister.getType()));
-				record.add("", accRegister.getNumber());
-				record.add("", accRegister.getPayTo());
-				record.add("", accRegister.getAmount());
-				record.add("", accRegister.getMemo());
-				record.add("", accRegister.getAccount());
+				record.add("Doc No", accRegister.getNumber());
+				record.add("Increase", accRegister.getPayTo());
+				record.add("Decrease", accRegister.getAmount());
+				record.add("Account", accRegister.getAccount());
+				record.add("Memo", accRegister.getMemo());
+				record.add("Balance", accRegister.getBalance());
 				return record;
 			}
 
