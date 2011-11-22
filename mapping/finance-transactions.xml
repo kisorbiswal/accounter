@@ -55,10 +55,9 @@
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="AccountTransaction" />
 		</set>
-		<!-- <set name="payVATEntriesList" inverse="true" cascade="save-update">
-			<key column="TRANSACTION_ID"></key>
-			<one-to-many class="PayTAXEntries" />
-		</set> -->
+		<!-- <set name="payVATEntriesList" inverse="true" cascade="save-update"> 
+			<key column="TRANSACTION_ID"></key> <one-to-many class="PayTAXEntries" /> 
+			</set> -->
 		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
 			column="CREDITS_AND_PAYMENTS_ID" cascade="delete" lazy="false">
 		</many-to-one>
@@ -112,7 +111,8 @@
 			</many-to-one>
 			<property name="endingBalance" column="ENDING_BALANCE"></property>
 			<property name="isEdited" column="IS_EDITED"></property>
-			<list name="transactionPayTAX" cascade="save-update,delete-orphan" lazy="false">
+			<list name="transactionPayTAX" cascade="save-update,delete-orphan"
+				lazy="false">
 				<key column="PAY_VAT_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionPayTAX" />
@@ -387,10 +387,9 @@
 				<key column="ENTER_BILL_ID"></key>
 				<one-to-many class="TransactionPayBill" />
 			</set>
-			<set name="estimates" inverse="true" cascade="save-update,delete"
-				lazy="false">
-				<key column="ESTIMATE_ENTER_BILL"></key>
-				<one-to-many class="Estimate" />
+			<set name="estimates" cascade="save-update" table="ENTERBILL_ESTIMATES">
+				<key column="ENTER_BILL_ID"></key>
+				<many-to-many class="Estimate" />
 			</set>
 			<many-to-one name="purchaseOrder" class="PurchaseOrder"
 				lazy="false" cascade="save-update" column="PURCHASE_ORDER_ID">
@@ -403,9 +402,6 @@
 			<key column="ID" />
 			<many-to-one name="customer" class="Customer" lazy="false"
 				cascade="save-update" column="CUSTOMER_ID">
-			</many-to-one>
-			<many-to-one name="enterBill" class="EnterBill" lazy="false"
-				cascade="save-update" column="ESTIMATE_ENTER_BILL">
 			</many-to-one>
 			<component name="contact" class="Contact" lazy="false">
 				<property name="isPrimary" column="EST_IS_PRIMARY"></property>
@@ -453,8 +449,7 @@
 			</many-to-one>
 			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="isTurnedToInvoiceOrSalesOrder" column="IS_TURNED_TO_INVOICE"></property>
-			<many-to-one name="usedInvoice" class="Invoice"
-				column="USED_INVOICE">
+			<many-to-one name="usedInvoice" class="Invoice" column="USED_INVOICE">
 			</many-to-one>
 		</joined-subclass>
 		<joined-subclass name="Invoice" table="INVOICE">
@@ -963,7 +958,8 @@
 			<property name="balance" column="BALANCE"></property>
 			<property name="totalTAXAmount" column="TAX_TOTAL"></property>
 
-			<list name="taxReturnEntries" cascade="save-update,delete-orphan" lazy="false">
+			<list name="taxReturnEntries" cascade="save-update,delete-orphan"
+				lazy="false">
 				<key column="TAX_RETURN_ID" />
 				<list-index column="TEI" />
 				<one-to-many class="TAXReturnEntry" />
@@ -1035,9 +1031,8 @@
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
 		</many-to-one>
-		<!-- <many-to-one name="itemBackUp" class="ItemBackUp" cascade="save-update,delete"
-			lazy="false" column="ITEM_BACK_UP">
-		</many-to-one> -->
+		<!-- <many-to-one name="itemBackUp" class="ItemBackUp" cascade="save-update,delete" 
+			lazy="false" column="ITEM_BACK_UP"> </many-to-one> -->
 		<!-- <set name="taxRateCalculationEntriesList" inverse="true" cascade="all-delete-orphan" 
 			lazy="false"> <key column="TRANSACTION_ITEM_ID"></key> <one-to-many class="TaxRateCalculation" 
 			/> </set> -->
@@ -1056,7 +1051,7 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<property name="memo"  type="text" column="MEMO"></property>
+		<property name="memo" type="text" column="MEMO"></property>
 		<property name="creditAmount" column="CREDIT_AMOUNT"></property>
 		<property name="balance" column="BALANCE"></property>
 		<property name="balanceInPayeeCurrency" column="BALANCE_IN_PAYYE_CURRENCY"></property>
@@ -1080,7 +1075,7 @@
 		</id>
 		<property name="date" column="DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<property name="memo"  type="text" column="MEMO"></property>
+		<property name="memo" type="text" column="MEMO"></property>
 		<property name="amountToUse" column="AMOUNT_TO_USE"></property>
 		<many-to-one name="transactionReceivePayment" class="TransactionReceivePayment"
 			lazy="false" cascade="save-update" column="TRANSACTION_RECEIVE_PAYMENT_ID">
@@ -1247,7 +1242,7 @@
 		</many-to-one>
 		<property name="number" column="NUMBER"></property>
 		<property name="name" column="NAME"></property>
-		<property name="memo"  type="text" column="MEMO"></property>
+		<property name="memo" type="text" column="MEMO"></property>
 		<property name="amount" column="AMOUNT"></property>
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
@@ -1310,23 +1305,14 @@
 		<property name="version" column="VERSION"></property>
 		<property name="isTAXGroupEntry" column="IS_TAX_GROUP_ENTRY"></property>
 	</class>
-	<!-- <class name="PayTAXEntries" table="PAY_TAX_ENTRIES">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<many-to-one name="transaction" class="Transaction" lazy="false"
-			column="TRANSACTION_ID">
-		</many-to-one>
-		<many-to-one name="taxCode" class="TAXCode" lazy="false"
-			column="TAXCODE_ID">
-		</many-to-one>
-		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-			column="TAXAGENCY_ID">
-		</many-to-one>
-		<property name="amount" column="AMOUNT"></property>
-		<property name="balance" column="BALANCE"></property>
-		<property name="version" column="VERSION"></property>
-	</class> -->
+	<!-- <class name="PayTAXEntries" table="PAY_TAX_ENTRIES"> <id name="id" 
+		column="ID"> <generator class="identity" /> </id> <many-to-one name="transaction" 
+		class="Transaction" lazy="false" column="TRANSACTION_ID"> </many-to-one> 
+		<many-to-one name="taxCode" class="TAXCode" lazy="false" column="TAXCODE_ID"> 
+		</many-to-one> <many-to-one name="taxAgency" class="TAXAgency" lazy="false" 
+		column="TAXAGENCY_ID"> </many-to-one> <property name="amount" column="AMOUNT"></property> 
+		<property name="balance" column="BALANCE"></property> <property name="version" 
+		column="VERSION"></property> </class> -->
 	<class name="TransactionMakeDepositEntries" table="TRANSACTION_MAKE_DEPOSIT_ENTRIES">
 		<id name="id" column="ID">
 			<generator class="identity" />

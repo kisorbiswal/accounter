@@ -962,7 +962,9 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			if (estimate.getUsedInvoice() != null) {
 				throw new AccounterException(AccounterException.USED_IN_INVOICE);
 			}
-			session.delete(estimate);
+			if (!isBecameVoid()) {
+				session.delete(estimate);
+			}
 			estimates.remove(estimate);
 		}
 		if (this.transactionPayBills != null) {
@@ -1039,7 +1041,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 		for (Estimate estimate : estimates) {
 			session.save(estimate);
-			estimate.setEnterBill(this);
 		}
 
 		this.setEstimates(estimates);

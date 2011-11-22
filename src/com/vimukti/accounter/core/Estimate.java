@@ -118,9 +118,6 @@ public class Estimate extends Transaction {
 
 	private Invoice usedInvoice;
 
-	@ReffereredObject
-	private EnterBill enterBill;
-
 	private Invoice oldUsedInvoice;
 
 	public Estimate() {
@@ -381,14 +378,6 @@ public class Estimate extends Transaction {
 		this.estimateType = estimateType;
 	}
 
-	public EnterBill getEnterBill() {
-		return enterBill;
-	}
-
-	public void setEnterBill(EnterBill enterBill) {
-		this.enterBill = enterBill;
-	}
-
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		updateTotals();
@@ -449,5 +438,11 @@ public class Estimate extends Transaction {
 	 */
 	public void setOldUsedInvoice(Invoice oldUsedInvoice) {
 		this.oldUsedInvoice = oldUsedInvoice;
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+
+		return super.onDelete(session);
 	}
 }
