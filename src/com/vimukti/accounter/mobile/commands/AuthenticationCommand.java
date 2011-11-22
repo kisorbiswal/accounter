@@ -26,6 +26,7 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
+import com.vimukti.accounter.mobile.requirements.AbstractRequirement;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
@@ -89,7 +90,8 @@ public class AuthenticationCommand extends Command {
 				if (!isDone()) {
 					context.setAttribute("input", "userName");
 					makeResult.add("Please enter email.");
-					makeResult.add(new InputType(5));
+					makeResult.add(new InputType(
+							AbstractRequirement.INPUT_TYPE_EMAIL));
 					makeResult.setCookie(context.getNetworkId());
 					return makeResult;
 				}
@@ -113,12 +115,14 @@ public class AuthenticationCommand extends Command {
 				if (client != null && !client.isActive()) {
 					context.setAttribute("input", "activation");
 					makeResult.add("Please Enter Activation Code");
-					makeResult.add(new InputType(1));
+					makeResult.add(new InputType(
+							AbstractRequirement.INPUT_TYPE_STRING));
 					return makeResult;
 				}
 				context.setAttribute("input", "password");
 				makeResult.add("Please Enter password");
-				makeResult.add(new InputType(4));
+				makeResult.add(new InputType(
+						AbstractRequirement.INPUT_TYPE_PASSWORD));
 				return makeResult;
 			}
 
@@ -133,7 +137,8 @@ public class AuthenticationCommand extends Command {
 					makeResult
 							.add("There is no account found with given Email Id and Password.");
 					makeResult.add("Please enter valid accounter email.");
-					makeResult.add(new InputType(5));
+					makeResult.add(new InputType(
+							AbstractRequirement.INPUT_TYPE_EMAIL));
 					CommandList commandList = new CommandList();
 					commandList.add(new UserCommand("signup",
 							"I don't have an account, create", ""));
@@ -146,7 +151,8 @@ public class AuthenticationCommand extends Command {
 				} else {
 					context.setAttribute("input", "activation");
 					makeResult.add("Please Enter Activation Code");
-					makeResult.add(new InputType(1));
+					makeResult.add(new InputType(
+							AbstractRequirement.INPUT_TYPE_STRING));
 					return makeResult;
 				}
 			}
