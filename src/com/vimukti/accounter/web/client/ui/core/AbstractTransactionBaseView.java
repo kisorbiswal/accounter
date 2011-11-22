@@ -323,7 +323,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				isVATInclusive = (Boolean) event.getValue();
+				isVATInclusive = event.getValue();
 				refreshTransactionGrid();
 			}
 		});
@@ -346,11 +346,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		AccounterAsyncCallback<String> transactionNumberCallback = new AccounterAsyncCallback<String>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 				Accounter.showError("Failed to Get the Transaction Number..");
 
 			}
 
+			@Override
 			public void onResultSuccess(String result) {
 				if (result == null) {
 					onException(null);
@@ -384,10 +386,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected DateField createTransactionDateItem() {
 
 		final DateField dateItem = new DateField(messages.date());
-		dateItem
-				.setToolTip(Accounter.messages()
-						.selectDateWhenTransactioCreated(
-								this.getAction().getViewName()));
+		dateItem.setToolTip(Accounter
+				.messages()
+				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
@@ -485,8 +486,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected AmountLabel createForeignCurrencyAmountLable(
 			ClientCurrency currency) {
 
-		foreignCurrencyamountLabel = new AmountLabel(messages
-				.currencyTotal(currency.getFormalName()));
+		foreignCurrencyamountLabel = new AmountLabel(
+				messages.currencyTotal(currency.getFormalName()));
 
 		return foreignCurrencyamountLabel;
 	}
@@ -580,6 +581,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	}
 
+	@Override
 	public void saveAndUpdateView() {
 
 	}
@@ -699,8 +701,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString()
-				: "";
+				.getValue().toString() : "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -924,6 +925,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// popupPanel.show();
 	}
 
+	@Override
 	public boolean isMenuRequired() {
 		return isMenuRequired;
 	}
@@ -996,8 +998,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					if (!(this instanceof CustomerRefundView)
 							&& !(this instanceof WriteChequeView)
 							&& !(this instanceof InvoiceView))
-						result.addError(this, messages
-								.transactiontotalcannotbe0orlessthan0());
+						result.addError(this,
+								messages.transactiontotalcannotbe0orlessthan0());
 				}
 			}
 		isValidCurrencyFactor(result);
@@ -1012,11 +1014,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			for (ClientTransactionItem transactionItem : transactionItems) {
 
 				if (transactionItem.getLineTotal() <= 0) {
-					result.addError("TransactionItem"
-							+ transactionItem.getAccount()
-							+ transactionItem.getAccount(), Accounter
-							.messages()
-							.transactionitemtotalcannotbe0orlessthan0());
+					result.addError(
+							"TransactionItem" + transactionItem.getAccount()
+									+ transactionItem.getAccount(), Accounter
+									.messages()
+									.transactionitemtotalcannotbe0orlessthan0());
 				}
 
 				if (getPreferences().isClassTrackingEnabled()
@@ -1073,10 +1075,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// transaction.setLocation(location.getID());
 		AccounterAsyncCallback<Long> asyncallBack = new AccounterAsyncCallback<Long>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 				caught.printStackTrace();
 			}
 
+			@Override
 			public void onResultSuccess(Long result) {
 				Utility.updateClientList(location, getCompany().getLocations());
 				location.setID(result);
@@ -1157,7 +1161,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected CurrencyFactorWidget createCurrencyFactorWidget() {
 		ClientCurrency baseCurrency = getCompany().getPrimaryCurrency();
-
 		CurrencyFactorWidget widget = new CurrencyFactorWidget(baseCurrency);
 		widget.setListener(new CurrencyChangeListener() {
 
@@ -1327,6 +1330,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAddress selectItem) {
 
 						billToaddressSelected(selectItem);
@@ -1350,6 +1354,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		payFromCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						accountSelected(selectItem);
 						// selectedAccount = (Account) selectItem;
@@ -1542,6 +1547,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	 */
 	public abstract void updateAmountsFromGUI();
 
+	@Override
 	public Double getAmountInTransactionCurrency(Double amount) {
 		if (currency != null) {
 			return amount / currencyFactor;
@@ -1550,6 +1556,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 	}
 
+	@Override
 	public Double getAmountInBaseCurrency(Double amount) {
 		if (currency != null) {
 			return amount * currencyFactor;
@@ -1558,6 +1565,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 	}
 
+	@Override
 	public Double getCurrencyFactor() {
 		return currencyFactor;
 	}
@@ -1572,6 +1580,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	public void setCurrency(ClientCurrency currencycode) {
 		this.currency = currencycode;
+		if (this.currency == getBaseCurrency()) {
+			this.currencyFactor = 1.0;
+		}
 	}
 
 	@Override
@@ -1670,8 +1681,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// buttons...
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 
-		final SaveAndCloseButton saveButton = new SaveAndCloseButton(messages
-				.save());
+		final SaveAndCloseButton saveButton = new SaveAndCloseButton(
+				messages.save());
 		CancelButton cancelButton = new CancelButton();
 
 		saveButton.addClickHandler(new ClickHandler() {
@@ -1726,10 +1737,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public void updateLastActivityPanel(ClientTransactionLog transactionLog) {
 
 		if (transactionLog.getType() != ClientTransactionLog.TYPE_NOTE) {
-			lastActivityHTML.setHTML(messages.lastActivityMessages(historyTable
-					.getActivityType(transactionLog.getType()), transactionLog
-					.getUserName(), new Date(transactionLog.getTime())
-					.toString()));
+			lastActivityHTML.setHTML(messages.lastActivityMessages(
+					historyTable.getActivityType(transactionLog.getType()),
+					transactionLog.getUserName(),
+					new Date(transactionLog.getTime()).toString()));
 			noteHTML.setVisible(false);
 		} else {
 
@@ -1759,10 +1770,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return lastTaxReturnDate;
 	}
 
+	@Override
 	protected ClientCurrency getBaseCurrency() {
 		return getCompany().getPrimaryCurrency();
 	}
 
+	@Override
 	protected ClientCurrency getCurrency(long currency) {
 		return getCompany().getCurrency(currency);
 	}
@@ -1770,8 +1783,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected void isValidCurrencyFactor(ValidationResult result) {
 		if (currencyWidget != null && !currencyWidget.isShowFactorField()) {
 			if (currencyWidget.getCurrencyFactor() == 0) {
-				result.addError(currencyWidget, messages
-						.pleaseEntervalidCurrencyFactor());
+				result.addError(currencyWidget,
+						messages.pleaseEntervalidCurrencyFactor());
 			}
 		}
 	}
