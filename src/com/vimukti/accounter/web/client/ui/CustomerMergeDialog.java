@@ -170,8 +170,8 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 		ValidationResult result = new ValidationResult();
 		if (clientCustomer != null && clientCustomer1 != null) {
 			if (clientCustomer1.getID() == clientCustomer.getID()) {
-				result.addError(clientCustomer, Accounter.messages().notMove(
-						Global.get().customer()));
+				result.addError(clientCustomer,
+						Accounter.messages().notMove(Global.get().customer()));
 				return result;
 			}
 		}

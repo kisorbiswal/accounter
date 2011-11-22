@@ -158,8 +158,8 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		ValidationResult result = form.validate();
 		if (fromclientVendor != null && toClientVendor != null) {
 			if (fromclientVendor.getID() == toClientVendor.getID()) {
-				result.addError(fromclientVendor, Accounter.messages().notMove(
-						Global.get().vendor()));
+				result.addError(fromclientVendor,
+						Accounter.messages().notMove(Global.get().vendor()));
 			}
 		}
 
