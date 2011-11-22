@@ -193,6 +193,16 @@
 		customer.id=:toID where
 		customer.id=:fromID and company=:company
 	</query>
+	
+	<query name="update.merge.JournalEntry.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.JournalEntry set
+		involvedPayee.id=:toID
+		where involvedPayee.id=:fromID and company=:company
+		
+	</query>
 	<query name="update.merge.writeCheck.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
@@ -1607,6 +1617,129 @@
 	<query name="getFiscalYears.of.company">
 		<query-param name="company" type="Company"/>
 		from com.vimukti.accounter.core.FiscalYear f where f.company=:company
+	</query>
+	
+	<!-- queries for item merging  -->
+	
+	<!--<query name="update.merge.itembackup.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.ItemBackUp set item.id=:toID where
+		item.id=:fromID and company=:company
+	</query>-->
+	
+	<query name="update.merge.itemstatus.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.ItemStatus set item.id=:toID where
+		item.id=:fromID 
+	</query>
+	
+	  <query name="update.merge.itemsalesorder.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.SalesOrder set salesTaxItem.id=:toID where
+		salesTaxItem.id=:fromID and company=:company
+	</query> 
+	
+	<query name="update.merge.trasactionexpense.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionExpense set item.id=:toID where
+		item.id=:fromID  
+	</query>
+	
+	<query name="update.merge.trasactionitem.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionItem set item.id=:toID where
+		item.id=:fromID  
+	</query>
+	
+	<!-- queries for account merging  -->
+	
+	<query name="update.merge.accounttransaction.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.AccountTransaction set account.id=:toID where
+		account.id=:fromID and company=:company
+	</query>
+	
+	<query name="update.merge.accountcustomercreditmemo.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.CustomerCreditMemo set account.id=:toID where
+		account.id=:fromID and company=:company
+	</query>
+	
+	<query name="update.merge.issuepayment.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.IssuePayment set account.id=:toID where
+		account.id=:fromID and company=:company
+	</query>
+	
+	<query name="update.merge.accounttrasactionexpense.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		
+		update com.vimukti.accounter.core.TransactionExpense set account.id=:toID where
+		account.id=:fromID 
+	</query>
+	
+	<query name="update.merge.payexpense.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.PayExpense set paidFrom.id=:toID where
+		paidFrom.id=:fromID and company=:company
+	</query>
+	
+	<query name="update.merge.accountreceivepayment.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.ReceivePayment set depositIn.id=:toID where
+		depositIn.id=:fromID and company=:company
+	</query>
+	
+	<query name="update.merge.transactionexpense.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.TransactionExpense set account.id=:toID where
+		account.id=:fromID and company=:company
+	</query>
+	<query name="update.merge.transactionitem.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionItem set account.id=:toID where
+		account.id=:fromID 
+	</query>
+	<query name="update.merge.accounttransactionmakedeposit.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionMakeDeposit set cashAccount.id=:toID where
+		cashAccount.id=:fromID 
+	</query>
+	<query name="update.merge.transactionmakedepositentries.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionMakeDepositEntries set account.id=:toID where
+		account.id=:fromID 
+	</query>
+	
+	<query name="update.merge.accountwritecheck.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.WriteCheck set bankAccount.id=:toID where
+		bankAccount.id=:fromID and company=:company
 	</query>
 
 </hibernate-mapping>
