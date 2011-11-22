@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.widgets;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -9,9 +10,10 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 public class CurrencyFactorWidget extends DynamicForm {
 
 	private CurrencyChangeListener listener;
-	private ClientCurrency baseCurrency, selectedCurrencyItem;
+	private final ClientCurrency baseCurrency;
+	private ClientCurrency selectedCurrencyItem;
 	private boolean showFactorField = true;
-	private CurrencyFormItem currencyForm;
+	private final CurrencyFormItem currencyForm;
 	double factor = 1;
 
 	public CurrencyFactorWidget(ClientCurrency baseCurrency) {
@@ -132,6 +134,30 @@ public class CurrencyFactorWidget extends DynamicForm {
 
 	public void setShowFactorField(boolean showFactorField) {
 		this.showFactorField = showFactorField;
+	}
+
+	public void setSelectedCurrencyFactorInWidget(ClientCurrency currency,
+			long toDate) {
+		setShowFactorField(currency.equals(baseCurrency));
+		selectedCurrencyItem = currency;
+		showFactorField(showFactorField);
+		if (!showFactorField) {
+			Accounter.createHomeService()
+					.getMostRecentTransactionCurrencyFactor(
+							Accounter.getCompany().getID(), currency.getID(),
+							toDate, new AsyncCallback<Double>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									setCurrencyFactor(1.0);
+								}
+
+								@Override
+								public void onSuccess(Double result) {
+									setCurrencyFactor(result);
+								}
+							});
+		}
 	}
 
 }
