@@ -22,7 +22,7 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 	public TaxItemCombo(String title, int type) {
 		super(title, true, 1);
 		this.type = type;
-		initCombo(TaxItemsByType(getCompany().getTaxItems(), this.type));
+		initCombo(TaxItemsByType(getCompany().getActiveTaxItems(), this.type));
 	}
 
 	private List<ClientTAXItem> TaxItemsByType(
