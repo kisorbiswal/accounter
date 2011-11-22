@@ -184,7 +184,7 @@ public class CashPurchaseView extends
 
 						if (paymentMethod.equals(Accounter.messages().check())
 								&& isInViewMode() && payFromAccount != null) {
-							ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
+							ClientCashPurchase cashPurchase = transaction;
 							checkNo.setValue(cashPurchase.getCheckNumber());
 						}
 					}
@@ -230,6 +230,9 @@ public class CashPurchaseView extends
 
 			@Override
 			protected void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				CashPurchaseView.this.updateNonEditableItems();
 			}
 
@@ -269,6 +272,9 @@ public class CashPurchaseView extends
 
 			@Override
 			protected void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				CashPurchaseView.this.updateNonEditableItems();
 			}
 
@@ -464,7 +470,7 @@ public class CashPurchaseView extends
 				&& paymentMethod
 						.equalsIgnoreCase(Accounter.messages().cheque())
 				&& isInViewMode()) {
-			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
+			ClientCashPurchase cashPurchase = transaction;
 			checkNo.setValue(cashPurchase.getCheckNumber());
 			// setCheckNumber();
 		} else if (account == null) {
@@ -477,6 +483,7 @@ public class CashPurchaseView extends
 		rpcUtilService.getNextCheckNumber(payFromAccount.getID(),
 				new AccounterAsyncCallback<Long>() {
 
+					@Override
 					public void onException(AccounterException t) {
 						// //UIUtils.logError(
 						// "Failed to get the next check number!!", t);
@@ -484,6 +491,7 @@ public class CashPurchaseView extends
 						return;
 					}
 
+					@Override
 					public void onResultSuccess(Long result) {
 						if (result == null)
 							onFailure(null);
@@ -544,8 +552,7 @@ public class CashPurchaseView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -589,12 +596,12 @@ public class CashPurchaseView extends
 		super.initTransactionViewData();
 		initTransactionNumber();
 		initPayFromAccounts();
-		accountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		itemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
@@ -604,7 +611,7 @@ public class CashPurchaseView extends
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
 		if (this.getVendor() != null && this.getVendor() != vendor) {
-			ClientCashPurchase ent = (ClientCashPurchase) this.transaction;
+			ClientCashPurchase ent = this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
 				this.vendorAccountTransactionTable
@@ -641,7 +648,8 @@ public class CashPurchaseView extends
 		long currency = vendor.getCurrency();
 		if (currency != 0) {
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-			currencyWidget.setSelectedCurrency(clientCurrency);
+			currencyWidget.setSelectedCurrencyFactorInWidget(clientCurrency,
+					transactionDateItem.getDate().getDate());
 		} else {
 			ClientCurrency clientCurrency = getCompany().getPrimaryCurrency();
 			if (clientCurrency != null) {
@@ -651,11 +659,11 @@ public class CashPurchaseView extends
 
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
+
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
-			setCurrencyFactor(1.0);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
-			modifyForeignCurrencyTotalWidget();
 		}
 	}
 
@@ -699,6 +707,7 @@ public class CashPurchaseView extends
 		createAlterObject();
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		// Setting Type
@@ -727,8 +736,7 @@ public class CashPurchaseView extends
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getID()
-						: 0);
+						.getSelectedValue().getID() : 0);
 
 		// Setting Check number
 		transaction.setCheckNumber(checkNo.getValue().toString());
@@ -760,14 +768,14 @@ public class CashPurchaseView extends
 
 	public void createAlterObject() {
 
-		saveOrUpdate((ClientCashPurchase) transaction);
+		saveOrUpdate(transaction);
 
 	}
 
 	@Override
 	protected void initMemoAndReference() {
 		memoTextAreaItem.setDisabled(true);
-		setMemoTextAreaItem(((ClientCashPurchase) transaction).getMemo());
+		setMemoTextAreaItem(transaction.getMemo());
 		// setRefText(((ClientCashPurchase) transactionObject).getReference());
 	}
 
@@ -811,28 +819,22 @@ public class CashPurchaseView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, messages
-					.invalidateDate());
+			result.addError(transactionDate, messages.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
-				.getEnteredDate(), this.transactionDate)) {
-			result
-					.addError(deliveryDateItem, Accounter.messages().the()
-							+ " "
-							+ Accounter.messages().deliveryDate()
-							+ " "
-							+ " "
-							+ Accounter.messages()
-									.cannotbeearlierthantransactiondate());
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+			result.addError(deliveryDateItem, Accounter.messages().the() + " "
+					+ Accounter.messages().deliveryDate() + " " + " "
+					+ Accounter.messages().cannotbeearlierthantransactiondate());
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable, messages
-					.blankTransaction());
+			result.addError(vendorAccountTransactionTable,
+					messages.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -845,6 +847,7 @@ public class CashPurchaseView extends
 		return new CashPurchaseView();
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -878,12 +881,13 @@ public class CashPurchaseView extends
 	protected void onLoad() {
 	}
 
+	@Override
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
 			public void onException(AccounterException caught) {
-				int errorCode = ((AccounterException) caught).getErrorCode();
+				int errorCode = caught.getErrorCode();
 				Accounter.showError(AccounterExceptions
 						.getErrorString(errorCode));
 			}
