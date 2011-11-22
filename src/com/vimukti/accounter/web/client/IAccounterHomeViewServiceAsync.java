@@ -386,4 +386,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getAccounts(int typeOfAccount,
 			AsyncCallback<ArrayList<ClientAccount>> callBack);
 
+	public void getMostRecentTransactionCurrencyFactor(long companyId,
+			long currencyId, long tdate, AsyncCallback<Double> callback);
+
 }
