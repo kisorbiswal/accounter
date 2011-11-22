@@ -61,7 +61,7 @@ public class CustomerPrePaymentView extends
 	protected String checkNumber = null;
 	protected TextItem checkNo;
 	boolean isChecked = false;
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 
 	public CustomerPrePaymentView() {
 		super(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
@@ -73,7 +73,7 @@ public class CustomerPrePaymentView extends
 	protected void initMemoAndReference() {
 		if (isInViewMode()) {
 
-			ClientCustomerPrePayment customerPrePayment = (ClientCustomerPrePayment) transaction;
+			ClientCustomerPrePayment customerPrePayment = transaction;
 
 			if (customerPrePayment != null) {
 				memoTextAreaItem.setDisabled(true);
@@ -91,16 +91,15 @@ public class CustomerPrePaymentView extends
 
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					messages.invalidateDate());
+			result.addError(transactionDateItem, messages.invalidateDate());
 		}
 
 		result.add(payForm.validate());
 
 		if (!AccounterValidator.isPositiveAmount(amountText.getAmount())) {
 			amountText.textBox.addStyleName("highlightedFormItem");
-			result.addError(amountText, messages
-					.valueCannotBe0orlessthan0(messages.amount()));
+			result.addError(amountText,
+					messages.valueCannotBe0orlessthan0(messages.amount()));
 		}
 		ClientAccount bankAccount = depositInCombo.getSelectedValue();
 		// check if the currency of accounts is valid or not
@@ -136,6 +135,7 @@ public class CustomerPrePaymentView extends
 		memoTextAreaItem.setValue("");
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 
@@ -263,6 +263,7 @@ public class CustomerPrePaymentView extends
 
 	}
 
+	@Override
 	protected void accountSelected(ClientAccount account) {
 		if (account == null)
 			return;
@@ -277,7 +278,7 @@ public class CustomerPrePaymentView extends
 	}
 
 	private void adjustBalance(double amount) {
-		ClientCustomerPrePayment customerPrePayment = (ClientCustomerPrePayment) transaction;
+		ClientCustomerPrePayment customerPrePayment = transaction;
 		enteredBalance = amount;
 
 		if (DecimalUtil.isLessThan(enteredBalance, 0)
@@ -334,11 +335,13 @@ public class CustomerPrePaymentView extends
 		rpcUtilService.getNextCheckNumber(depositInAccount.getID(),
 				new AccounterAsyncCallback<Long>() {
 
+					@Override
 					public void onException(AccounterException t) {
 						checkNo.setValue(Accounter.messages().toBePrinted());
 						return;
 					}
 
+					@Override
 					public void onResultSuccess(Long result) {
 						if (result == null)
 							onFailure(null);
@@ -422,8 +425,7 @@ public class CustomerPrePaymentView extends
 		depositInCombo = createDepositInComboItem(bankBalText);
 		depositInCombo.setPopupWidth("500px");
 
-		amountText = new AmountField(messages.amount(), this,
-				getBaseCurrency());
+		amountText = new AmountField(messages.amount(), this, getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setWidth(100);
 		amountText.setRequired(true);
@@ -544,6 +546,7 @@ public class CustomerPrePaymentView extends
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAddress selectItem) {
 
 						billToaddressSelected(selectItem);
@@ -584,6 +587,7 @@ public class CustomerPrePaymentView extends
 
 			Object value = null;
 
+			@Override
 			public void onBlur(BlurEvent event) {
 				try {
 
@@ -659,7 +663,8 @@ public class CustomerPrePaymentView extends
 		initBillToCombo();
 		customerBalText.setAmount(customer.getBalance());
 		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
-		currencyWidget.setSelectedCurrency(clientCurrency);
+		currencyWidget.setSelectedCurrencyFactorInWidget(clientCurrency,
+				transactionDateItem.getDate().getDate());
 
 	}
 
@@ -676,13 +681,14 @@ public class CustomerPrePaymentView extends
 		this.customerCombo.setFocus();
 	}
 
+	@Override
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
 			public void onException(AccounterException caught) {
 
-				int errorCode = ((AccounterException) caught).getErrorCode();
+				int errorCode = caught.getErrorCode();
 
 				Accounter.showError(AccounterExceptions
 						.getErrorString(errorCode));
@@ -731,6 +737,7 @@ public class CustomerPrePaymentView extends
 		super.onEdit();
 	}
 
+	@Override
 	public void setTransactionDate(ClientFinanceDate transactionDate) {
 		super.setTransactionDate(transactionDate);
 		if (this.transactionDateItem != null
