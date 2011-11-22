@@ -12,9 +12,15 @@ public abstract class ItemNameColumn extends
 
 	ItemsDropDownTable itemsList = new ItemsDropDownTable(getItemsFilter());
 	private boolean isSales;
+	private boolean isCustomerAllowedToAdd;
 
 	public ItemNameColumn(boolean isSales) {
 		this.isSales = isSales;
+	}
+
+	public ItemNameColumn(boolean isSales, boolean isCustomerAllowedToAdd) {
+		this.isSales = isSales;
+		this.setCustomerAllowedToAdd(isCustomerAllowedToAdd);
 	}
 
 	@Override
@@ -39,7 +45,7 @@ public abstract class ItemNameColumn extends
 	protected void setValue(ClientTransactionItem row, ClientItem newValue) {
 
 		if (newValue != null) {
-			if (isSales()) {
+			if (isSales() || isCustomerAllowedToAdd()) {
 				row.setUnitPrice(newValue.getSalesPrice());
 			} else {
 				row.setUnitPrice(newValue.getPurchasePrice());
@@ -86,5 +92,13 @@ public abstract class ItemNameColumn extends
 
 	public void setSales(boolean isSales) {
 		this.isSales = isSales;
+	}
+
+	public boolean isCustomerAllowedToAdd() {
+		return isCustomerAllowedToAdd;
+	}
+
+	public void setCustomerAllowedToAdd(boolean isCustomerAllowedToAdd) {
+		this.isCustomerAllowedToAdd = isCustomerAllowedToAdd;
 	}
 }

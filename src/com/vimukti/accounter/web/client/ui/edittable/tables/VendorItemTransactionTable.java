@@ -58,7 +58,8 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 	@Override
 	protected void initColumns() {
 
-		ItemNameColumn transactionItemNameColumn = new ItemNameColumn(isSales()) {
+		ItemNameColumn transactionItemNameColumn = new ItemNameColumn(
+				isSales(), isCustomerAllowedToAdd) {
 
 			@Override
 			protected void setValue(ClientTransactionItem row,
@@ -116,7 +117,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 			this.addColumn(new TransactionDiscountColumn(currencyProvider));
 		}
 
-		this.addColumn(new TransactionTotalColumn(currencyProvider,true));
+		this.addColumn(new TransactionTotalColumn(currencyProvider, true));
 
 		if (enableTax) {
 			if (showTaxCode) {

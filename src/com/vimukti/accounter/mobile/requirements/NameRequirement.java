@@ -31,7 +31,8 @@ public class NameRequirement extends SingleRequirement<String> {
 	public boolean isDone() {
 		if (!isOptional()) {
 			String value = getValue();
-			return value != null && !value.isEmpty();
+			return value != null && value.trim().length() > 0
+					&& !value.isEmpty();
 		}
 		return true;
 	}

@@ -1013,6 +1013,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				TransactionItem newTransactionItem = new CloneUtil<TransactionItem>(
 						TransactionItem.class).clone(null, transactionItem,
 						false);
+				newTransactionItem.setQuantity(transactionItem.getQuantity());
 				newTransactionItem.setId(0);
 				newTransactionItem.setTaxCode(transactionItem.getTaxCode());
 				newTransactionItem.setOnSaveProccessed(false);
