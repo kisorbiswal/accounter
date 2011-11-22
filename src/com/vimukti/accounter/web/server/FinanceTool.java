@@ -184,10 +184,9 @@ public class FinanceTool {
 			}
 
 			serverObject = new ServerConvertUtil().toServerObject(serverObject,
-					(IAccounterCore) data, session);
+					data, session);
 
-			ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
-					company);
+			ObjectConvertUtil.setCompany(serverObject, company);
 
 			// if (serverObject instanceof CreatableObject) {
 			// // get the user from user id
@@ -204,7 +203,7 @@ public class FinanceTool {
 			// }
 			getManager().canEdit(serverObject, data);
 
-			isTransactionNumberExist((IAccounterCore) data, company);
+			isTransactionNumberExist(data, company);
 			session.save(serverObject);
 			transaction.commit();
 
@@ -273,15 +272,13 @@ public class FinanceTool {
 			IAccounterServerCore clonedObject = new CloneUtil<IAccounterServerCore>(
 					IAccounterServerCore.class).clone(null, serverObject);
 
-			ObjectConvertUtil.setCompany((IAccounterServerCore) clonedObject,
-					company);
+			ObjectConvertUtil.setCompany(clonedObject, company);
 
-			getManager().canEdit(clonedObject, (IAccounterCore) data);
+			getManager().canEdit(clonedObject, data);
 
-			isTransactionNumberExist((IAccounterCore) data, company);
+			isTransactionNumberExist(data, company);
 
-			new ServerConvertUtil().toServerObject(serverObject,
-					(IAccounterCore) data, session);
+			new ServerConvertUtil().toServerObject(serverObject, data, session);
 
 			serverObject.setVersion(++version);
 
@@ -308,7 +305,7 @@ public class FinanceTool {
 			// Util.loadObjectByStringID(session, command.arg2,
 			// command.arg1);
 
-			if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
+			if (serverObject instanceof CreatableObject) {
 				// get the user from user id
 				((CreatableObject) serverObject).setLastModifier(getCompany(
 						updateContext.getCompanyId()).getUserByUserEmail(
@@ -1668,7 +1665,7 @@ public class FinanceTool {
 					double currencyFactor = (Double) object[12];
 
 					if (payeeName != null && ((String) object[1]) != null
-							&& payeeName.equals((String) object[1])) {
+							&& payeeName.equals(object[1])) {
 
 						double currentMount = (Double) object[4];
 						payeeList.setCurrentMonth(payeeList.getCurrentMonth()
@@ -1822,6 +1819,37 @@ public class FinanceTool {
 		}
 
 		return new ArrayList<ClientRecurringTransaction>(clientObjs);
+	}
+
+	/**
+	 * 
+	 * @param companyId
+	 * @param payee
+	 * @param tdate
+	 * @return
+	 * @throws AccounterException
+	 */
+	public double getMostRecentTransactionCurreencyFactorBasedOnCurrency(
+			long companyId, long currencyId, long tdate)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session
+				.getNamedQuery(
+						"getMostRecentTransactionCurrencyFactor.orderby.id.basedon.currency")
+				.setLong("companyId", companyId)
+				.setLong("transactionDate", tdate)
+				.setLong("currency", currencyId);
+
+		List list = query.list();
+		if (list.isEmpty()) {
+			return 1;
+		}
+		Object factorObj = list.get(0);
+		if (factorObj != null) {
+			return ((Double) factorObj).doubleValue();
+		} else {
+			return 1;
+		}
 	}
 
 	public void mergeAcoount(ClientAccount fromClientAccount,
