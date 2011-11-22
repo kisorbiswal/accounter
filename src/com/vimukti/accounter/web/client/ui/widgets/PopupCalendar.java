@@ -4,6 +4,10 @@ import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
@@ -45,6 +49,7 @@ public class PopupCalendar extends PopupPanel {
 	private Label currentMonth;
 	private Grid daysGrid;
 	private Date displayedMonth;
+	private DatePopupCalendar datePopupCalendar;
 
 	{
 		this.leave = true;
@@ -77,6 +82,7 @@ public class PopupCalendar extends PopupPanel {
 		drawWeekLine(panel);
 		drawDayGrid(panel);
 
+		datePopupCalendar = new DatePopupCalendar(this.datePicker);
 	}
 
 	/**
@@ -178,28 +184,56 @@ public class PopupCalendar extends PopupPanel {
 				PopupCalendar.this.changeMonth(-12);
 			}
 		});
-		// monthLine.setWidget(0, 0, previousYear);
-		Label previousMonth = new Label("‹");
+		monthLine.setWidget(0, 0, previousYear);
+		Label previousMonth = new Label("Prev");
 		previousMonth.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				leave = false;
-				PopupCalendar.this.changeMonth(-1);
+				PopupCalendar.this.changeMonth(-12);
 			};
 		});
+		previousMonth.addStyleName("prenextyear-label");
 		monthLine.setWidget(0, 1, previousMonth);
-		monthCellFormatter.setWidth(0, 2, "60%");
+		monthCellFormatter.setWidth(0, 2, "80%");
 		currentMonth = new Label();
+		currentMonth.addStyleName("currentmonth");
+		currentMonth.addMouseOverHandler(new MouseOverHandler() {
+			
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				currentMonth.addStyleName("currentmonth-hover");
+			}
+		});
+		currentMonth.addMouseOutHandler(new MouseOutHandler() {
+			
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				currentMonth.removeStyleName("currentmonth-hover");
+			}
+		});
+		currentMonth.addStyleName("prenextyear-label");
 		currentMonth.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				leave = false;
+				int x = getAbsoluteLeft();
+				int y = getAbsoluteTop() + 22;
+				// this.setWidth(this.getOffsetWidth() + "px");
+				if (!datePopupCalendar.isShowing()) {
+
+					datePopupCalendar.setPopupPosition(x + 1, y + 30);
+					// datePopupCalendar.setWidth(getOffsetWidth() + "px");
+					// datePopupCalendar.setHeight(getOffsetHeight() - 55 + "px");
+					datePopupCalendar.show();
+				}
 			}
 		});
 		monthLine.setWidget(0, 2, currentMonth);
-		Label nextMonth = new Label("›");
+		Label nextMonth = new Label("Next");
+		nextMonth.addStyleName("prenextyear-label");
 		nextMonth.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				leave = false;
-				PopupCalendar.this.changeMonth(1);
+				PopupCalendar.this.changeMonth(12);
 			};
 		});
 		monthLine.setWidget(0, 3, nextMonth);
@@ -210,7 +244,7 @@ public class PopupCalendar extends PopupPanel {
 				PopupCalendar.this.changeMonth(12);
 			}
 		});
-		// monthLine.setWidget(0, 4, nextYear);
+		monthLine.setWidget(0, 4, nextYear);
 		panel.add(monthLine);
 	}
 
