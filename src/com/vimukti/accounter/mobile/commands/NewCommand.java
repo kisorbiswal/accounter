@@ -67,6 +67,7 @@ public abstract class NewCommand extends Command {
 		List<Requirement> allRequirements = getRequirements();
 		String backString = context.getString();
 		if (backString.equalsIgnoreCase("back")) {
+			context.setString("");
 			for (int i = requirementNumber; i >= 0; i--) {
 				context.setAttribute("processAttr", "");
 				Requirement requirement = allRequirements.get(i);
@@ -75,6 +76,9 @@ public abstract class NewCommand extends Command {
 						actions);
 				if (process != null) {
 					requirementNumber = i - 1;
+					if (i != 0) {
+						process.setShowBack(true);
+					}
 					return process;
 				}
 			}
@@ -86,6 +90,9 @@ public abstract class NewCommand extends Command {
 					list, actions);
 			if (result != null) {
 				requirementNumber = i - 1;
+				if (i != 0) {
+					result.setShowBack(true);
+				}
 				return result;
 			}
 		}
