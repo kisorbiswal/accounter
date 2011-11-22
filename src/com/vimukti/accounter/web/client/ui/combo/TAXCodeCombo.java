@@ -93,15 +93,11 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 		List<ClientTAXCode> taxCodeList = new ArrayList<ClientTAXCode>();
 		for (ClientTAXCode taxCode : activeTaxCodes) {
 			if (isSales) {
-				if (taxCode.getTAXItemGrpForPurchases() == 0
-						|| ((taxCode.getTAXItemGrpForSales() != 0) && (taxCode
-								.getTAXItemGrpForPurchases() != 0))) {
+				if (taxCode.getTAXItemGrpForSales() != 0) {
 					taxCodeList.add(taxCode);
 				}
 			} else {
-				if (taxCode.getTAXItemGrpForSales() == 0
-						|| ((taxCode.getTAXItemGrpForPurchases() != 0) && (taxCode
-								.getTAXItemGrpForSales() != 0))) {
+				if (taxCode.getTAXItemGrpForPurchases() != 0) {
 					taxCodeList.add(taxCode);
 				}
 			}
