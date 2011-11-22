@@ -6612,8 +6612,24 @@
 		<query-param name="currencyId" type="long" />
 		UPDATE TRANSACTION SET CURRENCY=:currencyId WHERE COMPANY_ID=:companyId;
 		UPDATE ACCOUNT SET ACCOUNT_CURRENCY=:currencyId WHERE COMPANY_ID=:companyId;
+	</sql-query>	
+	<sql-query
+		name="getMostRecentTransactionCurrencyFactor.orderby.id.basedon.currency">
+		<query-param name="companyId" type="long" />
+		<query-param name="transactionDate" type="long" />
+		<query-param name="currency" type="long" />
+		<return-scalar column="CURRENCY_FACTOR" type="double" />
+		SELECT
+		T.CURRENCY_FACTOR 
+		FROM TRANSACTION T
+		WHERE
+		T.COMPANY_ID=:companyId AND T.T_DATE &lt;=:transactionDate AND
+		T.CURRENCY=:currency
+		ORDER BY T.ID
+		DESC
+		LIMIT 1;
 	</sql-query>
-
+	
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
