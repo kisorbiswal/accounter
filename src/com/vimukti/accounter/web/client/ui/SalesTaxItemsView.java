@@ -39,7 +39,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 		grid = new ManageSalesTaxItemListGrid(false);
 		grid.addStyleName("listgrid-tl");
 		grid.init();
-		listOfTaxItems = getCompany().getTaxItems();
+		listOfTaxItems = getCompany().getActiveTaxItems();
 		filterList(true);
 
 	}
