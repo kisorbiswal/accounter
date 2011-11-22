@@ -69,7 +69,7 @@ public class CashSalesView extends
 	protected DateField deliveryDate;
 	private ArrayList<DynamicForm> listforms;
 	private ShipToForm shipToAddress;
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 	private CustomerAccountTransactionTable customerAccountTransactionTable;
 	private CustomerItemTransactionTable customerItemTransactionTable;
 	private ClientPriceLevel priceLevel;
@@ -250,6 +250,9 @@ public class CashSalesView extends
 
 			@Override
 			public void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				CashSalesView.this.updateNonEditableItems();
 			}
 
@@ -289,6 +292,9 @@ public class CashSalesView extends
 
 			@Override
 			public void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				CashSalesView.this.updateNonEditableItems();
 			}
 
@@ -436,6 +442,7 @@ public class CashSalesView extends
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
 
+					@Override
 					public void selectedComboBoxItem(
 							ClientShippingTerms selectItem) {
 						shippingTerm = selectItem;
@@ -458,7 +465,7 @@ public class CashSalesView extends
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
-			ClientCashSales ent = (ClientCashSales) this.transaction;
+			ClientCashSales ent = this.transaction;
 
 			if (ent != null && ent.getCustomer() == customer.getID()) {
 				this.customerAccountTransactionTable
@@ -510,19 +517,15 @@ public class CashSalesView extends
 
 		if (currency.getID() != 0) {
 			if (currency != null) {
-				currencyWidget.setSelectedCurrency(currency);
+				currencyWidget.setSelectedCurrencyFactorInWidget(currency,
+						transactionDateItem.getDate().getDate());
 			}
 		}
 
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrency(currency);
-			if (currency.equals(getBaseCurrency())) {
-				setCurrencyFactor(1.0);
-			} else {
-				setCurrencyFactor(currencyWidget.getCurrencyFactor());
-			}
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
-			modifyForeignCurrencyTotalWidget();
 		}
 
 	}
@@ -575,6 +578,7 @@ public class CashSalesView extends
 
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		if (taxCode != null && transactionItems != null) {
@@ -618,8 +622,7 @@ public class CashSalesView extends
 		if (isTrackTax()) {
 			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
 					.getAmount()));
-			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-					.getValue());
+			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 			transaction.setTaxTotal(getAmountInBaseCurrency(salesTax));
 		}
 
@@ -865,7 +868,7 @@ public class CashSalesView extends
 
 		if (this.transaction != null) {
 
-			ClientCashSales cashSales = (ClientCashSales) transaction;
+			ClientCashSales cashSales = transaction;
 
 			if (cashSales != null) {
 
@@ -885,8 +888,7 @@ public class CashSalesView extends
 	protected void initSalesTaxNonEditableItem() {
 
 		if (transaction != null) {
-			Double salesTaxAmout = ((ClientCashSales) transaction)
-					.getTaxTotla();
+			Double salesTaxAmout = transaction.getTaxTotla();
 			setSalesTax(salesTaxAmout);
 
 		}
@@ -908,7 +910,7 @@ public class CashSalesView extends
 	protected void initTransactionTotalNonEditableItem() {
 
 		if (transaction != null) {
-			this.transactionTotal = ((ClientCashSales) transaction).getTotal();
+			this.transactionTotal = transaction.getTotal();
 			this.transactionTotalBaseCurrency
 					.setAmount(getAmountInBaseCurrency(this.transactionTotal));
 			this.transactionTotalForeignCurrency
@@ -932,8 +934,7 @@ public class CashSalesView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							messages.enterTaxCode());
+					result.addError(taxCodeSelect, messages.enterTaxCode());
 				}
 
 			}
@@ -952,6 +953,7 @@ public class CashSalesView extends
 
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -980,6 +982,7 @@ public class CashSalesView extends
 		super.fitToSize(height, width);
 	}
 
+	@Override
 	public void onEdit() {
 		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
 
