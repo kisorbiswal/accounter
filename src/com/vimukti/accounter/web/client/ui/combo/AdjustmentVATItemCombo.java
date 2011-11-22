@@ -38,7 +38,7 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	public List<ClientTAXItem> getVATItmesByVATAgncy(ClientTAXAgency taxAgency) {
 		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
 		if (taxAgency != null) {
-			for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
+			for (ClientTAXItem vatItem : getCompany().getActiveTaxItems()) {
 				if (vatItem.getTaxAgency() == (taxAgency.getID())) {
 					vatItmsList.add(vatItem);
 				}
@@ -50,7 +50,7 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	/* VATItmes whose 'isPercentage' is false, only allowed into the list */
 	List<ClientTAXItem> getVATItmes() {
 		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
+		for (ClientTAXItem vatItem : getCompany().getActiveTaxItems()) {
 			if (!vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
 			}
@@ -66,7 +66,7 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 		// vatItmsList.add(vatItem);
 		// }
 		// }
-		return getCompany().getTaxItems();
+		return getCompany().getActiveTaxItems();
 	}
 
 	/*
