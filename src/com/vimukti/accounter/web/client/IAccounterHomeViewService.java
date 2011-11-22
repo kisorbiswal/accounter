@@ -350,4 +350,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	ArrayList<ClientAccount> getAccounts(int typeOfAccount)
 			throws AccounterException;
+
+	public double getMostRecentTransactionCurrencyFactor(long companyId,
+			long currencyId, long tdate) throws AccounterException;
 }
