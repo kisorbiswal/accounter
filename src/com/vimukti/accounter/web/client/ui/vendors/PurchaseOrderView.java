@@ -414,6 +414,9 @@ public class PurchaseOrderView extends
 
 			@Override
 			protected void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				PurchaseOrderView.this.updateNonEditableItems();
 			}
 
@@ -451,6 +454,9 @@ public class PurchaseOrderView extends
 
 			@Override
 			protected void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				PurchaseOrderView.this.updateNonEditableItems();
 			}
 
@@ -1140,7 +1146,8 @@ public class PurchaseOrderView extends
 		long currency = vendor.getCurrency();
 		if (currency != 0) {
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-			currencyWidget.setSelectedCurrency(clientCurrency);
+			currencyWidget.setSelectedCurrencyFactorInWidget(clientCurrency,
+					transactionDateItem.getValue().getDate());
 		} else {
 			ClientCurrency clientCurrency = getCompany().getPrimaryCurrency();
 			if (clientCurrency != null) {
@@ -1152,7 +1159,7 @@ public class PurchaseOrderView extends
 
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
-			setCurrencyFactor(1.0);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
 		}
