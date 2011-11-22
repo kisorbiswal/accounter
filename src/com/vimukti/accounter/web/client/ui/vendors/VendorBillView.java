@@ -75,7 +75,7 @@ public class VendorBillView extends
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
-	private DynamicForm totalForm = new DynamicForm();
+	private final DynamicForm totalForm = new DynamicForm();
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	// private WarehouseAllocationTable inventoryTransactionTable;
@@ -156,8 +156,7 @@ public class VendorBillView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -183,8 +182,7 @@ public class VendorBillView extends
 
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
-							transaction.getDueDate())
-							: getTransactionDate());
+							transaction.getDueDate()) : getTransactionDate());
 			initMemoAndReference();
 			initAccounterClass();
 		}
@@ -195,12 +193,12 @@ public class VendorBillView extends
 		super.initTransactionViewData();
 		initPaymentTerms();
 
-		accountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
-		itemsDisclosurePanel
-				.setOpen(checkOpen(transaction.getTransactionItems(),
-						ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
@@ -211,7 +209,7 @@ public class VendorBillView extends
 
 		if (isInViewMode()) {
 
-			setBalanceDue(((ClientEnterBill) transaction).getBalanceDue());
+			setBalanceDue(transaction.getBalanceDue());
 
 		}
 
@@ -235,10 +233,9 @@ public class VendorBillView extends
 		paymentTermsCombo.initCombo(paymentTermsList);
 		paymentTermsCombo.setDisabled(isInViewMode());
 
-		if (isInViewMode()
-				&& ((ClientEnterBill) transaction).getPaymentTerm() != 0) {
+		if (isInViewMode() && transaction.getPaymentTerm() != 0) {
 			ClientPaymentTerms paymentTerm = getCompany().getPaymentTerms(
-					((ClientEnterBill) transaction).getPaymentTerm());
+					transaction.getPaymentTerm());
 			paymentTermsCombo.setComboItem(paymentTerm);
 			selectedPaymentTerm = paymentTerm;
 
@@ -283,7 +280,8 @@ public class VendorBillView extends
 		long currency = vendor.getCurrency();
 		if (currency != 0) {
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
-			currencyWidget.setSelectedCurrency(clientCurrency);
+			currencyWidget.setSelectedCurrencyFactorInWidget(clientCurrency,
+					transactionDateItem.getDate().getDate());
 		} else {
 			ClientCurrency clientCurrency = getCompany().getPrimaryCurrency();
 			if (clientCurrency != null) {
@@ -298,15 +296,14 @@ public class VendorBillView extends
 
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
-			setCurrencyFactor(1.0);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
-			modifyForeignCurrencyTotalWidget();
 		}
 	}
 
 	private void updatePurchaseOrderOrItemReceipt(ClientVendor vendor) {
 		if (this.getVendor() != null && this.getVendor() != vendor) {
-			ClientEnterBill ent = (ClientEnterBill) this.transaction;
+			ClientEnterBill ent = this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
 				this.vendorAccountTransactionTable
@@ -476,6 +473,7 @@ public class VendorBillView extends
 		paymentTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
 
+					@Override
 					public void selectedComboBoxItem(
 							ClientPaymentTerms selectItem) {
 
@@ -528,6 +526,9 @@ public class VendorBillView extends
 
 			@Override
 			protected void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				VendorBillView.this.updateNonEditableItems();
 			}
 
@@ -542,8 +543,8 @@ public class VendorBillView extends
 			}
 		};
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
-		vendorAccountTransactionTable.getElement().getStyle().setMarginTop(10,
-				Unit.PX);
+		vendorAccountTransactionTable.getElement().getStyle()
+				.setMarginTop(10, Unit.PX);
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -568,6 +569,9 @@ public class VendorBillView extends
 
 			@Override
 			protected void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				VendorBillView.this.updateNonEditableItems();
 			}
 
@@ -848,9 +852,10 @@ public class VendorBillView extends
 	public void saveAndUpdateView() {
 		updateTransaction();
 		super.saveAndUpdateView();
-		saveOrUpdate((ClientEnterBill) transaction);
+		saveOrUpdate(transaction);
 	}
 
+	@Override
 	protected void updateTransaction() {
 		if (transaction == null)
 			return;
@@ -901,8 +906,7 @@ public class VendorBillView extends
 		if (selectedItemReceipt != 0)
 			transaction.setItemReceipt(selectedItemReceipt);
 		if (vatinclusiveCheck != null)
-			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-					.getValue());
+			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 
 		if (selectedPurchaseOrder != 0)
 			transaction.setPurchaseOrder(selectedPurchaseOrder);
@@ -911,8 +915,7 @@ public class VendorBillView extends
 			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
 					.getAmount()));
 			if (vatinclusiveCheck != null)
-				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
+				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 
 		}
 		if (currency != null)
@@ -956,7 +959,7 @@ public class VendorBillView extends
 	protected void initMemoAndReference() {
 		memoTextAreaItem.setDisabled(true);
 
-		setMemoTextAreaItem(((ClientEnterBill) transaction).getMemo());
+		setMemoTextAreaItem(transaction.getMemo());
 		// setRefText(((ClientEnterBill) transactionObject).getReference());
 
 	}
@@ -981,20 +984,15 @@ public class VendorBillView extends
 		}
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(dueDateItem
-				.getEnteredDate(), this.transactionDate)) {
-			result
-					.addError(dueDateItem, Accounter.messages().the()
-							+ " "
-							+ Accounter.messages().dueDate()
-							+ " "
-							+ " "
-							+ Accounter.messages()
-									.cannotbeearlierthantransactiondate());
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				dueDateItem.getEnteredDate(), this.transactionDate)) {
+			result.addError(dueDateItem, Accounter.messages().the() + " "
+					+ Accounter.messages().dueDate() + " " + " "
+					+ Accounter.messages().cannotbeearlierthantransactiondate());
 		}
 		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable, messages
-					.blankTransaction());
+			result.addError(vendorAccountTransactionTable,
+					messages.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -1197,6 +1195,7 @@ public class VendorBillView extends
 				.setAllRows(getItemTransactionItems(itemsList));
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1227,6 +1226,7 @@ public class VendorBillView extends
 
 	}
 
+	@Override
 	public void onEdit() {
 
 		balanceDueNonEditableText.setVisible(false);
@@ -1391,7 +1391,6 @@ public class VendorBillView extends
 	@Override
 	public void updateAmountsFromGUI() {
 		modifyForeignCurrencyTotalWidget();
-
 		vendorAccountTransactionTable.updateAmountsFromGUI();
 		vendorItemTransactionTable.updateAmountsFromGUI();
 	}
