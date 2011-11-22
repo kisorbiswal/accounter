@@ -1833,12 +1833,8 @@
 		from TAX_RATE_CALCULATION
 		vrc
 		left outer join
-		TRANSACTION_ITEM ti
-		on vrc.transaction_item_id =
-		ti.id
-		left outer join
 		TRANSACTION t
-		on ti.transaction_id = t.id
+		on vrc.transaction_id = t.id
 		left outer
 		join
 		INVOICE i
