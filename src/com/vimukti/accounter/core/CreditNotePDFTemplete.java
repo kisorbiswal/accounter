@@ -1,10 +1,13 @@
 package com.vimukti.accounter.core;
 
 import java.io.File;
+import java.util.Map;
 import java.util.Set;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * this class is used to generate PDF file for Credit note Object
@@ -42,6 +45,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 		try {
 			MiniTemplator t = new MiniTemplator(getTempleteName());
+			externalizeStrings(t);
 			// setting logo Image
 			if (brandingTheme.isShowLogo()) {
 				String logoAlligment = getLogoAlignment();
@@ -67,8 +71,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			Currency currency = memo.getCustomer().getCurrency();
 			if (currency != null)
 				if (currency.getFormalName().trim().length() > 0) {
-					t.setVariable("currency", currency.getFormalName()
-							.trim());
+					t.setVariable("currency", currency.getFormalName().trim());
 					t.addBlock("currency");
 				}
 
@@ -123,17 +126,14 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 				if (company.getPreferences().isTrackTax()
 						&& brandingTheme.isShowTaxColumn()) {
-					t.setVariable("VATRate", "Tax Code");
-					t.setVariable("VATAmount", "Tax ");
 					t.addBlock("vatBlock");
 				}
 				t.addBlock("showLabels");
 
 			}
 
-			
 			double currencyFactor = memo.getCurrencyFactor();
-			
+
 			// for displaying the credit item details
 			if (!memo.getTransactionItems().isEmpty()) {
 
@@ -145,12 +145,12 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 							item.getQuantity().getValue(), null,
 							maxDecimalPoints));
 					String unitPrice = forZeroAmounts(largeAmountConversation(item
-							.getUnitPrice()/currencyFactor));
+							.getUnitPrice() / currencyFactor));
 					String totalPrice = largeAmountConversation(item
-							.getLineTotal()/currencyFactor);
+							.getLineTotal() / currencyFactor);
 					String vatRate = item.getTaxCode().getName();
 					String vatAmount = getDecimalsUsingMaxDecimals(
-							item.getVATfraction()/currencyFactor, null, 2);
+							item.getVATfraction() / currencyFactor, null, 2);
 
 					String name = "";
 					if (item.type == TransactionItem.TYPE_ITEM)
@@ -179,14 +179,15 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			// for displaying the total price details
 
 			String memoVal = forNullValue(memo.getMemo());
-			String subTotal = largeAmountConversation(memo.getNetAmount()/currencyFactor);
-			String vatTotal = largeAmountConversation((memo.getTotal()
-					- memo.getNetAmount())/currencyFactor);
-			String total = largeAmountConversation(memo.getTotal()/currencyFactor);
+			String subTotal = largeAmountConversation(memo.getNetAmount()
+					/ currencyFactor);
+			String vatTotal = largeAmountConversation((memo.getTotal() - memo
+					.getNetAmount()) / currencyFactor);
+			String total = largeAmountConversation(memo.getTotal()
+					/ currencyFactor);
 
 			t.setVariable("memoText", memoVal);
 			if (company.getPreferences().isTrackTax()) {
-				t.setVariable("NetAmount", "Net Amount");
 				t.setVariable("subTotal", subTotal);
 				t.addBlock("subtotal");
 
@@ -299,6 +300,29 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					+ "..." + e.getStackTrace());
 		}
 		return "";
+	}
+
+	private void externalizeStrings(MiniTemplator t) {
+		AccounterMessages messages = Global.get().messages();
+		Map<String, String> variables = t.getVariables();
+		System.out.println(variables);
+		t.setVariable("i18_Credit_To", messages.creditTo());
+		t.setVariable("i18_Credit_Note_Number", messages.creditNoteNo());
+		t.setVariable("i18_Credit_Note_Date", messages.creditNoteDate());
+		t.setVariable("i18_Customer_Number",
+				messages.payeeNumber(messages.Customer()));
+		t.setVariable("i18_Currency", messages.currency());
+		t.setVariable("i18_Name", messages.name());
+		t.setVariable("i18_Description", messages.description());
+		t.setVariable("i18_Qty", messages.qty());
+		t.setVariable("i18_Unit_Price", messages.unitPrice());
+		t.setVariable("i18_Discount", messages.discount());
+		t.setVariable("i18_Total_Price", messages.totalPrice());
+		t.setVariable("i18_TOTAL", messages.total());
+		t.setVariable("i18_Sub_Total", messages.subTotal());
+		t.setVariable("i18_VATRate", messages.vatRate());
+		t.setVariable("i18_VATAmount", messages.tax());
+		t.setVariable("i18_NetAmount", messages.netAmount());
 	}
 
 	public String forNullValue(String value) {

@@ -4,10 +4,13 @@ import java.io.File;
 import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * this class is used to generate Invoice report in PDF format
@@ -47,6 +50,9 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 		try {
 			t = new MiniTemplator(getTempleteName());
+
+			externalizeStrings(t);
+
 			String image = getImage();
 
 			// setting logo Image
@@ -217,8 +223,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 				if (company.getPreferences().isTrackTax()
 						&& brandingTheme.isShowTaxColumn()) {
-					t.setVariable("VATRate", "Tax Code");
-					t.setVariable("VATAmount", "Tax ");
 					t.addBlock("vatBlock");
 				}
 				t.addBlock("showLabels");
@@ -298,11 +302,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			String subtotal = largeAmountConversation(invoice.getNetAmount()
 					/ currencyFactor);
 			if (company.getPreferences().isTrackTax()) {
-				t.setVariable("NetAmount", "Net Amount");
+
 				t.setVariable("subTotal", subtotal);
 				t.addBlock("subtotal");
 				if (brandingTheme.isShowTaxColumn()) {
-					t.setVariable("vatlabel", "Tax ");
 					t.setVariable(
 							"vatTotal",
 							largeAmountConversation((invoice.getTaxTotal() / currencyFactor)));
@@ -455,6 +458,40 @@ public class InvoicePDFTemplete implements PrintTemplete {
 					+ "..." + e.getLocalizedMessage());
 		}
 		return "";
+	}
+
+	private void externalizeStrings(MiniTemplator t) {
+		AccounterMessages messages = Global.get().messages();
+		Map<String, String> variables = t.getVariables();
+		System.out.println(variables);
+		t.setVariable("i18_Invoice_Number", messages.invoiceNo());
+		t.setVariable("i18_Invoice_Date", messages.invoiceDate());
+		t.setVariable("i18_Order_Number", messages.orderNumber());
+		t.setVariable("i18_Customer_Number",
+				messages.payeeNumber(messages.customer()));
+		t.setVariable("i18_Bill_To", messages.billTo());
+		t.setVariable("i18_Ship_To", messages.shipTo());
+		t.setVariable("i18_Sales_Person", messages.salesPerson());
+		t.setVariable("i18_Shipping_Method", messages.shippingMethod());
+		t.setVariable("i18_Payment_Terms", messages.paymentTerms());
+		t.setVariable("i18_Due_Date", messages.dueDate());
+		t.setVariable("i18_Customer_TAX_Registration_Number",
+				messages.customerTaxRegNo(messages.customer()));
+		t.setVariable("i18_Currency", messages.currency());
+		t.setVariable("i18_Name", messages.name());
+		t.setVariable("i18_Description", messages.description());
+		t.setVariable("i18_Qty", messages.qty());
+		t.setVariable("i18_Unit_Price", messages.unitPrice());
+		t.setVariable("i18_Discount", messages.discount());
+		t.setVariable("i18_Total_Price", messages.totalPrice());
+		t.setVariable("i18_TOTAL", messages.total());
+		t.setVariable("i18_Payments", messages.payments());
+		t.setVariable("i18_Balance_Due", messages.balanceDue());
+		t.setVariable("i18_Sub_Total", messages.subTotal());
+		t.setVariable("i18_tax", messages.tax());
+		t.setVariable("i18_NetAmount", messages.netAmount());
+		t.setVariable("i18_VATRate", messages.taxCode());
+		t.setVariable("i18_VATAmount", messages.tax());
 	}
 
 	/*

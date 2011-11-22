@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.externalization;
 
-
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.i18n.Messages;
 
@@ -4450,5 +4449,29 @@ public interface AccounterMessages extends Messages {
 	public String zipCode();
 
 	public String ztozeroperc();
+
+	public String invoiceDate();
+
+	public String customerTaxRegNo(String customer);
+
+	public String subTotal();
+
+	public String creditTo();
+
+	public String creditNoteDate();
+
+	public String adjustAlignmentAndReprint();
+
+	public String companyAddress();
+
+	public String idNumber();
+
+	public String receipientInformation();
+
+	public String payerInformation();
+
+	public String summaryFor1099();
+
+	public String totalAmountReported();
 
 }

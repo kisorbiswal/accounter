@@ -3,10 +3,13 @@ package com.vimukti.accounter.core;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.vimukti.accounter.utils.MiniTemplator;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Client1099Form;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class MISCInformationTemplate {
 
@@ -29,6 +32,7 @@ public class MISCInformationTemplate {
 
 		try {
 			t = new MiniTemplator(templateFileName);
+			externalizeStrings(t);
 
 			t.setVariable("companyName", myCompany.getTradingName());
 			t.addBlock("changeCompanyName");
@@ -128,6 +132,35 @@ public class MISCInformationTemplate {
 		}
 
 		return outPutString;
+	}
+
+	private void externalizeStrings(MiniTemplator t) {
+		AccounterMessages messages = Global.get().messages();
+		Map<String, String> variables = t.getVariables();
+		System.out.println(variables);
+		t.setVariable("i18_Company_Address", messages.companyAddress());
+		t.setVariable("i18_Company_Name", messages.companyName());
+		t.setVariable("i18_Id_Number", messages.idNumber());
+		t.setVariable("i18_1099_vendors_that_meet_threshold",
+				messages.venodrsThatMeetThreshold(Global.get().Vendor()));
+		t.setVariable("i18_Recipient_Information",
+				messages.receipientInformation());
+		t.setVariable("i18_Payer_Information", messages.payerInformation());
+		t.setVariable("i18_Box1", messages.box1());
+		t.setVariable("i18_Box2", messages.box2());
+		t.setVariable("i18_Box3", messages.box3());
+		t.setVariable("i18_Box4", messages.box4());
+		t.setVariable("i18_Box5", messages.box5());
+		t.setVariable("i18_Box6", messages.box6());
+		t.setVariable("i18_Box7", messages.box7());
+		t.setVariable("i18_Box8", messages.box8());
+		t.setVariable("i18_Box8", messages.box9());
+		t.setVariable("i18_Box10", messages.box10());
+		t.setVariable("i18_Summary_for_1099", messages.summaryFor1099());
+		t.setVariable("i18_Total_number_of_forms",
+				messages.totalNoOf1099Forms());
+		t.setVariable("i18_Total_amount_reported",
+				messages.totalAmountReported());
 	}
 
 	public String getFileName() {

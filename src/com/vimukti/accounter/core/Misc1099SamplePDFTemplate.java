@@ -3,10 +3,13 @@ package com.vimukti.accounter.core;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.vimukti.accounter.utils.MiniTemplator;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Client1099Form;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class Misc1099SamplePDFTemplate {
 
@@ -66,6 +69,7 @@ public class Misc1099SamplePDFTemplate {
 
 		try {
 			t = new MiniTemplator(templateFileName);
+			externalizeStrings(t);
 
 			if (payersAddress.length() > 0) {
 				t.setVariable("payersAddress", payersAddress);
@@ -202,6 +206,15 @@ public class Misc1099SamplePDFTemplate {
 		}
 
 		return outPutString;
+	}
+
+	private void externalizeStrings(MiniTemplator t) {
+		AccounterMessages messages = Global.get().messages();
+		Map<String, String> variables = t.getVariables();
+		System.out.println(variables);
+		t.setVariable("i18_adjustAlignmentAndReprint",
+				messages.adjustAlignmentAndReprint());
+
 	}
 
 	public String getFileName() {
