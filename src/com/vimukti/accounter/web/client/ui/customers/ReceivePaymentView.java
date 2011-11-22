@@ -96,7 +96,7 @@ public class ReceivePaymentView extends
 	private ClientCustomer customer;
 	private ClientAccount depositInAccount;
 	private DepositInAccountCombo depositInCombo;
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 
 	public ReceivePaymentView() {
 		super(ClientTransaction.TYPE_RECEIVE_PAYMENT);
@@ -147,16 +147,16 @@ public class ReceivePaymentView extends
 		recalculateGridAmounts();
 
 		if (currency.getID() != 0) {
-			currencyWidget.setSelectedCurrency(currency);
+			currencyWidget.setSelectedCurrencyFactorInWidget(currency,
+					transactionDateItem.getDate().getDate());
 		} else {
 			currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
 
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrency(currency);
-			setCurrencyFactor(1.0);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
-			modifyForeignCurrencyTotalWidget();
 		}
 	}
 
@@ -171,6 +171,7 @@ public class ReceivePaymentView extends
 						paymentDate,
 						new AccounterAsyncCallback<ArrayList<ReceivePaymentTransactionList>>() {
 
+							@Override
 							public void onException(AccounterException caught) {
 								Accounter.showError(Accounter.messages()
 										.failedToGetRecievePayments(
@@ -180,6 +181,7 @@ public class ReceivePaymentView extends
 										.noRecordsToShow());
 							}
 
+							@Override
 							public void onResultSuccess(
 									ArrayList<ReceivePaymentTransactionList> result) {
 
@@ -288,7 +290,7 @@ public class ReceivePaymentView extends
 	public Double calculatePaymentForRecord(
 			ClientTransactionReceivePayment record) {
 
-		ClientTransactionReceivePayment trpRecord = (ClientTransactionReceivePayment) record;
+		ClientTransactionReceivePayment trpRecord = record;
 		Double amountDue = trpRecord.getAmountDue();
 
 		Double cashDiscount = trpRecord.getCashDiscount();
@@ -695,7 +697,7 @@ public class ReceivePaymentView extends
 		if (transaction == null)
 			return;
 
-		ClientReceivePayment recievePayment = ((ClientReceivePayment) transaction);
+		ClientReceivePayment recievePayment = transaction;
 
 		setCustomerBalance(recievePayment.getCustomerBalance());
 
@@ -891,6 +893,7 @@ public class ReceivePaymentView extends
 		super.reload();
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1081,6 +1084,7 @@ public class ReceivePaymentView extends
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 
 						depositInAccountSelected(selectItem);
