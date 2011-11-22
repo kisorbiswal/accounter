@@ -12,7 +12,6 @@ import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.google.gwt.dev.GetJreEmulation;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditsAndPayments;
@@ -24,7 +23,6 @@ import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.SalesPerson;
-import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
@@ -39,7 +37,6 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public class CustomerManager extends Manager {
 
