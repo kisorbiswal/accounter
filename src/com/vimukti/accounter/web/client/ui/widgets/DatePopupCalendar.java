@@ -32,7 +32,7 @@ public class DatePopupCalendar extends PopupPanel {
 	private String month;
 
 	public DatePopupCalendar(DatePicker datePicker) {
-
+		super(true);
 		this.addStyleName("blue" + "-date-picker");
 		this.daysGrid = new Grid(6, 4);
 		this.datePicker = datePicker;
