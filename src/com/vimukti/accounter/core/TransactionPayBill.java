@@ -331,7 +331,7 @@ public class TransactionPayBill extends CreatableObject implements
 			// We need to update the enterBill payments and balance due with the
 			// sum of cash discount and applied credits and payments.
 			double amount = (this.cashDiscount) + (this.appliedCredits)
-					+ (this.payment) + this.tdsAmount;
+					+ (this.payment);
 
 			if (this.enterBill != null) {
 				setCompany(enterBill.getCompany());
