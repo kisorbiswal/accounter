@@ -3,7 +3,9 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
@@ -54,17 +56,17 @@ public class AccountMergeDialog extends BaseDialog implements
 		accountCombo = createAccountCombo();
 		accountCombo1 = createAccountCombo1();
 
-		accountNumberTextItem = new TextItem(Accounter.messages()
-				.accountNumber());
+		accountNumberTextItem = new TextItem(Accounter.messages().payeeNumber(
+				Accounter.messages().Account()));
 		accountNumberTextItem.setHelpInformation(true);
 
-		accountNumberTextItem1 = new TextItem(Accounter.messages()
-				.accountNumber());
+		accountNumberTextItem1 = new TextItem(Accounter.messages().payeeNumber(
+				Accounter.messages().Account()));
 		accountNumberTextItem1.setHelpInformation(true);
 
-		name = new TextItem(Accounter.messages().name());
+		name = new TextItem(Accounter.messages().accountName());
 		name.setHelpInformation(true);
-		name1 = new TextItem(Accounter.messages().name());
+		name1 = new TextItem(Accounter.messages().accountName());
 		name1.setHelpInformation(true);
 
 		balanceTextItem = new TextItem(Accounter.messages().balance());
@@ -88,8 +90,8 @@ public class AccountMergeDialog extends BaseDialog implements
 	}
 
 	private OtherAccountsCombo createAccountCombo1() {
-		accountCombo1 = new OtherAccountsCombo(
-				Accounter.messages().accountTo(), false);
+		accountCombo1 = new OtherAccountsCombo(Accounter.messages().payeeTo(
+				Accounter.messages().Account()), false);
 		accountCombo1.setHelpInformation(true);
 		accountCombo1.setRequired(true);
 		accountCombo1
@@ -108,8 +110,8 @@ public class AccountMergeDialog extends BaseDialog implements
 	}
 
 	private OtherAccountsCombo createAccountCombo() {
-		accountCombo = new OtherAccountsCombo(Accounter.messages()
-				.accountFrom(), false);
+		accountCombo = new OtherAccountsCombo(Accounter.messages().payeeFrom(
+				Accounter.messages().Account()), false);
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 
@@ -150,6 +152,14 @@ public class AccountMergeDialog extends BaseDialog implements
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
+		if (toAccount != null && fromAccount != null) {
+			if ((toAccount.getID() == fromAccount.getID())
+					|| !(toAccount.getType() == fromAccount.getType())) {
+				result.addError(fromAccount, Accounter.messages()
+						.notMoveAccount(
+								));
+				return result;
+			}
 
 		if ((toAccount.getID() == fromAccount.getID())
 				|| !(toAccount.getType() == fromAccount.getType())) {
@@ -163,13 +173,36 @@ public class AccountMergeDialog extends BaseDialog implements
 		return result;
 
 	}
+		return result;
+		}
 
 	@Override
 	protected boolean onOK() {
-		Accounter.createHomeService()
-				.mergeAccount(fromAccount, toAccount, this);
 
-		return true;
+		if (fromAccount != null && toAccount != null) {
+			if (fromAccount.getID() == toAccount.getID()) {
+				Accounter
+				.showError("Accounts must be different");
+				return false;
+			}
+		}
+		ClientCurrency currency1 = getCompany().getCurrency(
+				fromAccount.getCurrency());
+		ClientCurrency currency2 = getCompany().getCurrency(
+				toAccount.getCurrency());
+
+		if (currency1 != currency2) {
+			Accounter
+					.showError("Currencies of the both Accounts must be same ");
+		} else if (fromAccount.getType() != toAccount.getType()) {
+			Accounter.showError("Type of the both Accounts must be same ");
+		} else {
+			Accounter.createHomeService().mergeAccount(fromAccount, toAccount,
+					this);
+			return true;
+		}
+		return false;
+
 	}
 
 	@Override

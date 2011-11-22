@@ -92,18 +92,18 @@ public class AccounterMenuBar extends HorizontalPanel {
 
 	private IMenu getInventoryListsMenu() {
 		IMenu inventoryMenu = factory.createMenu();
-		inventoryMenu.addMenuItem(messages.inventoryItems(),
-				ActionFactory.getInventoryItemsAction());
+		inventoryMenu.addMenuItem(messages.inventoryItems(), ActionFactory
+				.getInventoryItemsAction());
 		if (getPreferences().iswareHouseEnabled()) {
-			inventoryMenu.addMenuItem(messages.warehouseList(),
-					ActionFactory.getWarehouseListAction());
+			inventoryMenu.addMenuItem(messages.warehouseList(), ActionFactory
+					.getWarehouseListAction());
 			inventoryMenu.addMenuItem(messages.warehouseTransferList(),
 					ActionFactory.getWarehouseTransferListAction());
 		}
-		inventoryMenu.addMenuItem(messages.stockAdjustments(),
-				ActionFactory.getStockAdjustmentsListAction());
-		inventoryMenu.addMenuItem(messages.measurementList(),
-				ActionFactory.getMeasurementsAction());
+		inventoryMenu.addMenuItem(messages.stockAdjustments(), ActionFactory
+				.getStockAdjustmentsListAction());
+		inventoryMenu.addMenuItem(messages.measurementList(), ActionFactory
+				.getMeasurementsAction());
 		return inventoryMenu;
 	}
 
@@ -111,13 +111,13 @@ public class AccounterMenuBar extends HorizontalPanel {
 
 		IMenu newMenuBar = factory.createMenu();
 		if (getPreferences().iswareHouseEnabled()) {
-			newMenuBar.addMenuItem(messages.wareHouse(),
-					ActionFactory.getWareHouseViewAction());
-			newMenuBar.addMenuItem(messages.wareHouseTransfer(),
-					ActionFactory.getWareHouseTransferAction());
+			newMenuBar.addMenuItem(messages.wareHouse(), ActionFactory
+					.getWareHouseViewAction());
+			newMenuBar.addMenuItem(messages.wareHouseTransfer(), ActionFactory
+					.getWareHouseTransferAction());
 		}
-		newMenuBar.addMenuItem(messages.measurement(),
-				ActionFactory.getAddMeasurementAction());
+		newMenuBar.addMenuItem(messages.measurement(), ActionFactory
+				.getAddMeasurementAction());
 		return newMenuBar;
 
 	}
@@ -189,10 +189,10 @@ public class AccounterMenuBar extends HorizontalPanel {
 
 	private IMenu getTDSMenu() {
 		IMenu tdsMenu = getSubMenu();
-		tdsMenu.addMenuItem("TDS Return",
-				ActionFactory.getTDSVendorsAction(true));
-		tdsMenu.addMenuItem("Form-16A",
-				ActionFactory.getTDSVendorsAction(false));
+		tdsMenu.addMenuItem("TDS Return", ActionFactory
+				.getTDSVendorsAction(true));
+		tdsMenu.addMenuItem("Form-16A", ActionFactory
+				.getTDSVendorsAction(false));
 		return tdsMenu;
 	}
 
@@ -234,15 +234,12 @@ public class AccounterMenuBar extends HorizontalPanel {
 		reportMenuBar.addSeparatorItem();
 		reportMenuBar.addMenuItem(messages.companyAndFinancial(),
 				getCompanyAndFinancialMenu());
-		reportMenuBar.addMenuItem(
-				messages.customersAndReceivable(Global.get().Customer()),
-				getCustomersAndReceivableMenu());
+		reportMenuBar.addMenuItem(messages.customersAndReceivable(Global.get()
+				.Customer()), getCustomersAndReceivableMenu());
 
 		reportMenuBar.addMenuItem(messages.sales(), getSalesMenu());
-		reportMenuBar.addMenuItem(
-				Global.get().messages()
-						.vendorsAndPayables(Global.get().Vendor()),
-				getVendorAndPayablesMenu());
+		reportMenuBar.addMenuItem(Global.get().messages().vendorsAndPayables(
+				Global.get().Vendor()), getVendorAndPayablesMenu());
 		reportMenuBar.addMenuItem(messages.purchase(), getPurchaseMenu());
 		// reportMenuBar.addItem(messages.budget() + " "
 		// + messages.report(), getBudgetSubMenus());
@@ -505,9 +502,8 @@ public class AccounterMenuBar extends HorizontalPanel {
 			// vendorMenuBar.addItem(ActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparatorItem();
 		}
-		vendorMenuBar.addMenuItem(
-				Global.get().messages().payeeLists(Global.get().Vendor()),
-				getVendorListMenu());
+		vendorMenuBar.addMenuItem(Global.get().messages().payeeLists(
+				Global.get().Vendor()), getVendorListMenu());
 		return vendorMenuBar;
 	}
 
@@ -561,9 +557,8 @@ public class AccounterMenuBar extends HorizontalPanel {
 					.addMenuItem(ActionFactory.getCustomerRefundAction());
 			customerMenuBar.addSeparatorItem();
 		}
-		customerMenuBar.addMenuItem(
-				messages.payeeLists(Global.get().Customer()),
-				getCustomerListMenu());
+		customerMenuBar.addMenuItem(messages
+				.payeeLists(Global.get().Customer()), getCustomerListMenu());
 		return customerMenuBar;
 	}
 
@@ -680,8 +675,8 @@ public class AccounterMenuBar extends HorizontalPanel {
 
 			@Override
 			public void execute() {
-				ItemMergeDialog dialog = new ItemMergeDialog(
-						messages.mergeItems(), messages.itemDescription());
+				ItemMergeDialog dialog = new ItemMergeDialog(messages
+						.mergeItems(), messages.itemDescription());
 
 				dialog.show();
 			}
@@ -739,10 +734,8 @@ public class AccounterMenuBar extends HorizontalPanel {
 		// }
 
 		// FIXME > Need Complete merging functionality
-		// companyMenuBar.addItem(
-		// messages.mergeAccounts(Global.get().Account()),
-		// getMergeSubMenu());
-		// companyMenuBar.addSeparator();
+		companyMenuBar.addMenuItem(messages.mergeAccounts(), getMergeSubMenu());
+		companyMenuBar.addSeparatorItem();
 		companyMenuBar.addMenuItem(messages.companyLists(),
 				getCompanyListMenu());
 
@@ -751,12 +744,10 @@ public class AccounterMenuBar extends HorizontalPanel {
 
 	private IMenu getMergeSubMenu() {
 		IMenu mergeAccountsMenuBar = getSubMenu();
-		mergeAccountsMenuBar.addMenuItem(
-				messages.mergeCustomers(Global.get().Customer()),
-				getMergeCustomerCommand());
-		mergeAccountsMenuBar.addMenuItem(
-				messages.mergeVendors(Global.get().Vendor()),
-				getMergeVendorCommand());
+		mergeAccountsMenuBar.addMenuItem(messages.mergeCustomers(Global.get()
+				.Customer()), getMergeCustomerCommand());
+		mergeAccountsMenuBar.addMenuItem(messages.mergeVendors(Global.get()
+				.Vendor()), getMergeVendorCommand());
 		mergeAccountsMenuBar.addMenuItem(messages.mergeAccounts(),
 				getMergeAccountCommand());
 		mergeAccountsMenuBar.addMenuItem(messages.mergeItems(),
@@ -788,7 +779,7 @@ public class AccounterMenuBar extends HorizontalPanel {
 		// companyListMenuBar.addItem(ActionFactory.getRecurringsListAction());
 		companyListMenuBar.addMenuItem(ActionFactory
 				.getUsersActivityListAction());
-		
+
 		return companyListMenuBar;
 	}
 

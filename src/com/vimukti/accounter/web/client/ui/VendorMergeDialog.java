@@ -4,6 +4,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -155,9 +156,11 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
-		if (fromclientVendor.getID() == toClientVendor.getID()) {
-			result.addError(fromclientVendor, Accounter.messages().notMove(
-					Global.get().vendor()));
+		if (fromclientVendor != null && toClientVendor != null) {
+			if (fromclientVendor.getID() == toClientVendor.getID()) {
+				result.addError(fromclientVendor, Accounter.messages().notMove(
+						Global.get().vendor()));
+			}
 		}
 
 		result = form.validate();
@@ -170,14 +173,25 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	@Override
 	protected boolean onOK() {
 
-		if (fromclientVendor.getID() == toClientVendor.getID()) {
-			return false;
+		if (fromclientVendor != null && toClientVendor != null) {
+			if (fromclientVendor.getID() == toClientVendor.getID()) {
+				return false;
+			}
 		}
-		Accounter.createHomeService().mergeVendor(fromclientVendor,
-				toClientVendor, this);
+		ClientCurrency currency1 = getCompany().getCurrency(
+				fromclientVendor.getCurrency());
+		ClientCurrency currency2 = getCompany().getCurrency(
+				toClientVendor.getCurrency());
+		if (currency1 != currency2) {
+			Accounter
+					.showError("Currencies of the both Suppliers must be same ");
+		} else {
+			Accounter.createHomeService().mergeVendor(fromclientVendor,
+					toClientVendor, this);
 
-		return true;
-
+			return true;
+		}
+		return false;
 	}
 
 	@Override

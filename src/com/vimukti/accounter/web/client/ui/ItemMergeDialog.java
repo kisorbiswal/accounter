@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -153,6 +154,13 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
+		if (fromClientItem != null && toClientItem != null) {
+			if (fromClientItem.getID() == toClientItem.getID()) {
+				result
+						.addError(fromClientItem, Accounter.messages()
+								.notMove(messages.item()));
+				return result;
+			}
 		if (fromClientItem.getID() == toClientItem.getID()) {
 			result.addError(fromClientItem, Accounter.messages().notMove(messages.item()));
 			return result;
@@ -162,14 +170,25 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 		return result;
 
 	}
+		return result;
+		}
 
 	@Override
 	protected boolean onOK() {
+		if (fromClientItem != null && toClientItem != null) {
+			if (fromClientItem.getID() == toClientItem.getID()) {
+				return false;
+			}
+		}
+		if (fromClientItem.getType() != toClientItem.getType()) {
+			Accounter.showError("Both Items must belong to the same type");
+		} else {
+			Accounter.createHomeService().mergeItem(fromClientItem,
+					toClientItem, this);
 
-		Accounter.createHomeService().mergeItem(fromClientItem, toClientItem,
-				this);
-
-		return true;
+			return true;
+		}
+		return false;
 	}
 
 	@Override

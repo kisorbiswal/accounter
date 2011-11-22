@@ -4,6 +4,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
@@ -87,7 +88,8 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 		balanceTextItem1 = new TextItem(Accounter.messages().balance());
 		balanceTextItem1.setHelpInformation(true);
 		balanceTextItem1.setDisabled(true);
-
+		customerCombo.setRequired(true);
+		customerCombo1.setRequired(true);
 		form.setItems(customerCombo, customerIDTextItem, status,
 				balanceTextItem);
 		form1.setItems(customerCombo1, customerIDTextItem1, status1,
@@ -166,10 +168,12 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	protected ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
-		if (clientCustomer1.getID() == clientCustomer.getID()) {
-			result.addError(clientCustomer, Accounter.messages().notMove(
-					Global.get().customer()));
-			return result;
+		if (clientCustomer != null && clientCustomer1 != null) {
+			if (clientCustomer1.getID() == clientCustomer.getID()) {
+				result.addError(clientCustomer, Accounter.messages().notMove(
+						Global.get().customer()));
+				return result;
+			}
 		}
 		result = form.validate();
 		result = form1.validate();
@@ -179,14 +183,24 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 	@Override
 	protected boolean onOK() {
-
-		if (clientCustomer1.getID() == clientCustomer.getID()) {
-			return false;
+		if (clientCustomer1 != null && clientCustomer != null) {
+			if (clientCustomer1.getID() == clientCustomer.getID()) {
+				return false;
+			}
 		}
-		Accounter.createHomeService().mergeCustomer(clientCustomer,
-				clientCustomer1, this);
-
-		return true;
+		ClientCurrency currency1 = getCompany().getCurrency(
+				clientCustomer1.getCurrency());
+		ClientCurrency currency2 = getCompany().getCurrency(
+				clientCustomer.getCurrency());
+		if (currency1 != currency2) {
+			Accounter
+					.showError("Currencies of the both customers must be same ");
+		} else {
+			Accounter.createHomeService().mergeCustomer(clientCustomer,
+					clientCustomer1, this);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
