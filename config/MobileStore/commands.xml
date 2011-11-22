@@ -300,7 +300,6 @@
 		<alias>All Items</alias>
 		<alias>Items</alias>
 		<alias>List Of Items</alias>
-		<alias>Product and Service Items</alias>
 		<alias>List of All Items</alias>
 	</command>
 
@@ -816,13 +815,10 @@
 	<command clazz="ReconcillationHistoryCommand" name="History">
 		<alias>Reconcillation History</alias>
 	</command>
-	<command clazz="NewProductItemCommand" name="Product Item">
-		<alias>Create New Product Item</alias>
-		<alias>Create Product Item</alias>
-		<alias>Update Product Item</alias>
-		<alias>Modify Product Item</alias>
-		<alias>Edit Product Item</alias>
-	</command>
+	<!-- <command clazz="NewProductItemCommand" name="Product Item"> <alias>Create 
+		New Product Item</alias> <alias>Create Product Item</alias> <alias>Update 
+		Product Item</alias> <alias>Modify Product Item</alias> <alias>Edit Product 
+		Item</alias> </command> -->
 	<command clazz="NewCustomerGroupCommand" name="CustomerGroup">
 		<alias>Create Customer Group</alias>
 		<alias>Update Customer Group</alias>
