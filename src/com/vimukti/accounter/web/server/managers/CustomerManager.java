@@ -76,8 +76,7 @@ public class CustomerManager extends Manager {
 							.getPayTo().getName() : null);
 					customerRefund
 							.setPaymentMethod((cr.getPaymentMethod() != null) ? cr
-									.getPaymentMethod()
-									: null);
+									.getPaymentMethod() : null);
 					customerRefund.setAmountPaid(cr.getTotal());
 					customerRefund.setVoided(cr.isVoid());
 
@@ -85,8 +84,8 @@ public class CustomerManager extends Manager {
 				}
 			}
 			query = session.getNamedQuery("getWriteCheck.by.payToType")
-					.setParameter("type", WriteCheck.TYPE_CUSTOMER).setEntity(
-							"company", company);
+					.setParameter("type", WriteCheck.TYPE_CUSTOMER)
+					.setEntity("company", company);
 			list = query.list();
 
 			if (list != null) {
@@ -150,10 +149,8 @@ public class CustomerManager extends Manager {
 				estimate.setDate(new FinanceDate((Long) (object[1])));
 				estimate.setCustomer(object[2] != null ? (Customer) session
 						.get(Customer.class, ((Long) object[2])) : null);
-				estimate
-						.setSalesPerson(object[3] != null ? (SalesPerson) session
-								.get(SalesPerson.class, ((Long) object[3]))
-								: null);
+				estimate.setSalesPerson(object[3] != null ? (SalesPerson) session
+						.get(SalesPerson.class, ((Long) object[3])) : null);
 				estimate.setTotal((Double) object[4]);
 				list.add(estimate);
 			}
@@ -244,8 +241,8 @@ public class CustomerManager extends Manager {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getEstimatesAndSalesOrdersList")
-				.setParameter("customerId", customerId).setParameter(
-						"companyId", companyId);
+				.setParameter("customerId", customerId)
+				.setParameter("companyId", companyId);
 
 		List list = query.list();
 		List<EstimatesAndSalesOrdersList> esl = new ArrayList<EstimatesAndSalesOrdersList>();
@@ -279,8 +276,9 @@ public class CustomerManager extends Manager {
 			Session session = HibernateUtil.getCurrentSession();
 
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery("getEstimate").setEntity(
-					"company", company).setParameter("estimateType", type);
+			Query query = session.getNamedQuery("getEstimate")
+					.setEntity("company", company)
+					.setParameter("estimateType", type);
 			List<Estimate> list = query.list();
 
 			if (list != null) {
@@ -474,9 +472,9 @@ public class CustomerManager extends Manager {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery(
-					"getEstimate.by.check.id.status").setParameter("id",
-					customer).setEntity("company", company);
+			Query query = session
+					.getNamedQuery("getEstimate.by.check.id.status")
+					.setParameter("id", customer).setEntity("company", company);
 			List<Estimate> list = query.list();
 
 			if (list != null) {
@@ -494,8 +492,9 @@ public class CustomerManager extends Manager {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery(
-					"getCreditsAndPayments.by.check.payeeidandbalanceid")
+			Query query = session
+					.getNamedQuery(
+							"getCreditsAndPayments.by.check.payeeidandbalanceid")
 					.setParameter("id", customer).setEntity("company", company);
 			List list = query.list();
 
@@ -521,29 +520,30 @@ public class CustomerManager extends Manager {
 		// Updating
 		try {
 			session.getNamedQuery(
-					"update.merge.Payee.mergeoldbalance.tonewbalance").setLong(
-					"id", toClientCustomer.getID()).setDouble("balance",
-					mergeBalance).setEntity("company", company).executeUpdate();
+					"update.merge.Payee.mergeoldbalance.tonewbalance")
+					.setLong("id", toClientCustomer.getID())
+					.setDouble("balance", mergeBalance)
+					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.invoice.old.tonew").setLong(
-					"fromID", fromClientCustomer.getID()).setLong("toID",
-					toClientCustomer.getID()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("update.merge.invoice.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.cashsale.old.tonew").setLong(
-					"fromID", fromClientCustomer.getID()).setLong("toID",
-					toClientCustomer.getID()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("update.merge.cashsale.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.customercreditmemo.old.tonew")
-					.setLong("fromID", fromClientCustomer.getID()).setLong(
-							"toID", toClientCustomer.getID()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.salesOrder.old.tonew").setLong(
-					"fromID", fromClientCustomer.getID()).setLong("toID",
-					toClientCustomer.getID()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("update.merge.salesOrder.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 			//
 			// session.getNamedQuery("update.merge.Entry.old.tonew")
 			// .setLong("fromID", fromClientCustomer.getID())
@@ -552,24 +552,24 @@ public class CustomerManager extends Manager {
 			// .setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.CustomerPrePayment.old.tonew")
-					.setLong("fromID", fromClientCustomer.getID()).setLong(
-							"toID", toClientCustomer.getID()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.CustomerRefund.old.tonew")
-					.setLong("fromID", fromClientCustomer.getID()).setLong(
-							"toID", toClientCustomer.getID()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.ReceivePayment.old.tonew")
-					.setLong("fromID", fromClientCustomer.getID()).setLong(
-							"toID", toClientCustomer.getID()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.Estimate.old.tonew").setLong(
-					"fromID", fromClientCustomer.getID()).setLong("toID",
-					toClientCustomer.getID()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("update.merge.Estimate.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			// session.getNamedQuery(
 			// "update.merge.transactionMakeDeposit.old.tonew")
@@ -577,15 +577,15 @@ public class CustomerManager extends Manager {
 			// .setLong("toID", toClientCustomer.getID())
 			// .setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.writeCheck.old.tonew").setLong(
-					"fromID", fromClientCustomer.getID()).setLong("toID",
-					toClientCustomer.getID()).setEntity("company", company)
-					.executeUpdate();
+			session.getNamedQuery("update.merge.writeCheck.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.JournalEntry.old.tonew")
-					.setLong("fromID", fromClientCustomer.getID()).setLong(
-							"toID", toClientCustomer.getID()).setEntity(
-							"company", company).executeUpdate();
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
+					.setEntity("company", company).executeUpdate();
 
 			// session.getNamedQuery("delete.entry.old")
 			// .setLong("from", fromClientCustomer.getID())
@@ -611,9 +611,9 @@ public class CustomerManager extends Manager {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("getMostProfitableCustomers")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate());
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -660,8 +660,8 @@ public class CustomerManager extends Manager {
 				for (TransactionItem item : je.getTransactionItems()) {
 					if (je.getInvolvedPayee() != null
 							&& je.getInvolvedPayee() instanceof Customer
-							&& je.getInvolvedPayee().getName().equals(
-									mpc.getCustomer())
+							&& je.getInvolvedPayee().getName()
+									.equals(mpc.getCustomer())
 							&& item.getAccount().getID() == company
 									.getAccountsReceivableAccount().getID()) {
 						mpc.setBilledCost(mpc.getBilledCost()
@@ -721,8 +721,8 @@ public class CustomerManager extends Manager {
 		Query query = session.getNamedQuery("getTransactionHistoryCustomers")
 				.setParameter("companyId", companyId)
 
-				.setParameter("startDate", startDate.getDate()).setParameter(
-						"endDate", endDate.getDate());
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -767,10 +767,10 @@ public class CustomerManager extends Manager {
 		long end = date[1] != null ? date[1].getDate() : endDate.getDate();
 
 		Query query = session.getNamedQuery("getCustomerTransactionHistory")
-				.setParameter("companyId", companyId).setParameter("startDate",
-						startDate.getDate()).setParameter("endDate",
-						endDate.getDate()).setParameter("start", start)
-				.setParameter("end", end);
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("start", start).setParameter("end", end);
 
 		List l = query.list();
 
@@ -816,8 +816,7 @@ public class CustomerManager extends Manager {
 
 			transactionHistory
 					.setBeginningBalance((object[13] != null ? ((Double) object[13])
-							.doubleValue()
-							: 0.0));
+							.doubleValue() : 0.0));
 			transactionHistory
 					.setIsVoid(object[14] != null ? (Boolean) object[14]
 							: false);
