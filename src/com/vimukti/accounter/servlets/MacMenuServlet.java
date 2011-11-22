@@ -256,7 +256,7 @@ public class MacMenuServlet extends BaseServlet {
 			menu(mainValue, iGlobal.messages().taxAdjustment(),
 					"company/accounter#taxAdjustment");
 			menu(mainValue, iGlobal.messages().fileTAX(),
-					"company/accounter#fileTAX");
+					"company/accounter#fileTax");
 		}
 
 		if (canDoBanking()) {
@@ -284,6 +284,8 @@ public class MacMenuServlet extends BaseServlet {
 		StringBuilder settingsValue = new StringBuilder();
 		menu(settingsValue, iGlobal.messages().generalSettings(),
 				"company/accounter#generalSettings");
+		menu(settingsValue, iGlobal.messages().translation(),
+				"company/accounter#translation");
 		mainMenu(builder, iGlobal.messages().settings(), settingsValue);
 	}
 

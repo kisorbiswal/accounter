@@ -724,6 +724,9 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getCurrencyGroupListAction()
 				.getHistoryToken(), ActionFactory.getCurrencyGroupListAction());
+		
+		actions.put(ActionFactory.getTranslationAction()
+				.getHistoryToken(), ActionFactory.getTranslationAction());
 
 	}
 
