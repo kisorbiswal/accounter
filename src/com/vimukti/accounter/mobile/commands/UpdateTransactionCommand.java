@@ -2,6 +2,8 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -10,7 +12,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
 public class UpdateTransactionCommand extends NewAbstractCommand {
 
@@ -19,9 +20,9 @@ public class UpdateTransactionCommand extends NewAbstractCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		long transactionId = Long.valueOf(context.getString());
-		Transaction transaction = (Transaction) CommandUtils
-				.getClientObjectById(transactionId,
-						AccounterCoreType.TRANSACTION, getCompanyId());
+		Session session = context.getHibernateSession();
+		Transaction transaction = (Transaction) session.get(Transaction.class,
+				transactionId);
 		get(TRANSACTION).setValue(transaction);
 		context.setString("");
 		return null;
@@ -127,7 +128,7 @@ public class UpdateTransactionCommand extends NewAbstractCommand {
 		String transactionName = CommandUtils.getTransactionName(transaction
 				.getType());
 		Result makeResult = context.makeResult();
-		makeResult.setNextCommand("new " + transactionName + " #"
+		makeResult.setNextCommand("New " + transactionName + " #"
 				+ transaction.getNumber());
 		markDone();
 		return makeResult;
