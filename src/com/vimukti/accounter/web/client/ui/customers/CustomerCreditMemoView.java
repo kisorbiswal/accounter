@@ -57,7 +57,7 @@ public class CustomerCreditMemoView extends
 	private Double salesTax = 0.0D;
 	private ArrayList<DynamicForm> listforms;
 	private TextAreaItem billToTextArea;
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 	private CustomerAccountTransactionTable customerAccountTransactionTable;
 	private CustomerItemTransactionTable customerItemTransactionTable;
 	protected ClientPriceLevel priceLevel;
@@ -192,6 +192,9 @@ public class CustomerCreditMemoView extends
 
 			@Override
 			public void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				CustomerCreditMemoView.this.updateNonEditableItems();
 			}
 
@@ -230,6 +233,9 @@ public class CustomerCreditMemoView extends
 
 			@Override
 			public void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				CustomerCreditMemoView.this.updateNonEditableItems();
 			}
 
@@ -406,8 +412,7 @@ public class CustomerCreditMemoView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							messages.enterTaxCode());
+					result.addError(taxCodeSelect, messages.enterTaxCode());
 				}
 
 			}
@@ -415,6 +420,7 @@ public class CustomerCreditMemoView extends
 		return result;
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		if (taxCode != null && transactionItems != null) {
@@ -442,8 +448,7 @@ public class CustomerCreditMemoView extends
 			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
 					.getAmount()));
 			if (vatinclusiveCheck != null) {
-				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
+				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 			}
 			transaction.setTaxTotal(this.salesTax);
 		}
@@ -575,7 +580,7 @@ public class CustomerCreditMemoView extends
 	protected void initMemoAndReference() {
 		if (this.transaction != null) {
 
-			ClientCustomerCreditMemo creditMemo = (ClientCustomerCreditMemo) transaction;
+			ClientCustomerCreditMemo creditMemo = transaction;
 
 			if (creditMemo.getMemo() != null) {
 
@@ -592,8 +597,7 @@ public class CustomerCreditMemoView extends
 	@Override
 	protected void initSalesTaxNonEditableItem() {
 		if (transaction != null) {
-			Double salesTaxAmout = ((ClientCustomerCreditMemo) transaction)
-					.getTaxTotal();
+			Double salesTaxAmout = transaction.getTaxTotal();
 			if (salesTaxAmout != null) {
 				taxTotalNonEditableText
 						.setAmount(getAmountInTransactionCurrency(salesTaxAmout));
@@ -606,8 +610,7 @@ public class CustomerCreditMemoView extends
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
 		if (transaction != null) {
-			Double transactionTotal = ((ClientCustomerCreditMemo) transaction)
-					.getTotal();
+			Double transactionTotal = transaction.getTotal();
 			if (transactionTotal != null) {
 				transactionTotalinBaseCurrency.setAmount(transactionTotal);
 				transactionTotalinForeignCurrency
@@ -744,7 +747,9 @@ public class CustomerCreditMemoView extends
 		if (currency != 0) {
 			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
 			if (clientCurrency != null) {
-				currencyWidget.setSelectedCurrency(clientCurrency);
+				currencyWidget
+						.setSelectedCurrencyFactorInWidget(clientCurrency,
+								transactionDateItem.getDate().getDate());
 			}
 		} else {
 			ClientCurrency clientCurrency = getCompany().getPrimaryCurrency();
@@ -755,9 +760,8 @@ public class CustomerCreditMemoView extends
 
 		if (isMultiCurrencyEnabled()) {
 			super.setCurrency(getCompany().getCurrency(customer.getCurrency()));
-			setCurrencyFactor(1.0);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
-			modifyForeignCurrencyTotalWidget();
 		}
 	}
 
@@ -770,6 +774,7 @@ public class CustomerCreditMemoView extends
 		}
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -800,6 +805,7 @@ public class CustomerCreditMemoView extends
 		super.fitToSize(height, width);
 	}
 
+	@Override
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
@@ -992,7 +998,6 @@ public class CustomerCreditMemoView extends
 	@Override
 	public void updateAmountsFromGUI() {
 		modifyForeignCurrencyTotalWidget();
-
 		customerAccountTransactionTable.updateAmountsFromGUI();
 		customerItemTransactionTable.updateAmountsFromGUI();
 	}
