@@ -750,6 +750,7 @@
 		<alias>Update Item Group</alias>
 		<alias>Edit Item Group</alias>
 		<alias>Modify Item Group</alias>
+		<alias>Delete Item Group"</alias>
 	</command>
 
 	<command clazz="QuotesListCommand" name="Quotes List">
