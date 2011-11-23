@@ -12,6 +12,8 @@ import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.IssuePaymentTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -25,6 +27,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 	private static final String CHEQUE_NO = "checknum";
 	private static final String PAYMENT_METHOD = "paymentMethod";
 	private static final String ACCOUNT = "account";
+	ClientIssuePayment issuePayment;
 
 	@Override
 	public String getId() {
@@ -181,7 +184,6 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 	// }
 
 	private void completeProcess(Context context) {
-		ClientIssuePayment issuePayment = new ClientIssuePayment();
 		issuePayment.setType(ClientTransaction.TYPE_ISSUE_PAYMENT);
 		issuePayment.setNumber(getNextTransactionNumber(context));
 		issuePayment.setDate(new ClientFinanceDate().getDate());
@@ -204,9 +206,8 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			chequenum = "1";
 		}
 		issuePayment.setCheckNumber(chequenum);
-		List<ClientTransactionIssuePayment> issuepayments = getTransactionIssuePayments(issuePayment);
-		issuePayment.setTransactionIssuePayment(issuepayments);
-		setTransactionTotal(issuePayment);
+		issuePayment.setTransactionIssuePayment(getTransactionIssuePayments());
+		issuePayment.setTotal(getTransactionTotal());
 		create(issuePayment, context);
 	}
 
@@ -215,84 +216,11 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 	 * @param issuePayment
 	 * @return
 	 */
-	private List<ClientTransactionIssuePayment> getTransactionIssuePayments(
-			ClientIssuePayment issuePayment) {
+	private List<ClientTransactionIssuePayment> getTransactionIssuePayments() {
 		List<ClientTransactionIssuePayment> transactionIssuePaymentsList = new ArrayList<ClientTransactionIssuePayment>();
-
-		ClientTransactionIssuePayment entry;
 		ArrayList<IssuePaymentTransactionsList> issuepayments = get(
 				PAYMENTS_TO_ISSUED).getValue();
-		List<ClientTransactionIssuePayment> setValuesToRecords = setValuesToRecord(issuepayments);
-		for (ClientTransactionIssuePayment record : setValuesToRecords) {
-			entry = new ClientTransactionIssuePayment();
-			if (record.getDate() != 0)
-				entry.setDate(record.getDate());
-			if (record.getNumber() != null)
-				entry.setNumber(record.getNumber());
-
-			if (record.getName() != null)
-				entry.setName(record.getName());
-
-			entry.setAmount(record.getAmount());
-			entry.setMemo(record.getMemo());
-
-			if (record.getPaymentMethod() != null) {
-				entry.setPaymentMethod(record.getPaymentMethod());
-			}
-
-			switch (record.getRecordType()) {
-			case ClientTransaction.TYPE_WRITE_CHECK:
-				entry.setWriteCheck(record.getWriteCheck());
-				entry.setRecordType(ClientTransaction.TYPE_WRITE_CHECK);
-				break;
-			case ClientTransaction.TYPE_CASH_PURCHASE:
-			case ClientTransaction.TYPE_CASH_EXPENSE:
-			case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
-				entry.setCashPurchase(record.getCashPurchase());
-				entry.setRecordType(ClientTransaction.TYPE_CASH_PURCHASE);
-				break;
-			case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
-				entry.setCustomerRefund(record.getCustomerRefund());
-				entry.setRecordType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
-				break;
-			case ClientTransaction.TYPE_PAY_TAX:
-				entry.setPaySalesTax(record.getPaySalesTax());
-				entry.setRecordType(ClientTransaction.TYPE_PAY_TAX);
-				break;
-			case ClientTransaction.TYPE_PAY_BILL:
-				entry.setPayBill(record.getPayBill());
-				entry.setRecordType(ClientTransaction.TYPE_PAY_BILL);
-				break;
-			case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
-			case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
-				entry.setCreditCardCharge(record.getCreditCardCharge());
-				entry.setRecordType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
-				break;
-			case ClientTransaction.TYPE_RECEIVE_TAX:
-				entry.setReceiveVAT(record.getReceiveVAT());
-				entry.setRecordType(ClientTransaction.TYPE_RECEIVE_TAX);
-				break;
-			case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
-				entry.setCustomerPrepayment(record.getCustomerPrepayment());
-				entry.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
-				break;
-
-			}
-
-			entry.setTransaction(issuePayment);
-
-			transactionIssuePaymentsList.add(entry);
-
-		}
-		return transactionIssuePaymentsList;
-
-	}
-
-	private List<ClientTransactionIssuePayment> setValuesToRecord(
-
-	List<IssuePaymentTransactionsList> entries) {
-		List<ClientTransactionIssuePayment> clientTransactionIssuePayments = new ArrayList<ClientTransactionIssuePayment>();
-		for (IssuePaymentTransactionsList entry : entries) {
+		for (IssuePaymentTransactionsList entry : issuepayments) {
 			ClientTransactionIssuePayment record = new ClientTransactionIssuePayment();
 			if (entry.getDate() != null)
 				record.setDate(entry.getDate().getDate());
@@ -340,44 +268,102 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 				break;
 			case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 				record.setCustomerPrepayment(entry.getTransactionId());
-				record
-						.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+				record.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 				break;
 
 			}
-			clientTransactionIssuePayments.add(record);
+			record.setTransaction(issuePayment);
+			transactionIssuePaymentsList.add(record);
 		}
-		return clientTransactionIssuePayments;
 
-		// record.setID(entry.getTransactionId());
+		return transactionIssuePaymentsList;
 
 	}
 
-	private void setTransactionTotal(ClientIssuePayment issuePayment) {
+	private double getTransactionTotal() {
 		double total = 0.0;
-		for (ClientTransactionIssuePayment rec : issuePayment
-				.getTransactionIssuePayment()) {
+		for (ClientTransactionIssuePayment rec : getTransactionIssuePayments()) {
 			total += rec.getAmount();
 			rec.setTransaction(issuePayment);
 		}
-		issuePayment.setTotal(total);
-
+		return total;
 	}
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select an Issue payment to update.");
+				return "Vendor Payments";
+			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
+			ClientIssuePayment invoiceByNum = (ClientIssuePayment) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.ISSUEPAYMENT);
+			if (invoiceByNum == null) {
+				addFirstMessage(context, "Select an Issue payment to update.");
+				return "Vendor Payments " + string;
+			}
+			issuePayment = invoiceByNum;
+			setValues(context);
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			issuePayment = new ClientIssuePayment();
+		}
 		return null;
+	}
+
+	private void setValues(Context context) {
+		get(PAYMENT_METHOD).setValue(issuePayment.getPaymentMethod());
+		get(ACCOUNT).setValue(
+				CommandUtils.getServerObjectById(issuePayment.getAccount(),
+						AccounterCoreType.ACCOUNT));
+		get(CHEQUE_NO).setValue(issuePayment.getCheckNumber());
+		get(PAYMENTS_TO_ISSUED).setValue(getIssuePaymentTransactionsList());
+
+	}
+
+	private List<IssuePaymentTransactionsList> getIssuePaymentTransactionsList() {
+		List<IssuePaymentTransactionsList> issuePaymentList = new ArrayList<IssuePaymentTransactionsList>();
+		for (ClientTransactionIssuePayment clientTransactionIssuePayment : issuePayment
+				.getTransactionIssuePayment()) {
+			IssuePaymentTransactionsList issuedPayment = new IssuePaymentTransactionsList();
+			issuedPayment.setTransactionId(clientTransactionIssuePayment
+					.getTransaction().getID());
+			issuedPayment.setAmount(clientTransactionIssuePayment.getAmount());
+			issuedPayment.setDate(new ClientFinanceDate(
+					clientTransactionIssuePayment.getDate()));
+			issuedPayment.setMemo(clientTransactionIssuePayment.getMemo());
+			issuedPayment.setName(clientTransactionIssuePayment.getName());
+			issuedPayment.setNumber(clientTransactionIssuePayment.getNumber());
+			issuedPayment.setPaymentMethod(clientTransactionIssuePayment
+					.getPaymentMethod());
+			issuedPayment
+					.setType(clientTransactionIssuePayment.getRecordType());
+			issuePaymentList.add(issuedPayment);
+		}
+		return issuePaymentList;
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Creating Issue Payment... ";
+		return issuePayment.getID() == 0 ? "Creating Issue Payment... "
+				: "Updating issue payment";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getMessages().issuePayment());
+		return issuePayment.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().issuePayment())
+				: "Issue payment is ready to update with following values";
 	}
 
 	@Override
@@ -388,7 +374,9 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getMessages().issuePayment());
+		return issuePayment.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().issuePayment())
+				: "Isssue payment updated successfully";
 	}
 
 	@Override
@@ -397,77 +385,8 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		return null;
 	}
 
-	// private List<ClientTransactionIssuePayment> getTransactionIssuePayments(
-	// ClientIssuePayment issuePayment) {
-	// List<ClientTransactionIssuePayment> transactionIssuePaymentsList = new
-	// ArrayList<ClientTransactionIssuePayment>();
-	//
-	// ClientTransactionIssuePayment entry;
-	// ArrayList<IssuePaymentTransactionsList> issuepayments = get(
-	// PAYMENTS_TO_ISSUED).getValue();
-	// for (IssuePaymentTransactionsList record : issuepayments) {
-	// entry = new ClientTransactionIssuePayment();
-	//
-	// entry.setDate(record.getDate().getDate());
-	// if (record.getNumber() != null)
-	// entry.setNumber(record.getNumber());
-	//
-	// if (record.getName() != null)
-	// entry.setName(record.getName());
-	//
-	// entry.setAmount(record.getAmount());
-	// entry.setMemo(record.getMemo());
-	//
-	// if (record.getPaymentMethod() != null) {
-	// entry.setPaymentMethod(record.getPaymentMethod());
-	// }
-	//
-	// switch (record.getType()) {
-	// case ClientTransaction.TYPE_WRITE_CHECK:
-	// entry.setWriteCheck(record.getType());
-	// entry.setRecordType(ClientTransaction.TYPE_WRITE_CHECK);
-	// break;
-	// case ClientTransaction.TYPE_CASH_PURCHASE:
-	// case ClientTransaction.TYPE_CASH_EXPENSE:
-	// case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
-	// entry.setCashPurchase(record.getTransactionId());
-	// entry.setRecordType(ClientTransaction.TYPE_CASH_PURCHASE);
-	// break;
-	// case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
-	// entry.setCustomerRefund(record.getTransactionId());
-	// entry.setRecordType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
-	// break;
-	// case ClientTransaction.TYPE_PAY_TAX:
-	// entry.setPaySalesTax(record.getType());
-	// entry.setRecordType(ClientTransaction.TYPE_PAY_TAX);
-	// break;
-	// case ClientTransaction.TYPE_PAY_BILL:
-	// entry.setPayBill(record.getType());
-	// entry.setRecordType(ClientTransaction.TYPE_PAY_BILL);
-	// break;
-	// case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
-	// case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
-	// entry.setCreditCardCharge(record.getType());
-	// entry.setRecordType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
-	// break;
-	// case ClientTransaction.TYPE_RECEIVE_TAX:
-	// entry.setReceiveVAT(record.getType());
-	// entry.setRecordType(ClientTransaction.TYPE_RECEIVE_TAX);
-	// break;
-	// case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
-	// entry.setCustomerPrepayment(record.getType());
-	// entry.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
-	// break;
-	//
-	// }
-	//
-	// entry.setTransaction(issuePayment);
-	//
-	// transactionIssuePaymentsList.add(entry);
-	//
-	// }
-	// return transactionIssuePaymentsList;
-	//
-	// }
-
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		makeResult.add("Total: " + getTransactionTotal());
+	}
 }

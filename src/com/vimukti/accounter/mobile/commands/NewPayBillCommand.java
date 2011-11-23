@@ -44,18 +44,19 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * 
  */
 public class NewPayBillCommand extends NewAbstractTransactionCommand {
-
-	ArrayList<PayBillTransactionList> billsList = new ArrayList<PayBillTransactionList>();
+	ClientPayBill paybill;
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().create(getMessages().payBill());
+		return paybill.getID() == 0 ? getMessages().create(
+				getMessages().payBill()) : "Update pay bill command activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-
-		return getMessages().readyToCreate(getMessages().payBill());
+		return paybill.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().payBill())
+				: "Pay bill is ready to update with follwoing values ";
 	}
 
 	@Override
@@ -75,7 +76,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getMessages().payBill());
+		return paybill.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().payBill()) : "Pay bill updated successfully";
 	}
 
 	@Override
@@ -259,8 +261,9 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<PayBillTransactionList> getList() {
+				ArrayList<PayBillTransactionList> transactionPayBills = new ArrayList<PayBillTransactionList>();
 				try {
-					return new FinanceTool().getVendorManager()
+					transactionPayBills = new FinanceTool().getVendorManager()
 							.getTransactionPayBills(
 									((Vendor) NewPayBillCommand.this
 											.get(VENDOR).getValue()).getID(),
@@ -268,19 +271,19 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				} catch (DAOException e) {
 					e.printStackTrace();
 				}
-				return billsList;
+				return transactionPayBills;
 			}
 		});
 	}
 
-	protected List<ClientCreditsAndPayments> getVendorCreditsAndPayments(
-			long vendorId, long companyId) {
+	protected List<ClientCreditsAndPayments> getVendorCreditsAndPayments() {
 		List<ClientCreditsAndPayments> clientCreditsAndPaymentsList = new ArrayList<ClientCreditsAndPayments>();
 		List<CreditsAndPayments> serverCreditsAndPayments = null;
 		try {
-
-			serverCreditsAndPayments = new FinanceTool().getVendorManager()
-					.getVendorCreditsAndPayments(vendorId, companyId);
+			Vendor vendor = get(VENDOR).getValue();
+			serverCreditsAndPayments = new FinanceTool()
+					.getVendorManager()
+					.getVendorCreditsAndPayments(vendor.getID(), getCompanyId());
 			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
 				clientCreditsAndPaymentsList.add(new ClientConvertUtil()
 						.toClientObject(creditsAndPayments,
@@ -298,13 +301,85 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Bill to update.");
+				return "Bills And Expenses List";
+			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
+			ClientPayBill invoiceByNum = (ClientPayBill) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.PAYBILL);
+			if (invoiceByNum == null) {
+				addFirstMessage(context, "Select a Bill to update.");
+				return "Bills And Expenses List " + string;
+			}
+			paybill = invoiceByNum;
+			setValues(context);
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			paybill = new ClientPayBill();
+		}
 		return null;
+	}
+
+	private void setValues(Context context) {
+		get(VENDOR).setValue(
+				CommandUtils.getServerObjectById(paybill.getVendor(),
+						AccounterCoreType.VENDOR));
+		get(PAY_FROM).setValue(
+				CommandUtils.getServerObjectById(paybill.getAccountsPayable(),
+						AccounterCoreType.ACCOUNT));
+		get(PAYMENT_METHOD).setValue(paybill.getPaymentMethod());
+		get(FILTER_BY_DUE_ON_BEFORE).setValue(
+				new ClientFinanceDate(paybill.getBillDueOnOrBefore()));
+		get(NUMBER).setValue(paybill.getNumber());
+		get(DATE).setValue(paybill.getDate());
+		get(MEMO).setValue(paybill.getMemo());
+		List<PayBillTransactionList> paybills = new ArrayList<PayBillTransactionList>();
+		List<ClientTransactionPayBill> transactionPayBill = paybill
+				.getTransactionPayBill();
+		for (ClientTransactionPayBill clientTransactionPayBill : transactionPayBill) {
+			PayBillTransactionList payBillTransaction = new PayBillTransactionList();
+			payBillTransaction.setAmountDue(clientTransactionPayBill
+					.getAmountDue());
+			payBillTransaction.setBillNumber(clientTransactionPayBill
+					.getBillNumber());
+			payBillTransaction.setCashDiscount(clientTransactionPayBill
+					.getCashDiscount());
+			payBillTransaction.setDiscountDate(new ClientFinanceDate(
+					clientTransactionPayBill.getDiscountDate()));
+			payBillTransaction.setDueDate(new ClientFinanceDate(
+					clientTransactionPayBill.getDueDate()));
+			payBillTransaction.setOriginalAmount(clientTransactionPayBill
+					.getOriginalAmount());
+			payBillTransaction
+					.setPayment(clientTransactionPayBill.getPayment());
+			payBillTransaction.setPaymentMethod(paybill.getPaymentMethod());
+			payBillTransaction.setVendorName(((Vendor) CommandUtils
+					.getServerObjectById(clientTransactionPayBill.getVendor(),
+							AccounterCoreType.VENDOR)).getName());
+			payBillTransaction.setCredits(clientTransactionPayBill
+					.getAppliedCredits());
+			payBillTransaction.setTransactionId(clientTransactionPayBill
+					.getPayBill().getID());
+			payBillTransaction.setType(clientTransactionPayBill.getPayBill()
+					.getType());
+			paybills.add(payBillTransaction);
+		}
+		get(BILLS_DUE).setValue(paybills);
 	}
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		ClientPayBill paybill = new ClientPayBill();
 		paybill.setType(ClientTransaction.TYPE_PAY_BILL);
 		paybill.setPayBillType(ClientPayBill.TYPE_PAYBILL);
 		paybill.setAccountsPayable(context.getCompany()
@@ -343,32 +418,44 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 								AccounterCoreType.TAXITEM, getCompanyId()));
 			}
 		}
-		List<PayBillTransactionList> paybills = get(BILLS_DUE).getValue();
-		List<ClientTransactionPayBill> transactionPayBills = getTransactionPayBills(
-				paybills, context);
-		for (ClientTransactionPayBill p : transactionPayBills) {
-			p.setAmountDue(p.getAmountDue());
-			p.setPayment(p.getPayment());
-			p.setPayBill(paybill);
-		}
 
-		paybill.setTransactionPayBill(transactionPayBills);
-		Double totalCredits = 0D;
-		for (ClientCreditsAndPayments credit : getVendorCreditsAndPayments(
-				vendor.getID(), context.getCompany().getId())) {
-			totalCredits += credit.getBalance();
-		}
-		paybill.setUnUsedCredits(totalCredits);
+		updateCreditsAndTotals();
 
-		adjustAmountAndEndingBalance(paybill, transactionPayBills, context);
 		create(paybill, context);
 
 		return null;
 	}
 
-	private List<ClientTransactionPayBill> getTransactionPayBills(
-			List<PayBillTransactionList> paybills, Context context) {
+	private void updateCreditsAndTotals() {
+		List<ClientTransactionPayBill> transactionPayBills = getTransactionPayBills();
+		paybill.setTransactionPayBill(transactionPayBills);
+		Double totalCredits = 0D;
+		for (ClientCreditsAndPayments credit : getVendorCreditsAndPayments()) {
+			totalCredits += credit.getBalance();
+		}
+		paybill.setUnUsedCredits(totalCredits);
+
+		double toBeSetAmount = 0.0;
+		for (ClientTransactionPayBill rec : transactionPayBills) {
+			toBeSetAmount += rec.getPayment();
+		}
+		paybill.setTotal(toBeSetAmount);
+		Account payFromAccount = get(PAY_FROM).getValue();
+		if (get(VENDOR).getValue() != null && payFromAccount != null) {
+			double toBeSetEndingBalance = 0.0;
+			if (payFromAccount.isIncrease())
+				toBeSetEndingBalance = payFromAccount.getTotalBalance()
+						+ paybill.getTotal();
+			else
+				toBeSetEndingBalance = payFromAccount.getTotalBalance()
+						- paybill.getTotal();
+			paybill.setEndingBalance(toBeSetEndingBalance);
+		}
+	}
+
+	private List<ClientTransactionPayBill> getTransactionPayBills() {
 		List<ClientTransactionPayBill> clientTransactionPayBills = new ArrayList<ClientTransactionPayBill>();
+		List<PayBillTransactionList> paybills = get(BILLS_DUE).getValue();
 		for (PayBillTransactionList curntRec : paybills) {
 
 			ClientTransactionPayBill record = new ClientTransactionPayBill();
@@ -392,44 +479,20 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			record.setOriginalAmount(curntRec.getOriginalAmount());
 			record.setPayment(curntRec.getPayment());
-
-			// record.setPayment(curntRec.getPayment());
+			record.setPayBill(paybill);
 			Payee vendor = get(VENDOR).getValue();
 			if (vendor != null)
 				record.setVendor(vendor.getID());
 			clientTransactionPayBills.add(record);
-
 		}
 		return clientTransactionPayBills;
 
 	}
 
-	private void adjustAmountAndEndingBalance(ClientPayBill transaction,
-			List<ClientTransactionPayBill> transactionPayBills, Context context) {
-		// List<ClientTransactionPayBill> selectedRecords = get(BILLS_DUE)
-		// .getValue();
-		double toBeSetAmount = 0.0;
-		for (ClientTransactionPayBill rec : transactionPayBills) {
-			toBeSetAmount += rec.getPayment();
-
-		}
-		if (transaction != null) {
-			transaction.setTotal(toBeSetAmount);
-
-			if (get(VENDOR).getValue() != null) {
-				double toBeSetEndingBalance = 0.0;
-				Account payFromAccount = get(PAY_FROM).getValue();
-				if (payFromAccount.isIncrease())
-					toBeSetEndingBalance = payFromAccount.getTotalBalance()
-							+ transaction.getTotal();
-				else
-					toBeSetEndingBalance = payFromAccount.getTotalBalance()
-							- transaction.getTotal();
-				transaction.setEndingBalance(toBeSetEndingBalance);
-
-			}
-		}
-
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		updateCreditsAndTotals();
+		makeResult.add("Total: " + paybill.getTotal());
+		makeResult.add("Un Used credits : " + paybill.getUnUsedCredits());
 	}
-
 }
