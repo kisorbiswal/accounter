@@ -21,10 +21,11 @@ import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
-import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
+import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
@@ -365,11 +366,11 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
 				getMessages().billTo()), getMessages().billTo(), true, true));
 
-		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
+		list.add(new PhoneRequirement(PHONE, getMessages().pleaseEnter(
 				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				true, true));
 
-		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
+		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
