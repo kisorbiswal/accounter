@@ -23,10 +23,11 @@ import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.EstimateRequirement;
-import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
+import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.services.DAOException;
@@ -238,10 +239,10 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
 				getMessages().dueDate()), getMessages().dueDate(), true, true));
 
-		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
+		list.add(new PhoneRequirement(PHONE, getMessages().pleaseEnter(
 				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				true, true));
-		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
+		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 		list.add(new StringListRequirement(STATUS, getMessages().pleaseSelect(
 				getMessages().status()), getMessages().status(), true, true,
