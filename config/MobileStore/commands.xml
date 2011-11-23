@@ -570,6 +570,8 @@
 		<alias>Update Quote</alias>
 		<alias>Edit Quote</alias>
 		<alias>New Estimate</alias>
+		<alias>New Charge</alias>
+		<alias>New Credit</alias>
 	</command>
 
 	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
@@ -842,6 +844,7 @@
 		<alias>Update CreditMemo</alias>
 		<alias>Edit CreditMemo</alias>
 		<alias>Modify CreditMemo</alias>
+		<alias>New Credit Note</alias>
 	</command>
 	<command clazz="ClassListCommand" name="Class List">
 		<alias>classes list</alias>
