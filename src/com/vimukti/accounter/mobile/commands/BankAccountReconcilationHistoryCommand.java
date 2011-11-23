@@ -1,29 +1,61 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Reconciliation;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * 
  * @author Lingarao.R
  * 
  */
-public class BankAccountReconcilationHistoryCommand extends
-		AbstractTransactionCommand {
-	private static final int TYPE_BANK = 2;
-	private static final int RECONCILATION_HISTORY_TO_SHOW = 5;
+public class BankAccountReconcilationHistoryCommand extends NewAbstractCommand {
+
+	private static final String BANK_ACCOUNT = "BankAccount";
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+
+		return null;
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+
+		get(VIEW_BY).setDefaultValue(getMessages().open());
+
+	}
+
+	@Override
+	public String getSuccessMessage() {
+
+		return "Success";
+
+	}
 
 	@Override
 	public String getId() {
@@ -33,182 +65,105 @@ public class BankAccountReconcilationHistoryCommand extends
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement("BankAccount", false, true));
-	}
+		list.add(new ActionRequirement(VIEW_BY, null) {
 
-	@Override
-	public Result run(Context context) {
-		Result result = bankAccountsRequirement(context);
-		if (result == null) {
-			// TODO
-		}
-		result = createreconcilationHistory(context);
-		if (result == null) {
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				return list;
+			}
+		});
+		list.add(new AccountRequirement(BANK_ACCOUNT, getMessages()
+				.pleaseEnter(getMessages().bankAccount()), getMessages()
+				.bankAccount(), false, true, null) {
 
-		}
-
-		return result;
-
-	}
-
-	private Result createreconcilationHistory(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-		Reconciliation selection2 = context
-				.getSelection("reconcilationHistorylist");
-		if (selection2 != null) {
-			// TODO Craete a command
-		}
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
+			@Override
+			protected String getSetMessage() {
+				// TODO Auto-generated method stub
 				return null;
-			default:
-				break;
 			}
-		}
-		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
 
-		Result result = reconcilationList(context);
-		if (result != null) {
-			return result;
-		}
+			@Override
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
 
-		return result;
-	}
-
-	private Result reconcilationList(Context context) {
-
-		Result result = context.makeResult();
-		ResultList recomcilationList = new ResultList(
-				"reconcilationHistorylist");
-		result.add("reconcilationHistorylist");
-		int num = 0;
-		BankAccount bankAccount = context.getSelection("BankAccount");
-		List<Reconciliation> reconciliations = getReconciliationsByBankAccountID(bankAccount
-				.getID());
-		for (Reconciliation reconciliation : reconciliations) {
-			recomcilationList.add(createreReconcilationRecord(reconciliation));
-			num++;
-			if (num == RECONCILATION_HISTORY_TO_SHOW) {
-				break;
+						@Override
+						public boolean filter(Account e) {
+							return Arrays.asList(Account.TYPE_BANK).contains(
+									e.getType());
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
+					}
+				}
+				return filteredList;
 			}
-		}
-		int size = recomcilationList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Reconcilation Account");
-		}
-		result.add(message.toString());
-		result.add(recomcilationList);
 
-		return result;
-
-	}
-
-	private Record createreReconcilationRecord(Reconciliation reconciliation) {
-
-		Record record = new Record(reconciliation);
-		record.add("Name", "Reconcilation History");
-		record.add("Value", reconciliation.getClosingBalance());
-		return record;
-	}
-
-	public List<Reconciliation> getReconciliationsByBankAccountID(long accountID) {
-		// TODO
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return {@link Result}
-	 */
-	private Result bankAccountsRequirement(Context context) {
-		Requirement bankAccountReq = get("BankAccount");
-		BankAccount bankAccount = context.getSelection("BankAccount");
-		if (bankAccount != null) {
-			bankAccountReq.setValue(bankAccount);
-		}
-		if (!bankAccountReq.isDone()) {
-			return reconcilationBankAccounts(context);
-		}
-
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return {@link Result}
-	 */
-
-	private Result reconcilationBankAccounts(Context context) {
-		Result result = context.makeResult();
-		ResultList bankAccountsList = new ResultList("BankAccount");
-
-		Object last = context.getLast(RequirementType.BANK_ACCOUNT);
-		int num = 0;
-		if (last != null) {
-			bankAccountsList.add(createBankAccoutRecord((BankAccount) last));
-			num++;
-		}
-		ArrayList<Account> bankAccounts = getBankAccounts(new ArrayList<Account>(
-				context.getCompany().getAccounts()));
-
-		for (Account bankAccount : bankAccounts) {
-			if (bankAccount != last) {
-				bankAccountsList.add(createBankAccoutRecord(bankAccount));
-				num++;
+			@Override
+			protected String getEmptyString() {
+				// TODO Auto-generated method stub
+				return null;
 			}
-			if (num == BANK_ACCOUNTS_TO_SHOW) {
-				break;
+		});
+
+		list.add(new ShowListRequirement<Reconciliation>(
+				"Reconsolation history", "", 10) {
+
+			@Override
+			protected String onSelection(Reconciliation value) {
+				// TODO Auto-generated method stub
+				return null;
 			}
-		}
-		int size = bankAccountsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Bank account");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
 
-		result.add(message.toString());
-		result.add(bankAccountsList);
-		result.add(commandList);
-		result.add("Type for Bank account");
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param accounts
-	 * @return {@link ArrayList<Account>}
-	 */
-	private ArrayList<Account> getBankAccounts(ArrayList<Account> accounts) {
-		ArrayList<Account> list = new ArrayList<Account>();
-		for (Account account : accounts) {
-			if (account.getType() == TYPE_BANK) {
-				list.add(account);
+			@Override
+			protected String getShowMessage() {
+				return getMessages().ReconciliationsList();
 			}
-		}
-		return list;
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getMessages().Reconciliation());
+			}
+
+			@Override
+			protected Record createRecord(Reconciliation value) {
+				Record rec = new Record(value);
+				rec.add("", value.getReconcilationDate());
+				rec.add("", value.getStartDate() + " to " + value.getEndDate());
+				rec.add("", value.getOpeningBalance());
+				rec.add("", value.getClosingBalance());
+				return rec;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+
+			}
+
+			@Override
+			protected boolean filter(Reconciliation e, String name) {
+				return false;
+			}
+
+			@Override
+			protected List<Reconciliation> getLists(Context context) {
+
+				return getListData(context);
+			}
+		});
 	}
 
-	/**
-	 * 
-	 * @param bankAccount
-	 * @return
-	 */
-	private Record createBankAccoutRecord(Account bankAccount) {
+	protected List<Reconciliation> getListData(Context context) {
+		Account viewBY = get(BANK_ACCOUNT).getValue();
+		ArrayList<Reconciliation> list = new ArrayList<Reconciliation>();
+		List<Reconciliation> allRecords = null;
 
-		Record record = new Record(bankAccount);
-		record.add("Name", "BankAccount");
-		record.add("Value", bankAccount.getName());
-		return record;
+		allRecords = new FinanceTool().getReconciliationslist(viewBY.getID(),
+				getCompanyId());
 
+		return allRecords;
 	}
-
 }
