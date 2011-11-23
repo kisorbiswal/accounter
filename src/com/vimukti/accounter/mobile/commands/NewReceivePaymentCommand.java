@@ -15,10 +15,10 @@ import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
-import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.ReceivePaymentTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -55,7 +55,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-	/*
+		/*
 		 * list.add(new CurrencyRequirement(CURRENCY,
 		 * getMessages().pleaseSelect( getConstants().currency()),
 		 * getConstants().currency(), true, true, null) {
@@ -88,13 +88,13 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		 */
 
 		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_TO, getMessages()
-				.pleaseEnterNameOrNumber(getMessages().Account()), getMessages()
-				.depositAccount(), false, true, null) {
+				.pleaseEnterNameOrNumber(getMessages().Account()),
+				getMessages().depositAccount(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(
-						getMessages().depositAccount());
+				return getMessages()
+						.hasSelected(getMessages().depositAccount());
 			}
 
 			@Override
@@ -140,19 +140,18 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
-				.pleaseEnterName(getMessages().paymentMethod()),
-				getMessages().paymentMethod(), false, true, null) {
+				.pleaseEnterName(getMessages().paymentMethod()), getMessages()
+				.paymentMethod(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getMessages().paymentMethod());
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getMessages().paymentMethod());
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -195,7 +194,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().number()), getMessages().number(), true, true));
 
-		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
+		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 
 		list.add(new NumberRequirement(CHECK_NUMBER, getMessages().pleaseEnter(
