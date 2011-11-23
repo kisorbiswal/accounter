@@ -525,8 +525,8 @@ public class CompanyManager extends Manager {
 	 *            see
 	 *            {@link FinanceDate#clientTimeAtServer(java.util.Date, long)}
 	 */
-	public void performRecurringAction(String companyName,
-			FinanceDate clientDateAtServer, long companyId) {
+	public void performRecurringAction(FinanceDate clientDateAtServer,
+			long companyId) {
 		Session session = HibernateUtil.openSession();
 		try {
 			// TODO need to write query

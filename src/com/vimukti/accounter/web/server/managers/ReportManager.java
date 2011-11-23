@@ -452,7 +452,9 @@ public class ReportManager extends Manager {
 					// if (t.getAmount() != 0.0) {
 					sortedList.add(t);
 					// }
-					getChilds(str, queryResult, sortedList);
+					if (str != null) {
+						getChilds(str, queryResult, sortedList);
+					}
 				}
 			}
 
@@ -466,7 +468,8 @@ public class ReportManager extends Manager {
 
 		for (TrialBalance t : queryResult) {
 
-			if (t.getAccountFlow().startsWith(str + ".")) {
+			if (t.getAccountFlow() != null
+					&& t.getAccountFlow().startsWith(str + ".")) {
 
 				if (!t.getAccountFlow().substring(str.length() + 1)
 						.contains(".")) {
