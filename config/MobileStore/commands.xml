@@ -319,6 +319,8 @@
 
 	<command clazz="ExpensesListCommand" name="Expenses List">
 		<alias>Expenses Claims</alias>
+		<alias>Credit Card Expenses List</alias>
+		<alias>Cash Expenses List</alias>
 		<alias>Expenses</alias>
 	</command>
 
@@ -878,7 +880,7 @@
 		<alias>VendorGroups</alias>
 
 	</command>
-	
+
 	<command clazz="PaymentTermsListCommand" name="PaymentTerms List">
 		<alias>Payment Terms list</alias>
 		<alias>PaymentTerms list</alias>
