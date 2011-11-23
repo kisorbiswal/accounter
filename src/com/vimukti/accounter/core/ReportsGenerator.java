@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.reports.BudgetServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
@@ -1451,7 +1452,9 @@ public class ReportsGenerator {
 		case REPORT_TYPE_AP_AGEINGDETAIL:
 			return "AP Ageing Detail Report";
 		case REPORT_TYPE_VENDORTRANSACTIONHISTORY:
-			return "Supplier Transaction History Report";
+			// return "Supplier Transaction History Report";
+			return Global.get().messages()
+					.payeeTransactionHistory(Global.get().Vendor());
 		case REPORT_TYPE_PURCHASEBYVENDORSUMMARY:
 			return "Purchase By Supplier Summary Report";
 		case REPORT_TYPE_PURCHASEBYVENDORDETAIL:
