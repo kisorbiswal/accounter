@@ -399,9 +399,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		// get(IS_TAXABLE).setDefaultValue(Boolean.TRUE);
-		// get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
-		// get(SERVICE_NO).setDefaultValue("1");
+		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
 	}
 
 	@Override
@@ -515,12 +513,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 	private void setValues() {
 		get(NAME).setValue(item.getName());
-		int weight = item.getWeight();
-		// if (weight != 0) {
-		// get(WEIGHT).setValue(String.valueOf(weight));
-		// } else {
-		// get(WEIGHT).setDefaultValue(String.valueOf(0));
-		// }
+
 		get(I_SELL_THIS).setValue(item.isISellThisItem());
 		get(SALES_DESCRIPTION).setValue(item.getSalesDescription());
 		get(SALES_PRICE).setValue(item.getSalesPrice());
