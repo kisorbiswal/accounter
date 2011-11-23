@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
+import org.bouncycastle.asn1.x509.IetfAttrSyntax;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Item;
@@ -116,18 +117,23 @@ public class UpdateItemCommand extends NewAbstractCommand {
 			@Override
 			public String getNextCommand() {
 				Item item = get(ITEM).getValue();
-				if (item.isISellThisItem()) {
-
-				} else if (item.isIBuyThisItem()) {
-
-				} else {
-
+				String name = item.getName();
+				String nextCommand = null;
+				switch (item.getType()) {
+				case Item.TYPE_SERVICE:
+					nextCommand = "Update Service Item " + name;
+					break;
+				case Item.TYPE_NON_INVENTORY_PART:
+					nextCommand = "Update Non Inventory Item " + name;
+					break;
+				case Item.TYPE_INVENTORY_PART:
+					nextCommand = "Update Inventory Item " + name;
+					break;
 				}
-				return null;
+				return nextCommand;
 
 			}
 		});
 
 	}
-
 }

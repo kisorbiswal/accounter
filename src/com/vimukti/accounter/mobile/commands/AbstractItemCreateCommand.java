@@ -399,9 +399,9 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(IS_TAXABLE).setDefaultValue(Boolean.TRUE);
-		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
-		get(SERVICE_NO).setDefaultValue("1");
+		// get(IS_TAXABLE).setDefaultValue(Boolean.TRUE);
+		// get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
+		// get(SERVICE_NO).setDefaultValue("1");
 	}
 
 	@Override
@@ -514,8 +514,39 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	}
 
 	private void setValues() {
-		// TODO Auto-generated method stub
-
+		get(NAME).setValue(item.getName());
+		int weight = item.getWeight();
+		// if (weight != 0) {
+		// get(WEIGHT).setValue(String.valueOf(weight));
+		// } else {
+		// get(WEIGHT).setDefaultValue(String.valueOf(0));
+		// }
+		get(I_SELL_THIS).setValue(item.isISellThisItem());
+		get(SALES_DESCRIPTION).setValue(item.getSalesDescription());
+		get(SALES_PRICE).setValue(item.getSalesPrice());
+		get(INCOME_ACCOUNT).setValue(
+				CommandUtils.getServerObjectById(item.getIncomeAccount(),
+						AccounterCoreType.ACCOUNT));
+		get(IS_TAXABLE).setValue(item.isTaxable());
+		get(IS_COMMISION_ITEM).setValue(item.isCommissionItem());
+		get(STANDARD_COST).setValue(item.getStandardCost());
+		long itemGroup = item.getItemGroup();
+		get(ITEM_GROUP).setValue(
+				CommandUtils.getServerObjectById(itemGroup,
+						AccounterCoreType.ITEM_GROUP));
+		get(TAXCODE).setValue(
+				CommandUtils.getServerObjectById(item.getTaxCode(),
+						AccounterCoreType.TAX_CODE));
+		get(IS_ACTIVE).setValue(item.isActive());
+		get(I_BUY_THIS).setValue(item.isIBuyThisItem);
+		get(PURCHASE_DESCRIPTION).setValue(item.getPurchaseDescription());
+		get(PURCHASE_PRICE).setValue(item.getPurchasePrice());
+		get(EXPENSE_ACCOUNT).setValue(
+				CommandUtils.getServerObjectById(item.getExpenseAccount(),
+						AccounterCoreType.ACCOUNT));
+		get(PREFERRED_SUPPLIER).setValue(
+				CommandUtils.getServerObjectById(item.getPreferredVendor(),
+						AccounterCoreType.VENDOR));
 	}
 
 	public ClientItem getItem() {
