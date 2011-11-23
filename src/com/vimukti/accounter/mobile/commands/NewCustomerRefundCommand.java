@@ -332,6 +332,11 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 
 	}
 
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+
+	}
+
 	private void adjustBalance(double amount, Customer customer,
 			ClientCustomerRefund refund, Context context) {
 		double enteredBalance = amount;

@@ -77,9 +77,9 @@ public abstract class NewCommand extends Command {
 						context.makeResult(), list2, actions);
 				if (process != null) {
 					requirementNumber = i - 1;
-					if (i != 0) {
-						process.setShowBack(true);
-					}
+					// if (i != 0) {
+					// process.setShowBack(true);
+					// }
 					return process;
 				}
 			}
@@ -91,9 +91,9 @@ public abstract class NewCommand extends Command {
 					list, actions);
 			if (result != null) {
 				requirementNumber = i - 1;
-				if (i != 0) {
-					result.setShowBack(true);
-				}
+				// if (i != 0) {
+				// result.setShowBack(true);
+				// }
 				return result;
 			}
 		}
