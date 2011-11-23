@@ -258,14 +258,9 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		}
 	}
 
-	private void recalculateGridAmounts(ClientReceivePayment payment) {
+	private void recalculateGridAmounts() {
 		payment.setTotal(getGridTotal());
-		double toBeSetAmount = 0.0;
-		for (ClientTransactionReceivePayment receivePayment : payment
-				.getTransactionReceivePayment()) {
-			toBeSetAmount += receivePayment.getPayment();
-		}
-		payment.setAmount(toBeSetAmount);
+		payment.setAmount((Double) get(AMOUNT_RECEIVED).getValue());
 		payment.setUnUsedPayments(payment.getAmount() - payment.getTotal());
 		setUnusedPayments(payment.getUnUsedPayments(), payment);
 		// calculateUnusedCredits(payment);
@@ -293,8 +288,6 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		Customer customer = get(CUSTOMER).getValue();
 		payment.setCustomer(customer.getID());
 		payment.setType(ClientTransaction.TYPE_RECEIVE_PAYMENT);
-		double amount = get(AMOUNT_RECEIVED).getValue();
-		payment.setAmount(amount);
 		payment.setCustomerBalance(customer.getBalance());
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		payment.setPaymentMethod(paymentMethod);
@@ -325,7 +318,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		String checkNumber = get(CHECK_NUMBER).getValue();
 		payment.setCheckNumber(checkNumber);
 
-		recalculateGridAmounts(payment);
+		recalculateGridAmounts();
 
 		create(payment, context);
 
@@ -412,5 +405,12 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		return payment.getID() == 0 ? getMessages().createSuccessfully(
 				getMessages().receivePayment()) : getMessages()
 				.updateSuccessfully(getMessages().receivePayment());
+	}
+
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		recalculateGridAmounts();
+		makeResult.add("Unused Credits :" + payment.getUnUsedCredits());
+		makeResult.add("Unused Payments : " + payment.getUnUsedPayments());
 	}
 }
