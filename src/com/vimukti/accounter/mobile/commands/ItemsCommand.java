@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
@@ -36,6 +37,13 @@ public class ItemsCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShowListRequirement<Item>("items", "Please Select Item", 5) {
+			@Override
+			protected void setSelectCommands(CommandList commandList, Item value) {
+				commandList.add(new UserCommand("Update Item", String
+						.valueOf(value.getID())));
+				commandList.add(new UserCommand("Delete Item", String
+						.valueOf(value.getID())));
+			}
 
 			@Override
 			protected String onSelection(Item value) {
@@ -69,7 +77,7 @@ public class ItemsCommand extends NewAbstractCommand {
 			protected boolean filter(Item e, String name) {
 
 				return e.getName().startsWith(name)
-						|| e.getPurchaseDescription().startsWith(
+						|| String.valueOf(e.getID()).startsWith(
 								"" + getNumberFromString(name));
 			}
 
