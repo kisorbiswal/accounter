@@ -406,7 +406,7 @@
 		a where a.id=
 		(select max(a1.id) from
 		com.vimukti.accounter.core.Account a1 where
-		a1.company=:company and a1.parent is null)
+		a1.company=:company and a1.parent is null and a1.flow is not null)
 	</query>
 
 	<query name="getCount.from.Account.and.parent">
