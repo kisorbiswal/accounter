@@ -211,12 +211,12 @@ public class MobileSession {
 		this.companyID = company;
 	}
 
-	public void addCommand(Command command) {
-		if (currentCommand != command) {
+	public void addCommand(Command command, UserMessage userMessage) {
+		if (currentCommand != command || command == null) {
 			UserMessage lastMessage = getLastMessage();
-			if (lastMessage != null) {
+			if (lastMessage != null && lastMessage != userMessage) {
 				Command command2 = lastMessage.getCommand();
-				if (command2 != null && !command2.isDone()) {
+				if (command2 == null || !command2.isDone()) {
 					commandStack.push(lastMessage);
 				}
 			}
@@ -283,5 +283,14 @@ public class MobileSession {
 
 	public boolean hasPendingCommands() {
 		return !commandStack.isEmpty();
+	}
+
+	public void refreshLastMessage() {
+		if (!commandStack.isEmpty()) {
+			UserMessage pop = commandStack.pop();
+			setLastMessage(pop);
+			return;
+		}
+		setLastMessage(null);
 	}
 }

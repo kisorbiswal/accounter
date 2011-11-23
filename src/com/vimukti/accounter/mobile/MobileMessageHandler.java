@@ -49,6 +49,11 @@ public class MobileMessageHandler extends Thread {
 		if (context.getMessage().isEmpty()) {
 			return;
 		}
+		// try {
+		// Thread.sleep(500);
+		// } catch (InterruptedException e1) {
+		// e1.printStackTrace();
+		// }
 		String processMessage;
 		try {
 			processMessage = processMessage(context.getNetworkId(),
@@ -94,7 +99,7 @@ public class MobileMessageHandler extends Thread {
 					networkType);
 
 			Command command = userMessage.getCommand();
-			session.addCommand(command);
+			session.addCommand(command, userMessage);
 
 			Result result = getCommandProcessor().handleMessage(session,
 					userMessage);
@@ -136,7 +141,7 @@ public class MobileMessageHandler extends Thread {
 			}
 
 			if (!hasNextCommand) {
-				return processMessage(networkId, "menu", adaptorType,
+				return processMessage(networkId, "Menu", adaptorType,
 						networkType, result, context);
 			}
 
@@ -151,11 +156,7 @@ public class MobileMessageHandler extends Thread {
 				}
 			}
 
-			if (result.isHideCancel()) {
-				result.setTitle("Accounter");
-			} else {
-				result.setTitle(userMessage.getCommandString());
-			}
+			result.setTitle(userMessage.getCommandString());
 			String postProcess = adoptor.postProcess(result);
 			session.setLastReply(postProcess);
 			if (session.isExpired()) {
@@ -243,6 +244,7 @@ public class MobileMessageHandler extends Thread {
 			} else {
 				Result result = PatternStore.INSTANCE.find(message);
 				if (result != null) {
+					result.setShowBack(false);
 					userMessage.setType(Type.HELP);
 					userMessage.setResult(result);
 					userMessage.setCommandString(message);
@@ -263,6 +265,7 @@ public class MobileMessageHandler extends Thread {
 			if (commandString != null) {
 				Result result = PatternStore.INSTANCE.find(commandString);
 				if (result != null) {
+					result.setShowBack(lastMessage.getCommand() == null);
 					userMessage.setType(Type.HELP);
 					userMessage.setResult(result);
 					userMessage.setCommandString(commandString);
@@ -283,7 +286,13 @@ public class MobileMessageHandler extends Thread {
 				}
 			}
 		}
-
+		if (command == null && message.equalsIgnoreCase("back")) {
+			session.refreshLastMessage();
+			UserMessage lastMessage2 = session.getLastMessage();
+			if (lastMessage2 != null) {
+				return lastMessage2;
+			}
+		}
 		userMessage.setLastResult(lastResult);
 
 		if (command != null) {
