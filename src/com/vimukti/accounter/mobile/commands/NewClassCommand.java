@@ -6,7 +6,7 @@ import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
@@ -22,7 +22,7 @@ public class NewClassCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new StringRequirement(CLASS_NAME, getMessages().pleaseEnter(
+		list.add(new NameRequirement(CLASS_NAME, getMessages().pleaseEnter(
 				getMessages().className()), "class name", false, true));
 
 	}
