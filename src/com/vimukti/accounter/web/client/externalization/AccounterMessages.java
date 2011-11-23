@@ -4476,4 +4476,6 @@ public interface AccounterMessages extends Messages {
 
 	public String taxAgencie();
 
+	public String noInventoryItemsAvilable();
+
 }
