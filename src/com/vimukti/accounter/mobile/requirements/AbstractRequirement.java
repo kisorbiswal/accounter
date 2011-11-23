@@ -30,9 +30,10 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	public static final int INPUT_TYPE_PHONE = 6;
 	public static final int INPUT_TYPE_URL = 7;
 	public static final int INPUT_TYPE_DATE = 8;
+	public static final int INPUT_TYPE_BOX = 9;
 
 	private IGlobal global;
-	private AccounterMessages messages;
+	private final AccounterMessages messages;
 	private ClientCompanyPreferences preferences;
 	private Company company;
 	private long companyId;
