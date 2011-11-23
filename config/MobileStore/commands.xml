@@ -541,6 +541,7 @@
 		<alias>Modify Customer Prepayment</alias>
 		<alias>Customer Prepayment</alias>
 	</command>
+	<command clazz="UpdateItemCommand" name="Update Item"></command>
 
 	<command clazz="NewReceivePaymentCommand" name="New ReceivePayment">
 		<alias>Receive Payment</alias>
@@ -573,7 +574,8 @@
 
 	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
 		<alias>
-	Create Customer Refund</alias>
+			Create Customer Refund
+		</alias>
 		<alias>Add Customer Refund</alias>
 		<alias>Edit Customer Refund</alias>
 		<alias>Update Customer Refund</alias>
