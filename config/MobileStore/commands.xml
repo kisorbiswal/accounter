@@ -328,7 +328,7 @@
 		<alias>Create Enter Bill</alias>
 		<alias>EnterBill</alias>
 	</command>
-
+	<command clazz="UpdateTransactionCommand" name="Edit Transaction"></command>
 	<command clazz="NewPayBillCommand" name="Pay Bill">
 		<alias>BillPay</alias>
 		<alias>Create Pay Bill</alias>
@@ -700,6 +700,7 @@
 	<command clazz="NewJournalEntryCommand" name="New Journal Entry">
 		<alias>Create Journal Entry</alias>
 		<alias>Add Journal Entry</alias>
+		<alias>Update Journal Entry</alias>
 	</command>
 
 
