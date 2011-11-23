@@ -17,7 +17,9 @@ import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CustomerContactRequirement;
+import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
+import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
@@ -260,7 +262,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 		list.add(new AddressRequirement(ADREESS, getMessages().pleaseEnter(
 				getMessages().address()), getMessages().address(), true, true));
 
-		list.add(new StringRequirement(PHONE, getMessages().pleaseEnter(
+		list.add(new PhoneRequirement(PHONE, getMessages().pleaseEnter(
 				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				true, true));
 
@@ -268,10 +270,10 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 				getMessages().faxNumber()), getMessages().faxNumber(), true,
 				true));
 
-		list.add(new StringRequirement(EMAIL, getMessages().pleaseEnter(
+		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
 				getMessages().email()), getMessages().email(), true, true));
 
-		list.add(new StringRequirement(WEBSITE, getMessages().pleaseEnter(
+		list.add(new URLRequirement(WEBSITE, getMessages().pleaseEnter(
 				getMessages().webSite()), getMessages().webSite(), true, true));
 
 		list.add(new CustomerContactRequirement(CONTACTS, getMessages()
