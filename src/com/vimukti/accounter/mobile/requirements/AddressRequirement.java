@@ -56,7 +56,7 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 		}
 		ClientAddress address = getValue();
 		Record billToRecord = new Record(getName());
-		billToRecord.add(getRecordName(), address.getAddressString());
+		billToRecord.add(getRecordName(), address.getAddressForMobile());
 		list.add(billToRecord);
 		return null;
 	}

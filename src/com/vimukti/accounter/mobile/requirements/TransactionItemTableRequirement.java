@@ -174,7 +174,7 @@ public abstract class TransactionItemTableRequirement extends
 		get(DISCOUNT).setDefaultValue(obj.getDiscount());
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
-			get(TAXCODE).setDefaultValue(
+			get(TAXCODE).setValue(
 					CommandUtils.getServerObjectById(obj.getTaxCode(),
 							AccounterCoreType.TAX_CODE));
 			get(TAX).setDefaultValue(false);

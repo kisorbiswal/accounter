@@ -31,6 +31,13 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 			}
 
 			@Override
+			protected void setSelectCommands(CommandList commandList,
+					ShippingMethod value) {
+			
+				super.setSelectCommands(commandList, value);
+			}
+
+			@Override
 			protected void setCreateCommand(CommandList list) {
 				list.add(getMessages().create(getMessages().shippingMethod()));
 			}
