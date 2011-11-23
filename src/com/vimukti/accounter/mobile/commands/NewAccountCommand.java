@@ -34,6 +34,8 @@ public class NewAccountCommand extends NewAbstractCommand {
 	private static final String ASOF = "AsOf";
 	private static final String COMMENTS = "Comments";
 	private static final String CONSIDER_AS_CASH_ACCOUNT = "Consider As Cash Account";
+	private static final String CREDIT_LIMIT = "creditLimit";
+	private static final String CARD_OR_LOAD_NUMBER = "cardOrLoadNumber";
 
 	private ClientAccount account;
 
@@ -118,6 +120,37 @@ public class NewAccountCommand extends NewAbstractCommand {
 			}
 		});
 
+		list.add(new AmountRequirement(CREDIT_LIMIT, getMessages().pleaseEnter(
+				getMessages().creditLimit()), getMessages().creditLimit(),
+				true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (NewAccountCommand.this.get(ACCOUNT_TYPE).getValue()
+						.equals("Credit card")) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+		list.add(new NumberRequirement(CARD_OR_LOAD_NUMBER, getMessages()
+				.pleaseEnter(getMessages().cardOrLoadNumber()), getMessages()
+				.cardOrLoadNumber(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (NewAccountCommand.this.get(ACCOUNT_TYPE).getValue()
+						.equals("Credit card")) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+
 	}
 
 	protected List<String> getAccountTypes() {
@@ -178,7 +211,11 @@ public class NewAccountCommand extends NewAbstractCommand {
 		boolean isCashAcount = get(CONSIDER_AS_CASH_ACCOUNT).getValue();
 		ClientFinanceDate asOf = get(ASOF).getValue();
 		String comment = get(COMMENTS).getValue();
-
+		if (accType == "Credit card") {
+			account.setCreditLimit((Double) get(CREDIT_LIMIT).getValue());
+			account.setCardOrLoanNumber((String) get(CARD_OR_LOAD_NUMBER)
+					.getValue());
+		}
 		account.setDefault(true);
 		account.setType(getAccountTypes().indexOf(accType) + 1);
 		account.setName(accname);
@@ -222,7 +259,10 @@ public class NewAccountCommand extends NewAbstractCommand {
 		get(ACCOUNT_NAME).setValue(account.getName());
 
 		get(ACCOUNT_NUMBER).setValue(account.getNumber());
-
+		if (getAccountTypes().get(account.getType() - 1) == "Credit card") {
+			get(CREDIT_LIMIT).setValue(account.getCreditLimit());
+			get(CARD_OR_LOAD_NUMBER).setValue(account.getCardOrLoanNumber());
+		}
 		get(OPENINGBALANCE).setValue(account.getOpeningBalance());
 		get(OPENINGBALANCE).setEditable(false);
 		get(ACTIVE).setValue(account.getIsActive());
