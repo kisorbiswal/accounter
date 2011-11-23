@@ -22,7 +22,7 @@ public abstract class CreditRatingRequirement extends
 	@Override
 	protected Record createRecord(CreditRating value) {
 		Record record = new Record(value);
-		record.add("Name", value.getName());
+		record.add(getMessages().name(), value.getName());
 		return record;
 	}
 
