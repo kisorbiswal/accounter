@@ -235,8 +235,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		// });
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getMessages().taxCode()), getMessages().taxCode(), false,
-				true, null) {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -517,7 +517,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				return "Invoices List " + string;
 			}
 			invoice = invoiceByNum;
-			setValues();
+			setValues(context);
 		} else {
 			String string = context.getString();
 			if (!string.isEmpty()) {
@@ -528,7 +528,12 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		return null;
 	}
 
-	private void setValues() {
+	/**
+	 * update the requirements
+	 * 
+	 * @param context
+	 */
+	private void setValues(Context context) {
 		get(DATE).setValue(invoice.getDate());
 		get(NUMBER).setValue(invoice.getNumber());
 		get(ITEMS).setValue(invoice.getTransactionItems());
@@ -541,6 +546,12 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		get(PAYMENT_TERMS).setValue(
 				CommandUtils.getServerObjectById(invoice.getPaymentTerm(),
 						AccounterCoreType.PAYMENT_TERM));
+		ClientCompanyPreferences preferences = context.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			get(TAXCODE).setValue(
+					getTaxCodeForTransactionItems(
+							invoice.getTransactionItems(), context));
+		}
 		get(ORDER_NO).setValue(invoice.getOrderNum());
 		get(MEMO).setValue(invoice.getMemo());
 		/* get(CURRENCY_FACTOR).setValue(invoice.getCurrencyFactor()); */
@@ -550,6 +561,10 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		get(IS_VAT_INCLUSIVE).setValue(invoice.isAmountsIncludeVAT());
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private List<EstimatesAndSalesOrdersList> getEstimatesSalesOrderList() {
 		List<EstimatesAndSalesOrdersList> list = new ArrayList<EstimatesAndSalesOrdersList>();
 		List<ClientEstimate> estimates = invoice.getEstimates();

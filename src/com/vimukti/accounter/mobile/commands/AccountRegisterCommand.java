@@ -99,8 +99,8 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 			protected void setSelectCommands(CommandList commandList,
 					AccountRegister value) {
 
-				commandList.add(new UserCommand("Edit Transaction",
-						CommandUtils.getTransactionName(value.getType())));
+				commandList.add(new UserCommand("Edit Transaction", String
+						.valueOf(value.getTransactionId())));
 
 				commandList.add(new UserCommand("Delete Transaction",
 						CommandUtils.getTransactionName(value.getType())));
@@ -145,7 +145,6 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 			@Override
 			protected List<AccountRegister> getLists(Context context) {
 				dateRangeChanged(context);
-
 				return getAccountRegister(startDate, endDate,
 						((Account) AccountRegisterCommand.this.get(ACCOUNT)
 								.getValue()).getID());

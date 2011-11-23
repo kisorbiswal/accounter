@@ -23,11 +23,13 @@ import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.servlets.CompaniesServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -591,6 +593,23 @@ public class CommandUtils {
 		for (Account account : accounts) {
 			if (account.getName().equals(string)) {
 				return account;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * get taxCode
+	 * 
+	 * @param taxCodeId
+	 * @param company
+	 * @return
+	 */
+	public static TAXCode getTaxCode(long taxCodeId, Company company) {
+		Set<TAXCode> taxCodes = company.getTaxCodes();
+		for (TAXCode taxCode : taxCodes) {
+			if (taxCode.getID() == taxCodeId) {
+				return taxCode;
 			}
 		}
 		return null;

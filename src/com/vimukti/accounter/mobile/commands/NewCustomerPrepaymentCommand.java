@@ -77,7 +77,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 				CommandUtils.getServerObjectById(prePayment.getDepositIn(),
 						AccounterCoreType.ACCOUNT));
 		get(AMOUNT).setValue(prePayment.getTotal());
-		get(PAYMENT_METHOD).setValue(prePayment.getPaymentMethod());
+		get(PAYMENT_METHOD).setValue(prePayment.getpaymentMethod());
 		get(CHEQUE_NO).setValue(prePayment.getCheckNumber());
 		// get(TO_BE_PRINTED).setValue(prePayment.isToBePrinted());
 		get(MEMO).setValue(prePayment.getMemo());
@@ -175,15 +175,14 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		 * } });
 		 */
 
-
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().billNo()), getMessages().billNo(), true, true));
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
-		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelect(getMessages().transferTo()),
-				getMessages().transferTo(), false, false, null) {
+		list.add(new AccountRequirement(PAY_FROM, getMessages().pleaseSelect(
+				getMessages().transferTo()), getMessages().transferTo(), false,
+				false, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -200,7 +199,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 						"Create CreditAccount", "CreditAccount"));
 				list.add(new UserCommand("Create BankAccount",
 						"Create FixedAsset Account", "FixedAsset"));
-			} 
+			}
 
 			@Override
 			protected List<Account> getLists(Context context) {
@@ -225,8 +224,8 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages()
-						.youDontHaveAny(getMessages().bankAccounts());
+				return getMessages().youDontHaveAny(
+						getMessages().bankAccounts());
 			}
 
 			@Override

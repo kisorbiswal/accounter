@@ -86,7 +86,6 @@ public class ClientCustomerPrePayment extends ClientTransaction {
 		this.balanceDue = balanceDue;
 	}
 
-
 	public void setToBePrinted(boolean isToBePrinted) {
 		this.isToBePrinted = isToBePrinted;
 	}
@@ -108,6 +107,10 @@ public class ClientCustomerPrePayment extends ClientTransaction {
 				.clone();
 		clientCustomerPrePaymentClone.address = this.address.clone();
 		return clientCustomerPrePaymentClone;
+	}
+
+	public String getpaymentMethod() {
+		return paymentMethod;
 	}
 
 }

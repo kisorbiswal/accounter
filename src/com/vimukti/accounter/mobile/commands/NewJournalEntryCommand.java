@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -41,6 +42,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 	protected static final String ACCOUNT = "Account";
 	protected static final String DEBITS = "Debits";
 	protected static final String CREDITS = "Credits";
+	ClientJournalEntry entry;
 
 	@Override
 	public String getId() {
@@ -270,7 +272,6 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			return makeResult;
 		}
 
-		ClientJournalEntry entry = new ClientJournalEntry();
 		entry.setTransactionItems(transactionItems);
 		entry.setType(ClientTransaction.TYPE_JOURNAL_ENTRY);
 		ClientFinanceDate date = get(DATE).getValue();
@@ -294,7 +295,55 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select an journalEntry to update.");
+				return "Invoices List";
+			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
+			ClientJournalEntry journalEntry = (ClientJournalEntry) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.JOURNALENTRY);
+			if (journalEntry == null) {
+				addFirstMessage(context, "Select an journalEntry to update.");
+				return "journalEntries List " + string;
+			}
+			entry = journalEntry;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			entry = new ClientJournalEntry();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		get(DATE).setValue(entry.getDate());
+		get(NUMBER).setValue(entry.getNumber());
+		List<ClientTransactionItem> transactionItems = entry
+				.getTransactionItems();
+		List<ClientEntry> clientEntries = new ArrayList<ClientEntry>();
+		for (ClientTransactionItem transactionItem : transactionItems) {
+			ClientEntry entry = new ClientEntry();
+			entry.setMemo(transactionItem.getDescription());
+			entry.setAccount(transactionItem.getAccount());
+			if (transactionItem.getLineTotal() > 0) {
+				entry.setDebit(transactionItem.getLineTotal());
+			} else {
+				entry.setCredit(-transactionItem.getLineTotal());
+			}
+			clientEntries.add(entry);
+		}
+		get(VOUCHER).setValue(clientEntries);
+		get(MEMO).setValue(entry.getMemo());
+
 	}
 
 	@Override

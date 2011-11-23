@@ -63,6 +63,31 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 		return result[1];
 	}
 
+	/**
+	 * 
+	 * @param transactionItems
+	 * @param context
+	 * @return
+	 */
+	protected TAXCode getTaxCodeForTransactionItems(
+			List<ClientTransactionItem> transactionItems, Context context) {
+		TAXCode taxCode = null;
+
+		for (ClientTransactionItem clientTransactionItem : transactionItems) {
+			if (clientTransactionItem.getTaxCode() != 0) {
+				taxCode = CommandUtils.getTaxCode(
+						clientTransactionItem.getTaxCode(),
+						context.getCompany());
+
+				if (taxCode != null)
+					break;
+				else
+					continue;
+			}
+		}
+		return taxCode;
+	}
+
 	public double[] getTransactionTotal(Context context,
 			boolean isAmountsIncludeVAT,
 			List<ClientTransactionItem> allrecords, boolean isSales) {

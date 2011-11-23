@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.ForwardRequirement;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 
@@ -119,18 +120,16 @@ public class UpdateTransactionCommand extends NewAbstractCommand {
 				return null;
 			}
 		});
+		list.add(new ForwardRequirement() {
 
-	}
-
-	@Override
-	protected Result onCompleteProcess(Context context) {
-		Transaction transaction = get(TRANSACTION).getValue();
-		String transactionName = CommandUtils.getTransactionName(transaction
-				.getType());
-		Result makeResult = context.makeResult();
-		makeResult.setNextCommand("New " + transactionName + " #"
-				+ transaction.getNumber());
-		markDone();
-		return makeResult;
+			@Override
+			public String getNextCommand() {
+				Transaction transaction = get(TRANSACTION).getValue();
+				String transactionName = CommandUtils
+						.getTransactionName(transaction.getType());
+				return "Update " + transactionName + " #"
+						+ transaction.getNumber();
+			}
+		});
 	}
 }
