@@ -110,7 +110,7 @@ html,body,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td 
 .image-pointer,select[multiple] option,.gridHeadCell,.gridRow,.gridBody1 tr:HOVER,.gwt-MenuBar-horizontal .gwt-MenuItem,
 .cross-dialog,.refresh,.link,.loading,.Image-action td table,.blue-month-line,.blue-day-grid,.close,.gwt-Tree .gwt-TreeItem,
 .gridBody tbody,.gridHeader,.imageLink,a,.image-button,.falseHyperlink,.handCursor,.widget img,.gwt-DecoratedTabBar .tabMiddleCenter,
-.users-grid tr:hover,.logo,.general-image,.helpBar,.calendar-picker,.custom-button,.gwt-DecoratedTabBar .tabMiddleCenter,
+.users-grid tr:hover,.logo img,.general-image,.helpBar,.calendar-picker,.custom-button,.gwt-DecoratedTabBar .tabMiddleCenter,
 #contactable,form#contactForm .submit,.gwt-Button,.gwt-MenuBar table tr,.Empty-text{
 	cursor: pointer;
 }
@@ -1694,4 +1694,11 @@ input.date-field-textbox{
 }
 .currentmonth{
 	border: 1px solid #3299A4;
+}
+.no_records .norecord-empty-message{
+	border-bottom: medium none;
+    border-right: medium none;
+    margin-left: 400px;
+    position: absolute;
+    z-index: 1;
 }
