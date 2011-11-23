@@ -26,6 +26,7 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -202,10 +203,9 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							return Arrays.asList(Account.TYPE_EXPENSE,
-									Account.TYPE_COST_OF_GOODS_SOLD,
-									Account.TYPE_OTHER_EXPENSE).contains(
-									e.getType());
+							return Arrays.asList(ClientAccount.TYPE_BANK,
+									ClientAccount.TYPE_OTHER_CURRENT_ASSET)
+									.contains(e.getType());
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);
@@ -231,8 +231,34 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
-				return new ArrayList<Account>(context.getCompany()
-						.getAccounts());
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
+
+						@Override
+						public boolean filter(Account account) {
+							if (account.getType() != Account.TYPE_CASH
+									&& account.getType() != Account.TYPE_BANK
+									&& account.getType() != Account.TYPE_INVENTORY_ASSET
+									&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+									&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+									&& account.getType() != Account.TYPE_INCOME
+									&& account.getType() != Account.TYPE_OTHER_INCOME
+									&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+									&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+									&& account.getType() != Account.TYPE_OTHER_ASSET
+									&& account.getType() != Account.TYPE_EQUITY
+									&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
+								return true;
+							} else {
+								return false;
+							}
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
+					}
+				}
+				return filteredList;
 			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
