@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.requirements;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.InputType;
@@ -24,7 +25,13 @@ public class DateRequirement extends SingleRequirement<ClientFinanceDate> {
 
 	@Override
 	protected ClientFinanceDate getInputFromContext(Context context) {
-		return context.getDate();
+		String string = context.getString();
+		Date date = new Date(Long.parseLong(string));
+		ClientFinanceDate clientFinanceDate = new ClientFinanceDate();
+		clientFinanceDate.setDay(date.getDate());
+		clientFinanceDate.setMonth(date.getMonth() + 1);
+		clientFinanceDate.setYear(date.getYear());
+		return clientFinanceDate;
 	}
 
 	@Override

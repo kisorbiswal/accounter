@@ -7,12 +7,12 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.InputType;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public abstract class AbstractRequirement<T> extends Requirement {
@@ -30,10 +30,9 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	public static final int INPUT_TYPE_PHONE = 6;
 	public static final int INPUT_TYPE_URL = 7;
 	public static final int INPUT_TYPE_DATE = 8;
-	public static final int INPUT_TYPE_BOX = 9;
 
 	private IGlobal global;
-	private final AccounterMessages messages;
+	private AccounterMessages messages;
 	private ClientCompanyPreferences preferences;
 	private Company company;
 	private long companyId;
@@ -76,14 +75,20 @@ public abstract class AbstractRequirement<T> extends Requirement {
 			Object value) {
 		Result result = context.makeResult();
 		result.add(string);
-		if (displayValue != null && !displayValue.isEmpty()) {
-			ResultList list = new ResultList(getName());
-			Record record = new Record(value);
-			record.add("", displayValue);
-			list.add(record);
-			result.add(list);
+		// if (displayValue != null && !displayValue.isEmpty()) {
+		// ResultList list = new ResultList(getName());
+		// Record record = new Record(value);
+		// record.add("", displayValue);
+		// list.add(record);
+		// result.add(list);
+		// }
+		if (value instanceof ClientFinanceDate) {
+			displayValue = String.valueOf(((ClientFinanceDate) value)
+					.getDateAsObject().getTime());
 		}
-		result.add(getInputType());
+		InputType inputType = getInputType();
+		inputType.setValue(displayValue);
+		result.add(inputType);
 		result.setShowBack(true);
 		return result;
 	}

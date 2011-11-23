@@ -47,9 +47,9 @@ public abstract class SingleRequirement<T> extends AbstractRequirement<T> {
 	protected abstract T getInputFromContext(Context context);
 
 	protected void createRecord(ResultList list) {
-		T customerName = getValue();
+		T t = getValue();
 		Record nameRecord = new Record(getName());
-		nameRecord.add(getRecordName(), getDisplayValue(customerName));
+		nameRecord.add(getRecordName(), getDisplayValue(t));
 		list.add(nameRecord);
 	}
 }
