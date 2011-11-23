@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 public class CustomerGroupListCommand extends NewAbstractCommand {
@@ -48,10 +49,19 @@ public class CustomerGroupListCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<CustomerGroup>(getMessages()
 				.customer() + " " + getMessages().group(), "", 10) {
+			@Override
+			protected void setSelectCommands(CommandList commandList,
+					CustomerGroup value) {
+				commandList.add(new UserCommand("Update Customer Group", value
+						.getName()));
+				commandList.add(new UserCommand("Delete CustomerGroup ", value
+						.getName()));
+			}
 
 			@Override
 			protected String onSelection(CustomerGroup value) {
-				return "update CustomerGroup " + value.getName();
+				return null;
+				// return "update CustomerGroup " + value.getName();
 			}
 
 			@Override
