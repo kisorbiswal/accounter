@@ -411,11 +411,14 @@
 		<alias>Create Cash Sale</alias>
 	</command>
 
-	<!-- <command clazz="NewCreditCardChargeCommand" name="New CreditcardCharge"> 
-		<alias>Credit Card Charge</alias> <alias>Create Credit Card Charge</alias> 
-		<alias>Add Credit Card Charge</alias> <alias>Create Credit Card Charge</alias> 
-		<alias>Edit Credit Card Charge</alias> <alias>Update Credit Card Charge</alias> 
-		</command> -->
+	<command clazz="NewCreditCardChargeCommand" name="New CreditcardCharge">
+		<alias>Credit Card Charge</alias>
+		<alias>Create Credit Card Charge</alias>
+		<alias>Add Credit Card Charge</alias>
+		<alias>Create Credit Card Charge</alias>
+		<alias>Edit Credit Card Charge</alias>
+		<alias>Update Credit Card Charge</alias>
+	</command>
 
 	<command clazz="NewCreditCardExpenseCommand" name="New CreditCardExpense">
 		<alias>New CreditCard Expense</alias>
@@ -439,6 +442,7 @@
 		<alias>Modify Customer Credit Memo</alias>
 		<alias>CustomerCredit</alias>
 		<alias>Create Customer Credit</alias>
+		<alias>Update Customer Credit</alias>
 	</command>
 	<command clazz="NewCashExpenseCommand" name="New CashExpense">
 		<alias>Add Cash Expense</alias>
@@ -568,7 +572,8 @@
 	</command>
 
 	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
-		<alias>Create Customer Refund</alias>
+		<alias>
+	Create Customer Refund</alias>
 		<alias>Add Customer Refund</alias>
 		<alias>Edit Customer Refund</alias>
 		<alias>Update Customer Refund</alias>
