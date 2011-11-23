@@ -3,7 +3,7 @@ package com.vimukti.accounter.mobile.requirements;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.InputType;
 
-public class PhoneRequirement extends SingleRequirement<Integer> {
+public class PhoneRequirement extends SingleRequirement<String> {
 
 	public PhoneRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional2, boolean isAllowFromContext2) {
@@ -12,13 +12,13 @@ public class PhoneRequirement extends SingleRequirement<Integer> {
 	}
 
 	@Override
-	protected String getDisplayValue(Integer value) {
-		return value.toString();
+	protected String getDisplayValue(String value) {
+		return value;
 	}
 
 	@Override
-	protected Integer getInputFromContext(Context context) {
-		return context.getInteger();
+	protected String getInputFromContext(Context context) {
+		return context.getString();
 	}
 
 	@Override
