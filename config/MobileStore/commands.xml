@@ -337,6 +337,7 @@
 	<command clazz="BillsAndExpensesListCommand" name="Bills And Expenses List">
 		<alias>Bills</alias>
 		<alias>Bills List</alias>
+		<alias>Bills and Expenses</alias>
 	</command>
 
 	<command clazz="NewVATCodeCommand" name="New VAT Code">
@@ -511,6 +512,7 @@
 		<alias>Update Sales Person</alias>
 		<alias>Modify Sales Person</alias>
 		<alias>Edit Sales Person</alias>
+		<alias>Sales Person</alias>
 	</command>
 
 	<command clazz="NewCustomerCommand" name="New Customer">
@@ -638,9 +640,8 @@
 		<alias>List of all Invoices</alias>
 	</command>
 
-	<command clazz="SalesOrderListCommand" name="Sales Order List">
-		<alias>Sales Orders</alias>
-	</command>
+	<!-- <command clazz="SalesOrderListCommand" name="Sales Order List"> <alias>Sales 
+		Orders</alias> </command> -->
 
 	<command clazz="ReceivedPaymentsListCommand" name="Received Payments List">
 		<alias>Received Payments</alias>
@@ -649,10 +650,8 @@
 		<alias>Customer Payments</alias>
 	</command>
 
-	<command clazz="PurchaseOrderListCommand" name="Purchase Order List">
-		<alias>Purchase Orders</alias>
-		<alias>Purchase Order List</alias>
-	</command>
+	<!-- <command clazz="PurchaseOrderListCommand" name="Purchase Order List"> 
+		<alias>Purchase Orders</alias> <alias>Purchase Order List</alias> </command> -->
 
 	<command clazz="NewInviteAUserCommand" name="Invite User">
 		<alias>New User</alias>
@@ -713,25 +712,16 @@
 	</command>
 
 
-	<command clazz="NewSalesOrderCommand" name="New Sales Order">
-		<alias>New SalesOrder</alias>
-		<alias>Add Sales Order</alias>
-		<alias>Sales Order</alias>
-		<alias>Create SalesOrder</alias>
-		<alias>Create Sales Order</alias>
-	</command>
+	<!-- <command clazz="NewSalesOrderCommand" name="New Sales Order"> <alias>New 
+		SalesOrder</alias> <alias>Add Sales Order</alias> <alias>Sales Order</alias> 
+		<alias>Create SalesOrder</alias> <alias>Create Sales Order</alias> </command> -->
 
-	<command clazz="NewPurchaseOrderCommand" name="New Purchase Order">
-		<alias>New PurchaseOrder</alias>
-		<alias>Purchase Order</alias>
-		<alias>Create PurchaseOrder</alias>
-		<alias>Add PurchaseOrder</alias>
-		<alias>Create Purchase Order</alias>
-		<alias>Edit Purchase Order</alias>
-		<alias>Update Purchase Order</alias>
-		<alias>Modify Purchase Order</alias>
-		<alias>Create New PurchaseOrder</alias>
-	</command>
+	<!-- <command clazz="NewPurchaseOrderCommand" name="New Purchase Order"> 
+		<alias>New PurchaseOrder</alias> <alias>Purchase Order</alias> <alias>Create 
+		PurchaseOrder</alias> <alias>Add PurchaseOrder</alias> <alias>Create Purchase 
+		Order</alias> <alias>Edit Purchase Order</alias> <alias>Update Purchase Order</alias> 
+		<alias>Modify Purchase Order</alias> <alias>Create New PurchaseOrder</alias> 
+		</command> -->
 
 	<command clazz="VoidTransactionCommand" name="Void Transaction">
 		<alias>Void</alias>

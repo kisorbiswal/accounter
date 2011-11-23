@@ -10,8 +10,6 @@
 			<command>Customer</command>
 			<command>Vendor</command>
 			<command>Banking</command>
-			<command>Sales</command>
-			<command>Purchases</command>
 			<command>Reports</command>
 			<command>Settings</command>
 		</output>
@@ -215,24 +213,6 @@
 	</pattern>
 
 	<pattern>
-		<input>Sales</input>
-		<output>
-			<command>New Sales Order</command>
-			<command>Sales Order List</command>
-			<command>Sales Order Report</command>
-		</output>
-	</pattern>
-
-	<pattern>
-		<input>Purchases</input>
-		<output>
-			<command>Purchase Order</command>
-			<command>Purchase Order List</command>
-			<command>Purchase Order Report</command>
-		</output>
-	</pattern>
-
-	<pattern>
 		<input>Invoice</input>
 		<output>
 			<text>Invoice is a Transaction</text>
@@ -303,10 +283,7 @@
 		<input>Sale</input>
 		<input>Sales</input>
 		<output>
-			<text>Sales Description</text>
-			<command>New Sales Order</command>
 			<command>Sales Person</command>
-			<command>Sales Order List</command>
 		</output>
 	</pattern>
 
@@ -416,7 +393,6 @@
 			<text>Enter any one of these commands</text>
 			<command>Create Enter Bill</command>
 			<command>Create Pay Bill</command>
-			<command>Create Purchase Order</command>
 			<command>Create Cash Expense</command>
 			<command>Create Cash Purchase</command>
 			<command>Create Vendor Credit</command>
@@ -436,7 +412,6 @@
 			<command>Create Customer Payment</command>
 			<command>Create Customer Refund</command>
 			<command>Create Receive Payment</command>
-			<command>Create Sales Order</command>
 		</output>
 	</pattern>
 
