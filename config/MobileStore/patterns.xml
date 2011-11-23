@@ -30,6 +30,18 @@
 	</pattern>
 
 	<pattern>
+		<input>Company Preferences</input>
+		<output>
+			<command>Company Info</command>
+			<command>Company </command>
+			<command>Categories</command>
+			<command>Vendor and Purchases</command>
+			<command>Product and services</command>
+			<command>Terminologies</command>
+		</output>
+	</pattern>
+
+	<pattern>
 		<input>Item Tax</input>
 		<output>
 			<command>Manage Sales Tax Groups</command>
