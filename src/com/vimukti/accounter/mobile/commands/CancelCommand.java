@@ -28,7 +28,7 @@ public class CancelCommand extends Command {
 		context.getIOSession().refreshCurrentCommand();
 		Command currentCommand = context.getIOSession().getCurrentCommand();
 		if (currentCommand != null) {
-			makeResult.add("Your Previous work has been canceled");
+			// makeResult.add("Your Previous work has been canceled");
 			currentCommand.markDone();
 			context.getIOSession().refreshCurrentCommand();
 		} else {

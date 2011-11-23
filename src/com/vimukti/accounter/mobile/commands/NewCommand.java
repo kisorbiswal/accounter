@@ -72,8 +72,9 @@ public abstract class NewCommand extends Command {
 				context.setAttribute("processAttr", "");
 				Requirement requirement = allRequirements.get(i);
 				context.putSelection("values", requirement.getName());
-				Result process = requirement.process(context, makeResult, list,
-						actions);
+				ResultList list2 = new ResultList("");
+				Result process = requirement.process(context,
+						context.makeResult(), list2, actions);
 				if (process != null) {
 					requirementNumber = i - 1;
 					if (i != 0) {

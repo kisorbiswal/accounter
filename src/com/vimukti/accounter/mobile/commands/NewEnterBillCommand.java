@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +30,6 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
