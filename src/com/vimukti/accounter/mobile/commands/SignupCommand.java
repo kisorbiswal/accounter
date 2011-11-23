@@ -13,14 +13,13 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
-import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
 import com.vimukti.accounter.mobile.requirements.TermsAndCunditionsRequirement;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.SecureUtils;
@@ -72,11 +71,6 @@ public class SignupCommand extends NewCommand {
 				v = v.toLowerCase();
 				super.setValue(v);
 			}
-
-			@Override
-			public InputType getInputType() {
-				return new InputType(INPUT_TYPE_EMAIL);
-			}
 		});
 
 		list.add(new NameRequirement(PASSOWRD,
@@ -91,15 +85,10 @@ public class SignupCommand extends NewCommand {
 					return null;
 				}
 			}
-
-			@Override
-			public InputType getInputType() {
-				return new InputType(INPUT_TYPE_PASSWORD);
-			}
 		});
 
-		list.add(new NumberRequirement(PHONE, "Eneter Phone number",
-				"Phone No", false, true));
+		list.add(new PhoneRequirement(PHONE, "Eneter Phone number", "Phone No",
+				false, true));
 
 		list.add(new CountryRequirement(COUNTRY, false, true, null));
 
