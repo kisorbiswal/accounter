@@ -985,7 +985,8 @@ public abstract class Transaction extends CreatableObject implements
 			updateTranasactionItems(clonedObject);
 			deleteCreatedEntries(clonedObject);
 			clonedObject.transactionItems.clear();
-
+			addUpdateHistory();
+		}else{
 			addUpdateHistory();
 		}
 
