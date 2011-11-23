@@ -15,7 +15,9 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -71,7 +73,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 
 		list.add(new AddressRequirement(ADDRESS, getMessages().pleaseEnter(
 				getMessages().address()), getMessages().address(), true, true));
-		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
+		list.add(new PhoneRequirement(PHONE, getMessages().pleaseEnter(
 				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				true, true));
 		list.add(new NumberRequirement(FAX, getMessages().pleaseEnter(
@@ -130,7 +132,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		});
 		list.add(new EmailRequirement(E_MAIL, getMessages().pleaseEnter(
 				getMessages().email()), getMessages().email(), true, true));
-		list.add(new NameRequirement(WEB_PAGE_ADDRESS, getMessages()
+		list.add(new URLRequirement(WEB_PAGE_ADDRESS, getMessages()
 				.pleaseEnter(getMessages().webPageAddress()), getMessages()
 				.webPageAddress(), true, true));
 		list.add(new BooleanRequirement(ACTIVE, true) {
@@ -183,7 +185,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		list.add(new DateRequirement(DO_RELEASE, getMessages().pleaseEnter(
 				getMessages().dateofRelease()), getMessages().dateofRelease(),
 				false, true));
-		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
+		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 
 	}
