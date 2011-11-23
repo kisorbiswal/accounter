@@ -536,7 +536,17 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	private void setValues(Context context) {
 		get(DATE).setValue(invoice.getDate());
 		get(NUMBER).setValue(invoice.getNumber());
-		get(ITEMS).setValue(invoice.getTransactionItems());
+		ArrayList<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		if (invoice.getTransactionItems() != null
+				&& !invoice.getTransactionItems().isEmpty()) {
+			for (ClientTransactionItem item : invoice.getTransactionItems()) {
+				// We should exclude those which come from quote/charge/credit
+				if (item.getReferringTransactionItem() == 0) {
+					list.add(item);
+				}
+			}
+		}
+		get(ITEMS).setValue(list);
 		get(CUSTOMER).setValue(
 				CommandUtils.getServerObjectById(invoice.getCustomer(),
 						AccounterCoreType.CUSTOMER));
