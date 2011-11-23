@@ -338,7 +338,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		get(PAY_FROM).setValue(
 				CommandUtils.getServerObjectById(paybill.getAccountsPayable(),
 						AccounterCoreType.ACCOUNT));
-		get(PAYMENT_METHOD).setValue(paybill.getPaymentMethod());
+		get(PAYMENT_METHOD).setValue(
+				paybill.getPaymentMethodForCommands(getMessages()));
 		get(FILTER_BY_DUE_ON_BEFORE).setValue(
 				new ClientFinanceDate(paybill.getBillDueOnOrBefore()));
 		get(NUMBER).setValue(paybill.getNumber());
@@ -363,7 +364,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 					.getOriginalAmount());
 			payBillTransaction
 					.setPayment(clientTransactionPayBill.getPayment());
-			payBillTransaction.setPaymentMethod(paybill.getPaymentMethod());
+			payBillTransaction.setPaymentMethod(paybill
+					.getPaymentMethodForCommands(getMessages()));
 			payBillTransaction.setVendorName(((Vendor) CommandUtils
 					.getServerObjectById(clientTransactionPayBill.getVendor(),
 							AccounterCoreType.VENDOR)).getName());

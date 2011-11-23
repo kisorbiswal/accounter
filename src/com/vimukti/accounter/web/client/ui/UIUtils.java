@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -284,7 +285,8 @@ public class UIUtils {
 		try {
 			// SimpleDateFormat new
 			ClientFinanceDate date = new ClientFinanceDate(new Date(longFormat));
-			DateTimeFormat dateFormatter = DateTimeFormat.getFormat("MMM dd, yyyy hh:mm a");
+			DateTimeFormat dateFormatter = DateTimeFormat
+					.getFormat("MMM dd, yyyy hh:mm a");
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
 		} catch (Exception e) {
@@ -1377,8 +1379,8 @@ public class UIUtils {
 		if (incredNumber.length() > 0) {
 			// incredNumber = new
 			// StringBuffer(incredNumber).reverse().toString();
-			prevNumber = prevNumber.replace(incredNumber, ""
-					+ (Long.parseLong(incredNumber) + 1));
+			prevNumber = prevNumber.replace(incredNumber,
+					"" + (Long.parseLong(incredNumber) + 1));
 		}
 		return prevNumber;
 
@@ -1614,8 +1616,8 @@ public class UIUtils {
 
 	public static void downloadMultipleAttachment(String objectID, int type,
 			long brandingThemeId) {
-		downloadMultipleAttachment(objectID, type, String
-				.valueOf(brandingThemeId));
+		downloadMultipleAttachment(objectID, type,
+				String.valueOf(brandingThemeId));
 	}
 
 	public native static void downloadMultipleAttachment(String objectID,
@@ -1644,9 +1646,9 @@ public class UIUtils {
 	public static void downloadMISCForm(long objectID, int type,
 			long brandingThemeId, long vendorID, int horizontalValue,
 			int verticalValue) {
-		downloadMISCForm(String.valueOf(objectID), type, String
-				.valueOf(brandingThemeId), String.valueOf(vendorID), String
-				.valueOf(horizontalValue), String.valueOf(verticalValue));
+		downloadMISCForm(String.valueOf(objectID), type,
+				String.valueOf(brandingThemeId), String.valueOf(vendorID),
+				String.valueOf(horizontalValue), String.valueOf(verticalValue));
 	}
 
 	public native static void downloadMISCForm(String objectID, int type,
@@ -1725,8 +1727,8 @@ public class UIUtils {
 
 	public static void downloadAttachment(long objectID, int type,
 			long brandingThemeId) {
-		downloadAttachment(String.valueOf(objectID), type, String
-				.valueOf(brandingThemeId));
+		downloadAttachment(String.valueOf(objectID), type,
+				String.valueOf(brandingThemeId));
 	}
 
 	/**
@@ -1860,6 +1862,13 @@ public class UIUtils {
 		if (paymentMethod == null) {
 			return paymentMethod;
 		}
+
+		return getPaymentMethod(paymentMethod, Accounter.messages());
+
+	}
+
+	private static String getPaymentMethod(String paymentMethod,
+			AccounterMessages messages) {
 		if (paymentMethod.equals(Accounter.messages().cheque())
 				|| paymentMethod.equals(Accounter.messages().check())) {
 			// if (getCompany().getAccountingType() ==
@@ -1871,7 +1880,6 @@ public class UIUtils {
 		}
 
 		return paymentMethod;
-
 	}
 
 	public static Double getRoundValue(Double value) {
@@ -1955,8 +1963,8 @@ public class UIUtils {
 
 	public static void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
-		exportReport(start, end, reportType, name, dateRangeHtml, String
-				.valueOf(status));
+		exportReport(start, end, reportType, name, dateRangeHtml,
+				String.valueOf(status));
 	}
 
 	public static native void exportReport(int start, int end, int reportType,
@@ -1994,8 +2002,8 @@ public class UIUtils {
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, long dateRangeHtml) {
-		generateReportPDF(start, end, reportType, name, String
-				.valueOf(dateRangeHtml));
+		generateReportPDF(start, end, reportType, name,
+				String.valueOf(dateRangeHtml));
 	}
 
 	public static native void generateReportPDF(int start, int end,
@@ -2016,8 +2024,8 @@ public class UIUtils {
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
-		generateReportPDF(start, end, reportType, name, dateRangeHtml, String
-				.valueOf(status));
+		generateReportPDF(start, end, reportType, name, dateRangeHtml,
+				String.valueOf(status));
 	}
 
 	public static native void generateReportPDF(int start, int end,
@@ -2074,8 +2082,8 @@ public class UIUtils {
 
 	public static void generateBudgetReportPDF(int reportType, int BUDGET_TYPE) {
 
-		generateBudgetReportPDF(Integer.toString(reportType), Integer
-				.toString(BUDGET_TYPE));
+		generateBudgetReportPDF(Integer.toString(reportType),
+				Integer.toString(BUDGET_TYPE));
 	}
 
 	public static native void generateBudgetReportPDF(String reportType,
@@ -2091,5 +2099,10 @@ public class UIUtils {
 			alert(e);
 		}
 	}-*/;
+
+	public static String getpaymentMethodCheckBy_CompanyType(
+			AccounterMessages messages, String paymentMethod) {
+		return getPaymentMethod(paymentMethod, messages);
+	}
 
 }

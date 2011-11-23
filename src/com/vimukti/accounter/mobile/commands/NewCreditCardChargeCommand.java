@@ -183,10 +183,8 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 				return ((Vendor) get(CUSTOMER).getValue()).getName();
 			}
 		});
-		list
-				.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-						getMessages().phoneNumber()), getMessages().phone(),
-						true, true));
+		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
+				getMessages().phoneNumber()), getMessages().phone(), true, true));
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
@@ -435,7 +433,8 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 		get(CONTACT).setValue(toServerContact(creditCardCharge.getContact()));
 		get(DATE).setValue(creditCardCharge.getDate());
 		get(NUMBER).setValue(creditCardCharge.getNumber());
-		get(PAYMENT_METHOD).setValue(creditCardCharge.getPaymentMethod());
+		get(PAYMENT_METHOD).setValue(
+				creditCardCharge.getPaymentMethodForCommands(getMessages()));
 		get(PHONE).setValue(creditCardCharge.getPhone());
 		get(PAY_FROM).setValue(
 				CommandUtils.getServerObjectById(creditCardCharge.getPayFrom(),

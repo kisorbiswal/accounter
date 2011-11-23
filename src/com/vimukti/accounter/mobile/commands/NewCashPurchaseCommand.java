@@ -94,7 +94,8 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		get(CONTACT).setValue(toServerContact(cashPurchase.getContact()));
 		get(PHONE).setValue(cashPurchase.getPhone());
 		get(MEMO).setValue(cashPurchase.getMemo());
-		get(PAYMENT_METHOD).setValue(cashPurchase.getPaymentMethod());
+		get(PAYMENT_METHOD).setValue(
+				cashPurchase.getPaymentMethodForCommands(getMessages()));
 		get(PAY_FROM).setValue(
 				CommandUtils.getServerObjectById(cashPurchase.getPayFrom(),
 						AccounterCoreType.ACCOUNT));
