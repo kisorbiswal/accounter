@@ -250,6 +250,7 @@ public abstract class EditTable<R> extends SimplePanel {
 	public void addEmptyMessage(String emptyMessage) {
 		this.table.getFlexCellFormatter().setColSpan(1, 0, columns.size());
 		this.table.setText(1, 0, emptyMessage);
+		this.table.getFlexCellFormatter().setStyleName(1, 0, "norecord-empty-message");
 		this.table.addStyleName("no_records");
 		this.cellFormatter.setHorizontalAlignment(1, 0,
 				HasHorizontalAlignment.ALIGN_CENTER);
