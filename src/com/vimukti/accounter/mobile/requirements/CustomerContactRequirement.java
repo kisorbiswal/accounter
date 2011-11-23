@@ -25,14 +25,14 @@ public abstract class CustomerContactRequirement extends
 
 	@Override
 	protected void addRequirement(List<Requirement> list) {
-		list.add(new StringRequirement(CONTACT_NAME, getMessages().pleaseEnter(
+		list.add(new NameRequirement(CONTACT_NAME, getMessages().pleaseEnter(
 				getMessages().contactName()), getMessages().contactName(),
 				true, true));
 
-		list.add(new StringRequirement(TITLE, getMessages().pleaseEnter(
+		list.add(new NameRequirement(TITLE, getMessages().pleaseEnter(
 				getMessages().title()), getMessages().title(), true, true));
 
-		list.add(new NumberRequirement(BUSINESS_PHONE, getMessages()
+		list.add(new PhoneRequirement(BUSINESS_PHONE, getMessages()
 				.pleaseEnter(getMessages().businessPhone()), getMessages()
 				.businessPhone(), true, true));
 
@@ -43,12 +43,12 @@ public abstract class CustomerContactRequirement extends
 
 			@Override
 			protected String getTrueString() {
-				return "Primary Contact";
+				return getMessages().primary() + getMessages().contact();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "Not Primary Contact";
+				return getMessages().notPrimary() + getMessages().contact();
 			}
 		});
 	}
@@ -92,6 +92,7 @@ public abstract class CustomerContactRequirement extends
 		return record;
 	}
 
+	@Override
 	protected abstract List<ClientContact> getList();
 
 	@Override
@@ -102,7 +103,8 @@ public abstract class CustomerContactRequirement extends
 	@Override
 	protected String getAddMoreString() {
 		List<ClientContact> contacts = getValue();
-		return contacts.isEmpty() ? "Add Contact" : getMessages().addMore(
+		return contacts.isEmpty() ? getMessages().add()
+				+ getMessages().contact() : getMessages().addMore(
 				getMessages().contacts());
 	}
 
