@@ -16,6 +16,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -41,10 +42,12 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new StringRequirement(TAX_CODE, getMessages().pleaseEnter(
-				"Tax code name"), "Tax code", false, true));
+				getMessages().taxCode() + getMessages().name()), getMessages()
+				.taxCode() + getMessages().name(), false, true));
 
-		list.add(new StringRequirement(DESCRIPTION, getMessages().pleaseEnter(
-				getMessages().taxCode()), "Descripiton", true, true));
+		list.add(new NameRequirement(DESCRIPTION, getMessages().pleaseEnter(
+				getMessages().taxCode()), getMessages().description(), true,
+				true));
 
 		list.add(new BooleanRequirement(IS_TAXABLE, true) {
 
