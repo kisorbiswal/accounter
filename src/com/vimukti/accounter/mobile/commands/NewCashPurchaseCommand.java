@@ -269,9 +269,9 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
-				false, false, null) {
+		list.add(new AccountRequirement(PAY_FROM,
+				"Please select Pay from Bank/Cash Account.", getMessages()
+						.bankAccount(), false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -295,9 +295,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							return Arrays.asList(Account.TYPE_EXPENSE,
-									Account.TYPE_COST_OF_GOODS_SOLD,
-									Account.TYPE_OTHER_EXPENSE).contains(
+							return Arrays.asList(Account.TYPE_BANK).contains(
 									e.getType());
 						}
 					}.filter(obj)) {
