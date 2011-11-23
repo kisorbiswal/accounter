@@ -13,6 +13,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientBox;
@@ -101,7 +102,7 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
 				getMessages().toDate()), getMessages().toDate(), true, true));
 
-		list.add(new BoxRequirement(BOXES, getMessages().pleaseEnter(
+		list.add(new StringRequirement(BOXES, getMessages().pleaseEnter(
 				getMessages().box()), getMessages().box(), false, true));
 		list.add(new ShowListRequirement<ClientBox>(BOXES, "", 15) {
 
