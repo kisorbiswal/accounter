@@ -14,8 +14,8 @@ import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
-import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxItemRequirement;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -187,7 +187,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
 				getMessages().orderNo()), getMessages().orderNo(), true, true));
 
-		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
+		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 	}
 
