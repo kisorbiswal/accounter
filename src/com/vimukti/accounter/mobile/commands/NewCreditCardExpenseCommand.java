@@ -123,7 +123,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account account) {
-							if (account.getType() != Account.TYPE_CASH
+							if (account.getIsActive()
+									&& account.getType() != Account.TYPE_CASH
 									&& account.getType() != Account.TYPE_BANK
 									&& account.getType() != Account.TYPE_INVENTORY_ASSET
 									&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
@@ -215,9 +216,10 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			protected List<Account> getLists(Context context) {
 				List<Account> filteredList = new ArrayList<Account>();
 				for (Account obj : context.getCompany().getAccounts()) {
-					if (Arrays.asList(Account.TYPE_BANK,
-							Account.TYPE_OTHER_CURRENT_ASSET).contains(
-							obj.getType())) {
+					if (obj.getIsActive()
+							&& Arrays.asList(Account.TYPE_BANK,
+									Account.TYPE_OTHER_CURRENT_ASSET).contains(
+									obj.getType())) {
 						filteredList.add(obj);
 					}
 				}

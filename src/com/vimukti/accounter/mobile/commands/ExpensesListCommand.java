@@ -60,7 +60,6 @@ public class ExpensesListCommand extends NewAbstractCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(CURRENT_VIEW).setDefaultValue(getMessages().all());
-
 	}
 
 	@Override
@@ -75,6 +74,18 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		list.add(new ActionRequirement(CURRENT_VIEW, null) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getMessages().all());
+				list.add(getMessages().cash());
+				list.add(getMessages().creditCard());
+				list.add(getMessages().voided());
+				return list;
+			}
+		});
 		list.add(new ShowListRequirement<BillsList>(getMessages()
 				.expensesList(), getMessages().pleaseSelect(
 				getMessages().expensesList()), 5) {
@@ -125,18 +136,6 @@ public class ExpensesListCommand extends NewAbstractCommand {
 			}
 
 		});
-		list.add(new ActionRequirement(CURRENT_VIEW, null) {
-
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add(getMessages().all());
-				list.add(getMessages().cash());
-				list.add(getMessages().creditCard());
-				list.add(getMessages().voided());
-				return list;
-			}
-		});
 	}
 
 	/**
@@ -159,7 +158,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 	protected List<BillsList> filterList(Context context) {
 		List<BillsList> initialRecords = getExpenses(context);
-		String text = ExpensesListCommand.this.get(CURRENT_VIEW).getValue();
+		String text = get(CURRENT_VIEW).getValue();
 		if (text.equalsIgnoreCase(getMessages().employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
