@@ -23,12 +23,15 @@ import com.vimukti.accounter.mobile.requirements.CreditRatingRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerGroupRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
+import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
 import com.vimukti.accounter.mobile.requirements.SalesPersonRequirement;
 import com.vimukti.accounter.mobile.requirements.ShippingMethodRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
@@ -114,17 +117,17 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		list.add(new AddressRequirement(SHIPTO, getMessages().pleaseEnter(
 				getMessages().shipTo()), getMessages().shipTo(), true, true));
 
-		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
+		list.add(new PhoneRequirement(PHONE, getMessages().pleaseEnter(
 				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				true, true));
 
-		list.add(new NumberRequirement(FAX, getMessages().pleaseEnter(
+		list.add(new StringRequirement(FAX, getMessages().pleaseEnter(
 				getMessages().fax()), getMessages().fax(), true, true));
 
-		list.add(new NameRequirement(EMAIL, getMessages().pleaseEnter(
+		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
 				getMessages().email()), getMessages().email(), true, true));
 
-		list.add(new NameRequirement(WEBADRESS, getMessages().pleaseEnter(
+		list.add(new URLRequirement(WEBADRESS, getMessages().pleaseEnter(
 				getMessages().webSite()), getMessages().webSite(), true, true));
 
 		list.add(new SalesPersonRequirement(SALESPERSON,
