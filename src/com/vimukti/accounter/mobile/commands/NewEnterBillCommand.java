@@ -21,6 +21,7 @@ import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
+import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
 import com.vimukti.accounter.mobile.requirements.PurchaseOrderListRequirements;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
@@ -295,7 +296,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
+		list.add(new PhoneRequirement(PHONE, getMessages().pleaseEnter(
 				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				true, true));
 
