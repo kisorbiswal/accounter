@@ -103,4 +103,15 @@ public abstract class ReceivePaymentTableRequirement extends
 		return getMessages().addMore(getMessages().dueForPayment());
 	}
 
+	@Override
+	protected boolean contains(List<ReceivePaymentTransactionList> oldValues,
+			ReceivePaymentTransactionList t) {
+		for (ReceivePaymentTransactionList receivePaymentTransactionList : oldValues) {
+			if (t.getTransactionId() == receivePaymentTransactionList
+					.getTransactionId()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
