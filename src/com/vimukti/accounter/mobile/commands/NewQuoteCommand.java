@@ -19,9 +19,10 @@ import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
-import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
+import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
@@ -158,9 +159,8 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
 				getMessages().billTo()), getMessages().billTo(), true, true));
 
-		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
-				getMessages().phoneNumber()), getMessages().phone(), true,
-				true));
+		list.add(new PhoneRequirement(PHONE, getMessages().pleaseEnter(
+				getMessages().phoneNumber()), getMessages().phone(), true, true));
 
 		list.add(new DateRequirement(DELIVERY_DATE, getMessages().pleaseEnter(
 				getMessages().deliveryDate()), getMessages().deliveryDate(),
@@ -170,12 +170,12 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 				.pleaseEnter(getMessages().expirationDate()), getMessages()
 				.expirationDate(), true, false));
 
-		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
+		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
-				getMessages().taxCode()), getMessages().taxCode(), false,
-				true, null) {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
