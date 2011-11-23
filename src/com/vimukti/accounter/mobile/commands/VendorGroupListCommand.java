@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 public class VendorGroupListCommand extends NewAbstractCommand {
@@ -95,6 +96,14 @@ public class VendorGroupListCommand extends NewAbstractCommand {
 				return getVendorGroups(context);
 			}
 
+			@Override
+			protected void setSelectCommands(CommandList commandList,
+					VendorGroup value) {
+				commandList.add(new UserCommand("update vendor group", value
+						.getName()));
+				commandList.add(new UserCommand("delete vendor group", value
+						.getName()));
+			}
 		});
 
 	}
