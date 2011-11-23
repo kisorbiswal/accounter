@@ -203,10 +203,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 								.getAccountSubBaseType(getAccountType(selectedId));
 						Integer[] ranges = getCompany().getNominalCodeRange(
 								subBaseType);
-						accNoText.setToolTip(messages
-								.accountNumberToolTipDesc(
-										String.valueOf(ranges[0]),
-										String.valueOf(ranges[1])));
+						accNoText.setToolTip(messages.accountNumberToolTipDesc(
+								String.valueOf(ranges[0]),
+								String.valueOf(ranges[1])));
 					}
 				});
 
@@ -234,8 +233,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		accNameText = new TextItem(messages.accountName());
 		accNameText.setValue(accountName);
-		accNameText.setToolTip(messages
-				.giveTheNameAccordingToYourID(this.getAction().getViewName()));
+		accNameText.setToolTip(messages.giveTheNameAccordingToYourID(this
+				.getAction().getViewName()));
 		accNameText.setHelpInformation(true);
 		accNameText.setRequired(true);
 		accNameText.setWidth(100);
@@ -263,8 +262,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 								|| (subAccSelect != null && selectedSubAccount != null)) {
 							hierarchy = Utility
 									.getHierarchy(selectedSubAccount) != null ? Utility
-									.getHierarchy(selectedSubAccount)
-									: "";
+									.getHierarchy(selectedSubAccount) : "";
 							hierarchy = hierarchy + temp;
 
 						} else
@@ -283,8 +281,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		statusBox.setValue(true);
 		statusBox.setDisabled(isInViewMode());
 
-		cashFlowCatSelect = new SelectItem(messages
-				.cashFlowCategory());
+		cashFlowCatSelect = new SelectItem(messages.cashFlowCategory());
 		cashFlowCatSelect.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -304,10 +301,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		cashFlowCatSelect.setValueMap(cashFlowof);
 
-		opBalText = new AmountField(messages.openingBalance(),
-				this, getBaseCurrency());
-		opBalText.setToolTip(messages.giveOpeningBalanceToThis(
-				this.getAction().getViewName()));
+		opBalText = new AmountField(messages.openingBalance(), this,
+				getBaseCurrency());
+		opBalText.setToolTip(messages.giveOpeningBalanceToThis(this.getAction()
+				.getViewName()));
 		opBalText.setHelpInformation(true);
 		opBalText.setDisabled(isInViewMode());
 		opBalText.setWidth(100);
@@ -354,25 +351,19 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// });
 		asofDate = new DateField(messages.asOf());
 		asofDate.setHelpInformation(true);
-		asofDate
-				.setToolTip(messages
-						.selectDateWhenTransactioCreated(
-								this.getAction().getViewName()));
+		asofDate.setToolTip(messages.selectDateWhenTransactioCreated(this
+				.getAction().getViewName()));
 		// asofDate.setWidth(100);
-		asofDate
-				.setEnteredDate(new ClientFinanceDate(
-						getCompany().getPreferences()
-								.getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
-								.getDate()
-								: getCompany().getPreferences()
-										.getPreventPostingBeforeDate()));
+		asofDate.setEnteredDate(new ClientFinanceDate(
+				getCompany().getPreferences().getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
+						.getDate() : getCompany().getPreferences()
+						.getPreventPostingBeforeDate()));
 
 		catSelect = new SelectItem(messages.category1099());
 		catSelect.setWidth(100);
 		catSelect.setDisabled(true);
 
-		accInfoForm = UIUtils.form(messages
-				.chartOfAccountsInformation());
+		accInfoForm = UIUtils.form(messages.chartOfAccountsInformation());
 		// accInfoForm.setWidth("100%");
 		balanceForm = new DynamicForm();
 		topHLay = new HorizontalPanel();
@@ -382,8 +373,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		currencyCombo = createCurrencyComboWidget();
 		if (accountType == 0
 				|| (accountType != ClientAccount.TYPE_BANK && accountType != ClientAccount.TYPE_CREDIT_CARD)) {
-			subAccSelect = new OtherAccountsCombo(messages
-					.subCategoryof());
+			subAccSelect = new OtherAccountsCombo(messages.subCategoryof());
 			subAccSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 						@Override
@@ -451,8 +441,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 
 		// accInfoForm.getCellFormatter().setWidth(0, 0, "200");
-		cashAccountCheck = new CheckboxItem(messages
-				.thisIsConsideredACashAccount());
+		cashAccountCheck = new CheckboxItem(
+				messages.thisIsConsideredACashAccount());
 		cashAccountCheck.setWidth(100);
 		cashAccountCheck.setDisabled(isInViewMode());
 
@@ -465,8 +455,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// messages.width(), "200");
 
 		commentsArea = new TextAreaItem();
-		commentsArea.setToolTip(messages.writeCommentsForThis(
-				this.getAction().getViewName()));
+		commentsArea.setToolTip(messages.writeCommentsForThis(this.getAction()
+				.getViewName()));
 		commentsArea.setHelpInformation(true);
 		commentsArea.setTitle(messages.comments());
 		commentsArea.setWidth(100);
@@ -557,8 +547,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			typeSelect.setRequired(true);
 			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
 
-			bankAccNumText = new TextItem(messages
-					.bankAccountNumber());
+			bankAccNumText = new TextItem(messages.bankAccountNumber());
 			bankAccNumText.setHelpInformation(true);
 			bankAccNumText.setWidth(100);
 
@@ -608,8 +597,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		long financeCategoryNumber = 0;
 
 		if (isNewBankAccount()) {
-			addError(accNoText, messages
-					.theFinanceCategoryNoShouldBeBetween1100And1179());
+			addError(accNoText,
+					messages.theFinanceCategoryNoShouldBeBetween1100And1179());
 			financeCategoryNumber = autoGenerateAccountnumber(
 					BANK_CAT_BEGIN_NO, BANK_CAT_END_NO);
 
@@ -623,12 +612,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					&& accountSubBaseType == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
 				return;
 			}
-			addError(accNoText, messages
-					.theFinanceCategoryNoShouldBeBetween()
-					+ "  "
-					+ nominalCodeRange[0]
-					+ " "
-					+ messages.and() + " " + nominalCodeRange[1]);
+			addError(accNoText, messages.theFinanceCategoryNoShouldBeBetween()
+					+ "  " + nominalCodeRange[0] + " " + messages.and() + " "
+					+ nominalCodeRange[1]);
 			financeCategoryNumber = autoGenerateAccountnumber(
 					nominalCodeRange[0], nominalCodeRange[1]);
 
@@ -676,8 +662,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			if (creditCardForm != null)
 				topHLay.remove(creditCardForm);
 
-			accNoText.setToolTip(messages.accountNumberToolTipDesc(
-					"4000", "4999"));
+			accNoText.setToolTip(messages.accountNumberToolTipDesc("4000",
+					"4999"));
 			accTypeSelect.setComboItem(Utility
 					.getAccountTypeString(accountType));
 		}
@@ -773,8 +759,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					});
 			typeSelect.setRequired(false);
 
-			limitText = new AmountField(messages.creditLimit(),
-					this, getBaseCurrency());
+			limitText = new AmountField(messages.creditLimit(), this,
+					getBaseCurrency());
 			limitText.setHelpInformation(true);
 			limitText.setWidth(100);
 			limitText.setValue("" + UIUtils.getCurrencySymbol() + "0");
@@ -800,8 +786,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 							}
 						}
 					} catch (Exception e) {
-						Accounter.showError(messages
-								.invalidCreditLimit());
+						Accounter.showError(messages.invalidCreditLimit());
 					} finally {
 						limitText.setValue(DataUtils.getAmountAsString(limit));
 						setCreditLimit(limit);
@@ -810,8 +795,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			});
 			limitText.setDisabled(isInViewMode());
-			cardNumText = new IntegerField(this, messages
-					.cardOrLoadNumber());
+			cardNumText = new IntegerField(this, messages.cardOrLoadNumber());
 			cardNumText.setHelpInformation(true);
 			cardNumText.setWidth(100);
 			cardNumText.setDisabled(isInViewMode());
@@ -848,11 +832,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// typeSelect.setWidth(100);
 			// typeSelect.setWidth("*");
 			typeMap = new ArrayList<String>();
-			typeMap
-					.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT);
+			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT);
 			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING);
-			typeMap
-					.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET);
+			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET);
 			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING);
 			typeSelect.initCombo(typeMap);
 			typeSelect
@@ -867,12 +849,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					});
 			typeSelect.setRequired(true);
 			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
-			bankAccNumText = new TextItem(messages
-					.bankAccountNumber());
+			bankAccNumText = new TextItem(messages.bankAccountNumber());
 			bankAccNumText.setHelpInformation(true);
 			bankAccNumText.setWidth(100);
-			bankForm = UIUtils.form(messages
-					.bankAccountInformation());
+			bankForm = UIUtils.form(messages.bankAccountInformation());
 			// bankForm.setWidth("100%");
 			if (isMultiCurrencyEnabled()) {
 				bankForm.setFields(getBankNameSelectItem(), typeSelect,
@@ -919,8 +899,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					.getAccountTypeString(accountType));
 			accTypeSelect.setDisabled(true);
 			getNextAccountNo();
-			accNoText.setToolTip(messages.accountNumberToolTipDesc(
-					"1100", "1179"));
+			accNoText.setToolTip(messages.accountNumberToolTipDesc("1100",
+					"1179"));
 		} else {
 
 			if (!isInViewMode()) {
@@ -1070,8 +1050,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					: data.getName() == null ? true : !data.getName()
 							.equalsIgnoreCase(name)) : account != null) {
 
-				result.addError(accNameText, messages
-						.alreadyExist());
+				result.addError(accNameText, messages.alreadyExist());
 				return result;
 			}
 		}
@@ -1152,16 +1131,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				int type = 0;
 				if (typeSelect
 						.getSelectedValue()
-						.equals(
-								AccounterClientConstants.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT))
+						.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT;
 				else if (typeSelect.getSelectedValue().equals(
 						AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING;
 				else if (typeSelect
 						.getSelectedValue()
-						.equals(
-								AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET))
+						.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
 				else if (typeSelect.getSelectedValue().equals(
 						AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING))
@@ -1294,8 +1271,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
 			setCreditLimit(!DecimalUtil.isEquals(data.getCreditLimit(), 0) ? data
-					.getCreditLimit()
-					: 0D);
+					.getCreditLimit() : 0D);
 			limitText.setValue(DataUtils.getAmountAsString(getCreditLimit()));
 			cardNumText.setValue(data.getCardOrLoanNumber() != null ? data
 					.getCardOrLoanNumber() : "");
@@ -1414,9 +1390,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 						.setEnteredDate(new ClientFinanceDate(
 								getCompany().getPreferences()
 										.getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
-										.getDate()
-										: getCompany().getPreferences()
-												.getPreventPostingBeforeDate()));
+										.getDate() : getCompany()
+										.getPreferences()
+										.getPreventPostingBeforeDate()));
 			else if ((item instanceof AmountField))
 				((AmountField) item).setAmount(0.0);
 			else if ((item instanceof CheckboxItem))
@@ -1499,8 +1475,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			for (ClientAccount account : accounts) {
 				if (number.toString().equals(account.getNumber())
 						&& account.getID() != getData().getID()) {
-					addError(accNoText, messages
-							.alreadyAccountExist());
+					addError(accNoText, messages.alreadyAccountExist());
 					return false;
 				}
 			}
@@ -1535,7 +1510,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 							.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
 							+ "  "
 							+ nominalCodeRange[0]
-							+ messages.and() + nominalCodeRange[1]);
+							+ messages.and()
+							+ nominalCodeRange[1]);
 			return false;
 		} else {
 			clearError(accNoText);
