@@ -60,8 +60,7 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
 				list.add(getMessages().all());
-				list.add(getMessages().open());
-				list.add(getMessages().fullyApplied());
+				list.add(getMessages().paid());
 				list.add(getMessages().voided());
 
 				return list;
