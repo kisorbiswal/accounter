@@ -102,15 +102,12 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return new String("<html><body><center><p>"
-						+ getMessages().noRecordsToShow()
-						+ "</p></center></body></html>");
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
 			protected String onSelection(Account value) {
-
-				return "update account #" + value.getNumber();
+				return "update bank account #" + value.getNumber();
 			}
 
 		});
