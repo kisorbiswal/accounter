@@ -2,7 +2,6 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import org.bouncycastle.asn1.x509.IetfAttrSyntax;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Item;
