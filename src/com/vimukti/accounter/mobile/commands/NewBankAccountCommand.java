@@ -76,7 +76,7 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		list.add(new StringRequirement(COMMENTS, "Please Enter Comment",
 				"Comment", true, true));
 
-		list.add(new StringRequirement(BANK_NAME, "Please Enter Bank Name",
+		list.add(new NameRequirement(BANK_NAME, "Please Enter Bank Name",
 				"Bank Name", true, true));
 
 		list.add(new StringListRequirement(BANK_ACCOUNT_TYPE,
