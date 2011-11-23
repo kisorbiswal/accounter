@@ -29,7 +29,6 @@ import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.servlets.CompaniesServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -61,7 +60,7 @@ public class CommandUtils {
 	public static ClientPayee getPayeeByName(Company company, String vendorName) {
 		Set<Payee> vendors = company.getPayees();
 		for (Payee vendor : vendors) {
-			if (vendor.getName().equals(vendorName)) {
+			if (vendor.getName().equalsIgnoreCase(vendorName)) {
 				if (vendor instanceof Vendor) {
 					return (ClientPayee) getClientObjectById(vendor.getID(),
 							AccounterCoreType.VENDOR, company.getId());
