@@ -344,7 +344,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 				Set<Item> items2 = context.getCompany().getItems();
 				List<Item> items = new ArrayList<Item>();
 				for (Item item : items2) {
-					if (item.getType() != Item.TYPE_SERVICE) {
+					if (item.isIBuyThisItem()) {
 						if (item.isActive())
 							items.add(item);
 					}
