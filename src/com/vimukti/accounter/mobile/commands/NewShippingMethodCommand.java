@@ -98,7 +98,6 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		shippingMethod = new ClientShippingMethod();
 		shippingMethod.setName((String) get(SHIPPING_METHOD_NAME).getValue());
 		shippingMethod.setDescription((String) get(DESCRIPTION).getValue());
 		create(shippingMethod, context);

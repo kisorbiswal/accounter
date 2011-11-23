@@ -8,6 +8,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 public class CreditRatingListCommand extends NewAbstractCommand {
@@ -27,6 +28,16 @@ public class CreditRatingListCommand extends NewAbstractCommand {
 				Record record = new Record(value);
 				record.add("", value.getName());
 				return record;
+			}
+
+			@Override
+			protected void setSelectCommands(CommandList commandList,
+					CreditRating value) {
+				commandList.add(new UserCommand("Edit Credit Rating", value
+						.getName()));
+
+				commandList.add(new UserCommand("Delete Credit Rating", value
+						.getName()));
 			}
 
 			@Override
@@ -60,7 +71,7 @@ public class CreditRatingListCommand extends NewAbstractCommand {
 			}
 		});
 	}
-	
+
 	private List<CreditRating> getCreditRatingList(Context context) {
 		return new ArrayList<CreditRating>(context.getCompany()
 				.getCreditRatings());
