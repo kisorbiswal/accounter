@@ -878,4 +878,10 @@
 		<alias>VendorGroups</alias>
 
 	</command>
+	
+	<command clazz="PaymentTermsListCommand" name="PaymentTerms List">
+		<alias>Payment Terms list</alias>
+		<alias>PaymentTerms list</alias>
+		<alias>PaymentTerms</alias>
+	</command>
 </commands>
