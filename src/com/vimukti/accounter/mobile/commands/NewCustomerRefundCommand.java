@@ -335,7 +335,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public void beforeFinishing(Context context, Result makeResult) {
-
+		makeResult.add("Total : " + get(AMOUNT).getValue());
 	}
 
 	private void adjustBalance(double amount, Customer customer,
@@ -354,4 +354,5 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		// + enteredBalance);
 		// }
 	}
+
 }
