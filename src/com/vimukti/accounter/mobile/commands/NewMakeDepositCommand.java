@@ -13,8 +13,8 @@ import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
-import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
@@ -92,15 +92,12 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 		// });
 
 		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_FROM, getMessages()
-				.pleaseEnterName(
-						getMessages().fromAccount()),
-				getMessages().fromAccount(), false, true,
-				null) {
+				.pleaseEnterName(getMessages().fromAccount()), getMessages()
+				.fromAccount(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(
-						getMessages().fromAccount());
+				return getMessages().hasSelected(getMessages().fromAccount());
 			}
 
 			@Override
@@ -202,7 +199,7 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 		// Global
 		// .get().Accounts()));
 
-		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
+		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 	}
 
