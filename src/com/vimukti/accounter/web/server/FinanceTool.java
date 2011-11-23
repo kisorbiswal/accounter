@@ -2228,14 +2228,10 @@ public class FinanceTool {
 	 */
 	public List<ClientReconciliation> getReconciliationsByBankAccountID(
 			long accountID, long companyID) throws AccounterException {
-		Session session = HibernateUtil.getCurrentSession();
-		Company company = getCompany(companyID);
-		List list = session.getNamedQuery("get.reconciliations.by.accountId")
-				.setLong("accountID", accountID).setEntity("company", company)
-				.list();
-
+		List<Reconciliation> reconciliations = getReconciliationslist(
+				accountID, companyID);
 		List<ClientReconciliation> reconciliationsList = new ArrayList<ClientReconciliation>();
-		Iterator iterator = list.iterator();
+		Iterator iterator = reconciliations.iterator();
 		ClientConvertUtil convertUtil = new ClientConvertUtil();
 		while (iterator.hasNext()) {
 			Reconciliation next = (Reconciliation) iterator.next();
@@ -2245,6 +2241,17 @@ public class FinanceTool {
 			reconciliationsList.add(clientObject);
 		}
 		return reconciliationsList;
+
+	}
+
+	public List<Reconciliation> getReconciliationslist(long accountID,
+			long companyID) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyID);
+		List list = session.getNamedQuery("get.reconciliations.by.accountId")
+				.setLong("accountID", accountID).setEntity("company", company)
+				.list();
+		return list;
 
 	}
 
