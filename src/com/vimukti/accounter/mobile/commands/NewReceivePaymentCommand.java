@@ -241,7 +241,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 			record.setAppliedCredits(receivePaymentTransaction
 					.getAppliedCredits());
-			record.setPayment(0);
+			record.setPayment(receivePaymentTransaction.getPayment());
 
 			if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_INVOICE) {
 				record.isInvoice = true;

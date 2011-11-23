@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -146,6 +145,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 						list.add(nameRecord);
 						super.createRecord(list);
 					}
+
 				});
 
 				list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
@@ -218,6 +218,18 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			public boolean isDone() {
 				List<ClientEntry> values = getValue();
 				return values.size() >= 2;
+			}
+
+			@Override
+			protected boolean contains(List<ClientEntry> oldValues,
+					ClientEntry t) {
+				for (ClientEntry entry : oldValues) {
+					if (entry.getAccount() != 0
+							&& entry.getAccount() == t.getAccount()) {
+						return true;
+					}
+				}
+				return false;
 			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(

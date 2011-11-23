@@ -235,4 +235,16 @@ public abstract class TransactionItemTableRequirement extends
 		return items.isEmpty() ? "Add Items" : getMessages().addMore(
 				getMessages().items());
 	}
+
+	@Override
+	protected boolean contains(List<ClientTransactionItem> oldValues,
+			ClientTransactionItem t) {
+		for (ClientTransactionItem clientTransactionItem : oldValues) {
+			if (clientTransactionItem.getItem() != 0
+					&& clientTransactionItem.getItem() == t.getItem()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

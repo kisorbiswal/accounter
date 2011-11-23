@@ -33,8 +33,7 @@ public abstract class PaybillTableRequirement extends
 		list.add(billNo);
 
 		AmountRequirement originalAmount = new AmountRequirement(
-				ORIGINAL_AMOUNT, "", getMessages().originalAmount(), true,
-				true);
+				ORIGINAL_AMOUNT, "", getMessages().originalAmount(), true, true);
 		originalAmount.setEditable(false);
 		list.add(originalAmount);
 
@@ -108,4 +107,15 @@ public abstract class PaybillTableRequirement extends
 		return getMessages().youDontHaveAny(getMessages().billsToPay());
 	}
 
+	@Override
+	protected boolean contains(List<PayBillTransactionList> oldValues,
+			PayBillTransactionList t) {
+		for (PayBillTransactionList payBillTransactionList : oldValues) {
+			if (payBillTransactionList.getTransactionId() == t
+					.getTransactionId()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

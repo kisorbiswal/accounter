@@ -112,4 +112,15 @@ public abstract class CustomerContactRequirement extends
 	protected String getEmptyString() {
 		return getMessages().youDontHaveAny(getMessages().contacts());
 	}
+
+	@Override
+	protected boolean contains(List<ClientContact> oldValues, ClientContact t) {
+		for (ClientContact clientContact : oldValues) {
+			if (clientContact.getName() != null
+					&& clientContact.getName().equals(t.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

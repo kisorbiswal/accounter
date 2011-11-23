@@ -86,4 +86,15 @@ public abstract class PurchaseOrderTableRequirements extends
 	}
 
 	protected abstract Vendor getVendor();
+
+	@Override
+	protected boolean contains(List<PurchaseOrdersList> oldValues,
+			PurchaseOrdersList t) {
+		for (PurchaseOrdersList purchaseOrdersList : oldValues) {
+			if (purchaseOrdersList.getTransactionId() == t.getTransactionId()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

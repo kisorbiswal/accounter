@@ -38,8 +38,8 @@ public class TransactionAccountTableRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		list.add(new AccountRequirement(ACCOUNT, getMessages().pleaseSelect(
-				getMessages().account()), getMessages().account(), false,
-				true, null) {
+				getMessages().account()), getMessages().account(), false, true,
+				null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -61,12 +61,11 @@ public class TransactionAccountTableRequirement extends
 				getMessages().amount()), getMessages().amount(), false, true));
 
 		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
-				getMessages().discount()), getMessages().discount(), true,
-				true));
+				getMessages().discount()), getMessages().discount(), true, true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getMessages().taxCode()), getMessages().taxCode(), false,
-				true, null) {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -224,6 +223,18 @@ public class TransactionAccountTableRequirement extends
 		List<ClientTransactionItem> items = getValue();
 		return items.isEmpty() ? "Add Account Items" : getMessages().addMore(
 				getMessages().Accounts());
+	}
+
+	@Override
+	protected boolean contains(List<ClientTransactionItem> oldValues,
+			ClientTransactionItem t) {
+		for (ClientTransactionItem clientTransactionItem : oldValues) {
+			if (clientTransactionItem.getAccount() != 0
+					&& clientTransactionItem.getAccount() == t.getAccount()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

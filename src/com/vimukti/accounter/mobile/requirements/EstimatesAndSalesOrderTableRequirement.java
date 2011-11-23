@@ -92,4 +92,16 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 	protected String getAddMoreString() {
 		return "Add More Estimates";
 	}
+
+	@Override
+	protected boolean contains(List<EstimatesAndSalesOrdersList> oldValues,
+			EstimatesAndSalesOrdersList t) {
+		for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : oldValues) {
+			if (estimatesAndSalesOrdersList.getTransactionId() == t
+					.getTransactionId()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

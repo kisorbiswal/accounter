@@ -31,8 +31,8 @@ public abstract class IssuePaymentTableRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		DateRequirement billDueDate = new DateRequirement(DATE, getMessages()
-				.pleaseEnter(getMessages().date()), getMessages().date(),
-				true, true);
+				.pleaseEnter(getMessages().date()), getMessages().date(), true,
+				true);
 		billDueDate.setEditable(false);
 		list.add(billDueDate);
 
@@ -130,5 +130,17 @@ public abstract class IssuePaymentTableRequirement extends
 	@Override
 	protected String getAddMoreString() {
 		return "Add More PayMent Issues";
+	}
+
+	@Override
+	protected boolean contains(List<IssuePaymentTransactionsList> oldValues,
+			IssuePaymentTransactionsList t) {
+		for (IssuePaymentTransactionsList issuePaymentTransactionsList : oldValues) {
+			if (issuePaymentTransactionsList.getTransactionId() == t
+					.getTransactionId()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
