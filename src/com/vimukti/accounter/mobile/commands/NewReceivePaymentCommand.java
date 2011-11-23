@@ -182,8 +182,8 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				.dueForPayment()) {
 
 			@Override
-			protected List<ClientTransactionReceivePayment> getList() {
-				return getTransactionRecievePayments();
+			protected List<ReceivePaymentTransactionList> getList() {
+				return getRequirementList();
 			}
 		});
 
@@ -201,61 +201,63 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				getMessages().checkNo()), getMessages().checkNo(), true, true));
 	}
 
-	private ArrayList<ClientTransactionReceivePayment> getTransactionRecievePayments() {
+	private ArrayList<ReceivePaymentTransactionList> getRequirementList() {
 		Customer customer = get(CUSTOMER).getValue();
 		ClientFinanceDate date = get(DATE).getValue();
-		ArrayList<ReceivePaymentTransactionList> transactionReceivePayments;
+		ArrayList<ReceivePaymentTransactionList> transactionReceivePayments = new ArrayList<ReceivePaymentTransactionList>();
 		try {
 			transactionReceivePayments = getTransactionReceivePayments(customer
 					.getCompany().getID(), customer.getID(), date.getDate());
-			ArrayList<ClientTransactionReceivePayment> records = new ArrayList<ClientTransactionReceivePayment>();
-			for (ReceivePaymentTransactionList receivePaymentTransaction : transactionReceivePayments) {
-				ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();
-				record.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
-						.getDueDate().getDate() : 0);
-
-				record.setNumber(receivePaymentTransaction.getNumber());
-
-				record.setInvoiceAmount(receivePaymentTransaction
-						.getInvoiceAmount());
-				record.setInvoice(receivePaymentTransaction.getTransactionId());
-				record.setAmountDue(receivePaymentTransaction.getAmountDue());
-
-				record.setDummyDue(receivePaymentTransaction.getAmountDue());
-
-				record.setDiscountDate(receivePaymentTransaction
-						.getDiscountDate() != null ? receivePaymentTransaction
-						.getDiscountDate().getDate() : 0);
-
-				record.setCashDiscount(receivePaymentTransaction
-						.getCashDiscount());
-
-				record.setWriteOff(receivePaymentTransaction.getWriteOff());
-
-				record.setAppliedCredits(receivePaymentTransaction
-						.getAppliedCredits());
-				record.setPayment(0);
-
-				if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_INVOICE) {
-					record.isInvoice = true;
-					record.setInvoice(receivePaymentTransaction
-							.getTransactionId());
-				} else if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS) {
-					record.isInvoice = false;
-					record.setCustomerRefund(receivePaymentTransaction
-							.getTransactionId());
-				} else if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
-					record.isInvoice = false;
-					record.setJournalEntry(receivePaymentTransaction
-							.getTransactionId());
-				}
-				records.add(record);
-			}
-			return records;
 		} catch (AccounterException e) {
 			e.printStackTrace();
-			return new ArrayList<ClientTransactionReceivePayment>();
 		}
+		return transactionReceivePayments;
+	}
+
+	private ArrayList<ClientTransactionReceivePayment> getClientTransactionReceivePayments() {
+		ArrayList<ClientTransactionReceivePayment> records = new ArrayList<ClientTransactionReceivePayment>();
+		ArrayList<ReceivePaymentTransactionList> transactionReceivePayments = get(
+				TRANSACTIONS).getValue();
+		for (ReceivePaymentTransactionList receivePaymentTransaction : transactionReceivePayments) {
+			ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();
+			record.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
+					.getDueDate().getDate() : 0);
+
+			record.setNumber(receivePaymentTransaction.getNumber());
+
+			record.setInvoiceAmount(receivePaymentTransaction
+					.getInvoiceAmount());
+			record.setInvoice(receivePaymentTransaction.getTransactionId());
+			record.setAmountDue(receivePaymentTransaction.getAmountDue());
+
+			record.setDummyDue(receivePaymentTransaction.getAmountDue());
+
+			record.setDiscountDate(receivePaymentTransaction.getDiscountDate() != null ? receivePaymentTransaction
+					.getDiscountDate().getDate() : 0);
+
+			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
+
+			record.setWriteOff(receivePaymentTransaction.getWriteOff());
+
+			record.setAppliedCredits(receivePaymentTransaction
+					.getAppliedCredits());
+			record.setPayment(0);
+
+			if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_INVOICE) {
+				record.isInvoice = true;
+				record.setInvoice(receivePaymentTransaction.getTransactionId());
+			} else if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS) {
+				record.isInvoice = false;
+				record.setCustomerRefund(receivePaymentTransaction
+						.getTransactionId());
+			} else if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
+				record.isInvoice = false;
+				record.setJournalEntry(receivePaymentTransaction
+						.getTransactionId());
+			}
+			records.add(record);
+		}
+		return records;
 	}
 
 	private void recalculateGridAmounts() {
@@ -275,8 +277,8 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 	public Double getGridTotal() {
 		Double total = 0.0D;
-		ArrayList<ClientTransactionReceivePayment> records = get(TRANSACTIONS)
-				.getValue();
+		ArrayList<ClientTransactionReceivePayment> records = getClientTransactionReceivePayments();
+		payment.setTransactionReceivePayment(records);
 		for (ClientTransactionReceivePayment record : records) {
 			total += record.getPayment();
 		}
@@ -300,10 +302,6 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 		Account account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
 		payment.setDepositIn(account.getID());
-		List<ClientTransactionReceivePayment> list = get(TRANSACTIONS)
-				.getValue();
-		payment.setTransactionReceivePayment(list);
-
 		/*
 		 * if (context.getPreferences().isEnableMultiCurrency()) {
 		 * ClientCurrency currency = get(CURRENCY).getValue(); if (currency !=
@@ -367,10 +365,60 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		get(DEPOSIT_OR_TRANSFER_TO).setValue(
 				CommandUtils.getServerObjectById(payment.getDepositIn(),
 						AccounterCoreType.ACCOUNT));
-		get(TRANSACTIONS).setValue(payment.getTransactionReceivePayment());
+		get(TRANSACTIONS).setValue(getReceivePaymentTransactionList());
 		/* get(CURRENCY_FACTOR).setValue(payment.getCurrencyFactor()); */
 		get(MEMO).setValue(payment.getMemo());
 		get(CHECK_NUMBER).setValue(payment.getCheckNumber());
+	}
+
+	private List<ReceivePaymentTransactionList> getReceivePaymentTransactionList() {
+		List<ReceivePaymentTransactionList> receivePaymentsList = new ArrayList<ReceivePaymentTransactionList>();
+		List<ClientTransactionReceivePayment> transactionReceivePayment = payment
+				.getTransactionReceivePayment();
+		for (ClientTransactionReceivePayment clientTransactionReceivePayment : transactionReceivePayment) {
+			ReceivePaymentTransactionList receivePaymentTransactionList = new ReceivePaymentTransactionList();
+			receivePaymentTransactionList
+					.setAmountDue(clientTransactionReceivePayment
+							.getAmountDue());
+			receivePaymentTransactionList
+					.setAppliedCredits(clientTransactionReceivePayment
+							.getAppliedCredits());
+			receivePaymentTransactionList
+					.setCashDiscount(clientTransactionReceivePayment
+							.getCashDiscount());
+			receivePaymentTransactionList
+					.setDiscountDate(new ClientFinanceDate(
+							clientTransactionReceivePayment.getDiscountDate()));
+			receivePaymentTransactionList.setDueDate(new ClientFinanceDate(
+					clientTransactionReceivePayment.getDueDate()));
+			receivePaymentTransactionList
+					.setInvoiceAmount(clientTransactionReceivePayment
+							.getInvoiceAmount());
+			receivePaymentTransactionList
+					.setNumber(clientTransactionReceivePayment.getNumber());
+			receivePaymentTransactionList
+					.setPayment(clientTransactionReceivePayment.getPayment());
+			receivePaymentTransactionList
+					.setWriteOff(clientTransactionReceivePayment.getWriteOff());
+			receivePaymentTransactionList
+					.setTransactionId(clientTransactionReceivePayment
+							.getInvoice());
+			if (clientTransactionReceivePayment.isInvoice
+					&& clientTransactionReceivePayment.getInvoice() != 0) {
+				receivePaymentTransactionList
+						.setType(ClientTransaction.TYPE_INVOICE);
+			} else if (!clientTransactionReceivePayment.isInvoice
+					&& clientTransactionReceivePayment.getCustomerRefund() != 0) {
+				receivePaymentTransactionList
+						.setType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+			} else if (!clientTransactionReceivePayment.isInvoice
+					&& clientTransactionReceivePayment.getJournalEntry() != 0) {
+				receivePaymentTransactionList
+						.setType(ClientTransaction.TYPE_JOURNAL_ENTRY);
+			}
+			receivePaymentsList.add(receivePaymentTransactionList);
+		}
+		return receivePaymentsList;
 	}
 
 	@Override

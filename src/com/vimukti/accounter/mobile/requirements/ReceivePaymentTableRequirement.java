@@ -4,11 +4,10 @@ import java.util.List;
 
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
+import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 
 public abstract class ReceivePaymentTableRequirement extends
-		AbstractTableRequirement<ClientTransactionReceivePayment> {
+		AbstractTableRequirement<ReceivePaymentTransactionList> {
 
 	private static final String INVOICE_NO = "invoiceNo";
 	private static final String INVOICE_AMOUNT = "invoiceAmount";
@@ -49,7 +48,7 @@ public abstract class ReceivePaymentTableRequirement extends
 	}
 
 	@Override
-	protected void getRequirementsValues(ClientTransactionReceivePayment obj) {
+	protected void getRequirementsValues(ReceivePaymentTransactionList obj) {
 		Double amount = get(PAYMENT).getValue();
 		Double due = obj.getAmountDue() - amount;
 		obj.setPayment(amount);
@@ -58,8 +57,8 @@ public abstract class ReceivePaymentTableRequirement extends
 
 	@Override
 	protected void setRequirementsDefaultValues(
-			ClientTransactionReceivePayment obj) {
-		get(DUE_DATE).setDefaultValue(new ClientFinanceDate(obj.getDueDate()));
+			ReceivePaymentTransactionList obj) {
+		get(DUE_DATE).setDefaultValue(obj.getDueDate());
 		get(INVOICE_NO).setDefaultValue(obj.getNumber());
 		get(INVOICE_AMOUNT).setDefaultValue(obj.getInvoiceAmount());
 		get(AMOUNT_DUE).setDefaultValue(obj.getAmountDue());
@@ -68,13 +67,13 @@ public abstract class ReceivePaymentTableRequirement extends
 	}
 
 	@Override
-	protected ClientTransactionReceivePayment getNewObject() {
+	protected ReceivePaymentTransactionList getNewObject() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected Record createFullRecord(ClientTransactionReceivePayment t) {
+	protected Record createFullRecord(ReceivePaymentTransactionList t) {
 		Record record = new Record(t);
 		record.add("", getMessages().dueDate());
 		record.add("", t.getDueDate());
@@ -95,7 +94,7 @@ public abstract class ReceivePaymentTableRequirement extends
 	}
 
 	@Override
-	protected Record createRecord(ClientTransactionReceivePayment t) {
+	protected Record createRecord(ReceivePaymentTransactionList t) {
 		return createFullRecord(t);
 	}
 
