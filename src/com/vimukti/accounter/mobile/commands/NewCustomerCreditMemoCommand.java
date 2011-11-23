@@ -180,7 +180,8 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				List<Item> items = new ArrayList<Item>();
 				for (Item item : items2) {
 					if (item.getType() == Item.TYPE_SERVICE) {
-						items.add(item);
+						if (item.isActive())
+							items.add(item);
 					}
 				}
 				return items;
@@ -209,8 +210,8 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			}
 		});
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
-				getMessages().taxCode()), getMessages().taxCode(), false,
-				true, null) {
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -260,8 +261,8 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
-				getMessages().reasonForIssue()), getMessages()
-				.reasonForIssue(), true, true));
+				getMessages().reasonForIssue()),
+				getMessages().reasonForIssue(), true, true));
 	}
 
 	@Override

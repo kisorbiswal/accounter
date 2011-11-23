@@ -234,7 +234,8 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				List<Item> items = new ArrayList<Item>();
 				for (Item item : items2) {
 					if (item.isIBuyThisItem()) {
-						items.add(item);
+						if (item.isActive())
+							items.add(item);
 					}
 				}
 				return items;

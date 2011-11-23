@@ -149,7 +149,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				ArrayList<Item> items = new ArrayList<Item>();
 				for (Item item : items2) {
 					if (item.getType() == Item.TYPE_SERVICE) {
-						items.add(item);
+						if (item.isActive())
+							items.add(item);
 					}
 				}
 				return items;
