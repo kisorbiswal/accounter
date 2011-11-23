@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -213,17 +214,9 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			protected List<Account> getLists(Context context) {
 				List<Account> filteredList = new ArrayList<Account>();
 				for (Account obj : context.getCompany().getAccounts()) {
-					if (new ListFilter<Account>() {
-
-						@Override
-						public boolean filter(Account e) {
-							if (e.getType() == Account.TYPE_BANK
-									|| e.getType() == Account.TYPE_OTHER_ASSET) {
-								return true;
-							}
-							return false;
-						}
-					}.filter(obj)) {
+					if (Arrays.asList(Account.TYPE_BANK,
+							Account.TYPE_OTHER_CURRENT_ASSET).contains(
+							obj.getType())) {
 						filteredList.add(obj);
 					}
 				}
