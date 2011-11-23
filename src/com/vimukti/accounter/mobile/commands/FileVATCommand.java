@@ -96,13 +96,13 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 		 */
 
 		list.add(new DateRequirement(FROM_DATE, getMessages().pleaseEnter(
-				getMessages().fromDate()), getMessages().fromDate(), true,
-				true));
+				getMessages().fromDate()), getMessages().fromDate(), true, true));
 
 		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
 				getMessages().toDate()), getMessages().toDate(), true, true));
 
-		list.add(new Requirement(BOXES, false, true));
+		list.add(new BoxRequirement(BOXES, getMessages().pleaseEnter(
+				getMessages().box()), getMessages().box(), false, true));
 		list.add(new ShowListRequirement<ClientBox>(BOXES, "", 15) {
 
 			@Override
@@ -117,8 +117,7 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages()
-						.norecordstoshowinbetweentheselecteddates();
+				return getMessages().norecordstoshowinbetweentheselecteddates();
 			}
 
 			@Override
