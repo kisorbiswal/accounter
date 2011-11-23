@@ -92,19 +92,19 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		}
 		if (name == null) {
 			List<T> lists = getLists(context);
-			if (lists.size() > RECORDS_TO_SHOW) {
-				context.setAttribute("oldValue", "");
-				result.add(getEnterString());
-				ResultList actions = new ResultList(ACTIONS);
-				Record record = new Record(ActionNames.ALL);
-				record.add("", getMessages().showAll());
-				actions.add(record);
-				result.add(actions);
-				if (isDone()) {
-					result.setShowBack(true);
-				}
-				return result;
-			}
+			// if (lists.size() > RECORDS_TO_SHOW) {
+			// context.setAttribute("oldValue", "");
+			// result.add(getEnterString());
+			// ResultList actions = new ResultList(ACTIONS);
+			// Record record = new Record(ActionNames.ALL);
+			// record.add("", getMessages().showAll());
+			// actions.add(record);
+			// result.add(actions);
+			// if (isDone()) {
+			// result.setShowBack(true);
+			// }
+			// return result;
+			// }
 			return displayRecords(context, lists, result, RECORDS_TO_SHOW,
 					oldRecords);
 		}
