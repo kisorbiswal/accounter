@@ -841,4 +841,45 @@
 		<alias>Edit CreditMemo</alias>
 		<alias>Modify CreditMemo</alias>
 	</command>
+	<command clazz="ClassListCommand" name="Class List">
+		<alias>classes list</alias>
+		<alias>class list</alias>
+		<alias>classes</alias>
+
+	</command>
+
+	<command clazz="TaxAgenciesListCommand" name="TaxAgencies List">
+		<alias>TaxAgencie list</alias>
+		<alias>TaxAgencies list</alias>
+		<alias>TaxAgencies</alias>
+
+	</command>
+
+	<command clazz="MeasurmentsListCommand" name="Measurments List">
+		<alias>Measurments list</alias>
+		<alias>Measurment list</alias>
+		<alias>Measurments</alias>
+
+	</command>
+
+	<command clazz="ItemGroupsListCommand" name="ItemGroup List">
+		<alias>ItemGroups list</alias>
+		<alias>Item Group list</alias>
+		<alias>ItemGroups</alias>
+
+	</command>
+
+	<command clazz="CustomerGroupListCommand" name="CustomerGroup List">
+		<alias>CustomerGroups list</alias>
+		<alias>Customer Group list</alias>
+		<alias>CustomerGroups</alias>
+
+	</command>
+
+	<command clazz="VendorGroupListCommand" name="VendorGroup List">
+		<alias>VendorGroups list</alias>
+		<alias>Vendor Group list</alias>
+		<alias>VendorGroups</alias>
+
+	</command>
 </commands>
