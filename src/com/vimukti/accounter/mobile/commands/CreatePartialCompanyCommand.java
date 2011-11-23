@@ -96,8 +96,8 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		list.add(new StringListRequirement(STATE, getMessages()
-				.pleaseEnterName(getMessages().state()), getMessages()
-				.state(), true, true, null) {
+				.pleaseEnterName(getMessages().state()), getMessages().state(),
+				true, true, null) {
 
 			@Override
 			protected String getEmptyString() {
@@ -143,12 +143,10 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		});
 
 		list.add(new NameRequirement(ADDRESS1, getMessages().pleaseEnter(
-				getMessages().address1()), getMessages().address1(), true,
-				true));
+				getMessages().address1()), getMessages().address1(), true, true));
 
 		list.add(new NameRequirement(ADDRESS2, getMessages().pleaseEnter(
-				getMessages().address2()), getMessages().address2(), true,
-				true));
+				getMessages().address2()), getMessages().address2(), true, true));
 
 		list.add(new NameRequirement(CITY, getMessages().pleaseEnter(
 				getMessages().city()), getMessages().city(), true, true));
@@ -165,7 +163,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
 				getMessages().email()), getMessages().email(), true, true));
 
-		list.add(new NameRequirement(WEB_SITE, getMessages().pleaseEnter(
+		list.add(new URLRequirement(WEB_SITE, getMessages().pleaseEnter(
 				getMessages().webSite()), getMessages().webSite(), true, true));
 
 		list.add(new StringListRequirement(TIME_ZONE, getMessages()
