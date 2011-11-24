@@ -3,8 +3,8 @@ package com.vimukti.accounter.mobile;
 public class InputType {
 	int type;
 	private int inputType;
-	private String name;
-	private String value;
+	private String name = "";
+	private String value = "";
 
 	public InputType(int inputType) {
 		this(inputType, "", "");
