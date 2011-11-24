@@ -67,8 +67,7 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 	@Override
 	public void channelDisconnected(ChannelHandlerContext ctx,
 			ChannelStateEvent e) throws Exception {
-		// String networkId = (String) ctx.getAttachment();
-		// messageHandler.logout(networkId);
+		System.out.println();
 	}
 }
 

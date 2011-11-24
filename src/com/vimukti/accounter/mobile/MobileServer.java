@@ -41,7 +41,6 @@ public class MobileServer {
 
 		bootstrap.setOption("child.tcpNoDelay", true);
 		bootstrap.setOption("child.keepAlive", true);
-
 	}
 
 	protected SSLEngine getSSLEngine() {

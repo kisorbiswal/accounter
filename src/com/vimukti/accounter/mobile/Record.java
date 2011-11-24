@@ -42,10 +42,10 @@ public class Record extends ArrayList<Cell> {
 		StringBuilder builder = new StringBuilder();
 		if (size() == 1) {
 			Cell cell = get(0);
-			if (cell.name.isEmpty()) {
+			if (cell.title.isEmpty()) {
 				builder.append(cell);
 			} else {
-				builder.append(cell.name).append(":\t").append(cell);
+				builder.append(cell.title).append(":\t").append(cell);
 			}
 		} else {
 			for (Cell cell : this) {
