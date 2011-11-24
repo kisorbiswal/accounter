@@ -3259,14 +3259,12 @@
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="PAYEE_ID" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
-		<return-scalar column="PAY_VAT_ENTRIES_ID" type="long" />
 
 		SELECT
 		I.ID AS ITEM_ID,
 		P.ID AS PAYEE_ID,
 		TI.ID AS
-		TRANSACTION_ITEM_ID,
-		PV.ID AS PAY_VAT_ENTRIES_ID
+		TRANSACTION_ITEM_ID
 
 		FROM TAX_CODE T
 
@@ -3282,12 +3280,12 @@
 		LEFT
 		OUTER JOIN
 		TRANSACTION_ITEM TI
-		ON TI.TAX_CODE = T.ID
-		LEFT OUTER JOIN
-		PAY_TAX_ENTRIES PV
-		ON PV.TAXCODE_ID = T.ID
+		ON
+		TI.TAX_CODE = T.ID
+
 		WHERE T.ID = :inputId AND
-		T.COMPANY_ID=:companyId LIMIT 1
+		T.COMPANY_ID=:companyId
+		LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteTAXGroup">
@@ -3350,6 +3348,388 @@
 		ON D.FIXED_ASSET_ID = F.ID
 		WHERE F.ID = :inputId AND
 		F.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
+
+	<sql-query name="canDeleteBankAccount">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ACCOUNT_ID" type="long" />
+		<return-scalar column="ACCOUNT_TRANSACTION_ID" type="long" />
+		<!-- <return-scalar column="BUDGET_ID" type="long" /> -->
+		<return-scalar column="CUSTOMER_ID" type="long" />
+		<return-scalar column="ITEM_ID" type="long" />
+		<return-scalar column="VENDOR_ID" type="long" />
+		<return-scalar column="SALES_PERSON_ID" type="long" />
+		<return-scalar column="TAX_AGENCY_ID" type="long" />
+		<return-scalar column="FIXED_ASSET_ID" type="long" />
+		<return-scalar column="CASH_PURCHASE_ID" type="long" />
+		<return-scalar column="CASH_SALES_ID" type="long" />
+		<return-scalar column="CREDIT_CARD_CHARGE_ID" type="long" />
+		<return-scalar column="CUSTOMER_CREDIT_MEMO_ID" type="long" />
+		<return-scalar column="CUSTOMER_REFUND_ID" type="long" />
+		<return-scalar column="MAKE_DEPOSIT_ID" type="long" />
+		<return-scalar column="PAY_BILL_ID" type="long" />
+		<return-scalar column="PURCHASE_ORDER_ID" type="long" />
+		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
+		<return-scalar column="PAY_EXPENSE_ID" type="long" />
+		<return-scalar column="WRITE_CHECK_ID" type="long" />
+		<return-scalar column="TRANSFER_FUND_ID" type="long" />
+		<return-scalar column="ISSUE_PAYMENT_ID" type="long" />
+		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
+		<return-scalar column="TRANSACTION_MAKE_DEPOSIT_ID"
+			type="long" />
+		<return-scalar column="TRANSACTION_PAY_BILL_ID" type="long" />
+		<return-scalar column="TRANSACTION_RECEIVE_PAYMENT_ID"
+			type="long" />
+		<return-scalar column="TRANSACTION_MAKEDEPOSIT_ENTRIES_ID"
+			type="long" />
+		<return-scalar column="TRANSACTION_EXPENSE_ID" type="long" />
+
+		SELECT AC.ID AS ACCOUNT_ID,
+		AT.ID AS ACCOUNT_TRANSACTION_ID,
+		<!-- B.ID AS BUDGET_ID, -->
+		C.ID AS CUSTOMER_ID,
+		I.ID AS ITEM_ID,
+		V.ID AS VENDOR_ID,
+		SP.ID
+		AS
+		SALES_PERSON_ID,
+		TA.ID AS TAX_AGENCY_ID,
+		FA.ID AS FIXED_ASSET_ID,
+		PST.ID
+		AS PAY_TAX_ID,
+		CP.ID AS CASH_PURCHASE_ID,
+		CS.ID AS
+		CASH_SALES_ID,
+		CCC.ID
+		AS CREDIT_CARD_CHARGE_ID,
+		CCM.ID AS
+		CUSTOMER_CREDIT_MEMO_ID,
+		CF.ID AS
+		CUSTOMER_REFUND_ID,
+		MD.ID AS
+		MAKE_DEPOSIT_ID,
+		PB.ID AS
+		PAY_BILL_ID,
+		PO.ID
+		AS PURCHASE_ORDER_ID,
+		RP.ID
+		AS RECEIVE_PAYMENT_ID,
+		PE.ID AS
+		PAY_EXPENSE_ID,
+		WC.ID AS WRITE_CHECK_ID,
+		TF.ID AS
+		TRANSFER_FUND_ID,
+		IP.ID
+		AS ISSUE_PAYMENT_ID,
+		TI.ID AS
+		TRANSACTION_ITEM_ID,
+		TMD.ID AS
+		TRANSACTION_MAKE_DEPOSIT_ID,
+		TPB.ID AS
+		TRANSACTION_PAY_BILL_ID,
+		TRP.ID AS
+		TRANSACTION_RECEIVE_PAYMENT_ID,
+		TMDE.ID AS
+		TRANSACTION_MAKEDEPOSIT_ENTRIES_ID,
+		TE.ID AS
+		TRANSACTION_EXPENSE_ID
+		FROM
+		ACCOUNT A
+		LEFT OUTER JOIN
+		ACCOUNT AC
+		ON A.ID =
+		AC.PARENT_ID
+		OR A.ID =
+		AC.LINKED_ID
+		LEFT OUTER JOIN
+		ACCOUNT_TRANSACTION AT
+		ON A.ID =
+		AT.ACCOUNT_ID
+		<!-- LEFT OUTER JOIN BUDGET B ON A.ID = B.ACCOUNT_ID -->
+		LEFT OUTER
+		JOIN
+		COMPANY C
+		ON A.ID = C.ACCOUNTS_RECEIVABLE_ID
+		OR A.ID =
+		C.ACCOUNTS_PAYABLE_ID
+		OR A.ID = C.OPENING_BALANCES_ID
+		OR A.ID =
+		C.RETAINED_EARNINGS_ID
+		OR A.ID = C.OTHER_CASH_INCOME_ID
+		OR A.ID =
+		C.OTHER_CASH_EXPENSE_ID
+		OR A.ID = C.CASH_DISCOUNTS_GIVEN
+		OR A.ID =
+		C.CASH_DISCOUNTS_TAKEN
+		OR A.ID = C.TAX_LIABILITY_ACCOUNT_ID
+		OR A.ID =
+		C.VAT_FILED_LIABILITY_ACCOUNT_ID
+		OR A.ID =
+		C.PENDING_ITEM_RECEIPTS_ACCOUNT_ID
+		LEFT OUTER
+		JOIN
+		ITEM I
+		ON A.ID =
+		I.INCOME_ACCOUNT_ID
+		OR A.ID = I.EXPENSE_ACCOUNT_ID
+
+		LEFT OUTER JOIN
+		VENDOR V
+		ON A.ID= V.EXPENSE_ACCOUNT_ID
+		LEFT OUTER JOIN
+		SALES_PERSON SP
+		ON
+		A.ID = SP.EXPENSE_ACCOUNT_ID
+
+		LEFT OUTER JOIN
+		TAXAGENCY TA
+		ON A.ID =
+		TA.SALES_ACCOUNT_ID
+		OR
+		A.ID = PURCHASE_ACCOUNT_ID
+		LEFT OUTER JOIN
+		FIXED_ASSET FA
+		ON A.ID =
+		FA.ASSET_ACCOUNT_ID
+		OR A.ID =
+		FA.DEPRECIATION_EXPENSE_ACCOUNT_ID
+		LEFT
+		OUTER JOIN
+		PAY_TAX PST
+		ON
+		A.ID=PST.PAYFROM_ACCOUNT_ID
+		LEFT OUTER
+		JOIN
+		CASH_PURCHASE CP
+		ON A.ID =
+		CP.PAYFROM_ACCOUNT_ID
+		LEFT OUTER JOIN
+		CASH_SALES CS
+		ON
+		A.ID=CS.DEPOSIT_IN_ACCOUNT_ID
+		LEFT OUTER JOIN
+		CREDIT_CARD_CHARGES CCC
+		ON
+		A.ID = CCC.PAYFROM_ACCOUNT_ID
+		LEFT OUTER JOIN
+		CUSTOMER_CREDIT_MEMO CCM
+		ON A.ID = CCM.ACCOUNT_ID
+		LEFT OUTER JOIN
+		CUSTOMER_REFUND CF
+		ON A.ID =
+		CF.PAYFROM_ACCOUNT_ID
+		LEFT OUTER JOIN
+		MAKE_DEPOSIT MD
+		ON A.ID =
+		MD.DEPOSIT_IN_ID
+		OR A.ID =
+		MD.CASH_BACK_ACCOUNT_ID
+		LEFT OUTER JOIN
+		PAY_BILL PB
+		ON A.ID=PB.PAYFROM_ID
+		LEFT OUTER JOIN
+		PURCHASE_ORDER PO
+		ON
+		A.ID = PO.SHIP_TO_ID
+		LEFT OUTER JOIN
+		RECEIVE_PAYMENT RP
+		ON A.ID =
+		RP.ACCOUNT_ID
+		LEFT OUTER JOIN
+		PAY_EXPENSE PE
+		ON A.ID = PE.ACCOUNT_ID
+		LEFT
+		OUTER JOIN
+		WRITE_CHECKS WC
+		ON A.ID =
+		WC.ACCOUNT_ID
+		LEFT OUTER JOIN
+		TRANSFER_FUND TF
+		ON A.ID = TF.TRANSFER_FROM
+		OR A.ID = TF.TRANSFER_TO
+		LEFT OUTER JOIN
+		ISSUEPAYMENT IP
+		ON A.ID =
+		IP.ACCOUNT_ID
+		LEFT OUTER
+		JOIN
+		TRANSACTION_ITEM TI
+		ON A.ID
+		= TI.ACCOUNT_ID
+		LEFT OUTER JOIN
+		TRANSACTION_MAKE_DEPOSIT TMD
+		ON A.ID =
+		TMD.ACCOUNT_ID
+		OR A.ID =
+		TMD.CASH_ACCOUNT_ID
+		LEFT OUTER JOIN
+		TRANSACTION_PAYBILL TPB
+		ON A.ID =
+		TPB.DISCOUNT_ID
+		LEFT OUTER JOIN
+		TRANSACTION_RECEIVE_PAYMENT TRP
+		ON A.ID =
+		TRP.DISCOUNT_ID
+		OR A.ID =
+		TRP.WRITE_OFF_ID
+		LEFT OUTER JOIN
+		TRANSACTION_MAKE_DEPOSIT_ENTRIES TMDE
+		ON A.ID = TMDE.ACCOUNT_ID
+		LEFT
+		OUTER JOIN
+		TRANSACTION_EXPENSE TE
+		ON A.ID =
+		TE.ACCOUNT_ID
+		WHERE A.ID =
+		:inputId AND A.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
+	
+	<sql-query name="canDeleteInvoice">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
+		<return-scalar column="ESTIMATE_ID" type="long" />
+		SELECT TR.ID AS RECEIVE_PAYMENT_ID,E.ID AS ESTIMATE_ID FROM INVOICE I
+		LEFT JOIN TRANSACTION T ON T.ID=I.ID
+		LEFT JOIN
+		TRANSACTION_RECEIVE_PAYMENT TR ON TR.INVOICE_ID=I.ID LEFT
+		JOIN ESTIMATE
+		E ON E.USED_INVOICE=I.ID WHERE I.ID=:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
+
+	<sql-query name="canDeleteReceivePayment">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="INVOICE_ID" type="long" />
+		<return-scalar column="CREDITS_ID" type="long" />
+		SELECT TR.INVOICE_ID AS INVOICE_ID,TC.ID AS CREDITS_ID FROM
+		RECEIVE_PAYMENT R LEFT JOIN
+		TRANSACTION T ON T.ID=R.ID LEFT JOIN
+		TRANSACTION_RECEIVE_PAYMENT TR ON
+		TR.TRANSACTION_ID=R.ID LEFT JOIN
+		TRANSACTION_CREDITS_AND_PAYMENTS TC
+		ON
+		TC.TRANSACTION_RECEIVE_PAYMENT_ID=TR.ID WHERE R.ID=:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
+
+	<sql-query name="canDeleteEnterBill">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="TRANSACTION_PAYBILL_ID" type="long" />
+		SELECT TP.ID AS TRANSACTION_PAYBILL_ID FROM ENTER_BILL E LEFT JOIN
+		TRANSACTION T ON T.ID=E.ID
+		LEFT JOIN TRANSACTION_PAYBILL TP ON
+		TP.ENTER_BILL_ID=E.ID WHERE
+		E.ID=:inputId AND T.COMPANY_ID=:companyId
+		LIMIT 1
+	</sql-query>
+
+	<sql-query name="canDeletePayBill">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ENTER_BILL_ID" type="long" />
+		<return-scalar column="CREDITS_ID" type="long" />
+		SELECT TP.ENTER_BILL_ID AS ENTER_BILL_ID,TC.ID CREDITS_ID FROM
+		PAY_BILL P LEFT JOIN TRANSACTION T
+		ON T.ID=P.ID LEFT JOIN
+		TRANSACTION_PAYBILL TP ON TP.TRANSACTION_ID=
+		P.ID LEFT JOIN
+		TRANSACTION_CREDITS_AND_PAYMENTS TC ON
+		TC.TRANSACTION_PAYBILL_ID =
+		TP.ID WHERE P.ID=:inputId AND T.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
+
+	<sql-query name="canDeleteCustomerCreditMemo">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ID" type="long" />
+
+		SELECT C.ID AS ID FROM CUSTOMER_CREDIT_MEMO C LEFT JOIN TRANSACTION T
+		ON T.ID=C.ID WHERE C.ID IS NULL AND C.ID =:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
+
+	</sql-query>
+
+	<sql-query name="canDeleteVendorCreditMemo">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ID" type="long" />
+
+		SELECT C.ID AS ID FROM VENDOR_CREDIT_MEMO C LEFT JOIN TRANSACTION T ON
+		T.ID=C.ID WHERE C.ID IS NULL AND C.ID =:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
+
+	</sql-query>
+
+	<sql-query name="canDeleteCreditCardCharge">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ISSUE_PAYMENT_ID" type="long" />
+		SELECT TI.ID AS ISSUE_PAYMENT_ID FROM CREDIT_CARD_CHARGES CC LEFT JOIN
+		TRANSACTION T ON
+		T.ID=CC.ID LEFT JOIN TRANSACTION_ISSUE_PAYMENT TI ON
+		TI.CREDIT_CARD_CHARGE_ID = CC.ID WHERE CC.ID=:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
+
+	<sql-query name="canDeleteCashPurchase">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ISSUE_PAYMENT_ID" type="long" />
+		SELECT TI.ID AS ISSUE_PAYMENT_ID FROM CASH_PURCHASE CP LEFT JOIN
+		TRANSACTION T ON
+		T.ID=CP.ID LEFT JOIN TRANSACTION_ISSUE_PAYMENT TI ON
+		TI.CASH_PURCHASE_ID = CP.ID WHERE CP.ID=:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
+
+	<sql-query name="canDeleteMakeDeposit">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ID" type="long" />
+
+		SELECT D.ID AS ID FROM MAKE_DEPOSIT D LEFT JOIN TRANSACTION T ON
+		T.ID=D.ID WHERE D.ID IS NULL AND D.ID =:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
+
+	</sql-query>
+
+	<sql-query name="canDeleteEstimate">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="INVOICE_ID" type="long" />
+		<return-scalar column="ENTER_BILL_ID" type="long" />
+		SELECT E.USED_INVOICE AS INVOICE_ID,EE.ENTER_BILL_ID AS ENTER_BILL_ID
+		FROM ESTIMATE E LEFT JOIN TRANSACTION T ON T.ID=E.ID LEFT JOIN
+		ENTERBILL_ESTIMATES EE ON EE.ELT=E.ID WHERE E.ID=:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
+
+	<sql-query name="canDeleteCustomerRefund">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
+		<return-scalar column="ISSUE_PAYMENT_ID" type="long" />
+		SELECT TR.ID AS RECEIVE_PAYMENT_ID,TI.ID AS ISSUE_PAYMENT_ID FROM
+		CUSTOMER_REFUND CR LEFT JOIN TRANSACTION T ON T.ID=CR.ID LEFT JOIN
+		TRANSACTION_RECEIVE_PAYMENT TR ON TR.CUSTOMER_REFUND_ID=CR.ID LEFT
+		JOIN TRANSACTION_ISSUE_PAYMENT TI ON TI.CUSTOMER_REFUND_ID = CR.ID
+		WHERE CR.ID=:inputId AND T.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
+
+	<sql-query name="canDeleteJournalEntry">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
+		<return-scalar column="PAYBILL_ID" type="long" />
+		SELECT TR.ID AS RECEIVE_PAYMENT_ID,TP.ID AS PAYBILL_ID FROM
+		JOURNAL_ENTRY J LEFT JOIN TRANSACTION T ON T.ID=J.ID LEFT JOIN
+		TRANSACTION_PAYBILL TP ON TP.JOURNAL_ENTRY_ID = J.ID LEFT JOIN
+		TRANSACTION_RECEIVE_PAYMENT TR ON TR.JOURNAL_ENTRY_ID = J.ID WHERE
+		J.ID=:inputId AND T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="createSalesPurchasesView">
