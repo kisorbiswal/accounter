@@ -19,17 +19,14 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
-	private static final String TRANSFERED_ACCOUNT = "transferedAccount";
 	private static final String DEPOSIT_OR_TRANSFER_FROM = "depositOrTransferFrom";
 	private static final String DEPOSIT_OR_TRANSFER_TO = "DepositOrTransferTo";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -201,30 +198,6 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
-	}
-
-	private void caluclateTotals(ClientMakeDeposit makeDeposit) {
-		List<ClientTransactionMakeDeposit> allrecords = makeDeposit
-				.getTransactionMakeDeposit();
-		double lineTotal = 0.0;
-		double totalTax = 0.0;
-
-		for (ClientTransactionMakeDeposit record : allrecords) {
-
-			int type = record.getType();
-
-			if (type == 0)
-				continue;
-
-			Double lineTotalAmt = record.getAmount();
-			lineTotal += lineTotalAmt;
-
-		}
-
-		double grandTotal = totalTax + lineTotal;
-
-		makeDeposit.setTotal(grandTotal);
-
 	}
 
 	@Override
