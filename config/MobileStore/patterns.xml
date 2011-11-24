@@ -12,6 +12,7 @@
 			<command>Banking</command>
 			<command>Reports</command>
 			<command>Settings</command>
+			<command>Logout</command>
 		</output>
 	</pattern>
 
