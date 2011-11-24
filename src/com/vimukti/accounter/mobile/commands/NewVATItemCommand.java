@@ -212,7 +212,6 @@ public class NewVATItemCommand extends NewAbstractCommand {
 		taxItem.setActive(isActive);
 		taxItem.setTaxAgency(taxAgency.getID());
 		create(taxItem, context);
-		markDone();
 		return null;
 	}
 

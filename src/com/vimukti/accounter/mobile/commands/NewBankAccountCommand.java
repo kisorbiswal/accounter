@@ -34,7 +34,6 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 	private static final String OPENINGBALANCE = "Opening Balance";
 	private static final String BANK_ACCOUNT_TYPE = "Bank Account Type";
 	private static final String ACTIVE = "Active";
-
 	private static final String ASOF = "AsOf";
 	private static final String COMMENTS = "Comments";
 	private static final String BANK_NAME = "Bank Name";

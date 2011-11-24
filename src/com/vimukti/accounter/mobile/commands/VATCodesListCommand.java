@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
@@ -43,6 +44,13 @@ public class VATCodesListCommand extends NewAbstractCommand {
 				record.add("", value.getName());
 				record.add("", value.getDescription());
 				return record;
+			}
+
+			@Override
+			protected void setSelectCommands(CommandList commandList,
+					TAXCode value) {
+				commandList.add(new UserCommand("Update vatCode", String
+						.valueOf(value.getID())));
 			}
 
 			@Override
