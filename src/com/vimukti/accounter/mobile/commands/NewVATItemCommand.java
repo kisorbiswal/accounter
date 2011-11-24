@@ -223,14 +223,9 @@ public class NewVATItemCommand extends NewAbstractCommand {
 				addFirstMessage(context, "Select a VAT Item to update.");
 				return "VAT Items List";
 			}
-			Set<TAXItem> taxItems = context.getCompany().getTaxItems();
-			for (TAXItem vatItem : taxItems) {
-				if (vatItem.getName().equals(string)) {
-					taxItem = (ClientTAXItem) CommandUtils.getClientObjectById(
-							vatItem.getID(), AccounterCoreType.TAXITEM,
-							getCompanyId());
-				}
-			}
+			taxItem = (ClientTAXItem) CommandUtils.getClientObjectById(
+					Long.parseLong(string), AccounterCoreType.TAXITEM,
+					getCompanyId());
 			if (taxItem == null) {
 				addFirstMessage(context, "Select a VAT Item to update.");
 				return "VAT Items List " + string;
