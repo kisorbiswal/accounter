@@ -303,6 +303,10 @@ public class Context {
 		return session;
 	}
 
+	public String getEmailId() {
+		return session.getClient().getEmailId();
+	}
+
 	public User getUser() {
 		return session.getUser();
 	}
