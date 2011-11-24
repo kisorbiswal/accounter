@@ -4,7 +4,6 @@ public class UserCommand {
 	private String inputs;
 	private String commandName;
 	private String displayName;
-	private long id;
 
 	public UserCommand(String commandName) {
 		this(commandName, commandName, "");
@@ -21,8 +20,7 @@ public class UserCommand {
 	}
 
 	public UserCommand(String commandName, long id) {
-		this.commandName = commandName;
-		this.id = id;
+		this(commandName, String.valueOf(id));
 	}
 
 	public String getCommandName() {
@@ -52,13 +50,5 @@ public class UserCommand {
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 }
