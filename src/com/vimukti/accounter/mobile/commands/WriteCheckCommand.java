@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.CommandList;
@@ -429,7 +430,9 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(NUMBER).setDefaultValue("1");
+		get(NUMBER).setDefaultValue(
+				NumberUtils.getNextTransactionNumber(
+						ClientTransaction.TYPE_WRITE_CHECK, getCompany()));
 		get(BILL_TO).setDefaultValue(new ClientAddress());
 		get(AMOUNT).setDefaultValue(0.0);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);

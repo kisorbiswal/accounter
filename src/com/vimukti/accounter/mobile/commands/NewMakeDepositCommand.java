@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -264,7 +265,9 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(NUMBER).setDefaultValue("1");
+		get(NUMBER).setDefaultValue(
+				NumberUtils.getNextTransactionNumber(
+						ClientTransaction.TYPE_MAKE_DEPOSIT, getCompany()));
 		get(MEMO).setDefaultValue("");
 		// get(CURRENCY).setDefaultValue(null);
 		// get(CURRENCY_FACTOR).setDefaultValue(1.0);

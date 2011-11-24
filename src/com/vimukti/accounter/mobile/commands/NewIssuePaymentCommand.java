@@ -313,9 +313,6 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			setValues(context);
 		} else {
 			String string = context.getString();
-			if (!string.isEmpty()) {
-				get(NUMBER).setValue(string);
-			}
 			issuePayment = new ClientIssuePayment();
 		}
 		return null;

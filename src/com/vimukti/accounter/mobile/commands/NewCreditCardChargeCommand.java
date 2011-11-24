@@ -7,6 +7,7 @@ import java.util.Set;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
@@ -464,7 +465,11 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(NUMBER).setDefaultValue("1");
+		get(NUMBER).setDefaultValue(
+				NumberUtils
+						.getNextTransactionNumber(
+								ClientTransaction.TYPE_CREDIT_CARD_CHARGE,
+								getCompany()));
 		get(PHONE).setDefaultValue("");
 		Contact contact = new Contact();
 		contact.setName(null);

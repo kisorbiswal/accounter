@@ -98,9 +98,8 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getMessages().date()), getMessages().date(), true, true));
 
-		list.add(new NumberRequirement("CreditNumber", getMessages()
-				.pleaseEnter(getMessages().creditNo()), getMessages()
-				.creditNo(), true, true));
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getMessages().creditNo()), getMessages().creditNo(), true, true));
 		list.add(new ContactRequirement(CONTACT, "Enter contact name",
 				"Contact", true, true, null) {
 
@@ -270,7 +269,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 				CommandUtils.getServerObjectById(creditMemo.getCustomer(),
 						AccounterCoreType.CUSTOMER));
 		get(DATE).setValue(creditMemo.getDate());
-		get("CreditNumber").setValue(creditMemo.getNumber());
+		get(NUMBER).setValue(creditMemo.getNumber());
 		get(CONTACT).setValue(toServerContact(creditMemo.getContact()));
 		get(BILL_TO).setValue(creditMemo.getBillingAddress());
 		/* get(CURRENCY_FACTOR).setValue(creditMemo.getCurrencyFactor()); */
@@ -306,7 +305,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get("CreditNumber").setDefaultValue(
+		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
 						context.getCompany()));
@@ -345,7 +344,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		ClientFinanceDate date = get(DATE).getValue();
 		creditMemo.setDate(date.getDate());
 
-		String number = get("CreditNumber").getValue();
+		String number = get(NUMBER).getValue();
 		creditMemo.setNumber(number);
 
 		Contact contact = get(CONTACT).getValue();
