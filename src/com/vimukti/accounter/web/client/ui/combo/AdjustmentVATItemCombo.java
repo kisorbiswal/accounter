@@ -15,6 +15,8 @@ import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
  */
 public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 
+	private ClientTAXAgency taxAgency;
+
 	/**
 	 * @param title
 	 */
@@ -30,6 +32,7 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 
 	public AdjustmentVATItemCombo(String title, ClientTAXAgency taxAgency) {
 		super(title);
+		this.taxAgency = taxAgency;
 		initCombo(getVATItmes());
 
 	}
@@ -135,8 +138,12 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 
 			@Override
 			public void actionResult(ClientTAXItem result) {
-				if (result.getName() != null || result.getDisplayName() != null)
-					addItemThenfireEvent(result);
+				if (result.getName() != null || result.getDisplayName() != null) {
+					if (taxAgency == null
+							|| (taxAgency != null && result.getTaxAgency() == taxAgency
+									.getID()))
+						addItemThenfireEvent(result);
+				}
 
 			}
 		});
@@ -151,6 +158,10 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 			return object.getName();
 		}
 		return null;
+	}
+
+	public void setTaxAgency(ClientTAXAgency taxAgency) {
+		this.taxAgency = taxAgency;
 	}
 
 }

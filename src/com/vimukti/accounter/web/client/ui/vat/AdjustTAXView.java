@@ -172,6 +172,7 @@ public class AdjustTAXView extends
 									.getSalesLiabilityAccount() != 0
 									&& selectItem.getPurchaseLiabilityAccount() != 0);
 						}
+						vatItemCombo.setTaxAgency(selectItem);
 					}
 				});
 		// vatform.getCellFormatter().setWidth(0, 1, "182");
