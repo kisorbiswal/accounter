@@ -72,17 +72,14 @@ public class VATCodesListCommand extends NewAbstractCommand {
 						.getValue();
 
 				for (TAXCode taxCode : completeList) {
-
 					if (type.equals("Active")) {
 						if (taxCode.isActive())
-
 							result.add(taxCode);
 					}
 					if (type.equals("In-Active")) {
 						if (!taxCode.isActive())
 							result.add(taxCode);
 					}
-
 				}
 				return result;
 			}
@@ -102,16 +99,6 @@ public class VATCodesListCommand extends NewAbstractCommand {
 				return "Update TAX Code " + value.getName();
 			}
 
-		});
-
-		list.add(new ActionRequirement(CURRENT_VIEW, null) {
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add(getMessages().active());
-				list.add(getMessages().inActive());
-				return list;
-			}
 		});
 	}
 
