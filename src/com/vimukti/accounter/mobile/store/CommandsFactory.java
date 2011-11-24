@@ -87,9 +87,15 @@ public class CommandsFactory {
 							.forName("com.vimukti.accounter.mobile.commands."
 									+ command.className);
 				} catch (ClassNotFoundException e) {
-					forName = Class
-							.forName("com.vimukti.accounter.mobile.commands.reports."
-									+ command.className);
+					try {
+						forName = Class
+								.forName("com.vimukti.accounter.mobile.commands.reports."
+										+ command.className);
+					} catch (ClassNotFoundException e2) {
+						forName = Class
+								.forName("com.vimukti.accounter.mobile.commands.."
+										+ command.className);
+					}
 				}
 				this.commands.put(command.name.toLowerCase(), forName);
 				List<String> aliases = command.aliases;
