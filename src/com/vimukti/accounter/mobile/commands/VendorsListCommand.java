@@ -46,8 +46,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 					PayeeList value) {
 				commandList.add(new UserCommand("update vendor ", value
 						.getPayeeName()));
-				commandList.add(new UserCommand("deleteVendor", String
-						.valueOf(value.getID())));
+				commandList.add(new UserCommand("deleteVendor", value.getID()));
 			}
 
 			@Override
