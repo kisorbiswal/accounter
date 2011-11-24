@@ -111,7 +111,7 @@
 		<alias>ECSL</alias>
 		<alias>ECS report</alias>
 	</command>
-	<command clazz="DeleteCommand" name="Delete account"></command>
+	<command clazz="CustomerDeleteCommand" name="Delete customer"></command>
 	<command clazz="ExpenseReportCommand" name="Expense Report">
 		<alias>Expense Report</alias>
 		<alias>E report</alias>
