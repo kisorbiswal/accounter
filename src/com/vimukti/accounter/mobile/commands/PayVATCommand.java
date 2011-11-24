@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -12,8 +13,10 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PayVatTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -23,6 +26,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 	private static final String VAT_RETURN_END_DATE = "vatReturnEndDate";
 	private static final String BILLS_TO_PAY = "billToPay";
 	private static final String PAY_FROM = "payFrom";
+	private String TAX_AGENCY = "taxAgency";
 
 	@Override
 	public String getId() {
@@ -145,37 +149,82 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
 				getMessages().number()), getMessages().number(), true, false));
 
+		list.add(new TaxAgencyRequirement(TAX_AGENCY, getMessages()
+				.pleaseEnterName(getMessages().taxAgency()), getMessages()
+				.taxAgency(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().taxAgency());
+			}
+
+			@Override
+			protected List<TAXAgency> getLists(Context context) {
+				return new ArrayList<TAXAgency>(context.getCompany()
+						.getTaxAgencies());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getMessages().taxAgency());
+			}
+
+			@Override
+			protected boolean filter(TAXAgency e, String name) {
+				return e.getName().toLowerCase().startsWith(name);
+			}
+		});
 		list.add(new PayVatTableRequirement(BILLS_TO_PAY, getMessages()
 				.pleaseSelect(getMessages().billsToPay()), getMessages()
 				.billsToPay()) {
 
 			@Override
 			protected List<ClientTransactionPayTAX> getList() {
-				return getTransactionPayVatBills();
+				return getClientTransactionPayTAXes();
 			}
 		});
+	}
+
+	private List<ClientTransactionPayTAX> getClientTransactionPayTAXes() {
+		TAXAgency selectedVATAgency = get(TAX_AGENCY).getValue();
+		if (selectedVATAgency == null) {
+			return getPayTAXEntries();
+		}
+		List<ClientTransactionPayTAX> filterRecords = new ArrayList<ClientTransactionPayTAX>();
+		for (ClientTransactionPayTAX tpt : getPayTAXEntries()) {
+			if (tpt.getTaxAgency() == selectedVATAgency.getID()) {
+				filterRecords.add(tpt);
+			}
+		}
+		return filterRecords;
+	}
+
+	private List<ClientTransactionPayTAX> getPayTAXEntries() {
+		return new FinanceTool().getTaxManager().getPayTAXEntries(
+				getCompanyId());
 	}
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
 		ClientPayTAX payVAT = new ClientPayTAX();
-
 		Account payFrom = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		List<ClientTransactionPayTAX> billsToPay = get(BILLS_TO_PAY).getValue();
+		for (ClientTransactionPayTAX clientTransactionPayTAX : billsToPay) {
+			clientTransactionPayTAX.setID(0);
+		}
 		ClientFinanceDate vatReturnDate = get(VAT_RETURN_END_DATE).getValue();
 		ClientFinanceDate transactionDate = get(DATE).getValue();
+		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
 		String orderNo = get(ORDER_NO).getValue();
-		for (ClientTransactionPayTAX c : billsToPay) {
-			c.setPayTAX(payVAT);
-		}
-
+		payVAT.setNumber(orderNo);
+		payVAT.setType(ClientTransaction.TYPE_PAY_TAX);
 		payVAT.setPayFrom(payFrom.getID());
 		payVAT.setPaymentMethod(paymentMethod);
 		payVAT.setTransactionPayTax(billsToPay);
 		payVAT.setBillsDueOnOrBefore(vatReturnDate.getDate());
+		payVAT.setTaxAgency(taxAgency == null ? 0 : taxAgency.getID());
 		payVAT.setDate(transactionDate.getDate());
-		payVAT.setNumber(orderNo);
 
 		/*
 		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
@@ -189,13 +238,6 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 		create(payVAT, context);
 
 		return null;
-	}
-
-	private List<ClientTransactionPayTAX> getTransactionPayVatBills() {
-
-		return new FinanceTool().getTaxManager().getPayTAXEntries(
-				getCompanyId());
-
 	}
 
 	@Override

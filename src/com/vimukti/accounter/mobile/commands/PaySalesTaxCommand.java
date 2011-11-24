@@ -121,11 +121,6 @@ public class PaySalesTaxCommand extends AbstractVATCommand {
 		ClientFinanceDate billsDueOnBefore = get(BILLS_DUE_ONBEFORE).getValue();
 		ClientFinanceDate transactionDate = get(DATE).getValue();
 		String orderNo = get(ORDER_NO).getValue();
-
-		for (ClientTransactionPayTAX c : billsToPay) {
-			c.setPayTAX(paySalesTax);
-
-		}
 		paySalesTax.setPayFrom(payFrom.getID());
 		paySalesTax.setPaymentMethod(paymentMethod);
 		paySalesTax.setTransactionPaySalesTax(billsToPay);
