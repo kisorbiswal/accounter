@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.commands.reports;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.CommandList;
@@ -33,6 +34,7 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 	protected static final String RECORDS = "records";
 	protected static final String ENDING_DATE = "Ending Date";
 	protected static final String CUSTOMER = "Customer";
+	private String previousSelectedRange;
 
 	/**
 	 * Adds Date range,from date and to date requirements to existing
@@ -101,6 +103,7 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 
 					@Override
 					public void onSelection(String value) {
+						dateRangeChanged(value);
 						resetandUpdateRecords();
 					}
 				}) {
@@ -134,6 +137,31 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 				return null;
 			}
 		};
+	}
+
+	protected void dateRangeChanged(String dateRange) {
+		if (previousSelectedRange == null) {
+			previousSelectedRange = "";
+		}
+		List<ClientFinanceDate> minimumAndMaximumDates = CommandUtils
+				.getMinimumAndMaximumTransactionDate(getCompanyId());
+		if (minimumAndMaximumDates.isEmpty()) {
+			return;
+		}
+		ClientFinanceDate startDate = get(FROM_DATE).getValue();
+		ClientFinanceDate endDate = get(TO_DATE).getValue();
+		Map<String, Object> dateRangeChanged = CommandUtils.dateRangeChanged(
+				getMessages(), dateRange, previousSelectedRange,
+				getPreferences(), startDate, endDate,
+				minimumAndMaximumDates.get(0));
+		startDate = (ClientFinanceDate) dateRangeChanged.get("startDate");
+		get(FROM_DATE).setValue(startDate);
+		endDate = (ClientFinanceDate) dateRangeChanged.get("endDate");
+		get(TO_DATE).setValue(endDate);
+		// boolean isDateChanges = (Boolean)
+		// dateRangeChanged.get("isDateChanges");
+		previousSelectedRange = (String) dateRangeChanged
+				.get("selectedDateRange");
 	}
 
 	protected void resetandUpdateRecords() {

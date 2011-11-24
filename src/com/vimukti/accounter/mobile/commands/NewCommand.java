@@ -11,15 +11,18 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 public abstract class NewCommand extends Command {
 	private long companyId;
 	private Company company;
+	private ClientCompanyPreferences preferences;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Result run(Context context) {
 		setCompany(context.getCompany());
+		setPreferences(context.getPreferences());
 		companyId = getCompany() == null ? 0 : getCompany().getID();
 		Result result = process(context);
 		List<String> first = (List<String>) context
@@ -160,5 +163,13 @@ public abstract class NewCommand extends Command {
 
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+
+	public ClientCompanyPreferences getPreferences() {
+		return preferences;
+	}
+
+	public void setPreferences(ClientCompanyPreferences preferences) {
+		this.preferences = preferences;
 	}
 }
