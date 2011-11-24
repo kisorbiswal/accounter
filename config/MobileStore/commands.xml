@@ -267,6 +267,7 @@
 		<alias>Modify Tax Item</alias>
 		<alias>Update Tax Item</alias>
 		<alias>Edit Tax Item</alias>
+		<alias>Update TaxItem</alias>
 	</command>
 
 	<command clazz="NewServiceItemCommand" name="New Service Item">
