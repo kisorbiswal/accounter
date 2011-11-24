@@ -220,8 +220,7 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		bankAccount.setNumber((String) get(ACCOUNT_NUMBER).getValue());
 		bankAccount.setOpeningBalance((Double) get(OPENINGBALANCE).getValue());
 		ClientFinanceDate d = get(ASOF).getValue();
-
-		bankAccount.setAsOf(d.getDate());
+		bankAccount.setAsOf(d.getDateAsObject().getTime());
 		bankAccount.setComment((String) get(COMMENTS).getValue());
 		String type = get(BANK_ACCOUNT_TYPE).getValue();
 		bankAccount.setBankAccountType(getType(type));
