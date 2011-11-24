@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
