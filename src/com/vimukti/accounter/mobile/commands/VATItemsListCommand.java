@@ -102,16 +102,6 @@ public class VATItemsListCommand extends NewAbstractCommand {
 				return "Update Tax Item " + value.getName();
 			}
 		});
-
-		list.add(new ActionRequirement(CURRENT_VIEW, null) {
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add(getMessages().active());
-				list.add(getMessages().inActive());
-				return list;
-			}
-		});
 	}
 
 	private Set<TAXItem> vatItemssList(Context context) {
