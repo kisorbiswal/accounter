@@ -27,9 +27,7 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 
 	private static final String SHOWTRANSACTION_TYPE = "ShowTransactions Type";
 	private static final String ACCOUNT = "account";
-	private String selectedOption;
-	private String selectedDateRange;
-	private ClientFinanceDate startDate, todaydate, endDate;
+	private ClientFinanceDate startDate, endDate;
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
@@ -55,7 +53,6 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(SHOWTRANSACTION_TYPE).setDefaultValue(getMessages().all());
-		selectedDateRange = getMessages().today();
 	}
 
 	@Override
@@ -90,6 +87,19 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(getMessages().account());
+			}
+		});
+
+		list.add(new ActionRequirement(SHOWTRANSACTION_TYPE, null) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getMessages().all());
+				list.add(getMessages().today());
+				list.add(getMessages().last30Days());
+				list.add(getMessages().last45Days());
+				return list;
 			}
 		});
 
@@ -145,9 +155,7 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 			@Override
 			protected List<AccountRegister> getLists(Context context) {
 				dateRangeChanged(context);
-				return getAccountRegister(startDate, endDate,
-						((Account) AccountRegisterCommand.this.get(ACCOUNT)
-								.getValue()).getID());
+				return getAccountRegister();
 
 			}
 
@@ -157,20 +165,6 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 				return null;
 			}
 		});
-
-		list.add(new ActionRequirement(SHOWTRANSACTION_TYPE, null) {
-
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add(getMessages().all());
-				list.add(getMessages().today());
-				list.add(getMessages().last30Days());
-				list.add(getMessages().last45Days());
-				return list;
-			}
-		});
-
 	}
 
 	/**
@@ -181,17 +175,15 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 	 * @param accountId
 	 * @return
 	 */
-	public ArrayList<AccountRegister> getAccountRegister(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long accountId) {
+	public ArrayList<AccountRegister> getAccountRegister() {
 		ArrayList<AccountRegister> accountRegisterList = new ArrayList<AccountRegister>();
-
+		Account account = get(ACCOUNT).getValue();
 		FinanceDate[] financeDates = CommandUtils.getMinimumAndMaximumDates(
 				startDate, endDate, getCompanyId());
 		try {
-			accountRegisterList = new FinanceTool()
-					.getAccountRegister(financeDates[0], financeDates[1],
-							accountId, getCompanyId());
+			accountRegisterList = new FinanceTool().getAccountRegister(
+					financeDates[0], financeDates[1], account.getID(),
+					getCompanyId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -202,33 +194,20 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 	 * changed show transaction type
 	 */
 	private void dateRangeChanged(Context context) {
-
-		todaydate = new ClientFinanceDate();
-		selectedOption = get(SHOWTRANSACTION_TYPE).getValue();
-		if (!selectedDateRange.equals(getMessages().all())
-				&& selectedOption.equals(getMessages().all())) {
+		ClientFinanceDate todaydate = new ClientFinanceDate();
+		String selectedOption = get(SHOWTRANSACTION_TYPE).getValue();
+		if (selectedOption.equals(getMessages().all())) {
 			startDate = CommandUtils.getCurrentFiscalYearStartDate(context
 					.getPreferences());
 			endDate = new ClientFinanceDate();
-			selectedDateRange = getMessages().all();
-
-		} else if (!selectedDateRange.equals(getMessages().today())
-				&& selectedOption.equals(getMessages().today())) {
+		} else if (selectedOption.equals(getMessages().today())) {
 			startDate = todaydate;
 			endDate = todaydate;
-			selectedDateRange = getMessages().today();
-
-		} else if (!selectedDateRange.equals(getMessages().last30Days())
-				&& selectedOption.equals(getMessages().last30Days())) {
-			selectedDateRange = getMessages().last30Days();
+		} else if (selectedOption.equals(getMessages().last30Days())) {
 			startDate = new ClientFinanceDate(todaydate.getYear(),
 					todaydate.getMonth() - 1, todaydate.getDay());
 			endDate = todaydate;
-
-		} else if (!selectedDateRange.equals(getMessages().last45Days())
-				&& selectedOption.equals(getMessages().last45Days())) {
-
-			selectedDateRange = getMessages().last45Days();
+		} else if (selectedOption.equals(getMessages().last45Days())) {
 			startDate = new ClientFinanceDate(todaydate.getYear(),
 					todaydate.getMonth() - 2, todaydate.getDay() + 16);
 			endDate = todaydate;
