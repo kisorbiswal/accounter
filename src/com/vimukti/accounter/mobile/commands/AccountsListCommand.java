@@ -41,8 +41,8 @@ public class AccountsListCommand extends NewAbstractCommand {
 							.getName()));
 					commandList.add(new UserCommand("Edit account", value
 							.getName()));
-					commandList.add(new UserCommand("Delete account", value
-							.getName()));
+					commandList.add(new UserCommand("Delete account",
+							"Account " + value.getID()));
 				}
 			}
 
