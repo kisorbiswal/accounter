@@ -72,8 +72,8 @@ public class CustomerListCommand extends NewAbstractCommand {
 					Customer value) {
 				commandList.add(new UserCommand("update customer", value
 						.getNumber()));
-				commandList.add(new UserCommand("Delete customer", String
-						.valueOf(value.getID())));
+				commandList.add(new UserCommand("Delete customer", value
+						.getID()));
 			}
 
 			@Override
