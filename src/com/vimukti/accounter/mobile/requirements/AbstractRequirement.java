@@ -87,7 +87,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 					.getDateAsObject().getTime());
 		}
 		InputType inputType = getInputType();
-		inputType.setValue(displayValue);
+		inputType.setValue(displayValue == null ? "" : displayValue);
 		result.add(inputType);
 		result.setShowBack(true);
 		return result;

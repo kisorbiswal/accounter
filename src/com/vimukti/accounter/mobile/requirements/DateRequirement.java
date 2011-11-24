@@ -32,10 +32,7 @@ public class DateRequirement extends SingleRequirement<ClientFinanceDate> {
 		} catch (Exception e) {
 			date = new Date(string);
 		}
-		ClientFinanceDate clientFinanceDate = new ClientFinanceDate();
-		clientFinanceDate.setDay(date.getDate());
-		clientFinanceDate.setMonth(date.getMonth() + 1);
-		clientFinanceDate.setYear(date.getYear() + 1900);
+		ClientFinanceDate clientFinanceDate = new ClientFinanceDate(date);
 		return clientFinanceDate;
 	}
 
