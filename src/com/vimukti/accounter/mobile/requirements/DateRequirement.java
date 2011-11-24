@@ -26,11 +26,16 @@ public class DateRequirement extends SingleRequirement<ClientFinanceDate> {
 	@Override
 	protected ClientFinanceDate getInputFromContext(Context context) {
 		String string = context.getString();
-		Date date = new Date(Long.parseLong(string));
+		Date date;
+		try {
+			date = new Date(Long.parseLong(string));
+		} catch (Exception e) {
+			date = new Date(string);
+		}
 		ClientFinanceDate clientFinanceDate = new ClientFinanceDate();
 		clientFinanceDate.setDay(date.getDate());
 		clientFinanceDate.setMonth(date.getMonth() + 1);
-		clientFinanceDate.setYear(date.getYear());
+		clientFinanceDate.setYear(date.getYear() + 1900);
 		return clientFinanceDate;
 	}
 
