@@ -66,7 +66,7 @@ public class NewVATItemCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new AmountRequirement(TAX_RATE, "Enter Rate", "Tax Rate",
+		list.add(new AmountRequirement(TAX_RATE, "Enter Rate as %", "Tax Rate",
 				false, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
