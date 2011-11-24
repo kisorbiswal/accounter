@@ -80,7 +80,7 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(SalesPerson salesPrson) {
 				Record record = new Record(salesPrson);
-				record.add("", salesPrson.getName());
+				record.add("", salesPrson.getFirstName());
 				record.add("", salesPrson.getJobTitle());
 				record.add("", salesPrson.getDateOfBirth());
 				record.add("", salesPrson.getEmail());
