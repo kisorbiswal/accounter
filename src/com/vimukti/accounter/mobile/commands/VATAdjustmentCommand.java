@@ -2,17 +2,19 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
@@ -29,6 +31,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 	private static final String TAX_AGENCY = "taxAgency";
 	private static final String TAX_ITEM = "taxItem";
 	private static final String AMOUNT = "amount";
+	private static final String IS_SALES = "isSales";
 
 	@Override
 	public String getId() {
@@ -39,7 +42,13 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new TaxAgencyRequirement(TAX_AGENCY, getMessages()
 				.pleaseEnterName(getMessages().taxAgency()), getMessages()
-				.taxAgency(), false, true, null) {
+				.taxAgency(), false, true, new ChangeListner<TAXAgency>() {
+
+			@Override
+			public void onSelection(TAXAgency value) {
+				get(TAX_ITEM).setValue(null);
+			}
+		}) {
 
 			@Override
 			protected String getSetMessage() {
@@ -60,6 +69,30 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected boolean filter(TAXAgency e, String name) {
 				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_SALES, false) {
+
+			@Override
+			protected String getTrueString() {
+				return "Sales Type Activated";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Purchase Type Activated";
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				TAXAgency taxAgency = get(TAX_AGENCY).getValue();
+				if (taxAgency.getPurchaseLiabilityAccount() != null
+						&& taxAgency.getSalesLiabilityAccount() != null) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
 			}
 		});
 
@@ -108,8 +141,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<TAXItem> getLists(Context context) {
-				return new ArrayList<TAXItem>(context.getCompany()
-						.getTaxItems());
+				return getTaxItemsListForSelectedTaxAgency();
 			}
 
 			@Override
@@ -141,10 +173,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							return e.getIsActive()
-									&& e.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-									&& e.getType() != Account.TYPE_ACCOUNT_PAYABLE
-									&& e.getType() != Account.TYPE_INVENTORY_ASSET;
+							return e.getIsActive();
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);
@@ -191,23 +220,48 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 				getMessages().memo()), getMessages().memo(), true, true));
 	}
 
+	protected List<TAXItem> getTaxItemsListForSelectedTaxAgency() {
+		Set<TAXItem> taxItems = getCompany().getTaxItems();
+		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
+		ArrayList<TAXItem> arrayList = new ArrayList<TAXItem>();
+		if (taxAgency == null || taxItems == null) {
+			return arrayList;
+		}
+		for (TAXItem taxItem : taxItems) {
+			if (taxItem.getTaxAgency().getID() == taxAgency.getID()) {
+				arrayList.add(taxItem);
+			}
+		}
+		return arrayList;
+	}
+
 	@Override
 	protected Result onCompleteProcess(Context context) {
 		ClientTAXAdjustment taxAdjustment = new ClientTAXAdjustment();
 		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
+		TAXItem taxItem = get(TAX_ITEM).getValue();
 		Account account = get(ADJUSTMENT_ACCOUNT).getValue();
 		Double amount = get(AMOUNT).getValue();
 		boolean isIncreaseVatLine = get(IS_INCREASE_VATLINE).getValue();
 		ClientFinanceDate date = get(DATE).getValue();
 		String number = get(ORDER_NO).getValue();
 		String memo = get(MEMO).getValue();
-
+		taxAdjustment.setTaxItem(taxItem.getID());
 		taxAdjustment.setTaxAgency(taxAgency.getID());
 		taxAdjustment.setAdjustmentAccount(account.getID());
 		taxAdjustment.setTotal(amount);
 		taxAdjustment.setIncreaseVATLine(isIncreaseVatLine);
-		taxAdjustment.setDate(new FinanceDate(date).getDate());
+		taxAdjustment.setDate(date.getDate());
+		taxAdjustment.setTransactionDate(date.getDate());
 		taxAdjustment.setNumber(number);
+		if (taxAgency.getSalesLiabilityAccount() != null
+				&& taxAgency.getPurchaseLiabilityAccount() != null) {
+			taxAdjustment.setSales((Boolean) get(IS_SALES).getValue());
+		} else {
+			taxAdjustment
+					.setSales(taxAgency.getSalesLiabilityAccount() != null);
+		}
+
 		taxAdjustment.setMemo(memo);
 
 		/*
@@ -218,9 +272,6 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 		 * double factor = get(CURRENCY_FACTOR).getValue();
 		 * taxAdjustment.setCurrencyFactor(factor); }
 		 */
-
-		TAXItem taxItem = get(TAX_ITEM).getValue();
-		taxAdjustment.setTaxItem(taxItem.getID());
 
 		create(taxAdjustment, context);
 
@@ -249,6 +300,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(ORDER_NO).setDefaultValue("1");
 		get(MEMO).setDefaultValue(new String());
+		get(IS_SALES).setDefaultValue(true);
 		/*
 		 * get(CURRENCY).setDefaultValue(null);
 		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
