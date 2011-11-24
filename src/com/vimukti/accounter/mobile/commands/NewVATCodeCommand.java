@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.mobile.CommandList;
@@ -230,15 +229,10 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 				addFirstMessage(context, "Select a VAT Code to update.");
 				return "VAT Codes List";
 			}
-			Set<TAXCode> serverTaxCodes = context.getCompany().getTaxCodes();
-			for (TAXCode vatCode : serverTaxCodes) {
-				if (vatCode.getName().toLowerCase()
-						.equals(string.toLowerCase())) {
-					taxCode = (ClientTAXCode) CommandUtils.getClientObjectById(
-							vatCode.getID(), AccounterCoreType.TAX_CODE,
-							getCompanyId());
-				}
-			}
+			taxCode = (ClientTAXCode) CommandUtils.getClientObjectById(
+					Long.parseLong(string), AccounterCoreType.TAX_CODE,
+					getCompanyId());
+
 			if (taxCode == null) {
 				addFirstMessage(context, "Select a VAT Code to update.");
 				return "VAT Codes List " + string;
@@ -248,13 +242,13 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			get(IS_ACTIVE).setValue(taxCode.isActive());
 			get(IS_TAXABLE).setValue(taxCode.isTaxable());
 			get(VATITEM_FOR_SALES).setValue(
-					CommandUtils.getClientObjectById(
+					CommandUtils.getServerObjectById(
 							taxCode.getTAXItemGrpForSales(),
-							AccounterCoreType.TAX_ITEM_GROUP, getCompanyId()));
+							AccounterCoreType.TAX_ITEM_GROUP));
 			get(VATITEM_FOR_PURCHASE).setValue(
-					CommandUtils.getClientObjectById(
+					CommandUtils.getServerObjectById(
 							taxCode.getTAXItemGrpForPurchases(),
-							AccounterCoreType.TAX_ITEM_GROUP, getCompanyId()));
+							AccounterCoreType.TAX_ITEM_GROUP));
 		} else {
 			String string = context.getString();
 			if (!string.isEmpty()) {
