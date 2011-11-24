@@ -215,7 +215,9 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 					.getValue();
 			allrecords.addAll(accountReqValue);
 		}
-
+		if (allrecords.isEmpty()) {
+			return;
+		}
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (!allrecords.isEmpty() && preferences.isTrackTax()
 				&& !preferences.isTaxPerDetailLine()) {

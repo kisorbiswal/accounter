@@ -8,9 +8,12 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
@@ -19,47 +22,63 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * 
  */
 public class QuotesListCommand extends NewAbstractCommand {
+	int estimateType;
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		estimateType = ClientEstimate.QUOTES;
+		String commandString = context.getCommandString().toLowerCase();
+		if (commandString.contains("charges")) {
+			estimateType = ClientEstimate.CHARGES;
+		} else if (commandString.contains("credits")) {
+			estimateType = ClientEstimate.CREDITS;
+		}
 		return null;
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-
 		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-
 		return null;
 	}
 
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(VIEW_BY).setDefaultValue(getMessages().open());
-
 	}
 
 	@Override
 	public String getSuccessMessage() {
-
-		return "Success" + getMessages().quotesList();
-
+		if (estimateType == ClientEstimate.QUOTES) {
+			return "Success" + getMessages().quotesList();
+		} else if (estimateType == ClientEstimate.CREDITS) {
+			return "Success" + getMessages().creditsList();
+		} else if (estimateType == ClientEstimate.CHARGES) {
+			return "Success" + getMessages().chargesList();
+		}
+		return "";
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new ActionRequirement(VIEW_BY, null) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (estimateType == ClientEstimate.QUOTES) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 
 			@Override
 			protected List<String> getList() {
@@ -78,19 +97,40 @@ public class QuotesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Estimate value) {
-				return "Update Estimate " + value.getNumber();
+				if (estimateType == ClientEstimate.QUOTES) {
+					return "Update Estimate " + value.getNumber();
+				} else if (estimateType == ClientEstimate.CREDITS) {
+					return "Update Credit " + value.getNumber();
+				} else if (estimateType == ClientEstimate.CHARGES) {
+					return "Update Charge " + value.getNumber();
+				}
+				return "";
 			}
 
 			@Override
 			protected String getShowMessage() {
-
-				return getMessages().quotesList();
+				if (estimateType == ClientEstimate.QUOTES) {
+					return getMessages().quotesList();
+				} else if (estimateType == ClientEstimate.CREDITS) {
+					return getMessages().creditsList();
+				} else if (estimateType == ClientEstimate.CHARGES) {
+					return getMessages().chargesList();
+				}
+				return "";
 			}
 
 			@Override
 			protected String getEmptyString() {
-
-				return getMessages().youDontHaveAny(getMessages().quotes());
+				if (estimateType == ClientEstimate.QUOTES) {
+					return getMessages().youDontHaveAny(getMessages().quotes());
+				} else if (estimateType == ClientEstimate.CREDITS) {
+					return getMessages()
+							.youDontHaveAny(getMessages().credits());
+				} else if (estimateType == ClientEstimate.CHARGES) {
+					return getMessages()
+							.youDontHaveAny(getMessages().Charges());
+				}
+				return "";
 			}
 
 			@Override
@@ -107,7 +147,13 @@ public class QuotesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create Quote");
+				if (estimateType == ClientEstimate.QUOTES) {
+					list.add("Create Quote");
+				} else if (estimateType == ClientEstimate.CREDITS) {
+					list.add("Create Charge");
+				} else if (estimateType == ClientEstimate.CHARGES) {
+					list.add("Create Credit");
+				}
 
 			}
 
@@ -120,7 +166,6 @@ public class QuotesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<Estimate> getLists(Context context) {
-
 				return getEstimates(context);
 			}
 
@@ -129,36 +174,37 @@ public class QuotesListCommand extends NewAbstractCommand {
 	}
 
 	private List<Estimate> getEstimates(Context context) {
-
 		String viewType = get(VIEW_BY).getValue();
 		List<Estimate> result = new ArrayList<Estimate>();
 		List<Estimate> data = null;
 		try {
 			data = new FinanceTool().getCustomerManager().getEstimates(
-					context.getCompany().getID(), 1);
+					context.getCompany().getID(), estimateType);
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
+		if (estimateType == ClientEstimate.QUOTES) {
+			for (Estimate e : data) {
+				if (viewType.equals(getMessages().open())) {
+					if (e.getStatus() == Estimate.STATUS_OPEN)
+						result.add(e);
 
-		for (Estimate e : data) {
-			if (viewType.equals(getMessages().open())) {
-				if (e.getStatus() == Estimate.STATUS_OPEN)
+				} else if (viewType.equals(getMessages().accepted())) {
+					if (e.getStatus() == Estimate.STATUS_ACCECPTED) {
+						result.add(e);
+					}
+				} else if (viewType.equals(getMessages().rejected())) {
+					if (e.getStatus() == Estimate.STATUS_REJECTED) {
+						result.add(e);
+					}
+				} else if (viewType.equals(getMessages().all())) {
 					result.add(e);
 
-			} else if (viewType.equals(getMessages().accepted())) {
-				if (e.getStatus() == Estimate.STATUS_ACCECPTED) {
-					result.add(e);
 				}
-			} else if (viewType.equals(getMessages().rejected())) {
-				if (e.getStatus() == Estimate.STATUS_REJECTED) {
-					result.add(e);
-				}
-			} else if (viewType.equals(getMessages().all())) {
-				result.add(e);
-
 			}
+		} else {
+			result = data;
 		}
-
 		return result;
 
 	}

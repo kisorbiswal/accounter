@@ -380,7 +380,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select a Cash Expense to update.");
-				return "Cash Expenses List ," + getMessages().cash();
+				return "Expenses List ," + getMessages().cash();
 			}
 			long numberFromString = getNumberFromString(string);
 			if (numberFromString != 0) {
@@ -391,8 +391,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 							AccounterCoreType.CASHPURCHASE);
 			if (transactionByNum == null) {
 				addFirstMessage(context, "Select a Cash Expense to update.");
-				return "Cash Expenses List " + string + ","
-						+ getMessages().cash();
+				return "Expenses List " + string + "," + getMessages().cash();
 			}
 			cashPurchase = transactionByNum;
 			setValues();

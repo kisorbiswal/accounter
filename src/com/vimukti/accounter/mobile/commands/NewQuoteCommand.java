@@ -139,6 +139,15 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 				return new ArrayList<PaymentTerms>(context.getCompany()
 						.getPaymentTerms());
 			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 		});
 
 		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
@@ -155,21 +164,66 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 			protected String getContactHolderName() {
 				return ((Customer) get(CUSTOMER).getValue()).getName();
 			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 		});
 
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getMessages().billTo()), getMessages().billTo(), true, true));
+				getMessages().billTo()), getMessages().billTo(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new PhoneRequirement(PHONE, getMessages().pleaseEnter(
-				getMessages().phoneNumber()), getMessages().phone(), true, true));
+				getMessages().phoneNumber()), getMessages().phone(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new DateRequirement(DELIVERY_DATE, getMessages().pleaseEnter(
 				getMessages().deliveryDate()), getMessages().deliveryDate(),
-				true, true));
+				true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new DateRequirement(EXPIRATION_DATE, getMessages()
 				.pleaseEnter(getMessages().expirationDate()), getMessages()
-				.expirationDate(), true, false));
+				.expirationDate(), true, false) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
@@ -228,7 +282,6 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 	protected Result onCompleteProcess(Context context) {
 		Customer customer = get(CUSTOMER).getValue();
 		estimate.setCustomer(customer.getID());
-		estimate.setEstimateType(ClientEstimate.QUOTES);
 		estimate.setType(ClientTransaction.TYPE_ESTIMATE);
 		ClientFinanceDate date = get(DATE).getValue();
 		estimate.setDate(date.getDate());
@@ -290,15 +343,37 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return estimate.getID() == 0 ? getMessages().creating(
-				getMessages().quote()) : "Quote updating..";
+		if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+			return estimate.getID() == 0 ? getMessages().creating(
+					getMessages().quote()) : "Quote updating..";
+		} else if (estimate.getEstimateType() == ClientEstimate.CREDITS) {
+			return estimate.getID() == 0 ? getMessages().creating(
+					getMessages().credit()) : "Credit updating..";
+		} else if (estimate.getEstimateType() == ClientEstimate.CHARGES) {
+			return estimate.getID() == 0 ? getMessages().creating(
+					getMessages().charge()) : "Charge updating..";
+		}
+
+		return "";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return estimate.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().quote())
-				: "Quote is ready to update with following details";
+		if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+			return estimate.getID() == 0 ? getMessages().readyToCreate(
+					getMessages().quote())
+					: "Quote is ready to update with following details";
+		} else if (estimate.getEstimateType() == ClientEstimate.CREDITS) {
+			return estimate.getID() == 0 ? getMessages().readyToCreate(
+					getMessages().credit())
+					: "Credit is ready to update with following details";
+		} else if (estimate.getEstimateType() == ClientEstimate.CHARGES) {
+			return estimate.getID() == 0 ? getMessages().readyToCreate(
+					getMessages().charge())
+					: "Charge is ready to update with following details";
+		}
+
+		return "";
 	}
 
 	@Override
@@ -331,19 +406,44 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return estimate.getID() == 0 ? getMessages().createSuccessfully(
-				getMessages().quote()) : getMessages().updateSuccessfully(
-				getMessages().quote());
+		if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+			return estimate.getID() == 0 ? getMessages().createSuccessfully(
+					getMessages().quote()) : getMessages().updateSuccessfully(
+					getMessages().quote());
+		} else if (estimate.getEstimateType() == ClientEstimate.CREDITS) {
+			return estimate.getID() == 0 ? getMessages().createSuccessfully(
+					getMessages().credit()) : getMessages().updateSuccessfully(
+					getMessages().credit());
+		} else if (estimate.getEstimateType() == ClientEstimate.CHARGES) {
+			return estimate.getID() == 0 ? getMessages().createSuccessfully(
+					getMessages().charge()) : getMessages().updateSuccessfully(
+					getMessages().charge());
+		}
+		return "";
 	}
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-
+		int estimateType = ClientEstimate.QUOTES;
+		String commandString = context.getCommandString().toLowerCase();
+		if (commandString.contains("charge")) {
+			estimateType = ClientEstimate.CHARGES;
+		} else if (commandString.contains("credit")) {
+			estimateType = ClientEstimate.CREDITS;
+		}
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Quote to update.");
-				return "Quotes List";
+				if (estimateType == ClientEstimate.QUOTES) {
+					addFirstMessage(context, "Select a Quote to update.");
+					return "Quotes List";
+				} else if (estimateType == ClientEstimate.CREDITS) {
+					addFirstMessage(context, "Select a Credit to update.");
+					return "Credits List";
+				} else if (estimateType == ClientEstimate.CHARGES) {
+					addFirstMessage(context, "Select a Charge to update.");
+					return "Charges List";
+				}
 			}
 			long numberFromString = getNumberFromString(string);
 			if (numberFromString != 0) {
@@ -353,8 +453,16 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 					.getClientTransactionByNumber(context.getCompany(), string,
 							AccounterCoreType.ESTIMATE);
 			if (estimateByNum == null) {
-				addFirstMessage(context, "Select a Quote to update.");
-				return "Quotes List " + string;
+				if (estimateType == ClientEstimate.QUOTES) {
+					addFirstMessage(context, "Select a Quote to update.");
+					return "Quotes List " + string;
+				} else if (estimateType == ClientEstimate.CREDITS) {
+					addFirstMessage(context, "Select a Credit to update.");
+					return "Credits List " + string;
+				} else if (estimateType == ClientEstimate.CHARGES) {
+					addFirstMessage(context, "Select a Charge to update.");
+					return "Charges List " + string;
+				}
 			}
 			estimate = estimateByNum;
 			setValues();
@@ -364,6 +472,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 				get(NUMBER).setValue(string);
 			}
 			estimate = new ClientEstimate();
+			estimate.setEstimateType(estimateType);
 		}
 		return null;
 	}

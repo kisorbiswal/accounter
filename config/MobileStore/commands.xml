@@ -319,8 +319,6 @@
 
 	<command clazz="ExpensesListCommand" name="Expenses List">
 		<alias>Expenses Claims</alias>
-		<alias>Credit Card Expenses List</alias>
-		<alias>Cash Expenses List</alias>
 		<alias>Expenses</alias>
 	</command>
 
@@ -575,7 +573,15 @@
 		<alias>Edit Quote</alias>
 		<alias>New Estimate</alias>
 		<alias>New Charge</alias>
+		<alias>Add Charge</alias>
+		<alias>Edit Charge</alias>
+		<alias>Modify Charge</alias>
+		<alias>Update Charge</alias>
 		<alias>New Credit</alias>
+		<alias>Add Credit</alias>
+		<alias>Edit Credit</alias>
+		<alias>Modify Credit</alias>
+		<alias>Update Credit</alias>
 	</command>
 
 	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
@@ -760,6 +766,10 @@
 		<alias>Quotes List</alias>
 		<alias>Estimates</alias>
 		<alias>Estimates List</alias>
+		<alias>Credits</alias>
+		<alias>Credits List</alias>
+		<alias>Charges</alias>
+		<alias>Charges List</alias>
 	</command>
 
 	<command clazz="CustomerRefundsListCommand" name="Customer Refunds List">
