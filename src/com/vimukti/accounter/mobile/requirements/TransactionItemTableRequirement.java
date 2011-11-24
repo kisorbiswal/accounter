@@ -201,7 +201,7 @@ public abstract class TransactionItemTableRequirement extends
 		if (iAccounterCore != null) {
 			record.add("", iAccounterCore.getDisplayName());
 		}
-		record.add("", t.getQuantity());
+		record.add("", t.getQuantity().getValue());
 		record.add("", t.getUnitPrice());
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
@@ -230,6 +230,7 @@ public abstract class TransactionItemTableRequirement extends
 		return createFullRecord(t);
 	}
 
+	@Override
 	protected String getAddMoreString() {
 		List<ClientTransactionItem> items = getValue();
 		return items.isEmpty() ? "Add Items" : getMessages().addMore(
