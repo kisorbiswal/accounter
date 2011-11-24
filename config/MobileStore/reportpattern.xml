@@ -36,14 +36,14 @@
 	</pattern>
 
 	<pattern>
-		<input>Customers and Receivable</input>
+		<input>Customers and Receivables Reports</input>
 		<input>customer reports</input>
 		<output>
 			<text>Sales Reports</text>
-			<command>A/R Aging Summary</command>
-			<command>A/R Aging Detail</command>
-			<command>Customer Statement</command>
-			<command>Customer Transaction History</command>
+			<command>A/R Aging Summary Reports</command>
+			<command>A/R Aging Detail Reports</command>
+			<command>Customer Statement Reports</command>
+			<command>Customer Transaction History Reports</command>
 		</output>
 	</pattern>
 
@@ -60,12 +60,12 @@
 	</pattern>
 
 	<pattern>
-		<input>Suppliers and Payables Reports</input>
-		<input>Vendors and Payables Reports</input>
+		<input>Suppliers and Payable Reports</input>
+		<input>Vendors and Payable Reports</input>
 		<input>vendor reports</input>
 		<input>supplier reports</input>
 		<output>
-			<text>Suppliers and Payables Reports</text>
+			<text>Suppliers and Payable Reports</text>
 			<command>A/P Aging Summary</command>
 			<command>A/P Aging Detail</command>
 			<command>Supplier Transaction History</command>
