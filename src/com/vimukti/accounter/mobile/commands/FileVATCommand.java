@@ -1,24 +1,24 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.ClientConvertUtil;
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
-import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
-import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class FileVATCommand extends NewAbstractTransactionCommand {
@@ -38,7 +38,13 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new TaxAgencyRequirement(TAX_AGENCY, getMessages()
 				.pleaseEnterName(getMessages().taxAgency()), getMessages()
-				.taxAgency(), false, true, null) {
+				.taxAgency(), false, true, new ChangeListner<TAXAgency>() {
+
+			@Override
+			public void onSelection(TAXAgency value) {
+				taxAgencySelected(value);
+			}
+		}) {
 
 			@Override
 			protected String getSetMessage() {
@@ -97,17 +103,21 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 		 */
 
 		list.add(new DateRequirement(FROM_DATE, getMessages().pleaseEnter(
-				getMessages().fromDate()), getMessages().fromDate(), true, true));
+				getMessages().fromDate()), getMessages().fromDate(), true, true) {
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				fromDateChanged((ClientFinanceDate) value);
+			}
+		});
 
 		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
 				getMessages().toDate()), getMessages().toDate(), true, true));
 
-		list.add(new StringRequirement(BOXES, getMessages().pleaseEnter(
-				getMessages().box()), getMessages().box(), false, true));
-		list.add(new ShowListRequirement<ClientBox>(BOXES, "", 15) {
+		list.add(new ShowListRequirement<ClientTAXReturnEntry>(BOXES, "", 15) {
 
 			@Override
-			protected String onSelection(ClientBox value) {
+			protected String onSelection(ClientTAXReturnEntry value) {
 				return null;
 			}
 
@@ -122,12 +132,12 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected Record createRecord(ClientBox value) {
+			protected Record createRecord(ClientTAXReturnEntry value) {
 				Record record = new Record(value);
 				record.add("", getMessages().vatLine());
 				record.add("", value.getName());
 				record.add("", getMessages().amount());
-				record.add("", value.getAmount());
+				record.add("", value.getTaxAmount());
 				return record;
 			}
 
@@ -137,34 +147,72 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientBox e, String name) {
+			protected boolean filter(ClientTAXReturnEntry e, String name) {
 				return false;
 			}
 
 			@Override
-			protected List<ClientBox> getLists(Context context) {
-				return getBoxes(context);
+			protected List<ClientTAXReturnEntry> getLists(Context context) {
+				return getClientTAXReturnEntries(context);
 			}
 		});
 	}
 
-	private List<ClientBox> getBoxes(Context context) {
+	protected void taxAgencySelected(TAXAgency taxAgency) {
+		get(BOXES).setValue(new ArrayList<ClientTAXReturnEntry>());
+		long lastTaxReturnEndDate = new FinanceTool().getTaxManager()
+				.getLastTaxReturnEndDate(taxAgency.getID(), getCompanyId());
+		ClientFinanceDate clientFinanceDate;
+		if (lastTaxReturnEndDate != 0) {
+			clientFinanceDate = new ClientFinanceDate(lastTaxReturnEndDate);
+		} else {
+			clientFinanceDate = new ClientFinanceDate(
+					DateUtil.getCurrentMonthFirstDate());
+		}
+		get(FROM_DATE).setValue(clientFinanceDate);
+	}
+
+	protected void fromDateChanged(ClientFinanceDate value) {
+		Date date = value.getDateAsObject();
+		int frequency = ClientTAXAgency.TAX_RETURN_FREQUENCY_MONTHLY;
+		TAXAgency selectedTaxAgency = get(TAX_AGENCY).getValue();
+		if (selectedTaxAgency != null) {
+			frequency = selectedTaxAgency.getTAXFilingFrequency();
+		}
+		date = DateUtil.getMonthFirstDay(date);
+		switch (frequency) {
+		case ClientTAXAgency.TAX_RETURN_FREQUENCY_MONTHLY:
+			date.setMonth(date.getMonth() + 1);
+			break;
+		case ClientTAXAgency.TAX_RETURN_FREQUENCY_QUARTERLY:
+			date.setMonth(date.getMonth() + 3);
+			break;
+		case ClientTAXAgency.TAX_RETURN_FREQUENCY_HALF_YEARLY:
+			date.setMonth(date.getMonth() + 6);
+			break;
+		case ClientTAXAgency.TAX_RETURN_FREQUENCY_YEARLY:
+			date.setMonth(date.getMonth() + 12);
+			break;
+		}
+		date.setDate(date.getDate() - 1);
+		get(TO_DATE).setValue(new ClientFinanceDate(date));
+	}
+
+	private List<ClientTAXReturnEntry> getClientTAXReturnEntries(Context context) {
 		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
 		ClientFinanceDate fromDate = get(FROM_DATE).getValue();
 		ClientFinanceDate toDate = get(TO_DATE).getValue();
 		try {
-			ClientTAXReturn vatReturn = new ClientConvertUtil().toClientObject(
-					new FinanceTool().getTaxManager().getVATReturnDetails(
-							taxAgency, new FinanceDate(fromDate),
-							new FinanceDate(toDate),
-							context.getCompany().getID()),
-					ClientTAXReturn.class);
-			return vatReturn.getBoxes();
+			List<ClientTAXReturnEntry> taxReturnEntries = new FinanceTool()
+					.getTaxManager().getTAXReturnEntries(getCompanyId(),
+							taxAgency.getID(), fromDate.getDate(),
+							toDate.getDate());
+			get(BOXES).setValue(taxReturnEntries);
+			return taxReturnEntries;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ArrayList<ClientBox>();
+			return new ArrayList<ClientTAXReturnEntry>();
 		}
-
 	}
 
 	@Override
@@ -174,13 +222,13 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 		clientVATReturn.setPeriodStartDate(fromDate.getDate());
 
 		ClientFinanceDate toDate = get(TO_DATE).getValue();
-		clientVATReturn.setPeriodStartDate(toDate.getDate());
-
+		clientVATReturn.setPeriodEndDate(toDate.getDate());
+		clientVATReturn.setTransactionDate(new ClientFinanceDate().getDate());
 		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
 		clientVATReturn.setTAXAgency(taxAgency.getID());
 
-		List<ClientBox> boxes = get(BOXES).getValue();
-		clientVATReturn.setBoxes(boxes);
+		List<ClientTAXReturnEntry> taxReturnEntries = get(BOXES).getValue();
+		clientVATReturn.setTaxReturnEntries(taxReturnEntries);
 
 		/*
 		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
@@ -213,9 +261,9 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		ClientFinanceDate date = CommandUtils
-				.getCurrentFiscalYearStartDate(context.getPreferences());
-		get(FROM_DATE).setDefaultValue(date);
+		Date currentMonthFirstDate = DateUtil.getCurrentMonthFirstDate();
+		get(FROM_DATE).setDefaultValue(
+				new ClientFinanceDate(currentMonthFirstDate));
 		get(TO_DATE).setDefaultValue(new ClientFinanceDate());
 		/*
 		 * get(CURRENCY).setDefaultValue(null);
