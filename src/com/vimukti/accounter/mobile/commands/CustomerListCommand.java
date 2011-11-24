@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.Global;
@@ -65,6 +66,15 @@ public class CustomerListCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShowListRequirement<Customer>("Customers", "", 10) {
+
+			@Override
+			protected void setSelectCommands(CommandList commandList,
+					Customer value) {
+				commandList.add(new UserCommand("update customer", value
+						.getNumber()));
+				commandList.add(new UserCommand("Delete customer", String
+						.valueOf(value.getID())));
+			}
 
 			@Override
 			protected String onSelection(Customer value) {

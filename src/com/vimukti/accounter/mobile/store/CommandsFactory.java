@@ -93,7 +93,7 @@ public class CommandsFactory {
 										+ command.className);
 					} catch (ClassNotFoundException e2) {
 						forName = Class
-								.forName("com.vimukti.accounter.mobile.commands.."
+								.forName("com.vimukti.accounter.mobile.commands.delete."
 										+ command.className);
 					}
 				}
