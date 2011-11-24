@@ -328,7 +328,9 @@
 		<alias>Create Enter Bill</alias>
 		<alias>EnterBill</alias>
 	</command>
-	<command clazz="UpdateTransactionCommand" name="Edit Transaction"></command>
+	<command clazz="UpdateTransactionCommand" name="Edit Transaction">
+		<alias>update Payment</alias>
+	</command>
 	<command clazz="NewPayBillCommand" name="Pay Bill">
 		<alias>BillPay</alias>
 		<alias>Create Pay Bill</alias>
@@ -585,9 +587,7 @@
 	</command>
 
 	<command clazz="NewCustomerRefundCommand" name="New CustomerRefund">
-		<alias>
-			Create Customer Refund
-		</alias>
+		<alias>Create Customer Refund</alias>
 		<alias>Add Customer Refund</alias>
 		<alias>Edit Customer Refund</alias>
 		<alias>Update Customer Refund</alias>
@@ -702,6 +702,7 @@
 		<alias>Supplier payments</alias>
 		<alias>Supplier payments list</alias>
 		<alias>Vendor payment</alias>
+		<alias>Payments</alias>
 	</command>
 
 	<command clazz="LocationListCommand" name="Location list">

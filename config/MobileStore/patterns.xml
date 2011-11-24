@@ -81,6 +81,14 @@
 	</pattern>
 
 	<pattern>
+		<input>Add a New Payment</input>
+		<output>
+			<command>Add Vendor Prepayment</command>
+			<command>Add Customer Refund</command>
+		</output>
+	</pattern>
+	
+	<pattern>
 		<input>Tax</input>
 		<output>
 			<command>Tax New</command>
