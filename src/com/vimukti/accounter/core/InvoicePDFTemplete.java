@@ -136,6 +136,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			// for getting customer contact name
 			String cname = "";
 			String phone = "";
+			boolean hasPhone = false;
 			Customer customer = invoice.getCustomer();
 			Set<Contact> contacts = customer.getContacts();
 			for (Contact contact : contacts) {
@@ -144,6 +145,9 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 					if (contact.getBusinessPhone().trim().length() > 0)
 						phone = contact.getBusinessPhone();
+					if (phone.trim().length() > 0) {
+						hasPhone = true;
+					}
 
 				}
 			}
@@ -151,19 +155,25 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			Address bill = invoice.getBillingAddress();
 			String customerName = forUnusedAddress(invoice.getCustomer()
 					.getName(), false);
+			StringBuffer billAddress = new StringBuffer();
 			if (bill != null) {
-				String billAddress = forUnusedAddress(cname, false)
+				billAddress = billAddress.append(forUnusedAddress(cname, false)
 						+ customerName
 						+ forUnusedAddress(bill.getAddress1(), false)
 						+ forUnusedAddress(bill.getStreet(), false)
 						+ forUnusedAddress(bill.getCity(), false)
 						+ forUnusedAddress(bill.getStateOrProvinence(), false)
 						+ forUnusedAddress(bill.getZipOrPostalCode(), false)
-						+ forUnusedAddress(bill.getCountryOrRegion(), false)
-						+ forUnusedAddress("Phone : " + phone, false);
+						+ forUnusedAddress(bill.getCountryOrRegion(), false));
+				if (hasPhone) {
+					billAddress.append(forUnusedAddress("Phone : " + phone,
+							false));
+				}
 
-				if (billAddress.trim().length() > 0) {
-					t.setVariable("billingAddress", billAddress);
+				String billAddres = billAddress.toString();
+
+				if (billAddres.trim().length() > 0) {
+					t.setVariable("billingAddress", billAddres);
 					t.addBlock("billhead");
 				}
 			} else {
@@ -233,24 +243,24 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			List<TransactionItem> transactionItems = invoice
 					.getTransactionItems();
 
-//			List<Estimate> estimates = invoice.getEstimates();
-//			if (estimates != null) {
-//				for (Estimate estimate : estimates) {
-//					for (TransactionItem item : estimate.getTransactionItems()) {
-//						transactionItems.add(item);
-//					}
-//				}
-//			}
-//
-//			List<SalesOrder> salesOrders = invoice.getSalesOrders();
-//			if (salesOrders != null) {
-//				for (SalesOrder salesOrder : salesOrders) {
-//					for (TransactionItem item : salesOrder
-//							.getTransactionItems()) {
-//						transactionItems.add(item);
-//					}
-//				}
-//			}
+			// List<Estimate> estimates = invoice.getEstimates();
+			// if (estimates != null) {
+			// for (Estimate estimate : estimates) {
+			// for (TransactionItem item : estimate.getTransactionItems()) {
+			// transactionItems.add(item);
+			// }
+			// }
+			// }
+			//
+			// List<SalesOrder> salesOrders = invoice.getSalesOrders();
+			// if (salesOrders != null) {
+			// for (SalesOrder salesOrder : salesOrders) {
+			// for (TransactionItem item : salesOrder
+			// .getTransactionItems()) {
+			// transactionItems.add(item);
+			// }
+			// }
+			// }
 
 			double currencyFactor = invoice.getCurrencyFactor();
 
