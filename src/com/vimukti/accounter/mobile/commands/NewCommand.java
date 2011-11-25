@@ -66,11 +66,7 @@ public abstract class NewCommand extends Command {
 			setAttribute("input", "");
 		}
 
-		ResultList list = new ResultList("values");
-		list.setTitle(getDetailsMessage());
 		ResultList actions = new ResultList("actions");
-
-		makeResult.add(list);
 
 		List<Requirement> allRequirements = getRequirements();
 		String backString = context.getString();
@@ -93,10 +89,12 @@ public abstract class NewCommand extends Command {
 			}
 			// TODO if user types back for first requirement
 		}
+		ResultList list = new ResultList("values");
+		makeResult.add(list);
 		actions = new ResultList("actions");
 		for (int i = 0; i < allRequirements.size(); i++) {
-			Result result = allRequirements.get(i).process(context, makeResult,
-					list, actions);
+			Result result = allRequirements.get(i).process(context,
+					makeResult, list, actions);
 			if (result != null) {
 				requirementNumber = i - 1;
 				// if (i != 0) {
@@ -105,6 +103,7 @@ public abstract class NewCommand extends Command {
 				return result;
 			}
 		}
+		list.setTitle(getDetailsMessage());
 		requirementNumber = -1;
 		makeResult.add(actions);
 		String finish = getFinishCommandString();
