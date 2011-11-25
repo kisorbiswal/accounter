@@ -121,7 +121,9 @@
 	<pattern>
 		<input>Customer</input>
 		<output>
-			<command>Customer New</command>
+			<command>New Customer</command>
+			<command>Create Invoice</command>
+			<command>Create Quote</command>
 			<command>Customer Prepayment</command>
 			<command>Receive Payment</command>
 			<command>Customer Refund</command>
@@ -160,7 +162,9 @@
 	<pattern>
 		<input>Vendor</input>
 		<output>
-			<command>Vendor New</command>
+			<command>New Vendor</command>
+			<command>New Cash Purchase</command>
+			<command>Create Vendor Credit</command>
 			<command>Enter Bill</command>
 			<command>Pay Bill</command>
 			<command>Issue Payment</command>
