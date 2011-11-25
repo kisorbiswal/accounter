@@ -1,53 +1,30 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class BalanceSheetReportCommand extends
-		AbstractReportCommand<TrialBalance> {
+		NewAbstractReportCommand<TrialBalance> {
+	private ClientAccount account;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(DATE_RANGE, true, true));
-		list.add(new Requirement(TO_DATE, true, true));
-	}
-
-	@Override
-	protected Result createReqReportRecord(Result reportResult, Context context) {
-		ResultList resultList = new ResultList("values");
-
-		// Checking whether date range is there or not and returning result
-		Requirement reportReq = get("dateRange");
-		String dateRange = (String) reportReq.getValue();
-		String selectionDateRange = context.getSelection("values");
-
-		if (dateRange == selectionDateRange)
-			return dateRangeRequirement(context, resultList, selectionDateRange);
-
-		// Checking whether to date is there or not and returning result
-		Requirement toDateReq = get("toDate");
-		Date toDate = (Date) toDateReq.getValue();
-		Date selectiontoDate = context.getSelection("values");
-		if (toDate == selectiontoDate)
-			return toDateRequirement(context, resultList, selectiontoDate);
-
-		return reportResult;
+		addDateRangeFromDateRequirements(list);
+		super.addRequirements(list);
 	}
 
 	@Override
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
-		if (getClientCompany().getPreferences().getUseAccountNumbers() == true)
+		if (getCompany().getPreferences().getUseAccountNumbers() == true)
 			trialRecord.add("Category Number", record.getAccountNumber());
 		else
 			return null;
@@ -55,7 +32,7 @@ public class BalanceSheetReportCommand extends
 		trialRecord
 				.add(getStartDate() + "-" + getEndDate(), record.getAmount());
 		trialRecord.add("", record.getAmount());
-		return null;
+		return trialRecord;
 	}
 
 	@Override
@@ -65,20 +42,72 @@ public class BalanceSheetReportCommand extends
 	}
 
 	@Override
-	protected List<TrialBalance> getRecords(Session session) {
+	protected List<TrialBalance> getRecords() {
+		ArrayList<TrialBalance> trailBalanceReport = new ArrayList<TrialBalance>();
+		try {
+			trailBalanceReport = new FinanceTool().getReportManager()
+					.getBalanceSheetReport(getStartDate(), getEndDate(),
+							getCompanyId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return trailBalanceReport;
+	}
+
+	@Override
+	protected String addCommandOnRecordClick(TrialBalance selection) {
+		return "Transaction Detail By Account ," + selection.getAccountNumber();
+	}
+
+	@Override
+	protected String getEmptyString() {
+		return getMessages().youDontHaveAnyReports();
+	}
+
+	@Override
+	protected String getShowMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected void addCommandOnRecordClick(TrialBalance selection,
-			CommandList commandList) {
-		commandList.add("Transaction Detail By Account");
+	protected String getSelectRecordString() {
+		return getMessages().reportSelected(getMessages().balanceSheet());
 	}
 
 	@Override
-	protected void setOptionalFields() {
-		setDefaultDateRange();
-		setDefaultToDate();
+	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
+		String number = null;
+		if (string != null && !string.isEmpty()) {
+			String[] split = string.split(",");
+			context.setString(split[0]);
+			number = split[1];
+		}
+		if (number != null) {
+			account = CommandUtils.getAccountByNumber(getCompany(), number);
+			if (account == null) {
+				account = CommandUtils.getAccountByName(getCompany(), number);
+			}
+		}
+		return null;
 	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return getMessages().reportCommondActivated(
+				getMessages().balanceSheet());
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().reportDetails(getMessages().balanceSheet());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().reportCommondClosedSuccessfully(
+				getMessages().balanceSheet());
+	}
+
 }

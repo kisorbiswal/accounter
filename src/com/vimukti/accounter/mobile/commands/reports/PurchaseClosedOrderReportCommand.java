@@ -1,46 +1,30 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class PurchaseClosedOrderReportCommand extends
-		AbstractReportCommand<OpenAndClosedOrders> {
+		NewAbstractReportCommand<OpenAndClosedOrders> {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		add3ReportRequirements(list);
-		list.add(new Requirement(STATUS, true, true));
-	}
-
-	@Override
-	protected Result createReqReportRecord(Result reportResult, Context context) {
-		ResultList resultList = new ResultList("values");
-
-		// Checking whether status is there or not and returning result
-		Requirement statusReq = get("status");
-		String status = (String) statusReq.getValue();
-		String selectionstatus = context.getSelection("values");
-		if (status == selectionstatus)
-			return statusRequirement(context, resultList, selectionstatus);
-		return super.createReqReportRecord(reportResult, context);
+		addDateRangeFromToDateRequirements(list);
+		super.addRequirements(list);
 	}
 
 	@Override
 	protected Record createReportRecord(OpenAndClosedOrders record) {
 		Record openRecord = new Record(record);
 		if (record.getTransactionDate() != null)
-			openRecord.add("Order Date", UIUtils.getDateByCompanyType(record
-					.getTransactionDate()));
+			openRecord.add("Order Date",
+					UIUtils.getDateByCompanyType(record.getTransactionDate()));
 		else
 			openRecord.add("", "");
 		openRecord.add("Supplier", record.getVendorOrCustomerName());
@@ -58,20 +42,59 @@ public class PurchaseClosedOrderReportCommand extends
 	}
 
 	@Override
-	protected List<OpenAndClosedOrders> getRecords(Session session) {
+	protected List<OpenAndClosedOrders> getRecords() {
+		ArrayList<OpenAndClosedOrders> openAndClosedOrders = new ArrayList<OpenAndClosedOrders>();
+		try {
+			openAndClosedOrders = new FinanceTool().getPurchageManager()
+					.getClosedPurchaseOrders(getStartDate(), getEndDate(),
+							getCompanyId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return openAndClosedOrders;
+	}
+
+	@Override
+	protected String addCommandOnRecordClick(OpenAndClosedOrders selection) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected void addCommandOnRecordClick(OpenAndClosedOrders selection,
-			CommandList commandList) {
-		commandList.add("Purchase Order");
+	protected String getEmptyString() {
+		return getMessages().youDontHaveAnyReports();
 	}
 
 	@Override
-	protected void setOptionalFields() {
-		super.setOptionalFields();
-		setDefaultStatus();
+	protected String getShowMessage() {
+		return "";
+	}
+
+	@Override
+	protected String getSelectRecordString() {
+		return getMessages()
+				.reportSelected(getMessages().purchaseClosedOrder());
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return getMessages().reportCommondActivated(
+				getMessages().purchaseClosedOrder());
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().reportDetails(getMessages().purchaseClosedOrder());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().reportCommondClosedSuccessfully(
+				getMessages().purchaseClosedOrder());
 	}
 }

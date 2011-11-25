@@ -1,22 +1,23 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
+import com.vimukti.accounter.web.server.FinanceTool;
 
-public class VATDetailReportCommand extends AbstractReportCommand<VATDetail> {
+public class VATDetailReportCommand extends NewAbstractReportCommand<VATDetail> {
 
 	private String currentsectionName;
 	private double accountbalance;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		add3ReportRequirements(list);
+		addDateRangeFromToDateRequirements(list);
+		super.addRequirements(list);
 	}
 
 	@Override
@@ -46,15 +47,59 @@ public class VATDetailReportCommand extends AbstractReportCommand<VATDetail> {
 	}
 
 	@Override
-	protected List<VATDetail> getRecords(Session session) {
+	protected List<VATDetail> getRecords() {
+		ArrayList<VATDetail> vatDetails = new ArrayList<VATDetail>();
+		try {
+			vatDetails = new FinanceTool().getReportManager()
+					.getVATDetailReport(getStartDate(), getEndDate(),
+							getCompanyId());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return vatDetails;
+	}
+
+	@Override
+	protected String addCommandOnRecordClick(VATDetail selection) {
+		return "update transaction " + selection.getTransactionId();
+	}
+
+	@Override
+	protected String getEmptyString() {
+		return getMessages().youDontHaveAnyReports();
+	}
+
+	@Override
+	protected String getShowMessage() {
+		return "";
+	}
+
+	@Override
+	protected String getSelectRecordString() {
+		return getMessages().reportSelected(getMessages().vatDetail());
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected void addCommandOnRecordClick(VATDetail selection,
-			CommandList commandList) {
-		commandList.add(selection.getTransactionName());
+	protected String getWelcomeMessage() {
+		return getMessages().reportCommondActivated(getMessages().vatDetail());
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().reportDetails(getMessages().vatDetail());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().reportCommondClosedSuccessfully(
+				getMessages().vatDetail());
 	}
 
 }

@@ -1,45 +1,58 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class PriorVATReturnReportCommand extends
-		AbstractReportCommand<VATSummary> {
+		NewAbstractReportCommand<VATSummary> {
+	private TAXAgency agency;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(TAX_AGENCY, true, true));
-		list.add(new Requirement(ENDING_DATE, true, true));
-	}
+		list.add(new TaxAgencyRequirement(TAX_AGENCY, getMessages()
+				.pleaseEnter(getMessages().taxAgencie()), getMessages()
+				.taxAgencie(), false, true, new ChangeListner<TAXAgency>() {
 
-	@Override
-	protected Result createReqReportRecord(Result reportResult, Context context) {
-		ResultList resultList = new ResultList("values");
+			@Override
+			public void onSelection(TAXAgency value) {
+				agency = value;
+			}
+		}) {
 
-		// Checking whether vat agency is there or not and returning result
-		Requirement vatAgencyReq = get("vatAgency");
-		String vatAgency = (String) vatAgencyReq.getValue();
-		String selectiontoVatAgency = context.getSelection("values");
-		if (vatAgency == selectiontoVatAgency)
-			return vatAgencyRequirement(context);
+			@Override
+			protected String getSetMessage() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 
-		// Checking whether to date is there or not and returning result
-		Requirement toDateReq = get("toDate");
-		Date toDate = (Date) toDateReq.getValue();
-		Date selectiontoDate = context.getSelection("values");
-		if (toDate == selectiontoDate)
-			return toDateRequirement(context, resultList, selectiontoDate);
-		return reportResult;
+			@Override
+			protected List<TAXAgency> getLists(Context context) {
+				return new ArrayList<TAXAgency>(getCompany().getTaxAgencies());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected boolean filter(TAXAgency e, String name) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
+		addFromToDateRequirements(list);
+		super.addRequirements(list);
 	}
 
 	@Override
@@ -57,18 +70,59 @@ public class PriorVATReturnReportCommand extends
 	}
 
 	@Override
-	protected List<VATSummary> getRecords(Session session) {
+	protected List<VATSummary> getRecords() {
+		ArrayList<VATSummary> vatSummaries = new ArrayList<VATSummary>();
+		try {
+			vatSummaries = new FinanceTool().getTaxManager()
+					.getPriorReturnVATSummary(agency, getEndDate(),
+							getCompanyId());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return vatSummaries;
+	}
+
+	@Override
+	protected String addCommandOnRecordClick(VATSummary selection) {
+		return null;
+	}
+
+	@Override
+	protected String getEmptyString() {
+		return getMessages().youDontHaveAnyReports();
+	}
+
+	@Override
+	protected String getShowMessage() {
+		return "";
+	}
+
+	@Override
+	protected String getSelectRecordString() {
+		return getMessages().reportSelected(getMessages().priorVATReturns());
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected void addCommandOnRecordClick(VATSummary selection,
-			CommandList commandList) {
+	protected String getWelcomeMessage() {
+		return getMessages().reportCommondActivated(
+				getMessages().priorVATReturns());
 	}
 
 	@Override
-	protected void setOptionalFields() {
-		setDefaultTaxAgency();
+	protected String getDetailsMessage() {
+		return getMessages().reportDetails(getMessages().priorVATReturns());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().reportCommondClosedSuccessfully(
+				getMessages().priorVATReturns());
 	}
 }

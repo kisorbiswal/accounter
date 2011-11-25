@@ -1,37 +1,70 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class SalesOpenOrderReportCommand extends
-		AbstractReportCommand<OpenAndClosedOrders> {
+		NewAbstractReportCommand<OpenAndClosedOrders> {
+	private int status;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		add3ReportRequirements(list);
-		list.add(new Requirement(STATUS, true, true));
-	}
+		list.add(new StringListRequirement(STATUS, getMessages().pleaseSelect(
+				getMessages().yourTitle()), getMessages().status(), false,
+				true, new ChangeListner<String>() {
 
-	@Override
-	protected Result createReqReportRecord(Result reportResult, Context context) {
-		ResultList resultList = new ResultList("values");
+					@Override
+					public void onSelection(String value) {
+						if (value.equals(getMessages().open())) {
+							status = 1;
+						} else if (value.equals(getMessages().completed())) {
+							status = 2;
+						} else if (value.equals(getMessages().cancelled())) {
+							status = 3;
+						} else if (value.equals(getMessages().all())) {
+							status = 4;
+						}
+					}
+				}) {
 
-		// Checking whether status is there or not and returning result
-		Requirement statusReq = get("status");
-		String status = (String) statusReq.getValue();
-		String selectionstatus = context.getSelection("values");
-		if (status == selectionstatus)
-			return statusRequirement(context, resultList, selectionstatus);
-		return super.createReqReportRecord(reportResult, context);
+			@Override
+			protected String getSetMessage() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected String getSelectString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				List<String> strings = new ArrayList<String>();
+				strings.add(getMessages().open());
+				strings.add(getMessages().completed());
+				strings.add(getMessages().cancelled());
+				strings.add(getMessages().all());
+				return strings;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+		addDateRangeFromToDateRequirements(list);
+		super.addRequirements(list);
 	}
 
 	@Override
@@ -54,21 +87,78 @@ public class SalesOpenOrderReportCommand extends
 	}
 
 	@Override
-	protected List<OpenAndClosedOrders> getRecords(Session session) {
+	protected List<OpenAndClosedOrders> getRecords() {
+
+		ArrayList<OpenAndClosedOrders> openAndClosedOrders = new ArrayList<OpenAndClosedOrders>();
+		try {
+			if (status == 1) {
+				openAndClosedOrders = new FinanceTool().getSalesManager()
+						.getOpenSalesOrders(getStartDate(), getEndDate(),
+								getCompanyId());
+			} else if (status == 2) {
+				openAndClosedOrders = new FinanceTool().getSalesManager()
+						.getCompletedSalesOrders(getStartDate(), getEndDate(),
+								getCompanyId());
+			} else if (status == 3) {
+				openAndClosedOrders = new FinanceTool().getSalesManager()
+						.getCanceledSalesOrders(getStartDate(), getEndDate(),
+								getCompanyId());
+			} else if (status == 4) {
+				openAndClosedOrders = new FinanceTool().getSalesManager()
+						.getSalesOrders(getStartDate(), getEndDate(),
+								getCompanyId());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return openAndClosedOrders;
+
+	}
+
+	@Override
+	protected String addCommandOnRecordClick(OpenAndClosedOrders selection) {
+		return "update transaction " + selection.getTransactionID();
+	}
+
+	@Override
+	protected String getEmptyString() {
+		return getMessages().youDontHaveAnyReports();
+	}
+
+	@Override
+	protected String getShowMessage() {
+		return "";
+	}
+
+	@Override
+	protected String getSelectRecordString() {
+		return getMessages().reportSelected(
+				getMessages().sales() + getMessages().open());
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected void addCommandOnRecordClick(OpenAndClosedOrders selection,
-			CommandList commandList) {
-		commandList.add("Sales Order");
+	protected String getWelcomeMessage() {
+		return getMessages().reportCommondActivated(
+				getMessages().sales() + getMessages().open());
 	}
 
 	@Override
-	protected void setOptionalFields() {
-		super.setOptionalFields();
-		setDefaultStatus();
+	protected String getDetailsMessage() {
+		return getMessages().reportDetails(
+				getMessages().sales() + getMessages().open());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().reportCommondClosedSuccessfully(
+				getMessages().sales() + getMessages().open());
 	}
 
 }

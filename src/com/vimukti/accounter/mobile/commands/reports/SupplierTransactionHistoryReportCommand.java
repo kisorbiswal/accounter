@@ -1,23 +1,24 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.client.ui.core.ReportUtility;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class SupplierTransactionHistoryReportCommand extends
-		AbstractReportCommand<TransactionHistory> {
+		NewAbstractReportCommand<TransactionHistory> {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		add3ReportRequirements(list);
+		addDateRangeFromToDateRequirements(list);
+		super.addRequirements(list);
 	}
 
 	@Override
@@ -25,13 +26,13 @@ public class SupplierTransactionHistoryReportCommand extends
 		Record transactionRecord = new Record(record);
 		transactionRecord.add("Supplier", "");
 		transactionRecord.add("Date", record.getDate());
-		transactionRecord.add("Type", Utility.getTransactionName(record
-				.getType()));
+		transactionRecord.add("Type",
+				Utility.getTransactionName(record.getType()));
 		transactionRecord.add("No.", record.getNumber());
 		transactionRecord.add("Account", record.getAccount());
-		transactionRecord.add("Amount", DecimalUtil.isEquals(record
-				.getInvoicedAmount(), 0.0) ? record.getPaidAmount() : record
-				.getInvoicedAmount());
+		transactionRecord.add("Amount", DecimalUtil.isEquals(
+				record.getInvoicedAmount(), 0.0) ? record.getPaidAmount()
+				: record.getInvoicedAmount());
 		return transactionRecord;
 	}
 
@@ -42,15 +43,61 @@ public class SupplierTransactionHistoryReportCommand extends
 	}
 
 	@Override
-	protected List<TransactionHistory> getRecords(Session session) {
+	protected List<TransactionHistory> getRecords() {
+		ArrayList<TransactionHistory> transactionHistories = new ArrayList<TransactionHistory>();
+		try {
+			transactionHistories = new FinanceTool().getVendorManager()
+					.getVendorTransactionHistory(getStartDate(), getEndDate(),
+							getCompanyId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return transactionHistories;
+	}
+
+	@Override
+	protected String addCommandOnRecordClick(TransactionHistory selection) {
+		return "update transaction " + selection.getTransactionId();
+	}
+
+	@Override
+	protected String getEmptyString() {
+		return getMessages().youDontHaveAnyReports();
+	}
+
+	@Override
+	protected String getShowMessage() {
+		return "";
+	}
+
+	@Override
+	protected String getSelectRecordString() {
+		return getMessages().reportSelected(
+				getMessages().payeeTransactionHistory(Global.get().Vendor()));
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected void addCommandOnRecordClick(TransactionHistory selection,
-			CommandList commandList) {
-		commandList.add(ReportUtility.getTransactionName(selection.getType()));
+	protected String getWelcomeMessage() {
+		return getMessages().reportCommondActivated(
+				getMessages().payeeTransactionHistory(Global.get().Vendor()));
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().reportDetails(
+				getMessages().payeeTransactionHistory(Global.get().Vendor()));
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().reportCommondClosedSuccessfully(
+				getMessages().payeeTransactionHistory(Global.get().Vendor()));
 	}
 
 }

@@ -1,22 +1,23 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class SalesByItemDetailReportCommand extends
-		AbstractReportCommand<SalesByCustomerDetail> {
+		NewAbstractReportCommand<SalesByCustomerDetail> {
+	private String itemName;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		add3ReportRequirements(list);
+		addDateRangeFromToDateRequirements(list);
+		super.addRequirements(list);
 	}
 
 	@Override
@@ -24,8 +25,8 @@ public class SalesByItemDetailReportCommand extends
 		Record salesRecord = new Record(record);
 		salesRecord.add("Item", "");
 		salesRecord.add("Date", record.getDate());
-		salesRecord.add("Type", ReportUtility.getTransactionName(record
-				.getType()));
+		salesRecord.add("Type",
+				ReportUtility.getTransactionName(record.getType()));
 		salesRecord.add("No.", record.getNumber());
 		salesRecord.add("Quantity", record.getQuantity());
 		salesRecord.add("Unit price", record.getUnitPrice());
@@ -41,15 +42,71 @@ public class SalesByItemDetailReportCommand extends
 	}
 
 	@Override
-	protected List<SalesByCustomerDetail> getRecords(Session session) {
-		// TODO Auto-generated method stub
+	protected List<SalesByCustomerDetail> getRecords() {
+		ArrayList<SalesByCustomerDetail> salesByCustomerDetails = new ArrayList<SalesByCustomerDetail>();
+		try {
+			if (itemName == null) {
+				salesByCustomerDetails = new FinanceTool().getSalesManager()
+						.getSalesByItemDetail(getStartDate(), getEndDate(),
+								getCompanyId());
+			} else if (itemName != null && !itemName.isEmpty()) {
+				salesByCustomerDetails = new FinanceTool().getSalesManager()
+						.getSalesByItemDetail(itemName, getStartDate(),
+								getEndDate(), getCompanyId());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
-	protected void addCommandOnRecordClick(SalesByCustomerDetail selection,
-			CommandList commandList) {
-		commandList.add(Utility.getTransactionName(selection.getType()));
+	protected String addCommandOnRecordClick(SalesByCustomerDetail selection) {
+		return "update transaction " + selection.getTransactionId();
+	}
+
+	@Override
+	protected String getEmptyString() {
+		return getMessages().youDontHaveAnyReports();
+	}
+
+	@Override
+	protected String getShowMessage() {
+		return "";
+	}
+
+	@Override
+	protected String getSelectRecordString() {
+		return getMessages().reportDetails(getMessages().salesByItemSummary());
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
+		if (string != null && !string.isEmpty()) {
+			String[] split = string.split(",");
+			context.setString(split[0]);
+			itemName = split[1];
+		}
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return getMessages().reportCommondActivated(
+				getMessages().salesByItemSummary());
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().reportDetails(getMessages().salesByItemSummary());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().reportCommondClosedSuccessfully(
+				getMessages().salesByItemSummary());
 	}
 
 }

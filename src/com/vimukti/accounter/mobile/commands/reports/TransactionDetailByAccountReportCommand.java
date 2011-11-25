@@ -11,7 +11,6 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
-import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.managers.ReportManager;
 

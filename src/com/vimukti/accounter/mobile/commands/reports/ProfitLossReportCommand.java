@@ -62,22 +62,24 @@ public class ProfitLossReportCommand extends
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Profit and Loss Report command activated";
+		return getMessages().reportCommondActivated(
+				getMessages().profitAndLoss());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return "Profit and Loss Report details";
+		return getMessages().reportDetails(getMessages().profitAndLoss());
 	}
 
 	@Override
 	public String getSuccessMessage() {
-		return "Profit and loss report command closed successfully";
+		return getMessages().reportCommondClosedSuccessfully(
+				getMessages().profitAndLoss());
 	}
 
 	@Override
 	protected String getEmptyString() {
-		return "You don't have any reports";
+		return getMessages().youDontHaveAnyReports();
 	}
 
 	@Override
@@ -87,7 +89,7 @@ public class ProfitLossReportCommand extends
 
 	@Override
 	protected String getSelectRecordString() {
-		return "Profit and Loss Report selected";
+		return getMessages().reportSelected(getMessages().profitAndLoss());
 	}
 
 	@Override
