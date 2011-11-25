@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.commands.NewAbstractCommand;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -295,6 +297,13 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 			@Override
 			protected List<T> getLists(Context context) {
 				return getRecords();
+			}
+
+			@Override
+			public List<T> pagination(Context context, Object selection,
+					ResultList actions, List<T> records, List<T> skipRecords,
+					int recordsToShow) {
+				return new ArrayList<T>();
 			}
 		};
 	}
