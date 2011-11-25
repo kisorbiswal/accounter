@@ -149,7 +149,6 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 						@Override
 						public boolean filter(Account e) {
 							return Arrays.asList(Account.TYPE_BANK,
-									Account.TYPE_CREDIT_CARD,
 									Account.TYPE_OTHER_CURRENT_ASSET).contains(
 									e.getType());
 						}
