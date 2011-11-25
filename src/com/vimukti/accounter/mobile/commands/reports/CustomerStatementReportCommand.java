@@ -34,8 +34,7 @@ public class CustomerStatementReportCommand extends
 
 			@Override
 			protected List<Customer> getLists(Context context) {
-				return new ArrayList<Customer>(context.getCompany()
-						.getCustomers());
+				return getCustomers();
 			}
 		});
 		addDateRangeFromToDateRequirements(list);
