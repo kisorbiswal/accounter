@@ -212,7 +212,8 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 		if (isTaxable) {
 			TAXItemGroup salesVatItem = get(VATITEM_FOR_SALES).getValue();
 			TAXItemGroup purchaseVatItem = get(VATITEM_FOR_PURCHASE).getValue();
-			taxCode.setTAXItemGrpForSales(salesVatItem.getID());
+			if (salesVatItem != null)
+				taxCode.setTAXItemGrpForSales(salesVatItem.getID());
 			taxCode.setTAXItemGrpForPurchases(purchaseVatItem.getID());
 		}
 
