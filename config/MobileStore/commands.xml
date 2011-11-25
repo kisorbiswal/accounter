@@ -114,6 +114,11 @@
 	</command>
 	<command clazz="CustomerDeleteCommand" name="Delete customer"></command>
 	<command clazz="VendorDeleteCommand" name="deleteVendor"></command>
+	<command clazz="AccountDeleteCommand" name="Delete account">
+		<alias>Delete BankAccout</alias>
+	</command>
+	<command clazz="ItemDeleteCommand" name="Delete Item"></command>
+	
 	<command clazz="ExpenseReportCommand" name="Expense Report">
 		<alias>Expense Report</alias>
 		<alias>E report</alias>
