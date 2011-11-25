@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -22,17 +23,15 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 	private static final String LAST_NAME = "Last Name";
 	private static final String EMAIL = "E-mail";
 	private static final String LEVEL_ACCESS = "accessLevel";
-	private static final String PERMISSIONS = "permissions";
+	ClientUser user;
 
 	@Override
 	public String getId() {
-
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-
 		list.add(new NameRequirement(FIRST_NAME, getMessages().pleaseEnter(
 				getMessages().firstName()), getMessages().firstName(), false,
 				true));
@@ -42,7 +41,21 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 				true));
 
 		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
-				getMessages().email()), getMessages().email(), false, true));
+				getMessages().email()), getMessages().email(), false, true) {
+			@Override
+			public void setValue(Object value) {
+				String emailId = (String) value;
+				if (emailId == null) {
+					return;
+				} else if (NewInviteAUserCommand.this.isUserExists(emailId)) {
+					addFirstMessage("User already exists with this email id");
+					return;
+				}
+				addFirstMessage(getMessages()
+						.pleaseEnter(getMessages().email()));
+				super.setValue(value);
+			}
+		});
 
 		list.add(new StringListRequirement(LEVEL_ACCESS, getMessages()
 				.pleaseEnter(getMessages().permissions()), getMessages()
@@ -70,22 +83,25 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		});
 	}
 
+	protected boolean isUserExists(String emailId) {
+		User userByUserEmail = getCompany().getUserByUserEmail(emailId);
+		if (userByUserEmail != null) {
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	protected Result onCompleteProcess(Context context) {
 
 		String firstName = get(FIRST_NAME).getValue();
 		String lastName = get(LAST_NAME).getValue();
 		String email = get(EMAIL).getValue();
-
 		String access = get(LEVEL_ACCESS).getValue();
-
-		ClientUser user = new ClientUser();
-
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setEmail(email);
 		RolePermissions rolePermissions = null;
-
 		if (access.equals(RolePermissions.READ_ONLY)) {
 			rolePermissions = getReadOnlyPermission();
 
@@ -114,10 +130,29 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		user.setPermissions(getUserPermission(rolePermissions));
 
 		user.setUserRole(rolePermissions.getRoleName());
-
-		inviteUser(user, context);
+		if (user.getID() == 0) {
+			inviteUser(user, context);
+		} else {
+			updateUser(user, context);
+		}
 		return null;
 
+	}
+
+	private void updateUser(ClientUser user2, Context context) {
+		try {
+			String clientClassSimpleName = user.getObjectType()
+					.getClientClassSimpleName();
+
+			OperationContext opContext = new OperationContext(context
+					.getCompany().getID(), user, context.getIOSession()
+					.getUserEmail());
+			opContext.setArg2(clientClassSimpleName);
+
+			new FinanceTool().getUserManager().updateUser(opContext);
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void inviteUser(ClientUser user, Context context) {
@@ -256,30 +291,56 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getMessages().user());
+		return user.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().user())
+				: "User is ready to update with following details";
 	}
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getMessages().user());
+		return user.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().user()) : getMessages().updateSuccessfully(
+				getMessages().user());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getMessages().user());
+		return user.getID() == 0 ? getMessages().creating(getMessages().user())
+				: "Updating user";
 	}
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a User to update.");
+				return "Users List";
+			}
+			User userByUserEmail = context.getCompany().getUserByUserEmail(
+					string);
+			if (userByUserEmail == null) {
+				addFirstMessage(context, "Select a User to update.");
+				return "Users List " + string;
+			}
+			user = userByUserEmail.getClientUser();
+			setValues(context);
+		} else {
+			user = new ClientUser();
+		}
 		return null;
+	}
+
+	private void setValues(Context context) {
+		get(EMAIL).setValue(user.getEmail());
+		get(FIRST_NAME).setValue(user.getFirstName());
+		get(LAST_NAME).setValue(user.getLastName());
+		get(LEVEL_ACCESS).setValue(user.getPermissions());
 	}
 
 	@Override
 	protected void setDefaultValues(Context context) {
-
 		get(LEVEL_ACCESS).setDefaultValue(RolePermissions.BASIC_EMPLOYEE);
-
 	}
 
 }
