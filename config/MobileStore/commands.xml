@@ -679,6 +679,7 @@
 
 	<command clazz="NewInviteAUserCommand" name="Invite User">
 		<alias>New User</alias>
+		<alias>Update User</alias>
 	</command>
 
 	<command clazz="NewBrandingThemeCommand" name="New Branding Theme">
