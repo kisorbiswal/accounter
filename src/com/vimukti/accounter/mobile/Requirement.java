@@ -23,7 +23,7 @@ public class Requirement {
 	public Requirement(String requirementName, String enterString,
 			String recordName, boolean isOptional2, boolean isAllowFromContext2) {
 		this(requirementName, isOptional2, isAllowFromContext2);
-		this.enterString = enterString;
+		this.setEnterString(enterString);
 		this.recordName = recordName;
 	}
 
@@ -93,5 +93,9 @@ public class Requirement {
 
 	public void setEditable(boolean isEditable) {
 		this.isEditable = isEditable;
+	}
+
+	public void setEnterString(String enterString) {
+		this.enterString = enterString;
 	}
 }
