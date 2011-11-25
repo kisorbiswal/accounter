@@ -1,6 +1,8 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -115,6 +117,15 @@ public class SelectCompanyCommand extends Command {
 						return makeResult;
 					}
 					makeResult.add("Select a company");
+					Collections.sort(companies, new Comparator<Company>() {
+
+						@Override
+						public int compare(Company company1, Company company2) {
+							return company1.getTradingName().compareTo(
+									company2.getTradingName());
+						}
+
+					});
 					for (Company company : companies) {
 						Record record = new Record(company);
 						record.add("", company.getDisplayName());

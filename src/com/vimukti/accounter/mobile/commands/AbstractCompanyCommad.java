@@ -334,8 +334,7 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 				} else if (value.trim().length() <= 5) {
 					setEnterString("Invalid Company Name. Name Should be grater than 5 characters");
 					return;
-				} else if (AbstractCompanyCommad.this
-						.isCompanyExits((String) getValue())) {
+				} else if (AbstractCompanyCommad.this.getCompany(value) != null) {
 					setEnterString("Company exist with the same name.Please enter a different name");
 					return;
 				}
@@ -351,24 +350,6 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 						&& value.trim().length() > 5;
 			}
 		};
-	}
-
-	protected boolean isCompanyExits(String companyName) {
-		if (companyName == null) {
-			return false;
-		}
-		Session openSession = HibernateUtil.openSession();
-		try {
-			Company uniqueResult = (Company) openSession
-					.getNamedQuery("getCompanyName.is.unique")
-					.setParameter("companyName", companyName).uniqueResult();
-			return uniqueResult == null ? false : true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			openSession.close();
-		}
 	}
 
 	protected Company getCompany(String companyName) {
