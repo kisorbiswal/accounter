@@ -1,8 +1,3 @@
-.disable-TextField,input[disabled],input[disabled="disabled"]{
-	background: none repeat scroll 0 0 #E6E0DA !important;
-	border:1px solid #aaa !important;
-	color:#000 !important;
-}
 .MENU_BAR_BG table,.decor02,.finance-portlet .decor00,.td01,#branding,.tabletmainmenu,
 .editTable .editheader, .gwt-StackPanel .gwt-StackPanelItem, .recounciliation_grid thead tr,.gwt-DecoratedTabBar .gwt-TabBarItem,.tabletmenu{
 	background:-moz-linear-gradient(center top , #F9F7F7, #C4C0C0) repeat scroll 0 0 transparent;
