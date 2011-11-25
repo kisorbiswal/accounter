@@ -1399,4 +1399,93 @@ public class CommandUtils {
 		return accountTypeName;
 	}
 
+	/**
+	 * 
+	 * @param transactionType
+	 * @return
+	 */
+	public static AccounterCoreType getAccounterCoreType(int transactionType) {
+
+		switch (transactionType) {
+
+		case ClientTransaction.TYPE_PAY_BILL:
+			return AccounterCoreType.PAYBILL;
+
+		case ClientTransaction.TYPE_MAKE_DEPOSIT:
+			return AccounterCoreType.MAKEDEPOSIT;
+
+		case ClientTransaction.TYPE_ENTER_BILL:
+			return AccounterCoreType.ENTERBILL;
+
+		case ClientTransaction.TYPE_CASH_PURCHASE:
+			return AccounterCoreType.CASHPURCHASE;
+
+		case ClientTransaction.TYPE_CASH_SALES:
+			return AccounterCoreType.CASHSALES;
+
+		case ClientTransaction.TYPE_WRITE_CHECK:
+			return AccounterCoreType.WRITECHECK;
+
+		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+			return AccounterCoreType.CUSTOMERREFUND;
+
+		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
+			return AccounterCoreType.CUSTOMERCREDITMEMO;
+
+		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
+			return AccounterCoreType.RECEIVEPAYMENT;
+
+		case ClientTransaction.TYPE_INVOICE:
+			return AccounterCoreType.INVOICE;
+
+		case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
+			return AccounterCoreType.CREDITCARDCHARGE;
+
+		case ClientTransaction.TYPE_ESTIMATE:
+			return AccounterCoreType.ESTIMATE;
+
+		case ClientTransaction.TYPE_ISSUE_PAYMENT:
+			return AccounterCoreType.ISSUEPAYMENT;
+
+		case ClientTransaction.TYPE_TRANSFER_FUND:
+			return AccounterCoreType.TRANSFERFUND;
+
+		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
+			return AccounterCoreType.VENDORCREDITMEMO;
+
+		case ClientTransaction.TYPE_PAY_TAX:
+			return AccounterCoreType.PAY_TAX;
+
+		case ClientTransaction.TYPE_JOURNAL_ENTRY:
+			return AccounterCoreType.JOURNALENTRY;
+
+		case ClientTransaction.TYPE_SALES_ORDER:
+			return AccounterCoreType.SALESORDER;
+
+		case ClientTransaction.TYPE_PURCHASE_ORDER:
+			return AccounterCoreType.PURCHASEORDER;
+
+		case ClientTransaction.TYPE_ITEM_RECEIPT:
+			return AccounterCoreType.ITEMRECEIPT;
+
+		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+			return AccounterCoreType.CREDITCARDCHARGE;
+
+		case ClientTransaction.TYPE_CASH_EXPENSE:
+			return AccounterCoreType.CASHPURCHASE;
+
+		case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+			return AccounterCoreType.CASHPURCHASE;
+
+		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+			return AccounterCoreType.CUSTOMERPREPAYMENT;
+
+		case ClientTransaction.TYPE_RECEIVE_TAX:
+			return AccounterCoreType.RECEIVEVAT;
+
+		}
+		return null;
+
+	}
+
 }

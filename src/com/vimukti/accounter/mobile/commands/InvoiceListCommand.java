@@ -117,10 +117,10 @@ public class InvoiceListCommand extends NewAbstractCommand {
 			@Override
 			protected void setSelectCommands(CommandList commandList,
 					InvoicesList value) {
-				commandList.add(new UserCommand("update invoice ", value
+				commandList.add(new UserCommand("update transaction", value
 						.getNumber()));
-				commandList.add(new UserCommand("Delete invoice ", value
-						.getTransactionId()));
+				commandList.add(new UserCommand("Void transaction", value
+						.getType() + " " + value.getTransactionId()));
 
 			}
 

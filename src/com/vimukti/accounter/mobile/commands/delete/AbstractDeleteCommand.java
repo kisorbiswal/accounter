@@ -133,7 +133,7 @@ public abstract class AbstractDeleteCommand extends NewAbstractCommand {
 	}
 
 	/**
-	 * update
+	 * update 
 	 * 
 	 * @param coreObject
 	 * @param context
@@ -153,6 +153,7 @@ public abstract class AbstractDeleteCommand extends NewAbstractCommand {
 	}
 
 	/**
+	 * void the transaction.
 	 * 
 	 * @param accounterCoreType
 	 * @param id
