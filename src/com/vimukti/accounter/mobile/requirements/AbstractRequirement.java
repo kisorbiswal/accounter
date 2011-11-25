@@ -87,16 +87,9 @@ public abstract class AbstractRequirement<T> extends Requirement {
 			Object value) {
 		Result result = context.makeResult();
 		result.add(string);
-		// if (displayValue != null && !displayValue.isEmpty()) {
-		// ResultList list = new ResultList(getName());
-		// Record record = new Record(value);
-		// record.add("", displayValue);
-		// list.add(record);
-		// result.add(list);
-		// }
 		if (value instanceof ClientFinanceDate) {
-			displayValue = String.valueOf(((ClientFinanceDate) value)
-					.getDateAsObject().getTime());
+			displayValue = String
+					.valueOf(((ClientFinanceDate) value).getDate());
 		}
 		InputType inputType = getInputType();
 		inputType.setValue(displayValue == null ? "" : displayValue);

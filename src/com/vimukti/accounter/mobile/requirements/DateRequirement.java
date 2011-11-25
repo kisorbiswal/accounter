@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.requirements;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.InputType;
