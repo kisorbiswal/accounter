@@ -205,7 +205,7 @@ public class SignupCommand extends NewCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Sighn Up Command is Activated";
+		return "Sigh Up Command is Activated";
 	}
 
 	@Override
