@@ -51,8 +51,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<Customer> getLists(Context context) {
-				return new ArrayList<Customer>(context.getCompany()
-						.getCustomers());
+				return getCustomers();
 			}
 		});
 

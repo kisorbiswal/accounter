@@ -4,10 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -71,8 +76,8 @@ public abstract class NewAbstractCommand extends NewCommand {
 
 				OperationContext opContext = new OperationContext(context
 						.getCompany().getID(), coreObject, context
-						.getIOSession().getUserEmail(), String
-						.valueOf(coreObject.getID()),
+						.getIOSession().getUserEmail(),
+						String.valueOf(coreObject.getID()),
 						serverClassFullyQualifiedName);
 
 				new FinanceTool().update(opContext);
@@ -186,5 +191,23 @@ public abstract class NewAbstractCommand extends NewCommand {
 		clientAddress.setVersion(address.getVersion());
 		clientAddress.setZipOrPostalCode(address.getZipOrPostalCode());
 		return clientAddress;
+	}
+
+	protected List<Customer> getCustomers() {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		List<Customer> customers = currentSession
+				.getNamedQuery("getCustomersOrderByName")
+				.setParameter("company", getCompany()).list();
+		return new ArrayList<Customer>(customers);
+	}
+	
+	protected List<Vendor> getVendors() {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		List<Vendor> customers = currentSession
+				.getNamedQuery("getVendorsOrderByName")
+				.setParameter("company", getCompany()).list();
+		return new ArrayList<Vendor>(customers);
 	}
 }

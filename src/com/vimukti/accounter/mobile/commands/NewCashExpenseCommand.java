@@ -91,7 +91,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<Vendor> getLists(Context context) {
-				return new ArrayList<Vendor>(context.getCompany().getVendors());
+				return getVendors();
 			}
 
 			@Override

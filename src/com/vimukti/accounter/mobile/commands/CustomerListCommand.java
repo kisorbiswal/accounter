@@ -2,7 +2,6 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.mobile.CommandList;
@@ -128,7 +127,7 @@ public class CustomerListCommand extends NewAbstractCommand {
 
 	private List<Customer> getCustomers(Context context) {
 		String isActive = get(VIEW_BY).getValue();
-		Set<Customer> customers = context.getCompany().getCustomers();
+		List<Customer> customers = getCustomers();
 		List<Customer> result = new ArrayList<Customer>();
 		for (Customer customer : customers) {
 			if (isActive.equals(getMessages().active())) {

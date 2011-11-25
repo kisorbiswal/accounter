@@ -16,13 +16,11 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
-import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
 import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
-import com.vimukti.accounter.mobile.requirements.PurchaseOrderListRequirements;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
@@ -39,7 +37,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -125,7 +122,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<Vendor> getLists(Context context) {
-				return new ArrayList<Vendor>(context.getCompany().getVendors());
+				return getVendors();
 			}
 
 			@Override
