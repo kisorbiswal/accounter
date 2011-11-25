@@ -87,7 +87,7 @@
 			<command>Add Customer Refund</command>
 		</output>
 	</pattern>
-	
+
 	<pattern>
 		<input>Tax</input>
 		<output>
@@ -163,13 +163,13 @@
 		<input>Vendor</input>
 		<output>
 			<command>New Vendor</command>
-			<command>Create Cash Purchase</command>
-			<command>Create Vendor Credit</command>
 			<command>Enter Bill</command>
 			<command>Pay Bill</command>
 			<command>Issue Payment</command>
 			<command>Vendor Prepayment</command>
 			<command>Record Expenses</command>
+			<command>Create Cash Purchase</command>
+			<command>Create Vendor Credit</command>
 			<command>Vendor Overview</command>
 		</output>
 	</pattern>
