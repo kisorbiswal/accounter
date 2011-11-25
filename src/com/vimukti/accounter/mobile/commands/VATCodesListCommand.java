@@ -37,7 +37,7 @@ public class VATCodesListCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShowListRequirement<TAXCode>("vatCodesList",
-				"Please Select Vat Code", 5) {
+				"Please Select Vat Code", 20) {
 			@Override
 			protected Record createRecord(TAXCode value) {
 				Record record = new Record(value);

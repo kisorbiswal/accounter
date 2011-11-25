@@ -88,7 +88,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 		});
 		list.add(new ShowListRequirement<BillsList>(getMessages()
 				.expensesList(), getMessages().pleaseSelect(
-				getMessages().expensesList()), 5) {
+				getMessages().expensesList()), 20) {
 
 			@Override
 			protected String onSelection(BillsList value) {

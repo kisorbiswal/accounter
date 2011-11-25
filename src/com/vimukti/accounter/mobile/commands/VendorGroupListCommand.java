@@ -48,7 +48,7 @@ public class VendorGroupListCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new ShowListRequirement<VendorGroup>(getMessages().vendor()
-				+ " " + getMessages().group(), "", 10) {
+				+ " " + getMessages().group(), "", 20) {
 
 			@Override
 			protected String onSelection(VendorGroup value) {

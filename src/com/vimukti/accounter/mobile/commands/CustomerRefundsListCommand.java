@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class CustomerRefundsListCommand extends NewAbstractCommand {
 
-	private static final int NO_OF_RECORD_TO_SHOW = 5;
+	private static final int NO_OF_RECORD_TO_SHOW = 20;
 	private static final int STATUS_NOT_ISSUED = 0;
 	private static final int STATUS_PARTIALLY_PAID = 1;
 	private static final int STATUS_ISSUED = 2;

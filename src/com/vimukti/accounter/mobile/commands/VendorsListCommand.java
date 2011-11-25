@@ -39,7 +39,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShowListRequirement<PayeeList>("vendorssList",
-				"Please Select vendor", 5) {
+				"Please Select vendor", 20) {
 
 			@Override
 			protected void setSelectCommands(CommandList commandList,

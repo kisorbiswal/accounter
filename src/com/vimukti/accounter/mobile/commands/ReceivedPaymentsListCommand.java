@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 
-	private static final int NO_OF_RECORDS_TO_SHOW = 10;
+	private static final int NO_OF_RECORDS_TO_SHOW = 20;
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {

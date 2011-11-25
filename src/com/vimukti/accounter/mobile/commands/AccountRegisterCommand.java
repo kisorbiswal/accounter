@@ -104,7 +104,7 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShowListRequirement<AccountRegister>("Account Register",
-				"Please Enter name or number", 10) {
+				"Please Enter name or number", 20) {
 			@Override
 			protected void setSelectCommands(CommandList commandList,
 					AccountRegister value) {

@@ -68,7 +68,7 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShowListRequirement<PaymentsList>(getMessages()
-				.payeePaymentList(Global.get().Vendor()), "", 10) {
+				.payeePaymentList(Global.get().Vendor()), "", 20) {
 			@Override
 			protected void setSelectCommands(CommandList commandList,
 					PaymentsList value) {

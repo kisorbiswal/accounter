@@ -47,7 +47,7 @@ public class ClassListCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new ShowListRequirement<AccounterClass>(getMessages()
-				.accounterClass(), "", 10) {
+				.accounterClass(), "", 20) {
 
 			@Override
 			protected String onSelection(AccounterClass value) {

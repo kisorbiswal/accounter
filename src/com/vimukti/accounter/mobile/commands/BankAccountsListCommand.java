@@ -40,7 +40,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShowListRequirement<Account>("AccountsList",
-				"Please Select ", 5) {
+				"Please Select ", 20) {
 			@Override
 			protected Record createRecord(Account value) {
 				Record record = new Record(value);
@@ -55,7 +55,8 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 				commandList.add(new UserCommand("Bank Registers", value
 						.getName()));
 				commandList.add(new UserCommand("Edit account", value.getName()));
-				commandList.add(new UserCommand("Delete BankAccout", value.getID()));
+				commandList.add(new UserCommand("Delete BankAccout", value
+						.getID()));
 
 			}
 

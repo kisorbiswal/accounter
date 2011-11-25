@@ -37,7 +37,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShowListRequirement<TAXItem>("taxItemsList",
-				"Please Select Vat Item", 5) {
+				"Please Select Vat Item", 20) {
 			@Override
 			protected Record createRecord(TAXItem value) {
 				Record record = new Record(value);

@@ -61,7 +61,7 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShowListRequirement<SalesPerson>(getMessages()
-				.salesPersonList(), "", 10) {
+				.salesPersonList(), "", 20) {
 			@Override
 			protected void setSelectCommands(CommandList commandList,
 					SalesPerson value) {

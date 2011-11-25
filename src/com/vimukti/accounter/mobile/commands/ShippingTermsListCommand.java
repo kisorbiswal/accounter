@@ -21,7 +21,7 @@ public class ShippingTermsListCommand extends NewAbstractCommand {
 
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new ShowListRequirement<ShippingTerms>(SHIPPING_TERMS, null,
-				10) {
+				20) {
 			@Override
 			protected Record createRecord(ShippingTerms value) {
 				Record record = new Record(value);

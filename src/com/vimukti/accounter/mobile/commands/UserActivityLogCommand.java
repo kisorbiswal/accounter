@@ -14,8 +14,8 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class UserActivityLogCommand extends NewAbstractCommand {
 
-//	private static final String FROM_DATE = "fromdate";
-//	private static final String END_DATE = "enddate";
+	// private static final String FROM_DATE = "fromdate";
+	// private static final String END_DATE = "enddate";
 
 	@Override
 	public String getId() {
@@ -26,13 +26,12 @@ public class UserActivityLogCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new DateRequirement(FROM_DATE, getMessages().pleaseEnter(
-				getMessages().fromDate()), getMessages().fromDate(), true,
-				true));
+				getMessages().fromDate()), getMessages().fromDate(), true, true));
 
 		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
 				getMessages().toDate()), getMessages().toDate(), true, true));
 
-		list.add(new ShowListRequirement<ClientActivity>("activitylog", "", 5) {
+		list.add(new ShowListRequirement<ClientActivity>("activitylog", "", 20) {
 
 			@Override
 			protected List<ClientActivity> getLists(Context context) {
@@ -46,8 +45,7 @@ public class UserActivityLogCommand extends NewAbstractCommand {
 
 			protected Record createRecord(ClientActivity value) {
 				Record record = new Record(value);
-				record.add("",
-						new ClientFinanceDate(value.getTime()));
+				record.add("", new ClientFinanceDate(value.getTime()));
 				record.add("", value.getUserName());
 				record.add("", getActivityDataType(value));
 				return record;

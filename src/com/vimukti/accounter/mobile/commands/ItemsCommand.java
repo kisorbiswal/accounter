@@ -36,7 +36,8 @@ public class ItemsCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ShowListRequirement<Item>("items", "Please Select Item", 5) {
+		list.add(new ShowListRequirement<Item>("items", "Please Select Item",
+				20) {
 			@Override
 			protected void setSelectCommands(CommandList commandList, Item value) {
 				commandList.add(new UserCommand("Update Item", String

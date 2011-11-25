@@ -94,7 +94,7 @@ public class QuotesListCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShowListRequirement<Estimate>("Estimates",
-				"Please select.", 10) {
+				"Please select.", 20) {
 
 			@Override
 			protected void setSelectCommands(CommandList commandList,

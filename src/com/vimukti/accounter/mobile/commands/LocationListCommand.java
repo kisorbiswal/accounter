@@ -45,7 +45,7 @@ public class LocationListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new ShowListRequirement<Location>(LOCATIONS, null, 10) {
+		list.add(new ShowListRequirement<Location>(LOCATIONS, null, 20) {
 
 			@Override
 			protected String onSelection(Location value) {

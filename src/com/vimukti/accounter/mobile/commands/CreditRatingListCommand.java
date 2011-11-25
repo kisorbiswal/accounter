@@ -22,7 +22,7 @@ public class CreditRatingListCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new ShowListRequirement<CreditRating>("creditRatingList",
-				getMessages().pleaseSelect(getMessages().creditRating()), 5) {
+				getMessages().pleaseSelect(getMessages().creditRating()), 20) {
 			@Override
 			protected Record createRecord(CreditRating value) {
 				Record record = new Record(value);

@@ -32,7 +32,7 @@ public class AccountsListCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new ShowListRequirement<Account>("Accounts",
-				"Please Enter name or number", 10) {
+				"Please Enter name or number", 20) {
 			@Override
 			protected void setSelectCommands(CommandList commandList,
 					Account value) {

@@ -112,7 +112,7 @@ public class InvoiceListCommand extends NewAbstractCommand {
 				getMessages().toDate()), getMessages().toDate(), true, true));
 
 		list.add(new ShowListRequirement<InvoicesList>("Invoices",
-				"Please select", 5) {
+				"Please select", 20) {
 
 			@Override
 			protected void setSelectCommands(CommandList commandList,

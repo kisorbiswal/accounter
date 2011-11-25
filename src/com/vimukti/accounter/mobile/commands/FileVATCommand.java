@@ -120,7 +120,7 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
 				getMessages().toDate()), getMessages().toDate(), true, true));
 
-		list.add(new ShowListRequirement<ClientBox>(BOXES, "", 15) {
+		list.add(new ShowListRequirement<ClientBox>(BOXES, "", 20) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -176,7 +176,7 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new ShowListRequirement<ClientTAXReturnEntry>(
-				TAXRETURNENTRIES, "", 15) {
+				TAXRETURNENTRIES, "", 20) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {

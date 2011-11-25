@@ -47,7 +47,7 @@ public class MeasurmentsListCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new ShowListRequirement<Measurement>(getMessages()
-				.measurement(), "", 10) {
+				.measurement(), "", 20) {
 
 			@Override
 			protected String onSelection(Measurement value) {

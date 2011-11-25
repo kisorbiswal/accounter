@@ -77,7 +77,7 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ShowListRequirement<BillsList>("BillsAndExpenses", "", 10) {
+		list.add(new ShowListRequirement<BillsList>("BillsAndExpenses", "", 20) {
 
 			@Override
 			protected String onSelection(BillsList value) {

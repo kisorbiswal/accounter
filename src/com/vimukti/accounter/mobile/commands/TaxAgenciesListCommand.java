@@ -60,7 +60,7 @@ public class TaxAgenciesListCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShowListRequirement<TAXAgency>(getMessages().taxAgency(),
-				"", 10) {
+				"", 20) {
 			@Override
 			protected void setSelectCommands(CommandList commandList,
 					TAXAgency value) {

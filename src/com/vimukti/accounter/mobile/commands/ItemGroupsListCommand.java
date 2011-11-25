@@ -48,7 +48,7 @@ public class ItemGroupsListCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new ShowListRequirement<ItemGroup>(getMessages().itemGroup(),
-				"", 10) {
+				"", 20) {
 			@Override
 			protected void setSelectCommands(CommandList commandList,
 					ItemGroup value) {

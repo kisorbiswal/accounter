@@ -48,7 +48,7 @@ public class CustomerGroupListCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new ShowListRequirement<CustomerGroup>(getMessages()
-				.customer() + " " + getMessages().group(), "", 10) {
+				.customer() + " " + getMessages().group(), "", 20) {
 			@Override
 			protected void setSelectCommands(CommandList commandList,
 					CustomerGroup value) {

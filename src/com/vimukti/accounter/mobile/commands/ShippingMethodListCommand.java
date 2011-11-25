@@ -22,7 +22,7 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new ShowListRequirement<ShippingMethod>(SHIPPING_METHODS,
-				null, 10) {
+				null, 20) {
 			@Override
 			protected Record createRecord(ShippingMethod value) {
 				Record record = new Record(value);

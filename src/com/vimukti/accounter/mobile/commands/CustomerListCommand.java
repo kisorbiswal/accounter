@@ -64,7 +64,7 @@ public class CustomerListCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ShowListRequirement<Customer>("Customers", "", 10) {
+		list.add(new ShowListRequirement<Customer>("Customers", "", 20) {
 
 			@Override
 			protected void setSelectCommands(CommandList commandList,

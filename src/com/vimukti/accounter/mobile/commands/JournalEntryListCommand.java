@@ -49,7 +49,7 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new ShowListRequirement<ClientJournalEntry>(getMessages()
-				.journalEntryList(), "", 10) {
+				.journalEntryList(), "", 20) {
 
 			@Override
 			protected String onSelection(ClientJournalEntry value) {

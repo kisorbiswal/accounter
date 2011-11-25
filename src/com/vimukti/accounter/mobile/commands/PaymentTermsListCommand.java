@@ -20,7 +20,7 @@ public class PaymentTermsListCommand extends NewAbstractCommand {
 	}
 
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new ShowListRequirement<PaymentTerms>(PAYMENT_TERMS, null, 10) {
+		list.add(new ShowListRequirement<PaymentTerms>(PAYMENT_TERMS, null, 20) {
 			@Override
 			protected Record createRecord(PaymentTerms value) {
 				Record record = new Record(value);
