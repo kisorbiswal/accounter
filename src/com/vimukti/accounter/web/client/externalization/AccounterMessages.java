@@ -4478,4 +4478,14 @@ public interface AccounterMessages extends Messages {
 
 	public String noInventoryItemsAvilable();
 
+	public String reportCommondActivated(String reportName);
+
+	public String reportCommondClosedSuccessfully(String reportName);
+
+	public String reportDetails(String reportName);
+
+	public String reportSelected(String reportName);
+
+	public String youDontHaveAnyReports();
+
 }
