@@ -24,7 +24,7 @@
 			<command>Company Preferences</command>
 			<command>Item Tax</command>
 			<command>Manage Support List</command>
-			<command>Company Lists</command>
+			<command>Company Overview</command>
 		</output>
 	</pattern>
 
@@ -67,7 +67,7 @@
 	</pattern>
 
 	<pattern>
-		<input>Company Lists</input>
+		<input>Company Overview</input>
 		<output>
 			<command>Accounts List</command>
 			<command>Journal Entries</command>
@@ -125,7 +125,7 @@
 			<command>Customer Prepayment</command>
 			<command>Receive Payment</command>
 			<command>Customer Refund</command>
-			<command>Customer Lists</command>
+			<command>Customer Overview</command>
 		</output>
 	</pattern>
 
@@ -144,7 +144,7 @@
 	</pattern>
 
 	<pattern>
-		<input>Customer Lists</input>
+		<input>Customer Overview</input>
 		<output>
 			<command>Customers </command>
 			<command>Items</command>
@@ -166,7 +166,7 @@
 			<command>Issue Payment</command>
 			<command>Vendor Prepayment</command>
 			<command>Record Expenses</command>
-			<command>Vendor Lists</command>
+			<command>Vendor Overview</command>
 		</output>
 	</pattern>
 
@@ -190,7 +190,7 @@
 	</pattern>
 
 	<pattern>
-		<input>Vendor Lists</input>
+		<input>Vendor Overview</input>
 		<output>
 			<command>Vendors</command>
 			<command>Items</command>
@@ -209,12 +209,12 @@
 			<command>Pay Bill</command>
 			<command>New Credit Card Charge</command>
 			<command>Reconciliations History </command>
-			<command>Banking List</command>
+			<command>Banking Overview</command>
 		</output>
 	</pattern>
 
 	<pattern>
-		<input>Banking List</input>
+		<input>Banking Overview</input>
 		<output>
 			<command>Payments</command>
 			<command>Bank Accounts</command>
@@ -300,6 +300,7 @@
 		<input>UserActiviityLog</input>
 		<output>
 			<command>Show ActiviityLog</command>
+			<command>Login details</command>
 		</output>
 	</pattern>
 
