@@ -111,15 +111,17 @@
 			<command>New Customer</command>
 			<command>Create Invoice</command>
 			<command>Create Quote</command>
+			<command>Create Cash Sale</command>
 			<command>Receive Payment</command>
 			<command>Customer Refund</command>
 			<command>Customer Prepayment</command>
 			<command>Customer Overview</command>
+			<command>More</command>
 		</output>
 	</pattern>
 
 	<pattern>
-		<input>Customer New</input>
+		<input>More</input>
 		<output>
 			<command>New Customer </command>
 			<command>New Item</command>
@@ -158,6 +160,7 @@
 			<command>Create Cash Purchase</command>
 			<command>Create Vendor Credit</command>
 			<command>Vendor Overview</command>
+			<command>Others</command>
 		</output>
 	</pattern>
 
@@ -170,7 +173,7 @@
 	</pattern>
 
 	<pattern>
-		<input>Vendor New</input>
+		<input>Others</input>
 		<output>
 			<command>New Vendor </command>
 			<command>New Item</command>
