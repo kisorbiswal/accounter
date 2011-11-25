@@ -199,7 +199,7 @@
 			<command>Vendors</command>
 			<command>Items</command>
 			<command>Bills and Expenses</command>
-			<command>Vendor Payment</command>
+			<command>Vendor Payments</command>
 		</output>
 	</pattern>
 
