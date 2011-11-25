@@ -26,7 +26,11 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 	@Override
 	public void messageReceived(final ChannelHandlerContext ctx,
 			final MessageEvent e) throws Exception {
+		System.out.println("Got Message From: "
+				+ ctx.getChannel().getRemoteAddress());
+
 		String message = (String) e.getMessage();
+		System.out.println("Message: " + message);
 		String networkId = (String) ctx.getAttachment();
 		MobileChannelContext context = new MobileChannelContext(networkId,
 				message, AdaptorType.MOBILE,
@@ -61,13 +65,16 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 	@Override
 	public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e)
 			throws Exception {
+		System.out.println("Channel Connected From "
+				+ ctx.getChannel().getRemoteAddress());
 		ctx.setAttachment(SecureUtils.createID(16));
 	}
 
 	@Override
 	public void channelDisconnected(ChannelHandlerContext ctx,
 			ChannelStateEvent e) throws Exception {
-		System.out.println();
+		System.out.println("Channel Disconnected From "
+				+ ctx.getChannel().getRemoteAddress());
 	}
 }
 
@@ -76,14 +83,25 @@ class MobileDecoder extends FrameDecoder {
 	@Override
 	protected Object decode(ChannelHandlerContext ctx, Channel arg1,
 			ChannelBuffer buff) throws Exception {
-		if (buff.writerIndex() == 0) {
-			return "";
+
+		ChannelBuffer allocate = (ChannelBuffer) ctx.getAttachment();
+		if (allocate == null) {
+			int capacity=buff.readableBytes();
+			if(capacity<4){
+				return null;
+			}
+			int length = buff.readInt();
+			allocate = ChannelBuffers.buffer(length);
 		}
-		ByteBuffer allocate = ByteBuffer.allocate(4);
 		buff.readBytes(allocate);
-		String string = buff.toString(Charset.forName("UTF-8"));
-		System.out.println(string);
-		buff.readerIndex(buff.writerIndex());
-		return string;
+		if (!allocate.writable()) {
+			// finished reading all
+			ctx.setAttachment(null);
+			return allocate.toString(Charset.forName("UTF-8"));
+		} else {
+			// Set as attachment so that we can read the rest later
+			ctx.setAttachment(allocate);
+			return null;
+		}
 	}
 }
