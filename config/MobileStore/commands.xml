@@ -338,6 +338,7 @@
 	</command>
 	<command clazz="UpdateTransactionCommand" name="Edit Transaction">
 		<alias>update Payment</alias>
+		<alias>update transaction</alias>
 	</command>
 	<command clazz="NewPayBillCommand" name="Pay Bill">
 		<alias>BillPay</alias>
