@@ -46,7 +46,7 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 
 				ByteBuffer buffer = ByteBuffer.allocate(copiedBuffer
 						.writerIndex() + 4);
-				buffer.putInt(string.length());
+				buffer.putInt(copiedBuffer.writerIndex());
 				copiedBuffer.getBytes(0, buffer);
 				buffer.flip();
 				ChannelBuffer wrappedBuffer = ChannelBuffers
