@@ -51,7 +51,9 @@ public class SignupCommand extends NewCommand {
 				String v = (String) value;
 				v.replaceFirst(String.valueOf(v.charAt(0)),
 						String.valueOf(v.charAt(0)).toUpperCase());
-				super.setValue(v);
+				if (v.trim().length() > 0) {
+					super.setValue(v);
+				}
 			}
 		});
 
@@ -62,7 +64,9 @@ public class SignupCommand extends NewCommand {
 				String v = (String) value;
 				v.replaceFirst(String.valueOf(v.charAt(0)),
 						String.valueOf(v.charAt(0)).toUpperCase());
-				super.setValue(v);
+				if (v.trim().length() > 0) {
+					super.setValue(v);
+				}
 			}
 		});
 
