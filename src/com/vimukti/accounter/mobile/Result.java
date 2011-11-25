@@ -15,7 +15,12 @@ public class Result {
 	}
 
 	public void setTitle(String title) {
-		this.title = title;
+		String upperCase = title;
+		if (title != null && title.length() >= 1) {
+			upperCase = title.substring(0, 1).toUpperCase()
+					+ title.substring(1);
+		}
+		this.title = upperCase;
 	}
 
 	public boolean isHideCancel() {
