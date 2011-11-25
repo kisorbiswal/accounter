@@ -118,7 +118,7 @@
 		<alias>Delete BankAccout</alias>
 	</command>
 	<command clazz="ItemDeleteCommand" name="Delete Item"></command>
-	<command clazz="TransactionDeleteCommand" name="Delete invoice "></command>
+	<command clazz="TransactionDeleteCommand" name="Void transaction"></command>
 	<command clazz="SalesPersonDeleteCommand" name="Delete SalesPerson"></command>
 	<command clazz="VatCodeDeleteCommand" name="Delete VatCode"></command>
 	<command clazz="VatItemDeleteCommand" name="Delete VatItem"></command>
