@@ -84,6 +84,9 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 	}
 
 	protected boolean isUserExists(String emailId) {
+		if (user.getID() != 0 && emailId.equals(user.getEmail())) {
+			return false;
+		}
 		User userByUserEmail = getCompany().getUserByUserEmail(emailId);
 		if (userByUserEmail != null) {
 			return true;
@@ -335,7 +338,7 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		get(EMAIL).setValue(user.getEmail());
 		get(FIRST_NAME).setValue(user.getFirstName());
 		get(LAST_NAME).setValue(user.getLastName());
-		get(LEVEL_ACCESS).setValue(user.getPermissions());
+		// get(LEVEL_ACCESS).setValue(user.getPermissions());
 	}
 
 	@Override
