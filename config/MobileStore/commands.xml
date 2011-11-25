@@ -431,6 +431,7 @@
 		<alias>CreditCard Expense</alias>
 		<alias>Credit Card Expense</alias>
 		<alias>New Credit Card Expense</alias>
+		<alias>New Credit Card Charge</alias>
 		<alias>Add Credit Card Expense</alias>
 		<alias>Edit Credit Card Expense</alias>
 		<alias>Modify Credit Card Expense</alias>
