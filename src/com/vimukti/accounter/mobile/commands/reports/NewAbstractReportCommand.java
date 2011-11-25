@@ -20,9 +20,9 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 
 public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
-	protected static final int REPORTS_TO_SHOW = 5;
-	protected static final int VATAGENCIES_TO_SHOW = 5;
-	protected static final int CUSTOMERS_TO_SHOW = 5;
+	protected static final int REPORTS_TO_SHOW = 20;
+	protected static final int VATAGENCIES_TO_SHOW = 20;
+	protected static final int CUSTOMERS_TO_SHOW = 20;
 	protected static final String DATE_RANGE = "Date Range";
 	protected static final String FROM_DATE = "From Date";
 	protected static final String TO_DATE = "To Date";
