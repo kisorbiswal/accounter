@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -314,5 +320,61 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 
 	protected List<ClientCurrency> getCurrenciesList() {
 		return CoreUtils.getCurrencies(new ArrayList<ClientCurrency>());
+	}
+
+	protected Requirement getCompanyNameRequirement() {
+		return new NameRequirement(COMPANY_NAME, getMessages().pleaseEnter(
+				getMessages().companyName()), getMessages().companyName(),
+				false, true) {
+			@Override
+			public void setValue(Object val) {
+				String value = (String) val;
+				if (value == null) {
+					return;
+				} else if (value.trim().length() <= 5) {
+					setEnterString("Invalid Company Name. Name Should be grater than 5 characters");
+					return;
+				} else if (AbstractCompanyCommad.this
+						.isCompanyExits((String) getValue())) {
+					setEnterString("Company exist with the same name.Please enter a different name");
+					return;
+				}
+				setEnterString(getMessages().pleaseEnter(
+						getMessages().companyName()));
+				super.setValue(value);
+			}
+
+			@Override
+			public boolean isDone() {
+				String value = getValue();
+				return value != null && !value.isEmpty()
+						&& value.trim().length() > 5;
+			}
+		};
+	}
+
+	protected boolean isCompanyExits(String companyName) {
+		if (companyName == null) {
+			return false;
+		}
+		Session openSession = HibernateUtil.openSession();
+		try {
+			Company uniqueResult = (Company) openSession
+					.getNamedQuery("getCompanyName.is.unique")
+					.setParameter("companyName", companyName).uniqueResult();
+			return uniqueResult == null ? false : true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			openSession.close();
+		}
+	}
+
+	protected Company getCompany(String companyName) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getServerCompany.by.name")
+				.setParameter("name", companyName);
+		return (Company) query.uniqueResult();
 	}
 }

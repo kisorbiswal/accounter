@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.requirements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Company;
@@ -36,6 +37,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	private ClientCompanyPreferences preferences;
 	private Company company;
 	private long companyId;
+	private List<String> firstMessages = new ArrayList<String>();
 
 	public AbstractRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext) {
@@ -49,15 +51,19 @@ public abstract class AbstractRequirement<T> extends Requirement {
 		messages = global.messages();
 	}
 
-	@SuppressWarnings("unchecked")
 	public void addFirstMessage(Context context, String string) {
-		((List<String>) context.getAttribute(FIRST_MESSAGE)).add(string);
+		firstMessages.add(string);
+	}
+
+	public void addFirstMessage(String string) {
+		firstMessages.add(string);
 	}
 
 	public ClientCompanyPreferences getPreferences() {
 		return preferences;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Result process(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
@@ -65,7 +71,13 @@ public abstract class AbstractRequirement<T> extends Requirement {
 		companyId = context.getCompany() == null ? 0 : context.getCompany()
 				.getId();
 		setCompany(context.getCompany());
-		return run(context, makeResult, list, actions);
+
+		Result run = run(context, makeResult, list, actions);
+		for (String s : firstMessages) {
+			((List<String>) context.getAttribute(FIRST_MESSAGE)).add(s);
+		}
+		firstMessages.clear();
+		return run;
 	}
 
 	public abstract Result run(Context context, Result makeResult,

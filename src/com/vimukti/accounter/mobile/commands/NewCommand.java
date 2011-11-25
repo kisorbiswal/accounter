@@ -3,6 +3,10 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Command;
@@ -11,6 +15,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 public abstract class NewCommand extends Command {
@@ -171,5 +176,13 @@ public abstract class NewCommand extends Command {
 
 	public void setPreferences(ClientCompanyPreferences preferences) {
 		this.preferences = preferences;
+	}
+
+	protected Client getClient(String emailId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+		namedQuery.setParameter("emailId", emailId);
+		Client client = (Client) namedQuery.uniqueResult();
+		return client;
 	}
 }

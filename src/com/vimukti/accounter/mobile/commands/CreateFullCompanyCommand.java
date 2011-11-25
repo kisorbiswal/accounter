@@ -46,9 +46,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		// First page
-		list.add(new NameRequirement(COMPANY_NAME, getMessages().pleaseEnter(
-				getMessages().companyName()), getMessages().companyName(),
-				false, true));
+		list.add(getCompanyNameRequirement());
 
 		list.add(new NameRequirement(LEGAL_NAME, getMessages().pleaseEnter(
 				getMessages().legalName()), getMessages().legalName(), true,
@@ -586,5 +584,4 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	protected String initObject(Context context, boolean isUpdate) {
 		return null;
 	}
-
 }

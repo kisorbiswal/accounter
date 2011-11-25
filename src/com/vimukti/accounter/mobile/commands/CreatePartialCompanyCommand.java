@@ -31,9 +31,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		// First page
-		list.add(new NameRequirement(COMPANY_NAME, getMessages().pleaseEnter(
-				getMessages().companyName()), getMessages().companyName(),
-				false, true));
+		list.add(getCompanyNameRequirement());
 
 		list.add(new NameRequirement(LEGAL_NAME, getMessages().pleaseEnter(
 				getMessages().legalName()), getMessages().legalName(), true,
@@ -445,5 +443,4 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

@@ -18,6 +18,7 @@ import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
 import com.vimukti.accounter.mobile.requirements.TermsAndCunditionsRequirement;
@@ -25,6 +26,7 @@ import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class SignupCommand extends NewCommand {
 	private static final String FIRST_NAME = "firstname";
@@ -64,12 +66,22 @@ public class SignupCommand extends NewCommand {
 			}
 		});
 
-		list.add(new NameRequirement(EMAIL, "Enter Email", "Email", false, true) {
+		list.add(new EmailRequirement(EMAIL, "Enter Email", "Email", false,
+				true) {
 			@Override
-			public void setValue(Object value) {
-				String v = (String) value;
-				v = v.toLowerCase();
-				super.setValue(v);
+			public void setValue(Object val) {
+				String value = (String) val;
+				if (value == null) {
+					return;
+				} else if (!SignupCommand.this.isValidEmailId()) {
+					setEnterString("Enter a valid email address. A mail will be sent to this email to confirm your account and also in case you forgot your password");
+					return;
+				} else if (getClient(value) != null) {
+					setEnterString("This Email ID is already registered with Accounter, try to signup with another Email ID. If you are the registered user type login to login.");
+					return;
+				}
+				setEnterString("Enter Email");
+				super.setValue(value);
 			}
 		});
 
@@ -106,6 +118,14 @@ public class SignupCommand extends NewCommand {
 		});
 
 		list.add(new TermsAndCunditionsRequirement());
+	}
+
+	protected boolean isValidEmailId() {
+		String emailId = get(EMAIL).getValue();
+		if (emailId != null && UIUtils.isValidEmail(emailId)) {
+			return true;
+		}
+		return false;
 	}
 
 	private void sendPasswordMail(String token, String emailId) {
@@ -205,7 +225,7 @@ public class SignupCommand extends NewCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Sigh Up Command is Activated";
+		return "Sign Up Command is Activated";
 	}
 
 	@Override
