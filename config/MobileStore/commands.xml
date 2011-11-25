@@ -70,13 +70,13 @@
 		<alias>APAS report</alias>
 	</command>
 
-	<command clazz="ARAgingDetailReportCommand" name="A/R Aging Summary">
+	<command clazz="ARAgingDetailReportCommand" name="A/R Aging Detail">
 		<alias>A/R Aging Detail Report</alias>
 		<alias>ARAD</alias>
 		<alias>ARAD report</alias>
 	</command>
 
-	<command clazz="ARAgingSummaryReportCommand" name="A/R Aging Detail">
+	<command clazz="ARAgingSummaryReportCommand" name="A/R Aging Summary">
 		<alias>A/R Aging Summary Report</alias>
 		<alias>ARAS</alias>
 		<alias>ARAS report</alias>
