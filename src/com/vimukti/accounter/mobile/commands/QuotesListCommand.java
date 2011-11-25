@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
@@ -94,6 +95,28 @@ public class QuotesListCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<Estimate>("Estimates",
 				"Please select.", 10) {
+
+			@Override
+			protected void setSelectCommands(CommandList commandList,
+					Estimate value) {
+
+				if (estimateType == ClientEstimate.QUOTES) {
+					commandList.add(new UserCommand("Delete Estimate", value
+							.getID()));
+					commandList.add(new UserCommand("Update Estimate ", value
+							.getNumber()));
+				} else if (estimateType == ClientEstimate.CREDITS) {
+					commandList.add(new UserCommand("Update Credit", value
+							.getNumber()));
+					commandList.add(new UserCommand("Delete Credit", value
+							.getID()));
+				} else if (estimateType == ClientEstimate.CHARGES) {
+					commandList.add(new UserCommand("Delete Charge", value
+							.getNumber()));
+					commandList.add(new UserCommand("Update Charge", value
+							.getID()));
+				}
+			}
 
 			@Override
 			protected String onSelection(Estimate value) {

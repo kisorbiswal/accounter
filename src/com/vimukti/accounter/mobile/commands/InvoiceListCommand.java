@@ -7,6 +7,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
@@ -105,14 +106,23 @@ public class InvoiceListCommand extends NewAbstractCommand {
 		});
 
 		list.add(new DateRequirement(FROM_DATE, getMessages().pleaseEnter(
-				getMessages().fromDate()), getMessages().fromDate(), true,
-				true));
+				getMessages().fromDate()), getMessages().fromDate(), true, true));
 
 		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
 				getMessages().toDate()), getMessages().toDate(), true, true));
 
 		list.add(new ShowListRequirement<InvoicesList>("Invoices",
 				"Please select", 5) {
+
+			@Override
+			protected void setSelectCommands(CommandList commandList,
+					InvoicesList value) {
+				commandList.add(new UserCommand("update invoice #", value
+						.getNumber()));
+				commandList.add(new UserCommand("Delete invoice ", value
+						.getTransactionId()));
+
+			}
 
 			@Override
 			protected String onSelection(InvoicesList value) {
@@ -128,8 +138,8 @@ public class InvoiceListCommand extends NewAbstractCommand {
 			@Override
 			protected String getEmptyString() {
 
-				return getMessages().youDontHaveAny(
-						getMessages().invoiceList());
+				return getMessages()
+						.youDontHaveAny(getMessages().invoiceList());
 
 			}
 

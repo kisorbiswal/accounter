@@ -55,8 +55,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 				commandList.add(new UserCommand("Bank Registers", value
 						.getName()));
 				commandList.add(new UserCommand("Edit account", value.getName()));
-				commandList.add(new UserCommand("Delete account", "Account "
-						+ value.getID()));
+				commandList.add(new UserCommand("Delete BankAccout", value.getID()));
 
 			}
 

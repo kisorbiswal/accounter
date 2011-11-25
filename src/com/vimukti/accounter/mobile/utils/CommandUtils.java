@@ -1322,6 +1322,70 @@ public class CommandUtils {
 		return new ClientFinanceDate[] { startDate, endDate };
 	}
 
-	
+	public static String getAccountTypeString(int accountType) {
+
+		String accountTypeName = null;
+		switch (accountType) {
+		case ClientAccount.TYPE_INCOME:
+			accountTypeName = AccounterClientConstants.TYPE_INCOME;
+			break;
+		case ClientAccount.TYPE_OTHER_INCOME:
+			accountTypeName = AccounterClientConstants.TYPE_OTHER_INCOME;
+			break;
+		case ClientAccount.TYPE_EXPENSE:
+			accountTypeName = AccounterClientConstants.TYPE_EXPENSE;
+			break;
+		case ClientAccount.TYPE_OTHER_EXPENSE:
+			accountTypeName = AccounterClientConstants.TYPE_OTHER_EXPENSE;
+			break;
+		case ClientAccount.TYPE_COST_OF_GOODS_SOLD:
+			accountTypeName = AccounterClientConstants.TYPE_COST_OF_GOODS_SOLD;
+			break;
+		case ClientAccount.TYPE_CASH:
+			accountTypeName = AccounterClientConstants.TYPE_CASH;
+			break;
+		case ClientAccount.TYPE_BANK:
+			accountTypeName = AccounterClientConstants.TYPE_BANK;
+			break;
+		case ClientAccount.TYPE_OTHER_CURRENT_ASSET:
+			accountTypeName = AccounterClientConstants.TYPE_OTHER_CURRENT_ASSET;
+			break;
+		case ClientAccount.TYPE_INVENTORY_ASSET:
+			accountTypeName = AccounterClientConstants.TYPE_INVENTORY_ASSET;
+			break;
+		case ClientAccount.TYPE_OTHER_ASSET:
+			accountTypeName = AccounterClientConstants.TYPE_OTHER_ASSET;
+			break;
+		case ClientAccount.TYPE_FIXED_ASSET:
+			accountTypeName = AccounterClientConstants.TYPE_FIXED_ASSET;
+			break;
+		case ClientAccount.TYPE_CREDIT_CARD:
+			accountTypeName = AccounterClientConstants.TYPE_CREDIT_CARD;
+			break;
+		case ClientAccount.TYPE_PAYPAL:
+			accountTypeName = AccounterClientConstants.TYPE_PAYPAL;
+			break;
+		case ClientAccount.TYPE_PAYROLL_LIABILITY:
+			accountTypeName = AccounterClientConstants.TYPE_PAYROLL_LIABILITY;
+			break;
+		case ClientAccount.TYPE_OTHER_CURRENT_LIABILITY:
+			accountTypeName = AccounterClientConstants.TYPE_OTHER_CURRENT_LIABILITY;
+			break;
+		case ClientAccount.TYPE_LONG_TERM_LIABILITY:
+			accountTypeName = AccounterClientConstants.TYPE_LONG_TERM_LIABILITY;
+			break;
+		case ClientAccount.TYPE_EQUITY:
+			accountTypeName = AccounterClientConstants.TYPE_EQUITY;
+			break;
+		case ClientAccount.TYPE_ACCOUNT_RECEIVABLE:
+			accountTypeName = AccounterClientConstants.TYPE_ACCOUNT_RECEIVABLE;
+			break;
+		case ClientAccount.TYPE_ACCOUNT_PAYABLE:
+			accountTypeName = AccounterClientConstants.TYPE_ACCOUNT_PAYABLE;
+			break;
+
+		}
+		return accountTypeName;
+	}
 
 }

@@ -41,8 +41,7 @@ public class ItemsCommand extends NewAbstractCommand {
 			protected void setSelectCommands(CommandList commandList, Item value) {
 				commandList.add(new UserCommand("Update Item", String
 						.valueOf(value.getID())));
-				commandList.add(new UserCommand("Delete Item", String
-						.valueOf(value.getID())));
+				commandList.add(new UserCommand("Delete Item", value.getID()));
 			}
 
 			@Override
