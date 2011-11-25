@@ -54,6 +54,7 @@
 	<command clazz="AccountsListCommand" name="Account List">
 		<alias>Accounts</alias>
 		<alias>Accounts List</alias>
+		<alias>Chart of Accounts</alias>
 		<alias>List Of Accounts</alias>
 	</command>
 
