@@ -175,7 +175,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
 				.pleaseEnterNameOrNumber(getMessages().Account()),
-				getMessages().Account(), true, true) {
+				getMessages().Account(), false, true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
@@ -446,5 +446,4 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				getMessages().writeCheck()) : getMessages().updateSuccessfully(
 				getMessages().writeCheck());
 	}
-
 }
