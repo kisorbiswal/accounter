@@ -24,7 +24,7 @@
 			<command>Company Preferences</command>
 			<command>Item Tax</command>
 			<command>Manage Support List</command>
-			<command>Company Overview</command>
+			<command>Lists</command>
 		</output>
 	</pattern>
 
@@ -43,39 +43,39 @@
 	<pattern>
 		<input>Item Tax</input>
 		<output>
-			<command>Manage Sales Tax Groups</command>
-			<command>Manage Sales Tax Items</command>
 			<command>Pay Tax</command>
 			<command>Tax Adjustments</command>
 			<command>New Tax Agency</command>
+			<command>Manage Sales Tax Groups</command>
+			<command>Manage Sales Tax Items</command>
 		</output>
 	</pattern>
 
 	<pattern>
 		<input>Manage Support List</input>
 		<output>
-			<command>Customer Group List</command>
-			<command>Vendor Group List</command>
-			<command>Payment Term list</command>
-			<command>Shipping Method List</command>
-			<command>Shipping Term List</command>
-			<command>Item Group List</command>
-			<command>Credit Rating List</command>
 			<command>Currency List</command>
 			<command>Location List</command>
+			<command>Item Group List</command>
+			<command>Vendor Group List</command>
+			<command>Payment Term list</command>
+			<command>Shipping Term List</command>
+			<command>Credit Rating List</command>
+			<command>Customer Group List</command>
+			<command>Shipping Method List</command>
 		</output>
 	</pattern>
 
 	<pattern>
-		<input>Company Overview</input>
+		<input>Lists</input>
 		<output>
-			<command>Chart of Accounts</command>
-			<command>Journal Entries</command>
 			<command>Items</command>
-			<command>Customers</command>
 			<command>Vendors</command>
+			<command>Customers</command>
 			<command>Payments</command>
 			<command>Sales Persons</command>
+			<command>Journal Entries</command>
+			<command>Chart of Accounts</command>
 			<command>User's Activity Log</command>
 		</output>
 	</pattern>
@@ -91,32 +91,19 @@
 	<pattern>
 		<input>Tax</input>
 		<output>
-			<command>Tax New</command>
+			<command>New Tax Item</command>
+			<command>New Tax Code</command>
+			<command>New Tax Agency</command>
 			<command>Tax Adjustment</command>
 			<command>File Tax</command>
 			<command>Pay Tax</command>
 			<command>Tax Refund</command>
 			<command>Tax History</command>
-			<command>Tax List</command>
-		</output>
-	</pattern>
-
-	<pattern>
-		<input>Tax New</input>
-		<output>
-			<command>New Tax Item</command>
-			<command>New Tax Code</command>
-			<command>New Tax Agency</command>
-		</output>
-	</pattern>
-
-	<pattern>
-		<input>Tax List</input>
-		<output>
 			<command>Tax Items List</command>
 			<command>Tax Codes List</command>
 		</output>
 	</pattern>
+
 
 	<pattern>
 		<input>Customer</input>
@@ -124,9 +111,9 @@
 			<command>New Customer</command>
 			<command>Create Invoice</command>
 			<command>Create Quote</command>
-			<command>Customer Prepayment</command>
 			<command>Receive Payment</command>
 			<command>Customer Refund</command>
+			<command>Customer Prepayment</command>
 			<command>Customer Overview</command>
 		</output>
 	</pattern>
