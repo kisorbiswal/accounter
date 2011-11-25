@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 
 public abstract class ListRequirement<T> extends AbstractRequirement<T> {
-	private static final int RECORDS_TO_SHOW = 5;
+	private static final int RECORDS_TO_SHOW = 20;
 	protected static final String RECORDS_START_INDEX = "startIndex";
 	private ChangeListner<T> listner;
 
