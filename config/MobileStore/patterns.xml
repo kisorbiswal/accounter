@@ -199,9 +199,9 @@
 		<output>
 			<command>New Bank Account</command>
 			<command>Write Check</command>
-			<command>Deposit and Transfer Funds</command>
 			<command>Pay Bill</command>
 			<command>New Credit Card Charge</command>
+			<command>Deposit and Transfer Funds</command>
 			<command>Reconciliations History </command>
 			<command>Banking Overview</command>
 		</output>
