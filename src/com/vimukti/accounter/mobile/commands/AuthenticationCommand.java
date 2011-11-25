@@ -50,22 +50,11 @@ public class AuthenticationCommand extends Command {
 	@Override
 	public Result run(Context context) {
 		Result makeResult = context.makeResult();
-		String name = (String) context.getAttribute("select");
-		String selection = context.getSelection("authentication");
-
-		if (name == null && selection == null
-				&& context.getLast(RequirementType.STRING) == null) {
-			ResultList list = new ResultList("authentication");
-			Record record = new Record("signin");
-			record.add("", "Signin");
-			list.add(record);
-			makeResult.add(list);
-			CommandList commandList = new CommandList();
-			commandList.add("Signup");
-			makeResult.add(commandList);
-			return makeResult;
+		Result login = showLoginButton(context);
+		if (login != null) {
+			return login;
 		}
-		context.setAttribute("select", "procede");
+
 		int networkType = context.getNetworkType();
 		// MOBILE
 		if (networkType == AccounterChatServer.NETWORK_TYPE_MOBILE) {
@@ -247,6 +236,44 @@ public class AuthenticationCommand extends Command {
 			context.getIOSession().setAuthentication(true);
 		}
 		return makeResult;
+	}
+
+	private Result showLoginButton(Context context) {
+
+		Object attribute = context.getAttribute("isFirst");
+		if (attribute == null) {
+			context.setAttribute("isFirst", "");
+			if (context.getNetworkType() == AccounterChatServer.NETWORK_TYPE_MOBILE) {
+				String string = context.getString();
+				MobileCookie mobileCookie = getMobileCookie(string);
+				if (mobileCookie != null) {
+					return null;
+				}
+			} else {
+				IMUser imUser = getIMUser(context.getNetworkId(),
+						context.getNetworkType());
+				if (imUser != null) {
+					return null;
+				}
+			}
+		}
+		String name = (String) context.getAttribute("select");
+		String selection = context.getSelection("authentication");
+		Result makeResult = context.makeResult();
+		if (name == null && selection == null
+				&& context.getLast(RequirementType.STRING) == null) {
+			ResultList list = new ResultList("authentication");
+			Record record = new Record("signin");
+			record.add("", "Signin");
+			list.add(record);
+			makeResult.add(list);
+			CommandList commandList = new CommandList();
+			commandList.add("Signup");
+			makeResult.add(commandList);
+			return makeResult;
+		}
+		context.setAttribute("select", "procede");
+		return null;
 	}
 
 	private void createMobileCookie(String cookie, Client client) {
