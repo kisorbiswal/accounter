@@ -163,7 +163,7 @@
 		<input>Vendor</input>
 		<output>
 			<command>New Vendor</command>
-			<command>New Cash Purchase</command>
+			<command>Create Cash Purchase</command>
 			<command>Create Vendor Credit</command>
 			<command>Enter Bill</command>
 			<command>Pay Bill</command>
