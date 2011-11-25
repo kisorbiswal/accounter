@@ -35,7 +35,7 @@ public class VendorDropDownTable extends AbstractDropDownTable<ClientVendor> {
 	protected ClientVendor getAddNewRow() {
 		ClientVendor clientVendor = new ClientVendor();
 		clientVendor.setName(Accounter.messages()
-				.addaNew(Global.get().Vendor()));
+		.comboDefaultAddNew(Global.get().Vendor()));
 		return clientVendor;
 	}
 
