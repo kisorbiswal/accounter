@@ -51,6 +51,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 					TAXItem value) {
 				commandList.add(new UserCommand("Update TaxItem", String
 						.valueOf(value.getID())));
+				commandList.add(new UserCommand("Delete VatItem", value.getID()));
 			}
 
 			@Override

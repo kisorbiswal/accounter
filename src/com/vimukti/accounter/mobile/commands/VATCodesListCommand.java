@@ -51,6 +51,7 @@ public class VATCodesListCommand extends NewAbstractCommand {
 					TAXCode value) {
 				commandList.add(new UserCommand("Update vatCode", String
 						.valueOf(value.getID())));
+				commandList.add(new UserCommand("Delete VatCode", value.getID()));
 			}
 
 			@Override
