@@ -254,7 +254,7 @@ public class CommandUtils {
 		} else if (value instanceof String) {
 			String val = (String) value;
 			for (T t : values) {
-				if (val.equals((String) t)) {
+				if (val.equals(t)) {
 					return true;
 				}
 			}
@@ -620,6 +620,17 @@ public class CommandUtils {
 		for (TAXCode taxCode : taxCodes) {
 			if (taxCode.getID() == taxCodeId) {
 				return taxCode;
+			}
+		}
+		return null;
+	}
+
+	public static Customer getCustomerByName(Company company,
+			String customerName) {
+		Set<Customer> customers = company.getCustomers();
+		for (Customer customer : customers) {
+			if (customer.getName().equals(customerName)) {
+				return customer;
 			}
 		}
 		return null;
