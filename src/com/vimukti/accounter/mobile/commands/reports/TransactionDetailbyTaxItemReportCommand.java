@@ -25,15 +25,15 @@ public class TransactionDetailbyTaxItemReportCommand extends
 
 		Record tdRecord = new Record(record);
 
-		tdRecord.add("",
-				ReportUtility.getTransactionName(record.getTransactionType()));
-		tdRecord.add("Tax Rate", record.getRate());
-		tdRecord.add("Date", record.getDate());
-		tdRecord.add("No", record.getNumber());
-		tdRecord.add("Name", record.getTaxItemName());
-		tdRecord.add("Memo", record.getMemo());
-		tdRecord.add("Sales Tax", record.getSalesTaxAmount());
-		tdRecord.add("Taxable Amount", record.getTaxableAmount());
+		tdRecord.add(ReportUtility.getTransactionName(record
+				.getTransactionType()));
+		tdRecord.add(getMessages().taxRate(), record.getRate());
+		tdRecord.add(getMessages().date(), record.getDate());
+		tdRecord.add(getMessages().number(), record.getNumber());
+		tdRecord.add(getMessages().taxItemName(), record.getTaxItemName());
+		tdRecord.add(getMessages().memo(), record.getMemo());
+		tdRecord.add(getMessages().salesTax(), record.getSalesTaxAmount());
+		tdRecord.add(getMessages().taxable(), record.getTaxableAmount());
 
 		return tdRecord;
 	}
