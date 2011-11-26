@@ -303,7 +303,7 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 			public List<T> pagination(Context context, Object selection,
 					ResultList actions, List<T> records, List<T> skipRecords,
 					int recordsToShow) {
-				return new ArrayList<T>();
+				return records;
 			}
 		};
 	}
