@@ -19,14 +19,15 @@ public class ShippingTermsListCommand extends NewAbstractCommand {
 		return null;
 	}
 
+	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new ShowListRequirement<ShippingTerms>(SHIPPING_TERMS, null,
 				20) {
 			@Override
 			protected Record createRecord(ShippingTerms value) {
 				Record record = new Record(value);
-				record.add("", value.getName());
-				record.add("", value.getDescription());
+				record.add(getMessages().shippingTerm(), value.getName());
+				record.add(getMessages().description(), value.getDescription());
 				return record;
 			}
 
