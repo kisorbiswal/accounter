@@ -84,6 +84,7 @@ public class AccounterChatServer implements ChatManagerListener,
 		if (from.contains("/")) {
 			from = from.substring(0, msg.getFrom().lastIndexOf("/"));
 		}
+		from += " eng";
 		System.out.println("Message " + message);
 		if (message != null) {
 			MobileChannelContext context = new MobileChannelContext(from,
