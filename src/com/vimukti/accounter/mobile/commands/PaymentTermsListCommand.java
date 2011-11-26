@@ -19,14 +19,15 @@ public class PaymentTermsListCommand extends NewAbstractCommand {
 		return null;
 	}
 
+	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new ShowListRequirement<PaymentTerms>(PAYMENT_TERMS, null, 20) {
 			@Override
 			protected Record createRecord(PaymentTerms value) {
 				Record record = new Record(value);
-				record.add("", value.getName());
-				record.add("", value.getDescription());
-				record.add("", value.getDueDays());
+				record.add(getMessages().name(), value.getName());
+				record.add(getMessages().description(), value.getDescription());
+				record.add(getMessages().dueDays(), value.getDueDays());
 				return record;
 			}
 
