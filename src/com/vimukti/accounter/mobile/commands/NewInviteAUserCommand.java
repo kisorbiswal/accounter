@@ -104,6 +104,20 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setEmail(email);
+		RolePermissions rolePermissions = getUserPermissions(access);
+		user.setPermissions(getUserPermission(rolePermissions));
+
+		user.setUserRole(rolePermissions.getRoleName());
+		if (user.getID() == 0) {
+			inviteUser(user, context);
+		} else {
+			updateUser(user, context);
+		}
+		return null;
+
+	}
+
+	private RolePermissions getUserPermissions(String access) {
 		RolePermissions rolePermissions = null;
 		if (access.equals(RolePermissions.READ_ONLY)) {
 			rolePermissions = getReadOnlyPermission();
@@ -126,20 +140,9 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 			rolePermissions = getFinanceAdminPermission();
 
 		} else if (access.equals(RolePermissions.ADMIN)) {
-
-			// if Admin is selected, get corresponding RolePermissions
 			rolePermissions = getAdminPermission();
 		}
-		user.setPermissions(getUserPermission(rolePermissions));
-
-		user.setUserRole(rolePermissions.getRoleName());
-		if (user.getID() == 0) {
-			inviteUser(user, context);
-		} else {
-			updateUser(user, context);
-		}
-		return null;
-
+		return rolePermissions;
 	}
 
 	private void updateUser(ClientUser user2, Context context) {
@@ -205,7 +208,7 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		return permissions;
 	}
 
-	public RolePermissions getReadOnlyPermission() {
+	private RolePermissions getReadOnlyPermission() {
 		RolePermissions readOnly = new RolePermissions();
 		readOnly.setRoleName(RolePermissions.READ_ONLY);
 		readOnly.setTypeOfBankReconcilation(RolePermissions.TYPE_NO);
@@ -220,7 +223,7 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		return readOnly;
 	}
 
-	public RolePermissions getInvoiceOnlyPermission() {
+	private RolePermissions getInvoiceOnlyPermission() {
 		RolePermissions invoiceOnly = new RolePermissions();
 		invoiceOnly.setRoleName(RolePermissions.INVOICE_ONLY);
 		invoiceOnly.setTypeOfBankReconcilation(RolePermissions.TYPE_NO);
@@ -234,7 +237,7 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		return invoiceOnly;
 	}
 
-	public RolePermissions getBasicEmployeePermission() {
+	private RolePermissions getBasicEmployeePermission() {
 		RolePermissions basicEmployee = new RolePermissions();
 		basicEmployee.setRoleName(RolePermissions.BASIC_EMPLOYEE);
 		basicEmployee.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
@@ -248,7 +251,7 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		return basicEmployee;
 	}
 
-	public RolePermissions getFinancialAdviserPermission() {
+	private RolePermissions getFinancialAdviserPermission() {
 		RolePermissions financialAdviser = new RolePermissions();
 		financialAdviser.setRoleName(RolePermissions.FINANCIAL_ADVISER);
 		financialAdviser.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
@@ -262,7 +265,7 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		return financialAdviser;
 	}
 
-	public RolePermissions getFinanceAdminPermission() {
+	private RolePermissions getFinanceAdminPermission() {
 		RolePermissions financeAdmin = new RolePermissions();
 		financeAdmin.setRoleName(RolePermissions.FINANCE_ADMIN);
 		financeAdmin.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
@@ -277,7 +280,7 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		return financeAdmin;
 	}
 
-	public RolePermissions getAdminPermission() {
+	private RolePermissions getAdminPermission() {
 		RolePermissions admin = new RolePermissions();
 		admin.setRoleName(RolePermissions.ADMIN);
 		admin.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
@@ -314,6 +317,12 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		User currentUser = context.getUser();
+		if (!currentUser.isCanDoUserManagement()) {
+			addFirstMessage(context,
+					"You do not have permissions to invite or update a user");
+			return "Users List";
+		}
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
@@ -338,7 +347,7 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		get(EMAIL).setValue(user.getEmail());
 		get(FIRST_NAME).setValue(user.getFirstName());
 		get(LAST_NAME).setValue(user.getLastName());
-		// get(LEVEL_ACCESS).setValue(user.getPermissions());
+		get(LEVEL_ACCESS).setValue(user.getUserRole());
 	}
 
 	@Override
@@ -346,4 +355,13 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		get(LEVEL_ACCESS).setDefaultValue(RolePermissions.BASIC_EMPLOYEE);
 	}
 
+	@Override
+	protected String getDeleteCommand(Context context) {
+		User currentUser = context.getUser();
+		if (currentUser.isCanDoUserManagement()
+				&& user.getID() != currentUser.getID()) {
+			return "delete User " + user.getID();
+		}
+		return null;
+	}
 }
