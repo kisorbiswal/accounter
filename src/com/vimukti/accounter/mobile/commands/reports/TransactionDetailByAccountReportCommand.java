@@ -9,9 +9,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.managers.ReportManager;
 
@@ -31,18 +29,21 @@ public class TransactionDetailByAccountReportCommand extends
 	protected Record createReportRecord(TransactionDetailByAccount record) {
 		Record transactionRecord = new Record(record);
 		transactionRecord.add("", "");
-		transactionRecord.add("Name", record.getName());
-		transactionRecord.add("Date", record.getTransactionDate());
-		transactionRecord.add("",
+		transactionRecord.add(getMessages().name(), record.getName());
+		transactionRecord
+				.add(getMessages().date(), record.getTransactionDate());
+		transactionRecord.add(getMessages().transactionName(),
 				CommandUtils.getTransactionName(getType(record)));
-		transactionRecord.add("No.", record.getTransactionNumber());
-		transactionRecord.add("Amount", record.getTotal());
+		transactionRecord.add(getMessages().number(),
+				record.getTransactionNumber());
+		transactionRecord.add(getMessages().total(), record.getTotal());
 		if (currentsectionName != null
 				&& !currentsectionName.equals(record.getAccountName())) {
 			currentsectionName = record.getAccountName();
 			accountBalance = 0.0D;
 		}
-		transactionRecord.add("Balance", accountBalance += record.getTotal());
+		transactionRecord.add(getMessages().balance(),
+				accountBalance += record.getTotal());
 		return transactionRecord;
 	}
 
