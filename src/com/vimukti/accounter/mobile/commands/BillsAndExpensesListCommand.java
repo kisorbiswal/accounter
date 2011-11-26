@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -104,11 +105,13 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(BillsList value) {
 				Record rec = new Record(value);
-				rec.add("", Utility.getTransactionName((value.getType())));
-				rec.add("", value.getNumber());
-				rec.add("", value.getVendorName());
-				rec.add("", value.getOriginalAmount());
-				rec.add("", value.getBalance());
+				rec.add(getMessages().transactionName(),
+						Utility.getTransactionName((value.getType())));
+				rec.add(getMessages().number(), value.getNumber());
+				rec.add(Global.get().Vendor(), value.getVendorName());
+				rec.add(getMessages().originalAmount(),
+						value.getOriginalAmount());
+				rec.add(getMessages().balance(), value.getBalance());
 				return rec;
 			}
 
