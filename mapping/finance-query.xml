@@ -3222,27 +3222,23 @@
 		<query-param name="companyId" type="long" />
 		<return-scalar column="TAX_ITEM_ID" type="long" />
 		<return-scalar column="VAT_RETURN_ID" type="long" />
-		<return-scalar column="PAY_VAT_ENTRIES_ID" type="long" />
 
 		SELECT
 		TI.ID AS TAX_ITEM_ID,
-		VR.ID AS VAT_RETURN_ID,
-		PVE.ID AS
-		PAY_VAT_ENTRIES_ID
+		VR.ID AS VAT_RETURN_ID
 
 		FROM TAXAGENCY T
 
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		TAX_ITEM TI
 		ON
 		TI.TAX_AGENCY = T.ID
 		LEFT OUTER JOIN
-		TAX_RETURN VR
+		TAX_RETURN
+		VR
 		ON VR.TAX_AGENCY =
 		T.ID
-		LEFT OUTER JOIN
-		PAY_TAX_ENTRIES PVE
-		ON PVE.TAXAGENCY_ID = T.ID
 		LEFT
 		OUTER JOIN PAYEE P ON P.ID = T.ID
 		WHERE
@@ -3771,6 +3767,36 @@
 		TRANSACTION_PAYBILL TP ON TP.JOURNAL_ENTRY_ID = J.ID LEFT JOIN
 		TRANSACTION_RECEIVE_PAYMENT TR ON TR.JOURNAL_ENTRY_ID = J.ID WHERE
 		J.ID=:inputId AND T.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
+
+	<sql-query name="canDeleteCustomerPrePayment">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ID" type="long" />
+		SELECT C.ID AS ID FROM CUSTOMER_PREPAYMENT C LEFT JOIN TRANSACTION T
+		ON T.ID=C.ID WHERE C.ID IS NULL AND C.ID =:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
+
+	<sql-query name="canDeleteCashSales">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ID" type="long" />
+		SELECT C.ID AS ID FROM CASH_SALES C LEFT JOIN TRANSACTION T
+		ON
+		T.ID=C.ID WHERE C.ID IS NULL AND C.ID =:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
+
+	<sql-query name="canDeleteWriteCheck">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ISSUE_PAYMENT_ID" type="long" />
+		SELECT TI.ID AS ISSUE_PAYMENT_ID FROM WRITE_CHECKS WC LEFT JOIN
+		TRANSACTION T ON
+		T.ID=WC.ID LEFT JOIN TRANSACTION_ISSUE_PAYMENT TI ON
+		TI.CASH_PURCHASE_ID = WC.ID WHERE WC.ID=:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="createSalesPurchasesView">
