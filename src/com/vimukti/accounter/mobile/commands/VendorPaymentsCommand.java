@@ -100,15 +100,18 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(PaymentsList p) {
 				Record payment = new Record(p);
-				payment.add("", p.getPaymentDate());
-				payment.add("", p.getPaymentNumber());
-				payment.add("", Utility.getStatus(p.getType(), p.getStatus()));
-				payment.add("", p.getIssuedDate());
-				payment.add("", p.getName());
-				payment.add("", CommandUtils.getTransactionName(p.getType()));
-				payment.add("", p.getPaymentMethodName());
-				payment.add("", p.getCheckNumber());
-				payment.add("", p.getAmountPaid());
+				payment.add(getMessages().paymentDate(), p.getPaymentDate());
+				payment.add(getMessages().paymentNo(), p.getPaymentNumber());
+				payment.add(getMessages().status(),
+						Utility.getStatus(p.getType(), p.getStatus()));
+				payment.add(getMessages().issueDate(), p.getIssuedDate());
+				payment.add(getMessages().name(), p.getName());
+				payment.add(getMessages().transactionName(),
+						CommandUtils.getTransactionName(p.getType()));
+				payment.add(getMessages().paymentMethod(),
+						p.getPaymentMethodName());
+				payment.add(getMessages().checkNo(), p.getCheckNumber());
+				payment.add(getMessages().amountPaid(), p.getAmountPaid());
 				return payment;
 			}
 
