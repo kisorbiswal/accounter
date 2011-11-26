@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -23,14 +24,16 @@ public class SalesClosedOrderReportCommand extends
 	protected Record createReportRecord(OpenAndClosedOrders record) {
 		Record openRecord = new Record(record);
 		if (record.getTransactionDate() != null)
-			openRecord.add("Order Date",
+			openRecord.add(getMessages().orderDate(),
 					UIUtils.getDateByCompanyType(record.getTransactionDate()));
 		else
 			openRecord.add("", "");
-		openRecord.add("Customer", record.getVendorOrCustomerName());
-		openRecord.add("Description", record.getDescription());
-		openRecord.add("Quantity", ((Double) record.getQuantity()).toString());
-		openRecord.add("Value", record.getAmount());
+		openRecord.add(Global.get().Customer(),
+				record.getVendorOrCustomerName());
+		openRecord.add(getMessages().description(), record.getDescription());
+		openRecord.add(getMessages().quantity(),
+				((Double) record.getQuantity()).toString());
+		openRecord.add(getMessages().amount(), record.getAmount());
 
 		return openRecord;
 	}
