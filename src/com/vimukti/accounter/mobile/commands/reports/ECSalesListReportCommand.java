@@ -20,7 +20,7 @@ public class ECSalesListReportCommand extends
 	@Override
 	protected Record createReportRecord(ECSalesList record) {
 		Record salesRecord = new Record(record);
-		salesRecord.add("", record.getName());
+		salesRecord.add(record.getName());
 		salesRecord
 				.add(getStartDate() + "_" + getEndDate(), record.getAmount());
 		return salesRecord;
