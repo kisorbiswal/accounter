@@ -44,16 +44,17 @@ public class CustomerStatementReportCommand extends
 	@Override
 	protected Record createReportRecord(PayeeStatementsList record) {
 		Record statementRecord = new Record(record);
-		statementRecord.add("Date", record.getTransactionDate());
-		statementRecord.add("Type",
+		statementRecord.add(getMessages().date(), record.getTransactionDate());
+		statementRecord.add(getMessages().transactionName(),
 				Utility.getTransactionName(record.getTransactiontype()));
-		statementRecord.add("No.", record.getTransactionNumber());
-		statementRecord.add("Aging", record.getDueDate());
+		statementRecord.add(getMessages().number(),
+				record.getTransactionNumber());
+		statementRecord.add(getMessages().ageing(), record.getDueDate());
 		if (record.getTransactiontype() == Transaction.TYPE_INVOICE)
-			statementRecord.add("Amount", record.getTotal());
+			statementRecord.add(getMessages().amount(), record.getTotal());
 		if (record.getTransactiontype() == Transaction.TYPE_RECEIVE_PAYMENT)
-			statementRecord.add("Amount", record.getTotal());
-		statementRecord.add("Amount", record.getBalance());
+			statementRecord.add(getMessages().amount(), record.getTotal());
+		statementRecord.add(getMessages().name(), record.getBalance());
 
 		return statementRecord;
 	}
