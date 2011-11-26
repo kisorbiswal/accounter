@@ -159,12 +159,13 @@ public class QuotesListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(Estimate value) {
 				Record estrecord = new Record(value);
-				estrecord.add("", value.getDate());
-				estrecord.add("", value.getNumber());
+				estrecord.add(getMessages().date(), value.getDate());
+				estrecord.add(getMessages().number(), value.getNumber());
 				estrecord.add("", value.getCustomer().getName() != null ? value
 						.getCustomer().getName() : "");
-				estrecord.add("", value.getExpirationDate().toString());
-				estrecord.add("", value.getTotal());
+				estrecord.add(getMessages().expirationDate(), value
+						.getExpirationDate().toString());
+				estrecord.add(getMessages().total(), value.getTotal());
 				return estrecord;
 			}
 
