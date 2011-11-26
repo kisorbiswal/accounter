@@ -412,6 +412,7 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 			}
 			creditCardCharge = new ClientCreditCardCharge();
 		}
+		setTransaction(creditCardCharge);
 		return null;
 
 	}

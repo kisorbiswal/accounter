@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
@@ -51,6 +52,7 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 	protected static final String FILTER_BY_DUE_ON_BEFORE = "filterByDueOnBefore";
 	protected static final String BILLS_DUE = "BillsDue";
 	protected static final String IS_VAT_INCLUSIVE = "isVatInclusive";
+	private ClientTransaction transaction;
 
 	public double updateTotals(Context context, ClientTransaction transaction,
 			boolean isSales) {
@@ -241,6 +243,20 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 			makeResult.add("Total Tax: " + result[1]);
 		}
 		makeResult.add("Total: " + (result[0] + result[1]));
+	}
+
+	protected void setTransaction(ClientTransaction transction) {
+		this.transaction = transction;
+	}
+
+	@Override
+	protected String getDeleteCommand(Context context) {
+		if (this.transaction != null
+				&& this.transaction.getID() != 0
+				&& context.getUser().getPermissions().getTypeOfInvoices() == RolePermissions.TYPE_YES) {
+			return "delete transaction " + transaction.getID();
+		}
+		return null;
 	}
 
 	protected boolean checkOpen(Collection<ClientTransactionItem> items,

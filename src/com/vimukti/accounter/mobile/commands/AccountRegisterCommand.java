@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -112,8 +113,8 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 				commandList.add(new UserCommand("Edit Transaction", String
 						.valueOf(value.getTransactionId())));
 
-				commandList.add(new UserCommand("Delete Transaction",
-						CommandUtils.getTransactionName(value.getType())));
+				commandList.add(new UserCommand("Delete Transaction", Utility
+						.getTransactionName(value.getType())));
 			}
 
 			@Override
@@ -131,7 +132,7 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 				Record record = new Record(accRegister);
 				record.add("Date", accRegister.getDate());
 				record.add("Type",
-						CommandUtils.getTransactionName(accRegister.getType()));
+						Utility.getTransactionName(accRegister.getType()));
 				record.add("Doc No", accRegister.getNumber());
 				record.add("Increase", accRegister.getPayTo());
 				record.add("Decrease", accRegister.getAmount());

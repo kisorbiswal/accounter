@@ -70,6 +70,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 			}
 			paybill = new ClientPayBill();
 		}
+		setTransaction(paybill);
 		return null;
 	}
 

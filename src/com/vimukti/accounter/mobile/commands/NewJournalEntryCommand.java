@@ -333,6 +333,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			}
 			entry = new ClientJournalEntry();
 		}
+		setTransaction(entry);
 		return null;
 	}
 

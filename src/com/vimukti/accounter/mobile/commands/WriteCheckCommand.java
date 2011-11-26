@@ -383,6 +383,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			}
 			writeCheck = new ClientWriteCheck();
 		}
+		setTransaction(writeCheck);
 		return null;
 
 	}

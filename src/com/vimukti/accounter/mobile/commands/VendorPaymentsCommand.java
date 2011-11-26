@@ -3,17 +3,15 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
-import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -100,6 +98,15 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(PaymentsList p) {
 				Record payment = new Record(p);
+				payment.add("", p.getPaymentDate());
+				payment.add("", p.getPaymentNumber());
+				payment.add("", Utility.getStatus(p.getType(), p.getStatus()));
+				payment.add("", p.getIssuedDate());
+				payment.add("", p.getName());
+				payment.add("", Utility.getTransactionName(p.getType()));
+				payment.add("", p.getPaymentMethodName());
+				payment.add("", p.getCheckNumber());
+				payment.add("", p.getAmountPaid());
 				payment.add(getMessages().paymentDate(), p.getPaymentDate());
 				payment.add(getMessages().paymentNo(), p.getPaymentNumber());
 				payment.add(getMessages().status(),
@@ -107,7 +114,7 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 				payment.add(getMessages().issueDate(), p.getIssuedDate());
 				payment.add(getMessages().name(), p.getName());
 				payment.add(getMessages().transactionName(),
-						CommandUtils.getTransactionName(p.getType()));
+						Utility.getTransactionName(p.getType()));
 				payment.add(getMessages().paymentMethod(),
 						p.getPaymentMethodName());
 				payment.add(getMessages().checkNo(), p.getCheckNumber());

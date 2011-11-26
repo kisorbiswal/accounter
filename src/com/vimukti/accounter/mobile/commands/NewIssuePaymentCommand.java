@@ -315,6 +315,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			String string = context.getString();
 			issuePayment = new ClientIssuePayment();
 		}
+		setTransaction(issuePayment);
 		return null;
 	}
 

@@ -63,6 +63,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			}
 			customerRefund = new ClientCustomerRefund();
 		}
+		setTransaction(customerRefund);
 		return null;
 	}
 

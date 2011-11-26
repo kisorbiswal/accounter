@@ -474,6 +474,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 			estimate = new ClientEstimate();
 			estimate.setEstimateType(estimateType);
 		}
+		setTransaction(estimate);
 		return null;
 	}
 

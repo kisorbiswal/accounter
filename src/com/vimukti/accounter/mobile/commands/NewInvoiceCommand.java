@@ -525,6 +525,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 			invoice = new ClientInvoice();
 		}
+		setTransaction(invoice);
 		return null;
 	}
 

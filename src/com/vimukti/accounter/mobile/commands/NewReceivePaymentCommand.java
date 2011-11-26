@@ -350,6 +350,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 			}
 			payment = new ClientReceivePayment();
 		}
+		setTransaction(payment);
 		return null;
 	}
 

@@ -350,6 +350,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			}
 			creditMemo = new ClientCustomerCreditMemo();
 		}
+		setTransaction(creditMemo);
 		return null;
 	}
 

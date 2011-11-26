@@ -15,15 +15,10 @@ import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
  * @author Lingarao.R
  * 
  */
-public class NewCustomerGroupCommand extends NewAbstractTransactionCommand {
+public class NewCustomerGroupCommand extends NewAbstractCommand {
 	private static final String CUSTPMERGROUP_NAME = "CustomerGroup Name";
 
 	private ClientCustomerGroup customerGroup;
-
-	@Override
-	protected String getDeleteCommand(Context context) {
-		return "Delete CustomerGroup " + customerGroup.getID();
-	}
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
@@ -107,4 +102,11 @@ public class NewCustomerGroupCommand extends NewAbstractTransactionCommand {
 		return null;
 	}
 
+	@Override
+	protected String getDeleteCommand(Context context) {
+		if (customerGroup.getID() != 0) {
+			return "Delete CustomerGroup " + customerGroup.getID();
+		}
+		return null;
+	}
 }

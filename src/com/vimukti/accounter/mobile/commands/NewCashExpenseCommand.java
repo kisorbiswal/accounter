@@ -388,6 +388,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			}
 			cashPurchase = new ClientCashPurchase();
 		}
+		setTransaction(cashPurchase);
 		return null;
 	}
 

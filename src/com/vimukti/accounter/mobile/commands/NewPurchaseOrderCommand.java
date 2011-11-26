@@ -76,6 +76,7 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 			}
 			purchaseOrder = new ClientPurchaseOrder();
 		}
+		setTransaction(purchaseOrder);
 		return null;
 	}
 

@@ -328,6 +328,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			}
 			paybill = new ClientPayBill();
 		}
+		setTransaction(paybill);
 		return null;
 	}
 

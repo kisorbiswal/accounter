@@ -64,6 +64,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 			}
 			prePayment = new ClientCustomerPrePayment();
 		}
+		setTransaction(prePayment);
 		return null;
 	}
 
