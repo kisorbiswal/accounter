@@ -9,7 +9,6 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 public class ShippingMethodListCommand extends NewAbstractCommand {
@@ -45,8 +44,9 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 			// }
 			@Override
 			protected String onSelection(ShippingMethod value) {
-				return "Edit Shipping Method " + value.getName();
+				return "Edit Shipping Method " + value.getID();
 			}
+
 			@Override
 			protected void setCreateCommand(CommandList list) {
 				list.add(getMessages().create(getMessages().shippingMethod()));
@@ -79,7 +79,6 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 				return getMessages().noRecordsToShow();
 			}
 
-			
 		});
 	}
 

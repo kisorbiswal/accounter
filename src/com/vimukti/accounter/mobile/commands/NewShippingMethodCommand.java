@@ -44,16 +44,11 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 				addFirstMessage(context, "Select a Shipping Method to update.");
 				return "Shipping Methods";
 			}
-			Set<ShippingMethod> shippingMethods = context.getCompany()
-					.getShippingMethods();
-			for (ShippingMethod shippingMethod : shippingMethods) {
-				if (shippingMethod.getName().equals(string)) {
-					this.shippingMethod = (ClientShippingMethod) CommandUtils
-							.getClientObjectById(shippingMethod.getID(),
-									AccounterCoreType.SHIPPING_METHOD,
-									getCompanyId());
-				}
-			}
+
+			shippingMethod = (ClientShippingMethod) CommandUtils
+					.getClientObjectById(Long.parseLong(string),
+							AccounterCoreType.SHIPPING_METHOD, getCompanyId());
+
 			if (shippingMethod == null) {
 				addFirstMessage(context, "Select a Shipping Method to update.");
 				return "Shipping Methods " + string.trim();

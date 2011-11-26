@@ -34,7 +34,7 @@ public class NewVendorGroupCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return "delete vendor group " + vendorGroup.getID();
+		return "deleteVendorGroup " + vendorGroup.getID();
 	}
 
 	@Override
