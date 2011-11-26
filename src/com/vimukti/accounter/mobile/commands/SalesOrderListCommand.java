@@ -31,9 +31,9 @@ public class SalesOrderListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(SalesOrdersList value) {
 				Record record = new Record(value);
-				record.add("", value.getCustomerName());
-				record.add("", value.getNumber());
-				record.add("", value.getTotal());
+				record.add(getMessages().name(), value.getCustomerName());
+				record.add(getMessages().number(), value.getNumber());
+				record.add(getMessages().total(), value.getTotal());
 				return record;
 			}
 
