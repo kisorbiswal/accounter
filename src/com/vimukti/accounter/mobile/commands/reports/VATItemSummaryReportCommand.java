@@ -22,8 +22,8 @@ public class VATItemSummaryReportCommand extends
 	@Override
 	protected Record createReportRecord(VATItemSummary record) {
 		Record vatItemRecord = new Record(record);
-		vatItemRecord.add("Name", record.getName());
-		vatItemRecord.add("Amout", record.getAmount());
+		vatItemRecord.add(getMessages().name(), record.getName());
+		vatItemRecord.add(getMessages().amount(), record.getAmount());
 		return vatItemRecord;
 	}
 
@@ -48,17 +48,17 @@ public class VATItemSummaryReportCommand extends
 
 	@Override
 	protected String getEmptyString() {
-		return "You don't have any VAT Item summary reports";
+		return getMessages().youDontHaveAnyReports();
 	}
 
 	@Override
 	protected String getShowMessage() {
-		return null;
+		return "";
 	}
 
 	@Override
 	protected String getSelectRecordString() {
-		return "Select a report to see details";
+		return getMessages().reportSelected(getMessages().vatItemSummary());
 	}
 
 	@Override
@@ -69,17 +69,19 @@ public class VATItemSummaryReportCommand extends
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "VAT Item summary reprot command activated";
+		return getMessages().reportCommondActivated(
+				getMessages().vatItemSummary());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return "VAT item summary report details";
+		return getMessages().reportDetails(getMessages().vatItemSummary());
 	}
 
 	@Override
 	public String getSuccessMessage() {
-		return "VAT Item summary report command closed succesfully";
+		return getMessages().reportCommondClosedSuccessfully(
+				getMessages().vatItemSummary());
 	}
 
 }
