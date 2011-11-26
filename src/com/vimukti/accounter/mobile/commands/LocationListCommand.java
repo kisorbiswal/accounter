@@ -65,7 +65,7 @@ public class LocationListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(Location value) {
 				Record record = new Record(value);
-				record.add("", value.getName());
+				record.add(getMessages().locationName(), value.getName());
 				return record;
 			}
 
