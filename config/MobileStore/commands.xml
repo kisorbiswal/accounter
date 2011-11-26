@@ -1175,4 +1175,34 @@
 		<alias>PaymentTerms</alias>
 		<alias>Payment Term list</alias>
 	</command>
+	
+	<command clazz="CompanyInfoPreferenceCommand" name="Company Info">
+		<alias>CompanyInfoPreference</alias>
+		<alias>CompanyInfo Preference</alias>
+		<alias>cip</alias>
+	</command>
+	
+	<command clazz="CompanyPreferenceCommand" name="Company Preferences">
+		<alias>CompanyPreferences</alias>
+		<alias>Company Preferences</alias>
+		<alias>cp</alias>
+	</command>
+	
+	<command clazz="VendorAndPurchasePreferencesCommand" name="VendorAndPurchase Preferences">
+		<alias>VendorPurchasePreferences</alias>
+		<alias>VPpreferences</alias>
+		<alias>VP</alias>
+	</command>
+	
+	<command clazz="ProductAndServicePreferencesCommand" name="ProductAndService Preferences">
+		<alias>ProductAndServicePreferences</alias>
+		<alias>PSpreferences</alias>
+		<alias>ps</alias>
+	</command>
+	
+	<command clazz="TerminologyPreferencesCommand" name="TerminologyPreferences Preferences">
+		<alias>TerminologyPreferences</alias>
+		<alias>TPreferences</alias>
+		<alias>TP</alias>
+	</command>
 </commands>
