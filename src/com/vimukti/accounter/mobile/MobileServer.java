@@ -23,11 +23,39 @@ import com.vimukti.accounter.main.ServerConfiguration;
 public class MobileServer {
 	private ServerBootstrap sslConnection;
 	private ServerBootstrap normalConnection;
-	private SSLEngine sslEngine;
+	private SSLContext sslCtx;
 
 	public MobileServer() {
 		sslConnection();
 		normalConnection();
+		createContext();
+	}
+
+	private void createContext() {
+		try {
+			KeyStore ks = KeyStore.getInstance("PKCS12");
+
+			char[] passphrase = "***REMOVED***".toCharArray();
+
+			ks.load(new FileInputStream(ServerConfiguration.getMobileStore()
+					+ File.separator + "keystore.accounter"), passphrase);
+
+			// ts.load(new FileInputStream(ServerConfiguration.getMobileStore()
+			// + File.separator + "keystore"), passphrase);
+
+			KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+			kmf.init(ks, passphrase);
+
+			// TrustManagerFactory tmf = TrustManagerFactory
+			// .getInstance("SunX509");
+			// tmf.init(ts);
+
+			sslCtx = SSLContext.getInstance("TLS");
+
+			sslCtx.init(kmf.getKeyManagers(), null, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void normalConnection() {
@@ -71,32 +99,8 @@ public class MobileServer {
 	}
 
 	protected SSLEngine getSSLEngine() {
-		if (sslEngine != null) {
-			return sslEngine;
-		}
 		try {
-			KeyStore ks = KeyStore.getInstance("PKCS12");
-
-			char[] passphrase = "***REMOVED***".toCharArray();
-
-			ks.load(new FileInputStream(ServerConfiguration.getMobileStore()
-					+ File.separator + "keystore.accounter"), passphrase);
-
-			// ts.load(new FileInputStream(ServerConfiguration.getMobileStore()
-			// + File.separator + "keystore"), passphrase);
-
-			KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
-			kmf.init(ks, passphrase);
-
-			// TrustManagerFactory tmf = TrustManagerFactory
-			// .getInstance("SunX509");
-			// tmf.init(ts);
-
-			SSLContext sslCtx = SSLContext.getInstance("TLS");
-
-			sslCtx.init(kmf.getKeyManagers(), null, null);
-
-			sslEngine = sslCtx.createSSLEngine();
+			SSLEngine sslEngine = sslCtx.createSSLEngine();
 			sslEngine.setUseClientMode(false);
 			sslEngine.setNeedClientAuth(false);
 			return sslEngine;

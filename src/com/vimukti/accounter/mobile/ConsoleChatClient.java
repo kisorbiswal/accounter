@@ -23,7 +23,7 @@ public class ConsoleChatClient {
 			String email = "***REMOVED***";
 
 			email += " eng";
-			Socket client = new Socket("192.168.0.54", 9084);
+			Socket client = new Socket("192.168.0.54", 9085);
 			ObjectOutputStream out = new ObjectOutputStream(
 					client.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(
