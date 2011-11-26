@@ -387,7 +387,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 						+ getMessages().creditCard();
 			}
 			creditCardCharge = transactionByNum;
-			setValues();
+			setValues(context);
 		} else {
 			if (!string.isEmpty()) {
 				get(NUMBER).setValue(string);
@@ -397,7 +397,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		return null;
 	}
 
-	private void setValues() {
+	private void setValues(Context context) {
 		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
 		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
 		List<ClientTransactionItem> transactionItemsList = creditCardCharge
@@ -423,6 +423,12 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		get("payFrom").setValue(
 				CommandUtils.getServerObjectById(creditCardCharge.getPayFrom(),
 						AccounterCoreType.ACCOUNT));
+		ClientCompanyPreferences preferences = context.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			get(TAXCODE).setValue(
+					getTaxCodeForTransactionItems(
+							creditCardCharge.getTransactionItems(), context));
+		}
 		get("deliveryDate").setValue(
 				new ClientFinanceDate(creditCardCharge.getDeliveryDate()));
 		get(IS_VAT_INCLUSIVE).setValue(creditCardCharge.isAmountsIncludeVAT());

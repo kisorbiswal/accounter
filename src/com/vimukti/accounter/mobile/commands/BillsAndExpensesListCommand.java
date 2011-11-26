@@ -81,13 +81,6 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 		list.add(new ShowListRequirement<BillsList>("BillsAndExpenses", "", 20) {
 
 			@Override
-			protected void setSelectCommands(CommandList commandList,
-					BillsList value) {
-				// TODO Auto-generated method stub
-				super.setSelectCommands(commandList, value);
-			}
-
-			@Override
 			protected String onSelection(BillsList value) {
 				return "Edit Transaction " + value.getTransactionId();
 			}

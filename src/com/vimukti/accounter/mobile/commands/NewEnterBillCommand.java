@@ -26,12 +26,15 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -48,6 +51,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 	private static String PURCHASE_ORDER = "purchaseOrder";
+	private ClientEnterBill enterBill;
 
 	@Override
 	protected String getWelcomeMessage() {
@@ -340,8 +344,6 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			return new Result();
 		}
 
-		ClientEnterBill enterBill = new ClientEnterBill();
-
 		Vendor vendor = (Vendor) get(VENDOR).getValue();
 		enterBill.setVendor(vendor.getID());
 		ClientFinanceDate date = get(DATE).getValue();
@@ -417,8 +419,65 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select an Enter bill to update.");
+				return "bills List";
+			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
+			ClientEnterBill enterBill = (ClientEnterBill) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.INVOICE);
+			if (enterBill == null) {
+				addFirstMessage(context, "Select an Enter bill to update.");
+				return "Bills List " + string;
+			}
+			this.enterBill = enterBill;
+			setValues(context);
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			enterBill = new ClientEnterBill();
+		}
 		return null;
 	}
 
+	private void setValues(Context context) {
+		get(VENDOR).setValue(enterBill.getVendor());
+		get(DATE).setValue(context.getDate());
+		get(NUMBER).setValue(enterBill.getNumber());
+		get(CONTACT).setValue(enterBill.getContact());
+		get(PHONE).setValue(enterBill.getPhone());
+		get(PAYMENT_TERMS).setValue(enterBill.getPaymentTerm());
+		get(DUE_DATE).setValue(enterBill.getDueDate());
+		get(DELIVERY_DATE).setValue(enterBill.getDeliveryDate());
+		ArrayList<ClientTransactionItem> itemsList = new ArrayList<ClientTransactionItem>();
+		ArrayList<ClientTransactionItem> accountsList = new ArrayList<ClientTransactionItem>();
+		if (enterBill.getTransactionItems() != null
+				&& !enterBill.getTransactionItems().isEmpty()) {
+			for (ClientTransactionItem item : enterBill.getTransactionItems()) {
+				if (item.getType() == ClientAccount.ACCOUNT) {
+					accountsList.add(item);
+				} else {
+					itemsList.add(item);
+				}
+			}
+		}
+		get(ACCOUNTS).setValue(accountsList);
+		get(ITEMS).setValue(itemsList);
+		ClientCompanyPreferences preferences = context.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			get(TAXCODE).setValue(
+					getTaxCodeForTransactionItems(
+							enterBill.getTransactionItems(), context));
+		}
+		get(MEMO).setValue(enterBill.getMemo());
+	}
 }

@@ -375,7 +375,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				return "Invoices List " + string;
 			}
 			writeCheck = invoiceByNum;
-			setValues();
+			setValues(context);
 		} else {
 			String string = context.getString();
 			if (!string.isEmpty()) {
@@ -387,7 +387,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 	}
 
-	private void setValues() {
+	private void setValues(Context context) {
 		if (writeCheck.getCustomer() != 0) {
 			get(PAYEE).setValue(
 					CommandUtils.getServerObjectById(writeCheck.getCustomer(),
@@ -400,6 +400,12 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			get(PAYEE).setValue(
 					CommandUtils.getServerObjectById(writeCheck.getTaxAgency(),
 							AccounterCoreType.PAYEE));
+		}
+		ClientCompanyPreferences preferences = context.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			get(TAXCODE).setValue(
+					getTaxCodeForTransactionItems(
+							writeCheck.getTransactionItems(), context));
 		}
 		get(BANK_ACCOUNT).setValue(
 				CommandUtils.getServerObjectById(writeCheck.getBankAccount(),

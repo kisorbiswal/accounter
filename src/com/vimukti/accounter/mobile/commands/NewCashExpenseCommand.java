@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Item;
-import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
@@ -49,18 +48,6 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		return cashPurchase.getID() == 0 ? getMessages().readyToCreate(
 				getMessages().cashExpense())
 				: "Cash expense is ready to update with following details";
-	}
-
-	@Override
-	protected void setDefaultValues(Context context) {
-		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(MEMO).setDefaultValue("");
-		get(NUMBER).setDefaultValue(
-				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_CASH_EXPENSE,
-						context.getCompany()));
-		/* get(CURRENCY_FACTOR).setDefaultValue(1.0); */
-
 	}
 
 	@Override
@@ -106,7 +93,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		});
 
 		/*
-		 * list.add(new CurrencyRequirement(CURRENCY,
+		 * set list.add(new CurrencyRequirement(CURRENCY,
 		 * getMessages().pleaseSelect( getConstants().currency()),
 		 * getConstants().currency(), true, true, null) {
 		 * 
@@ -297,7 +284,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				}
 				return null;
 			}
-
+			
 			@Override
 			protected List<TAXCode> getLists(Context context) {
 				return new ArrayList<TAXCode>(context.getCompany()
@@ -394,7 +381,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				return "Expenses List " + string + "," + getMessages().cash();
 			}
 			cashPurchase = transactionByNum;
-			setValues();
+			setValues(context);
 		} else {
 			if (!string.isEmpty()) {
 				get(NUMBER).setValue(string);
@@ -404,7 +391,12 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		return null;
 	}
 
-	private void setValues() {
+	/***
+	 * set init data
+	 * 
+	 * @param context
+	 */
+	private void setValues(Context context) {
 		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
 		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
 		List<ClientTransactionItem> transactionItems = cashPurchase
@@ -415,6 +407,13 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			} else {
 				items.add(clientTransactionItem);
 			}
+		}
+		ClientCompanyPreferences preferences = context.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			get(TAXCODE).setValue(
+					getTaxCodeForTransactionItems(
+							cashPurchase.getTransactionItems(), context));
+			get(IS_VAT_INCLUSIVE).setValue(cashPurchase.isAmountsIncludeVAT());
 		}
 		get(ACCOUNTS).setValue(accounts);
 		get(ITEMS).setValue(items);
@@ -429,6 +428,13 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		get(DATE).setValue(cashPurchase.getDate());
 		get(NUMBER).setValue(cashPurchase.getNumber());
 		get(MEMO).setValue(cashPurchase.getMemo());
+
 		/* get(CURRENCY_FACTOR).setValue(cashPurchase.getCurrencyFactor()); */
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		// TODO Auto-generated method stub
+
 	}
 }

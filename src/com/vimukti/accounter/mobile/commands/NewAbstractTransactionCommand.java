@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.vimukti.accounter.core.TAXCode;
@@ -240,5 +241,18 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 			makeResult.add("Total Tax: " + result[1]);
 		}
 		makeResult.add("Total: " + (result[0] + result[1]));
+	}
+
+	protected boolean checkOpen(Collection<ClientTransactionItem> items,
+			int type, boolean defaultValue) {
+		if (items.isEmpty()) {
+			return defaultValue;
+		}
+		for (ClientTransactionItem item : items) {
+			if (item.getType() == type) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
