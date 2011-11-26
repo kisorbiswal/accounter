@@ -311,7 +311,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			String string = context.getString();
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select an journalEntry to update.");
-				return "Invoices List";
+				return "journalEntries List";
 			}
 			long numberFromString = getNumberFromString(string);
 			if (numberFromString != 0) {
