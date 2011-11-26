@@ -94,7 +94,6 @@ public abstract class AbstractRequirement<T> extends Requirement {
 		InputType inputType = getInputType();
 		inputType.setValue(displayValue == null ? "" : displayValue);
 		result.add(inputType);
-		result.setShowBack(true);
 		return result;
 	}
 

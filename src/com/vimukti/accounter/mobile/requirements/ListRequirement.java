@@ -180,9 +180,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 		} else {
 			message.append(getEmptyString());
 		}
-		if (isDone()) {
-			result.setShowBack(true);
-		}
+
 		result.add(message.toString());
 		result.add(customerList);
 		result.add(actions);
