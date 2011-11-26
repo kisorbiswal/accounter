@@ -158,7 +158,18 @@
 		name="Delete account">
 		<alias>Delete BankAccout</alias>
 	</command>
-
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.delete.CreditRatingDeleteCommand"
+		name="Delete Credit Rating"></command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.delete.PaymentTermDeleteCommand"
+		name="Delete PaymentTerm"></command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.delete.ShippingTermDeleteCommand"
+		name="Delete ShippingTerm"></command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.delete.ItemGroupDeleteCommand"
+		name="Delete Item Group"></command>
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.delete.ItemDeleteCommand"
 		name="Delete Item"></command>
@@ -675,6 +686,7 @@
 		<alias>Update Shipping Term</alias>
 		<alias>Modify Shipping Term</alias>
 		<alias>Edit Shipping Term</alias>
+		<alias>Update shippingterm</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.NewSalesPersonCommand"
@@ -984,7 +996,6 @@
 		<alias>Update Item Group</alias>
 		<alias>Edit Item Group</alias>
 		<alias>Modify Item Group</alias>
-		<alias>Delete Item Group"</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.QuotesListCommand"
@@ -1129,7 +1140,6 @@
 		<alias>ItemGroups list</alias>
 		<alias>Item Group list</alias>
 		<alias>ItemGroups</alias>
-
 	</command>
 
 	<command
