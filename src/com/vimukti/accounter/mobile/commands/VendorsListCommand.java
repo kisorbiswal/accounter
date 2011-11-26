@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -74,8 +75,9 @@ public class VendorsListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(PayeeList value) {
 				Record record = new Record(value);
-				record.add("", value.getPayeeName());
-				record.add("", value.getBalance());
+				record.add(getMessages().payeeName(Global.get().Vendor()),
+						value.getPayeeName());
+				record.add(getMessages().balance(), value.getBalance());
 				return record;
 			}
 
