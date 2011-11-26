@@ -321,6 +321,7 @@
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.reports.TransactionDetailByAccountReportCommand"
 		name="Transaction Detail By Account">
+		<alias>Transaction Detail By Account</alias>
 		<alias>Transaction Detail By Account Report</alias>
 		<alias>TDA</alias>
 		<alias>TDA report</alias>
@@ -383,6 +384,7 @@
 		clazz="com.vimukti.accounter.mobile.commands.reports.TransactionDetailbyTaxItemReportCommand"
 		name="Transaction Detail by Tax Item">
 		<alias>Transaction Detail by Tax Item Report</alias>
+		<alias>Transaction Detail by Tax Item</alias>
 		<alias>TDTI report</alias>
 		<alias>TDTIR</alias>
 		<alias>TD by Tax Item report</alias>
@@ -1180,32 +1182,42 @@
 		<alias>PaymentTerms</alias>
 		<alias>Payment Term list</alias>
 	</command>
-	
-	<command clazz="com.vimukti.accounter.mobile.preferences.CompanyInfoPreferenceCommand" name="Company Info">
+
+	<command
+		clazz="com.vimukti.accounter.mobile.preferences.CompanyInfoPreferenceCommand"
+		name="Company Info">
 		<alias>CompanyInfoPreference</alias>
 		<alias>CompanyInfo Preference</alias>
 		<alias>cip</alias>
 	</command>
-	
-	<command clazz="com.vimukti.accounter.mobile.preferences.CompanyPreferenceCommand" name="Company Preferences">
+
+	<command
+		clazz="com.vimukti.accounter.mobile.preferences.CompanyPreferenceCommand"
+		name="Company Preferences">
 		<alias>CompanyPreferences</alias>
 		<alias>Company Preferences</alias>
 		<alias>cp</alias>
 	</command>
-	
-	<command clazz="com.vimukti.accounter.mobile.preferences.VendorAndPurchasePreferencesCommand" name="VendorAndPurchase Preferences">
+
+	<command
+		clazz="com.vimukti.accounter.mobile.preferences.VendorAndPurchasePreferencesCommand"
+		name="VendorAndPurchase Preferences">
 		<alias>VendorPurchasePreferences</alias>
 		<alias>VPpreferences</alias>
 		<alias>VP</alias>
 	</command>
-	
-	<command clazz="com.vimukti.accounter.mobile.preferences.ProductAndServicePreferencesCommand" name="ProductAndService Preferences">
+
+	<command
+		clazz="com.vimukti.accounter.mobile.preferences.ProductAndServicePreferencesCommand"
+		name="ProductAndService Preferences">
 		<alias>ProductAndServicePreferences</alias>
 		<alias>PSpreferences</alias>
 		<alias>ps</alias>
 	</command>
-	
-	<command clazz="com.vimukti.accounter.mobile.preferences.TerminologyPreferencesCommand" name="TerminologyPreferences Preferences">
+
+	<command
+		clazz="com.vimukti.accounter.mobile.preferences.TerminologyPreferencesCommand"
+		name="TerminologyPreferences Preferences">
 		<alias>TerminologyPreferences</alias>
 		<alias>TPreferences</alias>
 		<alias>TP</alias>
