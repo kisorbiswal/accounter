@@ -30,7 +30,7 @@ public class ARAgingSummaryReportCommand extends
 				record.getDebitdays_in30() + record.getDebitdays_incurrent());
 		agingRecord.add("31-60 days", record.getDebitdays_in60());
 		agingRecord.add("61-90 days", record.getDebitdays_in90());
-		agingRecord.add("Older", record.getDebitdays_inolder());
+		agingRecord.add(getMessages().older(), record.getDebitdays_inolder());
 		agingRecord.add(
 				getMessages().totalBalance(),
 				record.getDebitdays_in30() + record.getDebitdays_in60()
