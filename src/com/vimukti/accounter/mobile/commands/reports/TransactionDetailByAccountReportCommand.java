@@ -11,6 +11,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.managers.ReportManager;
 
@@ -32,7 +33,8 @@ public class TransactionDetailByAccountReportCommand extends
 		transactionRecord.add("", "");
 		transactionRecord.add("Name", record.getName());
 		transactionRecord.add("Date", record.getTransactionDate());
-		transactionRecord.add("", Utility.getTransactionName(getType(record)));
+		transactionRecord.add("",
+				CommandUtils.getTransactionName(getType(record)));
 		transactionRecord.add("No.", record.getTransactionNumber());
 		transactionRecord.add("Amount", record.getTotal());
 		if (currentsectionName != null
