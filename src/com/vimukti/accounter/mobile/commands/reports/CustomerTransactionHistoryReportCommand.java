@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -23,13 +24,14 @@ public class CustomerTransactionHistoryReportCommand extends
 	@Override
 	protected Record createReportRecord(TransactionHistory record) {
 		Record transactionRecord = new Record(record);
-		transactionRecord.add("Customer", "");
-		transactionRecord.add("Date", record.getDate());
-		transactionRecord.add("Type",
+		transactionRecord.add(getMessages().payeeName(Global.get().Customer()),
+				"");
+		transactionRecord.add(getMessages().date(), record.getDate());
+		transactionRecord.add(getMessages().transactionType(),
 				Utility.getTransactionName(record.getType()));
-		transactionRecord.add("No.", record.getNumber());
-		transactionRecord.add("Account", record.getAccount());
-		transactionRecord.add("Amount", DecimalUtil.isEquals(
+		transactionRecord.add(getMessages().number(), record.getNumber());
+		transactionRecord.add(getMessages().amount(), record.getAccount());
+		transactionRecord.add(getMessages().amount(), DecimalUtil.isEquals(
 				record.getInvoicedAmount(), 0.0) ? record.getPaidAmount()
 				: record.getInvoicedAmount());
 		return transactionRecord;
