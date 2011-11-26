@@ -69,17 +69,13 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(ClientJournalEntry entry) {
 				Record record = new Record(entry);
-				record.add("", getMessages().voucherNo());
-				record.add("", entry.getNumber());
-				record.add("", getMessages().date());
-				record.add("", entry.getDate());
-				record.add("", getMessages().amount());
-				record.add("", entry.getTotal());
-				record.add("", getMessages().memo());
-				record.add("", entry.getMemo());
-				record.add("", getMessages().voided());
-				record.add("", entry.isVoid() == true ? getMessages().Voided()
-						: getMessages().nonVoided());
+				record.add(getMessages().voucherNo(), entry.getNumber());
+				record.add(getMessages().date(), entry.getDate());
+				record.add(getMessages().amount(), entry.getTotal());
+				record.add(getMessages().memo(), entry.getMemo());
+				record.add(getMessages().voided(),
+						entry.isVoid() == true ? getMessages().Voided()
+								: getMessages().nonVoided());
 				return record;
 			}
 
@@ -118,5 +114,4 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 		});
 
 	}
-
 }
