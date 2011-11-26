@@ -89,13 +89,14 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(SalesPerson salesPrson) {
 				Record record = new Record(salesPrson);
-				record.add("", salesPrson.getFirstName());
-				record.add("", salesPrson.getJobTitle());
-				record.add("", salesPrson.getDateOfBirth());
-				record.add("", salesPrson.getEmail());
-				record.add("", salesPrson.getPhoneNo());
-				record.add("", salesPrson.getFaxNo());
-				record.add("", salesPrson.getMemo());
+				record.add(getMessages().firstName(), salesPrson.getFirstName());
+				record.add(getMessages().jobTitle(), salesPrson.getJobTitle());
+				record.add(getMessages().dateofBirth(),
+						salesPrson.getDateOfBirth());
+				record.add(getMessages().email(), salesPrson.getEmail());
+				record.add(getMessages().phone(), salesPrson.getPhoneNo());
+				record.add(getMessages().fax(), salesPrson.getFaxNo());
+				record.add(getMessages().memo(), salesPrson.getMemo());
 				return record;
 			}
 
