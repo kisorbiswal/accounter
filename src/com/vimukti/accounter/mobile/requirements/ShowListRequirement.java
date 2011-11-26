@@ -25,7 +25,7 @@ public abstract class ShowListRequirement<T> extends ListRequirement<T> {
 		T values = context.getSelection(getName());
 		if (values != null) {
 			CommandList commandList = new CommandList();
-			setSelectCommands(commandList, values);
+			// setSelectCommands(commandList, values);
 			if (commandList.size() != 0) {
 				Result result = new Result();
 				result.add(commandList);
