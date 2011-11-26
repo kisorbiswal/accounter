@@ -71,7 +71,7 @@ public class ClassListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(AccounterClass value) {
 				Record classRec = new Record(value);
-				classRec.add(" ", value.getName());
+				classRec.add(getMessages().name(), value.getName());
 				return classRec;
 
 			}
