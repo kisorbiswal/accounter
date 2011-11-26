@@ -345,6 +345,7 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 
 	private void setValues(Context context) {
 		get(EMAIL).setValue(user.getEmail());
+		get(EMAIL).setEditable(false);
 		get(FIRST_NAME).setValue(user.getFirstName());
 		get(LAST_NAME).setValue(user.getLastName());
 		get(LEVEL_ACCESS).setValue(user.getUserRole());
