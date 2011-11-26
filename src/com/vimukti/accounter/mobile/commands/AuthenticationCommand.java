@@ -264,7 +264,7 @@ public class AuthenticationCommand extends Command {
 				&& context.getLast(RequirementType.STRING) == null) {
 			ResultList list = new ResultList("authentication");
 			Record record = new Record("signin");
-			record.add("", "Signin");
+			record.add("Signin");
 			list.add(record);
 			makeResult.add(list);
 			CommandList commandList = new CommandList();
