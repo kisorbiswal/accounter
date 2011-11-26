@@ -47,7 +47,7 @@ public class ItemsCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Item value) {
-				return null;
+				return "Update Item " + value.getName();
 			}
 
 			@Override

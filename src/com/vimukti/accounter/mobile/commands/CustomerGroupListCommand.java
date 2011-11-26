@@ -60,8 +60,7 @@ public class CustomerGroupListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(CustomerGroup value) {
-				return null;
-				// return "update CustomerGroup " + value.getName();
+				return "update CustomerGroup " + value.getName();
 			}
 
 			@Override

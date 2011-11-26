@@ -49,7 +49,7 @@ public class LocationListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Location value) {
-				return null;
+				return "Update Location " + value.getName();
 			}
 
 			@Override

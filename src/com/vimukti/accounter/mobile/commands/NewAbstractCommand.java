@@ -201,7 +201,7 @@ public abstract class NewAbstractCommand extends NewCommand {
 				.setParameter("company", getCompany()).list();
 		return new ArrayList<Customer>(customers);
 	}
-	
+
 	protected List<Vendor> getVendors() {
 		Session currentSession = HibernateUtil.getCurrentSession();
 		@SuppressWarnings("unchecked")

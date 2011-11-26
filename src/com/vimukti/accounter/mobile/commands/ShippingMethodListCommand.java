@@ -77,7 +77,7 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(ShippingMethod value) {
-				return getMessages().update() + " " + value.getName();
+				return "Update Shipping Method " + value.getName();
 			}
 		});
 	}

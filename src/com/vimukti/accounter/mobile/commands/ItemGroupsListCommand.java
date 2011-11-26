@@ -60,8 +60,7 @@ public class ItemGroupsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(ItemGroup value) {
-				return null;
-				// return "update ItemGroup " + value.getName();
+				return "update ItemGroup " + value.getName();
 			}
 
 			@Override

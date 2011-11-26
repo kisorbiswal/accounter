@@ -63,7 +63,7 @@ public class PaymentTermsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(PaymentTerms value) {
-				return getMessages().update() + " " + value.getName();
+				return "Update Paymentterm " + value.getName();
 			}
 		});
 	}

@@ -53,7 +53,7 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(ClientJournalEntry value) {
-				return null;
+				return "update journalentry " + value.getNumber();
 			}
 
 			@Override

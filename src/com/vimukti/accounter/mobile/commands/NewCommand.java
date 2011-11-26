@@ -89,8 +89,8 @@ public abstract class NewCommand extends Command {
 		makeResult.add(list);
 		actions = new ResultList("actions");
 		for (int i = 0; i < allRequirements.size(); i++) {
-			Result result = allRequirements.get(i).process(context,
-					makeResult, list, actions);
+			Result result = allRequirements.get(i).process(context, makeResult,
+					list, actions);
 			if (result != null) {
 				requirementNumber = i - 1;
 				// if (i != 0) {
@@ -108,7 +108,24 @@ public abstract class NewCommand extends Command {
 			record.add("", finish);
 			actions.add(record);
 		}
+		String deleteCommand = getDeleteCommand(context);
+
 		Object selection = context.getSelection("actions");
+		if (selection == ActionNames.DELETE_COMMAND) {
+			if (deleteCommand != null) {
+				Result result = new Result();
+				result.setNextCommand(deleteCommand);
+				context.getIOSession().getCurrentCommand().markDone();
+				return result;
+			}
+		}
+
+		if (deleteCommand != null) {
+			Record record = new Record(ActionNames.DELETE_COMMAND);
+			record.add("", "Delete");
+			actions.add(record);
+		}
+
 		beforeFinishing(context, makeResult);
 		if (selection != ActionNames.FINISH_COMMAND) {
 			return makeResult;
@@ -130,6 +147,10 @@ public abstract class NewCommand extends Command {
 		}
 		markDone();
 		return finishResult;
+	}
+
+	protected String getDeleteCommand(Context context) {
+		return null;
 	}
 
 	protected abstract String initObject(Context context, boolean isUpdate);

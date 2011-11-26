@@ -67,7 +67,7 @@ public class CreditRatingListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(CreditRating value) {
-				return null;
+				return "Update CreditRating " + value.getName();
 			}
 		});
 	}

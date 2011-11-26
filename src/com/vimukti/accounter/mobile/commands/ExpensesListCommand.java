@@ -92,8 +92,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(BillsList value) {
-
-				return null;
+				return "Update Transaction " + value.getTransactionId();
 			}
 
 			@Override
