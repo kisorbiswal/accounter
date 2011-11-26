@@ -30,13 +30,13 @@ public class APAgingDetailReportCommand extends
 	@Override
 	protected Record createReportRecord(AgedDebtors recordReport) {
 		Record record = new Record(recordReport);
-		record.add("Name", recordReport.getName());
-		record.add("Date", recordReport.getDate());
-		record.add("Transansaction Type",
+		record.add(getMessages().name(), recordReport.getName());
+		record.add(getMessages().date(), recordReport.getDate());
+		record.add(getMessages().transactionType(),
 				ReportUtility.getTransactionName(recordReport.getType()));
-		record.add("Number", recordReport.getNumber());
-		record.add("Aging", recordReport.getAgeing());
-		record.add("Total", recordReport.getTotal());
+		record.add(getMessages().number(), recordReport.getNumber());
+		record.add(getMessages().ageing(), recordReport.getAgeing());
+		record.add(getMessages().total(), recordReport.getTotal());
 		return record;
 	}
 
