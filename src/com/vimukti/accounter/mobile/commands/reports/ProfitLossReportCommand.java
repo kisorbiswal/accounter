@@ -8,12 +8,20 @@ import com.vimukti.accounter.core.Utility_R;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ProfitLossReportCommand extends
 		NewAbstractReportCommand<TrialBalance> {
+	private double incomeTotals;
+	private double grossProfitTotals;
+	private double expenseTotals;
+	private double netProfit;
+	private double netLoss;
+	private double costOfGoodsSold;
+	private double costOfGoodsSoldTotal;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -25,19 +33,25 @@ public class ProfitLossReportCommand extends
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
 		if (getCompany().getPreferences().getUseAccountNumbers() == true) {
-			trialRecord.add("Category Number", record.getAccountNumber());
+			trialRecord.add(getMessages().categoryNumber(),
+					record.getAccountNumber());
 		} else {
-			trialRecord.add("Category Number", "");
+			trialRecord.add(getMessages().categoryNumber(), "");
 		}
-		trialRecord.add("", record.getAccountName());
+		trialRecord.add(getMessages().name(), record.getAccountName());
 		trialRecord
 				.add(getStartDate() + "_" + getEndDate(), record.getAmount());
-		trialRecord.add("", record.getAmount());
+		trialRecord.add(getMessages().amount(), record.getAmount());
 		trialRecord.add(Utility_R.getCurrentFiscalYearStartDate(getCompany())
 				+ "_" + getLastMonth(new FinanceDate()),
 				record.getTotalAmount());
-		trialRecord.add("", record.getTotalAmount());
+		trialRecord.add(getMessages().totalBalance(), record.getTotalAmount());
 		return trialRecord;
+	}
+
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+
 	}
 
 	@Override
@@ -53,9 +67,17 @@ public class ProfitLossReportCommand extends
 		try {
 			profitAndLossReport = new FinanceTool().getReportManager()
 					.getProfitAndLossReport(start, end, getCompanyId());
+			// for (TrialBalance trialBalance : profitAndLossReport) {
+			// if (trialBalance.getAccountType() == ClientAccount.TYPE_INCOME) {
+			// incomeTotals += trialBalance.getTotalAmount();
+			// } else if (trialBalance.getAccountType() ==
+			// ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
+			// costOfGoodsSoldTotal += trialBalance.getTotalAmount();
+			// }
+			// }// else if (trialBalance.getAccountType() == ClientAccount.)
+			// // }
 		} catch (DAOException e) {
 			e.printStackTrace();
-			profitAndLossReport = new ArrayList<TrialBalance>();
 		}
 		return profitAndLossReport;
 	}
