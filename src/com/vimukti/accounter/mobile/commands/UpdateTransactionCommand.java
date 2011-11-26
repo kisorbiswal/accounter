@@ -84,10 +84,10 @@ public class UpdateTransactionCommand extends NewAbstractCommand {
 			protected Record createRecord(Transaction value) {
 				Record record = new Record(value);
 
-				record.add("", value.getType());
-				record.add("", value.getDate());
-				record.add("", value.getNetAmount());
-				record.add("", value.getTotal());
+				record.add(getMessages().type(), value.getType());
+				record.add(getMessages().date(), value.getDate());
+				record.add(getMessages().netAmount(), value.getNetAmount());
+				record.add(getMessages().total(), value.getTotal());
 
 				return null;
 			}
