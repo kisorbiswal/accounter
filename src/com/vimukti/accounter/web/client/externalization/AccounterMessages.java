@@ -4478,6 +4478,23 @@ public interface AccounterMessages extends Messages {
 
 	public String noInventoryItemsAvilable();
 
+	public String FirstFiscalMonth();
+
+	public String useCustomersNumbers();
+
+	public String useVendorNumbers();
+
+	public String enabledTDS();
+
+	public String disabledTDS();
+
+	public String enabled();
+
+	public String disabled();
+
+	public String delayedCharges();
+
+	public String trackProducandServicesbyCustomer();
 	public String reportCommondActivated(String reportName);
 
 	public String reportCommondClosedSuccessfully(String reportName);
