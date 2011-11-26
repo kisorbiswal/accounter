@@ -13,6 +13,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
@@ -100,6 +101,11 @@ public class SignupCommand extends NewCommand {
 				} else {
 					return null;
 				}
+			}
+
+			@Override
+			public InputType getInputType() {
+				return new InputType(INPUT_TYPE_PASSWORD);
 			}
 		});
 
