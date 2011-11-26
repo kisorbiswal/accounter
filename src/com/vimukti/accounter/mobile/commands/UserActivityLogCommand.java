@@ -16,6 +16,7 @@ public class UserActivityLogCommand extends NewAbstractCommand {
 
 	// private static final String FROM_DATE = "fromdate";
 	// private static final String END_DATE = "enddate";
+	private int startIndex = 0;
 
 	@Override
 	public String getId() {
@@ -83,6 +84,8 @@ public class UserActivityLogCommand extends NewAbstractCommand {
 		List<ClientActivity> activities = new FinanceTool().getUserManager()
 				.getUsersActivityLog(startDate, endDate, 1, VALUES_TO_SHOW,
 						context.getCompany().getId());
+		
+		startIndex += activities.size();
 
 		return activities;
 	}
