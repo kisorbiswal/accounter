@@ -19,12 +19,14 @@ public class TransactionDeleteCommand extends AbstractDeleteCommand {
 		String[] split = string.split(" ");
 		AccounterCoreType accounterCoreType = CommandUtils
 				.getAccounterCoreType(Integer.parseInt(split[0]));
+		String transactionName = CommandUtils.getTransactionName(Integer
+				.parseInt(split[0]));
 		try {
 			voidTransaction(accounterCoreType, Long.parseLong(split[1]),
 					context);
 		} catch (AccounterException e) {
 			addFirstMessage(context, "");
 		}
-		return "Invoices List";
+		return transactionName + " List";
 	}
 }

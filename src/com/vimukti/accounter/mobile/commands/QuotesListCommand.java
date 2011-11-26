@@ -96,36 +96,36 @@ public class QuotesListCommand extends NewAbstractCommand {
 		list.add(new ShowListRequirement<Estimate>("Estimates",
 				"Please select.", 20) {
 
-			@Override
-			protected void setSelectCommands(CommandList commandList,
-					Estimate value) {
-
-				if (estimateType == ClientEstimate.QUOTES) {
-					commandList.add(new UserCommand("Delete Estimate", value
-							.getID()));
-					commandList.add(new UserCommand("Update Estimate ", value
-							.getNumber()));
-				} else if (estimateType == ClientEstimate.CREDITS) {
-					commandList.add(new UserCommand("Update Credit", value
-							.getNumber()));
-					commandList.add(new UserCommand("Delete Credit", value
-							.getID()));
-				} else if (estimateType == ClientEstimate.CHARGES) {
-					commandList.add(new UserCommand("Delete Charge", value
-							.getNumber()));
-					commandList.add(new UserCommand("Update Charge", value
-							.getID()));
-				}
-			}
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// Estimate value) {
+			//
+			// if (estimateType == ClientEstimate.QUOTES) {
+			// commandList.add(new UserCommand("Void transaction", value
+			// .getType() + " " + value.getID()));
+			// commandList.add(new UserCommand("Update Estimate ", value
+			// .getNumber()));
+			// } else if (estimateType == ClientEstimate.CREDITS) {
+			// commandList.add(new UserCommand("Update Credit", value
+			// .getNumber()));
+			// commandList.add(new UserCommand("Delete Credit", value
+			// .getID()));
+			// } else if (estimateType == ClientEstimate.CHARGES) {
+			// commandList.add(new UserCommand("Delete transaction", value
+			// .getNumber()));
+			// commandList.add(new UserCommand("Update Charge", value
+			// .getID()));
+			// }
+			// }
 
 			@Override
 			protected String onSelection(Estimate value) {
 				if (estimateType == ClientEstimate.QUOTES) {
-					return "Update Estimate " + value.getNumber();
+					return "Edit Transaction " + value.getID();
 				} else if (estimateType == ClientEstimate.CREDITS) {
-					return "Update Credit " + value.getNumber();
+					return "Edit Transaction " + value.getID();
 				} else if (estimateType == ClientEstimate.CHARGES) {
-					return "Update Charge " + value.getNumber();
+					return "Edit Transaction " + value.getID();
 				}
 				return "";
 			}

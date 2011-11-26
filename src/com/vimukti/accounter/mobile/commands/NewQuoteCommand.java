@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 
@@ -464,7 +465,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 				}
 			}
 			estimate = estimateByNum;
-			setValues();
+			setValues(context);
 		} else {
 			String string = context.getString();
 			if (!string.isEmpty()) {
@@ -476,13 +477,20 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		return null;
 	}
 
-	private void setValues() {
+	private void setValues(Context context) {
 		get(DATE).setValue(estimate.getDate());
 		get(NUMBER).setValue(estimate.getNumber());
 		get(ITEMS).setValue(estimate.getTransactionItems());
 		get(CUSTOMER).setValue(
 				CommandUtils.getServerObjectById(estimate.getCustomer(),
 						AccounterCoreType.CUSTOMER));
+		ClientCompanyPreferences preferences = context.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			get(TAXCODE).setValue(
+					getTaxCodeForTransactionItems(
+							estimate.getTransactionItems(), context));
+
+		}
 		get(DELIVERY_DATE).setValue(
 				new ClientFinanceDate(estimate.getDeliveryDate()));
 		get(EXPIRATION_DATE).setValue(

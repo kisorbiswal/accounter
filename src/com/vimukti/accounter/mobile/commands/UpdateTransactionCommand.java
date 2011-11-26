@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.IAccounterServerCore;
+import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -12,6 +14,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ForwardRequirement;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
 public class UpdateTransactionCommand extends NewAbstractCommand {
 

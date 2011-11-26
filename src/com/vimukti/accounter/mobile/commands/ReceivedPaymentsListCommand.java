@@ -7,6 +7,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
@@ -72,7 +73,7 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(ReceivePaymentsList value) {
-				return "Update Customer Prepayment " + value.getNumber();
+				return "Edit Transaction " + value.getTransactionId();
 			}
 
 			@Override

@@ -118,8 +118,7 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(AccountRegister value) {
-
-				return null;
+				return "Edit Transaction " + value.getTransactionId();
 			}
 
 			@Override

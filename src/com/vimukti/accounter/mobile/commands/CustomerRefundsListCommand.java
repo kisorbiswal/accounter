@@ -8,6 +8,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.Global;
@@ -81,7 +82,7 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(CustomerRefundsList value) {
-				return "Update Customer Refund " + value.getPaymentNumber();
+				return "Edit Transaction " + value.getTransactionId();
 			}
 
 			@Override

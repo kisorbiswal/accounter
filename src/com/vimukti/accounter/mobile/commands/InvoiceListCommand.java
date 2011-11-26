@@ -7,7 +7,6 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
@@ -114,19 +113,19 @@ public class InvoiceListCommand extends NewAbstractCommand {
 		list.add(new ShowListRequirement<InvoicesList>("Invoices",
 				"Please select", 20) {
 
-			@Override
-			protected void setSelectCommands(CommandList commandList,
-					InvoicesList value) {
-				commandList.add(new UserCommand("update transaction", value
-						.getNumber()));
-				commandList.add(new UserCommand("Void transaction", value
-						.getType() + " " + value.getTransactionId()));
-
-			}
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// InvoicesList value) {
+			// commandList.add(new UserCommand("update transaction", value
+			// .getNumber()));
+			// commandList.add(new UserCommand("Void transaction", value
+			// .getType() + " " + value.getTransactionId()));
+			//
+			// }
 
 			@Override
 			protected String onSelection(InvoicesList value) {
-				return "update invoice #" + value.getNumber();
+				return "Edit Transaction " + value.getTransactionId();
 			}
 
 			@Override
