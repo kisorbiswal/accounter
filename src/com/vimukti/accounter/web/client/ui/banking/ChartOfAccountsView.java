@@ -44,7 +44,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
-		AccounterException accounterException = (AccounterException) caught;
+		AccounterException accounterException = caught;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -86,7 +86,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected String getListViewHeading() {
-		return messages.payeesList(messages.Accounts());
+		return messages.payeesList(messages.Account());
 	}
 
 	@Override
