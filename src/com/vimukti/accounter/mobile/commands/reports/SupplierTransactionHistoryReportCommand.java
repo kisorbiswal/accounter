@@ -24,13 +24,13 @@ public class SupplierTransactionHistoryReportCommand extends
 	@Override
 	protected Record createReportRecord(TransactionHistory record) {
 		Record transactionRecord = new Record(record);
-		transactionRecord.add("Supplier", "");
-		transactionRecord.add("Date", record.getDate());
-		transactionRecord.add("Type",
+		transactionRecord.add(Global.get().Vendor(), "");
+		transactionRecord.add(getMessages().date(), record.getDate());
+		transactionRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getType()));
-		transactionRecord.add("No.", record.getNumber());
-		transactionRecord.add("Account", record.getAccount());
-		transactionRecord.add("Amount", DecimalUtil.isEquals(
+		transactionRecord.add(getMessages().number(), record.getNumber());
+		transactionRecord.add(getMessages().account(), record.getAccount());
+		transactionRecord.add(getMessages().amount(), DecimalUtil.isEquals(
 				record.getInvoicedAmount(), 0.0) ? record.getPaidAmount()
 				: record.getInvoicedAmount());
 		return transactionRecord;
