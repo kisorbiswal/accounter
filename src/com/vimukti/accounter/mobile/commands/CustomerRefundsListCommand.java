@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -11,6 +10,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
@@ -100,17 +100,19 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(CustomerRefundsList value) {
 				Record record = new Record(value);
-				record.add("", value.getPaymentNumber());
-				record.add("", value.getPaymentDate());
-				record.add("", value.getIssueDate());
-				record.add("", value.getName());
-				record.add("", Utility.getTransactionName((value.getType())));
-				record.add("", value.getPaymentMethod());
-				record.add("", value.getAmountPaid());
-				record.add("", Utility.getStatus(
-						ClientTransaction.TYPE_CUSTOMER_REFUNDS,
-						value.getStatus()));
-
+				record.add(getMessages().paymentNo(), value.getPaymentNumber());
+				record.add(getMessages().paymentDate(), value.getPaymentDate());
+				record.add(getMessages().issueDate(), value.getIssueDate());
+				record.add(getMessages().name(), value.getName());
+				record.add(getMessages().transactionName(),
+						CommandUtils.getTransactionName(value.getType()));
+				record.add(getMessages().paymentMethod(),
+						value.getPaymentMethod());
+				record.add(getMessages().amountPaid(), value.getAmountPaid());
+				record.add(getMessages().status(), CommandUtils
+						.getTransactionStatus(
+								ClientTransaction.TYPE_CUSTOMER_REFUNDS,
+								value.getStatus()));
 				return record;
 			}
 
