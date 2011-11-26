@@ -86,14 +86,16 @@ class MobileDecoder extends FrameDecoder {
 
 		ChannelBuffer allocate = (ChannelBuffer) ctx.getAttachment();
 		if (allocate == null) {
-			int capacity=buff.readableBytes();
-			if(capacity<4){
+			int capacity = buff.readableBytes();
+			if (capacity < 4) {
 				return null;
 			}
 			int length = buff.readInt();
 			allocate = ChannelBuffers.buffer(length);
 		}
-		buff.readBytes(allocate);
+		if (buff.readableBytes() > 0) {
+			buff.readBytes(allocate);
+		}
 		if (!allocate.writable()) {
 			// finished reading all
 			ctx.setAttachment(null);
