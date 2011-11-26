@@ -26,7 +26,7 @@ public class CreditRatingListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(CreditRating value) {
 				Record record = new Record(value);
-				record.add("", value.getName());
+				record.add(value.getName());
 				return record;
 			}
 
