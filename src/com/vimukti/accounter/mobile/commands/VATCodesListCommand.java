@@ -56,7 +56,7 @@ public class VATCodesListCommand extends NewAbstractCommand {
 			// }
 			@Override
 			protected String onSelection(TAXCode value) {
-				return "Update vatCode " + value.getName();
+				return "Update vatCode " + value.getID();
 			}
 
 			@Override
