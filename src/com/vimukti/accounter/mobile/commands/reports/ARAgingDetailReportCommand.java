@@ -23,12 +23,13 @@ public class ARAgingDetailReportCommand extends
 	@Override
 	protected Record createReportRecord(AgedDebtors record) {
 		Record agingRecord = new Record(record);
-		agingRecord.add("Name", record.getName());
-		agingRecord.add("Date", record.getDate());
-		agingRecord.add("Type", Utility.getTransactionName(record.getType()));
-		agingRecord.add("No.", record.getNumber());
-		agingRecord.add("Aging", record.getAgeing());
-		agingRecord.add("Amount", record.getTotal());
+		agingRecord.add(getMessages().name(), record.getName());
+		agingRecord.add(getMessages().date(), record.getDate());
+		agingRecord.add(getMessages().type(),
+				Utility.getTransactionName(record.getType()));
+		agingRecord.add(getMessages().number(), record.getNumber());
+		agingRecord.add(getMessages().ageing(), record.getAgeing());
+		agingRecord.add(getMessages().amount(), record.getTotal());
 		return agingRecord;
 	}
 
