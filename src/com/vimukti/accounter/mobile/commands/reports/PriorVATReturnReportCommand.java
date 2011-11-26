@@ -58,7 +58,7 @@ public class PriorVATReturnReportCommand extends
 	@Override
 	protected Record createReportRecord(VATSummary record) {
 		Record vatRecord = new Record(record);
-		vatRecord.add("", record.getName());
+		vatRecord.add(record.getName());
 		vatRecord.add(getEndDate() + "", record.getValue());
 		return vatRecord;
 	}
