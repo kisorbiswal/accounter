@@ -93,11 +93,13 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 
 				Record record = new Record(value);
 
-				record.add("", (value.getPaymentDate()));
-				record.add("", value.getNumber());
-				record.add("", value.getCustomerName());
-				record.add("", value.getPaymentMethodName());
-				record.add("", value.getAmountPaid());
+				record.add(getMessages().paymentDate(),
+						(value.getPaymentDate()));
+				record.add(getMessages().number(), value.getNumber());
+				record.add(getMessages().name(), value.getCustomerName());
+				record.add(getMessages().paymentMethod(),
+						value.getPaymentMethodName());
+				record.add(getMessages().amountPaid(), value.getAmountPaid());
 				return record;
 			}
 
