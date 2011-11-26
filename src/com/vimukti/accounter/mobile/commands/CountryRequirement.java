@@ -21,7 +21,7 @@ public class CountryRequirement extends ListRequirement<String> {
 	@Override
 	protected Record createRecord(String value) {
 		Record record = new Record(value);
-		record.add("", value);
+		record.add(getMessages().countryName(), value);
 		return record;
 	}
 
@@ -41,12 +41,12 @@ public class CountryRequirement extends ListRequirement<String> {
 
 	@Override
 	protected String getSetMessage() {
-		return "Country is selected";
+		return getMessages().country() + getMessages().selected();
 	}
 
 	@Override
 	protected String getSelectString() {
-		return "Select a Country";
+		return getMessages().select() + getMessages().country();
 	}
 
 	@Override
