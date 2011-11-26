@@ -25,14 +25,14 @@ public class ECSalesListDetailReportCommand extends
 	@Override
 	protected Record createReportRecord(ECSalesListDetail record) {
 		Record ecRecord = new Record(record);
-		ecRecord.add("Type",
+		ecRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getTransactionType()));
-		ecRecord.add("Date", record.getDate());
-		ecRecord.add("No", record.getTransactionNumber());
-		ecRecord.add("Name", record.getName());
-		ecRecord.add("Memo", record.getMemo());
-		ecRecord.add("Amount", record.getAmount());
-		ecRecord.add("Sales Price", record.getSalesPrice());
+		ecRecord.add(getMessages().date(), record.getDate());
+		ecRecord.add(getMessages().number(), record.getTransactionNumber());
+		ecRecord.add(getMessages().name(), record.getName());
+		ecRecord.add(getMessages().memo(), record.getMemo());
+		ecRecord.add(getMessages().amount(), record.getAmount());
+		ecRecord.add(getMessages().salesPrice(), record.getSalesPrice());
 		return ecRecord;
 	}
 
