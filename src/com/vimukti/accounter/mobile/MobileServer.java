@@ -21,16 +21,43 @@ import org.jboss.netty.handler.ssl.SslHandler;
 import com.vimukti.accounter.main.ServerConfiguration;
 
 public class MobileServer {
-	private ServerBootstrap bootstrap;
+	private ServerBootstrap sslConnection;
+	private ServerBootstrap normalConnection;
+	private SSLEngine sslEngine;
 
 	public MobileServer() {
+		sslConnection();
+		normalConnection();
+	}
+
+	private void normalConnection() {
 		ChannelFactory factory = new NioServerSocketChannelFactory(
 				Executors.newCachedThreadPool(),
 				Executors.newCachedThreadPool());
 
-		bootstrap = new ServerBootstrap(factory);
+		normalConnection = new ServerBootstrap(factory);
 
-		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
+		normalConnection.setPipelineFactory(new ChannelPipelineFactory() {
+			public ChannelPipeline getPipeline() {
+				return Channels.pipeline(
+						new MobileDecoder(),
+						new MobileChannelHandler(MobileMessageHandler
+								.getInstance()));
+			}
+		});
+
+		normalConnection.setOption("child.tcpNoDelay", true);
+		normalConnection.setOption("child.keepAlive", true);
+	}
+
+	private void sslConnection() {
+		ChannelFactory factory = new NioServerSocketChannelFactory(
+				Executors.newCachedThreadPool(),
+				Executors.newCachedThreadPool());
+
+		sslConnection = new ServerBootstrap(factory);
+
+		sslConnection.setPipelineFactory(new ChannelPipelineFactory() {
 			public ChannelPipeline getPipeline() {
 				return Channels.pipeline(new SslHandler(getSSLEngine()),
 						new MobileDecoder(), new MobileChannelHandler(
@@ -38,11 +65,15 @@ public class MobileServer {
 			}
 		});
 
-		bootstrap.setOption("child.tcpNoDelay", true);
-		bootstrap.setOption("child.keepAlive", true);
+		sslConnection.setOption("child.tcpNoDelay", true);
+		sslConnection.setOption("child.keepAlive", true);
+
 	}
 
 	protected SSLEngine getSSLEngine() {
+		if (sslEngine != null) {
+			return sslEngine;
+		}
 		try {
 			KeyStore ks = KeyStore.getInstance("PKCS12");
 
@@ -65,7 +96,7 @@ public class MobileServer {
 
 			sslCtx.init(kmf.getKeyManagers(), null, null);
 
-			SSLEngine sslEngine = sslCtx.createSSLEngine();
+			sslEngine = sslCtx.createSSLEngine();
 			sslEngine.setUseClientMode(false);
 			sslEngine.setNeedClientAuth(false);
 			return sslEngine;
@@ -76,7 +107,8 @@ public class MobileServer {
 	}
 
 	public void strat() {
-		bootstrap.bind(new InetSocketAddress(ServerConfiguration
+		normalConnection.bind(new InetSocketAddress(ServerConfiguration
 				.getMobileChatServerPort()));
+		sslConnection.bind(new InetSocketAddress(9084));
 	}
 }
