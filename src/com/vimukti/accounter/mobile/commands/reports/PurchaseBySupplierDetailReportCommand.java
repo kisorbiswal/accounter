@@ -24,12 +24,13 @@ public class PurchaseBySupplierDetailReportCommand extends
 	@Override
 	protected Record createReportRecord(SalesByCustomerDetail record) {
 		Record transactionRecord = new Record(record);
-		transactionRecord.add("Supplier Name", "");
-		transactionRecord.add("Date", record.getDate());
-		transactionRecord.add("Type",
+		transactionRecord.add(getMessages().payeeName(Global.get().vendor()),
+				"");
+		transactionRecord.add(getMessages().date(), record.getDate());
+		transactionRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getType()));
-		transactionRecord.add("No.", record.getNumber());
-		transactionRecord.add("Amount", record.getAmount());
+		transactionRecord.add(getMessages().number(), record.getNumber());
+		transactionRecord.add(getMessages().amount(), record.getAmount());
 		return transactionRecord;
 	}
 
