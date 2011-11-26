@@ -26,7 +26,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 	private static final String VAT_RETURN_END_DATE = "vatReturnEndDate";
 	private static final String BILLS_TO_PAY = "billToPay";
 	private static final String PAY_FROM = "payFrom";
-	private String TAX_AGENCY = "taxAgency";
+	private final String TAX_AGENCY = "taxAgency";
 
 	@Override
 	public String getId() {
@@ -186,7 +186,10 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 	}
 
 	private List<ClientTransactionPayTAX> getClientTransactionPayTAXes() {
-		TAXAgency selectedVATAgency = get(TAX_AGENCY).getValue();
+		TAXAgency selectedVATAgency = null;
+		if (get(TAX_AGENCY) != null) {
+			selectedVATAgency = get(TAX_AGENCY).getValue();
+		}
 		if (selectedVATAgency == null) {
 			return getPayTAXEntries();
 		}
