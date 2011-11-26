@@ -26,7 +26,7 @@
   		for(String key:messages.keySet()){
   			String value=messages.get(key);
   		%>
-  			<%= key %>: '<%= value %>',
+  			'<%= key %>': '<%= value %>',
   		<%
   		}
   		}
