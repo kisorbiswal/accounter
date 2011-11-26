@@ -15,8 +15,6 @@ import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> {
-	private String currentsectionName = "";
-	private Double accountBalance = 0.0;
 
 	private static String EXPENSETYPE = "expenseType";
 
@@ -61,12 +59,6 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 		expenseRecord.add(getMessages().transactionDate(),
 				record.getTransactionDate());
 		expenseRecord.add(getMessages().amount(), record.getTotal());
-		if (!currentsectionName.equals(record.getName())) {
-			currentsectionName = record.getName();
-			accountBalance = 0.0D;
-		}
-		expenseRecord.add(getMessages().balance(),
-				accountBalance += record.getTotal());
 		return expenseRecord;
 	}
 
@@ -122,7 +114,8 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		get(DATE_RANGE).setValue(getMessages().financialYearToDate());
+		dateRangeChanged(getMessages().financialYearToDate());
 		return null;
 	}
 
