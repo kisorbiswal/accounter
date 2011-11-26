@@ -2928,7 +2928,7 @@ public class ReportManager extends Manager {
 					iterator.remove();
 				}
 			}
-			if (newEntry == null && (Boolean) entry[4]
+			if (newEntry == null && (transaction == null || (Boolean) entry[4])
 					&& (Double) entry[5] != 0) {
 				newEntry = new TAXItemDetail();
 				newEntry.setFiledTAXAmount((Double) entry[5]);

@@ -1173,7 +1173,7 @@ public class TaxManager extends Manager {
 					iterator.remove();
 				}
 			}
-			if (newEntry == null && (Boolean) entry[3]
+			if (newEntry == null && (transaction == null || (Boolean) entry[3])
 					&& (Double) entry[4] != 0) {
 				newEntry = new ClientTAXReturnEntry();
 				newEntry.setFiledTAXAmount((Double) entry[4]);
