@@ -22,7 +22,8 @@ public class ConsoleChatClient {
 			System.out.print("Enter user Email:");
 			String email = "***REMOVED***";
 
-			Socket client = new Socket("localhost", 9084);
+			email += " eng";
+			Socket client = new Socket("192.168.0.54", 9084);
 			ObjectOutputStream out = new ObjectOutputStream(
 					client.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(
