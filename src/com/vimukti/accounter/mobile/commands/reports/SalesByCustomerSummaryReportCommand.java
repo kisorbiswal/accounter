@@ -22,8 +22,9 @@ public class SalesByCustomerSummaryReportCommand extends
 	@Override
 	protected Record createReportRecord(SalesByCustomerDetail record) {
 		Record salesRecord = new Record(record);
-		salesRecord.add("Customer Name", record.getName());
-		salesRecord.add("Amount", record.getAmount());
+		salesRecord.add(getMessages().payeeName(Global.get().Customer()),
+				record.getName());
+		salesRecord.add(getMessages().amount(), record.getAmount());
 		return salesRecord;
 	}
 
