@@ -148,16 +148,23 @@
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.delete.CustomerDeleteCommand"
 		name="Delete customer"></command>
-
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.delete.CustomerGroupDeleteCommand"
+		name="Delete CustomerGroup"></command>
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.delete.VendorDeleteCommand"
 		name="deleteVendor"></command>
-
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.delete.AccountDeleteCommand"
 		name="Delete account">
 		<alias>Delete BankAccout</alias>
 	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.delete.VendorGroupDeleteCommand"
+		name="deleteVendorGroup"></command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.delete.ShippingMethodDeleteCommand"
+		name="Delete Shipping Method"></command>
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.delete.CreditRatingDeleteCommand"
 		name="Delete Credit Rating"></command>
@@ -1050,6 +1057,7 @@
 		clazz="com.vimukti.accounter.mobile.commands.ShippingTermsListCommand"
 		name="Shipping Terms List">
 		<alias>Shipping Terms</alias>
+		<alias>Shipping Term List</alias>
 	</command>
 
 	<command
@@ -1057,6 +1065,7 @@
 		name="Shipping Method List">
 		<alias>Shipping Methods</alias>
 	</command>
+
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.BankAccountsListCommand"
@@ -1148,7 +1157,6 @@
 		<alias>CustomerGroups list</alias>
 		<alias>Customer Group list</alias>
 		<alias>CustomerGroups</alias>
-
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.VendorGroupListCommand"
@@ -1165,5 +1173,6 @@
 		<alias>Payment Terms list</alias>
 		<alias>PaymentTerms list</alias>
 		<alias>PaymentTerms</alias>
+		<alias>Payment Term list</alias>
 	</command>
 </commands>
