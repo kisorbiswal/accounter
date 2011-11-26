@@ -96,8 +96,8 @@ public class CustomerListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(Customer value) {
 				Record customerRec = new Record(value);
-				customerRec.add(" ", value.getName());
-				customerRec.add("", value.getBalance());
+				customerRec.add(getMessages().name(), value.getName());
+				customerRec.add(getMessages().balance(), value.getBalance());
 				return customerRec;
 
 			}
