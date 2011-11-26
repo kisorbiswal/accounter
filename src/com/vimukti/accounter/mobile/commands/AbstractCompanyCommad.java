@@ -112,8 +112,7 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 		}
 
 		Record nameRecord = new Record(requirement.getName());
-		nameRecord.add("", name);
-		nameRecord.add("", requirementvalue);
+		nameRecord.add(name, requirementvalue);
 		list.add(nameRecord);
 		return null;
 	}
