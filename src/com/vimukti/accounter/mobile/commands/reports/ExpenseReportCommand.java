@@ -10,7 +10,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.server.FinanceTool;
 

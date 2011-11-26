@@ -18,8 +18,6 @@ import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 
 public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 	protected static final int REPORTS_TO_SHOW = 20;
@@ -37,6 +35,10 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 	protected static final String ENDING_DATE = "Ending Date";
 	protected static final String CUSTOMER = "Customer";
 	private String previousSelectedRange;
+
+	protected List<ResultList> categories = new ArrayList<ResultList>();
+	protected ClientFinanceDate startDate;
+	protected ClientFinanceDate endDate;
 
 	/**
 	 * Adds Date range,from date and to date requirements to existing
@@ -98,6 +100,18 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 		});
 	}
 
+	protected void addDateRangeToDateRequirements(List<Requirement> list) {
+		list.add(addDateRangeRequirement());
+		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
+				getMessages().endDate()), "", true, true) {
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				resetandUpdateRecords();
+			}
+		});
+	}
+
 	private Requirement addDateRangeRequirement() {
 		return new StringListRequirement(DATE_RANGE, getMessages().pleaseEnter(
 				getMessages().dateRange()), getMessages().dateRange(), true,
@@ -150,16 +164,21 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 		if (minimumAndMaximumDates.isEmpty()) {
 			return;
 		}
-		ClientFinanceDate startDate = get(FROM_DATE).getValue();
-		ClientFinanceDate endDate = get(TO_DATE).getValue();
+		if (get(TO_DATE) != null) {
+			endDate = get(TO_DATE).getValue();
+		}
 		Map<String, Object> dateRangeChanged = CommandUtils.dateRangeChanged(
 				getMessages(), dateRange, previousSelectedRange,
 				getPreferences(), startDate, endDate,
 				minimumAndMaximumDates.get(0));
-		startDate = (ClientFinanceDate) dateRangeChanged.get("startDate");
-		get(FROM_DATE).setValue(startDate);
-		endDate = (ClientFinanceDate) dateRangeChanged.get("endDate");
-		get(TO_DATE).setValue(endDate);
+		this.startDate = (ClientFinanceDate) dateRangeChanged.get("startDate");
+		if (get(FROM_DATE) != null) {
+			get(FROM_DATE).setValue(startDate);
+		}
+		this.endDate = (ClientFinanceDate) dateRangeChanged.get("endDate");
+		if (get(TO_DATE) != null) {
+			get(TO_DATE).setValue(endDate);
+		}
 		// boolean isDateChanges = (Boolean)
 		// dateRangeChanged.get("isDateChanges");
 		previousSelectedRange = (String) dateRangeChanged
@@ -215,39 +234,31 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 		// return lastDay;
 	}
 
-	protected int getType(TransactionDetailByAccount record) {
-		if (record.getTransactionType() == 11) {
-			return (record.getMemo() != null && record.getMemo()
-					.equalsIgnoreCase(VENDOR_PREPAYMENT)) ? ClientTransaction.TYPE_VENDOR_PAYMENT
-					: ClientTransaction.TYPE_PAY_BILL;
-		}
-
-		return record.getTransactionType();
-	}
-
 	protected abstract String addCommandOnRecordClick(T selection);
 
 	protected abstract Record createReportRecord(T record);
 
 	protected FinanceDate getStartDate() {
-		return get(FROM_DATE) == null ? new FinanceDate() : new FinanceDate(
-				(ClientFinanceDate) get(FROM_DATE).getValue());
+		return get(FROM_DATE) == null ? new FinanceDate(startDate)
+				: new FinanceDate((ClientFinanceDate) get(FROM_DATE).getValue());
 	}
 
 	protected FinanceDate getEndDate() {
-		return get(TO_DATE) == null ? new FinanceDate() : new FinanceDate(
-				(ClientFinanceDate) get(TO_DATE).getValue());
+		return get(TO_DATE) == null ? new FinanceDate(endDate)
+				: new FinanceDate((ClientFinanceDate) get(TO_DATE).getValue());
 	}
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		startDate = CommandUtils.getCurrentFiscalYearStartDate(context
+				.getPreferences());
+		endDate = CommandUtils.getCurrentFiscalYearEndDate(context
+				.getPreferences());
 		if (get(FROM_DATE) != null) {
-			get(FROM_DATE).setValue(
-					CommandUtils.getCurrentFiscalYearStartDate(context
-							.getPreferences()));
+			get(FROM_DATE).setValue(startDate);
 		}
 		if (get(TO_DATE) != null) {
-			get(TO_DATE).setValue(new ClientFinanceDate());
+			get(TO_DATE).setValue(endDate);
 		}
 		if (get(DATE_RANGE) != null) {
 			get(DATE_RANGE).setValue(getMessages().all());

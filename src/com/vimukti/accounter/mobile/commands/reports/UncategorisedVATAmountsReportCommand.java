@@ -6,7 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
 import com.vimukti.accounter.web.server.FinanceTool;
 

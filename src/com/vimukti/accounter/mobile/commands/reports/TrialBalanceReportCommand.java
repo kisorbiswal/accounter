@@ -7,6 +7,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -15,7 +16,7 @@ public class TrialBalanceReportCommand extends
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		addDateRangeFromDateRequirements(list);
+		addDateRangeToDateRequirements(list);
 		super.addRequirements(list);
 	}
 
@@ -70,6 +71,10 @@ public class TrialBalanceReportCommand extends
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		endDate = new ClientFinanceDate();
+		get(TO_DATE).setValue(endDate);
+		get(DATE_RANGE).setValue(getMessages().financialYearToDate());
+		dateRangeChanged(getMessages().financialYearToDate());
 		return null;
 	}
 

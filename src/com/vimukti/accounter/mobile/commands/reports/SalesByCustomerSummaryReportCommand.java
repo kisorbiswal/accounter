@@ -49,7 +49,7 @@ public class SalesByCustomerSummaryReportCommand extends
 
 	@Override
 	protected String addCommandOnRecordClick(SalesByCustomerDetail selection) {
-		return "Sales By Customer Detail," + selection.getName();
+		return "Sales by Customer Detail Report," + selection.getName();
 	}
 
 	@Override

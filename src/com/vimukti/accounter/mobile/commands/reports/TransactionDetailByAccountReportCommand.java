@@ -3,12 +3,14 @@ package com.vimukti.accounter.mobile.commands.reports;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.managers.ReportManager;
@@ -21,7 +23,7 @@ public class TransactionDetailByAccountReportCommand extends
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		addDateRangeFromDateRequirements(list);
+		addDateRangeFromToDateRequirements(list);
 		super.addRequirements(list);
 	}
 
@@ -29,11 +31,17 @@ public class TransactionDetailByAccountReportCommand extends
 	protected Record createReportRecord(TransactionDetailByAccount record) {
 		Record transactionRecord = new Record(record);
 		transactionRecord.add("", "");
+		transactionRecord.add("Name", record.getName());
+		transactionRecord.add("Date", record.getTransactionDate());
+		transactionRecord.add("",
+				Utility.getTransactionName(record.getTransactionType()));
+		transactionRecord.add("No.", record.getTransactionNumber());
+		transactionRecord.add("Amount", record.getTotal());
 		transactionRecord.add(getMessages().name(), record.getName());
 		transactionRecord
 				.add(getMessages().date(), record.getTransactionDate());
 		transactionRecord.add(getMessages().transactionName(),
-				CommandUtils.getTransactionName(getType(record)));
+				Utility.getTransactionName(record.getTransactionType()));
 		transactionRecord.add(getMessages().number(),
 				record.getTransactionNumber());
 		transactionRecord.add(getMessages().total(), record.getTotal());
@@ -128,6 +136,10 @@ public class TransactionDetailByAccountReportCommand extends
 						accountName);
 			}
 		}
+		endDate = new ClientFinanceDate();
+		get(TO_DATE).setValue(endDate);
+		get(DATE_RANGE).setValue(getMessages().financialYearToDate());
+		dateRangeChanged(getMessages().financialYearToDate());
 		return null;
 	}
 }

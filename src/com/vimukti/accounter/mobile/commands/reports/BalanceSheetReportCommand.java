@@ -8,6 +8,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -17,7 +18,7 @@ public class BalanceSheetReportCommand extends
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		addDateRangeFromDateRequirements(list);
+		addDateRangeToDateRequirements(list);
 		super.addRequirements(list);
 	}
 
@@ -91,6 +92,10 @@ public class BalanceSheetReportCommand extends
 				account = CommandUtils.getAccountByName(getCompany(), number);
 			}
 		}
+		endDate = new ClientFinanceDate();
+		get(TO_DATE).setValue(endDate);
+		get(DATE_RANGE).setValue(getMessages().financialYearToDate());
+		dateRangeChanged(getMessages().financialYearToDate());
 		return null;
 	}
 

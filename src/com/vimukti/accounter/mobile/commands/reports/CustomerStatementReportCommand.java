@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
-import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 

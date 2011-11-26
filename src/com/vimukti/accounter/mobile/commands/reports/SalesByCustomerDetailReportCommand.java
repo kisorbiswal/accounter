@@ -7,7 +7,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -56,7 +56,7 @@ public class SalesByCustomerDetailReportCommand extends
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return salesByCustomerDetails;
 	}
 
 	@Override
