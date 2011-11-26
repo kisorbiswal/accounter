@@ -161,7 +161,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.Accounts();
+		return messages.Account();
 	}
 
 }
