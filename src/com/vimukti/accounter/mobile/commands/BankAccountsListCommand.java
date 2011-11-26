@@ -44,8 +44,9 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(Account value) {
 				Record record = new Record(value);
-				record.add("Name", value.getName());
-				record.add("Current balance", value.getCurrentBalance());
+				record.add(getMessages().name(), value.getName());
+				record.add(getMessages().currentBalance(),
+						value.getCurrentBalance());
 				return record;
 			}
 
