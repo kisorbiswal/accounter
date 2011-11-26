@@ -716,6 +716,7 @@
 		<alias>Update Customer Prepayment</alias>
 		<alias>Modify Customer Prepayment</alias>
 		<alias>Customer Prepayment</alias>
+		<alias>Update Customer Payment</alias>
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.UpdateItemCommand"
 		name="Update Item"></command>
@@ -948,7 +949,7 @@
 		New PurchaseOrder</alias> </command> -->
 
 	<command clazz="com.vimukti.accounter.mobile.commands.VoidTransactionCommand"
-	name="">
+		name="">
 		<alias>Void</alias>
 	</command>
 
