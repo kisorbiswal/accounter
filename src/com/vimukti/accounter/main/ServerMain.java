@@ -111,7 +111,7 @@ public class ServerMain extends Main {
 				String value = split[1];
 
 				Key key = new Key();
-				key.setKey(keyValue);
+				key.setKey(keyValue.trim());
 
 				Message message = new Message();
 				message.setValue(value);
