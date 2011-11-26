@@ -14,8 +14,8 @@ public class Record extends ArrayList<Cell> {
 		this.object = object;
 	}
 
-	public void add(String name, Object value) {
-		this.add(new Cell(name, value));
+	public void add(String title, Object value) {
+		this.add(new Cell(title, value));
 	}
 
 	public String getCode() {
@@ -53,5 +53,9 @@ public class Record extends ArrayList<Cell> {
 			}
 		}
 		return "\n" + code + ". " + builder.toString();
+	}
+
+	public void add(String string) {
+		add(string, "");
 	}
 }
