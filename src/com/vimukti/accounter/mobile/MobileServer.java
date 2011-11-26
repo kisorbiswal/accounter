@@ -16,6 +16,7 @@ import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.Channels;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
+import org.jboss.netty.handler.ssl.SslHandler;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 
@@ -31,11 +32,9 @@ public class MobileServer {
 
 		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
 			public ChannelPipeline getPipeline() {
-				// new SslHandler(getSSLEngine()),
-				return Channels.pipeline(
-						new MobileDecoder(),
-						new MobileChannelHandler(MobileMessageHandler
-								.getInstance()));
+				return Channels.pipeline(new SslHandler(getSSLEngine()),
+						new MobileDecoder(), new MobileChannelHandler(
+								MobileMessageHandler.getInstance()));
 			}
 		});
 
@@ -45,12 +44,12 @@ public class MobileServer {
 
 	protected SSLEngine getSSLEngine() {
 		try {
-			KeyStore ks = KeyStore.getInstance("JKS");
+			KeyStore ks = KeyStore.getInstance("PKCS12");
 
-			char[] passphrase = "importkey".toCharArray();
+			char[] passphrase = "***REMOVED***".toCharArray();
 
 			ks.load(new FileInputStream(ServerConfiguration.getMobileStore()
-					+ File.separator + "keystore.ImportKey"), passphrase);
+					+ File.separator + "keystore.accounter"), passphrase);
 
 			// ts.load(new FileInputStream(ServerConfiguration.getMobileStore()
 			// + File.separator + "keystore"), passphrase);
