@@ -179,7 +179,11 @@
 		name="Delete Item Group"></command>
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.delete.ItemDeleteCommand"
-		name="Delete Item"></command>
+		name="Delete Item">
+		<alias>Delete Inventory Item</alias>
+		<alias>Delete Non Inventory Item</alias>
+		<alias>Delete Service Item</alias>
+	</command>
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.delete.TransactionDeleteCommand"
@@ -460,6 +464,7 @@
 		<alias>Activity</alias>
 		<alias>Log</alias>
 		<alias>UserLog</alias>
+		<alias>User's Activity Log</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.ExpensesListCommand"
