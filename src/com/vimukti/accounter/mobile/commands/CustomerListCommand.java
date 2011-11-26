@@ -66,14 +66,14 @@ public class CustomerListCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<Customer>("Customers", "", 20) {
 
-			@Override
-			protected void setSelectCommands(CommandList commandList,
-					Customer value) {
-				commandList.add(new UserCommand("update customer", value
-						.getNumber()));
-				commandList.add(new UserCommand("Delete customer", value
-						.getID()));
-			}
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// Customer value) {
+			// commandList.add(new UserCommand("update customer", value
+			// .getNumber()));
+			// commandList.add(new UserCommand("Delete customer", value
+			// .getID()));
+			// }
 
 			@Override
 			protected String onSelection(Customer value) {

@@ -21,6 +21,11 @@ public class NewCustomerGroupCommand extends NewAbstractTransactionCommand {
 	private ClientCustomerGroup customerGroup;
 
 	@Override
+	protected String getDeleteCommand(Context context) {
+		return "Delete CustomerGroup " + customerGroup.getID();
+	}
+
+	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (isUpdate) {
 			String string = context.getString();

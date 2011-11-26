@@ -49,18 +49,18 @@ public class CustomerGroupListCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<CustomerGroup>(getMessages()
 				.customer() + " " + getMessages().group(), "", 20) {
-			@Override
-			protected void setSelectCommands(CommandList commandList,
-					CustomerGroup value) {
-				commandList.add(new UserCommand("Update Customer Group", value
-						.getName()));
-				commandList.add(new UserCommand("Delete CustomerGroup ", value
-						.getName()));
-			}
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// CustomerGroup value) {
+			// commandList.add(new UserCommand("Update Customer Group", value
+			// .getName()));
+			// commandList.add(new UserCommand("Delete CustomerGroup ", value
+			// .getName()));
+			// }
 
 			@Override
 			protected String onSelection(CustomerGroup value) {
-				return "update CustomerGroup " + value.getName();
+				return "Update Customer Group " + value.getName();
 			}
 
 			@Override

@@ -128,6 +128,11 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 	}
 
 	@Override
+	protected String getDeleteCommand(Context context) {
+		return "Delete BankAccout " + bankAccount.getID();
+	}
+
+	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		String string = context.getString();
 		if (!isUpdate) {

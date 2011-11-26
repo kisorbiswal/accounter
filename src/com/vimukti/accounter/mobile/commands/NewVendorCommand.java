@@ -151,8 +151,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getCompany().getCountry().equals(
-						CountryPreferenceFactory.UNITED_STATES)) {
+				if (context.getCompany().getCountry()
+						.equals(CountryPreferenceFactory.UNITED_STATES)) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -275,10 +275,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 				getMessages().accountNumber()), getMessages().accountNumber(),
 				true, true));
 
-		list
-				.add(new NameRequirement(BANK_NAME, getMessages().pleaseEnter(
-						getMessages().bankName()), getMessages().bankName(),
-						true, true));
+		list.add(new NameRequirement(BANK_NAME, getMessages().pleaseEnter(
+				getMessages().bankName()), getMessages().bankName(), true, true));
 
 		list.add(new NameRequirement(BANK_BRANCH, getMessages().pleaseEnter(
 				getMessages().bankBranch()), getMessages().bankBranch(), true,
@@ -348,23 +346,20 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 		});
 
-		list
-				.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
-						getMessages().payeeNumber(Global.get().Customer())),
-						getMessages().payeeNumber(Global.get().Customer()),
-						true, true) {
-					@Override
-					public Result run(Context context, Result makeResult,
-							ResultList list, ResultList actions) {
-						if (context.getPreferences().isTrackTax()
-								&& context.getCompany().getCountryPreferences()
-										.isSalesTaxAvailable()) {
-							return super
-									.run(context, makeResult, list, actions);
-						}
-						return null;
-					}
-				});
+		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
+				getMessages().payeeNumber(Global.get().Customer())),
+				getMessages().payeeNumber(Global.get().Customer()), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (context.getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
+								.isSalesTaxAvailable()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
 				.pleaseEnter(getMessages().serviceTax()), getMessages()
@@ -474,8 +469,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 		vendor.setBankName(bankName);
 		vendor.setEmail(emailId);
 
-		if (context.getCompany().getCountry().equals(
-				CountryPreferenceFactory.UNITED_STATES)) {
+		if (context.getCompany().getCountry()
+				.equals(CountryPreferenceFactory.UNITED_STATES)) {
 			boolean isTrackPaymentsFor1099 = get(TRACK_PAYMENTS_FOR_1099)
 					.getValue();
 			vendor.setTrackPaymentsFor1099(isTrackPaymentsFor1099);
@@ -520,6 +515,12 @@ public class NewVendorCommand extends NewAbstractCommand {
 	}
 
 	@Override
+	protected String getDeleteCommand(Context context) {
+		// TODO Auto-generated method stub
+		return "deleteVendor " + vendor.getID();
+	}
+
+	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		String string = context.getString();
 		if (isUpdate) {
@@ -527,15 +528,15 @@ public class NewVendorCommand extends NewAbstractCommand {
 				addFirstMessage(context, "Select a Vendor to update.");
 				return "vendors";
 			}
-			ClientPayee vendorByName = CommandUtils.getPayeeByName(context
-					.getCompany(), string.toLowerCase());
+			ClientPayee vendorByName = CommandUtils.getPayeeByName(
+					context.getCompany(), string.toLowerCase());
 			if (vendorByName == null) {
 				long numberFromString = getNumberFromString(string);
 				if (numberFromString != 0) {
 					string = String.valueOf(numberFromString);
 				}
-				vendorByName = CommandUtils.getVendorByNumber(context
-						.getCompany(), string);
+				vendorByName = CommandUtils.getVendorByNumber(
+						context.getCompany(), string);
 				if (vendorByName == null) {
 					addFirstMessage(context, "Select a Vendor to update.");
 					return "vendors " + string.trim();

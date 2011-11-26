@@ -46,12 +46,17 @@ public class VATItemsListCommand extends NewAbstractCommand {
 				return record;
 			}
 
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// TAXItem value) {
+			// commandList.add(new UserCommand("Update TaxItem", String
+			// .valueOf(value.getID())));
+			// commandList.add(new UserCommand("Delete VatItem",
+			// value.getID()));
+			// }
 			@Override
-			protected void setSelectCommands(CommandList commandList,
-					TAXItem value) {
-				commandList.add(new UserCommand("Update TaxItem", String
-						.valueOf(value.getID())));
-				commandList.add(new UserCommand("Delete VatItem", value.getID()));
+			protected String onSelection(TAXItem value) {
+				return "Update TaxItem " + value.getName();
 			}
 
 			@Override
@@ -98,10 +103,6 @@ public class VATItemsListCommand extends NewAbstractCommand {
 				return getMessages().noRecordsToShow();
 			}
 
-			@Override
-			protected String onSelection(TAXItem value) {
-				return "Update Tax Item " + value.getName();
-			}
 		});
 	}
 

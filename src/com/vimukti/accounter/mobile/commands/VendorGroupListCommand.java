@@ -96,14 +96,14 @@ public class VendorGroupListCommand extends NewAbstractCommand {
 				return getVendorGroups(context);
 			}
 
-			@Override
-			protected void setSelectCommands(CommandList commandList,
-					VendorGroup value) {
-				commandList.add(new UserCommand("update vendor group", value
-						.getName()));
-				commandList.add(new UserCommand("delete vendor group", value
-						.getName()));
-			}
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// VendorGroup value) {
+			// commandList.add(new UserCommand("update vendor group", value
+			// .getName()));
+			// commandList.add(new UserCommand("delete vendor group", value
+			// .getName()));
+			// }
 		});
 
 	}

@@ -62,14 +62,14 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<SalesPerson>(getMessages()
 				.salesPersonList(), "", 20) {
-			@Override
-			protected void setSelectCommands(CommandList commandList,
-					SalesPerson value) {
-				commandList.add(new UserCommand("Update Sales Person ", value
-						.getFirstName()));
-				commandList.add(new UserCommand("Delete SalesPerson", value
-						.getID()));
-			}
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// SalesPerson value) {
+			// commandList.add(new UserCommand("Update Sales Person ", value
+			// .getFirstName()));
+			// commandList.add(new UserCommand("Delete SalesPerson", value
+			// .getID()));
+			// }
 
 			@Override
 			protected String onSelection(SalesPerson value) {

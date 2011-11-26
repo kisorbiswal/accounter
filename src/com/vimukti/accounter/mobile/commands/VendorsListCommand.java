@@ -42,13 +42,13 @@ public class VendorsListCommand extends NewAbstractCommand {
 		list.add(new ShowListRequirement<PayeeList>("vendorssList",
 				"Please Select vendor", 20) {
 
-			@Override
-			protected void setSelectCommands(CommandList commandList,
-					PayeeList value) {
-				commandList.add(new UserCommand("update vendor ", value
-						.getPayeeName()));
-				commandList.add(new UserCommand("deleteVendor", value.getID()));
-			}
+//			@Override
+//			protected void setSelectCommands(CommandList commandList,
+//					PayeeList value) {
+//				commandList.add(new UserCommand("update vendor ", value
+//						.getPayeeName()));
+//				commandList.add(new UserCommand("deleteVendor", value.getID()));
+//			}
 
 			@Override
 			protected String onSelection(PayeeList value) {

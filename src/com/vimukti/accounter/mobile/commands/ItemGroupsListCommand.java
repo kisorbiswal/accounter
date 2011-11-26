@@ -49,18 +49,18 @@ public class ItemGroupsListCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<ItemGroup>(getMessages().itemGroup(),
 				"", 20) {
-			@Override
-			protected void setSelectCommands(CommandList commandList,
-					ItemGroup value) {
-				commandList.add(new UserCommand("Update Item Group", value
-						.getName()));
-				commandList.add(new UserCommand("Delete Item Group", value
-						.getName()));
-			}
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// ItemGroup value) {
+			// commandList.add(new UserCommand("Update Item Group", value
+			// .getName()));
+			// commandList.add(new UserCommand("Delete Item Group", value
+			// .getName()));
+			// }
 
 			@Override
 			protected String onSelection(ItemGroup value) {
-				return "update ItemGroup " + value.getName();
+				return "Update Item Group " + value.getName();
 			}
 
 			@Override

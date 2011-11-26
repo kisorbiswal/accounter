@@ -33,6 +33,11 @@ public class NewVendorGroupCommand extends NewAbstractCommand {
 	}
 
 	@Override
+	protected String getDeleteCommand(Context context) {
+		return "delete vendor group " + vendorGroup.getID();
+	}
+
+	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (isUpdate) {
 			String string = context.getString();

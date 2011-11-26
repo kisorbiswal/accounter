@@ -61,14 +61,14 @@ public class TaxAgenciesListCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<TAXAgency>(getMessages().taxAgency(),
 				"", 20) {
-			@Override
-			protected void setSelectCommands(CommandList commandList,
-					TAXAgency value) {
-				commandList.add(new UserCommand("Delete Taxagency", value
-						.getID()));
-				commandList.add(new UserCommand("update Tax Agency ", value
-						.getName()));
-			}
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// TAXAgency value) {
+			// commandList.add(new UserCommand("Delete Taxagency", value
+			// .getID()));
+			// commandList.add(new UserCommand("update Tax Agency ", value
+			// .getName()));
+			// }
 
 			@Override
 			protected String onSelection(TAXAgency value) {

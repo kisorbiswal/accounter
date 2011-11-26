@@ -223,6 +223,11 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 	}
 
 	@Override
+	protected String getDeleteCommand(Context context) {
+		return "Delete VatCode " + taxCode.getID();
+	}
+
+	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (isUpdate) {
 			String string = context.getString();

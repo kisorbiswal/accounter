@@ -32,6 +32,11 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 	}
 
 	@Override
+	protected String getDeleteCommand(Context context) {
+		return "Delete Shipping Method " + shippingMethod.getID();
+	}
+
+	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (isUpdate) {
 			String string = context.getString();

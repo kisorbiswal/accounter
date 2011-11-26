@@ -32,18 +32,21 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 				return record;
 			}
 
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// ShippingMethod value) {
+			//
+			// commandList.add(new UserCommand("Edit Shipping Method", value
+			// .getName()));
+			//
+			// commandList.add(new UserCommand("Delete Shipping Method", value
+			// .getName()));
+			//
+			// }
 			@Override
-			protected void setSelectCommands(CommandList commandList,
-					ShippingMethod value) {
-
-				commandList.add(new UserCommand("Edit Shipping Method", value
-						.getName()));
-
-				commandList.add(new UserCommand("Delete Shipping Method", value
-						.getName()));
-
+			protected String onSelection(ShippingMethod value) {
+				return "Edit Shipping Method " + value.getName();
 			}
-
 			@Override
 			protected void setCreateCommand(CommandList list) {
 				list.add(getMessages().create(getMessages().shippingMethod()));
@@ -76,10 +79,7 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 				return getMessages().noRecordsToShow();
 			}
 
-			@Override
-			protected String onSelection(ShippingMethod value) {
-				return "Update Shipping Method " + value.getName();
-			}
+			
 		});
 	}
 

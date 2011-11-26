@@ -479,6 +479,11 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	}
 
 	@Override
+	protected String getDeleteCommand(Context context) {
+		return "Delete Item " + item.getID();
+	}
+
+	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		String string = context.getString();
 		if (!isUpdate) {

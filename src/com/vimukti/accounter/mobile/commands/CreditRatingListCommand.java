@@ -30,16 +30,19 @@ public class CreditRatingListCommand extends NewAbstractCommand {
 				return record;
 			}
 
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// CreditRating value) {
+			// commandList.add(new UserCommand("Edit Credit Rating", value
+			// .getName()));
+			//
+			// commandList.add(new UserCommand("Delete Credit Rating", value
+			// .getName()));
+			// }
 			@Override
-			protected void setSelectCommands(CommandList commandList,
-					CreditRating value) {
-				commandList.add(new UserCommand("Edit Credit Rating", value
-						.getName()));
-
-				commandList.add(new UserCommand("Delete Credit Rating", value
-						.getName()));
+			protected String onSelection(CreditRating value) {
+				return "Edit Credit Rating " + value.getName();
 			}
-
 			@Override
 			protected void setCreateCommand(CommandList list) {
 				list.add("Create CreditRating");
@@ -65,10 +68,7 @@ public class CreditRatingListCommand extends NewAbstractCommand {
 				return getMessages().noRecordsToShow();
 			}
 
-			@Override
-			protected String onSelection(CreditRating value) {
-				return "Update CreditRating " + value.getName();
-			}
+			
 		});
 	}
 

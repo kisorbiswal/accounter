@@ -46,12 +46,17 @@ public class VATCodesListCommand extends NewAbstractCommand {
 				return record;
 			}
 
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// TAXCode value) {
+			// commandList.add(new UserCommand("Update vatCode", String
+			// .valueOf(value.getID())));
+			// commandList.add(new UserCommand("Delete VatCode",
+			// value.getID()));
+			// }
 			@Override
-			protected void setSelectCommands(CommandList commandList,
-					TAXCode value) {
-				commandList.add(new UserCommand("Update vatCode", String
-						.valueOf(value.getID())));
-				commandList.add(new UserCommand("Delete VatCode", value.getID()));
+			protected String onSelection(TAXCode value) {
+				return "Update vatCode " + value.getName();
 			}
 
 			@Override
@@ -93,11 +98,6 @@ public class VATCodesListCommand extends NewAbstractCommand {
 			@Override
 			protected String getEmptyString() {
 				return getMessages().noRecordsToShow();
-			}
-
-			@Override
-			protected String onSelection(TAXCode value) {
-				return "Update TAX Code " + value.getName();
 			}
 
 		});

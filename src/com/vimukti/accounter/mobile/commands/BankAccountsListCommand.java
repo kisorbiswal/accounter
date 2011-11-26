@@ -50,16 +50,17 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 				return record;
 			}
 
-			@Override
-			protected void setSelectCommands(CommandList commandList,
-					Account value) {
-				commandList.add(new UserCommand("Bank Registers", value
-						.getName()));
-				commandList.add(new UserCommand("Edit account", value.getName()));
-				commandList.add(new UserCommand("Delete BankAccout", value
-						.getID()));
-
-			}
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// Account value) {
+			// commandList.add(new UserCommand("Bank Registers", value
+			// .getName()));
+			// commandList.add(new UserCommand("Edit account",
+			// value.getName()));
+			// commandList.add(new UserCommand("Delete BankAccout", value
+			// .getID()));
+			//
+			// }
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
@@ -108,7 +109,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Account value) {
-				return "update bank account #" + value.getNumber();
+				return "Edit account " + value.getName();
 			}
 
 		});

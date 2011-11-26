@@ -38,12 +38,13 @@ public class ItemsCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<Item>("items", "Please Select Item",
 				20) {
-			@Override
-			protected void setSelectCommands(CommandList commandList, Item value) {
-				commandList.add(new UserCommand("Update Item", String
-						.valueOf(value.getID())));
-				commandList.add(new UserCommand("Delete Item", value.getID()));
-			}
+			// @Override
+			// protected void setSelectCommands(CommandList commandList, Item
+			// value) {
+			// commandList.add(new UserCommand("Update Item", String
+			// .valueOf(value.getID())));
+			// commandList.add(new UserCommand("Delete Item", value.getID()));
+			// }
 
 			@Override
 			protected String onSelection(Item value) {

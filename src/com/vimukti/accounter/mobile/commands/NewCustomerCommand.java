@@ -529,6 +529,11 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	}
 
 	@Override
+	protected String getDeleteCommand(Context context) {
+		return "Delete customer " + customer.getID();
+	}
+
+	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 
 		if (isUpdate) {
