@@ -20,14 +20,15 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 		return null;
 	}
 
+	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new ShowListRequirement<ShippingMethod>(SHIPPING_METHODS,
 				null, 20) {
 			@Override
 			protected Record createRecord(ShippingMethod value) {
 				Record record = new Record(value);
-				record.add("", value.getName());
-				record.add("", value.getDescription());
+				record.add(getMessages().shippingMethod(), value.getName());
+				record.add(getMessages().description(), value.getDescription());
 				return record;
 			}
 
