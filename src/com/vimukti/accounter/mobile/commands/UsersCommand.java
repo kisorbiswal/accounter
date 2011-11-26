@@ -42,10 +42,10 @@ public class UsersCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(ClientUserInfo value) {
 				Record record = new Record(value);
-				record.add("", value.getEmail());
-				record.add("", value.getUserRole());
-				record.add("", value.getFirstName());
-				record.add("", value.getLastName());
+				record.add(getMessages().email(), value.getEmail());
+				record.add(getMessages().userRole(), value.getUserRole());
+				record.add(getMessages().firstName(), value.getFirstName());
+				record.add(getMessages().lastName(), value.getLastName());
 				return record;
 			}
 
