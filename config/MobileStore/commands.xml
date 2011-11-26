@@ -456,6 +456,8 @@
 		<alias>Bill</alias>
 		<alias>Create Enter Bill</alias>
 		<alias>EnterBill</alias>
+		<alias>Update vendor Bill</alias>
+		<alias>Update supplier Bill</alias>
 	</command>
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.UpdateTransactionCommand"
@@ -822,6 +824,8 @@
 		<alias>Modify Vendor Prepayment</alias>
 		<alias>Edit Vendor Prepayment</alias>
 		<alias>New Vendor Prepayment</alias>
+		<alias>Update Vendor Payment</alias>
+		<alias>Update supplier Payment</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.VendorsListCommand"
