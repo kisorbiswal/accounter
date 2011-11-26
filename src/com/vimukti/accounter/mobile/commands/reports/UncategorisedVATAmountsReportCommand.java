@@ -26,17 +26,19 @@ public class UncategorisedVATAmountsReportCommand extends
 	protected Record createReportRecord(UncategorisedAmountsReport record) {
 		Record uncategoryRecord = new Record(record);
 
-		uncategoryRecord.add("Type",
+		uncategoryRecord.add(getMessages().transactionType(),
 				Utility.getTransactionName(record.getTransactionType()));
 		if (record.getDate() != null)
-			uncategoryRecord.add("Date", record.getDate());
+			uncategoryRecord.add(getMessages().date(), record.getDate());
 		else
 			uncategoryRecord.add("", "");
-		uncategoryRecord.add("No.", record.getTransactionNumber());
-		uncategoryRecord.add("Source Name", record.getSourceName());
+		uncategoryRecord.add(getMessages().number(),
+				record.getTransactionNumber());
+		uncategoryRecord
+				.add(getMessages().sourceName(), record.getSourceName());
 		balance += record.getAmount();
-		uncategoryRecord.add("Amount", record.getAmount());
-		uncategoryRecord.add("Balance", balance);
+		uncategoryRecord.add(getMessages().amount(), record.getAmount());
+		uncategoryRecord.add(getMessages().balance(), balance);
 
 		return uncategoryRecord;
 	}
