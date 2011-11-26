@@ -56,15 +56,17 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 	protected Record createReportRecord(ExpenseList record) {
 		Record expenseRecord = new Record(record);
 
-		expenseRecord.add("",
+		expenseRecord.add(getMessages().transactionName(),
 				Utility.getTransactionName(record.getTransactionType()));
-		expenseRecord.add("Transaction date", record.getTransactionDate());
-		expenseRecord.add("Amount", record.getTotal());
+		expenseRecord.add(getMessages().transactionDate(),
+				record.getTransactionDate());
+		expenseRecord.add(getMessages().amount(), record.getTotal());
 		if (!currentsectionName.equals(record.getName())) {
 			currentsectionName = record.getName();
 			accountBalance = 0.0D;
 		}
-		expenseRecord.add("Balance", accountBalance += record.getTotal());
+		expenseRecord.add(getMessages().balance(),
+				accountBalance += record.getTotal());
 		return expenseRecord;
 	}
 
