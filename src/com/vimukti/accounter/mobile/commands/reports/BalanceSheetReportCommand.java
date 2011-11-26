@@ -25,10 +25,11 @@ public class BalanceSheetReportCommand extends
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
 		if (getCompany().getPreferences().getUseAccountNumbers() == true)
-			trialRecord.add("Category Number", record.getAccountNumber());
+			trialRecord.add(getMessages().categoryNumber(),
+					record.getAccountNumber());
 		else
 			return null;
-		trialRecord.add("", record.getAccountName());
+		trialRecord.add(getMessages().accountName(), record.getAccountName());
 		trialRecord
 				.add(getStartDate() + "-" + getEndDate(), record.getAmount());
 		trialRecord.add("", record.getAmount());
