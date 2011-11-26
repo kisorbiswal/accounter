@@ -81,22 +81,14 @@ public class CommandsFactory {
 
 			List<CommandTemplate> commands = (List<CommandTemplate>) object;
 			for (CommandTemplate command : commands) {
-				Class<?> forName = null;
+				Class<?> forName;
 				try {
-					forName = Class
-							.forName("com.vimukti.accounter.mobile.commands."
-									+ command.className);
-				} catch (ClassNotFoundException e) {
-					try {
-						forName = Class
-								.forName("com.vimukti.accounter.mobile.commands.reports."
-										+ command.className);
-					} catch (ClassNotFoundException e2) {
-						forName = Class
-								.forName("com.vimukti.accounter.mobile.commands.delete."
-										+ command.className);
-					}
+					forName = Class.forName(command.className);
+				} catch (Exception e) {
+					e.printStackTrace();
+					continue;
 				}
+
 				this.commands.put(command.name.toLowerCase(), forName);
 				List<String> aliases = command.aliases;
 				if (aliases == null) {
