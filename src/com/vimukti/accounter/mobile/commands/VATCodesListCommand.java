@@ -41,8 +41,8 @@ public class VATCodesListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(TAXCode value) {
 				Record record = new Record(value);
-				record.add("", value.getName());
-				record.add("", value.getDescription());
+				record.add(getMessages().name(), value.getName());
+				record.add(getMessages().description(), value.getDescription());
 				return record;
 			}
 
@@ -103,6 +103,7 @@ public class VATCodesListCommand extends NewAbstractCommand {
 		});
 	}
 
+	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		return null;
 	}
