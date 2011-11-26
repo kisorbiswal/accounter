@@ -48,7 +48,7 @@ public class ItemsCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Item value) {
-				return "Update Item " + value.getName();
+				return "Update Item " + value.getID();
 			}
 
 			@Override
@@ -66,6 +66,7 @@ public class ItemsCommand extends NewAbstractCommand {
 				Record record = new Record(value);
 				record.add("", value.getName());
 				record.add("", value.getPurchaseDescription());
+				record.add("", value.getType());
 				return record;
 			}
 
