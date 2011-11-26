@@ -45,6 +45,8 @@ public class MobileSession {
 
 	private String lastReply = "";
 
+	private String language;
+
 	/**
 	 * Creates new Instance
 	 */
@@ -126,7 +128,10 @@ public class MobileSession {
 			}
 			Command pop = userMessage.getCommand();
 			if (pop == null) {
-				continue;
+				setCurrentCommand(null);
+				setLastMessage(userMessage);
+				commandStack.push(userMessage);
+				return;
 			}
 			if (!pop.isDone()) {
 				setCurrentCommand(pop);
@@ -136,6 +141,7 @@ public class MobileSession {
 			}
 		}
 		setCurrentCommand(null);
+		setLastMessage(null);
 	}
 
 	/**
@@ -288,9 +294,20 @@ public class MobileSession {
 	public void refreshLastMessage() {
 		if (!commandStack.isEmpty()) {
 			UserMessage pop = commandStack.pop();
-			setLastMessage(pop);
+			if (!commandStack.isEmpty()) {
+				pop = commandStack.pop();
+				setLastMessage(pop);
+			}
 			return;
 		}
 		setLastMessage(null);
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public String getLanguage() {
+		return language;
 	}
 }
