@@ -100,37 +100,12 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("Create BankAccount", "Bank"));
-				list.add(new UserCommand("Create BankAccount",
-						"Create Other CurrentAsset Account",
-						"Other Current Asset"));
-				list.add(new UserCommand("Create BankAccount",
-						"Create Current Liability Account", "Current Liability"));
-				list.add(new UserCommand("Create BankAccount",
-						"Create Equity Account", "Equity"));
+				NewMakeDepositCommand.this.addCreateAccountCommands(list);
 			}
 
 			@Override
 			protected List<Account> getLists(Context context) {
-				List<Account> filteredList = new ArrayList<Account>();
-				for (Account obj : context.getCompany().getAccounts()) {
-					if (new ListFilter<Account>() {
-
-						@Override
-						public boolean filter(Account e) {
-							return e.getIsActive()
-									&& (Arrays
-											.asList(Account.TYPE_OTHER_CURRENT_ASSET,
-													Account.TYPE_OTHER_CURRENT_LIABILITY,
-													Account.TYPE_BANK,
-													Account.TYPE_EQUITY)
-											.contains(e.getType()));
-						}
-					}.filter(obj)) {
-						filteredList.add(obj);
-					}
-				}
-				return filteredList;
+				return NewMakeDepositCommand.this.getAccounts(context);
 			}
 
 			@Override
@@ -146,14 +121,7 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("Create BankAccount", "Bank"));
-				list.add(new UserCommand("Create BankAccount",
-						"Create Other CurrentAsset Account",
-						"Other Current Asset"));
-				list.add(new UserCommand("Create BankAccount",
-						"Create Current Liability Account", "Current Liability"));
-				list.add(new UserCommand("Create BankAccount",
-						"Create Equity Account", "Equity"));
+				NewMakeDepositCommand.this.addCreateAccountCommands(list);
 			}
 
 			@Override
@@ -164,25 +132,23 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<Account> getLists(Context context) {
-				List<Account> filteredList = new ArrayList<Account>();
-				for (Account obj : context.getCompany().getAccounts()) {
-					if (new ListFilter<Account>() {
+				return NewMakeDepositCommand.this.getAccounts(context);
+			}
 
-						@Override
-						public boolean filter(Account e) {
-							return e.getIsActive()
-									&& (Arrays
-											.asList(Account.TYPE_OTHER_CURRENT_ASSET,
-													Account.TYPE_OTHER_CURRENT_LIABILITY,
-													Account.TYPE_BANK,
-													Account.TYPE_EQUITY)
-											.contains(e.getType()));
-						}
-					}.filter(obj)) {
-						filteredList.add(obj);
-					}
+			@Override
+			public void setValue(Object value) {
+				Account depositTo = (Account) value;
+				if (depositTo == null) {
+					return;
+				} else if (!NewMakeDepositCommand.this
+						.isDifferentAccounts(depositTo)) {
+					addFirstMessage(getMessages().pleaseEnterName(
+							getMessages().depositAccount()));
+					super.setValue(value);
+				} else {
+					addFirstMessage(getMessages()
+							.dipositAccountAndTransferAccountShouldBeDiff());
 				}
-				return filteredList;
 			}
 
 			@Override
@@ -199,6 +165,44 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
+	}
+
+	protected void addCreateAccountCommands(CommandList list) {
+		list.add(new UserCommand("Create BankAccount", "Bank"));
+		list.add(new UserCommand("Create BankAccount",
+				"Create Other CurrentAsset Account", "Other Current Asset"));
+		list.add(new UserCommand("Create BankAccount",
+				"Create Current Liability Account", "Current Liability"));
+		list.add(new UserCommand("Create BankAccount", "Create Equity Account",
+				"Equity"));
+	}
+
+	protected List<Account> getAccounts(Context context) {
+		List<Account> filteredList = new ArrayList<Account>();
+		for (Account obj : context.getCompany().getAccounts()) {
+			if (new ListFilter<Account>() {
+
+				@Override
+				public boolean filter(Account e) {
+					return e.getIsActive()
+							&& (Arrays.asList(Account.TYPE_OTHER_CURRENT_ASSET,
+									Account.TYPE_OTHER_CURRENT_LIABILITY,
+									Account.TYPE_BANK, Account.TYPE_EQUITY)
+									.contains(e.getType()));
+				}
+			}.filter(obj)) {
+				filteredList.add(obj);
+			}
+		}
+		return filteredList;
+	}
+
+	protected boolean isDifferentAccounts(Account depositTo) {
+		Account depositFrom = get(DEPOSIT_OR_TRANSFER_FROM).getValue();
+		if (depositFrom.getID() == depositTo.getID()) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
