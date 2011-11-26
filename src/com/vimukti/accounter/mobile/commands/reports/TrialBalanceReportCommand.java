@@ -38,8 +38,9 @@ public class TrialBalanceReportCommand extends
 	protected List<TrialBalance> getRecords() {
 		List<TrialBalance> trialBalanceDetails = new ArrayList<TrialBalance>();
 		try {
-			new FinanceTool().getReportManager().getTrialBalance(
-					getStartDate(), getEndDate(), getCompanyId());
+			trialBalanceDetails = new FinanceTool().getReportManager()
+					.getTrialBalance(getStartDate(), getEndDate(),
+							getCompanyId());
 		} catch (DAOException e) {
 			e.printStackTrace();
 			trialBalanceDetails = new ArrayList<TrialBalance>();
