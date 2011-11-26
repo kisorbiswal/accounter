@@ -23,8 +23,9 @@ public class PurchaseBySupplierSummaryReportCommand extends
 	@Override
 	protected Record createReportRecord(SalesByCustomerDetail record) {
 		Record salesRecord = new Record(record);
-		salesRecord.add("Supplier Name", record.getName());
-		salesRecord.add("Amount", record.getAmount());
+		salesRecord.add(getMessages().payeeName(Global.get().Vendor()),
+				record.getName());
+		salesRecord.add(getMessages().amount(), record.getAmount());
 		return salesRecord;
 	}
 
