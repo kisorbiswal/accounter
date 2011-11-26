@@ -26,7 +26,7 @@ public class UsersCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(ClientUserInfo value) {
-				return null;
+				return "Update User " + value.getEmail();
 			}
 
 			@Override
