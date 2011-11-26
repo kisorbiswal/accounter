@@ -480,7 +480,19 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return "Delete Item " + item.getID();
+		String itemCommand = null;
+		switch (item.getType()) {
+		case Item.TYPE_SERVICE:
+			itemCommand = "Delete Service Item " + item.getID();
+			break;
+		case Item.TYPE_NON_INVENTORY_PART:
+			itemCommand = "Delete Non Inventory Item " + item.getID();
+			break;
+		case Item.TYPE_INVENTORY_PART:
+			itemCommand = "Delete Inventory Item " + item.getID();
+			break;
+		}
+		return itemCommand;
 	}
 
 	@Override

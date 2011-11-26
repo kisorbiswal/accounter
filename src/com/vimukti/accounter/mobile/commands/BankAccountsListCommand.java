@@ -9,16 +9,11 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.ActionRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 
 public class BankAccountsListCommand extends NewAbstractCommand {
 	private static final String VIEW_TYPE = "Current View";
-	private static final String ACTIVE = "Active";
-	private static final String IN_ACTIVE = "In-Active";
-	private static final int BANK_ACCOUNT = ClientAccount.TYPE_BANK;
 
 	@Override
 	public String getId() {

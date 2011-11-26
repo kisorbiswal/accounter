@@ -1,9 +1,7 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
-import java.util.Set;
 
-import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
