@@ -23,15 +23,15 @@ public class PurchaseByItemDetailReportCommand extends
 	@Override
 	protected Record createReportRecord(SalesByCustomerDetail record) {
 		Record salesRecord = new Record(record);
-		salesRecord.add("Item", "");
-		salesRecord.add("Date", record.getDate());
-		salesRecord.add("Type",
+		salesRecord.add(getMessages().item(), "");
+		salesRecord.add(getMessages().date(), record.getDate());
+		salesRecord.add(getMessages().type(),
 				ReportUtility.getTransactionName(record.getType()));
-		salesRecord.add("No.", record.getNumber());
-		salesRecord.add("Quantity", record.getQuantity());
-		salesRecord.add("Unit price", record.getUnitPrice());
-		salesRecord.add("Discount", record.getDiscount());
-		salesRecord.add("Amount", record.getAmount());
+		salesRecord.add(getMessages().number(), record.getNumber());
+		salesRecord.add(getMessages().quantity(), record.getQuantity());
+		salesRecord.add(getMessages().unitPrice(), record.getUnitPrice());
+		salesRecord.add(getMessages().discount(), record.getDiscount());
+		salesRecord.add(getMessages().total(), record.getAmount());
 		return salesRecord;
 	}
 
