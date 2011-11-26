@@ -35,9 +35,10 @@ public class PurchaseOrderListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(PurchaseOrdersList value) {
 				Record record = new Record(value);
-				record.add("", value.getNumber());
-				record.add("", value.getVendorName());
-				record.add("", value.getPurchasePrice());
+				record.add(getMessages().number(), value.getNumber());
+				record.add(getMessages().name(), value.getVendorName());
+				record.add(getMessages().purchasePrice(),
+						value.getPurchasePrice());
 				return record;
 			}
 
