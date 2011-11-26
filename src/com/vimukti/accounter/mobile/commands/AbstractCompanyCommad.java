@@ -80,8 +80,7 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 		}
 
 		Record nameRecord = new Record(requirement.getName());
-		nameRecord.add("", name);
-		nameRecord.add("", getNameValue(requirement));
+		nameRecord.add(name, getNameValue(requirement));
 		list.add(nameRecord);
 		return null;
 	}
@@ -205,7 +204,7 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 
 		for (int num = 0; num < displayList.size(); num++) {
 			Record record = new Record(num);
-			record.add("", displayList.get(num));
+			record.add(displayList.get(num));
 			list.add(record);
 			// if (num == COUNTRIES_TO_SHOW) {
 			// break;
@@ -303,7 +302,7 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 		ClientFinanceDate currentDate = new ClientFinanceDate();
 		int fiscalYearFirstMonth = preferences.getFiscalYearFirstMonth();
 		ClientFinanceDate fiscalYearStartDate = new ClientFinanceDate(
-				(int) currentDate.getYear(), fiscalYearFirstMonth, 1);
+				currentDate.getYear(), fiscalYearFirstMonth, 1);
 		Calendar endCal = Calendar.getInstance();
 		endCal.setTime(fiscalYearStartDate.getDateAsObject());
 		endCal.set(Calendar.MONTH, endCal.get(Calendar.MONTH) + 11);
