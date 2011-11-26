@@ -475,6 +475,10 @@
 		<alias>Bills</alias>
 		<alias>Bills List</alias>
 		<alias>Bills and Expenses</alias>
+		<alias>Credit Card Expense List</alias>
+		<alias>Cash Expense List</alias>
+		<alias>Vendor List</alias>
+		<alias>Supplier List</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.NewVATCodeCommand"
@@ -830,6 +834,8 @@
 		<alias>Invoice Lists</alias>
 		<alias>Invoices List</alias>
 		<alias>List of all Invoices</alias>
+		<alias>Invoice List</alias>
+
 	</command>
 
 	<!-- <command clazz="com.vimukti.accounter.mobile.commands.SalesOrderListCommand" 
@@ -842,6 +848,7 @@
 		<alias>Received Payments List</alias>
 		<alias>Payments Received</alias>
 		<alias>Customer Payments</alias>
+		<alias>Customer PrePayment List</alias>
 	</command>
 
 	<!-- <command clazz="com.vimukti.accounter.mobile.commands.PurchaseOrderListCommand" 
@@ -900,6 +907,12 @@
 		<alias>Supplier payments list</alias>
 		<alias>Vendor payments</alias>
 		<alias>Payments</alias>
+		<alias>Vendor Payment List</alias>
+		<alias>Supplier Payment List</alias>
+		<alias>Vendor Prepayment List</alias>
+		<alias>Supplier Prepayment List</alias>
+		<alias>Write Check List</alias>
+		<alias>Credit Card Charge List</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.LocationListCommand"
@@ -935,7 +948,7 @@
 		New PurchaseOrder</alias> </command> -->
 
 	<command clazz="com.vimukti.accounter.mobile.commands.VoidTransactionCommand"
-		name="Void Transaction">
+	name="">
 		<alias>Void</alias>
 	</command>
 
@@ -972,19 +985,20 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.QuotesListCommand"
 		name="Quotes List">
 		<alias>Quotes</alias>
-		<alias>Quotes List</alias>
 		<alias>Estimates</alias>
 		<alias>Estimates List</alias>
 		<alias>Credits</alias>
 		<alias>Credits List</alias>
 		<alias>Charges</alias>
 		<alias>Charges List</alias>
+		<alias>Quote List</alias>
 	</command>
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.CustomerRefundsListCommand"
 		name="Customer Refunds List">
 		<alias>Customer Refunds</alias>
+		<alias>Customer Refund List</alias>
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.NewMeasurementCommand"
 		name="Measurement">
