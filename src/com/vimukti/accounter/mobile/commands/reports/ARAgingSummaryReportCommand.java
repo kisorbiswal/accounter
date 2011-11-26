@@ -8,19 +8,13 @@ import java.util.Map;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ARAgingSummaryReportCommand extends
 		NewAbstractReportCommand<DummyDebitor> {
-
-	@Override
-	protected void addRequirements(List<Requirement> list) {
-		addFromToDateRequirements(list);
-		super.addRequirements(list);
-	}
 
 	@Override
 	protected Record createReportRecord(DummyDebitor record) {
@@ -38,12 +32,6 @@ public class ARAgingSummaryReportCommand extends
 						+ record.getDebitdays_inolder()
 						+ record.getDebitdays_incurrent());
 		return agingRecord;
-	}
-
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -191,6 +179,7 @@ public class ARAgingSummaryReportCommand extends
 		if (string != null && !string.isEmpty()) {
 
 		}
+		endDate = new ClientFinanceDate();
 		return null;
 	}
 

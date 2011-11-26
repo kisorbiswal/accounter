@@ -6,19 +6,13 @@ import java.util.List;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ARAgingDetailReportCommand extends
 		NewAbstractReportCommand<AgedDebtors> {
 	private String customerName;
-
-	@Override
-	protected void addRequirements(List<Requirement> list) {
-		addFromToDateRequirements(list);
-		super.addRequirements(list);
-	}
 
 	@Override
 	protected Record createReportRecord(AgedDebtors record) {
@@ -43,10 +37,7 @@ public class ARAgingDetailReportCommand extends
 		ArrayList<AgedDebtors> debitors = new ArrayList<AgedDebtors>();
 		ArrayList<AgedDebtors> agedCreditorsListForCustomer = new ArrayList<AgedDebtors>();
 		try {
-			if (customerName == null) {
-				debitors = new FinanceTool().getReportManager().getAgedDebtors(
-						getStartDate(), getEndDate(), getCompanyId());
-			} else if (customerName != null) {
+			if (customerName != null) {
 				debitors = new FinanceTool().getReportManager().getAgedDebtors(
 						getStartDate(), getEndDate(), getCompanyId());
 				for (AgedDebtors agdDebitor : debitors) {
@@ -94,6 +85,7 @@ public class ARAgingDetailReportCommand extends
 				customerName = split[1];
 			}
 		}
+		endDate = new ClientFinanceDate();
 		return null;
 	}
 

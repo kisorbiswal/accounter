@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
-import com.vimukti.accounter.core.Utility;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -49,26 +48,9 @@ public class CustomerStatementReportCommand extends
 				Utility.getTransactionName(record.getTransactiontype()));
 		statementRecord.add(getMessages().number(),
 				record.getTransactionNumber());
-		statementRecord.add(getMessages().ageing(), record.getDueDate());
-		if (record.getTransactiontype() == Transaction.TYPE_INVOICE)
-			statementRecord.add(getMessages().amount(), record.getTotal());
-		if (record.getTransactiontype() == Transaction.TYPE_RECEIVE_PAYMENT)
-			statementRecord.add(getMessages().amount(), record.getTotal());
+		statementRecord.add(getMessages().amount(), record.getTotal());
 		statementRecord.add(getMessages().name(), record.getBalance());
-
 		return statementRecord;
-	}
-
-	@Override
-	public Result run(Context context) {
-
-		return null;
-	}
-
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -103,7 +85,7 @@ public class CustomerStatementReportCommand extends
 	@Override
 	protected String getSelectRecordString() {
 		return getMessages().reportSelected(
-				getMessages().Customer() + getMessages().statement());
+				getMessages().payeeStatement(Global.get().Customer()));
 	}
 
 	@Override
@@ -114,13 +96,13 @@ public class CustomerStatementReportCommand extends
 	@Override
 	protected String getWelcomeMessage() {
 		return getMessages().reportCommondActivated(
-				getMessages().Customer() + getMessages().statement());
+				getMessages().payeeStatement(Global.get().Customer()));
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return getMessages().reportDetails(
-				getMessages().Customer() + getMessages().statement());
+				getMessages().payeeStatement(Global.get().Customer()));
 	}
 
 	@Override
