@@ -152,10 +152,8 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected Record createRecord(ClientBox value) {
 				Record record = new Record(value);
-				record.add("", getMessages().vatLine());
-				record.add("", value.getName());
-				record.add("", getMessages().amount());
-				record.add("", value.getAmount());
+				record.add(getMessages().vatLine(), value.getName());
+				record.add(getMessages().amount(), value.getAmount());
 				return record;
 			}
 
@@ -207,10 +205,8 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected Record createRecord(ClientTAXReturnEntry value) {
 				Record record = new Record(value);
-				record.add("", getMessages().vatLine());
-				record.add("", value.getName());
-				record.add("", getMessages().amount());
-				record.add("", value.getTaxAmount());
+				record.add(getMessages().vatLine(), value.getName());
+				record.add(getMessages().amount(), value.getTaxAmount());
 				return record;
 			}
 
