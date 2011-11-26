@@ -131,10 +131,13 @@ public class BankAccountReconcilationHistoryCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(Reconciliation value) {
 				Record rec = new Record(value);
-				rec.add("Reconcilation date", value.getReconcilationDate());
+				rec.add(getMessages().ReconciliationDate(),
+						value.getReconcilationDate());
 				rec.add(value.getStartDate() + " to " + value.getEndDate());
-				rec.add("Opening balance", value.getOpeningBalance());
-				rec.add("Closing balance", value.getClosingBalance());
+				rec.add(getMessages().openingBalance(),
+						value.getOpeningBalance());
+				rec.add(getMessages().ClosingBalance(),
+						value.getClosingBalance());
 				return rec;
 			}
 
