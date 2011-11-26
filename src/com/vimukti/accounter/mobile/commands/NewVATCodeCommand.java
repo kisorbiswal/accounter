@@ -102,7 +102,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(TAXItemGroup value) {
 				Record record = new Record(value);
-				record.add("", value.getName());
+				record.add(getMessages().name(), value.getName());
 				return record;
 			}
 
@@ -164,7 +164,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(TAXItemGroup value) {
 				Record record = new Record(value);
-				record.add("", value.getName());
+				record.add(getMessages().name(), value.getName());
 				return record;
 			}
 
