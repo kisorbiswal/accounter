@@ -11,9 +11,11 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterClass;
+import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerGroup;
+import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.IAccounterServerCore;
@@ -1485,6 +1487,198 @@ public class CommandUtils {
 
 		}
 		return null;
+
+	}
+
+	public static String getTransactionStatus(int transactionType, int status) {
+
+		StringBuffer buffer = new StringBuffer();
+
+		switch (transactionType) {
+
+		case Transaction.TYPE_CUSTOMER_CREDIT_MEMO:
+			switch (status) {
+			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_UN_APPLIED);
+				break;
+			case Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
+				buffer.append(AccounterServerConstants.STATUS_PARTIALLY_APPLIED);
+				break;
+			case Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_APPLIED);
+				break;
+			}
+			break;
+		case Transaction.TYPE_CUSTOMER_REFUNDS:
+			switch (status) {
+			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_NOT_ISSUED);
+				break;
+			case Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
+				break;
+			case Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_ISSUED);
+				break;
+			}
+			break;
+		case Transaction.TYPE_ENTER_BILL:
+			switch (status) {
+			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_NOT_PAID);
+				break;
+			case Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
+				buffer.append(AccounterServerConstants.STATUS_PARTIALLY_PAID);
+				break;
+			case Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_PAID);
+				break;
+			}
+			break;
+		case Transaction.TYPE_ESTIMATE:
+			switch (status) {
+			case Estimate.STATUS_ACCECPTED:
+				buffer.append(AccounterServerConstants.STATUS_ACCEPTED);
+				break;
+			case Estimate.STATUS_REJECTED:
+				buffer.append(AccounterServerConstants.STATUS_REJECTED);
+				break;
+			case Estimate.STATUS_OPEN:
+				buffer.append(AccounterServerConstants.STATUS_OPEN);
+				break;
+
+			}
+			break;
+		case Transaction.TYPE_INVOICE:
+			switch (status) {
+			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_NOT_PAID);
+				break;
+			case Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
+				buffer.append(AccounterServerConstants.STATUS_PARTIALLY_PAID);
+				break;
+			case Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_PAID);
+				break;
+			}
+			break;
+
+		case Transaction.TYPE_PAY_BILL:
+			switch (status) {
+			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_NOT_ISSUED);
+				break;
+			case Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
+				break;
+			case Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_ISSUED);
+				break;
+			}
+			break;
+		case Transaction.TYPE_RECEIVE_PAYMENT:
+			switch (status) {
+			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_UN_APPLIED);
+				break;
+			case Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
+				buffer.append(AccounterServerConstants.STATUS_PARTIALLY_APPLIED);
+				break;
+			case Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_APPLIED);
+				break;
+			}
+			break;
+
+		case Transaction.TYPE_VENDOR_CREDIT_MEMO:
+			switch (status) {
+			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_UN_APPLIED);
+				break;
+			case Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
+				buffer.append(AccounterServerConstants.STATUS_PARTIALLY_APPLIED);
+				break;
+			case Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_APPLIED);
+				break;
+			}
+			break;
+
+		case Transaction.TYPE_JOURNAL_ENTRY:
+			switch (status) {
+			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_NEW);
+				break;
+			case Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
+				break;
+			case Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_POSTED);
+				break;
+			}
+			break;
+		case Transaction.TYPE_CASH_SALES:
+			break;
+		case Transaction.TYPE_CASH_PURCHASE:
+			break;
+		case Transaction.TYPE_CREDIT_CARD_CHARGE:
+			break;
+		case Transaction.TYPE_ISSUE_PAYMENT:
+			break;
+		case Transaction.TYPE_MAKE_DEPOSIT:
+			break;
+		case Transaction.TYPE_TRANSFER_FUND:
+			break;
+		case Transaction.TYPE_SALES_ORDER:
+			switch (status) {
+			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_NOT_INVOICED);
+				break;
+			case Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
+				buffer.append(AccounterServerConstants.STATUS_PARTIALLY_INVOICED);
+				break;
+			case Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_INVOICED);
+				break;
+			}
+			break;
+		case Transaction.TYPE_PURCHASE_ORDER:
+			switch (status) {
+			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_NOT_RECEIVED);
+				break;
+			case Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
+				buffer.append(AccounterServerConstants.STATUS_PARTIALLY_RECEIVED);
+				break;
+			case Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_RECEIVED);
+				break;
+			}
+			break;
+		case Transaction.TYPE_WRITE_CHECK:
+			switch (status) {
+			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_NOT_ISSUED);
+				break;
+			case Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
+				break;
+			case Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_ISSUED);
+				break;
+			}
+			break;
+		case Transaction.TYPE_PAY_TAX:
+			switch (status) {
+			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_NOT_ISSUED);
+				break;
+			case Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
+				break;
+			case Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
+				buffer.append(AccounterServerConstants.STATUS_ISSUED);
+				break;
+			}
+			break;
+		}
+
+		return buffer.toString();
 
 	}
 
