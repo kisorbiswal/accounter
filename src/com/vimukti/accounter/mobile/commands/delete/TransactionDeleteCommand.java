@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands.delete;
 
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -19,7 +20,7 @@ public class TransactionDeleteCommand extends AbstractDeleteCommand {
 		String[] split = string.split(" ");
 		AccounterCoreType accounterCoreType = CommandUtils
 				.getAccounterCoreType(Integer.parseInt(split[0]));
-		String transactionName = CommandUtils.getTransactionName(Integer
+		String transactionName = Utility.getTransactionName(Integer
 				.parseInt(split[0]));
 		try {
 			voidTransaction(accounterCoreType, Long.parseLong(split[1]),
