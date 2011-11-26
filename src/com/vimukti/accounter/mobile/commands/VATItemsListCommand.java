@@ -41,8 +41,8 @@ public class VATItemsListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(TAXItem value) {
 				Record record = new Record(value);
-				record.add("", value.getName());
-				record.add("", value.getDescription());
+				record.add(getMessages().name(), value.getName());
+				record.add(getMessages().description(), value.getDescription());
 				return record;
 			}
 
@@ -109,6 +109,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 		return context.getCompany().getTaxItems();
 	}
 
+	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		return null;
 	}
