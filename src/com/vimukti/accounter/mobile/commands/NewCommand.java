@@ -22,6 +22,7 @@ public abstract class NewCommand extends Command {
 	private long companyId;
 	private Company company;
 	private ClientCompanyPreferences preferences;
+	private List<Integer> requirementSequence = new ArrayList<Integer>();
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -58,11 +59,6 @@ public abstract class NewCommand extends Command {
 				markDone();
 				return result;
 			}
-			// String welcomeMessage = getWelcomeMessage();
-			// if (welcomeMessage != null) {
-			// ((List<String>) context.getAttribute("firstMessage"))
-			// .add(welcomeMessage);
-			// }
 			setAttribute("input", "");
 		}
 
