@@ -79,18 +79,28 @@ public class MobileMessageHandler extends Thread {
 			MobileSession session = sessions.get(networkId);
 			if (session == null || session.isExpired()) {
 				sessions.remove(networkId);
-				session = sessions.get(message);
-				if (session != null) {
-					networkId = message;
-					context.changeNetworkId(message);
+				if (networkType != AccounterChatServer.NETWORK_TYPE_MOBILE) {
+					message = networkId;
+				}
+				String[] split = message.split(" ");
+				String cookie = split.length > 0 ? split[0] : "";
+				String language = split.length > 1 ? split[split.length - 1]
+						: "";
+				message = cookie;
+				session = sessions.get(cookie);
+				if (session != null && !session.isExpired()) {
+					session.setLanguage(language);
+					networkId = cookie;
+					context.changeNetworkId(cookie);
 					return session.getLastReply();
+				} else {
+					session = new MobileSession();
+					sessions.put(networkId, session);
+					session.setLanguage(language);
 				}
 			}
-			if (session == null || session.isExpired()) {
-				session = new MobileSession();
-				sessions.put(networkId, session);
-			}
-			ServerLocal.set(Locale.ENGLISH);
+
+			ServerLocal.set(new Locale(session.getLanguage()));
 			session.sethibernateSession(openSession);
 			session.reloadObjects();
 
@@ -120,11 +130,9 @@ public class MobileMessageHandler extends Thread {
 				String nextCommand = result.getNextCommand();
 				if (nextCommand == null) {
 					session.refreshCurrentCommand();
-					Command currentCommand = session.getCurrentCommand();
-					if (currentCommand != null) {
-						UserMessage lastMessage = session.getLastMessage();
+					UserMessage lastMessage = session.getLastMessage();
+					if (lastMessage != null) {
 						lastMessage.setResult(lastMessage.getLastResult());
-
 						return processMessage(networkId, null, adaptorType,
 								networkType, result, context);
 					} else {
@@ -244,10 +252,11 @@ public class MobileMessageHandler extends Thread {
 			} else {
 				Result result = PatternStore.INSTANCE.find(message);
 				if (result != null) {
-					result.setShowBack(false);
+					result.setShowBack(session.getLastMessage() != null);
 					userMessage.setType(Type.HELP);
 					userMessage.setResult(result);
 					userMessage.setCommandString(message);
+					userMessage.setOriginalMsg(message);
 					return userMessage;
 				}
 			}
@@ -265,10 +274,11 @@ public class MobileMessageHandler extends Thread {
 			if (commandString != null) {
 				Result result = PatternStore.INSTANCE.find(commandString);
 				if (result != null) {
-					result.setShowBack(lastMessage.getCommand() == null);
+					result.setShowBack(session.getLastMessage() != null);
 					userMessage.setType(Type.HELP);
 					userMessage.setResult(result);
 					userMessage.setCommandString(commandString);
+					userMessage.setOriginalMsg(commandString);
 					return userMessage;
 				}
 			}
@@ -280,10 +290,6 @@ public class MobileMessageHandler extends Thread {
 					message, userMessage);
 			if (selectCommand != null) {
 				command = selectCommand;
-				UserMessage lastMessage2 = session.getLastMessage();
-				if (lastMessage2 != null) {
-					lastMessage2.setOriginalMsg("");
-				}
 			}
 		}
 		if (command == null && message.equalsIgnoreCase("back")) {
