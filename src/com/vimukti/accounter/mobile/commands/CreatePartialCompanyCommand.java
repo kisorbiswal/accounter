@@ -58,7 +58,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected Record createRecord(String value) {
 				Record record = new Record(value);
-				record.add("", value);
+				record.add(getMessages().country(), value);
 				return record;
 			}
 
@@ -105,7 +105,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected Record createRecord(String value) {
 				Record record = new Record(value);
-				record.add("", value);
+				record.add(getMessages().state(), value);
 				return record;
 			}
 
@@ -176,7 +176,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected Record createRecord(String value) {
 				Record record = new Record(value);
-				record.add("", value);
+				record.add(getMessages().timezone(), value);
 				return record;
 			}
 
@@ -224,7 +224,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected Record createRecord(String value) {
 				Record record = new Record(value);
-				record.add("", value);
+				record.add(getMessages().industry(), value);
 				return record;
 			}
 
@@ -266,7 +266,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected Record createRecord(String value) {
 				Record record = new Record(value);
-				record.add("", value);
+				record.add(getMessages().organisation(), value);
 				return record;
 			}
 
@@ -314,7 +314,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			@Override
 			protected Record createRecord(String value) {
 				Record record = new Record(value);
-				record.add("", value);
+				record.add(getMessages().fiscalYear(), value);
 				return record;
 			}
 
