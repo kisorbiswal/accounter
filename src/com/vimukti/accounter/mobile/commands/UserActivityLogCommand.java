@@ -43,11 +43,13 @@ public class UserActivityLogCommand extends NewAbstractCommand {
 				return null;
 			}
 
+			@Override
 			protected Record createRecord(ClientActivity value) {
 				Record record = new Record(value);
-				record.add("", new ClientFinanceDate(value.getTime()));
-				record.add("", value.getUserName());
-				record.add("", getActivityDataType(value));
+				record.add(getMessages().date(),
+						new ClientFinanceDate(value.getTime()));
+				record.add(getMessages().userName(), value.getUserName());
+				record.add(getMessages().activity(), getActivityDataType(value));
 				return record;
 			}
 
