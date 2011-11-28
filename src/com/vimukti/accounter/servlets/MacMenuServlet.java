@@ -22,7 +22,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -485,8 +484,11 @@ public class MacMenuServlet extends BaseServlet {
 				"company/accounter#writeCheck");
 		menu(bankingValues, iGlobal.messages().makeDeposit(),
 				"company/accounter#depositTransferFunds");
-		menu(bankingValues, iGlobal.messages().payBills(),
-				"company/accounter#payBill");
+		if (preferences.isDoyouKeepTrackofBills()) {
+			menu(bankingValues, iGlobal.messages().payBills(),
+					"company/accounter#payBill");
+		}
+
 		separator(bankingValues);
 		menu(bankingValues, iGlobal.messages().newCreditCardCharge(),
 				"company/accounter#creditCardCharge");
