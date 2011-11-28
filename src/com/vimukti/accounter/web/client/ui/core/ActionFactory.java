@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenu;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
 import com.vimukti.accounter.web.client.ui.banking.BankingHomeAction;
 import com.vimukti.accounter.web.client.ui.banking.BuyChecksAndFormsAction;
@@ -24,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.banking.EnterPaymentsAction;
 import com.vimukti.accounter.web.client.ui.banking.ImportBankFilesAction;
 import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
 import com.vimukti.accounter.web.client.ui.banking.MatchTrasactionsAction;
+import com.vimukti.accounter.web.client.ui.banking.MergeCustomerAction;
 import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.NewReconcileAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.PrintChecksAction;
@@ -56,10 +58,10 @@ import com.vimukti.accounter.web.client.ui.company.MakeInActiveAction;
 import com.vimukti.accounter.web.client.ui.company.ManageFiscalYearAction;
 import com.vimukti.accounter.web.client.ui.company.ManageItemTaxAction;
 import com.vimukti.accounter.web.client.ui.company.ManageSalesTaxGroupsAction;
-import com.vimukti.accounter.web.client.ui.company.MergeCustomersAction;
+import com.vimukti.accounter.web.client.ui.company.MergeVendorAction;
 import com.vimukti.accounter.web.client.ui.company.MergeFinancialAccountsAction;
 import com.vimukti.accounter.web.client.ui.company.MergeItemsAction;
-import com.vimukti.accounter.web.client.ui.company.MergeVendorsAction;
+import com.vimukti.accounter.web.client.ui.company.MergeAccountsAction;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.company.NewBudgetAction;
 import com.vimukti.accounter.web.client.ui.company.NewCashBasisJournalEntryAction;
@@ -404,13 +406,8 @@ public class ActionFactory {
 		return new NewAccountAction(messages.newAccount());
 	}
 
-	public static MergeCustomersAction getMergeCustomersAction() {
-		return new MergeCustomersAction(messages.mergeCustomers(Global.get()
-				.Customer()));
-	}
-
-	public static MergeVendorsAction getMergeVendorsAction() {
-		return new MergeVendorsAction(messages.mergeVendors(Global.get()
+	public static MergeAccountsAction getMergeVendorsAction() {
+		return new MergeAccountsAction(messages.mergeVendors(Global.get()
 				.vendor()));
 	}
 
@@ -1382,5 +1379,22 @@ public class ActionFactory {
 
 	public static TranslationAction getTranslationAction() {
 		return new TranslationAction(messages.translation());
+	}
+
+	public static MergeCustomerAction getCustomerMergeAction() {
+		return new MergeCustomerAction(messages.mergeCustomers(Global.get()
+				.Customer()));
+	}
+
+	public static MergeVendorAction getVendorMergeAction() {
+		return new MergeVendorAction(messages.mergeVendors(Global.get().Vendor()));
+	}
+
+	public static MergeAccountsAction getAccountMergeAction() {
+		return new MergeAccountsAction(messages.mergeAccounts());
+	}
+
+	public static MergeItemsAction getItemMergeAction() {
+		return new MergeItemsAction(messages.mergeItems());
 	}
 }
