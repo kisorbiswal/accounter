@@ -89,6 +89,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 						paybill.getPaymentMethodForCommands(), getMessages()));
 		get(TO_BE_PRINTED).setValue(paybill.isToBePrinted());
 		get(MEMO).setValue(paybill.getMemo());
+		get(NUMBER).setValue(paybill.getNumber());
 		get(CHEQUE_NO).setValue(paybill.getCheckNumber());
 		get(DATE).setValue(paybill.getDate());
 	}
@@ -358,6 +359,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 		paybill.setPaymentMethod(paymentMethod);
 		paybill.setMemo(memo);
 		paybill.setToBePrinted(toBePrinted);
+		paybill.setNumber((String) get(NUMBER).getValue());
 		paybill.setCheckNumber(chequeNumber);
 		create(paybill, context);
 		return null;

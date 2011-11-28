@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
@@ -437,7 +438,9 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		// TODO Auto-generated method stub
-
+		get(NUMBER).setValue(
+				NumberUtils.getNextTransactionNumber(
+						ClientTransaction.TYPE_CASH_EXPENSE,
+						context.getCompany()));
 	}
 }

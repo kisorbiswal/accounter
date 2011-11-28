@@ -27,20 +27,16 @@ import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirem
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * 
@@ -49,7 +45,6 @@ import com.vimukti.accounter.web.server.FinanceTool;
  */
 public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
-	private static String PURCHASE_ORDER = "purchaseOrder";
 	private ClientEnterBill enterBill;
 
 	@Override
@@ -351,7 +346,8 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		} else {
 			enterBill.setDate(System.currentTimeMillis());
 		}
-
+		String number = get(NUMBER).getValue();
+		enterBill.setNumber(number);
 		enterBill.setType(ClientTransaction.TYPE_ENTER_BILL);
 
 		items.addAll(accounts);

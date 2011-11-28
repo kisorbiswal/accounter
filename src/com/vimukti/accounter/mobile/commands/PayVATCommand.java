@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -263,6 +264,9 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 	protected void setDefaultValues(Context context) {
 		get(VAT_RETURN_END_DATE).setDefaultValue(new ClientFinanceDate());
 		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(NUMBER).setDefaultValue(
+				NumberUtils.getNextTransactionNumber(
+						ClientTransaction.TYPE_PAY_TAX, context.getCompany()));
 		/*
 		 * get(CURRENCY).setDefaultValue(null);
 		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);

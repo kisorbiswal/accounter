@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.mobile.Context;
@@ -22,6 +23,7 @@ import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxItemRequirement;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
@@ -298,7 +300,11 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 	protected void setDefaultValues(Context context) {
 		get(IS_INCREASE_VATLINE).setDefaultValue(true);
 		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(ORDER_NO).setDefaultValue("1");
+		get(ORDER_NO)
+				.setDefaultValue(
+						NumberUtils.getNextTransactionNumber(
+								ClientTransaction.TYPE_ADJUST_VAT_RETURN,
+								getCompany()));
 		get(MEMO).setDefaultValue(new String());
 		get(IS_SALES).setDefaultValue(true);
 		/*

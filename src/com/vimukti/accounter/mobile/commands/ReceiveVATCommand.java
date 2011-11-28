@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -18,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceiveVAT;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -107,7 +109,7 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-	/*
+		/*
 		 * list.add(new CurrencyRequirement(CURRENCY,
 		 * getMessages().pleaseSelect( getConstants().currency()),
 		 * getConstants().currency(), true, true, null) {
@@ -262,7 +264,9 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 		get(PAYMENT_METHOD).setDefaultValue(getMessages().cash());
 		get(VAT_RETURN_END_DATE).setDefaultValue(new ClientFinanceDate());
 		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(ORDER_NO).setDefaultValue("1");
+		get(ORDER_NO).setDefaultValue(
+				NumberUtils.getNextTransactionNumber(
+						ClientTransaction.TYPE_RECEIVE_TAX, getCompany()));
 		/*
 		 * get(CURRENCY).setDefaultValue(null);
 		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);

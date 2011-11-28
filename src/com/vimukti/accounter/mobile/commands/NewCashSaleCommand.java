@@ -429,10 +429,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		cashSale.setDate(date.getDate());
 
 		cashSale.setType(Transaction.TYPE_CASH_SALES);
-		if (context.getCompany().getPreferences().getUseCustomerId()) {
-			String number = get(NUMBER).getValue();
-			cashSale.setNumber(number);
-		}
+		String number = get(NUMBER).getValue();
+		cashSale.setNumber(number);
 
 		accounts.addAll(items);
 		cashSale.setTransactionItems(accounts);
