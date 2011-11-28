@@ -3,6 +3,7 @@
  */
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -54,7 +55,27 @@ public class AuthenticationCommand extends Command {
 		if (login != null) {
 			return login;
 		}
-
+		if (context.getSelection("activation") != null) {
+			String userName = (String) context.getAttribute("userName");
+			// Re-send Activation mail
+			Client client = getClient(userName);
+			String activationCode = getUserActivationCode(client);
+			if (activationCode == null) {
+				Session session = HibernateUtil.getCurrentSession();
+				session.getNamedQuery("delete.activation.by.emailId")
+						.setString("emailId", userName).executeUpdate();
+				activationCode = createUserActivationCode(client.getEmailId());
+			}
+			sendUserActivationMail(client, activationCode);
+			makeResult.add("Activation code has been sent to your email Id.");
+			makeResult.add("Please Enter Activation code.");
+			ResultList list = new ResultList("activation");
+			Record activationRec = new Record("resendActivation");
+			activationRec.add("Re-send activation code");
+			list.add(activationRec);
+			makeResult.add(list);
+			return makeResult;
+		}
 		int networkType = context.getNetworkType();
 		// MOBILE
 		if (networkType == AccounterChatServer.NETWORK_TYPE_MOBILE) {
@@ -88,14 +109,21 @@ public class AuthenticationCommand extends Command {
 
 			if (attribute.equals("activation")) {
 				String userName = (String) context.getAttribute("userName");
-				Session currentSession = HibernateUtil.getCurrentSession();
-				Transaction beginTransaction = currentSession
-						.beginTransaction();
 
-				client = getClient(userName);
-				client.setActive(true);
-				beginTransaction.commit();
-				markDone();
+				Activation activation = getActivation(context.getString());
+				if (activation == null) {
+					makeResult.add("Wrong activation code");
+					context.setAttribute("input", "userName");
+				} else {
+					Session currentSession = HibernateUtil.getCurrentSession();
+					Transaction beginTransaction = currentSession
+							.beginTransaction();
+
+					client = getClient(userName);
+					client.setActive(true);
+					beginTransaction.commit();
+					markDone();
+				}
 			}
 
 			if (attribute.equals("userName")) {
@@ -106,6 +134,11 @@ public class AuthenticationCommand extends Command {
 					makeResult.add("Please Enter Activation Code");
 					makeResult.add(new InputType(
 							AbstractRequirement.INPUT_TYPE_STRING));
+					ResultList list = new ResultList("activation");
+					Record activationRec = new Record("resendActivation");
+					activationRec.add("Re-send activation code");
+					list.add(activationRec);
+					makeResult.add(list);
 					return makeResult;
 				}
 				context.setAttribute("input", "password");
@@ -142,6 +175,11 @@ public class AuthenticationCommand extends Command {
 					makeResult.add("Please Enter Activation Code");
 					makeResult.add(new InputType(
 							AbstractRequirement.INPUT_TYPE_STRING));
+					ResultList list = new ResultList("activation");
+					Record activationRec = new Record("resendActivation");
+					activationRec.add("Re-send activation code");
+					list.add(activationRec);
+					makeResult.add(list);
 					return makeResult;
 				}
 			}
@@ -215,6 +253,11 @@ public class AuthenticationCommand extends Command {
 				context.setAttribute("userName", client.getEmailId());
 				if (context.getString().isEmpty()) {
 					makeResult.add("Please Enter Activation code");
+					ResultList list = new ResultList("activation");
+					Record activationRec = new Record("resendActivation");
+					activationRec.add("Re-send activation code");
+					list.add(activationRec);
+					makeResult.add(list);
 				} else {
 					Activation activation = getActivation(context.getString());
 					if (activation == null) {
@@ -240,6 +283,36 @@ public class AuthenticationCommand extends Command {
 			context.getIOSession().setAuthentication(true);
 		}
 		return makeResult;
+	}
+
+	private String createUserActivationCode(String emailId) {
+		String token = SecureUtils.createID(16);
+		Activation activation = new Activation();
+		activation.setEmailId(emailId);
+		activation.setToken(token);
+		Session currentSession = HibernateUtil.getCurrentSession();
+		activation.setSignUpDate(new Date());
+		Transaction beginTransaction = currentSession.beginTransaction();
+		currentSession.save(activation);
+		beginTransaction.commit();
+		return token;
+	}
+
+	private String getUserActivationCode(Client client) {
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			Query query = session.getNamedQuery("get.activation.by.emailid");
+			query.setParameter("emailId", client.getEmailId());
+			Activation val = (Activation) query.uniqueResult();
+			return val.getToken();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private void sendUserActivationMail(Client client, String token) {
+		UsersMailSendar.sendActivationMail(token, client);
 	}
 
 	private Result showLoginButton(Context context) {

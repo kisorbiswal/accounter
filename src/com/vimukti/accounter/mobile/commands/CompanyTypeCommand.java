@@ -34,11 +34,11 @@ public class CompanyTypeCommand extends Command {
 					.add(" Or else select 'Partial Setup' to skip this wizard and add later.");
 			ResultList list = new ResultList("actions");
 			Record start = new Record(ActionNames.FULL_SETUP);
-			start.add("", "Full Setup");
+			start.add("Full Setup");
 			list.add(start);
 
 			Record skip = new Record(ActionNames.PARTIAL_SETUP);
-			skip.add("", "Partial Setup");
+			skip.add("Partial Setup");
 			list.add(skip);
 			makeResult.add(list);
 			return makeResult;

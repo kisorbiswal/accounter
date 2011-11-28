@@ -68,6 +68,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 	}
 
 	private void setValues() {
+		get(NUMBER).setValue(customerRefund.getNumber());
 		get(DATE).setValue(customerRefund.getDate());
 		get(CUSTOMER).setValue(
 				CommandUtils.getServerObjectById(customerRefund.getPayTo(),
@@ -313,7 +314,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		customerRefund.setIsToBePrinted(istobePrinted);
 		String cheqNum = get(CHEQUE_NO).getValue();
 		customerRefund.setCheckNumber(cheqNum);
-
+		customerRefund.setNumber((String) get(NUMBER).getValue());
 		/*
 		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
 		 * currency = get(CURRENCY).getValue(); if (currency != null) {

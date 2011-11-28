@@ -21,7 +21,7 @@ public class CountryRequirement extends ListRequirement<String> {
 	@Override
 	protected Record createRecord(String value) {
 		Record record = new Record(value);
-		record.add(getMessages().countryName(), value);
+		record.add("", value);
 		return record;
 	}
 

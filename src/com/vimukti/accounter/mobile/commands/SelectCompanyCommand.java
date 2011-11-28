@@ -70,12 +70,11 @@ public class SelectCompanyCommand extends Command {
 						.add("If you want to change company, your previuos commands are getting canceled. proccede?");
 				ResultList list = new ResultList("Choice");
 				Record e = new Record("Yes");
-				e.add("", "Yes (Cancel all my previous commands)");
+				e.add("Yes (Cancel all my previous commands)");
 				list.add(e);
 
 				e = new Record("No");
-				e.add("", "No (Continue with '" + company.getDisplayName()
-						+ "')");
+				e.add("No (Continue with '" + company.getDisplayName() + "')");
 				list.add(e);
 				makeResult.add(list);
 				return makeResult;

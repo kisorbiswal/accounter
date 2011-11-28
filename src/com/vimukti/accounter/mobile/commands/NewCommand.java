@@ -104,7 +104,7 @@ public abstract class NewCommand extends Command {
 		String finish = getFinishCommandString();
 		if (finish != null) {
 			Record record = new Record(ActionNames.FINISH_COMMAND);
-			record.add("", finish);
+			record.add(finish);
 			actions.add(record);
 		}
 		String deleteCommand = getDeleteCommand(context);
@@ -121,7 +121,7 @@ public abstract class NewCommand extends Command {
 
 		if (deleteCommand != null) {
 			Record record = new Record(ActionNames.DELETE_COMMAND);
-			record.add("", "Delete");
+			record.add("Delete");
 			actions.add(record);
 		}
 
