@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -22,7 +23,8 @@ public abstract class NewCommand extends Command {
 	private long companyId;
 	private Company company;
 	private ClientCompanyPreferences preferences;
-	private List<Integer> requirementSequence = new ArrayList<Integer>();
+	private Stack<Integer> requirementSequence = new Stack<Integer>();
+	private int lastRequirement = -1;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -36,13 +38,10 @@ public abstract class NewCommand extends Command {
 		for (String f : first) {
 			result.add(0, f);
 		}
-		// result.setTitle(getTitle());
+		result.setShowBack(!isDone());
 		return result;
 	}
 
-	private int requirementNumber;
-
-	// @SuppressWarnings("unchecked")
 	public Result process(Context context) {
 		context.setAttribute("firstMessage", new ArrayList<String>());
 		setDefaultValues(context);
@@ -68,22 +67,23 @@ public abstract class NewCommand extends Command {
 		String backString = context.getString();
 		if (backString != null && backString.equalsIgnoreCase("back")) {
 			context.setString("");
-			for (int i = requirementNumber; i >= 0; i--) {
+			if (!requirementSequence.isEmpty()) {
 				context.setAttribute("processAttr", "");
-				Requirement requirement = allRequirements.get(i);
+				Requirement requirement = allRequirements.get(lastRequirement);
 				context.putSelection("values", requirement.getName());
 				ResultList list2 = new ResultList("");
 				Result process = requirement.process(context,
 						context.makeResult(), list2, actions);
 				if (process != null) {
-					requirementNumber = i - 1;
-					// if (i != 0) {
-					// process.setShowBack(true);
-					// }
 					return process;
 				}
+				requirementSequence.pop();
+				lastRequirement = requirementSequence.firstElement();
+			} else {
+				Result result = new Result();
+				result.setNextCommand("cancel");
+				return result;
 			}
-			// TODO if user types back for first requirement
 		}
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
@@ -92,15 +92,14 @@ public abstract class NewCommand extends Command {
 			Result result = allRequirements.get(i).process(context, makeResult,
 					list, actions);
 			if (result != null) {
-				requirementNumber = i - 1;
-				// if (i != 0) {
-				// result.setShowBack(true);
-				// }
+				if (lastRequirement != i && i != 0) {
+					requirementSequence.push(i);
+				}
+				lastRequirement = i;
 				return result;
 			}
 		}
 		list.setTitle(getDetailsMessage());
-		requirementNumber = -1;
 		makeResult.add(actions);
 		String finish = getFinishCommandString();
 		if (finish != null) {
