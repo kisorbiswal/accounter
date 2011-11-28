@@ -27,7 +27,6 @@ import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class SignupCommand extends NewCommand {
 	private static final String FIRST_NAME = "firstname";
@@ -78,7 +77,7 @@ public class SignupCommand extends NewCommand {
 				String value = (String) val;
 				if (value == null) {
 					return;
-				} else if (!SignupCommand.this.isValidEmailId()) {
+				} else if (!isValidEmailId(value)) {
 					setEnterString("Enter a valid email address. A mail will be sent to this email to confirm your account and also in case you forgot your password");
 					return;
 				} else if (getClient(value) != null) {
@@ -128,14 +127,6 @@ public class SignupCommand extends NewCommand {
 		});
 
 		list.add(new TermsAndCunditionsRequirement());
-	}
-
-	protected boolean isValidEmailId() {
-		String emailId = get(EMAIL).getValue();
-		if (emailId != null && UIUtils.isValidEmail(emailId)) {
-			return true;
-		}
-		return false;
 	}
 
 	private void sendPasswordMail(String token, String emailId) {
