@@ -78,7 +78,8 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 					}
 				}
 				if (!salesItems) {
-					if (taxAgency.getPurchaseLiabilityAccount() != 0) {
+					if (taxAgency.getPurchaseLiabilityAccount() != 0
+							&& taxAgency.getTaxType() != ClientTAXAgency.TAX_TYPE_TDS) {
 						vatItmsList.add(vatItem);
 					}
 				}

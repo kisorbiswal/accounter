@@ -27,10 +27,10 @@ public class PayFromAccountsCombo extends AccountCombo {
 		payFromAccounts = new ArrayList<ClientAccount>();
 
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
-			if (Arrays.asList(ClientAccount.TYPE_BANK,
-					ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-					ClientAccount.TYPE_CREDIT_CARD).contains(account.getType()))
+			if (account.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET
+					|| account.getType() == ClientAccount.TYPE_CREDIT_CARD) {
 				payFromAccounts.add(account);
+			}
 		}
 		return payFromAccounts;
 	}
@@ -39,10 +39,11 @@ public class PayFromAccountsCombo extends AccountCombo {
 		payFromAccounts = new ArrayList<ClientAccount>();
 
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
-			if (Arrays.asList(ClientAccount.TYPE_BANK,
-					ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-					ClientAccount.TYPE_CREDIT_CARD).contains(account.getType()))
+
+			if (account.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET
+					|| account.getType() == ClientAccount.TYPE_CREDIT_CARD) {
 				payFromAccounts.add(account);
+			}
 		}
 		this.initCombo(payFromAccounts);
 	}
@@ -71,6 +72,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 		});
 		action.setAccountTypes(Arrays.asList(ClientAccount.TYPE_BANK,
 				ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+				ClientAccount.TYPE_CASH, ClientAccount.TYPE_INVENTORY_ASSET,
 				ClientAccount.TYPE_CREDIT_CARD));
 
 		action.run(null, true);
@@ -79,9 +81,8 @@ public class PayFromAccountsCombo extends AccountCombo {
 
 	@Override
 	public void addItemThenfireEvent(ClientAccount obj) {
-		if (Arrays.asList(ClientAccount.TYPE_BANK,
-				ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-				ClientAccount.TYPE_CREDIT_CARD).contains(obj.getType())) {
+		if (obj.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET
+				|| obj.getType() == ClientAccount.TYPE_CREDIT_CARD) {
 			super.addItemThenfireEvent(obj);
 		}
 
