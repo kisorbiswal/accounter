@@ -165,7 +165,9 @@ public class AuthenticationCommand extends Command {
 				List<IMActivation> activationList = getImActivationByNetworkId(context
 						.getNetworkId());
 				if (activationList == null || activationList.size() == 0) {
-					Client client = getClient(context.getNetworkId());
+					String networkId = context.getNetworkId();
+					networkId = networkId.split(" ")[0];
+					Client client = getClient(networkId);
 					if (client == null) {
 						client = getClient(context.getString());
 					}
@@ -185,8 +187,8 @@ public class AuthenticationCommand extends Command {
 						CommandList commandList = new CommandList();
 						commandList.add("Signup");
 						commandList.add(new UserCommand("Signup",
-								"Signup with " + context.getNetworkId(),
-								context.getNetworkId()));
+								"Signup with " + networkId, context
+										.getNetworkId()));
 						makeResult.add(commandList);
 					}
 
