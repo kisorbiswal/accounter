@@ -19,16 +19,16 @@ public class PreferencePage extends VerticalPanel {
 
 	private List<AbstractPreferenceOption> options = new ArrayList<AbstractPreferenceOption>();
 
-//	private VerticalPanel optionsPane = new VerticalPanel();
+	// private VerticalPanel optionsPane = new VerticalPanel();
 
 	/**
 	 * Creates new Instance
 	 */
 	public PreferencePage(String title) {
 		this.title = title;
-//		this.setHeight("350px");
-//		optionsPane.setSize("100%", "100%");
-//		this.add(this.optionsPane);
+		// this.setHeight("350px");
+		// optionsPane.setSize("100%", "100%");
+		// this.add(this.optionsPane);
 	}
 
 	public void addPreferenceOption(AbstractPreferenceOption option) {
@@ -43,7 +43,9 @@ public class PreferencePage extends VerticalPanel {
 
 	public void onSave() {
 		for (AbstractPreferenceOption option : options) {
-			option.onSave();
+			if (option.isValidate()) {
+				option.onSave();
+			}
 		}
 	}
 
@@ -68,7 +70,7 @@ public class PreferencePage extends VerticalPanel {
 	 * @param option
 	 */
 	public void show(AbstractPreferenceOption option) {
-//		ensureVisible(option);
+		// ensureVisible(option);
 	}
 
 }
