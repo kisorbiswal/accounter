@@ -113,6 +113,7 @@ public class MobileServer {
 	public void strat() {
 		normalConnection.bind(new InetSocketAddress(ServerConfiguration
 				.getMobileChatServerPort()));
-		sslConnection.bind(new InetSocketAddress(9084));
+		sslConnection.bind(new InetSocketAddress(ServerConfiguration
+				.getMobileSSLChatServerPort()));
 	}
 }
