@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -48,6 +49,16 @@ public abstract class ItemNameColumn extends
 			row.setDescription(getDiscription(newValue));
 			// row.setUnitPrice(newValue.getSalesPrice());
 			row.setTaxable(newValue.isTaxable());
+
+			if (row.getQuantity() == null) {
+				ClientQuantity quantity = new ClientQuantity();
+				quantity.setValue(1.0);
+				row.setQuantity(quantity);
+			}
+			if (row.getDiscount() == null) {
+				row.setDiscount(new Double(0));
+			}
+
 			double lt = row.getQuantity().getValue() * row.getUnitPrice();
 			double disc = row.getDiscount();
 			row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt

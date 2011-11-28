@@ -11,12 +11,12 @@ public class TransactionVatColumn extends TransactionAmountColumn {
 	}
 
 	@Override
-	protected double getAmount(ClientTransactionItem row) {
+	protected Double getAmount(ClientTransactionItem row) {
 		return row.getVATfraction();
 	}
 
 	@Override
-	protected void setAmount(ClientTransactionItem row, double value) {
+	protected void setAmount(ClientTransactionItem row, Double value) {
 		row.setVATfraction(value);
 	}
 

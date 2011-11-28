@@ -11,17 +11,20 @@ public class TransactionDiscountColumn extends
 		AmountColumn<ClientTransactionItem> {
 
 	public TransactionDiscountColumn(ICurrencyProvider currencyProvider) {
-		super(currencyProvider,false);
+		super(currencyProvider, false);
 	}
 
 	@Override
-	protected double getAmount(ClientTransactionItem row) {
+	protected Double getAmount(ClientTransactionItem row) {
 		return row.getDiscount();
 	}
 
 	@Override
 	protected String getValue(ClientTransactionItem row) {
-		double amount = getAmount(row);
+		Double amount = getAmount(row);
+		if (amount == null) {
+			return "";
+		}
 		return DataUtils.getAmountAsString(amount);
 	}
 
@@ -36,14 +39,13 @@ public class TransactionDiscountColumn extends
 	}
 
 	@Override
-	protected void setAmount(ClientTransactionItem row, double value) {
+	protected void setAmount(ClientTransactionItem row, Double value) {
 		row.setDiscount(value);
 		// TODO doubt, currencyConversion.
 		double lt = row.getQuantity().getValue() * row.getUnitPrice();
 		double disc = row.getDiscount();
-		row
-				.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
-						* disc / 100)) : lt);
+		row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt * disc / 100))
+				: lt);
 		getTable().update(row);
 	}
 

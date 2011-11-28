@@ -4,10 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AccountNameColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
@@ -82,6 +84,24 @@ public abstract class CustomerAccountTransactionTable extends
 					ClientAccount newValue) {
 				if (newValue != null) {
 					super.setValue(row, newValue);
+					if (row.getQuantity() == null) {
+						ClientQuantity quantity = new ClientQuantity();
+						quantity.setValue(1.0);
+						row.setQuantity(quantity);
+					}
+					if (row.getUnitPrice() == null) {
+						row.setUnitPrice(new Double(0));
+					}
+					if (row.getDiscount() == null) {
+						row.setDiscount(new Double(0));
+					}
+					double lt = row.getQuantity().getValue()
+							* row.getUnitPrice();
+					double disc = row.getDiscount();
+					row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+							* disc / 100))
+							: lt);
+					getTable().update(row);
 				}
 				// applyPriceLevel(row);
 			}

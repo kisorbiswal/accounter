@@ -33,7 +33,8 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 	protected String getValue(ClientTransactionItem row) {
 		ClientItem item = Accounter.getCompany().getItem(row.getItem());
 		if (item == null) {
-			return String.valueOf(row.getQuantity().getValue());
+			ClientQuantity quantity = row.getQuantity();
+			return quantity != null ? String.valueOf(quantity.getValue()) : "";
 		} else {
 			if (item.getType() == ClientItem.TYPE_INVENTORY_PART) {
 				ClientUnit unit = Accounter.getCompany().getUnitById(

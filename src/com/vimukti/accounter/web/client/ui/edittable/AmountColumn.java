@@ -10,31 +10,37 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 
 	ICurrencyProvider currencyProvider;
 
-	public AmountColumn(ICurrencyProvider currencyProvider,boolean updateFromGUI) {
+	public AmountColumn(ICurrencyProvider currencyProvider,
+			boolean updateFromGUI) {
 		super(updateFromGUI);
 		this.currencyProvider = currencyProvider;
 	}
-	
 
 	@Override
 	protected String getValue(T row) {
-		return DataUtils.getAmountAsString(getAmount(row));
+		Double amount = getAmount(row);
+		if (amount == null) {
+			return "";
+		}
+		return DataUtils.getAmountAsString(amount);
 	}
 
-	protected abstract double getAmount(T row);
+	protected abstract Double getAmount(T row);
 
 	@Override
 	public void setValue(T row, String value) {
 		try {
-			double amount = DataUtils.getAmountStringAsDouble(value);
+			Double amount = null;
+			if (value != null && !value.equals("")) {
+				amount = DataUtils.getAmountStringAsDouble(value);
+			}
 			setAmount(row, amount);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-
-	protected abstract void setAmount(T row, double value);
+	protected abstract void setAmount(T row, Double value);
 
 	@Override
 	protected void configure(TextBoxBase textBox) {
@@ -51,7 +57,8 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 	}
 
 	protected String getColumnNameWithCurrency(String name) {
-		String currencyName = Accounter.getCompany().getPrimaryCurrency().getFormalName();
+		String currencyName = Accounter.getCompany().getPrimaryCurrency()
+				.getFormalName();
 		if (currencyProvider.getTransactionCurrency() != null) {
 			currencyName = currencyProvider.getTransactionCurrency()
 					.getFormalName();
@@ -59,11 +66,10 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 		return Accounter.messages().nameWithCurrency(name, currencyName);
 	}
 
-	
-	protected String getColumnNameWithBaseCurrency(String name)
-	{
-		String formalName = Accounter.getCompany().getPrimaryCurrency().getFormalName();
-		
+	protected String getColumnNameWithBaseCurrency(String name) {
+		String formalName = Accounter.getCompany().getPrimaryCurrency()
+				.getFormalName();
+
 		return Accounter.messages().nameWithCurrency(name, formalName);
 	}
 }

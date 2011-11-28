@@ -166,13 +166,13 @@ public abstract class TransactionPayBillTable extends
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionPayBill row) {
+				protected Double getAmount(ClientTransactionPayBill row) {
 					return row.getOriginalAmount();
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
-						double value) {
+						Double value) {
 
 				}
 			});
@@ -196,13 +196,13 @@ public abstract class TransactionPayBillTable extends
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionPayBill row) {
+				protected Double getAmount(ClientTransactionPayBill row) {
 					return row.getAmountDue();
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
-						double value) {
+						Double value) {
 
 				}
 			});
@@ -226,13 +226,13 @@ public abstract class TransactionPayBillTable extends
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionPayBill row) {
+				protected Double getAmount(ClientTransactionPayBill row) {
 					return row.getOriginalAmount();
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
-						double value) {
+						Double value) {
 					//
 
 				}
@@ -341,14 +341,14 @@ public abstract class TransactionPayBillTable extends
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionPayBill row) {
+				protected Double getAmount(ClientTransactionPayBill row) {
 					return currencyProvider.getAmountInTransactionCurrency(row
 							.getPayment());
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
-						double value) {
+						Double value) {
 					value = currencyProvider.getAmountInBaseCurrency(value);
 					row.setPayment(value);
 					updateValue(row);
@@ -405,14 +405,14 @@ public abstract class TransactionPayBillTable extends
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionPayBill row) {
+				protected Double getAmount(ClientTransactionPayBill row) {
 					return currencyProvider.getAmountInTransactionCurrency(row
 							.getPayment());
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
-						double value) {
+						Double value) {
 
 				}
 			});
@@ -731,8 +731,7 @@ public abstract class TransactionPayBillTable extends
 
 	private void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(messages
-					.youdnthaveBalToApplyCredits());
+			throw new Exception(messages.youdnthaveBalToApplyCredits());
 	}
 
 	private void openCashDiscountDialog(
@@ -820,14 +819,14 @@ public abstract class TransactionPayBillTable extends
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionPayBill row) {
+				protected Double getAmount(ClientTransactionPayBill row) {
 					return currencyProvider.getAmountInTransactionCurrency(row
 							.getTdsAmount());
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
-						double value) {
+						Double value) {
 					// No Need
 
 				}
@@ -856,8 +855,8 @@ public abstract class TransactionPayBillTable extends
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 		if (this.getSelectedRecords().size() == 0) {
-			result.addError(this, messages
-					.pleaseSelectAnyOneOfTheTransactions());
+			result.addError(this,
+					messages.pleaseSelectAnyOneOfTheTransactions());
 		}
 
 		// validates receive payment amount excesses due amount or not
@@ -866,14 +865,14 @@ public abstract class TransactionPayBillTable extends
 
 			double totalValue = getTotalValue(transactionPayBill);
 			if (DecimalUtil.isEquals(totalValue, 0)) {
-				result.addError(this, messages
-						.totalPaymentNotZeroForSelectedRecords());
+				result.addError(this,
+						messages.totalPaymentNotZeroForSelectedRecords());
 			} else if (DecimalUtil
 					.isGreaterThan(totalValue, currencyProvider
 							.getAmountInBaseCurrency(transactionPayBill
 									.getAmountDue()))) {
-				result.addError(this, messages
-						.totalPaymentNotExceedDueForSelectedRecords());
+				result.addError(this,
+						messages.totalPaymentNotExceedDueForSelectedRecords());
 			}
 		}
 

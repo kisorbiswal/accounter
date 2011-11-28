@@ -168,13 +168,13 @@ public abstract class TransactionReceivePaymentTable extends
 			}
 
 			@Override
-			protected double getAmount(ClientTransactionReceivePayment row) {
+			protected Double getAmount(ClientTransactionReceivePayment row) {
 				return row.getInvoiceAmount();
 			}
 
 			@Override
 			protected void setAmount(ClientTransactionReceivePayment row,
-					double value) {
+					Double value) {
 
 			}
 		};
@@ -201,13 +201,13 @@ public abstract class TransactionReceivePaymentTable extends
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionReceivePayment row) {
+				protected Double getAmount(ClientTransactionReceivePayment row) {
 					return row.getAmountDue();
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionReceivePayment row,
-						double value) {
+						Double value) {
 
 				}
 			};
@@ -349,19 +349,18 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return getColumnNameWithCurrency(Accounter.messages()
-						.payment());
+				return getColumnNameWithCurrency(Accounter.messages().payment());
 			}
 
 			@Override
-			protected double getAmount(ClientTransactionReceivePayment row) {
+			protected Double getAmount(ClientTransactionReceivePayment row) {
 				return currencyProvider.getAmountInTransactionCurrency(row
 						.getPayment());
 			}
 
 			@Override
 			protected void setAmount(ClientTransactionReceivePayment item,
-					double value) {
+					Double value) {
 				if (isInViewMode()) {
 					return;
 				}
@@ -407,8 +406,8 @@ public abstract class TransactionReceivePaymentTable extends
 				.getSelectedRecords()) {
 			double totalValue = getTotalValue(transactionReceivePayment);
 			if (DecimalUtil.isLessThan(totalValue, 0.00)) {
-				result.addError(this, messages
-						.valueCannotBe0orlessthan0(messages.amount()));
+				result.addError(this,
+						messages.valueCannotBe0orlessthan0(messages.amount()));
 			} else if (DecimalUtil.isGreaterThan(totalValue, currencyProvider
 					.getAmountInBaseCurrency(transactionReceivePayment
 							.getAmountDue()))

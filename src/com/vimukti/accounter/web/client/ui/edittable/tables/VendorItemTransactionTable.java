@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -68,6 +69,17 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 				if (newValue != null) {
 					// row.setUnitPrice(newValue.getPurchasePrice());
 					row.setTaxable(newValue.isTaxable());
+					if (row.getQuantity() == null) {
+						ClientQuantity quantity = new ClientQuantity();
+						quantity.setValue(1.0);
+						row.setQuantity(quantity);
+					}
+					if (row.getUnitPrice() == null) {
+						row.setUnitPrice(new Double(0));
+					}
+					if (row.getDiscount() == null) {
+						row.setDiscount(new Double(0));
+					}
 					double lt = row.getQuantity().getValue()
 							* row.getUnitPrice();
 					double disc = row.getDiscount();
@@ -82,6 +94,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 						row.setWareHouse(newValue.getWarehouse());
 						row.setDescription(newValue.getPurchaseDescription());
 					}
+
 				}
 				update(row);
 			}

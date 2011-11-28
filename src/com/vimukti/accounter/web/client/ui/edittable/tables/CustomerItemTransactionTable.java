@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -73,6 +74,17 @@ public abstract class CustomerItemTransactionTable extends
 						&& newValue.getType() == ClientItem.TYPE_INVENTORY_PART) {
 					ClientMeasurement measurement = Accounter.getCompany()
 							.getMeasurement(newValue.getMeasurement());
+					if (row.getQuantity() == null) {
+						ClientQuantity quantity = new ClientQuantity();
+						quantity.setValue(1.0);
+						row.setQuantity(quantity);
+					}
+					if (row.getUnitPrice() == null) {
+						row.setUnitPrice(new Double(0));
+					}
+					if (row.getDiscount() == null) {
+						row.setDiscount(new Double(0));
+					}
 					row.getQuantity().setUnit(
 							measurement.getDefaultUnit().getId());
 					row.setWareHouse(newValue.getWarehouse());
@@ -103,7 +115,7 @@ public abstract class CustomerItemTransactionTable extends
 			this.addColumn(new TransactionDiscountColumn(currencyProvider));
 		}
 
-		this.addColumn(new TransactionTotalColumn(currencyProvider,true));
+		this.addColumn(new TransactionTotalColumn(currencyProvider, true));
 
 		// if (getCompany().getPreferences().isChargeSalesTax()) {
 

@@ -108,6 +108,10 @@ public abstract class TransactionJournalEntryTable extends
 			protected void setValue(ClientTransactionItem row,
 					IAccounterCore newValue) {
 				row.setAccount(newValue.getID());
+				if (row.getLineTotal() == null) {
+					row.setLineTotal(new Double(0));
+				}
+				update(row);
 			}
 
 			@SuppressWarnings({ "unchecked" })
@@ -119,7 +123,7 @@ public abstract class TransactionJournalEntryTable extends
 
 			@Override
 			protected String getColumnName() {
-						return messages.Account();
+				return messages.Account();
 			}
 
 			@Override
@@ -153,18 +157,19 @@ public abstract class TransactionJournalEntryTable extends
 		this.addColumn(memoColumn);
 
 		AmountColumn<ClientTransactionItem> debitColumn = new AmountColumn<ClientTransactionItem>(
-				currencyProvider,false) {
+				currencyProvider, false) {
 
 			@Override
-			protected double getAmount(ClientTransactionItem row) {
-				if (DecimalUtil.isGreaterThan(row.getLineTotal(), 0)) {
+			protected Double getAmount(ClientTransactionItem row) {
+				if (row.getLineTotal() != null
+						&& DecimalUtil.isGreaterThan(row.getLineTotal(), 0)) {
 					return row.getLineTotal();
 				}
-				return 0;
+				return row.getLineTotal() == null ? null : new Double(0);
 			}
 
 			@Override
-			protected void setAmount(ClientTransactionItem row, double value) {
+			protected void setAmount(ClientTransactionItem row, Double value) {
 				row.setLineTotal(value);
 				refreshTotals();
 				getTable().update(row);
@@ -183,18 +188,19 @@ public abstract class TransactionJournalEntryTable extends
 		this.addColumn(debitColumn);
 
 		AmountColumn<ClientTransactionItem> creditColumn = new AmountColumn<ClientTransactionItem>(
-				currencyProvider,false) {
+				currencyProvider, false) {
 
 			@Override
-			protected double getAmount(ClientTransactionItem row) {
-				if (DecimalUtil.isLessThan(row.getLineTotal(), 0)) {
+			protected Double getAmount(ClientTransactionItem row) {
+				if (row.getLineTotal() != null
+						&& DecimalUtil.isLessThan(row.getLineTotal(), 0)) {
 					return -1 * row.getLineTotal();
 				}
-				return 0;
+				return row.getLineTotal() == null ? null : new Double(0);
 			}
 
 			@Override
-			protected void setAmount(ClientTransactionItem row, double value) {
+			protected void setAmount(ClientTransactionItem row, Double value) {
 				row.setLineTotal(-1 * value);
 				refreshTotals();
 				getTable().update(row);
@@ -219,10 +225,8 @@ public abstract class TransactionJournalEntryTable extends
 		ValidationResult result = new ValidationResult();
 
 		if (this.getAllRows().size() == 0) {
-			result.addError(
-					this,
-					messages.thereisNoRecordsTosave(
-							messages.journalEntry()));
+			result.addError(this,
+					messages.thereisNoRecordsTosave(messages.journalEntry()));
 		}
 		// Validates account name
 		List<ClientTransactionItem> entrylist = this.getAllRows();
@@ -238,9 +242,7 @@ public abstract class TransactionJournalEntryTable extends
 		}
 		for (ClientTransactionItem entry : entrylist) {
 			if (entry.getAccount() == 0) {
-				result.addError(this,
- messages
-								.pleaseEnter(messages.account()));
+				result.addError(this, messages.pleaseEnter(messages.account()));
 			}
 		}
 		return result;
@@ -277,10 +279,12 @@ public abstract class TransactionJournalEntryTable extends
 		creditTotal = 0;
 		debitTotal = 0;
 		for (ClientTransactionItem rec : getAllRows()) {
-			if (DecimalUtil.isGreaterThan(rec.getLineTotal(), 0)) {
-				debitTotal += rec.getLineTotal();
-			} else {
-				creditTotal += (-1 * rec.getLineTotal());
+			if (rec.getLineTotal() != null) {
+				if (DecimalUtil.isGreaterThan(rec.getLineTotal(), 0)) {
+					debitTotal += rec.getLineTotal();
+				} else {
+					creditTotal += (-1 * rec.getLineTotal());
+				}
 			}
 		}
 		updateNonEditableItems();

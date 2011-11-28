@@ -112,67 +112,63 @@ public abstract class MakeDepositTransactionTable extends
 					}
 				});
 
-		this
-				.addColumn(new ComboColumn<ClientTransactionMakeDeposit, IAccounterCore>() {
+		this.addColumn(new ComboColumn<ClientTransactionMakeDeposit, IAccounterCore>() {
 
-					@Override
-					protected IAccounterCore getValue(
-							ClientTransactionMakeDeposit obj) {
-						switch (obj.getType()) {
-						case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-							return Accounter.getCompany().getAccount(
-									obj.getAccount());
-						case ClientTransactionMakeDeposit.TYPE_VENDOR:
-							return Accounter.getCompany().getVendor(
-									obj.getVendor());
-						case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-							return Accounter.getCompany().getCustomer(
-									obj.getCustomer());
-						}
-						return null;
-					}
+			@Override
+			protected IAccounterCore getValue(ClientTransactionMakeDeposit obj) {
+				switch (obj.getType()) {
+				case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
+					return Accounter.getCompany().getAccount(obj.getAccount());
+				case ClientTransactionMakeDeposit.TYPE_VENDOR:
+					return Accounter.getCompany().getVendor(obj.getVendor());
+				case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
+					return Accounter.getCompany()
+							.getCustomer(obj.getCustomer());
+				}
+				return null;
+			}
 
-					@Override
-					protected void setValue(ClientTransactionMakeDeposit row,
-							IAccounterCore newValue) {
-						switch (row.getType()) {
-						case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-							row.setAccount(newValue.getID());
-							break;
-						case ClientTransactionMakeDeposit.TYPE_VENDOR:
-							row.setVendor(newValue.getID());
-							break;
-						case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-							row.setCustomer(newValue.getID());
-							break;
-						}
-					}
+			@Override
+			protected void setValue(ClientTransactionMakeDeposit row,
+					IAccounterCore newValue) {
+				switch (row.getType()) {
+				case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
+					row.setAccount(newValue.getID());
+					break;
+				case ClientTransactionMakeDeposit.TYPE_VENDOR:
+					row.setVendor(newValue.getID());
+					break;
+				case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
+					row.setCustomer(newValue.getID());
+					break;
+				}
+			}
 
-					@SuppressWarnings( { "rawtypes", "unchecked" })
-					@Override
-					public AbstractDropDownTable getDisplayTable(
-							ClientTransactionMakeDeposit row) {
-						switch (row.getType()) {
-						case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-							return accountDropDownTable;
-						case ClientTransactionMakeDeposit.TYPE_VENDOR:
-							return vendorDropDownTable;
-						case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-							return customerDropDownTable;
-						}
-						return null;
-					}
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public AbstractDropDownTable getDisplayTable(
+					ClientTransactionMakeDeposit row) {
+				switch (row.getType()) {
+				case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
+					return accountDropDownTable;
+				case ClientTransactionMakeDeposit.TYPE_VENDOR:
+					return vendorDropDownTable;
+				case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
+					return customerDropDownTable;
+				}
+				return null;
+			}
 
-					@Override
-					protected String getColumnName() {
-						return messages.accountFrom();
-					}
+			@Override
+			protected String getColumnName() {
+				return messages.accountFrom();
+			}
 
-					@Override
-					public int getWidth() {
-						return 180;
-					}
-				});
+			@Override
+			public int getWidth() {
+				return 180;
+			}
+		});
 
 		this.addColumn(new TextEditColumn<ClientTransactionMakeDeposit>() {
 
@@ -197,7 +193,7 @@ public abstract class MakeDepositTransactionTable extends
 		});
 
 		this.addColumn(new AmountColumn<ClientTransactionMakeDeposit>(
-				currencyProvider,true) {
+				currencyProvider, true) {
 
 			@Override
 			protected String getColumnName() {
@@ -205,13 +201,13 @@ public abstract class MakeDepositTransactionTable extends
 			}
 
 			@Override
-			protected double getAmount(ClientTransactionMakeDeposit row) {
+			protected Double getAmount(ClientTransactionMakeDeposit row) {
 				return row.getAmount();
 			}
 
 			@Override
 			protected void setAmount(ClientTransactionMakeDeposit row,
-					double lineTotal) {
+					Double lineTotal) {
 				if (!AccounterValidator.isPositiveAmount(lineTotal)) {
 					lineTotal = 0.0D;
 					row.setAmount(lineTotal);
@@ -250,20 +246,21 @@ public abstract class MakeDepositTransactionTable extends
 					|| (record.getType() == ClientTransactionMakeDeposit.TYPE_VENDOR && record
 							.getVendor() == 0) || (record.getType() == ClientTransactionMakeDeposit.TYPE_CUSTOMER && record
 					.getCustomer() == 0))) {
-				result.addError(this, messages
-						.pleaseselectvalidtransactionGrid(
-								getTypeAsString(record.getType())));
+				result.addError(
+						this,
+						messages.pleaseselectvalidtransactionGrid(getTypeAsString(record
+								.getType())));
 			}
 
 			if (record.getAccount() == depositInId) {
-				result.addError(this, messages
-						.depositAndAccountFromShouldNotBeSame());
+				result.addError(this,
+						messages.depositAndAccountFromShouldNotBeSame());
 			}
 		}
 		if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
 			// FIXME
-			result.addError("GridTotalLineTotal", messages
-					.invalidTransactionAmount());
+			result.addError("GridTotalLineTotal",
+					messages.invalidTransactionAmount());
 		}
 		return result;
 	}

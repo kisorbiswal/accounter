@@ -13,13 +13,14 @@ public class TransactionTotalColumn extends AmountColumn<ClientTransactionItem> 
 	}
 
 	@Override
-	protected double getAmount(ClientTransactionItem row) {
+	protected Double getAmount(ClientTransactionItem row) {
 
-		return currencyProvider.getAmountInTransactionCurrency(row.getLineTotal());
+		return currencyProvider.getAmountInTransactionCurrency(row
+				.getLineTotal());
 	}
 
 	@Override
-	protected void setAmount(ClientTransactionItem row, double value) {
+	protected void setAmount(ClientTransactionItem row, Double value) {
 		row.setLineTotal(currencyProvider.getAmountInBaseCurrency(value));
 	}
 

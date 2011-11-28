@@ -13,18 +13,22 @@ public class TransactionUnitPriceColumn extends TransactionAmountColumn {
 	}
 
 	@Override
-	protected double getAmount(ClientTransactionItem row) {
-		return currencyProvider.getAmountInTransactionCurrency(row.getUnitPrice());
+	protected Double getAmount(ClientTransactionItem row) {
+		return currencyProvider.getAmountInTransactionCurrency(row
+				.getUnitPrice());
 	}
 
 	@Override
-	protected void setAmount(ClientTransactionItem row, double value) {
+	protected void setAmount(ClientTransactionItem row, Double value) {
 		row.setUnitPrice(currencyProvider.getAmountInBaseCurrency(value));
 		// TODO doubt, currencyConversion.
-		double lt = row.getQuantity().getValue() * row.getUnitPrice();
-		double disc = row.getDiscount();
-		row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt * disc / 100))
-				: lt);
+		if (row.getQuantity() != null && row.getUnitPrice() != null
+				&& row.getDiscount() != null) {
+			double lt = row.getQuantity().getValue() * row.getUnitPrice();
+			double disc = row.getDiscount();
+			row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+					* disc / 100)) : lt);
+		}
 		getTable().update(row);
 	}
 

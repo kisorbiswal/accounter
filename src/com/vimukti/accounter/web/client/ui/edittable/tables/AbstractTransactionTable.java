@@ -67,10 +67,12 @@ public abstract class AbstractTransactionTable extends
 
 			if (type == 0)
 				continue;
-			totaldiscount += record.getDiscount();
+			if (record.getDiscount() != null)
+				totaldiscount += record.getDiscount();
 
 			Double lineTotalAmt = record.getLineTotal();
-			lineTotal += lineTotalAmt;
+			if (lineTotalAmt != null)
+				lineTotal += lineTotalAmt;
 
 			if (record != null && record.isTaxable()) {
 				// ClientTAXItem taxItem = getCompany().getTAXItem(
@@ -228,8 +230,8 @@ public abstract class AbstractTransactionTable extends
 
 			if (transactionItem.isBillable()) {
 				if (transactionItem.getCustomer() == 0) {
-					result.addError("Customer", messages
-							.mustSelectCustomerForBillable());
+					result.addError("Customer",
+							messages.mustSelectCustomerForBillable());
 				} else if (transactionItem.getItem() > 0) {
 					ClientItem item = getCompany().getItem(
 							transactionItem.getItem());
