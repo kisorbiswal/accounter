@@ -10,12 +10,8 @@ import com.vimukti.accounter.mobile.ResultList;
 
 public abstract class CommandsRequirement extends AbstractRequirement<String> {
 
-	private ChangeListner<String> listner;
-
-	public CommandsRequirement(String requirementName,
-			ChangeListner<String> listner) {
+	public CommandsRequirement(String requirementName) {
 		super(requirementName, null, null, true, false);
-		this.listner = listner;
 	}
 
 	@Override
@@ -24,8 +20,11 @@ public abstract class CommandsRequirement extends AbstractRequirement<String> {
 		String value = context.getSelection(getName());
 		if (value != null) {
 			setValue(value);
-			if (listner != null) {
-				listner.onSelection(value);
+			String onSelection = onSelection(value);
+			if (onSelection != null) {
+				Result result = new Result();
+				result.setNextCommand(onSelection);
+				return result;
 			}
 			context.setString("");
 		}
@@ -37,6 +36,10 @@ public abstract class CommandsRequirement extends AbstractRequirement<String> {
 			resultList.add(record);
 		}
 		makeResult.add(resultList);
+		return null;
+	}
+
+	public String onSelection(String value) {
 		return null;
 	}
 

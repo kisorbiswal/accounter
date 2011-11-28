@@ -189,7 +189,7 @@ public class SignupCommand extends NewCommand {
 			password = get(PASSOWRD).getValue();
 			context.setLast(RequirementType.STRING, emailId);
 		} else {
-			// password= SecureUtils.createID(16);
+			password = SecureUtils.createID(16);
 			sendPasswordMail(password, emailId);
 		}
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId

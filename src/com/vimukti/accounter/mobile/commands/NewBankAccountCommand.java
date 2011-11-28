@@ -21,6 +21,8 @@ import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
@@ -110,12 +112,12 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		list.add(new NumberRequirement(BANK_ACCOUNT_NUMBER,
 				"Please Enter  Bank Account number", "Bank Account Number",
 				false, true));
-		list.add(new CommandsRequirement(BANKACCOUNT_REGISTER, null) {
+		list.add(new CommandsRequirement(BANKACCOUNT_REGISTER) {
 
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add("BankAccount Register " + bankAccount.getID());
+				list.add("Bank Account Register");
 				return list;
 			}
 
@@ -126,6 +128,11 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
+			}
+
+			@Override
+			public String onSelection(String value) {
+				return "Bank Registers " + bankAccount.getName();
 			}
 		});
 
@@ -151,7 +158,8 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return "Delete BankAccout " + bankAccount.getID();
+		long id = bankAccount.getID();
+		return id != 0 ? "Delete BankAccout " + bankAccount.getID() : null;
 	}
 
 	@Override
@@ -165,8 +173,8 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 			return null;
 		}
 
-		bankAccount = (ClientBankAccount) CommandUtils.getAccountByName(
-				context.getCompany(), string);
+		bankAccount = CommandUtils.getBankAccountByName(context.getCompany(),
+				string);
 		if (bankAccount == null) {
 			long numberFromString = getNumberFromString(string);
 			if (numberFromString != 0) {
@@ -180,9 +188,12 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 			return "Accounts " + string.trim();
 		}
 
-		get(ACCOUNT_TYPE).setValue(
-				getAccountTypes().get(bankAccount.getType() - 1));
+		get(BANK_ACCOUNT_TYPE).setValue(
+				getBankAccountType(bankAccount.getType() - 1));
+		get(BANK_ACCOUNT_TYPE).setEditable(false);
 
+		get(BANK_ACCOUNT_NUMBER).setValue(bankAccount.getBankAccountNumber());
+		get(BANK_ACCOUNT_NUMBER).setEditable(false);
 		get(ACCOUNT_NAME).setValue(bankAccount.getName());
 		get(ACCOUNT_NAME).setEditable(false);
 
@@ -194,6 +205,30 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		get(ASOF).setValue(new ClientFinanceDate(bankAccount.getAsOf()));
 		get(COMMENTS).setValue(bankAccount.getComment());
 		return null;
+	}
+
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 */
+	private String getBankAccountType(int type) {
+		switch (type) {
+		case ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING:
+			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING;
+
+		case ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET:
+			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
+		case ClientAccount.BANK_ACCCOUNT_TYPE_SAVING:
+			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING;
+		case ClientAccount.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT:
+			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT;
+		default:
+			break;
+		}
+
+		return "";
+
 	}
 
 	@Override

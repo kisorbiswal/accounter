@@ -54,7 +54,7 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new CommandsRequirement(VIEW_BY, null) {
+		list.add(new CommandsRequirement(VIEW_BY) {
 
 			@Override
 			protected List<String> getList() {

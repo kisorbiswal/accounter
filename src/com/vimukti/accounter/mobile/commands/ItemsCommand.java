@@ -24,7 +24,7 @@ public class ItemsCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new CommandsRequirement(ITEMS_TYPE, null) {
+		list.add(new CommandsRequirement(ITEMS_TYPE) {
 
 			@Override
 			protected List<String> getList() {

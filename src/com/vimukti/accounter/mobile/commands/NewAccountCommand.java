@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -36,7 +37,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 	private static final String CONSIDER_AS_CASH_ACCOUNT = "Consider As Cash Account";
 	private static final String CREDIT_LIMIT = "creditLimit";
 	private static final String CARD_OR_LOAD_NUMBER = "cardOrLoadNumber";
-
+	private static final String ACCOUNT_REGISTER = "AccountRegister";
 	private ClientAccount account;
 
 	@Override
@@ -155,6 +156,29 @@ public class NewAccountCommand extends NewAbstractCommand {
 				}
 			}
 
+		});
+		list.add(new CommandsRequirement(ACCOUNT_REGISTER) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add("Account Register");
+				return list;
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (account.getID() != 0) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			public String onSelection(String value) {
+				return "Bank Registers " + account.getName();
+			}
 		});
 
 	}

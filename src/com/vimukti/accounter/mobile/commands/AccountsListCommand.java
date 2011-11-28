@@ -105,7 +105,7 @@ public class AccountsListCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new CommandsRequirement(ACCOUNT_TYPE, null) {
+		list.add(new CommandsRequirement(ACCOUNT_TYPE) {
 
 			@Override
 			protected List<String> getList() {

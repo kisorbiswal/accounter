@@ -70,7 +70,7 @@ public class QuotesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new CommandsRequirement(VIEW_BY, null) {
+		list.add(new CommandsRequirement(VIEW_BY) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {

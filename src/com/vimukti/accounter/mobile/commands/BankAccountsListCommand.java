@@ -23,7 +23,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new CommandsRequirement(VIEW_TYPE, null) {
+		list.add(new CommandsRequirement(VIEW_TYPE) {
 
 			@Override
 			protected List<String> getList() {
@@ -104,12 +104,12 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Account value) {
-				return "Edit account " + value.getName();
+				return "Edit BankAccount " + value.getName();
 			}
 
 		});
 
-		list.add(new CommandsRequirement(VIEW_TYPE, null) {
+		list.add(new CommandsRequirement(VIEW_TYPE) {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();

@@ -74,7 +74,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new CommandsRequirement(CURRENT_VIEW, null) {
+		list.add(new CommandsRequirement(CURRENT_VIEW) {
 
 			@Override
 			protected List<String> getList() {

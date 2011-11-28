@@ -91,7 +91,7 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new CommandsRequirement(SHOWTRANSACTION_TYPE, null) {
+		list.add(new CommandsRequirement(SHOWTRANSACTION_TYPE) {
 
 			@Override
 			protected List<String> getList() {
@@ -106,16 +106,16 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<AccountRegister>("Account Register",
 				"Please Enter name or number", 20) {
-			@Override
-			protected void setSelectCommands(CommandList commandList,
-					AccountRegister value) {
-
-				commandList.add(new UserCommand("Edit Transaction", String
-						.valueOf(value.getTransactionId())));
-
-				commandList.add(new UserCommand("Delete Transaction", Utility
-						.getTransactionName(value.getType())));
-			}
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// AccountRegister value) {
+			//
+			// commandList.add(new UserCommand("Edit Transaction", String
+			// .valueOf(value.getTransactionId())));
+			//
+			// commandList.add(new UserCommand("Delete Transaction", Utility
+			// .getTransactionName(value.getType())));
+			// }
 
 			@Override
 			protected String onSelection(AccountRegister value) {

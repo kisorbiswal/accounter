@@ -36,6 +36,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
@@ -108,7 +109,7 @@ public class CommandUtils {
 	public static ClientFinanceDate getCurrentFiscalYearStartDate(
 			ClientCompanyPreferences preferences) {
 		ClientFinanceDate startDate = new ClientFinanceDate();
-		startDate.setMonth(preferences.getFiscalYearFirstMonth() + 1);
+		startDate.setMonth(preferences.getFiscalYearFirstMonth());
 		startDate.setDay(1);
 		return startDate;
 	}
@@ -136,6 +137,18 @@ public class CommandUtils {
 			if (account.getName().equals(string)) {
 				return (ClientAccount) getClientObjectById(account.getID(),
 						AccounterCoreType.ACCOUNT, company.getId());
+			}
+		}
+		return null;
+	}
+
+	public static ClientBankAccount getBankAccountByName(Company company,
+			String string) {
+		Set<Account> accounts = company.getAccounts();
+		for (Account account : accounts) {
+			if (account.getName().equals(string)) {
+				return (ClientBankAccount) getClientObjectById(account.getID(),
+						AccounterCoreType.BANK_ACCOUNT, company.getId());
 			}
 		}
 		return null;

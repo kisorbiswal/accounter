@@ -95,7 +95,7 @@ public class PurchaseOrderListCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new CommandsRequirement(CURRENT_VIEW, null) {
+		list.add(new CommandsRequirement(CURRENT_VIEW) {
 
 			@Override
 			protected List<String> getList() {
