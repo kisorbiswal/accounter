@@ -266,6 +266,10 @@ public abstract class ClientTransaction implements IAccounterCore {
 		return UIUtils.getpaymentMethodCheckBy_CompanyType(paymentMethod);
 	}
 
+	public String getPaymentMethodForCommands() {
+		return paymentMethod;
+	}
+
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
