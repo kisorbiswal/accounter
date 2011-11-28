@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenu;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -484,6 +485,7 @@ public class MacMenuServlet extends BaseServlet {
 				"company/accounter#writeCheck");
 		menu(bankingValues, iGlobal.messages().makeDeposit(),
 				"company/accounter#depositTransferFunds");
+		
 		if (preferences.isDoyouKeepTrackofBills()) {
 			menu(bankingValues, iGlobal.messages().payBills(),
 					"company/accounter#payBill");
@@ -793,7 +795,30 @@ public class MacMenuServlet extends BaseServlet {
 		}
 
 		separator(mainMenuValue);
-
+		
+		
+		/*IMenu mergeAccountsMenuBar = getSubMenu();
+		mergeAccountsMenuBar.addMenuItem(
+				messages.mergeCustomers(Global.get().Customer()),
+				getMergeCustomerCommand());
+		mergeAccountsMenuBar.addMenuItem(
+				messages.mergeVendors(Global.get().Vendor()),
+				getMergeVendorCommand());
+		mergeAccountsMenuBar.addMenuItem(messages.mergeAccounts(),
+				getMergeAccountCommand());
+		mergeAccountsMenuBar.addMenuItem(messages.mergeItems(),
+				getMergeItemCommand());*/
+		
+		StringBuilder mergeMenuList = new StringBuilder();
+		subMenu(mergeMenuList, iGlobal.messages().mergeCustomers( iGlobal.Customer()),
+				"company/accounter#merge_customers");
+		subMenu(mergeMenuList, iGlobal.messages().mergeVendors( iGlobal.Vendor()),
+				"company/accounter#merge_vendor");
+		subMenu(mergeMenuList, iGlobal.messages().mergeAccounts(),"company/accounter#merge_account");
+		subMenu(mergeMenuList, iGlobal.messages().mergeItems(),"company/accounter#merge_item");
+		
+		separator(mainMenuValue);
+		
 		StringBuilder companyLists = new StringBuilder();
 		if (canSeeInvoiceTransactions()) {
 			subMenu(companyLists,
