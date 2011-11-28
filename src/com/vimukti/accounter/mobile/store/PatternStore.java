@@ -103,13 +103,17 @@ public class PatternStore {
 				PatternResult result = new PatternResult();
 				CommandList commands = new CommandList();
 				if (pattern.output != null) {
-					String text = pattern.output.text;
-					if (text != null) {
-						result.setTitle(text);
+					List<String> texts = pattern.output.texts;
+					if (texts != null) {
+						for (String s : texts) {
+							result.add(s);
+						}
 					}
 					List<String> strings = pattern.output.commands;
-					for (String s : strings) {
-						commands.add(s);
+					if (strings != null) {
+						for (String s : strings) {
+							commands.add(s);
+						}
 					}
 				}
 				result.add(commands);
@@ -141,7 +145,7 @@ public class PatternStore {
 	}
 
 	public static class Output {
-		String text;
+		List<String> texts = new ArrayList<String>();
 		List<String> commands = new ArrayList<String>();
 
 		public Output() {
