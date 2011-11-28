@@ -62,13 +62,24 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 			}
 
 			public void onSecondButtonClick() {
-				showAddEditTermDialog((ClientPaymentTerms) listGridView
-						.getSelection());
+				ClientPaymentTerms selectedPaymentTerms = getSelectedPaymentTerms();
+				if (!selectedPaymentTerms.isDefault()) {
+					showAddEditTermDialog(selectedPaymentTerms);
+				} else {
+					Accounter.showError(Accounter.messages()
+							.youcannotEditDeleteDefaultTerms());
+				}
 
 			}
 
 			public void onThirdButtonClick() {
-				deleteObject(getSelectedPaymentTerms());
+				ClientPaymentTerms selectedPaymentTerms = getSelectedPaymentTerms();
+				if (!selectedPaymentTerms.isDefault()) {
+					deleteObject(selectedPaymentTerms);
+				} else {
+					Accounter.showError(Accounter.messages()
+							.youcannotEditDeleteDefaultTerms());
+				}
 				if (paymentTerms == null)
 					enableEditRemoveButtons(false);
 
@@ -117,12 +128,10 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 			clientPaymentTerms
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
-							.getValue().toString()
-							: "");
+							.getValue().toString() : "");
 			clientPaymentTerms
 					.setDescription(dialog.descText.getValue() != null ? dialog.descText
-							.getValue().toString()
-							: "");
+							.getValue().toString() : "");
 			// clientPaymentTerms.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
 			// .getValue() != null ? dialog.discDayText.getValue() : "0"));
 			// clientPaymentTerms.setDiscountPercent(UIUtils
@@ -144,12 +153,10 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 			clientPaymentTerms
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
-							.getValue().toString()
-							: "");
+							.getValue().toString() : "");
 			clientPaymentTerms
 					.setDescription(dialog.descText.getValue() != null ? dialog.descText
-							.getValue().toString()
-							: "");
+							.getValue().toString() : "");
 			// clientPaymentTerms
 			// .setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
 			// .getNumber() != null ? dialog.discDayText
@@ -233,8 +240,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		ValidationResult result = new ValidationResult();
 		if (paymentTerm != null) {
 			if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
-					.getValue().toString()
-					: "")) {
+					.getValue().toString() : "")) {
 				result.addError(this, Accounter.messages().alreadyExist());
 			}
 		} else {
