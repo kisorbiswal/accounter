@@ -646,6 +646,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private void resetView() {
 		accInfoForm.setWidth("100%");
+
+		if (paypalForm != null)
+			topHLay.remove(paypalForm);
+
 		reset(cashBasisForm);
 		reset(commentsForm);
 
