@@ -20,8 +20,6 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 
 	// ClientJournalEntry journalEntry;
 
-	long adjustmentDate;
-
 	boolean increaseVATLine;
 
 	boolean isFiled;
@@ -51,21 +49,6 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 */
 	public void setJournalEntry(long journalEntry) {
 		this.journalEntry = journalEntry;
-	}
-
-	/**
-	 * @return the adjustmentDate
-	 */
-	public Long getAdjustmentDate() {
-		return adjustmentDate;
-	}
-
-	/**
-	 * @param adjustmentDate
-	 *            the adjustmentDate to set
-	 */
-	public void setAdjustmentDate(Long adjustmentDate) {
-		this.adjustmentDate = adjustmentDate;
 	}
 
 	/**
@@ -196,14 +179,6 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 */
 	public void setTaxItem(long taxItem) {
 		this.taxItem = taxItem;
-	}
-
-	/**
-	 * @param adjustmentDate
-	 *            the adjustmentDate to set
-	 */
-	public void setAdjustmentDate(long adjustmentDate) {
-		this.adjustmentDate = adjustmentDate;
 	}
 
 	/*
