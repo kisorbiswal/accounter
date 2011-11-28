@@ -104,7 +104,7 @@ public class NewCustomerGroupCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return customerGroup != null ? "Delete CustomerGroup "
-				+ customerGroup.getID() : null;
+		long id = customerGroup.getID();
+		return id != 0 ? "Delete CustomerGroup " + id : null;
 	}
 }

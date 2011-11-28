@@ -224,7 +224,8 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return taxCode != null ? "Delete VatCode " + taxCode.getID() : null;
+		long id = taxCode.getID();
+		return id != 0 ? "Delete VatCode " + id : null;
 	}
 
 	@Override

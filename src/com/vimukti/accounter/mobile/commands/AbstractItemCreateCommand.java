@@ -481,7 +481,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	@Override
 	protected String getDeleteCommand(Context context) {
 		String itemCommand = null;
-		if (item != null)
+		if (item.getID() != 0)
 			switch (item.getType()) {
 			case Item.TYPE_SERVICE:
 				itemCommand = "Delete Service Item " + item.getID();

@@ -27,8 +27,8 @@ public class NewItemGroupCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return itemGroup != null ? "Delete Item Group " + itemGroup.getID()
-				: null;
+		long id = itemGroup.getID();
+		return id != 0 ? "Delete Item Group " + id : null;
 	}
 
 	@Override

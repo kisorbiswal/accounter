@@ -62,8 +62,8 @@ public class NewCreditRatingCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return creditRating != null ? "Delete Credit Rating "
-				+ creditRating.getID() : null;
+		long id = creditRating.getID();
+		return id != 0 ? "Delete Credit Rating " + id : null;
 	}
 
 	@Override

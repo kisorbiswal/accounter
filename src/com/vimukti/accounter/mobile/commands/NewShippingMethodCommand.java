@@ -31,8 +31,8 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return shippingMethod != null ? "Delete Shipping Method "
-				+ shippingMethod.getID() : null;
+		long id = shippingMethod.getID();
+		return id != 0 ? "Delete Shipping Method " + id : null;
 	}
 
 	@Override
