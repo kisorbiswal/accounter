@@ -4478,6 +4478,8 @@ public interface AccounterMessages extends Messages {
 
 	public String noInventoryItemsAvilable();
 
+	public String cantEditOrDelete();
+
 	public String FirstFiscalMonth();
 
 	public String useCustomersNumbers();
@@ -4504,5 +4506,9 @@ public interface AccounterMessages extends Messages {
 	public String reportSelected(String reportName);
 
 	public String youDontHaveAnyReports();
+
+	public String void1();
+
+	public String youcannotEditDeleteDefaultTerms();
 
 }
