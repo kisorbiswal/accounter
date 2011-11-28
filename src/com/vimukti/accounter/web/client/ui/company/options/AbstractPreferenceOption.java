@@ -19,6 +19,7 @@ public abstract class AbstractPreferenceOption extends Composite {
 	public void onLoad() {
 		super.onLoad();
 	}
+
 	protected AccounterMessages messages = Accounter.messages();
 
 	public abstract String getTitle();
@@ -37,6 +38,10 @@ public abstract class AbstractPreferenceOption extends Composite {
 
 	protected ClientCompanyPreferences getCompanyPreferences() {
 		return getCompany().getPreferences();
+	}
+
+	public boolean isValidate() {
+		return true;
 	}
 
 }

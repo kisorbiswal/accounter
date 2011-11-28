@@ -76,6 +76,17 @@ public class CompanyNameOption extends AbstractPreferenceOption {
 	}
 
 	@Override
+	public boolean isValidate() {
+		if (companyNameTextBox.getValue().length() == 0) {
+			Accounter
+					.showError(messages.pleaseEnter(companyNameLabel.getText()));
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
 	public String getTitle() {
 		return Accounter.messages().name();
 	}
