@@ -222,13 +222,6 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected Record createRecord(String value) {
-				Record record = new Record(value);
-				record.add(value);
-				return record;
-			}
-
-			@Override
 			protected String getDisplayValue(String value) {
 				return value;
 			}
