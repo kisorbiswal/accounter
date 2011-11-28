@@ -3,6 +3,12 @@
 	<include>reportpattern.xml</include>
 
 	<pattern>
+		<input>About</input>
+		<output>
+			<text>Welcome to Accounter</text>
+		</output>
+	</pattern>
+	<pattern>
 		<input>Menu</input>
 		<output>
 			<command>Company</command>
