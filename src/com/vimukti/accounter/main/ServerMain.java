@@ -107,6 +107,9 @@ public class ServerMain extends Main {
 			String line = null;
 			while ((line = br.readLine()) != null) {
 				String[] split = line.split("=");
+				if (split.length < 2) {
+					continue;
+				}
 				String keyValue = split[0];
 				String value = split[1];
 
