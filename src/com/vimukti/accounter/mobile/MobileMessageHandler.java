@@ -99,8 +99,7 @@ public class MobileMessageHandler extends Thread {
 					session.setLanguage(language);
 				}
 			}
-
-			ServerLocal.set(new Locale(session.getLanguage()));
+			ServerLocal.set(getLocal(session.getLanguage()));
 			session.sethibernateSession(openSession);
 			session.reloadObjects();
 
@@ -179,6 +178,20 @@ public class MobileMessageHandler extends Thread {
 				openSession.close();
 			}
 		}
+	}
+
+	private Locale getLocal(String language) {
+		if (language.length() == 2) {
+			return new Locale(language);
+		}
+
+		Locale[] availableLocales = Locale.getAvailableLocales();
+		for (Locale locale : availableLocales) {
+			if (locale.getISO3Language().equalsIgnoreCase(language)) {
+				return locale;
+			}
+		}
+		return Locale.getDefault();
 	}
 
 	/**
