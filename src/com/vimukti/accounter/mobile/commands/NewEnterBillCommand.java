@@ -396,26 +396,6 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		return null;
 	}
 
-	/**
-	 * get the purchase Order object by id
-	 * 
-	 * @param transactionId
-	 * @return
-	 */
-	private ClientPurchaseOrder getpurchaseOrders(long transactionId) {
-		ClientPurchaseOrder cPurchaseOrder = null;
-		try {
-			cPurchaseOrder = new FinanceTool().getManager().getObjectById(
-					AccounterCoreType.PURCHASEORDER, transactionId,
-					getCompanyId());
-		} catch (DAOException e) {
-			e.printStackTrace();
-		} catch (AccounterException e) {
-			e.printStackTrace();
-		}
-		return cPurchaseOrder;
-	}
-
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 
