@@ -212,6 +212,7 @@ public class AuthenticationCommand extends Command {
 			if (client.isActive()) {
 				markDone();
 			} else {
+				context.setAttribute("userName", client.getEmailId());
 				if (context.getString().isEmpty()) {
 					makeResult.add("Please Enter Activation code");
 				} else {
