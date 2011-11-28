@@ -97,7 +97,7 @@ public abstract class AbstractTableRequirement<T> extends
 		if (getIsCreatableObject() || isCreatable
 				|| values.size() < getList().size()) {
 			Record addMoreRecord = new Record(getAddMoreString());
-			addMoreRecord.add("", getAddMoreString());
+			addMoreRecord.add(getAddMoreString());
 			actions.add(addMoreRecord);
 		}
 		return null;
@@ -189,11 +189,11 @@ public abstract class AbstractTableRequirement<T> extends
 		setOtherFields(list, obj);
 
 		Record record = new Record(ActionNames.FINISH);
-		record.add("", getMessages().finish());
+		record.add(getMessages().finish());
 		actions.add(record);
 
 		Record record2 = new Record(ActionNames.DELETE);
-		record2.add("", getMessages().delete());
+		record2.add(getMessages().delete());
 		actions.add(record2);
 
 		makeResult.add(list);

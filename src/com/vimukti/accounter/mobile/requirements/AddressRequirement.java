@@ -161,7 +161,7 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 
 		ResultList finish = new ResultList(ADDRESS_ACTIONS);
 		record = new Record(ActionNames.FINISH);
-		record.add("", "Finish");
+		record.add("Finish");
 		finish.add(record);
 		result.add(finish);
 		return result;

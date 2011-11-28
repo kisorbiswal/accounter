@@ -113,6 +113,9 @@ public abstract class AbstractRequirement<T> extends Requirement {
 			return 0;
 		}
 		string = string.substring(1);
+		if (string.isEmpty()) {
+			return 0;
+		}
 		return Long.parseLong(string);
 	}
 
