@@ -130,7 +130,7 @@
 			</many-to-one>
 			<property name="endingBalance" column="ENDING_BALANCE"></property>
 			<property name="isEdited" column="IS_EDITED"></property>
-			<list name="transactionReceiveVAT" cascade="save-update" lazy="false">
+			<list name="transactionReceiveVAT" cascade="save-update,delete" lazy="false">
 				<key column="RECEIVE_VAT_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionReceiveVAT" />
