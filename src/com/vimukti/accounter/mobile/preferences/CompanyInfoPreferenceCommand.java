@@ -19,7 +19,7 @@ public class CompanyInfoPreferenceCommand extends
 	private static final String IS_DIFFERENT_NAME = "isdiffrentname";
 	protected static final String LEGAL_NAME = "legalname";
 	private static final String COMPANY_ADDRESS = "address";
-	private static final String IS_DIFFERENT_ADDRESS = "isdiffrentaddress";
+	// private static final String IS_DIFFERENT_ADDRESS = "isdiffrentaddress";
 	private static final String COMPANY_ADDRESS2 = "address";
 	protected static final String EMAIL = "email";
 	protected static final String WEBSITE = "website";
@@ -36,13 +36,13 @@ public class CompanyInfoPreferenceCommand extends
 			@Override
 			protected String getTrueString() {
 
-				return getMessages().getCompanyLegalCheckBoxText() + " "
+				return getMessages().getDifferentLegalName() + " "
 						+ getMessages().active();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().getCompanyLegalCheckBoxText() + " "
+				return getMessages().getDifferentLegalName() + " "
 						+ getMessages().inActive();
 			}
 		});
@@ -61,20 +61,20 @@ public class CompanyInfoPreferenceCommand extends
 			}
 		});
 
-		list.add(new BooleanRequirement(IS_DIFFERENT_ADDRESS, true) {
-
-			@Override
-			protected String getTrueString() {
-				return getMessages().getCustomersEmailId() + " "
-						+ getMessages().active();
-			}
-
-			@Override
-			protected String getFalseString() {
-				return getMessages().getCustomersEmailId() + " "
-						+ getMessages().inActive();
-			}
-		});
+		// list.add(new BooleanRequirement(IS_DIFFERENT_ADDRESS, true) {
+		//
+		// @Override
+		// protected String getTrueString() {
+		// return getMessages().getCompanyLegalCheckBoxText() + " "
+		// + getMessages().active();
+		// }
+		//
+		// @Override
+		// protected String getFalseString() {
+		// return getMessages().getCompanyLegalCheckBoxText() + " "
+		// + getMessages().inActive();
+		// }
+		// });
 
 		// TODO address requirement
 
@@ -100,8 +100,8 @@ public class CompanyInfoPreferenceCommand extends
 		get(COMPANY_NAME).setValue(preferences.getTradingName());
 		get(IS_DIFFERENT_NAME).setValue(preferences.isShowLegalName());
 		get(LEGAL_NAME).setValue(preferences.getLegalName());
-		get(IS_DIFFERENT_ADDRESS).setValue(
-				preferences.isShowRegisteredAddress());
+		// get(IS_DIFFERENT_ADDRESS).setValue(
+		// preferences.isShowRegisteredAddress());
 		// get(COMPANY_ADDRESS).setValue(preferences.getTradingAddress());
 		// get(COMPANY_ADDRESS2).setValue(preferences.isShowRegisteredAddress());
 		get(EMAIL).setValue(preferences.getCompanyEmail());
@@ -118,7 +118,7 @@ public class CompanyInfoPreferenceCommand extends
 		String name = get(COMPANY_NAME).getValue();
 		boolean isdiffname = get(IS_DIFFERENT_NAME).getValue();
 		String legelname = get(LEGAL_NAME).getValue();
-		boolean isdiffadd = get(IS_DIFFERENT_ADDRESS).getValue();
+		// boolean isdiffadd = get(IS_DIFFERENT_ADDRESS).getValue();
 		// ClientAddress address = get(COMPANY_ADDRESS).getValue();
 		String email = get(EMAIL).getValue();
 		String website = get(WEBSITE).getValue();
@@ -137,11 +137,11 @@ public class CompanyInfoPreferenceCommand extends
 		preferences.setWebSite(website);
 		// preferences.setTradingAddress(address);
 
-		if (isdiffadd) {
-			preferences.setShowRegisteredAddress(true);
-		} else {
-			preferences.setShowRegisteredAddress(false);
-		}
+		// if (isdiffadd) {
+		// preferences.setShowRegisteredAddress(true);
+		// } else {
+		// preferences.setShowRegisteredAddress(false);
+		// }
 
 		savePreferences(context, preferences);
 		return null;
