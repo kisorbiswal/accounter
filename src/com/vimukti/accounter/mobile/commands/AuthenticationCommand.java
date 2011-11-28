@@ -175,6 +175,7 @@ public class AuthenticationCommand extends Command {
 								client.getEmailId());
 						makeResult
 								.add("Activation code has been sent to your email Id.");
+						makeResult.add("Please Enter Activation code.");
 					} else {
 						if (!context.getString().isEmpty()) {
 							makeResult
@@ -250,11 +251,7 @@ public class AuthenticationCommand extends Command {
 					return null;
 				}
 			} else {
-				IMUser imUser = getIMUser(context.getNetworkId(),
-						context.getNetworkType());
-				if (imUser != null) {
-					return null;
-				}
+				return null;
 			}
 		}
 		String name = (String) context.getAttribute("select");
