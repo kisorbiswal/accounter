@@ -308,7 +308,8 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return "Delete Taxagency " + taxAgency.getID();
+		return taxAgency != null ? "Delete Taxagency " + taxAgency.getID()
+				: null;
 	}
 
 	@Override

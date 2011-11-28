@@ -530,7 +530,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return "Delete customer " + customer.getID();
+		return customer != null ? "Delete customer " + customer.getID() : null;
 	}
 
 	@Override

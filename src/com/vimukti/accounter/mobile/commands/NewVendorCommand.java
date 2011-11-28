@@ -516,8 +516,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		// TODO Auto-generated method stub
-		return "deleteVendor " + vendor.getID();
+		return vendor != null ? "deleteVendor " + vendor.getID() : null;
 	}
 
 	@Override

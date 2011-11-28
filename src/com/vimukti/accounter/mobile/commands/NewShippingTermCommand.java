@@ -31,7 +31,8 @@ public class NewShippingTermCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return "Delete ShippingTerm " + shippingTerm.getID();
+		return shippingTerm != null ? "Delete ShippingTerm "
+				+ shippingTerm.getID() : null;
 	}
 
 	@Override

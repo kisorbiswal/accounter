@@ -294,7 +294,8 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return "Delete SalesPerson " + salesPerson.getID();
+		return salesPerson != null ? "Delete SalesPerson "
+				+ salesPerson.getID() : null;
 	}
 
 	@Override

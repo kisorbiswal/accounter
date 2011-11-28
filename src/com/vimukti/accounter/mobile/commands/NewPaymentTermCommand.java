@@ -58,7 +58,8 @@ public class NewPaymentTermCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return "Delete PaymentTerm " + paymentTerms.getID();
+		return paymentTerms != null ? "Delete PaymentTerm "
+				+ paymentTerms.getID() : null;
 	}
 
 	@Override

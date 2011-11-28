@@ -216,7 +216,7 @@ public class NewVATItemCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return "Delete VatItem " + taxItem.getID();
+		return taxItem != null ? "Delete VatItem " + taxItem.getID() : null;
 	}
 
 	@Override

@@ -55,7 +55,8 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return "Delete account " + account.getID();
+		return account.getID() == 0 ? null : "Delete account "
+				+ account.getID();
 	}
 
 	@Override

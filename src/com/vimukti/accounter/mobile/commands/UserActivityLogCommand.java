@@ -84,7 +84,7 @@ public class UserActivityLogCommand extends NewAbstractCommand {
 		List<ClientActivity> activities = new FinanceTool().getUserManager()
 				.getUsersActivityLog(startDate, endDate, 1, VALUES_TO_SHOW,
 						context.getCompany().getId());
-		
+
 		startIndex += activities.size();
 
 		return activities;
