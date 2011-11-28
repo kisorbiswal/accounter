@@ -629,8 +629,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		get(PHONE).setValue(cashSale.getPhone());
 		get(MEMO).setValue(cashSale.getMemo());
 		get(PAYMENT_METHOD).setValue(
-				CommandUtils.getPaymentMethod(cashSale.getPaymentMethod(),
-						getMessages()));
+				CommandUtils.getPaymentMethod(
+						cashSale.getPaymentMethodForCommands(), getMessages()));
 		get(DEPOSIT_OR_TRANSFER_TO).setValue(
 				CommandUtils.getServerObjectById(cashSale.getDepositIn(),
 						AccounterCoreType.ACCOUNT));

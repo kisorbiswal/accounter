@@ -422,7 +422,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				CommandUtils.getServerObjectById(cashPurchase.getVendor(),
 						AccounterCoreType.VENDOR));
 		get(PAYMENT_METHOD).setValue(
-				CommandUtils.getPaymentMethod(cashPurchase.getPaymentMethod(),
+				CommandUtils.getPaymentMethod(
+						cashPurchase.getPaymentMethodForCommands(),
 						getMessages()));
 		get(PAY_FROM).setValue(
 				CommandUtils.getServerObjectById(cashPurchase.getPayFrom(),
