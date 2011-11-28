@@ -240,6 +240,9 @@ public class AuthenticationCommand extends Command {
 	}
 
 	private Result showLoginButton(Context context) {
+		if (context.getNetworkType() != AccounterChatServer.NETWORK_TYPE_MOBILE) {
+			return null;
+		}
 
 		Object attribute = context.getAttribute("isFirst");
 		if (attribute == null) {
@@ -250,8 +253,6 @@ public class AuthenticationCommand extends Command {
 				if (mobileCookie != null) {
 					return null;
 				}
-			} else {
-				return null;
 			}
 		}
 		String name = (String) context.getAttribute("select");
