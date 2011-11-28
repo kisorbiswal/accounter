@@ -254,7 +254,8 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 		if (this.transaction != null
 				&& this.transaction.getID() != 0
 				&& context.getUser().getPermissions().getTypeOfInvoices() == RolePermissions.TYPE_YES) {
-			return "delete transaction " + transaction.getID();
+			return "Delete Transaction " + transaction.getType() + " "
+					+ transaction.getID();
 		}
 		return null;
 	}
