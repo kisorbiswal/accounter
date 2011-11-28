@@ -25,6 +25,7 @@ public class ServerConfiguration {
 	private static int mainServerPort;
 	private static int consoleChatServerPort;
 	private static int mobileChatServerPort;
+	private static int mobileSSLChatServerPort;
 	public static boolean isDebugMode;
 
 	private static boolean enableConsoleChatServer;
@@ -73,6 +74,9 @@ public class ServerConfiguration {
 
 			mobileChatServerPort = Integer.parseInt(prop.getProperty(
 					"mobileChatServer", null));
+
+			mobileSSLChatServerPort = Integer.parseInt(prop.getProperty(
+					"mobileSSLChatServer", null));
 
 			/*
 			 * mobilePort = Integer.parseInt(prop.getProperty("mobilePort",
@@ -238,6 +242,10 @@ public class ServerConfiguration {
 
 	public static int getMobileChatServerPort() {
 		return mobileChatServerPort;
+	}
+
+	public static int getMobileSSLChatServerPort() {
+		return mobileSSLChatServerPort;
 	}
 
 }
