@@ -586,7 +586,9 @@ public abstract class ClientTransaction implements IAccounterCore {
 			if (item.getType() != ClientTransactionItem.TYPE_ITEM)
 				continue;
 
-			discountAmt = discountAmt + item.getDiscount();
+			if (item.getDiscount() != null) {
+				discountAmt = discountAmt + item.getDiscount();
+			}
 
 		}
 

@@ -196,7 +196,8 @@ public class ObjectConvertUtil {
 		if (fieldType.getName()
 				.equals("com.vimukti.accounter.core.FinanceDate")
 				|| fieldType.getName().equals("java.lang.String")
-				|| fieldType.getName().equals("java.sql.Timestamp")) {
+				|| fieldType.getName().equals("java.sql.Timestamp")
+				|| fieldType.getName().equals("java.lang.Double")) {
 			return true;
 		}
 		return fieldType.isPrimitive();

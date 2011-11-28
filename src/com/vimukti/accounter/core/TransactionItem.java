@@ -84,19 +84,19 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * The unit price which is given to be multiplied with quantity and reduced
 	 * by discount which results in Line total
 	 */
-	double unitPrice;
+	Double unitPrice;
 
 	/**
 	 * The amount of discount by which we want to decrease the price of
 	 * TransactionItem
 	 */
-	double discount;
+	Double discount;
 
 	/**
 	 * This is resulted by unit price which is multiplied by quantity and
 	 * reduced by discount amount.
 	 */
-	double lineTotal;
+	Double lineTotal;
 
 	/**
 	 * To indicate whether this particular TransactionItem is taxable or not.
@@ -124,18 +124,18 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	/**
 	 * This is for {@link SalesOrder} to indicate how much amount is invoiced
 	 */
-	double usedamt;
+	Double usedamt;
 
 	/**
 	 * This is for {@link SalesOrder} to indicate how much has to be order back
 	 */
-	double backOrder;
+	Double backOrder;
 
 	/**
 	 * The fraction of amount which was calculated by the VAT rates in the VAT
 	 * codes that were selected for this TransactionItem in UK accounting
 	 */
-	double VATfraction;
+	Double VATfraction;
 
 	/**
 	 * Every TransactionItem in UK consists of a set of
@@ -153,7 +153,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * This amount is used for storing the amount that by which amount the
 	 * effecting account is updated.
 	 */
-	private double updateAmount;
+	private Double updateAmount;
 
 	TAXCode taxCode;
 	// TAXItem vatItem;
@@ -171,11 +171,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	public double getVATfraction() {
+	public Double getVATfraction() {
 		return VATfraction;
 	}
 
-	public void setVATfraction(double tfraction) {
+	public void setVATfraction(Double tfraction) {
 		VATfraction = tfraction;
 	}
 
@@ -197,7 +197,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the invoiced
 	 */
-	public double getInvoiced() {
+	public Double getInvoiced() {
 		return usedamt;
 	}
 
@@ -205,14 +205,14 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * @param invoiced
 	 *            the invoiced to set
 	 */
-	public void setInvoiced(double invoiced) {
+	public void setInvoiced(Double invoiced) {
 		this.usedamt = invoiced;
 	}
 
 	/**
 	 * @return the backOrder
 	 */
-	public double getBackOrder() {
+	public Double getBackOrder() {
 		return backOrder;
 	}
 
@@ -220,7 +220,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * @param backOrder
 	 *            the backOrder to set
 	 */
-	public void setBackOrder(double backOrder) {
+	public void setBackOrder(Double backOrder) {
 		this.backOrder = backOrder;
 	}
 
@@ -283,21 +283,21 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the unitPrice
 	 */
-	public double getUnitPrice() {
+	public Double getUnitPrice() {
 		return unitPrice;
 	}
 
 	/**
 	 * @return the discount
 	 */
-	public double getDiscount() {
+	public Double getDiscount() {
 		return discount;
 	}
 
 	/**
 	 * @return the lineTotal
 	 */
-	public double getLineTotal() {
+	public Double getLineTotal() {
 		return lineTotal;
 	}
 
@@ -349,7 +349,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		if (shouldUpdateAccounts(true)) {
 			this.transaction.clonedTransactionDate = this.transaction.oldTransaction.transactionDate;
 
-			// double amount = (isPositiveTransaction() ? -1d : 1d)
+			// Double amount = (isPositiveTransaction() ? -1d : 1d)
 			// * (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
 			// - this.VATfraction : this.lineTotal);
 			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
@@ -400,6 +400,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
+		checkNullValues();
+
 		if (this.isOnSaveProccessed())
 			return true;
 
@@ -413,6 +415,30 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		return false;
 	}
 
+	private void checkNullValues() {
+		if (this.unitPrice == null) {
+			this.setUnitPrice(new Double(0));
+		}
+		if (this.discount == null) {
+			this.setDiscount(new Double(0));
+		}
+		if (this.lineTotal == null) {
+			this.setLineTotal(new Double(0));
+		}
+		if (this.usedamt == null) {
+			this.setInvoiced(new Double(0));
+		}
+		if (this.backOrder == null) {
+			this.setBackOrder(new Double(0));
+		}
+		if (this.VATfraction == null) {
+			this.setVATfraction(new Double(0));
+		}
+		if (this.updateAmount == null) {
+			this.setUpdateAmount(new Double(0));
+		}
+	}
+
 	public void doCreateEffect(Session session) {
 
 		/**
@@ -424,7 +450,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		// // this.itemBackUpList.add(itemBackUp);
 		// }
 		if (shouldUpdateAccounts(false)) {
-			double amount = (isPositiveTransaction() ? 1d : -1d)
+			Double amount = (isPositiveTransaction() ? 1d : -1d)
 					* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
 							- this.VATfraction : this.lineTotal);
 			this.setUpdateAmount(amount);
@@ -489,7 +515,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		Unit selectedUnit = this.quantity.getUnit();
 		Measurement defaultMeasurement = this.getItem().getMeasurement();
 		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
-		double value = (this.quantity.getValue() * selectedUnit.getFactor())
+		Double value = (this.quantity.getValue() * selectedUnit.getFactor())
 				/ defaultUnit.getFactor();
 		if (transaction.isDebitTransaction()) {
 			wareHouse.updateItemStatus(item, value, isVoidOrDelete);
@@ -516,7 +542,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 */
 	public void doReverseEffect(Session session) {
 
-		// double amount = (isPositiveTransaction() ? -1d : 1d)
+		// Double amount = (isPositiveTransaction() ? -1d : 1d)
 		// * (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
 		// - this.VATfraction : this.lineTotal);
 		if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
@@ -588,7 +614,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 		case TYPE_ITEM:
 
-			if (this.transaction.getTransactionCategory()==Transaction.CATEGORY_VENDOR) {
+			if (this.transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
 				return this.item.getExpenseAccount();
 			} else {
 				return this.item.getIncomeAccount();
@@ -597,8 +623,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		return null;
 	}
 
-	public double getEffectiveAmount() {
-		double amount = (isPositiveTransaction() ? -1d : 1d)
+	public Double getEffectiveAmount() {
+		Double amount = (isPositiveTransaction() ? -1d : 1d)
 				* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
 						- this.VATfraction : this.lineTotal);
 		return amount;
@@ -613,11 +639,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		this.quantity = quality;
 	}
 
-	public void setUnitPrice(double unitPrice) {
+	public void setUnitPrice(Double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 
-	public void setLineTotal(double lineTotal) {
+	public void setLineTotal(Double lineTotal) {
 		this.lineTotal = lineTotal;
 	}
 
@@ -633,7 +659,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		this.isTaxable = isTaxable;
 	}
 
-	public void setDiscount(double discount) {
+	public void setDiscount(Double discount) {
 		this.discount = discount;
 	}
 
@@ -694,11 +720,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		this.accounterClass = accounterClass;
 	}
 
-	public double getUpdateAmount() {
+	public Double getUpdateAmount() {
 		return updateAmount;
 	}
 
-	public void setUpdateAmount(double updateAmount) {
+	public void setUpdateAmount(Double updateAmount) {
 		this.updateAmount = updateAmount;
 	}
 
@@ -743,11 +769,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	}
 
 	public void updateAsCredit() {
-		this.discount=-this.discount;
-		this.lineTotal=-this.lineTotal;
-		this.unitPrice=-this.unitPrice;
-		this.VATfraction=-this.VATfraction;
-		this.updateAmount=-this.updateAmount;
+		this.discount = -this.discount;
+		this.lineTotal = -this.lineTotal;
+		this.unitPrice = -this.unitPrice;
+		this.VATfraction = -this.VATfraction;
+		this.updateAmount = -this.updateAmount;
 	}
 
 }
