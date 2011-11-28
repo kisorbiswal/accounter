@@ -101,6 +101,10 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 					taxCodeList.add(taxCode);
 				}
 			}
+			if (taxCode.getTAXItemGrpForSales() == 0
+					&& taxCode.getTAXItemGrpForPurchases() == 0) {
+				taxCodeList.add(taxCode);
+			}
 		}
 		Collections.sort(taxCodeList, new Comparator<ClientTAXCode>() {
 
