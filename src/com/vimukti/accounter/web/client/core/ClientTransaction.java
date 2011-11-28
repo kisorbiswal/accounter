@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public abstract class ClientTransaction implements IAccounterCore {
@@ -265,11 +264,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	public String getPaymentMethod() {
 		return UIUtils.getpaymentMethodCheckBy_CompanyType(paymentMethod);
-	}
-
-	public String getPaymentMethodForCommands(AccounterMessages messages) {
-		return UIUtils.getpaymentMethodCheckBy_CompanyType(messages,
-				paymentMethod);
 	}
 
 	public void setPaymentMethod(String paymentMethod) {
