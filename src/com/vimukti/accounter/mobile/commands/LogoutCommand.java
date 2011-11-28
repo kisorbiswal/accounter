@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.MobileCookie;
 import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.Context;
@@ -36,13 +37,20 @@ public class LogoutCommand extends Command {
 		result.add("You are successfully logged out.");
 		result.setCookie("No Cookie");
 
+		Session hibernateSession = context.getHibernateSession();
+		Transaction beginTransaction = hibernateSession.beginTransaction();
+
 		MobileCookie mobileCookie = getMobileCookie(context.getNetworkId());
 		if (mobileCookie != null) {
-			Session hibernateSession = context.getHibernateSession();
-			Transaction beginTransaction = hibernateSession.beginTransaction();
 			hibernateSession.delete(mobileCookie);
-			beginTransaction.commit();
 		}
+
+		IMUser imUser = getIMUser(context.getNetworkId(),
+				context.getNetworkType());
+		if (imUser != null) {
+			hibernateSession.delete(imUser);
+		}
+		beginTransaction.commit();
 		markDone();
 		return result;
 	}
@@ -50,5 +58,13 @@ public class LogoutCommand extends Command {
 	private MobileCookie getMobileCookie(String string) {
 		Session session = HibernateUtil.getCurrentSession();
 		return (MobileCookie) session.get(MobileCookie.class, string);
+	}
+
+	private IMUser getIMUser(String networkId, int networkType) {
+		Session session = HibernateUtil.getCurrentSession();
+		IMUser user = (IMUser) session.getNamedQuery("imuser.by.networkId")
+				.setString("networkId", networkId)
+				.setInteger("networkType", networkType).uniqueResult();
+		return user;
 	}
 }
