@@ -360,7 +360,8 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 						AccounterCoreType.CUSTOMER));
 		get(AMOUNT_RECEIVED).setValue(payment.getAmount());
 		get(PAYMENT_METHOD).setValue(
-				payment.getPaymentMethodForCommands(getMessages()));
+				CommandUtils.getPaymentMethod(payment.getPaymentMethod(),
+						getMessages()));
 		get(DATE).setValue(payment.getDate());
 		get(NUMBER).setValue(payment.getNumber());
 		get(DEPOSIT_OR_TRANSFER_TO).setValue(

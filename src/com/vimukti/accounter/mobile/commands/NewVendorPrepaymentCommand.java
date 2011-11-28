@@ -85,7 +85,8 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 		/* get(CURRENCY_FACTOR).setValue(paybill.getCurrencyFactor()); */
 		get(AMOUNT).setValue(paybill.getTotal());
 		get(PAYMENT_METHOD).setValue(
-				paybill.getPaymentMethodForCommands(getMessages()));
+				CommandUtils.getPaymentMethod(paybill.getPaymentMethod(),
+						getMessages()));
 		get(TO_BE_PRINTED).setValue(paybill.isToBePrinted());
 		get(MEMO).setValue(paybill.getMemo());
 		get(CHEQUE_NO).setValue(paybill.getCheckNumber());

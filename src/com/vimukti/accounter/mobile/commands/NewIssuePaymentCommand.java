@@ -321,7 +321,8 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 
 	private void setValues(Context context) {
 		get(PAYMENT_METHOD).setValue(
-				issuePayment.getPaymentMethodForCommands(getMessages()));
+				CommandUtils.getPaymentMethod(issuePayment.getPaymentMethod(),
+						getMessages()));
 		get(ACCOUNT).setValue(
 				CommandUtils.getServerObjectById(issuePayment.getAccount(),
 						AccounterCoreType.ACCOUNT));

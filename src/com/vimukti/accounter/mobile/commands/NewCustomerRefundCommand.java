@@ -76,7 +76,8 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 				CommandUtils.getServerObjectById(customerRefund.getPayFrom(),
 						AccounterCoreType.ACCOUNT));
 		get(PAYMENT_METHOD).setValue(
-				customerRefund.getPaymentMethodForCommands(getMessages()));
+				CommandUtils.getPaymentMethod(
+						customerRefund.getPaymentMethod(), getMessages()));
 		get(AMOUNT).setValue(customerRefund.getTotal());
 		get(TO_BE_PRINTED).setValue(customerRefund.getIsToBePrinted());
 		get(CHEQUE_NO).setValue(customerRefund.getCheckNumber());

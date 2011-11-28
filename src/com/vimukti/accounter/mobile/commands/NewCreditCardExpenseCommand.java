@@ -419,7 +419,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		get(DATE).setValue(creditCardCharge.getDate());
 		get(NUMBER).setValue(creditCardCharge.getNumber());
 		get(PAYMENT_METHOD).setValue(
-				creditCardCharge.getPaymentMethodForCommands(getMessages()));
+				CommandUtils.getPaymentMethod(
+						creditCardCharge.getPaymentMethod(), getMessages()));
 		get(PHONE).setValue(creditCardCharge.getPhone());
 		get("payFrom").setValue(
 				CommandUtils.getServerObjectById(creditCardCharge.getPayFrom(),

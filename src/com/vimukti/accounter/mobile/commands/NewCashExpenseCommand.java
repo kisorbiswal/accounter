@@ -284,7 +284,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				}
 				return null;
 			}
-			
+
 			@Override
 			protected List<TAXCode> getLists(Context context) {
 				return new ArrayList<TAXCode>(context.getCompany()
@@ -422,7 +422,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				CommandUtils.getServerObjectById(cashPurchase.getVendor(),
 						AccounterCoreType.VENDOR));
 		get(PAYMENT_METHOD).setValue(
-				cashPurchase.getPaymentMethodForCommands(getMessages()));
+				CommandUtils.getPaymentMethod(cashPurchase.getPaymentMethod(),
+						getMessages()));
 		get(PAY_FROM).setValue(
 				CommandUtils.getServerObjectById(cashPurchase.getPayFrom(),
 						AccounterCoreType.ACCOUNT));
