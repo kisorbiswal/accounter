@@ -730,6 +730,20 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getTAXAgencyListAction()
 				.getHistoryToken(), ActionFactory.getTAXAgencyListAction());
+		
+		
+		//merge actions
+		actions.put(ActionFactory.getCustomerMergeAction()
+				.getHistoryToken(), ActionFactory.getCustomerMergeAction());
+		
+		actions.put(ActionFactory.getVendorMergeAction()
+				.getHistoryToken(), ActionFactory.getVendorMergeAction());
+		
+		actions.put(ActionFactory.getAccountMergeAction()
+				.getHistoryToken(), ActionFactory.getAccountMergeAction());
+		
+		actions.put(ActionFactory.getItemMergeAction()
+				.getHistoryToken(), ActionFactory.getItemMergeAction());
 	}
 
 	public ClientCompany getCompany() {
