@@ -1,22 +1,23 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.ItemMergeDialog;
+import com.vimukti.accounter.web.client.ui.AccountMergeDialog;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
-public class MergeItemsAction extends Action {
+public class MergeAccountsAction extends Action {
 
-	public MergeItemsAction(String text) {
+	public MergeAccountsAction(String text) {
 		super(text);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void run() {
-		ItemMergeDialog dialog = new ItemMergeDialog(
-				messages.mergeItems(), messages.itemDescription());
-
-		dialog.show();
+		AccountMergeDialog accountMergeDialog = new AccountMergeDialog(
+				messages.mergeAccounts(), Accounter.messages()
+						.mergeDescription());
+		accountMergeDialog.show();
 	}
 
 	@Override
@@ -33,7 +34,7 @@ public class MergeItemsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "merge_item";
+		return "merge_account";
 	}
 
 	@Override
@@ -42,6 +43,5 @@ public class MergeItemsAction extends Action {
 		return null;
 	}
 
-	
 
 }
