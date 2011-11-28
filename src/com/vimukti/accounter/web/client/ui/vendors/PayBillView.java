@@ -779,7 +779,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		if (vendorCurrency.getID() != 0) {
 			currencyWidget.setSelectedCurrencyFactorInWidget(vendorCurrency,
-					transactionDateItem.getValue().getDate());
+					date.getValue().getDate());
 		} else {
 			currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
