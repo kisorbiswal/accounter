@@ -294,10 +294,10 @@ public class MobileSession {
 	public void refreshLastMessage() {
 		if (!commandStack.isEmpty()) {
 			UserMessage pop = commandStack.pop();
-			if (!commandStack.isEmpty()) {
-				pop = commandStack.pop();
-				setLastMessage(pop);
-			}
+			// if (!commandStack.isEmpty()) {
+			// pop = commandStack.pop();
+			setLastMessage(pop);
+			// }
 			return;
 		}
 		setLastMessage(null);
