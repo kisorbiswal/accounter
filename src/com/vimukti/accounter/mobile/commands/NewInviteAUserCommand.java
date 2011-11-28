@@ -108,6 +108,7 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		user.setPermissions(getUserPermission(rolePermissions));
 
 		user.setUserRole(rolePermissions.getRoleName());
+		user.setCanDoUserManagement(rolePermissions.isCanDoUserManagement());
 		if (user.getID() == 0) {
 			inviteUser(user, context);
 		} else {

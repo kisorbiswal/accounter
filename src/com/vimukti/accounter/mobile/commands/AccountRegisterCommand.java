@@ -12,7 +12,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
-import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -91,7 +91,7 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ActionRequirement(SHOWTRANSACTION_TYPE, null) {
+		list.add(new CommandsRequirement(SHOWTRANSACTION_TYPE, null) {
 
 			@Override
 			protected List<String> getList() {

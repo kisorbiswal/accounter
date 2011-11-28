@@ -9,7 +9,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 public class VATItemsListCommand extends NewAbstractCommand {
@@ -24,7 +24,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new ActionRequirement(CURRENT_VIEW, null) {
+		list.add(new CommandsRequirement(CURRENT_VIEW, null) {
 
 			@Override
 			protected List<String> getList() {

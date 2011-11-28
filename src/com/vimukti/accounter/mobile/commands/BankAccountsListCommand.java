@@ -9,7 +9,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 public class BankAccountsListCommand extends NewAbstractCommand {
@@ -23,7 +23,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new ActionRequirement(VIEW_TYPE, null) {
+		list.add(new CommandsRequirement(VIEW_TYPE, null) {
 
 			@Override
 			protected List<String> getList() {
@@ -109,7 +109,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 		});
 
-		list.add(new ActionRequirement(VIEW_TYPE, null) {
+		list.add(new CommandsRequirement(VIEW_TYPE, null) {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();

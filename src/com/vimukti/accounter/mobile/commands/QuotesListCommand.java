@@ -10,7 +10,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -70,7 +70,7 @@ public class QuotesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new ActionRequirement(VIEW_BY, null) {
+		list.add(new CommandsRequirement(VIEW_BY, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {

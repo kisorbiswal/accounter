@@ -9,8 +9,11 @@ import com.vimukti.accounter.core.Bank;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -39,6 +42,7 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 	private static final String BANK_NAME = "Bank Name";
 	private static final String BANK_ACCOUNT_NUMBER = "Bank Account Number";
 	private static final String ACCOUNT_TYPE = "Account Type";
+	private static final String BANKACCOUNT_REGISTER = "BankAccountRegister";
 	private ClientBankAccount bankAccount;
 
 	@Override
@@ -106,6 +110,24 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		list.add(new NumberRequirement(BANK_ACCOUNT_NUMBER,
 				"Please Enter  Bank Account number", "Bank Account Number",
 				false, true));
+		list.add(new CommandsRequirement(BANKACCOUNT_REGISTER, null) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add("BankAccount Register " + bankAccount.getID());
+				return list;
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (bankAccount.getID() != 0) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 	}
 

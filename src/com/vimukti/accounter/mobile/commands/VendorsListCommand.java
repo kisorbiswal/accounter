@@ -8,7 +8,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -27,7 +27,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new ActionRequirement(VENDOR_TYPE, null) {
+		list.add(new CommandsRequirement(VENDOR_TYPE, null) {
 
 			@Override
 			protected List<String> getList() {
@@ -111,7 +111,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 			}
 
 		});
-		list.add(new ActionRequirement(VENDOR_TYPE, null) {
+		list.add(new CommandsRequirement(VENDOR_TYPE, null) {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();

@@ -9,7 +9,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 /**
@@ -105,7 +105,7 @@ public class AccountsListCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ActionRequirement(ACCOUNT_TYPE, null) {
+		list.add(new CommandsRequirement(ACCOUNT_TYPE, null) {
 
 			@Override
 			protected List<String> getList() {

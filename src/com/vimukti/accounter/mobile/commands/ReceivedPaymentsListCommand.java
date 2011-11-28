@@ -7,7 +7,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -54,7 +54,7 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new ActionRequirement(VIEW_BY, null) {
+		list.add(new CommandsRequirement(VIEW_BY, null) {
 
 			@Override
 			protected List<String> getList() {

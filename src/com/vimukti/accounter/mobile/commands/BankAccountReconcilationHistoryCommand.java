@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
-import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -65,7 +65,7 @@ public class BankAccountReconcilationHistoryCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new ActionRequirement(VIEW_BY, null) {
+		list.add(new CommandsRequirement(VIEW_BY, null) {
 
 			@Override
 			protected List<String> getList() {

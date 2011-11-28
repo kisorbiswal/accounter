@@ -8,11 +8,11 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public abstract class ActionRequirement extends AbstractRequirement<String> {
+public abstract class CommandsRequirement extends AbstractRequirement<String> {
 
 	private ChangeListner<String> listner;
 
-	public ActionRequirement(String requirementName,
+	public CommandsRequirement(String requirementName,
 			ChangeListner<String> listner) {
 		super(requirementName, null, null, true, false);
 		this.listner = listner;

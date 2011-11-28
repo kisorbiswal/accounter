@@ -8,7 +8,7 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.ActionRequirement;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
@@ -90,7 +90,7 @@ public class SalesOrderListCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ActionRequirement(CURRENT_VIEW, null) {
+		list.add(new CommandsRequirement(CURRENT_VIEW, null) {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
