@@ -122,12 +122,14 @@ public class CompanyPreferenceCommand extends AbstractCompanyPreferencesCommand 
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().useCustomersNumbers();
+				return getMessages().useCustomersNumbers() + " :"
+						+ getMessages().active();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().inActive();
+				return getMessages().useCustomersNumbers() + " :"
+						+ getMessages().inActive();
 			}
 		});
 
@@ -135,12 +137,14 @@ public class CompanyPreferenceCommand extends AbstractCompanyPreferencesCommand 
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().useVendorNumbers();
+				return getMessages().useVendorNumbers() + " :"
+						+ getMessages().active();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().inActive();
+				return getMessages().useVendorNumbers() + " :"
+						+ getMessages().inActive();
 			}
 		});
 
@@ -148,12 +152,14 @@ public class CompanyPreferenceCommand extends AbstractCompanyPreferencesCommand 
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().useAccountNos();
+				return getMessages().useAccountNos() + " :"
+						+ getMessages().active();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().inActive();
+				return getMessages().useAccountNos() + " :"
+						+ getMessages().inActive();
 			}
 		});
 
