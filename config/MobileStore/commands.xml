@@ -187,7 +187,9 @@
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.delete.TransactionDeleteCommand"
-		name="Void transaction"></command>
+		name="Void transaction">
+		<alias>Delete transaction</alias>
+	</command>
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.delete.SalesPersonDeleteCommand"
