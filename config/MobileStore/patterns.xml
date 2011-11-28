@@ -5,41 +5,34 @@
 	<pattern>
 		<input>About</input>
 		<output>
-			<text>Welcome to Accounter\n
-				Accounter is a financial management and
-				accounting software that gives a
-				snapshot of money flowing into and
-				out of accounts for people in US
-				and UK and the ability to share the
-				data with others.\n
-				Manage Contacts Easily\n
-				The software allows
-				business owners to manage contacts like customers,
-				suppliers, sales
-				person and track bank and credit card transactions
-				like bank
-				deposits, fund transfers and credit card charges.\n
-				Monitor Financial
-				Data\n
-				With the software, it is easy to monitor customer and supplier
-				pre-payments, received payments and refunds. Manage VAT payments and
-				adjustments.\n
-				Generate Reports\n
-				Keeps track of your sales, purchases
-				and generates different kind of
-				reports that include company and
-				financial reports, customer and
-				payable reports, purchases, VAT
-				reports etc.\n
-				Easy Sharing\n
-				It allows any one you choose to access
-				the information from any
-				Internet-enabled location\n
-				Contact\n
-				https://www.accounterlive.com\n
-				mailto:support@accounterlive.com\n
+			<text>Welcome to Accounter</text>
+			<text>Accounter is a financial management and accounting software
+				that gives a snapshot of money flowing into and out of accounts for
+				people in US and UK and the ability to share the data with others
 			</text>
-			<command>Menu</command>
+			<text>Manage Contacts Easily</text>
+			<text>The software allows business owners to manage contacts like
+				customers, suppliers, sales person and track bank and credit card
+				transactions like bank deposits, fund transfers and credit card
+				charges
+			</text>
+			<text>Monitor Financial Data</text>
+			<text>With the software, it is easy to monitor customer and supplier
+				pre-payments, received payments and refunds. Manage VAT payments and
+				adjustments
+			</text>
+			<text>Generate Reports</text>
+			<text>Keeps track of your sales, purchases and generates different
+				kind of reports that include company and financial reports, customer
+				and payable reports, purchases, VAT reports etc.
+			</text>
+			<text>Easy Sharing</text>
+			<text>It allows any one you choose to access the information from any
+				Internet-enabled location
+			</text>
+			<text>Contact</text>
+			<text>https://www.accounterlive.com</text>
+			<text>Mailto:support@accounterlive.com</text>
 		</output>
 	</pattern>
 	<pattern>
