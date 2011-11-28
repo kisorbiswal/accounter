@@ -129,7 +129,7 @@ public class MobileMessageHandler extends Thread {
 				session.refreshCurrentCommand();
 				String nextCommand = result.getNextCommand();
 				if (nextCommand == null) {
-					session.refreshCurrentCommand();
+					session.refreshLastMessage();
 					UserMessage lastMessage = session.getLastMessage();
 					if (lastMessage != null) {
 						lastMessage.setResult(lastMessage.getLastResult());
@@ -149,7 +149,7 @@ public class MobileMessageHandler extends Thread {
 			}
 
 			if (!hasNextCommand) {
-				return processMessage(networkId, "Menu", adaptorType,
+				return processMessage(networkId, "back", adaptorType,
 						networkType, result, context);
 			}
 
@@ -298,6 +298,17 @@ public class MobileMessageHandler extends Thread {
 			if (lastMessage2 != null) {
 				return lastMessage2;
 			}
+			message = "Menu";
+			Result result = PatternStore.INSTANCE.find(message);
+			if (result != null) {
+				result.setShowBack(session.getLastMessage() != null);
+				userMessage.setType(Type.HELP);
+				userMessage.setResult(result);
+				userMessage.setCommandString(message);
+				userMessage.setOriginalMsg(message);
+				return userMessage;
+			}
+
 		}
 		userMessage.setLastResult(lastResult);
 
