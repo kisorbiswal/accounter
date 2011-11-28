@@ -280,31 +280,19 @@ public class ServerMain extends Main {
 
 	private static void stratChatServers() throws AccounterMobileException {
 		boolean isEnableCommands = false;
-		try {
-			if (ServerConfiguration.isEnableConsoleChatServer()) {
-				new ConsoleChatServer().start();
-				isEnableCommands = true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (ServerConfiguration.isEnableConsoleChatServer()) {
+			new ConsoleChatServer().start();
+			isEnableCommands = true;
 		}
 
-		try {
-			if (ServerConfiguration.isEnableIMChatServer()) {
-				new AccounterChatServer().start();
-				isEnableCommands = true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (ServerConfiguration.isEnableIMChatServer()) {
+			new AccounterChatServer().start();
+			isEnableCommands = true;
 		}
 
-		try {
-			if (ServerConfiguration.isEnableMobileChatServer()) {
-				new MobileServer().strat();
-				isEnableCommands = true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (ServerConfiguration.isEnableMobileChatServer()) {
+			new MobileServer().strat();
+			isEnableCommands = true;
 		}
 
 		if (isEnableCommands) {
