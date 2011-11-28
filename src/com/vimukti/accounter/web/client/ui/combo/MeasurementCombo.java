@@ -41,6 +41,6 @@ public class MeasurementCombo extends CustomCombo<ClientMeasurement> {
 					addItemThenfireEvent(result);
 			}
 		});
-		action.run(null, false);
+		action.run(null, true);
 	}
 }
