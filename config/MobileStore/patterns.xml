@@ -5,7 +5,41 @@
 	<pattern>
 		<input>About</input>
 		<output>
-			<text>Welcome to Accounter</text>
+			<text>Welcome to Accounter\n
+				Accounter is a financial management and
+				accounting software that gives a
+				snapshot of money flowing into and
+				out of accounts for people in US
+				and UK and the ability to share the
+				data with others.\n
+				Manage Contacts Easily\n
+				The software allows
+				business owners to manage contacts like customers,
+				suppliers, sales
+				person and track bank and credit card transactions
+				like bank
+				deposits, fund transfers and credit card charges.\n
+				Monitor Financial
+				Data\n
+				With the software, it is easy to monitor customer and supplier
+				pre-payments, received payments and refunds. Manage VAT payments and
+				adjustments.\n
+				Generate Reports\n
+				Keeps track of your sales, purchases
+				and generates different kind of
+				reports that include company and
+				financial reports, customer and
+				payable reports, purchases, VAT
+				reports etc.\n
+				Easy Sharing\n
+				It allows any one you choose to access
+				the information from any
+				Internet-enabled location\n
+				Contact\n
+				https://www.accounterlive.com\n
+				mailto:support@accounterlive.com\n
+			</text>
+			<command>Menu</command>
 		</output>
 	</pattern>
 	<pattern>
