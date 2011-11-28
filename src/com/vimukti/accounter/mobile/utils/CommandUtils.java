@@ -55,6 +55,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -999,14 +1000,14 @@ public class CommandUtils {
 	}
 
 	private static native double getWeekEndDate()/*-{
-		var date = new ClientFinanceDate();
-		var day = date.getDay();
-		var remainingDays = 6 - day;
-		var newDate = new ClientFinanceDate();
-		newDate.setDate(date.getDate() + remainingDays);
-		var tmp = newDate.getTime();
-		return tmp;
-	}-*/;
+													var date = new ClientFinanceDate();
+													var day = date.getDay();
+													var remainingDays = 6 - day;
+													var newDate = new ClientFinanceDate();
+													newDate.setDate(date.getDate() + remainingDays);
+													var tmp = newDate.getTime();
+													return tmp;
+													}-*/;
 
 	private static int getMonthLastDate(int month, int year) {
 		int lastDay;
@@ -1383,5 +1384,11 @@ public class CommandUtils {
 		}
 		return null;
 
+	}
+
+	public static String getPaymentMethod(String paymentMethod,
+			AccounterMessages messages) {
+		return UIUtils.getpaymentMethodCheckBy_CompanyType(messages,
+				paymentMethod);
 	}
 }
