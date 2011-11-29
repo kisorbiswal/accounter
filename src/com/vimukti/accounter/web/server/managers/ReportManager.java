@@ -2991,7 +2991,9 @@ public class ReportManager extends Manager {
 				newEntry.setNetAmount((Double) entry[6]);
 				newEntry.setTotal(newEntry.getNetAmount()
 						+ newEntry.getTaxAmount());
-				newEntry.setTransactionId((Long) entry[0]);
+				Object object = entry[0];
+				if (object != null)
+					newEntry.setTransactionId((Long) object);
 				newEntry.setTransactionNumber((String) entry[1]);
 				newEntry.setTransactionType((Integer) entry[2]);
 				newEntry.setTransactionDate(new ClientFinanceDate(

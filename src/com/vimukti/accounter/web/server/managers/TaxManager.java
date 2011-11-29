@@ -1156,7 +1156,7 @@ public class TaxManager extends Manager {
 				double netAmount = (Double) objects[1];
 				long transactionID = (Long) objects[2];
 
-				if (transactionID == transaction) {
+				if (transaction != null && transactionID == transaction) {
 					newEntry = new ClientTAXReturnEntry();
 					newEntry.setFiledTAXAmount((Double) entry[4]);
 					newEntry.setTaxAmount(taxAmount - (Double) entry[4]);
@@ -1181,10 +1181,14 @@ public class TaxManager extends Manager {
 				newEntry.setNetAmount(-(Double) entry[5]);
 				newEntry.setGrassAmount(newEntry.getTaxAmount()
 						+ newEntry.getNetAmount());
-				newEntry.setTransaction((Long) entry[0]);
-				newEntry.setTransactionType((Integer) entry[1]);
-				newEntry.setTransactionDate((Long) entry[2]);
-				newEntry.setTaxItem((Long) entry[5]);
+				Object object = entry[0];
+				if (object != null)
+					newEntry.setTransaction((Long) object);
+				if (entry[1] != null)
+					newEntry.setTransactionType((Integer) entry[1]);
+				if (entry[2] != null)
+					newEntry.setTransactionDate((Long) entry[2]);
+				newEntry.setTaxItem((Long) (entry[6]));
 				newEntry.setTaxAgency(taxAgency);
 				newEntry.setTAXGroupEntry(false);
 				resultTAXReturnEntries.add(newEntry);
@@ -1216,13 +1220,13 @@ public class TaxManager extends Manager {
 		Company company = getCompany(companyID);
 		List<TAXReturn> list = session.getNamedQuery("list.TAXReturns")
 				.setEntity("company", company).list();
-		for (TAXReturn taxReturn : list) {
-			for (TAXReturnEntry entry : taxReturn.getTaxReturnEntries()) {
-				Transaction transaction = entry.getTransaction();
-				entry.setTransactionDate(transaction.getDate());
-				entry.setTransactionType(transaction.getType());
-			}
-		}
+		// for (TAXReturn taxReturn : list) {
+		// for (TAXReturnEntry entry : taxReturn.getTaxReturnEntries()) {
+		// Transaction transaction = entry.getTransaction();
+		// entry.setTransactionDate(transaction.getDate());
+		// entry.setTransactionType(transaction.getType());
+		// }
+		// }
 		List<ClientTAXReturn> taxReturns = new ArrayList<ClientTAXReturn>();
 		ClientConvertUtil convertUttils = new ClientConvertUtil();
 		for (TAXReturn taxReturn : list) {
