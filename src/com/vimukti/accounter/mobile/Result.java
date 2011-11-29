@@ -63,7 +63,6 @@ public class Result {
 	}
 
 	public void add(String message) {
-		this.resultParts.remove(message);
 		this.resultParts.add(message);
 	}
 

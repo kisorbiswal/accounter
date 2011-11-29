@@ -45,6 +45,7 @@ public class MobileChatAdaptor implements MobileAdaptor {
 					record.setCode(recordsCount);
 					reply.append(record.toString());
 				}
+				reply.append('\n');
 			} else if (part instanceof CommandList) {
 				CommandList commandList = (CommandList) part;
 				for (int x = 0; x < commandList.size(); x++, commandIndex++) {
@@ -58,8 +59,8 @@ public class MobileChatAdaptor implements MobileAdaptor {
 				// TODO
 			} else {
 				reply.append((String) part);
+				reply.append('\n');
 			}
-			reply.append('\n');
 		}
 
 		return reply.toString();
