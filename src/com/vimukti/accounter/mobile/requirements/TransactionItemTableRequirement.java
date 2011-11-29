@@ -172,8 +172,7 @@ public abstract class TransactionItemTableRequirement extends
 		get(QUANITY).setDefaultValue(obj.getQuantity().getValue());
 		get(UNITPTICE).setValue(obj.getUnitPrice());
 
-		Double discount = obj.getDiscount();
-		get(DISCOUNT).setDefaultValue(discount == null ? 0.0 : discount);
+		get(DISCOUNT).setDefaultValue(obj.getDiscount());
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
 			get(TAXCODE).setValue(
@@ -192,6 +191,7 @@ public abstract class TransactionItemTableRequirement extends
 		clientTransactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 		clientTransactionItem.setTaxable(true);
 		clientTransactionItem.setQuantity(new ClientQuantity());
+		clientTransactionItem.setDiscount(0.0);
 		return clientTransactionItem;
 	}
 
