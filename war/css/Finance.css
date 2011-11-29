@@ -75,7 +75,7 @@ noindex:-o-prefocus,.ibutton {
 	}
 }/*chrome and safari end */
 .editTable .gwt-TextBox{
-	-webkit-appearance: caret;
+	/*-webkit-appearance: caret;*/
 }
 /*IE8 styles*/
 @media \0screen {
