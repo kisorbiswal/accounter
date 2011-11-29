@@ -248,9 +248,6 @@ public interface IAccounterReportService extends RemoteService {
 	ArrayList<CheckDetailReport> getCheckDetailReport(long paymentmethod,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	ArrayList<PayeeStatementsList> getStatements(long id,
-			ClientFinanceDate fromDate, ClientFinanceDate toDate);
-
 	ArrayList<PayeeStatementsList> getCustomerStatement(long customer,
 			long fromDate, long toDate) throws AccounterException;
 
@@ -276,5 +273,8 @@ public interface IAccounterReportService extends RemoteService {
 			ClientFinanceDate end) throws AccounterException;
 
 	ArrayList<TAXItemDetail> getTAXItemExceptionDetailReport(long taxAgency,
-			long startDate, long endDate) throws AccounterException;;
+			long startDate, long endDate) throws AccounterException;
+
+	ArrayList<PayeeStatementsList> getStatements(boolean isVendor, long id,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate);;
 }

@@ -1,5 +1,8 @@
 package com.vimukti.accounter.core;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
@@ -41,6 +44,7 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 	private boolean isActive;
 
+	private Set<PortletPageConfiguration> portletPages = new HashSet<PortletPageConfiguration>();
 	/**
 	 * The full name of the user.
 	 */
@@ -275,4 +279,10 @@ public class User extends CreatableObject implements IAccounterServerCore,
 	public int getObjType() {
 		return IAccounterCore.USER;
 	}
+
+	public Set<PortletPageConfiguration> getPortletPages() {
+		return portletPages;
+	}
+
+	
 }

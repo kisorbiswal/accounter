@@ -89,29 +89,53 @@ public class WidgetCreator {
 
 		// grid.setRecords(initCompanyFinancialWidgetData());
 
-		welcomePortlet = new Portlet("Key Financial Indicators") {
-			@Override
-			protected void onAttach() {
-
-				grid.setHeight("180px");
-				grid.getElement().getStyle().setBorderWidth(0, Unit.PX);
-				grid.getElement().getStyle().setOverflow(Overflow.HIDDEN);
-				super.onAttach();
-			}
-
-			@Override
-			public void linkClicked() {
-
-			}
-
-			@Override
-			public void refreshClicked() {
-				grid.clear();
-				grid.addLoadingImagePanel();
-				// grid.addEmptyMessage("please wait...");
-				reloadKeyIndicators(grid);
-			}
-		};
+//		welcomePortlet = new Portlet() {
+//			@Override
+//			protected void onAttach() {
+//				this.titleName = "Key Financial Indicators";
+//				grid.setHeight("180px");
+//				grid.getElement().getStyle().setBorderWidth(0, Unit.PX);
+//				grid.getElement().getStyle().setOverflow(Overflow.HIDDEN);
+//				super.onAttach();
+//			}
+//
+//			@Override
+//			public void linkClicked() {
+//
+//			}
+//
+//			@Override
+//			public void refreshClicked() {
+//				grid.clear();
+//				grid.addLoadingImagePanel();
+//				// grid.addEmptyMessage("please wait...");
+//				reloadKeyIndicators(grid);
+//			}
+//
+//			@Override
+//			public void createBody() {
+//				// TODO Auto-generated method stub
+//
+//			}
+//
+//			@Override
+//			public String getGoToText() {
+//				// TODO Auto-generated method stub
+//				return null;
+//			}
+//
+//			@Override
+//			public void goToClicked() {
+//				// TODO Auto-generated method stub
+//
+//			}
+//
+//			@Override
+//			public void helpClicked() {
+//				// TODO Auto-generated method stub
+//
+//			}
+//		};
 
 		// welcomePortlet.setTitle("Key Financial Indicators"reloadKeyIndicators);
 		// layout.setBackgroundColor("white");
@@ -221,34 +245,31 @@ public class WidgetCreator {
 		customerWidgetGrid.getElement().getStyle().setBorderWidth(0, Unit.PX);
 		customerWidgetGrid.addLoadingImagePanel();
 
-		bankingSummaryPortlet = new Portlet("Debtors") {
-			@Override
-			protected void onAttach() {
-				// // int height = bankingSummaryPortlet.getElement()
-				// // .getClientHeight() - 60;
-				// // customerWidgetGrid.setHeight(height + "px");
-				// customerWidgetGrid.setHeight("250px");
-				customerWidgetGrid.getElement().getStyle()
-						.setBorderWidth(0, Unit.PX);
-				super.onAttach();
-			}
-
-			@Override
-			public void linkClicked() {
-
-			}
-
-			@Override
-			public void refreshClicked() {
-				customerWidgetGrid.clear();
-
-				// customerWidgetGrid.addEmptyMessage("please wait...");
-				customerWidgetGrid.addLoadingImagePanel();
-
-				reloadDebitors(customerWidgetGrid);
-
-			}
-		};
+//		bankingSummaryPortlet = new Portlet() {
+//			@Override
+//			protected void onAttach() {
+//				this.titleName = "Debtors";
+//				customerWidgetGrid.getElement().getStyle()
+//						.setBorderWidth(0, Unit.PX);
+//				super.onAttach();
+//			}
+//
+//			@Override
+//			public void linkClicked() {
+//
+//			}
+//
+//			@Override
+//			public void refreshClicked() {
+//				customerWidgetGrid.clear();
+//
+//				// customerWidgetGrid.addEmptyMessage("please wait...");
+//				customerWidgetGrid.addLoadingImagePanel();
+//
+//				reloadDebitors(customerWidgetGrid);
+//
+//			}
+//		};
 		reloadDebitors(customerWidgetGrid);
 
 		bankingSummaryPortlet.add(customerWidgetGrid);
@@ -718,7 +739,8 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService.getSalesItems(new AccounterAsyncCallback<ArrayList<ClientItem>>() {
+	 * getService.getSalesItems(new
+	 * AccounterAsyncCallback<ArrayList<ClientItem>>() {
 	 * 
 	 * public void onException(AccounterException caught) { // Auto-generated
 	 * method stub

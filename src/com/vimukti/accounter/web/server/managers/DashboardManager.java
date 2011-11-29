@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.server.managers;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -16,16 +17,20 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.CashPurchase;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
 import com.vimukti.accounter.web.client.core.Lists.OverDueInvoicesList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 
 public class DashboardManager extends Manager {
@@ -118,6 +123,42 @@ public class DashboardManager extends Manager {
 		}
 
 		return new ArrayList<CreditCardCharge>(list);
+	}
+
+	public List<ClientPayee> getWhoIOwe(long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		List<BigInteger> vendors = session.getNamedQuery("getWhoIOweVendors")
+				.setParameter("companyId", companyId).list();
+		List<ClientPayee> clientPayees = new ArrayList<ClientPayee>();
+		ClientCompany company;
+		try {
+			company = new ClientConvertUtil().toClientObject(
+					getCompany(companyId), ClientCompany.class);
+			for (BigInteger vendorId : vendors) {
+				clientPayees.add(company.getVendor(vendorId.longValue()));
+			}
+		} catch (AccounterException e) {
+		}
+		return clientPayees;
+	}
+
+	public List<ClientPayee> getWhoOwesMe(long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		List<BigInteger> customers = session
+				.getNamedQuery("getWhoOwesMeCustomers")
+				.setParameter("companyId", companyId).list();
+		List<ClientPayee> clientPayees = new ArrayList<ClientPayee>();
+		ClientCompany company;
+		try {
+			company = new ClientConvertUtil().toClientObject(
+					getCompany(companyId), ClientCompany.class);
+
+			for (BigInteger customerId : customers) {
+				clientPayees.add(company.getCustomer(customerId.longValue()));
+			}
+		} catch (AccounterException e) {
+		}
+		return clientPayees;
 	}
 
 	public ArrayList<OverDueInvoicesList> getOverDueInvoices(long companyId)

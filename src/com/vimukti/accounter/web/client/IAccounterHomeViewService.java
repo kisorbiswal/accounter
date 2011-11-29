@@ -22,6 +22,8 @@ import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
@@ -351,6 +353,14 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ArrayList<ClientAccount> getAccounts(int typeOfAccount)
 			throws AccounterException;
 
+	boolean savePortletConfig(ClientPortletPageConfiguration config);
+
 	public double getMostRecentTransactionCurrencyFactor(long companyId,
 			long currencyId, long tdate) throws AccounterException;
+
+	ClientPortletPageConfiguration getPortletPageConfiguration(String pageName);
+
+	List<ClientPayee> getOwePayees(int oweType);
+
+	List<ClientActivity> getRecentTransactions(int limit);
 }

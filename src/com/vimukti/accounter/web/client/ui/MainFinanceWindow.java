@@ -48,7 +48,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	private int height;
 	private int width;
 	private HelpItem item;
-	public Map<String, Action> actions;
+	public static Map<String, Action> actions;
 	private CometClient cometClient;
 
 	AccounterMessages messages = Accounter.messages();
@@ -295,6 +295,10 @@ public class MainFinanceWindow extends VerticalPanel {
 		}
 	}
 
+	public static Map<String, Action> getActions() {
+		return actions;
+	}
+
 	private void initializeActionsWithTokens() {
 		actions = new HashMap<String, Action>();
 		actions.put(ActionFactory.getCompanyHomeAction().getHistoryToken(),
@@ -534,8 +538,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getArAgingSummaryReportAction());
 		actions.put(ActionFactory.getArAgingDetailAction().getHistoryToken(),
 				ActionFactory.getArAgingDetailAction());
-		actions.put(ActionFactory.getStatementReport().getHistoryToken(),
-				ActionFactory.getStatementReport());
+		actions.put(ActionFactory.getStatementReport(false, 0)
+				.getHistoryToken(), ActionFactory.getStatementReport(false, 0));
 		actions.put(ActionFactory.getCustomerTransactionHistoryAction()
 				.getHistoryToken(), ActionFactory
 				.getCustomerTransactionHistoryAction());
@@ -574,6 +578,10 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getPurchaseByItemAction());
 		actions.put(ActionFactory.getPurchaseOpenOrderAction()
 				.getHistoryToken(), ActionFactory.getPurchaseOpenOrderAction());
+
+		actions.put(
+				ActionFactory.getStatementReport(true, 0).getHistoryToken(),
+				ActionFactory.getStatementReport(true, 0));
 
 		actions.put(
 				ActionFactory.getVATSummaryReportAction().getHistoryToken(),
@@ -724,12 +732,12 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getCurrencyGroupListAction()
 				.getHistoryToken(), ActionFactory.getCurrencyGroupListAction());
-		
-		actions.put(ActionFactory.getTranslationAction()
-				.getHistoryToken(), ActionFactory.getTranslationAction());
 
-		actions.put(ActionFactory.getTAXAgencyListAction()
-				.getHistoryToken(), ActionFactory.getTAXAgencyListAction());
+		actions.put(ActionFactory.getTranslationAction().getHistoryToken(),
+				ActionFactory.getTranslationAction());
+
+		actions.put(ActionFactory.getTAXAgencyListAction().getHistoryToken(),
+				ActionFactory.getTAXAgencyListAction());
 		
 		
 		//merge actions

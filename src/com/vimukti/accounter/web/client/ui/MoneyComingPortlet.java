@@ -21,11 +21,12 @@ import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 
-public class MoneyComingPortlet extends DashBoardPortlet {
+public class MoneyComingPortlet extends Portlet {
 
 	public double draftInvoiceAmount = 0.00;
 	public double overDueInvoiceAmount = 0.00;
@@ -36,14 +37,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 	public Label draftAmtLabel;
 	public Label overDueAmtLabel;
 
-	public MoneyComingPortlet(String title) {
-		super(title);
-
-	}
-
-	@Override
-	public String getGoToText() {
-		return messages.goToAccountReceivable();
+	public MoneyComingPortlet(ClientPortletConfiguration pc) {
+		super(pc, messages.moneyComingIn(), messages.goToAccountReceivable());
 	}
 
 	@Override
@@ -54,16 +49,6 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 	@Override
 	public void goToClicked() {
 		ActionFactory.getAccountRegisterAction().run(debitors, true);
-	}
-
-	@Override
-	public Cursor getTitleCursor() {
-		return Cursor.POINTER;
-	}
-
-	@Override
-	public TextDecoration getTitleDecoration() {
-		return TextDecoration.UNDERLINE;
 	}
 
 	@Override
@@ -82,8 +67,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 			}
 		}, ResizeEvent.getType());
-		Button addReceivableInvoiceBtn = new Button(messages
-				.addReceivableInvoice());
+		Button addReceivableInvoiceBtn = new Button(
+				messages.addReceivableInvoice());
 		addReceivableInvoiceBtn.addStyleName("addButtonPortlet");
 		addReceivableInvoiceBtn.addClickHandler(new ClickHandler() {
 
@@ -179,25 +164,26 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				label.getElement().getStyle().setCursor(Cursor.POINTER);
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		label.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		label.addClickHandler(new ClickHandler() {
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void onClick(ClickEvent event) {
 
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 				if (title.equals(messages.invoicesDue())) {
 					ActionFactory.getInvoicesAction(null).run(null, true);
 				} else {
@@ -221,13 +207,9 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 	}
 
 	@Override
-	public void titleClicked() {
-		ActionFactory.getAccountRegisterAction().run(debitors, true);
-	}
-
-	@Override
 	public void refreshWidget() {
 		this.body.clear();
 		createBody();
 	}
+
 }

@@ -1013,9 +1013,20 @@ public class ActionFactory {
 		return new CheckDetailReportAction(messages.checkDetail(), "");
 	}
 
-	public static StatementReportAction getStatementReport() {
-		return new StatementReportAction(messages.payeeStatement(Global.get()
-				.Customer()));
+	public static StatementReportAction getStatementReport(boolean isVendor,
+			long payeeId) {
+		try {
+			if (isVendor) {
+				return new StatementReportAction(payeeId,
+						messages.payeeStatement(Global.get().Vendor()), true);
+			} else {
+				return new StatementReportAction(payeeId,
+						messages.payeeStatement(Global.get().Customer()), false);
+			}
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		return null;
 	}
 
 	// sales order action factory

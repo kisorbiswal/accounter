@@ -17,10 +17,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
-public class ExpenseClaimPortlet extends DashBoardPortlet {
+public class ExpenseClaimPortlet extends Portlet {
 
 	public double allExpensesAmount = 0.00;
 	public double cashExpenseAmount = 0.00;
@@ -32,13 +33,8 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 	public Label empExpAmtLabel;
 	public Label ccExpAmtLabel;
 
-	public ExpenseClaimPortlet(String title) {
-		super(title);
-	}
-
-	@Override
-	public String getGoToText() {
-		return Accounter.messages().goToExpenseCliams();
+	public ExpenseClaimPortlet(ClientPortletConfiguration pc) {
+		super(pc, messages.expenseClaims(), messages.goToExpenseCliams());
 	}
 
 	@Override
@@ -46,19 +42,10 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void goToClicked() {
 		ActionFactory.getExpensesAction(null).run(null, true);
-	}
-
-	@Override
-	public Cursor getTitleCursor() {
-		return Cursor.POINTER;
-	}
-
-	@Override
-	public TextDecoration getTitleDecoration() {
-		return TextDecoration.UNDERLINE;
 	}
 
 	@Override
@@ -70,6 +57,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		addExpenseBtn.addStyleName("addAccountPortlet");
 		addExpenseBtn.addClickHandler(new ClickHandler() {
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void onClick(ClickEvent event) {
 				ActionFactory.getRecordExpensesAction().run(null, true);
@@ -165,6 +153,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		});
 		label.addClickHandler(new ClickHandler() {
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void onClick(ClickEvent event) {
 
@@ -172,14 +161,15 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 						.setTextDecoration(TextDecoration.NONE);
 
 				if (title.equals(Accounter.messages().cashExpenses())) {
-					ActionFactory.getExpensesAction(
-							Accounter.messages().cash()).run(null, true);
+					ActionFactory
+							.getExpensesAction(Accounter.messages().cash())
+							.run(null, true);
 				} else if (title.equals(Accounter.messages()
 						.creditCardExpenses())) {
 					ActionFactory.getExpensesAction(
 							Accounter.messages().creditCard()).run(null, true);
-				} else if (title.equals(Accounter.messages()
-						.employeeExpenses())) {
+				} else if (title
+						.equals(Accounter.messages().employeeExpenses())) {
 					ActionFactory.getExpensesAction(
 							Accounter.messages().employee()).run(null, true);
 				} else if (title.equals(Accounter.messages().allExpenses())) {
@@ -201,11 +191,6 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 	}
 
 	@Override
-	public void titleClicked() {
-		ActionFactory.getExpensesAction(null).run(null, true);
-	}
-
-	@Override
 	public void refreshWidget() {
 		this.body.clear();
 		createBody();
@@ -221,6 +206,12 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 		allExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
 				+ amountAsString(allExpensesAmount));
+	}
+
+	@Override
+	public void refreshClicked() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

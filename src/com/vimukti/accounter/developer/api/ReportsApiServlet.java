@@ -70,6 +70,7 @@ public class ReportsApiServlet extends HttpServlet {
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("payeestatements")) {
+				boolean isVendor = (Boolean) req.getAttribute("IsVendor");
 				int id = (Integer) req.getAttribute("Id");
 				long transactionDate = (Long) req
 						.getAttribute("TransactionDate");
@@ -89,7 +90,8 @@ public class ReportsApiServlet extends HttpServlet {
 				boolean isEnabledOfInactiveCustomer = (Boolean) req
 						.getAttribute("IsEnabledOfInactiveCustomer");
 
-				accounterReportServiceImpl.getStatements(id, fromDate, toDate);
+				accounterReportServiceImpl.getStatements(isVendor, id,
+						fromDate, toDate);
 
 			} else if (methodName.equals("agedcreditors")) {
 				result = accounterReportServiceImpl.getAgedCreditors(

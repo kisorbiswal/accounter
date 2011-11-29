@@ -217,7 +217,12 @@ public enum AccounterCoreType implements IsSerializable {
 
 	TAX_RETURN("ClientAbstractTAXReturn", "AbstractTAXReturn"),
 
-	LANGUAGE("ClientLanguage", "Language");
+	LANGUAGE("ClientLanguage", "Language"),
+
+	PORTLET_CONFIG("ClientPortletConfiguration", "PortletConfiguration"),
+
+	PORTLET_PAGE_CONFIG("ClientPortletPageConfiguration",
+			"PortletPageConfiguration");
 
 	private String clientName;
 	private String serverName;

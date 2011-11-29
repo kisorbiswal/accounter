@@ -44,10 +44,11 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public static final int TOOLBAR_TYPE_SALES_PURCAHASE = 5;
 	public static final int TOOLBAR_TYPE_EXPENSE = 6;
 	public static final int TOOLBAR_TYPE_CHECKDETAIl = 7;
-	public static final int TOOLBAR_TYPE_CUSTOMER = 8;
 	public static final int TOOLBAR_TYPE_BUDGET = 9;
 	public static final int TOOLBAR_TYPE_TAXAGENCY = 13;
 	public static final int TOP_MARGIN = 305;
+	public static final int TOOLBAR_TYPE_VENDOR = 14;
+	public static final int TOOLBAR_TYPE_CUSTOMER = 8;
 
 	protected ReportToolbar toolbar;
 
@@ -469,9 +470,11 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 				toolbar = new BudgetOverviewReportToolbar();
 				break;
 			case TOOLBAR_TYPE_CUSTOMER:
-				toolbar = new CreateStatementToolBar(this);
+				toolbar = new CreateStatementToolBar(false, this);
 				break;
-
+			case TOOLBAR_TYPE_VENDOR:
+				toolbar = new CreateStatementToolBar(true, this);
+				break;
 			case TOOLBAR_TYPE_TAXAGENCY:
 				toolbar = new TaxAgencyStartDateEndDateToolbar(isVATPriorReport);
 				break;
@@ -696,7 +699,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		return false;
 	}
 
-	public ISectionHandler getSectionHanlder() {
+	public ISectionHandler<R> getSectionHanlder() {
 		return this.serverReport.getSectionHanlder();
 	}
 

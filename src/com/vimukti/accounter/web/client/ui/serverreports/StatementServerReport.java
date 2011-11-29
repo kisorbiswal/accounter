@@ -19,14 +19,18 @@ public class StatementServerReport extends
 	private String curentParent;
 	public int precategory = 1001;
 	public String customerId;
+	private boolean isVendor;
 
-	public StatementServerReport(IFinanceReport<PayeeStatementsList> reportView) {
+	public StatementServerReport(boolean isVendor,
+			IFinanceReport<PayeeStatementsList> reportView) {
+		this.isVendor = isVendor;
 		this.reportView = reportView;
 	}
 
-	public StatementServerReport(long startDate, long endDate,
-			int generationType) {
+	public StatementServerReport(boolean isVendor, long startDate,
+			long endDate, int generationType) {
 		super(startDate, endDate, generationType);
+		this.isVendor = isVendor;
 	}
 
 	@Override

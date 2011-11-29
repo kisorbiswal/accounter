@@ -1311,8 +1311,10 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		return trialbalanceList;
 	}
+
 	public ArrayList<TrialBalance> getCashFlowReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,long companyId) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
 
 		ArrayList<TrialBalance> trialbalanceList = new ArrayList<TrialBalance>();
 
@@ -1335,13 +1337,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return trialbalanceList;
-	
+
 	}
-	
+
 	@Override
 	public ArrayList<TrialBalance> getCashFlowReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-	return	getCashFlowReport(startDate, endDate, getCompanyId());
+		return getCashFlowReport(startDate, endDate, getCompanyId());
 	}
 
 	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocationReport(
@@ -2527,36 +2529,6 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<PayeeStatementsList> getStatements(long id,
-			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
-
-		ArrayList<PayeeStatementsList> resultList = new ArrayList<PayeeStatementsList>();
-		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate,
-				toDate, getCompanyId());
-		try {
-
-			resultList = getFinanceTool().getReportManager()
-					.getPayeeStatementsList(id, financeDates[0],
-							financeDates[1], getCompanyId());
-
-			PayeeStatementsList obj = new PayeeStatementsList();
-			if (resultList != null)
-				resultList.add((PayeeStatementsList) setStartEndDates(obj,
-						financeDates));
-			// for (PayeeStatementsList obj : list) {
-			//
-			// resultList.add((PayeeStatementsList)
-			// setStartEndDates(obj,financeDates));
-			// }
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return resultList;
-	}
-
-	@Override
 	public ArrayList<PayeeStatementsList> getCustomerStatement(long customer,
 			long fromDate, long toDate) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
@@ -2830,6 +2802,28 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		if (list != null)
 			list.add((TAXItemDetail) setStartEndDates(obj, financeDates));
 		return list;
+	}
+
+	@Override
+	public ArrayList<PayeeStatementsList> getStatements(boolean isVendor,
+			long id, ClientFinanceDate fromDate, ClientFinanceDate toDate) {
+		ArrayList<PayeeStatementsList> resultList = new ArrayList<PayeeStatementsList>();
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate,
+				toDate, getCompanyId());
+		try {
+
+			resultList = getFinanceTool().getReportManager()
+					.getPayeeStatementsList(isVendor,id, financeDates[0],
+							financeDates[1], getCompanyId());
+
+			PayeeStatementsList obj = new PayeeStatementsList();
+			if (resultList != null)
+				resultList.add((PayeeStatementsList) setStartEndDates(obj,
+						financeDates));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultList;
 	}
 
 }

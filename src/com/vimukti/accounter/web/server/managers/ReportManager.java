@@ -2694,19 +2694,30 @@ public class ReportManager extends Manager {
 		return ageing;
 	}
 
-	public ArrayList<PayeeStatementsList> getPayeeStatementsList(long id,
-			FinanceDate fromDate, FinanceDate toDate, long companyId)
-			throws DAOException {
+	public ArrayList<PayeeStatementsList> getPayeeStatementsList(
+			boolean isVendor, long id, FinanceDate fromDate,
+			FinanceDate toDate, long companyId) throws DAOException {
+		ArrayList<PayeeStatementsList> statementsLists;
+		if (isVendor) {
+			statementsLists = getVendorStatementsList(isVendor, id, fromDate,
+					toDate, companyId);
+		} else {
+			statementsLists = getCustomerStatementsList(id, fromDate, toDate,
+					companyId);
+		}
+		return statementsLists;
+	}
 
+	private ArrayList<PayeeStatementsList> getCustomerStatementsList(long id,
+			FinanceDate fromDate, FinanceDate toDate, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
 		try {
-			Session session = HibernateUtil.getCurrentSession();
 			Query query = session
 					.getNamedQuery("getCreatableStatementForCustomer")
 					.setParameter("startDate", fromDate.getDate())
 					.setParameter("endDate", toDate.getDate())
-					.setParameter("customerId", id)
+					.setParameter("payeeId", id)
 					.setParameter("companyId", companyId);
-
 			List list = query.list();
 			if (list != null) {
 				Object[] object = null;
@@ -2767,12 +2778,56 @@ public class ReportManager extends Manager {
 					queryResult.add(statementsList);
 				}
 				return new ArrayList<PayeeStatementsList>(queryResult);
-			} else
+			} else {
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+			}
+
+		} catch (Exception e) {
 		}
+		return null;
+	}
+
+	private ArrayList<PayeeStatementsList> getVendorStatementsList(
+			boolean isVendor, long id, FinanceDate fromDate,
+			FinanceDate toDate, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			Query query = session
+					.getNamedQuery("getCreatableStatementForVendor")
+					.setParameter("startDate", fromDate.getDate())
+					.setParameter("endDate", toDate.getDate())
+					.setParameter("payeeId", id)
+					.setParameter("companyId", companyId);
+
+			List list = query.list();
+			if (list != null) {
+				Object[] object = null;
+				Iterator iterator = list.iterator();
+				List<PayeeStatementsList> queryResult = new ArrayList<PayeeStatementsList>();
+				while ((iterator).hasNext()) {
+					PayeeStatementsList statementsList = new PayeeStatementsList();
+					object = (Object[]) iterator.next();
+
+					statementsList.setTransactiontype(object[0] == null ? null
+							: (Integer) object[0]);
+					statementsList.setTransactionNumber((String) object[1]);
+					statementsList
+							.setTransactionDate(((Long) object[2]) == null ? null
+									: new ClientFinanceDate((Long) object[2]));
+					statementsList.setTransactionId((Long) object[3]);
+					statementsList.setTotal((Double) object[4]);
+					statementsList.setBalance((Double) object[5]);
+					queryResult.add(statementsList);
+				}
+				return new ArrayList<PayeeStatementsList>(queryResult);
+			} else {
+				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
+						null));
+			}
+		} catch (Exception e) {
+		}
+		return null;
 	}
 
 	public int getCategory(long days) {

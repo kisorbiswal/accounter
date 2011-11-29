@@ -293,6 +293,8 @@ public class AccounterMenuBar extends HorizontalPanel {
 				.getAorpAgingSummaryReportAction());
 		vendorAndPayableMenuBar.addMenuItem(ActionFactory
 				.getAorpAgingDetailAction());
+		vendorAndPayableMenuBar.addMenuItem(ActionFactory.getStatementReport(
+				true, 0));
 		vendorAndPayableMenuBar.addMenuItem(ActionFactory
 				.getVendorTransactionHistoryAction());
 		// vendorAndPayableMenuBar.addItem(ActionFactory
@@ -399,7 +401,7 @@ public class AccounterMenuBar extends HorizontalPanel {
 		customersAndReceivableMenuBar.addMenuItem(ActionFactory
 				.getArAgingDetailAction());
 		customersAndReceivableMenuBar.addMenuItem(ActionFactory
-				.getStatementReport());
+				.getStatementReport(false, 0));
 		customersAndReceivableMenuBar.addMenuItem(ActionFactory
 				.getCustomerTransactionHistoryAction());
 		// customersAndReceivableMenuBar.addItem(ActionFactory

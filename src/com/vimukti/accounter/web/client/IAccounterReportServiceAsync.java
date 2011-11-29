@@ -308,8 +308,8 @@ public interface IAccounterReportServiceAsync {
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<CheckDetailReport>> callBackResult);
 
-	public void getStatements(long id, ClientFinanceDate fromDate,
-			ClientFinanceDate toDate,
+	public void getStatements(boolean isVendor, long id,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			AsyncCallback<ArrayList<PayeeStatementsList>> callBack);
 
 	void getCustomerStatement(long customer, long fromDate, long toDate,

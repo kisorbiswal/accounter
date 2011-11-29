@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.portlet.PortletFactory;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
@@ -3068,6 +3069,10 @@ public class ClientCompany implements IAccounterCore {
 		}
 		return false;
 
+	}
+
+	public ClientPortletPageConfiguration getPortletPageConfiguration(String name) {
+		return PortletFactory.get().getDefaultConfiguration(name);
 	}
 
 }

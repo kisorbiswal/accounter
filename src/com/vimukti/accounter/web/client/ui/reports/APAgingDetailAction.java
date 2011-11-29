@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -12,7 +13,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
  * @author Mandeep Singh
  */
 
-public class APAgingDetailAction extends Action {
+public class APAgingDetailAction extends Action<AgedDebtors> {
 
 	protected APAgingDetailReport report;
 

@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
  * @author Raj Vimal
  */
 
-public class NewInvoiceAction extends Action {
+public class NewInvoiceAction extends Action<ClientInvoice> {
 
 	protected InvoiceView view;
 

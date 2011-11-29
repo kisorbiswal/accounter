@@ -32,7 +32,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 	public ScrollPanel panel;
 
 	public DashBoardPortlet(String title) {
-		super(title);
+		super(title, "");
 		this.titleName = title;
 		// createHandlerForTitle();
 		panel = new ScrollPanel();
@@ -51,8 +51,6 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		// panel.getElement().getStyle().setPadding(0, Unit.PX);
 		// panel.setSize("98.9%", "100%");
 		panel.add(body);
-		if (!(this instanceof ExpenseClaimPortlet || this instanceof GettingStartedPortlet))
-			panel.setHeight("297px");
 		panel.setWidth("100%");
 		super.add(panel);
 
@@ -113,7 +111,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		// hPanel.add(help);
 		// hPanel.add(windowControlLayout);
 
-		addToMain(windowControlLayout);
+		// addToMain(windowControlLayout);
 
 	}
 

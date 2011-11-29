@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.ui.serverreports.AmountsDueToVendorServe
 import com.vimukti.accounter.web.client.ui.serverreports.BalanceSheetServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.CashFlowStatementServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.CustomerTransactionHistoryServerReport;
-import com.vimukti.accounter.web.client.ui.serverreports.CustomerTransactionHistoryServerReport1;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ExpenseServerReport;
@@ -70,7 +69,6 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_AR_AGEINGSUMMARY = 117;
 	public final static int REPORT_TYPE_AR_AGEINGDETAIL = 118;
 	public final static int REPORT_TYPE_CUSTOMERTRANSACTIONHISTORY = 119;
-	public final static int REPORT_TYPE_CUSTOMERTRANSACTIONHISTORY1 = 120;
 	public final static int REPORT_TYPE_SALESBYCUSTOMERSUMMARY = 121;
 	public final static int REPORT_TYPE_SALESBYCUSTOMERDETAIL = 122;
 	public final static int REPORT_TYPE_SALESBYITEMSUMMARY = 123;
@@ -112,6 +110,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_GENERAL_LEDGER_REPORT = 162;
 	public final static int REPORT_TYPE_TAX_ITEM_DETAIL = 165;
 	public final static int REPORT_TYPE_VAT_EXCEPTION_DETAIL = 166;
+	public final static int REPORT_TYPE_VENDORSTATEMENT = 167;
 
 	// private static int companyType;
 	private ClientCompanyPreferences preferences = Global.get().preferences();
@@ -433,29 +432,6 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return customerTransactionHistoryServerReport.getGridTemplate();
-		case REPORT_TYPE_CUSTOMERTRANSACTIONHISTORY1:
-			CustomerTransactionHistoryServerReport1 customerTransactionHistoryServerReport1 = new CustomerTransactionHistoryServerReport1(
-					this.startDate.getDate(), this.endDate.getDate(),
-					generationType1) {
-				@Override
-				public String getDateByCompanyType(ClientFinanceDate date) {
-
-					return getDateInDefaultType(date);
-				}
-			};
-			updateReport(customerTransactionHistoryServerReport1, finaTool);
-			customerTransactionHistoryServerReport1.resetVariables();
-			try {
-				customerTransactionHistoryServerReport1
-						.onResultSuccess(reportsSerivce
-								.getCustomerTransactionHistory(
-										startDate.toClientFinanceDate(),
-										endDate.toClientFinanceDate(),
-										getCompany().getID()));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return customerTransactionHistoryServerReport1.getGridTemplate();
 		case REPORT_TYPE_SALESBYCUSTOMERSUMMARY:
 			SalesByCustomerSummaryServerReport salesByCustomerSummaryServerReport = new SalesByCustomerSummaryServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
@@ -1138,8 +1114,10 @@ public class ReportsGenerator {
 			updateReport(cashFlowStatementServerReport, finaTool);
 			cashFlowStatementServerReport.resetVariables();
 			try {
-				cashFlowStatementServerReport.onResultSuccess(reportsSerivce.getCashFlowReport(startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate(), getCompany().getID()));
+				cashFlowStatementServerReport.onResultSuccess(reportsSerivce
+						.getCashFlowReport(startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate(), getCompany()
+										.getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1165,7 +1143,7 @@ public class ReportsGenerator {
 			}
 			return amountsDueToVendorServerReport.getGridTemplate();
 		case REPORT_TYPE_CUSTOMERSTATEMENT:
-			StatementServerReport statementReport = new StatementServerReport(
+			StatementServerReport statementReport = new StatementServerReport(false,
 					this.startDate.getDate(), this.endDate.getDate(),
 					generationType1) {
 				@Override
@@ -1178,13 +1156,35 @@ public class ReportsGenerator {
 			statementReport.resetVariables();
 			try {
 				statementReport.onResultSuccess(finaTool.getReportManager()
-						.getPayeeStatementsList(Long.parseLong(status),
+						.getPayeeStatementsList(false, Long.parseLong(status),
 								startDate, endDate, company.getID()));
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return statementReport.getGridTemplate();
+
+		case REPORT_TYPE_VENDORSTATEMENT:
+			StatementServerReport statementReport1 = new StatementServerReport(true,
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(statementReport1, finaTool);
+			statementReport1.resetVariables();
+			try {
+				statementReport1.onResultSuccess(finaTool.getReportManager()
+						.getPayeeStatementsList(true, Long.parseLong(status),
+								startDate, endDate, company.getID()));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return statementReport1.getGridTemplate();
 		case REPORT_TYPE_PROFITANDLOSSBYCLASS:
 			return generateProfitandLossByLocationorClass(false,
 					generationType1, finaTool);
@@ -1432,8 +1432,6 @@ public class ReportsGenerator {
 			return "AR Ageing Detail Report";
 		case REPORT_TYPE_CUSTOMERTRANSACTIONHISTORY:
 			return "Customer Transaction History Report";
-		case REPORT_TYPE_CUSTOMERTRANSACTIONHISTORY1:
-			return "Customer Transaction History1 Report";
 		case REPORT_TYPE_SALESBYCUSTOMERSUMMARY:
 			return "Sales By Customer Summary Report";
 		case REPORT_TYPE_SALESBYCUSTOMERDETAIL:

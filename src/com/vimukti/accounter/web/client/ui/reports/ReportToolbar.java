@@ -18,6 +18,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	public static final int TYPE_CASH = 1;
 	private String selectedDateRange = "";
 	protected AbstractReportView<?> reportview;
+	private long payeeId;
 
 	public boolean isToolBarComponentChanged;
 
@@ -203,8 +204,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 							.endThisCalanderYear())) {
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
 				endDate = new ClientFinanceDate(date.getYear(), 11, 31);
-				setSelectedDateRange(Accounter.messages()
-						.endThisCalanderYear());
+				setSelectedDateRange(Accounter.messages().endThisCalanderYear());
 			} else if (!getSelectedDateRange().equals(
 					Accounter.messages().endThisCalanderYearToDate())
 					&& dateRange.equals(Accounter.messages()
@@ -269,8 +269,8 @@ public abstract class ReportToolbar extends HorizontalPanel {
 						.previousFiscalYearSameDates());
 			} else if (!getSelectedDateRange().equals(
 					Accounter.messages().lastCalenderYear())
-					&& dateRange.equals(Accounter.messages()
-							.lastCalenderYear())) {
+					&& dateRange
+							.equals(Accounter.messages().lastCalenderYear())) {
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
 				endDate = new ClientFinanceDate(date.getYear(), 11, 31);
 
@@ -492,8 +492,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 				startDate = Accounter.getCompany()
 						.getCurrentFiscalYearStartDate();
 				endDate = new ClientFinanceDate();
-				setSelectedDateRange(Accounter.messages()
-						.financialYearToDate());
+				setSelectedDateRange(Accounter.messages().financialYearToDate());
 			} else if (!getSelectedDateRange().equals(
 					Accounter.messages().thisVATQuarter())
 					&& dateRange.equals(Accounter.messages().thisVATQuarter())) {
@@ -834,5 +833,18 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	 */
 	public String getSelectedDateRange() {
 		return selectedDateRange;
+	}
+
+	public long getPayeeId() {
+		return payeeId;
+	}
+
+	public void setPayeeId(long payeeId) {
+		this.payeeId = payeeId;
+		payeeData();
+	}
+
+	protected void payeeData() {
+
 	}
 }

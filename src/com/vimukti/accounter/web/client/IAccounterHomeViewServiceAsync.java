@@ -24,6 +24,8 @@ import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
@@ -386,7 +388,19 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getAccounts(int typeOfAccount,
 			AsyncCallback<ArrayList<ClientAccount>> callBack);
 
+	public void savePortletConfig(ClientPortletPageConfiguration config,
+			AsyncCallback<Boolean> callback);
+
 	public void getMostRecentTransactionCurrencyFactor(long companyId,
 			long currencyId, long tdate, AsyncCallback<Double> callback);
+
+	public void getPortletPageConfiguration(String pageName,
+			AsyncCallback<ClientPortletPageConfiguration> asyncCallback);
+
+	public void getOwePayees(int oweType,
+			AsyncCallback<List<ClientPayee>> callback);
+
+	public void getRecentTransactions(int limit,
+			AsyncCallback<List<ClientActivity>> asyncCallback);
 
 }

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -14,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
  * @modified by RaviKiran.G
  */
 
-public class EnterBillsAction extends Action {
+public class EnterBillsAction extends Action<ClientEnterBill> {
 
 	protected VendorBillView view;
 

@@ -34,6 +34,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.BrandingTheme;
@@ -59,6 +60,7 @@ import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.ReconciliationItem;
@@ -84,12 +86,15 @@ import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientBudget;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
@@ -3080,5 +3085,88 @@ public class FinanceTool {
 				session.close();
 			}
 		}
+	}
+
+	public boolean savePortletPageConfig(
+			ClientPortletPageConfiguration pageConfiguration) {
+		if (pageConfiguration == null) {
+			return false;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			PortletPageConfiguration serverPageConfiguration = new PortletPageConfiguration();
+			serverPageConfiguration = new ServerConvertUtil().toServerObject(
+					serverPageConfiguration,
+					(IAccounterCore) pageConfiguration, session);
+			User user = AccounterThreadLocal.get();
+			serverPageConfiguration.setUser(user);
+			user.getPortletPages().add(serverPageConfiguration);
+			session.saveOrUpdate(serverPageConfiguration);
+			tx.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		} finally {
+		}
+	}
+
+	public ClientPortletPageConfiguration getPortletPageConfiguration(
+			String pageName) {
+		if (pageName == null) {
+			return null;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			long userId = AccounterThreadLocal.get().getID();
+			long companyId = AccounterThreadLocal.get().getCompany().getId();
+			Query query = session.getNamedQuery("getPortletPageConfiguration")
+					.setParameter("pageName", pageName)
+					.setParameter("userId", userId)
+			/* .setParameter("companyId", companyId) */;
+			PortletPageConfiguration pageConfiguration = (PortletPageConfiguration) query
+					.uniqueResult();
+			ClientPortletPageConfiguration clientPortletPageConfiguration;
+			if (pageConfiguration != null) {
+				clientPortletPageConfiguration = new ClientConvertUtil()
+						.toClientObject(pageConfiguration,
+								ClientPortletPageConfiguration.class);
+				return clientPortletPageConfiguration;
+			} else {
+				ClientCompany company = new ClientConvertUtil().toClientObject(
+						getCompany(companyId), ClientCompany.class);
+				return company.getPortletPageConfiguration(pageName);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+		}
+	}
+
+	public List<ClientActivity> getRecentTransactionsList(long companyId,
+			int limit) {
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			Query query = session.getNamedQuery("getRecentTransactionList")
+					.setParameter("companyId", companyId)
+					.setParameter("limit", limit);
+			Iterator<BigInteger> iterator = query.list().iterator();
+
+			List<ClientActivity> activities = new ArrayList<ClientActivity>();
+			while (iterator.hasNext()) {
+				ClientActivity activity = getManager().getObjectById(
+						AccounterCoreType.ACTIVITY,
+						iterator.next().longValue(), companyId);
+				activities.add(activity);
+			}
+			return activities;
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		return null;
 	}
 }

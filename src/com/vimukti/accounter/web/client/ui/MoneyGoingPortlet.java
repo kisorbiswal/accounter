@@ -19,10 +19,11 @@ import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
-public class MoneyGoingPortlet extends DashBoardPortlet {
+public class MoneyGoingPortlet extends Portlet {
 
 	public double draftInvoiceAmount = 0.00;
 	public double overDueInvoiceAmount = 0.00;
@@ -33,13 +34,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 	public Label draftAmtLabel;
 	public Label overDueAmtLabel;
 
-	public MoneyGoingPortlet(String title) {
-		super(title);
-	}
-
-	@Override
-	public String getGoToText() {
-		return messages.goToAccountsPayable();
+	public MoneyGoingPortlet(ClientPortletConfiguration pc) {
+		super(pc, messages.moneyGoingOut(), messages.goToAccountsPayable());
 	}
 
 	@Override
@@ -50,16 +46,6 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 	@Override
 	public void goToClicked() {
 		ActionFactory.getAccountRegisterAction().run(creditors, true);
-	}
-
-	@Override
-	public Cursor getTitleCursor() {
-		return Cursor.POINTER;
-	}
-
-	@Override
-	public TextDecoration getTitleDecoration() {
-		return TextDecoration.UNDERLINE;
 	}
 
 	@Override
@@ -140,17 +126,6 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 				};
 				VisualizationUtils.loadVisualizationApi(runnable,
 						AnnotatedTimeLine.PACKAGE);
-
-				// ScrollPanel panel = new ScrollPanel();
-				// GraphChart chart = new GraphChart(
-				// GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE, UIUtils
-				// .getMaxValue(result), 1200, 150, result);
-				// // chart.setChartSize(1200, 150);
-				// panel.add(chart);
-				// panel.setSize("456px", "185px");
-				// panel.getElement().getStyle().setPaddingTop(5, Unit.PX);
-				// body.add(panel);
-				// chart.update();
 			}
 		};
 		Accounter.createHomeService().getGraphPointsforAccount(
@@ -160,18 +135,6 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 	private void updateCreditorsAccount() {
 		creditors = getCompany().getAccount(
 				getCompany().getAccountsPayableAccount());
-		// List<ClientAccount> accounts = new ArrayList<ClientAccount>();
-		// if (Accounter.getCompany() != null) {
-		// accounts = Accounter.getCompany().getAccounts(
-		// ClientAccount.TYPE_OTHER_CURRENT_LIABILITY);
-		// }
-		//
-		// for (ClientAccount account : accounts) {
-		// if (account.getName().equals("Creditors")) {
-		// creditors = account;
-		// break;
-		// }
-		// }
 	}
 
 	Label getLabel(final String title) {
@@ -181,24 +144,24 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				label.getElement().getStyle().setCursor(Cursor.POINTER);
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		label.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		label.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				label.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				label.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 				if (title.equals(messages.billsDue())) {
 					ActionFactory.getBillsAction().run(null, true,
 							messages.open());
@@ -222,13 +185,9 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 	}
 
 	@Override
-	public void titleClicked() {
-		ActionFactory.getAccountRegisterAction().run(creditors, true);
-	}
-
-	@Override
 	public void refreshWidget() {
 		this.body.clear();
 		createBody();
 	}
+
 }

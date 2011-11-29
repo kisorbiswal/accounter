@@ -4478,6 +4478,26 @@ public interface AccounterMessages extends Messages {
 
 	public String noInventoryItemsAvilable();
 
+	public String configurePortlets();
+
+	public String whoIOwe();
+
+	public String whoOwesMe();
+
+	public String recentTransactions();
+
+	public String messagesAndTasks();
+
+	public String quickLinks();
+
+	public String goToIOweList();
+
+	public String gotoWhoOweMeList();
+
+	public String gotoTasksAndMessages();
+
+	public String goToRecentTransactions();
+
 	public String cantEditOrDelete();
 
 	public String FirstFiscalMonth();
@@ -4511,6 +4531,8 @@ public interface AccounterMessages extends Messages {
 	public String void1();
 
 	public String youcannotEditDeleteDefaultTerms();
+
+	public String lastOf(int limit);
 
 	public String usedinReceivepayYoucantEdit();
 

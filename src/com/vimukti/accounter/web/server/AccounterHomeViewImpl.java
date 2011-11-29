@@ -48,6 +48,8 @@ import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
@@ -83,6 +85,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
@@ -1741,10 +1744,54 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
+	public boolean savePortletConfig(ClientPortletPageConfiguration config) {
+		FinanceTool tool = new FinanceTool();
+		return tool.savePortletPageConfig(config);
+	}
+
+	@Override
 	public double getMostRecentTransactionCurrencyFactor(long companyId,
 			long currencyId, long tdate) throws AccounterException {
 		FinanceTool tool = new FinanceTool();
 		return tool.getMostRecentTransactionCurreencyFactorBasedOnCurrency(
 				companyId, currencyId, tdate);
+	}
+
+	@Override
+	public ClientPortletPageConfiguration getPortletPageConfiguration(
+			String pageName) {
+		FinanceTool tool = new FinanceTool();
+		return tool.getPortletPageConfiguration(pageName);
+	}
+
+	@Override
+	public List<ClientPayee> getOwePayees(int oweType) {
+		FinanceTool tool = new FinanceTool();
+		if (oweType == Portlet.TYPE_I_OWE) {
+			return tool.getDashboardManager().getWhoIOwe(getCompanyId());
+		} else if (oweType == Portlet.TYPE_OWE_TO_ME) {
+			return tool.getDashboardManager().getWhoOwesMe(getCompanyId());
+		}
+		return null;
+	}
+
+	public List<ClientActivity> getRecentTransactions(int limit) {
+		FinanceTool tool = new FinanceTool();
+		List<ClientActivity> activities = tool.getRecentTransactionsList(
+				getCompanyId(), limit);
+		// CHECKING WHETHER THAT TRANSACTION DELETED OR NOT..
+		for (int i = 0; i < activities.size(); i++) {
+			ClientActivity clientActivity = activities.get(i);
+			if (clientActivity.getActivityType() == 4) {
+				for (int j = 0; j < activities.size(); j++) {
+					if (activities.get(j).getObjectID() == clientActivity
+							.getObjectID()) {
+						activities.remove(activities.get(j));
+					}
+				}
+			}
+		}
+
+		return activities;
 	}
 }

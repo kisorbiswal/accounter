@@ -8,9 +8,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
-public class GettingStartedPortlet extends DashBoardPortlet {
+public class GettingStartedPortlet extends Portlet {
 	private VerticalPanel mainPanel;
 	private HTML minHtml, allHtml;
 	private Label moreLabel;
@@ -18,8 +19,8 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 	Anchor accountReceivable, accountPayable, banking, expences, customer,
 			vendor, inviteUser, createBankAcc, accounts;
 
-	public GettingStartedPortlet(String title) {
-		super(title);
+	public GettingStartedPortlet(ClientPortletConfiguration configuration) {
+		super(configuration, messages.gettingStartedusingAccounter(), "");
 	}
 
 	@Override
@@ -143,11 +144,6 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 	}
 
 	@Override
-	public String getGoToText() {
-		return messages.hideGettingStarted();
-	}
-
-	@Override
 	public void goToClicked() {
 		// TODO Auto-generated method stub
 		this.setVisible(false);
@@ -165,6 +161,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 		link.getElement().getStyle().setColor("green");
 		link.addClickHandler(new ClickHandler() {
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void onClick(ClickEvent event) {
 
@@ -201,6 +198,12 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 			}
 		});
 		return link;
+	}
+
+	@Override
+	public void refreshClicked() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
