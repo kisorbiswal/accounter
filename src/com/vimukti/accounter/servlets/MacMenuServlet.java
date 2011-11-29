@@ -816,9 +816,9 @@ public class MacMenuServlet extends BaseServlet {
 				"company/accounter#merge_vendor");
 		subMenu(mergeMenuList, iGlobal.messages().mergeAccounts(),"company/accounter#merge_account");
 		subMenu(mergeMenuList, iGlobal.messages().mergeItems(),"company/accounter#merge_item");
-		
-		separator(mainMenuValue);
 		menu(mainMenuValue, iGlobal.messages().merge(), mergeMenuList);
+		separator(mainMenuValue);
+
 		
 		StringBuilder companyLists = new StringBuilder();
 		if (canSeeInvoiceTransactions()) {
