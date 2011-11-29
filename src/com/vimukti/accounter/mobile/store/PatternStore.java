@@ -12,14 +12,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.zefer.html.doc.o;
+import org.zefer.html.doc.x;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.AccounterMobileException;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.PatternResult;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.UserCommand;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 /**
  * @author Prasanna Kumar G
@@ -30,19 +35,26 @@ public class PatternStore {
 
 	public static PatternStore INSTANCE = new PatternStore();
 
-	private Map<String, Result> patterns = new HashMap<String, Result>();
+	private Map<String, PatternResult> patterns = new HashMap<String, PatternResult>();
 
-	public Result find(String pattern) {
+	public Result find(String pattern, boolean isAuthenticated) {
 		if (pattern.isEmpty()) {
 			return null;
 		}
-		Result result = patterns.get(pattern.toLowerCase().trim());
+		pattern = pattern.toLowerCase().trim();
+		PatternResult result = patterns.get(pattern);
 		if (result == null) {
 			return null;
 		}
-		Result result2 = new PatternResult();
-		result2.addAll(0, result.getResultParts());
-		return result2;
+
+		return result.render(isAuthenticated);
+
+	}
+
+	private boolean checkCondition(String pattern) {
+		ClientCompanyPreferences clientCompanyPreferences = CompanyPreferenceThreadLocal
+				.get();
+		return true;
 	}
 
 	public void reload() throws AccounterMobileException {
@@ -68,19 +80,15 @@ public class PatternStore {
 
 		xStream.alias("patterns", List.class);
 		xStream.alias("include", String.class);
-
 		xStream.alias("pattern", Pattern.class);
+		xStream.aliasAttribute(Pattern.class, "condition", "if");
 		xStream.alias("input", String.class);
-
 		xStream.addImplicitCollection(Pattern.class, "inputs");
-
-		xStream.alias("output", Output.class);
-
-		xStream.alias("text", String.class);
-		xStream.alias("command", String.class);
-
-		xStream.addImplicitCollection(Output.class, "commands");
-
+		xStream.alias("text", Text.class);
+		xStream.aliasAttribute(Text.class, "text", "name");
+		xStream.alias("command", PCommand.class);
+		xStream.aliasAttribute(PCommand.class, "condition", "if");
+		xStream.aliasAttribute(PCommand.class, "command", "title");
 		return xStream;
 
 	}
@@ -102,20 +110,9 @@ public class PatternStore {
 				Pattern pattern = (Pattern) obj;
 				PatternResult result = new PatternResult();
 				CommandList commands = new CommandList();
-				if (pattern.output != null) {
-					List<String> texts = pattern.output.texts;
-					if (texts != null) {
-						for (String s : texts) {
-							result.add(s);
-						}
-					}
-					List<String> strings = pattern.output.commands;
-					if (strings != null) {
-						for (String s : strings) {
-							commands.add(s);
-						}
-					}
-				}
+				result.setOutputs(pattern.outputs);
+				result.condition = pattern.condition;
+				result.needAuthentication = pattern.needAuthentication;
 				result.add(commands);
 				if (pattern.inputs != null) {
 					for (String input : pattern.inputs) {
@@ -135,20 +132,7 @@ public class PatternStore {
 				+ "patterns.xml");
 	}
 
-	public static class Pattern {
-		List<String> inputs;
-		Output output;
-
-		public Pattern() {
-
-		}
-	}
-
-	public static class Output {
-		List<String> texts = new ArrayList<String>();
-		List<String> commands = new ArrayList<String>();
-
-		public Output() {
-		}
+	public static void main(String[] args) throws AccounterMobileException {
+		PatternStore.INSTANCE.reload();
 	}
 }
