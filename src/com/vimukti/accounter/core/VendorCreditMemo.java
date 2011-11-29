@@ -301,6 +301,15 @@ public class VendorCreditMemo extends Transaction {
 	}
 
 	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid) {
+			this.balanceDue = 0d;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 

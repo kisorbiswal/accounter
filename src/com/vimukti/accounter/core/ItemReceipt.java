@@ -620,6 +620,15 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		super.onEdit(itemReceipt);
 	}
 
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid) {
+			setVoid(true);
+			doVoidEffect(session, this);
+		}
+		return false;
+	}
+
 	public void doVoidEffect(Session session, ItemReceipt itemReceipt) {
 
 		// Account pendingItemReceipt = Company.getCompany()

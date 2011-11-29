@@ -42,6 +42,10 @@ public class PaymentTerms extends CreatableObject implements
 	 * Payment Term Description
 	 */
 	String description;
+
+	/**
+	 * Due type of the payment term
+	 */
 	int due = PaymentTerms.DUE_NONE;
 	int dueDays = PaymentTerms.DUE_NONE;
 

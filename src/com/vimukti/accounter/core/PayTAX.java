@@ -161,12 +161,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public boolean onDelete(Session s) throws CallbackException {
-		// NOTHING TO DO.
-		return false;
-	}
-
-	@Override
 	public void onLoad(Session s, Serializable id) {
 		// NOTHING TO DO.
 	}
@@ -229,6 +223,15 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 				tpt.setPayTAX(this);
 			}
 		}
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid) {
+			setVoid(true);
+			doVoidEffect(session);
+		}
+		return false;
 	}
 
 	private void doVoidEffect(Session session) {

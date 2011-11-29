@@ -544,6 +544,35 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	}
 
 	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid) {
+			this.depositIn.updateCurrentBalance(this, this.amount,
+					currencyFactor);
+			this.depositIn.onUpdate(session);
+
+			if (this.creditsAndPayments != null) {
+				// this.creditsAndPayments.setTransaction(null);
+				// session.delete(this.creditsAndPayments);
+				this.creditsAndPayments = null;
+			}
+
+			this.totalCashDiscount = 0.0;
+			this.totalWriteOff = 0.0;
+			this.totalAppliedCredits = 0.0;
+			for (TransactionReceivePayment trp : this.transactionReceivePayment) {
+				trp.setIsVoid(Boolean.TRUE);
+				session.update(trp);
+				trp.onUpdate(session);
+			}
+
+			if (this.status != Transaction.STATUS_DELETED)
+				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		// Kumar said that no need to check the condition to void ReceivePayment

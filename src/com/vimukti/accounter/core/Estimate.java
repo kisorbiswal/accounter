@@ -341,7 +341,8 @@ public class Estimate extends Transaction {
 			throws AccounterException {
 		if (this.id != 0) {
 			if (this.status == Transaction.STATUS_APPLIED) {
-				throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
+				throw new AccounterException(
+						AccounterException.ERROR_OBJECT_IN_USE);
 				// "This Quote is Already used in SalesOrder or Invoice");
 			}
 			// else if (this.status == STATUS_REJECTED) {
@@ -353,10 +354,10 @@ public class Estimate extends Transaction {
 			/**
 			 * If Quote is already voided or deleted, we can't edit it
 			 */
-			if (((Estimate) clientObject).status == STATUS_REJECTED) {
-				throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
-				// "This Quote is already  Rejected,can't  Modify");
-			}
+			// if (((Estimate) clientObject).status == STATUS_REJECTED) {
+			// throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
+			// // "This Quote is already  Rejected,can't  Modify");
+			// }
 		}
 
 		return true;

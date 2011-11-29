@@ -39,10 +39,8 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	 */
 	@ReffereredObject
 	Account cashBackAccount;
-	
-	
-	Account depositFrom;
 
+	Account depositFrom;
 
 	/**
 	 * Description for Cash Back Memo
@@ -104,12 +102,12 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 			this.cashBackAccount.onUpdate(session);
 
 		}
-		
+
 		depositIn.updateCurrentBalance(this, -this.total, this.currencyFactor);
 		session.save(depositIn);
 		depositFrom.updateCurrentBalance(this, this.total, this.currencyFactor);
 		session.save(depositFrom);
-		
+
 		return false;
 	}
 
@@ -215,7 +213,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	public Payee getInvolvedPayee() {
 		return null;
 	}
-	
+
 	public Account getDepositFrom() {
 		return depositFrom;
 	}
@@ -223,7 +221,6 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	public void setDepositFrom(Account depositFrom) {
 		this.depositFrom = depositFrom;
 	}
-	 
 
 	public boolean equals(MakeDeposit obj) {
 		if (((this.depositIn != null && obj.depositIn != null) ? (this.depositIn
@@ -262,32 +259,28 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 
 		} else {
 			if (!this.depositIn.equals(makeDeposit.depositIn)
-					|| !DecimalUtil.isEquals(this.total,
-							makeDeposit.total)) {
+					|| !DecimalUtil.isEquals(this.total, makeDeposit.total)) {
 				Account depositInAccount = (Account) session.get(Account.class,
 						makeDeposit.depositIn.id);
-				depositInAccount.updateCurrentBalance(this,
-						makeDeposit.total,
+				depositInAccount.updateCurrentBalance(this, makeDeposit.total,
 						makeDeposit.currencyFactor);
 				depositInAccount.onUpdate(session);
 				session.saveOrUpdate(depositInAccount);
-				
+
 				this.depositIn.updateCurrentBalance(this, -this.total,
 						this.currencyFactor);
 				this.depositIn.onUpdate(session);
 				session.saveOrUpdate(this.depositIn);
 			}
 			if (!this.depositFrom.equals(makeDeposit.depositFrom)
-					|| !DecimalUtil.isEquals(this.total,
-							makeDeposit.total)) {
-				Account depositFromAccount = (Account) session.get(Account.class,
-						makeDeposit.depositFrom.id);
+					|| !DecimalUtil.isEquals(this.total, makeDeposit.total)) {
+				Account depositFromAccount = (Account) session.get(
+						Account.class, makeDeposit.depositFrom.id);
 				depositFromAccount.updateCurrentBalance(this,
-						-makeDeposit.total,
-						makeDeposit.currencyFactor);
+						-makeDeposit.total, makeDeposit.currencyFactor);
 				depositFromAccount.onUpdate(session);
 				session.saveOrUpdate(depositFromAccount);
-				
+
 				this.depositFrom.updateCurrentBalance(this, this.total,
 						this.currencyFactor);
 				this.depositFrom.onUpdate(session);
@@ -297,10 +290,20 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		super.onEdit(makeDeposit);
 	}
 
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid) {
+			setVoid(true);
+			doVoidEffect(session);
+		}
+		return false;
+	}
+
 	private void doVoidEffect(Session session) {
 		depositIn.updateCurrentBalance(this, this.total, this.currencyFactor);
 		session.save(depositIn);
-		depositFrom.updateCurrentBalance(this, -this.total, this.currencyFactor);
+		depositFrom
+				.updateCurrentBalance(this, -this.total, this.currencyFactor);
 		session.save(depositFrom);
 	}
 

@@ -640,6 +640,15 @@ public class PayBill extends Transaction {
 		super.onEdit(payBill);
 	}
 
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid) {
+			setVoid(true);
+			doVoidEffect(session, this);
+		}
+		return false;
+	}
+
 	private void doEffectTDS(Session session, PayBill payBill) {
 		if (this.tdsTaxItem != null) {
 			if (payBill.tdsTaxItem != null) {

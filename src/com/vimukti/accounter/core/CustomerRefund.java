@@ -376,6 +376,15 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 
 	}
 
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid) {
+			setVoid(true);
+			doVoidEffect(session);
+		}
+		return false;
+	}
+
 	private void updateTransactionReceivepayments() {
 		/**
 		 * First do the reverse effect of the old Invoice

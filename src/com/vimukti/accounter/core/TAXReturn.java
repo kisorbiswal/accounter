@@ -10,6 +10,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class TAXReturn extends Transaction {
 
@@ -172,10 +173,10 @@ public class TAXReturn extends Transaction {
 
 	protected void updateTaxLiabilityAccounts() {
 		for (TAXReturnEntry entry : taxReturnEntries) {
-			Transaction transaction = entry.getTransaction();
-			if (transaction.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
+			if (UIUtils.getTransactionCategory(entry.getTransactionType()) == Transaction.CATEGORY_CUSTOMER) {
 				salesTaxTotal += entry.getTaxAmount();
-			} else if (transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
+			} else if (UIUtils.getTransactionCategory(entry
+					.getTransactionType()) == Transaction.CATEGORY_VENDOR) {
 				purchaseTaxTotal += entry.getTaxAmount();
 			}
 		}
