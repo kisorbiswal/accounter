@@ -5,7 +5,6 @@ import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
@@ -138,19 +137,33 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			String phone = "";
 			boolean hasPhone = false;
 			Customer customer = invoice.getCustomer();
-			Set<Contact> contacts = customer.getContacts();
-			for (Contact contact : contacts) {
-				if (contact.isPrimary()) {
-					cname = contact.getName().trim();
+			// Set<Contact> contacts = customer.getContacts();
+			// for (Contact contact : contacts) {
+			// if (contact.isPrimary()) {
+			// cname = contact.getName().trim();
+			//
+			// if (contact.getBusinessPhone().trim().length() > 0)
+			// phone = contact.getBusinessPhone();
+			// if (phone.trim().length() > 0) {
+			// hasPhone = true;
+			// }
+			//
+			// }
+			// }
 
-					if (contact.getBusinessPhone().trim().length() > 0)
-						phone = contact.getBusinessPhone();
-					if (phone.trim().length() > 0) {
-						hasPhone = true;
-					}
-
+			// To get the selected contact name form Invoice
+			Contact selectedContact = invoice.getContact();
+			if (selectedContact != null) {
+				cname = selectedContact.getName().trim();
+				if (selectedContact.getBusinessPhone().trim().length() > 0)
+					phone = selectedContact.getBusinessPhone();
+				if (phone.trim().length() > 0) {
+					// If phone variable has value, then only we need to display
+					// the text 'phone'
+					hasPhone = true;
 				}
 			}
+
 			// setting billing address
 			Address bill = invoice.getBillingAddress();
 			String customerName = forUnusedAddress(invoice.getCustomer()
@@ -177,7 +190,12 @@ public class InvoicePDFTemplete implements PrintTemplete {
 					t.addBlock("billhead");
 				}
 			} else {
-				t.setVariable("billingAddress", customerName);
+				// If there is no Bill Address, then display only customer and
+				// contact name
+				StringBuffer contact = new StringBuffer();
+				contact = contact.append(forUnusedAddress(cname, false)
+						+ customerName);
+				t.setVariable("billingAddress", contact.toString());
 				t.addBlock("billhead");
 			}
 
