@@ -1713,6 +1713,7 @@ input.date-field-textbox{
 	float: right;
     font-size: 13px;
     margin-top: 4px;
+    cursor: pointer;
     color: #FFFFFF;
 }
 .no_records .norecord-empty-message{
@@ -1722,10 +1723,14 @@ input.date-field-textbox{
     position: absolute;
     z-index: 1;
 }
-.quick-links-table{
-	
+.quick-links-table .gwt-Anchor{
+	color: #2D8B93;
 }
 .portletColumn .gridHeaderParent{
 	visibility: collapse !important;
 	height: 0px !important;
+}
+.list_combo_form{
+	float: right;
+	width: 50% !important;
 }

@@ -27,6 +27,7 @@ public class QuickLinksPortlet extends Portlet {
 		quickLinksMap = new HashMap<String, String>();
 
 		FlexTable linksTable = new FlexTable();
+		linksTable.addStyleName("quick-links-table");
 		// initializing links...
 		quickLinksMap.put(messages.newInvoice(), ActionFactory
 				.getNewInvoiceAction().getHistoryToken());
@@ -93,7 +94,7 @@ public class QuickLinksPortlet extends Portlet {
 	}
 
 	protected void historyChanged(String value) {
-		Action action = MainFinanceWindow.actions.get(value);
+		Action<?> action = MainFinanceWindow.actions.get(value);
 		action.run();
 	}
 

@@ -4536,4 +4536,6 @@ public interface AccounterMessages extends Messages {
 
 	public String usedinReceivepayYoucantEdit();
 
+	public String gotoBankAccountsList();
+
 }

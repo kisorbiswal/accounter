@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.server.managers;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -766,6 +767,21 @@ public class CompanyManager extends Manager {
 				account = new ClientConvertUtil().toClientObject(a,
 						ClientAccount.class);
 			}
+			result.add(account);
+		}
+		return result;
+	}
+
+	public ArrayList<ClientAccount> getBankAccounts(Long companyId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		List<BigInteger> list = session.getNamedQuery("getBankAccountsOfType")
+				.setLong("companyId", companyId).list();
+		ArrayList<ClientAccount> result = new ArrayList<ClientAccount>();
+		ClientCompany company = new ClientConvertUtil().toClientObject(
+				getCompany(companyId), ClientCompany.class);
+		for (BigInteger id : list) {
+			ClientAccount account = company.getAccount(id.longValue());
 			result.add(account);
 		}
 		return result;

@@ -8,8 +8,6 @@ import com.allen_sauer.gwt.dnd.client.DragHandler;
 import com.allen_sauer.gwt.dnd.client.DragStartEvent;
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.VetoDragException;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -66,7 +64,6 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 	}
 
 	private void setup() {
-		createTitlePanel();
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setWidth("100%");
 		panel.setHeight("100%");
@@ -96,29 +93,11 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 		dragController.makeDraggable(portlet, portlet.getHeader());
 	}
 
-	private void createTitlePanel() {
-		HorizontalPanel pageTitlePanel = new HorizontalPanel();
-		settingsButton = new ImageButton(Accounter.messages()
-				.configurePortlets(), Accounter.getFinanceImages()
-				.portletPageSettings());
-		pageTitlePanel.add(settingsButton);
-		settingsButton.addStyleName("settingsButton");
-		this.add(settingsButton);
-		settingsButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				createSettingsDialog();
-			}
-		});
-	}
-
-	protected void createSettingsDialog() {
+	public PortletPageConfigureDialog createSettingsDialog() {
 		updateConfiguration();
 		PortletPageConfigureDialog configureDialog = new PortletPageConfigureDialog(
 				Accounter.messages().configurePortlets(), config, this);
-		configureDialog.showRelativeTo(settingsButton);
-
+		return configureDialog;
 	}
 
 	private Portlet createPortlet(ClientPortletConfiguration pc) {

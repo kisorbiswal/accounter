@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.portlet;
 
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
-import com.vimukti.accounter.web.client.ui.BankingPortlet;
+import com.vimukti.accounter.web.client.ui.BankAccountsPortlet;
 import com.vimukti.accounter.web.client.ui.ExpenseClaimPortlet;
 import com.vimukti.accounter.web.client.ui.MessagesAndTasksPortlet;
 import com.vimukti.accounter.web.client.ui.MoneyComingPortlet;
@@ -29,7 +29,7 @@ public class PortletFactory {
 		String name = pc.getName();
 		Portlet portlet = null;
 		if (name.equals(Portlet.BANK_ACCOUNT)) {
-			portlet = new BankingPortlet(pc);
+			portlet = new BankAccountsPortlet(pc);
 		} else if (name.equals(Portlet.MONEY_COMING)) {
 			portlet = new MoneyComingPortlet(pc);
 		} else if (name.equals(Portlet.MONEY_GOING)) {

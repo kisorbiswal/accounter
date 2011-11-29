@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.help.HelpDialog;
 import com.vimukti.accounter.web.client.help.HelpPanel;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.DashBoardView;
 import com.vimukti.accounter.web.client.ui.HistoryToken;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.ImageButton;
@@ -67,6 +68,8 @@ public class ViewManager extends HorizontalPanel {
 
 	private ImageButton closeButton;
 
+	private ImageButton configButton;
+
 	private Label viewTitleLabel;
 
 	ButtonGroup group1;
@@ -76,6 +79,7 @@ public class ViewManager extends HorizontalPanel {
 	private SimplePanel viewHolder;
 
 	ButtonGroup group4;
+	ButtonGroup group5;
 
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
@@ -290,6 +294,10 @@ public class ViewManager extends HorizontalPanel {
 		group4.remove(editButton);
 	}
 
+	public void removeConfigButton() {
+		group5.remove(configButton);
+	}
+
 	public void updateButtons() {
 		if (existingView instanceof IEditableView
 				&& ((IEditableView) existingView).canEdit()) {
@@ -313,6 +321,11 @@ public class ViewManager extends HorizontalPanel {
 			group2.remove(exportButton);
 			group2.remove(printButton);
 
+		}
+		if (existingView instanceof DashBoardView) {
+			group5.add(configButton);
+		} else {
+			removeConfigButton();
 		}
 	}
 
@@ -421,6 +434,7 @@ public class ViewManager extends HorizontalPanel {
 		group2 = new ButtonGroup();
 		group3 = new ButtonGroup();
 		group4 = new ButtonGroup();
+		group5 = new ButtonGroup();
 		viewTitleLabel = new Label(Accounter.messages().dashBoard());
 		viewTitleLabel.addStyleName("viewTitle");
 
@@ -480,6 +494,19 @@ public class ViewManager extends HorizontalPanel {
 			}
 		});
 
+		configButton = new ImageButton(
+				Accounter.messages().configurePortlets(), Accounter
+						.getFinanceImages().portletPageSettings());
+		configButton.addStyleName("settingsButton");
+		configButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				((DashBoardView) existingView).getPage().createSettingsDialog()
+						.showRelativeTo(configButton);
+			}
+		});
+
 		closeButton = new ImageButton(Accounter.getFinanceImages()
 				.closeButton());
 		closeButton.setTitle(Accounter.messages().clickThisTo(
@@ -502,10 +529,12 @@ public class ViewManager extends HorizontalPanel {
 		group2.add(printButton);
 
 		group3.add(closeButton);
+		group5.add(configButton);
 
 		toolBar.add(HasHorizontalAlignment.ALIGN_LEFT, group1);
 		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group4);
 		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group2);
+		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group5);
 		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group3);
 		toolBar.addStyleName("group-toolbar");
 	}

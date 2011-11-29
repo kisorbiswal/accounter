@@ -27,7 +27,7 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	private Widget createControl() {
-		page = new PortletPage(PortletPage.DASHBOARD);
+		setPage(new PortletPage(PortletPage.DASHBOARD));
 		AbsolutePanel absolutePanel = new AbsolutePanel();
 		HorizontalPanel hPanel = new HorizontalPanel();
 		VerticalPanel vPanel_1 = new VerticalPanel();
@@ -104,7 +104,7 @@ public class DashBoardView extends BaseHomeView {
 		// widgetDragController.makeDraggable(label_4);
 		widgetDragController.makeDraggable(panel4, label_4);
 
-		return page;
+		return getPage();
 
 		// create absolute panel
 
@@ -117,7 +117,7 @@ public class DashBoardView extends BaseHomeView {
 
 	@Override
 	protected void onAttach() {
-		page.refreshWidgets();
+		getPage().refreshWidgets();
 		super.onAttach();
 	}
 
@@ -133,6 +133,14 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	public void hideGettingStarted() {
+	}
+
+	public PortletPage getPage() {
+		return page;
+	}
+
+	public void setPage(PortletPage page) {
+		this.page = page;
 	}
 
 }
