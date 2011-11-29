@@ -2,10 +2,11 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
-public class BudgetOverviewReport extends AbstractReportView<ClientBudgetListX> {
+public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 
 	private int BUDGET_TYPE_CUSTOM = 1;
 
@@ -19,7 +20,7 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetListX> 
 	}
 
 	@Override
-	public void OnRecordClick(ClientBudgetListX record) {
+	public void OnRecordClick(ClientBudgetList record) {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
@@ -62,5 +63,7 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetListX> 
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 }

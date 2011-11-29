@@ -6,8 +6,7 @@ import java.text.SimpleDateFormat;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.reports.BudgetServerReport;
+import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerReport;
@@ -1215,7 +1214,7 @@ public class ReportsGenerator {
 			}
 			return misc1099TransactionDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_BUDGET:
-			BudgetServerReport budgetServerReport = new BudgetServerReport(
+			BudgetOverviewServerReport budgetServerReport = new BudgetOverviewServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
 					generationType1) {
 

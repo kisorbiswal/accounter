@@ -2,9 +2,10 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport;
 
-public class BudgetOverviewServerReport extends AbstractFinaneReport<ClientBudgetListX> {
+public class BudgetOverviewServerReport extends AbstractFinaneReport<ClientBudgetList> {
 
 	private int TOOLBAR_TYPE_CUSTOM = 1;
 	private int TOOLBAR_TYPE_MONTH = 2;
@@ -16,7 +17,7 @@ public class BudgetOverviewServerReport extends AbstractFinaneReport<ClientBudge
 	private String currentsectionName = "";
 
 
-	public BudgetOverviewServerReport(IFinanceReport<ClientBudgetListX> reportView) {
+	public BudgetOverviewServerReport(IFinanceReport<ClientBudgetList> reportView) {
 		this.reportView = reportView;
 		
 
@@ -27,7 +28,7 @@ public class BudgetOverviewServerReport extends AbstractFinaneReport<ClientBudge
 	}
 
 	@Override
-	public Object getColumnData(ClientBudgetListX record, int columnIndex) {
+	public Object getColumnData(ClientBudgetList record, int columnIndex) {
 
 	
 			switch (columnIndex) {
@@ -103,7 +104,7 @@ public class BudgetOverviewServerReport extends AbstractFinaneReport<ClientBudge
 	}
 
 	@Override
-	public void processRecord(ClientBudgetListX record) {
+	public void processRecord(ClientBudgetList record) {
 
 		if (sectionDepth == 0) {
 			addSection("", getMessages().total(), new int[] { 2 });
@@ -126,12 +127,12 @@ public class BudgetOverviewServerReport extends AbstractFinaneReport<ClientBudge
 	}
 
 	@Override
-	public ClientFinanceDate getEndDate(ClientBudgetListX obj) {
+	public ClientFinanceDate getEndDate(ClientBudgetList obj) {
 		return obj.getEndDate();
 	}
 
 	@Override
-	public ClientFinanceDate getStartDate(ClientBudgetListX obj) {
+	public ClientFinanceDate getStartDate(ClientBudgetList obj) {
 		return obj.getStartDate();
 
 	}
