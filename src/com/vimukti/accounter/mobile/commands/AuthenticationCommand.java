@@ -55,9 +55,10 @@ public class AuthenticationCommand extends Command {
 		if (login != null) {
 			return login;
 		}
+
+		// Re-Sending the Activation mail
 		if (context.getSelection("activation") != null) {
 			String userName = (String) context.getAttribute("userName");
-			// Re-send Activation mail
 			Client client = getClient(userName);
 			String activationCode = getUserActivationCode(client);
 			if (activationCode == null) {
@@ -76,6 +77,7 @@ public class AuthenticationCommand extends Command {
 			makeResult.add(list);
 			return makeResult;
 		}
+
 		int networkType = context.getNetworkType();
 		// MOBILE
 		if (networkType == AccounterChatServer.NETWORK_TYPE_MOBILE) {
