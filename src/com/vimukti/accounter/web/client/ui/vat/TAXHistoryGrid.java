@@ -67,17 +67,16 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.taxAgency(),
-				messages.periodStartDate(),
-				messages.periodEndDate(),
-				messages.taxFiledDate(), messages.taxDue(),
-				messages.totalPaymentMade(), messages.report() };
+		return new String[] { messages.taxAgency(), messages.periodStartDate(),
+				messages.periodEndDate(), messages.taxFiledDate(),
+				messages.taxDue(), messages.totalPaymentMade(),
+				messages.report() };
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onClick(ClientTAXReturn obj, int row, int index) {
-		if (index == 5) {
+		if (index == 6) {
 
 			ICountryPreferences countryPreferences = Accounter.getCompany()
 					.getCountryPreferences();
