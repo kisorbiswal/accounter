@@ -92,7 +92,7 @@ public abstract class EditTable<R> extends SimplePanel {
 	 * @param row
 	 */
 	public void add(R row) {
-		this.table.getFlexCellFormatter().removeStyleName(1, 0,
+		table.getFlexCellFormatter().removeStyleName(1, 0,
 				"norecord-empty-message");
 		createColumns();
 		rows.add(row);
