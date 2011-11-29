@@ -2126,9 +2126,9 @@ public interface AccounterMessages extends Messages {
 
 	public String locationGroup();
 
-	public String locationGroupList();
+	public String locationGroupList(String location);
 
-	public String locationName();
+	public String locationName(String location);
 
 	public String locationsList();
 
