@@ -13,6 +13,7 @@
 
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" href="/images/favicon.ico" />
     <meta content="IE=100" http-equiv="X-UA-Compatible" />
     <%@ include file="./feedback.jsp" %>
     <script type="text/javascript" charset="utf-8">
