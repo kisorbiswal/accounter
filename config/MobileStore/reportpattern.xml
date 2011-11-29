@@ -1,63 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <patterns>
 	<!-- <pattern> <input>Report</input> <input>Reports</input> <input>How to 
-		see the Reports</input> <output> <text>"Report is a formatted and organized 
-		presentation of your company data. </text> <command value="Company &amp; 
-		Financial Reports">Company &amp; Financial Reports</command> <command value="Customers 
-		and Receivables Reports">Customers and Receivables Reports</command> <command 
-		value="Sales Reports">Sales Reports</command> <command value="Suppliers and 
-		Payables Reports">Suppliers and Payable Reports</command> <command value="Purchases 
-		Reports">Purchases Reports</command> <command value="VAT Reports">VAT Reports</command> 
-		</output> </pattern> -->
+		see the Reports</input> <outputs> <text name=""Report is a formatted and organized 
+		presentation of your company data. " /> <command value="Company &amp; Financial 
+		Reports">Company &amp; Financial Reports" /> <command value="Customers and 
+		Receivables Reports">Customers and Receivables Reports" /> <command value="Sales 
+		Reports">Sales Reports" /> <command value="Suppliers and Payables Reports">Suppliers 
+		and Payable Reports" /> <command value="Purchases Reports">Purchases Reports" 
+		/> <command value="VAT Reports">VAT Reports" /> </outputs> </pattern> -->
 
 	<pattern>
 		<input>Reports</input>
-		<output>
-			<command>Company &amp; Financial Reports</command>
-			<command>Customers and Receivables Reports</command>
-			<command>Sales Reports</command>
-			<command>Suppliers and Payable Reports</command>
-			<command>Purchases Reports</command>
-			<command>VAT Reports</command>
-		</output>
+		<outputs>
+			<command title="Company &amp; Financial Reports" />
+			<command title="Customers and Receivables Reports" />
+			<command title="Sales Reports" />
+			<command title="Suppliers and Payable Reports" />
+			<command title="Purchases Reports" />
+			<command title="VAT Reports" />
+		</outputs>
 	</pattern>
 
 	<pattern>
 		<input>Company &amp; Financial Reports</input>
-		<output>
-			<text>Company &amp; Financial Reports</text>
-			<command>Profit and Loss</command>
-			<command>Balance Sheet</command>
-			<command>Cash Flow Report</command>
-			<command>Trial Balance</command>
-			<command>Transaction Detail By Account</command>
-			<command>Expense Report</command>
-			<command>Transaction Detail by Tax Item</command>
-		</output>
+		<outputs>
+			<text name="Company &amp; Financial Reports" />
+			<command title="Profit and Loss" />
+			<command title="Balance Sheet" />
+			<command title="Cash Flow Report" />
+			<command title="Trial Balance" />
+			<command title="Transaction Detail By Account" />
+			<command title="Expense Report" />
+			<command title="Transaction Detail by Tax Item" />
+		</outputs>
 	</pattern>
 
 	<pattern>
 		<input>Customers and Receivables Reports</input>
 		<input>customer reports</input>
-		<output>
-			<text>Sales Reports</text>
-			<command>A/R Aging Summary</command>
-			<command>A/R Aging Detail</command>
-			<command>Customer Statement</command>
-			<command>Customer Transaction History</command>
-		</output>
+		<outputs>
+			<text name="Sales Reports" />
+			<command title="A/R Aging Summary" />
+			<command title="A/R Aging Detail" />
+			<command title="Customer Statement" />
+			<command title="Customer Transaction History" />
+		</outputs>
 	</pattern>
 
 	<pattern>
 		<input>Sales Reports</input>
-		<output>
-			<text>Sales Reports</text>
-			<command>Sales By Customer Summary</command>
-			<command>Sales By Customer Detail</command>
-			<command>Sales By Item Summary</command>
-			<command>Sales By Item Detail</command>
-			<command>Sales Order Report</command>
-		</output>
+		<outputs>
+			<text name="Sales Reports" />
+			<command title="Sales By Customer Summary" />
+			<command title="Sales By Customer Detail" />
+			<command title="Sales By Item Summary" />
+			<command title="Sales By Item Detail" />
+			<command title="Sales Order Report" />
+		</outputs>
 	</pattern>
 
 	<pattern>
@@ -65,76 +64,76 @@
 		<input>Vendors and Payable Reports</input>
 		<input>vendor reports</input>
 		<input>supplier reports</input>
-		<output>
-			<text>Suppliers and Payable Reports</text>
-			<command>A/P Aging Summary</command>
-			<command>A/P Aging Detail</command>
-			<command>Supplier Transaction History</command>
-		</output>
+		<outputs>
+			<text name="Suppliers and Payable Reports" />
+			<command title="A/P Aging Summary" />
+			<command title="A/P Aging Detail" />
+			<command title="Supplier Transaction History" />
+		</outputs>
 	</pattern>
 
 	<pattern>
 		<input>Purchases Reports</input>
-		<output>
-			<text>Purchases Reports</text>
-			<command>Purchase By Supplier Summary</command>
-			<command>Purchase By Supplier Detail</command>
-			<command>Purchase By Item Summary</command>
-			<command>Purchase By Item Detail</command>
-			<command>Purchase Order Report</command>
-		</output>
+		<outputs>
+			<text name="Purchases Reports" />
+			<command title="Purchase By Supplier Summary" />
+			<command title="Purchase By Supplier Detail" />
+			<command title="Purchase By Item Summary" />
+			<command title="Purchase By Item Detail" />
+			<command title="Purchase Order Report" />
+		</outputs>
 	</pattern>
 
 	<pattern>
 		<input>VAT Reports</input>
 		<input>TAX Reports</input>
-		<output>
-			<text>VAT Reports</text>
-			<command>Prior VAT Return</command>
-			<command>VAT Detail</command>
-			<command>VAT 100</command>
-			<command>Uncategorized VAT Amounts</command>
-			<command>VAT Item Summary</command>
-			<command>EC Sales List</command>
-		</output>
+		<outputs>
+			<text name="VAT Reports" />
+			<command title="Prior VAT Return" />
+			<command title="VAT Detail" />
+			<command title="VAT 100" />
+			<command title="Uncategorized VAT Amounts" />
+			<command title="VAT Item Summary" />
+			<command title="EC Sales List" />
+		</outputs>
 	</pattern>
 
 	<pattern>
 		<input>dateRanges</input>
-		<output>
-			<text>Select A Date Range</text>
-			<command value="All">All</command>
-			<command value="This Week">This Week</command>
-			<command value="This Month">This Month</command>
-			<command value="Last Week">Last Week</command>
-			<command value="Last Month">Last Month</command>
-			<command value="This Financial Year">This Financial Year</command>
-			<command value="Last Financial Year">Last Financial Year</command>
-			<command value="This Financial Quarter">This Financial Quarter</command>
-			<command value="Last Financial Quarter">Last Financial Quarter</command>
-			<command value="Financial Year To Date">Financial Year To Date</command>
-			<command value="Custom">Custom</command>
-		</output>
+		<outputs>
+			<text name="Select A Date Range" />
+			<command title="All" />
+			<command title="This Week" />
+			<command title="This Month" />
+			<command title="Last Week" />
+			<command title="Last Month" />
+			<command title="This Financial Year" />
+			<command title="Last Financial Year" />
+			<command title="This Financial Quarter" />
+			<command title="Last Financial Quarter" />
+			<command title="Financial Year To Date" />
+			<command title="Custom" />
+		</outputs>
 	</pattern>
 
 	<pattern>
 		<input>status</input>
-		<output>
-			<text>Select A Status</text>
-			<command value="Open">Open</command>
-			<command value="Completed">Completed</command>
-			<command value="Canceled">Canceled</command>
-			<command value="All">All</command>
-		</output>
+		<outputs>
+			<text name="Select A Status" />
+			<command title="Open" />
+			<command title="Completed" />
+			<command title="Canceled" />
+			<command title="All" />
+		</outputs>
 	</pattern>
 
 	<pattern>
 		<input>expenceType</input>
-		<output>
-			<text>Select An Expense Type</text>
-			<command value="All Expenses">All Expenses</command>
-			<command value="Cash">Cash Expense</command>
-			<command value="Credit Card">Credit Card Expenses</command>
-		</output>
+		<outputs>
+			<text name="Select An Expense Type" />
+			<command title="All Expenses" />
+			<command title="Cash Expense" />
+			<command title="Credit Card Expenses" />
+		</outputs>
 	</pattern>
 </patterns>
