@@ -1326,7 +1326,7 @@ public class ActionFactory {
 	}
 
 	public static LocationGroupListAction getLocationGroupListAction() {
-		return new LocationGroupListAction(messages.locationGroupList());
+		return new LocationGroupListAction(messages.locationGroupList(Global.get().Location()));
 	}
 
 	public static AccounterClassListAction getAccounterClassGroupListAction() {
