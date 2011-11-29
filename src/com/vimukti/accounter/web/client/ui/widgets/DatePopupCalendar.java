@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.widgets;
 
+import java.util.Date;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
@@ -25,10 +27,12 @@ public class DatePopupCalendar extends PopupPanel {
 	private Button okButton;
 	private Button cancelButton;
 	private Button nextButton, prevButton;
+	private Date displayMonth;
+	private VerticalPanel panel;
 	String months[][] = { { "Jan", "July" }, { "Feb", "Aug" },
 			{ "Mar", "Sep" }, { "Apr", "Oct" }, { "May", "Nov" },
 			{ "Jun", "Dec" } };
-	private int year = 2011;
+	private int year;
 	private String month;
 
 	public DatePopupCalendar(DatePicker datePicker) {
@@ -36,12 +40,11 @@ public class DatePopupCalendar extends PopupPanel {
 		this.addStyleName("blue" + "-date-picker");
 		this.daysGrid = new Grid(6, 4);
 		this.datePicker = datePicker;
-		VerticalPanel panel = new VerticalPanel();
+		panel = new VerticalPanel();
 		this.add(panel);
 		sinkEvents(Event.ONBLUR);
 		nextButton(panel);
 		drawButtons(panel);
-		drawGrid(panel);
 		this.addStyleName("nextmonths-years");
 
 	}
@@ -96,7 +99,6 @@ public class DatePopupCalendar extends PopupPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				panel.remove(daysGrid);
-				setYear(getYear() + 1);
 				drawGrid(panel);
 
 			}
@@ -107,7 +109,9 @@ public class DatePopupCalendar extends PopupPanel {
 			public void onClick(ClickEvent event) {
 
 				panel.remove(daysGrid);
-				setYear(getYear() - 1);
+				int y = getYear();
+				y = y - 20;
+				setYear(y);
 				drawGrid(panel);
 			}
 		});
@@ -115,21 +119,50 @@ public class DatePopupCalendar extends PopupPanel {
 	}
 
 	private void drawGrid(VerticalPanel panel) {
+
 		daysGrid.setStyleName("blue" + "-" + "day-grid");
+		CellFormatter cfJours = daysGrid.getCellFormatter();
+
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 2; j++) {
+
 				daysGrid.setText(i, j, months[i][j]);
+
+				if (getDisplayMonth() != null) {
+					if (DateUtills.getMonthNameByNumber(
+							getDisplayMonth().getMonth() + 1).equals(
+							daysGrid.getText(i, j))) {
+						cfJours.addStyleName(i, j, "blue" + "-"
+								+ "current-month-selected");
+					} else {
+						cfJours.removeStyleName(i, j, "blue" + "-"
+								+ "current-month-selected");
+
+					}
+				}
+
 			}
+
 		}
 
 		daysGrid.setWidget(0, 2, prevButton);
 		daysGrid.setWidget(0, 3, nextButton);
 
-		int k = getYear();
+		int k = this.getYear();
 		for (int i = 1; i < 6; i++) {
 			for (int j = 2; j < 4; j++) {
+				if (getDisplayMonth() != null) {
+					if (getDisplayMonth().getYear() + 1900 == k) {
+						cfJours.addStyleName(i, j, "blue" + "-"
+								+ "current-month-selected");
+					} else {
+						cfJours.removeStyleName(i, j, "blue" + "-"
+								+ "current-month-selected");
+					}
+				}
 				daysGrid.setText(i, j, k + "");
-				k++;
+				k = k + 1;
+
 			}
 
 		}
@@ -195,12 +228,30 @@ public class DatePopupCalendar extends PopupPanel {
 
 	}
 
+	@Override
+	public void show() {
+		super.show();
+		if (getDisplayMonth() != null) {
+			setYear(getDisplayMonth().getYear() + 1900);
+		}
+		drawGrid(panel);
+
+	}
+
 	public int getYear() {
 		return this.year;
 	}
 
 	public void setYear(int year) {
 		this.year = year;
+	}
+
+	public Date getDisplayMonth() {
+		return displayMonth;
+	}
+
+	public void setDisplayMonth(Date displayMonth) {
+		this.displayMonth = displayMonth;
 	}
 
 }

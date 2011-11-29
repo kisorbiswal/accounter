@@ -135,6 +135,8 @@ public class PopupCalendar extends PopupPanel {
 				this.displayedMonth = new Date();
 			}
 		}
+
+		datePopupCalendar.setDisplayMonth(this.displayedMonth);
 		this.drawLabelMoisAnnee();
 		this.drawDaysGridContent(this.displayedMonth);
 		show();
@@ -198,14 +200,14 @@ public class PopupCalendar extends PopupPanel {
 		currentMonth = new Label();
 		currentMonth.addStyleName("currentmonth");
 		currentMonth.addMouseOverHandler(new MouseOverHandler() {
-			
+
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				currentMonth.addStyleName("currentmonth-hover");
 			}
 		});
 		currentMonth.addMouseOutHandler(new MouseOutHandler() {
-			
+
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
 				currentMonth.removeStyleName("currentmonth-hover");
@@ -222,7 +224,8 @@ public class PopupCalendar extends PopupPanel {
 
 					datePopupCalendar.setPopupPosition(x + 1, y + 30);
 					// datePopupCalendar.setWidth(getOffsetWidth() + "px");
-					// datePopupCalendar.setHeight(getOffsetHeight() - 55 + "px");
+					// datePopupCalendar.setHeight(getOffsetHeight() - 55 +
+					// "px");
 					datePopupCalendar.show();
 				}
 			}
