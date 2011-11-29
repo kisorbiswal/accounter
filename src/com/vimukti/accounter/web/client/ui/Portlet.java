@@ -184,7 +184,7 @@ public abstract class Portlet extends WorkbenchPanel {
 	protected void onClose() {
 		this.removeFromParent();
 		portletPage.config.getPortletConfigurations().remove(configuration);
-		portletPage.haveToRefresh = true;
+		portletPage.haveToRefresh = false;
 		portletPage.updatePortletPage();
 	}
 
