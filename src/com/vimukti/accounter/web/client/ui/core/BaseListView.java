@@ -133,7 +133,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				viewSelect = new SelectCombo(Accounter.messages()
 						.currentBudget());
 				viewSelect.setHelpInformation(true);
-				viewSelect.setWidth("150px");
+				// viewSelect.setWidth("150px");
 
 				viewSelect
 						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -165,8 +165,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 							public void selectedComboBoxItem(String selectItem) {
 								if (viewSelect.getSelectedValue() != null) {
 									if (viewSelect.getSelectedValue()
-											.toString().equalsIgnoreCase(
-													"Active"))
+											.toString()
+											.equalsIgnoreCase("Active"))
 										filterList(true);
 									else
 										filterList(false);
@@ -182,7 +182,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		if (dateRangeSelector == null) {
 			dateRangeSelector = new SelectCombo(Accounter.messages().date());
 			dateRangeSelector.setHelpInformation(true);
-			dateRangeSelector.setWidth("150px");
+			// dateRangeSelector.setWidth("150px");
 			List<String> typeList = new ArrayList<String>();
 			typeList.add(Accounter.messages().active());
 			typeList.add(Accounter.messages().inActive());
@@ -309,8 +309,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlayTop.add(addNewLabel);
 			if (getAddNewLabelString().length() != 0) {
 				hlayTop.setCellWidth(addNewLabel, getAddNewLabelString()
-						.length()
-						+ "px");
+						.length() + "px");
 			}
 		}
 		if (isViewSelectRequired)
