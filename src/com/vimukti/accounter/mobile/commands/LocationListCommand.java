@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.web.client.Global;
 
 public class LocationListCommand extends NewAbstractCommand {
 
@@ -65,7 +66,8 @@ public class LocationListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(Location value) {
 				Record record = new Record(value);
-				record.add(getMessages().locationName(), value.getName());
+				record.add(getMessages().locationName(Global.get().Location()),
+						value.getName());
 				return record;
 			}
 
