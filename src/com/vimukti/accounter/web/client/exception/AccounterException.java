@@ -81,6 +81,8 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int USED_IN_INVOICE = 17;
 
+	public static final int INVOICE_PAID_VOID_IT = 18;
+
 	protected int errorCode;
 
 	// private long id;

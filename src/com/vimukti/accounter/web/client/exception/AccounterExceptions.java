@@ -5,7 +5,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class AccounterExceptions {
 
-
 	public static AccounterMessages accounterMessages = (AccounterMessages) GWT
 			.create(AccounterMessages.class);
 
@@ -53,6 +52,9 @@ public class AccounterExceptions {
 			return accounterMessages.transactionReconcilied();
 		case AccounterException.USED_IN_INVOICE:
 			return accounterMessages.usedinInvoiceSoYoucantEdit();
+		case AccounterException.INVOICE_PAID_VOID_IT:
+			return accounterMessages.usedinReceivepayYoucantEdit();
+
 		default:
 			return null;
 		}
