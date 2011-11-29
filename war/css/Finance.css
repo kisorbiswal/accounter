@@ -395,13 +395,13 @@ select[multiple] {
 	height: 5px;
 }
 .td00,.td02{
-	width: 8px;
+	width: 4px;
 }
 div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scroll-panel {
 	overflow-y: auto;
 }
 .panel-title {
-	margin-top: 7px;
+	margin-top: 4px;
 	text-transform: uppercase;
 }
 .border,.treeGrid {
@@ -1700,10 +1700,32 @@ input.date-field-textbox{
 .currentmonth{
 	border: 1px solid #3299A4;
 }
+.settingsButton{
+	float: right;
+}
+.portlet_close_button,.portlet_config_button{
+	width: 13px;
+}
+.portlet_close_button button{
+	padding: 8px 7px 7px;
+}
+.goToLink{
+	float: right;
+    font-size: 13px;
+    margin-top: 4px;
+    color: #FFFFFF;
+}
 .no_records .norecord-empty-message{
 	border-bottom: medium none;
     border-right: medium none;
     margin-left: 400px;
     position: absolute;
     z-index: 1;
+}
+.quick-links-table{
+	
+}
+.portletColumn .gridHeaderParent{
+	visibility: collapse !important;
+	height: 0px !important;
 }
