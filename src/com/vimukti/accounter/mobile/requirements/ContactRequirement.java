@@ -1,10 +1,14 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.UserCommand;
 
 public abstract class ContactRequirement extends ListRequirement<Contact> {
 
@@ -48,19 +52,28 @@ public abstract class ContactRequirement extends ListRequirement<Contact> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().contact()));
+		list.add(new UserCommand(getMessages().create(getMessages().contact()),
+				getPayee().getID()));
 	}
 
 	@Override
 	protected String getSelectString() {
 		return getMessages().selectFor(getMessages().contact(),
-				getContactHolderName());
+				getPayee().getName());
 	}
 
-	protected abstract String getContactHolderName();
+	protected abstract Payee getPayee();
 
 	@Override
 	protected boolean filter(Contact e, String name) {
 		return e.getName().contains(name);
+	}
+
+	@Override
+	protected List<Contact> getLists(Context context) {
+		Payee payee = getPayee();
+		payee = (Payee) context.getHibernateSession().get(Payee.class,
+				payee.getID());
+		return new ArrayList<Contact>(payee.getContacts());
 	}
 }

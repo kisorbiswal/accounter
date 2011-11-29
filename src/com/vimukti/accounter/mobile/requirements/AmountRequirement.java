@@ -13,6 +13,12 @@ public class AmountRequirement extends SingleRequirement<Double> {
 	}
 
 	@Override
+	public <T> T getValue() {
+		Object value2 = super.getValue();
+		return (T) (value2 == null ? 0d : value2);
+	}
+
+	@Override
 	public boolean isDone() {
 		Double value = getValue();
 		if (isOptional()) {
