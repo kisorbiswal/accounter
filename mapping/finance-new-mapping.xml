@@ -107,4 +107,30 @@
 			lazy="false" column="CLIENT">
 		</many-to-one>
 	</class>
+
+	<class name="PortletPageConfiguration" table="PORTLET_PAGE_CONFIGURATION">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="pageName" column="PAGE_NAME"></property>
+		<list name="portlets" cascade="save-update,delete" lazy="false">
+			<key column="PORTLET_CONFIG_ID" />
+			<list-index column="PORTLET_CONFIGURATION_ID" />
+			<one-to-many class="PortletConfiguration" />
+		</list>
+		<many-to-one name="user" column="USER_ID" class="User"
+			lazy="false" not-null="true">
+		</many-to-one>
+		<property name="columns" column="COLUMNS" type="integer"></property>
+	</class>
+
+	<class name="PortletConfiguration" table="PORTLET_CONFIGURATION">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="portletName" column="PORTLET_NAME"></property>
+		<property name="column" column="COLUMN_NO" type="integer"></property>
+	</class>
+
+
 </hibernate-mapping>

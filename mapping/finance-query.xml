@@ -6058,7 +6058,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="Long" />
 		<query-param name="endDate" type="Long" />
-		<query-param name="customerId" type="String" />
+		<query-param name="payeeId" type="String" />
 
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
@@ -6160,11 +6160,13 @@
 		C.PAYMENT_TERM_ID
 
 		WHERE T.COMPANY_ID=:companyId AND (T.T_DATE between
-		:startDate and :endDate) AND P.ID =:customerId AND
+		:startDate and :endDate) AND P.ID =:payeeId AND
 		T.T_TYPE IN (4, 5,
-		8, 12, 16, 29) AND T.IS_VOID = FALSE AND
+		8,
+		12, 16, 29) AND T.IS_VOID = FALSE AND
 		CASE WHEN (SELECT
-		COUNT(PA2.TYPE) FROM PAYEE_ADDRESS PA2 WHERE
+		COUNT(PA2.TYPE)
+		FROM PAYEE_ADDRESS PA2 WHERE
 		PA2.PAYEE_ID = P.ID) != 0
 		THEN PA.TYPE = 2
 		ELSE
@@ -6181,76 +6183,109 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="Long" />
 		<query-param name="endDate" type="Long" />
-		<query-param name="vendorId" type="String" />
-		<query-param name="dueDays" type="int" />
-		<query-param name="dontShowZero" type="Boolean" />
-		<query-param name="lessBalance" type="Double" />
-		<query-param name="isActivePayee" type="Boolean" />
+		<query-param name="payeeId" type="String" />
 
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
-		<return-scalar column="DUE_DATE" type="long" />
-		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TOTAL" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="CUSTOMER_NAME" type="string" />
-		<return-scalar column="ADDRESS1" type="string" />
-		<return-scalar column="ADDRESS2" type="string" />
-		<return-scalar column="CITY" type="string" />
-		<return-scalar column="STATE" type="string" />
-		<return-scalar column="COUNTRY" type="string" />
-		<return-scalar column="ZIP" type="string" />
 
-		SELECT T.T_TYPE AS TRANSACTION_TYPE,
+		SELECT T.T_DATE AS TRANSACTION_DATE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
 		T.NUMBER AS TRANSACTION_NUMBER,
-		T.T_DATE AS TRANSACTION_DATE,
-		E.DUE_DATE AS DUE_DATE,
-		SUM(T.TOTAL) AS
-		TOTAL,
-		SUM(E.BALANCE_DUE) AS BALANCE,
-		P.NAME AS CUSTOMER_NAME,
-		PA.ADDRESS1 AS ADDRESS1,
-		PA.STREET AS ADDRESS2,
-		PA.CITY AS CITY,
-		PA.STATE AS STATE,
-		PA.COUNTRY AS COUNTRY,
-		PA.ZIP AS ZIP
-
-		FROM TRANSACTION
-		T
-		LEFT OUTER JOIN ENTER_BILL E ON E.ID = T.ID
-		LEFT OUTER JOIN PAYEE P ON
-		P.ID = E.VENDOR_ID
-		LEFT OUTER JOIN PAYEE_ADDRESS PA ON PA.PAYEE_ID =
-		P.ID
-
-		WHERE T.COMPANY_ID=:companyId AND T.T_DATE between :startDate and
-		:endDate AND P.ID =:vendorId AND
-		T.T_TYPE IN (6) AND
-		CASE WHEN (SELECT
-		COUNT(PA2.TYPE) FROM PAYEE_ADDRESS PA2 WHERE
-		PA2.PAYEE_ID = P.ID) != 0
-		THEN PA.TYPE = 2
-		ELSE
-		TRUE
-		END AND
-		CASE WHEN :dueDays &gt; 0
+		T.TOTAL AS
+		TRANSACTION_TOTAL,
+		CASE
+		WHEN
+		T.T_TYPE = 6 THEN
+		E.BALANCE_DUE
+		<!--- WHEN T.T_TYPE = 3 THEN CC.BALANCE_DUE -->
+		WHEN T.T_TYPE =
+		14 THEN
+		-1*VCM.BALANCE_DUE
+		WHEN T.T_TYPE = 16
 		THEN
-		DATEDIFF(CURDATE(),CONVERT(E.DUE_DATE,DATE)) &gt; 0
-		ELSE TRUE END AND
-		CASE WHEN :dontShowZero
-		THEN BALANCE &gt; 0
-		ELSE TRUE END AND
-		CASE WHEN
-		:lessBalance &gt; 0
-		THEN BALANCE &gt; :lessBalance
-		ELSE TRUE END AND
-		CASE WHEN :isActivePayee
-		THEN P.IS_ACTIVE = TRUE
-		ELSE TRUE END
+		TI.LINE_TOTAL
+		WHEN T.T_TYPE =
+		26 THEN
+		EX.AMOUNT_DUE
+		WHEN T.T_TYPE =
+		27 THEN
+		EX.AMOUNT_DUE
+		END AS
+		BALANCE,
 
-		GROUP BY
-		(T.T_DATE &lt; :fromDate)
+		T.ID AS TRANSACTION_ID FROM TRANSACTION T
+
+		LEFT OUTER
+		JOIN
+		ENTER_BILL
+		E ON
+		E.ID
+		= T.ID
+		LEFT OUTER JOIN
+		VENDOR_CREDIT_MEMO VCM
+		ON
+		VCM.ID = T.ID
+		LEFT OUTER
+		JOIN WRITE_CHECKS WC ON
+		T.ID = WC.ID
+		LEFT
+		OUTER
+		JOIN
+		CREDIT_CARD_CHARGES
+		CC ON CC.ID=T.ID
+		LEFT OUTER
+		JOIN PAY_BILL
+		PB ON
+		PB.ID=T.ID
+		LEFT OUTER JOIN
+		JOURNAL_ENTRY JE ON JE.ID =
+		T.ID
+		LEFT
+		OUTER
+		JOIN EXPENSE EX ON EX.ID =
+		T.ID
+		LEFT OUTER JOIN
+		TRANSACTION_ITEM TI ON
+		TI.TRANSACTION_ID = T.ID
+
+		LEFT
+		OUTER
+		JOIN PAYEE P
+		ON
+		P.ID =
+		E.VENDOR_ID
+		OR
+		P.ID = VCM.VENDOR_ID
+		OR P.ID
+		=
+		WC.VENDOR_ID
+		OR P.ID =
+		CC.VENDOR_ID
+		OR P.ID =
+		PB.VENDOR_ID
+		OR P.ID =
+		JE.PAYEE_ID
+		OR P.ID = EX.ID
+
+		WHERE T.T_TYPE IN
+		(3,6,11,14,15,16,26,27)
+		AND
+		P.ID =:payeeId
+		AND
+		T.T_DATE
+		BETWEEN
+		:startDate AND :endDate
+		AND
+		T.STATUS
+		!=204 AND
+		T.COMPANY_ID=:companyId
+
+
 
 	</sql-query>
 
@@ -6704,40 +6739,50 @@
 		END -
 		CASE WHEN (SELECT SUM(T.TOTAL) FROM TRANSACTION T
 		LEFT OUTER
-		JOIN CASH_SALES
+		JOIN
+		CASH_SALES
 		CS ON CS.ID = T.ID
 		LEFT OUTER JOIN CUSTOMER_PREPAYMENT
-		CP ON CP.ID =
+		CP ON
+		CP.ID =
 		T.ID
 		LEFT OUTER JOIN RECEIVE_PAYMENT RP ON RP.ID = T.ID
 
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		CUSTOMER C ON C.ID = CS.CUSTOMER_ID
 		OR C.ID =
 		CP.CUSTOMER_ID
 		OR C.ID =
 		RP.CUSTOMER_ID
 
-		WHERE T.COMPANY_ID=:companyId AND C.ID =:customerId AND
+		WHERE T.COMPANY_ID=:companyId AND C.ID
+		=:customerId AND
 		T.T_DATE &lt;:fromDate
 
 		GROUP BY C.ID) IS NOT NULL
-		THEN (SELECT  SUM(T.TOTAL)
+		THEN
+		(SELECT SUM(T.TOTAL)
 		FROM TRANSACTION T
 
-		LEFT OUTER JOIN CASH_SALES CS ON CS.ID = T.ID
+		LEFT OUTER JOIN CASH_SALES CS ON
+		CS.ID = T.ID
 		LEFT
 		OUTER JOIN CUSTOMER_PREPAYMENT CP ON CP.ID = T.ID
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		RECEIVE_PAYMENT RP ON RP.ID = T.ID
 
-		LEFT OUTER JOIN CUSTOMER C ON C.ID =
+		LEFT OUTER JOIN CUSTOMER C
+		ON C.ID =
 		CS.CUSTOMER_ID
 		OR C.ID = CP.CUSTOMER_ID
-		OR C.ID = RP.CUSTOMER_ID
+		OR C.ID =
+		RP.CUSTOMER_ID
 
 		WHERE
-		T.COMPANY_ID=:companyId AND C.ID =:customerId AND T.T_DATE
+		T.COMPANY_ID=:companyId AND C.ID =:customerId AND
+		T.T_DATE
 		&lt;:fromDate
 		GROUP BY C.ID)
 		ELSE 0
@@ -7135,6 +7180,28 @@
 		DESC
 		LIMIT 1;
 	</sql-query>
+
+	<query name="getPortletPageConfiguration">
+		<query-param name="pageName" type="string" />
+		<query-param name="userId" type="long" />
+		from com.vimukti.accounter.core.PortletPageConfiguration p where
+		p.pageName=:pageName AND p.user.id=:userId
+	</query>
+
+
+	<sql-query name="getWhoIOweVendors">
+		<query-param name="companyId" type="long" />
+		SELECT p.id FROM PAYEE p WHERE p.BALANCE>0 AND p.TYPE=2 AND
+		p.COMPANY_ID=:companyId
+	</sql-query>
+
+	<sql-query name="getWhoOwesMeCustomers">
+		<query-param name="companyId" type="long" />
+		SELECT p.id FROM PAYEE p WHERE p.BALANCE>0 AND p.TYPE=1 AND
+		p.COMPANY_ID=:companyId
+	</sql-query>
+
+
 	<query name="getCustomersOrderByName">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Customer c where c.company=:company
@@ -7145,6 +7212,26 @@
 		from com.vimukti.accounter.core.Vendor c where c.company=:company
 		order by c.name
 	</query>
+
+	<sql-query name="getRecentTransactionList">
+		<query-param name="companyId" type="long" />
+		<query-param name="limit" type="int" />
+
+		SELECT a.ID FROM ACTIVITY a
+		LEFT JOIN TRANSACTION T ON
+		T.ID=a.OBJECT_ID
+		WHERE T.IS_VOID=false AND
+		a.OBJECT_TYPE BETWEEN 1 AND
+		31 AND
+		a.COMPANY_ID=:companyId AND
+		a.ACTIVITY_TYPE=2
+		OR a.ACTIVITY_TYPE=3 AND
+		NOT EXISTS (select 1 from ACTIVITY where ID = a.ID and OBJECT_ID >
+		a.OBJECT_ID)
+		GROUP BY
+		a.ID ORDER by a.TRANSACTION_DATE DESC LIMIT :limit
+
+	</sql-query>
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
