@@ -1112,9 +1112,10 @@ public class ReceivePaymentView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
+		gridView.updateAmountsFromGUI();
 		paymentAmountChanged(amtText.getAmount());
 		modifyForeignCurrencyTotalWidget();
-		gridView.updateAmountsFromGUI();
+
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {

@@ -103,8 +103,7 @@ public class ReceiveVATView extends
 		transNumber.setToolTip(Accounter.messages().giveNoTo(
 				this.getAction().getViewName()));
 
-		depositInAccCombo = new DepositInAccountCombo(
-				messages.depositIn());
+		depositInAccCombo = new DepositInAccountCombo(messages.depositIn());
 		depositInAccCombo.setHelpInformation(true);
 		depositInAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.DEPOSIT_IN_ACCOUNT));
@@ -191,14 +190,13 @@ public class ReceiveVATView extends
 		// fileterForm.setFields(billsDue);
 		// fileterForm.setWidth("80%");
 
-		amountText = new AmountField(messages.amount(), this,
-				getBaseCurrency());
+		amountText = new AmountField(messages.amount(), this, getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
-		endingBalanceText = new AmountField(messages.bankBalance(),
-				this, getBaseCurrency());
+		endingBalanceText = new AmountField(messages.bankBalance(), this,
+				getBaseCurrency());
 		endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);
@@ -480,8 +478,7 @@ public class ReceiveVATView extends
 		ValidationResult result = new ValidationResult();
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					messages.invalidateDate());
+			result.addError(transactionDate, messages.invalidateDate());
 		}
 		result.add(mainform.validate());
 		if (isInViewMode()) {
@@ -629,7 +626,7 @@ public class ReceiveVATView extends
 	@Override
 	public void onEdit() {
 
-		if (transaction.canEdit) {
+		if (!transaction.isVoid()) {
 			Accounter.showWarning(AccounterWarningType.TAXREFUND_EDITING,
 					AccounterType.WARNING, new ErrorDialogHandler() {
 
@@ -682,6 +679,8 @@ public class ReceiveVATView extends
 							return true;
 						}
 					});
+		} else if (transaction.isVoid() || transaction.isDeleted()) {
+			Accounter.showError(Accounter.messages().failedtovoidTransaction());
 		}
 
 	}
@@ -692,6 +691,7 @@ public class ReceiveVATView extends
 		billsDue.setDisabled(isInViewMode());
 		// vatAgencyCombo.setDisabled(isInViewMode());
 		depositInAccCombo.setDisabled(isInViewMode());
+		grid.setDisabled(isInViewMode());
 		super.onEdit();
 
 		fillGrid();

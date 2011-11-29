@@ -22,9 +22,11 @@ public class Activity extends CreatableObject {
 
 	private FinanceDate transactionDate;
 
-	private double amount;
+	private Double amount;
 
 	private String description;
+
+	private long currency;
 
 	public Activity() {
 	}
@@ -46,7 +48,8 @@ public class Activity extends CreatableObject {
 	private void setObject(IAccounterServerCore obj) {
 		if (obj instanceof Transaction) {
 			Transaction tr = (Transaction) obj;
-			this.amount = tr.getTotal();
+			this.amount = tr.getTotal() / tr.getCurrencyFactor();
+			currency = tr.getCurrency().getID();
 			this.transactionDate = tr.getDate();
 			Payee payee = tr.getInvolvedPayee();
 			if (payee != null) {
@@ -163,6 +166,21 @@ public class Activity extends CreatableObject {
 
 	public void setObjType(int objType) {
 		this.objType = objType;
+	}
+
+	/**
+	 * @return the currency
+	 */
+	public long getCurrency() {
+		return currency;
+	}
+
+	/**
+	 * @param currency
+	 *            the currency to set
+	 */
+	public void setCurrency(long currency) {
+		this.currency = currency;
 	}
 
 }

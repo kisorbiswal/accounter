@@ -11,8 +11,6 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Util;
-import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
@@ -158,24 +156,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 		ClientUserInfo invitedser = (ClientUserInfo) coreObject;
 
-		IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
-				.getMainServerDomain());
-		// Creating Use in Local Company Database
 		ClientUser coreUser = convertUserInfoToUser(invitedser);
-		// Creating Clien
-		try {
-			Long companyId = (Long) getThreadLocalRequest().getSession()
-					.getAttribute(COMPANY_ID);
-			boolean userExists = s2sSyncProxy.inviteUser(companyId, invitedser,
-					getUserEmail());
-			coreUser.setActive(userExists);
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (e instanceof AccounterException) {
-				throw (AccounterException) e;
-			}
-			throw new AccounterException(AccounterException.ERROR_INTERNAL);
-		}
 
 		String clientClassSimpleName = coreUser.getObjectType()
 				.getClientClassSimpleName();

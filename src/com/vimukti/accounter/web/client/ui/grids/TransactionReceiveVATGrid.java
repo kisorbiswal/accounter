@@ -88,8 +88,8 @@ public class TransactionReceiveVATGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.taxAgency(),
-				messages.taxDue(), messages.amountToReceive() };
+		return new String[] { messages.taxAgency(), messages.taxDue(),
+				messages.amountToReceive() };
 	}
 
 	@Override
@@ -105,9 +105,8 @@ public class TransactionReceiveVATGrid extends
 					getAmountInForeignCurrency(payVAT.getTaxDue()), currency);
 
 		case 2:
-			return DataUtils.amountAsStringWithCurrency(
-					getAmountInForeignCurrency(payVAT.getAmountToReceive()),
-					currency);
+			return String.valueOf(getAmountInForeignCurrency(payVAT
+					.getAmountToReceive()));
 		default:
 			break;
 		}

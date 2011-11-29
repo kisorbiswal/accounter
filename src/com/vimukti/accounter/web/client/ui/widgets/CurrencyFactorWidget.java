@@ -149,14 +149,23 @@ public class CurrencyFactorWidget extends DynamicForm {
 
 								@Override
 								public void onFailure(Throwable caught) {
-									setCurrencyFactor(1.0);
+									gotTodaysCurrencyFactor(1);
 								}
 
 								@Override
 								public void onSuccess(Double result) {
-									setCurrencyFactor(result);
+									gotTodaysCurrencyFactor(result);
 								}
 							});
+		} else {
+			setCurrencyFactor(1);
+		}
+	}
+
+	private void gotTodaysCurrencyFactor(double currencyFactor) {
+		setCurrencyFactor(currencyFactor);
+		if (listener != null) {
+			listener.currencyChanged(selectedCurrencyItem, currencyFactor);
 		}
 	}
 

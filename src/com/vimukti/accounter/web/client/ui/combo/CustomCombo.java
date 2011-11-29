@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * @author Malcom Fernandez
  */
 public abstract class CustomCombo<T> extends DropDownCombo<T> {
-	protected AccounterMessages messages = Accounter.messages();
+	protected static final AccounterMessages messages = Accounter.messages();
 
 	public CustomCombo(String title, boolean isAddNewRequire, int noOfCols) {
 		super(title, isAddNewRequire, noOfCols);
@@ -76,8 +76,8 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 
 				if (!GWT.isScript()) {
 					caught.printStackTrace();
-					Accounter.showError(Accounter.messages()
-							.sorryFailedToAdd());
+					Accounter
+							.showError(Accounter.messages().sorryFailedToAdd());
 				}
 
 			}

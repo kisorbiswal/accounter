@@ -773,8 +773,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 
 		if (this.getCustomer() != null && !this.getCustomer().equals(customer)
-				&& transaction == null)
-			customerTransactionTable.clear();
+				&& transaction.getID() == 0)
+			customerTransactionTable.resetRecords();
 
 		this.setCustomer(customer);
 		super.customerSelected(customer);

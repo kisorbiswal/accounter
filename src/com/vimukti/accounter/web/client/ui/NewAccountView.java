@@ -522,29 +522,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			paypalForm = UIUtils.form("Paypal Information");
 			paypalForm.setWidth("100%");
 
-			typeSelect = new SelectCombo("Paypal Type");
-			typeSelect.setRequired(true);
-			// typeSelect.setWidth(100);
-			// typeSelect.setWidth("*");
-			typeSelect.setDisabled(isInViewMode());
-			typeMap = new ArrayList<String>();
-
-			typeMap.add(AccounterClientConstants.ADD_NEW_TYPE);
-			typeMap.add(AccounterClientConstants.PAYPALTYPE_PERSONAL);
-			typeMap.add(AccounterClientConstants.PAYPALTYPE_PREMIUM);
-			typeMap.add(AccounterClientConstants.PAYPALTYPE_BUSINESS);
-			typeSelect.initCombo(typeMap);
-			typeSelect
-					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-						@Override
-						public void selectedComboBoxItem(String selectItem) {
-							if (selectItem != null)
-								typeSelect.setComboItem(selectItem);
-							data.setPaypalType(selectItem);
-						}
-					});
-			typeSelect.setRequired(true);
 			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
 
 			bankAccNumText = new TextItem(messages.bankAccountNumber());
@@ -576,8 +553,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			});
 
 			// accNameText.setWidth("*");
-			paypalForm.setFields(/* getBankNameSelectItem(), */typeSelect,
-					paypalEmail);
+			paypalForm.setFields(/* getBankNameSelectItem(), */paypalEmail);
 
 			// bankForm.setWidth("100%");
 			// bankForm.setAutoHeight();
@@ -1216,9 +1192,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private void getPaypalData() {
 		if (data.getPaypalEmail() != null) {
 			paypalEmail.setValue(data.getPaypalEmail());
-		}
-		if (data.getPaypalType() != null) {
-			typeSelect.setSelected(data.getPaypalType());
 		}
 	}
 

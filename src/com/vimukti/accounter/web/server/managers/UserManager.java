@@ -103,7 +103,7 @@ public class UserManager extends Manager {
 			User user = (User) session.get(User.class, clientUser.getID());
 
 			String userID = updateContext.getUserEmail();
-			
+
 			Client updateClient = getClient(clientUser.getEmail());
 			updateClient.setFirstName(clientUser.getFirstName());
 			updateClient.setLastName(clientUser.getLastName());
@@ -305,6 +305,7 @@ public class UserManager extends Manager {
 				user.setClient(invitedClient);
 			}
 		}
+		user.setActive(userExists);
 		session.setFlushMode(flushMode);
 		session.save(invitedClient);
 		if (userExists) {

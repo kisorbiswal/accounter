@@ -147,15 +147,19 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 			@Override
 			public String getValue(ClientActivity object) {
-				return DataUtils.getAmountAsString(object.getAmount());
+				if (object.getAmount() != null) {
+					return DataUtils.amountAsStringWithCurrency(
+							object.getAmount(), object.getCurrency());
+				}
+				return "";
 			}
 		};
 		this.addColumn(dateColumn, messages.modifiedTime());
-		this.addColumn(userNameColumn,messages.userName());
+		this.addColumn(userNameColumn, messages.userName());
 		this.addColumn(activityColumn, messages.activity());
-		this.addColumn(nameColumn,messages.name());
+		this.addColumn(nameColumn, messages.name());
 		this.addColumn(transactionDateColumn, messages.date());
-		this.addColumn(amountColumn,messages.amount());
+		this.addColumn(amountColumn, messages.amount());
 		this.setColumnWidth(dateColumn, "170px");
 		this.setColumnWidth(userNameColumn, "160px");
 		this.setColumnWidth(activityColumn, "200px");

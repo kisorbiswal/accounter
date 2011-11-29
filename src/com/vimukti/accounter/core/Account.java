@@ -264,8 +264,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	private String paypalEmail;
 
-	private String paypalType;
-
 	/**
 	 * Constructor of Account class
 	 */
@@ -1334,14 +1332,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	public String getPaypalEmail() {
 		return paypalEmail;
-	}
-
-	public void setPaypalType(String paypalType) {
-		this.paypalType = paypalType;
-	}
-
-	public String getPaypalType() {
-		return paypalType;
 	}
 
 	@Override

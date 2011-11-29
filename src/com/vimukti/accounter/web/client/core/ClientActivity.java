@@ -26,13 +26,15 @@ public class ClientActivity implements IAccounterCore {
 
 	private ClientFinanceDate transactionDate;
 
-	private double amount;
+	private Double amount;
 
 	private int activityType;
 
 	private int objType;
 
 	private String description;
+
+	private long currency;
 
 	public long getId() {
 		return id;
@@ -163,5 +165,20 @@ public class ClientActivity implements IAccounterCore {
 
 	public void setObjType(int objType) {
 		this.objType = objType;
+	}
+
+	/**
+	 * @return the currency
+	 */
+	public long getCurrency() {
+		return currency;
+	}
+
+	/**
+	 * @param currency
+	 *            the currency to set
+	 */
+	public void setCurrency(long currency) {
+		this.currency = currency;
 	}
 }

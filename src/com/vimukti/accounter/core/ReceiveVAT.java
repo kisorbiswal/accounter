@@ -248,6 +248,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 					}
 				}
 			}
+			depositIn.updateCurrentBalance(this, total, this.currencyFactor);
 		}
 		return false;
 	}

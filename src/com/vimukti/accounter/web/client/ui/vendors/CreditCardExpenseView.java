@@ -38,8 +38,8 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
+import com.vimukti.accounter.web.client.ui.combo.CreditCardAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
@@ -67,7 +67,7 @@ public class CreditCardExpenseView extends
 
 	protected DynamicForm vendorForm, addrForm, phoneForm, termsForm, memoForm;
 	protected SelectCombo payMethSelect;
-	protected PayFromAccountsCombo payFrmSelect;
+	protected CreditCardAccountCombo creditCardCombo;
 
 	protected String selectPaymentMethod;
 
@@ -305,12 +305,12 @@ public class CreditCardExpenseView extends
 		// .getpaymentMethodCheckBy_CompanyType(messages
 		// .check()));
 
-		payFrmSelect = createPayFromselectItem();
-		payFrmSelect.setWidth(100);
-		payFrmSelect.setPopupWidth("510px");
-		payFrmSelect.setTitle(messages.payFrom());
+		creditCardCombo = createCreditCardItem();
+		creditCardCombo.setWidth(100);
+		creditCardCombo.setPopupWidth("510px");
+		creditCardCombo.setTitle(messages.payFrom());
 		payFromAccount = 0;
-		payFrmSelect.setColSpan(0);
+		creditCardCombo.setColSpan(0);
 		// formItems.add(payFrmSelect)
 		cheqNoText = new TextItem(messages.chequeNo());
 
@@ -329,7 +329,7 @@ public class CreditCardExpenseView extends
 		termsForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
-		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
+		termsForm.setFields(payMethSelect, creditCardCombo, delivDate);
 		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
 		// messages.width(), "203px");
 		if (getPreferences().isClassTrackingEnabled()
@@ -572,10 +572,36 @@ public class CreditCardExpenseView extends
 		listforms.add(totForm);
 
 		if (isInViewMode()) {
-			payFrmSelect.setComboItem(getCompany().getAccount(
+			creditCardCombo.setComboItem(getCompany().getAccount(
 					transaction.getPayFrom()));
 		}
 
+	}
+
+	private CreditCardAccountCombo createCreditCardItem() {
+		CreditCardAccountCombo creditCardAccountCombo = new CreditCardAccountCombo(
+				Accounter.messages().creditCard());
+		creditCardAccountCombo.setHelpInformation(true);
+		creditCardAccountCombo.setRequired(true);
+		// payFrmSelect.setWidth("*");
+		creditCardAccountCombo.setColSpan(3);
+
+		// payFrmSelect.setWidth("*");
+		// payFrmSelect.setWrapTitle(false);
+		creditCardAccountCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+
+					public void selectedComboBoxItem(ClientAccount selectItem) {
+						payFromAccountSelected(selectItem.getID());
+						// selectedAccount = (Account) selectItem;
+						// adjustBalance();
+
+					}
+
+				});
+		creditCardAccountCombo.setDisabled(isInViewMode());
+		// payFrmSelect.setShowDisabled(false);
+		return creditCardAccountCombo;
 	}
 
 	@Override
@@ -593,18 +619,18 @@ public class CreditCardExpenseView extends
 		// Global.get().vendor()));
 		result.add(vendorAccountTransactionTable.validateGrid());
 		result.add(vendorItemTransactionTable.validateGrid());
-		if (payFrmSelect.getSelectedValue() == null) {
-			result.addError(payFrmSelect,
+		if (creditCardCombo.getSelectedValue() == null) {
+			result.addError(creditCardCombo,
 					messages.pleaseSelect(messages.payFrom()));
 		} else {
-			ClientAccount bankAccount = payFrmSelect.getSelectedValue();
+			ClientAccount bankAccount = creditCardCombo.getSelectedValue();
 			// check if the currency of accounts is valid or not
 			if (bankAccount != null) {
 				ClientCurrency bankCurrency = getCurrency(bankAccount
 						.getCurrency());
 				if (!(bankCurrency.equals(getBaseCurrency()))
 						&& !(bankCurrency.equals(currency))) {
-					result.addError(payFrmSelect,
+					result.addError(creditCardCombo,
 							messages.selectProperBankAccount());
 				}
 			}
@@ -691,8 +717,9 @@ public class CreditCardExpenseView extends
 
 			if (transaction.getPayFrom() != 0)
 				payFromAccountSelected(transaction.getPayFrom());
-			payFrmSelect.setComboItem(getCompany().getAccount(payFromAccount));
-			payFrmSelect.setDisabled(isInViewMode());
+			creditCardCombo.setComboItem(getCompany()
+					.getAccount(payFromAccount));
+			creditCardCombo.setDisabled(isInViewMode());
 			cheqNoText.setDisabled(isInViewMode());
 			cheqNoText.setValue(transaction.getCheckNumber());
 			paymentMethodSelected(transaction.getPaymentMethod());
@@ -729,18 +756,18 @@ public class CreditCardExpenseView extends
 		// listOfAccounts = Utility.getPayFromAccounts(FinanceApplication
 		// .getCompany());
 		// getPayFromAccounts();
-		listOfAccounts = payFrmSelect.getAccounts();
+		listOfAccounts = creditCardCombo.getAccounts();
 
-		payFrmSelect.initCombo(listOfAccounts);
-		payFrmSelect.setAccountTypes(UIUtils
+		creditCardCombo.initCombo(listOfAccounts);
+		creditCardCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
-		payFrmSelect.setAccounts();
-		payFrmSelect.setDisabled(isInViewMode());
+		creditCardCombo.setAccounts();
+		creditCardCombo.setDisabled(isInViewMode());
 
-		account = payFrmSelect.getSelectedValue();
+		account = creditCardCombo.getSelectedValue();
 
 		if (account != null)
-			payFrmSelect.setComboItem(account);
+			creditCardCombo.setComboItem(account);
 	}
 
 	private void addVendorsList() {
@@ -870,8 +897,8 @@ public class CreditCardExpenseView extends
 		transaction.setPaymentMethod(payMethSelect.getSelectedValue());
 
 		// Setting pay from
-		if (payFrmSelect.getSelectedValue() != null)
-			payFromAccount = payFrmSelect.getSelectedValue().getID();
+		if (creditCardCombo.getSelectedValue() != null)
+			payFromAccount = creditCardCombo.getSelectedValue().getID();
 		if (payFromAccount != 0)
 			transaction.setPayFrom(getCompany().getAccount(payFromAccount)
 					.getID());
@@ -971,7 +998,7 @@ public class CreditCardExpenseView extends
 		vendorCombo.setDisabled(isInViewMode());
 		contactCombo.setDisabled(isInViewMode());
 		phoneSelect.setDisabled(isInViewMode());
-		payFrmSelect.setDisabled(isInViewMode());
+		creditCardCombo.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
 		vendorItemTransactionTable.setDisabled(isInViewMode());

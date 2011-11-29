@@ -462,8 +462,8 @@ public class AccounterMenuBar extends HorizontalPanel {
 			bankingMenuBar.addMenuItem(ActionFactory.getPayBillsAction());
 		// bankingMenuBar.addItem(ActionFactory.getEnterPaymentsAction());
 		bankingMenuBar.addSeparatorItem();
-		bankingMenuBar.addMenuItem(ActionFactory.getCreditCardChargeAction());
-		bankingMenuBar.addSeparatorItem();
+		// bankingMenuBar.addMenuItem(ActionFactory.getCreditCardChargeAction());
+		// bankingMenuBar.addSeparatorItem();
 		bankingMenuBar
 				.addMenuItem(ActionFactory.getReconciliationsListAction());
 		bankingMenuBar.addSeparatorItem();
@@ -643,63 +643,45 @@ public class AccounterMenuBar extends HorizontalPanel {
 		return factory.createMenu();
 	}
 
-/*	private Command getMergeCustomerCommand() {
-		Command dashBoardcmd = new Command() {
+	/*
+	 * private Command getMergeCustomerCommand() { Command dashBoardcmd = new
+	 * Command() {
+	 * 
+	 * @Override public void execute() { CustomerMergeDialog customerMergeDialog
+	 * = new CustomerMergeDialog(
+	 * messages.mergeCustomers(Global.get().Customer()),
+	 * messages.payeeMergeDescription(Global.get().customer()));
+	 * 
+	 * customerMergeDialog.show(); } }; return dashBoardcmd; }
+	 * 
+	 * private Command getMergeAccountCommand() { Command dashBoardcmd = new
+	 * Command() {
+	 * 
+	 * @Override public void execute() { AccountMergeDialog accountMergeDialog =
+	 * new AccountMergeDialog( messages.mergeAccounts(), Accounter.messages()
+	 * .mergeDescription()); accountMergeDialog.show(); } }; return
+	 * dashBoardcmd; }
+	 */
 
-			@Override
-			public void execute() {
-				CustomerMergeDialog customerMergeDialog = new CustomerMergeDialog(
-						messages.mergeCustomers(Global.get().Customer()),
-						messages.payeeMergeDescription(Global.get().customer()));
+	/*
+	 * private Command getMergeVendorCommand() { Command dashBoardcmd = new
+	 * Command() {
+	 * 
+	 * @Override public void execute() { VendorMergeDialog vendorMergeDialog =
+	 * new VendorMergeDialog( messages.mergeVendors(Global.get().Vendor()),
+	 * Accounter .messages().payeeMergeDescription( Global.get().vendor()));
+	 * vendorMergeDialog.show(); } }; return dashBoardcmd; }
+	 */
 
-				customerMergeDialog.show();
-			}
-		};
-		return dashBoardcmd;
-	}
-
-	private Command getMergeAccountCommand() {
-		Command dashBoardcmd = new Command() {
-
-			@Override
-			public void execute() {
-				AccountMergeDialog accountMergeDialog = new AccountMergeDialog(
-						messages.mergeAccounts(), Accounter.messages()
-								.mergeDescription());
-				accountMergeDialog.show();
-			}
-		};
-		return dashBoardcmd;
-	}*/
-
-	/*private Command getMergeVendorCommand() {
-		Command dashBoardcmd = new Command() {
-
-			@Override
-			public void execute() {
-				VendorMergeDialog vendorMergeDialog = new VendorMergeDialog(
-						messages.mergeVendors(Global.get().Vendor()), Accounter
-								.messages().payeeMergeDescription(
-										Global.get().vendor()));
-				vendorMergeDialog.show();
-			}
-		};
-		return dashBoardcmd;
-	}*/
-
-	/*private Command getMergeItemCommand() {
-		Command dashBoardcmd = new Command() {
-
-			@Override
-			public void execute() {
-				ItemMergeDialog dialog = new ItemMergeDialog(
-						messages.mergeItems(), messages.itemDescription());
-
-				dialog.show();
-			}
-		};
-		return dashBoardcmd;
-	}*/
+	/*
+	 * private Command getMergeItemCommand() { Command dashBoardcmd = new
+	 * Command() {
+	 * 
+	 * @Override public void execute() { ItemMergeDialog dialog = new
+	 * ItemMergeDialog( messages.mergeItems(), messages.itemDescription());
+	 * 
+	 * dialog.show(); } }; return dashBoardcmd; }
+	 */
 
 	private Command getDashBoardCommand() {
 		Command dashBoardcmd = new Command() {
@@ -761,23 +743,21 @@ public class AccounterMenuBar extends HorizontalPanel {
 
 	private IMenu getMergeSubMenu() {
 		IMenu mergeAccountsMenuBar = getSubMenu();
-//		mergeAccountsMenuBar.addMenuItem(
-//				messages.mergeCustomers(Global.get().Customer()),
-//				getMergeCustomerCommand());
-//		
+		// mergeAccountsMenuBar.addMenuItem(
+		// messages.mergeCustomers(Global.get().Customer()),
+		// getMergeCustomerCommand());
+		//
 		mergeAccountsMenuBar.addMenuItem(
 				messages.mergeCustomers(Global.get().Customer()),
 				ActionFactory.getCustomerMergeAction());
 		mergeAccountsMenuBar.addMenuItem(
 				messages.mergeCustomers(Global.get().Vendor()),
 				ActionFactory.getVendorMergeAction());
-		mergeAccountsMenuBar.addMenuItem(
-				messages.mergeAccounts(),
+		mergeAccountsMenuBar.addMenuItem(messages.mergeAccounts(),
 				ActionFactory.getAccountMergeAction());
-		mergeAccountsMenuBar.addMenuItem(
-				messages.mergeItems(),
+		mergeAccountsMenuBar.addMenuItem(messages.mergeItems(),
 				ActionFactory.getItemMergeAction());
-		
+
 		return mergeAccountsMenuBar;
 	}
 

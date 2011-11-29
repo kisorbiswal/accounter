@@ -37,7 +37,6 @@
 		<property name="hierarchy" column="HIERARCHY"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="flow" column="FLOW"></property>
-		<property name="paypalType" column="PAYPAL_TYPE"></property>
 		<property name="paypalEmail" column="PAYPAL_EMAIL"></property>
 		<many-to-one name="currency" column="ACCOUNT_CURRENCY"
 			class="Currency" not-null="true" lazy="false">
@@ -1823,6 +1822,7 @@
 		<property name="amount" column="AMOUNT"></property>
 		<property name="dataType" column="DATA_TYPE"></property>
 		<property name="description" type="text" column="DESCRIPTION"></property>
+		<property name="currency" type="long" column="CURRENCY"></property>
 
 	</class>
 

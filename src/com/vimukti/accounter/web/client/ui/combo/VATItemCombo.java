@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -158,7 +159,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 
 			@Override
 			public void actionResult(ClientTAXItemGroup result) {
-				addItemThenfireEvent(result);
+				addToCombo(result);
 			}
 		});
 		dialog.show();
@@ -174,6 +175,33 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 		// });
 		//
 		// action.run(null, true);
+	}
+
+	protected void addToCombo(ClientTAXItemGroup result) {
+		if (result instanceof ClientTAXItem) {
+			ClientTAXItem item = (ClientTAXItem) result;
+			ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+					item.getTaxAgency());
+			if (taxAgency != null
+					&& taxAgency.getTaxType() != ClientTAXAgency.TAX_TYPE_TDS) {
+				addItemThenfireEvent(result);
+			}
+		} else {
+			ClientTAXGroup group = (ClientTAXGroup) result;
+			boolean donnotAdd = false;
+			for (ClientTAXItem item : group.getTaxItems()) {
+				ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+						item.getTaxAgency());
+				if (taxAgency != null
+						&& taxAgency.getTaxType() == ClientTAXAgency.TAX_TYPE_TDS) {
+					donnotAdd = true;
+				}
+			}
+			if (!donnotAdd) {
+				addItemThenfireEvent(result);
+			}
+		}
+
 	}
 
 	@Override

@@ -996,6 +996,9 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void updateAmountsFromGUI() {
 		for (ClientTransactionReceivePayment item : this.getAllRows()) {
+			if (selectedValues.contains(indexOf(item))) {
+				updatePayment(item);
+			}
 			updateFromGUI(item);
 		}
 		updateColumnHeaders();
