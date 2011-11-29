@@ -285,38 +285,36 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			if (customer.getName().equalsIgnoreCase(old.getName())) {
 				for (ClientCustomer old2 : list) {
 					if (customer.getNumber().equals(old2.getNumber())) {
-						error = messages
-								.objAlreadyExistsWithNameAndNo(
-										Global.get().customer());
+						error = messages.objAlreadyExistsWithNameAndNo(Global
+								.get().customer());
 						break;
 					}
 				}
-				return messages.objAlreadyExistsWithName(
-						Global.get().customer());
+				return messages.objAlreadyExistsWithName(Global.get()
+						.customer());
 			} else if (customer.getNumber().equals(old.getNumber())) {
 				for (ClientCustomer old2 : list) {
 					if (customer.getName().equalsIgnoreCase(old2.getName())) {
-						error = messages
-								.objAlreadyExistsWithNameAndNo(
-										Global.get().customer());
+						error = messages.objAlreadyExistsWithNameAndNo(Global
+								.get().customer());
 						break;
 					}
 				}
-				return messages.objAlreadyExistsWithNumber(
-						Global.get().customer());
+				return messages.objAlreadyExistsWithNumber(Global.get()
+						.customer());
 			} else if (customer.getNumber() == null
 					|| customer.getNumber().trim().length() == 0) {
 				error = messages
-						.pleaseEnterVendorNumberItShouldNotBeEmpty(
-								Global.get().Customer());
+						.pleaseEnterVendorNumberItShouldNotBeEmpty(Global.get()
+								.Customer());
 				break;
 			} else if (checkIfNotNumber(customer.getNumber())) {
-				error = messages.payeeNumberShouldBeNumber(
-						Global.get().customer());
+				error = messages.payeeNumberShouldBeNumber(Global.get()
+						.customer());
 				break;
 			} else if (Integer.parseInt(customer.getNumber().toString()) < 1) {
-				error = messages.payeeNumberShouldBePos(
-						Global.get().customer());
+				error = messages
+						.payeeNumberShouldBePos(Global.get().customer());
 				break;
 			}
 		}
@@ -575,22 +573,19 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private VerticalPanel getGeneralTab() {
 
-		custNameText = new TextItem(messages.payeeName(
-				Global.get().Customer()));
+		custNameText = new TextItem(messages.payeeName(Global.get().Customer()));
 		TextBox t = new TextBox();
 		if (quickAddText != null) {
 			custNameText.setValue(quickAddText);
 		}
 
-		custNameText.setToolTip(messages.payeeMeaning(
-				Global.get().customer()));
+		custNameText.setToolTip(messages.payeeMeaning(Global.get().customer()));
 		custNameText.setHelpInformation(true);
 		custNameText.setRequired(true);
 		// custNameText.setWidth(100);
 		custNameText.setDisabled(isInViewMode());
 
-		custNoText = new TextItem(messages.payeeNumber(
-				Global.get().Customer()));
+		custNoText = new TextItem(messages.payeeNumber(Global.get().Customer()));
 		custNoText.setHelpInformation(true);
 		custNoText.setRequired(true);
 		custNoText.setWidth(100);
@@ -626,8 +621,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
-		accInfoForm.setGroupTitle(messages.payeeInformation(
-				messages.Account()));
+		accInfoForm
+				.setGroupTitle(messages.payeeInformation(messages.Account()));
 
 		balanceForm = new DynamicForm();
 
@@ -635,14 +630,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		customerSinceDate = new DateField(messages.payeeSince(
-				Global.get().Customer()));
+		customerSinceDate = new DateField(messages.payeeSince(Global.get()
+				.Customer()));
 		customerSinceDate.setHelpInformation(true);
 		customerSinceDate.setDisabled(isInViewMode());
 		customerSinceDate.setEnteredDate(new ClientFinanceDate());
 
-		openingBalText = new AmountField(messages.openingBalance(),
-				this, getBaseCurrency());
+		openingBalText = new AmountField(messages.openingBalance(), this,
+				getBaseCurrency());
 		openingBalText.setHelpInformation(true);
 		openingBalText.setDisabled(isInViewMode());
 
@@ -745,8 +740,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		memoArea = new TextAreaItem();
 		// memoArea.setWidth("400px");
 		memoArea.setTitle(messages.memo());
-		memoArea.setToolTip(messages.writeCommentsForThis(
-				this.getAction().getViewName()));
+		memoArea.setToolTip(messages.writeCommentsForThis(this.getAction()
+				.getViewName()));
 		// Button addLinksButt = new Button("AddLinks");
 		// linksText = new TextItem("");
 		// linksText.setWidth(100);
@@ -866,8 +861,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private HorizontalPanel getDetailsTab() {
 
-		salesPersonSelect = new SalesPersonCombo(
-				messages.salesPerson());
+		salesPersonSelect = new SalesPersonCombo(messages.salesPerson());
 		salesPersonSelect.setHelpInformation(true);
 		salesPersonSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
@@ -884,8 +878,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// salesForm.setFields(salesPersonSelect);
 		// salesForm.setWidth("100%");
 
-		creditLimitText = new AmountField(messages.creditLimit(),
-				this, getBaseCurrency());
+		creditLimitText = new AmountField(messages.creditLimit(), this,
+				getBaseCurrency());
 		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
 
@@ -903,8 +897,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		//
 		// });
 
-		creditRatingSelect = new CreditRatingCombo(
-				messages.creditRating());
+		creditRatingSelect = new CreditRatingCombo(messages.creditRating());
 		creditRatingSelect.setHelpInformation(true);
 		creditRatingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
@@ -916,15 +909,13 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		bankAccountSelect = new TextItem(messages.bankAccountNo(
-				));
+		bankAccountSelect = new TextItem(messages.bankAccountNo());
 		bankAccountSelect.setHelpInformation(true);
 		bankNameSelect = new TextItem(messages.bankName());
 		bankNameSelect.setHelpInformation(true);
 		bankBranchSelect = new TextItem(messages.bankBranch());
 		bankBranchSelect.setHelpInformation(true);
-		panNumberText = new TextItem(messages.panNumber(
-				));
+		panNumberText = new TextItem(messages.panNumber());
 		panNumberText.setHelpInformation(true);
 		cstNumberText = new TextItem(messages.cstNumber());
 		cstNumberText.setHelpInformation(true);
@@ -995,8 +986,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		custGroupSelect = new CustomerGroupCombo(messages
-				.payeeGroup(Global.get().Customer()));
+		custGroupSelect = new CustomerGroupCombo(messages.payeeGroup(Global
+				.get().Customer()));
 		custGroupSelect.setHelpInformation(true);
 		custGroupSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomerGroup>() {
@@ -1406,5 +1397,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	public double getAmountInPayeeCurrency(double amount, double factor) {
 		return amount / factor;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
 	}
 }

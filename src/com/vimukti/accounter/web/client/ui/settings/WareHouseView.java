@@ -323,4 +323,8 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

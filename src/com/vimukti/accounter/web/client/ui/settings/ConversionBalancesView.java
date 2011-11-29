@@ -56,8 +56,8 @@ public class ConversionBalancesView extends BaseView {
 
 	public void addNewTab(String endingDate, String year) {
 		createControls();
-		tabPanel.add(getBodyControls(), messages.january01() + year
-				+ " _ " + endingDate);
+		tabPanel.add(getBodyControls(), messages.january01() + year + " _ "
+				+ endingDate);
 	}
 
 	private void createControls() {
@@ -116,24 +116,24 @@ public class ConversionBalancesView extends BaseView {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				superHeaderHtml.getElement().getStyle().setCursor(
-						Cursor.POINTER);
-				superHeaderHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				superHeaderHtml.getElement().getStyle()
+						.setCursor(Cursor.POINTER);
+				superHeaderHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		superHeaderHtml.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				superHeaderHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				superHeaderHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		headerHtml = new HTML(messages.conversionBalanaceHeader());
 
-		addComparativeBalancesButton = new Button(messages
-				.addComparativeButton());
+		addComparativeBalancesButton = new Button(
+				messages.addComparativeButton());
 		conversionDateButton = new Button(messages.conversionDate());
 		conversionDateButton.addStyleName("company-settings-html");
 		headerButtonPanel.add(addComparativeBalancesButton);
@@ -244,4 +244,13 @@ public class ConversionBalancesView extends BaseView {
 
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

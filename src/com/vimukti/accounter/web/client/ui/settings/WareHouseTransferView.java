@@ -252,4 +252,8 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 		return result;
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

@@ -1188,4 +1188,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		statuses.add(messages.rejected());
 		return statuses;
 	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

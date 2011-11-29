@@ -235,4 +235,14 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 		}
 		return result;
 	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }

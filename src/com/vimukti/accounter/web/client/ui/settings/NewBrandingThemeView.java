@@ -778,4 +778,14 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		this.nameItem.setFocus();
 
 	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

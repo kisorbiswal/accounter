@@ -175,4 +175,14 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
 }

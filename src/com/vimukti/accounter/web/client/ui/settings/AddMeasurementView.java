@@ -209,4 +209,8 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }
