@@ -115,7 +115,7 @@ import com.vimukti.accounter.web.client.ui.reports.APAgingSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.ARAgingDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.ARAgingSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.BalanceSheetAction;
-import com.vimukti.accounter.web.client.ui.reports.BudgetReportAction;
+import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewReportAction;
 import com.vimukti.accounter.web.client.ui.reports.CashFlowStatementAction;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.CustomerTransactionHistoryAction;
@@ -1344,7 +1344,7 @@ public class ActionFactory {
 		return new StockAdjustmentsListAction(messages.stockAdjustments());
 	}
 
-	public static BudgetReportAction getBudgetReportsAction(int i) {
+	/*public static BudgetReportAction getBudgetReportsAction(int i) {
 		switch (i) {
 		case 1:
 			return new BudgetReportAction(messages.accountVScustom(), i);
@@ -1358,7 +1358,7 @@ public class ActionFactory {
 			return new BudgetReportAction(messages.accountVScustom(), i);
 		}
 
-	}
+	}*/
 
 	public static TaxHistoryAction getTaxHistoryAction() {
 		return new TaxHistoryAction(messages.taxHistory());
@@ -1396,5 +1396,9 @@ public class ActionFactory {
 
 	public static MergeItemsAction getItemMergeAction() {
 		return new MergeItemsAction(messages.mergeItems());
+	}
+
+	public static BudgetOverviewReportAction getBudgetOverView() {
+		return new BudgetOverviewReportAction("Budget Overview");
 	}
 }
