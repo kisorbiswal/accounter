@@ -361,6 +361,9 @@ public class MobileMessageHandler extends Thread {
 		if (index < 0) {
 			return null;
 		}
+		if (index >= commands.size()) {
+			return null;
+		}
 		UserCommand userCommand = commands.get(index);
 		String commandString = userCommand.getCommandName();
 		if (commandString == null) {
@@ -381,9 +384,15 @@ public class MobileMessageHandler extends Thread {
 		if (index < 0) {
 			return null;
 		}
+		if (index >= commands.size()) {
+			return null;
+		}
 		UserCommand userCommand = commands.get(index);
 		Command command = CommandsFactory.INSTANCE.getCommand(userCommand
 				.getCommandName());
+		if (command == null) {
+			return null;
+		}
 		userMessage.setOriginalMsg(userCommand.getInputs());
 		userMessage.setCommandString(userCommand.getCommandName());
 		return command;
