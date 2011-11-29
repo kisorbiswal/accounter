@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -32,7 +33,8 @@ public class NewBankAccountAction extends Action<ClientBankAccount> {
 			public void onCreated() {
 				NewAccountView view = new NewAccountView();
 				// view.setNewBankAccountAction(NewBankAccountAction.this);
-				view.setNewBankAccount(true);
+				// view.setNewBankAccount(true);
+				view.setAccountType(ClientAccount.TYPE_BANK);
 				// UIUtils.setCanvas(view, getViewConfiguration());
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewBankAccountAction.this);
