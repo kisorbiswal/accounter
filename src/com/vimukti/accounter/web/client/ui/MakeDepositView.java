@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -333,8 +334,8 @@ public class MakeDepositView extends
 
 		// if (UIUtils.unFormat(UIUtils.toStr(cashBackAmountText.getValue())) ==
 		// 0.00)
-		if (!DecimalUtil.isEquals(getAmountInBaseCurrency(cashBackAmountText
-				.getAmount()), 0.00))
+		if (!DecimalUtil.isEquals(
+				getAmountInBaseCurrency(cashBackAmountText.getAmount()), 0.00))
 			return true;
 
 		// if (UIUtils.unFormat(UIUtils.toStr(cashBackAmountText.getValue())) >
@@ -828,15 +829,14 @@ public class MakeDepositView extends
 			public void onClick(ClickEvent event) {
 				ClientTransactionMakeDeposit deposit = new ClientTransactionMakeDeposit();
 				deposit.setIsNewEntry(true);
-				deposit
-						.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
+				deposit.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
 				// deposit.set
 				gridView.add(deposit);
 			}
 		});
 
-		cashBackAccountSelect = new CashBackAccountsCombo(messages
-				.cashBackAccount());
+		cashBackAccountSelect = new CashBackAccountsCombo(
+				messages.cashBackAccount());
 		cashBackAccountSelect.setHelpInformation(true);
 		cashBackAccountSelect.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.CASH_BACK_ACCOUNTS_COMBO));
@@ -901,14 +901,20 @@ public class MakeDepositView extends
 		topHLay.add(depoForm);
 
 		DynamicForm dynamicForm = new DynamicForm();
-		if (locationTrackingEnabled)
+
+		locationCombo.addStyleName("locationCombo");
+
+		if (locationTrackingEnabled) {
 			dynamicForm.setFields(locationCombo);
+		}
+
 		VerticalPanel currencyPanel = new VerticalPanel();
 
 		currencyPanel.add(dynamicForm);
 		currencyPanel.add(currencyWidget);
 		topHLay.add(currencyPanel);
-		topHLay.setCellHorizontalAlignment(dynamicForm, ALIGN_RIGHT);
+		topHLay.setCellHorizontalAlignment(currencyPanel,
+				HasAlignment.ALIGN_RIGHT);
 
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setHorizontalAlignment(ALIGN_LEFT);
@@ -1309,8 +1315,7 @@ public class MakeDepositView extends
 		// Setting Cash back account
 		transaction
 				.setCashBackAccount(selectedCashBackAccount != null ? selectedCashBackAccount
-						.getID()
-						: 0);
+						.getID() : 0);
 		if (cashBackMemoText.getValue() != null)
 			transaction.setCashBackMemo(cashBackMemoText.getValue().toString());
 
