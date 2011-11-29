@@ -41,6 +41,7 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 				if (string.isEmpty()) {
 					System.out.println();
 				}
+				System.out.println(string);
 				ChannelBuffer copiedBuffer = ChannelBuffers.copiedBuffer(
 						string, Charset.forName("UTF-8"));
 

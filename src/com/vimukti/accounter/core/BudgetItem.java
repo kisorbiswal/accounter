@@ -64,6 +64,26 @@ public class BudgetItem implements IAccounterServerCore {
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}
+	
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	public double getFebrauaryAmount() {
+		return febrauaryAmount;
+	}
+
+	public void setFebrauaryAmount(double febrauaryAmount) {
+		this.febrauaryAmount = febrauaryAmount;
+	}
+
+	public double getSeptemberAmount() {
+		return septemberAmount;
+	}
 
 	/**
 	 * 

@@ -230,6 +230,7 @@ public class AccounterMenuBar extends HorizontalPanel {
 
 	private IMenu getReportMenu() {
 		IMenu reportMenuBar = getSubMenu();
+		
 		reportMenuBar.addMenuItem(ActionFactory.getReportsHomeAction());
 		reportMenuBar.addSeparatorItem();
 		reportMenuBar.addMenuItem(messages.companyAndFinancial(),
@@ -244,6 +245,9 @@ public class AccounterMenuBar extends HorizontalPanel {
 						.vendorsAndPayables(Global.get().Vendor()),
 				getVendorAndPayablesMenu());
 		reportMenuBar.addMenuItem(messages.purchase(), getPurchaseMenu());
+		
+		reportMenuBar.addMenuItem(messages.budget(), getBudgetSubMenus());
+		
 		// reportMenuBar.addItem(messages.budget() + " "
 		// + messages.report(), getBudgetSubMenus());
 		// if (Accounter.getCompany().getAccountingType() ==
@@ -299,10 +303,16 @@ public class AccounterMenuBar extends HorizontalPanel {
 	private IMenu getBudgetSubMenus() {
 		IMenu budgetMenu = getSubMenu();
 
-		budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(1));
-		budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(2));
-		budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(3));
-		budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(4));
+		
+		budgetMenu.addMenuItem(ActionFactory.getBudgetOverView());
+		
+		
+	//	budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(1));
+		
+//		budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(2));
+//		budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(3));
+//		budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(4));
+		
 		// vendorAndPayableMenuBar.addItem(ActionFactory
 		// .getAmountsDueToVendorsAction());
 		return budgetMenu;
