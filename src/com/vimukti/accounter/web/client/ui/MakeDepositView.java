@@ -106,8 +106,6 @@ public class MakeDepositView extends
 	protected boolean isSelected;
 	// private MakeDeposit transactionObject;
 
-	private String transactionNumber;
-
 	private List<ClientAccount> listOfAccounts;
 
 	private HorizontalPanel bot1Panel;
@@ -115,11 +113,12 @@ public class MakeDepositView extends
 	private ArrayList<DynamicForm> listforms;
 
 	private AddButton addButton;
-	private TextItem transNumber;
 
 	// private VerticalPanel botRightPanel;
 
 	private boolean locationTrackingEnabled;
+
+	private String transactionNo;
 
 	public MakeDepositView() {
 		super(ClientTransaction.TYPE_MAKE_DEPOSIT);
@@ -152,7 +151,7 @@ public class MakeDepositView extends
 	}
 
 	public void setTransactionNumber(String transactionNumber) {
-		this.transactionNumber = transactionNumber;
+		this.transactionNo = transactionNumber;
 	}
 
 	private void addTransactionMakeDepositsToGrid(
@@ -650,7 +649,7 @@ public class MakeDepositView extends
 
 			date.setValue(transaction.getDate());
 			memoText.setValue(transaction.getMemo());
-			transNumber.setValue(transaction.getNumber());
+			transactionNumber.setValue(transaction.getNumber());
 			this.transactionItems = transaction.getTransactionItems();
 			cashBackAmountText.setValue(DataUtils.getAmountAsString(transaction
 					.getCashBackAmount()));
@@ -674,6 +673,7 @@ public class MakeDepositView extends
 			// gridView.setCanEdit(false);
 			updateTotals();
 		}
+		initTransactionNumber();
 		// FIXME--need to implement this feature
 		// gridView.setEnableMenu(false);
 
@@ -716,11 +716,11 @@ public class MakeDepositView extends
 		});
 		locationCombo = createLocationCombo();
 		// date.setWidth(100);
-		transNumber = createTransactionNumberItem();
+		transactionNumber = createTransactionNumberItem();
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(6);
 		dateForm.setStyleName("datenumber-panel");
-		dateForm.setFields(date, transNumber);
+		dateForm.setFields(date, transactionNumber);
 
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
@@ -1231,7 +1231,7 @@ public class MakeDepositView extends
 		date.setDisabled(isInViewMode());
 		depositInSelect.setDisabled(isInViewMode());
 		depositFromSelect.setDisabled(isInViewMode());
-		transNumber.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
 		addButton.setEnabled(!isInViewMode());
 		gridView.setDisabled(isInViewMode());
 		cashBackMemoText.setDisabled(isInViewMode());
@@ -1298,8 +1298,8 @@ public class MakeDepositView extends
 		if (memoText.getValue() != null)
 			transaction.setMemo(UIUtils.toStr(memoText.getValue()));
 
-		if (transNumber.getValue() != null)
-			transaction.setNumber(transNumber.getValue());
+		if (transactionNumber.getValue() != null)
+			transaction.setNumber(transactionNumber.getValue());
 
 		transaction.setTotal(getAmountInBaseCurrency(amtText.getAmount()));
 
@@ -1354,7 +1354,7 @@ public class MakeDepositView extends
 	private void settabIndexes() {
 		depositInSelect.setTabIndex(1);
 		date.setTabIndex(2);
-		transNumber.setTabIndex(3);
+		transactionNumber.setTabIndex(3);
 		memoText.setTabIndex(4);
 		addButton.setTabIndex(5);
 		saveAndCloseButton.setTabIndex(6);
