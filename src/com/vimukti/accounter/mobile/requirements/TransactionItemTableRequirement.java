@@ -14,6 +14,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -171,7 +172,8 @@ public abstract class TransactionItemTableRequirement extends
 		get(QUANITY).setDefaultValue(obj.getQuantity().getValue());
 		get(UNITPTICE).setValue(obj.getUnitPrice());
 
-		get(DISCOUNT).setDefaultValue(obj.getDiscount());
+		Double discount = obj.getDiscount();
+		get(DISCOUNT).setDefaultValue(discount == null ? 0.0 : discount);
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
 			get(TAXCODE).setValue(
@@ -189,6 +191,7 @@ public abstract class TransactionItemTableRequirement extends
 		ClientTransactionItem clientTransactionItem = new ClientTransactionItem();
 		clientTransactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 		clientTransactionItem.setTaxable(true);
+		clientTransactionItem.setQuantity(new ClientQuantity());
 		return clientTransactionItem;
 	}
 
