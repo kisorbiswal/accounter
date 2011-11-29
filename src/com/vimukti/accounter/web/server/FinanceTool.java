@@ -67,6 +67,7 @@ import com.vimukti.accounter.core.ReconciliationItem;
 import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionLog;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
@@ -3168,5 +3169,50 @@ public class FinanceTool {
 			System.err.println(e);
 		}
 		return null;
+	}
+
+	public boolean deleteTransactionFromDb(Long companyId, IAccounterCore obj)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+
+		org.hibernate.Transaction transaction = session.beginTransaction();
+
+		IAccounterServerCore serverObject = null;
+		serverObject = new ServerConvertUtil().toServerObject(serverObject,
+				obj, session);
+
+		if (serverObject == null) {
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT);
+		}
+
+		if (serverObject instanceof Transaction) {
+			Transaction trans = (Transaction) serverObject;
+			trans.onDelete(session);
+		}
+
+		Query query = session.getNamedQuery("getTaxreturnByTransactionid")
+				.setParameter("transaction", serverObject);
+		List<TAXReturnEntry> list = query.list();
+
+		for (TAXReturnEntry taxReturnEntry : list) {
+			taxReturnEntry.setTransaction(null);
+			session.save(taxReturnEntry);
+		}
+
+		Class<?> clientClass = ObjectConvertUtil.getEqivalentClientClass(obj
+				.getObjectType().getClientClassSimpleName());
+		Class<?> serverClass = ObjectConvertUtil
+				.getServerEqivalentClass(clientClass);
+
+		if (canDelete(serverClass.getSimpleName(), obj.getID(), companyId)) {
+			session.delete(serverObject);
+		} else {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_IN_USE);
+		}
+
+		transaction.commit();
+
+		return true;
 	}
 }

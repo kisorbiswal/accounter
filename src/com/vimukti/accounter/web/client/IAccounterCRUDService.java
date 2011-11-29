@@ -54,4 +54,7 @@ public interface IAccounterCRUDService extends RemoteService {
 
 	long createNote(long transactionId, String details)
 			throws AccounterException;
+
+	boolean deleteTransactionFromDb(IAccounterCore obj)
+			throws AccounterException;
 }

@@ -51,4 +51,7 @@ public interface IAccounterCRUDServiceAsync {
 
 	void createNote(long transactionId, String details,
 			AsyncCallback<Long> callback);
+
+	void deleteTransactionFromDb(IAccounterCore obj,
+			AsyncCallback<Boolean> transactionCallBack);
 }

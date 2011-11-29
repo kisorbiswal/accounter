@@ -253,4 +253,17 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 				noteDetails);
 	}
 
+	@Override
+	public boolean deleteTransactionFromDb(IAccounterCore obj)
+			throws AccounterException {
+		IAccounterServerCore serverCore = (IAccounterServerCore) loadObjectById(
+				obj.getObjectType().getServerClassFullyQualifiedName(),
+				obj.getID());
+		if (serverCore instanceof Transaction) {
+			return getFinanceTool()
+					.deleteTransactionFromDb(getCompanyId(), obj);
+		}
+		return false;
+	}
+
 }
