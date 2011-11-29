@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 
 public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 
-	AccounterMessages messages;
+	AccounterMessages messages = Accounter.messages();
 	ClientCurrency currency = getCompany().getPrimaryCurrency();
 	List<ClientBudgetItem> budgetItem = new ArrayList<ClientBudgetItem>();
 
@@ -258,5 +258,11 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 
 		refreshAllRecords();
 
+	}
+
+	@Override
+	public void addRecords(List<ClientBudgetItem> list) {
+		// TODO Auto-generated method stub
+		super.addRecords(list);
 	}
 }
