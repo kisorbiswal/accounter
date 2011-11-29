@@ -717,6 +717,15 @@
 		<alias>Sales Person</alias>
 	</command>
 
+	<command clazz="com.vimukti.accounter.mobile.commands.NewContactCommand"
+		name="New Contact">
+		<alias>Create Contact</alias>
+		<alias>Add Contact</alias>
+		<alias>Update Contact</alias>
+		<alias>Modify Contact</alias>
+		<alias>Edit Contact</alias>
+	</command>
+
 	<command clazz="com.vimukti.accounter.mobile.commands.NewCustomerCommand"
 		name="New Customer">
 		<alias>Create Customer</alias>
