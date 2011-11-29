@@ -467,7 +467,7 @@ public class ClientInvoice extends ClientTransaction {
 
 	@Override
 	public String getName() {
-		return this.getName();
+		return Utility.getTransactionName(getType());
 	}
 
 	public long getPaymentTerm() {

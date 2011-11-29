@@ -100,7 +100,7 @@ public class ClientCashPurchase extends ClientTransaction {
 
 	@Override
 	public String getName() {
-		return Accounter.getCompany().getName();
+		return Utility.getTransactionName(getType());
 	}
 
 	@Override

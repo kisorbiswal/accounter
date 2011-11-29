@@ -1438,4 +1438,9 @@ public class MakeDepositView extends
 							.getFormalName()));
 		}
 	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

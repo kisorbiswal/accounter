@@ -624,4 +624,8 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		return null;
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }

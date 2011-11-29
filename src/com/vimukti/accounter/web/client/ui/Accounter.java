@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -185,8 +186,8 @@ public class Accounter implements EntryPoint {
 	}
 
 	private native static void reloadMacMenu() /*-{
-												$wnd.MacReload();
-												}-*/;
+		$wnd.MacReload();
+	}-*/;
 
 	public static MainFinanceWindow getMainFinanceWindow() {
 		return mainWindow;
@@ -332,15 +333,15 @@ public class Accounter implements EntryPoint {
 	}
 
 	private static native void removeLoadingImage() /*-{
-													var parent = $wnd.document.getElementById('loadingWrapper');
-													var footer = $wnd.document.getElementById('mainFooter');
-													//		var feedbackimg = $wnd.document.getElementById('contact');
-													//		feedbackimg.style.visibility = 'visible';
-													//var header = $wnd.document.getElementById('mainHeader');
-													parent.style.visibility = 'hidden';
-													footer.style.visibility = 'visible';
-													//header.style.visibility = 'visible';
-													}-*/;
+		var parent = $wnd.document.getElementById('loadingWrapper');
+		var footer = $wnd.document.getElementById('mainFooter');
+		//		var feedbackimg = $wnd.document.getElementById('contact');
+		//		feedbackimg.style.visibility = 'visible';
+		//var header = $wnd.document.getElementById('mainHeader');
+		parent.style.visibility = 'hidden';
+		footer.style.visibility = 'visible';
+		//header.style.visibility = 'visible';
+	}-*/;
 
 	/**
 	 * 
@@ -607,6 +608,48 @@ public class Accounter implements EntryPoint {
 			AsyncCallback<Client1099Form> myCallback, long vendorId) {
 		Accounter.createCRUDService().get1099InformationByVendor(vendorId,
 				myCallback);
+	}
+
+	public static void deleteTransaction(final IDeleteCallback iDeleteCallback,
+			final IAccounterCore obj) {
+
+		final AccounterAsyncCallback<Boolean> transactionCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException exception) {
+				iDeleteCallback.deleteFailed(exception);
+
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				iDeleteCallback.deleteSuccess(obj);
+			}
+
+		};
+
+		ISaveCallback iSaveCallback = new ISaveCallback() {
+
+			@Override
+			public void saveSuccess(IAccounterCore object) {
+				Accounter.createCRUDService().deleteTransactionFromDb(obj,
+						transactionCallBack);
+			}
+
+			@Override
+			public void saveFailed(AccounterException exception) {
+				iDeleteCallback.deleteFailed(exception);
+			}
+		};
+
+		ClientTransaction trans = (ClientTransaction) obj;
+		if (!trans.isVoid()) {
+			voidTransaction(iSaveCallback, obj.getObjectType(), obj.getID());
+		} else {
+			Accounter.createCRUDService().deleteTransactionFromDb(obj,
+					transactionCallBack);
+		}
+
 	}
 
 }

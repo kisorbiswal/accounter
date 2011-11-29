@@ -55,6 +55,9 @@ public class AccounterExceptions {
 		case AccounterException.INVOICE_PAID_VOID_IT:
 			return accounterMessages.usedinReceivepayYoucantEdit();
 
+		case AccounterException.ERROR_CANT_EDIT_DELETE:
+			return accounterMessages.cantEditOrDelete();
+
 		default:
 			return null;
 		}

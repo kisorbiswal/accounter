@@ -77,7 +77,6 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		itemsGrid.removeAllRecords();
 	}
 
-
 	@Override
 	public void init() {
 		super.init();
@@ -191,8 +190,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 					showAddEditTaxGroup(data);
 					enableEditRemoveButtons(false);
 				} else {
-					Accounter
-							.showError(Accounter.messages().selectATaxGroup());
+					Accounter.showError(Accounter.messages().selectATaxGroup());
 					new Exception();
 				}
 			}
@@ -204,8 +202,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 					deleteObject(taxGroup);
 					enableEditRemoveButtons(false);
 				} else
-					Accounter
-							.showError(Accounter.messages().selectATaxGroup());
+					Accounter.showError(Accounter.messages().selectATaxGroup());
 
 			}
 		};
@@ -264,7 +261,6 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 	}
 
-
 	protected List<ClientTAXGroup> getRecords() {
 		return getCompany().getTaxGroups();
 	}
@@ -287,7 +283,16 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }

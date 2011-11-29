@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -411,77 +412,77 @@ public class UIUtils {
 	}
 
 	public final static native String getCurrentDate()/*-{
-														var date = new Date();
-														var formate = "";
-														switch (date.getDay()) {
-														case 0:
-														formate += messages.sun();
-														break;
-														case 1:
-														formate += messages.mon();
-														break;
-														case 2:
-														formate += messages.tues();
-														break;
-														case 3:
-														formate += messages.wednes();
-														break;
-														case 4:
-														formate += messages.thurs();
-														break;
-														case 5:
-														formate += messages.fri();
-														break;
-														case 6:
-														formate += messages.satur();
-														break;
-														default:
-														null;
-														break;
-														}
-														formate += messages.daycomma();
-														switch (date.getMonth()) {
-														case 0:
-														formate += messages.JAN();
-														break;
-														case 1:
-														formate += messages.FEB();
-														break;
-														case 2:
-														formate += messages.MAR();
-														break;
-														case 3:
-														formate += messages.APR();
-														break;
-														case 4:
-														formate += messages.MAY();
-														break;
-														case 5:
-														formate += messages.JUN();
-														break;
-														case 6:
-														formate += messages.JUL();
-														break;
-														case 7:
-														formate += messages.AUG();
-														break;
-														case 8:
-														formate += messages.SEP();
-														break;
-														case 9:
-														formate += messages.OCT();
-														break;
-														case 10:
-														formate += messages.NOV();
-														break;
-														case 11:
-														formate += messages.DEC();
-														break;
-														}
-														formate += " " + date.getDate() + ", " + date.getFullYear();
-														//		$wnd.alert(formate);
-														return formate;
-														}-*/;
+		var date = new Date();
+		var formate = "";
+		switch (date.getDay()) {
+		case 0:
+			formate += messages.sun();
+			break;
+		case 1:
+			formate += messages.mon();
+			break;
+		case 2:
+			formate += messages.tues();
+			break;
+		case 3:
+			formate += messages.wednes();
+			break;
+		case 4:
+			formate += messages.thurs();
+			break;
+		case 5:
+			formate += messages.fri();
+			break;
+		case 6:
+			formate += messages.satur();
+			break;
+		default:
+			null;
+			break;
+		}
+		formate += messages.daycomma();
+		switch (date.getMonth()) {
+		case 0:
+			formate += messages.JAN();
+			break;
+		case 1:
+			formate += messages.FEB();
+			break;
+		case 2:
+			formate += messages.MAR();
+			break;
+		case 3:
+			formate += messages.APR();
+			break;
+		case 4:
+			formate += messages.MAY();
+			break;
+		case 5:
+			formate += messages.JUN();
+			break;
+		case 6:
+			formate += messages.JUL();
+			break;
+		case 7:
+			formate += messages.AUG();
+			break;
+		case 8:
+			formate += messages.SEP();
+			break;
+		case 9:
+			formate += messages.OCT();
+			break;
+		case 10:
+			formate += messages.NOV();
+			break;
+		case 11:
+			formate += messages.DEC();
+			break;
+		}
+		formate += " " + date.getDate() + ", " + date.getFullYear();
+		//		$wnd.alert(formate);
+		return formate;
+	}-*/;
 
 	public static ClientFinanceDate stringToDate(String strdate,
 			String dateFormat) {
@@ -498,50 +499,50 @@ public class UIUtils {
 	}
 
 	public final static native String getDateStringByDate(String dateString)/*-{
-																			var date = new Date(dateString);
-																			var formate = "";
-																			switch (date.getMonth()) {
-																			case 0:
-																			formate += messages.JAN();
-																			break;
-																			case 1:
-																			formate += messages.FEB();
-																			break;
-																			case 2:
-																			formate += messages.MAR();
-																			break;
-																			case 3:
-																			formate += messages.APR();
-																			break;
-																			case 4:
-																			formate += messages.MAY();
-																			break;
-																			case 5:
-																			formate += messages.JUN();
-																			break;
-																			case 6:
-																			formate += messages.JUL();
-																			break;
-																			case 7:
-																			formate += messages.AUG();
-																			break;
-																			case 8:
-																			formate += messages.SEP();
-																			break;
-																			case 9:
-																			formate += messages.OCT();
-																			break;
-																			case 10:
-																			formate += messages.NOV();
-																			break;
-																			case 11:
-																			formate += messages.DEC();
-																			break;
-																			formate += " " + date.getDate() + ", " + date.getFullYear();
+		var date = new Date(dateString);
+		var formate = "";
+		switch (date.getMonth()) {
+		case 0:
+			formate += messages.JAN();
+			break;
+		case 1:
+			formate += messages.FEB();
+			break;
+		case 2:
+			formate += messages.MAR();
+			break;
+		case 3:
+			formate += messages.APR();
+			break;
+		case 4:
+			formate += messages.MAY();
+			break;
+		case 5:
+			formate += messages.JUN();
+			break;
+		case 6:
+			formate += messages.JUL();
+			break;
+		case 7:
+			formate += messages.AUG();
+			break;
+		case 8:
+			formate += messages.SEP();
+			break;
+		case 9:
+			formate += messages.OCT();
+			break;
+		case 10:
+			formate += messages.NOV();
+			break;
+		case 11:
+			formate += messages.DEC();
+			break;
+		formate += " " + date.getDate() + ", " + date.getFullYear();
 
-																			return formate;
-																			}
-																			}-*/;
+		return formate;
+	}
+	}-*/;
 
 	public static <T extends IAccounterCore> AccounterAsyncCallback<Boolean> getGeneralizedUpdateCallBack(
 			final AbstractBaseView view, final T object) {
@@ -1320,51 +1321,51 @@ public class UIUtils {
 	}
 
 	private native static short getScrollerWidth() /*-{
-													var scr = null;
-													var inn = null;
-													var wNoScroll = 0;
-													var wScroll = 0;
+		var scr = null;
+		var inn = null;
+		var wNoScroll = 0;
+		var wScroll = 0;
 
-													// Outer scrolling div
-													scr = document.createElement('div');
-													scr.style.position = 'absolute';
-													scr.style.top = '-1000px';
-													scr.style.left = '-1000px';
-													scr.style.width = '100px';
-													scr.style.height = '50px';
-													// Start with no scrollbar
-													scr.style.overflow = 'hidden';
+		// Outer scrolling div
+		scr = document.createElement('div');
+		scr.style.position = 'absolute';
+		scr.style.top = '-1000px';
+		scr.style.left = '-1000px';
+		scr.style.width = '100px';
+		scr.style.height = '50px';
+		// Start with no scrollbar
+		scr.style.overflow = 'hidden';
 
-													// Inner content div
-													inn = document.createElement('div');
-													inn.style.width = '100%';
-													inn.style.height = '200px';
+		// Inner content div
+		inn = document.createElement('div');
+		inn.style.width = '100%';
+		inn.style.height = '200px';
 
-													// Put the inner div in the scrolling div
-													scr.appendChild(inn);
-													// Append the scrolling div to the doc
-													document.body.appendChild(scr);
+		// Put the inner div in the scrolling div
+		scr.appendChild(inn);
+		// Append the scrolling div to the doc
+		document.body.appendChild(scr);
 
-													// Width of the inner div sans scrollbar
-													wNoScroll = inn.offsetWidth;
-													// Add the scrollbar
-													scr.style.overflow = 'auto';
-													// Width of the inner div width scrollbar
-													wScroll = inn.offsetWidth;
+		// Width of the inner div sans scrollbar
+		wNoScroll = inn.offsetWidth;
+		// Add the scrollbar
+		scr.style.overflow = 'auto';
+		// Width of the inner div width scrollbar
+		wScroll = inn.offsetWidth;
 
-													// Remove the scrolling div from the doc
-													document.body.removeChild(document.body.lastChild);
+		// Remove the scrolling div from the doc
+		document.body.removeChild(document.body.lastChild);
 
-													// Pixel width of the scroller
-													var width = (wNoScroll - wScroll);
-													if (width == 0) {
-													if (navigator.userAgent.indexOf("MSIE") >= 0) {
-													width = 18;
-													}
-													width = 15;
-													}
-													return width;
-													}-*/;
+		// Pixel width of the scroller
+		var width = (wNoScroll - wScroll);
+		if (width == 0) {
+			if (navigator.userAgent.indexOf("MSIE") >= 0) {
+				width = 18;
+			}
+			width = 15;
+		}
+		return width;
+	}-*/;
 
 	public static String getStringwithIncreamentedDigit(String prevNumber) {
 
@@ -1625,18 +1626,18 @@ public class UIUtils {
 
 	public native static void downloadMultipleAttachment(String objectID,
 			int type, String brandingThemeId)/*-{
-												try {
-												var frame = document.createElement("IFRAME");
-												frame.setAttribute("src",
-												"/do/finance/generatePDFServlet?multipleIds=" + objectID
-												+ "&type=" + type + "&brandingThemeId="
-												+ brandingThemeId);
-												frame.style.visibility = "hidden";
-												document.body.appendChild(frame);
-												} catch (e) {
-												alert(e);
-												}
-												}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?multipleIds=" + objectID
+							+ "&type=" + type + "&brandingThemeId="
+							+ brandingThemeId);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	/**
 	 * this method is used to create 1099 MISC forms
@@ -1657,19 +1658,19 @@ public class UIUtils {
 	public native static void downloadMISCForm(String objectID, int type,
 			String brandingThemeId, String vendorID, String horizontalValue,
 			String verticalValue)/*-{
-									try {
-									var frame = document.createElement("IFRAME");
-									frame.setAttribute("src", "/do/finance/miscInfoServlet?objectId="
-									+ objectID + "&type=" + type + "&brandingThemeId="
-									+ brandingThemeId + "&vendorID=" + vendorID
-									+ "&horizontalValue=" + horizontalValue + "&verticalValue="
-									+ verticalValue);
-									frame.style.visibility = "hidden";
-									document.body.appendChild(frame);
-									} catch (e) {
-									alert(e);
-									}
-									}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src", "/do/finance/miscInfoServlet?objectId="
+					+ objectID + "&type=" + type + "&brandingThemeId="
+					+ brandingThemeId + "&vendorID=" + vendorID
+					+ "&horizontalValue=" + horizontalValue + "&verticalValue="
+					+ verticalValue);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	/**
 	 * this method is used to make MISC information page
@@ -1681,16 +1682,16 @@ public class UIUtils {
 	 * @param objectID
 	 */
 	public native static void makeMISCInfo(int type)/*-{
-													try {
-													var frame = document.createElement("IFRAME");
-													frame.setAttribute("src", "/do/finance/miscInfoServlet?type="
-													+ type);
-													frame.style.visibility = "hidden";
-													document.body.appendChild(frame);
-													} catch (e) {
-													alert(e);
-													}
-													}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src", "/do/finance/miscInfoServlet?type="
+					+ type);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	/**
 	 * This method is used for the reports pdf generation. The Require
@@ -1742,35 +1743,35 @@ public class UIUtils {
 	 */
 	public native static void downloadAttachment(String objectID, int type,
 			String brandingThemeId)/*-{
-									try {
-									var frame = document.createElement("IFRAME");
-									frame.setAttribute("src",
-									"/do/finance/generatePDFServlet?objectId=" + objectID
-									+ "&type=" + type + "&brandingThemeId="
-									+ brandingThemeId);
-									frame.style.visibility = "hidden";
-									document.body.appendChild(frame);
-									} catch (e) {
-									alert(e);
-									}
-									}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?objectId=" + objectID
+							+ "&type=" + type + "&brandingThemeId="
+							+ brandingThemeId);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	public static void downloadAttachment(long objectID, int type) {
 		downloadAttachment(String.valueOf(objectID), type);
 	}
 
 	public native static void downloadAttachment(String objectID, int type)/*-{
-																			try {
-																			var frame = document.createElement("IFRAME");
-																			frame.setAttribute("src",
-																			"/do/finance/generatePDFServlet?objectId=" + objectID
-																			+ "&type=" + type);
-																			frame.style.visibility = "hidden";
-																			document.body.appendChild(frame);
-																			} catch (e) {
-																			alert(e);
-																			}
-																			}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?objectId=" + objectID
+							+ "&type=" + type);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	/**
 	 * This method is used for the reports pdf generation. The Require
@@ -1780,40 +1781,40 @@ public class UIUtils {
 	 */
 	public native static void generateReportPDF(String reportTitle,
 			String htmlbody, String dateRangeHtml)/*-{
-													try {
-													var frame = $doc.getElementById('__generatePdfFrame');
-													frame = frame.contentWindow;
-													var doc = frame.document;
-													var submitForm = doc.createElement("form");
-													var body = doc.getElementsByTagName("BODY");
-													body[0].appendChild(submitForm);
-													submitForm.method = "POST";
-													// submitForm.target="_blank";
+		try {
+			var frame = $doc.getElementById('__generatePdfFrame');
+			frame = frame.contentWindow;
+			var doc = frame.document;
+			var submitForm = doc.createElement("form");
+			var body = doc.getElementsByTagName("BODY");
+			body[0].appendChild(submitForm);
+			submitForm.method = "POST";
+			// submitForm.target="_blank";
 
-													var newElement = doc.createElement("INPUT");
-													newElement.name = "reporthtml";
-													newElement.type = "hidden";
-													submitForm.appendChild(newElement);
-													newElement.value = htmlbody;
+			var newElement = doc.createElement("INPUT");
+			newElement.name = "reporthtml";
+			newElement.type = "hidden";
+			submitForm.appendChild(newElement);
+			newElement.value = htmlbody;
 
-													var newElement1 = doc.createElement("INPUT");
-													newElement1.name = "reportTitle";
-													newElement1.type = "hidden";
-													submitForm.appendChild(newElement1);
-													newElement1.value = reportTitle;
-													var newElement2 = document.createElement("INPUT");
-													newElement2.name = "dateRangeHtml";
-													newElement2.type = "hidden";
-													submitForm.appendChild(newElement2);
-													newElement2.value = dateRangeHtml;
-													submitForm.action = "/do/finance/generatePDFServlet";
-													submitForm.submit();
+			var newElement1 = doc.createElement("INPUT");
+			newElement1.name = "reportTitle";
+			newElement1.type = "hidden";
+			submitForm.appendChild(newElement1);
+			newElement1.value = reportTitle;
+			var newElement2 = document.createElement("INPUT");
+			newElement2.name = "dateRangeHtml";
+			newElement2.type = "hidden";
+			submitForm.appendChild(newElement2);
+			newElement2.value = dateRangeHtml;
+			submitForm.action = "/do/finance/generatePDFServlet";
+			submitForm.submit();
 
-													body[0].removeChild(submitForm);
-													} catch (e) {
-													alert(e);
-													}
-													}-*/;
+			body[0].removeChild(submitForm);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	public native static void generateStatementPDF(String reportTitle,
 			String htmlbody, String dateRangeHtml, String customerId)/*-{
@@ -1919,10 +1920,10 @@ public class UIUtils {
 	}
 
 	public static native boolean isMSIEBrowser()/*-{
-												if (navigator.userAgent.indexOf("MSIE") >= 0)
-												return true;
-												return false;
-												}-*/;
+		if (navigator.userAgent.indexOf("MSIE") >= 0)
+			return true;
+		return false;
+	}-*/;
 
 	public static boolean isInteger(String str) {
 		try {
@@ -1945,24 +1946,24 @@ public class UIUtils {
 	}
 
 	public static native void changeCursorStyle(String style)/*-{
-																document.body.style.cursor = style;
-																}-*/;
+		document.body.style.cursor = style;
+	}-*/;
 
 	public static native void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtml)/*-{
-												try {
-												var frame = document.createElement("IFRAME");
-												frame.setAttribute("src",
-												"/do/finance/ExportReportServlet?startDate=" + start
-												+ "&endDate=" + end + "&reportType=" + reportType
-												+ "&navigatedName=" + name + "&dateRangeHtml="
-												+ dateRangeHtml);
-												frame.style.visibility = "hidden";
-												document.body.appendChild(frame);
-												} catch (e) {
-												alert(e);
-												}
-												}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/ExportReportServlet?startDate=" + start
+							+ "&endDate=" + end + "&reportType=" + reportType
+							+ "&navigatedName=" + name + "&dateRangeHtml="
+							+ dateRangeHtml);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	public static void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
@@ -1972,36 +1973,36 @@ public class UIUtils {
 
 	public static native void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtmal, String vendorId, int boxNum)/*-{
-																			try {
-																			var frame = document.createElement("IFRAME");
-																			frame.setAttribute("src",
-																			"/do/finance/ExportReportServlet?startDate=" + start
-																			+ "&endDate=" + end + "&reportType=" + reportType
-																			+ "&navigatedName=" + name + "&dateRangeHtml="
-																			+ dateRangeHtml + "&vendorId=" + vendorId
-																			+ "&boxNo=" + boxNum);
-																			frame.style.visibility = "hidden";
-																			document.body.appendChild(frame);
-																			} catch (e) {
-																			alert(e);
-																			}
-																			}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/ExportReportServlet?startDate=" + start
+							+ "&endDate=" + end + "&reportType=" + reportType
+							+ "&navigatedName=" + name + "&dateRangeHtml="
+							+ dateRangeHtml + "&vendorId=" + vendorId
+							+ "&boxNo=" + boxNum);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	public static native void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtml, String status)/*-{
-																try {
-																var frame = document.createElement("IFRAME");
-																frame.setAttribute("src",
-																"/do/finance/ExportReportServlet?startDate=" + start
-																+ "&endDate=" + end + "&reportType=" + reportType
-																+ "&navigatedName=" + name + "&dateRangeHtml="
-																+ dateRangeHtml + "&status=" + status);
-																frame.style.visibility = "hidden";
-																document.body.appendChild(frame);
-																} catch (e) {
-																alert(e);
-																}
-																}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/ExportReportServlet?startDate=" + start
+							+ "&endDate=" + end + "&reportType=" + reportType
+							+ "&navigatedName=" + name + "&dateRangeHtml="
+							+ dateRangeHtml + "&status=" + status);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, long dateRangeHtml) {
@@ -2011,19 +2012,19 @@ public class UIUtils {
 
 	public static native void generateReportPDF(int start, int end,
 			int reportType, String name, String dateRangeHtml)/*-{
-																try {
-																var frame = document.createElement("IFRAME");
-																frame.setAttribute("src",
-																"/do/finance/generatePDFServlet?startDate=" + start
-																+ "&endDate=" + end + "&reportType=" + reportType
-																+ "&navigatedName=" + name + "&dateRangeHtml="
-																+ dateRangeHtml);
-																frame.style.visibility = "hidden";
-																document.body.appendChild(frame);
-																} catch (e) {
-																alert(e);
-																}
-																}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?startDate=" + start
+							+ "&endDate=" + end + "&reportType=" + reportType
+							+ "&navigatedName=" + name + "&dateRangeHtml="
+							+ dateRangeHtml);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
@@ -2033,19 +2034,19 @@ public class UIUtils {
 
 	public static native void generateReportPDF(int start, int end,
 			int reportType, String name, String dateRangeHtml, String status)/*-{
-																				try {
-																				var frame = document.createElement("IFRAME");
-																				frame.setAttribute("src",
-																				"/do/finance/generatePDFServlet?startDate=" + start
-																				+ "&endDate=" + end + "&reportType=" + reportType
-																				+ "&navigatedName=" + name + "&dateRangeHtml="
-																				+ dateRangeHtml + "&status=" + status);
-																				frame.style.visibility = "hidden";
-																				document.body.appendChild(frame);
-																				} catch (e) {
-																				alert(e);
-																				}
-																				}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?startDate=" + start
+							+ "&endDate=" + end + "&reportType=" + reportType
+							+ "&navigatedName=" + name + "&dateRangeHtml="
+							+ dateRangeHtml + "&status=" + status);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	public static List<ClientCurrency> getCurrenciesList() {
 		// FIXME :put default exact currencies and externalize them .
@@ -2091,21 +2092,56 @@ public class UIUtils {
 
 	public static native void generateBudgetReportPDF(String reportType,
 			String budgetType)/*-{
-								try {
-								var frame = document.createElement("IFRAME");
-								frame.setAttribute("src",
-								"/do/finance/generatePDFServlet?budgetType=" + budgetType
-								+ "&reportType=" + reportType);
-								frame.style.visibility = "hidden";
-								document.body.appendChild(frame);
-								} catch (e) {
-								alert(e);
-								}
-								}-*/;
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?budgetType=" + budgetType
+							+ "&reportType=" + reportType);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 
 	public static String getpaymentMethodCheckBy_CompanyType(
 			AccounterMessages messages, String paymentMethod) {
 		return getPaymentMethod(paymentMethod, messages);
+	}
+
+	public static int getTransactionCategory(int transactionType) {
+		switch (transactionType) {
+		case Transaction.TYPE_CASH_SALES:
+		case Transaction.TYPE_CUSTOMER_CREDIT_MEMO:
+		case Transaction.TYPE_CUSTOMER_REFUNDS:
+		case Transaction.TYPE_ESTIMATE:
+		case Transaction.TYPE_INVOICE:
+		case Transaction.TYPE_RECEIVE_PAYMENT:
+		case Transaction.TYPE_SALES_ORDER:
+		case Transaction.TYPE_CUSTOMER_PRE_PAYMENT:
+			return Transaction.CATEGORY_CUSTOMER;
+
+		case Transaction.TYPE_CASH_PURCHASE:
+		case Transaction.TYPE_CREDIT_CARD_CHARGE:
+		case Transaction.TYPE_ENTER_BILL:
+		case Transaction.TYPE_ISSUE_PAYMENT:
+		case Transaction.TYPE_PAY_BILL:
+		case Transaction.TYPE_VENDOR_CREDIT_MEMO:
+		case Transaction.TYPE_PURCHASE_ORDER:
+		case Transaction.TYPE_ITEM_RECEIPT:
+		case Transaction.TYPE_CASH_EXPENSE:
+		case Transaction.TYPE_CREDIT_CARD_EXPENSE:
+		case Transaction.TYPE_EMPLOYEE_EXPENSE:
+			return Transaction.CATEGORY_VENDOR;
+
+		case Transaction.TYPE_MAKE_DEPOSIT:
+		case Transaction.TYPE_TRANSFER_FUND:
+			return Transaction.CATEGORY_BANKING;
+
+		default:
+			break;
+		}
+		return 0;
 	}
 
 }

@@ -156,8 +156,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 						selectedPayFromAccount = selectItem;
 						initialEndingBalance = !DecimalUtil.isEquals(
 								selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-								.getTotalBalance()
-								: 0D;
+								.getTotalBalance() : 0D;
 						calculateEndingBalance();
 
 						endingBalanceText.setValue(DataUtils
@@ -372,4 +371,13 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

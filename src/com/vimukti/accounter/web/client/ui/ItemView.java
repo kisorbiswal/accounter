@@ -152,8 +152,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// nameText = new TextItem(FinanceApplication.messages()
 		// .itemName());
 		nameText = new TextItem(this.type == TYPE_SERVICE ? Accounter
-				.messages().serviceName() : messages
-				.productName());
+				.messages().serviceName() : messages.productName());
 		nameText.setValue(itemName);
 		nameText.setHelpInformation(true);
 		nameText.setWidth(100);
@@ -182,8 +181,7 @@ public class ItemView extends BaseView<ClientItem> {
 		weightText.setWidth(100);
 		weightText.setDisabled(isInViewMode());
 		weightText.setValidators(integerRangeValidator);
-		commodityCode = new ItemGroupCombo(messages
-				.commodityCode());
+		commodityCode = new ItemGroupCombo(messages.commodityCode());
 		commodityCode.setHelpInformation(true);
 		itemForm = new DynamicForm();
 		// itemForm.setWidth("98%");
@@ -216,13 +214,11 @@ public class ItemView extends BaseView<ClientItem> {
 
 		salesDescArea.setDisabled(isInViewMode());
 
-		salesDescArea.setToolTip(Accounter
-				.messages()
+		salesDescArea.setToolTip(Accounter.messages()
 				.writeCommentsForThis(this.getAction().getViewName())
-				.replace(messages.comments(),
-						messages.salesDescription()));
-		salesPriceText = new AmountField(messages.salesPrice(),
-				this, getBaseCurrency());
+				.replace(messages.comments(), messages.salesDescription()));
+		salesPriceText = new AmountField(messages.salesPrice(), this,
+				getBaseCurrency());
 		salesPriceText.setHelpInformation(true);
 		salesPriceText.setWidth(100);
 		salesPriceText.setDisabled(isInViewMode());
@@ -230,8 +226,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// salesPriceText.setValidators(floatRangeValidator);
 		// salesPriceText.setValidateOnChange(true);
 
-		accountCombo = new SalesItemCombo(messages.incomeAccount(
-				));
+		accountCombo = new SalesItemCombo(messages.incomeAccount());
 		accountCombo.setHelpInformation(true);
 		accountCombo.setDisabled(isInViewMode());
 		// accountCombo.setWidth(100);
@@ -267,8 +262,8 @@ public class ItemView extends BaseView<ClientItem> {
 		salesInfoForm = UIUtils.form(messages.salesInformation());
 		// salesInfoForm.setWidth("98%");
 
-		stdCostText = new AmountField(messages.standardCost(),
-				this, getBaseCurrency());
+		stdCostText = new AmountField(messages.standardCost(), this,
+				getBaseCurrency());
 		stdCostText.setHelpInformation(true);
 		stdCostText.setWidth(100);
 		stdCostText.setDisabled(isInViewMode());
@@ -296,7 +291,7 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 
-		taxCode = new TAXCodeCombo(messages.taxCode(),isGeneratedFromCustomer);
+		taxCode = new TAXCodeCombo(messages.taxCode(), isGeneratedFromCustomer);
 		taxCode.setHelpInformation(true);
 		taxCode.setRequired(false);
 		taxCode.setDisabled(isInViewMode());
@@ -321,8 +316,8 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseDescArea.setTitle(messages.purchaseDescription());
 		purchaseDescArea.setDisabled(isInViewMode());
 
-		purchasePriceTxt = new AmountField(messages
-				.purchasePrice(), this, getBaseCurrency());
+		purchasePriceTxt = new AmountField(messages.purchasePrice(), this,
+				getBaseCurrency());
 		purchasePriceTxt.setHelpInformation(true);
 		purchasePriceTxt.setWidth(100);
 		purchasePriceTxt.setDisabled(isInViewMode());
@@ -330,8 +325,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// purchasePriceTxt.setValidators(floatRangeValidator);
 		// purchasePriceTxt.setValidateOnChange(true);
 
-		expAccCombo = new PurchaseItemCombo(messages
-				.expenseAccount());
+		expAccCombo = new PurchaseItemCombo(messages.expenseAccount());
 		expAccCombo.setHelpInformation(true);
 		expAccCombo.setRequired(true);
 		expAccCombo.setDisabled(isInViewMode());
@@ -380,8 +374,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// .messages().iSellThisItem());
 		isellCheck = new CheckboxItem(
 				this.type == ClientItem.TYPE_SERVICE ? messages
-						.isellthisservice() : messages
-						.isellthisproduct());
+						.isellthisservice() : messages.isellthisproduct());
 		isellCheck.setDisabled(isInViewMode());
 
 		isellCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -398,8 +391,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// .iBuyThisItem());
 		ibuyCheck = new CheckboxItem(
 				this.type == ClientItem.TYPE_SERVICE ? messages
-						.ibuythisservice() : messages
-						.ibuythisproduct());
+						.ibuythisservice() : messages.ibuythisproduct());
 		// ibuyCheck.setDisabled(isGeneratedFromCustomer);
 
 		ibuyCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -444,8 +436,7 @@ public class ItemView extends BaseView<ClientItem> {
 		else
 			itemInfoForm.setFields(itemGroupCombo, activeCheck);
 		// itemInfoForm.getCellFormatter().setWidth(0, 0, "47%");
-		purchaseInfoForm = UIUtils.form(messages
-				.purchaseInformation());
+		purchaseInfoForm = UIUtils.form(messages.purchaseInformation());
 		purchaseInfoForm.setNumCols(2);
 		purchaseInfoForm.setStyleName("purchase_info_form");
 		// purchaseInfoForm.setWidth("97%");
@@ -618,8 +609,8 @@ public class ItemView extends BaseView<ClientItem> {
 
 		wareHouse = new WarehouseCombo(messages.wareHouse());
 
-		openingBalTxt = new AmountField(messages.openingBalance(),
-				this, getBaseCurrency());
+		openingBalTxt = new AmountField(messages.openingBalance(), this,
+				getBaseCurrency());
 		openingBalTxt.setDisabled(isInViewMode());
 		wareHouse.setDisabled(isInViewMode());
 		// if (getPreferences().iswareHouseEnabled()) {
@@ -970,8 +961,8 @@ public class ItemView extends BaseView<ClientItem> {
 		ClientItem clientItem = company.getItemByName(name);
 		if (clientItem != null
 				&& !(this.getData().getID() == clientItem.getID())) {
-			result.addError(nameText, messages
-					.anItemAlreadyExistswiththisname());
+			result.addError(nameText,
+					messages.anItemAlreadyExistswiththisname());
 			return result;
 		}
 
@@ -993,16 +984,14 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (isellCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(salesPriceText.getAmount())) {
-				result.addError(salesPriceText,
-						messages.enterValidAmount());
+				result.addError(salesPriceText, messages.enterValidAmount());
 			}
 		}
 
 		if (ibuyCheck.isChecked()) {
 			if (AccounterValidator.isNegativeAmount(purchasePriceTxt
 					.getAmount())) {
-				result.addError(purchasePriceTxt,
-						messages.enterValidAmount());
+				result.addError(purchasePriceTxt, messages.enterValidAmount());
 			}
 		}
 
@@ -1145,4 +1134,8 @@ public class ItemView extends BaseView<ClientItem> {
 		cancelButton.setTabIndex(20);
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

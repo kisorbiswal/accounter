@@ -1706,4 +1706,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		widget.setDisabled(isInViewMode());
 		return widget;
 	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }
