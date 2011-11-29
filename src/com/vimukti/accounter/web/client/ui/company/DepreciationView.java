@@ -510,4 +510,13 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		return Accounter.messages().depreciation();
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

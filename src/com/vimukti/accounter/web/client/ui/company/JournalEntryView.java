@@ -100,19 +100,17 @@ public class JournalEntryView extends
 		List<ClientTransactionItem> allEntries = grid.getAllRows();
 		for (ClientTransactionItem entry : allEntries) {
 			if (grid.getTotalCredittotal() > 0 || grid.getTotalDebittotal() > 0) {
-				if (entry.getLineTotal() == 0) {
-					result.addError(
-							this,
-							Accounter.messages().valueCannotBe0orlessthan0(
-									messages.amount()));
+				if (entry.getLineTotal() == null || entry.getLineTotal() == 0) {
+					result.addError(this, Accounter.messages()
+							.valueCannotBe0orlessthan0(messages.amount()));
 				}
 			}
 
 		}
 		if (memoText.getValue().toString() != null
 				&& memoText.getValue().toString().length() >= 256) {
-			result.addError(memoText, messages
-					.memoCannotExceedsmorethan255Characters());
+			result.addError(memoText,
+					messages.memoCannotExceedsmorethan255Characters());
 
 		}
 		// if (!AccounterValidator.isValidTransactionDate(getTransactionDate()))
@@ -122,8 +120,7 @@ public class JournalEntryView extends
 		// } else
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
-			result.addError(transactionDateItem,
-					messages.invalidateDate());
+			result.addError(transactionDateItem, messages.invalidateDate());
 		}
 		result.add(dateForm.validate());
 		// if (AccounterValidator.isBlankTransaction(grid)) {
@@ -332,8 +329,7 @@ public class JournalEntryView extends
 		memoForm.setFields(memoText);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		deditTotalText = new AmountLabel(messages
-				.debitTotalColon());
+		deditTotalText = new AmountLabel(messages.debitTotalColon());
 		deditTotalText.setWidth("180px");
 		((Label) deditTotalText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -341,8 +337,7 @@ public class JournalEntryView extends
 				+ "0.00");
 		deditTotalText.setDisabled(true);
 
-		creditTotalText = new AmountLabel(messages
-				.creditTotalColon());
+		creditTotalText = new AmountLabel(messages.creditTotalColon());
 		creditTotalText.setWidth("180px");
 		((Label) creditTotalText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -571,8 +566,7 @@ public class JournalEntryView extends
 				@Override
 				public void onFailure(Throwable caught) {
 					if (caught instanceof InvocationException) {
-						Accounter.showMessage(messages
-								.sessionExpired());
+						Accounter.showMessage(messages.sessionExpired());
 					} else {
 						int errorCode = ((AccounterException) caught)
 								.getErrorCode();
@@ -649,5 +643,10 @@ public class JournalEntryView extends
 		}
 		Accounter.createGETService().getObjectById(type,
 				transaction.getInvolvedPayee(), callback);
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
 	}
 }

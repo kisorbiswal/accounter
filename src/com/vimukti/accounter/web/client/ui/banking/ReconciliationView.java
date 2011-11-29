@@ -181,8 +181,8 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		}
 		mainPanel.add(grid);
 		// mainPanel.setCellHeight(grid, "200px");
-		grid.getElement().getParentElement().addClassName(
-				"recounciliation_grid");
+		grid.getElement().getParentElement()
+				.addClassName("recounciliation_grid");
 		mainPanel.add(amountsPanel);
 		this.add(mainPanel);
 	}
@@ -267,8 +267,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 			@Override
 			public void onException(AccounterException exception) {
-				Accounter.showError(messages
-						.unableToGet(messages.openBalance()));
+				Accounter.showError(messages.unableToGet(messages.openBalance()));
 			}
 
 			@Override
@@ -302,8 +301,8 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 			result.addError(difference, messages.differenceValidate());
 		}
 		if (clearedTransactions.isEmpty()) {
-			result.addError(clearedTransactions, messages
-					.thereIsNoTransactionsToReconcile());
+			result.addError(clearedTransactions,
+					messages.thereIsNoTransactionsToReconcile());
 		}
 		return result;
 	}
@@ -369,5 +368,10 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
 	}
 }

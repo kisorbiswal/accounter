@@ -302,4 +302,13 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		Accounter.showError(errorString);
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }

@@ -219,11 +219,11 @@ public class WriteChequeView extends
 		transactionVendorAccountTable.updateTotals();
 		this.transactionVendorAccountTable.updateAmountsFromGUI();
 
-		totalTxtTransactionCurrency.setTitle(messages
-				.currencyTotal(formalName));
+		totalTxtTransactionCurrency
+				.setTitle(messages.currencyTotal(formalName));
 
-		totalTxtBaseCurrency.setTitle(messages.currencyTotal(
-				getBaseCurrency().getFormalName()));
+		totalTxtBaseCurrency.setTitle(messages.currencyTotal(getBaseCurrency()
+				.getFormalName()));
 
 		amtText.setCurrency(clientCurrency);
 		// getAddreses(add);
@@ -512,9 +512,8 @@ public class WriteChequeView extends
 			Double transactionTotal = ((ClientWriteCheck) transaction)
 					.getTotal();
 			if (transactionTotal != null && !isAmountChange) {
-				amtText
-						.setAmount(getAmountInTransactionCurrency(transactionTotal
-								.doubleValue()));
+				amtText.setAmount(getAmountInTransactionCurrency(transactionTotal
+						.doubleValue()));
 			}
 
 		}
@@ -530,15 +529,15 @@ public class WriteChequeView extends
 
 		// FIXME Need to validate grids.
 		if (transactionVendorAccountTable.getAllRows().isEmpty()) {
-			result.addError(transactionVendorAccountTable, messages
-					.blankTransaction());
+			result.addError(transactionVendorAccountTable,
+					messages.blankTransaction());
 		} else {
 			result.add(transactionVendorAccountTable.validateGrid());
 		}
 
 		if (!validateAmount()) {
-			result.addError(memoTextAreaItem, messages
-					.transactiontotalcannotbe0orlessthan0());
+			result.addError(memoTextAreaItem,
+					messages.transactiontotalcannotbe0orlessthan0());
 		}
 
 		if (isTrackTax()) {
@@ -551,8 +550,8 @@ public class WriteChequeView extends
 			}
 		}
 		if (unassignedAmountPanel.isVisible()) {
-			result.addError(unassignedAmountPanel, messages
-					.amountAndTotalShouldEqual());
+			result.addError(unassignedAmountPanel,
+					messages.amountAndTotalShouldEqual());
 		}
 
 		ClientAccount bankAccount = bankAccSelect.getSelectedValue();
@@ -560,8 +559,8 @@ public class WriteChequeView extends
 		if (bankAccount != null) {
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
 			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
-				result.addError(bankAccSelect, messages
-						.selectProperBankAccount());
+				result.addError(bankAccSelect,
+						messages.selectProperBankAccount());
 			}
 		}
 
@@ -712,13 +711,11 @@ public class WriteChequeView extends
 
 		vendorTDSTaxCode.setDisabled(true);
 
-		balText = new AmountField(messages.balance(), this,
-				getBaseCurrency());
+		balText = new AmountField(messages.balance(), this, getBaseCurrency());
 		balText.setWidth(100);
 		balText.setDisabled(true);
 
-		bankAccSelect = new PayFromAccountsCombo(messages
-				.bankAccount());
+		bankAccSelect = new PayFromAccountsCombo(messages.bankAccount());
 		// bankAccSelect.setWidth(100);
 		bankAccSelect.setRequired(true);
 		bankAccSelect.setDisabled(isInViewMode());
@@ -801,8 +798,7 @@ public class WriteChequeView extends
 
 				});
 
-		amtText = new AmountField(messages.amount(), this,
-				getBaseCurrency());
+		amtText = new AmountField(messages.amount(), this, getBaseCurrency());
 		amtText.setWidth(100);
 		amtText.setAmount(getAmountInTransactionCurrency(0.00));
 		amtText.setDisabled(isInViewMode());
@@ -811,8 +807,8 @@ public class WriteChequeView extends
 			@Override
 			public void onBlur(BlurEvent event) {
 				if ((amtText.getAmount() != 0)
-						&& !(DecimalUtil.isEquals(previousValue, amtText
-								.getAmount()))) {
+						&& !(DecimalUtil.isEquals(previousValue,
+								amtText.getAmount()))) {
 					previousValue = amtText.getAmount();
 					isAmountChange = true;
 					validateAmountAndTotal();
@@ -1261,8 +1257,8 @@ public class WriteChequeView extends
 		// FinanceApplication.constants().comment());
 		// }
 		// } else
-		setMenuItems(button, messages.Account(), messages
-				.productOrServiceItem());
+		setMenuItems(button, messages.Account(),
+				messages.productOrServiceItem());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().salesTax()
 		// );
@@ -1277,8 +1273,7 @@ public class WriteChequeView extends
 			if (payee.getType() == ClientWriteCheck.TYPE_CUSTOMER) {
 				if (item.equals(messages.Accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(messages
-						.productOrServiceItem())) {
+				} else if (item.equals(messages.productOrServiceItem())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 
 				} else if (item.equals(messages.comment())) {
@@ -1293,8 +1288,7 @@ public class WriteChequeView extends
 					|| payee.getType() == ClientWriteCheck.TYPE_TAX_AGENCY) {
 				if (item.equals(messages.Accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(messages
-						.productOrServiceItem())) {
+				} else if (item.equals(messages.productOrServiceItem())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 				} else if (item.equals(messages.comment())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
@@ -1480,8 +1474,7 @@ public class WriteChequeView extends
 									.getNetAmount()));
 					vatTotalNonEditableText
 							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal()
-									- transaction.getNetAmount()));
+									.getTotal() - transaction.getNetAmount()));
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -1506,9 +1499,9 @@ public class WriteChequeView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		vendorAccountsDisclosurePanel.setOpen(checkOpen(transaction
-				.getTransactionItems(), ClientTransactionItem.TYPE_ACCOUNT,
-				true));
+		vendorAccountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
 	}
 
 	@Override
@@ -1584,8 +1577,9 @@ public class WriteChequeView extends
 			totalTxtBaseCurrency.hide();
 		} else {
 			totalTxtBaseCurrency.show();
-			totalTxtBaseCurrency.setTitle(messages.currencyTotal(
-					getBaseCurrency().getFormalName()));
+			totalTxtBaseCurrency.setTitle(messages
+					.currencyTotal(getBaseCurrency().getFormalName()));
 		}
 	}
+
 }

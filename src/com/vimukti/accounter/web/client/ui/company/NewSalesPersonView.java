@@ -188,8 +188,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				long mustdate = new ClientFinanceDate().getDate() - 180000;
 				if (new ClientFinanceDate(mustdate).before(dateOfBirth
 						.getEnteredDate())) {
-					addError(dateOfBirth, messages
-							.dateofBirthshouldshowmorethan18years());
+					addError(dateOfBirth,
+							messages.dateofBirthshouldshowmorethan18years());
 				} else {
 					clearError(dateOfBirth);
 				}
@@ -401,14 +401,14 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		if (dateOfBirth.getValue().getDate() != 0) {
 			long mustdate = new ClientFinanceDate().getDate() - 180000;
-			if (dateOfBirth.getValue().getDateAsObject().after(
-					new ClientFinanceDate().getDateAsObject())) {
+			if (dateOfBirth.getValue().getDateAsObject()
+					.after(new ClientFinanceDate().getDateAsObject())) {
 				result.addError(dateOfBirth, messages.invalidDateOfBirth());
 			} else if ((new ClientFinanceDate(mustdate).before(dateOfBirth
 					.getEnteredDate()))) {
-				result.addError(dateOfBirth, messages
-						.dateofBirthshouldshowmorethan18years()
-						+ ". Because Sales Person should have 18 years");
+				result.addError(dateOfBirth,
+						messages.dateofBirthshouldshowmorethan18years()
+								+ ". Because Sales Person should have 18 years");
 			}
 		}
 		result.add(salesPersonForm.validate());
@@ -695,5 +695,10 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			// + a.getIsSelected());
 		}
 		return null;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
 	}
 }
