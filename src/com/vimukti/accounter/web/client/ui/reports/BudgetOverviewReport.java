@@ -1,30 +1,25 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
-public class BudgetReport extends AbstractReportView<ClientBudgetList> {
+public class BudgetOverviewReport extends AbstractReportView<ClientBudgetListX> {
 
 	private int BUDGET_TYPE_CUSTOM = 1;
-	private int BUDGET_TYPE_MONTH = 2;
-	private int BUDGET_TYPE_QUATER = 3;
-	private int BUDGET_TYPE_YEAR = 4;
 
-	int budgettype;
-	BudgetServerReport serverreport;
+	BudgetOverviewServerReport serverreport;
 
-	public BudgetReport(int budgetType) {
+	public BudgetOverviewReport() {
 		super(false, "");
-		budgettype = budgetType;
-		serverreport = new BudgetServerReport(this, budgetType);
+		serverreport = new BudgetOverviewServerReport(this);
 		this.serverReport = serverreport;
 		this.serverReport.setIshowGridFooter(true);
 	}
 
 	@Override
-	public void OnRecordClick(ClientBudgetList record) {
+	public void OnRecordClick(ClientBudgetListX record) {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
@@ -33,14 +28,7 @@ public class BudgetReport extends AbstractReportView<ClientBudgetList> {
 
 	@Override
 	public int getToolbarType() {
-		if (budgettype == BUDGET_TYPE_MONTH)
-			return TOOLBAR_TYPE_BUDGET2;
-		else if (budgettype == BUDGET_TYPE_QUATER)
-			return TOOLBAR_TYPE_BUDGET3;
-		else if (budgettype == BUDGET_TYPE_YEAR)
-			return TOOLBAR_TYPE_BUDGET4;
-		else
-			return TOOLBAR_TYPE_BUDGET1;
+			return TOOLBAR_TYPE_BUDGET;
 	}
 
 	@Override
@@ -59,16 +47,7 @@ public class BudgetReport extends AbstractReportView<ClientBudgetList> {
 
 	@Override
 	public void print() {
-
-		if (budgettype == BUDGET_TYPE_MONTH)
-			UIUtils.generateBudgetReportPDF(154, BUDGET_TYPE_MONTH);
-		else if (budgettype == BUDGET_TYPE_QUATER)
-			UIUtils.generateBudgetReportPDF(154, BUDGET_TYPE_QUATER);
-		else if (budgettype == BUDGET_TYPE_YEAR)
-			UIUtils.generateBudgetReportPDF(154, BUDGET_TYPE_YEAR);
-		else
 			UIUtils.generateBudgetReportPDF(154, BUDGET_TYPE_CUSTOM);
-
 	}
 
 	public void exportToCsv() {

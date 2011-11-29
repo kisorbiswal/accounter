@@ -7,28 +7,25 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
+import com.vimukti.accounter.web.server.FinanceTool;
 
-public class BudgetReportToolbar extends ReportToolbar {
-
-	private int TOOLBAR_TYPE_CUSTOM = 1;
-	private int TOOLBAR_TYPE_MONTH = 2;
-	private int TOOLBAR_TYPE_QUATER = 3;
-	private int TOOLBAR_TYPE_YEAR = 4;
+public class BudgetOverviewReportToolbar extends ReportToolbar {
 
 	private DateItem fromItem = new DateItem();
 	private DateItem toItem = new DateItem();
 
-	protected SelectCombo budgetCombo;
-	protected SelectCombo budgetYear;
-	protected SelectCombo budgetMonth;
+	protected SelectCombo budgetName;
+	
 	protected List<String> statusList, dateRangeList, yearRangeList;
 	private Button updateButton;
 	List<String> budgetArray = new ArrayList<String>();
@@ -36,12 +33,12 @@ public class BudgetReportToolbar extends ReportToolbar {
 
 	private Long isStatus;
 	int monthSelected;
-	int budgetToolbarType;
 
-	public BudgetReportToolbar(int i) {
-		budgetToolbarType = i;
-		createControls();
+	public BudgetOverviewReportToolbar() {
+		//createControls();
+		createData();
 	}
+	
 
 	public void changeDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
@@ -70,7 +67,7 @@ public class BudgetReportToolbar extends ReportToolbar {
 
 	public void createControls() {
 
-		final String[] dateRangeArray = { Accounter.messages().january(),
+		/*final String[] dateRangeArray = { Accounter.messages().january(),
 				Accounter.messages().february(),
 				Accounter.messages().march(), Accounter.messages().april(),
 				Accounter.messages().may(), Accounter.messages().june(),
@@ -78,10 +75,10 @@ public class BudgetReportToolbar extends ReportToolbar {
 				Accounter.messages().september(),
 				Accounter.messages().october(),
 				Accounter.messages().november(),
-				Accounter.messages().december() };
+				Accounter.messages().december() };*/
 
-		budgetCombo = new SelectCombo(Accounter.messages().budget());
-		budgetCombo.setHelpInformation(true);
+		budgetName = new SelectCombo(Accounter.messages().budget());
+		budgetName.setHelpInformation(true);
 		statusList = new ArrayList<String>();
 		for (String str : budgetArray) {
 			statusList.add(str);
@@ -89,66 +86,18 @@ public class BudgetReportToolbar extends ReportToolbar {
 		if (budgetArray.size() < 1) {
 			statusList.add("");
 		}
-		budgetCombo.initCombo(statusList);
-		budgetCombo.setSelected(statusList.get(0));
-		budgetCombo
+		budgetName.initCombo(statusList);
+		budgetName.setSelected(statusList.get(0));
+		budgetName
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						isStatus = idArray.get(budgetCombo.getSelectedIndex());
+						isStatus = idArray.get(budgetName.getSelectedIndex());
 					}
 				});
 
-		budgetMonth = new SelectCombo(Accounter.messages().budgetMonth());
-		budgetMonth.setHelpInformation(true);
-		dateRangeList = new ArrayList<String>();
-		for (int i = 0; i < dateRangeArray.length; i++) {
-			dateRangeList.add(dateRangeArray[i]);
-		}
-		budgetMonth.initCombo(dateRangeList);
-		budgetMonth.setSelectedItem(0);
-		budgetMonth
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						for (int i = 0; i < dateRangeArray.length; i++) {
-							if (selectItem.endsWith(dateRangeArray[i]))
-								monthSelected = i + 1;
-						}
-						setStartDate(fromItem.getDate());
-						setEndDate(toItem.getDate());
-						changeDates(fromItem.getDate(), toItem.getDate());
-					}
-				});
-
-		budgetYear = new SelectCombo(Accounter.messages().budget() + " "
-				+ Accounter.messages().year());
-		budgetYear.setHelpInformation(true);
-		yearRangeList = new ArrayList<String>();
-		for (int i = 1990; i < 2030; i++) {
-			yearRangeList.add(Integer.toString(i));
-		}
-		budgetYear.initCombo(yearRangeList);
-		budgetYear.setDefaultValue(yearRangeList.get(0));
-		budgetYear
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-
-						if (selectItem.endsWith(Accounter.messages()
-								.accountVScustom())) {
-							fromItem.setDisabled(false);
-							toItem.setDisabled(false);
-						} else {
-							fromItem.setDisabled(true);
-							toItem.setDisabled(true);
-						}
-
-					}
-				});
+	
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
@@ -205,29 +154,34 @@ public class BudgetReportToolbar extends ReportToolbar {
 
 		});
 
-		// if (UIUtils.isMSIEBrowser()) {
-		// budgetMonth.setWidth("170px");
-		// budgetYear.setWidth("170px");
-		// budgetCombo.setWidth("90px");
-		// }
-		if (budgetToolbarType == TOOLBAR_TYPE_MONTH)
-			addItems(budgetCombo, budgetMonth);
-		else if (budgetToolbarType == TOOLBAR_TYPE_QUATER)
-			addItems(budgetCombo);
-		else if (budgetToolbarType == TOOLBAR_TYPE_YEAR)
-			addItems(budgetCombo);
-		else
-			addItems(budgetCombo, fromItem, toItem);
 
+			addItems(budgetName);
+	
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 
 	}
 
-	public void onSuccess(ArrayList<ClientBudget> result) {
-
-		for (ClientBudget budget : result) {
+	public void createData() {
+		
+		List<ClientBudget> budgetList = null;
+		
+//		Accounter.createReportService().getBudgetItemsList(Accounter.getCompany().getID(), null, null, 1, new AsyncCallback<ArrayList<ClientBudgetListXXXXXXXX>>() {
+//			
+//			@Override
+//			public void onSuccess(ArrayList<Clien> result) {
+//					
+//				budgetList=result;
+//			}
+//			
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		});
+		for (ClientBudget budget : budgetList) {
 			budgetArray.add(budget.getBudgetName());
 			idArray.add(budget.getID());
 		}

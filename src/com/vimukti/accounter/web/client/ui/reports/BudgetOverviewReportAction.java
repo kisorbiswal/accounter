@@ -7,15 +7,13 @@ import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
-public class BudgetReportAction extends Action {
+public class BudgetOverviewReportAction extends Action {
 
-	protected BudgetReport report;
+	protected BudgetOverviewReport report;
 
-	int budgetType;
 
-	public BudgetReportAction(String text, int i) {
+	public BudgetOverviewReportAction(String text) {
 		super(text);
-		budgetType = i;
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -25,9 +23,9 @@ public class BudgetReportAction extends Action {
 
 			public void onCreated() {
 
-				report = new BudgetReport(budgetType);
+				report = new BudgetOverviewReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
-						isDependent, BudgetReportAction.this);
+						isDependent, BudgetOverviewReportAction.this);
 				// Accounter.showError("Not yet Implemented");
 
 			}
@@ -62,7 +60,7 @@ public class BudgetReportAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "budgetReport";
+		return "budgetOverviewReport";
 	}
 
 	@Override
