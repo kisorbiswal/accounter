@@ -586,12 +586,14 @@ form#contactForm input,.memoTextArea textarea,form#contactForm .submit,form#cont
 .memoTextArea {
     width: 359px !important;
 }
-
-.fields-panel textarea.disable-TextField,.disable-TextField,.input[disabled='disabled']{
-	background: none repeat scroll 0 0 #E6E0DA !important;
-	border: 1px solid #918C8C;
-    border-radius: 5px 5px 5px 5px;
-    color:#000000 !important;
+.disable-TextField,.input[disabled='disabled'],textarea.disable-TextField{
+	background: none repeat scroll 0 0 white !important;
+}
+.disable-TextField,.input[disabled='disabled']{
+	border: 1px solid black !important;
+}
+textarea.disable-TextField{
+	border: 1px solid #B1B1B1 !important;
 }
 .downarrow-button,.custom-combo,.biz-decor-panel .decor01,.toolbox{
 	position: relative;
