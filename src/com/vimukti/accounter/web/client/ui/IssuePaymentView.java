@@ -242,7 +242,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 				});
 
-		accountCombo = new PayFromAccountsCombo(messages.account(), false);
+		accountCombo = new PayFromAccountsCombo(messages.Account(), false);
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 		accountCombo
@@ -314,12 +314,12 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		ValidationResult result = FormItem.validate(payMethodSelect,
 				accountCombo);
 		if (grid.getRecords().isEmpty()) {
-			result.addError(grid, messages
-					.noTransactionIsAvailableToIssuePayments());
+			result.addError(grid,
+					messages.noTransactionIsAvailableToIssuePayments());
 		} else {
 			if (grid.getSelectedRecords().size() == 0)
-				result.addError(grid, messages
-						.pleaseSelectAnyOneOfTheTransactions());
+				result.addError(grid,
+						messages.pleaseSelectAnyOneOfTheTransactions());
 		}
 		// result.add(grid.validateGrid());
 		return result;
