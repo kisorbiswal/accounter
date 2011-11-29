@@ -10,6 +10,7 @@ import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.core.TAXCode;
@@ -206,15 +207,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 				true, null) {
 
 			@Override
-			protected List<Contact> getLists(Context context) {
-				return new ArrayList<Contact>(
-						((Customer) NewCashSaleCommand.this.get(CUSTOMER)
-								.getValue()).getContacts());
-			}
-
-			@Override
-			protected String getContactHolderName() {
-				return ((Customer) get(CUSTOMER).getValue()).getName();
+			protected Payee getPayee() {
+				return get(CUSTOMER).getValue();
 			}
 		});
 

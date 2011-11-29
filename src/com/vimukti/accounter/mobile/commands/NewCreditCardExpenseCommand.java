@@ -8,6 +8,7 @@ import java.util.Set;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
@@ -159,15 +160,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 				true, null) {
 
 			@Override
-			protected List<Contact> getLists(Context context) {
-				return new ArrayList<Contact>(
-						((Vendor) NewCreditCardExpenseCommand.this.get(VENDOR)
-								.getValue()).getContacts());
-			}
-
-			@Override
-			protected String getContactHolderName() {
-				return ((Vendor) get(CUSTOMER).getValue()).getName();
+			protected Payee getPayee() {
+				return get(VENDOR).getValue();
 			}
 		});
 

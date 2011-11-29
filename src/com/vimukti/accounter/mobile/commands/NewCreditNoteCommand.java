@@ -9,7 +9,9 @@ import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -101,17 +103,9 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 				getMessages().creditNo()), getMessages().creditNo(), true, true));
 		list.add(new ContactRequirement(CONTACT, "Enter contact name",
 				"Contact", true, true, null) {
-
 			@Override
-			protected List<Contact> getLists(Context context) {
-				return new ArrayList<Contact>(
-						((Customer) NewCreditNoteCommand.this.get(CUSTOMER)
-								.getValue()).getContacts());
-			}
-
-			@Override
-			protected String getContactHolderName() {
-				return ((Customer) get(CUSTOMER).getValue()).getName();
+			protected Payee getPayee() {
+				return get(CUSTOMER).getValue();
 			}
 		});
 

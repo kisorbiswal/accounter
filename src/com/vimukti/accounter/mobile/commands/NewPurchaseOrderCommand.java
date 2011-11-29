@@ -10,6 +10,7 @@ import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
@@ -337,16 +338,10 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 				"Contact", true, true, null) {
 
 			@Override
-			protected List<Contact> getLists(Context context) {
-				return new ArrayList<Contact>(
-						((Vendor) NewPurchaseOrderCommand.this.get(VENDOR)
-								.getValue()).getContacts());
+			protected Payee getPayee() {
+				return get(VENDOR).getValue();
 			}
 
-			@Override
-			protected String getContactHolderName() {
-				return ((Customer) get(CUSTOMER).getValue()).getName();
-			}
 		});
 
 		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
