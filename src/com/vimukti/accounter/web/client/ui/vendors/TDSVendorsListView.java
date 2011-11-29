@@ -71,8 +71,8 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 		this.toDate.setEnteredDate(new ClientFinanceDate());
 
 		this.fromDate.setEnteredDate(new ClientFinanceDate());
-		this.vendorCombo = new VendorCombo(Global.get().messages().payeeName(
-				Global.get().Vendor()), true);
+		this.vendorCombo = new VendorCombo(Global.get().messages()
+				.payeeName(Global.get().Vendor()), true);
 		vendorCombo.setValue(new String((Accounter.messages().all())));
 
 		vendorCombo
@@ -135,8 +135,8 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 		mainPanel.add(h1);
 		// mainPanel.add(label);
 		mainPanel.add(grid);
-		grid.getElement().getParentElement().addClassName(
-				"recounciliation_grid");
+		grid.getElement().getParentElement()
+				.addClassName("recounciliation_grid");
 		mainPanel.setCellHeight(grid, "200px");
 
 		this.add(mainPanel);
@@ -216,4 +216,13 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }

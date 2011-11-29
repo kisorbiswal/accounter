@@ -1516,4 +1516,14 @@ public class PurchaseOrderView extends
 		}
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
 }

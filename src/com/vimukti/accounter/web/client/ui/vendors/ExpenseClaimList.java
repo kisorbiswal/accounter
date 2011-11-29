@@ -239,4 +239,14 @@ public class ExpenseClaimList extends BaseView {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

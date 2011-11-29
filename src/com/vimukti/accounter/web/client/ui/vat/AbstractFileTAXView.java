@@ -149,12 +149,11 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
 		ListGrid grid = getGrid();
 
-		HTML beforeLabel = new HTML("<string>"
-				+ messages.beforeYouFile());
+		HTML beforeLabel = new HTML("<string>" + messages.beforeYouFile());
 
 		HTML adjustLabel = new HTML("<strong>"
-				+ messages.doYouNeedToMakeAnAdjustment()
-				+ " </strong><br>" + messages.useAdjustButton());
+				+ messages.doYouNeedToMakeAnAdjustment() + " </strong><br>"
+				+ messages.useAdjustButton());
 
 		adjustButton = new Button(messages.adjustTAXReturn());
 		adjustButton.addClickHandler(new ClickHandler() {
@@ -197,8 +196,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 						&& toDate.getEnteredDate() != null)
 					printTaxReturn();
 				else
-					Accounter.showError(messages
-							.pleaseselectvaliddateranges());
+					Accounter.showError(messages.pleaseselectvaliddateranges());
 
 			}
 		});
@@ -374,23 +372,20 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
 		if (this.selectedTaxAgency == null && this.isInViewMode()) {
 			taxAgencyCombo.addStyleName("highlightedFormItem");
-			result.addError(selectedTaxAgency, messages
-					.pleaseSelectValidVATAgency());
+			result.addError(selectedTaxAgency,
+					messages.pleaseSelectValidVATAgency());
 		} else {
-			result.addWarning(selectedTaxAgency, messages
-					.sureToSaveFileVAT());
+			result.addWarning(selectedTaxAgency, messages.sureToSaveFileVAT());
 			// AccounterValidator.validate_FileVat(this);
 		}
 		if (!canSaveFileVat) {
 			// taxAgencyCombo.addStyleName("highlightedFormItem");
 			// fromDate.addStyleName("highlightedFormItem");
 			// toDate.addStyleName("highlightedFormItem");
-			result.addError(this, messages
-					.updateGridBeforeSaving());
+			result.addError(this, messages.updateGridBeforeSaving());
 		}
 		if (getGrid().getRecords().isEmpty()) {
-			result.addError(this, messages
-					.thereIsNoTrasationsToFile());
+			result.addError(this, messages.thereIsNoTrasationsToFile());
 		}
 		return result;
 	}
@@ -428,4 +423,14 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 	protected abstract void printTaxReturn();
 
 	protected abstract ListGrid getGrid();
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

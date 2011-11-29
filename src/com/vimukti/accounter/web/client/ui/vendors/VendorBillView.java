@@ -1409,4 +1409,9 @@ public class VendorBillView extends
 		}
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
 }

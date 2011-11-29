@@ -259,11 +259,11 @@ public class ItemReceiptView extends
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
 		DynamicForm memoForm = new DynamicForm();
-//		memoForm.setWidth("100%");
+		// memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
 
 		transactionTotalItem = new AmountField(Accounter.messages().total(),
-				this,getBaseCurrency());
+				this, getBaseCurrency());
 		transactionTotalItem.setDisabled(true);
 		DynamicForm amountForm = new DynamicForm();
 		amountForm.setFields(transactionTotalItem);
@@ -692,8 +692,7 @@ public class ItemReceiptView extends
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					messages.invalidateDate());
+			result.addError(transactionDate, messages.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
@@ -701,13 +700,9 @@ public class ItemReceiptView extends
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 
-			result.addError(deliveryDateItem, Accounter.messages().the()
-					+ " "
-					+ Accounter.messages().deliveryDate()
-					+ " "
-					+ " "
-					+ Accounter.messages()
-							.cannotbeearlierthantransactiondate());
+			result.addError(deliveryDateItem, Accounter.messages().the() + " "
+					+ Accounter.messages().deliveryDate() + " " + " "
+					+ Accounter.messages().cannotbeearlierthantransactiondate());
 
 		}
 		if (getAllTransactionItems().isEmpty()) {
@@ -840,4 +835,13 @@ public class ItemReceiptView extends
 
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

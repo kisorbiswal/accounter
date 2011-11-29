@@ -71,8 +71,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 			description.setValue(vat.getDescription() != null ? vat
 					.getDescription() : "");
 			isActive.setValue(vat.isActive());
-			taxableGroupRadio.setValue(vat.isTaxable() ? messages
-					.taxable() : messages.taxExempt());
+			taxableGroupRadio.setValue(vat.isTaxable() ? messages.taxable()
+					: messages.taxExempt());
 
 			if (getCompany().getTaxItem(vat.getTAXItemGrpForPurchases()) != null) {
 				selectedVATPurchaseAcc = vat.getTAXItemGrpForPurchases();
@@ -110,11 +110,9 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatCodeTxt.setWidth(100);
 		vatCodeTxt.setDisabled(isInViewMode());
 		description = new TextAreaItem();
-		description.setToolTip(Accounter
-				.messages()
+		description.setToolTip(Accounter.messages()
 				.writeCommentsForThis(this.getAction().getViewName())
-				.replace(messages.comments(),
-						messages.description()));
+				.replace(messages.comments(), messages.description()));
 		description.setHelpInformation(true);
 		description.setWidth(100);
 		description.setTitle(messages.description());
@@ -126,13 +124,13 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 		taxableGroupRadio = new RadioGroupItem(messages.tax());
 		taxableGroupRadio.setWidth(100);
-		taxableGroupRadio.setValues(getClickHandler(), messages
-				.taxable(), messages.taxExempt());
+		taxableGroupRadio.setValues(getClickHandler(), messages.taxable(),
+				messages.taxExempt());
 		taxableGroupRadio.setDefaultValue(messages.taxable());
 		taxableGroupRadio.setDisabled(isInViewMode());
 
-		vatItemComboForPurchases = new VATItemCombo(messages
-				.taxItemForPurchases());
+		vatItemComboForPurchases = new VATItemCombo(
+				messages.taxItemForPurchases());
 		vatItemComboForPurchases.setHelpInformation(true);
 		vatItemComboForPurchases.initCombo(vatItemComboForPurchases
 				.getPurchaseWithPrcntVATItems());
@@ -148,8 +146,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 					}
 				});
 
-		vatItemComboForSales = new VATItemCombo(messages
-				.taxItemForSales());
+		vatItemComboForSales = new VATItemCombo(messages.taxItemForSales());
 		vatItemComboForSales.setHelpInformation(true);
 		vatItemComboForSales.initCombo(vatItemComboForSales
 				.getSalesWithPrcntVATItems());
@@ -183,8 +180,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 			description.setValue(data.getDescription() != null ? data
 					.getDescription() : "");
 			isActive.setValue(data.isActive());
-			taxableGroupRadio.setValue(data.isTaxable() ? messages
-					.taxable() : messages.taxExempt());
+			taxableGroupRadio.setValue(data.isTaxable() ? messages.taxable()
+					: messages.taxExempt());
 			vatItemComboForPurchases
 					.setValue(data.getTAXItemGrpForPurchases() != 0 ? Accounter
 							.getCompany()
@@ -348,8 +345,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		if (taxbl.equalsIgnoreCase(messages.taxable())) {
 			if (vatItemComboForSales.getSelectedValue() == null
 					&& vatItemComboForPurchases.getSelectedValue() == null) {
-				result.addError(vatItemComboForSales, messages
-						.enterSalesORpurchaseItem());
+				result.addError(vatItemComboForSales,
+						messages.enterSalesORpurchaseItem());
 			}
 		}
 
@@ -492,5 +489,10 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	public void setTaxCodeName(String taxCodeName) {
 		this.taxCodeName = taxCodeName;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
 	}
 }

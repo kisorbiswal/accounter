@@ -84,7 +84,7 @@ public class ExpenseClaims extends BaseView {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -100,7 +100,16 @@ public class ExpenseClaims extends BaseView {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

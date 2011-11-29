@@ -150,19 +150,19 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		// filterForm.setWidth("100%");
 		mainform = UIUtils.form(messages.filter());
 		mainform.setFields(payFromAccCombo, paymentMethodCombo);
-//		mainform.setWidth("80%");
+		// mainform.setWidth("80%");
 
 		// fileterForm = new DynamicForm();
 		// fileterForm.setFields(billsDue);
 		// fileterForm.setWidth("80%");
 
-		amountText = new AmountField(messages.amount(), this,getBaseCurrency());
+		amountText = new AmountField(messages.amount(), this, getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
-		endingBalanceText = new AmountField(messages.bankBalance(),
-				this,getBaseCurrency());
+		endingBalanceText = new AmountField(messages.bankBalance(), this,
+				getBaseCurrency());
 		endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);
@@ -170,7 +170,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		balForm = new DynamicForm();
 		balForm = UIUtils.form(messages.balances());
 		balForm.setFields(amountText, endingBalanceText);
-//		balForm.getCellFormatter().setWidth(0, 0, "197px");
+		// balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -284,7 +284,16 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 	@Override
 	public void updateAmountsFromGUI() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

@@ -53,8 +53,7 @@ public class PreviousClaimsView extends BaseView {
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
-		Button notShowInList = new Button(Accounter.messages()
-				.dontShowinList());
+		Button notShowInList = new Button(Accounter.messages().dontShowinList());
 		notShowInList.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -113,8 +112,7 @@ public class PreviousClaimsView extends BaseView {
 						});
 			}
 		} else {
-			Accounter
-					.showInformation(Accounter.messages().noRecordsSelected());
+			Accounter.showInformation(Accounter.messages().noRecordsSelected());
 		}
 
 	}
@@ -235,4 +233,13 @@ public class PreviousClaimsView extends BaseView {
 
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }

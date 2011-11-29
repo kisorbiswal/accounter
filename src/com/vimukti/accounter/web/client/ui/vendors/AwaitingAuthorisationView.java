@@ -240,4 +240,13 @@ public class AwaitingAuthorisationView extends BaseView {
 
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

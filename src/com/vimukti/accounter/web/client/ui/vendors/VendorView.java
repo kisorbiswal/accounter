@@ -225,16 +225,12 @@ public class VendorView extends BaseView<ClientVendor> {
 		ClientCustomer customerByName = company.getCustomerByName(name);
 
 		if (customerByName != null) {
-			result
-					.addError(vendorNameText, Accounter.messages()
-							.alreadyExist());
+			result.addError(vendorNameText, Accounter.messages().alreadyExist());
 			return result;
 		}
 		if (vendorByName != null
 				&& !(this.getData().getID() == vendorByName.getID())) {
-			result
-					.addError(vendorNameText, Accounter.messages()
-							.alreadyExist());
+			result.addError(vendorNameText, Accounter.messages().alreadyExist());
 			return result;
 		}
 		data.setName(name);
@@ -255,8 +251,8 @@ public class VendorView extends BaseView<ClientVendor> {
 				ClientTAXItem selectedValue = vendorTDSTaxCode
 						.getSelectedValue();
 				if (selectedValue == null) {
-					result.addError(vendorTDSTaxCode, messages
-							.pleaseSelectTDS());
+					result.addError(vendorTDSTaxCode,
+							messages.pleaseSelectTDS());
 				}
 			}
 		}
@@ -912,10 +908,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting data from General Tab
 
 		// Setting Vendor Name
-		data
-				.setName(vendorNameText.getValue().toString() != null ? vendorNameText
-						.getValue().toString()
-						: "");
+		data.setName(vendorNameText.getValue().toString() != null ? vendorNameText
+				.getValue().toString() : "");
 
 		data.setVendorNumber(vendorNoText.getValue().toString());
 
@@ -1018,9 +1012,8 @@ public class VendorView extends BaseView<ClientVendor> {
 				.getID(selectShippingMethodFromDetailsTab));
 
 		// Setting Preferred Payment Method
-		data
-				.setPaymentMethod(selectPaymentMethodFromDetialsTab != null ? selectPaymentMethodFromDetialsTab
-						: preferredPaymentSelect.getSelectedValue());
+		data.setPaymentMethod(selectPaymentMethodFromDetialsTab != null ? selectPaymentMethodFromDetialsTab
+				: preferredPaymentSelect.getSelectedValue());
 		// Setting Preferred Payment Terms
 		data.setPaymentTerms(Utility.getID(selectPaymentTermFromDetailsTab));
 
@@ -1037,16 +1030,14 @@ public class VendorView extends BaseView<ClientVendor> {
 			// }
 			if (getCountryPreferences().isServiceTaxAvailable()) {
 				if (serviceTaxRegisterationNumber.getValue() != null) {
-					data
-							.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
-									.getValue().toString());
+					data.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
+							.getValue().toString());
 				}
 			}
 			if (getCountryPreferences().isVatAvailable()) {
 				if (vatRegistrationNumber != null) {
 					String vatReg = vatRegistrationNumber.getValue() != null ? vatRegistrationNumber
-							.getValue().toString()
-							: "";
+							.getValue().toString() : "";
 					data.setVATRegistrationNumber(vatReg.length() != 0 ? vatReg
 							: null);
 				}
@@ -1225,8 +1216,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		// accountText.setValue(takenVendor.getBankAccountNo());
 
 		// Setting Balance
-		openingBalText.setAmount(getAmountInPayeeCurrency(data
-				.getOpeningBalance(), data.getCurrencyFactor()));
+		openingBalText.setAmount(getAmountInPayeeCurrency(
+				data.getOpeningBalance(), data.getCurrencyFactor()));
 		balanceText.setAmount(data.getBalance());
 
 		// Setting Balance as of
@@ -1464,5 +1455,10 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	public double getAmountInPayeeCurrency(double amount, double factor) {
 		return amount / factor;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
 	}
 }

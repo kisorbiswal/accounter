@@ -386,8 +386,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		liabilityPurchaseAccountCombo.setRequired(true);
 
-		tAXFilingFrequency = new TAXFilingFrequencyCombo(messages
-				.taxFilingFrequency());
+		tAXFilingFrequency = new TAXFilingFrequencyCombo(
+				messages.taxFilingFrequency());
 		tAXFilingFrequency.setDisabled(isInViewMode());
 		tAXFilingFrequency.initCombo(getTAXFilingFrequencies());
 		tAXFilingFrequency.setSelectedItem(0);
@@ -976,5 +976,10 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		vatReturns.add(messages.ukVAT());
 		vatReturns.add(messages.vat3Ireland());
 		return vatReturns;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
 	}
 }

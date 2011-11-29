@@ -394,4 +394,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

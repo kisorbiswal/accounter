@@ -210,4 +210,13 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }

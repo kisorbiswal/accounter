@@ -696,4 +696,14 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
 }

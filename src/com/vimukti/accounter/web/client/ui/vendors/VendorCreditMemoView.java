@@ -801,4 +801,8 @@ public class VendorCreditMemoView extends
 		}
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }
