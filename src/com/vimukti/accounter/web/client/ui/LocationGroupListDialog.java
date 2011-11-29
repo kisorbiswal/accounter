@@ -87,7 +87,8 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.messages().locationName(), };
+		return new String[] { Accounter.messages().locationName(
+				Global.get().Location()), };
 	}
 
 	@Override
