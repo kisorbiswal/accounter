@@ -622,6 +622,7 @@ input.dropdown-button {
 	border:1px solid #858585;
 }
 .gwt-MenuBar-horizontal,.empty_menu_bar,.menubar-devider,td.td01,.decor02,.finance-portlet .decor00{
+	background:#226B73;
 	background: -moz-linear-gradient(top,  #3299A4,   #1A5158);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)); /* for webkit browsers */
@@ -1310,6 +1311,9 @@ a#fdbk_tab,#overlay{
 input.gwt-TextBox,input.gwt-DateBox{
 	width:172px !important;
 }
+input[type="text"],textarea{
+      background:white;
+}
 input[type="text"]{
 	line-height /*\**/: 1.8\9
 }
@@ -1514,7 +1518,7 @@ button.disable,button.disable:hover{
 	background:url("../images/Dropdown_indicator_5x3.png")no-repeat scroll right center ;
 }
 .main_horzontal_menubar table .gwt-MenuItem-selected{
-	background:url("../images/Dropdown_indicator_5x3.png")no-repeat scroll right center #29646C;
+	background:url("../images/Dropdown_indicator_5x3.png")no-repeat scroll right center #175359;
 }
 .main_horzontal_menubar .gwt-MenuItemSeparator .menuSeparatorInner{
 	background: url("../images/Seperator_2x20.png") no-repeat scroll 7px 3px transparent;
@@ -1556,6 +1560,7 @@ button.disable,button.disable:hover{
 }
 .fields-panel .gwt-Label{
 	width:200px;
+	text-align:left;
 }
 .conversion_date_footer{
 	color: #993300;
