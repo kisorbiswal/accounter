@@ -105,7 +105,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private int cashflowValue;
 
 	private List<Integer> accountTypes;
-	private boolean isNewBankAccount;
+	// private boolean isNewBankAccount;
 
 	private String defaultId;
 	private String selectedId;
@@ -149,10 +149,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		}
 		// subAccSelect.setComboItem(null);
-		subAccSelect.initCombo(subAccounts);
-		subAccSelect.setHelpInformation(true);
-		if (selectedSubAccount != null)
-			subAccSelect.setComboItem(selectedSubAccount);
+		// subAccSelect.initCombo(subAccounts);
+		// subAccSelect.setHelpInformation(true);
+		// if (selectedSubAccount != null)
+		// subAccSelect.setComboItem(selectedSubAccount);
 
 	}
 
@@ -572,7 +572,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	protected void displayAndSetAccountNo() {
 		long financeCategoryNumber = 0;
 
-		if (isNewBankAccount()) {
+		if (accountType == ClientAccount.TYPE_BANK) {
 			addError(accNoText,
 					messages.theFinanceCategoryNoShouldBeBetween1100And1179());
 			financeCategoryNumber = autoGenerateAccountnumber(
@@ -665,11 +665,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 		}
 		// accInfoForm.getCellFormatter().setWidth(0, 0, "200");
-		if (isNewBankAccount())
-			lab1.setText(" " + messages.bankAccount());
-		else
-			lab1.setText(" " + Utility.getAccountTypeString(this.accountType)
-					+ " " + messages.account());
+		// if (isNewBankAccount())
+		// lab1.setText(" " + messages.bankAccount());
+		// else
+		lab1.setText(" " + Utility.getAccountTypeString(this.accountType) + " "
+				+ messages.account());
 
 	}
 
@@ -873,14 +873,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	private void initAccountTypeSelect() {
-
-		if (isNewBankAccount) {
+		if (accountType != 0) {
 			accTypeSelect.setComboItem(Utility
 					.getAccountTypeString(accountType));
-			accTypeSelect.setDisabled(true);
+			// accTypeSelect.setDisabled(true);
 			getNextAccountNo();
+			accTypeSelect.initCombo(getAccountsList());
 			accNoText.setToolTip(messages.accountNumberToolTipDesc("1100",
 					"1179"));
+
 		} else {
 
 			if (!isInViewMode()) {
@@ -902,12 +903,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (accountTypeString != null) {
 			accTypeSelect.setSelected(accountTypeString);
 		}
-		if (isNewBankAccount())
-			lab1.setText(" " + messages.bankAccount());
-		else
+		// if (isNewBankAccount())
+		// lab1.setText(" " + messages.bankAccount());
+		// else
 
-			lab1.setText(" " + Utility.getAccountTypeString(accountType) + " "
-					+ messages.account());
+		lab1.setText(" " + Utility.getAccountTypeString(accountType) + " "
+				+ messages.account());
 
 	}
 
@@ -932,8 +933,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				// && type != ClientAccount.TYPE_INVENTORY_ASSET
 				// && type != ClientAccount.TYPE_CREDIT_CARD
 				// && type != ClientAccount.TYPE_PAYROLL_LIABILITY) {
-				if (type == ClientAccount.TYPE_BANK)
-					continue;
+				// if (type == ClientAccount.TYPE_BANK)
+				// continue;
 				list.add(Utility.getAccountTypeString(type));
 				// }
 			}
@@ -1005,10 +1006,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	public void reload() {
-		if (isNewBankAccount)
-			ActionFactory.getNewBankAccountAction().run(null, true);
-		else
-			ActionFactory.getNewAccountAction().run(null, true);
+		// if (isNewBankAccount)
+		// ActionFactory.getNewBankAccountAction().run(null, true);
+		// else
+		ActionFactory.getNewAccountAction().run(null, true);
 	}
 
 	@Override
@@ -1341,16 +1342,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		this.accountTypes = accountTypes;
 	}
 
-	public boolean isNewBankAccount() {
-		return isNewBankAccount;
-	}
-
-	public void setNewBankAccount(boolean isNewBankAccount) {
-
-		this.isNewBankAccount = isNewBankAccount;
-		setAccountType(ClientAccount.TYPE_BANK);
-
-	}
+	// public boolean isNewBankAccount() {
+	// return isNewBankAccount;
+	// }
+	//
+	// public void setNewBankAccount(boolean isNewBankAccount) {
+	//
+	// this.isNewBankAccount = isNewBankAccount;
+	// setAccountType(ClientAccount.TYPE_BANK);
+	//
+	// }
 
 	private int getAccountType(String name) {
 		for (int type : UIUtils.accountTypes) {
