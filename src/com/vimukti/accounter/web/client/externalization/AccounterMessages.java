@@ -4497,6 +4497,7 @@ public interface AccounterMessages extends Messages {
 	public String delayedCharges();
 
 	public String trackProducandServicesbyCustomer();
+
 	public String reportCommondActivated(String reportName);
 
 	public String reportCommondClosedSuccessfully(String reportName);
@@ -4510,5 +4511,7 @@ public interface AccounterMessages extends Messages {
 	public String void1();
 
 	public String youcannotEditDeleteDefaultTerms();
+
+	public String usedinReceivepayYoucantEdit();
 
 }
