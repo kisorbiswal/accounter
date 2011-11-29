@@ -63,6 +63,7 @@
 
 	<pattern>
 		<input>Company Preferences</input>
+		<input>Company Settings</input>
 		<output>
 			<command>Company Info</command>
 			<command>Company </command>
