@@ -7083,10 +7083,16 @@
 
 		SELECT
 		T.ID AS TRANSACTION_ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
-		T.T_DATE AS
+		TRE.TRANSACTION_TYPE AS
+		TRANSACTION_TYPE,
+		TRE.TRANSACTION_DATE AS
 		TRANSACTION_DATE,
-		T.IS_VOID AS IS_VOID,
+		CASE
+		WHEN(T.ID IS NOT NULL)
+		THEN T.IS_VOID
+		ELSE TRUE
+		END AS IS_VOID,
+
 		SUM(TRE.TAX_AMOUNT) TAX_AMOUNT,
 		SUM(TRE.NET_AMOUNT) AS NET_AMOUNT,
 		TI.ID AS TAX_ITEM
@@ -7098,12 +7104,16 @@
 		ON T.ID=TRE.TRANSACTION_ID
 		LEFT JOIN TAX_ITEM TI
 		ON TI.ID=TRE.TAXITEM_ID
+		LEFT JOIN TAXAGENCY TA
+		ON
+		TA.ID=TRE.TAXAGENCY_ID
 
 		WHERE
-		T.COMPANY_ID=:companyId AND
+		TA.COMPANY_ID=:companyId AND
 		TI.TAX_AGENCY=:taxAgency
 		GROUP BY
-		T.ID,TI.ID;
+		TI.ID,TRE.TRANSACTION_TYPE,TRE.TRANSACTION_DATE,T.ID;
+
 
 	</sql-query>
 
@@ -7121,36 +7131,51 @@
 		<return-scalar column="TAX_ITEM" type="long" />
 		<return-scalar column="TAX_ITEM_NAME" type="string" />
 		<return-scalar column="TAX_RATE" type="double" />
-
 		SELECT
 		T.ID AS TRANSACTION_ID,
-		T.NUMBER AS TRANSACTION_NUMBER,
-		T.T_TYPE
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		TRE.TRANSACTION_TYPE
 		AS
 		TRANSACTION_TYPE,
-		T.T_DATE AS TRANSACTION_DATE,
-		T.IS_VOID AS IS_VOID,
-		SUM(TRE.TAX_AMOUNT) TAX_AMOUNT,
-		SUM(TRE.NET_AMOUNT) AS NET_AMOUNT,
+		TRE.TRANSACTION_DATE AS
+		TRANSACTION_DATE,
+		CASE WHEN(T.ID
+		IS NOT NULL)
+		THEN T.IS_VOID
+		ELSE TRUE
+		END
+		AS IS_VOID,
+		SUM(TRE.TAX_AMOUNT)
+		TAX_AMOUNT,
+		SUM(TRE.NET_AMOUNT) AS
+		NET_AMOUNT,
 		TI.ID AS TAX_ITEM,
 		TIG.NAME AS TAX_ITEM_NAME,
-		TI.TAX_RATE AS TAX_RATE
+		TI.TAX_RATE AS
+		TAX_RATE
 
-		FROM TAX_RETURN_ENTRY TRE
+		FROM TAX_RETURN_ENTRY
+		TRE
 
 		LEFT JOIN TRANSACTION T
 		ON
 		T.ID=TRE.TRANSACTION_ID
-		LEFT JOIN TAX_ITEM TI
+		LEFT JOIN TAX_ITEM
+		TI
 		ON TI.ID=TRE.TAXITEM_ID
 		LEFT JOIN TAX_ITEM_GROUPS TIG
 		ON TIG.ID=TI.ID
+		LEFT
+		JOIN TAXAGENCY TA
+		ON
+		TA.ID=TRE.TAXAGENCY_ID
 
 		WHERE
-		T.COMPANY_ID=:companyId AND
+		TA.COMPANY_ID=:companyId AND
 		TI.TAX_AGENCY=:taxAgency
 		GROUP BY
-		T.ID,TI.ID,TIG.ID;
+		T.ID,TI.ID,TIG.ID,TRE.TRANSACTION_TYPE,TRE.TRANSACTION_DATE;
 
 	</sql-query>
 
@@ -7232,6 +7257,12 @@
 		a.ID ORDER by a.TRANSACTION_DATE DESC LIMIT :limit
 
 	</sql-query>
+	
+	<query name="getTaxreturnByTransactionid">
+		<query-param name="transaction" type="Transaction" />
+		from com.vimukti.accounter.core.TAXReturnEntry tr where
+		tr.transaction=:transaction
+	</query>
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

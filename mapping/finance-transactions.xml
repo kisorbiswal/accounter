@@ -1305,6 +1305,9 @@
 		<property name="taxAmount" column="TAX_AMOUNT"></property>
 		<property name="version" column="VERSION"></property>
 		<property name="isTAXGroupEntry" column="IS_TAX_GROUP_ENTRY"></property>
+		<property name="transactionDate" column="TRANSACTION_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="transactionType" column="TRANSACTION_TYPE"></property>
 	</class>
 	<!-- <class name="PayTAXEntries" table="PAY_TAX_ENTRIES"> <id name="id" 
 		column="ID"> <generator class="identity" /> </id> <many-to-one name="transaction" 
