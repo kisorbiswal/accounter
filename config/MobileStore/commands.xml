@@ -10,6 +10,8 @@
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.AuthenticationCommand"
 		name="authenticate">
+		<alias>login</alias>
+		<alias>Signin</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.CancelCommand"
@@ -1206,6 +1208,7 @@
 		name="VendorAndPurchase Preferences">
 		<alias>VendorPurchasePreferences</alias>
 		<alias>VPpreferences</alias>
+		<alias>Vendor and Purchases</alias>
 		<alias>VP</alias>
 	</command>
 
@@ -1213,6 +1216,7 @@
 		clazz="com.vimukti.accounter.mobile.preferences.ProductAndServicePreferencesCommand"
 		name="ProductAndService Preferences">
 		<alias>ProductAndServicePreferences</alias>
+		<alias>Product and Services</alias>
 		<alias>PSpreferences</alias>
 		<alias>ps</alias>
 	</command>
@@ -1222,6 +1226,7 @@
 		name="TerminologyPreferences Preferences">
 		<alias>TerminologyPreferences</alias>
 		<alias>TPreferences</alias>
+		<alias>Terminologies</alias>
 		<alias>TP</alias>
 	</command>
 </commands>
