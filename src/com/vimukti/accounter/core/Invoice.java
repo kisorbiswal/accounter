@@ -1052,8 +1052,9 @@ public class Invoice extends Transaction implements Lifecycle {
 
 		if (this.status == Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
 				|| this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
-			// "You have already paid some amount for this Invoice, You can't Edit  it and Void it.");
+			throw new AccounterException(
+					AccounterException.INVOICE_PAID_VOID_IT);
+			// "You have already paid  amount for this Invoice, You can't Edit  it and Void it.");
 		}
 
 		return super.canEdit(clientObject);
