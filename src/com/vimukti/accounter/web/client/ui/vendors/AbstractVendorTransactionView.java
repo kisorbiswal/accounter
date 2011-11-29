@@ -80,7 +80,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			transactionTotalinForeignCurrency, vatTotalNonEditableText,
 			paymentsNonEditableText, salesTaxTextNonEditable;
 
-	protected AmountField balanceDueNonEditableText;// protected
+	protected AmountLabel balanceDueNonEditableText;// protected
 
 	// AbstractAccounterCombo
 	// contactCombo,

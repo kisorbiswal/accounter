@@ -178,7 +178,7 @@ public class VendorBillView extends
 			balanceDueNonEditableText
 					.setAmount(getAmountInTransactionCurrency(transaction
 							.getBalanceDue()));
-			balanceDueNonEditableText.setCurrency(getTransactionCurrency());
+			// balanceDueNonEditableText.setCurrency(getTransactionCurrency());
 
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
@@ -513,8 +513,10 @@ public class VendorBillView extends
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		balanceDueNonEditableText = new AmountField(Accounter.messages()
-				.balanceDue(), this, getBaseCurrency());
+		// balanceDueNonEditableText = new AmountField(Accounter.messages()
+		// .balanceDue(), this, getBaseCurrency());
+		balanceDueNonEditableText = new AmountLabel(Accounter.messages()
+				.balanceDue());
 		balanceDueNonEditableText.setHelpInformation(true);
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""

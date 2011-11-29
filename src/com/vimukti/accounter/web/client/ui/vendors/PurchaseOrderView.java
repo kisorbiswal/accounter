@@ -226,8 +226,9 @@ public class PurchaseOrderView extends
 			paymentsNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
 
-			balanceDueNonEditableText = new AmountField(messages.balanceDue(),
-					this, getBaseCurrency());
+			balanceDueNonEditableText = new AmountLabel(messages.balanceDue());
+//			balanceDueNonEditableText = new AmountField(messages.balanceDue(),
+//					this, getBaseCurrency());
 			balanceDueNonEditableText.setDisabled(true);
 			balanceDueNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
