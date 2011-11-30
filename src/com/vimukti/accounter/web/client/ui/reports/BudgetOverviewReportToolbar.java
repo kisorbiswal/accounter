@@ -5,77 +5,53 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.forms.DateItem;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public class BudgetOverviewReportToolbar extends ReportToolbar {
 
-	private DateItem fromItem = new DateItem();
-	private DateItem toItem = new DateItem();
-
 	protected SelectCombo budgetName;
-	
+
 	protected List<String> statusList, dateRangeList, yearRangeList;
 	private Button updateButton;
 	List<String> budgetArray = new ArrayList<String>();
 	List<Long> idArray = new ArrayList<Long>();
 
-	private Long isStatus;
+	private Long budgetId;
 	int monthSelected;
 
 	public BudgetOverviewReportToolbar() {
-		//createControls();
 		createData();
 	}
-	
 
+	@Override
 	public void changeDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		fromItem.setValue(startDate);
-		toItem.setValue(endDate);
-		reportview.makeReportRequest(isStatus, startDate, endDate,
-				monthSelected);
+		if (budgetId != null) {
+			reportview.makeReportRequest(budgetId, startDate, endDate);
+		}
 
 	}
 
 	@Override
 	public void setStartAndEndDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		fromItem.setEnteredDate(startDate);
-		toItem.setEnteredDate(endDate);
 		setStartDate(startDate);
 		setEndDate(endDate);
 	}
 
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
-
 		dateRangeChanged(defaultDateRange);
-
 	}
 
 	public void createControls() {
-
-		/*final String[] dateRangeArray = { Accounter.messages().january(),
-				Accounter.messages().february(),
-				Accounter.messages().march(), Accounter.messages().april(),
-				Accounter.messages().may(), Accounter.messages().june(),
-				Accounter.messages().july(), Accounter.messages().august(),
-				Accounter.messages().september(),
-				Accounter.messages().october(),
-				Accounter.messages().november(),
-				Accounter.messages().december() };*/
 
 		budgetName = new SelectCombo(Accounter.messages().budget());
 		budgetName.setHelpInformation(true);
@@ -93,49 +69,17 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						isStatus = idArray.get(budgetName.getSelectedIndex());
+						budgetId = idArray.get(budgetName.getSelectedIndex());
+						changeDates(startDate, endDate);
 					}
 				});
 
-	
-
-		fromItem = new DateItem();
-		fromItem.setHelpInformation(true);
-		fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		fromItem.setTitle(Accounter.messages().from());
-		ClientFinanceDate date = Accounter.getCompany()
-				.getCurrentFiscalYearEndDate();
-		// .getLastandOpenedFiscalYearEndDate();
-		fromItem.setValue(date);
-
-		toItem = new DateItem();
-		toItem.setHelpInformation(true);
-		if (date != null)
-			toItem.setDatethanFireEvent(date);
-		else
-			toItem.setDatethanFireEvent(new ClientFinanceDate());
-
-		toItem.setTitle(Accounter.messages().to());
-		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				startDate = (ClientFinanceDate) fromItem.getValue();
-				endDate = (ClientFinanceDate) toItem.getValue();
-			}
-		});
 		updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
-				setStartDate(fromItem.getDate());
-				setEndDate(toItem.getDate());
-
-				changeDates(fromItem.getDate(), toItem.getDate());
-				setSelectedDateRange(Accounter.messages().custom());
-
+				changeDates(startDate, endDate);
 			}
 		});
 
@@ -154,9 +98,8 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 
 		});
 
+		addItems(budgetName);
 
-			addItems(budgetName);
-	
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
@@ -164,35 +107,35 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 	}
 
 	public void createData() {
-		
-		List<ClientBudget> budgetList = null;
-		
-//		Accounter.createReportService().getBudgetItemsList(Accounter.getCompany().getID(), null, null, 1, new AsyncCallback<ArrayList<ClientBudgetListXXXXXXXX>>() {
-//			
-//			@Override
-//			public void onSuccess(ArrayList<Clien> result) {
-//					
-//				budgetList=result;
-//			}
-//			
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		});
-		for (ClientBudget budget : budgetList) {
-			budgetArray.add(budget.getBudgetName());
-			idArray.add(budget.getID());
-		}
-		createControls();
 
-		if (idArray.size() > 0) {
-			isStatus = idArray.get(0);
-			setStartDate(fromItem.getDate());
-			setEndDate(toItem.getDate());
-			monthSelected = 1;
-			changeDates(fromItem.getDate(), toItem.getDate());
-		}
+		Accounter.createHomeService().getBudgetList(
+				new AsyncCallback<ArrayList<ClientBudget>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onSuccess(ArrayList<ClientBudget> result) {
+
+						List<ClientBudget> budgetList = result;// TODO
+																// Auto-generated
+						for (ClientBudget budget : budgetList) {
+							budgetArray.add(budget.getBudgetName());
+							idArray.add(budget.getID());
+						}
+						createControls();
+
+						if (idArray.size() > 0) {
+							budgetId = idArray.get(0);
+							monthSelected = 1;
+							changeDates(new ClientFinanceDate(),
+									new ClientFinanceDate());
+						}
+					}
+				});
+
 	}
 }

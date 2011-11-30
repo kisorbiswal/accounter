@@ -319,9 +319,7 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			AsyncCallback<ArrayList<MISC1099TransactionDetail>> callback);
 
-	public void getBudgetItemsList(long id, ClientFinanceDate startDate,
-			ClientFinanceDate endDate, int month,
-			AsyncCallback<ArrayList<ClientBudgetList>> callback);
+	public void getBudgetItemsList(long budgetID, AsyncCallback<ArrayList<ClientBudgetList>> callback);
 
 	void getTAXItemDetailReport(long taxAgency, long startDate, long endDate,
 			AsyncCallback<ArrayList<TAXItemDetail>> callback);

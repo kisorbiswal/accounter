@@ -152,8 +152,7 @@ public interface IAccounterReportDAOService {
 			String debitorName, ClientFinanceDate fromDate,
 			ClientFinanceDate toDate);
 
-	public ArrayList<ClientBudgetList> getBudgetItemsList(long id,
-			ClientFinanceDate startDate, ClientFinanceDate endDate, int month);
+	public ArrayList<ClientBudgetList> getBudgetItemsList(long id);
 
 	// For UK
 

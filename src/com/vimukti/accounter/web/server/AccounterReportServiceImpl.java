@@ -2405,14 +2405,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return expenseList;
 	}
 
-	public ArrayList<ClientBudgetList> getBudgetItemsList(long id,
-			ClientFinanceDate startDate, ClientFinanceDate endDate, int month) {
-		return budgetItemsList(id, startDate, endDate, month, getCompanyId());
-	}
-
-	private ArrayList<ClientBudgetList> budgetItemsList(long id,
-			ClientFinanceDate startDate, ClientFinanceDate endDate, int month,
-			long companyId) {
+	private ArrayList<ClientBudgetList> budgetItemsList(long id,long companyId) {
 
 		ArrayList<ClientBudgetList> budgetList = new ArrayList<ClientBudgetList>();
 
@@ -2463,6 +2456,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
+		
+		if(budgetList.size()==1){
+			FinanceDate[] financeDates = getMinimumAndMaximumDates(new ClientFinanceDate(),
+					new ClientFinanceDate(), companyId);
+			ClientBudgetList obj = new ClientBudgetList();
+			budgetList.add((ClientBudgetList) setStartEndDates(obj,
+					financeDates));
+		}
+		
 		return budgetList;
 
 	}
@@ -2643,9 +2645,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public ArrayList<ClientBudgetList> getBudgetItemsList(int id,
-			ClientFinanceDate startDate, ClientFinanceDate endDate, int month,
 			long companyId) {
-		return budgetItemsList(id, startDate, endDate, month, companyId);
+		return budgetItemsList(id,companyId);
 	}
 
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
@@ -2803,6 +2804,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			list.add((TAXItemDetail) setStartEndDates(obj, financeDates));
 		return list;
 	}
+
+
+	@Override
+	public ArrayList<ClientBudgetList> getBudgetItemsList(long budgetID) {
+		return budgetItemsList(budgetID, getCompanyId());
+	}
+
 
 	@Override
 	public ArrayList<PayeeStatementsList> getStatements(boolean isVendor,

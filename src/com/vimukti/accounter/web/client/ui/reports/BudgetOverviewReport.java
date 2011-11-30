@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
-import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -8,12 +7,11 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 
-	private int BUDGET_TYPE_CUSTOM = 1;
-
+	long budgetId;
 	BudgetOverviewServerReport serverreport;
 
 	public BudgetOverviewReport() {
-		super(false, "");
+		//super(false, "");
 		serverreport = new BudgetOverviewServerReport(this);
 		this.serverReport = serverreport;
 		this.serverReport.setIshowGridFooter(true);
@@ -34,11 +32,10 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 
 	@Override
 	public void makeReportRequest(long id, ClientFinanceDate start,
-			ClientFinanceDate end, int month) {
-
-		serverreport.setMonth(month);
-		Accounter.createReportService().getBudgetItemsList(id, start, end,
-				month, this);
+			ClientFinanceDate end) {
+		
+		budgetId = id;
+		Accounter.createReportService().getBudgetItemsList(id, this);
 	}
 
 	@Override
@@ -48,7 +45,13 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 
 	@Override
 	public void print() {
-			UIUtils.generateBudgetReportPDF(154, BUDGET_TYPE_CUSTOM);
+			//UIUtils.generateBudgetReportPDF(154, BUDGET_TYPE_CUSTOM);
+			
+			UIUtils.generateReportPDF(
+					Integer.parseInt(String.valueOf(new ClientFinanceDate().getDate())),
+					Integer.parseInt(String.valueOf(new ClientFinanceDate().getDate())), 154, "",
+					"", budgetId);
+
 	}
 
 	public void exportToCsv() {

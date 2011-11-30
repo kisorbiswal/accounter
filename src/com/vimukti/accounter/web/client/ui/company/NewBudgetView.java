@@ -383,6 +383,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		List<ClientBudgetItem> allGivenRecords = (List<ClientBudgetItem>) gridView
 				.getRecords();
 
+
 		data.setBudgetItem(allGivenRecords);
 
 	}

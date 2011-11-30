@@ -30,7 +30,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	SelectCombo currentView;
 
-	BudgetListGrid gridView = new BudgetListGrid();
+	// BudgetListGrid gridView = new BudgetListGrid();
 
 	List<ClientBudget> listOfBudgets = new ArrayList<ClientBudget>();
 
@@ -49,6 +49,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected void initGrid() {
+
 		grid = new BudgetListGrid();
 		grid.init();
 	}
@@ -82,8 +83,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages()
-				.payees(Global.get().messages().budget());
+		return Accounter.messages().payees(Global.get().messages().budget());
 
 	}
 
@@ -134,7 +134,10 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 			for (ClientBudgetItem budgetItem : budgetItems) {
 
 				budgetItem.setAccountsName(budgetItem.getAccount().getName());
-				grid.addData(budgetItem);
+				
+				if (budgetItem.getTotalAmount() > 0) {
+					grid.addData(budgetItem);
+				}
 			}
 		}
 		if (grid.getRecords().isEmpty())
@@ -157,7 +160,10 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 			for (ClientBudgetItem budgetItem : budgetItems) {
 
 				budgetItem.setAccountsName(budgetItem.getAccount().getName());
-				grid.addData(budgetItem);
+
+				if (budgetItem.getTotalAmount() > 0) {
+					grid.addData(budgetItem);
+				}
 			}
 		}
 		if (grid.getRecords().isEmpty())

@@ -263,8 +263,7 @@ public interface IAccounterReportService extends RemoteService {
 			long vendorId, int boxNo, ClientFinanceDate fromDate,
 			ClientFinanceDate toDate);
 
-	public ArrayList<ClientBudgetList> getBudgetItemsList(long id,
-			ClientFinanceDate startDate, ClientFinanceDate endDate, int month);
+	ArrayList<ClientBudgetList> getBudgetItemsList(long budgetID);
 
 	ArrayList<TAXItemDetail> getTAXItemDetailReport(long taxAgency,
 			long startDate, long endDate) throws AccounterException;

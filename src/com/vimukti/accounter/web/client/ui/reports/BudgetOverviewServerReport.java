@@ -5,63 +5,56 @@ import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport;
 
-public class BudgetOverviewServerReport extends AbstractFinaneReport<ClientBudgetList> {
-
-	private int TOOLBAR_TYPE_CUSTOM = 1;
-	private int TOOLBAR_TYPE_MONTH = 2;
-	private int TOOLBAR_TYPE_QUATER = 3;
-	private int TOOLBAR_TYPE_YEAR = 4;
+public class BudgetOverviewServerReport extends
+		AbstractFinaneReport<ClientBudgetList> {
 
 	private String sectionName = "";
-	int monthSelected;
 	private String currentsectionName = "";
 
-
-	public BudgetOverviewServerReport(IFinanceReport<ClientBudgetList> reportView) {
+	public BudgetOverviewServerReport(
+			IFinanceReport<ClientBudgetList> reportView) {
 		this.reportView = reportView;
-		
 
 	}
 
-	public BudgetOverviewServerReport(long startDate, long endDate, int generationType) {
+	public BudgetOverviewServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
 	@Override
 	public Object getColumnData(ClientBudgetList record, int columnIndex) {
 
-	
-			switch (columnIndex) {
-			case 0:
-				return record.getAccount().getName();
-			case 1:
-				return record.getJanuaryAmount();
-			case 2:
-				return record.getFebrauaryAmount();
-			case 3:
-				return record.getMarchAmount();
-			case 4:
-				return record.getAprilAmount();
-			case 5:
-				return record.getMayAmount();
-			case 6:
-				return record.getJuneAmount();
-			case 7:
-				return record.getJulyAmount();
-			case 8:
-				return record.getAugustAmount();
-			case 9:
-				return record.getSeptemberAmount();
-			case 10:
-				return record.getOctoberAmount();
-			case 11:
-				return record.getNovemberAmount();
-			case 12:
-				return record.getDecemberAmount();
-			case 13:
-				return record.getTotalAmount();
-			}
-		
+		switch (columnIndex) {
+		case 0:
+			return record.getAccount().getName();
+		case 1:
+			return record.getJanuaryAmount();
+		case 2:
+			return record.getFebrauaryAmount();
+		case 3:
+			return record.getMarchAmount();
+		case 4:
+			return record.getAprilAmount();
+		case 5:
+			return record.getMayAmount();
+		case 6:
+			return record.getJuneAmount();
+		case 7:
+			return record.getJulyAmount();
+		case 8:
+			return record.getAugustAmount();
+		case 9:
+			return record.getSeptemberAmount();
+		case 10:
+			return record.getOctoberAmount();
+		case 11:
+			return record.getNovemberAmount();
+		case 12:
+			return record.getDecemberAmount();
+		case 13:
+			return record.getTotalAmount();
+		}
 
 		return null;
 	}
@@ -74,28 +67,23 @@ public class BudgetOverviewServerReport extends AbstractFinaneReport<ClientBudge
 	@Override
 	public int[] getColumnTypes() {
 
-			return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
-					COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
-					COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
-					COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
-					COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
-		
+		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
+				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
+				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
+				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
+				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
 
 	}
 
 	@Override
 	public String[] getColunms() {
 
-		
-			return new String[] { getMessages().name(),
-					getMessages().jan(), getMessages().feb(),
-					getMessages().mar(), getMessages().apr(),
-					getMessages().may(), getMessages().jun(),
-					getMessages().jul(), getMessages().aug(),
-					getMessages().sept(), getMessages().oct(),
-					getMessages().nov(), getMessages().dec(),
-					getMessages().total() };
-		
+		return new String[] { getMessages().name(), getMessages().jan(),
+				getMessages().feb(), getMessages().mar(), getMessages().apr(),
+				getMessages().may(), getMessages().jun(), getMessages().jul(),
+				getMessages().aug(), getMessages().sept(), getMessages().oct(),
+				getMessages().nov(), getMessages().dec(), getMessages().total() };
+
 	}
 
 	@Override
@@ -106,14 +94,10 @@ public class BudgetOverviewServerReport extends AbstractFinaneReport<ClientBudge
 	@Override
 	public void processRecord(ClientBudgetList record) {
 
-		if (sectionDepth == 0) {
-			addSection("", getMessages().total(), new int[] { 2 });
+	/*	if (sectionDepth == 0) {
+			addSection("", getMessages().total(), new int[] { 13 });
 		} else if (sectionDepth == 1) {
-		
-
-				addSection("", getMessages().total(), new int[] { 13 });
-			
-
+			addSection("", getMessages().total(), new int[] { 13 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getName())) {
@@ -121,6 +105,17 @@ public class BudgetOverviewServerReport extends AbstractFinaneReport<ClientBudge
 			} else {
 				return;
 			}
+		}
+		// Go on recursive calling if we reached this place
+
+		processRecord(record);*/
+
+		
+		
+		if (sectionDepth == 0) {
+			addSection("", getMessages().total(), new int[] {13 });
+		} else if (sectionDepth == 1) {
+			return;
 		}
 		// Go on recursive calling if we reached this place
 		processRecord(record);
@@ -180,24 +175,16 @@ public class BudgetOverviewServerReport extends AbstractFinaneReport<ClientBudge
 	@Override
 	public String[] getDynamicHeaders() {
 
-			return new String[] { getMessages().name(),
-					getMessages().jan(), getMessages().feb(),
-					getMessages().mar(), getMessages().apr(),
-					getMessages().may(), getMessages().jun(),
-					getMessages().jul(), getMessages().aug(),
-					getMessages().sept(), getMessages().oct(),
-					getMessages().nov(), getMessages().dec(),
-					getMessages().total() };
-		
+		return new String[] { getMessages().name(), getMessages().jan(),
+				getMessages().feb(), getMessages().mar(), getMessages().apr(),
+				getMessages().may(), getMessages().jun(), getMessages().jul(),
+				getMessages().aug(), getMessages().sept(), getMessages().oct(),
+				getMessages().nov(), getMessages().dec(), getMessages().total() };
+
 	}
 
 	@Override
 	public void makeReportRequest(long start, long end) {
-
-	}
-
-	public void setMonth(int month) {
-		monthSelected = month;
 
 	}
 
