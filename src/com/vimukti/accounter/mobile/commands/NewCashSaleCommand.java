@@ -73,22 +73,6 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 					@Override
 					public void onSelection(Customer value) {
-						get(BILL_TO).setValue(null);
-						Set<Address> addresses = value.getAddress();
-						for (Address address : addresses) {
-							if (address.getType() == Address.TYPE_BILL_TO) {
-								try {
-									ClientAddress addr = new ClientConvertUtil()
-											.toClientObject(address,
-													ClientAddress.class);
-									get(BILL_TO).setValue(addr);
-								} catch (AccounterException e) {
-									e.printStackTrace();
-								}
-								break;
-							}
-						}
-
 						NewCashSaleCommand.this.get(PHONE).setValue(
 								value.getPhoneNo());
 
@@ -475,6 +459,20 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 		Customer customer = get(CUSTOMER).getValue();
 		cashSale.setCustomer(customer.getID());
+
+		Set<Address> addresses = customer.getAddress();
+		for (Address address : addresses) {
+			if (address.getType() == Address.TYPE_BILL_TO) {
+				try {
+					ClientAddress addr = new ClientConvertUtil()
+							.toClientObject(address, ClientAddress.class);
+					cashSale.setBillingAddress(addr);
+				} catch (AccounterException e) {
+					e.printStackTrace();
+				}
+				break;
+			}
+		}
 
 		Contact contact = get(CONTACT).getValue();
 		cashSale.setContact(toClientContact(contact));
