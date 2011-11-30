@@ -677,9 +677,10 @@ public class WriteChequeView extends
 		listforms = new ArrayList<DynamicForm>();
 
 		// setTitle(bankingConstants.writeCheck());
-		Label lab1 = new Label(messages.writeCheck() + "("
+		Label titleLabel = new Label(messages.writeCheck() + "("
 				+ getTransactionStatus() + ")");
-		lab1.addStyleName(messages.labelTitle());
+		titleLabel.removeStyleName("gwt-Label");
+		titleLabel.addStyleName(messages.labelTitle());
 
 		transactionNumber = createTransactionNumberItem();
 		locationCombo = createLocationCombo();
@@ -701,7 +702,6 @@ public class WriteChequeView extends
 
 		labelLayout = new HorizontalPanel();
 		labelLayout.setWidth("100%");
-		labelLayout.add(lab1);
 		labelLayout.add(nHPanel);
 		labelLayout.setCellHorizontalAlignment(nHPanel,
 				HasHorizontalAlignment.ALIGN_RIGHT);
@@ -1037,7 +1037,7 @@ public class WriteChequeView extends
 			// }
 
 		}
-
+		mainVLay.add(titleLabel);
 		mainVLay.add(topHLay);
 		mainVLay.add(vendorAccountsDisclosurePanel);
 
