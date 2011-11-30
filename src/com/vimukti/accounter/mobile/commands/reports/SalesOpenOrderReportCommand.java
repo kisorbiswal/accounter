@@ -6,7 +6,9 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
@@ -38,13 +40,11 @@ public class SalesOpenOrderReportCommand extends
 
 			@Override
 			protected String getSetMessage() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			protected String getSelectString() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
@@ -60,11 +60,23 @@ public class SalesOpenOrderReportCommand extends
 
 			@Override
 			protected String getEmptyString() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 		});
 		addDateRangeFromToDateRequirements(list);
+		list.add(new ReportResultRequirement<OpenAndClosedOrders>() {
+
+			@Override
+			protected String onSelection(OpenAndClosedOrders selection,
+					String name) {
+				return addCommandOnRecordClick(selection);
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+				List<OpenAndClosedOrders> records = getRecords();
+			}
+		});
 	}
 
 	protected Record createReportRecord(OpenAndClosedOrders record) {
