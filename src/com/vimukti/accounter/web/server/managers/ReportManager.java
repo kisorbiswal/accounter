@@ -2961,7 +2961,7 @@ public class ReportManager extends Manager {
 				double netAmount = (Double) objects[1];
 				long transactionID = (Long) objects[2];
 
-				if (transactionID == transaction) {
+				if (transaction != null && transactionID == transaction) {
 					newEntry = new TAXItemDetail();
 					newEntry.setFiledTAXAmount((Double) entry[5]);
 					double amount = taxAmount - (Double) entry[5];
