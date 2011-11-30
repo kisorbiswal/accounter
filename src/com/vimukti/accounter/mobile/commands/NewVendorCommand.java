@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CompanyPreferences;
-import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
@@ -578,11 +577,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 				CommandUtils.getServerObjectById(vendor.getTAXCode(),
 						AccounterCoreType.TAX_CODE));
 
-		ArrayList<Contact> arrayList = new ArrayList<Contact>();
-		for (ClientContact contact : vendor.getContacts()) {
-			arrayList.add(toServerContact(contact));
-		}
-		get(CONTACTS).setValue(arrayList);
+		get(CONTACTS).setValue(
+				new ArrayList<ClientContact>(vendor.getContacts()));
 		get(ACCOUNT).setValue(
 				CommandUtils.getServerObjectById(vendor.getExpenseAccount(),
 						AccounterCoreType.ACCOUNT));
