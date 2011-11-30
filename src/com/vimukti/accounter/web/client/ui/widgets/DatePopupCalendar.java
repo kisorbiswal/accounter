@@ -28,7 +28,7 @@ public class DatePopupCalendar extends PopupPanel {
 	private Button cancelButton;
 	private Button nextButton, prevButton;
 	private Date displayMonth;
-	private VerticalPanel panel;
+	final private VerticalPanel panel;
 	String months[][] = { { "Jan", "July" }, { "Feb", "Aug" },
 			{ "Mar", "Sep" }, { "Apr", "Oct" }, { "May", "Nov" },
 			{ "Jun", "Dec" } };
@@ -41,6 +41,7 @@ public class DatePopupCalendar extends PopupPanel {
 		this.daysGrid = new Grid(6, 4);
 		this.datePicker = datePicker;
 		panel = new VerticalPanel();
+
 		this.add(panel);
 		sinkEvents(Event.ONBLUR);
 		nextButton(panel);
@@ -87,6 +88,7 @@ public class DatePopupCalendar extends PopupPanel {
 			}
 		});
 		cancelButton = new Button("Cancel");
+
 		cancelButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -98,7 +100,7 @@ public class DatePopupCalendar extends PopupPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				panel.remove(daysGrid);
+				panel.clear();
 				drawGrid(panel);
 
 			}
@@ -108,7 +110,7 @@ public class DatePopupCalendar extends PopupPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 
-				panel.remove(daysGrid);
+				panel.clear();
 				int y = getYear();
 				y = y - 20;
 				setYear(y);
@@ -234,6 +236,8 @@ public class DatePopupCalendar extends PopupPanel {
 		if (getDisplayMonth() != null) {
 			setYear(getDisplayMonth().getYear() + 1900);
 		}
+		panel.clear();
+
 		drawGrid(panel);
 
 	}
