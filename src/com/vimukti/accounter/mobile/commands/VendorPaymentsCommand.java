@@ -41,7 +41,7 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return null;
 	}
 
 	@Override
@@ -100,7 +100,8 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 				Record payment = new Record(p);
 				payment.add("", p.getPaymentDate());
 				payment.add("", p.getPaymentNumber());
-				payment.add("", Utility.getStatus(p.getType(), p.getStatus()));
+				payment.add("", Utility.getTransactionStatus(p.getType(),
+						p.getStatus()));
 				payment.add("", p.getIssuedDate());
 				payment.add("", p.getName());
 				payment.add("", Utility.getTransactionName(p.getType()));
@@ -173,14 +174,15 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 		if (paymentsLists != null) {
 			for (PaymentsList list : paymentsLists) {
 				if (currentView.equals(getMessages().notIssued())) {
-					if (((Utility.getStatus(list.getType(), list.getStatus())
-							.equalsIgnoreCase(getMessages().notIssued())) && !(list
-							.isVoided()))) {
+					if (((Utility.getTransactionStatus(list.getType(),
+							list.getStatus()).equalsIgnoreCase(getMessages()
+							.notIssued())) && !(list.isVoided()))) {
 						result.add(list);
 					}
 				} else if (currentView.equals(getMessages().issued())) {
-					if (Utility.getStatus(list.getType(), list.getStatus())
-							.equalsIgnoreCase(getMessages().issued())
+					if (Utility.getTransactionStatus(list.getType(),
+							list.getStatus()).equalsIgnoreCase(
+							getMessages().issued())
 							&& !list.isVoided()) {
 						result.add(list);
 					}
