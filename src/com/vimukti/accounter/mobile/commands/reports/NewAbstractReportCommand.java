@@ -6,15 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.commands.NewAbstractCommand;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
-import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -194,14 +191,6 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 	}
 
 	/**
-	 * get report records based on session..
-	 * 
-	 * @param session
-	 * @return
-	 */
-	protected abstract List<T> getRecords();
-
-	/**
 	 * to get last date of the month.
 	 **/
 	public FinanceDate getLastMonth(FinanceDate date) {
@@ -234,10 +223,6 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 		// return lastDay;
 	}
 
-	protected abstract String addCommandOnRecordClick(T selection);
-
-	protected abstract Record createReportRecord(T record);
-
 	protected FinanceDate getStartDate() {
 		return get(FROM_DATE) == null ? new FinanceDate(startDate)
 				: new FinanceDate((ClientFinanceDate) get(FROM_DATE).getValue());
@@ -266,62 +251,17 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 	}
 
 	@Override
-	protected void addRequirements(List<Requirement> list) {
-		list.add(getShowListRequirement());
+	protected String getWelcomeMessage() {
+		return null;
 	}
 
-	private Requirement getShowListRequirement() {
-		return new ShowListRequirement<T>(RECORDS, getSelectRecordString(),
-				REPORTS_TO_SHOW) {
-
-			@Override
-			protected String onSelection(T value) {
-				return NewAbstractReportCommand.this
-						.addCommandOnRecordClick(value);
-			}
-
-			@Override
-			protected String getShowMessage() {
-				return NewAbstractReportCommand.this.getShowMessage();
-			}
-
-			@Override
-			protected String getEmptyString() {
-				return NewAbstractReportCommand.this.getEmptyString();
-			}
-
-			@Override
-			protected Record createRecord(T value) {
-				return createReportRecord(value);
-			}
-
-			@Override
-			protected void setCreateCommand(CommandList list) {
-
-			}
-
-			@Override
-			protected boolean filter(T e, String name) {
-				return true;
-			}
-
-			@Override
-			protected List<T> getLists(Context context) {
-				return getRecords();
-			}
-
-			@Override
-			public List<T> pagination(Context context, Object selection,
-					ResultList actions, List<T> records, List<T> skipRecords,
-					int recordsToShow) {
-				return records;
-			}
-		};
+	@Override
+	protected String getDetailsMessage() {
+		return null;
 	}
 
-	protected abstract String getEmptyString();
-
-	protected abstract String getShowMessage();
-
-	protected abstract String getSelectRecordString();
+	@Override
+	public String getSuccessMessage() {
+		return null;
+	}
 }
