@@ -17,10 +17,8 @@ public class TransactionDetailbyTaxItemReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(TransactionDetailByTaxItem record) {
 
 		Record tdRecord = new Record(record);
@@ -44,7 +42,6 @@ public class TransactionDetailbyTaxItemReportCommand extends
 		return null;
 	}
 
-	@Override
 	protected List<TransactionDetailByTaxItem> getRecords() {
 		ArrayList<TransactionDetailByTaxItem> transactionDetailByTaxItems = new ArrayList<TransactionDetailByTaxItem>();
 		try {
@@ -62,29 +59,12 @@ public class TransactionDetailbyTaxItemReportCommand extends
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return transactionDetailByTaxItems;
 	}
 
-	@Override
 	protected String addCommandOnRecordClick(
 			TransactionDetailByTaxItem selection) {
 		return "update transaction " + selection.getTransactionId();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(
-				getMessages().transactionDetailByTaxItem());
 	}
 
 	@Override
