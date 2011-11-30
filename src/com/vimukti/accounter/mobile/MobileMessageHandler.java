@@ -187,7 +187,13 @@ public class MobileMessageHandler extends Thread {
 
 		Locale[] availableLocales = Locale.getAvailableLocales();
 		for (Locale locale : availableLocales) {
-			if (locale.getISO3Language().equalsIgnoreCase(language)) {
+			String lang = "";
+			try {
+				language = locale.getISO3Language();
+			} catch (Exception e) {
+				language = "eng";
+			}
+			if (lang.equalsIgnoreCase(language)) {
 				return locale;
 			}
 		}

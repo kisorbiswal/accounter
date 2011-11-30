@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Locale;
+import java.util.MissingResourceException;
 
 import org.hibernate.Session;
 
@@ -57,9 +58,15 @@ public class ServerSideMessages {
 			if (user != null) {
 				clientId = user.getClient().getID();
 			}
+			String language = "";
+			try {
+				language = locale.getISO3Language();
+			} catch (MissingResourceException e) {
+				language = "eng";
+			}
 			String msg = (String) session
 					.getNamedQuery("getLocalMessageForKey")
-					.setString("language", locale.getISO3Language())
+					.setString("language", language)
 					.setLong("client", clientId).setString("key", key)
 					.uniqueResult();
 			return msg;

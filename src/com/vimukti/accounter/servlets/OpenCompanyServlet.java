@@ -3,6 +3,7 @@ package com.vimukti.accounter.servlets;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.MissingResourceException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -62,7 +63,12 @@ public class OpenCompanyServlet extends BaseServlet {
 			Query namedQuery = session.getNamedQuery("getClient.by.mailId");
 			namedQuery.setParameter(BaseServlet.EMAIL_ID, emailID);
 			Client client = (Client) namedQuery.uniqueResult();
-			String language = getlocale().getISO3Language();
+			String language = "";
+			try {
+				language = getlocale().getISO3Language();
+			} catch (MissingResourceException e) {
+				language = "eng";
+			}
 			HashMap<String, String> keyAndValues = financeTool.getKeyAndValues(
 					client.getID(), language);
 
@@ -87,8 +93,8 @@ public class OpenCompanyServlet extends BaseServlet {
 				Transaction transaction = session.beginTransaction();
 				Company company = getCompany(request);
 				User user = (User) session.getNamedQuery("user.by.emailid")
-						.setParameter("company", company).setParameter(
-								"emailID", emailID).uniqueResult();
+						.setParameter("company", company)
+						.setParameter("emailID", emailID).uniqueResult();
 				if (user == null) {
 					response.sendRedirect(COMPANIES_URL);
 					return;
@@ -102,7 +108,7 @@ public class OpenCompanyServlet extends BaseServlet {
 				// there is no session, so do external redirect to login page
 				// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 				// response.setHeader("Location", "/Accounter.jsp");
-				
+
 				request.setAttribute(EMAIL_ID, user.getClient().getEmailId());
 				request.setAttribute(USER_NAME, user.getClient().getFullName());
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()

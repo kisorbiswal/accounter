@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.server.translate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.MissingResourceException;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -99,8 +100,13 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 	public ClientLanguage getLocalLanguage() {
 		List<ClientLanguage> languages = new FinanceTool().getLanguages();
 		for (ClientLanguage clientLanguage : languages) {
-			if (clientLanguage.getLanguageCode().equals(
-					ServerLocal.get().getISO3Language())) {
+			String language = "";
+			try {
+				language = ServerLocal.get().getISO3Language();
+			} catch (MissingResourceException e) {
+				language = "eng";
+			}
+			if (clientLanguage.getLanguageCode().equals(language)) {
 				return clientLanguage;
 			}
 
