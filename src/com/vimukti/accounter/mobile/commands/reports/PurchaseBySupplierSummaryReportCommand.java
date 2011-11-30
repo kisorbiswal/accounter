@@ -16,11 +16,8 @@ public class PurchaseBySupplierSummaryReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
-
 	}
 
-	@Override
 	protected Record createReportRecord(SalesByCustomerDetail record) {
 		Record salesRecord = new Record(record);
 		salesRecord.add(getMessages().payeeName(Global.get().Vendor()),
@@ -35,7 +32,6 @@ public class PurchaseBySupplierSummaryReportCommand extends
 		return null;
 	}
 
-	@Override
 	protected List<SalesByCustomerDetail> getRecords() {
 		ArrayList<SalesByCustomerDetail> salesByCustomerDetails = new ArrayList<SalesByCustomerDetail>();
 		try {
@@ -48,25 +44,8 @@ public class PurchaseBySupplierSummaryReportCommand extends
 		return salesByCustomerDetails;
 	}
 
-	@Override
 	protected String addCommandOnRecordClick(SalesByCustomerDetail selection) {
 		return "Purchase By Supplier Detail," + selection.getName();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(
-				getMessages().purchaseByVendorSummary(Global.get().Vendor()));
 	}
 
 	@Override
