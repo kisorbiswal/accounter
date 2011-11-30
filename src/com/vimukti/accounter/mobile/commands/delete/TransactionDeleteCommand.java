@@ -25,8 +25,9 @@ public class TransactionDeleteCommand extends AbstractDeleteCommand {
 		try {
 			voidTransaction(accounterCoreType, Long.parseLong(split[1]),
 					context);
+			addFirstMessage(context, "The transaction has been voided.");
 		} catch (AccounterException e) {
-			addFirstMessage(context, "");
+			addFirstMessage(context, "You can not void it, this was bill paid");
 		}
 		return transactionName + " List";
 	}
