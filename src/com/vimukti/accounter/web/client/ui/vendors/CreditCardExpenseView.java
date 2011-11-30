@@ -199,7 +199,7 @@ public class CreditCardExpenseView extends
 		// verticalPanel.add(vendorForm);
 		// verticalPanel.setSpacing(10);
 
-		titlelabel = new Label(messages.creditCardCharge());
+		titlelabel = new Label(messages.creditCardExpense());
 		titlelabel.removeStyleName("gwt-Label");
 		titlelabel.addStyleName(messages.labelTitle());
 		// titlelabel.setHeight("35px");
