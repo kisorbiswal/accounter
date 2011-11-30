@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewBudgetAction extends Action<ClientBudget> {
 
-	NewBudgetView view;
+	NewBudgetView1 view;
 	boolean edit;
 
 	public NewBudgetAction(String text) {
@@ -43,7 +43,7 @@ public class NewBudgetAction extends Action<ClientBudget> {
 
 			@Override
 			public void onCreated() {
-				view = new NewBudgetView(listData);
+				view = new NewBudgetView1(listData);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewBudgetAction.this);
 
@@ -59,7 +59,7 @@ public class NewBudgetAction extends Action<ClientBudget> {
 
 			@Override
 			public void onCreated() {
-				view = new NewBudgetView();
+				view = new NewBudgetView1();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewBudgetAction.this);
 

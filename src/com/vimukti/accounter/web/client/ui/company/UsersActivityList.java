@@ -26,9 +26,10 @@ import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class UsersActivityList extends CellTable<ClientActivity> {
+
 	private AsyncDataProvider<ClientActivity> listDataProvider;
 	private ClientFinanceDate fromDate, endDate;
-	private AccounterMessages messages = Accounter.messages();
+	private final AccounterMessages messages = Accounter.messages();
 
 	public UsersActivityList() {
 		createControls();

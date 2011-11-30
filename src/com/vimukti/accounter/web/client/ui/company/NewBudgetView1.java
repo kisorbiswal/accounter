@@ -1,28 +1,19 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import com.google.gwt.cell.client.ClickableTextCell;
-import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.cellview.client.ColumnSortEvent;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.Handler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.view.client.DefaultSelectionEventManager;
-import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.view.client.MultiSelectionModel;
-import com.google.gwt.view.client.ProvidesKey;
-import com.google.gwt.view.client.SelectionModel;
-import com.google.gwt.view.client.SingleSelectionModel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -42,6 +33,7 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.grids.BudgetCellTable;
 
 public class NewBudgetView1 extends BaseView<ClientBudget> {
 
@@ -85,8 +77,8 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 	List<ClientBudget> budgetList;
 
 	ClientBudget budgetForEditing = new ClientBudget();
-	private CellTable<ClientBudgetItem> cellTable;
-	private SingleSelectionModel<ClientBudgetItem> selectionModel;
+
+	private BudgetCellTable budgetCellTable;
 
 	public NewBudgetView1(List<ClientBudget> listData) {
 		budgetList = listData;
@@ -258,11 +250,33 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 		 * ClientBudgetItem(); gridView.addData(obj, account); } }
 		 */
 
+		budgetCellTable = new BudgetCellTable();
+		SimplePager.Resources pagerResources = GWT
+				.create(SimplePager.Resources.class);
+		SimplePager pager = new SimplePager(TextLocation.CENTER,
+				pagerResources, false, 0, true);
+		pager.setDisplay(budgetCellTable);
+		// pager.setStyleName("pager-alignment");
+		budgetCellTable.addColumnSortHandler(new Handler() {
+
+			@Override
+			public void onColumnSort(ColumnSortEvent event) {
+				Column<?, ?> column = event.getColumn();
+				int columnIndex = budgetCellTable
+						.getColumnIndex((Column<ClientBudgetItem, ?>) column);
+				boolean isAscending = event.isSortAscending();
+				budgetCellTable.sortRowData(columnIndex, isAscending);
+
+			}
+		});
+
 		mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "300px");
 		mainVLay.add(lab1);
 		mainVLay.add(topHLay);
-		mainVLay.add(getAccountsAmountGrid());
+		mainVLay.add(budgetCellTable);
+
+		// mainVLay.add(getAccountsAmountGrid());
 
 		this.add(mainVLay);
 
@@ -387,9 +401,13 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 
 		data.setBudgetName(budgetname + " - " + temp[0]);
 
-		// List<ClientBudgetItem> allGivenRecords = gridView.getRecords();
-		//
-		// data.setBudgetItem(allGivenRecords);
+		List<ClientBudgetItem> allGivenRecords = budgetCellTable.getDataList();
+
+		List<ClientBudgetItem> newList = new ArrayList<ClientBudgetItem>();
+		for (ClientBudgetItem clientBudgetItem : allGivenRecords) {
+			newList.add(clientBudgetItem);
+		}
+		data.setBudgetItem(newList);
 
 	}
 
@@ -503,416 +521,6 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 	@Override
 	public void setFocus() {
 		this.budgetStartWithSelect.setFocus();
-
-	}
-
-	public CellTable<ClientBudgetItem> getAccountsAmountGrid() {
-
-		cellTable = new CellTable<ClientBudgetItem>(
-				new ProvidesKey<ClientBudgetItem>() {
-
-					@Override
-					public Object getKey(ClientBudgetItem item) {
-						// TODO Auto-generated method stub
-						return null;
-					}
-				});
-		cellTable.setWidth("100%");
-
-		// Attach a column sort handler to the ListDataProvider to sort the
-		// list.
-		ListHandler<ClientBudgetItem> sortHandler = new ListHandler<ClientBudgetItem>(
-				null);
-		cellTable.addColumnSortHandler(sortHandler);
-
-		// Create a Pager to control the table.
-		SimplePager.Resources pagerResources = GWT
-				.create(SimplePager.Resources.class);
-		SimplePager pager = new SimplePager(TextLocation.LEFT, pagerResources,
-				false, 0, true);
-		pager.setDisplay(cellTable);
-
-		// Add a selection model so we can select cells.
-		final SelectionModel<ClientBudgetItem> selectionModel = new MultiSelectionModel<ClientBudgetItem>(
-				new ProvidesKey<ClientBudgetItem>() {
-
-					@Override
-					public Object getKey(ClientBudgetItem item) {
-						// TODO Auto-generated method stub
-						return null;
-					}
-				});
-
-		cellTable.setSelectionModel(selectionModel,
-				DefaultSelectionEventManager
-						.<ClientBudgetItem> createCheckboxManager());
-
-		// Initialize the columns.
-		initTableColumns(selectionModel, sortHandler);
-
-		ListDataProvider<ClientBudgetItem> dataProvider = new ListDataProvider<ClientBudgetItem>();
-		// Connect the table to the data provider.
-		dataProvider.addDataDisplay(cellTable);
-		// Add the data to the data provider, which automatically pushes it to
-		// the
-		// widget.
-		List<ClientBudgetItem> list = dataProvider.getList();
-
-		for (ClientAccount account : listOfAccounts) {
-			ClientBudgetItem obj = new ClientBudgetItem();
-			obj.setAccountsName(account.getName());
-			obj.setAccount(account);
-			list.add(obj);
-		}
-		return cellTable;
-	}
-
-	private void initTableColumns(
-			SelectionModel<ClientBudgetItem> selectionModel2,
-			ListHandler<ClientBudgetItem> sortHandler) {
-		// adding accounts column to cell table
-		Column<ClientBudgetItem, String> accountInfoColumn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(ClientBudgetItem object) {
-				return object.getAccountsName();
-
-			}
-		};
-		accountInfoColumn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
-
-					@Override
-					public void update(int index,
-							final ClientBudgetItem object, String value) {
-
-						HashMap<String, String> map = new HashMap<String, String>();
-						String budgetTitle = "Add Budget for "
-								+ object.getAccountsName();
-						AddBudgetAmountDialogue assignAccountsTo1099Dialog = new AddBudgetAmountDialogue(
-								budgetTitle, "", map, object);
-						assignAccountsTo1099Dialog
-								.setCallback(new ActionCallback<HashMap<String, String>>() {
-
-									@Override
-									public void actionResult(
-											HashMap<String, String> result) {
-										refreshView(result, object);
-
-									}
-								});
-						assignAccountsTo1099Dialog.show();
-
-						// TODO Auto-generated method stub
-					}
-				});
-
-		Column<ClientBudgetItem, String> janMonthColumn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(ClientBudgetItem object) {
-				return Double.toString(object.getJanuaryAmount());
-
-			}
-		};
-		janMonthColumn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
-
-					@Override
-					public void update(int index, ClientBudgetItem object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientBudgetItem, String> febMonthColumn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(ClientBudgetItem object) {
-				return Double.toString(object.getJanuaryAmount());
-
-			}
-		};
-		febMonthColumn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
-
-					@Override
-					public void update(int index, ClientBudgetItem object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientBudgetItem, String> marMonthColumn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(ClientBudgetItem object) {
-				return Double.toString(object.getJanuaryAmount());
-
-			}
-		};
-		marMonthColumn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
-
-					@Override
-					public void update(int index, ClientBudgetItem object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientBudgetItem, String> aprMonthColumn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(ClientBudgetItem object) {
-				return Double.toString(object.getJanuaryAmount());
-
-			}
-		};
-		aprMonthColumn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
-
-					@Override
-					public void update(int index, ClientBudgetItem object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientBudgetItem, String> mayMonthColumn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(ClientBudgetItem object) {
-				return Double.toString(object.getJanuaryAmount());
-
-			}
-		};
-		mayMonthColumn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
-
-					@Override
-					public void update(int index, ClientBudgetItem object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientBudgetItem, String> juneMonthColumn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(ClientBudgetItem object) {
-				return Double.toString(object.getJanuaryAmount());
-
-			}
-		};
-		juneMonthColumn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
-
-					@Override
-					public void update(int index, ClientBudgetItem object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientBudgetItem, String> julMonthColumn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(ClientBudgetItem object) {
-				return Double.toString(object.getJanuaryAmount());
-
-			}
-		};
-		julMonthColumn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
-
-					@Override
-					public void update(int index, ClientBudgetItem object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientBudgetItem, String> augMonthCoulmn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(ClientBudgetItem object) {
-				return Double.toString(object.getJanuaryAmount());
-
-			}
-		};
-		augMonthCoulmn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
-
-					@Override
-					public void update(int index, ClientBudgetItem object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientBudgetItem, String> septMonthColumn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(ClientBudgetItem object) {
-				return Double.toString(object.getJanuaryAmount());
-
-			}
-		};
-		septMonthColumn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
-
-					@Override
-					public void update(int index, ClientBudgetItem object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientBudgetItem, String> octMonthColumn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(ClientBudgetItem object) {
-				return Double.toString(object.getJanuaryAmount());
-
-			}
-		};
-		octMonthColumn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
-
-					@Override
-					public void update(int index, ClientBudgetItem object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientBudgetItem, String> novMonthColumn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(ClientBudgetItem object) {
-				return Double.toString(object.getJanuaryAmount());
-
-			}
-		};
-		novMonthColumn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
-
-					@Override
-					public void update(int index, ClientBudgetItem object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientBudgetItem, String> decMonthColumn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(ClientBudgetItem object) {
-				return Double.toString(object.getJanuaryAmount());
-
-			}
-		};
-		decMonthColumn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
-
-					@Override
-					public void update(int index, ClientBudgetItem object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		cellTable.addColumn(accountInfoColumn, messages.Account());
-		cellTable.addColumn(janMonthColumn, messages.jan());
-		cellTable.addColumn(febMonthColumn, messages.feb());
-		cellTable.addColumn(marMonthColumn, messages.mar());
-		cellTable.addColumn(aprMonthColumn, messages.apr());
-		cellTable.addColumn(mayMonthColumn, messages.may());
-		cellTable.addColumn(juneMonthColumn, messages.jun());
-		cellTable.addColumn(julMonthColumn, messages.jul());
-		cellTable.addColumn(augMonthCoulmn, messages.aug());
-		cellTable.addColumn(septMonthColumn, messages.sept());
-		cellTable.addColumn(octMonthColumn, messages.oct());
-		cellTable.addColumn(novMonthColumn, messages.nov());
-		cellTable.addColumn(decMonthColumn, messages.dec());
-
-	}
-
-	private void refreshView(HashMap<String, String> result,
-			ClientBudgetItem obj) {
-
-		obj.setJanuaryAmount(Double.parseDouble(result.get("jan")));
-		obj.setFebruaryAmount(Double.parseDouble(result.get("feb")));
-		obj.setMarchAmount(Double.parseDouble(result.get("mar")));
-		obj.setAprilAmount(Double.parseDouble(result.get("apr")));
-		obj.setMayAmount(Double.parseDouble(result.get("may")));
-		obj.setJuneAmount(Double.parseDouble(result.get("jun")));
-		obj.setJulyAmount(Double.parseDouble(result.get("jul")));
-		obj.setAugustAmount(Double.parseDouble(result.get("aug")));
-		obj.setOctoberAmount(Double.parseDouble(result.get("oct")));
-		obj.setNovemberAmount(Double.parseDouble(result.get("nov")));
-		obj.setSeptemberAmount(Double.parseDouble(result.get("sept")));
-		obj.setDecemberAmount(Double.parseDouble(result.get("dec")));
-
-		Double total;
-		total = Double.parseDouble(result.get("jan"))
-				+ Double.parseDouble(result.get("feb"))
-				+ Double.parseDouble(result.get("mar"))
-				+ Double.parseDouble(result.get("apr"))
-				+ Double.parseDouble(result.get("may"))
-				+ Double.parseDouble(result.get("jun"))
-				+ Double.parseDouble(result.get("jul"))
-				+ Double.parseDouble(result.get("aug"))
-				+ Double.parseDouble(result.get("oct"))
-				+ Double.parseDouble(result.get("nov"))
-				+ Double.parseDouble(result.get("sept"))
-				+ Double.parseDouble(result.get("dec"));
-
-		obj.setTotalAmount(total);
-
-		refreshAllRecords();
-
-	}
-
-	private void refreshAllRecords() {
 
 	}
 
