@@ -13,6 +13,7 @@ public abstract class ReportResultRequirement<T> extends AbstractRequirement<T> 
 
 	public ReportResultRequirement() {
 		super("Result", null, null, false, false);
+		resultListNames = new ArrayList<String>();
 	}
 
 	@Override
