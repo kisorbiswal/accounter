@@ -9,6 +9,9 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -18,7 +21,52 @@ public class APAgingSummaryReportCommand extends
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		addFromToDateRequirements(list);
+		list.add(new ReportResultRequirement<DummyDebitor>() {
+
+			@Override
+			protected String onSelection(DummyDebitor selection, String name) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+				ResultList resultList = new ResultList("APAgingSummaryReport");
+				ResultList list = new ResultList("Total");
+				List<DummyDebitor> records = getRecords(context);
+				double total = 0.0;
+				double total0to30 = 0.0;
+				double total30to60 = 0.0;
+				double tota60to90 = 0.0;
+				double olderTotal = 0.0;
+				for (DummyDebitor record : records) {
+					total0to30 += record.getDebitdays_in30()
+							+ record.getDebitdays_incurrent();
+					total30to60 += record.getDebitdays_in60();
+					tota60to90 += record.getDebitdays_in90();
+
+					total += record.getDebitdays_in30()
+							+ record.getDebitdays_in60()
+							+ record.getDebitdays_in90()
+							+ record.getDebitdays_inolder()
+							+ record.getDebitdays_incurrent();
+					olderTotal += record.getDebitdays_inolder();
+					addSelection(record.getDebitorName());
+					resultList.add(createReportRecord(record));
+
+				}
+				Record totalrecord = new Record("Total");
+				totalrecord.add("", "Total");
+				totalrecord.add("", total0to30);
+				totalrecord.add("", total30to60);
+				totalrecord.add("", tota60to90);
+				totalrecord.add("", olderTotal);
+				totalrecord.add("", total);
+				makeResult.add(resultList);
+				list.add(totalrecord);
+				makeResult.add(list);
+			}
+		});
 	}
 
 	@Override
@@ -26,6 +74,12 @@ public class APAgingSummaryReportCommand extends
 		return null;
 	}
 
+	/**
+	 * creating Records
+	 * 
+	 * @param record
+	 * @return {@link Record}
+	 */
 	protected Record createReportRecord(DummyDebitor record) {
 		Record agingRecord = new Record(record);
 		agingRecord.add(getMessages().creditor(), record.getDebitorName());
@@ -43,9 +97,15 @@ public class APAgingSummaryReportCommand extends
 		return agingRecord;
 	}
 
-	protected List<DummyDebitor> getRecords() {
-		FinanceDate start = getStartDate();
-		FinanceDate end = getEndDate();
+	/**
+	 * get APAgingSummaryReport records
+	 * 
+	 * @return {@link List<DummyDebitor>}
+	 */
+	protected List<DummyDebitor> getRecords(Context context) {
+		FinanceDate start = context.getCompany().getPreferences()
+				.getStartOfFiscalYear();
+		FinanceDate end = new FinanceDate();
 		ArrayList<DummyDebitor> apAgingSummaryReport = new ArrayList<DummyDebitor>();
 		ArrayList<AgedDebtors> apAgingDetailsReport = new ArrayList<AgedDebtors>();
 		try {
@@ -61,6 +121,13 @@ public class APAgingSummaryReportCommand extends
 		return apAgingSummaryReport;
 	}
 
+	/**
+	 * 
+	 * @param agedDebtors
+	 * @param startdate
+	 * @param enddate
+	 * @return
+	 */
 	private ArrayList<DummyDebitor> getDebtorsWidSameName(
 			List<AgedDebtors> agedDebtors, FinanceDate startdate,
 			FinanceDate enddate) {
@@ -165,22 +232,4 @@ public class APAgingSummaryReportCommand extends
 		}
 		return null;
 	}
-
-	@Override
-	protected String getWelcomeMessage() {
-		return getMessages().reportCommondActivated(
-				getMessages().apAgeingSummary());
-	}
-
-	@Override
-	protected String getDetailsMessage() {
-		return getMessages().reportDetails(getMessages().apAgeingSummary());
-	}
-
-	@Override
-	public String getSuccessMessage() {
-		return getMessages().reportCommondClosedSuccessfully(
-				getMessages().apAgeingSummary());
-	}
-
 }

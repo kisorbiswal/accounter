@@ -1,12 +1,19 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
@@ -14,11 +21,114 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class APAgingDetailReportCommand extends
 		NewAbstractReportCommand<AgedDebtors> {
+
+	protected static final int LESS_THAN_30 = 1;
+	protected static final int BETWEEN_30_60 = 2;
+	protected static final int BETWEEN_60_90 = 3;
+	protected static final int MORE_THAN_90 = 4;
 	private String vendorName;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		addFromToDateRequirements(list);
+		list.add(new ReportResultRequirement<AgedDebtors>() {
+
+			@Override
+			protected String onSelection(AgedDebtors selection, String name) {
+				return null;
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+
+				List<AgedDebtors> records = getRecords(context);
+				Map<String, List<AgedDebtors>> recordGroups = new HashMap<String, List<AgedDebtors>>();
+				for (AgedDebtors agedDebtors : records) {
+					String agedDebitorName = getCategoryName(agedDebtors
+							.getCategory());
+					List<AgedDebtors> group = recordGroups.get(agedDebitorName);
+					if (group == null) {
+						group = new ArrayList<AgedDebtors>();
+						recordGroups.put(agedDebitorName, group);
+					}
+					group.add(agedDebtors);
+				}
+
+				Map<String, Double> customerBalance = new HashMap<String, Double>();
+				for (String name : recordGroups.keySet()) {
+					List<AgedDebtors> lessThan30 = recordGroups.get(name);
+					addResultList(makeResult, lessThan30, customerBalance, name);
+				}
+
+				Set<String> keySet = customerBalance.keySet();
+				List<String> customerNames = new ArrayList<String>(keySet);
+				Collections.sort(customerNames);
+
+				ResultList list = new ResultList("totalBalance");
+				list.setTitle("Total Balance");
+
+				Double total = 0.0;
+				for (String name : customerNames) {
+					Double vendorAmount = customerBalance.get(name);
+					total += vendorAmount;
+					Record record = new Record(name);
+					record.add("", name);
+					record.add("", "Opening Balance");
+					record.add("", vendorAmount);
+					list.add(record);
+				}
+				makeResult.add(list);
+				makeResult.add("Total :" + total);
+			}
+
+			private void addResultList(Result makeResult,
+					List<AgedDebtors> records,
+					Map<String, Double> customerBalance, String string) {
+				ResultList list = new ResultList(string);
+				list.setTitle(string);
+				addSelection(string);
+				double total = 0.0;
+				for (AgedDebtors record : records) {
+					Record createReportRecord = createReportRecord(record);
+					total += record.getTotal();
+					list.add(createReportRecord);
+					String name = record.getName();
+					Double balance = customerBalance.get(name);
+					if (balance == null) {
+						balance = 0d;
+					}
+					balance += record.getTotal();
+					customerBalance.put(name, balance);
+				}
+				makeResult.add(list);
+				makeResult.add(string + " total " + total);
+			}
+
+			/**
+			 * get category Name By ID
+			 * 
+			 * @param category
+			 * @return
+			 */
+			private String getCategoryName(int category) {
+				String categoryName = null;
+				switch (category) {
+				case LESS_THAN_30:
+					categoryName = "0-30";
+					break;
+				case BETWEEN_30_60:
+					categoryName = "30-60";
+					break;
+				case BETWEEN_60_90:
+					categoryName = "60-90";
+					break;
+				case MORE_THAN_90:
+					categoryName = "MoreThan90";
+					break;
+				}
+				return categoryName;
+			}
+
+		});
 	}
 
 	@Override
@@ -26,27 +136,38 @@ public class APAgingDetailReportCommand extends
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param recordReport
+	 * @return
+	 */
 	protected Record createReportRecord(AgedDebtors recordReport) {
 		Record record = new Record(recordReport);
 		record.add(getMessages().name(), recordReport.getName());
 		record.add(getMessages().date(), recordReport.getDate());
 		record.add(getMessages().transactionType(),
 				ReportUtility.getTransactionName(recordReport.getType()));
-		record.add(getMessages().number(), recordReport.getNumber());
-		record.add(getMessages().ageing(), recordReport.getAgeing());
 		record.add(getMessages().total(), recordReport.getTotal());
 		return record;
 	}
 
-	protected List<AgedDebtors> getRecords() {
-		FinanceDate start = getStartDate();
-		FinanceDate end = getEndDate();
+	/***
+	 * get AP Aging details records
+	 * 
+	 * @return {@link List<AgedDebtors>}
+	 */
+
+	protected List<AgedDebtors> getRecords(Context context) {
+		FinanceDate startOfFiscalYear = context.getCompany().getPreferences()
+				.getStartOfFiscalYear();
+		FinanceDate end = new FinanceDate();
 		ArrayList<AgedDebtors> apAgingDetailsReport = new ArrayList<AgedDebtors>();
 		ArrayList<AgedDebtors> apAgingDetailsReportForVendor = new ArrayList<AgedDebtors>();
 		try {
 			if (vendorName == null) {
 				apAgingDetailsReport = new FinanceTool().getReportManager()
-						.getAgedCreditors(start, end, getCompanyId());
+						.getAgedCreditors(startOfFiscalYear, end,
+								getCompanyId());
 			} else if (vendorName != null) {
 				apAgingDetailsReport = new FinanceTool().getReportManager()
 						.getAgedCreditors(getStartDate(), getEndDate(),
@@ -57,7 +178,6 @@ public class APAgingDetailReportCommand extends
 					}
 				}
 			}
-
 			if (apAgingDetailsReportForVendor != null
 					&& !apAgingDetailsReportForVendor.isEmpty()) {
 				return apAgingDetailsReportForVendor;
@@ -79,22 +199,4 @@ public class APAgingDetailReportCommand extends
 		}
 		return null;
 	}
-
-	@Override
-	protected String getWelcomeMessage() {
-		return getMessages().reportCommondActivated(
-				getMessages().apAgeingDetails());
-	}
-
-	@Override
-	protected String getDetailsMessage() {
-		return getMessages().reportDetails(getMessages().apAgeingDetails());
-	}
-
-	@Override
-	public String getSuccessMessage() {
-		return getMessages().reportCommondClosedSuccessfully(
-				getMessages().apAgeingDetails());
-	}
-
 }

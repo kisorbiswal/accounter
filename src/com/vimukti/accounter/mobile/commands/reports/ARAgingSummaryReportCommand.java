@@ -9,6 +9,9 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
@@ -16,6 +19,54 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ARAgingSummaryReportCommand extends
 		NewAbstractReportCommand<DummyDebitor> {
+	@Override
+	protected void addRequirements(List<Requirement> list) {
+		list.add(new ReportResultRequirement<DummyDebitor>() {
+
+			@Override
+			protected String onSelection(DummyDebitor selection, String name) {
+				return null;
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+				ResultList resultList = new ResultList("ARAgingSummaryReport");
+				ResultList list = new ResultList("Total");
+				List<DummyDebitor> records = getRecords(context);
+				double total = 0.0;
+				double total0to30 = 0.0;
+				double total30to60 = 0.0;
+				double tota60to90 = 0.0;
+				double olderTotal = 0.0;
+				for (DummyDebitor record : records) {
+					total0to30 += record.getDebitdays_in30()
+							+ record.getDebitdays_incurrent();
+					total30to60 += record.getDebitdays_in60();
+					tota60to90 += record.getDebitdays_in90();
+
+					total += record.getDebitdays_in30()
+							+ record.getDebitdays_in60()
+							+ record.getDebitdays_in90()
+							+ record.getDebitdays_inolder()
+							+ record.getDebitdays_incurrent();
+					olderTotal += record.getDebitdays_inolder();
+					addSelection(record.getDebitorName());
+					resultList.add(createReportRecord(record));
+
+				}
+				Record totalrecord = new Record("Total");
+				totalrecord.add("", "Total");
+				totalrecord.add("", total0to30);
+				totalrecord.add("", total30to60);
+				totalrecord.add("", tota60to90);
+				totalrecord.add("", olderTotal);
+				totalrecord.add("", total);
+				makeResult.add(resultList);
+				list.add(totalrecord);
+				makeResult.add(list);
+			}
+		});
+	}
 
 	protected Record createReportRecord(DummyDebitor record) {
 		Record agingRecord = new Record(record);
@@ -34,21 +85,35 @@ public class ARAgingSummaryReportCommand extends
 		return agingRecord;
 	}
 
-	protected List<DummyDebitor> getRecords() {
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	private List<DummyDebitor> getRecords(Context context) {
+		FinanceDate start = context.getCompany().getPreferences()
+				.getStartOfFiscalYear();
+		FinanceDate end = new FinanceDate();
 		ArrayList<DummyDebitor> dummyDebitors = new ArrayList<DummyDebitor>();
 		ArrayList<AgedDebtors> agedDebitors = new ArrayList<AgedDebtors>();
 		try {
 
 			agedDebitors = new FinanceTool().getReportManager().getAgedDebtors(
-					getStartDate(), getEndDate(), getCompanyId());
-			dummyDebitors = getDebtorsWidSameName(agedDebitors, getStartDate(),
-					getEndDate());
+					start, end, getCompanyId());
+			dummyDebitors = getDebtorsWidSameName(agedDebitors, start, end);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return dummyDebitors;
 	}
 
+	/**
+	 * 
+	 * @param agedDebitors
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
 	private ArrayList<DummyDebitor> getDebtorsWidSameName(
 			ArrayList<AgedDebtors> agedDebitors, FinanceDate startDate,
 			FinanceDate endDate) {
@@ -160,29 +225,6 @@ public class ARAgingSummaryReportCommand extends
 		}
 		endDate = new ClientFinanceDate();
 		return null;
-	}
-
-	@Override
-	protected String getWelcomeMessage() {
-		return getMessages().reportCommondActivated(
-				getMessages().arAgeingSummary());
-	}
-
-	@Override
-	protected String getDetailsMessage() {
-		return getMessages().reportDetails(getMessages().arAgeingSummary());
-	}
-
-	@Override
-	public String getSuccessMessage() {
-		return getMessages().reportCommondClosedSuccessfully(
-				getMessages().arAgeingSummary());
-	}
-
-	@Override
-	protected void addRequirements(List<Requirement> list) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
