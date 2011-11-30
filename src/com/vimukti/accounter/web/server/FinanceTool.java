@@ -327,9 +327,19 @@ public class FinanceTool {
 
 			org.hibernate.Transaction newTransaction = session
 					.beginTransaction();
-
-			Activity activity = new Activity(company, user, ActivityType.EDIT,
-					serverObject);
+			Activity activity = null;
+			if (serverObject instanceof Transaction) {
+				if (((Transaction) serverObject).isVoid()) {
+					activity = new Activity(company, user, ActivityType.VOID,
+							serverObject);
+				} else {
+					activity = new Activity(company, user, ActivityType.EDIT,
+							serverObject);
+				}
+			} else {
+				activity = new Activity(company, user, ActivityType.EDIT,
+						serverObject);
+			}
 			session.saveOrUpdate(activity);
 			if (serverObject instanceof Transaction) {
 				((Transaction) serverObject).setLastActivity(activity);
