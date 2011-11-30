@@ -28,6 +28,7 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 
 	public BudgetCellTable() {
 		createControls();
+		this.addStyleName("budget-table");
 	}
 
 	private void createControls() {
