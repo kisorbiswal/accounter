@@ -1214,6 +1214,7 @@ public class ReportsGenerator {
 			}
 			return misc1099TransactionDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_BUDGET:
+			
 			BudgetOverviewServerReport budgetServerReport = new BudgetOverviewServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
 					generationType1) {
@@ -1225,13 +1226,12 @@ public class ReportsGenerator {
 				}
 
 			};
+			
 			updateReport(budgetServerReport, finaTool);
 			budgetServerReport.resetVariables();
 			try {
 				budgetServerReport.onResultSuccess(reportsSerivce
 						.getBudgetItemsList(Integer.parseInt(status),
-								startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate(), generationType1,
 								getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
