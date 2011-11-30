@@ -332,7 +332,7 @@ html,body,#overlay{
 .gridBody1 tr td div,.selectedview,.childNode tr td,.parentNode tr td,.gridBody tr td div,.gridHeader tr td div,#contactable,#contactForm{
 	overflow: hidden;
 }
-.gridHeader td,.gridBody tr td {
+.gridHeader td,.gridBody tr td,.budget-table tr td{
 	display: table-cell;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -1209,7 +1209,7 @@ body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.g
 	  font-size:13px;
 	font-family: Arial Unicode MS,Arial,sans-serif;
 }
-.gwt-PasswordTextBox,.gwt-DisclosurePanel .content{
+.gwt-PasswordTextBox,.gwt-DisclosurePanel .content,.budget-table tr td{
 	padding:0px;
 }
 .edit_user_profile input[type="text"]{
