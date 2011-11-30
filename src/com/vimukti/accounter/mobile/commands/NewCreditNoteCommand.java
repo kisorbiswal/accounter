@@ -11,7 +11,6 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -56,6 +55,13 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 					@Override
 					public void onSelection(Customer value) {
 						NewCreditNoteCommand.this.get(CONTACT).setValue(null);
+						for (Contact contact : value.getContacts()) {
+							if (contact.isPrimary()) {
+								NewCreditNoteCommand.this.get(CONTACT)
+										.setValue(contact);
+								break;
+							}
+						}
 					}
 				}) {
 
