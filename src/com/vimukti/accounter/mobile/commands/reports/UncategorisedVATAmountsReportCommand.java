@@ -18,11 +18,9 @@ public class UncategorisedVATAmountsReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 
 	}
 
-	@Override
 	protected Record createReportRecord(UncategorisedAmountsReport record) {
 		Record uncategoryRecord = new Record(record);
 
@@ -49,7 +47,6 @@ public class UncategorisedVATAmountsReportCommand extends
 		return null;
 	}
 
-	@Override
 	protected List<UncategorisedAmountsReport> getRecords() {
 		ArrayList<UncategorisedAmountsReport> uncategorisedAmountsReports = new ArrayList<UncategorisedAmountsReport>();
 		try {
@@ -63,26 +60,9 @@ public class UncategorisedVATAmountsReportCommand extends
 		return uncategorisedAmountsReports;
 	}
 
-	@Override
 	protected String addCommandOnRecordClick(
 			UncategorisedAmountsReport selection) {
 		return "update transaction " + selection.getTransactionNumber();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(
-				getMessages().uncategorisedVATAmounts());
 	}
 
 	@Override
