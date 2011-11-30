@@ -3,11 +3,13 @@ package com.vimukti.accounter.mobile.commands.reports;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -18,6 +20,19 @@ public class SupplierTransactionHistoryReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
+		list.add(new ReportResultRequirement<TransactionHistory>() {
+
+			@Override
+			protected String onSelection(TransactionHistory selection,
+					String name) {
+				return addCommandOnRecordClick(selection);
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+				List<TransactionHistory> records = getRecords();
+			}
+		});
 	}
 
 	protected Record createReportRecord(TransactionHistory record) {
