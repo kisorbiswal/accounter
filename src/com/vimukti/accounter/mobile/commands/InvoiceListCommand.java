@@ -145,9 +145,9 @@ public class InvoiceListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(InvoicesList value) {
 				Record record = new Record(value);
-				record.add("", value.getCustomerName());
-				record.add("", value.getDate());
-				record.add("", value.getBalance());
+				record.add("Name", value.getCustomerName());
+				record.add("Date", value.getDate());
+				record.add("Balance", value.getBalance());
 				return record;
 			}
 

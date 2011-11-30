@@ -160,8 +160,9 @@ public class QuotesListCommand extends NewAbstractCommand {
 				Record estrecord = new Record(value);
 				estrecord.add(getMessages().date(), value.getDate());
 				estrecord.add(getMessages().number(), value.getNumber());
-				estrecord.add("", value.getCustomer().getName() != null ? value
-						.getCustomer().getName() : "");
+				estrecord.add("Name",
+						value.getCustomer().getName() != null ? value
+								.getCustomer().getName() : "");
 				estrecord.add(getMessages().expirationDate(), value
 						.getExpirationDate().toString());
 				estrecord.add(getMessages().total(), value.getTotal());

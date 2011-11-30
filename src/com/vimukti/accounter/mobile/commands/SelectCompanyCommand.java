@@ -127,8 +127,8 @@ public class SelectCompanyCommand extends Command {
 					});
 					for (Company company : companies) {
 						Record record = new Record(company);
-						record.add("", company.getDisplayName());
-						record.add("", company.getCountry());
+						record.add("Name", company.getDisplayName());
+						record.add("Country", company.getCountry());
 						companyList.add(record);
 					}
 					makeResult.add(companyList);

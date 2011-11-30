@@ -63,9 +63,9 @@ public class ItemsCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(Item value) {
 				Record record = new Record(value);
-				record.add("", value.getName());
-				record.add("", value.getPurchaseDescription());
-				record.add("", value.getType());
+				record.add("Name", value.getName());
+				record.add("Description", value.getPurchaseDescription());
+				record.add("Type", value.getType());
 				return record;
 			}
 
