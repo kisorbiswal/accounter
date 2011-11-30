@@ -308,6 +308,7 @@ public class CustomerCreditMemo extends Transaction implements
 		return null;
 	}
 
+	@Override
 	public void setVoid(boolean isVoid) {
 		this.isVoid = isVoid;
 	}
@@ -329,6 +330,7 @@ public class CustomerCreditMemo extends Transaction implements
 		this.taxTotal = salesTax;
 	}
 
+	@Override
 	public void setNumber(String number) {
 		this.number = number;
 	}
@@ -453,7 +455,10 @@ public class CustomerCreditMemo extends Transaction implements
 					// this.total = this.total - customerCreditMemo.total;
 					this.customer.updateBalance(session, this, this.total
 							- customerCreditMemo.total);
-					this.creditsAndPayments.updateCreditPayments(this.total);
+					if (creditsAndPayments != null) {
+						this.creditsAndPayments
+								.updateCreditPayments(this.total);
+					}
 
 					// CreditsAndPayments creditsAndPayments = new
 					// CreditsAndPayments(
