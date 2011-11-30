@@ -19,6 +19,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.CreditRatingRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerGroupRequirement;
@@ -73,6 +74,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	private static final String CONTACT = "contact";
 	private static final String SHIPTO = "shipTo";
 	private static final String BILLTO = "billTo";
+	private static final String ACTIVE = "active";
 	private ClientCustomer customer;
 
 	@Override
@@ -86,6 +88,19 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		list.add(new NameRequirement(CUSTOMER_NAME,
 				"Please Enter Customer name", getMessages().payeeName(
 						Global.get().Customer()), false, true));
+
+		list.add(new BooleanRequirement(ACTIVE, true) {
+
+			@Override
+			protected String getTrueString() {
+				return "This Customer is Active";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "This Customer is In-Active";
+			}
+		});
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().number()), getMessages().number(), false, true) {
@@ -462,7 +477,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		if (creditRating != null) {
 			customer.setCreditRating(creditRating.getID());
 		}
-		customer.setActive(true);
+		customer.setActive((Boolean) get(ACTIVE).getValue());
 		customer.setPaymentMethod(paymentMethod);
 		if (paymentTerms != null) {
 			customer.setPaymentTerm(paymentTerms.getID());
@@ -513,6 +528,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		get(ACTIVE).setValue(true);
 		get(CUSTOMER_SINCEDATE).setDefaultValue(new ClientFinanceDate());
 		get(BALANCE_ASOF_DATE).setDefaultValue(new ClientFinanceDate());
 		get(BILLTO).setDefaultValue(new ClientAddress());
@@ -571,6 +587,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 	private void setValues() {
 		get(CUSTOMER_NAME).setValue(customer.getName());
+		get(ACTIVE).setValue(customer.isActive());
 		get(NUMBER).setValue(customer.getNumber());
 		get(CUSTOMER_GROUP).setValue(
 				CommandUtils.getServerObjectById(customer.getCustomerGroup(),
