@@ -321,6 +321,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 				// Update the Status of Write Check as Issued
 				this.writeCheck
 						.setStatus(Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
+				this.writeCheck.setCheckNumber(issuePayment.getCheckNumber());
 				session.saveOrUpdate(this.writeCheck);
 
 			} else if (this.getCustomerRefund() != null) {
