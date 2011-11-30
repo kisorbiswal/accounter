@@ -24,10 +24,8 @@ public class TransactionDetailByAccountReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(TransactionDetailByAccount record) {
 		Record transactionRecord = new Record(record);
 		transactionRecord.add("", "");
@@ -55,7 +53,6 @@ public class TransactionDetailByAccountReportCommand extends
 		return transactionRecord;
 	}
 
-	@Override
 	protected List<TransactionDetailByAccount> getRecords() {
 		List<TransactionDetailByAccount> transactionDetailsByAc = new ArrayList<TransactionDetailByAccount>();
 		ReportManager reportManager = new FinanceTool().getReportManager();
@@ -81,25 +78,9 @@ public class TransactionDetailByAccountReportCommand extends
 		return transactionDetailsByAc;
 	}
 
-	@Override
 	protected String addCommandOnRecordClick(
 			TransactionDetailByAccount selection) {
 		return "update transaction " + selection.getTransactionId();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return "You don't have any account transaction reports";
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return "Select a transaction to Edit";
 	}
 
 	@Override
