@@ -160,20 +160,20 @@ public class CreditCardExpenseView extends
 										.getDefaultTaxCode();
 							taxCodeSelect.setComboItem(getCompany().getTAXCode(
 									code));
-							ClientCurrency currency = getCurrency(selectedVendor
-									.getCurrency());
-							if (currency.getID() != 0) {
-								currencyWidget
-										.setSelectedCurrencyFactorInWidget(
-												currency, transactionDateItem
-														.getDate().getDate());
-							} else {
-								currencyWidget
-										.setSelectedCurrency(getBaseCurrency());
-							}
-							modifyForeignCurrencyTotalWidget();
 						}
+						ClientCurrency currency = getCurrency(selectedVendor
+								.getCurrency());
+						if (currency.getID() != 0) {
+							currencyWidget.setSelectedCurrencyFactorInWidget(
+									currency, transactionDateItem.getDate()
+											.getDate());
+						} else {
+							currencyWidget
+									.setSelectedCurrency(getBaseCurrency());
+						}
+						modifyForeignCurrencyTotalWidget();
 					}
+
 				});
 
 		String listString[] = new String[] {
@@ -329,7 +329,7 @@ public class CreditCardExpenseView extends
 		termsForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
-		termsForm.setFields(payMethSelect, creditCardCombo, delivDate);
+		termsForm.setFields(creditCardCombo, payMethSelect, delivDate);
 		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
 		// messages.width(), "203px");
 		if (getPreferences().isClassTrackingEnabled()
