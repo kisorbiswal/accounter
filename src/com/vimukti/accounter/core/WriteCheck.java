@@ -118,7 +118,7 @@ public class WriteCheck extends Transaction {
 		return bankAccount;
 	}
 
-
+	
 	/**
 	 * @return the customer
 	 */
@@ -214,6 +214,9 @@ public class WriteCheck extends Transaction {
 		return checkNumber;
 	}
 
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
+	}
 	@Override
 	public boolean isDebitTransaction() {
 		return true;
