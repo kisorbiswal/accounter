@@ -78,6 +78,7 @@ public class PatternStore {
 		xStream.alias("include", String.class);
 		xStream.alias("pattern", Pattern.class);
 		xStream.aliasAttribute(Pattern.class, "condition", "if");
+		xStream.aliasAttribute(Pattern.class, "login", "login");
 		xStream.alias("input", String.class);
 		xStream.addImplicitCollection(Pattern.class, "inputs");
 		xStream.alias("text", Text.class);
@@ -108,7 +109,7 @@ public class PatternStore {
 				CommandList commands = new CommandList();
 				result.setOutputs(pattern.outputs);
 				result.condition = pattern.condition;
-				result.needAuthentication = pattern.needAuthentication;
+				result.login = pattern.login;
 				result.add(commands);
 				if (pattern.inputs != null) {
 					for (String input : pattern.inputs) {

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Pattern {
 	String condition;
-	boolean needAuthentication;
+	boolean login;
 	List<String> inputs;
 	List<Output> outputs;
 }
