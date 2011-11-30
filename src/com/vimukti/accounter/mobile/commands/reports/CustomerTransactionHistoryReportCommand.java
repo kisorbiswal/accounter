@@ -1,13 +1,19 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -19,16 +25,57 @@ public class CustomerTransactionHistoryReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
+		list.add(new ReportResultRequirement<TransactionHistory>() {
+
+			@Override
+			protected String onSelection(TransactionHistory selection,
+					String name) {
+				return "update transaction " + selection.getTransactionId();
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+				List<TransactionHistory> records = getRecords();
+				Map<String, List<TransactionHistory>> recordGroups = new HashMap<String, List<TransactionHistory>>();
+				for (TransactionHistory transactionHistoryRecord : records) {
+					String customerName = transactionHistoryRecord.getName();
+					List<TransactionHistory> group = recordGroups
+							.get(customerName);
+					if (group == null) {
+						group = new ArrayList<TransactionHistory>();
+						recordGroups.put(customerName, group);
+					}
+					group.add(transactionHistoryRecord);
+				}
+
+				Set<String> keySet = recordGroups.keySet();
+				List<String> transactions = new ArrayList<String>(keySet);
+				Collections.sort(transactions);
+
+				for (String tax : transactions) {
+					List<TransactionHistory> group = recordGroups.get(tax);
+					addSelection(tax);
+					ResultList resultList = new ResultList(tax);
+					for (TransactionHistory rec : group) {
+						resultList.setTitle(rec.getName());
+						resultList.add(createReportRecord(rec));
+					}
+					makeResult.add(resultList);
+				}
+			}
+		});
 	}
 
-	protected Record createReportRecord(TransactionHistory record) {
+	/**
+	 * 
+	 * @param record
+	 * @return
+	 */
+	private Record createReportRecord(TransactionHistory record) {
 		Record transactionRecord = new Record(record);
-		transactionRecord.add(getMessages().payeeName(Global.get().Customer()),
-				record.getName());
 		transactionRecord.add(getMessages().date(), record.getDate());
 		transactionRecord.add(getMessages().transactionType(),
 				Utility.getTransactionName(record.getType()));
-		transactionRecord.add(getMessages().number(), record.getNumber());
 		transactionRecord.add(getMessages().amount(), record.getAccount());
 		transactionRecord.add(getMessages().amount(), DecimalUtil.isEquals(
 				record.getInvoicedAmount(), 0.0) ? record.getPaidAmount()
@@ -36,7 +83,11 @@ public class CustomerTransactionHistoryReportCommand extends
 		return transactionRecord;
 	}
 
-	protected List<TransactionHistory> getRecords() {
+	/**
+	 * 
+	 * @return
+	 */
+	private List<TransactionHistory> getRecords() {
 		ArrayList<TransactionHistory> transatiHistories = new ArrayList<TransactionHistory>();
 		try {
 			transatiHistories = new FinanceTool().getCustomerManager()
@@ -55,24 +106,6 @@ public class CustomerTransactionHistoryReportCommand extends
 		get(DATE_RANGE).setValue(getMessages().financialYearToDate());
 		dateRangeChanged(getMessages().financialYearToDate());
 		return null;
-	}
-
-	@Override
-	protected String getWelcomeMessage() {
-		return getMessages().reportCommondActivated(
-				getMessages().payeeTransactionHistory(Global.get().Customer()));
-	}
-
-	@Override
-	protected String getDetailsMessage() {
-		return getMessages().reportDetails(
-				getMessages().payeeTransactionHistory(Global.get().Customer()));
-	}
-
-	@Override
-	public String getSuccessMessage() {
-		return getMessages().reportCommondClosedSuccessfully(
-				getMessages().payeeTransactionHistory(Global.get().Customer()));
 	}
 
 }

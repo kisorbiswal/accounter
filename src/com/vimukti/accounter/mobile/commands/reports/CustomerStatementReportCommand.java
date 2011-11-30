@@ -4,32 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
-import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class CustomerStatementReportCommand extends
 		NewAbstractReportCommand<PayeeStatementsList> {
-	private Customer customer;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+
 		list.add(new CustomerRequirement(CUSTOMER, getMessages().pleaseEnter(
 				getMessages().customer() + getMessages().name()), getMessages()
-				.customer() + getMessages().name(), false, true,
-				new ChangeListner<Customer>() {
-
-					@Override
-					public void onSelection(Customer value) {
-						customer = value;
-					}
-				}) {
+				.customer() + getMessages().name(), false, true, null) {
 
 			@Override
 			protected List<Customer> getLists(Context context) {
@@ -37,25 +32,54 @@ public class CustomerStatementReportCommand extends
 			}
 		});
 		addDateRangeFromToDateRequirements(list);
+
+		list.add(new ReportResultRequirement<PayeeStatementsList>() {
+
+			@Override
+			protected String onSelection(PayeeStatementsList selection,
+					String name) {
+				return null;
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+
+				List<PayeeStatementsList> records = getRecords(context);
+				ResultList list = new ResultList("Customer StateMent");
+				for (PayeeStatementsList payeeStatementsList : records) {
+					list.add(createReportRecord(payeeStatementsList));
+				}
+				makeResult.add(list);
+			}
+		});
 	}
 
+	/**
+	 * 
+	 * @param record
+	 * @return
+	 */
 	protected Record createReportRecord(PayeeStatementsList record) {
 		Record statementRecord = new Record(record);
 		statementRecord.add(getMessages().date(), record.getTransactionDate());
 		statementRecord.add(getMessages().transactionName(),
 				Utility.getTransactionName(record.getTransactiontype()));
-		statementRecord.add(getMessages().number(),
-				record.getTransactionNumber());
 		statementRecord.add(getMessages().amount(), record.getTotal());
-		statementRecord.add(getMessages().name(), record.getBalance());
 		return statementRecord;
 	}
 
-	protected List<PayeeStatementsList> getRecords() {
+	/**
+	 * get payees{Customer}
+	 * 
+	 * @return
+	 */
+	protected List<PayeeStatementsList> getRecords(Context context) {
+
 		ArrayList<PayeeStatementsList> payeeStatementList = new ArrayList<PayeeStatementsList>();
 		try {
 			payeeStatementList = new FinanceTool().getCustomerManager()
-					.getCustomerStatement(customer.getID(),
+					.getCustomerStatement(
+							((Customer) get(CUSTOMER).getValue()).getID(),
 							getStartDate().getDate(), getEndDate().getDate(),
 							getCompanyId());
 		} catch (Exception e) {
@@ -67,24 +91,6 @@ public class CustomerStatementReportCommand extends
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		return null;
-	}
-
-	@Override
-	protected String getWelcomeMessage() {
-		return getMessages().reportCommondActivated(
-				getMessages().payeeStatement(Global.get().Customer()));
-	}
-
-	@Override
-	protected String getDetailsMessage() {
-		return getMessages().reportDetails(
-				getMessages().payeeStatement(Global.get().Customer()));
-	}
-
-	@Override
-	public String getSuccessMessage() {
-		return getMessages().reportCommondClosedSuccessfully(
-				getMessages().Customer() + getMessages().statement());
 	}
 
 }
