@@ -7,7 +7,9 @@ import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -51,6 +53,18 @@ public class VAT100ReportCommand extends NewAbstractReportCommand<VATSummary> {
 			}
 		});
 		addDateRangeFromToDateRequirements(list);
+		list.add(new ReportResultRequirement<VATSummary>() {
+
+			@Override
+			protected String onSelection(VATSummary selection, String name) {
+				return addCommandOnRecordClick(selection);
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+				List<VATSummary> records = getRecords();
+			}
+		});
 	}
 
 	protected Record createReportRecord(VATSummary record) {

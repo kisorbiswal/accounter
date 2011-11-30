@@ -6,6 +6,8 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -17,6 +19,18 @@ public class VATDetailReportCommand extends NewAbstractReportCommand<VATDetail> 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
+		list.add(new ReportResultRequirement<VATDetail>() {
+
+			@Override
+			protected String onSelection(VATDetail selection, String name) {
+				return addCommandOnRecordClick(selection);
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+				List<VATDetail> records = getRecords();
+			}
+		});
 	}
 
 	protected Record createReportRecord(VATDetail record) {
