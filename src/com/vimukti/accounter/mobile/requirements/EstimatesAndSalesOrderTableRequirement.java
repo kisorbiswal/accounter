@@ -59,12 +59,13 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 	@Override
 	protected Record createFullRecord(EstimatesAndSalesOrdersList value) {
 		Record rec = new Record(value);
+		String name;
 		if (value.getType() == ClientTransaction.TYPE_ESTIMATE)
-			rec.add("", getMessages().quote());
+			name = getMessages().quote();
 		else
-			rec.add("", getMessages().salesOrder());
+			name = getMessages().salesOrder();
 
-		rec.add("", value.getTotal());
+		rec.add(name, value.getTotal());
 
 		return rec;
 	}

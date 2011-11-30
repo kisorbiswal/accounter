@@ -30,7 +30,7 @@ public abstract class BooleanRequirement extends AbstractRequirement<Boolean> {
 
 		Boolean isActive = getValue();
 		Record isActiveRecord = new Record(getName());
-		isActiveRecord.add("", isActive ? getTrueString() : getFalseString());
+		isActiveRecord.add(isActive ? getTrueString() : getFalseString());
 		list.add(isActiveRecord);
 		return null;
 	}

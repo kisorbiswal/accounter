@@ -32,7 +32,7 @@ public abstract class CommandsRequirement extends AbstractRequirement<String> {
 		List<String> actionNames = getList();
 		for (String n : actionNames) {
 			Record record = new Record(n);
-			record.add("", n);
+			record.add(n);
 			resultList.add(record);
 		}
 		makeResult.add(resultList);

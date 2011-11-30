@@ -25,9 +25,8 @@ public class TermsAndCunditionsRequirement extends AbstractRequirement<Boolean> 
 		Boolean isActive = getValue();
 		Record isActiveRecord = new Record(getName());
 		isActiveRecord
-				.add("",
-						isActive ? "I Accepted Terms and conditions"
-								: "Please read the Terms and Conditions (https://www.accounterlive.com/site/termsandconditions). And Accept");
+				.add(isActive ? "I Accepted Terms and conditions"
+						: "Please read the Terms and Conditions (https://www.accounterlive.com/site/termsandconditions). And Accept");
 		list.add(isActiveRecord);
 		return null;
 	}

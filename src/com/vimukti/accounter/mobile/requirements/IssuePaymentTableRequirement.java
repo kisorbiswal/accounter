@@ -96,18 +96,12 @@ public abstract class IssuePaymentTableRequirement extends
 	@Override
 	protected Record createFullRecord(IssuePaymentTransactionsList t) {
 		Record record = new Record(t);
-		record.add("", getMessages().date());
-		record.add("", t.getDate());
-		record.add("", getMessages().number());
-		record.add("", t.getNumber());
-		record.add("", getMessages().name());
-		record.add("", t.getName());
-		record.add("", getMessages().memo());
-		record.add("", t.getMemo());
-		record.add("", getMessages().amount());
-		record.add("", t.getAmount());
-		record.add("", getMessages().paymentMethod());
-		record.add("", t.getPaymentMethod());
+		record.add(getMessages().date(), t.getDate());
+		record.add(getMessages().number(), t.getNumber());
+		record.add(getMessages().name(), t.getName());
+		record.add(getMessages().memo(), t.getMemo());
+		record.add(getMessages().amount(), t.getAmount());
+		record.add(getMessages().paymentMethod(), t.getPaymentMethod());
 		return record;
 	}
 

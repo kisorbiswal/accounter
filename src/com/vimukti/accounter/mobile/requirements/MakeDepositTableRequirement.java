@@ -125,14 +125,11 @@ public class MakeDepositTableRequirement extends
 				.getClientObjectById(t.getAccount(), AccounterCoreType.ACCOUNT,
 						getCompanyId());
 		Record record = new Record(t);
-		record.add("", getMessages().receivedFrom());
-		record.add("", getReceivedFrom(t));
-		record.add("", getMessages().accountFrom());
-		record.add("", account == null ? "" : account.getName());
-		record.add("", getMessages().reference());
-		record.add("", t.getReference());
-		record.add("", getMessages().amount());
-		record.add("", t.getAmount());
+		record.add(getMessages().receivedFrom(), getReceivedFrom(t));
+		record.add(getMessages().accountFrom(),
+				account == null ? "" : account.getName());
+		record.add(getMessages().reference(), t.getReference());
+		record.add(getMessages().amount(), t.getAmount());
 		return record;
 	}
 

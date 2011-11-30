@@ -56,10 +56,8 @@ public abstract class TaxItemsTableRequirement extends
 	@Override
 	protected Record createFullRecord(ClientTAXItem t) {
 		Record record = new Record(t);
-		record.add("", getMessages().name());
-		record.add("", t.getName());
-		record.add("", getMessages().taxRate());
-		record.add("", t.getTaxRate());
+		record.add(getMessages().name(), t.getName());
+		record.add(getMessages().taxRate(), t.getTaxRate());
 		return record;
 	}
 

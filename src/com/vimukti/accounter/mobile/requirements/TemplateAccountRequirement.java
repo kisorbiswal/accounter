@@ -68,11 +68,8 @@ public abstract class TemplateAccountRequirement extends
 			} else if (actionName == ActionNames.CLOSE) {
 				context.setAttribute(INPUT_ATTR, "");
 				Record record = new Record("accountsNumber");
-				record.add(
-						"",
-						values.size()
-								+ getMessages().hasSelected(
-										getMessages().Account()));
+				record.add(values.size()
+						+ getMessages().hasSelected(getMessages().Account()));
 				list.add(record);
 				return null;
 			}
@@ -270,13 +267,13 @@ public abstract class TemplateAccountRequirement extends
 
 		if (records.size() > index) {
 			Record inActiveRec = new Record(ActionNames.NEXT_PAGE);
-			inActiveRec.add("", getMessages().nextPage());
+			inActiveRec.add(getMessages().nextPage());
 			actions.add(inActiveRec);
 		}
 
 		if (index > recordsToShow) {
 			Record inActiveRec = new Record(ActionNames.PREV_PAGE);
-			inActiveRec.add("", getMessages().prevPage());
+			inActiveRec.add(getMessages().prevPage());
 			actions.add(inActiveRec);
 		}
 		return result;
@@ -300,8 +297,8 @@ public abstract class TemplateAccountRequirement extends
 	 */
 	protected Record createRecord(TemplateAccount value) {
 		Record itemRec = new Record(value);
-		itemRec.add("", value.getName());
-		itemRec.add("", value.getType());
+		itemRec.add("Name", value.getName());
+		itemRec.add("Type", value.getType());
 		return itemRec;
 	}
 

@@ -27,8 +27,7 @@ public abstract class EstimateRequirement extends ListRequirement<Estimate> {
 	@Override
 	protected Record createRecord(Estimate value) {
 		Record rec = new Record(value);
-		rec.add("", getMessages().quote());
-		rec.add("", value.getTotal());
+		rec.add(getMessages().quote(), value.getTotal());
 
 		return rec;
 	}

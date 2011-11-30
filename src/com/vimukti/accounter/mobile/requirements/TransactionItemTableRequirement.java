@@ -204,24 +204,24 @@ public abstract class TransactionItemTableRequirement extends
 				.getClientObjectById(t.getItem(), AccounterCoreType.ITEM,
 						getCompanyId());
 		if (iAccounterCore != null) {
-			record.add("", iAccounterCore.getDisplayName());
+			record.add("Name", iAccounterCore.getDisplayName());
 		}
-		record.add("", t.getQuantity().getValue());
-		record.add("", t.getUnitPrice());
+		record.add("Quantity", t.getQuantity().getValue());
+		record.add("Unit price", t.getUnitPrice());
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
-			record.add("",
-					((ClientTAXCode) (CommandUtils.getClientObjectById(
-							t.getTaxCode(), AccounterCoreType.TAX_CODE,
-							getCompanyId()))).getDisplayName());
+			record.add("Tax Code", ((ClientTAXCode) (CommandUtils
+					.getClientObjectById(t.getTaxCode(),
+							AccounterCoreType.TAX_CODE, getCompanyId())))
+					.getDisplayName());
 		} else {
 			if (t.isTaxable()) {
-				record.add("", getMessages().taxable());
+				record.add(getMessages().taxable());
 			} else {
-				record.add("", getMessages().taxExempt());
+				record.add(getMessages().taxExempt());
 			}
 		}
-		record.add("", t.getDescription());
+		record.add("Description", t.getDescription());
 		return record;
 	}
 

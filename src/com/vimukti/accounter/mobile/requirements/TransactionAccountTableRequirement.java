@@ -186,25 +186,26 @@ public class TransactionAccountTableRequirement extends
 				.getClientObjectById(t.getAccount(), AccounterCoreType.ACCOUNT,
 						getCompanyId());
 		record.add(
-				"",
+				"Name",
 				clientObjectById == null ? "" : clientObjectById
 						.getDisplayName());
-		record.add("", t.getUnitPrice());
+		record.add("Unit ptice", t.getUnitPrice());
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
 			ClientTAXCode taxCode = (ClientTAXCode) CommandUtils
 					.getClientObjectById(t.getTaxCode(),
 							AccounterCoreType.TAX_CODE, getCompanyId());
-			record.add("", taxCode == null ? "" : taxCode.getDisplayName());
+			record.add("Tax Code",
+					taxCode == null ? "" : taxCode.getDisplayName());
 		} else {
 			if (t.isTaxable()) {
-				record.add("", getMessages().taxable());
+				record.add(getMessages().taxable());
 			} else {
-				record.add("", getMessages().taxExempt());
+				record.add(getMessages().taxExempt());
 			}
 		}
-		record.add("", t.getDiscount());
-		record.add("", t.getDescription());
+		record.add("Discount", t.getDiscount());
+		record.add("Description", t.getDescription());
 		return record;
 	}
 

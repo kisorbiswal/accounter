@@ -75,16 +75,11 @@ public abstract class ReceivePaymentTableRequirement extends
 	@Override
 	protected Record createFullRecord(ReceivePaymentTransactionList t) {
 		Record record = new Record(t);
-		record.add("", getMessages().dueDate());
-		record.add("", t.getDueDate());
-		record.add("", getMessages().invoiceNo());
-		record.add("", t.getNumber());
-		record.add("", getMessages().invoiceAmount());
-		record.add("", t.getInvoiceAmount());
-		record.add("", getMessages().amountDue());
-		record.add("", t.getAmountDue());
-		record.add("", getMessages().payment());
-		record.add("", t.getPayment());
+		record.add(getMessages().dueDate(), t.getDueDate());
+		record.add(getMessages().invoiceNo(), t.getNumber());
+		record.add(getMessages().invoiceAmount(), t.getInvoiceAmount());
+		record.add(getMessages().amountDue(), t.getAmountDue());
+		record.add(getMessages().payment(), t.getPayment());
 		return record;
 	}
 

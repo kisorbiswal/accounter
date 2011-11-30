@@ -15,7 +15,7 @@ public abstract class StringListRequirement extends ListRequirement<String> {
 	@Override
 	protected Record createRecord(String value) {
 		Record record = new Record(value);
-		record.add("", value);
+		record.add(value);
 		return record;
 	}
 

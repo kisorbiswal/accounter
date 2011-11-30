@@ -50,8 +50,8 @@ public abstract class CustomerRequirement extends ListRequirement<Customer> {
 	@Override
 	protected Record createRecord(Customer value) {
 		Record record = new Record(value);
-		record.add("", value.getName());
-		record.add("", value.getBalance());
+		record.add("Name", value.getName());
+		record.add("Balance", value.getBalance());
 		return record;
 	}
 

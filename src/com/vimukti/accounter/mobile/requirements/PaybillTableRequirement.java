@@ -49,8 +49,7 @@ public abstract class PaybillTableRequirement extends
 		double amount = get(AMOUNT).getValue();
 		Double due = obj.getAmountDue() - amount;
 		Record record = new Record(due);
-		record.add("", getMessages().amountDue());
-		record.add("", due);
+		record.add(getMessages().amountDue(), due);
 		list.add(3, record);
 	}
 
@@ -79,16 +78,11 @@ public abstract class PaybillTableRequirement extends
 	@Override
 	protected Record createFullRecord(PayBillTransactionList t) {
 		Record record = new Record(t);
-		record.add("", getMessages().dueDate());
-		record.add("", t.getDueDate());
-		record.add("", getMessages().billNo());
-		record.add("", t.getBillNumber());
-		record.add("", getMessages().originalAmount());
-		record.add("", t.getOriginalAmount());
-		record.add("", getMessages().amountDue());
-		record.add("", t.getAmountDue());
-		record.add("", getMessages().payment());
-		record.add("", t.getPayment());
+		record.add(getMessages().dueDate(), t.getDueDate());
+		record.add(getMessages().billNo(), t.getBillNumber());
+		record.add(getMessages().originalAmount(), t.getOriginalAmount());
+		record.add(getMessages().amountDue(), t.getAmountDue());
+		record.add(getMessages().payment(), t.getPayment());
 		return record;
 	}
 

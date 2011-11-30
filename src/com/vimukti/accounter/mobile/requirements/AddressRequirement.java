@@ -129,28 +129,25 @@ public class AddressRequirement extends AbstractRequirement<ClientAddress> {
 
 		ResultList list = new ResultList(getName());
 		Record record = new Record(ADDRESS1);
-		record.add("", getMessages().address1());
-		record.add("", oldAddress.getAddress1());
+		record.add(getMessages().address1(), oldAddress.getAddress1());
 		list.add(record);
 
 		record = new Record(STREET);
-		record.add("", getMessages().streetName());
-		record.add("", oldAddress.getStreet());
+		record.add(getMessages().streetName(), oldAddress.getStreet());
 		list.add(record);
 
 		record = new Record(CITY);
-		record.add("", getMessages().city());
-		record.add("", oldAddress.getCity());
+		record.add(getMessages().city(), oldAddress.getCity());
 		list.add(record);
 
 		record = new Record(STATE);
-		record.add("", getMessages().stateOrProvince());
-		record.add("", oldAddress.getStateOrProvinence());
+		record.add(getMessages().stateOrProvince(),
+				oldAddress.getStateOrProvinence());
 		list.add(record);
 
 		record = new Record(COUNTRY);
-		record.add("", getMessages().countryRegion());
-		record.add("", oldAddress.getCountryOrRegion());
+		record.add(getMessages().countryRegion(),
+				oldAddress.getCountryOrRegion());
 		list.add(record);
 
 		Result result = context.makeResult();

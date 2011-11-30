@@ -17,7 +17,7 @@ public abstract class ClientCurrencyRequirement extends
 	@Override
 	protected Record createRecord(ClientCurrency value) {
 		Record record = new Record(value);
-		record.add("", value.getName());
+		record.add("Currency", value.getName());
 		return record;
 	}
 

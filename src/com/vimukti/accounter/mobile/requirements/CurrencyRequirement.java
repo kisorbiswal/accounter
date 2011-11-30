@@ -16,7 +16,7 @@ public abstract class CurrencyRequirement extends ListRequirement<Currency> {
 	@Override
 	protected Record createRecord(Currency value) {
 		Record record = new Record(value);
-		record.add("", value.getName());
+		record.add("Curency", value.getName());
 		return record;
 	}
 

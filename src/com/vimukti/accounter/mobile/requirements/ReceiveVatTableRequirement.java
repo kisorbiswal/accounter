@@ -74,12 +74,9 @@ public abstract class ReceiveVatTableRequirement extends
 						AccounterCoreType.TAXAGENCY, getCompanyId());
 
 		Record record = new Record(t);
-		record.add("", getMessages().vatAgency());
-		record.add("", taxAgency.getName());
-		record.add("", getMessages().taxDue());
-		record.add("", t.getTaxDue());
-		record.add("", getMessages().amountToReceive());
-		record.add("", t.getAmountToReceive());
+		record.add(getMessages().vatAgency(), taxAgency.getName());
+		record.add(getMessages().taxDue(), t.getTaxDue());
+		record.add(getMessages().amountToReceive(), t.getAmountToReceive());
 		return record;
 	}
 

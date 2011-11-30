@@ -75,12 +75,9 @@ public abstract class MeasurementUnitRequirement extends
 	@Override
 	protected Record createFullRecord(Unit t) {
 		Record record = new Record(t);
-		record.add("", getMessages().unitName());
-		record.add("", t.getType());
-		record.add("", getMessages().factor());
-		record.add("", t.getFactor());
-		record.add("", getMessages().isDefault());
-		record.add("", t.isDefault());
+		record.add(getMessages().unitName(), t.getType());
+		record.add(getMessages().factor(), t.getFactor());
+		record.add(getMessages().isDefault(), t.isDefault());
 		return record;
 	}
 

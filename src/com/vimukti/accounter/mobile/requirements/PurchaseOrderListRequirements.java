@@ -30,8 +30,7 @@ public abstract class PurchaseOrderListRequirements extends
 	protected Record createRecord(PurchaseOrdersList value) {
 		Record rec = new Record(value);
 		if (value.getType() == ClientTransaction.TYPE_PURCHASE_ORDER) {
-			rec.add("", getMessages().purchaseOrder());
-			rec.add("", value.getPurchasePrice());
+			rec.add(getMessages().purchaseOrder(), value.getPurchasePrice());
 		}
 		return rec;
 	}

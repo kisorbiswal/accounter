@@ -16,8 +16,7 @@ public abstract class PayeeRequirement extends ListRequirement<Payee> {
 	@Override
 	protected Record createRecord(Payee value) {
 		Record record = new Record(value);
-		record.add("", value.getName());
-		record.add("", value.getBalance());
+		record.add(value.getName(), value.getBalance());
 		return record;
 	}
 
