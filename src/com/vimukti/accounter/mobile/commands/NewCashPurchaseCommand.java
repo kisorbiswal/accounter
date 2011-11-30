@@ -174,21 +174,6 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 					@Override
 					public void onSelection(Vendor value) {
-						get(BILL_TO).setValue(null);
-						Set<Address> addresses = value.getAddress();
-						for (Address address : addresses) {
-							if (address.getType() == Address.TYPE_BILL_TO) {
-								try {
-									ClientAddress addr = new ClientConvertUtil()
-											.toClientObject(address,
-													ClientAddress.class);
-									get(BILL_TO).setValue(addr);
-								} catch (AccounterException e) {
-									e.printStackTrace();
-								}
-								break;
-							}
-						}
 						get(PHONE).setValue(value.getPhoneNo());
 						get(CONTACT).setValue(null);
 						for (Contact contact : value.getContacts()) {
