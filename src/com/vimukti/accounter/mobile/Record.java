@@ -49,10 +49,10 @@ public class Record extends ArrayList<Cell> {
 			}
 		} else {
 			for (Cell cell : this) {
-				builder.append("\t\t").append(cell);
+				builder.append(cell).append("\t\t");
 			}
 		}
-		return "\n" + code + ". " + builder.toString();
+		return code + ". " + builder.append("\n").toString();
 	}
 
 	public void add(String string) {
