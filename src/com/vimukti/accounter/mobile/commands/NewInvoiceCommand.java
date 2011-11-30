@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Invoice;
@@ -84,7 +85,14 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 						Set<Address> addresses = value.getAddress();
 						for (Address address : addresses) {
 							if (address.getType() == Address.TYPE_BILL_TO) {
-								get(BILL_TO).setValue(address);
+								try {
+									ClientAddress addr = new ClientConvertUtil()
+											.toClientObject(address,
+													ClientAddress.class);
+									get(BILL_TO).setValue(addr);
+								} catch (AccounterException e) {
+									e.printStackTrace();
+								}
 								break;
 							}
 						}
