@@ -7,6 +7,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -29,19 +30,29 @@ public class TrialBalanceReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<TrialBalance> records = getRecords();
+				ResultList resultList = new ResultList("trailBalance");
+				addSelection("trailBalance");
+				double totalDebit = 0.0;
+				double totalCredit = 0.0;
+				for (TrialBalance record : records) {
+					totalCredit += record.getCreditAmount();
+					totalDebit += record.getDebitAmount();
+					resultList.add(createReportRecord(record));
+				}
+				makeResult.add(resultList);
+				makeResult.add("Total Debit : " + totalDebit);
+				makeResult.add("Total Credit : " + totalCredit);
 			}
 		});
 	}
 
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
-
 		trialRecord.add(getMessages().accountName(), record.getAccountName());
-		if (getCompany().getPreferences().getUseAccountNumbers())
+		if (getCompany().getPreferences().getUseAccountNumbers()) {
 			trialRecord.add(getMessages().accountNumber(),
 					record.getAccountNumber());
-		else
-			trialRecord.add("", "");
+		}
 		trialRecord.add(getMessages().debit(), record.getDebitAmount());
 		trialRecord.add(getMessages().credit(), record.getCreditAmount());
 		return trialRecord;

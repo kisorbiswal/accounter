@@ -74,7 +74,9 @@ public class TransactionDetailByAccountReportCommand extends
 					grandTotal += totalAmount;
 					makeResult.add("Amount Total: " + totalAmount);
 				}
-				makeResult.add("Grand Total: " + grandTotal);
+				if (account == null) {
+					makeResult.add("Grand Total: " + grandTotal);
+				}
 			}
 		});
 	}
