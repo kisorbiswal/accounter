@@ -1,13 +1,18 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
@@ -31,13 +36,38 @@ public class SupplierTransactionHistoryReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<TransactionHistory> records = getRecords();
+				Map<String, List<TransactionHistory>> recordGroups = new HashMap<String, List<TransactionHistory>>();
+				for (TransactionHistory transactionDetailByAccount : records) {
+					String vendorName = transactionDetailByAccount.getName();
+					List<TransactionHistory> group = recordGroups
+							.get(vendorName);
+					if (group == null) {
+						group = new ArrayList<TransactionHistory>();
+						recordGroups.put(vendorName, group);
+					}
+					group.add(transactionDetailByAccount);
+				}
+
+				Set<String> keySet = recordGroups.keySet();
+				List<String> vendorNames = new ArrayList<String>(keySet);
+				Collections.sort(vendorNames);
+				for (String vendorName : vendorNames) {
+					List<TransactionHistory> group = recordGroups
+							.get(vendorName);
+					addSelection(vendorName);
+					ResultList resultList = new ResultList(vendorName);
+					for (TransactionHistory rec : group) {
+						resultList.setTitle(rec.getName());
+						resultList.add(createReportRecord(rec));
+					}
+					makeResult.add(resultList);
+				}
 			}
 		});
 	}
 
 	protected Record createReportRecord(TransactionHistory record) {
 		Record transactionRecord = new Record(record);
-		transactionRecord.add(Global.get().Vendor(), "");
 		transactionRecord.add(getMessages().date(), record.getDate());
 		transactionRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getType()));
@@ -74,6 +104,7 @@ public class SupplierTransactionHistoryReportCommand extends
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		// TODO Auto-generated method stub
+		dateRangeChanged(getMessages().financialYearToDate());
 		return null;
 	}
 
