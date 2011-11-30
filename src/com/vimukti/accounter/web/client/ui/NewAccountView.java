@@ -192,6 +192,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accTypeSelect.initCombo(accTypeMap);
 		accTypeSelect.setHelpInformation(true);
 		// accTypeSelect.setWidth(100);
+		accTypeSelect.setDisabled(isInViewMode());
 		accTypeSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -1596,6 +1597,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (creditCardForm != null) {
 			creditCardForm.setDisabled(isInViewMode());
 		}
+		accTypeSelect.setDisabled(isInViewMode());
 
 		// if (currencyCombo != null && data.isAllowCurrencyChange()) {
 		currencyCombo.setDisabled(true);
