@@ -288,15 +288,6 @@
 	</pattern>
 
 	<pattern>
-		<input>Customer</input>
-		<outputs>
-			<text text="Customer" />
-			<command text="Create New Customer" />
-			<command text="Customers List" />
-		</outputs>
-	</pattern>
-
-	<pattern>
 		<input>Account</input>
 		<outputs>
 			<command title="New Account" />
