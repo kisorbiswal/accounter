@@ -17,10 +17,8 @@ public class SalesByItemDetailReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(SalesByCustomerDetail record) {
 		Record salesRecord = new Record(record);
 		salesRecord.add(getMessages().item(), "");
@@ -41,7 +39,6 @@ public class SalesByItemDetailReportCommand extends
 		return null;
 	}
 
-	@Override
 	protected List<SalesByCustomerDetail> getRecords() {
 		ArrayList<SalesByCustomerDetail> salesByCustomerDetails = new ArrayList<SalesByCustomerDetail>();
 		try {
@@ -58,27 +55,11 @@ public class SalesByItemDetailReportCommand extends
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return salesByCustomerDetails;
 	}
 
-	@Override
 	protected String addCommandOnRecordClick(SalesByCustomerDetail selection) {
 		return "update transaction " + selection.getTransactionId();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportDetails(getMessages().salesByItemSummary());
 	}
 
 	@Override
