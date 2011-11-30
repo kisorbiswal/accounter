@@ -17,10 +17,8 @@ public class SalesClosedOrderReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(OpenAndClosedOrders record) {
 		Record openRecord = new Record(record);
 		if (record.getTransactionDate() != null)
@@ -44,7 +42,6 @@ public class SalesClosedOrderReportCommand extends
 		return null;
 	}
 
-	@Override
 	protected List<OpenAndClosedOrders> getRecords() {
 		ArrayList<OpenAndClosedOrders> openAndClosedOrders = new ArrayList<OpenAndClosedOrders>();
 		try {
@@ -55,28 +52,6 @@ public class SalesClosedOrderReportCommand extends
 			e.printStackTrace();
 		}
 		return openAndClosedOrders;
-	}
-
-	@Override
-	protected String addCommandOnRecordClick(OpenAndClosedOrders selection) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().reportCommondActivated(
-				getMessages().salesCloseOrder());
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(getMessages().salesCloseOrder());
 	}
 
 	@Override
