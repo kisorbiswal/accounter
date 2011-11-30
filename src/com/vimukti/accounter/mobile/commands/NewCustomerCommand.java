@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -591,7 +590,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		get(NUMBER).setValue(customer.getNumber());
 		get(CUSTOMER_GROUP).setValue(
 				CommandUtils.getServerObjectById(customer.getCustomerGroup(),
-						AccounterCoreType.VENDOR_GROUP));
+						AccounterCoreType.CUSTOMER_GROUP));
 		get(CUSTOMER_SINCEDATE).setValue(
 				new ClientFinanceDate(customer.getPayeeSince()));
 		get(BALANCE).setValue(customer.getBalance());
@@ -617,11 +616,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				CommandUtils.getServerObjectById(customer.getTAXCode(),
 						AccounterCoreType.TAX_CODE));
 
-		ArrayList<Contact> arrayList = new ArrayList<Contact>();
-		for (ClientContact contact : customer.getContacts()) {
-			arrayList.add(toServerContact(contact));
-		}
-		get(CONTACT).setValue(arrayList);
+		get(CONTACT).setValue(
+				new ArrayList<ClientContact>(customer.getContacts()));
 		get(PHONE).setValue(customer.getPhoneNo());
 		get(FAX).setValue(customer.getFaxNo());
 		get(EMAIL).setValue(customer.getEmail());
