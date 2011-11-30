@@ -1082,8 +1082,9 @@ public abstract class Transaction extends CreatableObject implements
 	 * 
 	 * @param coreObject
 	 */
-		getTaxRateCalculationEntriesList().clear();
+		
 		public void cleanTransactionitems(Transaction coreObject) {
+		getTaxRateCalculationEntriesList().clear();
 	}
 
 	private void updateTranasactionItems(Transaction transaction) {
