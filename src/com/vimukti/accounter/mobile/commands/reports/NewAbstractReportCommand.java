@@ -45,68 +45,45 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 	 */
 	protected void addDateRangeFromToDateRequirements(List<Requirement> list) {
 		list.add(addDateRangeRequirement());
-		list.add(new DateRequirement(FROM_DATE, getMessages().pleaseEnter(
-				getMessages().startDate()), getMessages().startDate(), true,
-				true) {
-			@Override
-			public void setValue(Object value) {
-				super.setValue(value);
-				resetandUpdateRecords();
-			}
-		});
-		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
-				getMessages().endDate()), getMessages().endDate(), true, true) {
-			@Override
-			public void setValue(Object value) {
-				super.setValue(value);
-				resetandUpdateRecords();
-			}
-		});
+		addFromToDateRequirements(list);
 	}
 
 	protected void addFromToDateRequirements(List<Requirement> list) {
-		list.add(new DateRequirement(FROM_DATE, getMessages().pleaseEnter(
+		list.add(getFromDateRequirement());
+		list.add(getToDateRequirement());
+	}
+
+	private Requirement getToDateRequirement() {
+		return new DateRequirement(TO_DATE, getMessages().pleaseEnter(
+				getMessages().endDate()), getMessages().endDate(), true, true) {
+			@Override
+			public void setValue(Object value) {
+				endDate = (ClientFinanceDate) value;
+				super.setValue(value);
+			}
+		};
+	}
+
+	private Requirement getFromDateRequirement() {
+		return new DateRequirement(FROM_DATE, getMessages().pleaseEnter(
 				getMessages().startDate()), getMessages().startDate(), true,
 				true) {
 			@Override
 			public void setValue(Object value) {
+				startDate = (ClientFinanceDate) value;
 				super.setValue(value);
-				resetandUpdateRecords();
 			}
-		});
-		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
-				getMessages().endDate()), getMessages().endDate(), true, true) {
-			@Override
-			public void setValue(Object value) {
-				super.setValue(value);
-				resetandUpdateRecords();
-			}
-		});
+		};
 	}
 
 	protected void addDateRangeFromDateRequirements(List<Requirement> list) {
 		list.add(addDateRangeRequirement());
-		list.add(new DateRequirement(FROM_DATE, getMessages().pleaseEnter(
-				getMessages().startDate()), getMessages().startDate(), true,
-				true) {
-			@Override
-			public void setValue(Object value) {
-				super.setValue(value);
-				resetandUpdateRecords();
-			}
-		});
+		list.add(getFromDateRequirement());
 	}
 
 	protected void addDateRangeToDateRequirements(List<Requirement> list) {
 		list.add(addDateRangeRequirement());
-		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
-				getMessages().endDate()), "", true, true) {
-			@Override
-			public void setValue(Object value) {
-				super.setValue(value);
-				resetandUpdateRecords();
-			}
-		});
+		list.add(getToDateRequirement());
 	}
 
 	private Requirement addDateRangeRequirement() {
@@ -117,13 +94,12 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 					@Override
 					public void onSelection(String value) {
 						dateRangeChanged(value);
-						resetandUpdateRecords();
 					}
 				}) {
 
 			@Override
 			protected String getSetMessage() {
-				return "";
+				return null;
 			}
 
 			@Override
@@ -161,9 +137,6 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 		if (minimumAndMaximumDates.isEmpty()) {
 			return;
 		}
-		if (get(TO_DATE) != null) {
-			endDate = get(TO_DATE).getValue();
-		}
 		Map<String, Object> dateRangeChanged = CommandUtils.dateRangeChanged(
 				getMessages(), dateRange, previousSelectedRange,
 				getPreferences(), startDate, endDate,
@@ -180,9 +153,6 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 		// dateRangeChanged.get("isDateChanges");
 		previousSelectedRange = (String) dateRangeChanged
 				.get("selectedDateRange");
-	}
-
-	protected void resetandUpdateRecords() {
 	}
 
 	@Override
@@ -224,13 +194,11 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 	}
 
 	protected FinanceDate getStartDate() {
-		return get(FROM_DATE) == null ? new FinanceDate(startDate)
-				: new FinanceDate((ClientFinanceDate) get(FROM_DATE).getValue());
+		return new FinanceDate(startDate);
 	}
 
 	protected FinanceDate getEndDate() {
-		return get(TO_DATE) == null ? new FinanceDate(endDate)
-				: new FinanceDate((ClientFinanceDate) get(TO_DATE).getValue());
+		return new FinanceDate(endDate);
 	}
 
 	@Override
