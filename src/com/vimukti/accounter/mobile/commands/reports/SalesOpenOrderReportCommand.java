@@ -65,10 +65,8 @@ public class SalesOpenOrderReportCommand extends
 			}
 		});
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(OpenAndClosedOrders record) {
 		Record openRecord = new Record(record);
 		if (record.getTransactionDate() != null)
@@ -89,7 +87,6 @@ public class SalesOpenOrderReportCommand extends
 		return null;
 	}
 
-	@Override
 	protected List<OpenAndClosedOrders> getRecords() {
 
 		ArrayList<OpenAndClosedOrders> openAndClosedOrders = new ArrayList<OpenAndClosedOrders>();
@@ -119,25 +116,8 @@ public class SalesOpenOrderReportCommand extends
 
 	}
 
-	@Override
 	protected String addCommandOnRecordClick(OpenAndClosedOrders selection) {
 		return "update transaction " + selection.getTransactionID();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(
-				getMessages().sales() + getMessages().open());
 	}
 
 	@Override
