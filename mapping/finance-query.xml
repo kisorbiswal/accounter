@@ -4084,9 +4084,9 @@
 		when
 		P.TYPE = 2
 		then
-		-1* TI.LINE_TOTAL
+		-1* T.TOTAL
 		else
-		TI.LINE_TOTAL
+		T.TOTAL
 		end
 		else 0.0
 		end as
@@ -4166,7 +4166,7 @@
 		when P.TYPE
 		= 1
 		then
-		TI.LINE_TOTAL
+		T.TOTAL
 		else
 		0.0
 		end
@@ -4179,7 +4179,8 @@
 		when T.T_TYPE = 1
 		or
 		T.T_TYPE = 3 or T.T_TYPE = 4 or
-		T.T_TYPE = 2 or
+		T.T_TYPE =
+		2 or
 		T.T_TYPE = 10 or
 		T.T_TYPE = 6 or T.T_TYPE = 15 or
 		T.T_TYPE = 27 or
@@ -4188,7 +4189,8 @@
 		T.TOTAL
 		when T.T_TYPE = 12
 		then
-		RP.AMOUNT + RP.TOTAL_CASH_DISCOUNT +
+		RP.AMOUNT +
+		RP.TOTAL_CASH_DISCOUNT +
 		RP.TOTAL_WRITE_OFF
 		when T.T_TYPE =
 		16
@@ -4196,7 +4198,7 @@
 		case
 		when P.TYPE = 2
 		then
-		-1*TI.LINE_TOTAL
+		-1*T.TOTAL
 		else
 		0.0
 		end
@@ -4206,7 +4208,8 @@
 		CREDIT,
 
 		case
-		when T.T_TYPE = 12
+		when
+		T.T_TYPE = 12
 		then
 		RP.TOTAL_CASH_DISCOUNT
 		when T.T_TYPE =
@@ -4318,8 +4321,6 @@
 		NULL)
 		IN (2,1)
 
-		left join
-		TRANSACTION_ITEM TI ON TI.TRANSACTION_ID=T.ID
 
 		left outer join
 		CUSTOMER_PREPAYMENT CPP
@@ -4331,17 +4332,20 @@
 		CCM.CUSTOMER_ID or
 		C.ID =
 		I.CUSTOMER_ID or C.ID = CR.CUSTOMER_ID or
-		C.ID = RP.CUSTOMER_ID
+		C.ID
+		= RP.CUSTOMER_ID
 		or
 		C.ID
 		=
 		TMD.CUSTOMER_ID or C.ID = WC.CUSTOMER_ID
-		or C.ID = JE.PAYEE_ID
+		or C.ID
+		= JE.PAYEE_ID
 		or C.ID =
 		CPP.CUSTOMER_ID
 		left outer join
 		PAYMENTTERMS PT
-		on PT.ID =
+		on
+		PT.ID =
 		EB.PAYMENT_TERM_ID or PT.ID = I.PAYMENT_TERMS_ID
 
 		left outer
@@ -4360,7 +4364,8 @@
 		join
 		PAYEE P
 		on
-		P.ID = C.ID OR P.ID = V.ID OR P.ID=JE.PAYEE_ID order by T.ID
+		P.ID = C.ID OR P.ID = V.ID OR P.ID=JE.PAYEE_ID order by
+		T.ID
 
 	</sql-query>
 
@@ -6100,7 +6105,7 @@
 		-1*T.TOTAL
 		WHEN T.T_TYPE = 16
 		THEN
-		TI.LINE_TOTAL
+		T.TOTAL
 		WHEN T.T_TYPE = 29 THEN
 		-1*CPP.BALANCE_DUE
 		END AS
@@ -6131,8 +6136,7 @@
 		LEFT
 		OUTER JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID = T.ID
 
-		LEFT OUTER JOIN
-		TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
+		<!-- LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID -->
 
 		LEFT OUTER JOIN PAYEE P
 		ON P.ID =
@@ -6143,27 +6147,35 @@
 		OR P.ID
 		= RP.CUSTOMER_ID
 		OR P.ID = JE.PAYEE_ID
-		OR P.ID =
+		OR
+		P.ID =
 		CPP.CUSTOMER_ID
 
 		LEFT
-		OUTER JOIN PAYEE_ADDRESS PA ON PA.PAYEE_ID = P.ID
+		OUTER JOIN PAYEE_ADDRESS PA ON PA.PAYEE_ID =
+		P.ID
 		LEFT OUTER JOIN
 		CUSTOMER C ON C.ID = P.ID
-		LEFT OUTER JOIN SALES_PERSON
+		LEFT OUTER JOIN
+		SALES_PERSON
 		SP ON SP.ID =
 		C.SALES_PERSON_ID
-		LEFT OUTER JOIN SHIPPINGMETHOD SM ON
+		LEFT OUTER JOIN
+		SHIPPINGMETHOD SM ON
 		SM.ID =
 		C.SHIPPING_METHOD_ID
-		LEFT OUTER JOIN PAYMENTTERMS PT ON PT.ID =
+		LEFT OUTER JOIN
+		PAYMENTTERMS PT ON PT.ID =
 		C.PAYMENT_TERM_ID
 
-		WHERE T.COMPANY_ID=:companyId AND (T.T_DATE between
-		:startDate and :endDate) AND P.ID =:payeeId AND
+		WHERE
+		T.COMPANY_ID=:companyId AND (T.T_DATE between
+		:startDate and :endDate)
+		AND P.ID =:payeeId AND
 		T.T_TYPE IN (4, 5,
 		8,
-		12, 16, 29) AND T.IS_VOID = FALSE AND
+		12, 16, 29) AND T.IS_VOID =
+		FALSE AND
 		CASE WHEN (SELECT
 		COUNT(PA2.TYPE)
 		FROM PAYEE_ADDRESS PA2 WHERE
@@ -6208,7 +6220,7 @@
 		-1*VCM.BALANCE_DUE
 		WHEN T.T_TYPE = 16
 		THEN
-		TI.LINE_TOTAL
+		T.TOTAL
 		WHEN T.T_TYPE =
 		26 THEN
 		EX.AMOUNT_DUE
@@ -6249,9 +6261,7 @@
 		OUTER
 		JOIN EXPENSE EX ON EX.ID =
 		T.ID
-		LEFT OUTER JOIN
-		TRANSACTION_ITEM TI ON
-		TI.TRANSACTION_ID = T.ID
+		<!-- LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID -->
 
 		LEFT
 		OUTER
@@ -7257,7 +7267,7 @@
 		a.ID ORDER by a.TRANSACTION_DATE DESC LIMIT :limit
 
 	</sql-query>
-	
+
 	<query name="getTaxreturnByTransactionid">
 		<query-param name="transaction" type="Transaction" />
 		from com.vimukti.accounter.core.TAXReturnEntry tr where
