@@ -18,10 +18,8 @@ public class SupplierTransactionHistoryReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(TransactionHistory record) {
 		Record transactionRecord = new Record(record);
 		transactionRecord.add(Global.get().Vendor(), "");
@@ -42,7 +40,6 @@ public class SupplierTransactionHistoryReportCommand extends
 		return null;
 	}
 
-	@Override
 	protected List<TransactionHistory> getRecords() {
 		ArrayList<TransactionHistory> transactionHistories = new ArrayList<TransactionHistory>();
 		try {
@@ -55,25 +52,8 @@ public class SupplierTransactionHistoryReportCommand extends
 		return transactionHistories;
 	}
 
-	@Override
 	protected String addCommandOnRecordClick(TransactionHistory selection) {
 		return "update transaction " + selection.getTransactionId();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(
-				getMessages().payeeTransactionHistory(Global.get().Vendor()));
 	}
 
 	@Override
