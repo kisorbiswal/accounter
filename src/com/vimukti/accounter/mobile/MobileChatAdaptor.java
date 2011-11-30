@@ -34,6 +34,7 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		int commandIndex = 97;
 		for (Object part : resultParts) {
 			if (part instanceof ResultList) {
+				reply.append('\n');
 				ResultList resultList = (ResultList) part;
 				String resultListTile = resultList.getTitle();
 				if (resultListTile != null) {
