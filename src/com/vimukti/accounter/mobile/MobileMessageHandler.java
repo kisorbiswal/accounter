@@ -207,8 +207,9 @@ public class MobileMessageHandler extends Thread {
 	 * @return
 	 * @throws AccounterMobileException
 	 */
-	private UserMessage preProcess(MobileSession session, String message,
+	private UserMessage preProcess(MobileSession session, String clientMessage,
 			String networkId, int networkType) throws AccounterMobileException {
+		String message = clientMessage;
 		UserMessage userMessage = new UserMessage(message, networkId,
 				networkType);
 
@@ -268,7 +269,7 @@ public class MobileMessageHandler extends Thread {
 			command = matchedCommand;
 			userMessage.setCommandString(commandString.trim());
 		} else {
-			Result result = PatternStore.INSTANCE.find(message,
+			Result result = PatternStore.INSTANCE.find(clientMessage,
 					session.isAuthenticated());
 			if (result != null) {
 				result.setShowBack(session.getLastMessage() != null);
@@ -287,7 +288,7 @@ public class MobileMessageHandler extends Thread {
 			PatternResult patternResult = (PatternResult) lastResult;
 
 			commandString = getPatternResultString(patternResult.getCommands(),
-					message);
+					clientMessage);
 
 			if (commandString != null) {
 				Result result = PatternStore.INSTANCE.find(commandString,

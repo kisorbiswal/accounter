@@ -14,7 +14,7 @@ import com.vimukti.accounter.mobile.store.Output;
  */
 public class PatternResult extends Result {
 	public String condition;
-	public boolean needAuthentication;
+	public boolean login;
 	public List<Output> outputs;
 
 	/**
@@ -39,11 +39,22 @@ public class PatternResult extends Result {
 	}
 
 	public Result render(boolean isAuthenticated) {
-		if (needAuthentication ? !isAuthenticated : false) {
-			return null;
+		if (login ? !isAuthenticated : false) {
+			Result result = new Result();
+			result.add("You can not do this action before login.");
+			result.add("Please login");
+			result.setNextCommand("login");
+			return result;
 		}
 		if (condition != null && !checkCondition(condition)) {
-			return null;
+			Result result = new Result();
+			result.add("You do not have permission to do this action.");
+			result.add("You can change permissions from Company Preferences.");
+			CommandList list = new CommandList();
+			list.add("Change Preferences");
+			result.add(list);
+			result.setNextCommand("back");
+			return result;
 		}
 		PatternResult result = new PatternResult();
 		for (Output output : outputs) {
