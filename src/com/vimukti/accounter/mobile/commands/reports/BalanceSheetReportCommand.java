@@ -6,6 +6,8 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -19,17 +21,31 @@ public class BalanceSheetReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeToDateRequirements(list);
-		super.addRequirements(list);
+
+		list.add(new ReportResultRequirement<TrialBalance>() {
+
+			@Override
+			protected String onSelection(TrialBalance selection, String name) {
+				return "Transaction Detail By Account ,"
+						+ selection.getAccountNumber();
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+				List<TrialBalance> records = getRecords();
+
+			}
+		});
 	}
 
-	@Override
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
-		if (getCompany().getPreferences().getUseAccountNumbers() == true)
+		if (getCompany().getPreferences().getUseAccountNumbers() == true) {
 			trialRecord.add(getMessages().categoryNumber(),
 					record.getAccountNumber());
-		else
+		} else {
 			return null;
+		}
 		trialRecord.add(getMessages().accountName(), record.getAccountName());
 		trialRecord
 				.add(getStartDate() + "-" + getEndDate(), record.getAmount());
@@ -39,11 +55,9 @@ public class BalanceSheetReportCommand extends
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	protected List<TrialBalance> getRecords() {
 		ArrayList<TrialBalance> trailBalanceReport = new ArrayList<TrialBalance>();
 		try {
@@ -54,27 +68,6 @@ public class BalanceSheetReportCommand extends
 			e.printStackTrace();
 		}
 		return trailBalanceReport;
-	}
-
-	@Override
-	protected String addCommandOnRecordClick(TrialBalance selection) {
-		return "Transaction Detail By Account ," + selection.getAccountNumber();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(getMessages().balanceSheet());
 	}
 
 	@Override
