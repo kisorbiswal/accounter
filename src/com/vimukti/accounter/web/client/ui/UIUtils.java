@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -2111,32 +2110,32 @@ public class UIUtils {
 
 	public static int getTransactionCategory(int transactionType) {
 		switch (transactionType) {
-		case Transaction.TYPE_CASH_SALES:
-		case Transaction.TYPE_CUSTOMER_CREDIT_MEMO:
-		case Transaction.TYPE_CUSTOMER_REFUNDS:
-		case Transaction.TYPE_ESTIMATE:
-		case Transaction.TYPE_INVOICE:
-		case Transaction.TYPE_RECEIVE_PAYMENT:
-		case Transaction.TYPE_SALES_ORDER:
-		case Transaction.TYPE_CUSTOMER_PRE_PAYMENT:
-			return Transaction.CATEGORY_CUSTOMER;
+		case ClientTransaction.TYPE_CASH_SALES:
+		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
+		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+		case ClientTransaction.TYPE_ESTIMATE:
+		case ClientTransaction.TYPE_INVOICE:
+		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
+		case ClientTransaction.TYPE_SALES_ORDER:
+		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+			return ClientTransaction.CATEGORY_CUSTOMER;
 
-		case Transaction.TYPE_CASH_PURCHASE:
-		case Transaction.TYPE_CREDIT_CARD_CHARGE:
-		case Transaction.TYPE_ENTER_BILL:
-		case Transaction.TYPE_ISSUE_PAYMENT:
-		case Transaction.TYPE_PAY_BILL:
-		case Transaction.TYPE_VENDOR_CREDIT_MEMO:
-		case Transaction.TYPE_PURCHASE_ORDER:
-		case Transaction.TYPE_ITEM_RECEIPT:
-		case Transaction.TYPE_CASH_EXPENSE:
-		case Transaction.TYPE_CREDIT_CARD_EXPENSE:
-		case Transaction.TYPE_EMPLOYEE_EXPENSE:
-			return Transaction.CATEGORY_VENDOR;
+		case ClientTransaction.TYPE_CASH_PURCHASE:
+		case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
+		case ClientTransaction.TYPE_ENTER_BILL:
+		case ClientTransaction.TYPE_ISSUE_PAYMENT:
+		case ClientTransaction.TYPE_PAY_BILL:
+		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
+		case ClientTransaction.TYPE_PURCHASE_ORDER:
+		case ClientTransaction.TYPE_ITEM_RECEIPT:
+		case ClientTransaction.TYPE_CASH_EXPENSE:
+		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+		case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+			return ClientTransaction.CATEGORY_VENDOR;
 
-		case Transaction.TYPE_MAKE_DEPOSIT:
-		case Transaction.TYPE_TRANSFER_FUND:
-			return Transaction.CATEGORY_BANKING;
+		case ClientTransaction.TYPE_MAKE_DEPOSIT:
+		case ClientTransaction.TYPE_TRANSFER_FUND:
+			return ClientTransaction.CATEGORY_BANKING;
 
 		default:
 			break;
