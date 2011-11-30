@@ -1,11 +1,18 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -17,11 +24,53 @@ public class PurchaseByItemDetailReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
+		list.add(new ReportResultRequirement<SalesByCustomerDetail>() {
+
+			@Override
+			protected String onSelection(SalesByCustomerDetail selection,
+					String name) {
+				return addCommandOnRecordClick(selection);
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+				List<SalesByCustomerDetail> records = getRecords();
+				Map<String, List<SalesByCustomerDetail>> recordGroups = new HashMap<String, List<SalesByCustomerDetail>>();
+				for (SalesByCustomerDetail transactionDetailByAccount : records) {
+					String taxItemName = transactionDetailByAccount
+							.getItemName();
+					List<SalesByCustomerDetail> group = recordGroups
+							.get(taxItemName);
+					if (group == null) {
+						group = new ArrayList<SalesByCustomerDetail>();
+						recordGroups.put(taxItemName, group);
+					}
+					group.add(transactionDetailByAccount);
+				}
+
+				Set<String> keySet = recordGroups.keySet();
+				List<String> taxItems = new ArrayList<String>(keySet);
+				Collections.sort(taxItems);
+				for (String accountName : taxItems) {
+					List<SalesByCustomerDetail> group = recordGroups
+							.get(accountName);
+					double totalAmount = 0.0;
+					addSelection(accountName);
+					ResultList resultList = new ResultList(accountName);
+					for (SalesByCustomerDetail rec : group) {
+						totalAmount += rec.getAmount();
+						resultList.setTitle(rec.getItemName());
+						resultList.add(createReportRecord(rec));
+					}
+					makeResult.add(resultList);
+					makeResult.add("Total: " + totalAmount);
+				}
+			}
+		});
 	}
 
 	protected Record createReportRecord(SalesByCustomerDetail record) {
 		Record salesRecord = new Record(record);
-		salesRecord.add(getMessages().item(), "");
 		salesRecord.add(getMessages().date(), record.getDate());
 		salesRecord.add(getMessages().type(),
 				ReportUtility.getTransactionName(record.getType()));
@@ -33,20 +82,14 @@ public class PurchaseByItemDetailReportCommand extends
 		return salesRecord;
 	}
 
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	protected List<SalesByCustomerDetail> getRecords() {
 		ArrayList<SalesByCustomerDetail> salesByCustomerDetails = new ArrayList<SalesByCustomerDetail>();
 		try {
-			if (itemName == null) {
+			if (itemName == null || itemName.isEmpty()) {
 				salesByCustomerDetails = new FinanceTool().getPurchageManager()
 						.getPurchasesByItemDetail(getStartDate(), getEndDate(),
 								getCompanyId());
-			} else if (itemName != null && itemName.isEmpty()) {
+			} else if (itemName != null) {
 				salesByCustomerDetails = new FinanceTool().getPurchageManager()
 						.getPurchasesByItemDetail(itemName, getStartDate(),
 								getEndDate(), getCompanyId());
