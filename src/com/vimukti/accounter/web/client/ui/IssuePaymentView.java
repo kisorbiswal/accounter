@@ -219,6 +219,8 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 	private void createControls() {
 		setWidth("100%");
+		Label titleLabel = new Label(messages.issuePayment());
+		titleLabel.setStyleName(Accounter.messages().labelTitle());
 
 		payMethodSelect = new SelectCombo(messages.paymentMethod());
 		payMethodSelect.setHelpInformation(true);
@@ -269,7 +271,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 		mainVLay = new VerticalPanel();
 		mainVLay.setWidth("100%");
-
+		mainVLay.add(titleLabel);
 		mainVLay.add(payForm);
 		mainVLay.add(label);
 		mainVLay.add(gridLayout);
