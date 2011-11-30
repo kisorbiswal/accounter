@@ -444,67 +444,75 @@ public class NewVendorPaymentView extends
 		if (transaction != null) {
 			transaction.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
 
-			if (getVendor() != null)
+			if (getVendor() != null) {
 				transaction.setVendor(getVendor());
 
-			if (billingAddress != null)
-				transaction.setAddress(billingAddress);
+				if (billingAddress != null)
+					transaction.setAddress(billingAddress);
 
-			if (payFromAccount != null)
-				transaction.setPayFrom(payFromAccount);
-			if (getPreferences().isTDSEnabled()
-					&& getVendor().isTdsApplicable()) {
-				transaction.setTotal(getAmountInBaseCurrency(totalAmount
-						.getAmount()));
-				ClientTAXItem selectedValue = tdsCombo.getSelectedValue();
-				if (selectedValue != null) {
-					transaction.setTdsTaxItem(selectedValue);
-				}
-				transaction.setTdsTotal(tdsAmount.getAmount());
-				transaction.setAmountIncludeTDS(amountIncludeTds.getValue());
-			} else {
-				transaction.setTotal(getAmountInBaseCurrency(totalAmount
-						.getAmount()));
-			}
-
-			transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
-
-			if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
-				String value;
-				if (checkNo.getValue().toString()
-						.equalsIgnoreCase(Accounter.messages().toBePrinted())) {
-					value = String.valueOf(Accounter.messages().toBePrinted());
+				if (payFromAccount != null)
+					transaction.setPayFrom(payFromAccount);
+				if (getPreferences().isTDSEnabled()
+						&& getVendor().isTdsApplicable()) {
+					transaction.setTotal(getAmountInBaseCurrency(totalAmount
+							.getAmount()));
+					ClientTAXItem selectedValue = tdsCombo.getSelectedValue();
+					if (selectedValue != null) {
+						transaction.setTdsTaxItem(selectedValue);
+					}
+					transaction.setTdsTotal(tdsAmount.getAmount());
+					transaction
+							.setAmountIncludeTDS(amountIncludeTds.getValue());
 				} else {
-					value = String.valueOf(checkNo.getValue());
+					transaction.setTotal(getAmountInBaseCurrency(totalAmount
+							.getAmount()));
 				}
-				transaction.setCheckNumber(value);
-			} else {
-				transaction.setCheckNumber("");
+
+				transaction.setPaymentMethod(paymentMethodCombo
+						.getSelectedValue());
+
+				if (checkNo.getValue() != null
+						&& !checkNo.getValue().equals("")) {
+					String value;
+					if (checkNo
+							.getValue()
+							.toString()
+							.equalsIgnoreCase(
+									Accounter.messages().toBePrinted())) {
+						value = String.valueOf(Accounter.messages()
+								.toBePrinted());
+					} else {
+						value = String.valueOf(checkNo.getValue());
+					}
+					transaction.setCheckNumber(value);
+				} else {
+					transaction.setCheckNumber("");
+				}
+				if (transaction.getID() != 0) {
+					printCheck.setValue(transaction.isToBePrinted());
+				} else
+					printCheck.setValue(true);
+
+				// if (currencyCombo.getSelectedValue() != null)
+				// transaction.setCurrency(currencyCombo.getSelectedValue()
+				// .getID());
+
+				// Setting Memo
+				transaction.setMemo(getMemoTextAreaItem());
+
+				transaction.setEndingBalance(toBeSetEndingBalance);
+
+				transaction.setVendorBalance(toBeSetVendorBalance);
+
+				// Setting UnusedAmount
+				transaction.setUnusedAmount(transaction.getTotal());
+
+				if (currency != null) {
+					transaction.setCurrency(currency.getID());
+				}
+				transaction.setCurrencyFactor(currencyWidget
+						.getCurrencyFactor());
 			}
-			if (transaction.getID() != 0) {
-				printCheck.setValue(transaction.isToBePrinted());
-			} else
-				printCheck.setValue(true);
-
-			// if (currencyCombo.getSelectedValue() != null)
-			// transaction.setCurrency(currencyCombo.getSelectedValue()
-			// .getID());
-
-			// Setting Memo
-			transaction.setMemo(getMemoTextAreaItem());
-
-			transaction.setEndingBalance(toBeSetEndingBalance);
-
-			transaction.setVendorBalance(toBeSetVendorBalance);
-
-			// Setting UnusedAmount
-			transaction.setUnusedAmount(transaction.getTotal());
-
-			if (currency != null) {
-				transaction.setCurrency(currency.getID());
-			}
-			transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
-
 		}
 	}
 
