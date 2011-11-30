@@ -666,7 +666,7 @@ public abstract class Transaction extends CreatableObject implements
 		this.isVoidBefore = isVoid;
 		if (oldTransaction == null) {
 			try {
-				oldTransaction = (Transaction) this.clone();
+				oldTransaction = this.clone();
 			} catch (CloneNotSupportedException e) {
 				e.printStackTrace();
 			}
@@ -954,6 +954,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	public abstract int getTransactionCategory();
 
+	@Override
 	public abstract String toString();
 
 	public abstract Payee getInvolvedPayee();
@@ -986,7 +987,7 @@ public abstract class Transaction extends CreatableObject implements
 			deleteCreatedEntries(clonedObject);
 			clonedObject.transactionItems.clear();
 			addUpdateHistory();
-		}else{
+		} else {
 			addUpdateHistory();
 		}
 
@@ -1066,9 +1067,7 @@ public abstract class Transaction extends CreatableObject implements
 			lineTotal = -lineTotal;
 		}
 
-
-		TAXRateCalculation vc = new TAXRateCalculation(vatItem, this,
-				lineTotal);
+		TAXRateCalculation vc = new TAXRateCalculation(vatItem, this, lineTotal);
 
 		vc.setVATGroupEntry(isGroup);
 
@@ -1083,8 +1082,8 @@ public abstract class Transaction extends CreatableObject implements
 	 * 
 	 * @param coreObject
 	 */
-	public void cleanTransactionitems(Transaction coreObject) {
 		getTaxRateCalculationEntriesList().clear();
+		public void cleanTransactionitems(Transaction coreObject) {
 	}
 
 	private void updateTranasactionItems(Transaction transaction) {
@@ -1170,11 +1169,12 @@ public abstract class Transaction extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
-		if (isVoidBefore() || isDeleted()) {
-			throw new AccounterException(
-					AccounterException.ERROR_NO_SUCH_OBJECT);
-			// "This Transaction  is already voided or Deleted, can't Modify");
-		}
+		// if (isVoid() || isDeleted()) {
+		//
+		// throw new AccounterException(
+		// AccounterException.ERROR_NO_SUCH_OBJECT);
+		// // "This Transaction  is already voided or Deleted, can't Modify");
+		// }
 
 		Transaction transaction = (Transaction) clientObject;
 		checkForReconciliation(transaction);
