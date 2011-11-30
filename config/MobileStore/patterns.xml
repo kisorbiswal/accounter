@@ -35,7 +35,7 @@
 			<text name="Mailto:support@accounterlive.com" />
 		</outputs>
 	</pattern>
-	<pattern>
+	<pattern login="true">
 		<input>Menu</input>
 		<outputs>
 			<command title="Company" />
@@ -49,7 +49,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Company</input>
 		<outputs>
 			<command title="New Journal Entry" />
@@ -61,7 +61,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Company Preferences</input>
 		<input>Company Settings</input>
 		<outputs>
@@ -74,7 +74,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Item Tax</input>
 		<outputs>
 			<command title="Pay Tax" />
@@ -85,7 +85,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Manage Support List</input>
 		<outputs>
 			<command title="Currency List" />
@@ -100,7 +100,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Lists</input>
 		<outputs>
 			<command title="Items" />
@@ -114,7 +114,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Add a New Payment</input>
 		<outputs>
 			<command title="Add Vendor Prepayment" />
@@ -122,7 +122,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Tax</input>
 		<outputs>
 			<command title="New Tax Item" />
@@ -139,7 +139,7 @@
 	</pattern>
 
 
-	<pattern>
+	<pattern login="true">
 		<input>Customer</input>
 		<outputs>
 			<command title="New Customer" />
@@ -154,7 +154,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>More</input>
 		<outputs>
 			<command title="New Customer " />
@@ -168,7 +168,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Customer Overview</input>
 		<outputs>
 			<command title="Customers " />
@@ -182,7 +182,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Vendor</input>
 		<outputs>
 			<command title="New Vendor" />
@@ -198,7 +198,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Record Expenses</input>
 		<outputs>
 			<command title="Cash Expense" />
@@ -206,7 +206,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Others</input>
 		<outputs>
 			<command title="New Vendor " />
@@ -217,7 +217,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Vendor Overview</input>
 		<outputs>
 			<command title="Vendors" />
@@ -227,7 +227,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Banking</input>
 		<input>Bank</input>
 		<outputs>
@@ -241,7 +241,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Banking Overview</input>
 		<outputs>
 			<command title="Payments" />
@@ -249,7 +249,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Invoice</input>
 		<outputs>
 			<text name="Invoice is a Transaction" />
@@ -258,7 +258,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>DashBoard</input>
 		<input>DashBord</input>
 		<outputs>
@@ -273,7 +273,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Fiscal Year</input>
 		<input>Financial Year</input>
 		<input>FiscalYear</input>
@@ -287,7 +287,7 @@
 
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Account</input>
 		<outputs>
 			<command title="New Account" />
@@ -297,7 +297,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>JounalEntry</input>
 		<outputs>
 			<command title="Create a New JournalEntry" />
@@ -307,7 +307,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Sale</input>
 		<input>Sales</input>
 		<outputs>
@@ -315,7 +315,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>UserActiviityLog</input>
 		<outputs>
 			<command title="Show ActiviityLog" />
@@ -323,7 +323,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Bill</input>
 		<outputs>
 			<command title="EnterBill" />
@@ -331,21 +331,21 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Invoice Branding</input>
 		<outputs>
 			<command title="NewBrandingThemeCommand" />
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Users</input>
 		<outputs>
 			<command title="InviteAUserCommand" />
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Item</input>
 		<input>Product and Service Item</input>
 		<input>Product and Service Items</input>
@@ -357,7 +357,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Add Item</input>
 		<input>New Item</input>
 		<input>Create Item</input>
@@ -370,7 +370,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Service Item</input>
 		<input>Service Items</input>
 		<outputs>
@@ -379,7 +379,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Product Item</input>
 		<input>Product Items</input>
 		<outputs>
@@ -388,7 +388,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Inactive Item</input>
 		<input>Inactive Items</input>
 		<outputs>
@@ -495,7 +495,7 @@
 	</pattern>
 
 
-	<pattern>
+	<pattern login="true">
 		<input>Quote</input>
 		<outputs>
 			<command title="New Quote" />
@@ -505,7 +505,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Order</input>
 		<outputs>
 			<command title="Create Purchase Order" />
@@ -513,7 +513,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Expense</input>
 		<outputs>
 			<command title="New CashExpense" />
@@ -521,14 +521,14 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Payment</input>
 		<outputs>
 			<command title="Create Customer Payment" />
 			<command title="Create Vendor Payment" />
 		</outputs>
 	</pattern>
-	<pattern>
+	<pattern login="true">
 		<input>Journal Entry</input>
 		<outputs>
 			<command title="New Journal Entry" />
@@ -538,7 +538,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Settings</input>
 		<outputs>
 			<command title="Company Settings" />
@@ -547,7 +547,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Users</input>
 		<outputs>
 			<command title="Invite user" />
@@ -555,7 +555,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Inventory</input>
 		<outputs>
 			<command title="Stock Settings View" />
@@ -563,7 +563,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Inventory Lists</input>
 		<outputs>
 			<command title="Inventory Items" />

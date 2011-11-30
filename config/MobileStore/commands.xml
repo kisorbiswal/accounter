@@ -1201,15 +1201,15 @@
 		name="Company Info">
 		<alias>CompanyInfoPreference</alias>
 		<alias>CompanyInfo Preference</alias>
-		<alias>cip</alias>
 	</command>
 
 	<command
 		clazz="com.vimukti.accounter.mobile.preferences.CompanyPreferenceCommand"
 		name="Company Preferences">
 		<alias>CompanyPreferences</alias>
-		<alias>Company Preferences</alias>
-		<alias>cp</alias>
+		<alias>Change Preferences</alias>
+		<alias>edit Preferences</alias>
+		<alias>update Preferences</alias>
 	</command>
 
 	<command
@@ -1218,7 +1218,6 @@
 		<alias>VendorPurchasePreferences</alias>
 		<alias>VPpreferences</alias>
 		<alias>Vendor and Purchases</alias>
-		<alias>VP</alias>
 	</command>
 
 	<command
@@ -1227,7 +1226,6 @@
 		<alias>ProductAndServicePreferences</alias>
 		<alias>Product and Services</alias>
 		<alias>PSpreferences</alias>
-		<alias>ps</alias>
 	</command>
 
 	<command
@@ -1236,6 +1234,5 @@
 		<alias>TerminologyPreferences</alias>
 		<alias>TPreferences</alias>
 		<alias>Terminologies</alias>
-		<alias>TP</alias>
 	</command>
 </commands>

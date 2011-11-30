@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <patterns>
-	<!-- <pattern> <input>Report</input> <input>Reports</input> <input>How to 
-		see the Reports</input> <outputs> <text name=""Report is a formatted and organized 
-		presentation of your company data. " /> <command value="Company &amp; Financial 
-		Reports">Company &amp; Financial Reports" /> <command value="Customers and 
-		Receivables Reports">Customers and Receivables Reports" /> <command value="Sales 
-		Reports">Sales Reports" /> <command value="Suppliers and Payables Reports">Suppliers 
-		and Payable Reports" /> <command value="Purchases Reports">Purchases Reports" 
-		/> <command value="VAT Reports">VAT Reports" /> </outputs> </pattern> -->
+	<!-- <pattern login="true"> <input>Report</input> <input>Reports</input> 
+		<input>How to see the Reports</input> <outputs> <text name=""Report is a 
+		formatted and organized presentation of your company data. " /> <command 
+		value="Company &amp; Financial Reports">Company &amp; Financial Reports" 
+		/> <command value="Customers and Receivables Reports">Customers and Receivables 
+		Reports" /> <command value="Sales Reports">Sales Reports" /> <command value="Suppliers 
+		and Payables Reports">Suppliers and Payable Reports" /> <command value="Purchases 
+		Reports">Purchases Reports" /> <command value="VAT Reports">VAT Reports" 
+		/> </outputs> </pattern> -->
 
-	<pattern>
+	<pattern login="true">
 		<input>Reports</input>
 		<outputs>
 			<command title="Company &amp; Financial Reports" />
@@ -21,7 +22,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Company &amp; Financial Reports</input>
 		<outputs>
 			<text name="Company &amp; Financial Reports" />
@@ -35,7 +36,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Customers and Receivables Reports</input>
 		<input>customer reports</input>
 		<outputs>
@@ -47,7 +48,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Sales Reports</input>
 		<outputs>
 			<text name="Sales Reports" />
@@ -59,7 +60,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Suppliers and Payable Reports</input>
 		<input>Vendors and Payable Reports</input>
 		<input>vendor reports</input>
@@ -72,7 +73,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>Purchases Reports</input>
 		<outputs>
 			<text name="Purchases Reports" />
@@ -84,7 +85,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>VAT Reports</input>
 		<input>TAX Reports</input>
 		<outputs>
@@ -98,7 +99,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>dateRanges</input>
 		<outputs>
 			<text name="Select A Date Range" />
@@ -116,7 +117,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>status</input>
 		<outputs>
 			<text name="Select A Status" />
@@ -127,7 +128,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern>
+	<pattern login="true">
 		<input>expenceType</input>
 		<outputs>
 			<text name="Select An Expense Type" />
