@@ -42,19 +42,9 @@ public class ProfitLossReportCommand extends
 		try {
 			profitAndLossReport = new FinanceTool().getReportManager()
 					.getProfitAndLossReport(start, end, getCompanyId());
-			// for (TrialBalance trialBalance : profitAndLossReport) {
-			// if (trialBalance.getAccountType() == ClientAccount.TYPE_INCOME) {
-			// incomeTotals += trialBalance.getTotalAmount();
-			// } else if (trialBalance.getAccountType() ==
-			// ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
-			// costOfGoodsSoldTotal += trialBalance.getTotalAmount();
-			// }
-			// }// else if (trialBalance.getAccountType() == ClientAccount.)
-			// // }
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
-		// addCategories(profitAndLossReport,context);
 		return profitAndLossReport;
 	}
 
