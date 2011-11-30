@@ -1550,6 +1550,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	@Override
 	public Double getAmountInTransactionCurrency(Double amount) {
 		if (currency != null && amount != null) {
+			if (currencyFactor < 1.0) {
+				currencyFactor = 1.0;
+			}
 			return amount / currencyFactor;
 		} else {
 			return amount;

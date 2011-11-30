@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.CreditCardAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -66,7 +65,7 @@ public class CreditCardExpenseView extends
 	List<String> idNamesForContacts = new ArrayList<String>();
 
 	protected DynamicForm vendorForm, addrForm, phoneForm, termsForm, memoForm;
-	protected SelectCombo payMethSelect;
+	// protected SelectCombo payMethSelect;
 	protected CreditCardAccountCombo creditCardCombo;
 
 	protected String selectPaymentMethod;
@@ -279,6 +278,12 @@ public class CreditCardExpenseView extends
 		// billToAreaItem.setWidth(100);
 		// billToAreaItem.setDisabled(true);
 		// formItems.add(billToCombo);
+
+		creditCardCombo = createCreditCardItem();
+		creditCardCombo.setWidth("100%");
+		creditCardCombo.setPopupWidth("450px");
+		creditCardCombo.setTitle(messages.payFrom());
+
 		phoneSelect = new TextItem(messages.phone());
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
@@ -288,29 +293,26 @@ public class CreditCardExpenseView extends
 
 		vendorForm = UIUtils.form(messages.vendor());
 		vendorForm.setWidth("100%");
-		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect
+		vendorForm.setFields(creditCardCombo, vendorCombo, contactCombo,
+				phoneSelect
 		/* billToAreaItem */);
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		// vendorForm.getCellFormatter().setWidth(0, 0, "180px");
-
-		payMethSelect = new SelectCombo(messages.paymentMethod());
-		payMethSelect.setRequired(true);
-		payMethSelect.setWidth(100);
-		List<String> paymentMthds = new ArrayList<String>();
-		paymentMthds.add(messages.creditCard());
-		payMethSelect.initCombo(paymentMthds);
-		payMethSelect.setDefaultToFirstOption(true);
-		payMethSelect.setDisabled(true);
+		//
+		// payMethSelect = new SelectCombo(messages.paymentMethod());
+		// payMethSelect.setRequired(true);
+		// payMethSelect.setWidth(100);
+		// List<String> paymentMthds = new ArrayList<String>();
+		// paymentMthds.add(messages.creditCard());
+		// payMethSelect.initCombo(paymentMthds);
+		// payMethSelect.setDefaultToFirstOption(true);
+		// payMethSelect.setDisabled(true);
 		// payMethSelect.setComboItem(UIUtils
 		// .getpaymentMethodCheckBy_CompanyType(messages
 		// .check()));
 
-		creditCardCombo = createCreditCardItem();
-		creditCardCombo.setWidth(100);
-		creditCardCombo.setPopupWidth("510px");
-		creditCardCombo.setTitle(messages.payFrom());
 		payFromAccount = 0;
-		creditCardCombo.setColSpan(0);
+
 		// formItems.add(payFrmSelect)
 		cheqNoText = new TextItem(messages.chequeNo());
 
@@ -329,7 +331,7 @@ public class CreditCardExpenseView extends
 		termsForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
-		termsForm.setFields(creditCardCombo, payMethSelect, delivDate);
+		termsForm.setFields(delivDate);
 		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
 		// messages.width(), "203px");
 		if (getPreferences().isClassTrackingEnabled()
@@ -584,7 +586,7 @@ public class CreditCardExpenseView extends
 		creditCardAccountCombo.setHelpInformation(true);
 		creditCardAccountCombo.setRequired(true);
 		// payFrmSelect.setWidth("*");
-		creditCardAccountCombo.setColSpan(3);
+		creditCardAccountCombo.setColSpan(0);
 
 		// payFrmSelect.setWidth("*");
 		// payFrmSelect.setWrapTitle(false);
@@ -723,8 +725,8 @@ public class CreditCardExpenseView extends
 			cheqNoText.setDisabled(isInViewMode());
 			cheqNoText.setValue(transaction.getCheckNumber());
 			paymentMethodSelected(transaction.getPaymentMethod());
-			payMethSelect.setComboItem(transaction.getPaymentMethod());
-			payMethSelect.setDisabled(isInViewMode());
+			// payMethSelect.setComboItem(transaction.getPaymentMethod());
+			// payMethSelect.setDisabled(isInViewMode());
 			cheqNoText.setDisabled(isInViewMode());
 			vendorAccountTransactionTable
 					.setRecords(getAccountTransactionItems(transaction
@@ -894,7 +896,7 @@ public class CreditCardExpenseView extends
 
 		// Setting payment method
 
-		transaction.setPaymentMethod(payMethSelect.getSelectedValue());
+		transaction.setPaymentMethod(messages.creditCard());
 
 		// Setting pay from
 		if (creditCardCombo.getSelectedValue() != null)

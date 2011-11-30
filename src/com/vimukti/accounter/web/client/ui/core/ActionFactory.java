@@ -1325,7 +1325,8 @@ public class ActionFactory {
 	}
 
 	public static LocationGroupListAction getLocationGroupListAction() {
-		return new LocationGroupListAction(messages.locationGroupList(Global.get().Location()));
+		return new LocationGroupListAction(messages.locationGroupList(Global
+				.get().Location()));
 	}
 
 	public static AccounterClassListAction getAccounterClassGroupListAction() {
@@ -1354,21 +1355,16 @@ public class ActionFactory {
 		return new StockAdjustmentsListAction(messages.stockAdjustments());
 	}
 
-	/*public static BudgetReportAction getBudgetReportsAction(int i) {
-		switch (i) {
-		case 1:
-			return new BudgetReportAction(messages.accountVScustom(), i);
-		case 2:
-			return new BudgetReportAction(messages.accountVSmonths(), i);
-		case 3:
-			return new BudgetReportAction(messages.accountVSquaters(), i);
-		case 4:
-			return new BudgetReportAction(messages.accountVSyears(), i);
-		default:
-			return new BudgetReportAction(messages.accountVScustom(), i);
-		}
-
-	}*/
+	/*
+	 * public static BudgetReportAction getBudgetReportsAction(int i) { switch
+	 * (i) { case 1: return new BudgetReportAction(messages.accountVScustom(),
+	 * i); case 2: return new BudgetReportAction(messages.accountVSmonths(), i);
+	 * case 3: return new BudgetReportAction(messages.accountVSquaters(), i);
+	 * case 4: return new BudgetReportAction(messages.accountVSyears(), i);
+	 * default: return new BudgetReportAction(messages.accountVScustom(), i); }
+	 * 
+	 * }
+	 */
 
 	public static TaxHistoryAction getTaxHistoryAction() {
 		return new TaxHistoryAction(messages.taxHistory());
@@ -1397,7 +1393,8 @@ public class ActionFactory {
 	}
 
 	public static MergeVendorAction getVendorMergeAction() {
-		return new MergeVendorAction(messages.mergeVendors(Global.get().Vendor()));
+		return new MergeVendorAction(messages.mergeVendors(Global.get()
+				.Vendor()));
 	}
 
 	public static MergeAccountsAction getAccountMergeAction() {
@@ -1409,6 +1406,6 @@ public class ActionFactory {
 	}
 
 	public static BudgetOverviewReportAction getBudgetOverView() {
-		return new BudgetOverviewReportAction("Budget Overview");
+		return new BudgetOverviewReportAction(messages.budgetOverview());
 	}
 }
