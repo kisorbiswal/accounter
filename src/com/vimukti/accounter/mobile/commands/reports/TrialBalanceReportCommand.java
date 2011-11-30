@@ -17,10 +17,8 @@ public class TrialBalanceReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
 
@@ -35,7 +33,6 @@ public class TrialBalanceReportCommand extends
 		return trialRecord;
 	}
 
-	@Override
 	protected List<TrialBalance> getRecords() {
 		List<TrialBalance> trialBalanceDetails = new ArrayList<TrialBalance>();
 		try {
@@ -49,24 +46,8 @@ public class TrialBalanceReportCommand extends
 		return trialBalanceDetails;
 	}
 
-	@Override
 	protected String addCommandOnRecordClick(TrialBalance selection) {
 		return "Transaction Detail By Account ," + selection.getAccountNumber();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return "You don't have any trial balance report details";
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return null;
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return "Select any report to view report details of that account";
 	}
 
 	@Override
