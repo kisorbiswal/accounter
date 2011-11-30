@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
@@ -17,6 +19,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -35,6 +38,7 @@ import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
@@ -61,7 +65,37 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		list.add(new CustomerRequirement(CUSTOMER, getMessages()
 				.pleaseEnterNameOrNumber(Global.get().Customer()),
 				getMessages().payeeNumber(Global.get().Customer()), false,
-				true, null) {
+				true, new ChangeListner<Customer>() {
+
+					@Override
+					public void onSelection(Customer value) {
+						get(BILL_TO).setValue(null);
+						Set<Address> addresses = value.getAddress();
+						for (Address address : addresses) {
+							if (address.getType() == Address.TYPE_BILL_TO) {
+								try {
+									ClientAddress addr = new ClientConvertUtil()
+											.toClientObject(address,
+													ClientAddress.class);
+									get(BILL_TO).setValue(addr);
+								} catch (AccounterException e) {
+									e.printStackTrace();
+								}
+								break;
+							}
+						}
+
+						get(PHONE).setValue(value.getPhoneNo());
+
+						get(CONTACT).setValue(null);
+						for (Contact contact : value.getContacts()) {
+							if (contact.isPrimary()) {
+								get(CONTACT).setValue(contact);
+								break;
+							}
+						}
+					}
+				}) {
 
 			@Override
 			protected List<Customer> getLists(Context context) {
