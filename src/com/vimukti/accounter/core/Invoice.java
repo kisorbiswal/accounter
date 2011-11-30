@@ -819,10 +819,12 @@ public class Invoice extends Transaction implements Lifecycle {
 		}
 	}
 
+	@Override
 	public void setNumber(String number) {
 		this.number = number;
 	}
 
+	@Override
 	public void setVoid(boolean isVoid) {
 		this.isVoid = isVoid;
 	}
@@ -901,7 +903,7 @@ public class Invoice extends Transaction implements Lifecycle {
 		 * not voided then only it will enter the loop
 		 */
 
-		if ((this.isVoid && !invoice.isVoid)
+		if ((this.isVoid && invoice.isVoid)
 				|| (this.isDeleted() && !invoice.isDeleted() && !this.isVoid)) {
 			doVoidEffect(session, this);
 		} else if (!invoice.equals(this)) {
