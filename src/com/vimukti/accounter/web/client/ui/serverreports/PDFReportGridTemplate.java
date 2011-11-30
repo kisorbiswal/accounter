@@ -66,7 +66,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 		String[] headerTites = reportView.getColunms();
 		body.append("<tr class=\"gridHeaderRow\"> ");
 		for (int i = 0; i < headerTites.length; i++) {
-			body.append("<th style=\"vertical-align: middle;padding-left:20px;\"class=\"ReportGridheaderStyle depth2");
+			body.append("<th style=\"vertical-align: middle;padding-left:10px;\"class=\"ReportGridheaderStyle depth2");
 			if (columnTypes[i] == COLUMN_TYPE_AMOUNT
 					|| columnTypes[i] == COLUMN_TYPE_DATE
 					|| columnTypes[i] == COLUMN_TYPE_NUMBER
@@ -79,7 +79,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 				if (columnTypes[i] == COLUMN_TYPE_NUMBER
 						|| columnTypes[i] == COLUMN_TYPE_AMOUNT) {
 
-					headerAlign = Alignment.H_ALIGN_RIGHT;
+					headerAlign = Alignment.H_ALIGN_CENTER;
 				} else if (columnTypes[i] == COLUMN_TYPE_DATE) {
 
 					headerAlign = Alignment.H_ALIGN_CENTER;
@@ -90,13 +90,13 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 			}
 			switch (headerAlign) {
 			case H_ALIGN_CENTER:
-				body.append("\" align=\"centre\"");
+				body.append("\" align=\"left\"");
 				break;
 			case H_ALIGN_LEFT:
 				body.append("\" align=\"left\"");
 				break;
 			case H_ALIGN_RIGHT:
-				body.append("\" align=\"right\"");
+				body.append("\" align=\"left\"");
 				break;
 			default:
 				body.append("\" align=\"left\"");
@@ -163,10 +163,10 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 		body.append("ReportGridcustomFont\" title=\"");
 		body.append(cellValue);
 		if (columnType == COLUMN_TYPE_AMOUNT) {
-			body.append("\" align=\"right\" ");
+			body.append("\" align=\"left\" ");
 		} 
 		else if (columnType == COLUMN_TYPE_TEXT) {
-			body.append("\" align=\"centre\" ");
+			body.append("\" align=\"left\" ");
 		} 
 		else {
 			body.append("\" align=\"left\" ");
