@@ -180,7 +180,7 @@ public class MainFinanceWindow extends VerticalPanel {
 					public void onMessage(List<? extends Serializable> messages) {
 						for (Serializable serializableObj : messages) {
 							Accounter.getCompany().processCommand(
-									(IAccounterCore) serializableObj);
+									serializableObj);
 						}
 					}
 
@@ -738,20 +738,25 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getTAXAgencyListAction().getHistoryToken(),
 				ActionFactory.getTAXAgencyListAction());
-		
-		
-		//merge actions
-		actions.put(ActionFactory.getCustomerMergeAction()
-				.getHistoryToken(), ActionFactory.getCustomerMergeAction());
-		
-		actions.put(ActionFactory.getVendorMergeAction()
-				.getHistoryToken(), ActionFactory.getVendorMergeAction());
-		
-		actions.put(ActionFactory.getAccountMergeAction()
-				.getHistoryToken(), ActionFactory.getAccountMergeAction());
-		
-		actions.put(ActionFactory.getItemMergeAction()
-				.getHistoryToken(), ActionFactory.getItemMergeAction());
+
+		// merge actions
+		actions.put(ActionFactory.getCustomerMergeAction().getHistoryToken(),
+				ActionFactory.getCustomerMergeAction());
+
+		actions.put(ActionFactory.getVendorMergeAction().getHistoryToken(),
+				ActionFactory.getVendorMergeAction());
+
+		actions.put(ActionFactory.getAccountMergeAction().getHistoryToken(),
+				ActionFactory.getAccountMergeAction());
+
+		actions.put(ActionFactory.getItemMergeAction().getHistoryToken(),
+				ActionFactory.getItemMergeAction());
+
+		actions.put(ActionFactory.getBudgetActions().getHistoryToken(),
+				ActionFactory.getBudgetActions());
+
+		actions.put(ActionFactory.getBudgetOverView().getHistoryToken(),
+				ActionFactory.getBudgetOverView());
 	}
 
 	public ClientCompany getCompany() {

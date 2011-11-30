@@ -438,6 +438,12 @@ public class MacMenuServlet extends BaseServlet {
 
 			menu(reportsValue, iGlobal.messages().vat(), vatValue);
 		}
+
+		StringBuilder budgetMenu = new StringBuilder();
+		subMenu(budgetMenu, iGlobal.messages().budgetOverview(),
+				"company/accounter#budgetOverviewReport");
+		menu(reportsValue, iGlobal.messages().budget() + "s", budgetMenu);
+
 		mainMenu(builder, iGlobal.messages().reports(), reportsValue);
 	}
 
@@ -718,6 +724,10 @@ public class MacMenuServlet extends BaseServlet {
 					"company/accounter#companyPreferences");
 			separator(mainMenuValue);
 		}
+
+		menu(mainMenuValue, iGlobal.messages().budget(),
+				"company/accounter#Budget");
+		separator(mainMenuValue);
 
 		if (preferences.isTrackTax()) {
 			StringBuilder salesTaxValues = new StringBuilder();
