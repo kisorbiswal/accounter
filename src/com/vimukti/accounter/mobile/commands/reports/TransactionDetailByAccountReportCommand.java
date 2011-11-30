@@ -1,13 +1,18 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
@@ -19,8 +24,6 @@ import com.vimukti.accounter.web.server.managers.ReportManager;
 
 public class TransactionDetailByAccountReportCommand extends
 		NewAbstractReportCommand<TransactionDetailByAccount> {
-	private double accountBalance;
-	private String currentsectionName;
 	ClientAccount account;
 
 	@Override
@@ -37,20 +40,49 @@ public class TransactionDetailByAccountReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<TransactionDetailByAccount> records = getRecords();
+				Map<String, List<TransactionDetailByAccount>> recordGroups = new HashMap<String, List<TransactionDetailByAccount>>();
+				for (TransactionDetailByAccount transactionDetailByAccount : records) {
+					String taxItemName = transactionDetailByAccount
+							.getAccountName();
+					List<TransactionDetailByAccount> group = recordGroups
+							.get(taxItemName);
+					if (group == null) {
+						group = new ArrayList<TransactionDetailByAccount>();
+						recordGroups.put(taxItemName, group);
+					}
+					group.add(transactionDetailByAccount);
+				}
+
+				Set<String> keySet = recordGroups.keySet();
+				List<String> taxItems = new ArrayList<String>(keySet);
+				Collections.sort(taxItems);
+				double grandTotal = 0.0;
+				for (String accountName : taxItems) {
+					List<TransactionDetailByAccount> group = recordGroups
+							.get(accountName);
+					double totalAmount = 0.0;
+					addSelection(accountName);
+					ResultList resultList = new ResultList(accountName);
+					for (TransactionDetailByAccount rec : group) {
+						resultList.setTitle(rec.getAccountName());
+						totalAmount += rec.getTotal();
+						Record createReportRecord = createReportRecord(rec);
+						createReportRecord.add("Balance", totalAmount);
+						resultList.add(createReportRecord);
+					}
+					makeResult.add(resultList);
+					grandTotal += totalAmount;
+					makeResult.add("Amount Total: " + totalAmount);
+				}
+				makeResult.add("Grand Total: " + grandTotal);
 			}
 		});
 	}
 
 	protected Record createReportRecord(TransactionDetailByAccount record) {
 		Record transactionRecord = new Record(record);
-		transactionRecord.add("", "");
-		transactionRecord.add("Name", record.getName());
-		transactionRecord.add("Date", record.getTransactionDate());
-		transactionRecord.add("",
-				Utility.getTransactionName(record.getTransactionType()));
-		transactionRecord.add("No.", record.getTransactionNumber());
-		transactionRecord.add("Amount", record.getTotal());
-		transactionRecord.add(getMessages().name(), record.getName());
+		transactionRecord.add("Name",
+				record.getName() == null ? "\t" : record.getName());
 		transactionRecord
 				.add(getMessages().date(), record.getTransactionDate());
 		transactionRecord.add(getMessages().transactionName(),
@@ -58,13 +90,6 @@ public class TransactionDetailByAccountReportCommand extends
 		transactionRecord.add(getMessages().number(),
 				record.getTransactionNumber());
 		transactionRecord.add(getMessages().total(), record.getTotal());
-		if (currentsectionName != null
-				&& !currentsectionName.equals(record.getAccountName())) {
-			currentsectionName = record.getAccountName();
-			accountBalance = 0.0D;
-		}
-		transactionRecord.add(getMessages().balance(),
-				accountBalance += record.getTotal());
 		return transactionRecord;
 	}
 
