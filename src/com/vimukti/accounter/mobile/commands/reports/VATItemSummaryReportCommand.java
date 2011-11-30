@@ -19,7 +19,6 @@ public class VATItemSummaryReportCommand extends
 		addDateRangeFromToDateRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(VATItemSummary record) {
 		Record vatItemRecord = new Record(record);
 		vatItemRecord.add(getMessages().name(), record.getName());
@@ -27,7 +26,6 @@ public class VATItemSummaryReportCommand extends
 		return vatItemRecord;
 	}
 
-	@Override
 	protected List<VATItemSummary> getRecords() {
 		try {
 			return new FinanceTool().getReportManager()
@@ -41,24 +39,8 @@ public class VATItemSummaryReportCommand extends
 		return new ArrayList<VATItemSummary>();
 	}
 
-	@Override
 	protected String addCommandOnRecordClick(VATItemSummary selection) {
 		return "VAT Item Detail ," + selection.getName();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(getMessages().vatItemSummary());
 	}
 
 	@Override

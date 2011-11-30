@@ -23,7 +23,6 @@ public class VATItemDetailReportCommand extends
 		addDateRangeFromToDateRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(VATItemDetail record) {
 		Record ecRecord = new Record(record);
 		ecRecord.add("Type",
@@ -37,7 +36,6 @@ public class VATItemDetailReportCommand extends
 		return ecRecord;
 	}
 
-	@Override
 	protected List<VATItemDetail> getRecords() {
 		if (taxItem == null) {
 			try {
@@ -64,24 +62,8 @@ public class VATItemDetailReportCommand extends
 		return new ArrayList<VATItemDetail>();
 	}
 
-	@Override
 	protected String addCommandOnRecordClick(VATItemDetail selection) {
 		return "update transaction " + selection.getTransactionId();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return "You don't have any VAT Item detail reports";
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return null;
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return "Select a report to see the Transaction details";
 	}
 
 	@Override

@@ -51,10 +51,8 @@ public class VAT100ReportCommand extends NewAbstractReportCommand<VATSummary> {
 			}
 		});
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(VATSummary record) {
 		Record vatItemRecord = new Record(record);
 		vatItemRecord.add(getMessages().name(), record.getVatReturnEntryName());
@@ -69,7 +67,6 @@ public class VAT100ReportCommand extends NewAbstractReportCommand<VATSummary> {
 		return null;
 	}
 
-	@Override
 	protected List<VATSummary> getRecords() {
 		ArrayList<VATSummary> vatSummaries = new ArrayList<VATSummary>();
 		try {
@@ -84,25 +81,9 @@ public class VAT100ReportCommand extends NewAbstractReportCommand<VATSummary> {
 		return vatSummaries;
 	}
 
-	@Override
 	protected String addCommandOnRecordClick(VATSummary selection) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(getMessages().vat100());
 	}
 
 	@Override

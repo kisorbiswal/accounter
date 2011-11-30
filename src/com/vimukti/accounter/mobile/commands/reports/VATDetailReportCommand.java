@@ -17,10 +17,8 @@ public class VATDetailReportCommand extends NewAbstractReportCommand<VATDetail> 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(VATDetail record) {
 		Record salesRecord = new Record(record);
 
@@ -49,7 +47,6 @@ public class VATDetailReportCommand extends NewAbstractReportCommand<VATDetail> 
 		return null;
 	}
 
-	@Override
 	protected List<VATDetail> getRecords() {
 		ArrayList<VATDetail> vatDetails = new ArrayList<VATDetail>();
 		try {
@@ -63,24 +60,8 @@ public class VATDetailReportCommand extends NewAbstractReportCommand<VATDetail> 
 		return vatDetails;
 	}
 
-	@Override
 	protected String addCommandOnRecordClick(VATDetail selection) {
 		return "update transaction " + selection.getTransactionId();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(getMessages().vatDetail());
 	}
 
 	@Override
