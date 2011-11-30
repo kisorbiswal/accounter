@@ -19,7 +19,6 @@ public class APAgingDetailReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
 	@Override
@@ -27,7 +26,6 @@ public class APAgingDetailReportCommand extends
 		return null;
 	}
 
-	@Override
 	protected Record createReportRecord(AgedDebtors recordReport) {
 		Record record = new Record(recordReport);
 		record.add(getMessages().name(), recordReport.getName());
@@ -40,7 +38,6 @@ public class APAgingDetailReportCommand extends
 		return record;
 	}
 
-	@Override
 	protected List<AgedDebtors> getRecords() {
 		FinanceDate start = getStartDate();
 		FinanceDate end = getEndDate();
@@ -70,26 +67,6 @@ public class APAgingDetailReportCommand extends
 			e.printStackTrace();
 		}
 		return apAgingDetailsReport;
-	}
-
-	@Override
-	protected String addCommandOnRecordClick(AgedDebtors selection) {
-		return "update transaction " + selection.getTransactionId();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return null;
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(getMessages().apAgeingDetails());
 	}
 
 	@Override

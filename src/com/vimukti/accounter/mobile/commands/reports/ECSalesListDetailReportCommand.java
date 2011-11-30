@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -19,10 +19,8 @@ public class ECSalesListDetailReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(ECSalesListDetail record) {
 		Record ecRecord = new Record(record);
 		ecRecord.add(getMessages().type(),
@@ -42,7 +40,6 @@ public class ECSalesListDetailReportCommand extends
 		return null;
 	}
 
-	@Override
 	protected List<ECSalesListDetail> getRecords() {
 		ArrayList<ECSalesListDetail> ecsalSalesListDetails = new ArrayList<ECSalesListDetail>();
 		try {
@@ -55,26 +52,6 @@ public class ECSalesListDetailReportCommand extends
 			e.printStackTrace();
 		}
 		return ecsalSalesListDetails;
-	}
-
-	@Override
-	protected String addCommandOnRecordClick(ECSalesListDetail selection) {
-		return "update transaction " + selection.getTransactionId();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(getMessages().ecSalesListDetails());
 	}
 
 	@Override

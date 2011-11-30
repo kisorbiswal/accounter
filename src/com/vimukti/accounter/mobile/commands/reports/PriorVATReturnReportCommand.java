@@ -52,10 +52,8 @@ public class PriorVATReturnReportCommand extends
 			}
 		});
 		addFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(VATSummary record) {
 		Record vatRecord = new Record(record);
 		vatRecord.add(record.getName());
@@ -69,7 +67,6 @@ public class PriorVATReturnReportCommand extends
 		return null;
 	}
 
-	@Override
 	protected List<VATSummary> getRecords() {
 		ArrayList<VATSummary> vatSummaries = new ArrayList<VATSummary>();
 		try {
@@ -81,26 +78,6 @@ public class PriorVATReturnReportCommand extends
 			e.printStackTrace();
 		}
 		return vatSummaries;
-	}
-
-	@Override
-	protected String addCommandOnRecordClick(VATSummary selection) {
-		return null;
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(getMessages().priorVATReturns());
 	}
 
 	@Override

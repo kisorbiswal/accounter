@@ -17,7 +17,6 @@ public class ECSalesListReportCommand extends
 
 	}
 
-	@Override
 	protected Record createReportRecord(ECSalesList record) {
 		Record salesRecord = new Record(record);
 		salesRecord.add(record.getName());
@@ -32,7 +31,6 @@ public class ECSalesListReportCommand extends
 		return null;
 	}
 
-	@Override
 	protected List<ECSalesList> getRecords() {
 		ArrayList<ECSalesList> ecSalesLists = new ArrayList<ECSalesList>();
 		try {
@@ -43,26 +41,6 @@ public class ECSalesListReportCommand extends
 			e.printStackTrace();
 		}
 		return ecSalesLists;
-	}
-
-	@Override
-	protected String addCommandOnRecordClick(ECSalesList selection) {
-		return "EC Sales List Detail," + selection.getName();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(getMessages().ecSalesList());
 	}
 
 	@Override

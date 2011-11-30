@@ -17,10 +17,8 @@ public class CashFlowReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
 		trialRecord.add(
@@ -33,7 +31,6 @@ public class CashFlowReportCommand extends
 		return trialRecord;
 	}
 
-	@Override
 	protected List<TrialBalance> getRecords() {
 		List<TrialBalance> cashFlowStatements = new ArrayList<TrialBalance>();
 		try {
@@ -45,30 +42,6 @@ public class CashFlowReportCommand extends
 			cashFlowStatements = new ArrayList<TrialBalance>();
 		}
 		return cashFlowStatements;
-	}
-
-	@Override
-	protected String addCommandOnRecordClick(TrialBalance value) {
-		if (value.getAccountId() != 0) {
-			return "Transaction Detail By Account ," + value.getAccountNumber();
-		} else {
-			return "Profit and Loss";
-		}
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return "You don't have any cash flow reports";
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return "Select any cash flow report to see related details:";
 	}
 
 	@Override

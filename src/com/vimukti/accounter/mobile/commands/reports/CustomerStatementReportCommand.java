@@ -37,10 +37,8 @@ public class CustomerStatementReportCommand extends
 			}
 		});
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(PayeeStatementsList record) {
 		Record statementRecord = new Record(record);
 		statementRecord.add(getMessages().date(), record.getTransactionDate());
@@ -53,7 +51,6 @@ public class CustomerStatementReportCommand extends
 		return statementRecord;
 	}
 
-	@Override
 	protected List<PayeeStatementsList> getRecords() {
 		ArrayList<PayeeStatementsList> payeeStatementList = new ArrayList<PayeeStatementsList>();
 		try {
@@ -65,27 +62,6 @@ public class CustomerStatementReportCommand extends
 			e.printStackTrace();
 		}
 		return payeeStatementList;
-	}
-
-	@Override
-	protected String addCommandOnRecordClick(PayeeStatementsList selection) {
-		return "update transaction" + selection.getTransactionId();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(
-				getMessages().payeeStatement(Global.get().Customer()));
 	}
 
 	@Override

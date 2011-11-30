@@ -3,10 +3,10 @@ package com.vimukti.accounter.mobile.commands.reports;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
@@ -19,10 +19,8 @@ public class CustomerTransactionHistoryReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(TransactionHistory record) {
 		Record transactionRecord = new Record(record);
 		transactionRecord.add(getMessages().payeeName(Global.get().Customer()),
@@ -38,7 +36,6 @@ public class CustomerTransactionHistoryReportCommand extends
 		return transactionRecord;
 	}
 
-	@Override
 	protected List<TransactionHistory> getRecords() {
 		ArrayList<TransactionHistory> transatiHistories = new ArrayList<TransactionHistory>();
 		try {
@@ -49,27 +46,6 @@ public class CustomerTransactionHistoryReportCommand extends
 			e.printStackTrace();
 		}
 		return transatiHistories;
-	}
-
-	@Override
-	protected String addCommandOnRecordClick(TransactionHistory selection) {
-		return "update transaction " + selection.getTransactionId();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return "";
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(
-				getMessages().payeeTransactionHistory(Global.get().Customer()));
 	}
 
 	@Override

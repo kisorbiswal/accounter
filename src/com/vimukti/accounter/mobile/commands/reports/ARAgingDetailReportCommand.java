@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -14,7 +15,6 @@ public class ARAgingDetailReportCommand extends
 		NewAbstractReportCommand<AgedDebtors> {
 	private String customerName;
 
-	@Override
 	protected Record createReportRecord(AgedDebtors record) {
 		Record agingRecord = new Record(record);
 		agingRecord.add(getMessages().name(), record.getName());
@@ -32,7 +32,6 @@ public class ARAgingDetailReportCommand extends
 		return null;
 	}
 
-	@Override
 	protected List<AgedDebtors> getRecords() {
 		ArrayList<AgedDebtors> debitors = new ArrayList<AgedDebtors>();
 		ArrayList<AgedDebtors> agedCreditorsListForCustomer = new ArrayList<AgedDebtors>();
@@ -53,26 +52,6 @@ public class ARAgingDetailReportCommand extends
 			e.printStackTrace();
 		}
 		return debitors;
-	}
-
-	@Override
-	protected String addCommandOnRecordClick(AgedDebtors selection) {
-		return "update transaction " + selection.getTransactionId();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return null;
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(getMessages().arAgeingDetails());
 	}
 
 	@Override
@@ -104,6 +83,12 @@ public class ARAgingDetailReportCommand extends
 	public String getSuccessMessage() {
 		return getMessages().reportCommondClosedSuccessfully(
 				getMessages().arAgeingDetails());
+	}
+
+	@Override
+	protected void addRequirements(List<Requirement> list) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

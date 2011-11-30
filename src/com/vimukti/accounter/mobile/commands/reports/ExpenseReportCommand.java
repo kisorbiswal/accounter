@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -47,10 +47,8 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 			}
 		});
 		addDateRangeFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
-	@Override
 	protected Record createReportRecord(ExpenseList record) {
 		Record expenseRecord = new Record(record);
 
@@ -62,7 +60,6 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 		return expenseRecord;
 	}
 
-	@Override
 	protected List<ExpenseList> getRecords() {
 		List<ExpenseList> expensesList = new ArrayList<ExpenseList>();
 		try {
@@ -87,29 +84,9 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 	}
 
 	@Override
-	protected String addCommandOnRecordClick(ExpenseList selection) {
-		return "update transaction " + selection.getTransactionId();
-	}
-
-	@Override
 	protected void setDefaultValues(Context context) {
 		super.setDefaultValues(context);
 		get(EXPENSETYPE).setDefaultValue(getMessages().allExpenses());
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return "You don't have any Expense Reports";
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return null;
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return "Select any report";
 	}
 
 	@Override

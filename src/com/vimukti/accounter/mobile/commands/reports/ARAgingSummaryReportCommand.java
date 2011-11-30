@@ -8,6 +8,7 @@ import java.util.Map;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
@@ -16,7 +17,6 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public class ARAgingSummaryReportCommand extends
 		NewAbstractReportCommand<DummyDebitor> {
 
-	@Override
 	protected Record createReportRecord(DummyDebitor record) {
 		Record agingRecord = new Record(record);
 		agingRecord.add(getMessages().creditor(), record.getDebitorName());
@@ -34,7 +34,6 @@ public class ARAgingSummaryReportCommand extends
 		return agingRecord;
 	}
 
-	@Override
 	protected List<DummyDebitor> getRecords() {
 		ArrayList<DummyDebitor> dummyDebitors = new ArrayList<DummyDebitor>();
 		ArrayList<AgedDebtors> agedDebitors = new ArrayList<AgedDebtors>();
@@ -154,26 +153,6 @@ public class ARAgingSummaryReportCommand extends
 	}
 
 	@Override
-	protected String addCommandOnRecordClick(DummyDebitor selection) {
-		return "A/R Aging Detail ," + selection.getDebitorName();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return null;
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(getMessages().arAgeingSummary());
-	}
-
-	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		String string = context.getString();
 		if (string != null && !string.isEmpty()) {
@@ -198,6 +177,12 @@ public class ARAgingSummaryReportCommand extends
 	public String getSuccessMessage() {
 		return getMessages().reportCommondClosedSuccessfully(
 				getMessages().arAgeingSummary());
+	}
+
+	@Override
+	protected void addRequirements(List<Requirement> list) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

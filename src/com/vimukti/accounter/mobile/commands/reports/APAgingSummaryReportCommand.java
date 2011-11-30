@@ -19,7 +19,6 @@ public class APAgingSummaryReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addFromToDateRequirements(list);
-		super.addRequirements(list);
 	}
 
 	@Override
@@ -27,7 +26,6 @@ public class APAgingSummaryReportCommand extends
 		return null;
 	}
 
-	@Override
 	protected Record createReportRecord(DummyDebitor record) {
 		Record agingRecord = new Record(record);
 		agingRecord.add(getMessages().creditor(), record.getDebitorName());
@@ -45,7 +43,6 @@ public class APAgingSummaryReportCommand extends
 		return agingRecord;
 	}
 
-	@Override
 	protected List<DummyDebitor> getRecords() {
 		FinanceDate start = getStartDate();
 		FinanceDate end = getEndDate();
@@ -158,26 +155,6 @@ public class APAgingSummaryReportCommand extends
 		}
 
 		return listDebtors;
-	}
-
-	@Override
-	protected String addCommandOnRecordClick(DummyDebitor selection) {
-		return "A/P Aging Detail ," + selection.getDebitorName();
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAnyReports();
-	}
-
-	@Override
-	protected String getShowMessage() {
-		return null;
-	}
-
-	@Override
-	protected String getSelectRecordString() {
-		return getMessages().reportSelected(getMessages().apAgeingSummary());
 	}
 
 	@Override
