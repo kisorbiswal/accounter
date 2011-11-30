@@ -190,7 +190,9 @@ public abstract class TransactionItemTableRequirement extends
 		ClientTransactionItem clientTransactionItem = new ClientTransactionItem();
 		clientTransactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 		clientTransactionItem.setTaxable(true);
-		clientTransactionItem.setQuantity(new ClientQuantity());
+		ClientQuantity clientQuantity = new ClientQuantity();
+		clientQuantity.setValue(1.0);
+		clientTransactionItem.setQuantity(clientQuantity);
 		clientTransactionItem.setDiscount(0.0);
 		return clientTransactionItem;
 	}
