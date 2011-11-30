@@ -6,14 +6,11 @@ package com.vimukti.accounter.mobile.store;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.zefer.html.doc.o;
-import org.zefer.html.doc.x;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -23,7 +20,6 @@ import com.vimukti.accounter.mobile.AccounterMobileException;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.PatternResult;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 /**

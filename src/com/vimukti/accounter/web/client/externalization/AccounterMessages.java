@@ -4538,4 +4538,6 @@ public interface AccounterMessages extends Messages {
 
 	public String gotoBankAccountsList();
 
+	public String SeeAllCompanies();
+
 }
