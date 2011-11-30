@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Invoice;
@@ -79,6 +80,15 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 					@Override
 					public void onSelection(Customer value) {
+						get(BILL_TO).setValue(null);
+						Set<Address> addresses = value.getAddress();
+						for (Address address : addresses) {
+							if (address.getType() == Address.TYPE_BILL_TO) {
+								get(BILL_TO).setValue(address);
+								break;
+							}
+						}
+
 						NewInvoiceCommand.this.get(CONTACT).setValue(null);
 						for (Contact contact : value.getContacts()) {
 							if (contact.isPrimary()) {
@@ -87,6 +97,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 								break;
 							}
 						}
+
 					}
 				}) {
 
