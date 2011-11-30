@@ -609,7 +609,7 @@ input.dropdown-button {
 	padding-left: 3px;
 }
 .disable-TextField {
-	background: none repeat scroll 0 0 #E6E0DA;
+	background: none repeat scroll 0 0 #E6E0DA !important;
 }
 .main-w-finance {
     border:1px solid #7A7A7A;
