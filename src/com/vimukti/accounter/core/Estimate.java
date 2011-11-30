@@ -327,7 +327,7 @@ public class Estimate extends Transaction {
 
 	@Override
 	public void onEdit(Transaction clonedObject) {
-
+		super.onEdit(clonedObject);
 	}
 
 	@Override
@@ -446,4 +446,5 @@ public class Estimate extends Transaction {
 
 		return super.onDelete(session);
 	}
+
 }
