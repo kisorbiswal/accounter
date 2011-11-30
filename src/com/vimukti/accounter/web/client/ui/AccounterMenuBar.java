@@ -19,9 +19,9 @@ import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class AccounterMenuBar extends HorizontalPanel {
 
-	private AccounterMessages messages = Accounter.messages();
+	private final AccounterMessages messages = Accounter.messages();
 	private ClientCompanyPreferences preferences = Global.get().preferences();
-	private IMenuFactory factory;
+	private final IMenuFactory factory;
 	public static String oldToken;
 
 	public AccounterMenuBar(IMenuFactory factory) {
@@ -62,8 +62,7 @@ public class AccounterMenuBar extends HorizontalPanel {
 			menuBar.addMenuItem(messages.inventory(), getInventoryMenu());
 		}
 
-		// menuitem = menuBar.addItem(messages.fixedAssets(),
-		// getFixedAssetsMenu());
+		// menuBar.addMenuItem(messages.fixedAssets(), getFixedAssetsMenu());
 		// ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (Accounter.getUser().canViewReports()) {
@@ -230,7 +229,7 @@ public class AccounterMenuBar extends HorizontalPanel {
 
 	private IMenu getReportMenu() {
 		IMenu reportMenuBar = getSubMenu();
-		
+
 		reportMenuBar.addMenuItem(ActionFactory.getReportsHomeAction());
 		reportMenuBar.addSeparatorItem();
 		reportMenuBar.addMenuItem(messages.companyAndFinancial(),
@@ -245,9 +244,9 @@ public class AccounterMenuBar extends HorizontalPanel {
 						.vendorsAndPayables(Global.get().Vendor()),
 				getVendorAndPayablesMenu());
 		reportMenuBar.addMenuItem(messages.purchase(), getPurchaseMenu());
-		
+
 		reportMenuBar.addMenuItem(messages.budget(), getBudgetSubMenus());
-		
+
 		// reportMenuBar.addItem(messages.budget() + " "
 		// + messages.report(), getBudgetSubMenus());
 		// if (Accounter.getCompany().getAccountingType() ==
@@ -305,16 +304,14 @@ public class AccounterMenuBar extends HorizontalPanel {
 	private IMenu getBudgetSubMenus() {
 		IMenu budgetMenu = getSubMenu();
 
-		
 		budgetMenu.addMenuItem(ActionFactory.getBudgetOverView());
-		
-		
-	//	budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(1));
-		
-//		budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(2));
-//		budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(3));
-//		budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(4));
-		
+
+		// budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(1));
+
+		// budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(2));
+		// budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(3));
+		// budgetMenu.addMenuItem(ActionFactory.getBudgetReportsAction(4));
+
 		// vendorAndPayableMenuBar.addItem(ActionFactory
 		// .getAmountsDueToVendorsAction());
 		return budgetMenu;
@@ -500,9 +497,8 @@ public class AccounterMenuBar extends HorizontalPanel {
 			if (Accounter.getCompany().getPreferences().isKeepTrackofBills())
 				vendorMenuBar.addMenuItem(ActionFactory
 						.getIssuePaymentsAction());
-			if (Accounter.getCompany().getPreferences().isKeepTrackofBills())
-				vendorMenuBar.addMenuItem(ActionFactory
-						.getNewVendorPaymentAction());
+			vendorMenuBar
+					.addMenuItem(ActionFactory.getNewVendorPaymentAction());
 		}
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			vendorMenuBar.addMenuItem(ActionFactory.getRecordExpensesAction());
