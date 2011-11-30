@@ -109,7 +109,7 @@ public class CommandUtils {
 	public static ClientFinanceDate getCurrentFiscalYearStartDate(
 			ClientCompanyPreferences preferences) {
 		ClientFinanceDate startDate = new ClientFinanceDate();
-		startDate.setMonth(preferences.getFiscalYearFirstMonth());
+		startDate.setMonth(preferences.getFiscalYearFirstMonth() + 1);
 		startDate.setDay(1);
 		return startDate;
 	}
@@ -1013,14 +1013,14 @@ public class CommandUtils {
 	}
 
 	private static native double getWeekEndDate()/*-{
-													var date = new ClientFinanceDate();
-													var day = date.getDay();
-													var remainingDays = 6 - day;
-													var newDate = new ClientFinanceDate();
-													newDate.setDate(date.getDate() + remainingDays);
-													var tmp = newDate.getTime();
-													return tmp;
-													}-*/;
+		var date = new ClientFinanceDate();
+		var day = date.getDay();
+		var remainingDays = 6 - day;
+		var newDate = new ClientFinanceDate();
+		newDate.setDate(date.getDate() + remainingDays);
+		var tmp = newDate.getTime();
+		return tmp;
+	}-*/;
 
 	private static int getMonthLastDate(int month, int year) {
 		int lastDay;
