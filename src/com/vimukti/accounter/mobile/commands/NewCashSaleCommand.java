@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
@@ -46,6 +47,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewCashSaleCommand extends NewAbstractTransactionCommand {
@@ -67,7 +69,39 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		list.add(new CustomerRequirement(CUSTOMER, getMessages()
 				.pleaseEnterNameOrNumber(Global.get().Customer()),
 				getMessages().payeeNumber(Global.get().Customer()), false,
-				true, null) {
+				true, new ChangeListner<Customer>() {
+
+					@Override
+					public void onSelection(Customer value) {
+						get(BILL_TO).setValue(null);
+						Set<Address> addresses = value.getAddress();
+						for (Address address : addresses) {
+							if (address.getType() == Address.TYPE_BILL_TO) {
+								try {
+									ClientAddress addr = new ClientConvertUtil()
+											.toClientObject(address,
+													ClientAddress.class);
+									get(BILL_TO).setValue(addr);
+								} catch (AccounterException e) {
+									e.printStackTrace();
+								}
+								break;
+							}
+						}
+
+						NewCashSaleCommand.this.get(PHONE).setValue(
+								value.getPhoneNo());
+
+						NewCashSaleCommand.this.get(CONTACT).setValue(null);
+						for (Contact contact : value.getContacts()) {
+							if (contact.isPrimary()) {
+								NewCashSaleCommand.this.get(CONTACT).setValue(
+										contact);
+								break;
+							}
+						}
+					}
+				}) {
 
 			@Override
 			protected List<Customer> getLists(Context context) {
