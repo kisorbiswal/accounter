@@ -60,7 +60,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 						@Override
 						public void selectedComboBoxItem(ClientVendor selectItem) {
-							vendorData(selectItem);
+							setPayeeId(selectItem.getID());
 						}
 					});
 
@@ -76,7 +76,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 						@Override
 						public void selectedComboBoxItem(
 								ClientCustomer selectItem) {
-							customerData(selectItem);
+							setPayeeId(selectItem.getID());
 						}
 					});
 			if (getPayeeId() != 0) {
@@ -251,10 +251,14 @@ public class CreateStatementToolBar extends ReportToolbar {
 		if (isVendor) {
 			if (getPayeeId() != 0) {
 				vendorData(Accounter.getCompany().getVendor(getPayeeId()));
+				reportview.makeReportRequest(selectedCusotmer.getID(),
+						startDate, endDate);
 			}
 		} else {
 			if (getPayeeId() != 0) {
 				customerData(Accounter.getCompany().getCustomer(getPayeeId()));
+				reportview.makeReportRequest(selectedCusotmer.getID(),
+						startDate, endDate);
 			}
 		}
 	}

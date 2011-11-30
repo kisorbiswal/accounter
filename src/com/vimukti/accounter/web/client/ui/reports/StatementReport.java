@@ -48,7 +48,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		// resetReport(endDate, endDate);
 		grid.clear();
 		grid.addLoadingImagePanel();
-		if (payee != 0 && payeeId == 0) {
+		if (payee != 0) {
 			payeeId = payee;
 		}
 		Accounter.createReportService().getStatements(isVendor, payeeId,
