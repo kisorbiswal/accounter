@@ -54,7 +54,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 				if (value.getType() == Payee.TYPE_CUSTOMER) {
 					return "Update Customer " + value.getPayeeName();
 				} else if (value.getType() == Payee.TYPE_VENDOR) {
-					return "update vendor " + value.getPayeeName();
+					return "Update vendor " + value.getPayeeName();
 				} else if (value.getType() == Payee.TYPE_TAX_AGENCY) {
 					return "Update TAX Agency " + value.getPayeeName();
 				}

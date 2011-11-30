@@ -3,8 +3,12 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
@@ -17,6 +21,7 @@ import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
@@ -30,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
@@ -140,7 +146,27 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
 				getMessages().Vendor()), getMessages().vendor(), false, true,
-				null)
+				new ChangeListner<Vendor>() {
+
+					@Override
+					public void onSelection(Vendor value) {
+						get(BILL_TO).setValue(null);
+						Set<Address> addresses = value.getAddress();
+						for (Address address : addresses) {
+							if (address.getType() == Address.TYPE_BILL_TO) {
+								try {
+									ClientAddress addr = new ClientConvertUtil()
+											.toClientObject(address,
+													ClientAddress.class);
+									get(BILL_TO).setValue(addr);
+								} catch (AccounterException e) {
+									e.printStackTrace();
+								}
+								break;
+							}
+						}
+					}
+				})
 
 		{
 

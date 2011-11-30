@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Payee;
@@ -30,12 +32,14 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
@@ -52,7 +56,21 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseEnterName(
 				Global.get().Vendor()), getMessages().payeeName(
-				Global.get().Vendor()), false, true, null) {
+				Global.get().Vendor()), false, true,
+				new ChangeListner<Vendor>() {
+
+					@Override
+					public void onSelection(Vendor value) {
+						get(PHONE).setValue(value.getPhoneNo());
+						get(CONTACT).setValue(null);
+						for (Contact contact : value.getContacts()) {
+							if (contact.isPrimary()) {
+								get(CONTACT).setValue(contact);
+								break;
+							}
+						}
+					}
+				}) {
 
 			@Override
 			protected String getSetMessage() {

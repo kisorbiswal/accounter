@@ -93,6 +93,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 					@Override
 					public void onSelection(Vendor value) {
+						
 					}
 				}) {
 

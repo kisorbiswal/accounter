@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
@@ -17,6 +19,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -31,6 +34,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -38,6 +42,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
@@ -112,7 +117,20 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
 				getMessages().Vendor()), getMessages().vendor(), false, true,
-				null) {
+				new ChangeListner<Vendor>() {
+
+					@Override
+					public void onSelection(Vendor value) {
+						get(PHONE).setValue(value.getPhoneNo());
+						get(CONTACT).setValue(null);
+						for (Contact contact : value.getContacts()) {
+							if (contact.isPrimary()) {
+								get(CONTACT).setValue(contact);
+								break;
+							}
+						}
+					}
+				}) {
 
 			@Override
 			protected String getSetMessage() {
