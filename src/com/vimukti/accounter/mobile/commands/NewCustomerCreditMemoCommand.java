@@ -12,7 +12,6 @@ import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;

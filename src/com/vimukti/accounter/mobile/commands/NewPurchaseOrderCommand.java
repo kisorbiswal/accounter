@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
