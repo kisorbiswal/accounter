@@ -42,7 +42,7 @@ public class APAgingDetailReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<AgedDebtors> records = getRecords(context);
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 				Map<String, List<AgedDebtors>> recordGroups = new HashMap<String, List<AgedDebtors>>();
@@ -67,8 +67,8 @@ public class APAgingDetailReportCommand extends
 				List<String> customerNames = new ArrayList<String>(keySet);
 				Collections.sort(customerNames);
 
-				ResultList list = new ResultList("totalBalance");
-				list.setTitle("Total Balance");
+				ResultList list = new ResultList(getMessages().totalBalance());
+				list.setTitle(getMessages().totalBalance());
 
 				Double total = 0.0;
 				for (String name : customerNames) {
@@ -76,7 +76,7 @@ public class APAgingDetailReportCommand extends
 					total += vendorAmount;
 					Record record = new Record(name);
 					record.add("", name);
-					record.add("", "Opening Balance");
+					record.add("", getMessages().openBalance());
 					record.add("", vendorAmount);
 					list.add(record);
 				}
