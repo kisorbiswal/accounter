@@ -6,9 +6,12 @@ package com.vimukti.accounter.mobile;
 import java.util.Collection;
 import java.util.List;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.store.Output;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.countries.UnitedKingdom;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 /**
  * @author Prasanna Kumar G
@@ -40,7 +43,7 @@ public class PatternResult extends Result {
 		this.outputs = outputs;
 	}
 
-	public Result render(boolean isAuthenticated) {
+	public Result render(boolean isAuthenticated, Company company) {
 		if (login ? !isAuthenticated : false) {
 			Result result = new Result();
 			result.add("You can not do this action before login.");
@@ -48,7 +51,7 @@ public class PatternResult extends Result {
 			result.setNextCommand("login");
 			return result;
 		}
-		if (condition != null && !checkCondition(condition)) {
+		if (condition != null && !checkCondition(condition, company)) {
 			Result result = new Result();
 			result.add("You do not have permission to do this action.");
 			result.add("You can change permissions from Company Preferences.");
@@ -60,12 +63,12 @@ public class PatternResult extends Result {
 		}
 		PatternResult result = new PatternResult();
 		for (Output output : outputs) {
-			output.add(result);
+			output.add(result, company);
 		}
 		return result;
 	}
 
-	public boolean checkCondition(String condition) {
+	public boolean checkCondition(String condition, Company company) {
 		ClientCompanyPreferences preferences = CompanyPreferenceThreadLocal
 				.get();
 		if (condition.equals("trackTax")) {
@@ -76,6 +79,14 @@ public class PatternResult extends Result {
 			return preferences.isDelayedchargesEnabled();
 		} else if (condition.equals("manageBills")) {
 			return preferences.isKeepTrackofBills();
+		} else if (condition.equals("isNotUK")) {
+			ICountryPreferences countryPreferences = company
+					.getCountryPreferences();
+			return !(countryPreferences instanceof UnitedKingdom);
+		} else if (condition.equals("isUK")) {
+			ICountryPreferences countryPreferences = company
+					.getCountryPreferences();
+			return countryPreferences instanceof UnitedKingdom;
 		}
 		return true;
 	}

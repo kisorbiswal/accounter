@@ -11,6 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
 import com.vimukti.accounter.mobile.UserMessage.Type;
@@ -264,6 +265,7 @@ public class MobileMessageHandler extends Thread {
 				}
 			}
 		}
+		Company company = session.getCompany();
 		if (matchedCommand != null) {
 			message = message.replaceAll(commandString.trim(), "").trim();
 			userMessage.setOriginalMsg(message);
@@ -271,7 +273,7 @@ public class MobileMessageHandler extends Thread {
 			userMessage.setCommandString(commandString.trim());
 		} else {
 			Result result = PatternStore.INSTANCE.find(clientMessage,
-					session.isAuthenticated());
+					session.isAuthenticated(), company);
 			if (result != null) {
 				result.setShowBack(session.getLastMessage() != null);
 				userMessage.setType(Type.HELP);
@@ -293,7 +295,7 @@ public class MobileMessageHandler extends Thread {
 
 			if (commandString != null) {
 				Result result = PatternStore.INSTANCE.find(commandString,
-						session.isAuthenticated());
+						session.isAuthenticated(), company);
 				if (result != null) {
 					result.setShowBack(session.getLastMessage() != null);
 					userMessage.setType(Type.HELP);
@@ -321,7 +323,7 @@ public class MobileMessageHandler extends Thread {
 			}
 			message = "Menu";
 			Result result = PatternStore.INSTANCE.find(message,
-					session.isAuthenticated());
+					session.isAuthenticated(), company);
 			if (result != null) {
 				result.setShowBack(session.getLastMessage() != null);
 				userMessage.setType(Type.HELP);
