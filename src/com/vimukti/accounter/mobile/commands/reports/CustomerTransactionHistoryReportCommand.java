@@ -30,6 +30,7 @@ public class CustomerTransactionHistoryReportCommand extends
 			@Override
 			protected String onSelection(TransactionHistory selection,
 					String name) {
+				markDone();
 				return "update transaction " + selection.getTransactionId();
 			}
 

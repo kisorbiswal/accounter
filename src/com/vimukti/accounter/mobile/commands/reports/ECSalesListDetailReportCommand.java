@@ -32,6 +32,7 @@ public class ECSalesListDetailReportCommand extends
 			@Override
 			protected String onSelection(ECSalesListDetail selection,
 					String name) {
+				markDone();
 				return "Edit Transaction " + selection.getTransactionId();
 			}
 
