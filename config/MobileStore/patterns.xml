@@ -66,7 +66,7 @@
 		<input>Company Settings</input>
 		<outputs>
 			<command title="Company Info" />
-			<command title="Company " />
+			<command title="Company" />
 			<command title="Categories" />
 			<command title="Vendor and Purchases" />
 			<command title="Product and services" />

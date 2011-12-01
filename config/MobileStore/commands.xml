@@ -1205,18 +1205,14 @@
 
 	<command
 		clazz="com.vimukti.accounter.mobile.preferences.CompanyPreferenceCommand"
-		name="Company Preferences">
-		<alias>CompanyPreferences</alias>
-		<alias>Change Preferences</alias>
-		<alias>edit Preferences</alias>
-		<alias>update Preferences</alias>
+		name="Company">
+		<alias>Company</alias>
 	</command>
 
 	<command
 		clazz="com.vimukti.accounter.mobile.preferences.VendorAndPurchasePreferencesCommand"
 		name="VendorAndPurchase Preferences">
 		<alias>VendorPurchasePreferences</alias>
-		<alias>VPpreferences</alias>
 		<alias>Vendor and Purchases</alias>
 	</command>
 
@@ -1232,7 +1228,6 @@
 		clazz="com.vimukti.accounter.mobile.preferences.TerminologyPreferencesCommand"
 		name="TerminologyPreferences Preferences">
 		<alias>TerminologyPreferences</alias>
-		<alias>TPreferences</alias>
 		<alias>Terminologies</alias>
 	</command>
 </commands>
