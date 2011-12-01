@@ -42,6 +42,7 @@ public abstract class CustomerItemTransactionTable extends
 	/**
 	 * This method will add 4 empty records to the table.
 	 */
+	@Override
 	protected void addEmptyRecords() {
 		for (int i = 0; i < 4; i++) {
 			ClientTransactionItem item = new ClientTransactionItem();
@@ -136,6 +137,13 @@ public abstract class CustomerItemTransactionTable extends
 								return false;
 							}
 						};
+					}
+
+					@Override
+					protected void setValue(ClientTransactionItem row,
+							ClientTAXCode newValue) {
+						super.setValue(row, newValue);
+						update(row);
 					}
 
 					@Override
