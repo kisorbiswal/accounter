@@ -15,7 +15,6 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
-import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -26,7 +25,6 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -217,9 +215,6 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
 				getMessages().amount()), getMessages().amount(), true, true));
-
-		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
-				getMessages().billTo()), getMessages().billTo(), true, true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
 				getMessages().taxCode()), getMessages().taxCode(), false, true,
@@ -439,7 +434,6 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_WRITE_CHECK, getCompany()));
-		get(BILL_TO).setDefaultValue(new ClientAddress());
 		get(AMOUNT).setDefaultValue(0.0);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 		// get(CURRENCY).setDefaultValue(null);
