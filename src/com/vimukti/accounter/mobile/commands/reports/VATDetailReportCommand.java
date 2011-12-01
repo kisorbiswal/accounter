@@ -1,12 +1,16 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -29,13 +33,37 @@ public class VATDetailReportCommand extends NewAbstractReportCommand<VATDetail> 
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<VATDetail> records = getRecords();
+				Map<String, List<VATDetail>> recordGroups = new HashMap<String, List<VATDetail>>();
+				for (VATDetail vatDetailReport : records) {
+					String boxName = vatDetailReport.getBoxName();
+					List<VATDetail> group = recordGroups.get(boxName);
+					if (group == null) {
+						group = new ArrayList<VATDetail>();
+						recordGroups.put(boxName, group);
+					}
+					group.add(vatDetailReport);
+				}
+
+				Set<String> boxNames = recordGroups.keySet();
+				for (String boxName : boxNames) {
+					List<VATDetail> group = recordGroups.get(boxName);
+					addSelection(boxName);
+					ResultList resultList = new ResultList(boxName);
+					resultList.setTitle(boxName);
+					double totalAmount = 0.0;
+					for (VATDetail rec : group) {
+						resultList.add(createReportRecord(rec));
+						totalAmount += rec.getTotal();
+					}
+					makeResult.add(resultList);
+					makeResult.add(boxName + " : " + totalAmount);
+				}
 			}
 		});
 	}
 
 	protected Record createReportRecord(VATDetail record) {
 		Record salesRecord = new Record(record);
-
 		salesRecord.add(getMessages().name(), record.getTransactionName());
 		salesRecord.add(getMessages().date(), record.getTransactionDate());
 		salesRecord.add(getMessages().number(), record.getTransactionNumber());
@@ -45,7 +73,8 @@ public class VATDetailReportCommand extends NewAbstractReportCommand<VATDetail> 
 						.getVatRate());
 		salesRecord.add(getMessages().netAmount(), record.getNetAmount());
 		salesRecord.add(getMessages().amount(), record.getTotal());
-		if (!currentsectionName.equals(record.getBoxName())) {
+		if (currentsectionName == null
+				|| !currentsectionName.equals(record.getBoxName())) {
 			currentsectionName = record.getBoxName();
 			accountbalance = 0.0D;
 		}
@@ -53,12 +82,6 @@ public class VATDetailReportCommand extends NewAbstractReportCommand<VATDetail> 
 				accountbalance += record.getTotal());
 
 		return salesRecord;
-	}
-
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	protected List<VATDetail> getRecords() {
@@ -80,7 +103,6 @@ public class VATDetailReportCommand extends NewAbstractReportCommand<VATDetail> 
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
