@@ -253,9 +253,13 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		Iterator<ClientContact> iterator = contacts.iterator();
 		while (iterator.hasNext()) {
 			ClientContact next = iterator.next();
-			contactCombo.setComboItem(next);
-			contactSelected(next);
-			break;
+			if (next.isPrimary()) {
+				contactCombo.setComboItem(next);
+				contactSelected(next);
+				break;
+			} else {
+				contactSelected(next);
+			}
 		}
 
 		ClientCompany company = getCompany();
@@ -298,8 +302,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, messages.Accounts(), messages
-				.productOrServiceItem());
+		setMenuItems(button, messages.Accounts(),
+				messages.productOrServiceItem());
 		// FinanceApplication.constants().salesTax());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
@@ -345,8 +349,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	public ContactCombo createContactComboItem() {
 
-		ContactCombo contactCombo = new ContactCombo(messages
-				.contact(), true);
+		ContactCombo contactCombo = new ContactCombo(messages.contact(), true);
 		contactCombo.setDisabled(true);
 		contactCombo.setHelpInformation(true);
 		contactCombo
@@ -391,8 +394,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 							.equals(contact.getDisplayName())
 					&& clientContacts.get(j).getBusinessPhone()
 							.equals(contact.getBusinessPhone())) {
-				Accounter.showError(messages
-						.youHaveEnteredduplicateContacts());
+				Accounter.showError(messages.youHaveEnteredduplicateContacts());
 				return;
 			}
 		}
@@ -414,8 +416,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(messages
-				.billTo(), false);
+		AddressCombo addressCombo = new AddressCombo(messages.billTo(), false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -505,8 +506,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	public AddressCombo createShipToComboItem() {
 
-		AddressCombo shipToCombo = new AddressCombo(messages
-				.shipTo());
+		AddressCombo shipToCombo = new AddressCombo(messages.shipTo());
 		shipToCombo.setHelpInformation(true);
 		shipToCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -607,8 +607,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected DateField createTransactionDeliveryDateItem() {
 
-		final DateField dateItem = new DateField(messages
-				.deliveryDate());
+		final DateField dateItem = new DateField(messages.deliveryDate());
 		dateItem.setHelpInformation(true);
 		dateItem.setTitle(messages.deliveryDate());
 		dateItem.setColSpan(1);
@@ -623,8 +622,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
-		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(messages
-				.tax(), true);
+		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(messages.tax(), true);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
 		taxCodeCombo.addStyleName("tax_combo");
@@ -705,8 +703,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected AmountField createSalesTaxNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(messages
-				.salesTax(), this, currency);
+		AmountField amountItem = new AmountField(messages.salesTax(), this,
+				currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -724,8 +722,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected AmountField createTransactionTotalNonEditableItem(
 			ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(messages.total(),
-				this, currency);
+		AmountField amountItem = new AmountField(messages.total(), this,
+				currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -734,16 +732,15 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected AmountLabel createTransactionTotalNonEditableLabel(
 			ClientCurrency currecny) {
-		AmountLabel amountLabel = new AmountLabel(messages
-				.currencyTotal(currecny.getFormalName()));
+		AmountLabel amountLabel = new AmountLabel(
+				messages.currencyTotal(currecny.getFormalName()));
 		return amountLabel;
 
 	}
 
 	protected AmountField createVATTotalNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(messages.tax(),
-				this, currency);
+		AmountField amountItem = new AmountField(messages.tax(), this, currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -798,8 +795,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		// }
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					messages.invalidateDate());
+			result.addError(transactionDateItem, messages.invalidateDate());
 		}
 
 		if (getPreferences().isTrackTax()) {
