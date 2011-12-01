@@ -1,11 +1,12 @@
 package com.vimukti.accounter.mobile.store;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.PatternResult;
 
 public abstract class Output {
 
-	public void add(PatternResult result) {
+	public void add(PatternResult result, Company company) {
 		if (this instanceof Text) {
 			result.add(((Text) this).text);
 		} else {
@@ -13,7 +14,7 @@ public abstract class Output {
 			CommandList commandList = new CommandList();
 			commandList.add(command.command);
 			if (command.condition == null
-					|| result.checkCondition(command.condition)) {
+					|| result.checkCondition(command.condition, company)) {
 				result.add(commandList);
 			}
 		}

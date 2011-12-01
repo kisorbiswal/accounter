@@ -14,13 +14,12 @@ import org.apache.log4j.Logger;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.AccounterMobileException;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.PatternResult;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 /**
  * @author Prasanna Kumar G
@@ -33,7 +32,7 @@ public class PatternStore {
 
 	private Map<String, PatternResult> patterns = new HashMap<String, PatternResult>();
 
-	public Result find(String pattern, boolean isAuthenticated) {
+	public Result find(String pattern, boolean isAuthenticated, Company company) {
 		if (pattern == null || pattern.isEmpty()) {
 			return null;
 		}
@@ -43,7 +42,7 @@ public class PatternStore {
 			return null;
 		}
 
-		return result.render(isAuthenticated);
+		return result.render(isAuthenticated, company);
 
 	}
 
