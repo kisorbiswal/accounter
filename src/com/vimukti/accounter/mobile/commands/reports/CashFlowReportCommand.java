@@ -76,10 +76,9 @@ public class CashFlowReportCommand extends
 						getMessages().operatingActivities());
 				operatingActivitieList.setTitle(getMessages()
 						.adjustmentsToReconcileNetIncomeToNetCash());
-				List<TrialBalance> list2 = recordGroups.get(getMessages()
-						.operatingActivities());
 				double operatingActivitieAmount = fillResultList(
-						operatingActivitieList, list2);
+						operatingActivitieList,
+						recordGroups.get(getMessages().operatingActivities()));
 
 				ResultList invetList = new ResultList(getMessages()
 						.investingActivities());
@@ -103,10 +102,11 @@ public class CashFlowReportCommand extends
 				record.add(" ", netIncomeTotal);
 				netIncomeList.add(record);
 				makeResult.add(netIncomeList);
-
-				makeResult.add(operatingActivitieList);
-				makeResult.add(getMessages().endOfARNINC() + " :"
-						+ operatingActivitieAmount);
+				if (!operatingActivitieList.isEmpty()) {
+					makeResult.add(operatingActivitieList);
+					makeResult.add(getMessages().endOfARNINC() + " :"
+							+ operatingActivitieAmount);
+				}
 				double operatingActivitieNetAmount = netIncomeTotal
 						+ operatingActivitieAmount;
 				makeResult.add(getMessages()
@@ -114,7 +114,7 @@ public class CashFlowReportCommand extends
 						+ " :"
 						+ operatingActivitieNetAmount);
 
-				if (netIncomeList != null && !invetList.isEmpty()) {
+				if (!invetList.isEmpty()) {
 					makeResult.add(invetList);
 					makeResult.add(getMessages()
 							.netCashProvidedByinvestingActivities()
@@ -124,8 +124,7 @@ public class CashFlowReportCommand extends
 				double netAmountTotal = operatingActivitieNetAmount
 						+ financingActivitieAmount + investingActivitieAmount;
 
-				if (financingActivitieList != null
-						&& !financingActivitieList.isEmpty()) {
+				if (!financingActivitieList.isEmpty()) {
 					makeResult.add(financingActivitieList);
 					makeResult.add(getMessages()
 							.netCashProvidedByfinancingActivities()
@@ -140,12 +139,13 @@ public class CashFlowReportCommand extends
 			private double fillResultList(ResultList list,
 					List<TrialBalance> records) {
 				double total = 0.0;
-				if (records.isEmpty()) {
-					for (TrialBalance record : records) {
-						Record createReportRecord = createReportRecord(record);
-						total += record.getAmount();
-						list.add(createReportRecord);
-					}
+				if (records == null || records.isEmpty()) {
+					return total;
+				}
+				for (TrialBalance record : records) {
+					Record createReportRecord = createReportRecord(record);
+					total += record.getAmount();
+					list.add(createReportRecord);
 				}
 				return total;
 			}
