@@ -47,12 +47,6 @@ public class PatternStore {
 
 	}
 
-	private boolean checkCondition(String pattern) {
-		ClientCompanyPreferences clientCompanyPreferences = CompanyPreferenceThreadLocal
-				.get();
-		return true;
-	}
-
 	public void reload() throws AccounterMobileException {
 		try {
 			log.info("Loading Patterns...");
