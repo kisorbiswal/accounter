@@ -22,7 +22,7 @@ public class AccountDeleteCommand extends AbstractDeleteCommand {
 					"You can no not delete. This Account Might be participating in some transactions");
 		}
 		if (account.getType() == Account.TYPE_BANK) {
-			return "BankAccounts";
+			return "Bank Accounts";
 		} else {
 			return "Accounts";
 		}
