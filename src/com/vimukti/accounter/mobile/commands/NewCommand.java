@@ -44,9 +44,9 @@ public abstract class NewCommand extends Command {
 
 	public Result process(Context context) {
 		context.setAttribute("firstMessage", new ArrayList<String>());
-		setDefaultValues(context);
 		Result makeResult = context.makeResult();
 		if (getAttribute("input") == null) {
+			setDefaultValues(context);
 			String lowerCase = context.getCommandString().toLowerCase();
 			String nextCommandString = initObject(
 					context,
