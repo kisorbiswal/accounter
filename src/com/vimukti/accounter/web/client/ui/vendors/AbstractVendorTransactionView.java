@@ -138,8 +138,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, messages.Accounts(), messages
-				.productOrServiceItem());
+		setMenuItems(button, messages.Accounts(),
+				messages.productOrServiceItem());
 	}
 
 	protected void initVendors() {
@@ -170,8 +170,14 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 		Iterator<ClientContact> iterator = contacts.iterator();
 		while (iterator.hasNext()) {
-			contactCombo.setComboItem(iterator.next());
-			break;
+			ClientContact next = iterator.next();
+			if (next.isPrimary()) {
+				contactCombo.setComboItem(next);
+				contactSelected(next);
+				break;
+			} else {
+				contactSelected(next);
+			}
 		}
 		// initPhones(vendor);
 		paymentMethodSelected(vendor.getPaymentMethod());
