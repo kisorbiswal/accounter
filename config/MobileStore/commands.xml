@@ -343,7 +343,7 @@
 		clazz="com.vimukti.accounter.mobile.commands.reports.UncategorisedVATAmountsReportCommand"
 		name="Uncategorised VAT Amounts">
 		<alias>Uncategorized VAT Amounts Report</alias>
-		<alias>Uncategorised VAT Amounts Report</alias>
+		<alias>Uncategorized VAT Amounts</alias>
 		<alias>U VAT report</alias>
 		<alias>UVA report</alias>
 		<alias>UVA</alias>
@@ -540,6 +540,8 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.VATAdjustmentCommand"
 		name="New VAT Adjustment">
 		<alias>Create Tax Adjustment</alias>
+		<alias>Update Tax Adjustment</alias>
+		<alias>Update VAT Adjustment</alias>
 		<alias>New Tax Adjustment</alias>
 		<alias>VAT Adjustment</alias>
 		<alias>Tax Adjustment</alias>
