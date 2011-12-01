@@ -12,7 +12,6 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -139,13 +138,12 @@ public class CashFlowReportCommand extends
 			private double fillResultList(ResultList list,
 					List<TrialBalance> records) {
 				double total = 0.0;
-				if (records == null || records.isEmpty()) {
-					return total;
-				}
-				for (TrialBalance record : records) {
-					Record createReportRecord = createReportRecord(record);
-					total += record.getAmount();
-					list.add(createReportRecord);
+				if (records != null && !records.isEmpty()) {
+					for (TrialBalance record : records) {
+						Record createReportRecord = createReportRecord(record);
+						total += record.getAmount();
+						list.add(createReportRecord);
+					}
 				}
 				return total;
 			}
@@ -201,9 +199,6 @@ public class CashFlowReportCommand extends
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		endDate = new ClientFinanceDate();
-		get(TO_DATE).setValue(endDate);
-		get(DATE_RANGE).setValue(getMessages().financialYearToDate());
 		dateRangeChanged(getMessages().financialYearToDate());
 		return null;
 	}
