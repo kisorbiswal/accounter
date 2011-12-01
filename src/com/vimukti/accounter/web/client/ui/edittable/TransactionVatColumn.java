@@ -17,7 +17,9 @@ public class TransactionVatColumn extends TransactionAmountColumn {
 
 	@Override
 	protected void setAmount(ClientTransactionItem row, Double value) {
-		row.setVATfraction(value);
+		double taxAmount = (row.getLineTotal() * value) / 100;
+		row.setVATfraction(taxAmount);
+		getTable().update(row);
 	}
 
 	@Override
