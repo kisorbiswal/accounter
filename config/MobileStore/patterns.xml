@@ -32,14 +32,14 @@
 				Internet-enabled location" />
 			<text name="Contact" />
 			<text name="https://www.accounterlive.com" />
-			<text name="Mailto:support@accounterlive.com" />
+			<text name="Mail to:support@accounterlive.com" />
 		</outputs>
 	</pattern>
 	<pattern login="true">
 		<input>Menu</input>
 		<outputs>
 			<command title="Company" />
-			<command title="Tax" />
+			<command if="trackTax" title="Tax" />
 			<command title="Customer" />
 			<command title="Vendor" />
 			<command title="Banking" />
@@ -122,7 +122,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern login="true">
+	<pattern login="true" if="trackTax">
 		<input>Tax</input>
 		<outputs>
 			<command title="New Tax Item" />
@@ -144,7 +144,7 @@
 		<outputs>
 			<command title="New Customer" />
 			<command title="Create Invoice" />
-			<command title="Create Quote" />
+			<command if="trackingQuotes" title="Create Quote" />
 			<command title="Create Cash Sale" />
 			<command title="Receive Payment" />
 			<command title="Customer Refund" />
@@ -160,8 +160,8 @@
 			<command title="New Customer " />
 			<command title="New Item" />
 			<command title="New Quote" />
-			<command title="New Credit" />
-			<command title="New Charge" />
+			<command if="delayedCharges" title="New Credit" />
+			<command if="delayedCharges" title="New Charge" />
 			<command title="New Invoice" />
 			<command title="New Cash Sale" />
 			<command title="New Credit Note" />
@@ -173,9 +173,9 @@
 		<outputs>
 			<command title="Customers " />
 			<command title="Items" />
-			<command title="Quotes" />
-			<command title="Credits" />
-			<command title="Charges" />
+			<command if="trackingQuotes" title="Quotes" />
+			<command if="delayedCharges" title="Credits" />
+			<command if="delayedCharges" title="Charges" />
 			<command title="Invoices" />
 			<command title="Received Payments" />
 			<command title="Customer Refunds" />
@@ -186,8 +186,8 @@
 		<input>Vendor</input>
 		<outputs>
 			<command title="New Vendor" />
-			<command title="Enter Bill" />
-			<command title="Pay Bill" />
+			<command if="manageBills" title="Enter Bill" />
+			<command if="manageBills" title="Pay Bill" />
 			<command title="Issue Payment" />
 			<command title="Vendor Prepayment" />
 			<command title="Record Expenses" />
@@ -222,7 +222,7 @@
 		<outputs>
 			<command title="Vendors" />
 			<command title="Items" />
-			<command title="Bills and Expenses" />
+			<command if="manageBills" title="Bills and Expenses" />
 			<command title="Vendor Payments" />
 		</outputs>
 	</pattern>
@@ -233,7 +233,7 @@
 		<outputs>
 			<command title="New Bank Account" />
 			<command title="Write Check" />
-			<command title="Pay Bill" />
+			<command if="manageBills" title="Pay Bill" />
 			<command title="New Credit Card Charge" />
 			<command title="Deposit and Transfer Funds" />
 			<command title="Reconciliations History " />
