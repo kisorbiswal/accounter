@@ -6,7 +6,9 @@ package com.vimukti.accounter.mobile;
 import java.util.Collection;
 import java.util.List;
 
+import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.store.Output;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 /**
  * @author Prasanna Kumar G
@@ -64,6 +66,17 @@ public class PatternResult extends Result {
 	}
 
 	public boolean checkCondition(String condition) {
+		ClientCompanyPreferences preferences = CompanyPreferenceThreadLocal
+				.get();
+		if (condition.equals("trackTax")) {
+			return preferences.isTrackTax();
+		} else if (condition.equals("trackingQuotes")) {
+			return preferences.isDoyouwantstatements();
+		} else if (condition.equals("delayedCharges")) {
+			return preferences.isDelayedchargesEnabled();
+		} else if (condition.equals("manageBills")) {
+			return preferences.isKeepTrackofBills();
+		}
 		return true;
 	}
 }
