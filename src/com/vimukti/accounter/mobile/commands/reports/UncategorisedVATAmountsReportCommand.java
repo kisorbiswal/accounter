@@ -8,14 +8,13 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class UncategorisedVATAmountsReportCommand extends
 		NewAbstractReportCommand<UncategorisedAmountsReport> {
-
-	private double balance;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -31,6 +30,19 @@ public class UncategorisedVATAmountsReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<UncategorisedAmountsReport> records = getRecords();
+				ResultList resultList = new ResultList(getMessages()
+						.unCategorisedTaxAmountsDetail());
+				resultList.setTitle(getMessages()
+						.unCategorisedTaxAmountsDetail());
+				addSelection(getMessages().unCategorisedTaxAmountsDetail());
+				double totalAmount = 0.0;
+				for (UncategorisedAmountsReport rec : records) {
+					totalAmount += rec.getAmount();
+					resultList.add(createReportRecord(rec));
+				}
+				makeResult.add(resultList);
+				makeResult.add(getMessages().unCategorisedTaxAmountsDetail()
+						+ " : " + totalAmount);
 			}
 		});
 
@@ -38,28 +50,15 @@ public class UncategorisedVATAmountsReportCommand extends
 
 	protected Record createReportRecord(UncategorisedAmountsReport record) {
 		Record uncategoryRecord = new Record(record);
-
 		uncategoryRecord.add(getMessages().transactionType(),
 				Utility.getTransactionName(record.getTransactionType()));
-		if (record.getDate() != null)
-			uncategoryRecord.add(getMessages().date(), record.getDate());
-		else
-			uncategoryRecord.add("", "");
+		uncategoryRecord.add(getMessages().date(), record.getDate());
 		uncategoryRecord.add(getMessages().number(),
 				record.getTransactionNumber());
 		uncategoryRecord
 				.add(getMessages().sourceName(), record.getSourceName());
-		balance += record.getAmount();
 		uncategoryRecord.add(getMessages().amount(), record.getAmount());
-		uncategoryRecord.add(getMessages().balance(), balance);
-
 		return uncategoryRecord;
-	}
-
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	protected List<UncategorisedAmountsReport> getRecords() {
@@ -77,7 +76,7 @@ public class UncategorisedVATAmountsReportCommand extends
 
 	protected String addCommandOnRecordClick(
 			UncategorisedAmountsReport selection) {
-		return "update transaction " + selection.getTransactionNumber();
+		return "update transaction " + selection.getID();
 	}
 
 	@Override
