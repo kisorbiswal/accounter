@@ -34,7 +34,7 @@ public class PatternStore {
 	private Map<String, PatternResult> patterns = new HashMap<String, PatternResult>();
 
 	public Result find(String pattern, boolean isAuthenticated) {
-		if (pattern.isEmpty()) {
+		if (pattern == null || pattern.isEmpty()) {
 			return null;
 		}
 		pattern = pattern.toLowerCase().trim();
