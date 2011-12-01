@@ -1199,21 +1199,21 @@
 	</command>
 
 	<command
-		clazz="com.vimukti.accounter.mobile.preferences.CompanyInfoPreferenceCommand"
+		clazz="com.vimukti.accounter.mobile.commands.preferences.CompanyInfoPreferenceCommand"
 		name="Company Info">
 		<alias>CompanyInfoPreference</alias>
 		<alias>CompanyInfo Preference</alias>
 	</command>
 
 	<command
-		clazz="com.vimukti.accounter.mobile.preferences.VendorAndPurchasePreferencesCommand"
+		clazz="com.vimukti.accounter.mobile.commands.preferences.VendorAndPurchasePreferencesCommand"
 		name="VendorAndPurchase Preferences">
 		<alias>VendorPurchasePreferences</alias>
 		<alias>Vendor and Purchases</alias>
 	</command>
 
 	<command
-		clazz="com.vimukti.accounter.mobile.preferences.ProductAndServicePreferencesCommand"
+		clazz="com.vimukti.accounter.mobile.commands.preferences.ProductAndServicePreferencesCommand"
 		name="ProductAndService Preferences">
 		<alias>ProductAndServicePreferences</alias>
 		<alias>Product and Services</alias>
@@ -1221,7 +1221,7 @@
 	</command>
 
 	<command
-		clazz="com.vimukti.accounter.mobile.preferences.TerminologyPreferencesCommand"
+		clazz="com.vimukti.accounter.mobile.commands.preferences.TerminologyPreferencesCommand"
 		name="TerminologyPreferences Preferences">
 		<alias>TerminologyPreferences</alias>
 		<alias>Terminologies</alias>
