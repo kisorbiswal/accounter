@@ -1204,12 +1204,6 @@
 	</command>
 
 	<command
-		clazz="com.vimukti.accounter.mobile.preferences.CompanyPreferenceCommand"
-		name="Company">
-		<alias>Company</alias>
-	</command>
-
-	<command
 		clazz="com.vimukti.accounter.mobile.preferences.VendorAndPurchasePreferencesCommand"
 		name="VendorAndPurchase Preferences">
 		<alias>VendorPurchasePreferences</alias>
