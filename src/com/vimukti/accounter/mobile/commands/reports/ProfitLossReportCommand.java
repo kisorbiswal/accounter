@@ -32,6 +32,11 @@ public class ProfitLossReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<TrialBalance> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				Map<String, List<TrialBalance>> recordGroups = new HashMap<String, List<TrialBalance>>();
 				for (TrialBalance transactionDetailByAccount : records) {
 					String taxItemName = ProfitLossReportCommand.this

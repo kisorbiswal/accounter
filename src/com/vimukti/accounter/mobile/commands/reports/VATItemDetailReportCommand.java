@@ -37,6 +37,11 @@ public class VATItemDetailReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<VATItemDetail> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				Map<String, List<VATItemDetail>> recordGroups = new HashMap<String, List<VATItemDetail>>();
 				for (VATItemDetail transactionDetailByAccount : records) {
 					String taxItemName = transactionDetailByAccount.getName();

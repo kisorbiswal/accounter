@@ -30,6 +30,11 @@ public class UncategorisedVATAmountsReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<UncategorisedAmountsReport> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				ResultList resultList = new ResultList(getMessages()
 						.unCategorisedTaxAmountsDetail());
 				resultList.setTitle(getMessages()

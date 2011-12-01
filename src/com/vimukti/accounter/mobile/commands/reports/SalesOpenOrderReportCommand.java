@@ -75,6 +75,11 @@ public class SalesOpenOrderReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<OpenAndClosedOrders> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 			}
 		});
 	}

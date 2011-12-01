@@ -30,6 +30,11 @@ public class PurchaseBySupplierSummaryReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<SalesByCustomerDetail> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+					}
+
 				ResultList vendorSummaryList = new ResultList("vendorsummary");
 				addSelection("vendorsummary");
 				makeResult.add(vendorSummaryList);

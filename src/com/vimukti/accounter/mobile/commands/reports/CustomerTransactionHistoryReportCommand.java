@@ -36,6 +36,11 @@ public class CustomerTransactionHistoryReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<TransactionHistory> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				Map<String, List<TransactionHistory>> recordGroups = new HashMap<String, List<TransactionHistory>>();
 				for (TransactionHistory transactionHistoryRecord : records) {
 					String customerName = transactionHistoryRecord.getName();

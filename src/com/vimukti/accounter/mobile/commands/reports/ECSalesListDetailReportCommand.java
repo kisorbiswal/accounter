@@ -40,6 +40,11 @@ public class ECSalesListDetailReportCommand extends
 				ResultList resultList = new ResultList("ECSalesListDetail");
 				addSelection("ECSalesListDetail");
 				List<ECSalesListDetail> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				double total = 0.0;
 				for (ECSalesListDetail salesListDetail : records) {
 					total += salesListDetail.getAmount();

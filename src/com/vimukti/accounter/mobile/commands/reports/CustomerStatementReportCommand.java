@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -45,6 +44,11 @@ public class CustomerStatementReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 
 				List<PayeeStatementsList> records = getRecords(context);
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				ResultList list = new ResultList("Customer StateMent");
 				for (PayeeStatementsList payeeStatementsList : records) {
 					list.add(createReportRecord(payeeStatementsList));

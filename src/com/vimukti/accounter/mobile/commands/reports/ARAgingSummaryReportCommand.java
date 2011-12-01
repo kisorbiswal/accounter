@@ -33,6 +33,11 @@ public class ARAgingSummaryReportCommand extends
 				ResultList resultList = new ResultList("ARAgingSummaryReport");
 				ResultList list = new ResultList("Total");
 				List<DummyDebitor> records = getRecords(context);
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				double total = 0.0;
 				double total0to30 = 0.0;
 				double total30to60 = 0.0;

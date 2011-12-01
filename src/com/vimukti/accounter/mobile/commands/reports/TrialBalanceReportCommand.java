@@ -30,6 +30,11 @@ public class TrialBalanceReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<TrialBalance> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				ResultList resultList = new ResultList("trailBalance");
 				addSelection("trailBalance");
 				double totalDebit = 0.0;

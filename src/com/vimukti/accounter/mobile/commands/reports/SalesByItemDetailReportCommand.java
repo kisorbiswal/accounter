@@ -35,6 +35,11 @@ public class SalesByItemDetailReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<SalesByCustomerDetail> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				Map<String, List<SalesByCustomerDetail>> recordGroups = new HashMap<String, List<SalesByCustomerDetail>>();
 				for (SalesByCustomerDetail transactionDetailByAccount : records) {
 					String taxItemName = transactionDetailByAccount

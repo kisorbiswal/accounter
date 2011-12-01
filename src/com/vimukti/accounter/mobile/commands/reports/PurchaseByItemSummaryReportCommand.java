@@ -29,6 +29,11 @@ public class PurchaseByItemSummaryReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<SalesByCustomerDetail> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+					}
+
 				ResultList customerSummaryList = new ResultList(
 						"purchaseitemsummary");
 				addSelection("purchaseitemsummary");

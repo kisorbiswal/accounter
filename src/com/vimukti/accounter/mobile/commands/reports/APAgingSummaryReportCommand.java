@@ -34,6 +34,11 @@ public class APAgingSummaryReportCommand extends
 				ResultList resultList = new ResultList("APAgingSummaryReport");
 				ResultList list = new ResultList("Total");
 				List<DummyDebitor> records = getRecords(context);
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				double total = 0.0;
 				double total0to30 = 0.0;
 				double total30to60 = 0.0;
@@ -114,7 +119,6 @@ public class APAgingSummaryReportCommand extends
 
 			apAgingSummaryReport = getDebtorsWidSameName(apAgingDetailsReport,
 					start, end);
-			DummyDebitor obj = new DummyDebitor();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -30,6 +30,11 @@ public class VATItemSummaryReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<VATItemSummary> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				ResultList itemsummarylist = new ResultList("itemsummarylist");
 				addSelection("itemsummarylist");
 				itemsummarylist.setTitle("Tax Item Summary");

@@ -53,6 +53,11 @@ public class VAT100ReportCommand extends NewAbstractReportCommand<VATSummary> {
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<VATSummary> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				makeResult.add("VAT 100");
 				ResultList vat100reportsList = new ResultList(
 						"vat100reportlist");

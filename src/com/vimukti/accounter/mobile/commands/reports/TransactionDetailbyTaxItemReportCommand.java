@@ -35,6 +35,11 @@ public class TransactionDetailbyTaxItemReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<TransactionDetailByTaxItem> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				Map<String, List<TransactionDetailByTaxItem>> recordGroups = new HashMap<String, List<TransactionDetailByTaxItem>>();
 				for (TransactionDetailByTaxItem transactionDetailByTaxItem : records) {
 					String taxItemName = transactionDetailByTaxItem

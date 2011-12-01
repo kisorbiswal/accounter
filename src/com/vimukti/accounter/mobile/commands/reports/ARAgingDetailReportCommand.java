@@ -1,6 +1,5 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
-import java.awt.Robot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -42,6 +41,11 @@ public class ARAgingDetailReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 
 				List<AgedDebtors> records = getRecords(context);
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				Map<String, List<AgedDebtors>> recordGroups = new HashMap<String, List<AgedDebtors>>();
 				for (AgedDebtors agedDebtors : records) {
 					String agedDebitorName = getCategoryName(agedDebtors

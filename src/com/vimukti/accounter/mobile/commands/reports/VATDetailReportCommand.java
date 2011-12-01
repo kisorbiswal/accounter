@@ -33,6 +33,11 @@ public class VATDetailReportCommand extends NewAbstractReportCommand<VATDetail> 
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<VATDetail> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				Map<String, List<VATDetail>> recordGroups = new HashMap<String, List<VATDetail>>();
 				for (VATDetail vatDetailReport : records) {
 					String boxName = vatDetailReport.getBoxName();

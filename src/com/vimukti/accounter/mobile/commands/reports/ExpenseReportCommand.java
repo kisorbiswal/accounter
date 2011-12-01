@@ -63,6 +63,11 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<ExpenseList> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				Map<String, List<ExpenseList>> recordGroups = new HashMap<String, List<ExpenseList>>();
 				for (ExpenseList transactionDetailByAccount : records) {
 					String taxItemName = transactionDetailByAccount.getName();

@@ -1,11 +1,9 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -43,6 +41,11 @@ public class CashFlowReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 
 				List<TrialBalance> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
 				double netIncomeTotal = 0.0;
 				TrialBalance trialBalance = records.get(0);
 				if (trialBalance.getAccountName().equals(
