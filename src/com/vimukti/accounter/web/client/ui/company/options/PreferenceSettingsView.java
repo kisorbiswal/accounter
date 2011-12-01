@@ -262,6 +262,11 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	@Override
+	protected void changeButtonBarMode(boolean disable) {
+
+	}
+
+	@Override
 	public List<DynamicForm> getForms() {
 		// TODO Auto-generated method stub
 		return null;
