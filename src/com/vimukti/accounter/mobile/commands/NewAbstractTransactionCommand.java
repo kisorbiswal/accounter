@@ -58,7 +58,7 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 			boolean isSales) {
 		List<ClientTransactionItem> allrecords = transaction
 				.getTransactionItems();
-		double[] result = getTransactionTotal(context,
+		double[] result = getTransactionTotal(
 				transaction.isAmountsIncludeVAT(), allrecords, isSales);
 		double grandTotal = result[0] + result[1];
 		transaction.setTotal(grandTotal);
@@ -91,8 +91,7 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 		return taxCode;
 	}
 
-	public double[] getTransactionTotal(Context context,
-			boolean isAmountsIncludeVAT,
+	public double[] getTransactionTotal(boolean isAmountsIncludeVAT,
 			List<ClientTransactionItem> allrecords, boolean isSales) {
 		double lineTotal = 0.0;
 		double totalTax = 0.0;
@@ -116,7 +115,7 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 				// }
 				// taxableLineTotal += lineTotalAmt;
 
-				double taxAmount = getVATAmount(context, isAmountsIncludeVAT,
+				double taxAmount = getVATAmount(isAmountsIncludeVAT,
 						record.getTaxCode(), record, isSales);
 				if (isAmountsIncludeVAT) {
 					lineTotal -= taxAmount;
@@ -136,8 +135,8 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 		return result;
 	}
 
-	public double getVATAmount(Context context, boolean isAmountsIncludeVAT,
-			long TAXCodeID, ClientTransactionItem record, boolean isSales) {
+	public double getVATAmount(boolean isAmountsIncludeVAT, long TAXCodeID,
+			ClientTransactionItem record, boolean isSales) {
 
 		double vatRate = 0.0;
 		try {
@@ -237,8 +236,7 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 		if (get(IS_VAT_INCLUSIVE) != null) {
 			isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		}
-		double[] result = getTransactionTotal(context, isVatInclusive,
-				allrecords, true);
+		double[] result = getTransactionTotal(isVatInclusive, allrecords, true);
 		if (context.getPreferences().isTrackTax()) {
 			makeResult.add("Total Tax: " + result[1]);
 		}

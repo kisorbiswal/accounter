@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
@@ -205,6 +206,12 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				}
 				return filteredList;
 			}
+
+			@Override
+			protected void getRequirementsValues(ClientTransactionItem obj) {
+				super.getRequirementsValues(obj);
+				WriteCheckCommand.this.setAmountValue();
+			}
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
@@ -212,9 +219,6 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().number()), getMessages().number(), true, false));
-
-		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getMessages().amount()), getMessages().amount(), true, true));
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
 				getMessages().taxCode()), getMessages().taxCode(), false, true,
@@ -230,8 +234,13 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			protected boolean filter(TAXCode e, String name) {
 				return e.getName().startsWith(name);
 			}
-		});
 
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				WriteCheckCommand.this.setAmountValue();
+			}
+		});
 		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -253,8 +262,26 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			protected String getFalseString() {
 				return "Include VAT with Amount disabled";
 			}
+
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				WriteCheckCommand.this.setAmountValue();
+			}
 		});
 
+		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
+				getMessages().amount()), getMessages().amount(), true, true) {
+			@Override
+			public void setValue(Object value) {
+				if (DecimalUtil.isLessThan((Double) value, 0.0)) {
+					addFirstMessage(getMessages().valueCannotBe0orlessthan0(
+							getMessages().amount()));
+					return;
+				}
+				super.setValue(value);
+			}
+		});
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 	}
@@ -336,15 +363,18 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 		writeCheck.setTransactionItems(accounts);
 		updateTotals(context, writeCheck, false);
-		if (amount < writeCheck.getTotal()) {
-			amount = writeCheck.getTotal();
-			writeCheck.setTotal(amount);
-			writeCheck.setAmount(amount);
-			writeCheck.setInWords(amount.toString());
-
-		}
+		// if (amount < writeCheck.getTotal()) {
+		// amount = writeCheck.getTotal();
+		// writeCheck.setTotal(amount);
+		// writeCheck.setAmount(amount);
+		// writeCheck.setInWords(amount.toString());
+		//
+		// }
 		String memo = get(MEMO).getValue();
 		writeCheck.setMemo(memo);
+		if (!DecimalUtil.isEquals(writeCheck.getTotal(), amount)) {
+			return new Result(getMessages().amountAndTotalShouldEqual());
+		}
 		create(writeCheck, context);
 
 		return null;
@@ -438,6 +468,41 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 		// get(CURRENCY).setDefaultValue(null);
 		// get(CURRENCY_FACTOR).setDefaultValue(1.0);
+	}
+
+	private void setAmountValue() {
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
+		List<ClientTransactionItem> accountItems = get(ACCOUNTS).getValue();
+		ClientCompanyPreferences preferences = getPreferences();
+		if (!accountItems.isEmpty() && preferences.isTrackTax()
+				&& !preferences.isTaxPerDetailLine()) {
+			TAXCode taxCode = (TAXCode) (get(TAXCODE) == null ? null : get(
+					TAXCODE).getValue());
+			if (taxCode != null) {
+				for (ClientTransactionItem item : accountItems) {
+					item.setTaxCode(taxCode.getID());
+				}
+			}
+		}
+
+		double[] result = getTransactionTotal(isVatInclusive, accountItems,
+				true);
+		Double amount = get(AMOUNT).getValue();
+		amount = result[0] + result[1];
+		get(AMOUNT).setValue(amount);
+	}
+
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		super.beforeFinishing(context, makeResult);
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
+		List<ClientTransactionItem> accountItems = get(ACCOUNTS).getValue();
+		double[] result = getTransactionTotal(isVatInclusive, accountItems,
+				true);
+		Double amount = get(AMOUNT).getValue();
+		if (!DecimalUtil.isEquals(result[0] + result[1], amount)) {
+			makeResult.add(getMessages().amountAndTotalShouldEqual());
+		}
 	}
 
 	@Override

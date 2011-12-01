@@ -478,8 +478,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		}
 
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
-		double[] result = getTransactionTotal(context, isVatInclusive,
-				allrecords, true);
+		double[] result = getTransactionTotal(isVatInclusive, allrecords, true);
 		List<EstimatesAndSalesOrdersList> e = get(ESTIMATEANDSALESORDER)
 				.getValue();
 		for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : e) {
