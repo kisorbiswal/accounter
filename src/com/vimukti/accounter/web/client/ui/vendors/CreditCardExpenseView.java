@@ -624,6 +624,7 @@ public class CreditCardExpenseView extends
 		if (creditCardCombo.getSelectedValue() == null) {
 			result.addError(creditCardCombo,
 					messages.pleaseSelect(messages.payFrom()));
+			creditCardCombo.highlight();
 		} else {
 			ClientAccount bankAccount = creditCardCombo.getSelectedValue();
 			// check if the currency of accounts is valid or not
@@ -634,6 +635,8 @@ public class CreditCardExpenseView extends
 						&& !(bankCurrency.equals(currency))) {
 					result.addError(creditCardCombo,
 							messages.selectProperBankAccount());
+				} else {
+					creditCardCombo.removeStyleName("highlightedFormItem");
 				}
 			}
 		}
@@ -643,6 +646,9 @@ public class CreditCardExpenseView extends
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
 					result.addError(taxCodeSelect, messages.enterTaxCode());
+					taxCodeSelect.highlight();
+				} else {
+					taxCodeSelect.removeStyleName("highlightedFormItem");
 				}
 			}
 		}
