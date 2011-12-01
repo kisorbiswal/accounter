@@ -282,7 +282,10 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		if (!context.getPreferences().isTrackTax()) {
+			addFirstMessage(context, "You dnt have permission to do this.");
+			return "cancel";
+		}
 		return null;
 	}
 

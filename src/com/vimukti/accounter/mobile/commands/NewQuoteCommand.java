@@ -459,6 +459,18 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		} else if (commandString.contains("credit")) {
 			estimateType = ClientEstimate.CREDITS;
 		}
+		if (commandString.contains("quote")) {
+			if (!context.getPreferences().isDelayedchargesEnabled()) {
+				addFirstMessage(context, "You dnt have permission to do this.");
+				return "cancel";
+			}
+		} else {
+			if (!context.getPreferences().isDoyouwantEstimates()) {
+				addFirstMessage(context, "You dnt have permission to do this.");
+				return "cancel";
+			}
+		}
+
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {

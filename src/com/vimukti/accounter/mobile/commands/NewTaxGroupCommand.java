@@ -71,6 +71,10 @@ public class NewTaxGroupCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		if (!context.getPreferences().isTrackTax()) {
+			addFirstMessage(context, "You dnt have permission to do this.");
+			return "cancel";
+		}
 		return null;
 	}
 

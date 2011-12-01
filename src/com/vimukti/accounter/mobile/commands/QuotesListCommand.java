@@ -33,6 +33,19 @@ public class QuotesListCommand extends NewAbstractCommand {
 		} else if (commandString.contains("credits")) {
 			estimateType = ClientEstimate.CREDITS;
 		}
+
+		if (commandString.contains("quote")) {
+			if (!context.getPreferences().isDelayedchargesEnabled()) {
+				addFirstMessage(context, "You dnt have permission to do this.");
+				return "cancel";
+			}
+		} else {
+			if (!context.getPreferences().isDoyouwantEstimates()) {
+				addFirstMessage(context, "You dnt have permission to do this.");
+				return "cancel";
+			}
+		}
+
 		return null;
 	}
 

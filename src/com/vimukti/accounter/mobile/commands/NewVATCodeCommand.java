@@ -230,6 +230,10 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		if (!context.getPreferences().isTrackTax()) {
+			addFirstMessage(context, "You dnt have permission to do this.");
+			return "cancel";
+		}
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {

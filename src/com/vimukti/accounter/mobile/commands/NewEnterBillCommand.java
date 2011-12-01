@@ -406,7 +406,10 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-
+		if (!context.getPreferences().isKeepTrackofBills()) {
+			addFirstMessage(context, "You dnt have permission to do this.");
+			return "cancel";
+		}
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
