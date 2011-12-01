@@ -6,20 +6,49 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
+/**
+ * 
+ * @author vimukti2
+ * 
+ */
 public class ECSalesListReportCommand extends
 		NewAbstractReportCommand<ECSalesList> {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		addDateRangeFromToDateRequirements(list);
+		list.add(new ReportResultRequirement<ECSalesList>() {
 
+			@Override
+			protected String onSelection(ECSalesList selection, String name) {
+				return "EC Sales List Detail " + selection.getName();
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+				ResultList resultList = new ResultList("ECSalesListReport");
+				double total = 0.0;
+				List<ECSalesList> records = getRecords();
+				addSelection("ECSalesListReport");
+				for (ECSalesList salesList : records) {
+					resultList.add(createReportRecord(salesList));
+					total += salesList.getAmount();
+				}
+				makeResult.add(resultList);
+				makeResult.add("Total :" + total);
+			}
+		});
 	}
 
-	protected Record createReportRecord(ECSalesList record) {
+	private Record createReportRecord(ECSalesList record) {
 		Record salesRecord = new Record(record);
-		salesRecord.add(record.getName());
+		salesRecord.add("", record.getName());
 		salesRecord
 				.add(getStartDate() + "_" + getEndDate(), record.getAmount());
 		return salesRecord;
@@ -27,11 +56,10 @@ public class ECSalesListReportCommand extends
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	protected List<ECSalesList> getRecords() {
+	private List<ECSalesList> getRecords() {
 		ArrayList<ECSalesList> ecSalesLists = new ArrayList<ECSalesList>();
 		try {
 			ecSalesLists = new FinanceTool().getReportManager()
@@ -46,23 +74,6 @@ public class ECSalesListReportCommand extends
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		return null;
-	}
-
-	@Override
-	protected String getWelcomeMessage() {
-		return getMessages()
-				.reportCommondActivated(getMessages().ecSalesList());
-	}
-
-	@Override
-	protected String getDetailsMessage() {
-		return getMessages().reportDetails(getMessages().ecSalesList());
-	}
-
-	@Override
-	public String getSuccessMessage() {
-		return getMessages().reportCommondClosedSuccessfully(
-				getMessages().ecSalesList());
 	}
 
 }

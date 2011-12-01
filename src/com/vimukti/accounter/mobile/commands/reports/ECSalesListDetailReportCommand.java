@@ -8,10 +8,18 @@ import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.server.FinanceTool;
 
+/**
+ * 
+ * @author vimukti2
+ * 
+ */
 public class ECSalesListDetailReportCommand extends
 		NewAbstractReportCommand<ECSalesListDetail> {
 	private Customer customer;
@@ -19,28 +27,59 @@ public class ECSalesListDetailReportCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
+		list.add(new ReportResultRequirement<ECSalesListDetail>() {
+
+			@Override
+			protected String onSelection(ECSalesListDetail selection,
+					String name) {
+				return "Edit Transaction " + selection.getTransactionId();
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+				ResultList resultList = new ResultList("ECSalesListDetail");
+				addSelection("ECSalesListDetail");
+				List<ECSalesListDetail> records = getRecords();
+				double total = 0.0;
+				for (ECSalesListDetail salesListDetail : records) {
+					total += salesListDetail.getAmount();
+					resultList.add(createReportRecord(salesListDetail));
+				}
+				resultList.setTitle(customer.getName());
+				makeResult.add(resultList);
+				makeResult.add(customer.getName() + "  Transactions Total  :"
+						+ total);
+
+			}
+		});
 	}
 
-	protected Record createReportRecord(ECSalesListDetail record) {
+	/**
+	 * 
+	 * @param record
+	 * @return
+	 */
+	private Record createReportRecord(ECSalesListDetail record) {
 		Record ecRecord = new Record(record);
 		ecRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getTransactionType()));
 		ecRecord.add(getMessages().date(), record.getDate());
-		ecRecord.add(getMessages().number(), record.getTransactionNumber());
 		ecRecord.add(getMessages().name(), record.getName());
-		ecRecord.add(getMessages().memo(), record.getMemo());
 		ecRecord.add(getMessages().amount(), record.getAmount());
-		ecRecord.add(getMessages().salesPrice(), record.getSalesPrice());
 		return ecRecord;
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	protected List<ECSalesListDetail> getRecords() {
+	/**
+	 * get EcsalesListDetails
+	 * 
+	 * @return
+	 */
+	private List<ECSalesListDetail> getRecords() {
 		ArrayList<ECSalesListDetail> ecsalSalesListDetails = new ArrayList<ECSalesListDetail>();
 		try {
 			if (customer != null) {
@@ -56,35 +95,12 @@ public class ECSalesListDetailReportCommand extends
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		String customerName = null;
-		String string = context.getString();
-		if (string != null && string.isEmpty()) {
-			String[] split = string.split(",");
-			context.setString(split[0]);
-			customerName = split[1];
-		}
+		String customerName = context.getString();
 		if (customerName != null) {
 			customer = CommandUtils.getCustomerByName(getCompany(),
 					customerName);
 		}
 		return null;
-	}
-
-	@Override
-	protected String getWelcomeMessage() {
-		return getMessages().reportCommondActivated(
-				getMessages().ecSalesListDetails());
-	}
-
-	@Override
-	protected String getDetailsMessage() {
-		return getMessages().reportDetails(getMessages().ecSalesListDetails());
-	}
-
-	@Override
-	public String getSuccessMessage() {
-		return getMessages().reportCommondClosedSuccessfully(
-				getMessages().ecSalesListDetails());
 	}
 
 }
