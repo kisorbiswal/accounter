@@ -549,16 +549,13 @@ public class CommandUtils {
 
 	public static Map<String, Object> dateRangeChanged(
 			AccounterMessages messages, String dateRange,
-			String selectedDateRange, ClientCompanyPreferences preferences,
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			ClientFinanceDate transactionStartDate) {
+			ClientCompanyPreferences preferences, ClientFinanceDate startDate,
+			ClientFinanceDate endDate, ClientFinanceDate transactionStartDate) {
 		Map<String, Object> returnedMap = new HashMap<String, Object>();
 		returnedMap.put("isDateChanges", false);
 		try {
 			ClientFinanceDate date = new ClientFinanceDate();
-			if (!selectedDateRange.equals(messages.all())
-					&& dateRange.equals(messages.all())) {
-				selectedDateRange = messages.all();
+			if (dateRange.equals(messages.all())) {
 				// startDate = FinanceApplication.getStartDate();
 				// endDate = Utility.getLastandOpenedFiscalYearEndDate();
 				// if (endDate == null)
@@ -566,41 +563,29 @@ public class CommandUtils {
 				startDate = new ClientFinanceDate(0);
 				endDate = new ClientFinanceDate(0);
 
-			} else if (!selectedDateRange.equals(messages.today())
-					&& dateRange.equals(messages.today())) {
+			} else if (dateRange.equals(messages.today())) {
 				startDate = new ClientFinanceDate();
 				endDate = getCurrentFiscalYearEndDate(preferences);
 				// .getLastandOpenedFiscalYearEndDate();
-				selectedDateRange = messages.today();
-			} else if (!selectedDateRange.equals(messages.endThisWeek())
-					&& dateRange.equals(messages.endThisWeek())) {
+			} else if (dateRange.equals(messages.endThisWeek())) {
 				startDate = getWeekStartDate();
 				endDate = new ClientFinanceDate(new Date(
 						(long) getWeekEndDate()));
-				selectedDateRange = messages.endThisWeek();
-			} else if (!selectedDateRange.equals(messages.endThisWeekToDate())
-					&& dateRange.equals(messages.endThisWeekToDate())) {
+			} else if (dateRange.equals(messages.endThisWeekToDate())) {
 				startDate = getWeekStartDate();
 				endDate = new ClientFinanceDate();
-				selectedDateRange = messages.endThisWeekToDate();
-			} else if (!selectedDateRange.equals(messages.endThisMonth())
-					&& dateRange.equals(messages.endThisMonth())) {
+			} else if (dateRange.equals(messages.endThisMonth())) {
 				int lastDay = getMonthLastDate(date.getMonth(), date.getYear());
 				startDate = new ClientFinanceDate(date.getYear(),
 						date.getMonth(), 1);
 				endDate = new ClientFinanceDate(date.getYear(),
 						date.getMonth(), lastDay);
-				selectedDateRange = messages.endThisMonth();
-			} else if (!selectedDateRange.equals(messages.endThisMonthToDate())
-					&& dateRange.equals(messages.endThisMonthToDate())) {
+			} else if (dateRange.equals(messages.endThisMonthToDate())) {
 				startDate = new ClientFinanceDate(date.getYear(),
 						date.getMonth(), 1);
 				endDate = getCurrentFiscalYearEndDate(preferences);
 				// .getLastandOpenedFiscalYearEndDate();
-				selectedDateRange = messages.endThisMonthToDate();
-			} else if (!selectedDateRange.equals(messages
-					.endThisFiscalQuarter())
-					&& dateRange.equals(messages.endThisFiscalQuarter())) {
+			} else if (dateRange.equals(messages.endThisFiscalQuarter())) {
 				// changes are needed for calculating Fiscal Quarter,
 				// according
 				// to user preferences.
@@ -610,10 +595,7 @@ public class CommandUtils {
 				startDate = new ClientFinanceDate(date.getYear(), startMonth, 1);
 				endDate = new ClientFinanceDate(date.getYear(), endMonth,
 						getMonthLastDate(endMonth, date.getYear()));
-				selectedDateRange = messages.endThisFiscalQuarter();
-			} else if (!selectedDateRange.equals(messages
-					.endThisFiscalQuarterToDate())
-					&& dateRange.equals(messages.endThisFiscalQuarterToDate())) {
+			} else if (dateRange.equals(messages.endThisFiscalQuarterToDate())) {
 				int month = (date.getMonth()) % 3;
 				int startMonth = date.getMonth() - month;
 
@@ -621,57 +603,38 @@ public class CommandUtils {
 				startDate = new ClientFinanceDate(date.getYear(), startMonth, 1);
 				endDate = getCurrentFiscalYearEndDate(preferences);
 				// .getLastandOpenedFiscalYearEndDate();
-				selectedDateRange = messages.endThisFiscalQuarterToDate();
-			} else if (!selectedDateRange.equals(messages
-					.endThisCalanderQuarter())
-					&& dateRange.equals(messages.endThisCalanderQuarter())) {
+			} else if (dateRange.equals(messages.endThisCalanderQuarter())) {
 				int month = (date.getMonth()) % 3;
 				int startMonth = date.getMonth() - month;
 				int endMonth = startMonth + 2;
 				startDate = new ClientFinanceDate(date.getYear(), startMonth, 1);
 				endDate = new ClientFinanceDate(date.getYear(), endMonth,
 						getMonthLastDate(endMonth, date.getYear()));
-				selectedDateRange = messages.endThisCalanderQuarter();
-			} else if (!selectedDateRange.equals(messages
-					.endThisCalanderQuarterToDate())
-					&& dateRange
-							.equals(messages.endThisCalanderQuarterToDate())) {
+			} else if (dateRange
+					.equals(messages.endThisCalanderQuarterToDate())) {
 				int month = (date.getMonth()) % 3;
 				int startMonth = date.getMonth() - month;
 				startDate = new ClientFinanceDate(date.getYear(), startMonth, 1);
 				endDate = getCurrentFiscalYearEndDate(preferences);
 				// .getLastandOpenedFiscalYearEndDate();
-				selectedDateRange = messages.endThisCalanderQuarterToDate();
-			} else if (!selectedDateRange.equals(messages.endThisFiscalYear())
-					&& dateRange.equals(messages.endThisFiscalYear())) {
+			} else if (dateRange.equals(messages.endThisFiscalYear())) {
 
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
 				endDate = new ClientFinanceDate(date.getYear(), 11, 31);
-				selectedDateRange = messages.endThisFiscalYear();
-			} else if (!selectedDateRange.equals(messages
-					.endThisFiscalYearToDate())
-					&& dateRange.equals(messages.endThisFiscalYearToDate())) {
+			} else if (dateRange.equals(messages.endThisFiscalYearToDate())) {
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
 				endDate = getCurrentFiscalYearEndDate(preferences);
 				// .getLastandOpenedFiscalYearEndDate();
-				selectedDateRange = messages.endThisFiscalYearToDate();
-			} else if (!selectedDateRange
-					.equals(messages.endThisCalanderYear())
-					&& dateRange.equals(messages.endThisCalanderYear())) {
+			} else if (dateRange.equals(messages.endThisCalanderYear())) {
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
 				endDate = new ClientFinanceDate(date.getYear(), 11, 31);
-				selectedDateRange = messages.endThisCalanderYear();
-			} else if (!selectedDateRange.equals(messages
-					.endThisCalanderYearToDate())
-					&& dateRange.equals(messages.endThisCalanderYearToDate())) {
+			} else if (dateRange.equals(messages.endThisCalanderYearToDate())) {
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
 				endDate = getCurrentFiscalYearEndDate(preferences);
 				// .getLastandOpenedFiscalYearEndDate();
-				selectedDateRange = messages.endThisCalanderYearToDate();
 				// changeDates(startDate, endDate);
 				returnedMap.put("isDateChanges", true);
-			} else if (!selectedDateRange.equals(messages.endYesterday())
-					&& dateRange.equals(messages.endYesterday())) {
+			} else if (dateRange.equals(messages.endYesterday())) {
 				// startDate = new ClientFinanceDate(date.getYear(),
 				// date.getMonth(), date
 				// .getDate() - 1);
@@ -680,40 +643,28 @@ public class CommandUtils {
 				// .getLastandOpenedFiscalYearEndDate();
 				int day = endDate.getDay();
 				endDate.setDay(day - 1);
-				selectedDateRange = messages.endYesterday();
-			} else if (!selectedDateRange.equals(messages
-					.endPreviousFiscalQuarter())
-					&& dateRange.equals(messages.endPreviousFiscalQuarter())) {
+			} else if (dateRange.equals(messages.endPreviousFiscalQuarter())) {
 				startDate = new ClientFinanceDate();
 				endDate = getCurrentFiscalYearEndDate(preferences);
 				// .getLastandOpenedFiscalYearEndDate();
-				selectedDateRange = messages.endPreviousFiscalQuarter();
 				ClientFinanceDate[] currentQuarter = getCurrentQuarter(
 						startDate, endDate);
 				startDate = currentQuarter[0];
 				endDate = currentQuarter[1];
-			} else if (!selectedDateRange.equals(messages
-					.endLastCalendarQuarter())
-					&& dateRange.equals(messages.endLastCalendarQuarter())) {
+			} else if (dateRange.equals(messages.endLastCalendarQuarter())) {
 				startDate = new ClientFinanceDate();
 				endDate = getCurrentFiscalYearEndDate(preferences);
 				// .getLastandOpenedFiscalYearEndDate();
-				selectedDateRange = messages.endLastCalendarQuarter();
 				ClientFinanceDate[] currentQuarter = getCurrentQuarter(
 						startDate, endDate);
 				startDate = currentQuarter[0];
 				endDate = currentQuarter[1];
-			} else if (!selectedDateRange.equals(messages
-					.previousFiscalYearSameDates())
-					&& dateRange.equals(messages.previousFiscalYearSameDates())) {
-				selectedDateRange = messages.previousFiscalYearSameDates();
+			} else if (dateRange.equals(messages.previousFiscalYearSameDates())) {
 				ClientFinanceDate[] currentQuarter = getCurrentQuarter(
 						startDate, endDate);
 				startDate = currentQuarter[0];
 				endDate = currentQuarter[1];
-			} else if (!selectedDateRange.equals(messages
-					.previousFiscalYearSameDates())
-					&& dateRange.equals(messages.previousFiscalYearSameDates())) {
+			} else if (dateRange.equals(messages.previousFiscalYearSameDates())) {
 
 				startDate = new ClientFinanceDate(startDate.getYear() - 1,
 						startDate.getMonth(), startDate.getDay());
@@ -721,16 +672,11 @@ public class CommandUtils {
 						endDate.getMonth(), endDate.getDay());
 				// startDate = new ClientFinanceDate(date.getYear() - 1, 0, 1);
 				// endDate = new ClientFinanceDate(date.getYear() - 1, 11, 1);
-				selectedDateRange = messages.previousFiscalYearSameDates();
-			} else if (!selectedDateRange.equals(messages.lastCalenderYear())
-					&& dateRange.equals(messages.lastCalenderYear())) {
+			} else if (dateRange.equals(messages.lastCalenderYear())) {
 				startDate = new ClientFinanceDate(date.getYear(), 0, 1);
 				endDate = new ClientFinanceDate(date.getYear(), 11, 31);
 
-				selectedDateRange = messages.lastCalenderYear();
-			} else if (!selectedDateRange.equals(messages
-					.previousCalenderYear())
-					&& dateRange.equals(messages.previousCalenderYear())) {
+			} else if (dateRange.equals(messages.previousCalenderYear())) {
 				startDate = new ClientFinanceDate(date.getYear() - 1, 0, 1);
 				endDate = new ClientFinanceDate(date.getYear() - 1, 11, 31);
 				// startDate = new ClientFinanceDate(startDate.getYear() -
@@ -742,9 +688,7 @@ public class CommandUtils {
 				// .getMonth(), endDate.getDate());
 				// startDate.setYear(startDate.getYear() - 1);
 				// endDate.setYear(endDate.getYear() - 1);
-				selectedDateRange = messages.previousCalenderYear();
-			} else if (!selectedDateRange.equals(messages.lastMonth())
-					&& dateRange.equals(messages.lastMonth())) {
+			} else if (dateRange.equals(messages.lastMonth())) {
 				int day;
 				if (date.getMonth() == 0) {
 					day = getMonthLastDate(11, date.getYear() - 1);
@@ -757,9 +701,7 @@ public class CommandUtils {
 					endDate = new ClientFinanceDate(date.getYear(),
 							date.getMonth() - 1, day);
 				}
-				selectedDateRange = messages.lastMonth();
-			} else if (!selectedDateRange.equals(messages.last3Months())
-					&& dateRange.equals(messages.last3Months())) {
+			} else if (dateRange.equals(messages.last3Months())) {
 				int day;
 				if (date.getMonth() == 0) {
 					startDate = new ClientFinanceDate(date.getYear() - 1, 9, 1);
@@ -782,9 +724,7 @@ public class CommandUtils {
 					endDate = new ClientFinanceDate(date.getYear(),
 							date.getMonth() - 1, day);
 				}
-				selectedDateRange = messages.last3Months();
-			} else if (!selectedDateRange.equals(messages.last6Months())
-					&& dateRange.equals(messages.last6Months())) {
+			} else if (dateRange.equals(messages.last6Months())) {
 				int day;
 				if (date.getMonth() == 0) {
 					startDate = new ClientFinanceDate(date.getYear() - 1, 6, 1);
@@ -822,33 +762,21 @@ public class CommandUtils {
 					endDate = new ClientFinanceDate(date.getYear(),
 							date.getMonth() - 1, day);
 				}
-				selectedDateRange = messages.last6Months();
-			} else if (!selectedDateRange.equals(messages.lastYear())
-					&& dateRange.equals(messages.lastYear())) {
+			} else if (dateRange.equals(messages.lastYear())) {
 				startDate = new ClientFinanceDate(date.getYear() - 1, 0, 1);
 				endDate = new ClientFinanceDate(date.getYear() - 1, 11, 31);
-				selectedDateRange = messages.lastYear();
-			} else if (!selectedDateRange.equals(messages.present())
-					&& dateRange.equals(messages.present())) {
+			} else if (dateRange.equals(messages.present())) {
 				startDate = new ClientFinanceDate();
 				endDate = new ClientFinanceDate();
-				selectedDateRange = messages.present();
-
-			} else if (!selectedDateRange.equals(messages.untilEndOfYear())
-					&& dateRange.equals(messages.untilEndOfYear())) {
+			} else if (dateRange.equals(messages.untilEndOfYear())) {
 				startDate = new ClientFinanceDate();
 				endDate = new ClientFinanceDate(startDate.getYear(), 11, 31);
-				selectedDateRange = messages.untilEndOfYear();
-
-			} else if (!selectedDateRange.equals(messages.thisWeek())
-					&& dateRange.equals(messages.thisWeek())) {
+			} else if (dateRange.equals(messages.thisWeek())) {
 				startDate = getWeekStartDate();
 				endDate.setDay(startDate.getDay() + 6);
 				endDate.setMonth(startDate.getMonth());
 				endDate.setYear(startDate.getYear());
-				selectedDateRange = messages.thisWeek();
-			} else if (!selectedDateRange.equals(messages.thisMonth())
-					&& dateRange.equals(messages.thisMonth())) {
+			} else if (dateRange.equals(messages.thisMonth())) {
 				startDate = new ClientFinanceDate(date.getYear(),
 						date.getMonth(), 1);
 				Calendar endCal = Calendar.getInstance();
@@ -856,9 +784,7 @@ public class CommandUtils {
 				endCal.set(Calendar.DAY_OF_MONTH,
 						endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 				endDate = new ClientFinanceDate(endCal.getTime());
-				selectedDateRange = messages.thisMonth();
-			} else if (!selectedDateRange.equals(messages.lastWeek())
-					&& dateRange.equals(messages.lastWeek())) {
+			} else if (dateRange.equals(messages.lastWeek())) {
 
 				endDate = getWeekStartDate();
 				endDate.setDay(endDate.getDay() - 1);
@@ -868,16 +794,10 @@ public class CommandUtils {
 				startCal.set(Calendar.DAY_OF_MONTH,
 						startCal.get(Calendar.DAY_OF_MONTH) - 6);
 				startDate = new ClientFinanceDate(startCal.getTime());
-
-				selectedDateRange = messages.lastWeek();
-
-			} else if (!selectedDateRange.equals(messages.thisFinancialYear())
-					&& dateRange.equals(messages.thisFinancialYear())) {
+			} else if (dateRange.equals(messages.thisFinancialYear())) {
 				startDate = getCurrentFiscalYearStartDate(preferences);
 				endDate = getCurrentFiscalYearEndDate(preferences);
-				selectedDateRange = messages.thisFinancialYear();
-			} else if (!selectedDateRange.equals(messages.lastFinancialYear())
-					&& dateRange.equals(messages.lastFinancialYear())) {
+			} else if (dateRange.equals(messages.lastFinancialYear())) {
 				startDate = getCurrentFiscalYearStartDate(preferences);
 				startDate.setYear(startDate.getYear() - 1);
 				Calendar endCal = Calendar.getInstance();
@@ -889,21 +809,15 @@ public class CommandUtils {
 				endDate.setYear(endDate.getYear() - 1);
 				// startDate = new ClientFinanceDate(date.getYear() - 1, 0, 1);
 				// endDate = new ClientFinanceDate(date.getYear() - 1, 11, 31);
-				selectedDateRange = messages.lastFinancialYear();
-			} else if (!selectedDateRange.equals(messages
-					.thisFinancialQuarter())
-					&& dateRange.equals(messages.thisFinancialQuarter())) {
+			} else if (dateRange.equals(messages.thisFinancialQuarter())) {
 				startDate = new ClientFinanceDate();
 				endDate = getCurrentFiscalYearEndDate(preferences);
 				// .getLastandOpenedFiscalYearEndDate();
-				selectedDateRange = messages.thisFinancialQuarter();
 				ClientFinanceDate[] currentFiscalYearQuarter = getCurrentFiscalYearQuarter(
 						startDate, endDate, preferences);
 				startDate = currentFiscalYearQuarter[0];
 				endDate = currentFiscalYearQuarter[1];
-			} else if (!selectedDateRange.equals(messages
-					.lastFinancialQuarter())
-					&& dateRange.equals(messages.lastFinancialQuarter())) {
+			} else if (dateRange.equals(messages.lastFinancialQuarter())) {
 				ClientFinanceDate[] currentFiscalYearQuarter = getCurrentFiscalYearQuarter(
 						startDate, endDate, preferences);
 				startDate = currentFiscalYearQuarter[0];
@@ -918,75 +832,57 @@ public class CommandUtils {
 						endDateCal.get(Calendar.MONTH) - 3);
 				startDate = new ClientFinanceDate(startDateCal.getTime());
 				endDate = new ClientFinanceDate(endDateCal.getTime());
-				selectedDateRange = messages.lastFinancialQuarter();
 				// getCurrentQuarter();
 				// startDate.setYear(startDate.getYear() - 1);
 				// endDate.setYear(endDate.getYear() - 1);
 
-			} else if (!selectedDateRange
-					.equals(messages.financialYearToDate())
-					&& dateRange.equals(messages.financialYearToDate())) {
+			} else if (dateRange.equals(messages.financialYearToDate())) {
 				startDate = getCurrentFiscalYearStartDate(preferences);
 				endDate = new ClientFinanceDate();
-				selectedDateRange = messages.financialYearToDate();
-			} else if (!selectedDateRange.equals(messages.thisVATQuarter())
-					&& dateRange.equals(messages.thisVATQuarter())) {
+			} else if (dateRange.equals(messages.thisVATQuarter())) {
 				startDate = new ClientFinanceDate();
 				endDate = getCurrentFiscalYearEndDate(preferences);
-				selectedDateRange = messages.thisVATQuarter();
 				ClientFinanceDate[] currentQuarter = getCurrentQuarter(
 						startDate, endDate);
 				startDate = currentQuarter[0];
 				endDate = currentQuarter[1];
-			} else if (!selectedDateRange.equals(messages
-					.thisVATQuarterToDate())
-					&& dateRange.equals(messages.thisVATQuarterToDate())) {
+			} else if (dateRange.equals(messages.thisVATQuarterToDate())) {
 				startDate = getCurrentFiscalYearStartDate(preferences);
 				endDate = new ClientFinanceDate();
-				selectedDateRange = messages.thisVATQuarterToDate();
 				ClientFinanceDate[] currentQuarter = getCurrentQuarter(
 						startDate, endDate);
 				startDate = currentQuarter[0];
 				endDate = currentQuarter[1];
 				endDate = new ClientFinanceDate();
 
-			} else if (!selectedDateRange.equals(messages.lastVATQuarter())
-					&& dateRange.equals(messages.lastVATQuarter())) {
+			} else if (dateRange.equals(messages.lastVATQuarter())) {
 				startDate = getCurrentFiscalYearStartDate(preferences);
 				endDate = new ClientFinanceDate();
-				selectedDateRange = messages.lastVATQuarter();
 				ClientFinanceDate[] previousQuarter = getPreviousQuarter(
 						startDate, endDate);
 				startDate = previousQuarter[0];
 				endDate = previousQuarter[1];
 
-			} else if (!selectedDateRange.equals(messages
-					.lastVATQuarterToDate())
-					&& dateRange.equals(messages.lastVATQuarterToDate())) {
+			} else if (dateRange.equals(messages.lastVATQuarterToDate())) {
 				startDate = getCurrentFiscalYearStartDate(preferences);
 				endDate = new ClientFinanceDate();
-				selectedDateRange = messages.lastVATQuarterToDate();
 				ClientFinanceDate[] previousQuarter = getPreviousQuarter(
 						startDate, endDate);
 				startDate = previousQuarter[0];
 				endDate = previousQuarter[1];
 				endDate = new ClientFinanceDate();
-			} else if (!selectedDateRange.equals(messages.nextVATQuarter())
-					&& dateRange.equals(messages.nextVATQuarter())) {
+			} else if (dateRange.equals(messages.nextVATQuarter())) {
 				startDate = getCurrentFiscalYearStartDate(preferences);
 				endDate = new ClientFinanceDate();
-				selectedDateRange = messages.nextVATQuarter();
 				ClientFinanceDate[] nextQuarter = getNextQuarter(startDate,
 						endDate);
 				startDate = nextQuarter[0];
 				endDate = nextQuarter[1];
-			} else if (!selectedDateRange.equals(messages.custom())
-					&& dateRange.equals(messages.custom())) {
+			} else if (dateRange.equals(messages.custom())) {
 				startDate = startDate != null && startDate.getDate() == 0 ? new ClientFinanceDate()
 						: startDate;
 				endDate = endDate != null && endDate.getDate() == 0 ? new ClientFinanceDate()
 						: endDate;
-				selectedDateRange = messages.custom();
 			}
 			// changeDates(startDate, endDate);
 			returnedMap.put("isDateChanges", true);
@@ -995,7 +891,6 @@ public class CommandUtils {
 		}
 		returnedMap.put("startDate", startDate);
 		returnedMap.put("endDate", endDate);
-		returnedMap.put("selectedDateRange", selectedDateRange);
 		return returnedMap;
 	}
 

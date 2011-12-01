@@ -138,8 +138,7 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 			return;
 		}
 		Map<String, Object> dateRangeChanged = CommandUtils.dateRangeChanged(
-				getMessages(), dateRange, previousSelectedRange,
-				getPreferences(), startDate, endDate,
+				getMessages(), dateRange, getPreferences(), startDate, endDate,
 				minimumAndMaximumDates.get(0));
 		this.startDate = (ClientFinanceDate) dateRangeChanged.get("startDate");
 		if (get(FROM_DATE) != null) {
@@ -151,8 +150,8 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 		}
 		// boolean isDateChanges = (Boolean)
 		// dateRangeChanged.get("isDateChanges");
-		previousSelectedRange = (String) dateRangeChanged
-				.get("selectedDateRange");
+		previousSelectedRange = dateRange;
+		get(DATE_RANGE).setValue(previousSelectedRange);
 	}
 
 	@Override
