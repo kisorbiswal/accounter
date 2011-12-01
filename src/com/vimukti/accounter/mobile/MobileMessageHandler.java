@@ -216,6 +216,7 @@ public class MobileMessageHandler extends Thread {
 		if (message == null || message.isEmpty()) {
 			userMessage = session.getLastMessage();
 			message = userMessage.getOriginalMsg();
+			clientMessage = message;
 		}
 		Command command = null;
 
