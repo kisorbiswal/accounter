@@ -148,6 +148,9 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 		if (get(TO_DATE) != null) {
 			get(TO_DATE).setValue(endDate);
 		}
+		FinanceDate[] financeDates = CommandUtils.getMinimumAndMaximumDates(
+				startDate, endDate, getCompanyId());
+		setStartEndDates(financeDates);
 		previousSelectedRange = dateRange;
 		get(DATE_RANGE).setValue(previousSelectedRange);
 	}
@@ -228,5 +231,19 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 	@Override
 	public String getSuccessMessage() {
 		return null;
+	}
+
+	protected void setStartEndDates(FinanceDate[] minimumAndMaximumDates) {
+		this.startDate = minimumAndMaximumDates[0].toClientFinanceDate();
+		Requirement fromDateReq = get(FROM_DATE);
+		if (fromDateReq != null) {
+			fromDateReq.setValue(startDate);
+		}
+		this.endDate = minimumAndMaximumDates[1].toClientFinanceDate();
+		Requirement toDateReq = get(TO_DATE);
+		if (toDateReq != null) {
+			toDateReq.setValue(endDate);
+		}
+
 	}
 }

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -71,10 +70,10 @@ public class ProfitLossReportCommand extends
 					makeResult.add(getMessages().otherExpenseTotals() + " : "
 							+ otherExpTotals[0] + " \t" + otherExpTotals[1]);
 				}
-				Double grosProfitAmount = incomeTotals[0] + otherExpTotals[0]
-						+ cogsTotals[0];
-				Double grosProfitTotal = incomeTotals[1] + otherExpTotals[1]
-						+ cogsTotals[1];
+				Double grosProfitAmount = incomeTotals[0]
+						- (otherExpTotals[0] + cogsTotals[0]);
+				Double grosProfitTotal = incomeTotals[1]
+						- (otherExpTotals[1] + cogsTotals[1]);
 				makeResult.add(getMessages().grossProfit() + " : "
 						+ grosProfitAmount + " \t" + grosProfitTotal);
 				double[] expTotals = addResultList(
@@ -85,16 +84,14 @@ public class ProfitLossReportCommand extends
 							+ expTotals[0] + " \t" + expTotals[1]);
 				}
 				double[] otherIncTotals = addResultList(
-						recordGroups.get(getMessages().otherExpense()),
-						getMessages().otherExpense(), makeResult);
-				if (recordGroups.get(getMessages().otherExpense()) != null) {
+						recordGroups.get(getMessages().otherIncome()),
+						getMessages().otherIncome(), makeResult);
+				if (recordGroups.get(getMessages().otherIncome()) != null) {
 					makeResult.add(getMessages().otherIncomeTotal() + " : "
 							+ otherIncTotals[0] + " \t" + otherIncTotals[1]);
 				}
-				Double netProfitAmount = grosProfitAmount
-						- (otherIncTotals[0] + expTotals[0]);
-				Double netProfitTotal = grosProfitTotal
-						- (otherIncTotals[1] + expTotals[1]);
+				Double netProfitAmount = grosProfitAmount - (expTotals[0]);
+				Double netProfitTotal = grosProfitTotal - (expTotals[1]);
 				makeResult.add(getMessages().netProfit() + " : "
 						+ netProfitAmount + " \t" + netProfitTotal);
 			}
@@ -158,12 +155,11 @@ public class ProfitLossReportCommand extends
 	}
 
 	protected List<TrialBalance> getRecords() {
-		FinanceDate start = getStartDate();
-		FinanceDate end = getEndDate();
 		ArrayList<TrialBalance> profitAndLossReport = new ArrayList<TrialBalance>();
 		try {
 			profitAndLossReport = new FinanceTool().getReportManager()
-					.getProfitAndLossReport(start, end, getCompanyId());
+					.getProfitAndLossReport(getStartDate(), getEndDate(),
+							getCompanyId());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -193,6 +189,7 @@ public class ProfitLossReportCommand extends
 		if (string != null && !string.isEmpty()) {
 
 		}
+		dateRangeChanged(getMessages().financialYearToDate());
 		return null;
 	}
 
