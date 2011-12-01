@@ -47,7 +47,7 @@ public class CashFlowReportCommand extends
 
 				List<TrialBalance> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 
@@ -74,11 +74,12 @@ public class CashFlowReportCommand extends
 
 				ResultList operatingActivitieList = new ResultList(
 						getMessages().operatingActivities());
-				operatingActivitieList
-						.setTitle("Adjustments to reconcile net income to net cash");
+				operatingActivitieList.setTitle(getMessages()
+						.adjustmentsToReconcileNetIncomeToNetCash());
+				List<TrialBalance> list2 = recordGroups.get(getMessages()
+						.operatingActivities());
 				double operatingActivitieAmount = fillResultList(
-						operatingActivitieList,
-						recordGroups.get(getMessages().operatingActivities()));
+						operatingActivitieList, list2);
 
 				ResultList invetList = new ResultList(getMessages()
 						.investingActivities());
@@ -94,26 +95,31 @@ public class CashFlowReportCommand extends
 						financingActivitieList,
 						recordGroups.get(getMessages().financingActivities()));
 
-				ResultList netIncomeList = new ResultList("Net Income");
+				ResultList netIncomeList = new ResultList(getMessages()
+						.netIncome());
 				netIncomeList.setTitle(getMessages().operatingActivities());
-				Record record = new Record("Net Income");
-				record.add(" ", "Net Income");
+				Record record = new Record(getMessages().netIncome());
+				record.add(" ", getMessages().netIncome());
 				record.add(" ", netIncomeTotal);
 				netIncomeList.add(record);
 				makeResult.add(netIncomeList);
 
 				makeResult.add(operatingActivitieList);
-				makeResult.add("End of aR-NI-NC :" + operatingActivitieAmount);
+				makeResult.add(getMessages().endOfARNINC() + " :"
+						+ operatingActivitieAmount);
 				double operatingActivitieNetAmount = netIncomeTotal
 						+ operatingActivitieAmount;
-				makeResult.add("Net cash provided by OPERATING ACTIVITIES  :"
+				makeResult.add(getMessages()
+						.netCashProvidedByOperatingActivities()
+						+ " :"
 						+ operatingActivitieNetAmount);
 
 				if (netIncomeList != null && !invetList.isEmpty()) {
 					makeResult.add(invetList);
-					makeResult
-							.add("Net cash provided by INVESTING ACTIVITIES  :"
-									+ investingActivitieAmount);
+					makeResult.add(getMessages()
+							.netCashProvidedByinvestingActivities()
+							+ " :"
+							+ investingActivitieAmount);
 				}
 				double netAmountTotal = operatingActivitieNetAmount
 						+ financingActivitieAmount + investingActivitieAmount;
@@ -121,21 +127,25 @@ public class CashFlowReportCommand extends
 				if (financingActivitieList != null
 						&& !financingActivitieList.isEmpty()) {
 					makeResult.add(financingActivitieList);
-					makeResult
-							.add("Net cash provided by FINANCING ACTIVITIES  :"
-									+ financingActivitieAmount);
+					makeResult.add(getMessages()
+							.netCashProvidedByfinancingActivities()
+							+ " :"
+							+ financingActivitieAmount);
 				}
-				makeResult.add("Cash at End of Period   :" + netAmountTotal);
+				makeResult.add(getMessages().cashAtEndOfPeriod() + " :"
+						+ netAmountTotal);
 
 			}
 
 			private double fillResultList(ResultList list,
 					List<TrialBalance> records) {
 				double total = 0.0;
-				for (TrialBalance record : records) {
-					Record createReportRecord = createReportRecord(record);
-					total += record.getAmount();
-					list.add(createReportRecord);
+				if (records.isEmpty()) {
+					for (TrialBalance record : records) {
+						Record createReportRecord = createReportRecord(record);
+						total += record.getAmount();
+						list.add(createReportRecord);
+					}
 				}
 				return total;
 			}
