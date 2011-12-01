@@ -90,12 +90,16 @@
 		<input>TAX Reports</input>
 		<outputs>
 			<text name="VAT Reports" />
-			<command title="Prior VAT Return" />
-			<command title="VAT Detail" />
-			<command title="VAT 100" />
-			<command title="Uncategorized VAT Amounts" />
-			<command title="VAT Item Summary" />
-			<command title="EC Sales List" />
+			<command if="isUK" title="Prior VAT Return" />
+			<command if="isUK" title="VAT Detail" />
+			<command if="isNotUK" title="TAX Item Detail" />
+			<command if="isUK" title="VAT 100" />
+			<command if="isUK" title="VAT Exception Detail" />
+			<command if="isNotUK" title="Tax Item Exception Report" />
+			<command if="isUK" title="Uncategorized VAT Amounts" />
+			<command if="isUK" title="EC Sales List" />
+			<command if="isUK" title="VAT Item Summary" />
+			<command if="isNotUK" title="TAX Item Summary" />
 		</outputs>
 	</pattern>
 
