@@ -148,8 +148,6 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 		if (get(TO_DATE) != null) {
 			get(TO_DATE).setValue(endDate);
 		}
-		// boolean isDateChanges = (Boolean)
-		// dateRangeChanged.get("isDateChanges");
 		previousSelectedRange = dateRange;
 		get(DATE_RANGE).setValue(previousSelectedRange);
 	}
