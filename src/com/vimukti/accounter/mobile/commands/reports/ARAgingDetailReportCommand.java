@@ -34,7 +34,8 @@ public class ARAgingDetailReportCommand extends
 
 			@Override
 			protected String onSelection(AgedDebtors selection, String name) {
-				return null;
+				markDone();
+				return "update transaction " + selection.getTransactionId();
 			}
 
 			@Override
@@ -81,7 +82,8 @@ public class ARAgingDetailReportCommand extends
 					record.add("", vendorAmount);
 					list.add(record);
 				}
-				makeResult.add(list);
+				if (customerName.equals(""))
+					makeResult.add(list);
 				makeResult.add("Total :" + total);
 			}
 
@@ -188,14 +190,7 @@ public class ARAgingDetailReportCommand extends
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		String string = context.getString();
-		if (string != null && !string.isEmpty()) {
-			String[] split = string.split(",");
-			if (split.length > 1) {
-				context.setString(split[0]);
-				customerName = split[1];
-			}
-		}
+		customerName = context.getString();
 		endDate = new ClientFinanceDate();
 		return null;
 	}

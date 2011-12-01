@@ -34,7 +34,8 @@ public class APAgingDetailReportCommand extends
 
 			@Override
 			protected String onSelection(AgedDebtors selection, String name) {
-				return null;
+				markDone();
+				return "Edit Transaction " + selection.getTransactionId();
 			}
 
 			@Override
@@ -79,7 +80,8 @@ public class APAgingDetailReportCommand extends
 					record.add("", vendorAmount);
 					list.add(record);
 				}
-				makeResult.add(list);
+				if (vendorName.equals(""))
+					makeResult.add(list);
 				makeResult.add("Total :" + total);
 			}
 
@@ -173,7 +175,7 @@ public class APAgingDetailReportCommand extends
 								getCompanyId());
 			} else if (vendorName != null) {
 				apAgingDetailsReport = new FinanceTool().getReportManager()
-						.getAgedCreditors(getStartDate(), getEndDate(),
+						.getAgedCreditors(startOfFiscalYear, end,
 								getCompanyId());
 				for (AgedDebtors agDebitor : apAgingDetailsReport) {
 					if (vendorName.equals(agDebitor.getName())) {
@@ -194,12 +196,7 @@ public class APAgingDetailReportCommand extends
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		String string = context.getString();
-		if (string != null && !string.isEmpty()) {
-			String[] split = string.split(",");
-			context.setString(split[0]);
-			vendorName = split[1];
-		}
+		vendorName = context.getString();
 		return null;
 	}
 }

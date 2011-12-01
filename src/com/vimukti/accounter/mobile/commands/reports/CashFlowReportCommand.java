@@ -33,8 +33,13 @@ public class CashFlowReportCommand extends
 
 			@Override
 			protected String onSelection(TrialBalance selection, String name) {
-				// TODO Auto-generated method stub
-				return null;
+				markDone();
+				if (selection.getAccountId() != 0) {
+					return "Transaction Detail By Account ,"
+							+ selection.getAccountNumber();
+				} else {
+					return "Profit and Loss";
+				}
 			}
 
 			@Override

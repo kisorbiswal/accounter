@@ -37,7 +37,7 @@ public class CustomerStatementReportCommand extends
 			@Override
 			protected String onSelection(PayeeStatementsList selection,
 					String name) {
-				return null;
+				return "update transaction" + selection.getTransactionId();
 			}
 
 			@Override

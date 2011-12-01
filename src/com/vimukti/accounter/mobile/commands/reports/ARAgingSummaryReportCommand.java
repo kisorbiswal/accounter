@@ -25,12 +25,14 @@ public class ARAgingSummaryReportCommand extends
 
 			@Override
 			protected String onSelection(DummyDebitor selection, String name) {
-				return null;
+				markDone();
+				return "A/R Aging Detail " + selection.getDebitorName();
 			}
 
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				ResultList resultList = new ResultList("ARAgingSummaryReport");
+				addSelection("ARAgingSummaryReport");
 				ResultList list = new ResultList("Total");
 				List<DummyDebitor> records = getRecords(context);
 				if (records.isEmpty()) {
