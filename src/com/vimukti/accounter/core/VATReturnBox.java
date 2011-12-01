@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -138,5 +139,11 @@ public class VATReturnBox extends CreatableObject implements
 	@Override
 	public String toString() {
 		return this.name;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 }

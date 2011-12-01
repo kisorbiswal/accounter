@@ -15,9 +15,11 @@ import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -1259,11 +1261,11 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		while (it.hasNext()) {
 			Object[] object = (Object[]) it.next();
 
-			if (this.name.equals((String) object[0])) {
+			if (this.name.equals(object[0])) {
 				Iterator it2 = list.iterator();
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
-					if (this.number.equals((String) object2[1])) {
+					if (this.number.equals(object2[1])) {
 						throw new AccounterException(
 								AccounterException.ERROR_NAME_CONFLICT);
 						// "An Account already exists with this name and number");
@@ -1272,11 +1274,11 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_CONFLICT);
 				// "An Account already exists with this name");
-			} else if (this.number.equals((String) object[1])) {
+			} else if (this.number.equals(object[1])) {
 				Iterator it2 = list.iterator();
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
-					if (this.name.equals((String) object2[0])) {
+					if (this.name.equals(object2[0])) {
 						throw new AccounterException(
 								AccounterException.ERROR_NUMBER_CONFLICT);
 						// "An Account already exists with this name and number");
@@ -1337,6 +1339,11 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public int getObjType() {
 		return IAccounterCore.ACCOUNT;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		w.put(Global.get().messages().name(), this.name);
 	}
 
 }

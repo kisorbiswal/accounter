@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -118,7 +119,6 @@ public class WriteCheck extends Transaction {
 		return bankAccount;
 	}
 
-	
 	/**
 	 * @return the customer
 	 */
@@ -217,6 +217,7 @@ public class WriteCheck extends Transaction {
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
 	}
+
 	@Override
 	public boolean isDebitTransaction() {
 		return true;
@@ -384,6 +385,12 @@ public class WriteCheck extends Transaction {
 		}
 		checkForReconciliation((Transaction) clientObject);
 		return true;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 
 }

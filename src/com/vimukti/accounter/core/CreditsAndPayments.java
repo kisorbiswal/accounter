@@ -7,6 +7,7 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -475,5 +476,11 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	 */
 	public void setBalanceInPayeeCurrency(double balanceInPayeeCurrency) {
 		this.balanceInPayeeCurrency = balanceInPayeeCurrency;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

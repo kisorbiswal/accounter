@@ -8,6 +8,7 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -516,6 +517,12 @@ public class Customer extends Payee implements IAccounterServerCore,
 	@Override
 	public int getObjType() {
 		return IAccounterCore.CUSTOMER;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -7,6 +7,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -329,5 +330,11 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 			map.put(deposit.getEffectingAccount(), deposit.getAmount());
 		}
 		return map;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

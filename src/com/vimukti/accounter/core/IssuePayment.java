@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -149,6 +150,12 @@ public class IssuePayment extends Transaction {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

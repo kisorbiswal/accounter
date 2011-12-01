@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import org.json.JSONException;
+
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class CompanyPreferences implements IAccounterServerCore {
@@ -1448,5 +1450,11 @@ public class CompanyPreferences implements IAccounterServerCore {
 			boolean includePendingAcceptedEstimates) {
 		this.set(INCLUDE_PENDING_ACCEPTED_ESTIMATES,
 				includePendingAcceptedEstimates);
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -80,6 +81,12 @@ public class Budget extends CreatableObject implements IAccounterServerCore {
 
 	public void setBudgetItems(List<BudgetItem> budgetItems) {
 		this.budgetItems = budgetItems;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

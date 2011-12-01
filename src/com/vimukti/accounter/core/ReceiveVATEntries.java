@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -179,5 +180,11 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 	public void setVersion(int version) {
 		this.version = version;
 
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

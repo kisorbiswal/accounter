@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
@@ -414,5 +415,11 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		map.put(payFrom, total);
 		map.put(payTo.getAccount(), total);
 		return map;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

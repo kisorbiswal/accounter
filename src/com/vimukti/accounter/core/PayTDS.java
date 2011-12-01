@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 public class PayTDS extends Transaction implements IAccounterServerCore,
 		Lifecycle {
@@ -64,5 +65,11 @@ public class PayTDS extends Transaction implements IAccounterServerCore,
 	public Payee getInvolvedPayee() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

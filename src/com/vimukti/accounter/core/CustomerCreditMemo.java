@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
@@ -506,5 +507,11 @@ public class CustomerCreditMemo extends Transaction implements
 		map.put(creditsAndPayments.getPayee().getAccount(),
 				creditsAndPayments.getEffectingAmount());
 		return map;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

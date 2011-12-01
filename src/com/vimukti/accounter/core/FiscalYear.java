@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.services.SessionUtils;
@@ -542,5 +543,11 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 			fiscalYear.setIsCurrentFiscalYear(true);
 		else
 			fiscalYear.setIsCurrentFiscalYear(false);
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

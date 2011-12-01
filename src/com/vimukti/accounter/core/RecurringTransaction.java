@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.sun.istack.internal.Nullable;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -730,5 +731,11 @@ public class RecurringTransaction extends CreatableObject implements
 		int transactionType = referringTransaction.getType();
 		return transactionType == Transaction.TYPE_INVOICE
 				|| transactionType == Transaction.TYPE_PAY_BILL;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

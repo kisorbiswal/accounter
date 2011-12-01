@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
@@ -1092,5 +1093,11 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 		Vendor vendor = tpb.payBill.getVendor();
 		vendor.updateBalance(session, tpb.payBill, diff, false);
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

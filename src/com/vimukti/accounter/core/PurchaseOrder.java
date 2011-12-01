@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -479,6 +480,12 @@ public class PurchaseOrder extends Transaction {
 		// for (TransactionItem item : transactionItems) {
 		// item.doCreateEffect(session);
 		// }
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

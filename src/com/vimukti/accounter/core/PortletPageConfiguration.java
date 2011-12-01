@@ -3,6 +3,8 @@ package com.vimukti.accounter.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class PortletPageConfiguration implements IAccounterServerCore {
@@ -66,6 +68,12 @@ public class PortletPageConfiguration implements IAccounterServerCore {
 
 	public void setPageName(String pageName) {
 		this.pageName = pageName;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

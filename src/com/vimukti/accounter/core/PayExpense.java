@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -133,6 +134,12 @@ public class PayExpense extends Transaction {
 		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
 		map.put(getCompany().getAccountsPayableAccount(), total);
 		return map;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

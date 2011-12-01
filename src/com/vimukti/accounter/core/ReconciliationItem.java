@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import org.json.JSONException;
+
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ReconciliationItem extends CreatableObject implements
@@ -125,5 +127,11 @@ public class ReconciliationItem extends CreatableObject implements
 	 */
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

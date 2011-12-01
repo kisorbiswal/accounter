@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.server.translate;
 
+import org.json.JSONException;
+
+import com.vimukti.accounter.core.AuditWriter;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -62,5 +65,11 @@ public class Language implements IAccounterServerCore {
 	public void setVersion(int version) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

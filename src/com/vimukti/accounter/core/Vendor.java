@@ -7,6 +7,7 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -30,7 +31,6 @@ public class Vendor extends Payee {
 	private static final long serialVersionUID = -3859959561067390029L;
 
 	String vendorNumber;
-
 
 	/**
 	 * This account defaults the Grid Accounts in any Transaction while
@@ -83,7 +83,6 @@ public class Vendor extends Payee {
 	public Vendor() {
 	}
 
-
 	/**
 	 * @return the accountNumber
 	 */
@@ -94,8 +93,6 @@ public class Vendor extends Payee {
 	public void setVendorNumber(String vendorNumber) {
 		this.vendorNumber = vendorNumber;
 	}
-
-
 
 	/**
 	 * @return the expenseAccount
@@ -288,8 +285,6 @@ public class Vendor extends Payee {
 		return false;
 	}
 
-
-
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
@@ -304,15 +299,11 @@ public class Vendor extends Payee {
 		return onUpdate(session);
 	}
 
-
-
 	@Override
 	public Account getAccount() {
 		return getCompany().getAccountsPayableAccount();
 
 	}
-
-
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
@@ -347,9 +338,14 @@ public class Vendor extends Payee {
 		this.tdsApplicable = tdsApplicable;
 	}
 
-
 	@Override
 	public int getObjType() {
 		return IAccounterCore.VENDOR;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 }

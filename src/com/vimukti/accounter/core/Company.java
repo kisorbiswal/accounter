@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -1460,6 +1461,12 @@ public class Company implements IAccounterServerCore {
 	 */
 	public void setExchangeLossOrGainAccount(Account exchangeLossOrGainAccount) {
 		this.exchangeLossOrGainAccount = exchangeLossOrGainAccount;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

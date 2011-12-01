@@ -2,6 +2,8 @@ package com.vimukti.accounter.core;
 
 import java.util.LinkedHashMap;
 
+import org.json.JSONException;
+
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class Fax implements IAccounterServerCore {
@@ -74,6 +76,12 @@ public class Fax implements IAccounterServerCore {
 	@Override
 	public void setVersion(int version) {
 		this.version=version;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

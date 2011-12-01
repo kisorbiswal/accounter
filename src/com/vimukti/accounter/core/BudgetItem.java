@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import org.json.JSONException;
+
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class BudgetItem implements IAccounterServerCore {
@@ -295,6 +297,12 @@ public class BudgetItem implements IAccounterServerCore {
 
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

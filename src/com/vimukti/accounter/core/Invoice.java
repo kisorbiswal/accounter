@@ -9,10 +9,13 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -1096,4 +1099,34 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	}
 
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), "Invoice").gap();
+		w.put(messages.invoiceNo(), this.number);
+
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+		w.put(Global.get().Customer(), this.customer.name);
+
+		w.put(messages.currency(), this.customer.currency.getFormalName())
+				.gap().gap();
+
+		w.put(messages.factor(), this.currencyFactor).gap().gap();
+
+		w.put(messages.amount(), this.total).gap();
+		w.put(messages.address(), this.customer.address);
+
+		// add for location
+		// w.put(messages.location(), this.).gap();
+
+		w.put(messages.dueDate(), this.dueDate.toString()).gap();
+		w.put(messages.email(), this.customer.getEmail());
+
+		w.put(messages.paymentTerm(), this.paymentTerm.name).gap();
+		w.put(messages.memo(), this.memo);
+
+		w.put(messages.details(), this.transactionItems);
+	}
 }

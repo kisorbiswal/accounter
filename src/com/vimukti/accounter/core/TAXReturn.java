@@ -7,6 +7,7 @@ import java.util.Map;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -346,5 +347,11 @@ public class TAXReturn extends Transaction {
 	 */
 	public void setTaxReturnEntries(List<TAXReturnEntry> taxReturnEntries) {
 		this.taxReturnEntries = taxReturnEntries;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

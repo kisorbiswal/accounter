@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -240,6 +241,13 @@ public class JournalEntry extends Transaction {
 
 	public void setInvolvedPayee(Payee involvedPayee) {
 		this.involvedPayee = involvedPayee;
+	}
+
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

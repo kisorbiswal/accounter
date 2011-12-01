@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
@@ -304,6 +305,12 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	 */
 	public void setSales(boolean isSales) {
 		this.isSales = isSales;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

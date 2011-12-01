@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 public class Unit extends CreatableObject implements IAccounterServerCore,
 		Cloneable {
@@ -70,6 +71,12 @@ public class Unit extends CreatableObject implements IAccounterServerCore,
 
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

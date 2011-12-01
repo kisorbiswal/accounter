@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
@@ -282,6 +283,12 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 	public Set<PortletPageConfiguration> getPortletPages() {
 		return portletPages;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

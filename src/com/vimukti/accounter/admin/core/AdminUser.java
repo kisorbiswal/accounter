@@ -1,6 +1,9 @@
 package com.vimukti.accounter.admin.core;
 
+import org.json.JSONException;
+
 import com.vimukti.accounter.admin.client.ClientAdminUser;
+import com.vimukti.accounter.core.AuditWriter;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.INamedObject;
@@ -96,5 +99,11 @@ public class AdminUser extends CreatableObject implements IAccounterServerCore ,
 	public int getObjType() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

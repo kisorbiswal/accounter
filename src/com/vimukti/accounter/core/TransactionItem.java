@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -774,6 +775,12 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		this.unitPrice = -this.unitPrice;
 		this.VATfraction = -this.VATfraction;
 		this.updateAmount = -this.updateAmount;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
