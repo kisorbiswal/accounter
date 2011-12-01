@@ -198,10 +198,4 @@ public class CompanyInfoPreferenceCommand extends
 				getMessages().companyPreferences());
 	}
 
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
