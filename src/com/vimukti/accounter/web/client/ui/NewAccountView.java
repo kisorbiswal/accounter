@@ -1489,7 +1489,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 							.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
 							+ "  "
 							+ nominalCodeRange[0]
-							+ messages.and()
+							+ messages.to()
 							+ nominalCodeRange[1]);
 			return false;
 		} else {
