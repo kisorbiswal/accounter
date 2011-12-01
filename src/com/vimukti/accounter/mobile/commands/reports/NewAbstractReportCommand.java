@@ -129,9 +129,6 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 	}
 
 	protected void dateRangeChanged(String dateRange) {
-		if (previousSelectedRange == null) {
-			previousSelectedRange = "";
-		}
 		List<ClientFinanceDate> minimumAndMaximumDates = CommandUtils
 				.getMinimumAndMaximumTransactionDate(getCompanyId());
 		if (minimumAndMaximumDates.isEmpty()) {
