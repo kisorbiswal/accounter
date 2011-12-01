@@ -8,6 +8,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
@@ -29,6 +30,13 @@ public class VATItemSummaryReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<VATItemSummary> records = getRecords();
+				ResultList itemsummarylist = new ResultList("itemsummarylist");
+				addSelection("itemsummarylist");
+				itemsummarylist.setTitle("Tax Item Summary");
+				makeResult.add(itemsummarylist);
+				for (VATItemSummary record : records) {
+					itemsummarylist.add(createReportRecord(record));
+				}
 			}
 		});
 	}
@@ -36,7 +44,9 @@ public class VATItemSummaryReportCommand extends
 	protected Record createReportRecord(VATItemSummary record) {
 		Record vatItemRecord = new Record(record);
 		vatItemRecord.add(getMessages().name(), record.getName());
+		vatItemRecord.add(getMessages().taxRate(), record.getTaxRate());
 		vatItemRecord.add(getMessages().amount(), record.getAmount());
+		vatItemRecord.add(getMessages().taxableAmount(), record.getTaxAmount());
 		return vatItemRecord;
 	}
 

@@ -2,7 +2,10 @@ package com.vimukti.accounter.mobile.commands.reports;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.vimukti.accounter.core.TAXItem;
@@ -11,6 +14,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
@@ -33,6 +37,33 @@ public class VATItemDetailReportCommand extends
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
 				List<VATItemDetail> records = getRecords();
+				Map<String, List<VATItemDetail>> recordGroups = new HashMap<String, List<VATItemDetail>>();
+				for (VATItemDetail transactionDetailByAccount : records) {
+					String taxItemName = transactionDetailByAccount.getName();
+					List<VATItemDetail> group = recordGroups.get(taxItemName);
+					if (group == null) {
+						group = new ArrayList<VATItemDetail>();
+						recordGroups.put(taxItemName, group);
+					}
+					group.add(transactionDetailByAccount);
+				}
+
+				Set<String> keySet = recordGroups.keySet();
+				List<String> taxItems = new ArrayList<String>(keySet);
+				Collections.sort(taxItems);
+				for (String accountName : taxItems) {
+					List<VATItemDetail> group = recordGroups.get(accountName);
+					double totalAmount = 0.0;
+					addSelection(accountName);
+					ResultList resultList = new ResultList(accountName);
+					resultList.setTitle(accountName);
+					for (VATItemDetail rec : group) {
+						totalAmount += rec.getAmount();
+						resultList.add(createReportRecord(rec));
+					}
+					makeResult.add(resultList);
+					makeResult.add("Total: " + totalAmount);
+				}
 			}
 		});
 	}
@@ -82,19 +113,19 @@ public class VATItemDetailReportCommand extends
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		String accountName = null;
+		String itemName = null;
 		String string = context.getString();
 		if (string != null) {
 			String[] split = string.split(",");
 			if (split.length > 1) {
 				context.setString(split[0]);
-				accountName = split[1];
+				itemName = split[1];
 			}
 		}
-		if (accountName != null) {
+		if (itemName != null) {
 			Set<TAXItem> taxItems = context.getCompany().getTaxItems();
 			for (TAXItem taxItem : taxItems) {
-				if (taxItem.getName().equalsIgnoreCase(accountName)) {
+				if (taxItem.getName().equalsIgnoreCase(itemName)) {
 					this.taxItem = taxItem;
 				}
 			}
