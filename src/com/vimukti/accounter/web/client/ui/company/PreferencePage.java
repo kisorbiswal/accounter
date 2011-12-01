@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.ui.company.options.AbstractPreferenceOpt
 public class PreferencePage extends VerticalPanel {
 
 	private String title;
+	public boolean canSave = false;
 
 	private List<AbstractPreferenceOption> options = new ArrayList<AbstractPreferenceOption>();
 
@@ -45,6 +46,10 @@ public class PreferencePage extends VerticalPanel {
 		for (AbstractPreferenceOption option : options) {
 			if (option.isValidate()) {
 				option.onSave();
+				canSave = true;
+			} else {
+				canSave = false;
+				return;
 			}
 		}
 	}
