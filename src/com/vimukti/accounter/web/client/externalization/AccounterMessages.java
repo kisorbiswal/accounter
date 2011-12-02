@@ -4542,6 +4542,44 @@ public interface AccounterMessages extends Messages {
 
 	public String budgetOverview();
 
+	public String getNoDifferentLegalName();
+
+	public String usingCustomerNumbers();
+
+	public String notUsingCustomersNumbers();
+
+	public String usingVendorNumbers();
+
+	public String notUsinguseVendorNumbers();
+
+	public String usingAccNumbers();
+
+	public String notUsinguseAccountNos();
+
+	public String donotChargeOrTrackTax();
+
+	public String trackingTaxPaid();
+
+	public String donotTrackingTaxPaid();
+
+	public String doNottrackingEstimates();
+
+	public String donotUsedelayedCharges();
+
+	public String iDoShipping();
+
+	public String iDontdoShipping();
+
+	public String hadMultipleWarehouses();
+
+	public String nothadMultipleWarehouses();
+
+	public String nottrackProducandServicesbyCustomer();
+
+	public String useBillabelExpenses();
+
+	public String doNotuseBillabelExpenses();
+
 	public String thereAreNoTransactionItemsToSave();
 
 }
