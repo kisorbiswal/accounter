@@ -27,7 +27,6 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -99,10 +98,10 @@ public class WriteChequeView extends
 
 	// private DynamicForm amtForm;
 
-	private ClientCompany company;
+	private final ClientCompany company;
 	private List<ClientAccount> payFromAccounts;
 
-	private String checkNo = ClientWriteCheck.IS_TO_BE_PRINTED;
+	private final String checkNo = ClientWriteCheck.IS_TO_BE_PRINTED;
 
 	private DynamicForm numForm;
 
@@ -112,7 +111,7 @@ public class WriteChequeView extends
 	private VerticalPanel amountPanel;
 	private VerticalPanel vPanel;
 
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 
 	private VendorAccountTransactionTable transactionVendorAccountTable;
 	private AddNewButton accountTableButton;
@@ -295,7 +294,7 @@ public class WriteChequeView extends
 
 	protected void updateBalance() {
 		if (selectBankAcc != null) {
-
+			balText.setAmount(selectBankAcc.getTotalBalance());
 		}
 	}
 
@@ -509,8 +508,7 @@ public class WriteChequeView extends
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
 		if (isInViewMode()) {
-			Double transactionTotal = ((ClientWriteCheck) transaction)
-					.getTotal();
+			Double transactionTotal = transaction.getTotal();
 			if (transactionTotal != null && !isAmountChange) {
 				amtText.setAmount(getAmountInTransactionCurrency(transactionTotal
 						.doubleValue()));
@@ -642,8 +640,7 @@ public class WriteChequeView extends
 
 		// Setting Date
 		if (date != null)
-			transaction
-					.setDate(((ClientFinanceDate) date.getValue()).getDate());
+			transaction.setDate(date.getValue().getDate());
 		// setting transactoin number
 		transaction.setNumber(transactionNumber.getValue().toString());
 
@@ -653,12 +650,11 @@ public class WriteChequeView extends
 		// setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
 		if (vatinclusiveCheck != null) {
-			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-					.getValue());
+			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 		}
 
 		if (toprintCheck.getValue() != null) {
-			transaction.setToBePrinted((Boolean) toprintCheck.getValue());
+			transaction.setToBePrinted(toprintCheck.getValue());
 
 		}
 		if (currency != null) {
@@ -721,6 +717,7 @@ public class WriteChequeView extends
 		bankAccSelect.setDisabled(isInViewMode());
 		bankAccSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectBankAcc = selectItem;
 						balText.setAmount(selectBankAcc
@@ -755,6 +752,7 @@ public class WriteChequeView extends
 		paytoSelect.setDisabled(isInViewMode());
 		paytoSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPayee>() {
+					@Override
 					public void selectedComboBoxItem(ClientPayee selectItem) {
 						amtText.setValue("0.00");
 						vendorTDSTaxCode.setSelected("");
@@ -1316,6 +1314,7 @@ public class WriteChequeView extends
 		// taxAgencyGrid.addData(transactionItem);
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1339,6 +1338,7 @@ public class WriteChequeView extends
 
 	}
 
+	@Override
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
@@ -1448,6 +1448,7 @@ public class WriteChequeView extends
 		return messages.writeCheck();
 	}
 
+	@Override
 	protected void initTransactionViewData() {
 		if (transaction == null) {
 			setData(new ClientWriteCheck());
