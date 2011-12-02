@@ -33,9 +33,9 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 	private DateField startDate;
 	private DateField endDate;
 	private AmountField closingBalance;
-	private ClientReconciliation reconcilition;
+	private final ClientReconciliation reconcilition;
 	private String account;
-	private ValueCallBack<ClientReconciliation> reconciliationCallback;
+	private final ValueCallBack<ClientReconciliation> reconciliationCallback;
 
 	public ReconciliationDailog(String reconciliation,
 			ClientReconciliation reconcilition) {
@@ -88,12 +88,14 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		endDate.setValue(new ClientFinanceDate());
 
 		closingBalance = new AmountField(messages.ClosingBalance(), this,
-				getBaseCurrency()) {
+				getCompany().getCurrency(
+						reconcilition.getAccount().getCurrency())) {
 			@Override
 			protected BlurHandler getBlurHandler() {
 				return new BlurHandler() {
 					Object value = null;
 
+					@Override
 					public void onBlur(BlurEvent event) {
 						try {
 							clearError(this);
