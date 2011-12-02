@@ -79,7 +79,7 @@
 								},
 								submitHandler : function() {
 									$('#loading').show();
-									$.post('/site/support', {
+									$.post('/main/support', {
 										ajax : true,
 										name : $('#name').val(),
 										email : $('#email').val(),
