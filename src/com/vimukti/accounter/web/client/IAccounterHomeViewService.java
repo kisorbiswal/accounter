@@ -317,6 +317,9 @@ public interface IAccounterHomeViewService extends RemoteService {
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			int startIndex, int length) throws AccounterException;
 
+	public ArrayList<String> getAuditHistory(int objectType, long objectID)
+			throws AccounterException;
+
 	void mergeAccount(ClientAccount fromClientAccount,
 			ClientAccount toClientAccount) throws AccounterException;
 

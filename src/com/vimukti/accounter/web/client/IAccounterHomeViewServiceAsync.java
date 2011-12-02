@@ -345,6 +345,9 @@ public interface IAccounterHomeViewServiceAsync {
 			ClientFinanceDate endDate, int startIndex, int length,
 			AsyncCallback<PaginationList<ClientActivity>> callback);
 
+	public void getAuditHistory(int objectType, long objectID,
+			AsyncCallback<ArrayList<String>> callback);
+
 	void mergeCustomer(ClientCustomer clientCustomer,
 			ClientCustomer clientCustomer1, AsyncCallback<Void> callback);
 

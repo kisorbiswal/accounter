@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.ui.banking.TransferFundsAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.combo.NewCurrencyAction;
 import com.vimukti.accounter.web.client.ui.company.AccounterClassListAction;
+import com.vimukti.accounter.web.client.ui.company.AuditHistoryAction;
 import com.vimukti.accounter.web.client.ui.company.BudgetAction;
 import com.vimukti.accounter.web.client.ui.company.ChangePasswordAction;
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
@@ -1407,5 +1408,10 @@ public class ActionFactory {
 
 	public static BudgetOverviewReportAction getBudgetOverView() {
 		return new BudgetOverviewReportAction(messages.budgetOverview());
+	}
+
+	public static AuditHistoryAction getAuditHistory(int objectType,
+			long objectID) {
+		return new AuditHistoryAction(messages.history(), objectType, objectID);
 	}
 }

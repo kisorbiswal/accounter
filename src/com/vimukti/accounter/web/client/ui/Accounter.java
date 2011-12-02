@@ -425,10 +425,10 @@ public class Accounter implements EntryPoint {
 			}
 		};
 		if (coreObj.getID() == 0) {
-			Accounter.createCRUDService().inviteUser((IAccounterCore) coreObj,
+			Accounter.createCRUDService().inviteUser(coreObj,
 					inviteUserCallBack);
 		} else {
-			Accounter.createCRUDService().updateUser((IAccounterCore) coreObj,
+			Accounter.createCRUDService().updateUser(coreObj,
 					inviteUserCallBack);
 		}
 		// } else {
@@ -458,11 +458,9 @@ public class Accounter implements EntryPoint {
 
 		};
 		if (coreObj.getID() == 0) {
-			Accounter.createCRUDService().create((IAccounterCore) coreObj,
-					transactionCallBack);
+			Accounter.createCRUDService().create(coreObj, transactionCallBack);
 		} else {
-			Accounter.createCRUDService().update((IAccounterCore) coreObj,
-					transactionCallBack);
+			Accounter.createCRUDService().update(coreObj, transactionCallBack);
 		}
 	}
 
@@ -584,8 +582,7 @@ public class Accounter implements EntryPoint {
 				source.saveSuccess(coreObj);
 			}
 		};
-		Accounter.createCRUDService().updateUser((IAccounterCore) coreObj,
-				transactionCallBack);
+		Accounter.createCRUDService().updateUser(coreObj, transactionCallBack);
 	}
 
 	/*

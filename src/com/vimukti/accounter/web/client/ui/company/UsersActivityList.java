@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.cell.client.ButtonCell;
+import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.CompositeCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.HasCell;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -23,7 +26,9 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
+import com.vimukti.accounter.web.client.ui.grids.columns.ImageColumn;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class UsersActivityList extends CellTable<ClientActivity> {
@@ -31,6 +36,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 	private AsyncDataProvider<ClientActivity> listDataProvider;
 	private ClientFinanceDate fromDate, endDate;
 	private final AccounterMessages messages = Accounter.messages();
+	boolean addButton = true;
 
 	public UsersActivityList() {
 		createControls();
@@ -116,6 +122,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 			@Override
 			public String getValue(ClientActivity object) {
+
 				return object.getUserName();
 			}
 		};
@@ -156,15 +163,87 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				return "";
 			}
 		};
+
+		Column<ClientActivity, String> auditHistoryColumn = new Column<ClientActivity, String>(
+				new ClickableTextCell()) {
+
+			@Override
+			public String getValue(ClientActivity object) {
+				if (object.getObjectID() == 0) {
+					return null;
+				} else {
+					return "Get";
+				}
+
+			}
+		};
+		auditHistoryColumn
+				.setFieldUpdater(new FieldUpdater<ClientActivity, String>() {
+
+					@Override
+					public void update(int index, final ClientActivity object,
+							String value) {
+						ActionFactory.getAuditHistory(object.getObjType(),
+								object.getObjectID()).run();
+					}
+				});
+
+		ImageColumn<ClientActivity> imageColumn = new ImageColumn<ClientActivity>() {
+			@Override
+			public ImageResource getValue(ClientActivity object) {
+				if (object.getObjectID() == 0) {
+					return null;
+				} else {
+					return Accounter.getFinanceMenuImages()
+							.accounterRegisterIcon();
+				}
+			}
+		};
+
+		imageColumn
+				.setFieldUpdater(new FieldUpdater<ClientActivity, ImageResource>() {
+					@Override
+					public void update(int index, ClientActivity object,
+							ImageResource value) {
+						ActionFactory.getAuditHistory(object.getObjType(),
+								object.getObjectID()).run();
+					}
+				});
+
+		Column<ClientActivity, String> imageColumn1 = new Column<ClientActivity, String>(
+				new ButtonCell()) {
+			@Override
+			public String getValue(ClientActivity object) {
+				if (object.getObjectID() == 0) {
+					return null;
+				} else {
+					return "->";
+				}
+			}
+		};
+		imageColumn1
+				.setFieldUpdater(new FieldUpdater<ClientActivity, String>() {
+					@Override
+					public void update(int index, ClientActivity object,
+							String value) {
+						ActionFactory.getAuditHistory(object.getObjType(),
+								object.getObjectID()).run();
+					}
+
+				});
+
 		this.addColumn(dateColumn, messages.modifiedTime());
 		this.addColumn(userNameColumn, messages.userName());
 		this.addColumn(activityColumn, messages.activity());
 		this.addColumn(nameColumn, messages.name());
 		this.addColumn(transactionDateColumn, messages.date());
 		this.addColumn(amountColumn, messages.amount());
+		this.addColumn(imageColumn1, messages.history());
+
 		this.setColumnWidth(dateColumn, "170px");
 		this.setColumnWidth(userNameColumn, "160px");
 		this.setColumnWidth(activityColumn, "200px");
+		this.setColumnWidth(imageColumn1, "50px");
 
 	}
 

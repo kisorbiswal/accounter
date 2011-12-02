@@ -36,6 +36,8 @@ public class ClientActivity implements IAccounterCore {
 
 	private long currency;
 
+	private String auditHistory;
+
 	public long getId() {
 		return id;
 	}
@@ -180,5 +182,13 @@ public class ClientActivity implements IAccounterCore {
 	 */
 	public void setCurrency(long currency) {
 		this.currency = currency;
+	}
+
+	public String getAuditHistory() {
+		return auditHistory;
+	}
+
+	public void setAuditHistory(String auditHistory) {
+		this.auditHistory = auditHistory;
 	}
 }
