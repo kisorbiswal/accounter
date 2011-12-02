@@ -62,7 +62,7 @@ public abstract class AbstractTransactionTable extends
 		totalTax = 0.0;
 
 		for (ClientTransactionItem record : allrecords) {
-			if (record.getItem() != 0) {
+			if (record.getItem() != 0 || record.getAccount() != 0) {
 				int type = record.getType();
 
 				if (type == 0) {
