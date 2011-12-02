@@ -27,7 +27,7 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 	@Override
 	protected void initColumns() {
 
-		this.addColumn(new ItemNameColumn(isSales()) {
+		this.addColumn(new ItemNameColumn(isSales(),currencyProvider) {
 
 			@Override
 			protected void setValue(ClientTransactionItem row,

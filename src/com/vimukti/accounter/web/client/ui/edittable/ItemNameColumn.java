@@ -7,15 +7,18 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 
 public abstract class ItemNameColumn extends
 		ComboColumn<ClientTransactionItem, ClientItem> {
 
 	ItemsDropDownTable itemsList = new ItemsDropDownTable(getItemsFilter());
 	private boolean isSales;
+	private ICurrencyProvider currencyProvider;
 
-	public ItemNameColumn(boolean isSales) {
+	public ItemNameColumn(boolean isSales, ICurrencyProvider currencyProvider) {
 		this.isSales = isSales;
+		this.currencyProvider = currencyProvider;
 	}
 
 	@Override
@@ -41,9 +44,11 @@ public abstract class ItemNameColumn extends
 
 		if (newValue != null) {
 			if (isSales()) {
-				row.setUnitPrice(newValue.getSalesPrice());
+				row.setUnitPrice(newValue.getSalesPrice()
+						/ currencyProvider.getCurrencyFactor());
 			} else {
-				row.setUnitPrice(newValue.getPurchasePrice());
+				row.setUnitPrice(newValue.getPurchasePrice()
+						/ currencyProvider.getCurrencyFactor());
 			}
 			row.setAccountable(newValue);
 			row.setDescription(getDiscription(newValue));
