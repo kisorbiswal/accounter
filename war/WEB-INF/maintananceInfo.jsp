@@ -18,7 +18,7 @@ $(document).ready(function() {
 	
 		var email =$('#emailField').val();
 		if(	IsValidEmail(email)){
-			$.post('/site/maintanaceinform', {email: email},
+			$.post('/main/maintanaceinform', {email: email},
 				function(data) {
 				if(data !=null){
 					 if(data=="fail"){
