@@ -159,7 +159,8 @@ public class TAXAgency extends Payee {
 			account = this.purchaseLiabilityAccount;
 		}
 		if (account != null) {
-			account.updateCurrentBalance(transaction, amount,
+			account.updateCurrentBalance(transaction,
+					amount / transaction.getCurrencyFactor(),
 					transaction.getCurrencyFactor());
 			session.update(account);
 			account.onUpdate(session);
@@ -279,7 +280,7 @@ public class TAXAgency extends Payee {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

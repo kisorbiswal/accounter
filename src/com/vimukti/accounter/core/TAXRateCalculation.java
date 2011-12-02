@@ -68,8 +68,8 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 		this.purchaseLiabilityAccount = this.taxAgency
 				.getPurchaseLiabilityAccount();
 		this.salesLiabilityAccount = this.taxAgency.getSalesLiabilityAccount();
-		
-		this.lineTotal=lineTotal;
+
+		this.lineTotal = lineTotal * transacton.getCurrencyFactor();
 		this.vatAmount = this.getCeilValueofTAX();
 		this.taxDue = this.vatAmount;
 	}
@@ -293,7 +293,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 	private double getCeilValueofTAX() {
 
-		double vatValue =this.lineTotal * this.rate / 100;
+		double vatValue = this.lineTotal * this.rate / 100;
 		vatValue = Math.ceil(vatValue * 100) / 100;
 		return vatValue;
 	}
@@ -327,7 +327,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
