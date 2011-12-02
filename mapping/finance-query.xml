@@ -502,7 +502,9 @@
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="CURRENCY_ID" type="long" />
 		SELECT
+		T.CURRENCY AS CURRENCY_ID,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -1811,8 +1813,9 @@
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-
+		<return-scalar column="CURRENCY_ID" type="long" />
 		SELECT
+		T.CURRENCY AS CURRENCY_ID,
 		T.ID TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS
