@@ -1103,7 +1103,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (cashFlowCatSelect.getValue() != null)
 			data.setCashFlowCategory(cashFlowCatSelect.getSelectedIndex() + 1);
 		// data.setCashFlowCategory(0);
-		data.setOpeningBalance(getAmountInBaseCurrency(opBalText.getAmount()));
+		data.setOpeningBalance(opBalText.getAmount());
 		data.setAsOf(asofDate.getEnteredDate().getDate());
 		data.setCurrencyFactor(currencyFactor);
 		switch (accountType) {

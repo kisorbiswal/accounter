@@ -724,7 +724,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			vendorCurrency = getCompany().getPrimaryCurrency();
 		}
 
-		endBalText.setCurrency(vendorCurrency);
+		// endBalText.setCurrency(vendorCurrency);
 
 		amountLabelForeign.setTitle(Accounter.messages().currencyTotal(
 				vendorCurrency.getFormalName()));

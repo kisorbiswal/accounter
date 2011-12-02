@@ -1395,9 +1395,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		return widget;
 	}
 
-	public double getAmountInPayeeCurrency(double amount, double factor) {
-		return amount / factor;
-	}
 
 	@Override
 	protected boolean canVoid() {
