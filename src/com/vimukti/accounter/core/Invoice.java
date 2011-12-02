@@ -1108,7 +1108,7 @@ public class Invoice extends Transaction implements Lifecycle {
 		w.put(messages.invoiceNo(), this.number);
 
 		w.put(messages.date(), this.transactionDate.toString()).gap();
-		w.put(Global.get().Customer(), this.customer.name);
+		w.put(messages.Customer(), this.customer.name);
 
 		w.put(messages.currency(), this.customer.currency.getFormalName())
 				.gap().gap();
@@ -1117,9 +1117,6 @@ public class Invoice extends Transaction implements Lifecycle {
 
 		w.put(messages.amount(), this.total).gap();
 		w.put(messages.address(), this.customer.address);
-
-		// add for location
-		// w.put(messages.location(), this.).gap();
 
 		w.put(messages.dueDate(), this.dueDate.toString()).gap();
 		w.put(messages.email(), this.customer.getEmail());

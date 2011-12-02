@@ -1823,6 +1823,7 @@
 		<property name="dataType" column="DATA_TYPE"></property>
 		<property name="description" type="text" column="DESCRIPTION"></property>
 		<property name="currency" type="long" column="CURRENCY"></property>
+		<property name="auditHistory" type="text" column="AUDITHISTORY"></property>
 
 	</class>
 

@@ -8,34 +8,76 @@ import org.json.JSONObject;
 
 public class AuditWriterImpl implements AuditWriter {
 
+	private static final String GAP = "GAP";
+	JSONArray auditJsonArray = new JSONArray();
+
 	@Override
 	public AuditWriter put(String key, String value) {
 
-		// TODO Auto-generated method stub
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put(key, value);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		auditJsonArray.put(jsonObject);
+
 		return this;
 	}
 
 	@Override
 	public AuditWriter put(String key, boolean value) {
-		// TODO Auto-generated method stub
+
+		JSONObject boolObject = new JSONObject();
+		try {
+			boolObject.put(key, value);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		auditJsonArray.put(boolObject);
+
 		return this;
 	}
 
 	@Override
 	public AuditWriter put(String key, int value) {
-		// TODO Auto-generated method stub
+
+		JSONObject intObject = new JSONObject();
+		try {
+			intObject.put(key, value);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		auditJsonArray.put(intObject);
+
 		return this;
 	}
 
 	@Override
 	public AuditWriter put(String key, double value) {
-		// TODO Auto-generated method stub
+
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put(key, value);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		auditJsonArray.put(jsonObject);
+
 		return this;
 	}
 
 	@Override
 	public AuditWriter put(String key, Double value) {
-		// TODO Auto-generated method stub
+
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put(key, value);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		auditJsonArray.put(jsonObject);
+
 		return this;
 	}
 
@@ -57,19 +99,35 @@ public class AuditWriterImpl implements AuditWriter {
 	}
 
 	private AuditWriter put(String key, JSONArray array) {
-		// TODO Auto-generated method stub
+
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put(key, array);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		auditJsonArray.put(jsonObject);
+
 		return this;
+
 	}
 
-	private JSONObject getJSON() {
-		// TODO Auto-generated method stub
-		return null;
+	private JSONArray getJSON() {
+		return auditJsonArray;
 	}
 
 	@Override
 	public AuditWriter gap() {
-		// TODO Auto-generated method stub
+
+		JSONObject gapObject = new JSONObject();
+		auditJsonArray.put(gapObject);
+
 		return this;
+	}
+
+	@Override
+	public String toString() {
+		return getJSON().toString();
 	}
 
 }

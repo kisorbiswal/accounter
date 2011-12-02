@@ -2,6 +2,14 @@ package com.vimukti.accounter.core;
 
 import java.util.Collection;
 
+/**
+ * 
+ * A Interface Implemented by AuditWriterImpl class
+ * 
+ * @author Vimukti
+ * 
+ */
+
 public interface AuditWriter {
 	public AuditWriter put(String key, String value);
 

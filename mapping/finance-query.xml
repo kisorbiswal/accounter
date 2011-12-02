@@ -558,7 +558,7 @@
 		ON
 		P.ID = C.ID
 		WHERE T.T_TYPE
-		IN(1,4,8) AND 
+		IN(1,4,8) AND
 		T.COMPANY_ID=:companyId
 	</sql-query>
 	<sql-query name="getReceivePaymentsList">
@@ -7264,6 +7264,20 @@
 		a.OBJECT_ID)
 		GROUP BY
 		a.ID ORDER by a.TRANSACTION_DATE DESC LIMIT :limit
+
+	</sql-query>
+
+
+
+	<sql-query name="getAuditHistory">
+		<query-param name="companyId" type="long" />
+		<query-param name="objectType" type="int" />
+		<query-param name="objectID" type="long" />
+
+		SELECT AUDITHISTORY FROM ACTIVITY WHERE
+		COMPANY_ID=:companyId AND
+		OBJECT_TYPE=:objectType AND
+		OBJECT_ID=:objectID
 
 	</sql-query>
 

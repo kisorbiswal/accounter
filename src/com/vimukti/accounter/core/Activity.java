@@ -2,6 +2,8 @@ package com.vimukti.accounter.core;
 
 import java.sql.Timestamp;
 
+import org.json.JSONException;
+
 public class Activity extends CreatableObject {
 
 	private User user;
@@ -27,6 +29,8 @@ public class Activity extends CreatableObject {
 	private String description;
 
 	private long currency;
+
+	private String auditHistory;
 
 	public Activity() {
 	}
@@ -65,6 +69,13 @@ public class Activity extends CreatableObject {
 			this.setDataType(obj.getClass().getSimpleName());
 		}
 		this.objectID = obj.getID();
+		AuditWriterImpl writer = new AuditWriterImpl();
+		try {
+			obj.writeAudit(writer);
+			this.auditHistory = writer.toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Timestamp getTime() {
@@ -181,6 +192,14 @@ public class Activity extends CreatableObject {
 	 */
 	public void setCurrency(long currency) {
 		this.currency = currency;
+	}
+
+	public String getHistory() {
+		return auditHistory;
+	}
+
+	public void setHistory(String history) {
+		this.auditHistory = history;
 	}
 
 }
