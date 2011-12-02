@@ -1203,7 +1203,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			balanceText.setCurrency(selectCurrency);
 			if (!selectCurrency.equals(getCompany().getPreferences()
 					.getPrimaryCurrency())) {
-				currencyWidget.disabledFactorField(true);
+				currencyWidget.disabledFactorField(false);
 			}
 		}
 		currencyWidget.setCurrencyFactor(data.getCurrencyFactor());
