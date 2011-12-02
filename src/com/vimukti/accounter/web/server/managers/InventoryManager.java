@@ -65,7 +65,7 @@ public class InventoryManager extends Manager {
 							: (Double) object[8]);
 					invoicesList.setVoided((Boolean) object[9]);
 					invoicesList.setStatus((Integer) object[10]);
-
+					invoicesList.setCurrency((Long) object[11]);
 					queryResult.add(invoicesList);
 				}
 				return new ArrayList<InvoicesList>(queryResult);
@@ -129,7 +129,7 @@ public class InventoryManager extends Manager {
 							(Long) object[6]));
 					invoicesList.setTotalPrice((Double) object[7]);
 					invoicesList.setBalance((Double) object[8]);
-
+					invoicesList.setCurrency((Long) object[9]);
 					queryResult.add(invoicesList);
 				}
 				return new ArrayList<InvoicesList>(queryResult);

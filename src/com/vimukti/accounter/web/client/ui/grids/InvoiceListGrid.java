@@ -4,7 +4,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -18,8 +17,6 @@ import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
-
-	private ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	public InvoiceListGrid() {
 		super(false);
@@ -59,13 +56,14 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 				return "";
 
 		case 6:
-			return invoicesList.getNetAmount();
+			return DataUtils.amountAsStringWithCurrency(
+					invoicesList.getNetAmount(), invoicesList.getCurrency());
 		case 7:
-			return DataUtils.amountAsStringWithCurrency(invoicesList
-					.getTotalPrice(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					invoicesList.getTotalPrice(), invoicesList.getCurrency());
 		case 8:
-			return DataUtils.amountAsStringWithCurrency(invoicesList
-					.getBalance(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					invoicesList.getBalance(), invoicesList.getCurrency());
 		case 9:
 
 			if (!invoicesList.isVoided())
@@ -91,12 +89,11 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	@Override
 	protected String[] getColumns() {
 		messages = Accounter.messages();
-		return new String[] { " ", messages.type(),
-				messages.date(), messages.no(),
+		return new String[] { " ", messages.type(), messages.date(),
+				messages.no(),
 				Global.get().messages().payeeName(Global.get().Customer()),
-				messages.dueDate(), messages.netPrice(),
-				messages.totalPrice(), messages.balance(),
-				messages.voided()
+				messages.dueDate(), messages.netPrice(), messages.totalPrice(),
+				messages.balance(), messages.voided()
 		// , ""
 		};
 	}
@@ -104,8 +101,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	@Override
 	public void onDoubleClick(InvoicesList obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(obj.getType(), obj
-					.getTransactionId());
+			ReportsRPC.openTransactionView(obj.getType(),
+					obj.getTransactionId());
 	}
 
 	protected void onClick(InvoicesList obj, int row, int col) {
@@ -175,8 +172,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	}
 
 	protected void voidTransaction(final InvoicesList obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
-				.getTransactionId());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
+				obj.getTransactionId());
 	}
 
 	protected void deleteTransaction(final InvoicesList obj) {
