@@ -413,6 +413,7 @@ public class DashboardManager extends Manager {
 		for (CashPurchase cp : cashpurchase) {
 			BillsList bills = new BillsList();
 			bills.setTransactionId(cp.getID());
+			bills.setCurrency(cp.getCurrency().getID());
 			bills.setOriginalAmount(cp.getTotal());
 			bills.setVendorName(cp.getEmployee() != null ? cp.getEmployee()
 					.getName() : "");
