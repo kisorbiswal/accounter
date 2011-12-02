@@ -3,6 +3,7 @@
  */
 package com.vimukti.accounter.mobile;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -233,10 +234,10 @@ public class MobileMessageHandler extends Thread {
 			// return userMessage;
 			// }
 			command = new AuthenticationCommand();
+			userMessage.setCommandString("Login");
 			if (networkType != AccounterChatServer.NETWORK_TYPE_MOBILE) {
 				userMessage.setOriginalMsg("");// To know it is first
 				message = "";
-				userMessage.setCommandString("Login");
 			}
 		}
 		if (command == null) {
@@ -287,6 +288,9 @@ public class MobileMessageHandler extends Thread {
 		UserMessage lastMessage = session.getLastMessage();
 		Result lastResult = lastMessage == null ? null : lastMessage
 				.getResult();
+		if (lastMessage != null && userMessage.getCommandString() == null) {
+			userMessage.setCommandString(lastMessage.getCommandString());
+		}
 		if (lastResult instanceof PatternResult) {
 			PatternResult patternResult = (PatternResult) lastResult;
 
