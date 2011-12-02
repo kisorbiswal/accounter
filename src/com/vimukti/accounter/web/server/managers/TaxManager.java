@@ -31,6 +31,7 @@ import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.core.TAXRateCalculation;
 import com.vimukti.accounter.core.TAXReturn;
+import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.services.DAOException;
@@ -704,9 +705,9 @@ public class TaxManager extends Manager {
 				.setParameter("taxAgency", taxAgency.getID())
 				.setParameter("endDate", endDate).setEntity("company", company);
 
-		TAXReturn vatReturn = (TAXReturn) query.uniqueResult();
+		TAXReturn taxReturn = (TAXReturn) query.uniqueResult();
 
-		if (vatReturn == null) {
+		if (taxReturn == null) {
 			throw new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 					new NullPointerException(
 							"No VAT Return found in database with VATAgency '"
@@ -714,31 +715,36 @@ public class TaxManager extends Manager {
 									+ endDate));
 		}
 
+		List<TAXReturnEntry> taxReturnEntries = taxReturn.getTaxReturnEntries();
+		List<Box> serverBoxes = toServerBoxes(taxReturnEntries,
+				taxReturn.getTaxAgency());
+		taxReturn.setBoxes(serverBoxes);
+
 		List<VATSummary> vatSummaries = new ArrayList<VATSummary>();
 
 		vatSummaries.add(new VATSummary(VATSummary.UK_BOX1_VAT_DUE_ON_SALES,
-				vatReturn.getBoxes().get(0).getAmount()));
+				taxReturn.getBoxes().get(0).getAmount()));
 		vatSummaries.add(new VATSummary(
-				VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS, vatReturn
+				VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS, taxReturn
 						.getBoxes().get(1).getAmount()));
 		vatSummaries.add(new VATSummary(VATSummary.UK_BOX3_TOTAL_OUTPUT,
-				vatReturn.getBoxes().get(2).getAmount()));
+				taxReturn.getBoxes().get(2).getAmount()));
 		vatSummaries.add(new VATSummary(
-				VATSummary.UK_BOX4_VAT_RECLAMED_ON_PURCHASES, vatReturn
+				VATSummary.UK_BOX4_VAT_RECLAMED_ON_PURCHASES, taxReturn
 						.getBoxes().get(3).getAmount()));
-		vatSummaries.add(new VATSummary(VATSummary.UK_BOX5_NET_VAT, vatReturn
+		vatSummaries.add(new VATSummary(VATSummary.UK_BOX5_NET_VAT, taxReturn
 				.getBoxes().get(4).getAmount()));
 		vatSummaries.add(new VATSummary(VATSummary.UK_BOX6_TOTAL_NET_SALES,
-				vatReturn.getBoxes().get(5).getAmount()));
+				taxReturn.getBoxes().get(5).getAmount()));
 		vatSummaries.add(new VATSummary(VATSummary.UK_BOX7_TOTAL_NET_PURCHASES,
-				vatReturn.getBoxes().get(6).getAmount()));
+				taxReturn.getBoxes().get(6).getAmount()));
 		vatSummaries.add(new VATSummary(VATSummary.UK_BOX8_TOTAL_NET_SUPPLIES,
-				vatReturn.getBoxes().get(7).getAmount()));
+				taxReturn.getBoxes().get(7).getAmount()));
 		vatSummaries.add(new VATSummary(
-				VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS, vatReturn.getBoxes()
+				VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS, taxReturn.getBoxes()
 						.get(8).getAmount()));
 		vatSummaries.add(new VATSummary(VATSummary.UK_BOX10_UNCATEGORISED,
-				vatReturn.getBoxes().get(9).getAmount()));
+				taxReturn.getBoxes().get(9).getAmount()));
 
 		return new ArrayList<VATSummary>(vatSummaries);
 	}
