@@ -803,8 +803,10 @@ public class AccounterMenuBar extends HorizontalPanel {
 		 */
 		manageSupportListMenuBar.addMenuItem(ActionFactory
 				.getItemGroupListAction());
-		manageSupportListMenuBar.addMenuItem(ActionFactory
-				.getCreditRatingListAction());
+		/*
+		 * manageSupportListMenuBar.addMenuItem(ActionFactory
+		 * .getCreditRatingListAction());
+		 */
 		manageSupportListMenuBar.addMenuItem(ActionFactory
 				.getCurrencyGroupListAction());
 		if (Accounter.getCompany().getPreferences().isLocationTrackingEnabled())
