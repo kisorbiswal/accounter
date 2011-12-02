@@ -19,18 +19,23 @@ public abstract class ReportResultRequirement<T> extends AbstractRequirement<T> 
 	@Override
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
-		for (String name : resultListNames) {
-			T selection = context.getSelection(name);
-			if (selection != null) {
-				String onSelection = onSelection(selection, name);
-				if (onSelection != null) {
-					context.putSelection(name, null);
-					Result result = new Result();
-					result.setNextCommand(onSelection);
-					return result;
+		Object attribute = context.getAttribute("fireSelection");
+		if (attribute == null) {
+			for (String name : resultListNames) {
+				T selection = context.getSelection(name);
+				if (selection != null) {
+					String onSelection = onSelection(selection, name);
+					if (onSelection != null) {
+						context.setAttribute("fireSelection", "Fired");
+						Result result = new Result();
+						result.setNextCommand(onSelection);
+						return result;
+					}
+					break;
 				}
-				break;
 			}
+		} else {
+			context.removeAttribute("fireSelection");
 		}
 		resultListNames = new ArrayList<String>();
 		fillResult(context, makeResult);
