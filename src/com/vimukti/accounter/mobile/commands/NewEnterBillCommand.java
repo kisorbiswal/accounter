@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
@@ -34,7 +32,6 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -42,7 +39,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 

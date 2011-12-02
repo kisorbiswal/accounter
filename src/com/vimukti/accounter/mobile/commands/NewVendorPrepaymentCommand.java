@@ -8,7 +8,6 @@ import java.util.Set;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.ClientConvertUtil;
-import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
