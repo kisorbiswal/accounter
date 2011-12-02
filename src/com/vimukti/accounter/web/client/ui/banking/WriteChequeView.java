@@ -1151,6 +1151,23 @@ public class WriteChequeView extends
 	@Override
 	public void updateNonEditableItems() {
 
+		// if (vendorAccountTransactionTable == null
+		// || vendorItemTransactionTable == null) {
+		// return;
+		// }
+		// double lineTotal = vendorAccountTransactionTable.getLineTotal()
+		// + vendorItemTransactionTable.getLineTotal();
+		// double grandTotal = vendorAccountTransactionTable.getGrandTotal()
+		// + vendorItemTransactionTable.getGrandTotal();
+		//
+		// netAmount.setAmount(lineTotal);
+		// if (getCompany().getPreferences().isTrackPaidTax()) {
+		// vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+		// }
+		// transactionTotalNonEditableText
+		// .setAmount(getAmountInBaseCurrency(grandTotal));
+		// foreignCurrencyamountLabel.setAmount(grandTotal);
+		//
 		if (transactionVendorAccountTable == null) {
 			return;
 		}
@@ -1168,7 +1185,8 @@ public class WriteChequeView extends
 
 		foreignCurrencyamountLabel.setAmount(total);
 
-		transactionTotalBaseCurrencyText.setAmount(total);
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(total));
 
 		if (amtText.getAmount() == 0) {
 			amtText.setAmount(foreignCurrencyamountLabel.getAmount());
