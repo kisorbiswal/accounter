@@ -137,11 +137,13 @@ public class UIUtils {
 	}
 
 	public static boolean isValidPhone(String phone) {
-		return (phone.matches("^[0-9]+$"));
+		// return (phone.matches("^[0-9]+$"));
+		return true;
 	}
 
 	public static boolean isValidFax(String fax) {
-		return (fax.matches("^[0-9]+$"));
+		// return (fax.matches("^[0-9]+$"));
+		return true;
 	}
 
 	public static boolean isValidAddress(String address) {
