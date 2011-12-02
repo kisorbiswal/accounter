@@ -569,7 +569,7 @@
 	</industry>
 	<industry type="12" name="IT Software / Hardware">
 		<accounts>
-			<account type="Income" name="Consulting Income ( Income)" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
+			<account type="Income" name="Consulting Income" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Sales Hardware" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Sales Software" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
 			<account type="Income" name="Sales Support &amp; Maintenance" default="true" systemOnly="false" countries="" cashFlow="Operating"></account>
