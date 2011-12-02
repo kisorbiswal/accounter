@@ -60,14 +60,12 @@ public class CompanyInfoPreferenceCommand extends
 			@Override
 			protected String getTrueString() {
 
-				return getMessages().getDifferentLegalName() + " "
-						+ getMessages().active();
+				return getMessages().getDifferentLegalName();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().getDifferentLegalName() + " "
-						+ getMessages().inActive();
+				return getMessages().getNoDifferentLegalName();
 			}
 		});
 
@@ -173,14 +171,13 @@ public class CompanyInfoPreferenceCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().useCustomersNumbers() + " :"
-						+ getMessages().active();
+				return getMessages().usingCustomerNumbers();
+
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().useCustomersNumbers() + " :"
-						+ getMessages().inActive();
+				return getMessages().notUsingCustomersNumbers();
 			}
 		});
 
@@ -188,14 +185,13 @@ public class CompanyInfoPreferenceCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().useVendorNumbers() + " :"
-						+ getMessages().active();
+				return getMessages().usingVendorNumbers();
+
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().useVendorNumbers() + " :"
-						+ getMessages().inActive();
+				return getMessages().notUsinguseVendorNumbers();
 			}
 		});
 
@@ -203,14 +199,13 @@ public class CompanyInfoPreferenceCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().useAccountNos() + " :"
-						+ getMessages().active();
+				return getMessages().usingAccNumbers();
+
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().useAccountNos() + " :"
-						+ getMessages().inActive();
+				return getMessages().notUsinguseAccountNos();
 			}
 		});
 
