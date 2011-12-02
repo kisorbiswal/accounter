@@ -974,7 +974,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		if (amount == 0) {
 			return;
 		}
-		amount = (isIncrease ? 1 : -1) * amount;
+		amount = (isIncrease ? 1 : -1) * amount * currencyFactor;
 
 		if (this.getCurrency() == getCompany().getPrimaryCurrency()) {
 			currencyFactor = 1;
