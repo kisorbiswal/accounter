@@ -90,14 +90,12 @@ public class ProductAndServicePreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().haveMultipleWarehouses() + " "
-						+ getMessages().enabled();
+				return getMessages().hadMultipleWarehouses();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().haveMultipleWarehouses() + " "
-						+ getMessages().disabled();
+				return getMessages().nothadMultipleWarehouses();
 			}
 		});
 
@@ -118,14 +116,12 @@ public class ProductAndServicePreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().trackProducandServicesbyCustomer() + " "
-						+ getMessages().active();
+				return getMessages().trackProducandServicesbyCustomer();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().trackProducandServicesbyCustomer() + " "
-						+ getMessages().inActive();
+				return getMessages().nottrackProducandServicesbyCustomer();
 			}
 		});
 
@@ -133,17 +129,14 @@ public class ProductAndServicePreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().use() + " " + getMessages().billabe()
-						+ " " + getMessages().active();
+				return getMessages().useBillabelExpenses();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().use() + " " + getMessages().billabe()
-						+ " " + getMessages().inActive();
+				return getMessages().doNotuseBillabelExpenses();
 			}
 		});
-
 	}
 
 	private List<String> getServiceProductBothList() {

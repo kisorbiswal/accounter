@@ -30,14 +30,12 @@ public class VendorAndPurchasePreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().manageBillsYouOwe() + " :"
-						+ getMessages().yes();
+				return getMessages().manageBillsYouOwe();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().manageBillsYouOwe() + " :"
-						+ getMessages().no();
+				return getMessages().dontManageBillsYouOwe();
 			}
 		});
 
@@ -45,14 +43,12 @@ public class VendorAndPurchasePreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().trackTaxEnabled() + " :"
-						+ getMessages().yes();
+				return getMessages().chargeOrTrackTax();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().trackTaxDisabled() + " :"
-						+ getMessages().no();
+				return getMessages().donotChargeOrTrackTax();
 			}
 		});
 
@@ -91,12 +87,12 @@ public class VendorAndPurchasePreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().trackingTaxPaidEnabled();
+				return getMessages().trackingTaxPaid();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().trackingTaxPaidDisabled();
+				return getMessages().donotTrackingTaxPaid();
 			}
 		});
 
@@ -125,14 +121,12 @@ public class VendorAndPurchasePreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().trackingEstimates() + " "
-						+ getMessages().enabled();
+				return getMessages().trackingEstimates();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().trackingEstimates() + " "
-						+ getMessages().disabled();
+				return getMessages().doNottrackingEstimates();
 			}
 		});
 
@@ -178,15 +172,13 @@ public class VendorAndPurchasePreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().delayedCharges() + " "
-						+ getMessages().active();
+				return getMessages().delayedCharges();
 
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().delayedCharges() + " "
-						+ getMessages().inActive();
+				return getMessages().donotUsedelayedCharges();
 			}
 		});
 
@@ -194,13 +186,13 @@ public class VendorAndPurchasePreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return "Do you do shipping" + " " + getMessages().active();
+				return getMessages().iDoShipping();
 
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "Do you do shipping" + " " + getMessages().inActive();
+				return getMessages().iDontdoShipping();
 			}
 		});
 	}
