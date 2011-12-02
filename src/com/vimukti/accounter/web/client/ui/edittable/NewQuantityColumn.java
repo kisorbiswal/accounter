@@ -164,12 +164,14 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 
 	protected void setQuantity(ClientTransactionItem row,
 			ClientQuantity quantity) {
-		row.setQuantity(quantity);
-		double lt = quantity.getValue() * row.getUnitPrice();
-		double disc = row.getDiscount();
-		row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt * disc / 100))
-				: lt);
-		getTable().update(row);
+		if (quantity != null) {
+			row.setQuantity(quantity);
+			double lt = quantity.getValue() * row.getUnitPrice();
+			double disc = row.getDiscount();
+			row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+					* disc / 100)) : lt);
+			getTable().update(row);
+		}
 	}
 
 	@Override
@@ -189,7 +191,9 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 				return;
 			}
 			ClientQuantity quantity = row.getQuantity();
-			quantity.setValue(DataUtils.getAmountStringAsDouble(value));
+			if (quantity != null) {
+				quantity.setValue(DataUtils.getAmountStringAsDouble(value));
+			}
 			setQuantity(row, quantity);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -4542,4 +4542,6 @@ public interface AccounterMessages extends Messages {
 
 	public String budgetOverview();
 
+	public String thereAreNoTransactionItemsToSave();
+
 }

@@ -1013,14 +1013,23 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transactionItems != null) {
 			for (ClientTransactionItem transactionItem : transactionItems) {
 
-				if (transactionItem.getLineTotal() <= 0) {
-					result.addError(
-							"TransactionItem" + transactionItem.getAccount()
-									+ transactionItem.getAccount(), Accounter
-									.messages()
-									.transactionitemtotalcannotbe0orlessthan0());
+				if (transactionItem != null) {
+					if (transactionItem.getLineTotal() != null) {
+						if (transactionItem.getLineTotal() <= 0) {
+							result.addError(
+									"TransactionItem"
+											+ transactionItem.getAccount()
+											+ transactionItem.getAccount(),
+									messages.transactionitemtotalcannotbe0orlessthan0());
+						}
+					} else {
+						result.addError("TransactionItem", messages
+								.pleaseEnter(messages.transactionItem()));
+					}
+				} else {
+					result.addError("TransactionItem",
+							messages.pleaseEnter(messages.transactionItem()));
 				}
-
 				if (getPreferences().isClassTrackingEnabled()
 						&& !getPreferences().isClassOnePerTransaction()
 						&& getPreferences().isWarnOnEmptyClass()

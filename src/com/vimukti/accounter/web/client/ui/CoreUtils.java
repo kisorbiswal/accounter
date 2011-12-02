@@ -94,7 +94,7 @@ public class CoreUtils {
 			new ClientLanguage("Urdu", "اردو", "urd"),
 			new ClientLanguage("Vietnamese", "Tiếng Việt", "vie"),
 			new ClientLanguage("Welsh", "Cymraeg", "cym"),
-			new ClientLanguage("Yiddish", "ייִדיש", "yid"), };
+			new ClientLanguage("Yiddish", "ייִדיש", "yid") };
 	private static String[] countries = new String[] { "United Kingdom",
 			"United States", "Afghanistan", "Albania", "Algeria",
 			"American Samoa", "Andorra", "Angola", "Anguilla", "Antarctica",

@@ -62,32 +62,38 @@ public abstract class AbstractTransactionTable extends
 		totalTax = 0.0;
 
 		for (ClientTransactionItem record : allrecords) {
+			if (record.getItem() != 0) {
+				int type = record.getType();
 
-			int type = record.getType();
-
-			if (type == 0)
-				continue;
-			if (record.getDiscount() != null)
-				totaldiscount += record.getDiscount();
-
-			Double lineTotalAmt = record.getLineTotal();
-			if (lineTotalAmt != null)
-				lineTotal += lineTotalAmt;
-
-			if (record != null && record.isTaxable()) {
-				// ClientTAXItem taxItem = getCompany().getTAXItem(
-				// citem.getTaxCode());
-				// if (taxItem != null) {
-				// totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
-				// }
-				taxableLineTotal += lineTotalAmt;
-
-				double taxAmount = getVATAmount(record.getTaxCode(), record);
-				if (isShowPriceWithVat()) {
-					lineTotal -= taxAmount;
+				if (type == 0) {
+					continue;
 				}
-				record.setVATfraction(taxAmount);
-				totalTax += record.getVATfraction();
+				if (record.getDiscount() != null) {
+					totaldiscount += record.getDiscount();
+				}
+
+				Double lineTotalAmt = record.getLineTotal();
+				if (lineTotalAmt != null) {
+					lineTotal += lineTotalAmt;
+				}
+
+				if (record != null && record.isTaxable()) {
+					// ClientTAXItem taxItem = getCompany().getTAXItem(
+					// citem.getTaxCode());
+					// if (taxItem != null) {
+					// totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
+					// }
+					taxableLineTotal += lineTotalAmt;
+
+					double taxAmount = getVATAmount(record.getTaxCode(), record);
+					if (isShowPriceWithVat()) {
+						lineTotal -= taxAmount;
+					}
+					record.setVATfraction(taxAmount);
+					totalTax += record.getVATfraction();
+
+				}
+			} else {
 
 			}
 
@@ -112,6 +118,7 @@ public abstract class AbstractTransactionTable extends
 		// }
 
 		updateNonEditableItems();
+
 	}
 
 	@Override
@@ -212,17 +219,16 @@ public abstract class AbstractTransactionTable extends
 				continue;
 			}
 			if (transactionItem.getAccountable() == null) {
-				result
-						.addError("GridItem-" + transactionItem.getType(),
-								Accounter.messages().pleaseSelect(
-										Utility.getItemType(transactionItem
-												.getType())));
+				result.addError(
+						"GridItem-" + transactionItem.getType(),
+						Accounter.messages().pleaseSelect(
+								Utility.getItemType(transactionItem.getType())));
 			}
 			if (enableTax && showTaxCode) {
 				if (transactionItem.getTaxCode() == 0) {
-					result.addError("GridItemUK-"
-							+ transactionItem.getAccount(), Accounter
-							.messages().pleaseSelect(
+					result.addError(
+							"GridItemUK-" + transactionItem.getAccount(),
+							Accounter.messages().pleaseSelect(
 									Accounter.messages().taxCode()));
 				}
 
@@ -232,13 +238,17 @@ public abstract class AbstractTransactionTable extends
 				if (transactionItem.getCustomer() == 0) {
 					result.addError("Customer",
 							messages.mustSelectCustomerForBillable());
-				} else if (transactionItem.getItem() > 0) {
+				}
+				if (transactionItem.getItem() > 0) {
 					ClientItem item = getCompany().getItem(
 							transactionItem.getItem());
 					if (!item.isIBuyThisItem || !item.isISellThisItem) {
 						result.addError("Item", messages
 								.onlySellableItemsCanBeMarkedAsBillable());
 					}
+				} else {
+					result.addError("Item",
+							messages.pleaseSelect(messages.transactionItem()));
 				}
 			}
 		}
