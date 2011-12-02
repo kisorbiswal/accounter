@@ -349,11 +349,11 @@ public abstract class Payee extends CreatableObject implements
 
 		if (this.type == TYPE_CUSTOMER) {
 			if (updateBalanceInPayeeCurrency) {
-				this.balance -= amount / transaction.getCurrencyFactor();
+				this.balance -= amount;
 			}
 		} else if (this.type == TYPE_VENDOR || this.type == TYPE_TAX_AGENCY) {
 			if (updateBalanceInPayeeCurrency) {
-				this.balance += amount / transaction.getCurrencyFactor();
+				this.balance += amount;
 			}
 		}
 
