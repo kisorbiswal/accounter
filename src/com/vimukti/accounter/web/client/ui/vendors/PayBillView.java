@@ -125,7 +125,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			amountToVendor.setAmount(totalPayment - tdsTotal);
 			tdsPayableAmount.setAmount(tdsTotal);
 			amountLabelForeign.setAmount(totalPayment);
-			amountLableBase.setAmount(toBeSetAmount);
+			amountLableBase.setAmount(getAmountInBaseCurrency(toBeSetAmount));
 
 			if (payFromAccount != null) {
 				if (isInViewMode()) {
