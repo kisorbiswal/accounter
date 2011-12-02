@@ -1289,10 +1289,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		boolean isSelected = transactionsTree.validateTree();
 		if (!isSelected) {
-			if (transaction.getTotal() <= 0) {
-				result.addError(this, Accounter.messages()
-						.transactiontotalcannotbe0orlessthan0());
-			}
+			// if (transaction.getTotal() <= 0) {
+			// result.addError(this, Accounter.messages()
+			// .transactiontotalcannotbe0orlessthan0());
+			// }
 			result.add(customerTransactionTable.validateGrid());
 		} else {
 			boolean hasTransactionItems = false;

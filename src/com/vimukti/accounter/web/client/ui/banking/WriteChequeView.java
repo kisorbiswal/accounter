@@ -533,10 +533,10 @@ public class WriteChequeView extends
 			result.add(transactionVendorAccountTable.validateGrid());
 		}
 
-		if (!validateAmount()) {
-			result.addError(memoTextAreaItem,
-					messages.transactiontotalcannotbe0orlessthan0());
-		}
+		// if (!validateAmount()) {
+		// result.addError(memoTextAreaItem,
+		// messages.transactiontotalcannotbe0orlessthan0());
+		// }
 
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {

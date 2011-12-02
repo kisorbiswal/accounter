@@ -63,7 +63,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.TransactionHistoryTable;
-import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
@@ -75,7 +74,6 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.customers.CustomerPrePaymentView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
-import com.vimukti.accounter.web.client.ui.customers.InvoiceView;
 import com.vimukti.accounter.web.client.ui.customers.RecurringTransactionDialog;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -146,7 +144,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	AmountLabel foreignCurrencyamountLabel;
 
-	private Event event;
 	private boolean isMenuRequired = true;
 
 	protected List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
@@ -989,19 +986,19 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// 3. If(accountingType == UK)
 		// if(taxCodeName == "New S" && transactionDate is before 4 Jan 2011)
 		// ERROR
-		if (transaction != null)
-			if (this.transaction.getTotal() <= 0) {
-				if (transaction instanceof ClientPayBill) {
-					result.addError(this, messages
-							.valueCannotBe0orlessthan0(messages.amount()));
-				} else {
-					if (!(this instanceof CustomerRefundView)
-							&& !(this instanceof WriteChequeView)
-							&& !(this instanceof InvoiceView))
-						result.addError(this,
-								messages.transactiontotalcannotbe0orlessthan0());
-				}
-			}
+		// if (transaction != null)
+		// if (this.transaction.getTotal() <= 0) {
+		// if (transaction instanceof ClientPayBill) {
+		// result.addError(this, messages
+		// .valueCannotBe0orlessthan0(messages.amount()));
+		// } else {
+		// if (!(this instanceof CustomerRefundView)
+		// && !(this instanceof WriteChequeView)
+		// && !(this instanceof InvoiceView)&&transaction.get)
+		// result.addError(this,
+		// messages.transactiontotalcannotbe0orlessthan0());
+		// }
+		// }
 		isValidCurrencyFactor(result);
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()
@@ -1010,12 +1007,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			result.addWarning(classListCombo, AccounterWarningType.EMPTY_CLASS);
 		}
 
-		if (transactionItems != null) {
+		if (transactionItems != null && transactionItems.size() != 0) {
 			for (ClientTransactionItem transactionItem : transactionItems) {
 
 				if (transactionItem != null) {
 					if (transactionItem.getLineTotal() != null) {
-						if (transactionItem.getLineTotal() <= 0) {
+						if (transactionItem.getLineTotal() <= 0
+								&& transactionItem.getDiscount() != 100) {
 							result.addError(
 									"TransactionItem"
 											+ transactionItem.getAccount()
@@ -1037,6 +1035,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					// TODO
 				}
 			}
+		} else {
+			result.addError("TransactionItem",
+					messages.thereAreNoTransactionItemsToSave());
 		}
 
 		return result;

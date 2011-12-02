@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.ISaveCallback;
 import com.vimukti.accounter.web.client.ui.ImageButton;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class VoidButton extends ImageButton {
 	private AbstractBaseView<?> view;

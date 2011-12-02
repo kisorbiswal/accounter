@@ -11,7 +11,7 @@ public abstract class AbstractView<T> extends VerticalPanel {
 
 	abstract public void init();
 
-	private Action action;
+	private Action<?> action;
 
 	/**
 	 * Flag, to Determine, whether in Edit Mode or Create mode.
@@ -36,11 +36,11 @@ public abstract class AbstractView<T> extends VerticalPanel {
 		getManager().closeCurrentView();
 	}
 
-	public void setAction(Action action) {
+	public void setAction(Action<?> action) {
 		this.action = action;
 	}
 
-	public Action getAction() {
+	public Action<?> getAction() {
 		return action;
 	}
 
@@ -125,5 +125,5 @@ public abstract class AbstractView<T> extends VerticalPanel {
 		super.onAttach();
 		setFocus();
 	}
-	
+
 }
