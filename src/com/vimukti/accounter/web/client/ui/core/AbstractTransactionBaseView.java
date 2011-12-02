@@ -1006,40 +1006,41 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				&& this.transaction.getAccounterClass() == null) {
 			result.addWarning(classListCombo, AccounterWarningType.EMPTY_CLASS);
 		}
+		if (!(this instanceof NewVendorPaymentView
+				|| this instanceof CustomerPrePaymentView || this instanceof CustomerRefundView)) {
+			if (transactionItems != null && transactionItems.size() != 0) {
+				for (ClientTransactionItem transactionItem : transactionItems) {
 
-		if (transactionItems != null && transactionItems.size() != 0) {
-			for (ClientTransactionItem transactionItem : transactionItems) {
-
-				if (transactionItem != null) {
-					if (transactionItem.getLineTotal() != null) {
-						if (transactionItem.getLineTotal() <= 0
-								&& transactionItem.getDiscount() != 100) {
-							result.addError(
-									"TransactionItem"
-											+ transactionItem.getAccount()
-											+ transactionItem.getAccount(),
-									messages.transactionitemtotalcannotbe0orlessthan0());
+					if (transactionItem != null) {
+						if (transactionItem.getLineTotal() != null) {
+							if (transactionItem.getLineTotal() <= 0
+									&& transactionItem.getDiscount() != 100) {
+								result.addError(
+										"TransactionItem"
+												+ transactionItem.getAccount()
+												+ transactionItem.getAccount(),
+										messages.transactionitemtotalcannotbe0orlessthan0());
+							}
+						} else {
+							result.addError("TransactionItem", messages
+									.pleaseEnter(messages.transactionItem()));
 						}
 					} else {
 						result.addError("TransactionItem", messages
 								.pleaseEnter(messages.transactionItem()));
 					}
-				} else {
-					result.addError("TransactionItem",
-							messages.pleaseEnter(messages.transactionItem()));
+					if (getPreferences().isClassTrackingEnabled()
+							&& !getPreferences().isClassOnePerTransaction()
+							&& getPreferences().isWarnOnEmptyClass()
+							&& transactionItem.getClientAccounterClass() == null) {
+						// TODO
+					}
 				}
-				if (getPreferences().isClassTrackingEnabled()
-						&& !getPreferences().isClassOnePerTransaction()
-						&& getPreferences().isWarnOnEmptyClass()
-						&& transactionItem.getClientAccounterClass() == null) {
-					// TODO
-				}
+			} else {
+				result.addError("TransactionItem",
+						messages.thereAreNoTransactionItemsToSave());
 			}
-		} else {
-			result.addError("TransactionItem",
-					messages.thereAreNoTransactionItemsToSave());
 		}
-
 		return result;
 
 	}
