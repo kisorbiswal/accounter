@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.SalesTaxGroupDialog;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -19,49 +18,45 @@ import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 
 public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 	RadioGroupItem typeRadio;
-	private final String TAXGROUP = Accounter.constants().taxGroup();
-	private final String TAXITEM = Accounter.constants().taxItem();
-	private final String GROUP = Accounter.constants().group();
+	private final String TAXGROUP = Accounter.messages().taxGroup();
+	private final String TAXITEM = Accounter.messages().taxItem();
+	private final String GROUP = Accounter.messages().group();
 	private FormItem actionSource;
-	// private ViewConfiguration configuration;
-	private AccounterConstants vendorsConstants = Accounter.constants();
 
+	// private ViewConfiguration configuration;
 	public TaxDialog() {
-		super(Accounter.constants().tax(), Accounter.constants()
-				.selectOneType());
-		setText(Accounter.constants().tax());
+		super(Accounter.messages().tax(), Accounter.messages().selectOneType());
+		setText(Accounter.messages().tax());
 		createControls();
 		center();
 	}
 
 	public <T> TaxDialog(AccounterAsyncCallback<T> callBack) {
-		super(Accounter.constants().tax(), Accounter.constants()
-				.selectOneType());
-		setText(Accounter.constants().tax());
+		super(Accounter.messages().tax(), Accounter.messages().selectOneType());
+		setText(Accounter.messages().tax());
 		createControls();
 		center();
 	}
 
 	public <T> TaxDialog(AccounterAsyncCallback<T> callBack,
 			FormItem actionSource) {
-		super(Accounter.constants().tax(), Accounter.constants()
-				.selectOneType());
+		super(Accounter.messages().tax(), Accounter.messages().selectOneType());
 		this.actionSource = actionSource;
-		setText(Accounter.constants().tax());
+		setText(Accounter.messages().tax());
 		createControls();
 		center();
 	}
 
 	private void createControls() {
 		mainPanel.setSpacing(3);
-		typeRadio = new RadioGroupItem(Accounter.constants().tax(), GROUP);
+		typeRadio = new RadioGroupItem(Accounter.messages().tax(), GROUP);
 		typeRadio.setShowTitle(false);
 		typeRadio.setValue(TAXGROUP, TAXITEM);
 		DynamicForm typeForm = new DynamicForm();
 		typeForm.setWidth("100%");
 		typeForm.setIsGroup(true);
 
-		typeForm.setGroupTitle(vendorsConstants.selectHowYouPaidForExpense());
+		typeForm.setGroupTitle(messages.selectHowYouPaidForExpense());
 		typeForm.setFields(typeRadio);
 
 		VerticalPanel mainVLay = new VerticalPanel();
@@ -85,7 +80,7 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 		ValidationResult result = new ValidationResult();
 		String radio = typeRadio.getValue().toString();
 		if (!radio.equals(TAXGROUP) && !radio.equals(TAXITEM)) {
-			result.addError(this, Accounter.constants().pleaseSelectTaxType());
+			result.addError(this, Accounter.messages().pleaseSelectTaxType());
 		}
 		return result;
 	}
@@ -97,9 +92,8 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 
 			if (radio.equals(TAXGROUP)) {
 				// try {
-				SalesTaxGroupDialog dialog = new SalesTaxGroupDialog(
-						constants.taxGroup(), constants.toAddOrRemoveTaxCode(),
-						null);
+				SalesTaxGroupDialog dialog = new SalesTaxGroupDialog(messages
+						.taxGroup(), messages.toAddOrRemoveTaxCode(), null);
 				dialog.setCallback(new ActionCallback<ClientTAXGroup>() {
 
 					@Override

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.server.managers;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -16,21 +17,25 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.CashPurchase;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
 import com.vimukti.accounter.web.client.core.Lists.OverDueInvoicesList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 
 public class DashboardManager extends Manager {
 
-	public ArrayList<Double> getBankingChartValues(long accountNo,
+	public ArrayList<Double> getBankingChartValues(long accountId,
 			long companyId) {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -63,7 +68,7 @@ public class DashboardManager extends Manager {
 		Query query = session
 				.getNamedQuery("getPointsForBankAccount")
 				.setLong("companyId", companyId)
-				.setParameter("accountNo", accountNo)
+				.setParameter("accountId", accountId)
 				.setParameter("previousThreeDaysBackDateCal",
 						new FinanceDate(dateCal[0].getTime()).getDate())
 				.setParameter("previousTwoDaysBackDateCal",
@@ -118,6 +123,42 @@ public class DashboardManager extends Manager {
 		}
 
 		return new ArrayList<CreditCardCharge>(list);
+	}
+
+	public List<ClientPayee> getWhoIOwe(long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		List<BigInteger> vendors = session.getNamedQuery("getWhoIOweVendors")
+				.setParameter("companyId", companyId).list();
+		List<ClientPayee> clientPayees = new ArrayList<ClientPayee>();
+		ClientCompany company;
+		try {
+			company = new ClientConvertUtil().toClientObject(
+					getCompany(companyId), ClientCompany.class);
+			for (BigInteger vendorId : vendors) {
+				clientPayees.add(company.getVendor(vendorId.longValue()));
+			}
+		} catch (AccounterException e) {
+		}
+		return clientPayees;
+	}
+
+	public List<ClientPayee> getWhoOwesMe(long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		List<BigInteger> customers = session
+				.getNamedQuery("getWhoOwesMeCustomers")
+				.setParameter("companyId", companyId).list();
+		List<ClientPayee> clientPayees = new ArrayList<ClientPayee>();
+		ClientCompany company;
+		try {
+			company = new ClientConvertUtil().toClientObject(
+					getCompany(companyId), ClientCompany.class);
+
+			for (BigInteger customerId : customers) {
+				clientPayees.add(company.getCustomer(customerId.longValue()));
+			}
+		} catch (AccounterException e) {
+		}
+		return clientPayees;
 	}
 
 	public ArrayList<OverDueInvoicesList> getOverDueInvoices(long companyId)
@@ -262,28 +303,35 @@ public class DashboardManager extends Manager {
 
 	public ArrayList<Double> getExpensePortletValues(long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = null;
 
-		FinanceDate currentDate = new FinanceDate();
-
-		query = session.getNamedQuery("getExpenseTotalAmounts").setLong(
-				"companyId", companyId);
-
+		Double cashExpenseTotal = (Double) session
+				.getNamedQuery("getCashExpenseTotal")
+				.setLong("companyId", companyId).uniqueResult();
+		Double creditCardExpenseTotal = (Double) session
+				.getNamedQuery("getCreditCardExpenseTotal")
+				.setLong("companyId", companyId).uniqueResult();
+		Double employeeExpenseTotal = (Double) session
+				.getNamedQuery("getEmployeeExpenseTotal")
+				.setLong("companyId", companyId).uniqueResult();
+		double allExpensesTotal = (cashExpenseTotal != null ? cashExpenseTotal
+				: 0)
+				+ (creditCardExpenseTotal != null ? creditCardExpenseTotal : 0)
+				+ (employeeExpenseTotal != null ? employeeExpenseTotal : 0);
 		List<Double> gPoints = new ArrayList<Double>();
-		List list = query.list();
-		if (list != null) {
-			Object[] object = null;
-			Iterator iterator = list.iterator();
+		// List list = query.list();
+		// if (list != null) {
+		// Object[] object = null;
+		// Iterator iterator = list.iterator();
+		//
+		// while (iterator.hasNext()) {
+		// object = (Object[]) iterator.next();
 
-			while (iterator.hasNext()) {
-				object = (Object[]) iterator.next();
-
-				gPoints.add(object[2] == null ? 0 : (Double) object[2]);
-				gPoints.add(object[3] == null ? 0 : (Double) object[3]);
-				gPoints.add(object[4] == null ? 0 : (Double) object[4]);
-				gPoints.add(object[5] == null ? 0 : (Double) object[5]);
-			}
-		}
+		gPoints.add(cashExpenseTotal != null ? cashExpenseTotal : 0);
+		gPoints.add(creditCardExpenseTotal != null ? creditCardExpenseTotal : 0);
+		gPoints.add(employeeExpenseTotal != null ? employeeExpenseTotal : 0);
+		gPoints.add(allExpensesTotal);
+		// }
+		// }
 		return new ArrayList<Double>(gPoints);
 	}
 
@@ -325,10 +373,10 @@ public class DashboardManager extends Manager {
 	}
 
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
-			long accountNo, long companyId) throws DAOException {
+			long accountId, long companyId) throws DAOException {
 
 		if (chartType == GraphChart.BANK_ACCOUNT_CHART_TYPE) {
-			return getBankingChartValues(accountNo, companyId);
+			return getBankingChartValues(accountId, companyId);
 		} else if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE) {
 			return getMoneyInChartValues(companyId);
 		} else if (chartType == GraphChart.ACCOUNTS_PAYABLE_CHART_TYPE) {

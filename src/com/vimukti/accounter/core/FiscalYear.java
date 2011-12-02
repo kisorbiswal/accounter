@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.services.SessionUtils;
@@ -175,7 +176,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 		this.isOnSaveProccessed = true;
 		// this.setPreviousStartDate(this.getStartDate());
 		this.setStatus(FiscalYear.STATUS_OPEN);
-		Utility.updateCurrentFiscalYear();
+		Utility.updateCurrentFiscalYear(getCompany());
 		onUpdate(session);
 		return false;
 	}
@@ -239,10 +240,10 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 				// One Journal Entry for this closing Fiscal Year.
 				// Journal Entries for Income and Expenses Accounts for the
 				// above amount adjustments
-				JournalEntry journalEntry = new JournalEntry(this, netIncome,
-						accountTransactionList, nextTransactionNumber,
-						JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
-				session.save(journalEntry);
+				// JournalEntry journalEntry = new JournalEntry(this, netIncome,
+				// accountTransactionList, nextTransactionNumber,
+				// JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
+				// session.save(journalEntry);
 
 				List<AccountTransactionByAccount> cashBasisAccountEntries = new ArrayList<AccountTransactionByAccount>();
 				for (AccountTransactionByAccount accountTransactionByAccount : accountTransactionList) {
@@ -261,19 +262,19 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 
 				if (cashBasisAccountEntries.size() > 0) {
 
-					JournalEntry cashBasisJournalEntry = new JournalEntry(
-							this,
-							cashBasisAccountEntries,
-							NumberUtils
-									.getStringwithIncreamentedDigit(nextTransactionNumber),
-							JournalEntry.TYPE_CASH_BASIS_JOURNAL_ENTRY);
-					session.save(cashBasisJournalEntry);
+					// JournalEntry cashBasisJournalEntry = new JournalEntry(
+					// this,
+					// cashBasisAccountEntries,
+					// NumberUtils
+					// .getStringwithIncreamentedDigit(nextTransactionNumber),
+					// JournalEntry.TYPE_CASH_BASIS_JOURNAL_ENTRY);
+					// session.save(cashBasisJournalEntry);
 				}
 
 			}
 		} else if (this.getPreviousStartDate() != null
 				&& this.getStartDate().equals(this.getPreviousStartDate())) {
-			session.saveOrUpdate(this);
+//			session.saveOrUpdate(this);
 		} else if ((this.getPreviousStartDate() != null && !this.getStartDate()
 				.equals(this.getPreviousStartDate()))
 				|| this.getPreviousStartDate() == null) {
@@ -285,7 +286,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 				session.saveOrUpdate(company);
 				this.setEndDate(getEndDateForStartDate(this.startDate.getDate()));
 				checkIsCurrentFY(this);
-				session.saveOrUpdate(this);
+//				session.saveOrUpdate(this);
 				addOrUpdateFiscalYears(this);
 			}
 		}
@@ -386,7 +387,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 		// }
 		// }
 		this.setPreviousStartDate(this.getStartDate());
-		Utility.updateCurrentFiscalYear();
+		Utility.updateCurrentFiscalYear(getCompany());
 		ChangeTracker.put(this);
 		return false;
 	}
@@ -542,5 +543,11 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 			fiscalYear.setIsCurrentFiscalYear(true);
 		else
 			fiscalYear.setIsCurrentFiscalYear(false);
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

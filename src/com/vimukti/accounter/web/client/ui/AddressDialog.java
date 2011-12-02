@@ -34,7 +34,7 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 	public AddressDialog(String title, String description,
 			final TextAreaItem textAreaItem, final String addressType,
 			final LinkedHashMap<Integer, ClientAddress> allAddresses) {
-		super(Accounter.constants().address(), "");
+		super(Accounter.messages().address(), "");
 		this.addressType = addressType;
 		this.allAddresses = allAddresses;
 		createControls(textAreaItem, allAddresses);
@@ -49,38 +49,23 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 		if (allAddresses != null) {
 			add = allAddresses.get(UIUtils.getAddressType(addressType));
 		}
-		// final TextItem street = new TextItem(Accounter
-		// .constants().streetName());
-		address1 = new TextItem(Accounter.constants().address1());
+		address1 = new TextItem(Accounter.messages().address1());
 		address1.setHelpInformation(true);
 
-		address2 = new TextItem(Accounter.constants().address2());
+		address2 = new TextItem(Accounter.messages().address2());
 		address2.setHelpInformation(true);
 
-		city = new TextItem(Accounter.constants().city());
+		city = new TextItem(Accounter.messages().city());
 		city.setHelpInformation(true);
 
-		state = new TextItem(Accounter.constants().state());
+		state = new TextItem(Accounter.messages().state());
 		state.setHelpInformation(true);
 
-		country = new TextItem(Accounter.constants().country());
+		country = new TextItem(Accounter.messages().country());
 		country.setHelpInformation(true);
 
-		zip = new TextItem(Accounter.constants().postalCode());
+		zip = new TextItem(Accounter.messages().postalCode());
 		zip.setHelpInformation(true);
-		// country.setWidth(100);
-
-		// country.setValueMap(Accounter.constants().uk(),
-		// Accounter.constants().india(),
-		// Accounter.constants().us());
-		// Iterator itr=countryList.iterator();
-		// while(itr.hasNext())
-		// // country.setValue(itr.next());
-		// String[] countryList = (String[]) getCountryList().toArray();
-		// country.setCountryList();
-
-		// country.setValueMap(getCountryList());
-		// country.setDefaultValue(Accounter.constants().UK());
 
 		if (add != null) {
 			if (add.getAddress1() != null)
@@ -110,7 +95,7 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 		v1.setWidth("100%");
 
 		setBodyLayout(v1);
-
+		setAddressToTextAread(new ValidationResult());
 		center();
 
 	}
@@ -145,26 +130,26 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 
 	public String[] getCountryList() {
 		// List list = new ArrayList();
-		String[] list = { Accounter.constants().australia(),
-				Accounter.constants().belgium(),
-				Accounter.constants().canada(), Accounter.constants().cyprus(),
-				Accounter.constants().france(),
-				Accounter.constants().germany(),
-				Accounter.constants().greece(), Accounter.constants().india(),
-				Accounter.constants().ireland(), Accounter.constants().italy(),
-				Accounter.constants().kenya(), Accounter.constants().malta(),
-				Accounter.constants().mauritius(),
-				Accounter.constants().mozabique(),
-				Accounter.constants().netherlands(),
-				Accounter.constants().newZeland(),
-				Accounter.constants().nigeria(),
-				Accounter.constants().pakistan(),
-				Accounter.constants().portugal(),
-				Accounter.constants().southAfrica(),
-				Accounter.constants().spain(),
-				Accounter.constants().switzerland(),
-				Accounter.constants().thailand(), Accounter.constants().uk(),
-				Accounter.constants().usa(), Accounter.constants().others() };
+		String[] list = { Accounter.messages().australia(),
+				Accounter.messages().belgium(),
+				Accounter.messages().canada(), Accounter.messages().cyprus(),
+				Accounter.messages().france(),
+				Accounter.messages().germany(),
+				Accounter.messages().greece(), Accounter.messages().india(),
+				Accounter.messages().ireland(), Accounter.messages().italy(),
+				Accounter.messages().kenya(), Accounter.messages().malta(),
+				Accounter.messages().mauritius(),
+				Accounter.messages().mozabique(),
+				Accounter.messages().netherlands(),
+				Accounter.messages().newZeland(),
+				Accounter.messages().nigeria(),
+				Accounter.messages().pakistan(),
+				Accounter.messages().portugal(),
+				Accounter.messages().southAfrica(),
+				Accounter.messages().spain(),
+				Accounter.messages().switzerland(),
+				Accounter.messages().thailand(), Accounter.messages().uk(),
+				Accounter.messages().usa(), Accounter.messages().others() };
 
 		return list;
 	}
@@ -172,6 +157,11 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
+		setAddressToTextAread(result);
+		return result;
+	}
+
+	private void setAddressToTextAread(ValidationResult result) {
 		String toBeSet = "";
 		int isEmptyCounter = 0;
 
@@ -221,9 +211,9 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 			textAreaItem.setValue(toBeSet);
 			allAddresses.put(UIUtils.getAddressType(addressType), value);
 		} else {
-			result.addError(this, Accounter.constants().shouldNotEmpty());
+			textAreaItem.setValue("");
+			result.addError(this, Accounter.messages().shouldNotEmpty());
 		}
-		return result;
 	}
 
 	@Override
@@ -233,7 +223,7 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 
 	@Override
 	public void setFocus() {
-	address1.setFocus();
+		address1.setFocus();
 
 	}
 }

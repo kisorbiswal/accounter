@@ -1,9 +1,11 @@
 package com.vimukti.accounter.core;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -92,7 +94,7 @@ public class PayExpense extends Transaction {
 		this.isOnSaveProccessed = true;
 		super.onSave(session);
 		Account accountPayable = getCompany().getAccountsPayableAccount();
-		accountPayable.updateCurrentBalance(this, -this.total);
+		accountPayable.updateCurrentBalance(this, -this.total, currencyFactor);
 		session.update(accountPayable);
 		accountPayable.onUpdate(session);
 
@@ -125,6 +127,19 @@ public class PayExpense extends Transaction {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
+		map.put(getCompany().getAccountsPayableAccount(), total);
+		return map;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

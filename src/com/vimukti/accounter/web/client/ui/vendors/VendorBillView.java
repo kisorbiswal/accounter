@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -19,6 +18,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemReceipt;
@@ -34,20 +34,16 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterErrors;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
-import com.vimukti.accounter.web.client.ui.combo.TaxItemCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
-import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -59,27 +55,18 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  */
 public class VendorBillView extends
 		AbstractVendorTransactionView<ClientEnterBill> {
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
-			.constants();
 	private PaymentTermsCombo paymentTermsCombo;
 	private ClientPaymentTerms selectedPaymentTerm;
 	private DateField dueDateItem;
 
-	private CheckboxItem euVATexempVendor;
-
-	private CheckboxItem showPricesWithVAT;
 	private AmountLabel netAmount;
 
-	private AmountField total;
-
-	private DynamicForm vendorForm, vatForm;
-	private LinkItem purchaseLabel;
+	private DynamicForm vendorForm;
 	private VendorBillListDialog dialog;
 	private Double balanceDue = 0.0;
 
 	private long selectedPurchaseOrder;
 	private long selectedItemReceipt;
-	private TaxItemCombo vendorTDSTaxCode;
 
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientTransaction> selectedOrdersAndItemReceipts;
@@ -87,7 +74,11 @@ public class VendorBillView extends
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
-	private DynamicForm totalForm = new DynamicForm();
+	private final DynamicForm totalForm = new DynamicForm();
+	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+
+	// private WarehouseAllocationTable inventoryTransactionTable;
+	// private DisclosurePanel inventoryDisclosurePanel;
 
 	private VendorBillView() {
 		super(ClientTransaction.TYPE_ENTER_BILL);
@@ -112,7 +103,6 @@ public class VendorBillView extends
 		// phoneSelect.setValueMap();
 		setMemoTextAreaItem("");
 		// setRefText("");
-
 	}
 
 	@Override
@@ -121,7 +111,22 @@ public class VendorBillView extends
 		if (transaction == null) {
 			setData(new ClientEnterBill());
 		} else {
-
+			if (currencyWidget != null) {
+				if (transaction.getCurrency() > 1) {
+					this.currency = getCompany().getCurrency(
+							transaction.getCurrency());
+				} else {
+					this.currency = getCompany().getPrimaryCurrency();
+				}
+				this.currencyFactor = transaction.getCurrencyFactor();
+				if (this.currency != null) {
+					currencyWidget.setSelectedCurrency(this.currency);
+				}
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
+			}
 			paymentTermsCombo.setValue(transaction.getPaymentTerm());
 			dueDateItem
 					.setValue(new ClientFinanceDate(transaction.getDueDate()));
@@ -145,12 +150,9 @@ public class VendorBillView extends
 
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getNetAmount()));
-					vatTotalNonEditableText
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+					netAmount.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -158,19 +160,18 @@ public class VendorBillView extends
 						this.taxCodeSelect.setComboItem(taxCode);
 					}
 				}
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				}
 			}
 
 			transactionTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()));
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
-			balanceDueNonEditableText
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getBalanceDue()));
+			balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
+			// balanceDueNonEditableText.setCurrency(getTransactionCurrency());
 
-			if (vatinclusiveCheck != null) {
-				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
-			}
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
 							transaction.getDueDate()) : getTransactionDate());
@@ -184,13 +185,23 @@ public class VendorBillView extends
 		super.initTransactionViewData();
 		initPaymentTerms();
 
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
+
+		if (isMultiCurrencyEnabled()) {
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initBalanceDue() {
 
 		if (isInViewMode()) {
 
-			setBalanceDue(((ClientEnterBill) transaction).getBalanceDue());
+			setBalanceDue(transaction.getBalanceDue());
 
 		}
 
@@ -200,8 +211,7 @@ public class VendorBillView extends
 		if (balanceDue == null)
 			balanceDue = 0.0D;
 		this.balanceDue = balanceDue;
-		balanceDueNonEditableText
-				.setAmount(getAmountInTransactionCurrency(balanceDue));
+		balanceDueNonEditableText.setAmount(balanceDue);
 	}
 
 	public Double getBalanceDue() {
@@ -214,10 +224,9 @@ public class VendorBillView extends
 		paymentTermsCombo.initCombo(paymentTermsList);
 		paymentTermsCombo.setDisabled(isInViewMode());
 
-		if (isInViewMode()
-				&& ((ClientEnterBill) transaction).getPaymentTerm() != 0) {
+		if (isInViewMode() && transaction.getPaymentTerm() != 0) {
 			ClientPaymentTerms paymentTerm = getCompany().getPaymentTerms(
-					((ClientEnterBill) transaction).getPaymentTerm());
+					transaction.getPaymentTerm());
 			paymentTermsCombo.setComboItem(paymentTerm);
 			selectedPaymentTerm = paymentTerm;
 
@@ -248,16 +257,6 @@ public class VendorBillView extends
 
 		updatePurchaseOrderOrItemReceipt(vendor);
 
-		if (vendor.isTdsApplicable()) {
-			vendorTDSTaxCode.setSelected(vendorTDSTaxCode
-					.getDisplayName(getCompany().getTAXItem(
-							vendor.getTaxItemCode())));
-			vendorTDSTaxCode.setVisible(true);
-		} else {
-			vendorTDSTaxCode.setValue(null);
-			vendorTDSTaxCode.setVisible(false);
-		}
-
 		super.vendorSelected(vendor);
 		if (transaction == null)
 			vendorAccountTransactionTable.resetRecords();
@@ -265,25 +264,37 @@ public class VendorBillView extends
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
 		if (!(isInViewMode() && vendor.getID() == transaction.getVendor()))
 			setPaymentTermsCombo(vendor);
-		if (transaction.getID() == 0)
+		if (transaction.getID() == 0) {
 			getPurchaseOrdersAndItemReceipt();
-		long code = vendor.getTAXCode();
-		if (code == 0 && taxCodeSelect != null) {
-			code = Accounter.getCompany().getDefaultTaxCode();
-			taxCodeSelect.setComboItem(getCompany().getTAXCode(code));
 		}
-		vendorAccountTransactionTable.setTaxCode(code, false);
-		vendorItemTransactionTable.setTaxCode(code, false);
+
+		long currency = vendor.getCurrency();
+		if (currency != 0) {
+			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			currencyWidget.setSelectedCurrencyFactorInWidget(clientCurrency,
+					transactionDateItem.getDate().getDate());
+		} else {
+			ClientCurrency clientCurrency = getCompany().getPrimaryCurrency();
+			if (clientCurrency != null) {
+				currencyWidget.setSelectedCurrency(clientCurrency);
+			}
+		}
 		if (vendor.getPhoneNo() != null) {
 			phoneSelect.setValue(vendor.getPhoneNo());
 		} else {
 			phoneSelect.setValue("");
 		}
+
+		if (isMultiCurrencyEnabled()) {
+			super.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void updatePurchaseOrderOrItemReceipt(ClientVendor vendor) {
 		if (this.getVendor() != null && this.getVendor() != vendor) {
-			ClientEnterBill ent = (ClientEnterBill) this.transaction;
+			ClientEnterBill ent = this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
 				this.vendorAccountTransactionTable
@@ -344,20 +355,12 @@ public class VendorBillView extends
 	protected void createControls() {
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
-		// setTitle(UIUtils.title(Accounter.constants().vendorBill()));
 		Label lab1;
-		// if (transactionObject == null
-		// || transactionObject.getStatus() ==
-		// ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-		lab1 = new Label(Accounter.constants().enterBill());
+		lab1 = new Label(Accounter.messages().enterBill());
 
-		// else
-		// lab1 = new Label("Enter Bill(" + getTransactionStatus() + ")");
-
-		lab1.setStyleName(Accounter.constants().labelTitle());
-		// lab1.setHeight("50px");
+		lab1.setStyleName(Accounter.messages().labelTitle());
 		transactionDateItem = createTransactionDateItem();
-		transactionDateItem.setTitle(Accounter.constants().billDate());
+		transactionDateItem.setTitle(Accounter.messages().billDate());
 		transactionDateItem
 				.addDateValueChangeHandler(new DateValueChangeHandler() {
 
@@ -371,9 +374,7 @@ public class VendorBillView extends
 					}
 				});
 		transactionNumber = createTransactionNumberItem();
-		// transactionNumber.setTitle(UIUtils.getVendorString("Supplier Bill no",
-		// "Vendor Bill No"));
-		transactionNumber.setTitle(Accounter.constants().invNo());
+		transactionNumber.setTitle(Accounter.messages().invNo());
 		listforms = new ArrayList<DynamicForm>();
 
 		locationCombo = createLocationCombo();
@@ -390,15 +391,14 @@ public class VendorBillView extends
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
+		vatinclusiveCheck = getVATInclusiveCheckBox();
+
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
-		vendorTDSTaxCode = new TaxItemCombo(messages.vendorTDSCode(Global.get()
-				.Vendor()), 1);
-		vendorTDSTaxCode.setHelpInformation(true);
 
-		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
+		vendorCombo = createVendorComboItem(messages.payeeName(Global.get()
 				.Vendor()));
 		// vendorCombo.setWidth(100);
 		// purchaseLabel = new LinkItem();
@@ -425,15 +425,9 @@ public class VendorBillView extends
 			billToCombo.setDisabled(true);
 
 		vendorForm = UIUtils.form(Global.get().Vendor());
-		vendorForm.setWidth("100%");
+		// vendorForm.setWidth("100%");
 		vendorForm.setNumCols(3);
-		if (getCompany().getPreferences().isTDSEnabled()) {
-			vendorForm.setFields(vendorCombo, emptylabel, contactCombo,
-					emptylabel, vendorTDSTaxCode);
-		} else {
-			vendorForm.setFields(vendorCombo, emptylabel, contactCombo,
-					emptylabel);
-		}
+		vendorForm.setFields(vendorCombo, emptylabel, contactCombo, emptylabel);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -441,29 +435,28 @@ public class VendorBillView extends
 			vendorForm.setFields(classListCombo);
 		}
 
-		vendorTDSTaxCode.setVisible(false);
 		// formItems.add(vendorCombo);
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
 
-		phoneSelect = new TextItem(Accounter.constants().phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+		phoneSelect = new TextItem(Accounter.messages().phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
-		phoneSelect.setWidth(80);
+		// phoneSelect.setWidth(80);
 		phoneSelect.setDisabled(false);
 		// formItems.add(phoneSelect);
 
-		dueDateItem = new DateField(Accounter.constants().dueDate());
+		dueDateItem = new DateField(Accounter.messages().dueDate());
 		dueDateItem.setToolTip(Accounter.messages().selectDateUntilDue(
 				this.getAction().getViewName()));
 		dueDateItem.setHelpInformation(true);
 		dueDateItem.setEnteredDate(getTransactionDate());
 		dueDateItem.setColSpan(1);
-		dueDateItem.setTitle(Accounter.constants().dueDate());
+		dueDateItem.setTitle(Accounter.messages().dueDate());
 		dueDateItem.setDisabled(isInViewMode());
 
-		paymentTermsCombo = new PaymentTermsCombo(Accounter.constants()
+		paymentTermsCombo = new PaymentTermsCombo(Accounter.messages()
 				.paymentTerms());
 		paymentTermsCombo.setHelpInformation(true);
 		// paymentTermsCombo.setWidth(80);
@@ -471,6 +464,7 @@ public class VendorBillView extends
 		paymentTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
 
+					@Override
 					public void selectedComboBoxItem(
 							ClientPaymentTerms selectItem) {
 
@@ -484,40 +478,50 @@ public class VendorBillView extends
 		// deliveryDateItem.setWidth(100);
 		taxCodeSelect = createTaxCodeSelectItem();
 
-		DynamicForm termsForm = UIUtils.form(Accounter.constants().terms());
-		termsForm.setStyleName(Accounter.constants().venderForm());
-		termsForm.setWidth("75%");
+		DynamicForm termsForm = UIUtils.form(Accounter.messages().terms());
+		termsForm.setStyleName(Accounter.messages().venderForm());
+		// termsForm.setWidth("75%");
 		// termsForm.setFields(phoneSelect, paymentTermsCombo);
 
 		DynamicForm dateform = new DynamicForm();
-		dateform.setWidth("100%");
+		// dateform.setWidth("100%");
 		dateform.setNumCols(2);
 		if (locationTrackingEnabled)
 			dateform.setFields(locationCombo);
 		dateform.setItems(phoneSelect, paymentTermsCombo, dueDateItem,
 				deliveryDateItem);
-		dateform.getCellFormatter().setWidth(0, 0, "200px");
-		netAmount = new AmountLabel(Accounter.constants().netAmount());
+		// dateform.getCellFormatter().setWidth(0, 0, "200px");
+		netAmount = new AmountLabel(Accounter.messages().netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
+				.getPrimaryCurrency());
+
+		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
+				.getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		balanceDueNonEditableText = new AmountField(Accounter.constants()
-				.balanceDue(), this);
+		// balanceDueNonEditableText = new AmountField(Accounter.messages()
+		// .balanceDue(), this, getBaseCurrency());
+		balanceDueNonEditableText = new AmountLabel(Accounter.messages()
+				.balanceDue());
 		balanceDueNonEditableText.setHelpInformation(true);
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(), this) {
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(), this,
+				isCustomerAllowedToAdd()) {
 
 			@Override
 			protected void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				VendorBillView.this.updateNonEditableItems();
 			}
 
@@ -525,8 +529,12 @@ public class VendorBillView extends
 			public boolean isShowPriceWithVat() {
 				return VendorBillView.this.isShowPriceWithVat();
 			}
-		};
 
+			@Override
+			protected boolean isInViewMode() {
+				return VendorBillView.this.isInViewMode();
+			}
+		};
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
 		vendorAccountTransactionTable.getElement().getStyle()
 				.setMarginTop(10, Unit.PX);
@@ -541,8 +549,7 @@ public class VendorBillView extends
 			}
 		});
 		FlowPanel accountFlowPanel = new FlowPanel();
-		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Account");
+		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -550,16 +557,25 @@ public class VendorBillView extends
 		accountsDisclosurePanel.setWidth("100%");
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), this,
+				isCustomerAllowedToAdd()) {
 
 			@Override
 			protected void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				VendorBillView.this.updateNonEditableItems();
 			}
 
 			@Override
 			public boolean isShowPriceWithVat() {
 				return VendorBillView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return VendorBillView.this.isInViewMode();
 			}
 		};
 
@@ -576,12 +592,22 @@ public class VendorBillView extends
 		});
 
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Product/Service");
+		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 		itemsDisclosurePanel.setWidth("100%");
+		// Inventory table..
+		// inventoryTransactionTable = new WarehouseAllocationTable();
+		// inventoryTransactionTable.setDesable(isInViewMode());
+		//
+		// FlowPanel inventoryFlowPanel = new FlowPanel();
+		// inventoryDisclosurePanel = new
+		// DisclosurePanel("Warehouse Allocation");
+		// inventoryFlowPanel.add(inventoryTransactionTable);
+		// inventoryDisclosurePanel.setContent(inventoryFlowPanel);
+		// inventoryDisclosurePanel.setWidth("100%");
+		// ---Inverntory table-----
 		memoTextAreaItem = createMemoTextAreaItem();
 		// memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
@@ -597,7 +623,7 @@ public class VendorBillView extends
 		// linksText.setShowTitle(false);
 		// linksText.setDisabled(isEdit);
 		// formItems.add(linksText);
-
+		currencyWidget = createCurrencyFactorWidget();
 		DynamicForm tdsForm = new DynamicForm();
 		tdsForm.setWidth("100%");
 		tdsForm.setFields();
@@ -620,20 +646,23 @@ public class VendorBillView extends
 		// + "px");
 		HorizontalPanel taxPanel = new HorizontalPanel();
 		taxPanel.setWidth("100%");
+
 		if (isTrackTax() && isTrackPaidTax()) {
 			if (!isTaxPerDetailLine()) {
 				DynamicForm form = new DynamicForm();
-				form.setFields(taxCodeSelect);
+				form.setFields(taxCodeSelect, vatinclusiveCheck);
 				taxPanel.add(form);
 				taxPanel.setCellHorizontalAlignment(form,
 						HasHorizontalAlignment.ALIGN_LEFT);
 			}
-			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText);
+			totalForm.setFields(netAmount, vatTotalNonEditableText);
 
-		} else {
-			totalForm.setFields(transactionTotalNonEditableText);
 		}
+		totalForm.setFields(transactionTotalNonEditableText);
+		if (isMultiCurrencyEnabled()) {
+			totalForm.setFields(foreignCurrencyamountLabel);
+		}
+
 		taxPanel.add(totalForm);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
@@ -642,21 +671,32 @@ public class VendorBillView extends
 		if (this.isInViewMode())
 			totalForm.setFields(balanceDueNonEditableText);
 		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+		// leftVLay.setWidth("100%");
 		leftVLay.add(vendorForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
-		rightVLay.setWidth("100%");
+		rightVLay.setHorizontalAlignment(ALIGN_LEFT);
+		// rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
 		rightVLay.add(dateform);
+		rightVLay.setCellHorizontalAlignment(dateform,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+		if (isMultiCurrencyEnabled()) {
+			rightVLay.add(currencyWidget);
+			rightVLay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
+			currencyWidget.setDisabled(isInViewMode());
+		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "45%");
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+
 		topHLay.getElement().getStyle().setPaddingTop(20, Unit.PX);
 		topHLay.getElement().getStyle().setPaddingBottom(20, Unit.PX);
 
@@ -734,16 +774,14 @@ public class VendorBillView extends
 		mainVLay.add(topHLay);
 		mainVLay.add(accountsDisclosurePanel);
 		mainVLay.add(itemsDisclosurePanel);
-		// mainVLay.add(createAddNewButton());
-		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottompanel);
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			resetFormView();
-//			vendorForm.setWidth("68%");
-//			termsForm.setWidth("100%");
-//			dateform.setWidth("100%");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// resetFormView();
+		// vendorForm.setWidth("68%");
+		// termsForm.setWidth("100%");
+		// dateform.setWidth("100%");
+		// }
 
 		this.add(mainVLay);
 		setSize("100%", "100%");
@@ -758,8 +796,29 @@ public class VendorBillView extends
 		listforms.add(memoForm);
 		listforms.add(vatCheckform);
 		listforms.add(totalForm);
-
+		if (isMultiCurrencyEnabled()) {
+			foreignCurrencyamountLabel.hide();
+		}
 		settabIndexes();
+	}
+
+	private boolean isCustomerAllowedToAdd() {
+		if (transaction != null) {
+			List<ClientTransactionItem> transactionItems = transaction
+					.getTransactionItems();
+			for (ClientTransactionItem clientTransactionItem : transactionItems) {
+				if (clientTransactionItem.isBillable()
+						|| clientTransactionItem.getCustomer() != 0) {
+					return true;
+				}
+			}
+		} else if (getPreferences()
+				.isBillableExpsesEnbldForProductandServices()
+				&& getPreferences()
+						.isProductandSerivesTrackingByCustomerEnabled()) {
+			return true;
+		}
+		return false;
 	}
 
 	private void paymentTermSelected(ClientPaymentTerms selectItem) {
@@ -777,21 +836,19 @@ public class VendorBillView extends
 		// setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
 		// selectedPaymentTerm).getDate());
 		// }
-
-		setDueDate(Utility.getPaymentTermsDate(selectedPaymentTerm).getDate());
+		ClientFinanceDate transDate = this.transactionDateItem.getEnteredDate();
+		setDueDate(Utility.getCalculatedDueDate(transDate, selectedPaymentTerm)
+				.getDate());
 	}
 
 	@Override
 	public void saveAndUpdateView() {
-
 		updateTransaction();
-
 		super.saveAndUpdateView();
-
-		saveOrUpdate((ClientEnterBill) transaction);
-
+		saveOrUpdate(transaction);
 	}
 
+	@Override
 	protected void updateTransaction() {
 		if (transaction == null)
 			return;
@@ -842,21 +899,25 @@ public class VendorBillView extends
 		if (selectedItemReceipt != 0)
 			transaction.setItemReceipt(selectedItemReceipt);
 		if (vatinclusiveCheck != null)
-			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-					.getValue());
+			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 
 		if (selectedPurchaseOrder != 0)
 			transaction.setPurchaseOrder(selectedPurchaseOrder);
 
 		if (isTrackTax()) {
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
-					.getAmount()));
+			transaction.setNetAmount(netAmount.getAmount());
 			if (vatinclusiveCheck != null)
-				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
+				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 
 		}
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 
+		// if (getCompany().getPreferences().isInventoryEnabled()
+		// && getCompany().getPreferences().iswareHouseEnabled())
+		// transaction.setWareHouseAllocations(inventoryTransactionTable
+		// .getAllRows());
 		// enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 	}
@@ -873,12 +934,13 @@ public class VendorBillView extends
 				+ vendorItemTransactionTable.getGrandTotal();
 
 		transactionTotalNonEditableText
-				.setAmount(getAmountInTransactionCurrency(grandTotal));
-		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
+				.setAmount(getAmountInBaseCurrency(grandTotal));
+
+		foreignCurrencyamountLabel.setAmount(grandTotal);
+
+		netAmount.setAmount(lineTotal);
 		if (isTrackTax()) {
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(grandTotal
-							- lineTotal));
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 
 	}
@@ -887,7 +949,7 @@ public class VendorBillView extends
 	protected void initMemoAndReference() {
 		memoTextAreaItem.setDisabled(true);
 
-		setMemoTextAreaItem(((ClientEnterBill) transaction).getMemo());
+		setMemoTextAreaItem(transaction.getMemo());
 		// setRefText(((ClientEnterBill) transactionObject).getReference());
 
 	}
@@ -904,28 +966,23 @@ public class VendorBillView extends
 		// 6. is vendor transaction grid valid?
 		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 		// result.addError(transactionDate,
-		// accounterConstants.invalidateTransactionDate());
+		// messages.invalidateTransactionDate());
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, messages.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				dueDateItem.getEnteredDate(), this.transactionDate)) {
-			result.addError(dueDateItem, Accounter.constants().the()
-					+ " "
-					+ Accounter.constants().dueDate()
-					+ " "
-					+ " "
-					+ Accounter.constants()
-							.cannotbeearlierthantransactiondate());
+			result.addError(dueDateItem, Accounter.messages().the() + " "
+					+ Accounter.messages().dueDate() + " " + " "
+					+ Accounter.messages().cannotbeearlierthantransactiondate());
 		}
 		if (getAllTransactionItems().isEmpty()) {
 			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+					messages.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -960,7 +1017,7 @@ public class VendorBillView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (getVendor() == null) {
-			Accounter.showError(Accounter.messages().pleaseSelectTheVendor(
+			Accounter.showError(Accounter.messages().pleaseSelectThePayee(
 					Global.get().Vendor()));
 		} else {
 
@@ -1128,6 +1185,7 @@ public class VendorBillView extends
 				.setAllRows(getItemTransactionItems(itemsList));
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1158,6 +1216,7 @@ public class VendorBillView extends
 
 	}
 
+	@Override
 	public void onEdit() {
 
 		balanceDueNonEditableText.setVisible(false);
@@ -1168,9 +1227,9 @@ public class VendorBillView extends
 				int errorCode = caught.getErrorCode();
 				String errorString = null;
 				if (errorCode == AccounterException.ERROR_CANT_EDIT) {
-					AccounterErrors accounterErrors = (AccounterErrors) GWT
-							.create(AccounterErrors.class);
-					errorString = accounterErrors.billPaidSoYouCantEdit();
+					errorString = messages.billPaidSoYouCantEdit();
+				} else if (errorCode == AccounterException.USED_IN_INVOICE) {
+					errorString = messages.usedinInvoiceSoYoucantEdit();
 				} else {
 					errorString = AccounterExceptions.getErrorString(errorCode);
 				}
@@ -1209,8 +1268,10 @@ public class VendorBillView extends
 		memoTextAreaItem.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
-		vendorTDSTaxCode.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
+		if (currencyWidget != null) {
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 	}
 
@@ -1231,15 +1292,15 @@ public class VendorBillView extends
 	}
 
 	private void resetFormView() {
-		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
+		// vendorForm.getCellFormatter().setWidth(0, 1, "200px");
 		// refText.setWidth("200px");
-		phoneSelect.setWidth("210px");
-		paymentTermsCombo.setWidth("210px");
+		// phoneSelect.setWidth("210px");
+		// paymentTermsCombo.setWidth("210px");
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().enterBills();
+		return Accounter.messages().enterBills();
 	}
 
 	@Override
@@ -1275,6 +1336,8 @@ public class VendorBillView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
+		vendorAccountTransactionTable.updateTotals();
+		vendorItemTransactionTable.updateTotals();
 	}
 
 	@Override
@@ -1314,4 +1377,29 @@ public class VendorBillView extends
 		vendorItemTransactionTable.setTaxCode(taxCodeSelect.getSelectedValue()
 				.getID(), true);
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
+		vendorAccountTransactionTable.updateAmountsFromGUI();
+		vendorItemTransactionTable.updateAmountsFromGUI();
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			foreignCurrencyamountLabel.hide();
+		} else {
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
 }

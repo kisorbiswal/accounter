@@ -4,13 +4,12 @@
 <head>
 <title>Features | Accounter
 </title>
-<meta content="IE=100" http-equiv="X-UA-Compatible">
+<meta content="IE=100" http-equiv="X-UA-Compatible" />
 
-
-<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="../css/vertical-tabs-styles.css?version=<%= version%>">
+<link type="text/css" href="../css/ss.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="../css/vertical-tabs-styles.css?version=<%= version%>" />
 <script type="text/javascript" src="/jscripts/vertical-tabs-script.js"></script>
 
 <script type="text/javascript">
@@ -43,7 +42,7 @@
 			<div class="menu-table">
 			   <div class="acc_logo_image">
 			       <div class="logo-image">
-					  <a href="/"><img src="/images/Accounter_logo_title.png"></a>
+					  <a href="/"><img src="/images/Accounter_logo_title.png" alt="Accounter logo" /></a>
 				   </div>
 			   </div>
 			   <div class="menu-bar-login">
@@ -76,10 +75,10 @@
 				<div class="left-side-table" id="mid-left">
 					<div class="left-side-options">
 					  <ul  class="tabContainer">
-				
+				<li>
 	    <!-- The jQuery generated tabs go here -->
 
-		</ul>			
+		</li></ul>			
 					
 					
 				</div>
@@ -103,25 +102,8 @@
 				<div class="down-test" id="down"></div>
 			<%@ include file="./footer.jsp" %>
 		</div>
-		
-		<script type="text/javascript">
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-24502570-1']);
-			_gaq.push(['_trackPageview']);
-
-			(function() {
-				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
-		</script>
-
-		<script type="text/javascript" charset="utf-8">
-			var is_ssl = ("https:" == document.location.protocol);
-			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
-			document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
-		</script>
 		 
 		</div>
+		<%@ include file="./scripts.jsp" %>
 </body>
 </html>

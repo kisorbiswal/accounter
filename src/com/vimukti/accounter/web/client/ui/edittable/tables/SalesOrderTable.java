@@ -27,7 +27,7 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 	@Override
 	protected void initColumns() {
 
-		this.addColumn(new ItemNameColumn() {
+		this.addColumn(new ItemNameColumn(isSales()) {
 
 			@Override
 			protected void setValue(ClientTransactionItem row,
@@ -48,6 +48,11 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 				};
 			}
 
+			@Override
+			protected String getDiscription(ClientItem item) {
+				return item.getSalesDescription();
+			}
+
 		});
 
 		this.addColumn(new DescriptionEditColumn());
@@ -58,7 +63,7 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 
 		this.addColumn(new TransactionDiscountColumn(currencyProvider));
 
-		this.addColumn(new TransactionTotalColumn(currencyProvider));
+		this.addColumn(new TransactionTotalColumn(currencyProvider, true));
 
 		if (getCompany().getPreferences().isTrackTax()
 				&& getCompany().getPreferences().isTaxPerDetailLine()) {
@@ -86,15 +91,16 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 			this.addColumn(new TransactionVatColumn(currencyProvider));
 		}
 
-		this.addColumn(new AmountColumn<ClientTransactionItem>(currencyProvider) {
+		this.addColumn(new AmountColumn<ClientTransactionItem>(
+				currencyProvider, false) {
 
 			@Override
-			protected double getAmount(ClientTransactionItem row) {
+			protected Double getAmount(ClientTransactionItem row) {
 				return row.getInvoiced();
 			}
 
 			@Override
-			protected void setAmount(ClientTransactionItem row, double value) {
+			protected void setAmount(ClientTransactionItem row, Double value) {
 				row.setInvoiced(value);
 			}
 
@@ -105,7 +111,7 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().invoiced();
+				return Accounter.messages().invoiced();
 			}
 
 			@Override

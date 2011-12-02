@@ -4,6 +4,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -41,7 +42,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	public VendorMergeDialog(String title, String descript) {
 		super(title, descript);
 		setWidth("650px");
-		okbtn.setText(Accounter.constants().merge());
+		okbtn.setText(Accounter.messages().merge());
 		createControls();
 		center();
 	}
@@ -59,29 +60,29 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		vendorCombo = createVendorCombo();
 		vendorCombo1 = createVendorCombo1();
 
-		vendorIDTextItem = new TextItem(Accounter.messages().vendorID(
+		vendorIDTextItem = new TextItem(Accounter.messages().payeeID(
 				Global.get().Vendor()));
 		vendorIDTextItem.setHelpInformation(true);
 
-		vendorIDTextItem1 = new TextItem(Accounter.messages().vendorID(
+		vendorIDTextItem1 = new TextItem(Accounter.messages().payeeID(
 				Global.get().Vendor()));
 		vendorIDTextItem1.setHelpInformation(true);
 		vendorIDTextItem.setDisabled(true);
 		vendorIDTextItem1.setDisabled(true);
 
-		status = new CheckboxItem(Accounter.constants().active());
+		status = new CheckboxItem(Accounter.messages().active());
 		status.setValue(false);
 
 		status.setHelpInformation(true);
 
-		status1 = new CheckboxItem(Accounter.constants().active());
+		status1 = new CheckboxItem(Accounter.messages().active());
 		status1.setValue(false);
 		status1.setHelpInformation(true);
 
-		balanceTextItem = new TextItem(Accounter.constants().balance());
+		balanceTextItem = new TextItem(Accounter.messages().balance());
 		balanceTextItem.setHelpInformation(true);
 
-		balanceTextItem1 = new TextItem(Accounter.constants().balance());
+		balanceTextItem1 = new TextItem(Accounter.messages().balance());
 		balanceTextItem1.setHelpInformation(true);
 		balanceTextItem.setDisabled(true);
 		balanceTextItem1.setDisabled(true);
@@ -99,7 +100,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private VendorCombo createVendorCombo1() {
-		vendorCombo1 = new VendorCombo(Accounter.messages().vendorTo(
+		vendorCombo1 = new VendorCombo(Accounter.messages().payeeTo(
 				Global.get().Vendor()));
 		vendorCombo1.setHelpInformation(true);
 		vendorCombo1.setRequired(true);
@@ -119,7 +120,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private VendorCombo createVendorCombo() {
-		vendorCombo = new VendorCombo(Accounter.messages().vendorFrom(
+		vendorCombo = new VendorCombo(Accounter.messages().payeeFrom(
 				Global.get().Vendor()), false);
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
@@ -155,9 +156,11 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
-		if (fromclientVendor.getID() == toClientVendor.getID()) {
-			result.addError(fromclientVendor, Accounter.messages().notMove(
-					Global.get().vendor()));
+		if (fromclientVendor != null && toClientVendor != null) {
+			if (fromclientVendor.getID() == toClientVendor.getID()) {
+				result.addError(fromclientVendor,
+						Accounter.messages().notMove(Global.get().vendor()));
+			}
 		}
 
 		result = form.validate();
@@ -170,14 +173,25 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	@Override
 	protected boolean onOK() {
 
-		if (fromclientVendor.getID() == toClientVendor.getID()) {
-			return false;
+		if (fromclientVendor != null && toClientVendor != null) {
+			if (fromclientVendor.getID() == toClientVendor.getID()) {
+				return false;
+			}
 		}
-		Accounter.createHomeService().mergeVendor(fromclientVendor,
-				toClientVendor, this);
+		ClientCurrency currency1 = getCompany().getCurrency(
+				fromclientVendor.getCurrency());
+		ClientCurrency currency2 = getCompany().getCurrency(
+				toClientVendor.getCurrency());
+		if (currency1 != currency2) {
+			Accounter
+					.showError("Currencies of the both Suppliers must be same ");
+		} else {
+			Accounter.createHomeService().mergeVendor(fromclientVendor,
+					toClientVendor, this);
 
-		return true;
-
+			return true;
+		}
+		return false;
 	}
 
 	@Override

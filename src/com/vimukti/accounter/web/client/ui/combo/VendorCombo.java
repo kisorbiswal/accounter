@@ -23,7 +23,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.addNew(Global.get().Vendor());
+		return Global.get().Vendor();
 
 	}
 
@@ -52,7 +52,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 	}
 
 	@Override
-	protected String getColumnData(ClientVendor object, int row, int col) {
+	protected String getColumnData(ClientVendor object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();
@@ -63,7 +63,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 	@Override
 	protected void selectionFaildOnClose() {
 		QuickAddDialog dialog = new QuickAddDialog(Accounter.messages()
-				.newVendor(Global.get().vendor()));
+				.newPayee(Global.get().vendor()));
 		dialog.setDefaultText(textBox.getText());
 		dialog.setListener(new QuickAddListenerImpl(this));
 		dialog.show();
@@ -87,6 +87,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 	protected ClientVendor getQuickAddData(String text) {
 		ClientVendor clientVendor = new ClientVendor();
 		clientVendor.setName(text);
+		clientVendor.setCurrency(getCompany().getPrimaryCurrency().getID());
 		clientVendor.setBalanceAsOf(new ClientFinanceDate().getDate());
 		return clientVendor;
 	}

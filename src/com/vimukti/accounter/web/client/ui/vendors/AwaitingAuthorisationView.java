@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -46,7 +45,7 @@ public class AwaitingAuthorisationView extends BaseView {
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
 
-		Button approve = new Button(Accounter.constants().approveButton());
+		Button approve = new Button(Accounter.messages().approve());
 		approve.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -63,17 +62,16 @@ public class AwaitingAuthorisationView extends BaseView {
 					// else
 					if (records.size() != grid.getSelectedRecords().size())
 						Accounter.showError(Accounter.messages()
-								.pleaseSelectPayFromAccount(
-										Global.get().Account()));
+								.pleaseSelectPayFromAccount());
 				} else {
-					Accounter.showInformation(Accounter.constants()
+					Accounter.showInformation(Accounter.messages()
 							.noRecordsToShow());
 				}
 
 			}
 		});
 
-		Button decline = new Button(Accounter.constants().declineButton());
+		Button decline = new Button(Accounter.messages().decline());
 		decline.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -86,13 +84,13 @@ public class AwaitingAuthorisationView extends BaseView {
 					updateRecords(grid.getSelectedRecords(),
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
 				} else {
-					Accounter.showInformation(Accounter.constants()
+					Accounter.showInformation(Accounter.messages()
 							.noRecordsToShow());
 				}
 			}
 		});
 
-		Button delete = new Button(Accounter.constants().delete());
+		Button delete = new Button(Accounter.messages().delete());
 		delete.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -105,7 +103,7 @@ public class AwaitingAuthorisationView extends BaseView {
 					updateRecords(grid.getSelectedRecords(),
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 				} else {
-					Accounter.showInformation(Accounter.constants()
+					Accounter.showInformation(Accounter.messages()
 							.noRecordsToShow());
 				}
 			}
@@ -229,7 +227,7 @@ public class AwaitingAuthorisationView extends BaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().awaitingAuthorisation();
+		return Accounter.messages().awaitingAuthorisation();
 	}
 
 	@Override
@@ -242,4 +240,13 @@ public class AwaitingAuthorisationView extends BaseView {
 
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

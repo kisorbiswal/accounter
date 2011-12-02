@@ -48,7 +48,7 @@ public class JettyServer {
 		// new DefaultHandler() });
 		jettyServer.setHandler(webappcontext);
 
-		if (ServerConfiguration.getMainServerDbUrl() != null) {
+		if (ServerConfiguration.getSessionDbUrl() != null) {
 			setJDBCSessionManager(webappcontext.getSessionHandler());
 		}
 
@@ -64,9 +64,9 @@ public class JettyServer {
 		// ----------JDBCSessionIdManager-----------
 		JDBCSessionIdManager idMgr = new JDBCSessionIdManager(jettyServer);
 		String hostName = ServerConfiguration.getCurrentServerDomain();
-		idMgr.setWorkerName(hostName);
+		idMgr.setWorkerName(hostName.replaceAll("\\.", "_"));
 		idMgr.setDriverInfo(System.getProperty("db.driver"),
-				ServerConfiguration.getMainServerDbUrl());
+				ServerConfiguration.getSessionDbUrl());
 		idMgr.setScavengeInterval(60);
 		jettyServer.setSessionIdManager(idMgr);
 

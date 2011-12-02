@@ -26,9 +26,9 @@
 				<g:HTML wordWrap="true" ui:field="trackOfBillsList" />
 				<g:HTML wordWrap="true" ui:field="trackOfBillsText"
 					styleName="track_question" />
-	<!-- <g:RadioButton name="time" ui:field="trackingTimeYes" styleName="employee_yesno" 
-		/> <g:RadioButton name="time" ui:field="trackingNo" styleName="employee_yesno" 
-		/> -->
+				<!-- <g:RadioButton name="time" ui:field="trackingTimeYes" styleName="employee_yesno" 
+					/> <g:RadioButton name="time" ui:field="trackingNo" styleName="employee_yesno" 
+					/> -->
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>

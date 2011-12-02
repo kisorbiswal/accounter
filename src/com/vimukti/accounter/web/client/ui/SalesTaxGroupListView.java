@@ -64,7 +64,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	public void deleteFailed(AccounterException caught) {
 		int errorCode = caught.getErrorCode();
 		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
-			Accounter.showError(AccounterExceptions.accounterErrors
+			Accounter.showError(AccounterExceptions.accounterMessages
 					.taxGroupInUse());
 			return;
 		}
@@ -77,7 +77,6 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		itemsGrid.removeAllRecords();
 	}
 
-
 	@Override
 	public void init() {
 		super.init();
@@ -85,7 +84,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	}
 
 	private void createControls() {
-		Label lab = new Label(Accounter.constants().manageSalesTaxGroup());
+		Label lab = new Label(Accounter.messages().manageSalesTaxGroup());
 		lab.addStyleName("lable-title");
 
 		bodyLayout = new HorizontalPanel();
@@ -115,7 +114,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			}
 		});
 
-		button2 = new Button(Accounter.constants().edit());
+		button2 = new Button(Accounter.messages().edit());
 		button2.setEnabled(false);
 		button2.setWidth("80px");
 		button2.addClickHandler(new ClickHandler() {
@@ -126,7 +125,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			}
 		});
 
-		button3 = new Button(Accounter.constants().remove());
+		button3 = new Button(Accounter.messages().remove());
 		button3.setEnabled(false);
 		button3.setWidth("80px");
 		button3.addClickHandler(new ClickHandler() {
@@ -191,8 +190,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 					showAddEditTaxGroup(data);
 					enableEditRemoveButtons(false);
 				} else {
-					Accounter
-							.showError(Accounter.constants().selectATaxGroup());
+					Accounter.showError(Accounter.messages().selectATaxGroup());
 					new Exception();
 				}
 			}
@@ -204,8 +202,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 					deleteObject(taxGroup);
 					enableEditRemoveButtons(false);
 				} else
-					Accounter
-							.showError(Accounter.constants().selectATaxGroup());
+					Accounter.showError(Accounter.messages().selectATaxGroup());
 
 			}
 		};
@@ -243,12 +240,12 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	public void showAddEditTaxGroup(final ClientTAXGroup taxGroup) {
 
 		if (taxGroup != null) {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.constants()
-					.taxGroup(), Accounter.constants().toAddOrRemoveTaxCode(),
+			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.messages()
+					.taxGroup(), Accounter.messages().toAddOrRemoveTaxCode(),
 					taxGroup);
 		} else {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.constants()
-					.taxGroup(), Accounter.constants().toAddOrRemoveTaxCode(),
+			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.messages()
+					.taxGroup(), Accounter.messages().toAddOrRemoveTaxCode(),
 					null);
 		}
 
@@ -264,7 +261,6 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 	}
 
-
 	protected List<ClientTAXGroup> getRecords() {
 		return getCompany().getTaxGroups();
 	}
@@ -277,7 +273,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().vatGroupList();
+		return Accounter.messages().vatGroupList();
 	}
 
 	@Override
@@ -287,7 +283,16 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }

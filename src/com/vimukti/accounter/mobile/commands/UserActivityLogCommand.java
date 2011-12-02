@@ -1,156 +1,153 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.Date;
 import java.util.List;
 
-import com.vimukti.accounter.core.Activity;
-import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.server.FinanceTool;
 
-/**
- * 
- * @author Sai Prasad N
- * 
- */
+public class UserActivityLogCommand extends NewAbstractCommand {
 
-public class UserActivityLogCommand extends AbstractTransactionCommand {
-
-	private static final String FROM_DATE = "fromdate";
-	private static final String END_DATE = "enddate";
-	private static final int ACTIVITY_LOG_TO_SHOW = 5;
+	// private static final String FROM_DATE = "fromdate";
+	// private static final String END_DATE = "enddate";
+	private int startIndex = 0;
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(FROM_DATE, true, true));
-		list.add(new Requirement(END_DATE, true, true));
 
+		list.add(new DateRequirement(FROM_DATE, getMessages().pleaseEnter(
+				getMessages().fromDate()), getMessages().fromDate(), true, true));
+
+		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
+				getMessages().toDate()), getMessages().toDate(), true, true));
+
+		list.add(new ShowListRequirement<ClientActivity>("activitylog", "", 20) {
+
+			@Override
+			protected List<ClientActivity> getLists(Context context) {
+				return getActivityList(context);
+			}
+
+			@Override
+			protected String onSelection(ClientActivity value) {
+				return null;
+			}
+
+			@Override
+			protected Record createRecord(ClientActivity value) {
+				Record record = new Record(value);
+				record.add(getMessages().date(),
+						new ClientFinanceDate(value.getTime()));
+				record.add(getMessages().userName(), value.getUserName());
+				record.add(getMessages().activity(), getActivityDataType(value));
+				record.add("Amount", value.getAmount());
+				return record;
+			}
+
+			@Override
+			protected boolean filter(ClientActivity e, String name) {
+				return e.getName().startsWith(name);
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getMessages().usersActivityLogTitle();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().noRecordsToShow();
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+			}
+		});
+	}
+
+	private List<ClientActivity> getActivityList(Context context) {
+
+		ClientFinanceDate startDate = get(FROM_DATE).getValue();
+		ClientFinanceDate endDate = get(TO_DATE).getValue();
+
+		List<ClientActivity> activities = new FinanceTool().getUserManager()
+				.getUsersActivityLog(startDate, endDate, 1, VALUES_TO_SHOW,
+						context.getCompany().getId());
+
+		startIndex += activities.size();
+
+		return activities;
 	}
 
 	@Override
-	public Result run(Context context) {
-
-		Result result = null;
-
-		result = creatOptionalResult(context);
-		return result;
-	}
-
-	private Result creatOptionalResult(Context context) {
-
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
-		}
-		selection = context.getSelection("values");
-
-		ResultList list = new ResultList("values");
-
-		Result result = fromDateRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = endDateRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		Date fromDate = get(FROM_DATE).getValue();
-		Date endDate = get(END_DATE).getValue();
-
-		result = userActivityLogList(context, fromDate, endDate);
-		if (result != null) {
-			return result;
-		}
-		return result;
-	}
-
-	private Result endDateRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement dateReq = get(END_DATE);
-		Date endDate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(END_DATE)) {
-			Date date = context.getSelection(END_DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
-			endDate = date;
-			dateReq.setValue(endDate);
-		}
-		if (selection == endDate) {
-			context.setAttribute(INPUT_ATTR, END_DATE);
-			return date(context, "Enter end Date", endDate);
-		}
-
+	protected String initObject(Context context, boolean isUpdate) {
 		return null;
 	}
 
-	private Result fromDateRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement dateReq = get(FROM_DATE);
-		Date fromDate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("fromdate")) {
-			Date date = context.getSelection(FROM_DATE);
-			if (date == null) {
-				date = context.getDate();
-			}
-			fromDate = date;
-			dateReq.setValue(fromDate);
-		}
-		if (selection == fromDate) {
-			context.setAttribute(INPUT_ATTR, FROM_DATE);
-			return date(context, "Enter From Date", fromDate);
-		}
-
+	@Override
+	protected String getWelcomeMessage() {
 		return null;
 	}
 
-	private Result userActivityLogList(Context context, Date fromDate,
-			Date endDate) {
-		Result result = context.makeResult();
-		ResultList activitiesList = new ResultList("activitylog");
-		int num = 0;
-		List<Activity> activities = getActivityList(fromDate, endDate);
-		for (Activity activity : activities) {
-			activitiesList.add(createActivityRecord(activity));
-			num++;
-			if (num == ACTIVITY_LOG_TO_SHOW) {
-				break;
-			}
-		}
-		result.add(fromDate.toString());
-		result.add(endDate.toString());
-		result.add(activitiesList);
-		return result;
+	@Override
+	protected String getDetailsMessage() {
+		return null;
 	}
 
-	private Record createActivityRecord(Activity activity) {
-		Record record = new Record(activity);
-		record.add("ModifiedDate", activity.getTime().toString());
-		record.add("UserName", activity.getUserName());
-		record.add("Activity", activity.getActivityType());
-		record.add("Name", activity.getName());
-		record.add("Date", activity.getDate().toString());
-		record.add("Amount", activity.getAmount());
-		return record;
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(FROM_DATE).setDefaultValue(new ClientFinanceDate());
+		get(TO_DATE).setDefaultValue(new ClientFinanceDate());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
+	}
+
+	protected String getActivityDataType(ClientActivity activity) {
+		String dataType = "";
+		StringBuffer buffer = new StringBuffer();
+		int type = activity.getActivityType();
+		switch (type) {
+		case 0:
+			return dataType = getMessages().loggedIn();
+		case 1:
+			return dataType = getMessages().loggedOut();
+		case 2:
+			buffer.append(getMessages().added());
+			buffer.append(" : ");
+			buffer.append(activity.getDataType() != null ? activity
+					.getDataType() : "");
+			return buffer.toString();
+		case 3:
+			buffer.append(getMessages().edited());
+			buffer.append(" : ");
+			buffer.append(activity.getDataType() != null ? activity
+					.getDataType() : "");
+			return buffer.toString();
+		case 4:
+			buffer.append(getMessages().deleted());
+			buffer.append(" : ");
+			buffer.append(activity.getDataType() != null ? activity
+					.getDataType() : "");
+			return buffer.toString();
+		case 5:
+			return dataType = getMessages().updatedPreferences();
+		default:
+			break;
+		}
+		return null;
 	}
 }

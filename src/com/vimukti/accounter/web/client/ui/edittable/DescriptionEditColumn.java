@@ -4,7 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class DescriptionEditColumn extends
-		TextEditColumn<ClientTransactionItem> {
+		TextAreaEditColumn<ClientTransactionItem> {
 
 	@Override
 	protected String getValue(ClientTransactionItem row) {
@@ -18,7 +18,7 @@ public class DescriptionEditColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().description();
+		return Accounter.messages().description();
 	}
 
 	@Override

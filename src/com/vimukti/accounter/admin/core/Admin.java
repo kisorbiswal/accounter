@@ -2,6 +2,9 @@ package com.vimukti.accounter.admin.core;
 
 import java.util.List;
 
+import org.json.JSONException;
+
+import com.vimukti.accounter.core.AuditWriter;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.INamedObject;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -68,6 +71,18 @@ public class Admin implements IAccounterServerCore,INamedObject {
 
 	public String getEmailID() {
 		return emailID;
+	}
+
+	@Override
+	public int getObjType() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

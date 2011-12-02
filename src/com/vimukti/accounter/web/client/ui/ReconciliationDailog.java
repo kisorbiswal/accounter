@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
@@ -34,9 +33,9 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 	private DateField startDate;
 	private DateField endDate;
 	private AmountField closingBalance;
-	private ClientReconciliation reconcilition;
+	private final ClientReconciliation reconcilition;
 	private String account;
-	private ValueCallBack<ClientReconciliation> reconciliationCallback;
+	private final ValueCallBack<ClientReconciliation> reconciliationCallback;
 
 	public ReconciliationDailog(String reconciliation,
 			ClientReconciliation reconcilition) {
@@ -58,8 +57,7 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 
 		VerticalPanel mainpanel = new VerticalPanel();
 
-		bankAccountsField = new SelectCombo(messages.bankAccount(Global.get()
-				.Account()));
+		bankAccountsField = new SelectCombo(messages.bankAccount());
 
 		bankAccountsField
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -78,8 +76,8 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 			bankAccountsField.addItem(account.getName());
 		}
 
-		startDate = new DateField(constants.startDate());
-		endDate = new DateField(constants.endDate());
+		startDate = new DateField(messages.startDate());
+		endDate = new DateField(messages.endDate());
 		// set the month start date and end date
 		// Calendar calendar = Calendar.getInstance();
 		// ClientFinanceDate clientFinanceDate = new ClientFinanceDate();
@@ -89,12 +87,15 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		// .getActualMaximum(Calendar.DAY_OF_MONTH));
 		endDate.setValue(new ClientFinanceDate());
 
-		closingBalance = new AmountField(constants.ClosingBalance(), this) {
+		closingBalance = new AmountField(messages.ClosingBalance(), this,
+				getCompany().getCurrency(
+						reconcilition.getAccount().getCurrency())) {
 			@Override
 			protected BlurHandler getBlurHandler() {
 				return new BlurHandler() {
 					Object value = null;
 
+					@Override
 					public void onBlur(BlurEvent event) {
 						try {
 							clearError(this);
@@ -141,7 +142,7 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		mainpanel.add(form);
 		setBodyLayout(mainpanel);
 		okbtn.setWidth("130px");
-		okbtn.setText(constants.startReconciliation());
+		okbtn.setText(messages.startReconciliation());
 
 	}
 
@@ -179,7 +180,7 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		ClientFinanceDate sDate = startDate.getDate();
 		ClientFinanceDate eDate = endDate.getDate();
 		if (eDate.before(sDate)) {
-			result.addError(endDate, constants.validateEndAndStartDate());
+			result.addError(endDate, messages.validateEndAndStartDate());
 		}
 		if (bankAccountsField.getSelectedIndex() < 0) {
 			result.addError(bankAccountsField, "BankAccount");

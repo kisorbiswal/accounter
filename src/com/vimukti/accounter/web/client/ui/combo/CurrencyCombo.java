@@ -1,30 +1,44 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.customers.CurrencyGroupListDialog;
 
 public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 
 	public CurrencyCombo(String title) {
 		super(title);
+		List<ClientCurrency> currency = new ArrayList<ClientCurrency>(
+				getCompany().getCurrencies());
+		initCombo(currency);
+		if (!currency.isEmpty()) {
+			setSelected(getCompany().getPrimaryCurrency().getFormalName());
+		}
+	}
 
+	public CurrencyCombo(String title, boolean isAddNewRequired) {
+		super(title, isAddNewRequired, 1);
+		List<ClientCurrency> currency = new ArrayList<ClientCurrency>(
+				getCompany().getCurrencies());
+		initCombo(currency);
 	}
 
 	@Override
 	protected String getDisplayName(ClientCurrency object) {
 
 		if (object != null)
-			return object.getName() != null ? object.getName() : "";
+			return object.getFormalName() != null ? object.getFormalName() : "";
 		else
 			return "";
 	}
 
 	@Override
-	protected String getColumnData(ClientCurrency object, int row, int col) {
+	protected String getColumnData(ClientCurrency object, int col) {
 		switch (col) {
 		case 0:
-			return object.getName();
+			return object.getFormalName();
 		}
 		return null;
 
@@ -32,22 +46,18 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-
-		return comboMessages.newCurrency();
+		return messages.currency();
 	}
 
 	@Override
 	public void onAddNew() {
-		NewCurrencyAction action = ActionFactory.getNewCurrencyAction();
-		action.setCallback(new ActionCallback<ClientCurrency>() {
 
-			@Override
-			public void actionResult(ClientCurrency result) {
-				addItemThenfireEvent(result);
-			}
-		});
+		CurrencyGroupListDialog groupListDialog = new CurrencyGroupListDialog(
+				messages.manageCurrency(), messages.toAddCurrencyGroup());
 
-		action.run(null, true);
+		groupListDialog.hide();
+		groupListDialog.addCallBack(createAddNewCallBack());
+		groupListDialog.ShowAddEditDialog(null);
 
 	}
 

@@ -1,13 +1,18 @@
 package com.vimukti.accounter.core;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class User extends CreatableObject implements IAccounterServerCore,
@@ -18,19 +23,21 @@ public class User extends CreatableObject implements IAccounterServerCore,
 	 */
 	private static final long serialVersionUID = -8262438863405809492L;
 
-	private String firstName;
-
-	private String lastName;
-
-	private String email;
+	// private String firstName;
+	//
+	// private String lastName;
+	//
+	// private String email;
 
 	private String userRole;
+
+	private Client client;
 
 	private UserPermissions permissions;
 
 	private boolean canDoUserManagement;
 
-	private String displayName;
+	// private String displayName;
 
 	private boolean isAdmin;
 
@@ -38,10 +45,11 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 	private boolean isActive;
 
+	private Set<PortletPageConfiguration> portletPages = new HashSet<PortletPageConfiguration>();
 	/**
 	 * The full name of the user.
 	 */
-	private String fullName;
+	// private String fullName;
 
 	/**
 	 * Preferences that a user want to set.
@@ -58,10 +66,10 @@ public class User extends CreatableObject implements IAccounterServerCore,
 	public User(ClientUser clientUser) {
 		// User user = new User();
 		this.id = clientUser.getID();
-		this.setFirstName(clientUser.getFirstName());
-		this.setLastName(clientUser.getLastName());
-		this.setFullName(clientUser.getFullName());
-		this.setEmail(clientUser.getEmail());
+		// this.setFirstName(clientUser.getFirstName());
+		// this.setLastName(clientUser.getLastName());
+		// this.setFullName(clientUser.getFullName());
+		// this.setEmail(clientUser.getEmail());
 		// this.setActive(clientUser.isActive());
 		this.setCanDoUserManagement(clientUser.isCanDoUserManagement());
 		this.setUserRole(clientUser.getUserRole());
@@ -85,12 +93,12 @@ public class User extends CreatableObject implements IAccounterServerCore,
 		}
 	}
 
-	/**
-	 * @return the fullName
-	 */
-	public String getFullName() {
-		return fullName;
-	}
+	// /**
+	// * @return the fullName
+	// */
+	// public String getFullName() {
+	// return fullName;
+	// }
 
 	/**
 	 * @return the userPreferences
@@ -107,10 +115,10 @@ public class User extends CreatableObject implements IAccounterServerCore,
 		this.userPreferences = userPreferences;
 	}
 
-	public void setFullName(String fname) {
-		this.fullName = fname;
-
-	}
+	// public void setFullName(String fname) {
+	// this.fullName = fname;
+	//
+	// }
 
 	@Override
 	public long getID() {
@@ -123,29 +131,29 @@ public class User extends CreatableObject implements IAccounterServerCore,
 		return true;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String emailId) {
-		this.email = emailId;
-	}
+	// public String getFirstName() {
+	// return firstName;
+	// }
+	//
+	// public void setFirstName(String firstName) {
+	// this.firstName = firstName;
+	// }
+	//
+	// public String getLastName() {
+	// return lastName;
+	// }
+	//
+	// public void setLastName(String lastName) {
+	// this.lastName = lastName;
+	// }
+	//
+	// public String getEmail() {
+	// return email;
+	// }
+	//
+	// public void setEmail(String emailId) {
+	// this.email = emailId;
+	// }
 
 	public String getUserRole() {
 		return userRole;
@@ -172,22 +180,23 @@ public class User extends CreatableObject implements IAccounterServerCore,
 	}
 
 	public String getName() {
-		if (getFirstName() == null && getLastName() == null)
-			return "";
-		else if (getFirstName() == null)
-			return getLastName();
-		else if (getLastName() == null)
-			return getFirstName();
-		return getFirstName() + " " + getLastName();
+		return null;
+		// if (getFirstName() == null && getLastName() == null)
+		// return "";
+		// else if (getFirstName() == null)
+		// return getLastName();
+		// else if (getLastName() == null)
+		// return getFirstName();
+		// return getFirstName() + " " + getLastName();
 
 	}
 
 	public ClientUser getClientUser() {
 		ClientUser user = new ClientUser();
-		user.setFirstName(this.getFirstName());
-		user.setLastName(this.getLastName());
-		user.setFullName(this.getFullName());
-		user.setEmail(this.getEmail());
+		user.setFirstName(this.getClient().getFirstName());
+		user.setLastName(this.getClient().getLastName());
+		user.setFullName(this.getClient().getFullName());
+		user.setEmail(this.getClient().getEmailId());
 		user.setCanDoUserManagement(this.isCanDoUserManagement());
 		user.setUserRole(this.getUserRole());
 		user.setAdmin(this.isAdmin);
@@ -211,13 +220,13 @@ public class User extends CreatableObject implements IAccounterServerCore,
 		return user;
 	}
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
-	public String getDisplayName() {
-		return displayName;
-	}
+	// public void setDisplayName(String displayName) {
+	// this.displayName = displayName;
+	// }
+	//
+	// public String getDisplayName() {
+	// return displayName;
+	// }
 
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
@@ -256,6 +265,31 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public void setName(String name) {
-		this.displayName = name;
+		// this.displayName = name;
 	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.USER;
+	}
+
+	public Set<PortletPageConfiguration> getPortletPages() {
+		return portletPages;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

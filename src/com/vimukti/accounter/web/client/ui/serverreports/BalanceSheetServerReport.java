@@ -43,7 +43,7 @@ public class BalanceSheetServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().financialYearToDate();
+		return getMessages().financialYearToDate();
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class BalanceSheetServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				getConstants().categoryNumber(),
+				getMessages().categoryNumber(),
 				"",
 				getDateByCompanyType(getStartDate()) + "-"
 						+ getDateByCompanyType(getEndDate()), "" };
@@ -82,7 +82,7 @@ public class BalanceSheetServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				getConstants().categoryNumber(),
+				getMessages().categoryNumber(),
 				"",
 				getDateByCompanyType(getStartDate()) + "-"
 						+ getDateByCompanyType(getEndDate()), "" };
@@ -90,7 +90,7 @@ public class BalanceSheetServerReport extends
 
 	@Override
 	public String getTitle() {
-		return getConstants().balanceSheet();
+		return getMessages().balanceSheet();
 	}
 
 	@Override
@@ -178,27 +178,27 @@ public class BalanceSheetServerReport extends
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET
 				|| record.getSubBaseType() == ClientAccount.SUBBASETYPE_FIXED_ASSET
 				|| record.getSubBaseType() == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
-			if (!sectiontypes.contains(getConstants().assets())) {
-				addTypeSection(getConstants().assets(), "", getConstants()
+			if (!sectiontypes.contains(getMessages().assets())) {
+				addTypeSection(getMessages().assets(), "", getMessages()
 						.assetsTotal());
 			}
 
 			if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET) {
-				if (!sectiontypes.contains(getConstants().currentAssets())) {
-					addTypeSection(getConstants().currentAssets());
+				if (!sectiontypes.contains(getMessages().currentAssets())) {
+					addTypeSection(getMessages().currentAssets());
 				}
 			}
 			if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_FIXED_ASSET) {
-				if (!sectiontypes.contains(getConstants().fixedAssets())) {
-					closeSection(types.indexOf(getConstants().currentAssets()));
-					addTypeSection(getConstants().fixedAssets());
+				if (!sectiontypes.contains(getMessages().fixedAssets())) {
+					closeSection(types.indexOf(getMessages().currentAssets()));
+					addTypeSection(getMessages().fixedAssets());
 				}
 			}
 			if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
-				if (!sectiontypes.contains(getConstants().otherAssets())) {
-					closeSection(types.indexOf(getConstants().currentAssets()));
-					closeSection(types.indexOf(getConstants().fixedAssets()));
-					addTypeSection(getConstants().otherAssets());
+				if (!sectiontypes.contains(getMessages().otherAssets())) {
+					closeSection(types.indexOf(getMessages().currentAssets()));
+					closeSection(types.indexOf(getMessages().fixedAssets()));
+					addTypeSection(getMessages().otherAssets());
 				}
 			}
 		}
@@ -206,32 +206,32 @@ public class BalanceSheetServerReport extends
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_LIABILITY
 				|| record.getSubBaseType() == ClientAccount.SUBBASETYPE_LONG_TERM_LIABILITY
 				|| record.getSubBaseType() == ClientAccount.SUBBASETYPE_EQUITY) {
-			if (!sectiontypes.contains(getConstants().liabilitiesandEquity())) {
+			if (!sectiontypes.contains(getMessages().liabilitiesandEquity())) {
 				closeAllSection();
-				addTypeSection(getConstants().liabilitiesandEquity(), "",
-						getConstants().liabilitiesandEquityTotal());
+				addTypeSection(getMessages().liabilitiesandEquity(), "",
+						getMessages().liabilitiesandEquityTotal());
 			}
 
 			if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_LIABILITY) {
-				if (!sectiontypes.contains(getConstants().currentLiabilities())) {
-					addTypeSection(getConstants().currentLiabilities());
+				if (!sectiontypes.contains(getMessages().currentLiabilities())) {
+					addTypeSection(getMessages().currentLiabilities());
 				}
 			}
 			if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_LONG_TERM_LIABILITY) {
 				if (!sectiontypes
-						.contains(getConstants().longTermLiabilities())) {
-					closeSection(types.indexOf(getConstants()
+						.contains(getMessages().longTermLiabilities())) {
+					closeSection(types.indexOf(getMessages()
 							.currentLiabilities()));
-					addTypeSection(getConstants().longTermLiabilities());
+					addTypeSection(getMessages().longTermLiabilities());
 				}
 			}
 			if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_EQUITY) {
-				if (!sectiontypes.contains(getConstants().equity())) {
-					closeSection(types.indexOf(getConstants()
+				if (!sectiontypes.contains(getMessages().equity())) {
+					closeSection(types.indexOf(getMessages()
 							.currentLiabilities()));
-					closeSection(types.indexOf(getConstants()
+					closeSection(types.indexOf(getMessages()
 							.longTermLiabilities()));
-					addTypeSection(getConstants().equity());
+					addTypeSection(getMessages().equity());
 				}
 			}
 		}
@@ -250,25 +250,25 @@ public class BalanceSheetServerReport extends
 
 	public void addLiablityTypes(TrialBalance record) {
 
-		if (!sectiontypes.contains(getConstants().liabilities())) {
-			if (!sectiontypes.contains(getConstants().liabilitiesandEquity())) {
+		if (!sectiontypes.contains(getMessages().liabilities())) {
+			if (!sectiontypes.contains(getMessages().liabilitiesandEquity())) {
 				closeOtherSections();
 				closeAllSection();
-				addTypeSection(getConstants().liabilitiesandEquity());
+				addTypeSection(getMessages().liabilitiesandEquity());
 			}
-			addTypeSection(getConstants().liabilities());
+			addTypeSection(getMessages().liabilities());
 		}
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_LIABILITY) {
-			if (!sectiontypes.contains(getConstants().currentLiabilities())) {
-				addTypeSection(getConstants().currentLiabilities());
+			if (!sectiontypes.contains(getMessages().currentLiabilities())) {
+				addTypeSection(getMessages().currentLiabilities());
 			}
 		}
 
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_LONG_TERM_LIABILITY) {
-			if (!sectiontypes.contains(getConstants().longTermLiabilities())) {
+			if (!sectiontypes.contains(getMessages().longTermLiabilities())) {
 				closeOtherSections();
-				closeSection(types.indexOf(getConstants().currentLiabilities()));
-				addTypeSection(getConstants().longTermLiabilities());
+				closeSection(types.indexOf(getMessages().currentLiabilities()));
+				addTypeSection(getMessages().longTermLiabilities());
 			}
 		}
 
@@ -291,7 +291,7 @@ public class BalanceSheetServerReport extends
 					new String[] {
 							"",
 							record.getAccountName() + " "
-									+ getConstants().total() }, new int[] { 3 });
+									+ getMessages().total() }, new int[] { 3 });
 			return true;
 		}
 		return false;
@@ -345,7 +345,7 @@ public class BalanceSheetServerReport extends
 	public void addTypeSection(String title) {
 		if (!sectiontypes.contains(title)) {
 			addSection(new String[] { "", title }, new String[] { "",
-					title + " " + getConstants().total() }, new int[] { 3 });
+					title + " " + getMessages().total() }, new int[] { 3 });
 			types.add(title);
 			sectiontypes.add(title);
 		}
@@ -402,7 +402,7 @@ public class BalanceSheetServerReport extends
 			@Override
 			public void OnSectionAdd(Section<TrialBalance> section) {
 
-				if (section.title.equals(getConstants().capitalAndReserves())) {
+				if (section.title.equals(getMessages().capitalAndReserves())) {
 					grid.addRow(null, 0,
 							new Object[] { " ", " ", " ", " ", " " }, false,
 							false, false);
@@ -414,36 +414,36 @@ public class BalanceSheetServerReport extends
 				// prevent null pointer exception with title value
 				if (section.title == null)
 					section.title = "";
-				if (section.title.equals(getConstants().currentAssets())) {
+				if (section.title.equals(getMessages().currentAssets())) {
 					currentAssetsTotal = Double.valueOf(section.data[3]
 							.toString());
 				}
-				if (section.title.equals(getConstants().fixedAssets())) {
+				if (section.title.equals(getMessages().fixedAssets())) {
 					fixedAssetsTotal = Double.valueOf(section.data[3]
 							.toString());
 				}
-				if (section.title.equals(getConstants().otherAssets())) {
+				if (section.title.equals(getMessages().otherAssets())) {
 					otherAssetsTotal = Double.valueOf(section.data[3]
 							.toString());
 				}
-				if (section.footer.equals(getConstants().assetsTotal())) {
+				if (section.footer.equals(getMessages().assetsTotal())) {
 					assetsTotal = currentAssetsTotal + fixedAssetsTotal
 							+ otherAssetsTotal;
 					section.data[3] = assetsTotal;
 				}
 
-				if (section.title.equals(getConstants().currentLiabilities())) {
+				if (section.title.equals(getMessages().currentLiabilities())) {
 					currentLiabilityTotal = Double.valueOf(section.data[3]
 							.toString());
 				}
-				if (section.title.equals(getConstants().longTermLiabilities())) {
+				if (section.title.equals(getMessages().longTermLiabilities())) {
 					longTermLiabilityTotal = Double.valueOf(section.data[3]
 							.toString());
 				}
-				if (section.title.equals(getConstants().equity())) {
+				if (section.title.equals(getMessages().equity())) {
 					equitiesTotal = Double.valueOf(section.data[3].toString());
 				}
-				if (section.footer.equals(getConstants()
+				if (section.footer.equals(getMessages()
 						.liabilitiesandEquityTotal())) {
 					liabilityAndEquityTotal = currentLiabilityTotal
 							+ longTermLiabilityTotal + equitiesTotal;

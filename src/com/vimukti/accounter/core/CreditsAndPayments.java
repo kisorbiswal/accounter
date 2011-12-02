@@ -7,6 +7,7 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -54,6 +55,12 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	 * remain.
 	 */
 	double balance = 0D;
+
+	/**
+	 * This will hold how much balance of this CreditsAndPayments is still
+	 * remain in PayeeCurrency.
+	 */
+	double balanceInPayeeCurrency;
 
 	/**
 	 * This is the {@link Transaction} object through which this
@@ -136,7 +143,13 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 		case Transaction.TYPE_CUSTOMER_PRE_PAYMENT:
 			this.payee = ((CustomerPrePayment) transaction).getCustomer();
 			break;
+		case Transaction.TYPE_INVOICE:
+			this.payee = ((Invoice) transaction).getCustomer();
+			this.balance = -(transaction.getTotal());
+			this.creditAmount = -(transaction.getTotal());
 		}
+
+		this.balanceInPayeeCurrency = balance / transaction.getCurrencyFactor();
 	}
 
 	public CreditsAndPayments(TransactionMakeDeposit transactionMakeDeposit) {
@@ -261,7 +274,8 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 		for (TransactionCreditsAndPayments t : this.transactionCreditsAndPayments) {
 			t.setCreditsAndPayments(this);
 		}
-		if (this.transaction.type != Transaction.TYPE_JOURNAL_ENTRY) {
+		if (this.transaction.type != Transaction.TYPE_JOURNAL_ENTRY
+				&& this.transaction.type != Transaction.TYPE_INVOICE) {
 
 			if (this.transaction.type == Transaction.TYPE_PAY_BILL) {
 				amount = this.transaction.subTotal - this.transaction.total;
@@ -395,7 +409,8 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 			Transaction presentTransaction, double amount) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		if (this.transaction.type != Transaction.TYPE_JOURNAL_ENTRY) {
+		if (this.transaction.type != Transaction.TYPE_JOURNAL_ENTRY
+				&& this.transaction.type != Transaction.TYPE_INVOICE) {
 
 			if (this.transaction.type == Transaction.TYPE_PAY_BILL) {
 				amount = this.transaction.subTotal - this.transaction.total;
@@ -429,5 +444,43 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public double getEffectingAmount() {
+		double amount;
+		if (this.transaction.type == Transaction.TYPE_PAY_BILL) {
+			amount = this.transaction.subTotal - this.transaction.total;
+		} else if (this.transaction.type == Transaction.TYPE_RECEIVE_PAYMENT) {
+			amount = this.transaction.subTotal - this.transaction.total;
+		} else if (this.payee.type == Payee.TYPE_VENDOR) {
+			amount = -(this.transaction.total);
+		} else if (this.payee.type == Payee.TYPE_CUSTOMER) {
+			amount = this.balance;
+		} else {
+			amount = this.transaction.total;
+		}
+		return amount;
+
+	}
+
+	/**
+	 * @return the balanceInPayeeCurrency
+	 */
+	public double getBalanceInPayeeCurrency() {
+		return balanceInPayeeCurrency;
+	}
+
+	/**
+	 * @param balanceInPayeeCurrency
+	 *            the balanceInPayeeCurrency to set
+	 */
+	public void setBalanceInPayeeCurrency(double balanceInPayeeCurrency) {
+		this.balanceInPayeeCurrency = balanceInPayeeCurrency;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

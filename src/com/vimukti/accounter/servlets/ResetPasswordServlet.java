@@ -49,32 +49,32 @@ public class ResetPasswordServlet extends BaseServlet {
 		}
 		// get activation record from table
 		Session hibernateSession = HibernateUtil.openSession();
-		Activation activation = null;
-		// get token from session
-		String token = (String) httpsession.getAttribute(ACTIVATION_TOKEN);
+		// Activation activation = null;
+		// // get token from session
+		// String token = (String) httpsession.getAttribute(ACTIVATION_TOKEN);
 		try {
-			if (token == null) {
-				String emailId = (String) httpsession.getAttribute(EMAIL_ID);
-				if (emailId != null) {
-					activation = (Activation) hibernateSession
-							.getNamedQuery("get.activation.by.mailId")
-							.setParameter(EMAIL_ID, emailId).uniqueResult();
-					token = activation.getToken();
-				}
-			} else if (token.isEmpty()) {
-				req.setAttribute(ATTR_MESSAGE, "Activation expired.");
-				redirectExternal(req, resp, LOGIN_URL);
-				return;
-			}
-
-			activation = getActivation(token);
-			// if it is null
-			if (activation == null) {
-				// dispatch withr "Token has expired".
-				req.setAttribute(ATTR_MESSAGE, "Activation expired.");
-				redirectExternal(req, resp, LOGIN_URL);
-				return;
-			}
+			// if (token == null) {
+			// String emailId = (String) httpsession.getAttribute(EMAIL_ID);
+			// if (emailId != null) {
+			// activation = (Activation) hibernateSession
+			// .getNamedQuery("get.activation.by.mailId")
+			// .setParameter(EMAIL_ID, emailId).uniqueResult();
+			// token = activation.getToken();
+			// }
+			// } else if (token.isEmpty()) {
+			// req.setAttribute(ATTR_MESSAGE, "Activation expired.");
+			// redirectExternal(req, resp, LOGIN_URL);
+			// return;
+			// }
+			//
+			// activation = getActivation(token);
+			// // if it is null
+			// if (activation == null) {
+			// // dispatch withr "Token has expired".
+			// req.setAttribute(ATTR_MESSAGE, "Activation expired.");
+			// redirectExternal(req, resp, LOGIN_URL);
+			// return;
+			// }
 			// otherwise
 			// getPasswords from request
 			String password = req.getParameter("newPassword");
@@ -95,11 +95,12 @@ public class ResetPasswordServlet extends BaseServlet {
 			}
 
 			// getClient record with activation emailId
-			Client client = getClient(activation.getEmailId());
+			String emailId = (String) httpsession.getAttribute(EMAIL_ID);
+			Client client = getClient(emailId);
 
 			// update password and set isActive true
-			client.setPassword(HexUtil.bytesToHex(Security.makeHash(activation
-					.getEmailId() + password.trim())));
+			client.setPassword(HexUtil.bytesToHex(Security.makeHash(emailId
+					+ password.trim())));
 			// set isActive true
 			// client.setActive(true);
 			// make Require Password Reset False
@@ -114,18 +115,19 @@ public class ResetPasswordServlet extends BaseServlet {
 				transaction.rollback();
 			}
 
-			// delete activation record
-			hibernateSession.getNamedQuery("delete.activation.by.Id")
-					.setLong("id", activation.getID()).executeUpdate();
-
+			// transaction = hibernateSession.beginTransaction();
+			// // delete activation record
+			// hibernateSession.getNamedQuery("delete.activation.by.Id")
+			// .setLong("id", activation.getID()).executeUpdate();
+			// transaction.commit();
 			// Send to login page with emailId
-			String activationType = (String) httpsession
-					.getAttribute(ACTIVATION_TYPE);
-			if (activationType != null
-					&& activationType.equals("resetpassword")) {
-				httpsession.removeAttribute(ACTIVATION_TYPE);
-			}
-			httpsession.setAttribute(EMAIL_ID, activation.getEmailId());
+			// String activationType = (String) httpsession
+			// .getAttribute(ACTIVATION_TYPE);
+			// if (activationType != null
+			// && activationType.equals("resetpassword")) {
+			// httpsession.removeAttribute(ACTIVATION_TYPE);
+			// }
+			httpsession.setAttribute(EMAIL_ID, emailId);
 			redirectExternal(req, resp, LOGIN_URL);
 		} catch (Exception e) {
 			e.printStackTrace();

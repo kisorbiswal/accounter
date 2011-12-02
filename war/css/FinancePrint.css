@@ -109,7 +109,7 @@ div.gridBodyContainer {
 	margin-right: 10px;
 }
 
-.ReportGrid .gridBody tr td.depth1 {
+/*.ReportGrid .gridBody tr td.depth1 {
 	padding-left: 1% !important;
 }
 
@@ -151,7 +151,7 @@ div.gridBodyContainer {
 
 .ReportGrid {
 	height: 100% !important;
-}
+}*/
 
 h1 {
 	font-size: 2em;
@@ -253,7 +253,8 @@ table tr.ReportGridRow:HOVER {
 }
 
 td.gridDecimalCell {
-	text-align: right;
+	/*text-align: right;*/
+	text-align:left;
 }
 
 table tr.ReportGridRow td {

@@ -8,9 +8,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
-public class GettingStartedPortlet extends DashBoardPortlet {
+public class GettingStartedPortlet extends Portlet {
 	private VerticalPanel mainPanel;
 	private HTML minHtml, allHtml;
 	private Label moreLabel;
@@ -18,8 +19,8 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 	Anchor accountReceivable, accountPayable, banking, expences, customer,
 			vendor, inviteUser, createBankAcc, accounts;
 
-	public GettingStartedPortlet(String title) {
-		super(title);
+	public GettingStartedPortlet(ClientPortletConfiguration configuration) {
+		super(configuration, messages.gettingStartedusingAccounter(), "");
 	}
 
 	@Override
@@ -32,20 +33,15 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 		// <li><a href=''><font color='green'>Create a budget</font></a> for
 		// your organisation so that you can compare with actual expenditure
 		// throughout the year.
-		accountReceivable = getAnchor(Accounter.messages().accountReceivable(
-				Global.get().Account()));
-		accountPayable = getAnchor(Accounter.messages().accountPayable(
-				Global.get().Account()));
-		banking = getAnchor(Accounter.constants().bankingTransactions());
-		expences = getAnchor(Accounter.constants().expenseClaims());
-		customer = getAnchor(Accounter.messages().customers(
-				Global.get().Customer()));
-		vendor = getAnchor(Accounter.messages().vendors(Global.get().Vendor()));
-		inviteUser = getAnchor(Accounter.constants().inviteOtherUser());
-		createBankAcc = getAnchor(Accounter.messages()
-				.createanyadditionalbankaccounts(Global.get().account()));
-		accounts = getAnchor(Accounter.messages().accounts(
-				Global.get().Account()));
+		accountReceivable = getAnchor(messages.accountReceivable());
+		accountPayable = getAnchor(messages.accountPayable());
+		banking = getAnchor(messages.bankingTransactions());
+		expences = getAnchor(messages.expenseClaims());
+		customer = getAnchor(messages.payees(Global.get().Customer()));
+		vendor = getAnchor(messages.payees(Global.get().Vendor()));
+		inviteUser = getAnchor(messages.inviteOtherUser());
+		createBankAcc = getAnchor(messages.createanyadditionalbankaccounts());
+		accounts = getAnchor(messages.Accounts());
 		// minHtml = new HTML(
 		// "<p>Now you are ready to start using Accounter on a regular basis to record and report on normal business transcations. There is <a href='http://help.accounter.com'><font color='green'>full online help</font></a> and tips on each screen in Accounter if you need it. It's really up to you what you do next.</p><ul><li>Add "
 		// + accountReceivable
@@ -63,7 +59,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 		// HorizontalPanel hPanel3 = new HorizontalPanel();
 		// HorizontalPanel hPanel4 = new HorizontalPanel();
 		// HorizontalPanel hPanel5 = new HorizontalPanel();
-		allHtml = new HTML(Accounter.messages().allHTML());
+		allHtml = new HTML(messages.allHTML());
 		// hPanel1.add(new HTML("<li>Add "));
 		// if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
 		// hPanel1.add(accountReceivable);
@@ -148,11 +144,6 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 	}
 
 	@Override
-	public String getGoToText() {
-		return Accounter.constants().hideGettingStarted();
-	}
-
-	@Override
 	public void goToClicked() {
 		// TODO Auto-generated method stub
 		this.setVisible(false);
@@ -170,41 +161,35 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 		link.getElement().getStyle().setColor("green");
 		link.addClickHandler(new ClickHandler() {
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void onClick(ClickEvent event) {
 
-				if (title.equals(Accounter.messages().accountReceivable(
-						Global.get().Account()))) {
+				if (title.equals(messages.accountReceivable())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
 						ActionFactory.getNewInvoiceAction().run(null, true);
-				} else if (title.equals(Accounter.messages().accountPayable(
-						Global.get().Account()))) {
+				} else if (title.equals(messages.accountPayable())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
 						ActionFactory.getEnterBillsAction().run(null, true);
-				} else if (title.equals(Accounter.constants()
-						.bankingTransactions()))
+				} else if (title.equals(messages.bankingTransactions()))
 					ActionFactory.getChartOfAccountsAction(
 							ClientAccount.TYPE_BANK).run(null, true);
-				else if (title.equals(Accounter.constants().expenseClaims())) {
+				else if (title.equals(messages.expenseClaims())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
 						ActionFactory.getExpensesAction(null).run(null, true);
-				} else if (title.equals(Accounter.messages().customers(
-						Global.get().Customer())))
+				} else if (title.equals(messages
+						.payees(Global.get().Customer())))
 					ActionFactory.getNewCustomerAction().run(null, true);
-				else if (title.equals(Accounter.messages().vendors(
-						Global.get().Vendor())))
+				else if (title.equals(messages.payees(Global.get().Vendor())))
 					ActionFactory.getNewVendorAction().run(null, true);
-				else if (title.equals(Accounter.constants().inviteOtherUser())) {
+				else if (title.equals(messages.inviteOtherUser())) {
 					if (Accounter.getUser().isCanDoUserManagement())
 						ActionFactory.getInviteUserAction().run(null, true);
-				} else if (title
-						.equals(Accounter.messages()
-								.createanyadditionalbankaccounts(
-										Global.get().account()))) {
+				} else if (title.equals(messages
+						.createanyadditionalbankaccounts())) {
 					if (Accounter.getUser().canDoBanking())
 						ActionFactory.getNewBankAccountAction().run(null, true);
-				} else if (title.equals(Accounter.messages().accounts(
-						Global.get().Account()))) {
+				} else if (title.equals(messages.Accounts())) {
 					if (Accounter.getUser().canSeeInvoiceTransactions())
 						ActionFactory.getChartOfAccountsAction()
 								.run(null, true);
@@ -213,6 +198,12 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 			}
 		});
 		return link;
+	}
+
+	@Override
+	public void refreshClicked() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -1,14 +1,14 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 /**
  * 
@@ -18,16 +18,29 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class NewQuoteAction extends Action {
 
 	protected QuoteView view;
+	private int type;
+	private String title;
 
-	public NewQuoteAction(String text) {
+	public NewQuoteAction(String text, int type) {
 		super(text);
-		this.catagory = Global.get().Customer();
+		this.type = type;
+		this.title = text;
+
+		if (type == ClientEstimate.QUOTES) {
+			title = Accounter.messages().quote();
+		} else if (type == ClientEstimate.CHARGES) {
+			title = Accounter.messages().charge();
+		} else if (type == ClientEstimate.CREDITS) {
+			title = Accounter.messages().credit();
+		}
+
 	}
 
 	public NewQuoteAction(String text, ClientEstimate quote,
-			AccounterAsyncCallback<Object> callback) {
+			AccounterAsyncCallback<Object> callback, int type) {
 		super(text);
 		this.catagory = Global.get().Customer();
+		this.type = type;
 	}
 
 	@Override
@@ -38,23 +51,33 @@ public class NewQuoteAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
-			public void onSuccess() {
-				view = QuoteView.getInstance();
+			public void onCreated() {
+				if (type == 0 && data != null) {
+					type = ((ClientEstimate) data).getEstimateType();
+					switch (type) {
+					case ClientEstimate.QUOTES:
+						title = Accounter.messages().quote();
+						break;
+					case ClientEstimate.CHARGES:
+						title = Accounter.messages().charge();
+						break;
+					case ClientEstimate.CREDITS:
+						title = Accounter.messages().credit();
+						break;
+					default:
+						break;
+					}
+				}
+				view = QuoteView.getInstance(type, title);
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewQuoteAction.this);
 
 			}
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
 		});
 	}
 
@@ -80,7 +103,14 @@ public class NewQuoteAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "newQuote";
+		if (type == ClientEstimate.QUOTES) {
+			return "newQuote";
+		} else if (type == ClientEstimate.CHARGES) {
+			return "newCharge";
+		} else if (type == ClientEstimate.CREDITS) {
+			return "newCredit";
+		}
+		return "";
 	}
 
 	@Override

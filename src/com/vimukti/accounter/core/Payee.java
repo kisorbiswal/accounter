@@ -1,11 +1,17 @@
 package com.vimukti.accounter.core;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * Payee is the object which represents a real-time entity of either
@@ -39,6 +45,14 @@ public abstract class Payee extends CreatableObject implements
 
 	double balance;
 
+	double currencyFactor = 1;
+
+	/**
+	 * The till date up to which the Specified Opening balance of the Customer
+	 * is for.
+	 */
+	FinanceDate balanceAsOf;
+
 	String name;
 	String fileAs;
 
@@ -54,6 +68,7 @@ public abstract class Payee extends CreatableObject implements
 	private String phoneNo;
 	private String faxNo;
 
+	transient private double previousOpeningBal;
 	// UKvariables
 	// boolean isEUVATExemptPayee;
 	String VATRegistrationNumber;
@@ -78,7 +93,7 @@ public abstract class Payee extends CreatableObject implements
 	String cstNumber;
 	String serviceTaxRegistrationNumber;
 	String tinNumber;
-	String currency;
+	protected Currency currency;
 
 	public transient boolean isOnSaveProccessed;
 
@@ -159,6 +174,8 @@ public abstract class Payee extends CreatableObject implements
 	}
 
 	protected double openingBalance = 0D;
+
+	private transient double previousCurrencyFactor = 1;
 
 	/**
 	 * @return the openingBalance
@@ -292,10 +309,20 @@ public abstract class Payee extends CreatableObject implements
 		this.payeeSince = payeeSince;
 	}
 
+	/**
+	 * 
+	 * @param session
+	 * @param transaction
+	 * @param amount
+	 * @param object
+	 * 
+	 *            method for reverse back effect on the Account related to this
+	 *            Payee
+	 */
+
 	public void updateBalance(Session session, Transaction transaction,
 			double amount) {
-
-		updateBalance(session, transaction, amount, null);
+		updateBalance(session, transaction, amount, true);
 	}
 
 	/**
@@ -310,7 +337,7 @@ public abstract class Payee extends CreatableObject implements
 	 */
 
 	public void updateBalance(Session session, Transaction transaction,
-			double amount, TAXRateCalculation object) {
+			double amount, boolean updateBalanceInPayeeCurrency) {
 
 		/**
 		 * To check whether this payee is Customer, Vendor or Tax Agency.
@@ -321,16 +348,19 @@ public abstract class Payee extends CreatableObject implements
 				+ this.balance;
 
 		if (this.type == TYPE_CUSTOMER) {
-			this.balance -= amount;
+			if (updateBalanceInPayeeCurrency) {
+				this.balance -= amount / transaction.getCurrencyFactor();
+			}
 		} else if (this.type == TYPE_VENDOR || this.type == TYPE_TAX_AGENCY) {
-			this.balance += amount;
+			if (updateBalanceInPayeeCurrency) {
+				this.balance += amount / transaction.getCurrencyFactor();
+			}
 		}
 
 		/**
 		 * Getting the Account related to this Payee.
 		 */
-		Account account = (object == null) ? this.getAccount() : object
-				.getSalesLiabilityAccount();
+		Account account = this.getAccount();
 
 		// /**
 		// * In case of ItemReceipt instead of Updating Accounts Payable balance
@@ -353,7 +383,8 @@ public abstract class Payee extends CreatableObject implements
 		 * null
 		 */
 		if (account != null) {
-			account.updateCurrentBalance(transaction, amount);
+			account.updateCurrentBalance(transaction, amount,
+					transaction.getCurrencyFactor());
 			session.update(account);
 			account.onUpdate(session);
 		}
@@ -362,7 +393,7 @@ public abstract class Payee extends CreatableObject implements
 		 * once if any Payee got created with opening balance then that Payee
 		 * balance should not be editable. So we will make it as un editable.
 		 */
-		isOpeningBalanceEditable = Boolean.FALSE;
+		// isOpeningBalanceEditable = Boolean.FALSE;
 		ChangeTracker.put(this);
 	}
 
@@ -448,14 +479,6 @@ public abstract class Payee extends CreatableObject implements
 		tinNumber = tINNumber;
 	}
 
-	public String getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
-
 	public String getPaymentMethod() {
 		return paymentMethod;
 	}
@@ -464,4 +487,119 @@ public abstract class Payee extends CreatableObject implements
 		this.paymentMethod = paymentMethod;
 	}
 
+	protected void modifyJournalEntry(JournalEntry existEntry) {
+		Session session = HibernateUtil.getCurrentSession();
+		session.delete(existEntry);
+		if (!DecimalUtil.isEquals(this.openingBalance, 0)) {
+			JournalEntry journalEntry = createJournalEntry();
+			session.save(journalEntry);
+		}
+	}
+
+	protected JournalEntry createJournalEntry() {
+		String number = NumberUtils.getNextTransactionNumber(
+				Transaction.TYPE_JOURNAL_ENTRY, getCompany());
+
+		JournalEntry journalEntry = new JournalEntry();
+		journalEntry.setInvolvedPayee(this);
+		journalEntry.setCompany(getCompany());
+		journalEntry.number = number;
+		journalEntry.transactionDate = balanceAsOf;
+		journalEntry.memo = "Opening Balance";
+		journalEntry.balanceDue = getOpeningBalance() * currencyFactor;
+
+		List<TransactionItem> items = new ArrayList<TransactionItem>();
+		// Line 1
+		TransactionItem item1 = new TransactionItem();
+		item1.setAccount(getCompany().getOpeningBalancesAccount());
+		item1.setType(TransactionItem.TYPE_ACCOUNT);
+		item1.setDescription(getName());
+		if (this instanceof Customer) {
+			item1.setLineTotal(-1 * getOpeningBalance() * currencyFactor);
+		} else {
+			item1.setLineTotal(getOpeningBalance() * currencyFactor);
+		}
+		items.add(item1);
+
+		TransactionItem item2 = new TransactionItem();
+		item2.setAccount(getAccount());
+		item2.setType(TransactionItem.TYPE_ACCOUNT);
+		item2.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
+		if (this instanceof Customer) {
+			item2.setLineTotal(getOpeningBalance() * currencyFactor);
+		} else {
+			item2.setLineTotal(-1 * getOpeningBalance() * currencyFactor);
+		}
+		items.add(item2);
+
+		journalEntry.setDebitTotal(items.get(1).getLineTotal());
+		journalEntry.setCreditTotal(items.get(0).getLineTotal());
+
+		journalEntry.setTransactionItems(items);
+
+		journalEntry.setCurrency(currency);
+		journalEntry.setCurrencyFactor(currencyFactor);
+
+		return journalEntry;
+	}
+
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
+
+	/**
+	 * @return the balanceAsOf
+	 */
+	public FinanceDate getBalanceAsOf() {
+		return balanceAsOf;
+	}
+
+	public void setBalanceAsOf(FinanceDate balanceAsOf) {
+		this.balanceAsOf = balanceAsOf;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		if (currency == null) {
+			this.currency = getCompany().getPrimaryCurrency();
+		}
+		return super.onSave(session);
+	}
+
+	@Override
+	public boolean onUpdate(Session session) throws CallbackException {
+
+		super.onUpdate(session);
+		if (!DecimalUtil.isEquals(this.openingBalance, this.previousOpeningBal)
+				|| !DecimalUtil.isEquals(this.currencyFactor,
+						this.previousCurrencyFactor)) {
+
+			this.balance -= previousOpeningBal;
+			this.balance += openingBalance;
+
+			JournalEntry existEntry = (JournalEntry) session
+					.getNamedQuery("getJournalEntryForCustomer")
+					.setLong("id", this.id).uniqueResult();
+			if (existEntry == null) {
+				JournalEntry journalEntry = createJournalEntry();
+				session.save(journalEntry);
+			} else {
+				modifyJournalEntry(existEntry);
+			}
+		}
+
+		ChangeTracker.put(this);
+		return false;
+
+	}
+
+	@Override
+	public void onLoad(Session arg0, Serializable arg1) {
+		this.previousOpeningBal = openingBalance;
+		this.previousCurrencyFactor = currencyFactor;
+	}
 }

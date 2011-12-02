@@ -6,8 +6,9 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class EditColumn<R> {
-	
+
 	private EditTable<R> table;
+	private Label columnHeader;
 
 	public boolean onChange(R row) {
 		return false;
@@ -22,7 +23,9 @@ public abstract class EditColumn<R> {
 	public abstract int getWidth();
 
 	public IsWidget getHeader() {
-		Label columnHeader = new Label(getColumnName());
+		if (columnHeader == null) {
+			columnHeader = new Label(getColumnName());
+		}
 		return columnHeader;
 	}
 
@@ -44,5 +47,14 @@ public abstract class EditColumn<R> {
 
 	public ClientCompanyPreferences getPreferences() {
 		return Accounter.getCompany().getPreferences();
+	}
+
+	protected void updateFromGUI(IsWidget widget, R row){
+		
+	}
+
+	public void updateHeader() {
+		if (getColumnName().length() > 0)
+			columnHeader.setText(getColumnName());
 	}
 }

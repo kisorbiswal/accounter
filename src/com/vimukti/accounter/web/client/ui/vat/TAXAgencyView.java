@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -28,7 +28,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
@@ -37,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.combo.TAXFilingFrequencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATAgencyAccountCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -45,18 +45,15 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
-	AccounterConstants companyConstants = Accounter.constants();
-
-	private final String ATTR_PRIMARY = Accounter.constants().primary();
-	private final String ATTR_CONTACT_NAME = Accounter.constants()
-			.contactName();
-	private final String ATTR_TITLE = Accounter.constants().title();
-	private final String ATTR_BUSINESS_PHONE = Accounter.constants()
-			.businessPhone();
-	private final String ATTR_EMAIL = Accounter.constants().email();
+	private final String ATTR_PRIMARY = messages.primary();
+	private final String ATTR_CONTACT_NAME = messages.contactName();
+	private final String ATTR_TITLE = messages.title();
+	private final String ATTR_BUSINESS_PHONE = messages.businessPhone();
+	private final String ATTR_EMAIL = messages.email();
 
 	TextItem taxAgencyText, fileAsText;
 
@@ -83,10 +80,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private List<String> vatReturnList;
 
 	private SelectCombo vatReturnCombo;
+	private SelectCombo taxTypeCombo;
 
 	private static TAXAgencyView taxAgencyView;
 
 	private ArrayList<DynamicForm> listforms;
+
+	private TAXFilingFrequencyCombo tAXFilingFrequency;
 
 	public TAXAgencyView() {
 		super();
@@ -128,14 +128,14 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
 		// if (!isEdit)
-		// BaseView.errordata.setHTML(FinanceApplication.constants()
+		// BaseView.errordata.setHTML(FinanceApplication.messages()
 		// .duplicationOfTaxAgencyNameAreNotAllowed());
-		// addError(this, Accounter.constants()
+		// addError(this, messages
 		// .duplicationOfTaxAgencyNameAreNotAllowed());
 		// else
-		// BaseView.errordata.setHTML(FinanceApplication.constants()
+		// BaseView.errordata.setHTML(FinanceApplication.messages()
 		// .failedToUpdate());
-		// addError(this, Accounter.constants().failedToUpdate());
+		// addError(this, messages.failedToUpdate());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		AccounterException accounterException = (AccounterException) exception;
@@ -148,11 +148,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	public void saveSuccess(IAccounterCore result) {
 		// if (takenVATAgency == null)
 		// Accounter.showInformation(result.getName()
-		// + FinanceApplication.constants()
+		// + FinanceApplication.messages()
 		// .isCreatedSuccessfully());
 		// else
 		// Accounter.showInformation(result.getName()
-		// + FinanceApplication.constants()
+		// + FinanceApplication.messages()
 		// .isUpdatedSuccessfully());
 		super.saveSuccess(result);
 
@@ -171,7 +171,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		if (taxAgenciesByName != null
 				&& taxAgenciesByName.getID() != this.getData().getID()) {
-			result.addError(taxAgencyText, Accounter.constants().alreadyExist());
+			result.addError(taxAgencyText, messages.alreadyExist());
 		}
 
 		List<DynamicForm> forms = this.getForms();
@@ -180,7 +180,10 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				result.add(form.validate());
 			}
 		}
-		gridView.validate(result);
+		if (!gridView.isEmpty()) {
+			gridView.validate(result);
+		}
+
 		return result;
 	}
 
@@ -195,6 +198,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		} else {
 			data.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
 		}
+
+		data.setTaxType(getTaxType(taxTypeCombo.getSelectedValue()));
+
 		// Setting File As
 		data.setFileAs(fileAsText.getValue().toString());
 
@@ -222,10 +228,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		data.setPaymentTerm(selectedPaymentTerm.getID());
 
 		// Setting Sales Liability account
-		data.setSalesLiabilityAccount(selectedSalesAccount.getID());
+		if (selectedSalesAccount != null) {
+			data.setSalesLiabilityAccount(selectedSalesAccount.getID());
+		}
 
 		// Setting Purchase Liability account
-		if (getPreferences().isTrackPaidTax()) {
+		if (getPreferences().isTrackPaidTax()
+				&& selectedPurchaseAccount != null) {
 			data.setPurchaseLiabilityAccount(selectedPurchaseAccount.getID());
 		} else {
 			data.setPurchaseLiabilityAccount(0);
@@ -259,21 +268,23 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		// Setting Memo
 		data.setMemo(UIUtils.toStr(memoArea.getValue()));
 
+		data.setTAXFilingFrequency(tAXFilingFrequency.getSelectedFrequency());
+
 	}
 
 	private VerticalPanel getTopLayout() {
 		Label lab;
-		lab = new Label(Accounter.constants().taxAgency());
-		taxAgencyText = new TextItem(Accounter.constants().taxAgency());
+		lab = new Label(messages.taxAgency());
+		taxAgencyText = new TextItem(messages.taxAgency());
 		taxAgencyText.setHelpInformation(true);
 		lab.removeStyleName("gwt-Label");
-		lab.addStyleName(Accounter.constants().labelTitle());
+		lab.addStyleName(messages.labelTitle());
 		lab.setHeight("35px");
 		taxAgencyText.setWidth(100);
 		taxAgencyText.setRequired(true);
 		taxAgencyText.setDisabled(isInViewMode());
 
-		fileAsText = new TextItem(companyConstants.fileAs());
+		fileAsText = new TextItem(messages.fileAs());
 		fileAsText.setHelpInformation(true);
 		fileAsText.setWidth(100);
 		fileAsText.setDisabled(isInViewMode());
@@ -289,21 +300,20 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			}
 		});
 
-		taxAgencyForm = UIUtils.form(companyConstants.taxAgency());
-		taxAgencyForm.setWidth("100%");
-		taxAgencyForm.getCellFormatter().setWidth(0, 0, "166px");
+		taxAgencyForm = UIUtils.form(messages.taxAgency());
+		// taxAgencyForm.setWidth("100%");
+		// taxAgencyForm.getCellFormatter().setWidth(0, 0, "166px");
 		taxAgencyForm.setFields(taxAgencyText);
 
 		accInfoForm = new DynamicForm();
-		accInfoForm = UIUtils.form(Accounter.messages().accountInformation(
-				Global.get().Account()));
+		accInfoForm = UIUtils.form(Accounter.messages().payeeInformation(
+				messages.Account()));
 
-		statusCheck = new CheckboxItem(companyConstants.active());
+		statusCheck = new CheckboxItem(messages.active());
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
 
-		paymentTermsCombo = new PaymentTermsCombo(
-				companyConstants.paymentTerm());
+		paymentTermsCombo = new PaymentTermsCombo(messages.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo.setDisabled(isInViewMode());
 		paymentTermsCombo
@@ -319,13 +329,18 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		paymentTermsCombo.setRequired(true);
 
-		vatReturnCombo = new SelectCombo(Accounter.constants().vatReturn());
+		taxTypeCombo = createTaxTypeSelectCombo();
+
+		vatReturnCombo = new SelectCombo(messages.taxReturn());
 		vatReturnCombo.setHelpInformation(true);
-		vatReturnCombo.setRequired(true);
+		if (getCompany().getCountry().equals(
+				CountryPreferenceFactory.UNITED_KINGDOM)) {
+			vatReturnCombo.setRequired(true);
+		}
 		vatReturnCombo.setDisabled(isInViewMode());
 		vatReturnList = new ArrayList<String>();
-		vatReturnList.add(Accounter.constants().ukVAT());
-		vatReturnList.add(Accounter.constants().vat3Ireland());
+		vatReturnList.add(messages.ukVAT());
+		vatReturnList.add(messages.vat3Ireland());
 		vatReturnCombo.initCombo(vatReturnList);
 		vatReturnCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -340,7 +355,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 					}
 				});
 		liabilitySalesAccountCombo = new VATAgencyAccountCombo(Accounter
-				.messages().salesLiabilityAccount(Global.get().Account()));
+				.messages().salesLiabilityAccount());
 		liabilitySalesAccountCombo.setHelpInformation(true);
 		liabilitySalesAccountCombo.setDisabled(isInViewMode());
 		liabilitySalesAccountCombo
@@ -356,7 +371,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		liabilitySalesAccountCombo.setRequired(true);
 
 		liabilityPurchaseAccountCombo = new VATAgencyAccountCombo(Accounter
-				.messages().purchaseLiabilityAccount(Global.get().Account()));
+				.messages().purchaseLiabilityAccount());
 		liabilityPurchaseAccountCombo.setHelpInformation(true);
 		liabilityPurchaseAccountCombo.setDisabled(isInViewMode());
 		liabilityPurchaseAccountCombo
@@ -371,29 +386,50 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		liabilityPurchaseAccountCombo.setRequired(true);
 
-		Label contacts = new Label(companyConstants.contacts());
+		tAXFilingFrequency = new TAXFilingFrequencyCombo(
+				messages.taxFilingFrequency());
+		tAXFilingFrequency.setDisabled(isInViewMode());
+		tAXFilingFrequency.initCombo(getTAXFilingFrequencies());
+		tAXFilingFrequency.setSelectedItem(0);
+
+		Label contacts = new Label(messages.contacts());
 		initListGrid();
 		if (getPreferences().isTrackPaidTax()) {
-			accInfoForm.setFields(statusCheck, paymentTermsCombo,
-					vatReturnCombo, liabilitySalesAccountCombo,
-					liabilityPurchaseAccountCombo);
+			if (getCompany().getCountry().equals(
+					CountryPreferenceFactory.UNITED_KINGDOM)) {
+				accInfoForm.setFields(statusCheck, paymentTermsCombo,
+						taxTypeCombo, vatReturnCombo,
+						liabilitySalesAccountCombo,
+						liabilityPurchaseAccountCombo, tAXFilingFrequency);
+			} else {
+				accInfoForm.setFields(statusCheck, paymentTermsCombo,
+						taxTypeCombo, liabilitySalesAccountCombo,
+						liabilityPurchaseAccountCombo, tAXFilingFrequency);
+			}
 		} else {
-			accInfoForm.setFields(statusCheck, paymentTermsCombo,
-					vatReturnCombo, liabilitySalesAccountCombo);
+			if (getCompany().getCountry().equals(
+					CountryPreferenceFactory.UNITED_KINGDOM)) {
+				accInfoForm.setFields(statusCheck, paymentTermsCombo,
+						taxTypeCombo, vatReturnCombo,
+						liabilitySalesAccountCombo);
+			} else {
+				accInfoForm.setFields(statusCheck, paymentTermsCombo,
+						taxTypeCombo, liabilitySalesAccountCombo);
+			}
 		}
 
-		accInfoForm.setWidth("94%");
+		// accInfoForm.setWidth("94%");
 		accInfoForm.setStyleName("align-form");
 
 		memoForm = new DynamicForm();
-		memoForm.setWidth("50%");
+		// memoForm.setWidth("50%");
 		memoArea = new TextAreaItem();
 		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
 				this.getAction().getViewName()));
 		memoArea.setHelpInformation(true);
 		memoArea.setDisabled(isInViewMode());
-		memoArea.setTitle(Accounter.constants().memo());
-		memoArea.setWidth("400px");
+		memoArea.setTitle(messages.memo());
+		// memoArea.setWidth("400px");
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
@@ -424,12 +460,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 			// Setting AddressForm
 			addrsForm = new AddressForm(data.getAddress());
-			addrsForm.setWidth("100%");
+			// addrsForm.setWidth("100%");
 			addrsForm.setDisabled(isInViewMode());
 			// Setting Phone Fax Form
 			phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 					.getViewName());
-			phoneFaxForm.setWidth("100%");
+			// phoneFaxForm.setWidth("100%");
 			phoneFaxForm.businessPhoneText.setValue(data.getPhoneNo());
 			phoneFaxForm.businessFaxText.setValue(data.getFaxNo());
 			phoneFaxForm.setDisabled(isInViewMode());
@@ -438,7 +474,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			emailForm = new EmailForm(null, data.getWebPageAddress(), this,
 					this.getAction().getViewName());
 			emailForm.businesEmailText.setValue(data.getEmail());
-			emailForm.setWidth("100%");
+			// emailForm.setWidth("100%");
 			emailForm.setDisabled(isInViewMode());
 
 			// Setting Status Check
@@ -482,10 +518,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			if (data.getVATReturn() == ClientTAXAgency.RETURN_TYPE_NONE)
 				vatReturnCombo.setComboItem("");
 			else if (data.getVATReturn() == ClientTAXAgency.RETURN_TYPE_UK_VAT)
-				vatReturnCombo.setComboItem(Accounter.constants().ukVAT());
+				vatReturnCombo.setComboItem(messages.ukVAT());
 			else
-				vatReturnCombo
-						.setComboItem(Accounter.constants().vat3Ireland());
+				vatReturnCombo.setComboItem(messages.vat3Ireland());
 
 			if (data.getSalesLiabilityAccount() != 0) {
 				ClientAccount account = getCompany().getAccount(
@@ -521,24 +556,24 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			// For Creating TaxAgency
 			setData(new ClientTAXAgency());
 			addrsForm = new AddressForm(null);
-			addrsForm.setWidth("100%");
+			// addrsForm.setWidth("100%");
 			addrsForm.setDisabled(isInViewMode());
 			phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 					.getViewName());
-			phoneFaxForm.setWidth("100%");
+			// phoneFaxForm.setWidth("100%");
 			emailForm = new EmailForm(null, null, this, this.getAction()
 					.getViewName());
-			emailForm.setWidth("100%");
+			// emailForm.setWidth("100%");
 		}
 
-		phoneFaxForm.getCellFormatter().setWidth(0, 0, "235");
-		phoneFaxForm.getCellFormatter().setWidth(0, 1, "");
-
-		addrsForm.getCellFormatter().setWidth(0, 0, "50");
-		addrsForm.getCellFormatter().setWidth(0, 1, "125");
-
-		emailForm.getCellFormatter().setWidth(0, 0, "235");
-		emailForm.getCellFormatter().setWidth(0, 1, "");
+		// phoneFaxForm.getCellFormatter().setWidth(0, 0, "235");
+		// phoneFaxForm.getCellFormatter().setWidth(0, 1, "");
+		//
+		// addrsForm.getCellFormatter().setWidth(0, 0, "50");
+		// addrsForm.getCellFormatter().setWidth(0, 1, "125");
+		//
+		// emailForm.getCellFormatter().setWidth(0, 0, "235");
+		// emailForm.getCellFormatter().setWidth(0, 1, "");
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -546,7 +581,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		leftVLay.add(accInfoForm);
 
 		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setWidth("100%");
+		// rightVLay.setWidth("100%");
 		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
 		rightVLay.add(addrsForm);
 		rightVLay.add(phoneFaxForm);
@@ -555,11 +590,14 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
 
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(5);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		HorizontalPanel contHLay = new HorizontalPanel();
 		contHLay.setSpacing(5);
@@ -586,22 +624,35 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		listforms.add(accInfoForm);
 		listforms.add(memoForm);
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			accInfoForm.getCellFormatter().setWidth(0, 1, "200px");
-//			accInfoForm.setWidth("68%");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// accInfoForm.getCellFormatter().setWidth(0, 1, "200px");
+		// accInfoForm.setWidth("68%");
+		// }
 
 		return mainVlay;
 	}
 
+	private List<String> getTAXFilingFrequencies() {
+		List<String> list = new ArrayList<String>();
+		list.add(messages.monthly());
+		list.add(messages.quarterly());
+		list.add(messages.halfYearly());
+		list.add(messages.yearly());
+		return list;
+	}
+
 	private void initListGrid() {
-		gridView = new ContactsTable();
+		gridView = new ContactsTable() {
+
+			@Override
+			protected boolean isInViewMode() {
+				return TAXAgencyView.this.isInViewMode();
+			}
+		};
 		gridView.setDisabled(true);
 		// gridView.setCanEdit(true);
 		// gridView.isEnable = false;
 		// gridView.init();
-		gridView.setHeight("175px");
-
 	}
 
 	@Override
@@ -614,16 +665,22 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	@Override
 	public void initData() {
 
-		initPaymentTermsCombo();
-		if (isInViewMode()) {
-			this.selectedSalesAccount = getCompany().getAccount(
-					data.getSalesLiabilityAccount());
-			this.selectedPurchaseAccount = getCompany().getAccount(
-					data.getPurchaseLiabilityAccount());
+		if (getData() == null) {
+			setData(new ClientTAXAgency());
+		} else {
+			initPaymentTermsCombo();
+			if (isInViewMode()) {
+				this.selectedSalesAccount = getCompany().getAccount(
+						data.getSalesLiabilityAccount());
+				this.selectedPurchaseAccount = getCompany().getAccount(
+						data.getPurchaseLiabilityAccount());
+			}
+			taxTypeSelected(getTaxTypeString(data.getTaxType()));
+			liabilitySalesAccountCombo.select(selectedSalesAccount);
+			liabilityPurchaseAccountCombo.select(selectedPurchaseAccount);
+			tAXFilingFrequency.setSelectedItem(getData()
+					.getTAXFilingFrequency());
 		}
-		// initLiabilityAccounts();
-		super.initData();
-
 	}
 
 	// private void initLiabilityAccounts() {
@@ -780,6 +837,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		fileAsText.setDisabled(isInViewMode());
 		statusCheck.setDisabled(isInViewMode());
 		paymentTermsCombo.setDisabled(isInViewMode());
+		taxTypeCombo.setDisabled(isInViewMode());
 		vatReturnCombo.setDisabled(isInViewMode());
 		liabilitySalesAccountCombo.setDisabled(isInViewMode());
 		liabilityPurchaseAccountCombo.setDisabled(isInViewMode());
@@ -788,6 +846,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		phoneFaxForm.setDisabled(isInViewMode());
 		emailForm.setDisabled(isInViewMode());
 		gridView.setDisabled(isInViewMode());
+		tAXFilingFrequency.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}
@@ -804,7 +863,123 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().taxAgency();
+		return messages.taxAgency();
 	}
 
+	private int getTaxType(String taxType) {
+		if (taxType == null) {
+			return 0;
+		}
+		if (taxType.equals(messages.salesTax())) {
+			return 1;
+		} else if (taxType.equals(messages.vat())) {
+			return 2;
+		} else if (taxType.equals(messages.serviceTax())) {
+			return 3;
+		} else if (taxType.equals(messages.tds())) {
+			return 4;
+		} else if (taxType.equals(messages.other())) {
+			return 5;
+		} else {
+			return 0;
+		}
+	}
+
+	private String getTaxTypeString(int type) {
+		switch (type) {
+		case 1:
+			return messages.salesTax();
+		case 2:
+			return messages.vat();
+		case 3:
+			return messages.serviceTax();
+		case 4:
+			return messages.tds();
+		case 5:
+			return messages.other();
+		default:
+			return "";
+		}
+	}
+
+	private SelectCombo createTaxTypeSelectCombo() {
+		SelectCombo taxTypeCombo = new SelectCombo(messages.taxType());
+		String[] types = new String[] { messages.salesTax(), messages.vat(),
+				messages.serviceTax(), messages.tds(), messages.other() };
+		taxTypeCombo.initCombo(Arrays.asList(types));
+		taxTypeCombo.setDisabled(isInViewMode());
+		taxTypeCombo.setRequired(true);
+		taxTypeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						taxTypeSelected(selectItem);
+					}
+				});
+		return taxTypeCombo;
+	}
+
+	private void taxTypeSelected(String selectedType) {
+		int type = getTaxType(selectedType);
+		taxTypeCombo.setComboItem(selectedType);
+		if (type == ClientTAXAgency.TAX_TYPE_SERVICETAX
+				|| type == ClientTAXAgency.TAX_TYPE_VAT) {
+			liabilitySalesAccountCombo.setRequired(true);
+			liabilityPurchaseAccountCombo.setRequired(true);
+
+			liabilitySalesAccountCombo.setVisible(true);
+			liabilityPurchaseAccountCombo.setVisible(true);
+		} else if (type == ClientTAXAgency.TAX_TYPE_SALESTAX) {
+			liabilitySalesAccountCombo.setRequired(true);
+			liabilityPurchaseAccountCombo.setRequired(false);
+
+			liabilitySalesAccountCombo.setVisible(true);
+			liabilityPurchaseAccountCombo.setVisible(false);
+		} else if (type == ClientTAXAgency.TAX_TYPE_TDS) {
+			liabilitySalesAccountCombo.setRequired(false);
+			liabilityPurchaseAccountCombo.setRequired(true);
+
+			liabilitySalesAccountCombo.setVisible(false);
+			liabilityPurchaseAccountCombo.setVisible(true);
+		} else {
+			liabilitySalesAccountCombo.setRequired(false);
+			liabilityPurchaseAccountCombo.setRequired(false);
+
+			liabilitySalesAccountCombo.setVisible(true);
+			liabilityPurchaseAccountCombo.setVisible(true);
+		}
+
+		if (type != ClientTAXAgency.TAX_TYPE_VAT) {
+			vatReturnCombo.setComboItem("");
+			vatReturnCombo.setRequired(false);
+			vatReturnCombo.setVisible(false);
+		} else {
+			List<String> vatReturns = getVatReturns();
+			if (vatReturns == null || vatReturns.isEmpty()) {
+				return;
+			} else if (vatReturns.size() == 1) {
+				vatReturnCombo.setComboItem(vatReturns.get(0));
+			} else {
+				vatReturnCombo.initCombo(vatReturns);
+			}
+			if (getCompany().getCountry().equals(
+					CountryPreferenceFactory.UNITED_KINGDOM)) {
+				vatReturnCombo.setRequired(true);
+			}
+			vatReturnCombo.setVisible(true);
+		}
+	}
+
+	private List<String> getVatReturns() {
+		List<String> vatReturns = new ArrayList<String>();
+		vatReturns.add(messages.ukVAT());
+		vatReturns.add(messages.vat3Ireland());
+		return vatReturns;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

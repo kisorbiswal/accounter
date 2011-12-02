@@ -39,6 +39,7 @@ import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
+import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 
 public interface IAccounterReportService extends RemoteService {
 
@@ -138,8 +139,7 @@ public interface IAccounterReportService extends RemoteService {
 			String accountName, final ClientFinanceDate startDate,
 			final ClientFinanceDate endDate);
 
-	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(
-			);
+	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
 
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			String taxItemname, ClientFinanceDate startDate,
@@ -210,6 +210,9 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<ECSalesList> getECSalesListReport(
 			ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
+	public ArrayList<ECSalesList> getECSalesListReport(
+			ClientFinanceDate fromDate, ClientFinanceDate toDate, long companyId);
+
 	public ArrayList<ECSalesListDetail> getECSalesListDetailReport(
 			String payeeName, ClientFinanceDate fromDate,
 			ClientFinanceDate toDate);
@@ -245,9 +248,6 @@ public interface IAccounterReportService extends RemoteService {
 	ArrayList<CheckDetailReport> getCheckDetailReport(long paymentmethod,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	ArrayList<PayeeStatementsList> getStatements(long id,
-			ClientFinanceDate fromDate, ClientFinanceDate toDate);
-
 	ArrayList<PayeeStatementsList> getCustomerStatement(long customer,
 			long fromDate, long toDate) throws AccounterException;
 
@@ -263,6 +263,17 @@ public interface IAccounterReportService extends RemoteService {
 			long vendorId, int boxNo, ClientFinanceDate fromDate,
 			ClientFinanceDate toDate);
 
-	public ArrayList<ClientBudgetList> getBudgetItemsList(long id,
-			ClientFinanceDate startDate, ClientFinanceDate endDate, int month);
+	ArrayList<ClientBudgetList> getBudgetItemsList(long budgetID);
+
+	ArrayList<TAXItemDetail> getTAXItemDetailReport(long taxAgency,
+			long startDate, long endDate) throws AccounterException;
+
+	ArrayList<VATDetail> getVATExceptionDetailReport(ClientFinanceDate start,
+			ClientFinanceDate end) throws AccounterException;
+
+	ArrayList<TAXItemDetail> getTAXItemExceptionDetailReport(long taxAgency,
+			long startDate, long endDate) throws AccounterException;
+
+	ArrayList<PayeeStatementsList> getStatements(boolean isVendor, long id,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate);;
 }

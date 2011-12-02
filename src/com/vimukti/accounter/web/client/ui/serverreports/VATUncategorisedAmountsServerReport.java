@@ -56,15 +56,15 @@ public class VATUncategorisedAmountsServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().type(),
-				getConstants().date(), getConstants().no(),
-				getConstants().sourceName(),
-				getConstants().amount(), getConstants().balance() };
+		return new String[] { getMessages().type(),
+				getMessages().date(), getMessages().no(),
+				getMessages().sourceName(),
+				getMessages().amount(), getMessages().balance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().unCategorisedVATAmountsDetail();
+		return getMessages().unCategorisedVATAmountsDetail();
 	}
 
 	@Override
@@ -96,8 +96,8 @@ public class VATUncategorisedAmountsServerReport extends
 	@Override
 	public void processRecord(UncategorisedAmountsReport record) {
 		if (sectionDepth == 0) {
-			addSection(getConstants().unCategorisedTaxAmountsDetail(),
-					getConstants().unCategorisedTaxAmountsDetail(),
+			addSection(getMessages().unCategorisedTaxAmountsDetail(),
+					getMessages().unCategorisedTaxAmountsDetail(),
 					new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			return;
@@ -178,10 +178,10 @@ public class VATUncategorisedAmountsServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().type(),
-				getConstants().date(), getConstants().no(),
-				getConstants().sourceName(),
-				getConstants().amount(), getConstants().balance() };
+		return new String[] { getMessages().type(),
+				getMessages().date(), getMessages().no(),
+				getMessages().sourceName(),
+				getMessages().amount(), getMessages().balance() };
 	}
 	
 }

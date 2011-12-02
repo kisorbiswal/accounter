@@ -4,11 +4,6 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.vimukti.accounter.core"
 	default-access="field" auto-import="false">
-	<!-- <joined-subclass name="com.vimukti.accounter.workspace.tool.FinanceTool" 
-		table="FINANCETOOL" extends="com.bizantra.server.workspace.ext.AbstractTool"> 
-		<key column="ID"></key> <many-to-one name="company" lazy="false" class="Company" 
-		column="COMPANY_ID" cascade="save-update,delete"> </many-to-one> </joined-subclass> -->
-
 
 	<!-- Named HQL for Finance Tool -->
 
@@ -144,7 +139,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.User u where u.company=:company order
 		by
-		u.firstName,u.lastName
+		u.client.firstName,u.client.lastName
 	</query>
 	<query name="list.RecurringTransaction">
 		<query-param name="company" type="Company" />
@@ -235,8 +230,8 @@
 	<!-- <query name="list.SellingOrDisposingFixedAsset">from com.vimukti.accounter.core.SellingOrDisposingFixedAsset</query> -->
 	<query name="list.VATReturn">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.VATReturn vr where vr.company=:company
-		order by vr.taxAgency.name, vr.VATperiodStartDate
+		from com.vimukti.accounter.core.TAXReturn vr where vr.company=:company
+		order by vr.taxAgency.name, vr.periodStartDate
 	</query>
 	<query name="list.currency">
 		<query-param name="company" type="Company" />
@@ -255,10 +250,10 @@
 		vig.company=:company order by vig.name
 	</query>
 
-	<query name="list.Box">
+	<!-- <query name="list.Box">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Box b where b.company=:company
-	</query>
+	</query> -->
 
 	<query name="list.VATReturnBox">
 		<query-param name="company" type="Company" />
@@ -270,6 +265,20 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.BrandingTheme bt where
 		bt.company=:company order by bt.id
+	</query>
+
+	<query name="list.Warehouse">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Warehouse w where
+		w.company=:company
+		order by w.id
+	</query>
+
+	<query name="list.All.Units">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Measurement m where
+		m.company=:company
+		order by m.id
 	</query>
 
 	<query name="list.Activity">
@@ -358,6 +367,7 @@
 		from com.vimukti.accounter.core.ResetPasswordToken r
 		where r.token=?
 	</query>
-	<query name="gettokens.by.userid">from com.vimukti.accounter.core.ResetPasswordToken r
-		where r.userId=?</query>
+		<query name="getallMaintanaceInfoUsers">
+		from com.vimukti.accounter.core.MaintananceInfoUser m
+	</query>
 </hibernate-mapping>

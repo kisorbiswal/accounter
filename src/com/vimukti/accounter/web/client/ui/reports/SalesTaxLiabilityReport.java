@@ -17,6 +17,9 @@ public class SalesTaxLiabilityReport extends
 
 	@Override
 	public void OnRecordClick(SalesTaxLiability record) {
+		record.setStartDate(toolbar.getStartDate());
+		record.setEndDate(toolbar.getEndDate());
+		record.setDateRange(toolbar.getSelectedDateRange());
 		UIUtils.runAction(record,
 				ActionFactory.getTransactionDetailByTaxItemAction());
 	}

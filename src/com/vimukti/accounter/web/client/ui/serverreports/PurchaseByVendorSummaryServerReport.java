@@ -39,10 +39,10 @@ public class PurchaseByVendorSummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { messages.vendorName(Global.get().Vendor()),
+		return new String[] { messages.payeeName(Global.get().Vendor()),
 
-				// getVendorString("Supplier Group", "Vendor Group"),
-				constants.amount() };
+		// getVendorString("Supplier Group", "Vendor Group"),
+				messages.amount() };
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class PurchaseByVendorSummaryServerReport extends
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
-			addSection("", constants.total(), new int[] { 1 });
+			addSection("", messages.total(), new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -139,8 +139,8 @@ public class PurchaseByVendorSummaryServerReport extends
 			int col) {
 		switch (col) {
 		case 0:
-			return obj1.getName().toLowerCase()
-					.compareTo(obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase().compareTo(
+					obj2.getName().toLowerCase());
 			// case 1:
 			// return obj1.getGroupName().toLowerCase().compareTo(
 			// obj2.getGroupName().toLowerCase());
@@ -153,9 +153,9 @@ public class PurchaseByVendorSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { messages.vendorName(Global.get().vendor()),
-				// getVendorString("Supplier Group", "Vendor Group"),
-				constants.amount() };
+		return new String[] { messages.payeeName(Global.get().vendor()),
+		// getVendorString("Supplier Group", "Vendor Group"),
+				messages.amount() };
 	}
 
 }

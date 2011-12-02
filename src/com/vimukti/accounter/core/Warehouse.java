@@ -4,14 +4,21 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -29,15 +36,28 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	private static final long serialVersionUID = 640523202925694992L;
 
 	private Address address;
-	private Set<ItemStatus> itemStatuses;
+	private Set<ItemStatus> itemStatuses = new HashSet<ItemStatus>();
 
 	private String name;
+	private String warehouseCode;
 	private Contact contact;
+
 	private boolean isDefaultWarehouse;
+	private String DDINumber;
+	private String mobileNumber;
 
 	private transient boolean isOnSaveProccessed;
 
+	public Warehouse(String warehouseCode, String name, Address address,
+			boolean isDefault) {
+		this.name = name;
+		this.warehouseCode = warehouseCode;
+		this.isDefaultWarehouse = isDefault;
+		this.address = address;
+	}
+
 	public Warehouse() {
+
 	}
 
 	public Address getAddress() {
@@ -67,8 +87,28 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// TODO Auto-generated method stub
-		return false;
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session
+				.getNamedQuery("getWarehouse")
+				.setParameter("companyId",
+						((Warehouse) clientObject).getCompany().getID())
+				.setString("name", this.name).setLong("id", this.id);
+		List list = query.list();
+
+		if (list != null || list.size() > 0 || list.get(0) != null) {
+			Iterator iterator = list.iterator();
+
+			while (iterator.hasNext()) {
+
+				String object = (String) iterator.next();
+				if (this.getName().equals(object)) {
+					throw new AccounterException(
+							AccounterException.ERROR_NAME_CONFLICT);
+
+				}
+			}
+		}
+		return true;
 	}
 
 	public void setContact(Contact contact) {
@@ -85,13 +125,18 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(s);
 		isOnSaveProccessed = true;
-
+		for (ItemStatus itemStatus : itemStatuses) {
+			itemStatus.setWarehouse(this);
+		}
 		return false;
 	}
 
 	@Override
 	public boolean onUpdate(Session s) throws CallbackException {
-		super.onSave(s);
+		super.onUpdate(s);
+		for (ItemStatus itemStatus : itemStatuses) {
+			itemStatus.setWarehouse(this);
+		}
 		return false;
 	}
 
@@ -100,6 +145,7 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
+		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.WAREHOUSE);
 		ChangeTracker.put(accounterCore);
 
@@ -119,5 +165,77 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 	public void setDefaultWarehouse(boolean isDefaultWarehouse) {
 		this.isDefaultWarehouse = isDefaultWarehouse;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+
+	public void updateItemStatus(Item item, double value, boolean substract) {
+		ItemStatus itemStatus = getItemStatus(item);
+		if (itemStatus != null) {
+			Quantity tempQ = itemStatus.getQuantity();
+			if (substract) {
+				itemStatus.getQuantity().setValue(tempQ.getValue() - value);
+			} else {
+				itemStatus.getQuantity().setValue(tempQ.getValue() + value);
+			}
+		} else {
+			if (itemStatuses == null) {
+				itemStatuses = new HashSet<ItemStatus>();
+			}
+			ItemStatus newItemStatus = new ItemStatus();
+			newItemStatus.setItem(item);
+			Quantity quantity = new Quantity();
+			quantity.setUnit(item.getMeasurement().getDefaultUnit());
+			if (substract) {
+				quantity.setValue(-1 * value);
+			} else {
+				quantity.setValue(value);
+			}
+			newItemStatus.setQuantity(quantity);
+			newItemStatus.setWarehouse(this);
+			itemStatuses.add(newItemStatus);
+		}
+	}
+
+	public ItemStatus getItemStatus(Item item) {
+		for (ItemStatus itemStatus : itemStatuses) {
+			if (itemStatus.getItem().equals(item)) {
+				return itemStatus;
+			}
+		}
+		return null;
+	}
+
+	public String getDDINumber() {
+		return DDINumber;
+	}
+
+	public void setDDINumber(String dDINumber) {
+		DDINumber = dDINumber;
+	}
+
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.WAREHOUSE;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 }

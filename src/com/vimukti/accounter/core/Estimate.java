@@ -1,6 +1,10 @@
 package com.vimukti.accounter.core;
 
+import java.io.Serializable;
+
+import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -14,15 +18,28 @@ public class Estimate extends Transaction {
 	private static final long serialVersionUID = 1L;
 
 	public static final int STATUS_OPEN = 0;
+
 	public static final int STATUS_REJECTED = 1;
+
+	public static final int STATUS_APPLIED = 5;
+
 	public static final int STATUS_ACCECPTED = 2;
 
+	public static final int STATUS_CLOSE = 4;
+
+	public static final int QUOTES = 1;
+
+	public static final int CREDITS = 2;
+
+	public static final int CHARGES = 3;
+
+	public static final int BILLABLEEXAPENSES = 4;
 	/**
 	 * This is the Customer to whom we are creating this Quote.
 	 */
 	@ReffereredObject
 	Customer customer;
-
+	private int transactionType;
 	/**
 	 * This is the one of the chosen {@link Contact} of the {@link Customer}
 	 */
@@ -37,6 +54,16 @@ public class Estimate extends Transaction {
 	 */
 	Address address;
 
+	/**
+	 * The Shipping Address of the Selected Customer
+	 * 
+	 * @see Address
+	 */
+	Address shippingAdress;
+	/**
+	 * 
+	 */
+	private int estimateType;
 	/**
 	 * This defaults to the chosen Customer's primary contact Business Phone
 	 * number.
@@ -79,7 +106,7 @@ public class Estimate extends Transaction {
 	/**
 	 * The total Sales Tax collected on the whole Transaction.
 	 */
-	double taxTotal;
+	private double taxTotal;
 
 	/**
 	 * this is to verify whether this Quote being used in any Invoice or Sales
@@ -89,6 +116,10 @@ public class Estimate extends Transaction {
 	 * @see SalesOrder
 	 */
 	boolean isTurnedToInvoiceOrSalesOrder = false;
+
+	private Invoice usedInvoice;
+
+	private Invoice oldUsedInvoice;
 
 	public Estimate() {
 		setType(Transaction.TYPE_ESTIMATE);
@@ -108,6 +139,17 @@ public class Estimate extends Transaction {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	/**
+	 * @return the shippingAdress
+	 */
+	public Address getShippingAdress() {
+		return shippingAdress;
+	}
+
+	public void setShippingAdress(Address shippingAdress) {
+		this.shippingAdress = shippingAdress;
 	}
 
 	public void setPhone(String phone) {
@@ -228,8 +270,10 @@ public class Estimate extends Transaction {
 
 	@Override
 	public boolean isPositiveTransaction() {
-
-		return false;
+		if (this.estimateType == CREDITS) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -284,30 +328,130 @@ public class Estimate extends Transaction {
 
 	@Override
 	public void onEdit(Transaction clonedObject) {
+		super.onEdit(clonedObject);
+	}
 
+	@Override
+	public void onLoad(Session session, Serializable arg1) {
+		super.onLoad(session, arg1);
+		this.oldUsedInvoice = usedInvoice;
 	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		if (this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);
-			// "This Quote is Already used in SalesOrder or Invoice");
-		}
-		// else if (this.status == STATUS_REJECTED) {
-		// throw new InvalidOperationException(
-		// "You can't edit Quote, it is Rejected");
-		//
-		// }
+		if (this.id != 0) {
+			if (this.status == Transaction.STATUS_APPLIED) {
+				throw new AccounterException(
+						AccounterException.ERROR_OBJECT_IN_USE);
+				// "This Quote is Already used in SalesOrder or Invoice");
+			}
+			// else if (this.status == STATUS_REJECTED) {
+			// throw new InvalidOperationException(
+			// "You can't edit Quote, it is Rejected");
+			//
+			// }
 
-		/**
-		 * If Quote is already voided or deleted, we can't edit it
-		 */
-		if (((Estimate) clientObject).status == STATUS_REJECTED) {
-			throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
-			// "This Quote is already  Rejected,can't  Modify");
+			/**
+			 * If Quote is already voided or deleted, we can't edit it
+			 */
+			// if (((Estimate) clientObject).status == STATUS_REJECTED) {
+			// throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
+			// // "This Quote is already  Rejected,can't  Modify");
+			// }
 		}
 
 		return true;
 	}
+
+	public int getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(int transactionType) {
+		this.transactionType = transactionType;
+	}
+
+	public int getEstimateType() {
+		return estimateType;
+	}
+
+	public void setEstimateType(int estimateType) {
+		this.estimateType = estimateType;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		updateTotals();
+		super.onSave(session);
+		return false;
+	}
+
+	private void updateTotals() {
+		double lineTotal = 0.0;
+		double totalTax = 0.0;
+		for (TransactionItem record : this.getTransactionItems()) {
+			Double lineTotalAmt = record.getLineTotal();
+			lineTotal += lineTotalAmt;
+			if (record != null && record.isTaxable()) {
+				totalTax += record.getVATfraction();
+			}
+		}
+		setNetAmount(lineTotal);
+		setTaxTotal(totalTax);
+		setTotal(totalTax + lineTotal);
+	}
+
+	public void setTaxTotal(double taxTotal) {
+		this.taxTotal = taxTotal;
+	}
+
+	/**
+	 * @return the usedTransaction
+	 */
+	public Invoice getUsedInvoice() {
+		return usedInvoice;
+	}
+
+	/**
+	 * @param usedTransaction
+	 *            the usedTransaction to set
+	 */
+	public void setUsedInvoice(Invoice usedTransaction, Session session) {
+		if (this.usedInvoice == null && usedTransaction != null) {
+			this.usedInvoice = usedTransaction;
+			status = STATUS_APPLIED;
+		} else if (usedTransaction == null) {
+			this.usedInvoice = null;
+			status = STATUS_ACCECPTED;
+		}
+	}
+
+	/**
+	 * @return the oldUsedInvoice
+	 */
+	public Invoice getOldUsedInvoice() {
+		return oldUsedInvoice;
+	}
+
+	/**
+	 * @param oldUsedInvoice
+	 *            the oldUsedInvoice to set
+	 */
+	public void setOldUsedInvoice(Invoice oldUsedInvoice) {
+		this.oldUsedInvoice = oldUsedInvoice;
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+
+		return super.onDelete(session);
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

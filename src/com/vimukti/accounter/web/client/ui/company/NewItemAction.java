@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -10,7 +8,9 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ItemView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SelectItemTypeDialog;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 /**
  * 
@@ -21,25 +21,23 @@ public class NewItemAction extends Action<ClientItem> {
 
 	int type;
 	private boolean forCustomer;
-	public static final int TYPE_SERVICE = 1;
-	public static final int NON_INVENTORY_PART = 3;
 	private String itemName;
 
 	public NewItemAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 	}
 
 	public NewItemAction(String text, boolean forCustomer) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 		this.forCustomer = forCustomer;
 	}
 
 	public NewItemAction(String text, ClientItem item,
 			AccounterAsyncCallback<Object> callback, boolean forCustomer) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 		this.forCustomer = forCustomer;
 		// this.baseView = baseView;
 	}
@@ -50,17 +48,17 @@ public class NewItemAction extends Action<ClientItem> {
 	}
 
 	public void runAsync(final ClientItem data, final Boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
-			public void onSuccess() {
+			public void onCreated() {
 				ClientCompany company = Accounter.getCompany();
 				boolean sellServices = company.getPreferences()
 						.isSellServices();
 				boolean sellProducts = company.getPreferences()
 						.isSellProducts();
 				if (sellProducts && sellServices) {
-					if (type == 0) {
+					if (type == 0 && data == null) {
 						SelectItemTypeDialog dialog = new SelectItemTypeDialog(
 								forCustomer);
 						dialog.setDependent(isDependent);
@@ -68,6 +66,9 @@ public class NewItemAction extends Action<ClientItem> {
 						dialog.setItemname(itemName);
 						dialog.show();
 					} else {
+						if (data != null) {
+							type = data.getType();
+						}
 						ItemView view = new ItemView(type, forCustomer);
 						view.setItemName(itemName);
 						MainFinanceWindow.getViewManager().showView(view, data,
@@ -75,7 +76,8 @@ public class NewItemAction extends Action<ClientItem> {
 
 					}
 				} else if (sellServices) {
-					ItemView view = new ItemView(TYPE_SERVICE, forCustomer);
+					ItemView view = new ItemView(ClientItem.TYPE_SERVICE,
+							forCustomer);
 					view.setItemName(itemName);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, NewItemAction.this);
@@ -89,12 +91,6 @@ public class NewItemAction extends Action<ClientItem> {
 
 			}
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
 		});
 	}
 

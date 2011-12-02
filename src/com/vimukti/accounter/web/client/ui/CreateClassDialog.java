@@ -31,7 +31,7 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 
 		trackClassForm = new DynamicForm();
 
-		createClassTextItem = new TextItem(Accounter.constants().className());
+		createClassTextItem = new TextItem(Accounter.messages().className());
 
 		if (accounterClass != null && !accounterClass.getClassName().isEmpty()) {
 			createClassTextItem.setValue(accounterClass.getClassName());

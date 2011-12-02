@@ -4,17 +4,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.KeyFinancialIndicator;
 
 public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> {
 
-	String[] keys = { Accounter.constants().grossProfit(),
-			Accounter.constants().netProfit(),
-			Accounter.messages().bankAccounts(Global.get().Account()) };
+	String[] keys = { messages.grossProfit(),
+			messages.netProfit(),
+			messages.bankAccounts() };
 
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
 	private Double rowTotal = 0.0;
@@ -57,7 +56,9 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 			rowTotal = 0.0;
 			return account.getKeyIndicator();
 		case 7:
-			return amountAsString(rowTotal);
+			return DataUtils.amountAsStringWithCurrency(rowTotal,
+
+			getCompany().getPrimaryCurrency());
 		}
 		Double amt = account.getIndicators().get(colsMap.get(index));
 		if (amt == null) {
@@ -68,7 +69,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 			// rowTotal += amt;
 			// }
 		}
-		return amountAsString(amt);
+		return DataUtils.amountAsStringWithCurrency(amt, getCompany().getPrimaryCurrency());
 	}
 
 	@Override
@@ -119,7 +120,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 				colArray[index] = "";
 				break;
 			case 1:
-				colArray[index] = Accounter.constants().currentMonth();
+				colArray[index] = messages.currentMonth();
 				colsMap.put(1, getKeyValue(0));
 				break;
 			case 2:
@@ -143,7 +144,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 				colsMap.put(6, getKeyValue(5));
 				break;
 			case 7:
-				colArray[index] = Accounter.constants().yearToDate();
+				colArray[index] = messages.yearToDate();
 				break;
 			default:
 				break;
@@ -159,34 +160,34 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 	private String getMonthAsString(int month) {
 		switch (month) {
 		case 0:
-			return Accounter.constants().jan();
+			return messages.jan();
 		case 1:
-			return Accounter.constants().feb();
+			return messages.feb();
 		case 2:
-			return Accounter.constants().mar();
+			return messages.mar();
 		case 3:
-			return Accounter.constants().apr();
+			return messages.apr();
 		case 4:
-			return Accounter.constants().may();
+			return messages.may();
 		case 5:
-			return Accounter.constants().jun();
+			return messages.jun();
 		case 6:
-			return Accounter.constants().jul();
+			return messages.jul();
 		case 7:
 		case -5:
-			return Accounter.constants().aug();
+			return messages.aug();
 		case 8:
 		case -4:
-			return Accounter.constants().sept();
+			return messages.sept();
 		case 9:
 		case -3:
-			return Accounter.constants().oct();
+			return messages.oct();
 		case 10:
 		case -2:
-			return Accounter.constants().nov();
+			return messages.nov();
 		case 11:
 		case -1:
-			return Accounter.constants().dec();
+			return messages.dec();
 
 		}
 		return "";

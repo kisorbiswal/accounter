@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
@@ -100,9 +99,9 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 	public void showAddEditTermDialog(ClientShippingTerms rec) {
 		String arr[] = new String[2];
-		arr[0] = Accounter.constants().shippingTerm();
-		arr[1] = Accounter.constants().description();
-		inputDlg = new InputDialog(this, Accounter.constants().shippingTerm(),
+		arr[0] = Accounter.messages().shippingTerm();
+		arr[1] = Accounter.messages().description();
+		inputDlg = new InputDialog(this, Accounter.messages().shippingTerm(),
 				"", arr) {
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
@@ -133,8 +132,8 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.constants().name(),
-				Accounter.constants().description() };
+		return new String[] { Accounter.messages().name(),
+				Accounter.messages().description() };
 	}
 
 	@Override
@@ -146,17 +145,17 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (inputDlg != null) {
-			String methodName = inputDlg.getTextValueByIndex(0).toString();
-			ClientShippingMethod shippingMethodByName = getCompany()
-					.getShippingMethodByName(methodName);
+			String termName = inputDlg.getTextValueByIndex(0).toString();
+			ClientShippingTerms shippingTermByName = getCompany()
+					.getShippingTermByName(termName);
 			if (shippingTerm != null) {
-				if (!(shippingTerm.getName().equalsIgnoreCase(methodName) ? true
-						: shippingMethodByName == null)) {
-					result.addError(this, Accounter.constants().alreadyExist());
+				if (!(shippingTerm.getName().equalsIgnoreCase(termName) ? true
+						: shippingTermByName == null)) {
+					result.addError(this, Accounter.messages().alreadyExist());
 				}
 			} else {
-				if (shippingMethodByName != null) {
-					result.addError(this, Accounter.constants()
+				if (shippingTermByName != null) {
+					result.addError(this, Accounter.messages()
 							.shippingTermAlreadyExists());
 				}
 			}

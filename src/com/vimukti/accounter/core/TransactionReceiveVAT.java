@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -46,7 +47,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	double amountToReceive;
 
 	@ReffereredObject
-	VATReturn vatReturn;
+	TAXReturn taxReturn;
 
 	@ReffereredObject
 	ReceiveVAT receiveVAT;
@@ -110,16 +111,16 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the vatReturn
 	 */
-	public VATReturn getVatReturn() {
-		return vatReturn;
+	public TAXReturn getTAXReturn() {
+		return taxReturn;
 	}
 
 	/**
-	 * @param vatReturn
+	 * @param taxReturn
 	 *            the vatReturn to set
 	 */
-	public void setVatReturn(VATReturn vatReturn) {
-		this.vatReturn = vatReturn;
+	public void setTAXReturn(TAXReturn taxReturn) {
+		this.taxReturn = taxReturn;
 	}
 
 	/**
@@ -193,19 +194,19 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 		this.isOnSaveProccessed = true;
 		if (this.id == 0l) {
 
-			this.taxAgency.updateBalance(session, this.vatReturn,
+			this.taxAgency.updateBalance(session, this.taxReturn,
 					this.amountToReceive);
 
 			// At the same time we need to update the vatReturn reference in it.
-			this.vatReturn.updateBalance(this.amountToReceive);
+			this.taxReturn.updateBalance(this.amountToReceive);
 
 			// The Accounts payable is also to be decreased as the amount to pay
 			// to VATAgency is decreased.
-			Account account = vatReturn.getCompany()
-					.getVATFiledLiabilityAccount();
+			Account account = taxReturn.getTaxAgency()
+					.getFiledLiabilityAccount();
 			if (account != null) {
 				account.updateCurrentBalance(this.receiveVAT,
-						this.amountToReceive);
+						this.amountToReceive, receiveVAT.currencyFactor);
 				session.update(account);
 				account.onUpdate(session);
 			}
@@ -222,24 +223,30 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 
 			// We need to update the corresponding VATAgency's balance with this
 			// amount to pay.
-			this.taxAgency.updateBalance(session, this.vatReturn, -1
+			this.taxAgency.updateBalance(session, this.taxReturn, -1
 					* this.amountToReceive);
 
 			// At the same time we need to update the vatReturn reference in it.
-			this.vatReturn.updateBalance(-1 * this.amountToReceive);
+			this.taxReturn.updateBalance(-1 * this.amountToReceive);
 
 			// The Accounts payable is also to be decreased as the amount to pay
 			// to VATAgency is decreased.
-			Account account = vatReturn.getCompany()
-					.getVATFiledLiabilityAccount();
+			Account account = taxReturn.getTaxAgency()
+					.getFiledLiabilityAccount();
 			account.updateCurrentBalance(this.receiveVAT, -1
-					* this.amountToReceive);
+					* this.amountToReceive, receiveVAT.currencyFactor);
 		}
 		return false;
 	}
 
 	protected boolean isBecameVoid() {
 		return this.receiveVAT.isBecameVoid();
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

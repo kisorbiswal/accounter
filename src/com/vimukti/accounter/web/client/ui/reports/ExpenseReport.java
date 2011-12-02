@@ -21,8 +21,9 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(record.getTransactionType(),
-				record.getTransactionId());
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(record.getTransactionType(),
+					record.getTransactionId());
 	}
 
 	@Override

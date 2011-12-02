@@ -3,13 +3,13 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 
 public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 
@@ -59,7 +59,9 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 			// case 12:
 			// return amountAsString(budget.getDecemberAmount());
 		case 1:
-			return amountAsString(budget.getTotalAmount());
+			return DataUtils.amountAsStringWithCurrency(budget.getTotalAmount(),
+
+			getCompany().getPrimaryCurrency());
 		default:
 			break;
 		}
@@ -73,46 +75,46 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 		for (int index = 0; index < colArray.length; index++) {
 			switch (index) {
 			case 0:
-				colArray[index] = Global.get().Account();
+				colArray[index] = messages.Account();
 				break;
 			// case 1:
-			// colArray[index] = Accounter.constants().jan();
+			// colArray[index] = messages.jan();
 			// break;
 			// case 2:
-			// colArray[index] = Accounter.constants().feb();
+			// colArray[index] = messages.feb();
 			// break;
 			// case 3:
-			// colArray[index] = Accounter.constants().mar();
+			// colArray[index] = messages.mar();
 			// break;
 			// case 4:
-			// colArray[index] = Accounter.constants().apr();
+			// colArray[index] = messages.apr();
 			// break;
 			// case 5:
-			// colArray[index] = Accounter.constants().may();
+			// colArray[index] = messages.may();
 			// break;
 			// case 6:
-			// colArray[index] = Accounter.constants().jun();
+			// colArray[index] = messages.jun();
 			// break;
 			// case 7:
-			// colArray[index] = Accounter.constants().jul();
+			// colArray[index] = messages.jul();
 			// break;
 			// case 8:
-			// colArray[index] = Accounter.constants().aug();
+			// colArray[index] = messages.aug();
 			// break;
 			// case 9:
-			// colArray[index] = Accounter.constants().sept();
+			// colArray[index] = messages.sept();
 			// break;
 			// case 10:
-			// colArray[index] = Accounter.constants().oct();
+			// colArray[index] = messages.oct();
 			// break;
 			// case 11:
-			// colArray[index] = Accounter.constants().nov();
+			// colArray[index] = messages.nov();
 			// break;
 			// case 12:
-			// colArray[index] = Accounter.constants().dec();
+			// colArray[index] = messages.dec();
 			// break;
 			case 1:
-				colArray[index] = Accounter.constants().total();
+				colArray[index] = Accounter.messages().total();
 				break;
 			default:
 				break;

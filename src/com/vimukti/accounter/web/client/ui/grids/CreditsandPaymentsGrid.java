@@ -6,11 +6,11 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -24,13 +24,14 @@ public class CreditsandPaymentsGrid extends
 
 	private CustomerCreditsAndPaymentsDialiog dialog;
 	private boolean isCanEdit;
-	private AccounterConstants customerConstants = Accounter.constants();
 	List<Integer> selectedValues = new ArrayList<Integer>();
 	private List<ClientCreditsAndPayments> actualRecords, copyRecords;
 	private int columns[] = { ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
+
+	ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	private ClientTransactionReceivePayment traReceivePayment;
 	public LinkedHashMap<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>> creditsMap = new LinkedHashMap<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>>();
@@ -102,6 +103,7 @@ public class CreditsandPaymentsGrid extends
 		// : creditPayments.getAmtTouse());
 		creditPayments.setBalance(creditPayments.getBalance()
 				+ creditPayments.getAmtTouse());
+		creditPayments.setRemaoningBalance(creditPayments.getBalance());
 		creditPayments.setAmtTouse(0.0D);
 		updateData(creditPayments);
 		updateAmountValues();
@@ -130,8 +132,8 @@ public class CreditsandPaymentsGrid extends
 
 	@Override
 	protected void onClick(ClientCreditsAndPayments obj, int row, int index) {
-		if (index != 4)
-			selectRow(row);
+		// if (index != 4)
+		// selectRow(row);
 		super.onClick(obj, row, index);
 	}
 
@@ -143,40 +145,27 @@ public class CreditsandPaymentsGrid extends
 	@Override
 	public void selectRow(int row) {
 		if (isCanEdit) {
-			/*
-			 * CheckBox box = (CheckBox) this.getWidget(row, 0); if
-			 * (box.getValue()) { return; } else {
-			 */
-			if (currentCol == 4 /* && box.getValue() */)
+			if (currentCol == 4) {
 				startEditing(row);
+			}
 		}
-		// }
-		// super.selectRow(row);
 	}
 
 	@Override
 	protected boolean isEditable(ClientCreditsAndPayments obj, int row,
 			int index) {
-		// if (isCanEdit) {
-		// // CheckBox box = (CheckBox) this.getWidget(row, 0);
-		// // if (box.getValue()) {
-		// if (Arrays.asList(0, 1, 2, 3).contains(index))
-		// return false;
-		// return true;
-		// // }
-		// // return false;
-		// } else {
-		// return false;
-		// }
+		if (index == 4) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	protected String[] getColumns() {
 
-		return new String[] { customerConstants.date(),
-				customerConstants.memo(), customerConstants.creditAmount(),
-				customerConstants.balance(), customerConstants.amountToUse() };
+		return new String[] { messages.date(),
+				messages.memo(), messages.creditAmount(),
+				messages.balance(), messages.amountToUse() };
 	}
 
 	@Override
@@ -188,7 +177,8 @@ public class CreditsandPaymentsGrid extends
 			ClientCreditsAndPayments editingRecord = item;
 
 			try {
-
+				double prevAmtToUse = item.getAmtTouse();
+				double prevBalance = item.getBalance();
 				Double amtTouse = Double.parseDouble(DataUtils
 						.getReformatedAmount(value.toString()) + "");
 				// ClientCreditsAndPayments actualRecord = actualRecords
@@ -203,20 +193,16 @@ public class CreditsandPaymentsGrid extends
 					// || balance != 0 ? ((amtTouse
 					// .compareTo(item.getActualAmt()) > 0) ? true : false)
 					// : false) {
-					Accounter.showError(Accounter.constants()
+					Accounter.showError(Accounter.messages()
 							.receivedPaymentAppliedCreditsAmount());
 					setText(indexOf(item), 4,
-							amountAsString(item.getAmtTouse()));
+							DataUtils.amountAsStringWithCurrency(item.getAmtTouse(), currency));
 				} else {
-					if (DecimalUtil.isLessThan(amtTouse,
-							item.getRemaoningBalance())
-							&& !DecimalUtil.isGreaterThan(amtTouse,
-									item.getActualAmt())
-							&& DecimalUtil.isGreaterThan(amtTouse, balance)) {
-						Accounter.showError(Accounter.constants()
+					if (DecimalUtil.isLessThan(balance, 0)) {
+						Accounter.showError(Accounter.messages()
 								.receivedPaymentAppliedCreditsAmount());
 						setText(indexOf(item), 4,
-								amountAsString(item.getAmtTouse()));
+								DataUtils.amountAsStringWithCurrency(item.getAmtTouse(), currency));
 					} else {
 						double newValue = getAmountInBaseCurrency((Double) amtTouse);
 						editingRecord.setAmtTouse(newValue);
@@ -224,13 +210,20 @@ public class CreditsandPaymentsGrid extends
 						editingRecord.setRemaoningBalance(balance);
 						editingRecord.setRecordChanged(true);
 
-						updateData(editingRecord);
 						updateAmountValues();
+						if (!newdialog.validTotalAmountUse()) {
+							Accounter.showError(Accounter.messages()
+									.amountToUseMustLessthanTotal());
+							editingRecord.setAmtTouse(prevAmtToUse);
+							editingRecord.setBalance(prevBalance);
+							editingRecord.setRemaoningBalance(prevBalance);
+						}
+						updateData(editingRecord);
 					}
 
 				}
 			} catch (Exception e) {
-				Accounter.showError(Accounter.constants().invalidAmount());
+				Accounter.showError(Accounter.messages().invalidAmount());
 			}
 
 			break;
@@ -252,6 +245,7 @@ public class CreditsandPaymentsGrid extends
 			ClientCreditsAndPayments r = new ClientCreditsAndPayments();
 			r.setAmtTouse(rec.getAmtTouse());
 			r.setBalance(rec.getBalance());
+			r.setRemaoningBalance(rec.getBalance());
 			r.setCreditAmount(rec.getCreditAmount());
 			r.setMemo(rec.getMemo() != null ? rec.getMemo() : "");
 			r.setPayee(rec.getPayee());
@@ -327,14 +321,18 @@ public class CreditsandPaymentsGrid extends
 		case 1:
 			return creditsAndPayments.getMemo();
 		case 2:
-			return amountAsString(getAmountInForeignCurrency(creditsAndPayments
-					.getCreditAmount()));
+			return DataUtils.amountAsStringWithCurrency(
+					getAmountInForeignCurrency(creditsAndPayments
+							.getCreditAmount()),
+					currency);
 		case 3:
-			return amountAsString(getAmountInForeignCurrency(creditsAndPayments
-					.getBalance()));
+			return DataUtils.amountAsStringWithCurrency(
+					getAmountInForeignCurrency(creditsAndPayments.getBalance()),
+					currency);
 		case 4:
-			return amountAsString(getAmountInForeignCurrency(creditsAndPayments
-					.getAmtTouse()));
+			return DataUtils.amountAsStringWithCurrency(
+					getAmountInForeignCurrency(creditsAndPayments.getAmtTouse()),
+					currency);
 		default:
 			break;
 		}
@@ -346,7 +344,7 @@ public class CreditsandPaymentsGrid extends
 		ValidationResult result = new ValidationResult();
 		if (this.getRecords().size() > 0
 				&& this.getSelectedRecords().size() == 0) {
-			result.addError(this, Accounter.constants().selectTransaction());
+			result.addError(this, Accounter.messages().selectTransaction());
 		}
 		return result;
 	}

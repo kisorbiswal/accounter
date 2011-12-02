@@ -3,6 +3,8 @@ package com.vimukti.accounter.core;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.vimukti.accounter.web.server.translate.Language;
+
 /**
  * This Client Saved in ServerDatabase
  * 
@@ -14,16 +16,19 @@ public class Client {
 	private long id;
 	private String firstName;
 	private String lastName;
+	private String fullName;
 	private String emailId;
 	private String password;
 	private boolean isActive;
-	private Set<ServerCompany> companies;
+	private Set<User> users;
 	private String phoneNumber;
 	private String country;
 	private boolean isSubscribedToNewsLetters;
 	private boolean isRequirePasswordReset = false;
 	private int loginCount;
 	private long lastLoginTime;
+	private Set<Language> languages;
+	private boolean isDeleted;
 
 	public int getLoginCount() {
 		return loginCount;
@@ -81,12 +86,12 @@ public class Client {
 		this.isActive = isActive;
 	}
 
-	public Set<ServerCompany> getCompanies() {
-		return companies;
+	public Set<User> getUsers() {
+		return users;
 	}
 
-	public void setCompanies(Set<ServerCompany> companies) {
-		this.companies = companies;
+	public void setUsers(Set<User> companies) {
+		this.users = companies;
 	}
 
 	public void setPhoneNo(String phoneNumber) {
@@ -136,23 +141,21 @@ public class Client {
 	 */
 	public User toUser() {
 		User user = new User();
-		user.setFirstName(this.firstName);
-		user.setLastName(this.lastName);
-		user.setEmail(this.emailId);
+		user.setClient(this);
 		return user;
 	}
 
 	/**
 	 * Returns ServerCompany From ID
 	 * 
-	 * @param serverCompanyID
+	 * @param companyID
 	 * @return
 	 */
-	public ServerCompany getCompany(long serverCompanyID) {
-		Iterator<ServerCompany> iterator = companies.iterator();
+	public Company getCompany(long companyID) {
+		Iterator<User> iterator = users.iterator();
 		while (iterator.hasNext()) {
-			ServerCompany next = iterator.next();
-			if (next.getID() == serverCompanyID) {
+			Company next = iterator.next().getCompany();
+			if (next.getID() == companyID) {
 				return next;
 			}
 		}
@@ -161,6 +164,30 @@ public class Client {
 
 	public long getID() {
 		return id;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public void setLanguages(Set<Language> languages) {
+		this.languages = languages;
+	}
+
+	public Set<Language> getLanguages() {
+		return languages;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 }

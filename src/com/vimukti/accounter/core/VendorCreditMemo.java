@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -56,12 +57,12 @@ public class VendorCreditMemo extends Transaction {
 	/**
 	 * The Contact information to contact the Specified Vendor
 	 */
-	Contact contact;
+	private Contact contact;
 
 	/**
 	 * The phone number to contact the Specified Vendor
 	 */
-	String phone;
+	private String phone;
 
 	double balanceDue = 0D;
 
@@ -301,10 +302,33 @@ public class VendorCreditMemo extends Transaction {
 	}
 
 	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid) {
+			this.balanceDue = 0d;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
 		return super.canEdit(clientObject);
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 
 }

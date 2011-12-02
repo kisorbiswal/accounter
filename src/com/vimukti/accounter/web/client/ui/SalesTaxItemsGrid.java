@@ -46,8 +46,8 @@ public class SalesTaxItemsGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().name(),
-				Accounter.constants().currentRate() };
+		return new String[] { Accounter.messages().name(),
+				Accounter.messages().currentRate() };
 	}
 
 

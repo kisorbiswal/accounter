@@ -25,19 +25,19 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class ApplyCreditDialog extends BaseDialog<ClientCustomer> {
 
-	private static final String ATTR_CREDIT_AMOUNT = Accounter.constants()
+	private static final String ATTR_CREDIT_AMOUNT = Accounter.messages()
 			.credit();
 
-	private final String ATTR_DATE = Accounter.constants().date();
+	private final String ATTR_DATE = Accounter.messages().date();
 
-	private final String ATTR_MEMO = Accounter.constants().memo();
+	private final String ATTR_MEMO = Accounter.messages().memo();
 
-	private final String ATTR_BALANCE = Accounter.constants().balance();
+	private final String ATTR_BALANCE = Accounter.messages().balance();
 
-	private final String ATTR_AMOUNT_TO_USE = Accounter.constants()
+	private final String ATTR_AMOUNT_TO_USE = Accounter.messages()
 			.amountToUse();
 
-	private final String ATTR_ID = Accounter.constants().id();
+	private final String ATTR_ID = Accounter.messages().id();
 	AmountField amtDueText, totCredAmtText, cashDiscText, totBalText,
 			adjPayText, totAmtUseText;
 	DialogGrid grid;
@@ -57,7 +57,7 @@ public class ApplyCreditDialog extends BaseDialog<ClientCustomer> {
 	private IGenericCallback<String> callback;
 
 	public ApplyCreditDialog() {
-		super(Accounter.constants().applyCreditsandPayments(), "");
+		super(Accounter.messages().applyCreditsandPayments(), "");
 		createControls();
 		center();
 	}
@@ -69,7 +69,7 @@ public class ApplyCreditDialog extends BaseDialog<ClientCustomer> {
 			int key,
 			LinkedHashMap<String, List<ClientTransactionCreditsAndPayments>> creditsAndPaymentsMap,
 			IGenericCallback<String> callback) {
-		super(Accounter.constants().applyCreditsandPayments(), "");
+		super(Accounter.messages().applyCreditsandPayments(), "");
 		this.key = key;
 		this.creditsAndPaymentsMap = creditsAndPaymentsMap;
 		this.amountDue = amountDue;
@@ -81,39 +81,39 @@ public class ApplyCreditDialog extends BaseDialog<ClientCustomer> {
 	}
 
 	private void createControls() {
-		Label lab1 = new Label(Accounter.constants().applyCreditsandPayments());
+		Label lab1 = new Label(Accounter.messages().applyCreditsandPayments());
 		lab1.setWidth("100%");
 		// lab1.setAutoHeight();
 
-		amtDueText = new AmountField(Accounter.constants().amountDue(), this);
+		amtDueText = new AmountField(Accounter.messages().amountDue(), this,getBaseCurrency());
 		amtDueText.setColSpan(1);
 		amtDueText.setValue(amountDue);
 		amtDueText.setDisabled(true);
 
-		totCredAmtText = new AmountField(Accounter.constants()
-				.totalCreditAmount(), this);
+		totCredAmtText = new AmountField(Accounter.messages()
+				.totalCreditAmount(), this,getBaseCurrency());
 		totCredAmtText.setColSpan(1);
 		totCredAmtText.setDisabled(true);
 
-		cashDiscText = new AmountField(Accounter.constants().cashDiscount(),
-				this);
+		cashDiscText = new AmountField(Accounter.messages().cashDiscount(),
+				this,getBaseCurrency());
 		cashDiscText.setColSpan(1);
 		cashDiscText.setValue(cashDiscount);
 		cashDiscText.setDisabled(true);
 
-		totBalText = new AmountField(Accounter.constants().totalBalance(), this);
+		totBalText = new AmountField(Accounter.messages().totalBalance(), this,getBaseCurrency());
 		totBalText.setColSpan(1);
 		totBalText.setDisabled(true);
 
-		adjPayText = new AmountField(Accounter.constants().adjustedPayment(),
-				this);
+		adjPayText = new AmountField(Accounter.messages().adjustedPayment(),
+				this,getBaseCurrency());
 		adjPayText.setColSpan(1);
 		adjPayText.setDisabled(true);
 		adjPayText.setValue(amountAsString(DataUtils.getBalance(amountDue)
 				- DataUtils.getBalance(cashDiscount)));
 
-		totAmtUseText = new AmountField(Accounter.constants()
-				.totalAmountToUse(), this);
+		totAmtUseText = new AmountField(Accounter.messages()
+				.totalAmountToUse(), this,getBaseCurrency());
 		totAmtUseText.setColSpan(1);
 		totAmtUseText.setDisabled(true);
 		totAmtUseText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
@@ -234,7 +234,7 @@ public class ApplyCreditDialog extends BaseDialog<ClientCustomer> {
 		//
 		// });
 		// okbtn.setAutoFit(true);
-		okbtn.setTitle(Accounter.constants().adjust());
+		okbtn.setTitle(Accounter.messages().adjust());
 		// addInputDialogHandler(new InputDialogHandler() {
 		//
 		// public void onCancel() {
@@ -314,11 +314,11 @@ public class ApplyCreditDialog extends BaseDialog<ClientCustomer> {
 
 	protected void setGridFields() {
 		grid.addColumn(ListGrid.COLUMN_TYPE_CHECK, "");
-		grid.addColumns(new String[] { Accounter.constants().date(),
-				Accounter.constants().memo(),
-				Accounter.constants().creditAmount(),
-				Accounter.constants().balance(),
-				Accounter.constants().amountToUse() });
+		grid.addColumns(new String[] { Accounter.messages().date(),
+				Accounter.messages().memo(),
+				Accounter.messages().creditAmount(),
+				Accounter.messages().balance(),
+				Accounter.messages().amountToUse() });
 	}
 
 	@Override

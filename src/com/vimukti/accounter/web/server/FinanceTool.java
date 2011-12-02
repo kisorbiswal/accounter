@@ -9,15 +9,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.NotSerializableException;
+import java.math.BigInteger;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.FlushMode;
@@ -29,20 +34,20 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Budget;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CloneUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.CreditNotePDFTemplete;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerCreditMemo;
-import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.IAccounterServerCore;
@@ -54,11 +59,17 @@ import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.PayBill;
+import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.PortletPageConfiguration;
+import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.Reconciliation;
+import com.vimukti.accounter.core.ReconciliationItem;
 import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.TransactionLog;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransactionMakeDepositEntries;
 import com.vimukti.accounter.core.TransferFund;
@@ -72,24 +83,29 @@ import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
+import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientBudget;
+import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
+import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
-import com.vimukti.accounter.web.client.core.ClientTransactionPaySalesTax;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.HrEmployee;
@@ -99,6 +115,8 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.translate.ClientLanguage;
+import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.server.managers.CompanyManager;
 import com.vimukti.accounter.web.server.managers.CustomerManager;
 import com.vimukti.accounter.web.server.managers.DashboardManager;
@@ -111,6 +129,11 @@ import com.vimukti.accounter.web.server.managers.SalesManager;
 import com.vimukti.accounter.web.server.managers.TaxManager;
 import com.vimukti.accounter.web.server.managers.UserManager;
 import com.vimukti.accounter.web.server.managers.VendorManager;
+import com.vimukti.accounter.web.server.translate.Key;
+import com.vimukti.accounter.web.server.translate.Language;
+import com.vimukti.accounter.web.server.translate.LocalMessage;
+import com.vimukti.accounter.web.server.translate.Message;
+import com.vimukti.accounter.web.server.translate.Vote;
 
 /**
  * @author Fernandez
@@ -118,6 +141,7 @@ import com.vimukti.accounter.web.server.managers.VendorManager;
  */
 public class FinanceTool {
 
+	private static final Object Double = null;
 	Logger log = Logger.getLogger(FinanceTool.class);
 	private InventoryManager inventoryManager;
 	private FixedAssestManager fixedAssestManager;
@@ -166,10 +190,9 @@ public class FinanceTool {
 			}
 
 			serverObject = new ServerConvertUtil().toServerObject(serverObject,
-					(IAccounterCore) data, session);
+					data, session);
 
-			ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
-					company);
+			ObjectConvertUtil.setCompany(serverObject, company);
 
 			// if (serverObject instanceof CreatableObject) {
 			// // get the user from user id
@@ -186,7 +209,7 @@ public class FinanceTool {
 			// }
 			getManager().canEdit(serverObject, data);
 
-			isTransactionNumberExist((IAccounterCore) data, company);
+			isTransactionNumberExist(data, company);
 			session.save(serverObject);
 			transaction.commit();
 
@@ -255,15 +278,13 @@ public class FinanceTool {
 			IAccounterServerCore clonedObject = new CloneUtil<IAccounterServerCore>(
 					IAccounterServerCore.class).clone(null, serverObject);
 
-			ObjectConvertUtil.setCompany((IAccounterServerCore) clonedObject,
-					company);
+			ObjectConvertUtil.setCompany(clonedObject, company);
 
-			getManager().canEdit(clonedObject, (IAccounterCore) data);
+			getManager().canEdit(clonedObject, data);
 
-			isTransactionNumberExist((IAccounterCore) data, company);
+			isTransactionNumberExist(data, company);
 
-			new ServerConvertUtil().toServerObject(serverObject,
-					(IAccounterCore) data, session);
+			new ServerConvertUtil().toServerObject(serverObject, data, session);
 
 			serverObject.setVersion(++version);
 
@@ -290,7 +311,7 @@ public class FinanceTool {
 			// Util.loadObjectByStringID(session, command.arg2,
 			// command.arg1);
 
-			if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
+			if (serverObject instanceof CreatableObject) {
 				// get the user from user id
 				((CreatableObject) serverObject).setLastModifier(getCompany(
 						updateContext.getCompanyId()).getUserByUserEmail(
@@ -306,9 +327,19 @@ public class FinanceTool {
 
 			org.hibernate.Transaction newTransaction = session
 					.beginTransaction();
-
-			Activity activity = new Activity(company, user, ActivityType.EDIT,
-					serverObject);
+			Activity activity = null;
+			if (serverObject instanceof Transaction) {
+				if (((Transaction) serverObject).isVoid()) {
+					activity = new Activity(company, user, ActivityType.VOID,
+							serverObject);
+				} else {
+					activity = new Activity(company, user, ActivityType.EDIT,
+							serverObject);
+				}
+			} else {
+				activity = new Activity(company, user, ActivityType.EDIT,
+						serverObject);
+			}
 			session.saveOrUpdate(activity);
 			if (serverObject instanceof Transaction) {
 				((Transaction) serverObject).setLastActivity(activity);
@@ -387,7 +418,7 @@ public class FinanceTool {
 			session.delete(serverObject);
 		} else {
 			if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1),
-					company.getAccountingType(), company.getID())) {
+					company.getID())) {
 				session.delete(serverObject);
 			} else {
 				throw new AccounterException(
@@ -413,23 +444,23 @@ public class FinanceTool {
 
 	}
 
-	private boolean canDelete(String serverClass, long id, int companyType,
-			long companyId) {
-		String queryName = getCanDeleteQueryName(serverClass, companyType);
+	private boolean canDelete(String serverClass, long id, long companyId) {
+		String queryName = getCanDeleteQueryName(serverClass);
 		Query query = HibernateUtil.getCurrentSession()
 				.getNamedQuery(queryName).setParameter("inputId", id)
 				.setParameter("companyId", companyId);
 		return executeQuery(query);
 	}
 
-	private String getCanDeleteQueryName(String serverClass, int companyType) {
+	private String getCanDeleteQueryName(String serverClass) {
 		StringBuffer query = new StringBuffer("canDelete");
 		query.append(serverClass);
-		if (serverClass.equals("TAXItem") || serverClass.equals("TAXGroup")) {
-			if (companyType == Company.ACCOUNTING_TYPE_US) {
-				query.append("ForUS");
-			}
-		}
+		// if (serverClass.equals("TAXItem") || serverClass.equals("TAXGroup"))
+		// {
+		// if (companyType == Company.ACCOUNTING_TYPE_US) {
+		// query.append("ForUS");
+		// }
+		// }
 		return query.toString();
 	}
 
@@ -450,7 +481,7 @@ public class FinanceTool {
 				for (User user : users) {
 					try {
 						CometStream stream = CometManager.getStream(
-								ServerCompanyID, user.getEmail());
+								ServerCompanyID, user.getClient().getEmailId());
 						if (stream == null) {
 							continue;
 						}
@@ -460,7 +491,7 @@ public class FinanceTool {
 							}
 						}
 						log.info("Sent " + changes.length + " change to "
-								+ user.getEmail());
+								+ user.getClient().getEmailId());
 					} catch (NotSerializableException e) {
 						e.printStackTrace();
 						log.error("Failed to Process Request", e);
@@ -613,27 +644,6 @@ public class FinanceTool {
 
 	}
 
-	public ArrayList<Entry> getEntries(long journalEntryId, long companyId)
-			throws DAOException {
-		try {
-
-			Session session = HibernateUtil.getCurrentSession();
-			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery("getEntry.by.id")
-					.setLong("id", journalEntryId)
-					.setEntity("company", company);
-			List<Entry> list = query.list();
-
-			if (list != null) {
-				return new ArrayList<Entry>(list);
-			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		}
-	}
-
 	public ArrayList<JournalEntry> getJournalEntries(long companyId)
 			throws DAOException {
 		try {
@@ -675,25 +685,17 @@ public class FinanceTool {
 		}
 	}
 
-	public Long getNextIssuePaymentCheckNumber(long account, long companyId)
-			throws DAOException {
-		try {
+	public String getNextIssuePaymentCheckNumber(long account, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getNextIssuePaymentCheckNumber")
+				.setParameter("accountID", account)
+				.setParameter("companyId", companyId);
+		String number = (String) query.uniqueResult();
 
-			Session session = HibernateUtil.getCurrentSession();
-			Query query = session
-					.getNamedQuery("getNextIssuePaymentCheckNumber")
-					.setParameter("accountID", account)
-					.setParameter("companyId", companyId);
-			List list = query.list();
-
-			if (list != null) {
-				return (list.size() > 0) ? ((Long) list.get(0)) + 1 : 1;
-			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		}
+		if (number != null) {
+			return NumberUtils.getStringwithIncreamentedDigit(number);
+		} else
+			return "1";
 	}
 
 	public String getNextFixedAssetNumber(long companyId) throws DAOException {
@@ -713,35 +715,6 @@ public class FinanceTool {
 		// }
 		return NumberUtils.getNextFixedAssetNumber(getCompany(companyId));
 
-	}
-
-	public String getNextVoucherNumber(long companyId) throws DAOException {
-		// try {
-		//
-		// Session session = HibernateUtil.getCurrentSession();
-		// Query query = session
-		// .createQuery("from com.vimukti.accounter.core.Entry e ");
-		// List list1 = query.list();
-		//
-		// if (list1.size() <= 0) {
-		//
-		// return this
-		// .getNextTransactionNumber(Transaction.TYPE_JOURNAL_ENTRY);
-		// }
-		//
-		// query = session
-		// .createQuery("select e.voucherNumber from com.vimukti.accounter.core.Entry e where e.id = (select max(e1.id) from com.vimukti.accounter.core.Entry e1 )");
-		// List list = query.list();
-		//
-		// if (list != null) {
-		// return getStringwithIncreamentedDigit(((String) list.get(0)));
-		// } else
-		// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-		// null));
-		// } catch (DAOException e) {
-		// throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		// }
-		return NumberUtils.getNextVoucherNumber(getCompany(companyId));
 	}
 
 	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(
@@ -775,6 +748,7 @@ public class FinanceTool {
 			List<JournalEntry> openingBalanceEntries = query.list();
 
 			for (JournalEntry je : openingBalanceEntries) {
+				double currencyFactor = je.getCurrencyFactor();
 				ReceivePaymentTransactionList receivePaymentTransactionList = new ReceivePaymentTransactionList();
 				receivePaymentTransactionList.setTransactionId(je.getID());
 				receivePaymentTransactionList.setType(je.getType());
@@ -782,8 +756,9 @@ public class FinanceTool {
 						je.getDate().getDate()));
 				receivePaymentTransactionList.setNumber(je.getNumber());
 				receivePaymentTransactionList.setInvoiceAmount(je
-						.getDebitTotal());
-				receivePaymentTransactionList.setAmountDue(je.getBalanceDue());
+						.getDebitTotal() / currencyFactor);
+				receivePaymentTransactionList.setAmountDue(je.getBalanceDue()
+						/ currencyFactor);
 				receivePaymentTransactionList
 						.setDiscountDate(new ClientFinanceDate(je.getDate()
 								.getDate()));
@@ -878,7 +853,6 @@ public class FinanceTool {
 				// .setID((object[0] == null ? null : ((Long) object[0])));
 				writeCheck.setDate((new FinanceDate((Long) object[1])));
 				writeCheck.setPayToType((Integer) object[2]);
-				writeCheck.setBalance((Double) object[3]);
 				writeCheck.setCustomer(object[4] != null ? (Customer) session
 						.get(Customer.class, ((Long) object[4])) : null);
 				writeCheck.setVendor(object[5] != null ? (Vendor) session.get(
@@ -1423,8 +1397,10 @@ public class FinanceTool {
 
 	public static void createViews() {
 		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
 		session.getNamedQuery("createSalesPurchasesView").executeUpdate();
 		session.getNamedQuery("createTransactionHistoryView").executeUpdate();
+		transaction.commit();
 	}
 
 	public static void createViewsForclient(long companyId) {
@@ -1435,8 +1411,8 @@ public class FinanceTool {
 				.setParameter("companyId", companyId).executeUpdate();
 	}
 
-	public ArrayList<PayeeList> getPayeeList(int transactionCategory,
-			long companyId) throws DAOException {
+	public ArrayList<PayeeList> getPayeeList(int category, long companyId)
+			throws AccounterException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 
@@ -1530,7 +1506,7 @@ public class FinanceTool {
 
 			Query query = null;
 
-			if (transactionCategory == Transaction.CATEGORY_CUSTOMER) {
+			if (category == Payee.TYPE_CUSTOMER) {
 
 				query = session
 						.getNamedQuery("getCustomersList")
@@ -1584,10 +1560,63 @@ public class FinanceTool {
 								new FinanceDate(previousFifthMonthEndDateCal
 										.getTime()).getDate());
 
-			} else if (transactionCategory == Transaction.CATEGORY_VENDOR) {
+			} else if (category == Payee.TYPE_VENDOR) {
 
 				query = session
 						.getNamedQuery("getVendorsList")
+						.setParameter("companyId", companyId)
+						.setParameter(
+								"currentMonthStartDateCal",
+								new FinanceDate(currentMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"currentMonthEndDateCal",
+								new FinanceDate(currentMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthStartDateCal",
+								new FinanceDate(previousFirstMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFirstMonthEndDateCal",
+								new FinanceDate(previousFirstMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousSecondMonthStartDateCal",
+								new FinanceDate(previousSecondMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousSecondMonthEndDateCal",
+								new FinanceDate(previousSecondMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousThirdMonthStartDateCal",
+								new FinanceDate(previousThirdMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousThirdMonthEndDateCal",
+								new FinanceDate(previousThirdMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFourthMonthStartDateCal",
+								new FinanceDate(previousFourthMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFourthMonthEndDateCal",
+								new FinanceDate(previousFourthMonthEndDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFifthMonthStartDateCal",
+								new FinanceDate(previousFifthMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFifthMonthEndDateCal",
+								new FinanceDate(previousFifthMonthEndDateCal
+										.getTime()).getDate());
+			} else if (category == Payee.TYPE_TAX_AGENCY) {
+
+				query = session
+						.getNamedQuery("getTAXAgencyList")
 						.setParameter("companyId", companyId)
 						.setParameter(
 								"currentMonthStartDateCal",
@@ -1649,30 +1678,42 @@ public class FinanceTool {
 				while ((iterator).hasNext()) {
 
 					object = (Object[]) iterator.next();
+					double currencyFactor = (Double) object[12];
 
 					if (payeeName != null && ((String) object[1]) != null
-							&& payeeName.equals((String) object[1])) {
+							&& payeeName.equals(object[1])) {
 
+						double currentMount = (Double) object[4];
 						payeeList.setCurrentMonth(payeeList.getCurrentMonth()
-								+ (Double) object[4]);
+								+ (currentMount / currencyFactor));
 
+						double preMnt = (Double) object[5];
 						payeeList.setPreviousMonth(payeeList.getPreviousMonth()
-								+ (Double) object[5]);
+								+ (preMnt / currencyFactor));
 
+						double pre2Mnt = (Double) object[6];
 						payeeList.setPreviousSecondMonth(payeeList
-								.getPreviousSecondMonth() + (Double) object[6]);
+								.getPreviousSecondMonth()
+								+ (pre2Mnt / currencyFactor));
 
+						double pre3Mnt = (Double) object[7];
 						payeeList.setPreviousThirdMonth(payeeList
-								.getPreviousThirdMonth() + (Double) object[7]);
+								.getPreviousThirdMonth()
+								+ (pre3Mnt / currencyFactor));
 
+						double pre4mnt = (Double) object[8];
 						payeeList.setPreviousFourthMonth(payeeList
-								.getPreviousFourthMonth() + (Double) object[8]);
+								.getPreviousFourthMonth()
+								+ (pre4mnt / currencyFactor));
 
+						double pre5Mnt = (Double) object[9];
 						payeeList.setPreviousFifthMonth(payeeList
-								.getPreviousFifthMonth() + (Double) object[9]);
+								.getPreviousFifthMonth()
+								+ (pre5Mnt / currencyFactor));
 
+						double yearToDate = (Double) object[10];
 						payeeList.setYearToDate(payeeList.getYearToDate()
-								+ (Double) object[10]);
+								+ (yearToDate / currencyFactor));
 
 					} else {
 
@@ -1684,13 +1725,27 @@ public class FinanceTool {
 						payeeList.setPayeeName(payeeName);
 						payeeList.setType((Integer) object[2]);
 						payeeList.setID((Long) object[3]);
-						payeeList.setCurrentMonth((Double) object[4]);
-						payeeList.setPreviousMonth((Double) object[5]);
-						payeeList.setPreviousSecondMonth((Double) object[6]);
-						payeeList.setPreviousThirdMonth((Double) object[7]);
-						payeeList.setPreviousFourthMonth((Double) object[8]);
-						payeeList.setPreviousFifthMonth((Double) object[9]);
-						payeeList.setYearToDate((Double) object[10]);
+						payeeList.setCurrecny((Long) object[13]);
+
+						double currentMonth = (Double) object[4];
+						payeeList
+								.setCurrentMonth(currentMonth / currencyFactor);
+						double preMnt = (Double) object[5];
+						payeeList.setPreviousMonth(preMnt / currencyFactor);
+						double pre2Mnt = (Double) object[6];
+						payeeList.setPreviousSecondMonth(pre2Mnt
+								/ currencyFactor);
+						double pre3Mnt = (Double) object[7];
+						payeeList.setPreviousThirdMonth(pre3Mnt
+								/ currencyFactor);
+						double pre4Mnt = (Double) object[8];
+						payeeList.setPreviousFourthMonth(pre4Mnt
+								/ currencyFactor);
+						double pre5Mnt = (Double) object[9];
+						payeeList.setPreviousFifthMonth(pre5Mnt
+								/ currencyFactor);
+						double yearToDate = (Double) object[10];
+						payeeList.setYearToDate(yearToDate / currencyFactor);
 						payeeList.setBalance((Double) object[11]);
 
 						queryResult.add(payeeList);
@@ -1698,10 +1753,10 @@ public class FinanceTool {
 				}
 				return new ArrayList<PayeeList>(queryResult);
 			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+				throw (new AccounterException(
+						AccounterException.ERROR_ILLEGAL_ARGUMENT));
+		} catch (AccounterException e) {
+			throw (new AccounterException(AccounterException.ERROR_INTERNAL, e));
 		}
 	}
 
@@ -1782,6 +1837,37 @@ public class FinanceTool {
 		return new ArrayList<ClientRecurringTransaction>(clientObjs);
 	}
 
+	/**
+	 * 
+	 * @param companyId
+	 * @param payee
+	 * @param tdate
+	 * @return
+	 * @throws AccounterException
+	 */
+	public double getMostRecentTransactionCurreencyFactorBasedOnCurrency(
+			long companyId, long currencyId, long tdate)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session
+				.getNamedQuery(
+						"getMostRecentTransactionCurrencyFactor.orderby.id.basedon.currency")
+				.setLong("companyId", companyId)
+				.setLong("transactionDate", tdate)
+				.setLong("currency", currencyId);
+
+		List list = query.list();
+		if (list.isEmpty()) {
+			return 1;
+		}
+		Object factorObj = list.get(0);
+		if (factorObj != null) {
+			return ((Double) factorObj).doubleValue();
+		} else {
+			return 1;
+		}
+	}
+
 	public void mergeAcoount(ClientAccount fromClientAccount,
 			ClientAccount toClientAccount, long companyId)
 			throws AccounterException {
@@ -1790,27 +1876,91 @@ public class FinanceTool {
 		Company company = getCompany(companyId);
 		double mergeBalance = toClientAccount.getOpeningBalance()
 				+ fromClientAccount.getOpeningBalance();
+		try {
+			session.getNamedQuery("update.merge.Account.oldBalance.tonew")
+					.setLong("from", toClientAccount.getID())
+					.setDouble("balance", mergeBalance)
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.merge.Account.oldBalance.tonew")
-				.setLong("from", toClientAccount.getID())
-				.setDouble("balance", mergeBalance)
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.merge.accounttransaction.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("delete.account.old")
-				.setLong("from", fromClientAccount.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery(
+					"update.merge.accountcustomercreditmemo.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("delete.account.entry.old")
-				.setLong("from", fromClientAccount.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.merge.issuepayment.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
 
-		ServerConvertUtil convertUtil = new ServerConvertUtil();
-		Account account = new Account();
-		account = convertUtil.toServerObject(account, fromClientAccount,
-				session);
-		session.delete(account);
+			session.getNamedQuery(
+					"update.merge.accounttrasactionexpense.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID()).executeUpdate();
 
-		tx.commit();
+			session.getNamedQuery("update.merge.payexpense.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
+			session.getNamedQuery(
+					"update.merge.accountreceivepayment.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
+
+			// session.getNamedQuery("update.merge.transactionexpense.old.tonew")
+			// .setLong("fromID", fromClientAccount.getID()).setLong(
+			// "toID", toClientAccount.getID()).setEntity(
+			// "company", company).executeUpdate();
+			session.getNamedQuery("update.merge.transactionitem.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID()).executeUpdate();
+
+			session.getNamedQuery(
+					"update.merge.accounttransactionmakedeposit.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID()).executeUpdate();
+
+			session.getNamedQuery(
+					"update.merge.transactionmakedepositentries.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID()).executeUpdate();
+
+			session.getNamedQuery("update.merge.accountwritecheck.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
+
+			session.getNamedQuery("delete.account.old")
+					.setLong("from", fromClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
+
+			// session.getNamedQuery("delete.account.entry.old").setLong("from",
+			// fromClientAccount.getID()).setEntity("company", company)
+			// .executeUpdate();
+
+			// ServerConvertUtil convertUtil = new ServerConvertUtil();
+			// Account account = new Account();
+			// account = convertUtil.toServerObject(account, fromClientAccount,
+			// session);
+			// session.delete(account);
+			//
+			// tx.commit();
+			Account account = (Account) session.get(Account.class,
+					fromClientAccount.getID());
+			company.getAccounts().remove(account);
+			session.saveOrUpdate(company);
+			account.setCompany(null);
+			session.delete(account);
+			tx.commit();
+		} catch (Exception e) {
+			tx.rollback();
+		}
 
 	}
 
@@ -1819,19 +1969,55 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
 		Company company = getCompany(companyId);
-		session.getNamedQuery("update.mergeItem.oldcost.tonewcost")
-				.setLong("from", toClientItem.getID())
-				.setBoolean("status", fromClientItem.isActive())
-				.setDouble("price", fromClientItem.getSalesPrice())
-				.setEntity("company", company).executeUpdate();
 
-		ServerConvertUtil convertUtil = new ServerConvertUtil();
-		Item item = new Item();
-		item = convertUtil.toServerObject(item, fromClientItem, session);
-		session.delete(item);
+		try {
+			session.getNamedQuery("update.mergeItem.oldcost.tonewcost")
+					.setLong("from", toClientItem.getID())
+					.setBoolean("status", fromClientItem.isActive())
+					.setDouble("price", fromClientItem.getSalesPrice())
+					.setEntity("company", company).executeUpdate();
 
-		tx.commit();
+			// session.getNamedQuery("update.merge.itembackup.old.tonew")
+			// .setLong("fromID", fromClientItem.getID())
+			// .setLong("toID", toClientItem.getID())
+			// .setEntity("company", company).executeUpdate();
 
+			session.getNamedQuery("update.merge.itemstatus.old.tonew")
+					.setLong("fromID", fromClientItem.getID())
+					.setLong("toID", toClientItem.getID()).executeUpdate();
+
+			session.getNamedQuery("update.merge.itemsalesorder.old.tonew")
+					.setLong("fromID", fromClientItem.getID())
+					.setLong("toID", toClientItem.getID())
+					.setEntity("company", company).executeUpdate();
+
+			session.getNamedQuery("update.merge.trasactionexpense.old.tonew")
+					.setLong("fromID", fromClientItem.getID())
+					.setLong("toID", toClientItem.getID()).executeUpdate();
+
+			session.getNamedQuery("update.merge.trasactionitem.old.tonew")
+					.setLong("fromID", fromClientItem.getID())
+					.setLong("toID", toClientItem.getID()).executeUpdate();
+
+			// session.getNamedQuery("delete.item.entry.old").setLong("from",
+			// fromClientItem.getID()).setEntity("company", company)
+			// .executeUpdate();
+
+			// ServerConvertUtil convertUtil = new ServerConvertUtil();
+			// Item item = new Item();
+			// item = convertUtil.toServerObject(item, fromClientItem, session);
+			// session.delete(item);
+			// tx.commit();
+
+			Item item = (Item) session.get(Item.class, fromClientItem.getID());
+			company.getItems().remove(item);
+			session.saveOrUpdate(company);
+			item.setCompany(null);
+			session.delete(item);
+			tx.commit();
+		} catch (Exception e) {
+			tx.rollback();
+		}
 	}
 
 	public void recordActivity(Company company, User user, ActivityType type) {
@@ -1867,12 +2053,12 @@ public class FinanceTool {
 		}
 
 		// reset credits and payments
-		clone.setCreditsAndPayments(null);
+		// clone.setCreditsAndPayments(null);
 		clone.setTransactionMakeDeposit(new ArrayList<ClientTransactionMakeDeposit>());
 		clone.setTransactionPayBill(new ArrayList<ClientTransactionPayBill>());
 		clone.setTransactionReceivePayment(new ArrayList<ClientTransactionReceivePayment>());
 		clone.setTransactionIssuePayment(new ArrayList<ClientTransactionIssuePayment>());
-		clone.setTransactionPaySalesTax(new ArrayList<ClientTransactionPaySalesTax>());
+		clone.setTransactionPaySalesTax(new ArrayList<ClientTransactionPayTAX>());
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -1928,8 +2114,8 @@ public class FinanceTool {
 		String fileName = "";
 		String output = "";
 		Company company = getCompany(companyId);
-		String companyName = company.getFullName();
-
+		String companyName = company.getTradingName();
+		PrintTemplete printTemplete = null;
 		// for printing individual pdf documents
 		if (type == Transaction.TYPE_INVOICE) {
 			Invoice invoice = (Invoice) manager.getServerObjectForid(
@@ -1938,13 +2124,12 @@ public class FinanceTool {
 			// template = new InvoiceTemplete(invoice,
 			// brandingTheme, footerImg, style);
 
-			InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
-					invoice, brandingTheme, company, company.getCompanyID(),
-					"ClassicInvoice");
+			printTemplete = new InvoicePDFTemplete(invoice, brandingTheme,
+					company, "ClassicInvoice");
 
-			fileName = invoiceHtmlTemplete.getFileName();
+			fileName = printTemplete.getFileName();
 
-			output = invoiceHtmlTemplete.getPdfData();
+			output = printTemplete.getPdfData();
 
 		} else if (type == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 			// for Credit Note
@@ -1952,13 +2137,12 @@ public class FinanceTool {
 					.getServerObjectForid(AccounterCoreType.CUSTOMERCREDITMEMO,
 							objectID);
 
-			CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
-					memo, brandingTheme, company, company.getCompanyID(),
-					"ClassicCredit");
+			printTemplete = new CreditNotePDFTemplete(memo, brandingTheme,
+					company, "ClassicCredit");
 
-			fileName = creditNotePDFTemplete.getFileName();
+			fileName = printTemplete.getFileName();
 
-			output = creditNotePDFTemplete.getPdfData();
+			output = printTemplete.getPdfData();
 
 		}
 
@@ -1966,7 +2150,7 @@ public class FinanceTool {
 		InputStreamReader reader = new InputStreamReader(inputStream);
 
 		Converter converter = new Converter();
-		File file = converter.getPdfFile(fileName, reader);
+		File file = converter.getPdfFile(printTemplete, reader);
 		// converter.getPdfFile(fileName, reader);
 		// InputStream inputStream = new
 		// ByteArrayInputStream(output.getBytes());
@@ -2015,31 +2199,44 @@ public class FinanceTool {
 
 	}
 
-	public List<ClientTransaction> getAllTransactionsOfAccount(long id,
+	public List<ClientReconciliationItem> getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		List list = session.getNamedQuery("get.transactions.by.account")
-				.setLong("id", id)
-				.setParameter("startDate", new FinanceDate(startDate))
-				.setParameter("endDate", new FinanceDate(endDate))
-				.setParameter("company", company).list();
-		List<ClientTransaction> transactions = new ArrayList<ClientTransaction>();
+		List list = session
+				.getNamedQuery("getTransactionsOfAccount")
+				.setLong("companyId", companyId)
+				.setLong("accountId", id)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setLong("openingBalanceAccount",
+						company.getOpeningBalancesAccount().getID()).list();
+		List<ClientReconciliationItem> reconciliationItems = new ArrayList<ClientReconciliationItem>();
 
 		Iterator iterator = list.iterator();
 		while (iterator.hasNext()) {
-			AccountTransaction next = (AccountTransaction) iterator.next();
-			Transaction transaction = next.getTransaction();
-			if (!transaction.isVoid()) {
-				transactions
-						.add((ClientTransaction) new ClientConvertUtil()
-								.toClientObject(transaction, Util
-										.getClientEqualentClass(transaction
-												.getClass())));
-			}
+
+			Object[] objects = (Object[]) iterator.next();
+
+			Transaction trasnaction = (Transaction) session.get(
+					Transaction.class, (Long) objects[0]);
+
+			ReconciliationItem reconciliationItem = new ReconciliationItem(
+					trasnaction);
+
+			Double amount = (Double) objects[1];
+
+			reconciliationItem.setAmount(amount);
+
+			reconciliationItems
+					.add((ClientReconciliationItem) new ClientConvertUtil()
+							.toClientObject(reconciliationItem, Util
+									.getClientEqualentClass(reconciliationItem
+											.getClass())));
+
 		}
-		return transactions;
+		return reconciliationItems;
 	}
 
 	/**
@@ -2047,21 +2244,30 @@ public class FinanceTool {
 	 */
 	public List<ClientReconciliation> getReconciliationsByBankAccountID(
 			long accountID, long companyID) throws AccounterException {
+		List<Reconciliation> reconciliations = getReconciliationslist(
+				accountID, companyID);
+		List<ClientReconciliation> reconciliationsList = new ArrayList<ClientReconciliation>();
+		Iterator iterator = reconciliations.iterator();
+		ClientConvertUtil convertUtil = new ClientConvertUtil();
+		while (iterator.hasNext()) {
+			Reconciliation next = (Reconciliation) iterator.next();
+			Hibernate.initialize(next.getItems());
+			ClientReconciliation clientObject = convertUtil.toClientObject(
+					next, ClientReconciliation.class);
+			reconciliationsList.add(clientObject);
+		}
+		return reconciliationsList;
+
+	}
+
+	public List<Reconciliation> getReconciliationslist(long accountID,
+			long companyID) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyID);
 		List list = session.getNamedQuery("get.reconciliations.by.accountId")
 				.setLong("accountID", accountID).setEntity("company", company)
 				.list();
-
-		List<ClientReconciliation> reconciliationsList = new ArrayList<ClientReconciliation>();
-		Iterator iterator = list.iterator();
-		ClientConvertUtil convertUtil = new ClientConvertUtil();
-		while (iterator.hasNext()) {
-			Reconciliation next = (Reconciliation) iterator.next();
-			reconciliationsList.add(convertUtil.toClientObject(next,
-					ClientReconciliation.class));
-		}
-		return reconciliationsList;
+		return list;
 
 	}
 
@@ -2096,13 +2302,18 @@ public class FinanceTool {
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
 			Company company = getCompany(companyId);
-			Activity noteActivity = new Activity(company,
-					AccounterThreadLocal.get(), ActivityType.NOTE);
-			noteActivity.setObjectID(transactionId);
-			noteActivity.setDescription(noteDescription);
-			session.save(noteActivity);
+			TransactionLog noteHistory = new TransactionLog(
+					TransactionLog.TYPE_NOTE);
+			Transaction transaction2 = (Transaction) session.get(
+					Transaction.class, transactionId);
+			noteHistory.setDescription(noteDescription);
+			noteHistory.setCompany(company);
+			noteHistory.setTransaction(transaction2);
+			session.save(noteHistory);
+			transaction2.getHistory().add(noteHistory);
+			session.update(transaction2);
 			transaction.commit();
-			return noteActivity.getID();
+			return noteHistory.getID();
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();
@@ -2118,21 +2329,23 @@ public class FinanceTool {
 	 * @return
 	 * @throws AccounterException
 	 */
-	public List<ClientActivity> getTransactionHistory(long transactionId,
+	@SuppressWarnings("unchecked")
+	public List<ClientTransactionLog> getTransactionHistory(long transactionId,
 			long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		Company company = getCompany(companyId);
-		List list = session.getNamedQuery("get.all.activities.of.transaction")
-				.setEntity("company", company).list();
-		List<ClientActivity> history = new ArrayList<ClientActivity>();
-		Iterator iterator = list.iterator();
+		Transaction transaction = (Transaction) session.get(Transaction.class,
+				transactionId);
+		List<TransactionLog> history = transaction.getHistory();
+		List<ClientTransactionLog> transactionLogs = new ArrayList<ClientTransactionLog>();
+		Iterator iterator = history.iterator();
+
 		while (iterator.hasNext()) {
-			Activity activity = (Activity) iterator.next();
-			ClientActivity clientActivity = new ClientConvertUtil()
-					.toClientObject(activity, ClientActivity.class);
-			history.add(clientActivity);
+			TransactionLog log = (TransactionLog) iterator.next();
+			ClientTransactionLog clientTransactionLog = new ClientConvertUtil()
+					.toClientObject(log, ClientTransactionLog.class);
+			transactionLogs.add(clientTransactionLog);
 		}
-		return history;
+		return transactionLogs;
 	}
 
 	public SalesManager getSalesManager() {
@@ -2217,5 +2430,799 @@ public class FinanceTool {
 			manager = new Manager();
 		}
 		return manager;
+	}
+
+	public boolean createMessage(Message message) {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+
+			if (message.getId() == 0) {
+				Query messageQuery = session.getNamedQuery("getMessageByValue")
+						.setParameter("value", message.getValue());
+				Message oldMessage = (Message) messageQuery.uniqueResult();
+				if (oldMessage != null) {
+					Set<Key> keys = oldMessage.getKeys();
+					keys.addAll(message.getKeys());
+					oldMessage.setKeys(keys);
+					message = oldMessage;
+				}
+			}
+
+			org.hibernate.Transaction transaction = session.beginTransaction();
+			session.saveOrUpdate(message);
+			transaction.commit();
+
+			return true;
+		} catch (Exception e) {
+			return false;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	// public ClientMessage getNextMessage(String lang, int lastMessageId)
+	// throws AccounterException {
+	// Session session = null;
+	// try {
+	// session = HibernateUtil.openSession();
+	// Query query = session.getNamedQuery("getNextMessageId")
+	// .setParameter("lastMessageId", lastMessageId);
+	// int messageId = 0;
+	// Object[] object = (Object[]) query.uniqueResult();
+	// if (object != null) {
+	// messageId = (Integer) object[0];
+	// Integer tot = (Integer) object[1];
+	// }
+	//
+	// if (messageId == 0) {
+	// return null;
+	// }
+	// ClientMessage clientMessage = getMessage(messageId, lang);
+	// int i = 0;
+	// return clientMessage;
+	// } catch (Exception e) {
+	// return null;
+	// } finally {
+	// if (session != null) {
+	// session.close();
+	// }
+	// }
+	// }
+
+	public ArrayList<ClientMessage> getMessages(int status, String lang,
+			String email, int frm, int limit, String searchTerm) {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+			List<Message> messages = new ArrayList<Message>();
+			switch (status) {
+			case ClientMessage.ALL:
+				messages = getMessagesList(lang, frm, limit, searchTerm);
+				break;
+
+			case ClientMessage.UNTRANSLATED:
+				messages = getUntranslatedMessages(lang, frm, limit, searchTerm);
+				break;
+
+			case ClientMessage.MYTRANSLATIONS:
+				messages = getMyTranslations(lang, email, frm, limit,
+						searchTerm);
+				break;
+
+			case ClientMessage.UNCONFIRMED:
+				messages = getUnApprovedMessages(lang, frm, limit, searchTerm);
+				break;
+
+			default:
+				break;
+			}
+
+			ArrayList<ClientMessage> clientMessages = new ArrayList<ClientMessage>();
+
+			for (Message message : messages) {
+
+				Set<LocalMessage> localMessages = new HashSet<LocalMessage>();
+
+				for (LocalMessage localMessage : message.getLocalMessages()) {
+					if (localMessage.getLang().getLanguageCode().equals(lang)) {
+						localMessages.add(localMessage);
+					}
+				}
+				message.setLocalMessages(localMessages);
+
+				ClientMessage clientMessage = new ClientMessage();
+				clientMessage.setId(message.getId());
+				clientMessage.setValue(message.getValue());
+				ArrayList<ClientLocalMessage> clientLocalMessages = new ArrayList<ClientLocalMessage>();
+				for (LocalMessage localMessage : localMessages) {
+					ClientLocalMessage clientLocalMessage = new ClientLocalMessage();
+					clientLocalMessage.setId(localMessage.getId());
+					clientLocalMessage.setValue(localMessage.getValue());
+					clientLocalMessage.setApproved(localMessage.isApproved());
+					clientLocalMessage.setCreateBy(localMessage.getCreatedBy()
+							.getFirstName());
+					clientLocalMessage.setVotes(localMessage.getUps());
+					clientLocalMessages.add(clientLocalMessage);
+				}
+				clientMessage.setLocalMessages(clientLocalMessages);
+				clientMessages.add(clientMessage);
+			}
+			return clientMessages;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	private List<Message> getUnApprovedMessages(String lang, int frm,
+			int limit, String searchTerm) {
+		List<Message> messages = new ArrayList<Message>();
+
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+
+			Query approvedMessagesQuery = session
+					.getNamedQuery("getUnApprovedMessages")
+					.setParameter("lang", lang).setInteger("limt", limit)
+					.setInteger("fm", frm)
+					.setParameter("searchTerm", "%" + searchTerm + "%");
+
+			Iterator iter = approvedMessagesQuery.list().iterator();
+			while (iter.hasNext()) {
+				Message message = new Message();
+				Object[] next = (Object[]) iter.next();
+				message.setId(((BigInteger) next[0]).longValue());
+				message.setValue((String) next[1]);
+
+				Query localMessagesQuery = session
+						.getNamedQuery("getLocalMessagesByMessageId")
+						.setParameter("messageId", message.getId())
+						.setParameter("lang", lang);
+				List<LocalMessage> localMessages = localMessagesQuery.list();
+
+				message.setLocalMessages(new HashSet<LocalMessage>(
+						localMessages));
+				messages.add(message);
+			}
+			return messages;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	private List<Message> getMyTranslations(String lang, String email, int frm,
+			int limit, String searchTerm) {
+		List<Message> messages = new ArrayList<Message>();
+
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+			Client client = getUserManager().getClient(email);
+			if (client == null) {
+				return null;
+			}
+			Query myTranslationsQuery = session
+					.getNamedQuery("getMyTranslations")
+					.setParameter("lang", lang).setInteger("fm", frm)
+					.setInteger("limt", limit)
+					.setParameter("clientId", client.getID())
+					.setParameter("searchTerm", "%" + searchTerm + "%");
+			List queryList = myTranslationsQuery.list();
+			Iterator i = queryList.iterator();
+			while (i.hasNext()) {
+				Message message = new Message();
+				Object[] next = (Object[]) i.next();
+				message.setId(((BigInteger) next[0]).longValue());
+				message.setValue((String) next[1]);
+
+				Query localMessagesQuery = session
+						.getNamedQuery("getLocalMessagesByMessageId")
+						.setParameter("messageId", message.getId())
+						.setParameter("lang", lang);
+				List<LocalMessage> localMessages = localMessagesQuery.list();
+
+				message.setLocalMessages(new HashSet<LocalMessage>(
+						localMessages));
+				messages.add(message);
+			}
+			return messages;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	private List<Message> getUntranslatedMessages(String lang, int frm,
+			int limit, String searchTerm) {
+		List<Message> messages = new ArrayList<Message>();
+
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+			Query messageIdsQuery = session
+					.getNamedQuery("getUntranslatedMessages")
+					.setParameter("lang", lang).setInteger("limt", limit)
+					.setInteger("fm", frm)
+					.setParameter("searchTerm", "%" + searchTerm + "%");
+			List list = messageIdsQuery.list();
+			Iterator iterator = list.iterator();
+			while (iterator.hasNext()) {
+				Message message = new Message();
+				Object[] next = (Object[]) iterator.next();
+				message.setId(((BigInteger) next[0]).longValue());
+				message.setValue((String) next[1]);
+				message.setLocalMessages(new HashSet<LocalMessage>());
+				messages.add(message);
+			}
+			return messages;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	private ArrayList<Message> getMessagesList(String lang, int frm, int limit,
+			String searchTerm) {
+		List<Message> messages = new ArrayList<Message>();
+
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+			Query query = session.getNamedQuery("getMessagesByLimit")
+					.setInteger("fm", frm).setInteger("limt", limit)
+					.setParameter("lang", lang)
+					.setParameter("searchTerm", "%" + searchTerm + "%");
+			List list2 = query.list();
+			Iterator iterator1 = list2.iterator();
+			while (iterator1.hasNext()) {
+				Message message = new Message();
+				Object[] next = (Object[]) iterator1.next();
+
+				message.setId(((BigInteger) next[0]).longValue());
+				message.setValue((String) next[1]);
+
+				Query localMessagesQuery = session
+						.getNamedQuery("getLocalMessagesByMessageId")
+						.setParameter("messageId", message.getId())
+						.setParameter("lang", lang);
+				List<LocalMessage> localMessages = localMessagesQuery.list();
+
+				message.setLocalMessages(new HashSet<LocalMessage>(
+						localMessages));
+
+				messages.add(message);
+			}
+			return new ArrayList<Message>(messages);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	public boolean addVote(long localMessageId, String userEmail) {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+
+			Client client = getUserManager().getClient(userEmail);
+			if (client == null) {
+				return false;
+			}
+			Query query = session.getNamedQuery("getLocalMessageById")
+					.setParameter("id", localMessageId);
+			LocalMessage localMessage = (LocalMessage) query.uniqueResult();
+			if (localMessage == null) {
+				return false;
+			}
+
+			long clientId = client.getID();
+			Query voteQuery = session.getNamedQuery("getVoteByClientId")
+					.setParameter("clientId", clientId)
+					.setParameter("localMessageId", localMessage.getId());
+			Vote vote = (Vote) voteQuery.uniqueResult();
+
+			if (vote == null) {
+				vote = new Vote();
+				vote.setLocalMessage(localMessage);
+				vote.setClient(client);
+				localMessage.setUps(localMessage.getUps() + 1);
+
+				org.hibernate.Transaction voteTransaction = session
+						.beginTransaction();
+				session.saveOrUpdate(vote);
+				voteTransaction.commit();
+
+				org.hibernate.Transaction transaction = session
+						.beginTransaction();
+				session.saveOrUpdate(localMessage);
+				transaction.commit();
+			}
+
+			return true;
+		} catch (Exception e) {
+			return false;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	public ClientLocalMessage addTranslation(String userEmail, long id,
+			String lang, String value) {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+
+			Client client = getUserManager().getClient(userEmail);
+			if (client == null) {
+				return null;
+			}
+
+			Query namedQuery = session.getNamedQuery("getLocalMessageByClient")
+					.setParameter("clientId", client.getID())
+					.setParameter("messageId", id).setParameter("lang", lang);
+			LocalMessage uniqueResult = (LocalMessage) namedQuery
+					.uniqueResult();
+			if (uniqueResult != null) {
+
+				Query deleteVotesQuery = session.getNamedQuery(
+						"deleteVotesByLocalMessage").setParameter("id",
+						uniqueResult.getId());
+				Query deleteQuery = session.getNamedQuery("deleteLocalMessage")
+						.setParameter("id", uniqueResult.getId());
+
+			}
+
+			Query messageQuery = session.getNamedQuery("getMessageById")
+					.setParameter("id", id);
+			Message message = (Message) messageQuery.uniqueResult();
+			Set<LocalMessage> localMessages2 = message.getLocalMessages();
+			for (LocalMessage localMessage : localMessages2) {
+				if (localMessage.getCreatedBy().equals(client)
+						&& localMessage.getLang().equals(lang)) {
+					return null;
+				}
+			}
+
+			Query languageQuery = session.getNamedQuery("getLanguageById")
+					.setParameter("code", lang);
+			Language language = (Language) languageQuery.uniqueResult();
+
+			LocalMessage localMessage = new LocalMessage();
+			localMessage.setMessage(message);
+			localMessage.setLang(language);
+			localMessage.setValue(value);
+			localMessage.setCreatedDate(new Date(System.currentTimeMillis()));
+			localMessage.setCreatedBy(client);
+
+			org.hibernate.Transaction transaction = session.beginTransaction();
+			session.saveOrUpdate(localMessage);
+			transaction.commit();
+
+			addVote(localMessage.getId(), userEmail);
+
+			org.hibernate.Transaction mesgTransaction = session
+					.beginTransaction();
+			Set<LocalMessage> localMessages = message.getLocalMessages();
+			localMessages.add(localMessage);
+			message.setLocalMessages(localMessages);
+			session.saveOrUpdate(message);
+			mesgTransaction.commit();
+
+			ClientLocalMessage clientLocalMessage = new ClientConvertUtil()
+					.toClientObject(localMessage, ClientLocalMessage.class);
+
+			return clientLocalMessage;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	// public ArrayList<Status> getTranslationStatus() {
+	// Session session = null;
+	// try {
+	// session = HibernateUtil.openSession();
+	//
+	// ArrayList<Status> list = new ArrayList<Status>();
+	//
+	// List<String> languages = getLanguages();
+	//
+	// Query noOfMessagesQuery = session.getNamedQuery("getNoOfMessages");
+	// BigInteger noOfMessages = (BigInteger) noOfMessagesQuery
+	// .uniqueResult();
+	//
+	// for (String language : languages) {
+	//
+	// Query noOfTranslatedMessagesQuery = session.getNamedQuery(
+	// "getNoOfMessagesTranslatedByLang").setParameter("lang",
+	// language);
+	// BigInteger translatedMessages = (BigInteger) noOfTranslatedMessagesQuery
+	// .uniqueResult();
+	//
+	// Query noOfApprovedMessagesQuery = session.getNamedQuery(
+	// "getNoOfMessagesApprovedByLang").setParameter("lang",
+	// language);
+	// BigInteger approvedMessages = (BigInteger) noOfApprovedMessagesQuery
+	// .uniqueResult();
+	//
+	// Status status = new Status();
+	// status.setTotal(noOfMessages.intValue());
+	// status.setLang(language);
+	// status.setTranslated(translatedMessages.intValue());
+	// status.setApproved(approvedMessages.intValue());
+	//
+	// list.add(status);
+	// }
+	// return list;
+	// } catch (Exception e) {
+	// return null;
+	// } finally {
+	// if (session != null) {
+	// session.close();
+	// }
+	// }
+	//
+	// }
+
+	public List<Message> getAllMessages() {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+
+			Query query = session.getNamedQuery("getMessages");
+			List<Message> list = query.list();
+
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	public boolean setApprove(long id, boolean isApproved) {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+
+			Query query = session.getNamedQuery("getLocalMessageById")
+					.setParameter("id", id);
+			LocalMessage localMessage = (LocalMessage) query.uniqueResult();
+
+			if (localMessage == null) {
+				return false;
+			}
+
+			Query messagesQuery = session
+					.getNamedQuery("getLocalMessagesByMessageId")
+					.setParameter("messageId",
+							localMessage.getMessage().getId())
+					.setParameter("lang",
+							localMessage.getLang().getLanguageCode());
+			List<LocalMessage> list = messagesQuery.list();
+
+			for (LocalMessage locMessage : list) {
+				if (locMessage.isApproved()) {
+					locMessage.setApproved(false);
+					org.hibernate.Transaction transaction = session
+							.beginTransaction();
+					session.saveOrUpdate(locMessage);
+					transaction.commit();
+				}
+			}
+
+			localMessage.setApproved(isApproved);
+
+			org.hibernate.Transaction transaction = session.beginTransaction();
+			session.saveOrUpdate(localMessage);
+			transaction.commit();
+
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	public boolean deleteMessage(Message message) {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+			org.hibernate.Transaction transaction = session.beginTransaction();
+			session.delete(message);
+			transaction.commit();
+
+			return true;
+		} catch (Exception e) {
+			return false;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	private long updatePrimaryCurrency(long companyId, ClientCurrency currency)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Currency existingCurrency = company.getCurrency(currency
+				.getFormalName());
+		if (existingCurrency == null) {
+			existingCurrency = new Currency();
+			existingCurrency = new ServerConvertUtil().toServerObject(
+					existingCurrency, currency, session);
+			existingCurrency.setCompany(company);
+			session.save(existingCurrency);
+		}
+		company.getPreferences().setPrimaryCurrency(existingCurrency);
+		Query query = session
+				.getNamedQuery("update.primay.currency.in.company")
+				.setParameter("companyId", companyId)
+				.setParameter("currencyId", existingCurrency.getID());
+		query.executeUpdate();
+		return existingCurrency.getID();
+	}
+
+	/**
+	 * Return all local messages of given language for the given client. All
+	 * Values must be single quote escaped for Javascript
+	 * 
+	 * ex: that's => that\'s
+	 * 
+	 * @param clientId
+	 * @param langCode
+	 * @return
+	 */
+	public HashMap<String, String> getKeyAndValues(long clientId,
+			String langCode) {
+		// Replace("'", "\\'")
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+
+			Query query = session.getNamedQuery("getKeyAndValues")
+					.setParameter("clientId", clientId)
+					.setParameter("lang", langCode);
+			List list = query.list();
+
+			HashMap<String, String> result = new HashMap<String, String>();
+
+			Iterator iterator = list.iterator();
+			while (iterator.hasNext()) {
+				Object[] next = (Object[]) iterator.next();
+				String key = (String) next[0];
+				String value = (String) next[1];
+				if (result.containsKey(key)) {
+					continue;
+				}
+				value.replace("'", "\\'");
+				result.put(key, value);
+			}
+
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
+	}
+
+	public List<ClientLanguage> getLanguages() {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+
+			Query query = session.getNamedQuery("getLanguages");
+			List<Language> list = query.list();
+
+			ArrayList<ClientLanguage> result = new ArrayList<ClientLanguage>();
+
+			for (Language language : list) {
+				ClientLanguage clientLanguage = new ClientLanguage(
+						language.getLanguageTooltip(),
+						language.getLangugeName(), language.getLanguageCode());
+				result.add(clientLanguage);
+			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	public boolean canApprove(String userEmail, String lang) {
+		Session session = null;
+		try {
+			session = HibernateUtil.openSession();
+			Client client = getUserManager().getClient(userEmail);
+			for (Language language : client.getLanguages()) {
+				if (language.getLanguageCode().equals(lang)) {
+					return true;
+				}
+			}
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	public boolean savePortletPageConfig(
+			ClientPortletPageConfiguration pageConfiguration) {
+		if (pageConfiguration == null) {
+			return false;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			PortletPageConfiguration serverPageConfiguration = new PortletPageConfiguration();
+			serverPageConfiguration = new ServerConvertUtil().toServerObject(
+					serverPageConfiguration,
+					(IAccounterCore) pageConfiguration, session);
+			User user = AccounterThreadLocal.get();
+			serverPageConfiguration.setUser(user);
+			user.getPortletPages().add(serverPageConfiguration);
+			session.saveOrUpdate(serverPageConfiguration);
+			tx.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		} finally {
+		}
+	}
+
+	public ClientPortletPageConfiguration getPortletPageConfiguration(
+			String pageName) {
+		if (pageName == null) {
+			return null;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			long userId = AccounterThreadLocal.get().getID();
+			long companyId = AccounterThreadLocal.get().getCompany().getId();
+			Query query = session.getNamedQuery("getPortletPageConfiguration")
+					.setParameter("pageName", pageName)
+					.setParameter("userId", userId)
+			/* .setParameter("companyId", companyId) */;
+			PortletPageConfiguration pageConfiguration = (PortletPageConfiguration) query
+					.uniqueResult();
+			ClientPortletPageConfiguration clientPortletPageConfiguration;
+			if (pageConfiguration != null) {
+				clientPortletPageConfiguration = new ClientConvertUtil()
+						.toClientObject(pageConfiguration,
+								ClientPortletPageConfiguration.class);
+				return clientPortletPageConfiguration;
+			} else {
+				ClientCompany company = new ClientConvertUtil().toClientObject(
+						getCompany(companyId), ClientCompany.class);
+				return company.getPortletPageConfiguration(pageName);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+		}
+	}
+
+	public List<ClientActivity> getRecentTransactionsList(long companyId,
+			int limit) {
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			Query query = session.getNamedQuery("getRecentTransactionList")
+					.setParameter("companyId", companyId)
+					.setParameter("limit", limit);
+			Iterator<BigInteger> iterator = query.list().iterator();
+
+			List<ClientActivity> activities = new ArrayList<ClientActivity>();
+			while (iterator.hasNext()) {
+				ClientActivity activity = getManager().getObjectById(
+						AccounterCoreType.ACTIVITY,
+						iterator.next().longValue(), companyId);
+				activities.add(activity);
+			}
+			return activities;
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		return null;
+	}
+
+	public boolean deleteTransactionFromDb(Long companyId, IAccounterCore obj)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+
+		org.hibernate.Transaction transaction = session.beginTransaction();
+
+		IAccounterServerCore serverObject = null;
+		serverObject = new ServerConvertUtil().toServerObject(serverObject,
+				obj, session);
+
+		if (serverObject == null) {
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT);
+		}
+
+		if (serverObject instanceof Transaction) {
+			Transaction trans = (Transaction) serverObject;
+			trans.onDelete(session);
+		}
+
+		Query query = session.getNamedQuery("getTaxreturnByTransactionid")
+				.setParameter("transaction", serverObject);
+		List<TAXReturnEntry> list = query.list();
+
+		for (TAXReturnEntry taxReturnEntry : list) {
+			taxReturnEntry.setTransaction(null);
+			session.save(taxReturnEntry);
+		}
+
+		Class<?> clientClass = ObjectConvertUtil.getEqivalentClientClass(obj
+				.getObjectType().getClientClassSimpleName());
+		Class<?> serverClass = ObjectConvertUtil
+				.getServerEqivalentClass(clientClass);
+
+		if (canDelete(serverClass.getSimpleName(), obj.getID(), companyId)) {
+			session.delete(serverObject);
+		} else {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_IN_USE);
+		}
+
+		transaction.commit();
+
+		return true;
 	}
 }

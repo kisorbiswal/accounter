@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -9,7 +11,12 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 public abstract class ItemNameColumn extends
 		ComboColumn<ClientTransactionItem, ClientItem> {
 
-	ItensDropDownTable itemsList = new ItensDropDownTable(getItemsFilter());
+	ItemsDropDownTable itemsList = new ItemsDropDownTable(getItemsFilter());
+	private boolean isSales;
+
+	public ItemNameColumn(boolean isSales) {
+		this.isSales = isSales;
+	}
 
 	@Override
 	protected ClientItem getValue(ClientTransactionItem row) {
@@ -19,7 +26,7 @@ public abstract class ItemNameColumn extends
 	public abstract ListFilter<ClientItem> getItemsFilter();
 
 	@Override
-	@SuppressWarnings( { "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	public AbstractDropDownTable getDisplayTable(ClientTransactionItem row) {
 		return itemsList;
 	}
@@ -31,10 +38,27 @@ public abstract class ItemNameColumn extends
 
 	@Override
 	protected void setValue(ClientTransactionItem row, ClientItem newValue) {
-		row.setAccountable(newValue);
+
 		if (newValue != null) {
-			row.setUnitPrice(newValue.getSalesPrice());
+			if (isSales()) {
+				row.setUnitPrice(newValue.getSalesPrice());
+			} else {
+				row.setUnitPrice(newValue.getPurchasePrice());
+			}
+			row.setAccountable(newValue);
+			row.setDescription(getDiscription(newValue));
+			// row.setUnitPrice(newValue.getSalesPrice());
 			row.setTaxable(newValue.isTaxable());
+
+			if (row.getQuantity() == null) {
+				ClientQuantity quantity = new ClientQuantity();
+				quantity.setValue(1.0);
+				row.setQuantity(quantity);
+			}
+			if (row.getDiscount() == null) {
+				row.setDiscount(new Double(0));
+			}
+
 			double lt = row.getQuantity().getValue() * row.getUnitPrice();
 			double disc = row.getDiscount();
 			row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
@@ -42,18 +66,36 @@ public abstract class ItemNameColumn extends
 
 			if (getPreferences().isTrackTax()
 					&& getPreferences().isTaxPerDetailLine()) {
-				row.setTaxCode(newValue.getTaxCode() != 0 ? newValue
-						.getTaxCode() : 0);
+				ClientTAXCode taxCode = Accounter.getCompany().getTAXCode(
+						newValue.getTaxCode());
+				if (taxCode != null) {
+					if (isSales() && taxCode.getTAXItemGrpForSales() != 0) {
+						row.setTaxCode(taxCode.getID());
+					} else if (!isSales()
+							&& taxCode.getTAXItemGrpForPurchases() != 0) {
+						row.setTaxCode(taxCode.getID());
+					}
+				}
 			}
 		}
 	}
 
+	private boolean isSales() {
+		return isSales;
+	}
+
+	protected abstract String getDiscription(ClientItem item);
+
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().name();
+		return Accounter.messages().name();
 	}
 
 	public void setItemForCustomer(boolean isForCustomer) {
 		itemsList.setForCustomer(isForCustomer);
+	}
+
+	public void setSales(boolean isSales) {
+		this.isSales = isSales;
 	}
 }

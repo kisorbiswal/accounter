@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -17,20 +16,18 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
+import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class VendorPurchaseListDialog extends BaseDialog {
 
 	private ItemReceiptView itemReceiptView;
 	private List<PurchaseOrdersList> purchaseOrderList;
-	private AccounterConstants financeConstants = GWT
-			.create(AccounterConstants.class);
+
 
 	private DialogGrid grid;
 
@@ -38,7 +35,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 			List<PurchaseOrdersList> purchaseOrderList) {
 		itemReceiptView = view;
 		this.purchaseOrderList = purchaseOrderList;
-		setText(Accounter.constants().purchaseOrderList());
+		setText(Accounter.messages().purchaseOrderList());
 		createControls();
 		setPurchaseOrderList(purchaseOrderList);
 		setWidth("600px");
@@ -51,31 +48,33 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.constants().selectPurchaseOrder()
-				+ Accounter.constants().selectDocument());
+		Label infoLabel = new Label(Accounter.messages().selectPurchaseOrder()
+				+ Accounter.messages().selectDocument());
 
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
-		grid.addColumns(Accounter.constants().date(), Accounter.constants()
-				.no(), Accounter.constants().type(), messages.vendorName(Global
-				.get().Vendor()), Accounter.constants().total());
+		grid.addColumns(Accounter.messages().date(), Accounter.messages()
+				.no(), Accounter.messages().type(), messages.payeeName(Global
+				.get().Vendor()), Accounter.messages().total());
 		grid.setView(this);
 		grid.init();
 		grid.setColumnTypes(ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
-		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersList>() {
+		grid
+				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersList>() {
 
-			@Override
-			public void OnCellDoubleClick(PurchaseOrdersList record, int column) {
+					@Override
+					public void OnCellDoubleClick(PurchaseOrdersList record,
+							int column) {
 
-				if (record != null)
-					getPurchaseOrder(record);
+						if (record != null)
+							getPurchaseOrder(record);
 
-			}
+					}
 
-		});
+				});
 
 		// getGridData();
 		setPurchaseOrderList(purchaseOrderList);
@@ -84,11 +83,11 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 		HorizontalPanel helpButtonLayout = new HorizontalPanel();
 
-		Button helpButton = new Button(financeConstants.help());
+		Button helpButton = new Button(messages.help());
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(Accounter.constants().sorryNoHelp());
+				Accounter.showError(Accounter.messages().sorryNoHelp());
 
 			}
 
@@ -97,7 +96,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 		HorizontalPanel okButtonLayout = new HorizontalPanel();
 		okButtonLayout.setSpacing(3);
-		Button okButton = new Button(financeConstants.ok());
+		Button okButton = new Button(messages.ok());
 		okButton.setWidth("100px");
 		okButton.addClickHandler(new ClickHandler() {
 
@@ -112,7 +111,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 		});
 		okButtonLayout.add(okButton);
-		Button cancelButton = new Button(financeConstants.cancel());
+		Button cancelButton = new Button(messages.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -158,7 +157,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.constants()
+				Accounter.showError(Accounter.messages()
 						.failedToGetPurchaseOrder());
 
 			}
@@ -171,8 +170,8 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 			}
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
-				record.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, record
+				.getTransactionId(), callback);
 
 	}
 
@@ -185,7 +184,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 			case 1:
 				return purchaseOrder.getNumber();
 			case 2:
-				return Accounter.constants().purchaseOrder();// purchaseOrder.getType();
+				return Accounter.messages().purchaseOrder();// purchaseOrder.getType();
 			case 3:
 				// return
 				// company.getVendor(purchaseOrder.getVendorName()).getName();

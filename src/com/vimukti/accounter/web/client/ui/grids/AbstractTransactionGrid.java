@@ -11,13 +11,13 @@ import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 
-public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 
+public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	protected AbstractTransactionBaseView<?> transactionView;
 
 	private boolean isDeleteEnable;
@@ -41,7 +41,7 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	private RecordDoubleClickHandler<T> doubleClickHandler;
 	public boolean isItemRecieptView;
 
-	protected AccounterConstants companyConstants = Accounter.constants();
+	protected AccounterMessages messages = Accounter.messages();
 
 	public AbstractTransactionGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);

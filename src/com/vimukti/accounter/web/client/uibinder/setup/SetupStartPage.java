@@ -72,19 +72,20 @@ public class SetupStartPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		this.headerLabel.setText(accounterConstants.welcomeToStartup());
-		this.startButton.setText(accounterConstants.startSetup());
-		this.skipButton.setText(accounterConstants.skipSetup());
-		this.cancelBtn.setText(accounterConstants.cancel());
-		this.setupInfo.setHTML(accounterMessages.userGuidelinesMessage());
-		this.startSetupInfo.setHTML(accounterMessages.startSetupInfo());
-		this.skipSetupInfo.setHTML(accounterMessages.skipSetupInfo());
+		this.headerLabel.setText(messages.welcomeToStartup());
+		this.startButton.setText(messages.startSetup());
+		this.skipButton.setText(messages.skipSetup());
+		this.cancelBtn.setText(messages.cancel());
+		this.setupInfo.setHTML(messages.userGuidelinesMessage());
+		this.startSetupInfo.setHTML(messages.startSetupInfo());
+		this.skipSetupInfo.setHTML(messages.skipSetupInfo());
 
 		startButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				setupWizard.initInterview(false);
+				isSkip = false;
+				setupWizard.initInterview(isSkip);
 			}
 		});
 
@@ -92,7 +93,8 @@ public class SetupStartPage extends AbstractSetupPage {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				setupWizard.initInterview(true);
+				isSkip = true;
+				setupWizard.initInterview(isSkip);
 			}
 		});
 
@@ -114,6 +116,16 @@ public class SetupStartPage extends AbstractSetupPage {
 	@Override
 	protected boolean validate() {
 		return true;
+	}
+
+	@Override
+	public boolean isShowProgressPanel() {
+		return false;
+	}
+
+	@Override
+	public String getViewName() {
+		return messages.startSetup();
 	}
 
 }

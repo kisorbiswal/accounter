@@ -12,7 +12,6 @@ import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
-import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.servlets.BaseServlet;
@@ -22,6 +21,8 @@ import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.OperationContext;
 
 public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService {
 
@@ -33,9 +34,9 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	@Override
 	public void createComapny(long companyID, String companyName,
 			int companyType, ClientUser user) throws AccounterException {
-		Company company = new Company(companyType);
-		company.setId(companyID);
-		company.setFullName(companyName);
+		Company company = new Company();
+		company.setID(companyID);
+		company.setTradingName(companyName);
 		init(company, companyID, user);
 	}
 
@@ -59,21 +60,18 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	}
 
 	@Override
-	public void deleteUserFromCompany(long companyID, String email) {
+	public void deleteUserFromCompany(long companyID, ClientUser user) {
 		Session session = HibernateUtil.openSession();
-		Transaction transaction = null;
 		try {
-			transaction = session.beginTransaction();
-			Company company = (Company) session.get(Company.class, companyID);
-			User user = company.getUserByUserEmail(email);
-			company.getUsers().remove(user);
-			session.saveOrUpdate(company);
-			transaction.commit();
+			String clientClassSimpleName = user.getObjectType()
+					.getClientClassSimpleName();
+			FinanceTool financeTool = new FinanceTool();
+			OperationContext context = new OperationContext(companyID, user,
+					user.getEmail(), String.valueOf(user.getID()),
+					clientClassSimpleName);
+			financeTool.delete(context);
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (transaction != null) {
-				transaction.rollback();
-			}
 		} finally {
 			session.close();
 		}
@@ -107,7 +105,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 			AccounterThreadLocal.set(user);
 			company.getUsers().add(user);
-			company.setCompanyEmail(user.getEmail());
+			company.setCompanyEmail(user.getClient().getEmailId());
 
 			// Comment these 4 Lines If you want Company Setup
 			CompanyPreferences preferences = company.getPreferences();
@@ -126,7 +124,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			// company.initialize(null);
 
 			transaction.commit();
-			UsersMailSendar.sendMailToDefaultUser(user, company.getFullName());
+			UsersMailSendar.sendMailToDefaultUser(user, company.getTradingName());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -165,12 +163,11 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			transaction = session.beginTransaction();
 			Client deletingClient = getClient(deletableEmail);
 
-			ServerCompany serverCompany = null;
-			serverCompany = (ServerCompany) session.load(ServerCompany.class,
-					serverCompanyId);
+			Company company = null;
+			company = (Company) session.load(Company.class, serverCompanyId);
 			// serverCompany.getClients().remove(deletingClient);
 			// session.saveOrUpdate(serverCompany);
-			deletingClient.getCompanies().remove(serverCompany);
+			deletingClient.getUsers().remove(company);
 			session.saveOrUpdate(deletingClient);
 			transaction.commit();
 		} catch (Exception e) {
@@ -205,8 +202,8 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			transaction = session.beginTransaction();
 			Client inviter = getClient(senderEmailId);
 
-			ServerCompany serverCompany = (ServerCompany) session.load(
-					ServerCompany.class, companyId);
+			Company serverCompany = (Company) session.load(Company.class,
+					companyId);
 
 			String invitedUserEmailID = userInfo.getEmail();
 			Client invitedClient = getClient(invitedUserEmailID);
@@ -215,9 +212,9 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			if (invitedClient == null) {
 				invitedClient = new Client();
 				invitedClient.setActive(true);
-				Set<ServerCompany> servercompanies = new HashSet<ServerCompany>();
+				Set<Company> servercompanies = new HashSet<Company>();
 				servercompanies.add(serverCompany);
-				invitedClient.setCompanies(servercompanies);
+				// invitedClient.setUsers(servercompanies);
 				invitedClient.setCountry(inviter.getCountry());
 				invitedClient.setEmailId(invitedUserEmailID);
 				invitedClient.setFirstName(userInfo.getFirstName());
@@ -227,26 +224,26 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 				// invitedClient.setRequirePasswordReset(true);
 			} else {
 				userExists = true;
-				Set<ServerCompany> invitedClientCompanies = invitedClient
-						.getCompanies();
-				for (ServerCompany invitedClientCompany : invitedClientCompanies) {
-					if (serverCompany == invitedClientCompany) {
-						// req.setAttribute("message",
-						// "Invited user already exists in your company.");
-						return true;
-					}
-				}
-				invitedClient.getCompanies().add(serverCompany);
+				// Set<Company> invitedClientCompanies =
+				// invitedClient.getUsers();
+				// for (Company invitedClientCompany : invitedClientCompanies) {
+				// if (serverCompany == invitedClientCompany) {
+				// req.setAttribute("message",
+				// "Invited user already exists in your company.");
+				// return true;
+				// }
+				// }
+				// invitedClient.getUsers().add(serverCompany);
 			}
 
 			session.save(invitedClient);
 			transaction.commit();
 			if (userExists) {
 				UsersMailSendar.sendMailToOtherCompanyUser(invitedClient,
-						serverCompany.getCompanyName(), inviter);
+						serverCompany.getTradingName(), inviter);
 			} else {
 				UsersMailSendar.sendMailToInvitedUser(invitedClient,
-						randomString, serverCompany.getCompanyName());
+						randomString, serverCompany.getTradingName());
 			}
 
 			return userExists;
@@ -291,9 +288,9 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
-			ServerCompany company = (ServerCompany) session.get(
-					ServerCompany.class, serverCompanyID);
-			company.setCompanyName(fullName);
+			Company company = (Company) session.get(Company.class,
+					serverCompanyID);
+			company.setTradingName(fullName);
 			session.saveOrUpdate(company);
 			transaction.commit();
 		} catch (Exception e) {

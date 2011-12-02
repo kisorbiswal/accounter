@@ -1,17 +1,18 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
-public class WarehouseListAction extends Action {
+public class WarehouseListAction extends Action<ClientWarehouse> {
 
 	private WarehouseListView view;
 
 	public WarehouseListAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().settings();
+		this.catagory = Accounter.messages().inventory();
 	}
 
 	@Override
@@ -23,8 +24,8 @@ public class WarehouseListAction extends Action {
 	private void runAsync(Object data, Boolean isDependent) {
 		try {
 			view = new WarehouseListView();
-			MainFinanceWindow.getViewManager().showView(view, data, false,
-					WarehouseListAction.this);
+			MainFinanceWindow.getViewManager().showView(view, data,
+					isDependent, WarehouseListAction.this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,7 +56,7 @@ public class WarehouseListAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return "warehouse";
+		return "WarehouseList";
 	}
 
 }

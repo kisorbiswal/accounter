@@ -11,76 +11,87 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 
 public class CreateStatementToolBar extends ReportToolbar {
 	private DateItem fromItem;
 	private DateItem toItem;
 	private CustomerCombo customerCombo;
-	ClientCustomer selectedCusotmer = null;
-	private StatementReport statementReport;
+	private VendorCombo vendorCombo;
+	private ClientCustomer selectedCusotmer = null;
+	private ClientVendor selectedVendor = null;
 	private SelectCombo dateRangeItemCombo;
 	private List<String> dateRangeItemList;
 	private Button updateButton;
+	private boolean isVendor;
 
-	public CreateStatementToolBar(AbstractReportView reportView) {
+	public CreateStatementToolBar(boolean isVendor,
+			AbstractReportView reportView) {
+		this.isVendor = isVendor;
 		this.reportview = reportView;
 		createControls();
 	}
 
 	public void createControls() {
 
-		String[] dateRangeArray = { Accounter.constants().all(),
-				Accounter.constants().thisWeek(),
-				Accounter.constants().thisMonth(),
-				Accounter.constants().lastWeek(),
-				Accounter.constants().lastMonth(),
-				Accounter.constants().thisFinancialYear(),
-				Accounter.constants().lastFinancialYear(),
-				Accounter.constants().thisFinancialQuarter(),
-				Accounter.constants().lastFinancialQuarter(),
-				Accounter.constants().financialYearToDate(),
-				Accounter.constants().custom() };
+		String[] dateRangeArray = { Accounter.messages().all(),
+				Accounter.messages().thisWeek(),
+				Accounter.messages().thisMonth(),
+				Accounter.messages().lastWeek(),
+				Accounter.messages().lastMonth(),
+				Accounter.messages().thisFinancialYear(),
+				Accounter.messages().lastFinancialYear(),
+				Accounter.messages().thisFinancialQuarter(),
+				Accounter.messages().lastFinancialQuarter(),
+				Accounter.messages().financialYearToDate(),
+				Accounter.messages().custom() };
 
-		customerCombo = new CustomerCombo("Choose Customer", false);
-		statementReport = new StatementReport();
-		customerCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
+		if (isVendor) {
+			vendorCombo = new VendorCombo("Choose Vendor", false);
+			new StatementReport(true);
+			vendorCombo
+					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-					@Override
-					public void selectedComboBoxItem(ClientCustomer selectItem) {
-						if (selectItem != null) {
-							selectedCusotmer = selectItem;
-							ClientFinanceDate startDate = fromItem.getDate();
-							ClientFinanceDate endDate = toItem.getDate();
-							reportview.makeReportRequest(selectedCusotmer
-									.getID(), startDate, endDate);
-							reportview.removeEmptyStyle();
-
+						@Override
+						public void selectedComboBoxItem(ClientVendor selectItem) {
+							setPayeeId(selectItem.getID());
 						}
+					});
 
-					}
-				});
+			if (getPayeeId() != 0) {
+				vendorData(Accounter.getCompany().getVendor(getPayeeId()));
+			}
+		} else {
+			customerCombo = new CustomerCombo("Choose Customer", false);
+			new StatementReport(false);
+			customerCombo
+					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			customerCombo.setWidth("200px");
-//		}
-		// customerCombo.setSelectedItem(1);
-		selectedCusotmer = customerCombo.getSelectedValue();
-		customerCombo.setComboItem(selectedCusotmer);
-		dateRangeItemCombo = new SelectCombo(Accounter.constants().dateRange());
+						@Override
+						public void selectedComboBoxItem(
+								ClientCustomer selectItem) {
+							setPayeeId(selectItem.getID());
+						}
+					});
+			if (getPayeeId() != 0) {
+				customerData(Accounter.getCompany().getCustomer(getPayeeId()));
+			}
+		}
+
+		dateRangeItemCombo = new SelectCombo(Accounter.messages().dateRange());
 		dateRangeItemCombo.setHelpInformation(true);
 		dateRangeItemList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeItemList.add(dateRangeArray[i]);
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
-		dateRangeItemCombo.setComboItem(Accounter.constants()
+		dateRangeItemCombo.setComboItem(Accounter.messages()
 				.financialYearToDate());
 		dateRangeItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -95,7 +106,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		fromItem.setTitle(Accounter.constants().from());
+		fromItem.setTitle(Accounter.messages().from());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
@@ -108,7 +119,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 		else
 			toItem.setDatethanFireEvent(new ClientFinanceDate());
 
-		toItem.setTitle(Accounter.constants().to());
+		toItem.setTitle(Accounter.messages().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -117,7 +128,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 				endDate = (ClientFinanceDate) toItem.getValue();
 			}
 		});
-		updateButton = new Button(Accounter.constants().update());
+		updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -126,14 +137,15 @@ public class CreateStatementToolBar extends ReportToolbar {
 				setStartDate(fromItem.getDate());
 				setEndDate(toItem.getDate());
 				changeDates(fromItem.getDate(), toItem.getDate());
-				dateRangeItemCombo.setDefaultValue(Accounter.constants()
+				dateRangeItemCombo.setDefaultValue(Accounter.messages()
 						.custom());
-				setSelectedDateRange(Accounter.constants().custom());
+				dateRangeItemCombo.setComboItem(Accounter.messages().custom());
+				setSelectedDateRange(Accounter.messages().custom());
 
 			}
 		});
 
-		Button printButton = new Button(Accounter.constants().print());
+		Button printButton = new Button(Accounter.messages().print());
 		printButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -142,15 +154,42 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 		});
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			dateRangeItemCombo.setWidth("200px");
-//		}
-
-		addItems(customerCombo, dateRangeItemCombo, fromItem, toItem);
+		// if (UIUtils.isMSIEBrowser()) {
+		// dateRangeItemCombo.setWidth("200px");
+		// }
+		if (isVendor) {
+			addItems(vendorCombo, dateRangeItemCombo, fromItem, toItem);
+		} else {
+			addItems(customerCombo, dateRangeItemCombo, fromItem, toItem);
+		}
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 		// reportRequest();
+	}
+
+	protected void customerData(ClientCustomer selectItem) {
+		if (selectItem != null) {
+			selectedCusotmer = selectItem;
+			ClientFinanceDate startDate = fromItem.getDate();
+			ClientFinanceDate endDate = toItem.getDate();
+			reportview.makeReportRequest(selectedCusotmer.getID(), startDate,
+					endDate);
+			reportview.removeEmptyStyle();
+			customerCombo.setSelected(selectedCusotmer.getName());
+		}
+	}
+
+	protected void vendorData(ClientVendor selectItem) {
+		if (selectItem != null) {
+			selectedVendor = selectItem;
+			ClientFinanceDate startDate = fromItem.getDate();
+			ClientFinanceDate endDate = toItem.getDate();
+			reportview.makeReportRequest(selectedVendor.getID(), startDate,
+					endDate);
+			reportview.removeEmptyStyle();
+			vendorCombo.setSelected(selectedVendor.getName());
+		}
 	}
 
 	/*
@@ -163,16 +202,25 @@ public class CreateStatementToolBar extends ReportToolbar {
 			ClientFinanceDate endDate) {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
-		if (selectedCusotmer != null) {
-			reportview.makeReportRequest(selectedCusotmer.getID(), startDate,
-					endDate);
-		} else
-			reportview.addEmptyMessage("No records to show");
+		if (isVendor) {
+			if (selectedVendor != null) {
+				reportview.makeReportRequest(selectedVendor.getID(), startDate,
+						endDate);
+			} else
+				reportview.addEmptyMessage("No records to show");
+		} else {
+			if (selectedCusotmer != null) {
+				reportview.makeReportRequest(selectedCusotmer.getID(),
+						startDate, endDate);
+			} else
+				reportview.addEmptyMessage("No records to show");
+		}
 	}
 
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
 		dateRangeItemCombo.setDefaultValue(defaultDateRange);
+		dateRangeItemCombo.setComboItem(defaultDateRange);
 		dateRangeChanged(defaultDateRange);
 	}
 
@@ -198,4 +246,20 @@ public class CreateStatementToolBar extends ReportToolbar {
 				endDate);
 	}
 
+	@Override
+	protected void payeeData() {
+		if (isVendor) {
+			if (getPayeeId() != 0) {
+				vendorData(Accounter.getCompany().getVendor(getPayeeId()));
+				reportview.makeReportRequest(selectedVendor.getID(),
+						startDate, endDate);
+			}
+		} else {
+			if (getPayeeId() != 0) {
+				customerData(Accounter.getCompany().getCustomer(getPayeeId()));
+				reportview.makeReportRequest(selectedCusotmer.getID(),
+						startDate, endDate);
+			}
+		}
+	}
 }

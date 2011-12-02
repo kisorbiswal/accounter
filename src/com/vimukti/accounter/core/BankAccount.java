@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+
 public class BankAccount extends Account {
 
 	/**
@@ -72,16 +74,7 @@ public class BankAccount extends Account {
 	}
 
 	@Override
-	public boolean equals(Account account) {
-		BankAccount bankAccount = (BankAccount) account;
-		if (super.equals(account)
-				&& this.bankAccountType == bankAccount.bankAccountType
-				&& (this.bank != null && bankAccount.bank != null) ? (this.bank
-				.equals(bankAccount.bank))
-				: true && (this.bankAccountNumber != null && bankAccount.bankAccountNumber != null) ? (this.bankAccountNumber
-						.equals(bankAccount.bankAccountNumber)) : true)
-			return true;
-		return false;
+	public int getObjType() {
+		return IAccounterCore.BANK_ACCOUNT;
 	}
-
 }

@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
@@ -12,7 +11,7 @@ public abstract class AbstractView<T> extends VerticalPanel {
 
 	abstract public void init();
 
-	private Action action;
+	private Action<?> action;
 
 	/**
 	 * Flag, to Determine, whether in Edit Mode or Create mode.
@@ -20,8 +19,7 @@ public abstract class AbstractView<T> extends VerticalPanel {
 
 	protected T data;
 
-	protected AccounterMessages messages = Global.get().messages();
-	protected AccounterConstants constants = Global.get().constants();
+	protected static final AccounterMessages messages = Global.get().messages();
 
 	private ViewManager manager;
 
@@ -38,11 +36,11 @@ public abstract class AbstractView<T> extends VerticalPanel {
 		getManager().closeCurrentView();
 	}
 
-	public void setAction(Action action) {
+	public void setAction(Action<?> action) {
 		this.action = action;
 	}
 
-	public Action getAction() {
+	public Action<?> getAction() {
 		return action;
 	}
 
@@ -127,4 +125,5 @@ public abstract class AbstractView<T> extends VerticalPanel {
 		super.onAttach();
 		setFocus();
 	}
+
 }

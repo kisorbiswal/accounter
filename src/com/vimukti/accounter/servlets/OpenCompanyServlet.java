@@ -1,6 +1,9 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.MissingResourceException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,14 +16,19 @@ import net.zschech.gwt.comet.server.CometSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
+import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.CometManager;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class OpenCompanyServlet extends BaseServlet {
 
@@ -28,14 +36,21 @@ public class OpenCompanyServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected static final Log logger = LogFactory.getLog(LoginServlet.class);
+	protected static final Log logger = LogFactory
+			.getLog(OpenCompanyServlet.class);
 	private static final String REDIRECT_PAGE = "/WEB-INF/Redirect.jsp";
+	private static final String USER_NAME = "userName";
+	private static final String COMPANY_NAME = "companyName";
 
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
 		String url = request.getRequestURI().toString();
+
+		String isTouch = (String) request.getSession().getAttribute(IS_TOUCH);
+		request.setAttribute(IS_TOUCH, isTouch == null ? "false" : isTouch);
+
 		if (url.equals(ACCOUNTER_OLD_URL)) {
 			dispatch(request, response, REDIRECT_PAGE);
 			return;
@@ -43,20 +58,42 @@ public class OpenCompanyServlet extends BaseServlet {
 		String emailID = (String) request.getSession().getAttribute(EMAIL_ID);
 
 		if (emailID != null) {
-			String serverCompanyID = getCookie(request, COMPANY_COOKIE);
-			if (serverCompanyID == null || serverCompanyID.equals("")) {
-				response.sendRedirect(COMPANIES_URL);
-				return;
-			}
-			initComet(request.getSession(), Long.parseLong(serverCompanyID),
-					emailID);
-
 			Session session = HibernateUtil.openSession();
+			FinanceTool financeTool = new FinanceTool();
+			Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+			namedQuery.setParameter(BaseServlet.EMAIL_ID, emailID);
+			Client client = (Client) namedQuery.uniqueResult();
+			String language = "";
+			try {
+				language = getlocale().getISO3Language();
+			} catch (MissingResourceException e) {
+				language = "eng";
+			}
+			HashMap<String, String> keyAndValues = financeTool.getKeyAndValues(
+					client.getID(), language);
+
+			request.setAttribute("messages", keyAndValues);
+			Long serverCompanyID = (Long) request.getSession().getAttribute(
+					COMPANY_ID);
+			String create = (String) request.getSession().getAttribute(CREATE);
+			if (serverCompanyID == null) {
+				if (create != null && create.equals("true")) {
+					RequestDispatcher dispatcher = getServletContext()
+							.getRequestDispatcher("/WEB-INF/Accounter.jsp");
+					dispatcher.forward(request, response);
+					return;
+				} else {
+					response.sendRedirect(COMPANIES_URL);
+					return;
+				}
+			}
+			initComet(request.getSession(), serverCompanyID, emailID);
+
 			try {
 				Transaction transaction = session.beginTransaction();
-
+				Company company = getCompany(request);
 				User user = (User) session.getNamedQuery("user.by.emailid")
-						.setParameter("company", getCompany(request))
+						.setParameter("company", company)
 						.setParameter("emailID", emailID).uniqueResult();
 				if (user == null) {
 					response.sendRedirect(COMPANIES_URL);
@@ -67,9 +104,16 @@ public class OpenCompanyServlet extends BaseServlet {
 
 				session.save(activity);
 				transaction.commit();
+				user = HibernateUtil.initializeAndUnproxy(user);
 				// there is no session, so do external redirect to login page
 				// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 				// response.setHeader("Location", "/Accounter.jsp");
+
+				request.setAttribute(EMAIL_ID, user.getClient().getEmailId());
+				request.setAttribute(USER_NAME, user.getClient().getFullName());
+				request.setAttribute(COMPANY_NAME, company.getDisplayName()
+						+ " - " + company.getID());
+
 				RequestDispatcher dispatcher = getServletContext()
 						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
 				dispatcher.forward(request, response);
@@ -81,6 +125,10 @@ public class OpenCompanyServlet extends BaseServlet {
 			// Session is there, so show the main page
 
 		}
+	}
+
+	private Locale getlocale() {
+		return ServerLocal.get();
 	}
 
 	/**

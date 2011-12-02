@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ClientCashPurchase extends ClientTransaction {
 
@@ -100,7 +99,7 @@ public class ClientCashPurchase extends ClientTransaction {
 
 	@Override
 	public String getName() {
-		return Accounter.getCompany().getName();
+		return Utility.getTransactionName(getType());
 	}
 
 	@Override

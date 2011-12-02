@@ -10,10 +10,14 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class StatementReportAction extends Action {
 
 	protected StatementReport report;
-
-	public StatementReportAction(String text) {
+	private boolean isVendor;
+	private long payeeId;
+	
+	public StatementReportAction(long payeeId, String text,boolean isVendor) {
 		super(text);
-		this.catagory = Accounter.constants().report();
+		this.isVendor=isVendor;
+		this.payeeId=payeeId;
+		this.catagory = Accounter.messages().report();
 
 	}
 
@@ -22,7 +26,7 @@ public class StatementReportAction extends Action {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
-				report = new StatementReport();
+				report = new StatementReport(isVendor, payeeId);
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, StatementReportAction.this);
 

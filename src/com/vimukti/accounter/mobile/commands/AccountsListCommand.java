@@ -1,123 +1,153 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 /**
  * 
  * @author Sai Prasad N
  * 
  */
-public class AccountsListCommand extends AbstractTransactionCommand {
+public class AccountsListCommand extends NewAbstractCommand {
 
-	private static final String ACTIVE = "active";
+	private static final String ACCOUNT_TYPE = "accountType";
+	private String destType;
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new Requirement(ACTIVE, true, true));
+		list.add(new ShowListRequirement<Account>("Accounts",
+				"Please Enter name or number", 20) {
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// Account value) {
+			// if (destType == null) {
+			// commandList.add(new UserCommand("Bank Registers", value
+			// .getName()));
+			// commandList.add(new UserCommand("Edit account", value
+			// .getName()));
+			//
+			// }
+			// }
+
+			@Override
+			protected Record createRecord(Account value) {
+				Record record = new Record(value);
+				record.add(getMessages().name(), value.getName());
+				record.add(getMessages().balance(), value.getTotalBalance());
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create Account");
+			}
+
+			@Override
+			protected boolean filter(Account e, String name) {
+				return e.getName().startsWith(name)
+						|| e.getNumber().startsWith(
+								"" + getNumberFromString(name));
+			}
+
+			@Override
+			protected List<Account> getLists(Context context) {
+				List<Account> list = new ArrayList<Account>();
+				Set<Account> accounts = context.getCompany().getAccounts();
+				String type = AccountsListCommand.this.get(ACCOUNT_TYPE)
+						.getValue();
+				if (type.equals("All Accounts")) {
+					return new ArrayList<Account>(accounts);
+				}
+				if (type.equals("Active Accounts")) {
+					for (Account a : accounts) {
+						if (a.getIsActive()) {
+							list.add(a);
+						}
+					}
+				} else {
+					for (Account a : accounts) {
+						if (!a.getIsActive()) {
+							list.add(a);
+						}
+					}
+				}
+				return list;
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getMessages().payeesList(getMessages().Accounts());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return "There are no accounts";
+			}
+
+			@Override
+			protected String onSelection(Account value) {
+				return "Edit account " + value.getName();
+			}
+		});
+
+		list.add(new CommandsRequirement(ACCOUNT_TYPE) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add("Active Accounts");
+				list.add("In Active Accounts");
+				list.add("All Accounts");
+				return list;
+			}
+		});
 
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = null;
-
-		result = createAccountsList(context);
-		return result;
+	protected String getWelcomeMessage() {
+		return null;
 	}
 
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result createAccountsList(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
-		}
-		selection = context.getSelection("values");
-
-		ResultList list = new ResultList("values");
-
-		Result result = isActiveRequirement(context, selection);
-		Boolean isActive = (Boolean) get(ACTIVE).getValue();
-		result = accountsList(context, isActive);
-		if (result != null) {
-			return result;
-		}
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param isActive
-	 * @return
-	 */
-	private Result accountsList(Context context, Boolean isActive) {
-		Result result = context.makeResult();
-		ResultList accountsList = new ResultList("accountsList");
-		result.add("Accounts List");
-		int num = 0;
-		List<Account> accounts = getAccounts(isActive,context.getCompany());
-		for (Account account : accounts) {
-			accountsList.add(createAccountRecord(account));
-			num++;
-			if (num == ACCOUNTS_TO_SHOW) {
-				break;
-			}
-		}
-		int size = accountsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Account");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
-
-		result.add(message.toString());
-		result.add(accountsList);
-		result.add(commandList);
-		result.add("Type for Account");
-
-		return result;
+	@Override
+	protected String getDetailsMessage() {
+		return null;
 
 	}
 
-	/**
-	 * 
-	 */
-	protected Record createAccountRecord(Account account) {
-		Record record = new Record(account);
-		record.add("Number", account.getNumber());
-		record.add("Name", account.getName());
-		record.add("Type", account.getType());
-		record.add("Balance", account.getCurrentBalance());
-		return record;
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(ACCOUNT_TYPE).setDefaultValue("All Accounts");
 	}
 
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
+		String[] split = string.split(",");
+		if (split.length > 2) {
+			destType = split[1];
+			context.setString(split[0]);
+		}
+		return null;
+	}
 }

@@ -29,7 +29,7 @@ public class AddWidgetDialog extends BaseDialog {
 	private WidgetCreator creator;
 
 	public AddWidgetDialog(BaseHomeView parent) {
-		super(Accounter.constants().addWidget());
+		super(Accounter.messages().addWidget());
 
 		if (parent instanceof CustomerSectionHomeView) {
 			this.customerParent = (CustomerSectionHomeView) parent;
@@ -72,9 +72,9 @@ public class AddWidgetDialog extends BaseDialog {
 		Label label = new Label();
 		// label.setWidth100();
 		if (addablePortletList.toArray().length > 0) {
-			label.setText(Accounter.getFinanceConstants().widgetsAvailable());
+			label.setText(Accounter.messages().widgetsAvailable());
 		} else {
-			label.setText(Accounter.getFinanceConstants()
+			label.setText(Accounter.messages()
 					.widgetsAlreadyOnYourHomepageLabel());
 		}
 

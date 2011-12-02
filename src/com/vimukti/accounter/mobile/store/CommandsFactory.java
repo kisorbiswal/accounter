@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.AccounterMobileException;
 import com.vimukti.accounter.mobile.Command;
 
@@ -80,9 +81,14 @@ public class CommandsFactory {
 
 			List<CommandTemplate> commands = (List<CommandTemplate>) object;
 			for (CommandTemplate command : commands) {
-				Class<?> forName = Class
-						.forName("com.vimukti.accounter.mobile.commands."
-								+ command.className);
+				Class<?> forName;
+				try {
+					forName = Class.forName(command.className);
+				} catch (Exception e) {
+					e.printStackTrace();
+					continue;
+				}
+
 				this.commands.put(command.name.toLowerCase(), forName);
 				List<String> aliases = command.aliases;
 				if (aliases == null) {
@@ -105,7 +111,8 @@ public class CommandsFactory {
 	 * @return
 	 */
 	private File getFile(String language) {
-		return new File("./src/com/vimukti/accounter/mobile/store/commands.xml");
+		return new File(ServerConfiguration.getMobileStore() + File.separator
+				+ "commands.xml");
 	}
 
 	public static class CommandTemplate {

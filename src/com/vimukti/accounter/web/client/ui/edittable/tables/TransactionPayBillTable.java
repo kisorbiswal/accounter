@@ -9,6 +9,7 @@ import java.util.Stack;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -52,6 +53,9 @@ public abstract class TransactionPayBillTable extends
 	private ArrayList<Map<Integer, Object>> pendingRevertedCredit = new ArrayList<Map<Integer, Object>>();
 	public boolean isAlreadyOpened;
 	private ICurrencyProvider currencyProvider;
+	private ClientTAXItem tdsCode;
+	private boolean showTds;
+	private boolean isForceShowTDS;
 
 	public TransactionPayBillTable(boolean canEdit,
 			ICurrencyProvider currencyProvider) {
@@ -65,7 +69,8 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected void onChangeValue(boolean value,
 					ClientTransactionPayBill row) {
-				row.setPayment(row.getAmountDue());
+				row.setPayment(row
+						.getAmountDue());
 				onSelectionChanged(row, value);
 			}
 
@@ -96,7 +101,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public int getWidth() {
-					return 108;
+					return 98;
 				}
 
 				@Override
@@ -106,7 +111,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().dueDate();
+					return messages.dueDate();
 				}
 			};
 			this.addColumn(dueDate);
@@ -131,23 +136,23 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			public int getWidth() {
-				return 108;
+				return 65;
 			}
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().billNo();
+				return messages.billNo();
 			}
 		};
 		this.addColumn(billNo);
 
 		if (canEdit) {
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
-					currencyProvider) {
+					currencyProvider, false) {
 
 				@Override
 				public int getWidth() {
-					return 108;
+					return 133;
 				}
 
 				@Override
@@ -157,23 +162,23 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().originalAmount();
+					return getColumnNameWithCurrency(messages.originalAmount());
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionPayBill row) {
+				protected Double getAmount(ClientTransactionPayBill row) {
 					return row.getOriginalAmount();
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
-						double value) {
+						Double value) {
 
 				}
 			});
 
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
-					currencyProvider) {
+					currencyProvider, false) {
 
 				@Override
 				public int getWidth() {
@@ -187,23 +192,23 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().amountDue();
+					return getColumnNameWithCurrency(messages.amountDue());
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionPayBill row) {
-					return row.getDummyDue();
+				protected Double getAmount(ClientTransactionPayBill row) {
+					return row.getAmountDue();
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
-						double value) {
+						Double value) {
 
 				}
 			});
 		} else {
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
-					currencyProvider) {
+					currencyProvider, false) {
 
 				@Override
 				protected boolean isEnable() {
@@ -217,17 +222,17 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().billAmount();
+					return messages.billAmount();
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionPayBill row) {
+				protected Double getAmount(ClientTransactionPayBill row) {
 					return row.getOriginalAmount();
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
-						double value) {
+						Double value) {
 					//
 
 				}
@@ -254,12 +259,12 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			public int getWidth() {
-				return 108;
+				return 95;
 			}
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().discountDate();
+				return messages.discountDate();
 			}
 		});
 
@@ -277,62 +282,82 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().cashDiscount();
+				return messages.discount();
 			}
+
+			@Override
+			protected boolean isEnable(ClientTransactionPayBill row) {
+				return selectedValues.contains(indexOf(row));
+			}
+
 		});
 
-		if (!canEdit) {
+		this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>() {
 
-			addTdsColumn();
-
-		}
-		if (canEdit) {
-			this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>() {
-
-				@Override
-				protected void onClick(ClientTransactionPayBill row) {
-					openCreditsDialog(row);
-				}
-
-				@Override
-				protected String getValue(ClientTransactionPayBill row) {
-					return DataUtils.getAmountAsString(row.getAppliedCredits());
-				}
-
-				@Override
-				protected String getColumnName() {
-					return Accounter.constants().credits();
-				}
-			});
-
-			if (Accounter.getCompany().getCountryPreferences().isTDSAvailable()) {
-				addTdsColumn();
+			@Override
+			protected void onClick(ClientTransactionPayBill row) {
+				openCreditsDialog(row);
 			}
 
+			@Override
+			protected String getValue(ClientTransactionPayBill row) {
+				return DataUtils.getAmountAsString(row.getAppliedCredits());
+			}
+
+			@Override
+			protected String getColumnName() {
+				return messages.credits();
+			}
+
+			@Override
+			protected boolean isEnable(ClientTransactionPayBill row) {
+				return selectedValues.contains(indexOf(row));
+			}
+
+		});
+
+		if (canEdit) {
+
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
-					currencyProvider) {
+					currencyProvider, true) {
 
 				@Override
-				protected String getColumnName() {
-					return Accounter.constants().payments();
+				public void render(IsWidget widget,
+						RenderContext<ClientTransactionPayBill> context) {
+					TextBoxBase box = (TextBoxBase) widget;
+					String value = getValue(context.getRow());
+					box.setEnabled(isEnable(context.getRow())
+							&& !context.isDesable());
+					box.setText(value);
+				}
+
+				private boolean isEnable(ClientTransactionPayBill row) {
+					return selectedValues.contains(indexOf(row));
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionPayBill row) {
-					return row.getPayment();
+				protected String getColumnName() {
+					return getColumnNameWithBaseCurrency(messages.payments());
+				}
+
+				@Override
+				protected Double getAmount(ClientTransactionPayBill row) {
+					return row
+							.getPayment();
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
-						double value) {
-					onSelectionChanged(row, true);
+						Double value) {
 					row.setPayment(value);
-					updateAmountDue(row);
+					updateValue(row);
 					adjustAmountAndEndingBalance();
 					updateFootervalues(row, canEdit);
 					update(row);
 				}
 			});
+
+			addTdsColumn();
 		}
 
 		if (!canEdit) {
@@ -356,11 +381,11 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().referenceNo();
+					return messages.referenceNo();
 				}
 			});
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
-					currencyProvider) {
+					currencyProvider, false) {
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
@@ -374,21 +399,26 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().amountPaid();
+					return messages.amountPaid();
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionPayBill row) {
-					return row.getPayment();
+				protected Double getAmount(ClientTransactionPayBill row) {
+					return row
+							.getPayment();
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
-						double value) {
+						Double value) {
 
 				}
 			});
 		}
+		if (!canEdit) {
+			addTdsColumn();
+		}
+
 	}
 
 	protected void selectAllRows(boolean value) {
@@ -418,8 +448,9 @@ public abstract class TransactionPayBillTable extends
 	 */
 	public void updateValue(ClientTransactionPayBill obj) {
 		// obj.setPayment(obj.getAmountDue());
-		updateAmountDue(obj);
+		updatesAmounts(obj);
 		updateTotalPayment(obj);
+		calculateUnusedCredits();
 		update(obj);
 	}
 
@@ -515,8 +546,8 @@ public abstract class TransactionPayBillTable extends
 										.get(i);
 								selectdCredit.setAmtTouse(tmpCr
 										.getAmountToUse());
-								selectdCredit.setBalance(tmpCr
-										.getRemainingBalance());
+								selectdCredit.setBalance(selectdCredit
+										.getRemaoningBalance());
 							}
 						} else {// END of appliedCredits.containsKey(i)
 
@@ -581,8 +612,6 @@ public abstract class TransactionPayBillTable extends
 						}
 					}
 				}
-				initCreditsAndPayments(vendor);
-				initCreditsDialogInstance(selectedObject);
 				getCreditsAndPaymentsDialiog().setUpdatedCreditsAndPayments(
 						updatedCustomerCreditsAndPayments);
 				getCreditsAndPaymentsDialiog().setCanEdit(canEdit);
@@ -606,8 +635,8 @@ public abstract class TransactionPayBillTable extends
 
 						@Override
 						public boolean onOK() {
-							List<ClientCreditsAndPayments> appliedCreditsForThisRec = getCreditsAndPaymentsDialiog().grid
-									.getSelectedRecords();
+							List<ClientCreditsAndPayments> appliedCreditsForThisRec = getCreditsAndPaymentsDialiog()
+									.getAppliedCredits();
 							Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
 							TempCredit creditRec = null;
 
@@ -676,8 +705,7 @@ public abstract class TransactionPayBillTable extends
 							// .getAppliedCredits(), currentRow);
 
 							adjustPaymentValue(selectedObject);
-
-							update(selectedObject);
+							updateValue(selectedObject);
 
 							updateFootervalues(selectedObject, canEdit);
 							setUnUsedCreditsTextAmount(getCreditsAndPaymentsDialiog().totalBalances);
@@ -701,8 +729,7 @@ public abstract class TransactionPayBillTable extends
 
 	private void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(Accounter.constants()
-					.youdnthaveBalToApplyCredits());
+			throw new Exception(messages.youdnthaveBalToApplyCredits());
 	}
 
 	private void openCashDiscountDialog(
@@ -738,13 +765,14 @@ public abstract class TransactionPayBillTable extends
 			public boolean onOK() {
 				try {
 					selectedObject.setCashDiscount(cashDiscountDialog
-							.getCashDiscount());
+									.getCashDiscount());
 
+					selectedObject.setDiscountAccount(cashDiscountDialog
+							.getSelectedDiscountAccount().getID());
 					// TODO setAttribute("cashAccount",
 					// cashDiscountDialog.selectedDiscountAccount
 					// .getName(), currentRow);
-
-					update(selectedObject);
+					updateValue(selectedObject);
 
 					adjustPaymentValue(selectedObject);
 					updateFootervalues(selectedObject, canEdit);
@@ -773,10 +801,9 @@ public abstract class TransactionPayBillTable extends
 
 	private void addTdsColumn() {
 
-		if (getCompany().getCountryPreferences().isTDSAvailable()
-				&& getCompany().getPreferences().isTDSEnabled()) {
+		if (isTDSEnabled()) {
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
-					currencyProvider) {
+					currencyProvider, true) {
 
 				@Override
 				protected boolean isEnable() {
@@ -785,22 +812,18 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().tds();
+					return messages.tds();
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionPayBill row) {
-					ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
-							vendor.getTaxItemCode());
-					if (taxItem != null)
-						return row.getPayment() * (taxItem.getTaxRate() / 100);
-					else
-						return 0;
+				protected Double getAmount(ClientTransactionPayBill row) {
+					return row
+							.getTdsAmount();
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
-						double value) {
+						Double value) {
 					// No Need
 
 				}
@@ -808,11 +831,29 @@ public abstract class TransactionPayBillTable extends
 		}
 	}
 
+	public void setTds(ClientTAXItem item) {
+		if (item == null) {
+			return;
+		}
+		this.tdsCode = item;
+		for (ClientTransactionPayBill bill : getSelectedRecords()) {
+			updateValue(bill);
+		}
+	}
+
+	private double calculateTDS(double amount) {
+		if (!isTDSEnabled()) {
+			return 0.00D;
+		}
+		return amount * (tdsCode.getTaxRate() / 100);
+
+	}
+
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 		if (this.getSelectedRecords().size() == 0) {
-			result.addError(this, Accounter.constants()
-					.pleaseSelectAnyOneOfTheTransactions());
+			result.addError(this,
+					messages.pleaseSelectAnyOneOfTheTransactions());
 		}
 
 		// validates receive payment amount excesses due amount or not
@@ -821,12 +862,13 @@ public abstract class TransactionPayBillTable extends
 
 			double totalValue = getTotalValue(transactionPayBill);
 			if (DecimalUtil.isEquals(totalValue, 0)) {
-				result.addError(this, Accounter.constants()
-						.totalPaymentNotZeroForSelectedRecords());
-			} else if (DecimalUtil.isGreaterThan(totalValue,
-					transactionPayBill.getAmountDue())) {
-				result.addError(this, Accounter.constants()
-						.totalPaymentNotExceedDueForSelectedRecords());
+				result.addError(this,
+						messages.totalPaymentNotZeroForSelectedRecords());
+			} else if (DecimalUtil
+					.isGreaterThan(totalValue, transactionPayBill
+									.getAmountDue())) {
+				result.addError(this,
+						messages.totalPaymentNotExceedDueForSelectedRecords());
 			}
 		}
 
@@ -835,6 +877,11 @@ public abstract class TransactionPayBillTable extends
 
 	public void initCreditsAndPayments(final ClientVendor vendor) {
 		this.vendor = vendor;
+		if (isTDSEnabled()) {
+			ClientTAXItem tdsCode = Accounter.getCompany().getTaxItem(
+					vendor.getTaxItemCode());
+			setTds(tdsCode);
+		}
 		Accounter
 				.createHomeService()
 				.getVendorCreditsAndPayments(
@@ -894,14 +941,14 @@ public abstract class TransactionPayBillTable extends
 
 	}
 
-	private void resetValues() {
+	public void resetValues() {
 		/* Revert all credits to its original state */
 		if (updatedCustomerCreditsAndPayments == null) {
 			return;
 		}
 		for (ClientCreditsAndPayments crdt : updatedCustomerCreditsAndPayments) {
 			crdt.setBalance(crdt.getActualAmt());
-			crdt.setRemaoningBalance(0);
+			crdt.setRemaoningBalance(crdt.getBalance());
 			crdt.setAmtTouse(0);
 		}
 		for (ClientTransactionPayBill obj : this.getAllRows()) {
@@ -920,6 +967,7 @@ public abstract class TransactionPayBillTable extends
 		resetTotlas();
 		setCreditsAndPaymentsDialiog(null);
 		cashDiscountDialog = null;
+		calculateUnusedCredits();
 	}
 
 	protected abstract void resetTotlas();
@@ -979,27 +1027,32 @@ public abstract class TransactionPayBillTable extends
 								// }
 							}
 						}
-					} else {
-						/*
-						 * If the there are no selected records,then save these
-						 * reverted credits in a stack.And apply these credits
-						 * when any record selected
-						 */
-						// revertedCreditsStack = new Stack<Map<Integer,
-						// Object>>();
-						// revertedCreditsStack.push(toBeRvrtMap);
-						for (ClientCreditsAndPayments crdt : updatedCustomerCreditsAndPayments) {
-							crdt.setBalance(crdt.getActualAmt());
-							crdt.setRemaoningBalance(0);
-							crdt.setAmtTouse(0);
-							getCreditsAndPaymentsDialiog().grid
-									.updateData(crdt);
-						}
 					}
+					// else {
+					// /*
+					// * If the there are no selected records,then save these
+					// * reverted credits in a stack.And apply these credits
+					// * when any record selected
+					// */
+					// // revertedCreditsStack = new Stack<Map<Integer,
+					// // Object>>();
+					// // revertedCreditsStack.push(toBeRvrtMap);
+					// for (ClientCreditsAndPayments crdt :
+					// updatedCustomerCreditsAndPayments) {
+					// crdt.setBalance(crdt.getActualAmt());
+					// crdt.setRemaoningBalance(0);
+					// crdt.setAmtTouse(0);
+					// getCreditsAndPaymentsDialiog().grid
+					// .updateData(crdt);
+					// }
+					// }
+					revertedCreditsStack = new Stack<Map<Integer, Object>>();
+					revertedCreditsStack.push(toBeRvrtMap);
 				}
 			}
 			obj.setTempCredits(null);
 			obj.setCreditsApplied(false);
+			revertCredits();
 		}
 		if (getCreditsAndPaymentsDialiog() != null
 				&& getCreditsAndPaymentsDialiog().grid.getRecords().size() == 0)
@@ -1008,35 +1061,34 @@ public abstract class TransactionPayBillTable extends
 		obj.setPayment(0.0d);
 		obj.setCashDiscount(0.0d);
 		obj.setAppliedCredits(0.0d);
-		updateAmountDue(obj);
+		obj.setTdsAmount(0.00D);
 		update(obj);
 		adjustAmountAndEndingBalance();
 		updateFootervalues(obj, canEdit);
+		calculateUnusedCredits();
+	}
+
+	public void revertCredits() {
+		if (revertedCreditsStack != null && revertedCreditsStack.size() != 0) {
+			Map<Integer, Object> stkCredit = revertedCreditsStack.peek();
+
+			for (Integer indx : stkCredit.keySet()) {
+
+				TempCredit tempCrt = (TempCredit) stkCredit.get(indx);
+				ClientCreditsAndPayments rec = updatedCustomerCreditsAndPayments
+						.get(indx.intValue());
+				rec.setBalance(rec.getBalance() + tempCrt.getAmountToUse());
+				rec.setRemaoningBalance(rec.getBalance());
+				rec.setAmtTouse(0);
+			}
+			if (creditsStack.contains(stkCredit)) {
+				creditsStack.remove(stkCredit);
+			}
+			revertedCreditsStack.clear();
+		}
 	}
 
 	protected abstract void deleteTotalPayment(ClientTransactionPayBill obj);
-
-	public void updateAmountDue(ClientTransactionPayBill item) {
-		double totalValue = item.getCashDiscount() + item.getAppliedCredits()
-				+ item.getPayment();
-
-		if (!DecimalUtil.isGreaterThan(totalValue, item.getAmountDue())) {
-			if (getCompany().getCountryPreferences().isTDSAvailable()
-					&& getCompany().getPreferences().isTDSEnabled()) {
-				ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
-						vendor.getTaxItemCode());
-				if (taxItem != null)
-					item.setDummyDue(item.getAmountDue()
-							- (totalValue + (taxItem.getTaxRate() / 100 * item
-									.getOriginalAmount())));
-				// item.setDummyDue(item.getAmountDue() - totalValue);
-			} else {
-				item.setDummyDue(item.getAmountDue() - totalValue);
-			}
-		} else {
-			item.setDummyDue(0.0);
-		}
-	}
 
 	private double getTotalValue(ClientTransactionPayBill payment) {
 		double totalValue = payment.getCashDiscount()
@@ -1055,6 +1107,9 @@ public abstract class TransactionPayBillTable extends
 
 	public void setRecords(List<ClientTransactionPayBill> records) {
 		setAllRows(records);
+		if (isTDSEnabled()) {
+			setTds(tdsCode);
+		}
 	}
 
 	public List<ClientCreditsAndPayments> getUpdatedCustomerCreditsAndPayments() {
@@ -1073,11 +1128,6 @@ public abstract class TransactionPayBillTable extends
 		clear();
 	}
 
-	public void addEmptyMessage(String noRecordsToShow) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void addLoadingImagePanel() {
 		// TODO Auto-generated method stub
 
@@ -1092,4 +1142,42 @@ public abstract class TransactionPayBillTable extends
 	}
 
 	protected abstract boolean isInViewMode();
+
+	public double getTDSTotal() {
+		double tdsAmount = 0.00D;
+		for (ClientTransactionPayBill bill : getSelectedRecords()) {
+			tdsAmount += bill.getTdsAmount();
+		}
+		return tdsAmount;
+	}
+
+	private boolean isTDSEnabled() {
+		if (vendor != null) {
+			return (getCompany().getPreferences().isTDSEnabled()
+					&& vendor != null && vendor.isTdsApplicable())
+					|| isForceShowTDS;
+		} else {
+			return getCompany().getPreferences().isTDSEnabled()
+					|| isForceShowTDS;
+		}
+	}
+
+	private void updatesAmounts(ClientTransactionPayBill bill) {
+		double tdsToPay;
+		tdsToPay = calculateTDS(bill.getPayment());
+		bill.setTdsAmount(tdsToPay);
+
+	}
+
+	public void showTDS(boolean value) {
+		this.isForceShowTDS = value;
+	}
+
+	public void updateAmountsFromGUI() {
+		for (ClientTransactionPayBill item : this.getAllRows()) {
+			updateFromGUI(item);
+		}
+		updateColumnHeaders();
+	}
+
 }

@@ -9,13 +9,13 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -27,11 +27,10 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -58,8 +57,11 @@ public class ReceivePaymentView extends
 		AbstractTransactionBaseView<ClientReceivePayment> {
 
 	public AmountField customerNonEditablebalText;
-	public AmountLabel unUsedCreditsText;
-	private AmountLabel unUsedPaymentsText;
+
+	public AmountLabel unUsedCreditsText, unUsedPaymentsText;
+
+	// public AmountLabel unUsedCreditsTextForeignCurrency,
+	// unUsedPaymentsTextForeignCurrency;
 
 	public AmountField amtText;
 	private DynamicForm payForm;
@@ -74,8 +76,6 @@ public class ReceivePaymentView extends
 	private HorizontalPanel topHLay;
 
 	public TransactionReceivePaymentTable gridView;
-
-	AccounterConstants accounterConstants = Accounter.constants();
 
 	protected List<ReceivePaymentTransactionList> receivePaymentTransactionList;
 
@@ -96,7 +96,7 @@ public class ReceivePaymentView extends
 	private ClientCustomer customer;
 	private ClientAccount depositInAccount;
 	private DepositInAccountCombo depositInCombo;
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 
 	public ReceivePaymentView() {
 		super(ClientTransaction.TYPE_RECEIVE_PAYMENT);
@@ -106,6 +106,11 @@ public class ReceivePaymentView extends
 	}
 
 	protected void customerSelected(final ClientCustomer selectedCustomer) {
+
+		ClientCurrency currency = getCurrency(selectedCustomer.getCurrency());
+		amtText.setCurrency(currency);
+		customerNonEditablebalText.setCurrency(currency);
+
 		if (selectedCustomer == null) {
 			receivePaymentTransactionList = null;
 			return;
@@ -131,9 +136,6 @@ public class ReceivePaymentView extends
 			getTransactionReceivePayments(selectedCustomer);
 		}
 
-		// }
-
-		// if(selectedCustomer.getPaymentMethod())
 		paymentMethodCombo.setComboItem(selectedCustomer.getPaymentMethod());
 
 		this.paymentMethod = selectedCustomer.getPaymentMethod();
@@ -143,6 +145,19 @@ public class ReceivePaymentView extends
 		this.customerBalance = selectedCustomer.getBalance();
 
 		recalculateGridAmounts();
+
+		if (currency.getID() != 0) {
+			currencyWidget.setSelectedCurrencyFactorInWidget(currency,
+					transactionDateItem.getDate().getDate());
+		} else {
+			currencyWidget.setSelectedCurrency(getBaseCurrency());
+		}
+
+		if (isMultiCurrencyEnabled()) {
+			super.setCurrency(currency);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void getTransactionReceivePayments(
@@ -156,15 +171,17 @@ public class ReceivePaymentView extends
 						paymentDate,
 						new AccounterAsyncCallback<ArrayList<ReceivePaymentTransactionList>>() {
 
+							@Override
 							public void onException(AccounterException caught) {
 								Accounter.showError(Accounter.messages()
 										.failedToGetRecievePayments(
 												Global.get().customer())
 										+ selectedCustomer.getName());
-								gridView.addEmptyMessage(Accounter.constants()
+								gridView.addEmptyMessage(Accounter.messages()
 										.noRecordsToShow());
 							}
 
+							@Override
 							public void onResultSuccess(
 									ArrayList<ReceivePaymentTransactionList> result) {
 
@@ -176,7 +193,7 @@ public class ReceivePaymentView extends
 									addTransactionRecievePayments(result);
 								} else {
 									gridView.addEmptyMessage(Accounter
-											.constants().noRecordsToShow());
+											.messages().noRecordsToShow());
 									totalInoiceAmt = 0.00d;
 									totalDueAmt = 0.00d;
 									transactionTotal = 0.00d;
@@ -195,15 +212,16 @@ public class ReceivePaymentView extends
 			totalCredits += credit.getBalance();
 		}
 
-		this.unUsedCreditsText
-				.setAmount(getAmountInTransactionCurrency(totalCredits));
+		this.unUsedCreditsText.setAmount(totalCredits);
+		//
+		// this.unUsedCreditsTextForeignCurrency
+		// .setAmount(getAmountInTransactionCurrency(totalCredits));
 
 	}
 
 	private void setCustomerBalance(Double balance) {
 
-		customerNonEditablebalText
-				.setAmount(getAmountInTransactionCurrency(balance));
+		customerNonEditablebalText.setAmount(balance);
 
 	}
 
@@ -266,27 +284,13 @@ public class ReceivePaymentView extends
 			records.add(record);
 			gridView.add(record);
 		}
-		// gridView.setRecords(records);
 		recalculateGridAmounts();
-		// updateFooterValues();
-
 	}
-
-	// public void updateFooterValues() {
-	// gridView.updateFooterValues(
-	// DataUtils.getAmountAsString(totalInoiceAmt), 2);
-	// if (!isEdit)
-	// gridView.updateFooterValues(DataUtils
-	// .getAmountAsString(totalDueAmt), 3);
-	// gridView.updateFooterValues(DataUtils
-	// .getAmountAsString(transactionTotal), 8);
-	// }
 
 	public Double calculatePaymentForRecord(
 			ClientTransactionReceivePayment record) {
 
-		ClientTransactionReceivePayment trpRecord = (ClientTransactionReceivePayment) record;
-		// FIXME :: required no changes but it has fix me so confirm it
+		ClientTransactionReceivePayment trpRecord = record;
 		Double amountDue = trpRecord.getAmountDue();
 
 		Double cashDiscount = trpRecord.getCashDiscount();
@@ -301,7 +305,7 @@ public class ReceivePaymentView extends
 
 	public void setAmountRecieved(Double amountRecieved) {
 		this.amountRecieved = amountRecieved;
-		this.amtText.setAmount(getAmountInTransactionCurrency(amountRecieved));
+		this.amtText.setAmount(amountRecieved);
 	}
 
 	public Double getAmountRecieved() {
@@ -336,6 +340,12 @@ public class ReceivePaymentView extends
 			protected boolean isInViewMode() {
 				return ReceivePaymentView.this.isInViewMode();
 			}
+
+			@Override
+			protected void calculateUnusedCredits() {
+				ReceivePaymentView.this.calculateUnusedCredits();
+
+			}
 		};
 		gridView.setCustomer(this.getCustomer());
 		gridView.setDisabled(isInViewMode());
@@ -359,29 +369,8 @@ public class ReceivePaymentView extends
 		List<ClientTransactionReceivePayment> paymentsList = new ArrayList<ClientTransactionReceivePayment>();
 		for (ClientTransactionReceivePayment payment : gridView
 				.getSelectedRecords()) {
-			// ClientAccount cashAcc =
-			// FinanceApplication.getCompany().getAccount(
-			// gridView.getAttribute(FinanceApplication
-			// .constants().cashAccount(), gridView
-			// .indexOf(payment)));
-			// if (cashAcc != null)
-			// payment.setDiscountAccount(cashAcc.getID());
-			//
-			// ClientAccount wrrittoff = FinanceApplication.getCompany()
-			// .getAccount(
-			// gridView.getAttribute(FinanceApplication
-			// .constants().writeOff(),
-			// gridView.indexOf(payment)));
-			// if (wrrittoff != null)
-			// payment.setWriteOffAccount(wrrittoff.getID());
-
 			payment.setTransaction(receivePayment.getID());
 
-			// List<ClientTransactionCreditsAndPayments> trpList =
-			// (List<ClientTransactionCreditsAndPayments>) gridView
-			// .getAttributeAsObject(FinanceApplication
-			// .constants().creditsAndPayments(),
-			// gridView.indexOf(payment));
 			if (gridView.newAppliedCreditsDialiog != null) {
 				List<ClientTransactionCreditsAndPayments> tranCreditsandPayments = gridView.newAppliedCreditsDialiog != null ? gridView.newAppliedCreditsDialiog
 						.getTransactionCredits(payment)
@@ -407,12 +396,9 @@ public class ReceivePaymentView extends
 				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 			lab = new Label(Utility.getTransactionName(transactionType));
 		else {
-			// lab = new Label(Utility.getTransactionName(transactionType) + "("
-			// + getTransactionStatus() + ")");
 			lab = new Label(Utility.getTransactionName(transactionType));
 		}
-		lab.setStyleName(Accounter.constants().labelTitle());
-		// lab.setHeight("35px");
+		lab.setStyleName(Accounter.messages().labelTitle());
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
@@ -432,13 +418,14 @@ public class ReceivePaymentView extends
 
 		final HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
-		// labeldateNoLayout.add(lab);
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = createCustomerComboItem(Accounter.constants()
+		customerCombo = createCustomerComboItem(Accounter.messages()
 				.receivedFrom());
 
-		amtText = new AmountField(Accounter.constants().amountReceived(), this);
+		amtText = new AmountField(Accounter.messages().amountReceived(), this,
+				getBaseCurrency());
+
 		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
 		amtText.setDisabled(isInViewMode());
@@ -449,68 +436,49 @@ public class ReceivePaymentView extends
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				value = ((TextBox) event.getSource()).getValue();
-
+				value = amtText.getAmount();
 				if (value == null)
 					return;
 				Double amount = 0.00D;
 				try {
 					amount = DataUtils.getAmountStringAsDouble(value.toString());
-					setAmount(DataUtils.isValidAmount(value.toString()) ? amount
+					amtText.setAmount(DataUtils.isValidAmount(value.toString()) ? amount
 							: 0.00D);
 					paymentAmountChanged(amount);
 
 					if (DecimalUtil.isLessThan(amount, 0)) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.noNegativeAmountsReceived());
-						setAmount(0.00D);
+						amtText.setAmount(0.00D);
 
 					}
-
-					// if (!(gridView.getRecords().size() == 0)
-					// && amount > 0D
-					// && amount.doubleValue() != prevAmountRecieved
-					// .doubleValue()) {
-					// AccounterValidator
-					// .distributePaymentToOutstandingInvoices(
-					// ReceivePaymentView.this, amount);
-					// }
 				} catch (Exception e) {
-					// if (value.toString().length() != 0)
-					// Accounter
-					// .showError(AccounterErrorType.INCORRECTINFORMATION);
 					if (e instanceof InvalidEntryException) {
 						Accounter.showError(e.getMessage());
 					}
-					setAmount(0.00D);
+					amtText.setAmount(0.00D);
 				}
 
 			}
 
-			public void setAmount(Double amount) {
-				amtText.setValue(DataUtils.getAmountAsString(amount));
-			}
 		});
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		// refText = createRefereceText();
-		// refText.setWidth(100);
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		// paymentMethodCombo.setWidth(100);
 		checkNo = createCheckNumberItem();
 		checkNo.setDisabled(true);
 
 		payForm = new DynamicForm();
-		payForm.setWidth("90%");
+		// payForm.setWidth("90%");
 		payForm.setIsGroup(true);
-		payForm.setGroupTitle(Accounter.constants().payment());
+		payForm.setGroupTitle(Accounter.messages().payment());
 
 		payForm.setFields(customerCombo, amtText, paymentMethodCombo, checkNo);
 		payForm.setStyleName("align-form");
-		payForm.getCellFormatter().setWidth(0, 0, "180px");
+		// payForm.getCellFormatter().setWidth(0, 0, "180px");
 
 		customerNonEditablebalText = new AmountField(Accounter.messages()
-				.customerBalance(Global.get().Customer()), this);
+				.payeeBalance(Global.get().Customer()), this, getBaseCurrency());
 		customerNonEditablebalText.setHelpInformation(true);
 		customerNonEditablebalText.setWidth(100);
 		customerNonEditablebalText.setDisabled(true);
@@ -521,36 +489,49 @@ public class ReceivePaymentView extends
 		DynamicForm depoForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			depoForm.setFields(locationCombo);
-		// depoForm.setWidth("80%");
 		depoForm.setIsGroup(true);
-		depoForm.setGroupTitle(Accounter.constants().deposit());
+		depoForm.setGroupTitle(Accounter.messages().deposit());
 		depoForm.setFields(customerNonEditablebalText, depositInCombo);
-		depoForm.getCellFormatter().setWidth(0, 0, "203px");
+		// depoForm.getCellFormatter().setWidth(0, 0, "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			depoForm.setFields(classListCombo);
 		}
-
-		Label lab1 = new Label(Accounter.constants().dueForPayment());
+		currencyWidget = createCurrencyFactorWidget();
+		Label lab1 = new Label(Accounter.messages().dueForPayment());
 
 		initListGrid();
 
-		unUsedCreditsText = new AmountLabel(Accounter.constants()
-				.unusedCredits());
+		unUsedCreditsText = new AmountLabel(Accounter.messages()
+				.unusedCreditsWithCurrencyName(
+						getCompany().getPrimaryCurrency().getFormalName()));
 		unUsedCreditsText.setHelpInformation(true);
 		unUsedCreditsText.setDisabled(true);
 
-		unUsedPaymentsText = new AmountLabel(Accounter.constants()
-				.unusedPayments());
+		unUsedPaymentsText = new AmountLabel(Accounter.messages()
+				.unusedPayments(
+						getCompany().getPrimaryCurrency().getFormalName()));
 		unUsedPaymentsText.setHelpInformation(true);
 		unUsedPaymentsText.setDisabled(true);
 
 		DynamicForm textForm = new DynamicForm();
 		textForm.setWidth("70%");
-		textForm.setFields(unUsedCreditsText, unUsedPaymentsText);
-		textForm.addStyleName("textbold");
+		if (isMultiCurrencyEnabled()) {
+			if (!isInViewMode()) {
+				textForm.setFields(unUsedCreditsText, unUsedPaymentsText);
+			} else {
+				textForm.setFields(unUsedPaymentsText);
+			}
+		} else {
+			if (!isInViewMode()) {
+				textForm.setFields(unUsedCreditsText, unUsedPaymentsText);
+			} else {
+				textForm.setFields(unUsedPaymentsText);
+			}
+		}
+		// textForm.addStyleName("textbold");
 
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
@@ -573,23 +554,24 @@ public class ReceivePaymentView extends
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		rightVLay.add(depoForm);
-		// rightVLay.setCellHorizontalAlignment(depoForm, ALIGN_RIGHT);
+		rightVLay.setCellHorizontalAlignment(depoForm,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+		if (isMultiCurrencyEnabled()) {
+			rightVLay.add(currencyWidget);
+			rightVLay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
+			currencyWidget.setDisabled(isInViewMode());
+		}
 
 		topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "39%");
-
-		VerticalPanel gridAndBalances = new VerticalPanel();
-
-		// HorizontalPanel hLay2 = new HorizontalPanel();
-		// hLay2.setWidth("100%");
-		// hLay2.setHorizontalAlignment(ALIGN_RIGHT);
-		//
-		// hLay2.add(textForm);
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		HorizontalPanel bottomAmtsLayout = new HorizontalPanel();
 
@@ -610,9 +592,6 @@ public class ReceivePaymentView extends
 		mainVLay.add(topHLay);
 		mainVLay.add(gridLayout);
 
-//		if (UIUtils.isMSIEBrowser())
-//			payForm.getCellFormatter().setWidth(0, 1, "200px");
-
 		this.add(mainVLay);
 		setSize("100%", "100%");
 
@@ -623,6 +602,13 @@ public class ReceivePaymentView extends
 		listforms.add(textForm);
 
 		settabIndexes();
+
+		// if (isMultiCurrencyEnabled()) {
+		// if (!isInViewMode()) {
+		// unUsedCreditsTextForeignCurrency.hide();
+		// }
+		// unUsedPaymentsTextForeignCurrency.hide();
+		// }
 
 	}
 
@@ -644,43 +630,9 @@ public class ReceivePaymentView extends
 
 		if (amount == null)
 			amount = 0.00D;
-
 		setAmountRecieved(amount);
-
-		// calculateVatFraction(amount);
-
 		recalculateGridAmounts();
 
-	}
-
-	/**
-	 * This method invoked when the value of 'amtText' field changed
-	 * 
-	 * @param amount
-	 *            The amount about to pay
-	 */
-	public void calculateVatFraction(Double amount) {
-		if (selectedTaxCode != null) {
-
-			ClientTAXCode code = (ClientTAXCode) selectedTaxCode;
-
-			double amt = 0.0d;
-			try {
-				amt = DataUtils.getAmountStringAsDouble(amtText.getValue()
-						.toString());
-			} catch (Exception e) {
-
-			}
-			// FIXME--need to check for UK version
-			// fraction = amt
-			// - 100
-			// * (amt / (100 + code
-			// .getNearestTaxRate(((Date) transactionDateItem
-			// .getValue()).getTime())));
-		} // else
-			// fraction = 0.0;
-			// if (vatFraction != null)
-			// vatFraction.setAmount(fraction);
 	}
 
 	@Override
@@ -704,8 +656,6 @@ public class ReceivePaymentView extends
 			transaction.setCustomer(getCustomer().getID());
 		if (transactionNumber != null)
 			transaction.setNumber(transactionNumber.getValue().toString());
-		// if (refText != null)
-		// receivePayment.setReference(refText.getValue().toString());
 		if (memoTextAreaItem != null)
 			transaction.setMemo(memoTextAreaItem.getValue().toString());
 
@@ -720,24 +670,26 @@ public class ReceivePaymentView extends
 
 		transaction.setUnUsedPayments(this.unUsedPayments);
 		transaction.setTotal(this.transactionTotal);
-		transaction
-				.setUnUsedCredits(getAmountInBaseCurrency(this.unUsedCreditsText
-						.getAmount()));
+		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
+
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	public void setUnusedPayments(Double unusedAmounts) {
 		if (unusedAmounts == null)
 			unusedAmounts = 0.0D;
 		this.unUsedPayments = unusedAmounts;
-		this.unUsedPaymentsText
-				.setAmount(getAmountInTransactionCurrency(unusedAmounts));
 
+		this.unUsedPaymentsText.setAmount(unusedAmounts);
 	}
 
 	private void setUnUsedCredits(Double unusedCredits) {
 
-		unUsedCreditsText
-				.setAmount(getAmountInTransactionCurrency(unusedCredits));
+		unUsedCreditsText.setAmount(unusedCredits);
+		// unUsedCreditsTextForeignCurrency
+		// .setAmount(getAmountInTransactionCurrency(unusedCredits));
 
 	}
 
@@ -745,7 +697,7 @@ public class ReceivePaymentView extends
 		if (transaction == null)
 			return;
 
-		ClientReceivePayment recievePayment = ((ClientReceivePayment) transaction);
+		ClientReceivePayment recievePayment = transaction;
 
 		setCustomerBalance(recievePayment.getCustomerBalance());
 
@@ -765,11 +717,24 @@ public class ReceivePaymentView extends
 			setData(new ClientReceivePayment());
 			initDepositInAccounts();
 		} else {
-
+			if (transaction.getCustomer() != 0) {
+				customerCombo.setComboItem(Accounter.getCompany().getCustomer(
+						transaction.getCustomer()));
+			}
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
+			}
 			this.setCustomer(getCompany()
 					.getCustomer(transaction.getCustomer()));
-			customerSelected(getCompany()
-					.getCustomer(transaction.getCustomer()));
+			// customerSelected(getCompany()
+			// .getCustomer(transaction.getCustomer()));
 
 			depositInAccountSelected(getCompany().getAccount(
 					transaction.getDepositIn()));
@@ -786,7 +751,8 @@ public class ReceivePaymentView extends
 			// if (paymentToBeEdited.getReference() != null)
 			// refText.setValue(paymentToBeEdited.getReference());
 			paymentMethod = transaction.getPaymentMethod();
-			setAmountRecieved(transaction.getAmount());
+			setAmountRecieved(transaction
+					.getAmount());
 
 			initTransactionTotalNonEditableItem();
 			List<ClientTransactionReceivePayment> tranReceivePaymnetsList = transaction
@@ -798,7 +764,11 @@ public class ReceivePaymentView extends
 					&& classListCombo != null) {
 				classListCombo.setComboItem(this.getClientAccounterClass());
 			}
-			gridView.setTranReceivePayments(tranReceivePaymnetsList);
+			if (!tranReceivePaymnetsList.isEmpty()) {
+				gridView.setTranReceivePayments(tranReceivePaymnetsList);
+			} else {
+				gridView.addEmptyMessage(messages.noRecordsToShow());
+			}
 		}
 		initTransactionNumber();
 		initAccounterClass();
@@ -806,6 +776,11 @@ public class ReceivePaymentView extends
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		initCustomers();
+		if (isMultiCurrencyEnabled()) {
+			// currencyWidget.setShowFactorField(true);
+			if (isInViewMode())
+				updateAmountsFromGUI();
+		}
 	}
 
 	private void initListGridData(List<ClientTransactionReceivePayment> list) {
@@ -829,223 +804,10 @@ public class ReceivePaymentView extends
 
 	}
 
-	/*
-	 * public class TransactionRecievePaymentRecord extends
-	 * ClientTransactionReceivePayment {
-	 * 
-	 * public boolean isInvoice;
-	 * 
-	 * public boolean isSelected;
-	 * 
-	 * static final String ATTR_CASH_DISCOUNT = "Cash Discount";
-	 * 
-	 * public static final String ATTR_PAYMENTS = "payments"; public static
-	 * final String ATTR_DISCOUNT_DATE = "Discount Date"; public static final
-	 * String ATTR_AMOUNT_DUE = "Amount Due"; public static final String
-	 * ATTR_WRITEOFF = "write off"; public static final String ATTR_DUEDATE =
-	 * "duedate"; public static final String ATTR_INVOICE = "invoice"; public
-	 * static final String ATTR_INVOICE_AMOUNT = "Invoice Amount"; public static
-	 * final String ATTR_APPLIED_CREDITS = "applied Credits"; public static
-	 * final String ATTR_ID = "id";
-	 * 
-	 * public TransactionRecievePaymentRecord() { super(); }
-	 * 
-	 * public void setCalculatedPaymentAmount() {
-	 * 
-	 * try { Double amount = amountDue - (cashDiscount + writeOffAmount +
-	 * applyCreditsAmount);
-	 * 
-	 * setPaymentAmount(amount); } catch (Exception e) { e.printStackTrace(); //
-	 * SC.logWarn(e.getMessage()); paymentAmount = 0.0D; try {
-	 * setPaymentAmount(paymentAmount); } catch (Exception e1) { } }
-	 * 
-	 * }
-	 * 
-	 * CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialog;
-	 * CashDiscountDialog cashDiscountDialog; WriteOffDialog writeOffDialog;
-	 * 
-	 * ClientAccount cashDiscountAccount; ClientAccount writeOffAccount;
-	 * List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments =
-	 * new ArrayList<ClientTransactionCreditsAndPayments>();
-	 * 
-	 * Double cashDiscount = 0.0D; Double writeOffAmount = 0.0D; Double
-	 * applyCreditsAmount = 0.0D; Double paymentAmount = 0.0D; Double amountDue
-	 * = 0.0D; Long invoiceNumber; Double invoiceAmount = 0.0D; Date
-	 * discountDate; ClientInvoice invoice; ClientCustomerRefund customerRefund;
-	 * 
-	 * List<ClientCreditsAndPayments> selectedCreditsForThisRecord = new
-	 * ArrayList<ClientCreditsAndPayments>();
-	 * 
-	 * public void setWriteOffDialog(WriteOffDialog writeOffDialog) {
-	 * this.writeOffDialog = writeOffDialog; }
-	 * 
-	 * public void setCashDiscountDialog(CashDiscountDialog cashDiscountDialog)
-	 * { this.cashDiscountDialog = cashDiscountDialog; }
-	 * 
-	 * public void setCreditsAndPaymentsDialog(
-	 * CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialog) {
-	 * this.creditsAndPaymentsDialog = creditsAndPaymentsDialog; }
-	 * 
-	 * public void setCustomerRefund(ClientCustomerRefund customerRefund) {
-	 * this.customerRefund = customerRefund; }
-	 * 
-	 * // public ClientCustomerRefund getCustomerRefund() { // return
-	 * customerRefund; // } // // public void setInvoice(ClientInvoice invoice)
-	 * { // this.invoice = invoice; // } // // public ClientInvoice getInvoice()
-	 * { // return invoice; // } // // public void setDiscountDate(Date
-	 * discountDate) { // this.discountDate = discountDate; //
-	 * setAttribute(ATTR_DISCOUNT_DATE, discountDate); // } // // public Date
-	 * getDiscountDate() { // return discountDate; // }
-	 * 
-	 * public void setInvoiceAmount(Double invoiceAmount) { if (invoiceAmount !=
-	 * null) this.invoiceAmount = invoiceAmount; else this.invoiceAmount = 0.0D;
-	 * 
-	 * // setAttribute(ATTR_INVOICE_AMOUNT, DataUtils //
-	 * .getAmountAsString(this.invoiceAmount)); }
-	 * 
-	 * // // public Double getInvoiceAmount() { // return invoiceAmount; // }
-	 * 
-	 * public void setInvoiceNumber(Long invoiceNumber) { if (invoiceNumber !=
-	 * null) this.invoiceNumber = invoiceNumber;
-	 * 
-	 * // setAttribute(ATTR_INVOICE, "" + invoiceNumber); }
-	 * 
-	 * public Long getInvoiceNumber() { return invoiceNumber; }
-	 * 
-	 * private Date dueDate;
-	 * 
-	 * public void setDueDate(Date dueDate) { this.dueDate = dueDate; //
-	 * setAttribute(ATTR_DUEDATE, dueDate); }
-	 * 
-	 * // public Date getDueDate() { // return dueDate; // }
-	 * 
-	 * public void setAmountDue(Double amountDue) { if (amountDue != null)
-	 * this.amountDue = amountDue; else this.amountDue = 0.0D; //
-	 * setAttribute(ATTR_AMOUNT_DUE, DataUtils //
-	 * .getAmountAsString(amountDue)); }
-	 * 
-	 * public Double getAmountDue() { return amountDue; }
-	 * 
-	 * public ClientAccount getCashDiscountAccount() { return
-	 * cashDiscountAccount; }
-	 * 
-	 * public void setCashDiscountAccount(ClientAccount cashDiscountAccount) {
-	 * this.cashDiscountAccount = cashDiscountAccount; }
-	 * 
-	 * // public ClientAccount getWriteOffAccount() { // return writeOffAccount;
-	 * // }
-	 * 
-	 * public void setWriteOffAccount(ClientAccount writeOffAccount) {
-	 * this.writeOffAccount = writeOffAccount; }
-	 * 
-	 * public List<ClientTransactionCreditsAndPayments>
-	 * getTransactionCreditsAndPayments() { return
-	 * transactionCreditsAndPayments; }
-	 * 
-	 * public void setTransactionCreditsAndPayments(
-	 * List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments)
-	 * { this.transactionCreditsAndPayments = transactionCreditsAndPayments; }
-	 * 
-	 * // public Double getCashDiscount() { // return cashDiscount; // }
-	 * 
-	 * public void setCashDiscount(Double cashDiscount) { // throws
-	 * PaymentExcessException { if (cashDiscount == null) cashDiscount = 0.0D;
-	 * 
-	 * // if (cashDiscount < 0D || cashDiscount > 1000000000000.00) // throw new
-	 * PaymentExcessException( // AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
-	 * // // if (!isValidAmount(cashDiscount, writeOffAmount, //
-	 * applyCreditsAmount)) { // throw new PaymentExcessException( //
-	 * AccounterErrorType.RECEIVEPAYMENT_AMOUNT_DUE); // } else {
-	 * this.cashDiscount = cashDiscount; Double paymentAmount = amountDue -
-	 * (cashDiscount + writeOffAmount + applyCreditsAmount);
-	 * setPaymentAmount(paymentAmount); // setAttribute(ATTR_CASH_DISCOUNT,
-	 * DataUtils // .getAmountAsString(cashDiscount));
-	 * 
-	 * // }
-	 * 
-	 * }
-	 * 
-	 * private boolean isValidAmount(Double cashDiscAmt, Double writeOffAmt,
-	 * Double appCreditsAmt) {
-	 * 
-	 * Double total = cashDiscAmt + writeOffAmt + appCreditsAmt;
-	 * 
-	 * return total.compareTo(amountDue) <= 0; }
-	 * 
-	 * public Double getWriteOffAmout() { return writeOffAmount; }
-	 * 
-	 * public void setWriteOffAmout(Double writeOffAmout) { if (writeOffAmout ==
-	 * null) writeOffAmout = 0.0D; // if (writeOffAmout < 0D || writeOffAmout >
-	 * 1000000000000.00) // throw new PaymentExcessException( //
-	 * AccounterErrorType.INVALID_NEGATIVE_AMOUNT); // // if
-	 * (!(isValidAmount(cashDiscount, writeOffAmout, // applyCreditsAmount))) {
-	 * // throw new PaymentExcessException(); // } else { this.writeOffAmount =
-	 * writeOffAmout; Double paymentAmount = amountDue - (cashDiscount +
-	 * writeOffAmount + applyCreditsAmount); setPaymentAmount(paymentAmount); //
-	 * setAttribute(ATTR_WRITEOFF, DataUtils //
-	 * .getAmountAsString(writeOffAmout));
-	 * 
-	 * // }
-	 * 
-	 * }
-	 * 
-	 * public Double getApplyCreditsAmount() { return applyCreditsAmount; }
-	 * 
-	 * public void setApplyCreditsAmount(Double applyCreditsAmount) { if
-	 * (applyCreditsAmount == null) applyCreditsAmount = 0.0D;
-	 * 
-	 * // if (!(isValidAmount(cashDiscount, writeOffAmount, //
-	 * applyCreditsAmount))) { // throw new PaymentExcessException( //
-	 * AccounterErrorType.RECEIVEPAYMENT_AMOUNT_DUE); // } else {
-	 * this.applyCreditsAmount = applyCreditsAmount;
-	 * 
-	 * Double paymentAmount = amountDue - (cashDiscount + writeOffAmount +
-	 * applyCreditsAmount); setPaymentAmount(paymentAmount); //
-	 * setAttribute(ATTR_APPLIED_CREDITS, DataUtils //
-	 * .getAmountAsString(applyCreditsAmount));
-	 * 
-	 * // }
-	 * 
-	 * }
-	 * 
-	 * public Double getPaymentAmount() { return paymentAmount; }
-	 * 
-	 * public void setPaymentAmount(Double paymentAmount) { if (paymentAmount ==
-	 * null) paymentAmount = 0.0D;
-	 * 
-	 * // if (paymentAmount < 0D || paymentAmount > 1000000000000.00); // throw
-	 * new PaymentExcessException( //
-	 * AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
-	 * 
-	 * // if (!(isValidPayment(cashDiscount, writeOffAmount, //
-	 * applyCreditsAmount, paymentAmount))) { // throw new
-	 * PaymentExcessException(); // } else {
-	 * 
-	 * this.paymentAmount = paymentAmount; // setAttribute(ATTR_PAYMENTS,
-	 * DataUtils // .getAmountAsString(paymentAmount));
-	 * 
-	 * // }
-	 * 
-	 * }
-	 * 
-	 * private boolean isValidPayment(Double cashDiscount, Double
-	 * writeOffAmount, Double applyCreditsAmount, Double paymentAmount) {
-	 * 
-	 * Double total = cashDiscount + writeOffAmount + applyCreditsAmount +
-	 * paymentAmount;
-	 * 
-	 * return total.compareTo(amountDue) <= 0; }
-	 * 
-	 * // public AccounterListGrid getGrid() { // return gridView; // }
-	 * 
-	 * }
-	 */
 	public void recalculateGridAmounts() {
 		this.transactionTotal = getGridTotal();
-
 		this.unUsedPayments = (amountRecieved - transactionTotal);
 		setUnusedPayments(unUsedPayments);
-
 		calculateUnusedCredits();
 	}
 
@@ -1055,7 +817,7 @@ public class ReceivePaymentView extends
 			return;
 
 		this.paymentMethod = paymentMethod2;
-		if (paymentMethod.equalsIgnoreCase(Accounter.constants().cheque())) {
+		if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
 			checkNo.setDisabled(false);
 		} else {
 			checkNo.setDisabled(true);
@@ -1083,24 +845,9 @@ public class ReceivePaymentView extends
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 
-		// Validations
-		// 1. isValidTransactionDate?
-		// 2. isInPreventPostingBeforeDate?
-		// 3. formItem validation
-		// 4. isBlankTransaction?
-		// 5. validateGrid?
-		// 6. isValidReceivePaymentAmount?
-		// 7. unUsedPaymentsAmount > 0 add warning
-		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
-		// {
-		// result.addError(transactionDateItem,
-		// accounterConstants.invalidateTransactionDate());
-		// }
-
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, messages.invalidateDate());
 		}
 
 		result.add(FormItem.validate(customerCombo, paymentMethodCombo,
@@ -1108,10 +855,10 @@ public class ReceivePaymentView extends
 
 		if (gridView == null || gridView.getRecords().isEmpty()
 				|| gridView.getSelectedRecords().size() == 0) {
-			result.addError(gridView, Accounter.constants()
+			result.addError(gridView, Accounter.messages()
 					.pleaseSelectAnyOneOfTheTransactions());
 		} else if (gridView.getAllRows().isEmpty()) {
-			result.addError(gridView, Accounter.constants().selectTransaction());
+			result.addError(gridView, Accounter.messages().selectTransaction());
 		} else
 			result.add(gridView.validateGrid());
 
@@ -1119,19 +866,18 @@ public class ReceivePaymentView extends
 			try {
 				if (!AccounterValidator.isValidRecievePaymentAmount(
 						DataUtils.getAmountStringAsDouble(amtText.getValue()
-								.toString()), this.transactionTotal)) {
-					result.addError(amtText, Accounter.constants()
+								.toString()),
+						this.transactionTotal)) {
+					result.addError(amtText, Accounter.messages()
 							.recievePaymentTotalAmount());
 				}
 			} catch (Exception e) {
-				result.addError(amtText, accounterConstants.invalidAmount());
+				result.addError(amtText, messages.invalidAmount());
 			}
 		}
+
 		if (!isInViewMode()
-				&& DecimalUtil
-						.isGreaterThan(
-								getAmountInBaseCurrency(unUsedPaymentsText
-										.getAmount()), 0))
+				&& DecimalUtil.isGreaterThan(unUsedPaymentsText.getAmount(), 0))
 			result.addWarning(unUsedPaymentsText,
 					AccounterWarningType.recievePayment);
 
@@ -1147,6 +893,7 @@ public class ReceivePaymentView extends
 		super.reload();
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1203,7 +950,7 @@ public class ReceivePaymentView extends
 
 		} else if (transaction.isVoid() || transaction.isDeleted())
 
-			Accounter.showError(Accounter.constants()
+			Accounter.showError(Accounter.messages()
 					.youcanteditreceivePaymentitisvoidedordeleted());
 	}
 
@@ -1212,7 +959,7 @@ public class ReceivePaymentView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.constants()
+				Accounter.showError(Accounter.messages()
 						.failedtovoidReceivePayment());
 			}
 
@@ -1243,8 +990,8 @@ public class ReceivePaymentView extends
 		amtText.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
 		if (paymentMethod != null
-				&& paymentMethod.equalsIgnoreCase(Accounter.constants()
-						.cheque())) {
+				&& paymentMethod
+						.equalsIgnoreCase(Accounter.messages().cheque())) {
 			checkNo.setDisabled(false);
 		}
 
@@ -1259,50 +1006,11 @@ public class ReceivePaymentView extends
 		memoTextAreaItem.setDisabled(isInViewMode());
 		transaction = new ClientReceivePayment();
 		data = transaction;
-		// this.rpcUtilService.getTransactionReceivePayments(customer
-		// .getID(),
-		// new
-		// AccounterAsyncCallback<ArrayList<ReceivePaymentTransactionList>>() {
-		//
-		// public void onException(AccounterException caught) {
-		// Accounter.showError(FinanceApplication
-		// .constants()
-		// .failedToGetRecievePayments()
-		// + customer.getName());
-		// }
-		//
-		// public void onSuccess(
-		// List<ReceivePaymentTransactionList> result) {
-		//
-		// // List<ClientTransactionReceivePayment> list = gridView
-		// // .getRecords();
-		// // List<ReceivePaymentTransactionList> listTobeAded =
-		// // new ArrayList<ReceivePaymentTransactionList>();
-		// // boolean isUsed = false;
-		// // for (ReceivePaymentTransactionList payment : result)
-		// // {
-		// // isUsed = false;
-		// // for (ClientTransactionReceivePayment usedPayments :
-		// // list) {
-		// // if (usedPayments.getInvoice().equals(
-		// // payment.getTransactionId()))
-		// // isUsed = true;
-		// // }
-		// // if (!isUsed)
-		// // listTobeAded.add(payment);
-		// // }
-		//
-		// if (result != null && result.size() > 0) {
-		// addTransactionRecievePayments(result);
-		// }
-		//
-		// }
-		//
-		// });
-
-		// getTransactionReceivePayments(this.customer);
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		if (currencyWidget != null) {
+			currencyWidget.setDisabled(isInViewMode());
+		}
 	}
 
 	@Override
@@ -1318,7 +1026,7 @@ public class ReceivePaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().receivePayment();
+		return Accounter.messages().receivePayment();
 	}
 
 	private CustomerCombo createCustomerComboItem(String title) {
@@ -1339,7 +1047,6 @@ public class ReceivePaymentView extends
 
 		customerCombo.setRequired(true);
 		customerCombo.setDisabled(isInViewMode());
-		// formItems.add(customerCombo);
 		return customerCombo;
 
 	}
@@ -1356,7 +1063,6 @@ public class ReceivePaymentView extends
 		List<ClientCustomer> result = getCompany().getActiveCustomers();
 
 		customerCombo.initCombo(result);
-		// customerCombo.setHelpInformation(true);
 		customerCombo.setDisabled(isInViewMode());
 
 	}
@@ -1371,13 +1077,14 @@ public class ReceivePaymentView extends
 	private DepositInAccountCombo createDepositInComboItem() {
 
 		DepositInAccountCombo accountCombo = new DepositInAccountCombo(
-				Accounter.constants().depositIn());
+				Accounter.messages().depositIn());
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 
 						depositInAccountSelected(selectItem);
@@ -1387,8 +1094,6 @@ public class ReceivePaymentView extends
 				});
 		accountCombo.setDisabled(isInViewMode());
 		accountCombo.setAccounts();
-
-		// formItems.add(accountCombo);
 
 		return accountCombo;
 
@@ -1404,4 +1109,24 @@ public class ReceivePaymentView extends
 	protected void refreshTransactionGrid() {
 
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		gridView.updateAmountsFromGUI();
+		paymentAmountChanged(amtText.getAmount());
+		modifyForeignCurrencyTotalWidget();
+
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+
+		unUsedCreditsText.setTitle(Accounter.messages()
+				.unusedCreditsWithCurrencyName(
+						currencyWidget.getSelectedCurrency().getFormalName()));
+		unUsedPaymentsText.setTitle(Accounter.messages().unusedPayments(
+				currencyWidget.getSelectedCurrency().getFormalName()));
+		amtText.setTitle(Accounter.messages().amountReceivedWithCurrencyName(
+				currencyWidget.getSelectedCurrency().getFormalName()));
+	}
+
 }

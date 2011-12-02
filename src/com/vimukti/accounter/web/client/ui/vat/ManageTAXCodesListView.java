@@ -33,7 +33,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			return Accounter.constants().addaNewTaxCode();
+			return messages.addaNewTaxCode();
 		} else {
 			return "";
 		}
@@ -41,7 +41,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().vatCodeList();
+		return messages.taxCodesList();
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().vatCodeList();
+		return messages.vatCodeList();
 	}
 
 }

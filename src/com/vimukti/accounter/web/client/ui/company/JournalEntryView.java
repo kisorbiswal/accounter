@@ -13,27 +13,36 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientEntry;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionJournalEntryTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -51,8 +60,6 @@ public class JournalEntryView extends
 	TextItem jourNoText;
 	TextAreaItem memoText;
 	protected boolean isClose;
-	private String vouchNo = "1";
-	boolean voucharNocame = false;
 	AmountLabel creditTotalText, deditTotalText;
 
 	// private HorizontalPanel lablPanel;
@@ -60,9 +67,7 @@ public class JournalEntryView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private AddButton addButton;
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
-			.constants();
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY);
@@ -79,7 +84,10 @@ public class JournalEntryView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = super.validate();
+
+		// No need of super class validations.. Because required validations are
+		// doing here only..
+		ValidationResult result = new ValidationResult();
 		// Validations
 		// 1. is valid memo?
 		// 2. is valid transaction date?
@@ -89,41 +97,38 @@ public class JournalEntryView extends
 		// 6. is valid grid?
 		// 7. is valid total?
 
-		List<ClientEntry> allEntries = grid.getAllRows();
-		for (ClientEntry entry : allEntries) {
+		List<ClientTransactionItem> allEntries = grid.getAllRows();
+		for (ClientTransactionItem entry : allEntries) {
 			if (grid.getTotalCredittotal() > 0 || grid.getTotalDebittotal() > 0) {
-				if (entry.getDebit() == 0 && entry.getCredit() == 0) {
-					result.addError(
-							this,
-							Accounter.messages().valueCannotBe0orlessthan0(
-									Accounter.constants().amount()));
+				if (entry.getLineTotal() == null || entry.getLineTotal() == 0) {
+					result.addError(this, Accounter.messages()
+							.valueCannotBe0orlessthan0(messages.amount()));
 				}
 			}
 
 		}
 		if (memoText.getValue().toString() != null
 				&& memoText.getValue().toString().length() >= 256) {
-			result.addError(memoText, Accounter.constants()
-					.memoCannotExceedsmorethan255Characters());
+			result.addError(memoText,
+					messages.memoCannotExceedsmorethan255Characters());
 
 		}
 		// if (!AccounterValidator.isValidTransactionDate(getTransactionDate()))
 		// {
 		// result.addError(transactionDateItem,
-		// accounterConstants.invalidateTransactionDate());
+		// messages.invalidateTransactionDate());
 		// } else
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, messages.invalidateDate());
 		}
 		result.add(dateForm.validate());
 		// if (AccounterValidator.isBlankTransaction(grid)) {
-		// result.addError(grid, accounterConstants.blankTransaction());
+		// result.addError(grid, messages.blankTransaction());
 		// } else
 		result.add(grid.validateGrid());
 		if (!grid.isValidTotal()) {
-			result.addError(grid, Accounter.constants().totalMustBeSame());
+			result.addError(grid, messages.totalMustBeSame());
 		}
 		return result;
 
@@ -141,6 +146,11 @@ public class JournalEntryView extends
 			public void updateNonEditableItems() {
 				JournalEntryView.this.updateNonEditableItems();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return JournalEntryView.this.isInViewMode();
+			}
 		};
 		grid.setDisabled(isInViewMode());
 		grid.getElement().getStyle().setMarginTop(10, Unit.PX);
@@ -149,7 +159,7 @@ public class JournalEntryView extends
 	@Override
 	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
-		AccounterException accounterException = (AccounterException) exception;
+		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -173,7 +183,7 @@ public class JournalEntryView extends
 			// callback.onSuccess(result);
 			// }
 		} else {
-			saveFailed(new AccounterException(Accounter.constants().imfailed()));
+			saveFailed(new AccounterException(messages.imfailed()));
 		}
 
 	}
@@ -184,72 +194,12 @@ public class JournalEntryView extends
 	//
 	// }
 
-	public List<ClientEntry> getallEntries(ClientTransaction object) {
-
-		List<ClientEntry> records = grid.getAllRows();
-		final List<ClientEntry> transactionItems = new ArrayList<ClientEntry>();
-		if (records != null) {
-			for (ClientEntry record : records) {
-				ClientEntry rec = record;
-				final ClientEntry entry = new ClientEntry();
-
-				// int date = Integer.parseInt(rec.getAttribute("Date"));
-
-				// Setting Object to Transaction item in bidirectional way
-				// entry.setTransaction(object);
-				// vouch_no";"date";type";"account""memo";debit""credit";
-				// Setting type of trasaction
-
-				// Setting number
-				try {
-
-					entry.setVoucherNumber(rec.getVoucherNumber());
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				// try {
-				//
-				// entry.setCreatedDate(UIUtils.toDate(rec
-				// .getAttribute("date")));
-				// } catch (Exception e) {
-				// }
-
-				try {
-					entry.setType(rec.getType());
-				}
-				// }
-				catch (Exception e) {
-				}
-
-				// Setting Unit Price
-				try {
-					entry.setMemo(rec.getMemo());
-
-					// entry.setVendor(selectedVendor);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				// Setting Line total
-				try {
-					entry.setDebit(rec.getDebit());
-
-				} catch (Exception e) {
-				}
-				try {
-					entry.setCredit(rec.getCredit());
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				transactionItems.add(entry);
-			}
-		}
-		return transactionItems;
+	@Override
+	public List<ClientTransactionItem> getAllTransactionItems() {
+		return grid.getAllRows();
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		if (isInViewMode()) {
@@ -276,8 +226,6 @@ public class JournalEntryView extends
 			transaction.setCreditTotal(grid.getTotalCredittotal());
 			transaction.setTotal(grid.getTotalDebittotal());
 		}
-		List<ClientEntry> allGivenRecords = grid.getAllRows();
-		transaction.setEntry(allGivenRecords);
 	}
 
 	private void initMemo(ClientJournalEntry journalEntry) {
@@ -286,7 +234,7 @@ public class JournalEntryView extends
 			// BaseView.errordata.setHTML("i am here");
 			// BaseView.commentPanel.setVisible(true);
 			// AbstractBaseView.errorOccured = true;
-			addError(this, Accounter.constants().iamHere());
+			addError(this, messages.iamHere());
 
 		} else
 			journalEntry.setMemo(memoText.getValue() != null ? memoText
@@ -305,12 +253,12 @@ public class JournalEntryView extends
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		lab1 = new Label(Accounter.constants().journalEntry());
+		lab1 = new Label(messages.journalEntry());
 		lab1.removeStyleName("gwt-Label");
-		lab1.addStyleName(Accounter.constants().labelTitle());
+		lab1.addStyleName(messages.labelTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
-		jourNoText = new TextItem(Accounter.constants().no());
+		jourNoText = new TextItem(messages.no());
 		jourNoText.setToolTip(Accounter.messages().giveNoTo(
 				this.getAction().getViewName()));
 		jourNoText.setHelpInformation(true);
@@ -328,7 +276,7 @@ public class JournalEntryView extends
 			}
 		});
 
-		memoText = new TextAreaItem(Accounter.constants().memo());
+		memoText = new TextAreaItem(messages.memo());
 		memoText.setMemo(true, this);
 		memoText.setHelpInformation(true);
 
@@ -340,7 +288,7 @@ public class JournalEntryView extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				VoucherNoreset();
+				addEmptRecords();
 			}
 		});
 
@@ -381,8 +329,7 @@ public class JournalEntryView extends
 		memoForm.setFields(memoText);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		deditTotalText = new AmountLabel(Accounter.constants()
-				.debitTotalColon());
+		deditTotalText = new AmountLabel(messages.debitTotalColon());
 		deditTotalText.setWidth("180px");
 		((Label) deditTotalText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -390,8 +337,7 @@ public class JournalEntryView extends
 				+ "0.00");
 		deditTotalText.setDisabled(true);
 
-		creditTotalText = new AmountLabel(Accounter.constants()
-				.creditTotalColon());
+		creditTotalText = new AmountLabel(messages.creditTotalColon());
 		creditTotalText.setWidth("180px");
 		((Label) creditTotalText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -400,7 +346,7 @@ public class JournalEntryView extends
 		creditTotalText.setDisabled(true);
 
 		totalForm = new DynamicForm();
-		totalForm.setWidth("78%");
+		// totalForm.setWidth("78%");
 		totalForm.addStyleName("textbold");
 		totalForm.setFields(deditTotalText, creditTotalText);
 
@@ -457,7 +403,8 @@ public class JournalEntryView extends
 			transactionDateItem.setEnteredDate(transaction.getDate());
 			// grid.setVoucherNumber(transaction.getNumber());
 
-			List<ClientEntry> entries = transaction.getEntry();
+			List<ClientTransactionItem> entries = transaction
+					.getTransactionItems();
 
 			grid.setAllRows(entries);
 			if (transaction.getMemo() != null)
@@ -471,8 +418,6 @@ public class JournalEntryView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		if (!isInViewMode())
-			initVocherNumer();
 
 	}
 
@@ -487,7 +432,7 @@ public class JournalEntryView extends
 
 						@Override
 						public void onException(AccounterException caught) {
-							Accounter.showError(Accounter.constants()
+							Accounter.showError(messages
 									.failedToGetTransactionNumber());
 						}
 
@@ -504,53 +449,15 @@ public class JournalEntryView extends
 
 	}
 
-	private void initVocherNumer() {
-		rpcUtilService
-				.getNextVoucherNumber(new AccounterAsyncCallback<String>() {
-
-					@Override
-					public void onResultSuccess(String result) {
-						voucharNocame = true;
-						vouchNo = result;
-						// grid.setVoucherNumber(vouchNo);
-					}
-
-					@Override
-					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
-								.failedToGetVocherNumber());
-
-					}
-				});
-	}
-
-	public void VoucherNoreset() {
-		// if (!voucharNocame)
-		// grid.addLoadingImagePanel();
-		Timer timer = new Timer() {
-			@Override
-			public void run() {
-				if (voucharNocame) {
-					// grid.removeLoadingImage();
-					addEmptRecords();
-					this.cancel();
-				}
-			}
-		};
-		timer.scheduleRepeating(100);
-	}
-
 	protected void addEmptRecords() {
-		ClientEntry entry = new ClientEntry();
-		ClientEntry entry1 = new ClientEntry();
+		ClientTransactionItem entry = new ClientTransactionItem();
+		ClientTransactionItem entry1 = new ClientTransactionItem();
 		entry.setAccount(0);
-		entry.setMemo("");
+		entry.setDescription("");
 		entry1.setAccount(0);
-		entry1.setMemo("");
-		entry.setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
-		entry1.setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
-		entry.setVoucherNumber(vouchNo);
-		entry1.setVoucherNumber(vouchNo);
+		entry1.setDescription("");
+		entry.setType(ClientTransactionItem.TYPE_ACCOUNT);
+		entry1.setType(ClientTransactionItem.TYPE_ACCOUNT);
 
 		grid.add(entry);
 		if (grid.getAllRows().size() < 2)
@@ -562,10 +469,10 @@ public class JournalEntryView extends
 	public void updateNonEditableItems() {
 		if (grid == null)
 			return;
-		deditTotalText.setAmount(getAmountInTransactionCurrency(grid
-				.getTotalDebittotal()));
-		creditTotalText.setAmount(getAmountInTransactionCurrency(grid
-				.getTotalCredittotal()));
+		deditTotalText.setAmount(grid
+				.getTotalDebittotal());
+		creditTotalText.setAmount(grid
+				.getTotalCredittotal());
 
 	}
 
@@ -574,6 +481,7 @@ public class JournalEntryView extends
 		return new JournalEntryView();
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -608,7 +516,9 @@ public class JournalEntryView extends
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
 		jourNoText.setDisabled(isInViewMode());
+		transactionDateItem.setDisabled(isInViewMode());
 		grid.setDisabled(isInViewMode());
+		memoText.setDisabled(isInViewMode());
 		// grid.setCanEdit(true);
 		addButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
@@ -634,7 +544,7 @@ public class JournalEntryView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().journalEntry();
+		return messages.journalEntry();
 	}
 
 	@Override
@@ -643,7 +553,100 @@ public class JournalEntryView extends
 	}
 
 	@Override
-	public boolean canEdit() {
+	public void updateAmountsFromGUI() {
+	}
+
+	@Override
+	public void onEdit() {
+		if (transaction.getInvolvedPayee() != 0) {
+			showEditWarnDialog();
+		} else {
+			AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					if (caught instanceof InvocationException) {
+						Accounter.showMessage(messages.sessionExpired());
+					} else {
+						int errorCode = ((AccounterException) caught)
+								.getErrorCode();
+						Accounter.showError(AccounterExceptions
+								.getErrorString(errorCode));
+
+					}
+				}
+
+				@Override
+				public void onSuccess(Boolean result) {
+					if (result)
+						enableFormItems();
+				}
+
+			};
+
+			AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
+					.getType());
+			this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
+		}
+	}
+
+	private void showEditWarnDialog() {
+		Accounter.showWarning(AccounterWarningType.RECEIVEPAYMENT_EDITING,
+				AccounterType.WARNING, new ErrorDialogHandler() {
+
+					@Override
+					public boolean onCancelClick() {
+						return true;
+					}
+
+					@Override
+					public boolean onNoClick() {
+						return true;
+					}
+
+					@Override
+					public boolean onYesClick() {
+						editPayee();
+						return true;
+					}
+				});
+	}
+
+	protected void editPayee() {
+		AccounterAsyncCallback<ClientPayee> callback = new AccounterAsyncCallback<ClientPayee>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+			}
+
+			@Override
+			public void onResultSuccess(ClientPayee result) {
+				if (result != null) {
+					if (result instanceof ClientCustomer) {
+						ActionFactory.getNewCustomerAction().run(
+								(ClientCustomer) result, false);
+					} else if (result instanceof ClientVendor) {
+						ActionFactory.getNewVendorAction().run(
+								(ClientVendor) result, false);
+					}
+				}
+			}
+
+		};
+		AccounterCoreType type;
+		ClientPayee payee = getCompany().getPayee(
+				transaction.getInvolvedPayee());
+		if (payee instanceof ClientCustomer) {
+			type = AccounterCoreType.CUSTOMER;
+		} else {
+			type = AccounterCoreType.VENDOR;
+		}
+		Accounter.createGETService().getObjectById(type,
+				transaction.getInvolvedPayee(), callback);
+	}
+
+	@Override
+	protected boolean canVoid() {
 		return false;
 	}
 }

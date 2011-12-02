@@ -2,12 +2,13 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -56,29 +57,29 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_VENDOR_CREDIT_MEMO = 14;
 	public static final int TYPE_WRITE_CHECK = 15;
 	public static final int TYPE_JOURNAL_ENTRY = 16;
-	public static final int TYPE_PAY_SALES_TAX = 17;
+	public static final int TYPE_PAY_TAX = 17;
 	public static final int TYPE_EXPENSE = 18;
 	public static final int TYPE_PAY_EXPENSE = 19;
-	public static final int TYPE_VAT_RETURN = 20;
+	public static final int TYPE_TAX_RETURN = 20;
 
 	public static final int TYPE_SALES_ORDER = 21;
 	public static final int TYPE_PURCHASE_ORDER = 22;
 	public static final int TYPE_ITEM_RECEIPT = 23;
 
 	public static final int TYPE_ADJUST_VAT_RETURN = 24;
-	public static final int TYPE_PAY_VAT = 30;
 
 	public static final int TYPE_CASH_EXPENSE = 26;
 	public static final int TYPE_CREDIT_CARD_EXPENSE = 27;
 	public static final int TYPE_EMPLOYEE_EXPENSE = 28;
 
 	public static final int TYPE_CUSTOMER_PRE_PAYMENT = 29;
-	public static final int TYPE_RECEIVE_VAT = 31;
+	public static final int TYPE_RECEIVE_TAX = 31;
 
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
 	public static final int STATUS_PAID_OR_APPLIED_OR_ISSUED = 2;
 	public static final int STATUS_DELETED = 3;
+	public static final int STATUS_APPLIED = 5;
 
 	public static final int STATUS_DRAFT = 201;
 	public static final int STATUS_APPROVE = 202;
@@ -102,32 +103,19 @@ public abstract class Transaction extends CreatableObject implements
 	String number = "0";
 	boolean isDefault;
 	private Location location;
-	private String currencyCode;
+	private Currency currency;
 
 	private RecurringTransaction recurringTransaction;
 
-	public String getCurrencyCode() {
-		return currencyCode;
-	}
-
-	public void setCurrencyCode(String currencyCode) {
-		this.currencyCode = currencyCode;
-	}
-
-	public double getCurrencyFactor() {
-		return currencyFactor;
-	}
-
-	public void setCurrencyFactor(double currencyFactor) {
-		this.currencyFactor = currencyFactor;
-	}
-
-	private double currencyFactor;
+	protected double currencyFactor = 1D;
 
 	/**
 	 * Many transaction consists of List of {@link TransactionItem}s
 	 */
 	List<TransactionItem> transactionItems;
+
+	@ReffereredObject
+	protected Set<TAXRateCalculation> taxRateCalculationEntriesList = new HashSet<TAXRateCalculation>();
 
 	/**
 	 * Some of the transactions are able to create a {@link CreditsAndPayments}.
@@ -204,6 +192,8 @@ public abstract class Transaction extends CreatableObject implements
 
 	transient Transaction oldTransaction;
 
+	private Set<ReconciliationItem> reconciliationItems;
+
 	// Last Activity
 	@Exempted
 	private Activity lastActivity;
@@ -222,12 +212,11 @@ public abstract class Transaction extends CreatableObject implements
 	/**
 	 * Not using now, this property has been shifted to Comapny.
 	 */
-	Set<PaySalesTaxEntries> paySalesTaxEntriesList = new HashSet<PaySalesTaxEntries>();
-
-	Set<PayVATEntries> payVATEntriesList = new HashSet<PayVATEntries>();
 	Set<ReceiveVATEntries> receiveVATEntriesList = new HashSet<ReceiveVATEntries>();
 
 	TransactionMakeDepositEntries transactionMakeDepositEntries;
+
+	List<WareHouseAllocation> wareHouseAllocations;
 
 	// For UK version only
 	boolean amountsIncludeVAT;
@@ -235,9 +224,7 @@ public abstract class Transaction extends CreatableObject implements
 	private boolean isDeleted;
 
 	private AccounterClass accounterClass;
-
-	/** This Transaction belongs to which reconciliation */
-	private Reconciliation reconciliation;
+	private List<TransactionLog> history;
 
 	public String getPaymentMethod() {
 		return paymentMethod;
@@ -294,23 +281,6 @@ public abstract class Transaction extends CreatableObject implements
 	public void setAccountTransactionEntriesList(
 			Set<AccountTransaction> accountTransactionEntriesList) {
 		this.accountTransactionEntriesList = accountTransactionEntriesList;
-	}
-
-	public Set<PaySalesTaxEntries> getPaySalesTaxEntriesList() {
-		return paySalesTaxEntriesList;
-	}
-
-	public void setPaySalesTaxEntriesList(
-			Set<PaySalesTaxEntries> paySalesTaxEntriesList) {
-		this.paySalesTaxEntriesList = paySalesTaxEntriesList;
-	}
-
-	public Set<PayVATEntries> getPayVATEntriesList() {
-		return payVATEntriesList;
-	}
-
-	public void setPayVATEntriesList(Set<PayVATEntries> payVATEntriesList) {
-		this.payVATEntriesList = payVATEntriesList;
 	}
 
 	public Set<ReceiveVATEntries> getReceiveVATEntriesList() {
@@ -629,6 +599,10 @@ public abstract class Transaction extends CreatableObject implements
 		return this != null && this instanceof Invoice;
 	}
 
+	public boolean isJournalEntry() {
+		return this != null && this instanceof JournalEntry;
+	}
+
 	public boolean isQuote() {
 		return false;
 	}
@@ -692,7 +666,7 @@ public abstract class Transaction extends CreatableObject implements
 		this.isVoidBefore = isVoid;
 		if (oldTransaction == null) {
 			try {
-				oldTransaction = (Transaction) this.clone();
+				oldTransaction = this.clone();
 			} catch (CloneNotSupportedException e) {
 				e.printStackTrace();
 			}
@@ -709,7 +683,36 @@ public abstract class Transaction extends CreatableObject implements
 	public boolean onSave(Session session) throws CallbackException {
 		super.onSave(session);
 		doCreateEffect(session);
+		addCreateHistory();
+		if (currency == null) {
+			currency = getCompany().getPrimaryCurrency();
+			currencyFactor = 1;
+		}
 		return false;
+	}
+
+	protected void addCreateHistory() {
+		TransactionLog log = new TransactionLog(TransactionLog.TYPE_CREATE);
+		if (this.history == null) {
+			this.history = new ArrayList<TransactionLog>();
+		}
+		this.history.add(log);
+	}
+
+	protected void addUpdateHistory() {
+		TransactionLog log = new TransactionLog(TransactionLog.TYPE_EDIT);
+		if (this.history == null) {
+			this.history = new ArrayList<TransactionLog>();
+		}
+		this.history.add(log);
+	}
+
+	protected void addVoidHistory() {
+		TransactionLog log = new TransactionLog(TransactionLog.TYPE_VOID);
+		if (this.history == null) {
+			this.history = new ArrayList<TransactionLog>();
+		}
+		this.history.add(log);
 	}
 
 	private void doCreateEffect(Session session) {
@@ -746,9 +749,9 @@ public abstract class Transaction extends CreatableObject implements
 		/**
 		 * The following code is particularly for Sales Tax Liability Report
 		 */
-		if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			this.updateTaxAndNonTaxableAmounts();
-		}
+		// if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		this.updateTaxAndNonTaxableAmounts();
+		// }
 		// }
 	}
 
@@ -785,18 +788,14 @@ public abstract class Transaction extends CreatableObject implements
 			this.type = Transaction.TYPE_MAKE_DEPOSIT;
 		else if (this.isPayBill())
 			this.type = Transaction.TYPE_PAY_BILL;
-		else if (this.isPaySalesTax())
-			this.type = Transaction.TYPE_PAY_SALES_TAX;
-		else if (this.isPayVAT())
-			this.type = Transaction.TYPE_PAY_VAT;
+		else if (this.isPayTax())
+			this.type = Transaction.TYPE_PAY_TAX;
 		else if (this.isReceiveVAT())
-			this.type = Transaction.TYPE_RECEIVE_VAT;
+			this.type = Transaction.TYPE_RECEIVE_TAX;
 		else if (this.isQuote())
 			this.type = Transaction.TYPE_ESTIMATE;
 		else if (this.isReceivePayment())
 			this.type = Transaction.TYPE_RECEIVE_PAYMENT;
-		else if (this.isVATAdjustment())
-			this.type = Transaction.TYPE_ADJUST_VAT_RETURN;
 		else if (this.isVendorCreditMemo())
 			this.type = Transaction.TYPE_VENDOR_CREDIT_MEMO;
 		else if (this.isWriteCheck())
@@ -805,10 +804,12 @@ public abstract class Transaction extends CreatableObject implements
 			this.type = Transaction.TYPE_CUSTOMER_PRE_PAYMENT;
 		else if (this.isTAXAdjustment())
 			this.type = Transaction.TYPE_ADJUST_SALES_TAX;
+		else if (this.isJournalEntry())
+			this.type = Transaction.TYPE_JOURNAL_ENTRY;
 
 	}
 
-	private boolean isTAXAdjustment() {
+	public boolean isTAXAdjustment() {
 		return this != null && this instanceof TAXAdjustment;
 	}
 
@@ -922,15 +923,9 @@ public abstract class Transaction extends CreatableObject implements
 	 * @param session
 	 */
 
-	protected void deleteCreatedEntries(Session session, Transaction transaction) {
+	protected void deleteCreatedEntries(Transaction transaction) {
 		if (transaction.accountTransactionEntriesList != null) {
 			transaction.accountTransactionEntriesList.clear();
-		}
-		if (transaction.paySalesTaxEntriesList != null) {
-			transaction.paySalesTaxEntriesList.clear();
-		}
-		if (transaction.payVATEntriesList != null) {
-			transaction.payVATEntriesList.clear();
 		}
 
 	}
@@ -944,19 +939,9 @@ public abstract class Transaction extends CreatableObject implements
 		return this != null && this instanceof ReceivePayment;
 	}
 
-	public boolean isPaySalesTax() {
+	public boolean isPayTax() {
 
-		return this != null && this instanceof PaySalesTax;
-	}
-
-	public boolean isPayVAT() {
-
-		return this != null && this instanceof PayVAT;
-	}
-
-	public boolean isVATAdjustment() {
-
-		return this != null && this instanceof TAXAdjustment;
+		return this != null && this instanceof PayTAX;
 	}
 
 	public abstract boolean isPositiveTransaction();
@@ -969,6 +954,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	public abstract int getTransactionCategory();
 
+	@Override
 	public abstract String toString();
 
 	public abstract Payee getInvolvedPayee();
@@ -982,8 +968,6 @@ public abstract class Transaction extends CreatableObject implements
 		if ((this.isVoid && !clonedObject.isVoid)
 				|| (this.isDeleted() && !clonedObject.isDeleted() && !this.isVoid)) {
 
-			Session session = HibernateUtil.getCurrentSession();
-
 			double amount = (isDebitTransaction() ? -1d : 1d) * this.total;
 
 			this.updateEffectedAccount(amount);
@@ -992,24 +976,102 @@ public abstract class Transaction extends CreatableObject implements
 
 			this.voidCreditsAndPayments(this);
 			voidTransactionItems();
-			deleteCreatedEntries(session, clonedObject);
-
+			deleteCreatedEntries(clonedObject);
+			addVoidHistory();
+			cleanTransactionitems(clonedObject);
 		} else if (this.isDeleted && !clonedObject.isDeleted() && this.isVoid) {
 			this.setStatus(STATUS_DELETED);
 		} else if (this.transactionItems != null
 				&& !this.transactionItems.equals(clonedObject.transactionItems)) {
 			updateTranasactionItems(clonedObject);
+			deleteCreatedEntries(clonedObject);
 			clonedObject.transactionItems.clear();
-
+			addUpdateHistory();
+		} else {
+			addUpdateHistory();
 		}
+
 	}
 
 	protected void voidTransactionItems() {
-		if (this.transactionItems != null)
+		if (this.transactionItems != null) {
 			for (TransactionItem ti : this.transactionItems) {
-				ti.setVoid(true);
 				ti.doReverseEffect(HibernateUtil.getCurrentSession());
 			}
+		}
+	}
+
+	/**
+	 * Creates an entry in the VATRateCalculation entry for a transactionItem in
+	 * the UK company. This makes us to track all the VAT related amount to pay
+	 * while making the PayVAT.
+	 * 
+	 * @param transactionItem
+	 * @param session
+	 * @return boolean
+	 * 
+	 */
+	public boolean setTAXRateCalculation(TransactionItem transactionItem) {
+
+		if (isBecameVoid()) {
+			this.taxRateCalculationEntriesList.clear();
+			return false;
+		}
+		if (transactionItem.getTaxCode() == null) {
+			return false;
+		}
+
+		TAXCode code = transactionItem.getTaxCode();
+		TAXItemGroup taxItemGroup = null;
+
+		if (getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
+			taxItemGroup = code.getTAXItemGrpForSales();
+		} else if (transactionItem.transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
+			taxItemGroup = code.getTAXItemGrpForPurchases();
+		}
+		if (taxItemGroup == null) {
+			return false;
+		}
+
+		if (taxItemGroup instanceof TAXItem) {
+			TAXItem vatItem = ((TAXItem) taxItemGroup);
+			addTAXRateCalculation(vatItem, transactionItem.getLineTotal(),
+					false);
+		} else {
+			TAXGroup vatGroup = (TAXGroup) taxItemGroup;
+			for (TAXItem taxItem : vatGroup.getTAXItems()) {
+				addTAXRateCalculation(taxItem, transactionItem.getLineTotal(),
+						true);
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Set the VATItem entry in the VATRateCalculation. This is used to differ
+	 * this entry from the VATGroup type entry.
+	 * 
+	 * @param vatItem
+	 * @param transactionItem
+	 * @param session
+	 */
+	public void addTAXRateCalculation(TAXItem vatItem, double lineTotal,
+			boolean isGroup) {
+		/**
+		 * Line total will be positive for all receiving money and negative for
+		 * paying money. But for TDS line total is always positive.
+		 */
+		if (!isPositiveTransaction()
+				&& vatItem.getTaxAgency().getTaxType() != TAXAgency.TAX_TYPE_TDS) {
+			lineTotal = -lineTotal;
+		}
+
+		TAXRateCalculation vc = new TAXRateCalculation(vatItem, this, lineTotal);
+
+		vc.setVATGroupEntry(isGroup);
+
+		getTaxRateCalculationEntriesList().add(vc);
 
 	}
 
@@ -1020,13 +1082,9 @@ public abstract class Transaction extends CreatableObject implements
 	 * 
 	 * @param coreObject
 	 */
-	public void cleanTransactionitems(Transaction coreObject) {
-		if (coreObject.getTransactionItems() != null) {
-			for (TransactionItem item : coreObject.getTransactionItems()) {
-				// item.itemBackUpList.clear();
-				item.taxRateCalculationEntriesList.clear();
-			}
-		}
+		
+		public void cleanTransactionitems(Transaction coreObject) {
+		getTaxRateCalculationEntriesList().clear();
 	}
 
 	private void updateTranasactionItems(Transaction transaction) {
@@ -1094,7 +1152,7 @@ public abstract class Transaction extends CreatableObject implements
 	private void updateEffectedAccount(double amount) {
 		Account effectingAccount = getEffectingAccount();
 		if (effectingAccount != null) {
-			effectingAccount.updateCurrentBalance(this, amount);
+			effectingAccount.updateCurrentBalance(this, amount, currencyFactor);
 			HibernateUtil.getCurrentSession().update(effectingAccount);
 			effectingAccount.onUpdate(HibernateUtil.getCurrentSession());
 		}
@@ -1112,25 +1170,41 @@ public abstract class Transaction extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
-		if (isVoidBefore() || isDeleted()) {
-			throw new AccounterException(
-					AccounterException.ERROR_NO_SUCH_OBJECT);
-			// "This Transaction  is already voided or Deleted, can't Modify");
-		}
+		// if (isVoid() || isDeleted()) {
+		//
+		// throw new AccounterException(
+		// AccounterException.ERROR_NO_SUCH_OBJECT);
+		// // "This Transaction  is already voided or Deleted, can't Modify");
+		// }
 
-		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = (Transaction) clientObject;
-		Query query2 = session.getNamedQuery(
-				"getTaxrate.by.TransactioId.and.Vatreturn").setEntity(
-				"company", transaction.getCompany());
-		query2.setParameter("id", this.getID());
-		List list = query2.list();
-		if (list != null && list.size() > 0)
-			throw new AccounterException(
-					AccounterException.ERROR_NO_SUCH_OBJECT);
-		// "File VAT already done in  this transaction date duration, can't Modify");
-
+		checkForReconciliation(transaction);
 		return true;
+	}
+
+	protected void checkForReconciliation(Transaction transaction)
+			throws AccounterException {
+		if (reconciliationItems == null || reconciliationItems.isEmpty()) {
+			return;
+		}
+		Map<Account, Double> map = getEffectingAccountsWithAmounts();
+		for (ReconciliationItem item : reconciliationItems) {
+			BankAccount reconciliedAccount = item.getReconciliation()
+					.getAccount();
+			for (Account account : map.keySet()) {
+				if (reconciliedAccount.getID() == account.getID()) {
+					Double presentAmount = map.get(account);
+					double amount = item.getAmount();
+					if (DecimalUtil.isLessThan(amount, 0.00D)) {
+						amount *= -1;
+					}
+					if (!DecimalUtil.isEquals(presentAmount, amount)) {
+						throw new AccounterException(
+								AccounterException.ERROR_TRANSACTION_RECONCILIED);
+					}
+				}
+			}
+		}
 	}
 
 	public void setRecurringTransaction(
@@ -1180,13 +1254,6 @@ public abstract class Transaction extends CreatableObject implements
 		this.location = location;
 	}
 
-	/**
-	 * @return the reconciliation
-	 */
-	public Reconciliation getReconciliation() {
-		return reconciliation;
-	}
-
 	public int getSaveStatus() {
 		return saveStatus;
 	}
@@ -1197,14 +1264,6 @@ public abstract class Transaction extends CreatableObject implements
 
 	public boolean isDraft() {
 		return this.saveStatus == STATUS_DRAFT;
-	}
-
-	/**
-	 * @param reconciliation
-	 *            the reconciliation to set
-	 */
-	public void setReconciliation(Reconciliation reconciliation) {
-		this.reconciliation = reconciliation;
 	}
 
 	/**
@@ -1249,5 +1308,75 @@ public abstract class Transaction extends CreatableObject implements
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @return the reconciliationItems
+	 */
+	public Set<ReconciliationItem> getReconciliationItems() {
+		return reconciliationItems;
+	}
+
+	/**
+	 * @param reconciliationItems
+	 *            the reconciliationItems to set
+	 */
+	public void setReconciliationItems(
+			Set<ReconciliationItem> reconciliationItems) {
+		this.reconciliationItems = reconciliationItems;
+	}
+
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = new HashMap<Account, Double>();
+		if (getEffectingAccount() != null) {
+			map.put(getEffectingAccount(), total);
+		}
+		if (getPayee() != null) {
+			map.put(getPayee().getAccount(),
+					type == Transaction.TYPE_PAY_BILL ? this.subTotal
+							: this.total);
+		}
+		for (TransactionItem item : transactionItems) {
+			map.put(item.getEffectingAccount(), item.getEffectiveAmount());
+		}
+		return map;
+	}
+
+	public List<TransactionLog> getHistory() {
+		return this.history;
+	}
+
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
+
+	public double getCurrencyFactor() {
+		return currencyFactor;
+	}
+
+	public void setCurrencyFactor(double currencyFactor) {
+		this.currencyFactor = currencyFactor;
+	}
+
+	public List<WareHouseAllocation> getWareHouseAllocations() {
+		return wareHouseAllocations;
+	}
+
+	public void setWareHouseAllocations(
+			List<WareHouseAllocation> wareHouseAllocations) {
+		this.wareHouseAllocations = wareHouseAllocations;
+	}
+
+	public Set<TAXRateCalculation> getTaxRateCalculationEntriesList() {
+		return taxRateCalculationEntriesList;
+	}
+
+	public void setTaxRateCalculationEntriesList(
+			Set<TAXRateCalculation> taxRateCalculationEntriesList) {
+		this.taxRateCalculationEntriesList = taxRateCalculationEntriesList;
 	}
 }

@@ -16,7 +16,6 @@ public class Angola extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-
 		return "AOK";
 	}
 
@@ -29,7 +28,7 @@ public class Angola extends AbstractCountryPreferences {
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
 
-		return Accounter.constants().january();
+		return Accounter.messages().january();
 	}
 
 }

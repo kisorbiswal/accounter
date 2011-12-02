@@ -4,10 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AccountNameColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
@@ -21,9 +23,6 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
 public abstract class CustomerAccountTransactionTable extends
 		CustomerTransactionTable {
-
-	private boolean enableTax;
-	private boolean showTaxCode;
 
 	public CustomerAccountTransactionTable(boolean enableTax,
 			boolean showTaxCode, ICurrencyProvider currencyProvider) {
@@ -42,6 +41,7 @@ public abstract class CustomerAccountTransactionTable extends
 	/**
 	 * This method will add 4 empty records to the table.
 	 */
+	@Override
 	protected void addEmptyRecords() {
 		for (int i = 0; i < 4; i++) {
 			ClientTransactionItem item = new ClientTransactionItem();
@@ -83,7 +83,27 @@ public abstract class CustomerAccountTransactionTable extends
 			@Override
 			protected void setValue(ClientTransactionItem row,
 					ClientAccount newValue) {
-				super.setValue(row, newValue);
+				if (newValue != null) {
+					super.setValue(row, newValue);
+					if (row.getQuantity() == null) {
+						ClientQuantity quantity = new ClientQuantity();
+						quantity.setValue(1.0);
+						row.setQuantity(quantity);
+					}
+					if (row.getUnitPrice() == null) {
+						row.setUnitPrice(new Double(0));
+					}
+					if (row.getDiscount() == null) {
+						row.setDiscount(new Double(0));
+					}
+					double lt = row.getQuantity().getValue()
+							* row.getUnitPrice();
+					double disc = row.getDiscount();
+					row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+							* disc / 100))
+							: lt);
+					getTable().update(row);
+				}
 				// applyPriceLevel(row);
 			}
 
@@ -101,7 +121,7 @@ public abstract class CustomerAccountTransactionTable extends
 		this.addColumn(new TransactionUnitPriceColumn(currencyProvider) {
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().amount();
+				return getColumnNameWithCurrency(Accounter.messages().amount());
 			}
 		});
 
@@ -109,7 +129,7 @@ public abstract class CustomerAccountTransactionTable extends
 			this.addColumn(new TransactionDiscountColumn(currencyProvider));
 		}
 
-		this.addColumn(new TransactionTotalColumn(currencyProvider));
+		this.addColumn(new TransactionTotalColumn(currencyProvider, true));
 
 		// if (getCompany().getPreferences().isChargeSalesTax()) {
 
@@ -129,6 +149,13 @@ public abstract class CustomerAccountTransactionTable extends
 								return false;
 							}
 						};
+					}
+
+					@Override
+					protected void setValue(ClientTransactionItem row,
+							ClientTAXCode newValue) {
+						super.setValue(row, newValue);
+						update(row);
 					}
 
 					@Override

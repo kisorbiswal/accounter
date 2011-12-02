@@ -3,102 +3,138 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.core.SalesOrder;
+import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
+import com.vimukti.accounter.web.server.FinanceTool;
 
-public class SalesOrderListCommand extends AbstractTransactionCommand {
+public class SalesOrderListCommand extends NewAbstractCommand {
 
-	private static final String CURRENT_VIEW = "Open";
+	private static final String CURRENT_VIEW = "currentView";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(CURRENT_VIEW, true, true));
 
-	}
-
-	@Override
-	public Result run(Context context) {
-		Result result = null;
-
-		result = createOptionalResult(context);
-		if (result != null) {
-			return result;
-		}
-		return null;
-	}
-
-	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(CURRENT_VIEW);
-
-		ResultList list = new ResultList("viewlist");
-		Result result = viewTypeRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		String viewType = get(CURRENT_VIEW).getValue();
-		result = salesOrderList(context, viewType);
-		return result;
-	}
-
-	private Result salesOrderList(Context context, String viewType) {
-		Result result = context.makeResult();
-		result.add("Sales Order List");
-		ResultList salesList = new ResultList("salesOrderList");
-		int num = 0;
-		List<SalesOrder> orders = getSalesOrder(context.getHibernateSession(),
-				viewType);
-		for (SalesOrder order : orders) {
-			salesList.add(createNewSalesOrderRecord(order));
-			num++;
-			if (num == EXPENSES_TO_SHOW) {
-				break;
+		list.add(new ShowListRequirement<SalesOrdersList>("SalesOrderList",
+				"Please Select", 5) {
+			@Override
+			protected Record createRecord(SalesOrdersList value) {
+				Record record = new Record(value);
+				record.add(getMessages().name(), value.getCustomerName());
+				record.add(getMessages().number(), value.getNumber());
+				record.add(getMessages().total(), value.getTotal());
+				return record;
 			}
-		}
-		result.add(salesList);
-		return result;
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("New SalesOrder");
+			}
+
+			@Override
+			protected boolean filter(SalesOrdersList e, String name) {
+				return e.getCustomerName().startsWith(name)
+						|| e.getNumber().startsWith(
+								"" + getNumberFromString(name));
+			}
+
+			@Override
+			protected List<SalesOrdersList> getLists(Context context) {
+				List<SalesOrdersList> completeList = getSalesOrders(context);
+				List<SalesOrdersList> list = new ArrayList<SalesOrdersList>();
+
+				String type = SalesOrderListCommand.this.get(CURRENT_VIEW)
+						.getValue();
+				for (SalesOrdersList salesOrder : completeList) {
+					if (type.equals("Open")) {
+						if (salesOrder.getStatus() == Transaction.STATUS_OPEN)
+							list.add(salesOrder);
+					}
+					if (type.equals("Completed")) {
+						if (salesOrder.getStatus() == Transaction.STATUS_COMPLETED)
+							list.add(salesOrder);
+					}
+					if (type.equals("Cancelled")) {
+						if (salesOrder.getStatus() == Transaction.STATUS_CANCELLED)
+							list.add(salesOrder);
+					}
+				}
+
+				return list;
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getMessages().salesOrderList();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().noRecordsToShow();
+			}
+
+			@Override
+			protected String onSelection(SalesOrdersList value) {
+				return null;
+			}
+		});
+
+		list.add(new CommandsRequirement(CURRENT_VIEW) {
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add("Open");
+				list.add("Completed");
+				list.add("Cancelled");
+				return list;
+			}
+		});
 	}
 
-	private Record createNewSalesOrderRecord(SalesOrder order) {
-
-		Record record = new Record(order);
-		record.add("customer", order.getCustomer());
-		record.add("phone", order.getPhone());
-		record.add("status", order.getStatus());
-		record.add("orderNo", order.getNumber());
-		record.add("paymentTerms", order.getPaymentTerm());
-		record.add("shippingMethods", order.getShippingMethod());
-		record.add("shippingTerms", order.getShippingTerm());
-
-		return record;
-	}
-
-	private List<SalesOrder> getSalesOrder(Session hibernateSession,
-			String viewType) {
-		// TODO Auto-generated method stub
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
 		return null;
 	}
 
 	@Override
-	protected List<String> getViewTypes() {
-		List<String> list = new ArrayList<String>();
-		list.add("Open");
-		list.add("Completed");
-		list.add("Canceled");
-		return list;
+	protected String getWelcomeMessage() {
+		return null;
 	}
 
+	@Override
+	protected String getDetailsMessage() {
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(CURRENT_VIEW).setDefaultValue("Open");
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
+	}
+
+	private List<SalesOrdersList> getSalesOrders(Context context) {
+		FinanceTool tool = new FinanceTool();
+		try {
+			return tool.getSalesManager().getSalesOrdersList(
+					context.getCompany().getID());
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

@@ -14,13 +14,13 @@ public class CompanyHomeAction extends Action {
 
 	public CompanyHomeAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 	}
 
 	public CompanyHomeAction(String text, IsSerializable editableObject,
 			AccounterAsyncCallback<Object> callbackObject) {
 		super(text);
-		this.catagory = Accounter.constants().company();
+		this.catagory = Accounter.messages().company();
 	}
 
 	@Override

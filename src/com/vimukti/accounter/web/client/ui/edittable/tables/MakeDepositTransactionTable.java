@@ -44,7 +44,7 @@ public abstract class MakeDepositTransactionTable extends
 			protected String getValue(ClientTransactionMakeDeposit row) {
 				switch (row.getType()) {
 				case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-					return Accounter.constants().transfer();
+					return messages.transfer();
 				case ClientTransactionMakeDeposit.TYPE_VENDOR:
 					return Global.get().vendor();
 				case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
@@ -72,7 +72,7 @@ public abstract class MakeDepositTransactionTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().receivedFrom();
+				return messages.receivedFrom();
 			}
 		});
 
@@ -161,7 +161,7 @@ public abstract class MakeDepositTransactionTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().accountFrom(Global.get().Account());
+				return messages.accountFrom();
 			}
 
 			@Override
@@ -188,26 +188,26 @@ public abstract class MakeDepositTransactionTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().reference();
+				return messages.reference();
 			}
 		});
 
 		this.addColumn(new AmountColumn<ClientTransactionMakeDeposit>(
-				currencyProvider) {
+				currencyProvider, true) {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().amount();
+				return messages.amount();
 			}
 
 			@Override
-			protected double getAmount(ClientTransactionMakeDeposit row) {
+			protected Double getAmount(ClientTransactionMakeDeposit row) {
 				return row.getAmount();
 			}
 
 			@Override
 			protected void setAmount(ClientTransactionMakeDeposit row,
-					double lineTotal) {
+					Double lineTotal) {
 				if (!AccounterValidator.isPositiveAmount(lineTotal)) {
 					lineTotal = 0.0D;
 					row.setAmount(lineTotal);
@@ -248,19 +248,19 @@ public abstract class MakeDepositTransactionTable extends
 					.getCustomer() == 0))) {
 				result.addError(
 						this,
-						Accounter.messages().pleaseselectvalidtransactionGrid(
-								getTypeAsString(record.getType())));
+						messages.pleaseselectvalidtransactionGrid(getTypeAsString(record
+								.getType())));
 			}
 
 			if (record.getAccount() == depositInId) {
-				result.addError(this, Accounter.constants()
-						.depositAndAccountFromShouldNotBeSame());
+				result.addError(this,
+						messages.depositAndAccountFromShouldNotBeSame());
 			}
 		}
 		if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
 			// FIXME
-			result.addError("GridTotalLineTotal", Accounter.constants()
-					.invalidTransactionAmount());
+			result.addError("GridTotalLineTotal",
+					messages.invalidTransactionAmount());
 		}
 		return result;
 	}
@@ -268,13 +268,13 @@ public abstract class MakeDepositTransactionTable extends
 	private String getTypeAsString(int type) {
 		switch (type) {
 		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-			return Accounter.messages().account(Global.get().account());
+			return messages.account();
 		case ClientTransactionMakeDeposit.TYPE_VENDOR:
 			return Global.get().Vendor();
 		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
 			return Global.get().customer();
 		default:
-			return Accounter.constants().type();
+			return messages.type();
 		}
 	}
 

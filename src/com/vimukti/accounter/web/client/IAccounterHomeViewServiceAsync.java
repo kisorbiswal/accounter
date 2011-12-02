@@ -17,23 +17,28 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
-import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
-import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
-import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.core.ClientStockTransfer;
+import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -55,6 +60,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
  * @author Fernandez
@@ -136,13 +142,11 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getNextTransactionNumber(int transactionType,
 			AsyncCallback<String> callback);
 
-	public void getNextVoucherNumber(AsyncCallback<String> callback);
-
 	// To auto generate the next Check number.
 	public void getNextCheckNumber(long accountId, AsyncCallback<Long> callback);
 
 	public void getNextIssuepaymentCheckNumber(long accountId,
-			AsyncCallback<Long> callback);
+			AsyncCallback<String> callback);
 
 	// To check whether an Account is a Tax Agency Account or not
 	public void isTaxAgencyAccount(long accountId,
@@ -157,7 +161,8 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<Boolean> callback);
 
 	// To get all the Estimates/Quotes in a company
-	public void getEstimates(AsyncCallback<ArrayList<ClientEstimate>> callback);
+	public void getEstimates(int type,
+			AsyncCallback<ArrayList<ClientEstimate>> callback);
 
 	// To get the Estimates/Quotes of a particular customer in the company
 	public void getEstimates(long customerId,
@@ -194,10 +199,6 @@ public interface IAccounterHomeViewServiceAsync {
 	// To get all the Journal Entries in a company
 	public void getJournalEntries(
 			AsyncCallback<ArrayList<ClientJournalEntry>> callback);
-
-	// To get all the Entries of a particular journal entry
-	public void getEntries(long journalEntryId,
-			AsyncCallback<ArrayList<ClientEntry>> callback);
 
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)
@@ -282,9 +283,9 @@ public interface IAccounterHomeViewServiceAsync {
 	public void changeDepreciationStartDateTo(long newStartDate,
 			AsyncCallback callback);
 
-	public void getTAXReturn(ClientTAXAgency taxAgency,
+	public void getVATReturn(ClientTAXAgency taxAgency,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate,
-			AsyncCallback<ClientVATReturn> callback);
+			AsyncCallback<ClientTAXReturn> callback);
 
 	void getReviewJournal(TempFixedAsset fixedAsset,
 			AsyncCallback<FixedAssetSellOrDisposeReviewJournal> callback);
@@ -307,11 +308,11 @@ public interface IAccounterHomeViewServiceAsync {
 	public void runDepreciation(long depreciationFrom, long depreciationTo,
 			FixedAssetLinkedAccountMap linkedAccounts, AsyncCallback callBack);
 
-	public void getPaySalesTaxEntries(long transactionDate,
-			AsyncCallback<ArrayList<ClientPaySalesTaxEntries>> callBack);
+	// public void getPaySalesTaxEntries(long transactionDate,
+	// AsyncCallback<ArrayList<ClientFileTAXEntry>> callBack);
 
-	public void getPayVATEntries(
-			AsyncCallback<ArrayList<ClientPayVATEntries>> callBack);
+	public void getPayTAXEntries(
+			AsyncCallback<List<ClientTransactionPayTAX>> callBack);
 
 	public void getPayeeList(int transactionCategory,
 			AsyncCallback<ArrayList<PayeeList>> callBack);
@@ -329,7 +330,7 @@ public interface IAccounterHomeViewServiceAsync {
 	void getReceiveVATEntries(
 			AsyncCallback<ArrayList<ClientReceiveVATEntries>> callback);
 
-	public void getGraphPointsforAccount(int chartType, long accountNo,
+	public void getGraphPointsforAccount(int chartType, long accountId,
 			AsyncCallback<ArrayList<Double>> callBack);
 
 	public void getEmployeeExpensesByStatus(String userName, int status,
@@ -343,6 +344,9 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getUsersActivityLog(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, int startIndex, int length,
 			AsyncCallback<PaginationList<ClientActivity>> callback);
+
+	public void getAuditHistory(int objectType, long objectID,
+			AsyncCallback<ArrayList<String>> callback);
 
 	void mergeCustomer(ClientCustomer clientCustomer,
 			ClientCustomer clientCustomer1, AsyncCallback<Void> callback);
@@ -363,8 +367,43 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<Void> callback);
 
 	public void getBudgetList(AsyncCallback<ArrayList<ClientBudget>> callBack);
-	
-	//For tds
-	public void getPayBillsByTDS(AsyncCallback<ArrayList<ClientTDSInfo>> callback);
+
+	// For tds
+	public void getPayBillsByTDS(
+			AsyncCallback<ArrayList<ClientTDSInfo>> callback);
+
+	public void getWarehouses(AsyncCallback<ArrayList<ClientWarehouse>> callBack);
+
+	public void getAllUnits(AsyncCallback<ArrayList<ClientMeasurement>> callBack);
+
+	public void getStockTransferItems(long wareHouse,
+			AsyncCallback<ArrayList<ClientStockTransferItem>> callBack);
+
+	void getWarehouseTransfersList(
+			AsyncCallback<ArrayList<ClientStockTransfer>> callback);
+
+	void getStockAdjustments(
+			AsyncCallback<ArrayList<StockAdjustmentList>> callback);
+
+	void getItemStatuses(long wareHouse,
+			AsyncCallback<ArrayList<ClientItemStatus>> callback);
+
+	public void getAccounts(int typeOfAccount,
+			AsyncCallback<ArrayList<ClientAccount>> callBack);
+
+	public void savePortletConfig(ClientPortletPageConfiguration config,
+			AsyncCallback<Boolean> callback);
+
+	public void getMostRecentTransactionCurrencyFactor(long companyId,
+			long currencyId, long tdate, AsyncCallback<Double> callback);
+
+	public void getPortletPageConfiguration(String pageName,
+			AsyncCallback<ClientPortletPageConfiguration> asyncCallback);
+
+	public void getOwePayees(int oweType,
+			AsyncCallback<List<ClientPayee>> callback);
+
+	public void getRecentTransactions(int limit,
+			AsyncCallback<List<ClientActivity>> asyncCallback);
 
 }

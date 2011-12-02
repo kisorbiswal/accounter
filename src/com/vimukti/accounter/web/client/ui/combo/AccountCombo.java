@@ -5,6 +5,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -38,8 +39,10 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-
-		return super.comboMessages.addNew(Global.get().Account());
+		if (messages != null)
+			return messages.Account();
+		else
+			return Accounter.messages().Account();
 	}
 
 	public void init() {
@@ -86,7 +89,7 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 	}
 
 	@Override
-	protected String getColumnData(ClientAccount object, int row, int col) {
+	protected String getColumnData(ClientAccount object, int col) {
 
 		switch (col) {
 		case 0:

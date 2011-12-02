@@ -14,6 +14,8 @@ public class CompanyStatusServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String CREATING = "Creating Company Please wait...";
 	private static final String DELETING = "Deleting Company Please wait...";
+	private static final String DELETING_ACCOUNT = "Deleting Account Please wait...";
+
 	private String REFRESH_VIEW = "/WEB-INF/refresh.jsp";
 
 	@Override
@@ -35,6 +37,19 @@ public class CompanyStatusServlet extends BaseServlet {
 			if (deleteStatus.equals(COMPANY_DELETING)) {
 				req.setAttribute("successmessage", DELETING);
 				req.getRequestDispatcher(REFRESH_VIEW).forward(req, resp);
+				return;
+			}
+		}
+
+		String accountDeleteStatus = (String) session
+				.getAttribute(ACCOUNT_DELETION_STATUS);
+		if (accountDeleteStatus != null) {
+			if (accountDeleteStatus.equals(ACCOUNT_DELETING)) {
+				req.setAttribute("successmessage", DELETING_ACCOUNT);
+				req.getRequestDispatcher(REFRESH_VIEW).forward(req, resp);
+				return;
+			} else if (accountDeleteStatus.equals("Success")) {
+				redirectExternal(req, resp, LOGOUT_URL);
 				return;
 			}
 		}

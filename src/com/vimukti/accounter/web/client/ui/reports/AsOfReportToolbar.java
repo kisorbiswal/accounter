@@ -31,18 +31,18 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 
-		String[] reportBasisArray = { Accounter.constants().cash(),
-				Accounter.constants().accrual() };
-		String[] dateRangeArray = { Accounter.constants().all(),
-				Accounter.constants().thisWeek(),
-				Accounter.constants().thisMonth(),
-				Accounter.constants().lastWeek(),
-				Accounter.constants().lastMonth(),
-				Accounter.constants().thisFinancialYear(),
-				Accounter.constants().lastFinancialYear(),
-				Accounter.constants().thisFinancialQuarter(),
-				Accounter.constants().lastFinancialQuarter(),
-				Accounter.constants().financialYearToDate(),
+		String[] reportBasisArray = { Accounter.messages().cash(),
+				Accounter.messages().accrual() };
+		String[] dateRangeArray = { Accounter.messages().all(),
+				Accounter.messages().thisWeek(),
+				Accounter.messages().thisMonth(),
+				Accounter.messages().lastWeek(),
+				Accounter.messages().lastMonth(),
+				Accounter.messages().thisFinancialYear(),
+				Accounter.messages().lastFinancialYear(),
+				Accounter.messages().thisFinancialQuarter(),
+				Accounter.messages().lastFinancialQuarter(),
+				Accounter.messages().financialYearToDate(),
 
 				// FinanceApplication.constants().today(),
 				// FinanceApplication.constants().endThisWeek(),
@@ -71,7 +71,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 				// .previousFiscalYearSameDates(),
 				// FinanceApplication.constants().lastCalenderYear(),
 				// FinanceApplication.constants().previousCalenderYear(),
-				Accounter.constants().custom() };
+				Accounter.messages().custom() };
 
 		LabelItem report = new LabelItem();
 		report.setTitle("Report Basis - Accrual");
@@ -84,7 +84,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		// // report basic is not yet implemented, so disable the feature.
 		// reportBasisItem.setDisabled(true);
 
-		dateRangeCombo = new SelectCombo(Accounter.constants().dateRange());
+		dateRangeCombo = new SelectCombo(Accounter.messages().dateRange());
 		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
@@ -93,7 +93,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		dateRangeCombo.initCombo(dateRangeList);
 		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
 		dateRangeCombo
-				.setComboItem(Accounter.constants().financialYearToDate());
+				.setComboItem(Accounter.messages().financialYearToDate());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -127,14 +127,14 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 				if (date != null) {
 					if (!date.after(startDate))
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.pleaseSelectDateAfterCompanyStartDate()
 								+ UIUtils.getDateStringByDate(startDate
 										.toString()));
 					else
 						changeDates(startDate, date);
 				} else {
-					Accounter.showError(Accounter.constants()
+					Accounter.showError(Accounter.messages()
 							.pleaseSelectDate());
 				}
 
@@ -162,15 +162,16 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						startDate, customDate.getDate());
-				dateRangeCombo.setDefaultValue(Accounter.constants().custom());
-				setSelectedDateRange(Accounter.constants().custom());
+				dateRangeCombo.setDefaultValue(Accounter.messages().custom());
+				dateRangeCombo.setComboItem(Accounter.messages().custom());
+				setSelectedDateRange(Accounter.messages().custom());
 
 			}
 		});
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			dateRangeCombo.setWidth("200px");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// dateRangeCombo.setWidth("200px");
+		// }
 		addItems(report, dateRangeCombo, customDate);
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
@@ -188,6 +189,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
 		dateRangeCombo.setDefaultValue(defaultDateRange);
+		dateRangeCombo.setComboItem(defaultDateRange);
 		dateRangeChanged(defaultDateRange);
 
 	}

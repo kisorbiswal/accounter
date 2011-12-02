@@ -9,8 +9,9 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -24,9 +25,10 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				ListGrid.COLUMN_TYPE_IMAGE
 		// ,ListGrid.COLUMN_TYPE_IMAGE
 		};
 	}
@@ -52,8 +54,11 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 			return obj.getPaymentMethodName() != null ? obj
 					.getPaymentMethodName() : "";
 		case 7:
-			return amountAsString(obj.getAmountPaid());
+			return obj.getCheckNumber();
 		case 8:
+			return DataUtils.amountAsStringWithCurrency(obj.getAmountPaid(),
+					getCompany().getCurrency(obj.getCurrency()));
+		case 9:
 			if (!obj.isVoided())
 				return Accounter.getFinanceImages().notvoid();
 			// return "/images/not-void.png";
@@ -72,40 +77,38 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 0)
-			return 85;
-		else if (index == 1)
-			return 80;
-		else if (index == 2)
-			return 65;
-		else if (index == 3)
-			return 65;
-		else if (index == 7)
-			return 105;
-		else if (index == 6)
-			return 100;
-		else if (index == 5)
-			return 125;
-		else if (index == 8)
+		if (index == 9)
 			return 40;
+		else if (index == 0 || index == 2 || index == 3)
+			return 65;
+		else if (index == 1)
+			return 50;
+		else if (index == 5)
+			return 130;
+		else if (index == 6)
+			return 80;
+		else if (index == 8 || index == 7)
+			return 100;
+
 		return -1;
 	}
 
 	@Override
 	protected String[] getColumns() {
-		bankingContants = Accounter.constants();
-		return new String[] { bankingContants.paymentDate(),
-				bankingContants.paymentNo(), bankingContants.status(),
-				bankingContants.issueDate(), bankingContants.name(),
-				bankingContants.type(), bankingContants.paymentMethod(),
-				bankingContants.amountPaid(), bankingContants.Voided()
+		messages = Accounter.messages();
+		return new String[] { messages.payDate(),
+				messages.payNo(), messages.status(),
+				messages.issueDate(), messages.name(),
+				messages.type(), messages.payMethod(),
+				messages.checkNo(), messages.amountPaid(),
+				messages.Voided()
 		// , ""
 		};
 	}
 
 	@Override
 	protected void onClick(PaymentsList obj, int row, int col) {
-		if (col == 8 && !obj.isVoided()) {
+		if (col == 9 && !obj.isVoided()) {
 			showWarningDialog(obj, col);
 		}
 		// else if (col == 9)
@@ -115,8 +118,8 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	private void showWarningDialog(final PaymentsList obj, final int col) {
 		String msg = null;
-		if (col == 8 && !obj.isVoided()) {
-			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
+		if (col == 9 && !obj.isVoided()) {
+			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
@@ -138,7 +141,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 					@Override
 					public boolean onYesClick() {
-						if (col == 8)
+						if (col == 9)
 							voidTransaction(obj);
 						// else if (col == 9)
 						// deleteTransaction(obj);
@@ -189,7 +192,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	public void onDoubleClick(PaymentsList obj) {
-		// NOTHING TO DO.
+		ReportsRPC.openTransactionView(getType(obj), obj.getTransactionId());
 	}
 
 	@Override
@@ -249,6 +252,13 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 			return method1.toLowerCase().compareTo(method2.toLowerCase());
 
 		case 7:
+			String check1 = obj1.getCheckNumber() != null ? obj1
+					.getCheckNumber() : "";
+			String check2 = obj2.getCheckNumber() != null ? obj2
+					.getCheckNumber() : "";
+			return check1.toLowerCase().compareTo(check2.toLowerCase());
+
+		case 8:
 			Double amt1 = obj1.getAmountPaid();
 			Double amt2 = obj2.getAmountPaid();
 			return amt1.compareTo(amt2);
@@ -259,7 +269,6 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 		return 0;
 	}
-
 
 	int getType(PaymentsList paymentsList) {
 		if (paymentsList.getType() == 11) {

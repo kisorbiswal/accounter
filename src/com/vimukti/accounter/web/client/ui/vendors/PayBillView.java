@@ -14,8 +14,10 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
@@ -25,11 +27,9 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -53,20 +53,19 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	AmountField endBalText;
 	DateField date;
 	DateField dueDate;
-	AccounterConstants accounterConstants = Accounter.constants();
 	protected String vendorPaymentMethod;
 	private TransactionPayBillTable grid;
 	protected AmountField cashDiscountTextItem;
 	protected AmountField creditTextItem;
-	public AmountLabel unUsedCreditsText, amountLabel;
+	public AmountLabel unUsedCreditsText, amountLabelForeign, amountLableBase;
 
-	TaxItemCombo taxItemCombo;
+	TaxItemCombo tdsCombo;
 	protected SelectCombo vendorPaymentMethodCombo;
 	protected List<PayBillTransactionList> paybillTransactionList;
 	protected List<PayBillTransactionList> filterList;
 	protected List<PayBillTransactionList> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
-	private DynamicForm payForm, filterForm;
+	private DynamicForm payForm, filterForm, textForm;
 	private int size;
 	// public double transactionTotal = 0.0d;
 	public double totalAmountDue = 0.0d;
@@ -83,7 +82,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected ClientVendor vendor;
 	protected List<ClientVendor> vendors;
 	protected VendorCombo vendorCombo;
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
+	private AmountLabel tdsPayableAmount;
+	private AmountLabel amountToVendor;
+	private double toBeSetEndingBalance;
+
+	private ClientCurrency vendorCurrency;
 
 	public PayBillView() {
 		super(ClientTransaction.TYPE_PAY_BILL);
@@ -96,10 +100,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	 * the non-editable fields
 	 */
 	public void resetTotlas() {
-		amountLabel.setAmount(getAmountInTransactionCurrency(0.0));
-		endBalText.setAmount(getAmountInTransactionCurrency(payFromCombo
-				.getSelectedValue() != null ? payFromCombo.getSelectedValue()
-				.getTotalBalance() : 0.0));
+		amountLabelForeign.setAmount(0.0);
+		amountLableBase.setAmount(0.0);
+		toBeSetEndingBalance = payFromCombo.getSelectedValue() != null ? payFromCombo
+				.getSelectedValue().getTotalBalance() : 0.0;
+		endBalText.setAmount(toBeSetEndingBalance);
 	}
 
 	/*
@@ -114,34 +119,31 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			toBeSetAmount += rec.getPayment();
 		}
 		if (this.transaction != null) {
-			amountLabel
-					.setAmount(getAmountInTransactionCurrency(toBeSetAmount));
+			Double totalPayment = toBeSetAmount;
+			Double tdsTotal = grid.getTDSTotal();
+
+			amountToVendor.setAmount(totalPayment - tdsTotal);
+			tdsPayableAmount.setAmount(tdsTotal);
+			amountLabelForeign.setAmount(totalPayment);
+			amountLableBase.setAmount(toBeSetAmount);
 
 			if (payFromAccount != null) {
-				double toBeSetEndingBalance = 0.0;
-				if (payFromAccount.isIncrease())
-					toBeSetEndingBalance = payFromAccount.getTotalBalance()
-
-							+ DataUtils
-									.getBalance(
-											getAmountInBaseCurrency(
-													amountLabel.getAmount())
-													.toString()).doubleValue();
-				else
-					toBeSetEndingBalance = payFromAccount.getTotalBalance()
-
-							- DataUtils
-									.getBalance(
-											getAmountInBaseCurrency(
-													amountLabel.getAmount())
-													.toString()).doubleValue();
-				endBalText
-						.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
+				if (isInViewMode()) {
+					endBalText.setAmount(payFromAccount.getTotalBalance());
+				} else {
+					if (payFromAccount.isIncrease()) {
+						toBeSetEndingBalance = payFromAccount.getTotalBalance()
+								+ amountToVendor.getAmount();
+					} else {
+						toBeSetEndingBalance = payFromAccount.getTotalBalance()
+								- amountToVendor.getAmount();
+					}
+				}
 			}
 		}
-
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		// Setting Type of Enter Bill
@@ -171,29 +173,26 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			transaction.setVendor(getVendor());
 		// Setting Amount
 
-		transaction.setTotal(getAmountInBaseCurrency(amountLabel.getAmount()));
+		transaction.setTotal(amountLabelForeign.getAmount());
 
-		if (getPreferences().isTDSEnabled()) {
-
-			ClientTAXItem taxItem = getCompany().getTAXItem(
-					vendor.getTaxItemCode());
+		if (getPreferences().isTDSEnabled() && vendor.isTdsApplicable()) {
+			ClientTAXItem taxItem = tdsCombo.getSelectedValue();
 			if (taxItem != null) {
-				transaction.setTaxAgency(getCompany().getTaxAgency(
-						taxItem.getTaxAgency()));
+				transaction.setTdsTaxItem(taxItem);
 			}
 
 		}
 
 		// Setting ending Balance
-		transaction.setEndingBalance(getAmountInBaseCurrency(endBalText
-				.getAmount()));
+		transaction.setEndingBalance(toBeSetEndingBalance);
 
 		transaction.setMemo(memoTextAreaItem.getValue().toString());
-
+		if (getPreferences().isTDSEnabled() && getVendor().isTdsApplicable()) {
+			transaction.setTdsTotal(grid.getTDSTotal());
+		}
 		// Setting Transactions
 		List<ClientTransactionPayBill> selectedRecords = grid
 				.getSelectedRecords();
-
 		List<ClientTransactionPayBill> transactionPayBill = new ArrayList<ClientTransactionPayBill>();
 		for (ClientTransactionPayBill tpbRecord : selectedRecords) {
 			PayBillTransactionList payBillTX = paybillTransactionList.get(grid
@@ -212,7 +211,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			tpbRecord.setPayBill(transaction);
 
 			// ClientAccount cashAcc = getCompany().getAccountByName(
-			// gridView.getAttribute(Accounter.constants().cashAccount(),
+			// gridView.getAttribute(messages.cashAccount(),
 			// gridView.indexOf(tpbRecord)));
 			// if (cashAcc != null)
 			// tpbRecord.setDiscountAccount(cashAcc.getID());
@@ -227,28 +226,19 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					temp.setTransactionPayBill(tpbRecord);
 				}
 			tpbRecord.setTransactionCreditsAndPayments(trpList);
-			if (getPreferences().isTDSEnabled()) {
-
-				ClientTAXItem taxItem = getCompany().getTAXItem(
-						vendor.getTaxItemCode());
-
-				if (taxItem != null) {
-					double tds = taxItem.getTaxRate() / 100
-							* tpbRecord.getPayment();
-					tpbRecord.setTdsAmount(tds);
-				}
-
-			}
-			if (tpbRecord.getTempCredits() != null)
+			if (tpbRecord.getTempCredits() != null) {
 				tpbRecord.getTempCredits().clear();
+			}
 
 			transactionPayBill.add(tpbRecord);
 		}
 		transaction.setTransactionPayBill(transactionPayBill);
 
-		transaction
-				.setUnUsedCredits(getAmountInBaseCurrency(this.unUsedCreditsText
-						.getAmount()));
+		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
+
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	private void initListGrid() {
@@ -311,25 +301,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		ClientTransaction transactionObject = getTransactionObject();
 		// paybillView.gettrantransactionTotal = 0.0;
 		transactionObject.setTotal(0.0);
-		double payment = 0.0;
 		for (ClientTransactionPayBill rec : grid.getSelectedRecords()) {
-			// paybillView.transactionTotal += rec.getPayment();
-			if (getCompany().getPreferences().isTDSEnabled()) {
-				ClientTAXItem taxItem = getCompany().getTAXItem(
-						vendor.getTaxItemCode());
-				if (taxItem != null)
-					payment = obj.getOriginalAmount()
-							* (taxItem.getTaxRate() / 100);
-				payment = obj.getOriginalAmount() - payment;
-				obj.setPayment(payment);
-			}
-
 			transactionObject.setTotal(transactionObject.getTotal()
 					+ rec.getPayment());
 			totalCashDiscount += rec.getCashDiscount();
 		}
 		adjustPaymentValue(obj);
-
 	}
 
 	/*
@@ -345,8 +322,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// (rec).setPayment(payments);
 		(rec).setCashDiscount(cashDiscount);
 		(rec).setAppliedCredits(credit);
-
-		grid.updateAmountDue(rec);
 
 		grid.update(rec);
 		adjustAmountAndEndingBalance();
@@ -448,15 +423,15 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab = new Label(Accounter.constants().payBill());
+		Label lab = new Label(Accounter.messages().payBill());
 		lab.removeStyleName("gwt-Label");
-		lab.addStyleName(Accounter.constants().labelTitle());
+		lab.addStyleName(Accounter.messages().labelTitle());
 
 		locationCombo = createLocationCombo();
 		locationCombo.setHelpInformation(true);
 
 		// lab.setHeight("50px");
-		date = new DateField(Accounter.constants().date());
+		date = new DateField(Accounter.messages().date());
 		date.setToolTip(Accounter.messages().selectDateWhenTransactioCreated(
 				this.getAction().getViewName()));
 		date.setHelpInformation(true);
@@ -473,7 +448,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						if (newDate != null)
 							setTransactionDate(newDate);
 					} catch (Exception e) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.invalidTransactionDate());
 						setTransactionDate(new ClientFinanceDate());
 						date.setEnteredDate(getTransactionDate());
@@ -486,7 +461,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		});
 		transactionNumber = createTransactionNumberItem();
 
-		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
+		vendorCombo = createVendorComboItem(messages.payeeName(Global.get()
 				.Vendor()));
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -499,14 +474,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					}
 				});
 
-		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
+		payFromCombo = createPayFromCombo(Accounter.messages().payFrom());
 		payFromCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		// paymentMethodCombo.setWidth(100);
-		paymentMethodCombo.setDefaultValue(Accounter.constants()
-				.onlineBanking());
+		paymentMethodCombo
+				.setDefaultValue(Accounter.messages().onlineBanking());
 
-		dueDate = new DateField(Accounter.constants()
+		dueDate = new DateField(Accounter.messages()
 				.filterByBilldueonorbefore());
 		dueDate.setHelpInformation(true);
 		dueDate.setValue(new ClientFinanceDate());
@@ -517,13 +491,15 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 			@Override
 			public void onDateValueChange(ClientFinanceDate date) {
-				if (paybillTransactionList != null) {
+				if (paybillTransactionList != null
+						&& !dueDateOnOrBefore.equals(date)) {
 					// if (event.getSource() != null) {
 					// dueDateOnOrBefore = ((DateField) event.getSource())
 					// .getValue();
 					dueDateOnOrBefore = dueDate.getValue();
 					clearGrid();
 					filterGrid();
+					grid.resetValues();
 					// }
 				}
 
@@ -549,7 +525,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		// filterForm = new DynamicForm();
 		// filterForm.setIsGroup(true);
-		// filterForm.setGroupTitle(Accounter.constants().Filter());
+		// filterForm.setGroupTitle(messages.Filter());
 		// filterForm.setFields(dueDate);
 
 		DynamicForm dateForm = new DynamicForm();
@@ -563,32 +539,36 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 
 		payForm = new DynamicForm();
-		payForm.setWidth("80%");
 		payForm.setIsGroup(true);
-		payForm.setGroupTitle(Accounter.constants().payment());
+		payForm.setGroupTitle(Accounter.messages().payment());
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
 
-		endBalText = new AmountField(Accounter.constants().endingBalance(),
-				this);
+		endBalText = new AmountField(Accounter.messages().bankBalance(), this,
+				getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		endBalText.setDisabled(true);
-		taxItemCombo = new TaxItemCombo(Accounter.constants().tds(),
-				ClientTAXItem.TAX_TYPE_TDS);
-		taxItemCombo.setDisabled(true);
+		tdsCombo = new TaxItemCombo(Accounter.messages().tds(),
+				ClientTAXAgency.TAX_TYPE_TDS);
+		tdsCombo.setDisabled(isInViewMode());
+		tdsCombo.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
+
+			@Override
+			public void selectedComboBoxItem(ClientTAXItem selectItem) {
+				grid.setTds(selectItem);
+			}
+		});
 
 		DynamicForm balForm = new DynamicForm();
-		balForm.setWidth("100%");
 		balForm.setIsGroup(true);
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
-		balForm.setGroupTitle(Accounter.constants().balances());
-		if (getCompany().getPreferences().isTDSEnabled()) {
-			balForm.setFields(endBalText, taxItemCombo);
-		} else {
-			balForm.setFields(endBalText);
+		balForm.setGroupTitle(Accounter.messages().balances());
+		balForm.setFields(endBalText, tdsCombo);
+		if (!getCompany().getPreferences().isTDSEnabled()) {
+			tdsCombo.setVisible(false);
 		}
 		// if (getPreferences().isClassTrackingEnabled()
 		// && getPreferences().isClassOnePerTransaction()) {
@@ -596,7 +576,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// balForm.setFields(classListCombo);
 		// }
 
-		Label lab1 = new Label(Accounter.constants().billsDue());
+		Label lab1 = new Label(Accounter.messages().billsDue());
 
 		initListGrid();
 
@@ -610,21 +590,30 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
-		unUsedCreditsText = new AmountLabel(Accounter.constants()
+		unUsedCreditsText = new AmountLabel(Accounter.messages()
 				.unusedCredits());
 		unUsedCreditsText.setDisabled(true);
-		amountLabel = new AmountLabel(Accounter.constants().totalAmount());
-		amountLabel.setDisabled(true);
 
-		DynamicForm textForm = new DynamicForm();
-		textForm.setNumCols(2);
-		textForm.setWidth("70%");
-		textForm.setStyleName("unused-payments");
-		if (getPreferences().isTDSEnabled()) {
-			textForm.setFields(unUsedCreditsText, amountLabel);
-		} else {
-			textForm.setFields(unUsedCreditsText, amountLabel);
-		}
+		amountLabelForeign = new AmountLabel(Accounter.messages()
+				.currencyTotal(getBaseCurrency().getFormalName()));
+		amountLabelForeign.setDisabled(true);
+
+		amountLableBase = new AmountLabel(Accounter.messages().currencyTotal(
+				getBaseCurrency().getFormalName()));
+		amountLableBase.setDisabled(true);
+
+		currencyWidget = createCurrencyFactorWidget();
+
+		this.tdsPayableAmount = new AmountLabel(messages.tdsAmount());
+		tdsPayableAmount.setDisabled(true);
+
+		this.amountToVendor = new AmountLabel(messages.payeePayment(Global
+				.get().Vendor()));
+		amountToVendor.setDisabled(true);
+
+		textForm = new DynamicForm();
+
+		addTextFormFields();
 
 		HorizontalPanel bottompanel = new HorizontalPanel();
 		bottompanel.setWidth("100%");
@@ -638,18 +627,27 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(payForm);
+		VerticalPanel vpPanel = new VerticalPanel();
+		vpPanel.setCellHorizontalAlignment(balForm,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+		vpPanel.add(balForm);
+
+		if (isMultiCurrencyEnabled()) {
+			vpPanel.add(currencyWidget);
+			vpPanel.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
+			currencyWidget.setDisabled(isInViewMode());
+		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
-		topHLay.add(balForm);
-
-		// HorizontalPanel hLay2 = new HorizontalPanel();
-		// hLay2.setWidth("100%");
-		// hLay2.setHorizontalAlignment(ALIGN_RIGHT);
-		//
-		// hLay2.add(textForm);
+		topHLay.add(vpPanel);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(vpPanel, "50%");
+		topHLay.setCellHorizontalAlignment(vpPanel, ALIGN_RIGHT);
 		HorizontalPanel bottomAmtsLayout = new HorizontalPanel();
 
 		bottomAmtsLayout.setWidth("100%");
@@ -667,12 +665,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		mainVLay.add(topHLay);
 		mainVLay.add(gridLayout);
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			payForm.getCellFormatter().setWidth(0, 0, "50%");
-//			payForm.setWidth("65%");
-//			balForm.getCellFormatter().setWidth(0, 1, "150px");
-//		}
-
 		this.add(mainVLay);
 		setSize("100%", "100%");
 
@@ -684,34 +676,83 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	}
 
+	private void addTextFormFields() {
+		textForm.setNumCols(2);
+		textForm.setStyleName("unused-payments");
+		if (!isInViewMode()) {
+			textForm.setFields(unUsedCreditsText, amountToVendor,
+					tdsPayableAmount, amountLableBase);
+		} else {
+			textForm.setFields(amountToVendor, tdsPayableAmount,
+					amountLableBase);
+		}
+		if (isMultiCurrencyEnabled()) {
+			textForm.setFields(amountLabelForeign);
+		}
+		if (!getPreferences().isTDSEnabled()) {
+			amountToVendor.setVisible(false);
+			tdsPayableAmount.setVisible(false);
+		}
+	}
+
 	private void setUnUsedCredits(Double unusedCredits) {
-		unUsedCreditsText
-				.setAmount(getAmountInTransactionCurrency(unusedCredits));
+		unUsedCreditsText.setAmount(unusedCredits);
 	}
 
 	public void calculateUnusedCredits() {
 
 		Double totalCredits = 0D;
-		for (ClientCreditsAndPayments credit : grid
-				.getUpdatedCustomerCreditsAndPayments()) {
-			totalCredits += credit.getBalance();
+		List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments = grid
+				.getUpdatedCustomerCreditsAndPayments();
+		if (updatedCustomerCreditsAndPayments != null) {
+			for (ClientCreditsAndPayments credit : updatedCustomerCreditsAndPayments) {
+				totalCredits += credit.getBalance();
+			}
 		}
 
-		this.unUsedCreditsText
-				.setAmount(getAmountInTransactionCurrency(totalCredits));
+		this.unUsedCreditsText.setAmount(totalCredits);
 
 	}
 
+	@Override
 	protected void vendorSelected(final ClientVendor vendor) {
 
-		taxItemCombo.setComboItem(getCompany().getTAXItem(
-				vendor.getTaxItemCode()));
+		long currency = vendor.getCurrency();
+		if (currency != 0) {
+			vendorCurrency = getCurrency(currency);
+		} else {
+			vendorCurrency = getCompany().getPrimaryCurrency();
+		}
+
+		endBalText.setCurrency(vendorCurrency);
+
+		amountLabelForeign.setTitle(Accounter.messages().currencyTotal(
+				vendorCurrency.getFormalName()));
+
 		if (vendor == null) {
 			paybillTransactionList = null;
 			return;
 		}
 
 		this.setVendor(vendor);
+
+		if (!isInViewMode()) {
+			if (isTDSEnable()) {
+				tdsCombo.setVisible(true);
+				amountToVendor.setVisible(true);
+				tdsPayableAmount.setVisible(true);
+				ClientTAXItem taxItem = getCompany().getTAXItem(
+						vendor.getTaxItemCode());
+				if (taxItem != null) {
+					tdsCombo.setComboItem(taxItem);
+				}
+			} else {
+				tdsCombo.setVisible(false);
+				amountToVendor.setVisible(false);
+				tdsPayableAmount.setVisible(false);
+			}
+		}
+
 		/*
 		 * resetting the crdits dialog's refernce,so that a new object will
 		 * created for opening credits dialog
@@ -719,12 +760,25 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		grid.setCreditsAndPaymentsDialiog(null);
 		grid.setCreditsStack(null);
 		grid.initCreditsAndPayments(vendor);
-		grid.removeAllRecords();
+		grid.reDraw();
 
 		if (transaction.id == 0) {
 			grid.addLoadingImagePanel();
 			getTransactionPayBills(vendor);
+		}
+		initTransactionTotalNonEditableItem();
 
+		if (vendorCurrency.getID() != 0) {
+			currencyWidget.setSelectedCurrencyFactorInWidget(vendorCurrency,
+					date.getValue().getDate());
+		} else {
+			currencyWidget.setSelectedCurrency(getBaseCurrency());
+		}
+
+		if (isMultiCurrencyEnabled() && !isInViewMode()) {
+			super.setCurrency(vendorCurrency);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
+			updateAmountsFromGUI();
 		}
 
 	}
@@ -735,11 +789,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						vendor.getID(),
 						new AccounterAsyncCallback<ArrayList<PayBillTransactionList>>() {
 
+							@Override
 							public void onException(AccounterException caught) {
-								grid.addEmptyMessage(Accounter.constants()
+								grid.addEmptyMessage(Accounter.messages()
 										.noRecordsToShow());
 							}
 
+							@Override
 							public void onResultSuccess(
 									ArrayList<PayBillTransactionList> result) {
 
@@ -750,7 +806,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 									clearGrid();
 									filterGrid();
 								} else {
-									grid.addEmptyMessage(Accounter.constants()
+									grid.addEmptyMessage(Accounter.messages()
 											.noRecordsToShow());
 									updateFooterValues();
 								}
@@ -760,26 +816,34 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	}
 
+	@Override
 	protected void accountSelected(ClientAccount account) {
 
 		if (account == null)
 			return;
 		this.payFromAccount = account;
-
+		endBalText.setAmount(payFromAccount.getCurrentBalance());
+		endBalText.setCurrency(getCurrency(payFromAccount.getCurrency()));
 		adjustAmountAndEndingBalance();
 	}
-
-	// @Override
-	// protected void initMemoAndReference() {
-	// // NOTHING TO DO.
-	// }
 
 	@Override
 	protected void initTransactionViewData() {
 		if (transaction == null) {
-			setData(new ClientPayBill());
+			ClientPayBill clientPayBill = new ClientPayBill();
+			clientPayBill.setAmountIncludeTDS(true);
+			setData(clientPayBill);
 		} else {
-
+			grid.showTDS(transaction.getTdsTaxItem() != null);
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
+			}
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			paymentMethodCombo.setDisabled(isInViewMode());
 
@@ -801,17 +865,25 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 			this.setVendor(getCompany().getVendor(transaction.getVendor()));
 			vendorSelected(getCompany().getVendor(transaction.getVendor()));
+			if (tdsCombo != null && transaction.getTdsTaxItem() != null) {
+				tdsCombo.setComboItem(transaction.getTdsTaxItem());
+			}
 
-			amountLabel.setAmount(getAmountInTransactionCurrency(transaction
+			if (isTDSEnable()) {
+				tdsCombo.setVisible(true);
+			}
+			amountLabelForeign.setAmount(transaction.getNetAmount());
+
+			amountLableBase.setAmount(getAmountInBaseCurrency(transaction
 					.getNetAmount()));
-			endBalText.setAmount(getAmountInTransactionCurrency(transaction
-					.getEndingBalance()));
+
+			endBalText.setAmount(transaction.getEndingBalance());
 			initListGridData(this.transaction.getTransactionPayBill());
 			initTransactionTotalNonEditableItem();
 			memoTextAreaItem.setDisabled(true);
 			initAccounterClass();
 		}
-		// super.initTransactionViewData();
+
 		initVendors();
 		initTransactionTotalNonEditableItem();
 		if (locationTrackingEnabled)
@@ -824,6 +896,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 
 		initPayFromAccounts();
+		if (isMultiCurrencyEnabled()) {
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initListGridData(List<ClientTransactionPayBill> list) {
@@ -833,10 +908,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// double cashDiscount = 0.0;
 		// double credits = 0.0;
 		// double payment = 0.0;
+		// grid.setRecords(list);
 		for (ClientTransactionPayBill receivePayment : list) {
 			totalOrgAmt += receivePayment.getOriginalAmount();
 			this.grid.add(receivePayment);
-			this.grid.selectRow(count);
+			// this.grid.selectRow(count);
 			count++;
 		}
 	}
@@ -844,7 +920,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected void initTransactionTotalNonEditableItem() {
 		if (transaction == null)
 			return;
-		ClientPayBill paybill = ((ClientPayBill) transaction);
+		ClientPayBill paybill = transaction;
 		Double unusedCredits = paybill.getUnUsedCredits();
 		setUnUsedCredits(unusedCredits);
 	}
@@ -862,23 +938,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			vendorCombo.setValue("");
 		}
 
-		// Validations
-		// 1. is valid transaction date?
-		// 2. is in prevent posting before date?
-		// 3. is pay form valid?
-		// 4. filterForm valid?
-		// 5. do select transaction?
-		// 6. grid valid?
-
-		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
-		// {
-		// result.addError(transactionDate,
-		// accounterConstants.invalidateTransactionDate());
-		// }
-
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, messages.invalidateDate());
 		}
 		ValidationResult payFormValidationResult = payForm.validate();
 		if (payFormValidationResult.haveErrors()
@@ -902,6 +963,22 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			else {
 
 				result.add(grid.validateGrid());
+			}
+		}
+
+		if (isTDSEnable()) {
+			ClientTAXItem selectedValue = tdsCombo.getSelectedValue();
+			if (selectedValue == null) {
+				result.addError(tdsCombo, messages.pleaseSelectTDS());
+			}
+		}
+		ClientAccount bankAccount = payFromCombo.getSelectedValue();
+		// check if the currency of accounts is valid or not
+		if (bankAccount != null) {
+			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
+			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
+				result.addError(payFromCombo,
+						messages.selectProperBankAccount());
 			}
 		}
 		return result;
@@ -963,11 +1040,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 			record.setAmountDue(cont.getAmountDue());
 			record.setDummyDue(cont.getAmountDue());
-
 			record.setBillNumber(cont.getBillNumber());
-
 			record.setCashDiscount(cont.getCashDiscount());
-
 			record.setAppliedCredits(cont.getCredits());
 			if (cont.getDiscountDate() != null)
 				record.setDiscountDate(cont.getDiscountDate().getDate());
@@ -975,21 +1049,17 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				record.setDueDate(cont.getDueDate().getDate());
 
 			record.setOriginalAmount(cont.getOriginalAmount());
-
 			record.setPayment(cont.getPayment());
-
-			// record.setVendor(FinanceApplication.getCompany().getVendor(
-			// cont.getVendorName()).getID());
-
 			records.add(record);
 		}
 
 		grid.setRecords(records);
 		size = records.size();
 		if (size == 0)
-			grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
+			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1021,6 +1091,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	}
 
+	@Override
 	public void onEdit() {
 		if (!transaction.isVoid()) {
 			Accounter.showWarning(AccounterWarningType.PAYBILL_EDITING,
@@ -1038,7 +1109,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 								@Override
 								public void onException(
 										AccounterException caught) {
-									Accounter.showError(Accounter.constants()
+									Accounter.showError(Accounter.messages()
 											.failedtovoidPayBill());
 
 								}
@@ -1076,48 +1147,29 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						}
 					});
 		} else if (transaction.isVoid() || transaction.isDeleted())
-			Accounter
-					.showError(Accounter.constants().failedtovoidTransaction());
+			Accounter.showError(Accounter.messages().failedtovoidTransaction());
 	}
 
 	public void updateFootervalues(ClientTransactionPayBill obj, boolean canEdit) {
 		ClientTransaction transactionObject = this.getTransactionObject();
 		if (canEdit) {
-			// paybillView.transactionTotal = 0.0;
 			transactionObject.setTotal(0.0);
 			this.totalCashDiscount = 0.0;
 			for (ClientTransactionPayBill rec : grid.getSelectedRecords()) {
-				// paybillView.transactionTotal += rec.getPayment();
 				transactionObject.setTotal(transactionObject.getTotal()
 						+ rec.getPayment());
 				this.totalCashDiscount += rec.getCashDiscount();
 			}
-			// this.updateFooterValues(DataUtils
-			// .getAmountAsString(paybillView.transactionTotal), 7);
-			// this.updateFooterValues(DataUtils
-			// .getAmountAsString(paybillView.totalCashDiscount), 5);
 		} else {
-			// paybillView.transactionTotal = 0.0;
 			transactionObject.setTotal(0.0);
 			this.totalCashDiscount = 0.0;
 			this.totalOriginalAmount = 0.0;
 			for (ClientTransactionPayBill rec : grid.getRecords()) {
 				this.totalOriginalAmount += rec.getOriginalAmount();
-				// paybillView.transactionTotal += rec.getPayment();
 				transactionObject.setTotal(transactionObject.getTotal()
 						+ rec.getPayment());
 				this.totalCashDiscount += rec.getCashDiscount();
 			}
-			/* */
-			// this.updateFooterValues(DataUtils
-			// .getAmountAsString(paybillView.totalOriginalAmount),
-			// canEdit ? 2 : 1);
-			// this.updateFooterValues(DataUtils
-			// .getAmountAsString(paybillView.transactionTotal),
-			// canEdit ? 7 : 6);
-			// this.updateFooterValues(DataUtils
-			// .getAmountAsString(paybillView.totalCashDiscount),
-			// canEdit ? 5 : 3);
 		}
 	}
 
@@ -1131,6 +1183,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		paymentMethodCombo.setDisabled(isInViewMode());
 		dueDate.setDisabled(isInViewMode());
 		grid.setDisabled(isInViewMode());
+		if (currencyWidget != null) {
+			currencyWidget.setDisabled(isInViewMode());
+		}
 
 		super.onEdit();
 		grid.removeFromParent();
@@ -1140,6 +1195,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		memoTextAreaItem.setDisabled(isInViewMode());
 		transaction = new ClientPayBill();
 		data = transaction;
+		tdsCombo.setDisabled(isInViewMode());
+		textForm.clear();
+		addTextFormFields();
+		grid.initCreditsAndPayments(this.getVendor());
 	}
 
 	@Override
@@ -1154,24 +1213,27 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	protected Double getTransactionTotal() {
-		return getAmountInBaseCurrency(this.amountLabel.getAmount());
+		return this.amountLabelForeign.getAmount();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().payBills();
+		return Accounter.messages().payBills();
 	}
 
 	// Update methods
 
+	@Override
 	public ClientVendor getVendor() {
 		return vendor;
 	}
 
+	@Override
 	public void setVendor(ClientVendor vendor) {
 		this.vendor = vendor;
 	}
 
+	@Override
 	public VendorCombo createVendorComboItem(String title) {
 
 		VendorCombo vendorCombo = new VendorCombo(title != null ? title
@@ -1213,6 +1275,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// canEdit ? 5 : 3);
 	}
 
+	@Override
 	public PayFromAccountsCombo createPayFromCombo(String title) {
 
 		PayFromAccountsCombo payFromCombo = new PayFromAccountsCombo(title);
@@ -1221,11 +1284,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		payFromCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						accountSelected(selectItem);
-						// selectedAccount = (Account) selectItem;
-						// adjustBalance();
-
 					}
 
 				});
@@ -1249,6 +1310,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			vendorCombo.setComboItem(getVendor());
 	}
 
+	@Override
 	protected void initPayFromAccounts() {
 		// getPayFromAccounts();
 		// payFromCombo.initCombo(payFromAccounts);
@@ -1281,4 +1343,28 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	}
 
+	@Override
+	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
+		this.grid.updateAmountsFromGUI();
+
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			amountLabelForeign.hide();
+		} else {
+			amountLabelForeign.show();
+		}
+	}
+
+	private boolean isTDSEnable() {
+		if (vendor != null) {
+			return (getPreferences().isTDSEnabled() && vendor.isTdsApplicable())
+					|| transaction.getTdsTaxItem() != null;
+		} else {
+			return getPreferences().isTDSEnabled()
+					|| transaction.getTdsTaxItem() != null;
+		}
+	}
 }

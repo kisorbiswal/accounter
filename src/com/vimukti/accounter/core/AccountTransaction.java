@@ -2,6 +2,8 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 
+import org.json.JSONException;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -153,7 +155,7 @@ public class AccountTransaction extends CreatableObject implements
 	}
 
 	/**
-	 * @param amount
+	 * @param newAmount
 	 *            the amount to set
 	 */
 	// public void setAmount(double amount) {
@@ -165,5 +167,27 @@ public class AccountTransaction extends CreatableObject implements
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	/**
+	 * @param amount
+	 *            the amount to set
+	 */
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	/**
+	 * @param transaction
+	 *            the transaction to set
+	 */
+	public void setTransaction(Transaction transaction) {
+		this.transaction = transaction;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

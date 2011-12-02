@@ -25,9 +25,9 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 	}
 
 	private void createControls() {
-		firstNameTextItem = new TextItem(Accounter.constants().firstName());
+		firstNameTextItem = new TextItem(Accounter.messages().firstName());
 		firstNameTextItem.setValue(clientUser.getFirstName());
-		lastNameTextItem = new TextItem(Accounter.constants().lastName());
+		lastNameTextItem = new TextItem(Accounter.messages().lastName());
 		lastNameTextItem.setValue(clientUser.getLastName());
 		mainPanel = new VerticalPanel();
 		DynamicForm form = new DynamicForm();
@@ -35,7 +35,7 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 		form.setNumCols(2);
 		form.setFields(firstNameTextItem, lastNameTextItem);
 		mainPanel.add(form);
-		okbtn.setText(Accounter.constants().saveButton());
+		okbtn.setText(Accounter.messages().save());
 		setBodyLayout(mainPanel);
 
 	}
@@ -46,11 +46,11 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 		String lastName = lastNameTextItem.getValue();
 		if (firstName.isEmpty() || firstName == null || lastName.isEmpty()
 				|| lastName == null) {
-			addError(this, Accounter.constants().nameShouldnotbeempty());
+			addError(this, Accounter.messages().nameShouldnotbeempty());
 			return false;
 		} else if (firstName.equals(clientUser.getFirstName())
 				&& lastName.equals(clientUser.getLastName())) {
-			addError(this, Accounter.constants().bothnamessameasprevious());
+			addError(this, Accounter.messages().bothnamessameasprevious());
 			return false;
 		} else {
 			final ClientUserInfo userInfo = clientUser.toUserInfo();
@@ -68,17 +68,12 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 						public void onResultSuccess(Long result) {
 							if (result != null) {
 								removeFromParent();
-								Accounter.showInformation(Accounter.constants()
+								Accounter.showInformation(Accounter.messages()
 										.updatedSuccessfully());
-								Header.userName.setText(Accounter.messages()
-										.userName(userInfo.getFullName()));
-								Header.userName.setWidth(((Accounter.messages()
-										.userName(userInfo.getFullName())
-										.length() * 6))
-										+ "px");
+								Header.userName.setText(userInfo.getFullName());
 								getCallback().actionResult(userInfo);
 							} else {
-								addError(this, Accounter.constants()
+								addError(this, Accounter.messages()
 										.yourPresentPasswordisWrong());
 							}
 						}

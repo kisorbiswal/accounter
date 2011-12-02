@@ -18,7 +18,7 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return "-- Add New Contact --";
+		return messages.contact();
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 	}
 
 	@Override
-	protected String getColumnData(ClientContact object, int row, int col) {
+	protected String getColumnData(ClientContact object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName().toString();

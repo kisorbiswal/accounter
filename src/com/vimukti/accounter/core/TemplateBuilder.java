@@ -19,9 +19,9 @@ public abstract class TemplateBuilder {
 
 	public TemplateBuilder(Company company) {
 		this.company = company;
-		if (this.company.getTradingName() != null
-				&& !this.company.getTradingName().equals("")) {
-			CmpName = company.getTradingName();
+		if (this.company.getLegalName() != null
+				&& !this.company.getLegalName().equals("")) {
+			CmpName = company.getLegalName();
 		}
 	}
 

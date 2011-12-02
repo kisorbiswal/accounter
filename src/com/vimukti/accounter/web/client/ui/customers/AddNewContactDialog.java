@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -45,47 +43,44 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 	private TextItem[] getTextItems() {
 		List<TextItem> items = new ArrayList<TextItem>();
 
-		nameItem = new TextItem(Accounter.constants().name());
+		nameItem = new TextItem(Accounter.messages().name());
 		nameItem.setHelpInformation(true);
 		nameItem.setRequired(true);
 		items.add(nameItem);
 
-		titleItem = new TextItem(Accounter.constants().title());
+		titleItem = new TextItem(Accounter.messages().title());
 		titleItem.setHelpInformation(true);
 		titleItem.setRequired(false);
 		items.add(titleItem);
 
-		businessPhoneItem = new TextItem(Accounter.constants().businessPhone());
+		businessPhoneItem = new TextItem(Accounter.messages().businessPhone());
 		businessPhoneItem.setHelpInformation(true);
 		businessPhoneItem.setRequired(false);
 		items.add(businessPhoneItem);
 
-		emailItem = new EmailField(Accounter.constants().email());
+		emailItem = new EmailField(Accounter.messages().email());
 		emailItem.setHelpInformation(true);
 		emailItem.setRequired(false);
 		items.add(emailItem);
 
-		emailItem.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				if (emailItem.getValue() != null)
-
-					emailItem.setText(getValidMail(emailItem.getValue()));
-			}
-		});
+		// emailItem.addBlurHandler(new BlurHandler() {
+		//
+		// @Override
+		// public void onBlur(BlurEvent event) {
+		//
+		// });
 		return items.toArray(new TextItem[items.size()]);
 	}
 
-	private String getValidMail(String email) {
-
-		if (!UIUtils.isValidEmail(email)) {
-			Accounter.showError(Accounter.constants().invalidEmail());
-			return "";
-		} else
-			return email;
-
-	}
+	// private String getValidMail(String email) {
+	//
+	// if (!UIUtils.isValidEmail(email)) {
+	// // Accounter.showError(messages.invalidEmail());
+	// return "";
+	// } else
+	// return email;
+	//
+	// }
 
 	@Override
 	protected ValidationResult validate() {
@@ -96,10 +91,17 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 			result.addError(nameItem, "Please enter the contact name");
 		}
 
+		if (emailItem.getValue().length() > 0) {
+			if (!UIUtils.isValidEmail(emailItem.getValue())) {
+				result.addError(emailItem, messages.invalidEmail());
+			}
+		}
+
 		if (!businessPhoneItem.getValue().isEmpty()) {
-			if (!UIUtils.isValidPhone(businessPhoneItem.getValue())){
-				result.addError(nameItem, constants.invalidBusinessPhoneVal());
-			businessPhoneItem.setValue("");}
+			if (!UIUtils.isValidPhone(businessPhoneItem.getValue())) {
+				result.addError(nameItem, messages.invalidBusinessPhoneVal());
+				businessPhoneItem.setValue("");
+			}
 		}
 		return result;
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -39,7 +40,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 			ClientTAXAgency taxAgency) {
 		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
 		if (taxAgency != null) {
-			for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
+			for (ClientTAXItem vatItem : getCompany().getActiveTaxItems()) {
 				if (vatItem.getTaxAgency() == (taxAgency.getID())) {
 					vatItmsList.add(vatItem);
 				}
@@ -53,7 +54,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
 		ArrayList<ClientTAXItemGroup> taxItemGroups = getCompany()
 				.getTaxItemGroups();
-		taxItemGroups.addAll(getCompany().getTaxItems());
+		taxItemGroups.addAll(getCompany().getActiveTaxItems());
 		for (ClientTAXItemGroup vatItem : taxItemGroups) {
 			if (!vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
@@ -63,16 +64,30 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 	}
 
 	/* VATItmes whose 'isPercentage' is true, only allowed into the list */
-	public List<ClientTAXItemGroup> getFilteredVATItems() {
+	public List<ClientTAXItemGroup> getFilteredVATItems(boolean salesItems) {
 		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
 		ArrayList<ClientTAXItemGroup> taxItemGroups = getCompany()
 				.getTaxItemGroups();
-		taxItemGroups.addAll(getCompany().getTaxItems());
-		for (ClientTAXItemGroup vatItem : getCompany().getTaxItems()) {
+		taxItemGroups.addAll(getCompany().getActiveTaxItems());
+		for (ClientTAXItem vatItem : getCompany().getActiveTaxItems()) {
 			if (vatItem.isPercentage()) {
-				vatItmsList.add(vatItem);
+				ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+						vatItem.getTaxAgency());
+				if (salesItems) {
+					if (taxAgency.getSalesLiabilityAccount() != 0) {
+						vatItmsList.add(vatItem);
+					}
+				}
+				if (!salesItems) {
+					if (taxAgency.getPurchaseLiabilityAccount() != 0
+							&& taxAgency.getTaxType() != ClientTAXAgency.TAX_TYPE_TDS) {
+						vatItmsList.add(vatItem);
+					}
+				}
+
 			}
 		}
+
 		return vatItmsList;
 	}
 
@@ -81,13 +96,14 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 	 * allowed into the list
 	 */
 	public List<ClientTAXItemGroup> getSalesWithPrcntVATItems() {
-		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
-		for (ClientTAXItemGroup vatItem : getFilteredVATItems()) {
-			if (vatItem.isSalesType()) {
-				vatItmsList.add(vatItem);
-			}
-		}
-		return vatItmsList;
+		// List<ClientTAXItemGroup> vatItmsList = new
+		// ArrayList<ClientTAXItemGroup>();
+		// for (ClientTAXItemGroup vatItem : getFilteredVATItems()) {
+		// if (vatItem.isSalesType()) {
+		// vatItmsList.add(vatItem);
+		// }
+		// }
+		return getFilteredVATItems(true);
 	}
 
 	/*
@@ -95,13 +111,14 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 	 * allowed into the list
 	 */
 	public List<ClientTAXItemGroup> getPurchaseWithPrcntVATItems() {
-		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
-		for (ClientTAXItemGroup vatItem : getFilteredVATItems()) {
-			if (!vatItem.isSalesType()) {
-				vatItmsList.add(vatItem);
-			}
-		}
-		return vatItmsList;
+		// List<ClientTAXItemGroup> vatItmsList = new
+		// ArrayList<ClientTAXItemGroup>();
+		// for (ClientTAXItemGroup vatItem : getFilteredVATItems()) {
+		// if (!vatItem.isSalesType()) {
+		// vatItmsList.add(vatItem);
+		// }
+		// }
+		return getFilteredVATItems(false);
 	}
 
 	/*
@@ -111,7 +128,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 	 */
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newVATItem();
+		return messages.taxItem();
 	}
 
 	/*
@@ -142,7 +159,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 
 			@Override
 			public void actionResult(ClientTAXItemGroup result) {
-				addItemThenfireEvent(result);
+				addToCombo(result);
 			}
 		});
 		dialog.show();
@@ -160,8 +177,35 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 		// action.run(null, true);
 	}
 
+	protected void addToCombo(ClientTAXItemGroup result) {
+		if (result instanceof ClientTAXItem) {
+			ClientTAXItem item = (ClientTAXItem) result;
+			ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+					item.getTaxAgency());
+			if (taxAgency != null
+					&& taxAgency.getTaxType() != ClientTAXAgency.TAX_TYPE_TDS) {
+				addItemThenfireEvent(result);
+			}
+		} else {
+			ClientTAXGroup group = (ClientTAXGroup) result;
+			boolean donnotAdd = false;
+			for (ClientTAXItem item : group.getTaxItems()) {
+				ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+						item.getTaxAgency());
+				if (taxAgency != null
+						&& taxAgency.getTaxType() == ClientTAXAgency.TAX_TYPE_TDS) {
+					donnotAdd = true;
+				}
+			}
+			if (!donnotAdd) {
+				addItemThenfireEvent(result);
+			}
+		}
+
+	}
+
 	@Override
-	protected String getColumnData(ClientTAXItemGroup object, int row, int col) {
+	protected String getColumnData(ClientTAXItemGroup object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

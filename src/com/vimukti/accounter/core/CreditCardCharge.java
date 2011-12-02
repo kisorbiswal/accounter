@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -270,6 +271,8 @@ public class CreditCardCharge extends Transaction {
 
 		} else if (!this.equals(creditCardCharge)) {
 
+			this.cleanTransactionitems(this);
+			
 			if ((this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
@@ -281,14 +284,17 @@ public class CreditCardCharge extends Transaction {
 			if (!this.payFrom.equals(creditCardCharge.payFrom)) {
 				Account prePayFrom = (Account) session.get(Account.class,
 						creditCardCharge.payFrom.id);
-				prePayFrom.updateCurrentBalance(this, -creditCardCharge.total);
+				prePayFrom.updateCurrentBalance(this, -creditCardCharge.total,
+						creditCardCharge.currencyFactor);
 				prePayFrom.onUpdate(session);
-				this.payFrom.updateCurrentBalance(this, this.total);
+				this.payFrom.updateCurrentBalance(this, this.total,
+						this.currencyFactor);
 				payFrom.onUpdate(session);
 
 			} else if (this.payFrom.equals(creditCardCharge.payFrom)) {
 				this.payFrom.updateCurrentBalance(this, this.total
-						- creditCardCharge.total);
+						- creditCardCharge.total,
+						creditCardCharge.currencyFactor);
 				// session.update(this.payFrom);
 				this.payFrom.onUpdate(session);
 
@@ -306,6 +312,12 @@ public class CreditCardCharge extends Transaction {
 
 		return super.canEdit(clientObject);
 
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

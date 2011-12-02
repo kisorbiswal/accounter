@@ -12,7 +12,7 @@ public class BankingHomeAction extends Action {
 
 	public BankingHomeAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().banking();
+		this.catagory = Accounter.messages().banking();
 	}
 
 	/**

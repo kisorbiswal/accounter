@@ -1,219 +1,324 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.TAXAdjustment;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
+import com.vimukti.accounter.mobile.requirements.TaxItemRequirement;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
-public class VATAdjustmentCommand extends AbstractVATCommand {
+public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
-	private static final String AMOUNT = null;
-	private static final String IS_INCREASE_VATLINE = null;
-	private static final String MEMO = null;
-	private static final String ADJUSTMENT_ACCOUNT = null;
+	private static final String IS_INCREASE_VATLINE = "isIncreaseVatLine";
+	private static final String ADJUSTMENT_ACCOUNT = "adjustmentAccount";
+	private static final String TAX_AGENCY = "taxAgency";
+	private static final String TAX_ITEM = "taxItem";
+	private static final String AMOUNT = "amount";
+	private static final String IS_SALES = "isSales";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(TAX_AGENCY, false, true));
-		if (isUkCompany()) {
-			list.add(new Requirement(TAX_ITEM, false, true));
+		list.add(new TaxAgencyRequirement(TAX_AGENCY, getMessages()
+				.pleaseEnterName(getMessages().taxAgency()), getMessages()
+				.taxAgency(), false, true, new ChangeListner<TAXAgency>() {
+
+			@Override
+			public void onSelection(TAXAgency value) {
+				get(TAX_ITEM).setValue(null);
+			}
+		}) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().taxAgency());
+			}
+
+			@Override
+			protected List<TAXAgency> getLists(Context context) {
+				return new ArrayList<TAXAgency>(context.getCompany()
+						.getTaxAgencies());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getMessages().taxAgency());
+			}
+
+			@Override
+			protected boolean filter(TAXAgency e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_SALES, false) {
+
+			@Override
+			protected String getTrueString() {
+				return "Sales Type Activated";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Purchase Type Activated";
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				TAXAgency taxAgency = get(TAX_AGENCY).getValue();
+				if (taxAgency.getPurchaseLiabilityAccount() != null
+						&& taxAgency.getSalesLiabilityAccount() != null) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		/*
+		 * list.add(new CurrencyRequirement(CURRENCY,
+		 * getMessages().pleaseSelect( getConstants().currency()),
+		 * getConstants().currency(), true, true, null) {
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if
+		 * (context.getPreferences().isEnableMultiCurrency()) { return
+		 * super.run(context, makeResult, list, actions); } else { return null;
+		 * } }
+		 * 
+		 * @Override protected List<Currency> getLists(Context context) { return
+		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
+		 * 
+		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
+		 * false, true) {
+		 * 
+		 * @Override protected String getDisplayValue(Double value) {
+		 * ClientCurrency primaryCurrency = getPreferences()
+		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
+		 * return "1 " + selc.getFormalName() + " = " + value + " " +
+		 * primaryCurrency.getFormalName(); }
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
+		 * != null) { if (context.getPreferences().isEnableMultiCurrency() &&
+		 * !((Currency) get(CURRENCY).getValue())
+		 * .equals(context.getPreferences().getPrimaryCurrency())) { return
+		 * super.run(context, makeResult, list, actions); } } return null;
+		 * 
+		 * } });
+		 */
+
+		list.add(new TaxItemRequirement(TAX_ITEM, getMessages()
+				.pleaseEnterName(getMessages().taxItem()), getMessages()
+				.taxItem(), false, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().taxItem());
+			}
+
+			@Override
+			protected List<TAXItem> getLists(Context context) {
+				return getTaxItemsListForSelectedTaxAgency();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getMessages().taxItem());
+			}
+
+			@Override
+			protected boolean filter(TAXItem e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new AccountRequirement(ADJUSTMENT_ACCOUNT, getMessages()
+				.pleaseEnterName(getMessages().adjustmentAccount()),
+				getMessages().adjustmentAccount(), false, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(
+						getMessages().adjustmentAccount());
+			}
+
+			@Override
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
+
+						@Override
+						public boolean filter(Account e) {
+							return e.getIsActive();
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
+					}
+				}
+				return filteredList;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getMessages().adjustmentAccount());
+			}
+
+			@Override
+			protected boolean filter(Account e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
+				getMessages().amount()), getMessages().amount(), false, true));
+
+		list.add(new BooleanRequirement(IS_INCREASE_VATLINE, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().increaseVATLine();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().decreaseVATLine();
+			}
+		});
+
+		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
+				getMessages().date()), getMessages().date(), true, true));
+
+		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
+				getMessages().orderNo()), getMessages().orderNo(), true, true));
+
+		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
+				getMessages().memo()), getMessages().memo(), true, true));
+	}
+
+	protected List<TAXItem> getTaxItemsListForSelectedTaxAgency() {
+		Set<TAXItem> taxItems = getCompany().getTaxItems();
+		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
+		ArrayList<TAXItem> arrayList = new ArrayList<TAXItem>();
+		if (taxAgency == null || taxItems == null) {
+			return arrayList;
 		}
-		list.add(new Requirement(ADJUSTMENT_ACCOUNT, false, true));
-		list.add(new Requirement(AMOUNT, false, true));
-		list.add(new Requirement(IS_INCREASE_VATLINE, true, true));
-		list.add(new Requirement(DATE, true, true));
-		list.add(new Requirement(NUMBER, true, true));
-		list.add(new Requirement(MEMO, true, true));
+		for (TAXItem taxItem : taxItems) {
+			if (taxItem.getTaxAgency().getID() == taxAgency.getID()) {
+				arrayList.add(taxItem);
+			}
+		}
+		return arrayList;
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = null;
-
-		result = taxAgencyRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		result = taxItemRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		result = accountRequirement(context, ADJUSTMENT_ACCOUNT);
-		if (result != null) {
-			return result;
-		}
-
-		result = amountRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		result = createOptionalRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		return createTaxAdjustment(context);
-	}
-
-	private Result createTaxAdjustment(Context context) {
-		TAXAdjustment taxAdjustment = new TAXAdjustment();
+	protected Result onCompleteProcess(Context context) {
+		ClientTAXAdjustment taxAdjustment = new ClientTAXAdjustment();
 		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
+		TAXItem taxItem = get(TAX_ITEM).getValue();
 		Account account = get(ADJUSTMENT_ACCOUNT).getValue();
-		double amount = get(AMOUNT).getValue();
+		Double amount = get(AMOUNT).getValue();
 		boolean isIncreaseVatLine = get(IS_INCREASE_VATLINE).getValue();
-		FinanceDate date = get(DATE).getValue();
-		String number = get(NUMBER).getValue();
+		ClientFinanceDate date = get(DATE).getValue();
+		String number = get(ORDER_NO).getValue();
 		String memo = get(MEMO).getValue();
-
-		taxAdjustment.setTaxAgency(taxAgency);
-		taxAdjustment.setAdjustmentAccount(account);
-		taxAdjustment.setNetAmount(amount);
+		taxAdjustment.setTaxItem(taxItem.getID());
+		taxAdjustment.setTaxAgency(taxAgency.getID());
+		taxAdjustment.setAdjustmentAccount(account.getID());
+		taxAdjustment.setTotal(amount);
 		taxAdjustment.setIncreaseVATLine(isIncreaseVatLine);
-		taxAdjustment.setDate(date);
+		taxAdjustment.setDate(date.getDate());
+		taxAdjustment.setTransactionDate(date.getDate());
 		taxAdjustment.setNumber(number);
-		taxAdjustment.setMemo(memo);
-		if (isUkCompany()) {
-			TAXItem taxItem = get(TAX_ITEM).getValue();
-			taxAdjustment.setTaxItem(taxItem);
+		if (taxAgency.getSalesLiabilityAccount() != null
+				&& taxAgency.getPurchaseLiabilityAccount() != null) {
+			taxAdjustment.setSales((Boolean) get(IS_SALES).getValue());
+		} else {
+			taxAdjustment
+					.setSales(taxAgency.getSalesLiabilityAccount() != null);
 		}
+
+		taxAdjustment.setMemo(memo);
+
+		/*
+		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
+		 * currency = get(CURRENCY).getValue(); if (currency != null) {
+		 * taxAdjustment.setCurrency(currency.getID()); }
+		 * 
+		 * double factor = get(CURRENCY_FACTOR).getValue();
+		 * taxAdjustment.setCurrencyFactor(factor); }
+		 */
 
 		create(taxAdjustment, context);
-		markDone();
 
-		Result result = new Result();
-		result.add("Tax Adjustment was created successfully.");
-
-		return result;
+		return null;
 	}
 
-	private Result createOptionalRequirement(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		if (!context.getPreferences().isTrackTax()) {
+			addFirstMessage(context, "You dnt have permission to do this.");
+			return "cancel";
 		}
-		selection = context.getSelection("values");
-
-		Requirement taxAgencyrReq = get(TAX_AGENCY);
-		TAXAgency taxAgency = (TAXAgency) taxAgencyrReq.getValue();
-		if (taxAgency == selection) {
-			context.setAttribute(INPUT_ATTR, TAX_AGENCY);
-			return getTaxAgencyResult(context);
-		}
-
-		Requirement accountReq = get(ADJUSTMENT_ACCOUNT);
-		Account account = (Account) accountReq.getValue();
-		if (account == selection) {
-			context.setAttribute(INPUT_ATTR, ADJUSTMENT_ACCOUNT);
-			return getAccountResult(context);
-		}
-
-		Requirement amountReq = get(AMOUNT);
-		Double amount = (Double) amountReq.getValue();
-		if (amount == selection) {
-			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return number(context, "Please Enter the Tax Rate.", "" + amount);
-		}
-
-		ResultList list = new ResultList("values");
-
-		Record taxAgencyRecord = new Record(taxAgency);
-		taxAgencyRecord.add(INPUT_ATTR, "Tax Agency");
-		taxAgencyRecord.add("Value", taxAgency);
-		list.add(taxAgencyRecord);
-
-		if (isUkCompany()) {
-			Requirement taxItemReq = get(TAX_ITEM);
-			TAXItem taxItem = (TAXItem) taxItemReq.getValue();
-			if (taxItem == selection) {
-				context.setAttribute(INPUT_ATTR, TAX_ITEM);
-				return getTaxItemResult(context);
-			}
-
-			Record taxItemRecord = new Record(taxItem);
-			taxItemRecord.add(INPUT_ATTR, "Tax Item");
-			taxItemRecord.add("Value", taxItem);
-			list.add(taxItemRecord);
-		}
-
-		Record accountRecord = new Record(account);
-		accountRecord.add(INPUT_ATTR, "Adjustment Account");
-		accountRecord.add("Value", account);
-		list.add(accountRecord);
-
-		Record amountRecord = new Record(amount);
-		amountRecord.add(INPUT_ATTR, "Amount");
-		amountRecord.add("Value", amount);
-		list.add(amountRecord);
-
-		Requirement isIncreaseVatReq = get(IS_INCREASE_VATLINE);
-		Boolean isIncreaseVat = (Boolean) isIncreaseVatReq.getValue();
-		if (selection == isIncreaseVat) {
-			context.setAttribute(INPUT_ATTR, IS_INCREASE_VATLINE);
-			isIncreaseVat = !isIncreaseVat;
-			isIncreaseVatReq.setValue(isIncreaseVat);
-		}
-		String increaseVatString = "";
-		if (isIncreaseVat) {
-			increaseVatString = "Increase VAT line.";
-		} else {
-			increaseVatString = "Decrease VAT line.";
-		}
-		Record isIncreaseVatRecord = new Record(IS_INCREASE_VATLINE);
-		isIncreaseVatRecord.add("Name", "");
-		isIncreaseVatRecord.add("Value", increaseVatString);
-		list.add(isIncreaseVatRecord);
-
-		Result result = stringOptionalRequirement(context, list, selection,
-				"memo", "Add a memo");
-		if (result != null) {
-			return result;
-		}
-
-		result = orderNoRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = dateRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = context.makeResult();
-		result.add("Tax Adjustment is ready to create with following values.");
-		result.add(list);
-		ResultList actions = new ResultList("actions");
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Tax Adjustment.");
-		actions.add(finish);
-		result.add(actions);
-
-		return result;
+		return null;
 	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return getMessages().creating(getMessages().vatAdjustment());
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().readyToCreate(getMessages().vatAdjustment());
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(IS_INCREASE_VATLINE).setDefaultValue(true);
+		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(ORDER_NO)
+				.setDefaultValue(
+						NumberUtils.getNextTransactionNumber(
+								ClientTransaction.TYPE_ADJUST_VAT_RETURN,
+								getCompany()));
+		get(MEMO).setDefaultValue(new String());
+		get(IS_SALES).setDefaultValue(true);
+		/*
+		 * get(CURRENCY).setDefaultValue(null);
+		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		 */
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().createSuccessfully(getMessages().vatAdjustment());
+	}
+
 }

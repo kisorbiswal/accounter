@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 public class ClientPayBill extends ClientTransaction {
 
 	/**
@@ -34,12 +33,16 @@ public class ClientPayBill extends ClientTransaction {
 	private double vendorBalance = 0D;
 
 	int payBillType;
-	
-	private ClientTAXAgency taxAgency;
 
 	ClientAddress address;
 
 	String checkNumber;
+
+	private ClientTAXItem tdsTaxItem;
+
+	private double tdsTotal;
+
+	private boolean isAmountIncludeTDS;
 
 	// ClientTaxCode VATCode;
 	//
@@ -127,6 +130,10 @@ public class ClientPayBill extends ClientTransaction {
 		this.payFrom = payFromAccount.getID();
 	}
 
+	public void setPayFrom(long payFromAccount) {
+		this.payFrom = payFromAccount;
+	}
+
 	public void setBillDueOnOrBefore(ClientFinanceDate enteredDate) {
 		this.billDueOnOrBefore = enteredDate.getDate();
 
@@ -134,6 +141,11 @@ public class ClientPayBill extends ClientTransaction {
 
 	public void setVendor(ClientVendor vendor2) {
 		this.vendor = vendor2.getID();
+
+	}
+
+	public void setVendor(long vendor2) {
+		this.vendor = vendor2;
 
 	}
 
@@ -229,14 +241,51 @@ public class ClientPayBill extends ClientTransaction {
 
 	public ClientPayBill clone() {
 		ClientPayBill clientPayBillClone = (ClientPayBill) this.clone();
-			return clientPayBillClone;
+		return clientPayBillClone;
 	}
 
-	public ClientTAXAgency getTaxAgency() {
-		return taxAgency;
+	/**
+	 * @return the taxItem
+	 */
+	public ClientTAXItem getTdsTaxItem() {
+		return tdsTaxItem;
 	}
 
-	public void setTaxAgency(ClientTAXAgency taxAgency) {
-		this.taxAgency = taxAgency;
+	/**
+	 * @param taxItem
+	 *            the taxItem to set
+	 */
+	public void setTdsTaxItem(ClientTAXItem taxItem) {
+		this.tdsTaxItem = taxItem;
+	}
+
+	/**
+	 * @return the tdsTotal
+	 */
+	public double getTdsTotal() {
+		return tdsTotal;
+	}
+
+	/**
+	 * @param tdsTotal
+	 *            the tdsTotal to set
+	 */
+	public void setTdsTotal(double tdsTotal) {
+		this.tdsTotal = tdsTotal;
+	}
+
+	/**
+	 * @return the isAmountIncludeTDS
+	 */
+	public boolean isAmountIncludeTDS() {
+		return isAmountIncludeTDS;
+	}
+
+	/**
+	 * @param isAmountIncludeTDS
+	 *            the isAmountIncludeTDS to set
+	 */
+	public void setAmountIncludeTDS(boolean isAmountIncludeTDS) {
+		this.isAmountIncludeTDS = isAmountIncludeTDS;
 	}
 }

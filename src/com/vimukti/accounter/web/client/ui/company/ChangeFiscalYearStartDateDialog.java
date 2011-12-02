@@ -52,9 +52,9 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
 	private void createControls() {
 		enterStartDateLabel = new HTML();
-		enterStartDateLabel.setHTML(Accounter.constants()
+		enterStartDateLabel.setHTML(Accounter.messages()
 				.pleaseEnterNewStartDate());
-		startDateItem = new DateField(Accounter.constants().startDate());
+		startDateItem = new DateField(Accounter.messages().startDate());
 		startDateItem.setHelpInformation(true);
 
 		long startdate = getCompany().getPreferences().getStartOfFiscalYear();
@@ -75,7 +75,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showInformation(Accounter.constants()
+				Accounter.showInformation(Accounter.messages()
 						.fiscalyearsCreationFailed());
 			}
 
@@ -212,7 +212,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				&& firstFiscalYear.getStatus() == ClientFiscalYear.STATUS_CLOSE) {
 			Accounter
 					.showError(Accounter
-							.constants()
+							.messages()
 							.newfiscalyearstartdatemustbeginlaterthantheenddateofthemostrecent());
 			return false;
 		}

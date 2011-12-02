@@ -1,210 +1,120 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.FiscalYear;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 
 /**
  * 
  * @author Sai Prasad N
  * 
  */
-public class NewFiscalYearCommand extends AbstractTransactionCommand {
+public class NewFiscalYearCommand extends NewAbstractCommand {
 
 	private static final String START_DATE = "start date";
 	private static final String END_DATE = "end date";
 	private static final String STATUS = "status";
-
-	private static final String INPUT_ATTR = "input";
+	ClientFiscalYear fiscalYear;
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement("startDate", false, true));
-		list.add(new Requirement("endDate", false, true));
-		list.add(new Requirement("status", true, true));
+
+		list.add(new DateRequirement(START_DATE, getMessages().pleaseEnter(
+				getMessages().startDate()), getMessages().startDate(), false,
+				true));
+
+		list.add(new DateRequirement(END_DATE, getMessages().pleaseEnter(
+				getMessages().endDate()), getMessages().endDate(), false,
+				true));
+
+		list.add(new NumberRequirement(STATUS, getMessages().pleaseEnter(
+				getMessages().status()), getMessages().status(), false, true));
 
 	}
 
 	@Override
-	public Result run(Context context) {
+	protected Result onCompleteProcess(Context context) {
+		ClientFinanceDate startDate = (ClientFinanceDate) get(START_DATE)
+				.getValue();
+		ClientFinanceDate endDate = (ClientFinanceDate) get(END_DATE)
+				.getValue();
+		Integer status = Integer.parseInt((String) get(STATUS).getValue());
 
-		Result result = null;
-
-		result = startDateRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		result = endDateRequirement(context);
-		if (result != null) {
-			return result;
-
-		}
-		result = createOptionalRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		return createNewFiscalRear(context);
-	}
-
-	private Result createNewFiscalRear(Context context) {
-
-		FiscalYear fiscalYear = new FiscalYear();
-
-		Date startDate = (Date) get(START_DATE).getValue();
-		Date endDate = (Date) get(END_DATE).getValue();
-		Integer status = (Integer) get(STATUS).getValue();
-
-		fiscalYear.setStartDate(new FinanceDate(startDate));
-		fiscalYear.setEndDate(new FinanceDate(endDate));
-		fiscalYear.setStatus(status);
-
-		Session session = context.getHibernateSession();
-		Transaction transaction = session.beginTransaction();
-		session.saveOrUpdate(fiscalYear);
-		transaction.commit();
+		fiscalYear.setStartDate(startDate.getDate());
+		fiscalYear.setEndDate(endDate.getDate());
+		fiscalYear.setStatus(status.intValue());
+		create(fiscalYear, context);
 
 		markDone();
 
-		Result result = new Result();
-		result.add(" Fiscal year is created successfully.");
-
-		return result;
-	}
-
-	private Result createOptionalRequirement(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
-		}
-		selection = context.getSelection("values");
-
-		Requirement startDateReq = get(START_DATE);
-		Date sdate = (Date) startDateReq.getValue();
-		if (sdate == selection) {
-			context.setAttribute(INPUT_ATTR, START_DATE);
-			return text(context, "Please Enter the starting date", "" + sdate);
-		}
-
-		ResultList list = new ResultList("values");
-
-		Record startDateRecord = new Record(sdate);
-		startDateRecord.add("Name", START_DATE);
-		startDateRecord.add("Value", sdate.toString());
-
-		list.add(startDateRecord);
-		Requirement endDateReq = get(START_DATE);
-		Date edate = (Date) endDateReq.getValue();
-		if (edate == selection) {
-			context.setAttribute(INPUT_ATTR, START_DATE);
-			return text(context, "Please Enter the ending date", "" + edate);
-		}
-
-		Record endDateRecord = new Record(edate);
-		endDateRecord.add("Name", END_DATE);
-		endDateRecord.add("Value", edate.toString());
-
-		list.add(endDateRecord);
-
-		Result result = statusRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = context.makeResult();
-		result.add(" Creating new fiscal year  following values.");
-		result.add(list);
-		ResultList actions = new ResultList("actions");
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to creat new fiscal year");
-		actions.add(finish);
-		result.add(actions);
-
-		return result;
-	}
-
-	private Result statusRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement statusReq = get(STATUS);
-		Integer status = (Integer) statusReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(STATUS)) {
-			Integer st = context.getSelection(NUMBER);
-			if (st != 0) {
-				st = context.getInteger();
-			}
-			status = st;
-			statusReq.setValue(status);
-		}
-		if (selection == status) {
-			context.setAttribute(INPUT_ATTR, STATUS);
-			return number(context, "Status", "" + status);
-		}
-
-		Record statusRecord = new Record(status);
-		statusRecord.add("Name", STATUS);
-		statusRecord.add("Value", status);
-		list.add(statusRecord);
 		return null;
 	}
 
-	private Result endDateRequirement(Context context) {
-		Requirement endDateReq = get(END_DATE);
-		if (!endDateReq.isDone()) {
-			Date date = context.getDate();
-			if (date != null) {
-				endDateReq.setValue(date);
-			} else {
-				return text(context, "Please Enter the end date", "" + date);
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
+		if (isUpdate) {
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select Fiscal year to update.");
+				return "";
 			}
-		}
-		Date input = (Date) context.getAttribute(END_DATE);
-		if (input.equals(END_DATE)) {
-			endDateReq.setValue(input);
+			ClientFinanceDate date = context.getDate();
+			Integer integer = context.getInteger();
+			ClientFiscalYear year = CommandUtils.getFiscalYearByDate(
+					date.getDate(), integer, context.getCompany());
+			if (year == null) {
+				addFirstMessage(context, "Select a fiscal year to update.");
+				return "" + string;
+			}
+			fiscalYear = year;
+			setValues();
+		} else {
+			if (!string.isEmpty()) {
+				get(STATUS).setValue(string);
+			}
+			fiscalYear = new ClientFiscalYear();
 		}
 		return null;
 	}
 
-	private Result startDateRequirement(Context context) {
-		Requirement startDateReq = get(START_DATE);
-		if (!startDateReq.isDone()) {
-			Date date = context.getDate();
-			if (date != null) {
-				startDateReq.setValue(date);
-			} else {
-				return text(context, "Please Enter the start date", "" + date);
-			}
-		}
-		Date input = (Date) context.getAttribute(START_DATE);
-		if (input.equals(START_DATE)) {
-			startDateReq.setValue(input);
-		}
-		return null;
+	private void setValues() {
+		get(START_DATE).setValue(fiscalYear.getStartDate());
+		get(END_DATE).setValue(fiscalYear.getEndDate());
+		get(STATUS).setValue(String.valueOf(fiscalYear.getStatus()));
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return fiscalYear.getID() == 0 ? "Fiscal year commond is activated"
+				: "Update Fiscal year command is activated";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return fiscalYear.getID() == 0 ? "Fiscal year is ready with the following values"
+				: "Fiscal year is ready to update with following details";
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return fiscalYear.getID() == 0 ? "new fiscal year is created successfully"
+				: "Fiscal year updated successfully";
 	}
 
 }

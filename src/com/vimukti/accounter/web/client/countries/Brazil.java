@@ -20,7 +20,7 @@ public class Brazil extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "BRR";
+		return "BRL";
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class Brazil extends AbstractCountryPreferences {
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
 
-		return Accounter.constants().january();
+		return Accounter.messages().january();
 	}
 
 }

@@ -19,5 +19,16 @@
 				<g:Label ui:field="bothText" styleName="organisation_comment" />
 			</g:VerticalPanel>
 		</g:VerticalPanel>
+		<g:VerticalPanel spacing="8" ui:field="totalPanel">
+			<g:HorizontalPanel spacing="10">
+				<g:CheckBox ui:field="inventoryCheckBox" />
+			</g:HorizontalPanel>
+			<g:VerticalPanel ui:field="hiddenPanel"
+				horizontalAlignment="ALIGN_LEFT" spacing="20">
+				<g:HorizontalPanel horizontalAlignment="ALIGN_LEFT">
+					<g:CheckBox ui:field="warehousesCheckBox" />
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

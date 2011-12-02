@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -21,7 +22,7 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 	public TaxItemCombo(String title, int type) {
 		super(title, true, 1);
 		this.type = type;
-		initCombo(TaxItemsByType(getCompany().getTaxItems(), this.type));
+		initCombo(TaxItemsByType(getCompany().getActiveTaxItems(), this.type));
 	}
 
 	private List<ClientTAXItem> TaxItemsByType(
@@ -30,15 +31,15 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 		List<ClientTAXItem> taxItemList = new ArrayList<ClientTAXItem>();
 		for (ClientTAXItem taxItem : arrayList) {
 
-			if (type == ClientTAXItem.TAX_TYPE_TDS) {
+			if (type == ClientTAXAgency.TAX_TYPE_TDS) {
 				if (getCompany().getTaxAgency(taxItem.getTaxAgency())
-						.getTaxType() == ClientTAXItem.TAX_TYPE_TDS) {
+						.getTaxType() == ClientTAXAgency.TAX_TYPE_TDS) {
 					taxItemList.add(taxItem);
 				}
 
-			} else if (type == ClientTAXItem.TAX_TYPE_VAT) {
+			} else if (type == ClientTAXAgency.TAX_TYPE_VAT) {
 				if (getCompany().getTaxAgency(taxItem.getTaxAgency())
-						.getTaxType() == ClientTAXItem.TAX_TYPE_VAT) {
+						.getTaxType() == ClientTAXAgency.TAX_TYPE_VAT) {
 					taxItemList.add(taxItem);
 				}
 			}
@@ -63,7 +64,7 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 	}
 
 	@Override
-	protected String getColumnData(ClientTAXItem object, int row, int col) {
+	protected String getColumnData(ClientTAXItem object, int col) {
 		switch (col) {
 		case 0:
 			return getDisplayName(object);
@@ -75,7 +76,7 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.addNewItem();
+		return messages.item();
 
 	}
 

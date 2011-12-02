@@ -2,16 +2,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
-        <meta content="IE=100" http-equiv="X-UA-Compatible">
-		<link rel="shortcut icon" href="../images/favicon.ico" />
+  <title>Delete company| Accounter
+  </title>
+        <meta content="IE=100" http-equiv="X-UA-Compatible" />
+		<link rel="shortcut icon" href="/images/favicon.ico" />
 		
 		<%@ include file="./feedback.jsp" %>
-		<link type="text/css" href="../css/ss.css" rel="stylesheet">
+		<link type="text/css" href="../css/ss.css" rel="stylesheet" />
   </head>
   <body>
   <div id="commanContainer">
 	<div>
-		<img src="../images/Accounter_logo_title.png" class="accounterLogo" />
+		<img src="/images/Accounter_logo_title.png" class="accounterLogo" />
 	</div>
     <div >
        
@@ -21,21 +23,23 @@
         
 	   <form action="/main/deletecompany" method="post">
 	  	 	<c:if test="${canDeleteFromSingle}">
-            	<input type="radio" name="delete" value="deleteUser" checked>
-            		Delete company from this user
-            </c:if>
-           	<c:if test="${canDeleteFromAll}">
+            	<input type="radio" name="delete" value="deleteUser">
+            		Delete company from this account
+				<p class="delete_message">Are you sure you want to delete this company from your account? If you delete it you cannot undo this action.</p>
+			</c:if>
+			<c:if test="${canDeleteFromAll}">
             <br>
             <input type="radio" name="delete" value="deleteAllUsers">
-            Delete company from all users
-            </c:if>
-            <br>
+            Delete company from all users accounts
+            <p class="delete_message">Are you sure you want to delete this company from all users accounts? If you delete it you cannot undo this action.</p>
+			</c:if>
+			<br>
             <br>
             <div class="company_list_buttons">
 	            <input type="submit" value="Delete" class="allviews-common-button">
 	            <input type="button" value="Cancel" class="allviews-common-button" onclick="parent.location='/main/companies'">
             </div>
-        </FORM>
+        </form>
 	    
     </div>
    </div>
@@ -49,5 +53,6 @@
       <a target="_blank" href="/site/support"> Support </a>
    </div>
 </div>
+<%@ include file="./scripts.jsp" %>
   </body>
 </html>

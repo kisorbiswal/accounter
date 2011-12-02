@@ -25,58 +25,64 @@
 					    <colgroup><col></colgroup>
 						<!-- $BeginBlock invNumberHead -->
 						<tr>
-						   <td id ="invoiceNumber"> Invoice Number</td>
+						   <td id ="invoiceNumber">${i18_Invoice_Number}</td>
 						   <td> ${invoiceNumber} </td>
 						</tr>
 						<!-- $EndBlock invNumberHead -->
                         <!-- $BeginBlock invDateHead -->
 						<tr>
-						  <td id = "invoiceDate" >Invoice Date</td>
+						  <td id = "invoiceDate" >${i18_Invoice_Date}</td>
 						  <td> ${invoiceDate}  </td>
 						</tr>
 						 <!-- $EndBlock invDateHead -->
 						 <!-- $BeginBlock invOrderNumHead -->
 						<tr>
-						  <td id = "orderNumber"> Order Number</td>
+						  <td id = "orderNumber">${i18_Order_Number}</td>
 						  <td >	${invoiceOrderNumber}  </td>
 						</tr>
 						<!-- $EndBlock invOrderNumHead -->
                         <!-- $BeginBlock invCustNumHead -->
 						<tr>
-						  <td id = "customerNumber">Customer Number</td>
+						  <td id = "customerNumber">${i18_Customer_Number}</td>
 						  <td >	 ${invoiceCustomerNumber} </td>
 						 </tr>
 						 <!-- $EndBlock invCustNumHead -->
 						    <!-- $BeginBlock currency -->
 						<tr>
-						  <td id = "customerNumber">Primary Currency</td>
+						  <td id = "customerNumber">${i18_Currency}</td>
 						  <td align="right"> ${currency} </td>
 						 </tr>
 						 <!-- $EndBlock currency -->
 						  <!-- $BeginBlock paymentTermsBlock -->
 						<tr>
-						  <td id = "customerNumber">Payment Terms</td>
+						  <td id = "customerNumber">${i18_Payment_Terms}</td>
 						  <td >	 ${paymentTerms} </td>
 						 </tr>
 						 <!-- $EndBlock paymentTermsBlock -->
 						 <!-- $BeginBlock dueDateDetails -->
 						  <tr>
-								<td id="duedate">Due Date:</td>
+								<td id="duedate">${i18_Due_Date}</td>
 								<td>${dueDate}</td>
 						  </tr>
 						 <!-- $EndBlock dueDateDetails -->
+						 <!-- $BeginBlock customerVat -->
+						 <tr>
+                           		 <td id="duedate">${i18_Customer_TAX_Registration_Number}</td>
+	                        	 <td>${customerVATNumber}</td>
+						 </tr>
+						 <!-- $EndBlock customerVat -->
 					 </table> 
 		   </td>
 		   <td style="vertical-align: top;" align="left">
 	    <!-- $BeginBlock billhead -->
 	     <table border="1"  id="billto" style="width:300px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
           <tr>
-			<td class="gridHeaderBackGround"><p class="fontSetting"><center>Bill To</center></p></td>
+			<td class="gridHeaderBackGround"><p class="fontSetting"><center>${i18_Bill_To}</center></p></td>
 		  </tr>
 		  <tr>
 			<td align="left" style="vertical-align:top;height:130px">
 			   <p class="fontSetting">
-			     <div align="left">&nbsp;${billingAddress}</div>
+			     <div align="left">${billingAddress}</div>
 			   </p>
 			</td>
 		  </tr>
@@ -94,7 +100,7 @@
 		 <table  id = "shippingAddressTable" border="1" class="gridHeader" style="width:300px;font-family:${fontStyle};font-size:${font};"> 
 		    <colgroup><col></colgroup>
 			<tr>
-			  <td class="gridHeaderBackGround" ><center class="fontSetting">Ship To</center></td>
+			  <td class="gridHeaderBackGround" ><center class="fontSetting">${i18_Ship_To}</center></td>
 			</tr>
 			<tr>
 			  <td align="left" style="vertical-align:top;height:130px">
@@ -113,7 +119,7 @@
 		 <tr>
 		  <!-- $BeginBlock salespersonhead -->
 			<td id = "salesPerson"  class="gridHeaderBackGround">
-			   <center><p class="fontSetting">Sales Person</p></center>
+			   <center><p class="fontSetting">${i18_Sales_Person}</p></center>
 			</td>
 			<!-- $EndBlock salespersonhead -->
 			</tr>
@@ -129,7 +135,7 @@
 			<tr>
 			<!-- $BeginBlock shippingmethodhead -->
 	        <td id = "shippingMethod"  class="gridHeaderBackGround">
-			   <center><p class="fontSetting">Shipping Method</p></center>
+			   <center><p class="fontSetting">${i18_Shipping_Method}</p></center>
 			</td>
 			<!-- $EndBlock shippingmethodhead -->
 			</tr>
@@ -147,15 +153,15 @@
 <table class="xero_invoice_table"  border="1" id="items" width="100%" style="font-family:${fontStyle};font-size:${font};">
 <!-- $BeginBlock  itemDetails -->
   <tr><!-- $BeginBlock showLabels -->
-    <th><p class="fontSetting">Name</p></th>
-    <th><p class="fontSetting">Description</p></th>
-	<th><p class="fontSetting">Qty</p></th>
-	<th><p class="fontSetting">Unit Price</p></th>
-	<th><p class="fontSetting">Discount %</p></th>
-	<th><p class="fontSetting">Total Price</p></th>
+    <th><p class="fontSetting">${i18_Name}</p></th>
+    <th><p class="fontSetting">${i18_Description}</p></th>
+	<th><p class="fontSetting">${i18_Qty}</p></th>
+	<th><p class="fontSetting">${i18_Unit_Price}</p></th>
+	<th><p class="fontSetting">${i18_Discount}</p></th>
+	<th><p class="fontSetting">${i18_Total_Price}</p></th>
 	<!-- $BeginBlock vatBlock -->
-<th><p class="fontSetting">${VATRate}</p></th>
-	<th><p class="fontSetting">${VATAmount}</p></th>
+<th><p class="fontSetting">${i18_VATRate}</p></th>
+	<th><p class="fontSetting">${i18_VATAmount}</p></th>
 	<!-- $EndBlock vatBlock -->
 	<!-- $EndBlock showLabels -->
    </tr>
@@ -201,7 +207,7 @@
 	  <p class="fontSetting">${blankText}</p>
 	</td>
 	 <!-- $BeginBlock subtotal -->
-	<td class="total-line item-column" ><p class="fontSetting">&nbsp;&nbsp;${NetAmount}</p></td>
+	<td class="total-line item-column" ><p class="fontSetting">&nbsp;&nbsp;${i18_NetAmount}</p></td>
 <td class="total-value item-column">
 	  <div id="subtotal">
 	    <p class="fontSetting">
@@ -213,26 +219,27 @@
   </tr>
   <!-- $BeginBlock VatTotal -->
   <tr>
-	<td class="total-line item-column" id="vat-total" ><p class="fontSetting">&nbsp;&nbsp;${vatlabel}</p></td>
+	<td class="total-line item-column" id="vat-total" ><p class="fontSetting">&nbsp;&nbsp;${i18_tax}</p></td>
 	<td class="total-value item-column" >
 	   <div id="total"><p class="fontSetting">${vatTotal}</p></div>
 	</td>
+	<!-- <td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;${i18_Sub_Total}</p></td>-->
   </tr>
    <!-- $EndBlock VatTotal -->
   <tr class="xero-total">
-	<td class="total-line balance item-column"><p class="fontSetting">&nbsp;&nbsp;TOTAL</p></td>
+	<td class="total-line balance item-column"><p class="fontSetting">&nbsp;&nbsp;${i18_TOTAL}</p></td>
 	<td class="total-value item-column" >
 	  <div class="total"><p class="fontSetting">${total}</p></div>
 	</td>
   </tr>
   <tr>
-	<td class="total-line balance item-column"><p class="fontSetting">&nbsp;&nbsp;Payments</p></td>
+	<td class="total-line balance item-column"><p class="fontSetting">&nbsp;&nbsp;${i18_Payments}</p></td>
 	<td class="total-value item-column" align="right">
 	  <div class="total"><p class="fontSetting">${payment}</p></div>
   </td>
   </tr>
   <tr>
-	<td class="total-line balance item-column"><p class="fontSetting">&nbsp;&nbsp;Balance Due</p></td>
+	<td class="total-line balance item-column"><p class="fontSetting">&nbsp;&nbsp;${i18_Balance_Due}</p></td>
 	<td class="total-value item-column" align="right">
 	  <div class="total"><p class="fontSetting">${balancedue}</p></div>
 	</td>

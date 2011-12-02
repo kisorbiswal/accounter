@@ -26,23 +26,23 @@ public class TemplateCombo extends CustomCombo {
 		list.add("Plain Template");
 		list.add("Professional Template");
 
-//		File dir = new File("../templetes");
-//
-//		String[] children = dir.list();
-//		if (children != null) {
-//
-//			for (int i = 0; i < children.length; i++) {
-//
-//				String filename = children[i];
-//
-//				int indexOf = filename.indexOf(compareText);
-//				if (indexOf > 0) {
-//					filename = filename.substring(0, indexOf) + " Template";
-//
-//					list.add(filename);
-//				}
-//			}
-//		}
+		// File dir = new File("../templetes");
+		//
+		// String[] children = dir.list();
+		// if (children != null) {
+		//
+		// for (int i = 0; i < children.length; i++) {
+		//
+		// String filename = children[i];
+		//
+		// int indexOf = filename.indexOf(compareText);
+		// if (indexOf > 0) {
+		// filename = filename.substring(0, indexOf) + " Template";
+		//
+		// list.add(filename);
+		// }
+		// }
+		// }
 		return list;
 	}
 
@@ -55,7 +55,7 @@ public class TemplateCombo extends CustomCombo {
 	}
 
 	@Override
-	protected String getColumnData(Object object, int row, int col) {
+	protected String getColumnData(Object object, int col) {
 		switch (col) {
 		case 0:
 			return object.toString();
@@ -65,8 +65,7 @@ public class TemplateCombo extends CustomCombo {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Template";
 	}
 
 	@Override

@@ -1,119 +1,139 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import org.hibernate.Session;
+import java.util.Set;
 
 import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class VATCodesListCommand extends AbstractCommand {
+public class VATCodesListCommand extends NewAbstractCommand {
+
+	private static final String CURRENT_VIEW = "currentView";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(ACTIVE, true, true));
+
+		list.add(new CommandsRequirement(CURRENT_VIEW) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
+				return list;
+			}
+		});
+
+		list.add(new ShowListRequirement<TAXCode>("vatCodesList",
+				"Please Select Vat Code", 20) {
+			@Override
+			protected Record createRecord(TAXCode value) {
+				Record record = new Record(value);
+				record.add(getMessages().name(), value.getName());
+				record.add(getMessages().description(), value.getDescription());
+				return record;
+			}
+
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// TAXCode value) {
+			// commandList.add(new UserCommand("Update vatCode", String
+			// .valueOf(value.getID())));
+			// commandList.add(new UserCommand("Delete VatCode",
+			// value.getID()));
+			// }
+			@Override
+			protected String onSelection(TAXCode value) {
+				return "Update vatCode " + value.getID();
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(getMessages().create(getMessages().vatCode()));
+			}
+
+			@Override
+			protected boolean filter(TAXCode e, String name) {
+				return e.getName().startsWith(name);
+			}
+
+			@Override
+			protected List<TAXCode> getLists(Context context) {
+				Set<TAXCode> completeList = getVatCodes(context);
+				List<TAXCode> result = new ArrayList<TAXCode>();
+
+				String type = VATCodesListCommand.this.get(CURRENT_VIEW)
+						.getValue();
+
+				for (TAXCode taxCode : completeList) {
+					if (type.equals("Active")) {
+						if (taxCode.isActive())
+							result.add(taxCode);
+					}
+					if (type.equals("In-Active")) {
+						if (!taxCode.isActive())
+							result.add(taxCode);
+					}
+				}
+				return result;
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getMessages().vatCodeList();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().noRecordsToShow();
+			}
+
+		});
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = null;
-
-		result = createVatCodesList(context);
-		return result;
-	}
-
-	private Result createVatCodesList(Context context) {
-		Result result = null;
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
+	protected String initObject(Context context, boolean isUpdate) {
+		if (!context.getPreferences().isTrackTax()) {
+			addFirstMessage(context, "You dnt have permission to do this.");
+			return "cancel";
 		}
-		selection = context.getSelection("values");
-
-		result = isActiveRequirement(context, selection);
-		if (result != null) {
-			return result;
-		}
-
-		Boolean isActive = (Boolean) get(ACTIVE).getValue();
-
-		result = vatCodesList(context, isActive);
-		if (result != null) {
-			return result;
-		}
-
 		return null;
 	}
 
-	private Result vatCodesList(Context context, Boolean isActive) {
-		ResultList list = new ResultList("values");
-		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
-		if (last != null) {
-			list.add(createVatCodeRecord((TAXCode) last));
-		}
-
-		List<TAXCode> vatCodes = getVatCodes(context.getHibernateSession(),
-				isActive);
-		for (int i = 0; i < VALUES_TO_SHOW || i < vatCodes.size(); i++) {
-			TAXCode vatCode = vatCodes.get(i);
-			if (vatCode != last) {
-				list.add(createVatCodeRecord((TAXCode) vatCode));
-			}
-		}
-		Result result = new Result();
-
-		int size = list.size();
-		StringBuilder message = new StringBuilder();
-		if (size == 0) {
-			message.append("No records to show.");
-			result.add(message.toString());
-			return result;
-		}
-
-		String activeString = "";
-		if (isActive) {
-			activeString = "Active Vat Items";
-		} else {
-			activeString = "InActive Vat Items";
-		}
-		result.add(activeString);
-		result.add(list);
-
-		return result;
-	}
-
-	private List<TAXCode> getVatCodes(Session hibernateSession, Boolean isActive) {
-		// TODO Auto-generated method stub
+	@Override
+	protected String getWelcomeMessage() {
 		return null;
 	}
 
-	private Record createVatCodeRecord(TAXCode last) {
-		Record record = new Record(last);
-		record.add("Active", last.isActive());
-		record.add("Code", last.getName() != null ? last.getName() : "");
-		record.add("Description", last.getDescription());
-		record.add("Taxable", last.isTaxable());
-		return record;
+	@Override
+	protected String getDetailsMessage() {
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(CURRENT_VIEW).setDefaultValue(getMessages().active());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
+	}
+
+	private Set<TAXCode> getVatCodes(Context context) {
+		return context.getCompany().getTaxCodes();
+
 	}
 
 }

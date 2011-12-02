@@ -30,7 +30,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	SelectCombo currentView;
 
-	BudgetListGrid gridView = new BudgetListGrid();
+	// BudgetListGrid gridView = new BudgetListGrid();
 
 	List<ClientBudget> listOfBudgets = new ArrayList<ClientBudget>();
 
@@ -49,6 +49,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected void initGrid() {
+
 		grid = new BudgetListGrid();
 		grid.init();
 	}
@@ -66,7 +67,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().budgetList();
+		return Accounter.messages().budgetList();
 	}
 
 	@Override
@@ -77,13 +78,12 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().addNewBudget();
+		return Accounter.messages().addNewBudget();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages()
-				.customers(Global.get().constants().budget());
+		return Accounter.messages().payees(Global.get().messages().budget());
 
 	}
 
@@ -95,7 +95,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	// @Override
 	// protected SelectCombo getSelectItem() {
-	// currentView = new SelectCombo(Accounter.constants().currentBudget());
+	// currentView = new SelectCombo(messages.currentBudget());
 	// currentView.setHelpInformation(true);
 	//
 	// // listOfBudgets = getCompany().getBudget();
@@ -134,7 +134,10 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 			for (ClientBudgetItem budgetItem : budgetItems) {
 
 				budgetItem.setAccountsName(budgetItem.getAccount().getName());
-				grid.addData(budgetItem);
+				
+				if (budgetItem.getTotalAmount() > 0) {
+					grid.addData(budgetItem);
+				}
 			}
 		}
 		if (grid.getRecords().isEmpty())
@@ -157,7 +160,10 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 			for (ClientBudgetItem budgetItem : budgetItems) {
 
 				budgetItem.setAccountsName(budgetItem.getAccount().getName());
-				grid.addData(budgetItem);
+
+				if (budgetItem.getTotalAmount() > 0) {
+					grid.addData(budgetItem);
+				}
 			}
 		}
 		if (grid.getRecords().isEmpty())

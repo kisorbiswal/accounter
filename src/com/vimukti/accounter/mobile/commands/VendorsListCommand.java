@@ -1,23 +1,23 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.Vendor;
-import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.Lists.PayeeList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.server.FinanceTool;
 
-/**
- * 
- * @author Sai Prasad N
- * 
- */
-public class VendorsListCommand extends AbstractTransactionCommand {
-
-	private static final String ACTIVE = "active";
+public class VendorsListCommand extends NewAbstractCommand {
+	private static final String VENDOR_TYPE = "vendorType";
 
 	@Override
 	public String getId() {
@@ -26,71 +26,136 @@ public class VendorsListCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(ACTIVE, true, true));
 
+		list.add(new CommandsRequirement(VENDOR_TYPE) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
+				return list;
+			}
+		});
+
+		list.add(new ShowListRequirement<PayeeList>("vendorssList",
+				"Please Select vendor", 20) {
+
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// PayeeList value) {
+			// commandList.add(new UserCommand("update vendor ", value
+			// .getPayeeName()));
+			// commandList.add(new UserCommand("deleteVendor", value.getID()));
+			// }
+
+			@Override
+			protected String onSelection(PayeeList value) {
+				if (value.getType() == Payee.TYPE_CUSTOMER) {
+					return "Update Customer " + value.getPayeeName();
+				} else if (value.getType() == Payee.TYPE_VENDOR) {
+					return "Update vendor " + value.getPayeeName();
+				} else if (value.getType() == Payee.TYPE_TAX_AGENCY) {
+					return "Update TAX Agency " + value.getPayeeName();
+				}
+				return "";
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return "Vendor List";
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().noRecordsToShow();
+			}
+
+			@Override
+			protected Record createRecord(PayeeList value) {
+				Record record = new Record(value);
+				record.add(getMessages().payeeName(Global.get().Vendor()),
+						value.getPayeeName());
+				record.add(getMessages().balance(), value.getBalance());
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("New Vendor");
+			}
+
+			@Override
+			protected boolean filter(PayeeList e, String name) {
+				return e.getName().startsWith(name);
+			}
+
+			@Override
+			protected List<PayeeList> getLists(Context context) {
+				ArrayList<PayeeList> completeList = getVendorList(context);
+				ArrayList<PayeeList> result = new ArrayList<PayeeList>();
+
+				String type = get(VENDOR_TYPE).getValue();
+
+				for (PayeeList payee : completeList) {
+					if (type.equalsIgnoreCase("Active")) {
+						if (payee.isActive())
+							result.add(payee);
+					}
+					if (type.equalsIgnoreCase("In-Active")) {
+						if (!payee.isActive())
+							result.add(payee);
+					}
+				}
+				return result;
+			}
+
+		});
+		list.add(new CommandsRequirement(VENDOR_TYPE) {
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
+				return list;
+			}
+		});
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = null;
-
-		result = createVendorsList(context);
-		return result;
+	protected String initObject(Context context, boolean isUpdate) {
+		return null;
 	}
 
-	private Result createVendorsList(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
-		}
-		selection = context.getSelection("values");
-
-		ResultList list = new ResultList("values");
-
-		Result result = isActiveRequirement(context, selection);
-		Boolean isActive = (Boolean) get(ACTIVE).getValue();
-		result = vendorsList(context, isActive);
-		if (result != null) {
-			return result;
-		}
-		return result;
+	@Override
+	protected String getWelcomeMessage() {
+		return null;
 	}
 
-	private Result vendorsList(Context context, Boolean isActive) {
-		Result result = context.makeResult();
-		ResultList vendorsResult = new ResultList("vendors");
-		result.add("Vendors List");
-		int num = 0;
-		List<Vendor> vendors = getVendors(isActive, context.getCompany());
-		for (Vendor vendor : vendors) {
-			vendorsResult.add(createPayeeRecord(vendor));
-			num++;
-			if (num == VENDORS_TO_SHOW) {
-				break;
-			}
-		}
-		int size = vendorsResult.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Vendor");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
+	@Override
+	protected String getDetailsMessage() {
+		return null;
+	}
 
-		result.add(message.toString());
-		result.add(vendorsResult);
-		result.add(commandList);
-		result.add("Type for Vendor");
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(VENDOR_TYPE).setDefaultValue("Active");
+	}
 
-		return result;
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
+	}
+
+	private ArrayList<PayeeList> getVendorList(Context context) {
+		FinanceTool financeTool = new FinanceTool();
+		try {
+			return financeTool.getPayeeList(ClientTransaction.CATEGORY_VENDOR,
+					context.getCompany().getID());
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return null;
 
 	}
 

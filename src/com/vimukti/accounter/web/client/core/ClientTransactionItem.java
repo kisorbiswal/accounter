@@ -24,7 +24,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	public static final int TYPE_COMMENT = 2;
 	// public static final int TYPE_SALESTAX = 3;
 	public static final int TYPE_ACCOUNT = 4;
-	// public static final int TYPE_SERVICE = 6;
+	public static final int TYPE_INVENTORY_ITEM = 3;
 
 	int version;
 
@@ -59,24 +59,25 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	ClientQuantity quantity;
 
-	double unitPrice;
+	Double unitPrice;
 
-	double discount;
+	Double discount;
 
-	double lineTotal;
+	Double lineTotal;
 
 	boolean isTaxable;
 
 	private ClientTransaction transaction;
 
-	double usedamt;
+	Double usedamt;
 
-	double backOrder;
+	Double backOrder;
 
-	double VATfraction;
+	Double VATfraction;
 
 	boolean isVoid;
 
+	long wareHouse;
 	/**
 	 * Every TransactionItem consists of a set of for the purpose
 	 */
@@ -97,11 +98,17 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	private ClientAccounterClass accounterClass;
 
-	public double getVATfraction() {
+	private ClientQuantity availableQuantity;
+
+	private long customer;
+
+	private boolean isBillable;
+
+	public Double getVATfraction() {
 		return VATfraction;
 	}
 
-	public void setVATfraction(double tfraction) {
+	public void setVATfraction(Double tfraction) {
 		VATfraction = tfraction;
 	}
 
@@ -123,7 +130,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	/**
 	 * @return the invoiced
 	 */
-	public double getInvoiced() {
+	public Double getInvoiced() {
 		return usedamt;
 	}
 
@@ -131,7 +138,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @param invoiced
 	 *            the invoiced to set
 	 */
-	public void setInvoiced(double usedamt) {
+	public void setInvoiced(Double usedamt) {
 		// this.usedamt = usedamt;
 	}
 
@@ -153,7 +160,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	/**
 	 * @return the backOrder
 	 */
-	public double getBackOrder() {
+	public Double getBackOrder() {
 		return backOrder;
 	}
 
@@ -161,7 +168,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @param backOrder
 	 *            the backOrder to set
 	 */
-	public void setBackOrder(double backOrder) {
+	public void setBackOrder(Double backOrder) {
 		this.backOrder = backOrder;
 	}
 
@@ -219,17 +226,17 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @return the quantity
 	 */
 	public ClientQuantity getQuantity() {
-		if (quantity == null) {
-			quantity = new ClientQuantity();
-			quantity.setValue(1);
-		}
+		// if (quantity == null) {
+		// quantity = new ClientQuantity();
+		// quantity.setValue(1);
+		// }
 		return quantity;
 	}
 
 	/**
 	 * @return the unitPrice
 	 */
-	public double getUnitPrice() {
+	public Double getUnitPrice() {
 		return unitPrice;
 	}
 
@@ -251,14 +258,14 @@ public class ClientTransactionItem implements IAccounterCore {
 	/**
 	 * @return the discount
 	 */
-	public double getDiscount() {
+	public Double getDiscount() {
 		return discount;
 	}
 
 	/**
 	 * @return the lineTotal
 	 */
-	public double getLineTotal() {
+	public Double getLineTotal() {
 		return lineTotal;
 	}
 
@@ -331,7 +338,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @param unitPrice
 	 *            the unitPrice to set
 	 */
-	public void setUnitPrice(double unitPrice) {
+	public void setUnitPrice(Double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 
@@ -339,7 +346,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @param discount
 	 *            the discount to set
 	 */
-	public void setDiscount(double discount) {
+	public void setDiscount(Double discount) {
 		this.discount = discount;
 	}
 
@@ -347,7 +354,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @param lineTotal
 	 *            the lineTotal to set
 	 */
-	public void setLineTotal(double lineTotal) {
+	public void setLineTotal(Double lineTotal) {
 		this.lineTotal = lineTotal;
 	}
 
@@ -515,12 +522,48 @@ public class ClientTransactionItem implements IAccounterCore {
 	public boolean isEmpty() {
 		if (this.item == 0
 				&& this.account == 0
-				&& this.unitPrice == 0
-				&& this.lineTotal == 0
+				&& this.unitPrice == null
+				&& this.lineTotal == null
 				&& (this.quantity == null || this.quantity.getValue() == 0 || this.quantity
-						.getValue() == 1) && this.discount == 0) {
+						.getValue() == 1) && this.discount == null) {
 			return true;
 		}
 		return false;
+	}
+
+	public void setAvailableQuantity(ClientQuantity availableQuantity) {
+		this.availableQuantity = availableQuantity;
+	}
+
+	public ClientQuantity getAvailableQuantity() {
+		return availableQuantity;
+	}
+
+	public long getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(long customer) {
+		this.customer = customer;
+	}
+
+	public void setIsBillable(boolean value) {
+		this.setBillable(value);
+	}
+
+	public boolean isBillable() {
+		return isBillable;
+	}
+
+	public void setBillable(boolean isBillable) {
+		this.isBillable = isBillable;
+	}
+
+	public long getWareHouse() {
+		return wareHouse;
+	}
+
+	public void setWareHouse(long wareHouse) {
+		this.wareHouse = wareHouse;
 	}
 }

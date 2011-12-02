@@ -17,10 +17,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
-public class ExpenseClaimPortlet extends DashBoardPortlet {
+public class ExpenseClaimPortlet extends Portlet {
 
 	public double allExpensesAmount = 0.00;
 	public double cashExpenseAmount = 0.00;
@@ -32,13 +33,8 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 	public Label empExpAmtLabel;
 	public Label ccExpAmtLabel;
 
-	public ExpenseClaimPortlet(String title) {
-		super(title);
-	}
-
-	@Override
-	public String getGoToText() {
-		return Accounter.constants().goToExpenseCliams();
+	public ExpenseClaimPortlet(ClientPortletConfiguration pc) {
+		super(pc, messages.expenseClaims(), messages.goToExpenseCliams());
 	}
 
 	@Override
@@ -46,19 +42,10 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void goToClicked() {
 		ActionFactory.getExpensesAction(null).run(null, true);
-	}
-
-	@Override
-	public Cursor getTitleCursor() {
-		return Cursor.POINTER;
-	}
-
-	@Override
-	public TextDecoration getTitleDecoration() {
-		return TextDecoration.UNDERLINE;
 	}
 
 	@Override
@@ -66,30 +53,35 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		VerticalPanel vPanel = new VerticalPanel();
 		FlexTable fTable = new FlexTable();
 
-		Button addExpenseBtn = new Button(Accounter.constants().addExpenses());
+		Button addExpenseBtn = new Button(Accounter.messages().addExpenses());
 		addExpenseBtn.addStyleName("addAccountPortlet");
 		addExpenseBtn.addClickHandler(new ClickHandler() {
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void onClick(ClickEvent event) {
 				ActionFactory.getRecordExpensesAction().run(null, true);
 			}
 		});
 
-		Label allExpLabel = getLabel(Accounter.constants().allExpenses());
-		Label cashExpLabel = getLabel(Accounter.constants().cashExpenses());
+		Label allExpLabel = getLabel(Accounter.messages().allExpenses());
+		Label cashExpLabel = getLabel(Accounter.messages().cashExpenses());
 		cashExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		Label empExpLabel = getLabel(Accounter.constants().employeeExpenses());
-		Label ccExpLabel = getLabel(Accounter.constants().creditCardExpenses());
+		Label empExpLabel = getLabel(Accounter.messages().employeeExpenses());
+		Label ccExpLabel = getLabel(Accounter.messages().creditCardExpenses());
 		ccExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
 		updateAmounts();
 
-		allExpAmtLabel = getAmountLabel(amountAsString(allExpensesAmount));
-		cashExpAmtLabel = getAmountLabel(amountAsString(cashExpenseAmount));
+		allExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(allExpensesAmount));
+		cashExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(cashExpenseAmount));
 		cashExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		empExpAmtLabel = getAmountLabel(amountAsString(employeeExpenseAmount));
-		ccExpAmtLabel = getAmountLabel(amountAsString(ccExpenseAmount));
+		empExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(employeeExpenseAmount));
+		ccExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(ccExpenseAmount));
 		ccExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
 		fTable.setWidget(0, 0, allExpLabel);
@@ -121,7 +113,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.constants()
+				Accounter.showError(Accounter.messages()
 						.failedtogetExpensetotals());
 			}
 
@@ -161,26 +153,31 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		});
 		label.addClickHandler(new ClickHandler() {
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void onClick(ClickEvent event) {
+
 				label.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
-				if (title.equals(Accounter.constants().cashExpenses())) {
-					ActionFactory.getExpensesAction(
-							Accounter.constants().cash()).run(null, true);
-				} else if (title.equals(Accounter.constants()
+
+				if (title.equals(Accounter.messages().cashExpenses())) {
+					ActionFactory
+							.getExpensesAction(Accounter.messages().cash())
+							.run(null, true);
+				} else if (title.equals(Accounter.messages()
 						.creditCardExpenses())) {
 					ActionFactory.getExpensesAction(
-							Accounter.constants().creditCard()).run(null, true);
-				} else if (title.equals(Accounter.constants()
-						.employeeExpenses())) {
+							Accounter.messages().creditCard()).run(null, true);
+				} else if (title
+						.equals(Accounter.messages().employeeExpenses())) {
 					ActionFactory.getExpensesAction(
-							Accounter.constants().employee()).run(null, true);
-				} else if (title.equals(Accounter.constants().allExpenses())) {
+							Accounter.messages().employee()).run(null, true);
+				} else if (title.equals(Accounter.messages().allExpenses())) {
 					ActionFactory.getExpensesAction(null).run(null, true);
 				}
 			}
 		});
+
 		label.getElement().getStyle().setMarginLeft(10, Unit.PX);
 		label.getElement().getStyle().setMarginTop(10, Unit.PX);
 		return label;
@@ -194,22 +191,27 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 	}
 
 	@Override
-	public void titleClicked() {
-		ActionFactory.getExpensesAction(null).run(null, true);
-	}
-
-	@Override
 	public void refreshWidget() {
 		this.body.clear();
 		createBody();
 	}
 
 	public void updateAmountLabels() {
-		cashExpAmtLabel.setText(amountAsString(cashExpenseAmount));
-		ccExpAmtLabel.setText(amountAsString(ccExpenseAmount));
-		empExpAmtLabel.setText(amountAsString(employeeExpenseAmount));
+		cashExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(cashExpenseAmount));
+		ccExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(ccExpenseAmount));
+		empExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(employeeExpenseAmount));
 
-		allExpAmtLabel.setText(amountAsString(allExpensesAmount));
+		allExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(allExpensesAmount));
+	}
+
+	@Override
+	public void refreshClicked() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

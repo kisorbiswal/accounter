@@ -17,7 +17,7 @@ public class VendorTransactionHistoryAction extends Action {
 
 	public VendorTransactionHistoryAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().report();
+		this.catagory = Accounter.messages().report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

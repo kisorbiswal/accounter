@@ -4,6 +4,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
@@ -40,7 +41,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	public CustomerMergeDialog(String title, String descript) {
 		super(title, descript);
 		setWidth("650px");
-		okbtn.setText(Accounter.constants().merge());
+		okbtn.setText(Accounter.messages().merge());
 		createControls();
 		center();
 		clientCustomer1 = null;
@@ -60,34 +61,35 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 		customerCombo = createCustomerCombo();
 		customerCombo1 = createCustomerCombo1();
 
-		customerIDTextItem = new TextItem(Accounter.messages().customerID(
+		customerIDTextItem = new TextItem(Accounter.messages().payeeID(
 				Global.get().Customer()));
 
 		customerIDTextItem.setHelpInformation(true);
 		customerIDTextItem.setDisabled(true);
 
-		customerIDTextItem1 = new TextItem(Accounter.messages().customerID(
+		customerIDTextItem1 = new TextItem(Accounter.messages().payeeID(
 				Global.get().Customer()));
 
 		customerIDTextItem1.setHelpInformation(true);
 		customerIDTextItem1.setDisabled(true);
 
-		status = new CheckboxItem(Accounter.constants().active());
+		status = new CheckboxItem(Accounter.messages().active());
 		status.setValue(false);
 
 		status.setHelpInformation(true);
 
-		status1 = new CheckboxItem(Accounter.constants().active());
+		status1 = new CheckboxItem(Accounter.messages().active());
 		status1.setValue(false);
 
-		balanceTextItem = new TextItem(Accounter.constants().balance());
+		balanceTextItem = new TextItem(Accounter.messages().balance());
 		balanceTextItem.setHelpInformation(true);
 		balanceTextItem.setDisabled(true);
 
-		balanceTextItem1 = new TextItem(Accounter.constants().balance());
+		balanceTextItem1 = new TextItem(Accounter.messages().balance());
 		balanceTextItem1.setHelpInformation(true);
 		balanceTextItem1.setDisabled(true);
-
+		customerCombo.setRequired(true);
+		customerCombo1.setRequired(true);
 		form.setItems(customerCombo, customerIDTextItem, status,
 				balanceTextItem);
 		form1.setItems(customerCombo1, customerIDTextItem1, status1,
@@ -103,7 +105,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 	private CustomerCombo createCustomerCombo1() {
 
-		customerCombo1 = new CustomerCombo(Accounter.messages().customerTo(
+		customerCombo1 = new CustomerCombo(Accounter.messages().payeeTo(
 				Global.get().Customer()), false);
 		customerCombo1.setHelpInformation(true);
 		customerCombo1.setRequired(true);
@@ -125,10 +127,10 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 	private CustomerCombo createCustomerCombo() {
 
-		customerCombo = new CustomerCombo(Accounter.messages().customerFrom(
+		customerCombo = new CustomerCombo(Accounter.messages().payeeFrom(
 				Global.get().Customer()), false);
 
-		customerCombo = new CustomerCombo(Accounter.messages().customerFrom(
+		customerCombo = new CustomerCombo(Accounter.messages().payeeFrom(
 				Global.get().Customer()), false);
 
 		customerCombo.setHelpInformation(true);
@@ -166,10 +168,12 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	protected ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
-		if (clientCustomer1.getID() == clientCustomer.getID()) {
-			result.addError(clientCustomer, Accounter.messages().notMove(
-					Global.get().customer()));
-			return result;
+		if (clientCustomer != null && clientCustomer1 != null) {
+			if (clientCustomer1.getID() == clientCustomer.getID()) {
+				result.addError(clientCustomer,
+						Accounter.messages().notMove(Global.get().customer()));
+				return result;
+			}
 		}
 		result = form.validate();
 		result = form1.validate();
@@ -179,14 +183,24 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 	@Override
 	protected boolean onOK() {
-
-		if (clientCustomer1.getID() == clientCustomer.getID()) {
-			return false;
+		if (clientCustomer1 != null && clientCustomer != null) {
+			if (clientCustomer1.getID() == clientCustomer.getID()) {
+				return false;
+			}
 		}
-		Accounter.createHomeService().mergeCustomer(clientCustomer,
-				clientCustomer1, this);
-
-		return true;
+		ClientCurrency currency1 = getCompany().getCurrency(
+				clientCustomer1.getCurrency());
+		ClientCurrency currency2 = getCompany().getCurrency(
+				clientCustomer.getCurrency());
+		if (currency1 != currency2) {
+			Accounter
+					.showError("Currencies of the both customers must be same ");
+		} else {
+			Accounter.createHomeService().mergeCustomer(clientCustomer,
+					clientCustomer1, this);
+			return true;
+		}
+		return false;
 	}
 
 	@Override

@@ -1,237 +1,393 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.PayBill;
+import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Vendor;
-import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.UserCommand;
+import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
  * @author Sai Prasad N
  * 
  */
-public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
+public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
+	ClientPayBill paybill;
 
-	private static final String PAY_TO = "vendors";
-	private static final String AMOUNT = "amount";
-	private static final String BILL_TO = "billTo";
-	private static final String TO_BE_PRINTED = "toBePrinted";
-	private static final String CHEQUE_NO = "chequeNumber";
-	private static final String MEMO = "memo";
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context,
+						"Select a Vendor Prepayment to update.");
+				return "Vendor Payments List";
+			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
+			ClientPayBill invoiceByNum = (ClientPayBill) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.PAYBILL);
+			if (invoiceByNum == null) {
+				addFirstMessage(context,
+						"Select a Vendor Prepayment to update.");
+				return "Vendor Payments List " + string;
+			}
+			paybill = invoiceByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			paybill = new ClientPayBill();
+		}
+		setTransaction(paybill);
+		return null;
+	}
+
+	private void setValues() {
+		get(VENDOR).setValue(
+				CommandUtils.getServerObjectById(paybill.getVendor(),
+						AccounterCoreType.VENDOR));
+		get(BILL_TO).setValue(paybill.getAddress());
+		get(PAY_FROM).setValue(
+				CommandUtils.getServerObjectById(paybill.getPayFrom(),
+						AccounterCoreType.ACCOUNT));
+		/* get(CURRENCY_FACTOR).setValue(paybill.getCurrencyFactor()); */
+		get(AMOUNT).setValue(paybill.getTotal());
+		get(PAYMENT_METHOD).setValue(
+				CommandUtils.getPaymentMethod(
+						paybill.getPaymentMethodForCommands(), getMessages()));
+		get(TO_BE_PRINTED).setValue(paybill.isToBePrinted());
+		get(MEMO).setValue(paybill.getMemo());
+		get(NUMBER).setValue(paybill.getNumber());
+		get(CHEQUE_NO).setValue(paybill.getCheckNumber());
+		get(DATE).setValue(paybill.getDate());
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return paybill.getID() == 0 ? getMessages().create(
+				getMessages().payeePrePayment(Global.get().Vendor()))
+				: "Update Vendor Prepayment command activated";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return paybill.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().payeePrePayment(Global.get().Vendor()))
+				: "Vendor prepayment is ready to update with following details";
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(MEMO).setDefaultValue("");
+		get(NUMBER).setDefaultValue(
+				NumberUtils.getNextTransactionNumber(
+						ClientTransaction.TYPE_VENDOR_PAYMENT,
+						context.getCompany()));
+		/*
+		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		 * get(CURRENCY).setDefaultValue(null);
+		 */
+	}
+
+	@Override
+	public String getSuccessMessage() {
+
+		return paybill.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().payeePrePayment(Global.get().Vendor()))
+				: getMessages().updateSuccessfully(
+						getMessages().payeePrePayment(Global.get().Vendor()));
+	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(DATE, true, true));
-		list.add(new Requirement(NUMBER, true, true));
-		list.add(new Requirement(PAY_TO, false, true));
-		list.add(new Requirement(PAY_FROM, false, true));
-		list.add(new Requirement(BILL_TO, true, true));
-		list.add(new Requirement(AMOUNT, false, true));
-		list.add(new Requirement(PAYMENT_MENTHOD, false, true));
-		list.add(new Requirement(TO_BE_PRINTED, true, true));
-		list.add(new Requirement(CHEQUE_NO, true, true));
-		list.add(new Requirement(MEMO, true, true));
+		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
+				getMessages().Vendor()), getMessages().vendor(), false, true,
+				new ChangeListner<Vendor>() {
+
+					@Override
+					public void onSelection(Vendor value) {
+						get(BILL_TO).setValue(null);
+						Set<Address> addresses = value.getAddress();
+						for (Address address : addresses) {
+							if (address.getType() == Address.TYPE_BILL_TO) {
+								try {
+									ClientAddress addr = new ClientConvertUtil()
+											.toClientObject(address,
+													ClientAddress.class);
+									get(BILL_TO).setValue(addr);
+								} catch (AccounterException e) {
+									e.printStackTrace();
+								}
+								break;
+							}
+						}
+					}
+				})
+
+		{
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(Global.get().Vendor());
+			}
+
+			@Override
+			protected List<Vendor> getLists(Context context) {
+				return getVendors();
+			}
+
+			@Override
+			protected String getEmptyString() {
+
+				return getMessages().youDontHaveAny(Global.get().Vendor());
+			}
+
+			@Override
+			protected boolean filter(Vendor e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		/*
+		 * list.add(new CurrencyRequirement(CURRENCY,
+		 * getMessages().pleaseSelect( getConstants().currency()),
+		 * getConstants().currency(), true, true, null) {
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if
+		 * (getPreferences().isEnableMultiCurrency()) { return
+		 * super.run(context, makeResult, list, actions); } else { return null;
+		 * } }
+		 * 
+		 * @Override protected List<Currency> getLists(Context context) { return
+		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
+		 * 
+		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
+		 * false, true) {
+		 * 
+		 * @Override protected String getDisplayValue(Double value) {
+		 * ClientCurrency primaryCurrency = getPreferences()
+		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
+		 * return "1 " + selc.getFormalName() + " = " + value + " " +
+		 * primaryCurrency.getFormalName(); }
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
+		 * != null) { if (context.getPreferences().isEnableMultiCurrency() &&
+		 * !((Currency) get(CURRENCY).getValue())
+		 * .equals(context.getPreferences() .getPrimaryCurrency())) { return
+		 * super.run(context, makeResult, list, actions); } } return null;
+		 * 
+		 * } });
+		 */
+
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getMessages().billNo()), getMessages().billNo(), true, true));
+		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
+				getMessages().transactionDate()), getMessages()
+				.transactionDate(), true, true));
+		list.add(new AccountRequirement(PAY_FROM, getMessages()
+				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
+				false, false, null) {
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(new UserCommand("Create BankAccount", "Bank"));
+				list.add(new UserCommand("Create BankAccount",
+						"Create Other CurrentAsset Account",
+						"Other Current Asset"));
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().account());
+			}
+
+			@Override
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
+
+						@Override
+						public boolean filter(Account e) {
+							if (e.getType() == Account.TYPE_BANK
+									|| e.getType() == Account.TYPE_OTHER_ASSET) {
+								return true;
+							}
+							return false;
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
+					}
+				}
+				return filteredList;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getMessages().Accounts());
+			}
+
+			@Override
+			protected boolean filter(Account e, String name) {
+				return e.getName().contains(name);
+			}
+		});
+		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
+				getMessages().billTo()), getMessages().billTo(), true, true));
+
+		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
+				.pleaseSelect(getMessages().paymentMethod()), getMessages()
+				.paymentMethod(), false, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().paymentMethod());
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+
+				/*
+				 * Map<String, String> paymentMethods =
+				 * context.getClientCompany() .getPaymentMethods(); List<String>
+				 * paymentMethod = new ArrayList<String>(
+				 * paymentMethods.values());
+				 */
+				String payVatMethodArray[] = new String[] {
+						getMessages().cash(), getMessages().creditCard(),
+						getMessages().check(), getMessages().directDebit(),
+						getMessages().masterCard(),
+						getMessages().onlineBanking(),
+						getMessages().standingOrder(),
+						getMessages().switchMaestro() };
+				List<String> wordList = Arrays.asList(payVatMethodArray);
+				return wordList;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getMessages().paymentMethod());
+			}
+		});
+		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
+				getMessages().amount()), getMessages().amount(), false, true));
+
+		list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().toBePrinted();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Not Printed ";
+			}
+		});
+		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
+				getMessages().checkNo()), getMessages().checkNo(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if ((Boolean) get(TO_BE_PRINTED).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+
+			}
+		});
+		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
+				getMessages().memo()), getMessages().memo(), true, true));
 
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = null;
-		String process = (String) context.getAttribute(PROCESS_ATTR);
-		if (process != null) {
-			if (process.equals(ADDRESS_PROCESS)) {
-				result = addressProcess(context);
-				if (result != null) {
-					return result;
-				}
-			} else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
-				result = transactionItemProcess(context);
-				if (result != null) {
-					return result;
-				}
-			}
-		}
-		result = vendorRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		result = payFromRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		result = amountRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		result = paymentMethodRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		result = createOptionalRequirement(context);
-
-		completeProcess(context);
-		markDone();
-		return result;
-
-	}
-
-	private void completeProcess(Context context) {
-
-		PayBill paybill = new PayBill();
-		Vendor vendor = (Vendor) get(PAY_TO).getValue();
-
-		Address billTo = (Address) get(BILL_TO).getValue();
+	protected Result onCompleteProcess(Context context) {
+		Vendor vendor = (Vendor) get(VENDOR).getValue();
+		ClientAddress billTo = (ClientAddress) get(BILL_TO).getValue();
 		Account pay = (Account) get(PAY_FROM).getValue();
-		Double amount = (Double) get(AMOUNT).getValue();
-		String paymentMethod = get(PAYMENT_MENTHOD).getValue();
+
+		/*
+		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
+		 * currency = get(CURRENCY).getValue(); if (currency != null) {
+		 * paybill.setCurrency(currency.getID()); }
+		 * 
+		 * double factor = get(CURRENCY_FACTOR).getValue();
+		 * paybill.setCurrencyFactor(factor); }
+		 */
+		double amount = get(AMOUNT).getValue();
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		Boolean toBePrinted = (Boolean) get(TO_BE_PRINTED).getValue();
 		String memo = get(MEMO).getValue();
 		String chequeNumber = get(CHEQUE_NO).getValue();
 
-		paybill.setVendor(vendor);
+		ClientFinanceDate transactionDate = get(DATE).getValue();
+		paybill.setDate(transactionDate.getDate());
+		paybill.setType(ClientTransaction.TYPE_PAY_BILL);
+		paybill.setVendor(vendor.getID());
 		paybill.setAddress(billTo);
-		paybill.setPayFrom(pay);
-		paybill.setUnusedAmount(amount);
+		paybill.setPayFrom(pay.getID());
+		paybill.setTotal(amount);
+		paybill.setStatus(ClientPayBill.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		paybill.setPaymentMethod(paymentMethod);
 		paybill.setMemo(memo);
 		paybill.setToBePrinted(toBePrinted);
+		paybill.setNumber((String) get(NUMBER).getValue());
 		paybill.setCheckNumber(chequeNumber);
 		create(paybill, context);
-
-	}
-
-	private Result createOptionalRequirement(Context context) {
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case ADD_MORE_ITEMS:
-				return items(context);
-			case FINISH:
-				context.removeAttribute(INPUT_ATTR);
-				return null;
-			default:
-				break;
-			}
-		}
-
-		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
-
-		Result result = null;
-		Requirement vendorReq = get(PAY_TO);
-		Vendor vendor = (Vendor) vendorReq.getValue();
-		Record vendorRecord = new Record(vendor);
-		vendorRecord.add("Name", PAY_TO);
-		vendorRecord.add("Value", vendor.getName());
-
-		list.add(vendorRecord);
-
-		result = dateRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = numberOptionalRequirement(context, list, selection, NUMBER,
-				"TtransactionNumber");
-		if (result != null) {
-			return result;
-		}
-		result = billToRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		Requirement bankAccountReeq = get(PAY_FROM);
-		Account account = (Account) bankAccountReeq.getValue();
-		list.add(createAccountRecord(account));
-		Requirement amountReq = get(AMOUNT);
-
-		Double amount = (Double) amountReq.getValue();
-		list.add(createAmountRecord(amount));
-
-		result = paymentMethodRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = toBePrintedOptionalRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = chequeNoRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
-		if (result != null) {
-			return result;
-		}
-		result = context.makeResult();
-		result.add("Vendor prepayment is ready to creating...");
-		result.add(list);
-
-		return result;
-	}
-
-	private Result toBePrintedOptionalRequirement(Context context,
-			ResultList list, Object selection) {
-		Requirement isActiveReq = get(TO_BE_PRINTED);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == isActive) {
-			context.setAttribute(INPUT_ATTR, TO_BE_PRINTED);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This is To be printed";
-		} else {
-			activeString = "Not";
-		}
-		Record isActiveRecord = new Record(TO_BE_PRINTED);
-		isActiveRecord.add("Name", "");
-		isActiveRecord.add("Value", activeString);
-		list.add(isActiveRecord);
 		return null;
 	}
 
-	private Record createAmountRecord(Double amount2) {
-		Record amountRec = new Record(amount2);
-		amountRec.add("Name", "");
-		amountRec.add("Amount", amount2);
-
-		return amountRec;
-	}
-
-	private Result amountRequirement(Context context) {
-		Requirement numberReq = get(AMOUNT);
-		if (!numberReq.isDone()) {
-			String num = context.getString();
-			if (num != null) {
-				numberReq.setValue(num);
-			} else {
-				return text(context, "Please Enter amount ", "" + num);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(AMOUNT)) {
-			numberReq.setValue(input);
-		}
-		return null;
-	}
 }

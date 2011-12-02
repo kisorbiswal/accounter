@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.AccountsTemplate;
-import com.vimukti.accounter.web.client.core.ClientActivity;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
+import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.core.HrEmployee;
@@ -53,8 +52,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		Company company = tool.getCompany(getCompanyId());
 		try {
-			return tool.getManager().getObjectById(type, id,
-					company.getAccountingType(), getCompanyId());
+			return tool.getManager().getObjectById(type, id, getCompanyId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -91,13 +89,6 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	@Override
-	public ClientCompany getCompany() throws AccounterException {
-		FinanceTool tool = getFinanceTool();
-		return tool.getCompanyManager().getClientCompany(getUserEmail(),
-				getCompanyId());
 	}
 
 	@Override
@@ -2066,18 +2057,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<AccountsTemplate> getAccountsTemplate()
-			throws AccounterException {
-		AccountsTemplateManager manager = new AccountsTemplateManager();
-		try {
-			return manager.loadAccounts(ServerLocal.get().getLanguage());
-		} catch (Exception e) {
-			throw new AccounterException(e);
-		}
-	}
-
-	@Override
-	public List<ClientTransaction> getAllTransactionsOfAccount(long id,
+	public List<ClientReconciliationItem> getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException {
 		return getFinanceTool().getAllTransactionsOfAccount(id, startDate,
@@ -2099,9 +2079,30 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientActivity> getTransactionHistory(long transactionId)
+	public List<ClientTransactionLog> getTransactionHistory(long transactionId)
 			throws AccounterException {
 		return getFinanceTool().getTransactionHistory(transactionId,
 				getCompanyId());
 	}
+
+	@Override
+	public long getLastTAXReturnEndDate(long agencyId)
+			throws AccounterException {
+		return getFinanceTool().getTaxManager().getLastTaxReturnEndDate(
+				agencyId, getCompanyId());
+	}
+
+	@Override
+	public List<ClientTAXReturnEntry> getTAXReturnEntries(long agency,
+			long startDate, long endDate) throws AccounterException {
+		return getFinanceTool().getTaxManager().getTAXReturnEntries(
+				getCompanyId(), agency, startDate, endDate);
+	}
+
+	@Override
+	public List<ClientTAXReturn> getAllTAXReturns() throws AccounterException {
+		return getFinanceTool().getTaxManager()
+				.getAllTAXReturns(getCompanyId());
+	}
+
 }

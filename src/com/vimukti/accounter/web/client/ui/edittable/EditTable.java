@@ -5,20 +5,23 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class EditTable<R> extends SimplePanel {
 
+	protected AccounterMessages messages = Accounter.messages();
 	private FlexTable table;
 	private List<EditColumn<R>> columns = new ArrayList<EditColumn<R>>();
 	private CellFormatter cellFormatter;
 	private RowFormatter rowFormatter;
 	private List<R> rows = new ArrayList<R>();
-	private boolean isDesable;
+	private boolean isDisabled;
 	private boolean columnsCreated;
 
 	public EditTable() {
@@ -43,11 +46,13 @@ public abstract class EditTable<R> extends SimplePanel {
 		}
 	}
 
-	public void setDisabled(boolean isDesable) {
-		this.setDesable(isDesable);
-		updateHeaderState(isDesable);
-		for (R r : rows) {
-			update(r);
+	public void setDisabled(boolean isDesabled) {
+		if (this.isDisabled != isDesabled) {
+			this.isDisabled = isDesabled;
+			updateHeaderState(isDesabled);
+			for (R r : rows) {
+				update(r);
+			}
 		}
 	}
 
@@ -60,13 +65,23 @@ public abstract class EditTable<R> extends SimplePanel {
 		int index = rows.indexOf(row);
 		index += 1;// for header
 		RenderContext<R> context = new RenderContext<R>(this, row);
-		context.setDesable(isDesable());
+		context.setDesable(isDisabled);
 		context.setCellFormatter(cellFormatter);
 		context.setRowFormatter(rowFormatter);
 		for (int x = 0; x < columns.size(); x++) {
 			EditColumn<R> column = columns.get(x);
 			IsWidget widget = table.getWidget(index, x);
 			column.render(widget, context);
+		}
+	}
+
+	public void updateFromGUI(R row) {
+		int index = rows.indexOf(row);
+		index += 1;// for header
+		for (int x = 0; x < columns.size(); x++) {
+			EditColumn<R> column = columns.get(x);
+			IsWidget widget = table.getWidget(index, x);
+			column.updateFromGUI(widget, row);
 		}
 	}
 
@@ -82,7 +97,7 @@ public abstract class EditTable<R> extends SimplePanel {
 		index += 1;// for header
 		RenderContext<R> context = new RenderContext<R>(this, row);
 		context.setCellFormatter(cellFormatter);
-		context.setDesable(isDesable());
+		context.setDesable(isDisabled);
 		context.setRowFormatter(rowFormatter);
 		for (int x = 0; x < columns.size(); x++) {
 			EditColumn<R> column = columns.get(x);
@@ -176,12 +191,8 @@ public abstract class EditTable<R> extends SimplePanel {
 		return false;
 	}
 
-	public boolean isDesable() {
-		return isDesable;
-	}
-
-	public void setDesable(boolean isDesable) {
-		this.isDesable = isDesable;
+	public boolean isDisabled() {
+		return isDisabled;
 	}
 
 	protected void onDelete(R obj) {
@@ -212,4 +223,35 @@ public abstract class EditTable<R> extends SimplePanel {
 		}
 	}
 
+	public List<EditColumn<R>> getColumns() {
+		return columns;
+	}
+
+	public FlexTable getTable() {
+		return table;
+	}
+
+	public void reDraw() {
+		clear();
+		columnsCreated = false;
+		columns.clear();
+		table.removeAllRows();
+		rowFormatter.addStyleName(0, "editheader");
+		createColumns();
+	}
+
+	public void updateColumnHeaders() {
+		for (EditColumn<R> column : columns) {
+			column.updateHeader();
+		}
+	}
+
+	public void addEmptyMessage(String emptyMessage) {
+		this.table.setText(1, 0, emptyMessage);
+		this.table.getFlexCellFormatter().setStyleName(1, 0,
+				"norecord-empty-message");
+		this.table.addStyleName("no_records");
+	}
+
+	protected abstract boolean isInViewMode();
 }

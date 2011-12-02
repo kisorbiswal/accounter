@@ -1,11 +1,20 @@
 package com.vimukti.accounter.core;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+import org.json.JSONException;
+
 public class Unit extends CreatableObject implements IAccounterServerCore,
 		Cloneable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Measurement measurement;
 	private String type;
 	private double factor;
+	private boolean isDefault;
 
 	public Unit() {
 	}
@@ -48,6 +57,26 @@ public class Unit extends CreatableObject implements IAccounterServerCore,
 	public boolean canEdit(IAccounterServerCore clientObject) {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		this.setCompany(measurement.getCompany());
+		return super.onSave(session);
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

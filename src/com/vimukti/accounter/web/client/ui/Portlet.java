@@ -1,12 +1,16 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.portlet.PortletPage;
 import com.vimukti.accounter.web.client.ui.widgets.WorkbenchPanel;
 
 /**
@@ -17,69 +21,61 @@ import com.vimukti.accounter.web.client.ui.widgets.WorkbenchPanel;
  */
 
 public abstract class Portlet extends WorkbenchPanel {
+	public static final String BANK_ACCOUNT = "Bank Account";
+	public static final String MONEY_COMING = "Money Coming";
+	public static final String MONEY_GOING = "Money Going";
+	public static final String EXPENSES_CLAIM = "Expenses Claim";
+	public static final String WHO_I_OWE = "Who I Owe";
+	public static final String WHO_OWES_ME = "who Owes Me";
+	public static final String RECENT_TRANSACTIONS = "Recent Transactions";
+	public static final String MESSAGES_AND_TASKS = "Messages And Tasks";
+	public static final String QUICK_LINKS = "Quick Links";
+
+	public static final int TYPE_I_OWE = 1;
+	public static final int TYPE_OWE_TO_ME = 2;
+
+	protected static AccounterMessages messages = Accounter.messages();
+	private ClientCompanyPreferences preferences = Global.get().preferences();
 	private HTML title = new HTML();
 	private String name;
 	protected Label all;
-	private VerticalPanel vPanel;
+	private ScrollPanel vPanel;
 	private int previousIndex;
 	public HTML refresh;
 	private int row;
 	private int column;
+	public VerticalPanel body;
+	private ClientPortletConfiguration configuration;
+	private PortletPage portletPage;
 
-	public Portlet(String title) {
-		super(title);
-		vPanel = new VerticalPanel();
-		vPanel.setSize("100%", "100%");
-		this.setWidth("100%");
-		this.setHeight("124px");
+	public Portlet(ClientPortletConfiguration configuration, String title,
+			String gotoString) {
+		this(title, gotoString);
+		this.configuration = configuration;
+	}
 
+	public Portlet(String title, String gotoString) {
+		super(title, gotoString);
+		vPanel = new ScrollPanel();
+		body = new VerticalPanel();
+		body.setStyleName("portlet-body");
+		this.setSize("100%", "100%");
 		addStyleName("portlet");
 
-		createHeaderControls();
+		vPanel.add(body);
+		vPanel.setWidth("100%");
 		super.add(vPanel);
 
 	}
 
-	void createHeaderControls() {
-		HorizontalPanel windowControlLayout = new HorizontalPanel();
-		windowControlLayout.setStyleName("tool-box");
-
-		refresh = new HTML();
-		refresh.setStyleName("refresh");
-		refresh.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				refresh.setStyleName("loading");
-				refreshClicked();
-			}
-		});
-		HTML link = new HTML();
-		link.setStyleName("link");
-		link.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// Write Action to be performed when Link has been clicked
-				linkClicked();
-			}
-		});
-		windowControlLayout.add(refresh);
-		// windowControlLayout.add(link);
-
-		addToMain(windowControlLayout);
-
+	public ClientCompany getCompany() {
+		return Accounter.getCompany();
 	}
 
-	public abstract void linkClicked();
-
-	public abstract void refreshClicked();
-
-	@Override
 	public void setTitle(String title) {
 		super.setTitle(title);
 		this.title.setHTML(title);
+		this.title.setStyleName("portletLabel");
 	}
 
 	public void setName(String name) {
@@ -101,6 +97,32 @@ public abstract class Portlet extends WorkbenchPanel {
 		this.setWidth(width + "px");
 		this.setHeight(height + "px");
 		// setGridWidth(width - 10, height - 40);
+	}
+
+	public void createBody() {
+
+	}
+
+	@Override
+	public void titleClicked() {
+		super.titleClicked();
+		goToClicked();
+	}
+
+	public void goToClicked() {
+
+	}
+
+	public void refreshWidget() {
+
+	}
+
+	public void refreshClicked() {
+
+	}
+
+	public void helpClicked() {
+
 	}
 
 	public int getRow() {
@@ -128,4 +150,54 @@ public abstract class Portlet extends WorkbenchPanel {
 		return this.previousIndex;
 	}
 
+	public ClientCompanyPreferences getPreferences() {
+		return preferences;
+	}
+
+	public String getDecimalCharacter() {
+		return getPreferences().getDecimalCharacter();
+	}
+
+	public String amountAsString(Double amount) {
+		return DataUtils.getAmountAsString(amount);
+	}
+
+	public String getPrimaryCurrencySymbol() {
+		return getPreferences().getPrimaryCurrency().getSymbol();
+	}
+
+	public ClientPortletConfiguration getConfiguration() {
+		return configuration;
+	}
+
+	@Override
+	protected boolean canClose() {
+		return true;
+	}
+
+	@Override
+	protected boolean canConfigure() {
+		return false;
+	}
+
+	@Override
+	protected void onClose() {
+		this.removeFromParent();
+		portletPage.config.getPortletConfigurations().remove(configuration);
+		portletPage.haveToRefresh = false;
+		portletPage.updatePortletPage();
+	}
+
+	@Override
+	protected void onConfigure() {
+
+	}
+
+	public PortletPage getPortletPage() {
+		return portletPage;
+	}
+
+	public void setPortletPage(PortletPage portletPage) {
+		this.portletPage = portletPage;
+	}
 }

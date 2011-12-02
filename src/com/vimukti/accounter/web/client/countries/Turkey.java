@@ -27,7 +27,7 @@ public class Turkey extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "TRL";
+		return "TRY";
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class Turkey extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.constants().january();
+		return Accounter.messages().january();
 	}
 
 }

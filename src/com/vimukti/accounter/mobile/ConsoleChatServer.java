@@ -3,15 +3,15 @@
  */
 package com.vimukti.accounter.mobile;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
-import com.vimukti.accounter.mobile.store.CommandsFactory;
-import com.vimukti.accounter.mobile.store.PatternStore;
 
 /**
  * @author Prasanna Kumar G
@@ -25,13 +25,13 @@ public class ConsoleChatServer extends Thread {
 	 * Creates new Instance
 	 */
 	public ConsoleChatServer() {
-		this.messageHandler = new MobileMessageHandler();
+		this.messageHandler = MobileMessageHandler.getInstance();
 	}
 
 	public void startChat() {
 		try {
-			ServerSocket server = new ServerSocket(8080);
-			loadCommandsAndPatterns();
+			ServerSocket server = new ServerSocket(
+					ServerConfiguration.getConsoleChatServerPort());
 			Socket socket = null;
 			while ((socket = server.accept()) != null) {
 				new ConsoleSocketHandler(socket, messageHandler).start();
@@ -40,15 +40,6 @@ public class ConsoleChatServer extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * @throws AccounterMobileException
-	 * 
-	 */
-	private void loadCommandsAndPatterns() throws AccounterMobileException {
-		CommandsFactory.INSTANCE.reload();
-		PatternStore.INSTANCE.reload();
 	}
 
 	@Override
@@ -67,29 +58,44 @@ public class ConsoleChatServer extends Thread {
 		}
 
 		public void run() {
+			String user = null;
 			try {
-				ObjectOutputStream out = new ObjectOutputStream(
+				final ObjectOutputStream out = new ObjectOutputStream(
 						socket.getOutputStream());
 				InputStream inputStream = socket.getInputStream();
 				ObjectInputStream in = new ObjectInputStream(inputStream);
 				out.writeObject("Connection Successfull");
 				System.out.println("Console Chat Server Started.");
-				while (true) {
-					String user = (String) in.readObject();
+
+				while (socket.isConnected()) {
+					user = (String) in.readObject();
 					Object readObject = in.readObject();
 					String msg = (String) readObject;
 					System.out.println(msg);
-					try {
-						String messageReceived = handler.messageReceived(user,
-								msg, AdaptorType.CHAT);
-						out.writeObject(messageReceived);
-					} catch (AccounterMobileException e) {
-						e.printStackTrace();
-						out.writeObject(e);
-					}
+					MobileChannelContext context = new MobileChannelContext(
+							user, msg, AdaptorType.CHAT,
+							AccounterChatServer.NETWORK_TYPE_CONSOLE) {
+
+						@Override
+						public void send(String string) {
+							try {
+								out.writeObject(string);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+
+						@Override
+						public void changeNetworkId(String networkId) {
+							// TODO Auto-generated method stub
+
+						}
+					};
+					handler.putMessage(context);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				handler.logout(user);
 			}
 		}
 

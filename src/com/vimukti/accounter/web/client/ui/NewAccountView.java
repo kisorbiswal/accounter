@@ -16,7 +16,6 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -28,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -56,7 +56,8 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 
 /**
  * @modified by Ravi Kiran.G
@@ -77,17 +78,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private DateField asofDate;
 	private AmountField currentBalanceText;
 	private SelectItem catSelect;
-	private DynamicForm accInfoForm;
+	private DynamicForm accInfoForm, balanceForm;
 	private CheckboxItem cashAccountCheck;
 	private DynamicForm cashBasisForm;
 	private TextAreaItem commentsArea;
 	private DynamicForm commentsForm;
-	private DynamicForm commonForm;
 	private SelectCombo typeSelect;
 	private AmountField limitText;
 	private IntegerField accNoText, cardNumText;
 	private HorizontalPanel topHLay;
-	private HorizontalPanel leftLayout;
+	private VerticalPanel leftLayout;
 	// private TextBox textbox;
 	protected boolean isClose;
 	private List<String> typeMap;
@@ -105,8 +105,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private int cashflowValue;
 
 	private List<Integer> accountTypes;
-	private LinkedHashMap<String, String> accountTypesMap;
-	private boolean isNewBankAccount;
+	// private boolean isNewBankAccount;
 
 	private String defaultId;
 	private String selectedId;
@@ -114,11 +113,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private DynamicForm bankForm;
 	private DynamicForm creditCardForm;
 	private DynamicForm paypalForm;
-	private CurrencyWidget currency;
+	// private CurrencyWidget currency;
+
+	protected ClientCurrency selectCurrency;
 
 	private Label lab1;
-
-	private int totalValidations = 4;
 
 	VerticalPanel mainVLay;
 
@@ -130,6 +129,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	String accountName;
 	String accountNo;
 	private TextItem paypalEmail;
+	private double currencyFactor = 1.0;
+	CurrencyComboWidget currencyCombo;
 
 	public NewAccountView() {
 		super();
@@ -148,10 +149,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		}
 		// subAccSelect.setComboItem(null);
-		subAccSelect.initCombo(subAccounts);
-		subAccSelect.setHelpInformation(true);
-		if (selectedSubAccount != null)
-			subAccSelect.setComboItem(selectedSubAccount);
+		// subAccSelect.initCombo(subAccounts);
+		// subAccSelect.setHelpInformation(true);
+		// if (selectedSubAccount != null)
+		// subAccSelect.setComboItem(selectedSubAccount);
 
 	}
 
@@ -181,37 +182,35 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// .createNewAccount()));
 		lab1 = new Label();
 		lab1.removeStyleName("gwt-Label");
-		lab1.addStyleName(Accounter.constants().labelTitle());
+		lab1.addStyleName(messages.labelTitle());
 		// lab1.setHeight("35px");
 		hierarchy = new String("");
-		accTypeSelect = new SelectCombo(Accounter.messages().accountType(
-				Global.get().Account()));
+		accTypeSelect = new SelectCombo(messages.accountType());
 		accTypeMap = new ArrayList<String>();
-		accTypeMap.add(Accounter.constants().creditCard());
+		accTypeMap.add(messages.creditCard());
 		accTypeMap.add("Paypal");
 		accTypeSelect.initCombo(accTypeMap);
 		accTypeSelect.setHelpInformation(true);
 		// accTypeSelect.setWidth(100);
+		accTypeSelect.setDisabled(isInViewMode());
 		accTypeSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						selectedId = (String) accTypeSelect.getSelectedValue();
+						selectedId = accTypeSelect.getSelectedValue();
 						accounttype_selected();
 						int subBaseType = UIUtils
 								.getAccountSubBaseType(getAccountType(selectedId));
 						Integer[] ranges = getCompany().getNominalCodeRange(
 								subBaseType);
-						accNoText.setToolTip(Accounter.messages()
-								.accountNumberToolTipDesc(
-										String.valueOf(ranges[0]),
-										String.valueOf(ranges[1])));
+						accNoText.setToolTip(messages.accountNumberToolTipDesc(
+								String.valueOf(ranges[0]),
+								String.valueOf(ranges[1])));
 					}
 				});
 
-		accNoText = new IntegerField(this, Accounter.messages().accountNo(
-				Global.get().Account()));
+		accNoText = new IntegerField(this, messages.accountNumber());
 		accNoText.setHelpInformation(true);
 		accNoText.setRequired(true);
 		accNoText.setWidth(100);
@@ -233,17 +232,17 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 		});
 
-		accNameText = new TextItem(Accounter.messages().accountName(
-				Global.get().Account()));
+		accNameText = new TextItem(messages.accountName());
 		accNameText.setValue(accountName);
-		accNameText.setToolTip(Accounter.messages()
-				.giveTheNameAccordingToYourID(this.getAction().getViewName()));
+		accNameText.setToolTip(messages.giveTheNameAccordingToYourID(this
+				.getAction().getViewName()));
 		accNameText.setHelpInformation(true);
 		accNameText.setRequired(true);
 		accNameText.setWidth(100);
 		accNameText.setDisabled(isInViewMode());
 		accNameText.addBlurHandler(new BlurHandler() {
 
+			@Override
 			public void onBlur(BlurEvent event) {
 				// Converts the first letter of Account Name to Upper case
 				String name = accNameText.getValue().toString();
@@ -278,13 +277,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		});
 
-		statusBox = new CheckboxItem(Accounter.constants().active());
+		statusBox = new CheckboxItem(messages.active());
 		statusBox.setWidth(100);
 		statusBox.setValue(true);
 		statusBox.setDisabled(isInViewMode());
 
-		cashFlowCatSelect = new SelectItem(Accounter.messages()
-				.cashFlowCategory(Global.get().Account()));
+		cashFlowCatSelect = new SelectItem(messages.cashFlowCategory());
 		cashFlowCatSelect.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -304,16 +302,17 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		cashFlowCatSelect.setValueMap(cashFlowof);
 
-		opBalText = new AmountField(Accounter.constants().openingBalance(),
-				this);
-		opBalText.setToolTip(Accounter.messages().giveOpeningBalanceToThis(
-				this.getAction().getViewName()));
+		opBalText = new AmountField(messages.openingBalance(), this,
+				getBaseCurrency());
+		opBalText.setToolTip(messages.giveOpeningBalanceToThis(this.getAction()
+				.getViewName()));
 		opBalText.setHelpInformation(true);
 		opBalText.setDisabled(isInViewMode());
 		opBalText.setWidth(100);
 		opBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
-		currentBalanceText = new AmountField(constants.currentBalance(), this);
-		currentBalanceText.setToolTip(constants.currentBalance());
+		currentBalanceText = new AmountField(messages.currentBalance(), this,
+				getBaseCurrency());
+		currentBalanceText.setToolTip(messages.currentBalance());
 		currentBalanceText.setHelpInformation(true);
 		currentBalanceText.setDisabled(true);
 		currentBalanceText.setWidth(100);
@@ -351,36 +350,34 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// }
 		//
 		// });
-		asofDate = new DateField(Accounter.constants().asOf());
+		asofDate = new DateField(messages.asOf());
 		asofDate.setHelpInformation(true);
-		asofDate.setToolTip(Accounter
-				.messages()
-				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
+		asofDate.setToolTip(messages.selectDateWhenTransactioCreated(this
+				.getAction().getViewName()));
 		// asofDate.setWidth(100);
 		asofDate.setEnteredDate(new ClientFinanceDate(
 				getCompany().getPreferences().getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
 						.getDate() : getCompany().getPreferences()
 						.getPreventPostingBeforeDate()));
 
-		catSelect = new SelectItem(Accounter.constants().category1099());
+		catSelect = new SelectItem(messages.category1099());
 		catSelect.setWidth(100);
 		catSelect.setDisabled(true);
 
-		accInfoForm = UIUtils.form(Accounter.messages()
-				.chartOfAccountsInformation(Global.get().Account()));
-		accInfoForm.setWidth("100%");
-
+		accInfoForm = UIUtils.form(messages.chartOfAccountsInformation());
+		// accInfoForm.setWidth("100%");
+		balanceForm = new DynamicForm();
 		topHLay = new HorizontalPanel();
-		topHLay.setWidth("50%");
-		leftLayout = new HorizontalPanel();
-		leftLayout.setWidth("90%");
-
+		topHLay.setWidth("100%");
+		leftLayout = new VerticalPanel();
+		// leftLayout.setWidth("90%");
+		currencyCombo = createCurrencyComboWidget();
 		if (accountType == 0
 				|| (accountType != ClientAccount.TYPE_BANK && accountType != ClientAccount.TYPE_CREDIT_CARD)) {
-			subAccSelect = new OtherAccountsCombo(Accounter.constants()
-					.subCategoryof());
+			subAccSelect = new OtherAccountsCombo(messages.subCategoryof());
 			subAccSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+						@Override
 						public void selectedComboBoxItem(
 								ClientAccount selectItem) {
 							selectedSubAccount = selectItem;
@@ -400,102 +397,90 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					});
 			subAccSelect.setWidth(100);
 
-			hierText = new TextItem(Accounter.constants().hierarchy());
+			hierText = new TextItem(messages.hierarchy());
 			hierText.setHelpInformation(true);
 			hierText.setDisabled(true);
 			hierText.setWidth(100);
-			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-			// statusBox, subAccSelect, hierText, cashFlowCatSelect,
-			// opBalText, asofDate, catSelect);
-
-			if (getPreferences().getUseAccountNumbers()) {
-				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-						statusBox, opBalText, asofDate, currentBalanceText);
-			} else {
-				accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
-				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
-						opBalText, asofDate, currentBalanceText);
-			}
-
-			leftLayout.add(accInfoForm);
-			topHLay.add(leftLayout);
-
-		} else {
-			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-			// statusBox, cashFlowCatSelect, opBalText, asofDate,
-			// catSelect);
-			if (getPreferences().getUseAccountNumbers()) {
-				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-						statusBox, opBalText, asofDate, currentBalanceText);
-			} else {
-				accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
-				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
-						opBalText, asofDate, currentBalanceText);
-			}
-
-			leftLayout.add(accInfoForm);
-			if (accountType == ClientAccount.TYPE_BANK)
-				addBankForm();
-			if (accountType == ClientAccount.TYPE_PAYPAL) {
-				addPaypalForm();
-			} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
-				addCreditCardForm();
-				topHLay.setWidth("100%");
-
-			}
-
 		}
-		accInfoForm.getCellFormatter().setWidth(0, 0, "200");
-		cashAccountCheck = new CheckboxItem(Accounter.messages()
-				.thisIsConsideredACashAccount(Global.get().Account()));
+		// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
+		// statusBox, cashFlowCatSelect, opBalText, asofDate,
+		// catSelect);
+		if (getPreferences().getUseAccountNumbers()) {
+
+			accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
+					statusBox);
+			balanceForm.setFields(opBalText, asofDate, currentBalanceText);
+		} else {
+			accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
+			accInfoForm.setFields(accTypeSelect, accNameText, statusBox);
+			balanceForm.setFields(opBalText, asofDate, currentBalanceText);
+		}
+
+		if (getData() == null) {
+			ClientAccount account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount(
+					getCompany().getPrimaryCurrency().getID())
+					: new ClientBankAccount(getCompany().getPrimaryCurrency()
+							.getID());
+			setData(account);
+		}
+
+		leftLayout.add(accInfoForm);
+		leftLayout.add(currencyCombo);
+		leftLayout.add(balanceForm);
+
+		currencyCombo.setVisible(ClientAccount
+				.isAllowCurrencyChange(accountType));
+
+		topHLay.add(leftLayout);
+
+		if (accountType == ClientAccount.TYPE_BANK)
+			addBankForm();
+		if (accountType == ClientAccount.TYPE_PAYPAL) {
+			addPaypalForm();
+		} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
+			addCreditCardForm();
+		}
+
+		// accInfoForm.getCellFormatter().setWidth(0, 0, "200");
+		cashAccountCheck = new CheckboxItem(
+				messages.thisIsConsideredACashAccount());
 		cashAccountCheck.setWidth(100);
 		cashAccountCheck.setDisabled(isInViewMode());
 
 		cashBasisForm = new DynamicForm();
 		cashBasisForm.setIsGroup(true);
-		cashBasisForm
-				.setGroupTitle(Accounter.constants().cashBasisAccounting());
+		cashBasisForm.setGroupTitle(messages.cashBasisAccounting());
 		cashBasisForm.setFields(cashAccountCheck);
 		cashBasisForm.setWidth("100%");
-		cashBasisForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "200");
+		// cashBasisForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// messages.width(), "200");
 
 		commentsArea = new TextAreaItem();
-		commentsArea.setToolTip(Accounter.messages().writeCommentsForThis(
-				this.getAction().getViewName()));
+		commentsArea.setToolTip(messages.writeCommentsForThis(this.getAction()
+				.getViewName()));
 		commentsArea.setHelpInformation(true);
-		commentsArea.setTitle(Accounter.constants().comments());
+		commentsArea.setTitle(messages.comments());
 		commentsArea.setWidth(100);
 		commentsArea.setDisabled(isInViewMode());
 		// commentsArea.setShowTitle(false);
 
-		commentsForm = UIUtils.form(Accounter.constants().comments());
-		commentsForm.setWidth("50%");
+		commentsForm = UIUtils.form(messages.comments());
+		// commentsForm.setWidth("50%");
 		commentsForm.setFields(commentsArea);
 		commentsForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		commentsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "200");
-		currency = createCurrencyWidget();
-
-		if (getData() == null) {
-			ClientAccount account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount()
-					: new ClientBankAccount();
-			setData(account);
-		}
-		currency = createCurrencyWidget();
-		VerticalPanel v = new VerticalPanel();
-
-		v.add(currency);
-		v.setCellWidth(currency, "44%");
+		// commentsForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// messages.width(), "200");
+		// currency = createCurrencyWidget();
 
 		mainVLay = new VerticalPanel();
+		mainVLay.addStyleName("fields-panel");
 
 		mainVLay.setSize("100%", "300px");
 		mainVLay.add(lab1);
 		mainVLay.add(topHLay);
 
-		mainVLay.add(cashBasisForm);
+		// mainVLay.add(cashBasisForm);
 
 		mainVLay.add(commentsForm);
 		// mainVLay.add(currency);
@@ -513,18 +498,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	}
 
-	private CurrencyWidget createCurrencyWidget() {
-		List<String> currencies = new ArrayList<String>();
-		String baseCurrency = null;
+	private CurrencyComboWidget createCurrencyWidget() {
 
-		for (int i = 0; i < 10; i++) {
-			String currency = "CU" + i;
-			currencies.add(currency);
-			if (i == 5) {
-				baseCurrency = currency;
-			}
-		}
-		return new CurrencyWidget(currencies, baseCurrency);
+		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
+		ClientCurrency baseCurrency = getCompany().getPrimaryCurrency();
+
+		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
+				baseCurrency);
+		return widget;
 	}
 
 	private void addPaypalForm() {
@@ -542,32 +523,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			paypalForm = UIUtils.form("Paypal Information");
 			paypalForm.setWidth("100%");
 
-			typeSelect = new SelectCombo("Paypal Type");
-			typeSelect.setRequired(true);
-			// typeSelect.setWidth(100);
-			// typeSelect.setWidth("*");
-			typeMap = new ArrayList<String>();
-
-			typeMap.add(AccounterClientConstants.ADD_NEW_TYPE);
-			typeMap.add(AccounterClientConstants.PAYPALTYPE_PERSONAL);
-			typeMap.add(AccounterClientConstants.PAYPALTYPE_PREMIUM);
-			typeMap.add(AccounterClientConstants.PAYPALTYPE_BUSINESS);
-			typeSelect.initCombo(typeMap);
-			typeSelect
-					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-						@Override
-						public void selectedComboBoxItem(String selectItem) {
-							if (selectItem != null)
-								typeSelect.setComboItem(selectItem);
-
-						}
-					});
-			typeSelect.setRequired(true);
 			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
 
-			bankAccNumText = new TextItem(Accounter.messages()
-					.bankAccountNumber(Global.get().account()));
+			bankAccNumText = new TextItem(messages.bankAccountNumber());
 			bankAccNumText.setHelpInformation(true);
 			bankAccNumText.setWidth(100);
 
@@ -575,18 +533,20 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			paypalEmail.setWidth(100);
 			paypalEmail.setHelpInformation(true);
 			paypalEmail.setRequired(true);
+			paypalEmail.setDisabled(isInViewMode());
 			paypalEmail.addChangeHandler(new ChangeHandler() {
 
 				@Override
 				public void onChange(ChangeEvent event) {
 					if (event != null) {
 						String em = paypalEmail.getValue().toString();
-
 						if (em.equals("")) {
 							return;
 						}
 						if (!UIUtils.isValidEmail(em)) {
 							Accounter.showError("Invalid Email");
+						} else {
+							data.setPaypalEmail(em);
 						}
 
 					}
@@ -594,8 +554,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			});
 
 			// accNameText.setWidth("*");
-			paypalForm.setFields(/* getBankNameSelectItem(), */typeSelect,
-					paypalEmail);
+			paypalForm.setFields(/* getBankNameSelectItem(), */paypalEmail);
 
 			// bankForm.setWidth("100%");
 			// bankForm.setAutoHeight();
@@ -606,23 +565,17 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// getBankNameSelectItem();
 		// reset(bankForm);
 		// }
-		accInfoForm.setWidth("100%");
-		topHLay.setWidth("100%");
-		leftLayout.setWidth("90%");
-		topHLay.add(leftLayout);
 		topHLay.add(paypalForm);
+		topHLay.setCellHorizontalAlignment(paypalForm, ALIGN_RIGHT);
 
 	}
 
 	protected void displayAndSetAccountNo() {
 		long financeCategoryNumber = 0;
 
-		if (isNewBankAccount()) {
-			addError(
-					accNoText,
-					Accounter.messages()
-							.theFinanceCategoryNoShouldBeBetween1100And1179(
-									Global.get().Account()));
+		if (accountType == ClientAccount.TYPE_BANK) {
+			addError(accNoText,
+					messages.theFinanceCategoryNoShouldBeBetween1100And1179());
 			financeCategoryNumber = autoGenerateAccountnumber(
 					BANK_CAT_BEGIN_NO, BANK_CAT_END_NO);
 
@@ -636,16 +589,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					&& accountSubBaseType == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
 				return;
 			}
-			addError(
-					accNoText,
-					Accounter.messages().theFinanceCategoryNoShouldBeBetween(
-							Global.get().Account())
-							+ "  "
-							+ nominalCodeRange[0]
-							+ " "
-							+ Accounter.constants().and()
-							+ " "
-							+ nominalCodeRange[1]);
+			addError(accNoText, messages.theFinanceCategoryNoShouldBeBetween()
+					+ "  " + nominalCodeRange[0] + " " + messages.and() + " "
+					+ nominalCodeRange[1]);
 			financeCategoryNumber = autoGenerateAccountnumber(
 					nominalCodeRange[0], nominalCodeRange[1]);
 
@@ -677,12 +623,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private void resetView() {
 		accInfoForm.setWidth("100%");
+
+		if (paypalForm != null)
+			topHLay.remove(paypalForm);
+
 		reset(cashBasisForm);
 		reset(commentsForm);
-		if (accountType == ClientAccount.TYPE_INVENTORY_ASSET)
-			opBalText.setDisabled(true);
-		else
-			opBalText.setDisabled(false);
+
+		opBalText.setDisabled(false);
 		if (accountType != ClientAccount.TYPE_BANK
 				&& accountType != ClientAccount.TYPE_CREDIT_CARD
 				&& accountType != ClientAccount.TYPE_PAYPAL) {
@@ -694,47 +642,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				topHLay.remove(bankForm);
 			if (creditCardForm != null)
 				topHLay.remove(creditCardForm);
-			accInfoForm.removeAllRows();
-			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-			// statusBox, subAccSelect, hierText, cashFlowCatSelect,
-			// opBalText, asofDate, catSelect);
-			if (getPreferences().getUseAccountNumbers() == true) {
-				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-						statusBox, opBalText, asofDate);
-			} else {
-				accNoText.setNumber(autoGenerateAccountnumber(4000, 4999));
-				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
-						opBalText, asofDate);
-			}
-			// leftLayout.add(accInfoForm);
-			reset(accInfoForm);
-			accNoText.setToolTip(Accounter.messages().accountNumberToolTipDesc(
-					"4000", "4999"));
+
+			accNoText.setToolTip(messages.accountNumberToolTipDesc("4000",
+					"4999"));
 			accTypeSelect.setComboItem(Utility
 					.getAccountTypeString(accountType));
-			topHLay.setWidth("50%");
-
 		}
 
 		else {
 			selectedBank = null;
-			topHLay.add(accInfoForm);
-			topHLay.remove(leftLayout);
-			reset(accInfoForm);
-			accInfoForm.removeAllRows();
-			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-			// statusBox, cashFlowCatSelect, opBalText, asofDate,
-			// catSelect);
-			if (getPreferences().getUseAccountNumbers() == true) {
-				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-						statusBox, opBalText, asofDate);
-			} else {
-				accNoText.setNumber(autoGenerateAccountnumber(4000, 4999));
-				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
-						opBalText, asofDate);
-			}
-			leftLayout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
-			leftLayout.add(accInfoForm);
 			accTypeSelect.setSelected(selectedId);
 
 			if (accountType == ClientAccount.TYPE_BANK) {
@@ -748,20 +664,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				addCreditCardForm();
 
 			}
-
-			topHLay.setWidth("100%");
-			// topHLay.reflowNow();
-			// mainVLay.reflowNow();
-
 		}
-		accInfoForm.getCellFormatter().setWidth(0, 0, "200");
-		if (isNewBankAccount())
-			lab1.setText(" "
-					+ Accounter.messages().bankAccount(Global.get().Account()));
-		else
-			lab1.setText(" " + Utility.getAccountTypeString(this.accountType)
-					+ " "
-					+ Accounter.messages().account(Global.get().account()));
+		// accInfoForm.getCellFormatter().setWidth(0, 0, "200");
+		// if (isNewBankAccount())
+		// lab1.setText(" " + messages.bankAccount());
+		// else
+		lab1.setText(" " + Utility.getAccountTypeString(this.accountType) + " "
+				+ messages.account());
 
 	}
 
@@ -769,12 +678,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		if (bankNameSelect == null) {
 
-			bankNameSelect = new BankNameCombo(Accounter.constants().bankName());
+			bankNameSelect = new BankNameCombo(messages.bankName());
 			bankNameSelect.setDisabled(isInViewMode());
 			// bankNameSelect.setWidth(100);
 			bankNameSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientBank>() {
 
+						@Override
 						public void selectedComboBoxItem(ClientBank selectItem) {
 							if (selectItem != null) {
 								selectedBank = selectItem;
@@ -800,12 +710,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (bankForm != null) {
 
 			topHLay.remove(bankForm);
-			if (paypalForm != null) {
-				topHLay.remove(paypalForm);
-			}
-
-			bankNameSelect = null;
 		}
+		if (paypalForm != null) {
+			topHLay.remove(paypalForm);
+		}
+
+		bankNameSelect = null;
 		if (creditCardForm == null) {
 			lab1.setText("Credit Card Account");
 			typeSelect = new SelectCombo("Credit Card Type");
@@ -828,20 +738,21 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 						}
 					});
-			typeSelect.setRequired(true);
+			typeSelect.setRequired(false);
 
-			limitText = new AmountField(Accounter.constants().creditLimit(),
-					this);
+			limitText = new AmountField(messages.creditLimit(), this,
+					getBaseCurrency());
 			limitText.setHelpInformation(true);
 			limitText.setWidth(100);
 			limitText.setValue("" + UIUtils.getCurrencySymbol() + "0");
 			limitText.addBlurHandler(new BlurHandler() {
 
+				@Override
 				public void onBlur(BlurEvent event) {
 					Double limit = 0D;
 					try {
 						if (limitText.getValue() == null) {
-							Accounter.showError(Accounter.constants()
+							Accounter.showError(messages
 									.creditLimitShouldNotBeNull());
 						} else {
 							limit = DataUtils.getAmountStringAsDouble(limitText
@@ -850,14 +761,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 									.isLessThan(limit, -1000000000000.00)
 									|| DecimalUtil.isGreaterThan(limit,
 											1000000000000.00)) {
-								Accounter.showError(Accounter.constants()
+								Accounter.showError(messages
 										.creditLimitShouldBeInTheRange());
 								limit = 0D;
 							}
 						}
 					} catch (Exception e) {
-						Accounter.showError(Accounter.constants()
-								.invalidCreditLimit());
+						Accounter.showError(messages.invalidCreditLimit());
 					} finally {
 						limitText.setValue(DataUtils.getAmountAsString(limit));
 						setCreditLimit(limit);
@@ -865,15 +775,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				}
 
 			});
-			cardNumText = new IntegerField(this, Accounter.constants()
-					.cardOrLoadNumber());
+			limitText.setDisabled(isInViewMode());
+			cardNumText = new IntegerField(this, messages.cardOrLoadNumber());
 			cardNumText.setHelpInformation(true);
 			cardNumText.setWidth(100);
-			creditCardForm = UIUtils.form(Accounter.messages()
-					.creditCardAccountInformation((Global.get().Account())));
+			cardNumText.setDisabled(isInViewMode());
+			creditCardForm = UIUtils.form(messages
+					.creditCardAccountInformation());
 			creditCardForm.setDisabled(isInViewMode());
-			creditCardForm.setFields(getBankNameSelectItem(), typeSelect,
-					limitText, cardNumText);
+			creditCardForm.setFields(limitText, cardNumText);
 			creditCardForm.setWidth("100%");
 			// creditCardForm.setAutoHeight();
 		} else {
@@ -881,9 +791,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				getBankNameSelectItem();
 			reset(creditCardForm);
 		}
-		accInfoForm.setWidth("100%");
-		topHLay.add(leftLayout);
 		topHLay.add(creditCardForm);
+		topHLay.setCellHorizontalAlignment(creditCardForm, ALIGN_RIGHT);
 
 	}
 
@@ -899,13 +808,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		if (bankForm == null) {
 
-			typeSelect = new SelectCombo(Accounter.messages().bankAccountType(
-					Global.get().Account()));
+			typeSelect = new SelectCombo(messages.bankAccountType());
 			typeSelect.setDisabled(isInViewMode());
 			// typeSelect.setWidth(100);
 			// typeSelect.setWidth("*");
 			typeMap = new ArrayList<String>();
-
+			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT);
 			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING);
 			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET);
 			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING);
@@ -922,19 +830,18 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					});
 			typeSelect.setRequired(true);
 			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
-
-			bankAccNumText = new TextItem(Accounter.messages()
-					.bankAccountNumber(Global.get().account()));
+			bankAccNumText = new TextItem(messages.bankAccountNumber());
 			bankAccNumText.setHelpInformation(true);
 			bankAccNumText.setWidth(100);
-
-			// accNameText.setWidth("*");
-
-			bankForm = UIUtils.form(Accounter.messages()
-					.bankAccountInformation(Global.get().Account()));
-			bankForm.setWidth("100%");
-			bankForm.setFields(getBankNameSelectItem(), typeSelect,
-					bankAccNumText);
+			bankForm = UIUtils.form(messages.bankAccountInformation());
+			// bankForm.setWidth("100%");
+			if (isMultiCurrencyEnabled()) {
+				bankForm.setFields(getBankNameSelectItem(), typeSelect,
+						bankAccNumText);
+			} else {
+				bankForm.setFields(getBankNameSelectItem(), typeSelect,
+						bankAccNumText);
+			}
 
 			// bankForm.setWidth("100%");
 			// bankForm.setAutoHeight();
@@ -944,23 +851,38 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				getBankNameSelectItem();
 			reset(bankForm);
 		}
-		accInfoForm.setWidth("100%");
-		topHLay.setWidth("100%");
-		leftLayout.setWidth("90%");
-		topHLay.add(leftLayout);
+
 		topHLay.add(bankForm);
+		topHLay.setCellHorizontalAlignment(bankForm, ALIGN_RIGHT);
 
 	}
 
-	private void initAccountTypeSelect() {
+	protected void updateCurrencyForItems(ClientCurrency selectItem) {
+		currentBalanceText.setCurrency(selectItem);
+		opBalText.setCurrency(selectItem);
+		if (limitText != null) {
+			limitText.setCurrency(selectItem);
+		}
+	}
 
-		if (isNewBankAccount) {
+	public Double getAmountInBaseCurrency(Double amount) {
+		if (selectCurrency != null) {
+			return amount * currencyFactor;
+		} else {
+			return amount;
+		}
+	}
+
+	private void initAccountTypeSelect() {
+		if (accountType != 0) {
 			accTypeSelect.setComboItem(Utility
 					.getAccountTypeString(accountType));
-			accTypeSelect.setDisabled(true);
+			// accTypeSelect.setDisabled(true);
 			getNextAccountNo();
-			accNoText.setToolTip(Accounter.messages().accountNumberToolTipDesc(
-					"1100", "1179"));
+			accTypeSelect.initCombo(getAccountsList());
+			accNoText.setToolTip(messages.accountNumberToolTipDesc("1100",
+					"1179"));
+
 		} else {
 
 			if (!isInViewMode()) {
@@ -978,13 +900,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				setAccountType(data.getType());
 			}
 		}
-		if (isNewBankAccount())
-			lab1.setText(" "
-					+ Accounter.messages().bankAccount(Global.get().Account()));
-		else
+		String accountTypeString = Utility.getAccountTypeString(accountType);
+		if (accountTypeString != null) {
+			accTypeSelect.setSelected(accountTypeString);
+		}
+		// if (isNewBankAccount())
+		// lab1.setText(" " + messages.bankAccount());
+		// else
 
-			lab1.setText(" " + Utility.getAccountTypeString(accountType) + " "
-					+ Accounter.messages().account(Global.get().account()));
+		lab1.setText(" " + Utility.getAccountTypeString(accountType) + " "
+				+ messages.account());
 
 	}
 
@@ -1009,8 +934,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				// && type != ClientAccount.TYPE_INVENTORY_ASSET
 				// && type != ClientAccount.TYPE_CREDIT_CARD
 				// && type != ClientAccount.TYPE_PAYROLL_LIABILITY) {
-				if (type == ClientAccount.TYPE_BANK)
-					continue;
+				// if (type == ClientAccount.TYPE_BANK)
+				// continue;
 				list.add(Utility.getAccountTypeString(type));
 				// }
 			}
@@ -1053,7 +978,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// this.errorOccured = true;
 		String exceptionMessage = exception.getMessage();
 		// addError(this, exceptionMessage);
-		AccounterException accounterException = (AccounterException) exception;
+		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -1073,32 +998,19 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	@Override
 	public void saveSuccess(IAccounterCore result) {
-		if (result == null) {
+		if (result != null) {
 			super.saveSuccess(result);
-			return;
+		} else {
+			saveFailed(new AccounterException());
 		}
-		// if (takenAccount == null)
-		// Accounter.showInformation("New account with name "
-		// + result.getName() + " is Created!");
-		// else
-		// Accounter.showInformation(result.getName()
-		// + " is updated successfully");
-
-		// if (this.yesClicked && accountType == ClientAccount.TYPE_CREDIT_CARD)
-		// {
-		if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
-			ActionFactory.getNewVendorAction().run(null, false);
-		}
-
-		super.saveSuccess(result);
 
 	}
 
 	public void reload() {
-		if (isNewBankAccount)
-			ActionFactory.getNewBankAccountAction().run(null, true);
-		else
-			ActionFactory.getNewAccountAction().run(null, true);
+		// if (isNewBankAccount)
+		// ActionFactory.getNewBankAccountAction().run(null, true);
+		// else
+		ActionFactory.getNewAccountAction().run(null, true);
 	}
 
 	@Override
@@ -1120,8 +1032,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					: data.getName() == null ? true : !data.getName()
 							.equalsIgnoreCase(name)) : account != null) {
 
-				result.addError(accNameText, Accounter.constants()
-						.alreadyExist());
+				result.addError(accNameText, messages.alreadyExist());
 				return result;
 			}
 		}
@@ -1131,18 +1042,18 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// !(Long.parseLong(data
 		// .getNumber()) == number)) : account != null) {
 		//
-		// result.addError(accNameText, Accounter.messages()
+		// result.addError(accNameText, messages
 		// .alreadyAccountExist(Global.get().Account()));
 		// return result;
 		// }
 
 		if (!(isInViewMode() && data.getName().equalsIgnoreCase(
-				Accounter.constants().openingBalances()))) {
+				messages.openingBalances()))) {
 			validateAccountNumber(accNoText.getNumber());
 		}
 		if (AccounterValidator.isPriorToCompanyPreventPostingDate(asofDate
 				.getEnteredDate())) {
-			result.addError(asofDate, Accounter.constants().priorasOfDate());
+			result.addError(asofDate, messages.priorasOfDate());
 		}
 		if (accountType == ClientAccount.TYPE_BANK) {
 			result.add(bankForm.validate());
@@ -1188,20 +1099,23 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		data.setIsActive(statusBox.getValue() != null ? (Boolean) statusBox
 				.getValue() : Boolean.FALSE);
 		if (cashAccountCheck != null)
-			data.setConsiderAsCashAccount((Boolean) cashAccountCheck.getValue());
-
+			data.setConsiderAsCashAccount(cashAccountCheck.getValue());
 		if (cashFlowCatSelect.getValue() != null)
 			data.setCashFlowCategory(cashFlowCatSelect.getSelectedIndex() + 1);
 		// data.setCashFlowCategory(0);
-		data.setOpeningBalance(opBalText.getAmount());
+		data.setOpeningBalance(getAmountInBaseCurrency(opBalText.getAmount()));
 		data.setAsOf(asofDate.getEnteredDate().getDate());
-
+		data.setCurrencyFactor(currencyFactor);
 		switch (accountType) {
 		case ClientAccount.TYPE_BANK:
 			((ClientBankAccount) data).setBank(Utility.getID(selectedBank));
 			if (typeSelect.getSelectedValue() != null) {
 				int type = 0;
-				if (typeSelect.getSelectedValue().equals(
+				if (typeSelect
+						.getSelectedValue()
+						.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT))
+					type = ClientAccount.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT;
+				else if (typeSelect.getSelectedValue().equals(
 						AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING;
 				else if (typeSelect
@@ -1218,7 +1132,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			data.setIncrease(Boolean.FALSE);
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
-			// data.setBank(Utility.getID(selectedBank));
 			if (limitText.getValue() != null)
 				data.setCreditLimit(getCreditLimit());
 			if (cardNumText.getValue() != null)
@@ -1245,6 +1158,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		} else {
 			data.setIncrease(Boolean.FALSE);
 		}
+		data.updateBaseTypes();
+		if (data.isAllowCurrencyChange() && selectCurrency != null) {
+			data.setCurrency(selectCurrency.getID());
+		}
 	}
 
 	@Override
@@ -1263,12 +1180,21 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (accountType != ClientAccount.TYPE_BANK
 				&& accountType != ClientAccount.TYPE_CREDIT_CARD)
 			getSubAccounts();
+		if (accountType == ClientAccount.TYPE_PAYPAL) {
+			getPaypalData();
+		}
 		if (isInViewMode())
 			initView();
 		super.initData();
 		// if (takenAccount == null)
 		// getNextAccountNumber();
 
+	}
+
+	private void getPaypalData() {
+		if (data.getPaypalEmail() != null) {
+			paypalEmail.setValue(data.getPaypalEmail());
+		}
 	}
 
 	private void initView() {
@@ -1278,7 +1204,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accNoText.setValue(data.getNumber() != null ? String.valueOf(data
 				.getNumber()) : "");
 		accountNo = data.getNumber() != null ? data.getNumber() : "0";
-
 		if (data.getID() == getCompany().getOpeningBalancesAccount())
 			accNoText.setDisabled(true);
 
@@ -1298,7 +1223,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 
 		opBalText.setAmount(data.getOpeningBalance());
-		currentBalanceText.setAmount(data.getTotalBalance());
+		currentBalanceText.setAmount(data.getTotalBalanceInAccountCurrency());
 		// if (!data.isOpeningBalanceEditable()) {
 		// opBalText.setDisabled(true);
 		// }
@@ -1319,6 +1244,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				typeSelect.setComboItem(type);
 				bankAccNumText.setValue(((ClientBankAccount) data)
 						.getBankAccountNumber());
+
 				bankAccNumText.setDisabled(true);
 			}
 
@@ -1340,7 +1266,29 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 
 		}
+		if (data.isAllowCurrencyChange() && isMultiCurrencyEnabled()) {
+			initCurrencyFactor();
+		}
 
+	}
+
+	private void initCurrencyFactor() {
+		if (data.getCurrency() > 0) {
+			this.selectCurrency = getCompany().getCurrency(data.getCurrency());
+		} else {
+			this.selectCurrency = getCompany().getPrimaryCurrency();
+		}
+		this.currencyFactor = data.getCurrencyFactor();
+		if (this.selectCurrency != null) {
+			currencyCombo.setSelectedCurrency(this.selectCurrency);
+		}
+		currencyCombo.setCurrencyFactor(data.getCurrencyFactor());
+		if (!selectCurrency.equals(getCompany().getPreferences()
+				.getPrimaryCurrency())) {
+			currencyCombo.disabledFactorField(true);
+		}
+		currencyCombo.setDisabled(isInViewMode());
+		updateCurrencyForItems(selectCurrency);
 	}
 
 	private void enableOpeningBalaceTxtByType() {
@@ -1395,16 +1343,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		this.accountTypes = accountTypes;
 	}
 
-	public boolean isNewBankAccount() {
-		return isNewBankAccount;
-	}
-
-	public void setNewBankAccount(boolean isNewBankAccount) {
-
-		this.isNewBankAccount = isNewBankAccount;
-		setAccountType(ClientAccount.TYPE_BANK);
-
-	}
+	// public boolean isNewBankAccount() {
+	// return isNewBankAccount;
+	// }
+	//
+	// public void setNewBankAccount(boolean isNewBankAccount) {
+	//
+	// this.isNewBankAccount = isNewBankAccount;
+	// setAccountType(ClientAccount.TYPE_BANK);
+	//
+	// }
 
 	private int getAccountType(String name) {
 		for (int type : UIUtils.accountTypes) {
@@ -1436,6 +1384,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1501,12 +1450,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			return true;
 
 		List<ClientAccount> accounts = getCompany().getAccounts();
-		if (isInViewMode()) {
+		if (!isInViewMode()) {
 			for (ClientAccount account : accounts) {
 				if (number.toString().equals(account.getNumber())
 						&& account.getID() != getData().getID()) {
-					addError(accNoText, Accounter.messages()
-							.alreadyAccountExist(Global.get().account()));
+					addError(accNoText, messages.alreadyAccountExist());
 					return false;
 				}
 			}
@@ -1538,11 +1486,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					accNoText,
 					Accounter
 							.messages()
-							.theAccountNumberchosenisincorrectPleaschooseaNumberbetween(
-									Global.get().account())
+							.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
 							+ "  "
 							+ nominalCodeRange[0]
-							+ Accounter.constants().and() + nominalCodeRange[1]);
+							+ messages.to()
+							+ nominalCodeRange[1]);
 			return false;
 		} else {
 			clearError(accNoText);
@@ -1564,7 +1512,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
 		case ClientAccount.BANK_ACCCOUNT_TYPE_SAVING:
 			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING;
-
+		case ClientAccount.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT:
+			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT;
 		default:
 			break;
 		}
@@ -1600,6 +1549,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		resetView();
 		statusBox.setValue(true);
 		getNextAccountNo();
+		currencyCombo.setVisible(ClientAccount
+				.isAllowCurrencyChange(accountType));
 	}
 
 	private void getNextAccountNo() {
@@ -1646,6 +1597,26 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (creditCardForm != null) {
 			creditCardForm.setDisabled(isInViewMode());
 		}
+		accTypeSelect.setDisabled(isInViewMode());
+
+		// if (currencyCombo != null && data.isAllowCurrencyChange()) {
+		currencyCombo.setDisabled(true);
+		// if (!selectCurrency.equals(getCompany().getPreferences()
+		// .getPrimaryCurrency())) {
+		// currencyCombo.disabledFactorField(false);
+		// }
+		// }
+		if (limitText != null) {
+			limitText.setDisabled(isInViewMode());
+		}
+
+		if (cardNumText != null) {
+			cardNumText.setDisabled(isInViewMode());
+		}
+		if (accountType == ClientAccount.TYPE_PAYPAL) {
+			typeSelect.setDisabled(isInViewMode());
+			paypalEmail.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 
 	}
@@ -1663,13 +1634,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().account(Global.get().account());
+		return messages.Account();
 	}
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		if (accountType == ClientAccount.TYPE_BANK && getData() != null) {
-			Button reconcileBtn = new Button(constants.Reconcile());
+			Button reconcileBtn = new Button(messages.Reconcile());
 			reconcileBtn.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -1677,7 +1648,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					ClientReconciliation clientReconciliation = new ClientReconciliation();
 					clientReconciliation.setAccount((ClientBankAccount) data);
 					ReconciliationDailog dialog = new ReconciliationDailog(
-							Global.get().constants().Reconciliation(),
+							Global.get().messages().Reconciliation(),
 							clientReconciliation);
 					dialog.show();
 				}
@@ -1699,7 +1670,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		asofDate.setTabIndex(6);
 		cashAccountCheck.setTabIndex(7);
 		commentsArea.setTabIndex(8);
-		currency.setTabIndex(9);
+		// currency.setTabIndex(9);
 		if (bankNameSelect != null) {
 			bankNameSelect.setTabIndex(10);
 		}
@@ -1717,5 +1688,29 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
+	}
+
+	protected CurrencyComboWidget createCurrencyComboWidget() {
+		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
+		ClientCurrency baseCurrency = getCompany().getPrimaryCurrency();
+		selectCurrency = baseCurrency;
+		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
+				baseCurrency);
+		widget.setListener(new CurrencyChangeListener() {
+
+			@Override
+			public void currencyChanged(ClientCurrency currency, double factor) {
+				selectCurrency = currency;
+				currencyFactor = factor;
+				updateCurrencyForItems(currency);
+			}
+		});
+		widget.setDisabled(isInViewMode());
+		return widget;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
 	}
 }

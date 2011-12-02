@@ -20,13 +20,13 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 
-public class MoneyComingPortlet extends DashBoardPortlet {
+public class MoneyComingPortlet extends Portlet {
 
 	public double draftInvoiceAmount = 0.00;
 	public double overDueInvoiceAmount = 0.00;
@@ -37,14 +37,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 	public Label draftAmtLabel;
 	public Label overDueAmtLabel;
 
-	public MoneyComingPortlet(String title) {
-		super(title);
-	}
-
-	@Override
-	public String getGoToText() {
-		return Accounter.messages().goToAccountReceivable(
-				Global.get().account());
+	public MoneyComingPortlet(ClientPortletConfiguration pc) {
+		super(pc, messages.moneyComingIn(), messages.goToAccountReceivable());
 	}
 
 	@Override
@@ -55,16 +49,6 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 	@Override
 	public void goToClicked() {
 		ActionFactory.getAccountRegisterAction().run(debitors, true);
-	}
-
-	@Override
-	public Cursor getTitleCursor() {
-		return Cursor.POINTER;
-	}
-
-	@Override
-	public TextDecoration getTitleDecoration() {
-		return TextDecoration.UNDERLINE;
 	}
 
 	@Override
@@ -83,8 +67,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 			}
 		}, ResizeEvent.getType());
-		Button addReceivableInvoiceBtn = new Button(Accounter.constants()
-				.addReceivableInvoice());
+		Button addReceivableInvoiceBtn = new Button(
+				messages.addReceivableInvoice());
 		addReceivableInvoiceBtn.addStyleName("addButtonPortlet");
 		addReceivableInvoiceBtn.addClickHandler(new ClickHandler() {
 
@@ -94,16 +78,16 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 			}
 		});
 
-		draftLabel = getLabel(Accounter.constants().invoicesDue());
-		overDueLabel = getLabel(Accounter.constants().overDueInvoices());
+		draftLabel = getLabel(messages.invoicesDue());
+		overDueLabel = getLabel(messages.overDueInvoices());
 		overDueLabel.getElement().getStyle().setMarginLeft(10, Unit.PX);
 
 		updateAmounts();
 
-		draftAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsString(draftInvoiceAmount));
-		overDueAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsString(overDueInvoiceAmount));
+		draftAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ DataUtils.getAmountAsString(draftInvoiceAmount));
+		overDueAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ DataUtils.getAmountAsString(overDueInvoiceAmount));
 		overDueAmtLabel.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 
 		fTable.setWidget(0, 0, draftLabel);
@@ -125,9 +109,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.messages()
-						.failedtogetAccountReceivablechartvalues(
-								Global.get().account()));
+				Accounter.showError(messages
+						.failedtogetAccountReceivablechartvalues());
 			}
 
 			@Override
@@ -135,13 +118,14 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 				if (result != null && result.size() > 0) {
 					overDueInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					overDueAmtLabel
-							.setText(amountAsString(overDueInvoiceAmount));
+					overDueAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+							+ amountAsString(overDueInvoiceAmount));
 				}
 				if (result != null && result.size() > 0) {
 					draftInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					draftAmtLabel.setText(amountAsString(draftInvoiceAmount));
+					draftAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+							+ amountAsString(draftInvoiceAmount));
 				}
 
 				Runnable runnable = new Runnable() {
@@ -161,6 +145,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 				// body.add(chart);
 				// chart.update();
 			}
+
 		};
 		Accounter.createHomeService().getGraphPointsforAccount(
 				GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE, 0, callBack);
@@ -193,12 +178,13 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 		});
 		label.addClickHandler(new ClickHandler() {
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void onClick(ClickEvent event) {
 
 				label.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
-				if (title.equals(Accounter.constants().invoicesDue())) {
+				if (title.equals(messages.invoicesDue())) {
 					ActionFactory.getInvoicesAction(null).run(null, true);
 				} else {
 					ActionFactory.getInvoicesAction(InvoiceListView.OVER_DUE)
@@ -221,13 +207,9 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 	}
 
 	@Override
-	public void titleClicked() {
-		ActionFactory.getAccountRegisterAction().run(debitors, true);
-	}
-
-	@Override
 	public void refreshWidget() {
 		this.body.clear();
 		createBody();
 	}
+
 }

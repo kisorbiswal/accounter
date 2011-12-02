@@ -8,12 +8,12 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.AccountsTemplate;
-import com.vimukti.accounter.web.client.core.ClientActivity;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
+import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.core.HrEmployee;
@@ -366,8 +366,6 @@ public interface IAccounterGETServiceAsync {
 	public <T extends IAccounterCore> void getObjects(AccounterCoreType type,
 			AsyncCallback<ArrayList<T>> callback);
 
-	void getCompany(AsyncCallback<ClientCompany> callback);
-
 	void getKeyFinancialIndicators(
 			AsyncCallback<KeyFinancialIndicators> callback);
 
@@ -393,8 +391,6 @@ public interface IAccounterGETServiceAsync {
 	// public void getStates(String country, AsyncCallback<List<String>>
 	// callback);
 
-	void getAccountsTemplate(AsyncCallback<List<AccountsTemplate>> callback);
-
 	// public void getCurrencies(AsyncCallback<List<ClientCurrency>> callback);
 
 	/**
@@ -405,7 +401,7 @@ public interface IAccounterGETServiceAsync {
 	 */
 	public void getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			AsyncCallback<List<ClientTransaction>> asyncCallback);
+			AsyncCallback<List<ClientReconciliationItem>> asyncCallback);
 
 	/**
 	 * @param accountName
@@ -421,6 +417,14 @@ public interface IAccounterGETServiceAsync {
 			AsyncCallback<Double> accounterAsyncCallback);
 
 	public void getTransactionHistory(long transactionId,
-			AsyncCallback<List<ClientActivity>> callback);
+			AsyncCallback<List<ClientTransactionLog>> callback);
+
+	void getLastTAXReturnEndDate(long agencyId, AsyncCallback<Long> callback);
+
+	void getTAXReturnEntries(long agency, long startDate, long endDate,
+			AsyncCallback<List<ClientTAXReturnEntry>> accounterAsyncCallback);
+
+	public void getAllTAXReturns(
+			AsyncCallback<List<ClientTAXReturn>> accounterAsyncCallback);
 
 }

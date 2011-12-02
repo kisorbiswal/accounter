@@ -39,7 +39,7 @@ public class MISCInfoServlet extends BaseServlet {
 	private String fileName;
 	private int formType;
 	private StringBuilder outPutString;
-	private String companyID;
+	private Long companyID;
 	private Session session;
 	private FinanceTool financetool;
 	private Company company;
@@ -110,7 +110,7 @@ public class MISCInfoServlet extends BaseServlet {
 			String companyName) throws TemplateSyntaxException, IOException,
 			AccounterException {
 
-		companyID = getCookie(request, COMPANY_COOKIE);
+		companyID = (Long) request.getSession().getAttribute(COMPANY_ID);
 		session = HibernateUtil.openSession();
 		fileName = "";
 		outPutString = new StringBuilder();
@@ -118,7 +118,7 @@ public class MISCInfoServlet extends BaseServlet {
 		financetool = new FinanceTool();
 		TemplateBuilder.setCmpName(companyName);
 
-		company = financetool.getCompany(Long.valueOf(companyID));
+		company = financetool.getCompany(companyID);
 
 		CompanyPreferenceThreadLocal.set(financetool.getCompanyManager()
 				.getClientCompanyPreferences(company));

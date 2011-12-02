@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,10 +9,13 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -77,7 +81,7 @@ public class Invoice extends Transaction implements Lifecycle {
 		// log.info("Invoice Loaded: " + this.id + " " + this);
 		super.onLoad(session, arg1);
 		try {
-			oldInvoice = (Invoice) this.clone();
+			oldInvoice = (Invoice) super.clone();
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
@@ -181,14 +185,12 @@ public class Invoice extends Transaction implements Lifecycle {
 	 * 
 	 * @see Estimate
 	 */
-	@ReffereredObject
-	Estimate estimate;
+	private List<Estimate> estimates;
 
 	/**
 	 * {@link SalesOrder} against which the Invoice was made.
 	 */
-	@ReffereredObject
-	SalesOrder salesOrder;
+	List<SalesOrder> salesOrders;
 
 	/**
 	 * Invoice Discount FinanceDate
@@ -400,20 +402,16 @@ public class Invoice extends Transaction implements Lifecycle {
 		return isEdited;
 	}
 
-	public Estimate getEstimate() {
-		return estimate;
-	}
-
 	public FinanceDate getDiscountDate() {
 		return discountDate;
 	}
 
-	public SalesOrder getSalesOrder() {
-		return salesOrder;
+	public List<SalesOrder> getSalesOrders() {
+		return salesOrders;
 	}
 
-	public void setSalesOrder(SalesOrder salesOrder) {
-		this.salesOrder = salesOrder;
+	public void setSalesOrders(List<SalesOrder> salesOrders) {
+		this.salesOrders = salesOrders;
 	}
 
 	@Override
@@ -428,7 +426,11 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		// NOTHING TO DO.
+		if (!this.isVoid) {
+			setVoid(true);
+			doVoidEffect(session, this);
+			return true;
+		}
 		return false;
 	}
 
@@ -438,6 +440,17 @@ public class Invoice extends Transaction implements Lifecycle {
 			return true;
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
+		if (this.total < 0) {
+			if (creditsAndPayments != null
+					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
+							0.0d)) {
+				creditsAndPayments.update(this);
+			} else {
+				creditsAndPayments = new CreditsAndPayments(this);
+			}
+			this.setCreditsAndPayments(creditsAndPayments);
+			session.save(creditsAndPayments);
+		}
 		doCreateEffect(session);
 		return false;
 
@@ -458,132 +471,132 @@ public class Invoice extends Transaction implements Lifecycle {
 	}
 
 	private void modifyEstimate(Invoice invoice, boolean isCreated) {
-		if (invoice.estimate == null)
+		if (invoice.getEstimates() == null)
 			return;
+
+		if (this.transactionItems == null) {
+			this.transactionItems = new ArrayList<TransactionItem>();
+		}
 		Session session = HibernateUtil.getCurrentSession();
-		Estimate estimate = (Estimate) session.get(Estimate.class,
-				invoice.estimate.id);
-		if (estimate != null) {
-			boolean isPartiallyInvoiced = false;
-			boolean flag = true;
-			if (invoice.transactionItems != null
-					&& invoice.transactionItems.size() > 0) {
+		for (Estimate estimate : invoice.getEstimates()) {
+			estimate = (Estimate) session.get(Estimate.class, estimate.id);
+			if (estimate != null) {
 
-				for (TransactionItem transactionItem : invoice.transactionItems) {
-					/**
-					 * This is to know whether this transaction item is of new
-					 * one or it's came from any Sales Order.
-					 */
+				boolean isPartiallyInvoiced = false;
 
-					if (transactionItem.referringTransactionItem != null) {
-						TransactionItem referringTransactionItem = (TransactionItem) session
-								.get(TransactionItem.class,
-										transactionItem.referringTransactionItem
-												.getID());
-						double amount = 0d;
-
-						if (!isCreated)
-							if (transactionItem.type == TransactionItem.TYPE_ITEM) {
-								if (DecimalUtil
-										.isLessThan(
-												transactionItem.lineTotal,
-												transactionItem
-														.getQuantity()
-														.calculatePrice(
-																referringTransactionItem.unitPrice)))
-									referringTransactionItem.usedamt -= transactionItem.lineTotal;
-								else
-									referringTransactionItem.usedamt -= transactionItem
-											.getQuantity()
-											.calculatePrice(
-													referringTransactionItem.unitPrice);
-							} else
-								referringTransactionItem.usedamt -= transactionItem.lineTotal;
-
-						else {
-							if (transactionItem.type == TransactionItem.TYPE_ITEM) {
-								if (DecimalUtil
-										.isLessThan(
-												transactionItem.lineTotal,
-												transactionItem
-														.getQuantity()
-														.calculatePrice(
-																referringTransactionItem.unitPrice)))
-									referringTransactionItem.usedamt += transactionItem.lineTotal;
-								else
-									referringTransactionItem.usedamt += transactionItem
-											.getQuantity()
-											.calculatePrice(
-													referringTransactionItem.unitPrice);
-							} else
-								referringTransactionItem.usedamt += transactionItem.lineTotal;
-						}
-						amount = referringTransactionItem.usedamt;
-						/**
-						 * This is to save changes to the invoiced amount of the
-						 * referring transaction item to this transaction item.
-						 */
-						session.update(referringTransactionItem);
-
-						if (flag
-								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
-										.getQuantity().compareTo(
-												referringTransactionItem
-														.getQuantity()) < 0)))) {
-							if (isCreated ? DecimalUtil.isLessThan(amount,
-									referringTransactionItem.lineTotal)
-									: DecimalUtil.isGreaterThan(amount, 0)) {
-								isPartiallyInvoiced = true;
-								flag = false;
-							}
-						}
-						// if (id != 0l && !invoice.isVoid())
-						// referringTransactionItem.usedamt +=
-						// transactionItem.lineTotal;
-
-					}
-
+				if (invoice.transactionItems != null
+						&& invoice.transactionItems.size() > 0) {
+					isPartiallyInvoiced = updateReferringTransactionItems(
+							invoice, isCreated);
 				}
+				/**
+				 * Updating the Status of the Sales Order involved in this
+				 * Invoice depending on the above Analysis.
+				 */
+				if (!isPartiallyInvoiced) {
+					double usdAmount = 0;
+					for (TransactionItem orderTransactionItem : estimate.transactionItems)
+						// if (orderTransactionItem.getType() != 6)
+						usdAmount += orderTransactionItem.usedamt;
+					// else
+					// usdAmount += orderTransactionItem.lineTotal;
+					if (DecimalUtil.isLessThan(usdAmount, estimate.netAmount))
+						isPartiallyInvoiced = true;
+				}
+				if (isCreated) {
+					try {
+						for (TransactionItem item : estimate.transactionItems) {
+							TransactionItem clone = item.clone();
+							clone.transaction = this;
+							clone.referringTransactionItem = item;
+							if (estimate.getEstimateType() == Estimate.CREDITS) {
+								clone.updateAsCredit();
+							}
+							this.transactionItems.add(clone);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					estimate.setUsedInvoice(invoice, session);
+				}
+				estimate.onUpdate(session);
+				session.saveOrUpdate(estimate);
 			}
+		}
+	}
+
+	private boolean updateReferringTransactionItems(Invoice invoice,
+			boolean isCreated) {
+		Session session = HibernateUtil.getCurrentSession();
+		boolean isPartiallyInvoiced = true;
+		boolean flag = true;
+		for (TransactionItem transactionItem : invoice.transactionItems) {
 			/**
-			 * Updating the Status of the Sales Order involved in this Invoice
-			 * depending on the above Analysis.
+			 * This is to know whether this transaction item is of new one or
+			 * it's came from any Sales Order.
 			 */
-			if (!isPartiallyInvoiced) {
-				double usdAmount = 0;
-				for (TransactionItem orderTransactionItem : estimate.transactionItems)
-					// if (orderTransactionItem.getType() != 6)
-					usdAmount += orderTransactionItem.usedamt;
-				// else
-				// usdAmount += orderTransactionItem.lineTotal;
-				if (DecimalUtil.isLessThan(usdAmount, estimate.netAmount))
-					isPartiallyInvoiced = true;
-			}
-			if (isPartiallyInvoiced) {
-				estimate.status = Estimate.STATUS_OPEN;
-			} else {
-				estimate.status = isCreated ? Estimate.STATUS_ACCECPTED
-						: Estimate.STATUS_OPEN;
+
+			if (transactionItem.referringTransactionItem != null) {
+				TransactionItem referringTransactionItem = (TransactionItem) session
+						.get(TransactionItem.class,
+								transactionItem.referringTransactionItem
+										.getID());
+				double amount = 0d;
+
+				if (!isCreated) {
+					if (transactionItem.type == TransactionItem.TYPE_ITEM) {
+						if (DecimalUtil.isLessThan(
+								transactionItem.lineTotal,
+								transactionItem.getQuantity().calculatePrice(
+										referringTransactionItem.unitPrice)))
+							referringTransactionItem.usedamt -= transactionItem.lineTotal;
+						else
+							referringTransactionItem.usedamt -= transactionItem
+									.getQuantity().calculatePrice(
+											referringTransactionItem.unitPrice);
+					} else
+						referringTransactionItem.usedamt -= transactionItem.lineTotal;
+
+				} else {
+					if (transactionItem.type == TransactionItem.TYPE_ITEM) {
+						if (DecimalUtil.isLessThan(
+								transactionItem.lineTotal,
+								transactionItem.getQuantity().calculatePrice(
+										referringTransactionItem.unitPrice)))
+							referringTransactionItem.usedamt += transactionItem.lineTotal;
+						else
+							referringTransactionItem.usedamt += transactionItem
+									.getQuantity().calculatePrice(
+											referringTransactionItem.unitPrice);
+					} else
+						referringTransactionItem.usedamt += transactionItem.lineTotal;
+				}
+				amount = referringTransactionItem.usedamt;
+				/**
+				 * This is to save changes to the invoiced amount of the
+				 * referring transaction item to this transaction item.
+				 */
+				session.update(referringTransactionItem);
+
+				if (flag
+						&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
+								.getQuantity().compareTo(
+										referringTransactionItem.getQuantity()) < 0)))) {
+					if (isCreated ? DecimalUtil.isLessThan(amount,
+							referringTransactionItem.lineTotal) : DecimalUtil
+							.isGreaterThan(amount, 0)) {
+						isPartiallyInvoiced = true;
+						flag = false;
+					}
+				}
+				// if (id != 0l && !invoice.isVoid())
+				// referringTransactionItem.usedamt +=
+				// transactionItem.lineTotal;
 
 			}
-
-			session.saveOrUpdate(estimate);
 
 		}
-
-		// if (invoice.estimate != null) {
-		// FinanceLogger
-		// .log(
-		// "update the Status of the Estimate with Number {0}  (if any) Involved in this Invoice ",
-		// String.valueOf(this.estimate.number));
-		//
-		// // To Mark the Estimate as Invoiced.
-		// invoice.estimate.setTurnedToInvoiceOrSalesOrder(isCreated);
-		//
-		// // To update the status of the Estimate as Accepted.
-		// invoice.estimate.status = isCreated ? Estimate.STATUS_ACCECPTED
-		// : Estimate.STATUS_OPEN;
-		// }
+		return isPartiallyInvoiced;
 	}
 
 	@Override
@@ -644,130 +657,135 @@ public class Invoice extends Transaction implements Lifecycle {
 		invoice.payments = invoice.total;
 		invoice.balanceDue = 0.0;
 
-		modifyEstimate(invoice, false);
+		for (Estimate estimate : invoice.getEstimates()) {
+			estimate.setUsedInvoice(null, session);
+			session.saveOrUpdate(estimate);
+		}
 
-		modifySalesOrder(invoice, false);
-		// if (invoice.salesOrder != null) {
-		// invoice.salesOrder.status = Transaction.STATUS_CANCELLED;
-		// }
+		for (SalesOrder salesOrder : invoice.getSalesOrders()) {
+			salesOrder.setUsedInvoice(null, session);
+			session.saveOrUpdate(salesOrder);
+		}
 
 	}
 
 	private void modifySalesOrder(Invoice invoice, boolean isAddition) {
-		if (invoice.salesOrder == null)
+		if (invoice.salesOrders == null)
 			return;
 		Session session = HibernateUtil.getCurrentSession();
-		SalesOrder salesOrder = (SalesOrder) session.get(SalesOrder.class,
-				invoice.salesOrder.id);
-		if (salesOrder != null) {
-			boolean isPartiallyInvoiced = false;
-			boolean flag = true;
-			if (invoice.transactionItems != null
-					&& invoice.transactionItems.size() > 0) {
+		for (SalesOrder salesOrder : invoice.salesOrders) {
+			salesOrder = (SalesOrder) session.get(SalesOrder.class,
+					salesOrder.id);
+			if (salesOrder != null) {
+				boolean isPartiallyInvoiced = false;
+				boolean flag = true;
+				if (invoice.transactionItems != null
+						&& invoice.transactionItems.size() > 0) {
 
-				for (TransactionItem transactionItem : invoice.transactionItems) {
-					/**
-					 * This is to know whether this transaction item is of new
-					 * one or it's came from any Sales Order.
-					 */
-
-					if (transactionItem.referringTransactionItem != null) {
-						TransactionItem referringTransactionItem = (TransactionItem) session
-								.get(TransactionItem.class,
-										transactionItem.referringTransactionItem
-												.getID());
-						double amount = 0d;
-
-						if (!isAddition)
-							if (transactionItem.type == TransactionItem.TYPE_ITEM) {
-								if (DecimalUtil
-										.isLessThan(
-												transactionItem.lineTotal,
-												transactionItem
-														.getQuantity()
-														.calculatePrice(
-																referringTransactionItem.unitPrice)))
-									referringTransactionItem.usedamt -= transactionItem.lineTotal;
-								else
-									referringTransactionItem.usedamt -= transactionItem
-											.getQuantity()
-											.calculatePrice(
-													referringTransactionItem.unitPrice);
-							} else
-								referringTransactionItem.usedamt -= transactionItem.lineTotal;
-
-						else {
-							if (transactionItem.type == TransactionItem.TYPE_ITEM) {
-								if (DecimalUtil
-										.isLessThan(
-												transactionItem.lineTotal,
-												transactionItem
-														.getQuantity()
-														.calculatePrice(
-																referringTransactionItem.unitPrice)))
-									referringTransactionItem.usedamt += transactionItem.lineTotal;
-								else
-									referringTransactionItem.usedamt += transactionItem
-											.getQuantity()
-											.calculatePrice(
-													referringTransactionItem.unitPrice);
-							} else
-								referringTransactionItem.usedamt += transactionItem.lineTotal;
-						}
-						amount = referringTransactionItem.usedamt;
+					for (TransactionItem transactionItem : invoice.transactionItems) {
 						/**
-						 * This is to save changes to the invoiced amount of the
-						 * referring transaction item to this transaction item.
+						 * This is to know whether this transaction item is of
+						 * new one or it's came from any Sales Order.
 						 */
-						session.update(referringTransactionItem);
 
-						if (flag
-								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
-										.getQuantity().compareTo(
-												referringTransactionItem
-														.getQuantity()) < 0)))) {
-							if (isAddition ? DecimalUtil.isLessThan(amount,
-									referringTransactionItem.lineTotal)
-									: DecimalUtil.isGreaterThan(amount, 0)) {
-								isPartiallyInvoiced = true;
-								flag = false;
+						if (transactionItem.referringTransactionItem != null) {
+							TransactionItem referringTransactionItem = (TransactionItem) session
+									.get(TransactionItem.class,
+											transactionItem.referringTransactionItem
+													.getID());
+							double amount = 0d;
+
+							if (!isAddition)
+								if (transactionItem.type == TransactionItem.TYPE_ITEM) {
+									if (DecimalUtil
+											.isLessThan(
+													transactionItem.lineTotal,
+													transactionItem
+															.getQuantity()
+															.calculatePrice(
+																	referringTransactionItem.unitPrice)))
+										referringTransactionItem.usedamt -= transactionItem.lineTotal;
+									else
+										referringTransactionItem.usedamt -= transactionItem
+												.getQuantity()
+												.calculatePrice(
+														referringTransactionItem.unitPrice);
+								} else
+									referringTransactionItem.usedamt -= transactionItem.lineTotal;
+
+							else {
+								if (transactionItem.type == TransactionItem.TYPE_ITEM) {
+									if (DecimalUtil
+											.isLessThan(
+													transactionItem.lineTotal,
+													transactionItem
+															.getQuantity()
+															.calculatePrice(
+																	referringTransactionItem.unitPrice)))
+										referringTransactionItem.usedamt += transactionItem.lineTotal;
+									else
+										referringTransactionItem.usedamt += transactionItem
+												.getQuantity()
+												.calculatePrice(
+														referringTransactionItem.unitPrice);
+								} else
+									referringTransactionItem.usedamt += transactionItem.lineTotal;
 							}
+							amount = referringTransactionItem.usedamt;
+							/**
+							 * This is to save changes to the invoiced amount of
+							 * the referring transaction item to this
+							 * transaction item.
+							 */
+							session.update(referringTransactionItem);
+
+							if (flag
+									&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
+											.getQuantity().compareTo(
+													referringTransactionItem
+															.getQuantity()) < 0)))) {
+								if (isAddition ? DecimalUtil.isLessThan(amount,
+										referringTransactionItem.lineTotal)
+										: DecimalUtil.isGreaterThan(amount, 0)) {
+									isPartiallyInvoiced = true;
+									flag = false;
+								}
+							}
+							// if (id != 0l && !invoice.isVoid())
+							// referringTransactionItem.usedamt +=
+							// transactionItem.lineTotal;
+
 						}
-						// if (id != 0l && !invoice.isVoid())
-						// referringTransactionItem.usedamt +=
-						// transactionItem.lineTotal;
 
 					}
-
 				}
-			}
-			/**
-			 * Updating the Status of the Sales Order involved in this Invoice
-			 * depending on the above Analysis.
-			 */
-			if (!isPartiallyInvoiced) {
-				double usdAmount = 0;
-				for (TransactionItem orderTransactionItem : salesOrder.transactionItems)
-					// if (orderTransactionItem.getType() != 6)
-					usdAmount += orderTransactionItem.usedamt;
-				// else
-				// usdAmount += orderTransactionItem.lineTotal;
-				if (DecimalUtil.isLessThan(usdAmount, salesOrder.netAmount))
-					isPartiallyInvoiced = true;
-			}
-			if (isPartiallyInvoiced) {
-				salesOrder.status = Transaction.STATUS_OPEN;
-			} else {
+				/**
+				 * Updating the Status of the Sales Order involved in this
+				 * Invoice depending on the above Analysis.
+				 */
+				if (!isPartiallyInvoiced) {
+					double usdAmount = 0;
+					for (TransactionItem orderTransactionItem : salesOrder.transactionItems)
+						// if (orderTransactionItem.getType() != 6)
+						usdAmount += orderTransactionItem.usedamt;
+					// else
+					// usdAmount += orderTransactionItem.lineTotal;
+					if (DecimalUtil.isLessThan(usdAmount, salesOrder.netAmount))
+						isPartiallyInvoiced = true;
+				}
+				// if (isPartiallyInvoiced) {
+				// salesOrder.status = Transaction.STATUS_OPEN;
+				// } else {
 				salesOrder.status = isAddition ? Transaction.STATUS_COMPLETED
 						: Transaction.STATUS_OPEN;
 
+				// }
+
+				salesOrder.onUpdate(session);
+				session.saveOrUpdate(salesOrder);
+
 			}
-
-			salesOrder.onUpdate(session);
-			session.saveOrUpdate(salesOrder);
-
 		}
-
 	}
 
 	@Override
@@ -790,9 +808,14 @@ public class Invoice extends Transaction implements Lifecycle {
 		return customer;
 	}
 
-	public void updatePaymentsAndBalanceDue(double amount) {
-		this.payments -= amount;
-		this.balanceDue += amount;
+	/**
+	 * Amount should be in Transaction Currency
+	 * 
+	 * @param amountInTransactionCurrency
+	 */
+	public void updatePaymentsAndBalanceDue(double amountInTransactionCurrency) {
+		this.payments -= amountInTransactionCurrency;
+		this.balanceDue += amountInTransactionCurrency;
 
 		if (DecimalUtil.isGreaterThan(this.balanceDue, 0.0)
 				&& DecimalUtil.isLessThan(this.balanceDue, this.total)) {
@@ -804,10 +827,12 @@ public class Invoice extends Transaction implements Lifecycle {
 		}
 	}
 
+	@Override
 	public void setNumber(String number) {
 		this.number = number;
 	}
 
+	@Override
 	public void setVoid(boolean isVoid) {
 		this.isVoid = isVoid;
 	}
@@ -874,31 +899,6 @@ public class Invoice extends Transaction implements Lifecycle {
 		return this.customer;
 	}
 
-	public boolean equals(Invoice in) {
-		if (this.getTotal() == in.getTotal()
-				&& this.transactionItems.size() == in.transactionItems.size()
-
-				&& ((this.transactionDate != null && in.transactionDate != null) ? (this.transactionDate
-						.equals(in.transactionDate)) : true)
-				&& ((this.customer != null && in.customer != null) ? (this.customer
-						.equals(in.customer)) : true)
-				&& ((this.estimate != null && in.estimate != null) ? (this.estimate
-						.equals(estimate)) : true)
-				&& ((this.salesOrder != null && in.salesOrder != null) ? (this.salesOrder.id == in.salesOrder.id)
-						: true)) {
-
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						in.transactionItems.get(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-		return false;
-	}
-
 	@Override
 	public void onEdit(Transaction clonedObject) {
 
@@ -911,11 +911,24 @@ public class Invoice extends Transaction implements Lifecycle {
 		 * not voided then only it will enter the loop
 		 */
 
-		if ((this.isVoid && !invoice.isVoid)
+		if ((this.isVoid && invoice.isVoid)
 				|| (this.isDeleted() && !invoice.isDeleted() && !this.isVoid)) {
 			doVoidEffect(session, this);
 		} else if (!invoice.equals(this)) {
+			if (this.total < 0) {
+				if (this.creditsAndPayments != null) {
+					session.delete(creditsAndPayments);
+				}
+				creditsAndPayments = new CreditsAndPayments(this);
 
+				this.setCreditsAndPayments(creditsAndPayments);
+				session.save(creditsAndPayments);
+			} else if (this.creditsAndPayments != null) {
+				this.creditsAndPayments.transaction = null;
+				this.creditsAndPayments.payee = null;
+				this.creditsAndPayments = null;
+				session.delete(invoice.creditsAndPayments);
+			}
 			this.cleanTransactionitems(this);
 			if (!this.customer.equals(invoice.customer)) {
 				doVoidEffect(session, invoice);
@@ -927,51 +940,99 @@ public class Invoice extends Transaction implements Lifecycle {
 				return;
 			}
 			if (!DecimalUtil.isEquals(this.total, invoice.total)) {
-				if (DecimalUtil.isGreaterThan(this.total, this.payments)) {
-					Customer customer = (Customer) session.get(Customer.class,
-							invoice.customer.id);
-					customer.updateBalance(session, this, invoice.total);
-					this.customer.updateBalance(session, this, -this.total);
-				}
+				// if (DecimalUtil.isGreaterThan(this.total, this.payments)) {
+				Customer customer = (Customer) session.get(Customer.class,
+						invoice.customer.id);
+				customer.updateBalance(session, this, invoice.total);
+				this.customer.updateBalance(session, this, -this.total);
+				// }
 			}
-
-			if (this.salesOrder != null || invoice.salesOrder != null)
-				if (this.salesOrder == null && invoice.salesOrder != null) {
-					modifySalesOrder(invoice, false);
-				} else if (this.salesOrder != null
-						&& invoice.salesOrder == null) {
-					modifySalesOrder(this, true);
-				} else if (!this.salesOrder.equals(invoice.salesOrder)) {
-					modifySalesOrder(invoice, false);
-					modifySalesOrder(this, true);
-
-				} else {
-					for (TransactionItem transactionItem : invoice.transactionItems) {
-						if (transactionItem.referringTransactionItem != null
-								&& DecimalUtil
-										.isGreaterThan(
-												transactionItem.referringTransactionItem.usedamt,
-												0)) {
-							transactionItem.referringTransactionItem.usedamt -= transactionItem.lineTotal;
-						}
-					}
-					modifySalesOrder(this, true);
-
-				}
-			if (this.estimate != null || invoice.estimate != null)
-				if (this.estimate == null && invoice.estimate != null) {
-					modifyEstimate(invoice, false);
-				} else if (this.estimate != null && invoice.estimate == null) {
-					modifyEstimate(this, true);
-				} else if (!this.estimate.equals(invoice.estimate)) {
-					modifyEstimate(invoice, false);
-					modifyEstimate(this, true);
-				}
 			this.updateTransactionReceivepayments();
+			doUpdateEffectEstiamtes(this, invoice, session);
+			doUpdateEffectSalesOrder(this, invoice, session);
 		}
 
 		super.onEdit(invoice);
 
+	}
+
+	private void doUpdateEffectSalesOrder(Invoice newInvoice,
+			Invoice oldInvoice, Session session) {
+
+		List<SalesOrder> salesOrdersExistsInOldInvoice = new ArrayList<SalesOrder>();
+		for (SalesOrder oldEstiamte : oldInvoice.getSalesOrders()) {
+			SalesOrder salesOrder = null;
+			for (SalesOrder newSalesOrder : newInvoice.getSalesOrders()) {
+				if (oldEstiamte.getID() == newSalesOrder.getID()) {
+					salesOrder = newSalesOrder;
+					salesOrdersExistsInOldInvoice.add(newSalesOrder);
+					break;
+				}
+			}
+			if (salesOrder != null) {
+				salesOrder.setUsedInvoice(newInvoice, session);
+			} else {
+				salesOrder = (SalesOrder) session.get(SalesOrder.class,
+						oldEstiamte.id);
+				salesOrder.setUsedInvoice(null, session);
+			}
+			if (salesOrder != null) {
+				session.saveOrUpdate(salesOrder);
+			}
+		}
+
+		for (SalesOrder salesOrder : newInvoice.getSalesOrders()) {
+			if (!salesOrdersExistsInOldInvoice.contains(salesOrder)) {
+				salesOrder.setUsedInvoice(newInvoice, session);
+				session.saveOrUpdate(salesOrder);
+			}
+		}
+
+	}
+
+	private void doUpdateEffectEstiamtes(Invoice newInvoice,
+			Invoice oldInvoice, Session session) {
+		List<Estimate> estimatesExistsInOldInvoice = new ArrayList<Estimate>();
+		for (Estimate oldEstiamte : oldInvoice.getEstimates()) {
+			Estimate est = null;
+			for (Estimate newEstimate : newInvoice.getEstimates()) {
+				if (oldEstiamte.getID() == newEstimate.getID()) {
+					est = newEstimate;
+					estimatesExistsInOldInvoice.add(newEstimate);
+					break;
+				}
+			}
+			if (est != null) {
+				est.setUsedInvoice(newInvoice, session);
+			} else {
+				est = (Estimate) session.get(Estimate.class, oldEstiamte.id);
+				est.setUsedInvoice(null, session);
+			}
+			if (est != null) {
+				session.saveOrUpdate(est);
+			}
+		}
+
+		for (Estimate est : newInvoice.getEstimates()) {
+			try {
+				for (TransactionItem item : est.transactionItems) {
+
+					TransactionItem clone = item.clone();
+					clone.transaction = this;
+					clone.referringTransactionItem = item;
+					if (est.getEstimateType() == Estimate.CREDITS) {
+						clone.updateAsCredit();
+					}
+					this.transactionItems.add(clone);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (!estimatesExistsInOldInvoice.contains(est)) {
+				est.setUsedInvoice(newInvoice, session);
+				session.saveOrUpdate(est);
+			}
+		}
 	}
 
 	private void updateTransactionReceivepayments() {
@@ -1005,11 +1066,71 @@ public class Invoice extends Transaction implements Lifecycle {
 
 		if (this.status == Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
 				|| this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
-			// "You have already paid some amount for this Invoice, You can't Edit  it and Void it.");
+			throw new AccounterException(
+					AccounterException.INVOICE_PAID_VOID_IT);
+			// "You have already paid  amount for this Invoice, You can't Edit  it and Void it.");
 		}
 
 		return super.canEdit(clientObject);
 	}
 
+	public List<Estimate> getEstimates() {
+		return estimates;
+	}
+
+	public void setEstimates(List<Estimate> estimates) {
+		this.estimates = estimates;
+	}
+
+	public void updateBalance(Session session, double amount,
+			TransactionReceivePayment trp) {
+		double currencyFactor = trp.receivePayment.getCurrencyFactor();
+		double amountInPaymentCurrency = amount / currencyFactor;
+
+		double amountToUpdate = amountInPaymentCurrency * this.currencyFactor;
+
+		this.payments += amountInPaymentCurrency;
+		this.balanceDue -= amountInPaymentCurrency;
+
+		double diff = amountToUpdate - amount;
+
+		Account exchangeLossOrGainAccount = getCompany()
+				.getExchangeLossOrGainAccount();
+		exchangeLossOrGainAccount.updateCurrentBalance(trp.receivePayment,
+				-diff, 1);
+
+		Customer customer = trp.getReceivePayment().getCustomer();
+		customer.updateBalance(session, trp.receivePayment, diff, false);
+
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), "Invoice").gap();
+		w.put(messages.invoiceNo(), this.number);
+
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+		w.put(messages.Customer(), this.customer.name);
+
+		w.put(messages.currency(), this.customer.currency.getFormalName())
+				.gap().gap();
+
+		w.put(messages.factor(), this.currencyFactor).gap().gap();
+
+		w.put(messages.amount(), this.total).gap();
+		w.put(messages.address(), this.customer.address);
+
+		w.put(messages.dueDate(), this.dueDate.toString()).gap();
+		w.put(messages.email(), this.customer.getEmail());
+
+		if (this.paymentTerm != null) {
+			w.put(messages.paymentTerm(), this.paymentTerm.name).gap();
+		}
+		w.put(messages.memo(), this.memo);
+
+		w.put(messages.details(), this.transactionItems);
+	}
 }

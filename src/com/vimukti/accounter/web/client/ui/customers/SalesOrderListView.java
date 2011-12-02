@@ -10,9 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -23,17 +21,15 @@ import com.vimukti.accounter.web.client.ui.grids.SalesOrderListGrid;
 
 public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
-	AccounterConstants customerConstants = Accounter.constants();
-
 	protected List<SalesOrdersList> salesList;
 
 	private SalesDetailesView salesDetailView;
 
 	private List<SalesOrdersList> listOfSalesOrder;
 
-	private static String OPEN = Accounter.constants().open();
-	private static String COMPLETED = Accounter.constants().completed();
-	private static String CANCELLED = Accounter.constants().cancelled();
+	private static String OPEN = Accounter.messages().open();
+	private static String COMPLETED = Accounter.messages().completed();
+	private static String CANCELLED = Accounter.messages().cancelled();
 	private List<String> listOfTypes;
 
 	// private static String CANCELLED = "Cancelled";
@@ -53,14 +49,14 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.constants().addNewSalesOrder();
+			return Accounter.messages().addNewSalesOrder();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().salesOrderList();
+		return Accounter.messages().salesOrderList();
 	}
 
 	@Override
@@ -112,8 +108,8 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 			}
 		};
-		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
-				obj.getTransactionId(), callbackforsalesOrder);
+		rpcGetService.getObjectById(AccounterCoreType.SALESORDER, obj
+				.getTransactionId(), callbackforsalesOrder);
 
 	}
 
@@ -126,15 +122,15 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants().currentView());
+		viewSelect = new SelectCombo(Accounter.messages().currentView());
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(OPEN);
 		listOfTypes.add(COMPLETED);
 		listOfTypes.add(CANCELLED);
 		viewSelect.initCombo(listOfTypes);
 		viewSelect.setComboItem(OPEN);
-//		if (UIUtils.isMSIEBrowser())
-//			viewSelect.setWidth("120px");
+		// if (UIUtils.isMSIEBrowser())
+		// viewSelect.setWidth("120px");
 
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -256,7 +252,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().salesOrders();
+		return Accounter.messages().salesOrders();
 	}
 
 }

@@ -5,6 +5,8 @@ package com.vimukti.accounter.core;
 
 import java.util.Set;
 
+import org.json.JSONException;
+
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -13,6 +15,11 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  */
 public class Reconciliation extends CreatableObject implements
 		IAccounterServerCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** Reconciliation of Account */
 	private BankAccount account;
@@ -33,7 +40,7 @@ public class Reconciliation extends CreatableObject implements
 	private FinanceDate reconcilationDate;
 
 	/** Transactions that are involved in this Reconciliation */
-	private Set<Transaction> transactions;
+	private Set<ReconciliationItem> items;
 
 	/**
 	 * @return the startDate
@@ -113,16 +120,16 @@ public class Reconciliation extends CreatableObject implements
 	/**
 	 * @return the transactions
 	 */
-	public Set<Transaction> getTransactions() {
-		return transactions;
+	public Set<ReconciliationItem> getItems() {
+		return items;
 	}
 
 	/**
-	 * @param transactions
+	 * @param items
 	 *            the transactions to set
 	 */
-	public void setTransactions(Set<Transaction> transactions) {
-		this.transactions = transactions;
+	public void setItems(Set<ReconciliationItem> items) {
+		this.items = items;
 	}
 
 	/**
@@ -144,5 +151,11 @@ public class Reconciliation extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		return false;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

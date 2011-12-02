@@ -8,10 +8,9 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPaySalesTax;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -26,8 +25,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class VATPaymentView extends
-		AbstractTransactionBaseView<ClientPaySalesTax> {
+public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private AmountField vatBalance, amount, endingBalanceText;
 	private TextItem referenceNo, checkNoText, memo, vatAgency;
 	private AddressForm addressForm;
@@ -48,7 +46,7 @@ public class VATPaymentView extends
 	private ArrayList<DynamicForm> listforms;
 
 	public VATPaymentView() {
-		super(ClientTransaction.TYPE_PAY_SALES_TAX);
+		super(ClientTransaction.TYPE_PAY_TAX);
 	}
 
 	@Override
@@ -76,7 +74,7 @@ public class VATPaymentView extends
 	}
 
 	protected void createControls() {
-		Label lab = new Label(Accounter.constants().vatPayment());
+		Label lab = new Label(messages.vatPayment());
 		// lab.setAutoHeight();
 		// lab.setWrap(false);
 
@@ -98,34 +96,35 @@ public class VATPaymentView extends
 			dateNoForm.setFields(classListCombo);
 		}
 
-		vatAgency = new TextItem(Accounter.constants().vatAgency());
+		vatAgency = new TextItem(messages.vatAgency());
 		// vatAgency.setWidth("*");
 		vatAgency.setDisabled(true);
 		// vatAgency.setShowDisabled(false);
 
 		addressForm = new AddressForm(null);
 		vatAgencyForm = new DynamicForm();
-		vatAgencyForm = UIUtils.form(Accounter.constants().vatAgency());
+		vatAgencyForm = UIUtils.form(messages.vatAgency());
 		vatAgencyForm.setWidth("100%");
 		// vatAgencyForm.setAutoHeight();
 		vatAgencyForm.setFields(vatAgency);
 
-		amount = new AmountField(Accounter.constants().amount(), this);
+		amount = new AmountField(messages.amount(), this, getBaseCurrency());
 		// amount.setWidth("*");
 		amount.setRequired(true);
 		amount.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		// amount.setTextAlign(Alignment.RIGHT);
 
-		vatBalance = new AmountField(Accounter.constants().vatBalance(), this);
+		vatBalance = new AmountField(messages.vatBalance(), this,
+				getBaseCurrency());
 		// vatBalance.setWidth("*");
 		// vatBalance.setTextAlign(Alignment.RIGHT);
 		vatBalance.setDisabled(true);
 		// vatBalance.setShowDisabled(false);
-		memo = new TextItem(Accounter.constants().memo());
+		memo = new TextItem(messages.memo());
 		// memo.setWidth("*");
 		// memo.setTextAlign(Alignment.LEFT);
 
-		referenceNo = new TextItem(Accounter.constants().referenceNo());
+		referenceNo = new TextItem(messages.referenceNo());
 		// referenceNo.setWidth("*");
 		// referenceNo.setTextAlign(Alignment.RIGHT);
 
@@ -133,12 +132,11 @@ public class VATPaymentView extends
 		paymentInformationForm.setIsGroup(true);
 		paymentInformationForm.setWidth("100%");
 		// paymentInformationForm.setAutoHeight();
-		paymentInformationForm.setGroupTitle(Accounter.constants()
-				.paymentInformation());
+		paymentInformationForm.setGroupTitle(messages.paymentInformation());
 		paymentInformationForm.setFields(vatBalance, amount, memo, referenceNo);
 
-		endingBalanceText = new AmountField(Accounter.constants()
-				.endingBalance(), this);
+		endingBalanceText = new AmountField(messages.bankBalance(), this,
+				getBaseCurrency());
 		// endingBalanceText.setWidth("*");
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		// endingBalanceText.setAlign(Alignment.RIGHT);
@@ -146,8 +144,7 @@ public class VATPaymentView extends
 		endingBalanceText.setDisabled(true);
 		// endingBalanceText.setShowDisabled(false);
 
-		payFromAccCombo = new PayFromAccountsCombo(Accounter.constants()
-				.payFrom());
+		payFromAccCombo = new PayFromAccountsCombo(messages.payFrom());
 		payFromAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
 		payFromAccCombo.setRequired(true);
@@ -172,16 +169,16 @@ public class VATPaymentView extends
 		accountInformationForm.setIsGroup(true);
 		accountInformationForm.setWidth("100%");
 		// accountInformationForm.setAutoHeight();
-		accountInformationForm.setGroupTitle(Accounter.messages()
-				.accountInformation(Global.get().Account()));
+		accountInformationForm.setGroupTitle(messages.payeeInformation(messages
+				.Account()));
 		accountInformationForm.setFields(payFromAccCombo, endingBalanceText);
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth("*");
-		paymentMethodCombo.setDefaultValue(Accounter.constants().check());
+		paymentMethodCombo.setDefaultValue(messages.check());
 
-		toBePrinted = new CheckboxItem(Accounter.constants().toBePrinted());
+		toBePrinted = new CheckboxItem(messages.toBePrinted());
 		// toBePrinted.setDefaultValue(true);
 		toBePrinted.addChangedHandler(new ChangeHandler() {
 
@@ -201,13 +198,13 @@ public class VATPaymentView extends
 		});
 		// printCheck.setShowDisabled(false);
 
-		checkNoText = new TextItem(Accounter.constants().checkNo());
+		checkNoText = new TextItem(messages.checkNo());
 		// checkNoText.setWidth("*");
 
 		paymentMethodForm = new DynamicForm();
 		paymentMethodForm.setIsGroup(true);
 		paymentMethodForm.setWidth("100%");
-		paymentMethodForm.setGroupTitle(Accounter.constants().paymentMethod());
+		paymentMethodForm.setGroupTitle(messages.paymentMethod());
 		paymentMethodForm.setFields(paymentMethodCombo, toBePrinted,
 				checkNoText);
 
@@ -268,7 +265,7 @@ public class VATPaymentView extends
 
 	protected void updateTransaction() {
 		super.updateTransaction();
-		transaction.setType(ClientTransaction.TYPE_PAY_SALES_TAX);
+		transaction.setType(ClientTransaction.TYPE_PAY_TAX);
 
 		transaction.setNumber(transactionNumber.getValue().toString());
 
@@ -276,7 +273,7 @@ public class VATPaymentView extends
 				.setDate(((ClientFinanceDate) transactionDateItem.getValue())
 						.getDate());
 
-		transaction.setTotal(getAmountInBaseCurrency(amount.getAmount()));
+		transaction.setTotal(amount.getAmount());
 
 		transaction.setMemo(memo.getValue().toString());
 
@@ -284,7 +281,6 @@ public class VATPaymentView extends
 
 		transaction.setPayFrom(selectedPayFromAccount.getID());
 
-		transaction.setEndingBalance(endingBalance);
 
 		transaction.setPaymentMethod(paymentMethod);
 	}
@@ -292,7 +288,7 @@ public class VATPaymentView extends
 	@Override
 	protected void paymentMethodSelected(String paymentmethod) {
 		super.paymentMethodSelected(paymentmethod);
-		if (paymentmethod.equalsIgnoreCase(Accounter.constants().check())) {
+		if (paymentmethod.equalsIgnoreCase(messages.check())) {
 			toBePrinted.setDisabled(false);
 			toBePrinted.setValue(true);
 			checkNoText.setDisabled(false);
@@ -360,7 +356,7 @@ public class VATPaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.title(Accounter.constants().vatPayment());
+		return UIUtils.title(messages.vatPayment());
 	}
 
 	@Override
@@ -368,4 +364,19 @@ public class VATPaymentView extends
 
 	}
 
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

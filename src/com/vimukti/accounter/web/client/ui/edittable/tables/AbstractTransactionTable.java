@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -17,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 public abstract class AbstractTransactionTable extends
 		EditTable<ClientTransactionItem> {
 
-	AccounterConstants constants = Accounter.constants();
+	AccounterMessages messages = Accounter.messages();
 
 	double lineTotal;
 	double taxableLineTotal;
@@ -25,11 +26,23 @@ public abstract class AbstractTransactionTable extends
 	double grandTotal;
 	double totaldiscount;
 
+	protected boolean enableTax;
+	protected boolean showTaxCode;
+	protected boolean isCustomerAllowedToAdd;
+
 	protected boolean needDiscount = true;
 
 	private final boolean isSales;
 
 	protected ICurrencyProvider currencyProvider;
+
+	public AbstractTransactionTable(boolean needDiscount, boolean isSales,
+			boolean isCustomerAllowedToAdd, ICurrencyProvider currencyProvider) {
+		this.currencyProvider = currencyProvider;
+		this.needDiscount = needDiscount;
+		this.isCustomerAllowedToAdd = isCustomerAllowedToAdd;
+		this.isSales = isSales;
+	}
 
 	public AbstractTransactionTable(boolean needDiscount, boolean isSales,
 			ICurrencyProvider currencyProvider) {
@@ -49,34 +62,42 @@ public abstract class AbstractTransactionTable extends
 		totalTax = 0.0;
 
 		for (ClientTransactionItem record : allrecords) {
+			if (record.getItem() != 0) {
+				int type = record.getType();
 
-			int type = record.getType();
-
-			if (type == 0)
-				continue;
-			totaldiscount += record.getDiscount();
-
-			Double lineTotalAmt = record.getLineTotal();
-			lineTotal += lineTotalAmt;
-
-			if (record != null && record.isTaxable()) {
-				// ClientTAXItem taxItem = getCompany().getTAXItem(
-				// citem.getTaxCode());
-				// if (taxItem != null) {
-				// totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
-				// }
-				taxableLineTotal += lineTotalAmt;
-
-				double taxAmount = getVATAmount(record.getTaxCode(), record);
-				if (isShowPriceWithVat()) {
-					lineTotal -= taxAmount;
+				if (type == 0) {
+					continue;
 				}
-				record.setVATfraction(taxAmount);
-				totalTax += record.getVATfraction();
+				if (record.getDiscount() != null) {
+					totaldiscount += record.getDiscount();
+				}
+
+				Double lineTotalAmt = record.getLineTotal();
+				if (lineTotalAmt != null) {
+					lineTotal += lineTotalAmt;
+				}
+
+				if (record != null && record.isTaxable()) {
+					// ClientTAXItem taxItem = getCompany().getTAXItem(
+					// citem.getTaxCode());
+					// if (taxItem != null) {
+					// totalVat += taxItem.getTaxRate() / 100 * lineTotalAmt;
+					// }
+					taxableLineTotal += lineTotalAmt;
+
+					double taxAmount = getVATAmount(record.getTaxCode(), record);
+					if (isShowPriceWithVat()) {
+						lineTotal -= taxAmount;
+					}
+					record.setVATfraction(taxAmount);
+					totalTax += record.getVATfraction();
+
+				}
+			} else {
 
 			}
 
-			super.update(record);
+			// super.update(record);
 			// totalVat += citem.getVATfraction();
 		}
 
@@ -97,6 +118,7 @@ public abstract class AbstractTransactionTable extends
 		// }
 
 		updateNonEditableItems();
+
 	}
 
 	@Override
@@ -192,29 +214,46 @@ public abstract class AbstractTransactionTable extends
 		// 1. checking for the name of the transaction item
 		// 2. checking for the vat code if the company is of type UK
 		// TODO::: check whether this validation is working or not
-		for (ClientTransactionItem item : this.getRecords()) {
-			if (item.isEmpty()) {
+		for (ClientTransactionItem transactionItem : this.getRecords()) {
+			if (transactionItem.isEmpty()) {
 				continue;
 			}
-			if (item.getAccountable() == null) {
+			if (transactionItem.getAccountable() == null) {
 				result.addError(
-						"GridItem-" + item.getType(),
-						Accounter.messages().pleaseSelectCustomer(
-								Utility.getItemType(item.getType())));
+						"GridItem-" + transactionItem.getType(),
+						Accounter.messages().pleaseSelect(
+								Utility.getItemType(transactionItem.getType())));
 			}
-			if (getCompany().getPreferences().isTrackTax()
-					&& getCompany().getPreferences().isTrackPaidTax()) {
-				if (item.getTaxCode() == 0) {
+			if (enableTax && showTaxCode) {
+				if (transactionItem.getTaxCode() == 0) {
 					result.addError(
-							"GridItemUK-" + item.getAccount(),
-							Accounter.messages().pleaseSelectCustomer(
-									Accounter.constants().taxCode()));
+							"GridItemUK-" + transactionItem.getAccount(),
+							Accounter.messages().pleaseSelect(
+									Accounter.messages().taxCode()));
 				}
 
 			}
+
+			if (transactionItem.isBillable()) {
+				if (transactionItem.getCustomer() == 0) {
+					result.addError("Customer",
+							messages.mustSelectCustomerForBillable());
+				}
+				if (transactionItem.getItem() > 0) {
+					ClientItem item = getCompany().getItem(
+							transactionItem.getItem());
+					if (!item.isIBuyThisItem || !item.isISellThisItem) {
+						result.addError("Item", messages
+								.onlySellableItemsCanBeMarkedAsBillable());
+					}
+				} else {
+					result.addError("Item",
+							messages.pleaseSelect(messages.transactionItem()));
+				}
+			}
 		}
 		if (DecimalUtil.isLessThan(lineTotal, 0.0)) {
-			result.addError(this, Accounter.constants()
+			result.addError(this, Accounter.messages()
 					.invalidTransactionAmount());
 		}
 		return result;
@@ -229,7 +268,7 @@ public abstract class AbstractTransactionTable extends
 				// If it is VATItem,the we should get 'VATRate',otherwise
 				// 'GroupRate
 				vatRate = UIUtils.getVATItemRate(Accounter.getCompany()
-						.getTAXCode(TAXCodeID), isSales);
+						.getTAXCode(TAXCodeID), isSales());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -265,4 +304,28 @@ public abstract class AbstractTransactionTable extends
 		addEmptyRecords();
 	}
 
+	public void updateAmountsFromGUI() {
+		for (ClientTransactionItem item : this.getAllRows()) {
+			updateFromGUI(item);
+		}
+		updateColumnHeaders();
+	}
+
+	public void setDisableTax(boolean isDisable) {
+		if (getCompany().getPreferences().isTrackTax()) {
+			enableTax = !isDisable;
+		}
+	}
+
+	public void setShowTax(boolean isShow) {
+		if (getCompany().getPreferences().isTrackTax()) {
+			showTaxCode = isShow;
+		}
+	}
+
+	protected abstract boolean isInViewMode();
+
+	public boolean isSales() {
+		return isSales;
+	}
 }

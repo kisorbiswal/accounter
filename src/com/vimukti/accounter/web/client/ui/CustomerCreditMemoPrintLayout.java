@@ -73,10 +73,10 @@
 //				Accounter.messages().customerName(Global.get().Customer()),
 //				Accounter.getCompany().getCustomer(creditMemo.getCustomer())
 //						.getName(),
-//				Accounter.constants().creditDate(),
+//				messages.creditDate(),
 //				UIUtils.dateFormat(new ClientFinanceDate(creditMemo
 //						.getTransactionDate())),
-//				Accounter.constants().creditNo(), creditMemo.getNumber() + "" });
+//				messages.creditNo(), creditMemo.getNumber() + "" });
 //
 //		HorizontalPanel datepanel = new HorizontalPanel();
 //		datepanel.setSize("300px", "150px");
@@ -119,7 +119,7 @@
 //		reasonPanel.setSize("100%", "100%");
 //
 //		String memo = creditMemo.getMemo() + "<br/>";
-//		Map<String, String> reasonMap = getMap(Accounter.constants()
+//		Map<String, String> reasonMap = getMap(messages
 //				.reasonForIssue(), memo);
 //		FlexTable reasonTabel = util.getWidget(2, 1, reasonMap, true);
 //		reasonTabel.setSize("100%", "75px");
@@ -160,7 +160,7 @@
 //			vatPanel.setSize("100%", "100%");
 //			List<String> footer1Headers = new ArrayList<String>();
 //			footer1Headers.add("VAT%");
-//			footer1Headers.add(Accounter.constants().vatAmount());
+//			footer1Headers.add(messages.vatAmount());
 //
 //			FlexTable vatTabl = util.getFooterWidget(
 //					getVATDetailsMapForPrinting(), footer1Headers);
@@ -248,16 +248,16 @@
 //		mainVPanel.add(datepanel);
 //		datepanel.getElement().getParentElement()
 //				.setAttribute("align", "right");
-//		adressHPanel.setStyleName(Accounter.constants().shiftBottom());
+//		adressHPanel.setStyleName(messages.shiftBottom());
 //		mainVPanel.add(adressHPanel);
 //
-//		reasonPanel.setStyleName(Accounter.constants().shiftBottom());
+//		reasonPanel.setStyleName(messages.shiftBottom());
 //		mainVPanel.add(reasonPanel);
 //		// customerNameHPanel.setStyleName("ShiftBottom");
 //		// mainVPanel.add(customerNameHPanel);
 //		// projectPanel.setStyleName("ShiftBottom");
 //		// mainVPanel.add(projectPanel);
-//		gridPanel.setStyleName(Accounter.constants().shiftBottom());
+//		gridPanel.setStyleName(messages.shiftBottom());
 //		mainVPanel.add(gridPanel);
 //
 //		add(mainVPanel);
@@ -285,7 +285,7 @@
 //		}
 //		vat = new HashMap<String, String>();
 //
-//		vat.put(Accounter.constants().totalVAT(),
+//		vat.put(messages.totalVAT(),
 //				amountAsString(totalVATAmount));
 //
 //		vatMap.put(r++, vat);

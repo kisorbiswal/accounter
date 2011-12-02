@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -36,7 +36,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	public void deleteFailed(AccounterException caught) {
 		super.deleteFailed(caught);
 
-		AccounterException accounterException = (AccounterException) caught;
+		AccounterException accounterException = caught;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -56,7 +56,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages.addANewVendor(Global.get().vendor());
+			return messages.addaNew(Global.get().vendor());
 		else
 			return "";
 	}
@@ -64,7 +64,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return messages.vendorList(Global.get().Vendor());
+		return messages.payeeList(Global.get().Vendor());
 	}
 
 	// protected List<ClientPayee> getRecords() {
@@ -99,7 +99,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 			total += t.getBalance();
 		} else
 			total -= t.getBalance();
-		totalLabel.setText(Accounter.constants().totalOutStandingBalance()
+		totalLabel.setText(Accounter.messages().totalOutStandingBalance()
 
 		+ DataUtils.getAmountAsString(total) + "");
 	}
@@ -119,8 +119,8 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getPayeeList(
-				ClientTransaction.CATEGORY_VENDOR, this);
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
+				this);
 
 	}
 
@@ -139,8 +139,13 @@ public class VendorListView extends BaseListView<PayeeList> {
 		grid.setTotal();
 		for (PayeeList payee : listOfPayees) {
 			if (isActive) {
-				if (payee.isActive() == true)
+				if (payee.isActive() == true) {
+					if (payee.getType() == ClientPayee.TYPE_TAX_AGENCY
+							&& !(getCompany().getPreferences().isTrackTax())) {
+						continue;
+					}
 					grid.addData(payee);
+				}
 
 			} else if (payee.isActive() == false) {
 				grid.addData(payee);
@@ -188,6 +193,6 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.vendors(Global.get().Vendor());
+		return messages.payees(Global.get().Vendor());
 	}
 }

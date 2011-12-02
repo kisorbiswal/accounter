@@ -17,7 +17,7 @@ public class ReceiveVATAction extends Action {
 
 	public ReceiveVATAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().tax();
+		this.catagory = Accounter.messages().tax();
 	}
 
 	@Override
@@ -66,12 +66,12 @@ public class ReceiveVATAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "receiveVat";
+		return "taxRefund";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "receive-vat";
+		return "tax-refund";
 	}
 
 }

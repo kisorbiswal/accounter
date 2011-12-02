@@ -56,22 +56,22 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 	public void createControls() {
 		terminologyforCustomerLabel.setText(messages.useTerminologyFor(Global
 				.get().Customer()));
-		customerDescriptionLabel.setText(constants.customerDescription());
+		customerDescriptionLabel.setText(messages.customerDescription());
 		customerDescriptionLabel.setStyleName("organisation_comment");
-		tenantsLabelRadioButton.setName(constants.group());
-		tenantsLabelRadioButton.setHTML(constants.tenant());
-		custimersRadioBuitton.setName(constants.group());
-		custimersRadioBuitton.setHTML(constants.Customer());
-		guestardioButton.setName(constants.group());
-		guestardioButton.setHTML(constants.Guest());
-		membersRadioButton.setName(constants.group());
-		membersRadioButton.setHTML(constants.Member());
-		PatientRadioButton.setName(constants.group());
-		PatientRadioButton.setHTML(constants.Patient());
-		clientsRadioButton.setName(constants.group());
-		clientsRadioButton.setHTML(constants.Client());
-		DonorsRadioButton.setName(constants.group());
-		DonorsRadioButton.setHTML(constants.Donar());
+		tenantsLabelRadioButton.setName(messages.group());
+		tenantsLabelRadioButton.setHTML(messages.tenant());
+		custimersRadioBuitton.setName(messages.group());
+		custimersRadioBuitton.setHTML(messages.Customer());
+		guestardioButton.setName(messages.group());
+		guestardioButton.setHTML(messages.Guest());
+		membersRadioButton.setName(messages.group());
+		membersRadioButton.setHTML(messages.Member());
+		PatientRadioButton.setName(messages.group());
+		PatientRadioButton.setHTML(messages.Patient());
+		clientsRadioButton.setName(messages.group());
+		clientsRadioButton.setHTML(messages.Client());
+		DonorsRadioButton.setName(messages.group());
+		DonorsRadioButton.setHTML(messages.Donar());
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return constants.company();
+		return messages.company();
 	}
 
 	@Override

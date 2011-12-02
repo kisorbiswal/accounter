@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -13,25 +11,18 @@ public class DepositDetailAction extends Action {
 
 	public DepositDetailAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().report();
+		this.catagory = Accounter.messages().report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
-			public void onSuccess() {
+			public void onCreated() {
 				AbstractReportView<DepositDetail> report = new DepositDetailReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, DepositDetailAction.this);
-
-			}
-
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
 
 			}
 		});

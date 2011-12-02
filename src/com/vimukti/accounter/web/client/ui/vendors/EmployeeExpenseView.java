@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -29,8 +30,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	public int status;
 	private ImageButton approveButton;
 	private ImageButton submitForApprove;
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
-			.constants();
+	AccounterMessages messages = Accounter
+			.messages();
 
 	public EmployeeExpenseView() {
 		super(ClientTransaction.TYPE_EMPLOYEE_EXPENSE);
@@ -99,7 +100,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		final MultiWordSuggestOracle employe = new MultiWordSuggestOracle();
 
-		titlelabel.setText(Accounter.constants().employeeExpense());
+		titlelabel.setText(Accounter.messages().employeeExpense());
 		// Accounter.createGETService().getHREmployees(
 		// new AccounterAsyncCallback<ArrayList<HrEmployee>>() {
 		//
@@ -118,7 +119,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		// }
 		// });
 
-		employee = new EmployeeCombo(Accounter.constants().employee());
+		employee = new EmployeeCombo(Accounter.messages().employee());
 		employee.getMainWidget();
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
@@ -135,15 +136,15 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		}
 
 		String listString[] = new String[] {
-				Accounter.constants().cash(),
+				Accounter.messages().cash(),
 				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.constants().check()),
-				Accounter.constants().creditCard(),
-				Accounter.constants().directDebit(),
-				Accounter.constants().masterCard(),
-				Accounter.constants().onlineBanking(),
-				Accounter.constants().standingOrder(),
-				Accounter.constants().switchMaestro() };
+						.messages().check()),
+				Accounter.messages().creditCard(),
+				Accounter.messages().directDebit(),
+				Accounter.messages().masterCard(),
+				Accounter.messages().onlineBanking(),
+				Accounter.messages().standingOrder(),
+				Accounter.messages().switchMaestro() };
 		selectedComboList = new ArrayList<String>();
 		for (int i = 0; i < listString.length; i++) {
 			selectedComboList.add(listString[i]);
@@ -156,7 +157,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		vendorForm.setFields(employee);
 		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo);
-		termsForm.getCellFormatter().setWidth(0, 0, "203px");
+//		termsForm.getCellFormatter().setWidth(0, 0, "203px");
 
 		VerticalPanel verticalPanel = (VerticalPanel) vendorForm.getParent();
 		vendorForm.removeFromParent();
@@ -197,12 +198,12 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		// result.add(vendorForm.validate());
 		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 		// result.addError(transactionDateItem,
-		// accounterConstants.invalidateTransactionDate());
+		// messages.invalidateTransactionDate());
 		// }
 		// if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate))
 		// {
 		// result.addError(transactionDateItem,
-		// accounterConstants.invalidateDate());
+		// messages.invalidateDate());
 		// }
 		if (Accounter.getUser().canApproveExpences())
 			if (!payFromCombo.validate()) {
@@ -213,18 +214,18 @@ public class EmployeeExpenseView extends CashPurchaseView {
 			}
 		// if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
 		// .getEnteredDate(), this.transactionDate)) {
-		// result.addError(deliveryDateItem, Accounter.constants().the()
+		// result.addError(deliveryDateItem, messages.the()
 		// + " "
-		// + Accounter.constants().deliveryDate()
+		// + messages.deliveryDate()
 		// + " "
 		// + " "
-		// + Accounter.constants()
+		// + messages
 		// .cannotbeearlierthantransactiondate());
 		//
 		// }
 		// if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
 		// result.addError(vendorTransactionGrid,
-		// accounterConstants.blankTransaction());
+		// messages.blankTransaction());
 		// }
 		// result.add(vendorTransactionGrid.validateGrid());
 		return result;
@@ -244,7 +245,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 				if (result) {
 					ClientCashPurchase purchase = (ClientCashPurchase) transaction;
 					if (purchase.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED) {
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.expenseisApproved());
 					} else
 						enableFormItems();
@@ -269,18 +270,18 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.constants().productOrServiceItem());
+		setMenuItems(button, Accounter.messages().productOrServiceItem());
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().employeeExpense();
+		return Accounter.messages().employeeExpense();
 	}
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		super.createButtons(buttonBar);
-		approveButton = new ImageButton(Accounter.constants().approve(),
+		approveButton = new ImageButton(Accounter.messages().approve(),
 				Accounter.getFinanceImages().approve());
 		approveButton.addClickHandler(new ClickHandler() {
 
@@ -290,7 +291,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 			}
 		});
 
-		submitForApprove = new ImageButton(Accounter.constants()
+		submitForApprove = new ImageButton(Accounter.messages()
 				.submitForApproval(), Accounter.getFinanceImages()
 				.submitForApproval());
 		submitForApprove.addClickHandler(new ClickHandler() {

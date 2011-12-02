@@ -8,11 +8,11 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 import com.vimukti.accounter.web.client.ui.ISaveCallback;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
@@ -22,11 +22,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	private List<Integer> cellsWidth = new ArrayList<Integer>();
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
-	protected AccounterConstants customerConstants;
-	protected AccounterConstants salesPersonConstants;
-	protected AccounterConstants vendorConstants;
-	protected AccounterConstants bankingContants;
-	protected AccounterConstants companyConstants;
+	protected AccounterMessages messages = Accounter.messages();
 	private int[] columnType;
 	protected double total;
 	protected String viewType;
@@ -48,6 +44,15 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	public BaseListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
 		initRPCService();
+		this.columnType = setColTypes();
+	}
+
+	int type;
+
+	public BaseListGrid(boolean isMultiSelectionEnable, int type) {
+		super(isMultiSelectionEnable);
+		initRPCService();
+		this.type = type;
 		this.columnType = setColTypes();
 	}
 
@@ -120,7 +125,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	protected void showWarningDialog(T obj, final AccounterCoreType coreType,
 			final long transactionsID, final int col) {
 		String msg = null;
-		msg = Accounter.constants().doyouwanttoVoidtheTransaction();
+		msg = Accounter.messages().doyouwanttoVoidtheTransaction();
 		// else if (col == 7) {
 		// if (!viewType.equalsIgnoreCase("Deleted"))
 		// msg = "Do you want to Delete the Transaction";
@@ -164,7 +169,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	abstract protected int[] setColTypes();
 
 	protected void showWarnDialog(final T object) {
-		Accounter.showWarning(Accounter.constants().doyouwanttoDelete()
+		Accounter.showWarning(Accounter.messages().doyouwanttoDelete()
 				+ ((IAccounterCore) object).getName(), AccounterType.WARNING,
 				new ErrorDialogHandler() {
 
@@ -228,7 +233,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		// if (exception instanceof InvalidOperationException) {
 		// Accounter.showError(exception.getMessage());
 		// } else
-		// Accounter.showError(Accounter.constants().updationFailed());
+		// Accounter.showError(messages.updationFailed());
 		AccounterException accounterException = (AccounterException) exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
@@ -257,7 +262,6 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 			view.initListCallback();
 		}
 	}
-
 
 	protected <D extends IAccounterCore> void deleteUserObject(D data) {
 		Accounter.deleteUser(this, data);

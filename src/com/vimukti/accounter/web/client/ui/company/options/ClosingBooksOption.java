@@ -39,7 +39,7 @@ public class ClosingBooksOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		closingBooksCheckBox.setText(constants.closingthebooks());
+		closingBooksCheckBox.setText(messages.closingthebooks());
 	}
 
 	public ClosingBooksOption(String firstName) {
@@ -60,7 +60,7 @@ public class ClosingBooksOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return constants.company();
+		return messages.company();
 	}
 
 	@Override

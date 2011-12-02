@@ -40,10 +40,9 @@ public class VendorTransactionHistoryServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { messages.vendor1099(Global.get().vendor()),
-				getConstants().date(), getConstants().type(),
-				getConstants().no(),
+				messages.date(), messages.type(), messages.no(),
 				// FinanceApplication.constants().reference(),
-				Global.get().account(), constants.amount()
+				messages.account(), messages.amount()
 		// FinanceApplication.constants().transactionAmount(),
 		// FinanceApplication.constants().paidAmount(),
 		// FinanceApplication.constants().discount(),
@@ -64,7 +63,7 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String getTitle() {
-		return messages.vendorTransactionHistory(Global.get().Vendor());
+		return messages.payeeTransactionHistory(Global.get().Vendor());
 	}
 
 	@Override
@@ -107,32 +106,12 @@ public class VendorTransactionHistoryServerReport extends
 			return getDateByCompanyType(record.getDate());
 		case 3:
 			return record.getNumber();
-			// case 3:
-			// return record.getReference();
-			// return record.getInvoicedAmount();
 		case 4:
 			return record.getAccount();
-			// return record.getPaidAmount();
 		case 5:
 			return DecimalUtil.isEquals(record.getInvoicedAmount(), 0.0) ? record
-					.getPaidAmount() : record.getInvoicedAmount();
-			// return record.getDiscount();
-			// case 6:
-			// return record.getInvoicedAmount() - record.getPaidAmount()
-			// - record.getDiscount();
-			// case 7:
-			// return Utility.getTransactionStatus(record.getType(), record
-			// .getStatus());
-			// case 8:
-			// return record.getNumber();
-			// case 9:
-			// return record.getMemo();sort
-			// case 10:
-			// return record.getDueDate();
-			// case 11:
-			// return record.getDebit();
-			// case 12:
-			// return record.getCredit();
+					.getPaidAmount()
+					: record.getInvoicedAmount();
 
 		}
 		return null;
@@ -141,7 +120,7 @@ public class VendorTransactionHistoryServerReport extends
 	public void processRecord(TransactionHistory record) {
 		// if (sectionDepth == 0) {
 		// addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-		// getConstants().total() }, new int[] { 5 });
+		// messages.total() }, new int[] { 5 });
 		// } else
 		if (sectionDepth == 0) {
 			// First time
@@ -179,7 +158,7 @@ public class VendorTransactionHistoryServerReport extends
 	int getType(TransactionHistory record) {
 		if (record.getType() == 11) {
 			return (record.getMemo() != null && record.getMemo().equals(
-					getMessages().vendorPrePayment(Global.get().Vendor()))) ? ClientTransaction.TYPE_VENDOR_PAYMENT
+					messages.payeePrePayment(Global.get().Vendor()))) ? ClientTransaction.TYPE_VENDOR_PAYMENT
 					: ClientTransaction.TYPE_PAY_BILL;
 		}
 
@@ -187,8 +166,8 @@ public class VendorTransactionHistoryServerReport extends
 	}
 
 	public int sort(TransactionHistory obj1, TransactionHistory obj2, int col) {
-		int ret = obj1.getName().toLowerCase()
-				.compareTo(obj2.getName().toLowerCase());
+		int ret = obj1.getName().toLowerCase().compareTo(
+				obj2.getName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -206,15 +185,15 @@ public class VendorTransactionHistoryServerReport extends
 			// return obj1.getReference().toLowerCase().compareTo(
 			// obj2.getReference().toLowerCase());
 		case 4:
-			return obj1.getAccount().toLowerCase()
-					.compareTo(obj2.getAccount().toLowerCase());
+			return obj1.getAccount().toLowerCase().compareTo(
+					obj2.getAccount().toLowerCase());
 		case 5:
 			if (DecimalUtil.isEquals(obj1.getInvoicedAmount(), 0.0))
-				return UIUtils.compareDouble(obj1.getPaidAmount(),
-						obj2.getPaidAmount());
+				return UIUtils.compareDouble(obj1.getPaidAmount(), obj2
+						.getPaidAmount());
 			else
-				return UIUtils.compareDouble(obj1.getInvoicedAmount(),
-						obj2.getInvoicedAmount());
+				return UIUtils.compareDouble(obj1.getInvoicedAmount(), obj2
+						.getInvoicedAmount());
 		}
 		return 0;
 	}
@@ -227,9 +206,9 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { messages.vendorName(Global.get().vendor()),
-				getConstants().date(), getConstants().type(),
-				getConstants().no(), Global.get().account(), constants.amount() };
+		return new String[] { messages.payeeName(Global.get().vendor()),
+				messages.date(), messages.type(), messages.no(),
+				messages.account(), messages.amount() };
 	}
 
 }

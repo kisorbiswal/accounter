@@ -10,13 +10,18 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
+import com.google.gwt.view.client.SingleSelectionModel;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.CoreEvent;
 import com.vimukti.accounter.web.client.util.CoreEventHandler;
 
-public abstract class AbstractDropDownTable<T> extends CellTable<T> {
+public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
+		CellTable<T> {
+
+	protected AccounterMessages messages = Accounter.messages();
 	private RowSelectHandler<T> rowSelectHandler;
 	private List<T> data;
 	private ListDataProvider<T> dataProvider;
@@ -196,7 +201,15 @@ public abstract class AbstractDropDownTable<T> extends CellTable<T> {
 	protected abstract void addNewItem();
 
 	protected void selectRow(T result) {
-		dataProvider.getList().add(result);
+		boolean isExists = false;
+		for (IAccounterCore coreObj : dataProvider.getList()) {
+			if (result.getID() == coreObj.getID()) {
+				isExists = true;
+			}
+		}
+		if (!isExists) {
+			dataProvider.getList().add(result);
+		}
 		selectRow(result, true);
 	}
 

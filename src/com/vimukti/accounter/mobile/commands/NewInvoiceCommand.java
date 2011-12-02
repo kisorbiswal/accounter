@@ -1,324 +1,617 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.Date;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Invoice;
+import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.TransactionItem;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.ObjectListRequirement;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.ContactRequirement;
+import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.EstimatesAndSalesOrderTableRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
+import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientInvoice;
+import com.vimukti.accounter.web.client.core.ClientSalesOrder;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.server.FinanceTool;
 
-public class NewInvoiceCommand extends AbstractTransactionCommand {
+/**
+ * 
+ * @author Sai Prasad N
+ * 
+ */
+public class NewInvoiceCommand extends NewAbstractTransactionCommand {
+
+	private static final String ESTIMATEANDSALESORDER = "estimateAndSalesOrder";
+	private static final String PAYMENT_TERMS = "paymentTerms";
+	private static final String DUE_DATE = "duedate";
+	private static final String ORDER_NO = "orderNo";
+
+	private ClientInvoice invoice;
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getWelcomeMessage() {
+		return invoice.getID() == 0 ? "Creating new invoice... "
+				: "Updating invoice";
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement("customer", false, true));
-		list.add(new ObjectListRequirement("items", false, true) {
+
+		list.add(new CustomerRequirement(CUSTOMER,
+				"Please Enter Customer name or number to set InvoiceCustomer",
+				"Customer", false, true, new ChangeListner<Customer>() {
+
+					@Override
+					public void onSelection(Customer value) {
+						get(BILL_TO).setValue(null);
+						Set<Address> addresses = value.getAddress();
+						for (Address address : addresses) {
+							if (address.getType() == Address.TYPE_BILL_TO) {
+								try {
+									ClientAddress addr = new ClientConvertUtil()
+											.toClientObject(address,
+													ClientAddress.class);
+									get(BILL_TO).setValue(addr);
+								} catch (AccounterException e) {
+									e.printStackTrace();
+								}
+								break;
+							}
+						}
+
+						NewInvoiceCommand.this.get(CONTACT).setValue(null);
+						for (Contact contact : value.getContacts()) {
+							if (contact.isPrimary()) {
+								NewInvoiceCommand.this.get(CONTACT).setValue(
+										contact);
+								break;
+							}
+						}
+
+					}
+				}) {
 
 			@Override
-			public void addRequirements(List<Requirement> list) {
-				list.add(new Requirement("name", false, true));
-				list.add(new Requirement("desc", true, true));
-				list.add(new Requirement("quantity", true, true));
-				list.add(new Requirement("price", true, true));
-				list.add(new Requirement("vatCode", true, true));
+			protected List<Customer> getLists(Context context) {
+				return getCustomers();
+			}
+		});
+		list.add(new EstimatesAndSalesOrderTableRequirement(
+				ESTIMATEANDSALESORDER, getMessages().selectTypeOfThis(
+						getMessages().quote()), getMessages()
+						.quoteAndSalesOrderList()) {
+
+			@Override
+			protected Customer getCustomer() {
+				return (Customer) NewInvoiceCommand.this.get(CUSTOMER)
+						.getValue();
+			}
+
+		});
+		/*
+		 * list.add(new CurrencyRequirement(CURRENCY,
+		 * getMessages().pleaseSelect( getConstants().currency()),
+		 * getConstants().currency(), true, true, null) {
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if
+		 * (context.getPreferences().isEnableMultiCurrency()) { return
+		 * super.run(context, makeResult, list, actions); } else { return null;
+		 * } }
+		 * 
+		 * @Override protected List<Currency> getLists(Context context) { return
+		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
+		 * 
+		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
+		 * false, true) {
+		 * 
+		 * @Override protected String getDisplayValue(Double value) {
+		 * ClientCurrency primaryCurrency = getPreferences()
+		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
+		 * return "1 " + selc.getFormalName() + " = " + value + " " +
+		 * primaryCurrency.getFormalName(); }
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
+		 * != null) { if (context.getPreferences().isEnableMultiCurrency() &&
+		 * !((Currency) get(CURRENCY).getValue()) .equals(context.getCompany()
+		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
+		 * actions); } } return null; } });
+		 */
+
+		list.add(new TransactionItemTableRequirement(ITEMS,
+				"Please Enter Item Name or number", getMessages().items(),
+				false, true) {
+
+			@Override
+			public List<Item> getItems(Context context) {
+				Set<Item> items2 = context.getCompany().getItems();
+				ArrayList<Item> items = new ArrayList<Item>();
+				for (Item item : items2) {
+					if (item.isISellThisItem()) {
+						if (item.isActive())
+							items.add(item);
+					}
+				}
+				return items;
+			}
+
+			@Override
+			public boolean isSales() {
+				return true;
 			}
 		});
 
-		list.add(new Requirement(DATE, true, true));
-		list.add(new Requirement("number", true, false));
-		list.add(new Requirement("paymentTerms", true, true));
-		list.add(new Requirement("contact", true, true));
-		list.add(new Requirement("billTo", true, true));
-		list.add(new Requirement("shipTo", true, true));
-		list.add(new Requirement("due", true, true));
-		list.add(new Requirement(ORDER_NO, true, true));
-		list.add(new Requirement(MEMO, true, true));
-		list.add(new Requirement("tax", false, true));
+		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
+				getMessages().transactionDate()), getMessages()
+				.transactionDate(), true, true));
+
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getMessages().number()), getMessages().number(), true, true));
+
+		list.add(new PaymentTermRequirement(PAYMENT_TERMS, getMessages()
+				.pleaseSelect(getMessages().paymentTerm()), getMessages()
+				.paymentTerm(), true, true, null) {
+
+			@Override
+			public List<PaymentTerms> getLists(Context context) {
+				return new ArrayList<PaymentTerms>(context.getCompany()
+						.getPaymentTerms());
+			}
+		});
+
+		list.add(new ContactRequirement(CONTACT, "Enter contact name",
+				"Contact", true, true, null) {
+
+			@Override
+			protected Payee getPayee() {
+				return get(CUSTOMER).getValue();
+			}
+
+		});
+
+		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
+				getMessages().billTo()), getMessages().billTo(), true, true));
+
+		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
+				getMessages().dueDate()), getMessages().dueDate(), true, true));
+
+		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
+				getMessages().orderNo()), getMessages().orderNo(), true, true));
+
+		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
+				getMessages().memo()), getMessages().memo(), true, true));
+
+		// list.add(new EstimatesAndSalesOrderListRequirement(
+		// ESTIMATEANDSALESORDER, getMessages().selectTypeOfThis(
+		// getMessages().quote()), getMessages()
+		// .quoteAndSalesOrderList(), true, true, null) {
+		//
+		// @Override
+		// protected List<EstimatesAndSalesOrdersList> getLists(Context context)
+		// {
+		// try {
+		// return new FinanceTool().getCustomerManager()
+		// .getEstimatesAndSalesOrdersList(
+		// ((ClientCustomer) get(CUSTOMER).getValue())
+		// .getID(),
+		// context.getCompany().getID());
+		// } catch (DAOException e) {
+		// e.printStackTrace();
+		// }
+		// return null;
+		// }
+		//
+		// @Override
+		// protected boolean filter(EstimatesAndSalesOrdersList e, String name)
+		// {
+		// return e.getName().contains(name);
+		// }
+		// });
+
+		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (context.getPreferences().isTrackTax()
+						&& !context.getPreferences().isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
+			}
+
+			@Override
+			protected boolean filter(TAXCode e, String name) {
+				return e.getName().contains(name);
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				ClientCompanyPreferences preferences = context.getPreferences();
+				if (preferences.isTrackTax()
+						&& !preferences.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return "Include VAT with Amount enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Include VAT with Amount disabled";
+			}
+		});
+	}
+
+	private ClientEstimate getEstimate(long transactionId, Context context) {
+		ClientEstimate cEstimate = null;
+		try {
+			cEstimate = new FinanceTool().getManager().getObjectById(
+					AccounterCoreType.ESTIMATE, transactionId,
+					context.getCompany().getID());
+		} catch (DAOException e1) {
+			e1.printStackTrace();
+		} catch (AccounterException e1) {
+			e1.printStackTrace();
+		}
+		return cEstimate;
+	}
+
+	private ClientSalesOrder getSalesOrder(long transactionId, Context context) {
+		ClientSalesOrder cSalesOrder = null;
+		try {
+			cSalesOrder = new FinanceTool().getManager().getObjectById(
+					AccounterCoreType.SALESORDER, transactionId,
+					context.getCompany().getID());
+		} catch (DAOException e1) {
+			e1.printStackTrace();
+		} catch (AccounterException e1) {
+			e1.printStackTrace();
+		}
+		return cSalesOrder;
 	}
 
 	@Override
-	public Result run(Context context) {
-		String process = (String) context.getAttribute(PROCESS_ATTR);
-		Result result = null;
-		if (process != null) {
-			if (process.equals(ADDRESS_PROCESS)) {
-				result = addressProcess(context);
-				if (result != null) {
-					return result;
-				}
-			} else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
-				result = transactionItemProcess(context);
-				if (result != null) {
-					return result;
-				}
-			}
-		}
-
-		result = customerRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		result = itemsRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		Company company = context.getCompany();
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			Requirement taxReq = get("tax");
-			TAXCode taxcode = context.getSelection(TAXCODE);
-			if (!taxReq.isDone()) {
-				if (taxcode != null) {
-					taxReq.setValue(taxcode);
-				} else {
-					return taxCode(context, null);
-				}
-			}
-			if (taxcode != null) {
-				taxReq.setValue(taxcode);
-			}
-		}
-
-		result = createOptionalResult(context);
-		if (result != null) {
-			return result;
-		}
-		completeProcess(context);
-		markDone();
-		return null;
-	}
-
-	private void completeProcess(Context context) {
-		Company company = context.getCompany();
-		Invoice invoice = new Invoice();
-
-		Date date = get(DATE).getValue();
-		invoice.setDate(new FinanceDate(date));
+	protected Result onCompleteProcess(Context context) {
+		ClientFinanceDate date = get(DATE).getValue();
+		invoice.setDate(date.getDate());
 
 		invoice.setType(Transaction.TYPE_INVOICE);
 
-		String number = get("number").getValue();
+		String number = get(NUMBER).getValue();
 		invoice.setNumber(number);
 
-		List<TransactionItem> items = get("items").getValue();
-		invoice.setTransactionItems(items);
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
 
-		// TODO Location
-		// TODO Class
+		Customer customer = get(CUSTOMER).getValue();
+		invoice.setCustomer(customer.getID());
 
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			TAXCode taxCode = get("tax").getValue();
-			for (TransactionItem item : items) {
-				item.setTaxCode(taxCode);
-			}
-			// TODO if (getCompany().getPreferences().isChargeSalesTax()) {
-			// if (taxCode != null) {
-			// for (TransactionItem record : items) {
-			// record.setTaxItemGroup(taxCode.getTAXItemGrpForSales());
-			// }
-			// }
-			// transaction.setSalesTaxAmount(this.salesTax);
-			// }
-		}
+		ClientFinanceDate dueDate = get(DUE_DATE).getValue();
+		invoice.setDueDate(dueDate.getDate());
 
-		Customer customer = get("customer").getValue();
-		invoice.setCustomer(customer);
+		Contact contact = get(CONTACT).getValue();
+		invoice.setContact(toClientContact(contact));
 
-		Address shipTp = get("shipTo").getValue();
-		Set<Address> address = new HashSet<Address>();
-		address.add(shipTp);
-		customer.setAddress(address);
-		invoice.setShippingAdress(shipTp);
-
-		Date dueDate = get("due").getValue();
-		invoice.setDueDate(new FinanceDate(dueDate));
-
-		Contact contact = get("contact").getValue();
-		invoice.setContact(contact);
-
-		Address billTo = get("billTo").getValue();
+		ClientAddress billTo = get(BILL_TO).getValue();
 		invoice.setBillingAddress(billTo);
 
-		PaymentTerms paymentTerm = get("paymentTerms").getValue();
-		invoice.setPaymentTerm(paymentTerm);
+		PaymentTerms paymentTerm = get(PAYMENT_TERMS).getValue();
+		invoice.setPaymentTerm(paymentTerm.getID());
 
 		String orderNo = get(ORDER_NO).getValue();
 		invoice.setOrderNum(orderNo);
 
-		invoice.setTotal(getTransactionTotal(items, company));
-
-		// TODO Payments
-
 		String memo = get(MEMO).getValue();
 		invoice.setMemo(memo);
+		invoice.setStatus(Invoice.STATUS_OPEN);
+		// Adding selecting estimate or salesOrder to Invoice
+		invoice.setCurrencyFactor(1);
+		ClientCompanyPreferences preferences = context.getPreferences();
+		/*
+		 * if (preferences.isEnableMultiCurrency()) { Currency currency =
+		 * get(CURRENCY).getValue(); if (currency != null) {
+		 * invoice.setCurrency(currency.getID()); }
+		 * 
+		 * double factor = get(CURRENCY_FACTOR).getValue();
+		 * invoice.setCurrencyFactor(factor); }
+		 */
 
-		// TODO Discount Date
-		// TODO Estimates
-		// TODO sales Order
+		List<EstimatesAndSalesOrdersList> e = get(ESTIMATEANDSALESORDER)
+				.getValue();
+		List<ClientEstimate> estimates = new ArrayList<ClientEstimate>();
+		List<ClientSalesOrder> salesOrders = new ArrayList<ClientSalesOrder>();
+		for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : e) {
+			if (e != null) {
+				if (estimatesAndSalesOrdersList.getType() == ClientTransaction.TYPE_ESTIMATE) {
+					ClientEstimate cct = getEstimate(
+							estimatesAndSalesOrdersList.getTransactionId(),
+							context);
+					estimates.add(cct);
+				} else {
+					ClientSalesOrder cSalesOrder = getSalesOrder(
+							estimatesAndSalesOrdersList.getTransactionId(),
+							context);
+					salesOrders.add(cSalesOrder);
+				}
+			}
+		}
+		invoice.setEstimates(estimates);
+		invoice.setSalesOrders(salesOrders);
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			invoice.setAmountsIncludeVAT(isVatInclusive);
+			TAXCode taxCode = get(TAXCODE).getValue();
+			for (ClientTransactionItem item : items) {
+				item.setTaxCode(taxCode.getID());
+			}
+		}
+
+		invoice.setTransactionItems(items);
+		double taxTotal = updateTotals(context, invoice, true);
+		double totalAmount = 0.0;
+		double totalNetAmount = 0.0;
+		for (ClientSalesOrder clientSalesOrder : salesOrders) {
+			totalAmount += clientSalesOrder.getTotal();
+			totalNetAmount += clientSalesOrder.getNetAmount();
+			taxTotal += clientSalesOrder.getTaxTotal();
+		}
+		for (ClientEstimate clientEstimate : estimates) {
+			if (clientEstimate.getEstimateType() == ClientEstimate.CREDITS) {
+				totalAmount -= clientEstimate.getTotal();
+				totalNetAmount -= clientEstimate.getNetAmount();
+				taxTotal -= clientEstimate.getTaxTotal();
+			} else {
+				totalAmount += clientEstimate.getTotal();
+				totalNetAmount += clientEstimate.getNetAmount();
+				taxTotal += clientEstimate.getTaxTotal();
+			}
+		}
+		invoice.setNetAmount(invoice.getNetAmount() + totalNetAmount);
+		invoice.setTotal(invoice.getTotal() + totalAmount);
+		invoice.setTaxTotal(taxTotal);
 		create(invoice, context);
-	}
-
-	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case ADD_MORE_ITEMS:
-				return items(context);
-			case FINISH:
-				context.removeAttribute(INPUT_ATTR);
-				return null;
-			default:
-				break;
-			}
-		}
-
-		Requirement itemsReq = get("items");
-		List<TransactionItem> transItems = itemsReq.getValue();
-
-		selection = context.getSelection("transactionItems");
-		if (selection != null) {
-			Result result = transactionItem(context,
-					(TransactionItem) selection);
-			if (result != null) {
-				return result;
-			}
-		}
-
-		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
-
-		Requirement custmerReq = get("customer");
-		Customer customer = (Customer) custmerReq.getValue();
-		Record custRecord = new Record(customer);
-		custRecord.add("Name", "Customer");
-		custRecord.add("Value", customer.getName());
-
-		list.add(custRecord);
-
-		Result result = dateRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = contactRequirement(context, list, selection, customer);
-		if (result != null) {
-			return result;
-		}
-
-		result = paymentTermRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = invoiceNoRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = billToRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = shipToRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = dateOptionalRequirement(context, list, "due", "Due Date",
-				selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = orderNoRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
-		if (result != null) {
-			return result;
-		}
-
-		result = context.makeResult();
-		result.add("Invoice is ready to create with following values.");
-		result.add(list);
-
-		result.add("Items:-");
-		ResultList items = new ResultList("transactionItems");
-		for (TransactionItem item : transItems) {
-			Record itemRec = new Record(item);
-			itemRec.add("Name", item.getItem().getName());
-			itemRec.add("Total", item.getLineTotal());
-			itemRec.add("VatCode", item.getVATfraction());
-			items.add(itemRec);
-		}
-		result.add(items);
-
-		ResultList actions = new ResultList(ACTIONS);
-		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
-		moreItems.add("", "Add more items");
-		actions.add(moreItems);
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Invoice.");
-		actions.add(finish);
-		result.add(actions);
-
-		return result;
-	}
-
-	private Result invoiceNoRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get("number");
-		String invoiceNo = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(ORDER_NO)) {
-			String order = context.getSelection(NUMBER);
-			if (order == null) {
-				order = context.getString();
-			}
-			invoiceNo = order;
-			req.setValue(invoiceNo);
-		}
-
-		if (selection == invoiceNo) {
-			context.setAttribute(INPUT_ATTR, ORDER_NO);
-			return number(context, "Enter Invoice number", invoiceNo);
-		}
-
-		Record invoiceNoRec = new Record(invoiceNo);
-		invoiceNoRec.add("Name", "Invoice Number");
-		invoiceNoRec.add("Value", invoiceNo);
-		list.add(invoiceNoRec);
 		return null;
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return invoice.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().invoice())
+				: "Invoice ready to update with follwoing details";
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(NUMBER).setDefaultValue(
+				NumberUtils.getNextTransactionNumber(
+						ClientTransaction.TYPE_INVOICE, context.getCompany()));
+		get(CONTACT).setDefaultValue(null);
+		Set<PaymentTerms> paymentTerms = context.getCompany().getPaymentTerms();
+		for (PaymentTerms p : paymentTerms) {
+			if (p.getName().equals("Due on Receipt")) {
+				get(PAYMENT_TERMS).setDefaultValue(p);
+			}
+		}
+		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
+		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
+		/*
+		 * get(CURRENCY).setDefaultValue(null);
+		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		 */
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return invoice.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().invoice()) : getMessages().updateSuccessfully(
+				getMessages().invoice());
+	}
+
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		// TODO
+		List<ClientTransactionItem> allrecords = get(ITEMS).getValue();
+		ClientCompanyPreferences preferences = context.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			TAXCode taxCode = get(TAXCODE).getValue();
+			for (ClientTransactionItem item : allrecords) {
+				if (taxCode != null) {
+					item.setTaxCode(taxCode.getID());
+				}
+			}
+		}
+
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
+		double[] result = getTransactionTotal(isVatInclusive, allrecords, true);
+		List<EstimatesAndSalesOrdersList> e = get(ESTIMATEANDSALESORDER)
+				.getValue();
+		for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : e) {
+			if (e != null) {
+				if (estimatesAndSalesOrdersList.getType() == ClientTransaction.TYPE_ESTIMATE) {
+					ClientEstimate clientEstimate = getEstimate(
+							estimatesAndSalesOrdersList.getTransactionId(),
+							context);
+					if (clientEstimate.getEstimateType() == ClientEstimate.CREDITS) {
+						result[0] -= clientEstimate.getNetAmount();
+						result[1] -= clientEstimate.getTaxTotal();
+					} else {
+						result[0] += clientEstimate.getNetAmount();
+						result[1] += clientEstimate.getTaxTotal();
+					}
+				} else {
+					ClientSalesOrder cSalesOrder = getSalesOrder(
+							estimatesAndSalesOrdersList.getTransactionId(),
+							context);
+					result[0] += cSalesOrder.getNetAmount();
+					result[1] += cSalesOrder.getTaxTotal();
+				}
+			}
+		}
+		if (context.getPreferences().isTrackTax()) {
+			makeResult.add("Total Tax: " + result[1]);
+		}
+		makeResult.add("Total: " + (result[0] + result[1]));
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select an Invoice to update.");
+				return "Invoices List";
+			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
+			ClientInvoice invoiceByNum = (ClientInvoice) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.INVOICE);
+			if (invoiceByNum == null) {
+				addFirstMessage(context, "Select an Invoice to update.");
+				return "Invoices List " + string;
+			}
+			invoice = invoiceByNum;
+			setValues(context);
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			invoice = new ClientInvoice();
+		}
+		setTransaction(invoice);
+		return null;
+	}
+
+	/**
+	 * update the requirements
+	 * 
+	 * @param context
+	 */
+	private void setValues(Context context) {
+		get(DATE).setValue(invoice.getDate());
+		get(NUMBER).setValue(invoice.getNumber());
+		ArrayList<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		if (invoice.getTransactionItems() != null
+				&& !invoice.getTransactionItems().isEmpty()) {
+			for (ClientTransactionItem item : invoice.getTransactionItems()) {
+				// We should exclude those which come from quote/charge/credit
+				if (item.getReferringTransactionItem() == 0) {
+					list.add(item);
+				}
+			}
+		}
+		get(ITEMS).setValue(list);
+		get(CUSTOMER).setValue(
+				CommandUtils.getServerObjectById(invoice.getCustomer(),
+						AccounterCoreType.CUSTOMER));
+		get(DUE_DATE).setValue(new ClientFinanceDate(invoice.getDueDate()));
+		get(CONTACT).setValue(toServerContact(invoice.getContact()));
+		get(BILL_TO).setValue(invoice.getBillingAddress());
+		get(PAYMENT_TERMS).setValue(
+				CommandUtils.getServerObjectById(invoice.getPaymentTerm(),
+						AccounterCoreType.PAYMENT_TERM));
+		ClientCompanyPreferences preferences = context.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			get(TAXCODE).setValue(
+					getTaxCodeForTransactionItems(
+							invoice.getTransactionItems(), context));
+		}
+		get(ORDER_NO).setValue(invoice.getOrderNum());
+		get(MEMO).setValue(invoice.getMemo());
+		/* get(CURRENCY_FACTOR).setValue(invoice.getCurrencyFactor()); */
+
+		List<EstimatesAndSalesOrdersList> e = getEstimatesSalesOrderList();
+		get(ESTIMATEANDSALESORDER).setValue(e);
+		get(IS_VAT_INCLUSIVE).setValue(invoice.isAmountsIncludeVAT());
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private List<EstimatesAndSalesOrdersList> getEstimatesSalesOrderList() {
+		List<EstimatesAndSalesOrdersList> list = new ArrayList<EstimatesAndSalesOrdersList>();
+		List<ClientEstimate> estimates = invoice.getEstimates();
+		if (estimates == null) {
+			return list;
+		}
+		for (ClientEstimate clientEstimate : estimates) {
+			EstimatesAndSalesOrdersList el = new EstimatesAndSalesOrdersList();
+			el.setTransactionId(clientEstimate.getID());
+			el.setType(clientEstimate.getType());
+			el.setTransactionNumber(clientEstimate.getNumber());
+			el.setTotal(clientEstimate.getTotal());
+			el.setDate(clientEstimate.getDate());
+			ClientCustomer clientObjectById = (ClientCustomer) CommandUtils
+					.getClientObjectById(clientEstimate.getCustomer(),
+							AccounterCoreType.CUSTOMER, getCompanyId());
+			el.setCustomerName(clientObjectById != null ? clientObjectById
+					.getName() : "");
+			el.setEstimateType(clientEstimate.getEstimateType());
+			list.add(el);
+		}
+
+		return list;
 	}
 
 }

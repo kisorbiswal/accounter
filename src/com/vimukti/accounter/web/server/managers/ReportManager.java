@@ -17,15 +17,16 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
+import com.vimukti.accounter.core.Box;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.TAXAdjustment;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXRateCalculation;
+import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -53,12 +54,15 @@ import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.company.CompanyPreferencesView;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
+import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 
 public class ReportManager extends Manager {
+	public static final int TYPE_AGEING_FROM_DUEDATE = 2;
+	public static final int TYPE_AGEING_FROM_TRANSACTIONDATE = 1;
+
 	public ArrayList<TrialBalance> getCashFlowReport(FinanceDate startDate,
 			FinanceDate endDate, long companyId) throws AccounterException {
 
@@ -90,7 +94,8 @@ public class ReportManager extends Manager {
 				.setParameter("start", start).setParameter("end", end)).list();
 
 		double netIncome = 0.0;
-		netIncome = getNetIncome(startDate, endDate, "getNetIncome", companyId);
+		netIncome = getNetIncome(startDate.getDate(), endDate.getDate(),
+				"getNetIncome", companyId);
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
@@ -249,9 +254,7 @@ public class ReportManager extends Manager {
 			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		FinanceDate startDate1 = ((FinanceDate) ((session
-				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue")
-				.setParameter("company", company)).list().get(0)));
+		FinanceDate startDate1 = getCurrentFiscalYearStartDate(company);
 
 		/*
 		 * Here endDate1 is used to store the previous month of endDate value
@@ -374,8 +377,8 @@ public class ReportManager extends Manager {
 					.setTotal(object[6] != null ? (Double) object[6] : 0.0);
 
 			if (transactionDetailByAccount.getAccountName().equals(
-					AccounterServerConstants.SALES_TAX_VAT_UNFILED)
-					&& transactionDetailByAccount.getTransactionType() == Transaction.TYPE_VAT_RETURN) {
+					AccounterServerConstants.TAX_VAT_UNFILED)
+					&& transactionDetailByAccount.getTransactionType() == Transaction.TYPE_TAX_RETURN) {
 				if (transactionDetailByAccount.getTotal() < 0)
 					transactionDetailByAccount.setName("Box3");
 				if (transactionDetailByAccount.getTotal() > 0)
@@ -449,7 +452,9 @@ public class ReportManager extends Manager {
 					// if (t.getAmount() != 0.0) {
 					sortedList.add(t);
 					// }
-					getChilds(str, queryResult, sortedList);
+					if (str != null) {
+						getChilds(str, queryResult, sortedList);
+					}
 				}
 			}
 
@@ -463,7 +468,8 @@ public class ReportManager extends Manager {
 
 		for (TrialBalance t : queryResult) {
 
-			if (t.getAccountFlow().startsWith(str + ".")) {
+			if (t.getAccountFlow() != null
+					&& t.getAccountFlow().startsWith(str + ".")) {
 
 				if (!t.getAccountFlow().substring(str.length() + 1)
 						.contains(".")) {
@@ -489,15 +495,15 @@ public class ReportManager extends Manager {
 
 	}
 
-	private double getNetIncome(FinanceDate startDate, FinanceDate endDate,
-			String query, long companyId) {
+	private double getNetIncome(long startDate, long endDate, String query,
+			long companyId) {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query q = session.getNamedQuery(query)
 				.setParameter("companyId", companyId)
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate());
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate);
 
 		List l1 = q.list();
 		double netIncome = 0.0;
@@ -604,12 +610,10 @@ public class ReportManager extends Manager {
 
 		List l = ((Query) session.getNamedQuery("getBalanceSheet")
 				.setParameter("companyId", companyId)
-
-				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
 		double netIncome = 0.0;
-		netIncome = getNetIncome(startDate, endDate,
+		netIncome = getNetIncome(0, endDate.getDate(),
 				"getNetIncome_Closing_postings_Included", companyId);
 
 		Object[] object = null;
@@ -676,9 +680,7 @@ public class ReportManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		FinanceDate startDate1 = ((FinanceDate) ((session
-				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue")
-				.setParameter("company", company)).list().get(0)));
+		FinanceDate startDate1 = getCurrentFiscalYearStartDate(company);
 
 		/*
 		 * Here endDate1 is used to store the previous month of endDate value
@@ -951,14 +953,13 @@ public class ReportManager extends Manager {
 
 			vd.setBoxName(setVATBoxName(v));
 
-			if (v.getTransactionItem().getTransaction().isAmountsIncludeVAT())
+			if (v.getTransaction().isAmountsIncludeVAT())
 				vd.setNetAmount(v.getLineTotal() - v.getVatAmount());
 			else
 				vd.setNetAmount(v.getLineTotal());
 
-			if (v.getTransactionItem().getTransaction().getInvolvedPayee() != null)
-				vd.setPayeeName(v.getTransactionItem().getTransaction()
-						.getInvolvedPayee().getName());
+			if (v.getTransaction().getInvolvedPayee() != null)
+				vd.setPayeeName(v.getTransaction().getInvolvedPayee().getName());
 
 			/*
 			 * Here all box values other than Vat code EGS (for purchase) of
@@ -987,24 +988,21 @@ public class ReportManager extends Manager {
 			}
 			vd.setTransactionDate(new ClientFinanceDate(v.getTransactionDate()
 					.getDate()));
-			vd.setTransactionName(v.getTransactionItem().getTransaction()
-					.toString());
-			vd.setTransactionNumber(v.getTransactionItem().getTransaction()
-					.getNumber());
-			vd.setTransactionType(v.getTransactionItem().getTransaction()
-					.getType());
+			vd.setTransactionName(v.getTransaction().toString());
+			vd.setTransactionNumber(v.getTransaction().getNumber());
+			vd.setTransactionType(v.getTransaction().getType());
 			vd.setVatRate(v.getTaxItem().getTaxRate());
-			vd.setTransactionId(v.getTransactionItem().getTransaction().getID());
+			vd.setTransactionId(v.getTransaction().getID());
 			vd.setPercentage(v.getTaxItem().isPercentage());
 			vatDetailReport.getEntries().get(vd.getBoxName()).add(vd);
 
 			// Adding Box2 entries to Box4
 			// if (v.getVatItem().getVatReturnBox().getVatBox().equals(
-			// AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
+			// messages.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 			//
 			// VATDetail vd2 = new VATDetail();
 			// vd2
-			// .setBoxName(setVATBoxName(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES));
+			// .setBoxName(setVATBoxName(messages.UK_BOX4_VAT_RECLAMED_ON_PURCHASES));
 			//
 			// vd2.setNetAmount(vd.getNetAmount());
 			// vd2.setPayeeName(vd.getPayeeName());
@@ -1024,13 +1022,13 @@ public class ReportManager extends Manager {
 
 			// Adding RC vat code transaction entry to Box4
 			// if (v.getVatItem().getVatReturnBox().getVatBox().equals(
-			// AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES)
+			// messages.UK_BOX1_VAT_DUE_ON_SALES)
 			// && (v.getVatItem().getVatReturnBox().getTotalBox()
-			// .equals(AccounterConstants.BOX_NONE))) {
+			// .equals(messages.BOX_NONE))) {
 			//
 			// VATDetail vd3 = new VATDetail();
 			// vd3
-			// .setBoxName(setVATBoxName(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES));
+			// .setBoxName(setVATBoxName(messages.UK_BOX4_VAT_RECLAMED_ON_PURCHASES));
 			//
 			// vd3.setNetAmount(vd.getNetAmount());
 			// vd3.setPayeeName(vd.getPayeeName());
@@ -1053,13 +1051,11 @@ public class ReportManager extends Manager {
 
 			if ((vd1.getBoxName().equals(
 					AccounterServerConstants.UK_BOX10_UNCATEGORISED) && v
-					.getTransactionItem().getTransaction()
-					.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER)
+					.getTransaction().getTransactionCategory() == Transaction.CATEGORY_CUSTOMER)
 					|| !vd1.getBoxName().equals(
 							AccounterServerConstants.UK_BOX10_UNCATEGORISED)) {
 
-				if (v.getTransactionItem().getTransaction()
-						.isAmountsIncludeVAT()) {
+				if (v.getTransaction().isAmountsIncludeVAT()) {
 					double totalAmount = v.getLineTotal() - v.getVatAmount();
 					// double totalAmount = (!v.getTransactionItem().isVoid()) ?
 					// (v
@@ -1078,20 +1074,16 @@ public class ReportManager extends Manager {
 
 					vd1.setTotal(totalAmount);
 				}
-				if (v.getTransactionItem().getTransaction().getInvolvedPayee() != null)
-					vd1.setPayeeName(v.getTransactionItem().getTransaction()
-							.getInvolvedPayee().getName());
+				if (v.getTransaction().getInvolvedPayee() != null)
+					vd1.setPayeeName(v.getTransaction().getInvolvedPayee()
+							.getName());
 				vd1.setTransactionDate(new ClientFinanceDate(v
 						.getTransactionDate().getDate()));
-				vd1.setTransactionName(v.getTransactionItem().getTransaction()
-						.toString());
-				vd1.setTransactionNumber(v.getTransactionItem()
-						.getTransaction().getNumber());
-				vd1.setTransactionType(v.getTransactionItem().getTransaction()
-						.getType());
+				vd1.setTransactionName(v.getTransaction().toString());
+				vd1.setTransactionNumber(v.getTransaction().getNumber());
+				vd1.setTransactionType(v.getTransaction().getType());
 				// vd1.setVatRate(v.getTransactionItem().getLineTotal());
-				vd1.setTransactionId(v.getTransactionItem().getTransaction()
-						.getID());
+				vd1.setTransactionId(v.getTransaction().getID());
 
 				vatDetailReport.getEntries().get(vd1.getBoxName()).add(vd1);
 
@@ -1103,17 +1095,16 @@ public class ReportManager extends Manager {
 
 			// getting entries from VATAdjustment
 			if (taxAgency != null) {
-				query = session.getNamedQuery(
-
-				"getTaxadjustment.by.allDetails.withOrder")
+				query = session
+						.getNamedQuery(
+								"getTaxadjustment.by.allDetails.withOrder")
 						.setEntity("company", company)
 						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate)
 						.setParameter("taxAgency", taxAgency.getID());
 			} else {
-				query = session.getNamedQuery(
-
-				"getTaxadjustment.by.betweenDates")
+				query = session
+						.getNamedQuery("getTaxadjustment.by.betweenDates")
 						.setEntity("company", company)
 						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate);
@@ -1135,34 +1126,46 @@ public class ReportManager extends Manager {
 				if (!vd.getBoxName().equals(
 						AccounterServerConstants.UK_BOX10_UNCATEGORISED)) {
 
-					Entry e = v.getJournalEntry().getEntry().get(0);
-					if (!DecimalUtil.isEquals(e.getDebit(), 0)) {
-						vd.setTotal(e.getDebit());
+					if (v.getIncreaseVATLine()) {
+						if (!v.isSales()) {
+							vd.setTotal(v.getTotal());
+						} else {
+							vd.setTotal(-1 * v.getTotal());
+						}
 					} else {
-						vd.setTotal(-1 * e.getCredit());
+						if (v.isSales()) {
+							vd.setTotal(v.getTotal());
+						} else {
+							vd.setTotal(-1 * v.getTotal());
+						}
 					}
+
+					Account liabilityAccount = v.isSales() == true ? v
+							.getTaxItem().getTaxAgency()
+							.getSalesLiabilityAccount() : v.getTaxItem()
+							.getTaxAgency().getPurchaseLiabilityAccount();
 
 					if (vd.getBoxName().equals("VAT Due on sales (Box 1)"))
 						vd.setTotal(-1 * vd.getTotal());
 
-					vd.setPayeeName(e.getAccount().getName());
+					vd.setPayeeName(liabilityAccount.getName());
 
-					vd.setTransactionDate(new ClientFinanceDate(e
-							.getEntryDate().getDate()));
-					vd.setTransactionName(e.getJournalEntry().toString());
-					vd.setTransactionNumber(e.getJournalEntry().getNumber());
-					vd.setTransactionType(e.getJournalEntryType());
-					vd.setTransactionId(e.getJournalEntry().getID());
+					vd.setTransactionDate(new ClientFinanceDate(v.getDate()
+							.getDate()));
+					vd.setTransactionName(v.toString());
+					vd.setTransactionNumber(v.getNumber());
+					vd.setTransactionType(v.getType());
+					vd.setTransactionId(v.getID());
 
 					vatDetailReport.getEntries().get(vd.getBoxName()).add(vd);
 				}
 
 				// Adding Box2 adjustment entries to Box4
 				// if (v.getVatItem().getVatReturnBox().getVatBox().equals(
-				// AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
+				// messages.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 				// VATDetail vd2 = new VATDetail();
 				// vd2
-				// .setBoxName(setVATBoxName(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES));
+				// .setBoxName(setVATBoxName(messages.UK_BOX4_VAT_RECLAMED_ON_PURCHASES));
 				//
 				// vd2.setTotal(vd.getTotal());
 				// vd2.setPayeeName(vd.getPayeeName());
@@ -1181,11 +1184,18 @@ public class ReportManager extends Manager {
 
 				vd1.setBoxName(AccounterServerConstants.UK_BOX10_UNCATEGORISED);
 
-				Entry e = v.getJournalEntry().getEntry().get(0);
-				if (!DecimalUtil.isEquals(e.getDebit(), 0)) {
-					vd1.setTotal(1 * e.getDebit());
+				if (v.getIncreaseVATLine()) {
+					if (!v.isSales()) {
+						vd.setTotal(v.getTotal());
+					} else {
+						vd.setTotal(-1 * v.getTotal());
+					}
 				} else {
-					vd1.setTotal(-1 * e.getCredit());
+					if (v.isSales()) {
+						vd.setTotal(v.getTotal());
+					} else {
+						vd.setTotal(-1 * v.getTotal());
+					}
 				}
 
 				if (v.getTaxItem().getName().equals("EC Sales Goods Standard")
@@ -1193,14 +1203,19 @@ public class ReportManager extends Manager {
 								.equals("EC Sales Services Standard"))
 					vd1.setTotal(-1 * vd1.getTotal());
 
-				vd1.setPayeeName(e.getAccount().getName());
+				Account liabilityAccount = v.isSales() == true ? v.getTaxItem()
+						.getTaxAgency().getSalesLiabilityAccount() : v
+						.getTaxItem().getTaxAgency()
+						.getPurchaseLiabilityAccount();
 
-				vd1.setTransactionDate(new ClientFinanceDate(e.getEntryDate()
+				vd1.setPayeeName(liabilityAccount.getName());
+
+				vd1.setTransactionDate(new ClientFinanceDate(v.getDate()
 						.getDate()));
-				vd1.setTransactionName(e.getJournalEntry().toString());
-				vd1.setTransactionNumber(e.getVoucherNumber());
-				vd1.setTransactionType(e.getJournalEntryType());
-				vd1.setTransactionId(e.getJournalEntry().getID());
+				vd1.setTransactionName(v.toString());
+				vd1.setTransactionNumber(v.getNumber());
+				vd1.setTransactionType(v.getType());
+				vd1.setTransactionId(v.getID());
 
 				if (vatDetailReport.getEntries().get(vd1.getBoxName()) != null)
 					vatDetailReport.getEntries().get(vd1.getBoxName()).add(vd1);
@@ -1210,102 +1225,40 @@ public class ReportManager extends Manager {
 		// Getting journal entries from VATReturn
 		{
 			if (taxAgency != null) {
-				query = session.getNamedQuery(
-
-				"getVat.by.taxAgency.and.VatPeriod")
-
-				.setEntity("company", company)
+				query = session
+						.getNamedQuery("getVat.by.taxAgency.and.VatPeriod")
+						.setEntity("company", company)
 						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate)
 						.setParameter("taxAgency", taxAgency.getID());
 			} else {
-				query = session.getNamedQuery(
-
-				"getVat.by.BetweenendDates").setEntity("company", company)
+				query = session.getNamedQuery("getVat.by.BetweenendDates")
+						.setEntity("company", company)
 						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate);
 			}
 
-			List<VATReturn> vatReturns = query.list();
-			for (VATReturn v : vatReturns) {
-
-				List<Entry> entries = v.getJournalEntry().getEntry();
-				for (Entry e : entries) {
-					if ((!e.getAccount()
-							.getName()
-							.equals(company.getAccountsPayableAccount()
-									.getName()))) {
-						// && ((e.getDebit() == 0 && e.getCredit() == 0))) {
-
-						if (e.getTaxItem() != null) {
-							VATDetail vd = new VATDetail();
-
-							vd.setBoxName(setVATBoxName(e.getTaxItem()
-									.getVatReturnBox().getVatBox()));
-							// vd.setBoxName("Uncategorised Tax Amounts");
-
-							if (!DecimalUtil.isEquals(e.getDebit(), 0)) {
-								vd.setTotal(-1 * e.getDebit());
-							} else {
-								vd.setTotal(-1 * e.getCredit());
-							}
-
-							vd.setTotal(-1 * e.getTotal());
-							vd.setPayeeName(e.getAccount().getName());
-							vd.setTransactionDate(new ClientFinanceDate(e
-									.getEntryDate().getDate()));
-							vd.setTransactionName(e.getJournalEntry()
-									.toString());
-							vd.setTransactionNumber(e.getVoucherNumber());
-							vd.setTransactionType(e.getJournalEntryType());
-							vd.setTransactionId(e.getJournalEntry().getID());
-
-							// if (vatDetailReport.getEntries().get(
-							// vd.getBoxName()) != null)
-							// vatDetailReport.getEntries().get(
-							// vd.getBoxName()).add(vd);
-
-						} else {
-							VATDetail vd = new VATDetail();
-
-							vd.setBoxName(VATDetailReport.IRELAND_BOX10_UNCATEGORISED);
-
-							if (!DecimalUtil.isEquals(e.getDebit(), 0)) {
-								vd.setTotal(-1 * e.getDebit());
-							} else {
-								vd.setTotal(-1 * e.getCredit());
-							}
-
-							vd.setTransactionDate(new ClientFinanceDate(e
-									.getEntryDate().getDate()));
-							vd.setTransactionName(e.getJournalEntry()
-									.toString());
-							vd.setTransactionNumber(e.getVoucherNumber());
-							vd.setTransactionType(e.getJournalEntryType());
-							// vatDetailReport.getEntries().get(vd.getBoxName())
-							// .add(vd);
-						}
-					}
-
-				}
-
+			List<TAXReturn> vatReturns = query.list();
+			for (TAXReturn v : vatReturns) {
+				List<Box> boxes = toServerBoxes(v.getTaxReturnEntries(),
+						v.getTaxAgency());
 				// Adding Filed vat entries to it's Respective boxes, except
 				// Box3 and Box5
-				Query query1 = session.getNamedQuery("getFiledBoxValues")
-						.setParameter("id", v.getID())
-						.setParameter("companyId", company.getID());
+				// Query query1 = session.getNamedQuery("getFiledBoxValues")
+				// .setParameter("id", v.getID())
+				// .setParameter("companyId", company.getID());
+				//
+				// List list = query1.list();
+				// Object[] object = null;
+				// Iterator iterator = list.iterator();
 
-				List list = query1.list();
-				Object[] object = null;
-				Iterator iterator = list.iterator();
+				for (Box box : boxes) {
 
-				while (iterator.hasNext()) {
-
-					object = (Object[]) iterator.next();
+					// object = (Object[]) iterator.next();
 
 					VATDetail vd = new VATDetail();
 
-					vd.setBoxName(setVATBoxName((String) object[0]));
+					vd.setBoxName(setVATBoxName(box.getName()));
 
 					// if (((String) object[0])
 					// .equals("Box 2 VAT due in this period on acquisitions from other EC member states")
@@ -1314,19 +1267,17 @@ public class ReportManager extends Manager {
 					// vd
 					// .setBoxName(VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
 
-					if ((Double) object[1] != 0.0
+					if (box.getAmount() != 0.0
 							&& (!vd.getBoxName().equals(
 									VATSummary.UK_BOX3_TOTAL_OUTPUT) && !vd
 									.getBoxName().equals(
 											VATSummary.UK_BOX5_NET_VAT))) {
 
-						vd.setTotal(-1 * (Double) object[1]);
-						vd.setTransactionDate(new ClientFinanceDate(
-								(Long) object[2]));
-						vd.setTransactionName(v.getJournalEntry().toString());
-						vd.setTransactionNumber((String) object[3]);
-						vd.setTransactionType(v.getJournalEntry().getEntry()
-								.get(0).getJournalEntryType());
+						vd.setTotal(-1 * box.getAmount());
+						vd.setTransactionDate(v.getDate().toClientFinanceDate());
+						vd.setTransactionName("TAXReturn");
+						vd.setTransactionNumber(v.getNumber());
+						vd.setTransactionType(v.getType());
 
 						if (vatDetailReport.getEntries().get(vd.getBoxName()) != null)
 							vatDetailReport.getEntries().get(vd.getBoxName())
@@ -1429,7 +1380,7 @@ public class ReportManager extends Manager {
 					.setParameter("endDate", endDate)
 					.setEntity("company", company);
 
-			VATReturn vatReturn = (VATReturn) q1.uniqueResult();
+			TAXReturn vatReturn = (TAXReturn) q1.uniqueResult();
 			if (vatReturn == null) {
 				throw new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						new NullPointerException(
@@ -1439,7 +1390,7 @@ public class ReportManager extends Manager {
 										+ endDate.toString()));
 			}
 
-			startDate = vatReturn.getVATperiodStartDate();
+			startDate = vatReturn.getPeriodStartDate();
 
 		}
 
@@ -1723,41 +1674,30 @@ public class ReportManager extends Manager {
 
 		for (TAXRateCalculation v : taxRateCalculations) {
 
-			if (v.getTransactionItem().getTransaction()
-					.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
+			if (v.getTransaction().getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
 
-				String s = v.getTransactionItem().getTransaction()
-						.getInvolvedPayee() != null ? v.getTransactionItem()
+				String s = v.getTransaction().getInvolvedPayee() != null ? v
 						.getTransaction().getInvolvedPayee().getName() : null;
 
-				if ((transactionItemId == 0)
-						|| (transactionItemId != v.getTransactionItem().getID())) {
-
-					if (maps.containsKey(s)) {
+				if (maps.containsKey(s)) {
+					maps.put(s,
+							maps.get(s) + v.getVatAmount() + v.getLineTotal());
+					if (v.getTransaction().isVoid()) {
 						maps.put(
 								s,
-								maps.get(s) + v.getVatAmount()
-										+ v.getLineTotal());
-						if (v.getTransactionItem().isVoid()) {
-							maps.put(
-									s,
-									maps.get(s)
-											- (v.getVatAmount() + v
-													.getLineTotal()));
-						}
-					} else {
-						maps.put(s, v.getVatAmount() + v.getLineTotal());
-						if (v.getTransactionItem().isVoid()) {
-							maps.put(
-									s,
-									maps.get(s)
-											- (v.getVatAmount() + v
-													.getLineTotal()));
-						}
+								maps.get(s)
+										- (v.getVatAmount() + v.getLineTotal()));
 					}
-
-					transactionItemId = v.getTransactionItem().getID();
+				} else {
+					maps.put(s, v.getVatAmount() + v.getLineTotal());
+					if (v.getTransaction().isVoid()) {
+						maps.put(
+								s,
+								maps.get(s)
+										- (v.getVatAmount() + v.getLineTotal()));
+					}
 				}
+
 			}
 		}
 
@@ -1833,14 +1773,14 @@ public class ReportManager extends Manager {
 		for (TAXRateCalculation v : vats) {
 
 			// if (v.getVatItem().getVatReturnBox().getVatBox().equals(
-			// AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES)
+			// messages.UK_BOX1_VAT_DUE_ON_SALES)
 			// && (v.getVatItem().getVatReturnBox().getTotalBox()
-			// .equals(AccounterConstants.BOX_NONE))) {
+			// .equals(messages.BOX_NONE))) {
 			// rcAmount += -1 * (v.getVatAmount());
 			// }
 
 			// if (v.getVatItem().getVatReturnBox().getVatBox().equals(
-			// AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS))
+			// messages.UK_BOX2_VAT_DUE_ON_ACQUISITIONS))
 			// rcAmount += -1 * (v.getVatAmount());
 
 			/*
@@ -1878,7 +1818,7 @@ public class ReportManager extends Manager {
 					// .getVatReturnBox()
 					// .getVatBox()
 					// .equals(
-					// AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
+					// messages.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
 					// vs.setValue(vs.getValue() + rcAmount);
 					// rcAmount = 0.0;
 					// }
@@ -1910,7 +1850,7 @@ public class ReportManager extends Manager {
 					// if (vs
 					// .getVatReturnEntryName()
 					// .equals(
-					// AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
+					// messages.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
 					// vs.setValue(vs.getValue() + box2Amount);
 					// box2Amount = 0.0;
 					// }
@@ -1927,7 +1867,7 @@ public class ReportManager extends Manager {
 						// .getVatReturnBox()
 						// .getVatBox()
 						// .equals(
-						// AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS))
+						// messages.UK_BOX2_VAT_DUE_ON_ACQUISITIONS))
 						// box2Amount += (v.getIncreaseVATLine() == true ? v
 						// .getTotal() : -1 * v.getTotal());
 					}
@@ -1935,7 +1875,7 @@ public class ReportManager extends Manager {
 					else if (vs.getVatReturnEntryName().equals(
 							"Uncategorised Tax Amounts")) {
 
-						if (v.getTaxItem().isSalesType()) {
+						if (v.isSales()) {
 							if ((v.getTaxItem().getID() != 3)
 									&& (v.getTaxItem().getID() != 4)) {
 								if (v.getIncreaseVATLine())
@@ -1966,9 +1906,9 @@ public class ReportManager extends Manager {
 
 		// for (VATSummary v : vatSummaries) {
 		// if (v.getVatReturnEntryName().equals(
-		// AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS))
+		// messages.UK_BOX2_VAT_DUE_ON_ACQUISITIONS))
 		// v.setVatReturnEntryName("Box 2 "
-		// + AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
+		// + messages.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
 		// }
 
 		return new ArrayList<VATSummary>(vatSummaries);
@@ -2087,30 +2027,22 @@ public class ReportManager extends Manager {
 
 		for (TAXAdjustment v : vatAdjustments) {
 
-			if (v.getJournalEntry().getEntry() != null
-					&& v.getJournalEntry().getEntry().size() > 0
-					&& !DecimalUtil.isEquals(v.getJournalEntry().getEntry()
-							.get(0).getTotal(), 0)) {
+			if (!DecimalUtil.isEquals(v.getTotal(), 0)) {
 
 				UncategorisedAmountsReport u = new UncategorisedAmountsReport();
 
-				u.setTransactionType(v.getJournalEntry().getType());
-				u.setTransactionNumber(v.getJournalEntry().getNumber());
-				u.setID(v.getJournalEntry().getID());
-				u.setSourceName(v.getJournalEntry().getEntry().get(1)
-						.getAccount().getName());
+				u.setTransactionType(v.getType());
+				u.setTransactionNumber(v.getNumber());
+				u.setID(v.getID());
+				u.setSourceName(v.getAdjustmentAccount().getName());
 				u.setMemo("VAT Adjustment");
-				u.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
-						.getDate()));
-				if (v.getTaxItem().isSalesType()) {
+				u.setDate(new ClientFinanceDate(v.getDate().getDate()));
+				if (v.isSales()) {
 					if (v.getIncreaseVATLine()) {
 
-						u.setAmount(-1
-								* (v.getJournalEntry().getEntry().get(0)
-										.getTotal()));
+						u.setAmount(-1 * (v.getTotal()));
 					} else {
-						u.setAmount((v.getJournalEntry().getEntry().get(0)
-								.getTotal()));
+						u.setAmount(v.getTotal());
 					}
 
 					if ((v.getTaxItem().getName()
@@ -2124,12 +2056,9 @@ public class ReportManager extends Manager {
 				} else {
 					if (v.getIncreaseVATLine()) {
 
-						u.setAmount((v.getJournalEntry().getEntry().get(0)
-								.getTotal()));
+						u.setAmount(v.getTotal());
 					} else {
-						u.setAmount(-1
-								* (v.getJournalEntry().getEntry().get(0)
-										.getTotal()));
+						u.setAmount(-1 * v.getTotal());
 					}
 				}
 
@@ -2143,8 +2072,8 @@ public class ReportManager extends Manager {
 				.getNamedQuery("getTAXAdjustment.checkingby.VATperiodEndDate")
 				.setParameter("endDate", toDate).setEntity("company", company);
 
-		List<VATReturn> vatReturns = query.list();
-		for (VATReturn v : vatReturns) {
+		List<TAXReturn> vatReturns = query.list();
+		for (TAXReturn v : vatReturns) {
 
 			double amount = v.getBoxes().get(v.getBoxes().size() - 1)
 					.getAmount();
@@ -2153,14 +2082,13 @@ public class ReportManager extends Manager {
 
 				UncategorisedAmountsReport u = new UncategorisedAmountsReport();
 
-				u.setTransactionType(v.getJournalEntry().getType());
-				u.setTransactionNumber(v.getJournalEntry().getNumber());
-				u.setID(v.getJournalEntry().getID());
-				u.setSourceName(v.getJournalEntry().getEntry().get(0)
-						.getAccount().getName());
+				u.setTransactionType(v.getType());
+				u.setTransactionNumber(v.getNumber());
+				u.setID(v.getID());
+				u.setSourceName(v.getTaxAgency().getPurchaseLiabilityAccount()
+						.getName());
 				u.setMemo("Filed Uncategorised amounts");
-				u.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
-						.getDate()));
+				u.setDate(new ClientFinanceDate(v.getDate().getDate()));
 
 				// if (amount > 0)
 				u.setAmount(-1 * (amount));
@@ -2193,16 +2121,13 @@ public class ReportManager extends Manager {
 		for (TAXRateCalculation v : taxRateCalculations) {
 
 			VATItemDetail vi = new VATItemDetail();
-			vi.setAmount(v.getTransactionItem().getLineTotal());
+			vi.setAmount(v.getLineTotal());
 			vi.setDate(new ClientFinanceDate(v.getTransactionDate().getDate()));
-			vi.setName(v.getTransactionItem().getTransaction()
-					.getInvolvedPayee().getName());
-			vi.setTransactionId(v.getTransactionItem().getTransaction().getID());
-			vi.setMemo(v.getTransactionItem().getTransaction().getMemo());
-			vi.setTransactionNumber(v.getTransactionItem().getTransaction()
-					.getNumber());
-			vi.setTransactionType(v.getTransactionItem().getTransaction()
-					.getType());
+			vi.setName(v.getTransaction().getInvolvedPayee().getName());
+			vi.setTransactionId(v.getTransaction().getID());
+			vi.setMemo(v.getTransaction().getMemo());
+			vi.setTransactionNumber(v.getTransaction().getNumber());
+			vi.setTransactionType(v.getTransaction().getType());
 			vi.setSalesPrice(vi.getAmount());
 
 			vatItemDetails.add(vi);
@@ -2222,17 +2147,16 @@ public class ReportManager extends Manager {
 			VATItemDetail vi = new VATItemDetail();
 
 			if (v.getIncreaseVATLine()) {
-				vi.setAmount(v.getJournalEntry().getTotal());
+				vi.setAmount(v.getTotal());
 			} else {
-				vi.setAmount(-1 * v.getJournalEntry().getTotal());
+				vi.setAmount(-1 * v.getTotal());
 			}
-			vi.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
-					.getDate()));
+			vi.setDate(new ClientFinanceDate(v.getDate().getDate()));
 			vi.setMemo("VAT Adjustment");
 			vi.setName(v.getTaxItem().getTaxAgency().getName());
-			vi.setTransactionId(v.getJournalEntry().getID());
-			vi.setTransactionNumber(v.getJournalEntry().getNumber());
-			vi.setTransactionType(v.getJournalEntry().getType());
+			vi.setTransactionId(v.getID());
+			vi.setTransactionNumber(v.getNumber());
+			vi.setTransactionType(v.getType());
 			vatItemDetails.add(vi);
 		}
 
@@ -2269,55 +2193,37 @@ public class ReportManager extends Manager {
 					|| (v.getTaxItem().getID() == 12 && v.isVATGroupEntry() == false)
 					|| (v.getTaxItem().getID() == 14 && v.isVATGroupEntry() == false)) {
 
-				if (transactionItemId == 0
-						|| transactionItemId != v.getTransactionItem().getID()) {
+				VATItemDetail vi = new VATItemDetail();
+				double amount = (!v.getTransaction().isVoid()) ? v
+						.getLineTotal() : 0;
+				vi.setAmount(amount);
+				vi.setDate(new ClientFinanceDate(v.getTransactionDate()
+						.getDate()));
 
-					VATItemDetail vi = new VATItemDetail();
-					double amount = (!v.getTransactionItem().isVoid()) ? v
-							.getLineTotal() : 0;
-					vi.setAmount(amount);
-					vi.setDate(new ClientFinanceDate(v.getTransactionDate()
-							.getDate()));
+				if (v.getTransaction().getInvolvedPayee() != null)
+					vi.setName(v.getTransaction().getInvolvedPayee().getName());
 
-					if (v.getTransactionItem().getTransaction()
-							.getInvolvedPayee() != null)
-						vi.setName(v.getTransactionItem().getTransaction()
-								.getInvolvedPayee().getName());
+				else {
 
-					else {
-
-						CashPurchase cashPurchase = (CashPurchase) (v
-								.getTransactionItem().getTransaction());
-						if (cashPurchase.getCashExpenseAccount() != null)
-							vi.setName(cashPurchase.getCashExpenseAccount()
-									.getName());
-						else if (cashPurchase.getEmployee() != null)
-							vi.setName(cashPurchase.getEmployee().getName());
-					}
-
-					vi.setTransactionId(v.getTransactionItem().getTransaction()
-							.getID());
-					vi.setMemo(v.getTransactionItem().getTransaction()
-							.getMemo());
-					vi.setTransactionNumber(v.getTransactionItem()
-							.getTransaction().getNumber());
-					vi.setTransactionType(v.getTransactionItem()
-							.getTransaction().getType());
-					vi.setSalesPrice(v.getTransactionItem().getLineTotal());
-
-					transactionItemId = v.getTransactionItem().getID();
-					vatItemId = v.getTaxItem().getID();
-
-					vatItemDetails.add(vi);
+					CashPurchase cashPurchase = (CashPurchase) (v
+							.getTransaction());
+					if (cashPurchase.getCashExpenseAccount() != null)
+						vi.setName(cashPurchase.getCashExpenseAccount()
+								.getName());
+					else if (cashPurchase.getEmployee() != null)
+						vi.setName(cashPurchase.getEmployee().getName());
 				}
 
-				// if (transactionItemId == v.getTransactionItem().getID() &&
-				// v.getVatItem().getID() == 4) {
-				// vi.
-				// }
+				vi.setTransactionId(v.getTransaction().getID());
+				vi.setMemo(v.getTransaction().getMemo());
+				vi.setTransactionNumber(v.getTransaction().getNumber());
+				vi.setTransactionType(v.getTransaction().getType());
+				vi.setSalesPrice(v.getLineTotal());
 
+				vatItemId = v.getTaxItem().getID();
+
+				vatItemDetails.add(vi);
 			}
-
 		}
 
 		// Entries from the VATAdjustment
@@ -2334,17 +2240,16 @@ public class ReportManager extends Manager {
 			VATItemDetail vi = new VATItemDetail();
 
 			if (v.getIncreaseVATLine()) {
-				vi.setAmount(v.getJournalEntry().getTotal());
+				vi.setAmount(v.getTotal());
 			} else {
-				vi.setAmount(-1 * v.getJournalEntry().getTotal());
+				vi.setAmount(-1 * v.getTotal());
 			}
-			vi.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
-					.getDate()));
+			vi.setDate(new ClientFinanceDate(v.getDate().getDate()));
 			vi.setMemo("VAT Adjustment");
 			vi.setName(v.getTaxItem().getTaxAgency().getName());
-			vi.setTransactionId(v.getJournalEntry().getID());
-			vi.setTransactionNumber(v.getJournalEntry().getNumber());
-			vi.setTransactionType(v.getJournalEntry().getType());
+			vi.setTransactionId(v.getID());
+			vi.setTransactionNumber(v.getNumber());
+			vi.setTransactionType(v.getType());
 			// vatItemDetails.add(vi);
 		}
 
@@ -2392,15 +2297,15 @@ public class ReportManager extends Manager {
 				vi.setName(tempVATItemName);
 				// vi.setAmount(v.getVatAmount());
 				vi.setAmount(v.getLineTotal());
-				if (v.getTransactionItem() != null
-						&& v.getTransactionItem().isVoid()) {
+				vi.setTaxAmount(v.getTaxDue());
+				vi.setTaxRate(v.getTaxItem().getTaxRate());
+				if (v.getTransaction().isVoid()) {
 					vi.setAmount(vi.getAmount() - v.getLineTotal());
 				}
 			} else {
 
 				vi.setAmount(vi.getAmount() + v.getLineTotal());
-				if (v.getTransactionItem() != null
-						&& v.getTransactionItem().isVoid()) {
+				if (v.getTransaction().isVoid()) {
 					vi.setAmount(vi.getAmount() - v.getLineTotal());
 				}
 			}
@@ -2436,77 +2341,62 @@ public class ReportManager extends Manager {
 		boolean isAlreadyPut = false;
 		long transactionItemId = 0;
 		for (TAXRateCalculation v : taxRateCalculations) {
-			if (v.getTransactionItem().getTransaction()
-					.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
+			if (v.getTransaction().getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
 
-				if (v.getTransactionItem().getTransaction().getInvolvedPayee() != null
-						&& (v.getTransactionItem().getTransaction()
-								.getInvolvedPayee().getName())
+				if (v.getTransaction().getInvolvedPayee() != null
+						&& (v.getTransaction().getInvolvedPayee().getName())
 								.equals(payeeName)) {
 
-					if ((transactionItemId == 0)
-							|| (transactionItemId != v.getTransactionItem()
-									.getID())) {
+					ECSalesListDetail e = new ECSalesListDetail();
+					double amount = (!v.getTransaction().isVoid()) ? v
+							.getLineTotal() : 0;
+					e.setAmount(amount);
+					e.setDate(new ClientFinanceDate(v.getTransactionDate()
+							.getDate()));
+					e.setMemo(v.getTransaction().getMemo());
+					e.setName(v.getTransaction().getInvolvedPayee() != null ? v
+							.getTransaction().getInvolvedPayee().getName()
+							: null);
+					e.setSalesPrice(v.getLineTotal());
+					e.setTransactionId(v.getTransaction().getID());
+					e.setTransactionNumber(v.getTransaction().getNumber());
+					e.setTransactionid(v.getTransaction().getID());
+					e.setTransactionType(v.getTransaction().getType());
 
-						ECSalesListDetail e = new ECSalesListDetail();
-						double amount = (!v.getTransactionItem().isVoid()) ? v
-								.getLineTotal() : 0;
-						e.setAmount(amount);
-						e.setDate(new ClientFinanceDate(v.getTransactionDate()
-								.getDate()));
-						e.setMemo(v.getTransactionItem().getTransaction()
-								.getMemo());
-						e.setName(v.getTransactionItem().getTransaction()
-								.getInvolvedPayee() != null ? v
-								.getTransactionItem().getTransaction()
-								.getInvolvedPayee().getName() : null);
-						e.setSalesPrice(v.getTransactionItem().getLineTotal());
-						e.setTransactionId(v.getTransactionItem()
-								.getTransaction().getID());
-						e.setTransactionNumber(v.getTransactionItem()
-								.getTransaction().getNumber());
-						e.setTransactionid(v.getTransactionItem()
-								.getTransaction().getID());
-						e.setTransactionType(v.getTransactionItem()
-								.getTransaction().getType());
-
-						if (customerWiseDetail.containsKey(e.getName())) {
-							customerWiseDetail.get(e.getName()).add(e);
-						} else {
-							List<ECSalesListDetail> list = new ArrayList<ECSalesListDetail>();
-							list.add(e);
-							customerWiseDetail.put(e.getName(), list);
-						}
-
-						transactionItemId = v.getTransactionItem().getID();
-
-						// if (v.getTransactionItem().isVoid()) {
-						//
-						// ECSalesListDetail e2 = new ECSalesListDetail();
-						//
-						// e2.setAmount(-1 * (v.getLineTotal()));
-						// e2.setDate(new
-						// ClientFinanceDate(v.getTransactionDate()
-						// .getTime()));
-						// e2.setMemo(v.getTransactionItem().getTransaction()
-						// .getMemo());
-						// e2.setName(v.getTransactionItem().getTransaction()
-						// .getInvolvedPayee() != null ? v
-						// .getTransactionItem().getTransaction()
-						// .getInvolvedPayee().getName() : null);
-						// e2.setSalesPrice(v.getTransactionItem().getLineTotal());
-						// e2.setTransactionId(v.getTransactionItem()
-						// .getTransaction().getID());
-						// e2.setTransactionNumber(v.getTransactionItem()
-						// .getTransaction().getNumber());
-						// e2.setTransactionid(v.getTransactionItem()
-						// .getTransaction().getID());
-						// e2.setTransactionType(v.getTransactionItem()
-						// .getTransaction().getType());
-						//
-						// customerWiseDetail.get(e2.getName()).add(e2);
-						// }
+					if (customerWiseDetail.containsKey(e.getName())) {
+						customerWiseDetail.get(e.getName()).add(e);
+					} else {
+						List<ECSalesListDetail> list = new ArrayList<ECSalesListDetail>();
+						list.add(e);
+						customerWiseDetail.put(e.getName(), list);
 					}
+
+					// if (v.getTransactionItem().isVoid()) {
+					//
+					// ECSalesListDetail e2 = new ECSalesListDetail();
+					//
+					// e2.setAmount(-1 * (v.getLineTotal()));
+					// e2.setDate(new
+					// ClientFinanceDate(v.getTransactionDate()
+					// .getTime()));
+					// e2.setMemo(v.getTransaction()
+					// .getMemo());
+					// e2.setName(v.getTransaction()
+					// .getInvolvedPayee() != null ? v
+					// .getTransaction()
+					// .getInvolvedPayee().getName() : null);
+					// e2.setSalesPrice(v.getTransactionItem().getLineTotal());
+					// e2.setTransactionId(v.getTransactionItem()
+					// .getTransaction().getID());
+					// e2.setTransactionNumber(v.getTransactionItem()
+					// .getTransaction().getNumber());
+					// e2.setTransactionid(v.getTransactionItem()
+					// .getTransaction().getID());
+					// e2.setTransactionType(v.getTransactionItem()
+					// .getTransaction().getType());
+					//
+					// customerWiseDetail.get(e2.getName()).add(e2);
+					// }
 				}
 			}
 
@@ -2546,36 +2436,27 @@ public class ReportManager extends Manager {
 		long transactionItemId = 0;
 
 		for (TAXRateCalculation v : taxRateCalculations) {
-			if (v.getTransactionItem().getTransaction()
-					.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
+			if (v.getTransaction().getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
 
-				if ((transactionItemId == 0)
-						|| (transactionItemId != v.getTransactionItem().getID())) {
+				String customerName;
 
-					String customerName;
+				customerName = v.getTransaction().getInvolvedPayee() != null ? v
+						.getTransaction().getInvolvedPayee().getName()
+						: null;
 
-					customerName = v.getTransactionItem().getTransaction()
-							.getInvolvedPayee() != null ? v
-							.getTransactionItem().getTransaction()
-							.getInvolvedPayee().getName() : null;
+				if (customerWiseDetail.containsKey(customerName)) {
+					customerWiseDetail.put(customerName, (customerWiseDetail
+							.get(customerName) + v.getLineTotal()));
 
-					if (customerWiseDetail.containsKey(customerName)) {
-						customerWiseDetail.put(customerName,
-								(customerWiseDetail.get(customerName) + v
-										.getLineTotal()));
+				} else {
+					customerWiseDetail.put(customerName, v.getLineTotal());
 
-					} else {
-						customerWiseDetail.put(customerName, v.getLineTotal());
-
-					}
-					if (v.getTransactionItem().isVoid()) {
-						customerWiseDetail.put(customerName,
-								(customerWiseDetail.get(customerName) - v
-										.getLineTotal()));
-					}
-
-					transactionItemId = v.getTransactionItem().getID();
 				}
+				if (v.getTransaction().isVoid()) {
+					customerWiseDetail.put(customerName, (customerWiseDetail
+							.get(customerName) - v.getLineTotal()));
+				}
+
 			}
 		}
 
@@ -2787,7 +2668,7 @@ public class ReportManager extends Manager {
 			ClientFinanceDate ageingForDueorTranactionDate;
 			Company company = getCompany(companyId);
 			if (company.getPreferences()
-					.getAgeingFromTransactionDateORDueDate() == CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE)
+					.getAgeingFromTransactionDateORDueDate() == TYPE_AGEING_FROM_DUEDATE)
 				ageingForDueorTranactionDate = dueDate;
 			else
 				ageingForDueorTranactionDate = transactionDate;
@@ -2813,19 +2694,30 @@ public class ReportManager extends Manager {
 		return ageing;
 	}
 
-	public ArrayList<PayeeStatementsList> getPayeeStatementsList(long id,
-			FinanceDate fromDate, FinanceDate toDate, long companyId)
-			throws DAOException {
+	public ArrayList<PayeeStatementsList> getPayeeStatementsList(
+			boolean isVendor, long id, FinanceDate fromDate,
+			FinanceDate toDate, long companyId) throws DAOException {
+		ArrayList<PayeeStatementsList> statementsLists;
+		if (isVendor) {
+			statementsLists = getVendorStatementsList(isVendor, id, fromDate,
+					toDate, companyId);
+		} else {
+			statementsLists = getCustomerStatementsList(id, fromDate, toDate,
+					companyId);
+		}
+		return statementsLists;
+	}
 
+	private ArrayList<PayeeStatementsList> getCustomerStatementsList(long id,
+			FinanceDate fromDate, FinanceDate toDate, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
 		try {
-			Session session = HibernateUtil.getCurrentSession();
 			Query query = session
 					.getNamedQuery("getCreatableStatementForCustomer")
 					.setParameter("startDate", fromDate.getDate())
 					.setParameter("endDate", toDate.getDate())
-					.setParameter("customerId", id)
+					.setParameter("payeeId", id)
 					.setParameter("companyId", companyId);
-
 			List list = query.list();
 			if (list != null) {
 				Object[] object = null;
@@ -2886,12 +2778,56 @@ public class ReportManager extends Manager {
 					queryResult.add(statementsList);
 				}
 				return new ArrayList<PayeeStatementsList>(queryResult);
-			} else
+			} else {
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+			}
+
+		} catch (Exception e) {
 		}
+		return null;
+	}
+
+	private ArrayList<PayeeStatementsList> getVendorStatementsList(
+			boolean isVendor, long id, FinanceDate fromDate,
+			FinanceDate toDate, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			Query query = session
+					.getNamedQuery("getCreatableStatementForVendor")
+					.setParameter("startDate", fromDate.getDate())
+					.setParameter("endDate", toDate.getDate())
+					.setParameter("payeeId", id)
+					.setParameter("companyId", companyId);
+
+			List list = query.list();
+			if (list != null) {
+				Object[] object = null;
+				Iterator iterator = list.iterator();
+				List<PayeeStatementsList> queryResult = new ArrayList<PayeeStatementsList>();
+				while ((iterator).hasNext()) {
+					PayeeStatementsList statementsList = new PayeeStatementsList();
+					object = (Object[]) iterator.next();
+
+					statementsList.setTransactiontype(object[0] == null ? null
+							: (Integer) object[0]);
+					statementsList.setTransactionNumber((String) object[1]);
+					statementsList
+							.setTransactionDate(((Long) object[2]) == null ? null
+									: new ClientFinanceDate((Long) object[2]));
+					statementsList.setTransactionId((Long) object[3]);
+					statementsList.setTotal((Double) object[4]);
+					statementsList.setBalance((Double) object[5]);
+					queryResult.add(statementsList);
+				}
+				return new ArrayList<PayeeStatementsList>(queryResult);
+			} else {
+				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
+						null));
+			}
+		} catch (Exception e) {
+		}
+		return null;
 	}
 
 	public int getCategory(long days) {
@@ -2912,4 +2848,209 @@ public class ReportManager extends Manager {
 		// agedDebtors.setCategory(6);
 		return 0;
 	}
+
+	public ArrayList<TAXItemDetail> getTAXItemDetailReport(Long companyId,
+			long taxAgency, long startDate, long endDate) {
+
+		ArrayList<TAXItemDetail> vatItemDetails = new ArrayList<TAXItemDetail>();
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		Company company = getCompany(companyId);
+		long transactionItemId = 0, vatItemId = 0;
+
+		// Entries from the VATRate calculation
+
+		Query query = session
+				.getNamedQuery(
+						"getTAXRateCalculation.for.TaxReturn.for.reports")
+				.setParameter("taxAgency", taxAgency)
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate)
+				.setParameter("companyId", companyId);
+
+		List<Object[]> taxRateCalculations = query.list();
+		for (Object[] objects : taxRateCalculations) {
+
+			TAXItemDetail taxItemDetail = new TAXItemDetail();
+			taxItemDetail.setTaxAmount((Double) objects[0]);
+			taxItemDetail.setNetAmount((Double) objects[1]);
+			taxItemDetail.setTotal(taxItemDetail.getNetAmount()
+					+ taxItemDetail.getTaxAmount());
+			taxItemDetail.setTransactionId((Long) objects[2]);
+			taxItemDetail.setTransactionNumber((String) objects[3]);
+			taxItemDetail.setTransactionType((Integer) objects[4]);
+			taxItemDetail.setTransactionDate(new ClientFinanceDate(
+					(Long) objects[5]));
+
+			TAXItem taxItem = (TAXItem) session.get(TAXItem.class,
+					(Long) objects[6]);
+
+			taxItemDetail.setTaxItemName(taxItem.getName());
+			taxItemDetail.setTAXRate(taxItem.getTaxRate());
+			taxItemDetail.setPercentage(true);
+			vatItemDetails.add(taxItemDetail);
+
+		}
+
+		// // Entries from the VATAdjustment
+		query = session
+				.getNamedQuery("getTAXAdjustment.by.dates.and.taxAgency")
+				.setParameter("startDate", new FinanceDate(startDate))
+				.setParameter("endDate", new FinanceDate(endDate))
+				.setParameter("taxAgency", taxAgency)
+				.setEntity("company", company);
+
+		List<TAXAdjustment> vatAdjustments = query.list();
+		for (TAXAdjustment v : vatAdjustments) {
+
+			TAXItemDetail tid = new TAXItemDetail();
+
+			tid.setNetAmount(v.getNetAmount());
+			tid.setNetAmount(-1 * v.getNetAmount());
+			tid.setTotal(v.getTotal());
+			tid.setTaxAmount(v.getTotalTaxableAmount());
+			tid.setTaxItemName(v.getTaxItem().getName());
+			tid.setTAXRate(v.getTaxItem().getTaxRate());
+
+			tid.setTransactionId(v.getID());
+			tid.setTransactionNumber(v.getNumber());
+			tid.setTransactionType(v.getType());
+			vatItemDetails.add(tid);
+		}
+
+		return vatItemDetails;
+	}
+
+	public ArrayList<VATDetail> getVATExceptionDetailReport(Long companyId,
+			ClientFinanceDate start, ClientFinanceDate end) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<TAXItemDetail> getTAXItemExceptionDetailReport(
+			Long companyId, long taxAgency, long startDate, long endDate) {
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		// Entries from the VATRate calculation
+
+		Query query = session
+				.getNamedQuery(
+						"getTAXRateCalculation.for.TaxReturn.Exception.for.reports")
+				.setParameter("taxAgency", taxAgency)
+				.setParameter("companyId", companyId);
+
+		List<Object[]> taxReturnEntries = session
+				.getNamedQuery(
+						"getAllTAXReturnEntries.groupby.transaction.id.for.reports")
+				.setParameter("companyId", companyId)
+				.setParameter("taxAgency", taxAgency).list();
+
+		List<Object[]> list = query.list();
+
+		ArrayList<TAXItemDetail> resultTAXReturnEntries = new ArrayList<TAXItemDetail>();
+
+		Iterator<Object[]> iterator = list.iterator();
+		for (Object[] entry : taxReturnEntries) {
+			Long transaction = (Long) entry[0];
+			TAXItemDetail newEntry = null;
+			while (iterator.hasNext()) {
+				Object[] objects = iterator.next();
+				double taxAmount = (Double) objects[0];
+				double netAmount = (Double) objects[1];
+				long transactionID = (Long) objects[2];
+
+				if (transaction != null && transactionID == transaction) {
+					newEntry = new TAXItemDetail();
+					newEntry.setFiledTAXAmount((Double) entry[5]);
+					double amount = taxAmount - (Double) entry[5];
+					newEntry.setTaxAmount(amount >= 0 ? amount : -1 * amount);
+					newEntry.setNetAmount(netAmount - (Double) entry[6]);
+					newEntry.setTotal(newEntry.getTaxAmount()
+							+ newEntry.getNetAmount());
+					newEntry.setTransactionId((Long) objects[2]);
+					newEntry.setTransactionNumber((String) objects[3]);
+					newEntry.setTransactionType((Integer) objects[4]);
+					newEntry.setTransactionDate(new ClientFinanceDate(
+							(Long) objects[5]));
+					TAXItem taxItem = (TAXItem) session.get(TAXItem.class,
+							(Long) objects[6]);
+					newEntry.setTaxItemName(taxItem.getName());
+					newEntry.setTAXRate((Double) objects[7]);
+					newEntry.setPercentage(true);
+					resultTAXReturnEntries.add(newEntry);
+					iterator.remove();
+				}
+			}
+			if (newEntry == null && (transaction == null || (Boolean) entry[4])
+					&& (Double) entry[5] != 0) {
+				newEntry = new TAXItemDetail();
+				newEntry.setFiledTAXAmount((Double) entry[5]);
+				newEntry.setTaxAmount(0);
+				newEntry.setNetAmount((Double) entry[6]);
+				newEntry.setTotal(newEntry.getNetAmount()
+						+ newEntry.getTaxAmount());
+				Object object = entry[0];
+				if (object != null)
+					newEntry.setTransactionId((Long) object);
+				newEntry.setTransactionNumber((String) entry[1]);
+				newEntry.setTransactionType((Integer) entry[2]);
+				newEntry.setTransactionDate(new ClientFinanceDate(
+						(Long) entry[3]));
+				newEntry.setTaxItemName((String) entry[8]);
+				newEntry.setTAXRate((Double) entry[9]);
+				newEntry.setPercentage(true);
+				resultTAXReturnEntries.add(newEntry);
+			}
+		}
+
+		for (Object[] objects : list) {
+			TAXItemDetail vi = new TAXItemDetail();
+			vi.setTaxAmount((Double) objects[0]);
+			vi.setNetAmount((Double) objects[1]);
+			vi.setTotal(vi.getNetAmount() + vi.getTaxAmount());
+			vi.setTransactionId((Long) objects[2]);
+			vi.setTransactionNumber((String) objects[3]);
+			vi.setTransactionType((Integer) objects[4]);
+			vi.setTransactionDate(new ClientFinanceDate((Long) objects[5]));
+			TAXItem taxItem = (TAXItem) session.get(TAXItem.class,
+					(Long) objects[6]);
+			vi.setTaxItemName(taxItem.getName());
+			vi.setTAXRate((Double) objects[7]);
+			vi.setPercentage(true);
+			resultTAXReturnEntries.add(vi);
+		}
+
+		// // Entries from the VATAdjustment
+		// query = session
+		// .getNamedQuery("getTAXAdjustment.by.dates.and.taxItemName")
+		// .setParameter("startDate", startDate)
+		// .setParameter("endDate", endDate)
+		// .setParameter("taxItemName", taxItemName)
+		// .setEntity("company", company);
+		//
+		// List<TAXAdjustment> vatAdjustments = query.list();
+		// for (TAXAdjustment v : vatAdjustments) {
+		//
+		// VATItemDetail vi = new VATItemDetail();
+		//
+		// if (v.getIncreaseVATLine()) {
+		// vi.setAmount(v.getJournalEntry().getTotal());
+		// } else {
+		// vi.setAmount(-1 * v.getJournalEntry().getTotal());
+		// }
+		// vi.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
+		// .getDate()));
+		// vi.setMemo("VAT Adjustment");
+		// vi.setName(v.getTaxItem().getTaxAgency().getName());
+		// vi.setTransactionId(v.getJournalEntry().getID());
+		// vi.setTransactionNumber(v.getJournalEntry().getNumber());
+		// vi.setTransactionType(v.getJournalEntry().getType());
+		// vatItemDetails.add(vi);
+		// }
+
+		return resultTAXReturnEntries;
+	}
+
 }

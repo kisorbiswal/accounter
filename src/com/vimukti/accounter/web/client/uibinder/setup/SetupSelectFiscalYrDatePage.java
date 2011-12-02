@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 /**
  * @author Administrator
@@ -58,33 +57,23 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.selectFirstMonthOfFiscalYear());
+		headerLabel.setText(messages.selectFirstMonthOfFiscalYear());
 
-		fiscalStarts.setText(accounterConstants.myFiscalYearsStartsIn());
-		monthNames = new String[] { accounterConstants.january(),
-				accounterConstants.february(), accounterConstants.march(),
-				accounterConstants.april(), accounterConstants.may(),
-				accounterConstants.june(), accounterConstants.july(),
-				accounterConstants.august(), accounterConstants.september(),
-				accounterConstants.october(), accounterConstants.november(),
-				accounterConstants.december() };
+		fiscalStarts.setText(messages.myFiscalYearsStartsIn());
+		monthNames = new String[] { messages.january(),
+				messages.february(), messages.march(),
+				messages.april(), messages.may(),
+				messages.june(), messages.july(),
+				messages.august(), messages.september(),
+				messages.october(), messages.november(),
+				messages.december() };
 		monthsList = new ArrayList<String>();
 		// fiscalStartsList = null;
 		for (int i = 0; i < monthNames.length; i++) {
 			monthsList.add(monthNames[i]);
 			fiscalStartsList.addItem(monthNames[i]);
 		}
-		fiscalInfo.setHTML(accounterConstants.fiscalYearsaemasTaxyear());
-	}
-
-	@Override
-	public void setCountryChanges() {
-		if (getCountry() != null)
-			if (CountryPreferenceFactory.get(getCountry())
-					.allowFlexibleFiscalYear())
-				fiscalStartsList.setSelectedIndex(monthsList
-						.indexOf((CountryPreferenceFactory.get(getCountry())
-								.getDefaultFiscalYearStartingMonth())));
+		fiscalInfo.setHTML(messages.fiscalYearsaemasTaxyear());
 	}
 
 	@Override
@@ -108,13 +97,18 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	@Override
 	protected boolean validate() {
 		if (fiscalStartsList.getSelectedIndex() == -1) {
-			Accounter.showError(accounterConstants
+			Accounter.showError(messages
 					.selectFirstMonthOfFiscalYear());
 			return false;
 		} else {
 			return true;
 		}
 
+	}
+
+	@Override
+	public String getViewName() {
+		return messages.setFiscalYear();
 	}
 
 }

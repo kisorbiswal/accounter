@@ -6,11 +6,13 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -27,6 +29,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	 * 
 	 */
 	private static final long serialVersionUID = -5861971680510342701L;
+
 	/**
 	 * Any item must belong these two
 	 */
@@ -93,6 +96,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	double purchasePrice;
 	TAXCode taxCode;
 
+	double openingBalance;
 	/**
 	 * Expense Account set to this Item
 	 * 
@@ -113,27 +117,13 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
 
+	private Quantity maxStockAlertLevel;
+	private Quantity minStockAlertLevel;
+
+	private Warehouse warehouse;
 	private Measurement measurement;
-	private int maxStockAlertLevel;
-	private int minStockAlertLevel;
 
 	// TaxCode VATCode;
-
-	public int getMaxStockAlertLevel() {
-		return maxStockAlertLevel;
-	}
-
-	public void setMaxStockAlertLevel(int maxStockAlertLevel) {
-		this.maxStockAlertLevel = maxStockAlertLevel;
-	}
-
-	public int getMinStockAlertLevel() {
-		return minStockAlertLevel;
-	}
-
-	public void setMinStockAlertLevel(int minStockAlertLevel) {
-		this.minStockAlertLevel = minStockAlertLevel;
-	}
 
 	public Item() {
 	}
@@ -143,6 +133,22 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	 */
 	public boolean isDefault() {
 		return isDefault;
+	}
+
+	public Quantity getMaxStockAlertLevel() {
+		return maxStockAlertLevel;
+	}
+
+	public void setMaxStockAlertLevel(Quantity maxStockAlertLevel) {
+		this.maxStockAlertLevel = maxStockAlertLevel;
+	}
+
+	public Quantity getMinStockAlertLevel() {
+		return minStockAlertLevel;
+	}
+
+	public void setMinStockAlertLevel(Quantity minStockAlertLevel) {
+		this.minStockAlertLevel = minStockAlertLevel;
 	}
 
 	/**
@@ -403,8 +409,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
 
-		System.out.println("On Load Called....");
-
 	}
 
 	@Override
@@ -430,8 +434,9 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Item item = (Item) clientObject;
-		Query query = session.getNamedQuery("getItem.by.Name").setString(
-				"name", item.name).setEntity("company", item.getCompany());
+		Query query = session.getNamedQuery("getItem.by.Name")
+				.setString("name", item.name)
+				.setEntity("company", item.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			Item newItem = (Item) list.get(0);
@@ -452,5 +457,46 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	public Measurement getMeasurement() {
 		return measurement;
+	}
+
+	@Override
+	public String toString() {
+
+		return "Item Name:" + this.name + "  cost:" + this.standardCost;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Item) {
+			return ((Item) obj).getID() == this.getID();
+		}
+		return false;
+	}
+
+	public double getOpeningBalance() {
+		return openingBalance;
+	}
+
+	public void setOpeningBalance(double openingBalance) {
+		this.openingBalance = openingBalance;
+	}
+
+	public Warehouse getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.ITEM;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

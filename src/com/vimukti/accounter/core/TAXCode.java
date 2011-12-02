@@ -1,18 +1,19 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -25,7 +26,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 public class TAXCode extends CreatableObject implements IAccounterServerCore,
-		Lifecycle {
+		INamedObject, Lifecycle {
 
 	/**
 	 * 
@@ -42,7 +43,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 	@ReffereredObject
 	TAXItemGroup TAXItemGrpForSales;
 
-	boolean isECSalesEntry;
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
 
@@ -59,13 +59,12 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 
 	public TAXCode(TAXItemGroup taxItemGroup) {
 		this(taxItemGroup.getCompany());
-		this.name = taxItemGroup.name;
-		this.description = taxItemGroup.description;
+		this.name = taxItemGroup.getName();
+		this.description = taxItemGroup.getDescription();
 		this.isActive = taxItemGroup.isActive;
 		this.TAXItemGrpForSales = taxItemGroup;
 		this.isTaxable = true;
-		this.isECSalesEntry = false;
-		this.TAXItemGrpForPurchases = null;
+		this.TAXItemGrpForPurchases = taxItemGroup;
 	}
 
 	/**
@@ -173,21 +172,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 		TAXItemGrpForSales = itemGrpForSales;
 	}
 
-	/**
-	 * @return the isECSalesEntry
-	 */
-	public boolean isECSalesEntry() {
-		return isECSalesEntry;
-	}
-
-	/**
-	 * @param isECSalesEntry
-	 *            the isECSalesEntry to set
-	 */
-	public void setECSalesEntry(boolean isECSalesEntry) {
-		this.isECSalesEntry = isECSalesEntry;
-	}
-
 	public boolean isDefault() {
 		return isDefault;
 	}
@@ -263,8 +247,7 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 
 	private void setIsECsalesEntry() {
 
-		if (this.getTAXItemGrpForSales() instanceof TAXGroup
-				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+		if (this.getTAXItemGrpForSales() instanceof TAXGroup) {
 			List<TAXItem> taxItems = ((TAXGroup) this.getTAXItemGrpForSales())
 					.getTAXItems();
 			if (!taxItems.isEmpty() && taxItems.size() >= 2) {
@@ -275,11 +258,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 						.getTAXItemGrpForSales()).getTAXItems().get(1)
 						.getVatReturnBox().getName();
 
-				this.isECSalesEntry = Arrays.asList(
-						AccounterServerConstants.UK_EC_SALES_GOODS,
-						AccounterServerConstants.UK_EC_SALES_SERVICES)
-						.containsAll(
-								Arrays.asList(vatRetunrnName, vatRetunrnName1));
 			}
 		}
 	}
@@ -302,18 +280,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 		return true;
 	}
 
-	@Override
-	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public double getSalesTaxRate() {
 		return salesTaxRate;
 	}
@@ -328,5 +294,16 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 
 	public void setPurchaseTaxRate(double purchaseTaxRate) {
 		this.purchaseTaxRate = purchaseTaxRate;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.TAXCODE;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -50,16 +50,16 @@ public class SalesTaxLiabilityServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().taxCode(),
-				getConstants().taxRate(), getConstants().taxCollected(),
-				getConstants().totalSales(), getConstants().nonTaxable(),
-				getConstants().nonTaxableOther(), getConstants().taxable() };
+		return new String[] { getMessages().taxCode(),
+				getMessages().taxRate(), getMessages().taxCollected(),
+				getMessages().totalSales(), getMessages().nonTaxable(),
+				getMessages().nonTaxableOther(), getMessages().taxable() };
 
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().salesTaxLiability();
+		return getMessages().salesTaxLiability();
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class SalesTaxLiabilityServerReport extends
 	@Override
 	public void processRecord(SalesTaxLiability record) {
 		// if (sectionDepth == 0) {
-		// addSection("", getConstants().total(), new int[] { 2, 3, 4, 5, 6 });
+		// addSection("", getMessages().total(), new int[] { 2, 3, 4, 5, 6 });
 		// } else
 		if (sectionDepth == 0) {
 			// First time
@@ -85,8 +85,8 @@ public class SalesTaxLiabilityServerReport extends
 			addSection(sectionName, "", new int[0]);
 		} else if (sectionDepth == 1) {
 			// Inside fist section
-			addSection(getConstants().beginingBalance(),
-					getConstants().total(), new int[] { 2, 3, 4, 5, 6 });
+			addSection(getMessages().beginingBalance(),
+					getMessages().total(), new int[] { 2, 3, 4, 5, 6 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getTaxAgencyName())) {
@@ -117,10 +117,10 @@ public class SalesTaxLiabilityServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().taxCode(),
-				getConstants().taxRate(), getConstants().taxCollected(),
-				getConstants().totalSales(), getConstants().nonTaxable(),
-				getConstants().nonTaxableOther(), getConstants().taxable() };
+		return new String[] { getMessages().taxCode(),
+				getMessages().taxRate(), getMessages().taxCollected(),
+				getMessages().totalSales(), getMessages().nonTaxable(),
+				getMessages().nonTaxableOther(), getMessages().taxable() };
 	}
 
 	@Override

@@ -53,15 +53,15 @@ public class ECSalesListDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().type(), getConstants().date(),
-				getConstants().noDot(), getConstants().name(),
-				getConstants().memo(), getConstants().amount(),
-				getConstants().salesPrice() };
+		return new String[] { getMessages().type(), getMessages().date(),
+				getMessages().noDot(), getMessages().name(),
+				getMessages().memo(), getMessages().amount(),
+				getMessages().salesPrice() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().ecSalesListDetails();
+		return getMessages().ecSalesListDetails();
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class ECSalesListDetailServerReport extends
 	@Override
 	public void processRecord(ECSalesListDetail record) {
 		// if (sectionDepth == 0) {
-		// addSection("", getConstants().total(), new int[] { 5 });
+		// addSection("", getMessages().total(), new int[] { 5 });
 		// } else
 		if (sectionDepth == 0) {
 			this.sectionName = record.getName();
@@ -224,10 +224,10 @@ public class ECSalesListDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().type(), getConstants().date(),
-				getConstants().noDot(), getConstants().name(),
-				getConstants().memo(), getConstants().amount(),
-				getConstants().salesPrice() };
+		return new String[] { getMessages().type(), getMessages().date(),
+				getMessages().noDot(), getMessages().name(),
+				getMessages().memo(), getMessages().amount(),
+				getMessages().salesPrice() };
 	}
 
 }

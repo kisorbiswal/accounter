@@ -2,13 +2,11 @@ package com.vimukti.accounter.web.client.core;
 
 public class ClientTAXItem extends ClientTAXItemGroup {
 
-	
-	public static final int TAX_TYPE_TDS = 1;
-	public static final int TAX_TYPE_VAT = 2;
-	public static final int TAX_TYPE_TCS = 3;
-	public static final int TAX_TYPE_SALES = 4;
-	
-	
+	// public static final int TAX_TYPE_TDS = 1;
+	// public static final int TAX_TYPE_VAT = 2;
+	// public static final int TAX_TYPE_TCS = 3;
+	// public static final int TAX_TYPE_SALES = 4;
+
 	/**
 	 * 
 	 */

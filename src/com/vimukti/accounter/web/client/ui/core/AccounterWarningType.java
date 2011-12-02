@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-
 public class AccounterWarningType {
 
 	public static final String AMOUNTEXCEEDS = "Amount Range Should be in: 0 t0 1000";
@@ -37,7 +36,8 @@ public class AccounterWarningType {
 	public static final String RECEIVEPAYMENT_EDITING = "Editing this receive payment will void this transaction and create a new receive payment. Do you want to continue?";
 	public static final String PAYBILL_EDITING = "Editing this Pay Bill will void this transaction and create a new paybill. Do you want to continue?";
 	public static final String prior_CustomerSinceDate = "Customer Since date is prior to the company start date. Do you want to continue?";
-	public static final String PAYSALESTAX_EDITING = "Editing this Pay Sales Tax will void this transaction and create a new Pay Sales Tax. Do you want to continue?";
-	public static final String PAYVAT_EDITING = "Editing this Pay VAT will void this transaction and create a new Pay VAT. Do you want to continue?";
+	public static final String PAYTAX_EDITING = "Editing this Pay TAX will void this transaction and create a new Pay TAX. Do you want to continue?";
+	public static final String TAXREFUND_EDITING = "Editing this TAX Refund will void this transaction and create a new TAX Refund. Do you want to continue?";
 	public static final String EMPTY_CLASS = "You did n't selected class for this transaction.Do you want to continue?";
+	public static final String WAREHOUSE_TRANSFER_EDITING = "Editing of this ware house transfer will delete this and create new one. Do you want to continue?";
 }

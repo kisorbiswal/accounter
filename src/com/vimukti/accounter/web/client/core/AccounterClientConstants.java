@@ -57,6 +57,7 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 	public static final String BANK_ACCCOUNT_TYPE_CHECKING = "Checking";
 	public static final String BANK_ACCCOUNT_TYPE_SAVING = "Saving";
 	public static final String BANK_ACCCOUNT_TYPE_MONEY_MARKET = "Money Market";
+	public static final String BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT = "Current Account";
 
 	// Cash Flow Categories.
 	public static final String CASH_FLOW_CATEGORY_FINANCING = "Financing";
@@ -73,12 +74,12 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 
 	public static final String CUSTOMER_CREDIT_MEMO = "Customer Credit";
 	public static final String VENDOR_PAYMENT = Global.get().messages()
-			.vendorPayment(Global.get().Vendor());
+			.payeePayment(Global.get().Vendor());
 	public static final String CUSTOMER_PAYMENT = "Customer Payment";
 
 	public static final String CUSTOMER_PREPAYMENT = "Customer PrePayment";
 	public static final String VENDOR_CREDIT_MEMO = Global.get().messages()
-			.vendorCredit(Global.get().Vendor());
+			.payeeCredit(Global.get().Vendor());
 
 	// constants for Transaction Names
 
@@ -96,18 +97,18 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 	public static final String TYPE_ISSUE_PAYMENT = "Issue Payment";
 	public static final String TYPE_MAKE_DEPOSIT = "Deposit/Transfer Funds";
 	public static final String TYPE_PAY_BILL = Global.get().messages()
-			.vendorPayment(Global.get().Vendor());
+			.payeePayment(Global.get().Vendor());
 	public static final String TYPE_RECEIVE_PAYMENT = "Customer Payment";
 	public static final String TYPE_TRANSFER_FUND = "Transfer Fund";
 	public static final String TYPE_VENDOR_CREDIT_MEMO = Global.get()
-			.messages().vendorCredit(Global.get().Vendor());
+			.messages().payeeCredit(Global.get().Vendor());
 	public static final String TYPE_WRITE_CHECK = "Write Check";
 	public static final String TYPE_JOURNAL_ENTRY = "Journal Entry";
-	public static final String TYPE_PAY_SALES_TAX = "Pay Sales Tax";
+	public static final String TYPE_PAY_TAX = "Pay Tax";
 	public static final String TYPE_SALES_ORDER = "Sales Order";
 	public static final String TYPE_PURCHASE_ORDER = "Purchase Order";
 	public static final String TYPE_ITEM_RECEIPT = "Item Receipt";
-	public static final String TYPE_RECEIVE_VAT = "Receive VAT ";
+	public static final String TYPE_RECEIVE_TAX = "Receive TAX";
 	public static final String TYPE_VAT_RETURN = "VAT Return ";
 
 	// CONSTANTS FOR TRANSACTION STATUS
@@ -309,7 +310,7 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 	public static final String Box1_Description = "Total amount of VAT charged on sales and other supplies";
 	public static final String Box2_Description = "Total amount of VAT charged on acquisitions from other EC member states";
 	public static final String TYPE_VENDOR_PAYMENT = Global.get().messages()
-			.vendorPrePayment(Global.get().Vendor());
+			.payeePrePayment(Global.get().Vendor());
 	// constant terms of paypal account types
 	public static final String ADD_NEW_TYPE = "Add New Type";
 	public static final String PAYPALTYPE_PERSONAL = "Personal";

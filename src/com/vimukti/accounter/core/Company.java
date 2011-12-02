@@ -2,19 +2,22 @@ package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class Company implements IAccounterServerCore {
 
@@ -27,6 +30,7 @@ public class Company implements IAccounterServerCore {
 	public static final int ACCOUNTING_TYPE_UK = 1;
 	public static final int ACCOUNTING_TYPE_INDIA = 2;
 	public static final int ACCOUNTING_TYPE_OTHER = 3;
+	private ICountryPreferences countryPreferences;
 
 	public static final String UK = "UK";
 
@@ -38,9 +42,13 @@ public class Company implements IAccounterServerCore {
 
 	private long id;
 	private int version;
-	int accountingType = 0;
+	private Measurement defaultMeasurement;
+	private Warehouse defaultWarehouse;
+	// int accountingType = 0;
 
-	String companyID;
+	// String companyID;
+
+	private Date createdDate;
 
 	private boolean isConfigured;
 
@@ -53,7 +61,7 @@ public class Company implements IAccounterServerCore {
 	String companyEmailForCustomers;
 
 	// don't know the purpose
-	Contact contact = new Contact();
+	// Contact contact = new Contact();
 
 	// don't know the purpose
 	String ein;
@@ -102,7 +110,7 @@ public class Company implements IAccounterServerCore {
 	private String registrationNumber;
 
 	public void setID(long id) {
-		this.id = id;
+		this.setId(id);
 	}
 
 	/**
@@ -158,6 +166,8 @@ public class Company implements IAccounterServerCore {
 
 	Account pendingItemReceiptsAccount;
 
+	private Account exchangeLossOrGainAccount;
+
 	/**
 	 * Each company have a set of {@link Account} This will hold all the
 	 * Accounts created in this company.
@@ -197,13 +207,17 @@ public class Company implements IAccounterServerCore {
 	 * This is the Account created by default for the purpose of UK when VAT is
 	 * Filed
 	 */
-	Account VATFiledLiabilityAccount;
+	Account tAXFiledLiabilityAccount;
 
 	private Set<BrandingTheme> brandingTheme = new HashSet<BrandingTheme>();
 
+	private Set<Warehouse> warehouses = new HashSet<Warehouse>();
+
+	private Set<Measurement> measurements = new HashSet<Measurement>();
+
 	private Set<User> usersList = new HashSet<User>();
 
-	private Set<VATReturn> vatReturns = new HashSet<VATReturn>();
+	private Set<TAXReturn> taxReturns = new HashSet<TAXReturn>();
 
 	private Set<Currency> currencies = new HashSet<Currency>();
 
@@ -229,7 +243,7 @@ public class Company implements IAccounterServerCore {
 
 	private Set<ItemGroup> itemGroups = new HashSet<ItemGroup>();
 
-	private Set<PaySalesTax> paySalesTaxs = new HashSet<PaySalesTax>();
+	private Set<PayTAX> payTaxs = new HashSet<PayTAX>();
 
 	private Set<CreditRating> creditRatings = new HashSet<CreditRating>();
 
@@ -247,11 +261,11 @@ public class Company implements IAccounterServerCore {
 
 	private Set<TAXItemGroup> taxItemGroups = new HashSet<TAXItemGroup>();
 
-	private Set<Box> vatBoxes = new HashSet<Box>();
-	
 	private Set<Transaction> transactions = new HashSet<Transaction>();
-	
+
 	private Set<Activity> activities = new HashSet<Activity>();
+
+	private Set<Reconciliation> reconciliations = new HashSet<Reconciliation>();
 
 	String bankAccountNo;
 
@@ -313,15 +327,8 @@ public class Company implements IAccounterServerCore {
 		this.otherCashExpenseAccount = otherCashExpenseAccount;
 	}
 
-	/**
-	 * Creates new Instance
-	 */
 	public Company() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Company(int accountingType) {
-		this.accountingType = accountingType;
+		// this.accountingType = accountingType;
 
 		this.preferences = new CompanyPreferences();
 		Address tradingAddress = new Address();
@@ -330,33 +337,33 @@ public class Company implements IAccounterServerCore {
 		registeredAddress = new Address();
 		registeredAddress.type = Address.TYPE_COMPANY_REGISTRATION;
 
-		if (accountingType == ACCOUNTING_TYPE_UK) {
-			preferences.setReferVendors(ClientVendor.SUPPLIER);
-		}
-		initPrimaryCurrency();
+		// if (accountingType == ACCOUNTING_TYPE_UK) {
+		// preferences.setReferVendors(ClientVendor.SUPPLIER);
+		// }
+		// initPrimaryCurrency();
 	}
 
 	/**
 	 * 
 	 */
-	private void initPrimaryCurrency() {
-		Currency currency = new Currency();
-		switch (accountingType) {
-		case ACCOUNTING_TYPE_US:
-			currency.setName("USD");
-			break;
-		case ACCOUNTING_TYPE_UK:
-			currency.setName("GBP");
-			break;
-		case ACCOUNTING_TYPE_INDIA:
-			currency.setName("INR");
-			break;
-		default:
-			currency.setName("INR");
-			break;
-		}
-		preferences.setPrimaryCurrency(currency);
-	}
+	// private void initPrimaryCurrency() {
+	// Currency currency = new Currency();
+	// switch (accountingType) {
+	// case ACCOUNTING_TYPE_US:
+	// currency.setName("USD");
+	// break;
+	// case ACCOUNTING_TYPE_UK:
+	// currency.setName("GBP");
+	// break;
+	// case ACCOUNTING_TYPE_INDIA:
+	// currency.setName("INR");
+	// break;
+	// default:
+	// currency.setName("INR");
+	// break;
+	// }
+	// preferences.setPrimaryCurrency(currency);
+	// }
 
 	public void initialize(List<TemplateAccount> accounts) {
 
@@ -394,18 +401,18 @@ public class Company implements IAccounterServerCore {
 	/**
 	 * @return the name
 	 */
-	public String getFullName() {
-		return getPreferences().getFullName();
+	public String getTradingName() {
+		return getPreferences().getTradingName();
 	}
 
 	/**
 	 * @return the legalName
 	 */
-	public String getTradingName() {
+	public String getLegalName() {
 		return getPreferences().getLegalName();
 	}
 
-	public void setTradingName(String legalName) {
+	public void setLegalName(String legalName) {
 		getPreferences().setLegalName(legalName);
 	}
 
@@ -433,13 +440,6 @@ public class Company implements IAccounterServerCore {
 	 */
 	public String getCompanyEmailForCustomers() {
 		return companyEmailForCustomers;
-	}
-
-	/**
-	 * @return the contact
-	 */
-	public Contact getContact() {
-		return contact;
 	}
 
 	/**
@@ -541,11 +541,28 @@ public class Company implements IAccounterServerCore {
 	}
 
 	/**
+	 * 
+	 * @return the country preferences
+	 */
+	public ICountryPreferences getCountryPreferences() {
+		if (countryPreferences == null) {
+			countryPreferences = CountryPreferenceFactory
+					.get(this.registeredAddress.getCountryOrRegion());
+		}
+		return countryPreferences;
+
+	}
+
+	/**
 	 * @param preferences
 	 *            the preferences to set
 	 */
 	public void setPreferences(CompanyPreferences preferences) {
 		this.preferences = preferences;
+		// Currency currency = this.preferences.getPrimaryCurrency();
+		// if (currency != null) {
+		// currency.setCompany(this);
+		// }
 	}
 
 	public String getBankAccountNo() {
@@ -609,32 +626,30 @@ public class Company implements IAccounterServerCore {
 		this.pendingItemReceiptsAccount = pendingItemReceiptsAccount;
 	}
 
-	public Account getVATFiledLiabilityAccount() {
-		return VATFiledLiabilityAccount;
+	public Account getTAXFiledLiabilityAccount() {
+		return tAXFiledLiabilityAccount;
 	}
 
-	public void setVATFiledLiabilityAccount(Account vATFiledLiabilityAccount) {
-		VATFiledLiabilityAccount = vATFiledLiabilityAccount;
+	public void setTAXFiledLiabilityAccount(Account tAXFiledLiabilityAccount) {
+		this.tAXFiledLiabilityAccount = tAXFiledLiabilityAccount;
 	}
 
 	@Override
 	public String toString() {
-
-		return getFullName() + " " + companyEmail;
-
+		return "TradingName:" + getTradingName() + " LegalName"
+				+ getLegalName() + ' ' + companyEmail;
 	}
 
-	public void setFullName(String name) {
-		this.getPreferences().setFullName(name);
-
+	public void setTradingName(String name) {
+		this.getPreferences().setTradingName(name);
 	}
 
-	/**
-	 * @return the accountingType
-	 */
-	public int getAccountingType() {
-		return accountingType;
-	}
+	// /**
+	// * @return the accountingType
+	// */
+	// public int getAccountingType() {
+	// return accountingType;
+	// }
 
 	public boolean isConfigured() {
 		return isConfigured;
@@ -644,13 +659,13 @@ public class Company implements IAccounterServerCore {
 		this.isConfigured = isConfigured;
 	}
 
-	/**
-	 * @param accountingType
-	 *            the accountingType to set
-	 */
-	public void setAccountingType(int accountingType) {
-		this.accountingType = accountingType;
-	}
+	// /**
+	// * @param accountingType
+	// * the accountingType to set
+	// */
+	// public void setAccountingType(int accountingType) {
+	// this.accountingType = accountingType;
+	// }
 
 	public String getServiceItemDefaultIncomeAccount() {
 		return serviceItemDefaultIncomeAccount;
@@ -688,178 +703,7 @@ public class Company implements IAccounterServerCore {
 		this.nonInventoryItemDefaultExpenseAccount = nonInventoryItemDefaultExpenseAccount;
 	}
 
-	/**
-	 * Creates an entry in the VATRateCalculation entry for a transactionItem in
-	 * the UK company. This makes us to track all the VAT related amount to pay
-	 * while making the PayVAT.
-	 * 
-	 * @param transactionItem
-	 * @param session
-	 * @return boolean
-	 */
-	public static boolean setTAXRateCalculation(
-			TransactionItem transactionItem, Session session) {
 
-		if (transactionItem.getTaxCode() != null) {
-
-			TAXCode code = transactionItem.getTaxCode();
-
-			if (transactionItem.transaction.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
-
-				setVRCForCustomer(code, transactionItem, session);
-
-			} else if (transactionItem.transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
-
-				setVRCForVendor(code, transactionItem, session);
-
-			}
-
-		}
-
-		return false;
-	}
-
-	/**
-	 * Creates the VATRateCalculation entry for the Customer type transaction.
-	 * 
-	 * @param code
-	 * @param transactionItem
-	 * @param session
-	 */
-	private static void setVRCForCustomer(TAXCode code,
-			TransactionItem transactionItem, Session session) {
-
-		if (code.getTAXItemGrpForSales() != null) {
-
-			if (code.getTAXItemGrpForSales() instanceof TAXItem) {
-
-				TAXItem vatItem = ((TAXItem) code.getTAXItemGrpForSales());
-
-				setVatItemVRC(vatItem, transactionItem, session);
-
-			} else {
-
-				TAXGroup vatGroup = (TAXGroup) code.getTAXItemGrpForSales();
-				for (int i = 0; i < vatGroup.getTAXItems().size(); i++) {
-
-					TAXItem vatItem = vatGroup.getTAXItems().get(i);
-
-					setVatGroupVRC(vatItem, transactionItem, session);
-
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * Creates the VATRateCalculation entry for the Vendor type transaction.
-	 * 
-	 * @param code
-	 * @param transactionItem
-	 * @param session
-	 */
-	private static void setVRCForVendor(TAXCode code,
-			TransactionItem transactionItem, Session session) {
-		if (code.getTAXItemGrpForPurchases() != null) {
-
-			if (code.getTAXItemGrpForPurchases() instanceof TAXItem) {
-
-				TAXItem vatItem = (TAXItem) code.getTAXItemGrpForPurchases();
-
-				setVatItemVRC(vatItem, transactionItem, session);
-
-			} else {
-
-				TAXGroup vatGroup = (TAXGroup) code.getTAXItemGrpForPurchases();
-				for (int i = 0; i < vatGroup.getTAXItems().size(); i++) {
-
-					TAXItem vatItem = vatGroup.getTAXItems().get(i);
-
-					setVatGroupVRC(vatItem, transactionItem, session);
-
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * Set the VATItem entry in the VATRateCalculation. This is used to differ
-	 * this entry from the VATGroup type entry.
-	 * 
-	 * @param vatItem
-	 * @param transactionItem
-	 * @param session
-	 */
-	private static void setVatItemVRC(TAXItem vatItem,
-			TransactionItem transactionItem, Session session) {
-
-		TAXRateCalculation vc = null;
-		vc = new TAXRateCalculation(vatItem, transactionItem);
-
-		vc.setVATGroupEntry(false);
-
-		setVRC(vatItem, transactionItem, session, vc);
-
-	}
-
-	/**
-	 * Set the VATGroup entry in the VATRateCalculation. This is used to differ
-	 * this entry from the VATItem type entry.
-	 * 
-	 * @param vatItem
-	 * @param transactionItem
-	 * @param session
-	 */
-	private static void setVatGroupVRC(TAXItem vatItem,
-			TransactionItem transactionItem, Session session) {
-
-		TAXRateCalculation vc = null;
-		vc = new TAXRateCalculation(vatItem, transactionItem);
-
-		vc.setVATGroupEntry(true);
-
-		/*
-		 * Here updating vatAmount value for vat group entries
-		 */
-		if (vatItem.getName().equals(
-				AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_STANDARD)
-				|| vatItem.getName().equals(
-						AccounterServerConstants.VAT_ITEM_STANDARD_PURCHASES)
-				|| vatItem.getName().equals(
-						AccounterServerConstants.VAT_ITEM_ZERO_RATED_PURCHASES)) {
-
-			vc.vatAmount = -1 * vc.vatAmount;
-		}
-
-		setVRC(vatItem, transactionItem, session, vc);
-
-	}
-
-	/**
-	 * Creates the entry in the VATRateCalculation with the given values passed
-	 * to the constructor.
-	 * 
-	 * @param vatItem
-	 * @param transactionItem
-	 * @param session
-	 * @param vc
-	 */
-	private static void setVRC(TAXItem vatItem,
-			TransactionItem transactionItem, Session session,
-			TAXRateCalculation vc) {
-
-		vatItem.getTaxAgency().updateVATAgencyAccount(session,
-				transactionItem.transaction,
-				transactionItem.transaction.getTransactionCategory(),
-				vc.getVatAmount());
-
-		transactionItem.taxRateCalculationEntriesList.add(vc);
-
-		// setPayVatEntries(transactionItem, vatItem);
-
-	}
 
 	public void setUkServiceItemDefaultIncomeAccount(
 			String ukServiceItemDefaultIncomeAccount) {
@@ -899,14 +743,12 @@ public class Company implements IAccounterServerCore {
 
 	public Company toCompany(Company cmp) {
 
-		cmp.accountingType = this.getAccountingType();
-		cmp.id = this.getID();
+		// cmp.accountingType = this.getAccountingType();
+		cmp.setId(this.getID());
 		cmp.accounts = this.getAccounts();
 
 		cmp.companyEmail = this.getCompanyEmail();
-		cmp.registeredAddress = this.getTradingAddress();
 		cmp.companyEmailForCustomers = this.getCompanyEmailForCustomers();
-		cmp.contact = this.getContact();
 		cmp.ein = this.getEin();
 		cmp.firstMonthOfFiscalYear = this.getFirstMonthOfFiscalYear();
 		cmp.firstMonthOfIncomeTaxYear = this.getFirstMonthOfIncomeTaxYear();
@@ -924,7 +766,7 @@ public class Company implements IAccounterServerCore {
 		cmp.users = this.getUsers();
 		cmp.vatReturnBoxes = this.getVatReturnBoxes();
 		cmp.preferences = this.getPreferences();
-		cmp.id = this.getID();
+		cmp.setId(this.getID());
 
 		cmp.accountsReceivableAccount = this.getAccountsReceivableAccount();
 		cmp.accountsPayableAccount = this.getAccountsPayableAccount();
@@ -969,7 +811,7 @@ public class Company implements IAccounterServerCore {
 
 		cmp.taxGroups = this.getTaxGroups();
 
-		cmp.paySalesTaxs = this.getPaySalesTaxs();
+		cmp.payTaxs = this.getPaySalesTaxs();
 
 		cmp.creditRatings = this.getCreditRatings();
 
@@ -987,9 +829,7 @@ public class Company implements IAccounterServerCore {
 
 		cmp.taxAdjustments = this.getTaxAdjustments();
 
-		cmp.vatBoxes = this.getVatBoxes();
-
-		cmp.vatReturns = this.getVatReturns();
+		cmp.taxReturns = this.getTAXReturns();
 
 		cmp.registrationNumber = this.getRegistrationNumber();
 
@@ -1005,7 +845,21 @@ public class Company implements IAccounterServerCore {
 
 		cmp.locations = this.getLocations();
 
+		cmp.currencies = this.getCurrencies();
+
+		cmp.warehouses = this.getWarehouse();
+
+		cmp.measurements = this.getMeasurements();
+
 		return cmp;
+	}
+
+	public Set<Measurement> getMeasurements() {
+		return measurements;
+	}
+
+	private Set<Warehouse> getWarehouse() {
+		return warehouses;
 	}
 
 	public Set<BrandingTheme> getBrandingTheme() {
@@ -1039,7 +893,7 @@ public class Company implements IAccounterServerCore {
 			throws AccounterException {
 
 		ServerConvertUtil serverConvertUtil = new ServerConvertUtil();
-		this.setFullName(clientCompany.getName());
+		this.setTradingName(clientCompany.getName());
 
 		this.setRegisteredAddress(serverConvertUtil.toServerObject(
 				this.registeredAddress, clientCompany.getRegisteredAddress(),
@@ -1047,7 +901,7 @@ public class Company implements IAccounterServerCore {
 
 		this.setCompanyEmail(clientCompany.getCompanyEmail());
 		// RegisteredName=legalName
-		this.setTradingName(clientCompany.getTradingName());
+		this.setLegalName(clientCompany.getTradingName());
 		this.setRegistrationNumber(clientCompany.getRegistrationNumber());
 		this.setTaxId(clientCompany.getTaxId());
 		this.setBankAccountNo(clientCompany.getBankAccountNo());
@@ -1059,7 +913,7 @@ public class Company implements IAccounterServerCore {
 
 	public ClientCompany toClientCompany() throws AccounterException {
 		ClientCompany clientCompany = new ClientCompany();
-		clientCompany.setID(this.id);
+		clientCompany.setID(this.getId());
 		clientCompany.setCompanyEmail(this.companyEmail);
 		clientCompany.setRegistrationNumber(this.registrationNumber);
 		clientCompany.setBankAccountNo(this.bankAccountNo);
@@ -1090,17 +944,16 @@ public class Company implements IAccounterServerCore {
 	}
 
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return preferences.getTradingName();
 	}
 
-	public String getCompanyID() {
-		return companyID;
-	}
-
-	public void setCompanyID(String companyID) {
-		this.companyID = companyID;
-	}
+	// public String getCompanyID() {
+	// return companyID;
+	// }
+	//
+	// public void setCompanyID(String companyID) {
+	// this.companyID = companyID;
+	// }
 
 	/**
 	 * @return the tradingAddress
@@ -1141,7 +994,8 @@ public class Company implements IAccounterServerCore {
 	public User getUserByUserEmail(String email) {
 		Set<User> users = getUsers();
 		for (User user : users) {
-			if (user.getEmail().equals(email)) {
+			if (!user.isDeleted()
+					&& user.getClient().getEmailId().equals(email)) {
 				return user;
 			}
 		}
@@ -1285,12 +1139,12 @@ public class Company implements IAccounterServerCore {
 		this.usersList = usersList;
 	}
 
-	public Set<VATReturn> getVatReturns() {
-		return vatReturns;
+	public Set<TAXReturn> getTAXReturns() {
+		return taxReturns;
 	}
 
-	public void setVatReturns(Set<VATReturn> vatReturns) {
-		this.vatReturns = vatReturns;
+	public void setTAXReturns(Set<TAXReturn> taxReturns) {
+		this.taxReturns = taxReturns;
 	}
 
 	public Set<Currency> getCurrencies() {
@@ -1381,12 +1235,12 @@ public class Company implements IAccounterServerCore {
 		this.itemGroups = itemGroups;
 	}
 
-	public Set<PaySalesTax> getPaySalesTaxs() {
-		return paySalesTaxs;
+	public Set<PayTAX> getPaySalesTaxs() {
+		return payTaxs;
 	}
 
-	public void setPaySalesTaxs(Set<PaySalesTax> paySalesTaxs) {
-		this.paySalesTaxs = paySalesTaxs;
+	public void setPaySalesTaxs(Set<PayTAX> paySalesTaxs) {
+		this.payTaxs = paySalesTaxs;
 	}
 
 	public Set<CreditRating> getCreditRatings() {
@@ -1465,14 +1319,6 @@ public class Company implements IAccounterServerCore {
 		}
 	}
 
-	public Set<Box> getVatBoxes() {
-		return vatBoxes;
-	}
-
-	public void setVatBoxes(Set<Box> vatBoxes) {
-		this.vatBoxes = vatBoxes;
-	}
-
 	public void setRestartSetupInterviews(boolean restartSetupInterviews) {
 		this.restartSetupInterviews = restartSetupInterviews;
 	}
@@ -1493,11 +1339,7 @@ public class Company implements IAccounterServerCore {
 
 	@Override
 	public long getID() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
+		return getId();
 	}
 
 	public void onDelete(Session session) {
@@ -1505,17 +1347,15 @@ public class Company implements IAccounterServerCore {
 		delete(accounts, session);
 		delete(customers, session);
 		delete(vendors, session);
-		delete(currencies, session);
 		delete(fiscalYears, session);
 		delete(paymentTerms, session);
 		delete(taxCodes, session);
 		delete(taxItems, session);
 		delete(taxAgencies, session);
 		delete(payees, session);
-//		delete(nominalCodeRange, session);
+		// delete(nominalCodeRange, session);
 		delete(brandingTheme, session);
-		delete(usersList, session);
-		delete(vatReturns, session);
+		delete(taxReturns, session);
 		delete(currencies, session);
 		delete(accounterClasses, session);
 		delete(taxGroups, session);
@@ -1526,7 +1366,7 @@ public class Company implements IAccounterServerCore {
 		delete(shippingTerms, session);
 		delete(priceLevels, session);
 		delete(itemGroups, session);
-		delete(paySalesTaxs, session);
+		delete(payTaxs, session);
 		delete(creditRatings, session);
 		delete(salesPersons, session);
 		delete(banks, session);
@@ -1535,8 +1375,12 @@ public class Company implements IAccounterServerCore {
 		delete(taxAdjustments, session);
 		delete(taxCodes, session);
 		delete(taxItemGroups, session);
-		delete(vatBoxes, session);
 		delete(activities, session);
+		delete(reconciliations, session);
+		delete(warehouses, session);
+		delete(measurements, session);
+		delete(usersList, session);
+		delete(currencies, session);
 	}
 
 	private static <T> void delete(Collection<T> list, Session session) {
@@ -1544,4 +1388,85 @@ public class Company implements IAccounterServerCore {
 			session.delete(acc);
 		}
 	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public List<User> getNonDeletedUsers() {
+		List<User> users = new ArrayList<User>();
+		for (User u : this.users) {
+			if (!u.isDeleted()) {
+				users.add(u);
+			}
+		}
+		return users;
+	}
+
+	public String getCountry() {
+		return this.getRegisteredAddress().getCountryOrRegion();
+	}
+
+	public Currency getCurrency(String formalName) {
+		for (Currency currency : currencies) {
+			if (currency.getFormalName().equals(formalName)) {
+				return currency;
+			}
+		}
+		return null;
+	}
+
+	public Currency getPrimaryCurrency() {
+		return preferences.getPrimaryCurrency();
+	}
+
+	public Measurement getDefaultMeasurement() {
+		return defaultMeasurement;
+	}
+
+	public void setDefaultMeasurement(Measurement defaultMeasurement) {
+		this.defaultMeasurement = defaultMeasurement;
+	}
+
+	public Warehouse getDefaultWarehouse() {
+		return defaultWarehouse;
+	}
+
+	public void setDefaultWarehouse(Warehouse defaultWarehouse) {
+		this.defaultWarehouse = defaultWarehouse;
+	}
+
+	/**
+	 * @return the exchangeLossOrGainAccount
+	 */
+	public Account getExchangeLossOrGainAccount() {
+		return exchangeLossOrGainAccount;
+	}
+
+	/**
+	 * @param exchangeLossOrGainAccount
+	 *            the exchangeLossOrGainAccount to set
+	 */
+	public void setExchangeLossOrGainAccount(Account exchangeLossOrGainAccount) {
+		this.exchangeLossOrGainAccount = exchangeLossOrGainAccount;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

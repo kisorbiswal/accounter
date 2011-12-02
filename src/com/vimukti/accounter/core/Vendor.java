@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,13 +7,14 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  *  This is a type of {@link Payee)  It refers to a real time entity, supplier or vendor, in accounting terms, to whom the company has debt to pay. This has a 'openingBalance' and 'balance' fields to note its corresponding opening balances and present balance. And this balance is recorded as per the balanceAsOf date provided while creation.
@@ -31,11 +31,6 @@ public class Vendor extends Payee {
 	private static final long serialVersionUID = -3859959561067390029L;
 
 	String vendorNumber;
-
-	/**
-	 * The date up to which the specified Vendor
-	 */
-	FinanceDate balanceAsOf;
 
 	/**
 	 * This account defaults the Grid Accounts in any Transaction while
@@ -89,46 +84,6 @@ public class Vendor extends Payee {
 	}
 
 	/**
-	 * @return the address
-	 */
-	@Override
-	public Set<Address> getAddress() {
-		return address;
-	}
-
-	/**
-	 * @return the phoneNumbers
-	 */
-	@Override
-	public Set<Phone> getPhoneNumbers() {
-		return phoneNumbers;
-	}
-
-	/**
-	 * @return the faxNumbers
-	 */
-	@Override
-	public Set<Fax> getFaxNumbers() {
-		return faxNumbers;
-	}
-
-	/**
-	 * @return the webPageAddress
-	 */
-	@Override
-	public String getWebPageAddress() {
-		return webPageAddress;
-	}
-
-	/**
-	 * @return the isActive
-	 */
-	@Override
-	public boolean isActive() {
-		return isActive;
-	}
-
-	/**
 	 * @return the accountNumber
 	 */
 	public String getVendorNumber() {
@@ -137,37 +92,6 @@ public class Vendor extends Payee {
 
 	public void setVendorNumber(String vendorNumber) {
 		this.vendorNumber = vendorNumber;
-	}
-
-	/**
-	 * @return the balance
-	 */
-	@Override
-	public double getBalance() {
-		return balance;
-	}
-
-	/**
-	 * @return the balanceAsOf
-	 */
-	public FinanceDate getBalanceAsOf() {
-		return balanceAsOf;
-	}
-
-	/**
-	 * @return the contacts
-	 */
-	@Override
-	public Set<Contact> getContacts() {
-		return contacts;
-	}
-
-	/**
-	 * @return the memo
-	 */
-	@Override
-	public String getMemo() {
-		return memo;
 	}
 
 	/**
@@ -361,13 +285,6 @@ public class Vendor extends Payee {
 		return false;
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
-	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-	}
-
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
@@ -383,101 +300,8 @@ public class Vendor extends Payee {
 	}
 
 	@Override
-	public boolean onUpdate(Session session) throws CallbackException {
-		super.onUpdate(session);
-		if (!DecimalUtil.isEquals(this.openingBalance, 0.0)
-				&& isOpeningBalanceEditable) {
-
-			this.isOpeningBalanceEditable = Boolean.FALSE;
-			// Query query = session.getNamedQuery("getNextTransactionNumber");
-			// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);
-			// List list = query.list();
-			// long nextVoucherNumber = 1;
-			// if (list != null && list.size() > 0) {
-			// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
-			// }
-			String nextVoucherNumber = NumberUtils.getNextTransactionNumber(
-					Transaction.TYPE_JOURNAL_ENTRY, getCompany());
-			JournalEntry journalEntry = new JournalEntry(this,
-					nextVoucherNumber, JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
-			session.save(journalEntry);
-		}
-
-		// /*
-		// * Is to update Memo in Entry if and only if vendor Name was altered
-		// */
-		// this.updateEntryMemo(session);
-
-		ChangeTracker.put(this);
-		return false;
-	}
-
-	@Override
 	public Account getAccount() {
 		return getCompany().getAccountsPayableAccount();
-
-	}
-
-	@Override
-	public void setAddress(Set<Address> address) {
-		this.address = address;
-	}
-
-	@Override
-	public void setContacts(Set<Contact> contacts) {
-		this.contacts = contacts;
-	}
-
-	public void setBalanceAsOf(FinanceDate balanceAsOf) {
-		this.balanceAsOf = balanceAsOf;
-	}
-
-	@Override
-	public long getID() {
-
-		return this.id;
-	}
-
-	public boolean equals(Vendor vendor) {
-		if (this.id == vendor.id
-				&& this.address.size() == vendor.address.size()
-				&& this.address.equals(vendor.address)
-				&& this.phoneNumbers.size() == vendor.phoneNumbers.size()
-				&& this.phoneNumbers.equals(vendor.phoneNumbers)
-				&& this.faxNumbers.size() == vendor.faxNumbers.size()
-				&& this.faxNumbers.equals(vendor.faxNumbers)
-				&& this.contacts.size() == vendor.contacts.size()
-				&& this.contacts.equals(vendor.contacts)
-				&& this.isActive == vendor.isActive
-				&& DecimalUtil.isEquals(this.balance, vendor.balance)
-				&& DecimalUtil.isEquals(this.openingBalance,
-						vendor.openingBalance)
-				&& this.VATRegistrationNumber == vendor.VATRegistrationNumber
-				&& DecimalUtil.isEquals(this.openingBalance,
-						vendor.openingBalance)
-				&& DecimalUtil.isEquals(this.creditLimit, vendor.creditLimit)
-				&& (this.name != null && vendor.name != null) ? (this.name
-				.equals(vendor.name))
-				: true && (this.fileAs != null && vendor.fileAs != null) ? (this.fileAs
-						.equals(vendor.fileAs))
-						: true && (this.TAXCode != null && vendor.TAXCode != null) ? (this.TAXCode == vendor.TAXCode)
-								: true && (this.webPageAddress != null && vendor.webPageAddress != null) ? (this.webPageAddress
-										.equals(vendor.webPageAddress))
-										: true && (this.balanceAsOf != null && vendor.balanceAsOf != null) ? (this.balanceAsOf
-												.equals(vendor.balanceAsOf))
-												: true && (this.shippingMethod != null && vendor.shippingMethod != null) ? (this.shippingMethod
-														.equals(vendor.shippingMethod))
-
-														: true && (this.paymentMethod != null && vendor.paymentMethod != null) ? (this.paymentMethod
-																.equals(vendor.paymentMethod))
-
-																: true && (this.vendorGroup != null && vendor.vendorGroup != null) ? (this.vendorGroup
-																		.equals(vendor.vendorGroup))
-
-																		: true) {
-			return true;
-		}
-		return false;
 
 	}
 
@@ -503,8 +327,7 @@ public class Vendor extends Payee {
 
 	@Override
 	public String toString() {
-
-		return this.name;
+		return "Vendor Name:" + this.name + "  Balance:" + this.balance;
 	}
 
 	public boolean isTdsApplicable() {
@@ -513,5 +336,16 @@ public class Vendor extends Payee {
 
 	public void setTdsApplicable(boolean tdsApplicable) {
 		this.tdsApplicable = tdsApplicable;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.VENDOR;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 }

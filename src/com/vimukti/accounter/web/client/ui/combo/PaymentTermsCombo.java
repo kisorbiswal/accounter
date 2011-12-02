@@ -27,7 +27,7 @@ public class PaymentTermsCombo extends CustomCombo<ClientPaymentTerms> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newPaymentTerms();
+		return messages.paymentTerms();
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class PaymentTermsCombo extends CustomCombo<ClientPaymentTerms> {
 	}
 
 	@Override
-	protected String getColumnData(ClientPaymentTerms object, int row, int col) {
+	protected String getColumnData(ClientPaymentTerms object,  int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

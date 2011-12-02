@@ -32,26 +32,26 @@ public class ShipToForm extends DynamicForm {
 
 	public ShipToForm(Set<ClientAddress> addresses) {
 
-		Label l1 = new Label(Accounter.constants().enterAddress());
+		Label l1 = new Label(Accounter.messages().enterAddress());
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		setAddresses(addresses);
-		businessSelect = new SelectCombo(Accounter.constants().shipTo());
+		businessSelect = new SelectCombo(Accounter.messages().shipTo());
 		businessSelect.setHelpInformation(true);
 		// businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
-				Accounter.constants().gwtListBox());
+				Accounter.messages().gwtListBox());
 		List<String> addressTypes = new ArrayList<String>();
 
 		addressTypes.addAll(new ClientAddress().getAddressTypes());
-		addressTypes.remove(Accounter.constants().billTo());
+		addressTypes.remove(Accounter.messages().billTo());
 		businessSelect.initCombo(addressTypes);
 		businessSelect.setDefaultToFirstOption(true);
 
-		addrArea = new TextAreaItem();
+		addrArea = new TextAreaItem("");
 		addrArea.setHelpInformation(true);
 		addrArea.setWidth(100);
-		addrArea.setShowTitle(false);
+		addrArea.setShowTitle(true);
 		// addrArea.setDisabled(true);
 		addrArea.addClickHandler(new ClickHandler() {
 
@@ -101,8 +101,9 @@ public class ShipToForm extends DynamicForm {
 			addrArea.setValue(toToSet);
 		} else
 			businessSelect.setDefaultToFirstOption(Boolean.TRUE);
-		setGroupTitle(Accounter.constants().addresses());
-		setNumCols(3);
+		setGroupTitle(Accounter.messages().addresses());
+		setNumCols(2);
+		// setFields(businessSelect, addrArea);
 		setFields(businessSelect, addrArea);
 	}
 
@@ -177,7 +178,7 @@ public class ShipToForm extends DynamicForm {
 
 					addrArea.setValue(getValidAddress(address));
 
-					businessSelect.setSelected(Accounter.constants().shipTo());
+					businessSelect.setSelected(Accounter.messages().shipTo());
 				}
 
 			}
@@ -235,11 +236,12 @@ public class ShipToForm extends DynamicForm {
 		}
 		return toToSet;
 	}
-	
-	public void setTabIndex(int index){
+
+	public void setTabIndex(int index) {
 		addrArea.setTabIndex(index);
 	}
-	public void setTabIndexforShiptocombo(int index){
+
+	public void setTabIndexforShiptocombo(int index) {
 		businessSelect.setTabIndex(index);
 	}
 }

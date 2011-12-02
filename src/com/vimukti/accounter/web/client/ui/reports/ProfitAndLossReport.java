@@ -32,8 +32,14 @@ public class ProfitAndLossReport extends AbstractReportView<TrialBalance> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService()
-				.getProfitAndLossReport(start, end, this);
+		TrialBalance record = (TrialBalance) data;
+		if (record == null) {
+			Accounter.createReportService().getProfitAndLossReport(start, end,
+					this);
+		} else {
+			Accounter.createReportService().getProfitAndLossReport(
+					record.getStartDate(), record.getEndDate(), this);
+		}
 		// this.start = start;
 		// this.end = end;
 		// this.serverReport = new ProfitAndLossServerReport(

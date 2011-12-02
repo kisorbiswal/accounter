@@ -16,9 +16,9 @@ public class PreferencesAction extends Action {
 	public PreferencesAction(String text) {
 		super(text);
 		if (CATEGORY == COMPANY)
-			this.catagory = Accounter.constants().company();
+			this.catagory = Accounter.messages().company();
 		else if (CATEGORY == SETTINGS)
-			this.catagory = Accounter.constants().settings();
+			this.catagory = Accounter.messages().settings();
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class PreferencesAction extends Action {
 			MainFinanceWindow.getViewManager().showView(page, null, true,
 					PreferencesAction.this);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.constants()
+			Accounter.showError(Accounter.messages()
 					.failedToLoadCompanyPreferences());
 		}
 

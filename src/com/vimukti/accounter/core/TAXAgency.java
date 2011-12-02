@@ -2,16 +2,17 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -47,12 +48,30 @@ public class TAXAgency extends Payee {
 	@ReffereredObject
 	Account salesLiabilityAccount;
 
-	public final static int RETURN_TYPE_NONE = 0;
+	@ReffereredObject
+	Account filedLiabilityAccount;
+
 	public final static int RETURN_TYPE_UK_VAT = 1;
 	public final static int RETURN_TYPE_IRELAND_VAT = 2;
 
+	public final static int TAX_RETURN_FREQUENCY_MONTHLY = 0;
+	public final static int TAX_RETURN_FREQUENCY_QUARTERLY = 1;
+	public final static int TAX_RETURN_FREQUENCY_HALF_YEARLY = 2;
+	public final static int TAX_RETURN_FREQUENCY_YEARLY = 3;
+
+	public final static int TAX_TYPE_SALESTAX = 1;
+	public final static int TAX_TYPE_VAT = 2;
+	public final static int TAX_TYPE_SERVICETAX = 3;
+	public final static int TAX_TYPE_TDS = 4;
+	public static final int TAX_TYPE_TCS = 5;
+	public final static int TAX_TYPE_OTHER = 6;
+
 	int VATReturn;
 	int taxType;
+
+	int taxFilingFrequency;
+
+	private FinanceDate lastTAXReturnDate;
 
 	public int getTaxType() {
 		return taxType;
@@ -112,22 +131,6 @@ public class TAXAgency extends Payee {
 	}
 
 	/**
-	 * @return the address
-	 */
-	@Override
-	public Set<Address> getAddress() {
-		return address;
-	}
-
-	/**
-	 * @return the webPageAddress
-	 */
-	@Override
-	public String getWebPageAddress() {
-		return webPageAddress;
-	}
-
-	/**
 	 * @param paymentTerm
 	 *            the paymentTerm to set
 	 */
@@ -146,17 +149,18 @@ public class TAXAgency extends Payee {
 	 * @param transactionCategory
 	 * @param amount
 	 */
-	public void updateVATAgencyAccount(Session session,
-			Transaction transaction, int transactionCategory, double amount) {
-
+	public void updateTAXAgencyAccount(Session session,
+			Transaction transaction, double amount) {
+		updateBalance(session, transaction, amount);
 		Account account = null;
-		if (transactionCategory == Transaction.CATEGORY_CUSTOMER) {
+		if (transaction.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
 			account = this.salesLiabilityAccount;
-		} else if (transactionCategory == Transaction.CATEGORY_VENDOR) {
+		} else if (transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
 			account = this.purchaseLiabilityAccount;
 		}
 		if (account != null) {
-			account.updateCurrentBalance(transaction, amount);
+			account.updateCurrentBalance(transaction, amount,
+					transaction.getCurrencyFactor());
 			session.update(account);
 			account.onUpdate(session);
 		}
@@ -185,6 +189,7 @@ public class TAXAgency extends Payee {
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
 		setType(TYPE_TAX_AGENCY);
+		this.filedLiabilityAccount = getCompany().getTAXFiledLiabilityAccount();
 		return false;
 	}
 
@@ -193,12 +198,6 @@ public class TAXAgency extends Payee {
 		super.onUpdate(arg0);
 		ChangeTracker.put(this);
 		return false;
-	}
-
-	@Override
-	public long getID() {
-
-		return this.id;
 	}
 
 	@Override
@@ -225,6 +224,62 @@ public class TAXAgency extends Payee {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * @return the tAXReturnFrequency
+	 */
+	public int getTAXFilingFrequency() {
+		return taxFilingFrequency;
+	}
+
+	/**
+	 * @param tAXReturnFrequency
+	 *            the tAXReturnFrequency to set
+	 */
+	public void setTAXFilingFrequency(int tAXReturnFrequency) {
+		this.taxFilingFrequency = tAXReturnFrequency;
+	}
+
+	/**
+	 * @return the filedLiabilityAccount
+	 */
+	public Account getFiledLiabilityAccount() {
+		return filedLiabilityAccount;
+	}
+
+	/**
+	 * @param filedLiabilityAccount
+	 *            the filedLiabilityAccount to set
+	 */
+	public void setFiledLiabilityAccount(Account filedLiabilityAccount) {
+		this.filedLiabilityAccount = filedLiabilityAccount;
+	}
+
+	/**
+	 * @return the lastTAXReturnDate
+	 */
+	public FinanceDate getLastTAXReturnDate() {
+		return lastTAXReturnDate;
+	}
+
+	/**
+	 * @param lastTAXReturnDate
+	 *            the lastTAXReturnDate to set
+	 */
+	public void setLastTAXReturnDate(FinanceDate lastTAXReturnDate) {
+		this.lastTAXReturnDate = lastTAXReturnDate;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.TAXAGENCY;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

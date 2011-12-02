@@ -38,7 +38,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 	public ItemMergeDialog(String title, String descript) {
 		super(title, descript);
 		setWidth("650px");
-		okbtn.setText(Accounter.constants().merge());
+		okbtn.setText(Accounter.messages().merge());
 		createControls();
 		center();
 	}
@@ -56,26 +56,26 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 		itemCombo = createItemCombo();
 		itemCombo1 = createItemCombo1();
 
-		status = new CheckboxItem(Accounter.constants().active());
+		status = new CheckboxItem(Accounter.messages().active());
 		status.setValue(false);
 
 		status.setHelpInformation(true);
 
-		status1 = new CheckboxItem(Accounter.constants().active());
+		status1 = new CheckboxItem(Accounter.messages().active());
 		status1.setValue(false);
 
-		itemType = new TextItem(Accounter.constants().itemType());
+		itemType = new TextItem(Accounter.messages().itemType());
 		itemType.setHelpInformation(true);
 		itemType.setDisabled(true);
 
-		itemType1 = new TextItem(Accounter.constants().itemType());
+		itemType1 = new TextItem(Accounter.messages().itemType());
 		itemType1.setHelpInformation(true);
 		itemType1.setDisabled(true);
-		price = new TextItem(Accounter.constants().salesPrice());
+		price = new TextItem(Accounter.messages().salesPrice());
 		price.setHelpInformation(true);
 		price.setDisabled(true);
 
-		price1 = new TextItem(Accounter.constants().salesPrice());
+		price1 = new TextItem(Accounter.messages().salesPrice());
 		price1.setHelpInformation(true);
 		price1.setDisabled(true);
 
@@ -91,7 +91,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 	}
 
 	private ItemCombo createItemCombo1() {
-		itemCombo1 = new ItemCombo(Accounter.constants().itemTo(), 2, false);
+		itemCombo1 = new ItemCombo(Accounter.messages().itemTo(), 2, false);
 		itemCombo1.setRequired(true);
 		itemCombo1.setHelpInformation(true);
 		itemCombo1
@@ -110,7 +110,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 	}
 
 	private ItemCombo createItemCombo() {
-		itemCombo = new ItemCombo(Accounter.constants().itemFrom(), 2, false);
+		itemCombo = new ItemCombo(Accounter.messages().itemFrom(), 2, false);
 		itemCombo.setHelpInformation(true);
 		itemCombo.setRequired(true);
 		itemCombo
@@ -132,9 +132,9 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 
 		status.setValue(selectItem.isActive());
 		if (selectItem.getType() == 1) {
-			itemType.setValue(Accounter.constants().service());
+			itemType.setValue(Accounter.messages().service());
 		} else if (selectItem.getType() == 3) {
-			itemType.setValue(Accounter.constants().product());
+			itemType.setValue(Accounter.messages().product());
 		}
 		price.setValue(String.valueOf(selectItem.getSalesPrice()));
 
@@ -143,9 +143,9 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 	private void customerSelected1(ClientItem selectItem) {
 		status1.setValue(selectItem.isActive());
 		if (selectItem.getType() == 1) {
-			itemType1.setValue(Accounter.constants().service());
+			itemType1.setValue(Accounter.messages().service());
 		} else if (selectItem.getType() == 3) {
-			itemType1.setValue(Accounter.constants().service());
+			itemType1.setValue(Accounter.messages().service());
 		}
 		price1.setValue(String.valueOf(selectItem.getSalesPrice()));
 	}
@@ -153,23 +153,41 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
-		if (fromClientItem.getID() == toClientItem.getID()) {
-			result.addError(fromClientItem, Accounter.constants().notMove());
+		if (fromClientItem != null && toClientItem != null) {
+			if (fromClientItem.getID() == toClientItem.getID()) {
+				result.addError(fromClientItem,
+						Accounter.messages().notMove(messages.item()));
+				return result;
+			}
+			if (fromClientItem.getID() == toClientItem.getID()) {
+				result.addError(fromClientItem,
+						Accounter.messages().notMove(messages.item()));
+				return result;
+			}
+			result = form1.validate();
+			result = form.validate();
 			return result;
-		}
-		result = form1.validate();
-		result = form.validate();
-		return result;
 
+		}
+		return result;
 	}
 
 	@Override
 	protected boolean onOK() {
+		if (fromClientItem != null && toClientItem != null) {
+			if (fromClientItem.getID() == toClientItem.getID()) {
+				return false;
+			}
+		}
+		if (fromClientItem.getType() != toClientItem.getType()) {
+			Accounter.showError("Both Items must belong to the same type");
+		} else {
+			Accounter.createHomeService().mergeItem(fromClientItem,
+					toClientItem, this);
 
-		Accounter.createHomeService().mergeItem(fromClientItem, toClientItem,
-				this);
-
-		return true;
+			return true;
+		}
+		return false;
 	}
 
 	@Override

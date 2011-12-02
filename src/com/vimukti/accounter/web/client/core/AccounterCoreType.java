@@ -13,6 +13,8 @@ public enum AccounterCoreType implements IsSerializable {
 
 	ACCOUNT("ClientAccount", "Account"),
 
+	BANK_ACCOUNT("ClientBankAccount", "BankAccount"),
+
 	VENDOR("ClientVendor", "Vendor"),
 
 	TAXAGENCY("ClientTAXAgency", "TAXAgency"),
@@ -23,7 +25,7 @@ public enum AccounterCoreType implements IsSerializable {
 
 	TAX_GROUP("ClientTAXGroup", "TAXGroup"),
 
-	TAX_ITEM_GROUP("ClientTaxItemGroup", "TaxItemGroup"),
+	TAX_ITEM_GROUP("ClientTAXItemGroup", "TAXItemGroup"),
 
 	BOX_1099("ClientBox1099", "Box1099"),
 
@@ -53,7 +55,7 @@ public enum AccounterCoreType implements IsSerializable {
 
 	CREDIT_RATING("ClientCreditRating", "CreditRating"),
 
-	PAY_SALES_TAX("ClientPaySalesTax", "PaySalesTax"),
+	PAY_TAX("ClientPayTAX", "PayTAX"),
 
 	PAYMENT_METHOD, COMPANY("ClientCompany", "Company"),
 
@@ -79,7 +81,7 @@ public enum AccounterCoreType implements IsSerializable {
 
 	FAX("ClientFax", "Fax"),
 
-	PAYSALESTAX_ENTRIES("ClientPaySalesTaxEntries", "PaySalesTaxEntries"),
+	FILE_TAX_ENTRY("ClientFileTAXEntry", "FileTAXEntry"),
 
 	PHONE("ClientPhone", "Phone"),
 
@@ -153,13 +155,15 @@ public enum AccounterCoreType implements IsSerializable {
 
 	FIXEDASSETHISTORY("ClientFixedAssetHistory", "FixedAssetHistory"),
 
-	CUSTOMERREFUND("ClientCustomerRefund", "CustomerRefund"), FIXEDASSET(
-			"ClientFixedAsset", "FixedAsset"),
+	CUSTOMERREFUND("ClientCustomerRefund", "CustomerRefund"),
+
+	FIXEDASSET("ClientFixedAsset", "FixedAsset"),
 
 	VATBOX("ClientBox", "Box"),
 
-	PAYVAT("ClientPayVAT", "PayVAT"), ITEMBACKUP("ClientItemBackUp",
-			"ItemBackUp"),
+	PAYVAT("ClientPayVAT", "PayVAT"),
+
+	ITEMBACKUP("ClientItemBackUp", "ItemBackUp"),
 
 	TRANSACTION_CREDITS_AND_PAYMENTS("ClientTransactionCreditsAndPayments",
 			"TransactionCreditsAndPayments"),
@@ -191,9 +195,13 @@ public enum AccounterCoreType implements IsSerializable {
 
 	MEASUREMENT("ClientMeasurement", "Measurement"),
 
-	STOCK_TRANSFER("ClientStockTransfer", "StockTransfer"), RECURRING_TRANSACTION(
-			"ClientRecurringTransaction", "RecurringTransaction"), LOCATION(
-			"ClientLocation", "Location"),
+	STOCK_TRANSFER("ClientStockTransfer", "StockTransfer"),
+
+	RECURRING_TRANSACTION("ClientRecurringTransaction", "RecurringTransaction"),
+
+	LOCATION("ClientLocation", "Location"),
+
+	STOCK_ADJUSTMENT("ClientStockAdjustment", "StockAdjustment"),
 
 	ACTIVITY("ClientActivity", "Activity"),
 
@@ -201,7 +209,20 @@ public enum AccounterCoreType implements IsSerializable {
 
 	ACCOUNTER_CLASS("ClientAccounterClass", "AccounterClass"),
 
-	RECONCILIATION("ClientReconciliation", "Reconciliation");
+	UNIT("ClientUnit", "Unit"),
+
+	RECONCILIATION("ClientReconciliation", "Reconciliation"),
+
+	TRANSACTION_LOG("ClientTransactionLog", "TransactionLog"),
+
+	TAX_RETURN("ClientAbstractTAXReturn", "AbstractTAXReturn"),
+
+	LANGUAGE("ClientLanguage", "Language"),
+
+	PORTLET_CONFIG("ClientPortletConfiguration", "PortletConfiguration"),
+
+	PORTLET_PAGE_CONFIG("ClientPortletPageConfiguration",
+			"PortletPageConfiguration");
 
 	private String clientName;
 	private String serverName;
@@ -250,7 +271,7 @@ public enum AccounterCoreType implements IsSerializable {
 			} else if (upperCaseString.equals("CREDITRATING")) {
 				return CREDIT_RATING;
 			} else if (upperCaseString.equals("PAYSALESTAX")) {
-				return PAY_SALES_TAX;
+				return PAY_TAX;
 			} else if (upperCaseString.equals("PAYMENTMETHOD")) {
 				return PAYMENT_METHOD;
 			} else if (upperCaseString.equals("COMPANYPREFERENCES")) {
@@ -258,7 +279,7 @@ public enum AccounterCoreType implements IsSerializable {
 			} else if (upperCaseString.equals("CREDITSANDPAYMENTS")) {
 				return CREDITS_AND_PAYMENTS;
 			} else if (upperCaseString.equals("PAYSALESTAXENTRIES")) {
-				return PAYSALESTAX_ENTRIES;
+				return FILE_TAX_ENTRY;
 			} else if (upperCaseString.equals("UNITOFMEASURE")) {
 				return UNIT_OF_MEASURE;
 			} else if (upperCaseString.equals("USERPREFERENCES")) {

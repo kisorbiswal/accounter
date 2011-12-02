@@ -15,7 +15,7 @@ public class CustomMenuItem extends MenuItem {
 	public CustomMenuItem(String text, Command cmd) {
 		super(text, false, cmd);
 		this.getElement().addClassName(
-				Accounter.constants().menuItemImage());
+				Accounter.messages().menuItemImage());
 	}
 
 	public void setIcon(ImageResource image) {

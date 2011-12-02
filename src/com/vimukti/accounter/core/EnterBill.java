@@ -1,10 +1,14 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
@@ -104,6 +108,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@ReffereredObject
 	Set<TransactionPayBill> transactionPayBills = new HashSet<TransactionPayBill>();
 
+	private Set<Estimate> estimates = new HashSet<Estimate>();
 	/**
 	 * This will specify which purchase order has been used in this Bill.
 	 * 
@@ -208,13 +213,16 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		return deliveryDate;
 	}
 
+	public void setDeliveryDate(FinanceDate deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+
 	public FinanceDate getDiscountDate() {
 		return discountDate;
 	}
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -293,7 +301,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			Account pendingItemReceipt = getCompany()
 					.getPendingItemReceiptsAccount();
 			pendingItemReceipt.updateCurrentBalance(this.itemReceipt,
-					-this.itemReceipt.total);
+					-this.itemReceipt.total, itemReceipt.currencyFactor);
 			session.update(pendingItemReceipt);
 			pendingItemReceipt.onUpdate(session);
 
@@ -302,15 +310,21 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			this.itemReceipt.balanceDue = 0.0;
 
 			this.itemReceipt.voidTransactionItems();
-			deleteCreatedEntries(session, this.itemReceipt);
+			deleteCreatedEntries(this.itemReceipt);
 		}
-
+		if (getCompany().getPreferences()
+				.isProductandSerivesTrackingByCustomerEnabled()
+				&& getCompany().getPreferences()
+						.isBillableExpsesEnbldForProductandServices()) {
+			createAndSaveEstimates(this.transactionItems, session);
+		}
 		return false;
 	}
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
+		createAndSaveEstimates(this.transactionItems, session);
 		// if (this.isBecameVoid()) {
 		//
 		// for (TransactionPayBill tx : this.transactionPayBills) {
@@ -561,10 +575,8 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 	@Override
 	public void onEdit(Transaction clonedObject) {
-
 		EnterBill enterBill = (EnterBill) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
-
 		this.balanceDue = (!DecimalUtil.isGreaterThan((this.total - payments),
 				0.0)) ? 0.0 : (this.total - payments);
 		// this.balanceDue = (this.balanceDue = this.total - payments) == 0.0 ?
@@ -649,8 +661,10 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					// modifyItemReceipt(this, true);
 				}
 
-				this.vendor.updateBalance(session, this, -1
-						* (enterBill.total - this.total));
+				this.vendor.updateBalance(session, this, -enterBill.total);
+
+				this.vendor.updateBalance(session, this, this.total);
+
 			}
 
 			/*
@@ -660,6 +674,15 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		}
 
 		super.onEdit(enterBill);
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid) {
+			setVoid(true);
+			doVoidEffect(session, this);
+		}
+		return false;
 	}
 
 	private void updateTransactionPayBills() {
@@ -701,10 +724,11 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				&& enterBill.itemReceipt.purchaseOrder != null) {
 			for (TransactionItem transactionItem : enterBill.itemReceipt.transactionItems) {
 				TransactionItem referringTransactionItem = transactionItem.referringTransactionItem;
-				if (referringTransactionItem != null
-						&& !referringTransactionItem.isVoid()) {
-					referringTransactionItem.usedamt -= transactionItem.lineTotal;
-				}
+				// if (referringTransactionItem != null
+				// && !referringTransactionItem.isVoid()) {
+				// referringTransactionItem.usedamt -=
+				// transactionItem.lineTotal;
+				// }
 				session.saveOrUpdate(transactionItem);
 
 			}
@@ -893,7 +917,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				purchaseOrder.status = isAddition ? Transaction.STATUS_COMPLETED
 						: Transaction.STATUS_OPEN;
 			}
-
+			purchaseOrder.setUsedBill(this, session);
 			purchaseOrder.onUpdate(session);
 			session.saveOrUpdate(purchaseOrder);
 		}
@@ -912,7 +936,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 					if (referringTransactionItem != null) {
 						if (!isAddition)
-							if (transactionItem.type == transactionItem.TYPE_ITEM) {
+							if (transactionItem.type == TransactionItem.TYPE_ITEM) {
 								referringTransactionItem.usedamt -= transactionItem
 										.getQuantity()
 										.calculatePrice(
@@ -943,6 +967,16 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		for (Estimate estimate : this.getEstimates()) {
+			if (estimate.getUsedInvoice() != null) {
+				throw new AccounterException(AccounterException.USED_IN_INVOICE);
+			}
+			if (!isBecameVoid()) {
+				session.delete(estimate);
+			}
+			estimates.remove(estimate);
+		}
 		if (this.transactionPayBills != null) {
 			for (TransactionPayBill transactionPayBill : this.transactionPayBills) {
 				if (DecimalUtil.isGreaterThan(
@@ -960,10 +994,110 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 		if (this.status == Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
 				|| this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
+			throw new AccounterException(
+					AccounterException.ERROR_CANT_EDIT_DELETE);
 			// "You have already paid some amount for this Bill, You can't Edit and Void it.");
 		}
 
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
+		if (itemReceipt != null) {
+			map.put(getCompany().getPendingItemReceiptsAccount(),
+					itemReceipt.total);
+		}
+		return map;
+
+	}
+
+	private void createAndSaveEstimates(List<TransactionItem> transactionItems,
+			Session session) {
+		this.estimates.clear();
+
+		Set<Estimate> estimates = new HashSet<Estimate>();
+		for (TransactionItem transactionItem : transactionItems) {
+			if (transactionItem.isBillable()
+					&& transactionItem.getCustomer() != null) {
+				TransactionItem newTransactionItem = new CloneUtil<TransactionItem>(
+						TransactionItem.class).clone(null, transactionItem,
+						false);
+				newTransactionItem.setQuantity(transactionItem.getQuantity());
+				newTransactionItem.setId(0);
+				newTransactionItem.setTaxCode(transactionItem.getTaxCode());
+				newTransactionItem.setOnSaveProccessed(false);
+				Estimate estimate = getCustomerEstimate(estimates,
+						newTransactionItem.getCustomer().getID());
+				if (estimate == null) {
+					estimate = new Estimate();
+					estimate.setCompany(getCompany());
+					estimate.setCustomer(newTransactionItem.getCustomer());
+					estimate.setTransactionItems(new ArrayList<TransactionItem>());
+					estimate.setEstimateType(Estimate.BILLABLEEXAPENSES);
+					estimate.setType(Transaction.TYPE_ESTIMATE);
+					estimate.setDate(new FinanceDate());
+					estimate.setExpirationDate(new FinanceDate());
+					estimate.setDeliveryDate(new FinanceDate());
+					estimate.setNumber(NumberUtils.getNextTransactionNumber(
+							Transaction.TYPE_ESTIMATE, getCompany()));
+				}
+				List<TransactionItem> transactionItems2 = estimate
+						.getTransactionItems();
+				transactionItems2.add(newTransactionItem);
+				estimate.setTransactionItems(transactionItems2);
+				estimates.add(estimate);
+			}
+		}
+
+		for (Estimate estimate : estimates) {
+			session.save(estimate);
+		}
+
+		this.setEstimates(estimates);
+	}
+
+	private Estimate getCustomerEstimate(Set<Estimate> estimates, long customer) {
+		for (Estimate clientEstimate : estimates) {
+			if (clientEstimate.getCustomer().getID() == customer) {
+				return clientEstimate;
+			}
+		}
+		return null;
+	}
+
+	public Set<Estimate> getEstimates() {
+		return estimates;
+	}
+
+	public void setEstimates(Set<Estimate> estimates) {
+		this.estimates = estimates;
+	}
+
+	public void updateBalance(Session session, double amount,
+			TransactionPayBill tpb) {
+		double currencyFactor = tpb.payBill.getCurrencyFactor();
+		double amountInPaymentCurrency = amount / currencyFactor;
+
+		double amountToUpdate = amountInPaymentCurrency * this.currencyFactor;
+
+		this.payments += amountToUpdate;
+		this.balanceDue -= amountToUpdate;
+
+		double diff = amount - amountToUpdate;
+
+		Account exchangeLossOrGainAccount = getCompany()
+				.getExchangeLossOrGainAccount();
+		exchangeLossOrGainAccount.updateCurrentBalance(tpb.payBill, -diff, 1);
+
+		Vendor vendor = tpb.payBill.getVendor();
+		vendor.updateBalance(session, tpb.payBill, diff, false);
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

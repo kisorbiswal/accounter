@@ -18,7 +18,7 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 			initHandler();
 
 		if (sectionDepth == 0) {
-			addTypeSection("", getConstants().netProfit());
+			addTypeSection("", getMessages().netProfit());
 		}
 		addOrdinaryIncomeOrExpenseTypes(record);
 		// if (record.getBaseType() ==
@@ -49,11 +49,11 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 
 			@Override
 			public void OnSectionAdd(Section<TrialBalance> section) {
-				if (section.title == getConstants().grossProfit()) {
+				if (section.title == getMessages().grossProfit()) {
 					section.data[0] = "";
 				}
 
-				if (section.title.equals(getConstants().indirectCosts())) {
+				if (section.title.equals(getMessages().indirectCosts())) {
 					grid.addRow(null, 0,
 							new Object[] { " ", " ", " ", " ", " " }, false,
 							false, false);
@@ -64,30 +64,30 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 				if (section.title == null)
 					section.title = "";
 
-				if (section.title.equals(getConstants().revenueIncome())) {
+				if (section.title.equals(getMessages().revenueIncome())) {
 					totalincome = Double.valueOf(section.data[3].toString());
 					totalincome2 = Double.valueOf(section.data[5].toString());
 				}
-				if (section.title.equals(getConstants()
+				if (section.title.equals(getMessages()
 						.directProductsMaterialCosts())) {
 					totalCGOS = Double.valueOf(section.data[3].toString());
 					totalCGOS2 = Double.valueOf(section.data[5].toString());
 				}
-				if (section.title.equals(getConstants().otherDirectCosts())) {
+				if (section.title.equals(getMessages().otherDirectCosts())) {
 					otherExpense = Double.valueOf(section.data[3].toString());
 					otherExpense2 = Double.valueOf(section.data[5].toString());
 				}
-				if (section.title.equals(getConstants().indirectCosts())) {
+				if (section.title.equals(getMessages().indirectCosts())) {
 					totalexpese = (Double) section.data[3];
 					totalexpese2 = (Double) section.data[5];
 				}
 
-				if (section.title.equals(getConstants().otherIncome())) {
+				if (section.title.equals(getMessages().otherIncome())) {
 					otherIncome = Double.valueOf(section.data[3].toString());
 					otherIncome2 = Double.valueOf(section.data[5].toString());
 				}
 
-				if (section.title.equals(getConstants().otherIncomeOrExpense())) {
+				if (section.title.equals(getMessages().otherIncomeOrExpense())) {
 					otherNetIncome = otherIncome - otherExpense;
 					section.data[3] = otherNetIncome;
 					otherNetIncome2 = otherIncome2 - otherExpense2;
@@ -95,7 +95,7 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 				}
 				if (section.footer == null)
 					section.footer = "";
-				if (section.footer.equals(getConstants().grossProfit())) {
+				if (section.footer.equals(getMessages().grossProfit())) {
 					grid.addRow(null, 0,
 							new Object[] { " ", " ", " ", " ", " " }, false,
 							false, false);
@@ -104,7 +104,7 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 					grosProft2 = totalincome2 - totalCGOS2 - otherExpense2;
 					section.data[5] = grosProft2;
 				}
-				if (section.footer.equals(getConstants().netProfit())) {
+				if (section.footer.equals(getMessages().netProfit())) {
 					netProfit = grosProft - totalexpese;
 					section.data[3] = netProfit;
 					netProfit2 = grosProft2 - totalexpese2;
@@ -125,25 +125,25 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 		// }
 		if (record.getAccountType() == ClientAccount.TYPE_INCOME
 				|| record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
-			if (!sectiontypes.contains(getConstants().grossProfit())) {
-				addTypeSection(getConstants().grossProfit(), "", getConstants()
+			if (!sectiontypes.contains(getMessages().grossProfit())) {
+				addTypeSection(getMessages().grossProfit(), "", getMessages()
 						.grossProfit());
 
 			}
 			if (record.getAccountType() == ClientAccount.TYPE_INCOME)
-				if (!sectiontypes.contains(getConstants().revenueIncome())) {
+				if (!sectiontypes.contains(getMessages().revenueIncome())) {
 
-					addTypeSection(getConstants().revenueIncome(),
-							getConstants().revenueIncomeTotal());
+					addTypeSection(getMessages().revenueIncome(),
+							getMessages().revenueIncomeTotal());
 				}
 			if (record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD)
-				if (!sectiontypes.contains(getConstants()
+				if (!sectiontypes.contains(getMessages()
 						.directProductsMaterialCosts())) {
 					closeOtherSections();
-					closeSection(types.indexOf(getConstants().revenueIncome()));
+					closeSection(types.indexOf(getMessages().revenueIncome()));
 					addTypeSection(
-							getConstants().directProductsMaterialCosts(),
-							getConstants()
+							getMessages().directProductsMaterialCosts(),
+							getMessages()
 									.directProductsAndMaterialCostsTotal());
 
 				}
@@ -152,20 +152,20 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 
 		if (record.getAccountType() == ClientAccount.TYPE_OTHER_EXPENSE) {
 
-			if (!sectiontypes.contains(getConstants().otherDirectCosts())) {
+			if (!sectiontypes.contains(getMessages().otherDirectCosts())) {
 				closeOtherSections();
-				closeSection(types.indexOf(getConstants()
+				closeSection(types.indexOf(getMessages()
 						.directProductsMaterialCosts()));
-				addTypeSection(getConstants().otherDirectCosts(),
-						getConstants().otherDirectCostsTotal());
+				addTypeSection(getMessages().otherDirectCosts(),
+						getMessages().otherDirectCostsTotal());
 			}
 		}
 
 		if (record.getAccountType() == ClientAccount.TYPE_EXPENSE) {
 
-			if (!sectiontypes.contains(getConstants().indirectCosts())) {
+			if (!sectiontypes.contains(getMessages().indirectCosts())) {
 				closeAllSection();
-				addTypeSection(getConstants().indirectCosts(), getConstants()
+				addTypeSection(getMessages().indirectCosts(), getMessages()
 						.indirectCostsTotal());
 			}
 		}

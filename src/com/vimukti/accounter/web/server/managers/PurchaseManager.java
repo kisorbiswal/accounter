@@ -377,15 +377,12 @@ public class PurchaseManager extends Manager {
 
 			SalesByCustomerDetail salesByCustomerDetail = new SalesByCustomerDetail();
 			object = (Object[]) iterator.next();
-			salesByCustomerDetail.setItemType(object[0] == null ? 0
-					: (Integer) object[0]);
-			salesByCustomerDetail.setItemName((String) object[1]);
-			salesByCustomerDetail.setItemGroup((String) object[2]);
+			salesByCustomerDetail.setItemName((String) object[0]);
 			ClientQuantity quantity = new ClientQuantity();
-			quantity.setValue(object[3] == null ? 0 : (((Double) object[3])));
+			quantity.setValue(object[1] == null ? 0 : (((Double) object[1])));
 			salesByCustomerDetail.setQuantity(quantity);
-			salesByCustomerDetail.setAmount(object[4] == null ? 0
-					: ((Double) object[4]).doubleValue());
+			salesByCustomerDetail.setAmount(object[2] == null ? 0
+					: ((Double) object[2]).doubleValue());
 
 			queryResult.add(salesByCustomerDetail);
 		}

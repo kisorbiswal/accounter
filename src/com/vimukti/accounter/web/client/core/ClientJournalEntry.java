@@ -13,7 +13,7 @@ public class ClientJournalEntry extends ClientTransaction implements
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int TYPE_NORMAL_JOURNAL_ENTRY = 1;
 	public static final int TYPE_CASH_BASIS_JOURNAL_ENTRY = 2;
 
@@ -24,6 +24,8 @@ public class ClientJournalEntry extends ClientTransaction implements
 	int journalEntryType = TYPE_NORMAL_JOURNAL_ENTRY;
 
 	double balanceDue = 0d;
+
+	long involvedPayee;
 
 	Set<ClientTransactionReceivePayment> transactionReceivePayments = new HashSet<ClientTransactionReceivePayment>();
 
@@ -281,5 +283,13 @@ public class ClientJournalEntry extends ClientTransaction implements
 		clientJournalEntryClone.transactionPayBills = transactionPayBillsSet;
 
 		return clientJournalEntryClone;
+	}
+
+	public long getInvolvedPayee() {
+		return involvedPayee;
+	}
+
+	public void setInvolvedPayee(long involvedPayee) {
+		this.involvedPayee = involvedPayee;
 	}
 }

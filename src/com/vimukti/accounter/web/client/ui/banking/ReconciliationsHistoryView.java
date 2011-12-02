@@ -33,7 +33,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 	private void createControls() {
 
 		this.bankAccountsCombo = new BankAccountCombo(
-				constants.selectBankAccount());
+				messages.selectBankAccount());
 		this.bankAccountsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -134,4 +134,13 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }

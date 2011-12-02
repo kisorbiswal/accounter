@@ -275,4 +275,5 @@ public class ClientEnterBill extends ClientTransaction {
 		clientEnterBillClone.transactionPayBills = transactionPayBills;
 		return clientEnterBillClone;
 	}
+
 }

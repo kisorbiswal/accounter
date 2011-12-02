@@ -147,16 +147,13 @@ public class Utility_R {
 		case Transaction.TYPE_JOURNAL_ENTRY:
 			transactionName = AccounterServerConstants.TYPE_JOURNAL_ENTRY;
 			break;
-		case Transaction.TYPE_PAY_SALES_TAX:
-			transactionName = AccounterServerConstants.TYPE_PAY_SALES_TAX;
+		case Transaction.TYPE_PAY_TAX:
+			transactionName = AccounterServerConstants.TYPE_PAY_TAX;
 			break;
-		case Transaction.TYPE_PAY_VAT:
-			transactionName = AccounterServerConstants.TYPE_PAY_VAT;
-			break;
-		case Transaction.TYPE_VAT_RETURN:
+		case Transaction.TYPE_TAX_RETURN:
 			transactionName = AccounterServerConstants.TYPE_VAT_RETURN;
 			break;
-		case Transaction.TYPE_RECEIVE_VAT:
+		case Transaction.TYPE_RECEIVE_TAX:
 			transactionName = AccounterServerConstants.TYPE_RECEIVE_VAT;
 			break;
 		case Transaction.TYPE_ADJUST_VAT_RETURN:
@@ -1282,7 +1279,7 @@ public class Utility_R {
 				break;
 			}
 			break;
-		case Transaction.TYPE_PAY_SALES_TAX:
+		case Transaction.TYPE_PAY_TAX:
 			switch (status) {
 			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
 				buffer.append(AccounterServerConstants.STATUS_NOT_ISSUED);

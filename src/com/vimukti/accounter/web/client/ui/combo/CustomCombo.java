@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /*
@@ -17,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * @author Malcom Fernandez
  */
 public abstract class CustomCombo<T> extends DropDownCombo<T> {
+	protected static final AccounterMessages messages = Accounter.messages();
 
 	public CustomCombo(String title, boolean isAddNewRequire, int noOfCols) {
 		super(title, isAddNewRequire, noOfCols);
@@ -26,8 +28,8 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 				if (title.substring(i - 1).equalsIgnoreCase("s"))
 					title = title.replace("s", "");
 				else if (title.substring(i - 4, i).equalsIgnoreCase(
-						Accounter.constants().name()))
-					title = title.replace(Accounter.constants().name(), "")
+						Accounter.messages().name()))
+					title = title.replace(Accounter.messages().name(), "")
 							.toLowerCase();
 			if (isAddNewRequire)
 				super.setToolTip(Accounter.messages()
@@ -46,8 +48,8 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 				if (title.substring(i - 1).equalsIgnoreCase("s"))
 					title = title.replace("s", "");
 				else if (title.substring(i - 4, i).equalsIgnoreCase(
-						Accounter.constants().name()))
-					title = title.replace(Accounter.constants().name(), "")
+						Accounter.messages().name()))
+					title = title.replace(Accounter.messages().name(), "")
 							.toLowerCase();
 			super.setToolTip(Accounter.messages()
 					.selectWhichWeHaveInOurCompanyOrAddNew(title));
@@ -74,19 +76,15 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 
 				if (!GWT.isScript()) {
 					caught.printStackTrace();
-					Accounter.showError(Accounter.constants()
-							.sorryFailedToAdd());
+					Accounter
+							.showError(Accounter.messages().sorryFailedToAdd());
 				}
 
 			}
 
 			public void onResultSuccess(T result) {
 				if (result != null) {
-					setComboItem(result);
-					if (handler != null) {
-						handler.selectedComboBoxItem(result);
-						updateComboItem(result);
-					}
+					addItemThenfireEvent(result);
 				} else {
 					onFailure(null);
 				}
@@ -220,6 +218,17 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 
 	}
 
+	public void select(T obj) {
+		List<T> combo = comboItems;
+		for (T item : combo) {
+			if (getDisplayName(item).equals(getDisplayName(obj))) {
+				this.selectedObject = item;
+				this.setSelectedItem(comboItems.indexOf(item));
+			}
+		}
+
+	}
+
 	protected ClientCompany getCompany() {
 		return Accounter.getCompany();
 	}
@@ -260,5 +269,5 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 	// }
 	//
 	// }
-	
+
 }

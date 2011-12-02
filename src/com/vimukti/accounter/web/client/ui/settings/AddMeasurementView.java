@@ -1,82 +1,37 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.edittable.tables.UnitsTable;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class AddMeasurementView extends BaseView<ClientMeasurement> {
 
-	private TextItem nameItem, description;
-	private SelectCombo defaultItem;
-	private AddUnitsGrid addUnitsGrid;
-	private DynamicForm addMeasurmentForm, defaultForm;
-	private AccounterConstants settingsMessages = Accounter.constants();
-	// private ClientMeasurement measurment;
-	private List<ClientUnit> defaultList;
-
-	// private AddUnitsListGridData addUnitsListGridData;
+	private TextItem nameItem;
+	private TextAreaItem description;
+	private UnitsTable unitsTable;
+	private Button addUnitButton;
+	private DynamicForm addMeasurmentForm;
+	private AccounterMessages settingsMessages = Accounter.messages();
 
 	public AddMeasurementView() {
-		// init();
-	}
-
-	@Override
-	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteSuccess(IAccounterCore result) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected String getViewTitle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void onEdit() {
-		setMode(EditMode.EDIT);
-	}
-
-	@Override
-	public void printPreview() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void print() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -87,106 +42,93 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 
 	}
 
+	@Override
+	public void initData() {
+		super.initData();
+		if (data == null) {
+			data = new ClientMeasurement();
+		} else {
+			initMeasurementData(getData());
+		}
+	}
+
+	private void initMeasurementData(ClientMeasurement measurement) {
+
+		nameItem.setValue(measurement.getName());
+		description.setValue(measurement.getDesctiption());
+
+		int row = 0;
+		for (ClientUnit clientUnit : data.getUnits()) {
+			if (clientUnit.isDefault()) {
+				unitsTable.add(clientUnit);
+				unitsTable.checkColumn(row, 0, true);
+			} else {
+				unitsTable.add(clientUnit);
+			}
+			row++;
+		}
+
+	}
+
 	private void createControls() {
+
 		VerticalPanel panel = new VerticalPanel();
-		defaultList = new ArrayList<ClientUnit>();
 		panel.setSpacing(10);
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		panel.setWidth("100%");
 		addMeasurmentForm = new DynamicForm();
-		defaultForm = new DynamicForm();
-		initGrid();
 		nameItem = new TextItem(settingsMessages.measurementName());
 		nameItem.setRequired(true);
-		description = new TextItem(settingsMessages.measurementDescription());
-		Button addUnitButton = new Button();
-		addUnitButton.setText(settingsMessages.getAddUnitButton());
+		nameItem.setDisabled(isInViewMode());
+
+		description = new TextAreaItem(settingsMessages.description());
+		description.setDisabled(isInViewMode());
+
+		unitsTable = new UnitsTable() {
+
+			@Override
+			protected boolean isInViewMode() {
+				return AddMeasurementView.this.isInViewMode();
+			}
+		};
+		unitsTable.setDisabled(isInViewMode());
+
+		addUnitButton = new Button();
+		addUnitButton.setText(settingsMessages.addUnitButton());
 		addUnitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				ClientUnit unitData = new ClientUnit();
-				addUnitsGrid.setDisabled(false);
-				addUnitsGrid.addData(unitData);
+				ClientUnit clientUnit = new ClientUnit();
+				// unitsTable.setDisabled(false);
+				if (unitsTable.getRecords().isEmpty()) {
+					clientUnit.setDefault(true);
+					clientUnit.setFactor(1);
+				}
+				unitsTable.add(clientUnit);
 			}
 		});
-		defaultItem = new SelectCombo(settingsMessages.getdefaultUnit());
-		defaultItem.setDisabled(false);
-		defaultItem.setTitleStyleName(settingsMessages.getdefaultUnit());
-		// Button saveButton = new Button();
-		// saveButton.setText(settingsMessages.getAddMesurementSaveButton());
-		// saveButton.addClickHandler(new ClickHandler() {
-		// @Override
-		// public void onClick(ClickEvent event) {
-		//
-		// }
-		// });
+		addUnitButton.setEnabled(!isInViewMode());
+
 		addMeasurmentForm.setFields(nameItem, description);
-		// Button cancelButton = new Button();
-		// cancelButton.setText(settingsMessages.getCancelButton());
+		addMeasurmentForm.addStyleName("fields-panel");
 		panel.add(addMeasurmentForm);
-		panel.add(addUnitsGrid);
-		horizontalPanel.setCellHorizontalAlignment(addUnitButton, ALIGN_RIGHT);
+		panel.add(unitsTable);
 		panel.add(addUnitButton);
-		defaultForm.setFields(defaultItem);
-		defaultItem
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						if (defaultItem.getSelectedValue() != null)
-							defaultItem.setComboItem(defaultItem
-									.getSelectedValue());
-					}
-				});
-		defaultItem.setRequired(true);
-		defaultItem.setDisabled(isInViewMode());
-		panel.add(defaultForm);
-		// horizontalPanel.add(saveButton);
-		// horizontalPanel.setSpacing(20);
-		// horizontalPanel.add(cancelButton);
-		// panel.add(horizontalPanel);
 		this.add(panel);
-	}
-
-	private void initGrid() {
-		addUnitsGrid = new AddUnitsGrid(false);
-		addUnitsGrid.setDisabled(true);
-		addUnitsGrid.setCanEdit(true);
-		addUnitsGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
-		addUnitsGrid.init();
-		addUnitsGrid.setView(this);
-	}
-
-	public String getName() {
-		return nameItem.getValueField();
-	}
-
-	public String getDescription() {
-		return description.getValueField();
-	}
-
-	public void setDefaultComboValue(ClientUnit unitData) {
-		defaultList.add(unitData);
-		if ((defaultList.get(0)).getType().equals(unitData.getType())) {
-			defaultItem.setComboItem(unitData.getType());
-			return;
-		}
-		// defaultItem.addComboItem(unitData.getType());
 	}
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
 
+		ValidationResult result = new ValidationResult();
+		result.add(addMeasurmentForm.validate());
+		result.add(unitsTable.validate());
 		// validate measurement name?
 		// validate units grid
-		if (nameItem.getValue().toString() == null
-				|| nameItem.getValue().toString().isEmpty()) {
-			result.addError(nameItem, Accounter.constants()
-					.pleaseEnteraValidMeasurementName());
-		}
-		if (addUnitsGrid.getRecords().isEmpty()) {
-			result.addError(addUnitsGrid, Accounter.constants()
-					.unitsMustnotbeNull());
-		}
+		// if (nameItem.getValue().toString() == null
+		// || nameItem.getValue().toString().isEmpty()) {
+		// result.addError(nameItem, messages
+		// .pleaseEnteraValidMeasurementName());
+		// }
 		return result;
 	}
 
@@ -197,16 +139,78 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 	}
 
 	private void updateData() {
-		data.setName(nameItem.getValue().toString());
-		data.setDesctiption(description.getValue().toString());
-		for (ClientUnit unit : defaultList) {
-			data.addUnit(unit.getType(), unit.getFactor());
-		}
+		data.setName(nameItem.getValue());
+		data.setDesctiption(description.getValue());
+		data.setUnits(unitsTable.getRecords());
 	}
 
 	@Override
 	public void setFocus() {
 		this.nameItem.setFocus();
 
+	}
+
+	@Override
+	public void deleteFailed(AccounterException caught) {
+
+	}
+
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return null;
+	}
+
+	@Override
+	public List<DynamicForm> getForms() {
+		return null;
+	}
+
+	@Override
+	public void onEdit() {
+		AccounterAsyncCallback<Boolean> editCallback = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result) {
+					enableFormItems();
+				}
+			}
+
+			@Override
+			public void onException(AccounterException exception) {
+				Accounter.showError(exception.getMessage());
+			}
+		};
+		this.rpcDoSerivce.canEdit(AccounterCoreType.MEASUREMENT, data.getID(),
+				editCallback);
+
+	}
+
+	protected void enableFormItems() {
+		setMode(EditMode.EDIT);
+		nameItem.setDisabled(isInViewMode());
+		description.setDisabled(isInViewMode());
+		unitsTable.setDisabled(isInViewMode());
+		addUnitButton.setEnabled(!isInViewMode());
+	}
+
+	@Override
+	public void printPreview() {
+
+	}
+
+	@Override
+	public void print() {
+
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
 	}
 }

@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
@@ -27,7 +26,6 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	ClientCustomerGroup customerGroup;
 	List<ClientCustomerGroup> customterGroups;
 	private InputDialog inputDlg;
-	private AccounterConstants customerConstants = Accounter.constants();
 
 	public CustomerGroupListDialog(String title, String descript) {
 		super(title, descript);
@@ -67,7 +65,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 					showAddEditGroupDialog((ClientCustomerGroup) listGridView
 							.getSelection());
 				} else {
-					Accounter.showError(Accounter.constants().selectTaxGroup());
+					Accounter.showError(Accounter.messages().selectTaxGroup());
 					new Exception();
 				}
 
@@ -98,9 +96,9 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	public void showAddEditGroupDialog(ClientCustomerGroup rec) {
 		customerGroup = rec;
-		inputDlg = new InputDialog(this, Accounter.messages().customerGroup(
+		inputDlg = new InputDialog(this, Accounter.messages().payeeGroup(
 				Global.get().Customer()), "", Accounter.messages()
-				.customerGroup(Global.get().Customer())) {
+				.payeeGroup(Global.get().Customer())) {
 		};
 
 		if (customerGroup != null) {
@@ -128,7 +126,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.constants().name() };
+		return new String[] { Accounter.messages().name() };
 	}
 
 	@Override
@@ -154,14 +152,14 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 					.getCustomerGroupByName(UIUtils.toStr(value));
 			if (customerGroupByName != null) {
 				result.addError(this, Accounter.messages()
-						.customerGroupAlreadyExists(Global.get().Customer()));
+						.payeeGroupAlreadyExists(Global.get().Customer()));
 			}
 			// if (customerGroup != null) {
 			// if (!(customerGroup.getName().equalsIgnoreCase(
 			// UIUtils.toStr(value)) ? true
 			// : (Utility.isObjectExist(company.getCustomerGroups()
 			// ) ? false : true))) {
-			// result.addError(this, Accounter.constants()
+			// result.addError(this, messages
 			// .customerGroupAlreadyExists());
 			// }
 		} else {
@@ -171,7 +169,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 									.toString());
 			if (customerGroupByName2 != null) {
 				result.addError(this, Accounter.messages()
-						.customerGroupAlreadyExists(Global.get().Customer()));
+						.payeeGroupAlreadyExists(Global.get().Customer()));
 			}
 		}
 		return result;

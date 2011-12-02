@@ -113,13 +113,12 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 		lab1 = new Label();
 		lab1.removeStyleName("gwt-Label");
-		lab1.addStyleName(Accounter.constants().labelTitle());
-		lab1.setText(Accounter.messages().account(
-				Global.get().constants().newBudget()));
+		lab1.addStyleName(Accounter.messages().labelTitle());
+		lab1.setText(Accounter.messages().newBudget());
 
 		// hierarchy = new String("");
 
-		budgetStartWithSelect = new SelectCombo(Global.get().constants()
+		budgetStartWithSelect = new SelectCombo(Global.get().messages()
 				.budgetStartWith());
 		budgetStartWithSelect.setHelpInformation(true);
 		budgetStartWithSelect.initCombo(getStartWithList());
@@ -149,7 +148,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 					}
 				});
 
-		budgetSubdevideBy = new SelectCombo(Global.get().constants()
+		budgetSubdevideBy = new SelectCombo(Global.get().messages()
 				.budgetSubdivide());
 		budgetSubdevideBy.setHelpInformation(true);
 		budgetSubdevideBy.initCombo(getSubdevideList());
@@ -162,7 +161,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 					}
 				});
 
-		selectFinancialYear = new SelectCombo(Global.get().constants()
+		selectFinancialYear = new SelectCombo(Global.get().messages()
 				.budgetFinancialYear());
 		selectFinancialYear.setHelpInformation(true);
 		selectFinancialYear.initCombo(getFiscalYearList());
@@ -176,8 +175,8 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 					}
 				});
 
-		budgetNameText = new TextItem(Accounter.messages().accountName(
-				Global.get().constants().budget()));
+		budgetNameText = new TextItem(Accounter.messages().payeeName(
+				Accounter.messages().budget()));
 		budgetNameText.setToolTip(Accounter.messages()
 				.giveTheNameAccordingToYourID(this.getAction().getViewName()));
 		budgetNameText.setHelpInformation(true);
@@ -204,13 +203,13 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		}
 
 		budgetInfoForm = UIUtils.form(Accounter.messages()
-				.chartOfAccountsInformation(Global.get().Account()));
+				.chartOfAccountsInformation());
 		budgetInfoForm.setWidth("100%");
 
 		topHLay = new HorizontalPanel();
 		topHLay.setWidth("50%");
 		leftLayout = new HorizontalPanel();
-		leftLayout.setWidth("90%");
+		leftLayout.setWidth("100%");
 
 		// budgetInfoForm.setFields(budgetStartWithSelect, budgetSubdevideBy,
 		// selectFinancialYear, budgetNameText);
@@ -221,7 +220,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		leftLayout.add(budgetInfoForm);
 		topHLay.add(leftLayout);
 
-		budgetInfoForm.getCellFormatter().setWidth(0, 0, "200");
+		// budgetInfoForm.getCellFormatter().setWidth(0, 0, "200");
 
 		gridView = new BudgetAccountGrid();
 		gridView.setCanEdit(true);
@@ -353,7 +352,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 	@Override
 	protected String getViewTitle() {
-		return Global.get().constants().budget();
+		return Global.get().messages().budget();
 
 	}
 
@@ -384,6 +383,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		List<ClientBudgetItem> allGivenRecords = (List<ClientBudgetItem>) gridView
 				.getRecords();
 
+
 		data.setBudgetItem(allGivenRecords);
 
 	}
@@ -394,7 +394,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		// BaseView.errordata.setHTML(exception.getMessage());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		String exceptionMessage = exception.getMessage();
+		// String exceptionMessage = exception.getMessage();
 		// addError(this, exceptionMessage);
 		AccounterException accounterException = (AccounterException) exception;
 		int errorCode = accounterException.getErrorCode();
@@ -422,7 +422,8 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		result.add(budgetInfoForm.validate());
 		if (data == null) {
 			String name = budgetNameText.getValue().toString() != null ? budgetNameText
-					.getValue().toString() : "";
+					.getValue().toString()
+					: "";
 
 			String financialYear = selectFinancialYear.getSelectedValue();
 
@@ -436,7 +437,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 				for (ClientBudget budget : budgetList) {
 					if (budgetName.equals(budget.getBudgetName())) {
-						result.addError(name, Accounter.constants()
+						result.addError(name, Accounter.messages()
 								.alreadyExist());
 						break;
 					}

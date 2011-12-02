@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -64,19 +65,25 @@ public class IntegerField extends TextItem {
 						errorsWidget.clearError(this);
 					} catch (Exception e) {
 						if (value.toString().length() != 0) {
+							IntegerField.this.highlight();
 							// BaseView.errordata.setHTML("<li> "
 							// + AccounterErrorType.INCORRECTINFORMATION
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
-							errorsWidget.addError(this, Accounter.constants()
-									.incorrectInformation());
+							errorsWidget.addError(
+									this,
+									Global.get()
+											.messages()
+											.pleaseEnter(
+													Accounter.messages()
+															.validNumber()));
 						}
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);
 
 					}
 				} catch (Exception e) {
-					Accounter.showError(Accounter.constants().invalidInfo());
+					Accounter.showError(Accounter.messages().invalidInfo());
 				}
 
 			}

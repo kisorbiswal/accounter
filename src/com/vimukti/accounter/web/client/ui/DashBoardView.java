@@ -1,42 +1,20 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.allen_sauer.gwt.dnd.client.PickupDragController;
+import com.allen_sauer.gwt.dnd.client.drop.VerticalPanelDropController;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.portlet.PortletPage;
 
 public class DashBoardView extends BaseHomeView {
 
-	// ArrayList<String> addablePortletList = new ArrayList<String>();
-
-	// private String dashboardPreference;
-	// private PortalLayout portalLayout;
-	// private Portlet[] portlet;
-	// private WidgetCreator creator = new WidgetCreator();
-	// private String[] widgetOnSectionPage;
-	// private CustomerWidgetGrid customerWidgetGrid;
-	// private CompanyFinancialWidgetGrid grid;
-
-	public DashBoardPortlet gettingStartedPortlet;
-	public DashBoardPortlet bankingPortlet;
-	public DashBoardPortlet moneyComingPortlet;
-	public DashBoardPortlet moneyGoingPortlet;
-	public DashBoardPortlet expenseClaimsPortlet;
-
-	private Timer timer;
-
-	// private String[] secondColumn;
-	//
-	// private String[] firstColumn;
+	private PortletPage page;
 
 	public DashBoardView() {
-		// dashboardPreference = Accounter.constants().welcomeBankingSummary();
-		/*
-		 * FinanceApplication.getUser().getUserPreferences()
-		 * .getDashBoardPreferences();
-		 */
 
 	}
 
@@ -49,133 +27,97 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	private Widget createControl() {
-		// portalLayout = new PortalLayout(this, 1);
-		//
-		// widgetOnSectionPage = dashboardPreference.split(",");
-		// portlet = new Portlet[widgetOnSectionPage.length];
-		// for (int i = 0; i < widgetOnSectionPage.length; i++) {
-		//
-		// final int index = i;
-		// if (widgetOnSectionPage[i].equals("")) {
-		//
-		// } else {
-		// portlet[i] = creator.getWidgetByName(widgetOnSectionPage[i]);
-		//
-		// portalLayout.add(portlet[i]);
-		// }
-		// }
-		//
-		// getAddableWidgets(widgetOnSectionPage);
+		setPage(new PortletPage(PortletPage.DASHBOARD));
+		AbsolutePanel absolutePanel = new AbsolutePanel();
+		HorizontalPanel hPanel = new HorizontalPanel();
+		VerticalPanel vPanel_1 = new VerticalPanel();
+		VerticalPanel vPanel_2 = new VerticalPanel();
 
-		gettingStartedPortlet = new GettingStartedPortlet(Accounter.constants()
-				.gettingStartedusingAccounter());
+		VerticalPanel panel1 = new VerticalPanel();
+		VerticalPanel panel2 = new VerticalPanel();
+		VerticalPanel panel3 = new VerticalPanel();
+		VerticalPanel panel4 = new VerticalPanel();
+		Label label_1 = new Label("First Label");
+		Label label_2 = new Label("Second Label");
+		Label label_3 = new Label("Third Label");
+		Label label_4 = new Label("Fourth Label");
 
-		bankingPortlet = new BankingPortlet(Accounter.messages().bankAccounts(
-				Global.get().Account()));
-		moneyComingPortlet = new MoneyComingPortlet(Accounter.constants()
-				.moneyComingIn());
-		moneyGoingPortlet = new MoneyGoingPortlet(Accounter.constants()
-				.moneyGoingOut());
-		expenseClaimsPortlet = new ExpenseClaimPortlet(Accounter.constants()
-				.expenseClaims());
-		FlexTable fTable = new FlexTable();
+		Label label_5 = new Label("First Label Child");
+		Label label_6 = new Label("Second Label Child");
+		Label label_7 = new Label("Third Label Child");
+		Label label_8 = new Label("Fourth Label Child");
 
-		fTable.setWidget(0, 0, bankingPortlet);
-		fTable.setWidget(0, 1, moneyComingPortlet);
-		fTable.setWidget(1, 1, moneyGoingPortlet);
-		fTable.setWidget(1, 0, expenseClaimsPortlet);
+		SimplePanel panel = new SimplePanel();
+		panel.add(panel1);
 
-		try {
-			bankingPortlet.getElement().getParentElement()
-					.setClassName("banking-portlet");
-			expenseClaimsPortlet.getElement().getParentElement()
-					.setClassName("expense_claim_portlet");
-		} catch (Exception e) {
-			System.err.println("Exception :" + e);
-		}
+		panel1.add(label_1);
+		panel1.add(label_5);
 
-		fTable.getCellFormatter().setVerticalAlignment(1, 0,
-				HasVerticalAlignment.ALIGN_TOP);
+		panel2.add(label_2);
+		panel2.add(label_6);
 
-		// mainLayOut.add(gettingStartedPortlet);
-		fTable.setWidth("100%");
-		gettingStartedPortlet.setVisible(true);
-		// leftLayout.add(addWidgetLinkLayout);
-		// leftLayout.add(portalLayout);
-		return fTable;
+		vPanel_1.add(panel1);
+		vPanel_1.add(panel2);
 
+		panel3.add(label_3);
+		panel3.add(label_7);
+
+		panel4.add(label_4);
+		panel4.add(label_8);
+
+		vPanel_2.add(panel3);
+		vPanel_2.add(panel4);
+
+		hPanel.add(vPanel_1);
+		hPanel.add(vPanel_2);
+
+		absolutePanel.add(hPanel);
+
+		// PickupDragController columnDragController = new PickupDragController(
+		// absolutePanel, false);
+		// columnDragController.setBehaviorMultipleSelection(false);
+
+		PickupDragController widgetDragController = new PickupDragController(
+				absolutePanel, false);
+		widgetDragController.setBehaviorMultipleSelection(false);
+		// HorizontalPanelDropController columnDropController = new
+		// HorizontalPanelDropController(
+		// hPanel);
+		// columnDragController
+		// .registerDropController(columnDropController);
+
+		VerticalPanelDropController widgetDropController1 = new VerticalPanelDropController(
+				vPanel_1);
+		widgetDragController.registerDropController(widgetDropController1);
+
+		VerticalPanelDropController widgetDropController2 = new VerticalPanelDropController(
+				vPanel_2);
+		widgetDragController.registerDropController(widgetDropController2);
+
+		// widgetDragController.registerDropController(widgetDropController1);
+		// widgetDragController.registerDropController(widgetDropController2);
+
+		widgetDragController.makeDraggable(panel, label_1);
+		widgetDragController.makeDraggable(panel2, label_2);
+		widgetDragController.makeDraggable(panel3, label_3);
+		// widgetDragController.makeDraggable(label_3);
+		// widgetDragController.makeDraggable(label_4);
+		widgetDragController.makeDraggable(panel4, label_4);
+
+		return getPage();
+
+		// create absolute panel
+
+		// horizontal panel with 100% width and height
+		// two vertical panels
+		// 2 lables in each with size 100px,100px
+
+		// return absolute panel
 	}
-
-	public void refreshGrids(final IAccounterCore accounterCoreObject) {
-
-		// timer = new Timer() {
-		//
-		// @Override
-		// public void run() {
-		// IAccounterCore core = accounterCoreObject;
-		// if (core.getObjectType() == AccounterCoreType.CUSTOMER
-		// || ((ClientAccount) core).getType() == ClientAccount.TYPE_INCOME) {
-		// portlet[1].refreshClicked();
-		// } else {
-		// if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-		// portlet[0].refreshClicked();
-		// }
-		//
-		// }
-		//
-		// };
-		// timer.schedule(600);
-
-	}
-
-	// public void getAddableWidgets(String[] widgetOnSectionPage) {
-	// String[] totalWidget = { Accounter.constants().welcome(),
-	// Accounter.constants().bankingSummary(),
-	// Accounter.constants().profitAndLoss(),
-	// Accounter.constants().creditOverview(),
-	// Accounter.constants().debitOverview(),
-	// Accounter.constants().latestQuote(),
-	// Accounter.constants().expenses() };
-	//
-	// boolean isAvailable = false;
-	//
-	// for (int i = 0; i < totalWidget.length; i++) {
-	// for (int k = 0; k < widgetOnSectionPage.length; k++) {
-	// if (totalWidget[i].equals(widgetOnSectionPage[k])) {
-	// isAvailable = true;
-	// break;
-	// } else {
-	// isAvailable = false;
-	// }
-	//
-	// }
-	// if (!isAvailable) {
-	// addablePortletList.add(totalWidget[i]);
-	// isAvailable = false;
-	// }
-	// }
-	//
-	// }
-
-	// public PortalLayout getPortalLayout() {
-	// return portalLayout;
-	// }
-	//
-	// public void setPortalLayout(PortalLayout portalLayout) {
-	// this.portalLayout = portalLayout;
-	// }
-	//
-	// public ArrayList<String> getAddablePortletList() {
-	// return addablePortletList;
-	// }
-	//
-	// public void setAddablePortletList(ArrayList<String> addablePortletList) {
-	// this.addablePortletList = addablePortletList;
-	// }
 
 	@Override
 	protected void onAttach() {
-		refreshWidgetData();
+		getPage().refreshWidgets();
 		super.onAttach();
 	}
 
@@ -185,18 +127,20 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	public void refreshWidgetData() {
-		bankingPortlet.refreshWidget();
-		moneyComingPortlet.refreshWidget();
-		moneyGoingPortlet.refreshWidget();
-		expenseClaimsPortlet.refreshWidget();
 	}
 
 	public void showGettingStarted() {
-		gettingStartedPortlet.setVisible(true);
 	}
 
 	public void hideGettingStarted() {
-		gettingStartedPortlet.setVisible(false);
+	}
+
+	public PortletPage getPage() {
+		return page;
+	}
+
+	public void setPage(PortletPage page) {
+		this.page = page;
 	}
 
 }

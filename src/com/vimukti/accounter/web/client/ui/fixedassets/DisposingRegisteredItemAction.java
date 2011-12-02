@@ -12,7 +12,7 @@ public class DisposingRegisteredItemAction extends Action {
 
 	public DisposingRegisteredItemAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().fixedAssets();
+		this.catagory = Accounter.messages().fixedAssets();
 	}
 
 	@Override

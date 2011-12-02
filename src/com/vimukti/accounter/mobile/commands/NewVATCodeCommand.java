@@ -1,77 +1,206 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
-import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ListRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 
-public class NewVATCodeCommand extends AbstractVATCommand {
+public class NewVATCodeCommand extends NewAbstractCommand {
 
 	private static final String DESCRIPTION = "description";
 	private static final String IS_TAXABLE = "isTaxable";
 	private static final String VATITEM_FOR_SALES = "vatItemForSales";
 	private static final String VATITEM_FOR_PURCHASE = "vatItemForPurchase";
 	private static final String IS_ACTIVE = "isActive";
-	private static final String SALES_VAT_ITEMS = "salesVatItems";
-	private static final String PURCHASE_VAT_ITEMS = "purchaseVatItems";
+	private static final String TAX_CODE = "Tax Code";
+
+	private ClientTAXCode taxCode;
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(NAME, false, true));
-		list.add(new Requirement(DESCRIPTION, true, true));
-		list.add(new Requirement(IS_TAXABLE, true, true));
-		list.add(new Requirement(VATITEM_FOR_SALES, false, true));
-		list.add(new Requirement(VATITEM_FOR_PURCHASE, false, true));
-		list.add(new Requirement(IS_ACTIVE, true, true));
+
+		list.add(new StringRequirement(TAX_CODE, getMessages().pleaseEnter(
+				getMessages().taxCode() + getMessages().name()), getMessages()
+				.taxCode() + getMessages().name(), false, true));
+
+		list.add(new NameRequirement(DESCRIPTION, getMessages().pleaseEnter(
+				getMessages().taxCode()), getMessages().description(), true,
+				true));
+
+		list.add(new BooleanRequirement(IS_TAXABLE, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().taxable();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().taxExempt();
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_ACTIVE, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().active();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().inActive();
+			}
+		});
+
+		list.add(new ListRequirement<TAXItemGroup>(VATITEM_FOR_SALES,
+				getMessages().pleaseSelect(getMessages().taxItemForSales()),
+				"Vat item or Group for Sales", true, true, null) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				Boolean value = get(IS_TAXABLE).getValue();
+				if (value.booleanValue()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getMessages().vatItemsList());
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return "vat item or group has been selected";
+			}
+
+			@Override
+			protected Record createRecord(TAXItemGroup value) {
+				Record record = new Record(value);
+				record.add(getMessages().name(), value.getName());
+				return record;
+			}
+
+			@Override
+			protected String getDisplayValue(TAXItemGroup value) {
+				return value != null ? value.getName() : "";
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create VAT Item");
+				list.add("New Tax Group");
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(
+						getMessages().taxItemForSales());
+			}
+
+			@Override
+			protected boolean filter(TAXItemGroup e, String name) {
+				return e.getName().toLowerCase().startsWith(name.toLowerCase());
+			}
+
+			@Override
+			protected List<TAXItemGroup> getLists(Context context) {
+				return getFilteredVATItems(context, true);
+			}
+		});
+
+		list.add(new ListRequirement<TAXItemGroup>(
+				VATITEM_FOR_PURCHASE,
+				getMessages().pleaseSelect(getMessages().taxItemForPurchases()),
+				"Vat item or Group for Purchases", false, true, null) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				Boolean value = get(IS_TAXABLE).getValue();
+				if (value.booleanValue()
+						&& context.getPreferences().isTrackPaidTax()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+			@Override
+			protected String getEmptyString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return "vat item or group has been selected";
+			}
+
+			@Override
+			protected Record createRecord(TAXItemGroup value) {
+				Record record = new Record(value);
+				record.add(getMessages().name(), value.getName());
+				return record;
+			}
+
+			@Override
+			protected String getDisplayValue(TAXItemGroup value) {
+				return value != null ? value.getName() : "";
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create VAT Item");
+				list.add("New Tax Group");
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(
+						getMessages().taxItemForPurchases());
+			}
+
+			@Override
+			protected boolean filter(TAXItemGroup e, String name) {
+				return e.getName().toLowerCase().startsWith(name.toLowerCase());
+			}
+
+			@Override
+			protected List<TAXItemGroup> getLists(Context context) {
+				return getFilteredVATItems(context, false);
+			}
+		});
+
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = null;
-
-		result = nameRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		result = vatItemForSalesRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		result = vatItemForPurchaseRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		result = createOptionalRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		return createTaxCode(context);
-	}
-
-	private Result createTaxCode(Context context) {
-		TAXCode taxCode = new TAXCode(context.getCompany());
-
-		String name = get(NAME).getValue();
+	protected Result onCompleteProcess(Context context) {
+		String name = get(TAX_CODE).getValue();
 		String description = (String) get(DESCRIPTION).getValue();
 		Boolean isTaxable = (Boolean) get(IS_TAXABLE).getValue();
 		Boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
@@ -81,257 +210,119 @@ public class NewVATCodeCommand extends AbstractVATCommand {
 		taxCode.setTaxable(isTaxable);
 		taxCode.setActive(isActive);
 		if (isTaxable) {
-			TAXItem salesVatItem = get(VATITEM_FOR_SALES).getValue();
-			TAXItem purchaseVatItem = get(VATITEM_FOR_PURCHASE).getValue();
-			taxCode.setTAXItemGrpForSales(salesVatItem);
-			taxCode.setTAXItemGrpForPurchases(purchaseVatItem);
+			TAXItemGroup salesVatItem = get(VATITEM_FOR_SALES).getValue();
+			TAXItemGroup purchaseVatItem = get(VATITEM_FOR_PURCHASE).getValue();
+			if (salesVatItem != null)
+				taxCode.setTAXItemGrpForSales(salesVatItem.getID());
+			taxCode.setTAXItemGrpForPurchases(purchaseVatItem.getID());
 		}
 
 		create(taxCode, context);
-
-		markDone();
-		Result result = new Result();
-		result.add("VAT Code was created successfully.");
-
-		return result;
-	}
-
-	private Result vatItemForPurchaseRequirement(Context context) {
-		Requirement vatItemForPurchaseReq = get(VATITEM_FOR_PURCHASE);
-		TAXItem vatItemPurchase = context.getSelection(VATITEM_FOR_PURCHASE);
-		if (vatItemPurchase != null) {
-			vatItemForPurchaseReq.setValue(vatItemPurchase);
-		}
-		if (!vatItemForPurchaseReq.isDone()) {
-			return getVatItemForPurchseResult(context);
-		}
 		return null;
+
 	}
 
-	private Result getVatItemForPurchseResult(Context context) {
-		Result result = context.makeResult();
-		ResultList vatItemGroupsList = new ResultList(PURCHASE_VAT_ITEMS);
+	@Override
+	protected String getDeleteCommand(Context context) {
+		long id = taxCode.getID();
+		return id != 0 ? "Delete VatCode " + id : null;
+	}
 
-		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
-		if (last != null) {
-			vatItemGroupsList.add(createTaxItemRecord((TAXItem) last));
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		if (!context.getPreferences().isTrackTax()) {
+			addFirstMessage(context, "You dnt have permission to do this.");
+			return "cancel";
 		}
-
-		List<TAXItem> vatItemGroups = getPurchaseVatItemGroups(context
-				.getHibernateSession());
-		for (int i = 0; i < VALUES_TO_SHOW || i < vatItemGroups.size(); i++) {
-			TAXItem vatItem = vatItemGroups.get(i);
-			if (vatItem != last) {
-				vatItemGroupsList.add(createTaxItemRecord((TAXItem) vatItem));
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a VAT Code to update.");
+				return "VAT Codes List";
 			}
-		}
+			taxCode = (ClientTAXCode) CommandUtils.getClientObjectById(
+					Long.parseLong(string), AccounterCoreType.TAX_CODE,
+					getCompanyId());
 
-		int size = vatItemGroupsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Please Select the Purchase Vat Item.");
-		}
-
-		CommandList commandList = new CommandList();
-		commandList.add("create");
-
-		result.add(message.toString());
-		result.add(vatItemGroupsList);
-		result.add(commandList);
-		result.add("Select the Purchase Vat Item");
-
-		return result;
-	}
-
-	private List<TAXItem> getPurchaseVatItemGroups(Session session) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Result createOptionalRequirement(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				context.removeAttribute(INPUT_ATTR);
-				return null;
-			default:
-				break;
+			if (taxCode == null) {
+				addFirstMessage(context, "Select a VAT Code to update.");
+				return "VAT Codes List " + string;
 			}
-		}
-
-		selection = context.getSelection("values");
-
-		Requirement nameReq = get(NAME);
-		String name = (String) nameReq.getValue();
-		if (name == selection) {
-			context.setAttribute(INPUT_ATTR, NAME);
-			return text(context, "Please Enter the VAT Code Name.", name);
-		}
-
-		ResultList list = new ResultList("values");
-
-		Record nameRecord = new Record(name);
-		nameRecord.add(INPUT_ATTR, "Name");
-		nameRecord.add("Value", name);
-		list.add(nameRecord);
-
-		Result result = descriptionRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		Requirement isTaxableReq = get(IS_TAXABLE);
-		Boolean isTaxable = (Boolean) isTaxableReq.getValue();
-		if (selection == isTaxable) {
-			context.setAttribute(INPUT_ATTR, IS_TAXABLE);
-			isTaxable = !isTaxable;
-			isTaxableReq.setValue(isTaxable);
-		}
-		String taxableString = "";
-		if (isTaxable) {
-			taxableString = "Taxable";
+			get(TAX_CODE).setValue(taxCode.getName());
+			get(DESCRIPTION).setValue(taxCode.getDescription());
+			get(IS_ACTIVE).setValue(taxCode.isActive());
+			get(IS_TAXABLE).setValue(taxCode.isTaxable());
+			get(VATITEM_FOR_SALES).setValue(
+					CommandUtils.getServerObjectById(
+							taxCode.getTAXItemGrpForSales(),
+							AccounterCoreType.TAX_ITEM_GROUP));
+			get(VATITEM_FOR_PURCHASE).setValue(
+					CommandUtils.getServerObjectById(
+							taxCode.getTAXItemGrpForPurchases(),
+							AccounterCoreType.TAX_ITEM_GROUP));
 		} else {
-			taxableString = "Tax exempt";
-		}
-		Record isTaxableRecord = new Record(IS_TAXABLE);
-		isTaxableRecord.add("Name", "Tax");
-		isTaxableRecord.add("Value", taxableString);
-		list.add(isTaxableRecord);
-
-		if (isTaxable) {
-			Requirement salesVatItemReq = get(VATITEM_FOR_SALES);
-			TAXItem salesTaxItem = (TAXItem) salesVatItemReq.getValue();
-			if (salesTaxItem == selection) {
-				context.setAttribute(INPUT_ATTR, VATITEM_FOR_SALES);
-				return getVatItemForSaleResult(context);
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(TAX_CODE).setValue(string);
 			}
-			Record salesTaxItemRecord = new Record(salesTaxItem);
-			salesTaxItemRecord.add("Name", "Sales Vat Item");
-			salesTaxItemRecord.add("Value", salesTaxItem.getName());
-			list.add(salesTaxItemRecord);
-
-			Requirement purchaseVatItemReq = get(VATITEM_FOR_SALES);
-			TAXItem purchaseTaxItem = (TAXItem) purchaseVatItemReq.getValue();
-			if (purchaseTaxItem == selection) {
-				context.setAttribute(INPUT_ATTR, VATITEM_FOR_SALES);
-				return getVatItemForPurchseResult(context);
-			}
-			Record purchaseTaxItemRecord = new Record(purchaseTaxItem);
-			purchaseTaxItemRecord.add("Name", "Purchase Vat Item");
-			purchaseTaxItemRecord.add("Value", purchaseTaxItem.getName());
-			list.add(purchaseTaxItemRecord);
-		}
-
-		Requirement isActiveReq = get(IS_ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == isActive) {
-			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This Item is Active";
-		} else {
-			activeString = "This Item is InActive";
-		}
-		Record isActiveRecord = new Record(IS_ACTIVE);
-		isActiveRecord.add("Name", "");
-		isActiveRecord.add("Value", activeString);
-		list.add(isActiveRecord);
-
-		result = context.makeResult();
-		result.add("Vat Code is ready to create with following values.");
-		result.add(list);
-		ResultList actions = new ResultList("actions");
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Vat Code.");
-		actions.add(finish);
-		result.add(actions);
-
-		return result;
-	}
-
-	private Result vatItemForSalesRequirement(Context context) {
-		Requirement vatItemForSalesReq = get(VATITEM_FOR_SALES);
-		TAXItem vatItemSale = context.getSelection(VATITEM_FOR_SALES);
-		if (vatItemSale != null) {
-			vatItemForSalesReq.setValue(vatItemSale);
-		}
-		if (!vatItemForSalesReq.isDone()) {
-			return getVatItemForSaleResult(context);
+			taxCode = new ClientTAXCode();
 		}
 		return null;
 	}
 
-	private Result getVatItemForSaleResult(Context context) {
-		Result result = context.makeResult();
-		ResultList vatItemGroupsList = new ResultList(SALES_VAT_ITEMS);
+	@Override
+	protected String getWelcomeMessage() {
+		return taxCode.getID() == 0 ? "New vat code command is activated"
+				: "Update VAT Code command is activated";
+	}
 
-		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
-		if (last != null) {
-			vatItemGroupsList.add(createTaxItemRecord((TAXItem) last));
+	@Override
+	protected String getDetailsMessage() {
+		return taxCode.getID() == 0 ? "New vat code commond is ready to create with the following values"
+				: "VAT Code is ready to update with following values";
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
+		get(IS_TAXABLE).setDefaultValue(Boolean.TRUE);
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return taxCode.getID() == 0 ? "New vat code commond is created successfully"
+				: "VAT Code updated successfully";
+	}
+
+	private List<TAXItemGroup> getFilteredVATItems(Context context,
+			boolean salesItems) {
+		List<TAXItemGroup> vatItmsList = new ArrayList<TAXItemGroup>();
+		Set<TAXItemGroup> taxItemGroups = context.getCompany()
+				.getTaxItemGroups();
+		Set<TAXItem> taxItems = context.getCompany().getTaxItems();
+		List<TAXItem> activeItems = new ArrayList<TAXItem>();
+		for (TAXItem taxItem : taxItems) {
+			if (taxItem.isActive()) {
+				activeItems.add(taxItem);
+			}
 		}
-
-		List<TAXItem> vatItemGroups = getSalesVatItemGroups(context
-				.getHibernateSession());
-		for (int i = 0; i < VALUES_TO_SHOW || i < vatItemGroups.size(); i++) {
-			TAXItem vatItemGroup = vatItemGroups.get(i);
-			if (vatItemGroup != last) {
-				vatItemGroupsList
-						.add(createTaxItemRecord((TAXItem) vatItemGroup));
+		taxItemGroups.addAll(activeItems);
+		for (TAXItem vatItem : activeItems) {
+			if (vatItem.isPercentage()) {
+				TAXAgency taxAgency = vatItem.getTaxAgency();
+				if (salesItems) {
+					if (taxAgency.getSalesLiabilityAccount() != null) {
+						vatItmsList.add(vatItem);
+					}
+				}
+				if (!salesItems) {
+					if (taxAgency.getPurchaseLiabilityAccount() != null) {
+						vatItmsList.add(vatItem);
+					}
+				}
 			}
 		}
 
-		int size = vatItemGroupsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Please Select the Sales Vat Item.");
-		}
-
-		CommandList commandList = new CommandList();
-		commandList.add("create");
-
-		result.add(message.toString());
-		result.add(vatItemGroupsList);
-		result.add(commandList);
-		result.add("Select the Sales Vat Item");
-
-		return result;
+		return vatItmsList;
 	}
-
-	private List<TAXItem> getSalesVatItemGroups(Session session) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Result descriptionRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement descriptionReq = get(DESCRIPTION);
-		String description = (String) descriptionReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(DESCRIPTION)) {
-			String desc = context.getSelection(TEXT);
-			if (desc == null) {
-				desc = context.getString();
-			}
-			description = desc;
-			descriptionReq.setValue(description);
-		}
-		if (selection == description) {
-			context.setAttribute(INPUT_ATTR, DESCRIPTION);
-			return text(context, "Description", description);
-		}
-
-		Record descRecord = new Record(description);
-		descRecord.add("Name", "Description");
-		descRecord.add("Value", description);
-		list.add(descRecord);
-		return null;
-	}
-
 }

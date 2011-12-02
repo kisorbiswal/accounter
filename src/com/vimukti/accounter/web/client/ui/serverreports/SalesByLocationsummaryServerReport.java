@@ -27,13 +27,13 @@ public class SalesByLocationsummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", Global.get().constants().total() };
+		return new String[] { "", Global.get().messages().total() };
 	}
 
 	@Override
 	public String getTitle() {
 		if (!isLocation) {
-			return Accounter.constants().salesByClassSummary();
+			return Accounter.messages().salesByClassSummary();
 		}
 		return Accounter.messages().salesByLocationSummary(
 				Global.get().Location());
@@ -41,7 +41,7 @@ public class SalesByLocationsummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", Global.get().constants().total() };
+		return new String[] { "", Global.get().messages().total() };
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class SalesByLocationsummaryServerReport extends
 	@Override
 	public void processRecord(SalesByLocationSummary record) {
 		if (sectionDepth == 0) {
-			addSection(new String[] { "" }, new String[] { getConstants()
+			addSection(new String[] { "" }, new String[] { getMessages()
 					.total() }, new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			return;
@@ -84,7 +84,7 @@ public class SalesByLocationsummaryServerReport extends
 	}
 
 	private String getRecordSectionName(SalesByLocationSummary record) {
-		return record.getLocationName() == null ? getConstants().notSpecified()
+		return record.getLocationName() == null ? getMessages().notSpecified()
 				: record.getLocationName();
 	}
 

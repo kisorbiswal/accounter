@@ -2,7 +2,6 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,11 +13,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.services.IS2SService;
+import com.vimukti.accounter.services.S2SServiceImpl;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientUser;
 
 /**
  * @author Prasanna Kumar G
@@ -39,6 +39,12 @@ public class DeleteCompanyServlet extends BaseServlet {
 			return;
 		}
 		String companyId = req.getParameter(COMPANY_ID);
+		setOptions(req, companyId, emailID);
+		dispatch(req, resp, deleteCompanyView);
+	}
+
+	private void setOptions(HttpServletRequest req, String companyId,
+			String emailID) {
 		boolean canDeleteFromSingle = true, canDeleteFromAll = true;
 		Session hibernateSession = HibernateUtil.openSession();
 		try {
@@ -70,24 +76,32 @@ public class DeleteCompanyServlet extends BaseServlet {
 		req.setAttribute("canDeleteFromSingle", canDeleteFromSingle);
 		req.setAttribute("canDeleteFromAll", canDeleteFromAll);
 		req.getSession().setAttribute(COMPANY_ID, companyId);
-		dispatch(req, resp, deleteCompanyView);
+
 	}
 
 	/**
 	 * @param req
 	 * @param resp
 	 * @throws IOException
+	 * @throws ServletException
 	 */
 	private void deleteComapny(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
+			throws IOException, ServletException {
 		final String email = (String) req.getSession().getAttribute(EMAIL_ID);
 
 		String message = "";
 
 		final String companyID = (String) req.getSession().getAttribute(
 				COMPANY_ID);
-		final boolean deleteAllUsers = req.getParameter("delete").equals(
-				"deleteAllUsers");
+		String delete = req.getParameter("delete");
+		if (delete == null) {
+			req.setAttribute("message", "Please select the option.");
+			setOptions(req, companyID, email);
+			dispatch(req, resp, deleteCompanyView);
+			return;
+		}
+
+		final boolean deleteAllUsers = delete.equals("deleteAllUsers");
 		final HttpSession httpSession = req.getSession();
 		new Thread(new Runnable() {
 
@@ -125,7 +139,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 					transaction = session.beginTransaction();
 
 					Client client = getClient(email);
-					ServerCompany serverCompany = null;
+					Company serverCompany = null;
 					if (companyID == null) {
 						httpSession.setAttribute(COMPANY_DELETION_STATUS,
 								"Fail");
@@ -133,9 +147,10 @@ public class DeleteCompanyServlet extends BaseServlet {
 								"Internal Error.");
 						return;
 					}
-					for (ServerCompany cmpny : client.getCompanies()) {
-						if (cmpny.getID() == Long.parseLong(companyID)) {
-							serverCompany = cmpny;
+					for (User usr : client.getUsers()) {
+						if (usr.getCompany().getID() == Long
+								.parseLong(companyID)) {
+							serverCompany = usr.getCompany();
 						}
 					}
 
@@ -147,8 +162,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 						return;
 					}
 
-					IS2SService s2sService = getS2sSyncProxy(serverCompany
-							.getServer().getAddress());
+					S2SServiceImpl s2sService = new S2SServiceImpl();
 
 					// boolean isAdmin = s2sService.isAdmin(
 					// Long.parseLong(companyID), email);
@@ -166,34 +180,37 @@ public class DeleteCompanyServlet extends BaseServlet {
 					}
 
 					if (canDeleteFromAll
-							&& (deleteAllUsers || serverCompany.getClients()
-									.size() == 1)) {
+							&& (deleteAllUsers || serverCompany
+									.getNonDeletedUsers().size() == 1)) {
 						// Deleting ServerCompany
-						Set<Client> clients = serverCompany.getClients();
-						for (Client clnt : clients) {
-							clnt.getCompanies().remove(serverCompany);
-							session.saveOrUpdate(clnt);
-						}
+						// Set<Client> clients = serverCompany.getClients();
+						// for (Client clnt : clients) {
+						// clnt.getUsers().remove(user);
+						// session.saveOrUpdate(clnt);
+						// }
+						serverCompany.onDelete(session);
 						session.delete(serverCompany);
 
 						// Deleting Company
-						IS2SService s2sSyncProxy = getS2sSyncProxy(serverCompany
-								.getServer().getAddress());
-						s2sSyncProxy.deleteCompany(serverCompany.getId());
+						// IS2SService s2sSyncProxy =
+						// getS2sSyncProxy(serverCompany
+						// .getServer().getAddress());
+						// s2sSyncProxy.deleteCompany(serverCompany.getId());
 
 					} else if (canDeleteFromSingle) {
 
 						// Deleting Client from ServerCompany
-						client.getCompanies().remove(serverCompany);
-						session.saveOrUpdate(client);
-
+						// client.getUsers().remove(user);
+						// session.saveOrUpdate(client);
+						ClientUser clientUser = new ClientConvertUtil()
+								.toClientObject(user, ClientUser.class);
+						clientUser.setEmail(user.getClient().getEmailId());
 						s2sService.deleteUserFromCompany(
-								Long.parseLong(companyID), email);
+								Long.parseLong(companyID), clientUser);
 					}
 					transaction.commit();
 					httpSession
 							.setAttribute(COMPANY_DELETION_STATUS, "Success");
-					updateServers(serverCompany.getServer(), false);
 				} catch (Exception e) {
 					e.printStackTrace();
 					if (transaction != null) {

@@ -7,7 +7,6 @@ public class Gibraltar extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -24,7 +23,7 @@ public class Gibraltar extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.constants().july();
+		return Accounter.messages().july();
 	}
 
 }

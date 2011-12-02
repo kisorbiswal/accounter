@@ -8,7 +8,6 @@ import java.util.Set;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
@@ -93,11 +92,11 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			transactionName = AccounterClientConstants.TYPE_JOURNAL_ENTRY;
 			break;
-		case ClientTransaction.TYPE_PAY_SALES_TAX:
-			transactionName = AccounterClientConstants.TYPE_PAY_SALES_TAX;
+		case ClientTransaction.TYPE_PAY_TAX:
+			transactionName = AccounterClientConstants.TYPE_PAY_TAX;
 			break;
-		case ClientTransaction.TYPE_RECEIVE_VAT:
-			transactionName = AccounterClientConstants.TYPE_RECEIVE_VAT;
+		case ClientTransaction.TYPE_RECEIVE_TAX:
+			transactionName = AccounterClientConstants.TYPE_RECEIVE_TAX;
 			break;
 		case ClientTransaction.TYPE_SALES_ORDER:
 			transactionName = AccounterClientConstants.TYPE_SALES_ORDER;
@@ -117,14 +116,16 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
 			transactionName = AccounterClientConstants.TYPE_CREDIT_CARD_EXPENSE;
 			break;
-		case ClientTransaction.TYPE_VAT_RETURN:
+		case ClientTransaction.TYPE_TAX_RETURN:
 			transactionName = AccounterClientConstants.TYPE_VAT_RETURN;
-			break;
-		case ClientTransaction.TYPE_PAY_VAT:
-			transactionName = AccounterClientConstants.TYPE_PAY_VAT;
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 			transactionName = AccounterClientConstants.TYPE_CUSTOMER_PREPAYMENT;
+			break;
+		case ClientTransaction.TYPE_ADJUST_SALES_TAX:
+		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
+			transactionName = Accounter.messages().taxAdjustment();
+			break;
 		}
 		return transactionName;
 	}
@@ -133,10 +134,10 @@ public class Utility implements IsSerializable, Serializable {
 		String itemTypeName = null;
 		switch (itemType) {
 		case ClientTransactionItem.TYPE_ITEM:
-			itemTypeName = Accounter.constants().productOrServiceItem();
+			itemTypeName = Accounter.messages().productOrServiceItem();
 			break;
 		case ClientTransactionItem.TYPE_ACCOUNT:
-			itemTypeName = Global.get().Account();
+			itemTypeName = Accounter.messages().Account();
 			break;
 		default:
 			break;
@@ -430,56 +431,57 @@ public class Utility implements IsSerializable, Serializable {
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(dueDate.getDateAsObject());
 
-				switch (due) {
-				case ClientPaymentTerms.DUE_NONE:
-					if (dueDays > 0) {
-
-						cal.add(Calendar.DAY_OF_MONTH, dueDays);
-					}
-					break;
-				case ClientPaymentTerms.DUE_CURRENT_MONTH:
-					cal.set(Calendar.DAY_OF_MONTH, 01);
-					cal.add(Calendar.MONTH, 1);
-					cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					break;
-				case ClientPaymentTerms.DUE_CURRENT_QUARTER:
-					cal.set(Calendar.DAY_OF_MONTH, 01);
-					month = cal.get(Calendar.MONTH);
-					month++;
-
-					if (month == 1 || month == 2 || month == 3) {
-						cal.set(Calendar.MONTH, 3);
-						cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					} else if (month == 4 || month == 5 || month == 6) {
-						cal.set(Calendar.MONTH, 6);
-						cal.set(Calendar.DAY_OF_MONTH, dueDays);
-
-					} else if (month == 7 || month == 8 || month == 9) {
-						cal.set(Calendar.MONTH, 9);
-						cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					} else {
-						cal.add(Calendar.YEAR, 1);
-						cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					}
-					break;
-				case ClientPaymentTerms.DUE_CURRENT_HALF_YEAR:
-					cal.set(Calendar.DAY_OF_MONTH, 01);
-					if (month == 1 || month == 2 || month == 3 || month == 4
-							|| month == 5 || month == 6) {
-						cal.set(Calendar.MONTH, 7);
-						cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					} else {
-						cal.add(Calendar.YEAR, 1);
-						cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					}
-					break;
-				case ClientPaymentTerms.DUE_CURRENT_YEAR:
-					cal.set(Calendar.DAY_OF_MONTH, 01);
-					cal.add(Calendar.YEAR, 1);
-					cal.set(Calendar.DAY_OF_MONTH, dueDays);
-					break;
-
-				}
+				cal.add(Calendar.DAY_OF_MONTH, dueDays);
+				// switch (due) {
+				// case ClientPaymentTerms.DUE_NONE:
+				// if (dueDays > 0) {
+				//
+				// cal.add(Calendar.DAY_OF_MONTH, dueDays);
+				// }
+				// break;
+				// case ClientPaymentTerms.DUE_CURRENT_MONTH:
+				// cal.set(Calendar.DAY_OF_MONTH, 01);
+				// cal.add(Calendar.MONTH, 1);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// break;
+				// case ClientPaymentTerms.DUE_CURRENT_QUARTER:
+				// cal.set(Calendar.DAY_OF_MONTH, 01);
+				// month = cal.get(Calendar.MONTH);
+				// month++;
+				//
+				// if (month == 1 || month == 2 || month == 3) {
+				// cal.set(Calendar.MONTH, 3);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// } else if (month == 4 || month == 5 || month == 6) {
+				// cal.set(Calendar.MONTH, 6);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				//
+				// } else if (month == 7 || month == 8 || month == 9) {
+				// cal.set(Calendar.MONTH, 9);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// } else {
+				// cal.add(Calendar.YEAR, 1);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// }
+				// break;
+				// case ClientPaymentTerms.DUE_CURRENT_HALF_YEAR:
+				// cal.set(Calendar.DAY_OF_MONTH, 01);
+				// if (month == 1 || month == 2 || month == 3 || month == 4
+				// || month == 5 || month == 6) {
+				// cal.set(Calendar.MONTH, 7);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// } else {
+				// cal.add(Calendar.YEAR, 1);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// }
+				// break;
+				// case ClientPaymentTerms.DUE_CURRENT_YEAR:
+				// cal.set(Calendar.DAY_OF_MONTH, 01);
+				// cal.add(Calendar.YEAR, 1);
+				// cal.set(Calendar.DAY_OF_MONTH, dueDays);
+				// break;
+				//
+				// }
 				dueDate = new ClientFinanceDate(cal.getTime());
 				return dueDate;
 			} else
@@ -903,9 +905,8 @@ public class Utility implements IsSerializable, Serializable {
 			numberInWords += readNumber(subString);
 		}
 		if (!rhs.equals(""))
-			numberInWords = new StringBuilder().append(numberInWords)
-					.append(" and ").append(rhs).append("/100 DOLLARS")
-					.toString();
+			numberInWords = new StringBuilder().append(numberInWords).append(
+					" and ").append(rhs).append("/100 DOLLARS").toString();
 		System.out.println(numberInWords);
 
 		return numberInWords;
@@ -1105,7 +1106,8 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(AccounterClientConstants.STATUS_UN_APPLIED);
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
+				buffer
+						.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_APPLIED);
@@ -1183,7 +1185,8 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(AccounterClientConstants.STATUS_UN_APPLIED);
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
+				buffer
+						.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_APPLIED);
@@ -1197,7 +1200,8 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(AccounterClientConstants.STATUS_UN_APPLIED);
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
+				buffer
+						.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_APPLIED);
@@ -1255,7 +1259,8 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(AccounterClientConstants.STATUS_NOT_INVOICED);
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(AccounterClientConstants.STATUS_PARTIALLY_INVOICED);
+				buffer
+						.append(AccounterClientConstants.STATUS_PARTIALLY_INVOICED);
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_INVOICED);
@@ -1268,7 +1273,8 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(AccounterClientConstants.STATUS_NOT_RECEIVED);
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(AccounterClientConstants.STATUS_PARTIALLY_RECEIVED);
+				buffer
+						.append(AccounterClientConstants.STATUS_PARTIALLY_RECEIVED);
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_RECEIVED);
@@ -1287,19 +1293,7 @@ public class Utility implements IsSerializable, Serializable {
 				break;
 			}
 			break;
-		case ClientTransaction.TYPE_PAY_SALES_TAX:
-			switch (status) {
-			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NOT_ISSUED);
-				break;
-			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				break;
-			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_ISSUED);
-				break;
-			}
-			break;
-		case ClientTransaction.TYPE_PAY_VAT:
+		case ClientTransaction.TYPE_PAY_TAX:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_NOT_ISSUED);
@@ -1312,7 +1306,7 @@ public class Utility implements IsSerializable, Serializable {
 			}
 			break;
 
-		case ClientTransaction.TYPE_RECEIVE_VAT:
+		case ClientTransaction.TYPE_RECEIVE_TAX:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
 				buffer.append(AccounterClientConstants.STATUS_NOT_ISSUED);

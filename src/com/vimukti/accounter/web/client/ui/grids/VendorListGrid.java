@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class VendorListGrid extends BaseListGrid<PayeeList> {
@@ -33,14 +33,14 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		for (int index = 0; index < colArray.length; index++) {
 			switch (index) {
 			case 0:
-				colArray[index] = Accounter.constants().active();
+				colArray[index] = Accounter.messages().active();
 				break;
 			case 1:
-				colArray[index] = Accounter.messages().vendorName(
+				colArray[index] = Accounter.messages().payeeName(
 						Global.get().Vendor());
 				break;
 			case 2:
-				colArray[index] = Accounter.constants().currentMonth();
+				colArray[index] = Accounter.messages().currentMonth();
 				colsMap.put(2, getCurrentMonth());
 				break;
 			case 3:
@@ -64,10 +64,10 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 				colsMap.put(6, getCurrentMonth() - 5);
 				break;
 			case 8:
-				colArray[index] = Accounter.constants().yearToDate();
+				colArray[index] = Accounter.messages().yearToDate();
 				break;
 			case 9:
-				colArray[index] = Accounter.constants().balance();
+				colArray[index] = Accounter.messages().balance();
 				break;
 			case 10:
 				colArray[index] = "";
@@ -87,35 +87,35 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	private String getMonthAsString(int month) {
 		switch (month) {
 		case 1:
-			return Accounter.constants().jan();
+			return Accounter.messages().jan();
 		case 2:
-			return Accounter.constants().feb();
+			return Accounter.messages().feb();
 		case 3:
-			return Accounter.constants().mar();
+			return Accounter.messages().mar();
 		case 4:
-			return Accounter.constants().apr();
+			return Accounter.messages().apr();
 		case 5:
-			return Accounter.constants().may();
+			return Accounter.messages().may();
 		case 6:
-			return Accounter.constants().jun();
+			return Accounter.messages().jun();
 		case 7:
 		case -5:
-			return Accounter.constants().jul();
+			return Accounter.messages().jul();
 		case 8:
 		case -4:
-			return Accounter.constants().aug();
+			return Accounter.messages().aug();
 		case 9:
 		case -3:
-			return Accounter.constants().sept();
+			return Accounter.messages().sept();
 		case 10:
 		case -2:
-			return Accounter.constants().oct();
+			return Accounter.messages().oct();
 		case 11:
 		case -1:
-			return Accounter.constants().nov();
+			return Accounter.messages().nov();
 		case 12:
 		case 0:
-			return Accounter.constants().dec();
+			return Accounter.messages().dec();
 
 		}
 		return "";
@@ -124,31 +124,40 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	protected Object getColumnValue(PayeeList payee, int col) {
+
 		switch (col) {
 		case 0:
 			return payee.isActive();
 		case 1:
 			return payee.getPayeeName();
 		case 2:
-			return amountAsString(payee.getCurrentMonth());
+			return DataUtils.amountAsStringWithCurrency(
+					payee.getCurrentMonth(), payee.getCurrecny());
 		case 3:
-			return amountAsString(payee.getPreviousMonth());
+			return DataUtils.amountAsStringWithCurrency(
+					payee.getPreviousMonth(), payee.getCurrecny());
 		case 4:
-			return amountAsString(payee.getPreviousSecondMonth());
+			return DataUtils.amountAsStringWithCurrency(
+					payee.getPreviousSecondMonth(), payee.getCurrecny());
 
 		case 5:
-			return amountAsString(payee.getPreviousThirdMonth());
+			return DataUtils.amountAsStringWithCurrency(
+					payee.getPreviousThirdMonth(), payee.getCurrecny());
 
 		case 6:
-			return amountAsString(payee.getPreviousFourthMonth());
+			return DataUtils.amountAsStringWithCurrency(
+					payee.getPreviousFourthMonth(), payee.getCurrecny());
 
 		case 7:
-			return amountAsString(payee.getPreviousFifthMonth());
+			return DataUtils.amountAsStringWithCurrency(
+					payee.getPreviousFifthMonth(), payee.getCurrecny());
 
 		case 8:
-			return amountAsString(payee.getYearToDate());
+			return DataUtils.amountAsStringWithCurrency(payee.getYearToDate(),
+					payee.getCurrecny());
 		case 9:
-			return amountAsString(payee.getBalance());
+			return DataUtils.amountAsStringWithCurrency(payee.getBalance(),
+					payee.getCurrecny());
 		case 10:
 			updateTotal(payee, true);
 			return Accounter.getFinanceMenuImages().delete();
@@ -162,30 +171,31 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 10) {
-			if (UIUtils.isMSIEBrowser())
-				return 25;
-			else
-				return 25;
-		} else if (index == 0) {
+		switch (index) {
+		case 0:
 			return 40;
-		} else if (index == 2) {
+		case 1:
+			return -1;
+		case 2:
 			return 100;
-		} else if (index == 3) {
+		case 3:
 			return 70;
-		} else if (index == 4) {
+		case 4:
 			return 70;
-		} else if (index == 5) {
+		case 5:
 			return 70;
-		} else if (index == 6) {
+		case 6:
 			return 70;
-		} else if (index == 7) {
+		case 7:
 			return 70;
-		} else if (index == 8) {
+		case 8:
 			return 75;
-		} else if (index == 9) {
+		case 9:
 			return 70;
+		case 10:
+			return 25;
 		}
+
 		return -1;
 	}
 
@@ -253,7 +263,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
@@ -331,8 +341,8 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	protected int sort(PayeeList obj1, PayeeList obj2, int index) {
 		switch (index) {
 		case 1:
-			return obj1.getPayeeName().toLowerCase().compareTo(
-					obj2.getPayeeName().toLowerCase());
+			return obj1.getPayeeName().toLowerCase()
+					.compareTo(obj2.getPayeeName().toLowerCase());
 			//
 			// case 3:
 			//
@@ -420,10 +430,11 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	public void deleteFailed(AccounterException caught) {
 		int errorCode = caught.getErrorCode();
 		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
-			Accounter.showError(AccounterExceptions.accounterErrorMessages
-					.customerInUse(Global.get().Vendor()));
+			Accounter.showError(AccounterExceptions.accounterMessages
+					.payeeInUse(Global.get().Vendor()));
 		} else {
 			super.deleteFailed(caught);
 		}
 	}
+
 }

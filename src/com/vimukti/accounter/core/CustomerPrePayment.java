@@ -2,9 +2,11 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -25,8 +27,6 @@ public class CustomerPrePayment extends Transaction {
 	 */
 
 	Account depositIn;
-
-	double endingBalance = 0D;
 
 	double customerBalance = 0D;
 
@@ -70,13 +70,6 @@ public class CustomerPrePayment extends Transaction {
 	 */
 	public Account getAccount() {
 		return depositIn;
-	}
-
-	/**
-	 * @return the endingBalance
-	 */
-	public double getEndingBalance() {
-		return endingBalance;
 	}
 
 	/**
@@ -186,10 +179,6 @@ public class CustomerPrePayment extends Transaction {
 		this.total = total;
 	}
 
-	public void setEndingBalance(double endingBalance) {
-		this.endingBalance = endingBalance;
-	}
-
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 
@@ -267,7 +256,7 @@ public class CustomerPrePayment extends Transaction {
 
 				customerPrePayment.customer.updateBalance(session, this,
 						-customerPrePayment.total);
-				this.customer.updateBalance(session, this, this.total);
+				this.customer.updateBalance(session, this, +this.total);
 				this.creditsAndPayments.updateCreditPayments(this.total);
 
 			}
@@ -278,9 +267,11 @@ public class CustomerPrePayment extends Transaction {
 				Account depositInAccount = (Account) session.get(Account.class,
 						customerPrePayment.depositIn.id);
 				depositInAccount.updateCurrentBalance(this,
-						customerPrePayment.total);
+						customerPrePayment.total,
+						customerPrePayment.currencyFactor);
 				depositInAccount.onUpdate(session);
-				this.depositIn.updateCurrentBalance(this, -this.total);
+				this.depositIn.updateCurrentBalance(this, -this.total,
+						this.currencyFactor);
 				this.depositIn.onUpdate(session);
 
 			}
@@ -306,6 +297,21 @@ public class CustomerPrePayment extends Transaction {
 			throws AccounterException {
 
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> effectingAccountsWithAmounts = super
+				.getEffectingAccountsWithAmounts();
+		effectingAccountsWithAmounts.put(creditsAndPayments.getPayee()
+				.getAccount(), creditsAndPayments.getEffectingAmount());
+		return effectingAccountsWithAmounts;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

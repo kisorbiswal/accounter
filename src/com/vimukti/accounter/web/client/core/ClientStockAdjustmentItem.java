@@ -3,27 +3,28 @@
  */
 package com.vimukti.accounter.web.client.core;
 
-import java.io.Serializable;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class ClientStockAdjustmentItem implements Serializable, IsSerializable {
+public class ClientStockAdjustmentItem implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	// Price value at the time of transaction
 	private double adjustmentPriceValue;
-	private ClientQuantity adjustmentQty;
+	private ClientQuantity adjustmentQty = new ClientQuantity();
 	// comment is specific to this adjustment item (along with reason).
 	private String comment;
-	private ClientItem item;
+	private long item;
 	// qtyBeforeTransaction is for further information, like report generation.
 	private ClientQuantity qtyBeforeTransaction;
-	private ClientAdjustmentReason reason;
-	private ClientWarehouse warehouse;
+
+	// private ClientAdjustmentReason reason;
+	// private ClientWarehouse warehouse;
 
 	/**
 	 * @return the id
@@ -88,7 +89,7 @@ public class ClientStockAdjustmentItem implements Serializable, IsSerializable {
 	/**
 	 * @return the item
 	 */
-	public ClientItem getItem() {
+	public long getItem() {
 		return item;
 	}
 
@@ -96,7 +97,7 @@ public class ClientStockAdjustmentItem implements Serializable, IsSerializable {
 	 * @param item
 	 *            the item to set
 	 */
-	public void setItem(ClientItem item) {
+	public void setItem(long item) {
 		this.item = item;
 	}
 
@@ -115,34 +116,86 @@ public class ClientStockAdjustmentItem implements Serializable, IsSerializable {
 		this.qtyBeforeTransaction = qtyBeforeTransaction;
 	}
 
-	/**
-	 * @return the reason
-	 */
-	public ClientAdjustmentReason getReason() {
-		return reason;
+	// /**
+	// * @return the reason
+	// */
+	// public ClientAdjustmentReason getReason() {
+	// return reason;
+	// }
+	//
+	// /**
+	// * @param reason
+	// * the reason to set
+	// */
+	// public void setReason(ClientAdjustmentReason reason) {
+	// this.reason = reason;
+	// }
+	//
+	// /**
+	// * @return the warehouse
+	// */
+	// public ClientWarehouse getWarehouse() {
+	// return warehouse;
+	// }
+	//
+	// /**
+	// * @param warehouse
+	// * the warehouse to set
+	// */
+	// public void setWarehouse(ClientWarehouse warehouse) {
+	// this.warehouse = warehouse;
+	// }
+
+	public boolean isEmpty() {
+		if (this.item == 0) {
+			return true;
+		}
+		return false;
 	}
 
-	/**
-	 * @param reason
-	 *            the reason to set
-	 */
-	public void setReason(ClientAdjustmentReason reason) {
-		this.reason = reason;
+	@Override
+	public int getVersion() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
-	/**
-	 * @return the warehouse
-	 */
-	public ClientWarehouse getWarehouse() {
-		return warehouse;
+	@Override
+	public void setVersion(int version) {
+		// TODO Auto-generated method stub
+
 	}
 
-	/**
-	 * @param warehouse
-	 *            the warehouse to set
-	 */
-	public void setWarehouse(ClientWarehouse warehouse) {
-		this.warehouse = warehouse;
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setID(long id) {
+		this.id = id;
+	}
+
+	@Override
+	public long getID() {
+		return id;
+	}
+
+	@Override
+	public String getClientClassSimpleName() {
+		return "ClientStockAdjustmentItem";
 	}
 
 }

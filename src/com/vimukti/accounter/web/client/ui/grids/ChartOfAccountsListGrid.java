@@ -4,16 +4,20 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
+	ClientCurrency currency = getCompany().getPrimaryCurrency();
+
 	public ChartOfAccountsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+
 	}
 
 	@Override
@@ -35,8 +39,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 3:
 				return Utility.getAccountTypeString(obj.getType());
 			case 4:
-				return amountAsString(!DecimalUtil.isEquals(obj
-						.getTotalBalance(), 0.0) ? obj.getTotalBalance() : 0.0);
+				return DataUtils.getAmountAsString(obj
+						.getTotalBalanceInAccountCurrency(), getCompany()
+						.getCurrency(obj.getCurrency()).getSymbol());
 			case 5:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 				// return "/images/find.png";
@@ -56,8 +61,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 2:
 				return Utility.getAccountTypeString(obj.getType());
 			case 3:
-				return amountAsString(!DecimalUtil.isEquals(obj
-						.getTotalBalance(), 0.0) ? obj.getTotalBalance() : 0.0);
+				return DataUtils.getAmountAsString(obj
+						.getTotalBalanceInAccountCurrency(), getCompany()
+						.getCurrency(obj.getCurrency()).getSymbol());
 			case 4:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 				// return "/images/find.png";
@@ -76,16 +82,16 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	protected String[] getColumns() {
 
 		if (getPreferences().getUseAccountNumbers() == true) {
-			bankingContants = Accounter.constants();
-			return new String[] { bankingContants.active(),
-					bankingContants.no(), bankingContants.name(),
-					bankingContants.type(), bankingContants.balance(),
-					bankingContants.register(), "" };
+			messages = Accounter.messages();
+			return new String[] { messages.active(),
+					messages.no(), messages.name(),
+					messages.type(), messages.balance(),
+					messages.register(), "" };
 		} else {
-			bankingContants = Accounter.constants();
-			return new String[] { bankingContants.active(),
-					bankingContants.name(), bankingContants.type(),
-					bankingContants.balance(), bankingContants.register(), "" };
+			messages = Accounter.messages();
+			return new String[] { messages.active(),
+					messages.name(), messages.type(),
+					messages.balance(), messages.register(), "" };
 		}
 
 	}
@@ -125,13 +131,13 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	protected int[] setColTypes() {
 		if (getPreferences().getUseAccountNumbers() == true) {
 			return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 					ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_IMAGE, ListGrid.COLUMN_TYPE_IMAGE };
 		} else {
 			return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_IMAGE, ListGrid.COLUMN_TYPE_IMAGE };
 		}
@@ -150,9 +156,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			if (index == 0 || index == 1) {
 				return 50;
 			} else if (index == 4)
-				return 200;
+				return 150;
 			else if (index == 5)
-				return 55;
+				return 80;
 			if (index == 3)
 				return 200;
 			// return super.getCellWidth(index);
@@ -169,7 +175,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			} else if (index == 3)
 				return 200;
 			else if (index == 4)
-				return 55;
+				return 80;
 			else if (index == 1) {
 				if (UIUtils.isMSIEBrowser()) {
 					return 960 - 700;
@@ -204,8 +210,8 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			return obj1.getNumber().compareTo(obj2.getNumber());
 
 		case 2:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 3:
 			String type1 = Utility.getAccountTypeString(obj1.getType())
 					.toLowerCase();

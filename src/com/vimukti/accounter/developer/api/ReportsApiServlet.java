@@ -19,7 +19,8 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -69,6 +70,7 @@ public class ReportsApiServlet extends HttpServlet {
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("payeestatements")) {
+				boolean isVendor = (Boolean) req.getAttribute("IsVendor");
 				int id = (Integer) req.getAttribute("Id");
 				long transactionDate = (Long) req
 						.getAttribute("TransactionDate");
@@ -88,7 +90,8 @@ public class ReportsApiServlet extends HttpServlet {
 				boolean isEnabledOfInactiveCustomer = (Boolean) req
 						.getAttribute("IsEnabledOfInactiveCustomer");
 
-				accounterReportServiceImpl.getStatements(id, fromDate, toDate);
+				accounterReportServiceImpl.getStatements(isVendor, id,
+						fromDate, toDate);
 
 			} else if (methodName.equals("agedcreditors")) {
 				result = accounterReportServiceImpl.getAgedCreditors(
@@ -408,10 +411,10 @@ public class ReportsApiServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 		String emailId = (String) session.getAttribute("emailId");
 		Client client = getClient(emailId);
-		Set<ServerCompany> companies = client.getCompanies();
-		for (ServerCompany serverCompany : companies) {
-			companyIds.put(serverCompany.getCompanyName(),
-					serverCompany.getID());
+		Set<User> users = client.getUsers();
+		for (User user : users) {
+			Company company = user.getCompany();
+			companyIds.put(company.getTradingName(), company.getID());
 		}
 		ApiSerializationFactory factory = getSerializationFactory(req);
 		String string = factory.serializeCompanyMap(companyIds);

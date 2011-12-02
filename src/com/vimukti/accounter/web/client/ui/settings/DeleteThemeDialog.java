@@ -28,8 +28,8 @@ public class DeleteThemeDialog extends BaseDialog {
 		deleteHtml = new HTML(Accounter.messages().sureToDelete(
 				brandingTheme.getThemeName()));
 		undoneHtml = new HTML(Accounter.messages().undoneHtml());
-
-		okbtn.setText(Accounter.constants().deleteButton());
+		undoneHtml.addStyleName("bold_HTML");
+		okbtn.setText(Accounter.messages().delete());
 
 		deletePanel.add(deleteHtml);
 		deletePanel.add(undoneHtml);

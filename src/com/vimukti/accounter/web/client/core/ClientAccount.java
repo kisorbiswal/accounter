@@ -51,6 +51,7 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	public static final int BANK_ACCCOUNT_TYPE_CHECKING = 1;
 	public static final int BANK_ACCCOUNT_TYPE_SAVING = 2;
 	public static final int BANK_ACCCOUNT_TYPE_MONEY_MARKET = 3;
+	public static final int BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT = 4;
 
 	public static final int BASETYPE_ASSET = 1;
 	public static final int BASETYPE_LIABILITY = 2;
@@ -119,10 +120,10 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	double totalBalance = 0.0D;
 
-	int baseType;
+	private int baseType;
 
-	int subBaseType;
-	int groupType;
+	private int subBaseType;
+	private int groupType;
 
 	long linkedAccumulatedDepreciationAccount;;
 
@@ -134,6 +135,17 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	String flow;
 
 	int boxNumber;
+
+	private long currency;
+
+	private String paypalEmail;
+
+	/**
+	 * Used in OpeningBalance Updations
+	 */
+	private double currencyFactor;
+
+	private double totalBalanceInAccountCurrency;
 
 	private int version;
 
@@ -182,6 +194,10 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	public ClientAccount() {
 
+	}
+
+	public ClientAccount(long currency) {
+		this.currency = currency;
 	}
 
 	public long getLinkedAccumulatedDepreciationAccount() {
@@ -539,5 +555,172 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public void updateBaseTypes() {
+		switch (type) {
+
+		case TYPE_CASH:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_ASSET);
+			this.setGroupType(GROUPTYPE_CASH);
+
+			break;
+		case TYPE_BANK:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_ASSET);
+			this.setGroupType(GROUPTYPE_CASH);
+
+			break;
+		case TYPE_ACCOUNT_RECEIVABLE:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_ASSET);
+			break;
+		case TYPE_OTHER_CURRENT_ASSET:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_ASSET);
+			break;
+		case TYPE_INVENTORY_ASSET:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_ASSET);
+			break;
+		case TYPE_FIXED_ASSET:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_FIXED_ASSET);
+			break;
+		case TYPE_OTHER_ASSET:
+			this.setBaseType(BASETYPE_ASSET);
+			this.setSubBaseType(SUBBASETYPE_OTHER_ASSET);
+			break;
+		case TYPE_ACCOUNT_PAYABLE:
+			this.setBaseType(BASETYPE_LIABILITY);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_LIABILITY);
+			break;
+		case TYPE_CREDIT_CARD:
+			this.setBaseType(BASETYPE_LIABILITY);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_LIABILITY);
+			break;
+		case TYPE_OTHER_CURRENT_LIABILITY:
+			this.setBaseType(BASETYPE_LIABILITY);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_LIABILITY);
+			break;
+		case TYPE_PAYROLL_LIABILITY:
+			this.setBaseType(BASETYPE_LIABILITY);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_LIABILITY);
+			break;
+		case TYPE_LONG_TERM_LIABILITY:
+			this.setBaseType(BASETYPE_LIABILITY);
+			this.setSubBaseType(SUBBASETYPE_LONG_TERM_LIABILITY);
+			break;
+		case TYPE_EQUITY:
+			this.setBaseType(BASETYPE_EQUITY);
+			this.setSubBaseType(SUBBASETYPE_EQUITY);
+			break;
+
+		case TYPE_INCOME:
+			this.setBaseType(BASETYPE_ORDINARY_INCOME_OR_EXPENSE);
+			this.setSubBaseType(SUBBASETYPE_INCOME);
+			break;
+		case TYPE_COST_OF_GOODS_SOLD:
+			this.setBaseType(BASETYPE_ORDINARY_INCOME_OR_EXPENSE);
+			this.setSubBaseType(SUBBASETYPE_COST_OF_GOODS_SOLD);
+			break;
+		case TYPE_EXPENSE:
+			this.setBaseType(BASETYPE_ORDINARY_INCOME_OR_EXPENSE);
+			this.setSubBaseType(SUBBASETYPE_EXPENSE);
+			break;
+
+		case TYPE_OTHER_INCOME:
+			this.setBaseType(BASETYPE_OTHER_INCOME_OR_EXPENSE);
+			this.setSubBaseType(SUBBASETYPE_INCOME);
+			break;
+
+		case TYPE_OTHER_EXPENSE:
+			this.setBaseType(BASETYPE_OTHER_INCOME_OR_EXPENSE);
+			this.setSubBaseType(SUBBASETYPE_OTHER_EXPENSE);
+			break;
+		}
+	}
+
+	public int getBaseType() {
+		return baseType;
+	}
+
+	public void setBaseType(int baseType) {
+		this.baseType = baseType;
+	}
+
+	public void setSubBaseType(int subBaseType) {
+		this.subBaseType = subBaseType;
+	}
+
+	public int getGroupType() {
+		return groupType;
+	}
+
+	public void setGroupType(int groupType) {
+		this.groupType = groupType;
+	}
+
+	/**
+	 * @return the currenctBalanceInAccountCurrency
+	 */
+	public double getTotalBalanceInAccountCurrency() {
+		return totalBalanceInAccountCurrency;
+	}
+
+	/**
+	 * @param currenctBalanceInAccountCurrency
+	 *            the currenctBalanceInAccountCurrency to set
+	 */
+	public void setTotalBalanceInAccountCurrency(double amount) {
+		this.totalBalanceInAccountCurrency = amount;
+	}
+
+	/**
+	 * @return the currency
+	 */
+	public long getCurrency() {
+		return currency;
+	}
+
+	/**
+	 * @param currency
+	 *            the currency to set
+	 */
+	public void setCurrency(long currency) {
+		this.currency = currency;
+	}
+
+	/**
+	 * @return the currencyFactor
+	 */
+	public double getCurrencyFactor() {
+		return currencyFactor;
+	}
+
+	/**
+	 * @param currencyFactor
+	 *            the currencyFactor to set
+	 */
+	public void setCurrencyFactor(double currencyFactor) {
+		this.currencyFactor = currencyFactor;
+	}
+
+	public boolean isAllowCurrencyChange() {
+		return isAllowCurrencyChange(type);
+	}
+
+	public static boolean isAllowCurrencyChange(int accountType) {
+		return (accountType == TYPE_BANK || accountType == TYPE_PAYPAL
+				|| accountType == TYPE_CREDIT_CARD || accountType == TYPE_CASH);
+	}
+
+	public void setPaypalEmail(String paypalEmail) {
+		this.paypalEmail = paypalEmail;
+	}
+
+	public String getPaypalEmail() {
+		return paypalEmail;
 	}
 }

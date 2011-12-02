@@ -5,8 +5,8 @@ import java.io.Serializable;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
-import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -32,7 +32,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	private boolean isVATGroupEntry;
 	double vatAmount;
 	double lineTotal;
-	TransactionItem transactionItem;
+	Transaction transaction;
 	TAXItem taxItem;
 	FinanceDate transactionDate;
 	private int version;
@@ -46,8 +46,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	 * This reference to VATReturn is used to indicate whether this entry of
 	 * VATRateCalculation is filed to any VATReturn.
 	 */
-	VATReturn vatReturn;
-	private transient double vatValue;
+	TAXReturn taxReturn;
 
 	/**
 	 * This taxDue is used to know how much Vat Amount is remains to pay
@@ -57,51 +56,22 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	public TAXRateCalculation() {
 	}
 
-	public TAXRateCalculation(TAXItem taxItem, TransactionItem transactonItem) {
+	public TAXRateCalculation(TAXItem taxItem, Transaction transacton,
+			double lineTotal) {
 
-		this.transactionItem = transactonItem;
+		this.transaction = transacton;
 		this.taxItem = taxItem;
-		this.transactionDate = transactionItem.getTransaction().getDate();
+		this.transactionDate = transacton.getDate();
 		this.taxAgency = taxItem.getTaxAgency();
 		this.rate = taxItem.getTaxRate();
 		this.vatReturnBox = taxItem.getVatReturnBox();
 		this.purchaseLiabilityAccount = this.taxAgency
 				.getPurchaseLiabilityAccount();
 		this.salesLiabilityAccount = this.taxAgency.getSalesLiabilityAccount();
-
-		if (transactionItem.getTransaction().getType() == Transaction.TYPE_VENDOR_CREDIT_MEMO
-				|| transactionItem.getTransaction().getType() == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-			this.lineTotal = (!transactionItem.transaction.isBecameVoid()) ? -transactionItem
-					.getLineTotal() : transactionItem.getLineTotal();
-		} else
-			this.lineTotal = (!transactionItem.transaction.isBecameVoid()) ? transactionItem
-					.getLineTotal() : -transactionItem.getLineTotal();
-
-		// if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_US) {
-		// vatValue = Math.abs(this.getCeilValueofTAX());
-		//
-		// } else
-		vatValue = transactonItem.getTaxCode() == null ? transactonItem
-				.getLineTotal() : transactonItem.getVATfraction();
-
-		if (transactonItem.getTaxCode() != null
-				&& transactonItem.transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR
-				&& (transactonItem.getTaxCode().getName().equals("EGS") || transactionItem
-						.getTaxCode().getName().equals("RC"))) {
-
-			vatValue = this.getCeilValueofTAX();
-		}
-
-		this.vatAmount = (transactonItem.transaction.isPositiveTransaction() ^ transactonItem
-				.isBecameVoid()) ? vatValue : -vatValue;
+		
+		this.lineTotal=lineTotal;
+		this.vatAmount = this.getCeilValueofTAX();
 		this.taxDue = this.vatAmount;
-
-		// if (!transactionItem.transaction.isBecameVoid())
-		// this.lineTotal = transactionItem.getLineTotal();
-		// else
-		// this.lineTotal = -1 * (transactonItem.getLineTotal());
-
 	}
 
 	/**
@@ -204,31 +174,16 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the vatReturn
 	 */
-	public VATReturn getVatReturn() {
-		return vatReturn;
+	public TAXReturn getTAXReturn() {
+		return taxReturn;
 	}
 
 	/**
 	 * @param vatReturn
 	 *            the vatReturn to set
 	 */
-	public void setVatReturn(VATReturn vatReturn) {
-		this.vatReturn = vatReturn;
-	}
-
-	/**
-	 * @return the vatValue
-	 */
-	public double getVatValue() {
-		return vatValue;
-	}
-
-	/**
-	 * @param vatValue
-	 *            the vatValue to set
-	 */
-	public void setVatValue(double vatValue) {
-		this.vatValue = vatValue;
+	public void setTAXReturn(TAXReturn vatReturn) {
+		this.taxReturn = vatReturn;
 	}
 
 	/**
@@ -294,28 +249,21 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the transactionItem
 	 */
-	public TransactionItem getTransactionItem() {
-		return transactionItem;
+	public Transaction getTransaction() {
+		return transaction;
 	}
 
 	/**
 	 * @param transactionItem
 	 *            the transactionItem to set
 	 */
-	public void setTransactionItem(TransactionItem transactionItem) {
-		this.transactionItem = transactionItem;
+	public void setTransaction(Transaction transaction) {
+		this.transaction = transaction;
 	}
 
 	@Override
 	public boolean onDelete(Session s) throws CallbackException {
-		System.out.println("Hello I m going to delete");
-		if (this.vatReturn == null) {
-			this.taxAgency.updateVATAgencyAccount(
-					HibernateUtil.getCurrentSession(),
-					transactionItem.transaction,
-					transactionItem.transaction.getTransactionCategory(),
-					-this.vatAmount);
-		}
+		this.taxAgency.updateTAXAgencyAccount(s, transaction, -this.vatAmount);
 		return false;
 	}
 
@@ -326,7 +274,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session s) throws CallbackException {
-
+		this.taxAgency.updateTAXAgencyAccount(s, transaction, this.vatAmount);
 		return false;
 	}
 
@@ -345,7 +293,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 	private double getCeilValueofTAX() {
 
-		double vatValue = Math.abs(this.lineTotal) * this.rate / 100;
+		double vatValue =this.lineTotal * this.rate / 100;
 		vatValue = Math.ceil(vatValue * 100) / 100;
 		return vatValue;
 	}
@@ -374,6 +322,12 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	public void setVersion(int version) {
 		this.version = version;
 
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

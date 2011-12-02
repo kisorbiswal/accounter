@@ -28,10 +28,8 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.PayBill;
-import com.vimukti.accounter.core.PaySalesTax;
-import com.vimukti.accounter.core.PayVAT;
+import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.ReceiveVAT;
-import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionPayBill;
@@ -39,7 +37,6 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -108,15 +105,15 @@ public class VendorManager extends Manager {
 					billsList.setDate(new ClientFinanceDate((Long) object[9]));
 					billsList.setExpenseStatus((Integer) object[10]);
 
-					if (object[4] != null) {
-						if (isExpensesList) {
-							if (billsList.getType() == ClientTransaction.TYPE_CASH_EXPENSE
-									|| billsList.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE
-									|| billsList.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
-								queryResult.add(billsList);
-						} else
+					// if (object[4] != null) {
+					if (isExpensesList) {
+						if (billsList.getType() == ClientTransaction.TYPE_CASH_EXPENSE
+								|| billsList.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE
+								|| billsList.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
 							queryResult.add(billsList);
-					}
+					} else
+						queryResult.add(billsList);
+					// }
 				}
 				BillsList tmpBillsList;
 				for (int i = 0; i < queryResult.size(); i++) {
@@ -362,7 +359,7 @@ public class VendorManager extends Manager {
 			Iterator i = list.iterator();
 			while (i.hasNext()) {
 				IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
-				PaySalesTax pst = (PaySalesTax) i.next();
+				PayTAX pst = (PayTAX) i.next();
 				issuePaymentTransaction.setTransactionId(pst.getID());
 				issuePaymentTransaction.setType(pst.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate(
@@ -565,7 +562,7 @@ public class VendorManager extends Manager {
 				Iterator i = list.iterator();
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
-					PaySalesTax pst = (PaySalesTax) i.next();
+					PayTAX pst = (PayTAX) i.next();
 					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
@@ -624,7 +621,7 @@ public class VendorManager extends Manager {
 				Iterator i = list.iterator();
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
-					PayVAT pv = (PayVAT) i.next();
+					PayTAX pv = (PayTAX) i.next();
 					issuePaymentTransaction.setTransactionId(pv.getID());
 					issuePaymentTransaction.setType(pv.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
@@ -811,6 +808,7 @@ public class VendorManager extends Manager {
 					vendorPaymentsList.setName((String) object[6]);
 					vendorPaymentsList.setPaymentMethodName((String) object[7]);
 					vendorPaymentsList.setAmountPaid((Double) object[8]);
+					vendorPaymentsList.setCurrency((Long) object[9]);
 
 					queryResult.add(vendorPaymentsList);
 				}
@@ -887,12 +885,14 @@ public class VendorManager extends Manager {
 				payBillTransactionList.setDueDate(new ClientFinanceDate(je
 						.getDate().getDate()));
 				payBillTransactionList.setBillNumber(je.getNumber());
-				payBillTransactionList.setOriginalAmount(je.getDebitTotal());
-				payBillTransactionList.setAmountDue(je.getBalanceDue());
+				payBillTransactionList.setOriginalAmount(je.getDebitTotal()
+						/ je.getCurrencyFactor());
+				payBillTransactionList.setAmountDue(je.getBalanceDue()
+						/ je.getCurrencyFactor());
 				payBillTransactionList.setDiscountDate(new ClientFinanceDate(je
 						.getDate().getDate()));
-				payBillTransactionList.setVendorName(je.getEntry().get(1)
-						.getVendor().getName());
+				payBillTransactionList.setVendorName(je.getInvolvedPayee()
+						.getName());
 				queryResult.add(payBillTransactionList);
 			}
 
@@ -1010,7 +1010,8 @@ public class VendorManager extends Manager {
 						vendorPaymentsList
 								.setVoided(object[10] != null ? (Boolean) object[10]
 										: false);
-
+						vendorPaymentsList.setCheckNumber((String) object[11]);
+						vendorPaymentsList.setCurrency((Long) object[12]);
 						queryResult.add(vendorPaymentsList);
 					}
 				}
@@ -1160,7 +1161,9 @@ public class VendorManager extends Manager {
 			}
 			client1099Form.setTotalAllPayments(totalPayments);
 
-			map.put(vendor, client1099Form);
+			if (totalPayments > 0) {
+				map.put(vendor, client1099Form);
+			}
 		}
 
 		ArrayList<Client1099Form> aboveThresholdList = new ArrayList<Client1099Form>();
@@ -1329,80 +1332,99 @@ public class VendorManager extends Manager {
 		org.hibernate.Transaction tx = session.beginTransaction();
 		double mergeBalance = fromClientVendor.getBalance()
 				+ toClientVendor.getBalance();
+		try {
+			session.getNamedQuery(
+					"update.mergeVendor.Payee.mergeoldbalance.tonewbalance")
+					.setLong("id", toClientVendor.getID())
+					.setBoolean("status", fromClientVendor.isActive())
+					.setDouble("balance", mergeBalance)
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery(
-				"update.mergeVendor.Payee.mergeoldbalance.tonewbalance")
-				.setLong("id", toClientVendor.getID())
-				.setBoolean("status", fromClientVendor.isActive())
-				.setDouble("balance", mergeBalance)
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.PurchaseOrder.old.tonew")
+					.setLong("fromID", fromClientVendor.getID())
+					.setLong("toID", toClientVendor.getID())
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.PurchaseOrder.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.CashPurchase.old.tonew")
+					.setLong("fromID", fromClientVendor.getID())
+					.setLong("toID", toClientVendor.getID())
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.CashPurchase.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery(
+					"update.mergeVendor.CreditCardCharge.old.tonew")
+					.setLong("fromID", fromClientVendor.getID())
+					.setLong("toID", toClientVendor.getID())
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.CreditCardCharge.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.EnterBill.old.tonew")
+					.setLong("fromID", fromClientVendor.getID())
+					.setLong("toID", toClientVendor.getID())
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.EnterBill.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.ItemReceipt.old.tonew")
+					.setLong("fromID", fromClientVendor.getID())
+					.setLong("toID", toClientVendor.getID())
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.ItemReceipt.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.PayBill.old.tonew")
+					.setLong("fromID", fromClientVendor.getID())
+					.setLong("toID", toClientVendor.getID())
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.PayBill.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			// session.getNamedQuery(
+			// "update.mergeVendor.transactionMakeDeposit.old.tonew").setLong(
+			// "fromID", fromClientVendor.getID()).setLong("toID",
+			// toClientVendor.getID()).setEntity("company", company)
+			// .executeUpdate();
 
-		session.getNamedQuery(
-				"update.mergeVendor.transactionMakeDeposit.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery(
+					"update.mergeVendor.vendorCreditMemo.old.tonew")
+					.setLong("fromID", fromClientVendor.getID())
+					.setLong("toID", toClientVendor.getID())
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.vendorCreditMemo.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.writeCheck.old.tonew")
+					.setLong("fromID", fromClientVendor.getID())
+					.setLong("toID", toClientVendor.getID())
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.writeCheck.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			// session.getNamedQuery("update.mergeVendor.Entry.old.tonew").setLong(
+			// "fromID", fromClientVendor.getID()).setLong("toID",
+			// toClientVendor.getID()).setEntity("company", company)
+			// .executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.Entry.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.mergeVendor.Item.old.tonew")
+					.setLong("fromID", fromClientVendor.getID())
+					.setLong("toID", toClientVendor.getID())
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("update.mergeVendor.Item.old.tonew")
-				.setLong("fromID", fromClientVendor.getID())
-				.setLong("toID", toClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.merge.JournalEntry.old.tonew")
+					.setLong("fromID", fromClientVendor.getID())
+					.setLong("toID", toClientVendor.getID())
+					.setEntity("company", company).executeUpdate();
 
-		session.getNamedQuery("delete.vendorentry.old")
-				.setLong("from", fromClientVendor.getID())
-				.setEntity("company", company).executeUpdate();
+			// session.getNamedQuery("delete.vendorentry.old")
+			// .setLong("from", fromClientVendor.getID())
+			// .setEntity("company", company).executeUpdate();
 
-		ServerConvertUtil convertUtil = new ServerConvertUtil();
-		Vendor vendor = new Vendor();
+			// ServerConvertUtil convertUtil = new ServerConvertUtil();
+			// Vendor vendor = new Vendor();
+			//
+			// vendor = convertUtil.toServerObject(vendor, fromClientVendor,
+			// session);
+			// session.delete(vendor);
 
-		vendor = convertUtil.toServerObject(vendor, fromClientVendor, session);
-		session.delete(vendor);
-		tx.commit();
+			Vendor vendor = (Vendor) session.get(Vendor.class,
+					fromClientVendor.getID());
+			company.getCustomers().remove(vendor);
+			session.saveOrUpdate(company);
+			vendor.setCompany(null);
+			session.delete(vendor);
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();
+		}
 
 	}
 
@@ -1438,9 +1460,11 @@ public class VendorManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		ClientFinanceDate date[] = this
-				.getMinimumAndMaximumTransactionDate(companyId);
-		long start = date[0] != null ? date[0].getDate() : startDate.getDate();
+		// ClientFinanceDate date[] = this
+		// .getMinimumAndMaximumTransactionDate(companyId);
+		// long start = date[0] != null ? date[0].getDate() :
+		// startDate.getDate();
+		long start = startDate.getDate();
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		cal.setTime(startDate.getAsDateObject());
@@ -1528,19 +1552,19 @@ public class VendorManager extends Manager {
 			transactionHistory
 					.setStatus((object[16] != null) ? (Integer) object[16] : 0);
 
-			Transaction t = (Transaction) getServerObjectForid(
-					AccounterCoreType.TRANSACTION,
-					transactionHistory.getTransactionId());
+			// Transaction t = (Transaction) getServerObjectForid(
+			// AccounterCoreType.TRANSACTION,
+			// transactionHistory.getTransactionId());
 
 			// if (transactionHistory.getType() ==
 			// Transaction.TYPE_CREDIT_CARD_EXPENSE)
-			transactionHistory.setName(t.getInvolvedPayee().getName());
+			// transactionHistory.setName((String) object[17]);
 
-			Account account = t.getEffectingAccount();
-			if (account == null) {
-				account = t.getInvolvedPayee().getAccount();
-			}
-			transactionHistory.setAccount(account.getName());
+			// Account account = t.getEffectingAccount();
+			// if (account == null) {
+			// account = t.getInvolvedPayee().getAccount();
+			// }
+			transactionHistory.setAccount((String) object[17]);
 
 			if (transactionHistory.getType() == 0) {
 
@@ -1645,9 +1669,8 @@ public class VendorManager extends Manager {
 			object = (Object[]) iterator.next();
 
 			salesByCustomerDetail.setName((String) object[0]);
-			salesByCustomerDetail.setGroupName((String) object[1]);
-			salesByCustomerDetail.setAmount(object[2] == null ? 0
-					: ((Double) object[2]).doubleValue());
+			salesByCustomerDetail.setAmount(object[1] == null ? 0
+					: ((Double) object[1]).doubleValue());
 
 			queryResult.add(salesByCustomerDetail);
 		}

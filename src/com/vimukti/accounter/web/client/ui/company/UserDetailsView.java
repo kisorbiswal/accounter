@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	private VerticalPanel mainPanel;
 	private Label userNameLabel, mailIdLabel;
-	private HTML changePasswordHtml, changeProfileHtml;
+	private Anchor changePasswordHtml, changeProfileHtml;
 	private ClientUser clientUser;
 
 	@Override
@@ -30,16 +30,17 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 		mainPanel = new VerticalPanel();
 		Accounter.getCompany();
-		userNameLabel = new Label(Accounter.constants().nameColon()
+		userNameLabel = new Label(Accounter.messages().nameColon()
 				+ Accounter.getUser().getFullName());
 		userNameLabel.setStyleName("user-name");
-		mailIdLabel = new Label(Accounter.constants().mailIDColon()
+		mailIdLabel = new Label(Accounter.messages().mailIDColon()
 				+ Accounter.getUser().getEmail());
 		mailIdLabel.setStyleName("user-name");
-		changePasswordHtml = new HTML(Accounter.messages().changePasswordHTML());
+		changePasswordHtml = new Anchor(Accounter.messages().changePassword());
 		changePasswordHtml.setStyleName("change-password");
-		changePasswordHtml.setWidth((changePasswordHtml.getText().length() * 7)
-				+ "px");
+		// changePasswordHtml.setWidth((changePasswordHtml.getText().length() *
+		// 7)
+		// + "px");
 		changePasswordHtml.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -48,25 +49,28 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 			}
 		});
 
-		changeProfileHtml = new HTML("<a>Change profile</a>");
-		changeProfileHtml.setWidth((changeProfileHtml.getText().length() * 6)
-				+ "px");
+		changeProfileHtml = new Anchor(messages.changeProfile());
+		// changeProfileHtml.setWidth((changeProfileHtml.getText().length() * 6)
+		// + "px");
 		changeProfileHtml.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				// ActionFactory.getEditProfileAction().run(null, false);
 				EditProfileDialog dialog = new EditProfileDialog(Accounter
-						.constants().editProfile(), null);
+						.messages().editProfile(), null);
 				dialog.setCallback(new ActionCallback<ClientUserInfo>() {
 
 					@Override
 					public void actionResult(ClientUserInfo result) {
-						userNameLabel.setText(Accounter.constants().nameColon()
+						userNameLabel.setText(Accounter.messages().nameColon()
 								+ result.getFullName());
 						Accounter.getCompany().processUpdateOrCreateObject(
 								result);
+
 					}
+
 				});
+
 				dialog.center();
 				dialog.show();
 			}
@@ -121,7 +125,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().userDetails();
+		return Accounter.messages().userDetails();
 	}
 
 	@Override

@@ -1,7 +1,13 @@
 package com.vimukti.accounter.core;
 
-import java.util.HashSet;
 import java.util.Set;
+
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * Stock adjustment POJO.
@@ -9,77 +15,17 @@ import java.util.Set;
  * @author Srikanth.J
  * 
  */
-public class StockAdjustment extends Transaction {
+public class StockAdjustment extends CreatableObject implements
+		IAccounterServerCore, INamedObject {
 
-	private static final long serialVersionUID = -2706077052390641514L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	private Set<StockAdjustmentItem> adjustmentItems;
+	private Warehouse wareHouse;
 
-	private boolean completed;
-
-	public StockAdjustment() {
-		adjustmentItems = new HashSet<StockAdjustmentItem>();
-	}
-
-	public void add(StockAdjustmentItem adjustmentItem) {
-		adjustmentItems.add(adjustmentItem);
-	}
-
-	public Set<StockAdjustmentItem> getAdjustmentItems() {
-		return adjustmentItems;
-	}
-
-	@Override
-	public Account getEffectingAccount() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Payee getInvolvedPayee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getTransactionCategory() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public boolean isCompleted() {
-		return completed;
-	}
-
-	@Override
-	public boolean isDebitTransaction() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isPositiveTransaction() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean remove(StockAdjustmentItem item) {
-		return adjustmentItems.remove(item);
-	}
-
-	public void setAdjustmentItems(Set<StockAdjustmentItem> adjustmentItems) {
-		this.adjustmentItems = adjustmentItems;
-	}
-
-	public void setCompleted(boolean completed) {
-		this.completed = completed;
-	}
+	private Set<StockAdjustmentItem> stockAdjustmentItems;
 
 	@Override
 	public String toString() {
@@ -94,10 +40,71 @@ public class StockAdjustment extends Transaction {
 	 */
 	public double totalAdjustmentPrice() {
 		double totalPrice = 0;
-		for (StockAdjustmentItem item : adjustmentItems) {
+		for (StockAdjustmentItem item : stockAdjustmentItems) {
 			totalPrice += item.getAdjustmentPriceValue();
 		}
 		return totalPrice;
 	}
 
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Warehouse getWareHouse() {
+		return wareHouse;
+	}
+
+	public void setWareHouse(Warehouse wareHouse) {
+		this.wareHouse = wareHouse;
+	}
+
+	public Set<StockAdjustmentItem> getStockAdjustmentItems() {
+		return stockAdjustmentItems;
+	}
+
+	public void setStockAdjustmentItems(
+			Set<StockAdjustmentItem> stockAdjustmentItems) {
+		this.stockAdjustmentItems = stockAdjustmentItems;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		for (StockAdjustmentItem item : stockAdjustmentItems) {
+			item.setWarehouse(wareHouse);
+		}
+		return super.onSave(session);
+	}
+
+	@Override
+	public boolean onUpdate(Session session) throws CallbackException {
+		for (StockAdjustmentItem item : stockAdjustmentItems) {
+			item.setWarehouse(wareHouse);
+		}
+		return super.onUpdate(session);
+	}
+
+	@Override
+	public String getName() {
+		return wareHouse.getName();
+	}
+
+	@Override
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.STOCK_ADJUSTMENT;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
+	}
 }

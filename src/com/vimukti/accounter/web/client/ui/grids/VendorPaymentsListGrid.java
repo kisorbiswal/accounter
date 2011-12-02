@@ -9,8 +9,9 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -40,8 +41,11 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		case 6:
 			return list.getPaymentMethodName();
 		case 7:
-			return amountAsString(list.getAmountPaid());
+			return list.getCheckNumber();
 		case 8:
+			return DataUtils.amountAsStringWithCurrency(list.getAmountPaid(),
+					getCompany().getCurrency(list.getCurrency()));
+		case 9:
 			if (!list.isVoided())
 				return Accounter.getFinanceImages().notvoid();
 			// return "/images/not-void.png";
@@ -62,8 +66,8 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	private void showWarningDialog(final PaymentsList obj, final int col) {
 		String msg = null;
-		if (col == 8 && !obj.isVoided()) {
-			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
+		if (col == 9 && !obj.isVoided()) {
+			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
@@ -85,7 +89,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 					@Override
 					public boolean onYesClick() {
-						if (col == 8)
+						if (col == 9)
 							voidTransaction(obj);
 						// else if (col == 9)
 						// deleteTransaction(obj);
@@ -96,8 +100,8 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 	}
 
 	protected void voidTransaction(final PaymentsList obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
-				.getTransactionId());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
+				obj.getTransactionId());
 	}
 
 	protected void deleteTransaction(final PaymentsList obj) {
@@ -128,12 +132,13 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected String[] getColumns() {
-		vendorConstants = Accounter.constants();
-		return new String[] { vendorConstants.paymentDate(),
-				vendorConstants.paymentNo(), vendorConstants.status(),
-				vendorConstants.issueDate(), vendorConstants.name(),
-				vendorConstants.type(), vendorConstants.paymentMethod(),
-				vendorConstants.amountPaid(), vendorConstants.Voided()
+		messages = Accounter.messages();
+		return new String[] { messages.payDate(),
+				messages.payNo(), messages.status(),
+				messages.issueDate(), messages.name(),
+				messages.type(), messages.payMethod(),
+				messages.checkNo(), messages.amountPaid(),
+				messages.Voided()
 		// , ""
 		};
 	}
@@ -142,16 +147,17 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				ListGrid.COLUMN_TYPE_IMAGE
 		// ,ListGrid.COLUMN_TYPE_IMAGE
 		};
 	}
 
 	@Override
 	protected void onClick(PaymentsList obj, int row, int col) {
-		if (col == 8 && !obj.isVoided()) {
+		if (col == 9 && !obj.isVoided()) {
 			showWarningDialog(obj, col);
 		}
 		// else if (col == 9)
@@ -164,8 +170,8 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	public void onDoubleClick(PaymentsList paymentsList) {
-		ReportsRPC.openTransactionView(getType(paymentsList), paymentsList
-				.getTransactionId());
+		ReportsRPC.openTransactionView(getType(paymentsList),
+				paymentsList.getTransactionId());
 	}
 
 	/* This method returns the Transaction type type basing on the PayBill Type */
@@ -180,27 +186,21 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 8)
+		if (index == 9)
+			return 40;
+		else if (index == 0 || index == 2 || index == 3)
 			return 65;
-		else if (index == 3)
-			return 90;
-		else if (index == 0)
-			return 100;
 		else if (index == 1)
-			return 80;
-		else if (index == 2)
-			return 80;
-		else if (index == 3)
-			return 90;
+			return 50;
 		else if (index == 5)
 			return 130;
 		else if (index == 6)
-			return 110;
-		else if (index == 7)
 			return 80;
+		else if (index == 8 || index == 7)
+			return 100;
 
 		return -1;
-	};
+	}
 
 	@Override
 	protected void onValueChange(PaymentsList obj, int col, Object value) {
@@ -249,8 +249,8 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 			break;
 
 		case 4:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 
 		case 5:
 			String type1 = Utility.getTransactionName(obj1.getType())
@@ -260,10 +260,15 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 			return type1.compareTo(type2);
 
 		case 6:
-			return obj1.getPaymentMethodName().toLowerCase().compareTo(
-					obj2.getPaymentMethodName().toLowerCase());
+			return obj1.getPaymentMethodName().toLowerCase()
+					.compareTo(obj2.getPaymentMethodName().toLowerCase());
 
 		case 7:
+			String checkNumber1 = obj1.getCheckNumber().toLowerCase();
+			String checkNumber2 = obj2.getCheckNumber().toLowerCase();
+			return checkNumber1.compareTo(checkNumber2);
+
+		case 8:
 			return obj1.getAmountPaid().compareTo(obj2.getAmountPaid());
 		}
 		return 0;

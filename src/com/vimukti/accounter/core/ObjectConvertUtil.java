@@ -7,6 +7,7 @@ import java.util.Map;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class ObjectConvertUtil {
@@ -195,7 +196,8 @@ public class ObjectConvertUtil {
 		if (fieldType.getName()
 				.equals("com.vimukti.accounter.core.FinanceDate")
 				|| fieldType.getName().equals("java.lang.String")
-				|| fieldType.getName().equals("java.sql.Timestamp")) {
+				|| fieldType.getName().equals("java.sql.Timestamp")
+				|| fieldType.getName().equals("java.lang.Double")) {
 			return true;
 		}
 		return fieldType.isPrimitive();
@@ -401,7 +403,10 @@ public class ObjectConvertUtil {
 			if (id == -1)
 				return null;
 
-			return session.get(serverClass, id);
+			Object object = session.get(serverClass, id);
+			if (object != null) {
+				return HibernateUtil.initializeAndUnproxy(object);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,5 +1,8 @@
 package com.vimukti.accounter.core;
 
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -77,6 +80,17 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.CURRENCY;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

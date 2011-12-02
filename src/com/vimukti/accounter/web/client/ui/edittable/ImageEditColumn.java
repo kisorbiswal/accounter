@@ -23,4 +23,7 @@ public abstract class ImageEditColumn<T> extends EditColumn<T> {
 		return new Image();
 	}
 
+
+
+
 }

@@ -44,18 +44,18 @@ public class DateField extends DateItem {
 					// enteredDate = getDate();
 
 					if (startDate != null && getDate().compareTo(startDate) < 0)
-						throw new Exception(Accounter.constants().cantearlierThanStart()
+						throw new Exception(Accounter.messages().cantearlierThanStart()
 								);
 
 					if (endDate != null && getDate().compareTo(endDate) > 0)
-						throw new Exception(Accounter.constants().cantbeAfterEnd());
+						throw new Exception(Accounter.messages().cantbeAfterEnd());
 
 					setEnteredDate(getDate());
 
 				} catch (Exception e) {
 					// if (enteredDate == null)
 					Accounter
-							.showError(Accounter.constants().incorrectInformation());
+							.showError(Accounter.messages().incorrectInformation());
 
 				}
 			}

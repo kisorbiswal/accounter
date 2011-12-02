@@ -1,16 +1,15 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.settings.MeasurementAction;
+import com.vimukti.accounter.web.client.ui.settings.AddMeasurementAction;
 
 public class MeasurementCombo extends CustomCombo<ClientMeasurement> {
 
 	public MeasurementCombo(String title) {
 		super(title);
-		// initCombo(getCompany().getMeasurements());
+		initCombo(getCompany().getMeasurements());
 	}
 
 	@Override
@@ -22,26 +21,26 @@ public class MeasurementCombo extends CustomCombo<ClientMeasurement> {
 	}
 
 	@Override
-	protected String getColumnData(ClientMeasurement object, int row, int col) {
-		return null;
+	protected String getColumnData(ClientMeasurement object, int col) {
+		return object.getName();
 	}
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return Accounter.constants().addNewMeasurement();
+		return messages.measurement();
 	}
 
 	@Override
 	public void onAddNew() {
-		MeasurementAction action = ActionFactory.getMeasurementsAction();
+		AddMeasurementAction action = ActionFactory.getAddMeasurementAction();
 		action.setCallback(new ActionCallback<ClientMeasurement>() {
 
 			@Override
 			public void actionResult(ClientMeasurement result) {
-				addItemThenfireEvent(result);
+				if (result.getDisplayName() != null)
+					addItemThenfireEvent(result);
 			}
 		});
 		action.run(null, true);
 	}
-
 }

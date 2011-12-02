@@ -38,7 +38,7 @@ public class CustomerDropDownTable extends
 	@Override
 	protected ClientCustomer getAddNewRow() {
 		ClientCustomer clientCustomer = new ClientCustomer();
-		clientCustomer.setName(Accounter.messages().addaNewCustomer(
+		clientCustomer.setName(Accounter.messages().comboDefaultAddNew(
 				Global.get().Customer()));
 		return clientCustomer;
 	}

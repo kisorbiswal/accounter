@@ -15,6 +15,8 @@ import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
  */
 public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 
+	private ClientTAXAgency taxAgency;
+
 	/**
 	 * @param title
 	 */
@@ -30,6 +32,7 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 
 	public AdjustmentVATItemCombo(String title, ClientTAXAgency taxAgency) {
 		super(title);
+		this.taxAgency = taxAgency;
 		initCombo(getVATItmes());
 
 	}
@@ -38,7 +41,7 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	public List<ClientTAXItem> getVATItmesByVATAgncy(ClientTAXAgency taxAgency) {
 		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
 		if (taxAgency != null) {
-			for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
+			for (ClientTAXItem vatItem : getCompany().getActiveTaxItems()) {
 				if (vatItem.getTaxAgency() == (taxAgency.getID())) {
 					vatItmsList.add(vatItem);
 				}
@@ -50,7 +53,7 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	/* VATItmes whose 'isPercentage' is false, only allowed into the list */
 	List<ClientTAXItem> getVATItmes() {
 		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
+		for (ClientTAXItem vatItem : getCompany().getActiveTaxItems()) {
 			if (!vatItem.isPercentage()) {
 				vatItmsList.add(vatItem);
 			}
@@ -60,13 +63,13 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 
 	/* VATItmes whose 'isPercentage' is true, only allowed into the list */
 	public List<ClientTAXItem> getFilteredVATItems() {
-		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
-			if (vatItem.isPercentage()) {
-				vatItmsList.add(vatItem);
-			}
-		}
-		return vatItmsList;
+		// List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
+		// for (ClientTAXItem vatItem : getCompany().getTaxItems()) {
+		// if (vatItem.isPercentage()) {
+		// vatItmsList.add(vatItem);
+		// }
+		// }
+		return getCompany().getActiveTaxItems();
 	}
 
 	/*
@@ -74,13 +77,13 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	 * allowed into the list
 	 */
 	public List<ClientTAXItem> getSalesWithPrcntVATItems() {
-		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getFilteredVATItems()) {
-			if (vatItem.isSalesType()) {
-				vatItmsList.add(vatItem);
-			}
-		}
-		return vatItmsList;
+		// List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
+		// for (ClientTAXItem vatItem : getFilteredVATItems()) {
+		// if (vatItem.isSalesType()) {
+		// vatItmsList.add(vatItem);
+		// }
+		// }
+		return getFilteredVATItems();
 	}
 
 	/*
@@ -88,13 +91,13 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	 * allowed into the list
 	 */
 	public List<ClientTAXItem> getPurchaseWithPrcntVATItems() {
-		List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getFilteredVATItems()) {
-			if (!vatItem.isSalesType()) {
-				vatItmsList.add(vatItem);
-			}
-		}
-		return vatItmsList;
+		// List<ClientTAXItem> vatItmsList = new ArrayList<ClientTAXItem>();
+		// for (ClientTAXItem vatItem : getFilteredVATItems()) {
+		// if (!vatItem.isSalesType()) {
+		// vatItmsList.add(vatItem);
+		// }
+		// }
+		return getFilteredVATItems();
 	}
 
 	/*
@@ -104,7 +107,7 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	 */
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newVATItem();
+		return messages.taxItem();
 	}
 
 	/*
@@ -135,8 +138,12 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 
 			@Override
 			public void actionResult(ClientTAXItem result) {
-				if (result.getName() != null || result.getDisplayName() != null)
-					addItemThenfireEvent(result);
+				if (result.getName() != null || result.getDisplayName() != null) {
+					if (taxAgency == null
+							|| (taxAgency != null && result.getTaxAgency() == taxAgency
+									.getID()))
+						addItemThenfireEvent(result);
+				}
 
 			}
 		});
@@ -145,12 +152,16 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	}
 
 	@Override
-	protected String getColumnData(ClientTAXItem object, int row, int col) {
+	protected String getColumnData(ClientTAXItem object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();
 		}
 		return null;
+	}
+
+	public void setTaxAgency(ClientTAXAgency taxAgency) {
+		this.taxAgency = taxAgency;
 	}
 
 }

@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
@@ -47,7 +46,6 @@ public class InvoiceBrandingView<T> extends
 	private Button newBrandButton, automaticButton;
 	private HorizontalPanel buttonPanel, showPanel, allPanel, nameAndMenuPanel,
 			buttonPanel2;
-	private AccounterConstants messages = Accounter.constants();
 
 	@Override
 	public void setData(ClientBrandingTheme data) {
@@ -66,24 +64,24 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				generalSettingsHTML.getElement().getStyle().setCursor(
-						Cursor.POINTER);
-				generalSettingsHTML.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				generalSettingsHTML.getElement().getStyle()
+						.setCursor(Cursor.POINTER);
+				generalSettingsHTML.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		generalSettingsHTML.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				generalSettingsHTML.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				generalSettingsHTML.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
-		titleLabel = new Label(messages.invoiceBrandingLabel());
+		titleLabel = new Label(messages.invoiceBranding());
 		titleLabel.removeStyleName("gwt-Label");
 
-		titleLabel.setStyleName(Accounter.constants().labelTitle());
+		titleLabel.setStyleName(Accounter.messages().labelTitle());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -96,7 +94,7 @@ public class InvoiceBrandingView<T> extends
 		titlePanel.add(titleLabel);
 
 		buttonPanel = new HorizontalPanel();
-		newBrandButton = new Button(messages.newBrandingThemeButton());
+		newBrandButton = new Button(messages.newBrandTheme());
 		newBrandButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -104,19 +102,7 @@ public class InvoiceBrandingView<T> extends
 				ActionFactory.getNewBrandThemeAction().run(null, false);
 			}
 		});
-		// newBrandButton.addMouseOverHandler(new MouseOverHandler() {
-		//
-		// @Override
-		// public void onMouseOver(MouseOverEvent event) {
-		// PopupPanel newBrandMenuPanel = new PopupPanel();
-		// newBrandMenuPanel.add(getNewBrandMenu(newBrandMenuPanel));
-		// newBrandMenuPanel.setPopupPosition(newBrandButton
-		// .getAbsoluteLeft(), newBrandButton.getAbsoluteTop()
-		// + newBrandButton.getOffsetHeight());
-		// newBrandMenuPanel.show();
-		// newBrandMenuPanel.setAutoHideEnabled(true);
-		// }
-		// });
+
 		automaticButton = new Button(messages.automaticSequencing());
 		automaticButton.addClickHandler(new ClickHandler() {
 
@@ -169,17 +155,6 @@ public class InvoiceBrandingView<T> extends
 
 	}
 
-	// private String getTaxesType(int type) {
-	// String taxType = null;
-	// if (type == ClientBrandingTheme.SHOW_TAXES_AS_EXCLUSIVE) {
-	// taxType = messages.taxExclusive();
-	// } else {
-	// taxType = messages.taxInclucive();
-	// }
-	// return taxType;
-	//
-	// }
-
 	private SimplePanel addingThemeToView(final ClientBrandingTheme theme) {
 
 		final HTML uploadPictureHtml, changeLogoHtml, removeLogoHtml;
@@ -189,7 +164,7 @@ public class InvoiceBrandingView<T> extends
 
 		subLayPanel = new VerticalPanel();
 
-		editButton = new Button(Accounter.constants().edit());
+		editButton = new Button(Accounter.messages().edit());
 		editButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -200,7 +175,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		});
 
-		copyThemeButton = new Button(Accounter.constants().copy());
+		copyThemeButton = new Button(Accounter.messages().copy());
 		copyThemeButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -209,7 +184,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		});
 
-		deleteButton = new Button(Accounter.constants().delete());
+		deleteButton = new Button(Accounter.messages().delete());
 		deleteButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -271,11 +246,9 @@ public class InvoiceBrandingView<T> extends
 
 		// adding titles.....
 		String overDueTitle = theme.getOverDueInvoiceTitle().isEmpty() ? messages
-				.none()
-				: theme.getOverDueInvoiceTitle();
+				.none() : theme.getOverDueInvoiceTitle();
 		String creditMemoTitle = theme.getCreditMemoTitle().isEmpty() ? messages
-				.none()
-				: theme.getCreditMemoTitle();
+				.none() : theme.getCreditMemoTitle();
 		String statementTitle = theme.getStatementTitle().isEmpty() ? messages
 				.none() : theme.getStatementTitle();
 
@@ -299,12 +272,10 @@ public class InvoiceBrandingView<T> extends
 
 		// adding invoice templete name
 		String invoiceTemp = theme.getInvoiceTempleteName().isEmpty() ? messages
-				.classicTemplate()
-				: theme.getInvoiceTempleteName();
-
+				.classicTemplate() : theme.getInvoiceTempleteName();
 
 		invoiceHtml = new HTML("<p>" + messages.invoiceTemplete() + " : "
-				+ invoiceTemp + "</p>"); 
+				+ invoiceTemp + "</p>");
 
 		// adding credit note templete note
 		String creditTemp = theme.getCreditNoteTempleteName().isEmpty() ? messages
@@ -343,8 +314,8 @@ public class InvoiceBrandingView<T> extends
 
 				@Override
 				public void onMouseOver(MouseOverEvent event) {
-					uploadPictureHtml.getElement().getStyle().setCursor(
-							Cursor.POINTER);
+					uploadPictureHtml.getElement().getStyle()
+							.setCursor(Cursor.POINTER);
 					uploadPictureHtml.getElement().getStyle()
 							.setTextDecoration(TextDecoration.UNDERLINE);
 				}
@@ -378,23 +349,23 @@ public class InvoiceBrandingView<T> extends
 			original.append("/>");
 			uploadPictureHtml = new HTML("" + original);
 		}
-		changeLogoHtml = new HTML(Accounter.constants().changeLogo());
+		changeLogoHtml = new HTML(Accounter.messages().changeLogo());
 		changeLogoHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				changeLogoHtml.getElement().getStyle()
 						.setCursor(Cursor.POINTER);
-				changeLogoHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				changeLogoHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		changeLogoHtml.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				changeLogoHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				changeLogoHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		changeLogoHtml.addClickHandler(new ClickHandler() {
@@ -404,23 +375,23 @@ public class InvoiceBrandingView<T> extends
 				changeLogo(theme);
 			}
 		});
-		removeLogoHtml = new HTML(Accounter.constants().removeLogo());
+		removeLogoHtml = new HTML(Accounter.messages().removeLogo());
 		removeLogoHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				removeLogoHtml.getElement().getStyle()
 						.setCursor(Cursor.POINTER);
-				removeLogoHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				removeLogoHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		removeLogoHtml.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				removeLogoHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				removeLogoHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		removeLogoHtml.addClickHandler(new ClickHandler() {
@@ -428,7 +399,7 @@ public class InvoiceBrandingView<T> extends
 			@Override
 			public void onClick(ClickEvent event) {
 				if (theme.getFileName() == null) {
-					Accounter.showInformation(Accounter.constants()
+					Accounter.showInformation(Accounter.messages()
 							.noLogoIsAdded());
 				} else {
 					removeLogo(theme);
@@ -471,13 +442,16 @@ public class InvoiceBrandingView<T> extends
 		// subLayPanel.setWidth("560px");
 
 		subLayPanel.setStyleName("general-setting-invoice");
-		contactDetailsPanel.setWidth("165px");
-		uploadPanel.setWidth("185px");
+		contactDetailsPanel.setWidth("125px");
+		// uploadPanel.setWidth("185px");
 		allPanel = new HorizontalPanel();
 		allPanel.add(subLayPanel);
 		allPanel.add(contactDetailsPanel);
 		allPanel.add(verticalPanel);
-		allPanel.setWidth("100%");
+		allPanel.setCellWidth(subLayPanel, "60%");
+		allPanel.setCellWidth(contactDetailsPanel, "20%");
+		allPanel.setCellWidth(verticalPanel, "20%");
+		// allPanel.setWidth("100%");
 
 		nameAndMenuPanel = new HorizontalPanel();
 		buttonPanel2 = new HorizontalPanel();
@@ -495,20 +469,21 @@ public class InvoiceBrandingView<T> extends
 
 		nameAndMenuPanel.add(buttonPanel2);
 
-		buttonPanel2.getElement().getParentElement().setAttribute("width",
-				"18%");
+		buttonPanel2.getElement().getParentElement()
+				.setAttribute("width", "18%");
 		buttonPanel2.setWidth("100%");
 
 		// optionsButton.setStyleName("ibutton-right-align") ;
-		if (theme.getName().equalsIgnoreCase(Accounter.constants().standard())) {
+		if (theme.getName().equalsIgnoreCase(Accounter.messages().standard())) {
 			deleteButton.setVisible(false);
-			buttonPanel2.getElement().getParentElement().setAttribute("width",
-					"12%");
+			buttonPanel2.getElement().getParentElement()
+					.setAttribute("width", "12%");
 		} else {
 			deleteButton.setVisible(true);
 		}
 		vPanel.add(nameAndMenuPanel);
 		vPanel.add(allPanel);
+		allPanel.setWidth("100%");
 		vPanel.setWidth("100%");
 		SimplePanel simplePanel = new SimplePanel();
 		simplePanel.setStyleName("setting-class-panel");
@@ -516,119 +491,6 @@ public class InvoiceBrandingView<T> extends
 		return simplePanel;
 
 	}
-
-	// protected void optionsMenu(Button button, ClientBrandingTheme
-	// theme) {
-	// PopupPanel optionsPanel = new PopupPanel();
-	// if (theme.getThemeName().equals(messages.standard())) {
-	// if (theme.getFileName() == null) {
-	// optionsPanel.add(getOptionsMenuDefaultThemeNoLogo(optionsPanel,
-	// theme));
-	// optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
-	// button.getAbsoluteTop() + button.getOffsetHeight());
-	// optionsPanel.show();
-	// optionsPanel.setAutoHideEnabled(true);
-	// } else {
-	// optionsPanel
-	// .add(getOptionsMenuDefaultTheme(optionsPanel, theme));
-	// optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
-	// button.getAbsoluteTop() + button.getOffsetHeight());
-	// optionsPanel.show();
-	// optionsPanel.setAutoHideEnabled(true);
-	// }
-	//
-	// } else {
-	// if (theme.getFileName() == null) {
-	// optionsPanel.add(getOptionsMenuNoLogo(optionsPanel, theme));
-	// optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
-	// button.getAbsoluteTop() + button.getOffsetHeight());
-	// optionsPanel.show();
-	// optionsPanel.setAutoHideEnabled(true);
-	// } else {
-	// optionsPanel.add(getOptionsMenuWithLogo(optionsPanel, theme));
-	// optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
-	// button.getAbsoluteTop() + button.getOffsetHeight());
-	// optionsPanel.show();
-	// optionsPanel.setAutoHideEnabled(true);
-	// }
-	//
-	// }
-	//
-	// }
-
-	// private CustomMenuBar getOptionsMenuWithLogo(PopupPanel panel,
-	// ClientBrandingTheme theme) {
-	// CustomMenuBar bar = new CustomMenuBar();
-	// bar.addItem(messages.edit(), getOptions(1, panel, theme));
-	// bar.addItem(messages.copy(), getOptions(2, panel, theme));
-	// bar.addItem(messages.changeLogo(), getOptions(3, panel, theme));
-	// bar.addItem(messages.delete(), getOptions(4, panel, theme));
-	// bar.addItem(messages.removeLogo(), getOptions(5, panel, theme));
-	// return bar;
-	// }
-	//
-	// private CustomMenuBar getOptionsMenuNoLogo(PopupPanel panel,
-	// ClientBrandingTheme theme) {
-	// CustomMenuBar bar = new CustomMenuBar();
-	// bar.addItem(messages.edit(), getOptions(1, panel, theme));
-	// bar.addItem(messages.copy(), getOptions(2, panel, theme));
-	// bar.addItem(messages.addLogo(), getOptions(6, panel, theme));
-	// bar.addItem(messages.delete(), getOptions(4, panel, theme));
-	// return bar;
-	// }
-	//
-	// private CustomMenuBar getOptionsMenuDefaultTheme(PopupPanel panel,
-	// ClientBrandingTheme theme) {
-	// CustomMenuBar bar = new CustomMenuBar();
-	// bar.addItem(messages.edit(), getOptions(1, panel, theme));
-	// bar.addItem(messages.copy(), getOptions(2, panel, theme));
-	// bar.addItem(messages.changeLogo(), getOptions(3, panel, theme));
-	// bar.addItem(messages.removeLogo(), getOptions(5, panel, theme));
-	//
-	// return bar;
-	// }
-	//
-	// private CustomMenuBar getOptionsMenuDefaultThemeNoLogo(PopupPanel panel,
-	// ClientBrandingTheme theme) {
-	// CustomMenuBar bar = new CustomMenuBar();
-	// bar.addItem(messages.edit(), getOptions(1, panel, theme));
-	// bar.addItem(messages.copy(), getOptions(2, panel, theme));
-	// bar.addItem(messages.addLogo(), getOptions(6, panel, theme));
-	// return bar;
-	// }
-
-	// private Command getOptions(final int type, final PopupPanel panel,
-	// final ClientBrandingTheme theme) {
-	// final Command command = new Command() {
-	//
-	// @Override
-	// public void execute() {
-	// panel.hide();
-	// switch (type) {
-	// case 1:
-	// ActionFactory.getNewBrandThemeAction().run(theme, false);
-	// break;
-	// case 2:
-	// ActionFactory.getCopyThemeAction().run(theme, false);
-	// break;
-	// case 3:
-	// changeLogo(theme);
-	// break;
-	// case 4:
-	// ActionFactory.getDeleteThemeAction().run(theme, false);
-	// break;
-	// case 5:
-	// removeLogo(theme);
-	// break;
-	// case 6:
-	// changeLogo(theme);
-	// break;
-	// default:
-	// }
-	// }
-	// };
-	// return command;
-	// }
 
 	protected void removeLogo(ClientBrandingTheme theme) {
 
@@ -646,43 +508,12 @@ public class InvoiceBrandingView<T> extends
 				saveOrUpdate(value);
 			}
 		};
-		String[] filetypes = { "png", "jpg", "gif" };
+		String[] filetypes = { "png", "jpg", "gif", "jpeg" };
 		FileUploadDilaog dilaog = new FileUploadDilaog("Upload file", "parent",
 				callback, filetypes, theme);
 		dilaog.center();
 
 	}
-
-	// private CustomMenuBar getNewBrandMenu(PopupPanel panel) {
-	// CustomMenuBar menuBar = new CustomMenuBar();
-	// menuBar.addItem(messages
-	// .standardTheme(), getNewBrandCommand(1, panel));
-	// menuBar.addItem(messages
-	// .customdocxTheme(), getNewBrandCommand(2, panel));
-	// return menuBar;
-	//
-	// }
-	//
-	// private Command getNewBrandCommand(final int i, final PopupPanel panel) {
-	// Command command = new Command() {
-	// @Override
-	// public void execute() {
-	// panel.hide();
-	// switch (i) {
-	// case 1:
-	// ActionFactory.getNewBrandThemeAction().run(null,
-	// false);
-	// break;
-	// case 2:
-	// ActionFactory.getCustomThemeAction().run(null,
-	// false);
-	// break;
-	// }
-	// }
-	// };
-	// return command;
-	//
-	// }
 
 	@Override
 	public void fitToSize(int height, int width) {
@@ -734,14 +565,13 @@ public class InvoiceBrandingView<T> extends
 	public void saveSuccess(IAccounterCore object) {
 		if (object != null) {
 			super.saveSuccess(object);
-			ActionFactory.getInvoiceBrandingAction().run(null, false);
 		} else
-			saveFailed(new AccounterException(Accounter.constants().failed()));
+			saveFailed(new AccounterException(Accounter.messages().failed()));
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().invoiceBranding();
+		return Accounter.messages().invoiceBranding();
 	}
 
 	@Override

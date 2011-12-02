@@ -35,7 +35,7 @@ public abstract class AnchorEditColumn<T> extends EditColumn<T> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (isEnable() && !context.isDesable()) {
+				if (isEnable(context.getRow()) && !context.isDesable()) {
 					AnchorEditColumn.this.onClick(context.getRow());
 				}
 			}
@@ -43,6 +43,8 @@ public abstract class AnchorEditColumn<T> extends EditColumn<T> {
 		panel.add(anchor);
 		return panel;
 	}
+
+	protected abstract boolean isEnable(T row);
 
 	protected boolean isEnable() {
 		return true;

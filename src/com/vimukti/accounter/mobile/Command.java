@@ -1,16 +1,23 @@
 package com.vimukti.accounter.mobile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Command {
 	MobileConstants constants;
 	MobileMessages messages;
-	List<Requirement> requirements = new ArrayList<Requirement>();
+	private Map<Object, Object> attributes = new HashMap<Object, Object>();
+	private List<Requirement> requirements = new ArrayList<Requirement>();
 	private boolean isDone;
 	private String successMessage;
 
 	public Command() {
+		init();
+	}
+
+	public void init() {
 		addRequirements(requirements);
 	}
 
@@ -87,4 +94,19 @@ public abstract class Command {
 		return null;
 	}
 
+	public List<Requirement> getRequirements() {
+		return requirements;
+	}
+
+	public void setAttribute(String name, Object value) {
+		attributes.put(name, value);
+	}
+
+	public Object getAttribute(String name) {
+		return attributes.get(name);
+	}
+
+	public Object removeAttribute(String name) {
+		return attributes.remove(name);
+	}
 }

@@ -1,23 +1,51 @@
 package com.vimukti.accounter.mobile;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.AccounterThreadLocal;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.utils.StringUtils;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public class Context {
 
 	private MobileSession session;
 	private Map<String, Object> attributes = new HashMap<String, Object>();
 	private Map<String, List<Object>> selectedRecords = new HashMap<String, List<Object>>();
+
+	private String networkId;
+	private String string;
+	private String commandString;
+
+	public String getNetworkId() {
+		return networkId;
+	}
+
+	public void setNetworkId(String networkId) {
+		this.networkId = networkId;
+	}
+
+	public int getNetworkType() {
+		return networkType;
+	}
+
+	public void setNetworkType(int networkType) {
+		this.networkType = networkType;
+	}
+
+	private int networkType;
+	private ClientCompanyPreferences preferences;
 
 	/**
 	 * Creates new Instance
@@ -30,13 +58,17 @@ public class Context {
 		return null;
 	}
 
+	public void setString(String string) {
+		this.string = string;
+	}
+
 	/**
 	 * Returns the Date in the Inputs if Any
 	 * 
 	 * @return
 	 */
-	public Date getDate() {
-		List<Date> dates = getDates();
+	public ClientFinanceDate getDate() {
+		List<ClientFinanceDate> dates = getDates();
 		if (dates != null && !dates.isEmpty()) {
 			return dates.get(0);
 		}
@@ -50,9 +82,17 @@ public class Context {
 	 * @return
 	 */
 	public String getString() {
-		List<String> strings = getStrings();
-		if (strings != null && !strings.isEmpty()) {
-			return strings.get(0);
+		// List<String> strings = getStrings();
+		// if (strings != null && !strings.isEmpty()) {
+		// return strings.get(0);
+		// }
+		return string;
+	}
+
+	public String getNumber() {
+		List<Number> numbers = getNumbers();
+		if (numbers != null && !numbers.isEmpty()) {
+			return numbers.get(0).toString();
 		}
 		return null;
 	}
@@ -72,8 +112,8 @@ public class Context {
 	 * 
 	 * @return
 	 */
-	public List<Date> getDates() {
-		return (List<Date>) this.attributes.get("dates");
+	public List<ClientFinanceDate> getDates() {
+		return (List<ClientFinanceDate>) this.attributes.get("dates");
 
 	}
 
@@ -140,21 +180,27 @@ public class Context {
 			List<Integer> integers = new ArrayList<Integer>();
 			List<Double> doubles = new ArrayList<Double>();
 			List<String> strings = new ArrayList<String>();
-			List<Date> dates = new ArrayList<Date>();
+			List<ClientFinanceDate> dates = new ArrayList<ClientFinanceDate>();
 			for (String string : inputs) {
 				if (StringUtils.isInteger(string)) {
 					int parseInt = Integer.parseInt(string);
 					integers.add(parseInt);
 					numbers.add(parseInt);
-				} else if (StringUtils.isDouble(string)) {
+				}
+				if (StringUtils.isDouble(string)) {
 					double parseInt = Double.parseDouble(string);
 					doubles.add(parseInt);
 					numbers.add(parseInt);
-				} else if (StringUtils.isDate(string)) {
-
-				} else {
-					strings.add(string);
 				}
+				if (StringUtils.isDate(string)) {
+					SimpleDateFormat dateFormat = new SimpleDateFormat(
+							"dd/MM/yyyy");
+					dateFormat.parse(string);
+					ClientFinanceDate date = new ClientFinanceDate(
+							dateFormat.parse(string));
+					dates.add(date);
+				}
+				strings.add(string);
 			}
 			this.attributes.put("numbers", numbers);
 			this.attributes.put("integers", integers);
@@ -182,7 +228,7 @@ public class Context {
 	 * @param value
 	 */
 	public void setAttribute(String name, Object value) {
-		this.session.setAttribute(name, value);
+		this.session.getCurrentCommand().setAttribute(name, value);
 	}
 
 	/**
@@ -192,7 +238,7 @@ public class Context {
 	 * @return
 	 */
 	public Object getAttribute(String name) {
-		return this.session.getAttribute(name);
+		return this.session.getCurrentCommand().getAttribute(name);
 	}
 
 	/**
@@ -202,7 +248,7 @@ public class Context {
 	 * @return
 	 */
 	public Object removeAttribute(String name) {
-		return attributes.remove(name);
+		return session.getCurrentCommand().removeAttribute(name);
 	}
 
 	public Object getLast(RequirementType type) {
@@ -248,7 +294,7 @@ public class Context {
 		return (List<T>) selectedRecords.get(name);
 	}
 
-	public Address getAddress() {
+	public ClientAddress getAddress() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -257,11 +303,46 @@ public class Context {
 		return session;
 	}
 
+	public String getEmailId() {
+		return session.getClient().getEmailId();
+	}
+
 	public User getUser() {
 		return session.getUser();
 	}
 
 	public Company getCompany() {
 		return session.getCompany();
+	}
+
+	public void selectCompany(Company company, Client client) {
+		session.setCompanyID(company.getID());
+		Set<User> users = client.getUsers();
+		for (User user : users) {
+			if (user.getClient() == client) {
+				session.setUser(user);
+				AccounterThreadLocal.set(user);
+			}
+		}
+	}
+
+	public String getCommandString() {
+		return commandString;
+	}
+
+	public void setCommandString(String commandString) {
+		this.commandString = commandString;
+	}
+
+	public void removeSelection(Object selection) {
+		selectedRecords.remove(selection);
+	}
+
+	public ClientCompanyPreferences getPreferences() {
+		return preferences;
+	}
+
+	public void setPreferences(ClientCompanyPreferences preferences) {
+		this.preferences = preferences;
 	}
 }

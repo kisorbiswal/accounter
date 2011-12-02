@@ -2,12 +2,12 @@ package com.vimukti.accounter.mobile;
 
 public class Cell {
 	Object value;
-	
-	String name;
-	
-	Cell(String name,Object value){
-		this.name=name;
-		this.value=value;
+
+	String title;
+
+	Cell(String title, Object value) {
+		this.title = title;
+		this.value = value;
 	}
 
 	public Object getValue() {
@@ -18,11 +18,19 @@ public class Cell {
 		this.value = value;
 	}
 
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	@Override
+	public String toString() {
+		if (value == null) {
+			return "";
+		}
+		return value.toString();
 	}
 }

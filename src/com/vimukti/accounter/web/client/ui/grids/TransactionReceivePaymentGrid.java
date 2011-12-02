@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -19,10 +20,9 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -34,9 +34,6 @@ import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
 
 public class TransactionReceivePaymentGrid extends
 		AbstractTransactionGrid<ClientTransactionReceivePayment> {
-	AccounterConstants customerConstants = Accounter.constants();
-	AccounterMessages accounterMessages = Accounter.messages();
-
 	ReceivePaymentView paymentView;
 	ClientCustomer customer;
 	List<Integer> selectedValues = new ArrayList<Integer>();
@@ -55,15 +52,16 @@ public class TransactionReceivePaymentGrid extends
 	private Stack<Map<Integer, Object>> revertedCreditsStack;
 
 	List<ClientTransactionReceivePayment> tranReceivePayments = new ArrayList<ClientTransactionReceivePayment>();
-	private int[] columns = { ListGrid.COLUMN_TYPE_TEXT,
+	private int[] columns = { ListGrid.COLUMN_TYPE_LINK,
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_LINK,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
-	private int[] columnsinEdit = { ListGrid.COLUMN_TYPE_TEXT,
+	private int[] columnsinEdit = { ListGrid.COLUMN_TYPE_LINK,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_LINK,
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
+	private ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	@Override
 	public void init() {
@@ -102,23 +100,23 @@ public class TransactionReceivePaymentGrid extends
 	@Override
 	protected String[] getColumns() {
 		if (canEdit) {
-			return new String[] { customerConstants.dueDate(),
-					customerConstants.invoice(),
-					customerConstants.invoiceAmount(),
-					customerConstants.amountDue(),
-					customerConstants.discountDate(),
-					customerConstants.cashDiscount(),
-					customerConstants.writeOff(),
-					customerConstants.appliedCredits(),
-					customerConstants.payment() };
+			return new String[] { messages.dueDate(),
+					messages.invoice(),
+					messages.invoiceAmount(),
+					messages.amountDue(),
+					messages.discountDate(),
+					messages.cashDiscount(),
+					messages.writeOff(),
+					messages.appliedCredits(),
+					messages.payment() };
 		} else
-			return new String[] { customerConstants.invoice(),
-					customerConstants.invoiceAmount(),
-					customerConstants.discountDate(),
-					customerConstants.cashDiscount(),
-					customerConstants.writeOff(),
-					customerConstants.appliedCredits(),
-					customerConstants.payment() };
+			return new String[] { messages.invoice(),
+					messages.invoiceAmount(),
+					messages.discountDate(),
+					messages.cashDiscount(),
+					messages.writeOff(),
+					messages.appliedCredits(),
+					messages.payment() };
 	}
 
 	@Override
@@ -135,28 +133,37 @@ public class TransactionReceivePaymentGrid extends
 			case 1:
 				return receivePayment.getNumber();
 			case 2:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getInvoiceAmount()));
+				return DataUtils.amountAsStringWithCurrency(
+						getAmountInForeignCurrency(receivePayment
+								.getInvoiceAmount()),
+						currency);
 			case 3:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getDummyDue()));
+				return DataUtils.amountAsStringWithCurrency(
+						getAmountInForeignCurrency(receivePayment.getDummyDue()),
+						currency);
 			case 4:
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						receivePayment.getDiscountDate()));
 			case 5:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getCashDiscount()));
+				return DataUtils.amountAsStringWithCurrency(
+						getAmountInForeignCurrency(receivePayment
+								.getCashDiscount()),
+						currency);
 			case 6:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getWriteOff()));
+				return DataUtils.amountAsStringWithCurrency(
+						getAmountInForeignCurrency(receivePayment.getWriteOff()),
+						currency);
 			case 7:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getAppliedCredits()));
+				return DataUtils.amountAsStringWithCurrency(
+						getAmountInForeignCurrency(receivePayment
+								.getAppliedCredits()),
+						currency);
 
 			case 8:
 
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getPayment()));
+				return DataUtils.amountAsStringWithCurrency(
+						getAmountInForeignCurrency(receivePayment.getPayment()),
+						currency);
 
 			default:
 				break;
@@ -166,23 +173,31 @@ public class TransactionReceivePaymentGrid extends
 			case 0:
 				return receivePayment.getNumber();
 			case 1:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getInvoiceAmount()));
+				return DataUtils.amountAsStringWithCurrency(
+						getAmountInForeignCurrency(receivePayment
+								.getInvoiceAmount()),
+						currency);
 			case 2:
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						receivePayment.getDiscountDate()));
 			case 3:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getCashDiscount()));
+				return DataUtils.amountAsStringWithCurrency(
+						getAmountInForeignCurrency(receivePayment
+								.getCashDiscount()),
+						currency);
 			case 4:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getWriteOff()));
+				return DataUtils.amountAsStringWithCurrency(
+						getAmountInForeignCurrency(receivePayment.getWriteOff()),
+						currency);
 			case 5:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getAppliedCredits()));
+				return DataUtils.amountAsStringWithCurrency(
+						getAmountInForeignCurrency(receivePayment
+								.getAppliedCredits()),
+						currency);
 			case 6:
-				return amountAsString(getAmountInForeignCurrency(receivePayment
-						.getPayment()));
+				return DataUtils.amountAsStringWithCurrency(
+						getAmountInForeignCurrency(receivePayment.getPayment()),
+						currency);
 			default:
 				break;
 			}
@@ -204,7 +219,7 @@ public class TransactionReceivePaymentGrid extends
 				double totalValue = item.getCashDiscount() + item.getWriteOff()
 						+ item.getAppliedCredits() + item.getPayment();
 				if (AccounterValidator.isValidReceive_Payment(item
-						.getAmountDue(), totalValue, Accounter.constants()
+						.getAmountDue(), totalValue, Accounter.messages()
 						.receivePaymentExcessDue())) {
 					paymentView.recalculateGridAmounts();
 					updateTotalPayment(0.0);
@@ -242,12 +257,12 @@ public class TransactionReceivePaymentGrid extends
 				.getSelectedRecords()) {
 			double totalValue = getTotalValue(transactionReceivePayment);
 			if (DecimalUtil.isLessThan(totalValue, 0.00)) {
-				result.addError(this, accounterMessages
-						.valueCannotBe0orlessthan0(customerConstants.amount()));
+				result.addError(this, messages
+						.valueCannotBe0orlessthan0(messages.amount()));
 			} else if (DecimalUtil.isGreaterThan(totalValue,
 					transactionReceivePayment.getAmountDue())
 					|| DecimalUtil.isEquals(totalValue, 0)) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, Accounter.messages()
 						.receivePaymentExcessDue());
 			}
 		}
@@ -603,7 +618,7 @@ public class TransactionReceivePaymentGrid extends
 
 	public void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(Accounter.constants()
+			throw new Exception(Accounter.messages()
 					.youdnthaveBalToApplyCredits());
 	}
 
@@ -654,7 +669,7 @@ public class TransactionReceivePaymentGrid extends
 	protected boolean validatePaymentValue() {
 		double totalValue = getTotalValue(selectedObject);
 		if (AccounterValidator.isValidReceive_Payment(selectedObject
-				.getAmountDue(), totalValue, Accounter.constants()
+				.getAmountDue(), totalValue, Accounter.messages()
 				.receiveAmountPayDue())) {
 			return true;
 		} else

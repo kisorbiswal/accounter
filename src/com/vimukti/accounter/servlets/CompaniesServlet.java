@@ -17,7 +17,8 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -29,6 +30,7 @@ public class CompaniesServlet extends BaseServlet {
 
 	private static final String DELETE_SUCCESS = "Your company is deleted successfully.";
 	private static final String DELETE_FAIL = "Company Deletion failed.";
+	private static final String ACCOUNT_DELETE_FAIL = "Account Deletion failed.";
 	private static final String MIGRATION_VIEW = "/WEB-INF/companyMigration.jsp";
 
 	private String companiedListView = "/WEB-INF/companylist.jsp";
@@ -51,6 +53,11 @@ public class CompaniesServlet extends BaseServlet {
 			openCompany(req, resp, Long.parseLong(companyID));
 			return;
 		}
+		String create = req.getParameter(CREATE);
+		if (create != null && create.equals("true")) {
+			createCompany(req, resp);
+			return;
+		}
 
 		Session session = HibernateUtil.openSession();
 		try {
@@ -60,30 +67,46 @@ public class CompaniesServlet extends BaseServlet {
 				return;
 			}
 
-			Set<ServerCompany> companies = client.getCompanies();
-			if (companies.isEmpty()) {
+			Set<User> users = client.getUsers();
+			if (users.isEmpty()) {
 				if (httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
 					req.setAttribute("message",
 							"You don't have any companies now.");
 				}
 			} else {
-				List<ServerCompany> list = new ArrayList<ServerCompany>();
-				for (ServerCompany serverCompany : companies) {
-					list.add(serverCompany);
+				List<Company> list = new ArrayList<Company>();
+				Company com = null;
+				for (User user : users) {
+					if (!user.isDeleted()) {
+						List<Object[]> objects = session
+								.getNamedQuery(
+										"get.CompanyId.Tradingname.and.Country.of.user")
+								.setParameter("userId;", user.getID()).list();
+						for (Object[] obj : objects) {
+							com = new Company();
+							com.setId((Long) obj[0]);
+							com.getPreferences()
+									.setTradingName((String) obj[1]);
+							com.getRegisteredAddress().setCountryOrRegion(
+									(String) obj[2]);
+
+							list.add(com);
+						}
+
+					}
 				}
-				Collections.sort(list, new Comparator<ServerCompany>() {
+				Collections.sort(list, new Comparator<Company>() {
 
 					@Override
-					public int compare(ServerCompany company1,
-							ServerCompany company2) {
-						return company1.getCompanyName().compareTo(
-								company2.getCompanyName());
+					public int compare(Company company1, Company company2) {
+						return company1.getTradingName().compareTo(
+								company2.getTradingName());
 					}
 
 				});
-				Set<ServerCompany> sortedCompanies = new HashSet<ServerCompany>();
-				for (ServerCompany serverCompany : list) {
-					sortedCompanies.add(serverCompany);
+				Set<Company> sortedCompanies = new HashSet<Company>();
+				for (Company company : list) {
+					sortedCompanies.add(company);
 				}
 
 				req.setAttribute(ATTR_COMPANY_LIST, list);
@@ -95,6 +118,19 @@ public class CompaniesServlet extends BaseServlet {
 			}
 		}
 		dispatch(req, resp, companiedListView);
+	}
+
+	private void createCompany(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		addMacAppCookie(req, resp);
+
+		String url = ACCOUNTER_OLD_URL;
+		if (ServerConfiguration.isDebugMode) {
+			url = ACCOUNTER_URL;
+		}
+
+		req.getSession().setAttribute(CREATE, "true");
+		redirectExternal(req, resp, url);
 	}
 
 	/**
@@ -134,6 +170,14 @@ public class CompaniesServlet extends BaseServlet {
 			httpSession.removeAttribute(COMPANY_DELETION_STATUS);
 		}
 
+		String accountDeleteStatus = (String) httpSession
+				.getAttribute(ACCOUNT_DELETION_STATUS);
+		if (accountDeleteStatus != null) {
+			req.setAttribute("message", ACCOUNT_DELETE_FAIL);
+			httpSession.removeAttribute("DeletionFailureMessage");
+			httpSession.removeAttribute(ACCOUNT_DELETION_STATUS);
+		}
+
 	}
 
 	/**
@@ -144,29 +188,25 @@ public class CompaniesServlet extends BaseServlet {
 			long companyID) throws IOException {
 		HttpSession httpSession = req.getSession();
 		httpSession.setAttribute(COMPANY_ID, companyID);
-		addCompanyCookies(resp, companyID);
+		httpSession.setAttribute(IS_TOUCH, req.getParameter(IS_TOUCH));
 		addMacAppCookie(req, resp);
 
 		Session session = HibernateUtil.openSession();
 		try {
-			ServerCompany company = (ServerCompany) session.get(
-					ServerCompany.class, companyID);
+
+			Company company = (Company) session.get(Company.class, companyID);
 			if (company != null) {
 
-				if (!company.isActive()) {
-					dispatch(req, resp, MIGRATION_VIEW);
-					return;
-				}
+				// if (!company.isActive()) {
+				// dispatch(req, resp, MIGRATION_VIEW);
+				// return;
+				// }
 				String url = ACCOUNTER_OLD_URL;
 				if (ServerConfiguration.isDebugMode) {
 					url = ACCOUNTER_URL;
 				}
 
-				redirectExternal(
-						req,
-						resp,
-						buildCompanyServerURL(company.getServer().getAddress(),
-								url));
+				redirectExternal(req, resp, url);
 			}
 		} finally {
 			session.close();
@@ -178,14 +218,15 @@ public class CompaniesServlet extends BaseServlet {
 		doGet(req, resp);
 	}
 
-	private void addCompanyCookies(HttpServletResponse resp, long companyID) {
-		Cookie companyCookie = new Cookie(COMPANY_COOKIE,
-				String.valueOf(companyID));
-		companyCookie.setMaxAge(-1);// Two week
-		companyCookie.setPath("/");
-		companyCookie.setDomain(ServerConfiguration.getServerCookieDomain());
-		resp.addCookie(companyCookie);
-	}
+	// private void addCompanyCookies(HttpServletResponse resp, long companyID)
+	// {
+	// Cookie companyCookie = new Cookie(COMPANY_COOKIE,
+	// String.valueOf(companyID));
+	// companyCookie.setMaxAge(-1);// Two week
+	// companyCookie.setPath("/");
+	// companyCookie.setDomain(ServerConfiguration.getServerCookieDomain());
+	// resp.addCookie(companyCookie);
+	// }
 
 	private void addMacAppCookie(HttpServletRequest request,
 			HttpServletResponse response) {

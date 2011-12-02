@@ -12,25 +12,21 @@ import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
-import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.SalesPerson;
-import com.vimukti.accounter.core.ServerConvertUtil;
-import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
@@ -41,7 +37,6 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class CustomerManager extends Manager {
 
@@ -262,6 +257,9 @@ public class CustomerManager extends Manager {
 				el.setDate(new ClientFinanceDate((Long) obj[4]));
 				el.setCustomerName((String) obj[5]);
 				el.setRemainingTotal(((Double) obj[6]).doubleValue());
+				if (obj[7] != null) {
+					el.setEstimateType(((Integer) obj[7]).intValue());
+				}
 				esl.add(el);
 			}
 		}
@@ -269,13 +267,15 @@ public class CustomerManager extends Manager {
 		return new ArrayList<EstimatesAndSalesOrdersList>(esl);
 	}
 
-	public ArrayList<Estimate> getEstimates(long companyId) throws DAOException {
+	public ArrayList<Estimate> getEstimates(long companyId, int type)
+			throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery("getEstimate").setEntity(
-					"company", company);
+			Query query = session.getNamedQuery("getEstimate")
+					.setEntity("company", company)
+					.setParameter("estimateType", type);
 			List<Estimate> list = query.list();
 
 			if (list != null) {
@@ -352,6 +352,8 @@ public class CustomerManager extends Manager {
 					receivePaymentsList.setAmountPaid((Double) object[6]);
 					receivePaymentsList.setVoided((Boolean) object[7]);
 					receivePaymentsList.setStatus((Integer) object[8]);
+					receivePaymentsList.setCheckNumber((String) object[9]);
+					receivePaymentsList.setCurrency((Long) object[10]);
 
 					queryResult.add(receivePaymentsList);
 				}
@@ -395,7 +397,7 @@ public class CustomerManager extends Manager {
 					paymentsList.setName((String) object[6]);
 					paymentsList.setPaymentMethodName((String) object[7]);
 					paymentsList.setAmountPaid((Double) object[8]);
-
+					paymentsList.setCurrency((Long) object[9]);
 					queryResult.add(paymentsList);
 				}
 				return new ArrayList<PaymentsList>(queryResult);
@@ -428,27 +430,28 @@ public class CustomerManager extends Manager {
 					object = (Object[]) iterator.next();
 
 					String name = (String) object[6];
-					if (name != null) {
-						paymentsList.setTransactionId((object[0] == null ? 0
-								: ((Long) object[0])));
-						paymentsList.setType((Integer) object[1]);
-						paymentsList.setPaymentDate((object[2] == null ? null
-								: (new ClientFinanceDate(((Long) object[2])))));
-						paymentsList.setPaymentNumber((object[3] == null ? null
-								: ((String) object[3])));
-						paymentsList.setStatus((Integer) object[4]);
-						paymentsList.setIssuedDate(new ClientFinanceDate(
-								(Long) object[5]));
-						paymentsList.setName(name);
-						paymentsList.setPaymentMethodName((String) object[7]);
-						paymentsList.setAmountPaid((Double) object[8]);
-						paymentsList.setVoided((Boolean) object[9]);
-						paymentsList
-								.setPayBillType(object[10] != null ? (Integer) object[10]
-										: 0);
-
-						queryResult.add(paymentsList);
-					}
+					// if (name != null) {
+					paymentsList.setTransactionId((object[0] == null ? 0
+							: ((Long) object[0])));
+					paymentsList.setType((Integer) object[1]);
+					paymentsList.setPaymentDate((object[2] == null ? null
+							: (new ClientFinanceDate(((Long) object[2])))));
+					paymentsList.setPaymentNumber((object[3] == null ? null
+							: ((String) object[3])));
+					paymentsList.setStatus((Integer) object[4]);
+					paymentsList.setIssuedDate(new ClientFinanceDate(
+							(Long) object[5]));
+					paymentsList.setName(name);
+					paymentsList.setPaymentMethodName((String) object[7]);
+					paymentsList.setAmountPaid((Double) object[8]);
+					paymentsList.setVoided((Boolean) object[9]);
+					paymentsList
+							.setPayBillType(object[10] != null ? (Integer) object[10]
+									: 0);
+					paymentsList.setCheckNumber((String) object[11]);
+					paymentsList.setCurrency((Long) object[12]);
+					queryResult.add(paymentsList);
+					// }
 				}
 				return new ArrayList<PaymentsList>(queryResult);
 			} else
@@ -538,12 +541,12 @@ public class CustomerManager extends Manager {
 					.setLong("fromID", fromClientCustomer.getID())
 					.setLong("toID", toClientCustomer.getID())
 					.setEntity("company", company).executeUpdate();
-
-			session.getNamedQuery("update.merge.Entry.old.tonew")
-					.setLong("fromID", fromClientCustomer.getID())
-					.setLong("toID", toClientCustomer.getID())
-					.setString("memo", toClientCustomer.getName())
-					.setEntity("company", company).executeUpdate();
+			//
+			// session.getNamedQuery("update.merge.Entry.old.tonew")
+			// .setLong("fromID", fromClientCustomer.getID())
+			// .setLong("toID", toClientCustomer.getID())
+			// .setString("memo", toClientCustomer.getName())
+			// .setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.CustomerPrePayment.old.tonew")
 					.setLong("fromID", fromClientCustomer.getID())
@@ -565,28 +568,32 @@ public class CustomerManager extends Manager {
 					.setLong("toID", toClientCustomer.getID())
 					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery(
-					"update.merge.transactionMakeDeposit.old.tonew")
-					.setLong("fromID", fromClientCustomer.getID())
-					.setLong("toID", toClientCustomer.getID())
-					.setEntity("company", company).executeUpdate();
+			// session.getNamedQuery(
+			// "update.merge.transactionMakeDeposit.old.tonew")
+			// .setLong("fromID", fromClientCustomer.getID())
+			// .setLong("toID", toClientCustomer.getID())
+			// .setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.writeCheck.old.tonew")
 					.setLong("fromID", fromClientCustomer.getID())
 					.setLong("toID", toClientCustomer.getID())
 					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("delete.entry.old")
-					.setLong("from", fromClientCustomer.getID())
+			session.getNamedQuery("update.merge.JournalEntry.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID())
 					.setEntity("company", company).executeUpdate();
 
-			ServerConvertUtil convertUtil = new ServerConvertUtil();
-			Customer customer = new Customer();
+			// session.getNamedQuery("delete.entry.old")
+			// .setLong("from", fromClientCustomer.getID())
+			// .setEntity("company", company).executeUpdate();
 
-			customer = convertUtil.toServerObject(customer, fromClientCustomer,
-					session);
+			Customer customer = (Customer) session.get(Customer.class,
+					fromClientCustomer.getID());
+			company.getCustomers().remove(customer);
+			session.saveOrUpdate(company);
+			customer.setCompany(null);
 			session.delete(customer);
-
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();
@@ -647,20 +654,17 @@ public class CustomerManager extends Manager {
 
 		for (MostProfitableCustomers mpc : queryResult) {
 			for (JournalEntry je : nonInvoicedLines) {
-				Entry e1 = je.getEntry().get(0);
-				Entry e2 = je.getEntry().get(1);
-				if (e1.getType() == Entry.TYPE_CUSTOMER
-						&& e1.getCustomer().getName().equals(mpc.getCustomer())) {
-					mpc.setBilledCost(mpc.getBilledCost()
-							+ (!DecimalUtil.isEquals(e2.getDebit(), 0.0) ? -1
-									* e2.getDebit() : e2.getCredit()));
-				} else if (e2.getType() == Entry.TYPE_CUSTOMER
-						&& e2.getCustomer().getName().equals(mpc.getCustomer())) {
-					mpc.setBilledCost(mpc.getBilledCost()
-							+ (!DecimalUtil.isEquals(e1.getDebit(), 0.0) ? -1
-									* e1.getDebit() : e1.getCredit()));
+				for (TransactionItem item : je.getTransactionItems()) {
+					if (je.getInvolvedPayee() != null
+							&& je.getInvolvedPayee() instanceof Customer
+							&& je.getInvolvedPayee().getName()
+									.equals(mpc.getCustomer())
+							&& item.getAccount().getID() == company
+									.getAccountsReceivableAccount().getID()) {
+						mpc.setBilledCost(mpc.getBilledCost()
+								+ item.getLineTotal());
+					}
 				}
-
 			}
 
 		}
@@ -817,15 +821,15 @@ public class CustomerManager extends Manager {
 					.setStatus((object[15] != null) ? (Integer) object[15] : 0);
 			transactionHistory.setMemo((String) object[16]);
 
-			Transaction t = (Transaction) getServerObjectForid(
-					AccounterCoreType.TRANSACTION,
-					transactionHistory.getTransactionId());
-			Account account = (t).getEffectingAccount() == null ? t.getPayee() == null ? null
-					: t.getPayee().getAccount()
-					: t.getEffectingAccount();
+			// Transaction t = (Transaction) getServerObjectForid(
+			// AccounterCoreType.TRANSACTION,
+			// transactionHistory.getTransactionId());
+			// Account account = (t).getEffectingAccount() == null ?
+			// t.getPayee() == null ? null
+			// : t.getPayee().getAccount()
+			// : t.getEffectingAccount();
 
-			transactionHistory.setAccount(account == null ? "" : account
-					.getName());
+			transactionHistory.setAccount((String) object[17]);
 
 			if (transactionHistory.getType() == 0) {
 				openingBalnaceEntries.put(transactionHistory.getName(),

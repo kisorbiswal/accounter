@@ -20,8 +20,6 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 
 	// ClientJournalEntry journalEntry;
 
-	long adjustmentDate;
-
 	boolean increaseVATLine;
 
 	boolean isFiled;
@@ -36,6 +34,8 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 
 	long taxAgency;
 
+	boolean isSales;
+
 	/**
 	 * @return the journalEntry
 	 */
@@ -49,21 +49,6 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 */
 	public void setJournalEntry(long journalEntry) {
 		this.journalEntry = journalEntry;
-	}
-
-	/**
-	 * @return the adjustmentDate
-	 */
-	public Long getAdjustmentDate() {
-		return adjustmentDate;
-	}
-
-	/**
-	 * @param adjustmentDate
-	 *            the adjustmentDate to set
-	 */
-	public void setAdjustmentDate(Long adjustmentDate) {
-		this.adjustmentDate = adjustmentDate;
 	}
 
 	/**
@@ -196,14 +181,6 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 		this.taxItem = taxItem;
 	}
 
-	/**
-	 * @param adjustmentDate
-	 *            the adjustmentDate to set
-	 */
-	public void setAdjustmentDate(long adjustmentDate) {
-		this.adjustmentDate = adjustmentDate;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -226,14 +203,6 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 
 	public ClientTAXAdjustment clone() {
 		ClientTAXAdjustment taxAdjustment = (ClientTAXAdjustment) this.clone();
-
-		taxAdjustment.creditsAndPayments = this.creditsAndPayments.clone();
-
-		List<ClientEntry> entries = new ArrayList<ClientEntry>();
-		for (ClientEntry clientEntry : this.entry) {
-			entries.add(clientEntry.clone());
-		}
-		taxAdjustment.entry = entries;
 
 		List<ClientTransactionIssuePayment> transactionIssuePayments = new ArrayList<ClientTransactionIssuePayment>();
 		for (ClientTransactionIssuePayment clientTransactionIssuePayment : this.transactionIssuePayment) {
@@ -259,8 +228,8 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 		}
 		taxAdjustment.transactionPayBill = transactionPayBills;
 
-		List<ClientTransactionPaySalesTax> transactionPaySalesTaxs = new ArrayList<ClientTransactionPaySalesTax>();
-		for (ClientTransactionPaySalesTax clientTransactionPaySalesTax : this.transactionPaySalesTax) {
+		List<ClientTransactionPayTAX> transactionPaySalesTaxs = new ArrayList<ClientTransactionPayTAX>();
+		for (ClientTransactionPayTAX clientTransactionPaySalesTax : this.transactionPaySalesTax) {
 			transactionPaySalesTaxs.add(clientTransactionPaySalesTax.clone());
 		}
 		taxAdjustment.transactionPaySalesTax = transactionPaySalesTaxs;
@@ -273,6 +242,21 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 		taxAdjustment.transactionReceivePayment = transactionReceivePayments;
 
 		return taxAdjustment;
+	}
+
+	/**
+	 * @return the isSales
+	 */
+	public boolean isSales() {
+		return isSales;
+	}
+
+	/**
+	 * @param isSales
+	 *            the isSales to set
+	 */
+	public void setSales(boolean isSales) {
+		this.isSales = isSales;
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -25,7 +26,7 @@ import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
  * @author Prasanna Kumar G
  * 
  */
-public class ContactsTable extends EditTable<ClientContact> {
+public abstract class ContactsTable extends EditTable<ClientContact> {
 
 	public ContactsTable() {
 
@@ -51,8 +52,15 @@ public class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			public IsWidget getHeader() {
-				Label columnHeader = new Label(Accounter.constants().primary());
+				Label columnHeader = new Label(Accounter.messages().primary());
 				return columnHeader;
+			}
+
+			@Override
+			public void render(IsWidget widget,
+					RenderContext<ClientContact> context) {
+				super.render(widget, context);
+				((CheckBox) widget).setValue(context.getRow().isPrimary());
 			}
 		});
 
@@ -75,7 +83,7 @@ public class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().contactName();
+				return Accounter.messages().contactName();
 			}
 		});
 
@@ -98,7 +106,7 @@ public class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().title();
+				return Accounter.messages().title();
 			}
 		});
 
@@ -111,7 +119,7 @@ public class ContactsTable extends EditTable<ClientContact> {
 				if (UIUtils.isValidPhone(value))
 					row.setBusinessPhone(value);
 				else {
-					Accounter.showError(Accounter.constants()
+					Accounter.showError(Accounter.messages()
 							.invalidBusinessPhoneVal());
 					row.setBusinessPhone("");
 				}
@@ -129,7 +137,7 @@ public class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().businessPhone();
+				return Accounter.messages().businessPhone();
 			}
 
 			@Override
@@ -162,7 +170,7 @@ public class ContactsTable extends EditTable<ClientContact> {
 				if (UIUtils.isValidEmail(value))
 					row.setEmail(value);
 				else {
-					Accounter.showError(Accounter.constants().invalidEmail());
+					Accounter.showError(Accounter.messages().invalidEmail());
 					row.setEmail("");
 				}
 			}
@@ -179,7 +187,7 @@ public class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().email();
+				return Accounter.messages().email();
 			}
 
 			@Override
@@ -231,6 +239,27 @@ public class ContactsTable extends EditTable<ClientContact> {
 		return getAllRows();
 	}
 
+	public boolean isEmpty() {
+		if (getAllRows().isEmpty())
+			return true;
+		for (int i = 0; i < getAllRows().size(); i++) {
+			if (getAllRows().get(i).getTitle().isEmpty()
+					&& getAllRows().get(i).getEmail().isEmpty()
+					&& getAllRows().get(i).getDisplayName().isEmpty()
+					&& getAllRows().get(i).getBusinessPhone().isEmpty()) {
+				delete(getRecords().get(i));
+				i = 0;
+				continue;
+			} else {
+				if (getAllRows().isEmpty())
+					return true;
+				else
+					continue;
+			}
+		}
+		return false;
+	}
+
 	public void validate(ValidationResult result) {
 		for (int i = 0; i < getAllRows().size(); i++) {
 			for (int j = 0; j < getAllRows().size(); j++) {
@@ -249,7 +278,7 @@ public class ContactsTable extends EditTable<ClientContact> {
 									.getBusinessPhone()
 									.equals(getAllRows().get(j)
 											.getBusinessPhone()))
-						result.addError(this, Accounter.constants()
+						result.addError(this, Accounter.messages()
 								.youHaveEnteredduplicateContacts());
 				}
 			}

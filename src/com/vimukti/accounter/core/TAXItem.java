@@ -3,12 +3,12 @@ package com.vimukti.accounter.core;
 import java.io.Serializable;
 
 import org.hibernate.CallbackException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 /**
  * A VATItem is a sub class of VATItemGroup. It consists of VATagency, VAT
@@ -21,11 +21,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
  */
 
 public class TAXItem extends TAXItemGroup {
-
-	public static final int TAX_TYPE_TDS = 1;
-	public static final int TAX_TYPE_VAT = 2;
-	public static final int TAX_TYPE_TCS = 3;
-	public static final int TAX_TYPE_SALES = 4;
 
 	/**
 	 * 
@@ -50,7 +45,7 @@ public class TAXItem extends TAXItemGroup {
 	 */
 	VATReturnBox vatReturnBox;
 
-	 public TAXItem() {
+	public TAXItem() {
 	}
 
 	public TAXItem(Company company) {
@@ -85,36 +80,6 @@ public class TAXItem extends TAXItemGroup {
 	 */
 	public void setID(long id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description
-	 *            the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	/**
@@ -181,29 +146,27 @@ public class TAXItem extends TAXItemGroup {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-
-		if (this.vatReturnBox != null
-				&& (this.vatReturnBox.name
-						.equals(AccounterServerConstants.UK_DOMESTIC_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.UK_EC_SALES_GOODS)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.UK_EC_SALES_SERVICES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.UK_NOT_REGISTERED_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.IRELAND_DOMESTIC_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.IRELAND_EXEMPT_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES) || this.vatReturnBox.name
-							.equals(AccounterServerConstants.IRELAND_EC_SALES_GOODS))) {
-			this.isSalesType = true;
-
-		} else {
-			this.isSalesType = false;
-		}
-
+		/*
+		 * if (this.vatReturnBox != null && (this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_DOMESTIC_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_EC_SALES_GOODS) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_EC_SALES_SERVICES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_NOT_REGISTERED_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_DOMESTIC_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_EXEMPT_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_EC_SALES_GOODS))) {
+		 * this.isSalesType = true;
+		 * 
+		 * } else { this.isSalesType = false; }
+		 */
 		// if (Company.getCompany() != null
 		// && Company.getCompany().getAccountingType() ==
 		// Company.ACCOUNTING_TYPE_US) {
@@ -218,44 +181,27 @@ public class TAXItem extends TAXItemGroup {
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
-		if (this.vatReturnBox != null
-				&& (this.vatReturnBox.name
-						.equals(AccounterServerConstants.UK_DOMESTIC_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.UK_EC_SALES_GOODS)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.UK_EC_SALES_SERVICES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.UK_NOT_REGISTERED_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.IRELAND_DOMESTIC_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.IRELAND_EXEMPT_SALES)
-						|| this.vatReturnBox.name
-								.equals(AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES) || this.vatReturnBox.name
-							.equals(AccounterServerConstants.IRELAND_EC_SALES_GOODS))) {
-			this.isSalesType = true;
-
-		} else {
-			this.isSalesType = false;
-		}
-
-		if (getCompany() != null
-				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-
-			Query query = session.getNamedQuery("getTaxACode.inTaxitem.by.id")
-					.setParameter("id", this.id)
-					.setEntity("company", getCompany());
-			TAXCode taxCode = (TAXCode) query.uniqueResult();
-			if (taxCode != null) {
-
-				taxCode.setName(this.getName());
-				taxCode.setDescription(this.getDescription());
-				taxCode.setActive(this.isActive());
-				session.saveOrUpdate(taxCode);
-			}
-			this.isSalesType = true;
-		}
+		/*
+		 * if (this.vatReturnBox != null && (this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_DOMESTIC_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_EC_SALES_GOODS) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_EC_SALES_SERVICES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.UK_NOT_REGISTERED_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_DOMESTIC_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_EXEMPT_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES) ||
+		 * this.vatReturnBox.name
+		 * .equals(AccounterServerConstants.IRELAND_EC_SALES_GOODS))) {
+		 * this.isSalesType = true;
+		 * 
+		 * } else { this.isSalesType = false; }
+		 */
 
 		session.getNamedQuery("updateTaxCodeSalesTaxRate")
 				.setParameter("id", this.id)
@@ -269,6 +215,16 @@ public class TAXItem extends TAXItemGroup {
 		super.onSave(session);
 		// ChangeTracker.put(this);
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return this.getName();
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.TAXITEM;
 	}
 
 }

@@ -20,7 +20,7 @@ public class ManageCountryRegionDialog extends GroupDialog<ClientCustomer> {
 	public void initialise() {
 
 		getGrid().addColumn(ListGrid.COLUMN_TYPE_TEXT,
-				Accounter.constants().countryRegion());
+				Accounter.messages().countryRegion());
 		// ListGridField country_or_RegionField=new ListGridField("country",);
 		// country_or_RegionField.setWidth(220);
 		// addField(country_or_RegionField);
@@ -34,14 +34,14 @@ public class ManageCountryRegionDialog extends GroupDialog<ClientCustomer> {
 			}
 
 			public void onFirstButtonClick() {
-				new CountryRegionDialog(Accounter.constants().addCountry(),
-						Accounter.constants().enterNameOfCountry()).show();
+				new CountryRegionDialog(Accounter.messages().addCountry(),
+						Accounter.messages().enterNameOfCountry()).show();
 
 			}
 
 			public void onSecondButtonClick() {
-				new CountryRegionDialog(Accounter.constants().editCountry(),
-						Accounter.constants().enterNameOfCountry()).show();
+				new CountryRegionDialog(Accounter.messages().editCountry(),
+						Accounter.messages().enterNameOfCountry()).show();
 
 			}
 

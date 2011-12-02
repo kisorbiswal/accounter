@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ISorting;
+import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -43,17 +44,17 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public static final int TOOLBAR_TYPE_SALES_PURCAHASE = 5;
 	public static final int TOOLBAR_TYPE_EXPENSE = 6;
 	public static final int TOOLBAR_TYPE_CHECKDETAIl = 7;
-	public static final int TOOLBAR_TYPE_CUSTOMER = 8;
-	public static final int TOOLBAR_TYPE_BUDGET1 = 9;
-	public static final int TOOLBAR_TYPE_BUDGET2 = 10;
-	public static final int TOOLBAR_TYPE_BUDGET3 = 11;
-	public static final int TOOLBAR_TYPE_BUDGET4 = 12;
+	public static final int TOOLBAR_TYPE_BUDGET = 9;
+	public static final int TOOLBAR_TYPE_TAXAGENCY = 13;
 	public static final int TOP_MARGIN = 305;
+	public static final int TOOLBAR_TYPE_VENDOR = 14;
+	public static final int TOOLBAR_TYPE_CUSTOMER = 8;
 
 	protected ReportToolbar toolbar;
 
 	public boolean isVATDetailReport;
 	public boolean isVATSummaryReport;
+	public boolean isVATPriorReport;
 
 	protected IFinanceReport<R> serverReport = null;
 
@@ -82,7 +83,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	private int fitHeight;
 
 	public AbstractReportView() {
-		emptyMsg = Accounter.constants().noRecordsToShow();
+		emptyMsg = Accounter.messages().noRecordsToShow();
 	}
 
 	public AbstractReportView(boolean showGridFooter, String emptyMsg) {
@@ -100,7 +101,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			grid.removeLoadingImage();
 			return;
 		}
-		Accounter.showMessage(Global.get().constants().sessionExpired());
+		Accounter.showMessage(Global.get().messages().sessionExpired());
 	}
 
 	/**
@@ -401,7 +402,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		if (data != null) {
 			String dateRange = null;
 			dateRange = getPreviousReportDateRange(data);
-			if (dateRange.equals(Accounter.constants().custom())) {
+			if (dateRange.equals(Accounter.messages().custom())) {
 				toolbar.setStartAndEndDates(getPreviousReportStartDate(data),
 						getPreviousReportEndDate(data));
 			}
@@ -465,20 +466,17 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			case TOOLBAR_TYPE_EXPENSE:
 				toolbar = new ExpenseReportToolbar();
 				break;
-			case TOOLBAR_TYPE_BUDGET1:
-				toolbar = new BudgetReportToolbar(1);
-				break;
-			case TOOLBAR_TYPE_BUDGET2:
-				toolbar = new BudgetReportToolbar(2);
-				break;
-			case TOOLBAR_TYPE_BUDGET3:
-				toolbar = new BudgetReportToolbar(3);
-				break;
-			case TOOLBAR_TYPE_BUDGET4:
-				toolbar = new BudgetReportToolbar(4);
+			case TOOLBAR_TYPE_BUDGET:
+				toolbar = new BudgetOverviewReportToolbar();
 				break;
 			case TOOLBAR_TYPE_CUSTOMER:
-				toolbar = new CreateStatementToolBar(this);
+				toolbar = new CreateStatementToolBar(false, this);
+				break;
+			case TOOLBAR_TYPE_VENDOR:
+				toolbar = new CreateStatementToolBar(true, this);
+				break;
+			case TOOLBAR_TYPE_TAXAGENCY:
+				toolbar = new TaxAgencyStartDateEndDateToolbar(isVATPriorReport);
 				break;
 			default:
 				toolbar = new AsOfReportToolbar();
@@ -498,6 +496,10 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 				public void onItemSelectionChanged(int type,
 						ClientFinanceDate startDate, ClientFinanceDate endDate) {
+					if (data != null && data instanceof BaseReport) {
+						((BaseReport) data).setStartDate(startDate);
+						((BaseReport) data).setEndDate(endDate);
+					}
 					resetReport(startDate, endDate);
 				}
 			};
@@ -533,7 +535,11 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	}
 
 	protected String getPreviousReportDateRange(Object object) {
-		return "";
+		if (object instanceof BaseReport) {
+			return ((BaseReport) object).getDateRange();
+		} else {
+			return "";
+		}
 	}
 
 	protected ClientFinanceDate getPreviousReportStartDate(Object object) {
@@ -693,7 +699,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		return false;
 	}
 
-	public ISectionHandler getSectionHanlder() {
+	public ISectionHandler<R> getSectionHanlder() {
 		return this.serverReport.getSectionHanlder();
 	}
 

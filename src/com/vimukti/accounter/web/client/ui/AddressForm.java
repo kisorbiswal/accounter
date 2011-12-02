@@ -34,16 +34,16 @@ public class AddressForm extends DynamicForm {
 
 	public AddressForm(Set<ClientAddress> addresses) {
 
-		Label l1 = new Label(Accounter.constants().enterAddress());
+		Label l1 = new Label(Accounter.messages().enterAddress());
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		setAddresses(addresses);
 
-		businessSelect = new SelectCombo(Accounter.constants().address());
+		businessSelect = new SelectCombo(Accounter.messages().address());
 		businessSelect.setHelpInformation(true);
 		// businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
-				Accounter.constants().gwtListBox());
+				Accounter.messages().gwtListBox());
 		businessSelect.initCombo(new ClientAddress().getAddressTypes());
 
 		businessSelect
@@ -56,10 +56,9 @@ public class AddressForm extends DynamicForm {
 					}
 				});
 
-		addrArea = new TextAreaItem();
+		addrArea = new TextAreaItem("");
 		addrArea.setHelpInformation(true);
 		addrArea.setWidth(100);
-		addrArea.setShowTitle(false);
 		addrArea.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -115,8 +114,8 @@ public class AddressForm extends DynamicForm {
 			addrArea.setValue(toToSet);
 		} else
 			// businessSelect.setDefaultToFirstOption(Boolean.TRUE);
-			setGroupTitle(Accounter.constants().addresses());
-		setNumCols(3);
+			setGroupTitle(Accounter.messages().addresses());
+		setNumCols(2);
 		setFields(businessSelect, addrArea);
 	}
 
@@ -145,9 +144,8 @@ public class AddressForm extends DynamicForm {
 				.getAddressType(businessSelect.getSelectedValue()));
 		if (selectedAddress != null) {
 			selectedAddress.setIsSelected(true);
-			allAddresses.put(
-					UIUtils.getAddressType(businessSelect.getSelectedValue()),
-					selectedAddress);
+			allAddresses.put(UIUtils.getAddressType(businessSelect
+					.getSelectedValue()), selectedAddress);
 		}
 		Collection add = allAddresses.values();
 		Set<ClientAddress> toBeSet = new HashSet<ClientAddress>();
@@ -167,9 +165,8 @@ public class AddressForm extends DynamicForm {
 				.getSelectedValue());
 		if (selectedAddress != null) {
 			selectedAddress.setIsSelected(true);
-			allAddresses.put(
-					UIUtils.getAddressType(businessSelect.getSelectedValue()),
-					selectedAddress);
+			allAddresses.put(UIUtils.getAddressType(businessSelect
+					.getSelectedValue()), selectedAddress);
 		}
 		Collection add = allAddresses.values();
 		List<ClientAddress> toBeSet = new ArrayList<ClientAddress>();

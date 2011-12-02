@@ -1,122 +1,141 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
-import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class VATItemsListCommand extends AbstractCommand {
+public class VATItemsListCommand extends NewAbstractCommand {
+
+	private static final String CURRENT_VIEW = "currentView";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(ACTIVE, true, true));
+
+		list.add(new CommandsRequirement(CURRENT_VIEW) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
+				return list;
+			}
+		});
+
+		list.add(new ShowListRequirement<TAXItem>("taxItemsList",
+				"Please Select Vat Item", 20) {
+			@Override
+			protected Record createRecord(TAXItem value) {
+				Record record = new Record(value);
+				record.add(getMessages().name(), value.getName());
+				record.add(getMessages().description(), value.getDescription());
+				return record;
+			}
+
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// TAXItem value) {
+			// commandList.add(new UserCommand("Update TaxItem", String
+			// .valueOf(value.getID())));
+			// commandList.add(new UserCommand("Delete VatItem",
+			// value.getID()));
+			// }
+			@Override
+			protected String onSelection(TAXItem value) {
+				return "Update TaxItem " + value.getID();
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(getMessages().create(getMessages().taxItem()));
+			}
+
+			@Override
+			protected boolean filter(TAXItem e, String name) {
+				return e.getName().startsWith(name);
+			}
+
+			@Override
+			protected List<TAXItem> getLists(Context context) {
+				Set<TAXItem> completeList = vatItemssList(context);
+				List<TAXItem> result = new ArrayList<TAXItem>();
+
+				String type = VATItemsListCommand.this.get(CURRENT_VIEW)
+						.getValue();
+
+				for (TAXItem taxItem : completeList) {
+
+					if (type.equals("Active")) {
+						if (taxItem.isActive())
+
+							result.add(taxItem);
+					}
+					if (type.equals("In-Active")) {
+						if (!taxItem.isActive())
+							result.add(taxItem);
+					}
+
+				}
+				return result;
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getMessages().vatItemList();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().noRecordsToShow();
+			}
+
+		});
+	}
+
+	private Set<TAXItem> vatItemssList(Context context) {
+		return context.getCompany().getTaxItems();
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = null;
-
-		result = createVatItemsList(context);
-		return result;
-	}
-
-	private Result createVatItemsList(Context context) {
-		Result result = null;
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
+	protected String initObject(Context context, boolean isUpdate) {
+		if (!context.getPreferences().isTrackTax()) {
+			addFirstMessage(context, "You dnt have permission to do this.");
+			return "cancel";
 		}
-		selection = context.getSelection("values");
-
-		result = isActiveRequirement(context, selection);
-		if (result != null) {
-			return result;
-		}
-
-		Boolean isActive = (Boolean) get(ACTIVE).getValue();
-
-		result = vatItemssList(context, isActive);
-		if (result != null) {
-			return result;
-		}
-
 		return null;
 	}
 
-	private Result vatItemssList(Context context, Boolean isActive) {
-		ResultList list = new ResultList("values");
-		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
-		if (last != null) {
-			list.add(createVatItemRecord((TAXItem) last));
-		}
-
-		List<TAXItem> vatItems = getVatItems(context.getHibernateSession(),
-				isActive);
-		for (int i = 0; i < VALUES_TO_SHOW || i < vatItems.size(); i++) {
-			TAXItem vatItemGroup = vatItems.get(i);
-			if (vatItemGroup != last) {
-				list.add(createVatItemRecord((TAXItem) vatItemGroup));
-			}
-		}
-		Result result = new Result();
-
-		int size = list.size();
-		StringBuilder message = new StringBuilder();
-		if (size == 0) {
-			message.append("No records to show.");
-			result.add(message.toString());
-			return result;
-		}
-
-		String activeString = "";
-		if (isActive) {
-			activeString = "Active Vat Items";
-		} else {
-			activeString = "InActive Vat Items";
-		}
-		result.add(activeString);
-		result.add(list);
-
-		return result;
-	}
-
-	private List<TAXItem> getVatItems(Session hibernateSession, Boolean isActive) {
-		// TODO Auto-generated method stub
+	@Override
+	protected String getWelcomeMessage() {
 		return null;
 	}
 
-	private Record createVatItemRecord(TAXItem last) {
-		Record record = new Record(last);
-		record.add("Active", last.isActive());
-		record.add("Product", last.getName() != null ? last.getName() : "");
-		TAXAgency agency = last.getTaxAgency();
-		record.add("Vat Agency", agency != null ? agency.getName() : "");
-		record.add("Description", last.getDescription());
-		record.add("Rate", last.getTaxRate());
-		return record;
+	@Override
+	protected String getDetailsMessage() {
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(CURRENT_VIEW).setDefaultValue(getMessages().active());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
 	}
 
 }

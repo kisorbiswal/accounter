@@ -1,15 +1,18 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.ItemNameColumn;
+import com.vimukti.accounter.web.client.ui.edittable.NewQuantityColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionDiscountColumn;
-import com.vimukti.accounter.web.client.ui.edittable.TransactionQuantityColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTaxableColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTotalColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionUnitPriceColumn;
@@ -18,9 +21,6 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
 public abstract class CustomerItemTransactionTable extends
 		CustomerTransactionTable {
-
-	private boolean enableTax;
-	private boolean showTaxCode;
 
 	/**
 	 * Creates the instance
@@ -42,6 +42,7 @@ public abstract class CustomerItemTransactionTable extends
 	/**
 	 * This method will add 4 empty records to the table.
 	 */
+	@Override
 	protected void addEmptyRecords() {
 		for (int i = 0; i < 4; i++) {
 			ClientTransactionItem item = new ClientTransactionItem();
@@ -53,7 +54,7 @@ public abstract class CustomerItemTransactionTable extends
 	@Override
 	protected void initColumns() {
 
-		this.addColumn(new ItemNameColumn() {
+		this.addColumn(new ItemNameColumn(isSales()) {
 
 			@Override
 			public ListFilter<ClientItem> getItemsFilter() {
@@ -70,8 +71,33 @@ public abstract class CustomerItemTransactionTable extends
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
 				super.setValue(row, newValue);
+				if (newValue != null
+						&& newValue.getType() == ClientItem.TYPE_INVENTORY_PART) {
+					ClientMeasurement measurement = Accounter.getCompany()
+							.getMeasurement(newValue.getMeasurement());
+					if (row.getQuantity() == null) {
+						ClientQuantity quantity = new ClientQuantity();
+						quantity.setValue(1.0);
+						row.setQuantity(quantity);
+					}
+					if (row.getUnitPrice() == null) {
+						row.setUnitPrice(new Double(0));
+					}
+					if (row.getDiscount() == null) {
+						row.setDiscount(new Double(0));
+					}
+					row.getQuantity().setUnit(
+							measurement.getDefaultUnit().getId());
+					row.setWareHouse(newValue.getWarehouse());
+					row.setDescription(newValue.getSalesDescription());
+				}
 				update(row);
 				// applyPriceLevel(row);
+			}
+
+			@Override
+			protected String getDiscription(ClientItem item) {
+				return item.getSalesDescription();
 			}
 		});
 
@@ -82,7 +108,7 @@ public abstract class CustomerItemTransactionTable extends
 			}
 		});
 
-		this.addColumn(new TransactionQuantityColumn());
+		this.addColumn(new NewQuantityColumn());
 
 		this.addColumn(new TransactionUnitPriceColumn(currencyProvider));
 
@@ -90,7 +116,7 @@ public abstract class CustomerItemTransactionTable extends
 			this.addColumn(new TransactionDiscountColumn(currencyProvider));
 		}
 
-		this.addColumn(new TransactionTotalColumn(currencyProvider));
+		this.addColumn(new TransactionTotalColumn(currencyProvider, true));
 
 		// if (getCompany().getPreferences().isChargeSalesTax()) {
 
@@ -104,12 +130,20 @@ public abstract class CustomerItemTransactionTable extends
 
 							@Override
 							public boolean filter(ClientTAXCode e) {
-								if (e.getTAXItemGrpForSales() != 0) {
+								if (!e.isTaxable()
+										|| e.getTAXItemGrpForSales() != 0) {
 									return true;
 								}
 								return false;
 							}
 						};
+					}
+
+					@Override
+					protected void setValue(ClientTransactionItem row,
+							ClientTAXCode newValue) {
+						super.setValue(row, newValue);
+						update(row);
 					}
 
 					@Override
@@ -128,4 +162,11 @@ public abstract class CustomerItemTransactionTable extends
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		super.updateAmountsFromGUI();
+
+	}
+
 }

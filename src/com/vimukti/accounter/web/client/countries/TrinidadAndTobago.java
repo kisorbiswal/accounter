@@ -28,7 +28,7 @@ public class TrinidadAndTobago extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.constants().october();
+		return Accounter.messages().october();
 	}
 
 }

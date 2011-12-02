@@ -14,8 +14,8 @@ public class Record extends ArrayList<Cell> {
 		this.object = object;
 	}
 
-	public void add(String name, Object value) {
-		this.add(new Cell(name, value));
+	public void add(String title, Object value) {
+		this.add(new Cell(title, value));
 	}
 
 	public String getCode() {
@@ -24,6 +24,10 @@ public class Record extends ArrayList<Cell> {
 
 	public Object getObject() {
 		return object;
+	}
+
+	public void setObject(Object object) {
+		this.object = object;
 	}
 
 	/**
@@ -35,6 +39,23 @@ public class Record extends ArrayList<Cell> {
 
 	@Override
 	public String toString() {
-		return code + " >" + object.toString();
+		StringBuilder builder = new StringBuilder();
+		if (size() == 1) {
+			Cell cell = get(0);
+			if (cell.title.isEmpty()) {
+				builder.append(cell);
+			} else {
+				builder.append(cell.title).append(":\t").append(cell);
+			}
+		} else {
+			for (Cell cell : this) {
+				builder.append(cell).append("\t\t");
+			}
+		}
+		return code + ". " + builder.append("\n").toString();
+	}
+
+	public void add(String string) {
+		add(string, "");
 	}
 }

@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="utf-8"?>
+<patterns>
+	<include>reportpattern.xml</include>
+
+	<pattern>
+		<input>About</input>
+		<outputs>
+			<text name="Welcome to Accounter" />
+			<text
+				name="Accounter is a financial management and accounting software
+				that gives a snapshot of money flowing into and out of accounts for
+				people in US and UK and the ability to share the data with others" />
+			<text name="Manage Contacts Easily" />
+			<text
+				name="The software allows business owners to manage contacts like
+				customers, suppliers, sales person and track bank and credit card
+				transactions like bank deposits, fund transfers and credit card
+				charges" />
+			<text name="Monitor Financial Data" />
+			<text
+				name="With the software, it is easy to monitor customer and supplier
+				pre-payments, received payments and refunds. Manage VAT payments and
+				adjustments" />
+			<text name="Generate Reports" />
+			<text
+				name="Keeps track of your sales, purchases and generates different
+				kind of reports that include company and financial reports, customer
+				and payable reports, purchases, VAT reports etc." />
+			<text name="Easy Sharing" />
+			<text
+				name="It allows any one you choose to access the information from any
+				Internet-enabled location" />
+			<text name="Contact" />
+			<text name="https://www.accounterlive.com" />
+			<text name="Mail to:support@accounterlive.com" />
+		</outputs>
+	</pattern>
+	<pattern login="true">
+		<input>Menu</input>
+		<outputs>
+			<command title="Company" />
+			<command if="trackTax" title="Tax" />
+			<command title="Customer" />
+			<command title="Vendor" />
+			<command title="Banking" />
+			<command title="Reports" />
+			<command title="Settings" />
+			<command title="Logout" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Company</input>
+		<outputs>
+			<command title="New Journal Entry" />
+			<command title="New Account" />
+			<command title="Company Preferences" />
+			<command title="Item Tax" />
+			<command title="Manage Support List" />
+			<command title="Lists" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Company Preferences</input>
+		<input>Company Settings</input>
+		<outputs>
+			<command title="Company Info" />
+			<command title="Categories" />
+			<command title="Vendor and Purchases" />
+			<command title="Product and services" />
+			<command title="Terminologies" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Item Tax</input>
+		<outputs>
+			<command title="Pay Tax" />
+			<command title="Tax Adjustments" />
+			<command title="New Tax Agency" />
+			<command title="Manage Sales Tax Groups" />
+			<command title="Manage Sales Tax Items" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Manage Support List</input>
+		<outputs>
+			<command title="Currency List" />
+			<command title="Location List" />
+			<command title="Item Group List" />
+			<command title="Vendor Group List" />
+			<command title="Payment Term list" />
+			<command title="Shipping Term List" />
+			<command title="Credit Rating List" />
+			<command title="Customer Group List" />
+			<command title="Shipping Method List" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Lists</input>
+		<outputs>
+			<command title="Items" />
+			<command title="Vendors" />
+			<command title="Customers" />
+			<command title="Payments" />
+			<command title="Sales Persons" />
+			<command title="Journal Entries" />
+			<command title="Chart of Accounts" />
+			<command title="User's Activity Log" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Add a New Payment</input>
+		<outputs>
+			<command title="Add Vendor Prepayment" />
+			<command title="Add Customer Refund" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true" if="trackTax">
+		<input>Tax</input>
+		<outputs>
+			<command title="New Tax Item" />
+			<command title="New Tax Code" />
+			<command title="New Tax Agency" />
+			<command title="Tax Adjustment" />
+			<command title="File Tax" />
+			<command title="Pay Tax" />
+			<command title="Tax Refund" />
+			<command title="Tax History" />
+			<command title="Tax Items List" />
+			<command title="Tax Codes List" />
+		</outputs>
+	</pattern>
+
+
+	<pattern login="true">
+		<input>Customer</input>
+		<outputs>
+			<command title="New Customer" />
+			<command title="Create Invoice" />
+			<command if="trackingQuotes" title="Create Quote" />
+			<command title="Create Cash Sale" />
+			<command title="Receive Payment" />
+			<command title="Customer Refund" />
+			<command title="Customer Prepayment" />
+			<command title="Customer Overview" />
+			<command title="More" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>More</input>
+		<outputs>
+			<command title="New Customer " />
+			<command title="New Item" />
+			<command title="New Quote" />
+			<command if="delayedCharges" title="New Credit" />
+			<command if="delayedCharges" title="New Charge" />
+			<command title="New Invoice" />
+			<command title="New Cash Sale" />
+			<command title="New Credit Note" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Customer Overview</input>
+		<outputs>
+			<command title="Customers " />
+			<command title="Items" />
+			<command if="trackingQuotes" title="Quotes" />
+			<command if="delayedCharges" title="Credits" />
+			<command if="delayedCharges" title="Charges" />
+			<command title="Invoices" />
+			<command title="Received Payments" />
+			<command title="Customer Refunds" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Vendor</input>
+		<outputs>
+			<command title="New Vendor" />
+			<command if="manageBills" title="Enter Bill" />
+			<command if="manageBills" title="Pay Bill" />
+			<command if="manageBills" title="Issue Payment" />
+			<command if="manageBills" title="Vendor Prepayment" />
+			<command title="Record Expenses" />
+			<command title="Create Cash Purchase" />
+			<command title="Create Vendor Credit" />
+			<command title="Vendor Overview" />
+			<command title="Others" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Record Expenses</input>
+		<outputs>
+			<command title="Cash Expense" />
+			<command title="Credit Card Expense" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Others</input>
+		<outputs>
+			<command title="New Vendor " />
+			<command title="New Item" />
+			<command title="New Cash Purchase" />
+			<command title="Vendor Credit" />
+			<command title="New Check" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Vendor Overview</input>
+		<outputs>
+			<command title="Vendors" />
+			<command title="Items" />
+			<command if="manageBills" title="Bills and Expenses" />
+			<command title="Vendor Payments" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Banking</input>
+		<input>Bank</input>
+		<outputs>
+			<command title="New Bank Account" />
+			<command title="Write Check" />
+			<command if="manageBills" title="Pay Bill" />
+			<command title="New Credit Card Charge" />
+			<command title="Deposit and Transfer Funds" />
+			<command title="Reconciliations History " />
+			<command title="Banking Overview" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Banking Overview</input>
+		<outputs>
+			<command title="Payments" />
+			<command title="Bank Accounts" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Invoice</input>
+		<outputs>
+			<text name="Invoice is a Transaction" />
+			<command title="Create New Invoice" />
+			<command title="List of All Invoices" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>DashBoard</input>
+		<input>DashBord</input>
+		<outputs>
+			<text name="Multiple components into a unified display" />
+			<command title="Create New Bank Account" />
+			<command title="Create New Invoice" />
+			<command title="Create New Bill" />
+			<command title="Create New Expense" />
+			<command title="Expenses List" />
+			<command title="Money Coming In" />
+			<command title="Money Going Out" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Fiscal Year</input>
+		<input>Financial Year</input>
+		<input>FiscalYear</input>
+		<input>FinancialYear</input>
+		<outputs>
+			<command title="Create New Fiscal Year" />
+			<command title="Close Fiscal Year" />
+			<command title="Edit Fiscal Year" />
+			<command title="Delete Fiscal Year" />
+		</outputs>
+
+	</pattern>
+
+	<pattern login="true">
+		<input>Account</input>
+		<outputs>
+			<command title="New Account" />
+			<command title="Edit Account" />
+			<command title="Accounts List" />
+			<command title="Delete Account" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>JounalEntry</input>
+		<outputs>
+			<command title="Create a New JournalEntry" />
+			<command title="Edit JournalEntry" />
+			<command title="Delete JournalEntry" />
+			<command title="Show JournalEntry List" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Sale</input>
+		<input>Sales</input>
+		<outputs>
+			<command title="Sales Person" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>UserActiviityLog</input>
+		<outputs>
+			<command title="Show ActiviityLog" />
+			<command title="Login details" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Bill</input>
+		<outputs>
+			<command title="EnterBill" />
+			<command title="PayBill" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Invoice Branding</input>
+		<outputs>
+			<command title="NewBrandingThemeCommand" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Users</input>
+		<outputs>
+			<command title="InviteAUserCommand" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Item</input>
+		<input>Product and Service Item</input>
+		<input>Product and Service Items</input>
+		<outputs>
+			<command title="Create New Service Item" />
+			<command title="Create New NonInventory Item" />
+			<command title="Create New Inventory Item" />
+			<command title="List of All Items" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Add Item</input>
+		<input>New Item</input>
+		<input>Create Item</input>
+		<input>Add a New Item</input>
+		<outputs>
+			<command title="Create New Service Item" />
+			<command title="Create New NonInventory Item" />
+			<command title="Create New Inventory Item" />
+			<command title="List of All Items" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Service Item</input>
+		<input>Service Items</input>
+		<outputs>
+			<command title="Items List" />
+			<command title="New Service Item" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Product Item</input>
+		<input>Product Items</input>
+		<outputs>
+			<command title="Items List" />
+			<command title="New Product Item" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Inactive Item</input>
+		<input>Inactive Items</input>
+		<outputs>
+			<command title="Inactive Items List" />
+			<command title="Create New Item" />
+		</outputs>
+	</pattern>
+
+	<pattern>
+		<input>Help</input>
+		<outputs>
+			<command title="How to create Transactions" />
+			<command title="How to see the Lists" />
+			<command title="How to see the Reports" />
+		</outputs>
+	</pattern>
+
+	<pattern>
+		<input>How to create Transactions</input>
+		<outputs>
+			<command title="How to create Vendor transactions" />
+			<command title="How to create Customer transactions" />
+			<command title="How to create Banking transactions" />
+			<command title="How to Create Tax Transactions" />
+		</outputs>
+	</pattern>
+
+	<pattern>
+		<input>How to create Vendor transactions</input>
+		<outputs>
+			<text name="Enter any one of these commands" />
+			<command title="Create Enter Bill" />
+			<command title="Create Pay Bill" />
+			<command title="Create Cash Expense" />
+			<command title="Create Cash Purchase" />
+			<command title="Create Vendor Credit" />
+			<command title="Create Issue Payment" />
+			<command title="Create Vendor Payment" />
+		</outputs>
+	</pattern>
+
+	<pattern>
+		<input>How to create Customer transactions</input>
+		<outputs>
+			<text name="Enter any one of these commands" />
+			<command title="Create Invoice" />
+			<command title="Create Quote" />
+			<command title="Create Cash Sale" />
+			<command title="Create Customer Credit" />
+			<command title="Create Customer Payment" />
+			<command title="Create Customer Refund" />
+			<command title="Create Receive Payment" />
+		</outputs>
+	</pattern>
+
+	<pattern>
+		<input>How to Create Tax Transactions</input>
+		<outputs>
+			<text name="Enter any one of these commands" />
+			<command title="Pay Vat" />
+			<command title="Receive Vat" />
+			<command title="File Vat" />
+			<command title="Tax Adjustment" />
+		</outputs>
+	</pattern>
+
+	<pattern>
+		<input>How to create Banking transactions</input>
+		<outputs>
+			<text name="Enter any one of these commands" />
+			<command title="Create Credit Card Charge" />
+			<command title="Create Credit Card Expense" />
+			<command title="Write Check" />
+			<command title="Make Deposit" />
+		</outputs>
+	</pattern>
+
+	<pattern>
+		<input>How to see the Lists</input>
+		<outputs>
+			<text name="Enter any one of these commands" />
+			<command title="Accounts List" />
+			<command title="Customers List" />
+			<command title="Vendors List" />
+			<command title="Items List" />
+			<command title="Sales Persons List" />
+			<command title="Quotes List" />
+			<command title="Invoices List" />
+			<command title="Received Payments List" />
+			<command title="Customer Refunds List" />
+			<command title="Vendor Payments List" />
+			<command title="Bills and Expenses List" />
+			<command title="Bank Accounts List" />
+			<command title="Sales Order List" />
+			<command title="Purchase Order List" />
+			<command title="Journal Entries List" />
+			<command title="Tax Items List" />
+			<command title="Tax Codes List" />
+			<command title="Shipping Methods List" />
+			<command title="Shipping Terms List" />
+			<command title="Location List" />
+			<command title="Class List" />
+		</outputs>
+	</pattern>
+
+
+	<pattern login="true">
+		<input>Quote</input>
+		<outputs>
+			<command title="New Quote" />
+			<command title="Edit Quote" />
+			<command title="Quotes List" />
+			<command title="Delete Quote" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Order</input>
+		<outputs>
+			<command title="Create Purchase Order" />
+			<command title="Create Sales Order" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Expense</input>
+		<outputs>
+			<command title="New CashExpense" />
+			<command title="New CreditCard Expense" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Payment</input>
+		<outputs>
+			<command title="Create Customer Payment" />
+			<command title="Create Vendor Payment" />
+		</outputs>
+	</pattern>
+	<pattern login="true">
+		<input>Journal Entry</input>
+		<outputs>
+			<command title="New Journal Entry" />
+			<command title="Edit Journal Entry" />
+			<command title="Journal Entries List" />
+			<command title="Delete Journal Entry" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Settings</input>
+		<outputs>
+			<command title="Company Settings" />
+			<command title="Users" />
+			<command title="Invoice Branding" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Users</input>
+		<outputs>
+			<command title="Invite user" />
+			<command title="Users List" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Inventory</input>
+		<outputs>
+			<command title="Stock Settings View" />
+			<command title="Inventory Lists" />
+		</outputs>
+	</pattern>
+
+	<pattern login="true">
+		<input>Inventory Lists</input>
+		<outputs>
+			<command title="Inventory Items" />
+			<command title="Stock Adjustments" />
+			<command title="Warehouse List" />
+			<command title="Measurements List" />
+		</outputs>
+	</pattern>
+
+</patterns>
+

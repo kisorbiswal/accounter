@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.google.gwt.cell.client.ClickableTextCell;
-import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.Unit;
@@ -19,16 +19,14 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.vimukti.accounter.web.client.externalization.AccounterComboMessges;
+import com.google.gwt.view.client.ListDataProvider;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.CustomComboItem;
@@ -38,18 +36,18 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	protected IAccounterComboSelectionChangeHandler<T> handler;
 
-	AccounterComboMessges comboMessages = Accounter.comboMessages();
+	protected AccounterMessages messages = Accounter.messages();
 	private boolean isAddNewRequire;
 	private DropDownTable<T> dropDown;
 	private int cols;
-	List<T> comboItems = new ArrayList<T>();
 	private PopupPanel popup;
 	ListGrid grid = null;
 
-	String selectedName;
-	int selectedIndex = -1;
+	protected ListDataProvider<T> dataProvider = new ListDataProvider<T>();
+
+	protected List<T> comboItems = new ArrayList<T>();
+
 	protected T selectedObject;
-	private boolean haveCloseHandle;
 
 	List<T> maincomboItems = new ArrayList<T>();
 
@@ -71,59 +69,27 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		this.addStyleName("dropdown-button");
 
 		dropDown = new DropDownTable<T>(this) {
+
 			@Override
-			public void cellClicked(int row, int col) {
-				if (DropDownCombo.this.comboItems.size() >= row)
+			protected void onRowSelect(int row) {
+				if (DropDownCombo.this.comboItems.size() >= row) {
 					selectedObject = DropDownCombo.this.comboItems.get(row);
-				super.cellClicked(row, col);
+				}
 			}
 
 			@Override
-			public Column[] getColumns() {
-				Column[] columns = new Column[cols];
-				int i;
-				for (i = 0; i < cols; i++) {
-					columns[i] = createColumn(i);
+			protected String getColumnValue(T object, int col) {
+				if (object.equals("addNewCaption")) {
+					if (cols > 1)
+						return (col == 1) ? Accounter.messages()
+								.comboDefaultAddNew(getDefaultAddNewCaption())
+								: "  ";
+					else
+						return Accounter.messages().comboDefaultAddNew(
+								getDefaultAddNewCaption());
 				}
-				setColumnActions(columns);
-				return columns;
+				return getColumnData(object, col);
 			}
-
-			private Column createColumn(final int col) {
-				Column<T, String> column = new Column<T, String>(
-						new ClickableTextCell()) {
-
-					@Override
-					public String getValue(T object) {
-						// if (object.equals("emptyRow"))
-						// return "    ";
-						if (object.equals("addNewCaption")) {
-							if (cols > 1)
-								return (col == 1) ? getDefaultAddNewCaption()
-										: "  ";
-							else
-								return getDefaultAddNewCaption();
-						}
-						return getColumnData(object, 0, col);
-					}
-
-				};
-				return column;
-			}
-
-			private void setColumnActions(Column<T, String>[] columns) {
-				for (int i = 0; i < cols; i++) {
-					columns[i].setFieldUpdater(new FieldUpdater<T, String>() {
-
-						@Override
-						public void update(int index, T object, String value) {
-							selectedIndex = index;
-							eventFired(index);
-						}
-					});
-				}
-			}
-
 		};
 
 		panel = new ScrollPanel();
@@ -131,9 +97,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		panel.addStyleName("dropdownTable");
 		panel.add(dropDown);
 
-		dropDown.setNoColumns(noOfcols);
-		dropDown.init(isAddNewRequire);
-
+		List<T> list = new ArrayList<T>(comboItems);
+		if (isAddNewRequire) {
+			list.add(0, getAddNewRow());
+		}
+		dataProvider.setList(list);
+		dataProvider.addDataDisplay(dropDown);
 		// this.setWidth("99.5%");
 
 		popup = new PopupPanel(true) {
@@ -194,28 +163,53 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				textBox.setFocus(true);
 			}
 		});
-		// dropDown.addDomHandler(focusHandler, FocusEvent.getType());
-		// dropDown.addDomHandler(blurHandler, BlurEvent.getType());
 		addKeyPressHandler();
 
+		textBox.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				// Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+				//
+				// @Override
+				// public boolean execute() {
+				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+					@Override
+					public void execute() {
+						if (popup.isShowing()) {
+							Scheduler.get().scheduleDeferred(this);
+							return;
+						}
+						if (!getValue().equals("")) {
+							if (selectedObject == null
+									|| !getValue().equals(
+											getFullDisplayName(selectedObject))) {
+								// setValue("");
+								// selectedObject = null;
+								setRelatedComboItem((String) getValue());
+							}
+						}
+					}
+				});
+
+				// return false;
+				// }
+				// }, 100);// We need to do it after a delay as clicking on the
+				// // popup also causes blur
+			}
+		});
+
 		this.removeStyleName("gwt-TextBox");
+	}
+
+	private T getAddNewRow() {
+		return (T) "addNewCaption";
 	}
 
 	protected void showPopup() {
 		if (DropDownCombo.this.getDisabled())
 			return;
-		textBox.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				if ((selectedName == null || !selectedName.equals(getValue()
-						.toString())) && selectedIndex == -1)
-					if (haveCloseHandle)
-						setRelatedComboItem(getValue().toString());
-
-				haveCloseHandle = true;
-			}
-		});
 
 		if (!isAddNewRequire && comboItems.isEmpty())
 			return;
@@ -273,7 +267,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
-				haveCloseHandle = true;
 				char key = event.getCharCode();
 				// if ((key >= 48 && key <= 57) || (key >= 65 && key <= 90)
 				// || (key >= 96 && key <= 122)) {
@@ -316,7 +309,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				} else if ((event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE || event
 						.getNativeEvent().getKeyCode() == KeyCodes.KEY_TAB)
 						&& popup.isShowing()) {
-					haveCloseHandle = false;
 					popup.hide();
 				}
 			}
@@ -378,23 +370,18 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 * @param list
 	 */
 	public void initCombo(List<T> list) {
-		// this.setValue(null);
-		this.comboItems.clear();
-		// this.dropDown.clear();
-		if (list != null)
-			for (T object : list) {
-				if (object != null)
-					checkObject(object);
-			}
-		setRowsData(comboItems);
-	}
-
-	private void setRowsData(List<T> cmbItems) {
-		this.dropDown.setRowCount(cmbItems.size()
-				+ dropDown.getDummyRecords().size());
-		this.dropDown.setPageSize(dropDown.getRowCount());
-		this.dropDown.setRowData(dropDown.getDummyRecords().size(), cmbItems);
-
+		comboItems.clear();
+		if (list != null) {
+			comboItems = new ArrayList<T>(list);
+		}
+		List<T> newList = new ArrayList<T>(comboItems);
+		if (isAddNewRequire) {
+			newList.add(0, getAddNewRow());
+		}
+		dataProvider.setList(newList);
+		dataProvider.refresh();
+		dropDown.setRowCount(dataProvider.getList().size());
+		dropDown.setPageSize(dropDown.getRowCount());
 	}
 
 	public List<T> getComboItems() {
@@ -404,9 +391,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	public void addItem(T object) {
 		// checks the object is conains in comboitems
 		checkObject(object);
-
-		setRowsData(comboItems);
-
 	}
 
 	private void checkObject(T object) {
@@ -419,9 +403,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		// : comboItems.indexOf(object)
 		// : this.dropDown.getRowCount();
 
-		if (!comboItems.contains(object))
+		if (!comboItems.contains(object)) {
 			comboItems.add(object);
-
+			dataProvider.getList().add(object);
+		}
+		dropDown.setRowCount(dataProvider.getList().size());
+		dropDown.setPageSize(dropDown.getRowCount());
 	}
 
 	/**
@@ -444,7 +431,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		if (value == null) {
 			super.setValue("");
 		} else {
-			if (!value.equals(getDefaultAddNewCaption()))
+			if (!value.equals(Accounter.messages().comboDefaultAddNew(
+					getDefaultAddNewCaption())))
 				super.setValue(value);
 		}
 	}
@@ -458,6 +446,9 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 */
 
 	public void setComboItem(T obj) {
+		if (selectedObject == obj) {
+			return;
+		}
 		selectedObject = obj;
 		if (comboItems != null && obj != null) {
 			addComboItem(obj);
@@ -499,13 +490,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		this.handler = handler;
 	}
 
-	protected abstract String getColumnData(T object, int row, int col);
+	protected abstract String getColumnData(T object, int col);
 
 	protected abstract String getDisplayName(T object);
 
 	public void setNoColumns(int cols) {
 		this.cols = cols;
-		dropDown.setNoColumns(cols);
 	}
 
 	public abstract String getDefaultAddNewCaption();
@@ -529,7 +519,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			if (isAddNewRequire) {
 				if (popup.isShowing())
 					popup.hide();
-				setValue(getDefaultAddNewCaption());
+				// setValue(getDefaultAddNewCaption());
 				onAddNew();
 			} else {
 				selectedObject = comboItems.get(rowIndex
@@ -570,7 +560,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			if (popup.isShowing())
 				popup.hide();
 		}
-		selectedIndex = -1;
 	}
 
 	protected void setSelectedItem(T obj, int row) {
@@ -580,17 +569,23 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			return;
 		}
 
+		String displayName = getFullDisplayName(obj);
+
+		setValue(displayName);
+	}
+
+	private String getFullDisplayName(T obj) {
 		String displayName = "";
 		if (cols == 0) {
 			displayName = getDisplayName(obj);
 		} else {
 			for (int i = 0; i < cols; i++) {
-				displayName += getColumnData(obj, row, i);
+				displayName += getColumnData(obj, i);
 				if (i < cols - 1)
 					displayName += " - ";
 			}
 		}
-		setValue(displayName);
+		return displayName;
 	}
 
 	public void setGrid(ListGrid grid) {
@@ -603,13 +598,13 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		if (index >= 0) {
 			T selectedValue = getSelectedValue();
 			comboItems.remove(index);
-			dropDown.removeRow(isAddNewRequire ? index + 1 : index + 0);
+			dataProvider.getList().remove(isAddNewRequire ? index + 1 : index);
 
 			if (!comboItems.contains(selectedValue)) {
 				// select the first one
-				try {
+				if (!comboItems.isEmpty()) {
 					setSelectedItem(comboItems.get(0), isAddNewRequire ? 1 : 0);
-				} catch (ArrayIndexOutOfBoundsException e) {
+				} else {
 					setSelectedItem(null, 0); // row optional here.
 				}
 			}
@@ -657,8 +652,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	private void filterValues(char key) {
 
 		String val = getValue() != null ? getValue().toString()
-				+ String.valueOf(key).replace("/", "").trim() : String
-				.valueOf(key).replace("/", "").trim();
+				+ String.valueOf(key).replace("/", "").trim() : String.valueOf(
+				key).replace("/", "").trim();
 
 		resetComboList();
 		if (key == '/') {
@@ -702,31 +697,17 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	// }
 
 	private void setRelatedComboItem(final String value) {
-		int index = 0;
-		if (!getValue().toString().isEmpty()) {
+		if (!value.toString().isEmpty()) {
 			List<T> combos = getComboitemsByName(value);
-			for (T t : combos) {
-				String name = getDisplayName(t);
-				if (name.equalsIgnoreCase(value)) {
-					combos.clear();
-					combos.add(t);
-
-					break;
+			if (!combos.isEmpty()) {
+				int index = comboItems.indexOf(combos.get(0));
+				if (isAddNewRequire) {
+					index++;
 				}
+				changeValue(index);
+			} else {
+				selectionFaildOnClose();
 			}
-			updateComboItemsInSorted(combos, value);
-			if (combos != null && combos.size() > 0)
-				index = comboItems.indexOf(combos.get(0))
-						+ (isAddNewRequire ? 1 : 0);
-		} else {
-			index = -1;
-		}
-		selectedName = value;
-
-		if (index == 0) {
-			selectionFaildOnClose();
-		} else {
-			changeValue(index);
 		}
 	}
 
@@ -736,6 +717,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 */
 	protected void selectionFaildOnClose() {
 		textBox.setValue("");
+		selectedObject = null;
 	}
 
 	private void updateComboItemsInSorted(List<T> comboObjects,
@@ -771,36 +753,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		return autocompleteItems;
 	}
 
-	// protected void onKeyEnter(char key) {
-	// filterValues(key);
-	// }
-	//
-	// private void filterValues(char key) {
-	//
-	// String val = getValue() != null ? getValue().toString()
-	// + String.valueOf(key).replace("/", "").trim() : String.valueOf(
-	// key).replace("/", "").trim();
-	//
-	// resetComboList();
-	// if (key == '/') {
-	// if (val.replace("/", "").trim().isEmpty()) {
-	// showPopup();
-	// return;
-	// }
-	// }
-
-	// final String val1 = val.toLowerCase();
-	// List<T> autocompleteItems = getComboitemsByName(val);
-	//
-	// updateComboItemsInSorted(autocompleteItems, val1);
-	//
-	// maincomboItems.addAll(comboItems);
-	// initCombo(autocompleteItems);
-	//
-	// showPopup();
-
-	// }
-
 	protected List<T> getComboitemsByName(String value) {
 		List<T> autocompleteItems = new ArrayList<T>();
 		for (T t : comboItems) {
@@ -812,68 +764,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		return autocompleteItems;
 	}
 
-	// private void addBlurHandler() {
-	// addBlurHandler(new BlurHandler() {
-	//
-	// @Override
-	// public void onBlur(BlurEvent event) {
-	// if (!getValue().toString().isEmpty() && !popup.isShowing())
-	// setRelatedComboItem(getValue().toString());
-	// }
-	// });
-	// }
-
-	// private void setRelatedComboItem(final String value) {
-	// int index = 0;
-	// if (!getValue().toString().isEmpty()) {
-	// List<T> combos = getComboitemsByName(value);
-	// for (T t : combos) {
-	// String name;
-	// if (t instanceof ClientVATCode)
-	// name = getOnlyName(t);
-	// else
-	// name = getDisplayName(t);
-	// if (name.toLowerCase().equals(value.toLowerCase())) {
-	// combos.clear();
-	// combos.add(t);
-	//
-	// break;
-	// }
-	// }
-	// updateComboItemsInSorted(combos, value);
-	// if (combos != null && combos.size() > 0)
-	// index = comboItems.indexOf(combos.get(0))
-	// + (isAddNewRequire ? 2 : 1);
-	// }
-	// selectedName = value;
-	// changeValue(index);
-	// }
-
-	// private void updateComboItemsInSorted(List<T> comboObjects,
-	// final String value) {
-	// Collections.sort(comboObjects, new Comparator<T>() {
-	//
-	// @Override
-	// public int compare(T obj1, T obj2) {
-	// String name = getDisplayName(obj1).toLowerCase();
-	// String name1 = getDisplayName(obj2).toLowerCase();
-	//
-	// if (name.indexOf(value) == name1.indexOf(value))
-	// return 0;
-	// if (name.indexOf(value) < name1.indexOf(value))
-	// return -1;
-	// if (name.indexOf(value) > name1.indexOf(value))
-	// return 1;
-	//
-	// return 0;
-	// }
-	// });
-	// }
-
 	private String getDisplayNameForAccountVatCode(T obj) {
 		String displayName = "";
 		for (int i = 0; i < cols; i++) {
-			displayName += getColumnData(obj, 0, i);
+			displayName += getColumnData(obj, i);
 			if (i < cols - 1)
 				displayName += " - ";
 		}
@@ -892,5 +786,9 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	protected T getQuickAddData(String text) {
 		return null;
+	}
+
+	public int getNoOfCols() {
+		return cols;
 	}
 }

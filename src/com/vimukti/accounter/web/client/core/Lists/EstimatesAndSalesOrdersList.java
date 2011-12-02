@@ -25,6 +25,8 @@ public class EstimatesAndSalesOrdersList implements IAccounterCore {
 
 	private double remainingTotal;
 
+	private int estimateType;
+
 	/**
 	 * @return the transactionId
 	 */
@@ -171,4 +173,11 @@ public class EstimatesAndSalesOrdersList implements IAccounterCore {
 		return null;
 	}
 
+	public void setEstimateType(int estimateType) {
+		this.estimateType = estimateType;
+	}
+
+	public int getEstimateType() {
+		return estimateType;
+	}
 }

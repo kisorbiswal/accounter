@@ -19,14 +19,13 @@ public class Portugal extends AbstractCountryPreferences {
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
 
-		return Accounter.constants().january();
+		return Accounter.messages().january();
 	}
 
 }

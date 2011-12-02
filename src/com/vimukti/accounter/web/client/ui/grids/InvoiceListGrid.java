@@ -4,18 +4,22 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
+
+	private ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	public InvoiceListGrid() {
 		super(false);
@@ -26,7 +30,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
@@ -57,9 +61,11 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		case 6:
 			return invoicesList.getNetAmount();
 		case 7:
-			return amountAsString(invoicesList.getTotalPrice());
+			return DataUtils.amountAsStringWithCurrency(invoicesList
+					.getTotalPrice(), currency);
 		case 8:
-			return amountAsString(invoicesList.getBalance());
+			return DataUtils.amountAsStringWithCurrency(invoicesList
+					.getBalance(), currency);
 		case 9:
 
 			if (!invoicesList.isVoided())
@@ -84,13 +90,13 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	protected String[] getColumns() {
-		customerConstants = Accounter.constants();
-		return new String[] { " ", customerConstants.type(),
-				customerConstants.date(), customerConstants.no(),
-				Global.get().messages().customerName(Global.get().Customer()),
-				customerConstants.dueDate(), customerConstants.netPrice(),
-				customerConstants.totalPrice(), customerConstants.balance(),
-				customerConstants.voided()
+		messages = Accounter.messages();
+		return new String[] { " ", messages.type(),
+				messages.date(), messages.no(),
+				Global.get().messages().payeeName(Global.get().Customer()),
+				messages.dueDate(), messages.netPrice(),
+				messages.totalPrice(), messages.balance(),
+				messages.voided()
 		// , ""
 		};
 	}
@@ -98,15 +104,20 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	@Override
 	public void onDoubleClick(InvoicesList obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(obj.getType(),
-					obj.getTransactionId());
+			ReportsRPC.openTransactionView(obj.getType(), obj
+					.getTransactionId());
 	}
 
 	protected void onClick(InvoicesList obj, int row, int col) {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 9 && !obj.isVoided()) {
-			showWarningDialog(obj, col);
+			if (obj.getType() == ClientTransaction.TYPE_INVOICE
+					&& (obj.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED || obj
+							.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)) {
+				Accounter.showError(messages.billPaidSoYouCantVoid());
+			} else
+				showWarningDialog(obj, col);
 		}
 		// else if (col == 9) {
 		// if (!isDeleted)
@@ -130,7 +141,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	private void showWarningDialog(final InvoicesList obj, final int col) {
 		String msg = null;
 		if (!obj.isVoided() && col == 9) {
-			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
+			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
@@ -164,8 +175,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	}
 
 	protected void voidTransaction(final InvoicesList obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
-				obj.getTransactionId());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
+				.getTransactionId());
 	}
 
 	protected void deleteTransaction(final InvoicesList obj) {

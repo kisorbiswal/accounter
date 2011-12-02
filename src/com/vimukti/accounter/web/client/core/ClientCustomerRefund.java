@@ -26,8 +26,6 @@ public class ClientCustomerRefund extends ClientTransaction {
 
 	double endingBalance = 0D;
 
-	double customerBalance = 0D;
-
 	boolean isPaid = false;
 
 	String accountsReceivable;
@@ -76,21 +74,6 @@ public class ClientCustomerRefund extends ClientTransaction {
 		this.isToBePrinted = isToBePrinted;
 	}
 
-	public double getEndingBalance() {
-		return endingBalance;
-	}
-
-	public void setEndingBalance(double endingBalance) {
-		this.endingBalance = endingBalance;
-	}
-
-	public double getCustomerBalance() {
-		return customerBalance;
-	}
-
-	public void setCustomerBalance(double customerBalance) {
-		this.customerBalance = customerBalance;
-	}
 
 	public boolean getIsVoid() {
 		return isVoid;

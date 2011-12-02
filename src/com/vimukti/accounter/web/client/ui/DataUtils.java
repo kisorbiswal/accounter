@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RegExpValidator;
@@ -41,13 +42,13 @@ public class DataUtils {
 
 	public static Validator emailValidator() {
 		RegExpValidator validator = new RegExpValidator();
-		validator.setExpression(Accounter.constants().emailFormatExpr());
+		validator.setExpression(Accounter.messages().emailFormatExpr());
 		return validator;
 	}
 
 	public static Validator webValidator() {
 		RegExpValidator validator = new RegExpValidator();
-		validator.setExpression(Accounter.constants().webFormatExpr());
+		validator.setExpression(Accounter.messages().webFormatExpr());
 		return validator;
 	}
 
@@ -325,6 +326,25 @@ public class DataUtils {
 		buffer.append(" %");
 
 		return buffer.toString();
+	}
+
+	public static String amountAsStringWithCurrency(double amount,
+			long currencyID) {
+		ClientCurrency currency = Accounter.getCompany()
+				.getCurrency(currencyID);
+		if (currency == null) {
+			currency = Accounter.getCompany().getPrimaryCurrency();
+		}
+		return currency.getSymbol() + " " + DataUtils.getAmountAsString(amount);
+	}
+
+	public static String amountAsStringWithCurrency(Double amount,
+			ClientCurrency currency) {
+		return currency.getSymbol() + " " + DataUtils.getAmountAsString(amount);
+	}
+
+	public static String getAmountAsString(double amount, String currencySymbol) {
+		return currencySymbol + " " + DataUtils.getAmountAsString(amount);
 	}
 
 }

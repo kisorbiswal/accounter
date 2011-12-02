@@ -19,6 +19,7 @@
 				</g:customCell>
 			</g:row>
 		</g:Grid>
+		<g:CheckBox ui:field="isMultiCurrencyAllowed"/>
 		<!-- <g:VerticalPanel ui:field="currencyListGridPanel"/> -->
 	</g:VerticalPanel>
 </ui:UiBinder> 

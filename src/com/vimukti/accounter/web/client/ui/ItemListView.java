@@ -69,7 +69,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 				total += item.getSalesPrice();
 		}
 		if (totalLabel != null) {
-			totalLabel.setText(Accounter.constants().totalSalesPrice() + " = "
+			totalLabel.setText(Accounter.messages().totalSalesPrice() + " = "
 					+ DataUtils.getAmountAsString(total));
 		}
 	}
@@ -79,17 +79,12 @@ public class ItemListView extends BaseListView<ClientItem> {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return null;
 		else {
-			NewItemAction action = ActionFactory.getNewItemAction(true);
-			// if (this.catageory.equals(Global.get().customer())) {
-			// action.setType(3);
-			// return action;
-			// } else if (this.catageory.equals(Accounter.constants().vendor())
-			// || this.catageory.equals(Accounter.constants().vendor())) {
-			// action.setType(3);
-			// return action;
-			// }
-			//
-			// action.setType(3);
+			NewItemAction action;
+			if (this.catageory.equals(Global.get().customer())) {
+				action = ActionFactory.getNewItemAction(true);
+			} else {
+				action = ActionFactory.getNewItemAction(false);
+			}
 			return action;
 		}
 	}
@@ -97,14 +92,14 @@ public class ItemListView extends BaseListView<ClientItem> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.constants().addNewItem();
+			return Accounter.messages().addNewItem();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().productList();
+		return Accounter.messages().productList();
 	}
 
 	@Override
@@ -153,8 +148,8 @@ public class ItemListView extends BaseListView<ClientItem> {
 		if (this.catageory.equals(Global.get().customer())) {
 			isSalesType = true;
 			isPurchaseType = false;
-		} else if (this.catageory.equals(Accounter.constants().vendor())
-				|| this.catageory.equals(Accounter.constants().vendor())) {
+		} else if (this.catageory.equals(Accounter.messages().vendor())
+				|| this.catageory.equals(Accounter.messages().vendor())) {
 			isPurchaseType = true;
 			isSalesType = false;
 		} else if (this.catageory.equals(Accounter.messages()
@@ -189,7 +184,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().items();
+		return Accounter.messages().items();
 	}
 
 }

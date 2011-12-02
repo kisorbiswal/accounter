@@ -14,7 +14,8 @@ public class InactiveItemsListCommand extends ItemsCommand {
 	}
 
 	protected List<Item> getItems(Company company, Boolean isActive) {
-		return super.getItems(company, false);
+		return null;
+		// return super.getItems(false);
 	}
 
 }

@@ -11,10 +11,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
+import com.vimukti.accounter.web.client.Global;
 
 public class SignupServlet extends BaseServlet {
 	/**
@@ -76,11 +77,35 @@ public class SignupServlet extends BaseServlet {
 				// HttpSession session = req.getSession(true);
 				// session.setAttribute(EMAIL_ID, emailId);
 				// redirectExternal(req, resp, LOGIN_URL);
-				req.setAttribute(
-						"errormessage",
-						"This Email ID is already registered with Accounter, try to signup with another Email ID. If you are the registered user click <a href=\"/main/login\">here</a> to login.");
-				dispatch(req, resp, view);
-				return;
+				Client client = getClient(emailId);
+				if (client.isDeleted()) {
+					String token = createActivation(emailId);
+					client.setActive(false);
+					client.setUsers(new HashSet<User>());
+					client.setEmailId(emailId);
+					client.setFirstName(firstName);
+					client.setLastName(lastName);
+					client.setFullName(Global.get().messages()
+							.fullName(firstName, lastName));
+					client.setPassword(passwordWithHash);
+					client.setPhoneNo(phoneNumber);
+					client.setCountry(country);
+					client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
+					client.setDeleted(false);
+					saveEntry(client);
+					// Email to that user.
+					sendActivationEmail(token, client);
+					// Send to SignUp Success View
+					String message = "?message=" + ACT_FROM_SIGNUP;
+					redirectExternal(req, resp, ACTIVATION_URL + message);
+					transaction.commit();
+				} else {
+					req.setAttribute(
+							"errormessage",
+							"This Email ID is already registered with Accounter, try to signup with another Email ID. If you are the registered user click <a href=\"/main/login\">here</a> to login.");
+					dispatch(req, resp, view);
+					return;
+				}
 			} else {
 				// else
 				// Generate Token and create Activation and save. then send
@@ -89,20 +114,23 @@ public class SignupServlet extends BaseServlet {
 				// Create Client and Save
 				Client client = new Client();
 				client.setActive(false);
-				client.setCompanies(new HashSet<ServerCompany>());
+				client.setUsers(new HashSet<User>());
 				client.setEmailId(emailId);
 				client.setFirstName(firstName);
 				client.setLastName(lastName);
+				client.setFullName(firstName + " " + lastName);
 				client.setPassword(passwordWithHash);
 				client.setPhoneNo(phoneNumber);
 				client.setCountry(country);
 				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
-				saveEntry(client);
 
+				client.setDeleted(false);
+				saveEntry(client);
 				// Email to that user.
 				sendActivationEmail(token, client);
 				// Send to SignUp Success View
-				redirectExternal(req, resp, ACTIVATION_URL + "?message=108");
+				String message = "?message=" + ACT_FROM_SIGNUP;
+				redirectExternal(req, resp, ACTIVATION_URL + message);
 				transaction.commit();
 			}
 		} catch (Exception e) {

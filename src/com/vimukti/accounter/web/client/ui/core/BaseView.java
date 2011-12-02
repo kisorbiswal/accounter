@@ -3,7 +3,10 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -23,6 +26,10 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	protected CancelButton cancelButton;
 
 	protected ApproveButton approveButton;
+
+	protected DeleteButton deleteButton;
+
+	protected VoidButton voidButton;
 
 	protected String quickAddText;
 
@@ -59,6 +66,13 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		buttonBar.setStyleName("button_bar");
 
 		super.add(buttonBar);
+		if (data != null && mode != EditMode.CREATE) {
+			super.add(createHistoryView());
+		}
+	}
+
+	protected VerticalPanel createHistoryView() {
+		return new VerticalPanel();
 	}
 
 	/**
@@ -100,10 +114,26 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
 		this.saveAndNewButton = new SaveAndNewButtom(this);
 		this.cancelButton = new CancelButton(this);
+		this.deleteButton = new DeleteButton(this, getData());
+		this.voidButton = new VoidButton(this, getData());
+
 		// if (this instanceof AbstractTransactionBaseView<?>) {
 		// this.approveButton = new ApproveButton(
 		// (AbstractTransactionBaseView<?>) this);
 		// }
+		if (getMode() != null && getMode() != EditMode.CREATE) {
+
+			if (canDelete()) {
+				buttonBar.add(deleteButton);
+			}
+			if (canVoid()) {
+				buttonBar.add(voidButton);
+			}
+
+			buttonBar.setCellHorizontalAlignment(deleteButton, ALIGN_LEFT);
+			buttonBar.setCellHorizontalAlignment(voidButton, ALIGN_LEFT);
+		}
+
 		if (!isInViewMode()) {
 			buttonBar.add(saveAndCloseButton);
 			buttonBar.add(saveAndNewButton);
@@ -111,7 +141,29 @@ public abstract class BaseView<T extends IAccounterCore> extends
 			// buttonBar.add(approveButton);
 			// }
 		}
+
 		buttonBar.add(cancelButton);
+	}
+
+	protected boolean canVoid() {
+		if (getMode() == null || getMode() == EditMode.CREATE) {
+			return false;
+		}
+		ClientTransaction data = null;
+		if (getData() instanceof ClientTransaction) {
+			data = ((ClientTransaction) getData());
+		}
+		if (data != null & data.isVoid()) {
+			return false;
+		}
+		return true;
+	}
+
+	protected boolean canDelete() {
+		if (getMode() == null || getMode() == EditMode.CREATE) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -159,4 +211,24 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	public void prepareForQuickAdd(String text) {
 		quickAddText = text;
 	}
+
+	@Override
+	protected void changeButtonBarMode(boolean disable) {
+		if (buttonBar != null) {
+			buttonBar.setDisabled(disable);
+		}
+	}
+
+	protected ClientCurrency getBaseCurrency() {
+		return getCompany().getPrimaryCurrency();
+	}
+
+	protected ClientCurrency getCurrency(long currency) {
+		return getCompany().getCurrency(currency);
+	}
+
+	/**
+	 * Creates HistoryView
+	 */
+
 }

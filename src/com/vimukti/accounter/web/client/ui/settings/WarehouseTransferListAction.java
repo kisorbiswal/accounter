@@ -1,17 +1,18 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
-public class WarehouseTransferListAction extends Action {
+public class WarehouseTransferListAction extends Action<ClientStockTransfer> {
 
 	private WarehouseTransferListView view;
 
 	public WarehouseTransferListAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().settings();
+		this.catagory = Accounter.messages().inventory();
 	}
 
 	@Override
@@ -50,7 +51,7 @@ public class WarehouseTransferListAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return "warehouse";
+		return "WarehouseTransferList";
 	}
 
 }

@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -569,10 +570,12 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 			// if (cashSales.depositIn.id != this.depositIn.id) {
 			Account preDepositAccnt = (Account) session.get(Account.class,
 					cashSales.depositIn.id);
-			preDepositAccnt.updateCurrentBalance(this, cashSales.total);
+			preDepositAccnt.updateCurrentBalance(this, cashSales.total,
+					cashSales.currencyFactor);
 			preDepositAccnt.onUpdate(session);
 
-			this.depositIn.updateCurrentBalance(this, -this.total);
+			this.depositIn.updateCurrentBalance(this, -this.total,
+					this.currencyFactor);
 			this.depositIn.onUpdate(session);
 
 			// }
@@ -592,6 +595,12 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 
 		return super.canEdit(clientObject);
 
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

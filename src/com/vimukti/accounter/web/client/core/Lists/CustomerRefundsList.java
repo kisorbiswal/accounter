@@ -41,9 +41,6 @@ public class CustomerRefundsList implements IsSerializable, Serializable {
 	Double amountPaid;
 
 	boolean isVoided;
-	
-
-	
 
 	public boolean isVoided() {
 		return isVoided;
@@ -187,7 +184,7 @@ public class CustomerRefundsList implements IsSerializable, Serializable {
 	public void setAmountPaid(Double amountPaid) {
 		this.amountPaid = amountPaid;
 	}
-	
+
 	public boolean isDeleted() {
 		return this.status == ClientTransaction.STATUS_DELETED;
 	}

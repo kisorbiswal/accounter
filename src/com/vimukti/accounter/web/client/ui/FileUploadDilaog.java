@@ -50,7 +50,8 @@ public class FileUploadDilaog extends CustomDialog {
 	private static ClientBrandingTheme brandingTheme;
 
 	private String title;
-	private HTML detailsHtml, helpHtml, chooseHtml;
+	private HTML detailsHtml1, helpHtml, chooseHtml, detailsHtml2,
+			detailsHtml3, detailsHtml4, detailsHtml5;
 
 	public FileUploadDilaog(String title, String parentID,
 			ValueCallBack<ClientBrandingTheme> callback, String[] fileTypes,
@@ -84,8 +85,14 @@ public class FileUploadDilaog extends CustomDialog {
 		panel.setSpacing(2);
 		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		// Create a FileUpload widget.
-		detailsHtml = new HTML(Accounter.messages().logoComment());
+		detailsHtml1 = new HTML(Accounter.messages().logoComment1());
+		detailsHtml2 = new HTML(Accounter.messages().logoComment2());
+		detailsHtml3 = new HTML(Accounter.messages().logoComment3());
+		detailsHtml4 = new HTML(Accounter.messages().logoComment4());
+		detailsHtml5 = new HTML(Accounter.messages().logoComment5());
+		detailsHtml5.addStyleName("bold_HTML");
 		helpHtml = new HTML(Accounter.messages().helpContent());
+		helpHtml.addStyleName("help_content");
 		helpHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -104,13 +111,17 @@ public class FileUploadDilaog extends CustomDialog {
 			}
 		});
 		helpHtml.setVisible(false);
-		chooseHtml = new HTML(Accounter.constants().chooseLogo());
+		chooseHtml = new HTML(Accounter.messages().chooseLogo());
 		final FileUpload upload = new FileUpload();
 		/* Default height of upload text box 26 */
 		upload.getElement().setAttribute("size", "33");
 		upload.setName(fileID);
 		uploadItems.add(upload);
-		panel.add(detailsHtml);
+		panel.add(detailsHtml1);
+		panel.add(detailsHtml2);
+		panel.add(detailsHtml3);
+		panel.add(detailsHtml4);
+		panel.add(detailsHtml5);
 		panel.add(helpHtml);
 		panel.add(chooseHtml);
 		panel.add(upload);
@@ -121,7 +132,7 @@ public class FileUploadDilaog extends CustomDialog {
 		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
-		Button closeButton = new Button(Accounter.constants().close());
+		Button closeButton = new Button(Accounter.messages().close());
 		closeButton.setWidth("80px");
 		buttonHlay = new HorizontalPanel();
 		buttonHlay.add(uploadSubmitButton);
@@ -216,6 +227,7 @@ public class FileUploadDilaog extends CustomDialog {
 		upload.getElement().setAttribute("size", "50");
 
 		HTML label = new HTML(Accounter.messages().removeHTML());
+		label.addStyleName("remove_html");
 		label.setWidth("60px");
 		label.setHeight("25px");
 		label.addClickHandler(new ClickHandler() {
@@ -242,7 +254,6 @@ public class FileUploadDilaog extends CustomDialog {
 		String type = name.substring(name.lastIndexOf('.') + 1);
 		for (String fileType : types) {
 			if (type.equalsIgnoreCase(fileType))
-
 				return true;
 
 		}
@@ -266,7 +277,7 @@ public class FileUploadDilaog extends CustomDialog {
 	protected void processOnUpload() {
 		if (!validateFileItems()) {
 			Accounter
-					.showInformation(Accounter.constants().noImageisselected());
+					.showInformation(Accounter.messages().noImageisselected());
 			return;
 		}
 
@@ -356,7 +367,7 @@ public class FileUploadDilaog extends CustomDialog {
 			final AccounterAsyncCallback<ClientBrandingTheme> callback,
 			String parentId) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
-		builder.setHeader(Accounter.constants().accept(), "text/html");
+		builder.setHeader(Accounter.messages().accept(), "text/html");
 		// Create a callback object to handle the result
 		RequestCallback requestCallback = new RequestCallback() {
 			public void onError(Request request, Throwable exception) {

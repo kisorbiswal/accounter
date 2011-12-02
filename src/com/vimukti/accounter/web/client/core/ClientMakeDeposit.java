@@ -8,7 +8,11 @@ public class ClientMakeDeposit extends ClientTransaction {
 	private static final long serialVersionUID = 1L;
 
 	long depositIn;
+	
+	long depositFrom;
 
+	
+	
 	long cashBackAccount;
 
 	String cashBackMemo;
@@ -73,6 +77,13 @@ public class ClientMakeDeposit extends ClientTransaction {
 	 */
 	public void setCashBackAmount(double cashBackAmount) {
 		this.cashBackAmount = cashBackAmount;
+	}
+	public long getDepositFrom() {
+		return depositFrom;
+	}
+
+	public void setDepositFrom(long depositFrom) {
+		this.depositFrom = depositFrom;
 	}
 
 	@Override

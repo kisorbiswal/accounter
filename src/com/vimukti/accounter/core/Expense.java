@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -261,7 +262,8 @@ public class Expense extends Transaction {
 		super.onUpdate(session);
 		if (this.status == STATUS_APPROVED && this.isAuthorised) {
 			Account accountPayable = getCompany().getAccountsPayableAccount();
-			accountPayable.updateCurrentBalance(this, this.total);
+			accountPayable.updateCurrentBalance(this, this.total,
+					currencyFactor);
 			session.update(accountPayable);
 			accountPayable.onUpdate(session);
 		}
@@ -315,5 +317,11 @@ public class Expense extends Transaction {
 			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -8,8 +8,9 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -41,7 +42,9 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		case 6:
 			return customerRefund.getPaymentMethod();
 		case 7:
-			return amountAsString(customerRefund.getAmountPaid());
+			return DataUtils.amountAsStringWithCurrency(customerRefund.getAmountPaid(),
+
+			getCompany().getPrimaryCurrency());
 		case 8:
 			if (!customerRefund.isVoided())
 				return Accounter.getFinanceImages().notvoid();
@@ -64,12 +67,12 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	@Override
 	protected String[] getColumns() {
-		customerConstants = Accounter.constants();
-		return new String[] { customerConstants.paymentDate(),
-				customerConstants.paymentNo(), customerConstants.status(),
-				customerConstants.issueDate(), customerConstants.name(),
-				customerConstants.type(), customerConstants.paymentMethod(),
-				customerConstants.amountPaid(), customerConstants.voided()
+		messages = Accounter.messages();
+		return new String[] { messages.paymentDate(),
+				messages.paymentNo(), messages.status(),
+				messages.issueDate(), messages.name(),
+				messages.type(), messages.paymentMethod(),
+				messages.amountPaid(), messages.voided()
 		// , ""
 		};
 	}
@@ -78,7 +81,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE
 		// ,ListGrid.COLUMN_TYPE_IMAGE
@@ -107,7 +110,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	private void showWarningDialog(final CustomerRefundsList obj, final int col) {
 		String msg = null;
 		if (col == 8) {
-			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
+			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
@@ -140,8 +143,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	}
 
 	protected void voidTransaction(final CustomerRefundsList obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
-				.getTransactionId());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
+				obj.getTransactionId());
 	}
 
 	protected void deleteTransaction(final CustomerRefundsList obj) {
@@ -233,8 +236,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			break;
 
 		case 4:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 
 		case 5:
 			String type1 = Utility.getTransactionName((obj1.getType()))
@@ -244,8 +247,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			return type1.compareTo(type2);
 
 		case 6:
-			return obj1.getPaymentMethod().toLowerCase().compareTo(
-					obj2.getPaymentMethod().toLowerCase());
+			return obj1.getPaymentMethod().toLowerCase()
+					.compareTo(obj2.getPaymentMethod().toLowerCase());
 
 		case 7:
 			return obj1.getAmountPaid().compareTo(obj2.getAmountPaid());
@@ -255,7 +258,6 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		}
 		return 0;
 	}
-
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.CUSTOMERREFUND;

@@ -3,30 +3,42 @@ package com.vimukti.accounter.core;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+import org.json.JSONException;
+
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
  * @author Srikanth.J
  * 
  */
-public class Measurement extends CreatableObject implements IAccounterCore {
+public class Measurement extends CreatableObject implements
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Unit defaultUnit;
+	// private Unit defaultUnit;
 
 	private String desctiption;
 
 	private String name;
+
 	private Set<Unit> units;
 
 	public Measurement() {
 		units = new HashSet<Unit>();
+	}
+
+	public Measurement(String name, String description) {
+		units = new HashSet<Unit>();
+		this.name = name;
+		this.desctiption = description;
 	}
 
 	/**
@@ -39,6 +51,12 @@ public class Measurement extends CreatableObject implements IAccounterCore {
 	 */
 	public void addUnit(String unitType, double factor) {
 		Unit unit = new Unit(unitType, factor);
+		unit.setCompany(getCompany());
+		unit.setMeasurement(this);
+		units.add(unit);
+	}
+
+	public void addUnit(Unit unit) {
 		unit.setMeasurement(this);
 		units.add(unit);
 	}
@@ -50,7 +68,17 @@ public class Measurement extends CreatableObject implements IAccounterCore {
 	 * @return
 	 */
 	public double getConversionFactor(String fromMeasure) {
-		return getConversionFactor(fromMeasure, defaultUnit.getType());
+		return getConversionFactor(fromMeasure, getDefaultUnitType());
+	}
+
+	private String getDefaultUnitType() {
+		for (Unit unit : this.units) {
+			if (unit.isDefault()) {
+				return unit.getType();
+			} else
+				return "";
+		}
+		return null;
 	}
 
 	/**
@@ -68,9 +96,10 @@ public class Measurement extends CreatableObject implements IAccounterCore {
 		return getFactor(fromUnit) / getFactor(toUnit);
 	}
 
-	public Unit getDefaultUnit() {
-		return defaultUnit;
-	}
+	//
+	// public Unit getDefaultUnit() {
+	// return defaultUnit;
+	// }
 
 	public String getDesctiption() {
 		return desctiption;
@@ -110,9 +139,9 @@ public class Measurement extends CreatableObject implements IAccounterCore {
 	 *             defaultMeasurement may be null or not registered in this
 	 *             Unit.
 	 */
-	public void setDefaultUnit(Unit unit) {
-		this.defaultUnit = unit;
-	}
+	// public void setDefaultUnit(Unit unit) {
+	// this.defaultUnit = unit;
+	// }
 
 	public void setDesctiption(String desctiption) {
 		this.desctiption = desctiption;
@@ -120,36 +149,6 @@ public class Measurement extends CreatableObject implements IAccounterCore {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return "Measurement";
-	}
-
-	@Override
-	public void setID(long id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	public Measurement clone() {
@@ -163,4 +162,45 @@ public class Measurement extends CreatableObject implements IAccounterCore {
 		return measurementClone;
 	}
 
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws AccounterException {
+		return true;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		for (Unit unit : this.units) {
+			unit.setMeasurement(this);
+		}
+		return super.onSave(session);
+	}
+
+	@Override
+	public boolean onUpdate(Session session) throws CallbackException {
+		for (Unit unit : this.units) {
+			unit.setMeasurement(this);
+		}
+		return super.onUpdate(session);
+	}
+
+	public Unit getDefaultUnit() {
+		for (Unit unit : units) {
+			if (unit.isDefault()) {
+				return unit;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.MEASUREMENT;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
+	}
 }

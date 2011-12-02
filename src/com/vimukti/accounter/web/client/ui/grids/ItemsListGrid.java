@@ -2,15 +2,19 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ItemsListGrid extends BaseListGrid<ClientItem> {
+
+	private ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	public ItemsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
@@ -20,14 +24,14 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	protected int[] setColTypes() {
 		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
 			return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_IMAGE };
 		} else
 			return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_IMAGE };
@@ -67,6 +71,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 	@Override
 	protected Object getColumnValue(ClientItem obj, int col) {
+
 		if ((ItemListView.isPurchaseType && ItemListView.isSalesType)
 				&& (col == 6)) {
 			return Accounter.getFinanceMenuImages().delete();
@@ -89,19 +94,16 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 						.getItemTypeText(obj) : "";
 			case 4:
 				if (ItemListView.isSalesType) {
-					return amountAsString(obj.getSalesPrice()) != null ? amountAsString(obj
-							.getSalesPrice())
-							: "";
+					return DataUtils.amountAsStringWithCurrency(obj.getSalesPrice(), currency) != null ? DataUtils.amountAsStringWithCurrency(
+							obj.getSalesPrice(), currency) : "";
 				} else
-					return amountAsString(obj.getPurchasePrice()) != null ? amountAsString(obj
-							.getPurchasePrice())
-							: "";
+					return DataUtils.amountAsStringWithCurrency(obj.getPurchasePrice(), currency) != null ? DataUtils.amountAsStringWithCurrency(
+							obj.getPurchasePrice(), currency) : "";
 
 			case 5:
 				if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-					return amountAsString(obj.getPurchasePrice()) != null ? amountAsString(obj
-							.getPurchasePrice())
-							: "";
+					return DataUtils.amountAsStringWithCurrency(obj.getPurchasePrice(), currency) != null ? DataUtils.amountAsStringWithCurrency(
+							obj.getPurchasePrice(), currency) : "";
 				} else
 					return Accounter.getFinanceMenuImages().delete();
 			}
@@ -111,25 +113,25 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	@Override
 	protected String[] getColumns() {
 		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-			return new String[] { Accounter.constants().active(),
-					Accounter.constants().itemName(),
-					Accounter.constants().description(),
-					Accounter.constants().type(),
-					Accounter.constants().salesPrice(),
-					Accounter.constants().purchasePrice(), "" };
+			return new String[] { Accounter.messages().active(),
+					Accounter.messages().itemName(),
+					Accounter.messages().description(),
+					Accounter.messages().type(),
+					Accounter.messages().salesPrice(),
+					Accounter.messages().purchasePrice(), "" };
 		} else if (ItemListView.isPurchaseType) {
-			return new String[] { Accounter.constants().active(),
-					Accounter.constants().itemName(),
-					Accounter.constants().description(),
-					Accounter.constants().type(),
-					Accounter.constants().purchasePrice(), "" };
+			return new String[] { Accounter.messages().active(),
+					Accounter.messages().itemName(),
+					Accounter.messages().description(),
+					Accounter.messages().type(),
+					Accounter.messages().purchasePrice(), "" };
 
 		} else {
-			return new String[] { Accounter.constants().active(),
-					Accounter.constants().itemName(),
-					Accounter.constants().description(),
-					Accounter.constants().type(),
-					Accounter.constants().salesPrice(), "" };
+			return new String[] { Accounter.messages().active(),
+					Accounter.messages().itemName(),
+					Accounter.messages().description(),
+					Accounter.messages().type(),
+					Accounter.messages().salesPrice(), "" };
 
 		}
 	}
@@ -179,8 +181,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		} else {
 			switch (index) {
 			case 1:
-				return item1.getName().toLowerCase().compareTo(
-						item2.getName().toLowerCase());
+				return item1.getName().toLowerCase()
+						.compareTo(item2.getName().toLowerCase());
 			case 2:
 				if (!ItemListView.isPurchaseType) {
 					String obj1 = item1.getSalesDescription() != null ? item1
@@ -190,11 +192,9 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 					return obj1.toLowerCase().compareTo(obj2.toLowerCase());
 				} else {
 					String obj1 = item1.getPurchaseDescription() != null ? item1
-							.getPurchaseDescription()
-							: "";
+							.getPurchaseDescription() : "";
 					String obj2 = item2.getPurchaseDescription() != null ? item2
-							.getPurchaseDescription()
-							: "";
+							.getPurchaseDescription() : "";
 					return obj1.toLowerCase().compareTo(obj2.toLowerCase());
 				}
 

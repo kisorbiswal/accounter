@@ -2,37 +2,44 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.List;
 
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 
+	private ClientCurrency currency;
+
 	public CustomerWidgetGrid() {
-		super(Accounter.constants().noDebitorstoShow());
+		super(Accounter.messages().noDebitorstoShow());
+		currency = Accounter.getCompany().getPrimaryCurrency();
 	}
 
 	@Override
 	protected Object getColumnValue(DummyDebitor customer, int index) {
+
 		switch (index) {
 		case 0:
 			return customer.getDebitorName();
 		case 1:
-			return amountAsString(customer.getDebitdays_in30()
-					+ customer.getDebitdays_incurrent());
+			return DataUtils.amountAsStringWithCurrency(
+					customer.getDebitdays_in30()
+							+ customer.getDebitdays_incurrent(), currency);
 		case 2:
 
-			return amountAsString(customer.getDebitdays_in60());
+			return DataUtils.amountAsStringWithCurrency(customer.getDebitdays_in60(), currency);
 		case 3:
-			return amountAsString(customer.getDebitdays_in90());
+			return DataUtils.amountAsStringWithCurrency(customer.getDebitdays_in90(), currency);
 		case 4:
-			return amountAsString(customer.getDebitdays_inolder());
+			return DataUtils.amountAsStringWithCurrency(customer.getDebitdays_inolder(), currency);
 		case 5:
-			return amountAsString(customer.getDebitdays_in30()
-					+ customer.getDebitdays_in60()
-					+ customer.getDebitdays_in90()
-					+ customer.getDebitdays_inolder()
-					+ customer.getDebitdays_incurrent());
+			return DataUtils.amountAsStringWithCurrency(
+					customer.getDebitdays_in30() + customer.getDebitdays_in60()
+							+ customer.getDebitdays_in90()
+							+ customer.getDebitdays_inolder()
+							+ customer.getDebitdays_incurrent(), currency);
 		}
 
 		return null;
@@ -53,27 +60,13 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 
 	}
 
-	// @Override
-	// protected int sort(ClientCustomer obj1, ClientCustomer obj2, int index) {
-	// switch (index) {
-	// case 0:
-	// String name =BizantraClient.getIDentity().getUserEmailID(obj1.fromID);
-	// String name1 =BizantraClient.getIDentity().getUserEmailID(obj2.fromID);
-	// name.compareTo(name1);
-	// case 1:
-	// obj1.subject.compareTo(obj2.subject);
-	//
-	// }
-	// return 0;
-	// }
-
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "", Accounter.constants().dayszeroto30(),
-				Accounter.constants().days30to60(),
-				Accounter.constants().days60to90(),
-				Accounter.constants().older(),
-				Accounter.constants().totalBalance() };
+		return new String[] { "", Accounter.messages().dayszeroto30(),
+				Accounter.messages().days30to60(),
+				Accounter.messages().days60to90(),
+				Accounter.messages().older(),
+				Accounter.messages().totalBalance() };
 	}
 
 	@Override
@@ -150,22 +143,24 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 			addParentOrEdit(
 					1,
 					0,
-					amountAsString(parent.getDebitdays_in30()
-							+ parent.getDebitdays_incurrent()));
+					DataUtils.amountAsStringWithCurrency(
+							parent.getDebitdays_in30()
+									+ parent.getDebitdays_incurrent(), currency));
 			addParentOrEdit(2, 0,
-					amountAsString(parent.getDebitdays_in60()));
+					DataUtils.amountAsStringWithCurrency(parent.getDebitdays_in60(), currency));
 			addParentOrEdit(3, 0,
-					amountAsString(parent.getDebitdays_in90()));
+					DataUtils.amountAsStringWithCurrency(parent.getDebitdays_in90(), currency));
 			addParentOrEdit(4, 0,
-					amountAsString(parent.getDebitdays_inolder()));
+					DataUtils.amountAsStringWithCurrency(parent.getDebitdays_inolder(), currency));
 			addParentOrEdit(
 					5,
 					0,
-					amountAsString(parent.getDebitdays_in30()
-							+ parent.getDebitdays_in60()
-							+ parent.getDebitdays_in90()
-							+ parent.getDebitdays_inolder()
-							+ parent.getDebitdays_incurrent()));
+					DataUtils.amountAsStringWithCurrency(
+							parent.getDebitdays_in30()
+									+ parent.getDebitdays_in60()
+									+ parent.getDebitdays_in90()
+									+ parent.getDebitdays_inolder()
+									+ parent.getDebitdays_incurrent(), currency));
 			super.addNodes(childNodes);
 		} else {
 			super.addParentWithChilds(name, null);

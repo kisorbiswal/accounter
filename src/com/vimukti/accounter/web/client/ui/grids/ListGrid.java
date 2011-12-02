@@ -27,6 +27,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -35,12 +36,14 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -80,6 +83,9 @@ public abstract class ListGrid<T> extends CustomTable {
 	T selectedObject = null;
 
 	private boolean isEditEnable;
+
+	ClientCurrency currency = getCompany().getPrimaryCurrency();
+	protected AccounterMessages messages = Accounter.messages();
 
 	private int editEventType = 1;
 	protected RecordClickHandler<T> recordClickHandler;
@@ -140,7 +146,6 @@ public abstract class ListGrid<T> extends CustomTable {
 	}
 
 	private void widgetClicked(Widget widget) {
-
 		disable = true;
 		RowCell cell = getCellByWidget(widget);
 		cellClicked(cell.getRowIndex(), cell.getCellIndex());
@@ -299,8 +304,8 @@ public abstract class ListGrid<T> extends CustomTable {
 		PopupPanel popupPanel = new PopupPanel();
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		TextItem textField = new TextItem(Accounter.constants().quantity());
-		SelectCombo selectCombo = new SelectCombo(Accounter.constants().units());
+		TextItem textField = new TextItem(Accounter.messages().quantity());
+		SelectCombo selectCombo = new SelectCombo(Accounter.messages().units());
 		selectCombo.setWidth("50%");
 		DynamicForm dynamicForm = new DynamicForm();
 		dynamicForm.setNumCols(4);
@@ -408,7 +413,8 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_TEXT:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data);
+				data = DataUtils.amountAsStringWithCurrency((Double) data,
+						currency);
 			}
 			if (data != null) {
 				setText(currentRow, currentCol, data.toString());
@@ -417,14 +423,16 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_TEXTBOX:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data);
+				data = DataUtils.amountAsStringWithCurrency((Double) data,
+						currency);
 			}
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			addCellStyles("gridTextBoxCell");
 			break;
 		case COLUMN_TYPE_LABEL:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data);
+				data = DataUtils.amountAsStringWithCurrency((Double) data,
+						currency);
 			}
 			addLabel(obj, data);
 			addCellStyles("gridLabelCell");
@@ -439,7 +447,8 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_DECIMAL_TEXTBOX:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data);
+				data = DataUtils.amountAsStringWithCurrency((Double) data,
+						currency);
 			}
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			addCellStyles("gridTextBoxCell");
@@ -447,7 +456,8 @@ public abstract class ListGrid<T> extends CustomTable {
 			break;
 		case COLUMN_TYPE_DECIMAL_TEXT:
 			if (data instanceof Double) {
-				data = amountAsString((Double) data);
+				data = DataUtils.amountAsStringWithCurrency((Double) data,
+						currency);
 			}
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			addCellStyles("gridDecimalCell");
@@ -466,6 +476,7 @@ public abstract class ListGrid<T> extends CustomTable {
 			@Override
 			public void onClick(ClickEvent event) {
 				widgetClicked((Anchor) event.getSource());
+				onDoubleClick(obj);
 			}
 		});
 		ar.setText(value.toString());
@@ -631,10 +642,10 @@ public abstract class ListGrid<T> extends CustomTable {
 			selectbox.addChangeHandler(new ChangeHandler() {
 				@Override
 				public void onChange(ChangeEvent event) {
-					onValueChange(selectedObject, currentCol,
-							values[selectbox.getSelectedIndex()]);
-					onWidgetValueChanged(selectbox,
-							values[selectbox.getSelectedIndex()]);
+					onValueChange(selectedObject, currentCol, values[selectbox
+							.getSelectedIndex()]);
+					onWidgetValueChanged(selectbox, values[selectbox
+							.getSelectedIndex()]);
 				}
 			});
 			if (value != null)
@@ -668,13 +679,13 @@ public abstract class ListGrid<T> extends CustomTable {
 				@Override
 				public void onValueChange(ValueChangeEvent<Date> event) {
 
-					onWidgetValueChanged(datePicker,
-							UIUtils.stringToDate((Date) event.getValue()));
+					onWidgetValueChanged(datePicker, UIUtils
+							.stringToDate((Date) event.getValue()));
 
 				}
 			});
 			datePicker.setFormat(new DateBox.DefaultFormat(DateTimeFormat
-					.getFormat(Accounter.constants().dateFormat())));
+					.getFormat("yyyy-MM-dd")));
 			datePicker.setValue(val.getDateAsObject());
 
 			widgetsMap.put(currentCol, datePicker);
@@ -684,7 +695,7 @@ public abstract class ListGrid<T> extends CustomTable {
 		} else {
 			DateBox box = (DateBox) widgetsMap.get(currentCol);
 			box.setFormat(new DateBox.DefaultFormat(DateTimeFormat
-					.getFormat(Accounter.constants().dateFormat())));
+					.getFormat("yyyy-MM-dd")));
 			box.setValue(((ClientFinanceDate) value).getDateAsObject());
 			setWidget(currentRow, currentCol, box);
 			box.setFocus(true);

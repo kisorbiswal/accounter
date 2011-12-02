@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 // // its not using any where
 public class CustomerRefundIssuedView extends AbstractBaseView {
-	AccounterConstants customerConstants = Accounter.constants();
+	AccounterMessages messages = Accounter.messages();
 
 	public CustomerRefundIssuedView() {
 		createControls();
@@ -33,12 +33,12 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		// lab1.setWrap(false);
 
 		TextItem pay2Text = new TextItem();
-		pay2Text.setTitle(customerConstants.payTo());
+		pay2Text.setTitle(messages.payTo());
 		// pay2Text.setWidth("*");
 		pay2Text.setDisabled(true);
 
 		TextAreaItem addrArea = new TextAreaItem();
-		addrArea.setTitle(customerConstants.address());
+		addrArea.setTitle(messages.address());
 		// addrArea.setWidth("*");
 		addrArea.setDisabled(true);
 
@@ -48,39 +48,39 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		custForm.setFields(pay2Text, addrArea);
 
 		TextItem payFromText = new TextItem();
-		payFromText.setTitle(customerConstants.payFrom());
+		payFromText.setTitle(messages.payFrom());
 		// payFromText.setWidth("*");
 		payFromText.setDisabled(true);
 
-		AmountField amtText = new AmountField(customerConstants.amount(), this);
+		AmountField amtText = new AmountField(messages.amount(), this,
+				getBaseCurrency());
 
 		// amtText.setWidth("*");
 		amtText.setDisabled(true);
 
 		TextItem payMethText = new TextItem();
-		payMethText.setTitle(customerConstants.paymentMethod());
+		payMethText.setTitle(messages.paymentMethod());
 		// payMethText.setWidth("*");
 		payMethText.setDisabled(true);
 
-		CheckboxItem printCheck = new CheckboxItem(
-				customerConstants.toBePrinted());
+		CheckboxItem printCheck = new CheckboxItem(messages.toBePrinted());
 
 		TextItem checkNoText = new TextItem();
-		checkNoText.setTitle(customerConstants.checkNo());
+		checkNoText.setTitle(messages.checkNo());
 		// checkNoText.setWidth("*");
 		checkNoText.setDisabled(true);
 
 		TextItem memoText = new TextItem();
-		memoText.setTitle(customerConstants.memo());
+		memoText.setTitle(messages.memo());
 		// memoText.setWidth("*");
 
 		TextItem refText = new TextItem();
-		refText.setTitle(customerConstants.reference());
+		refText.setTitle(messages.reference());
 		// refText.setWidth("*");
 
 		DynamicForm payForm = new DynamicForm();
 		payForm.setIsGroup(true);
-		payForm.setGroupTitle(customerConstants.paymentInformation());
+		payForm.setGroupTitle(messages.paymentInformation());
 		// payForm.setWrapItemTitles(false);
 		payForm.setFields(payFromText, amtText, payMethText, printCheck,
 				checkNoText, memoText, refText);
@@ -90,8 +90,8 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		leftVLay.add(custForm);
 		leftVLay.add(payForm);
 
-		AmountField endBalText = new AmountField(
-				customerConstants.endingBalance(), this);
+		AmountField endBalText = new AmountField(messages.bankBalance(), this,
+				getBaseCurrency());
 		// endBalText.setWidth("*");
 		endBalText.setDisabled(true);
 
@@ -99,7 +99,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		balForm.setWidth("50%");
 		// balForm.setAutoHeight();
 		balForm.setIsGroup(true);
-		balForm.setGroupTitle(customerConstants.balances());
+		balForm.setGroupTitle(messages.balances());
 		// balForm.setWrapItemTitles(false);
 		balForm.setFields(endBalText);
 
@@ -108,11 +108,11 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		topHLay.add(leftVLay);
 		topHLay.add(balForm);
 
-		Button saveCloseButt = new Button(customerConstants.saveAndClose());
+		Button saveCloseButt = new Button(messages.saveAndClose());
 		// saveCloseButt.setAutoFit(true);
 		// saveCloseButt.setLayoutAlign(Alignment.LEFT);
 
-		Button saveNewButt = new Button(customerConstants.saveAndNew());
+		Button saveNewButt = new Button(messages.saveAndNew());
 		// saveNewButt.setAutoFit(true);
 		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
 

@@ -58,15 +58,15 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.doyouHaveEmployees());
+		headerLabel.setText(messages.doyouHaveEmployees());
 
-		w2Employees.setText(accounterConstants.wehavW2Employes());
-		contractors.setText(accounterConstants.wehavContractors());
-		trackExpenses.setText(accounterConstants.trackEmployeeExpenses());
-		trackEmployeeYes.setText(accounterConstants.yes());
-		trackEmployeeNo.setText(accounterConstants.no());
-		trackEmployeeExpenseYes.setText(accounterConstants.yes());
-		trackEmployeeExpenseNo.setText(accounterConstants.no());
+		w2Employees.setText(messages.wehavW2Employes());
+		contractors.setText(messages.wehavContractors());
+		trackExpenses.setText(messages.trackEmployeeExpenses());
+		trackEmployeeYes.setText(messages.yes());
+		trackEmployeeNo.setText(messages.no());
+		trackEmployeeExpenseYes.setText(messages.yes());
+		trackEmployeeExpenseNo.setText(messages.no());
 
 		if (!trackEmployeeExpenseYes.getValue()) {
 			// if (trackPanel.isAttached())
@@ -123,11 +123,6 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 
 	}
 
-	@Override
-	public boolean canShow() {
-		return true;
-	}
-
 	@UiHandler("trackEmployeeYes")
 	void onTrackEmployeeYesClick(ClickEvent event) {
 		if (!trackPanel.isAttached())
@@ -145,13 +140,13 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 	protected boolean validate() {
 		if (trackEmployeeYes.getValue()) {
 			if (!(w2Employees.getValue() || contractors.getValue())) {
-				Accounter.showError(accounterMessages
-						.pleaseselectvalidtransactionGrid(accounterConstants
+				Accounter.showError(messages
+						.pleaseselectvalidtransactionGrid(messages
 								.employeeType()));
 				return false;
 			} else if (!(trackEmployeeExpenseYes.getValue() || trackEmployeeExpenseNo
 					.getValue())) {
-				Accounter.showError(accounterConstants.trackEmployeeExpenses());
+				Accounter.showError(messages.trackEmployeeExpenses());
 				return false;
 			} else {
 				return true;
@@ -159,5 +154,10 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public String getViewName() {
+		return messages.trackEmployeeExpenses();
 	}
 }

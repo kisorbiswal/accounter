@@ -5,8 +5,11 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -103,7 +106,15 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 	// CheckBox companyLegalCheckBox;
 
 	@UiField
-	VerticalPanel companyCustomerPanel;
+	VerticalPanel registeredAddressSubPanel;
+	@UiField
+	VerticalPanel tradingAddressSubPanel;
+	@UiField
+	VerticalPanel tradingAddressPanel;
+	@UiField
+	VerticalPanel registeredAddressPanel;
+	@UiField
+	CheckBox isShowRegisteredAddressCheckBox;
 
 	private static CompanyAddressOptionUiBinder uiBinder = GWT
 			.create(CompanyAddressOptionUiBinder.class);
@@ -138,33 +149,36 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 		this.rCityTextBox.setValue(registeredAddress.getCity());
 		this.rPostalCodeTextbox
 				.setValue(registeredAddress.getZipOrPostalCode());
-
+		this.isShowRegisteredAddressCheckBox.setValue(getCompany()
+				.isShowRegisteredAddress());
+		registeredAddressPanel.setVisible(getCompany()
+				.isShowRegisteredAddress());
 	}
 
 	public void createControls() {
 		List<String> countriesList = CoreUtils.getCountriesAsList();
 
 		tradingAddressDescription
-				.setText(constants.tradingAddressDescription());
+				.setText(messages.tradingAddressDescription());
 		tradingAddressDescription.setStyleName("organisation_comment");
-		tradingAddressTitle.setText(constants.tradingAddress());
-		tAddress1Label.setText(constants.address1());
-		tAddress2Label.setText(constants.address2());
-		tCityLabel.setText(constants.city());
-		tStateLabel.setText(constants.state());
-		tPostalCodeLabel.setText(constants.postalCode());
-		tCountryLabel.setText(constants.country());
+		tradingAddressTitle.setText(messages.tradingAddress());
+		tAddress1Label.setText(messages.address1());
+		tAddress2Label.setText(messages.address2());
+		tCityLabel.setText(messages.city());
+		tStateLabel.setText(messages.state());
+		tPostalCodeLabel.setText(messages.postalCode());
+		tCountryLabel.setText(messages.country());
 
-		registeredAddressDescription.setText(constants
+		registeredAddressDescription.setText(messages
 				.registeredAddresDescription());
 		registeredAddressDescription.setStyleName("organisation_comment");
-		registeredAddressTitle.setText(constants.registeredAddress());
-		rAddress1Label.setText(constants.address1());
-		rAddress2Label.setText(constants.address2());
-		rCityLabel.setText(constants.city());
-		rStateComboLabel.setText(constants.state());
-		rPostalCodeLabel.setText(constants.postalCode());
-		rCountryComboLabel.setText(constants.country());
+		registeredAddressTitle.setText(messages.registeredAddress());
+		rAddress1Label.setText(messages.address1());
+		rAddress2Label.setText(messages.address2());
+		rCityLabel.setText(messages.city());
+		rStateComboLabel.setText(messages.state());
+		rPostalCodeLabel.setText(messages.postalCode());
+		rCountryComboLabel.setText(messages.country());
 
 		for (int i = 0; i < countriesList.size(); i++) {
 			tCountryCombo.addItem(countriesList.get(i));
@@ -199,17 +213,8 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 			}
 		});
 		rCountryChanged();
-
-		// companyLegalCheckBox.setText(Accounter.constants()
-		// .getCompanyLegalCheckBoxText());
-		// companyLegalCheckBox.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// companyCustomerPanel.setVisible(companyLegalCheckBox.getValue());
-		// }
-		// });
-
+		isShowRegisteredAddressCheckBox.setText(messages
+				.registeredAddressComment());
 	}
 
 	private void rCountryChanged() {
@@ -260,7 +265,7 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().address();
+		return Accounter.messages().address();
 	}
 
 	@Override
@@ -301,13 +306,18 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 					.getSelectedIndex()));
 		}
 		getCompany().setRegisteredAddress(rAddress);
-
+		getCompany().setShowRegisteredAddress(
+				isShowRegisteredAddressCheckBox.getValue());
 	}
 
 	@Override
 	public String getAnchor() {
-
-		return null;
+		return messages.address();
 	}
 
+	@UiHandler("isShowRegisteredAddressCheckBox")
+	void onIsShowRegisteredAddressCheckBoxValueChange(
+			ValueChangeEvent<Boolean> event) {
+		registeredAddressPanel.setVisible(event.getValue());
+	}
 }

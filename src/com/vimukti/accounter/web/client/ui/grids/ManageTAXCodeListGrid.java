@@ -30,7 +30,7 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_IMAGE, ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
@@ -84,10 +84,10 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().active(),
-				Accounter.constants().code(),
-				Accounter.constants().description(),
-				Accounter.constants().taxable(), "" };
+		return new String[] { Accounter.messages().active(),
+				Accounter.messages().code(),
+				Accounter.messages().description(),
+				Accounter.messages().taxable(), "" };
 	}
 
 	@Override

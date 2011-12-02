@@ -7,17 +7,19 @@ import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 public class TransactionVatColumn extends TransactionAmountColumn {
 
 	public TransactionVatColumn(ICurrencyProvider currencyProvider) {
-		super(currencyProvider);
+		super(currencyProvider, false);
 	}
 
 	@Override
-	protected double getAmount(ClientTransactionItem row) {
+	protected Double getAmount(ClientTransactionItem row) {
 		return row.getVATfraction();
 	}
 
 	@Override
-	protected void setAmount(ClientTransactionItem row, double value) {
-		row.setVATfraction(value);
+	protected void setAmount(ClientTransactionItem row, Double value) {
+		double taxAmount = (row.getLineTotal() * value) / 100;
+		row.setVATfraction(taxAmount);
+		getTable().update(row);
 	}
 
 	@Override
@@ -27,7 +29,7 @@ public class TransactionVatColumn extends TransactionAmountColumn {
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().tax();
+		return Accounter.messages().tax();
 	}
 
 	@Override

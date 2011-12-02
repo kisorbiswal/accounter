@@ -1,10 +1,13 @@
 package com.vimukti.accounter.core;
 
 import java.io.File;
+import java.util.Map;
 import java.util.Set;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * this class is used to generate PDF file for Credit note Object
@@ -19,19 +22,16 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 	private String templateName;
 
 	Company company;
-	private String companyId;
 
 	public String getTempleteName() {
 		return "templetes" + File.separator + templateName + ".html";
 	}
 
 	public CreditNotePDFTemplete(CustomerCreditMemo memo,
-			BrandingTheme brandingTheme, Company company, String companyId,
-			String templateName) {
+			BrandingTheme brandingTheme, Company company, String templateName) {
 		this.memo = memo;
 		this.brandingTheme = brandingTheme;
 		this.company = company;
-		this.companyId = companyId;
 		this.maxDecimalPoints = getMaxDecimals(memo);
 		this.templateName = templateName;
 	}
@@ -45,6 +45,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 		try {
 			MiniTemplator t = new MiniTemplator(getTempleteName());
+			externalizeStrings(t);
 			// setting logo Image
 			if (brandingTheme.isShowLogo()) {
 				String logoAlligment = getLogoAlignment();
@@ -67,36 +68,31 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			}
 
 			// for primary curreny
-			Currency primaryCurrency = company.getPreferences()
-					.getPrimaryCurrency();
-			if (primaryCurrency != null)
-				if (primaryCurrency.getFormalName().trim().length() > 0) {
-					t.setVariable("currency", primaryCurrency.getFormalName()
-							.trim());
+			Currency currency = memo.getCustomer().getCurrency();
+			if (currency != null)
+				if (currency.getFormalName().trim().length() > 0) {
+					t.setVariable("currency", currency.getFormalName().trim());
 					t.addBlock("currency");
 				}
 
 			// for getting customer contact name
 			String cname = "";
 			String phone = "";
-			String email = "";
 			Customer customer = memo.getCustomer();
 			Set<Contact> contacts = customer.getContacts();
 			for (Contact contact : contacts) {
 				if (contact.isPrimary()) {
-					cname = contact.getName();
+					cname = contact.getName().trim();
 
 					if (contact.getBusinessPhone().trim().length() > 0)
 						phone = contact.getBusinessPhone();
 
-					if (contact.getEmail().trim().length() > 0)
-						email = contact.getEmail();
 				}
 			}
 			// setting billing address
 			Address bill = memo.getBillingAddress();
-			String customerName = forUnusedAddress(
-					memo.getCustomer().getName(), false);
+			String customerName = forUnusedAddress(memo.getCustomer().getName()
+					.trim(), false);
 			if (bill != null) {
 				String customernameAddress = forUnusedAddress(cname, false)
 						+ customerName
@@ -106,18 +102,16 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 						+ forUnusedAddress(bill.getStateOrProvinence(), false)
 						+ forUnusedAddress(bill.getZipOrPostalCode(), false)
 						+ forUnusedAddress(bill.getCountryOrRegion(), false)
-						+ forUnusedAddress("Phone : " + phone, false)
-						+ forUnusedAddress("Email : " + email, false);
+						+ forUnusedAddress("Phone : " + phone, false);
 
 				if (customernameAddress.trim().length() > 0) {
-					t.setVariable("customerNameNBillAddress", "To<br/>"
-							+ customernameAddress);
+					t.setVariable("customerNameNBillAddress",
+							customernameAddress);
 					t.addBlock("creditHead");
 
 				}
 			} else {
-				t.setVariable("customerNameNBillAddress", "To<br/>"
-						+ customerName);
+				t.setVariable("customerNameNBillAddress", customerName);
 				t.addBlock("creditHead");
 			}
 
@@ -132,13 +126,13 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 				if (company.getPreferences().isTrackTax()
 						&& brandingTheme.isShowTaxColumn()) {
-					t.setVariable("VATRate", "Tax Code");
-					t.setVariable("VATAmount", "Tax ");
 					t.addBlock("vatBlock");
 				}
 				t.addBlock("showLabels");
 
 			}
+
+			double currencyFactor = memo.getCurrencyFactor();
 
 			// for displaying the credit item details
 			if (!memo.getTransactionItems().isEmpty()) {
@@ -146,16 +140,17 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				for (TransactionItem item : memo.getTransactionItems()) {
 
 					String description = forNullValue(item.getDescription());
+					description = description.replace("\n", "<br/>");
 					String qty = forZeroAmounts(getDecimalsUsingMaxDecimals(
 							item.getQuantity().getValue(), null,
 							maxDecimalPoints));
 					String unitPrice = forZeroAmounts(largeAmountConversation(item
-							.getUnitPrice()));
+							.getUnitPrice() / currencyFactor));
 					String totalPrice = largeAmountConversation(item
-							.getLineTotal());
+							.getLineTotal() / currencyFactor);
 					String vatRate = item.getTaxCode().getName();
 					String vatAmount = getDecimalsUsingMaxDecimals(
-							item.getVATfraction(), null, 2);
+							item.getVATfraction() / currencyFactor, null, 2);
 
 					String name = "";
 					if (item.type == TransactionItem.TYPE_ITEM)
@@ -184,14 +179,15 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			// for displaying the total price details
 
 			String memoVal = forNullValue(memo.getMemo());
-			String subTotal = largeAmountConversation(memo.getNetAmount());
-			String vatTotal = largeAmountConversation(memo.getTotal()
-					- memo.getNetAmount());
-			String total = largeAmountConversation(memo.getTotal());
+			String subTotal = largeAmountConversation(memo.getNetAmount()
+					/ currencyFactor);
+			String vatTotal = largeAmountConversation((memo.getTotal() - memo
+					.getNetAmount()) / currencyFactor);
+			String total = largeAmountConversation(memo.getTotal()
+					/ currencyFactor);
 
 			t.setVariable("memoText", memoVal);
 			if (company.getPreferences().isTrackTax()) {
-				t.setVariable("NetAmount", "Net Amount");
 				t.setVariable("subTotal", subTotal);
 				t.addBlock("subtotal");
 
@@ -279,8 +275,9 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 						+ forUnusedAddress(reg.getZipOrPostalCode(), true)
 						+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
 
-			regestrationAddress = (company.getFullName() + "&nbsp;&nbsp;&nbsp;"
-					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+			regestrationAddress = (company.getTradingName()
+					+ "&nbsp;&nbsp;&nbsp;" + regestrationAddress + ((company
+					.getRegistrationNumber() != null && !company
 					.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 					+ company.getRegistrationNumber()
 					: ""));
@@ -303,6 +300,29 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					+ "..." + e.getStackTrace());
 		}
 		return "";
+	}
+
+	private void externalizeStrings(MiniTemplator t) {
+		AccounterMessages messages = Global.get().messages();
+		Map<String, String> variables = t.getVariables();
+		System.out.println(variables);
+		t.setVariable("i18_Credit_To", messages.creditTo());
+		t.setVariable("i18_Credit_Note_Number", messages.creditNoteNo());
+		t.setVariable("i18_Credit_Note_Date", messages.creditNoteDate());
+		t.setVariable("i18_Customer_Number",
+				messages.payeeNumber(messages.Customer()));
+		t.setVariable("i18_Currency", messages.currency());
+		t.setVariable("i18_Name", messages.name());
+		t.setVariable("i18_Description", messages.description());
+		t.setVariable("i18_Qty", messages.qty());
+		t.setVariable("i18_Unit_Price", messages.unitPrice());
+		t.setVariable("i18_Discount", messages.discount());
+		t.setVariable("i18_Total_Price", messages.totalPrice());
+		t.setVariable("i18_TOTAL", messages.total());
+		t.setVariable("i18_Sub_Total", messages.subTotal());
+		t.setVariable("i18_VATRate", messages.vatRate());
+		t.setVariable("i18_VATAmount", messages.tax());
+		t.setVariable("i18_NetAmount", messages.netAmount());
 	}
 
 	public String forNullValue(String value) {
@@ -403,15 +423,16 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 		StringBuffer original = new StringBuffer();
 		// String imagesDomain = "/do/downloadFileFromFile?";
 
-		original.append("<img style='width:130px;height:120px'  src='file:///");
+		original.append("<img style='width:90px;height:90px'  src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ companyId + "/" + brandingTheme.getFileName());
+				+ company.getId() + "/" + brandingTheme.getFileName());
 		original.append("'/>");
 		return original;
 	}
 
 	@Override
 	public String getFooter() {
+		Location location = memo.getLocation();
 		String regestrationAddress = "";
 		Address reg = company.getRegisteredAddress();
 
@@ -429,11 +450,15 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 		if (contactDetails.contains("(None Added)")) {
 			contactDetails = "";
 		}
-
 		regestrationAddress = (contactDetails
 				+ "<br/><hr width = 100%>&nbsp;&nbsp;&nbsp;"
-				+ company.getFullName() + "<br/>&nbsp;&nbsp;&nbsp;"
-				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+				+ (location == null ? company.getTradingName() : location
+						.getCompanyName() == null ? company.getTradingName()
+						: location.getCompanyName())
+				+ "<br/>&nbsp;&nbsp;&nbsp;"
+				+ (location == null ? regestrationAddress : location
+						.getAddress() == null ? regestrationAddress : location
+						.getAddress()) + ((company.getRegistrationNumber() != null && !company
 				.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 				+ company.getRegistrationNumber()
 				: ""));

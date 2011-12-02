@@ -1,7 +1,10 @@
 package com.vimukti.accounter.core;
 
+import java.util.Map;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -61,7 +64,6 @@ public class TransferFund extends Transaction {
 		setType(Transaction.TYPE_TRANSFER_FUND);
 	}
 
-
 	/**
 	 * @return the id
 	 */
@@ -101,7 +103,7 @@ public class TransferFund extends Transaction {
 		super.onSave(session);
 		if (this.id == 0l) {
 			Account account = this.transferFrom;
-			account.updateCurrentBalance(this, this.total);
+			account.updateCurrentBalance(this, this.total, currencyFactor);
 			session.update(account);
 			account.onUpdate(session);
 
@@ -258,12 +260,21 @@ public class TransferFund extends Transaction {
 		super.onEdit(transferFund);
 	}
 
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid) {
+			this.effectAccount(session, this.transferFrom, -this.total);
+			return true;
+		}
+		return false;
+	}
+
 	private void effectAccount(Session session, Account transferFrom,
 			double amount) {
 
 		Account account = (Account) session.get(Account.class, transferFrom.id);
 
-		account.updateCurrentBalance(this, amount);
+		account.updateCurrentBalance(this, amount, currencyFactor);
 		session.update(account);
 		account.onUpdate(session);
 	}
@@ -285,6 +296,19 @@ public class TransferFund extends Transaction {
 		}
 
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
+		map.put(transferFrom, total);
+		return map;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -12,13 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Server;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
@@ -36,13 +34,17 @@ public class BaseServlet extends HttpServlet {
 
 	public static final String COMPANY_ID = "companyId";
 
+	public static final String CREATE = "create";
+
 	public static final String EMAIL_ID = "emailId";
 	public static final String PASSWORD = "password";
 	protected static final String COMPANY_CREATION_STATUS = "comCreationStatus";
 	protected static final String COMPANY_DELETION_STATUS = "deleteCompanyStatus";
+	protected static final String ACCOUNT_DELETION_STATUS = "accountCompanyStatus";
 
 	protected static final String COMPANY_DELETING = "Deleting";
 	protected static final String COMPANY_CREATING = "Creating";
+	protected static final String ACCOUNT_DELETING = "AccountDeleting";
 
 	protected static final String PARAM_DESTINATION = "destination";
 	protected static final String PARAM_SERVER_COMPANY_ID = "serverCompanyId";
@@ -52,6 +54,8 @@ public class BaseServlet extends HttpServlet {
 	protected static final String PARAM_LAST_NAME = "lastName";
 	protected static final String PARAM_COUNTRY = "country";
 	protected static final String PARAM_PH_NO = "phNo";
+
+	protected static final String IS_TOUCH = "isTouch";
 
 	protected static final String ATTR_MESSAGE = "message";
 	protected static final String ATTR_COMPANY_LIST = "companeyList";
@@ -69,6 +73,11 @@ public class BaseServlet extends HttpServlet {
 	protected static final String DELETE_COMPANY_URL = "/main/deletecompany";
 	protected String COMPANY_STATUS_URL = "/main/companystatus";
 
+	public static final String ACT_FROM_SIGNUP = "108";
+	public static final String ACT_FROM_RESET = "109";
+	public static final String ACT_FROM_RESEND = "110";
+	public static final String ACT_FROM_LOGIN = "111";
+
 	/**
 	 * 
 	 */
@@ -80,11 +89,10 @@ public class BaseServlet extends HttpServlet {
 	private static final int ACTIVATION_CODE_SIZE = 10;
 
 	protected Company getCompany(HttpServletRequest req) {
-		String companyID = getCookie(req, COMPANY_COOKIE);
+		Long companyID = (Long) req.getSession().getAttribute(COMPANY_ID);
 		Session session = HibernateUtil.openSession();
 		try {
-			Company comapny = (Company) session.get(Company.class,
-					Long.valueOf(companyID));
+			Company comapny = (Company) session.get(Company.class, companyID);
 			if (comapny != null) {
 				return comapny;
 			}
@@ -99,7 +107,7 @@ public class BaseServlet extends HttpServlet {
 	protected String getCompanyName(HttpServletRequest req) {
 		Company company = getCompany(req);
 		if (company != null) {
-			return company.getFullName();
+			return company.getTradingName();
 		}
 		// Query query = session.getNamedQuery("getServerCompany.by.id")
 		// .setParameter("id", Long.valueOf(companyID));
@@ -152,7 +160,8 @@ public class BaseServlet extends HttpServlet {
 						.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$");
 
 			case NAME:
-				return value.matches("^[a-zA-Z ]+$");
+				// return value.matches("^[a-zA-Z ]+$");
+				return true;
 
 			case PHONE_NO:
 				return value.matches("^[0-9][0-9-]+$");
@@ -205,10 +214,8 @@ public class BaseServlet extends HttpServlet {
 	}
 
 	protected void saveEntry(Object object) {
-
 		Session currentSession = HibernateUtil.getCurrentSession();
 		currentSession.saveOrUpdate(object);
-
 	}
 
 	protected Client getClient(String emailId) {
@@ -285,29 +292,30 @@ public class BaseServlet extends HttpServlet {
 				"");
 	}
 
-	/**
-	 * @param serverId
-	 */
-	protected void updateServers(Server accounterServer, boolean isAddCompany) {
-		Session session = HibernateUtil.openSession();
-		Transaction transaction = null;
-		try {
-			transaction = session.beginTransaction();
-			Server server = (Server) session.get(Server.class,
-					accounterServer.getId());
-			int companiesCount = server.getCompaniesCount();
-			companiesCount += isAddCompany ? 1 : -1;
-			server.setCompaniesCount(companiesCount);
-			session.saveOrUpdate(server);
-			transaction.commit();
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-		} finally {
-			session.close();
-		}
-	}
+	// /**
+	// * @param serverId
+	// */
+	// protected void updateServers(Server accounterServer, boolean
+	// isAddCompany) {
+	// Session session = HibernateUtil.openSession();
+	// Transaction transaction = null;
+	// try {
+	// transaction = session.beginTransaction();
+	// Server server = (Server) session.get(Server.class,
+	// accounterServer.getId());
+	// int companiesCount = server.getCompaniesCount();
+	// companiesCount += isAddCompany ? 1 : -1;
+	// server.setCompaniesCount(companiesCount);
+	// session.saveOrUpdate(server);
+	// transaction.commit();
+	// } catch (Exception e) {
+	// if (transaction != null) {
+	// transaction.rollback();
+	// }
+	// } finally {
+	// session.close();
+	// }
+	// }
 
 	/**
 	 * Builds the URL for MainServer
@@ -354,7 +362,7 @@ public class BaseServlet extends HttpServlet {
 		StringBuffer link = new StringBuffer("https://");
 		link.append(ServerConfiguration.getMainServerDomain());
 		link.append(ACTIVATION_URL);
-
+		System.out.println("@@@ ACTIVATION CODE::" + activationCode);
 		UsersMailSendar.sendResetPasswordLinkToUser(link.toString(),
 				activationCode, client.getEmailId());
 	}

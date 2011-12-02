@@ -3,15 +3,16 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterOthersView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
@@ -23,6 +24,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	public double balance = 0.0;
 	public double totalBalance = 0.0;
 	private AccountRegisterOthersView view;
+	ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	public AccountRegisterOtherListGrid(boolean isMultiSelectionEnable) {
 		super(false, true);
@@ -39,28 +41,29 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 			return accRegister.getNumber();
 		case 3:
 			if (DecimalUtil.isGreaterThan(accRegister.getAmount(), 0.0))
-				return amountAsString(accRegister.getAmount());
+				return DataUtils.amountAsStringWithCurrency(accRegister
+						.getAmount(), currency);
 			else
-				return amountAsString(0.00);
+				return DataUtils.amountAsStringWithCurrency(0.00, currency);
 		case 4:
 			if (DecimalUtil.isLessThan(accRegister.getAmount(), 0.0))
-				return amountAsString(-1 * accRegister.getAmount());
+				return DataUtils.amountAsStringWithCurrency(-1
+						* accRegister.getAmount(), currency);
 			else
-				return amountAsString(0.00);
+				return DataUtils.amountAsStringWithCurrency(0.00, currency);
 		case 5:
 			return accRegister.getAccount();
 		case 6:
 			return accRegister.getMemo();
 		case 7:
-			return amountAsString(getBalanceValue(accRegister));
+			return DataUtils.amountAsStringWithCurrency(
+					getBalanceValue(accRegister), currency);
 
 		case 8:
 			if (!accRegister.isVoided())
 				return Accounter.getFinanceImages().notvoid();
-			// return "/images/not-void.png";
 			else
 				return Accounter.getFinanceImages().voided();
-			// return "/images/voided.png";
 
 		}
 		return null;
@@ -86,14 +89,10 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().date(),
-				Accounter.constants().type(), Accounter.constants().docNo(),
-				Accounter.constants().increase(),
-				Accounter.constants().reduce(),
-				Accounter.messages().account(Global.get().account()),
-				Accounter.constants().memo(),
-				Accounter.constants().currentBalance(),
-				Accounter.constants().isVoided() };
+		return new String[] { Accounter.messages().date(), messages.type(),
+				Accounter.messages().docNo(), messages.increase(),
+				messages.reduce(), messages.account(), messages.memo(),
+				messages.currentBalance(), messages.isVoided() };
 	}
 
 	@Override
@@ -183,8 +182,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 			case 6:
 				if (obj1.getMemo() != null && obj2.getMemo() != null)
-					return obj1.getMemo().toLowerCase()
-							.compareTo(obj2.getMemo().toLowerCase());
+					return obj1.getMemo().toLowerCase().compareTo(
+							obj2.getMemo().toLowerCase());
 				break;
 			case 7:
 				Double bal1 = getBalanceValue(obj1);
@@ -199,7 +198,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	}
 
 	private void showWarningDialog(final AccountRegister obj) {
-		Accounter.showWarning(Accounter.constants()
+		Accounter.showWarning(Accounter.messages()
 				.doyouwanttoVoidtheTransaction(), AccounterType.WARNING,
 				new ErrorDialogHandler() {
 
@@ -224,8 +223,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	}
 
 	protected void voidTransaction(final AccountRegister obj) {
-		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
-				obj.getTransactionId());
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()), obj
+				.getTransactionId());
 	}
 
 	public AccounterCoreType getType() {

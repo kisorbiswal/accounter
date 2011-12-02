@@ -3,13 +3,10 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -20,12 +17,17 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
-import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.CancelButton;
+import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
+import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionIssuePaymentGrid;
 
@@ -33,10 +35,11 @@ import com.vimukti.accounter.web.client.ui.grids.TransactionIssuePaymentGrid;
  * @author Ravi Kiran.G
  * 
  */
-public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
+public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 	private PayFromAccountsCombo accountCombo;
-	private SelectItem payMethodSelect;
+	private SelectCombo payMethodSelect;
+	private List<String> payMethodItemList;
 
 	private TransactionIssuePaymentGrid grid;
 	private VerticalPanel gridLayout;
@@ -55,13 +58,19 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 	public int validationCount;
 
 	public IssuePaymentView(String text, String description) {
-		super(text, description);
-		this.validationCount = 1;
+	}
+
+	@Override
+	public void init() {
+		super.init();
 		createControls();
 		getPayFromAccounts();
 		setTransactionNumber();
-		fillGrid();
-		center();
+	}
+
+	@Override
+	public void initData() {
+		super.initData();
 	}
 
 	private void setTransactionNumber() {
@@ -90,30 +99,46 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 	}
 
-	/**
-	 * This method fills the grid with records while initializing the dialog See
-	 * FinanceTool.getChecks() for the record types
-	 * 
-	 */
-	private void fillGrid() {
-
-		rpcUtilService
-				.getChecks(new AccounterAsyncCallback<ArrayList<IssuePaymentTransactionsList>>() {
-
-					public void onException(AccounterException caught) {
-
-					}
-
-					public void onResultSuccess(
-							ArrayList<IssuePaymentTransactionsList> result) {
-
-						for (IssuePaymentTransactionsList entry : result)
-							addRecord(entry);
-
-					}
-
-				});
-
+	// /**
+	// * This method fills the grid with records while initialising the dialog,
+	// * See FinanceTool.getChecks() for the record types displaying in this
+	// * dialog
+	// *
+	// */
+	// private void fillGrid() {
+	//
+	// rpcUtilService
+	// .getChecks(new
+	// AccounterAsyncCallback<ArrayList<IssuePaymentTransactionsList>>() {
+	//
+	// public void onException(AccounterException caught) {
+	// // UIUtils
+	// // .logError(
+	// // "Failed to get the IssuePaymetTransactionsList",
+	// // caught);
+	//
+	// }
+	//
+	// public void onSuccess(
+	// List<IssuePaymentTransactionsList> result) {
+	//
+	// for (IssuePaymentTransactionsList entry : result)
+	// addRecord(entry);
+	//
+	// }
+	//
+	// });
+	//
+	// }
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		saveAndCloseButton = new SaveAndCloseButton(messages.save());
+		cancelButton = new CancelButton(this);
+		saveAndCloseButton.setView(this);
+		if (!isInViewMode()) {
+			buttonBar.add(saveAndCloseButton);
+		}
+		buttonBar.add(cancelButton);
 	}
 
 	protected void addRecord(IssuePaymentTransactionsList entry) {
@@ -139,11 +164,47 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		if (entry.getPaymentMethod() != null)
 			record.setPaymentMethod(entry.getPaymentMethod());
 		record.setRecordType(entry.getType());
-		if (record.getRecordType() == ClientTransaction.TYPE_WRITE_CHECK)
+
+		switch (entry.getType()) {
+		case ClientTransaction.TYPE_WRITE_CHECK:
 			record.setWriteCheck(entry.getTransactionId());
-		else if (record.getRecordType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS)
+			record.setRecordType(ClientTransaction.TYPE_WRITE_CHECK);
+			break;
+		case ClientTransaction.TYPE_CASH_PURCHASE:
+		case ClientTransaction.TYPE_CASH_EXPENSE:
+		case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+			record.setCashPurchase(entry.getTransactionId());
+			record.setRecordType(ClientTransaction.TYPE_CASH_PURCHASE);
+			break;
+		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
 			record.setCustomerRefund(entry.getTransactionId());
-		record.setID(entry.getTransactionId());
+			record.setRecordType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+			break;
+		case ClientTransaction.TYPE_PAY_TAX:
+			record.setPaySalesTax(entry.getTransactionId());
+			record.setRecordType(ClientTransaction.TYPE_PAY_TAX);
+			break;
+		case ClientTransaction.TYPE_PAY_BILL:
+			record.setPayBill(entry.getTransactionId());
+			record.setRecordType(ClientTransaction.TYPE_PAY_BILL);
+			break;
+		case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
+		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+			record.setCreditCardCharge(entry.getTransactionId());
+			record.setRecordType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
+			break;
+		case ClientTransaction.TYPE_RECEIVE_TAX:
+			record.setReceiveVAT(entry.getTransactionId());
+			record.setRecordType(ClientTransaction.TYPE_RECEIVE_TAX);
+			break;
+		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+			record.setCustomerPrepayment(entry.getTransactionId());
+			record.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+			break;
+
+		}
+
+		// record.setID(entry.getTransactionId());
 
 	}
 
@@ -153,27 +214,38 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		accountCombo.initCombo(payFromAccounts);
 		accountCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
+		selectedPayFromAccount = accountCombo.getSelectedValue();
 	}
 
 	private void createControls() {
-		setWidth("80px");
-		mainPanel.setSpacing(10);
+		setWidth("100%");
+		Label titleLabel = new Label(messages.issuePayment());
+		titleLabel.setStyleName(Accounter.messages().labelTitle());
 
-		payMethodSelect = new SelectItem(Accounter.constants().paymentMethod());
+		payMethodSelect = new SelectCombo(messages.paymentMethod());
+		payMethodSelect.setHelpInformation(true);
 		payMethodSelect.setRequired(true);
-		payMethodSelect.setValueMap(new String[] { "",
-				AccounterClientConstants.PAYMENT_METHOD_CHECK });
-		payMethodSelect.addChangeHandler(new ChangeHandler() {
+		payMethodItemList = new ArrayList<String>();
+		payMethodItemList
+				.add(UIUtils
+						.getpaymentMethodCheckBy_CompanyType(AccounterClientConstants.PAYMENT_METHOD_CHECK));
+		payMethodSelect.initCombo(payMethodItemList);
+		payMethodSelect.setSelectedItem(0);
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				payMethodSelect.getValue().toString();
-				paymentMethodSelected(payMethodSelect.getValue().toString());
-			}
-		});
+		payMethodSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
-		accountCombo = new PayFromAccountsCombo(Accounter.messages().account(
-				Global.get().account()));
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						payMethodSelect.getSelectedValue();
+						paymentMethodSelected(payMethodSelect
+								.getSelectedValue());
+					}
+
+				});
+
+		accountCombo = new PayFromAccountsCombo(messages.Account(), false);
+		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -181,7 +253,9 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedPayFromAccount = selectItem;
 						changeGridData(selectedPayFromAccount);
-						setStartingCheckNumber(selectedPayFromAccount);
+						if (selectedPayFromAccount != null)
+							setStartingCheckNumber(selectedPayFromAccount);
+
 					}
 
 				});
@@ -189,44 +263,46 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		payForm = new DynamicForm();
 		payForm.setWidth("50%");
 		payForm.setFields(payMethodSelect, accountCombo);
+		paymentMethodSelected(payMethodSelect.getSelectedValue());
 
 		Label label = new Label();
-		label.setText(Accounter.constants().paymentsToBeIssued());
+		label.setText(messages.paymentsToBeIssued());
 		initListGrid();
 
 		mainVLay = new VerticalPanel();
-		mainVLay.setWidth("800px");
-
+		mainVLay.setWidth("100%");
+		mainVLay.add(titleLabel);
 		mainVLay.add(payForm);
 		mainVLay.add(label);
 		mainVLay.add(gridLayout);
 
-		setBodyLayout(mainVLay);
-		headerLayout.setWidth("800px");
-		headerLayout.setHeight("15%");
-		// footerLayout.setCellWidth(okbtn, "74%");
+		this.add(mainVLay);
+		this.setCellHorizontalAlignment(mainVLay, ALIGN_LEFT);
 
 	}
 
 	protected void setStartingCheckNumber(ClientAccount account) {
 
 		if (checkNoText != null) {
-			rpcUtilService.getNextCheckNumber(account.getID(),
-					new AccounterAsyncCallback<Long>() {
+			rpcUtilService.getNextIssuepaymentCheckNumber(account.getID(),
+					new AccounterAsyncCallback<String>() {
 
 						public void onException(AccounterException caught) {
+							// UIUtils.logError(
+							// "Failed to get the Check number..", caught);
+							// //UIUtils.logError(
+							// "Failed to get the Check number..", caught);
 
 						}
 
-						public void onResultSuccess(Long result) {
+						public void onResultSuccess(String result) {
 
 							if (result == null) {
 								onFailure(null);
 								return;
 							}
-							// setCheckNo(result);
-							// CheckNoText.setValue(getCheckNo());
-							checkNoText.setValue(String.valueOf(result));
+							setCheckNo(result);
+							checkNoText.setValue(result);
 						}
 
 					});
@@ -235,10 +311,19 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 	}
 
-	protected ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
-		result.add(payForm.validate());
-		result.add(grid.validateGrid());
+	@Override
+	public ValidationResult validate() {
+		ValidationResult result = FormItem.validate(payMethodSelect,
+				accountCombo);
+		if (grid.getRecords().isEmpty()) {
+			result.addError(grid,
+					messages.noTransactionIsAvailableToIssuePayments());
+		} else {
+			if (grid.getSelectedRecords().size() == 0)
+				result.addError(grid,
+						messages.pleaseSelectAnyOneOfTheTransactions());
+		}
+		// result.add(grid.validateGrid());
 		return result;
 	}
 
@@ -249,15 +334,54 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 			setCheckNo(number);
 		} catch (NumberFormatException e) {
 			valid = false;
-			Accounter.showError(Accounter.constants().invalidChequeNumber());
+			Accounter.showError(messages.invalidChequeNumber());
 		}
 
 		return valid;
 	}
 
 	protected void createIssuePayment() {
+
 		ClientIssuePayment issuePayment = getIssuePaymentObject();
 		saveOrUpdate(issuePayment);
+		// Accounter.showError(AccounterErrorType.FAILEDREQUEST);
+
+		// public void onSuccess(String result) {
+		// if (result == null) {
+		// onFailure(null);
+		// return;
+		// }
+		// Accounter.showInformation(FinanceApplication
+		// .constants().issuePaymentWith()
+		// + transactionNumber
+		// + FinanceApplication.constants()
+		// .createdSuccessfully());
+		// IssuePaymentDialog.this.removeFromParent();
+		// }
+		//
+		// });
+
+	}
+
+	@Override
+	public void saveSuccess(IAccounterCore object) {
+		// Accounter.showInformation(FinanceApplication.constants()
+		// .issuePaymentWith()
+		// + transactionNumber
+		// + FinanceApplication.constants()
+		// .createdSuccessfully());
+		IssuePaymentView.this.removeFromParent();
+		super.saveSuccess(object);
+		// ActionFactory.getExpensesAction(null).run(null, true);
+	}
+
+	public void saveFailed(AccounterException exception) {
+		// Accounter.showError(AccounterErrorType.FAILEDREQUEST);
+		super.saveFailed(exception);
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	private ClientIssuePayment getIssuePaymentObject() {
@@ -292,36 +416,45 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 	 * selected while creating them.
 	 */
 	protected void changeGridData(ClientAccount selectedPayFromAccount2) {
+		if (selectedPayFromAccount2 != null) {
+			grid.removeAllRecords();
+			grid.addLoadingImagePanel();
+			rpcUtilService
+					.getChecks(
+							selectedPayFromAccount2.getID(),
+							new AccounterAsyncCallback<ArrayList<IssuePaymentTransactionsList>>() {
 
-		rpcUtilService
-				.getChecks(
-						selectedPayFromAccount2.getID(),
-						new AccounterAsyncCallback<ArrayList<IssuePaymentTransactionsList>>() {
+								public void onException(AccounterException t) {
 
-							public void onException(AccounterException t) {
+									// UIUtils
+									// .logError(
+									// "Failed to get the IssuePaymentTransactionsList..",
+									// t);
+									grid.addEmptyMessage(messages
+											.noRecordsToShow());
 
-								// UIUtils
-								// .logError(
-								// "Failed to get the IssuePaymentTransactionsList..",
-								// t);
-
-							}
-
-							public void onResultSuccess(
-									ArrayList<IssuePaymentTransactionsList> result) {
-
-								if (result == null) {
-									onFailure(null);
-									return;
-								}
-								removeGridData();
-								for (IssuePaymentTransactionsList entry : result) {
-									addRecord(entry);
 								}
 
-							}
+								public void onResultSuccess(
+										ArrayList<IssuePaymentTransactionsList> result) {
 
-						});
+									if (result == null) {
+										onFailure(null);
+										return;
+									}
+									if (result.size() > 0) {
+										grid.removeAllRecords();
+										for (IssuePaymentTransactionsList entry : result) {
+											addRecord(entry);
+										}
+									} else
+										grid.addEmptyMessage(Accounter
+												.messages().noRecordsToShow());
+
+								}
+
+							});
+		}
 
 	}
 
@@ -338,9 +471,10 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		grid.isEnable = false;
 		grid.init();
 		grid.setHeight("200px");
-		// grid.setIssuePaymentView(this);
+		grid.setIssuePaymentView(this);
 		// grid.addFooterValues("", "", "", "", FinanceApplication
-		// .constants().total(), "0.0");
+		// .constants().total(), DataUtils
+		// .getAmountAsString(0.00));
 
 		// bottomLabelLayOut = new HorizontalPanel();
 		// bottomLabelLayOut.setWidth("100%");
@@ -349,7 +483,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		emptyLabel.setWidth("25%");
 		totalLabel = new Label();
 		totalLabel.setWidth("30%");
-		totalLabel.setText(Accounter.constants().totalAmount());
+		totalLabel.setText(messages.totalAmount());
 
 		amountLabel = new Label();
 		amountLabel.setText("" + UIUtils.getCurrencySymbol() + "0");
@@ -363,14 +497,15 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 	private void paymentMethodSelected(String selectedpaymentMethod1) {
 		selectedpaymentMethod = selectedpaymentMethod1;
 		if (!selectedpaymentMethod.isEmpty()) {
-			checkNoText = new TextItem(Accounter.constants().startingChequeNo());
+			checkNoText = new TextItem(messages.startingChequeNo());
+			checkNoText.setHelpInformation(true);
 			checkNoText.setWidth(100);
-			checkNoText.setRequired(true);
-			if (selectedPayFromAccount != null)
-				setStartingCheckNumber(selectedPayFromAccount);
-
+			// checkNoText.setRequired(true);
+			// if (selectedPayFromAccount != null)
+			// setStartingCheckNumber(selectedPayFromAccount);
 			payForm.removeAllRows();
 			payForm.setFields(payMethodSelect, accountCombo, checkNoText);
+			changeGridData(selectedPayFromAccount);
 		} else {
 			payForm.removeAllRows();
 			payForm.setFields(payMethodSelect, accountCombo);
@@ -393,21 +528,50 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 			if (record.getName() != null)
 				entry.setName(record.getName());
 
-			try {
-				entry.setAmount(record.getAmount());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			entry.setAmount(record.getAmount());
 			entry.setMemo(record.getMemo());
 
 			if (record.getPaymentMethod() != null) {
 				entry.setPaymentMethod(record.getPaymentMethod());
 			}
 
-			if (record.getRecordType() == ClientTransaction.TYPE_WRITE_CHECK) {
+			switch (record.getRecordType()) {
+			case ClientTransaction.TYPE_WRITE_CHECK:
 				entry.setWriteCheck(record.getWriteCheck());
-			} else {
+				entry.setRecordType(ClientTransaction.TYPE_WRITE_CHECK);
+				break;
+			case ClientTransaction.TYPE_CASH_PURCHASE:
+			case ClientTransaction.TYPE_CASH_EXPENSE:
+			case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+				entry.setCashPurchase(record.getCashPurchase());
+				entry.setRecordType(ClientTransaction.TYPE_CASH_PURCHASE);
+				break;
+			case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
 				entry.setCustomerRefund(record.getCustomerRefund());
+				entry.setRecordType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+				break;
+			case ClientTransaction.TYPE_PAY_TAX:
+				entry.setPaySalesTax(record.getPaySalesTax());
+				entry.setRecordType(ClientTransaction.TYPE_PAY_TAX);
+				break;
+			case ClientTransaction.TYPE_PAY_BILL:
+				entry.setPayBill(record.getPayBill());
+				entry.setRecordType(ClientTransaction.TYPE_PAY_BILL);
+				break;
+			case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
+			case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+				entry.setCreditCardCharge(record.getCreditCardCharge());
+				entry.setRecordType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
+				break;
+			case ClientTransaction.TYPE_RECEIVE_TAX:
+				entry.setReceiveVAT(record.getReceiveVAT());
+				entry.setRecordType(ClientTransaction.TYPE_RECEIVE_TAX);
+				break;
+			case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+				entry.setCustomerPrepayment(record.getCustomerPrepayment());
+				entry.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+				break;
+
 			}
 
 			entry.setTransaction(issuePayment);
@@ -428,42 +592,8 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 	}
 
 	@Override
-	public Object getGridColumnValue(ClientIssuePayment obj, int index) {
-		// NOTHING TO DO.
-		return null;
-	}
-
-	@Override
-	public void deleteFailed(AccounterException caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(IAccounterCore result) {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-		//
-		// Accounter.showInformation(FinanceApplication.constants()
-		// .issuePaymentWith()
-		// + transactionNumber
-		// + FinanceApplication.constants()
-		// .createdSuccessfully());
-		IssuePaymentView.this.removeFromParent();
-	}
-
-	@Override
-	public void saveFailed(AccounterException exception) {
-		// BaseDialog.errordata.setHTML(AccounterErrorType.FAILEDREQUEST);
-		// BaseDialog.commentPanel.setVisible(true);
-	}
-
-	@Override
-	protected boolean onOK() {
+	public void saveAndUpdateView() {
 		createIssuePayment();
-		return true;
 	}
 
 	@Override
@@ -472,4 +602,32 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 	}
 
+	@Override
+	protected String getViewTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteFailed(AccounterException caught) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<DynamicForm> getForms() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }

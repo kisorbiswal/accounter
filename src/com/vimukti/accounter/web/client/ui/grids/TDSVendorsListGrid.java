@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 
 public class TDSVendorsListGrid extends BaseListGrid<ClientTDSInfo> {
 
@@ -55,11 +56,15 @@ public class TDSVendorsListGrid extends BaseListGrid<ClientTDSInfo> {
 		case 4:
 			return obj.getPayment();
 		case 5:
-			return amountAsString(getCompany().getTAXItem(
-					obj.getVendor().getTaxItemCode()).getTaxRate())
+			return DataUtils.amountAsStringWithCurrency(
+					getCompany().getTAXItem(obj.getVendor().getTaxItemCode())
+							.getTaxRate(),
+
+					getCompany().getPrimaryCurrency())
 					+ "%";
 		case 6:
-			return amountAsString(obj.getTdsAmount());
+			return DataUtils.amountAsStringWithCurrency(obj.getTdsAmount(), getCompany()
+					.getPrimaryCurrency());
 		default:
 			break;
 		}
@@ -90,27 +95,27 @@ public class TDSVendorsListGrid extends BaseListGrid<ClientTDSInfo> {
 		for (int index = 0; index < colArray.length; index++) {
 			switch (index) {
 			case 0:
-				colArray[index] = Accounter.constants().active();
+				colArray[index] = Accounter.messages().active();
 				break;
 			case 1:
-				colArray[index] = Accounter.messages().vendorName(
+				colArray[index] = Accounter.messages().payeeName(
 						Global.get().Vendor());
 				break;
 
 			case 2:
-				colArray[index] = Accounter.constants().date();
+				colArray[index] = Accounter.messages().date();
 				break;
 			case 3:
-				colArray[index] = Accounter.constants().originalAmount();
+				colArray[index] = Accounter.messages().originalAmount();
 				break;
 			case 4:
-				colArray[index] = Accounter.constants().payment();
+				colArray[index] = Accounter.messages().payment();
 				break;
 			case 5:
-				colArray[index] = Accounter.constants().percentage();
+				colArray[index] = Accounter.messages().percentage();
 				break;
 			case 6:
-				colArray[index] = Accounter.constants().tds();
+				colArray[index] = Accounter.messages().tds();
 				break;
 			default:
 				break;

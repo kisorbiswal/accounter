@@ -27,7 +27,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 /**
@@ -112,7 +111,7 @@ public abstract class CustomTable extends VerticalPanel {
 		if (getColumns() != null)
 			this.nofCols = getColumns().length;
 		else
-			Window.alert(Accounter.constants()
+			Window.alert(Accounter.messages()
 					.columnShouldntbeEmptyInitColumns());
 
 		this.nofCols = isMultiSelectionEnable ? nofCols + 1 : nofCols;
@@ -238,7 +237,7 @@ public abstract class CustomTable extends VerticalPanel {
 		imagePanel = new HorizontalPanel();
 		imagePanel.setStyleName("loading-panel");
 		imagePanel.add(new Image(Accounter.getFinanceImages().loadingImage()));
-		Label label = new Label(Accounter.constants().pleaseWaitDataIsLoading());
+		Label label = new Label(Accounter.messages().pleaseWaitDataIsLoading());
 		imagePanel.add(label);
 		imagePanel.setCellVerticalAlignment(label,
 				HasVerticalAlignment.ALIGN_MIDDLE);
@@ -513,13 +512,17 @@ public abstract class CustomTable extends VerticalPanel {
 			int cellWidth = -1;
 			int colCounts = 0;
 
+
 			for (int i = isMultiSelectionEnable ? 1 : 0; i < nofCols; i++) {
+				Element cell = table.getCellFormatter().getElement(row,
+						i);
 				cellWidth = getCellWidth(isMultiSelectionEnable ? i - 1 : i);
 				// if (i == nofCols - 2)
 				// continue;
 				if (cellWidth == -2)
 					continue;
 				if (cellWidth == -1) {
+					cell.setAttribute("width", "100%");
 					colsUpdate[colCounts++] = i;
 				} else {
 					try {
@@ -527,8 +530,7 @@ public abstract class CustomTable extends VerticalPanel {
 						if (cellSize <= i) {
 							continue;
 						}
-						Element cell = table.getCellFormatter().getElement(row,
-								i);
+						
 						parentWidth = parentWidth - cellWidth;
 						if (table.equals(body) && BODY_WIDTH == 1)
 							cell.setAttribute("width", ""
@@ -560,12 +562,12 @@ public abstract class CustomTable extends VerticalPanel {
 			// }
 
 			if (isMultiSelectionEnable) {
-//				if (UIUtils.isMSIEBrowser())
-//					table.getCellFormatter().getElement(row, 0)
-//							.setAttribute("width", "" + 25);
-//				else
-					table.getCellFormatter().getElement(row, 0)
-							.setAttribute("width", "" + 15);
+				// if (UIUtils.isMSIEBrowser())
+				// table.getCellFormatter().getElement(row, 0)
+				// .setAttribute("width", "" + 25);
+				// else
+				table.getCellFormatter().getElement(row, 0)
+						.setAttribute("width", "" + 15);
 			}
 
 		} catch (Exception e) {
@@ -752,7 +754,5 @@ public abstract class CustomTable extends VerticalPanel {
 		return getPreferences().getDecimalCharacter();
 	}
 
-	public String amountAsString(Double amount) {
-		return DataUtils.getAmountAsString(amount);
-	}
+
 }

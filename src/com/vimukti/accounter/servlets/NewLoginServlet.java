@@ -3,6 +3,7 @@ package com.vimukti.accounter.servlets;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -16,17 +17,21 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.vimukti.accounter.core.Activation;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.News;
 import com.vimukti.accounter.core.RememberMeKey;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
 
 public class NewLoginServlet extends BaseServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final String LOGIN_VIEW = "/WEB-INF/login.jsp";
 	private static final String ACTIVATION_VIEW = "/WEB-INF/activation.jsp";
 
@@ -40,7 +45,7 @@ public class NewLoginServlet extends BaseServlet {
 		try {
 			transaction = session.beginTransaction();
 			Client client = doLogin(request, response);
-			if (client != null) {
+			if (client != null && !client.isDeleted()) {
 				// if valid credentials are there we redirect to <dest> param or
 				// /companies
 
@@ -77,7 +82,8 @@ public class NewLoginServlet extends BaseServlet {
 				request.setAttribute(
 						"message",
 						"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
-				dispatch(request, response, LOGIN_VIEW);
+				showLogin(request, response);
+				return;
 			}
 			transaction.commit();
 		} catch (Exception e) {
@@ -119,8 +125,8 @@ public class NewLoginServlet extends BaseServlet {
 	protected void addUserCookies(HttpServletResponse resp, String key) {
 		Cookie userCookie = new Cookie(OUR_COOKIE, key);
 		userCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
-		userCookie.setPath("/");
-		userCookie.setDomain(ServerConfiguration.getServerCookieDomain());
+		// userCookie.setPath("/");
+		// userCookie.setDomain(ServerConfiguration.getServerCookieDomain());
 		resp.addCookie(userCookie);
 	}
 
@@ -153,11 +159,9 @@ public class NewLoginServlet extends BaseServlet {
 		LOG.info(request);
 		// We check if the session is already there, if it is, we check if user
 		// have to reset his password(by using a flag on the user object)
-		HttpSession httpSession = request.getSession(false);
-		if (httpSession == null) {
-			dispatch(request, response, LOGIN_VIEW);
-			return;
-		}
+		HttpSession httpSession = request.getSession(true);
+
+		String parameter = request.getParameter("message");
 		String activationType = (String) httpSession
 				.getAttribute(ACTIVATION_TYPE);
 		if (activationType != null && activationType.equals("resetpassword")) {
@@ -172,7 +176,7 @@ public class NewLoginServlet extends BaseServlet {
 			// which gets submitted to same url
 			String userCookie = getCookie(request, OUR_COOKIE);
 			if (userCookie == null) {
-				dispatch(request, response, LOGIN_VIEW);
+				showLogin(request, response);
 				return;
 			}
 
@@ -186,12 +190,12 @@ public class NewLoginServlet extends BaseServlet {
 						.uniqueResult();
 
 				if (rememberMeKey == null) {
-					dispatch(request, response, LOGIN_VIEW);
+					showLogin(request, response);
 					return;
 				}
 				Client client = getClient(rememberMeKey.getEmailID());
 				if (client == null) {
-					dispatch(request, response, LOGIN_VIEW);
+					showLogin(request, response);
 					return;
 				}
 				httpSession.setAttribute(EMAIL_ID, rememberMeKey.getEmailID());
@@ -219,7 +223,7 @@ public class NewLoginServlet extends BaseServlet {
 				query.setParameter(EMAIL_ID, emailID);
 
 				Client client = (Client) query.uniqueResult();
-				if (client != null) {
+				if (client != null && !client.isDeleted()) {
 					if (client.isActive()) {
 						if (client.isRequirePasswordReset()) {
 							// If session is there and he has to reset the
@@ -247,30 +251,35 @@ public class NewLoginServlet extends BaseServlet {
 						// not activated so resend the activation mail
 						// Generate Token and create Activation and save. then
 						// send
-						String token = SecureUtils.createID();
-
-						// get activation object by email id
-
-						query = session
-								.getNamedQuery("get.activation.by.emailid");
-						query.setParameter(EMAIL_ID, emailID);
-						Activation activation = (Activation) query
-								.uniqueResult();
-						Transaction transaction = session.beginTransaction();
-						// reset the activation code and save it
-						activation.setToken(token);
-						try {
-							saveEntry(activation);
-
-							// resend activation mail
-							sendActivationEmail(token, client);
-							transaction.commit();
-						} catch (Exception e) {
-							e.printStackTrace();
-							transaction.rollback();
-						}
-
+						// String token = SecureUtils.createID();
+						//
+						// // get activation object by email id
+						//
+						// query = session
+						// .getNamedQuery("get.activation.by.emailid");
+						// query.setParameter(EMAIL_ID, emailID);
+						// Activation activation = (Activation) query
+						// .uniqueResult();
+						// Transaction transaction = session.beginTransaction();
+						// // reset the activation code and save it
+						// activation.setToken(token);
+						// try {
+						// saveEntry(activation);
+						//
+						// // resend activation mail
+						// sendActivationEmail(token, client);
+						// transaction.commit();
+						// } catch (Exception e) {
+						// e.printStackTrace();
+						// transaction.rollback();
+						// }
+						String message = "?message=" + ACT_FROM_RESET;
+						redirectExternal(request, response, ACTIVATION_URL
+								+ message);
+						return;
 					}
+				} else {
+					showLogin(request, response);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -281,6 +290,31 @@ public class NewLoginServlet extends BaseServlet {
 
 		}
 
+	}
+
+	private void showLogin(HttpServletRequest request,
+			HttpServletResponse response) {
+		String news = getNews();
+		request.setAttribute("news", news);
+		dispatch(request, response, LOGIN_VIEW);
+		return;
+	}
+
+	private String getNews() {
+		Session session = HibernateUtil.openSession();
+		try {
+
+			@SuppressWarnings("unchecked")
+			List<News> list = session.getNamedQuery("getNews").list();
+
+			XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
+			xstream.setMode(XStream.NO_REFERENCES);
+			xstream.alias("news", News.class);
+
+			return xstream.toXML(list);
+		} finally {
+			session.close();
+		}
 	}
 
 }

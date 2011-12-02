@@ -1,7 +1,11 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
+import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -16,49 +20,88 @@ public class WarehouseTransferListGrid extends
 	protected int getColumnType(int index) {
 		switch (index) {
 		case 0:
-			return ListGrid.COLUMN_TYPE_TEXT;
-
+			return ListGrid.COLUMN_TYPE_LINK;
 		case 1:
 			return ListGrid.COLUMN_TYPE_TEXT;
-
 		case 2:
 			return ListGrid.COLUMN_TYPE_TEXT;
-
+		case 3:
+			return ListGrid.COLUMN_TYPE_IMAGE;
 		default:
 			return 0;
 		}
 	}
 
-
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().fromWarehouse(),
-				Accounter.constants().toWarehouse(),
-				Accounter.constants().itemStatus() };
+		return new String[] { Accounter.messages().fromWarehouse(),
+				Accounter.messages().toWarehouse(),
+				Accounter.messages().itemStatus(), "" };
 	}
 
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT };
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	@Override
 	protected void executeDelete(ClientStockTransfer object) {
-		// TODO Auto-generated method stub
-
+		deleteObject(object);
 	}
 
 	@Override
 	protected Object getColumnValue(ClientStockTransfer obj, int index) {
-		// TODO Auto-generated method stub
+		switch (index) {
+		case 0:
+			return getCompany().getWarehouse(obj.getFromWarehouse()).getName();
+		case 1:
+			return getCompany().getWarehouse(obj.getToWarehouse()).getName();
+		case 2:
+			return getTransferItems(obj.getStockTransferItems());
+		case 3:
+			return Accounter.getFinanceMenuImages().delete();
+		}
 		return null;
+	}
+
+	private String getTransferItems(List<ClientStockTransferItem> items) {
+		StringBuffer result = new StringBuffer();
+		for (ClientStockTransferItem item : items) {
+			result.append(" ");
+			result.append(getCompany().getItem(item.getItem()).getName());
+			result.append(" : ");
+			result.append(item.getQuantity().getValue());
+			result.append(" ");
+			result.append(getCompany()
+					.getUnitById(item.getQuantity().getUnit()).getName());
+			result.append(",");
+		}
+		return result.toString();
 	}
 
 	@Override
 	public void onDoubleClick(ClientStockTransfer obj) {
-		// TODO Auto-generated method stub
-
+		ActionFactory.getWareHouseTransferAction().run(obj, false);
 	}
 
+	@Override
+	protected void onClick(ClientStockTransfer obj, int row, int col) {
+		if (col == 3) {
+			showWarnDialog(obj);
+		}
+	}
+
+	@Override
+	protected int getCellWidth(int index) {
+		switch (index) {
+		case 0:
+		case 1:
+			return 175;
+		case 3:
+			return 25;
+		}
+		return -1;
+	}
 }

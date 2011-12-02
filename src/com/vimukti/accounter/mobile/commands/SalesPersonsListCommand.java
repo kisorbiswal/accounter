@@ -1,128 +1,142 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.SalesPerson;
-import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class SalesPersonsListCommand extends AbstractCommand {
+public class SalesPersonsListCommand extends NewAbstractCommand {
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return null;
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(VIEW_BY).setDefaultValue(getMessages().active());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
+	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(ACTIVE, true, true));
+
+		list.add(new CommandsRequirement(VIEW_BY) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
+				return list;
+			}
+		});
+
+		list.add(new ShowListRequirement<SalesPerson>(getMessages()
+				.salesPersonList(), "", 20) {
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// SalesPerson value) {
+			// commandList.add(new UserCommand("Update Sales Person ", value
+			// .getFirstName()));
+			// commandList.add(new UserCommand("Delete SalesPerson", value
+			// .getID()));
+			// }
+
+			@Override
+			protected String onSelection(SalesPerson value) {
+				return "Update Sales Person " + value.getFirstName();
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getMessages().salesPersonList();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return "No Sales Persons are available";
+			}
+
+			@Override
+			protected Record createRecord(SalesPerson salesPrson) {
+				Record record = new Record(salesPrson);
+				record.add(getMessages().firstName(), salesPrson.getFirstName());
+				record.add(getMessages().jobTitle(), salesPrson.getJobTitle());
+				record.add(getMessages().dateofBirth(),
+						salesPrson.getDateOfBirth());
+				record.add(getMessages().email(), salesPrson.getEmail());
+				record.add(getMessages().phone(), salesPrson.getPhoneNo());
+				record.add(getMessages().fax(), salesPrson.getFaxNo());
+				record.add(getMessages().memo(), salesPrson.getMemo());
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create Sales Person");
+			}
+
+			@Override
+			protected boolean filter(SalesPerson e, String name) {
+				return e.getFirstName().startsWith(name);
+			}
+
+			@Override
+			protected List<SalesPerson> getLists(Context context) {
+
+				return getSalesPersons(context);
+			}
+		});
+
 	}
 
-	@Override
-	public Result run(Context context) {
-		Result result = null;
+	protected List<SalesPerson> getSalesPersons(Context context) {
+		String isActive = get(VIEW_BY).getValue();
+		List<SalesPerson> list = new ArrayList<SalesPerson>();
+		Set<SalesPerson> salesPersons = context.getCompany().getSalesPersons();
+		if (salesPersons != null) {
+			for (SalesPerson person : salesPersons) {
+				if (isActive.equals(getMessages().active())) {
+					if (person.isActive()) {
+						list.add(person);
+					}
+				} else {
+					if (!person.isActive()) {
+						list.add(person);
+					}
 
-		result = createSalesPersonsList(context);
-		return result;
-	}
-
-	private Result createSalesPersonsList(Context context) {
-		Result result = null;
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
+				}
 			}
 		}
-		selection = context.getSelection("values");
-
-		result = isActiveRequirement(context, selection);
-		if (result != null) {
-			return result;
-		}
-
-		Boolean isActive = (Boolean) get(ACTIVE).getValue();
-
-		result = salesPersonsList(context, isActive);
-		if (result != null) {
-			return result;
-		}
-
-		return null;
-	}
-
-	private Result salesPersonsList(Context context, Boolean isActive) {
-		ResultList list = new ResultList("values");
-		Object last = context.getLast(RequirementType.TAXITEM_GROUP);
-		if (last != null) {
-			list.add(createSalesPersonRecord((SalesPerson) last));
-		}
-
-		List<SalesPerson> salesPersons = getSalesPersons(
-				context.getHibernateSession(), isActive);
-		for (int i = 0; i < VALUES_TO_SHOW || i < salesPersons.size(); i++) {
-			SalesPerson salesPerson = salesPersons.get(i);
-			if (salesPerson != last) {
-				list.add(createSalesPersonRecord((SalesPerson) salesPerson));
-			}
-		}
-		Result result = new Result();
-
-		int size = list.size();
-		StringBuilder message = new StringBuilder();
-		if (size == 0) {
-			message.append("No records to show.");
-			result.add(message.toString());
-			return result;
-		}
-
-		String activeString = "";
-		if (isActive) {
-			activeString = "Active Sales Persons";
-		} else {
-			activeString = "InActive Sales Persons";
-		}
-		result.add(activeString);
-		result.add(list);
-
-		return result;
-	}
-
-	private List<SalesPerson> getSalesPersons(Session hibernateSession,
-			Boolean isActive) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Record createSalesPersonRecord(SalesPerson salesPerson) {
-		Record record = new Record(salesPerson);
-		record.add("Active", salesPerson.isActive());
-		record.add("Sales Person", salesPerson.getName());
-		Address address = salesPerson.getAddress();
-		record.add("Address", address != null ? address.getAddress1() : "");
-		record.add("City", address != null ? address.getCity() : "");
-		record.add("State", address != null ? address.getStateOrProvinence()
-				: "");
-		record.add("Zip Code", address != null ? address.getZipOrPostalCode()
-				: "");
-		record.add("Phone", salesPerson.getPhoneNo());
-		record.add("Fax", salesPerson.getFaxNo());
-		return record;
+		return list;
 	}
 
 }

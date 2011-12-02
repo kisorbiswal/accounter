@@ -2,102 +2,125 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 
-public class NewPaymentTermCommand extends AbstractTransactionCommand {
+public class NewPaymentTermCommand extends NewAbstractCommand {
 
 	private final static String PAYMENT_TERMS = "Payment Terms";
 	private final static String DESCRIPTION = "Description";
 	private final static String DUE_DAYS = "Due Days";
 
+	private ClientPaymentTerms paymentTerms;
+
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new Requirement(PAYMENT_TERMS, false, true));
-		list.add(new Requirement(DESCRIPTION, true, true));
-		list.add(new Requirement(DUE_DAYS, true, true));
+		list.add(new StringRequirement(PAYMENT_TERMS, getMessages()
+				.pleaseEnter(getMessages().paymentTerm()), getMessages()
+				.paymentTerm(), false, true));
+
+		list.add(new StringRequirement(DESCRIPTION, getMessages().pleaseEnter(
+				getMessages().paymentTermDescription()), getMessages()
+				.paymentTermDescription(), true, true));
+
+		list.add(new NumberRequirement(DUE_DAYS, getMessages().pleaseEnter(
+				getMessages().dueDays()), getMessages().dueDays(), true, true));
 
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = paymentTermNameRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		result = optionalRequirements(context);
-		return result;
+	protected Result onCompleteProcess(Context context) {
+		String paymnetTermName = get(PAYMENT_TERMS).getValue();
+		paymentTerms.setName(paymnetTermName);
+
+		String description = get(DESCRIPTION).getValue();
+		paymentTerms.setDescription(description);
+
+		Integer dueDays = Integer.parseInt((String) get(DUE_DAYS).getValue());
+		paymentTerms.setDueDays(dueDays);
+
+		create(paymentTerms, context);
+
+		markDone();
+		return null;
 	}
 
-	private Result optionalRequirements(Context context) {
-
-		context.setAttribute(INPUT_ATTR, "optional");
-		Object selection = context.getSelection(ACTIONS);
-
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-
-			case FINISH:
-				context.removeAttribute(INPUT_ATTR);
-				return null;
-			default:
-				break;
-			}
-		}
-
-		ResultList list = new ResultList("values");
-		selection = context.getSelection("values");
-
-		String description = (String) get(DESCRIPTION).getValue();
-		Record descriptionRecord = new Record(description);
-		descriptionRecord.add("Name", DESCRIPTION);
-		descriptionRecord.add("Value", description);
-		list.add(descriptionRecord);
-
-		int dueDays = get(DUE_DAYS).getValue();
-		Record dueDaysRec = new Record(dueDays);
-		dueDaysRec.add("Name", DUE_DAYS);
-		dueDaysRec.add("Value", dueDays);
-		list.add(dueDaysRec);
-
-		Result result = context.makeResult();
-		result.add("Payment Terms is ready to create with following values");
-		result.add(list);
-
-		ResultList actions = new ResultList(ACTIONS);
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish Payment Terms.");
-		actions.add(finish);
-		result.add(actions);
-		return result;
+	@Override
+	protected String getDeleteCommand(Context context) {
+		long id = paymentTerms.getID();
+		return id != 0 ? "Delete PaymentTerm " + id : null;
 	}
 
-	private Result paymentTermNameRequirement(Context context) {
-		Requirement requirement = get(PAYMENT_TERMS);
-		if (!requirement.isDone()) {
-			String paymentTerm = context.getSelection(TEXT);
-			if (paymentTerm != null) {
-				requirement.setValue(paymentTerm);
-			} else {
-				return text(context, "Please enter the Payment term name", null);
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Payment Term to update.");
+				return "Payment Terms List";
 			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(PAYMENT_TERMS)) {
-			requirement.setValue(input);
+			ClientPaymentTerms paymentTermsByName = CommandUtils
+					.getPaymentTermByName(context.getCompany(), string);
+			if (paymentTermsByName == null) {
+				addFirstMessage(context, "Select a Payment Term to update.");
+				return "Payment Terms List " + string.trim();
+			}
+			paymentTerms = paymentTermsByName;
+			get(PAYMENT_TERMS).setValue(paymentTermsByName.getName());
+			get(DUE_DAYS).setValue(paymentTermsByName.getDueDays());
+			get(DESCRIPTION).setValue(paymentTermsByName.getDescription());
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(PAYMENT_TERMS).setValue(string);
+			}
+			paymentTerms = new ClientPaymentTerms();
 		}
 		return null;
 	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		if (paymentTerms.getID() == 0) {
+			return "New Payment term command is activated";
+		} else {
+			return "Update payment term command activated";
+		}
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		if (paymentTerms.getID() == 0) {
+			return "New Payment term command is ready to create with the following values";
+		} else {
+			return "Payment term is ready update with following values";
+		}
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(DESCRIPTION).setDefaultValue("");
+		get(DUE_DAYS).setDefaultValue("0");
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		if (paymentTerms.getID() == 0) {
+			return "New payment term is created successfully";
+		} else {
+			return "Payment term updated successfully";
+		}
+	}
+
 }

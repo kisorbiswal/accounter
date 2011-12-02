@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport.Alignment;
@@ -66,7 +66,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 		String[] headerTites = reportView.getColunms();
 		body.append("<tr class=\"gridHeaderRow\"> ");
 		for (int i = 0; i < headerTites.length; i++) {
-			body.append("<th style=\"vertical-align: middle;padding-left:20px;\"class=\"ReportGridheaderStyle depth2");
+			body.append("<th style=\"vertical-align: middle;padding-left:10px;\"class=\"ReportGridheaderStyle depth2");
 			if (columnTypes[i] == COLUMN_TYPE_AMOUNT
 					|| columnTypes[i] == COLUMN_TYPE_DATE
 					|| columnTypes[i] == COLUMN_TYPE_NUMBER
@@ -76,17 +76,27 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 
 			Alignment headerAlign = reportView.getHeaderHAlign(i);
 			if (headerAlign == null) {
-				headerAlign = Alignment.H_ALIGN_LEFT;
+				if (columnTypes[i] == COLUMN_TYPE_NUMBER
+						|| columnTypes[i] == COLUMN_TYPE_AMOUNT) {
+
+					headerAlign = Alignment.H_ALIGN_CENTER;
+				} else if (columnTypes[i] == COLUMN_TYPE_DATE) {
+
+					headerAlign = Alignment.H_ALIGN_CENTER;
+				} else if (columnTypes[i] == COLUMN_TYPE_TEXT) {
+
+					headerAlign = Alignment.H_ALIGN_CENTER;
+				}
 			}
 			switch (headerAlign) {
 			case H_ALIGN_CENTER:
-				body.append("\" align=\"centre\"");
+				body.append("\" align=\"left\"");
 				break;
 			case H_ALIGN_LEFT:
 				body.append("\" align=\"left\"");
 				break;
 			case H_ALIGN_RIGHT:
-				body.append("\" align=\"right\"");
+				body.append("\" align=\"left\"");
 				break;
 			default:
 				body.append("\" align=\"left\"");
@@ -96,7 +106,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 			body.append(" width=\"" + reportView.getColumnWidth(i) + "\">"
 					+ headerTites[i] + "</th>");
 		}
-		body.append("<th class=\"gridHeaderLastTd\" width=\"17px\"><div class=\"gwt-Label\"></div></th></tr>");
+		body.append("<tr><td><br/><br/></td><tr><th class=\"gridHeaderLastTd\" width=\"17px\"><div class=\"gwt-Label\"></div></th></tr>");
 	}
 
 	@Override
@@ -153,8 +163,12 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 		body.append("ReportGridcustomFont\" title=\"");
 		body.append(cellValue);
 		if (columnType == COLUMN_TYPE_AMOUNT) {
-			body.append("\" align=\"right\" ");
-		} else {
+			body.append("\" align=\"left\" ");
+		} 
+		else if (columnType == COLUMN_TYPE_TEXT) {
+			body.append("\" align=\"left\" ");
+		} 
+		else {
 			body.append("\" align=\"left\" ");
 		}
 
@@ -221,7 +235,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	}
 
 	@Override
-	public String getBody(AccounterConstants accounterConstants) {
+	public String getBody(AccounterMessages messages) {
 
 		if (body == null || body.toString().isEmpty()) {
 			body = new StringBuffer(

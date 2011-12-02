@@ -22,12 +22,10 @@ import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
-import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
@@ -78,19 +76,13 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 					if (CheckUserExistanceAndsetAccounterThreadLocal(request)) {
 						super.service(request, response);
 						try {
-							String serverCompanyID = getCookie(request,
-									BaseServlet.COMPANY_COOKIE);
+							Long serverCompanyID = (Long) request.getSession()
+									.getAttribute(COMPANY_ID);
 							getFinanceTool().putChangesInCometStream(
-									Long.parseLong(serverCompanyID));
+									serverCompanyID);
 						} catch (AccounterException e) {
 							log.error("Failed to get FinanceTool", e);
 						}
-						// TODO
-						// if (ChangeTracker.getChanges().length > 1) {
-						// FinanceTool financeTool = (FinanceTool) session.load(
-						// FinanceTool.class, 1l);
-						// financeTool.putChangesInCometStream();
-						// }
 					} else {
 						response.sendError(HttpServletResponse.SC_FORBIDDEN,
 								"Could Not Complete the Request!");
@@ -120,9 +112,12 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	private boolean CheckUserExistanceAndsetAccounterThreadLocal(
 			HttpServletRequest request) {
 		Session session = HibernateUtil.getCurrentSession();
-		String serverCompanyID = getCookie(request, BaseServlet.COMPANY_COOKIE);
-		Company company = (Company) session.get(Company.class,
-				Long.valueOf(serverCompanyID));
+		Long serverCompanyID = (Long) request.getSession().getAttribute(
+				COMPANY_ID);
+		if (serverCompanyID == null) {
+			return false;
+		}
+		Company company = (Company) session.get(Company.class, serverCompanyID);
 		if (company == null) {
 			return false;
 		}
@@ -168,16 +163,16 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	// }
 
 	private String getCompanyName(HttpServletRequest req) {
-		String companyID = getCookie(req, BaseServlet.COMPANY_COOKIE);
+		String companyID = (String) req.getSession().getAttribute(COMPANY_ID);
 		if (companyID == null) {
 			// TODO Throw Exception
 		}
 		Session session = HibernateUtil.openSession();
 		try {
-			ServerCompany company = (ServerCompany) session.get(
-					ServerCompany.class, Long.parseLong(companyID));
+			Company company = (Company) session.get(Company.class,
+					Long.parseLong(companyID));
 			if (company != null) {
-				return company.getCompanyName();
+				return company.getTradingName();
 			}
 		} finally {
 			session.close();
@@ -231,7 +226,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 
 			session.saveOrUpdate(user);
 			this.getThreadLocalRequest().getSession()
-					.setAttribute(EMAIL_ID, user.getEmail());
+					.setAttribute(EMAIL_ID, user.getClient().getEmailId());
 			this.getThreadLocalRequest()
 					.getSession()
 					.setAttribute(COMPANY_ID,
@@ -240,7 +235,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			CometSession cometSession = CometServlet
 					.getCometSession(getHttpSession());
 			CometManager.initStream(getThreadLocalRequest().getSession()
-					.getId(), getCompanyId(), user.getEmail(), cometSession);
+					.getId(), getCompanyId(), user.getClient().getEmailId(),
+					cometSession);
 
 			if (rememberMe) {
 				setCookies(string, password);
@@ -279,14 +275,15 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				"");
 	}
 
-	protected long getCompanyId(HttpServletRequest request) {
-		String serverCompanyID = getCookie(request, BaseServlet.COMPANY_COOKIE);
-		return Long.valueOf(serverCompanyID);
+	protected Long getCompanyId(HttpServletRequest request) {
+		Long companyID = (Long) request.getSession().getAttribute(COMPANY_ID);
+		return companyID;
 	}
 
-	protected long getCompanyId() {
-		String serverCompanyID = getCookie(BaseServlet.COMPANY_COOKIE);
-		return Long.valueOf(serverCompanyID);
+	protected Long getCompanyId() {
+		Long companyID = (Long) getThreadLocalRequest().getSession()
+				.getAttribute(COMPANY_ID);
+		return companyID;
 	}
 
 }

@@ -4,12 +4,36 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.TextBoxBase;
 
 public abstract class TextEditColumn<T> extends EditColumn<T> {
 
+	private boolean updateFromGUI = false;
+
+	public TextEditColumn(boolean updateFromGUI) {
+		this.updateFromGUI = updateFromGUI;
+	}
+
+	public TextEditColumn() {
+		this(false);
+	}
+
+	protected TextBoxBase createWidget() {
+		return new TextBox();
+	}
+
+	@Override
+	public void updateFromGUI(IsWidget widget, T row) {
+		if (updateFromGUI) {
+			TextBoxBase box = (TextBoxBase) widget;
+			String newValue = box.getText().trim();
+			setValue(row, newValue);
+		}
+	}
+
 	@Override
 	public void render(IsWidget widget, RenderContext<T> context) {
-		TextBox box = (TextBox) widget;
+		TextBoxBase box = (TextBoxBase) widget;
 		String value = getValue(context.getRow());
 		box.setEnabled(isEnable() && !context.isDesable());
 		box.setText(value);
@@ -25,7 +49,7 @@ public abstract class TextEditColumn<T> extends EditColumn<T> {
 
 	@Override
 	public IsWidget getWidget(final RenderContext<T> context) {
-		final TextBox textBox = new TextBox();
+		final TextBoxBase textBox = createWidget();
 		configure(textBox);
 		textBox.addBlurHandler(new BlurHandler() {
 
@@ -45,7 +69,7 @@ public abstract class TextEditColumn<T> extends EditColumn<T> {
 		return textBox;
 	}
 
-	protected void configure(TextBox textBox) {
+	protected void configure(TextBoxBase textBox) {
 		textBox.addStyleName("textEdit");
 	}
 

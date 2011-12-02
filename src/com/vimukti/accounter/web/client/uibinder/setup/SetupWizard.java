@@ -20,14 +20,17 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
-import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.CustomLabel;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.CustomLabel;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
 public class SetupWizard extends VerticalPanel {
@@ -43,93 +46,55 @@ public class SetupWizard extends VerticalPanel {
 	private int currentViewIndex = START_PAGE;
 	private List<TemplateAccount> selectedAccounts = new ArrayList<TemplateAccount>();
 	private FlexTable progressTable;
+	private AccounterMessages messages = Accounter.messages();
 
-	private AbstractSetupPage viewList[] = new AbstractSetupPage[] {
-			new SetupStartPage(this),
-			new SetupCompanyInfoPage(),
-			new SetupIndustrySelectionPage(this),
-			new SetupOrganisationSelectionPage(),
-			// new SetupTDSSelectionPage(),
-			new SetupReferPage(),
-			// Employee Expanse Will be Added in Next Version
-			/* new SetupTrackEmployeesPage(), */new SetupSellTypeAndSalesTaxPage(),
-
-			new SetupUsingEstimatesAndStatementsPage(),
-			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
-			new SetupSelectFiscalYrDatePage(),
-			new SetupSelectAccountsPage(this), new SetupComplitionPage() };
-
-	private AbstractSetupPage viewList1[] = new AbstractSetupPage[] {
-			new SetupStartPage(this),
-			new SetupCompanyInfoPage(),
-			new SetupIndustrySelectionPage(this),
-			new SetupOrganisationSelectionPage(),
-			new SetupReferPage(),
-			// Employee Expanse Will be Added in Next Version
-			/* new SetupTrackEmployeesPage(), */new SetupSellTypeAndSalesTaxPage(),
-
-			new SetupUsingEstimatesAndStatementsPage(),
-			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
-			new SetupSelectFiscalYrDatePage(),
-			new SetupSelectAccountsPage(this), new SetupComplitionPage() };
-
-	private AbstractSetupPage[] skipViewList = new AbstractSetupPage[] {
-			new SetupStartPage(this), new SetupCompanyInfoPage(),
-			new SetupOrganisationSelectionPage(),
-			new SetupSelectFiscalYrDatePage(),
-			new SetupIndustrySelectionWithAccountsPage(this),
-			new SetupComplitionPage() };
-
-	private Image startProgressImages[] = new Image[viewList.length - 2];
-	private Image startProgressImages1[] = new Image[viewList1.length - 2];
-
-	private String startProgressLabels[] = new String[] {
-			Accounter.constants().setCompanyInfo(),
-			Accounter.constants().selectIndustryType(),
-			Accounter.constants().companyOrganization(),
-
-			Accounter.constants().terminology(),
-			// Accounter.constants().trackEmployeeExpenses(),
-
-			Accounter.constants().whatDoYouSell(),
-			Accounter.constants().setEstimatesAndStatements(),
-			Accounter.constants().setCurrency(),
-			Accounter.constants().setBillTracking(),
-			Accounter.constants().setFiscalYear(),
-			Accounter.constants().Accounts() };
-
-	private String startProgressLabels1[] = new String[] {
-			Accounter.constants().setCompanyInfo(),
-			Accounter.constants().selectIndustryType(),
-			Accounter.constants().companyOrganization(),
-			// Accounter.constants().tdsSelection(),
-			Accounter.constants().terminology(),
-			// Accounter.constants().trackEmployeeExpenses(),
-
-			Accounter.constants().whatDoYouSell(),
-			Accounter.constants().setEstimatesAndStatements(),
-			Accounter.constants().setCurrency(),
-			Accounter.constants().setBillTracking(),
-			Accounter.constants().setFiscalYear(),
-			Accounter.constants().Accounts() };
-
-	private Image skipProgressImages[] = new Image[skipViewList.length - 2];
-	private String skipProgressLabels[] = new String[] {
-			Accounter.constants().setCompanyInfo(),
-			Accounter.constants().companyOrganization(),
-			Accounter.constants().setFiscalYear(),
-			Accounter.constants().selectIndustryType() };
+	private List<AbstractSetupPage> allViewsList, showViewList;
+	private List<Image> images;
 
 	private AbstractSetupPage previousView;
 	private AbstractSetupPage viewToShow;
-	private boolean isSkip;
 	private Map<Integer, AccountsTemplate> accountsTemplates = new HashMap<Integer, AccountsTemplate>();
 
 	public SetupWizard(AsyncCallback<Boolean> callback) {
-		preferences = Accounter.getCompany().getPreferences();
+		preferences = new ClientCompanyPreferences();
+		Accounter.createCompanyInitializationService().getCountry(
+				new AsyncCallback<String>() {
+
+					@Override
+					public void onSuccess(String result) {
+						preferences.setTradingAddress(new ClientAddress());
+						preferences.getTradingAddress().setCountryOrRegion(
+								result);
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+					}
+				});
+		AbstractSetupPage.setPreferences(preferences);
+		initViewsAndNamesList();
 		creteControls();
 		this.addStyleName("setup_panel");
 		this.callback = callback;
+	}
+
+	private void initViewsAndNamesList() {
+		allViewsList = new ArrayList<AbstractSetupPage>();
+		allViewsList.add(new SetupStartPage(this));
+		allViewsList.add(new SetupCompanyInfoPage());
+		allViewsList.add(new SetupIndustrySelectionPage(this));
+		// allViewsList.add(new SetupOrganisationSelectionPage());
+		allViewsList.add(new SetupReferPage());
+		allViewsList.add(new SetupSellTypeAndSalesTaxPage());
+		allViewsList.add(new SetupUsingEstimatesAndStatementsPage());
+		allViewsList.add(new SetupCurrencyPage());
+		allViewsList.add(new SetupTrackBillsAndTimePage());
+		allViewsList.add(new SetupSelectFiscalYrDatePage());
+		allViewsList.add(new SetupSelectAccountsPage(this));
+		// IF SETUP SKIP THEN ONLY THIS VIEW SHOULD SHOW..
+		allViewsList.add(new SetupIndustrySelectionWithAccountsPage(this));
+		allViewsList.add(new SetupComplitionPage());
 	}
 
 	public void creteControls() {
@@ -139,13 +104,10 @@ public class SetupWizard extends VerticalPanel {
 			progressPanel = new VerticalPanel();
 			viewButtonPanel = new VerticalPanel();
 			backNextButtonPanel = new HorizontalPanel();
-			progressHeader = new Label(Accounter.constants().setupProgress());
+			progressHeader = new Label(messages.setupProgress());
 
 			progressPanel.add(progressHeader);
 			progressHeader.addStyleName("progress_header");
-
-			// add progress steps
-			// setting images
 
 			buttonPanel = new HorizontalPanel();
 			buttonPanel.setVisible(false);
@@ -162,9 +124,6 @@ public class SetupWizard extends VerticalPanel {
 			topPanel.add(progressPanel);
 			topPanel.add(viewButtonPanel);
 
-			// topPanel.setCellWidth(progressPanel, "25%");
-			// topPanel.setCellWidth(viewButtonPanel, "75%");
-
 			viewPanel.addStyleName("view_panel");
 			viewButtonPanel.setSize("100%", "100%");
 			topPanel.setSize("100%", "100%");
@@ -175,21 +134,16 @@ public class SetupWizard extends VerticalPanel {
 
 			progressPanel.getElement().getParentElement().setClassName(
 					"progress_panel_hide");
-			// adding buttons to button panel
-			// skipButton = new Button(Accounter.constants().skip());
-			backButton = new Button(Accounter.constants().back());
-			nextButton = new Button(Accounter.constants().next());
-			gotoButton = new Button(Accounter.constants().gotoAccounter());
-			cancelBtn = new Button(Accounter.constants().cancel());
 
-			// making them invisible at the beginning
-			// skipButton.setVisible(false);
+			backButton = new Button(messages.back());
+			nextButton = new Button(messages.next());
+			gotoButton = new Button(messages.gotoAccounter());
+			cancelBtn = new Button(messages.cancel());
+
 			backButton.setVisible(false);
 			nextButton.setVisible(false);
 			gotoButton.setVisible(false);
-			// cancelBtn.setVisible(false);
 
-			// buttonPanel.add(skipButton);
 			backNextButtonPanel.add(backButton);
 			backNextButtonPanel.add(nextButton);
 			backNextButtonPanel.add(gotoButton);
@@ -202,23 +156,19 @@ public class SetupWizard extends VerticalPanel {
 			buttonPanel.setWidth("100%");
 			loadIndustriesDefaultAccounts();
 
-			// adding handlers
-			// skipButton.addClickHandler(new ClickHandler() {
-			// @Override
-			// public void onClick(ClickEvent arg0) {
-			// gotoLastPage();
-			// }
-			// });
 			gotoButton.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
-
+					gotoButton.setEnabled(false);
+					showLoadingImage();
+					setStartDateOfFiscalYear();
 					Accounter.createCompanyInitializationService()
 							.initalizeCompany(preferences, selectedAccounts,
 									callback);
 
 				}
+
 			});
 			nextButton.addClickHandler(new ClickHandler() {
 
@@ -260,11 +210,18 @@ public class SetupWizard extends VerticalPanel {
 
 	}
 
+	private static native void showLoadingImage() /*-{
+		var parent = $wnd.document.getElementById('loadingWrapper');
+		var footer = $wnd.document.getElementById('mainFooter');
+		parent.style.visibility = 'visible';
+		footer.style.visibility = 'hidden';
+	}-*/;
+
 	/**
 	 * 
 	 */
 	private void loadIndustriesDefaultAccounts() {
-		Accounter.createGETService().getAccountsTemplate(
+		Accounter.createCompanyInitializationService().getAccountsTemplate(
 				new AccounterAsyncCallback<List<AccountsTemplate>>() {
 
 					@Override
@@ -284,18 +241,29 @@ public class SetupWizard extends VerticalPanel {
 
 	private void showStartPage() {
 		try {
-			viewToShow = viewList[START_PAGE];
+			viewToShow = allViewsList.get(0);
 			this.viewPanel.add(viewToShow);
 		} catch (Exception e) {
 			System.err.println(e);
 		}
 	}
 
-	/**
-	 * @return
-	 */
-	private boolean isTDSView() {
-		return viewToShow instanceof SetupTDSSelectionPage;
+	private void setStartDateOfFiscalYear() {
+		ClientFinanceDate currentDate = new ClientFinanceDate();
+		int fiscalYearFirstMonth = preferences.getFiscalYearFirstMonth();
+		ClientFinanceDate fiscalYearStartDate = new ClientFinanceDate(
+				(int) currentDate.getYear(), fiscalYearFirstMonth, 1);
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTime(fiscalYearStartDate.getDateAsObject());
+		endCal.set(Calendar.MONTH, endCal.get(Calendar.MONTH) + 11);
+		endCal.set(Calendar.DATE, endCal
+				.getActualMaximum(Calendar.DAY_OF_MONTH));
+		ClientFinanceDate fiscalYearEndDate = new ClientFinanceDate(endCal
+				.getTime());
+
+		preferences.setStartOfFiscalYear(fiscalYearStartDate.getDate());
+		preferences.setEndOfFiscalYear(fiscalYearEndDate);
+		preferences.setDepreciationStartDate(currentDate.getDate());
 	}
 
 	protected void showView(boolean isNext) {
@@ -309,8 +277,7 @@ public class SetupWizard extends VerticalPanel {
 			}
 			previousView.onSave();
 			if (currentViewIndex > 0) {
-				getProgressImages()[currentViewIndex - 1]
-						.addStyleName("tick_show");
+				images.get(currentViewIndex).addStyleName("tick_show");
 
 			}
 			if (!isLastView()) {
@@ -319,18 +286,13 @@ public class SetupWizard extends VerticalPanel {
 
 		} else {
 			if (currentViewIndex > 1) {
-				getProgressImages()[currentViewIndex - 2]
-						.removeStyleName("tick_show");
+				images.get(currentViewIndex - 1).removeStyleName("tick_show");
 			}
 			currentViewIndex--;
 		}
 
 		this.viewPanel.remove(previousView);
-		viewToShow = getNextView();
-		if (Accounter.getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_US
-				&& isOrganizationView()) {
-			showView(isNext);
-		}
+		viewToShow = showViewList.get(currentViewIndex);
 
 		if (viewToShow == null) {
 			return;
@@ -342,18 +304,14 @@ public class SetupWizard extends VerticalPanel {
 			backNextButtonPanel.addStyleName("back_NextPanel");
 		}
 		this.viewPanel.add(viewToShow);
-		viewToShow.setCountryChanges();
 		// checking button display related conditions
 		if (isFirstView()) {
 			buttonPanel.setVisible(true);
 			if (!isLastView()) {
-				// skipButton.setVisible(true);
 				nextButton.setVisible(true);
-
 				gotoButton.setVisible(false);
 			} else {
 				gotoButton.setVisible(true);
-				// skipButton.setVisible(false);
 				nextButton.setVisible(false);
 			}
 			backButton.setVisible(true);
@@ -363,54 +321,24 @@ public class SetupWizard extends VerticalPanel {
 
 	}
 
-	/**
-	 * @return
-	 */
-	private boolean isOrganizationView() {
-		return viewToShow instanceof SetupOrganisationSelectionPage;
-	}
-
 	public void initProgessPanel() {
 		progressTable = new FlexTable();
-		Image[] progressImages = getProgressImages();
-		String[] progressLabels = getProgressLabels();
-		for (int iii = 0; iii < progressImages.length; iii++) {
-			CustomLabel label = new CustomLabel(progressLabels[iii]);
-			progressImages[iii] = new Image(Accounter.getFinanceImages()
-					.tickMark());
-
-			progressImages[iii].addStyleName("tick_hidden");
-			progressTable.setWidget(iii, 0, progressImages[iii]);
-			progressTable.setWidget(iii, 1, label);
-
+		for (int iii = 0; iii < images.size(); iii++) {
+			if (showViewList.get(iii).isShowProgressPanel()) {
+				CustomLabel label = new CustomLabel(showViewList.get(iii)
+						.getViewName());
+				images.set(iii, new Image(Accounter.getFinanceImages()
+						.tickMark()));
+				images.get(iii).addStyleName("tick_hidden");
+				progressTable.setWidget(iii, 0, images.get(iii));
+				progressTable.setWidget(iii, 1, label);
+			}
 		}
 
 		progressPanel.add(progressTable);
 		progressTable.addStyleName("progress_panel_data");
 		progressPanel.getElement().getParentElement().setClassName(
 				"progress_panel_show");
-	}
-
-	private String[] getProgressLabels() {
-		if (isSkip) {
-			return skipProgressLabels;
-		}
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			return startProgressLabels1;
-		} else {
-			return startProgressLabels;
-		}
-	}
-
-	private Image[] getProgressImages() {
-		if (isSkip) {
-			return skipProgressImages;
-		}
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			return startProgressImages;
-		} else {
-			return startProgressImages1;
-		}
 	}
 
 	/**
@@ -430,39 +358,7 @@ public class SetupWizard extends VerticalPanel {
 	 * @return
 	 */
 	private boolean isLastView() {
-		return currentViewIndex == getViewsList().length - 1;
-	}
-
-	private AbstractSetupPage getNextView() {
-
-		AbstractSetupPage nextView = getViewsList()[currentViewIndex];
-		while (!nextView.canShow()) {
-			currentViewIndex++;
-			if (currentViewIndex > getViewsList().length - 1) {
-				return null;
-			}
-			nextView = getViewsList()[currentViewIndex];
-		}
-		return nextView;
-	}
-
-	/**
-	 * @param b
-	 */
-	public void setSkip(boolean value) {
-		this.isSkip = value;
-	}
-
-	private AbstractSetupPage[] getViewsList() {
-		if (isSkip) {
-			return skipViewList;
-		}
-
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA)
-			return viewList;
-		else
-			return viewList1;
-
+		return currentViewIndex == showViewList.size() - 1;
 	}
 
 	/**
@@ -548,7 +444,14 @@ public class SetupWizard extends VerticalPanel {
 	}
 
 	public void initInterview(boolean isSkip) {
-		this.isSkip = isSkip;
+		showViewList = new ArrayList<AbstractSetupPage>();
+		images = new ArrayList<Image>();
+		for (int i = 0; i < allViewsList.size(); i++) {
+			if (allViewsList.get(i).canShow()) {
+				images.add(new Image());
+				showViewList.add(allViewsList.get(i));
+			}
+		}
 		initProgessPanel();
 		showView(true);
 	}

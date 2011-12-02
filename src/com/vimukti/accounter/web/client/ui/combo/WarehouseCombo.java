@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -9,17 +10,17 @@ public class WarehouseCombo extends CustomCombo<ClientWarehouse> {
 
 	public WarehouseCombo(String title) {
 		super(title);
-		// initCombo(Accounter.getCompany().getWarehouses());
+		initCombo(Accounter.getCompany().getWarehouses());
 	}
 
 	public WarehouseCombo(String title, boolean isAddNewRequire) {
 		super(title, isAddNewRequire, 1);
-		// initCombo(Accounter.getCompany().getWarehouses());
+		initCombo(Accounter.getCompany().getWarehouses());
 	}
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.addNewWareHouse();
+		return messages.wareHouse();
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class WarehouseCombo extends CustomCombo<ClientWarehouse> {
 	}
 
 	@Override
-	protected String getColumnData(ClientWarehouse object, int row, int col) {
+	protected String getColumnData(ClientWarehouse object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

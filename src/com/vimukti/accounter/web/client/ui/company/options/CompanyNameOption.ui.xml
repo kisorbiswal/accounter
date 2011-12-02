@@ -7,10 +7,19 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
+	<g:VerticalPanel spacing="8" styleName="companyInfoPanel"
+		ui:field="mainPanel">
 		<g:HorizontalPanel spacing="10">
 			<g:Label ui:field="companyNameLabel" styleName="header" />
 			<g:TextBox ui:field="companyNameTextBox" visibleLength="60" />
+		</g:HorizontalPanel>
+		<g:HorizontalPanel spacing="10">
+			<g:CheckBox ui:field="isShowLegalName" />
+		</g:HorizontalPanel>
+		<g:HorizontalPanel ui:field="legalNamePanel"
+			spacing="10">
+			<g:Label ui:field="legalNameLabel" styleName="header" />
+			<g:TextBox ui:field="legalNameTextBox" />
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

@@ -78,6 +78,10 @@ public class ClientVendor extends ClientPayee {
 	public ClientVendor() {
 	}
 
+	public ClientVendor(long currency) {
+		super(currency);
+	}
+
 	/**
 	 * @return the accountNumber
 	 */
@@ -544,5 +548,10 @@ public class ClientVendor extends ClientPayee {
 
 	public void setTdsApplicable(boolean tdsApplicable) {
 		this.tdsApplicable = tdsApplicable;
+	}
+
+	@Override
+	public String getDisplayName() {
+		return this.getName();
 	}
 }

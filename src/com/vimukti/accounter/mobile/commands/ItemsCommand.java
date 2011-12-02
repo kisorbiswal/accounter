@@ -2,113 +2,140 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Item;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class ItemsCommand extends AbstractTransactionCommand {
+public class ItemsCommand extends NewAbstractCommand {
 
-	private static final String ACTIVE = "active";
+	private static final String ITEMS_TYPE = "itemsType";
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(ACTIVE, false, true));
+
+		list.add(new CommandsRequirement(ITEMS_TYPE) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getMessages().active());
+				list.add(getMessages().inActive());
+				return list;
+			}
+		});
+
+		list.add(new ShowListRequirement<Item>("items", "Please Select Item",
+				20) {
+			// @Override
+			// protected void setSelectCommands(CommandList commandList, Item
+			// value) {
+			// commandList.add(new UserCommand("Update Item", String
+			// .valueOf(value.getID())));
+			// commandList.add(new UserCommand("Delete Item", value.getID()));
+			// }
+
+			@Override
+			protected String onSelection(Item value) {
+				return "Update Item " + value.getID();
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getMessages().itemList();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().noRecordsToShow();
+			}
+
+			@Override
+			protected Record createRecord(Item value) {
+				Record record = new Record(value);
+				record.add("Name", value.getName());
+				record.add("Description", value.getPurchaseDescription());
+				record.add("Type", value.getType());
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Add a New Item");
+			}
+
+			@Override
+			protected boolean filter(Item e, String name) {
+
+				return e.getName().startsWith(name)
+						|| String.valueOf(e.getID()).startsWith(
+								"" + getNumberFromString(name));
+			}
+
+			@Override
+			protected List<Item> getLists(Context context) {
+				Set<Item> items = getItems(context);
+				List<Item> result = new ArrayList<Item>();
+				String type = get(ITEMS_TYPE).getValue();
+
+				for (Item item : items) {
+
+					if (type.equalsIgnoreCase("Active")) {
+						if (item.isActive())
+							result.add(item);
+
+					}
+					if (type.equalsIgnoreCase("In-Active")) {
+						if (!item.isActive())
+							result.add(item);
+					}
+				}
+				return result;
+			}
+
+		});
+
+	}
+
+	private Set<Item> getItems(Context context) {
+		return context.getCompany().getItems();
+
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = null;
-
-		result = createitemsListReq(context);
-		if (result != null) {
-			return result;
-		}
+	protected String initObject(Context context, boolean isUpdate) {
 		return null;
 	}
 
-	private Result createitemsListReq(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
-		}
-		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
-
-		Result result = isActiveRequirement(context, selection);
-
-		Boolean isActive = (Boolean) get(ACTIVE).getValue();
-		result = itemsList(context, isActive);
-		if (result != null) {
-			return result;
-		}
-		return result;
+	@Override
+	protected String getWelcomeMessage() {
+		return null;
 	}
 
-	private Result itemsList(Context context, Boolean isActive) {
-		Result result = context.makeResult();
-		ResultList itemResult = new ResultList("items");
-		result.add("Items List");
-		int num = 0;
-		List<Item> items = getItems(context.getCompany(), isActive);
-		for (Item item : items) {
-			itemResult.add(creatItemRecord(item));
-			num++;
-			if (num == ITEMS_TO_SHOW) {
-				break;
-			}
-		}
-		int size = itemResult.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Item");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
+	@Override
+	protected String getDetailsMessage() {
+		return null;
+	}
 
-		result.add(message.toString());
-		result.add(itemResult);
-		result.add(commandList);
-		result.add("Enter for Item");
-
-		return result;
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(ITEMS_TYPE).setDefaultValue(getMessages().active());
 
 	}
 
-	protected List<Item> getItems(Company company, Boolean isActive) {
-		ArrayList<Item> items = new ArrayList<Item>(company.getItems());
-		ArrayList<Item> result = new ArrayList<Item>();
-
-		for (Item item : items) {
-			if (isActive) {
-				if (item.isActive()) {
-					result.add(item);
-				}
-			} else {
-				result.add(item);
-			}
-		}
-
-		return result;
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
 	}
 
 }

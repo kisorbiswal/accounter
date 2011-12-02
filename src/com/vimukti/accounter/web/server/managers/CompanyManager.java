@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.server.managers;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,11 +15,14 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.gdevelop.gwt.syncrpc.SyncProxy;
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
+import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Depreciation;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
@@ -34,8 +38,11 @@ import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -287,23 +294,19 @@ public class CompanyManager extends Manager {
 						AccounterException.ERROR_PERMISSION_DENIED,
 						"Update Company , as the Source Object could not be Found....");
 			}
-
+			ClientCompany clientCompany = (ClientCompany) data;
 			Company cmp = getCompany(context.getCompanyId());
-			cmp.updatePreferences((ClientCompany) data);
+			createOrUpdatePrimaryCurrency(clientCompany, cmp);
+
+			cmp.updatePreferences(clientCompany);
 
 			String userID = context.getUserEmail();
 			User user1 = cmp.getUserByUserEmail(userID);
 
 			Activity activity = new Activity(cmp, user1,
-					ActivityType.UPDATE_PREFERENCE, cmp);
+					ActivityType.UPDATE_PREFERENCE);
 			session.save(activity);
 			session.update(cmp);
-
-			// Updating ServerCompany
-			IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
-					.getMainServerDomain());
-			s2sSyncProxy.updateServerCompany(context.getCompanyId(), cmp
-					.getPreferences().getFullName());
 
 			transaction.commit();
 			ChangeTracker.put(cmp.toClientCompany());
@@ -314,6 +317,33 @@ public class CompanyManager extends Manager {
 			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
 
+	}
+
+	private void createOrUpdatePrimaryCurrency(ClientCompany company,
+			Company serverCompany) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		ClientCurrency primaryCurrency = company.getPreferences()
+				.getPrimaryCurrency();
+		Currency existcurrency = serverCompany.getCurrency(primaryCurrency
+				.getFormalName());
+		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
+		if (existcurrency == null) {
+			existcurrency = new Currency();
+			existcurrency = new ServerConvertUtil().toServerObject(
+					existcurrency, primaryCurrency, session);
+			existcurrency.setCompany(getCompany(company.getID()));
+			session.saveOrUpdate(existcurrency);
+			ClientCurrency clientObject = clientConvertUtil.toClientObject(
+					existcurrency, ClientCurrency.class);
+			company.getPreferences().setPrimaryCurrency(clientObject);
+			company.getCurrencies().add(clientObject);
+			ChangeTracker.put(existcurrency);
+		} else {
+			ClientCurrency clientObject = clientConvertUtil.toClientObject(
+					existcurrency, ClientCurrency.class);
+			company.getPreferences().setPrimaryCurrency(clientObject);
+		}
+		serverCompany.getPreferences().setPrimaryCurrency(existcurrency);
 	}
 
 	private IS2SService getS2sSyncProxy(String domainName) {
@@ -485,7 +515,7 @@ public class CompanyManager extends Manager {
 		}
 
 		// }
-		Utility.updateCurrentFiscalYear();
+		Utility.updateCurrentFiscalYear(getCompany(companyId));
 		transaction.commit();
 
 	}
@@ -496,8 +526,8 @@ public class CompanyManager extends Manager {
 	 *            see
 	 *            {@link FinanceDate#clientTimeAtServer(java.util.Date, long)}
 	 */
-	public void performRecurringAction(String companyName,
-			FinanceDate clientDateAtServer, long companyId) {
+	public void performRecurringAction(FinanceDate clientDateAtServer,
+			long companyId) {
 		Session session = HibernateUtil.openSession();
 		try {
 			// TODO need to write query
@@ -708,10 +738,52 @@ public class CompanyManager extends Manager {
 			if (!user.isDeleted()) {
 				ClientUser clientUser = new ClientConvertUtil().toClientObject(
 						user, ClientUser.class);
+				updateClientUser(clientUser, user.getClient());
 				ClientUserInfo userInfo = clientUser.toUserInfo();
 				employees.add(userInfo);
 			}
 		}
 		return employees;
+	}
+
+	public ArrayList<ClientAccount> getAccounts(int type, Long companyId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		List<Account> list;
+		if (type != 0) {
+			list = session.getNamedQuery("getAccountsOfType")
+					.setLong("companyId", companyId).setInteger("type", type)
+					.list();
+		} else {
+			list = new ArrayList<Account>(getCompany(companyId).getAccounts());
+		}
+		ArrayList<ClientAccount> result = new ArrayList<ClientAccount>();
+		for (Account a : list) {
+			ClientAccount account;
+			if (a instanceof BankAccount) {
+				account = new ClientConvertUtil().toClientObject(a,
+						ClientBankAccount.class);
+			} else {
+				account = new ClientConvertUtil().toClientObject(a,
+						ClientAccount.class);
+			}
+			result.add(account);
+		}
+		return result;
+	}
+
+	public ArrayList<ClientAccount> getBankAccounts(Long companyId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		List<BigInteger> list = session.getNamedQuery("getBankAccountsOfType")
+				.setLong("companyId", companyId).list();
+		ArrayList<ClientAccount> result = new ArrayList<ClientAccount>();
+		ClientCompany company = new ClientConvertUtil().toClientObject(
+				getCompany(companyId), ClientCompany.class);
+		for (BigInteger id : list) {
+			ClientAccount account = company.getAccount(id.longValue());
+			result.add(account);
+		}
+		return result;
 	}
 }

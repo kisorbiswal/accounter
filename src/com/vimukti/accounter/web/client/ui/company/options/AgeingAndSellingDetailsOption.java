@@ -42,11 +42,11 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 
-		ageingforduedateRadioButton.setText(constants.ageingforduedate());
-		ageingfortransactiondateRadioButton.setText(constants
+		ageingforduedateRadioButton.setText(messages.ageingforduedate());
+		ageingfortransactiondateRadioButton.setText(messages
 				.ageingfortransactiondate());
-		ageingLabel.setText(constants.ageingDetails());
-		ageingdescriptionLabel.setText(constants.agingDetailsDescription());
+		ageingLabel.setText(messages.ageingDetails());
+		ageingdescriptionLabel.setText(messages.agingDetailsDescription());
 		ageingdescriptionLabel.setStyleName("organisation_comment");
 	}
 
@@ -56,7 +56,7 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return constants.ageingAndSellingDetails();
+		return messages.ageingAndSellingDetails();
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return constants.ageingAndSellingDetails();
+		return messages.ageingAndSellingDetails();
 	}
 
 }

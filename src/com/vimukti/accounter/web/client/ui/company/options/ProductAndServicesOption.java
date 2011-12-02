@@ -4,8 +4,11 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -37,6 +40,14 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	Label bothText;
 	@UiField
 	VerticalPanel sell;
+	@UiField
+	CheckBox warehousesCheckBox;
+	@UiField
+	CheckBox inventoryCheckBox;
+	@UiField
+	VerticalPanel hiddenPanel;
+	@UiField
+	VerticalPanel totalPanel;
 
 	interface ProductAndServicesOptionUiBinder extends
 			UiBinder<Widget, ProductAndServicesOption> {
@@ -64,19 +75,59 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 
-		headerLabel.setText(constants.whatDoYouSell());
+		headerLabel.setText(messages.whatDoYouSell());
 		// servicesOnlyText.setText(constants.whatDoYouSell());
-		servicesOnly.setText(constants.services_labelonly());
-		servicesOnlyText.setText(constants.servicesOnly());
-		productsOnly.setText(constants.products_labelonly());
-		productsOnlyText.setText(constants.productsOnly());
-		both.setText(constants.bothservicesandProduct_labelonly());
-		bothText.setText(constants.bothServicesandProducts());
+		servicesOnly.setText(messages.services_labelonly());
+		servicesOnlyText.setText(messages.servicesOnly());
+		productsOnly.setText(messages.products_labelonly());
+
+		productsOnlyText.setText(messages.productsOnly());
+		both.setText(messages.bothservicesandProduct_labelonly());
+		bothText.setText(messages.bothServicesandProducts());
+
+		inventoryCheckBox.setText(messages.inventoryTracking());
+		warehousesCheckBox.setText(messages.haveMultipleWarehouses());
+
+		servicesOnly.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				inventoryCheckBox.setValue(false);
+				warehousesCheckBox.setValue(false);
+				totalPanel.setVisible(false);
+
+			}
+		});
+		productsOnly.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				totalPanel.setVisible(productsOnly.getValue());
+
+			}
+		});
+		both.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				totalPanel.setVisible(both.getValue());
+
+			}
+		});
+
+		inventoryCheckBox.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				hiddenPanel.setVisible(inventoryCheckBox.getValue());
+			}
+		});
 	}
 
 	@Override
 	public String getTitle() {
-		return constants.productAndServices();
+		return messages.productAndServices();
 	}
 
 	@Override
@@ -94,11 +145,17 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 			getCompanyPreferences().setSellServices(true);
 			getCompanyPreferences().setSellProducts(true);
 		}
+		getCompanyPreferences().setInventoryEnabled(
+				inventoryCheckBox.getValue());
+		if (inventoryCheckBox.getValue()) {
+			getCompanyPreferences().setwareHouseEnabled(
+					warehousesCheckBox.getValue());
+		}
 	}
 
 	@Override
 	public String getAnchor() {
-		return constants.productAndServices();
+		return messages.productAndServices();
 	}
 
 	@Override
@@ -112,5 +169,20 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 			productsOnly.setValue(true);
 		if (sellServices && sellProducts)
 			both.setValue(true);
+
+		if (sellServices) {
+			totalPanel.setVisible(false);
+		}
+		if ((sellProducts && sellServices) || sellProducts) {
+			totalPanel.setVisible(true);
+		}
+		if (getCompanyPreferences().isInventoryEnabled()) {
+			inventoryCheckBox.setValue(true);
+			hiddenPanel.setVisible(true);
+			warehousesCheckBox.setValue(getCompanyPreferences()
+					.iswareHouseEnabled());
+		} else {
+			hiddenPanel.setVisible(false);
+		}
 	}
 }

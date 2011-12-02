@@ -6,6 +6,7 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
@@ -41,49 +42,71 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 	}
 
 	private void initDefaultIndiaAccounts() {
-		initDefaultUSAccounts();
-		createDefaultTDSTaxItemAndTaxAgency();
+		createDefaults();
 	}
 
-	public void initDefaultUSAccounts() {
+	public void createDefaults() {
 
-		createAccount(Account.TYPE_OTHER_CURRENT_LIABILITY,
+		Account tdsPayable = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.TDS_TAX_PAYABLE,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
-	}
+		Account serviceTaxPayable = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.SERVICE_TAX_PAYABLE,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
 
-	public void createDefaultTDSTaxItemAndTaxAgency() {
+		Account cstPayable = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.CENTRAL_SALES_TAX_PAYABLE,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		Session session = HibernateUtil.getCurrentSession();
+		PaymentTerms paymentTerms = (PaymentTerms) session
+				.getNamedQuery("unique.name.PaymentTerms")
+				.setEntity("company", company).setString("name", "Net Monthly")
+				.uniqueResult();
 
 		TAXAgency defaultTDSAgency = new TAXAgency();
 		defaultTDSAgency.setActive(Boolean.TRUE);
-		defaultTDSAgency.setTaxType(TAXItem.TAX_TYPE_TDS);
-
-		defaultTDSAgency.setName("TDS_TaxAgency");
+		defaultTDSAgency.setTaxType(TAXAgency.TAX_TYPE_TDS);
+		defaultTDSAgency.setName("TDS Tax Agency");
 		defaultTDSAgency.setVATReturn(0);
-
-		defaultTDSAgency.setSalesLiabilityAccount((Account) session
-				.getNamedQuery("unique.name.Account")
-				.setEntity("company", company)
-				.setString("name", "TDS Tax Payable").list().get(0));
-
-		defaultTDSAgency.setPurchaseLiabilityAccount((Account) session
-				.getNamedQuery("unique.name.Account")
-				.setEntity("company", company)
-				.setString("name", "TDS Tax Payable").list().get(0));
-
+		defaultTDSAgency.setPurchaseLiabilityAccount(tdsPayable);
 		defaultTDSAgency.setDefault(true);
 		defaultTDSAgency.setCompany(company);
+		defaultTDSAgency.setPaymentTerm(paymentTerms);
 		session.save(defaultTDSAgency);
+
+		TAXAgency defaultServiceTAXAgency = new TAXAgency();
+		defaultServiceTAXAgency.setActive(Boolean.TRUE);
+		defaultServiceTAXAgency.setTaxType(TAXAgency.TAX_TYPE_SERVICETAX);
+		defaultServiceTAXAgency.setName("Service Tax Agency");
+		defaultServiceTAXAgency.setVATReturn(0);
+		defaultServiceTAXAgency.setSalesLiabilityAccount(serviceTaxPayable);
+		defaultServiceTAXAgency.setPurchaseLiabilityAccount(serviceTaxPayable);
+		defaultServiceTAXAgency.setDefault(true);
+		defaultServiceTAXAgency.setCompany(company);
+		defaultServiceTAXAgency.setPaymentTerm(paymentTerms);
+		session.save(defaultServiceTAXAgency);
+
+		TAXAgency defaultCSTAgency = new TAXAgency();
+		defaultCSTAgency.setActive(Boolean.TRUE);
+		defaultCSTAgency.setTaxType(TAXAgency.TAX_TYPE_SALESTAX);
+		defaultCSTAgency.setName("Central Sales Tax Agency");
+		defaultCSTAgency.setVATReturn(0);
+		defaultCSTAgency.setSalesLiabilityAccount(cstPayable);
+		defaultCSTAgency.setDefault(true);
+		defaultCSTAgency.setCompany(company);
+		defaultCSTAgency.setPaymentTerm(paymentTerms);
+		session.save(defaultCSTAgency);
 
 		TAXItem tdsItem1 = new TAXItem(company);
 		tdsItem1.setName("Exempt Purchases");
 		tdsItem1.setActive(true);
 		tdsItem1.setDescription("Exempt Purchases");
 		tdsItem1.setTaxRate(0.0);
-		tdsItem1.setSalesType(false);
 		tdsItem1.setTaxAgency(defaultTDSAgency);
 		tdsItem1.setVatReturnBox(null);
 		tdsItem1.setDefault(true);
@@ -94,7 +117,6 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem2.setActive(true);
 		tdsItem2.setDescription("Professional");
 		tdsItem2.setTaxRate(10);
-		tdsItem2.setSalesType(false);
 		tdsItem2.setTaxAgency(defaultTDSAgency);
 		tdsItem1.setVatReturnBox(null);
 		tdsItem2.setDefault(true);
@@ -106,7 +128,6 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem3.setActive(true);
 		tdsItem3.setDescription("Contractors");
 		tdsItem3.setTaxRate(2);
-		tdsItem3.setSalesType(false);
 		tdsItem3.setTaxAgency(defaultTDSAgency);
 		tdsItem1.setVatReturnBox(null);
 		tdsItem3.setDefault(true);
@@ -118,7 +139,6 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem4.setActive(true);
 		tdsItem4.setDescription("Sub Contractors");
 		tdsItem4.setTaxRate(1);
-		tdsItem4.setSalesType(false);
 		tdsItem4.setTaxAgency(defaultTDSAgency);
 		tdsItem1.setVatReturnBox(null);
 		tdsItem4.setDefault(true);

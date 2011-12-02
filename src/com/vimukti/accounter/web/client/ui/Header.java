@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -16,27 +17,29 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class Header extends HorizontalPanel {
 
 	private Image userImage;
 	private HorizontalPanel usernamePanel;
 
-	public static Label companyName;
+	public static Label companyNameLabel;
 
 	public static HTML userName;
 
 	private SimplePanel headerLinks;
 
-	private HTML logout, help, logo;
+	private Anchor logout, help;
+	private HTML logo;
 
 	private VerticalPanel panel1, panel2;
 	private VerticalPanel panel3;
-	private String gettingStartedStatus = Accounter.constants()
+	private String gettingStartedStatus = Accounter.messages()
 			.hideGettingStarted();
 	private MenuBar helpBar;
+	private ClientCompany company = null;
 
 	/**
 	 * Creates new Instance
@@ -46,60 +49,76 @@ public class Header extends HorizontalPanel {
 		createControls();
 	}
 
-	private void createControls() {
+	public Header(ClientCompany company) {
+		this.company = company;
+		addStyleName("page_header");
+		createControls();
+	}
 
-		companyName = new Label(Accounter.getCompany().getDisplayName());
-		companyName.addStyleName("companyName");
+	private void createControls() {
+		companyNameLabel = new Label();
+		String companyName = "";
+		if (company != null) {
+			companyNameLabel.addStyleName("companyName");
+			companyName = Accounter.getCompany().getDisplayName();
+		}
+		Header.companyNameLabel.setText(companyName);
+
 		userImage = new Image("/images/User.png");
 		userImage.getElement().getStyle().setPaddingBottom(4, Unit.PX);
-		if (Accounter.getCompany().isConfigured()) {
-			userName = new HTML("<a><font color=\"#3299A4\">"
-					+ Accounter.messages().userName(
-							Accounter.getUser().getFullName()) + "<font></a>");
+
+		if (company != null) {
+			if (Accounter.getCompany().isConfigured()) {
+				userName = new HTML("<a><font color=\"#3299A4\">"
+						+ Accounter.getUser().getFullName() + "<font></a>");
+			} else {
+				userName = new HTML("<font color=\"#3299A4\">"
+						+ Accounter.getUser().getFullName() + "<font>");
+			}
 		} else {
-			userName = new HTML("<font color=\"#3299A4\">"
-					+ Accounter.messages().userName(
-							Accounter.getUser().getFullName()) + "<font>");
+			userName = new HTML();
 		}
-		userName.addStyleName("userName-style");
+
 		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
+		if (company != null) {
+			if (!Accounter.isLoggedInFromDomain()
+					&& Accounter.getCompany().isConfigured()) {
+				userName.addStyleName("userName-style");
+				userName.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
+				userName.getElement().getStyle().setCursor(Cursor.POINTER);
 
-		if (!Accounter.isLoggedInFromDomain()
-				&& Accounter.getCompany().isConfigured()) {
-			userName.getElement().getStyle()
-					.setTextDecoration(TextDecoration.UNDERLINE);
-			userName.getElement().getStyle().setCursor(Cursor.POINTER);
+				userName.addClickHandler(new ClickHandler() {
 
-			userName.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					ActionFactory.getUserDetailsAction().run(null, false);
-				}
-			});
+					@Override
+					public void onClick(ClickEvent event) {
+						ActionFactory.getUserDetailsAction().run(null, false);
+					}
+				});
+			}
 		}
-
-		logout = new HTML(Accounter.messages().logoutHTML());
+//		userName.setWidth("100%");
+		logout = new Anchor(Accounter.messages().logoutHTML(), "/main/logout");
 		logout.addStyleName("logout-html");
-		// logout.setWidth(((Accounter.constants().logout().length() * 4) + 19)+
+		// logout.setWidth(((messages.logout().length() * 4) + 19)+
 		// "px");
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
-		help = new HTML(Accounter.messages().helpHTML());
-		// help.setWidth(((Accounter.constants().help().length() * 2) + 19) +
+		help = new Anchor(Accounter.messages().helpHTML());
+		// help.setWidth(((messages.help().length() * 2) + 19) +
 		// "px");
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
 		help.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				ViewManager viewManager = MainFinanceWindow.getViewManager();
-				if (viewManager != null) {
-					viewManager.addRemoveHelpPanel();
-				} else {
-					Window.open("http://help.accounterlive.com", "_blank", "");
-				}
+				// ViewManager viewManager = MainFinanceWindow.getViewManager();
+				// if (viewManager != null) {
+				// viewManager.addRemoveHelpPanel();
+				// } else {
+				Window.open("http://help.accounterlive.com", "_blank", "");
+				// }
 			}
 		});
 
@@ -113,7 +132,7 @@ public class Header extends HorizontalPanel {
 			}
 		});
 		Image image = new Image();
-		image.setUrl("images/Accounter_logo_title.png");
+		image.setUrl("/images/Accounter_logo_title.png");
 		image.setStyleName("logo");
 
 		panel1 = new VerticalPanel();
@@ -121,18 +140,19 @@ public class Header extends HorizontalPanel {
 		panel1.add(logo);
 
 		panel2 = new VerticalPanel();
-		panel2.add(companyName);
+		panel2.add(companyNameLabel);
 		panel2.setWidth("100%");
 
 		headerLinks = new SimplePanel();
 		headerLinks.addStyleName("header_links");
 
 		panel3 = new VerticalPanel();
+//		panel3.setWidth("100%");
 		panel3.addStyleName("logout-help-welcome");
 		panel3.add(userName);
 		panel3.add(help);
 		panel3.add(logout);
-		panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
+//		panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
 
 		this.add(panel1);
 		this.setCellHorizontalAlignment(panel1, ALIGN_LEFT);
@@ -141,10 +161,11 @@ public class Header extends HorizontalPanel {
 		this.setCellHorizontalAlignment(panel2, ALIGN_CENTER);
 		this.setCellWidth(panel2, "50%");
 		headerLinks.add(panel3);
+		this.setCellHorizontalAlignment(headerLinks, ALIGN_RIGHT);
+		
 		this.add(headerLinks);
-		this.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
-		this.setCellWidth(panel3, "25%");
-
+		this.setCellWidth(headerLinks, "25%");
+		
 		// Element spanEle = DOM.createSpan();
 		// spanEle.setInnerText("Vimukti Technologies Pvt Ltd");
 		// spanEle.addClassName("vimutki-text");
@@ -155,7 +176,7 @@ public class Header extends HorizontalPanel {
 	}
 
 	public void initializeHelpBar() {
-		MenuItem menuItem = helpBar.addItem(Accounter.constants().help(),
+		MenuItem menuItem = helpBar.addItem(Accounter.messages().help(),
 				getHelpMenuBar());
 		menuItem.getElement().getStyle().setColor("#072027");
 		Image child = new Image();
@@ -165,8 +186,9 @@ public class Header extends HorizontalPanel {
 	}
 
 	private CustomMenuBar getHelpMenuBar() {
+
 		CustomMenuBar helpMenu = new CustomMenuBar();
-		helpMenu.addItem(Accounter.messages().helpCenter().asString(), true,
+		helpMenu.addItem(Accounter.messages().helpCenter(), true,
 				new Command() {
 
 					@Override
@@ -179,14 +201,14 @@ public class Header extends HorizontalPanel {
 
 			@Override
 			public void execute() {
-				if (gettingStartedStatus.equals(Accounter.constants()
+				if (gettingStartedStatus.equals(Accounter.messages()
 						.hideGettingStarted())) {
 					// DashBoardView.hideGettingStarted();
-					changeHelpBarContent(Accounter.constants()
+					changeHelpBarContent(Accounter.messages()
 							.showGettingStarted());
 				} else {
 					// DashBoardView.showGettingStarted();
-					changeHelpBarContent(Accounter.constants()
+					changeHelpBarContent(Accounter.messages()
 							.hideGettingStarted());
 				}
 			}

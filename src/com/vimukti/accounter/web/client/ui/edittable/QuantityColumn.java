@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -9,7 +9,10 @@ public abstract class QuantityColumn<T> extends TextEditColumn<T> {
 	@Override
 	protected String getValue(T row) {
 		ClientQuantity value = getQuantity(row);
-		return String.valueOf(value.getValue());
+		if (value != null)
+			return String.valueOf(value.getValue());
+		else
+			return "";
 	}
 
 	protected abstract ClientQuantity getQuantity(T row);
@@ -31,16 +34,16 @@ public abstract class QuantityColumn<T> extends TextEditColumn<T> {
 
 	@Override
 	public int getWidth() {
-		return 40;
+		return 150;
 	}
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().qty();
+		return Accounter.messages().qty();
 	}
 
 	@Override
-	protected void configure(TextBox textBox) {
+	protected void configure(TextBoxBase textBox) {
 		super.configure(textBox);
 		textBox.addStyleName("quantity");
 	}

@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListView;
@@ -21,16 +22,16 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT };
 	}
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().date(),
-				Accounter.constants().number(),
-				Global.get().messages().vendorName(Global.get().Vendor()),
-				Accounter.constants().purchasePrice() };
+		return new String[] { Accounter.messages().date(),
+				Accounter.messages().number(),
+				Global.get().messages().payeeName(Global.get().Vendor()),
+				Accounter.messages().purchasePrice() };
 	}
 
 	@Override
@@ -43,7 +44,8 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 		case 2:
 			return obj.getVendorName();
 		case 3:
-			return amountAsString(obj.getPurchasePrice());
+			return DataUtils.amountAsStringWithCurrency(obj.getPurchasePrice(), getCompany()
+					.getPrimaryCurrency());
 
 		default:
 			break;
@@ -54,8 +56,8 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	@Override
 	public void onDoubleClick(PurchaseOrdersList obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(obj.getType(), obj
-					.getTransactionId());
+			ReportsRPC.openTransactionView(obj.getType(),
+					obj.getTransactionId());
 
 	}
 
@@ -111,4 +113,5 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 		}
 		return 0;
 	}
+
 }

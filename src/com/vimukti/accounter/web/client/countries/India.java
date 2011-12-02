@@ -37,7 +37,7 @@ public class India extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.constants().april();
+		return Accounter.messages().april();
 	}
 
 	@Override
@@ -82,8 +82,7 @@ public class India extends AbstractCountryPreferences {
 
 	@Override
 	public boolean isTDSAvailable() {
-		// THIS IS TEMPARORY
-		return false;
+		return true;
 	}
 
 	@Override

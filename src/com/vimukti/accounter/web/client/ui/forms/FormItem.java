@@ -70,7 +70,7 @@ public abstract class FormItem<T> {
 
 	public void highlight() {
 		getMainWidget().addStyleName("highlightedFormItem");
-		// getMainWidget().setTitle(Accounter.constants().invalidValue());
+		// getMainWidget().setTitle(messages.invalidValue());
 		this.isHighlighted = true;
 
 	}
@@ -117,13 +117,22 @@ public abstract class FormItem<T> {
 	}
 
 	public void setRequired(boolean required) {
-		this.required = required;
 		if (required) {
 			this.getValidator().add(new RequiredFieldValidator());
+			if (label != null && !this.required) {
+				label.addStyleName("requiredField");
+				Element ele = DOM.createSpan();
+				ele.setInnerText("*");
+				ele.addClassName("star");
+				DOM.appendChild(label.getElement(), ele);
+			}
 		} else {
 			this.getValidator().clear();
-			removeLabelStar();
+			if (this.required) {
+				removeLabelStar();
+			}
 		}
+		this.required = required;
 	}
 
 	private void removeLabelStar() {
@@ -140,7 +149,9 @@ public abstract class FormItem<T> {
 	}
 
 	public void show() {
-		getLabelWidget().setVisible(true);
+		if (label != null) {
+			label.setVisible(true);
+		}
 		getMainWidget().setVisible(true);
 	}
 
@@ -149,7 +160,9 @@ public abstract class FormItem<T> {
 	}
 
 	public void hide() {
-		getLabelWidget().setVisible(false);
+		if (label != null) {
+			label.setVisible(false);
+		}
 		getMainWidget().setVisible(false);
 	}
 
@@ -334,7 +347,7 @@ public abstract class FormItem<T> {
 		}
 	}
 
-	public String helpMessage = Accounter.constants().help();
+	public String helpMessage = Accounter.messages().help();
 	public PopupPanel popupPanel;
 
 	public void displayHelpMessage(MouseUpEvent event) {
@@ -353,7 +366,7 @@ public abstract class FormItem<T> {
 
 	private HTML helpContent() {
 		HTML content;
-		content = new HTML(Accounter.messages().aboutThisFieldHelp());
+		content = new HTML("");
 		return content;
 	}
 
@@ -361,8 +374,8 @@ public abstract class FormItem<T> {
 		ValidationResult result = new ValidationResult();
 		for (FormItem<?> item : items) {
 			if (!item.validate()) {
-				result.addError(item, Accounter.messages().pleaseEnter(
-						item.getTitle()));
+				result.addError(item,
+						Accounter.messages().pleaseEnter(item.getTitle()));
 			}
 		}
 		return result;

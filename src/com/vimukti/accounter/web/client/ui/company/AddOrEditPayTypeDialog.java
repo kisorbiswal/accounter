@@ -39,29 +39,29 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 		DynamicForm form2 = new DynamicForm();
 
 		TextItem payType = new TextItem();
-		payType.setTitle(Accounter.constants().payType());
+		payType.setTitle(Accounter.messages().payType());
 		payType.setRequired(true);
 		// payType.setSelectOnFocus(true);
 
 		TextItem description = new TextItem();
-		description.setTitle(Accounter.constants().description());
+		description.setTitle(Accounter.messages().description());
 
 		form.setFields(payType, description);
 
 		ComboBoxItem type = new ComboBoxItem();
-		type.setTitle(Accounter.constants().type());
+		type.setTitle(Accounter.messages().type());
 		// type.setType("comboBox");
 		type.setRequired(true);
-		type.setValueMap(Accounter.constants().earning(), Accounter.constants()
+		type.setValueMap(Accounter.messages().earning(), Accounter.messages()
 				.deduction());
-		type.setDefaultValue(Accounter.constants().earning());
+		type.setDefaultValue(Accounter.messages().earning());
 
-		// account = new AccountCombo(Accounter.constants().account());
+		// account = new AccountCombo(messages.account());
 
 		form1.setFields(type, account);
 
 		CheckboxItem active = new CheckboxItem();
-		active.setTitle(Accounter.constants().active());
+		active.setTitle(Accounter.messages().active());
 		// active.setDefaultValue(true);
 
 		form2.setFields(active);

@@ -1,23 +1,23 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterErrors;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class BillsListGrid extends BaseListGrid<BillsList> {
-	public static AccounterErrors accounterErrors = (AccounterErrors) GWT
-			.create(AccounterErrors.class);
+
+	ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	public BillsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
@@ -35,11 +35,16 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		case 2:
 			return bills.getNumber();
 		case 3:
-			return bills.getVendorName();
+			return bills.getVendorName() != null ? bills.getVendorName() : "";
 		case 4:
-			return amountAsString(bills.getOriginalAmount());
+			return DataUtils.amountAsStringWithCurrency(
+					bills.getOriginalAmount(), currency);
 		case 5:
-			return amountAsString(bills.getBalance());
+			if (bills.getBalance() != null)
+				return DataUtils.amountAsStringWithCurrency(bills.getBalance(),
+						currency);
+			else
+				return DataUtils.amountAsStringWithCurrency(0.00D, currency);
 		case 6:
 			if (!bills.isVoided())
 				return Accounter.getFinanceImages().notvoid();
@@ -78,12 +83,11 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected String[] getColumns() {
-		vendorConstants = Accounter.constants();
-		return new String[] { vendorConstants.type(), vendorConstants.date(),
-				vendorConstants.no(),
-				Global.get().messages().vendorName(Global.get().Vendor()),
-				vendorConstants.originalAmount(), vendorConstants.balance(),
-				vendorConstants.Voided()
+		messages = Accounter.messages();
+		return new String[] { messages.type(), messages.date(), messages.no(),
+				Global.get().messages().payeeName(Global.get().Vendor()),
+				messages.originalAmount(), messages.balance(),
+				messages.Voided()
 		// , ""
 		};
 	}
@@ -103,7 +107,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected int[] setColTypes() {
-		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+		return new int[] { ListGrid.COLUMN_TYPE_LINK,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE
@@ -116,9 +120,10 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 6 && !obj.isVoided()) {
-			if (obj.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
-					|| obj.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-				Accounter.showError(accounterErrors.billPaidSoYouCantVoid());
+			if (obj.getType() == ClientTransaction.TYPE_ENTER_BILL
+					&& (obj.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED || obj
+							.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)) {
+				Accounter.showError(messages.billPaidSoYouCantVoid());
 				// "You have already paid some amount for this Bill, You can't Edit and Void it.");
 			} else if (obj.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE
 					|| (obj.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE && obj
@@ -126,7 +131,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 				showWarningDialog(obj, this.getAccounterCoreType(obj),
 						this.getTransactionID(obj), col);
 			} else {
-				Accounter.showError(Accounter.constants()
+				Accounter.showError(Accounter.messages()
 						.expensecantbevoiditisApproved());
 			}
 		}

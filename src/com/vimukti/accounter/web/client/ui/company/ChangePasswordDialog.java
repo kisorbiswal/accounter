@@ -25,11 +25,11 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	private void createControls() {
 
-		oldPasswordTextItem = new PasswordItem(Accounter.constants()
+		oldPasswordTextItem = new PasswordItem(Accounter.messages()
 				.oldPassword());
-		newPasswordTextItem = new PasswordItem(Accounter.constants()
+		newPasswordTextItem = new PasswordItem(Accounter.messages()
 				.newPassword());
-		confirmNewPasswordTextItem = new PasswordItem(Accounter.constants()
+		confirmNewPasswordTextItem = new PasswordItem(Accounter.messages()
 				.confirmNewPassword());
 
 		oldPasswordTextItem.setRequired(true);
@@ -46,7 +46,7 @@ public class ChangePasswordDialog extends BaseDialog {
 				confirmNewPasswordTextItem);
 
 		mainPanel.add(textItemsForm);
-		okbtn.setText(Accounter.constants().saveButton());
+		okbtn.setText(Accounter.messages().save());
 
 		setBodyLayout(mainPanel);
 
@@ -75,21 +75,21 @@ public class ChangePasswordDialog extends BaseDialog {
 								if (result) {
 									removeFromParent();
 									Accounter.showInformation(Accounter
-											.constants()
+											.messages()
 											.passwordSuccessfullyChanged());
 								} else {
-									Accounter.showError(Accounter.constants()
+									Accounter.showError(Accounter.messages()
 											.youHaveEnteredWrongPassword());
 								}
 							}
 
 						});
 			} else {
-				addError(this, Accounter.constants().passwordsnotmatched());
+				addError(this, Accounter.messages().passwordsnotmatched());
 				return false;
 			}
 		} else {
-			addError(this, Accounter.constants()
+			addError(this, Accounter.messages()
 					.passwordshouldcontainminimum6characters());
 			return false;
 		}

@@ -4,14 +4,18 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AccountNameColumn;
+import com.vimukti.accounter.web.client.ui.edittable.CustomerColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
+import com.vimukti.accounter.web.client.ui.edittable.TransactionBillableColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionDiscountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTaxableColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTotalColumn;
@@ -22,12 +26,18 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 public abstract class VendorAccountTransactionTable extends
 		VendorTransactionTable {
 
-	private boolean enableTax;
-	private boolean showTaxCode;
-
 	public VendorAccountTransactionTable(boolean enableTax,
 			boolean showTaxCode, ICurrencyProvider currencyProvider) {
 		this(true, enableTax, showTaxCode, currencyProvider);
+	}
+
+	public VendorAccountTransactionTable(boolean enableTax,
+			boolean showTaxCode, ICurrencyProvider currencyProvider,
+			boolean isCustomerAllowedToAdd) {
+		super(true, isCustomerAllowedToAdd, currencyProvider);
+		this.enableTax = enableTax;
+		this.showTaxCode = showTaxCode;
+		addEmptyRecords();
 	}
 
 	public VendorAccountTransactionTable(boolean needDiscount,
@@ -42,7 +52,8 @@ public abstract class VendorAccountTransactionTable extends
 	/**
 	 * This method will add 4 empty records to the table.
 	 */
-	protected void addEmptyRecords() {
+	@Override
+	public void addEmptyRecords() {
 		for (int i = 0; i < 4; i++) {
 			ClientTransactionItem item = new ClientTransactionItem();
 			item.setType(ClientTransactionItem.TYPE_ACCOUNT);
@@ -86,7 +97,27 @@ public abstract class VendorAccountTransactionTable extends
 			@Override
 			protected void setValue(ClientTransactionItem row,
 					ClientAccount newValue) {
-				super.setValue(row, newValue);
+				if (newValue != null) {
+					super.setValue(row, newValue);
+					if (row.getQuantity() == null) {
+						ClientQuantity quantity = new ClientQuantity();
+						quantity.setValue(1.0);
+						row.setQuantity(quantity);
+					}
+					if (row.getUnitPrice() == null) {
+						row.setUnitPrice(new Double(0));
+					}
+					if (row.getDiscount() == null) {
+						row.setDiscount(new Double(0));
+					}
+					double lt = row.getQuantity().getValue()
+							* row.getUnitPrice();
+					double disc = row.getDiscount();
+					row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+							* disc / 100))
+							: lt);
+					getTable().update(row);
+				}
 				update(row);
 			}
 
@@ -107,7 +138,7 @@ public abstract class VendorAccountTransactionTable extends
 		this.addColumn(new TransactionUnitPriceColumn(currencyProvider) {
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().amount();
+				return getColumnNameWithCurrency(Accounter.messages().amount());
 			}
 		});
 
@@ -115,7 +146,7 @@ public abstract class VendorAccountTransactionTable extends
 			this.addColumn(new TransactionDiscountColumn(currencyProvider));
 		}
 
-		this.addColumn(new TransactionTotalColumn(currencyProvider));
+		this.addColumn(new TransactionTotalColumn(currencyProvider, true));
 
 		if (enableTax) {
 			if (showTaxCode) {
@@ -127,12 +158,20 @@ public abstract class VendorAccountTransactionTable extends
 
 							@Override
 							public boolean filter(ClientTAXCode e) {
-								if (e.getTAXItemGrpForPurchases() != 0) {
+								if (!e.isTaxable()
+										|| e.getTAXItemGrpForPurchases() != 0) {
 									return true;
 								}
 								return false;
 							}
 						};
+					}
+
+					@Override
+					protected void setValue(ClientTransactionItem row,
+							ClientTAXCode newValue) {
+						super.setValue(row, newValue);
+						update(row);
 					}
 
 					@Override
@@ -146,7 +185,15 @@ public abstract class VendorAccountTransactionTable extends
 				this.addColumn(new TransactionTaxableColumn());
 			}
 		}
-
+		if (isCustomerAllowedToAdd) {
+			this.addColumn(new CustomerColumn());
+			this.addColumn(new TransactionBillableColumn());
+		}
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
+	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		super.updateAmountsFromGUI();
 	}
 }

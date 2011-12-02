@@ -24,17 +24,9 @@ public class PurchaseItemCombo extends AccountCombo {
 	public List<ClientAccount> getFilterdAccounts() {
 		filtrdAccounts = new ArrayList<ClientAccount>();
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
-			if (account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-					&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-					&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
-					&& account.getType() != ClientAccount.TYPE_INCOME
-					&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
-					&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-					&& account.getType() != ClientAccount.TYPE_FIXED_ASSET
-					&& account.getType() != ClientAccount.TYPE_CASH
-					&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY
-					&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
-					&& account.getType() != ClientAccount.TYPE_EQUITY) {
+			if (account.getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD
+					|| account.getType() == ClientAccount.TYPE_EXPENSE
+					|| account.getType() == ClientAccount.TYPE_OTHER_EXPENSE) {
 				filtrdAccounts.add(account);
 			}
 		}

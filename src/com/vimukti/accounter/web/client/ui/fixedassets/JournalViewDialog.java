@@ -62,23 +62,23 @@ public class JournalViewDialog extends BaseDialog {
 	 */
 
 	private void createControls() {
-		Label disposalSummarylabel = new Label(Accounter.constants()
+		Label disposalSummarylabel = new Label(Accounter.messages()
 				.disposalSummary());
-		disposalSummarylabel.setStyleName(Accounter.constants().labelTitle());
+		disposalSummarylabel.setStyleName(Accounter.messages().labelTitle());
 		disposalSummarylabel.addStyleName("title-color");
 		disposalSummaryForm = getDisposalSummaryForm();
 
 		disposalSummaryForm.setWidth("100%");
-		Label disposalJOurnallabel = new Label(Accounter.constants()
+		Label disposalJOurnallabel = new Label(Accounter.messages()
 				.disposalJournal());
-		disposalJOurnallabel.setStyleName(Accounter.constants().labelTitle());
+		disposalJOurnallabel.setStyleName(Accounter.messages().labelTitle());
 		disposalJOurnallabel.addStyleName("title-color");
 		totalGainItem = createTotalGainCombo();
 		totalGainItem.setRequired(true);
-		lossOnDisposal = createLossorGainAccount(Accounter.constants()
+		lossOnDisposal = createLossorGainAccount(Accounter.messages()
 				.lossOnDisposal());
 		lossOnDisposal.setRequired(true);
-		gainOnDisposal = createLossorGainAccount(Accounter.constants()
+		gainOnDisposal = createLossorGainAccount(Accounter.messages()
 				.gainOnDisposal());
 		gainOnDisposal.setRequired(true);
 
@@ -86,7 +86,7 @@ public class JournalViewDialog extends BaseDialog {
 
 		disposalJournalForm.setWidth("100%");
 
-		okbtn = new Button(Accounter.constants().post());
+		okbtn = new Button(Accounter.messages().post());
 		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -165,8 +165,8 @@ public class JournalViewDialog extends BaseDialog {
 							getComboForm(keyValue));
 				}
 
-				disposalJournalForm.getCellFormatter().setWidth(row, col - 1,
-						"100%");
+//				disposalJournalForm.getCellFormatter().setWidth(row, col - 1,
+//						"100%");
 				value = disposalJOurnal.get(keyValue);
 				if (DecimalUtil.isLessThan(value, 0)) {
 					debitvalue = value * (-1);
@@ -204,13 +204,13 @@ public class JournalViewDialog extends BaseDialog {
 	 */
 
 	private CustomCombo getCombo(String keyValue) {
-		if (keyValue.equals(Accounter.constants().lossOnDisposal())) {
+		if (keyValue.equals(Accounter.messages().lossOnDisposal())) {
 			setLossorGainAmount(this.disposalJOurnal.get(keyValue));
 			return lossOnDisposal;
-		} else if (keyValue.equals(Accounter.constants().gainOnDisposal())) {
+		} else if (keyValue.equals(Accounter.messages().gainOnDisposal())) {
 			setLossorGainAmount(this.disposalJOurnal.get(keyValue));
 			return gainOnDisposal;
-		} else if (keyValue.equals(Accounter.constants().totalCapitalGain())) {
+		} else if (keyValue.equals(Accounter.messages().totalCapitalGain())) {
 			setTotalCapitalGainAmount(this.disposalJOurnal.get(keyValue));
 			return totalGainItem;
 		}
@@ -224,7 +224,7 @@ public class JournalViewDialog extends BaseDialog {
 	 */
 	private void setTotalLabelForm(DynamicForm form, int row) {
 		HTML totalLabel = new HTML();
-		totalLabel.setHTML(Accounter.constants().total());
+		totalLabel.setHTML(Accounter.messages().total());
 		String debittotal = "<strong>" + amountAsString(this.debitTotal)
 				+ "</strong>";
 		HTML debitValueLabel = new HTML(debittotal);
@@ -243,9 +243,9 @@ public class JournalViewDialog extends BaseDialog {
 
 	private void setCreditandDebitForm(DynamicForm form) {
 		HTML debitLabel = new HTML();
-		debitLabel.setHTML(Accounter.constants().debit());
+		debitLabel.setHTML(Accounter.messages().debit());
 		HTML creditLabel = new HTML();
-		creditLabel.setHTML(Accounter.constants().credit());
+		creditLabel.setHTML(Accounter.messages().credit());
 		form.setText(0, 0, "");
 		form.setWidth("100%");
 		form.setWidget(0, 1, debitLabel);
@@ -263,7 +263,7 @@ public class JournalViewDialog extends BaseDialog {
 
 	private RevenueAccountCombo createTotalGainCombo() {
 		RevenueAccountCombo revenueCombo = new RevenueAccountCombo(Accounter
-				.constants().totalCapitalGain(), false);
+				.messages().totalCapitalGain(), false);
 		revenueCombo.setWidth(80);
 		revenueCombo.setRequired(true);
 		revenueCombo
@@ -328,9 +328,9 @@ public class JournalViewDialog extends BaseDialog {
 	 */
 
 	private String[] getComboNames() {
-		return new String[] { Accounter.constants().lossOnDisposal(),
-				Accounter.constants().gainOnDisposal(),
-				Accounter.constants().totalCapitalGain() };
+		return new String[] { Accounter.messages().lossOnDisposal(),
+				Accounter.messages().gainOnDisposal(),
+				Accounter.messages().totalCapitalGain() };
 
 	}
 
@@ -341,7 +341,7 @@ public class JournalViewDialog extends BaseDialog {
 	private DynamicForm getComboForm(String keyvalue) {
 		DynamicForm form = new DynamicForm();
 		form.setFields(getCombo(keyvalue));
-		form.getCellFormatter().setWidth(0, 0, "136");
+//		form.getCellFormatter().setWidth(0, 0, "136");
 		return form;
 
 	}

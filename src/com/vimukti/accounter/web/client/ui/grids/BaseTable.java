@@ -8,9 +8,9 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 import com.vimukti.accounter.web.client.ui.ISaveCallback;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.columns.CustomCellTable;
 
@@ -35,7 +35,7 @@ public abstract class BaseTable<T> extends CustomCellTable<T> implements
 	protected void showWarningDialog(T obj, final AccounterCoreType coreType,
 			final long transactionsID) {
 		String msg = null;
-		msg = Accounter.constants().doyouwanttoVoidtheTransaction();
+		msg = Accounter.messages().doyouwanttoVoidtheTransaction();
 		// else if (col == 7) {
 		// if (!viewType.equalsIgnoreCase("Deleted"))
 		// msg = "Do you want to Delete the Transaction";

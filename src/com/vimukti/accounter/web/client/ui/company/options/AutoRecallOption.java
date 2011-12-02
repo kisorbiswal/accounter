@@ -58,12 +58,12 @@ public class AutoRecallOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return constants.company();
+		return messages.company();
 	}
 
 	@Override
 	public void createControls() {
-		enableAutoRecallCheckBox.setText(constants.enableAutoRecall());
+		enableAutoRecallCheckBox.setText(messages.enableAutoRecall());
 		enableAutoRecallCheckBox.addClickHandler(new ClickHandler() {
 
 			@Override

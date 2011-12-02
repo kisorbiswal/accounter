@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
@@ -23,7 +22,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 	private DateItem fromItem;
 	private DateItem toItem;
-	
+
 	private SelectCombo reportBasisItem, dateRangeItem;
 	private TAXAgencyCombo vatAgencyCombo;
 	protected String selectedEndDate;
@@ -38,16 +37,16 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 	private void createControls() {
 
-		String[] dateRangeArray = { Accounter.constants().all(),
-				Accounter.constants().thisWeek(),
-				Accounter.constants().thisMonth(),
-				Accounter.constants().lastWeek(),
-				Accounter.constants().lastMonth(),
-				Accounter.constants().thisFinancialYear(),
-				Accounter.constants().lastFinancialYear(),
-				Accounter.constants().thisFinancialQuarter(),
-				Accounter.constants().lastFinancialQuarter(),
-				Accounter.constants().financialYearToDate(),
+		String[] dateRangeArray = { Accounter.messages().all(),
+				Accounter.messages().thisWeek(),
+				Accounter.messages().thisMonth(),
+				Accounter.messages().lastWeek(),
+				Accounter.messages().lastMonth(),
+				Accounter.messages().thisFinancialYear(),
+				Accounter.messages().lastFinancialYear(),
+				Accounter.messages().thisFinancialQuarter(),
+				Accounter.messages().lastFinancialQuarter(),
+				Accounter.messages().financialYearToDate(),
 				// FinanceApplication.constants().today(),
 				// FinanceApplication.constants().endThisWeek(),
 				// FinanceApplication.constants().endThisWeekToDate(),
@@ -75,9 +74,9 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				// .previousFiscalYearSameDates(),
 				// FinanceApplication.constants().lastCalenderYear(),
 				// FinanceApplication.constants().previousCalenderYear(),
-				Accounter.constants().custom() };
+				Accounter.messages().custom() };
 
-		vatAgencyCombo = new TAXAgencyCombo(Accounter.constants()
+		vatAgencyCombo = new TAXAgencyCombo(Accounter.messages()
 				.chooseVATAgency(), false);
 		vatAgencyCombo.setHelpInformation(true);
 		vatAgencyCombo
@@ -105,8 +104,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 			}
 		}
 
-		dateRangeItem = new SelectCombo(Accounter.constants()
-				.dateRange());
+		dateRangeItem = new SelectCombo(Accounter.messages().dateRange());
 		dateRangeItem.setHelpInformation(true);
 		dateRangeItem.setValueMap(dateRangeArray);
 		dateRangeItem.setDefaultValue(dateRangeArray[0]);
@@ -114,7 +112,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
 		}
-		dateRangeItem.setComboItem(Accounter.constants().financialYearToDate());
+		dateRangeItem.setComboItem(Accounter.messages().financialYearToDate());
 		dateRangeItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -136,11 +134,11 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setTitle(Accounter.constants().from());
+		fromItem.setTitle(Accounter.messages().from());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
-		toItem.setTitle(Accounter.constants().to());
+		toItem.setTitle(Accounter.messages().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -159,8 +157,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 			}
 		});
 
-		updateButton = new Button(Accounter.constants()
-				.update());
+		updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -178,9 +175,9 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				// This will update the dates in the date range layout
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						startDate, endDate);
-				dateRangeItem.setDefaultValue(Accounter.constants()
-						.custom());
-				setSelectedDateRange(Accounter.constants().custom());
+				dateRangeItem.setDefaultValue(Accounter.messages().custom());
+				dateRangeItem.setComboItem(Accounter.messages().custom());
+				setSelectedDateRange(Accounter.messages().custom());
 			}
 		});
 
@@ -191,8 +188,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		// set the Date Range to End this Calendar quarter to date
 		// setDefaultDateRange(dateRangeArray);
 
-		Button printButton = new Button(Accounter
-				.constants().print());
+		Button printButton = new Button(Accounter.messages().print());
 		printButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -201,10 +197,10 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 		});
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			dateRangeItem.setWidth("200px");
-//			vatAgencyCombo.setWidth("200px");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// dateRangeItem.setWidth("200px");
+		// vatAgencyCombo.setWidth("200px");
+		// }
 
 		addItems(vatAgencyCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
@@ -213,7 +209,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 	}
 
 	// set the Default Date Range to End this Calendar quarter to date
-	
+
 	private void setDefaultDateRange(String[] dateRangeArray) {
 
 		dateRangeItem.setDefaultValue(dateRangeArray[9]);
@@ -261,6 +257,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
 		dateRangeItem.setDefaultValue(defaultDateRange);
+		dateRangeItem.setComboItem(defaultDateRange);
 		dateRangeChanged(defaultDateRange);
 
 	}

@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.company.AddBudgetAmountDialogue;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 
 public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 
-	AccounterConstants companyConstants;
-
+	AccounterMessages messages = Accounter.messages();
+	ClientCurrency currency = getCompany().getPrimaryCurrency();
 	List<ClientBudgetItem> budgetItem = new ArrayList<ClientBudgetItem>();
 
 	public BudgetAccountGrid() {
@@ -35,35 +36,49 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 
 	@Override
 	protected Object getColumnValue(ClientBudgetItem budget, int index) {
+
 		switch (index) {
 		case 0:
 			return budget.getAccountsName();
 		case 1:
-			return amountAsString(budget.getJanuaryAmount());
+			return DataUtils.amountAsStringWithCurrency(budget
+					.getJanuaryAmount(), currency);
 		case 2:
-			return amountAsString(budget.getFebruaryAmount());
+			return DataUtils.amountAsStringWithCurrency(budget
+					.getFebruaryAmount(), currency);
 		case 3:
-			return amountAsString(budget.getMarchAmount());
+			return DataUtils.amountAsStringWithCurrency(
+					budget.getMarchAmount(), currency);
 		case 4:
-			return amountAsString(budget.getAprilAmount());
+			return DataUtils.amountAsStringWithCurrency(
+					budget.getAprilAmount(), currency);
 		case 5:
-			return amountAsString(budget.getMayAmount());
+			return DataUtils.amountAsStringWithCurrency(budget.getMayAmount(),
+					currency);
 		case 6:
-			return amountAsString(budget.getJuneAmount());
+			return DataUtils.amountAsStringWithCurrency(budget.getJuneAmount(),
+					currency);
 		case 7:
-			return amountAsString(budget.getJulyAmount());
+			return DataUtils.amountAsStringWithCurrency(budget.getJulyAmount(),
+					currency);
 		case 8:
-			return amountAsString(budget.getAugustAmount());
+			return DataUtils.amountAsStringWithCurrency(budget
+					.getAugustAmount(), currency);
 		case 9:
-			return amountAsString(budget.getSpetemberAmount());
+			return DataUtils.amountAsStringWithCurrency(budget
+					.getSpetemberAmount(), currency);
 		case 10:
-			return amountAsString(budget.getOctoberAmount());
+			return DataUtils.amountAsStringWithCurrency(budget
+					.getOctoberAmount(), currency);
 		case 11:
-			return amountAsString(budget.getNovemberAmount());
+			return DataUtils.amountAsStringWithCurrency(budget
+					.getNovemberAmount(), currency);
 		case 12:
-			return amountAsString(budget.getDecemberAmount());
+			return DataUtils.amountAsStringWithCurrency(budget
+					.getDecemberAmount(), currency);
 		case 13:
-			return amountAsString(budget.getTotalAmount());
+			return DataUtils.amountAsStringWithCurrency(
+					budget.getTotalAmount(), currency);
 		case 14:
 			return Accounter.getFinanceMenuImages().accounterRegisterIcon();
 		default:
@@ -118,49 +133,49 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 		for (int index = 0; index < colArray.length; index++) {
 			switch (index) {
 			case 0:
-				colArray[index] = Global.get().Account();
+				colArray[index] = messages.Account();
 				break;
 			case 1:
-				colArray[index] = Accounter.constants().jan();
+				colArray[index] = messages.jan();
 				break;
 			case 2:
-				colArray[index] = Accounter.constants().feb();
+				colArray[index] = messages.feb();
 				break;
 			case 3:
-				colArray[index] = Accounter.constants().mar();
+				colArray[index] = messages.mar();
 				break;
 			case 4:
-				colArray[index] = Accounter.constants().apr();
+				colArray[index] = messages.apr();
 				break;
 			case 5:
-				colArray[index] = Accounter.constants().may();
+				colArray[index] = messages.may();
 				break;
 			case 6:
-				colArray[index] = Accounter.constants().jun();
+				colArray[index] = messages.jun();
 				break;
 			case 7:
-				colArray[index] = Accounter.constants().jul();
+				colArray[index] = messages.jul();
 				break;
 			case 8:
-				colArray[index] = Accounter.constants().aug();
+				colArray[index] = messages.aug();
 				break;
 			case 9:
-				colArray[index] = Accounter.constants().sept();
+				colArray[index] = messages.sept();
 				break;
 			case 10:
-				colArray[index] = Accounter.constants().oct();
+				colArray[index] = messages.oct();
 				break;
 			case 11:
-				colArray[index] = Accounter.constants().nov();
+				colArray[index] = messages.nov();
 				break;
 			case 12:
-				colArray[index] = Accounter.constants().dec();
+				colArray[index] = messages.dec();
 				break;
 			case 13:
-				colArray[index] = Accounter.constants().total();
+				colArray[index] = messages.total();
 				break;
 			case 14:
-				colArray[index] = Accounter.constants().add();
+				colArray[index] = messages.add();
 				break;
 			default:
 				break;
@@ -243,5 +258,11 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 
 		refreshAllRecords();
 
+	}
+
+	@Override
+	public void addRecords(List<ClientBudgetItem> list) {
+		// TODO Auto-generated method stub
+		super.addRecords(list);
 	}
 }

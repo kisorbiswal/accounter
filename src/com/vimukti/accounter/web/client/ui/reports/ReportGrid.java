@@ -10,11 +10,12 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.vimukti.accounter.web.client.core.Sorting;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.grids.CustomTable;
 
 /**
@@ -49,14 +50,14 @@ public class ReportGrid<R> extends CustomTable {
 		super(false, true);
 		this.columns = columns;
 		sinkEvents(Event.ONMOUSEOVER | Event.ONMOUSEOUT);
-		setStyleName(Accounter.constants().reportGrid());
+		setStyleName(Accounter.messages().reportGrid());
 	}
 
 	public ReportGrid(String[] columns, boolean showFooter) {
 		super(false, showFooter);
 		this.columns = columns;
 		sinkEvents(Event.ONMOUSEOVER | Event.ONMOUSEOUT);
-		setStyleName(Accounter.constants().reportGrid());
+		setStyleName(Accounter.messages().reportGrid());
 	}
 
 	/**
@@ -126,16 +127,17 @@ public class ReportGrid<R> extends CustomTable {
 	}
 
 	private String getValue(Object object) {
-		return (object instanceof Double ? amountAsString((Double) object)
+		return (object instanceof Double ? DataUtils.amountAsStringWithCurrency((Double) object,
+				Accounter.getCompany().getPrimaryCurrency())
 				: object.toString());
 	}
 
 	private void addDefaultStyleNames(int rowCount, boolean bold,
 			boolean underline) {
-		rowFormatter.addStyleName(rowCount, Accounter.constants()
+		rowFormatter.addStyleName(rowCount, Accounter.messages()
 				.reportGridRow());
 		if (!bold && !underline) {
-			rowFormatter.addStyleName(rowCount, Accounter.constants().depth());
+			rowFormatter.addStyleName(rowCount, Accounter.messages().depth());
 		}
 	}
 
@@ -156,8 +158,8 @@ public class ReportGrid<R> extends CustomTable {
 					HasHorizontalAlignment.ALIGN_LEFT,
 					HasVerticalAlignment.ALIGN_MIDDLE);
 
-			addStyleNameByCol(0, columnTypes[i], i, this.footer
-					.getCellFormatter());
+			addStyleNameByCol(0, columnTypes[i], i,
+					this.footer.getCellFormatter());
 		}
 	}
 
@@ -173,18 +175,18 @@ public class ReportGrid<R> extends CustomTable {
 				this.header.setText(0, i, columns[i].toString());
 
 				this.header.getCellFormatter().addStyleName(rowCount, i,
-						Accounter.constants().reportGridheaderStyle());
+						Accounter.messages().reportGridheaderStyle());
 				this.header.getCellFormatter().setAlignment(rowCount, i,
 						HasHorizontalAlignment.ALIGN_LEFT,
 						HasVerticalAlignment.ALIGN_MIDDLE);
 				this.header.getCellFormatter().getElement(rowCount, i)
 						.getStyle().setFontWeight(FontWeight.BOLD);
 
-				addStyleNameByCol(0, columnTypes[i], i, this.header
-						.getCellFormatter());
+				addStyleNameByCol(0, columnTypes[i], i,
+						this.header.getCellFormatter());
 			}
 		}
-		rowFormatter.addStyleName(rowCount, Accounter.constants()
+		rowFormatter.addStyleName(rowCount, Accounter.messages()
 				.reportGridHeader());
 
 	}
@@ -205,17 +207,17 @@ public class ReportGrid<R> extends CustomTable {
 		this.setText(row, column, cellValue);
 
 		if (bold) {
-			cellFormatter.addStyleName(row, column, Accounter.constants()
+			cellFormatter.addStyleName(row, column, Accounter.messages()
 					.boldCell());
 		}
 
 		addDepthStyle(row, column, depth);
 
 		if (underline) {
-			cellFormatter.addStyleName(row, column, Accounter.constants()
+			cellFormatter.addStyleName(row, column, Accounter.messages()
 					.underline());
 		}
-		cellFormatter.addStyleName(row, column, Accounter.constants()
+		cellFormatter.addStyleName(row, column, Accounter.messages()
 				.reportGridcustomFont());
 		cellFormatter.setAlignment(row, column,
 				HasHorizontalAlignment.ALIGN_LEFT,
@@ -233,9 +235,8 @@ public class ReportGrid<R> extends CustomTable {
 			flag = true;
 		}
 		if (flag)
-			cellFormatter.addStyleName(row, column, Accounter.constants()
-					.depth()
-					+ depth);
+			cellFormatter.addStyleName(row, column, Accounter.messages()
+					.depth() + depth);
 
 	}
 
@@ -319,7 +320,7 @@ public class ReportGrid<R> extends CustomTable {
 					}
 					Element cell = table.getCellFormatter().getElement(row, i);
 					parentWidth = parentWidth - cellWidth;
-					cell.setAttribute(Accounter.constants().width(), ""
+					cell.setAttribute(Accounter.messages().width(), ""
 							+ cellWidth);
 				}
 			}
@@ -336,8 +337,8 @@ public class ReportGrid<R> extends CustomTable {
 			// }
 
 			if (isMultiSelectionEnable) {
-				table.getCellFormatter().getElement(row, 0).setAttribute(
-						Accounter.constants().width(), "" + 15);
+				// table.getCellFormatter().getElement(row, 0)
+				// .setAttribute(messages.width(), "" + 15);
 			}
 
 		} catch (Exception e) {

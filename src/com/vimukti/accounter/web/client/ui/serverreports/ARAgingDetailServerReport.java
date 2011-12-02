@@ -42,10 +42,10 @@ public class ARAgingDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().name(),
-				getConstants().date(), getConstants().type(),
-				getConstants().noDot(), getConstants().ageing(),
-				getConstants().amount()
+		return new String[] { getMessages().name(),
+				getMessages().date(), getMessages().type(),
+				getMessages().noDot(), getMessages().ageing(),
+				getMessages().amount()
 		// FinanceApplication.constants().reference(),
 		// FinanceApplication.constants().Void(),
 		// FinanceApplication.constants().dueDate(),
@@ -55,7 +55,7 @@ public class ARAgingDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		return getConstants().arAgeingDetails();
+		return getMessages().arAgeingDetails();
 	}
 
 	@Override
@@ -195,22 +195,22 @@ public class ARAgingDetailServerReport extends
 	}
 
 	private void addCurrent(AgedDebtors record) {
-		if (!sectiontypes.contains(getConstants().current())) {
-			addTypeSection(getConstants().current(), "");
+		if (!sectiontypes.contains(getMessages().current())) {
+			addTypeSection(getMessages().current(), "");
 		}
 	}
 
 	private boolean addOneTothirty(AgedDebtors record) {
-		if (!sectiontypes.contains(getConstants().days30())) {
-			addTypeSection(getConstants().days30(), "");
+		if (!sectiontypes.contains(getMessages().days30())) {
+			addTypeSection(getMessages().days30(), "");
 			return false;
 		}
 		return true;
 	}
 
 	private boolean addThirtyToSixty(AgedDebtors record) {
-		if (!sectiontypes.contains(getConstants().days60())) {
-			addTypeSection(getConstants().days60(), "");
+		if (!sectiontypes.contains(getMessages().days60())) {
+			addTypeSection(getMessages().days60(), "");
 			return false;
 		}
 		return true;
@@ -218,8 +218,8 @@ public class ARAgingDetailServerReport extends
 	}
 
 	private boolean addSixtyTo90(AgedDebtors record) {
-		if (!sectiontypes.contains(getConstants().days90())) {
-			addTypeSection(getConstants().days90(), "");
+		if (!sectiontypes.contains(getMessages().days90())) {
+			addTypeSection(getMessages().days90(), "");
 			return false;
 		}
 		return true;
@@ -227,8 +227,8 @@ public class ARAgingDetailServerReport extends
 	}
 
 	private boolean addGreaterThan90(AgedDebtors record) {
-		if (!sectiontypes.contains(getConstants().older())) {
-			addTypeSection(getConstants().older(), "");
+		if (!sectiontypes.contains(getMessages().older())) {
+			addTypeSection(getMessages().older(), "");
 			return false;
 		}
 		return true;
@@ -236,8 +236,8 @@ public class ARAgingDetailServerReport extends
 	}
 
 	private boolean addTotalBalance(AgedDebtors record) {
-		if (!sectiontypes.contains(getConstants().totalBalance())) {
-			addTypeSection(getConstants().totalBalance(), "");
+		if (!sectiontypes.contains(getMessages().totalBalance())) {
+			addTypeSection(getMessages().totalBalance(), "");
 			return false;
 		}
 		return true;
@@ -251,7 +251,7 @@ public class ARAgingDetailServerReport extends
 	public void addTypeSection(String title, String bottomTitle) {
 		if (!sectiontypes.contains(title)) {
 			addSection(new String[] { title }, new String[] { "", "", "", "",
-					getConstants().total() }, new int[] { 5 });
+					getMessages().total() }, new int[] { 5 });
 			types.add(title);
 			sectiontypes.add(title);
 		}
@@ -427,15 +427,15 @@ public class ARAgingDetailServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().financialYearToDate();
+		return getMessages().financialYearToDate();
 	}
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().name(),
-				getConstants().date(), getConstants().type(),
-				getConstants().noDot(), getConstants().ageing(),
-				getConstants().amount() };
+		return new String[] { getMessages().name(),
+				getMessages().date(), getMessages().type(),
+				getMessages().noDot(), getMessages().ageing(),
+				getMessages().amount() };
 	}
 	
 }

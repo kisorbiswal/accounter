@@ -8,8 +8,8 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AccountBalance;
@@ -152,8 +152,7 @@ public interface IAccounterReportDAOService {
 			String debitorName, ClientFinanceDate fromDate,
 			ClientFinanceDate toDate);
 
-	public ArrayList<ClientBudgetList> getBudgetItemsList(long id,
-			ClientFinanceDate startDate, ClientFinanceDate endDate, int month);
+	public ArrayList<ClientBudgetList> getBudgetItemsList(long id);
 
 	// For UK
 
@@ -166,11 +165,11 @@ public interface IAccounterReportDAOService {
 	public VATDetailReport getPriorVATReturnVATDetailReport(
 			TAXAgency vatAgency, Date endDate) throws DAOException;
 
-	public VATReturn getVATReturnDetails(TAXAgency vatAgency, Date fromDate,
+	public TAXReturn getVATReturnDetails(TAXAgency vatAgency, Date fromDate,
 			Date toDate) throws DAOException;
 
 	public ArrayList<VATItemDetail> getVATItemDetailReport(String fromDate,
-			String toDate,long companyId) throws DAOException;
+			String toDate, long companyId) throws DAOException;
 
 	public void createTaxes(int... vatReturnType) throws DAOException;
 

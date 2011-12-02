@@ -75,7 +75,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 					@Override
 					public void onException(AccounterException caught) {
 						usersListGrid.removeLoadingImage();
-						Accounter.showError(Accounter.constants()
+						Accounter.showError(Accounter.messages()
 								.failedtoloadusersList());
 					}
 				});
@@ -93,7 +93,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 		mainLayPanel = new VerticalPanel();
 		flexTable = new FlexTable();
-		generalSettingsHTML = new HTML(Accounter.constants()
+		generalSettingsHTML = new HTML(Accounter.messages()
 				.generalSettingsLabel());
 		generalSettingsHTML.addMouseOverHandler(new MouseOverHandler() {
 
@@ -120,12 +120,12 @@ public class UsersView extends BaseView<ClientUserInfo> {
 				ActionFactory.getGeneralSettingsAction().run(null, false);
 			}
 		});
-		titleLabel = new Label(Accounter.constants().usersTitle());
+		titleLabel = new Label(Accounter.messages().usersTitle());
 
 		titleLabel.removeStyleName("gwt-Label");
-		titleLabel.setStyleName(Accounter.constants().labelTitle());
+		titleLabel.setStyleName(Accounter.messages().labelTitle());
 
-		inviteUserButton = new Button(Accounter.constants().inviteUser());
+		inviteUserButton = new Button(Accounter.messages().inviteUser());
 		inviteUserButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -134,8 +134,8 @@ public class UsersView extends BaseView<ClientUserInfo> {
 			}
 		});
 		tabPanel = new DecoratedTabPanel();
-		tabPanel.add(getUsersPanel(), Accounter.constants().users());
-		tabPanel.add(getRecentActivityPanel(), Accounter.constants()
+		tabPanel.add(getUsersPanel(), Accounter.messages().users());
+		tabPanel.add(getRecentActivityPanel(), Accounter.messages()
 				.recentActivity());
 		tabPanel.selectTab(0);
 
@@ -217,7 +217,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().users();
+		return Accounter.messages().users();
 	}
 
 	@Override
@@ -230,4 +230,13 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }

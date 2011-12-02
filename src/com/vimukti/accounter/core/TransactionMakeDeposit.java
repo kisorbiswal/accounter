@@ -6,6 +6,7 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -254,14 +255,14 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isNewEntry) {
 			this.cashAccount.updateCurrentBalance(this.makeDeposit, -1
-					* this.amount);
+					* this.amount, makeDeposit.currencyFactor);
 			this.depositedTransaction.setIsDeposited(Boolean.FALSE);
 		} else {
 			switch (this.type) {
 			case TransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
 
 				this.account.updateCurrentBalance(this.makeDeposit, -1
-						* this.amount);
+						* this.amount, makeDeposit.currencyFactor);
 				this.account.onUpdate(session);
 				break;
 			case TransactionMakeDeposit.TYPE_CUSTOMER:
@@ -296,8 +297,8 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 
 		if (!this.isNewEntry) {
 			// Update the Undeposited Funds Account of the Entry
-			this.cashAccount
-					.updateCurrentBalance(this.makeDeposit, this.amount);
+			this.cashAccount.updateCurrentBalance(this.makeDeposit,
+					this.amount, makeDeposit.currencyFactor);
 			this.cashAccount.onUpdate(session);
 
 			// Makeing the corresponding Transaction as Deposited.
@@ -310,8 +311,8 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 
 			case TransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
 
-				this.account
-						.updateCurrentBalance(this.makeDeposit, this.amount);
+				this.account.updateCurrentBalance(this.makeDeposit,
+						this.amount, makeDeposit.currencyFactor);
 				this.account.onUpdate(session);
 
 				break;
@@ -363,14 +364,14 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 		if (this.isVoid) {
 			if (!this.isNewEntry) {
 				this.cashAccount.updateCurrentBalance(this.makeDeposit, -1
-						* this.amount);
+						* this.amount, makeDeposit.currencyFactor);
 				this.depositedTransaction.setIsDeposited(Boolean.FALSE);
 			} else {
 				switch (this.type) {
 				case TransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
 
 					this.account.updateCurrentBalance(this.makeDeposit, -1
-							* this.amount);
+							* this.amount, makeDeposit.currencyFactor);
 					this.account.onUpdate(session);
 					break;
 				case TransactionMakeDeposit.TYPE_CUSTOMER:
@@ -425,7 +426,7 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 		this.makeDeposit = makeDeposit;
 	}
 
-	public void setDepositedTransaction(PaySalesTax depositedTransaction) {
+	public void setDepositedTransaction(PayTAX depositedTransaction) {
 		this.depositedTransaction = depositedTransaction;
 	}
 
@@ -562,6 +563,29 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 	public void setVersion(int version) {
 		this.version = version;
 
+	}
+
+	public Account getEffectingAccount() {
+		if (!this.isNewEntry) {
+			return cashAccount;
+		} else {
+			switch (this.type) {
+			case TransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
+				return account;
+			case TransactionMakeDeposit.TYPE_CUSTOMER:
+				return creditsAndPayments.getPayee().getAccount();
+			case TransactionMakeDeposit.TYPE_VENDOR:
+				return this.vendor.getAccount();
+			default:
+				return null;
+			}
+		}
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

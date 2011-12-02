@@ -1,34 +1,35 @@
 package com.vimukti.accounter.core;
 
 import java.io.File;
+import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * this class is used to generate Invoice report in PDF format
  * 
  */
 public class InvoicePDFTemplete implements PrintTemplete {
-	private Invoice invoice;
-	private BrandingTheme brandingTheme;
-	private int maxDecimalPoints;
+	private final Invoice invoice;
+	private final BrandingTheme brandingTheme;
+	private final int maxDecimalPoints;
 	// private static final String templateFileName = "templetes" +
 	// File.separator
 	// + "InvoiceTemplete.html";
-	private Company company;
-	private String companyId;
-	private String templateName;
+	private final Company company;
+	private final String templateName;
 
 	public InvoicePDFTemplete(Invoice invoice, BrandingTheme brandingTheme,
-			Company company, String companyId, String templateName) {
+			Company company, String templateName) {
 		this.invoice = invoice;
 		this.brandingTheme = brandingTheme;
 		this.company = company;
-		this.companyId = companyId;
 		this.maxDecimalPoints = getMaxDecimals(invoice);
 		this.templateName = templateName;
 
@@ -48,6 +49,9 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 		try {
 			t = new MiniTemplator(getTempleteName());
+
+			externalizeStrings(t);
+
 			String image = getImage();
 
 			// setting logo Image
@@ -105,54 +109,93 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			}
 
 			// for primary curreny
-			Currency primaryCurrency = company.getPreferences()
-					.getPrimaryCurrency();
-			if (primaryCurrency != null)
-				if (primaryCurrency.getFormalName().trim().length() > 0) {
-					t.setVariable("currency", primaryCurrency.getFormalName()
-							.trim());
+			Currency currency = invoice.getCustomer().getCurrency();
+			if (currency != null)
+				if (currency.getFormalName().trim().length() > 0) {
+					t.setVariable("currency", currency.getFormalName().trim());
 					t.addBlock("currency");
 				}
+
+			// for customer VAT Registration Number
+			String vatRegistrationNumber = invoice.getCustomer()
+					.getVATRegistrationNumber();
+
+			if (company.getCountryPreferences().isVatAvailable()
+					&& company.getPreferences().isTrackTax()) {
+
+				String val = vatRegistrationNumber == null ? " "
+						: vatRegistrationNumber;
+
+				if (val.trim().length() > 0) {
+					t.setVariable("customerVATNumber", val);
+					t.addBlock("customerVat");
+				}
+			}
 
 			// for getting customer contact name
 			String cname = "";
 			String phone = "";
-			String email = "";
+			boolean hasPhone = false;
 			Customer customer = invoice.getCustomer();
-			Set<Contact> contacts = customer.getContacts();
-			for (Contact contact : contacts) {
-				if (contact.isPrimary()) {
-					cname = contact.getName();
+			// Set<Contact> contacts = customer.getContacts();
+			// for (Contact contact : contacts) {
+			// if (contact.isPrimary()) {
+			// cname = contact.getName().trim();
+			//
+			// if (contact.getBusinessPhone().trim().length() > 0)
+			// phone = contact.getBusinessPhone();
+			// if (phone.trim().length() > 0) {
+			// hasPhone = true;
+			// }
+			//
+			// }
+			// }
 
-					if (contact.getBusinessPhone().trim().length() > 0)
-						phone = contact.getBusinessPhone();
-
-					if (contact.getEmail().trim().length() > 0)
-						email = contact.getEmail();
+			// To get the selected contact name form Invoice
+			Contact selectedContact = invoice.getContact();
+			if (selectedContact != null) {
+				cname = selectedContact.getName().trim();
+				if (selectedContact.getBusinessPhone().trim().length() > 0)
+					phone = selectedContact.getBusinessPhone();
+				if (phone.trim().length() > 0) {
+					// If phone variable has value, then only we need to display
+					// the text 'phone'
+					hasPhone = true;
 				}
 			}
+
 			// setting billing address
 			Address bill = invoice.getBillingAddress();
 			String customerName = forUnusedAddress(invoice.getCustomer()
 					.getName(), false);
+			StringBuffer billAddress = new StringBuffer();
 			if (bill != null) {
-				String billAddress = forUnusedAddress(cname, false)
+				billAddress = billAddress.append(forUnusedAddress(cname, false)
 						+ customerName
 						+ forUnusedAddress(bill.getAddress1(), false)
 						+ forUnusedAddress(bill.getStreet(), false)
 						+ forUnusedAddress(bill.getCity(), false)
 						+ forUnusedAddress(bill.getStateOrProvinence(), false)
 						+ forUnusedAddress(bill.getZipOrPostalCode(), false)
-						+ forUnusedAddress(bill.getCountryOrRegion(), false)
-						+ forUnusedAddress("Phone : " + phone, false)
-						+ forUnusedAddress("Email : " + email, false);
+						+ forUnusedAddress(bill.getCountryOrRegion(), false));
+				if (hasPhone) {
+					billAddress.append(forUnusedAddress("Phone : " + phone,
+							false));
+				}
 
-				if (billAddress.trim().length() > 0) {
-					t.setVariable("billingAddress", "To<br/>" + billAddress);
+				String billAddres = billAddress.toString();
+
+				if (billAddres.trim().length() > 0) {
+					t.setVariable("billingAddress", billAddres);
 					t.addBlock("billhead");
 				}
 			} else {
-				t.setVariable("billingAddress", "To<br/>" + customerName);
+				// If there is no Bill Address, then display only customer and
+				// contact name
+				StringBuffer contact = new StringBuffer();
+				contact = contact.append(forUnusedAddress(cname, false)
+						+ customerName);
+				t.setVariable("billingAddress", contact.toString());
 				t.addBlock("billhead");
 			}
 
@@ -208,8 +251,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 				if (company.getPreferences().isTrackTax()
 						&& brandingTheme.isShowTaxColumn()) {
-					t.setVariable("VATRate", "Tax Code");
-					t.setVariable("VATAmount", "Tax ");
 					t.addBlock("vatBlock");
 				}
 				t.addBlock("showLabels");
@@ -219,21 +260,50 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			// vat details
 			List<TransactionItem> transactionItems = invoice
 					.getTransactionItems();
+
+			// List<Estimate> estimates = invoice.getEstimates();
+			// if (estimates != null) {
+			// for (Estimate estimate : estimates) {
+			// for (TransactionItem item : estimate.getTransactionItems()) {
+			// transactionItems.add(item);
+			// }
+			// }
+			// }
+			//
+			// List<SalesOrder> salesOrders = invoice.getSalesOrders();
+			// if (salesOrders != null) {
+			// for (SalesOrder salesOrder : salesOrders) {
+			// for (TransactionItem item : salesOrder
+			// .getTransactionItems()) {
+			// transactionItems.add(item);
+			// }
+			// }
+			// }
+
+			double currencyFactor = invoice.getCurrencyFactor();
+
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
 				TransactionItem item = (TransactionItem) iterator.next();
 
 				String description = forNullValue(item.getDescription());
-				String qty = forZeroAmounts(getDecimalsUsingMaxDecimals(item
-						.getQuantity().getValue(), null, maxDecimalPoints));
+				description = description.replaceAll("\n", "<br/>");
+				String qty = "";
+				if (item.getQuantity() != null) {
+					qty = forZeroAmounts(getDecimalsUsingMaxDecimals(item
+							.getQuantity().getValue(), null, maxDecimalPoints));
+				}
 				String unitPrice = forZeroAmounts(largeAmountConversation(item
-						.getUnitPrice()));
-				String totalPrice = largeAmountConversation(item.getLineTotal());
+						.getUnitPrice() / currencyFactor));
+				String totalPrice = largeAmountConversation(item.getLineTotal()
+						/ currencyFactor);
 
 				String vatAmount = getDecimalsUsingMaxDecimals(
-						item.getVATfraction(), null, 2);
+						item.getVATfraction() / currencyFactor, null, 2);
 
-				t.setVariable("name", item.getItem().getName());
+				String name = item.getItem() != null ? item.getItem().getName()
+						: item.getAccount().getName();
+				t.setVariable("name", name);
 				t.setVariable("discount",
 						largeAmountConversation(item.getDiscount()));
 				t.setVariable("description", description);
@@ -255,28 +325,33 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				}
 				t.addBlock("invoiceRecord");
 			}
+
 			// for displaying sub total, vat total, total
-			String subtotal = largeAmountConversation(invoice.getNetAmount());
+			String subtotal = largeAmountConversation(invoice.getNetAmount()
+					/ currencyFactor);
 			if (company.getPreferences().isTrackTax()) {
-				t.setVariable("NetAmount", "Net Amount");
+
 				t.setVariable("subTotal", subtotal);
 				t.addBlock("subtotal");
 				if (brandingTheme.isShowTaxColumn()) {
-					t.setVariable("vatlabel", "Tax ");
-					t.setVariable("vatTotal",
-							largeAmountConversation((invoice.getTaxTotal())));
+					t.setVariable(
+							"vatTotal",
+							largeAmountConversation((invoice.getTaxTotal() / currencyFactor)));
 					t.addBlock("VatTotal");
 				}
 			}
 
-			String total = largeAmountConversation(invoice.getTotal());
+			String total = largeAmountConversation(invoice.getTotal()
+					/ currencyFactor);
 			t.setVariable("total", total);
 			t.setVariable("blankText", invoice.getMemo());
 
 			t.setVariable("payment",
-					largeAmountConversation(invoice.getPayments()));
+					largeAmountConversation(invoice.getPayments()
+							/ currencyFactor));
 			t.setVariable("balancedue",
-					largeAmountConversation(invoice.getBalanceDue()));
+					largeAmountConversation(invoice.getBalanceDue()
+							/ currencyFactor));
 			t.addBlock("itemDetails");
 
 			t.setVariable("dueDate", invoice.getDueDate().toString());
@@ -343,10 +418,14 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			// setting the theme styles
 			t.setVariable("fontStyle", brandingTheme.getFont());
 			t.setVariable("font", brandingTheme.getFontSize());
-			t.setVariable("bottomMargin",
-					String.valueOf(brandingTheme.getBottomMargin()));
-			t.setVariable("topMargin",
-					String.valueOf(brandingTheme.getTopMargin()));
+			t.setVariable(
+					"bottomMargin",
+					NumberFormat.getInstance().format(
+							brandingTheme.getBottomMargin()));
+			t.setVariable(
+					"topMargin",
+					NumberFormat.getInstance().format(
+							brandingTheme.getTopMargin()));
 			t.setVariable("title", brandingTheme.getOverDueInvoiceTitle());
 			// t.setVariable("addressPadding",
 			// String.valueOf(brandingTheme.getAddressPadding()));
@@ -369,8 +448,9 @@ public class InvoicePDFTemplete implements PrintTemplete {
 						+ forUnusedAddress(reg.getZipOrPostalCode(), true)
 						+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
 
-			regestrationAddress = (company.getFullName() + "&nbsp;&nbsp;&nbsp;"
-					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+			regestrationAddress = (company.getTradingName()
+					+ "&nbsp;&nbsp;&nbsp;" + regestrationAddress + ((company
+					.getRegistrationNumber() != null && !company
 					.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 					+ company.getRegistrationNumber()
 					: ""));
@@ -408,6 +488,40 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		return "";
 	}
 
+	private void externalizeStrings(MiniTemplator t) {
+		AccounterMessages messages = Global.get().messages();
+		Map<String, String> variables = t.getVariables();
+		System.out.println(variables);
+		t.setVariable("i18_Invoice_Number", messages.invoiceNo());
+		t.setVariable("i18_Invoice_Date", messages.invoiceDate());
+		t.setVariable("i18_Order_Number", messages.orderNumber());
+		t.setVariable("i18_Customer_Number",
+				messages.payeeNumber(messages.customer()));
+		t.setVariable("i18_Bill_To", messages.billTo());
+		t.setVariable("i18_Ship_To", messages.shipTo());
+		t.setVariable("i18_Sales_Person", messages.salesPerson());
+		t.setVariable("i18_Shipping_Method", messages.shippingMethod());
+		t.setVariable("i18_Payment_Terms", messages.paymentTerms());
+		t.setVariable("i18_Due_Date", messages.dueDate());
+		t.setVariable("i18_Customer_TAX_Registration_Number",
+				messages.customerTaxRegNo(messages.customer()));
+		t.setVariable("i18_Currency", messages.currency());
+		t.setVariable("i18_Name", messages.name());
+		t.setVariable("i18_Description", messages.description());
+		t.setVariable("i18_Qty", messages.qty());
+		t.setVariable("i18_Unit_Price", messages.unitPrice());
+		t.setVariable("i18_Discount", messages.discount());
+		t.setVariable("i18_Total_Price", messages.totalPrice());
+		t.setVariable("i18_TOTAL", messages.total());
+		t.setVariable("i18_Payments", messages.payments());
+		t.setVariable("i18_Balance_Due", messages.balanceDue());
+		t.setVariable("i18_Sub_Total", messages.subTotal());
+		t.setVariable("i18_tax", messages.tax());
+		t.setVariable("i18_NetAmount", messages.netAmount());
+		t.setVariable("i18_VATRate", messages.taxCode());
+		t.setVariable("i18_VATAmount", messages.tax());
+	}
+
 	/*
 	 * For Max DecimalPoints
 	 */
@@ -416,7 +530,11 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		String max;
 		int temp = 0;
 		for (TransactionItem item : inv.getTransactionItems()) {
-			qty = String.valueOf(item.getQuantity());
+
+			// qty = String.valueOf(item.getQuantity());
+			qty = NumberFormat.getNumberInstance().format(
+					item.getQuantity().getValue());
+
 			max = qty.substring(qty.indexOf(".") + 1);
 			if (!max.equals("0")) {
 				if (temp < max.length()) {
@@ -459,7 +577,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		String max;
 		if (maxDecimalPoint != 0) {
 			if (amount == null)
-				qty = String.valueOf(quantity);
+				qty = NumberFormat.getInstance().format(quantity);
 			else
 				qty = amount;
 			max = qty.substring(qty.indexOf(".") + 1);
@@ -469,7 +587,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				}
 			}
 		} else {
-			qty = String.valueOf((long) quantity);
+			qty = NumberFormat.getInstance().format(quantity);
+			// qty = String.valueOf((long) quantity);
 		}
 
 		String temp = qty.contains(".") ? qty.replace(".", "-").split("-")[0]
@@ -507,9 +626,9 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		StringBuffer original = new StringBuffer();
 		// String imagesDomain = "/do/downloadFileFromFile?";
 
-		original.append("<img style='width:130px;height:120px' src='file:///");
+		original.append("<img style='width:90px;height:90px' src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ companyId + "/" + brandingTheme.getFileName());
+				+ company.getId() + "/" + brandingTheme.getFileName());
 		original.append("'/>");
 
 		if (original.toString().contains("null")) {
@@ -526,6 +645,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 	@Override
 	public String getFooter() {
+		Location location = invoice.getLocation();
 		String regestrationAddress = "";
 		Address reg = company.getRegisteredAddress();
 
@@ -545,15 +665,19 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		if (contactDetails.contains("(None Added)")) {
 			contactDetails = "";
 		}
-
 		regestrationAddress = (contactDetails
 				+ "<br/><hr width = 100%>&nbsp;&nbsp;&nbsp;"
-				+ company.getFullName() + "<br/>&nbsp;&nbsp;&nbsp;"
-				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+				+ (location == null ? company.getTradingName() : location
+						.getCompanyName() == null ? company.getTradingName()
+						: location.getCompanyName())
+				+ "<br/>&nbsp;&nbsp;&nbsp;"
+				+ (location == null ? regestrationAddress : location
+						.getAddress() == null ? regestrationAddress : location
+						.getAddress()) + ((company.getRegistrationNumber() != null && !company
 				.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 				+ company.getRegistrationNumber()
 				: ""));
+
 		return regestrationAddress;
 	}
-
 }

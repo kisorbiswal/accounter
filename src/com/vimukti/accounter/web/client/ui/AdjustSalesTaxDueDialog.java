@@ -28,40 +28,40 @@ public class AdjustSalesTaxDueDialog extends BaseDialog<ClientAccount> {
 	}
 
 	private void createControls() {
-		Label lab1 = new Label(Accounter.constants().adjustSalesTax());
+		Label lab1 = new Label(Accounter.messages().adjustSalesTax());
 		// lab1.setWrap(false);
 		// lab1.setAutoFit(true);
 
-		Label lab2 = new Label(Accounter.constants().selectDate());
+		Label lab2 = new Label(Accounter.messages().selectDate());
 		lab2.setHeight("1px");
 		// lab2.setOverflow(Overflow.VISIBLE);
 		// lab2.setWrap(false);
 		lab2.setWidth("100%");
 
-		DateItem effectDate = UIUtils.date(Accounter.constants()
+		DateItem effectDate = UIUtils.date(Accounter.messages()
 				.dateEffective(), null);
 		effectDate.setRequired(true);
 
-		IntegerField entryText = new IntegerField(this, Accounter.constants()
+		IntegerField entryText = new IntegerField(this, Accounter.messages()
 				.journalEntryNo());
 
-		SelectItem incSelect = new SelectItem(Accounter.constants().taxIncome());
+		SelectItem incSelect = new SelectItem(Accounter.messages().taxIncome());
 		incSelect.setRequired(true);
 
-		SelectItem codeSelect = new SelectItem(Accounter.constants()
+		SelectItem codeSelect = new SelectItem(Accounter.messages()
 				.taxCodeAdjust());
 		codeSelect.setRequired(true);
 
-		RadioGroupItem incDecRadio = new RadioGroupItem(Accounter.constants()
+		RadioGroupItem incDecRadio = new RadioGroupItem(Accounter.messages()
 				.adjust());
 
-		incDecRadio.setValueMap(Accounter.constants().increase(), Accounter
-				.constants().decrease());
+		incDecRadio.setValueMap(Accounter.messages().increase(), Accounter
+				.messages().decrease());
 
-		AmountField amtText = new AmountField(Accounter.constants().amount(),
-				this);
+		AmountField amtText = new AmountField(Accounter.messages().amount(),
+				this,getBaseCurrency());
 		TextItem memoText = new TextItem();
-		memoText.setTitle(Accounter.constants().memo());
+		memoText.setTitle(Accounter.messages().memo());
 
 		final DynamicForm taxForm = new DynamicForm();
 		taxForm.setFields(effectDate, entryText, incSelect, codeSelect,

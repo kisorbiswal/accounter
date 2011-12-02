@@ -135,13 +135,7 @@ public class ClientVendorCreditMemo extends ClientTransaction {
 		ClientVendorCreditMemo vendorCreditMemo = (ClientVendorCreditMemo) this
 				.clone();
 		vendorCreditMemo.contact = this.contact;
-		vendorCreditMemo.creditsAndPayments = this.creditsAndPayments;
-
-		List<ClientEntry> entries = new ArrayList<ClientEntry>();
-		for (ClientEntry clientEntry : this.entry) {
-			entries.add(clientEntry.clone());
-		}
-		vendorCreditMemo.entry = entries;
+		// vendorCreditMemo.creditsAndPayments = this.creditsAndPayments;
 
 		// transactionItems list
 		List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
@@ -180,8 +174,8 @@ public class ClientVendorCreditMemo extends ClientTransaction {
 		vendorCreditMemo.transactionIssuePayment = transactionIssuePayment;
 
 		// transactionPaySalestax list
-		List<ClientTransactionPaySalesTax> transactionPaySalesTax = new ArrayList<ClientTransactionPaySalesTax>();
-		for (ClientTransactionPaySalesTax clientTransactionPaySalesTax : this.transactionPaySalesTax) {
+		List<ClientTransactionPayTAX> transactionPaySalesTax = new ArrayList<ClientTransactionPayTAX>();
+		for (ClientTransactionPayTAX clientTransactionPaySalesTax : this.transactionPaySalesTax) {
 			transactionPaySalesTax.add(clientTransactionPaySalesTax.clone());
 		}
 		vendorCreditMemo.transactionPaySalesTax = transactionPaySalesTax;

@@ -3,121 +3,202 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
-import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.server.FinanceTool;
 
-public class VendorPaymentsCommand extends AbstractTransactionCommand {
+public class VendorPaymentsCommand extends NewAbstractCommand {
+	private String commandString = null;
 
-	private static final String VIEW_BY = "ViewBy";
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		commandString = context.getCommandString();
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return null;
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(VIEW_BY).setDefaultValue(getMessages().notIssued());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return null;
+	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(VIEW_BY, true, true));
 
-	}
+		list.add(new CommandsRequirement(VIEW_BY) {
 
-	@Override
-	public Result run(Context context) {
-		Result result = null;
-
-		result = createOptionalResult(context);
-		if (result != null) {
-			return result;
-		}
-		return result;
-	}
-
-	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(VIEW_BY);
-
-		ResultList list = new ResultList("viewlist");
-		Result result = viewTypeRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		String viewType = get(VIEW_BY).getValue();
-		result = payments(context, viewType);
-		return result;
-	}
-
-	private Result payments(Context context, String viewType) {
-		Result result = context.makeResult();
-		result.add("Payments List");
-		ResultList billsListData = new ResultList("payments");
-		int num = 0;
-
-		List<PaymentsList> payments = getPayments(getType(viewType),
-				context.getCompany());
-
-		for (PaymentsList p : payments) {
-			billsListData.add(createPaymentRecord(p));
-			num++;
-			if (num == PAYMENTS_TO_SHOW) {
-				break;
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getMessages().notIssued());
+				list.add(getMessages().issued());
+				list.add(getMessages().voided());
+				list.add(getMessages().all());
+				return list;
 			}
+		});
+
+		list.add(new ShowListRequirement<PaymentsList>(getMessages()
+				.payeePaymentList(Global.get().Vendor()), "", 20) {
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// PaymentsList value) {
+			// commandList.add(new UserCommand("update Payment", String
+			// .valueOf(value.getTransactionId())));
+			// }
+
+			@Override
+			protected String onSelection(PaymentsList value) {
+				return "Edit Transaction " + value.getTransactionId();
+			}
+
+			@Override
+			protected String getShowMessage() {
+				if (commandString.contains("Vendor")) {
+					return getMessages()
+							.payeePaymentList(Global.get().Vendor());
+				} else {
+					return getMessages().paymentsList();
+				}
+
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return "No Payments are available";
+			}
+
+			@Override
+			protected Record createRecord(PaymentsList p) {
+				Record payment = new Record(p);
+				payment.add("Date", p.getPaymentDate());
+				payment.add("Number", p.getPaymentNumber());
+				payment.add("Type", Utility.getTransactionStatus(p.getType(),
+						p.getStatus()));
+				payment.add("Issued Date", p.getIssuedDate());
+				payment.add("Name", p.getName());
+				payment.add("Transaction Name",
+						Utility.getTransactionName(p.getType()));
+				payment.add("Payment method", p.getPaymentMethodName());
+				payment.add("Check number", p.getCheckNumber());
+				payment.add("Amount paid", p.getAmountPaid());
+				payment.add(getMessages().paymentDate(), p.getPaymentDate());
+				payment.add(getMessages().paymentNo(), p.getPaymentNumber());
+				payment.add(getMessages().status(),
+						Utility.getStatus(p.getType(), p.getStatus()));
+				payment.add(getMessages().issueDate(), p.getIssuedDate());
+				payment.add(getMessages().name(), p.getName());
+				payment.add(getMessages().transactionName(),
+						Utility.getTransactionName(p.getType()));
+				payment.add(getMessages().paymentMethod(),
+						p.getPaymentMethodName());
+				payment.add(getMessages().checkNo(), p.getCheckNumber());
+				payment.add(getMessages().amountPaid(), p.getAmountPaid());
+				return payment;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				if (commandString.contains("Vendor")) {
+					list.add("Add Vendor payment");
+				} else {
+					list.add("Add a New Payment");
+				}
+
+			}
+
+			@Override
+			protected boolean filter(PaymentsList e, String name) {
+				return e.getName().startsWith(name)
+						|| e.getPaymentNumber().startsWith(
+								"" + getNumberFromString(name));
+			}
+
+			@Override
+			protected List<PaymentsList> getLists(Context context) {
+				return getListData(context);
+			}
+		});
+	}
+
+	/**
+	 * get payments
+	 * 
+	 * @param context
+	 * 
+	 * @return {@link List<paymentsList>}
+	 */
+	protected List<PaymentsList> getListData(Context context) {
+
+		String currentView = get(VIEW_BY).getValue();
+		FinanceTool tool = new FinanceTool();
+		List<PaymentsList> result = new ArrayList<PaymentsList>();
+		List<PaymentsList> paymentsLists = null;
+		try {
+			if (commandString.contains("Vendor")) {
+				paymentsLists = tool.getVendorManager().getVendorPaymentsList(
+						context.getCompany().getId());
+			} else {
+				paymentsLists = tool.getCustomerManager().getPaymentsList(
+						context.getCompany().getId());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		int size = billsListData.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a payment");
+		if (paymentsLists != null) {
+			for (PaymentsList list : paymentsLists) {
+				if (currentView.equals(getMessages().notIssued())) {
+					if (((Utility.getTransactionStatus(list.getType(),
+							list.getStatus()).equalsIgnoreCase(getMessages()
+							.notIssued())) && !(list.isVoided()))) {
+						result.add(list);
+					}
+				} else if (currentView.equals(getMessages().issued())) {
+					if (Utility.getTransactionStatus(list.getType(),
+							list.getStatus()).equalsIgnoreCase(
+							getMessages().issued())
+							&& !list.isVoided()) {
+						result.add(list);
+					}
+				} else if (currentView.equalsIgnoreCase(getMessages().voided())) {
+					if (list.isVoided()
+							&& list.getStatus() != ClientTransaction.STATUS_DELETED) {
+						result.add(list);
+					}
+				} else if (currentView.equalsIgnoreCase(getMessages().all())) {
+					result.add(list);
+				}
+			}
+			return result;
 		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create New");
+		return null;
 
-		result.add(message.toString());
-		result.add(billsListData);
-		result.add(commandList);
-		result.add("Type for payment");
-
-		return result;
 	}
-
-	private int getType(String viewType) {
-		if (viewType.equals(Accounter.constants().issued())) {
-			return 2;
-		} else if (viewType.equals(Accounter.constants().notIssued())) {
-			return 0;
-		}
-		return 0;
-	}
-
-	private Record createPaymentRecord(PaymentsList p) {
-		Record payment = new Record(p);
-		payment.add("PaymentDate", p.getPaymentDate());
-		payment.add("PaymentNumber", p.getPaymentNumber());
-		payment.add("Status", p.getStatus());
-		payment.add("IssueDate", p.getIssuedDate());
-		payment.add("Name", p.getName());
-		payment.add("paymentMethod", p.getPaymentMethodName());
-		payment.add("AmountPaid", p.getAmountPaid());
-		payment.add("Voided", p.isVoided());
-		return payment;
-	}
-
-	@Override
-	protected List<String> getViewTypes() {
-		List<String> list = new ArrayList<String>();
-		list.add(Accounter.constants().issued());
-		list.add(Accounter.constants().notIssued());
-		list.add(Accounter.constants().Voided());
-		list.add(Accounter.constants().all());
-
-		return list;
-	}
-
 }

@@ -5,10 +5,6 @@ package com.vimukti.accounter.mobile;
 
 import java.util.List;
 
-import com.vimukti.accounter.mobile.UserMessage.Type;
-import com.vimukti.accounter.mobile.store.CommandsFactory;
-import com.vimukti.accounter.mobile.store.PatternStore;
-
 /**
  * @author Prasanna Kumar G
  * 
@@ -16,87 +12,6 @@ import com.vimukti.accounter.mobile.store.PatternStore;
 public class MobileChatAdaptor implements MobileAdaptor {
 
 	public static MobileAdaptor INSTANCE = new MobileChatAdaptor();
-
-	/**
-	 * PreProcess the UserMessage
-	 * 
-	 * @param userMessage
-	 * @return
-	 * @throws AccounterMobileException
-	 */
-	public UserMessage preProcess(MobileSession session, String message) {
-		UserMessage userMessage = new UserMessage(message);
-
-		if (message == null || message.isEmpty()) {
-
-		}
-
-		Command command = null;
-		Result lastResult = session.getLastResult();
-		if (lastResult instanceof PatternResult) {
-			PatternResult patternResult = (PatternResult) lastResult;
-			command = getCommand(patternResult.getCommands(), message);
-		}
-		if (command == null) {
-			command = session.getCurrentCommand();
-		}
-		if (command == null) {
-			String commandString = "";
-			for (String str : message.split(" ")) {
-				commandString += str;
-				command = CommandsFactory.INSTANCE.getCommand(commandString);
-				if (command != null) {
-					break;
-				}
-				commandString += ' ';
-			}
-			if (command != null) {
-				message = message.replaceAll(commandString.trim(), "");
-			}
-		}
-		if (command != null) {
-			userMessage.setType(Type.COMMAND);
-			userMessage.setCommand(command);
-			userMessage.setInputs(message.split(" "));
-			return userMessage;
-		}
-
-		Result result = PatternStore.INSTANCE.find(message);
-		if (result != null) {
-			userMessage.setType(Type.HELP);
-			userMessage.setResult(result);
-			return userMessage;
-		}
-
-		if (message.startsWith("#")) {
-			userMessage.setType(Type.NUMBER);
-			userMessage.setInputs(message.replaceAll("#", "").split(" "));
-			return userMessage;
-		}
-
-		// TODO Check for isName
-		if (!message.contains(" ")) {
-			userMessage.setType(Type.NAME);
-			userMessage.setInputs(message.split(" "));
-		}
-
-		userMessage.setInputs(new String[] { message });
-		return userMessage;
-	}
-
-	private Command getCommand(CommandList commands, String input) {
-		// Getting the First Character of the Input
-		if (input == null || input.isEmpty() || input.length() > 1) {
-			return null;
-		}
-		char ch = input.charAt(0);
-		// Finding the Command for Input
-		String commandString = commands.get(ch - 97);
-		if (commandString == null) {
-			return null;
-		}
-		return CommandsFactory.INSTANCE.getCommand(commandString);
-	}
 
 	/**
 	 * PostProcess the Result
@@ -110,11 +25,22 @@ public class MobileChatAdaptor implements MobileAdaptor {
 		}
 		List<Object> resultParts = result.getResultParts();
 		StringBuffer reply = new StringBuffer();
+		String resultTitle = result.getTitle();
+		if (resultTitle != null) {
+			reply.append(result.getTitle());
+			reply.append('\n');
+		}
 		int recordsCount = 1;
 		int commandIndex = 97;
 		for (Object part : resultParts) {
 			if (part instanceof ResultList) {
+				reply.append('\n');
 				ResultList resultList = (ResultList) part;
+				String resultListTile = resultList.getTitle();
+				if (resultListTile != null) {
+					reply.append(resultListTile);
+					reply.append('\n');
+				}
 				for (int x = 0; x < resultList.size(); x++, recordsCount++) {
 					Record record = resultList.get(x);
 					record.setCode(recordsCount);
@@ -129,11 +55,14 @@ public class MobileChatAdaptor implements MobileAdaptor {
 					reply.append(commandList.get(x));
 					reply.append('\n');
 				}
+			} else if (part instanceof InputType) {
+				// TODO
 			} else {
 				reply.append((String) part);
+				reply.append('\n');
 			}
-			reply.append('\n');
 		}
+
 		return reply.toString();
 	}
 }

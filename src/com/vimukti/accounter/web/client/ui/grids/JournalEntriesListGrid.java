@@ -8,8 +8,9 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
@@ -24,7 +25,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
@@ -42,7 +43,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 		case 2:
 			return obj.getMemo() != null ? obj.getMemo() : "";
 		case 3:
-			return amountAsString(obj.getTotal());
+			return DataUtils.amountAsStringWithCurrency(obj.getTotal(), getCompany().getPrimaryCurrency());
 		case 4:
 			if (!obj.isVoid())
 				return Accounter.getFinanceImages().notvoid();
@@ -86,17 +87,17 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 
 	@Override
 	protected String[] getColumns() {
-		companyConstants = Accounter.constants();
-		return new String[] { companyConstants.no(),
-				companyConstants.date(), companyConstants.memo(),
-				companyConstants.amount(), companyConstants.Voided()
+		messages = Accounter.messages();
+		return new String[] { messages.no(), messages.date(),
+				messages.memo(), messages.amount(),
+				messages.Voided()
 
 		};
 	}
 
 	@Override
 	public void onDoubleClick(ClientJournalEntry obj) {
-		ActionFactory.getNewJournalEntryAction().run(obj, true);
+		ActionFactory.getNewJournalEntryAction().run(obj, false);
 	}
 
 	@Override
@@ -107,7 +108,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 				showWarningDialog(obj, col);
 			} else if (obj.getReference().equals(
 					AccounterClientConstants.JOURNAL_ENTRY_FOR_DEPRECIATION)) {
-				Accounter.showWarning(Accounter.constants()
+				Accounter.showWarning(Accounter.messages()
 						.youcantvoidJournalEntrycreatedbyrunningDeprecation(),
 						AccounterType.ERROR);
 			}
@@ -125,9 +126,9 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	private void showWarningDialog(final ClientJournalEntry obj, final int col) {
 		String msg = null;
 		if (col == 4 && !obj.isVoid()) {
-			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
+			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
 		} else if (col == 5) {
-			msg = Accounter.constants().doyouwanttoDeletetheTransaction();
+			msg = Accounter.messages().doyouwanttoDeletetheTransaction();
 
 		}
 		Accounter.showWarning(msg, AccounterType.WARNING,

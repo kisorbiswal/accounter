@@ -1,35 +1,51 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditRating;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerGroup;
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.PaymentTerms;
-import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.SalesPerson;
+import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.mobile.ActionNames;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.ObjectListRequirement;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.CreditRatingRequirement;
+import com.vimukti.accounter.mobile.requirements.CustomerContactRequirement;
+import com.vimukti.accounter.mobile.requirements.CustomerGroupRequirement;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.EmailRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
+import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
+import com.vimukti.accounter.mobile.requirements.SalesPersonRequirement;
+import com.vimukti.accounter.mobile.requirements.ShippingMethodRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
-public class NewCustomerCommand extends AbstractTransactionCommand {
+public class NewCustomerCommand extends NewAbstractCommand {
 
-	private static final String INPUT_ATTR = "input";
-	private static final int SALESPERSON_TO_SHOW = 5;
-	private static final int PRICELEVEL_TO_SHOW = 5;
-	private static final int CREDITRATING_TO_SHOW = 5;
-	private static final int CUSTOMERGROUP_TO_SHOW = 5;
 	protected static final String NUMBER = "customerNumber";
 	protected static final String BALANCE = "balance";
 	private static final String PHONE = "phone";
@@ -40,18 +56,11 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private static final String BANK_ACCOUNT_NUM = "bankAccountNum";
 	private static final String BANK_BRANCH = "bankBranch";
 	private static final String VATREGISTER_NUM = "vatRegisterationNum";
-	private static final String IS_ACTIVE = "isActive";
 	private static final String CUSTOMER_NAME = "customerName";
-	private static final String CUSTOMER_CONTACT = "customerContact";
-	private static final String PRIMARY = "primary";
-	private static final String CONTACT_NAME = "contactName";
-	private static final String TITLE = "title";
-	private static final String BUSINESS_PHONE = "businessPhone";
 	private static final String CUSTOMER_VATCODE = "customerVatCode";
 	private static final String CUSTOMER_SINCEDATE = "customerSinceDate";
 	private static final String BALANCE_ASOF_DATE = "balanceAsOfDate";
 	private static final String SALESPERSON = "salesPerson";
-	private static final String PRICE_LEVEL = "priceLevel";
 	private static final String CREDIT_RATING = "creditRating";
 	private static final String PAYMENT_METHOD = "paymentMethod";
 	private static final String CUSTOMER_GROUP = "cusomerGroup";
@@ -59,170 +68,398 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 	private static final String CST_NUM = "CST number";
 	private static final String SERVICE_TAX_NUM = "Service tax registration no";
 	private static final String TIN_NUM = "Taxpayer identification number";
-	public static final int ACCOUNTING_TYPE_US = 0;
-	public static final int ACCOUNTING_TYPE_UK = 1;
-	public static final int ACCOUNTING_TYPE_INDIA = 2;
+	private static final String SHIPPING_METHODS = "shippingMethod";
+	private static final String PAYMENT_TERMS = "paymentTerms";
+	private static final String CONTACT = "contact";
+	private static final String SHIPTO = "shipTo";
+	private static final String BILLTO = "billTo";
+	private static final String ACTIVE = "active";
+	private ClientCustomer customer;
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new Requirement(CUSTOMER_NAME, false, true));
-		if (getCompany().getPreferences().getUseCustomerId())
-			list.add(new Requirement(NUMBER, false, true));
-		list.add(new ObjectListRequirement(CUSTOMER_CONTACT, true, true) {
+		list.add(new NameRequirement(CUSTOMER_NAME,
+				"Please Enter Customer name", getMessages().payeeName(
+						Global.get().Customer()), false, true));
+
+		list.add(new BooleanRequirement(ACTIVE, true) {
+
 			@Override
-			public void addRequirements(List<Requirement> list) {
-				list.add(new Requirement(PRIMARY, true, true));
-				list.add(new Requirement(CONTACT_NAME, false, true));
-				list.add(new Requirement(TITLE, true, true));
-				list.add(new Requirement(BUSINESS_PHONE, true, true));
-				list.add(new Requirement(EMAIL, true, true));
+			protected String getTrueString() {
+				return "This Customer is Active";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "This Customer is In-Active";
 			}
 		});
-		list.add(new Requirement(IS_ACTIVE, true, true));
-		list.add(new Requirement(CUSTOMER_SINCEDATE, true, true));
-		list.add(new Requirement(BALANCE, true, true));
-		list.add(new Requirement(BALANCE_ASOF_DATE, true, true));
-		list.add(new Requirement(ADDRESS, true, true));
-		list.add(new Requirement(PHONE, true, true));
-		list.add(new Requirement(FAX, true, true));
-		list.add(new Requirement(EMAIL, true, true));
-		list.add(new Requirement(WEBADRESS, true, true));
-		list.add(new Requirement(SALESPERSON, true, true));
-		list.add(new Requirement(PRICE_LEVEL, true, true));
-		list.add(new Requirement(CREDIT_RATING, true, true));
-		list.add(new Requirement(BANK_NAME, true, true));
-		list.add(new Requirement(BANK_ACCOUNT_NUM, true, true));
-		list.add(new Requirement(BANK_BRANCH, true, true));
 
-		int accountingType = getCompany().getAccountingType();
-		if (accountingType != ACCOUNTING_TYPE_INDIA) {
-			list.add(new Requirement(PAYMENT_METHOD, true, true));
-			list.add(new Requirement(PAYMENT_TERMS, true, true));
-			list.add(new Requirement(CUSTOMER_GROUP, true, true));
-		}
-		if (accountingType == ACCOUNTING_TYPE_UK) {
-			if (getCompany().getPreferences().isRegisteredForVAT()) {
-				list.add(new Requirement(VATREGISTER_NUM, true, true));
-				list.add(new Requirement(CUSTOMER_VATCODE, true, true));
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getMessages().number()), getMessages().number(), false, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().getUseCustomerId()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
 			}
-		}
-		if (accountingType == ACCOUNTING_TYPE_INDIA) {
-			list.add(new Requirement(PAN_NUM, true, true));
-			list.add(new Requirement(CST_NUM, true, true));
-			list.add(new Requirement(SERVICE_TAX_NUM, true, true));
-			list.add(new Requirement(TIN_NUM, true, true));
-		}
+		});
+
+		list.add(new DateRequirement(CUSTOMER_SINCEDATE,
+				getMessages().pleaseEnter(
+						getMessages().payeeSince(Global.get().Customer())),
+				getMessages().payeeSince(Global.get().Customer()), true, true));
+
+		list.add(new AmountRequirement(BALANCE, getMessages().pleaseEnter(
+				getMessages().openingBalance()),
+				getMessages().openingBalance(), true, true));
+
+		list.add(new DateRequirement(BALANCE_ASOF_DATE, getMessages()
+				.pleaseEnter(getMessages().balanceAsOfDate()), getMessages()
+				.balanceAsOfDate(), true, true));
+
+		list.add(new AddressRequirement(BILLTO, getMessages().pleaseEnter(
+				getMessages().billTo()), getMessages().billTo(), true, true));
+		list.add(new AddressRequirement(SHIPTO, getMessages().pleaseEnter(
+				getMessages().shipTo()), getMessages().shipTo(), true, true));
+
+		list.add(new PhoneRequirement(PHONE, getMessages().pleaseEnter(
+				getMessages().phoneNumber()), getMessages().phoneNumber(),
+				true, true));
+
+		list.add(new StringRequirement(FAX, getMessages().pleaseEnter(
+				getMessages().fax()), getMessages().fax(), true, true));
+
+		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
+				getMessages().email()), getMessages().email(), true, true));
+
+		list.add(new URLRequirement(WEBADRESS, getMessages().pleaseEnter(
+				getMessages().webSite()), getMessages().webSite(), true, true));
+
+		list.add(new SalesPersonRequirement(SALESPERSON,
+				"please enter the sales person name", getMessages()
+						.salesPerson(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "sales person has been selected";
+			}
+
+			@Override
+			protected List<SalesPerson> getLists(Context context) {
+				return new ArrayList<SalesPerson>(context.getCompany()
+						.getSalesPersons());
+			}
+
+			@Override
+			protected boolean filter(SalesPerson e, String name) {
+				return e.getFirstName().startsWith(name);
+			}
+		});
+
+		list.add(new ShippingMethodRequirement(SHIPPING_METHODS,
+				"please enter the shipping method name", getMessages()
+						.shippingMethod(), true, true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isDoProductShipMents()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Shipping method has been selected";
+			}
+
+			@Override
+			protected List<ShippingMethod> getLists(Context context) {
+				return new ArrayList<ShippingMethod>(context.getCompany()
+						.getShippingMethods());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getMessages().shippingMethod());
+			}
+
+		});
+
+		// TODO list.add(new Requirement(PRICE_LEVEL, true, true));
+
+		list.add(new CreditRatingRequirement(CREDIT_RATING,
+				"Please enter the credit rating name", getMessages()
+						.creditRating(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Credit Rating has been selected";
+			}
+
+			@Override
+			protected List<CreditRating> getLists(Context context) {
+				return new ArrayList<CreditRating>(context.getCompany()
+						.getCreditRatings());
+			}
+
+			@Override
+			protected boolean filter(CreditRating e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new NameRequirement(BANK_NAME, getMessages().pleaseEnter(
+				getMessages().bankName()), getMessages().bankName(), true, true));
+
+		list.add(new NumberRequirement(BANK_ACCOUNT_NUM, getMessages()
+				.pleaseEnter(getMessages().bankAccount()), getMessages()
+				.bankAccountNumber(), true, true));
+
+		list.add(new NameRequirement(BANK_BRANCH, getMessages().pleaseEnter(
+				getMessages().bankBranch()), getMessages().bankBranch(), true,
+				true));
+
+		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
+				.pleaseSelect(getMessages().paymentMethod()), getMessages()
+				.paymentMethod(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Payment method has been selected";
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				ArrayList<String> arrayList = new ArrayList<String>(
+						getPaymentMethods());
+				Collections.sort(arrayList);
+				return arrayList;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getMessages().paymentMethod());
+			}
+		});
+
+		list.add(new PaymentTermRequirement(PAYMENT_TERMS,
+				"Please enter the payment term name", getMessages()
+						.paymentTerm(), true, true, null) {
+
+			@Override
+			protected List<PaymentTerms> getLists(Context context) {
+				return new ArrayList<PaymentTerms>(context.getCompany()
+						.getPaymentTerms());
+			}
+		});
+
+		list.add(new CustomerGroupRequirement(CUSTOMER_GROUP,
+				"Please enter the customer group", getMessages().payeeGroup(
+						Global.get().Customer()), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Customer Group has been selected";
+			}
+
+			@Override
+			protected List<CustomerGroup> getLists(Context context) {
+				return new ArrayList<CustomerGroup>(context.getCompany()
+						.getCustomerGroups());
+			}
+
+			@Override
+			protected boolean filter(CustomerGroup e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new NumberRequirement(VATREGISTER_NUM, getMessages()
+				.pleaseEnter(getMessages().vatRegistrationNumber()),
+				getMessages().vatRegistrationNumber(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
+								.isVatAvailable()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new TaxCodeRequirement(CUSTOMER_VATCODE,
+				"Please enter the tax code name", getMessages().taxCode(),
+				true, true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackTax()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
+			}
+
+			@Override
+			protected boolean filter(TAXCode e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new NumberRequirement(PAN_NUM, "Please Enter the pan number",
+				"Pan Number", true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackTax()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
+				getMessages().payeeNumber(Global.get().Customer())),
+				getMessages().payeeNumber(Global.get().Customer()), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
+								.isSalesTaxAvailable()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
+				.pleaseEnter(getMessages().serviceTax()), getMessages()
+				.serviceTax(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
+								.isServiceTaxAvailable()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new NumberRequirement(TIN_NUM, getMessages().pleaseEnter(
+				getMessages().tinNumber()), getMessages().tinNumber(), true,
+				true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackTax()
+						&& context.getCompany().getCountryPreferences()
+								.isTDSAvailable()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new CustomerContactRequirement(CONTACT, getMessages()
+				.pleaseSelect(getMessages().contact()), CONTACT, true, true) {
+
+			@Override
+			protected List<ClientContact> getList() {
+				if (customer.getID() != 0) {
+					return new ArrayList<ClientContact>(customer.getContacts());
+				}
+				return null;
+			}
+
+		});
+
 	}
 
 	@Override
-	public Result run(Context context) {
+	protected Result onCompleteProcess(Context context) {
+		ICountryPreferences countryPreferences = context.getCompany()
+				.getCountryPreferences();
+		ClientCompanyPreferences preferences = context.getPreferences();
 
-		String process = (String) context.getAttribute(PROCESS_ATTR);
-		Result result = null;
-		if (process != null) {
-			if (process.equals(CONTACT_PROCESS)) {
-				result = contactProcess(context);
-				if (result != null) {
-					return result;
-				}
-			}
-		}
-		result = customerNameRequirement(context);
-		if (result == null) {
-			// TODO
-		}
-		if (context.getCompany().getPreferences().getUseCustomerId()) {
-			result = customerNumberRequirement(context);
-			if (result == null) {
-				// TODO
-			}
-		}
-		result = optionalRequirements(context);
-		if (result == null) {
-			// TODO
-		}
-		createCustomerObject(context);
-		markDone();
-		return result;
-	}
-
-	/*
-	 * * customer Number.
-	 * 
-	 * @param context
-	 * 
-	 * @return {@link Result}
-	 */
-	private Result customerNumberRequirement(Context context) {
-		Requirement customerNumReq = get(NUMBER);
-		if (!customerNumReq.isDone()) {
-			String customerNum = context.getString();
-			if (customerNum != null) {
-				customerNumReq.setValue(customerNum);
-			} else {
-				return number(context, "Please Enter the Customer Number.",
-						null);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(NUMBER)) {
-			input = context.getString();
-			customerNumReq.setValue(input);
-		}
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private void createCustomerObject(Context context) {
-
-		Customer customer = new Customer();
 		String name = get(CUSTOMER_NAME).getValue();
-		String number = get(NUMBER).getValue();
-		Set<Contact> contacts = get(CUSTOMER_CONTACT).getValue();
-		boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
-		FinanceDate balancedate = get(BALANCE_ASOF_DATE).getValue();
-		Timestamp customerSincedate = get(CUSTOMER_SINCEDATE).getValue();
+		String number = null;
+		if (preferences.getUseCustomerId()) {
+			number = get(NUMBER).getValue().toString();
+		}
+		List<ClientContact> contact = get(CONTACT).getValue();
+		ClientFinanceDate balancedate = get(BALANCE_ASOF_DATE).getValue();
 		double balance = get(BALANCE).getValue();
-		Set<Address> adress = get(ADDRESS).getValue();
+		ClientAddress shipptoAddress = get(SHIPTO).getValue();
+		ClientAddress billToAdress = get(BILLTO).getValue();
 		String phoneNum = get(PHONE).getValue();
 		String faxNum = get(FAX).getValue();
 		String emailId = get(EMAIL).getValue();
 		String webaddress = get(WEBADRESS).getValue();
 		SalesPerson salesPerson = get(SALESPERSON).getValue();
 		CreditRating creditRating = get(CREDIT_RATING).getValue();
-		PriceLevel priceLevel = get(PRICE_LEVEL).getValue();
+		// ClientPriceLevel priceLevel = get(PRICE_LEVEL).getValue();
 		String bankName = get(BANK_NAME).getValue();
 		String bankAccountNum = get(BANK_ACCOUNT_NUM).getValue();
 		String bankBranch = get(BANK_BRANCH).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		PaymentTerms paymentTerms = get(PAYMENT_TERMS).getValue();
-		CustomerGroup customerGroup = get(PAYMENT_TERMS).getValue();
+		CustomerGroup customerGroup = get(CUSTOMER_GROUP).getValue();
 		String vatRegistredNum = get(VATREGISTER_NUM).getValue();
 		TAXCode taxCode = get(CUSTOMER_VATCODE).getValue();
-		String panNum = get(PAN_NUM).getValue();
+		ShippingMethod shippingMethod = get(SHIPPING_METHODS).getValue();
+		// String panNum = get(PAN_NUM).getValue();
 		String cstNum = get(CST_NUM).getValue();
 		String serviceTaxNum = get(SERVICE_TAX_NUM).getValue();
 		String tinNum = get(TIN_NUM).getValue();
-
+		HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
+		if (shipptoAddress != null && shipptoAddress.getAddress1() != "") {
+			shipptoAddress.setType(ClientAddress.TYPE_SHIP_TO);
+			addresses.add(shipptoAddress);
+		}
+		if (billToAdress != null && billToAdress.getAddress1() != "") {
+			billToAdress.setType(ClientAddress.TYPE_BILL_TO);
+			addresses.add(billToAdress);
+		}
 		customer.setName(name);
-		if (context.getCompany().getPreferences().getUseCustomerId())
+		if (preferences.getUseCustomerId())
 			customer.setNumber(number);
-		customer.setContacts(contacts);
+		customer.setContacts(new HashSet<ClientContact>(contact));
 		customer.setBalance(balance);
-		customer.setBalanceAsOf(balancedate);
-		customer.setCreatedDate(customerSincedate);
-		customer.setAddress(adress);
+		if (balancedate != null) {
+			customer.setBalanceAsOf(balancedate.getDate());
+		}
+		if (!addresses.isEmpty())
+			customer.setAddress(addresses);
 		customer.setPhoneNo(phoneNum);
 		customer.setFaxNo(faxNum);
 		customer.setWebPageAddress(webaddress);
@@ -230,1086 +467,175 @@ public class NewCustomerCommand extends AbstractTransactionCommand {
 		customer.setBankBranch(bankBranch);
 		customer.setBankName(bankName);
 		customer.setEmail(emailId);
-		customer.setSalesPerson(salesPerson);
-		customer.setPriceLevel(priceLevel);
-		customer.setCreditRating(creditRating);
-		customer.setActive(isActive);
-		int accountingType = context.getCompany().getAccountingType();
-		if (accountingType != ACCOUNTING_TYPE_INDIA) {
-			customer.setPaymentMethod(paymentMethod);
-			customer.setPaymentTerm(paymentTerms);
-			customer.setCustomerGroup(customerGroup);
+		if (salesPerson != null) {
+			customer.setSalesPerson(salesPerson.getID());
 		}
-		if (accountingType == ACCOUNTING_TYPE_UK) {
-			if (context.getCompany().getPreferences().isRegisteredForVAT()) {
-				customer.setTAXCode(taxCode);
+		// if (priceLevel != null) {
+		// customer.setPriceLevel(priceLevel.getID());
+		// }
+		if (creditRating != null) {
+			customer.setCreditRating(creditRating.getID());
+		}
+		customer.setActive((Boolean) get(ACTIVE).getValue());
+		customer.setPaymentMethod(paymentMethod);
+		if (paymentTerms != null) {
+			customer.setPaymentTerm(paymentTerms.getID());
+		}
+		if (customerGroup != null) {
+			customer.setCustomerGroup(customerGroup.getID());
+		}
+		if (preferences.isDoProductShipMents() && shippingMethod != null)
+			customer.setShippingMethod(shippingMethod.getID());
+		if (preferences.isTrackTax() && taxCode != null) {
+			if (countryPreferences.isVatAvailable()) {
+				customer.setTAXCode(taxCode.getID());
 				customer.setVATRegistrationNumber(vatRegistredNum);
 			}
-		}
-		if (accountingType == ACCOUNTING_TYPE_INDIA) {
-			customer.setPANno(panNum);
-			customer.setCSTno(cstNum);
-			customer.setServiceTaxRegistrationNo(serviceTaxNum);
-			customer.setTINNumber(tinNum);
+			if (countryPreferences.isSalesTaxAvailable()) {
+				customer.setCstNumber(cstNum);
+			}
+			if (countryPreferences.isServiceTaxAvailable()) {
+				customer.setServiceTaxRegistrationNumber(serviceTaxNum);
+			}
+			if (countryPreferences.isTDSAvailable()) {
+				customer.setTinNumber(tinNum);
+			}
+			// customer.setPANno(panNum);
 		}
 
 		create(customer, context);
-
+		return null;
 	}
 
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result optionalRequirements(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-		Object selection = context.getSelection(ACTIONS);
-
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case ADD_MORE_CONTACTS:
-				return contact(context, "Enter the Contact Details", null);
-			case FINISH:
-				context.removeAttribute(INPUT_ATTR);
-				return null;
-			default:
-				break;
-			}
-		}
-
-		ResultList list = new ResultList("values");
-		selection = context.getSelection("values");
-
-		String customerName = (String) get(CUSTOMER_NAME).getValue();
-		Record nameRecord = new Record(customerName);
-		nameRecord.add("Name", "customerName");
-		nameRecord.add("Value", customerName);
-		list.add(nameRecord);
-
-		Requirement contactReq = get(CUSTOMER_CONTACT);
-		List<Contact> contacts = contactReq.getValue();
-		selection = context.getSelection(CUSTOMER_CONTACT);
-		if (selection != null) {
-			Result contact = contact(context, "customer contact",
-					(Contact) selection);
-			if (contact != null) {
-				return contact;
-			}
-		}
-
-		Requirement isActiveReq = get(IS_ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == isActive) {
-			context.setAttribute(INPUT_ATTR, IS_ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This Item is Active";
+	@Override
+	protected String getWelcomeMessage() {
+		if (customer.getID() == 0) {
+			return "Creating New Customer..";
 		} else {
-			activeString = "This Item is InActive";
+			return "Updating '" + customer.getDisplayName() + "' Customer..";
 		}
-		Record isActiveRecord = new Record(IS_ACTIVE);
-		isActiveRecord.add("Name", "");
-		isActiveRecord.add("Value", activeString);
-		list.add(isActiveRecord);
-
-		int company = context.getCompany().getAccountingType();
-
-		Result result = dateOptionalRequirement(context, list,
-				CUSTOMER_SINCEDATE, CUSTOMER_SINCEDATE, selection);
-
-		if (result != null) {
-			return result;
-		}
-		result = amountOptionalRequirement(context, list, selection, BALANCE,
-				"Enter Balance");
-		if (result != null) {
-			return result;
-		}
-		result = dateOptionalRequirement(context, list, BALANCE_ASOF_DATE,
-				BALANCE_ASOF_DATE, selection);
-		if (result != null) {
-			return result;
-		}
-		result = billToRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = faxNumRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = emailRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = phoneNumRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = webAdressRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = salesPersonRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = priceLevelRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = creditRatingRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = bankNameRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = bankAccountNumRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = bankBranchRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		if (company == ACCOUNTING_TYPE_UK || company == ACCOUNTING_TYPE_US) {
-			result = paymentMethodRequirement(context, list, (String) selection);
-			if (result != null) {
-				return result;
-			}
-		}
-		result = paymentTermRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = customerGroupRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		if (company == ACCOUNTING_TYPE_US) {
-			result = vatRegisterationNumRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-		}
-		result = customerVatCodeRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		if (company == ACCOUNTING_TYPE_INDIA) {
-			result = panNumRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-			result = cstNumRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-			result = serviceTaxRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-			result = tinNumRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-		}
-
-		result = context.makeResult();
-		result.add("Customer is ready to create with following values.");
-		result.add(list);
-		result.add("Items:-");
-		ResultList items = new ResultList(CUSTOMER_CONTACT);
-		for (Contact item : contacts) {
-			Record itemRec = new Record(item);
-			itemRec.add(PRIMARY, item.getVersion());
-			itemRec.add(CONTACT_NAME, item.getName());
-			itemRec.add(TITLE, item.getTitle());
-			itemRec.add(BUSINESS_PHONE, item.getBusinessPhone());
-			itemRec.add(EMAIL, item.getEmail());
-		}
-
-		result.add(items);
-		ResultList actions = new ResultList(ACTIONS);
-		Record moreItems = new Record(ActionNames.ADD_MORE_CONTACTS);
-		moreItems.add("", "Add more contacts");
-		actions.add(moreItems);
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Customer.");
-		actions.add(finish);
-		result.add(actions);
-		return result;
 	}
 
-	/**
-	 * tin Num
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result tinNumRequirement(Context context, ResultList list,
-			Object selection) {
+	@Override
+	protected String getDetailsMessage() {
+		if (customer.getID() == 0) {
+			return getMessages().readyToCreate(Global.get().Customer());
+		} else {
+			return getMessages().readyToUpdate(Global.get().Customer());
+		}
+	}
 
-		Requirement req = get(TIN_NUM);
-		String tinNumber = (String) req.getValue();
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(ACTIVE).setValue(true);
+		get(CUSTOMER_SINCEDATE).setDefaultValue(new ClientFinanceDate());
+		get(BALANCE_ASOF_DATE).setDefaultValue(new ClientFinanceDate());
+		get(BILLTO).setDefaultValue(new ClientAddress());
+		get(SHIPTO).setDefaultValue(new ClientAddress());
+	}
 
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(TIN_NUM)) {
-			String order = context.getSelection(TIN_NUM);
-			if (order == null) {
-				order = context.getString();
+	@Override
+	public String getSuccessMessage() {
+		if (customer.getID() == 0) {
+			return getMessages().createSuccessfully(Global.get().Customer());
+		} else {
+			return getMessages().updateSuccessfully(Global.get().Customer());
+		}
+	}
+
+	@Override
+	protected String getDeleteCommand(Context context) {
+		long id = customer.getID();
+		return id != 0 ? "Delete customer " + id : null;
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Customer to update.");
+				return "Customers";
 			}
-			tinNumber = order;
-			req.setValue(tinNumber);
-		}
-
-		if (selection == tinNumber) {
-			context.setAttribute(INPUT_ATTR, TIN_NUM);
-			return text(context, "Enter Taxpayer identification number",
-					tinNumber);
-		}
-
-		Record tinNumRecord = new Record(tinNumber);
-		tinNumRecord.add("Name", TIN_NUM);
-		tinNumRecord.add("Value", tinNumber);
-		list.add(tinNumRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	/**
-	 * Service Tax Num
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result serviceTaxRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(SERVICE_TAX_NUM);
-		String serviceTaxNumber = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(SERVICE_TAX_NUM)) {
-			String order = context.getSelection(SERVICE_TAX_NUM);
-			if (order == null) {
-				order = context.getString();
+			ClientPayee customerByName = CommandUtils.getPayeeByName(
+					context.getCompany(), string);
+			if (customerByName == null) {
+				long numberFromString = getNumberFromString(string);
+				if (numberFromString != 0) {
+					string = String.valueOf(numberFromString);
+				}
+				customerByName = CommandUtils.getCustomerByNumber(
+						context.getCompany(), string);
+				if (customerByName == null) {
+					addFirstMessage(context, "Select a Customer to update.");
+					return "Customers " + string.trim();
+				}
 			}
-			serviceTaxNumber = order;
-			req.setValue(serviceTaxNumber);
-		}
-
-		if (selection == serviceTaxNumber) {
-			context.setAttribute(INPUT_ATTR, SERVICE_TAX_NUM);
-			return text(context, "Enter Service tax registration Number ",
-					serviceTaxNumber);
-		}
-
-		Record serviceTaxRecord = new Record(serviceTaxNumber);
-		serviceTaxRecord.add("Name", SERVICE_TAX_NUM);
-		serviceTaxRecord.add("Value", serviceTaxNumber);
-		list.add(serviceTaxRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	/**
-	 * CST Num
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result cstNumRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(CST_NUM);
-		String cstNum = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(CST_NUM)) {
-			String order = context.getSelection(CST_NUM);
-			if (order == null) {
-				order = context.getString();
+			customer = (ClientCustomer) customerByName;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(CUSTOMER_NAME).setValue(string);
 			}
-			cstNum = order;
-			req.setValue(cstNum);
-		}
-
-		if (selection == cstNum) {
-			context.setAttribute(INPUT_ATTR, CST_NUM);
-			return text(context, "Enter CST Number ", cstNum);
-		}
-
-		Record cstNumRecord = new Record(cstNum);
-		cstNumRecord.add("Name", BANK_ACCOUNT_NUM);
-		cstNumRecord.add("Value", cstNum);
-		list.add(cstNumRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	/**
-	 * Pan NUmber
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result panNumRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(PAN_NUM);
-		String panNumber = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(PAN_NUM)) {
-			String order = context.getSelection(PAN_NUM);
-			if (order == null) {
-				order = context.getString();
-			}
-			panNumber = order;
-			req.setValue(panNumber);
-		}
-
-		if (selection == panNumber) {
-			context.setAttribute(INPUT_ATTR, PAN_NUM);
-			return text(context, "Enter Personal Ledger number", panNumber);
-		}
-
-		Record panNumRecord = new Record(panNumber);
-		panNumRecord.add("Name", PAN_NUM);
-		panNumRecord.add("Value", panNumber);
-		list.add(panNumRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result vatRegisterationNumRequirement(Context context,
-			ResultList list, Object selection) {
-
-		Requirement req = get(VATREGISTER_NUM);
-		String vatRegisterationNum = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(VATREGISTER_NUM)) {
-			String order = context.getSelection(VATREGISTER_NUM);
-			if (order == null) {
-				order = context.getString();
-			}
-			vatRegisterationNum = order;
-			req.setValue(vatRegisterationNum);
-		}
-
-		if (selection == vatRegisterationNum) {
-			context.setAttribute(INPUT_ATTR, VATREGISTER_NUM);
-			return text(context, "Enter vatRegisteration Number ",
-					vatRegisterationNum);
-		}
-
-		Record vatRegisterationNumRecord = new Record(vatRegisterationNum);
-		vatRegisterationNumRecord.add("Name", "vatRegisterationNum");
-		vatRegisterationNumRecord.add("Value", vatRegisterationNum);
-		list.add(vatRegisterationNumRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result bankBranchRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(BANK_BRANCH);
-		String bankBranch = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(bankBranch)) {
-			String order = context.getSelection(BANK_BRANCH);
-			if (order == null) {
-				order = context.getString();
-			}
-			bankBranch = order;
-			req.setValue(bankBranch);
-		}
-
-		if (selection == bankBranch) {
-			context.setAttribute(INPUT_ATTR, BANK_BRANCH);
-			return text(context, "Enter bankBranch Name ", bankBranch);
-		}
-
-		Record bankBranchRecord = new Record(bankBranch);
-		bankBranchRecord.add("Name", "bankBranch");
-		bankBranchRecord.add("Value", bankBranch);
-		list.add(bankBranchRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result bankAccountNumRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(BANK_ACCOUNT_NUM);
-		String bankAccountNumber = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(BANK_ACCOUNT_NUM)) {
-			String order = context.getSelection(BANK_ACCOUNT_NUM);
-			if (order == null) {
-				order = context.getString();
-			}
-			bankAccountNumber = order;
-			req.setValue(bankAccountNumber);
-		}
-
-		if (selection == bankAccountNumber) {
-			context.setAttribute(INPUT_ATTR, BANK_ACCOUNT_NUM);
-			return text(context, "Enter bankAccount Number ", bankAccountNumber);
-		}
-
-		Record bankAccountNumRecord = new Record(bankAccountNumber);
-		bankAccountNumRecord.add("Name", BANK_ACCOUNT_NUM);
-		bankAccountNumRecord.add("Value", bankAccountNumber);
-		list.add(bankAccountNumRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result bankNameRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(BANK_NAME);
-		String bankName = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(BANK_NAME)) {
-			String order = context.getSelection(BANK_NAME);
-			if (order == null) {
-				order = context.getString();
-			}
-			bankName = order;
-			req.setValue(bankName);
-		}
-
-		if (selection == bankName) {
-			context.setAttribute(INPUT_ATTR, BANK_NAME);
-			return text(context, "Enter Bank Name ", bankName);
-		}
-
-		Record bankNameRecord = new Record(bankName);
-		bankNameRecord.add("Name", BANK_NAME);
-		bankNameRecord.add("Value", bankName);
-		list.add(bankNameRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result webAdressRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement req = get(WEBADRESS);
-		String phone = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(WEBADRESS)) {
-			String order = context.getSelection(WEBADRESS);
-			if (order == null) {
-				order = context.getString();
-			}
-			phone = order;
-			req.setValue(phone);
-		}
-
-		if (selection == phone) {
-			context.setAttribute(INPUT_ATTR, WEBADRESS);
-			return text(context, "Enter webPageAdress ", phone);
-		}
-
-		Record balanceRecord = new Record(phone);
-		balanceRecord.add("Name", "webPageAdress");
-		balanceRecord.add("Value", phone);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result emailRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(EMAIL);
-		String phone = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(EMAIL)) {
-			String order = context.getSelection(EMAIL);
-			if (order == null) {
-				order = context.getString();
-			}
-			phone = order;
-			req.setValue(phone);
-		}
-
-		if (selection == phone) {
-			context.setAttribute(INPUT_ATTR, EMAIL);
-			return text(context, "Enter email ", phone);
-		}
-
-		Record balanceRecord = new Record(phone);
-		balanceRecord.add("Name", "email");
-		balanceRecord.add("Value", phone);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result faxNumRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(FAX);
-		String phone = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(FAX)) {
-			String order = context.getSelection(FAX);
-			if (order == null) {
-				order = context.getString();
-			}
-			phone = order;
-			req.setValue(phone);
-		}
-
-		if (selection == phone) {
-			context.setAttribute(INPUT_ATTR, FAX);
-			return text(context, "Enter Fax Number", phone);
-		}
-
-		Record balanceRecord = new Record(phone);
-		balanceRecord.add("Name", "fax");
-		balanceRecord.add("Value", phone);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result phoneNumRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(PHONE);
-		String phone = (String) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(PHONE)) {
-			String order = context.getSelection(PHONE);
-			if (order == null) {
-				order = context.getString();
-			}
-			phone = order;
-			req.setValue(phone);
-		}
-
-		if (selection == phone) {
-			context.setAttribute(INPUT_ATTR, PHONE);
-			return text(context, "Enter Phone Number", phone);
-		}
-
-		Record balanceRecord = new Record(phone);
-		balanceRecord.add("Name", PHONE);
-		balanceRecord.add("Value", phone);
-		list.add(balanceRecord);
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result customerVatCodeRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Object customerVatCodeObj = context.getSelection(CUSTOMER_VATCODE);
-		Requirement customerVatCodeReq = get(CUSTOMER_VATCODE);
-		TAXCode vatCode = (TAXCode) customerVatCodeReq.getValue();
-
-		if (selection == vatCode) {
-			return taxCode(context, vatCode);
-		}
-
-		if (customerVatCodeObj != null) {
-			vatCode = (TAXCode) customerVatCodeObj;
-			customerVatCodeReq.setValue(vatCode);
-		}
-
-		Record customerVatCodeRecord = new Record(vatCode);
-		customerVatCodeRecord.add("Name", CUSTOMER_VATCODE);
-		customerVatCodeRecord.add("Value", vatCode.getName());
-		list.add(customerVatCodeRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	/**
-	 * CustomerGroup
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return {@link CustomerGroupResult}
-	 */
-	private Result customerGroupRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Object customerGroupObj = context.getSelection(CUSTOMER_GROUP);
-		Requirement customerGroupReq = get(CUSTOMER_GROUP);
-		CustomerGroup customerGroup = (CustomerGroup) customerGroupReq
-				.getValue();
-
-		if (selection == customerGroup) {
-			return customerGroups(context, customerGroup);
-		}
-
-		if (customerGroupObj != null) {
-			customerGroup = (CustomerGroup) customerGroupObj;
-			customerGroupReq.setValue(customerGroup);
-		}
-
-		Record customerGroupRecord = new Record(customerGroup);
-		customerGroupRecord.add("Name", CUSTOMER_GROUP);
-		customerGroupRecord.add("Value", customerGroup.getName());
-		list.add(customerGroupRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param string
-	 * @return
-	 */
-	private Result customerGroups(Context context,
-			CustomerGroup oldCustomerGroup) {
-		List<CustomerGroup> customerGroups = getCustomerGroupsList();
-		Result result = context.makeResult();
-		result.add("Select CustomerGroup");
-
-		ResultList list = new ResultList(CUSTOMER_GROUP);
-		int num = 0;
-		if (oldCustomerGroup != null) {
-			list.add(createCustomerGroupRecord(oldCustomerGroup));
-			num++;
-		}
-		for (CustomerGroup customerGroup : customerGroups) {
-			if (customerGroup != oldCustomerGroup) {
-				list.add(createCustomerGroupRecord(customerGroup));
-				num++;
-			}
-			if (num == CUSTOMERGROUP_TO_SHOW) {
-				break;
-			}
-		}
-		result.add(list);
-
-		CommandList commandList = new CommandList();
-		commandList.add("Create CustomerGroup");
-		result.add(commandList);
-
-		return result;
-	}
-
-	private Record createCustomerGroupRecord(CustomerGroup oldCustomerGroup) {
-		Record record = new Record(oldCustomerGroup);
-		record.add("Name", oldCustomerGroup.getName());
-		return record;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result creditRatingRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Object crediRatingObj = context.getSelection(CREDIT_RATING);
-		Requirement creditRatingReq = get(CREDIT_RATING);
-		CreditRating creditRating = (CreditRating) creditRatingReq.getValue();
-
-		if (selection == creditRating) {
-			return creditRatings(context, creditRating);
-		}
-
-		if (crediRatingObj != null) {
-			creditRating = (CreditRating) crediRatingObj;
-			creditRatingReq.setValue(creditRating);
-		}
-
-		Record priceLevelRecord = new Record(creditRating);
-		priceLevelRecord.add("Name", CREDIT_RATING);
-		priceLevelRecord.add("Value", creditRating.getName());
-		list.add(priceLevelRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param string
-	 * @return
-	 */
-	private Result creditRatings(Context context, CreditRating oldCreditRating) {
-
-		List<CreditRating> creditRatings = getCreditRatingsList();
-		Result result = context.makeResult();
-		result.add("Select CreditRating");
-
-		ResultList list = new ResultList(CREDIT_RATING);
-		int num = 0;
-		if (oldCreditRating != null) {
-			list.add(createCreditRatingRecord(oldCreditRating));
-			num++;
-		}
-		for (CreditRating priceLevel : creditRatings) {
-			if (priceLevel != oldCreditRating) {
-				list.add(createCreditRatingRecord(priceLevel));
-				num++;
-			}
-			if (num == CREDITRATING_TO_SHOW) {
-				break;
-			}
-		}
-		result.add(list);
-
-		CommandList commandList = new CommandList();
-		commandList.add("Create creditRating");
-		result.add(commandList);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param oldCreditRating
-	 * @return
-	 */
-	private Record createCreditRatingRecord(CreditRating oldCreditRating) {
-		Record record = new Record(oldCreditRating);
-		record.add("Name", oldCreditRating.getName());
-		return record;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return
-	 */
-	private Result priceLevelRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Object priceLevelObj = context.getSelection(PRICE_LEVEL);
-		Requirement priceLevelReq = get(PRICE_LEVEL);
-		PriceLevel priceLevel = (PriceLevel) priceLevelReq.getValue();
-
-		if (selection == priceLevel) {
-			return priceLevels(context, priceLevel);
-		}
-
-		if (priceLevelObj != null) {
-			priceLevel = (PriceLevel) priceLevelObj;
-			priceLevelReq.setValue(priceLevel);
-		}
-
-		Record priceLevelRecord = new Record(priceLevel);
-		priceLevelRecord.add("Name", PRICE_LEVEL);
-		priceLevelRecord.add("Value", priceLevel.getName());
-		list.add(priceLevelRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param string
-	 * @return
-	 */
-	private Result priceLevels(Context context, PriceLevel oldPriceLevel) {
-
-		List<PriceLevel> priceLevels = getPriceLevelsList();
-		Result result = context.makeResult();
-		result.add("Select PriceLevel");
-
-		ResultList list = new ResultList(PRICE_LEVEL);
-		int num = 0;
-		if (oldPriceLevel != null) {
-			list.add(createCreditRatingRecord(oldPriceLevel));
-			num++;
-		}
-		for (PriceLevel priceLevel : priceLevels) {
-			if (priceLevel != oldPriceLevel) {
-				list.add(createCreditRatingRecord(priceLevel));
-				num++;
-			}
-			if (num == PRICELEVEL_TO_SHOW) {
-				break;
-			}
-		}
-		result.add(list);
-
-		CommandList commandList = new CommandList();
-		commandList.add("Create priceLevel");
-		result.add(commandList);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param oldPriceLevel
-	 * @return
-	 */
-	private Record createCreditRatingRecord(PriceLevel oldPriceLevel) {
-		Record record = new Record(oldPriceLevel);
-		record.add("Name", oldPriceLevel.getName());
-		return record;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @param list
-	 * @param selection
-	 * @return {@link Result}
-	 */
-	private Result salesPersonRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Object salesPersonObj = context.getSelection(SALESPERSON);
-		Requirement salesPersonReq = get(SALESPERSON);
-		SalesPerson salesPerson = (SalesPerson) salesPersonReq.getValue();
-
-		if (selection == salesPerson) {
-			return salesPersons(context, salesPerson);
-		}
-		if (salesPersonObj != null) {
-			salesPerson = (SalesPerson) salesPersonObj;
-			salesPersonReq.setValue(salesPerson);
-		}
-
-		Record salesPersonRecord = new Record(salesPerson);
-		salesPersonRecord.add("Name", SALESPERSON);
-		salesPersonRecord.add("Value", salesPerson.getName());
-		list.add(salesPersonRecord);
-
-		Result result = new Result();
-		result.add(list);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return {@link Result}
-	 */
-	private Result customerNameRequirement(Context context) {
-		Requirement requirement = get(CUSTOMER_NAME);
-		if (!requirement.isDone()) {
-			String customerName = context.getSelection(TEXT);
-			if (customerName != null) {
-				requirement.setValue(customerName);
-			} else {
-				return text(context, "Please enter the  Customer Name", null);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(CUSTOMER_NAME)) {
-			requirement.setValue(input);
+			customer = new ClientCustomer();
 		}
 		return null;
 	}
 
-	/**
-	 * 
-	 * @param context
-	 * 
-	 * @param string
-	 * @return {@link SalesPerson Result}
-	 */
-	protected Result salesPersons(Context context, SalesPerson oldsalesPerson) {
-		List<SalesPerson> salesPersons = getsalePersonsList();
-		Result result = context.makeResult();
-		result.add("Select SalesPerson");
-
-		ResultList list = new ResultList(SALESPERSON);
-		int num = 0;
-		if (oldsalesPerson != null) {
-			list.add(createSalesPersonRecord(oldsalesPerson));
-			num++;
-		}
-		for (SalesPerson salesPerson : salesPersons) {
-			if (salesPerson != oldsalesPerson) {
-				list.add(createSalesPersonRecord(salesPerson));
-				num++;
-			}
-			if (num == SALESPERSON_TO_SHOW) {
-				break;
+	private void setValues() {
+		get(CUSTOMER_NAME).setValue(customer.getName());
+		get(ACTIVE).setValue(customer.isActive());
+		get(NUMBER).setValue(customer.getNumber());
+		get(CUSTOMER_GROUP).setValue(
+				CommandUtils.getServerObjectById(customer.getCustomerGroup(),
+						AccounterCoreType.CUSTOMER_GROUP));
+		get(CUSTOMER_SINCEDATE).setValue(
+				new ClientFinanceDate(customer.getPayeeSince()));
+		get(BALANCE).setValue(customer.getBalance());
+		// get(BALANCE).setEditable(false);
+		get(BALANCE_ASOF_DATE).setValue(
+				new ClientFinanceDate(customer.getBalanceAsOf()));
+		Set<ClientAddress> address = customer.getAddress();
+		for (ClientAddress clientAddress : address) {
+			if (clientAddress.getType() == ClientAddress.TYPE_BILL_TO) {
+				get(BILLTO).setValue(clientAddress);
+			} else if (clientAddress.getType() == ClientAddress.TYPE_SHIP_TO) {
+				get(SHIPTO).setValue(clientAddress);
 			}
 		}
-		result.add(list);
+		get(CREDIT_RATING).setValue(
+				CommandUtils.getServerObjectById(customer.getCreditRating(),
+						AccounterCoreType.CREDIT_RATING));
+		get(SALESPERSON).setValue(
+				CommandUtils.getServerObjectById(customer.getSalesPerson(),
+						AccounterCoreType.SALES_PERSON));
+		get(PAYMENT_METHOD).setDefaultValue(getMessages().cash());
+		get(CUSTOMER_VATCODE).setValue(
+				CommandUtils.getServerObjectById(customer.getTAXCode(),
+						AccounterCoreType.TAX_CODE));
 
-		CommandList commandList = new CommandList();
-		commandList.add("Create SalesPerson");
-		result.add(commandList);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param oldsalesPerson
-	 * @return {@link Record}
-	 */
-	private Record createSalesPersonRecord(SalesPerson oldsalesPerson) {
-		Record record = new Record(oldsalesPerson);
-		record.add("Name", oldsalesPerson.getName());
-		return record;
-	}
-
-	private List<SalesPerson> getsalePersonsList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	private List<CustomerGroup> getCustomerGroupsList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	private List<CreditRating> getCreditRatingsList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	private List<PriceLevel> getPriceLevelsList() {
-		// TODO Auto-generated method stub
-		return null;
+		get(CONTACT).setValue(
+				new ArrayList<ClientContact>(customer.getContacts()));
+		get(PHONE).setValue(customer.getPhoneNo());
+		get(FAX).setValue(customer.getFaxNo());
+		get(EMAIL).setValue(customer.getEmail());
+		get(WEBADRESS).setValue(customer.getWebPageAddress());
+		get(BANK_NAME).setValue(customer.getBankName());
+		get(BANK_ACCOUNT_NUM).setValue(customer.getBankAccountNo());
+		get(BANK_BRANCH).setValue(customer.getBankBranch());
+		get(SHIPPING_METHODS).setValue(
+				CommandUtils.getServerObjectById(customer.getShippingMethod(),
+						AccounterCoreType.SHIPPING_METHOD));
+		get(PAYMENT_METHOD).setValue(customer.getPaymentMethod());
+		get(PAYMENT_TERMS).setValue(
+				CommandUtils.getServerObjectById(customer.getPaymentTerm(),
+						AccounterCoreType.PAYMENT_TERM));
+		get(VATREGISTER_NUM).setValue(customer.getVATRegistrationNumber());
+		get(CST_NUM).setValue(customer.getCstNumber());
+		get(SERVICE_TAX_NUM).setValue(
+				customer.getServiceTaxRegistrationNumber());
+		get(TIN_NUM).setValue(customer.getTinNumber());
 	}
 }

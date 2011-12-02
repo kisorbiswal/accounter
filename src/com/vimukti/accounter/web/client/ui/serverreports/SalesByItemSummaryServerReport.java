@@ -42,15 +42,15 @@ public class SalesByItemSummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().item(),
+		return new String[] { getMessages().item(),
 				// FinanceApplication.constants().itemGroup(),
-				getConstants().quantity(),
-				getConstants().amount() };
+				getMessages().quantity(),
+				getMessages().amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().salesByItemSummary();
+		return getMessages().salesByItemSummary();
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class SalesByItemSummaryServerReport extends
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "",
-					getConstants().total() }, new int[] { 2 });
+					getMessages().total() }, new int[] { 2 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -135,10 +135,10 @@ public class SalesByItemSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().item(),
+		return new String[] { getMessages().item(),
 				// FinanceApplication.constants().itemGroup(),
-				getConstants().quantity(),
-				getConstants().amount() };
+				getMessages().quantity(),
+				getMessages().amount() };
 	}
 	
 }

@@ -1,16 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
 <title> Login | Accounter
 </title>
-<meta content="IE=100" http-equiv="X-UA-Compatible">
+<meta content="IE=100" http-equiv="X-UA-Compatible" />
 
-<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
 
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css" rel="stylesheet">
-<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
+<link type="text/css" href="../css/ss.css" rel="stylesheet" />
+<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 <script  type="text/javascript" >
+<%
+	String news = request.getAttribute("news").toString();
+%>
+	var news=<%= news%>;
+	
 	$(document).ready(function() {
 	$('#submitButton').click(function() {
 	 $("#submitButton").addClass("login-focus");
@@ -25,8 +31,61 @@
 			}
 		});
 	});
+	if(news.list.length>0){
+		$('#unChangedNewsDiv>h3>a').attr("href" ,news.list[0].url);
+		$('#unChangedNewsDiv>h3>a').text(news.list[0].title);
+		$('#news_body').text(news.list[0].body);}
+		var changingindex =1;
+		var setTimeIntervel;
+		timerStarted();
+			for(var i=0; i <  news.list.length; i++){
+				$(news.list[i]).attr("clientid" ,i);
+				var listItemDiv = $("<li id="+news.list[i].clientid+"><a target=_blank href="+news.list[i].url+"</a>"+news.list[i].title+"</li></br>");
+					$('#feedDivUl').append($(listItemDiv));
+			}
+			
+			$('li').each(function(index) {
+					var id=$(this).attr("id");
+			$('#'+id).mouseover(function(){
+				$(this).addClass("listItemHover");
+				changingindex = parseInt(id);
+				cahngeContent();
+			}).mouseout(function(){
+				$(this).removeClass("listItemHover");
+				})
+			});
+			
+			$('#feedDiv').mouseover(function(){
+				clearInterval(setTimeIntervel);
+			}).mouseout(function(){
+				timerStarted();
+				})
+			
+			function timerStarted(){
+			  setTimeIntervel =	setInterval ( function (){
+				  $('li').removeClass("listItemHover");
+				  $('#'+changingindex).addClass("listItemHover");
+				  if(changingindex <news.list.length)
+					changingindex = changingindex+1;	
+				  if(news.list.length>1){
+				  $('#unChangedNewsDiv>h3>a').attr("href" ,news.list[changingindex-1].url);
+					$('#unChangedNewsDiv>h3>a').text(news.list[changingindex-1].title);
+					$('#news_body').text(news.list[changingindex-1].body);}
+					if(changingindex ==news.list.length){
+						changingindex=0;
+					}
+				}, 3000 );
+				
+				
+			}
+			function cahngeContent(){
+				 $('#unChangedNewsDiv>h3>a').attr("href" ,news.list[changingindex].url);
+					$('#unChangedNewsDiv>h3>a').text(news.list[changingindex].title);
+					$('#news_body').text(news.list[changingindex].body);		
+					}
+		 
 	 
-});	
+	});	
 </script>
 
 <%
@@ -37,40 +96,62 @@
    <% } %>
 </head>
 	<body>
-	<div id="contact"> </div>
-     <div id="commanContainer">
-		   <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
-		   <c:if test="${message != null}">
-		   <div id="login_error" class="common-box">
-				<span>${message} </span>
-		   </div>
-		   </c:if>	
-		   <form id="accounterForm" method="post" action="/main/login">
-		      <div class="email_password">
-			    <label>Email</label>
-				<br>
-				<input id="mid-box"  type="text" name="emailId" tabindex="1">
+	 
+	     <div id="commanNewContainer">
+			  <div class="new_logo_field"><img src="/images/Accounter_logo_title.png" class="accounterLogo" alt ="accounter logo"/></div>
+			  
+			  <div class="new_login_page">
+			  <div id ="feedDiv">
+			  <h2>What's New</h2>
+			  <div id="unChangedNewsDiv" class = "news"><h3>
+			  <a target="_blank"></a></h3><div id='news_body'></div>
 			  </div>
-			  <div class="email_password">
-			    <label>Password</label>
-				<br>
-				<input id="mid-box1"  type="password" name="password" tabindex="2">
+			  <ul id="feedDivUl"></ul>
 			  </div>
-			  <div class="rememberMe">
-			    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn"/> 
-				<label>Remember Me</label>
-			  </div>
-			  <div class="loginbutton">
-			     <input id="submitButton" style="width:60px" type="submit" class="allviews-common-button" name="login" value="Login" tabindex="6"/>
-			  </div>
-		   </form>
-		   <div class="form-bottom-options">
-		      <a href="/main/forgotpassword" id="forget-link1" tabindex="5"> Lost your password?</a>
-		   </div>
-		    <div class="form-bottom-options">
-		      <a href="/main/signup" id="forget-link1" tabindex="6"> Sign up Accounter?</a>
-		   </div>
-		</div>
+			   
+			   <div class="new_login_accounterform">
+			   <c:if test="${message != null}">
+			   <div id="login_error" class="common-box">
+					<span>${message} </span>
+			   </div>
+			   </c:if>	
+			   <h3>Sign In</h3>
+			   <form id="accounterForm" method="post" action="/main/login">
+			      <div class="email_password">
+				    <label>Email</label>
+					<br \>
+					<input id="mid-box"  type="text" name="emailId" tabindex="1" value="syamala@vimukti.com"/>
+				  </div>
+				  <div class="email_password">
+				    <label>Password</label>
+					<br \>
+					<input id="mid-box1"  type="password" name="password" tabindex="2" value="***REMOVED***"/>
+				  </div>
+				  <div class="rememberMe">
+				    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn"/> 
+					<label>Remember Me</label>
+				  </div>
+				  <div class="loginbutton">
+				     <input id="submitButton" style="width:60px" type="submit" class="allviews-common-button" name="login" value="Login" tabindex="6"/>
+				  </div>
+			   </form>
+			   <div class="form-bottom-options">
+			      <a href="/main/forgotpassword" id="forget-link1" tabindex="5"> Lost your password?</a>
+			   </div>
+			    <div class="form-bottom-options">
+			      <a href="/main/signup" id="signUp-link1" tabindex="6"> Sign up Accounter?</a>
+			   </div>
+			   
+			   <form id="openIdForm" method="post" action="/main/openid">
+			   <span>Sign In using : </span>
+			   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="5"> Google  </a>
+			   <a href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="6">  Yahoo</a>
+			   <a href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="6">  AOL</a>
+			   <a href ="/main/fbauth"  class="facebook_icon" tabindex="6"> Facebook</a>
+			   </form>
+			 </div>
+			</div>
+			</div>
 		
 	     <!-- Footer Section-->
 		
@@ -82,25 +163,9 @@
 	       <a target="_blank" href="/site/support"> Support </a>
 	    </div>
 	</div>
-<script type="text/javascript">
+ 
 
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-24502570-1']);
-_gaq.push(['_trackPageview']);
-
-(function() {
-var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-
-</script>
-
-<script type="text/javascript" charset="utf-8">
-			var is_ssl = ("https:" == document.location.protocol);
-			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
-		</script>
-		 
+<%@ include file="./scripts.jsp" %>
 
 		</body>
 </html>

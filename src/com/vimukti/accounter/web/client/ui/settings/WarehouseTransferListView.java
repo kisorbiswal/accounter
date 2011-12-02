@@ -1,9 +1,10 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import java.util.ArrayList;
+
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -12,12 +13,9 @@ import com.vimukti.accounter.web.client.ui.core.BaseListView;
 public class WarehouseTransferListView extends
 		BaseListView<ClientStockTransfer> {
 
-	private AccounterConstants customerConstants;
-
 	@Override
 	public void init() {
 		super.init();
-		customerConstants = Accounter.constants();
 	}
 
 	@Override
@@ -27,37 +25,58 @@ public class WarehouseTransferListView extends
 	}
 
 	@Override
+	public void initListCallback() {
+		super.initListCallback();
+		reloadRecords();
+	}
+
+	public void reloadRecords() {
+		Accounter.createHomeService().getWarehouseTransfersList(
+				new AccounterAsyncCallback<ArrayList<ClientStockTransfer>>() {
+
+					@Override
+					public void onException(AccounterException exception) {
+						grid.addEmptyMessage(messages.noRecordsToShow());
+					}
+
+					@Override
+					public void onResultSuccess(
+							ArrayList<ClientStockTransfer> result) {
+						grid.removeLoadingImage();
+						if (result != null && !result.isEmpty()) {
+							grid.addRecords(result);
+						} else {
+							grid.addEmptyMessage(messages.noRecordsToShow());
+						}
+					}
+				});
+	}
+
+	@Override
 	protected void initGrid() {
+		viewSelect.setVisible(false);
 		grid = new WarehouseTransferListGrid(false);
 		grid.init();
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.messages().warehouseTransferList();
 	}
 
 	@Override
 	protected Action getAddNewAction() {
-		// TODO Auto-generated method stub
-		return null;
+		return ActionFactory.getWareHouseTransferAction();
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.messages().addNewWarehouseTransfer();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().warehouseTransferList();
-	}
-
-	@Override
-	public void onEdit() {
-
+		return Accounter.messages().warehouseTransferList();
 	}
 
 	@Override
@@ -70,14 +89,4 @@ public class WarehouseTransferListView extends
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-		if (object != null) {
-			super.saveSuccess(object);
-			ActionFactory.getInvoiceBrandingAction().run(null, false);
-		} else
-			saveFailed(new AccounterException(Accounter.constants().failed()));
-	}
-
 }

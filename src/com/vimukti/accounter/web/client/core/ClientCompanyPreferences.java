@@ -1,8 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.Global;
 
 public class ClientCompanyPreferences implements IAccounterCore {
@@ -99,6 +97,19 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long DO_PRODUCT_SHIPMENTS = 0x40000000000L;
 
+	private static final long USE_DIFF_NAME_TO_COMM_WITH_GOVT = 0x80000000000L;
+
+	private static final long USE_DIFF_ADDR_TO_COMM_WITH_GOVT = 0x200000000000L;
+
+	private static final long DELAYED_CHARGES = 0x400000000000L;
+
+	private static final long BILLABLE_EXPENSE = 0x800000000000L;
+
+	private static final long PRODUCT_AND_SERVICES_TRACKING_CUSTOMER = 0x2000000000000L;
+
+	private static final long WAREHOUSE = 0x4000000000000L;
+	private static final long INVENTORY_ENABLED = 0x8000000000000L;
+
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
 	public static int VAT_REPORTING_PERIOD_QUARTERLY = 3;
@@ -107,6 +118,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public static int VAT_REP_ENDPERIOD_MAR_JUN_SEP_DEC = 1;
 	public static int VAT_REP_ENDPERIOD_APR_JUL_OCT_JAN = 2;
 	public static int VAT_REP_ENDPERIOD_MAY_AUG_NOV_FEB = 3;
+
+	private static final long DONT_INCLUDE_ESTIMATES = 0x10000000000000L;
+	private static final long INCLUDE_ACCEPTED_ESTIMATES = 0x20000000000000L;
+	private static final long INCLUDE_PENDING_ACCEPTED_ESTIMATES = 0x4000000000000L;
 
 	private static ClientCompanyPreferences preferences;
 
@@ -156,7 +171,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	// currency related properties
 	private ClientCurrency primaryCurrency;
-	private List<ClientCurrency> supportingCurrenciesList;
 
 	// Organization type
 	private int organizationType;
@@ -171,7 +185,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	long trackFinanceDate;
 	private int referCustomers;
 	private int referVendors;
-	private int referAccounts;
 
 	private long preferencesFlag;
 
@@ -179,7 +192,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	// --------Company Details---------------
 
-	private String fullName;
+	private String tradingName;
 
 	private String legalName;
 
@@ -198,6 +211,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private String timezone;
 
 	private long defaultTaxCode;
+
+	private boolean isShowLegalName;
+
+	private boolean isShowRegisteredAddress;
 
 	/**
 	 * Creates new Instance
@@ -674,12 +691,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		return fullName;
+		return tradingName;
 	}
 
 	@Override
 	public String getName() {
-		return fullName;
+		return tradingName;
 	}
 
 	@Override
@@ -770,12 +787,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public ClientCompanyPreferences clone() {
 		ClientCompanyPreferences preferences = (ClientCompanyPreferences) this
 				.clone();
-		preferences.primaryCurrency = this.primaryCurrency.clone();
-		List<ClientCurrency> supportingCurrenciesList = new ArrayList<ClientCurrency>();
-		for (ClientCurrency currency : this.supportingCurrenciesList) {
-			supportingCurrenciesList.add(currency.clone());
-		}
-		preferences.supportingCurrenciesList = supportingCurrenciesList;
+		// preferences.primaryCurrency = this.primaryCurrency.clone();
 		return preferences;
 	}
 
@@ -785,15 +797,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setPrimaryCurrency(ClientCurrency primaryCurrency) {
 		this.primaryCurrency = primaryCurrency;
-	}
-
-	public List<ClientCurrency> getSupportingCurrenciesList() {
-		return supportingCurrenciesList;
-	}
-
-	public void setSupportingCurrenciesList(
-			List<ClientCurrency> supportingCurrenciesList) {
-		this.supportingCurrenciesList = supportingCurrenciesList;
 	}
 
 	public int getOrganizationType() {
@@ -874,14 +877,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setReferVendors(int referSuplliers) {
 		this.referVendors = referSuplliers;
-	}
-
-	public int getReferAccounts() {
-		return referAccounts;
-	}
-
-	public void setReferAccounts(int referAccounts) {
-		this.referAccounts = referAccounts;
 	}
 
 	public boolean isDoyouwantEstimates() {
@@ -1002,18 +997,18 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	// }
 
 	/**
-	 * @return the fullName
+	 * @return the tradingName
 	 */
-	public String getFullName() {
-		return fullName;
+	public String getTradingName() {
+		return tradingName;
 	}
 
 	/**
-	 * @param fullName
-	 *            the fullName to set
+	 * @param tradingName
+	 *            the tradingName to set
 	 */
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setTradingName(String tradingName) {
+		this.tradingName = tradingName;
 	}
 
 	/**
@@ -1028,7 +1023,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 *            the legalName to set
 	 */
 	public void setLegalName(String legalName) {
-		this.legalName = legalName;
+		if (isShowLegalName)
+			this.legalName = legalName;
+		else
+			this.legalName = tradingName;
 	}
 
 	/**
@@ -1160,11 +1158,114 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		set(TRACK_PAID_TAX, value);
 	}
 
+	public boolean isUseDiffNameToCommWithGovt() {
+		return get(USE_DIFF_NAME_TO_COMM_WITH_GOVT);
+	}
+
+	public void setUseDiffNameToCommWithGovt(boolean value) {
+		set(USE_DIFF_NAME_TO_COMM_WITH_GOVT, value);
+	}
+
+	public boolean isUseDiffAddrToCommWithGovt() {
+		return get(USE_DIFF_ADDR_TO_COMM_WITH_GOVT);
+	}
+
+	public void setUseDiffAddrToCommWithGovt(boolean value) {
+		set(USE_DIFF_ADDR_TO_COMM_WITH_GOVT, value);
+	}
+
 	public long getDefaultTaxCode() {
 		return defaultTaxCode;
 	}
 
 	public void setDefaultTaxCode(long taxCode) {
 		defaultTaxCode = taxCode;
+	}
+
+	public void setShowLegalName(boolean isShowLegalName) {
+		this.isShowLegalName = isShowLegalName;
+		if (!isShowLegalName)
+			legalName = getTradingName();
+	}
+
+	public boolean isShowLegalName() {
+		return isShowLegalName;
+	}
+
+	public void setShowRegisteredAddress(boolean isShowRegisteredAddress) {
+		this.isShowRegisteredAddress = isShowRegisteredAddress;
+	}
+
+	public boolean isShowRegisteredAddress() {
+		return isShowRegisteredAddress;
+	}
+
+	public void setDelayedchargesEnabled(boolean isDelayedchargesEnabled) {
+		this.set(DELAYED_CHARGES, isDelayedchargesEnabled);
+	}
+
+	public boolean isDelayedchargesEnabled() {
+		return get(DELAYED_CHARGES);
+	}
+
+	public boolean isBillableExpsesEnbldForProductandServices() {
+		return get(BILLABLE_EXPENSE);
+	}
+
+	public void setBillableExpsesEnbldForProductandServices(
+			boolean isBillableExpsesEnbldForProdandServs) {
+		this.set(BILLABLE_EXPENSE, isBillableExpsesEnbldForProdandServs);
+	}
+
+	public boolean isProductandSerivesTrackingByCustomerEnabled() {
+		return get(PRODUCT_AND_SERVICES_TRACKING_CUSTOMER);
+	}
+
+	public void setProductandSerivesTrackingByCustomerEnabled(
+			boolean isProandSerTrackingByCustomerEnabled) {
+		this.set(PRODUCT_AND_SERVICES_TRACKING_CUSTOMER,
+				isProandSerTrackingByCustomerEnabled);
+	}
+
+	public void setwareHouseEnabled(boolean iswareHouseEnabled) {
+		this.set(WAREHOUSE, iswareHouseEnabled);
+	}
+
+	public boolean iswareHouseEnabled() {
+		return get(WAREHOUSE);
+	}
+
+	public void setInventoryEnabled(boolean isInventoryEnabled) {
+		this.set(INVENTORY_ENABLED, isInventoryEnabled);
+	}
+
+	public boolean isInventoryEnabled() {
+		return get(INVENTORY_ENABLED);
+	}
+
+	public boolean isDontIncludeEstimates() {
+		return get(DONT_INCLUDE_ESTIMATES);
+	}
+
+	public void setDontIncludeEstimates(boolean dontIncludeEstimates) {
+		this.set(DONT_INCLUDE_ESTIMATES, dontIncludeEstimates);
+	}
+
+	public boolean isIncludeAcceptedEstimates() {
+		return get(INCLUDE_ACCEPTED_ESTIMATES);
+	}
+
+	public void setIncludeAcceptedEstimates(boolean includeAcceptedEstimates) {
+		this.set(INCLUDE_ACCEPTED_ESTIMATES, includeAcceptedEstimates);
+	}
+
+	public boolean isIncludePendingAcceptedEstimates() {
+		return get(INCLUDE_PENDING_ACCEPTED_ESTIMATES);
+	}
+
+	public void setIncludePendingAcceptedEstimates(
+			boolean includePendingAcceptedEstimates) {
+		this.set(INCLUDE_PENDING_ACCEPTED_ESTIMATES,
+				includePendingAcceptedEstimates);
 	}
 }

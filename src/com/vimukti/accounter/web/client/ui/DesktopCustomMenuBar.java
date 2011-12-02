@@ -1,0 +1,62 @@
+package com.vimukti.accounter.web.client.ui;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
+import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenu;
+import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenuBar;
+import com.vimukti.accounter.web.client.ui.core.Action;
+
+public class DesktopCustomMenuBar extends MenuBar implements IMenu, IMenuBar {
+	List<CustomMenuItem> menuItems = new ArrayList<CustomMenuItem>();
+	private boolean isBar;
+
+	public DesktopCustomMenuBar(boolean isBar) {
+		super(!isBar);
+		this.isBar = isBar;
+		if (isBar) {
+			addStyleName("main_horzontal_menubar");
+		}
+		setAutoOpen(true);
+	}
+
+	@Override
+	public void clearItems() {
+		super.clearItems();
+	}
+
+	@Override
+	public MenuItem addItem(MenuItem item) {
+		item = super.addItem(item);
+		if (isBar) {
+			super.addSeparator();
+		}
+		return item;
+	}
+
+	public void addMenuItem(Action<?> action) {
+		CustomMenuItem menuItem = new CustomMenuItem(action.getText(), action);
+		this.menuItems.add(menuItem);
+		super.addItem(menuItem);
+	}
+
+	@Override
+	public void addMenuItem(String text, IMenu menu) {
+		DesktopCustomMenuBar bar = (DesktopCustomMenuBar) menu;
+		this.addItem(text, bar);
+	}
+
+	@Override
+	public void addSeparatorItem() {
+		this.addSeparator();
+	}
+
+	@Override
+	public void addMenuItem(String text, Command cmd) {
+		this.addItem(text, cmd);
+	}
+
+}

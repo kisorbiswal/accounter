@@ -35,13 +35,30 @@ public class ClientTAXAgency extends ClientPayee {
 
 	long salesLiabilityAccount;
 
+	long filedLiabilityAccount;
+
 	public final static int RETURN_TYPE_NONE = 0;
 	public final static int RETURN_TYPE_UK_VAT = 1;
 	public final static int RETURN_TYPE_IRELAND_VAT = 2;
 
+	public final static int TAX_TYPE_SALESTAX = 1;
+	public final static int TAX_TYPE_VAT = 2;
+	public final static int TAX_TYPE_SERVICETAX = 3;
+	public final static int TAX_TYPE_TDS = 4;
+	public final static int TAX_TYPE_OTHER = 5;
+
+	public final static int TAX_RETURN_FREQUENCY_MONTHLY = 0;
+	public final static int TAX_RETURN_FREQUENCY_QUARTERLY = 1;
+	public final static int TAX_RETURN_FREQUENCY_HALF_YEARLY = 2;
+	public final static int TAX_RETURN_FREQUENCY_YEARLY = 3;
+
 	int VATReturn;
-	
+
 	int taxType;
+
+	int tAXFilingFrequency;
+
+	private long lastTAXReturnDate;
 
 	public int getTaxType() {
 		return taxType;
@@ -67,6 +84,10 @@ public class ClientTAXAgency extends ClientPayee {
 	@Override
 	public String getClientClassSimpleName() {
 		return null;
+	}
+
+	public String getDisplayName() {
+		return this.getName();
 	}
 
 	/*
@@ -163,5 +184,53 @@ public class ClientTAXAgency extends ClientPayee {
 			return this.getID() == taxAgency.getID() ? true : false;
 		}
 		return false;
+	}
+
+	/**
+	 * @return the tAXReturnfrequency
+	 */
+	public int getTAXFilingFrequency() {
+		return tAXFilingFrequency;
+	}
+
+	/**
+	 * @param tAXReturnfrequency
+	 *            the tAXReturnfrequency to set
+	 */
+	public void setTAXFilingFrequency(int tAXReturnfrequency) {
+		this.tAXFilingFrequency = tAXReturnfrequency;
+	}
+
+	/**
+	 * @return the filedLiabilityAccount
+	 */
+	public long getFiledLiabilityAccount() {
+		return filedLiabilityAccount;
+	}
+
+	/**
+	 * @param filedLiabilityAccount
+	 *            the filedLiabilityAccount to set
+	 */
+	public void setFiledLiabilityAccount(long filedLiabilityAccount) {
+		this.filedLiabilityAccount = filedLiabilityAccount;
+	}
+
+	/**
+	 * @return the lastTAXReturnDate
+	 */
+	public ClientFinanceDate getLastTAXReturnDate() {
+		if (lastTAXReturnDate == 0) {
+			return null;
+		}
+		return new ClientFinanceDate(lastTAXReturnDate);
+	}
+
+	/**
+	 * @param lastTAXReturnDate
+	 *            the lastTAXReturnDate to set
+	 */
+	public void setLastTAXReturnDate(long lastTAXReturnDate) {
+		this.lastTAXReturnDate = lastTAXReturnDate;
 	}
 }

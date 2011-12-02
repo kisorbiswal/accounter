@@ -16,7 +16,7 @@ public class NewZealand extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "NewZealand";
+		return "NZD";
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class NewZealand extends AbstractCountryPreferences {
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
 
-		return Accounter.constants().january();
+		return Accounter.messages().january();
 	}
 
 }

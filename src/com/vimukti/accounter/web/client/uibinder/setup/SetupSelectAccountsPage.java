@@ -14,6 +14,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -21,7 +22,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -51,13 +51,15 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	@UiField
 	Button restoreButton;
 	@UiField
-	HTML expensesLink;
+	Anchor expensesLink;
 	@UiField
 	HTML expensesNote;
 	@UiField
 	Label headerLabel;
 	@UiField
 	FlexTable accountsTable;
+	@UiField
+	Button selectAllButton;
 
 	private List<TemplateAccount> selectedAccounts = new ArrayList<TemplateAccount>();
 	private int selectedIndusty;
@@ -70,14 +72,16 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	@Override
 	protected void createControls() {
 		headerLabel.setText(Accounter.messages()
-				.reviewIncomeAndExpensesAccounts(Global.get().account()));
+				.reviewIncomeAndExpensesAccounts());
 
-		expensesInfo.setText(accounterConstants.doyouWantToUseStatements());
-		recommendedInfo.setHTML(accounterMessages.recommendedAccounts());
-		restoreButton.setText(accounterConstants.restoreRecommendations());
-		expensesLink.setHTML(accounterMessages.whyshoudIUseRecommended());
-		expensesNote.setHTML(accounterMessages.recommendedNote());
-
+		expensesInfo.setText(messages.doyouWantToUseStatements());
+		recommendedInfo.setHTML("<b>" + messages.noteColon() + "</b>"
+				+ messages.recommendedAccounts() + "<br>"
+				+ messages.recommendedAccountsComment());
+		restoreButton.setText(messages.restoreRecommendations());
+		expensesLink.setHTML(messages.whyshoudIUseRecommended());
+		expensesNote.setHTML(messages.recommendedNote());
+		selectAllButton.setText(messages.selectAll());
 		restoreButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -94,6 +98,23 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 					if (account.getDefaultValue()) {
 						selectedAccounts.add(account);
 					}
+				}
+			}
+		});
+
+		selectAllButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				List<TemplateAccount> accounts = setupWizard
+						.getIndustryDefaultAccounts();
+				selectedAccounts.clear();
+				for (int i = 0; i < accounts.size(); i++) {
+					TemplateAccount account = accounts.get(i);
+					CheckBox checkBox = (CheckBox) accountsTable
+							.getWidget(i, 0);
+					checkBox.setValue(true);
+					selectedAccounts.add(account);
 				}
 			}
 		});
@@ -127,8 +148,8 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 		};
 
 		table.addColumn(checkBoxColumn);
-		// table.addColumn(accountNameColumn, accounterConstants.accountName());
-		// table.addColumn(accountTypeColumn, accounterConstants.accountType());
+		// table.addColumn(accountNameColumn, messages.accountName());
+		// table.addColumn(accountTypeColumn, messages.accountType());
 
 		// this.accountsTable.add(table);
 
@@ -188,14 +209,13 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean canShow() {
+	protected boolean validate() {
 		return true;
 	}
 
 	@Override
-	protected boolean validate() {
-		// TODO Auto-generated method stub
-		return true;
+	public String getViewName() {
+		return messages.Accounts();
 	}
 
 }

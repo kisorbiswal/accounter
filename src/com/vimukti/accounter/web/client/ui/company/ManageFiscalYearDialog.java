@@ -42,12 +42,12 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 	public void createControls() {
 		manageFiscalyearLabel = new HTML();
-		manageFiscalyearLabel.setHTML(Accounter.constants().manageFiscalYear());
+		manageFiscalyearLabel.setHTML(Accounter.messages().manageFiscalYear());
 		descriptionLabel = new HTML();
-		descriptionLabel.setHTML(Accounter.constants()
+		descriptionLabel.setHTML(Accounter.messages()
 				.toCloseBooksOrFascalYear());
 		listOfperiods = new FiscalYearListGrid(this, false);
-		listOfperiods.setTitle(Accounter.constants().listOfPeriods());
+		listOfperiods.setTitle(Accounter.messages().listOfPeriods());
 		listOfperiods.setWidth("350px");
 		listOfperiods.setHeight("250px");
 		listHpanel = new HorizontalPanel();
@@ -75,23 +75,23 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 	private VerticalPanel getButtonLayout() {
 		buttonVlayout = new VerticalPanel();
-		buttonVlayout.setStyleName(Accounter.constants().fiscalYearButtons());
+		buttonVlayout.setStyleName(Accounter.messages().fiscalYearButtons());
 		buttonVlayout.setSpacing(5);
 		newFiscalYearButton = new Button();
 		newFiscalYearButton.setWidth("140px");
-		newFiscalYearButton.setText(Accounter.constants().newFiscalYear());
+		newFiscalYearButton.setText(Accounter.messages().newFiscalYear());
 		newFiscalYearButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new CreateFiscalYearDialog(Accounter.constants()
+				new CreateFiscalYearDialog(Accounter.messages()
 						.createFascalYear(), "", listOfperiods);
 			}
 		});
 		closeFiscalYearButton = new Button();
 		closeFiscalYearButton.setWidth("140px");
 		closeFiscalYearButton.setEnabled(false);
-		closeFiscalYearButton.setText(Accounter.constants().closeFiscalYear());
+		closeFiscalYearButton.setText(Accounter.messages().closeFiscalYear());
 		closeFiscalYearButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -102,7 +102,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		openFiscalYearButoon = new Button();
 		openFiscalYearButoon.setWidth("140px");
 		openFiscalYearButoon.setEnabled(false);
-		openFiscalYearButoon.setText(Accounter.constants().openFiscalYear());
+		openFiscalYearButoon.setText(Accounter.messages().openFiscalYear());
 		openFiscalYearButoon.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -117,7 +117,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		editFiscalYear = new Button();
 		editFiscalYear.setWidth("140px");
 		editFiscalYear.setEnabled(false);
-		editFiscalYear.setText(Accounter.constants().editFiscalYear());
+		editFiscalYear.setText(Accounter.messages().editFiscalYear());
 		editFiscalYear.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -127,7 +127,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		});
 		deleteFiscalYear = new Button();
 		deleteFiscalYear.setWidth("140px");
-		deleteFiscalYear.setText(Accounter.constants().deleteFiscalYear());
+		deleteFiscalYear.setText(Accounter.messages().deleteFiscalYear());
 		deleteFiscalYear.setWidth("140px");
 		// deleteFiscalYear.setEnabled(false);
 		deleteFiscalYear.addClickHandler(new ClickHandler() {
@@ -139,12 +139,12 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		});
 		changeStartDate = new Button();
 		changeStartDate.setWidth("140px");
-		changeStartDate.setText(Accounter.constants().changeStartDate());
+		changeStartDate.setText(Accounter.messages().changeStartDate());
 		changeStartDate.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new ChangeFiscalYearStartDateDialog(Accounter.constants()
+				new ChangeFiscalYearStartDateDialog(Accounter.messages()
 						.changeStartDate(), "", listOfperiods);
 			}
 		});
@@ -246,7 +246,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 	}
 
 	private void showCloseFiscalYearPopupPanel() {
-		Accounter.showWarning(Accounter.constants().warnOfFascalYear(),
+		Accounter.showWarning(Accounter.messages().warnOfFascalYear(),
 				AccounterType.WARNING, new ErrorDialogHandler() {
 
 					@Override
@@ -282,7 +282,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			Accounter.deleteObject(this, listOfperiods.getSelection());
 			// }
 		} else {
-			Accounter.showInformation(Accounter.constants()
+			Accounter.showInformation(Accounter.messages()
 					.selectAnyOfTheFiscalYearFromList());
 		}
 	}
@@ -296,7 +296,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			// .getSelection()
 			// || listOfperiods.getRecordByIndex(0) == listOfperiods
 			// .getSelection()) {
-			new CreateFiscalYearDialog(Accounter.constants().editFiscalYear(),
+			new CreateFiscalYearDialog(Accounter.messages().editFiscalYear(),
 					"", listOfperiods);
 			enableEditRemoveButtons(false);
 			// }
@@ -308,7 +308,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			// }
 
 		} else if (listOfperiods.getSelection().getStatus() == ClientFiscalYear.STATUS_CLOSE)
-			Accounter.showInformation(Accounter.constants()
+			Accounter.showInformation(Accounter.messages()
 					.youCannotEdiClosedFiscalYear());
 	}
 

@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -73,26 +72,22 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.managingBills());
+		headerLabel.setText(messages.managingBills());
 
-		// trackOfBillsText.setHTML(accounterConstants.doyouwantTrackTime());
+		// trackOfBillsText.setHTML(messages.doyouwantTrackTime());
 		// trackOfBillsList.setHTML(accounterMessages.trackTimeList());
-		managingList.setHTML(accounterMessages.managingList());
-		// trackTimeText.setHTML(accounterConstants.doyouwantTrackBills());
-		managingYes.setText(accounterConstants.yes());
-		// trackingTimeYes.setText(accounterConstants.yes());
-		managingNo.setText(accounterConstants.no());
-		// trackingNo.setText(accounterConstants.no());
-		// trackingTimeDes.setHTML(accounterConstants.timetrackingdescription());
-		managingInfo.setHTML(Accounter.messages().billstrackingdescription(
-				Global.get().account()));
+		managingList.setHTML("<ui><li>" + messages.managingList1()
+				+ "</li><li>" + messages.managingList2() + "</li><li>"
+				+ messages.managingList3() + "</li></ui>");
+		// trackTimeText.setHTML(messages.doyouwantTrackBills());
+		managingYes.setText(messages.yes());
+		// trackingTimeYes.setText(messages.yes());
+		managingNo.setText(messages.no());
+		// trackingNo.setText(messages.no());
+		// trackingTimeDes.setHTML(messages.timetrackingdescription());
+		managingInfo.setHTML(messages.billstrackingdescription());
 		// track_time_head.setText(accounterMessages.trackingtimehead());
 
-	}
-
-	@Override
-	public boolean canShow() {
-		return true;
 	}
 
 	@Override
@@ -129,20 +124,24 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	protected boolean validate() {
 		if ((!(managingYes.getValue() || managingNo.getValue()))
 		/* && (!(trackingTimeYes.getValue() || trackingNo.getValue()) */) {
-			Accounter.showError(accounterMessages
-					.pleaseEnter(accounterConstants.details()));
+			Accounter.showError(messages.pleaseEnter(messages.details()));
 			return false;
 		} else if (!(managingYes.getValue() || managingNo.getValue())) {
-			Accounter.showMessage(accounterConstants.managingBills());
+			Accounter.showMessage(messages.managingBills());
 			return false;
 			/*
 			 * } else if (!(trackingTimeYes.getValue() ||
 			 * trackingNo.getValue())) {
-			 * Accounter.showMessage(accounterConstants.doyouwantTrackBills());
-			 * return false;
+			 * Accounter.showMessage(messages.doyouwantTrackBills()); return
+			 * false;
 			 */
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public String getViewName() {
+		return messages.setBillTracking();
 	}
 }

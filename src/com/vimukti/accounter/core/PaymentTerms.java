@@ -6,15 +6,22 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class PaymentTerms extends CreatableObject implements
 		IAccounterServerCore, INamedObject {
+
+	@Override
+	public String toString() {
+		return this.name;
+	}
 
 	/**
 	 * 
@@ -36,6 +43,10 @@ public class PaymentTerms extends CreatableObject implements
 	 * Payment Term Description
 	 */
 	String description;
+
+	/**
+	 * Due type of the payment term
+	 */
 	int due = PaymentTerms.DUE_NONE;
 	int dueDays = PaymentTerms.DUE_NONE;
 
@@ -161,5 +172,16 @@ public class PaymentTerms extends CreatableObject implements
 	@Override
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.PAYMENT_TERMS;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

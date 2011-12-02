@@ -72,12 +72,14 @@ public class GeneralSettingsView extends AbstractBaseView {
 		userPanel = new VerticalPanel();
 
 		titleHtml = new HTML(messages.generalSettingsHeading());
+		titleHtml.addStyleName("user-html");
 		titleHtml.setVisible(false);
 		conversionHTML = new HTML(messages.conversionHTML());
 		conversationCommentHTML = new HTML(messages.conversionCommet());
-		invoiceBrandingHTML = new HTML(messages.invoiceBrandingHTML());
+		conversationCommentHTML.addStyleName("conversion_commet");
+		invoiceBrandingHTML = new HTML(messages.invoiceBranding());
 		// invoiceBrandingHTML.setWidth("145px");
-		invoiceBrandingHTML.setStyleName("invoice-branding-html");
+		// invoiceBrandingHTML.setStyleName("invoice-branding-html");
 		invoiceCommentHtml = new HTML(messages.invoiceComment());
 		userHtml = new HTML(messages.userHTML());
 		userHtml.setWidth("50px");
@@ -285,7 +287,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().generalSettings();
+		return Accounter.messages().generalSettings();
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -16,8 +17,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
-import com.vimukti.accounter.web.client.ui.grids.CurrenciesGrid;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 /**
  * @author Administrator
@@ -33,13 +32,15 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	Label primaryCurrenyLabel;
 	@UiField
 	ListBox primaryCurrencyListBox;
+	@UiField
+	CheckBox isMultiCurrencyAllowed;
 	// @UiField
 	VerticalPanel currencyListGridPanel;
-	private CurrenciesGrid currenciesGrid;
+	// private CurrenciesGrid currenciesGrid;
 	// private Set<ClientCurrency> currencySet;
 	private List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
 
-	private String selectedCuntry;
+	// private String selectedCuntry;
 
 	interface SetupCurrencyPageUiBinder extends
 			UiBinder<Widget, SetupCurrencyPage> {
@@ -62,52 +63,39 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	@Override
 	protected void createControls() {
 		// currenciesList = UIUtils.getCurrenciesList();
-		headerLabel.setText(accounterConstants.selectCurrency());
-		primaryCurrenyLabel.setText(accounterConstants.primaryCurrency());
-		currenciesList = CoreUtils.getCurrencies();
+		headerLabel.setText(messages.selectCurrency());
+		primaryCurrenyLabel.setText(messages.primaryCurrency());
+		currenciesList = CoreUtils
+				.getCurrencies(new ArrayList<ClientCurrency>());
 		for (ClientCurrency currency : currenciesList) {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
-		currenciesGrid = new CurrenciesGrid();
-		currenciesGrid.init();
-		currenciesGrid.setRecords(currenciesList);
+		isMultiCurrencyAllowed.setText(messages
+				.isMultiCurrencyEnable());
+		// currenciesGrid = new CurrenciesGrid();
+		// currenciesGrid.init();
+		// currenciesGrid.setRecords(currenciesList);
 		// currencyListGridPanel.add(currenciesGrid);
 	}
 
 	@Override
-	public void setCountryChanges() {
-		if (getCountry() != null) {
-			for (int i = 0; i < currenciesList.size(); i++) {
-				if (CountryPreferenceFactory.get(getCountry())
-						.getPreferredCurrency().equals(
-								currenciesList.get(i).getFormalName())) {
-					primaryCurrencyListBox.setSelectedIndex(i);
-				}
-			}
-		}
-	}
-
-	@Override
 	public boolean canShow() {
-		return true;
+		return (!isSkip);
 	}
 
 	@Override
 	protected void onLoad() {
-		setCountryChanges();
 		ClientCurrency primaryCurrency = preferences.getPrimaryCurrency();
-		String country = Accounter.getCompany().getTradingAddress()
-				.getCountryOrRegion();
-		if (primaryCurrency == null || !selectedCuntry.equals(country)) {
-			this.selectedCuntry = country;
+		if (primaryCurrency != null) {
 			for (int index = 0; index < currenciesList.size(); index++) {
-				// if (currenciesList.get(index).getCountryName()
-				// .equals(selectedCuntry)) {
-				// primaryCurrencyListBox.setSelectedIndex(index);
-				// }
+				if (currenciesList.get(index).getFormalName()
+						.equals(primaryCurrency.getFormalName())) {
+					primaryCurrencyListBox.setSelectedIndex(index);
+				}
 			}
 		}
+		isMultiCurrencyAllowed.setValue(preferences.isEnableMultiCurrency());
 	}
 
 	@Override
@@ -116,18 +104,24 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 			preferences.setPrimaryCurrency(currenciesList
 					.get(primaryCurrencyListBox.getSelectedIndex()));
 		}
+		preferences.setEnableMultiCurrency(isMultiCurrencyAllowed.getValue());
 	}
 
 	@Override
 	protected boolean validate() {
 		if (primaryCurrencyListBox.getSelectedIndex() == -1) {
-			Accounter.showError(accounterMessages
-					.pleaseselectvalidtransactionGrid(accounterConstants
+			Accounter.showError(messages
+					.pleaseselectvalidtransactionGrid(messages
 							.currency()));
 			return false;
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public String getViewName() {
+		return messages.currency();
 	}
 
 }

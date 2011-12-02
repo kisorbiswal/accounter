@@ -55,12 +55,6 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	private DateValueChangeHandler handler;
 
 	{
-		// if(!BizantraClient.getIDentity().getCompany().dateFormat.equals("")){
-		// dateFormatter =
-		// DateTimeFormat.getFormat(BizantraClient.getIDentity().getCompany().dateFormat);
-		// }else{
-		// dateFormatter=DateTimeFormat.getFormat(DateUtil.getUserPreferredDateFormat());
-		// }
 
 		/**
 		 * Set the date format according to the company preferencess
@@ -80,7 +74,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		super();
 
 		setText(DateUtills.getDateAsString(System.currentTimeMillis()));
-		this.addStyleName("empty_date_field");
+		this.addStyleName("date-field-textbox");
 
 		// sinkEvents(Event.ONCLICK);
 		sinkEvents(Event.ONBLUR);
@@ -425,7 +419,6 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	 * Display the date in the DatePicker.
 	 */
 	public void synchronizeFromDate() {
-		this.removeStyleName("empty_date_field");
 		if (this.selectedDate != null) {
 
 			this.setText(dateFormatter.format(this.selectedDate));
@@ -596,6 +589,11 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	@Override
 	public void setTabIndex(int index) {
 		super.setTabIndex(index);
+	}
+
+	public void setDate(Date dateAsObject) {
+		selectedDate = dateAsObject;
+		this.setText(dateFormatter.format(this.selectedDate));
 	}
 
 }

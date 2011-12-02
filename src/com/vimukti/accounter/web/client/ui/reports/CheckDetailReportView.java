@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.ArrayList;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
@@ -20,8 +19,8 @@ public class CheckDetailReportView extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(getType(record),
-				record.getTransactionId());
+		ReportsRPC.openTransactionView(getType(record), record
+				.getTransactionId());
 
 	}
 
@@ -54,10 +53,8 @@ public class CheckDetailReportView extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", Accounter.constants().number(),
-				Accounter.constants().date(), Accounter.constants().name(),
-				Accounter.messages().account(Global.get().account()),
-				Accounter.constants().amount() };
+		return new String[] { "", messages.number(), messages.date(),
+				messages.name(), messages.account(), messages.amount() };
 	}
 
 	@Override
@@ -72,12 +69,12 @@ public class CheckDetailReportView extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().checkDetail();
+		return messages.checkDetail();
 	}
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().financialYearToDate();
+		return messages.financialYearToDate();
 	}
 
 	@Override
@@ -147,15 +144,15 @@ public class CheckDetailReportView extends
 
 	@Override
 	public int sort(CheckDetailReport obj1, CheckDetailReport obj2, int col) {
-		int ret = UIUtils.compareInt(obj1.getTransactionType(),
-				obj2.getTransactionType());
+		int ret = UIUtils.compareInt(obj1.getTransactionType(), obj2
+				.getTransactionType());
 		if (ret != 0) {
 			return ret;
 		}
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(),
-					obj2.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(), obj2
+					.getTransactionType());
 		case 1:
 			int num1 = UIUtils.isInteger(obj1.getNumber()) ? Integer
 					.parseInt(obj1.getNumber()) : 0;

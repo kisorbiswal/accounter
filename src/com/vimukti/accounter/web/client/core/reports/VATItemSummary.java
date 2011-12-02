@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class VATItemSummary extends BaseReport implements
-IsSerializable, Serializable{
+public class VATItemSummary extends BaseReport implements IsSerializable,
+		Serializable {
 
 	/**
 	 * 
@@ -14,7 +14,17 @@ IsSerializable, Serializable{
 
 	String name;
 
-	double amount;
+	double netAmount;
+	double taxRate;
+	private double taxAmount;
+
+	public double getTaxRate() {
+		return taxRate;
+	}
+
+	public void setTaxRate(double taxRate) {
+		this.taxRate = taxRate;
+	}
 
 	public VATItemSummary() {
 
@@ -39,7 +49,7 @@ IsSerializable, Serializable{
 	 * @return the amount
 	 */
 	public double getAmount() {
-		return amount;
+		return netAmount;
 	}
 
 	/**
@@ -47,7 +57,15 @@ IsSerializable, Serializable{
 	 *            the amount to set
 	 */
 	public void setAmount(double amount) {
-		this.amount = amount;
+		this.netAmount = amount;
+	}
+
+	public double getTaxAmount() {
+		return taxAmount;
+	}
+
+	public void setTaxAmount(double taxAmount) {
+		this.taxAmount = taxAmount;
 	}
 
 }

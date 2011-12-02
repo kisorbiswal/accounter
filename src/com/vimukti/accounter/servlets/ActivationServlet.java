@@ -23,6 +23,7 @@ public class ActivationServlet extends BaseServlet {
 	/**
 	 * 
 	 */
+
 	private static final long serialVersionUID = 1L;
 	// private static final String VIEW = "/WEB-INF/resetpassword.jsp";
 	private static final String VIEW = "/WEB-INF/activation.jsp";
@@ -34,21 +35,25 @@ public class ActivationServlet extends BaseServlet {
 		HttpSession session = req.getSession(true);
 		String parameter = req.getParameter("message");
 		if (parameter != null) {
-			if (parameter.equals("108")) {
+			if (parameter.equals(ACT_FROM_SIGNUP)) {
 				req.setAttribute(
 						"successmessage",
 						"Thanks for registering with Accounter!<br>To complete the sign up process, please check your email and enter your activation code here to activate your Account.");
 				session.setAttribute(ACTIVATION_TYPE, "signup");
-			} else if (parameter.equals("109")) {
+			} else if (parameter.equals(ACT_FROM_RESET)) {
 				req.setAttribute(
 						"successmessage",
 						"Reset Password code has been sent to the given emailId. Kindly check your inbox and enter that code below to reset the password.");
 				session.setAttribute(ACTIVATION_TYPE, "resetpassword");
-			} else if (parameter.equals("110")) {
+			} else if (parameter.equals(ACT_FROM_RESEND)) {
 				req.setAttribute(
 						"successmessage",
 						"Your activation code is sent to your mail id. Please check your email and enter your activation code below to activate your account.");
+			} else if (parameter.equals(ACT_FROM_LOGIN)) {
+				req.setAttribute("successmessage",
+						"Your session is inactive. Please login using your email id & password");
 			}
+
 		}
 		dispatch(req, resp, VIEW);
 	}
@@ -85,14 +90,6 @@ public class ActivationServlet extends BaseServlet {
 				HttpSession session = req.getSession(true);
 				session.setAttribute(ACTIVATION_TOKEN, token);
 				session.setAttribute(EMAIL_ID, activation.getEmailId());
-				String activationType = (String) session
-						.getAttribute(ACTIVATION_TYPE);
-				if (activationType != null
-						&& activationType.equals("resetpassword")) {
-					// session.removeAttribute(ACTIVATION_TYPE);
-					redirectExternal(req, resp, RESET_PASSWORD_URL);
-					return;
-				}
 
 				Session hbSession = HibernateUtil.openSession();
 				Transaction transaction = null;
@@ -124,7 +121,15 @@ public class ActivationServlet extends BaseServlet {
 						hbSession.close();
 
 				}
+				String activationType = (String) session
+						.getAttribute(ACTIVATION_TYPE);
+				if (activationType != null
+						&& activationType.equals("resetpassword")) {
 
+					session.removeAttribute(ACTIVATION_TYPE);
+					redirectExternal(req, resp, RESET_PASSWORD_URL);
+					return;
+				}
 				// redirect To ActivationPage.
 				// dispatch(req, resp, VIEW);
 				String destUrl = req.getParameter(PARAM_DESTINATION);

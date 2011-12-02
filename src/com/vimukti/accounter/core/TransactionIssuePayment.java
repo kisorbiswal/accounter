@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -89,7 +90,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	 * Reference to a PaySalesTax to know that this TransactionIssuePayment is
 	 * caused by PaySalesTax
 	 */
-	PaySalesTax paySalesTax;
+	PayTAX paySalesTax;
 	/**
 	 * Reference to a ReceiveVAT to know that this TransactionIssuePayment is
 	 * caused by ReceiveVAT
@@ -99,7 +100,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	 * Reference to a PayVAT to know that this TransactionIssuePayment is caused
 	 * by PayVAT
 	 */
-	PayVAT payVAT;
+	PayTAX payVAT;
 	/**
 	 * Reference to a CustomerPrepayment to know that this
 	 * TransactionIssuePayment is caused by CustomerPrepayment
@@ -162,7 +163,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	/**
 	 * @return the paySalesTax
 	 */
-	public PaySalesTax getPaySalesTax() {
+	public PayTAX getPaySalesTax() {
 		return paySalesTax;
 	}
 
@@ -170,7 +171,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	 * @param paySalesTax
 	 *            the paySalesTax to set
 	 */
-	public void setPaySalesTax(PaySalesTax paySalesTax) {
+	public void setPaySalesTax(PayTAX paySalesTax) {
 		this.paySalesTax = paySalesTax;
 	}
 
@@ -178,7 +179,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	 * @return the payVAT
 	 */
 
-	public PayVAT getPayVAT() {
+	public PayTAX getPayVAT() {
 		return payVAT;
 	}
 
@@ -186,7 +187,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 	 * @param payVAT
 	 *            the payVAT to set
 	 */
-	public void setPayVAT(PayVAT payVAT) {
+	public void setPayVAT(PayTAX payVAT) {
 		this.payVAT = payVAT;
 	}
 
@@ -312,6 +313,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
+		IssuePayment issuePayment = (IssuePayment) this.transaction;
 
 		if (this.id == 0l) {
 
@@ -320,6 +322,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 				// Update the Status of Write Check as Issued
 				this.writeCheck
 						.setStatus(Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
+				this.writeCheck.setCheckNumber(issuePayment.getCheckNumber());
 				session.saveOrUpdate(this.writeCheck);
 
 			} else if (this.getCustomerRefund() != null) {
@@ -327,12 +330,15 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 				// Update the Status of Customer Refund as Issued
 				this.customerRefund
 						.setStatus(Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
+				this.customerRefund.setCheckNumber(issuePayment
+						.getCheckNumber());
 				session.saveOrUpdate(this.customerRefund);
 			} else if (this.getPayBill() != null) {
 
 				// Update the Status of Customer Refund as Issued
 				this.getPayBill().setStatus(
 						Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
+				this.getPayBill().setCheckNumber(issuePayment.getCheckNumber());
 				session.saveOrUpdate(this.getPayBill());
 			} else if (this.getPaySalesTax() != null) {
 
@@ -351,6 +357,8 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 				// Update the Status of Customer Refund as Issued
 				this.getCashPurchase().setStatus(
 						Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
+				this.getCashPurchase().setCheckNumber(
+						issuePayment.getCheckNumber());
 				session.saveOrUpdate(this.getCashPurchase());
 
 			} else if (this.getPayVAT() != null) {
@@ -371,6 +379,8 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 				// Update the Status of CustomerPrepayment as Issued
 				this.getCustomerPrepayment().setStatus(
 						Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
+				this.getCustomerPrepayment().setCheckNumber(
+						issuePayment.getCheckNumber());
 				session.saveOrUpdate(this.getCustomerPrepayment());
 			}
 
@@ -430,7 +440,13 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;		
+		this.version = version;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

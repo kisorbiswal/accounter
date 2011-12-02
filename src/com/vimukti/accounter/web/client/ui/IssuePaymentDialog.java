@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -161,9 +160,9 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 			record.setCustomerRefund(entry.getTransactionId());
 			record.setRecordType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 			break;
-		case ClientTransaction.TYPE_PAY_SALES_TAX:
+		case ClientTransaction.TYPE_PAY_TAX:
 			record.setPaySalesTax(entry.getTransactionId());
-			record.setRecordType(ClientTransaction.TYPE_PAY_SALES_TAX);
+			record.setRecordType(ClientTransaction.TYPE_PAY_TAX);
 			break;
 		case ClientTransaction.TYPE_PAY_BILL:
 			record.setPayBill(entry.getTransactionId());
@@ -174,13 +173,9 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 			record.setCreditCardCharge(entry.getTransactionId());
 			record.setRecordType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
 			break;
-		case ClientTransaction.TYPE_RECEIVE_VAT:
+		case ClientTransaction.TYPE_RECEIVE_TAX:
 			record.setReceiveVAT(entry.getTransactionId());
-			record.setRecordType(ClientTransaction.TYPE_RECEIVE_VAT);
-			break;
-		case ClientTransaction.TYPE_PAY_VAT:
-			record.setPayVAT(entry.getTransactionId());
-			record.setRecordType(ClientTransaction.TYPE_PAY_VAT);
+			record.setRecordType(ClientTransaction.TYPE_RECEIVE_TAX);
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 			record.setCustomerPrepayment(entry.getTransactionId());
@@ -203,10 +198,10 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	}
 
 	private void createControls() {
-		setWidth("80px");
+		// setWidth("80px");
 		mainPanel.setSpacing(3);
 
-		payMethodSelect = new SelectCombo(Accounter.constants().paymentMethod());
+		payMethodSelect = new SelectCombo(messages.paymentMethod());
 		payMethodSelect.setHelpInformation(true);
 		payMethodSelect.setRequired(true);
 		payMethodItemList = new ArrayList<String>();
@@ -228,8 +223,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 				});
 
-		accountCombo = new PayFromAccountsCombo(Accounter.messages().account(
-				Global.get().account()), false);
+		accountCombo = new PayFromAccountsCombo(messages.Account(), false);
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 		accountCombo
@@ -248,9 +242,10 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		payForm = new DynamicForm();
 		payForm.setWidth("50%");
 		payForm.setFields(payMethodSelect, accountCombo);
+		paymentMethodSelected(payMethodSelect.getSelectedValue());
 
 		Label label = new Label();
-		label.setText(Accounter.constants().paymentsToBeIssued());
+		label.setText(messages.paymentsToBeIssued());
 		initListGrid();
 
 		mainVLay = new VerticalPanel();
@@ -272,7 +267,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 		if (checkNoText != null) {
 			rpcUtilService.getNextIssuepaymentCheckNumber(account.getID(),
-					new AccounterAsyncCallback<Long>() {
+					new AccounterAsyncCallback<String>() {
 
 						public void onException(AccounterException caught) {
 							// UIUtils.logError(
@@ -282,15 +277,14 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 						}
 
-						public void onResultSuccess(Long result) {
+						public void onResultSuccess(String result) {
 
 							if (result == null) {
 								onFailure(null);
 								return;
 							}
-							// setCheckNo(result);
-							// CheckNoText.setValue(getCheckNo());
-							checkNoText.setValue("");
+							setCheckNo(result);
+							checkNoText.setValue(result);
 						}
 
 					});
@@ -303,11 +297,11 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		ValidationResult result = FormItem.validate(payMethodSelect,
 				accountCombo);
 		if (grid.getRecords().isEmpty()) {
-			result.addError(grid, Accounter.constants()
+			result.addError(grid, messages
 					.noTransactionIsAvailableToIssuePayments());
 		} else {
 			if (grid.getSelectedRecords().size() == 0)
-				result.addError(grid, Accounter.constants()
+				result.addError(grid, messages
 						.pleaseSelectAnyOneOfTheTransactions());
 		}
 		// result.add(grid.validateGrid());
@@ -321,7 +315,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 			setCheckNo(number);
 		} catch (NumberFormatException e) {
 			valid = false;
-			Accounter.showError(Accounter.constants().invalidChequeNumber());
+			Accounter.showError(messages.invalidChequeNumber());
 		}
 
 		return valid;
@@ -417,7 +411,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 									// .logError(
 									// "Failed to get the IssuePaymentTransactionsList..",
 									// t);
-									grid.addEmptyMessage(Accounter.constants()
+									grid.addEmptyMessage(messages
 											.noRecordsToShow());
 
 								}
@@ -436,7 +430,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 										}
 									} else
 										grid.addEmptyMessage(Accounter
-												.constants().noRecordsToShow());
+												.messages().noRecordsToShow());
 
 								}
 
@@ -458,7 +452,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		grid.isEnable = false;
 		grid.init();
 		grid.setHeight("200px");
-		grid.setIssuePaymentView(this);
+		// grid.setIssuePaymentView(this);
 		// grid.addFooterValues("", "", "", "", FinanceApplication
 		// .constants().total(), DataUtils
 		// .getAmountAsString(0.00));
@@ -470,7 +464,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		emptyLabel.setWidth("25%");
 		totalLabel = new Label();
 		totalLabel.setWidth("30%");
-		totalLabel.setText(Accounter.constants().totalAmount());
+		totalLabel.setText(messages.totalAmount());
 
 		amountLabel = new Label();
 		amountLabel.setText("" + UIUtils.getCurrencySymbol() + "0");
@@ -484,7 +478,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	private void paymentMethodSelected(String selectedpaymentMethod1) {
 		selectedpaymentMethod = selectedpaymentMethod1;
 		if (!selectedpaymentMethod.isEmpty()) {
-			checkNoText = new TextItem(Accounter.constants().startingChequeNo());
+			checkNoText = new TextItem(messages.startingChequeNo());
 			checkNoText.setHelpInformation(true);
 			checkNoText.setWidth(100);
 			// checkNoText.setRequired(true);
@@ -537,9 +531,9 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 				entry.setCustomerRefund(record.getCustomerRefund());
 				entry.setRecordType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 				break;
-			case ClientTransaction.TYPE_PAY_SALES_TAX:
+			case ClientTransaction.TYPE_PAY_TAX:
 				entry.setPaySalesTax(record.getPaySalesTax());
-				entry.setRecordType(ClientTransaction.TYPE_PAY_SALES_TAX);
+				entry.setRecordType(ClientTransaction.TYPE_PAY_TAX);
 				break;
 			case ClientTransaction.TYPE_PAY_BILL:
 				entry.setPayBill(record.getPayBill());
@@ -550,13 +544,9 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 				entry.setCreditCardCharge(record.getCreditCardCharge());
 				entry.setRecordType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
 				break;
-			case ClientTransaction.TYPE_RECEIVE_VAT:
+			case ClientTransaction.TYPE_RECEIVE_TAX:
 				entry.setReceiveVAT(record.getReceiveVAT());
-				entry.setRecordType(ClientTransaction.TYPE_RECEIVE_VAT);
-				break;
-			case ClientTransaction.TYPE_PAY_VAT:
-				entry.setPayVAT(record.getPayVAT());
-				entry.setRecordType(ClientTransaction.TYPE_PAY_VAT);
+				entry.setRecordType(ClientTransaction.TYPE_RECEIVE_TAX);
 				break;
 			case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 				entry.setCustomerPrepayment(record.getCustomerPrepayment());

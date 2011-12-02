@@ -8,14 +8,13 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.PortalLayout;
 import com.vimukti.accounter.web.client.ui.Portlet;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
@@ -60,7 +59,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 		// addWidgetLinkLayout.setHeight(20);
 
 		LinkItem addWidgetLink = new LinkItem();
-		addWidgetLink.setLinkTitle(Accounter.constants().addWidget());
+		addWidgetLink.setLinkTitle(Accounter.messages().addWidget());
 		addWidgetLink.setShowTitle(false);
 		// addWidgetLink.setAlign(Alignment.RIGHT);
 
@@ -183,8 +182,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 		listGrid = new VendorListGrid(false);
 		listGrid.init();
 		// listGrid.setHeight("400px");
-		Accounter.createHomeService().getPayeeList(
-				ClientTransaction.CATEGORY_VENDOR,
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
 				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
 
 					@Override
@@ -210,10 +208,10 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
-				Accounter.messages().newVendor(Global.get().Vendor()),
-				Accounter.constants().itemPurchase(),
-				Accounter.constants().billPaid(),
-				Accounter.constants().cashPurchase() };
+				Accounter.messages().newPayee(Global.get().Vendor()),
+				Accounter.messages().itemPurchase(),
+				Accounter.messages().billPaid(),
+				Accounter.messages().cashPurchase() };
 
 		boolean isAvailable = false;
 
@@ -253,16 +251,15 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 	@Override
 	public void fitToSize(int height, int width) {
-//		if (UIUtils.isMSIEBrowser())
-//			this.listGrid.setHeight((height - 140) + "px");
-//		else
-			this.listGrid.setHeight((height - 130) + "px");
+		// if (UIUtils.isMSIEBrowser())
+		// this.listGrid.setHeight((height - 140) + "px");
+		// else
+		this.listGrid.setHeight((height - 130) + "px");
 
 	}
 
 	public void setPrevoiusOutput(Object preObject) {
-		Accounter.createHomeService().getPayeeList(
-				ClientTransaction.CATEGORY_VENDOR,
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
 				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
 
 					@Override

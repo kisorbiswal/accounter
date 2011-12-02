@@ -5,301 +5,200 @@
 *{
 	outline: none;
 }
-button::-moz-focus-inner,
-input[type="reset"]::-moz-focus-inner,
-input[type="button"]::-moz-focus-inner,
-input[type="submit"]::-moz-focus-inner,
-input [type="checkbox"]::-moz-focus-inner,
-input[type="file"] > input[type="button"]::-moz-focus-inner {
-    border: none;
+button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,input [type="checkbox"]::-moz-focus-inner,input[type="file"]>input[type="button"]::-moz-focus-inner{
+	border: none;
 }
-/*.icon1,.icon2,.icon3,.icon4,.icon5,.icon6,.icon1 {
-	background: url("../images/zb-online-books-icon.png") no-repeat scroll 0
-		0 transparent;
-	float: left;
-	height: 54px;
-	margin-right: 10px;
-	width: 50px;
-}*/
-body {
-	margin: 0px;
-	padding: 0px;
+.signup-submit-button,.signup-submit-mid,#contact_form_cont,#services_form_cont,.right-middle,.remaining-header-part-login,
+.maintainence_message,.delete_company,.createbutton,.loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton,.mandatory{
+	float: right;
+}
+#label_holder,#label_holder,.right-side-options,.signup-submit #openid-cancel,p,div ul li,.delete_company,.create_new_company,
+.allviews-common-button,.mid-login-box1 td,.terms-error,#accounterForm fieldset td{
+	font-size: 13px;
+}
+body,.email,.password,.company-name,.body-container,.company_list_buttons,#mainFooter{
 	text-align: center;
-	font-family: Arial Unicode MS,Arial,sans-serif;
 }
-
+.unavailable_page,.maintanance_subcont,#maintananceContainer,.companies-list,.form-box,#commanContainer form,.form-box,.new_login_page,.admin_details_header{
+	overflow: auto;
+}
+#mid-2,#mid,#but-g,#but-mid,.invoicing,#bank-layout,#contact-layout,.left-side-options,.terms-error input[type="checkbox"],.seperator,.left-middle,.image-text-button,
+.find-an-acciuntant,.try-free,.Benifits,.Pricing-Plans,.features-tree,.menu-bar,#mid-right,#mid-left,#about-layout,#support-width,#about-1,#privacy-layout,#home-bg,
+#fea-bg,#abt-bg,#sup-bg,#blog-bg,.maintainence_logo,.companies-list a:FIRST-CHILD,.rememberMe,#feedDiv,.new_login_accounterform,.left-arrow,#contact_content,.stepcarousel .panel  {
+	float: left;
+}
+#banner-mid2,#banner-mid1,#banner-mid-tab,#banner-mid,.signup-submit #openid-cancel,.easiest-label,.account-sys-label,.forget-but,#signup-mid
+.button-tryfree-pricing-page,.business-dashboard a,.fea a,.supp a,.use a,.pro a,.home a,#but-mid,.allviews-common-button,.signup-submit-mid{
+	color:white;
+}
+#about-1,#privacy-layout,#contact-layout,#mid-2,#mid,#top,#bot,.shadow-line,#down,#mid-left,#about-layout,#support-width,.pricing-box-shadow,
+.box-shadow,.monthly-box ul,.Annaul-box ul,#mainFooter,.companies-list,.admin_details_header,
+.newsletter,.form-bottom-options,.activate-code {
+	clear: both;
+}
+#manage-layout,#about-layout,#about-1,#online-accounting-1,#invoicing-layout,#privacy-layout,#bank-layout,#contact-layout,#mid-2,#mid-1,#mid,
+#mid-right,.online-accounting,.bank-reconciliation,.invoicing,.find-an-acciuntant,.body-container,.main_body-container{
+	font-family: arial;
+}
+#mid,.login_box,.reset-login-box,.activation_code_box,.left-side-box{
+	border: 1px solid #929292
+}
+#about-1,#online-accounting-1,#invoicing-layout,#privacy-layout,#bank-layout,#contact-layout,#mid-2{
+	text-align:justify;
+}
+.allviews-common-button,.signup-submit-mid,#notifyMe{
+	cursor: pointer;
+}
+#mid-1,#mid{
+	height:auto;
+}
+body {
+	font-family: Arial Unicode MS, Arial, sans-serif;
+}
 table {
 	border-collapse: collapse;
 }
-
 body,ul,li,ol,p,table,tr,td,table,html {
 	margin: 0px;
 	padding: 0px;
 }
-
-.header,.middle-part,.footer {
+.header,.middle-part,.footer,#commanNewContainer,#commanContainer,.signup-box,#maintananceContainer {
 	text-align: left;
 }
-
 .lower-part ol {
 	padding: 0 15px 25px;
 }
-
 .lower-part ol li {
 	width: 290px;
 	vertical-align: top;
 }
-
-div ul li {
+div ul li,.contact_form_cont table tr td:first-child,.left-side-box table tr td:first-child {
 	color: #000;
-	font-size: 13px;
 }
-
 div ul li hover {
 	color: #c5c5c5;
 }
-
-.header_p_style {
-	font-size: 15px;
+.create_new_company,.allviews-common-button,.online-accounting,.bank-reconciliation,.invoicing,.find-an-acciuntant,.header_p_style{
 	font-weight: bold;
-	margin-bottom: 8px;
+}
+.header_p_style,.common-box,.allviews-common-button,form,.easiest-label,.account-sys-label{
 	font-family: sans-serif;
 }
-
-.main_body-container {
+.header_p_style {
+	font-size: 15px;
+	margin-bottom: 8px;
+}
+.main_body-container,.body-container,#maintananceContainer,.login_box,.left-side-box,#mid-1{
 	margin: 0px auto;
-	font-family: arial;
+}
+.main_body-container {
 	background: none repeat scroll 0 0 #28757D;
 }
-
 .body-container {
 	width: 956px !important;
-	margin: 0px auto;
-	text-align: center;
-	font-family: arial;
 }
-
 .remaining-header-part-login {
-	float: right;
 	font-size: 23px;
 	margin: 5px 15px 0 0;
 }
-
 p {
-	font-size: 13px;
 	line-height: 18px;
 }
-
-#login-id { /*color: #008dc5;*/
+#login-id { 
 	color: #ffffff !important;
 	font-size: 17px;
 	margin-left: 16px;
 	line-height: 2;
 }
-
+#feedDivUl li a,#unChangedNewsDiv a,#mainFooter a,#mainFooter span,a:visited,#home-bg,#fea-bg,#abt-bg,#sup-bg,#blog-bg,a:link,.signup-submit #openid-cancel{
+	text-decoration: none;
+}
 .account-sys-label {
 	font-weight: normal;
-	color: white;
 	font-size: 35px;
-	font-family: sans-serif;
 }
-
 .easiest-label {
-	color: white;
 	font-size: 18px;
-	font-family: sans-serif;
 }
-
 .logo-image {
 	padding: 15px 0 15px 15px;
 }
-
 .online-accounting,.bank-reconciliation,.invoicing,.find-an-acciuntant {
-	float: left;
 	margin-left: 11px;
 	margin-right: 23pt;
 	width: 190px;
-	font-family: arial;
-	font-weight: bold;
 }
-
-#but-mid {
-	background: url("/images/green-big-mid.png") repeat-x scroll 0 0
-		transparent;
-	color: white;
-	float: left;
-	font-size: 29px;
-	margin-left: 7px;
-	padding: 20px;
-	width: 154px;
-}
-
 #but-g {
-	float: left;
-	/*background: url("/sites/Sign-Up-For-Free.png") no-repeat scroll 0 0
-		transparent;*/
 	color: red;
-	float: left;
 	font-size: 26px;
 	line-height: 1.9;
 	margin: 0px -5px;
 }
-
 #but-g hover {
 	border: 1px solid green;
 }
-
 .right-big {
 	margin-left: -7px;
 }
-
-a:link {
-	text-decoration: none;
-}  /* unvisited link */
 #top {
-	clear: both;
 	background-color: #f7f6f2;
 }
-
-#cen { /*clear: both;*/
+#cen { 
 	height: 330px !important;
 	padding-top: 50px;
 }
-
 #mid {
 	background-color: #ffffff;
-	border: 1px solid #929292;
-	clear: both;
-	float: left;
 	width: 845px !important;
-	font-family: arial;
 	margin: 56px 56px 0 56px;
-	height: auto;
 }
-
-#mid-1 { /*background-color: #f4f4f4;
-	border: 1px solid #CCCCCC;
-	clear: both;
-	float: left;
-	height: auto;
-	height: auto\0;
-	margin-left: 210px;
-	margin-top: 40px;
-	width: 523px;
-	font-family: arial;
-	font-size: 15px;*/
+#mid-1 { 
 	background-color: #F4F4F4;
 	border: 1px solid #CCCCCC;
-	font-family: arial;
 	font-size: 15px;
-	height: auto;
-	margin: 0 auto;
 	width: 720px;
 }
-
 #mid-2 {
-	clear: both;
 	background-color: #f4f4f4;
-	height: 550px ;
+	height: 550px;
 	width: 863px !important;
-	float: left;
 	margin-top: 40px;
 	margin-left: 60px;
 	border: 1px solid #ccc;
-	text-align: justify;
-	font-family: arial;
 	font-size: 15px;
 }
-
 #contact-layout {
-	clear: both;
 	background-color: #f4f4f4;
 	height: 345px !important;
 	width: 863px !important;
-	float: left;
 	margin-top: 40px;
 	margin-left: 60px;
 	border: 1px solid #ccc;
-	font-family: arial;
 	font-size: 15px;
-	text-align: justify;
 }
-
-#bank-layout {
-	clear: both;
-	background-color: #f4f4f4;
-	height: 325px !important;
-	width: 863px !important;
-	float: left;
-	margin-top: 40px;
-	margin-left: 60px;
-	border: 1px solid #ccc;
-	font-family: arial;
-	font-size: 15px;
-	text-align: justify;
-}
-
 #privacy-layout {
-	clear: both;
 	background-color: #f4f4f4;
 	height: 350px;
 	width: 850px !important;
-	float: left;
 	margin-top: 40px;
 	margin-left: 60px;
 	border: 1px solid #ccc;
-	text-align: justify;
-	font-family: arial;
 	font-size: 15px;
 }
-
-#invoicing-layout {
-	background-color: #F4F4F4;
-	border: 1px solid #CCCCCC;
-	clear: both;
-	float: left;
-	height: 400px !important;
-	margin-left: 60px;
-	margin-top: 40px;
-	text-align: justify;
-	width: 845px !important;
-	font-family: arial;
-	font-size: 15px;
-}
-
-#online-accounting-1 {
-	background-color: #F4F4F4;
-	border: 1px solid #CCCCCC;
-	clear: both;
-	float: left;
-	height: 390px !important;
-	margin-left: 60px;
-	margin-top: 40px;
-	text-align: justify;
-	width: 844px !important;
-	font-family: arial;
-	font-size: 15px;
-}
-
 #about-1 {
 	background-color: #F4F4F4;
 	border: 1px solid #CCCCCC;
-	clear: both;
-	float: left;
 	height: 690px !important;
 	margin-left: 60px;
 	margin-top: 40px;
-	text-align: justify;
 	width: 840px !important;
-	font-family: arial;
 	font-size: 15px;
 }
 
-#support-width {
+#support-width{
 	background-color: #F4F4F4;
 	border: 1px solid #CCCCCC;
-	clear: both;
-	float: left;
 	height: 470px !important;
 	margin-left: 60px;
 	margin-top: 40px;
@@ -311,32 +210,13 @@ a:link {
 #about-layout {
 	background-color: #F4F4F4;
 	border: 1px solid #CCCCCC;
-	clear: both;
-	float: left;
 	height: 435px !important;
 	margin-left: 60px;
 	margin-top: 40px;
 	width: 863px !important;
-	font-family: arial;
 	font-size: 15px;
 }
-
-#manage-layout {
-	background-color: #F4F4F4;
-	border: 1px solid #CCCCCC;
-	clear: both;
-	float: left;
-	height: 362px !important;
-	margin-left: 60px;
-	margin-top: 40px;
-	width: 863px !important;
-	font-family: arial;
-	font-size: 15px;
-}
-
 #mid-left {
-	clear: both;
-	float: left;
 	background-color: #d9d9d9;
 	height: 831px;
 	width: 215px !important;
@@ -344,7 +224,6 @@ a:link {
 	margin-left: 50px;
 	border: 1px solid #ccc;
 }
-
 #mid-right {
 	background-color: #f4f4f4;
 	height: 831px;
@@ -352,27 +231,13 @@ a:link {
 	margin-top: 40px;
 	font-family: arial;
 	font-size: 15px;
-	float: left;
 	border: 1px solid #ccc;
-	font-family: arial;
 	font-size: 15px;
 }
-
 #down {
-	clear: both;
 	height: 50px;
 }
-
-.shadow-line {
-	background: url("../images/first-box-shadow.png") repeat-x scroll 0 0
-		transparent;
-	clear: both;
-	height: 6px;
-	margin: 0 32px 0 50px;
-}
-
 #bot {
-	clear: both;
 	height: 55px !important;
 	background-color: #072027 !important;
 }
@@ -388,400 +253,139 @@ li {
 	font-family: Georgia;
 	width: 100%;
 }
-
-.menu-table {
-	
-}
-
 .menu-bar {
-	float: left;
 	margin-top: 5px;
 }
-
 #home-bg,#fea-bg,#abt-bg,#sup-bg,#blog-bg {
-	float: left;
 	margin-left: 13px;
 	padding: 8px 4px 0px;
 	padding: 5.5px\0;
 	color: #ffffff;
 	font-size: 16px;
 	outline: 0 none;
-	text-decoration: none;
 }
-
-/*#fea-bg {
-	float: left;
-	margin-left: 13px;
-	padding: 4px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #FFFFFF;
-	font-size: 17px;
-	font-weight:bold;
-}*/ /*.home-jbg {
-	float: left;
-	margin-left: 13px;
-	padding: 3px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #3299a4 !important;
-}*/ /*.fea-jbg {
-	float: left;
-	margin-left: 13px;
-	padding: 3px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #3299a4 !important;
-}*/
-#home-normal {
-	float: left;
-	background: url("../images/normal-left.png") no-repeat scroll 0 0
-		transparent;
-	margin-right: -22px;
-	padding: 1px 6px;
-}
-
-#features-normal {
-	float: left;
-	background: url("../images/normal-left.png") no-repeat scroll 0 0
-		transparent;
-	margin-right: -22px;
-	padding: 1px 6px;
-}
-
-.features {
-	margin-right: -22px;
-	padding: 1px 6px;
-	float: left;
-	background: url("../images/focus-left.png") no-repeat scroll 0 0
-		transparent !important;
-}
-
-.home-page {
-	margin-right: -22px;
-	padding: 1px 6px;
-	float: left;
-	background: url("../images/focus-left.png") no-repeat scroll 0 0
-		transparent !important;
-}
-
-/*#abt-bg {
-	float: left;
-	margin-left: 13px;
-	padding: 4px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #FFFFFF;
-	font-size: 17px;
-	font-weight:bold;
-}*/
-#about-normal {
-	float: left;
-	background: url("../images/normal-left.png") no-repeat scroll 0 0
-		transparent;
-	padding: 1px 6px;
-	margin-right: -21px;
-}
-
 .header-hover {
 	color: #3299a4 !important;
-	/*float: left;
-	margin-left: 13px;
-	padding: 3px;
-	padding: 5.5px\0;
-	width: 50px;
-	*/
 }
-
-.about-page {
-	float: left;
-	background: url("../images/focus-left.png") no-repeat scroll 0 0
-		transparent !important;
-	padding: 1px 6px;
-	margin-right: -16px;
-}
-
-#pri-bg {
-	float: left;
-	margin-left: 13px;
-	padding: 4px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #c5c5c5;
-	font-size: 17px;
-}
-
-#pricing-normal {
-	float: left;
-	background: url("../images/normal-left.png") no-repeat scroll 0 0
-		transparent;
-	margin-right: -19px;
-	padding: 1px 6px;
-}
-
-/*.pri-jbg {
-	float: left;
-	margin-left: 13px;
-	padding: 3px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #3299a4 !important;
-}
-*/
-.pricing-page {
-	float: left;
-	background: url("../images/focus-left.png") no-repeat scroll 0 0
-		transparent !important;
-	margin-right: -19px;
-	padding: 1px 6px;
-}
-
-/*#sup-bg {
-	float: left;
-	margin-left: 13px;
-	padding: 4px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #FFFFFF;
-	font-size: 17px;
-	font-weight:bold;
-}*/
-#support-normal {
-	float: left;
-	background: url("../images/normal-left.png") no-repeat scroll 0 0
-		transparent;
-	padding: 1px 6px;
-}
-
-/*.sup-jbg {
-	float: left;
-	margin-left: 13px;
-	padding: 3px;
-	padding: 5.5px\0;
-	width: 50px;
-	color: #3299a4 !important;
-}
-*/
-.support-page {
-	float: left;
-	background: url("../images/focus-left.png") no-repeat scroll 0 0
-		transparent !important;
-	padding: 1px 6px;
-}
-
-.find-an-acciuntant,.try-free,.Benifits,.Pricing-Plans,.features-tree {
-	float: left;
-}
-
 .image-text-button {
-	float: left;
 	margin-left: 30px;
 	margin-top: 30px;
 }
-
 .left-middle {
 	margin-left: 11px;
-	float: left;
 	margin-top: 10px;
 	width: 398px;
 }
-
 .right-middle {
 	margin-left: 20px;
-	float: right;
 	margin-top: 15px;
 	width: 521px;
 }
-
-.demo-buttons-image {
-	float: left;
-	margin-top: 15px;
-	width: 521px;
-}
-
-.fields-table {
-	float: left;
-	height: 105px;
-	margin-left: 25px;
-	width: 360px;
-	font-size: 15px;
-}
-
-.features-list,.support-lists,.useful-list,.product-list,.home-list {
-	float: left;
-	width: 160px;
-	margin-top: 10px;
-}
-
-.fea a,.supp a,.use a,.pro a,.home a {
-	color: white;
-}
-
 a:visited {
 	color: #FFFFFF;
-	text-decoration: none;
 }
-
 .online-accounting a,.bank-reconciliation a,.invoicing a,.find-an-acciuntant a
 	{
 	color: #079dd2;
 	font-size: 17px;
 }
-
 .fea-list a,.supp-list a,.use-lists a,.pro-list a,.home-list a {
 	color: #A0A0A0 !important;
 }
-
-/*.image-text-button p {	color: white;
-    font-family: sans-serif;
-    font-size: 19px;
-    margin-top: 37px;
-}*/
 .image-text-button input[type="button"] {
 	height: 45px;
 	width: 200px;
 	margin-left: 80px;
 }
-
-.vertical-divider {
-	background: url("../images/dot-image.png") repeat-y scroll 0 0
-		transparent;
-	float: left;
-	height: 95px;
-	margin: 10px 0 0 0;
-	padding: 0 10px;
-	width: 20px;
-}
-
 .seperator {
 	background: url("../images/signup-page-vertical-line.png") repeat-y
 		scroll 0 0 transparent;
-	float: left;
 	height: 830px;
 	margin-top: 41px;
 	padding: 1px;
 }
-
 .sites-header {
 	color: #3299a4 !important;
 	font-size: 35px;
 	vertical-align: bottom;
 	line-height: 1.8;
 }
-
-.lower-part { /*margin-top: 50px;
-	font-family: arial;*/
+.lower-part {
 	padding: 20px 0px 0px 20px;
 	background: white;
 }
-
 .pro,.fea,.use,.supp,.home {
 	background: url("../images/footer-line.png") repeat-x scroll left bottom
 		transparent;
 	padding: 5px 5px 10px 30px;
 }
-
 .footer-options {
-	float: right;
 	font-size: 17px;
 	padding: 7px;
 	line-height: 2.3;
 }
-
 .footer-options a {
 	color: #fff !important;
 	margin-right: 20px;
 }
-
-.footer-options a:HOVER,.privacy_policy a{
+.footer-options a:HOVER,.privacy_policy a {
 	color: #3299a4 !important;
 }
-
 ul li a {
 	color: #3299A4;
 }
-
 ul li a:HOVER,ul li a:FOCUS {
 	color: #3299a4 !important;
 }
-
 .pro-list,.fea-list,.supp-list,.use-lists {
 	margin: 10px 0 0 30px;
 }
-
-#features-normal input[type="image"],#home-normal input[type="image"],#about-normal input[type="image"],#pricing-normal input[type="image"],#support-normal input[type="image"]
-	{
+#features-normal input[type="image"],#home-normal input[type="image"],#about-normal input[type="image"],#pricing-normal input[type="image"],#support-normal input[type="image"],
+.features input[type="image"],.home input[type="image"],.about-page input[type="image"],.pricing-page input[type="image"],.support-page input[type="image"]{
 	position: relative;
 }
-
-.features input[type="image"],.home input[type="image"],.about-page input[type="image"],.pricing-page input[type="image"],.support-page input[type="image"]
-	{
-	position: relative;
-}
-
 .right-button,.left-button {
 	margin-left: 20px;
 }
-
-.demo-buttons-image {
-	text-align: center;
-}
-
 .screen-dot {
 	margin-left: 20px;
 	margin-bottom: 6px;
 }
-
-.middle-signup-box { /*float: left;*/
-	
-}
-
 .middle-signup-box h2 {
 	margin: 0px 0px 10px 20px;
 	color: #3299A4;
 }
-
 #left-box {
 	margin-bottom: -6px;
 	margin-bottom: -9px\0;
 	margin-left: 39px;
 }
-
-#select-box { /*margin-bottom: 6px;*/
+#select-box { 
 	margin-top: 10px;
-	/*margin-left: 10px;*/
 	width: 222px;
 }
-
 #left-box-l {
 	margin-left: 87px;
 }
-
 #pwd-box {
 	margin-left: 60px;
 }
-
 #cmp-box {
 	margin-left: 20px;
 }
-
 input[type="text"] {
 	padding: 0 5px;
 }
-
 #mid-box,#mid-box1,#mid-box2,#mid-box3,#mid-box4,#mid-box5,#mid-box6 {
 	background: url("../images/text-box.png") no-repeat scroll left top
 		transparent;
 	border: medium none;
 	height: 24px;
 	padding: 0 5px;
-	/*margin-bottom: 8px;*/
 	margin: 5px 0;
-	/*margin-left: 10px;*/
 	width: 223px;
 	font-size: 15px;
 }
-
 #drop-down {
 	height: 22px;
 	margin-bottom: -6px;
@@ -789,673 +393,52 @@ input[type="text"] {
 	margin-left: -5px;
 	padding: 1px;
 }
-
-.vertical-line {
-	float: left;
-	height: 700px;
-	margin-left: 20px;
-	margin-top: -15px;
-	padding: 9px;
-	background: url("../images/signup-page-vertical-line.png") repeat-y
-		scroll 0 0 transparent;
-}
-
-.right-side-options {
-	float: left;
-	margin-top: -23px;
-	font-size: 13px;
-}
-
-.left-side-box { /*margin-bottom: 65px;
-	margin-bottom: 25px\0;
-	margin-left: -64px;
-	margin-top: 25px;*/
-	width: 760px;
-	margin: 0 auto;
-}
-
 .try,.ben,.price,.left-side-box a {
 	color: #3299A4;
 }
-
 .try-list,.ben-list,.price-list,.first-name,.last-name,.email-address,.Phone-No,.current-system-drop-box,.left-side-box h5
 	{
 	color: #A0A0A0;
 }
-
 .button-signup-page a {
 	color: red;
 }
-
-.signup-box-left-top { /*float: left;
-	background: url("/images/signup-box-left-top.png") no-repeat scroll 0 0
-		transparent;
-	margin-left: -8px;
-	margin-top: -8px;
-	padding: 17px;*/
-	
+.delete_message {
+	color: red;
 }
-
-.signup-box {
-	text-align: left;
-}
-
-.signup-box-left-bot {
-	float: left;
-	background: url("../images/signup-box-left-bottom.png") no-repeat scroll
-		0 0 transparent;
-}
-
-#checkbox { /*margin-left: 35px;
-	margin-top: 27px;*/
-	
-}
-
 .terms-error input[type="checkbox"] {
-	float: left;
 	margin-right: -8px;
 	margin-right: 0px\0;
 	outline: 0 none;
 }
-
 .left-side-box {
 	background: none repeat scroll 0 0 white;
-	border: 1px solid #929292;
 	color: #A0A0A0;
 }
-
-#checkbox1 { /*margin-left: -21px;
-	margin-top: 27px;*/
+#checkbox1 { 
 	margin-bottom: 10px;
 }
-
-.button-signup-page {
-	background: url("../images/button-image.png") no-repeat scroll 0 0
-		transparent;
-	font-size: 17px;
-	height: 27px;
-	margin: 20px 0 0 130px;
-	padding: 2px 0 0;
-	text-align: center;
-	width: 100px;
-}
-
-.first-name,.last-name,.email-address,.Phone-No,.current-system-drop-box
-	{
-	padding: 13px;
-}
-
-#common {
-	margin-left: 20px;
-}
-
-#last {
-	margin-left: 40px;
-}
-
-.email-address h6 {
-	margin: -8px 88px 6px;
-}
-
-.left-side-box h5 {
-	font-size: 18px;
-	margin: 9px 75px;
-	padding-top: 25px;
-}
-
-#current {
-	margin-left: 19px;
-}
-
-#forget-link {
-	color: #00a3dc;
-	margin-left: 1px;
-}
-
-#forget-link1 {
+#forget-link1,#signUp-link1 {
 	color: #3299A4;
 	font-size: 15px;
 }
-
-.email,.password,.company-name {
-	color: #A0A0A0;
-	text-align: center;
-}
-
-.contact_form_cont table tr td:first-child,.left-side-box table tr td:first-child
-	{
-	color: #000;
-}
-
-.sign-up-divider {
-	border-bottom: 1px solid #ccc;
-	margin: 25px 40px 20px 23px;
-}
-
 .mid-login-box1 {
 	margin-left: 0;
 	margin-top: 12px;
 }
-
-.link-color {
-	color: #3299A4 !important;
-	font-size: 15px;
-}
-
-.link-color1 {
-	color: #3299A4 !important;
-	margin-left: 105px;
-	font-size: 15px;
-}
-
-.size-width {
-	margin: 10px auto;
-	width: 500px;
-}
-
-.header1 p {
-	margin-left: 80px;
-	margin-right: 50px;
-}
-
-.header1 h2 {
-	margin-left: 20px;
-	margin-top: 24px;
-}
-
-.monthly-box,.30days-trial-box {
-	float: left;
-}
-
-ul li {
-	list-style-image: url("../images/pricing-text-bullet-image.png")
-		!important;
-	margin: 0px;
-}
-
-.price-boxes {
-	margin-left: 13px;
-	margin-top: 30px;
-	position: absolute;
-}
-
-#banner-left {
-	background: url("../images/pricing-banner-left.png") no-repeat scroll 0
-		0 transparent;
-	float: left;
-}
-
-#banner-mid {
-	background: url("../images/pricing-banner-mid.png") repeat-x scroll 0 0
-		transparent;
-	color: white;
-	float: left;
-	font-size: 23px;
-	margin-left: 14px;
-	margin-right: 7px;
-	padding: 19px;
-	width: 173px;
-}
-
-#banner-left-tab {
-	/*background:url("pricing-banner-tab-left.png") no-repeat scroll 0 0 transparent;*/
-	float: left;
-	margin-left: -94px;
-	margin-top: -2px;
-}
-
-#banner-mid-tab {
-	background: url("../images/pricing-banner-tab-mid.png") repeat-x scroll
-		center center transparent;
-	color: white;
-	padding: 17px 17px 0;
-}
-
-#banner-mid1 {
-	background: url("../images/pricing-banner-mid.png") repeat-x scroll 0 0
-		transparent;
-	color: white;
-	float: left;
-	font-size: 23px;
-	margin-left: 14px;
-	margin-right: 7px;
-	padding: 19px;
-	width: 173px;
-}
-
-#banner-mid2 {
-	background: url("../images/pricing-banner-mid.png") repeat-x scroll 0 0
-		transparent;
-	color: white;
-	float: left;
-	font-size: 23px;
-	margin-left: 14px;
-	margin-right: 7px;
-	padding: 19px;
-	width: 173px;
-}
-
-.left-side-table a {
-	color: #3299A4;
-}
-
-.monthly-box ul li,.Annaul-box ul li,.days-trial-box ul li {
-	background: url("../images/pricing-text-bullet-image.png") no-repeat
-		scroll 10px 5px transparent;
-	padding: 0 0 0 25px;
-}
-
-#hed-right-tag {
-	background: url("../images/pricing-banner-tab-right.png") no-repeat
-		scroll 0 0 transparent;
-}
-
-.banner-left {
-	margin-bottom: -2px;
-	margin-right: -5px;
-}
-
-#right-tab {
-	margin-bottom: -2px;
-}
-
-.days-trial-box ul,.monthly-box ul,.Annaul-box ul {
-	clear: both;
-	margin: 0 10px;
-	width: 220px;
-}
-
-.pricing-left,.pricing-mid,.pricing-right {
-	float: left;
-	width: 239px;
-}
-
 .left-side-options {
-	float: left;
 	font-size: 20px;
 	margin-top: 40px;
 }
-
-.real-accounting,.business-dashboard,.work-anywhere,.work-with-accountant,.invoicing-option,.expense-management,.multi-currency,.bank-reconciliation-option,.security,.easy-start
-	{
-	margin-left: 30px;
-	margin-top: 30px;
-}
-
-.business-dashboard a {
-	color: white;
-}
-
-.accounter-business-dashboard-header h2 {
-	color: #079dd2;
-	text-align: center;
-}
-
-.top-paragraph-data p {
-	float: left;
-	margin-left: 25px;
-	width: 280px;
-}
-
-.image-right-side input[type="image"] {
-	height: 185px;
-	margin-left: 35px;
-	width: 197px;
-}
-
-.bottom-paragraph-data {
-	margin-left: 25px;
-	margin-top: 20px;
-}
-
-.focus-bar-left {
-	margin-bottom: -10px;
-	margin-left: -35px;
-}
-
-.focus-bar-mid {
-	background: url("/images/bar-mid.png") repeat-x scroll 0 0 transparent;
-	margin-left: -5px;
-	padding: 8px 40px;
-}
-
-.focus-bar-right {
-	float: right;
-	margin-right: -15px;
-	margin-top: 7px;
-	margin-right: -13px\0;
-	margin-top: -30px\0;
-	margin-bottom: 20px\0;
-	margin-left: 0px\0;
-	position: relative;
-}
-
-.button-tryfree-pricing-page {
-	background: url("/images/subscription.png") no-repeat scroll 0 0
-		transparent;
-	color: white;
-	float: left;
-	font-size: 15px;
-	height: 25px;
-	margin-left: 70px;
-	margin-top: -25px;
-	text-align: center;
-	width: 100px;
-}
-
-.focus-bar-all {
-	margin-bottom: -14px;
-	margin-top: -15px;
-}
-
-.pricing-box-left-middle {
-	background: url("/images/pricing-box--mid-left.png") repeat-y scroll 0 0
-		transparent;
-	width: 7px;
-}
-
-.pricing-box-bottom-middle {
-	background: url("/images/pricing-box-mid-bottom.png") repeat-x scroll 0
-		0 transparent;
-	height: 17px;
-	margin-left: -5px;
-	margin-top: 1px;
-	margin-right: 1px;
-}
-
-.pricing-box-right-middle {
-	background: url("/images/pricing-box-mid-right.png") repeat-y scroll 0 0
-		transparent;
-	width: 10px;
-	margin-left: -1px;
-	margin-top: -8px;
-}
-
-.pricing-box-top-middle {
-	background: url("/images/pricing-box-mid-top.png") repeat-x scroll 0 0
-		transparent;
-	height: 15px;
-	margin-bottom: -3px;
-	margin-left: -3px;
-}
-
-.pricing-box-left-top {
-	background: url("/images/pricing-box-left-top.png") no-repeat scroll 0 0
-		transparent;
-	height: 14px;
-	margin-bottom: -2px;
-	width: 13px;
-}
-
-.pricing-box-right-top {
-	background: url("/images/pricing-box-right-top.png") no-repeat scroll 0
-		0 transparent;
-	height: 14px;
-	margin-bottom: -2px;
-	margin-left: -3px;
-	width: 13px;
-}
-
-.pricing-box-left-bottom {
-	background: url("/images/pricing-box-left-bottom.png") no-repeat scroll
-		0 0 transparent;
-	height: 17px;
-	margin-top: -5px;
-	width: 10px;
-}
-
-.pricing-box-right-bottom {
-	background: url("/images/pricing-box-right-bottom.png") no-repeat scroll
-		0 0 transparent;
-	height: 19px;
-	margin-left: -3px;
-	margin-top: -4px;
-	width: 10px;
-}
-
-.box-trial,.box-monthly,.box-annaul {
-	float: left
-}
-
-.box-shadow {
-	background: url("/images/first-box-shadow.png") repeat-x scroll 0 0
-		transparent;
-	clear: both;
-	height: 6px;
-	margin: 0 53px 0 56px;
-}
-
-.login-box-shadow {
-	background: url("/images/first-box-shadow.png") repeat-x scroll 0 0
-		transparent;
-	clear: both;
-	height: 6px;
-	margin: 0 225px 0 210px;
-}
-
-.pricing-box-shadow {
-	background: url("/images/first-box-shadow.png") repeat-x scroll 0 0
-		transparent;
-	clear: both;
-	height: 6px;
-	margin: 0 35px 0 60px;
-}
-
-.pricing-box-shadow {
-	clear: both;
-	height: 6px;
-}
-
-/* signup-page css*/
-.signup-box-left-middle {
-	background: url("/images/pricing-box--mid-left.png") repeat-y scroll 0 0
-		transparent;
-	width: 7px;
-}
-
-.signup-box-bottom-middle {
-	background: url("/images/pricing-box-mid-bottom.png") repeat-x scroll 0
-		0 transparent;
-	height: 17px;
-	margin-left: -2px;
-	/*margin-left: -57px;
-	margin-right: 1px;
-	margin-top: -1px;*/
-}
-
-.signup-box-right-middle {
-	background: url("/images/pricing-box-mid-right.png") repeat-y scroll 0 0
-		transparent;
-	width: 10px;
-}
-
-.signup-box-top-middle {
-	background: url("/images/pricing-box-mid-top.png") repeat-x scroll 0 0
-		transparent;
-	height: 15px;
-	/*margin: 26px 1px -42px -56px;*/
-}
-
-.signup-box-left-top {
-	background: url("/images/pricing-box-left-top.png") no-repeat scroll 0 0
-		transparent;
-	height: 15px;
-	width: 12px;
-	/*margin-bottom: -56px;
-	margin-left: 0;
-	margin-top: 61px;*/
-}
-
-.signup-box-right-top {
-	background: url("/images/pricing-box-right-top.png") no-repeat scroll 0
-		0 transparent;
-	height: 15px;
-	width: 13px;
-	margin-left: -3px;
-	/*margin-bottom: -10px;
-	margin-left: -3px;
-	margin-top: 60px;*/
-}
-
-.signup-box-left-bottom {
-	background: url("/images/pricing-box-left-bottom.png") no-repeat scroll
-		0 0 transparent;
-	height: 24px;
-	width: 12px;
-	/*margin-top: -2px;*/
-}
-
-.signup-box-right-bottom {
-	background: url("/images/pricing-box-right-bottom.png") no-repeat scroll
-		0 0 transparent;
-	height: 24px;
-	width: 13px;
-	margin-left: -3px;
-	/*margin-top: -2px;*/
-}
-
-.vimutki-text {
-	color: #606060;
-	font-family: Arial Unicode MS, Arial, sans-serif;
-	font-size: 14px;
-	margin-top: -35px;
-	margin-left: 70px;
-	margin-top: -38px\0;
-	margin: -40px 0 0 70px !important;
-	position: absolute;
-	z-index: 1;
-}
-
-#signup-mid {
-	background: url("/images/button-image.png") no-repeat scroll 0 0
-		transparent;
-	color: white;
-	float: left;
-	font-size: 20px;
-	margin-left: 62px;
-	margin-right: 0;
-	margin-top: 9px;
-	padding: 4px;
-	text-align: center;
-	width: 85px;
-}
-
-#login-left {
-	background: url("/images/button-left.png") no-repeat scroll 0 0
-		transparent;
-	margin-bottom: 10px;
-	margin-left: 123px;
-	margin-top: 20px;
-}
-
-.login-box-left-middle {
-	background: url("/images/pricing-box--mid-left.png") repeat-y scroll 0 0
-		transparent;
-	width: 7px;
-}
-
-.login-box-bottom-middle {
-	background: url("/images/pricing-box-mid-bottom.png") repeat-x scroll 0
-		0 transparent;
-	height: 12px;
-	margin-left: -23px;
-	margin-right: 1px;
-	margin-top: -1px;
-}
-
-.login-box-right-middle {
-	background: url("/images/pricing-box-mid-right.png") repeat-y scroll 0 0
-		transparent;
-	padding: 3px;
-	width: 15px;
-}
-
-.login-box-top-middle {
-	background: url("/images/pricing-box-mid-top.png") repeat-x scroll 0 0
-		transparent;
-	height: 5px;
-	margin: 24px 0 -39px -21px;
-}
-
-.login-box-left-top {
-	background: url("/images/pricing-box-left-top.png") no-repeat scroll 0 0
-		transparent;
-	height: 31px;
-	margin-bottom: -18px;
-	margin-left: 0;
-	margin-top: 61px;
-	width: 31px;
-}
-
-.login-box-right-top {
-	background: url("/images/pricing-box-right-top.png") no-repeat scroll 0
-		0 transparent;
-	height: 18px;
-	margin-bottom: -6px;
-	margin-left: -3px;
-	margin-top: 60px;
-	width: 7px;
-}
-
-.login-box-left-bottom {
-	background: url("/images/pricing-box-left-bottom.png") no-repeat scroll
-		0 0 transparent;
-	height: 17px;
-	margin-top: -2px;
-	width: 10px;
-}
-
-.login-box-right-bottom {
-	background: url("/images/pricing-box-right-bottom.png") no-repeat scroll
-		0 0 transparent;
-	height: 17px;
-	margin-left: -3px;
-	margin-top: -2px;
-}
-
-.login-fields-box {
-	margin: -63px 0 20px 36px;
-}
-
-.forget-but {
-	/*background: url("/images/button-image.png") no-repeat scroll 0 0
-		transparent;*/
-	color: white;
-	font-size: 17px;
-	height: 27px;
-	width: 96px;
-}
-
 .fieldset {
 	border: none !important;
 }
-
-.last-focus-part,.last-focus-part1,.last-focus-part2,.last-focus-part3 {
-	background: url("/images/focus-right.png") no-repeat scroll 0 0
-		transparent important;
-}
-
-#red {
+#red,.red {
 	color: red;
 }
-
 .hiddenDiv {
-	display: none;
-	/*background-color: white;*/
 	margin: 15px 150px 100px 5px;
 }
-
-.successDiv { /*display: none;*/ /*background-color: white;*/
-	margin: 117px 0 120px 80px;
-}
-
-.terms-error label { /*float: right;
-	margin-right: 230px;
-	font-size: 12px;
-	margin-right: 250px\0  !important;*/
-	
-}
-
 .stepcarousel {
 	position: relative; /*leave this value alone*/
 	border: 0px none;
@@ -1464,47 +447,26 @@ ul li {
 	height: 280px; /*Height should enough to fit largest content's height*/
 	margin-bottom: 10px
 }
-
 .stepcarousel .belt {
 	position: absolute; /*leave this value alone*/
 	left: 0;
 	top: 0;
 }
-
 .stepcarousel .panel {
-	float: left; /*leave this value alone*/
 	overflow: hidden;
 	/*clip content that go outside dimensions of holding panel DIV*/
 	margin: 0px; /*margin around each panel*/
 	width: 502px;
 	/*Width of each panel holding each content. If removed, widths should be individually defined on each content DIV then. */
 }
-
 #contact_form_cont,#services_form_cont {
-	float: right;
 	margin: 15px 25px 0 0;
 }
-
 #contact_content {
 	color: #333333;
 	font-size: 15px;
 	margin-top: 30px;
-	float: left;
 }
-
-.error {
-	font-size: 12px;
-	padding-left: 5px;
-}
-
-#label_holder {
-	color: #666666;
-	font-family: Verdana, Geneva, sans-serif;
-	font-size: 13px;
-	margin-left: 10px;
-	position: absolute;
-}
-
 #contact_cont,#services_cont,#faq_cont,#screen_cont {
 	background-image: url("fx/contactbox.png");
 	height: 385px;
@@ -1514,93 +476,41 @@ ul li {
 	width: 790px;
 	z-index: 9999999;
 }
-
-.online-accounting a:hover,.bank-reconciliation a:hover,.invoicing a:hover,.find-an-acciuntant a:hover,.footer-options a:hover
+.footer-options a:hover
 	{
 	text-decoration: underline !important;
 }
-
-#label_holder {
-	color: #666666;
-	font-family: Verdana, Geneva, sans-serif;
-	font-size: 13px;
-	margin-left: 10px;
-	position: absolute;
-}
-
-.support_textbox {
-	background: url("images/Text Feild_enabled_180x22.png") no-repeat scroll
-		0 0 #FFFFFF !important;
-	border: 0 none;
-	padding: 5px;
-	height: 22px;
-}
-
-.support-TextArea {
-	background: url("images/Text Feild_big_enabled_180x64.png") no-repeat
-		scroll 0 0 #FFFFFF !important;
-	border: 0 none !important;
-	height: 65px;
-	resize: none;
-	width: 180px !important;
-}
-
 .pricing-table img {
 	margin: 25px 0 0 10px;
 }
-
 .adjust-padding {
 	padding-left: 45px;
 	padding-right: 35px;
 }
-
-#accounterForm fieldset td {
-	font-size: 13px;
-}
-
-.terms-error {
-	font-size: 13px;
-	padding-top: 5px;
-}
-
 /* These styles for opera*/
 noindex:-o-prefocus,.right-side-options {
 	margin-top: -5px !important;
 }
-
 noindex:-o-prefocus,.signup-submit-mid {
 	padding-bottom: 0px;
 }
-
 noindex:-o-prefocus,.terms-error input[type="checkbox"] {
 	margin-top: -14px;
 }
-
 noindex:-o-prefocus,.terms-error span {
 	margin-left: 20px !important;
 }
-
 noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 	margin-bottom: -18px;
 }
-
 .mid-login-box1 td {
-	font-size: 13px;
 	padding-right: 5px;
 }
-
 .logo-image img {
 	border: 0px none !important;
 }
-
 /* Only for chrome */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-	.left-side-box { /*margin-top: 10px;*/
-		
-	}
-	.signup-submit-mid {
-		
-	}
 	.terms-error input[type="checkbox"] {
 		margin-right: 0px !important;
 	}
@@ -1608,19 +518,15 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 		margin-left: 0px;
 	}
 }
-
 #contact-layout div,#support-width div,#privacy-layout div,#mid-2 div {
 	background: #F4F4F4;
-	/*height:65px;*/
 }
-
 .remaining-header-part-login ul li {
 	background: url("../images/Login_button.png") no-repeat scroll 0 0
 		transparent;
 	width: 76px;
 	height: 36px;
 }
-
 .sign-up-left {
 	background: url("../images/Siginup_left.png") no-repeat scroll 0 0
 		transparent;
@@ -1628,7 +534,6 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 	height: 52px;
 	width: 8px;
 }
-
 .sign-up-right {
 	background: url("../images/Siginup_right.png") no-repeat scroll 0 0
 		transparent;
@@ -1646,93 +551,23 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 .signup-for-free-button ul li,.signup-submit-button ul li {
 	display: inline;
 }
-
 .signup-for-free-button {
 	margin: 20px 0 0 65px;
 }
-
-.signup-submit-left,.signup-submit-right {
-	width: 5px;
-	height: 29px;
-	display: inline-block;
-}
-
-.signup-submit-left {
-	background: url("../images/submitt_left_butt.png") no-repeat scroll 0 0
-		transparent;
-}
-
-.signup-submit-right {
-	background: url("../images/submitt_right_butt.png") no-repeat scroll 0 0
-		transparent;
-}
-
-.signup-submit-mid {
-	background: url("/images/submitt_mid_butt.png") repeat-x scroll 0 0
-		transparent;
-	border: 0 none;
-	color: white;
-	float: right;
-	font-size: 15px;
-	height: 29px;
-	margin: 0 -6px;
-	cursor: pointer;
-	padding-bottom: 3px;
-	outline: none;
-}
-
 .signup-submit-button {
-	float: right;
 	margin-top: 15px;
 }
-
 .support_textarea {
 	width: 223px;
 	height: 125px;
 	font-size: 15px;
 }
-
 .signup-for-free-button a:hover {
 	color: red !important;
 }
-
-.login-submit-button {
-	margin: 10px 0 0 0;
-}
-
-.getstarted-submit-button {
-	margin: 10px 8px 0 0;
-}
-
-.forgot-cancel-button,.forgot-ok-button {
-	float: right;
-	margin: 5px;
-}
-
-.login_logo_image {
-	background: white;
-}
-
-.login_logo_image img {
-	margin-top: 10px;
-}
-
 :root #mid-box7 {
 	width: 210px \0/ IE9;
 }
-
-#mid-box7 {
-	width: 223px;
-	width: 210px\0;
-	height: 18px;
-}
-
-.terms-error span {
-	width: 170px\0;
-	display: inline-block\0;
-	margin-left: 0px\0  !important;
-}
-
 .support_textarea {
 	overflow: hidden\0;
 }
@@ -1740,20 +575,12 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 input[type="submit"]:FOCUS {
 	outline: none;
 }
-
-.signup-box table {
-	margin: 10px 12px 12px 0px;
-	width: 100%;
-}
-
 #accounterForm .error {
 	display: block;
 }
-
 #accounterForm label.error,#activationForm label.error,#emailActivationForm label.error{
-	color:red !important;
+	color: red !important;
 }
-
 .remaining-header-part-login a:FOCUS,.login-hover {
 	opacity: 0.5;
 	outline: 0px none;
@@ -1761,72 +588,22 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity =   0.5) !important;
+	filter: alpha(opacity =     0.5) !important;
 }
-
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
 	color: #3299A4 !important;
 	outline: none;
 }
-
-.success-box {
-	float: left;
-	margin: 25px 0 0 25px;
-}
-
-.success_login {
-	display: none;
-}
-
-.login-table {
-	width: 100%;
-}
-
-.login-table td {
-	width: 25%;
-}
-
 .menu-bar li .active {
 	color: #3299A4 !important;
 }
-
-.back-signup-box {
-	background: none repeat scroll 0 0 #F4F4F4;
-	height: 500px;
-	margin: 5px;
-	width: 835px;
-}
-
-.newsletter {
-	color: black;
-	font-size: 12px;
-	clear: both;
-}
-
-.newsletter b {
-	color: #837D83;
-}
-
-.signup-box td:FIRST-CHILD {
-	text-align: right;
-	padding-right: 30px;
-}
-
-.signup-box h3 {
-	color: #3299A4;
-	margin: 0;
-}
-
 .left-arrow {
-	background: url("../images/Pop-up.png") no-repeat scroll 0 0 transparent
-		;
-	float: left;
+	background: url("../images/Pop-up.png") no-repeat scroll 0 0 transparent;
 	height: 15px;
 	margin-left: -13px;
 	margin-top: 14px;
 	width: 13px;
 }
-
 .indication-box {
 	background: none repeat scroll 0 0 #DFF1F5;
 	border: 1px solid #A1BFC8;
@@ -1838,171 +615,97 @@ input[type="submit"]:FOCUS {
 	left: 0;
 	font-size: 12px;
 }
-
 .box-data {
 	padding: 2px 5px 0;
 }
-
-.terms-error a {
-	text-decoration: underline !important;
-}
-
-.success_box {
-	background: none repeat scroll 0 0 #FFFFFF;
-	border: 1px solid #E5E5E5;
-	border-radius: 3px 3px 3px 3px;
-	box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
-	font-weight: normal;
-	margin-left: 8px;
-	padding: 26px 24px 46px;
-	text-align: center;
-}
-
 .mandatory {
 	background-color: #FFFFE6;
 	border: 1px solid #E6EACD;
 	color: red;
-	float: right;
 	font-size: 11px;
 	font-weight: normal
 }
-
-.admin_details_header {
-	border-bottom: 1px solid #DBDBDB;
-	clear: both;
-	overflow: auto;
-}
-
-.reset-ok-button,.reset-cancel-button {
-	float: left;
-	margin: 5px;
-}
-
-.activate-ok-button {
-	margin: 5px;
-}
-
-.reset-login-box,.activation_code_box {
-	background: none repeat scroll 0 0 white;
-	border: 1px solid #929292;
-	margin: 10px;
-	padding: 10px 0px;
-}
-
-.reset_activation_code h2 {
-	color: #3299A4;
-}
-
-.reset_activation_code {
-	padding: 10px;
-}
-
 #accounterForm td:FIRST-CHILD {
 	text-align: right;
 	padding-right: 15px;
 }
-
-.login_box {
-	background: none repeat scroll 0 0 white;
-	border: 1px solid #929292;
-	margin: 0 auto;
-	width: 500px;
-}
-
 /* ////////////new login and forgot password css Date:3/8/2011*/
 * {
 	margin: 0 0;
 	padding: 0;
 }
-
 form {
 	font-weight: normal;
-	font-family: sans-serif;
 }
-
-#commanContainer {
-	margin: 7em auto;
+#commanContainer{
 	width: 320px;
-	text-align: left;
 }
-
-#commanContainer label {
+#commanNewContainer,#commanContainer{
+	margin: 7em auto;
+}
+#commanNewContainer{
+	width: 960px;
+}
+#commanContainer label,#commanNewContainer label {
 	color: #777777;
 	font-size: 14px;
 	margin: 0;
 }
-
-#commanContainer form,.form-box {
+#commanContainer form,.form-box,.new_login_page {
 	background: none repeat scroll 0 0 #FFFFFF;
 	border: 1px solid #B1B1B1;
 	border-radius: 3px 3px 3px 3px;
 	box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
 	font-weight: normal;
 	margin-left: 8px;
-	padding: 26px 24px 55px;
+	padding: 26px 10px 15px;
+	border-radius: 10px 10px 10px 10px;
 }
-
-#commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select
-{
+#commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select,#commanNewContainer input[type="text"],
+#commanNewContainer input[type="password"],#commanNewContainer select,#enterEmailDiv #emailField
+	{
 	background: none repeat scroll 0 0 #FBFBFB;
 	border: 1px solid #B1B1B1;
 	box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
 	margin: 2px 6px 3px 0px;
 	outline: medium none;
-	padding:0px 0px 0px 3px;
+	padding: 0px 0px 0px 3px;
 	width: 97%;
 	height: 28px;
 }
-
-.rememberMe {
-	float: left;
-}
-
 .loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton {
-	float: right;
 	margin-right: 8px;
 }
-.allviews-common-button:FOCUS,.loginbutton input:focus, button{
-	border:1px solid #10CDD1
+.allviews-common-button:FOCUS,.loginbutton input:focus,button {
+	border: 1px solid #10CDD1
 }
-input [type="checkbox"]{
-	border:1px solid #7A7777;
+input [type="checkbox"] {
+	border: 1px solid #7A7777;
 }
 .allviews-common-button {
 	background: none repeat scroll 0 0 #28757D;
 	border: 1px solid #002e36;
 	border-radius: 5px 5px 5px 5px;
-	color: white;
-	cursor: pointer;
-	font-family: sans-serif;
-	font-size: 13px;
-	font-weight: bold;
 	margin-top: 10px;
 	padding: 3px 10px;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
-
-.loginbutton input:active,.loginbutton input:hover
-	{
+.loginbutton input:active,.loginbutton input:hover {
 	background: #1a5158;
 	border: 1px solid #9ebfc3;
 }
-
 .form-bottom-options,.activate-code {
 	margin: 0 0 0 16px;
-	padding: 16px 16px 0;
+	padding: 16px 16px 0px;
 	text-shadow: 0 1px 0 #FFFFFF;
 }
-
-.form-bottom-options a,#commanContainer a {
+.form-bottom-options a,#commanContainer a,#commanNewContainer a {
 	color: #28757D;
 	text-decoration: underline;
 }
-
 .accounterLogo {
 	padding: 0 0 15px 10px;
 }
-
 .common-box {
 	border-radius: 3px 3px 3px 3px;
 	border-style: solid;
@@ -2010,208 +713,266 @@ input [type="checkbox"]{
 	margin: 0 0 16px 8px;
 	padding: 12px;
 	font-size: 12px;
-	font-family: sans-serif;
 }
-
 #login_error {
 	background-color: #FFEBE8;
 	border-color: #CC0000;
 }
-
-#login_success {
+#login_success,#gmailregister{
 	background-color: #FFEBE8;
 	border-color: #99C68E;
 }
-
 #forgot-password_error,.create-company-message {
 	background-color: #FFFFE0;
 	border-color: #E6DB55;
 }
-
 .signup-container {
 	width: 500px !important;
 	margin: 30px auto !important;
 }
-
 .signup-submit {
 	margin-top: 15px;
 }
-
 .reset-header,.company-heading {
 	color: #28757D;
 	margin-bottom: 10px;
 }
-
 #select-box {
 	padding: 0px !important;
 }
-
-.createbutton {
-	float: right;
-}
-
 .form-box li {
 	list-style-type: none;
 	display: block;
 }
-
 .form-box li a {
 	font-size: 15px;
 }
-
 .form-box div a:hover {
 	color: #3299A4 !important;
 }
-.form-box ul{
-	margin-top:20px;
+.form-box ul {
+	margin-top: 20px;
 }
-
 .form-box {
 	height: 200px;
-	overflow: auto;
 }
-
 .check_label {
-	margin:16px 0px 0px !important;
+	margin: 16px 0px 0px !important;
 }
-
 a#fdbk_tab {
 	right: 0px !important;
 	top: 40% !important;
 	left: inherit !important;
 	margin: 0 -7px 0 0 !important;
 }
-
 a#fdbk_tab:hover {
 	margin: 0px -4px 0 0 !important;
 }
-
 .fieldset textarea {
 	resize: none;
 }
 .resend-code {
 	padding: 10px 0 0 35px;
 }
-.create_new_company{
-	font-weight:bold;
-	font-size:13px
-}
 .companies-list a:FIRST-CHILD {
-	float:left;
-	font-size:18px;
+	font-size: 18px;
 	text-decoration: none !important;
 }
-.delete_company{
-	float:right;
-	font-size:13px;
+.delete_company {
 	text-decoration: none !important;
 	padding-top: 3px;
 }
-.companies-list a:hover{
+.companies-list a:hover {
 	text-decoration: underline !important;
 }
-.companies-list{
-	clear:both;
-	overflow: auto;
-	margin-bottom:3px;
+.companies-list {
+	margin-bottom: 3px;
 }
-
 .password_strength {
-padding: 0 5px;
-display: inline-block;
+	padding: 0 5px;
+	display: inline-block;
 }
 .password_strength_1 {
-background-color: #fcb6b1;
+	background-color: #fcb6b1;
 }
 .password_strength_2 {
-background-color: #fccab1;
+	background-color: #fccab1;
 }
 .password_strength_3 {
-background-color: #fcfbb1;
+	background-color: #fcfbb1;
 }
 .password_strength_4 {
-background-color: #dafcb1;
+	background-color: #dafcb1;
 }
 .password_strength_5 {
-background-color: #bcfcb1;
+	background-color: #bcfcb1;
 }
-.email_password,.text_box_margin{
-	margin:10px 0px;
+.email_password,.text_box_margin {
+	margin: 10px 0px;
 }
-
-#mainFooter{
-	clear: both;
-    height: 25px;
-    margin-top: -35px;
-    position: relative;
-    width: 100%;
-    z-index: 10;
-    border-top: 1px solid #CCCCCC;
-    color: #666666;
-    padding-top: 8px;
-    text-align: center;
+#mainFooter {
+	height: 25px;
+	margin-top: 0;
+	position: relative;
+	width: 100%;
+	z-index: 10;
+	border-top: 1px solid #CCCCCC;
+	color: #666666;
+	padding-top: 8px;
 }
-#mainFooter a,#mainFooter span{
-	 color: #666666;
-	 text-decoration: none;
-	 font-size:12px;
-	 padding:0 5px;
+#mainFooter a,#mainFooter span {
+	color: #666666;
+	font-size: 12px;
+	padding: 0 5px;
 }
-#mainFooter a:hover{
+#mainFooter a:hover {
 	text-decoration: underline;
 }
-#maintananceContainer{
+#maintananceContainer {
 	background: none repeat scroll 0 0 #EAEEF1;
-    margin: 0 auto;
-    overflow: auto;
-    width: 960px;
-    height:300px;
-    text-align:left;
+	width: 960px;
+	height: 330px;
 }
-.maintainence_logo{
+.maintainence_message {
+	color: #395169;
+	line-height: 2;
+}
+.maintanance_subcont {
+	padding: 25px;
+}
+.unavailable_page {
+	
+	padding: 20px 25px 0;
+}
+.terms_unorderlist li {
+	display: list-item !important;
+	list-style-type: square !important;
+	list-style-image: none !important;
+}
+.terms_unorderlist {
+	margin: 10px 0 0 30px;
+}
+.mid2_height {
+	height: auto !important;
+	padding-bottom: 20px;
+}
+.terms_and_contions,.privacy_policy {
+	padding: 0px 40px;
+}
+.support_send {
+	margin-right: 8px;
+}
+.support_send input {
+	width: 50px !important;
+}
+#reset_hint_box {
+	margin: -37px 0 0 265px;
+	position: absolute;
+	z-index: 1;
+}
+.new_logo_field{
+	margin:0px auto;
+	width:300px;
+}
+/*.new_login_page{
+	height:380px;
+}*/
+.new_login_accounterform #login_error{
+	width:335px;
+}
+#feedDiv{
+	width:400px;
+	padding: 0 34px 0 16px;
+}
+.new_login_accounterform{
+	border-left: 1px solid #28757D;
+    padding-left: 30px;
+    width: 420px;
+}
+#feedDivUl li{
+	border-bottom: 1px solid #B1B1B1;
+    padding: 3px;
+    width: 100%;
+}
+#feedDivUl{
+	margin-top:15px;
+}
+#feedDivUl .listItemHover{
+	background: none repeat scroll 0 0 #D4EFFB;
+    border-bottom: 1px solid #5EC2ED;
+}
+#feedDiv h2{
+	color:#0079C6;
+	margin-bottom: 10px;
+}
+#unChangedNewsDiv{
+	height:90px
+}
+#openIdForm{
+	margin-top:15px;
+}
+.display-none,.hiddenDiv {
+    display: none;
+}
+.maintainence_message #errorMsg{
+	color:red;
+	font-size:12px;
+	text-align:center;
+	margin-right: 95px;
+}
+.maintainence_message #successmsgDiv{
+	color:green;
+}
+.google_icon,.yahoo_icon,.facebook_icon,.aol_icon{
+	display: inline-block;
+    height: 34px;
+    text-indent: -999em;
+    width: 90px;
+    margin-top: 10px;
+    padding:3px;
+    border:1px solid white;
+}
+.google_icon{
+	background: url("../images/Google.jpg") no-repeat scroll 4px 5px transparent;
+}
+.yahoo_icon{
+	background: url("../images/Yahoo.jpg") no-repeat scroll 5px 5px transparent;
+}
+.aol_icon{
+	background: url("../images/AOL.jpg") no-repeat scroll 5px 5px transparent;
+}
+.facebook_icon{
+	background: url("../images/Facebook.jpg") no-repeat scroll 5px 5px transparent;
+}
+.new_login_accounterform #openIdForm a:hover{
+	border: 1px solid #CCCCCC;
+    border-radius: 5px 5px 5px 5px;
+}
+.new_login_accounterform #openIdForm span{
+	display: block;
+}
+.new_login_accounterform #accounterForm{
+	  width: 264px;
+}
+.footer-options div{
 	float:left;
 }
-.maintainence_message{
-	color: #395169;
-    float: right;
-    line-height: 2;
+.footer-options ul{
+	float:right;
 }
-.maintanance_subcont{
-	padding:25px;
-	overflow:auto;
+.footer-options div a{
+	background: url("../images/fblike.png") no-repeat scroll 0 0 transparent;
+	text-indent: -999em;
+	display: inline-block;
+	width:48px;
+	height:48px;
 }
-.unavailable_page{
-	overflow: auto;
-    padding: 20px 25px 0;
+.delete-account-description{
+	height: 100px;
+    width: 280px;
 }
-.terms_unorderlist li{
-	display: list-item !important;
-    list-style-type: square !important;
-    list-style-image: none !important;
-}
-.terms_unorderlist{
-     margin: 10px 0 0 30px;
-}
-.mid2_height{
-  height:auto !important;	
-  padding-bottom:20px;
-}
-.terms_and_contions,.privacy_policy{
-  padding:0px 40px;
-}
-.support_send{
-	margin-right:8px;
-}
-.support_send input{
-	width:50px !important;
-}
-.company_list_buttons{
-	text-align: center;
-}
-#reset_hint_box{
-	margin:-37px 0 0 265px;
-    position: absolute;
-    z-index: 1;
+.delete-account-options input[type="checkbox"]{
+	margin:5px;
 }
 
 /* End of the new Login and forgot password page*/

@@ -13,7 +13,7 @@ public class VAT100ReportAction extends Action {
 
 	public VAT100ReportAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().report();
+		this.catagory = Accounter.messages().report();
 	}
 
 	/**

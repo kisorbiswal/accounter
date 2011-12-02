@@ -1,206 +1,361 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.UserCommand;
+import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-public class NewCustomerRefundCommand extends AbstractTransactionCommand {
+public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
+	ClientCustomerRefund customerRefund;
 
-	private static final String INPUT_ATTR = "input";
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
 
-	private static final String PAY_TO = "Pay to";
-	private static final String ADDRESS = "Address";
-	private static final String PAY_FROM = "Pay from";
-	private static final String AMOUNT = "Amount";
-	private static final String PAYMENT_METHOD = "Payment method";
-	private static final String TOBEPRINTED = "To be printed";
-	private static final String CHEQUE_NO = "Cheque No";
-	private static final String MEMO = "Memo";
-	private static final String DATE = "date";
-	private static final String NO = "date";
-	private static final String BANK_BALANCE = "Bank Balance";
-	private static final String CUSTOMER_BALANCE = "Customer Balance";
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Customer Refund to update.");
+				return "Customer Refunds List";
+			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
+			ClientCustomerRefund transactionByNum = (ClientCustomerRefund) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.CUSTOMERREFUND);
+			if (transactionByNum == null) {
+				addFirstMessage(context, "Select a Customer Refund to update.");
+				return "Customer Refunds List " + string;
+			}
+			customerRefund = transactionByNum;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			customerRefund = new ClientCustomerRefund();
+		}
+		setTransaction(customerRefund);
+		return null;
+	}
+
+	private void setValues() {
+		get(NUMBER).setValue(customerRefund.getNumber());
+		get(DATE).setValue(customerRefund.getDate());
+		get(CUSTOMER).setValue(
+				CommandUtils.getServerObjectById(customerRefund.getPayTo(),
+						AccounterCoreType.CUSTOMER));
+		get(PAY_FROM).setValue(
+				CommandUtils.getServerObjectById(customerRefund.getPayFrom(),
+						AccounterCoreType.ACCOUNT));
+		get(PAYMENT_METHOD).setValue(
+				CommandUtils.getPaymentMethod(
+						customerRefund.getPaymentMethodForCommands(),
+						getMessages()));
+		get(AMOUNT).setValue(customerRefund.getTotal());
+		get(TO_BE_PRINTED).setValue(customerRefund.getIsToBePrinted());
+		get(CHEQUE_NO).setValue(customerRefund.getCheckNumber());
+		/* get(CURRENCY_FACTOR).setValue(customerRefund.getCurrencyFactor()); */
+		get(MEMO).setValue(customerRefund.getMemo());
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return customerRefund.getID() == 0 ? getMessages().create(
+				getMessages().customerRefund(Global.get().Customer()))
+				: "Update Customer Refund command is activated";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return customerRefund.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().customerRefund(Global.get().Customer()))
+				: "Customer Refund is ready to update with following details";
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(MEMO).setDefaultValue("");
+		get(NUMBER).setDefaultValue(
+				NumberUtils.getNextTransactionNumber(
+						ClientTransaction.TYPE_CUSTOMER_REFUNDS,
+						context.getCompany()));
+		/*
+		 * get(CURRENCY).setDefaultValue(null);
+		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		 */
+		get(CHEQUE_NO).setDefaultValue(getMessages().toBePrinted());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return customerRefund.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().customerRefund(Global.get().Customer()))
+				: getMessages().updateSuccessfully(
+						getMessages().customerRefund(Global.get().Customer()));
+	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new Requirement(PAY_TO, false, true));
-		list.add(new Requirement(ADDRESS, true, true));
-		list.add(new Requirement(PAY_FROM, false, true));
-		list.add(new Requirement(AMOUNT, false, true));
-		list.add(new Requirement(PAYMENT_METHOD, false, true));
-		list.add(new Requirement(TOBEPRINTED, true, true));
-		list.add(new Requirement(CHEQUE_NO, false, true));
-		list.add(new Requirement(MEMO, true, true));
-		list.add(new Requirement(BANK_BALANCE, true, true));
-		list.add(new Requirement(CUSTOMER_BALANCE, true, true));
-		list.add(new Requirement(DATE, true, true));
-		list.add(new Requirement(NO, true, true));
+		list.add(new CustomerRequirement(CUSTOMER, getMessages().pleaseSelect(
+				getMessages().payTo()), getMessages().payTo(), false, true,
+				null) {
+
+			@Override
+			protected List<Customer> getLists(Context context) {
+				return getCustomers();
+			}
+		});
+
+		/*
+		 * list.add(new CurrencyRequirement(CURRENCY,
+		 * getMessages().pleaseSelect( getConstants().currency()),
+		 * getConstants().currency(), true, true, null) {
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if
+		 * (getPreferences().isEnableMultiCurrency()) { return
+		 * super.run(context, makeResult, list, actions); } else { return null;
+		 * } }
+		 * 
+		 * @Override protected List<Currency> getLists(Context context) { return
+		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
+		 * 
+		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
+		 * false, true) {
+		 * 
+		 * @Override protected String getDisplayValue(Double value) {
+		 * ClientCurrency primaryCurrency = getPreferences()
+		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
+		 * return "1 " + selc.getFormalName() + " = " + value + " " +
+		 * primaryCurrency.getFormalName(); }
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
+		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
+		 * !((Currency) get(CURRENCY).getValue()) .equals(getPreferences()
+		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
+		 * actions); } } return null;
+		 * 
+		 * } });
+		 */
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getMessages().billNo()), getMessages().billNo(), true, true));
+		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
+				getMessages().transactionDate()), getMessages()
+				.transactionDate(), true, true));
+		list.add(new AccountRequirement(PAY_FROM, getMessages().pleaseSelect(
+				getMessages().transferTo()), getMessages().transferTo(), false,
+				false, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().payFrom());
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(new UserCommand("Create BankAccount", "Bank"));
+				list.add(new UserCommand("Create BankAccount",
+						"Create Other CurrentAsset Account",
+						"Other Current Asset"));
+
+			}
+
+			@Override
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
+
+						@Override
+						public boolean filter(Account e) {
+							if (e.getType() == Account.TYPE_BANK) {
+								return true;
+							}
+							return false;
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
+					}
+				}
+				return filteredList;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages()
+						.youDontHaveAny(getMessages().bankAccount());
+			}
+
+			@Override
+			protected boolean filter(Account e, String name) {
+				return e.getName().contains(name);
+			}
+		});
+		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
+				getMessages().billTo()), getMessages().billTo(), true, true));
+
+		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
+				.pleaseSelect(getMessages().paymentMethod()), getMessages()
+				.paymentMethod(), false, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().paymentMethod());
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+
+				/*
+				 * Map<String, String> paymentMethods =
+				 * context.getClientCompany() .getPaymentMethods(); List<String>
+				 * paymentMethod = new ArrayList<String>(
+				 * paymentMethods.values());
+				 */
+				String payVatMethodArray[] = new String[] {
+						getMessages().cash(), getMessages().creditCard(),
+						getMessages().check(), getMessages().directDebit(),
+						getMessages().masterCard(),
+						getMessages().onlineBanking(),
+						getMessages().standingOrder(),
+						getMessages().switchMaestro() };
+				List<String> wordList = Arrays.asList(payVatMethodArray);
+				return wordList;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getMessages().paymentMethod());
+			}
+		});
+		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
+				getMessages().amount()), getMessages().amount(), false, true));
+
+		list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().toBePrinted();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Not Printed ";
+			}
+		});
+		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
+				getMessages().chequeNo()), getMessages().chequeNo(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				setEditable((Boolean) get(TO_BE_PRINTED).getValue());
+				return super.run(context, makeResult, list, actions);
+			}
+		});
+		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
+				getMessages().memo()), getMessages().memo(), true, true));
+	}
+
+	@Override
+	protected Result onCompleteProcess(Context context) {
+		ClientFinanceDate date = get(DATE).getValue();
+		Customer clientcustomer = get(CUSTOMER).getValue();
+		Account account = get(PAY_FROM).getValue();
+		String paymentMethod = get(PAYMENT_METHOD).getValue();
+		double amount = get(AMOUNT).getValue();
+		boolean istobePrinted = get(TO_BE_PRINTED).getValue();
+		customerRefund.setPayTo(clientcustomer.getID());
+		customerRefund.setPayFrom(account.getID());
+		customerRefund.setPaymentMethod(paymentMethod);
+		customerRefund.setIsToBePrinted(istobePrinted);
+		String cheqNum = get(CHEQUE_NO).getValue();
+		customerRefund.setCheckNumber(cheqNum);
+		customerRefund.setNumber((String) get(NUMBER).getValue());
+		/*
+		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
+		 * currency = get(CURRENCY).getValue(); if (currency != null) {
+		 * customerRefund.setCurrency(currency.getID()); }
+		 * 
+		 * double factor = get(CURRENCY_FACTOR).getValue();
+		 * customerRefund.setCurrencyFactor(factor); }
+		 */
+		customerRefund.setMemo(get(MEMO).getValue() == null ? "" : get(MEMO)
+				.getValue().toString());
+		customerRefund.setTotal(amount);
+		customerRefund.setDate(date.getDate());
+		customerRefund.setType(ClientCustomerRefund.TYPE_CUSTOMER_REFUNDS);
+		customerRefund.setStatus(ClientCustomerRefund.STATUS_OPEN);
+		adjustBalance(amount, clientcustomer, customerRefund, context);
+		create(customerRefund, context);
+		return null;
 
 	}
 
 	@Override
-	public Result run(Context context) {
-
-		Result result = null;
-
-		result = customerRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		result = depositeOrTransferTo(context, "payfrom");
-		if (result != null) {
-			return result;
-		}
-
-		result = amountRequireMent(context);
-		if (result != null) {
-			return result;
-		}
-		result = paymentMethodRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		result = optionalRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		return null;
+	public void beforeFinishing(Context context, Result makeResult) {
+		makeResult.add("Total : " + get(AMOUNT).getValue());
 	}
 
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result optionalRequirement(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
+	private void adjustBalance(double amount, Customer customer,
+			ClientCustomerRefund refund, Context context) {
+		double enteredBalance = amount;
 
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
+		if (DecimalUtil.isLessThan(enteredBalance, 0)
+				|| DecimalUtil.isGreaterThan(enteredBalance, 1000000000000.00)) {
+			enteredBalance = 0D;
 		}
-		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
-
-		Requirement payto = get(PAY_TO);
-		Customer customer = (Customer) payto.getValue();
-		Record custRecord = new Record(customer);
-		custRecord.add("Name", "Payto");
-		custRecord.add("Value", customer.getName());
-		list.add(custRecord);
-
-		Requirement payFromReq = get(PAY_FROM);
-		Account account = payFromReq.getValue();
-		Record accountRec = new Record(account);
-		accountRec.add("Number", "Account No");
-		accountRec.add("value", account.getNumber());
-		accountRec.add("Account name", "Account Name");
-		accountRec.add("value", account.getNumber());
-		accountRec.add("Account type", "Account Type");
-		accountRec.add("Account Type", getAccountTypeString(account.getType()));
-		list.add(accountRec);
-
-		Requirement amountReq = get(AMOUNT);
-		Double amount = (Double) amountReq.getValue();
-		if (amount == selection) {
-			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return number(context, "Please Enter the Amount", "" + amount);
-		}
-
-		Requirement paymentMethodReq = get(PAYMENT_MENTHOD);
-		String paymentMethod = paymentMethodReq.getValue();
-		if (paymentMethod == selection) {
-			context.setAttribute(INPUT_ATTR, PAYMENT_MENTHOD);
-			return text(context, "Please Enter PaymentMethod", ""
-					+ paymentMethod);
-		}
-		Result result = orderNoRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = dateOptionalRequirement(context, list, "date", "Date",
-				selection);
-		if (result != null) {
-			return result;
-		}
-		Requirement tobePrintedReq = get(TOBEPRINTED);
-		Boolean isTobePrinted = tobePrintedReq.getValue();
-		if (selection == isTobePrinted) {
-			context.setAttribute(INPUT_ATTR, TOBEPRINTED);
-			isTobePrinted = !isTobePrinted;
-			tobePrintedReq.setValue(isTobePrinted);
-		}
-		String tobePrintedString = "";
-		if (isTobePrinted) {
-			tobePrintedString = "This To be Printed is Active";
-		} else {
-			tobePrintedString = "This To be Printed is Active";
-		}
-		Record isTobePrintedRecord = new Record(TOBEPRINTED);
-		isTobePrintedRecord.add("Name", "");
-		isTobePrintedRecord.add("Value", tobePrintedString);
-		list.add(isTobePrintedRecord);
-
-		if (!isTobePrinted) {
-			result = amountOptionalRequirement(context, list, selection,
-					CHEQUE_NO, "Enter check Number");
-			if (result != null) {
-				return result;
-			}
-		}
-		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
-		if (result != null) {
-			return result;
-		}
-		ResultList actions = new ResultList(ACTIONS);
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Customer Refund.");
-		actions.add(finish);
-		result.add(actions);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result amountRequireMent(Context context) {
-		Requirement amountReq = get(AMOUNT);
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(AMOUNT)) {
-			input = context.getString();
-			amountReq.setValue(input);
-			context.setAttribute(INPUT_ATTR, "default");
-		}
-		if (!amountReq.isDone()) {
-			context.setAttribute(INPUT_ATTR, AMOUNT);
-			return text(context, "Please Enter the  Amount", null);
-		}
-
-		return null;
+		// if (depositIn.isIncrease()) {
+		// refund.setEndingBalance(depositIn.getTotalBalance()
+		// - enteredBalance);
+		// } else {
+		// refund.setEndingBalance(depositIn.getTotalBalance()
+		// + enteredBalance);
+		// }
 	}
 
 }

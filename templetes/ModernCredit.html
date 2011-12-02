@@ -22,7 +22,7 @@
 		   <table  class="gridHeader" border="1">
 				<colgroup><col></colgroup>
 				<tr>
-					<td style="padding:3px" class="gridHeaderBackGround credit-head"><center>Credit To</center></td>
+					<td style="padding:3px" class="gridHeaderBackGround credit-head"><center>${i18_Credit_To}</center></td>
 				</tr>
 				<tr>
 					<td align="left" class="credit_to_zoho" >
@@ -59,22 +59,22 @@
 					<colgroup><col></colgroup>
 					
 					<tr>
-						<td class="credit-head" style="padding: 6px;"> Credit Note Number</td>
+						<td class="credit-head" style="padding: 6px;">${i18_Credit_Note_Number}</td>
 						<td align="right" width="55%" style="padding: 6px;">${creditNoteNumber}</td>
 					</tr>
 					<tr>
-						<td class="credit-head" style="padding: 6px;">Credit Note Date</td>
+						<td class="credit-head" style="padding: 6px;">${i18_Credit_Note_Date}</td>
 						<td align="right" width="55%" style="padding: 6px;">${creditNoteDate}</td>
 					</tr>
 					<!-- $BeginBlock customernum -->	
 					<tr>
-						<td class="credit-head" style="padding: 6px;">Customer Number</td>
+						<td class="credit-head" style="padding: 6px;">${i18_Customer_Number}</td>
 						<td align="right" width="55%" style=" padding: 6px;">${customerNumber}</td>
 					</tr>
 					<!-- $EndBlock customernum -->
 					   <!-- $BeginBlock currency -->
 						<tr>
-						  <td class="credit-head" style="padding: 6px;">Primary Currency</td>
+						  <td class="credit-head" style="padding: 6px;">${i18_Currency}</td>
 						  <td align="right" width="55%" style="padding: 6px;">${currency} </td>
 						 </tr>
 						 <!-- $EndBlock currency -->
@@ -88,15 +88,15 @@
 <table border="1" class="credit_zoho_main" width="100%">
 <!-- $BeginBlock  itemDetails -->
   <tr><!-- $BeginBlock showLabels -->
-    <th class="credit-head"><p class="fontSetting">Name</p></th>
-    <th class="credit-head"><p class="fontSetting">Description</p></th>
-	<th class="credit-head"><p class="fontSetting">Qty</p></th>
-	<th class="credit-head"><p class="fontSetting">Unit Price</p></th>
-	 <th class="credit-head"><p class="fontSetting">Discount %</p></th>
-	<th class="credit-head"><p class="fontSetting">Total Price</p></th>
+    <th class="credit-head"><p class="fontSetting">${i18_Name}</p></th>
+    <th class="credit-head"><p class="fontSetting">${i18_Description}</p></th>
+	<th class="credit-head"><p class="fontSetting">${i18_Qty}</p></th>
+	<th class="credit-head"><p class="fontSetting">${i18_Unit_Price}</p></th>
+	 <th class="credit-head"><p class="fontSetting">${i18_Discount}</p></th>
+	<th class="credit-head"><p class="fontSetting">${i18_Total_Price}</p></th>
 	<!-- $BeginBlock vatBlock -->
-	<th class="credit-head"><p class="fontSetting">${vatRate}</p></th>
-	<th class="credit-head"><p class="fontSetting">${vatAmount}</p></th>
+	<th class="credit-head"><p class="fontSetting">${i18_VATRate}</p></th>
+	<th class="credit-head"><p class="fontSetting">${i18_VATAmount}</p></th>
 	<!-- $EndBlock vatBlock -->
 	<!-- $EndBlock showLabels -->
   </tr>
@@ -146,7 +146,7 @@
 		</td>
 		<!-- $EndBlock memoblock -->
 		 <!-- $BeginBlock subtotal -->
-		<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;${NetAmount}</p></td>
+		<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;${i18_NetAmount}</p></td>
 		<td class="total-value, item-column">
 		  <div id="subtotal">
 			<p class="fontSetting">
@@ -154,18 +154,19 @@
 			</p>
 		  </div>
 		</td>
+		<!-- <td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;${i18_Sub_Total}</p></td>-->
 		  <!-- $EndBlock subtotal -->
   </tr>
   <!-- $BeginBlock VatTotal -->
   <tr>
-		<td class="total-line, item-column" id="vat-total" ><p class="fontSetting">&nbsp;&nbsp;${vatlabel}</p></td>
+		<td class="total-line, item-column" id="vat-total" ><p class="fontSetting">&nbsp;&nbsp;${i18_VATAmount}</p></td>
 		<td class="total-value, item-column" align="right">
 		   <div id="total"><p class="fontSetting">${vatTotalValue}</p></div>
 		</td>
   </tr>
    <!-- $EndBlock VatTotal -->
   <tr style="border-top:1px solid">
-		<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;TOTAL</p></td>
+		<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;${i18_TOTAL}</p></td>
 		<td class="total-value, item-column" align="right">
 		  <div class="total"><p class="fontSetting">${total}</p></div>
 		</td>

@@ -79,12 +79,12 @@ public class TDSVendorsTable extends CellTable<ClientTDSInfo> implements
 			}
 		};
 
-		this.addColumn(vendorName, Accounter.constants().vendor());
-		this.addColumn(date, Accounter.constants().date());
-		this.addColumn(originalBalance, Accounter.constants().originalAmount());
-		this.addColumn(payment, Accounter.constants().payment());
-		this.addColumn(tdsPercentage, Accounter.constants().percentage());
-		this.addColumn(tdsAmount, Accounter.constants().tdsAmount());
+		this.addColumn(vendorName, Accounter.messages().vendor());
+		this.addColumn(date, Accounter.messages().date());
+		this.addColumn(originalBalance, Accounter.messages().originalAmount());
+		this.addColumn(payment, Accounter.messages().payment());
+		this.addColumn(tdsPercentage, Accounter.messages().percentage());
+		this.addColumn(tdsAmount, Accounter.messages().tdsAmount());
 
 	}
 

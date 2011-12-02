@@ -23,7 +23,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.constants().addaNewTaxItem();
+			return Accounter.messages().addaNewTaxItem();
 		else
 			return "";
 	}
@@ -31,7 +31,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected String getListViewHeading() {
 
-		return Accounter.constants().taxItemsList();
+		return Accounter.messages().taxItemsList();
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 		grid = new ManageSalesTaxItemListGrid(false);
 		grid.addStyleName("listgrid-tl");
 		grid.init();
-		listOfTaxItems = getCompany().getTaxItems();
+		listOfTaxItems = getCompany().getActiveTaxItems();
 		filterList(true);
 
 	}
@@ -89,9 +89,9 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	protected String getViewTitle() {
 		String constant;
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			constant = Accounter.constants().manageSalesItems();
+			constant = Accounter.messages().manageSalesItems();
 		else
-			constant = Accounter.constants().salesTaxItems();
+			constant = Accounter.messages().salesTaxItems();
 		return constant;
 	}
 

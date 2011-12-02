@@ -34,10 +34,10 @@ public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 
 	private void initiliase() {
 
-		levelText = new TextItem(Accounter.constants().priceLevel());
+		levelText = new TextItem(Accounter.messages().priceLevel());
 		levelText.setHelpInformation(true);
 		levelText.setRequired(true);
-		percentText = new PercentageField(this, Accounter.constants()
+		percentText = new PercentageField(this, Accounter.messages()
 				.percentage());
 		percentText.setHelpInformation(true);
 		percentText.setPercentage(1.0);
@@ -50,11 +50,11 @@ public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 			public void onClick(ClickEvent event) {
 				setIncrOrDecrPercentValue(levelRadio.getValue().toString());
 			}
-		}, Accounter.constants().decreasePriceLevelByThisPercentage(),
-				Accounter.constants().increasePriceLevelByThisPercentage());
-		levelRadio.setDefaultValue(Accounter.constants()
+		}, Accounter.messages().decreasePriceLevelByThisPercentage(),
+				Accounter.messages().increasePriceLevelByThisPercentage());
+		levelRadio.setDefaultValue(Accounter.messages()
 				.increasePriceLevelByThisPercentage());
-		setIncrOrDecrPercentValue(Accounter.constants()
+		setIncrOrDecrPercentValue(Accounter.messages()
 				.increasePriceLevelByThisPercentage());
 		nameDescForm = new DynamicForm();
 		nameDescForm.setFields(levelText, percentText, levelRadio);

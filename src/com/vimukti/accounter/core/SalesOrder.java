@@ -1,8 +1,13 @@
 package com.vimukti.accounter.core;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -102,6 +107,10 @@ public class SalesOrder extends Transaction {
 	 * this SalesOrder
 	 */
 	String customerOrderNumber;
+
+	private Invoice usedInvoice;
+
+	private Invoice oldUsedInvoice;
 
 	//
 
@@ -676,6 +685,12 @@ public class SalesOrder extends Transaction {
 	}
 
 	@Override
+	public void onLoad(Session session, Serializable arg1) {
+		this.oldUsedInvoice = usedInvoice;
+		super.onLoad(session, arg1);
+	}
+
+	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
@@ -688,6 +703,56 @@ public class SalesOrder extends Transaction {
 		// + this.getNumber());
 		// }
 		return true;
+	}
+
+	public Invoice getUsedInvoice() {
+		return this.usedInvoice;
+	}
+
+	/**
+	 * @param usedTransaction
+	 *            the usedTransaction to set
+	 */
+	public void setUsedInvoice(Invoice usedTransaction, Session session) {
+		if (this.usedInvoice == null) {
+			this.usedInvoice = usedTransaction;
+			for (TransactionItem item : transactionItems) {
+				item.doCreateEffect(session);
+			}
+		} else if (usedTransaction == null) {
+			this.usedInvoice = null;
+			List<TransactionItem> newItems = new ArrayList<TransactionItem>();
+			try {
+				for (TransactionItem item : transactionItems) {
+					newItems.add(item.clone());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			transactionItems.clear();
+			transactionItems.addAll(newItems);
+		}
+	}
+
+	/**
+	 * @return the oldUsedInvoice
+	 */
+	public Invoice getOldUsedInvoice() {
+		return oldUsedInvoice;
+	}
+
+	/**
+	 * @param oldUsedInvoice
+	 *            the oldUsedInvoice to set
+	 */
+	public void setOldUsedInvoice(Invoice oldUsedInvoice) {
+		this.oldUsedInvoice = oldUsedInvoice;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -53,7 +53,7 @@ public class ReverseChargeListServerReport extends
 
 	@Override
 	public String getTitle() {
-		return getConstants().reverseChargeList();
+		return getMessages().reverseChargeList();
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class ReverseChargeListServerReport extends
 	@Override
 	public void processRecord(ReverseChargeList record) {
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 1 });
+			addSection("", getMessages().total(), new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 

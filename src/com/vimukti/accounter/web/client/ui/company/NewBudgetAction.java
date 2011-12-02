@@ -2,31 +2,30 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientBudget;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewBudgetAction extends Action<ClientBudget> {
 
-	NewBudgetView view;
+	NewBudgetView1 view;
 	boolean edit;
 
 	public NewBudgetAction(String text) {
 		super(text);
-		this.catagory = Global.get().constants().budget();
-		super.setToolTip(Global.get().constants().budget());
+		this.catagory = Global.get().messages().budget();
+		super.setToolTip(Global.get().messages().budget());
 	}
 
 	public NewBudgetAction(String text, ClientBudget budget,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = Global.get().constants().budget();
+		this.catagory = Global.get().messages().budget();
 	}
 
 	public void run() {
@@ -40,67 +39,32 @@ public class NewBudgetAction extends Action<ClientBudget> {
 
 	private void runAsync(final List<ClientBudget> listData) {
 
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
-			public void onSuccess() {
-				view = new NewBudgetView(listData);
+			public void onCreated() {
+				view = new NewBudgetView1(listData);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewBudgetAction.this);
 
 			}
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
 		});
 
 	}
 
-	// private void runAsync(final boolean isEdit, final Object data) {
-	//
-	// GWT.runAsync(new RunAsyncCallback() {
-	//
-	// @Override
-	// public void onSuccess() {
-	// view = new NewBudgetView(isEdit, data);
-	// view.onEdit();
-	// MainFinanceWindow.getViewManager().showView(view, data,
-	// isDependent, NewBudgetAction.this);
-	//
-	// }
-	//
-	// @Override
-	// public void onFailure(Throwable arg0) {
-	// Accounter
-	// .showError(Accounter.constants().unableToshowtheview());
-	//
-	// }
-	// });
-	//
-	// }
-
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
-			public void onSuccess() {
-				view = new NewBudgetView();
+			public void onCreated() {
+				view = new NewBudgetView1();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewBudgetAction.this);
 
 			}
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
 		});
 	}
 

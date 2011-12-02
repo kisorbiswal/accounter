@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -248,6 +249,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 					}
 				}
 			}
+			depositIn.updateCurrentBalance(this, total, this.currencyFactor);
 		}
 		return false;
 	}
@@ -260,10 +262,16 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		if (this.isVoid) {
-			throw new AccounterException(
-					AccounterException.ERROR_NO_SUCH_OBJECT);
-		}
+		// if (this.isVoid) {
+		// throw new AccounterException(
+		// AccounterException.ERROR_NO_SUCH_OBJECT);
+		// }
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -38,11 +38,12 @@ public abstract class TransactionVatCodeColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.constants().taxCode();
+		return Accounter.messages().taxCode();
 	}
 
 	@Override
 	protected void setValue(ClientTransactionItem row, ClientTAXCode newValue) {
+	if(newValue != null)
 		row.setTaxCode(newValue.getID());
 		getTable().update(row);
 	}

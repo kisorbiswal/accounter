@@ -1,8 +1,12 @@
 package com.vimukti.accounter.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -332,7 +336,8 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 						AccounterServerConstants.PENDING_ITEM_RECEIPTS)
 				.setEntity("company", getCompany()).uniqueResult();
 		if (pendingItemReceipt != null) {
-			pendingItemReceipt.updateCurrentBalance(this, this.total);
+			pendingItemReceipt.updateCurrentBalance(this, this.total,
+					currencyFactor);
 			session.update(pendingItemReceipt);
 			pendingItemReceipt.onUpdate(session);
 		}
@@ -616,6 +621,15 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		super.onEdit(itemReceipt);
 	}
 
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid) {
+			setVoid(true);
+			doVoidEffect(session, this);
+		}
+		return false;
+	}
+
 	public void doVoidEffect(Session session, ItemReceipt itemReceipt) {
 
 		// Account pendingItemReceipt = Company.getCompany()
@@ -726,5 +740,24 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		}
 
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = new HashMap<Account, Double>();
+		Account account = (Account) HibernateUtil
+				.getCurrentSession()
+				.getNamedQuery("getNameofAccount.by.Name")
+				.setString("name",
+						AccounterServerConstants.PENDING_ITEM_RECEIPTS)
+				.setEntity("company", getCompany()).uniqueResult();
+		map.put(account, total);
+		return map;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

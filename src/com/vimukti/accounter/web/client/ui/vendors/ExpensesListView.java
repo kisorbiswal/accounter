@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -51,46 +50,46 @@ public class ExpensesListView extends BaseListView<BillsList> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.constants().addNewExpense();
+			return Accounter.messages().addNewExpense();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().expensesList();
+		return Accounter.messages().expensesList();
 	}
 
 	@Override
 	protected void initGrid() {
 		grid = new BillsListGrid(false);
 		grid.init();
-		grid.setViewType(Accounter.constants().all());
+		grid.setViewType(Accounter.messages().all());
 	}
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(Accounter.constants().currentView());
+		currentView = new SelectCombo(Accounter.messages().currentView());
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		// listOfTypes.add(FinanceApplication.constants().open());
 		// listOfTypes.add(FinanceApplication.constants().overDue());
-		listOfTypes.add(Accounter.constants().cash());
-		listOfTypes.add(Accounter.constants().creditCard());
+		listOfTypes.add(Accounter.messages().cash());
+		listOfTypes.add(Accounter.messages().creditCard());
 
 		// This should be added when user select to track employee expenses.
 		if (ClientCompanyPreferences.get().isHaveEpmloyees()
 				&& ClientCompanyPreferences.get().isTrackEmployeeExpenses()) {
-			listOfTypes.add(Accounter.constants().employee());
+			listOfTypes.add(Accounter.messages().employee());
 		}
-		listOfTypes.add(Accounter.constants().voided());
-		listOfTypes.add(Accounter.constants().all());
+		listOfTypes.add(Accounter.messages().voided());
+		listOfTypes.add(Accounter.messages().all());
 		currentView.initCombo(listOfTypes);
 
-		if (UIUtils.isMSIEBrowser())
-			//currentView.setWidth("150px");
+		// if (UIUtils.isMSIEBrowser())
+		// currentView.setWidth("150px");
 		if (this.viewType == null || this.viewType.equals(""))
-			currentView.setComboItem(Accounter.constants().all());
+			currentView.setComboItem(Accounter.messages().all());
 		else
 			currentView.setComboItem(this.viewType);
 		currentView
@@ -109,35 +108,35 @@ public class ExpensesListView extends BaseListView<BillsList> {
 
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equalsIgnoreCase(Accounter.constants().employee())) {
+		if (text.equalsIgnoreCase(Accounter.messages().employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(Accounter.constants().cash())) {
+		} else if (text.equalsIgnoreCase(Accounter.messages().cash())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_CASH_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(Accounter.constants().creditCard())) {
+		} else if (text.equalsIgnoreCase(Accounter.messages().creditCard())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(Accounter.constants().employee())) {
+		} else if (text.equalsIgnoreCase(Accounter.messages().employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants()
+		} else if (text.equalsIgnoreCase(Accounter.messages()
 				.Voided())) {
 			List<BillsList> voidedRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
@@ -148,7 +147,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 			}
 			grid.setRecords(voidedRecs);
 
-		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants().all())) {
+		} else if (text.equalsIgnoreCase(Accounter.messages().all())) {
 			grid.setRecords(initialRecords);
 		}
 
@@ -188,7 +187,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().expensesList();
+		return Accounter.messages().expensesList();
 	}
 
 }

@@ -10,7 +10,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
@@ -39,15 +38,16 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterComboMessges;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
 import com.vimukti.accounter.web.client.theme.ThemeImages;
+import com.vimukti.accounter.web.client.translate.TranslateService;
+import com.vimukti.accounter.web.client.translate.TranslateServiceAsync;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
@@ -76,6 +76,7 @@ public class Accounter implements EntryPoint {
 	public final static String HOME_SERVICE_ENTRY_POINT = "/do/accounter/home/rpc/service";
 	public final static String REPORT_SERVICE_ENTRY_POINT = "/do/accounter/report/rpc/service";
 	public final static String USER_MANAGEMENT_ENTRY_POINT = "/do/accounter/user/rpc/service";
+	private static final String TRANSLATE_SERVICE_ENTRY_POINT = "/do/accounter/translate/rpc/service";
 
 	private static IAccounterCRUDServiceAsync crudService;
 	private static IAccounterCompanyInitializationServiceAsync cIService;
@@ -84,45 +85,31 @@ public class Accounter implements EntryPoint {
 	private static IAccounterReportServiceAsync reportService;
 
 	private static AccounterMessages messages;
-	private static AccounterConstants constants;
-	private static AccounterComboMessges comboMessages;
 	private static FinanceImages financeImages;
 	private static FinanceMenuImages financeMenuImages;
 
 	private static ThemeImages themeImages;
 	private static ClientFinanceDate startDate;
 	private static boolean isMacApp;
+	private static TranslateServiceAsync translateService;
 
-	public static void loadCompany() {
-		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
-				.create(IAccounterGETService.class);
-		((ServiceDefTarget) getService)
-				.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
+	public void loadCompany() {
+
+		IAccounterCompanyInitializationServiceAsync cIService = createCompanyInitializationService();
 
 		final AccounterAsyncCallback<ClientCompany> getCompanyCallback = new AccounterAsyncCallback<ClientCompany>() {
 			public void onException(AccounterException caught) {
-				showError(constants.unableToLoadCompany());
+				showError(messages.unableToLoadCompany());
 				// //UIUtils.log(caught.toString());
 				caught.printStackTrace();
 			}
 
 			public void onResultSuccess(ClientCompany company) {
-				if (company == null) {
-
-				}
-
-				// We got the company, set it for all further references.
-				// company.setAccountingType(ClientCompany.ACCOUNTING_TYPE_US);
-				Accounter.setCompany(company);
-
-				Accounter.setUser(company.getLoggedInUser());
-				startDate = company.getTransactionStartDate();
-				endDate = company.getTransactionStartDate();
-
-				// and, now we are ready to start the application.
 				removeLoadingImage();
+				if (company == null) {
+					// and, now we are ready to start the application.
+					removeLoadingImage();
 
-				if (!company.isConfigured()) {
 					header = new Header();
 					vpanel = new SimplePanel();
 					vpanel.addStyleName("empty_menu_bar");
@@ -146,13 +133,19 @@ public class Accounter implements EntryPoint {
 					RootPanel.get("mainWindow").add(vpanel);
 					RootPanel.get("mainWindow").add(setupWizard);
 				} else {
+					Accounter.setCompany(company);
+
+					Accounter.setUser(company.getLoggedInUser());
+					startDate = company.getTransactionStartDate();
+					endDate = company.getTransactionStartDate();
+
 					initGUI();
 				}
 
 			}
 
 		};
-		getService.getCompany(getCompanyCallback);
+		cIService.getCompany(getCompanyCallback);
 
 	}
 
@@ -173,18 +166,23 @@ public class Accounter implements EntryPoint {
 	}
 
 	private static void initGUI() {
+		reloadMacMenu();
 		mainWindow = new MainFinanceWindow();
 		RootPanel.get("mainWindow").add(mainWindow);
 	}
 
 	public static void reset() {
-		if (!isMacApp()) {
-			HorizontalMenuBar menubar = new HorizontalMenuBar();
-			mainWindow.remove(1);
-			mainWindow.insert(menubar, 1);
+		boolean isTouch = false;/* isTablet */
+		IMenuFactory menuFactory = null;
+		if (isTouch) {
+			menuFactory = new TouchMenuFactory();
 		} else {
-			reloadMacMenu();
+			menuFactory = new DesktopMenuFactory();
 		}
+		AccounterMenuBar menubar = new AccounterMenuBar(menuFactory);
+		mainWindow.remove(1);
+		mainWindow.insert(menubar, 1);
+		reloadMacMenu();
 	}
 
 	private native static void reloadMacMenu() /*-{
@@ -249,6 +247,16 @@ public class Accounter implements EntryPoint {
 		return reportService;
 	}
 
+	public static TranslateServiceAsync createTranslateService() {
+		if (translateService == null) {
+			translateService = (TranslateServiceAsync) GWT
+					.create(TranslateService.class);
+			((ServiceDefTarget) translateService)
+					.setServiceEntryPoint(TRANSLATE_SERVICE_ENTRY_POINT);
+		}
+		return translateService;
+	}
+
 	public static ClientFinanceDate getStartDate() {
 		return startDate;
 	}
@@ -258,7 +266,7 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static String getAppName() {
-		return Accounter.constants().accounter();
+		return Accounter.messages().accounter();
 	}
 
 	public static AccounterMessages messages() {
@@ -266,30 +274,6 @@ public class Accounter implements EntryPoint {
 			messages = (AccounterMessages) GWT.create(AccounterMessages.class);
 		}
 		return messages;
-	}
-
-	public static AccounterConstants constants() {
-		if (constants == null) {
-			constants = (AccounterConstants) GWT
-					.create(AccounterConstants.class);
-		}
-		return constants;
-	}
-
-	public static AccounterComboMessges comboMessages() {
-		if (comboMessages == null) {
-			comboMessages = (AccounterComboMessges) GWT
-					.create(AccounterComboMessges.class);
-		}
-		return comboMessages;
-	}
-
-	public static AccounterConstants getFinanceConstants() {
-		if (constants == null) {
-			constants = (AccounterConstants) GWT
-					.create(AccounterConstants.class);
-		}
-		return constants;
 	}
 
 	public static FinanceImages getFinanceImages() {
@@ -326,7 +310,6 @@ public class Accounter implements EntryPoint {
 
 		eventBus = new SimpleEventBus();
 		placeController = new PlaceController(eventBus);
-		initializeIsMacApp();
 		loadCompany();
 	}
 
@@ -403,7 +386,7 @@ public class Accounter implements EntryPoint {
 		data.getElement().getStyle().setMargin(10, Unit.PX);
 		data.getElement().getStyle().setFontSize(14, Unit.PX);
 		vPanel.add(data);
-		Button loginBtn = new Button(constants().logIn());
+		Button loginBtn = new Button(messages().logIn());
 		loginBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -442,10 +425,10 @@ public class Accounter implements EntryPoint {
 			}
 		};
 		if (coreObj.getID() == 0) {
-			Accounter.createCRUDService().inviteUser((IAccounterCore) coreObj,
+			Accounter.createCRUDService().inviteUser(coreObj,
 					inviteUserCallBack);
 		} else {
-			Accounter.createCRUDService().updateUser((IAccounterCore) coreObj,
+			Accounter.createCRUDService().updateUser(coreObj,
 					inviteUserCallBack);
 		}
 		// } else {
@@ -475,11 +458,9 @@ public class Accounter implements EntryPoint {
 
 		};
 		if (coreObj.getID() == 0) {
-			Accounter.createCRUDService().create((IAccounterCore) coreObj,
-					transactionCallBack);
+			Accounter.createCRUDService().create(coreObj, transactionCallBack);
 		} else {
-			Accounter.createCRUDService().update((IAccounterCore) coreObj,
-					transactionCallBack);
+			Accounter.createCRUDService().update(coreObj, transactionCallBack);
 		}
 	}
 
@@ -601,24 +582,19 @@ public class Accounter implements EntryPoint {
 				source.saveSuccess(coreObj);
 			}
 		};
-		Accounter.createCRUDService().updateUser((IAccounterCore) coreObj,
-				transactionCallBack);
+		Accounter.createCRUDService().updateUser(coreObj, transactionCallBack);
 	}
 
-	private void initializeIsMacApp() {
-		String cookie = Cookies.getCookie("Nativeapp");
-		if (cookie != null) {
-			setMacApp(true);
-		}
-	}
-
-	public static boolean isMacApp() {
-		return isMacApp;
-	}
-
-	public void setMacApp(boolean isMacApp) {
-		Accounter.isMacApp = isMacApp;
-	}
+	/*
+	 * private void initializeIsMacApp() { String cookie =
+	 * Cookies.getCookie("Nativeapp"); if (cookie != null) { setMacApp(true); }
+	 * }
+	 * 
+	 * public static boolean isMacApp() { return isMacApp; }
+	 * 
+	 * public void setMacApp(boolean isMacApp) { Accounter.isMacApp = isMacApp;
+	 * }
+	 */
 
 	public static void get1099FormInformation(
 			AsyncCallback<ArrayList<Client1099Form>> myCallback, int selected) {
@@ -630,4 +606,47 @@ public class Accounter implements EntryPoint {
 		Accounter.createCRUDService().get1099InformationByVendor(vendorId,
 				myCallback);
 	}
+
+	public static void deleteTransaction(final IDeleteCallback iDeleteCallback,
+			final IAccounterCore obj) {
+
+		final AccounterAsyncCallback<Boolean> transactionCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException exception) {
+				iDeleteCallback.deleteFailed(exception);
+
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				iDeleteCallback.deleteSuccess(obj);
+			}
+
+		};
+
+		ISaveCallback iSaveCallback = new ISaveCallback() {
+
+			@Override
+			public void saveSuccess(IAccounterCore object) {
+				Accounter.createCRUDService().deleteTransactionFromDb(obj,
+						transactionCallBack);
+			}
+
+			@Override
+			public void saveFailed(AccounterException exception) {
+				iDeleteCallback.deleteFailed(exception);
+			}
+		};
+
+		ClientTransaction trans = (ClientTransaction) obj;
+		if (!trans.isVoid()) {
+			voidTransaction(iSaveCallback, obj.getObjectType(), obj.getID());
+		} else {
+			Accounter.createCRUDService().deleteTransactionFromDb(obj,
+					transactionCallBack);
+		}
+
+	}
+
 }

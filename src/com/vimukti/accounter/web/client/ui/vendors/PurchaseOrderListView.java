@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -25,9 +24,9 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	private PurchaseDetailesView purchaseDetailView;
 	private List<PurchaseOrdersList> listOfPurchaseOrders;
 
-	private static String OPEN = Accounter.constants().open();
-	private static String COMPLETED = Accounter.constants().completed();
-	private static String CANCELLED = Accounter.constants().cancelled();
+	private static String OPEN = Accounter.messages().open();
+	private static String COMPLETED = Accounter.messages().completed();
+	private static String CANCELLED = Accounter.messages().cancelled();
 
 	// private static String CANCELLED = "Cancelled";
 
@@ -46,14 +45,14 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.constants().addNewPurchaseOrder();
+			return Accounter.messages().addNewPurchaseOrder();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().purchaseOrderList();
+		return Accounter.messages().purchaseOrderList();
 	}
 
 	@Override
@@ -128,7 +127,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	protected SelectCombo getSelectItem() {
 		listOfTypes = new ArrayList<String>();
-		viewSelect = new SelectCombo(Accounter.constants().currentView());
+		viewSelect = new SelectCombo(Accounter.messages().currentView());
 		listOfTypes.add(OPEN);
 		listOfTypes.add(COMPLETED);
 		listOfTypes.add(CANCELLED);
@@ -252,6 +251,6 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().purchaseOrders();
+		return Accounter.messages().purchaseOrders();
 	}
 }

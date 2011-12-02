@@ -1,14 +1,15 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.vimukti.accounter.web.client.core.ClientStockTransfer;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 
-public class WarehouseListView extends BaseListView<ClientStockTransfer> {
+public class WarehouseListView extends BaseListView<ClientWarehouse> {
+
+	// private ArrayList<ClientWarehouse> listOfWarehouses = new
+	// ArrayList<ClientWarehouse>();
 
 	@Override
 	public void init() {
@@ -16,59 +17,45 @@ public class WarehouseListView extends BaseListView<ClientStockTransfer> {
 	}
 
 	@Override
-	public void deleteFailed(AccounterException caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(IAccounterCore result){
-
-	}
-
-
-	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().warehouseList();
+		return Accounter.messages().warehouseList();
 	}
 
 	@Override
-	public void fitToSize(int height, int width) {
+	public void initListCallback() {
+		super.initListCallback();
+		Accounter.createHomeService().getWarehouses(this);
 
-	}
-
-	@Override
-	public void onEdit() {
-
-	}
-
-	@Override
-	public void printPreview() {
-
-	}
-
-	@Override
-	public void print() {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-		if (object != null) {
-			super.saveSuccess(object);
-			ActionFactory.getInvoiceBrandingAction().run(null, false);
-		} else
-			saveFailed(new AccounterException(Accounter.constants().failed()));
 	}
 
 	@Override
 	protected void initGrid() {
+		viewSelect.setVisible(false);
 		grid = new WarehouseListGrid(false);
 		grid.init();
+		// listOfWarehouses = getCompany().getWarehouses();
+		// filterList(true);
 	}
+
+	// @Override
+	// protected void filterList(boolean isActive) {
+	// grid.removeAllRecords();
+	// for (ClientWarehouse warehouse : listOfWarehouses) {
+	// if (isActive) {
+	// if (warehouse.isDefaultWarehouse() == true)
+	// grid.addData(warehouse);
+	// } else if (warehouse.isDefaultWarehouse() == false) {
+	// grid.addData(warehouse);
+	// }
+	//
+	// }
+	// if (grid.getRecords().isEmpty())
+	// grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+	// }
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().warehouseList();
+		return Accounter.messages().warehouseList();
 	}
 
 	@Override
@@ -78,12 +65,12 @@ public class WarehouseListView extends BaseListView<ClientStockTransfer> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().wareHouse();
+		return Accounter.messages().addNewWarehouse();
 	}
 
 	@Override
-	public void updateInGrid(ClientStockTransfer objectTobeModified) {
-		// currently not using
+	public void updateInGrid(ClientWarehouse objectTobeModified) {
+		// TODO Auto-generated method stub
 
 	}
 }

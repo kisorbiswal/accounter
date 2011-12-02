@@ -19,7 +19,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -72,8 +71,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	private EmailForm emailForm;
 	protected String gender;
 	private List<String> listOfgenders;
-	private String[] genderTypes = { Accounter.constants().unspecified(),
-			Accounter.constants().male(), Accounter.constants().female() };
+	private String[] genderTypes = { messages.unspecified(), messages.male(),
+			messages.female() };
 	private List<ClientAccount> listOfAccounts;
 
 	private ArrayList<DynamicForm> listforms;
@@ -91,13 +90,13 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		employeeNameText = new TextItem(Accounter.constants().salesPersonName());
-		employeeNameText.setWidth("205px");
+		employeeNameText = new TextItem(messages.salesPersonName());
+		// employeeNameText.setWidth("200px");
 		employeeNameText.setRequired(true);
 		employeeNameText.setDisabled(isInViewMode());
 
-		fileAsText = new TextItem(Accounter.constants().fileAs());
-		fileAsText.setWidth("205px");
+		fileAsText = new TextItem(messages.fileAs());
+		// fileAsText.setWidth("200px");
 		fileAsText.setDisabled(isInViewMode());
 		employeeNameText.addChangeHandler(new ChangeHandler() {
 
@@ -110,20 +109,18 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			}
 		});
 
-		jobTitleText = new TextItem(Accounter.constants().jobTitle());
-		jobTitleText.setWidth("205px");
+		jobTitleText = new TextItem(messages.jobTitle());
+		// jobTitleText.setWidth("200px");
 		jobTitleText.setDisabled(isInViewMode());
 
-		salesPersonForm = UIUtils.form(Accounter.constants().salesPerson());
-		salesPersonForm.setWidth("80%");
+		salesPersonForm = UIUtils.form(messages.salesPerson());
+		// salesPersonForm.setWidth("80%");
 		salesPersonForm.setFields(employeeNameText, fileAsText, jobTitleText);
-		salesPersonForm.getCellFormatter().setWidth(0, 0, "250px");
+		// salesPersonForm.getCellFormatter().setWidth(0, 0, "200px");
 
-		expenseAccountForm = UIUtils.form(Accounter.messages().expenseAccount(
-				Global.get().Account()));
-		expenseAccountForm.setWidth("80%");
-		expenseSelect = new GridAccountsCombo(Accounter.messages()
-				.expenseAccount(Global.get().Account()));
+		expenseAccountForm = UIUtils.form(messages.expenseAccount());
+		// expenseAccountForm.setWidth("80%");
+		expenseSelect = new GridAccountsCombo(messages.expenseAccount());
 		expenseSelect.setWidth("185px");
 		expenseSelect.setDisabled(isInViewMode());
 		expenseSelect
@@ -135,31 +132,31 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 				});
 
-		expenseAccountForm.getCellFormatter().setWidth(0, 0, "200px");
+		// expenseAccountForm.getCellFormatter().setWidth(0, 0, "200px");
 		expenseAccountForm.setFields(expenseSelect);
 
 		memoForm = new DynamicForm();
-		memoForm.setWidth("41%");
+		memoForm.setWidth("100%");
 		memoArea = new TextAreaItem();
+		memoArea.setMemo(true, this);
 		memoArea.setWidth(100);
-		memoArea.setTitle(Accounter.constants().memo());
-		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
-				this.getAction().getViewName()));
+		memoArea.setTitle(messages.memo());
+		memoArea.setToolTip(messages.writeCommentsForThis(this.getAction()
+				.getViewName()));
 		memoArea.setDisabled(isInViewMode());
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 		// memoForm.getCellFormatter().getElement(0, 1).getStyle().setWidth(239,
 		// Unit.PX);
-		memoForm.getCellFormatter().setWidth(0, 0, "205");
-		salesPersonInfoForm = UIUtils.form(Accounter.constants()
-				.salesPersonInformation());
+		// memoForm.getCellFormatter().setWidth(0, 0, "200");
+		salesPersonInfoForm = UIUtils.form(messages.salesPersonInformation());
 		salesPersonInfoForm.setStyleName("align-form");
-		salesPersonInfoForm.setWidth("100%");
-		statusCheck = new CheckboxItem(Accounter.constants().active());
+		// salesPersonInfoForm.setWidth("100%");
+		statusCheck = new CheckboxItem(messages.active());
 		statusCheck.setValue(true);
 		statusCheck.setDisabled(isInViewMode());
-		genderSelect = new SelectCombo(Accounter.constants().gender());
+		genderSelect = new SelectCombo(messages.gender());
 		genderSelect.setDisabled(isInViewMode());
 		// genderSelect.setWidth(45);
 		listOfgenders = new ArrayList<String>();
@@ -176,9 +173,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 					}
 				});
 
-		dateOfBirth = new DateField(Accounter.constants().dateofBirth());
-		dateOfBirth.setToolTip(Accounter.messages().selectDateOfBirth(
-				this.getAction().getViewName()));
+		dateOfBirth = new DateField(messages.dateofBirth());
+		dateOfBirth.setToolTip(messages.selectDateOfBirth(this.getAction()
+				.getViewName()));
 		dateOfBirth.setDisabled(isInViewMode());
 		dateOfBirth.setEnteredDate(new ClientFinanceDate());
 
@@ -191,28 +188,27 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				long mustdate = new ClientFinanceDate().getDate() - 180000;
 				if (new ClientFinanceDate(mustdate).before(dateOfBirth
 						.getEnteredDate())) {
-					addError(dateOfBirth, Accounter.constants()
-							.dateofBirthshouldshowmorethan18years());
+					addError(dateOfBirth,
+							messages.dateofBirthshouldshowmorethan18years());
 				} else {
 					clearError(dateOfBirth);
 				}
 			}
 		});
 
-		dateOfHire = new DateField(Accounter.constants().dateofHire());
-		dateOfHire.setToolTip(Accounter.messages().selectDateOfHire(
-				this.getAction().getViewName()));
+		dateOfHire = new DateField(messages.dateofHire());
+		dateOfHire.setToolTip(messages.selectDateOfHire(this.getAction()
+				.getViewName()));
 		dateOfHire.setDisabled(isInViewMode());
 		dateOfHire.setEnteredDate(new ClientFinanceDate());
 		// dateOfHire.setUseTextField(true);
 
-		dateOfLastReview = new DateField(Accounter.constants()
-				.dateofLastReview());
+		dateOfLastReview = new DateField(messages.dateofLastReview());
 		dateOfLastReview.setDisabled(isInViewMode());
 		dateOfLastReview.setEnteredDate(new ClientFinanceDate());
 		// dateOfLastReview.setUseTextField(true);
 
-		dateOfRelease = new DateField(Accounter.constants().dateofRelease());
+		dateOfRelease = new DateField(messages.dateofRelease());
 		dateOfRelease.setDisabled(isInViewMode());
 		// dateOfRelease.setUseTextField(true);
 
@@ -223,8 +219,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		// XXX
 		addrsForm = new DynamicForm();
-		addrArea = new TextAreaItem(Accounter.constants().address());
-		addrArea.setWidth("205px");
+		addrArea = new TextAreaItem(messages.address());
+		// addrArea.setWidth("200px");
 		addrArea.setHelpInformation(true);
 		addrArea.setWidth(100);
 		addrArea.setDisabled(isInViewMode());
@@ -293,18 +289,18 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 			fonFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 					.getViewName());
-			fonFaxForm.setWidth("80%");
+			// fonFaxForm.setWidth("80%");
 			fonFaxForm.setHeight("60px");
-			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
-			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
+			// fonFaxForm.getCellFormatter().setWidth(0, 0, "200");
+			// fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
 			fonFaxForm.setDisabled(isInViewMode());
 			fonFaxForm.businessPhoneText.setValue(data.getPhoneNo());
 			fonFaxForm.businessFaxText.setValue(data.getFaxNo());
 			emailForm = new EmailForm(null, data.getWebPageAddress(), this,
 					this.getAction().getViewName());
 			emailForm.setWidth("100%");
-			emailForm.getCellFormatter().setWidth(0, 0, "159");
-			emailForm.getCellFormatter().setWidth(0, 1, "125");
+			// emailForm.getCellFormatter().setWidth(0, 0, "159");
+			// emailForm.getCellFormatter().setWidth(0, 1, "125");
 			emailForm.businesEmailText.setValue(data.getEmail());
 			emailForm.webText.setValue(data.getWebPageAddress());
 			emailForm.setDisabled(isInViewMode());
@@ -328,20 +324,20 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			// addrsForm = new AddressForm(null);
 			fonFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 					.getViewName());
-			fonFaxForm.setWidth("80%");
-			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
-			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
+			// fonFaxForm.setWidth("80%");
+			// fonFaxForm.getCellFormatter().setWidth(0, 0, "200");
+			// fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
 			emailForm = new EmailForm(null, null, this, this.getAction()
 					.getViewName());
 			emailForm.setWidth("100%");
-			emailForm.getCellFormatter().setWidth(0, 0, "150");
-			emailForm.getCellFormatter().setWidth(0, 1, "125");
+			// emailForm.getCellFormatter().setWidth(0, 0, "200");
+			// emailForm.getCellFormatter().setWidth(0, 1, "125");
 			genderSelect.setDefaultToFirstOption(Boolean.TRUE);
 			// gender = ClientSalesPerson.GENDER_UNSPECIFIED;
 		}
-		addrsForm.setWidth("84%");
-		// addrsForm.getCellFormatter().setWidth(0, 0, "65");
-		addrsForm.getCellFormatter().setWidth(0, 1, "125");
+		addrsForm.setWidth("100%");
+		// addrsForm.getCellFormatter().setWidth(0, 0, "200");
+		// addrsForm.getCellFormatter().setWidth(0, 1, "125");
 		addrsForm.setFields(addrArea);
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.add(salesPersonForm);
@@ -356,22 +352,26 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		rightVLay.getElement().getStyle().setMarginLeft(35, Unit.PX);
 		rightVLay.add(emailForm);
 		rightVLay.add(salesPersonInfoForm);
-		salesPersonInfoForm.getCellFormatter().setWidth(0, 0, "150");
+		// salesPersonInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		// topHLay.setSpacing(5);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		VerticalPanel mainVlay = new VerticalPanel();
 		mainVlay.setWidth("100%");
 		mainVlay.setSpacing(10);
 		mainVlay.add(topHLay);
 		mainVlay.add(memoForm);
-//		if (UIUtils.isMSIEBrowser()) {
-//			emailForm.getCellFormatter().setWidth(0, 2, "150px");
-//			emailForm.getCellFormatter().setWidth(1, 0, "195px");
-//			emailForm.getCellFormatter().setWidth(1, 1, "150px");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// emailForm.getCellFormatter().setWidth(0, 2, "150px");
+		// emailForm.getCellFormatter().setWidth(1, 0, "195px");
+		// emailForm.getCellFormatter().setWidth(1, 1, "150px");
+		// }
 		this.add(mainVlay);
 
 		/* Adding dynamic forms in list */
@@ -395,22 +395,20 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				.getSalesPersonByName(name);
 		if (!(isInViewMode() ? (data.getName().equalsIgnoreCase(name) ? true
 				: clientSalesPerson == null) : true)) {
-			result.addError(employeeNameText, Accounter.constants()
-					.alreadyExist());
+			result.addError(employeeNameText, messages.alreadyExist());
 			return result;
 		}
 
 		if (dateOfBirth.getValue().getDate() != 0) {
 			long mustdate = new ClientFinanceDate().getDate() - 180000;
-			if (dateOfBirth.getValue().getDateAsObject().after(
-					new ClientFinanceDate().getDateAsObject())) {
-				result.addError(dateOfBirth, Accounter.constants()
-						.invalidDateOfBirth());
+			if (dateOfBirth.getValue().getDateAsObject()
+					.after(new ClientFinanceDate().getDateAsObject())) {
+				result.addError(dateOfBirth, messages.invalidDateOfBirth());
 			} else if ((new ClientFinanceDate(mustdate).before(dateOfBirth
 					.getEnteredDate()))) {
-				result.addError(dateOfBirth, Accounter.constants()
-						.dateofBirthshouldshowmorethan18years()
-						+ ". Because Sales Person should have 18 years");
+				result.addError(dateOfBirth,
+						messages.dateofBirthshouldshowmorethan18years()
+								+ ". Because Sales Person should have 18 years");
 			}
 		}
 		result.add(salesPersonForm.validate());
@@ -430,12 +428,12 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		// if (!isEdit)
 		// BaseView.errordata.setHTML(FinanceApplication.constants()
 		// .DuplicationOfSalesPesonNotAllowed());
-		// addError(this, Accounter.constants()
+		// addError(this, messages
 		// .duplicationOfSalesPersonNotAllowed());
 		// else
 		// BaseView.errordata.setHTML(FinanceApplication.constants()
 		// .salesPersonUpdationFailed());
-		// addError(this, Accounter.constants().salesPersonUpdationFailed());
+		// addError(this, messages.salesPersonUpdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		AccounterException accounterException = (AccounterException) exception;
@@ -461,7 +459,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			super.saveSuccess(result);
 
 		} else
-			saveFailed(new AccounterException(Accounter.constants().failed()));
+			saveFailed(new AccounterException(messages.failed()));
 
 	}
 
@@ -522,26 +520,26 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
-		addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), titlewidth + "");
-		addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.constants().width(), listBoxWidth + "");
-
-		fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), titlewidth + "");
-		fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.constants().width(), listBoxWidth + "");
-
-		salesPersonForm.getCellFormatter().getElement(0, 0).getStyle()
-				.setWidth(titlewidth + listBoxWidth, Unit.PX);
-		expenseAccountForm.getCellFormatter().getElement(0, 0).setAttribute(
-				"width", titlewidth + listBoxWidth + "");
-		memoForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), titlewidth + listBoxWidth + "");
-		emailForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "");
-		emailForm.getCellFormatter().getElement(0, 1).setAttribute(
-				Accounter.constants().width(), "");
+		// addrsForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// messages.width(), titlewidth + "");
+		// addrsForm.getCellFormatter().getElement(0, 1).setAttribute(
+		// messages.width(), listBoxWidth + "");
+		//
+		// fonFaxForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// messages.width(), titlewidth + "");
+		// fonFaxForm.getCellFormatter().getElement(0, 1).setAttribute(
+		// messages.width(), listBoxWidth + "");
+		//
+		// salesPersonForm.getCellFormatter().getElement(0, 0).getStyle()
+		// .setWidth(titlewidth + listBoxWidth, Unit.PX);
+		// expenseAccountForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// "width", titlewidth + listBoxWidth + "");
+		// memoForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// messages.width(), titlewidth + listBoxWidth + "");
+		// emailForm.getCellFormatter().getElement(0, 0).setAttribute(
+		// messages.width(), "");
+		// emailForm.getCellFormatter().getElement(0, 1).setAttribute(
+		// messages.width(), "");
 
 	}
 
@@ -663,12 +661,12 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().newSalesPerson();
+		return messages.newSalesPerson();
 	}
 
 	private void setAddresses(Set<ClientAddress> addresses) {
 		if (addresses != null) {
-			Iterator it = addresses.iterator();
+			Iterator<ClientAddress> it = addresses.iterator();
 			while (it.hasNext()) {
 				ClientAddress addr = (ClientAddress) it.next();
 				if (addr != null) {
@@ -686,8 +684,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			allAddresses
 					.put(UIUtils.getAddressType("company"), selectedAddress);
 		}
-		Collection add = allAddresses.values();
-		Iterator it = add.iterator();
+		Collection<ClientAddress> add = allAddresses.values();
+		Iterator<ClientAddress> it = add.iterator();
 		while (it.hasNext()) {
 			ClientAddress a = (ClientAddress) it.next();
 			return a;
@@ -697,5 +695,10 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			// + a.getIsSelected());
 		}
 		return null;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
 	}
 }

@@ -11,10 +11,12 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.widgets.WorkbenchPanel;
 
 public abstract class DashBoardPortlet extends WorkbenchPanel {
 
+	protected AccounterMessages messages = Accounter.messages();
 	private ClientCompanyPreferences preferences = Global.get().preferences();
 	private HTML title = new HTML();
 	private String name;
@@ -30,7 +32,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 	public ScrollPanel panel;
 
 	public DashBoardPortlet(String title) {
-		super(title);
+		super(title, "");
 		this.titleName = title;
 		// createHandlerForTitle();
 		panel = new ScrollPanel();
@@ -49,8 +51,6 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		// panel.getElement().getStyle().setPadding(0, Unit.PX);
 		// panel.setSize("98.9%", "100%");
 		panel.add(body);
-		if (!(this instanceof ExpenseClaimPortlet || this instanceof GettingStartedPortlet))
-			panel.setHeight("297px");
 		panel.setWidth("100%");
 		super.add(panel);
 
@@ -111,7 +111,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		// hPanel.add(help);
 		// hPanel.add(windowControlLayout);
 
-		addToMain(windowControlLayout);
+		// addToMain(windowControlLayout);
 
 	}
 
@@ -187,5 +187,9 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 
 	public String amountAsString(Double amount) {
 		return DataUtils.getAmountAsString(amount);
+	}
+
+	public String getPrimaryCurrencySymbol() {
+		return getPreferences().getPrimaryCurrency().getSymbol();
 	}
 }

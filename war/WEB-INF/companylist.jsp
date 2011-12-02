@@ -1,16 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
-        <meta content="IE=100" http-equiv="X-UA-Compatible">
-		<link rel="shortcut icon" href="../images/favicon.ico" />
+  <title>Companies list| Accounter
+  </title>
+        <meta content="IE=100" http-equiv="X-UA-Compatible" />
+		<link rel="shortcut icon" href="/images/favicon.ico" />
 		<%@ include file="./feedback.jsp" %>
-		<link type="text/css" href="../css/ss.css" rel="stylesheet">
+		<link type="text/css" href="../css/ss.css" rel="stylesheet" />
+	<script type="text/javascript">
+		function goto(comp){
+			$(document).ready(function() {
+				var params= {
+					companyId: comp,
+					isTouch: touchDeviceTest()
+				};
+				document.location = '/main/companies' + '?' + $.param(params);
+			});
+		};
+		function touchDeviceTest() {
+			var el = document.createElement('div');
+			el.setAttribute('ongesturestart', 'return;');
+			if(typeof el.ongesturestart == "function"){
+				return true;
+			}else {
+				return false;
+			}
+		}
+	</script>
   </head>
   <body>
   <div id="commanContainer">
 	<div>
-		<img src="../images/Accounter_logo_title.png" class="accounterLogo" />
+		<img src="/images/Accounter_logo_title.png" class="accounterLogo" alt="loading" />
 		
 	</div>
     <div class="company_lists">
@@ -20,35 +43,22 @@
        		<div class="common-box create-company-message">${message}</div>
         </c:if>
        <div class="form-box">
-      	<div> <a href="/main/createcompany" class="create_new_company">Create New Company </a></div>
-      	<ul>
+      	<div> <a href="/main/companies?create=true" class="create_new_company">Create New Company </a></div>
+      	<ul><li>
 	    <c:if test="${companeyList != null}">
 		   <c:forEach var="company" items="${companeyList}">
 			   <c:set var='url' value="/main/companies?companyId=${company.id}"/>
 			    <c:set var='deleteurl' value="/main/deletecompany?companyId=${company.id}"/>
-			    <c:choose>
-				    <c:when test="${company.companyType == 0}">
-				   		<c:set var='companyType' value="US"/>
-				    </c:when>
-				    <c:when test="${company.companyType == 1}">
-				     	<c:set var='companyType' value="UK"/>
-				    </c:when>
-				    <c:when test="${company.companyType == 2}">
-				        <c:set var='companyType' value="IND"/>
-				    </c:when>
-				    <c:otherwise>
-				        <c:set var='companyType' value="OTH"/>
-				    </c:otherwise>
-				</c:choose>
-			   <div class="companies-list"><a href=${url}>${company.companyName} - ${companyType}</a> <a class="delete_company" href=${deleteurl}>Delete</a></div>
-		   </c:forEach>
+			   <div class="companies-list"><a onClick=goto(${company.id}) href="#">${company.preferences.tradingName} - ${company.registeredAddress.countryOrRegion} </a> <a class="delete_company" href= '${deleteurl}' >Delete</a></div>
+		   </c:forEach> 
 	    </c:if>
-	    
+	    </li>
 	   </ul>
 	  </div>
     </div>
     <div class="form-bottom-options">
-      <a href="/main/logout">Logout</a>
+      <a style="float:left" href="/main/logout">Logout</a>
+      <a style="float:right" href="/main/deleteAccount">Delete Account</a>
     </div>
    </div>
    
@@ -63,10 +73,6 @@
    </div>
 </div>
    
-   <script type="text/javascript" charset="utf-8">
-			var is_ssl = ("https:" == document.location.protocol);
-			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
-		</script>
-		 
+<%@ include file="./scripts.jsp" %>
   </body>
 </html>

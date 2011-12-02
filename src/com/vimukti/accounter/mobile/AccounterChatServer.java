@@ -10,15 +10,14 @@ import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.Roster.SubscriptionMode;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Presence;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
-import com.vimukti.accounter.mobile.store.CommandsFactory;
-import com.vimukti.accounter.mobile.store.PatternStore;
 
 /**
  * @author Prasanna Kumar G
@@ -28,14 +27,16 @@ public class AccounterChatServer implements ChatManagerListener,
 		MessageListener {
 
 	Logger log = Logger.getLogger(AccounterChatServer.class);
-
+	public static final int NETWORK_TYPE_GTALK = 1;
+	public static final int NETWORK_TYPE_MOBILE = 2;
+	public static final int NETWORK_TYPE_CONSOLE = 100;
 	private MobileMessageHandler messageHandler;
 
 	/**
 	 * Creates new Instance
 	 */
 	public AccounterChatServer() {
-		this.messageHandler = new MobileMessageHandler();
+		this.messageHandler = MobileMessageHandler.getInstance();
 	}
 
 	public void start() {
@@ -69,40 +70,44 @@ public class AccounterChatServer implements ChatManagerListener,
 					}
 				}
 			}, 500);
-			loadCommandsAndPatterns();
 		} catch (Exception e) {
 			log.error("Unable to Strart Chat Server.");
-			e.printStackTrace();
 		}
 		log.info("Chat Server Started....");
 	}
 
-	/**
-	 * @throws AccounterMobileException
-	 * 
-	 */
-	private void loadCommandsAndPatterns() throws AccounterMobileException {
-		CommandsFactory.INSTANCE.reload();
-		PatternStore.INSTANCE.reload();
-	}
-
 	@Override
-	public void processMessage(Chat chat, Message msg) {
+	public void processMessage(final Chat chat, Message msg) {
 
 		String message = msg.getBody();
 		String from = msg.getFrom();
 		if (from.contains("/")) {
 			from = from.substring(0, msg.getFrom().lastIndexOf("/"));
 		}
-		try {
-			String reply = messageHandler.messageReceived(from, message,
-					AdaptorType.CHAT);
-			if (reply != null) {
-				chat.sendMessage(reply);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		from += " eng";
+		System.out.println("Message " + message);
+		if (message != null) {
+			MobileChannelContext context = new MobileChannelContext(from,
+					message, AdaptorType.CHAT, NETWORK_TYPE_GTALK) {
+
+				@Override
+				public void send(String string) {
+					try {
+						chat.sendMessage(string);
+					} catch (XMPPException e) {
+						e.printStackTrace();
+					}
+				}
+
+				@Override
+				public void changeNetworkId(String networkId) {
+					// TODO Auto-generated method stub
+
+				}
+			};
+
+			messageHandler.putMessage(context);
+
 		}
 	}
 

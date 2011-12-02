@@ -11,7 +11,7 @@ public class ItemGroupCombo extends CustomCombo<ClientItemGroup> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newItemGroup();
+		return messages.itemGroup();
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class ItemGroupCombo extends CustomCombo<ClientItemGroup> {
 	}
 
 	@Override
-	protected String getColumnData(ClientItemGroup object, int row, int col) {
+	protected String getColumnData(ClientItemGroup object,  int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

@@ -10,10 +10,13 @@ public class ClientWarehouse implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	long id;
+
 	private ClientAddress address;
 	private Set<ClientItemStatus> itemStatuses;
 
 	private String name;
+	private String warehouseCode;
 	private ClientContact contact;
 
 	private boolean isDefaultWarehouse;
@@ -99,12 +102,12 @@ public class ClientWarehouse implements IAccounterCore {
 
 	@Override
 	public void setID(long id) {
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		return 0;
+		return id;
 	}
 
 	public ClientWarehouse clone() {
@@ -137,6 +140,14 @@ public class ClientWarehouse implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
 	}
 }

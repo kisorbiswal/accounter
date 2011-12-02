@@ -3,27 +3,31 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.PayVAT;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.TransactionPayVAT;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.PayVatTableRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.server.FinanceTool;
 
-public class PayVATCommand extends AbstractVATCommand {
+public class PayVATCommand extends NewAbstractTransactionCommand {
 
 	private static final String VAT_RETURN_END_DATE = "vatReturnEndDate";
 	private static final String BILLS_TO_PAY = "billToPay";
-	private static final String BILLS_TO_PAY_LIST = "billsToPayList";
 	private static final String PAY_FROM = "payFrom";
+	private final String TAX_AGENCY = "taxAgency";
 
 	@Override
 	public String getId() {
@@ -33,237 +37,258 @@ public class PayVATCommand extends AbstractVATCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(PAY_FROM, false, true));
-		list.add(new Requirement(PAYMENT_METHOD, false, true));
-		list.add(new Requirement(VAT_RETURN_END_DATE, true, true));
-		list.add(new Requirement(DATE, true, true));
-		list.add(new Requirement(ORDER_NO, true, true));
-		list.add(new Requirement(BILLS_TO_PAY, true, true));
+		list.add(new AccountRequirement(PAY_FROM, getMessages().pleaseSelect(
+				getMessages().bankAccount()), getMessages().bankAccount(),
+				false, false, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().payFrom());
+			}
+
+			@Override
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
+
+						@Override
+						public boolean filter(Account e) {
+							if (e.getType() == Account.TYPE_BANK
+									|| e.getType() == Account.TYPE_OTHER_ASSET) {
+								return true;
+							}
+							return false;
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
+					}
+				}
+				return filteredList;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages()
+						.youDontHaveAny(getMessages().bankAccount());
+			}
+
+			@Override
+			protected boolean filter(Account e, String name) {
+				return e.getName().contains(name);
+
+			}
+		});
+
+		/*
+		 * list.add(new CurrencyRequirement(CURRENCY,
+		 * getMessages().pleaseSelect( getConstants().currency()),
+		 * getConstants().currency(), true, true, null) {
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if
+		 * (getPreferences().isEnableMultiCurrency()) { return
+		 * super.run(context, makeResult, list, actions); } else { return null;
+		 * } }
+		 * 
+		 * @Override protected List<Currency> getLists(Context context) { return
+		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
+		 * 
+		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
+		 * false, true) {
+		 * 
+		 * @Override protected String getDisplayValue(Double value) {
+		 * ClientCurrency primaryCurrency = getPreferences()
+		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
+		 * return "1 " + selc.getFormalName() + " = " + value + " " +
+		 * primaryCurrency; }
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
+		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
+		 * !((Currency) get(CURRENCY).getValue()) .equals(getPreferences()
+		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
+		 * actions); } } return null;
+		 * 
+		 * } });
+		 */
+		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
+				.pleaseEnterName(getMessages().paymentMethod()), getMessages()
+				.paymentMethod(), false, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().paymentMethod());
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages()
+						.pleaseSelect(getMessages().paymentMethod());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getPaymentMethods();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getMessages().paymentMethod());
+			}
+		});
+
+		list.add(new DateRequirement(VAT_RETURN_END_DATE, getMessages()
+				.pleaseEnter(getMessages().filterBy()), getMessages()
+				.filterBy(), true, true));
+
+		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
+				getMessages().date()), getMessages().date(), true, true));
+
+		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
+				getMessages().number()), getMessages().number(), true, false));
+
+		list.add(new TaxAgencyRequirement(TAX_AGENCY, getMessages()
+				.pleaseEnterName(getMessages().taxAgency()), getMessages()
+				.taxAgency(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().taxAgency());
+			}
+
+			@Override
+			protected List<TAXAgency> getLists(Context context) {
+				return new ArrayList<TAXAgency>(context.getCompany()
+						.getTaxAgencies());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getMessages().taxAgency());
+			}
+
+			@Override
+			protected boolean filter(TAXAgency e, String name) {
+				return e.getName().toLowerCase().startsWith(name);
+			}
+		});
+		list.add(new PayVatTableRequirement(BILLS_TO_PAY, getMessages()
+				.pleaseSelect(getMessages().billsToPay()), getMessages()
+				.billsToPay()) {
+
+			@Override
+			protected List<ClientTransactionPayTAX> getList() {
+				return getClientTransactionPayTAXes();
+			}
+		});
+	}
+
+	private List<ClientTransactionPayTAX> getClientTransactionPayTAXes() {
+		TAXAgency selectedVATAgency = null;
+		if (get(TAX_AGENCY) != null) {
+			selectedVATAgency = get(TAX_AGENCY).getValue();
+		}
+		if (selectedVATAgency == null) {
+			return getPayTAXEntries();
+		}
+		List<ClientTransactionPayTAX> filterRecords = new ArrayList<ClientTransactionPayTAX>();
+		for (ClientTransactionPayTAX tpt : getPayTAXEntries()) {
+			if (tpt.getTaxAgency() == selectedVATAgency.getID()) {
+				filterRecords.add(tpt);
+			}
+		}
+		return filterRecords;
+	}
+
+	private List<ClientTransactionPayTAX> getPayTAXEntries() {
+		return new FinanceTool().getTaxManager().getPayTAXEntries(
+				getCompanyId());
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = null;
-
-		result = accountRequirement(context, PAY_FROM);
-		if (result != null) {
-			return result;
-		}
-
-		result = paymentMethodRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		result = billsToPayRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		result = createOptionalRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		return createPayVat(context);
-	}
-
-	private Result createPayVat(Context context) {
-		PayVAT payVAT = new PayVAT();
-
+	protected Result onCompleteProcess(Context context) {
+		ClientPayTAX payVAT = new ClientPayTAX();
 		Account payFrom = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
-		List<TransactionPayVAT> billsToPay = get(BILLS_TO_PAY).getValue();
-		FinanceDate vatReturnDate = get(VAT_RETURN_END_DATE).getValue();
-		FinanceDate transactionDate = get(DATE).getValue();
+		List<ClientTransactionPayTAX> billsToPay = get(BILLS_TO_PAY).getValue();
+		for (ClientTransactionPayTAX clientTransactionPayTAX : billsToPay) {
+			clientTransactionPayTAX.setID(0);
+		}
+		ClientFinanceDate vatReturnDate = get(VAT_RETURN_END_DATE).getValue();
+		ClientFinanceDate transactionDate = get(DATE).getValue();
+		TAXAgency taxAgency = get(TAX_AGENCY).getValue();
 		String orderNo = get(ORDER_NO).getValue();
-
-		payVAT.setPayFrom(payFrom);
-		payVAT.setPaymentMethod(paymentMethod);
-		payVAT.setTransactionPayVAT(billsToPay);
-		payVAT.setReturnsDueOnOrBefore(vatReturnDate);
-		payVAT.setDate(transactionDate);
 		payVAT.setNumber(orderNo);
+		payVAT.setType(ClientTransaction.TYPE_PAY_TAX);
+		payVAT.setPayFrom(payFrom.getID());
+		payVAT.setPaymentMethod(paymentMethod);
+		payVAT.setTransactionPayTax(billsToPay);
+		payVAT.setBillsDueOnOrBefore(vatReturnDate.getDate());
+		payVAT.setTaxAgency(taxAgency == null ? 0 : taxAgency.getID());
+		payVAT.setDate(transactionDate.getDate());
+
+		/*
+		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
+		 * currency = get(CURRENCY).getValue(); if (currency != null) {
+		 * payVAT.setCurrency(currency.getID()); }
+		 * 
+		 * double factor = get(CURRENCY_FACTOR).getValue();
+		 * payVAT.setCurrencyFactor(factor); }
+		 */
 
 		create(payVAT, context);
 
-		markDone();
-		Result result = new Result();
-		result.add("Pay Vat created successfully.");
-
-		return result;
-	}
-
-	private Result createOptionalRequirement(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case ADD_MORE_BILLS:
-				return getBillsToPayResult(context);
-			case FINISH:
-				context.removeAttribute(INPUT_ATTR);
-				return null;
-			default:
-				break;
-			}
-		}
-
-		selection = context.getSelection("values");
-
-		Requirement payFromReq = get(PAY_FROM);
-		Account payFrom = (Account) payFromReq.getValue();
-		if (payFrom == selection) {
-			context.setAttribute(INPUT_ATTR, PAY_FROM);
-			return getAccountResult(context);
-		}
-
-		Requirement paymentMethodReq = get(PAYMENT_METHOD);
-		String paymentMethod = (String) paymentMethodReq.getValue();
-		if (paymentMethod == selection) {
-			context.setAttribute(INPUT_ATTR, PAYMENT_METHOD);
-			return paymentMethod(context, paymentMethod);
-		}
-
-		Requirement billsToPayReq = get(BILLS_TO_PAY);
-		List<TransactionPayVAT> transPayVats = billsToPayReq.getValue();
-
-		selection = context.getSelection("transactionPayVats");
-		if (selection != null) {
-			Result result = getBillsToPayResult(context);
-			if (result != null) {
-				return result;
-			}
-		}
-
-		ResultList list = new ResultList("values");
-
-		Record payFromRecord = new Record(payFrom);
-		payFromRecord.add("Name", "Pay From");
-		payFromRecord.add("Value", payFrom.getName());
-		list.add(payFromRecord);
-
-		Record paymentMethodRecord = new Record(paymentMethod);
-		paymentMethodRecord.add("Name", "Pay Method");
-		paymentMethodRecord.add("Value", paymentMethod);
-		list.add(paymentMethodRecord);
-
-		Result result = dateOptionalRequirement(context, list,
-				VAT_RETURN_END_DATE, "Filter by VAT return end date", selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = dateRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = orderNoRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = context.makeResult();
-		result.add("Pay Vat is ready to create with following values.");
-		result.add(list);
-		result.add("Bill To Pay:-");
-		ResultList payVats = new ResultList("transactionPayVats");
-		for (TransactionPayVAT payVat : transPayVats) {
-			Record itemRec = createTransactionPayVatRecord(payVat);
-			payVats.add(itemRec);
-		}
-		result.add(payVats);
-
-		ResultList actions = new ResultList(ACTIONS);
-		Record moreItems = new Record(ActionNames.ADD_MORE_BILLS);
-		moreItems.add("", "Add more bills");
-		actions.add(moreItems);
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to Pay vat.");
-		actions.add(finish);
-		result.add(actions);
-
-		return result;
-	}
-
-	private Result billsToPayRequirement(Context context) {
-		Requirement billsToPayReq = get(BILLS_TO_PAY);
-		List<TransactionPayVAT> transactionPayVatBills = context
-				.getSelections(BILLS_TO_PAY);
-		if (!billsToPayReq.isDone()) {
-			if (transactionPayVatBills.size() > 0) {
-				billsToPayReq.setValue(transactionPayVatBills);
-			} else {
-				return getBillsToPayResult(context);
-			}
-		}
-		if (transactionPayVatBills != null && transactionPayVatBills.size() > 0) {
-			List<TransactionPayVAT> items = billsToPayReq.getValue();
-			items.addAll(transactionPayVatBills);
-		}
 		return null;
-	}
-
-	private Result getBillsToPayResult(Context context) {
-		Result result = context.makeResult();
-		List<TransactionPayVAT> transactionPayVats = getTransactionPayVatBills(context
-				.getHibernateSession());
-		ResultList list = new ResultList(BILLS_TO_PAY_LIST);
-		Object last = context.getLast(RequirementType.TRANSACTION_PAY_VAT);
-		int num = 0;
-		if (last != null) {
-			list.add(createTransactionPayVatRecord((TransactionPayVAT) last));
-			num++;
-		}
-		Requirement payBillsReq = get(BILLS_TO_PAY_LIST);
-		List<TransactionPayVAT> transPayVats = payBillsReq.getValue();
-		List<TransactionPayVAT> availablePayVats = new ArrayList<TransactionPayVAT>();
-		for (TransactionPayVAT transactionItem : transPayVats) {
-			availablePayVats.add(transactionItem);
-		}
-		for (TransactionPayVAT transactionPayVat : transactionPayVats) {
-			if (transactionPayVat != last
-					|| !availablePayVats.contains(transactionPayVat)) {
-				list.add(createTransactionPayVatRecord(transactionPayVat));
-				num++;
-			}
-			if (num == VALUES_TO_SHOW) {
-				break;
-			}
-		}
-		list.setMultiSelection(true);
-		if (list.size() > 0) {
-			result.add("Slect Bill to pay.");
-		} else {
-			result.add("You don't have Bills.");
-		}
-
-		result.add(list);
-		return result;
-	}
-
-	private List<TransactionPayVAT> getTransactionPayVatBills(
-			Session hibernateSession) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Record createTransactionPayVatRecord(TransactionPayVAT payVatBill) {
-		Record record = new Record(payVatBill);
-		TAXAgency taxAgency = payVatBill.getTaxAgency();
-		record.add("Vat Agency", taxAgency != null ? taxAgency.getName() : "");
-		record.add("Tax Due", payVatBill.getTaxDue());
-		record.add("Amount to pay", payVatBill.getAmountToPay());
-		return record;
 	}
 
 	@Override
-	protected List<Account> getAccounts(Session session) {
-		// TODO Auto-generated method stub
-		return super.getAccounts(session);
+	protected String initObject(Context context, boolean isUpdate) {
+		if (!context.getPreferences().isTrackTax()) {
+			addFirstMessage(context, "You dnt have permission to do this.");
+			return "cancel";
+		}
+		return null;
 	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return getMessages().creating(getMessages().payVAT());
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().readyToCreate(getMessages().payVAT());
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(VAT_RETURN_END_DATE).setDefaultValue(new ClientFinanceDate());
+		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(NUMBER).setDefaultValue(
+				NumberUtils.getNextTransactionNumber(
+						ClientTransaction.TYPE_PAY_TAX, context.getCompany()));
+		/*
+		 * get(CURRENCY).setDefaultValue(null);
+		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		 */
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().createSuccessfully(getMessages().payVAT());
+	}
+
+	// private Record createTransactionPayVatRecord(TransactionPayTAX
+	// payVatBill) {
+	// Record record = new Record(payVatBill);
+	// TAXAgency taxAgency = payVatBill.getTaxAgency();
+	// record.add("Vat Agency", taxAgency != null ? taxAgency.getName() : "");
+	// record.add("Tax Due", payVatBill.getTaxDue());
+	// record.add("Amount to pay", payVatBill.getAmountToPay());
+	// return record;
+	// }
 
 }

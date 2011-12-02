@@ -1,56 +1,62 @@
 package com.vimukti.accounter.web.client.exception;
 
 import com.google.gwt.core.client.GWT;
-import com.vimukti.accounter.web.client.externalization.AccounterErrorMessages;
-import com.vimukti.accounter.web.client.externalization.AccounterErrors;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class AccounterExceptions {
 
-	public static AccounterErrors accounterErrors = (AccounterErrors) GWT
-			.create(AccounterErrors.class);
-	public static AccounterErrorMessages accounterErrorMessages = (AccounterErrorMessages) GWT
-			.create(AccounterErrorMessages.class);
+	public static AccounterMessages accounterMessages = (AccounterMessages) GWT
+			.create(AccounterMessages.class);
 
 	public static String getErrorString(int errorCode) {
 		switch (errorCode) {
 		case AccounterException.ERROR_NUMBER_CONFLICT:
-			return accounterErrors.numberConflict();
+			return accounterMessages.numberConflict();
 
 		case AccounterException.ERROR_NAME_CONFLICT:
-			return accounterErrors.nameConflict();
+			return accounterMessages.nameConflict();
 
 		case AccounterException.ERROR_TRAN_CONFLICT:
-			return accounterErrors.transactionConflict();
+			return accounterMessages.transactionConflict();
 
 		case AccounterException.ERROR_PERMISSION_DENIED:
-			return accounterErrors.permissionDenied();
+			return accounterMessages.permissionDenied();
 
 		case AccounterException.ERROR_INTERNAL:
-			return accounterErrors.internal();
+			return accounterMessages.internal();
 
 		case AccounterException.ERROR_ILLEGAL_ARGUMENT:
-			return accounterErrors.illegalArgument();
+			return accounterMessages.illegalArgument();
 
 		case AccounterException.ERROR_NO_SUCH_OBJECT:
-			return accounterErrors.noSuchObject();
+			return accounterMessages.noSuchObject();
 
 		case AccounterException.ERROR_DEPOSITED_FROM_UNDEPOSITED_FUNDS:
-			return accounterErrors.depositedFromUndepositedFunds();
+			return accounterMessages.depositedFromUndepositedFunds();
 
 		case AccounterException.ERROR_CANT_EDIT:
-			return accounterErrors.cantEdit();
+			return accounterMessages.cantEdit();
 
 		case AccounterException.ERROR_CANT_VOID:
-			return accounterErrors.cantVoid();
+			return accounterMessages.cantVoid();
 
 		case AccounterException.ERROR_RECEIVE_PAYMENT_DISCOUNT_USED:
-			return accounterErrors.receivePaymentDiscountUsed();
+			return accounterMessages.receivePaymentDiscountUsed();
 
 		case AccounterException.ERROR_OBJECT_IN_USE:
-			return accounterErrors.objectInUse();
+			return accounterMessages.objectInUse();
 
 		case AccounterException.ERROR_VERSION_MISMATCH:
-			return accounterErrors.objectModified();
+			return accounterMessages.objectModified();
+		case AccounterException.ERROR_TRANSACTION_RECONCILIED:
+			return accounterMessages.transactionReconcilied();
+		case AccounterException.USED_IN_INVOICE:
+			return accounterMessages.usedinInvoiceSoYoucantEdit();
+		case AccounterException.INVOICE_PAID_VOID_IT:
+			return accounterMessages.usedinReceivepayYoucantEdit();
+
+		case AccounterException.ERROR_CANT_EDIT_DELETE:
+			return accounterMessages.cantEditOrDelete();
 
 		default:
 			return null;

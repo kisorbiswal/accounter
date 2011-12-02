@@ -4,8 +4,12 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -23,15 +27,14 @@ public class CompanyNameOption extends AbstractPreferenceOption {
 	Label companyNameLabel;
 	@UiField
 	TextBox companyNameTextBox;
-
-	// @UiField
-	// CheckBox legalNmaeCheckBox;
-	// @UiField
-	// Label companyLegalNameLabel;
-	// @UiField
-	// TextBox comapnyLegalNameTextBox;
-	// @UiField
-	// HorizontalPanel comapnyLegalNameHeaderPanel;
+	@UiField
+	TextBox legalNameTextBox;
+	@UiField
+	Label legalNameLabel;
+	@UiField
+	CheckBox isShowLegalName;
+	@UiField
+	HorizontalPanel legalNamePanel;
 
 	interface CompanyNameOptionUiBinder extends
 			UiBinder<Widget, CompanyNameOption> {
@@ -53,39 +56,48 @@ public class CompanyNameOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		companyNameLabel.setText(Accounter.constants().companyName());
-		// companyLegalNameLabel.setText(Accounter.constants().legalName());
-		// legalNmaeCheckBox
-		// .setText(Accounter.constants().getDifferentLegalName());
-		// legalNmaeCheckBox.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// comapnyLegalNameHeaderPanel.setVisible(legalNmaeCheckBox
-		// .getValue());
-		// }
-		// });
+		legalNameLabel.setText(Accounter.messages().legalName());
+		companyNameLabel.setText(Accounter.messages().companyName());
+		isShowLegalName.setText(messages.registeredAddressComment());
 	}
 
 	public void initData() {
+		isShowLegalName.setValue(getCompanyPreferences().isShowLegalName());
+		legalNameTextBox.setText(getCompanyPreferences().getLegalName());
 		companyNameTextBox.setText(getCompany().getDisplayName());
-		// comapnyLegalNameTextBox.setText(company.getDisplayName());
+		legalNamePanel.setVisible(getCompanyPreferences().isShowLegalName());
 	}
 
 	@Override
 	public void onSave() {
-		getCompany().setName(companyNameTextBox.getValue());
-		// company.setTradingName(comapnyLegalNameTextBox.getValue());
+		getCompany().setLegalName(legalNameTextBox.getValue());
+		getCompany().setTradingName(companyNameTextBox.getValue());
+		getCompanyPreferences().setShowLegalName(isShowLegalName.getValue());
+	}
+
+	@Override
+	public boolean isValidate() {
+		if (companyNameTextBox.getValue().length() == 0) {
+			Accounter
+					.showError(messages.pleaseEnter(companyNameLabel.getText()));
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().name();
+		return Accounter.messages().name();
 	}
 
 	@Override
 	public String getAnchor() {
-		return Accounter.constants().name();
+		return Accounter.messages().name();
 	}
 
+	@UiHandler("isShowLegalName")
+	void onIsShowLegalNameValueChange(ValueChangeEvent<Boolean> event) {
+		legalNamePanel.setVisible(event.getValue());
+	}
 }

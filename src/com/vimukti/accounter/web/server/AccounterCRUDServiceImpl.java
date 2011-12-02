@@ -11,9 +11,6 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Util;
-import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.services.IS2SService;
-import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
@@ -159,23 +156,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 		ClientUserInfo invitedser = (ClientUserInfo) coreObject;
 
-		IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
-				.getMainServerDomain());
-		// Creating Use in Local Company Database
 		ClientUser coreUser = convertUserInfoToUser(invitedser);
-		// Creating Clien
-		try {
-			String company = getCookie(BaseServlet.COMPANY_COOKIE);
-			boolean userExists = s2sSyncProxy.inviteUser(
-					Integer.parseInt(company), invitedser, getUserEmail());
-			coreUser.setActive(userExists);
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (e instanceof AccounterException) {
-				throw (AccounterException) e;
-			}
-			throw new AccounterException(AccounterException.ERROR_INTERNAL);
-		}
 
 		String clientClassSimpleName = coreUser.getObjectType()
 				.getClientClassSimpleName();
@@ -221,24 +202,24 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public boolean deleteUser(IAccounterCore deletableUser, String senderEmail)
 			throws AccounterException {
-		ClientUserInfo deletingUser = (ClientUserInfo) deletableUser;
+		// ClientUserInfo deletingUser = (ClientUserInfo) deletableUser;
 
-		try {
-
-			IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
-					.getMainServerDomain());
-
-			String serverCompanyId = getCookie(BaseServlet.COMPANY_COOKIE);
-
-			s2sSyncProxy.deleteClientFromCompany(
-					Long.parseLong(serverCompanyId), deletingUser.getEmail());
-
-		} catch (Exception e) {
-			if (e instanceof AccounterException) {
-				throw (AccounterException) e;
-			}
-			throw new AccounterException(AccounterException.ERROR_INTERNAL);
-		}
+		// try {
+		//
+		// IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
+		// .getMainServerDomain());
+		//
+		// String serverCompanyId = getCookie(BaseServlet.COMPANY_COOKIE);
+		//
+		// s2sSyncProxy.deleteClientFromCompany(
+		// Long.parseLong(serverCompanyId), deletingUser.getEmail());
+		//
+		// } catch (Exception e) {
+		// if (e instanceof AccounterException) {
+		// throw (AccounterException) e;
+		// }
+		// throw new AccounterException(AccounterException.ERROR_INTERNAL);
+		// }
 
 		ClientUser coreUser = convertUserInfoToUser((ClientUserInfo) deletableUser);
 		String clientClassSimpleName = coreUser.getObjectType()
@@ -270,6 +251,19 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			throws AccounterException {
 		return getFinanceTool().createNote(getCompanyId(), transactionId,
 				noteDetails);
+	}
+
+	@Override
+	public boolean deleteTransactionFromDb(IAccounterCore obj)
+			throws AccounterException {
+		IAccounterServerCore serverCore = (IAccounterServerCore) loadObjectById(
+				obj.getObjectType().getServerClassFullyQualifiedName(),
+				obj.getID());
+		if (serverCore instanceof Transaction) {
+			return getFinanceTool()
+					.deleteTransactionFromDb(getCompanyId(), obj);
+		}
+		return false;
 	}
 
 }

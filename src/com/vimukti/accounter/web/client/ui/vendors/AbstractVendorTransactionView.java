@@ -17,10 +17,13 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -77,7 +80,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			vatTotalNonEditableText, paymentsNonEditableText,
 			salesTaxTextNonEditable;
 
-	protected AmountField balanceDueNonEditableText;// protected
+	protected AmountLabel balanceDueNonEditableText;// protected
 
 	// AbstractAccounterCombo
 	// contactCombo,
@@ -99,6 +102,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected ClientVendor vendor;
 
 	private TAXCodeCombo taxCodeCombo;
+
+	private AmountLabel amountItem;
 
 	protected void initTransactionTotalNonEditableItem() {
 	}
@@ -133,9 +138,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+		setMenuItems(button, messages.Accounts(),
+				messages.productOrServiceItem());
 	}
 
 	protected void initVendors() {
@@ -166,33 +170,46 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 		Iterator<ClientContact> iterator = contacts.iterator();
 		while (iterator.hasNext()) {
-			contactCombo.setValue(iterator.next().getName());
-			break;
+			ClientContact next = iterator.next();
+			if (next.isPrimary()) {
+				contactCombo.setComboItem(next);
+				contactSelected(next);
+				break;
+			} else {
+				contactSelected(next);
+			}
 		}
 		// initPhones(vendor);
 		paymentMethodSelected(vendor.getPaymentMethod());
 		addressListOfVendor = vendor.getAddress();
 		initBillToCombo();
-		if (taxCodeSelect != null) {
-			long taxCodeID = vendor.getTAXCode();
-			taxCodeSelect.setSelectedObj(taxCodeID);
+		if (isTrackTax() && isTrackPaidTax()) {
+			if (taxCodeSelect != null) {
+				long taxCodeID = vendor.getTAXCode();
+				if (taxCodeID == 0) {
+					taxCodeID = getCompany().getDefaultTaxCode();
+				}
+				ClientTAXCode taxCode = getCompany().getTAXCode(taxCodeID);
+				taxCodeSelected(taxCode);
+			}
 		}
-
 	}
 
-	protected AmountLabel createTransactionTotalNonEditableItem() {
+	protected AmountLabel createTransactionTotalNonEditableItem(
+			ClientCurrency currency) {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().total());
+		amountItem = new AmountLabel(messages.currencyTotal(currency
+				.getFormalName()));
 		amountItem.setDisabled(true);
 
 		return amountItem;
 
 	}
 
-	protected AmountField createSalesTaxNonEditableItem() {
+	protected AmountField createSalesTaxNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.constants()
-				.salesTax(), this);
+		AmountField amountItem = new AmountField(messages.salesTax(), this,
+				currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -201,7 +218,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected AmountLabel createVATTotalNonEditableItem() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().tax());
+		AmountLabel amountItem = new AmountLabel(messages.tax());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -210,8 +227,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected AmountLabel createSalesTaxNonEditableLabel() {
 
-		AmountLabel amountLabel = new AmountLabel(Accounter.constants()
-				.salesTax());
+		AmountLabel amountLabel = new AmountLabel(messages.salesTax());
 
 		return amountLabel;
 	}
@@ -265,7 +281,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
-		taxCodeCombo = new TAXCodeCombo(Accounter.constants().tax(), false);
+		taxCodeCombo = new TAXCodeCombo(messages.tax(), false);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
 		taxCodeCombo.addStyleName("tax_combo");
@@ -338,14 +354,15 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				});
 
 		// vendorCombo.setShowDisabled(false);
+		setVendor(vendorCombo.getSelectedValue());
 		return vendorCombo;
 
 	}
 
 	public ContactCombo createContactComboItem() {
 
-		ContactCombo contactCombo = new ContactCombo(Accounter.constants()
-				.contactName(), true);
+		ContactCombo contactCombo = new ContactCombo(messages.contactName(),
+				true);
 		contactCombo.setHelpInformation(true);
 		contactCombo.setDisabled(true);
 		contactCombo
@@ -396,8 +413,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(Accounter.constants()
-				.billTo(), false);
+		AddressCombo addressCombo = new AddressCombo(messages.billTo(), false);
 		addressCombo.setDefaultToFirstOption(false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
@@ -548,9 +564,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected TextItem createCheckNumberItem(String title) {
 
 		final TextItem checkNo = new TextItem(title);
-		checkNo.setToolTip(Accounter.messages()
-				.giveNoTo(this.getAction().getViewName())
-				.replace(Accounter.constants().no(), title));
+		checkNo.setToolTip(messages.giveNoTo(this.getAction().getViewName())
+				.replace(messages.no(), title));
 		checkNo.setHelpInformation(true);
 		checkNo.setDisabled(isInViewMode());
 		// checkNo.setShowDisabled(false);
@@ -570,8 +585,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected DateField createTransactionDeliveryDateItem() {
 
-		final DateField dateItem = new DateField(Accounter.constants()
-				.deliveryDate());
+		final DateField dateItem = new DateField(messages.deliveryDate());
 		dateItem.setHelpInformation(true);
 		// dateItem.setTitle("Delivery Date");
 		// dateItem.setUseTextField(true);
@@ -629,15 +643,13 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected void onAddNew(String menuItem) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		long defaultTaxCode = getCompany().getPreferences().getDefaultTaxCode();
-		if (menuItem.equals(Accounter.messages().accounts(
-				Global.get().Account()))) {
+		if (menuItem.equals(messages.Accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 
 			transactionItem.setTaxCode(getVendor() != null ? (getVendor()
 					.getTAXCode() > 0 ? getVendor().getTAXCode()
 					: defaultTaxCode) : defaultTaxCode);
-		} else if (menuItem
-				.equals(Accounter.constants().productOrServiceItem())) {
+		} else if (menuItem.equals(messages.productOrServiceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			transactionItem.setTaxCode(getVendor() != null ? (getVendor()
 					.getTAXCode() > 0 ? getVendor().getTAXCode()
@@ -707,9 +719,15 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 		long defaultTaxCode = getCompany().getPreferences().getDefaultTaxCode();
-		transactionItem.setTaxCode(getVendor() != null ? (getVendor()
-				.getTAXCode() > 0 ? getVendor().getTAXCode() : defaultTaxCode)
-				: defaultTaxCode);
+		if (getPreferences().isTaxPerDetailLine()) {
+			transactionItem.setTaxCode(getVendor() != null ? (getVendor()
+					.getTAXCode() > 0 ? getVendor().getTAXCode()
+					: defaultTaxCode) : defaultTaxCode);
+		} else {
+			if (taxCode != null) {
+				transactionItem.setTaxCode(taxCode.getID());
+			}
+		}
 		addAccountTransactionItem(transactionItem);
 	}
 
@@ -719,9 +737,15 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 		long defaultTaxCode = getPreferences().getDefaultTaxCode();
-		transactionItem.setTaxCode(getVendor() != null ? (getVendor()
-				.getTAXCode() > 0 ? getVendor().getTAXCode() : defaultTaxCode)
-				: defaultTaxCode);
+		if (getPreferences().isTaxPerDetailLine()) {
+			transactionItem.setTaxCode(getVendor() != null ? (getVendor()
+					.getTAXCode() > 0 ? getVendor().getTAXCode()
+					: defaultTaxCode) : defaultTaxCode);
+		} else {
+			if (taxCode != null) {
+				transactionItem.setTaxCode(taxCode.getID());
+			}
+		}
 		addItemTransactionItem(transactionItem);
 	}
 
@@ -730,6 +754,39 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		ValidationResult result = super.validate();
 		if (vendorCombo.getSelectedValue() == null) {
 			vendorCombo.setValue("");
+		}
+
+		if (isTrackTax() && isTrackPaidTax()) {
+
+			// Exception Report
+			// TODO need to get last vat period date
+			for (ClientTransactionItem item : transaction.getTransactionItems()) {
+				ClientTAXCode taxCode = getCompany().getTAXCode(
+						item.getTaxCode());
+				if (taxCode == null || !taxCode.isTaxable()) {
+					continue;
+				}
+				ClientTAXItem taxItem = getCompany().getTaxItem(
+						taxCode.getTAXItemGrpForSales());
+				if (taxItem == null) {
+					continue;
+				}
+				ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+						taxItem.getTaxAgency());
+				if (taxAgency != null
+						&& this.transactionDate.before(taxAgency
+								.getLastTAXReturnDate())) {
+					result.addWarning(this.transactionDate, Accounter
+							.messages().taxExceptionMesg());
+				}
+			}
+			if (!isTaxPerDetailLine()) {
+				if (taxCodeSelect != null
+						&& taxCodeSelect.getSelectedValue() == null) {
+					result.addError(taxCodeSelect, messages.enterTaxCode());
+				}
+
+			}
 		}
 		return result;
 	}

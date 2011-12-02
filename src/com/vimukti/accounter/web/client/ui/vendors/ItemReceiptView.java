@@ -28,7 +28,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -59,10 +59,11 @@ public class ItemReceiptView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientPurchaseOrder> selectedPurchaseOrders;
-	AccounterConstants accounterConstants = Accounter.constants();
+	AccounterMessages messages = Accounter.messages();
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
+	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	public ItemReceiptView() {
 		super(ClientTransaction.TYPE_ITEM_RECEIPT);
@@ -72,7 +73,7 @@ public class ItemReceiptView extends
 	protected void createControls() {
 		// setTitle(UIUtils.title(vendorConstants.cashPurchase()));
 
-		HTML lab1 = new HTML(Accounter.constants().itemReceipt());
+		HTML lab1 = new HTML(Accounter.messages().itemReceipt());
 
 		listforms = new ArrayList<DynamicForm>();
 
@@ -105,11 +106,11 @@ public class ItemReceiptView extends
 		// formItems.add(transactionDateItem);
 		// formItems.add(transactionNumber);
 
-		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
+		vendorCombo = createVendorComboItem(messages.payeeName(Global.get()
 				.Vendor()));
 		vendorCombo.setWidth(100);
 		purchaseLabel = new LinkItem();
-		purchaseLabel.setLinkTitle(Accounter.constants().purchaseOrders());
+		purchaseLabel.setLinkTitle(Accounter.messages().purchaseOrders());
 		purchaseLabel.setShowTitle(false);
 		purchaseLabel.setDisabled(isInViewMode());
 		purchaseLabel.addClickHandler(new ClickHandler() {
@@ -128,8 +129,8 @@ public class ItemReceiptView extends
 		contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
-		phoneSelect = new TextItem(Accounter.constants().phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+		phoneSelect = new TextItem(Accounter.messages().phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
@@ -163,12 +164,13 @@ public class ItemReceiptView extends
 		netAmount = new AmountLabel("Net Amount");
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
-		transactionTotalNonEditableText = createTransactionTotalNonEditableItem();
+		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
+				.getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
 
 		HTML lab2 = new HTML("<strong>"
-				+ Accounter.constants().itemsAndExpenses() + "</strong>");
+				+ Accounter.messages().itemsAndExpenses() + "</strong>");
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(), this) {
 
@@ -180,6 +182,11 @@ public class ItemReceiptView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return ItemReceiptView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return ItemReceiptView.this.isInViewMode();
 			}
 		};
 
@@ -195,8 +202,7 @@ public class ItemReceiptView extends
 			}
 		});
 		FlowPanel accountFlowPanel = new FlowPanel();
-		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Account");
+		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -214,6 +220,11 @@ public class ItemReceiptView extends
 			public boolean isShowPriceWithVat() {
 				return ItemReceiptView.this.isShowPriceWithVat();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return ItemReceiptView.this.isInViewMode();
+			}
 		};
 
 		vendorItemTransactionTable.setDisabled(isInViewMode());
@@ -228,8 +239,7 @@ public class ItemReceiptView extends
 			}
 		});
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Product/Service");
+		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -249,11 +259,11 @@ public class ItemReceiptView extends
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
 		DynamicForm memoForm = new DynamicForm();
-		memoForm.setWidth("100%");
+		// memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
 
-		transactionTotalItem = new AmountField(Accounter.constants().total(),
-				this);
+		transactionTotalItem = new AmountField(Accounter.messages().total(),
+				this, getBaseCurrency());
 		transactionTotalItem.setDisabled(true);
 		DynamicForm amountForm = new DynamicForm();
 		amountForm.setFields(transactionTotalItem);
@@ -274,6 +284,8 @@ public class ItemReceiptView extends
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "50%");
 		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		HorizontalPanel bottomLayout = new HorizontalPanel();
@@ -336,12 +348,13 @@ public class ItemReceiptView extends
 				vendor.getPaymentTerms()));
 		if (transaction == null)
 			getPurchaseOrders();
+
 	}
 
 	private PaymentTermsCombo createPaymentTermsSelectItem() {
 
 		PaymentTermsCombo comboItem = new PaymentTermsCombo(Accounter
-				.constants().paymentTerms());
+				.messages().paymentTerms());
 
 		comboItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
@@ -429,11 +442,15 @@ public class ItemReceiptView extends
 			paymentTermsSelected(this.paymentTerm);
 
 			if (getPreferences().isTrackPaidTax()) {
-				netAmount.setAmount(getAmountInTransactionCurrency(transaction.getNetAmount()));
-				vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()
-						- transaction.getNetAmount()));
+				netAmount.setAmount(transaction
+						.getNetAmount());
+				vatTotalNonEditableText
+						.setAmount(transaction
+								.getTotal() - transaction.getNetAmount());
 			}
-			transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(transaction.getTotal()));
+			transactionTotalNonEditableText
+					.setAmount(getAmountInBaseCurrency(transaction
+							.getTotal()));
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -445,6 +462,13 @@ public class ItemReceiptView extends
 		super.initTransactionViewData();
 		initPaymentTerms();
 		initTransactionNumber();
+
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
@@ -458,10 +482,13 @@ public class ItemReceiptView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		transactionTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal));
-		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
+		transactionTotalNonEditableText
+				.setAmount(getAmountInBaseCurrency(grandTotal));
+		netAmount.setAmount(lineTotal);
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText.setAmount(getAmountInTransactionCurrency(grandTotal - lineTotal));
+			vatTotalNonEditableText
+					.setAmount(grandTotal
+							- lineTotal);
 		}
 	}
 
@@ -509,7 +536,7 @@ public class ItemReceiptView extends
 		transaction.setPurchaseOrder(selectedPurchaseOrder);
 
 		if (getPreferences().isTrackPaidTax()) {
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
+			transaction.setNetAmount(netAmount.getAmount());
 		}
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 	}
@@ -558,8 +585,7 @@ public class ItemReceiptView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (getVendor() == null) {
-			Accounter.showError(messages.pleaseSelectVendor(Global.get()
-					.vendor()));
+			Accounter.showError(messages.pleaseSelect(Global.get().vendor()));
 		} else {
 			this.rpcUtilService
 					.getNotReceivedPurchaseOrdersList(
@@ -661,12 +687,11 @@ public class ItemReceiptView extends
 
 		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 		// result.addError(transactionDate,
-		// accounterConstants.invalidateTransactionDate());
+		// messages.invalidateTransactionDate());
 		// }
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, messages.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
@@ -674,18 +699,14 @@ public class ItemReceiptView extends
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 
-			result.addError(deliveryDateItem, Accounter.constants().the()
-					+ " "
-					+ Accounter.constants().deliveryDate()
-					+ " "
-					+ " "
-					+ Accounter.constants()
-							.cannotbeearlierthantransactiondate());
+			result.addError(deliveryDateItem, Accounter.messages().the() + " "
+					+ Accounter.messages().deliveryDate() + " " + " "
+					+ Accounter.messages().cannotbeearlierthantransactiondate());
 
 		}
 		if (getAllTransactionItems().isEmpty()) {
 			result.addError(vendorAccountTransactionTable,
-					accounterConstants.blankTransaction());
+					messages.blankTransaction());
 		} else {
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
@@ -743,12 +764,12 @@ public class ItemReceiptView extends
 
 	@Override
 	protected Double getTransactionTotal() {
-		return getAmountInBaseCurrency(this.transactionTotalItem.getAmount());
+		return this.transactionTotalItem.getAmount();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().itemReciepts();
+		return Accounter.messages().itemReciepts();
 	}
 
 	@Override
@@ -807,4 +828,19 @@ public class ItemReceiptView extends
 		vendorItemTransactionTable.add(item);
 	}
 
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }

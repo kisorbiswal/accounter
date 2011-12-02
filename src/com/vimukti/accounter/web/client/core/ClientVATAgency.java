@@ -143,4 +143,9 @@ public class ClientVATAgency extends ClientPayee {
 
 		return vatAgency;
 	}
+
+	@Override
+	public String getDisplayName() {
+		return this.getName();
+	}
 }

@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -36,19 +35,19 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 
-		String[] reportBasisArray = { Accounter.constants().cash(),
-				Accounter.constants().accrual() };
+		String[] reportBasisArray = { Accounter.messages().cash(),
+				Accounter.messages().accrual() };
 
-		String[] dateRangeArray = { Accounter.constants().all(),
-				Accounter.constants().thisWeek(),
-				Accounter.constants().thisMonth(),
-				Accounter.constants().lastWeek(),
-				Accounter.constants().lastMonth(),
-				Accounter.constants().thisFinancialYear(),
-				Accounter.constants().lastFinancialYear(),
-				Accounter.constants().thisFinancialQuarter(),
-				Accounter.constants().lastFinancialQuarter(),
-				Accounter.constants().financialYearToDate(),
+		String[] dateRangeArray = { Accounter.messages().all(),
+				Accounter.messages().thisWeek(),
+				Accounter.messages().thisMonth(),
+				Accounter.messages().lastWeek(),
+				Accounter.messages().lastMonth(),
+				Accounter.messages().thisFinancialYear(),
+				Accounter.messages().lastFinancialYear(),
+				Accounter.messages().thisFinancialQuarter(),
+				Accounter.messages().lastFinancialQuarter(),
+				Accounter.messages().financialYearToDate(),
 				// FinanceApplication.constants().today(),
 				// FinanceApplication.constants().endThisWeek(),
 				// FinanceApplication.constants().endThisWeekToDate(),
@@ -76,10 +75,10 @@ public class DateRangeReportToolbar extends ReportToolbar {
 				// .previousFiscalYearSameDates(),
 				// FinanceApplication.constants().lastCalenderYear(),
 				// FinanceApplication.constants().previousCalenderYear(),
-				Accounter.constants().custom() };
+				Accounter.messages().custom() };
 
 		LabelItem report = new LabelItem();
-		report.setTitle(Accounter.constants().reportBasisAccrual());
+		report.setTitle(Accounter.messages().reportBasisAccrual());
 		// reportBasisItem = new ComboBoxItem();
 		// reportBasisItem.setTitle("Report Basis");
 		// reportBasisItem.setValueMap(reportBasisArray);
@@ -87,14 +86,14 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// // report basic is not yet implemented, so disable the feature.
 		// reportBasisItem.setDisabled(true);
 
-		dateRangeItemCombo = new SelectCombo(Accounter.constants().dateRange());
+		dateRangeItemCombo = new SelectCombo(Accounter.messages().dateRange());
 		dateRangeItemCombo.setHelpInformation(true);
 		dateRangeItemList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeItemList.add(dateRangeArray[i]);
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
-		dateRangeItemCombo.setComboItem(Accounter.constants()
+		dateRangeItemCombo.setComboItem(Accounter.messages()
 				.financialYearToDate());
 		// dateRangeItem.setDefaultValue(dateRangeArray[0]);
 		// dateRangeItem.addChangedHandler(new ChangeHandler() {
@@ -134,7 +133,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setTitle(Accounter.constants().from());
+		fromItem.setTitle(Accounter.messages().from());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
@@ -148,7 +147,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// else
 		// toItem.setDate(new Date());
 
-		toItem.setTitle(Accounter.constants().to());
+		toItem.setTitle(Accounter.messages().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -161,7 +160,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 			}
 		});
-		updateButton = new Button(Accounter.constants().update());
+		updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -172,9 +171,10 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						fromItem.getDate(), toItem.getDate());
-				dateRangeItemCombo.setDefaultValue(Accounter.constants()
+				dateRangeItemCombo.setDefaultValue(Accounter.messages()
 						.custom());
-				setSelectedDateRange(Accounter.constants().custom());
+				dateRangeItemCombo.setComboItem(Accounter.messages().custom());
+				setSelectedDateRange(Accounter.messages().custom());
 			}
 		});
 
@@ -182,7 +182,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		Button printButton = new Button(Accounter.constants().print());
+		Button printButton = new Button(Accounter.messages().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {
@@ -193,9 +193,9 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 		});
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			dateRangeItemCombo.setWidth("200px");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// dateRangeItemCombo.setWidth("200px");
+		// }
 
 		addItems(report, dateRangeItemCombo, fromItem, toItem);
 		add(updateButton);
@@ -221,6 +221,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 	public void setDefaultDateRange(String defaultDateRange) {
 		// setSelectedDateRange(defaultDateRange);
 		dateRangeItemCombo.setDefaultValue(defaultDateRange);
+		dateRangeItemCombo.setComboItem(defaultDateRange);
 		dateRangeChanged(defaultDateRange);
 
 	}
@@ -228,7 +229,10 @@ public class DateRangeReportToolbar extends ReportToolbar {
 	@Override
 	public void setStartAndEndDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		// TODO
+		fromItem.setEnteredDate(startDate);
+		toItem.setEnteredDate(endDate);
+		setStartDate(startDate);
+		setEndDate(endDate);
 	}
 
 }

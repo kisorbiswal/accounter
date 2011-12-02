@@ -15,23 +15,28 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
-import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
-import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
-import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.core.ClientStockTransfer;
+import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
-import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -54,6 +59,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
  * 
@@ -118,13 +124,12 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public String getNextTransactionNumber(int transactionType);
 
-	public String getNextVoucherNumber();
-
 	// To auto generate the next Check number.
 	public Long getNextCheckNumber(long accountId);
 
 	// To auto generate the next Issue Payement Check number.
-	public Long getNextIssuepaymentCheckNumber(long accountId);
+	public String getNextIssuepaymentCheckNumber(long accountId)
+			throws AccounterException;
 
 	// To check whether an Account is a Tax Agency Account or not
 	public boolean isTaxAgencyAccount(long accountId);
@@ -136,7 +141,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public boolean isSalesTaxPayableAccountByName(String accountName);
 
 	// To get all the Estimates/Quotes in a company
-	public ArrayList<ClientEstimate> getEstimates();
+	public ArrayList<ClientEstimate> getEstimates(int type);
 
 	// To get the Estimates/Quotes of a particular customer in the company
 	public ArrayList<ClientEstimate> getEstimates(long customerId);
@@ -168,9 +173,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	// To get all the Journal Entries in a company
 	public ArrayList<ClientJournalEntry> getJournalEntries();
-
-	// To get all the Entries of a particular journal entry
-	public ArrayList<ClientEntry> getEntries(long journalEntryId);
 
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)
@@ -244,7 +246,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public void changeDepreciationStartDateTo(long newStartDate)
 			throws AccounterException;
 
-	public ClientVATReturn getTAXReturn(ClientTAXAgency taxAgency,
+	public ClientTAXReturn getVATReturn(ClientTAXAgency taxAgency,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate)
 			throws AccounterException;
 
@@ -267,16 +269,16 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public void runDepreciation(long depreciationFrom, long depreciationTo,
 			FixedAssetLinkedAccountMap linkedAccounts);
 
-	public ArrayList<ClientPaySalesTaxEntries> getPaySalesTaxEntries(
-			long transactionDate);
+	// public ArrayList<ClientFileTAXEntry> getPaySalesTaxEntries(
+	// long transactionDate);
 
-	public ArrayList<ClientPayVATEntries> getPayVATEntries()
-			throws AccounterException;
+	List<ClientTransactionPayTAX> getPayTAXEntries() throws AccounterException;
 
 	public ArrayList<ClientReceiveVATEntries> getReceiveVATEntries()
 			throws AccounterException;
 
-	public ArrayList<PayeeList> getPayeeList(int transactionCategory);
+	public ArrayList<PayeeList> getPayeeList(int transactionCategory)
+			throws AccounterException;
 
 	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate);
 
@@ -287,7 +289,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public String getVendorNumber();
 
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
-			long accountNo);
+			long accountId);
 
 	boolean changePassWord(String emailID, String oldPassword,
 			String newPassword);
@@ -315,6 +317,9 @@ public interface IAccounterHomeViewService extends RemoteService {
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			int startIndex, int length) throws AccounterException;
 
+	public ArrayList<String> getAuditHistory(int objectType, long objectID)
+			throws AccounterException;
+
 	void mergeAccount(ClientAccount fromClientAccount,
 			ClientAccount toClientAccount) throws AccounterException;
 
@@ -332,4 +337,33 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<ClientTDSInfo> getPayBillsByTDS()
 			throws AccounterException;
 
+	public ArrayList<ClientWarehouse> getWarehouses();
+
+	public ArrayList<ClientMeasurement> getAllUnits();
+
+	public ArrayList<ClientStockTransferItem> getStockTransferItems(
+			long wareHouse);
+
+	public ArrayList<ClientStockTransfer> getWarehouseTransfersList()
+			throws AccounterException;
+
+	public ArrayList<StockAdjustmentList> getStockAdjustments()
+			throws AccounterException;
+
+	ArrayList<ClientItemStatus> getItemStatuses(long wareHouse)
+			throws AccounterException;
+
+	ArrayList<ClientAccount> getAccounts(int typeOfAccount)
+			throws AccounterException;
+
+	boolean savePortletConfig(ClientPortletPageConfiguration config);
+
+	public double getMostRecentTransactionCurrencyFactor(long companyId,
+			long currencyId, long tdate) throws AccounterException;
+
+	ClientPortletPageConfiguration getPortletPageConfiguration(String pageName);
+
+	List<ClientPayee> getOwePayees(int oweType);
+
+	List<ClientActivity> getRecentTransactions(int limit);
 }

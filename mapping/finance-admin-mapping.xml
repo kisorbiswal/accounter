@@ -7,7 +7,7 @@
 	<!-- Admin users class -->
 	<class name="com.vimukti.accounter.admin.core.AdminUser" table="ADMIN_USER">
 		<id name="id" column="ID">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="name" column="NAME"></property>
 		<property name="emailId" column="EMAIL_ID"></property>
@@ -19,7 +19,7 @@
 
 	<!--
 		<class name="Admin" table="ADMIN"> <id name="id" column="ID">
-		<generator class="native" /> </id> <property name="name"
+		<generator class="identity" /> </id> <property name="name"
 		column="NAME"></property> <property name="emailID"
 		column="EMAIL_ID"></property> <list name="adminUsers" lazy="false"
 		cascade="save-update,delete"> <key column="ADMIN_ID"></key>

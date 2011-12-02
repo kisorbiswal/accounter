@@ -6,12 +6,11 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -22,7 +21,6 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerListGrid;
 
 public class CustomerListView extends BaseListView<PayeeList> {
 
-	AccounterConstants customerConstants;
 	private List<PayeeList> listOfCustomers;
 
 	public CustomerListView() {
@@ -40,7 +38,6 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	public void init() {
-		customerConstants = Accounter.constants();
 		super.init();
 
 	}
@@ -58,7 +55,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.messages().addaNewCustomer(Global.get().Customer());
+			return Accounter.messages().addaNew(Global.get().Customer());
 		else
 			return "";
 	}
@@ -66,7 +63,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return Accounter.messages().customerList(Global.get().Customer());
+		return Accounter.messages().payeeList(Global.get().Customer());
 	}
 
 	@Override
@@ -82,8 +79,8 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getPayeeList(
-				ClientTransaction.CATEGORY_CUSTOMER, this);
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
+				this);
 
 	}
 
@@ -149,7 +146,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().customers(Global.get().Customer());
+		return Accounter.messages().payees(Global.get().Customer());
 	}
 
 	@Override

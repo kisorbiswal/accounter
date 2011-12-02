@@ -4,11 +4,9 @@ import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -19,35 +17,51 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * 
  */
 
-public class BizDecorPanel extends FlexTable {
-	private AutoFillWidget TC;
+public abstract class BizDecorPanel extends FlexTable {
+	private Label TC;
 	private AutoFillWidget MC;
-	private boolean isActionsAsTitle;
+	private Image closeImage;
+	private Image configImage;
+	private Label gotoLabel;
 
-	public BizDecorPanel() {
-		this(null);
-	}
-
-	public BizDecorPanel(String title) {
-		this(title, false);
-	}
-
-	public BizDecorPanel(String title, Boolean isActionsAsTitle) {
-		setDecorator(title);
+	public BizDecorPanel(String title, String gotoString) {
+		setDecorator(title, gotoString);
 		this.setStyleName("biz-decor-panel");
 		if (title != null) {
 			setPanelTitle(title);
-		} else if (isActionsAsTitle) {
-			this.isActionsAsTitle = isActionsAsTitle;
 		} else {
 			this.addStyleName("no-title");
 		}
+
+		if (gotoString != null) {
+			setGoToAction(title, gotoString);
+		}
+		setTitleActions();
+	}
+
+	private void setTitleActions() {
+		closeImage.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				onClose();
+			}
+		});
+
+		configImage.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				onConfigure();
+			}
+		});
+
 	}
 
 	/**
 	 * Initiates the layout
 	 */
-	private void setDecorator(String title) {
+	private void setDecorator(String title, String gotoString) {
 		setFirstRow();
 		setSecondRow();
 		setThirdRow();
@@ -59,28 +73,60 @@ public class BizDecorPanel extends FlexTable {
 	 */
 	private void setFirstRow() {
 		Label TL = new Label();
-		TC = new AutoFillWidget();
+		TC = new Label();
+		closeImage = new Image(Accounter.getFinanceImages().portletClose());
+		configImage = new Image(Accounter.getFinanceImages().portletSettings());
+		gotoLabel = new HTML();
+
+		FlexTable titleTable = new FlexTable();
+		titleTable.setWidget(0, 0, TC);
+		titleTable.setWidget(0, 1, gotoLabel);
+
+		if (canConfigure()) {
+			titleTable.setWidget(0, 2, configImage);
+			configImage.getElement().getParentElement()
+					.addClassName("portlet_config_button");
+		}
+		if (canClose()) {
+			titleTable.setWidget(0, 3, closeImage);
+			closeImage.getElement().getParentElement()
+					.addClassName("portlet_close_button");
+
+		}
 		Label TR = new Label();
 		this.setWidget(0, 0, TL);
-		this.setWidget(0, 1, TC);
+		this.setWidget(0, 1, titleTable);
 		this.setWidget(0, 2, TR);
+	}
+
+	private void setGoToAction(String title, String gotoString) {
+		gotoLabel.setText(gotoString);
+		gotoLabel.addStyleName("goToLink");
+		gotoLabel.setTitle(Accounter.messages().clickThisObjToOpen(
+				Accounter.messages().link(),
+				Accounter.messages().allTransactionDetails(title)));
+		gotoLabel.getElement().getStyle()
+				.setTextDecoration(getTitleDecoration());
+		gotoLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				titleClicked();
+			}
+		});
 	}
 
 	/**
 	 * Creates the second row of Panel
 	 */
 	private void setSecondRow() {
-		// Label ML = new Label();
 		MC = new AutoFillWidget();
-		// Label MR = new Label();
-		// this.setWidget(1, 0, ML);
 		AutoFillWidget c = new AutoFillWidget();
 		c.add(MC);
 
 		MC.setStyleName("decor-left");
 		this.setWidget(1, 0, c);
 		this.getFlexCellFormatter().setColSpan(1, 0, 3);
-		// this.setWidget(1, 2, MR);
 	}
 
 	/**
@@ -115,39 +161,8 @@ public class BizDecorPanel extends FlexTable {
 	 * @param title
 	 */
 	private void setPanelTitle(String title) {
-		final Label panelTitle = new Label(title);
-		panelTitle.setTitle(Accounter.messages().clickThisObjToOpen(
-				Accounter.constants().link(),
-				Accounter.messages().allTransactionDetails(title)));
-		panelTitle.addStyleName("panel-title");
-		panelTitle.addMouseOverHandler(new MouseOverHandler() {
-
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				panelTitle.getElement().getStyle().setCursor(getTitleCursor());
-				panelTitle.getElement().getStyle()
-						.setTextDecoration(getTitleDecoration());
-			}
-		});
-		panelTitle.addMouseOutHandler(new MouseOutHandler() {
-
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				panelTitle.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
-			}
-		});
-		panelTitle.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				panelTitle.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
-				titleClicked();
-
-			}
-		});
-		TC.add(panelTitle);
+		TC.setText(title);
+		TC.addStyleName("panel-title");
 	}
 
 	public Cursor getTitleCursor() {
@@ -155,20 +170,11 @@ public class BizDecorPanel extends FlexTable {
 	}
 
 	public TextDecoration getTitleDecoration() {
-		return TextDecoration.NONE;
+		return TextDecoration.UNDERLINE;
 	}
 
 	public void titleClicked() {
 
-	}
-
-	/**
-	 * Panel header can also have tools. Those are added here
-	 * 
-	 * @param widget
-	 */
-	public void setTitleWidget(Widget widget) {
-		TC.add(widget);
 	}
 
 	/**
@@ -209,7 +215,6 @@ public class BizDecorPanel extends FlexTable {
 	public void setWidth(String width) {
 		if (width.contains("%")) {
 			super.setWidth(width);
-			// MC.setWidth(width);
 		} else {
 			super.setWidth("");
 			int w = Integer.parseInt(width.replace("px", ""));
@@ -230,58 +235,28 @@ public class BizDecorPanel extends FlexTable {
 		widget.setWidth("");
 	}
 
-	public void setActions(Widget actions) {
-		if (isActionsAsTitle) {
-			TC.add(actions);
-		}
-	}
-
 	public void doAnimate(final Boolean isMinimizing) {
-		// new Timer() {
-		//
-		// @Override
-		// public void run() {
-		// int height = MC.getOffsetHeight();
-		// if ((isMinimizing ? height - 5 <= 0 : height + 5 >= MaxHeight)) {
-		// BizDecorPanel.this.getWidget(1, 0).setHeight(
-		// (isMinimizing ? 0 : height
-		// + (MaxHeight - height))
-		// + "px");
-		// BizDecorPanel.this.getWidget(1, 2).setHeight(
-		// (isMinimizing ? 0 : height
-		// + (MaxHeight - height))
-		// + "px");
-		// MC.setHeight((isMinimizing ? 0 : height
-		// + (MaxHeight - height))
-		// + "px");
-		// cancel();
-		// return;
-		// }
-		// BizDecorPanel.this.getWidget(1, 0).setHeight(
-		// (isMinimizing ? height - 5 : height + 5) + "px");
-		// BizDecorPanel.this.getWidget(1, 2).setHeight(
-		// (isMinimizing ? height - 5 : height + 5) + "px");
-		// MC.setHeight((isMinimizing ? height - 5 : height + 5) + "px");
-		// if (isMinimizing) {
-		// MC.addStyleName("decor-animate");
-		// }
-		// }
-		// }.scheduleRepeating(1);
 		if (isMinimizing) {
-			// BizDecorPanel.this.getWidget(1, 0).setVisible(false);
-			// BizDecorPanel.this.getWidget(1, 2).setVisible(false);
 			MC.setVisible(false);
 		} else {
-			// BizDecorPanel.this.getWidget(1, 0).setVisible(true);
-			// BizDecorPanel.this.getWidget(1, 2).setVisible(true);
 			MC.setVisible(true);
 		}
-		// BizDecorPanel.this.getWidget(1, 0).setVisible(false);
-		// BizDecorPanel.this.getWidget(1, 2).setHeight(
-		// (isMinimizing ? 0 :MaxHeight)
-		// + "px");
-		// MC.setHeight((isMinimizing ? 0 :MaxHeight)
-		// + "px");
-
 	}
+
+	protected abstract boolean canClose();
+
+	protected abstract boolean canConfigure();
+
+	protected abstract void onClose();
+
+	protected abstract void onConfigure();
+
+	public Label getHeader() {
+		return TC;
+	}
+
+	public void setHeader(Label tC) {
+		TC = tC;
+	}
+
 }

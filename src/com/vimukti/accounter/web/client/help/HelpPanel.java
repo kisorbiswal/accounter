@@ -6,6 +6,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.CustomButton.Face;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -14,7 +15,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.CustomButton.Face;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 
@@ -27,7 +27,7 @@ public class HelpPanel extends Composite implements HasText {
 
 	public HelpPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
-		setLabelText(Accounter.constants().help());
+		setLabelText(Accounter.messages().help());
 		Face upFace = button.getUpFace();
 		upFace.setImage(new Image(Accounter.getFinanceImages().helpDialogIcon()));
 		Face downFace = button.getDownFace();

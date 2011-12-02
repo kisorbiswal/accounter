@@ -56,15 +56,15 @@ public class ReverseChargeListDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().date(),
-				getConstants().noDot(), getConstants().name(),
-				getConstants().memo(), getConstants().amount(),
-				getConstants().salesPrice() };
+		return new String[] { getMessages().date(),
+				getMessages().noDot(), getMessages().name(),
+				getMessages().memo(), getMessages().amount(),
+				getMessages().salesPrice() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().reverseChargeListDetail();
+		return getMessages().reverseChargeListDetail();
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class ReverseChargeListDetailServerReport extends
 	@Override
 	public void processRecord(ReverseChargeListDetail record) {
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 5 });
+			addSection("", getMessages().total(), new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(sectionName, "", new int[] { 5 });
@@ -205,10 +205,10 @@ public class ReverseChargeListDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().date(),
-				getConstants().noDot(), getConstants().name(),
-				getConstants().memo(), getConstants().amount(),
-				getConstants().salesPrice() };
+		return new String[] { getMessages().date(),
+				getMessages().noDot(), getMessages().name(),
+				getMessages().memo(), getMessages().amount(),
+				getMessages().salesPrice() };
 	}
 	
 }

@@ -3,23 +3,54 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
-import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class CustomerRefundsListCommand extends AbstractCommand {
+public class CustomerRefundsListCommand extends NewAbstractCommand {
+
+	private static final int NO_OF_RECORD_TO_SHOW = 20;
+	private static final int STATUS_NOT_ISSUED = 0;
+	private static final int STATUS_PARTIALLY_PAID = 1;
+	private static final int STATUS_ISSUED = 2;
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return null;
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(VIEW_BY).setDefaultValue(getMessages().issued());
+
+	}
+
+	@Override
+	public String getSuccessMessage() {
+
+		return "Success";
+
+	}
 
 	@Override
 	public String getId() {
@@ -29,133 +60,119 @@ public class CustomerRefundsListCommand extends AbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(VIEW_BY, true, true));
-	}
 
-	@Override
-	public Result run(Context context) {
-		Result result = null;
+		list.add(new CommandsRequirement(VIEW_BY) {
 
-		result = createOptionalResult(context);
-		if (result != null) {
-			return result;
-		}
-		return result;
-	}
-
-	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(VIEW_BY);
-
-		ResultList list = new ResultList("viewlist");
-		Result result = viewTypeRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		String viewType = get(VIEW_BY).getValue();
-		result = customerRefunds(context, viewType);
-		return result;
-	}
-
-	private Result customerRefunds(Context context, String viewType) {
-		Result result = context.makeResult();
-		result.add("Payments List");
-		ResultList billsListData = new ResultList("customerRefunds");
-		int num = 0;
-
-		List<CustomerRefundsList> customerRefunds = getCustomerRefunds(
-				viewType, context.getCompany());
-
-		for (CustomerRefundsList cusRef : customerRefunds) {
-			billsListData.add(createCustoemrRefundRecord(cusRef));
-			num++;
-			if (num == VALUES_TO_SHOW) {
-				break;
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getMessages().notIssued());
+				list.add(getMessages().issued());
+				list.add(getMessages().voided());
+				list.add(getMessages().all());
+				return list;
 			}
-		}
+		});
+		list.add(new ShowListRequirement<CustomerRefundsList>(getMessages()
+				.customerRefund(Global.get().Customer()), getMessages()
+				.pleaseSelect(
+						getMessages().customerRefund(Global.get().Customer())),
+				NO_OF_RECORD_TO_SHOW) {
 
-		int size = billsListData.size();
-		StringBuilder message = new StringBuilder();
-		if (size == 0) {
-			message.append("No records to show.");
-			result.add(message.toString());
-			return result;
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create New");
+			@Override
+			protected String onSelection(CustomerRefundsList value) {
+				return "Edit Transaction " + value.getTransactionId();
+			}
 
-		result.add(message.toString());
-		result.add(billsListData);
-		result.add(commandList);
+			@Override
+			protected String getShowMessage() {
 
-		return result;
+				return getMessages().customerRefunds(Global.get().Customer());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return "No Customer Refunds are available";
+
+			}
+
+			@Override
+			protected Record createRecord(CustomerRefundsList value) {
+				Record record = new Record(value);
+				record.add(getMessages().paymentNo(), value.getPaymentNumber());
+				record.add(getMessages().paymentDate(), value.getPaymentDate());
+				record.add(getMessages().issueDate(), value.getIssueDate());
+				record.add(getMessages().name(), value.getName());
+				record.add(getMessages().transactionName(),
+						Utility.getTransactionName(value.getType()));
+				record.add(getMessages().paymentMethod(),
+						value.getPaymentMethod());
+				record.add(getMessages().amountPaid(), value.getAmountPaid());
+				record.add(getMessages().status(), Utility
+						.getTransactionStatus(
+								ClientTransaction.TYPE_CUSTOMER_REFUNDS,
+								value.getStatus()));
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create Customer Refund");
+
+			}
+
+			@Override
+			protected boolean filter(CustomerRefundsList e, String name) {
+				return e.getName().startsWith(name)
+						|| e.getPaymentNumber().startsWith(
+								"" + getNumberFromString(name));
+			}
+
+			@Override
+			protected List<CustomerRefundsList> getLists(Context context) {
+
+				return getList(context);
+			}
+		});
+
 	}
 
-	private List<CustomerRefundsList> getCustomerRefunds(String type,
-			Company company) {
+	protected List<CustomerRefundsList> getList(Context context) {
 
-		ArrayList<CustomerRefundsList> refundsList = null;
-		ArrayList<CustomerRefundsList> result = new ArrayList<CustomerRefundsList>();
+		String viewType = get(VIEW_BY).getValue();
+
+		List<CustomerRefundsList> customerRefundsList = null;
 		try {
-			refundsList = new FinanceTool().getCustomerManager()
-					.getCustomerRefundsList(company.getID());
-		} catch (DAOException e) {
 
+			customerRefundsList = new FinanceTool().getCustomerManager()
+					.getCustomerRefundsList(context.getCompany().getId());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		for (CustomerRefundsList refund : refundsList) {
-			if (type.equals(Accounter.constants().all())) {
-				result.add(refund);
-			} else if (type.equals(Accounter.constants().notIssued())) {
-				if ((refund.getStatus() == STATUS_NOT_ISSUED || refund
+		List<CustomerRefundsList> newList = new ArrayList<CustomerRefundsList>();
+		for (CustomerRefundsList customerRefund : customerRefundsList) {
+			if (viewType.equals(getMessages().notIssued())) {
+				if ((customerRefund.getStatus() == STATUS_NOT_ISSUED || customerRefund
 						.getStatus() == STATUS_PARTIALLY_PAID)
-						&& (!refund.isVoided())) {
-					result.add(refund);
-				}
-			} else if (type.equals(Accounter.constants().issued())) {
-				if (refund.getStatus() == STATUS_ISSUED && (!refund.isVoided()))
-					result.add(refund);
-			} else if (type.equals(Accounter.constants().voided())) {
-				if (refund.isVoided() && !refund.isDeleted())
-					result.add(refund);
+						&& (!customerRefund.isVoided()))
+					newList.add(customerRefund);
+			}
+			if (viewType.equals(getMessages().issued())) {
+				if (customerRefund.getStatus() == STATUS_ISSUED
+						&& (!customerRefund.isVoided()))
+					newList.add(customerRefund);
+			}
+			if (viewType.equals(getMessages().voided())) {
+				if (customerRefund.isVoided() && !customerRefund.isDeleted())
+					newList.add(customerRefund);
+			}
+			if (viewType.equals(getMessages().all())) {
+
+				newList.add(customerRefund);
 			}
 		}
-		return result;
+		return newList;
 
 	}
-
-	private Record createCustoemrRefundRecord(CustomerRefundsList customerRefund) {
-		Record record = new Record(customerRefund);
-		record.add("Payment Date",
-				UIUtils.getDateByCompanyType(customerRefund.getPaymentDate()));
-		record.add("Payment No.", customerRefund.getPaymentNumber());
-		record.add("Status", Utility.getStatus(
-				ClientTransaction.TYPE_CUSTOMER_REFUNDS,
-				customerRefund.getStatus()));
-		record.add("Issue Date",
-				UIUtils.getDateByCompanyType(customerRefund.getIssueDate()));
-		record.add("Name", customerRefund.getName());
-		record.add("Type",
-				Utility.getTransactionName((customerRefund.getType())));
-		record.add("Payment Method", customerRefund.getPaymentMethod());
-		record.add("Amount Paid",
-				DataUtils.getAmountAsString(customerRefund.getAmountPaid()));
-		record.add("Voided", customerRefund.isVoided() ? "Voided"
-				: "Not Voided");
-		return record;
-	}
-
-	@Override
-	protected List<String> getViewTypes() {
-		List<String> list = new ArrayList<String>();
-		list.add(Accounter.constants().issued());
-		list.add(Accounter.constants().notIssued());
-		list.add(Accounter.constants().Voided());
-		list.add(Accounter.constants().all());
-
-		return list;
-	}
-
 }

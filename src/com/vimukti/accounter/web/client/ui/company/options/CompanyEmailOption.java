@@ -1,12 +1,15 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class CompanyEmailOption extends AbstractPreferenceOption {
 
@@ -38,33 +41,45 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 		initData();
 	}
 
+	@Override
 	public void initData() {
 		companyEmailTextBox.setText(getCompanyPreferences().getCompanyEmail());
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().email();
+		return Accounter.messages().email();
 	}
 
 	@Override
 	public void onSave() {
 		getCompanyPreferences().setCompanyEmail(companyEmailTextBox.getValue());
-		// company.setCompanyEmailForCustomers(customerEmailTextBox.getValue());
 	}
 
 	@Override
 	public String getAnchor() {
-		return Accounter.constants().email();
+		return Accounter.messages().email();
 	}
 
 	@Override
 	public void createControls() {
-		emailIDDescriptionLabel.setText(constants.emailIdDescription());
+		emailIDDescriptionLabel.setText(messages.emailIdDescription());
 		emailIDDescriptionLabel.setStyleName("organisation_comment");
 
-		companyEmailHeaderLabel.setText(Accounter.constants().emailId());
-		// customersEmailAddressCheckBox.setText(Accounter.constants()
+		companyEmailHeaderLabel.setText(Accounter.messages().emailId());
+		companyEmailTextBox.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				String email = companyEmailTextBox.getValue();
+				if (email != null && !email.isEmpty()
+						&& !UIUtils.isValidEmail(email)) {
+					companyEmailTextBox.setText("");
+					Accounter.showError(Accounter.messages().invalidEmail());
+				}
+			}
+		});
+		// customersEmailAddressCheckBox.setText(messages
 		// .getCustomersEmailId());
 		// customersEmailAddressCheckBox.addClickHandler(new ClickHandler() {
 		//
@@ -75,7 +90,7 @@ public class CompanyEmailOption extends AbstractPreferenceOption {
 		//
 		// }
 		// });
-		// customerEmailHeaderLabel.setText(Accounter.constants().customerID());
+		// customerEmailHeaderLabel.setText(messages.customerID());
 
 	}
 

@@ -8,10 +8,10 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -23,11 +23,12 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.help.HelpDialog;
 import com.vimukti.accounter.web.client.help.HelpPanel;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.DashBoardView;
 import com.vimukti.accounter.web.client.ui.HistoryToken;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.HistoryList.HistoryItem;
 
 /**
@@ -67,6 +68,8 @@ public class ViewManager extends HorizontalPanel {
 
 	private ImageButton closeButton;
 
+	private ImageButton configButton;
+
 	private Label viewTitleLabel;
 
 	ButtonGroup group1;
@@ -76,13 +79,14 @@ public class ViewManager extends HorizontalPanel {
 	private SimplePanel viewHolder;
 
 	ButtonGroup group4;
+	ButtonGroup group5;
 
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
 		addStyleName("view_manager");
 		VerticalPanel leftPanel = new VerticalPanel();
 		leftPanel.addStyleName("view_manager_body");
-		leftPanel.setWidth("100%");
+		// leftPanel.setWidth("100%");
 		this.viewHolder = new SimplePanel();
 		viewHolder.addStyleName("viewholder");
 
@@ -258,19 +262,29 @@ public class ViewManager extends HorizontalPanel {
 			existingView.removeFromParent();
 		}
 		existingView = newview;
-		viewTitleLabel.setText(action.getCatagory() + "  >  "
-				+ action.getText());
+		if (existingView instanceof BaseView) {
+			if (((BaseView<IAccounterCore>) existingView).isInViewMode()) {
+				viewTitleLabel.setText(action.getCatagory() + "  >  "
+						+ action.getViewModeText());
+			} else {
+				viewTitleLabel.setText(action.getCatagory() + "  >  "
+						+ action.getText());
+			}
+		} else {
+			viewTitleLabel.setText(action.getCatagory() + "  >  "
+					+ action.getText());
+		}
 		if (exportButton != null)
 			exportButton.setTitle(Accounter.messages().clickThisTo(
-					Accounter.constants().exportToCSV(),
+					Accounter.messages().exportToCSV(),
 					existingView.getAction().getViewName()));
 		if (printButton != null)
 			printButton.setTitle(Accounter.messages().clickThisTo(
-					Accounter.constants().print(),
+					Accounter.messages().print(),
 					existingView.getAction().getViewName()));
 		if (editButton != null)
 			editButton.setTitle(Accounter.messages().clickThisTo(
-					Accounter.constants().edit(),
+					Accounter.messages().edit(),
 					existingView.getAction().getViewName()));
 		viewHolder.add(newview);
 		updateButtons();
@@ -278,6 +292,10 @@ public class ViewManager extends HorizontalPanel {
 
 	public void removeEditButton() {
 		group4.remove(editButton);
+	}
+
+	public void removeConfigButton() {
+		group5.remove(configButton);
 	}
 
 	public void updateButtons() {
@@ -304,6 +322,11 @@ public class ViewManager extends HorizontalPanel {
 			group2.remove(printButton);
 
 		}
+		if (existingView instanceof DashBoardView) {
+			group5.add(configButton);
+		} else {
+			removeConfigButton();
+		}
 	}
 
 	/**
@@ -316,10 +339,14 @@ public class ViewManager extends HorizontalPanel {
 		return views.getView(token);
 	}
 
+	public void closeCurrentView() {
+		closeCurrentView(true);
+	}
+
 	/**
 	 * Called when we want to remove current view and put previous view back
 	 */
-	public void closeCurrentView() {
+	public void closeCurrentView(boolean restorePreviousView) {
 		if (this.existingView == null) {
 			return;
 		}
@@ -333,19 +360,29 @@ public class ViewManager extends HorizontalPanel {
 		this.existingView.removeFromParent();
 		HistoryItem current = this.views.current();
 		HistoryItem item = this.views.previous();
-		if (item.view == null) {
-			item.action.run();
-		} else {
-			this.existingView = item.view;
-			ActionCallback callback = current.action.getCallback();
-			if (data != null && callback != null) {
-				callback.actionResult(data);
+		if (restorePreviousView) {
+			if (item.view == null) {
+				item.action.run();
+			} else {
+				this.existingView = item.view;
+				ActionCallback callback = current.action.getCallback();
+				if (data != null && callback != null) {
+					callback.actionResult(data);
+				}
+				if (item.view instanceof BaseView)
+					if (((BaseView<IAccounterCore>) item.view).isInViewMode()) {
+						viewTitleLabel.setText(item.action.getCatagory()
+								+ "  >  " + item.action.getViewModeText());
+					} else {
+						viewTitleLabel.setText(item.action.getCatagory()
+								+ "  >  " + item.action.getText());
+					}
+				viewHolder.add(item.view);
+				this.views.add(item);
+				History.newItem(item.action.getHistoryToken(), false);
 			}
-			viewTitleLabel.setText(item.action.getCatagory() + "  >  "
-					+ item.action.getText());
-			viewHolder.add(item.view);
+		} else {
 			this.views.add(item);
-			History.newItem(item.action.getHistoryToken(), false);
 		}
 		updateButtons();
 	}
@@ -397,13 +434,14 @@ public class ViewManager extends HorizontalPanel {
 		group2 = new ButtonGroup();
 		group3 = new ButtonGroup();
 		group4 = new ButtonGroup();
-		viewTitleLabel = new Label(Accounter.constants().dashBoard());
+		group5 = new ButtonGroup();
+		viewTitleLabel = new Label(Accounter.messages().dashBoard());
 		viewTitleLabel.addStyleName("viewTitle");
 
 		previousButton = new ImageButton(Accounter.getFinanceImages()
 				.previousIcon());
 		previousButton.setTitle(Accounter.messages().clickThisToOpen(
-				Accounter.constants().previous()));
+				Accounter.messages().previous()));
 		previousButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -413,7 +451,7 @@ public class ViewManager extends HorizontalPanel {
 		});
 		nextButton = new ImageButton(Accounter.getFinanceImages().nextIcon());
 		nextButton.setTitle(Accounter.messages().clickThisToOpen(
-				Accounter.constants().next()));
+				Accounter.messages().next()));
 		nextButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -421,7 +459,7 @@ public class ViewManager extends HorizontalPanel {
 				History.forward();
 			}
 		});
-		printButton = new ImageButton(Accounter.constants().print(), Accounter
+		printButton = new ImageButton(Accounter.messages().print(), Accounter
 				.getFinanceImages().Print1Icon());
 
 		printButton.addClickHandler(new ClickHandler() {
@@ -433,7 +471,7 @@ public class ViewManager extends HorizontalPanel {
 			}
 		});
 
-		exportButton = new ImageButton(Accounter.constants().exportToCSV(),
+		exportButton = new ImageButton(Accounter.messages().exportToCSV(),
 				Accounter.getFinanceImages().exportIcon());
 		exportButton.addClickHandler(new ClickHandler() {
 
@@ -444,25 +482,40 @@ public class ViewManager extends HorizontalPanel {
 			}
 		});
 
-		editButton = new ImageButton(Accounter.constants().edit(), Accounter
+		editButton = new ImageButton(Accounter.messages().edit(), Accounter
 				.getFinanceImages().editIcon());
 		editButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
+				viewTitleLabel.setText(existingView.getAction().getCatagory()
+						+ "  >  " + existingView.getAction().getEditText());
 				existingView.onEdit();
+			}
+		});
+
+		configButton = new ImageButton(
+				Accounter.messages().configurePortlets(), Accounter
+						.getFinanceImages().portletPageSettings());
+		configButton.addStyleName("settingsButton");
+		configButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				((DashBoardView) existingView).getPage().createSettingsDialog()
+						.showRelativeTo(configButton);
 			}
 		});
 
 		closeButton = new ImageButton(Accounter.getFinanceImages()
 				.closeButton());
 		closeButton.setTitle(Accounter.messages().clickThisTo(
-				Accounter.constants().close(), Accounter.constants().view()));
+				Accounter.messages().close(), Accounter.messages().view()));
 		closeButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				closeCurrentView();
+				existingView.cancel();
 			}
 		});
 		group1.add(previousButton);
@@ -476,10 +529,12 @@ public class ViewManager extends HorizontalPanel {
 		group2.add(printButton);
 
 		group3.add(closeButton);
+		group5.add(configButton);
 
 		toolBar.add(HasHorizontalAlignment.ALIGN_LEFT, group1);
 		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group4);
 		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group2);
+		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group5);
 		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group3);
 		toolBar.addStyleName("group-toolbar");
 	}

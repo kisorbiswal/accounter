@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -40,8 +41,6 @@ public class WriteCheck extends Transaction {
 	 */
 	@ReffereredObject
 	Account bankAccount;
-
-	double balance;
 
 	/**
 	 * The Customer to whom we are writing this check.
@@ -118,21 +117,6 @@ public class WriteCheck extends Transaction {
 	 */
 	public Account getBankAccount() {
 		return bankAccount;
-	}
-
-	/**
-	 * @return the balance
-	 */
-	public double getBalance() {
-		return balance;
-	}
-
-	/**
-	 * @param balance
-	 *            the balance to set
-	 */
-	public void setBalance(double balance) {
-		this.balance = balance;
 	}
 
 	/**
@@ -230,6 +214,10 @@ public class WriteCheck extends Transaction {
 		return checkNumber;
 	}
 
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
+	}
+
 	@Override
 	public boolean isDebitTransaction() {
 		return true;
@@ -247,13 +235,8 @@ public class WriteCheck extends Transaction {
 
 	@Override
 	public Payee getPayee() {
-		if (customer != null) {
-			return customer;
-		} else if (vendor != null) {
-			return vendor;
-		} else {
-			return taxAgency;
-		}
+		// Must return null. because no need update payee balance in writecheck.
+		return null;
 	}
 
 	@Override
@@ -289,7 +272,14 @@ public class WriteCheck extends Transaction {
 
 	@Override
 	public Payee getInvolvedPayee() {
-		return getPayee();
+
+		if (this.getPayee() instanceof Customer)
+			return this.customer;
+		else if (this.getPayee() instanceof Vendor)
+			return this.vendor;
+		else
+			return this.taxAgency;
+
 	}
 
 	public boolean equals(WriteCheck obj) {
@@ -358,13 +348,15 @@ public class WriteCheck extends Transaction {
 
 				Account account = (Account) session.get(Account.class,
 						writeCheck.bankAccount.id);
-				account.updateCurrentBalance(this, -writeCheck.total);
+				account.updateCurrentBalance(this, -writeCheck.total,
+						currencyFactor);
 				session.update(account);
 				account.onUpdate(session);
 
 				writeCheck.total = 0.0;
 
-				this.bankAccount.updateCurrentBalance(this, this.total);
+				this.bankAccount.updateCurrentBalance(this, this.total,
+						currencyFactor);
 				this.bankAccount.onUpdate(session);
 			}
 
@@ -391,8 +383,14 @@ public class WriteCheck extends Transaction {
 					AccounterException.ERROR_DEPOSITED_FROM_UNDEPOSITED_FUNDS);
 			// "You can't void or edit because it has been deposited from Undeposited Funds");
 		}
-
+		checkForReconciliation((Transaction) clientObject);
 		return true;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 
 }

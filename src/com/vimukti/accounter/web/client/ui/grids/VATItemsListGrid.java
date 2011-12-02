@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 /**
@@ -33,7 +34,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_IMAGE };
 	}
@@ -46,9 +47,9 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 			return 15;
 		}
 		if (index == 1)
-			return 240;
+			return 270;
 		if (index == 4)
-			return 100;
+			return 80;
 		if (index == 2)
 			return 190;
 
@@ -60,11 +61,11 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().active(),
-				Accounter.constants().product(),
-				Accounter.constants().vatAgency(),
-				Accounter.constants().description(),
-				Accounter.constants().rate(), "" };
+		return new String[] { Accounter.messages().active(),
+				Accounter.messages().product(),
+				Accounter.messages().vatAgency(),
+				Accounter.messages().description(),
+				Accounter.messages().rate(), "" };
 	}
 
 	/*
@@ -91,7 +92,8 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 			if (item.isPercentage())
 				return item.getTaxRate() + "%";
 			else
-				return amountAsString(item.getTaxRate());
+				return DataUtils.amountAsStringWithCurrency(item.getTaxRate(), getCompany()
+						.getPrimaryCurrency());
 		case 5:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
@@ -208,7 +210,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	public void deleteFailed(AccounterException caught) {
 		int errorCode = caught.getErrorCode();
 		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
-			Accounter.showError(AccounterExceptions.accounterErrors
+			Accounter.showError(AccounterExceptions.accounterMessages
 					.vatItemInUse());
 			return;
 		}

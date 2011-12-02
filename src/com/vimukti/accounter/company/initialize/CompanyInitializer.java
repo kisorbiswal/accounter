@@ -14,10 +14,13 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
+import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.NominalCodeRange;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.VendorGroup;
+import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -79,10 +82,20 @@ public abstract class CompanyInitializer {
 		initializeDefaultlLiabilitiesAccounts();
 		initializeDefaultEquityAccounts();
 
+		createDefaultFiledAccount();
+
 		session.saveOrUpdate(company);
 
 		init();
 
+	}
+
+	private void createDefaultFiledAccount() {
+		Account tAXFiledLiabilityAccount = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.TAX_VAT_FILED,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
+		company.setTAXFiledLiabilityAccount(tAXFiledLiabilityAccount);
 	}
 
 	/**
@@ -181,7 +194,6 @@ public abstract class CompanyInitializer {
 		this.preferences.setIsAccuralBasis(true);
 		this.preferences.setStartOfFiscalYear(fiscalYearStartDate);
 		this.preferences.setEndOfFiscalYear(fiscalYearEndDate);
-		this.preferences.setEnableMultiCurrency(false);
 		this.preferences.setUseCustomerId(false);
 		this.preferences.setDefaultShippingTerm(null);
 		this.preferences.setDefaultAnnualInterestRate(0);
@@ -193,14 +205,18 @@ public abstract class CompanyInitializer {
 		this.preferences.setCheckForItemQuantityOnHand(true);
 		this.preferences.setUpdateCostAutomatically(false);
 		this.preferences.setStartDate(fiscalYearStartDate);
+		this.preferences.setShowRegisteredAddress(false);
 		// this.preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
 		this.preferences.setDateFormat(getDateFormat());
-		this.preferences.setSalesOrderEnabled(true);
-		this.preferences.setPurchaseOrderEnabled(true);
+		this.preferences.setSalesOrderEnabled(false);
+		this.preferences.setPurchaseOrderEnabled(false);
 		FinanceDate depreciationStartDateCal = new FinanceDate();
 		depreciationStartDateCal.set(fiscalYearStartDate);
 		this.preferences.setDepreciationStartDate(depreciationStartDateCal);
 		this.company.setPreferences(this.preferences);
+		if (preferences.isDoyouwantEstimates()) {
+			this.preferences.setIncludePendingAcceptedEstimates(true);
+		}
 
 		PaymentTerms dueOnReceipt = new PaymentTerms(company,
 				AccounterServerConstants.PM_DUE_ON_RECEIPT,
@@ -223,7 +239,7 @@ public abstract class CompanyInitializer {
 		PaymentTerms monthlyPayrollLiability = new PaymentTerms(company,
 				AccounterServerConstants.PM_MONTHLY,
 				AccounterServerConstants.PM_MONTHLY_PAYROLL_LIABILITY, 0, 0,
-				PaymentTerms.DUE_CURRENT_MONTH, 13, true);
+				PaymentTerms.DUE_CURRENT_MONTH, 30, true);
 
 		session.save(monthlyPayrollLiability);
 
@@ -242,6 +258,23 @@ public abstract class CompanyInitializer {
 		brandingTheme.setCompany(company);
 		session.save(brandingTheme);
 
+		Warehouse warehouse = new Warehouse("DW-1", "Default Warehouse",
+				company.getTradingAddress(), true);
+		warehouse.setCompany(company);
+		session.save(warehouse);
+
+		Measurement measurement = new Measurement("Items", "Description");
+		measurement.setCompany(company);
+		Unit unit = new Unit();
+		unit.setType("Items");
+		unit.setFactor(1);
+		unit.setDefault(true);
+		unit.setCompany(company);
+		measurement.addUnit(unit);
+		session.save(measurement);
+		company.setDefaultMeasurement(measurement);
+		company.setDefaultWarehouse(warehouse);
+
 		createNominalCodesRanges();
 
 	}
@@ -258,10 +291,6 @@ public abstract class CompanyInitializer {
 
 		createAccount(Account.TYPE_EQUITY,
 				AccounterServerConstants.EQUITY_OPENING_BALANCE_OFFSET,
-				Account.CASH_FLOW_CATEGORY_FINANCING);
-
-		createAccount(Account.TYPE_EQUITY,
-				AccounterServerConstants.EQUITY_GAIN_LOSS_EXCHANGE,
 				Account.CASH_FLOW_CATEGORY_FINANCING);
 
 		createAccount(Account.TYPE_EQUITY,
@@ -336,6 +365,12 @@ public abstract class CompanyInitializer {
 				AccounterServerConstants.OTHER_CASH_EXPENSE,
 				Account.CASH_FLOW_CATEGORY_FINANCING);
 
+		Account exchangeLossOrGainAccount = createAccount(
+				Account.TYPE_OTHER_EXPENSE,
+				AccounterServerConstants.EXCHANGE_LOSS_OR_GAIN,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
+
+		company.setExchangeLossOrGainAccount(exchangeLossOrGainAccount);
 		//
 		// createAccount(Account.TYPE_COST_OF_GOODS_SOLD,
 		// AccounterServerConstants.IMPORT_DUTY,

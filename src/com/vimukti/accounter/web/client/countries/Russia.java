@@ -31,7 +31,7 @@ public class Russia extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "RUR";
+		return "RUB";
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class Russia extends AbstractCountryPreferences {
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
 
-		return Accounter.constants().january();
+		return Accounter.messages().january();
 	}
 
 }

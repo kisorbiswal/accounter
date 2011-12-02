@@ -1,37 +1,107 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.EnterBill;
-import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
-import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.TransactionItem;
+import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.ObjectListRequirement;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.ContactRequirement;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
+import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
+import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientEnterBill;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 
 /**
  * 
  * @author Sai Prasad N
  * 
  */
-public class NewEnterBillCommand extends AbstractTransactionCommand {
+public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
-	private static final String DUE_DATE = "duedate";
-	private static final String DELIVERY_DATE = "deliveryDate";
-	private static final String CONTACT = "contact";
-	private static final String PHONE = "phone";
-	private static final String PAYMENT_TERMS = "paymentTerms";
-	private static final String NUMBER = "number";
+	private ClientEnterBill enterBill;
+
+	@Override
+	protected String getWelcomeMessage() {
+
+		return getMessages().create(getMessages().enterBill());
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().readyToCreate(getMessages().enterBill());
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+
+		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(NUMBER)
+				.setDefaultValue(
+						NumberUtils.getNextTransactionNumber(
+								ClientTransaction.TYPE_ENTER_BILL,
+								context.getCompany()));
+		get(PHONE).setDefaultValue("");
+		get(CONTACT).setDefaultValue(null);
+		Set<PaymentTerms> paymentTerms = context.getCompany().getPaymentTerms();
+		for (PaymentTerms p : paymentTerms) {
+			if (p.getName().equals("Due on Receipt")) {
+				get(PAYMENT_TERMS).setDefaultValue(p);
+			}
+		}
+
+		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
+		get(DELIVERY_DATE).setDefaultValue(new ClientFinanceDate());
+
+		Vendor v = (Vendor) get(VENDOR).getValue();
+		if (v != null) {
+			Set<Contact> contacts2 = v.getContacts();
+			if (contacts2 != null)
+				for (Contact c : contacts2) {
+					get(CONTACT).setDefaultValue(c);
+				}
+		}
+		get(MEMO).setDefaultValue("");
+		/*
+		 * get(CURRENCY).setDefaultValue(null);
+		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
+		 */
+		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
+
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().createSuccessfully(getMessages().enterBill());
+	}
 
 	@Override
 	public String getId() {
@@ -41,258 +111,359 @@ public class NewEnterBillCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(VENDOR, false, true));
-		list.add(new Requirement(DATE, true, true));
-		list.add(new Requirement(NUMBER, true, false));
-		list.add(new Requirement(CONTACT, true, true));
-		list.add(new Requirement(PHONE, true, true));
-		list.add(new Requirement(PAYMENT_TERMS, true, true));
-		list.add(new Requirement(DUE_DATE, true, true));
-		list.add(new Requirement(DELIVERY_DATE, true, true));
-		list.add(new Requirement(MEMO, true, true));
+		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
+				getMessages().Vendor()), getMessages().vendor(), false, true,
+				new ChangeListner<Vendor>() {
 
-		list.add(new ObjectListRequirement("items", false, true) {
+					@Override
+					public void onSelection(Vendor value) {
+						get(PHONE).setValue(value.getPhoneNo());
+						get(CONTACT).setValue(null);
+						for (Contact contact : value.getContacts()) {
+							if (contact.isPrimary()) {
+								get(CONTACT).setValue(contact);
+								break;
+							}
+						}
+					}
+				}) {
+
 			@Override
-			public void addRequirements(List<Requirement> list) {
-				list.add(new Requirement("name", false, true));
-				list.add(new Requirement("desc", true, true));
-				list.add(new Requirement("quantity", true, true));
-				list.add(new Requirement("price", true, true));
-				list.add(new Requirement("vatCode", true, true));
+			protected String getSetMessage() {
+				return getMessages().hasSelected(Global.get().Vendor());
+			}
+
+			@Override
+			protected List<Vendor> getLists(Context context) {
+				return getVendors();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(Global.get().Vendor());
+			}
+
+			@Override
+			protected boolean filter(Vendor e, String name) {
+				return e.getName().startsWith(name);
 			}
 		});
+
+		/*
+		 * list.add(new CurrencyRequirement(CURRENCY,
+		 * getMessages().pleaseSelect( getConstants().currency()),
+		 * getConstants().currency(), true, true, null) {
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if
+		 * (getPreferences().isEnableMultiCurrency()) { return
+		 * super.run(context, makeResult, list, actions); } else { return null;
+		 * } }
+		 * 
+		 * @Override protected List<Currency> getLists(Context context) { return
+		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
+		 * 
+		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
+		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
+		 * false, true) {
+		 * 
+		 * @Override protected String getDisplayValue(Double value) {
+		 * ClientCurrency primaryCurrency = getPreferences()
+		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
+		 * return "1 " + selc.getFormalName() + " = " + value + " " +
+		 * primaryCurrency.getFormalName(); }
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
+		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
+		 * !((Currency) get(CURRENCY).getValue()) .equals(getPreferences()
+		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
+		 * actions); } } return null;
+		 * 
+		 * } });
+		 */
+
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getMessages().billNo()), getMessages().billNo(), true, true));
+
+		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
+				getMessages().transactionDate()), getMessages()
+				.transactionDate(), true, true));
+
+		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
+				getMessages().dueDate()), getMessages().dueDate(), true, true));
+
+		list.add(new DateRequirement(DELIVERY_DATE, getMessages().pleaseEnter(
+				getMessages().deliveryDate()), getMessages().deliveryDate(),
+				true, true));
+
+		list.add(new PaymentTermRequirement(PAYMENT_TERMS, getMessages()
+				.pleaseSelect(getMessages().paymentTerm()), getMessages()
+				.paymentTerms(), true, true, null) {
+
+			@Override
+			protected List<PaymentTerms> getLists(Context context) {
+				return new ArrayList<PaymentTerms>(context.getCompany()
+						.getPaymentTerms());
+			}
+		});
+
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
+				"please select account Items", getMessages().Account(), true,
+				true) {
+
+			@Override
+			protected List<Account> getAccounts(Context context) {
+				return Utility.filteredList(new ListFilter<Account>() {
+
+					@Override
+					public boolean filter(Account account) {
+						if (account.getType() == Account.TYPE_EXPENSE
+								|| account.getType() == Account.TYPE_COST_OF_GOODS_SOLD
+								|| account.getType() == Account.TYPE_OTHER_EXPENSE) {
+							return true;
+						} else {
+							return false;
+						}
+						// return Arrays.asList(Account.TYPE_EXPENSE,
+						// Account.TYPE_COST_OF_GOODS_SOLD,
+						// Account.TYPE_OTHER_EXPENSE).contains(
+						// account.getType());
+					}
+				}, new ArrayList<Account>(context.getCompany().getAccounts()));
+			}
+		});
+
+		list.add(new TransactionItemTableRequirement(ITEMS,
+				"Please Enter Item Name or number", getMessages().items(),
+				true, true) {
+
+			@Override
+			public List<Item> getItems(Context context) {
+				Set<Item> items2 = context.getCompany().getItems();
+				List<Item> items = new ArrayList<Item>();
+				for (Item item : items2) {
+					if (item.isIBuyThisItem()) {
+						if (item.isActive())
+							items.add(item);
+					}
+				}
+				return items;
+			}
+
+			@Override
+			public boolean isSales() {
+				return false;
+			}
+
+		});
+
+		list.add(new ContactRequirement(CONTACT, "Please Enter contact name",
+				"Contact", true, true, null) {
+
+			@Override
+			protected Payee getPayee() {
+				return get(VENDOR).getValue();
+			}
+		});
+
+		list.add(new PhoneRequirement(PHONE, getMessages().pleaseEnter(
+				getMessages().phoneNumber()), getMessages().phoneNumber(),
+				true, true));
+
+		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackTax()
+						&& !getPreferences().isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
+			}
+
+			@Override
+			protected boolean filter(TAXCode e, String name) {
+				return e.getName().contains(name);
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				ClientCompanyPreferences preferences = context.getPreferences();
+				if (preferences.isTrackTax()
+						&& !preferences.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return "Include VAT with Amount enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Include VAT with Amount disabled";
+			}
+		});
+
+		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
+				getMessages().memo()), getMessages().memo(), true, true));
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = null;
-		String process = (String) context.getAttribute(PROCESS_ATTR);
-		if (process != null) {
-			if (process.equals(ADDRESS_PROCESS)) {
-				result = addressProcess(context);
-				if (result != null) {
-					return result;
-				}
-			} else if (process.equals(TRANSACTION_ITEM_PROCESS)) {
-				result = transactionItemProcess(context);
-				if (result != null) {
-					return result;
-				}
-			}
-		}
-		result = vendorRequirement(context);
-		if (result != null) {
-			return result;
-		}
+	public void beforeFinishing(Context context, Result makeResult) {
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
 
-		result = itemsRequirement(context);
-		if (result != null) {
-			return result;
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			addFirstMessage(
+					context,
+					"Transaction total can not zero or less than zero.So you can't finish this command");
 		}
-
-		result = createOptionalResult(context);
-		if (result != null) {
-			return result;
-		}
-		completeProcess(context);
-		markDone();
-
-		return result;
+		super.beforeFinishing(context, makeResult);
 	}
 
-	private void completeProcess(Context context) {
+	@Override
+	protected Result onCompleteProcess(Context context) {
+		List<ClientTransactionItem> items = get(ITEMS).getValue();
 
-		Company company = context.getCompany();
-		EnterBill enterBill = new EnterBill();
+		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
+		if (items.isEmpty() && accounts.isEmpty()) {
+			return new Result();
+		}
+
 		Vendor vendor = (Vendor) get(VENDOR).getValue();
-		enterBill.setVendor(vendor);
-		Date date = get(DATE).getValue();
-		enterBill.setDate(new FinanceDate(date));
-
-		enterBill.setType(Transaction.TYPE_ENTER_BILL);
-
-		String number = get("number").getValue();
+		enterBill.setVendor(vendor.getID());
+		ClientFinanceDate date = get(DATE).getValue();
+		if (date != null) {
+			enterBill.setDate(date.getDate());
+		} else {
+			enterBill.setDate(System.currentTimeMillis());
+		}
+		String number = get(NUMBER).getValue();
 		enterBill.setNumber(number);
+		enterBill.setType(ClientTransaction.TYPE_ENTER_BILL);
 
-		List<TransactionItem> items = get("items").getValue();
+		items.addAll(accounts);
+
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
+		ClientCompanyPreferences preferences = context.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			enterBill.setAmountsIncludeVAT(isVatInclusive);
+			TAXCode taxCode = get(TAXCODE).getValue();
+			for (ClientTransactionItem item : accounts) {
+				item.setTaxCode(taxCode.getID());
+			}
+		}
+
+		/*
+		 * if (preferences.isEnableMultiCurrency()) { Currency currency =
+		 * get(CURRENCY).getValue(); if (currency != null) {
+		 * enterBill.setCurrency(currency.getID()); }
+		 * 
+		 * double factor = get(CURRENCY_FACTOR).getValue();
+		 * enterBill.setCurrencyFactor(factor); }
+		 */
 		enterBill.setTransactionItems(items);
+		updateTotals(context, enterBill, false);
 
-		enterBill.setTotal(getTransactionTotal(items, company));
+		ClientFinanceDate dueDate = get(DUE_DATE).getValue();
+		enterBill.setDueDate(dueDate.getDate());
 
-		Date dueDate = get("due").getValue();
-		enterBill.setDueDate(new FinanceDate(dueDate));
-
-		Date deliveryDate = get(DELIVERY_DATE).getValue();
-		enterBill.setDueDate(new FinanceDate(deliveryDate));
+		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();
+		enterBill.setDeliveryDate(deliveryDate);
 
 		Contact contact = get(CONTACT).getValue();
-		enterBill.setContact(contact);
+		enterBill.setContact(toClientContact(contact));
 
 		PaymentTerms paymentTerm = get("paymentTerms").getValue();
-		enterBill.setPaymentTerm(paymentTerm);
+		enterBill.setPaymentTerm(paymentTerm.getID());
 
 		String phone = get(PHONE).getValue();
 		enterBill.setPhone(phone);
 
-		String memo = get(MEMO).getValue();
-		enterBill.setMemo(memo);
 		create(enterBill, context);
-
-	}
-
-	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case ADD_MORE_ITEMS:
-				return items(context);
-			case FINISH:
-				context.removeAttribute(INPUT_ATTR);
-				return null;
-			default:
-				break;
-			}
-		}
-
-		Requirement itemsReq = get("items");
-		List<TransactionItem> transItems = itemsReq.getValue();
-
-		selection = context.getSelection("transactionItems");
-		if (selection != null) {
-			Result result = transactionItem(context,
-					(TransactionItem) selection);
-			if (result != null) {
-				return result;
-			}
-		}
-
-		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
-
-		Requirement vendorReq = get(VENDOR);
-		Vendor vendor = (Vendor) vendorReq.getValue();
-		Record vendorRecord = new Record(vendor);
-		vendorRecord.add("Name", VENDOR);
-		vendorRecord.add("Value", vendor.getName());
-
-		list.add(vendorRecord);
-
-		Result result = dateRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		result = contactRequirement(context, list, selection, vendor);
-		if (result != null) {
-			return result;
-		}
-
-		result = paymentTermRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = phoneNumberRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = dateOptionalRequirement(context, list, "due", DUE_DATE,
-				selection);
-
-		if (result != null) {
-			return result;
-		}
-		result = deliveryDateRequirement(context, list, selection);
-
-		if (result != null) {
-			return result;
-		}
-
-		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
-		if (result != null) {
-			return result;
-		}
-		result = context.makeResult();
-		result.add("Bill is ready to create with following values.");
-		result.add(list);
-
-		result.add("Items:-");
-		ResultList items = new ResultList("transactionItems");
-		for (TransactionItem item : transItems) {
-			Record itemRec = new Record(item);
-			itemRec.add("Name", item.getItem().getName());
-			itemRec.add("Total", item.getLineTotal());
-			itemRec.add("VatCode", item.getVATfraction());
-		}
-		result.add(items);
-
-		ResultList actions = new ResultList(ACTIONS);
-		Record moreItems = new Record(ActionNames.ADD_MORE_ITEMS);
-		moreItems.add("", "Add more items");
-		actions.add(moreItems);
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Bill.");
-		actions.add(finish);
-		result.add(actions);
-
-		return result;
-	}
-
-	private Result phoneNumberRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(PHONE);
-		String phoneNumber = (String) req.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(PHONE)) {
-			String input = context.getSelection(TEXT);
-			if (input == null) {
-				input = context.getString();
-			}
-			phoneNumber = input;
-			req.setValue(phoneNumber);
-		}
-
-		if (selection == phoneNumber) {
-			context.setAttribute(attribute, PHONE);
-			return text(context, PHONE, phoneNumber);
-		}
-
-		Record phoneNumberRecord = new Record(phoneNumber);
-		phoneNumberRecord.add("Name", PHONE);
-		phoneNumberRecord.add("Value", phoneNumber);
-		list.add(phoneNumberRecord);
 		return null;
 	}
 
-	private Result deliveryDateRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(DELIVERY_DATE);
-		Date deliveryDate = (Date) req.getValue();
-
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(DELIVERY_DATE)) {
-			Date date = context.getSelection(DATE);
-			if (date == null) {
-				date = context.getDate();
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		if (!context.getPreferences().isKeepTrackofBills()) {
+			addFirstMessage(context, "You dnt have permission to do this.");
+			return "cancel";
+		}
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select an Enter bill to update.");
+				return "bills List";
 			}
-			deliveryDate = date;
-			req.setValue(deliveryDate);
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
+			ClientEnterBill enterBill = (ClientEnterBill) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.INVOICE);
+			if (enterBill == null) {
+				addFirstMessage(context, "Select an Enter bill to update.");
+				return "Bills List " + string;
+			}
+			this.enterBill = enterBill;
+			setValues(context);
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			enterBill = new ClientEnterBill();
 		}
-		if (selection == deliveryDate) {
-			context.setAttribute(INPUT_ATTR, DELIVERY_DATE);
-			return date(context, "Enter the " + DELIVERY_DATE, deliveryDate);
-		}
-
-		Record dueDateRecord = new Record(deliveryDate);
-		dueDateRecord.add("Name", DELIVERY_DATE);
-		dueDateRecord.add("Value", deliveryDate.toString());
-		list.add(dueDateRecord);
 		return null;
-
 	}
 
+	private void setValues(Context context) {
+		get(VENDOR).setValue(enterBill.getVendor());
+		get(DATE).setValue(context.getDate());
+		get(NUMBER).setValue(enterBill.getNumber());
+		get(CONTACT).setValue(enterBill.getContact());
+		get(PHONE).setValue(enterBill.getPhone());
+		get(PAYMENT_TERMS).setValue(enterBill.getPaymentTerm());
+		get(DUE_DATE).setValue(enterBill.getDueDate());
+		get(DELIVERY_DATE).setValue(enterBill.getDeliveryDate());
+		ArrayList<ClientTransactionItem> itemsList = new ArrayList<ClientTransactionItem>();
+		ArrayList<ClientTransactionItem> accountsList = new ArrayList<ClientTransactionItem>();
+		if (enterBill.getTransactionItems() != null
+				&& !enterBill.getTransactionItems().isEmpty()) {
+			for (ClientTransactionItem item : enterBill.getTransactionItems()) {
+				if (item.getType() == ClientAccount.ACCOUNT) {
+					accountsList.add(item);
+				} else {
+					itemsList.add(item);
+				}
+			}
+		}
+		get(ACCOUNTS).setValue(accountsList);
+		get(ITEMS).setValue(itemsList);
+		ClientCompanyPreferences preferences = context.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			get(TAXCODE).setValue(
+					getTaxCodeForTransactionItems(
+							enterBill.getTransactionItems(), context));
+		}
+		get(MEMO).setValue(enterBill.getMemo());
+	}
 }

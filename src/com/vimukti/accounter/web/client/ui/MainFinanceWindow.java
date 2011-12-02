@@ -21,8 +21,10 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.comet.AccounterCometSerializer;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.company.ItemsAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
@@ -30,7 +32,6 @@ import com.vimukti.accounter.web.client.ui.company.PaymentsAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
-import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossByLocationAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByLocationDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByLocationSummaryAction;
@@ -47,8 +48,10 @@ public class MainFinanceWindow extends VerticalPanel {
 	private int height;
 	private int width;
 	private HelpItem item;
-	public Map<String, Action> actions;
+	public static Map<String, Action> actions;
 	private CometClient cometClient;
+
+	AccounterMessages messages = Accounter.messages();
 
 	public MainFinanceWindow() {
 		initializeActionsWithTokens();
@@ -57,25 +60,35 @@ public class MainFinanceWindow extends VerticalPanel {
 	}
 
 	private void createControls() {
-		viewManager = new ViewManager(this);
-		header = new Header();
 
-		ClientCompany company = Accounter.getCompany();
+		viewManager = new ViewManager(this);
+		header = new Header(Accounter.getCompany());
+
 		add(header);
 		// If company is configured then show the dashboard
 		// if (company.isConfigured()) {
-		HorizontalMenuBar hMenuBar = new HorizontalMenuBar();
-		if (!Accounter.isMacApp()) {
-			add(hMenuBar);
+		// HorizontalMenuBar hMenuBar = new HorizontalMenuBar();
+		// if (!Accounter.isMacApp()) {
+		// add(hMenuBar);
+		// }
+		boolean isTouch = isTouch();
+		IMenuFactory menuFactory = null;
+		if (isTouch) {
+			menuFactory = new TouchMenuFactory();
+		} else {
+			menuFactory = new DesktopMenuFactory();
 		}
 
+		AccounterMenuBar menubar = new AccounterMenuBar(menuFactory);
+		add(menubar);
+
 		add(viewManager);
-		Label help = new Label(Accounter.constants().helpLinks());
+		Label help = new Label(messages.helpLinks());
 		help.addStyleName("down-panel");
 		if (item == null) {
 			item = new HelpItem();
 		}
-		addStyleName(Accounter.constants().financeWindow());
+		addStyleName(messages.financeWindow());
 
 		if (UIUtils.isMSIEBrowser()) {
 			this.getElement().getStyle().setPaddingTop(0, Unit.PX);
@@ -90,6 +103,10 @@ public class MainFinanceWindow extends VerticalPanel {
 		// }
 
 	}
+
+	private native boolean isTouch() /*-{
+		return $wnd.isTouch;
+	}-*/;
 
 	public HelpItem getHelpItem() {
 		return item;
@@ -163,7 +180,7 @@ public class MainFinanceWindow extends VerticalPanel {
 					public void onMessage(List<? extends Serializable> messages) {
 						for (Serializable serializableObj : messages) {
 							Accounter.getCompany().processCommand(
-									(IAccounterCore) serializableObj);
+									serializableObj);
 						}
 					}
 
@@ -256,8 +273,7 @@ public class MainFinanceWindow extends VerticalPanel {
 				AccounterAsyncCallback<T> callback = new AccounterAsyncCallback<T>() {
 
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
-								.unableToshowtheview());
+						Accounter.showError(messages.unableToshowtheview());
 					}
 
 					public void onResultSuccess(T result) {
@@ -277,6 +293,10 @@ public class MainFinanceWindow extends VerticalPanel {
 				action.run(null, false);
 			}
 		}
+	}
+
+	public static Map<String, Action> getActions() {
+		return actions;
 	}
 
 	private void initializeActionsWithTokens() {
@@ -342,6 +362,8 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getSalesPersonAction().getHistoryToken(),
 				ActionFactory.getSalesPersonAction());
+
+		// tax related items menus
 		actions.put(ActionFactory.getNewVatItemAction().getHistoryToken(),
 				ActionFactory.getNewVatItemAction());
 		actions.put(ActionFactory.getNewTAXCodeAction().getHistoryToken(),
@@ -350,25 +372,40 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getNewTAXAgencyAction());
 		actions.put(ActionFactory.getAdjustTaxAction().getHistoryToken(),
 				ActionFactory.getAdjustTaxAction());
-		actions.put(ActionFactory.getFileVatAction().getHistoryToken(),
-				ActionFactory.getFileVatAction());
-		actions.put(ActionFactory.getpayVATAction().getHistoryToken(),
-				ActionFactory.getpayVATAction());
+		actions.put(ActionFactory.getFileTAXAction().getHistoryToken(),
+				ActionFactory.getFileTAXAction());
+		actions.put(ActionFactory.getpayTAXAction().getHistoryToken(),
+				ActionFactory.getpayTAXAction());
 		actions.put(ActionFactory.getreceiveVATAction().getHistoryToken(),
 				ActionFactory.getreceiveVATAction());
 		actions.put(ActionFactory.getVatItemListAction().getHistoryToken(),
 				ActionFactory.getVatItemListAction());
-
 		actions.put(ActionFactory.getTAXCodeListAction().getHistoryToken(),
 				ActionFactory.getTAXCodeListAction());
+		actions.put(ActionFactory.getTaxHistoryAction().getHistoryToken(),
+				ActionFactory.getTaxHistoryAction());
 
 		actions.put(ActionFactory.getCustomersHomeAction().getHistoryToken(),
 				ActionFactory.getCustomersHomeAction());
 		actions.put(ActionFactory.getNewCustomerAction().getHistoryToken(),
 				ActionFactory.getNewCustomerAction());
 
-		actions.put(ActionFactory.getNewQuoteAction().getHistoryToken(),
-				ActionFactory.getNewQuoteAction());
+		actions.put(
+				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
+						messages.newQuote()).getHistoryToken(),
+				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
+						messages.newQuote()));
+		actions.put(
+				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
+						messages.newCharge()).getHistoryToken(), ActionFactory
+						.getNewQuoteAction(ClientEstimate.CHARGES,
+								messages.newCharge()));
+		actions.put(
+				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS,
+						messages.newCredit()).getHistoryToken(), ActionFactory
+						.getNewQuoteAction(ClientEstimate.CREDITS,
+								messages.newCredit()));
+
 		actions.put(ActionFactory.getNewInvoiceAction().getHistoryToken(),
 				ActionFactory.getNewInvoiceAction());
 		actions.put(ActionFactory.getInvoiceBrandingAction().getHistoryToken(),
@@ -388,8 +425,21 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getCustomersAction());
 		// actions.put(ActionFactory.getItemsAction().getHistoryToken(),
 		// ActionFactory.getItemsAction());
-		actions.put(ActionFactory.getQuotesAction().getHistoryToken(),
-				ActionFactory.getQuotesAction());
+		actions.put(
+				ActionFactory.getQuotesAction(messages.quotes(),
+						ClientEstimate.QUOTES).getHistoryToken(), ActionFactory
+						.getQuotesAction(messages.quotes(),
+								ClientEstimate.QUOTES));
+		actions.put(
+				ActionFactory.getQuotesAction(messages.Charges(),
+						ClientEstimate.CHARGES).getHistoryToken(),
+				ActionFactory.getQuotesAction(messages.Charges(),
+						ClientEstimate.CHARGES));
+		actions.put(
+				ActionFactory.getQuotesAction(messages.credits(),
+						ClientEstimate.CREDITS).getHistoryToken(),
+				ActionFactory.getQuotesAction(messages.credits(),
+						ClientEstimate.CREDITS));
 		actions.put(ActionFactory.getInvoicesAction(null).getHistoryToken(),
 				ActionFactory.getInvoicesAction(null));
 		actions.put(
@@ -488,8 +538,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getArAgingSummaryReportAction());
 		actions.put(ActionFactory.getArAgingDetailAction().getHistoryToken(),
 				ActionFactory.getArAgingDetailAction());
-		actions.put(ActionFactory.getStatementReport().getHistoryToken(),
-				ActionFactory.getStatementReport());
+		actions.put(ActionFactory.getStatementReport(false, 0)
+				.getHistoryToken(), ActionFactory.getStatementReport(false, 0));
 		actions.put(ActionFactory.getCustomerTransactionHistoryAction()
 				.getHistoryToken(), ActionFactory
 				.getCustomerTransactionHistoryAction());
@@ -530,6 +580,10 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getHistoryToken(), ActionFactory.getPurchaseOpenOrderAction());
 
 		actions.put(
+				ActionFactory.getStatementReport(true, 0).getHistoryToken(),
+				ActionFactory.getStatementReport(true, 0));
+
+		actions.put(
 				ActionFactory.getVATSummaryReportAction().getHistoryToken(),
 				ActionFactory.getVATSummaryReportAction());
 		actions.put(
@@ -541,6 +595,19 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getVATUncategorisedAmountsReportAction()
 				.getHistoryToken(), ActionFactory
 				.getVATUncategorisedAmountsReportAction());
+
+		actions.put(ActionFactory.getVATExceptionDetailsReportAction()
+				.getHistoryToken(), ActionFactory
+				.getVATExceptionDetailsReportAction());
+
+		actions.put(ActionFactory.getTaxItemExceptionDetailReportAction()
+				.getHistoryToken(), ActionFactory
+				.getTaxItemExceptionDetailReportAction());
+
+		actions.put(ActionFactory.getTaxItemDetailReportAction()
+				.getHistoryToken(), ActionFactory
+				.getTaxItemDetailReportAction());
+
 		actions.put(ActionFactory.getVATItemSummaryReportAction()
 				.getHistoryToken(), ActionFactory
 				.getVATItemSummaryReportAction());
@@ -553,15 +620,15 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put("bankAccounts",
 				ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK));
 		actions.put("cashExpenses",
-				ActionFactory.getExpensesAction(Accounter.constants().cash()));
-		actions.put("creditCardExpenses", ActionFactory
-				.getExpensesAction(Accounter.constants().creditCard()));
-		actions.put("employeeExpenses", ActionFactory
-				.getExpensesAction(Accounter.constants().employee()));
+				ActionFactory.getExpensesAction(messages.cash()));
+		actions.put("creditCardExpenses",
+				ActionFactory.getExpensesAction(messages.creditCard()));
+		actions.put("employeeExpenses",
+				ActionFactory.getExpensesAction(messages.employee()));
 		actions.put(ActionFactory.getAccountRegisterAction().getHistoryToken(),
 				ActionFactory.getAccountRegisterAction());
 		actions.put("overDueInvoices",
-				ActionFactory.getInvoicesAction(InvoiceListView.OVER_DUE));
+				ActionFactory.getInvoicesAction(Accounter.messages().overDue()));
 		actions.put(ActionFactory.getUserDetailsAction().getHistoryToken(),
 				ActionFactory.getUserDetailsAction());
 		actions.put(ActionFactory.getPrepare1099MISCAction().getHistoryToken(),
@@ -635,6 +702,61 @@ public class MainFinanceWindow extends VerticalPanel {
 		ItemsAction allItemAction = ActionFactory.getItemsAction(false, false);
 		actions.put(allItemAction.getHistoryToken(), allItemAction);
 
+		// adding actions for inventory
+
+		actions.put(ActionFactory.getWareHouseViewAction().getHistoryToken(),
+				ActionFactory.getWareHouseViewAction());
+		actions.put(ActionFactory.getWareHouseTransferAction()
+				.getHistoryToken(), ActionFactory.getWareHouseTransferAction());
+		actions.put(ActionFactory.getAddMeasurementAction().getHistoryToken(),
+				ActionFactory.getAddMeasurementAction());
+
+		actions.put(ActionFactory.getInventoryItemsAction().getHistoryToken(),
+				ActionFactory.getInventoryItemsAction());
+		actions.put(ActionFactory.getWarehouseListAction().getHistoryToken(),
+				ActionFactory.getWarehouseListAction());
+		actions.put(ActionFactory.getWarehouseTransferListAction()
+				.getHistoryToken(), ActionFactory
+				.getWarehouseTransferListAction());
+		actions.put(ActionFactory.getMeasurementsAction().getHistoryToken(),
+				ActionFactory.getMeasurementsAction());
+		actions.put(ActionFactory.getStockAdjustmentAction().getHistoryToken(),
+				ActionFactory.getStockAdjustmentAction());
+
+		actions.put(ActionFactory.getStockSettingsAction().getHistoryToken(),
+				ActionFactory.getStockSettingsAction());
+
+		actions.put(ActionFactory.getStockAdjustmentsListAction()
+				.getHistoryToken(), ActionFactory
+				.getStockAdjustmentsListAction());
+
+		actions.put(ActionFactory.getCurrencyGroupListAction()
+				.getHistoryToken(), ActionFactory.getCurrencyGroupListAction());
+
+		actions.put(ActionFactory.getTranslationAction().getHistoryToken(),
+				ActionFactory.getTranslationAction());
+
+		actions.put(ActionFactory.getTAXAgencyListAction().getHistoryToken(),
+				ActionFactory.getTAXAgencyListAction());
+
+		// merge actions
+		actions.put(ActionFactory.getCustomerMergeAction().getHistoryToken(),
+				ActionFactory.getCustomerMergeAction());
+
+		actions.put(ActionFactory.getVendorMergeAction().getHistoryToken(),
+				ActionFactory.getVendorMergeAction());
+
+		actions.put(ActionFactory.getAccountMergeAction().getHistoryToken(),
+				ActionFactory.getAccountMergeAction());
+
+		actions.put(ActionFactory.getItemMergeAction().getHistoryToken(),
+				ActionFactory.getItemMergeAction());
+
+		actions.put(ActionFactory.getBudgetActions().getHistoryToken(),
+				ActionFactory.getBudgetActions());
+
+		actions.put(ActionFactory.getBudgetOverView().getHistoryToken(),
+				ActionFactory.getBudgetOverView());
 	}
 
 	public ClientCompany getCompany() {

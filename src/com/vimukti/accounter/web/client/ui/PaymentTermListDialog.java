@@ -28,7 +28,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	private AddPaymentTermDialog dialog;
 
 	public PaymentTermListDialog() {
-		super(Accounter.constants().managePaymentTerm(), Accounter.constants()
+		super(Accounter.messages().managePaymentTerm(), Accounter.messages()
 				.paymentTermDescription());
 		createControls();
 		center();
@@ -62,13 +62,24 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 			}
 
 			public void onSecondButtonClick() {
-				showAddEditTermDialog((ClientPaymentTerms) listGridView
-						.getSelection());
+				ClientPaymentTerms selectedPaymentTerms = getSelectedPaymentTerms();
+				if (!selectedPaymentTerms.isDefault()) {
+					showAddEditTermDialog(selectedPaymentTerms);
+				} else {
+					Accounter.showError(Accounter.messages()
+							.youcannotEditDeleteDefaultTerms());
+				}
 
 			}
 
 			public void onThirdButtonClick() {
-				deleteObject(getSelectedPaymentTerms());
+				ClientPaymentTerms selectedPaymentTerms = getSelectedPaymentTerms();
+				if (!selectedPaymentTerms.isDefault()) {
+					deleteObject(selectedPaymentTerms);
+				} else {
+					Accounter.showError(Accounter.messages()
+							.youcannotEditDeleteDefaultTerms());
+				}
 				if (paymentTerms == null)
 					enableEditRemoveButtons(false);
 
@@ -85,8 +96,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	}
 
 	public void showAddEditTermDialog(ClientPaymentTerms rec) {
-		dialog = new AddPaymentTermDialog(this, Accounter.constants()
-				.addPaymentTermTitle(), Accounter.constants()
+		dialog = new AddPaymentTermDialog(this, Accounter.messages()
+				.addPaymentTermTitle(), Accounter.messages()
 				.addPaymentTermTitleDesc());
 		this.paymentTerm = rec;
 		if (rec != null) {
@@ -212,10 +223,10 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.constants().name(),
-				Accounter.constants().description(),
-				Accounter.constants().dueDate(),
-		/* Accounter.constants().cashDiscount() */};
+		return new String[] { Accounter.messages().name(),
+				Accounter.messages().description(),
+				Accounter.messages().dueDays(),
+		/* messages.cashDiscount() */};
 	}
 
 	@Override
@@ -230,14 +241,14 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		if (paymentTerm != null) {
 			if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
 					.getValue().toString() : "")) {
-				result.addError(this, Accounter.constants().alreadyExist());
+				result.addError(this, Accounter.messages().alreadyExist());
 			}
 		} else {
 			String value = dialog.payTermText.getValue();
 			ClientPaymentTerms clientPaymentTerms = company
 					.getPaymentTermsByName(value);
 			if (clientPaymentTerms != null) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, Accounter.messages()
 						.paytermsAlreadyExists());
 			}
 		}

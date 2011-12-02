@@ -40,7 +40,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter.constants()
+		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter.messages()
 				.selectTheme());
 		brandingTheme = new ClientBrandingTheme();
 		brandingThemeTypeCombo
@@ -53,6 +53,8 @@ public class BrandingThemeComboDialog extends BaseDialog {
 					}
 				});
 		brandingThemeTypeCombo.setThemeDialog(this);
+		brandingTheme = Accounter.getCompany().getBrandingTheme().get(1);
+		brandingThemeTypeCombo.setComboItem(brandingTheme);
 
 		DynamicForm dynamicForm = new DynamicForm();
 		VerticalPanel comboPanel = new VerticalPanel();
@@ -128,7 +130,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	@Override
 	protected boolean onOK() {
 		if (brandingThemeTypeCombo.getSelectedValue().equals(null)) {
-			brandingThemeTypeCombo.setSelected(Accounter.constants()
+			brandingThemeTypeCombo.setSelected(Accounter.messages()
 					.standardTheme());
 		}
 		print();

@@ -8,12 +8,12 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.AccountsTemplate;
-import com.vimukti.accounter.web.client.core.ClientActivity;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
+import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.core.HrEmployee;
@@ -280,8 +280,6 @@ public interface IAccounterGETService extends RemoteService {
 
 	// public List<String> getTimezones();
 
-	public ClientCompany getCompany() throws AccounterException;
-
 	KeyFinancialIndicators getKeyFinancialIndicators();
 
 	ArrayList<HrEmployee> getHREmployees() throws AccounterException;
@@ -291,10 +289,7 @@ public interface IAccounterGETService extends RemoteService {
 	public ClientUser getUser(String userName, String password,
 			boolean isremeber, int offset);
 
-	public List<AccountsTemplate> getAccountsTemplate()
-			throws AccounterException;
-
-	List<ClientTransaction> getAllTransactionsOfAccount(long id,
+	List<ClientReconciliationItem> getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException;
 
@@ -304,7 +299,14 @@ public interface IAccounterGETService extends RemoteService {
 	double getOpeningBalanceforReconciliation(long id)
 			throws AccounterException;
 
-	List<ClientActivity> getTransactionHistory(long transactionId)
+	List<ClientTransactionLog> getTransactionHistory(long transactionId)
 			throws AccounterException;
+
+	long getLastTAXReturnEndDate(long agencyId) throws AccounterException;
+
+	List<ClientTAXReturnEntry> getTAXReturnEntries(long agency, long startDate,
+			long endDate) throws AccounterException;
+
+	List<ClientTAXReturn> getAllTAXReturns() throws AccounterException;
 
 }

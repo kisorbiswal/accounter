@@ -179,10 +179,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @param request
 	 * @return
 	 */
-	public static String getCompanyFromRequest(HttpServletRequest request) {
-		Object companyName = request.getSession().getAttribute(
+	public static Long getCompanyFromRequest(HttpServletRequest request) {
+		Long companyId = (Long) request.getSession().getAttribute(
 				BaseServlet.COMPANY_ID);
-		return (String) companyName;
+		return companyId;
 	}
 
 	// //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -959,9 +959,9 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * defaultVATAgency.setPaymentTerm(accounterDao.getPaymentTerms( //
 	 * company.getID(), "Quarterly"));
 	 * defaultVATAgency.setSalesVATAccount(accounterDao.getAccount(company
-	 * .getID(), AccounterConstants.SALES_OUTPUT_VAT));
+	 * .getID(), messages.SALES_OUTPUT_VAT));
 	 * defaultVATAgency.setPurchasesVATAccount(accounterDao.getAccount(
-	 * company.getID(), AccounterConstants.PURCHASE_INPUT_VAT));
+	 * company.getID(), messages.PURCHASE_INPUT_VAT));
 	 * 
 	 * this.createTaxAgency(defaultVATAgency);
 	 * 
@@ -1110,7 +1110,7 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * for (TaxAgency taxAgency : taxAgencies) {
 	 * 
 	 * if (taxAgency.getLiabilityAccount().getName() .equalsIgnoreCase(
-	 * AccounterConstants.OPENING_BALANCE)) {
+	 * messages.OPENING_BALANCE)) {
 	 * 
 	 * if (list.size() > 0 && customer.getBalance() > 0.0 &&
 	 * customer.getTaxGroup() != null) {
@@ -1334,11 +1334,11 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * makeDeposit.getTransactionMakeDeposit().iterator(); // while
 	 * (i.hasNext()) { // ((TransactionMakeDeposit) i.next()) //
 	 * .setAccountsPayable(accounterDao.getAccount(makeDeposit // .getCompany(),
-	 * // AccounterConstants.ACCOUNTS_PAYABLE)); // } // i =
+	 * // messages.ACCOUNTS_PAYABLE)); // } // i =
 	 * makeDeposit.getTransactionMakeDeposit().iterator(); // while
 	 * (i.hasNext()) { // ((TransactionMakeDeposit) i.next()) //
 	 * .setAccountsReceivable(accounterDao.getAccount( //
-	 * makeDeposit.getCompany(), // AccounterConstants.ACCOUNTS_RECEIVABLE)); //
+	 * makeDeposit.getCompany(), // messages.ACCOUNTS_RECEIVABLE)); //
 	 * }
 	 * 
 	 * // Excess Information need to be set to this Object

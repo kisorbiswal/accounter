@@ -38,6 +38,8 @@ public abstract class ClientPayee implements IAccounterCore {
 
 	double balance;
 
+	double currencyFactor = 1;
+
 	String bankAccountNo;
 	String bankName;
 	String bankBranch;
@@ -45,7 +47,7 @@ public abstract class ClientPayee implements IAccounterCore {
 	String cstNumber;
 	String serviceTaxRegistrationNumber;
 	String tinNumber;
-	String currency;
+	private long currency;
 
 	Set<ClientAddress> address = new HashSet<ClientAddress>();
 	Set<ClientPhone> phoneNumbers = new HashSet<ClientPhone>();
@@ -67,6 +69,15 @@ public abstract class ClientPayee implements IAccounterCore {
 	String VATRegistrationNumber;
 	long TAXCode;
 	long TAXItem;
+
+	public ClientPayee() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public ClientPayee(long currency) {
+		this.currency = currency;
+	}
+
 	public long getTaxItemCode() {
 		return TAXItem;
 	}
@@ -220,12 +231,6 @@ public abstract class ClientPayee implements IAccounterCore {
 	// public boolean isTaxAgency() {
 	// return this != null && this instanceof ClientTaxAgency;
 	// }
-
-	@Override
-	public String getDisplayName() {
-		// its not using any where
-		return null;
-	}
 
 	public Set<ClientAddress> getAddress() {
 		return address;
@@ -441,14 +446,6 @@ public abstract class ClientPayee implements IAccounterCore {
 		return payee;
 	}
 
-	public String getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null)
@@ -458,6 +455,29 @@ public abstract class ClientPayee implements IAccounterCore {
 			return this.getID() == payee.getID() ? true : false;
 		}
 		return false;
+	}
+
+	public long getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(long currency) {
+		this.currency = currency;
+	}
+
+	/**
+	 * @return the currencyFactor
+	 */
+	public double getCurrencyFactor() {
+		return currencyFactor;
+	}
+
+	/**
+	 * @param currencyFactor
+	 *            the currencyFactor to set
+	 */
+	public void setCurrencyFactor(double currencyFactor) {
+		this.currencyFactor = currencyFactor;
 	}
 
 }

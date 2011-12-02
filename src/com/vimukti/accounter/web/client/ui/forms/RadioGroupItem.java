@@ -56,7 +56,7 @@ public class RadioGroupItem extends FormItem<String> {
 
 		for (String string : buttonTitles) {
 			if (this.grouoName == null) {
-				this.grouoName = Accounter.constants().radioButtonGroup();
+				this.grouoName = Accounter.messages().radioButtonGroup();
 			}
 			radioButton = new RadioButton(this.grouoName, string);
 			this.radioButtonList.add(radioButton);
@@ -70,15 +70,40 @@ public class RadioGroupItem extends FormItem<String> {
 
 	public void setValueMap(String title1, String title2) {
 
-		radioButton = new RadioButton(Accounter.constants().radioButtonGroup(),
+		radioButton = new RadioButton(Accounter.messages().radioButtonGroup(),
 				title1);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}
 		this.radioButtonList.add(radioButton);
 
-		radioButton = new RadioButton(Accounter.constants().radioButtonGroup(),
+		radioButton = new RadioButton(Accounter.messages().radioButtonGroup(),
 				title2);
+		if (this.clickHandler != null) {
+			this.radioButton.addClickHandler(clickHandler);
+		}
+		this.radioButtonList.add(radioButton);
+
+	}
+
+	public void setValueMap(String title1, String title2, String title3) {
+
+		radioButton = new RadioButton(Accounter.messages().radioButtonGroup(),
+				title1);
+		if (this.clickHandler != null) {
+			this.radioButton.addClickHandler(clickHandler);
+		}
+		this.radioButtonList.add(radioButton);
+
+		radioButton = new RadioButton(Accounter.messages().radioButtonGroup(),
+				title2);
+		if (this.clickHandler != null) {
+			this.radioButton.addClickHandler(clickHandler);
+		}
+		this.radioButtonList.add(radioButton);
+
+		radioButton = new RadioButton(Accounter.messages().radioButtonGroup(),
+				title3);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}

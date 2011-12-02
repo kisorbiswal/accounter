@@ -35,13 +35,13 @@ public class ServerMaintainanceFilter implements Filter {
 			FilterChain arg2) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) arg0;
 		String requestURI = req.getRequestURI();
-		if (requestURI.endsWith(".css") || requestURI.endsWith(".jpg")
+		if (requestURI.endsWith(".js") ||requestURI.endsWith(".css") || requestURI.endsWith(".jpg")
 				|| requestURI.endsWith(".png")) {
 			arg2.doFilter(arg0, arg1);
 			return;
 		}
 
-		if (!req.getServletPath().endsWith("/maintanance")
+		if (!(req.getServletPath().endsWith("/maintanance")|| req.getServletPath().endsWith("/maintanaceinform"))
 				&& ServerConfiguration.isUnderMaintainance()) {
 			req.getRequestDispatcher(MAINTANACE_VIEW).forward(req,
 					(HttpServletResponse) arg1);

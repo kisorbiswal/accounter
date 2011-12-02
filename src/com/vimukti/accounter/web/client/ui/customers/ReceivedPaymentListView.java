@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -21,14 +19,15 @@ import com.vimukti.accounter.web.client.ui.grids.ReceivedPaymentListGrid;
  * 
  */
 public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
-	AccounterConstants customerConstants = Accounter.constants();
 
 	private List<ReceivePaymentsList> listOfRecievePayments;
 
-	private static String ALL = Accounter.constants().all();
-	private static String OPEN = Accounter.constants().open();
-	private static String FULLY_APPLIED = Accounter.constants().fullyApplied();
-	private static String VOIDED = Accounter.constants().voided();
+	private static String ALL = messages.all();
+	// private static String OPEN = messages.open();
+	// private static String FULLY_APPLIED =
+	// messages.fullyApplied();
+	private static String VOIDED = messages.voided();
+	private static String PAID = messages.paid();
 	// private static String DELETED="Deleted";
 
 	private static final int STATUS_UNAPPLIED = 0;
@@ -46,13 +45,13 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return customerConstants.addaNewPayment();
+		return messages.addaNewPayment();
 
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return customerConstants.getReceivedPaymentListViewHeading();
+		return messages.getReceivedPaymentListViewHeading();
 	}
 
 	@Override
@@ -82,19 +81,20 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants().currentView());
+		viewSelect = new SelectCombo(messages.currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(ALL);
-		listOfTypes.add(OPEN);
-		listOfTypes.add(FULLY_APPLIED);
+		listOfTypes.add(PAID);
+		// listOfTypes.add(OPEN);
+		// listOfTypes.add(FULLY_APPLIED);
 		listOfTypes.add(VOIDED);
 		viewSelect.initCombo(listOfTypes);
 		// ,DELETED
-//		if (UIUtils.isMSIEBrowser())
-//			viewSelect.setWidth("150px");
+		// if (UIUtils.isMSIEBrowser())
+		// viewSelect.setWidth("150px");
 
-		viewSelect.setComboItem(OPEN);
+		viewSelect.setComboItem(PAID);
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -115,32 +115,32 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 		grid.removeAllRecords();
 		for (ReceivePaymentsList recievePayment : listOfRecievePayments) {
-			if (text.equals(OPEN)) {
-				if ((recievePayment.getStatus() == STATUS_UNAPPLIED || recievePayment
-						.getStatus() == STATUS_PARTIALLY_APPLIED)
-						&& (!recievePayment.isVoided()))
-					grid.addData(recievePayment);
-
-				continue;
-			}
-			if (text.equals(FULLY_APPLIED)) {
-				if (recievePayment.getStatus() == STATUS_APPLIED
-						&& !recievePayment.isVoided())
-					grid.addData(recievePayment);
-
-				continue;
-			}
-			if (text.equals(VOIDED)) {
-				if (recievePayment.isVoided() && !recievePayment.isDeleted())
-					grid.addData(recievePayment);
-				continue;
-			}
-			// if(text.equals(DELETED)){
-			// if (recievePayment.isDeleted() == true)
+			// if (text.equals(OPEN)) {
+			// if ((recievePayment.getStatus() == STATUS_UNAPPLIED ||
+			// recievePayment
+			// .getStatus() == STATUS_PARTIALLY_APPLIED)
+			// && (!recievePayment.isVoided()))
 			// grid.addData(recievePayment);
+			//
 			// continue;
 			// }
-			if (text.equals(ALL)) {
+			// if (text.equals(FULLY_APPLIED)) {
+			// if (recievePayment.getStatus() == STATUS_APPLIED
+			// && !recievePayment.isVoided())
+			// grid.addData(recievePayment);
+			//
+			// continue;
+			// }
+			if (text.equals(PAID)) {
+				if (!recievePayment.isVoided()) {
+					grid.addData(recievePayment);
+				}
+			} else if (text.equals(VOIDED)) {
+				if (recievePayment.isVoided() && !recievePayment.isDeleted()) {
+					grid.addData(recievePayment);
+				}
+				continue;
+			} else if (text.equals(ALL)) {
 				grid.addData(recievePayment);
 			}
 		}
@@ -171,7 +171,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().recievePayments();
+		return messages.recievePayments();
 	}
 
 }

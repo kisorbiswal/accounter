@@ -1,3 +1,5 @@
+<%@ page import="java.util.*" %>
+<%@page pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!-- The HTML 4.01 Transitional DOCTYPE declaration-->
@@ -10,12 +12,28 @@
 <html>
 
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta content="IE=100" http-equiv="X-UA-Compatible">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+    <meta content="IE=100" http-equiv="X-UA-Compatible" />
     <%@ include file="./feedback.jsp" %>
     <script type="text/javascript" charset="utf-8">
   		var is_ssl = ("https:" == document.location.protocol);
   		var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+  		
+  		var AccounterMessages={
+  		<%
+  		HashMap<String,String> messages=(HashMap<String,String>)request.getAttribute("messages");
+  		if(messages!=null){
+  		for(String key:messages.keySet()){
+  			String value=messages.get(key);
+  		%>
+  			'<%= key %>': '<%= value %>',
+  		<%
+  		}
+  		}
+  		%>
+  			last: 'end'
+  		};
 	</script>
 		
     
@@ -28,13 +46,13 @@
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
        
-	<link type="text/css" rel="stylesheet" href="../css/calendar.css?version=<%= version%>">
+	<link type="text/css" rel="stylesheet" href="../css/calendar.css?version=<%= version%>" />
 	 
 	<%
    String app = request.getHeader( "Nativeapp" );
    boolean isNative = ( app != null && !app.equals(""));
    if( isNative ){ %>
-   <link type="text/css" rel="stylesheet" href="../css/native.css?version=<%= version%>">
+   <link type="text/css" rel="stylesheet" href="../css/native.css?version=<%= version%>" />
    <% } %>
 	
     <!--                                           -->
@@ -129,10 +147,6 @@
 			text-decoration:none;
 		}
 
-		#bizantraForm input[type="text"],#bizantraForm input[type="password"]{
-			border:1px solid #9cb0ce;
-		}
-
 		.loginbox a:hover{
 			text-decoration:underline;
 		}
@@ -171,14 +185,14 @@
   <body>
 <div id="hiddenDiv" class="hiddenPic">
 		<img src="/images/loader.gif" 
-  			alt="Loading" title="Loading">
+  			alt="Loading" title="Loading" />
     		</div>
 
   	<!--add loading indicator while the app is being loaded-->
 	<div id="loadingWrapper" style="visibility:visible">
 	<div id="loading">
 	    <div class="loadingIndicator">
-	        <img src="/images/Main-page-loading-bar.gif" /><br/>
+	        <img src="/images/Main-page-loading-bar.gif" alt="Main page"/><br/>
 	    </div>
 	</div>
 	</div>
@@ -189,19 +203,27 @@
 	
 	<!--<table class="header" id="mainHeader" style="visibility:hidden">
 	   <tr>
-	      <td width="25%"><img src="/images/Accounter_logo_title.png" /></td>
+	      <td width="25%"><img src="/images/Accounter_logo_title.png" alt="Accounter logo"/></td>
 	      <td width="50%"><div class="companyName">${companyName}</div></td>
 	      <td width="25%">
 	        <ul>
-	           <li><img src="images/User.png" /><a href="">${userName}</a></li>
-	           <li><img src="images/Help.png" /><a href='http://help.accounter.com'>Help</a></li>
-	           <li><img src="images/logout.png" /><a href='/main/logout'>Logout</a></li>
+	           <li><img src="/images/User.png" /><a href="">${userName}</a></li>
+	           <li><img src="/images/Help.png" /><a href='http://help.accounter.com'>Help</a></li>
+	           <li><img src="/images/logout.png" /><a href='/main/logout'>Logout</a></li>
 	        </ul>
 	      </td>
 	   </tr>
 	</table>-->
 	<div id="mainWindow"></div>
-	<script type="text/javascript" language="javascript" src="/accounter/accounter.nocache.js"></script>
+			<script type="text/javascript" charset="utf-8">
+			function MacReload(){
+				 if(window.macclient){
+				 	window.macclient.reloadMenu();
+				 }
+			}
+  		</script>
+	<script type="text/javascript" language="javascript" src="/accounter.client/accounter.client.nocache.js"></script>
+
 	<div id="mainFooter" style="visibility:hidden" >
 	    <div>
 	       <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
@@ -212,10 +234,7 @@
 	</div>
 	
     <!-- OPTIONAL: include this if you want history support -->
-    <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
-    <iframe id="__printingFrame" style="width: 0; height: 0; border: 0"></iframe>
-	<jsp:include page="/WEB-INF/meteor.jsp"></jsp:include>
-	<iframe id="__printingFrame" style="width: 0; height: 0; border: 0"></iframe>
+    <iframe src="javascript:''" id="__gwt_historyFrame" style="position:absolute;width:0;height:0;border:0"></iframe>
 	 <iframe id="__printingFrame" style="width: 0; height: 0; border: 0">
         </iframe>
         <iframe id="__generatePdfFrame" style="width: 0; height: 0; border: 0">
@@ -231,39 +250,9 @@ $(document).ready(function(){
 });
 });
 })
-
-	var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-24502570-1']);
-		_gaq.push(['_trackPageview']);
-	
-	(function() {
-		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	})();
-
-	</script>
-
-
-		
-		<script type="text/javascript" charset="utf-8">
-			function SampleFunction(parameter){
-				parameter.reloadMenu();
-			}
-		</script>
-
-	<script type="text/javascript" charset="utf-8">
-			var is_ssl = ("https:" == document.location.protocol);
-			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
-		</script>
-		
-
-		<script type="text/javascript" charset="utf-8">
-			function MacReload(){
-				 var myaddressbook = window.accounter;
-				 myaddressbook.createNewMacMenu();
-			}
-  		</script>
+</script>
+ 
+	<%@ include file="./scripts.jsp" %>
 
  </body>
 </html>

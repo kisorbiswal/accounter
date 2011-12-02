@@ -16,14 +16,21 @@ public class ServerConfiguration {
 	}
 
 	private static boolean isUnderMaintanance;
-	private static String mainServerDbUrl;
+	private static String sessionDbUrl;
 
 	private static String mainServerDomain;
 	private static String currentServerDomain;
 	private static String chatUsername;
 	private static String chatpassword;
 	private static int mainServerPort;
+	private static int consoleChatServerPort;
+	private static int mobileChatServerPort;
+	private static int mobileSSLChatServerPort;
 	public static boolean isDebugMode;
+
+	private static boolean enableConsoleChatServer;
+	private static boolean enableIMChatServer;
+	private static boolean enableMobileChatServer;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -42,7 +49,7 @@ public class ServerConfiguration {
 		return mainServerDomain;
 	}
 
-	static void init(String config) {
+	public static void init(String config) {
 		PropertyParser prop = new PropertyParser();
 		try {
 			prop.loadFile(config == null ? "config/config.ini" : config);
@@ -61,6 +68,16 @@ public class ServerConfiguration {
 
 			mainServerPort = Integer.parseInt(prop.getProperty(
 					"mainServerPort", null));
+
+			consoleChatServerPort = Integer.parseInt(prop.getProperty(
+					"consoleChatServer", null));
+
+			mobileChatServerPort = Integer.parseInt(prop.getProperty(
+					"mobileChatServer", null));
+
+			mobileSSLChatServerPort = Integer.parseInt(prop.getProperty(
+					"mobileSSLChatServer", null));
+
 			/*
 			 * mobilePort = Integer.parseInt(prop.getProperty("mobilePort",
 			 * "7990"));
@@ -86,6 +103,8 @@ public class ServerConfiguration {
 			String username = prop.getProperty("username", null);
 			String password = prop.getProperty("password", null);
 			String dialect = prop.getProperty("dialect", null);
+			String showSql = prop.getProperty("showsql", null);
+			;
 			if (databaseUrl == null || username == null || password == null
 					|| dialect == null) {
 				System.err.println("Invalid configuration for database");
@@ -95,13 +114,20 @@ public class ServerConfiguration {
 			System.setProperty("db.user", username);
 			System.setProperty("db.pass", password);
 			System.setProperty("dialect", dialect);
+			System.setProperty("db.showsql", showSql);
 			adminpassword = prop.getProperty("adminpassword", "");
 			tmpDir = prop.getProperty("tmpDir",
 					System.getProperty("java.io.tmpdir", ""));
 
-			mainServerDbUrl = prop.getProperty("mainServerDatabaseUrl", null);
+			sessionDbUrl = prop.getProperty("sessionDbUrl", null);
 			chatUsername = prop.getProperty("chatUsername", null);
 			chatpassword = prop.getProperty("chatPassword", null);
+			enableConsoleChatServer = prop.getProperty(
+					"enableConsoleChatServer", null).equalsIgnoreCase("true");
+			enableIMChatServer = prop.getProperty("enableIMChatServer", null)
+					.equalsIgnoreCase("true");
+			enableMobileChatServer = prop.getProperty("enableMobileChatServer",
+					null).equalsIgnoreCase("true");
 
 		} catch (NumberFormatException ne) {
 			System.err
@@ -130,11 +156,15 @@ public class ServerConfiguration {
 		return "config/accounts";
 	}
 
+	public static String getDefaultCompanyDir() {
+		return "config/demo";
+	}
+
 	/**
 	 * @return
 	 */
-	public static String getMainServerDbUrl() {
-		return mainServerDbUrl;
+	public static String getSessionDbUrl() {
+		return sessionDbUrl;
 	}
 
 	/**
@@ -189,4 +219,33 @@ public class ServerConfiguration {
 	public static int getMainServerPort() {
 		return mainServerPort;
 	}
+
+	public static String getMobileStore() {
+		return "config/MobileStore";
+	}
+
+	public static boolean isEnableConsoleChatServer() {
+		return enableConsoleChatServer;
+	}
+
+	public static boolean isEnableIMChatServer() {
+		return enableIMChatServer;
+	}
+
+	public static boolean isEnableMobileChatServer() {
+		return enableMobileChatServer;
+	}
+
+	public static int getConsoleChatServerPort() {
+		return consoleChatServerPort;
+	}
+
+	public static int getMobileChatServerPort() {
+		return mobileChatServerPort;
+	}
+
+	public static int getMobileSSLChatServerPort() {
+		return mobileSSLChatServerPort;
+	}
+
 }

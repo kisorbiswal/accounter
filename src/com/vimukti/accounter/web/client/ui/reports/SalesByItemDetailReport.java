@@ -40,7 +40,9 @@ public class SalesByItemDetailReport extends
 			return;
 		} else if (byCustomerDetail.getItemName() != null) {
 			Accounter.createReportService().getSalesByItemDetail(
-					byCustomerDetail.getItemName(), start, end, this);
+					byCustomerDetail.getItemName(),
+					byCustomerDetail.getStartDate(),
+					byCustomerDetail.getEndDate(), this);
 		}
 		this.bycustomerDetail = byCustomerDetail.getTransactionId();
 	}

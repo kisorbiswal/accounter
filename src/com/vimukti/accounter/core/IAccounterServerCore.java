@@ -2,6 +2,8 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 
+import org.json.JSONException;
+
 import com.vimukti.accounter.web.client.core.IVersionable;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -20,5 +22,7 @@ public interface IAccounterServerCore extends Serializable, Cloneable,
 
 	boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException;
+
+	void writeAudit(AuditWriter w) throws JSONException;
 
 }

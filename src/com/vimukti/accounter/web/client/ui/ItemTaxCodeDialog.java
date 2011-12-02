@@ -24,11 +24,11 @@ public class ItemTaxCodeDialog extends DialogBox {
 
 	private void createControls() {
 
-		Label lab1 = new Label(Accounter.constants().itemTaxCode());
+		Label lab1 = new Label(Accounter.messages().itemTaxCode());
 		// lab1.setWrap(false);
 		// lab1.setAutoFit(true);
 
-		Label lab2 = new Label(Accounter.constants().toAddAnItemTax());
+		Label lab2 = new Label(Accounter.messages().toAddAnItemTax());
 		// lab2.setHeight("1");
 		// lab2.setOverflow(Overflow.VISIBLE);
 		// lab2.setWrap(false);
@@ -47,17 +47,17 @@ public class ItemTaxCodeDialog extends DialogBox {
 		// grid.setCanResizeFields(true);
 		// grid.setData(createListGridRecords(typeRecords));
 
-		Button addButt = new Button(Accounter.constants().add3dots());
+		Button addButt = new Button(Accounter.messages().add3dots());
 		addButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showAddEditDialog();
 			}
 		});
-		Button editButt = new Button(Accounter.constants().edit());
-		Button remButt = new Button(Accounter.constants().remove());
+		Button editButt = new Button(Accounter.messages().edit());
+		Button remButt = new Button(Accounter.messages().remove());
 
-		Button helpButt = new Button(Accounter.constants().help());
-		Button closeButt = new Button(Accounter.constants().close());
+		Button helpButt = new Button(Accounter.messages().help());
+		Button closeButt = new Button(Accounter.messages().close());
 
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setAlign(Alignment.LEFT);
@@ -94,22 +94,22 @@ public class ItemTaxCodeDialog extends DialogBox {
 	}
 
 	private void showAddEditDialog() {
-		TextItem taxText = new TextItem(Accounter.constants().itemTax());
+		TextItem taxText = new TextItem(Accounter.messages().itemTax());
 		taxText.setColSpan(3);
 		RadioGroupItem taxableRadio = new RadioGroupItem();
 
 		taxableRadio.setColSpan(1);
 		taxableRadio.setShowTitle(false);
-		taxableRadio.setValueMap(Accounter.constants().taxable(), Accounter
-				.constants().nonTaxable());
+		taxableRadio.setValueMap(Accounter.messages().taxable(), Accounter
+				.messages().nonTaxable());
 		DynamicForm form = new DynamicForm();
 		form.setNumCols(4);
 		form.setFields(taxText, taxableRadio);
 
-		Button helpButt = new Button(Accounter.constants().help());
+		Button helpButt = new Button(Accounter.messages().help());
 		// helpButt.setAutoFit(true);
-		Button okButt = new Button(Accounter.constants().ok());// okButt.setAutoFit(true);
-		Button canButt = new Button(Accounter.constants().cancel());// canButt.setAutoFit(true);
+		Button okButt = new Button(Accounter.messages().ok());// okButt.setAutoFit(true);
+		Button canButt = new Button(Accounter.messages().cancel());// canButt.setAutoFit(true);
 		HorizontalPanel helpHLay = new HorizontalPanel();
 
 		helpHLay.setWidth("50%");
@@ -128,7 +128,7 @@ public class ItemTaxCodeDialog extends DialogBox {
 		mainVLay.add(buttHLay);
 		DialogBox dlg = new DialogBox();
 		// dlg.setOverflow(Overflow.VISIBLE);
-		dlg.setTitle(Accounter.constants().itemTax());
+		dlg.setTitle(Accounter.messages().itemTax());
 		dlg.add(mainVLay);
 		dlg.setSize("320px", "150px");
 		dlg.show();

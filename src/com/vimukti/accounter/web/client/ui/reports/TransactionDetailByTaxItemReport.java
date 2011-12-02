@@ -17,8 +17,9 @@ public class TransactionDetailByTaxItemReport extends
 
 	@Override
 	public void OnRecordClick(TransactionDetailByTaxItem record) {
-		ReportsRPC.openTransactionView(record.getTransactionType(),
-				record.getTransactionId());
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(record.getTransactionType(),
+					record.getTransactionId());
 	}
 
 	@Override
@@ -34,7 +35,8 @@ public class TransactionDetailByTaxItemReport extends
 					start, end, this);
 		} else if (taxLiability.getTaxItemName() != null) {
 			Accounter.createReportService().getTransactionDetailByTaxItem(
-					taxLiability.getTaxItemName(), start, end, this);
+					taxLiability.getTaxItemName(), taxLiability.getStartDate(),
+					taxLiability.getEndDate(), this);
 
 		}
 	}

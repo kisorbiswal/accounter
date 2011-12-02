@@ -25,7 +25,7 @@ public class CopyThemeDialog extends BaseDialog {
 	private void createControls() {
 
 		VerticalPanel copyPanel = new VerticalPanel();
-		Label yourLabel = new Label(Accounter.constants().yourTitle());
+		Label yourLabel = new Label(Accounter.messages().yourTitle());
 		nameBox = new TextBox();
 		copyPanel.add(yourLabel);
 		copyPanel.add(nameBox);
@@ -41,12 +41,12 @@ public class CopyThemeDialog extends BaseDialog {
 		ClientBrandingTheme brandingThemeByName = company
 				.getBrandingThemeByName(nameBox.getText());
 		if (name == null || name.isEmpty()) {
-			result.addError(this, Accounter.constants().pleaseenterThemename());
+			result.addError(this, Accounter.messages().pleaseenterThemename());
 		}
 
 		if (brandingThemeByName != null) {
 			result
-					.addError(this, Accounter.constants()
+					.addError(this, Accounter.messages()
 							.themenamealreadyexist());
 		}
 		// if (Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),

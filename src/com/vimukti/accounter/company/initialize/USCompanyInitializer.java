@@ -349,24 +349,18 @@ public class USCompanyInitializer extends CompanyInitializer {
 			defaultTaxAgency.setCompany(company);
 			defaultTaxAgency.setActive(Boolean.TRUE);
 			defaultTaxAgency.setName("Tax Agency");
-
+			defaultTaxAgency.setTaxType(TAXAgency.TAX_TYPE_SALESTAX);
 			defaultTaxAgency.setPaymentTerm((PaymentTerms) session
 					.getNamedQuery("unique.name.PaymentTerms")
 					.setEntity("company", company)
 					.setString("name", "Net Monthly").list().get(0));
-			defaultTaxAgency.setSalesLiabilityAccount((Account) session
+			Account salesTaxPayable = (Account) session
 					.getNamedQuery("unique.name.Account")
 					.setEntity("company", company)
-					.setString("name", "Sales Tax Payable").list().get(0));
-			defaultTaxAgency.setPurchaseLiabilityAccount((Account) session
-					.getNamedQuery("unique.name.Account")
-					.setEntity("company", company)
-					.setString("name", "Sales Tax Payable").list().get(0));
-			
-			defaultTaxAgency.setPurchaseLiabilityAccount((Account) session
-					.getNamedQuery("unique.name.Account")
-					.setString(0, "Sales Tax Payable").list().get(0));
-			
+					.setString("name", "Sales Tax Payable").list().get(0);
+			defaultTaxAgency.setSalesLiabilityAccount(salesTaxPayable);
+			defaultTaxAgency.setPurchaseLiabilityAccount(salesTaxPayable);
+
 			defaultTaxAgency.setDefault(true);
 			session.save(defaultTaxAgency);
 
@@ -384,7 +378,6 @@ public class USCompanyInitializer extends CompanyInitializer {
 			defaultTaxItem.setTaxAgency(defaultTaxAgency);
 			defaultTaxItem.setVatReturnBox(null);
 			defaultTaxItem.setTaxRate(0);
-			defaultTaxItem.setSalesType(Boolean.TRUE);
 			defaultTaxItem.setDefault(true);
 			session.save(defaultTaxItem);
 

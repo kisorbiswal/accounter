@@ -1,13 +1,12 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
-import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
-import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -19,53 +18,28 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	public TAXCodeCombo(String title, boolean isSales) {
 		super(title);
 		this.isSales = isSales;
-		initCombo(TAXCodesForSalesOrPurchase(getCompany().getActiveTaxCodes()));
+		initCombo(getTAXCodesForSalesOrPurchase(getCompany()
+				.getActiveTaxCodes()));
 	}
 
 	public TAXCodeCombo(String title, boolean isAddNewRequired, boolean isSales) {
 		super(title, isAddNewRequired, 1);
 		this.isSales = isSales;
-		initCombo(TAXCodesForSalesOrPurchase(getCompany().getActiveTaxCodes()));
+		initCombo(getTAXCodesForSalesOrPurchase(getCompany()
+				.getActiveTaxCodes()));
 	}
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.addNewItem();
+		return messages.item();
 	}
 
 	@Override
 	public String getDisplayName(ClientTAXCode object) {
-		String displayName;
-		ClientTAXItemGroup vatGroup;
 		if (object != null) {
-			displayName = object.getName() != null ? object.getName() : "";
-			if (isSales) {
-				vatGroup = ((ClientTAXItemGroup) Accounter.getCompany()
-						.getTAXItemGroup(object.getTAXItemGrpForSales()));
-
-			} else {
-				vatGroup = ((ClientTAXItemGroup) Accounter.getCompany()
-						.getTAXItemGroup(object.getTAXItemGrpForPurchases()));
-			}
-
-			if (vatGroup instanceof ClientTAXItem) {
-				// The selected one is VATItem,so get 'VATRate' from
-				// 'VATItem'
-				if (vatGroup != null)
-					displayName += " - "
-							+ ((ClientTAXItem) vatGroup).getTaxRate();
-			} else {
-				// The selected one is VATGroup,so get 'GroupRate' from
-				// 'VATGroup'
-				if (vatGroup != null)
-					displayName += " - "
-							+ ((ClientTAXGroup) vatGroup).getGroupRate();
-			}
-			if (vatGroup != null && vatGroup.isPercentage())
-				displayName += "%";
-			return displayName;
-		} else
-			return "";
+			return object.getName() != null ? object.getName() : "";
+		}
+		return "";
 	}
 
 	@Override
@@ -95,7 +69,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	}
 
 	@Override
-	protected String getColumnData(ClientTAXCode object, int row, int col) {
+	protected String getColumnData(ClientTAXCode object, int col) {
 		switch (col) {
 		case 0:
 			return getDisplayName(object);
@@ -113,25 +87,33 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 		return null;
 	}
 
-	protected List<ClientTAXCode> TAXCodesForSalesOrPurchase(
+	protected List<ClientTAXCode> getTAXCodesForSalesOrPurchase(
 			List<ClientTAXCode> activeTaxCodes) {
 
 		List<ClientTAXCode> taxCodeList = new ArrayList<ClientTAXCode>();
 		for (ClientTAXCode taxCode : activeTaxCodes) {
 			if (isSales) {
-				if (taxCode.getTAXItemGrpForPurchases() == 0
-						|| ((taxCode.getTAXItemGrpForSales() != 0) && (taxCode
-								.getTAXItemGrpForPurchases() != 0))) {
+				if (taxCode.getTAXItemGrpForSales() != 0) {
 					taxCodeList.add(taxCode);
 				}
 			} else {
-				if (taxCode.getTAXItemGrpForSales() == 0
-						|| ((taxCode.getTAXItemGrpForPurchases() != 0) && (taxCode
-								.getTAXItemGrpForSales() != 0))) {
+				if (taxCode.getTAXItemGrpForPurchases() != 0) {
 					taxCodeList.add(taxCode);
 				}
 			}
+			if (taxCode.getTAXItemGrpForSales() == 0
+					&& taxCode.getTAXItemGrpForPurchases() == 0) {
+				taxCodeList.add(taxCode);
+			}
 		}
+		Collections.sort(taxCodeList, new Comparator<ClientTAXCode>() {
+
+			@Override
+			public int compare(ClientTAXCode o1, ClientTAXCode o2) {
+				return Long.valueOf(o1.getID()).compareTo(
+						Long.valueOf(o2.getID()));
+			}
+		});
 		return taxCodeList;
 	}
 

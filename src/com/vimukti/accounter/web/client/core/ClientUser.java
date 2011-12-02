@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class ClientUser implements IAccounterCore {
@@ -8,7 +10,6 @@ public class ClientUser implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	String firstName;
 
@@ -32,12 +33,10 @@ public class ClientUser implements IAccounterCore {
 
 	String admin;
 
-
+	private List<ClientPortletPageConfiguration> portletPages;
 	private boolean isDeleted;
 
-
 	private boolean isActive;
-
 
 	public ClientUser() {
 		// ClientUserPreferences userPreferences = new ClientUserPreferences();
@@ -124,7 +123,6 @@ public class ClientUser implements IAccounterCore {
 		this.email = email;
 	}
 
-
 	/**
 	 * @return the admin
 	 */
@@ -139,8 +137,6 @@ public class ClientUser implements IAccounterCore {
 	public void setAdmin(String adminId) {
 		this.admin = adminId;
 	}
-
-
 
 	@Override
 	public String getDisplayName() {
@@ -196,7 +192,6 @@ public class ClientUser implements IAccounterCore {
 	public ClientUserPermissions getPermissions() {
 		return permissions;
 	}
-
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
@@ -290,7 +285,7 @@ public class ClientUser implements IAccounterCore {
 		userInfo.setFirstName(firstName);
 		userInfo.setLastName(lastName);
 		userInfo.setFullName(fullName);
-		userInfo.setEmail(email); 
+		userInfo.setEmail(email);
 		userInfo.setUserRole(userRole);
 		userInfo.setPermissions(permissions);
 		userInfo.setCanDoUserManagement(canDoUserManagement);
@@ -304,13 +299,13 @@ public class ClientUser implements IAccounterCore {
 		clientUserClone.permissions = this.permissions.clone();
 		return clientUserClone;
 	}
-	
+
 	public boolean isDeleted() {
 		return isDeleted;
 	}
 
 	public void setDeleted(boolean isDeleted) {
-		this.isDeleted=isDeleted;
+		this.isDeleted = isDeleted;
 	}
 
 	public boolean isActive() {
@@ -318,6 +313,15 @@ public class ClientUser implements IAccounterCore {
 	}
 
 	public void setActive(boolean isActive) {
-		this.isActive=isActive;
+		this.isActive = isActive;
+	}
+
+	public List<ClientPortletPageConfiguration> getPortletPages() {
+		return portletPages;
+	}
+
+	public void setPortletPages(
+			List<ClientPortletPageConfiguration> portletPages) {
+		this.portletPages = portletPages;
 	}
 }

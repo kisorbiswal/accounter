@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -64,9 +65,9 @@ public class SalesOrderView extends
 	private SalesPersonCombo salesPersonCombo;
 	private TAXCodeCombo taxCodeSelect;
 	private PaymentTermsCombo payTermsSelect;
-	private Double payments = 0.0;
+	private final Double payments = 0.0;
 
-	private Double balanceDue = 0.0;
+	private final Double balanceDue = 0.0;
 	private DateField dueDateItem;
 	private LabelItem quoteLabel;
 	private SalesQuoteListDialog dialog;
@@ -77,22 +78,21 @@ public class SalesOrderView extends
 	private TextItem customerOrderText;
 	private Label lab1;
 	private ArrayList<ClientEstimate> selectedSalesOrders;
-	private String OPEN = Accounter.constants().open();
-	private String COMPLETED = Accounter.constants().completed();
-	private String CANCELLED = Accounter.constants().cancelled();
+	private final String OPEN = messages.open();
+	private final String COMPLETED = messages.completed();
+	private final String CANCELLED = messages.cancelled();
 	private TextAreaItem billToTextArea;
 	private ShipToForm shipToAddress;
 
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 
 	private SalesOrderTable customerTransactionTable;
 	private AddNewButton itemTableButton;
-	protected ClientTAXCode taxCode;
 	private List<ClientPaymentTerms> paymentTermsList;
 	protected ClientPaymentTerms paymentTerm;
-	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
-			vatTotalNonEditableText, balanceDueNonEditableText,
-			paymentsNonEditableText, salesTaxTextNonEditable;
+	private AmountLabel netAmountLabel, vatTotalNonEditableText,
+			balanceDueNonEditableText, paymentsNonEditableText,
+			salesTaxTextNonEditable;
 
 	private Double salesTax;
 
@@ -105,16 +105,13 @@ public class SalesOrderView extends
 
 	@Override
 	protected void createControls() {
-		// setTitle(UIUtils.title(FinanceApplication.constants()
-		// .salesOrder()));
 		LinkItem emptylabel = new LinkItem();
 		emptylabel.setLinkTitle("");
 		emptylabel.setShowTitle(false);
 
-		lab1 = new Label(Accounter.constants().salesOrder());
-		lab1.setStyleName(Accounter.constants().labelTitle());
-		// lab1.setHeight("35px");
-		statusSelect = new SelectCombo(Accounter.constants().status());
+		lab1 = new Label(messages.salesOrder());
+		lab1.setStyleName(messages.labelTitle());
+		statusSelect = new SelectCombo(messages.status());
 
 		ArrayList<String> selectComboList = new ArrayList<String>();
 		selectComboList.add(OPEN);
@@ -138,7 +135,7 @@ public class SalesOrderView extends
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(Accounter.constants().orderNo());
+		transactionNumber.setTitle(messages.orderNo());
 		transactionNumber.setWidth(50);
 
 		locationCombo = createLocationCombo();
@@ -150,7 +147,7 @@ public class SalesOrderView extends
 		dateNoForm.setFields(statusSelect, transactionDateItem);
 
 		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("99%");
+		datepanel.setWidth("98%");
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
@@ -179,7 +176,7 @@ public class SalesOrderView extends
 
 		customerCombo.setWidth(100);
 		quoteLabel = new LabelItem();
-		quoteLabel.setValue(Accounter.constants().quotes());
+		quoteLabel.setValue(messages.quotes());
 		quoteLabel.setWidth("100%");
 		quoteLabel.addStyleName("falseHyperlink");
 		quoteLabel.setShowTitle(false);
@@ -190,7 +187,7 @@ public class SalesOrderView extends
 
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(Accounter.constants().billTo());
+		billToTextArea.setTitle(messages.billTo());
 		billToTextArea.setDisabled(true);
 
 		shipToCombo = createShipToComboItem();
@@ -198,7 +195,7 @@ public class SalesOrderView extends
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().setWidth(0, 0, "40px");
+		// shipToAddress.getCellFormatter().setWidth(0, 0, "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect.addChangeHandler(new ChangeHandler() {
 
@@ -214,22 +211,22 @@ public class SalesOrderView extends
 		if (isInViewMode())
 			shipToAddress.businessSelect.setDisabled(true);
 
-		phoneSelect = new TextItem(customerConstants.phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+		phoneSelect = new TextItem(messages.phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isInViewMode());
 
-		custForm = UIUtils.form(customerConstants.billingAddress());
+		custForm = UIUtils.form(messages.billingAddress());
 		custForm.setNumCols(3);
 		// custForm.setWidth("50%");
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
 				phoneSelect, emptylabel, billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-		custForm.getCellFormatter().setWidth(0, 1, "180px");
-		custForm.getCellFormatter().setWidth(0, 0, "225px");
+		// custForm.getCellFormatter().setWidth(0, 1, "180px");
+		// custForm.getCellFormatter().setWidth(0, 0, "225px");
 
-		customerOrderText = new TextItem(Accounter.messages().customerOrderNo(
+		customerOrderText = new TextItem(Accounter.messages().payeeOrderNo(
 				Global.get().customer()));
 		customerOrderText.setWidth(50);
 		customerOrderText.setColSpan(1);
@@ -310,7 +307,7 @@ public class SalesOrderView extends
 		DynamicForm termsForm = new DynamicForm();
 		termsForm.setWidth("100%");
 		termsForm.setIsGroup(true);
-		termsForm.setGroupTitle(customerConstants.terms());
+		termsForm.setGroupTitle(messages.terms());
 		termsForm.setNumCols(2);
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
@@ -329,9 +326,9 @@ public class SalesOrderView extends
 		if (getPreferences().isDoProductShipMents()) {
 			termsForm.setFields(shippingTermsCombo, shippingMethodsCombo);
 		}
-		termsForm.getCellFormatter().setWidth(0, 0, "230px");
+		// termsForm.getCellFormatter().setWidth(0, 0, "230px");
 
-		Label lab2 = new Label(customerConstants.productAndService());
+		Label lab2 = new Label(messages.productAndService());
 
 		memoTextAreaItem = createMemoTextAreaItem();
 
@@ -345,18 +342,20 @@ public class SalesOrderView extends
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
 				"memoFormAlign");
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
+		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getCompany()
+				.getPrimaryCurrency());
+		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
+				.getPrimaryCurrency());
 
 		// priceLevelSelect = createPriceLevelSelectItem();
 		taxCodeSelect = createTaxCodeSelectItem();
 
-		paymentsNonEditableText = new AmountLabel(customerConstants.payments());
+		paymentsNonEditableText = new AmountLabel(messages.payments());
 		paymentsNonEditableText.setDisabled(true);
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(customerConstants
-				.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(messages.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -372,12 +371,20 @@ public class SalesOrderView extends
 
 			@Override
 			public void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				SalesOrderView.this.updateNonEditableItems();
 			}
 
 			@Override
 			public boolean isShowPriceWithVat() {
 				return SalesOrderView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return SalesOrderView.this.isInViewMode();
 			}
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
@@ -395,36 +402,38 @@ public class SalesOrderView extends
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
-		prodAndServiceForm2.setNumCols(4);
+		prodAndServiceForm2.setNumCols(2);
 
-		TextItem dummyItem = new TextItem("");
-		dummyItem.setVisible(false);
+		// TextItem = new TextItem("");
+		// .setVisible(false);
+
+		DynamicForm taxForm = new DynamicForm();
+		prodAndServiceForm2.setStyleName("boldtext");
+
 		if (isTrackTax()) {
+			prodAndServiceForm2.setFields(netAmountLabel);
 			if (isTaxPerDetailLine()) {
-				prodAndServiceForm2.setFields(dummyItem, netAmountLabel,
-						dummyItem, vatTotalNonEditableText, dummyItem,
-						transactionTotalNonEditableText);
-				prodAndServiceForm2.setStyleName("boldtext");
+				prodAndServiceForm2.setFields(vatTotalNonEditableText);
 			} else {
-				prodAndServiceForm2.setFields(taxCodeSelect,
-						salesTaxTextNonEditable, dummyItem,
-						transactionTotalNonEditableText);
-				prodAndServiceForm2.setStyleName("boldtext");
+				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
+				prodAndServiceForm2.setFields(salesTaxTextNonEditable);
 			}
-		} else {
-			prodAndServiceForm2.setFields(dummyItem,
-					transactionTotalNonEditableText);
-			prodAndServiceForm2.setStyleName("boldtext");
+		}
+		prodAndServiceForm2.setFields(transactionTotalBaseCurrencyText);
+		if (isMultiCurrencyEnabled()) {
+			prodAndServiceForm2.setFields(foreignCurrencyamountLabel);
 		}
 
+		currencyWidget = createCurrencyFactorWidget();
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
 		prodAndServiceHLay.add(prodAndServiceForm1);
+		prodAndServiceHLay.add(taxForm);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		if (isTaxPerDetailLine()) {
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 		} else
-			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
+			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "");
 		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
 				ALIGN_RIGHT);
 
@@ -442,17 +451,25 @@ public class SalesOrderView extends
 			leftVLay.add(shipToAddress);
 
 		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
+		rightVLay.setHorizontalAlignment(ALIGN_LEFT);
 		// rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
+		if (isMultiCurrencyEnabled()) {
+			rightVLay.add(currencyWidget);
+			rightVLay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
+			currencyWidget.setDisabled(isInViewMode());
+		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "42%");
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
@@ -469,11 +486,11 @@ public class SalesOrderView extends
 		mainVLay.getElement().getStyle().setPaddingTop(20, Unit.PX);
 		mainVLay.getElement().getStyle().setPaddingBottom(20, Unit.PX);
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			resetFormView();
-//			termsForm.getCellFormatter().setWidth(0, 1, "230px");
-//			termsForm.setWidth("90%");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// resetFormView();
+		// termsForm.getCellFormatter().setWidth(0, 1, "230px");
+		// termsForm.setWidth("90%");
+		// }
 		this.add(mainVLay);
 
 		/* Adding dynamic forms in list */
@@ -483,17 +500,21 @@ public class SalesOrderView extends
 		listforms.add(prodAndServiceForm2);
 
 		settabIndexes();
+		if (isMultiCurrencyEnabled()) {
+			foreignCurrencyamountLabel.hide();
+		}
 
 	}
 
 	private ShippingTermsCombo createShippingTermsCombo() {
 
 		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
-				Accounter.constants().shippingTerms());
+				messages.shippingTerms());
 		shippingTermsCombo.setHelpInformation(true);
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
 
+					@Override
 					public void selectedComboBoxItem(
 							ClientShippingTerms selectItem) {
 						shippingTerm = selectItem;
@@ -526,11 +547,11 @@ public class SalesOrderView extends
 	}
 
 	public void resetFormView() {
-		custForm.getCellFormatter().setWidth(0, 1, "200px");
-		custForm.setWidth("94%");
-		shipToAddress.getCellFormatter().setWidth(0, 1, "100");
-		shipToAddress.getCellFormatter().setWidth(0, 2, "200");
-		//statusSelect.setWidth("150px");
+		// custForm.getCellFormatter().setWidth(0, 1, "200px");
+		// custForm.setWidth("94%");
+		// shipToAddress.getCellFormatter().setWidth(0, 1, "100");
+		// shipToAddress.getCellFormatter().setWidth(0, 2, "200");
+		// statusSelect.setWidth("150px");
 		// refText.setWidth("200px");
 	}
 
@@ -575,10 +596,6 @@ public class SalesOrderView extends
 
 			// priceLevelSelect.initCombo(priceLevels);
 
-			ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
-
-			taxCodeSelect.initCombo(taxCodes);
-
 			initSalesTaxNonEditableItem();
 			initTransactionTotalNonEditableItem();
 			initMemoAndReference();
@@ -592,7 +609,20 @@ public class SalesOrderView extends
 			initShippingMethod();
 			initDueDate();
 		} else {
-
+			if (currencyWidget != null) {
+				if (transaction.getCurrency() > 1) {
+					this.currency = getCompany().getCurrency(
+							transaction.getCurrency());
+				} else {
+					this.currency = getCompany().getPrimaryCurrency();
+				}
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
+			}
 			ClientCompany company = getCompany();
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
 			this.billingAddress = transaction.getBillingAddress();
@@ -618,6 +648,9 @@ public class SalesOrderView extends
 				shipToAddress.businessSelect.setValue(shippingAddress
 						.getAddressTypes().get(shippingAddress.getType()));
 				shipToAddress.setAddres(shippingAddress);
+				ClientAddress add = new ClientAddress();
+				shipToAddress.businessSelect.setValue(add.getAddressTypes()
+						.get(1));
 			}
 
 			// this.priceLevel = company.getPriceLevel(salesOrderToBeEdited
@@ -668,9 +701,8 @@ public class SalesOrderView extends
 			// billToaddressSelected(this.billingAddress);
 			// shipToAddressSelected(shippingAddress);
 
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal() - transaction.getNetAmount()));
+			vatTotalNonEditableText.setAmount(transaction.getTotal()
+					- transaction.getNetAmount());
 			customerOrderText.setValue(transaction.getCustomerOrderNumber());
 			paymentTermsSelected(this.paymentTerm);
 			// priceLevelSelected(this.priceLevel);
@@ -692,25 +724,27 @@ public class SalesOrderView extends
 
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
-					netAmountLabel
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getNetAmount()));
-					vatTotalNonEditableText
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+					netAmountLabel.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
 						this.taxCodeSelect
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 					}
-					this.salesTaxTextNonEditable
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTaxTotal()));
-					this.transactionTotalNonEditableText
-							.setAmount(getAmountInTransactionCurrency(transaction
+					this.salesTaxTextNonEditable.setAmount(transaction
+							.getTaxTotal());
+					this.transactionTotalBaseCurrencyText
+							.setAmount(getAmountInBaseCurrency(transaction
 									.getTotal()));
+					this.foreignCurrencyamountLabel.setAmount(transaction
+							.getTotal());
 				}
+
+			}
+			if (vatinclusiveCheck != null) {
+				vatinclusiveCheck.setValue(transaction.isAmountsIncludeVAT());
 			}
 			initAccounterClass();
 			// customerTransactionGrid.setRecords(transaction
@@ -722,6 +756,9 @@ public class SalesOrderView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+		if (isMultiCurrencyEnabled()) {
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void superinitTransactionViewData() {
@@ -739,10 +776,6 @@ public class SalesOrderView extends
 
 		salesPersonCombo.initCombo(salesPersons);
 
-		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
-
-		taxCodeSelect.initCombo(taxCodes);
-
 		initSalesTaxNonEditableItem();
 
 		initTransactionTotalNonEditableItem();
@@ -756,8 +789,7 @@ public class SalesOrderView extends
 	@Override
 	protected void initSalesTaxNonEditableItem() {
 		if (isInViewMode()) {
-			Double salesTaxAmout = ((ClientSalesOrder) transaction)
-					.getTaxTotal();
+			Double salesTaxAmout = transaction.getTaxTotal();
 			setSalesTax(salesTaxAmout);
 
 		}
@@ -770,16 +802,14 @@ public class SalesOrderView extends
 		this.salesTax = salesTax;
 
 		if (salesTaxTextNonEditable != null)
-			salesTaxTextNonEditable
-					.setAmount(getAmountInTransactionCurrency(salesTax));
+			salesTaxTextNonEditable.setAmount(salesTax);
 
 	}
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
 		if (isInViewMode()) {
-			Double transactionTotal = ((ClientSalesOrder) transaction)
-					.getTotal();
+			Double transactionTotal = transaction.getTotal();
 			setTransactionTotal(transactionTotal);
 
 		}
@@ -789,8 +819,9 @@ public class SalesOrderView extends
 	public void setTransactionTotal(Double transactionTotal) {
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
-		transactionTotalNonEditableText
-				.setAmount(getAmountInTransactionCurrency(transactionTotal));
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(transactionTotal));
+		foreignCurrencyamountLabel.setAmount(transactionTotal);
 
 	}
 
@@ -799,13 +830,16 @@ public class SalesOrderView extends
 		updateTransaction();
 
 		super.saveAndUpdateView();
-		transactionTotalNonEditableText
-				.setAmount(getAmountInTransactionCurrency(customerTransactionTable
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(customerTransactionTable
 						.getGrandTotal()));
+		foreignCurrencyamountLabel.setAmount(customerTransactionTable
+				.getGrandTotal());
 
 		saveOrUpdate(transaction);
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		if (taxCode != null && transactionItems != null) {
@@ -846,9 +880,7 @@ public class SalesOrderView extends
 
 		if (isTrackTax()) {
 			if (isTaxPerDetailLine()) {
-				transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel.getAmount()));
-				// transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-				// .getValue());
+				transaction.setNetAmount(netAmountLabel.getAmount());
 			} else {
 				// if (taxCode != null) {
 				// for (ClientTransactionItem record : customerTransactionTable
@@ -859,18 +891,26 @@ public class SalesOrderView extends
 				// }
 				transaction.setTaxTotal(this.salesTax);
 			}
+			if (vatinclusiveCheck != null) {
+				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
+			}
 		}
 
-		transaction.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText.getAmount()));
+		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
 		if (selectedEstimateId != 0)
 			transaction.setEstimate(selectedEstimateId);
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	@Override
 	protected void customerSelected(final ClientCustomer customer) {
+
+		ClientCurrency currency = getCurrency(customer.getCurrency());
 
 		if (customer != null) {
 			if (this.getCustomer() != null
@@ -892,7 +932,7 @@ public class SalesOrderView extends
 					&& taxCodeSelect != null
 					&& taxCodeSelect.getValue() != ""
 					&& !taxCodeSelect.getName().equalsIgnoreCase(
-							Accounter.constants().none()))
+							messages.none()))
 				taxCodeSelect.setComboItem(this.taxCode);
 			customerCombo.setComboItem(customer);
 			// if (transactionObject == null)
@@ -913,9 +953,23 @@ public class SalesOrderView extends
 
 			} else
 				billToTextArea.setValue("");
+			shippingAddress = getAddress(ClientAddress.TYPE_SHIP_TO);
 			List<ClientAddress> addresses = new ArrayList<ClientAddress>();
 			addresses.addAll(customer.getAddress());
 			shipToAddress.setAddress(addresses);
+		}
+
+		if (currency.getID() != 0) {
+			currencyWidget.setSelectedCurrencyFactorInWidget(currency,
+					transactionDateItem.getDate().getDate());
+		} else {
+			currencyWidget.setSelectedCurrency(getBaseCurrency());
+		}
+
+		if (isMultiCurrencyEnabled()) {
+			super.setCurrency(currency);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
+			updateAmountsFromGUI();
 		}
 	}
 
@@ -980,10 +1034,10 @@ public class SalesOrderView extends
 
 	protected DateField createDueDateItem() {
 
-		DateField dateItem = new DateField(Accounter.constants().dueDate());
+		DateField dateItem = new DateField(messages.dueDate());
 		dateItem.setToolTip(Accounter.messages().selectDateUntilDue(
 				this.getAction().getViewName()));
-		dateItem.setTitle(Accounter.constants().dueDate());
+		dateItem.setTitle(messages.dueDate());
 		dateItem.setColSpan(1);
 
 		dateItem.setDisabled(isInViewMode());
@@ -1009,18 +1063,18 @@ public class SalesOrderView extends
 			return;
 
 		if (isTrackTax()) {
-			netAmountLabel
-					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
-							.getLineTotal()));
+			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
 			setSalesTax(customerTransactionTable.getTotalTax());
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
-							.getTotalTax()));
+			vatTotalNonEditableText.setAmount(customerTransactionTable
+					.getTotalTax());
 		}
 		setTransactionTotal(customerTransactionTable.getGrandTotal());
-		transactionTotalNonEditableText
-				.setAmount(getAmountInTransactionCurrency(customerTransactionTable
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(customerTransactionTable
 						.getGrandTotal()));
+
+		foreignCurrencyamountLabel.setAmount(customerTransactionTable
+				.getGrandTotal());
 		// Double payments = this.paymentsNonEditableText.getAmount();
 		// setBalanceDue((this.transactionTotal - payments));
 	}
@@ -1034,19 +1088,23 @@ public class SalesOrderView extends
 		result.add(super.validate());
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				((SalesOrderView) this).dueDateItem.getDate(),
-				getTransactionDate())) {
-			result.addError(((SalesOrderView) this).dueDateItem, Accounter
-					.constants().the()
-					+ " "
-					+ customerConstants.dueDate()
-					+ " "
-					+ " "
-					+ Accounter.constants()
-							.cannotbeearlierthantransactiondate());
+				this.dueDateItem.getDate(), getTransactionDate())) {
+			result.addError(this.dueDateItem,
+					messages.the() + " " + messages.dueDate() + " " + " "
+							+ messages.cannotbeearlierthantransactiondate());
 		}
 
 		result.add(customerTransactionTable.validateGrid());
+
+		if (isTrackTax()) {
+			if (!isTaxPerDetailLine()) {
+				if (taxCodeSelect != null
+						&& taxCodeSelect.getSelectedValue() == null) {
+					result.addError(taxCodeSelect, messages.enterTaxCode());
+				}
+
+			}
+		}
 		return result;
 	}
 
@@ -1054,12 +1112,13 @@ public class SalesOrderView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (getCustomer() == null) {
-			Accounter.showError(Accounter.messages().pleaseSelectCustomer(
+			Accounter.showError(Accounter.messages().pleaseSelect(
 					Global.get().customer()));
 		} else {
 			this.rpcUtilService.getEstimates(getCustomer().getID(),
 					new AccounterAsyncCallback<ArrayList<ClientEstimate>>() {
 
+						@Override
 						public void onException(AccounterException caught) {
 							// Accounter.showError(FinanceApplication
 							// .constants()
@@ -1069,6 +1128,7 @@ public class SalesOrderView extends
 
 						}
 
+						@Override
 						public void onResultSuccess(
 								ArrayList<ClientEstimate> result) {
 
@@ -1110,8 +1170,7 @@ public class SalesOrderView extends
 		dialog.show();
 
 		if (filteredList.isEmpty()) {
-			dialog.grid
-					.addEmptyMessage(Accounter.constants().noRecordsToShow());
+			dialog.grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 
 	}
@@ -1167,7 +1226,7 @@ public class SalesOrderView extends
 		}
 		selectedEstimateId = selectedEstimate.getID();
 		orderNum = selectedEstimate.getNumber();
-		customerTransactionTable.setRecords(itemsList);
+		customerTransactionTable.addRows(itemsList);
 		customerTransactionTable.updateTotals();
 		// if (selectedEstimate == null)
 		// return;
@@ -1193,6 +1252,7 @@ public class SalesOrderView extends
 		updateNonEditableItems();
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1222,10 +1282,10 @@ public class SalesOrderView extends
 
 	}
 
+	@Override
 	public void onEdit() {
 		if (transaction.getStatus() == ClientTransaction.STATUS_COMPLETED)
-			Accounter.showError(Accounter.constants()
-					.completedSalesOrdercantbeedited());
+			Accounter.showError(messages.completedSalesOrdercantbeedited());
 		else {
 			AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
@@ -1303,6 +1363,9 @@ public class SalesOrderView extends
 		super.onEdit();
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		if (currencyWidget != null) {
+			currencyWidget.setDisabled(isInViewMode());
+		}
 	}
 
 	@Override
@@ -1331,7 +1394,7 @@ public class SalesOrderView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().salesOrder();
+		return messages.salesOrder();
 	}
 
 	@Override
@@ -1360,7 +1423,7 @@ public class SalesOrderView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
-		// customerTransactionTable.refreshAllRecords();
+		customerTransactionTable.updateTotals();
 	}
 
 	@Override
@@ -1398,5 +1461,33 @@ public class SalesOrderView extends
 	@Override
 	protected void addItemTransactionItem(ClientTransactionItem item) {
 		customerTransactionTable.add(item);
+	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
+		customerTransactionTable.updateAmountsFromGUI();
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			foreignCurrencyamountLabel.hide();
+		} else {
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
 	}
 }

@@ -1,19 +1,18 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.server.FinanceTool;
 
-public class UsersCommand extends AbstractTransactionCommand {
-
-	private static final int USERS_TO_SHOW = 5;
+public class UsersCommand extends NewAbstractCommand {
 
 	@Override
 	public String getId() {
@@ -22,77 +21,84 @@ public class UsersCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		list.add(new ShowListRequirement<ClientUserInfo>("UsersList",
+				"Please Select User", 20) {
 
+			@Override
+			protected String onSelection(ClientUserInfo value) {
+				return "Update User " + value.getEmail();
+			}
+
+			@Override
+			protected String getShowMessage() {
+				return getMessages().users();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().noRecordsToShow();
+			}
+
+			@Override
+			protected Record createRecord(ClientUserInfo value) {
+				Record record = new Record(value);
+				record.add(getMessages().email(), value.getEmail());
+				record.add(getMessages().userRole(), value.getUserRole());
+				record.add(getMessages().firstName(), value.getFirstName());
+				record.add(getMessages().lastName(), value.getLastName());
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("New User");
+			}
+
+			@Override
+			protected boolean filter(ClientUserInfo e, String name) {
+				return e.getFirstName().equalsIgnoreCase(name)
+						|| e.getLastName().equalsIgnoreCase(name);
+			}
+
+			@Override
+			protected List<ClientUserInfo> getLists(Context context) {
+				return getUsersList(context);
+			}
+		});
+	}
+
+	private List<ClientUserInfo> getUsersList(Context context) {
+		try {
+			return new FinanceTool().getUserManager().getAllUsers(
+					getCompanyId());
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<ClientUserInfo>();
 	}
 
 	@Override
-	public Result run(Context context) {
-
-		Result result = optionalRequirements(context);
-		return result;
-	}
-
-	private Result optionalRequirements(Context context) {
-
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
-		}
-		selection = context.getSelection("values");
-
-		ResultList list = new ResultList("values");
-
-		Result result = usersList(context);
-		if (result != null) {
-			return result;
-		}
-		return result;
-	}
-
-	private Result usersList(Context context) {
-		Result result = context.makeResult();
-		ResultList userList = new ResultList("users");
-		int num = 0;
-		List<User> users = getUsersList();
-		for (User user : users) {
-			userList.add(createUserRecord(user));
-			num++;
-			if (num == USERS_TO_SHOW) {
-				break;
-			}
-		}
-
-		result.add(userList);
-		
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
-
-		result.add(commandList);
-
-		return result;
-	}
-
-	private List<User> getUsersList() {
-		// TODO need to get list of Users
+	protected String initObject(Context context, boolean isUpdate) {
 		return null;
 	}
 
-	private Record createUserRecord(User user) {
-		Record record = new Record(user);
-		// record.add("First Name", user.getFirstName());
-		// record.add("Last Name", user.getLastName());
-		record.add("User Role", user.getUserRole());
-		record.add("Email Id", user.getEmail());
-		// record.add("Status", user.isActive());
-		return record;
+	@Override
+	protected String getWelcomeMessage() {
+		return null;
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
 	}
 
 }

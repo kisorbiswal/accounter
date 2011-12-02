@@ -25,11 +25,11 @@ import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.ValidationResult.Error;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -51,8 +51,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		IDeleteCallback {
 
 	protected ClientCompanyPreferences preferences = Global.get().preferences();
-	protected AccounterMessages messages = Global.get().messages();
-	protected AccounterConstants constants = Global.get().constants();
+	protected static AccounterMessages messages = Global.get().messages();
 	// private String title;
 	protected HorizontalPanel headerLayout;
 	private String description;
@@ -82,6 +81,12 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	public BaseDialog(String text) {
 		super(true);
 		setText(text);
+		setModal(true);
+		initRPCService();
+		createControls();
+		okbtn.setFocus(true);
+		sinkEvents(Event.ONKEYPRESS);
+		sinkEvents(Event.ONMOUSEOVER);
 	}
 
 	public BaseDialog(String text, String desc) {
@@ -129,7 +134,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		footerLayout.setSpacing(3);
 		// footerLayout.addStyleName("dialogfooter");
 
-		this.okbtn = new Button(constants.ok());
+		this.okbtn = new Button(messages.ok());
 		okbtn.setWidth("80px");
 		this.okbtn.setFocus(true);
 
@@ -142,7 +147,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		});
 		okbtn.setFocus(true);
 
-		cancelBtn = new Button(constants.cancel());
+		cancelBtn = new Button(messages.cancel());
 		cancelBtn.setWidth("80px");
 		cancelBtn.addClickHandler(new ClickHandler() {
 
@@ -420,6 +425,13 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 			}
 		});
 
+	}
+	protected ClientCurrency getBaseCurrency() {
+		return getCompany().getPrimaryCurrency();
+	}
+
+	protected ClientCurrency getCurrency(long currency) {
+		return getCompany().getCurrency(currency);
 	}
 
 }

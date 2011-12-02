@@ -1,165 +1,380 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.Entry;
-import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.ObjectListRequirement;
+import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AbstractTableRequirement;
+import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientEntry;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientJournalEntry;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ListFilter;
 
 /**
  * 
  * @author Sai Prasad N
  * 
  */
-public class NewJournalEntryCommand extends AbstractTransactionCommand {
 
-	private static final String TRANSACTION_DATE = "TransactionDate";
+public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
+
 	private static final String VOUCHER = "Voucher";
-	private static final String VOUCHER_NUMBER = "Voucher Number";
-	private static final String DATE = "Date";
-	private static final String ACCOUNT = "Account";
-	private static final String CREDIT = "Credit";
-	private static final String DEBIT = "Debit";
+	private static final String DATE = "date";
+	private static final String NUMBER = "number";
 	private static final String MEMO = "memo";
+	protected static final String ACCOUNT = "Account";
+	protected static final String DEBITS = "Debits";
+	protected static final String CREDITS = "Credits";
+	ClientJournalEntry entry;
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(TRANSACTION_DATE, false, true));
-		list.add(new Requirement(NUMBER, false, true));
-		list.add(new ObjectListRequirement(VOUCHER, false, true) {
+		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
+				getMessages().journalEntryDate()), getMessages()
+				.journalEntryDate(), false, true));
+
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getMessages().journalEntryNo()),
+				getMessages().journalEntryNo(), false, true));
+
+		list.add(new AbstractTableRequirement<ClientEntry>(VOUCHER,
+				getMessages().pleaseSelect(getMessages().voucherNo()),
+				getMessages().voucher(), true, false, true) {
 
 			@Override
-			public void addRequirements(List<Requirement> list) {
-				list.add(new Requirement(VOUCHER_NUMBER, false, true));
-				list.add(new Requirement(DATE, false, true));
-				list.add(new Requirement(ACCOUNT, false, true));
-				list.add(new Requirement(CREDIT, false, true));
-				list.add(new Requirement(DEBIT, false, true));
+			protected void addRequirement(List<Requirement> list) {
+				list.add(new AccountRequirement(ACCOUNT, getMessages()
+						.pleaseEnterNameOrNumber(getMessages().Account()),
+						getMessages().Account(), false, true, null) {
+
+					@Override
+					protected String getSetMessage() {
+						return getMessages().hasSelected(
+								getMessages().Account());
+					}
+
+					@Override
+					protected List<Account> getLists(Context context) {
+						List<Account> filteredList = new ArrayList<Account>();
+						for (Account obj : context.getCompany().getAccounts()) {
+							if (new ListFilter<Account>() {
+
+								@Override
+								public boolean filter(Account e) {
+									return e.getIsActive();
+								}
+							}.filter(obj)) {
+								filteredList.add(obj);
+							}
+						}
+						return filteredList;
+					}
+
+					@Override
+					protected String getEmptyString() {
+						return getMessages().youDontHaveAny(
+								getMessages().Accounts());
+					}
+				});
+
+				list.add(new AmountRequirement(CREDITS, getMessages()
+						.pleaseEnter(getMessages().creditAmount()),
+						getMessages().credit(), true, true) {
+					@Override
+					public void setValue(Object value) {
+						super.setValue(value);
+						if (value != null && currentValue != null) {
+							currentValue.setCredit((Double) value);
+							currentValue.setDebit(0.0d);
+						}
+					}
+
+					@Override
+					public Double getValue() {
+						return currentValue.getCredit();
+					}
+
+					@Override
+					protected void createRecord(ResultList list) {
+					}
+				});
+
+				list.add(new AmountRequirement(DEBITS, getMessages()
+						.pleaseEnter(getMessages().debitAmount()),
+						getMessages().debit(), true, true) {
+					@Override
+					public void setValue(Object value) {
+						super.setValue(value);
+						if (value != null && currentValue != null) {
+							currentValue.setDebit((Double) value);
+							currentValue.setCredit(0.0d);
+						}
+					}
+
+					@Override
+					public Double getValue() {
+						return currentValue.getDebit();
+					}
+
+					@Override
+					protected void createRecord(ResultList list) {
+						Record nameRecord = new Record(CREDITS);
+						nameRecord.add(getMessages().credit(),
+								currentValue.getCredit());
+						list.add(nameRecord);
+						super.createRecord(list);
+					}
+
+				});
+
+				list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
+						getMessages().memo()), getMessages().memo(), true, true));
+
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getMessages().voucher());
+			}
+
+			@Override
+			protected void getRequirementsValues(ClientEntry obj) {
+				Account account = get(ACCOUNT).getValue();
+				String memo = get(MEMO).getValue();
+				// double debits = get(DEBITS).getValue();
+				// double credits = get(CREDITS).getValue();
+				obj.setAccount(account.getID());
+				obj.setMemo(memo);
+				// obj.setDebit(debits);
+				// obj.setCredit(credits);
+			}
+
+			@Override
+			protected void setRequirementsDefaultValues(ClientEntry obj) {
+				get(ACCOUNT).setValue(
+						CommandUtils.getServerObjectById(obj.getAccount(),
+								AccounterCoreType.ACCOUNT));
+				get(MEMO).setDefaultValue(obj.getMemo());
+				get(DEBITS).setDefaultValue(obj.getDebit());
+				get(CREDITS).setDefaultValue(obj.getCredit());
+			}
+
+			@Override
+			protected ClientEntry getNewObject() {
+				return new ClientEntry();
+			}
+
+			@Override
+			protected Record createFullRecord(ClientEntry t) {
+				Record record = new Record(t);
+				ClientAccount account = ((ClientAccount) CommandUtils
+						.getClientObjectById(t.getAccount(),
+								AccounterCoreType.ACCOUNT, getCompanyId()));
+				record.add(Global.get().messages().Account(),
+						account == null ? "" : account.getDisplayName());
+				record.add(getMessages().credit(), t.getCredit());
+				record.add(getMessages().debit(), t.getDebit());
+				record.add(getMessages().memo(), t.getMemo());
+				return record;
+			}
+
+			@Override
+			protected List<ClientEntry> getList() {
+				return null;
+			}
+
+			@Override
+			protected Record createRecord(ClientEntry t) {
+				return createFullRecord(t);
+			}
+
+			@Override
+			protected String getAddMoreString() {
+				return getMessages().add();
+			}
+
+			@Override
+			public boolean isDone() {
+				List<ClientEntry> values = getValue();
+				return values.size() >= 2;
+			}
+
+			@Override
+			protected boolean contains(List<ClientEntry> oldValues,
+					ClientEntry t) {
+				for (ClientEntry entry : oldValues) {
+					if (entry.getAccount() != 0
+							&& entry.getAccount() == t.getAccount()) {
+						return true;
+					}
+				}
+				return false;
 			}
 		});
-
-		list.add(new Requirement(MEMO, true, true));
+		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
+				getMessages().memo()), getMessages().memo(), true, true));
 
 	}
 
 	@Override
-	public Result run(Context context) {
-
-		Result result = null;
-		result = journelentryNumReq(context);
-		if (result != null) {
-			return result;
-		}
-		result = entryRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		result = createOptionalResult(context);
-		if (result != null) {
-			return result;
+	public void beforeFinishing(Context context, Result makeResult) {
+		double totalDebits = 0;
+		double totalCredits = 0;
+		List<ClientEntry> transItems = get(VOUCHER).getValue();
+		for (ClientEntry item : transItems) {
+			totalCredits += item.getCredit();
+			totalDebits += item.getDebit();
 		}
 
+		makeResult.add(getMessages().totalDebits() + " : " + totalDebits);
+		makeResult.add(getMessages().totalCredits() + " : " + totalCredits);
+	}
+
+	@Override
+	protected Result onCompleteProcess(Context context) {
+		double totalDebits = 0;
+		double totalCredits = 0;
+		List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
+		List<ClientEntry> transItems = get(VOUCHER).getValue();
+		for (ClientEntry item : transItems) {
+			ClientTransactionItem transactionItem = new ClientTransactionItem();
+			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
+			transactionItem.setAccount(item.getAccount());
+			if (item.getCredit() != 0.0) {
+				transactionItem.setLineTotal(-item.getCredit());
+			} else if (item.getDebit() != 0.0) {
+				transactionItem.setLineTotal(item.getDebit());
+			}
+			transactionItem.setDescription(item.getMemo());
+			transactionItems.add(transactionItem);
+			totalCredits += item.getCredit();
+			totalDebits += item.getDebit();
+		}
+		Result makeResult = new Result();
+
+		if (totalCredits != totalDebits) {
+			makeResult.add(getMessages().totalMustBeSame());
+			return makeResult;
+		}
+
+		if (totalCredits == 0) {
+			makeResult
+					.add(getMessages().transactiontotalcannotbe0orlessthan0());
+			return makeResult;
+		}
+
+		entry.setTransactionItems(transactionItems);
+		entry.setType(ClientTransaction.TYPE_JOURNAL_ENTRY);
+		ClientFinanceDate date = get(DATE).getValue();
+		entry.setTransactionDate(date.getDate());
+
+		String number = get(NUMBER).getValue();
+		entry.setNumber(number);
+
+		String memo = get(MEMO).getValue();
+		entry.setMemo(memo);
+
+		entry.setTotal(totalDebits);
+		entry.setDebitTotal(totalDebits);
+		entry.setCreditTotal(totalCredits);
+
+		create(entry, context);
+
+		markDone();
 		return null;
 	}
 
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result journelentryNumReq(Context context) {
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select an journalEntry to update.");
+				return "journalEntries List";
+			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
+			ClientJournalEntry journalEntry = (ClientJournalEntry) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.JOURNALENTRY);
+			if (journalEntry == null) {
+				addFirstMessage(context, "Select an journalEntry to update.");
+				return "journalEntries List " + string;
+			}
+			entry = journalEntry;
+			setValues();
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			entry = new ClientJournalEntry();
+		}
+		setTransaction(entry);
+		return null;
+	}
 
-		Requirement requirement = get(NUMBER);
-		if (!requirement.isDone()) {
-			String journelentryNum = context.getSelection(TEXT);
-			if (journelentryNum != null) {
-				requirement.setValue(journelentryNum);
+	private void setValues() {
+		get(DATE).setValue(entry.getDate());
+		get(NUMBER).setValue(entry.getNumber());
+		List<ClientTransactionItem> transactionItems = entry
+				.getTransactionItems();
+		List<ClientEntry> clientEntries = new ArrayList<ClientEntry>();
+		for (ClientTransactionItem transactionItem : transactionItems) {
+			ClientEntry entry = new ClientEntry();
+			entry.setMemo(transactionItem.getDescription());
+			entry.setAccount(transactionItem.getAccount());
+			if (transactionItem.getLineTotal() > 0) {
+				entry.setDebit(transactionItem.getLineTotal());
 			} else {
-				return text(context, "Please enter the  Journel Entry Number",
-						null);
+				entry.setCredit(-transactionItem.getLineTotal());
 			}
+			clientEntries.add(entry);
 		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(NUMBER)) {
-			requirement.setValue(input);
-		}
-		return null;
+		get(VOUCHER).setValue(clientEntries);
+		get(MEMO).setValue(entry.getMemo());
 
 	}
 
-	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case ADD_MORE_ITEMS:
-				return items(context);
-			case FINISH:
-				context.removeAttribute(INPUT_ATTR);
-				return null;
-			default:
-				break;
-			}
-		}
-
-		Result result = null;
-		Requirement entriesReq = get("entries");
-		List<Entry> entries = entriesReq.getValue();
-
-		selection = context.getSelection("entries");
-		if (selection != null) {
-			// TODO
-		}
-
-		ResultList list = new ResultList("values");
-
-		result = dateOptionalRequirement(context, list, DATE,
-				"Enter journelEntry Date", selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = stringOptionalRequirement(context, list, selection, MEMO,
-				"Enter Memo");
-		if (result != null) {
-			return result;
-		}
-		return null;
+	@Override
+	protected String getWelcomeMessage() {
+		return getMessages().creating(getMessages().journalEntry());
 	}
 
-	private Result entryRequirement(Context context) {
-		Requirement entryReq = get("entries");
-		List<Entry> entries = context.getSelections("entries");
-		if (!entryReq.isDone()) {
-			if (entries.size() > 0) {
-				entryReq.setValue(entries);
-			} else {
-				return Entries(context);
-			}
-		}
-		if (entries != null && entries.size() > 0) {
-			List<Entry> entries1 = entryReq.getValue();
-			entries1.addAll(entries);
-		}
-		return null;
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().readyToCreate(getMessages().journalEntry());
 	}
 
-	private Result Entries(Context context) {
-		// TODO Auto-generated method stub
-
-		return null;
+	@Override
+	protected void setDefaultValues(Context context) {
 	}
 
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().createSuccessfully(getMessages().journalEntry());
+	}
 }

@@ -15,8 +15,7 @@ public abstract class DateColumn<T> extends EditColumn<T> {
 	private final DateTimeFormat format;
 
 	public DateColumn() {
-		this(Global.get().preferences()
-				.getDateFormat());
+		this(Global.get().preferences().getDateFormat());
 	}
 
 	public DateColumn(String dateFormat) {
@@ -75,4 +74,5 @@ public abstract class DateColumn<T> extends EditColumn<T> {
 	protected abstract ClientFinanceDate getValue(T row);
 
 	protected abstract void setValue(T row, ClientFinanceDate value);
+
 }

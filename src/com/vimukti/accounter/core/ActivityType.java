@@ -13,7 +13,9 @@ public enum ActivityType {
 
 	UPDATE_PREFERENCE(5),
 
-	NOTE(6);
+	NOTE(6),
+
+	VOID(7);
 
 	private int type;
 
@@ -41,6 +43,8 @@ public enum ActivityType {
 			return UPDATE_PREFERENCE;
 		case 6:
 			return NOTE;
+		case 7:
+			return VOID;
 		}
 		return null;
 	}

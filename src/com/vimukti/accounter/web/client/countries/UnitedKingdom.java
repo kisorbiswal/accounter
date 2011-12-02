@@ -92,7 +92,7 @@ public class UnitedKingdom extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.constants().april();
+		return Accounter.messages().april();
 	}
 
 

@@ -19,13 +19,12 @@ public class NewVendorAction extends Action<ClientVendor> {
 
 	protected VendorView view;
 	public final static int FROM_CREDIT_CARD_EXPENSE = 119;
-	
 
 	private int openedFrom;
 	private String quickAddText;
 
 	public NewVendorAction(String text) {
-		super(Global.get().messages().newVendor(Global.get().Vendor()));
+		super(Global.get().messages().newPayee(Global.get().Vendor()));
 		this.catagory = Global.get().Vendor();
 	}
 

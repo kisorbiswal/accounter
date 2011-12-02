@@ -15,8 +15,10 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 
-public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
+public class ComboBox<T, C extends IAccounterCore> extends FlowPanel implements
+		RowSelectHandler<C> {
 	private T row;
 	private C value;
 	private PopupPanel popupPanel;
@@ -81,7 +83,7 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 				switch (event.getNativeKeyCode()) {
 				case KeyCodes.KEY_ENTER:
 					if (value == null) {
-						textBox.setText("");
+						// textBox.setText("");
 						dropDown.addNewItem();
 					}
 					popupPanel.hide();
@@ -179,6 +181,8 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 	public void setValue(C value) {
 		if (value != null) {
 			textBox.setText(dropDown.getDisplayValue(value));
+		} else {
+			textBox.setText("");
 		}
 		this.value = value;
 	}
@@ -234,7 +238,7 @@ public class ComboBox<T, C> extends FlowPanel implements RowSelectHandler<C> {
 		} else {
 			if (isClicked) {
 				popupPanel.hide();
-				textBox.setText("");
+				// textBox.setText("");
 				dropDown.addNewItem();
 			}
 		}

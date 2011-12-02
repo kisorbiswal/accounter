@@ -1,44 +1,47 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.ui.ItemMergeDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class MergeItemsAction extends Action {
 
 	public MergeItemsAction(String text) {
 		super(text);
+		// TODO Auto-generated constructor stub
 	}
-
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// // NOTHING TO DO.
-	// return null;
-	// }
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		ItemMergeDialog dialog = new ItemMergeDialog(
+				messages.mergeItems(), messages.itemDescription());
 
+		dialog.show();
 	}
 
+	@Override
 	public ImageResource getBigImage() {
-		// NOTHING TO DO.
+		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public ImageResource getSmallImage() {
-		// NOTHING TO DO.
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getHistoryToken() {
-		return "mergeItems";
+		return "merge_item";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "merge-items";
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	
 
 }

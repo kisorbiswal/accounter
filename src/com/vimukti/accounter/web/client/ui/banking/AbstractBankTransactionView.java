@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -66,9 +66,9 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected CheckboxItem vatinclusiveCheck;
 
 	protected List<ClientAccount> accounts;
-	protected AmountLabel netAmount, transactionTotalNonEditableText,
-			vatTotalNonEditableText;
+	protected AmountLabel netAmount, vatTotalNonEditableText;
 	protected ClientVendor selectedVendor;
+	protected ClientTAXCode taxCode;
 
 	public AbstractBankTransactionView(int transactionType) {
 
@@ -109,10 +109,10 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	//
 	// }
 
-	public AmountField createBalanceText() {
+	public AmountField createBalanceText(ClientCurrency currency) {
 
-		AmountField balText = new AmountField(Accounter.constants().balance(),
-				this);
+		AmountField balText = new AmountField(messages.balance(), this,
+				currency);
 		// balText.setWidth("*");
 
 		balText.setDisabled(isInViewMode());
@@ -123,17 +123,15 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.messages().accounts(
-				Global.get().Account()), Accounter.constants()
-				.productOrServiceItem());
+		setMenuItems(button, messages.Accounts(),
+				messages.productOrServiceItem());
 		// FinanceApplication.constants().comment());
 
 	}
 
-	public AmountField createAmountText() {
+	public AmountField createAmountText(ClientCurrency currency) {
 
-		AmountField amtText = new AmountField(Accounter.constants().amount(),
-				this);
+		AmountField amtText = new AmountField(messages.amount(), this, currency);
 		// amtText.setWidth("*");
 
 		amtText.setColSpan(1);
@@ -146,10 +144,9 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	}
 
-	protected AmountField createVATTotalNonEditableItem() {
+	protected AmountField createVATTotalNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.constants().tax(),
-				this);
+		AmountField amountItem = new AmountField(messages.tax(), this, currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -158,7 +155,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().tax());
+		AmountLabel amountItem = new AmountLabel(messages.tax());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -172,7 +169,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	public PayFromAccountsCombo createPayFromselectItem() {
 		PayFromAccountsCombo payFrmSelect = new PayFromAccountsCombo(Accounter
-				.constants().paymentFrom());
+				.messages().paymentFrom());
 		payFrmSelect.setHelpInformation(true);
 		payFrmSelect.setRequired(true);
 		// payFrmSelect.setWidth("*");
@@ -198,8 +195,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(Accounter.constants()
-				.billTo(), false);
+		AddressCombo addressCombo = new AddressCombo(messages.billTo(), false);
 
 		addressCombo.setHelpInformation(true);
 
@@ -278,8 +274,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
-		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter.constants()
-				.tax(), false);
+		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(messages.tax(), false);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
 
@@ -302,22 +297,24 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	}
 
-	protected AmountField createTransactionTotalNonEditableItem() {
+	protected AmountField createTransactionTotalNonEditableItem(
+			ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.constants().total(),
-				this);
+		AmountField amountItem = new AmountField(messages.total(), this,
+				currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
 
 	}
 
-	protected AmountLabel createTransactionTotalNonEditableLabel() {
+	protected AmountLabel createTransactionTotalNonEditableLabel(
+			ClientCurrency clientCurrency) {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().total());
-		amountItem.setDisabled(true);
+		AmountLabel amountLabel = new AmountLabel(
+				messages.currencyTotal(clientCurrency.getFormalName()));
 
-		return amountItem;
+		return amountLabel;
 
 	}
 
@@ -347,13 +344,11 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected void onAddNew(String menuItem) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (menuItem.equals(Accounter.messages().accounts(
-				Global.get().Account()))) {
+		if (menuItem.equals(messages.Accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			transactionItem.setTaxCode(getPreferences().getDefaultTaxCode());
 
-		} else if (menuItem
-				.equals(Accounter.constants().productOrServiceItem())) {
+		} else if (menuItem.equals(messages.productOrServiceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			if (getPreferences().isTrackTax()) {
 				transactionItem
@@ -375,6 +370,16 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 		transactionItem.setTaxCode(getPreferences().getDefaultTaxCode());
+		long defaultTaxCode = getCompany().getPreferences().getDefaultTaxCode();
+		if (getPreferences().isTaxPerDetailLine()) {
+			transactionItem.setTaxCode(selectedVendor != null ? (selectedVendor
+					.getTAXCode() > 0 ? selectedVendor.getTAXCode()
+					: defaultTaxCode) : defaultTaxCode);
+		} else {
+			if (taxCode != null) {
+				transactionItem.setTaxCode(taxCode.getID());
+			}
+		}
 
 		addAccountTransactionItem(transactionItem);
 	}
@@ -384,10 +389,15 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-		if (getPreferences().isTrackTax()) {
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine()) {
 			transactionItem.setTaxCode(selectedVendor != null ? (selectedVendor
 					.getTAXCode() != 0 ? selectedVendor.getTAXCode()
 					: getPreferences().getDefaultTaxCode()) : 0);
+		} else {
+			if (taxCode != null) {
+				transactionItem.setTaxCode(taxCode.getID());
+			}
 		}
 
 		addItemTransactionItem(transactionItem);

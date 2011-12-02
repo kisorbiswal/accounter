@@ -304,12 +304,6 @@ public class ClientPurchaseOrder extends ClientTransaction {
 		purchaseOrder.vendorAddress = this.vendorAddress.clone();
 		purchaseOrder.shippingAddress = this.shippingAddress.clone();
 
-		List<ClientEntry> entries = new ArrayList<ClientEntry>();
-		for (ClientEntry clientEntry : this.entry) {
-			entries.add(clientEntry.clone());
-		}
-		purchaseOrder.entry = entries;
-
 		List<ClientTransactionIssuePayment> transactionIssuePayments = new ArrayList<ClientTransactionIssuePayment>();
 		for (ClientTransactionIssuePayment clientTransactionIssuePayment : this.transactionIssuePayment) {
 			transactionIssuePayments.add(clientTransactionIssuePayment.clone());
@@ -334,8 +328,8 @@ public class ClientPurchaseOrder extends ClientTransaction {
 		}
 		purchaseOrder.transactionPayBill = transactionPayBills;
 
-		List<ClientTransactionPaySalesTax> transactionPaySalesTaxs = new ArrayList<ClientTransactionPaySalesTax>();
-		for (ClientTransactionPaySalesTax clientTransactionPaySalesTax : this.transactionPaySalesTax) {
+		List<ClientTransactionPayTAX> transactionPaySalesTaxs = new ArrayList<ClientTransactionPayTAX>();
+		for (ClientTransactionPayTAX clientTransactionPaySalesTax : this.transactionPaySalesTax) {
 			transactionPaySalesTaxs.add(clientTransactionPaySalesTax.clone());
 		}
 		purchaseOrder.transactionPaySalesTax = transactionPaySalesTaxs;

@@ -11,13 +11,29 @@ public class ClientEstimate extends ClientTransaction {
 
 	public static final int STATUS_REJECTED = 1;
 
+	public static final int STATUS_APPLIED = 5;
+
 	public static final int STATUS_ACCECPTED = 2;
 
+	public static final int STATUS_CLOSE = 4;
+
+	public static final int QUOTES = 1;
+
+	public static final int CREDITS = 2;
+
+	public static final int CHARGES = 3;
+
+	public static final int BILLABLEEXAPENSES = 4;
+
 	long customer;
+
+	private int estimateType;
 
 	ClientContact contact;
 
 	ClientAddress address;
+
+	private ClientAddress shippingAdress;
 
 	String phone;
 
@@ -34,6 +50,11 @@ public class ClientEstimate extends ClientTransaction {
 	double taxTotal;
 
 	boolean isTurnedToInvoice = false;
+	private int transactionType;
+
+	private long enterBill;
+
+	private long usedInvoice;
 
 	/**
 	 * @return the version
@@ -197,6 +218,21 @@ public class ClientEstimate extends ClientTransaction {
 		this.isTurnedToInvoice = isTurnedToInvoice;
 	}
 
+	/**
+	 * @return the shippingAdress
+	 */
+	public ClientAddress getShippingAdress() {
+		return shippingAdress;
+	}
+
+	/**
+	 * @param shippingAdress
+	 *            the shippingAdress to set
+	 */
+	public void setShippingAdress(ClientAddress shippingAdress) {
+		this.shippingAdress = shippingAdress;
+	}
+
 	@Override
 	public String getDisplayName() {
 		return getName();
@@ -268,6 +304,47 @@ public class ClientEstimate extends ClientTransaction {
 		ClientEstimate clientEstimateClone = (ClientEstimate) this.clone();
 		clientEstimateClone.address = this.address.clone();
 		clientEstimateClone.contact = this.contact.clone();
+		clientEstimateClone.shippingAdress = this.shippingAdress.clone();
 		return clientEstimateClone;
 	}
+
+	public int getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(int transactionType) {
+		this.transactionType = transactionType;
+	}
+
+	public int getEstimateType() {
+		return estimateType;
+	}
+
+	public void setEstimateType(int estimateType) {
+		this.estimateType = estimateType;
+	}
+
+	public long getEnterBill() {
+		return enterBill;
+	}
+
+	public void setEnterBill(long enterBill) {
+		this.enterBill = enterBill;
+	}
+
+	/**
+	 * @return the usedInvoice
+	 */
+	public long getUsedInvoice() {
+		return usedInvoice;
+	}
+
+	/**
+	 * @param usedInvoice
+	 *            the usedInvoice to set
+	 */
+	public void setUsedInvoice(long usedInvoice) {
+		this.usedInvoice = usedInvoice;
+	}
+
 }

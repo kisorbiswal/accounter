@@ -1,0 +1,173 @@
+package com.vimukti.accounter.mobile.commands.reports;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import com.vimukti.accounter.core.Utility;
+import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
+import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.managers.ReportManager;
+
+public class TransactionDetailByAccountReportCommand extends
+		NewAbstractReportCommand<TransactionDetailByAccount> {
+	ClientAccount account;
+
+	@Override
+	protected void addRequirements(List<Requirement> list) {
+		addDateRangeFromToDateRequirements(list);
+		list.add(new ReportResultRequirement<TransactionDetailByAccount>() {
+
+			@Override
+			protected String onSelection(TransactionDetailByAccount selection,
+					String name) {
+				return addCommandOnRecordClick(selection);
+			}
+
+			@Override
+			protected void fillResult(Context context, Result makeResult) {
+				List<TransactionDetailByAccount> records = getRecords();
+				if (records.isEmpty()) {
+					makeResult.add("No Records to show");
+					return;
+				}
+
+				Map<String, List<TransactionDetailByAccount>> recordGroups = new HashMap<String, List<TransactionDetailByAccount>>();
+				for (TransactionDetailByAccount transactionDetailByAccount : records) {
+					String taxItemName = transactionDetailByAccount
+							.getAccountName();
+					List<TransactionDetailByAccount> group = recordGroups
+							.get(taxItemName);
+					if (group == null) {
+						group = new ArrayList<TransactionDetailByAccount>();
+						recordGroups.put(taxItemName, group);
+					}
+					group.add(transactionDetailByAccount);
+				}
+
+				Set<String> keySet = recordGroups.keySet();
+				List<String> taxItems = new ArrayList<String>(keySet);
+				Collections.sort(taxItems);
+				double grandTotal = 0.0;
+				for (String accountName : taxItems) {
+					List<TransactionDetailByAccount> group = recordGroups
+							.get(accountName);
+					double totalAmount = 0.0;
+					addSelection(accountName);
+					ResultList resultList = new ResultList(accountName);
+					for (TransactionDetailByAccount rec : group) {
+						resultList.setTitle(rec.getAccountName());
+						totalAmount += rec.getTotal();
+						Record createReportRecord = createReportRecord(rec);
+						createReportRecord.add("Balance", totalAmount);
+						resultList.add(createReportRecord);
+					}
+					makeResult.add(resultList);
+					grandTotal += totalAmount;
+					makeResult.add("Amount Total: " + totalAmount);
+				}
+				if (account == null) {
+					makeResult.add("Grand Total: " + grandTotal);
+				}
+			}
+		});
+	}
+
+	protected Record createReportRecord(TransactionDetailByAccount record) {
+		Record transactionRecord = new Record(record);
+		transactionRecord.add("Name",
+				record.getName() == null ? "\t" : record.getName());
+		transactionRecord
+				.add(getMessages().date(), record.getTransactionDate());
+		transactionRecord.add(getMessages().transactionName(),
+				Utility.getTransactionName(record.getTransactionType()));
+		transactionRecord.add(getMessages().number(),
+				record.getTransactionNumber());
+		transactionRecord.add(getMessages().total(), record.getTotal());
+		return transactionRecord;
+	}
+
+	protected List<TransactionDetailByAccount> getRecords() {
+		List<TransactionDetailByAccount> transactionDetailsByAc = new ArrayList<TransactionDetailByAccount>();
+		ReportManager reportManager = new FinanceTool().getReportManager();
+		if (account == null) {
+			try {
+				transactionDetailsByAc = reportManager
+						.getTransactionDetailByAccount(getStartDate(),
+								getEndDate(), getCompanyId());
+			} catch (DAOException e) {
+				e.printStackTrace();
+				transactionDetailsByAc = new ArrayList<TransactionDetailByAccount>();
+			}
+		} else {
+			try {
+				transactionDetailsByAc = reportManager
+						.getTransactionDetailByAccount(account.getName(),
+								getStartDate(), getEndDate(), getCompanyId());
+			} catch (DAOException e) {
+				e.printStackTrace();
+				transactionDetailsByAc = new ArrayList<TransactionDetailByAccount>();
+			}
+		}
+		return transactionDetailsByAc;
+	}
+
+	protected String addCommandOnRecordClick(
+			TransactionDetailByAccount selection) {
+		return "update transaction " + selection.getTransactionId();
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return "Transaction detail by account report command activated";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return "Transaction detail by account report details as follows:";
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Transaction detail by account report command closed successfully";
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		String accountName = null;
+		String string = context.getString();
+		if (string != null) {
+			String[] split = string.split(",");
+			if (split.length > 1) {
+				context.setString(split[0]);
+				accountName = split[1];
+			}
+		}
+		if (accountName != null) {
+			account = CommandUtils
+					.getAccountByNumber(getCompany(), accountName);
+			if (account == null) {
+				account = CommandUtils.getAccountByName(getCompany(),
+						accountName);
+			}
+		}
+		endDate = new ClientFinanceDate();
+		get(TO_DATE).setValue(endDate);
+		get(DATE_RANGE).setValue(getMessages().financialYearToDate());
+		dateRangeChanged(getMessages().financialYearToDate());
+		return null;
+	}
+}

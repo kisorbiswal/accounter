@@ -1,303 +1,307 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
+import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 /**
  * 
  * @author Sai Prasad N
  * 
  */
-public class NewAccountCommand extends AbstractTransactionCommand {
-	private static final String ACCOUNT_TYPE = "Account Type";
+public class NewAccountCommand extends NewAbstractCommand {
+
 	private static final String ACCOUNT_NAME = "Account Name";
 	private static final String ACCOUNT_NUMBER = "Account Number";
 	private static final String OPENINGBALANCE = "Opening Balance";
+	private static final String ACCOUNT_TYPE = "Account Type";
 	private static final String ACTIVE = "Active";
+
 	private static final String ASOF = "AsOf";
 	private static final String COMMENTS = "Comments";
 	private static final String CONSIDER_AS_CASH_ACCOUNT = "Consider As Cash Account";
+	private static final String CREDIT_LIMIT = "creditLimit";
+	private static final String CARD_OR_LOAD_NUMBER = "cardOrLoadNumber";
+	private static final String ACCOUNT_REGISTER = "AccountRegister";
+	private ClientAccount account;
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getWelcomeMessage() {
+		if (account.getID() == 0) {
+			return "Create Account Command is activated.";
+		}
+		return "Update Account(" + account.getName()
+				+ ") Command is activated.";
+	}
+
+	@Override
+	protected String getDeleteCommand(Context context) {
+		return account.getID() == 0 ? null : "Delete account "
+				+ account.getID();
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(ACCOUNT_TYPE, true, true));
-		list.add(new Requirement(ACCOUNT_NAME, false, true));
-		list.add(new Requirement(ACCOUNT_NUMBER, false, true));
-		list.add(new Requirement(OPENINGBALANCE, false, true));
-		list.add(new Requirement(ACTIVE, true, true));
-		list.add(new Requirement(ASOF, true, true));
-		list.add(new Requirement(COMMENTS, true, true));
-		list.add(new Requirement(CONSIDER_AS_CASH_ACCOUNT, true, true));
+		list.add(new StringListRequirement(ACCOUNT_TYPE,
+				"Please Enter Account Type", "Account Type", true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Account type has been selected";
+			}
+
+			@Override
+			protected String getSelectString() {
+				return "Select Account type";
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getAccountTypes();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+		});
+
+		list.add(new NameRequirement(ACCOUNT_NAME, "Please Enter Account Name",
+				"Name", false, true));
+
+		list.add(new NumberRequirement(ACCOUNT_NUMBER,
+				"Please Enter Account number", "Account Number", false, true));
+
+		list.add(new AmountRequirement(OPENINGBALANCE,
+				"Please Enter Opening balece", "Opening balence", true, true));
+
+		list.add(new BooleanRequirement(ACTIVE, true) {
+
+			@Override
+			protected String getTrueString() {
+				return "This account is Active";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "This account is InActive";
+			}
+		});
+
+		list.add(new DateRequirement(ASOF, "Please Enter As Of Date",
+				"As Of Date", true, true));
+
+		list.add(new StringRequirement(COMMENTS, "Please Enter Comment",
+				"Comment", true, true));
+
+		list.add(new BooleanRequirement(CONSIDER_AS_CASH_ACCOUNT, true) {
+
+			@Override
+			protected String getTrueString() {
+				return "This account is cash account";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "This account is not a cash account";
+			}
+		});
+
+		list.add(new AmountRequirement(CREDIT_LIMIT, getMessages().pleaseEnter(
+				getMessages().creditLimit()), getMessages().creditLimit(),
+				true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (NewAccountCommand.this.get(ACCOUNT_TYPE).getValue()
+						.equals("Credit card")) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+		list.add(new NumberRequirement(CARD_OR_LOAD_NUMBER, getMessages()
+				.pleaseEnter(getMessages().cardOrLoadNumber()), getMessages()
+				.cardOrLoadNumber(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (NewAccountCommand.this.get(ACCOUNT_TYPE).getValue()
+						.equals("Credit card")) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+		list.add(new CommandsRequirement(ACCOUNT_REGISTER) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add("Account Register");
+				return list;
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (account.getID() != 0) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			public String onSelection(String value) {
+				return "Bank Registers " + account.getName();
+			}
+		});
+
+	}
+
+	protected List<String> getAccountTypes() {
+		List<String> list = new ArrayList<String>();
+
+		list.add("Income");
+		list.add("Other Income");
+		list.add("Expense");
+		list.add("Other Expense");
+		list.add("Cost of Goods Sold");
+		list.add("cash");
+		list.add("Other current Asset");
+		list.add("Inventory Asset");
+		list.add("Other Asset");
+		list.add("Fixted Asset");
+		list.add("Credit card");
+		list.add("Payroll Liability");
+		list.add("current Liability");
+		list.add("Long Term Liability");
+		list.add("	Equity");
+		list.add("Paypal");
+		return list;
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = null;
-
-		result = accountNumberRequirement(context);
-		if (result != null) {
-			return result;
+	protected String getDetailsMessage() {
+		if (account.getID() == 0) {
+			return "Account is ready to created with following details.";
+		} else {
+			return "Account is ready to updated with following details.";
 		}
-
-		result = nameRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		result = createOptionalResult(context);
-		if (result != null) {
-			return result;
-		}
-
-		return createNewAccount(context);
-		// markDone();
-
 	}
 
-	private Result createNewAccount(Context context) {
-		Account account = new Account();
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(ACCOUNT_NUMBER).setDefaultValue("1");
+		get(ACCOUNT_TYPE).setDefaultValue("Income");
+		get(ACTIVE).setDefaultValue(Boolean.TRUE);
+		get(CONSIDER_AS_CASH_ACCOUNT).setDefaultValue(Boolean.TRUE);
+	}
 
-		Integer accType = (Integer) get(ACCOUNT_TYPE).getValue();
-		String accname = (String) get(ACCOUNT_NAME).getValue();
-		String accountNum = (String) get(ACCOUNT_NUMBER).getValue();
-		double openingBal = (Double) get(OPENINGBALANCE).getValue();
-		boolean isActive = (Boolean) get(ACTIVE).getValue();
-		boolean isCashAcount = (Boolean) get(CONSIDER_AS_CASH_ACCOUNT)
-				.getValue();
-		Date asOf = (Date) get(ASOF).getValue();
+	@Override
+	public String getSuccessMessage() {
+		if (account.getID() == 0) {
+			return "Account is created succesfully.";
+		} else {
+			return "Account is updated successfully.";
+		}
+	}
 
-		account.setType(accType);
+	@Override
+	public Result onCompleteProcess(Context context) {
+		String accType = get(ACCOUNT_TYPE).getValue();
+		String accname = get(ACCOUNT_NAME).getValue();
+		String accountNum = get(ACCOUNT_NUMBER).getValue();
+		double openingBal = get(OPENINGBALANCE).getValue();
+		boolean isActive = get(ACTIVE).getValue();
+		boolean isCashAcount = get(CONSIDER_AS_CASH_ACCOUNT).getValue();
+		ClientFinanceDate asOf = get(ASOF).getValue();
+		String comment = get(COMMENTS).getValue();
+		if (accType == "Credit card") {
+			account.setCreditLimit((Double) get(CREDIT_LIMIT).getValue());
+			account.setCardOrLoanNumber((String) get(CARD_OR_LOAD_NUMBER)
+					.getValue());
+		}
+		account.setDefault(true);
+		account.setType(getAccountTypes().indexOf(accType) + 1);
 		account.setName(accname);
 		account.setNumber(accountNum);
 		account.setOpeningBalance(openingBal);
 		account.setIsActive(isActive);
-		account.setAsOf(new FinanceDate(asOf));
+		account.setAsOf(asOf.getDate());
 		account.setConsiderAsCashAccount(isCashAcount);
-
-		Session session = context.getHibernateSession();
-		Transaction transaction = session.beginTransaction();
-		session.saveOrUpdate(account);
-		transaction.commit();
-
-		markDone();
-
-		Result result = new Result();
-		result.add(" Account was created successfully.");
-
-		return result;
+		account.setComment(comment);
+		create(account, context);
+		return null;
 	}
 
-	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
+		if (string.isEmpty()) {
+			if (!isUpdate) {
+				account = new ClientAccount();
 				return null;
-			default:
-				break;
 			}
 		}
-		selection = context.getSelection("values");
 
-		Requirement accTypeReq = get(ACCOUNT_TYPE);
-		Integer actype = (Integer) accTypeReq.getValue();
-		if (actype == selection) {
-			context.setAttribute(INPUT_ATTR, ACCOUNT_TYPE);
-			return number(context, "Please enter the account Type", "" + actype);
-		}
-
-		Requirement accNameReq = get(ACCOUNT_NAME);
-		String name = (String) accNameReq.getValue();
-		if (name == selection) {
-			context.setAttribute(INPUT_ATTR, ACCOUNT_NAME);
-			return text(context, "Please Enter the account name", name);
-		}
-
-		Requirement accounNumberReq = get(ACCOUNT_NUMBER);
-		String num = (String) accounNumberReq.getValue();
-		if (num == selection) {
-			context.setAttribute(INPUT_ATTR, ACCOUNT_NUMBER);
-			return text(context, "Please Enter Accoount Number", num);
-		}
-
-		ResultList list = new ResultList("values");
-
-		Record accTypeRecord = new Record(actype);
-		accTypeRecord.add(INPUT_ATTR, "actype");
-		accTypeRecord.add("Value", actype);
-		list.add(accTypeRecord);
-
-		Record numberRecord = new Record(num);
-		numberRecord.add(INPUT_ATTR, "accountNumber");
-		numberRecord.add("Value", num);
-		list.add(numberRecord);
-
-		Record nameRecord = new Record(name);
-		nameRecord.add(INPUT_ATTR, "Name");
-		nameRecord.add("Value", name);
-		list.add(nameRecord);
-
-		Requirement isActiveReq = get(ACTIVE);
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == isActive) {
-			context.setAttribute(INPUT_ATTR, ACTIVE);
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This account is Active";
-		} else {
-			activeString = "This account is InActive";
-		}
-		Record isActiveRecord = new Record(ACTIVE);
-		isActiveRecord.add("Name", "");
-		isActiveRecord.add("Value", activeString);
-		list.add(isActiveRecord);
-
-		Requirement openingBalanceReq = get(OPENINGBALANCE);
-		Double bal = (Double) openingBalanceReq.getValue();
-		if (bal == selection) {
-			context.setAttribute(INPUT_ATTR, OPENINGBALANCE);
-			openingBalanceReq.setValue(0.0D);
-		}
-
-		Record openingBalRec = new Record(OPENINGBALANCE);
-		openingBalRec.add("Name", OPENINGBALANCE);
-		openingBalRec.add("Value", bal);
-		list.add(openingBalRec);
-
-		Result result = asOfDateRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		Requirement isCashAccountReq = get(CONSIDER_AS_CASH_ACCOUNT);
-		Boolean isCashAccoount = (Boolean) isCashAccountReq.getValue();
-		if (selection == isCashAccoount) {
-			context.setAttribute(INPUT_ATTR, CONSIDER_AS_CASH_ACCOUNT);
-			isCashAccoount = !isCashAccoount;
-			isCashAccountReq.setValue(isCashAccoount);
-		}
-		String isCashAccount = "";
-		if (isCashAccoount) {
-			isCashAccount = "This account is cash account";
-		} else {
-			isCashAccount = "This account is not a cash account";
-		}
-		Record isCashAccountRecord = new Record(CONSIDER_AS_CASH_ACCOUNT);
-		isCashAccountRecord.add("Name", "");
-		isCashAccountRecord.add("Value", isCashAccount);
-		list.add(isCashAccountRecord);
-
-		result = commentsRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = context.makeResult();
-		result.add(" Account is ready to create with following values.");
-		result.add(list);
-		ResultList actions = new ResultList("actions");
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Account");
-		actions.add(finish);
-		result.add(actions);
-
-		return result;
-
-	}
-
-	private Result commentsRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement req = get(COMMENTS);
-		String comments = (String) req.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(COMMENTS)) {
-			String input = context.getSelection(TEXT);
-			if (input == null) {
-				input = context.getString();
+		account = CommandUtils.getAccountByName(context.getCompany(), string);
+		if (account == null) {
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
 			}
-			comments = input;
-			req.setValue(comments);
+			account = CommandUtils.getAccountByNumber(context.getCompany(),
+					string);
+		}
+		if (account == null) {
+			addFirstMessage(context, "Select an account to update.");
+			return "Accounts " + string.trim();
 		}
 
-		if (selection == comments) {
-			context.setAttribute(attribute, COMMENTS);
-			return text(context, "Enter Comments", comments);
+		get(ACCOUNT_TYPE)
+				.setValue(getAccountTypes().get(account.getType() - 1));
+		get(ACCOUNT_TYPE).setEditable(false);
+		get(ACCOUNT_NAME).setValue(account.getName());
+
+		get(ACCOUNT_NUMBER).setValue(account.getNumber());
+		if (getAccountTypes().get(account.getType() - 1) == "Credit card") {
+			get(CREDIT_LIMIT).setValue(account.getCreditLimit());
+			get(CARD_OR_LOAD_NUMBER).setValue(account.getCardOrLoanNumber());
 		}
-
-		Record memoRecord = new Record(comments);
-		memoRecord.add("Name", COMMENTS);
-		memoRecord.add("Value", comments);
-		list.add(memoRecord);
-		return null;
-	}
-
-
-
-
-	private Result nameRequirement(Context context) {
-		Requirement nameReq = get(ACCOUNT_NAME);
-		if (!nameReq.isDone()) {
-			String string = context.getString();
-			if (string != null) {
-				nameReq.setValue(string);
-			} else {
-				return text(context, "Please Enter the account name ", string);
-			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(ACCOUNT_NAME)) {
-			nameReq.setValue(input);
-		}
-		return null;
-	}
-
-	private Result asOfDateRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement dateReq = get("asof");
-		Date asOfDate = (Date) dateReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals(ASOF)) {
-			Date date = context.getSelection(ASOF);
-			if (date == null) {
-				date = context.getDate();
-			}
-			asOfDate = date;
-			dateReq.setValue(asOfDate);
-		}
-		if (selection == asOfDate) {
-			context.setAttribute(INPUT_ATTR, "asOf");
-			return date(context, "Enter asOf Date", asOfDate);
-		}
-
-		Record asOfDateRecord = new Record(asOfDate);
-		asOfDateRecord.add("Name", "asOf");
-		asOfDateRecord.add("Value", asOfDate.toString());
-		list.add(asOfDateRecord);
-
+		get(OPENINGBALANCE).setValue(account.getOpeningBalance());
+		get(OPENINGBALANCE).setEditable(false);
+		get(ACTIVE).setValue(account.getIsActive());
+		get(CONSIDER_AS_CASH_ACCOUNT).setValue(
+				account.isConsiderAsCashAccount());
+		get(CONSIDER_AS_CASH_ACCOUNT).setEditable(false);
+		get(ASOF).setValue(new ClientFinanceDate(account.getAsOf()));
+		get(ASOF).setEditable(false);
+		get(COMMENTS).setValue(account.getComment());
 		return null;
 	}
 }

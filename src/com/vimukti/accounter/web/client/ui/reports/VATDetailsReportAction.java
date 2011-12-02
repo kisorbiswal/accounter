@@ -20,7 +20,7 @@ public class VATDetailsReportAction extends Action {
 
 	public VATDetailsReportAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().report();
+		this.catagory = Accounter.messages().report();
 	}
 
 	@Override

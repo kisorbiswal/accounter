@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.commands.NameSearchCommand;
 import com.vimukti.accounter.mobile.commands.NumberSearchCommand;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -38,20 +39,16 @@ public class CommandProcessor {
 				processName(session, message);
 				break;
 			}
-			Command command = message.getCommand();
-
-			if (command != null && !command.isDone()) {
-				session.setCurrentCommand(command);
-			}
 
 			if (message.getResult() == null) {
 				Result result = new Result(
 						"Sorry, We are unable to find the answer for '"
 								+ message.getOriginalMsg() + "'");
+				result.setNextCommand("Menu");
 				message.setResult(result);
 			}
 
-			session.setLastResult(message.getResult());
+			session.setLastMessage(message);
 			return message.getResult();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,11 +57,6 @@ public class CommandProcessor {
 			}
 			throw new AccounterMobileException(e);
 
-		} finally {
-			Session currentSession = session.getHibernateSession();
-			if (currentSession != null && currentSession.isOpen()) {
-				currentSession.close();
-			}
 		}
 	}
 
@@ -76,7 +68,7 @@ public class CommandProcessor {
 	private void processName(MobileSession session, UserMessage userMessage)
 			throws AccounterMobileException {
 		NameSearchCommand command = new NameSearchCommand();
-		Context context = getContext(session);
+		Context context = getContext(session, userMessage);
 		context.setInputs(userMessage.getInputs());
 		Result result = command.run(context);
 		userMessage.setCommand(command);
@@ -91,7 +83,7 @@ public class CommandProcessor {
 	private void processNumber(MobileSession session, UserMessage userMessage)
 			throws AccounterMobileException {
 		NumberSearchCommand command = new NumberSearchCommand();
-		Context context = getContext(session);
+		Context context = getContext(session, userMessage);
 		context.setInputs(userMessage.getInputs());
 		Result result = command.run(context);
 		userMessage.setCommand(command);
@@ -109,9 +101,12 @@ public class CommandProcessor {
 	private Result processCommand(MobileSession session, UserMessage message)
 			throws AccounterMobileException {
 		Command command = message.getCommand();
-		Context context = getContext(session);
+		Context context = getContext(session, message);
 		// Getting Last Result
-		Result lastResult = session.getLastResult();
+		UserMessage lastMessage = session.getLastMessage();
+		Result lastResult = lastMessage == null ? null : lastMessage
+				.getResult();
+		boolean isSelected = false;
 		if (lastResult != null) {
 			List<Object> resultParts = lastResult.getResultParts();
 			Iterator<Object> iterator = resultParts.iterator();
@@ -119,19 +114,48 @@ public class CommandProcessor {
 				Object next = iterator.next();
 				if (next instanceof ResultList) {
 					// Setting Selections
-					setSelections((ResultList) next, message.getInputs(),
-							context);
+					isSelected = isSelected
+							|| setSelections((ResultList) next,
+									message.getInputs(), context);
 				}
 			}
 		}
 
 		context.setInputs(message.getInputs());
+		if (!isSelected) {
+			context.setString(message.getOriginalMsg());
+		} else {
+			context.setString("");
+		}
 		Result result = null;
 		try {
+			context.setPreferences(CompanyPreferenceThreadLocal.get());
 			result = command.run(context);
+			result = processResult(result);
 		} catch (Exception e) {
+			e.printStackTrace();
 			result = context.makeResult();
 			result.add("You got an Exception....@@@@@@@");
+		}
+		return result;
+	}
+
+	private Result processResult(Result result) {
+		PatternResult patternResult = new PatternResult();
+		patternResult.setNextCommand(result.getNextCommand());
+		patternResult.setCookie(result.getCookie());
+		patternResult.setHideCancel(result.isHideCancel());
+		patternResult.setShowBack(result.isShowBack());
+		patternResult.setTitle(result.getTitle());
+		boolean isCommandList = false;
+		for (Object obj : result.resultParts) {
+			if (obj instanceof CommandList) {
+				isCommandList = true;
+			}
+			patternResult.add(obj);
+		}
+		if (isCommandList) {
+			return patternResult;
 		}
 		return result;
 	}
@@ -141,11 +165,13 @@ public class CommandProcessor {
 	 * @param inputs
 	 * @param context
 	 */
-	private void setSelections(ResultList next, List<String> inputs,
+	private boolean setSelections(ResultList next, List<String> inputs,
 			Context context) {
+		boolean isSelected = false;
 		ResultList resultList = (ResultList) next;
 		for (Record record : resultList) {
 			if (inputs.contains(record.getCode())) {
+				isSelected = true;
 				if (!resultList.isMultiSelection()) {
 					context.putSelection(resultList.getName(),
 							record.getObject());
@@ -158,13 +184,16 @@ public class CommandProcessor {
 				}
 			}
 		}
+		return isSelected;
 	}
 
-	private Context getContext(MobileSession mSession) {
+	private Context getContext(MobileSession mSession, UserMessage message) {
 		Session session = HibernateUtil.getCurrentSession();
 		mSession.sethibernateSession(session);
 		Context context = new Context(mSession);
+		context.setNetworkId(message.getNetworkId());
+		context.setNetworkType(message.getNetworkType());
+		context.setCommandString(message.getCommandString());
 		return context;
 	}
-
 }

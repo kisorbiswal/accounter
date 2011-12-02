@@ -3,106 +3,204 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
-import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.server.FinanceTool;
 
-public class ExpensesListCommand extends AbstractTransactionCommand {
+/**
+ * 
+ * @author Lingarao.R
+ * 
+ */
+public class ExpensesListCommand extends NewAbstractCommand {
 
-	private static final String VIEW_TYPE = "viewType";
+	protected static final String CURRENT_VIEW = "currentView";
+	String type = " ";
+
+	String name = "";
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
+
+		String[] split = string.split(",");
+
+		if (split.length > 0) {
+			name = split[0];
+			context.setString(name);
+		}
+		if (split.length > 1) {
+			type = split[1];
+		}
+		if (type.isEmpty()) {
+			type = getMessages().all();
+		}
+		get(CURRENT_VIEW).setDefaultValue(type);
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return null;
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(CURRENT_VIEW).setDefaultValue(getMessages().all());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
+	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(VIEW_TYPE, true, true));
+		list.add(new CommandsRequirement(CURRENT_VIEW) {
 
-	}
-
-	@Override
-	public Result run(Context context) {
-		Result result = null;
-
-		result = createOptionalResult(context);
-		if (result != null) {
-			return result;
-		}
-		return result;
-	}
-
-	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(VIEW_TYPE);
-
-		ResultList list = new ResultList("viewlist");
-		Result result = viewTypeRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		String viewType = get(VIEW_TYPE).getValue();
-		result = expensesList(context, viewType);
-		return result;
-	}
-
-	private Result expensesList(Context context, String viewType) {
-		Result result = context.makeResult();
-		result.add("Expenses List");
-		ResultList expensesList = new ResultList("accountsList");
-		int num = 0;
-		List<BillsList> expenses = getExpenses(viewType, context.getCompany());
-		for (BillsList b : expenses) {
-			expensesList.add(createExpenseRecord(b));
-			num++;
-			if (num == EXPENSES_TO_SHOW) {
-				break;
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getMessages().all());
+				list.add(getMessages().cash());
+				list.add(getMessages().creditCard());
+				list.add(getMessages().voided());
+				return list;
 			}
-		}
-		int size = expensesList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select a Expense");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
+		});
+		list.add(new ShowListRequirement<BillsList>(getMessages()
+				.expensesList(), getMessages().pleaseSelect(
+				getMessages().expensesList()), 20) {
 
-		result.add(message.toString());
-		result.add(expensesList);
-		result.add(commandList);
-		result.add("Type for Expense");
+			@Override
+			protected String onSelection(BillsList value) {
+				return "Update Transaction " + value.getTransactionId();
+			}
 
-		return result;
+			@Override
+			protected String getShowMessage() {
+				return getMessages().expensesList();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().noRecordsToShow();
+			}
+
+			@Override
+			protected Record createRecord(BillsList value) {
+				Record record = new Record(value);
+				record.add("Name", Utility.getTransactionName(value.getType()));
+				record.add("Date", value.getDate());
+				record.add("Number", value.getNumber());
+				record.add("Vendo Name", value.getVendorName());
+				record.add("Original Amount", value.getOriginalAmount());
+				record.add("Balance", value.getBalance());
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("New Cash Expense");
+				list.add("New Credit Card Expense");
+
+			}
+
+			@Override
+			protected boolean filter(BillsList e, String name) {
+				return e.getVendorName().startsWith(name);
+			}
+
+			@Override
+			protected List<BillsList> getLists(Context context) {
+				return filterList(context);
+			}
+
+		});
 	}
 
-	private Record createExpenseRecord(BillsList exp) {
-		Record record = new Record(exp);
-		record.add("Type", exp.getType());
-		record.add("No", exp.getNumber());
-		record.add("Vendor", exp.getVendorName());
-		record.add("OriginalAmount", exp.getOriginalAmount());
-		record.add("Balance", exp.getBalance());
-		record.add("IsVoid", exp.isVoided());
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	private List<BillsList> getExpenses(Context context) {
+		FinanceTool tool = new FinanceTool();
+		try {
+			ArrayList<BillsList> billsList = tool.getVendorManager()
+					.getBillsList(true, context.getCompany().getId());
+			return billsList;
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return null;
 
-		return record;
 	}
 
-	@Override
-	protected List<String> getViewTypes() {
-		List<String> list = new ArrayList<String>();
-		list.add(Accounter.constants().all());
-		list.add(Accounter.constants().cash());
-		list.add(Accounter.constants().creditCard());
-		list.add(Accounter.constants().Voided());
-		return list;
+	protected List<BillsList> filterList(Context context) {
+		List<BillsList> initialRecords = getExpenses(context);
+		String text = get(CURRENT_VIEW).getValue();
+		if (text.equalsIgnoreCase(getMessages().employee())) {
+			List<BillsList> records = new ArrayList<BillsList>();
+			for (BillsList record : initialRecords) {
+				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
+					records.add(record);
+			}
+			return records;
+		} else if (text.equalsIgnoreCase(getMessages().cash())) {
+			List<BillsList> records = new ArrayList<BillsList>();
+			for (BillsList record : initialRecords) {
+				if (record.getType() == ClientTransaction.TYPE_CASH_EXPENSE)
+					records.add(record);
+			}
+			return records;
+		} else if (text.equalsIgnoreCase(getMessages().creditCard())) {
+			List<BillsList> records = new ArrayList<BillsList>();
+			for (BillsList record : initialRecords) {
+				if (record.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE)
+					records.add(record);
+			}
+			return records;
+		} else if (text.equalsIgnoreCase(getMessages().employee())) {
+			List<BillsList> records = new ArrayList<BillsList>();
+			for (BillsList record : initialRecords) {
+				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
+					records.add(record);
+			}
+			return records;
+		} else if (text.equalsIgnoreCase(getMessages().Voided())) {
+			List<BillsList> voidedRecs = new ArrayList<BillsList>();
+			List<BillsList> allRecs = initialRecords;
+			for (BillsList rec : allRecs) {
+				if (rec.isVoided() && !rec.isDeleted()) {
+					voidedRecs.add(rec);
+				}
+			}
+			return voidedRecs;
+
+		} else if (text.equalsIgnoreCase(getMessages().all())) {
+			return initialRecords;
+		}
+		return new ArrayList<BillsList>();
+
 	}
 
 }

@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,12 +15,15 @@ import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -250,6 +254,17 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	transient private boolean isOnSaveProccessed;
 
 	int boxNumber;
+
+	private Currency currency;
+
+	/**
+	 * Used in OpeningBalance Only
+	 */
+	private double currencyFactor;
+
+	private double totalBalanceInAccountCurrency;
+
+	private String paypalEmail;
 
 	/**
 	 * Constructor of Account class
@@ -790,6 +805,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
+		if (this.currency == null) {
+			this.currency = getCompany().getPrimaryCurrency();
+		}
 
 		try {
 			if (this.type == Account.TYPE_INCOME
@@ -804,9 +822,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			} else {
 				this.isIncrease = false;
 			}
-			if (this.type == Account.TYPE_INVENTORY_ASSET) {
-				this.isOpeningBalanceEditable = false;
-			}
+			// if (this.type == Account.TYPE_INVENTORY_ASSET) {
+			// this.isOpeningBalanceEditable = false;
+			// }
 
 			switch (type) {
 
@@ -919,6 +937,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				}
 			}
 
+			if (currency == null) {
+				currency = getCompany().getPrimaryCurrency();
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -927,7 +949,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	}
 
-	private void updateTotalBalance(double amount) {
+	public void updateTotalBalance(double amount, double currencyFactor) {
 		System.out.println(this.getName());
 
 		String tempStr = " Total Balance of " + this.getName()
@@ -935,13 +957,18 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 		this.totalBalance += amount;
 
+		double amountInAccountCurrency = amount / currencyFactor;
+
+		this.totalBalanceInAccountCurrency += amountInAccountCurrency;
+
 		if (this.parent != null) {
-			this.parent.updateTotalBalance(amount);
+			this.parent.updateTotalBalance(amount, currencyFactor);
 		}
 		ChangeTracker.put(this);
 	}
 
-	public void updateCurrentBalance(Transaction transaction, double amount) {
+	public void updateCurrentBalance(Transaction transaction, double amount,
+			double currencyFactor) {
 
 		// if (!this.getName().equals(AccounterConstants.SALES_TAX_VAT_UNFILED))
 		if (amount == 0) {
@@ -949,8 +976,12 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		}
 		amount = (isIncrease ? 1 : -1) * amount;
 
-		String tempStr = "Current Balance of  " + this.getName()
-				+ " has been updated from " + this.currentBalance;
+		if (this.getCurrency() == getCompany().getPrimaryCurrency()) {
+			currencyFactor = 1;
+		}
+
+		log.info("Current Balance of  " + this.getName()
+				+ " has been updated from " + this.currentBalance);
 
 		this.currentBalance += amount;
 
@@ -958,7 +989,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				&& isOpeningBalanceEditable) {
 			isOpeningBalanceEditable = Boolean.FALSE;
 		}
-		this.updateTotalBalance(amount);
+
+		this.updateTotalBalance(amount, currencyFactor);
 		// log.info(accountTransaction);
 
 		// if (!transaction.isBecameVoid()) {
@@ -1016,14 +1048,16 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		FlushMode flushMode = session.getFlushMode();
 		session.setFlushMode(FlushMode.COMMIT);
 
-		log.info("Uupdate Account: " + this.getName() + "Balace:"
+		log.info("Update Account: " + this.getName() + "Balace:"
 				+ this.totalBalance);
 
 		if (this.id != 0
 				&& this.parent != null
 				&& ((this.oldParent != null && this.oldParent != this.parent) || this.oldParent == null)) {
 
-			parent.updateTotalBalance(this.totalBalance);
+			// While changing parents we give factor 1.0 as we will not allow to
+			// change parents for other currency accounts
+			parent.updateTotalBalance(this.totalBalance, 1);
 			// updating the flow
 
 			String oldFlow = this.flow;
@@ -1043,7 +1077,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 			if (this.oldParent != null && this.oldParent != this.parent) {
 
-				this.oldParent.updateTotalBalance(-1 * this.totalBalance);
+				// While changing parents we give factor 1.0 as we will not
+				// allow to
+				// change parents for other currency accounts
+				this.oldParent.updateTotalBalance(-1 * this.totalBalance, 1);
 				session.update(this.oldParent);
 
 				int i = Integer
@@ -1088,13 +1125,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				&& isOpeningBalanceEditable) {
 
 			this.isOpeningBalanceEditable = Boolean.FALSE;
-			// Query query = session.getNamedQuery("getNextTransactionNumber");
-			// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);
-			// List list = query.list();
-			String nextVoucherNumber = NumberUtils.getNextTransactionNumber(
-					Transaction.TYPE_JOURNAL_ENTRY, getCompany());
-			JournalEntry journalEntry = new JournalEntry(this,
-					nextVoucherNumber, JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
+			JournalEntry journalEntry = createJournalEntry(this);
 			session.save(journalEntry);
 		}
 
@@ -1124,61 +1155,51 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		return false;
 	}
 
-	@Override
-	public String toString() {
-		return "Account Name: " + this.name + "Balance: " + this.totalBalance;
+	private JournalEntry createJournalEntry(Account account) {
+		String number = NumberUtils.getNextTransactionNumber(
+				Transaction.TYPE_JOURNAL_ENTRY, getCompany());
+
+		JournalEntry journalEntry = new JournalEntry();
+		journalEntry.setCompany(account.getCompany());
+		journalEntry.number = number;
+		journalEntry.transactionDate = account.asOf;
+		journalEntry.memo = "Opening Balance";
+		journalEntry.currencyFactor = this.currencyFactor;
+
+		List<TransactionItem> items = new ArrayList<TransactionItem>();
+		TransactionItem item1 = new TransactionItem();
+		item1.setAccount(getCompany().getOpeningBalancesAccount());
+		item1.setType(TransactionItem.TYPE_ACCOUNT);
+		item1.setDescription(account.getName());
+		items.add(item1);
+
+		TransactionItem item2 = new TransactionItem();
+		item2.setAccount(account);
+		item2.setType(TransactionItem.TYPE_ACCOUNT);
+		item2.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
+		items.add(item2);
+
+		if (account.isIncrease()) {
+			item2.setLineTotal(-1 * account.getOpeningBalance());
+			item1.setLineTotal(account.getOpeningBalance());
+			journalEntry.setDebitTotal(item1.getLineTotal());
+			journalEntry.setCreditTotal(item2.getLineTotal());
+		} else {
+			item2.setLineTotal(account.getOpeningBalance());
+			item1.setLineTotal(-1 * account.getOpeningBalance());
+			journalEntry.setDebitTotal(item2.getLineTotal());
+			journalEntry.setCreditTotal(item1.getLineTotal());
+		}
+
+		journalEntry.setTransactionItems(items);
+
+		return journalEntry;
 	}
 
-	public boolean equals(Account account) {
-
-		if (this.version == account.version
-				&& this.id == account.id
-				&& this.type == account.type
-				&& this.isActive == account.isActive
-				&& DecimalUtil.isEquals(this.openingBalance,
-						account.openingBalance)
-				&& this.isConsiderAsCashAccount == account.isConsiderAsCashAccount
-				// && this.bankAccountType == account.bankAccountType
-				&& this.cashFlowCategory == account.cashFlowCategory
-				&& DecimalUtil.isEquals(this.creditLimit, account.creditLimit)
-				&& this.isIncrease == account.isIncrease
-				&& DecimalUtil.isEquals(this.currentBalance,
-						account.currentBalance)
-				&& DecimalUtil
-						.isEquals(this.totalBalance, account.totalBalance)
-				&& this.baseType == account.baseType
-				&& this.isOpeningBalanceEditable == account.isOpeningBalanceEditable
-				&& (this.number != null && account.number != null) ? (this.number
-				.equals(account.number))
-				: true && (this.name != null && account.name != null) ? (this.name
-						.equals(account.name))
-						: true && (this.parent != null && account.parent != null) ? (this.parent
-								.equals(account.parent))
-								: true && (this.asOf != null && account.asOf != null) ? (this.asOf
-										.equals(account.asOf))
-										: true && (this.comment != null && account.comment != null) ? (this.comment
-												.equals(account.comment))
-												: true
-												// && (this.bank != null &&
-												// account.bank != null) ?
-												// (this.bank
-												// .equals(account.bank))
-												// : true &&
-												// (this.bankAccountNumber !=
-												// null &&
-												// account.bankAccountNumber !=
-												// null) ?
-												// (this.bankAccountNumber
-												// .equals(account.bankAccountNumber))
-												// : true
-												&& (this.cardOrLoanNumber != null && account.cardOrLoanNumber != null) ? (this.cardOrLoanNumber
-														.equals(account.cardOrLoanNumber))
-														: true && (this.hierarchy != null && account.hierarchy != null) ? (this.hierarchy
-																.equals(account.hierarchy))
-																: true)
-			return true;
-
-		return false;
+	@Override
+	public String toString() {
+		return "Account Name: " + this.name + "    Balance: "
+				+ this.totalBalance;
 	}
 
 	public void setNumber(String number) {
@@ -1240,11 +1261,11 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		while (it.hasNext()) {
 			Object[] object = (Object[]) it.next();
 
-			if (this.name.equals((String) object[0])) {
+			if (this.name.equals(object[0])) {
 				Iterator it2 = list.iterator();
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
-					if (this.number.equals((String) object2[1])) {
+					if (this.number.equals(object2[1])) {
 						throw new AccounterException(
 								AccounterException.ERROR_NAME_CONFLICT);
 						// "An Account already exists with this name and number");
@@ -1253,11 +1274,11 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_CONFLICT);
 				// "An Account already exists with this name");
-			} else if (this.number.equals((String) object[1])) {
+			} else if (this.number.equals(object[1])) {
 				Iterator it2 = list.iterator();
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
-					if (this.name.equals((String) object2[0])) {
+					if (this.name.equals(object2[0])) {
 						throw new AccounterException(
 								AccounterException.ERROR_NUMBER_CONFLICT);
 						// "An Account already exists with this name and number");
@@ -1273,18 +1294,56 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	}
 
-	/*
-	 * Is to update Memo in Entry if and only if account Name was altered
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
+
+	/**
+	 * @return the currenctBalanceInAccountCurrency
 	 */
-	protected void updateEntryMemo(Session session) {
+	public double getTotalBalanceInAccountCurrency() {
+		return totalBalanceInAccountCurrency;
+	}
 
-		Query query = session.getNamedQuery("get.name.fromAccount.byId")
-				.setLong("id", this.getID()).setEntity("company", getCompany());
-		String accountName = (String) query.uniqueResult();
+	/**
+	 * @return the currencyFactor
+	 */
+	public double getCurrencyFactor() {
+		return currencyFactor;
+	}
 
-		if (accountName != null && !this.getName().equals(accountName))
-			Entry.updateEntryMemo(getCompany(), session, accountName,
-					this.getName());
+	/**
+	 * @param currencyFactor
+	 *            the currencyFactor to set
+	 */
+	public void setCurrencyFactor(double currencyFactor) {
+		this.currencyFactor = currencyFactor;
+	}
+
+	public void setCurrenctBalance(double amount) {
+		this.currentBalance += amount;
+	}
+
+	public void setPaypalEmail(String paypalEmail) {
+		this.paypalEmail = paypalEmail;
+	}
+
+	public String getPaypalEmail() {
+		return paypalEmail;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.ACCOUNT;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		w.put(Global.get().messages().name(), this.name);
 	}
 
 }

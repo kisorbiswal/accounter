@@ -20,7 +20,7 @@ public class DateUtil {
 	 *            Number of day to add
 	 * @return The modified Date object
 	 */
-	
+
 	public static Date addDays(Date date, int days) {
 		return new Date(date.getYear(), date.getMonth(), date.getDate() + days);
 	}
@@ -34,10 +34,10 @@ public class DateUtil {
 	 *            Number of month to add
 	 * @return The modified Date object
 	 */
-	
+
 	public static Date addMonths(Date date, int months) {
-		return new Date(date.getYear(), date.getMonth() + months, date
-				.getDate());
+		return new Date(date.getYear(), date.getMonth() + months,
+				date.getDate());
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class DateUtil {
 	 *            Second Date
 	 * @return true if the days are the same
 	 */
-	
+
 	public static boolean areEquals(Date date1, Date date2) {
 		return date1.getDate() == date2.getDate()
 				&& date1.getMonth() == date2.getMonth()
@@ -65,14 +65,10 @@ public class DateUtil {
 	 *            The Date containing the month
 	 * @return The first day of the month
 	 */
-	
+
 	public static Date getMonthFirstDay(Date date) {
-		Date current = date;
-		while (current.getDate() != 1) {
-			current = new Date(current.getYear(), current.getMonth(), current
-					.getDate() - 1);
-		}
-		return current;
+		date.setDate(1);
+		return date;
 	}
 
 	/**
@@ -83,7 +79,7 @@ public class DateUtil {
 	 *            The day
 	 * @return The place of the day
 	 */
-	
+
 	public static int getWeekDayIndex(Date day) {
 		int dayIndex = day.getDay();
 		for (int i = 0; i < 7; i++) {
@@ -110,13 +106,13 @@ public class DateUtil {
 	 *            The Date
 	 * @return The Date pointing to the first day
 	 */
-	
+
 	public static Date getWeekFirstDay(Date date) {
 		Date current = date;
 		int firstDay = DAYS_ORDER[0];
 		while (current.getDay() != firstDay) {
-			current = new Date(current.getYear(), current.getMonth(), current
-					.getDate() - 1);
+			current = new Date(current.getYear(), current.getMonth(),
+					current.getDate() - 1);
 		}
 		return current;
 	}
@@ -128,10 +124,25 @@ public class DateUtil {
 	 *            The Date to test
 	 * @return true if the Date is a weekend day
 	 */
-	
+
 	public static boolean isInWeekEnd(Date day) {
 		int dayIndex = day.getDay();
 		return (dayIndex == 0 | dayIndex == 6) ? true : false;
+	}
+
+	public static Date getMonthLastDate(Date date) {
+		date.setMonth(date.getMonth() + 1);
+		date.setDate(1);
+		date.setDate(date.getDate() - 1);
+		return date;
+	}
+
+	public static Date getCurrentMonthLastDate() {
+		return getMonthLastDate(new Date());
+	}
+
+	public static Date getCurrentMonthFirstDate() {
+		return getMonthFirstDay(new Date());
 	}
 
 }

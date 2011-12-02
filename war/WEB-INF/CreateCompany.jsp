@@ -170,7 +170,7 @@ $(document).ready(function() {
            		
     </script>
 <!--CSS for loading message at application Startup-->
-<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
 <link type="text/css" href="../css/ss.css" rel="stylesheet">
 <style type="text/css">
 body {
@@ -296,7 +296,7 @@ p {
 	padding-left: 10px;
 }
 
-#red {
+#red ,.red{
 	color: red;
 }
 
@@ -316,7 +316,7 @@ p {
 </head>
 <body>
 <div id="commanContainer">	
-<img src="../images/Accounter_logo_title.png" class="accounterLogo" />	
+<img src="/images/Accounter_logo_title.png" class="accounterLogo" />	
 <div id="hiddenDiv" class="hiddenPic">
   <img src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50">
 </div>
@@ -336,21 +336,12 @@ p {
 			<input type="text" name="name" id="name"
 				onClick="document.getElementById('nameLabel').innerHTML='';" /></td>
 		 </div>
-		 <div>
-		   <label>Company Type</label>
-		   <select name="companyType" id = "SelectcompanyType">
-				<option value="1">UK</option>
-				<option value="0">US</option>
-				<option value="2">India</option>
-				<option value="3">Others</option>
-			</select>
-		 </div>
 		  <div class="createbutton">
 		  <input type="submit" tabindex="6" value="Create" name="create" class="allviews-common-button" style="width:60px" id="submitButton" />
 	     </div>
 	</form>
 	<div class="form-bottom-options">
-	<a href="javascript:history.back()" id="forget-link1" tabindex="4"> Companies List </a>
+	<a href="/main/companies" id="forget-link1" tabindex="4"> Companies List </a>
 	</div>
 	<div class="form-bottom-options">
 	<a href="/main/logout" id="forget-link1" tabindex="4"> Logout </a>
@@ -369,11 +360,7 @@ p {
    <a target="_blank" href="/site/support"> Support </a>
 </div>
 </div>
-
-<script type="text/javascript" charset="utf-8">
-			var is_ssl = ("https:" == document.location.protocol);
-			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
-		</script>
-		 
+<%@ include file="./scripts.jsp" %>
+ 
 </body>
 </html>

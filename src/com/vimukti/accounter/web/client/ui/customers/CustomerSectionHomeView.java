@@ -8,15 +8,15 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddWidgetDialog;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.PortalLayout;
 import com.vimukti.accounter.web.client.ui.Portlet;
+import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
@@ -34,7 +34,6 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	private Portlet[] portlet;
 
 	private WidgetCreator creator;
-	private AccounterConstants customerConstants = Accounter.constants();
 	private String[] secondColumn;
 
 	private String[] firstColumn;
@@ -64,7 +63,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 		// addWidgetLinkLayout.setHeight(20);
 
 		LinkItem addWidgetLink = new LinkItem();
-		addWidgetLink.setLinkTitle(customerConstants.addWidget());
+		addWidgetLink.setLinkTitle(messages.addWidget());
 		addWidgetLink.setShowTitle(false);
 		// addWidgetLink.setAlign(Alignment.RIGHT);
 
@@ -196,14 +195,15 @@ public class CustomerSectionHomeView extends BaseHomeView {
 		listGrid = new CustomerListGrid();
 		listGrid.init();
 
-		Accounter.createHomeService().getPayeeList(
-				ClientTransaction.CATEGORY_CUSTOMER,
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
 				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
 
 					@Override
 					public void onResultSuccess(ArrayList<PayeeList> result) {
 						listGrid.clear();
 						listGrid.addRecords(result);
+						if (listGrid.getRecords().isEmpty())
+							listGrid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 					}
 
 					@Override
@@ -212,17 +212,18 @@ public class CustomerSectionHomeView extends BaseHomeView {
 				});
 		leftLayout.setSpacing(10);
 		leftLayout.add(listGrid);
+
 		return leftLayout;
 
 	}
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
-				Accounter.messages().newCustomer(Global.get().Customer()),
-				Accounter.constants().salesItem(),
-				Accounter.constants().paymentReceived(),
-				Accounter.constants().cashSales(),
-				Accounter.constants().creditAndRefunds() };
+				Accounter.messages().newPayee(Global.get().Customer()),
+				Accounter.messages().salesItem(),
+				Accounter.messages().paymentReceived(),
+				Accounter.messages().cashSales(),
+				Accounter.messages().creditAndRefunds() };
 		boolean isAvailable = false;
 
 		for (int i = 0; i < totalWidget.length; i++) {
@@ -267,14 +268,16 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	public void setPrevoiusOutput(Object preObject) {
 
-		Accounter.createHomeService().getPayeeList(
-				ClientTransaction.CATEGORY_CUSTOMER,
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
 				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
 
 					@Override
 					public void onResultSuccess(ArrayList<PayeeList> result) {
 						listGrid.clear();
 						listGrid.addRecords(result);
+
+						if (listGrid.getRecords().isEmpty())
+							listGrid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 					}
 
 					@Override

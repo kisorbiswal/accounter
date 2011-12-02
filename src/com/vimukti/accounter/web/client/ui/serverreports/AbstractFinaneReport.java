@@ -3,14 +3,12 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
@@ -34,8 +32,8 @@ public abstract class AbstractFinaneReport<R> extends
 	public boolean isVATDetailReport;
 	public boolean isVATSummaryReport;
 
-	public AccounterConstants constants;
-	public AccounterMessages messages;
+	protected AccounterMessages messages=getMessages();
+	
 	protected List<Integer> columnstoHide = new ArrayList<Integer>();
 
 	ReportGridTemplate<R> grid;
@@ -74,7 +72,7 @@ public abstract class AbstractFinaneReport<R> extends
 	public AbstractFinaneReport() {
 
 		this.preferences = Global.get().preferences();
-		this.constants = Global.get().constants();
+		this.messages = Global.get().messages();
 		this.messages = Global.get().messages();
 
 	}
@@ -323,7 +321,7 @@ public abstract class AbstractFinaneReport<R> extends
 	}
 
 	public String getDefaultDateRange() {
-		return constants.financialYearToDate();
+		return messages.financialYearToDate();
 	}
 
 	public int getColumnWidth(int index) {
@@ -674,22 +672,8 @@ public abstract class AbstractFinaneReport<R> extends
 		return preferences;
 	}
 
-	// public void setPreferences(ClientCompanyPreferences preferences) {
-	// this.preferences = preferences;
-	// }
-	public AccounterConstants getConstants() {
-		if (constants == null) {
-			constants = (AccounterConstants) GWT
-					.create(AccounterConstants.class);
-		}
-		return constants;
-	}
-
 	public AccounterMessages getMessages() {
-		if (messages == null) {
-			messages = (AccounterMessages) GWT.create(AccounterMessages.class);
-		}
-		return messages;
+		return Global.get().messages();
 	}
 
 	/**

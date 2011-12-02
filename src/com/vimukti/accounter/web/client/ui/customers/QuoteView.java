@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -19,6 +20,7 @@ import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -36,9 +38,12 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -59,7 +64,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private PaymentTermsCombo payTermsSelect;
 	protected DateField quoteExpiryDate;
 	private ArrayList<DynamicForm> listforms;
-	private boolean locationTrackingEnabled;
+	private final boolean locationTrackingEnabled;
 
 	private CustomerItemTransactionTable customerTransactionTable;
 	private AddNewButton itemTableButton;
@@ -69,14 +74,21 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private List<ClientPaymentTerms> paymentTermsList;
 	protected ClientSalesPerson salesPerson;
 	protected ClientPaymentTerms paymentTerm;
-	private AmountLabel transactionTotalNonEditableText, netAmountLabel,
-			vatTotalNonEditableText, salesTaxTextNonEditable;
-	private Double salesTax;
+	private AmountLabel netAmountLabel, vatTotalNonEditableText,
+			salesTaxTextNonEditable;
 
-	public QuoteView() {
+	private Double salesTax;
+	private ShipToForm shipToAddress;
+	private int type;
+	private String title;
+	private SelectCombo statusCombo;
+
+	public QuoteView(int type, String title) {
 		super(ClientTransaction.TYPE_ESTIMATE);
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
+		this.title = title;
+		this.type = type;
 	}
 
 	private void initAllItems() {
@@ -100,8 +112,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
+
+		ClientCurrency currency = getCurrency(customer.getCurrency());
+
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
-			ClientEstimate ent = (ClientEstimate) this.transaction;
+			ClientEstimate ent = this.transaction;
 
 			if (ent != null && ent.getCustomer() == (customer.getID())) {
 				this.customerTransactionTable.setAllRows(ent
@@ -111,6 +126,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				this.customerTransactionTable.updateTotals();
 			}
 			this.customerTransactionTable.resetRecords();
+
+			currencyWidget.setSelectedCurrency(currency);
 		}
 		super.customerSelected(customer);
 		shippingTermSelected(shippingTerm);
@@ -125,7 +142,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// && taxCodeSelect != null
 		// && taxCodeSelect.getValue() != ""
 		// && !taxCodeSelect.getName().equalsIgnoreCase(
-		// Accounter.constants().none()))
+		// messages.none()))
 		// taxCodeSelect.setComboItem(this.taxCode);
 		// if (this.priceLevel != null && priceLevelSelect != null)
 		// priceLevelSelect.setComboItem(this.priceLevel);
@@ -142,22 +159,40 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		} else
 			billToTextArea.setValue("");
 
+		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
+		addresses.addAll(customer.getAddress());
+		shipToAddress.setAddress(addresses);
+
 		this.setCustomer(customer);
+
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
+
 		long taxCode = customer.getTAXCode();
 		if (taxCode != 0) {
 			customerTransactionTable.setTaxCode(taxCode, false);
 		}
 
+		if (currency.getID() != 0) {
+			currencyWidget.setSelectedCurrencyFactorInWidget(currency,
+					transactionDateItem.getDate().getDate());
+		} else {
+			currencyWidget.setSelectedCurrency(getBaseCurrency());
+		}
+
+		if (isMultiCurrencyEnabled()) {
+			super.setCurrency(currency);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
+			updateAmountsFromGUI();
+		}
 	}
 
 	@Override
 	public void showMenu(Widget button) {
 		setMenuItems(button,
 		// Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+				Accounter.messages().productOrServiceItem());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
 
@@ -238,34 +273,78 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (billingAddress != null)
 			quote.setAddress(billingAddress);
 
+		if (shippingAddress != null) {
+			quote.setShippingAdress(shippingAddress);
+		}
 		// quote.setReference(this.refText.getValue() != null ? this.refText
 		// .getValue().toString() : "");
 		quote.setPaymentTerm(Utility.getID(paymentTerm));
-		quote.setNetAmount(getAmountInBaseCurrency(netAmountLabel.getAmount()));
+		quote.setNetAmount(netAmountLabel.getAmount());
 
 		if (isTrackTax()) {
-			quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck.getValue());
+			if (vatinclusiveCheck != null) {
+				quote.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
+			}
 			if (salesTax == null)
 				salesTax = 0.0D;
 			quote.setTaxTotal(this.salesTax);
 		}
 
-		quote.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText.getAmount()));
+		quote.setTotal(foreignCurrencyamountLabel.getAmount());
+
+		String selectedValue = statusCombo.getSelectedValue();
+		quote.setStatus(getStatus(selectedValue));
+
 		transaction = quote;
 
 		super.saveAndUpdateView();
 
-		saveOrUpdate((ClientEstimate) transaction);
+		saveOrUpdate(transaction);
 
+	}
+
+	private int getStatus(String status) {
+		if (status.equals(messages.open())) {
+			return ClientEstimate.STATUS_OPEN;
+		} else if (status.equals(messages.accepted())) {
+			return ClientEstimate.STATUS_ACCECPTED;
+		} else if (status.equals(messages.closed())) {
+			return ClientEstimate.STATUS_CLOSE;
+		} else if (status.equals(messages.rejected())) {
+			return ClientEstimate.STATUS_REJECTED;
+		}
+		return -1;
+	}
+
+	private String getStatusString(int status) {
+		switch (status) {
+		case ClientEstimate.STATUS_OPEN:
+			return messages.open();
+
+		case ClientEstimate.STATUS_ACCECPTED:
+			return messages.accepted();
+
+		case ClientEstimate.STATUS_CLOSE:
+			return messages.closed();
+
+		case ClientEstimate.STATUS_REJECTED:
+			return messages.rejected();
+
+		case ClientEstimate.STATUS_APPLIED:
+			return messages.closed();
+
+		default:
+			break;
+		}
+		return "";
 	}
 
 	@Override
 	protected void createControls() {
-		// setTitle(UIUtils.title(customerConstants.quote()));
-
-		Label lab1 = new Label(Accounter.constants().newQuote());
+		// setTitle(UIUtils.title(messages.quote()));
+		Label lab1 = new Label(title);
 		// + "(" + getTransactionStatus() + ")");
-		lab1.setStyleName(Accounter.constants().labelTitle());
+		lab1.setStyleName(Accounter.messages().labelTitle());
 		// lab1.setHeight("35px");
 
 		transactionDateItem = createTransactionDateItem();
@@ -282,8 +361,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		transactionNumber = createTransactionNumberItem();
 
 		listforms = new ArrayList<DynamicForm>();
-		locationCombo = createLocationCombo();
-		locationCombo.setHelpInformation(true);
+		if (locationTrackingEnabled) {
+			locationCombo = createLocationCombo();
+			locationCombo.setHelpInformation(true);
+			locationCombo.setDisabled(isInViewMode());
+		}
 
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
@@ -301,16 +383,43 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = createCustomerComboItem(Accounter.messages()
-				.customerName(Global.get().customer()));
+		customerCombo = createCustomerComboItem(Accounter.messages().payeeName(
+				Global.get().customer()));
 		contactCombo = createContactComboItem();
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(Accounter.constants().billTo());
+		billToTextArea.setTitle(Accounter.messages().billTo());
 		billToTextArea.setDisabled(true);
 
-		phoneSelect = new TextItem(customerConstants.phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+		shipToCombo = createShipToComboItem();
+
+		shipToCombo.setHelpInformation(true);
+
+		shipToAddress = new ShipToForm(null);
+		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
+				.setVerticalAlign(VerticalAlign.TOP);
+
+		// shipToAddress.getCellFormatter().getElement(0, 0)
+		// .setAttribute(messages.width(), "40px");
+		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
+		shipToAddress.businessSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						shippingAddress = shipToAddress.getAddress();
+						if (shippingAddress != null)
+							shipToAddress.setAddres(shippingAddress);
+						else
+							shipToAddress.addrArea.setValue("");
+					}
+				});
+
+		if (transaction != null)
+			shipToAddress.setDisabled(true);
+
+		phoneSelect = new TextItem(messages.phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
@@ -318,23 +427,31 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setCellSpacing(5);
-		custForm.setWidth("100%");
-
-		custForm.setFields(customerCombo, contactCombo, phoneSelect,
-				billToTextArea);
-		custForm.getCellFormatter().setWidth(0, 0, "150");
+		// custForm.setWidth("100%");
+		if (type == ClientEstimate.QUOTES) {
+			custForm.setFields(customerCombo, contactCombo, phoneSelect,
+					billToTextArea);
+		} else {
+			custForm.setFields(customerCombo);
+		}
+		// custForm.getCellFormatter().setWidth(0, 0, "150");
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		custForm.setStyleName("align-form");
 
-		DynamicForm phoneForm = UIUtils.form(customerConstants.phoneNumber());
-		phoneForm.setWidth("100%");
+		DynamicForm phoneForm = UIUtils.form(messages.phoneNumber());
+		// phoneForm.setWidth("100%");
 		phoneForm.setNumCols(2);
 		phoneForm.setCellSpacing(3);
+
+		statusCombo = new SelectCombo(messages.status());
+		statusCombo.initCombo(getStatusList());
+		statusCombo.setSelectedItem(0);
+
 		salesPersonCombo = createSalesPersonComboItem();
 
 		payTermsSelect = createPaymentTermsSelectItem();
 
-		quoteExpiryDate = new DateField(customerConstants.expirationDate());
+		quoteExpiryDate = new DateField(messages.expirationDate());
 		quoteExpiryDate.setHelpInformation(true);
 		quoteExpiryDate.setEnteredDate(getTransactionDate());
 		// formItems.add(quoteExpiryDate);
@@ -342,28 +459,37 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
-
-		if (locationTrackingEnabled)
-			phoneForm.setFields(locationCombo);
-		// formItems.add(deliveryDate);
-
+		DynamicForm locationform = new DynamicForm();
+		if (locationTrackingEnabled) {
+			if (type == ClientEstimate.QUOTES) {
+				phoneForm.setFields(locationCombo);
+			} else {
+				locationform.setFields(locationCombo);
+			}
+		}
 		if (getPreferences().isSalesPersonEnabled()) {
-			phoneForm.setFields(salesPersonCombo, payTermsSelect,
+			phoneForm.setFields(statusCombo, salesPersonCombo, payTermsSelect,
 					quoteExpiryDate, deliveryDate);
 		} else {
-			phoneForm.setFields(payTermsSelect, quoteExpiryDate, deliveryDate);
+			phoneForm.setFields(statusCombo, payTermsSelect, quoteExpiryDate,
+					deliveryDate);
 		}
 		phoneForm.setStyleName("align-form");
-		phoneForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		// phoneForm.getCellFormatter().getElement(0, 0)
+		// .setAttribute(messages.width(), "203px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
-			phoneForm.setFields(classListCombo);
+			if (type == ClientEstimate.QUOTES) {
+				phoneForm.setFields(classListCombo);
+			} else {
+				locationform.setFields(classListCombo);
+			}
+			classListCombo.setDisabled(isInViewMode());
 		}
 
-		Label lab2 = new Label(customerConstants.productAndService());
+		Label lab2 = new Label(messages.productAndService());
 
 		HorizontalPanel buttLabHLay = new HorizontalPanel();
 		buttLabHLay.add(lab2);
@@ -381,19 +507,33 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
+		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getCompany()
+				.getPrimaryCurrency());
+
+		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
+				.getPrimaryCurrency());
+
+		currencyWidget = createCurrencyFactorWidget();
 
 		customerTransactionTable = new CustomerItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
 				QuoteView.this.updateNonEditableItems();
 			}
 
 			@Override
 			public boolean isShowPriceWithVat() {
 				return QuoteView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return QuoteView.this.isInViewMode();
 			}
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
@@ -408,8 +548,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			}
 		});
 
-		final TextItem disabletextbox = new TextItem();
-		disabletextbox.setVisible(false);
+		// final TextItem disabletextbox = new TextItem();
+		// disabletextbox.setVisible(false);
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
@@ -419,22 +559,25 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
-		prodAndServiceForm2.setNumCols(4);
+		prodAndServiceForm2.setNumCols(2);
 		prodAndServiceForm2.setCellSpacing(5);
+
+		DynamicForm vatForm = new DynamicForm();
+		prodAndServiceForm2.addStyleName("boldtext");
+
 		if (isTrackTax()) {
+			prodAndServiceForm2.setFields(netAmountLabel);
 			if (isTaxPerDetailLine()) {
-				prodAndServiceForm2.setFields(disabletextbox, netAmountLabel,
-						disabletextbox, vatTotalNonEditableText,
-						disabletextbox, transactionTotalNonEditableText);
-				prodAndServiceForm2.addStyleName("boldtext");
+				prodAndServiceForm2.setFields(vatTotalNonEditableText);
 			} else {
-				prodAndServiceForm2.setFields(taxCodeSelect,
-						salesTaxTextNonEditable, disabletextbox,
-						transactionTotalNonEditableText);
-				prodAndServiceForm2.addStyleName("boldtext");
+				vatForm.setFields(taxCodeSelect, vatinclusiveCheck);
+				prodAndServiceForm2.setFields(salesTaxTextNonEditable);
 			}
-		} else {
-			prodAndServiceForm2.setFields(transactionTotalNonEditableText);
+		}
+
+		prodAndServiceForm2.setFields(transactionTotalBaseCurrencyText);
+		if (isMultiCurrencyEnabled()) {
+			prodAndServiceForm2.setFields(foreignCurrencyamountLabel);
 		}
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
@@ -447,11 +590,14 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		vPanel.add(prodAndServiceForm2);
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
+		prodAndServiceHLay.add(vatForm);
 		prodAndServiceHLay.add(prodAndServiceForm2);
 		if (isTaxPerDetailLine()) {
 			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
 		} else
-			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
+			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "");
+		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
+				ALIGN_RIGHT);
 
 		VerticalPanel mainpanel = new VerticalPanel();
 		mainpanel.setWidth("100%");
@@ -463,39 +609,50 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		leftVLay.setHorizontalAlignment(ALIGN_LEFT);
 
 		leftVLay.add(custForm);
-
+		if (getCompany().getPreferences().isDoProductShipMents())
+			if (type == ClientEstimate.QUOTES)
+				leftVLay.add(shipToAddress);
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
-		rightVLay.setHorizontalAlignment(ALIGN_CENTER);
-		rightVLay.add(phoneForm);
-
+		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
+		if (type == ClientEstimate.QUOTES) {
+			rightVLay.add(phoneForm);
+		} else {
+			rightVLay.add(locationform);
+		}
+		if (isMultiCurrencyEnabled()) {
+			rightVLay.add(currencyWidget);
+			rightVLay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "40%");
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		// mainVLay.add(buttLabHLay);
 		VerticalPanel gridPanel = new VerticalPanel();
 
 		gridPanel.add(customerTransactionTable);
 		mainVLay.add(gridPanel);
 		mainVLay.add(itemTableButton);
-		// mainVLay.add(createAddNewButton());
-		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(mainpanel);
 		gridPanel.setWidth("100%");
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			resetFormView();
-//			phoneForm.setWidth("60%");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// resetFormView();
+		// phoneForm.setWidth("60%");
+		// }
 
 		this.add(mainVLay);
 
@@ -507,17 +664,21 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		listforms.add(prodAndServiceForm1);
 		listforms.add(prodAndServiceForm2);
 		settabIndexes();
+		if (isMultiCurrencyEnabled()) {
+			foreignCurrencyamountLabel.hide();
+		}
 	}
 
 	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
-		// if (taxCode != null && transactionItems != null) {
-		// for (ClientTransactionItem item : transactionItems) {
-		// item.setTaxCode(taxCode.getID());
-		// }
-		// }
-		transaction.setTotal(getAmountInBaseCurrency(transactionTotalNonEditableText.getAmount()));
+
+		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
+
+		transaction.setEstimateType(type);
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	protected void setDateValues(ClientFinanceDate date) {
@@ -535,11 +696,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		if (this.transaction != null) {
 
-			String memo = ((ClientEstimate) transaction).getMemo();
+			String memo = transaction.getMemo();
 			if (memo != null) {
 				memoTextAreaItem.setValue(memo);
 			}
-			// refText.setValue(quote.getReference());
 		}
 
 	}
@@ -547,10 +707,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void initSalesTaxNonEditableItem() {
 		if (transaction != null) {
-			Double salesTaxAmout = ((ClientEstimate) transaction).getTaxTotal();
+			Double salesTaxAmout = transaction.getTaxTotal();
 			if (salesTaxAmout != null) {
-				salesTaxTextNonEditable
-						.setAmount(getAmountInTransactionCurrency(salesTaxAmout));
+				salesTaxTextNonEditable.setAmount(salesTaxAmout);
 			}
 
 		}
@@ -560,10 +719,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
 		if (transaction != null) {
-			Double transactionTotal = ((ClientEstimate) transaction).getTotal();
+			Double transactionTotal = transaction.getTotal();
 			if (transactionTotal != null) {
-				transactionTotalNonEditableText
-						.setAmount(getAmountInTransactionCurrency(transactionTotal));
+				transactionTotalBaseCurrencyText
+						.setAmount(getAmountInBaseCurrency(transactionTotal));
+				foreignCurrencyamountLabel.setAmount(transactionTotal);
 			}
 
 		}
@@ -576,6 +736,21 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (transaction == null) {
 			setData(new ClientEstimate());
 		} else {
+
+			if (currencyWidget != null) {
+				if (transaction.getCurrency() > 1) {
+					this.currency = getCompany().getCurrency(
+							transaction.getCurrency());
+				} else {
+					this.currency = getCompany().getPrimaryCurrency();
+				}
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				// currencyWidget.currencyChanged(this.currency);
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
+			}
 			ClientCompany company = getCompany();
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
 			if (this.getCustomer() != null) {
@@ -628,20 +803,24 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 						.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 			}
 
+			statusCombo.setComboItem(getStatusString(transaction.getStatus()));
+
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(estimate.getReference());
 			if (isTrackTax()) {
-				netAmountLabel
-						.setAmount(getAmountInTransactionCurrency(transaction
-								.getNetAmount()));
+				netAmountLabel.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setValue(DataUtils
 						.getAmountAsString(transaction.getTotal()
 								- transaction.getNetAmount()));
 			}
+			if (vatinclusiveCheck != null) {
+				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+			}
+
 			memoTextAreaItem.setDisabled(true);
-			transactionTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()));
+			transactionTotalBaseCurrencyText
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
 			customerTransactionTable.setDisabled(isInViewMode());
 			transactionDateItem.setDisabled(isInViewMode());
@@ -656,6 +835,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			quoteExpiryDate.setDisabled(isInViewMode());
 			deliveryDate.setDisabled(isInViewMode());
 			taxCodeSelect.setDisabled(isInViewMode());
+			statusCombo.setDisabled(isInViewMode());
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -663,6 +843,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		superinitTransactionViewData();
 		initAllItems();
 		initAccounterClass();
+		if (isMultiCurrencyEnabled()) {
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initCustomers() {
@@ -686,10 +869,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		ArrayList<ClientPriceLevel> priceLevels = getCompany().getPriceLevels();
 
 		// priceLevelSelect.initCombo(priceLevels);
-
-		ArrayList<ClientTAXCode> taxCodes = getCompany().getTaxCodes();
-
-		taxCodeSelect.initCombo(taxCodes);
 
 		initSalesTaxNonEditableItem();
 
@@ -724,12 +903,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (customerTransactionTable == null)
 			return;
 		if (isTrackTax()) {
-			netAmountLabel
-					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
-							.getLineTotal()));
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
-							.getTotalTax()));
+			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
+			vatTotalNonEditableText.setAmount(customerTransactionTable
+					.getTotalTax());
 			setSalesTax(customerTransactionTable.getTotalTax());
 		}
 		setTransactionTotal(customerTransactionTable.getGrandTotal());
@@ -738,16 +914,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	public void setTransactionTotal(Double transactionTotal) {
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
-		transactionTotalNonEditableText
-				.setAmount(getAmountInTransactionCurrency(transactionTotal));
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(transactionTotal));
+		foreignCurrencyamountLabel.setAmount(transactionTotal);
 	}
 
 	public void setSalesTax(Double salesTax) {
 		if (salesTax == null)
 			salesTax = 0.0D;
 		this.salesTax = salesTax;
-		salesTaxTextNonEditable
-				.setAmount(getAmountInTransactionCurrency(salesTax));
+		salesTaxTextNonEditable.setAmount(salesTax);
 	}
 
 	@Override
@@ -756,23 +932,28 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// Validations
 		// 1. isValidDueOrDeliveryDate?
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(this.quoteExpiryDate
-				.getEnteredDate(), this.transactionDate)) {
-			result.addError(this.quoteExpiryDate, Accounter.constants().the()
-					+ " "
-					+ customerConstants.expirationDate()
-					+ " "
-					+ " "
-					+ Accounter.constants()
-							.cannotbeearlierthantransactiondate());
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
+			result.addError(this.quoteExpiryDate, Accounter.messages().the()
+					+ " " + messages.expirationDate() + " " + " "
+					+ Accounter.messages().cannotbeearlierthantransactiondate());
 		}
 		result.add(customerTransactionTable.validateGrid());
+		if (isTrackTax()) {
+			if (!isTaxPerDetailLine()) {
+				if (taxCodeSelect != null
+						&& taxCodeSelect.getSelectedValue() == null) {
+					result.addError(taxCodeSelect, messages.enterTaxCode());
+				}
+
+			}
+		}
 		return result;
 
 	}
 
-	public static QuoteView getInstance() {
-		return new QuoteView();
+	public static QuoteView getInstance(int type, String title) {
+		return new QuoteView(type, title);
 	}
 
 	@Override
@@ -780,6 +961,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		super.onAddNew(item);
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -814,9 +996,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter.showMessage(Accounter.constants()
-							.sessionExpired());
+				if (transaction.getStatus() == QuoteListView.STATUS_ACCECPTED) {
+					Accounter.showError(Accounter.messages()
+							.thisQuoteAlreadyAccepted());
+				} else if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage(Accounter.messages().sessionExpired());
 				} else {
 					int errorCode = ((AccounterException) caught)
 							.getErrorCode();
@@ -856,13 +1041,23 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		itemTableButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		if (currencyWidget != null) {
+			currencyWidget.setDisabled(isInViewMode());
+		}
+		if (locationCombo != null) {
+			locationCombo.setDisabled(isInViewMode());
+		}
+		if (classListCombo != null) {
+			classListCombo.setDisabled(isInViewMode());
+		}
+		statusCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 
 	private void resetFormView() {
 
-		custForm.getCellFormatter().setWidth(0, 1, "200px");
-		custForm.setWidth("75%");
+		// custForm.getCellFormatter().setWidth(0, 1, "200px");
+		// custForm.setWidth("75%");
 		// priceLevelSelect.setWidth("150px");
 		// refText.setWidth("200px");
 
@@ -891,14 +1086,14 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().quote();
+		return Accounter.messages().quote();
 	}
 
 	@Override
 	protected void initTransactionsItems() {
 		if (transaction.getTransactionItems() != null
 				&& !transaction.getTransactionItems().isEmpty())
-			customerTransactionTable.setAllRows(transaction
+			customerTransactionTable.setRecords(transaction
 					.getTransactionItems());
 	}
 
@@ -914,7 +1109,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void refreshTransactionGrid() {
-
+		customerTransactionTable.updateTotals();
 	}
 
 	@Override
@@ -949,5 +1144,37 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void addItemTransactionItem(ClientTransactionItem item) {
 		customerTransactionTable.add(item);
+	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
+		customerTransactionTable.updateAmountsFromGUI();
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			foreignCurrencyamountLabel.hide();
+		} else {
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
+		}
+	}
+
+	public List<String> getStatusList() {
+		ArrayList<String> statuses = new ArrayList<String>();
+		statuses.add(messages.open());
+		statuses.add(messages.accepted());
+		statuses.add(messages.closed());
+		statuses.add(messages.rejected());
+		return statuses;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
 	}
 }

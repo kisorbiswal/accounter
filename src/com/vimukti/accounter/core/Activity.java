@@ -2,16 +2,15 @@ package com.vimukti.accounter.core;
 
 import java.sql.Timestamp;
 
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
+import org.json.JSONException;
 
-public class Activity extends CreatableObject implements IAccounterCore {
+public class Activity extends CreatableObject {
 
 	private User user;
 
-	private ActivityType type;
-
 	private int activityType;
+
+	private int objType;
 
 	private Timestamp time;
 
@@ -25,17 +24,20 @@ public class Activity extends CreatableObject implements IAccounterCore {
 
 	private FinanceDate transactionDate;
 
-	private double amount;
+	private Double amount;
 
 	private String description;
+
+	private long currency;
+
+	private String auditHistory;
 
 	public Activity() {
 	}
 
 	public Activity(Company company, User user, ActivityType type) {
 		this.user = user;
-		this.type = type;
-		this.userName = user.getFullName();
+		this.userName = user.getClient().getFullName();
 		this.time = new Timestamp(System.currentTimeMillis());
 		setActivityType(type.getValue());
 		setCompany(company);
@@ -50,28 +52,30 @@ public class Activity extends CreatableObject implements IAccounterCore {
 	private void setObject(IAccounterServerCore obj) {
 		if (obj instanceof Transaction) {
 			Transaction tr = (Transaction) obj;
-			this.amount = tr.getTotal();
+			this.amount = tr.getTotal() / tr.getCurrencyFactor();
+			currency = tr.getCurrency().getID();
 			this.transactionDate = tr.getDate();
-			Payee payee = tr.getPayee();
+			Payee payee = tr.getInvolvedPayee();
 			if (payee != null) {
 				this.name = payee.getName();
 			}
-			this.setObjectType(Utility.getTransactionName(tr.getType()));
+			this.setDataType(Utility.getTransactionName(tr.getType()));
+			this.setObjType(tr.getType());
 		} else {
 			if (obj instanceof INamedObject) {
 				this.name = ((INamedObject) obj).getName();
+				this.objType = ((INamedObject) obj).getObjType();
 			}
-			this.setObjectType(obj.getClass().getSimpleName());
+			this.setDataType(obj.getClass().getSimpleName());
 		}
 		this.objectID = obj.getID();
-	}
-
-	public ActivityType getType() {
-		return type;
-	}
-
-	public void setType(ActivityType type) {
-		this.type = type;
+		AuditWriterImpl writer = new AuditWriterImpl();
+		try {
+			obj.writeAudit(writer);
+			this.auditHistory = writer.toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Timestamp getTime() {
@@ -124,30 +128,6 @@ public class Activity extends CreatableObject implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getDisplayName() {
-		return null;
-	}
-
-	@Override
-	public void setID(long id) {
-
-	}
-
-	@Override
-	public String getClientClassSimpleName() {
-		return null;
-	}
-
-	@Override
-	public AccounterCoreType getObjectType() {
-		return null;
-	}
-
-	public void setObjectType(String objectType) {
-		this.setDataType(objectType);
-	}
-
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -189,6 +169,37 @@ public class Activity extends CreatableObject implements IAccounterCore {
 	 */
 	public void setDescription(String details) {
 		this.description = details;
+	}
+
+	public int getObjType() {
+		return objType;
+	}
+
+	public void setObjType(int objType) {
+		this.objType = objType;
+	}
+
+	/**
+	 * @return the currency
+	 */
+	public long getCurrency() {
+		return currency;
+	}
+
+	/**
+	 * @param currency
+	 *            the currency to set
+	 */
+	public void setCurrency(long currency) {
+		this.currency = currency;
+	}
+
+	public String getHistory() {
+		return auditHistory;
+	}
+
+	public void setHistory(String history) {
+		this.auditHistory = history;
 	}
 
 }

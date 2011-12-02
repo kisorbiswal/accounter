@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.portlet.PortletFactory;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
@@ -34,7 +35,7 @@ public class ClientCompany implements IAccounterCore {
 
 	private Map<String, String> paymentMethods = new HashMap<String, String>();
 
-	int accountingType = 0;
+	// int accountingType = 0;
 
 	private String registrationNumber;
 
@@ -43,6 +44,10 @@ public class ClientCompany implements IAccounterCore {
 	private String companyEmailForCustomers;
 
 	boolean isConfigured;
+
+	private long defaultMeasurement;
+
+	private long defaultWarehouse;
 
 	private String ein;
 
@@ -92,8 +97,6 @@ public class ClientCompany implements IAccounterCore {
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
 
-	private Set<ClientCurrency> currencies;
-
 	String bankAccountNo;
 
 	String sortCode;
@@ -106,12 +109,17 @@ public class ClientCompany implements IAccounterCore {
 
 	String nonInventoryItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
 
-	String ukServiceItemDefaultIncomeAccount = "Early Payment Discount Given";
-	String ukServiceItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
+	// String ukServiceItemDefaultIncomeAccount =
+	// "Early Payment Discount Given";
 
-	String ukNonInventoryItemDefaultIncomeAccount = "Early Payment Discount Given";
+	// String ukServiceItemDefaultExpenseAccount =
+	// "Products/Materials Purchased Type A";
 
-	String ukNonInventoryItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
+	// String ukNonInventoryItemDefaultIncomeAccount =
+	// "Early Payment Discount Given";
+
+	// String ukNonInventoryItemDefaultExpenseAccount =
+	// "Products/Materials Purchased Type A";
 
 	ClientCompanyPreferences preferences = new ClientCompanyPreferences();
 
@@ -120,6 +128,7 @@ public class ClientCompany implements IAccounterCore {
 	private ArrayList<ClientCustomer> customers;
 
 	private ArrayList<ClientVendor> vendors;
+
 	private ArrayList<ClientLocation> locations;
 	// private ArrayList<ClientTaxAgency> taxAgencies;
 
@@ -141,7 +150,7 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientTAXGroup> taxGroups;
 
-	private ArrayList<ClientPaySalesTax> paySalesTaxs;
+	private ArrayList<ClientPayTAX> payTaxs;
 
 	private ArrayList<ClientCreditRating> creditRatings;
 
@@ -154,6 +163,7 @@ public class ClientCompany implements IAccounterCore {
 	private ArrayList<ClientPayee> payees;
 
 	private ArrayList<ClientFiscalYear> fiscalYears;
+
 	private ArrayList<ClientBank> banks;
 
 	private ArrayList<ClientFixedAsset> fixedAssets;
@@ -161,16 +171,23 @@ public class ClientCompany implements IAccounterCore {
 	// private ArrayList<ClientSellingOrDisposingFixedAsset>
 	// sellingDisposedItems;
 
-	private ArrayList<ClientVATReturn> vatReturns;
+	private ArrayList<ClientTAXReturn> taxReturns;
 
 	private ArrayList<ClientTAXAgency> taxAgencies;
 
 	private ArrayList<ClientTAXCode> taxCodes;
 
+	private ArrayList<ClientMeasurement> measurements;
+
 	private ArrayList<ClientBrandingTheme> brandingTheme;
+
+	private ArrayList<ClientWarehouse> warehouses;
 
 	private ArrayList<ClientUserInfo> usersList;
 
+	private ArrayList<ClientCurrency> currencies;
+
+	private ArrayList<ClientQuantity> quantities;
 	// private ArrayList<ClientTAXItemGroup> vatItemGroups;
 
 	Set<ClientNominalCodeRange> nominalCodeRange = new HashSet<ClientNominalCodeRange>();
@@ -241,23 +258,23 @@ public class ClientCompany implements IAccounterCore {
 	/**
 	 * @return the vatReturns
 	 */
-	public ArrayList<ClientVATReturn> getVatReturns() {
-		return vatReturns;
+	public ArrayList<ClientTAXReturn> getTAXReturns() {
+		return taxReturns;
 	}
 
 	/**
 	 * @param vatReturns
 	 *            the vatReturns to set
 	 */
-	public void setVatReturns(ArrayList<ClientVATReturn> vatReturns) {
-		this.vatReturns = vatReturns;
+	public void setTAXReturns(ArrayList<ClientTAXReturn> vatReturns) {
+		this.taxReturns = vatReturns;
 	}
 
 	/**
 	 * @return the vatReturns
 	 */
-	public ClientVATReturn getVatReturn(long vatReturnID) {
-		return Utility.getObject(this.vatReturns, vatReturnID);
+	public ClientTAXReturn getVatReturn(long vatReturnID) {
+		return Utility.getObject(this.taxReturns, vatReturnID);
 	}
 
 	/**
@@ -366,13 +383,6 @@ public class ClientCompany implements IAccounterCore {
 				return e.isActive();
 			}
 		}, this.taxItems);
-
-		// List<ClientTAXItem> activeTaxItems = new ArrayList<ClientTAXItem>();
-		// for (ClientTAXItem taxItem : taxItems) {
-		// if (taxItem.isActive())
-		// activeTaxItems.add(taxItem);
-		// }
-		// return activeTaxItems);
 	}
 
 	public ArrayList<ClientTAXItem> getTaxItems() {
@@ -441,15 +451,15 @@ public class ClientCompany implements IAccounterCore {
 	// private List<ClientTaxItem> taxItems;
 
 	public void clientSideInit() {
-		paymentMethods.put("1", Accounter.constants().cash());
-		paymentMethods.put("2", Accounter.constants().check());
-		paymentMethods.put("3", Accounter.constants().creditCard());
+		paymentMethods.put("1", Accounter.messages().cash());
+		paymentMethods.put("2", Accounter.messages().check());
+		paymentMethods.put("3", Accounter.messages().creditCard());
 	}
 
 	public ClientCompany() {
 		// paymentMethods.put("1", "");
-		// paymentMethods.put("2", Accounter.constants().check());
-		// paymentMethods.put("3", Accounter.constants().creditCard());
+		// paymentMethods.put("2", messages.check());
+		// paymentMethods.put("3", messages.creditCard());
 	}
 
 	// List<ClientPayType> payTypes;
@@ -778,12 +788,12 @@ public class ClientCompany implements IAccounterCore {
 		this.taxAgencies = taxAgencies;
 	}
 
-	public ArrayList<ClientPaySalesTax> getPaySalesTaxs() {
-		return paySalesTaxs;
+	public ArrayList<ClientPayTAX> getPaySalesTaxs() {
+		return payTaxs;
 	}
 
-	public void setPaySalesTaxs(ArrayList<ClientPaySalesTax> paySalesTaxs) {
-		this.paySalesTaxs = paySalesTaxs;
+	public void setPaySalesTaxs(ArrayList<ClientPayTAX> paySalesTaxs) {
+		this.payTaxs = paySalesTaxs;
 	}
 
 	public ArrayList<ClientCreditRating> getCreditRatings() {
@@ -974,13 +984,13 @@ public class ClientCompany implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		return this.preferences.getFullName();
+		return this.preferences.getTradingName();
 	}
 
 	@Override
 	public String getName() {
 
-		return this.preferences.getFullName();
+		return this.preferences.getTradingName();
 	}
 
 	/**
@@ -1063,11 +1073,11 @@ public class ClientCompany implements IAccounterCore {
 		return this.preferences.getCompanyEmail();
 	}
 
-	public void setName(String stringValue) {
-		this.preferences.setFullName(stringValue);
+	public void setTradingName(String tradingName) {
+		this.preferences.setTradingName(tradingName);
 	}
 
-	public void setTradingName(String stringValue) {
+	public void setLegalName(String stringValue) {
 		this.preferences.setLegalName(stringValue);
 	}
 
@@ -1113,9 +1123,9 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.paymentTerms, paymentTermsId);
 	}
 
-	public ClientPaySalesTax getPaySalesTax(long paysalesTaxId) {
+	public ClientPayTAX getPaySalesTax(long paysalesTaxId) {
 
-		return Utility.getObject(this.paySalesTaxs, paysalesTaxId);
+		return Utility.getObject(this.payTaxs, paysalesTaxId);
 	}
 
 	public ClientCustomerGroup getCustomerGroup(long customerGroupId) {
@@ -1161,6 +1171,11 @@ public class ClientCompany implements IAccounterCore {
 	public ClientCustomer getCustomer(long customerId) {
 
 		return Utility.getObject(this.customers, customerId);
+	}
+
+	public ClientCurrency getCurrency(long currencyId) {
+		ClientCurrency object = Utility.getObject(this.currencies, currencyId);
+		return object;
 	}
 
 	public ClientPayee getPayee(long id) {
@@ -1226,13 +1241,16 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.taxCodes, taxCodeId);
 	}
 
+	private ClientQuantity getQuantity(long quantityId) {
+		return Utility.getObject(this.quantities, quantityId);
+	}
+
 	// public ClientTAXItemGroup getVATItemGroup(long vatItemGrpId) {
 	//
 	// return Utility.getObject(this.vatItemGroups, vatItemGrpId);
 	// }
 
 	public ClientTAXItemGroup getTAXItemGroup(long taxItemGrpId) {
-
 		return Utility.getObject(this.taxItemGroups, taxItemGrpId);
 	}
 
@@ -1258,6 +1276,14 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientBrandingTheme getBrandingTheme(long id) {
 		return Utility.getObject(this.brandingTheme, id);
+	}
+
+	public ClientMeasurement getMeasurement(long measurementId) {
+		return Utility.getObject(this.measurements, measurementId);
+	}
+
+	public ClientWarehouse getWarehouse(long id) {
+		return Utility.getObject(this.warehouses, id);
 	}
 
 	public ClientTAXAgency getVatAgencyByName(String name) {
@@ -1413,6 +1439,14 @@ public class ClientCompany implements IAccounterCore {
 		}
 	}
 
+	private void deleteCurrency(long currencyId) {
+		ClientCurrency currency = this.getCurrency(currencyId);
+		if (currency != null) {
+			this.currencies.remove(currency);
+			fireEvent(new CoreEvent<ClientCurrency>(ChangeType.DELETE, currency));
+		}
+	}
+
 	public ClientLocation getLocation(long locationId) {
 		return Utility.getObject(this.locations, locationId);
 	}
@@ -1443,6 +1477,33 @@ public class ClientCompany implements IAccounterCore {
 		}
 	}
 
+	public void deleteQuantity(long quantity) {
+		ClientQuantity clientQuantity = this.getQuantity(quantity);
+		if (clientQuantity != null) {
+			this.quantities.remove(clientQuantity);
+			fireEvent(new CoreEvent<ClientQuantity>(ChangeType.DELETE,
+					clientQuantity));
+		}
+	}
+
+	public void deleteMeasurement(long measurement) {
+		ClientMeasurement clientMeasurement = this.getMeasurement(measurement);
+		if (clientMeasurement != null) {
+			this.measurements.remove(clientMeasurement);
+			fireEvent(new CoreEvent<ClientMeasurement>(ChangeType.DELETE,
+					clientMeasurement));
+		}
+	}
+
+	public void deleteWarehouse(long warehouse) {
+		ClientWarehouse clientWarehouse = this.getWarehouse(warehouse);
+		if (clientWarehouse != null) {
+			this.warehouses.remove(clientWarehouse);
+			fireEvent(new CoreEvent<ClientWarehouse>(ChangeType.DELETE,
+					clientWarehouse));
+		}
+	}
+
 	// public void deleteVatGroup(long vatGroup) {
 	// this.vatGroups.remove(this.getVATItem(vatGroup));
 	// }
@@ -1466,10 +1527,10 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public void deleteVAtReturn(long vatReturnId) {
-		ClientVATReturn clientVatReturn = this.getVatReturn(vatReturnId);
+		ClientTAXReturn clientVatReturn = this.getVatReturn(vatReturnId);
 		if (clientVatReturn != null) {
-			this.vatReturns.remove(clientVatReturn);
-			fireEvent(new CoreEvent<ClientVATReturn>(ChangeType.DELETE,
+			this.taxReturns.remove(clientVatReturn);
+			fireEvent(new CoreEvent<ClientTAXReturn>(ChangeType.DELETE,
 					clientVatReturn));
 		}
 	}
@@ -1528,13 +1589,13 @@ public class ClientCompany implements IAccounterCore {
 		return AccounterCoreType.COMPANY;
 	}
 
-	public int getAccountingType() {
-		return accountingType;
-	}
+	// public int getAccountingType() {
+	// return accountingType;
+	// }
 
-	public void setAccountingType(int accountingType) {
-		this.accountingType = accountingType;
-	}
+	// public void setAccountingType(int accountingType) {
+	// this.accountingType = accountingType;
+	// }
 
 	public String getServiceItemDefaultIncomeAccount() {
 		return serviceItemDefaultIncomeAccount;
@@ -1623,6 +1684,7 @@ public class ClientCompany implements IAccounterCore {
 			switch (accounterCoreObject.getObjectType()) {
 
 			case ACCOUNT:
+			case BANK_ACCOUNT:
 
 				ClientAccount account = (ClientAccount) accounterCoreObject;
 
@@ -1790,11 +1852,11 @@ public class ClientCompany implements IAccounterCore {
 
 				break;
 
-			case PAY_SALES_TAX:
+			case PAY_TAX:
 
-				ClientPaySalesTax paySalesTax = (ClientPaySalesTax) accounterCoreObject;
+				ClientPayTAX payTax = (ClientPayTAX) accounterCoreObject;
 
-				Utility.updateClientList(paySalesTax, paySalesTaxs);
+				Utility.updateClientList(payTax, payTaxs);
 
 				break;
 
@@ -1836,9 +1898,9 @@ public class ClientCompany implements IAccounterCore {
 			// Utility.updateClientList(vagy, this.vatAgencies);
 			// Utility.updateClientList(vagy, payees);
 			// break;
-			case VATRETURN:
-				ClientVATReturn vaReturn = (ClientVATReturn) accounterCoreObject;
-				Utility.updateClientList(vaReturn, this.vatReturns);
+			case TAX_RETURN:
+				ClientTAXReturn vaReturn = (ClientTAXReturn) accounterCoreObject;
+				Utility.updateClientList(vaReturn, this.taxReturns);
 				break;
 
 			// case FISCALYEAR:
@@ -1847,7 +1909,11 @@ public class ClientCompany implements IAccounterCore {
 			// Utility.updateClientList(fiscalYear, this.fiscalYears);
 			// sortFiscalYears();
 			// break;
-
+			case CURRENCY:
+				ClientCurrency currency = (ClientCurrency) accounterCoreObject;
+				if (currency.getFormalName() != null)
+					Utility.updateClientList(currency, currencies);
+				break;
 			case COMPANY_PREFERENCES:
 				this.preferences = (ClientCompanyPreferences) accounterCoreObject;
 				break;
@@ -1872,21 +1938,26 @@ public class ClientCompany implements IAccounterCore {
 				}
 				break;
 			case ACCOUNTER_CLASS:
-
 				ClientAccounterClass accounterClass = (ClientAccounterClass) accounterCoreObject;
-
 				Utility.updateClientList(accounterClass, accounterClasses);
-
+				break;
+			case MEASUREMENT:
+				ClientMeasurement measurement = (ClientMeasurement) accounterCoreObject;
+				Utility.updateClientList(measurement, measurements);
+				break;
+			case WAREHOUSE:
+				ClientWarehouse warehouse = (ClientWarehouse) accounterCoreObject;
+				Utility.updateClientList(warehouse, warehouses);
 				break;
 			}
 		// } catch (Exception e) {
 		// if (e instanceof JavaScriptException) {
-		// Accounter.showInformation(Accounter.constants()
+		// Accounter.showInformation(messages
 		// .exceptionOccur()
 		// + ((JavaScriptException) (e)).getDescription());
 		//
 		// } else {
-		// Accounter.showInformation(Accounter.constants()
+		// Accounter.showInformation(messages
 		// .exceptionOccur() + e.toString());
 		// }
 		// }
@@ -1898,6 +1969,7 @@ public class ClientCompany implements IAccounterCore {
 		switch (objectType) {
 
 		case ACCOUNT:
+		case BANK_ACCOUNT:
 
 			deleteAccount(id);
 
@@ -1996,6 +2068,8 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case LOCATION:
 			deleteLocation(id);
+		case CURRENCY:
+			deleteCurrency(id);
 		case TAXITEM:
 			deleteTaxItem(id);
 			// if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -2031,6 +2105,11 @@ public class ClientCompany implements IAccounterCore {
 		case ACCOUNTER_CLASS:
 			deleteAccounterClass(id);
 			break;
+		case WAREHOUSE:
+			deleteWarehouse(id);
+			break;
+		case MEASUREMENT:
+			deleteMeasurement(id);
 		}
 	}
 
@@ -2211,10 +2290,10 @@ public class ClientCompany implements IAccounterCore {
 	// return ukNonInventoryItemDefaultExpenseAccount;
 	// }
 
-	public boolean isUKAccounting() {
-
-		return this.accountingType == ACCOUNTING_TYPE_UK;
-	}
+	// public boolean isUKAccounting() {
+	//
+	// return this.accountingType == ACCOUNTING_TYPE_UK;
+	// }
 
 	public void setRegistrationNumber(String registrationNumber) {
 		this.registrationNumber = registrationNumber;
@@ -2243,17 +2322,33 @@ public class ClientCompany implements IAccounterCore {
 		taxCode.setActive(taxItemGroup.isActive());
 		taxCode.setTAXItemGrpForSales(taxItemGroup.getID());
 		taxCode.setTaxable(true);
-		taxCode.setECSalesEntry(false);
 		taxCode.setTAXItemGrpForPurchases(0);
 		return taxCode;
 	}
+
+	// public void deleteCurrency(long id) {
+	// ClientCurrency clientBrandingTheme = this.getCurrency(id);
+	// if (clientBrandingTheme != null) {
+	// this.brandingTheme.remove(clientBrandingTheme);
+	// fireEvent(new CoreEvent<ClientCurrency>(ChangeType.DELETE,
+	// clientBrandingTheme));
+	// }
+	// }
 
 	public void setBrandingThemes(ArrayList<ClientBrandingTheme> brandingTheme) {
 		this.brandingTheme = brandingTheme;
 	}
 
+	public void setWareHouses(ArrayList<ClientWarehouse> warehouse) {
+		this.warehouses = warehouse;
+	}
+
 	public ArrayList<ClientBrandingTheme> getBrandingTheme() {
 		return brandingTheme;
+	}
+
+	public ArrayList<ClientWarehouse> getWarehouses() {
+		return warehouses;
 	}
 
 	public void setUsersList(ArrayList<ClientUserInfo> users) {
@@ -2407,6 +2502,16 @@ public class ClientCompany implements IAccounterCore {
 		return this.preferences.getTradingAddress();
 	}
 
+	public boolean isShowRegisteredAddress() {
+		return this.preferences.isShowRegisteredAddress();
+	}
+
+	public void setShowRegisteredAddress(boolean isShowRegisteredAddress) {
+		this.preferences.setShowRegisteredAddress(isShowRegisteredAddress);
+		if (!isShowRegisteredAddress)
+			this.registeredAddress = preferences.getTradingAddress();
+	}
+
 	/**
 	 * @param tradingAddress
 	 *            the tradingAddress to set
@@ -2441,11 +2546,11 @@ public class ClientCompany implements IAccounterCore {
 		this.loggedInUser = user;
 	}
 
-	public void setCurrencies(Set<ClientCurrency> currencies) {
+	public void setCurrencies(ArrayList<ClientCurrency> currencies) {
 		this.currencies = currencies;
 	}
 
-	public Set<ClientCurrency> getCurrencies() {
+	public ArrayList<ClientCurrency> getCurrencies() {
 		return currencies;
 	}
 
@@ -2454,7 +2559,8 @@ public class ClientCompany implements IAccounterCore {
 	 */
 	public ClientCurrency getCurrency(String code) {
 		for (ClientCurrency currency : currencies) {
-			if (currency.getFormalName().equals(code)) {
+			if (currency.getFormalName() != null
+					&& currency.getFormalName().equals(code)) {
 				return currency;
 			}
 		}
@@ -2479,7 +2585,19 @@ public class ClientCompany implements IAccounterCore {
 		for (ClientBrandingTheme clientBrandingTheme : this.brandingTheme) {
 			brandingThemes.add(clientBrandingTheme.clone());
 		}
-		clientCompany.brandingTheme = brandingTheme;
+		clientCompany.brandingTheme = brandingThemes;
+
+		ArrayList<ClientMeasurement> clientMeasurements = new ArrayList<ClientMeasurement>();
+		for (ClientMeasurement clientMeasurement : this.measurements) {
+			clientMeasurements.add(clientMeasurement.clone());
+		}
+		clientCompany.measurements = clientMeasurements;
+
+		ArrayList<ClientWarehouse> clientWarehouses = new ArrayList<ClientWarehouse>();
+		for (ClientWarehouse clientWarehouse : this.warehouses) {
+			clientWarehouses.add(clientWarehouse.clone());
+		}
+		clientCompany.warehouses = clientWarehouses;
 
 		ArrayList<ClientCreditRating> creditRatings = new ArrayList<ClientCreditRating>();
 		for (ClientCreditRating clientCreditRating : this.creditRatings) {
@@ -2487,7 +2605,7 @@ public class ClientCompany implements IAccounterCore {
 		}
 		clientCompany.creditRatings = creditRatings;
 
-		Set<ClientCurrency> currencies = new HashSet<ClientCurrency>();
+		ArrayList<ClientCurrency> currencies = new ArrayList<ClientCurrency>();
 		for (ClientCurrency clientCurrency : this.currencies) {
 			currencies.add(clientCurrency.clone());
 		}
@@ -2550,11 +2668,11 @@ public class ClientCompany implements IAccounterCore {
 		}
 		clientCompany.paymentTerms = paymentTerms;
 
-		ArrayList<ClientPaySalesTax> paySalesTaxs = new ArrayList<ClientPaySalesTax>();
-		for (ClientPaySalesTax clientPaySalesTax : this.paySalesTaxs) {
+		ArrayList<ClientPayTAX> paySalesTaxs = new ArrayList<ClientPayTAX>();
+		for (ClientPayTAX clientPaySalesTax : this.payTaxs) {
 			paySalesTaxs.add(clientPaySalesTax.clone());
 		}
-		clientCompany.paySalesTaxs = paySalesTaxs;
+		clientCompany.payTaxs = paySalesTaxs;
 
 		ArrayList<ClientPriceLevel> priceLevels = new ArrayList<ClientPriceLevel>();
 		for (ClientPriceLevel clientPriceLevel : this.priceLevels) {
@@ -2597,6 +2715,24 @@ public class ClientCompany implements IAccounterCore {
 			taxCodes.add(clientTAXCode.clone());
 		}
 		clientCompany.taxCodes = taxCodes;
+
+		ArrayList<ClientQuantity> quantities = new ArrayList<ClientQuantity>();
+		for (ClientQuantity clientQuantity : this.quantities) {
+			quantities.add(clientQuantity.clone());
+		}
+		clientCompany.quantities = quantities;
+
+		ArrayList<ClientMeasurement> measurements = new ArrayList<ClientMeasurement>();
+		for (ClientMeasurement measurement : this.measurements) {
+			measurements.add(measurement.clone());
+		}
+		clientCompany.measurements = measurements;
+
+		ArrayList<ClientWarehouse> warehouses = new ArrayList<ClientWarehouse>();
+		for (ClientWarehouse warehouse : this.warehouses) {
+			warehouses.add(warehouse.clone());
+		}
+		clientCompany.warehouses = warehouses;
 
 		ArrayList<ClientTAXGroup> taxGroups = new ArrayList<ClientTAXGroup>();
 		for (ClientTAXGroup clientTAXGroup : this.taxGroups) {
@@ -2702,6 +2838,10 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObjectByName(getShippingMethods(), name);
 	}
 
+	public ClientShippingTerms getShippingTermByName(String name) {
+		return Utility.getObjectByName(getShippingTerms(), name);
+	}
+
 	public ClientVendorGroup getVendorGroupByName(String name) {
 		return Utility.getObjectByName(getVendorGroups(), name);
 	}
@@ -2716,6 +2856,14 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientBrandingTheme getBrandingThemeByName(String name) {
 		return Utility.getObjectByName(getBrandingTheme(), name);
+	}
+
+	public ClientWarehouse getWarehouseByName(String name) {
+		return Utility.getObjectByName(getWarehouses(), name);
+	}
+
+	public ClientMeasurement getMeasurementByName(String name) {
+		return Utility.getObjectByName(getMeasurements(), name);
 	}
 
 	public ClientTAXItem getTaxItemByName(String name) {
@@ -2861,4 +3009,70 @@ public class ClientCompany implements IAccounterCore {
 	public String getCountry() {
 		return this.registeredAddress.getCountryOrRegion();
 	}
+
+	public List<ClientMeasurement> getMeasurements() {
+		return measurements;
+	}
+
+	public void setMeasurements(ArrayList<ClientMeasurement> measurements) {
+		this.measurements = measurements;
+	}
+
+	public void setWarehouses(ArrayList<ClientWarehouse> warehouses) {
+		this.warehouses = warehouses;
+	}
+
+	public long getDefaultMeasurement() {
+		return defaultMeasurement;
+	}
+
+	public void setDefaultMeasurement(long defaultMeasurement) {
+		this.defaultMeasurement = defaultMeasurement;
+	}
+
+	public long getDefaultWarehouse() {
+		return defaultWarehouse;
+	}
+
+	public void setDefaultWarehouse(long defaultWarehouse) {
+		this.defaultWarehouse = defaultWarehouse;
+	}
+
+	public ClientCurrency getPrimaryCurrency() {
+		long id2 = getPreferences().getPrimaryCurrency().id;
+		if (id2 == 0) {
+			throw new RuntimeException("Primary Currency Id is Zero");
+		}
+		return getCurrency(id2);
+	}
+
+	public boolean hasOtherCountryCurrency() {
+
+		long id = getPreferences().getPrimaryCurrency().id;
+
+		// for checking in all the Active Accounts
+		ArrayList<ClientAccount> activeAccounts = getActiveAccounts();
+		for (ClientAccount account : activeAccounts) {
+			ClientCurrency currency = getCurrency(account.getCurrency());
+			if (id != currency.id) {
+				return true;
+			}
+		}
+
+		// for checking in all the Active Payee
+		ArrayList<ClientPayee> activePayees = getActivePayees();
+		for (ClientPayee payee : activePayees) {
+			ClientCurrency currency = getCurrency(payee.getCurrency());
+			if (id != currency.id) {
+				return true;
+			}
+		}
+		return false;
+
+	}
+
+	public ClientPortletPageConfiguration getPortletPageConfiguration(String name) {
+		return PortletFactory.get().getDefaultConfiguration(name);
+	}
+
 }

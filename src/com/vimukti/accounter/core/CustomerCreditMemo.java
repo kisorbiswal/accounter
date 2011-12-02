@@ -1,10 +1,13 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
@@ -306,6 +309,7 @@ public class CustomerCreditMemo extends Transaction implements
 		return null;
 	}
 
+	@Override
 	public void setVoid(boolean isVoid) {
 		this.isVoid = isVoid;
 	}
@@ -327,6 +331,7 @@ public class CustomerCreditMemo extends Transaction implements
 		this.taxTotal = salesTax;
 	}
 
+	@Override
 	public void setNumber(String number) {
 		this.number = number;
 	}
@@ -451,7 +456,10 @@ public class CustomerCreditMemo extends Transaction implements
 					// this.total = this.total - customerCreditMemo.total;
 					this.customer.updateBalance(session, this, this.total
 							- customerCreditMemo.total);
-					this.creditsAndPayments.updateCreditPayments(this.total);
+					if (creditsAndPayments != null) {
+						this.creditsAndPayments
+								.updateCreditPayments(this.total);
+					}
 
 					// CreditsAndPayments creditsAndPayments = new
 					// CreditsAndPayments(
@@ -491,5 +499,19 @@ public class CustomerCreditMemo extends Transaction implements
 			throws AccounterException {
 
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = new HashMap<Account, Double>();
+		map.put(creditsAndPayments.getPayee().getAccount(),
+				creditsAndPayments.getEffectingAmount());
+		return map;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

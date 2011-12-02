@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
@@ -30,7 +31,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 		AsyncCallback<ArrayList<ClientTDSInfo>> {
 
-	private Button button;
 	private DateItem fromDate;
 	private DateItem toDate;
 
@@ -56,20 +56,24 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 
 	private void createControls1() {
 
-		label=new Label();
+		this.saveAndCloseButton.setVisible(false);
+		this.saveAndNewButton.setText("TDS Filing");
+		label = new Label();
 		label.removeStyleName("gwt-style");
 		label.setWidth("100%");
-		label.addStyleName(Accounter.constants().labelTitle());
-		label.setText(Accounter.constants().tdsVendorsList());
-		this.fromDate = new DateItem(Accounter.constants().from());
+		label.addStyleName(Accounter.messages().labelTitle());
+		label.setText(Accounter.messages().tdsVendorsList());
+		this.fromDate = new DateItem(Accounter.messages().from());
 		this.fromDate.setHelpInformation(true);
 
-		this.toDate = new DateItem(Accounter.constants().to());
+		this.toDate = new DateItem(Accounter.messages().to());
 		this.toDate.setHelpInformation(true);
+		this.toDate.setEnteredDate(new ClientFinanceDate());
 
+		this.fromDate.setEnteredDate(new ClientFinanceDate());
 		this.vendorCombo = new VendorCombo(Global.get().messages()
-				.vendorName(Global.get().Vendor()), true);
-		vendorCombo.setValue(new String((Accounter.constants().all())));
+				.payeeName(Global.get().Vendor()), true);
+		vendorCombo.setValue(new String((Accounter.messages().all())));
 
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -82,7 +86,7 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 
 				});
 
-		this.updateButton = new Button(Accounter.constants().update());
+		this.updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -98,56 +102,41 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 		grid.setWidth("100%");
 		DynamicForm topForm = new DynamicForm();
 		topForm.setIsGroup(true);
-		topForm.setGroupTitle(Accounter.constants().top());
-		topForm.setNumCols(4);
+		topForm.setGroupTitle(Accounter.messages().top());
+		topForm.setNumCols(6);
 		topForm.setItems(fromDate, toDate);
 		// topForm.setWidth("100%");
 		DynamicForm form2 = new DynamicForm();
-		
+
 		form2.setFields(vendorCombo);
 
 		Accounter.createHomeService().getPayBillsByTDS(this);
 
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		if (isTdsView) {
-			this.button = new Button(Accounter.constants().eTDSFiling());
-			button.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					// TODO Auto-generated method stub
-
-				}
-			});
-			horizontalPanel.add(button);
-		}
-		horizontalPanel.setWidth("100%");
-		horizontalPanel.setHorizontalAlignment(ALIGN_CENTER);
 		HorizontalPanel topLayout = new HorizontalPanel();
+		topLayout.setWidth("100%");
 		topLayout.add(topForm);
 		topLayout.add(updateButton);
-		topLayout.setCellHorizontalAlignment(updateButton, ALIGN_RIGHT);
+		topLayout.setCellHorizontalAlignment(topForm, ALIGN_LEFT);
+		topLayout.setCellHorizontalAlignment(updateButton, ALIGN_LEFT);
+
+		// topLayout.setCellHorizontalAlignment(updateButton, ALIGN_RIGHT);
 		HorizontalPanel h1 = new HorizontalPanel();
 
-	
-		
 		h1.add(label);
 		h1.setWidth("100%");
 
 		h1.setHorizontalAlignment(ALIGN_RIGHT);
 		h1.add(form2);
-	
-
-		horizontalPanel.setWidth("100%");
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
-		mainPanel.add(topForm);
+		// mainPanel.add(topForm);
 		mainPanel.add(topLayout);
 		mainPanel.add(h1);
-	//	mainPanel.add(label);
+		// mainPanel.add(label);
 		mainPanel.add(grid);
-		mainPanel.add(horizontalPanel);
+		grid.getElement().getParentElement()
+				.addClassName("recounciliation_grid");
 		mainPanel.setCellHeight(grid, "200px");
 
 		this.add(mainPanel);
@@ -170,11 +159,11 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 
 	@Override
 	protected String getViewTitle() {
-		return messages.vendors(Global.get().Vendor());
+		return messages.payees(Global.get().Vendor());
 	}
 
 	private void filterListByDate() {
-		
+
 		List<ClientTDSInfo> cl = new ArrayList<ClientTDSInfo>();
 		for (ClientTDSInfo clientTDSInfo : clientTDSInfos) {
 			if ((clientTDSInfo.getDate().after(fromDate.getDate()))
@@ -227,4 +216,13 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 
 	}
 
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }

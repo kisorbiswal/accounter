@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -62,42 +62,30 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		createControls();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void createControls() {
 
-		AccounterConstants constants = Global.get().constants();
+		AccounterMessages messages = Global.get().messages();
 
-		fromAddcombo = new EmailCombo(Accounter.constants().from());
+		fromAddcombo = new EmailCombo(Accounter.messages().from(), false);
 		ArrayList<String> toAdd = fromAddcombo.getToAddress();
 
 		from = toAdd.get(0);
-		fromAddcombo.setValue(toAdd.get(0));
+		fromAddcombo.setComboItem(toAdd.get(0));
 
-		// String message = "\n"
-		// + Accounter.messages().dearCustomer(Global.get().Customer())
-		// + "\n\n" + Accounter.constants().mayWeRemindInvoice()
-		// + this.invoice.getNumber() + Accounter.constants().issuedOn()
-		// + invoice.getDate() + Accounter.constants().isDueForPayment()
-		// + "\n\n" + Accounter.constants().ifUHaveAlreadyPaidInvoiceMsg()
-		// + "\n\n" + Accounter.constants().feelFreeTogetInTouch()
-		// + "\n\n" + Accounter.constants().thanksInAdvanceForPayment()
-		// + "\n\n\n" + Accounter.constants().regards();
-
-		// fromAddress = new EmailField(constants.from());
-		// fromAddress.setHelpInformation(true);
-		// fromAddress.setRequired(true);
 		ClientContact contact = invoice.getContact();
 		String toemail = contact != null ? contact.getEmail() : "";
-		toAddress = new EmailField(constants.to());
+		toAddress = new EmailField(messages.to());
 		toAddress.setText(toemail.trim());
 		toAddress.setHelpInformation(true);
 		toAddress.setRequired(true);
 
-		ccAddress = new EmailField(constants.cc());
+		ccAddress = new EmailField(messages.cc());
 		ccAddress.setHelpInformation(true);
 		ccAddress.setRequired(false);
 		ccAddress.setWidth(80);
 
-		subject = new TextItem(Accounter.constants().subject());
+		subject = new TextItem(Accounter.messages().subject());
 		subject.setWidth(80);
 
 		emailBody = new TextAreaItem();
@@ -109,7 +97,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		emailBody.setHeight(200);
 
 		VerticalPanel vPanel = new VerticalPanel();
-		attachmentLabel = new Label(constants.attachments());
+		attachmentLabel = new Label(messages.attachments());
 
 		TextAreaItem attachmentItem = new TextAreaItem();
 		attachmentItem.setValue("Invoice_" + invoice.getNumber() + ".pdf");
@@ -133,7 +121,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		form3.addStyleName("email_textarea");
 		mainPanel.add(form3);
 
-		sendBtn = new Button(constants.send());
+		sendBtn = new Button(messages.send());
 		sendBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -144,7 +132,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 		});
 
-		cancelBtn = new Button(constants.cancel());
+		cancelBtn = new Button(messages.cancel());
 		cancelBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -168,21 +156,12 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						from = "";
+						fromAddcombo.setComboItem(selectItem);
 						from = (String) selectItem;
 					}
 
 				});
 
-		// fromAddress.addBlurHandler(new BlurHandler() {
-		//
-		// @Override
-		// public void onBlur(BlurEvent event) {
-		// if (fromAddress.getValue() != null)
-		//
-		// fromAddress.setText(getValidMail(fromAddress.getValue()));
-		// }
-		// });
 		toAddress.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -206,7 +185,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	private String getValidMail(String email) {
 		if (email.trim().length() != 0) {
 			if (!UIUtils.isValidMultipleEmailIds(email)) {
-				Accounter.showError(Accounter.constants().invalidEmail());
+				Accounter.showError(Accounter.messages().invalidEmail());
 				return "";
 			} else
 				return email;
@@ -225,6 +204,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 				.toString() : "";
 		String body = emailBody.getValue().toString() != null ? emailBody
 				.getValue().toString() : "";
+		body = body.replaceAll("\n", "<br/>");
 
 		Accounter.createHomeService().sendPdfInMail(
 				((ClientInvoice) invoice).getID(),
@@ -240,8 +220,8 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		if (from.trim().length() == 0
 				&& toAddress.getValue().trim().length() == 0) {
 			result.addError(fromAddcombo, Accounter.messages().pleaseEnter(
-					Accounter.constants().to() + " & "
-							+ Accounter.constants().from()));
+					Accounter.messages().to() + " & "
+							+ Accounter.messages().from()));
 		} else if (UIUtils.isValidEmail(from)
 				&& UIUtils.isValidMultipleEmailIds(toAddress.getValue()
 						.toString())) {
@@ -249,12 +229,12 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		} else {
 			if (from.trim().length() == 0) {
 				result.addError(fromAddcombo, Accounter.messages().pleaseEnter(
-						Accounter.constants().from()));
+						Accounter.messages().from()));
 			} else if (toAddress.getValue().trim().length() == 0) {
 				result.addError(toAddress, Accounter.messages().pleaseEnter(
-						Accounter.constants().to()));
+						Accounter.messages().to()));
 			} else
-				result.addError(from, Accounter.constants().invalidEmail());
+				result.addError(from, Accounter.messages().invalidEmail());
 
 		}
 		return result;
@@ -275,7 +255,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	@Override
 	protected String getViewTitle() {
 		// TODO Auto-generated method stub
-		return constants.email();
+		return messages.email();
 	}
 
 	@Override

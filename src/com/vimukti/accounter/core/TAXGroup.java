@@ -3,12 +3,12 @@ package com.vimukti.accounter.core;
 import java.util.List;
 
 import org.hibernate.CallbackException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 /**
  * A VATGroup is a sub class of VATItemGroup. It consists of list of VATItems
@@ -52,21 +52,6 @@ public class TAXGroup extends TAXItemGroup {
 	}
 
 	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * @return the vatItems
 	 */
 	public List<TAXItem> getTAXItems() {
@@ -79,21 +64,6 @@ public class TAXGroup extends TAXItemGroup {
 	 */
 	public void setTAXItems(List<TAXItem> taxItems) {
 		this.taxItems = taxItems;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description
-	 *            the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	/**
@@ -114,11 +84,11 @@ public class TAXGroup extends TAXItemGroup {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		if (getCompany() != null
-				&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-			TAXCode taxCode = new TAXCode((TAXItemGroup) this);
-			session.saveOrUpdate(taxCode);
-		}
+		// if (getCompany() != null
+		// && getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		// TAXCode taxCode = new TAXCode((TAXItemGroup) this);
+		// session.saveOrUpdate(taxCode);
+		// }
 		super.onSave(session);
 		return false;
 	}
@@ -126,21 +96,21 @@ public class TAXGroup extends TAXItemGroup {
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
-		if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
-
-			Query query = session.getNamedQuery("getTaxCode.by.id")
-					.setParameter("id", this.id)
-					.setEntity("company", getCompany());
-			TAXCode taxCode = (TAXCode) query.uniqueResult();
-			if (taxCode != null) {
-
-				taxCode.setName(this.getName());
-				taxCode.setDescription(this.getDescription());
-				taxCode.setActive(this.isActive());
-				session.saveOrUpdate(taxCode);
-			}
-			this.isSalesType = true;
-		}
+		// if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		//
+		// Query query = session.getNamedQuery("getTaxCode.by.id")
+		// .setParameter("id", this.id)
+		// .setEntity("company", getCompany());
+		// TAXCode taxCode = (TAXCode) query.uniqueResult();
+		// if (taxCode != null) {
+		//
+		// taxCode.setName(this.getName());
+		// taxCode.setDescription(this.getDescription());
+		// taxCode.setActive(this.isActive());
+		// session.saveOrUpdate(taxCode);
+		// }
+		// this.isSalesType = true;
+		// }
 
 		session.getNamedQuery("updateTaxCodeSalesTaxRate")
 				.setParameter("id", this.id)
@@ -166,5 +136,10 @@ public class TAXGroup extends TAXItemGroup {
 		ChangeTracker.put(accounterCore);
 
 		return super.onDelete(arg0);
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.TAXGROUP;
 	}
 }

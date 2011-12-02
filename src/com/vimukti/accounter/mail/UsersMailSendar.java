@@ -1,13 +1,13 @@
 package com.vimukti.accounter.mail;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.MaintananceInfoUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.PropertyParser;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -16,297 +16,6 @@ public class UsersMailSendar {
 	private static PropertyParser propertyParser;
 
 	private static Logger LOG = Logger.getLogger(UsersMailSendar.class);
-
-	public static void sendResetPasswordMailToUser(String emailId,
-			String passwd, String name, String comapanyName,
-			String comapanyUrl, String role) {
-		try {
-			initPropertyParser();
-			LOG.info("Reset passord email is being sent to full user");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-		String content = getContentForResetUser();
-
-		content = content.replaceAll("%USER%", name);
-		content = content.replaceAll("%USERID%", emailId);
-		content = content.replaceAll("%PASSWORD%", passwd);
-		content = content.replaceAll("%COMPANY%", comapanyName);
-		content = content.replaceAll("%URL%", comapanyUrl);
-		// content = content.replaceAll("%ROLE%", role);
-
-		EMailMessage emailMsg = new EMailMessage();
-		emailMsg.isPlain = true;
-		emailMsg.setContent(content);
-		emailMsg.setSubject(propertyParser.getProperty(
-				"newPasswordsubjectForUser", ""));
-		emailMsg.setRecepeant(emailId);
-		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), comapanyName);
-
-		EmailManager.getInstance().addJob(job);
-
-	}
-
-	public static void sendResetPasswordMailToAdmin(String adminMail,
-			String name, String comapanyName) {
-		try {
-			initPropertyParser();
-			LOG.info("Reset passord email is being sent to full user");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-		String emailId = null;
-
-		if (adminMail.equals("Admin1")) {
-			emailId = propertyParser.getProperty("firstAdminMailId", "");
-		} else if (adminMail.equals("Admin2")) {
-			emailId = propertyParser.getProperty("secondAdminMailId", "");
-		}
-
-		String content = getContentForResetPasswordMailToAdmin();
-
-		content = content.replaceAll("%ADMINNAME%", name);
-		content = content.replaceAll("%COMPANY%", comapanyName);
-		content = content.replaceAll("%USERID%", emailId);
-
-		EMailMessage emailMsg = new EMailMessage();
-		emailMsg.isPlain = true;
-		emailMsg.setContent(content);
-		emailMsg.setSubject(propertyParser.getProperty(
-				"newPasswordsubjectForAdmin", ""));
-		emailMsg.setRecepeant(emailId);
-		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), comapanyName);
-
-		EmailManager.getInstance().addJob(job);
-
-	}
-
-	public static void sendResetPasswordMailToExternalUser(String emailId,
-			String passwd, String name, String comapanyName,
-			String comapanyUrl, String role) {
-		try {
-			initPropertyParser();
-			LOG.info("Reset passord email is being sent to external user");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-		String content = getContentForResetExternalUser();
-
-		content = content.replaceAll("%USER%", name);
-		content = content.replaceAll("%USERID%", emailId);
-		content = content.replaceAll("%PASSWORD%", passwd);
-		content = content.replaceAll("%COMPANY%", comapanyName);
-		content = content.replaceAll("%URL%", comapanyUrl);
-		// content = content.replaceAll("%ROLE%", role);
-
-		EMailMessage emailMsg = new EMailMessage();
-		emailMsg.isPlain = true;
-		emailMsg.setContent(content);
-		emailMsg.setSubject(propertyParser.getProperty(
-				"newPasswordsubjectForUser", ""));
-		emailMsg.setRecepeant(emailId);
-		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), comapanyName);
-
-		EmailManager.getInstance().addJob(job);
-
-	}
-
-	public static void sendMailToNewUserWithPassword(String emailId,
-			String passwd, String name, String comapanyName,
-			String comapanyUrl, String role, String senderName) {
-		try {
-			initPropertyParser();
-			LOG.info("Email is being sent to new user");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-		// take different files for different email content
-		String content = getContentForNewUser();
-		content = content.replaceAll("%USER%", name);
-		content = content.replaceAll("%USERID%", emailId);
-		content = content.replaceAll("%PASSWORD%", passwd);
-		content = content.replaceAll("%COMPANY%", comapanyName);
-		content = content.replaceAll("%URL%", comapanyUrl);
-		content = content.replaceAll("%ROLE%", role);
-		content = content.replaceAll("%SENDERNAME%", senderName);
-		// content = content.replaceAll("%WORKSPACE%", workspaceName);
-
-		EMailMessage emailMsg = new EMailMessage();
-		emailMsg.isPlain = true;
-		emailMsg.setContent(content);
-		emailMsg.setSubject(propertyParser.getProperty("subjectForUser", ""));
-		emailMsg.setRecepeant(emailId);
-		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), comapanyName);
-
-		EmailManager.getInstance().addJob(job);
-
-	}
-
-	public static void sendMailToExternalUserWithPassword(String emailId,
-			String passwd, String name, String comapanyName,
-			String comapanyUrl, String role, String workspaceName,
-			String senderName) {
-		try {
-			initPropertyParser();
-			LOG.info("Email is being sent to external user");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-
-		// String content = getContentForExternalUser();
-		String content = propertyParser.getProperty(
-				"contentForInviteExternalUser", "");
-		content = content.replaceAll("%USER%", name);
-		content = content.replaceAll("%USERID%", emailId);
-		content = content.replaceAll("%PASSWORD%", passwd);
-		content = content.replaceAll("%COMPANY%", comapanyName);
-		content = content.replaceAll("%URL%", comapanyUrl);
-		content = content.replaceAll("%ROLE%", role);
-		content = content.replaceAll("%WORKSPACE%", workspaceName);
-		content = content.replaceAll("%SENDERNAME%", senderName);
-
-		EMailMessage emailMsg = new EMailMessage();
-		emailMsg.isPlain = true;
-		emailMsg.setContent(content);
-		emailMsg.setSubject(propertyParser.getProperty("subjectForUser", ""));
-		emailMsg.setRecepeant(emailId);
-		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), comapanyName);
-
-		EmailManager.getInstance().addJob(job);
-
-	}
-
-	private static String getContentForNewUser() {
-		try {
-			File fr = new File("config/contentForUser.ini");
-			byte[] data = new byte[(int) fr.length()];
-			FileInputStream inStream = new FileInputStream(fr);
-			inStream.read(data);
-			inStream.close();
-			return new String(data);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	private static String getContentForExternalUser() {
-		try {
-			File fr = new File("config/contentForExternalUser.ini");
-			byte[] data = new byte[(int) fr.length()];
-			FileInputStream inStream = new FileInputStream(fr);
-			inStream.read(data);
-			inStream.close();
-			return new String(data);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	private static String getContentForResetUser() {
-		try {
-			File fr = new File("config/resetUser.ini");
-			byte[] data = new byte[(int) fr.length()];
-			FileInputStream inStream = new FileInputStream(fr);
-			inStream.read(data);
-			inStream.close();
-			return new String(data);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	private static String getContentForResetPasswordMailToAdmin() {
-		try {
-			File fr = new File("config/resetPasswordMailToAdmin.ini");
-			byte[] data = new byte[(int) fr.length()];
-			FileInputStream inStream = new FileInputStream(fr);
-			inStream.read(data);
-			inStream.close();
-			return new String(data);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	private static String getContentForResetExternalUser() {
-		try {
-			File fr = new File("config/resetExternalUser.ini");
-			byte[] data = new byte[(int) fr.length()];
-			FileInputStream inStream = new FileInputStream(fr);
-			inStream.read(data);
-			inStream.close();
-			return new String(data);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public static void sendMailToAdmin(String comapanyName, String errorMsg) {
-		try {
-			initPropertyParser();
-			LOG.info("Email is being sent to external user");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-
-		EMailMessage emailMsg = new EMailMessage();
-		emailMsg.setContent(errorMsg);
-		emailMsg.setSubject(propertyParser.getProperty("subjectForAdmin",
-				"Importing error---" + comapanyName));
-		emailMsg.setRecepeant("v.ganesh@vimukti.com");
-		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), comapanyName);
-
-		EmailManager.getInstance().addJob(job);
-
-	}
-
-	public static PropertyParser initPropertyParser()
-			throws FileNotFoundException, IOException {
-		if (propertyParser == null) {
-			propertyParser = new PropertyParser();
-			propertyParser.loadFile("config/ResetUserConfig.ini");
-		}
-		return propertyParser;
-	}
 
 	public static PropertyParser getPropertyParser() {
 		return propertyParser;
@@ -346,35 +55,12 @@ public class UsersMailSendar {
 
 	}
 
-	public static void sendCompanyCreatedMail(String comapanyName,
-			String content, String recipientEmail) {
-		try {
-			initPropertyParser();
-			LOG.info("Email is being sent to external user");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-
-		EMailMessage emailMsg = new EMailMessage();
-		emailMsg.setContent(content);
-		emailMsg.setSubject("Company Created Successfully");
-		emailMsg.setRecepeant(recipientEmail);
-		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), comapanyName);
-
-		EmailManager.getInstance().addJob(job);
-
-	}
-
 	public static void sendPdfMail(File file, String comapanyName,
 			String subject, String content, String senderEmail,
 			String recipientEmail, String ccEmail) throws IOException {
 
 		try {
-			initPropertyParser();
+			initPropertyParserToInviteUser();
 			LOG.info("Email is being sent to external user");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -403,54 +89,6 @@ public class UsersMailSendar {
 		}
 
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), comapanyName);
-
-		EmailManager.getInstance().addJob(job);
-
-	}
-
-	public static void sendCompanyUpdatedMail(String comapanyName,
-			String content, String recipientEmail) {
-		try {
-			initPropertyParser();
-			LOG.info("Email is being sent to external user");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-
-		EMailMessage emailMsg = new EMailMessage();
-		emailMsg.setContent(content);
-		emailMsg.setSubject("Your Company has been Updated Successfully");
-		emailMsg.setRecepeant(recipientEmail);
-		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), comapanyName);
-
-		EmailManager.getInstance().addJob(job);
-
-	}
-
-	public static void sendMailToCreator(String receiverId,
-			String companyDomainName) {
-		try {
-			initPropertyParser();
-			LOG.info("Email is being sent to external user");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-
-		EMailMessage emailMsg = new EMailMessage();
-		emailMsg.isPlain = true;
-		emailMsg.setContent("");
-		emailMsg.setSubject(propertyParser.getProperty("subjectForAdmin",
-				"New Company is created with Name:" + companyDomainName));
-		emailMsg.setRecepeant(receiverId);
-		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyDomainName);
 
 		EmailManager.getInstance().addJob(job);
 
@@ -514,10 +152,11 @@ public class UsersMailSendar {
 			return;
 		}
 
+		Client client = admin.getClient();
 		String content = propertyParser
 				.getProperty("contentForDefaultUser", "");
-		content = content.replaceAll("%USERNAME%",
-				getUserName(admin.getFirstName()));
+		content = content.replaceAll("%USERNAME%", getUserName(client
+				.getFirstName()));
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = replaceServerUrl(content);
 
@@ -527,7 +166,7 @@ public class UsersMailSendar {
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
-		emailMsg.setRecepeant(admin.getEmail());
+		emailMsg.setRecepeant(client.getEmailId());
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyName);
 
 		EmailManager.getInstance().addJob(job);
@@ -626,6 +265,40 @@ public class UsersMailSendar {
 		EmailManager.getInstance().addJob(job);
 	}
 
+	public static void sendMobileActivationMail(String activationCode,
+			String userEmailId) {
+
+		try {
+			initPropertyParserToInviteUser();
+			LOG.info("Email is being sent to default user");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+
+		String subject = propertyParser.getProperty("subjectForActivation", "");
+
+		StringBuffer content = new StringBuffer();
+		content.append("Hello " + ",\n");
+		content.append(propertyParser.getProperty("contentForActivation", ""));
+		String contentStr = content.toString().replaceAll("%TOKEN%",
+				activationCode);
+		contentStr = replaceServerUrl(contentStr);
+
+		System.out.println("************* ACTIVATION CODE : " + activationCode);
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(contentStr);
+		emailMsg.setSubject(subject);
+		emailMsg.setRecepeant(userEmailId);
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
+
+		EmailManager.getInstance().addJob(job);
+	}
+
 	public static void sendMailToOtherCompanyUser(Client invitedClient,
 			String companyName, Client inviter) {
 		try {
@@ -642,8 +315,8 @@ public class UsersMailSendar {
 		// String content = getContentForExternalUser();
 		String content = propertyParser.getProperty(
 				"contentForInviteExternalUser", "");
-		content = content.replaceAll("%USER%",
-				getUserName(invitedClient.getFirstName()));
+		content = content.replaceAll("%USER%", getUserName(invitedClient
+				.getFirstName()));
 		content = content.replaceAll("%USERID%", invitedClient.getEmailId());
 		content = content.replaceAll("%SENDERNAME%", inviter.getEmailId());
 		content = content.replaceAll("%COMPANY%", companyName);
@@ -664,58 +337,9 @@ public class UsersMailSendar {
 		EmailManager.getInstance().addJob(job);
 	}
 
-	public static void sendDeletedInviteUserMail(String sendermail,
-			Client deletedUserMail, String companyName) {
-		try {
-			initPropertyParserToInviteUser();
-			LOG.info("Invitation Email is being sent to user");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-
-		String content = getContentForDeleteInvitedUser();
-		content = content.replaceAll("%USER%",
-				getUserName(deletedUserMail.getFirstName()));
-		content = content.replaceAll("%USERID%", deletedUserMail.getEmailId());
-		content = content.replaceAll("%SENDERNAME%", sendermail);
-		content = content.replaceAll("%COMPANY%", companyName);
-		content = content.replaceAll("%URL%", "http://accounterlive.com");
-
-		String subject = propertyParser.getProperty(
-				"subjectForDeletedInviteUser", "");
-		subject = subject.replaceAll("%COMPANY%", companyName);
-
-		EMailMessage emailMsg = new EMailMessage();
-		emailMsg.setContent(content);
-		emailMsg.setSubject(subject);
-		emailMsg.setRecepeant(deletedUserMail.getEmailId());
-		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyName);
-		EmailManager.getInstance().addJob(job);
-	}
-
-	private static String getContentForDeleteInvitedUser() {
-		try {
-			File fr = new File("config/contentForDeleteInvitedUser.ini");
-			byte[] data = new byte[(int) fr.length()];
-			FileInputStream inStream = new FileInputStream(fr);
-			inStream.read(data);
-			inStream.close();
-			return new String(data);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	private static String replaceServerUrl(String content) {
-		return content.replaceAll("%SERVERURL%",
-				ServerConfiguration.getMainServerDomain());
+		return content.replaceAll("%SERVERURL%", ServerConfiguration
+				.getMainServerDomain());
 	}
 
 	private static String getUserName(String name) {
@@ -726,5 +350,34 @@ public class UsersMailSendar {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(firstChar.toUpperCase()).append(substring);
 		return buffer.toString();
+	}
+
+	public static void sendMailToMaintanaceInfoUsers(
+			MaintananceInfoUser mainInfoUser) throws IOException {
+		try {
+			initPropertyParserToInviteUser();
+			LOG.info("Maintanace Email is being sent to user");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new IOException();
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new IOException();
+		}
+
+		String content = propertyParser.getProperty("contentForMaintanaceInfo",
+				"");
+		content = content.replaceAll("%USER%", getUserName(mainInfoUser
+				.getUserEmail()));
+
+		String subject = propertyParser.getProperty("subjectForMaintanaceInfo",
+				"");
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(content);
+		emailMsg.setSubject(subject);
+		emailMsg.setRecepeant(mainInfoUser.getUserEmail());
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
+		EmailManager.getInstance().addJob(job);
 	}
 }

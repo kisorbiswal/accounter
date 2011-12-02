@@ -5,15 +5,16 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.mobile.ActionNames;
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -22,7 +23,42 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * @author Lingarao.R
  * 
  */
-public class AccountRegisterCommand extends AbstractTransactionCommand {
+public class AccountRegisterCommand extends NewAbstractCommand {
+
+	private static final String SHOWTRANSACTION_TYPE = "ShowTransactions Type";
+	private static final String ACCOUNT = "account";
+	private ClientFinanceDate startDate, endDate;
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
+		Account account = CommandUtils.getaccount(context.getCompany(), string);
+		get(ACCOUNT).setValue(account);
+		context.setString("");
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(SHOWTRANSACTION_TYPE).setDefaultValue(getMessages().all());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
+	}
 
 	@Override
 	public String getId() {
@@ -32,99 +68,148 @@ public class AccountRegisterCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement("bank Account", false, true));
-	}
+		// account requirement
+		list.add(new AccountRequirement(ACCOUNT, getMessages().pleaseSelect(
+				getMessages().account()), getMessages().account(), false, true,
+				null) {
 
-	@Override
-	public Result run(Context context) {
-		Result result = createAccounterRegisterList(context);
-		if (result != null) {
-			return result;
-		}
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result createAccounterRegisterList(Context context) {
-
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().account());
 			}
-		}
-		selection = context.getSelection("accountRegisterList");
-		if (selection != null) {
-			CommandList commandList = new CommandList();
-			commandList.add("void");
-		}
-		Result result = accountRegister(context);
 
-		ResultList actions = new ResultList(ACTIONS);
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to Show");
-		actions.add(finish);
-		result.add(actions);
-		return result;
+			@Override
+			protected List<Account> getLists(Context context) {
+				return new ArrayList<Account>(context.getCompany()
+						.getAccounts());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getMessages().account());
+			}
+		});
+
+		list.add(new CommandsRequirement(SHOWTRANSACTION_TYPE) {
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getMessages().all());
+				list.add(getMessages().today());
+				list.add(getMessages().last30Days());
+				list.add(getMessages().last45Days());
+				return list;
+			}
+		});
+
+		list.add(new ShowListRequirement<AccountRegister>("Account Register",
+				"Please Enter name or number", 20) {
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// AccountRegister value) {
+			//
+			// commandList.add(new UserCommand("Edit Transaction", String
+			// .valueOf(value.getTransactionId())));
+			//
+			// commandList.add(new UserCommand("Delete Transaction", Utility
+			// .getTransactionName(value.getType())));
+			// }
+
+			@Override
+			protected String onSelection(AccountRegister value) {
+				return "Edit Transaction " + value.getTransactionId();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().noRecordsToShow();
+			}
+
+			@Override
+			protected Record createRecord(AccountRegister accRegister) {
+				Record record = new Record(accRegister);
+				record.add("Date", accRegister.getDate());
+				record.add("Type",
+						Utility.getTransactionName(accRegister.getType()));
+				record.add("Doc No", accRegister.getNumber());
+				record.add("Increase", accRegister.getPayTo());
+				record.add("Decrease", accRegister.getAmount());
+				record.add("Account", accRegister.getAccount());
+				record.add("Memo", accRegister.getMemo());
+				record.add("Balance", accRegister.getBalance());
+				return record;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			protected boolean filter(AccountRegister e, String name) {
+				return false;
+			}
+
+			@Override
+			protected List<AccountRegister> getLists(Context context) {
+				dateRangeChanged(context);
+				return getAccountRegister();
+
+			}
+
+			@Override
+			protected String getShowMessage() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
 	}
 
 	/**
+	 * getting the account register.
 	 * 
-	 * @param context
+	 * @param startDate
+	 * @param endDate
+	 * @param accountId
 	 * @return
 	 */
-	private Result accountRegister(Context context) {
-
-		Result result = context.makeResult();
-		ResultList accountsList = new ResultList("accountRegisterList");
-		result.add("AccountRegister List");
-
-		Account account = (Account) context.getLast(RequirementType.ACCOUNT);
-		if (account == null) {
-			CommandList commandList = new CommandList();
-			commandList.add("AccountRegister List");
-		}
-		ArrayList<AccountRegister> accountRegisters = null;
+	public ArrayList<AccountRegister> getAccountRegister() {
+		ArrayList<AccountRegister> accountRegisterList = new ArrayList<AccountRegister>();
+		Account account = get(ACCOUNT).getValue();
+		FinanceDate[] financeDates = CommandUtils.getMinimumAndMaximumDates(
+				startDate, endDate, getCompanyId());
 		try {
-			accountRegisters = new FinanceTool().getAccountRegister(
-					new FinanceDate(0), new FinanceDate(0), account.getID(),
-					account.getCompany().getID());
-		} catch (DAOException e) {
+			accountRegisterList = new FinanceTool().getAccountRegister(
+					financeDates[0], financeDates[1], account.getID(),
+					getCompanyId());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		int num = 0;
-		for (AccountRegister accountRegister : accountRegisters) {
-			accountsList.add(createAccountRecord(accountRegister));
-			num++;
-			if (num == ACCOUNTS_TO_SHOW) {
-				break;
-			}
-		}
-		result.add(accountsList);
-		return result;
-
+		return accountRegisterList;
 	}
 
 	/**
-	 * 
-	 * @param accountRegister
-	 * @return
+	 * changed show transaction type
 	 */
-	private Record createAccountRecord(AccountRegister accountRegister) {
-		Record record = new Record(accountRegister);
-		record.add("Name", "Account Register");
-		record.add("value", accountRegister.getType());
-		return record;
+	private void dateRangeChanged(Context context) {
+		ClientFinanceDate todaydate = new ClientFinanceDate();
+		String selectedOption = get(SHOWTRANSACTION_TYPE).getValue();
+		if (selectedOption.equals(getMessages().all())) {
+			startDate = CommandUtils.getCurrentFiscalYearStartDate(context
+					.getPreferences());
+			endDate = new ClientFinanceDate();
+		} else if (selectedOption.equals(getMessages().today())) {
+			startDate = todaydate;
+			endDate = todaydate;
+		} else if (selectedOption.equals(getMessages().last30Days())) {
+			startDate = new ClientFinanceDate(todaydate.getYear(),
+					todaydate.getMonth() - 1, todaydate.getDay());
+			endDate = todaydate;
+		} else if (selectedOption.equals(getMessages().last45Days())) {
+			startDate = new ClientFinanceDate(todaydate.getYear(),
+					todaydate.getMonth() - 2, todaydate.getDay() + 16);
+			endDate = todaydate;
+		}
 	}
-
 }

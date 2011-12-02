@@ -27,7 +27,7 @@ import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayExpense;
-import com.vimukti.accounter.core.PaySalesTax;
+import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PriceLevel;
@@ -396,10 +396,9 @@ public interface IAccounterDAOService {
 	public ArrayList<ReceivePayment> getReceivePayments(long companyId)
 			throws DAOException;
 
-	public PaySalesTax getPaySalesTax(long companyId, long id)
-			throws DAOException;
+	public PayTAX getPaySalesTax(long companyId, long id) throws DAOException;
 
-	public ArrayList<PaySalesTax> getPaySalesTaxes(long companyId)
+	public ArrayList<PayTAX> getPaySalesTaxes(long companyId)
 			throws DAOException;
 
 	public ArrayList<Company> getCompanies(long userId) throws DAOException;

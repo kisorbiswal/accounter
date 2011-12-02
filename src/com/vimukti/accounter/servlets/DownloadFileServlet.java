@@ -40,7 +40,7 @@ public class DownloadFileServlet extends BaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse response)
 			throws ServletException {
 		try {
-			String companyId = getCookie(req, COMPANY_COOKIE);
+			Long companyId = (Long) req.getSession().getAttribute(COMPANY_ID);
 			if (companyId == null) {
 				return;
 			}

@@ -18,43 +18,25 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
-public class BankingPortlet extends DashBoardPortlet {
+public class BankingPortlet extends Portlet {
 
 	List<ClientAccount> bankAccounts = new ArrayList<ClientAccount>();
 
-	public BankingPortlet(String title) {
-		super(title);
+	public BankingPortlet(ClientPortletConfiguration configuration) {
+		super(configuration, messages.bankAccount(), messages.gotoBanking());
 	}
 
-	@Override
-	public void helpClicked() {
-
-	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public void goToClicked() {
 		ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK).run(
 				null, true);
-	}
-
-	@Override
-	public String getGoToText() {
-		return Accounter.constants().gotoBanking();
-	}
-
-	@Override
-	public Cursor getTitleCursor() {
-		return Cursor.POINTER;
-	}
-
-	@Override
-	public TextDecoration getTitleDecoration() {
-		return TextDecoration.UNDERLINE;
 	}
 
 	@Override
@@ -63,8 +45,7 @@ public class BankingPortlet extends DashBoardPortlet {
 			bankAccounts = getCompany().getActiveBankAccounts(
 					ClientAccount.TYPE_BANK);
 		}
-		Button addAccount = new Button(Accounter.messages().addBankAccount(
-				Global.get().Account().trim()));
+		Button addAccount = new Button(messages.addBankAccount());
 		addAccount.addStyleName("add account_portlet");
 		if (Accounter.getUser().canDoBanking()) {
 			body.add(addAccount);
@@ -96,11 +77,10 @@ public class BankingPortlet extends DashBoardPortlet {
 			// }
 		} else {
 			// final ScrollPanel panel = new ScrollPanel();
-			int i = 0;
 			for (final ClientAccount account : bankAccounts) {
 				HorizontalPanel hPanel = new HorizontalPanel();
 				final Label accountLabel = new Label(account.getName());
-				accountLabel.addStyleName(Accounter.constants().labelBanking());
+				accountLabel.addStyleName(messages.labelBanking());
 				accountLabel.addMouseOverHandler(new MouseOverHandler() {
 
 					@Override
@@ -127,8 +107,14 @@ public class BankingPortlet extends DashBoardPortlet {
 								true);
 					}
 				});
+				ClientCurrency currency = getCompany().getCurrency(
+						account.getCurrency());
+				final String currencySymbol = currency == null ? getPrimaryCurrencySymbol()
+						: currency.getSymbol();
 				final Label amountLabel = new Label(
-						DataUtils.getAmountAsString(account.getTotalBalance()));
+						DataUtils.getAmountAsString(
+								account.getTotalBalanceInAccountCurrency(),
+								currencySymbol));
 				// amountLabel.setStyleName("tool-box");
 				amountLabel.addStyleName("label-banking");
 				// amountLabel.getElement().getStyle().setMarginLeft(295,
@@ -144,9 +130,8 @@ public class BankingPortlet extends DashBoardPortlet {
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.messages()
-								.failedtogetBankaccountchartvalues(
-										Global.get().account()));
+						Accounter.showError(messages
+								.failedtogetBankaccountchartvalues());
 					}
 
 					@Override
@@ -187,9 +172,9 @@ public class BankingPortlet extends DashBoardPortlet {
 								LineChart.PACKAGE);
 						if (!result.isEmpty()
 								&& result.get(result.size() - 1) != null) {
-							amountLabel
-									.setText(DataUtils.getAmountAsString(result
-											.get(result.size() - 1)));
+							amountLabel.setText(DataUtils.getAmountAsString(
+									result.get(result.size() - 1),
+									currencySymbol));
 						}
 						// GraphChart chart = new GraphChart(
 						// GraphChart.BANK_ACCOUNT_CHART_TYPE, UIUtils
@@ -201,8 +186,7 @@ public class BankingPortlet extends DashBoardPortlet {
 				try {
 					Accounter.createHomeService().getGraphPointsforAccount(
 							GraphChart.BANK_ACCOUNT_CHART_TYPE,
-							Long.valueOf(account.getNumber()), callBack);
-					i++;
+							account.getID(), callBack);
 				} catch (Exception e) {
 					System.err.println(e);
 				}
@@ -220,15 +204,13 @@ public class BankingPortlet extends DashBoardPortlet {
 	}
 
 	@Override
-	public void titleClicked() {
-		ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK).run(
-				null, true);
-	}
-
-	@Override
 	public void refreshWidget() {
 		this.body.clear();
 		createBody();
 	}
 
+	@Override
+	protected boolean canConfigure() {
+		return true;
+	}
 }

@@ -337,16 +337,10 @@ public class ClientSalesOrder extends ClientTransaction {
 	public ClientSalesOrder clone() {
 		ClientSalesOrder salesOrder = (ClientSalesOrder) this.clone();
 
-		salesOrder.creditsAndPayments = this.creditsAndPayments.clone();
+		// salesOrder.creditsAndPayments = this.creditsAndPayments.clone();
 		salesOrder.contact = this.contact.clone();
 		salesOrder.billingAddress = this.billingAddress.clone();
 		salesOrder.shippingAdress = this.shippingAdress.clone();
-
-		List<ClientEntry> entries = new ArrayList<ClientEntry>();
-		for (ClientEntry clientEntry : this.entry) {
-			entries.add(clientEntry.clone());
-		}
-		salesOrder.entry = entries;
 
 		List<ClientTransactionIssuePayment> transactionIssuePayments = new ArrayList<ClientTransactionIssuePayment>();
 		for (ClientTransactionIssuePayment clientTransactionIssuePayment : this.transactionIssuePayment) {
@@ -372,8 +366,8 @@ public class ClientSalesOrder extends ClientTransaction {
 		}
 		salesOrder.transactionPayBill = transactionPayBills;
 
-		List<ClientTransactionPaySalesTax> transactionPaySalesTaxs = new ArrayList<ClientTransactionPaySalesTax>();
-		for (ClientTransactionPaySalesTax clientTransactionPaySalesTax : this.transactionPaySalesTax) {
+		List<ClientTransactionPayTAX> transactionPaySalesTaxs = new ArrayList<ClientTransactionPayTAX>();
+		for (ClientTransactionPayTAX clientTransactionPaySalesTax : this.transactionPaySalesTax) {
 			transactionPaySalesTaxs.add(clientTransactionPaySalesTax.clone());
 		}
 		salesOrder.transactionPaySalesTax = transactionPaySalesTaxs;

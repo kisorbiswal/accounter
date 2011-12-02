@@ -3,7 +3,6 @@
  */
 package com.vimukti.accounter.web.client;
 
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -19,21 +18,21 @@ public abstract class AbstractGlobal implements IGlobal {
 		int referCustomers = preferences().getReferCustomers();
 		switch (referCustomers) {
 		case ClientCustomer.CUSTOMER:
-			return constants().Customer().trim();
+			return messages().Customer().trim();
 		case ClientCustomer.CLIENT:
-			return constants().Client().trim();
+			return messages().Client().trim();
 		case ClientCustomer.TENANT:
-			return constants().Tenant().trim();
+			return messages().Tenant().trim();
 		case ClientCustomer.DONAR:
-			return constants().Donar().trim();
+			return messages().Donar().trim();
 		case ClientCustomer.GUEST:
-			return constants().Guest().trim();
+			return messages().Guest().trim();
 		case ClientCustomer.MEMBER:
-			return constants().Member().trim();
+			return messages().Member().trim();
 		case ClientCustomer.PATITEINT:
-			return constants().Patient().trim();
+			return messages().Patient().trim();
 		default:
-			return constants().Customer().trim();
+			return messages().Customer().trim();
 		}
 	}
 
@@ -42,51 +41,21 @@ public abstract class AbstractGlobal implements IGlobal {
 		int referCustomers = preferences().getReferCustomers();
 		switch (referCustomers) {
 		case ClientCustomer.CUSTOMER:
-			return constants().customer().trim();
+			return messages().customer().trim();
 		case ClientCustomer.CLIENT:
-			return constants().client().trim();
+			return messages().client().trim();
 		case ClientCustomer.TENANT:
-			return constants().tenant().trim();
+			return messages().tenant().trim();
 		case ClientCustomer.DONAR:
-			return constants().donar().trim();
+			return messages().donar().trim();
 		case ClientCustomer.GUEST:
-			return constants().guest().trim();
+			return messages().guest().trim();
 		case ClientCustomer.MEMBER:
-			return constants().member().trim();
+			return messages().member().trim();
 		case ClientCustomer.PATITEINT:
-			return constants().patient().trim();
+			return messages().patient().trim();
 		default:
-			return constants().customer().trim();
-		}
-	}
-
-	@Override
-	public String Account() {
-		int referCustomers = preferences().getReferAccounts();
-		switch (referCustomers) {
-		case ClientAccount.ACCOUNT:
-			return constants().Account().trim();
-		case ClientAccount.LEGAND:
-			return constants().Ledger().trim();
-		case ClientAccount.CATEGORY:
-			return constants().Category().trim();
-		default:
-			return constants().Account().trim();
-		}
-	}
-
-	@Override
-	public String account() {
-		int referCustomers = preferences().getReferAccounts();
-		switch (referCustomers) {
-		case ClientAccount.ACCOUNT:
-			return constants().account().trim();
-		case ClientAccount.LEGAND:
-			return constants().ledger().trim();
-		case ClientAccount.CATEGORY:
-			return constants().category().trim();
-		default:
-			return constants().account().trim();
+			return messages().customer().trim();
 		}
 	}
 
@@ -95,11 +64,11 @@ public abstract class AbstractGlobal implements IGlobal {
 		int referCustomers = preferences().getReferVendors();
 		switch (referCustomers) {
 		case ClientVendor.SUPPLIER:
-			return constants().Supplier().trim();
+			return messages().Supplier().trim();
 		case ClientVendor.VENDOR:
-			return constants().Vendor().trim();
+			return messages().Vendor().trim();
 		default:
-			return constants().Vendor().trim();
+			return messages().Vendor().trim();
 		}
 	}
 
@@ -108,11 +77,11 @@ public abstract class AbstractGlobal implements IGlobal {
 		int referCustomers = preferences().getReferVendors();
 		switch (referCustomers) {
 		case ClientVendor.SUPPLIER:
-			return constants().supplier().trim();
+			return messages().supplier().trim();
 		case ClientVendor.VENDOR:
-			return constants().vendor().trim();
+			return messages().vendor().trim();
 		default:
-			return constants().vendor().trim();
+			return messages().vendor().trim();
 		}
 	}
 
@@ -123,21 +92,21 @@ public abstract class AbstractGlobal implements IGlobal {
 
 		switch (locationTrackingId) {
 		case ClientLocation.LOCATION:
-			return constants().location().trim();
+			return messages().location().trim();
 		case ClientLocation.BUSINESS:
-			return constants().buisiness().trim();
+			return messages().buisiness().trim();
 		case ClientLocation.DEPARTMENT:
-			return constants().department().trim();
+			return messages().department().trim();
 		case ClientLocation.DIVISION:
-			return constants().division().trim();
+			return messages().division().trim();
 		case ClientLocation.PROPERTY:
-			return constants().property().trim();
+			return messages().property().trim();
 		case ClientLocation.STORE:
-			return constants().store().trim();
+			return messages().store().trim();
 		case ClientLocation.TERRITORY:
-			return constants().territory().trim();
+			return messages().territory().trim();
 		default:
-			return constants().location().trim();
+			return messages().location().trim();
 		}
 	}
 

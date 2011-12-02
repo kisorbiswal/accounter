@@ -4,94 +4,100 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.CreditRating;
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class CreditRatingListCommand extends AbstractTransactionCommand {
-
-	private static final int RECORDS_TO_SHOW = 5;
+public class CreditRatingListCommand extends NewAbstractCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-	}
-
-	@Override
-	public Result run(Context context) {
-
-		Result result = optionalRequirements(context);
-		return result;
-	}
-
-	private Result optionalRequirements(Context context) {
-
-		context.setAttribute(INPUT_ATTR, "optional");
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionNames = (ActionNames) selection;
-			switch (actionNames) {
-			case FINISH:
-				return null;
-			default:
-				break;
+		list.add(new ShowListRequirement<CreditRating>("creditRatingList",
+				getMessages().pleaseSelect(getMessages().creditRating()), 20) {
+			@Override
+			protected Record createRecord(CreditRating value) {
+				Record record = new Record(value);
+				record.add(value.getName());
+				return record;
 			}
-		}
-		selection = context.getSelection("values");
-		Result result = getCreditRatingResult(context);
 
-		return result;
-	}
-
-	private Result getCreditRatingResult(Context context) {
-
-		ResultList resultList = new ResultList("creditRatingList");
-
-		Result result = context.makeResult();
-		List<CreditRating> creditRatingList = getCreditRatingList(context);
-		int record = 0;
-		for (CreditRating creditRating : creditRatingList) {
-			resultList.add(createCreditRatingRecord(creditRating));
-			record++;
-			if (record == RECORDS_TO_SHOW) {
-				break;
+			// @Override
+			// protected void setSelectCommands(CommandList commandList,
+			// CreditRating value) {
+			// commandList.add(new UserCommand("Edit Credit Rating", value
+			// .getName()));
+			//
+			// commandList.add(new UserCommand("Delete Credit Rating", value
+			// .getName()));
+			// }
+			@Override
+			protected String onSelection(CreditRating value) {
+				return "Edit Credit Rating " + value.getName();
 			}
-		}
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add("Create CreditRating");
+			}
 
-		result.add(resultList);
+			@Override
+			protected boolean filter(CreditRating e, String name) {
+				return e.getName().startsWith(name);
+			}
 
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
+			@Override
+			protected List<CreditRating> getLists(Context context) {
+				return getCreditRatingList(context);
+			}
 
-		// TODO for edit and delete
-		// commandList.add("Edit");
-		// commandList.add("Remove");
+			@Override
+			protected String getShowMessage() {
+				return getMessages().creditRatingList();
+			}
 
-		result.add(commandList);
+			@Override
+			protected String getEmptyString() {
+				return getMessages().noRecordsToShow();
+			}
 
-		return result;
-	}
-
-	private Record createCreditRatingRecord(CreditRating creditRating) {
-		Record record = new Record(creditRating);
-		record.add("Name", "Name");
-		record.add("value", creditRating.getName());
-		return record;
+			
+		});
 	}
 
 	private List<CreditRating> getCreditRatingList(Context context) {
 		return new ArrayList<CreditRating>(context.getCompany()
 				.getCreditRatings());
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return null;
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Success";
 	}
 
 }

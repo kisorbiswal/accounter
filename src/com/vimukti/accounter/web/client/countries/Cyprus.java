@@ -14,7 +14,7 @@ public class Cyprus extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "CYP";
+		return "EUR";
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class Cyprus extends AbstractCountryPreferences {
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
 
-		return Accounter.constants().january();
+		return Accounter.messages().january();
 	}
 
 }

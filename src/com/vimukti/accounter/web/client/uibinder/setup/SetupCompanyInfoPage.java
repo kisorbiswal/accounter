@@ -21,10 +21,11 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 /**
  * @author Administrator
@@ -98,8 +99,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	Label timezone;
 	@UiField
 	ListBox timezoneslistbox;
-	private ClientCompanyPreferences preferences = Accounter.getCompany()
-			.getPreferences();
+
 	private ClientAddress address;
 	private List<String> countries, statesList, timezones;
 
@@ -123,36 +123,36 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.enterYourCompanyInfo());
+		headerLabel.setText(messages.enterYourCompanyInfo());
 
 		// if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_US) {
-		taxIDLabel.setText(accounterConstants.taxId());
+		taxIDLabel.setText(messages.taxId());
 		// } else if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_UK) {
-		// taxIDLabel.setText(accounterConstants.vatNo());
+		// taxIDLabel.setText(messages.vatNo());
 		// } else if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_INDIA) {
 		// taxIDLabel.setText(Accounter.messages().panNumber(
 		// Global.get().Account()));
 		// }
 
-		displayNameLabel.setText(accounterConstants.companyName());
-		legalNameLabel.setText(accounterConstants.legalName());
-		streetAddress2Label.setText(accounterConstants.streetAddress2());
-		streetAdreess1Label.setText(accounterConstants.streetAddress1());
-		cityLabel.setText(accounterConstants.city());
-		stateLabel.setText(accounterConstants.state());
-		zipLabel.setText(accounterConstants.zipCode());
-		countryLabel.setText(accounterConstants.country());
-		phoneLabel.setText(accounterConstants.phone());
-		phone.setTitle(Accounter.messages().phoneNumber(
-				Accounter.constants().company()));
-		faxLabel.setText(accounterConstants.fax());
-		emailAdressLabel.setText(accounterConstants.emailId());
-		webSiteLabel.setText(accounterConstants.webSite());
+		displayNameLabel.setText(messages.companyName());
+		legalNameLabel.setText(messages.legalName());
+		streetAddress2Label.setText(messages.streetAddress2());
+		streetAdreess1Label.setText(messages.streetAddress1());
+		cityLabel.setText(messages.city());
+		stateLabel.setText(messages.state());
+		zipLabel.setText(messages.zipCode());
+		countryLabel.setText(messages.country());
+		phoneLabel.setText(messages.phone());
+		phone.setTitle(Accounter.messages().phoneNumberOf(
+				Accounter.messages().company()));
+		faxLabel.setText(messages.fax());
+		emailAdressLabel.setText(messages.emailId());
+		webSiteLabel.setText(messages.webSite());
 		useFormat.setHTML("");
-		timezone.setText(accounterConstants.timezone());
+		timezone.setText(messages.timezone());
 
 		countries = CoreUtils.getCountriesAsList();
 		for (int i = 0; i < countries.size(); i++) {
@@ -193,14 +193,30 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	 */
 	protected void countryChanged() {
 		int selectedCountry = country.getSelectedIndex();
-		setCountry(country.getItemText(country.getSelectedIndex()));
 		if (selectedCountry < 0) {
 			return;
 		}
-		if (CountryPreferenceFactory.get(country.getItemText(selectedCountry)) != null) {
-			String[] states = CountryPreferenceFactory.get(
-					country.getItemText(selectedCountry)).getStates();
-			setStates(states);
+
+		String countryName = country.getItemText(selectedCountry);
+		setCountry(countryName);
+		ICountryPreferences countryPreferences = CountryPreferenceFactory
+				.get(countryName);
+		if (countryPreferences != null) {
+			setStates(countryPreferences.getStates());
+			List<ClientCurrency> currenciesList = CoreUtils
+					.getCurrencies(new ArrayList<ClientCurrency>());
+			for (int i = 0; i < currenciesList.size(); i++) {
+				if (countryPreferences.getPreferredCurrency().trim()
+						.equals(currenciesList.get(i).getFormalName())) {
+					preferences.setPrimaryCurrency(currenciesList.get(i));
+				}
+			}
+			List<String> monthNames = CoreUtils.getMonthNames();
+			preferences.setFiscalYearFirstMonth(monthNames
+					.indexOf(countryPreferences
+							.getDefaultFiscalYearStartingMonth()));
+		} else {
+			System.err.println(countryName);
 		}
 	}
 
@@ -221,8 +237,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	public void onLoad() {
 
-		if (this.preferences != null) {
-			companyName.setValue(preferences.getFullName());
+		if (preferences != null) {
+			companyName.setValue(preferences.getTradingName());
 			legalName.setValue(preferences.getLegalName());
 			this.taxId.setValue(preferences.getTaxId());
 			this.fax.setValue(preferences.getFax());
@@ -234,18 +250,22 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 				this.streetAddress1.setValue(address.getAddress1());
 				this.streetAdress2.setValue(address.getStreet());
 				this.cityTextBox.setValue(address.getCity());
+
+				if (address.getCountryOrRegion() != ""
+						&& address.getCountryOrRegion() != null
+						&& address.getCountryOrRegion().length() != 0) {
+					this.country.setSelectedIndex(countries.indexOf(address
+							.getCountryOrRegion()));
+					countryChanged();
+				}
+
 				if (address.getStateOrProvinence() != ""
 						&& address.getStateOrProvinence() != null
 						&& address.getStateOrProvinence().length() != 0) {
 					this.stateListBox.setSelectedIndex(statesList
 							.indexOf(address.getStateOrProvinence()));
 				}
-				if (address.getCountryOrRegion() != ""
-						&& address.getCountryOrRegion() != null
-						&& address.getStateOrProvinence().length() != 0) {
-					this.country.setSelectedIndex(countries.indexOf(address
-							.getCountryOrRegion()));
-				}
+
 				if (preferences.getTimezone() != ""
 						&& preferences.getTimezone() != null) {
 					this.timezoneslistbox.setSelectedIndex(timezones
@@ -259,8 +279,15 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	public void onSave() {
 
 		address = new ClientAddress();
-		preferences.setFullName(companyName.getValue().toString());
+		preferences.setTradingName(companyName.getValue().toString());
+
+		if (legalName.getValue().toString().trim() != null) {
+			preferences.setShowLegalName(true);
+		} else {
+			preferences.setShowLegalName(false);
+		}
 		preferences.setLegalName(legalName.getValue().toString());
+
 		preferences.setPhone(phone.getValue().toString());
 		preferences.setCompanyEmail(emailAddress.getValue().toString());
 		preferences.setTaxId(taxId.getValue().toString());
@@ -336,9 +363,16 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			return true;
 
 		} else {
+			Accounter.showError(messages.pleaseEnter(displayNameLabel
+					.getText()));
 			return false;
 		}
 
+	}
+
+	@Override
+	public String getViewName() {
+		return messages.setCompanyInfo();
 	}
 
 }

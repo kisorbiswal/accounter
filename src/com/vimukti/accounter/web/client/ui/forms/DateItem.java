@@ -50,7 +50,7 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 			}
 		});
 
-		datePicker.setWidth("160px");
+		// datePicker.setWidth("160px");
 		// datePanel.setSpacing(3);
 		datePanel.add(datePicker);
 		datePanel.add(dateImg);
@@ -73,11 +73,11 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 				if (!datePicker.isEnabled())
 					return;
 				datePicker.showPopup();
-				
+
 			}
 		});
 
-		datePicker.setWidth("160px");
+		// datePicker.setWidth("160px");
 		// datePanel.setSpacing(3);
 		datePanel.add(datePicker);
 		datePanel.add(dateImg);
@@ -105,7 +105,6 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 		if (date != null && !date.equals("")) {
 			this.datePicker.setSelectedDate(date);
 		}
-
 	}
 
 	public void setEnteredDate(Date value) {
@@ -193,7 +192,8 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 		if (b) {
 			this.datePicker.addStyleName("disable-TextField");
 		} else {
-			this.datePicker.setStyleName("gwt-TextBox");
+			this.datePicker.removeStyleName("disable-TextField");
+			this.datePicker.addStyleName("gwt-TextBox");
 		}
 
 	}
@@ -250,8 +250,12 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 	public void removeEmpty_Date_FieldStyle() {
 		datePicker.removeStyleName("empty_date_field");
 	}
-	
-	public void setTabIndex(int index){
+
+	public void setTabIndex(int index) {
 		datePicker.setTabIndex(index);
+	}
+
+	public void setDateWithNoEvent(ClientFinanceDate date) {
+		datePicker.setDate(date.getDateAsObject());
 	}
 }

@@ -27,7 +27,7 @@ public class ClassListCombo extends CustomCombo<ClientAccounterClass> {
 	}
 
 	@Override
-	protected String getColumnData(ClientAccounterClass object, int row, int col) {
+	protected String getColumnData(ClientAccounterClass object, int col) {
 		switch (col) {
 		case 0:
 			return object.getClassName();
@@ -37,12 +37,13 @@ public class ClassListCombo extends CustomCombo<ClientAccounterClass> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return Accounter.constants().addNewTrackClass();
+		return messages.className();
 	}
 
 	@Override
 	public void onAddNew() {
-		CreateClassDialog classDialog = new CreateClassDialog(null,Accounter.constants().createClass(), "");
+		CreateClassDialog classDialog = new CreateClassDialog(null, Accounter
+				.messages().createClass(), "");
 		classDialog.addSuccessCallback(newClassHandler);
 	}
 

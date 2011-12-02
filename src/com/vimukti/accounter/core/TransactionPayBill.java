@@ -6,9 +6,9 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -316,7 +316,7 @@ public class TransactionPayBill extends CreatableObject implements
 						-this.cashDiscount);
 
 				this.discountAccount.updateCurrentBalance(this.payBill,
-						this.cashDiscount);
+						this.cashDiscount, payBill.currencyFactor);
 				this.discountAccount.onUpdate(session);
 
 			}
@@ -338,25 +338,13 @@ public class TransactionPayBill extends CreatableObject implements
 				setCompany(enterBill.getCompany());
 				// Update the Payments and the balance due of the corresponding
 				// enterBill
-				this.enterBill.setPayments(this.enterBill.getPayments()
-						+ amount);
-				// TODO
-
-				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-
-					this.enterBill.setBalanceDue(this.enterBill.getBalanceDue()
-							- amount);
-
-				} else {
-
-					this.enterBill.setBalanceDue(this.enterBill.getBalanceDue()
-							- amount);
-				}
+				this.enterBill.updateBalance(session, amount, this);
 
 				if (DecimalUtil.isGreaterThan(this.enterBill.getBalanceDue(),
 						0D)
-						&& DecimalUtil.isLessThan(this.enterBill
-								.getBalanceDue(), this.enterBill.getTotal())) {
+						&& DecimalUtil.isLessThan(
+								this.enterBill.getBalanceDue(),
+								this.enterBill.getTotal())) {
 					this.enterBill.status = Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED;
 				} else if (DecimalUtil.isEquals(this.enterBill.getBalanceDue(),
 						0D)) {
@@ -372,27 +360,15 @@ public class TransactionPayBill extends CreatableObject implements
 								+ amount);
 				this.transactionMakeDeposit
 						.setBalanceDue(this.transactionMakeDeposit
-								.getBalanceDue()
-								- amount);
+								.getBalanceDue() - amount);
 
 			} else if (this.journalEntry != null) {
 				this.journalEntry.setBalanceDue(this.journalEntry
-						.getBalanceDue()
-						- amount);
+						.getBalanceDue() - amount);
 			}
 
 		}
 
-		// Update TDS Account if Company is INDIA
-		if (this.payBill.getVendor().getCompany().getPreferences()
-				.isTDSEnabled()) {
-			TAXItem taxItem = this.payBill.getVendor().getTAXItem();
-			if (taxItem != null) {
-				TAXAgency taxAgency = taxItem.getTaxAgency();
-				Account account = taxAgency.getSalesLiabilityAccount();
-				account.updateCurrentBalance(this.payBill, -tdsAmount);
-			}
-		}
 		return false;
 	}
 
@@ -409,7 +385,7 @@ public class TransactionPayBill extends CreatableObject implements
 				this.payBill.getVendor().updateBalance(session, this.payBill,
 						this.cashDiscount);
 				this.discountAccount.updateCurrentBalance(this.payBill,
-						-this.cashDiscount);
+						-this.cashDiscount, payBill.currencyFactor);
 				this.discountAccount.onUpdate(session);
 				session.saveOrUpdate(this.discountAccount);
 			}
@@ -569,8 +545,8 @@ public class TransactionPayBill extends CreatableObject implements
 		if (DecimalUtil.isGreaterThan(amtdue, 0)) {
 			if (DecimalUtil.isGreaterThan(this.getPayment(), amtdue)) {
 
-				if (DecimalUtil.isLessThan(this.getAmountDue(), this
-						.getPayment()))
+				if (DecimalUtil.isLessThan(this.getAmountDue(),
+						this.getPayment()))
 					previousUnusedAmount = this.getPayment()
 							- this.getAmountDue();
 
@@ -602,8 +578,8 @@ public class TransactionPayBill extends CreatableObject implements
 
 			if (DecimalUtil.isGreaterThan(this.payment, amtdue)) {
 
-				if (DecimalUtil.isLessThan(this.getAmountDue(), this
-						.getPayment()))
+				if (DecimalUtil.isLessThan(this.getAmountDue(),
+						this.getPayment()))
 					previousUnusedAmount = this.getPayment()
 							- this.getAmountDue();
 
@@ -679,6 +655,12 @@ public class TransactionPayBill extends CreatableObject implements
 
 	public void setBillNumber(String billNumber) {
 		this.billNumber = billNumber;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,10 +1,12 @@
 package com.vimukti.accounter.core;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -131,7 +133,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	 * Transaction
 	 */
 	List<TransactionReceivePayment> transactionReceivePayment;
-	
+
 	private String checkNumber;
 
 	//
@@ -306,7 +308,8 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		if (this.depositIn != null) {
 			// Deposit in account should be updated by the amount received, not
 			// by transaction total.
-			this.depositIn.updateCurrentBalance(this, -this.amount);
+			this.depositIn.updateCurrentBalance(this, -this.amount,
+					currencyFactor);
 			// -(this.amount != 0 ? this.amount : this.total));
 			this.depositIn.onUpdate(session);
 		}
@@ -517,7 +520,8 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			super.onEdit(clonedObject);
 
 			Session session = HibernateUtil.getCurrentSession();
-			this.depositIn.updateCurrentBalance(this, this.amount);
+			this.depositIn.updateCurrentBalance(this, this.amount,
+					currencyFactor);
 			this.depositIn.onUpdate(session);
 
 			if (this.creditsAndPayments != null) {
@@ -529,18 +533,44 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			this.totalCashDiscount = 0.0;
 			this.totalWriteOff = 0.0;
 			this.totalAppliedCredits = 0.0;
-			for (TransactionReceivePayment transactionReceivePayment : this.transactionReceivePayment) {
-				transactionReceivePayment.setIsVoid(Boolean.TRUE);
-				session.update(transactionReceivePayment);
-				if (transactionReceivePayment instanceof Lifecycle) {
-					Lifecycle lifeCycle = (Lifecycle) transactionReceivePayment;
-					lifeCycle.onUpdate(session);
-				}
+			for (TransactionReceivePayment trp : this.transactionReceivePayment) {
+				trp.setIsVoid(Boolean.TRUE);
+				session.update(trp);
+				trp.onUpdate(session);
 			}
 
 			if (this.status != Transaction.STATUS_DELETED)
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid) {
+			this.depositIn.updateCurrentBalance(this, this.amount,
+					currencyFactor);
+			this.depositIn.onUpdate(session);
+
+			if (this.creditsAndPayments != null) {
+				// this.creditsAndPayments.setTransaction(null);
+				// session.delete(this.creditsAndPayments);
+				this.creditsAndPayments = null;
+			}
+
+			this.totalCashDiscount = 0.0;
+			this.totalWriteOff = 0.0;
+			this.totalAppliedCredits = 0.0;
+			for (TransactionReceivePayment trp : this.transactionReceivePayment) {
+				trp.setIsVoid(Boolean.TRUE);
+				session.update(trp);
+				trp.onUpdate(session);
+			}
+
+			if (this.status != Transaction.STATUS_DELETED)
+				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -562,11 +592,43 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		return super.canEdit(clientObject);
 	}
 
+	protected void checkForReconciliation(Transaction transaction)
+			throws AccounterException {
+
+		if (getReconciliationItems() == null
+				|| getReconciliationItems().isEmpty()) {
+			return;
+		}
+		ReceivePayment receivePayment = (ReceivePayment) transaction;
+		for (ReconciliationItem item : getReconciliationItems()) {
+			if (item.getReconciliation().getAccount().equals(depositIn)
+					&& this.amount != receivePayment.amount) {
+				throw new AccounterException(
+						AccounterException.ERROR_TRANSACTION_RECONCILIED);
+			}
+		}
+	}
+
 	public String getCheckNumber() {
 		return checkNumber;
 	}
 
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
+		map.put(depositIn, amount);
+		map.put(creditsAndPayments.getPayee().getAccount(),
+				creditsAndPayments.getEffectingAmount());
+		return map;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

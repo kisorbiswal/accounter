@@ -1,6 +1,7 @@
 package com.vimukti.accounter.company.initialize;
 
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 public class CompanyInitializedFactory {
 
@@ -11,20 +12,15 @@ public class CompanyInitializedFactory {
 	 */
 
 	public static CompanyInitializer getInitializer(Company company) {
-		switch (company.getAccountingType()) {
-		case Company.ACCOUNTING_TYPE_US:
-
+		if (company.getCountry().equals(CountryPreferenceFactory.UNITED_STATES)) {
 			return new USCompanyInitializer(company);
-
-		case Company.ACCOUNTING_TYPE_UK:
+		} else if(company.getCountry().equals(CountryPreferenceFactory.UNITED_KINGDOM)) {
 			return new UKCompanyInitializer(company);
-
-		case Company.ACCOUNTING_TYPE_INDIA:
+		} else if(company.getCountry().equals(CountryPreferenceFactory.INDIA)) {
 			return new IndianCompanyInitializer(company);
-		case Company.ACCOUNTING_TYPE_OTHER:
+		} else {
 			return new OtherCompanyInitializer(company);
 		}
-		return null;
 	}
 
 }

@@ -50,6 +50,13 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 	long taxCode;
 	double standardCost;
 	int version;
+	double openingBalance;
+
+	private ClientQuantity maxStockAlertLevel;
+	private ClientQuantity minStockAlertLevel;
+
+	private long warehouse;
+	private long measurement;
 
 	boolean isDefault;
 
@@ -403,10 +410,48 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 			ClientItem item = (ClientItem) obj;
 			if (this.getID() == item.getID())
 				return true;
-		} else {
-			return false;
 		}
 		return false;
+	}
+
+	public double getOpeningBalance() {
+		return openingBalance;
+	}
+
+	public void setOpeningBalance(double openingBalance) {
+		this.openingBalance = openingBalance;
+	}
+
+	public ClientQuantity getMaxStockAlertLevel() {
+		return maxStockAlertLevel;
+	}
+
+	public void setMaxStockAlertLevel(ClientQuantity maxStockAlertLevel) {
+		this.maxStockAlertLevel = maxStockAlertLevel;
+	}
+
+	public ClientQuantity getMinStockAlertLevel() {
+		return minStockAlertLevel;
+	}
+
+	public void setMinStockAlertLevel(ClientQuantity minStockAlertLevel) {
+		this.minStockAlertLevel = minStockAlertLevel;
+	}
+
+	public long getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(long warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	public long getMeasurement() {
+		return measurement;
+	}
+
+	public void setMeasurement(long measurement) {
+		this.measurement = measurement;
 	}
 
 }

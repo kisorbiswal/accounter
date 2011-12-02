@@ -1,12 +1,14 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -18,8 +20,6 @@ import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -41,9 +41,6 @@ public abstract class TransactionReceivePaymentTable extends
 		EditTable<ClientTransactionReceivePayment> {
 	private ClientCompany company;
 	private boolean canEdit;
-
-	AccounterConstants customerConstants = Accounter.constants();
-	AccounterMessages accounterMessages = Accounter.messages();
 
 	ClientCustomer customer;
 	List<Integer> selectedValues = new ArrayList<Integer>();
@@ -115,7 +112,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().dueDate();
+					return Accounter.messages().dueDate();
 				}
 			};
 			this.addColumn(dateCoulmn);
@@ -146,13 +143,13 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().invoice();
+				return Accounter.messages().invoice();
 			}
 		};
 		this.addColumn(invoiceNumber);
 
 		AmountColumn<ClientTransactionReceivePayment> invoiceAmountColumn = new AmountColumn<ClientTransactionReceivePayment>(
-				currencyProvider) {
+				currencyProvider, false) {
 
 			@Override
 			protected boolean isEnable() {
@@ -166,17 +163,18 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().invoiceAmount();
+				return getColumnNameWithCurrency(Accounter.messages()
+						.invoiceAmount());
 			}
 
 			@Override
-			protected double getAmount(ClientTransactionReceivePayment row) {
+			protected Double getAmount(ClientTransactionReceivePayment row) {
 				return row.getInvoiceAmount();
 			}
 
 			@Override
 			protected void setAmount(ClientTransactionReceivePayment row,
-					double value) {
+					Double value) {
 
 			}
 		};
@@ -184,7 +182,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 		if (canEdit) {
 			AmountColumn<ClientTransactionReceivePayment> amountDueColumn = new AmountColumn<ClientTransactionReceivePayment>(
-					currencyProvider) {
+					currencyProvider, false) {
 
 				@Override
 				protected boolean isEnable() {
@@ -198,17 +196,18 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.constants().amountDue();
+					return getColumnNameWithCurrency(Accounter.messages()
+							.amountDue());
 				}
 
 				@Override
-				protected double getAmount(ClientTransactionReceivePayment row) {
-					return row.getDummyDue();
+				protected Double getAmount(ClientTransactionReceivePayment row) {
+					return row.getAmountDue();
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionReceivePayment row,
-						double value) {
+						Double value) {
 
 				}
 			};
@@ -239,7 +238,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().discountDate();
+				return Accounter.messages().discountDate();
 			}
 		};
 		// this.addColumn(discountDateColumn);
@@ -263,7 +262,12 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().cashDiscount();
+				return Accounter.messages().cashDiscount();
+			}
+
+			@Override
+			protected boolean isEnable(ClientTransactionReceivePayment row) {
+				return selectedValues.contains(indexOf(row));
 			}
 		};
 		this.addColumn(cashDiscountColumn);
@@ -287,7 +291,12 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().writeOff();
+				return Accounter.messages().writeOff();
+			}
+
+			@Override
+			protected boolean isEnable(ClientTransactionReceivePayment row) {
+				return selectedValues.contains(indexOf(row));
 			}
 		};
 		this.addColumn(writeOffColumn);
@@ -311,27 +320,50 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.constants().appliedCredits();
+				return Accounter.messages().appliedCredits();
+			}
+
+			@Override
+			protected boolean isEnable(ClientTransactionReceivePayment row) {
+				return selectedValues.contains(indexOf(row));
 			}
 		};
 		this.addColumn(appliedCreditsColumn);
 
 		TextEditColumn<ClientTransactionReceivePayment> paymentColumn = new AmountColumn<ClientTransactionReceivePayment>(
-				currencyProvider) {
+				currencyProvider, false) {
 
 			@Override
-			protected String getColumnName() {
-				return Accounter.constants().payment();
+			public void render(IsWidget widget,
+					RenderContext<ClientTransactionReceivePayment> context) {
+				TextBoxBase box = (TextBoxBase) widget;
+				String value = getValue(context.getRow());
+				box.setEnabled(isEnable(context.getRow())
+						&& !context.isDesable());
+				box.setText(value);
+			}
+
+			private boolean isEnable(ClientTransactionReceivePayment row) {
+				return selectedValues.contains(indexOf(row));
 			}
 
 			@Override
-			protected double getAmount(ClientTransactionReceivePayment row) {
-				return row.getPayment();
+			protected String getColumnName() {
+				return getColumnNameWithCurrency(Accounter.messages().payment());
+			}
+
+			@Override
+			protected Double getAmount(ClientTransactionReceivePayment row) {
+				return row
+						.getPayment();
 			}
 
 			@Override
 			protected void setAmount(ClientTransactionReceivePayment item,
-					double value) {
+					Double value) {
+				if (isInViewMode()) {
+					return;
+				}
 				double amt, originalPayment;
 				try {
 					originalPayment = item.getPayment();
@@ -371,12 +403,12 @@ public abstract class TransactionReceivePaymentTable extends
 				.getSelectedRecords()) {
 			double totalValue = getTotalValue(transactionReceivePayment);
 			if (DecimalUtil.isLessThan(totalValue, 0.00)) {
-				result.addError(this, accounterMessages
-						.valueCannotBe0orlessthan0(customerConstants.amount()));
-			} else if (DecimalUtil.isGreaterThan(totalValue,
-					transactionReceivePayment.getAmountDue())
+				result.addError(this,
+						messages.valueCannotBe0orlessthan0(messages.amount()));
+			} else if (DecimalUtil.isGreaterThan(totalValue,transactionReceivePayment
+							.getAmountDue())
 					|| DecimalUtil.isEquals(totalValue, 0)) {
-				result.addError(this, Accounter.constants()
+				result.addError(this, Accounter.messages()
 						.receivePaymentExcessDue());
 			}
 		}
@@ -415,11 +447,14 @@ public abstract class TransactionReceivePaymentTable extends
 								updatedCustomerCreditsAndPayments = result;
 								creditsStack = new Stack<Map<Integer, Object>>();
 								gotCreditsAndPayments = true;
+								calculateUnusedCredits();
 							}
 
 						});
 
 	}
+
+	protected abstract void calculateUnusedCredits();
 
 	public void openCashDiscountDialog(
 			final ClientTransactionReceivePayment selectedObject) {
@@ -510,8 +545,8 @@ public abstract class TransactionReceivePaymentTable extends
 							TempCredit tmpCr = (TempCredit) appliedCredits
 									.get(i);
 							selectdCredit.setAmtTouse(tmpCr.getAmountToUse());
-							selectdCredit.setBalance(tmpCr
-									.getRemainingBalance());
+							selectdCredit.setBalance(selectdCredit
+									.getRemaoningBalance());
 						} else {
 							ClientCreditsAndPayments unSelectdCredit = updatedCustomerCreditsAndPayments
 									.get(i);
@@ -546,6 +581,7 @@ public abstract class TransactionReceivePaymentTable extends
 							ClientCreditsAndPayments rec = updatedCustomerCreditsAndPayments
 									.get(indx.intValue());
 							rec.setBalance(tempCrt.getRemainingBalance());
+							rec.setRemaoningBalance(rec.getBalance());
 							rec.setAmtTouse(0);
 						}
 					}
@@ -580,9 +616,7 @@ public abstract class TransactionReceivePaymentTable extends
 					selectedObject, currencyProvider);
 		}
 
-		if (/*
-			 * creditsAndPaymentsDialiog == null &&
-			 */newAppliedCreditsDialiog == null)
+		if (newAppliedCreditsDialiog == null)
 			return;
 
 		newAppliedCreditsDialiog
@@ -591,56 +625,53 @@ public abstract class TransactionReceivePaymentTable extends
 					@Override
 					public boolean onOK() {
 
-						// List<ClientCreditsAndPayments>
-						// appliedCreditsForThisRec =
-						// newAppliedCreditsDialiog.getAppliedCredits()
-						// Map<Integer, Object> appliedCredits = new
-						// HashMap<Integer, Object>();
-						// TempCredit creditRec = null;
-						//
-						// for (ClientCreditsAndPayments rec :
-						// appliedCreditsForThisRec) {
-						// try {
-						// checkBalance(rec.getAmtTouse());
-						// } catch (Exception e) {
-						// Accounter.showError(e.getMessage());
-						// return false;
-						// }
-						// Integer recordIndx = newAppliedCreditsDialiog.grid
-						// .indexOf(rec);
-						// creditRec = new TempCredit();
-						// for (ClientTransactionReceivePayment rcvp :
-						// getSelectedRecords()) {
-						// if (rcvp.isCreditsApplied()) {
-						// for (Integer idx : rcvp.getTempCredits()
-						// .keySet()) {
-						// if (recordIndx == idx)
-						// ((TempCredit) rcvp.getTempCredits()
-						// .get(idx))
-						// .setRemainingBalance(rec
-						// .getBalance());
-						// }
-						// }
-						// }
-						// creditRec.setRemainingBalance(rec.getBalance());
-						// creditRec.setAmountToUse(rec.getAmtTouse());
-						// appliedCredits.put(recordIndx, creditRec);
-						// }
-						// selectedObject.setTempCredits(appliedCredits);
-						// selectedObject.setCreditsApplied(true);
-						//
-						// creditsStack.push(appliedCredits);
+						List<ClientCreditsAndPayments> appliedCreditsForThisRec = newAppliedCreditsDialiog
+								.getAppliedCredits();
+						Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
+						TempCredit creditRec = null;
 
-						// try {
-						//
-						// newAppliedCreditsDialiog.okClicked = true;
-						//
-						// // creditsAndPaymentsDialiog.validateTransaction();
-						//
-						// } catch (Exception e) {
-						// Accounter.showError(e.getMessage());
-						// return false;
-						// }
+						for (ClientCreditsAndPayments rec : appliedCreditsForThisRec) {
+							try {
+								checkBalance(rec.getAmtTouse());
+							} catch (Exception e) {
+								Accounter.showError(e.getMessage());
+								return false;
+							}
+							Integer recordIndx = newAppliedCreditsDialiog.grid
+									.indexOf(rec);
+							creditRec = new TempCredit();
+							for (ClientTransactionReceivePayment rcvp : getSelectedRecords()) {
+								if (rcvp.isCreditsApplied()) {
+									for (Integer idx : rcvp.getTempCredits()
+											.keySet()) {
+										if (recordIndx == idx)
+											((TempCredit) rcvp.getTempCredits()
+													.get(idx))
+													.setRemainingBalance(rec
+															.getBalance());
+									}
+								}
+							}
+							creditRec.setRemainingBalance(rec.getBalance());
+							creditRec.setAmountToUse(rec.getAmtTouse());
+							appliedCredits.put(recordIndx, creditRec);
+						}
+						selectedObject.setTempCredits(appliedCredits);
+						selectedObject.setCreditsApplied(true);
+
+						creditsStack.push(appliedCredits);
+
+						try {
+
+							newAppliedCreditsDialiog.okClicked = true;
+
+							// creditsAndPaymentsDialiog.validateTransaction();
+
+						} catch (Exception e) {
+							Accounter.showError(e.getMessage());
+							return false;
+						}
+
 						selectedObject
 								.setAppliedCredits(newAppliedCreditsDialiog
 										.getTotalCreditAmount());
@@ -657,83 +688,33 @@ public abstract class TransactionReceivePaymentTable extends
 					}
 				});
 
-		// creditsAndPaymentsDialiog
-		// .addInputDialogHandler(new InputDialogHandler() {
-		//
-		// @Override
-		// public void onCancel() {
-		// creditsAndPaymentsDialiog.cancelClicked = true;
-		// // selectedObject
-		// // .setAppliedCredits(creditsAndPaymentsDialiog
-		// // .getTotalCreditAmount());
-		// // updateData(selectedObject);
-		// }
-		//
-		// @Override
-		// public boolean onOK() {
-		//
-		// List<ClientCreditsAndPayments> appliedCreditsForThisRec =
-		// creditsAndPaymentsDialiog.grid
-		// .getSelectedRecords();
-		// Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
-		// TempCredit creditRec = null;
-		//
-		// for (ClientCreditsAndPayments rec : appliedCreditsForThisRec) {
-		// try {
-		// checkBalance(rec.getAmtTouse());
-		// } catch (Exception e) {
-		// Accounter.showError(e.getMessage());
-		// return false;
-		// }
-		// Integer recordIndx = creditsAndPaymentsDialiog.grid
-		// .indexOf(rec);
-		// creditRec = new TempCredit();
-		// for (ClientTransactionReceivePayment rcvp : getSelectedRecords()) {
-		// if (rcvp.isCreditsApplied()) {
-		// for (Integer idx : rcvp.getTempCredits()
-		// .keySet()) {
-		// if (recordIndx == idx)
-		// ((TempCredit) rcvp.getTempCredits()
-		// .get(idx))
-		// .setRemainingBalance(rec
-		// .getBalance());
-		// }
-		// }
-		// }
-		// creditRec.setRemainingBalance(rec.getBalance());
-		// creditRec.setAmountToUse(rec.getAmtTouse());
-		// appliedCredits.put(recordIndx, creditRec);
-		// }
-		// selectedObject.setTempCredits(appliedCredits);
-		// selectedObject.setCreditsApplied(true);
-		//
-		// creditsStack.push(appliedCredits);
-		//
-		// try {
-		//
-		// creditsAndPaymentsDialiog.okClicked = true;
-		//
-		// // creditsAndPaymentsDialiog.validateTransaction();
-		//
-		// } catch (Exception e) {
-		// Accounter.showError(e.getMessage());
-		// return false;
-		// }
-		// selectedObject
-		// .setAppliedCredits(creditsAndPaymentsDialiog
-		// .getTotalCreditAmount());
-		// updatePayment(selectedObject);
-		// update(selectedObject);
-		// return true;
-		// }
-		// });
 		newAppliedCreditsDialiog.show();
 
 	}
 
+	public void revertCredits() {
+		if (revertedCreditsStack != null && revertedCreditsStack.size() != 0) {
+			Map<Integer, Object> stkCredit = revertedCreditsStack.peek();
+
+			for (Integer indx : stkCredit.keySet()) {
+
+				TempCredit tempCrt = (TempCredit) stkCredit.get(indx);
+				ClientCreditsAndPayments rec = updatedCustomerCreditsAndPayments
+						.get(indx.intValue());
+				rec.setBalance(rec.getBalance() + tempCrt.getAmountToUse());
+				rec.setRemaoningBalance(rec.getBalance());
+				rec.setAmtTouse(0);
+			}
+			if (creditsStack.contains(stkCredit)) {
+				creditsStack.remove(stkCredit);
+			}
+			revertedCreditsStack.clear();
+		}
+	}
+
 	public void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(Accounter.constants()
+			throw new Exception(Accounter.messages()
 					.youdnthaveBalToApplyCredits());
 	}
 
@@ -778,6 +759,9 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void setTranReceivePayments(
 			List<ClientTransactionReceivePayment> recievePayments) {
+		for (ClientTransactionReceivePayment payment : recievePayments) {
+			payment.setID(0);
+		}
 		this.tranReceivePayments = recievePayments;
 	}
 
@@ -785,7 +769,7 @@ public abstract class TransactionReceivePaymentTable extends
 			ClientTransactionReceivePayment selectedObject) {
 		double totalValue = getTotalValue(selectedObject);
 		if (AccounterValidator.isValidReceive_Payment(selectedObject
-				.getAmountDue(), totalValue, Accounter.constants()
+				.getAmountDue(), totalValue, Accounter.messages()
 				.receiveAmountPayDue())) {
 			return true;
 		} else
@@ -795,7 +779,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 	private void updatePayment(ClientTransactionReceivePayment payment) {
 		payment.setPayment(0);
-		double paymentValue = payment.getAmountDue() - getTotalValue(payment);
+		double paymentValue = payment
+				.getAmountDue() - getTotalValue(payment);
 		payment.setPayment(paymentValue);
 		updateAmountDue(payment);
 		updateTotalPayment(payment.getPayment());
@@ -860,7 +845,7 @@ public abstract class TransactionReceivePaymentTable extends
 	private void resetValues() {
 		for (ClientCreditsAndPayments crdt : updatedCustomerCreditsAndPayments) {
 			crdt.setBalance(crdt.getActualAmt());
-			crdt.setRemaoningBalance(0);
+			crdt.setRemaoningBalance(crdt.getBalance());
 			crdt.setAmtTouse(0);
 		}
 		for (ClientTransactionReceivePayment obj : this.getRecords()) {
@@ -908,14 +893,14 @@ public abstract class TransactionReceivePaymentTable extends
 										+ toBeAddCr.getAmountToUse());
 							}
 						}
-					} else {
-						revertedCreditsStack = new Stack<Map<Integer, Object>>();
-						revertedCreditsStack.push(toBeRvrtMap);
 					}
+					revertedCreditsStack = new Stack<Map<Integer, Object>>();
+					revertedCreditsStack.push(toBeRvrtMap);
 				}
 			}
 
 			obj.setCreditsApplied(false);
+			revertCredits();
 		}
 		if (newAppliedCreditsDialiog != null
 				&& newAppliedCreditsDialiog.grid.getRecords().size() == 0)
@@ -939,12 +924,12 @@ public abstract class TransactionReceivePaymentTable extends
 	public void updateAmountDue(ClientTransactionReceivePayment item) {
 		double totalValue = item.getCashDiscount() + item.getWriteOff()
 				+ item.getAppliedCredits() + item.getPayment();
-
-		if (!DecimalUtil.isGreaterThan(totalValue, item.getAmountDue())) {
+		double amount = item.getAmountDue();
+		if (!DecimalUtil.isGreaterThan(totalValue, amount)) {
 			if (!DecimalUtil.isLessThan(item.getPayment(), 0.00))
-				item.setDummyDue(item.getAmountDue() - totalValue);
+				item.setDummyDue(amount - totalValue);
 			else
-				item.setDummyDue(item.getAmountDue() + item.getPayment()
+				item.setDummyDue(amount + item.getPayment()
 						- totalValue);
 
 		}
@@ -968,7 +953,9 @@ public abstract class TransactionReceivePaymentTable extends
 		int row = indexOf(obj);
 		if (isChecked) {
 			selectedValues.add(row);
-			updatePayment(obj);
+			if (!isInViewMode()) {
+				updatePayment(obj);
+			}
 		} else {
 			selectedValues.remove((Integer) row);
 			resetValue(obj);
@@ -994,16 +981,21 @@ public abstract class TransactionReceivePaymentTable extends
 
 	}
 
-	public void addEmptyMessage(String noRecordsToShow) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public List<ClientTransactionReceivePayment> getRecords() {
 		return getAllRows();
 	}
 
 	public boolean isSelected(ClientTransactionReceivePayment trprecord) {
 		return super.isChecked(trprecord, 0);
+	}
+
+	public void updateAmountsFromGUI() {
+		for (ClientTransactionReceivePayment item : this.getAllRows()) {
+			if (selectedValues.contains(indexOf(item))) {
+				updatePayment(item);
+			}
+			updateFromGUI(item);
+		}
+		updateColumnHeaders();
 	}
 }

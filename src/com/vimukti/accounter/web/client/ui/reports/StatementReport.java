@@ -8,15 +8,34 @@ import com.vimukti.accounter.web.client.ui.serverreports.StatementServerReport;
 
 public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public int precategory = 1001;
-	public long customerId;
+	public long payeeId = 0;
+	private boolean isVendor;
 
-	public StatementReport() {
-		this.serverReport = new StatementServerReport(this);
+	public StatementReport(boolean isVendor) {
+		this.isVendor = isVendor;
+		this.serverReport = new StatementServerReport(isVendor, this);
+	}
+
+	public StatementReport(boolean isVendor, long payeeId) {
+		this.payeeId = payeeId;
+		this.isVendor = isVendor;
+		this.serverReport = new StatementServerReport(isVendor, this);
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		this.makeReportRequest(payeeId, toolbar.getStartDate(),
+				toolbar.getEndDate());
+		this.toolbar.setPayeeId(this.payeeId);
 	}
 
 	@Override
 	public int getToolbarType() {
-		return TOOLBAR_TYPE_CUSTOMER;
+		if (isVendor)
+			return TOOLBAR_TYPE_VENDOR;
+		else
+			return TOOLBAR_TYPE_CUSTOMER;
 	}
 
 	@Override
@@ -24,14 +43,17 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	}
 
 	@Override
-	public void makeReportRequest(long customer, ClientFinanceDate startDate,
+	public void makeReportRequest(long payee, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		// resetReport(endDate, endDate);
 		grid.clear();
 		grid.addLoadingImagePanel();
-		Accounter.createReportService().getStatements(customer, startDate,
-				endDate, this);
-		customerId = customer;
+		if (payee != 0) {
+			payeeId = payee;
+		}
+		Accounter.createReportService().getStatements(isVendor, payeeId,
+				startDate, endDate, this);
+
 	}
 
 	@Override
@@ -39,93 +61,49 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		record.setStartDate(toolbar.getEndDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(record.getTransactiontype(),
-				record.getTransactionId());
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			ReportsRPC.openTransactionView(record.getTransactiontype(),
+					record.getTransactionId());
 
 	}
 
 	@Override
 	public void print() {
 
-		if (customerId == 0) {
-			Accounter
-					.showError(Accounter.constants().pleaseSelectAnyCustomer());
+		if (payeeId == 0) {
+			Accounter.showError(Accounter.messages().pleaseSelectAnyCustomer());
 		} else {
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 150,
-					"", "", customerId);
+			if (isVendor) {
+				UIUtils.generateReportPDF(
+						Integer.parseInt(String.valueOf(startDate.getDate())),
+						Integer.parseInt(String.valueOf(endDate.getDate())),
+						167, "", "", payeeId);
+			} else {
+				UIUtils.generateReportPDF(
+						Integer.parseInt(String.valueOf(startDate.getDate())),
+						Integer.parseInt(String.valueOf(endDate.getDate())),
+						150, "", "", payeeId);
+			}
 		}
 	}
 
 	public void exportToCsv() {
-		if (customerId == 0) {
-			Accounter
-					.showError(Accounter.constants().pleaseSelectAnyCustomer());
+		if (payeeId == 0) {
+			Accounter.showError(Accounter.messages().pleaseSelectAnyCustomer());
 		} else {
-			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 150,
-					"", "", customerId);
+			if (isVendor) {
+				UIUtils.exportReport(
+						Integer.parseInt(String.valueOf(startDate.getDate())),
+						Integer.parseInt(String.valueOf(endDate.getDate())),
+						167, "", "", payeeId);
+			} else {
+				UIUtils.exportReport(
+						Integer.parseInt(String.valueOf(startDate.getDate())),
+						Integer.parseInt(String.valueOf(endDate.getDate())),
+						150, "", "", payeeId);
+			}
 		}
 	}
-
-	//
-	// private void printDataForOtherBrowser() {
-	// String gridhtml = grid.toString();
-	// String headerhtml = grid.getHeader();
-	//
-	// gridhtml = gridhtml.replaceAll(headerhtml, "");
-	// gridhtml = gridhtml.replaceAll(grid.getFooter(), "");
-	//
-	// headerhtml = headerhtml.replaceAll("td", "th");
-	// headerhtml = headerhtml.substring(headerhtml.indexOf("<tr "),
-	// headerhtml.indexOf("</tbody>"));
-	//
-	// String firsRow = "<tr class=\"ReportGridRow\">"
-	// + grid.rowFormatter.getElement(0).getInnerHTML() + "</tr>";
-	// headerhtml = headerhtml + firsRow;
-	//
-	// gridhtml = gridhtml.replace(firsRow, headerhtml);
-	// gridhtml = gridhtml.replaceAll("<tbody>", "");
-	// gridhtml = gridhtml.replaceAll("</tbody>", "");
-	//
-	// String dateRangeHtml = null;
-	//
-	// UIUtils.generateStatementPDF(this.getTitle(), gridhtml, dateRangeHtml,
-	// customerId);
-	// }
-	//
-	// private void printDataForIEBrowser() {
-	// String gridhtml = grid.toString();
-	// String headerhtml = grid.getHeader();
-	// String footerHtml = grid.getFooter();
-	//
-	// gridhtml = gridhtml.replaceAll("\r\n", "");
-	// headerhtml = headerhtml.replaceAll("\r\n", "");
-	// footerHtml = footerHtml.replaceAll("\r\n", "");
-	//
-	// gridhtml = gridhtml.replaceAll(headerhtml, "");
-	// gridhtml = gridhtml.replaceAll(footerHtml, "");
-	//
-	// headerhtml = headerhtml.replaceAll("TD", "TH");
-	// headerhtml = headerhtml.substring(headerhtml.indexOf("<TR "),
-	// headerhtml.indexOf("</TBODY>"));
-	//
-	// String firsRow = "<TR class=ReportGridRow>"
-	// + grid.rowFormatter.getElement(0).getInnerHTML() + "</TR>";
-	// firsRow = firsRow.replaceAll("\r\n", "");
-	// headerhtml = headerhtml + firsRow;
-	//
-	// gridhtml = gridhtml.replace(firsRow, headerhtml);
-	// gridhtml = gridhtml.replaceAll("<TBODY>", "");
-	// gridhtml = gridhtml.replaceAll("</TBODY>", "");
-	//
-	// String dateRangeHtml = null;
-	//
-	// UIUtils.generateStatementPDF(this.getTitle(), gridhtml, dateRangeHtml,
-	// customerId);
-	// }
 
 	@Override
 	public void printPreview() {
@@ -176,6 +154,6 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().all();
+		return Accounter.messages().all();
 	}
 }

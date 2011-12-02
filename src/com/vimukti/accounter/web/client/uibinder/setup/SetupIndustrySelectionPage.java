@@ -59,12 +59,17 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.selectYourIndustry());
+		headerLabel.setText(messages.selectYourIndustry());
 
-		customizeAccounter.setHTML(accounterMessages.selectIndustryInfoHTML());
-		settingsLater.setHTML(accounterMessages.industrySelectNote());
-		selectIndustry.setText(accounterMessages.selectIndustry());
-		industryList.setName(accounterConstants.industry());
+		customizeAccounter.setHTML(messages.selectIndustryInfoHTML1()
+				+ "<br/>" + messages.selectIndustryInfoHTML2() + "<a>"
+				+ messages.selectIndustryInfoAchor1() + "</a>"
+				+ messages.selectIndustryInfoHTML3() + "<br/><a>"
+				+ messages.selectIndustryInfoAchor2() + "</a>"
+				+ messages.selectIndustryInfoHTML4());
+		industryList.setName(messages.industry());
+		selectIndustry.setText(messages.selectIndustry());
+		industryList.setName(messages.industry());
 
 		industryList.setVisibleItemCount(15);
 
@@ -100,16 +105,21 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	@Override
 	public boolean canShow() {
-		return true;
+		return (!isSkip);
 	}
 
 	@Override
 	protected boolean validate() {
 		if (industryList.getSelectedIndex() == -1) {
-			Accounter.showError(accounterConstants.selectYourIndustry());
+			Accounter.showError(messages.selectYourIndustry());
 			return false;
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public String getViewName() {
+		return messages.selectIndustryType();
 	}
 }

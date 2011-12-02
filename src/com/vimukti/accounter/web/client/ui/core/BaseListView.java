@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -29,12 +28,14 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.company.JournalEntryListView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerListView;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
+import com.vimukti.accounter.web.client.ui.customers.QuoteListView;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderListGrid;
 import com.vimukti.accounter.web.client.ui.grids.SalesOrderListGrid;
 import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 /**
  * 
@@ -49,7 +50,6 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
 public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		IAccounterList<T>, AsyncCallback<ArrayList<T>> {
 	protected List<String> listOfTypes;
-
 	protected BaseListGrid grid;
 
 	public BaseListGrid getGrid() {
@@ -130,10 +130,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		viewSelect = getSelectItem();
 		if (this instanceof BudgetListView) {
 			if (viewSelect == null) {
-				viewSelect = new SelectCombo(Accounter.constants()
+				viewSelect = new SelectCombo(Accounter.messages()
 						.currentBudget());
 				viewSelect.setHelpInformation(true);
-				viewSelect.setWidth("150px");
+				// viewSelect.setWidth("150px");
 
 				viewSelect
 						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -148,17 +148,16 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 							}
 						});
 			}
-		} else {
+		} else if (!(this instanceof QuoteListView)) {
 			if (viewSelect == null) {
-				viewSelect = new SelectCombo(Accounter.constants()
-						.currentView());
+				viewSelect = new SelectCombo(Accounter.messages().currentView());
 				viewSelect.setHelpInformation(true);
 				// viewSelect.setWidth("150px");
 				List<String> typeList = new ArrayList<String>();
-				typeList.add(Accounter.constants().active());
-				typeList.add(Accounter.constants().inActive());
+				typeList.add(Accounter.messages().active());
+				typeList.add(Accounter.messages().inActive());
 				viewSelect.initCombo(typeList);
-				viewSelect.setComboItem(Accounter.constants().active());
+				viewSelect.setComboItem(Accounter.messages().active());
 				viewSelect
 						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -181,14 +180,14 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		dateRangeSelector = getDateRangeSelectItem();
 
 		if (dateRangeSelector == null) {
-			dateRangeSelector = new SelectCombo(Accounter.constants().date());
+			dateRangeSelector = new SelectCombo(Accounter.messages().date());
 			dateRangeSelector.setHelpInformation(true);
-			dateRangeSelector.setWidth("150px");
+			// dateRangeSelector.setWidth("150px");
 			List<String> typeList = new ArrayList<String>();
-			typeList.add(Accounter.constants().active());
-			typeList.add(Accounter.constants().inActive());
+			typeList.add(Accounter.messages().active());
+			typeList.add(Accounter.messages().inActive());
 			dateRangeSelector.initCombo(typeList);
-			dateRangeSelector.setDefaultValue(Accounter.constants().active());
+			dateRangeSelector.setDefaultValue(Accounter.messages().active());
 			dateRangeSelector.addChangeHandler(new ChangeHandler() {
 
 				@Override
@@ -203,30 +202,41 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setTitle(Accounter.constants().from());
+		fromItem.setTitle(Accounter.messages().from());
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
-		toItem.setTitle(Accounter.constants().to());
+		toItem.setTitle(Accounter.messages().to());
 		toItem.setDatethanFireEvent(Accounter.getCompany()
 				.getCurrentFiscalYearEndDate());
 		// .getLastandOpenedFiscalYearEndDate());
+		fromItem.addClickHandler(new ClickHandler() {
 
-		updateButton = new Button(Accounter.constants().update());
+			@Override
+			public void onClick(ClickEvent event) {
+				dateRangeSelector.setComboItem(messages.custom());
+			}
+		});
+		toItem.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				dateRangeSelector.setComboItem(messages.custom());
+			}
+		});
+		updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 
-				dateRangeSelector.setDefaultValue(Accounter.constants()
-						.custom());
 				customManage();
 
 			}
 		});
 
-		prepare1099MiscForms = new Button(Accounter.constants()
+		prepare1099MiscForms = new Button(Accounter.messages()
 				.prepare1099MiscForms());
 		prepare1099MiscForms.addClickHandler(new ClickHandler() {
 
@@ -237,7 +247,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			}
 		});
 
-		budgetDetails = new Button(Accounter.constants().details());
+		budgetDetails = new Button(Accounter.messages().details());
 		budgetDetails.setWidth("10");
 		budgetDetails.addClickHandler(new ClickHandler() {
 
@@ -261,7 +271,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 					HasHorizontalAlignment.ALIGN_RIGHT);
 
 		} else if (this instanceof VendorListView
-				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+				&& getCompany().getCountry().equals(
+						CountryPreferenceFactory.UNITED_STATES)) {
 			form.setFields(viewSelect);
 			hlay.add(prepare1099MiscForms);
 			hlay.setCellWidth(prepare1099MiscForms, "65%");
@@ -270,7 +281,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlay.setCellHorizontalAlignment(prepare1099MiscForms, ALIGN_RIGHT);
 			hlay.addStyleName("vendor_list_1099");
 		} else if (this instanceof BudgetListView
-				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+				&& getCompany().getCountry().equals(
+						CountryPreferenceFactory.UNITED_STATES)) {
 			form.setFields(viewSelect);
 			hlay.add(form);
 			hlay.add(budgetDetails);
@@ -278,7 +290,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		} else {
 
 			if (!(this instanceof JournalEntryListView))
-				form.setFields(viewSelect);
+				if (viewSelect != null) {
+					form.setFields(viewSelect);
+				}
 			hlay.add(form);
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 		}
@@ -459,10 +473,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	@Override
 	public void onFailure(Throwable exception) {
 		if (exception instanceof AccounterException) {
-			Accounter.showError(Accounter.constants().failedRequest());
+			Accounter.showError(Accounter.messages().failedRequest());
 			return;
 		}
-		Accounter.showMessage(Accounter.constants().sessionExpired());
+		Accounter.showMessage(Accounter.messages().sessionExpired());
 	}
 
 	@Override
@@ -545,7 +559,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	 */
 	@Override
 	public void setFocus() {
-		this.viewSelect.setFocus();
+		if (this.viewSelect != null) {
+			this.viewSelect.setFocus();
+		}
 	}
 
 	@Override
@@ -572,7 +588,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	}
 
 	public void disableFilter() {
-		this.viewSelect.setDisabled(true);
+		if (this.viewSelect != null) {
+			this.viewSelect.setDisabled(true);
+		}
 	}
 
 }

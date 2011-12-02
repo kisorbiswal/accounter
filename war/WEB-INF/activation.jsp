@@ -1,12 +1,16 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
   <head>
-        <meta content="IE=100" http-equiv="X-UA-Compatible">
-		<link rel="shortcut icon" href="../images/favicon.ico" />
+  <title>Activation | Accounter
+  </title>
+        <meta content="IE=100" http-equiv="X-UA-Compatible" />
+		<link rel="shortcut icon" href="/images/favicon.ico" />
 		
 		<%@ include file="./feedback.jsp" %>
-		<link type="text/css" href="../css/ss.css" rel="stylesheet">
-		<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
+		<link type="text/css" href="../css/ss.css" rel="stylesheet" />
+		<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 		<script  type="text/javascript" >
 			$(document).ready(function() {
 				$('#submitButton').click(function() {
@@ -20,7 +24,7 @@
 					});
 				});
 				$('input#actiovationTextbox').keydown(function(e) {
-					  if (e.keyCode == '9' || e..which =='9') {
+					  if (e.keyCode == '9' || e.which =='9') {
 					     e.preventDefault();
 					    $('#submitButton').focus();
 					   }
@@ -34,10 +38,10 @@
 			});
 			
 		</script>
-  </head>
+    </head>
     <body>
 	    <div id="commanContainer">
-		 <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
+		 <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt= "Accounter logo"/>
 		  <c:if test="${successmessage!=null}">
 			<div id="login_success" class="common-box">
 				<span>${successmessage}</span>
@@ -50,10 +54,10 @@
 			</div>
 			<div>
 			  <label>Enter valid activation code</label>
-			  <input id ="actiovationTextbox" type="text" name="code">
+			  <input id ="actiovationTextbox" type="text" name="code" />
 			</div>
 			<div class="reset-button">
-			   <input type="submit" tabindex="3" value="Activate" name="activate" class="allviews-common-button" id="submitButton">
+			   <input type="submit" tabindex="3" value="Activate" name="activate" class="allviews-common-button" id="submitButton" />
 			</div>
 		 </form>
 		 <div class="resend-code">
@@ -72,11 +76,7 @@
 	    </div>
 	</div>
      
-     <script type="text/javascript" charset="utf-8">
-			var is_ssl = ("https:" == document.location.protocol);
-			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
-			document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-		
+     
+	<%@ include file="./scripts.jsp" %>
 	</body>
 </html>

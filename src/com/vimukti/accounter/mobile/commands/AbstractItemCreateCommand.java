@@ -1,758 +1,570 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
-import com.vimukti.accounter.mobile.ActionNames;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ItemGroupRequirement;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.NumberRequirement;
+import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
+import com.vimukti.accounter.mobile.requirements.VendorRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 
-public abstract class AbstractItemCreateCommand extends AbstractCommand {
+public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
+
+	private static final String NAME = "name";
+	private static final String I_SELL_THIS = "iSellthis";
+	private static final String SALES_DESCRIPTION = "salesDescription";
+	private static final String SALES_PRICE = "salesPrice";
+	private static final String INCOME_ACCOUNT = "incomeAccount";
+	private static final String IS_TAXABLE = "isTaxable";
+	private static final String IS_COMMISION_ITEM = "isCommisionItem";
+	private static final String STANDARD_COST = "standardCost";
+	private static final String ITEM_GROUP = "itemGroup";
+	private static final String IS_ACTIVE = "isActive";
+	private static final String I_BUY_THIS = "iBuyService";
+	private static final String PURCHASE_DESCRIPTION = "purchaseDescription";
+	private static final String PURCHASE_PRICE = "purchasePrice";
+	private static final String EXPENSE_ACCOUNT = "expenseAccount";
+	private static final String PREFERRED_SUPPLIER = "preferredSupplier";
+	private static final String SERVICE_NO = "supplierServiceNo";
+	protected static final String WEIGHT = "weight";
+	private static final String TAXCODE = "taxCode";
+	private int itemType;
+	private ClientItem item;
+
+	public AbstractItemCreateCommand(int itemType) {
+		this.itemType = itemType;
+	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement("name", false, true));
-		list.add(new Requirement("iSellthis", true, true));
-		list.add(new Requirement("description", true, true));
-		list.add(new Requirement("price", true, true));
-		list.add(new Requirement("incomeaccount", false, true));
-		list.add(new Requirement("isTaxable", true, true));
-		list.add(new Requirement("isCommisionItem", true, true));
-		list.add(new Requirement("cost", true, true));
-		list.add(new Requirement("itemgroup", true, true));
-		list.add(new Requirement("vatCode", false, true));
-		list.add(new Requirement("active", true, true));
-		list.add(new Requirement("buyservice", true, true));
-		list.add(new Requirement("purchaseDescription", true, true));
-		list.add(new Requirement("purchasePrice", true, true));
-		list.add(new Requirement("expenseAccount", false, true));
-		list.add(new Requirement("preferedSupplier", true, true));
-		list.add(new Requirement("supplierServiceNo", true, true));
+		list.add(new NameRequirement(NAME, getMessages().pleaseEnter(
+				getMessages().itemName()), getMessages().name(), false, true));
+
+		list.add(new BooleanRequirement(I_SELL_THIS, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().isellthisservice();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().idontSellThisService();
+			}
+		});
+
+		list.add(new BooleanRequirement(I_BUY_THIS, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().iBuyThisItem();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().idontBuyThisService();
+			}
+		});
+
+		list.add(new NameRequirement(SALES_DESCRIPTION, getMessages()
+				.pleaseEnter(getMessages().salesDescription()), getMessages()
+				.salesDescription(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_SELL_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new AmountRequirement(SALES_PRICE, getMessages().pleaseEnter(
+				getMessages().salesPrice()), getMessages().salesPrice(), true,
+				true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_SELL_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new AccountRequirement(INCOME_ACCOUNT, getMessages()
+				.pleaseEnter(getMessages().incomeAccount()), getMessages()
+				.incomeAccount(), false, true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_SELL_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected List<Account> getLists(Context context) {
+				return Utility.filteredList(new ListFilter<Account>() {
+
+					@Override
+					public boolean filter(Account account) {
+						if (account.getType() != Account.TYPE_CASH
+								&& account.getType() != Account.TYPE_BANK
+								&& account.getType() != Account.TYPE_INVENTORY_ASSET
+								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+								&& account.getType() != Account.TYPE_EXPENSE
+								&& account.getType() != Account.TYPE_OTHER_EXPENSE
+								&& account.getType() != Account.TYPE_COST_OF_GOODS_SOLD
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY
+								&& account.getType() != Account.TYPE_OTHER_ASSET
+								&& account.getType() != Account.TYPE_EQUITY) {
+							return true;
+						} else {
+							return false;
+						}
+					}
+				}, new ArrayList<Account>(context.getCompany().getAccounts()));
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getMessages().Account());
+			}
+
+			@Override
+			protected boolean filter(Account e, String name) {
+				return e.getName().startsWith(name)
+						|| e.getNumber().equals(name);
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Income Account has been selected";
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_TAXABLE, true) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_SELL_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().taxable();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().taxExempt();
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_COMMISION_ITEM, true) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_SELL_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().thisIsCommisionItem();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().thisIsNoCommisionItem();
+			}
+		});
+
+		list.add(new AmountRequirement(STANDARD_COST, getMessages()
+				.pleaseEnter(getMessages().standardCost()), getMessages()
+				.standardCost(), true, true));
+
+		list.add(new ItemGroupRequirement(ITEM_GROUP,
+				"Enter the item group name", getMessages().itemGroup(), true,
+				true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Item group has been selected";
+			}
+
+			@Override
+			protected List<ItemGroup> getLists(Context context) {
+				return new ArrayList<ItemGroup>(context.getCompany()
+						.getItemGroups());
+			}
+
+			@Override
+			protected boolean filter(ItemGroup e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new TaxCodeRequirement(TAXCODE, "Enter the Tax Code name",
+				getMessages().taxCode(), false, true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (context.getCompany().getPreferences()
+						.isClassOnePerTransaction()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected List<TAXCode> getLists(Context context) {
+				return new ArrayList<TAXCode>(context.getCompany()
+						.getTaxCodes());
+			}
+
+			@Override
+			protected boolean filter(TAXCode e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_ACTIVE, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().active();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().inActive();
+			}
+		});
+
+		list.add(new NameRequirement(PURCHASE_DESCRIPTION, getMessages()
+				.pleaseEnter(getMessages().purchaseDescription()),
+				getMessages().purchaseDescription(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_BUY_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new AmountRequirement(PURCHASE_PRICE, getMessages()
+				.pleaseEnter(getMessages().purchasePrice()), getMessages()
+				.purchasePrice(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_BUY_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new AccountRequirement(EXPENSE_ACCOUNT, getMessages()
+				.pleaseEnter(getMessages().expenseAccount()), getMessages()
+				.expenseAccount(), false, true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_BUY_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected List<Account> getLists(Context context) {
+				return Utility.filteredList(new ListFilter<Account>() {
+
+					@Override
+					public boolean filter(Account e) {
+						return Arrays.asList(Account.TYPE_EXPENSE,
+								Account.TYPE_COST_OF_GOODS_SOLD,
+								Account.TYPE_OTHER_EXPENSE).contains(
+								e.getType());
+					}
+				}, new ArrayList<Account>(context.getCompany().getAccounts()));
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getMessages().Account());
+			}
+
+			@Override
+			protected boolean filter(Account e, String name) {
+				return e.getName().startsWith(name)
+						|| e.getNumber().equals(name);
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Expense Account has been selected";
+			}
+		});
+
+		list.add(new VendorRequirement(PREFERRED_SUPPLIER,
+				"enter the supplier name or number", getMessages()
+						.preferredVendor(Global.get().Vendor()), true, true,
+				null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_BUY_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return "Preferred Supplier has been selected";
+			}
+
+			@Override
+			protected List<Vendor> getLists(Context context) {
+				return getVendors();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(Global.get().Vendor());
+			}
+
+			@Override
+			protected boolean filter(Vendor e, String name) {
+				return e.getName().startsWith(name);
+			}
+		});
+
+		list.add(new NumberRequirement(SERVICE_NO, getMessages().pleaseEnter(
+				getMessages().vendorServiceNo(Global.get().Vendor())),
+				getMessages().vendorServiceNo(Global.get().Vendor()), true,
+				true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractItemCreateCommand.this.get(I_BUY_THIS).getValue()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = null;
-		result = itemNameRequirement(context);
-		if (result != null) {
-			return result;
-		}
-		Boolean iSellThis = get("iSellthis").getValue();
-		if (iSellThis) {
-			result = incomeorExpenseAccountRequirement(context, true);
-			if (result != null) {
-				return result;
-			}
-		}
-		// TODO: check vatcode option is active or not company preferences
-
-		result = vatCodeRequirment(context);
-		if (result != null) {
-			return result;
-		}
-		Boolean buyService = get("buyservice").getValue();
-		if (buyService) {
-			result = incomeorExpenseAccountRequirement(context, false);
-			if (result != null) {
-				return result;
-			}
-		}
-		result = createOptionalResult(context);
-		if (result != null) {
-			return result;
-		}
-
-		return createNewItem(context);
+	protected void setDefaultValues(Context context) {
+		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
 	}
 
-	/**
-	 * for checking of optionals
-	 * 
-	 * @param context
-	 * @return
-	 */
-
-	private Result createOptionalResult(Context context) {
-		context.setAttribute(INPUT_ATTR, "optional");
-
-		Object selection = context.getSelection(ACTIONS);
-		if (selection != null) {
-			ActionNames actionName = (ActionNames) selection;
-			switch (actionName) {
-			case FINISH:
-				return null;
-			default:
-				break;
-			}
-		}
-		selection = context.getSelection("values");
-		ResultList list = new ResultList("values");
-
-		Requirement nameReq = get("name");
-		Record nameRecord = new Record(nameReq);
-		nameRecord.add("Name", "Name");
-		nameRecord.add("Value", nameReq.getName());
-		list.add(nameRecord);
-
-		Result result = isSellthisRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		// TODO :check weather it is product or service item
-		result = weightRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		Boolean iSellThis = get("iSellthis").getValue();
-		if (iSellThis) {
-			Requirement incomeAccountReq = get("incomeaccount");
-			Account inAccount = (Account) incomeAccountReq.getValue();
-			if (inAccount == selection) {
-				context.setAttribute(INPUT_ATTR, "incomeaccount");
-				return incomeorExpenseAccountRequirement(context, true);
-			}
-
-			result = descriptionRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-
-			result = priceRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-
-			result = isTaxableRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-
-			result = isCommisionitemRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-		}
-		result = costRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		Requirement itemGroupReq = get("itemgroup");
-		ItemGroup itemGroup = (ItemGroup) itemGroupReq.getValue();
-		if (itemGroup == selection) {
-			context.setAttribute(INPUT_ATTR, "itemgroup");
-			return itemgroups(context);
-		}
-
-		// TODO: check weather it is active in company preference
-
-		Requirement vatCodeReq = get("vatCode");
-		TAXCode taxCode = (TAXCode) vatCodeReq.getValue();
-		if (taxCode == selection) {
-			context.setAttribute(INPUT_ATTR, "vatCode");
-			return taxCode(context, null);
-		}
-
-		result = activeRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-
-		result = buyserviceRequirement(context, list, selection);
-		if (result != null) {
-			return result;
-		}
-		Boolean buyService = get("buyservice").getValue();
-		if (buyService) {
-			Requirement expenseAccountReq = get("expenseAccount");
-			Account exAccount = (Account) expenseAccountReq.getValue();
-			if (exAccount == selection) {
-				context.setAttribute(INPUT_ATTR, "expenseAccount");
-				return incomeorExpenseAccountRequirement(context, false);
-			}
-			result = purchaseDescriptionRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-
-			result = purchasepriceRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-
-			// for prefferedSupplier
-			result = vendorRequirement(context);
-			if (result != null) {
-				return result;
-			}
-
-			result = supplierServiceNoRequirement(context, list, selection);
-			if (result != null) {
-				return result;
-			}
-		}
-		result = itemGroupRequirement(context);
-		if (result != null) {
-			return result;
-		}
-
-		result = context.makeResult();
-		result.add(" Item is ready to create with following values.");
-		result.add(list);
-		ResultList actions = new ResultList("actions");
-		Record finish = new Record(ActionNames.FINISH);
-		finish.add("", "Finish to create Item.");
-		actions.add(finish);
-		result.add(actions);
-
-		return result;
-	}
-
-	private Result isTaxableRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement TaxableReq = get("isTaxable");
-		Boolean isTaxable = (Boolean) TaxableReq.getValue();
-		if (selection == isTaxable) {
-			context.setAttribute(INPUT_ATTR, "isTaxable");
-			isTaxable = !isTaxable;
-			TaxableReq.setValue(isTaxable);
-		}
-		String TaxableString = "";
-		if (isTaxable) {
-			TaxableString = "Taxable is Active";
-		} else {
-			TaxableString = "Taxable is InActive";
-		}
-		Record TaxableRecord = new Record("isTaxable");
-		TaxableRecord.add("Name", "Taxable");
-		TaxableRecord.add("Value", TaxableString);
-		list.add(TaxableRecord);
-		return null;
-	}
-
-	private Result isSellthisRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement iSellthisReq = get("iSellthis");
-		Boolean isSellthis = (Boolean) iSellthisReq.getValue();
-		if (selection == isSellthis) {
-			context.setAttribute(INPUT_ATTR, "iSellthis");
-			isSellthis = !isSellthis;
-			iSellthisReq.setValue(isSellthis);
-		}
-		String isSellthisString = "";
-		if (isSellthis) {
-			isSellthisString = "I sell this Service is Active";
-		} else {
-			isSellthisString = "I sell this Service is InActive";
-		}
-		Record issellThisRecord = new Record("iSellthis");
-		issellThisRecord.add("Name", "I sell this item");
-		issellThisRecord.add("Value", isSellthisString);
-		list.add(issellThisRecord);
-		return null;
-	}
-
-	protected Result weightRequirement(Context context, ResultList list,
-			Object selection) {
-		return null;
-	}
-
-	private Result supplierServiceNoRequirement(Context context,
-			ResultList list, Object selection) {
-
-		Requirement supplierServiceReq = get("supplierServiceNo");
-		Integer supplierService = (Integer) supplierServiceReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("supplierServiceNo")) {
-			Integer supSer = context.getSelection(TEXT);
-			if (supSer == null) {
-				supSer = context.getInteger();
-			}
-			supplierService = supSer;
-			supplierServiceReq.setValue(supplierService);
-		}
-		if (selection == supplierService) {
-			context.setAttribute(INPUT_ATTR, "supplierServiceNo");
-			return text(context, "Enter Supplier Service No.", supplierService
-					.toString());
-		}
-
-		Long supplierServiceNo = (Long) get("supplierServiceNo").getValue();
-		Record supplierServiceNoRec = new Record(supplierServiceNo);
-		supplierServiceNoRec.add("Name", "Supplier Service No.");
-		supplierServiceNoRec.add("Value", supplierServiceNo);
-		list.add(supplierServiceNoRec);
-		return null;
-	}
-
-	private Result purchasepriceRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement pPriceReq = get("purchasePrice");
-		String pPrice = (String) pPriceReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("purchasePrice")) {
-			String pric = context.getSelection(TEXT);
-			if (pric == null) {
-				pric = context.getString();
-			}
-			pPrice = pric;
-			pPriceReq.setValue(pPrice);
-		}
-		if (selection == pPrice) {
-			context.setAttribute(INPUT_ATTR, "purchasePrice");
-			return text(context, "Enter Purchase Price", pPrice);
-		}
-
-		Record pPriceRecord = new Record(pPrice);
-		pPriceRecord.add("Name", "purchasePrice");
-		pPriceRecord.add("Value", pPrice);
-		list.add(pPriceRecord);
-		return null;
-	}
-
-	private Result priceRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement priceReq = get("price");
-		String price = (String) priceReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("price")) {
-			String pric = context.getSelection(TEXT);
-			if (pric == null) {
-				pric = context.getString();
-			}
-			price = pric;
-			priceReq.setValue(price);
-		}
-		if (selection == price) {
-			context.setAttribute(INPUT_ATTR, "price");
-			return text(context, "Enter Price", price);
-		}
-
-		Record priceRecord = new Record(price);
-		priceRecord.add("Name", "Price");
-		priceRecord.add("Value", price);
-		list.add(priceRecord);
-		return null;
-	}
-
-	private Result purchaseDescriptionRequirement(Context context,
-			ResultList list, Object selection) {
-		Requirement pDescriptionReq = get("purchaseDescription");
-		String pDescription = (String) pDescriptionReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("purchaseDescription")) {
-			String desc = context.getSelection(TEXT);
-			if (desc == null) {
-				desc = context.getString();
-			}
-			pDescription = desc;
-			pDescriptionReq.setValue(pDescription);
-		}
-		if (selection == pDescription) {
-			context.setAttribute(INPUT_ATTR, "purchaseDescription");
-			return text(context, "Enter Purchase Description", pDescription);
-		}
-
-		Record pDescRecord = new Record(pDescription);
-		pDescRecord.add("Name", "Purchase Description");
-		pDescRecord.add("Value", pDescription);
-		list.add(pDescRecord);
-		return null;
-	}
-
-	private Result buyserviceRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement buyserviceReq = get("buyservice");
-		Boolean isbuyservice = (Boolean) buyserviceReq.getValue();
-		if (selection == isbuyservice) {
-			context.setAttribute(INPUT_ATTR, "buyservice");
-			isbuyservice = !isbuyservice;
-			buyserviceReq.setValue(isbuyservice);
-		}
-		String isbuyserviceString = "";
-		if (isbuyservice) {
-			isbuyserviceString = "I buy this Service is Active";
-		} else {
-			isbuyserviceString = "I buy this Service InActive";
-		}
-		Record isbuyserviceRecord = new Record("buyservice");
-		isbuyserviceRecord.add("Name", "");
-		isbuyserviceRecord.add("Value", isbuyserviceString);
-		list.add(isbuyserviceRecord);
-		return null;
-	}
-
-	private Result activeRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement isActiveReq = get("active");
-		Boolean isActive = (Boolean) isActiveReq.getValue();
-		if (selection == isActive) {
-			context.setAttribute(INPUT_ATTR, "active");
-			isActive = !isActive;
-			isActiveReq.setValue(isActive);
-		}
-		String activeString = "";
-		if (isActive) {
-			activeString = "This Item is Active";
-		} else {
-			activeString = "This Item is InActive";
-		}
-		Record isActiveRecord = new Record("active");
-		isActiveRecord.add("Name", "Active");
-		isActiveRecord.add("Value", activeString);
-		list.add(isActiveRecord);
-		return null;
-	}
-
-	private Result costRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement costReq = get("cost");
-		String cost = (String) costReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("cost")) {
-			String cos = context.getSelection(TEXT);
-			if (cos == null) {
-				cos = context.getString();
-			}
-			cost = cos;
-			costReq.setValue(cost);
-		}
-		if (selection == cost) {
-			context.setAttribute(INPUT_ATTR, "cost");
-			return text(context, "Enter cost", cost);
-		}
-
-		Record costRecord = new Record(cost);
-		costRecord.add("Name", "Cost");
-		costRecord.add("Value", cost);
-		list.add(costRecord);
-		return null;
-	}
-
-	private Result isCommisionitemRequirement(Context context, ResultList list,
-			Object selection) {
-
-		Requirement isCommReq = get("isCommisionItem");
-		Boolean isCommisionItem = (Boolean) isCommReq.getValue();
-		if (selection == isCommisionItem) {
-			context.setAttribute(INPUT_ATTR, "isCommisionItem");
-			isCommisionItem = !isCommisionItem;
-			isCommReq.setValue(isCommisionItem);
-		}
-		String commString = "";
-		if (isCommisionItem) {
-			commString = "This is Commision Item";
-		} else {
-			commString = "This Item is not Commision Item";
-		}
-		Record iscommRecord = new Record("isCommisionItem");
-		iscommRecord.add("Name", "Commision Item");
-		iscommRecord.add("Value", commString);
-		list.add(iscommRecord);
-
-		return null;
-	}
-
-	private Result descriptionRequirement(Context context, ResultList list,
-			Object selection) {
-		Requirement descriptionReq = get("description");
-		String description = (String) descriptionReq.getValue();
-		String attribute = (String) context.getAttribute(INPUT_ATTR);
-		if (attribute.equals("description")) {
-			String desc = context.getSelection(TEXT);
-			if (desc == null) {
-				desc = context.getString();
-			}
-			description = desc;
-			descriptionReq.setValue(description);
-		}
-		if (selection == description) {
-			context.setAttribute(INPUT_ATTR, "description");
-			return text(context, "Enter Description", description);
-		}
-
-		Record descRecord = new Record(description);
-		descRecord.add("Name", "Description");
-		descRecord.add("Value", description);
-		list.add(descRecord);
-		return null;
-	}
-
-	/**
-	 * checking for mandatory field item name
-	 * 
-	 * @param context
-	 * @return
-	 */
-
-	private Result itemNameRequirement(Context context) {
-		Requirement requirement = get("name");
-		if (!requirement.isDone()) {
-		String name = context.getSelection(TEXT);
-		if (name != null) {
-		requirement.setValue(name);
-		} else {
-		return text(context, "Please enter the Name", null);
-		}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals("name")) {
-		requirement.setValue(input);
-		}
-		return null;
-		} 
-
-	private Result vatCodeRequirment(Context context) {
-		Requirement taxReq = get("vatCode");
-		TAXCode taxcode = context.getSelection(TAXCODE);
-		if (!taxReq.isDone()) {
-			if (taxcode != null) {
-				taxReq.setValue(taxcode);
-			} else {
-				return taxCode(context, null);
-			}
-		}
-		if (taxcode != null) {
-			taxReq.setValue(taxcode);
-		}
-		return null;
-	}
-
-	/**
-	 * checking for mandatory field income accounts by type (income or expense)
-	 * 
-	 * @param context
-	 * @param typeOfaccounts
-	 * @return
-	 */
-
-	protected Result incomeorExpenseAccountRequirement(Context context,
-			boolean typeOfaccounts) {
-		Requirement incomeAccountReq = get("incomeaccount");
-		Account incomeAccount = context.getSelection("incomeaccounts");
-		if (incomeAccount != null) {
-			incomeAccountReq.setValue(incomeAccount);
-		}
-		if (!incomeAccountReq.isDone()) {
-			return accountsByType(context, typeOfaccounts);
-		}
-		return null;
-	}
-
-	/**
-	 * to get the result of accounts by type (income or expense)
-	 * 
-	 * @param context
-	 * @param accountType
-	 * @return
-	 */
-	protected Result accountsByType(Context context, boolean accountType) {
-		Result result = context.makeResult();
-		ResultList incomeaccountsList = new ResultList("incomeaccounts");
-
-		Object last = context.getLast(RequirementType.ACCOUNT);
-		int num = 0;
-		if (last != null) {
-			incomeaccountsList.add(createincomeAccountRecord((Account) last));
-			num++;
-		}
-		List<Account> accounts = getAccountsByType(context
-				.getHibernateSession(), accountType);
-		for (Account account : accounts) {
-			if (account != last) {
-				incomeaccountsList.add(createincomeAccountRecord(account));
-				num++;
-			}
-			if (num == INCOMEACCOUNTS_TO_SHOW) {
-				break;
-			}
-		}
-		int size = incomeaccountsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select an Account");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
-
-		result.add(message.toString());
-		result.add(incomeaccountsList);
-		result.add(commandList);
-		result.add("Type for Account");
-		return result;
-	}
-
-	protected Record createincomeAccountRecord(Account last) {
-		Record record = new Record(last);
-		record.add("Name", last.getName());
-		record.add("Account Number", last.getNumber());
-		return record;
-	}
-
-	/**
-	 * 
-	 * @param session
-	 * @param TypeofAccounts
-	 *            (income or expense)
-	 * @return
-	 */
-	private List<Account> getAccountsByType(Session session,
-			boolean TypeofAccounts) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * requirement for a vendor from combo
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result vendorRequirement(Context context) {
-		Requirement vendorReq = get("preferedSupplier");
-		Vendor vendor = context.getSelection("vendors");
-		if (vendor != null) {
-			vendorReq.setValue(vendor);
-		}
-		if (!vendorReq.isDone()) {
-			return vendors(context);
-		}
-		return null;
-	}
-
-	private Result itemGroupRequirement(Context context) {
-		Requirement itemgroupReq = get("itemgroup");
-		ItemGroup itemgroup = context.getSelection("itemgroups");
-		if (itemgroup != null) {
-			itemgroupReq.setValue(itemgroup);
-		}
-		if (!itemgroupReq.isDone()) {
-			return itemgroups(context);
-		}
-		return null;
-
-	}
-
-	private Result itemgroups(Context context) {
-		Result result = context.makeResult();
-		ResultList itemgroupsList = new ResultList("itemgroups");
-
-		Object last = context.getLast(RequirementType.ITEM_GROUP);
-		int num = 0;
-		if (last != null) {
-			itemgroupsList.add(createitemGroupRecord((ItemGroup) last));
-			num++;
-		}
-		List<ItemGroup> itemgroups = getItemGroups(context
-				.getHibernateSession());
-		for (ItemGroup itemGroup : itemgroups) {
-			if (itemGroup != last) {
-				itemgroupsList.add(createitemGroupRecord(itemGroup));
-				num++;
-			}
-			if (num == ITEMGROUPS_TO_SHOW) {
-				break;
-			}
-		}
-		int size = itemgroupsList.size();
-		StringBuilder message = new StringBuilder();
-		if (size > 0) {
-			message.append("Select an ItemGroup");
-		}
-		CommandList commandList = new CommandList();
-		commandList.add("Create");
-
-		result.add(message.toString());
-		result.add(itemgroupsList);
-		result.add(commandList);
-		result.add("Type for ItemGroup");
-		return result;
-
-	}
-
-	private List<ItemGroup> getItemGroups(Session session) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Record createitemGroupRecord(ItemGroup last) {
-		Record record = new Record(last);
-		record.add("Name", last.getName());
-		return record;
-	}
-
-	private Result createNewItem(Context context) {
-		Item item = null;
-
-		String name = (String) get("name").getValue();
+	@Override
+	protected Result onCompleteProcess(Context context) {
+		String name = (String) get(NAME).getValue();
 
 		// TODO:check weather it is product or service item
-		Integer weight = (Integer) get("weight").getValue();
-		Boolean iSellthis = (Boolean) get("iSellthis").getValue();
-		String description = (String) get("description").getValue();
-		double price = (Double) get("price").getValue();
-		Account incomeAccount = (Account) get("incomeaccount").getValue();
-		Boolean isTaxable = (Boolean) get("isTaxable").getValue();
-		Boolean isCommisionItem = (Boolean) get("isCommisionItem").getValue();
-		double cost = (Double) get("cost").getValue();
-		ItemGroup itemGroup = (ItemGroup) get("itemgroup").getValue();
-		TAXCode vatcode = (TAXCode) get("vatCode").getValue();
-		Boolean isActive = (Boolean) get("active").getValue();
-		Boolean isBuyservice = (Boolean) get("buyservice").getValue();
-		String purchaseDescription = (String) get("purchaseDescription")
+		Integer weight = 0;
+		Requirement weightReq = get(WEIGHT);
+		if (weightReq != null) {
+			String s = weightReq.getValue();
+			weight = s != null ? Integer.parseInt(s) : 0;
+		}
+		Boolean iSellthis = (Boolean) get(I_SELL_THIS).getValue();
+		String description = (String) get(SALES_DESCRIPTION).getValue();
+		double price = (Double) get(SALES_PRICE).getValue();
+		Account incomeAccount = get(INCOME_ACCOUNT).getValue();
+		Boolean isTaxable = (Boolean) get(IS_TAXABLE).getValue();
+		Boolean isCommisionItem = (Boolean) get(IS_COMMISION_ITEM).getValue();
+		double cost = (Double) get(STANDARD_COST).getValue();
+		ItemGroup itemGroup = (ItemGroup) get(ITEM_GROUP).getValue();
+		TAXCode vatcode = (TAXCode) get(TAXCODE).getValue();
+		Boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
+		Boolean isBuyservice = (Boolean) get(I_BUY_THIS).getValue();
+		String purchaseDescription = (String) get(PURCHASE_DESCRIPTION)
 				.getValue();
-		double purchasePrice = (Double) get("purchasePrice").getValue();
-		Account expenseAccount = (Account) get("expenseAccount").getValue();
-		Vendor preferedSupplier = (Vendor) get("preferedSupplier").getValue();
-		String supplierServiceNo = (String) get("supplierServiceNo").getValue();
+		double purchasePrice = (Double) get(PURCHASE_PRICE).getValue();
+		Account expenseAccount = (Account) get(EXPENSE_ACCOUNT).getValue();
+		Vendor preferedSupplier = (Vendor) get(PREFERRED_SUPPLIER).getValue();
+		String supplierServiceNo = (String) get(SERVICE_NO).getValue();
 
-		item.setName(name);
-		item.setWeight(weight);
-		item.setISellThisItem(iSellthis);
+		getItem().setName(name);
+		getItem().setWeight(weight);
+		getItem().setISellThisItem(iSellthis);
 		if (iSellthis) {
-			item.setSalesDescription(description);
-			item.setSalesPrice(price);
-			item.setIncomeAccount(incomeAccount);
-			item.setTaxable(isTaxable);
-			item.setCommissionItem(isCommisionItem);
+			getItem().setSalesDescription(description);
+			getItem().setSalesPrice(price);
+			getItem().setIncomeAccount(incomeAccount.getID());
+			getItem().setTaxable(isTaxable);
+			getItem().setCommissionItem(isCommisionItem);
 		}
-		item.setStandardCost(cost);
-		item.setTaxCode(vatcode);
-		item.setActive(isActive);
-		item.setIBuyThisItem(isBuyservice);
+		getItem().setStandardCost(cost);
+		if (context.getCompany().getPreferences().isClassOnePerTransaction()) {
+			getItem().setTaxCode(vatcode.getID());
+		}
+		getItem().setActive(isActive);
+		getItem().setIBuyThisItem(isBuyservice);
+		if (itemGroup != null)
+			getItem().setItemGroup(itemGroup.getID());
 		if (isBuyservice) {
-			item.setPurchaseDescription(purchaseDescription);
-			item.setPurchasePrice(purchasePrice);
-			item.setExpenseAccount(expenseAccount);
-			item.setPreferredVendor(preferedSupplier);
-			item.setVendorItemNumber(supplierServiceNo);
+			getItem().setPurchaseDescription(purchaseDescription);
+			getItem().setPurchasePrice(purchasePrice);
+			getItem().setExpenseAccount(expenseAccount.getID());
+			if (preferedSupplier != null)
+				getItem().setPreferredVendor(preferedSupplier.getID());
+			getItem().setVendorItemNumber(supplierServiceNo);
 		}
-		create(item, context);
+		getItem().setType(itemType);
+		create(getItem(), context);
 
-		markDone();
+		return null;
+	}
 
-		Result result = new Result();
-		result.add(" Item was created successfully.");
-
-		return result;
+	@Override
+	protected String getDetailsMessage() {
+		return getItem().getID() == 0 ? getMessages().readyToCreate(
+				getMessages().item())
+				: "Item is ready to update with following details";
 
 	}
 
+	@Override
+	public String getSuccessMessage() {
+		return getItem().getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().item()) : getMessages().updateSuccessfully(
+				getMessages().item());
+	}
+
+	@Override
+	protected String getDeleteCommand(Context context) {
+		String itemCommand = null;
+		if (item.getID() != 0)
+			switch (item.getType()) {
+			case Item.TYPE_SERVICE:
+				itemCommand = "Delete Service Item " + item.getID();
+				break;
+			case Item.TYPE_NON_INVENTORY_PART:
+				itemCommand = "Delete Non Inventory Item " + item.getID();
+				break;
+			case Item.TYPE_INVENTORY_PART:
+				itemCommand = "Delete Inventory Item " + item.getID();
+				break;
+			}
+		return itemCommand;
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
+		if (!isUpdate) {
+			if (!string.isEmpty()) {
+				if (string.equals("sell")) {
+					get(I_SELL_THIS).setValue(true);
+				} else {
+					get(I_BUY_THIS).setValue(true);
+				}
+			} else {
+				get(I_SELL_THIS).setValue(true);
+			}
+			setItem(new ClientItem());
+		} else {
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select an Item to update.");
+				return "Items List";
+			}
+			Item customerByName = CommandUtils.getItemByName(
+					context.getCompany(), string);
+			if (customerByName == null) {
+				addFirstMessage(context, "Select an Item to update.");
+				return "Items List " + string;
+			}
+			setItem((ClientItem) CommandUtils.getClientObjectById(
+					customerByName.getID(), AccounterCoreType.ITEM, context
+							.getCompany().getId()));
+			setValues();
+		}
+		return null;
+	}
+
+	private void setValues() {
+		get(NAME).setValue(item.getName());
+
+		get(I_SELL_THIS).setValue(item.isISellThisItem());
+		get(SALES_DESCRIPTION).setValue(item.getSalesDescription());
+		get(SALES_PRICE).setValue(item.getSalesPrice());
+		get(INCOME_ACCOUNT).setValue(
+				CommandUtils.getServerObjectById(item.getIncomeAccount(),
+						AccounterCoreType.ACCOUNT));
+		get(IS_TAXABLE).setValue(item.isTaxable());
+		get(IS_COMMISION_ITEM).setValue(item.isCommissionItem());
+		get(STANDARD_COST).setValue(item.getStandardCost());
+		long itemGroup = item.getItemGroup();
+		get(ITEM_GROUP).setValue(
+				CommandUtils.getServerObjectById(itemGroup,
+						AccounterCoreType.ITEM_GROUP));
+		get(TAXCODE).setValue(
+				CommandUtils.getServerObjectById(item.getTaxCode(),
+						AccounterCoreType.TAX_CODE));
+		get(IS_ACTIVE).setValue(item.isActive());
+		get(I_BUY_THIS).setValue(item.isIBuyThisItem);
+		get(PURCHASE_DESCRIPTION).setValue(item.getPurchaseDescription());
+		get(PURCHASE_PRICE).setValue(item.getPurchasePrice());
+		get(EXPENSE_ACCOUNT).setValue(
+				CommandUtils.getServerObjectById(item.getExpenseAccount(),
+						AccounterCoreType.ACCOUNT));
+		get(PREFERRED_SUPPLIER).setValue(
+				CommandUtils.getServerObjectById(item.getPreferredVendor(),
+						AccounterCoreType.VENDOR));
+	}
+
+	public ClientItem getItem() {
+		return item;
+	}
+
+	public void setItem(ClientItem item) {
+		this.item = item;
+	}
 }

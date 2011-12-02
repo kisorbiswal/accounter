@@ -23,8 +23,8 @@ public class MakeDepositAccountCombo extends AccountCombo {
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-					ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY)
-					.contains(account.getType())) {
+					ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY,
+					ClientAccount.TYPE_CREDIT_CARD).contains(account.getType())) {
 
 				deposiInAccounts.add(account);
 			}
@@ -39,8 +39,8 @@ public class MakeDepositAccountCombo extends AccountCombo {
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-					ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY)
-					.contains(account.getType())) {
+					ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY,
+					ClientAccount.TYPE_CREDIT_CARD).contains(account.getType())) {
 
 				deposiInAccounts.add(account);
 
@@ -75,7 +75,8 @@ public class MakeDepositAccountCombo extends AccountCombo {
 		action.setAccountTypes(Arrays.asList(
 				ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 				ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-				ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY));
+				ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY,
+				ClientAccount.TYPE_CREDIT_CARD));
 
 		action.run(null, true);
 
@@ -91,8 +92,8 @@ public class MakeDepositAccountCombo extends AccountCombo {
 	private boolean filter(ClientAccount account) {
 		return Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 				ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-				ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY).contains(
-				account.getType());
+				ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY,
+				ClientAccount.TYPE_CREDIT_CARD).contains(account.getType());
 	}
 
 }

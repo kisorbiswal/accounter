@@ -38,7 +38,7 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 				}
 			}
 		});
-		box.setEnabled(isEnable() && !getTable().isDesable());
+		box.setEnabled(isEnable() && !getTable().isDisabled());
 		return box;
 	}
 
@@ -74,5 +74,7 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 	}
 
 	protected abstract void onChangeValue(boolean value, T row);
+
+
 
 }

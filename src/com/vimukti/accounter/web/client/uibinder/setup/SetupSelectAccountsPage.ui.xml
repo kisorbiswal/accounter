@@ -14,8 +14,11 @@
 			<g:ScrollPanel  height="300px" styleName="review_expense_account">
 				<g:FlexTable ui:field="accountsTable"/>
 			</g:ScrollPanel>
-			<g:Button enabled="true" ui:field="restoreButton" />
-			<g:HTML wordWrap="true" ui:field="expensesLink" styleName="expense_question_link" />
+			<g:HorizontalPanel>
+				<g:Button enabled="true" ui:field="restoreButton" />
+				<g:Button ui:field="selectAllButton"/>
+			</g:HorizontalPanel>
+			<g:Anchor wordWrap="true" ui:field="expensesLink" styleName="expense_question_link" />
 			<g:HTML wordWrap="true" ui:field="expensesNote" />
 		</g:VerticalPanel>
 	</g:VerticalPanel>

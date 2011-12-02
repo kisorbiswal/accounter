@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  */
@@ -32,7 +35,7 @@ public abstract class Action<T> implements Command {
 	// // TODO Auto-generated method stub
 	//
 	// }
-
+	protected AccounterMessages messages = Global.get().messages();
 	/**
 	 * This action's text, or <code>null</code> if none.
 	 */
@@ -71,6 +74,15 @@ public abstract class Action<T> implements Command {
 	 */
 	public String getText() {
 		return text;
+	}
+
+	public String getViewModeText() {
+		String viewText = text;
+		if (viewText.contains(Accounter.messages().new1())) {
+			viewText = viewText.replace(Accounter.messages().new1(), Accounter
+					.messages().view());
+		}
+		return viewText;
 	}
 
 	/**
@@ -151,8 +163,8 @@ public abstract class Action<T> implements Command {
 			return false;
 		}
 
-		boolean isSameClass = object.getClass().getName()
-				.equals(this.getClass().getName());
+		boolean isSameClass = object.getClass().getName().equals(
+				this.getClass().getName());
 
 		return isSameClass;
 
@@ -217,5 +229,14 @@ public abstract class Action<T> implements Command {
 
 	public String getViewName() {
 		return viewName;
+	}
+
+	public String getEditText() {
+		String editText = text;
+		if (editText.contains(Accounter.messages().new1())) {
+			editText = editText.replace(Accounter.messages().new1(), Accounter
+					.messages().edit());
+		}
+		return editText;
 	}
 }

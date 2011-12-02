@@ -3,11 +3,11 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.FocusWidget;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientDepreciationDummyEntry;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.FixedAssetAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -38,8 +38,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 	}
 
 	private void createControls() {
-		accountsCombo = new FixedAssetAccountCombo(Accounter.messages()
-				.accounts(Global.get().Account()));
+		accountsCombo = new FixedAssetAccountCombo(messages.Accounts());
 		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
 		accountsCombo
@@ -96,11 +95,9 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] {
-				Accounter.messages().account(Global.get().account()),
-				Accounter.constants().amounttobeDepreciated(),
-				Accounter.messages().accumulatedDepreciationAccount(
-						Global.get().account()) };
+		return new String[] { messages.Account(),
+				messages.amounttobeDepreciated(),
+				messages.accumulatedDepreciationAccount() };
 	}
 
 	@Override
@@ -109,7 +106,9 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 		case 0:
 			return item.getFixedAssetName();
 		case 1:
-			return amountAsString(item.getAmountToBeDepreciated());
+			return DataUtils.amountAsStringWithCurrency(item
+					.getAmountToBeDepreciated(), getCompany()
+					.getPrimaryCurrency());
 		case 2:
 			return item.getAssetAccount() != 0 ? Accounter.getCompany()
 					.getAccount(item.getAssetAccount()).getName() : "";

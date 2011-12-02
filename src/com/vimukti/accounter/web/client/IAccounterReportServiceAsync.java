@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
+import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 
 public interface IAccounterReportServiceAsync {
 
@@ -255,6 +256,10 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate toDate,
 			AsyncCallback<ArrayList<ECSalesList>> callback);
 
+	public void getECSalesListReport(ClientFinanceDate fromDate,
+			ClientFinanceDate toDate, long companyId,
+			AsyncCallback<ArrayList<ECSalesList>> callback);
+
 	public void getECSalesListDetailReport(String payeeName,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			AsyncCallback<ArrayList<ECSalesListDetail>> callback);
@@ -303,8 +308,8 @@ public interface IAccounterReportServiceAsync {
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<CheckDetailReport>> callBackResult);
 
-	public void getStatements(long id, ClientFinanceDate fromDate,
-			ClientFinanceDate toDate,
+	public void getStatements(boolean isVendor, long id,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			AsyncCallback<ArrayList<PayeeStatementsList>> callBack);
 
 	void getCustomerStatement(long customer, long fromDate, long toDate,
@@ -314,7 +319,14 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			AsyncCallback<ArrayList<MISC1099TransactionDetail>> callback);
 
-	public void getBudgetItemsList(long id, ClientFinanceDate startDate,
-			ClientFinanceDate endDate, int month,
-			AsyncCallback<ArrayList<ClientBudgetList>> callback);
+	public void getBudgetItemsList(long budgetID, AsyncCallback<ArrayList<ClientBudgetList>> callback);
+
+	void getTAXItemDetailReport(long taxAgency, long startDate, long endDate,
+			AsyncCallback<ArrayList<TAXItemDetail>> callback);
+
+	public void getVATExceptionDetailReport(ClientFinanceDate start,
+			ClientFinanceDate end, AsyncCallback<ArrayList<VATDetail>> callback);
+
+	public void getTAXItemExceptionDetailReport(long taxAgency, long startDate,
+			long endDate, AsyncCallback<ArrayList<TAXItemDetail>> callback);
 }

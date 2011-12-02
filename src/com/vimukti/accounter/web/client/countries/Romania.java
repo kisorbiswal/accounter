@@ -20,7 +20,7 @@ public class Romania extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "ROL";
+		return "RON";
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class Romania extends AbstractCountryPreferences {
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
 
-		return Accounter.constants().january();
+		return Accounter.messages().january();
 	}
 
 }

@@ -22,7 +22,6 @@ import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -31,6 +30,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TemplateCombo;
+import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -42,7 +42,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author Uday Kumar
  * 
  */
-@SuppressWarnings( { "deprecation" })
+@SuppressWarnings({ "deprecation" })
 public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	private Label pageSizeLabel, logoLabel, termsLabel;
@@ -54,8 +54,9 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private HorizontalPanel mainLayoutPanel, check_radioPanel, hPanel;
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
-	private TextItem topMarginBox, bottomMarginBox, addressPadBox, overdueBox,
-			creditNoteBox, statementBox, paypalTextBox, logoNameBox;
+	private TextItem overdueBox, creditNoteBox, statementBox, paypalTextBox,
+			logoNameBox;
+	private AmountField topMarginBox, bottomMarginBox, addressPadBox;
 	private TextItem nameItem;
 	private String[] fontNameArray, fontSizeArray;
 	private SelectCombo fontNameBox, fontSizeBox;
@@ -64,7 +65,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private Label measureLabel;
 	private FlexTable textBoxTable;
 	private List<String> listOfFontNames, listOfFontSizes;
-	private AccounterConstants messages = Accounter.constants();
+	private AccounterMessages messages = Accounter.messages();
 	private AccounterMessages accounterMessages = Accounter.messages();
 	private DynamicForm nameForm;
 	private ArrayList<String> templatesList;
@@ -112,11 +113,9 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private void initThemeData(ClientBrandingTheme brandingTheme) {
 
 		nameItem.setValue(brandingTheme.getThemeName());
-		topMarginBox.setValue(String.valueOf(brandingTheme.getTopMargin()));
-		bottomMarginBox.setValue(String
-				.valueOf(brandingTheme.getBottomMargin()));
-		addressPadBox.setValue(String
-				.valueOf(brandingTheme.getAddressPadding()));
+		topMarginBox.setAmount(brandingTheme.getTopMargin());
+		bottomMarginBox.setAmount(brandingTheme.getBottomMargin());
+		addressPadBox.setAmount(brandingTheme.getAddressPadding());
 		setPazeSize(brandingTheme.getPageSizeType());
 		fontNameBox.setComboItem(brandingTheme.getFont());
 		fontSizeBox.setComboItem(brandingTheme.getFontSize());
@@ -143,8 +142,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private void createControls() {
 		tabSet = new DecoratedTabPanel();
 
-		tabSet.add(getGeneralLayout(), Accounter.constants().general());
-		tabSet.add(getTemplateLayout(), Accounter.constants().templates());
+		tabSet.add(getGeneralLayout(), Accounter.messages().general());
+		tabSet.add(getTemplateLayout(), Accounter.messages().templates());
 		tabSet.selectTab(0);
 		tabSet.setSize("100%", "100%");
 
@@ -157,8 +156,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private VerticalPanel getGeneralLayout() {
 
 		VerticalPanel panel = new VerticalPanel();
-		HTML titleHtml = new HTML(Accounter.constants().newBrandThemeTitle());
-		titleHtml.setStyleName(Accounter.constants().labelTitle());
+		HTML titleHtml = new HTML(Accounter.messages().newBrandTheme());
+		titleHtml.setStyleName(Accounter.messages().labelTitle());
 
 		mainLayoutPanel = new HorizontalPanel();
 		check_radioPanel = new HorizontalPanel();
@@ -229,8 +228,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			public void onBlur(BlurEvent event) {
 				if (!UIUtils.isDouble(bottomMarginBox.getValue().toString())) {
 					// Accounter.showError(messages.numberForbottomMarginField());
-					addError(bottomMarginBox, messages
-							.errorForbottomMarginField());
+					addError(bottomMarginBox,
+							messages.errorForbottomMarginField());
 					bottomMarginBox.setValue("");
 				} else {
 					clearError(bottomMarginBox);
@@ -285,60 +284,50 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	}
 
 	private ClientBrandingTheme getBrandingThemeObject() {
-		ClientBrandingTheme brandingTheme = getData();
-		brandingTheme.setThemeName(String.valueOf(nameItem.getValue()));
-		brandingTheme.setPageSizeType(getPageSize());
-		brandingTheme.setTopMargin(Double.parseDouble(String
-				.valueOf(topMarginBox.getValue())));
-		brandingTheme.setBottomMargin(Double.parseDouble(String
-				.valueOf(bottomMarginBox.getValue())));
-		brandingTheme.setAddressPadding(Double.parseDouble(String
-				.valueOf(addressPadBox.getValue())));
-		brandingTheme.setFont(fontNameBox.getSelectedValue());
-		brandingTheme.setFontSize(fontSizeBox.getSelectedValue());
 
-		brandingTheme.setCreditMemoTitle(String.valueOf(creditNoteBox
+		data.setThemeName(String.valueOf(nameItem.getValue()));
+		data.setPageSizeType(getPageSize());
+
+		data.setTopMargin(topMarginBox.getAmount());
+		data.setBottomMargin(bottomMarginBox.getAmount());
+		data.setAddressPadding(addressPadBox.getAmount());
+		data.setFont(fontNameBox.getSelectedValue());
+		data.setFontSize(fontSizeBox.getSelectedValue());
+
+		data.setCreditMemoTitle(String.valueOf(creditNoteBox.getValue()));
+		data.setOverDueInvoiceTitle(String.valueOf(overdueBox.getValue()));
+		data.setStatementTitle(String.valueOf(statementBox.getValue()));
+		data.setShowTaxNumber(taxNumItem.isChecked());
+		data.setShowColumnHeadings(headingItem.isChecked());
+		data.setShowUnitPrice_And_Quantity(unitPriceItem.isChecked());
+		data.setShowTaxColumn(columnItem.isChecked());
+		data.setShowRegisteredAddress(addressItem.isChecked());
+		data.setShowLogo(logoItem.isChecked());
+		data.setMarginsMeasurementType(getMeasurementType());
+		data.setPayPalEmailID(String.valueOf(paypalTextBox.getValue()));
+		data.setTerms_And_Payment_Advice(String.valueOf(termsPaymentArea
 				.getValue()));
-		brandingTheme.setOverDueInvoiceTitle(String.valueOf(overdueBox
-				.getValue()));
-		brandingTheme
-				.setStatementTitle(String.valueOf(statementBox.getValue()));
-		brandingTheme.setShowTaxNumber(taxNumItem.isChecked());
-		brandingTheme.setShowColumnHeadings(headingItem.isChecked());
-		brandingTheme.setShowUnitPrice_And_Quantity(unitPriceItem.isChecked());
-		brandingTheme.setShowTaxColumn(columnItem.isChecked());
-		brandingTheme.setShowRegisteredAddress(addressItem.isChecked());
-		brandingTheme.setShowLogo(logoItem.isChecked());
-		brandingTheme.setMarginsMeasurementType(getMeasurementType());
-		brandingTheme
-				.setPayPalEmailID(String.valueOf(paypalTextBox.getValue()));
-		brandingTheme.setTerms_And_Payment_Advice(String
-				.valueOf(termsPaymentArea.getValue()));
-		brandingTheme.setContactDetails(String.valueOf(contactDetailsArea
-				.getValue()));
-		brandingTheme.setLogoAlignmentType(getLogoType());
- 
+		data.setContactDetails(String.valueOf(contactDetailsArea.getValue()));
+		data.setLogoAlignmentType(getLogoType());
+
 		// for setting the selected templetes
 		String invoice = invoiceCombo.getValue().toString().isEmpty() ? messages
-				.classicTemplate()
-				: invoiceCombo.getValue().toString();
+				.classicTemplate() : invoiceCombo.getValue().toString();
 		String creditNote = creditMemoCombo.getValue().toString().isEmpty() ? messages
-				.classicTemplate()
-				: creditMemoCombo.getValue().toString();
+				.classicTemplate() : creditMemoCombo.getValue().toString();
 
-		brandingTheme.setInvoiceTempleteName(invoice);
-		brandingTheme.setCreditNoteTempleteName(creditNote);
+		data.setInvoiceTempleteName(invoice);
+		data.setCreditNoteTempleteName(creditNote);
 
 		if (logoNameBox.getValue().toString().isEmpty()) {
-			brandingTheme.setFileName(null);
-			brandingTheme.setLogoAdded(false);
+			data.setFileName(null);
+			data.setLogoAdded(false);
 		} else {
-			brandingTheme.setFileName(String.valueOf(logoNameBox.getValue()
-					.toString()));
-			brandingTheme.setLogoAdded(true);
+			data.setFileName(String.valueOf(logoNameBox.getValue().toString()));
+			data.setLogoAdded(true);
 		}
 
-		return brandingTheme;
+		return data;
 	}
 
 	private int getLogoType() {
@@ -363,8 +352,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		measureLabel = new Label(messages.measure());
 		logoLabel = new Label(messages.logoAlignment());
 		leftRadioButton = new RadioButton(messages.logoType(), messages.left());
-		rightRadioButton = new RadioButton(messages.logoType(), messages
-				.right());
+		rightRadioButton = new RadioButton(messages.logoType(),
+				messages.right());
 		leftRadioButton.setChecked(true);
 		// taxesLabel = new Label(messages.showTaxesAs());
 		// exclusiveButton = new RadioButton(messages.taxType(), messages
@@ -411,7 +400,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		vPanel1.add(invoiceTempImage);
 
 		invVal = templatesList.get(0);
-		invoiceCombo.setValue(templatesList.get(0));
+		invoiceCombo.setComboItem(templatesList.get(0));
 		invoiceCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -431,7 +420,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		creditMemoCombo = new TemplateCombo(messages.creditNoteTemplete(),
 				"Credit.html");
 		templatesList = creditMemoCombo.getTempletes();
-		creditMemoCombo.setValue(templatesList.get(0));
+		creditMemoCombo.setComboItem(templatesList.get(0));
 		creditVal = templatesList.get(0);
 		crediteForm.setFields(creditMemoCombo);
 
@@ -503,15 +492,15 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	private HorizontalPanel addTextBoxTableControl() {
 
-		nameItem = new TextItem("Name");
+		nameItem = new TextItem(messages.name());
 		nameItem.addStyleName("name-item");
 		pageSizeLabel = new Label(messages.pageSize());
-		topMarginBox = new TextItem(messages.topMargin());
-		topMarginBox.setValue(messages.topMarginValue());
-		bottomMarginBox = new TextItem(messages.bottomMargin());
-		bottomMarginBox.setValue(messages.bottomMarginValue());
-		addressPadBox = new TextItem(messages.addressPadding());
-		addressPadBox.setValue(messages.addressPaddingValue());
+		topMarginBox = new AmountField(messages.topMargin(), this);
+		topMarginBox.setAmount(1.35);
+		bottomMarginBox = new AmountField(messages.bottomMargin(), this);
+		bottomMarginBox.setAmount(1.00);
+		addressPadBox = new AmountField(messages.addressPadding(), this);
+		addressPadBox.setAmount(1.00);
 		// draftBox = new TextBox();
 		// draftBox.setText(messages
 		// .draftBoxValue());
@@ -526,8 +515,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		statementBox.setValue(messages.statement());
 
 		a4Button = new RadioButton(messages.pageType(), messages.a4());
-		usLetterButton = new RadioButton(messages.pageType(), messages
-				.usLetter());
+		usLetterButton = new RadioButton(messages.pageType(),
+				messages.usLetter());
 		a4Button.setChecked(true);
 
 		cmButton = new RadioButton(messages.measureType(), messages.cm());
@@ -620,7 +609,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 						logoNameBox.setValue(value.getFileName());
 					}
 				};
-				String[] filetypes = { "png", "jpg", "gif" };
+				String[] filetypes = { "png", "jpg", "jpeg", "gif" };
 
 				FileUploadDilaog dilaog = new FileUploadDilaog("Upload Logo",
 						"parent", callback, filetypes, getData());
@@ -711,6 +700,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// // TODO Do this checking in validation method
 		// }
 		saveOrUpdate(brandingTheme);
+
 	}
 
 	@Override
@@ -787,5 +777,15 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	public void setFocus() {
 		this.nameItem.setFocus();
 
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
 	}
 }

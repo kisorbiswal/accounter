@@ -8,9 +8,9 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.IssuePaymentDialog;
+import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.IssuePaymentView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 
@@ -18,8 +18,7 @@ public class TransactionIssuePaymentGrid extends
 		AbstractTransactionGrid<ClientTransactionIssuePayment> {
 
 	private double total = 0.0;
-	private IssuePaymentDialog issuePaymentView;
-	AccounterConstants accounterConstants = Accounter.constants();
+	private IssuePaymentView issuePaymentView;
 
 	public TransactionIssuePaymentGrid() {
 		super(true, true);
@@ -28,10 +27,10 @@ public class TransactionIssuePaymentGrid extends
 	@Override
 	protected String[] getColumns() {
 		// addFooterValue("Total", 3);
-		return new String[] { Accounter.constants().date(),
-				Accounter.constants().number(), Accounter.constants().name(),
-				Accounter.constants().memo(), Accounter.constants().amount(),
-				Accounter.constants().paymentMethod() };
+		return new String[] { Accounter.messages().date(),
+				Accounter.messages().number(), Accounter.messages().name(),
+				Accounter.messages().memo(), Accounter.messages().amount(),
+				Accounter.messages().paymentMethod() };
 	}
 
 	public boolean isSelected(ClientTransactionIssuePayment transactionList) {
@@ -42,7 +41,7 @@ public class TransactionIssuePaymentGrid extends
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 		if (this.getRecords().isEmpty() || isEmptyGrid()) {
-			result.addError(this, accounterConstants.blankTransaction());
+			result.addError(this, messages.blankTransaction());
 		}
 		return result;
 	}
@@ -71,16 +70,17 @@ public class TransactionIssuePaymentGrid extends
 		case 3:
 			return issuepayment.getMemo();
 		case 4:
-			return amountAsString(issuepayment.getAmount());
+			return DataUtils.amountAsStringWithCurrency(issuepayment.getAmount(), getCompany()
+					.getPrimaryCurrency());
 		case 5:
 			return issuepayment.getPaymentMethod() != null ? issuepayment
-					.getPaymentMethod() : Accounter.constants().check();
+					.getPaymentMethod() : Accounter.messages().check();
 		default:
 			return null;
 		}
 	}
 
-	public void setIssuePaymentView(IssuePaymentDialog issuePaymentView) {
+	public void setIssuePaymentView(IssuePaymentView issuePaymentView) {
 		this.issuePaymentView = issuePaymentView;
 	}
 

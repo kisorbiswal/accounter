@@ -22,6 +22,8 @@ public class ReceivePaymentsList implements IsSerializable, Serializable {
 	String number;
 
 	String customerName;
+	
+	private String checkNumber;
 
 	String paymentMethodName;
 
@@ -30,6 +32,8 @@ public class ReceivePaymentsList implements IsSerializable, Serializable {
 	int status;
 
 	boolean isVoided;
+	
+	private long currency;
 
 	public boolean isDeleted() {
 		return this.status == ClientTransaction.STATUS_DELETED;
@@ -154,6 +158,22 @@ public class ReceivePaymentsList implements IsSerializable, Serializable {
 	 */
 	public void setAmountPaid(final Double amountPaid) {
 		this.amountPaid = amountPaid;
+	}
+
+	public String getCheckNumber() {
+		return checkNumber;
+	}
+
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
+	}
+
+	public long getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(long currency) {
+		this.currency = currency;
 	}
 
 }

@@ -11,17 +11,16 @@ import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
-import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.MakeDeposit;
-import com.vimukti.accounter.core.PaySalesTaxEntries;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXReturn;
+import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransferFund;
-import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -194,10 +193,6 @@ public interface IAccounterGUIDAOService {
 	// To get all the Journal Entries in a company
 	public ArrayList<JournalEntry> getJournalEntries() throws DAOException;
 
-	// To get all the Entries of a particular journal entry
-	public ArrayList<Entry> getEntries(String journalEntryId)
-			throws DAOException;
-
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)
 	// throws DAOException;
@@ -233,7 +228,7 @@ public interface IAccounterGUIDAOService {
 
 	public void test() throws Exception;
 
-	public ArrayList<PaySalesTaxEntries> getTransactionPaySalesTaxEntriesList(
+	public ArrayList<TAXReturnEntry> getTransactionPaySalesTaxEntriesList(
 			Date transactionDate) throws DAOException;
 
 	public ArrayList<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
@@ -254,7 +249,7 @@ public interface IAccounterGUIDAOService {
 	public ArrayList<DepreciableFixedAssetsList> getDepreciationFixedAssets(
 			Date startDate, Date toDate) throws DAOException;
 
-	VATReturn getVATReturn(TAXAgency vatAgency, Date fromDate, Date toDate)
+	TAXReturn getVATReturn(TAXAgency vatAgency, Date fromDate, Date toDate)
 			throws DAOException;
 
 	ArrayList<FixedAssetList> getFixedAssets(int status) throws DAOException;

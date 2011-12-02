@@ -2,23 +2,27 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class AbstractSetupPage extends Composite {
 
-	protected ClientCompanyPreferences preferences;
-	protected AccounterConstants accounterConstants = Accounter.constants();
-	protected AccounterMessages accounterMessages = Accounter.messages();
+	protected static ClientCompanyPreferences preferences;
+	protected AccounterMessages messages = Accounter.messages();
 	private static String country;
+	protected static boolean isSkip;
 
 	public AbstractSetupPage(ClientCompanyPreferences preferences) {
-		this.preferences = preferences;
+		AbstractSetupPage.preferences = preferences;
+	}
+
+	public static void setPreferences(ClientCompanyPreferences preferences) {
+		AbstractSetupPage.preferences = preferences;
 	}
 
 	public AbstractSetupPage() {
-		this(Accounter.getCompany().getPreferences());
+		if (preferences == null)
+			preferences = new ClientCompanyPreferences();
 	}
 
 	protected abstract void createControls();
@@ -29,7 +33,9 @@ public abstract class AbstractSetupPage extends Composite {
 
 	protected abstract boolean validate();
 
-	public abstract boolean canShow();
+	public boolean canShow() {
+		return (!isSkip);
+	}
 
 	protected void setCountry(String country) {
 		AbstractSetupPage.country = country;
@@ -39,7 +45,9 @@ public abstract class AbstractSetupPage extends Composite {
 		return country;
 	}
 
-	public void setCountryChanges() {
+	public abstract String getViewName();
 
+	public boolean isShowProgressPanel() {
+		return true;
 	}
 }

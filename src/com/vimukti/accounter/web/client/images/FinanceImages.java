@@ -222,4 +222,31 @@ public interface FinanceImages extends ClientBundle {
 	@Source("companySettings.png")
 	ImageResource companySettings();
 
+	@Source("arrow_up.gif")
+	ImageResource upArrow();
+
+	@Source("arrow_down.gif")
+	ImageResource downArrow();
+
+	@Source("arrow_left.png")
+	ImageResource leftArrow();
+
+	@Source("arrow_right.png")
+	ImageResource rightArrow();
+
+	@Source("green_tick.jpg")
+	ImageResource greenTick();
+
+	@Source("black_tick.jpg")
+	ImageResource blackTick();
+
+	@Source("close_btn.png")
+	ImageResource portletClose();
+
+	@Source("settings.gif")
+	ImageResource portletPageSettings();
+
+	@Source("portlet_settings.png")
+	ImageResource portletSettings();
+
 }

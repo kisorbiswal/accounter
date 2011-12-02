@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -146,4 +147,28 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 		this.version = version;
 	}
 
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
+
+	@Override
+	public String toString() {
+		return "Contact Name:" + this.name + " Email:" + this.email;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Contact) {
+			return ((Contact) obj).getID() == this.getID();
+		}
+		return false;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
+	}
 }

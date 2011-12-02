@@ -77,7 +77,8 @@ public class EmailForActivationServlet extends BaseServlet {
 		}
 
 		// redirect to activation page
-		redirectExternal(req, resp, ACTIVATION_URL + "?message=110");
+		String message = "?message="+ACT_FROM_RESEND;
+		redirectExternal(req, resp, ACTIVATION_URL + message);
 
 	}
 

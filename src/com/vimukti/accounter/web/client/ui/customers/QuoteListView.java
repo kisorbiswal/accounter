@@ -5,9 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -18,56 +16,79 @@ import com.vimukti.accounter.web.client.ui.grids.QuoteListGrid;
 
 public class QuoteListView extends BaseListView<ClientEstimate> {
 
-	private AccounterConstants customerConstants = Accounter.constants();
-
 	protected List<ClientEstimate> estimates;
 
 	private SelectCombo viewSelect;
 
 	private List<ClientEstimate> listOfEstimates;
 
-	private static String OPEN = Accounter.constants().open();
-	private static String REJECTED = Accounter.constants().rejected();
-	private static String ACCEPTED = Accounter.constants().accepted();
-	private static String EXPIRED = Accounter.constants().expired();
-	private static String ALL = Accounter.constants().all();
-	// private static String DELETED = "Deleted";
+	private int type;
+
+	private static String OPEN = messages.open();
+	private static String REJECTED = messages.rejected();
+	private static String ACCEPTED = messages.accepted();
+	private static String EXPIRED = messages.expired();
+	private static String ALL = messages.all();
+	private static String CLOSE = messages.close();
+	private static String APPLIED = messages.applied();
 
 	public static final int STATUS_OPEN = 0;
 	public static final int STATUS_REJECTED = 1;
 	public static final int STATUS_ACCECPTED = 2;
 
-	public QuoteListView() {
+	public QuoteListView(int type) {
 
 		super();
+		this.type = type;
 		// isDeleteDisable = true;
 	}
 
 	@Override
 	protected Action getAddNewAction() {
-		if (Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewQuoteAction();
-		else
-			return null;
+		if (type == ClientEstimate.QUOTES
+				&& Accounter.getUser().canDoInvoiceTransactions())
+			return ActionFactory.getNewQuoteAction(type, messages.newQuote());
+		else if (getPreferences().isDelayedchargesEnabled()) {
+			if (type == ClientEstimate.CHARGES) {
+				return ActionFactory.getNewQuoteAction(type,
+						messages.newCharge());
+			} else if (type == ClientEstimate.CREDITS) {
+				return ActionFactory.getNewQuoteAction(type,
+						messages.newCredit());
+			}
+		}
+		return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (Accounter.getUser().canDoInvoiceTransactions())
-			return customerConstants.addaNewQuote();
-		else
-			return "";
+		if (type == ClientEstimate.QUOTES
+				&& Accounter.getUser().canDoInvoiceTransactions())
+			return messages.addaNewQuote();
+		else if (getPreferences().isDelayedchargesEnabled()) {
+			if (type == ClientEstimate.CHARGES) {
+				return messages.addNewCharge();
+			} else if (type == ClientEstimate.CREDITS) {
+				return messages.addNew(messages.credit());
+			}
+		}
+		return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().quotesList();
+		if (type == ClientEstimate.CHARGES) {
+			return messages.chargesList();
+		} else if (type == ClientEstimate.CREDITS) {
+			return messages.creditsList();
+		}
+		return messages.quotesList();
 	}
 
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getEstimates(this);
+		Accounter.createHomeService().getEstimates(type, this);
 
 	}
 
@@ -86,24 +107,26 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	@Override
 	protected void initGrid() {
-		grid = new QuoteListGrid();
+		grid = new QuoteListGrid(type);
 		grid.init();
 
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants().currentView());
+		viewSelect = new SelectCombo(messages.currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(OPEN);
 		listOfTypes.add(REJECTED);
 		listOfTypes.add(ACCEPTED);
 		listOfTypes.add(EXPIRED);
+		listOfTypes.add(APPLIED);
+		listOfTypes.add(CLOSE);
 		listOfTypes.add(ALL);
 		viewSelect.initCombo(listOfTypes);
 
-//		if (UIUtils.isMSIEBrowser())
-//			viewSelect.setWidth("150px");
+		// if (UIUtils.isMSIEBrowser())
+		// viewSelect.setWidth("150px");
 
 		viewSelect.setComboItem(OPEN);
 		viewSelect
@@ -120,7 +143,10 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 					}
 				});
 
-		return viewSelect;
+		if (type == ClientEstimate.QUOTES) {
+			return viewSelect;
+		}
+		return null;
 	}
 
 	private void filterList(String text) {
@@ -129,17 +155,17 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 		for (ClientEstimate estimate : listOfEstimates) {
 			if (text.equals(OPEN)) {
-				if (estimate.getStatus() == STATUS_OPEN)
+				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
 					grid.addData(estimate);
 				continue;
 			}
 			if (text.equals(REJECTED)) {
-				if (estimate.getStatus() == STATUS_REJECTED)
+				if (estimate.getStatus() == ClientEstimate.STATUS_REJECTED)
 					grid.addData(estimate);
 				continue;
 			}
 			if (text.equals(ACCEPTED)) {
-				if (estimate.getStatus() == STATUS_ACCECPTED)
+				if (estimate.getStatus() == ClientEstimate.STATUS_ACCECPTED)
 					grid.addData(estimate);
 				continue;
 			}
@@ -150,11 +176,16 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 					grid.addData(estimate);
 				continue;
 			}
-			// if (text.equals(DELETED)) {
-			// if (estimate.getStatus() == ClientTransaction.STATUS_DELETED)
-			// grid.addData(estimate);
-			// continue;
-			// }
+			if (text.equals(APPLIED)) {
+				if (estimate.getStatus() == ClientEstimate.STATUS_APPLIED)
+					grid.addData(estimate);
+				continue;
+			}
+			if (text.equals(CLOSE)) {
+				if (estimate.getStatus() == ClientEstimate.STATUS_CLOSE)
+					grid.addData(estimate);
+				continue;
+			}
 			if (text.equals(ALL)) {
 				grid.addData(estimate);
 			}
@@ -186,6 +217,6 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().quotes();
+		return messages.quotes();
 	}
 }

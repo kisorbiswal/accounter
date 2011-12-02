@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -23,7 +24,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  */
 
 public class TAXItemGroup extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -33,16 +34,15 @@ public class TAXItemGroup extends CreatableObject implements
 	/**
 	 * Name of the Tax Group which is unique for every TaxGroup
 	 */
-	String name;
+	private String name;
 
 	/**
 	 * Description about the VAT item (About its VAT codes, rates, VAT agencies
 	 * etc).
 	 */
-	String description;
+	private String description;
 
 	boolean isActive;
-	boolean isSalesType;
 	boolean isPercentage;
 
 	boolean isDefault;
@@ -55,21 +55,6 @@ public class TAXItemGroup extends CreatableObject implements
 
 	public TAXItemGroup(Company company) {
 		setCompany(company);
-	}
-
-	/**
-	 * @return the isSalesType
-	 */
-	public boolean isSalesType() {
-		return isSalesType;
-	}
-
-	/**
-	 * @param isSalesType
-	 *            the isSalesType to set
-	 */
-	public void setSalesType(boolean isSalesType) {
-		this.isSalesType = isSalesType;
 	}
 
 	/**
@@ -147,7 +132,8 @@ public class TAXItemGroup extends CreatableObject implements
 		// session.createQuery("from VATItemGroup V where V.name =: name")
 		// .setParameter("name", vatItemGroup.name);
 		Query query = session.getNamedQuery("getTaxItemGroupWithSameName")
-				.setParameter("name", this.name).setParameter("id", this.id)
+				.setParameter("name", this.getName())
+				.setParameter("id", this.id)
 				.setParameter("companyId", taxItemGroup.getCompany().getID());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
@@ -155,5 +141,33 @@ public class TAXItemGroup extends CreatableObject implements
 			// "A VATItem or VATGroup already exists with this name");
 		}
 		return true;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	@Override
+	public int getObjType() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

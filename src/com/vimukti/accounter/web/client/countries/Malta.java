@@ -15,7 +15,7 @@ public class Malta extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "MTL";
+		return "EUR";
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class Malta extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.constants().january();
+		return Accounter.messages().january();
 	}
 
 }

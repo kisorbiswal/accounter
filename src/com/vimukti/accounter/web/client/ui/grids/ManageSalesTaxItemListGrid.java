@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
@@ -30,7 +31,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 			if (obj.isPercentage())
 				return obj.getTaxRate() + "%";
 			else
-				return amountAsString(obj.getTaxRate());
+				return DataUtils.amountAsStringWithCurrency(obj.getTaxRate(), getCompany()
+						.getPrimaryCurrency());
 		case 3:
 			ClientTAXAgency agency = null;
 			if (obj.getTaxAgency() != 0) {
@@ -53,10 +55,10 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().taxItem(),
-				Accounter.constants().description(),
-				Accounter.constants().taxRates(),
-				Accounter.constants().taxAgency(), "" };
+		return new String[] { Accounter.messages().taxItem(),
+				Accounter.messages().description(),
+				Accounter.messages().taxRates(),
+				Accounter.messages().taxAgency(), "" };
 	}
 
 	@Override
@@ -87,6 +89,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	protected void onClick(ClientTAXItem obj, int row, int col) {
+		if (!Accounter.getUser().canDoInvoiceTransactions())
+			return;
 		List<ClientTAXItem> records = getRecords();
 		if (col == 4)
 			showWarnDialog(records.get(row));

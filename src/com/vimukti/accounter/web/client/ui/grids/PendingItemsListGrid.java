@@ -5,12 +5,12 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.List;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -51,13 +51,12 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().item(),
-				Accounter.constants().assetNumber(),
-				Accounter.messages().account(Global.get().account()),
-				Accounter.constants().purchaseDate(),
-				Accounter.constants().purchasePrice(),
-				Accounter.constants().showHistory(),
-				Accounter.constants().addNote(), "" };
+		return new String[] { messages.item(),
+				messages.assetNumber(), messages.account(),
+				messages.purchaseDate(),
+				messages.purchasePrice(),
+				messages.showHistory(),
+				messages.addNote(), "" };
 	}
 
 	/*
@@ -81,11 +80,12 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 					.getDateByCompanyType(new ClientFinanceDate(asset
 							.getPurchaseDate())) : "";
 		case 4:
-			return amountAsString(asset.getPurchasePrice());
+			return DataUtils.amountAsStringWithCurrency(asset.getPurchasePrice(), getCompany()
+					.getPrimaryCurrency());
 		case 5:
-			return Accounter.constants().showHistory();
+			return messages.showHistory();
 		case 6:
-			return Accounter.constants().addNote();
+			return messages.addNote();
 		case 7:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
@@ -132,12 +132,12 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private void openHistoryView(ClientFixedAsset obj) {
 		Action action = ActionFactory.getHistoryListAction();
-		action.catagory = Accounter.constants().fixedAssetsPendingItemsList();
+		action.catagory = messages.fixedAssetsPendingItemsList();
 		action.run(obj, true);
 	}
 
 	private void openNoteDialog(final ClientFixedAsset asset) {
-		noteDialog = new NoteDialog(Accounter.constants().addNote(), "");
+		noteDialog = new NoteDialog(messages.addNote(), "");
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
@@ -219,14 +219,13 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 				: "";
 	}
 
-
 	public AccounterCoreType getType() {
 		return AccounterCoreType.FIXEDASSET;
 	}
 
 	protected void validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
-		throw new InvalidEntryException(Accounter.constants()
+		throw new InvalidEntryException(messages
 				.pleaseenterthenote());
 
 	}

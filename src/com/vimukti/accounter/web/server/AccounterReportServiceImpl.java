@@ -58,6 +58,7 @@ import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
+import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 
 public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		implements IAccounterReportService {
@@ -1211,7 +1212,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return transDetailByAccountList;
 	}
 
-	private ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(long companyId) {
+	private ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(
+			long companyId) {
 		ArrayList<ClientFinanceDate> transactionDates = new ArrayList<ClientFinanceDate>();
 		try {
 
@@ -1224,9 +1226,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		}
 		return transactionDates;
 	}
+
 	@Override
-	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(
-			) {
+	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate() {
 		return getMinimumAndMaximumTransactionDate(getCompanyId());
 	}
 
@@ -1310,19 +1312,20 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return trialbalanceList;
 	}
 
-	@Override
 	public ArrayList<TrialBalance> getCashFlowReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+
 		ArrayList<TrialBalance> trialbalanceList = new ArrayList<TrialBalance>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, getCompanyId());
+				endDate, companyId);
 
 		try {
 
 			trialbalanceList = getFinanceTool().getReportManager()
 					.getCashFlowReport(financeDates[0], financeDates[1],
-							getCompanyId());
+							companyId);
 
 			TrialBalance obj = new TrialBalance();
 			if (trialbalanceList != null)
@@ -1334,6 +1337,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return trialbalanceList;
+
+	}
+
+	@Override
+	public ArrayList<TrialBalance> getCashFlowReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		return getCashFlowReport(startDate, endDate, getCompanyId());
 	}
 
 	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocationReport(
@@ -2024,6 +2034,34 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
+	public ArrayList<ECSalesList> getECSalesListReport(
+			ClientFinanceDate fromDate, ClientFinanceDate toDate, long companyId) {
+
+		ArrayList<ECSalesList> salesList = new ArrayList<ECSalesList>();
+
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate,
+				toDate, companyId);
+
+		try {
+			FinanceTool tool = getFinanceTool();
+			salesList = tool.getReportManager().getECSalesListReport(
+					financeDates[0], financeDates[1],
+					tool.getCompany(companyId));
+
+			ECSalesList obj = new ECSalesList();
+			if (salesList != null)
+				salesList
+						.add((ECSalesList) setStartEndDates(obj, financeDates));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return salesList;
+
+	}
+
+	@Override
 	public ArrayList<ECSalesListDetail> getECSalesListDetailReport(
 			String payeeName, ClientFinanceDate fromDate,
 			ClientFinanceDate toDate) {
@@ -2367,14 +2405,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return expenseList;
 	}
 
-	public ArrayList<ClientBudgetList> getBudgetItemsList(long id,
-			ClientFinanceDate startDate, ClientFinanceDate endDate, int month) {
-		return budgetItemsList(id, startDate, endDate, month, getCompanyId());
-	}
-
-	private ArrayList<ClientBudgetList> budgetItemsList(long id,
-			ClientFinanceDate startDate, ClientFinanceDate endDate, int month,
-			long companyId) {
+	private ArrayList<ClientBudgetList> budgetItemsList(long id,long companyId) {
 
 		ArrayList<ClientBudgetList> budgetList = new ArrayList<ClientBudgetList>();
 
@@ -2425,6 +2456,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
+		
+		if(budgetList.size()==1){
+			FinanceDate[] financeDates = getMinimumAndMaximumDates(new ClientFinanceDate(),
+					new ClientFinanceDate(), companyId);
+			ClientBudgetList obj = new ClientBudgetList();
+			budgetList.add((ClientBudgetList) setStartEndDates(obj,
+					financeDates));
+		}
+		
 		return budgetList;
 
 	}
@@ -2488,36 +2528,6 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return checkDetailReports;
-	}
-
-	@Override
-	public ArrayList<PayeeStatementsList> getStatements(long id,
-			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
-
-		ArrayList<PayeeStatementsList> resultList = new ArrayList<PayeeStatementsList>();
-		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate,
-				toDate, getCompanyId());
-		try {
-
-			resultList = getFinanceTool().getReportManager()
-					.getPayeeStatementsList(id, financeDates[0],
-							financeDates[1], getCompanyId());
-
-			PayeeStatementsList obj = new PayeeStatementsList();
-			if (resultList != null)
-				resultList.add((PayeeStatementsList) setStartEndDates(obj,
-						financeDates));
-			// for (PayeeStatementsList obj : list) {
-			//
-			// resultList.add((PayeeStatementsList)
-			// setStartEndDates(obj,financeDates));
-			// }
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return resultList;
 	}
 
 	@Override
@@ -2635,9 +2645,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public ArrayList<ClientBudgetList> getBudgetItemsList(int id,
-			ClientFinanceDate startDate, ClientFinanceDate endDate, int month,
 			long companyId) {
-		return budgetItemsList(id, startDate, endDate, month, companyId);
+		return budgetItemsList(id,companyId);
 	}
 
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
@@ -2752,6 +2761,77 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long companyId) {
 		return purchasesByVendorDetail(startDate, endDate, companyId);
+	}
+
+	@Override
+	public ArrayList<TAXItemDetail> getTAXItemDetailReport(long taxAgency,
+			long startDate, long end) throws AccounterException {
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(
+				new ClientFinanceDate(startDate), new ClientFinanceDate(end),
+				getCompanyId());
+		ArrayList<TAXItemDetail> taxItemDetailReport = getFinanceTool()
+				.getReportManager().getTAXItemDetailReport(getCompanyId(),
+						taxAgency, startDate, end);
+
+		TAXItemDetail obj = new TAXItemDetail();
+		if (taxItemDetailReport != null)
+			taxItemDetailReport.add((TAXItemDetail) setStartEndDates(obj,
+					financeDates));
+		return taxItemDetailReport;
+	}
+
+	@Override
+	public ArrayList<VATDetail> getVATExceptionDetailReport(
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+
+		return getFinanceTool().getReportManager().getVATExceptionDetailReport(
+				getCompanyId(), start, end);
+	}
+
+	@Override
+	public ArrayList<TAXItemDetail> getTAXItemExceptionDetailReport(
+			long taxAgency, long startDate, long endDate)
+			throws AccounterException {
+		ArrayList<TAXItemDetail> list = getFinanceTool().getReportManager()
+				.getTAXItemExceptionDetailReport(getCompanyId(), taxAgency,
+						startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(
+				new ClientFinanceDate(startDate),
+				new ClientFinanceDate(endDate), getCompanyId());
+		TAXItemDetail obj = new TAXItemDetail();
+		if (list != null)
+			list.add((TAXItemDetail) setStartEndDates(obj, financeDates));
+		return list;
+	}
+
+
+	@Override
+	public ArrayList<ClientBudgetList> getBudgetItemsList(long budgetID) {
+		return budgetItemsList(budgetID, getCompanyId());
+	}
+
+
+	@Override
+	public ArrayList<PayeeStatementsList> getStatements(boolean isVendor,
+			long id, ClientFinanceDate fromDate, ClientFinanceDate toDate) {
+		ArrayList<PayeeStatementsList> resultList = new ArrayList<PayeeStatementsList>();
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate,
+				toDate, getCompanyId());
+		try {
+
+			resultList = getFinanceTool().getReportManager()
+					.getPayeeStatementsList(isVendor,id, financeDates[0],
+							financeDates[1], getCompanyId());
+
+			PayeeStatementsList obj = new PayeeStatementsList();
+			if (resultList != null)
+				resultList.add((PayeeStatementsList) setStartEndDates(obj,
+						financeDates));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultList;
 	}
 
 }

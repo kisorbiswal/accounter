@@ -27,12 +27,12 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().addNewAsset();
+		return Accounter.messages().addNewAsset();
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().pendingItemsList();
+		return Accounter.messages().pendingItemsList();
 	}
 
 	
@@ -81,7 +81,7 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().pendingItemsList();
+		return Accounter.messages().pendingItemsList();
 	}
 
 }

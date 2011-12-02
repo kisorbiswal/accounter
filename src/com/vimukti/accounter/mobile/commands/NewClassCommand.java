@@ -6,64 +6,86 @@ import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 
-public class NewClassCommand extends AbstractTransactionCommand {
+public class NewClassCommand extends NewAbstractCommand {
 	private static final String CLASS_NAME = "Class";
+	ClientAccounterClass accounterClass;
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new Requirement(CLASS_NAME, false, true));
+		list.add(new NameRequirement(CLASS_NAME, getMessages().pleaseEnter(
+				getMessages().className()), "class name", false, true));
 
 	}
 
 	@Override
-	public Result run(Context context) {
-		Result result = createClassNameReq(context);
-		if (result == null) {
-			// TODO
-		}
-		createClassObject(context);
-		markDone();
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param context
-	 */
-	private void createClassObject(Context context) {
-		AccounterClass accounterClass = new AccounterClass();
-		accounterClass.setclassName((String) get(CLASS_NAME).getValue());
+	protected Result onCompleteProcess(Context context) {
+		accounterClass.setClassName((String) get(CLASS_NAME).getValue());
 		create(accounterClass, context);
+		markDone();
+		return null;
 	}
 
-	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	private Result createClassNameReq(Context context) {
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
 
-		Requirement requirement = get(CLASS_NAME);
-		String className = context.getSelection(TEXT);
-		if (!requirement.isDone()) {
-			if (className != null) {
-				requirement.setValue(className);
-			} else {
-				return text(context, "Please enter the  Class Name", null);
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a Class to update.");
+				return "Location list";
 			}
-		}
-		String input = (String) context.getAttribute(INPUT_ATTR);
-		if (input.equals(CLASS_NAME)) {
-			requirement.setValue(input);
+			AccounterClass classByName = CommandUtils.getClassByName(
+					context.getCompany(), string);
+			if (classByName == null) {
+				addFirstMessage(context, "Select a Class to update.");
+				return "Location list " + string;
+			}
+			accounterClass = (ClientAccounterClass) CommandUtils
+					.getClientObjectById(classByName.getID(),
+							AccounterCoreType.ACCOUNTER_CLASS, context
+									.getCompany().getId());
+			get(CLASS_NAME).setValue(accounterClass.getName());
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(CLASS_NAME).setValue(string);
+			}
+			accounterClass = new ClientAccounterClass();
 		}
 		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return accounterClass.getID() == 0 ? "New Class command is activated"
+				: "Update Class command activated";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return accounterClass.getID() == 0 ? "New class is ready with the following values"
+				: "Class is ready to update with following details";
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return accounterClass.getID() == 0 ? "New class is created successfully"
+				: "Class updated successfully";
 	}
 
 }

@@ -1,10 +1,13 @@
 package com.vimukti.accounter.core;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
@@ -73,18 +76,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	 */
 	boolean isToBePrinted;
 
-	/**
-	 * This is an un editable field, which is used to save the balance of the
-	 * selected Pay From {@link Account} in this Customer Refund.
-	 */
-	double endingBalance = 0D;
-
-	/**
-	 * This is an un editable field, which is used to save the customer balance
-	 * of the selected {@link Customer} in this Customer Refund.
-	 */
-	double customerBalance = 0D;
-
 	// we have used this at the Time we have used the Triggers.
 	boolean isPaid = false;
 
@@ -148,14 +139,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		return isToBePrinted;
 	}
 
-	public double getEndingBalance() {
-		return endingBalance;
-	}
-
-	public double getCustomerBalance() {
-		return customerBalance;
-	}
-
 	public boolean getIsVoid() {
 		return isVoid;
 	}
@@ -192,7 +175,7 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		this.isOnSaveProccessed = true;
 		this.balanceDue = this.total;
 		super.onSave(session);
-		this.payFrom.updateCurrentBalance(this, this.total);
+		this.payFrom.updateCurrentBalance(this, this.total, currencyFactor);
 		this.payFrom.onUpdate(session);
 
 		if (this.paymentMethod != null) {
@@ -224,7 +207,8 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 
 	private void doVoidEffect(Session session) {
 
-		this.payFrom.updateCurrentBalance(this, -1 * this.total);
+		this.payFrom
+				.updateCurrentBalance(this, -1 * this.total, currencyFactor);
 		this.payFrom.onUpdate(session);
 
 		if (this.transactionReceivePayments != null) {
@@ -270,10 +254,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		this.payFrom = account;
 	}
 
-	public void setEndingBalance(double endingBalance) {
-		this.endingBalance = endingBalance;
-	}
-
 	@Override
 	public void setTotal(double total) {
 		this.total = total;
@@ -282,10 +262,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	public void setNumber(String number) {
 		this.number = number;
 
-	}
-
-	public void setCustomerBalance(double customerBalance) {
-		this.customerBalance = customerBalance;
 	}
 
 	public void setVoid(boolean isVoid) {
@@ -368,10 +344,12 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			// if (!this.payFrom.equals(customerRefund.payFrom)) {
 			Account oldAccount = (Account) session.get(Account.class,
 					customerRefund.payFrom.id);
-			oldAccount.updateCurrentBalance(this, -clonedObject.total);
+			oldAccount.updateCurrentBalance(this, -clonedObject.total,
+					clonedObject.currencyFactor);
 			oldAccount.onUpdate(session);
 			// }
-			this.payFrom.updateCurrentBalance(this, this.total);
+			this.payFrom.updateCurrentBalance(this, this.total,
+					this.currencyFactor);
 			this.payFrom.onUpdate(session);
 
 			// }
@@ -399,6 +377,15 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 
 	}
 
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid) {
+			setVoid(true);
+			doVoidEffect(session);
+		}
+		return false;
+	}
+
 	private void updateTransactionReceivepayments() {
 		/**
 		 * First do the reverse effect of the old Invoice
@@ -420,5 +407,19 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			throws AccounterException {
 
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	public Map<Account, Double> getEffectingAccountsWithAmounts() {
+		Map<Account, Double> map = new HashMap<Account, Double>();
+		map.put(payFrom, total);
+		map.put(payTo.getAccount(), total);
+		return map;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 }

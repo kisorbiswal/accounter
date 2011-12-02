@@ -4,7 +4,7 @@
 			<div class="menu-table">
 			   <div class="acc_logo_image">
 			       <div class="logo-image">
-					  <a href="/"><img src="/images/Accounter_logo_title.png"></a>
+					  <a href="/"><img src="/images/Accounter_logo_title.png" alt= "Accounter logo"></img></a>
 				   </div>
 			   </div>
 			   <div class="menu-bar-login">

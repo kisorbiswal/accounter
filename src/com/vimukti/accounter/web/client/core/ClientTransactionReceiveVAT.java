@@ -25,7 +25,7 @@ public class ClientTransactionReceiveVAT implements IAccounterCore {
 	 */
 	double amountToReceive;
 
-	long vatReturn;
+	long taxReturn;
 
 	ClientReceiveVAT receiveVAT;
 
@@ -94,16 +94,16 @@ public class ClientTransactionReceiveVAT implements IAccounterCore {
 	/**
 	 * @return the vatReturn
 	 */
-	public long getVatReturn() {
-		return vatReturn;
+	public long getTAXReturn() {
+		return taxReturn;
 	}
 
 	/**
 	 * @param vatReturn
 	 *            the vatReturn to set
 	 */
-	public void setVatReturn(long vatReturn) {
-		this.vatReturn = vatReturn;
+	public void setTAXReturn(long vatReturn) {
+		this.taxReturn = vatReturn;
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.MaintananceInfoUser;
 import com.vimukti.accounter.core.ServerMaintanance;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -24,8 +27,8 @@ public class MaintananceServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.setAttribute("CheckedValue",
-				ServerConfiguration.isUnderMaintainance());
+		req.setAttribute("CheckedValue", ServerConfiguration
+				.isUnderMaintainance());
 		dispatch(req, resp, MAINTANANCE_VIEW);
 
 	}
@@ -47,9 +50,10 @@ public class MaintananceServlet extends BaseServlet {
 		ServerConfiguration.setUnderMaintainance(isUndermaintanance);
 
 		Session session = HibernateUtil.openSession();
-		Transaction transaction = null;
+		Transaction transaction = session.beginTransaction();
+		List<MaintananceInfoUser> usersList = session.getNamedQuery(
+				"getallMaintanaceInfoUsers").list();
 		try {
-			transaction = session.beginTransaction();
 			ServerMaintanance maintanance = (ServerMaintanance) session.get(
 					ServerMaintanance.class, 1l);
 			if (maintanance == null) {
@@ -58,7 +62,21 @@ public class MaintananceServlet extends BaseServlet {
 			maintanance.setUnderMaintanance(isUndermaintanance);
 			session.saveOrUpdate(maintanance);
 			transaction.commit();
-
+			if (ServerConfiguration.isUnderMaintainance())
+				req
+						.setAttribute("message",
+								"Server will be under maintainence");
+			else
+				req.setAttribute("message",
+						"Removed  Server from  under maintainence");
+			req.setAttribute("CheckedValue", ServerConfiguration
+					.isUnderMaintainance());
+			transaction = session.beginTransaction();
+			for (MaintananceInfoUser user : usersList) {
+				UsersMailSendar.sendMailToMaintanaceInfoUsers(user);
+				session.delete(user);
+			}
+			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (transaction != null) {
@@ -67,13 +85,7 @@ public class MaintananceServlet extends BaseServlet {
 		} finally {
 			session.close();
 		}
-		if (ServerConfiguration.isUnderMaintainance())
-			req.setAttribute("message", "Server will be under maintainence");
-		else
-			req.setAttribute("message",
-					"Removed  Server from  under maintainence");
-		req.setAttribute("CheckedValue",
-				ServerConfiguration.isUnderMaintainance());
+
 		dispatch(req, resp, MAINTANANCE_VIEW);
 	}
 }

@@ -28,7 +28,7 @@ public class EmailField extends TextItem {
 				if (!UIUtils.isValidEmail(emailText)) {
 					setText("");
 					try {
-						throw new Exception(Accounter.constants().invalidCharactersGiven()
+						throw new Exception(Accounter.messages().invalidCharactersGiven()
 								);
 					} catch (Exception e) {
 						e.printStackTrace();

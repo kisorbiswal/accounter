@@ -15,7 +15,7 @@
 //import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 //
 //public class CustomerPartialPaymentView extends AbstractBaseView {
-//	CustomersMessages customerConstants = GWT.create(CustomersMessages.class);
+//	CustomersMessages messages = GWT.create(CustomersMessages.class);
 //
 //	public CustomerPartialPaymentView() {
 //		createControls();
@@ -34,7 +34,7 @@
 //		date.setShowTitle(false);
 //		date.setColSpan(2);
 //		TextItem nText = new TextItem();
-//		nText.setTitle(customerConstants.no());
+//		nText.setTitle(messages.no());
 //		nText.setWidth(100);
 //		nText.setColSpan(1);
 //		DynamicForm dateNoForm = new DynamicForm();
@@ -44,29 +44,29 @@
 //		dateNoForm.setFields(date, nText);
 //
 //		TextItem recvFrmText = new TextItem();
-//		recvFrmText.setTitle(customerConstants.receivedFrom());
+//		recvFrmText.setTitle(messages.receivedFrom());
 //		recvFrmText.setDisabled(true);
 //		// recvFrmText.setWidth("*");
 //
 //		TextItem amtText = new TextItem();
-//		amtText.setTitle(customerConstants.amount());
+//		amtText.setTitle(messages.amount());
 //		amtText.setDisabled(true);
 //		// amtText.setWidth("*");
 //
 //		TextItem payMethText = new TextItem();
-//		payMethText.setTitle(customerConstants.paymentMethod());
+//		payMethText.setTitle(messages.paymentMethod());
 //		payMethText.setDisabled(true);
 //		// payMethText.setWidth("*");
 //
 //		TextItem refText = new TextItem();
-//		refText.setTitle(customerConstants.reference());
+//		refText.setTitle(messages.reference());
 //		// refText.setWidth("*");
 //
 //		TextItem memoText = new TextItem();
-//		memoText.setTitle(customerConstants.memo());
+//		memoText.setTitle(messages.memo());
 //		// memoText.setWidth("*");
 //
-//		DynamicForm payForm = UIUtils.form(customerConstants.payment());
+//		DynamicForm payForm = UIUtils.form(messages.payment());
 //		;
 //		payForm.setWidth("50%");
 //		// payForm.setAutoHeight();
@@ -74,18 +74,18 @@
 //		payForm.setFields(recvFrmText, amtText, payMethText, refText, memoText);
 //
 //		TextItem depoText = new TextItem();
-//		depoText.setTitle(customerConstants.depositIn());
+//		depoText.setTitle(messages.depositIn());
 //
 //		depoText.setDisabled(true);
 //		// depoText.setWidth("*");
 //
-//		DynamicForm depoForm = UIUtils.form(customerConstants.deposit());
+//		DynamicForm depoForm = UIUtils.form(messages.deposit());
 //		depoForm.setWidth("*");
 //		// depoForm.setAutoHeight();
 //
 //		depoForm.setFields(depoText);
 //
-//		Label lab2 = new Label(customerConstants.dueForPayment());
+//		Label lab2 = new Label(messages.dueForPayment());
 //		// lab2.setAutoFit(true);
 //		// lab2.setWrap(!true);
 //
@@ -110,31 +110,31 @@
 //			}
 //		});
 //
-//		ListGridField field1 = new ListGridField("invoice", customerConstants
+//		ListGridField field1 = new ListGridField("invoice", messages
 //				.invoice());
-//		ListGridField field2 = new ListGridField("invo_amt", customerConstants
+//		ListGridField field2 = new ListGridField("invo_amt", messages
 //				.invoiceAmount());
-//		ListGridField field3 = new ListGridField("disc_date", customerConstants
+//		ListGridField field3 = new ListGridField("disc_date", messages
 //				.discountDate());
-//		ListGridField field4 = new ListGridField("cash_disc", customerConstants
+//		ListGridField field4 = new ListGridField("cash_disc", messages
 //				.cashDiscount());
-//		ListGridField field5 = new ListGridField("write_off", customerConstants
+//		ListGridField field5 = new ListGridField("write_off", messages
 //				.writeOff());
 //		ListGridField field6 = new ListGridField("applied_credit",
-//				customerConstants.appliedCredit());
-//		ListGridField field7 = new ListGridField("payment", customerConstants
+//				messages.appliedCredit());
+//		ListGridField field7 = new ListGridField("payment", messages
 //				.payment());
 //		grid.setFields(field1, field2, field3, field4, field5, field6, field7);
 //
 //		grid.setData(createDummyRecords(gridRecords));
 //
 //		TextItem unuseCredText = new TextItem();
-//		unuseCredText.setTitle(customerConstants.unusedCredits());
+//		unuseCredText.setTitle(messages.unusedCredits());
 //		unuseCredText.setDisabled(true);
 //		unuseCredText.setColSpan(1);
 //
 //		TextItem unusePayText = new TextItem();
-//		unusePayText.setTitle(customerConstants.unusedPayments());
+//		unusePayText.setTitle(messages.unusedPayments());
 //		unusePayText.setDisabled(true);
 //		unusePayText.setColSpan(1);
 //
@@ -144,11 +144,11 @@
 //		unuseForm.setNumCols(4);
 //		unuseForm.setFields(unuseCredText, unusePayText);
 //
-//		Button saveCloseButt = new Button(customerConstants.saveAndClose());
+//		Button saveCloseButt = new Button(messages.saveAndClose());
 //		// saveCloseButt.setAutoFit(true);
 //		// saveCloseButt.setLayoutAlign(Alignment.LEFT);
 //
-//		Button saveNewButt = new Button(customerConstants.saveAndNew());
+//		Button saveNewButt = new Button(messages.saveAndNew());
 //		// saveNewButt.setAutoFit(true);
 //		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
 //

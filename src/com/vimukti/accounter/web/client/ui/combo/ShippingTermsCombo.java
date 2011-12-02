@@ -20,7 +20,7 @@ public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return comboMessages.newShippingTerms();
+		return messages.shippingTerms();
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
 	}
 
 	@Override
-	protected String getColumnData(ClientShippingTerms object, int row, int col) {
+	protected String getColumnData(ClientShippingTerms object,  int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

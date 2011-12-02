@@ -1,16 +1,17 @@
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -23,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -32,7 +34,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
@@ -58,10 +59,7 @@ public class CreditCardChargeView extends
 	protected List<String> selectedComboList;
 	protected DateField date, delivDate;;
 	protected TextItem cheqNoText;
-	// protected TextItem refText;
 	AmountField totText;
-	AccounterConstants accounterConstants = GWT
-			.create(AccounterConstants.class);
 	List<String> idPhoneNumberForContacts = new ArrayList<String>();
 	List<String> idNamesForContacts = new ArrayList<String>();
 
@@ -71,18 +69,15 @@ public class CreditCardChargeView extends
 
 	VendorCombo vendorNameSelect;
 	protected PayFromAccountsCombo payFrmSelect;
-	private TextAreaItem addrArea;
 
 	protected String selectPaymentMethod;
 
-	// protected ClientVendor selectedVendor;
-
 	private DynamicForm totForm;
 
-	private HorizontalPanel botPanel, addLinkPanel;
+	private HorizontalPanel botPanel;
 	HorizontalPanel totPanel;
 
-	private VerticalPanel leftVLay, botVLay;
+	private VerticalPanel leftVLay;
 
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
@@ -93,7 +88,7 @@ public class CreditCardChargeView extends
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
 	private TAXCodeCombo taxCodeSelect;
-	private ClientTAXCode taxCode;
+	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	public CreditCardChargeView() {
 
@@ -107,41 +102,34 @@ public class CreditCardChargeView extends
 
 	}
 
-	// public CreditCardChargeView(CreditCardCharge creditCardChargeTaken) {
-	// // this.creditCardChargeTaken = creditCardChargeTaken;
-	//
-	// // addpayFromAccountsList();
-	// // addVendorsList();
-	// // createControls();
-	// super(creditCardChargeTaken);
-	// }
-
 	protected void addPhonesContactsAndAddress() {
-		Set<ClientAddress> allAddress = getSelectedVendor().getAddress();
-		addressList = selectedVendor.getAddress();
-		initBillToCombo();
-		// billToCombo.setDisabled(isEdit);
-		Set<ClientContact> allContacts;
-		allContacts = selectedVendor.getContacts();
-		Iterator<ClientContact> it = allContacts.iterator();
-		// List<String> phones = new ArrayList<String>();
-		ClientContact primaryContact = null;
+		Set<ClientAddress> allAddress = new HashSet<ClientAddress>();
+		if (selectedVendor != null) {
+			allAddress = getSelectedVendor().getAddress();
+			addressList = selectedVendor.getAddress();
+			initBillToCombo();
+			// billToCombo.setDisabled(isEdit);
+			Set<ClientContact> allContacts;
+			allContacts = selectedVendor.getContacts();
+			Iterator<ClientContact> it = allContacts.iterator();
+			// List<String> phones = new ArrayList<String>();
+			ClientContact primaryContact = null;
 
-		int i = 0;
-		while (it.hasNext()) {
-			ClientContact contact = it.next();
-			if (contact.isPrimary())
-				primaryContact = contact;
-			idNamesForContacts.add(contact.getName());
-			idPhoneNumberForContacts.add(contact.getBusinessPhone());
-			// phones.add(contact.getBusinessPhone());
-			i++;
+			int i = 0;
+			while (it.hasNext()) {
+				ClientContact contact = it.next();
+				if (contact.isPrimary())
+					primaryContact = contact;
+				idNamesForContacts.add(contact.getName());
+				idPhoneNumberForContacts.add(contact.getBusinessPhone());
+				// phones.add(contact.getBusinessPhone());
+				i++;
+			}
+
+			contactCombo.initCombo(new ArrayList<ClientContact>(allContacts));
+
+			contactCombo.setComboItem(primaryContact);
 		}
-
-		contactCombo.initCombo(new ArrayList<ClientContact>(allContacts));
-
-		contactCombo.setComboItem(primaryContact);
-
 		if (transaction.getContact() != null)
 			contactCombo.setSelected(transaction.getContact().getName());
 		if (transaction.getPhone() != null)
@@ -216,8 +204,10 @@ public class CreditCardChargeView extends
 		vendorNameSelect.initCombo(result);
 		vendorNameSelect.setDisabled(isInViewMode());
 		if (isInViewMode()) {
-			vendorNameSelect.setComboItem(selectedVendor);
-			billToaddressSelected(selectedVendor.getSelectedAddress());
+			if (selectedVendor != null) {
+				vendorNameSelect.setComboItem(selectedVendor);
+				billToaddressSelected(selectedVendor.getSelectedAddress());
+			}
 			addPhonesContactsAndAddress();
 		}
 	}
@@ -236,10 +226,8 @@ public class CreditCardChargeView extends
 	protected void initMemoAndReference() {
 		if (isInViewMode()) {
 			memoTextAreaItem.setDisabled(true);
-			setMemoTextAreaItem(((ClientCreditCardCharge) transaction)
-					.getMemo());
+			setMemoTextAreaItem(transaction.getMemo());
 		}
-		// refText.setValue(creditCardChargeTaken.getReference());
 
 	}
 
@@ -253,8 +241,7 @@ public class CreditCardChargeView extends
 			if (isInViewMode()) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
-								.getCheckNumber()
-								: "");
+								.getCheckNumber() : "");
 
 			}
 			cheqNoText.setDisabled(false);
@@ -264,17 +251,6 @@ public class CreditCardChargeView extends
 		}
 	}
 
-	private void setDisableStaeForFormItems() {
-
-		// for (FormItem formItem : formItems) {
-		//
-		// if (formItem != null)
-		// formItem.setDisabled(isEdit);
-		//
-		// }
-
-	}
-
 	@Override
 	protected void initTransactionViewData() {
 		if (transaction == null) {
@@ -282,6 +258,15 @@ public class CreditCardChargeView extends
 			resetElements();
 			initpayFromAccountCombo();
 		} else {
+			if (currencyWidget != null) {
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setSelectedCurrency(this.currency);
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+				currencyWidget.setDisabled(isInViewMode());
+			}
 			transactionDateItem.setValue(transaction.getDate());
 			contact = transaction.getContact();
 			delivDate.setValue(new ClientFinanceDate(transaction
@@ -290,12 +275,9 @@ public class CreditCardChargeView extends
 			phoneSelect.setValue(transaction.getPhone());
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getNetAmount()));
-					vatTotalNonEditableText
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+					netAmount.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -304,9 +286,9 @@ public class CreditCardChargeView extends
 					}
 				}
 			}
-			transactionTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()));
+			transactionTotalBaseCurrencyText
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -334,6 +316,16 @@ public class CreditCardChargeView extends
 		initTransactionNumber();
 		addVendorsList();
 		initAccounterClass();
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
+
+		if (isMultiCurrencyEnabled()) {
+			updateAmountsFromGUI();
+		}
 	}
 
 	private void initpayFromAccountCombo() {
@@ -362,7 +354,7 @@ public class CreditCardChargeView extends
 		addressList = null;
 		// billToCombo.setDisabled(isEdit);
 		paymentMethod = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-				.constants().check());
+				.messages().check());
 		payFromAccount = 0;
 		// phoneSelect.setValueMap("");
 		setMemoTextAreaItem("");
@@ -376,9 +368,9 @@ public class CreditCardChargeView extends
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
 
-		titlelabel = new Label(Accounter.constants().creditCardCharge());
+		titlelabel = new Label(Accounter.messages().creditCardCharge());
 		titlelabel.removeStyleName("gwt-Label");
-		titlelabel.addStyleName(Accounter.constants().labelTitle());
+		titlelabel.addStyleName(Accounter.messages().labelTitle());
 		// titlelabel.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
@@ -400,17 +392,19 @@ public class CreditCardChargeView extends
 		// labeldateNoLayout.add(titlelabel);
 		labeldateNoLayout.add(regPanel);
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
-
-		vendorNameSelect = new VendorCombo(Global.get().messages().vendorName(
-				Global.get().Vendor()));
+		if (!isTaxPerDetailLine())
+			taxCodeSelect = createTaxCodeSelectItem();
+		vendorNameSelect = new VendorCombo(Global.get().messages()
+				.payeeName(Global.get().Vendor()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
-		vendorNameSelect.setRequired(true);
+		// vendorNameSelect.setRequired(true);
 		vendorNameSelect.setDisabled(false);
 
 		vendorNameSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
 						selectedVendor = selectItem;
 						if (selectedVendor.getPaymentMethod() != null) {
@@ -418,14 +412,37 @@ public class CreditCardChargeView extends
 									.getPaymentMethod());
 							payMethSelect.setSelected(paymentMethod);
 						}
+						long code = selectedVendor.getTAXCode();
+						if (taxCodeSelect != null) {
+							if (code == 0)
+								code = Accounter.getCompany()
+										.getDefaultTaxCode();
+							taxCodeSelect.setComboItem(getCompany().getTAXCode(
+									code));
+							taxCodeSelected(getCompany().getTAXCode(code));
+						}
+
 						contactCombo.setDisabled(false);
 						addPhonesContactsAndAddress();
 						initContacts(selectItem);
+
+						ClientCurrency clientCurrency = getCompany()
+								.getCurrency(selectedVendor.getCurrency());
+						currencyWidget.setSelectedCurrency(clientCurrency);
+
+						String formalName = currencyWidget
+								.getSelectedCurrency().getFormalName();
+
+						if (isMultiCurrencyEnabled()) {
+							setCurrency(clientCurrency);
+							setCurrencyFactor(1.0);
+							updateAmountsFromGUI();
+						}
 					}
 
 				});
 
-		contactCombo = new ContactCombo(Accounter.constants().contactName(),
+		contactCombo = new ContactCombo(Accounter.messages().contactName(),
 				true);
 		contactCombo.setHelpInformation(true);
 		contactCombo.setDisabled(true);
@@ -448,56 +465,56 @@ public class CreditCardChargeView extends
 		// contactNameSelect.setWidth(100);
 		// formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
-		billToAreaItem = new TextAreaItem(Accounter.constants().billTo());
+		billToAreaItem = new TextAreaItem(Accounter.messages().billTo());
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
 		// formItems.add(billToCombo);
-		phoneSelect = new TextItem(Accounter.constants().phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumber(
+		phoneSelect = new TextItem(Accounter.messages().phone());
+		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				Global.get().vendor()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		// formItems.add(phoneSelect);
 
-		vendorForm = UIUtils.form(Accounter.constants().vendor());
-		vendorForm.setWidth("100%");
+		vendorForm = UIUtils.form(Accounter.messages().vendor());
+		// vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorNameSelect, contactCombo, phoneSelect,
 				billToAreaItem);
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-		vendorForm.getCellFormatter().setWidth(0, 0, "180px");
+		// vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 
-		payMethSelect = new SelectCombo(Accounter.constants().paymentMethod());
+		payMethSelect = new SelectCombo(Accounter.messages().paymentMethod());
 		payMethSelect.setRequired(true);
 		List<String> paymentMthds = new ArrayList<String>();
-		paymentMthds.add(Accounter.constants().creditCard());
+		paymentMthds.add(Accounter.messages().creditCard());
 		payMethSelect.initCombo(paymentMthds);
 		payMethSelect.setDefaultToFirstOption(true);
 		payMethSelect.setDisabled(true);
 		// payMethSelect.setComboItem(UIUtils
-		// .getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+		// .getpaymentMethodCheckBy_CompanyType(messages
 		// .check()));
 
 		payFrmSelect = createPayFromselectItem();
 		payFrmSelect.setPopupWidth("510px");
-		payFrmSelect.setTitle(Accounter.constants().payFrom());
+		payFrmSelect.setTitle(Accounter.messages().payFrom());
 		payFromAccount = 0;
 		payFrmSelect.setColSpan(0);
 		// formItems.add(payFrmSelect);
 
-		cheqNoText = new TextItem(Accounter.constants().chequeNo());
+		cheqNoText = new TextItem(Accounter.messages().chequeNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
 		cheqNoText.setWidth(100);
 		// formItems.add(cheqNoText);
 
-		delivDate = new DateField(Accounter.constants().deliveryDate());
+		delivDate = new DateField(Accounter.messages().deliveryDate());
 		delivDate.setHelpInformation(true);
 		delivDate.setColSpan(1);
 		delivDate.setValue(new ClientFinanceDate());
 		// formItems.add(delivDate);
 
-		termsForm = UIUtils.form(Accounter.constants().terms());
-		termsForm.setWidth("100%");
+		termsForm = UIUtils.form(Accounter.messages().terms());
+		// termsForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
 
@@ -509,20 +526,17 @@ public class CreditCardChargeView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
-
-		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
-
-		netAmount = new AmountLabel(Accounter.constants().netAmount());
-		netAmount.setDefaultValue(Accounter.constants().atozero());
+		netAmount = new AmountLabel(Accounter.messages().netAmount());
+		netAmount.setDefaultValue(String.valueOf(0.00));
 		netAmount.setDisabled(true);
 
-		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();
+		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
+
+		foreignCurrencyamountLabel = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		vatinclusiveCheck = new CheckboxItem(Accounter.constants()
+		vatinclusiveCheck = new CheckboxItem(Accounter.messages()
 				.amountIncludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
@@ -537,6 +551,11 @@ public class CreditCardChargeView extends
 			@Override
 			public boolean isShowPriceWithVat() {
 				return CreditCardChargeView.this.isShowPriceWithVat();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return CreditCardChargeView.this.isInViewMode();
 			}
 		};
 
@@ -553,8 +572,7 @@ public class CreditCardChargeView extends
 		});
 
 		FlowPanel accountFlowPanel = new FlowPanel();
-		DisclosurePanel accountsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Account");
+		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -573,6 +591,11 @@ public class CreditCardChargeView extends
 			public boolean isShowPriceWithVat() {
 				return CreditCardChargeView.this.isShowPriceWithVat();
 			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return CreditCardChargeView.this.isInViewMode();
+			}
 		};
 
 		vendorItemTransactionTable.setDisabled(isInViewMode());
@@ -588,8 +611,7 @@ public class CreditCardChargeView extends
 		});
 
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		DisclosurePanel itemsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Product/Service");
+		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -599,11 +621,11 @@ public class CreditCardChargeView extends
 		memoTextAreaItem.setWidth(100);
 		memoTextAreaItem.setDisabled(false);
 
-		// refText = new TextItem(Accounter.constants().reference());
+		// refText = new TextItem(messages.reference());
 		//
 		// refText.setWidth(100);
 		// refText.setDisabled(false);
-
+		currencyWidget = createCurrencyFactorWidget();
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
@@ -631,17 +653,21 @@ public class CreditCardChargeView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
-		if (isTrackTax()) {
-			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText);
+		if (isTrackPaidTax()) {
+			if (isMultiCurrencyEnabled()) {
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalBaseCurrencyText,
+						foreignCurrencyamountLabel);
+			} else {
+				totalForm.setFields(netAmount, vatTotalNonEditableText,
+						transactionTotalBaseCurrencyText);
+			}
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.setWidth("100%");
 			vPanel.add(totalForm);
 			botPanel.add(memoForm);
 			if (!isTaxPerDetailLine()) {
-				taxCodeSelect = createTaxCodeSelectItem();
-				// taxCodeSelect.setVisible(isInViewMode());
 				DynamicForm form = new DynamicForm();
 				form.setFields(taxCodeSelect);
 				botPanel.add(form);
@@ -652,18 +678,13 @@ public class CreditCardChargeView extends
 			bottompanel.add(vPanel);
 			bottompanel.add(botPanel);
 
-			// totalForm.setFields(netAmount, vatTotalNonEditableText,
-			// transactionTotalNonEditableText);
-			// // botPanel.add(memoForm);
-			// botPanel.add(vPanel);
-			// botPanel.add(vatCheckform);
-			// botPanel.setCellHorizontalAlignment(vatCheckform,
-			// HasHorizontalAlignment.ALIGN_RIGHT);
-			// botPanel.add(totalForm);
-			// botPanel.setCellHorizontalAlignment(totalForm,
-			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else {
-			totForm.setFields(transactionTotalNonEditableText);
+			if (isMultiCurrencyEnabled()) {
+				totForm.setFields(foreignCurrencyamountLabel,
+						transactionTotalBaseCurrencyText);
+			} else {
+				totForm.setFields(transactionTotalBaseCurrencyText);
+			}
 
 			HorizontalPanel hPanel = new HorizontalPanel();
 			hPanel.setWidth("100%");
@@ -680,31 +701,31 @@ public class CreditCardChargeView extends
 		}
 
 		leftVLay = new VerticalPanel();
-		// leftVLay.setWidth("80%");
 		leftVLay.add(vendorForm);
 
-		HorizontalPanel rightHLay = new HorizontalPanel();
-		// rightHLay.setWidth("80%");
+		VerticalPanel rightHLay = new VerticalPanel();
 		rightHLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
 		rightHLay.add(termsForm);
+		if (isMultiCurrencyEnabled()) {
+			rightHLay.add(currencyWidget);
+			rightHLay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
+			currencyWidget.setDisabled(isInViewMode());
+		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.setSpacing(20);
-		topHLay.setCellHorizontalAlignment(rightHLay, ALIGN_RIGHT);
 		topHLay.add(rightHLay);
 		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightHLay, "42%");
+		topHLay.setCellWidth(rightHLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightHLay, ALIGN_RIGHT);
 
 		VerticalPanel vLay1 = new VerticalPanel();
-		// vLay1.add(lab2);
-		// vLay1.add(addButton);
-		// multi currency combo
 		vLay1.add(accountsDisclosurePanel);
 		vLay1.add(itemsDisclosurePanel);
-		// vLay1.add(createAddNewButton());
-		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		vLay1.setWidth("100%");
 		vLay1.add(bottompanel);
 
@@ -729,14 +750,17 @@ public class CreditCardChargeView extends
 		listforms.add(totForm);
 		initViewType();
 
-//		if (UIUtils.isMSIEBrowser())
-//			resetFormView();
+		// if (UIUtils.isMSIEBrowser())
+		// resetFormView();
 
 		if (isInViewMode()) {
 			payFrmSelect.setComboItem(getCompany().getAccount(
 					transaction.getPayFrom()));
 		}
 		settabIndexes();
+		if (isMultiCurrencyEnabled()) {
+			foreignCurrencyamountLabel.hide();
+		}
 	}
 
 	// protected void payFromMethodSelected(Account account2) {
@@ -744,12 +768,13 @@ public class CreditCardChargeView extends
 	//
 	// }
 
+	@Override
 	public void saveAndUpdateView() {
 
 		updateTransaction();
 
 		if (isTrackTax())
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
+			transaction.setNetAmount(netAmount.getAmount());
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 
@@ -758,6 +783,7 @@ public class CreditCardChargeView extends
 		createAlterObject();
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		// Setting Type
@@ -814,8 +840,7 @@ public class CreditCardChargeView extends
 			transaction.setCheckNumber(cheqNoText.getValue().toString());
 
 		if (vatinclusiveCheck != null) {
-			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-					.getValue());
+			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 		}
 
 		// setting delivery date
@@ -828,10 +853,14 @@ public class CreditCardChargeView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
 		// creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
+
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	public void createAlterObject() {
-		saveOrUpdate((ClientCreditCardCharge) transaction);
+		saveOrUpdate(transaction);
 
 	}
 
@@ -846,16 +875,12 @@ public class CreditCardChargeView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(grandTotal));
+		foreignCurrencyamountLabel.setAmount(grandTotal);
 		if (isTrackTax()) {
-			transactionTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(grandTotal));
-			netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(grandTotal
-							- lineTotal));
-		} else {
-			transactionTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(grandTotal));
+			netAmount.setAmount(lineTotal);
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 	}
 
@@ -863,39 +888,16 @@ public class CreditCardChargeView extends
 	public ValidationResult validate() {
 		try {
 			ValidationResult result = super.validate();
-			// Validations
-			// 1. if(! validTransactionDate(transactionDate)) ERROR
-			// if transaction date is with in the open fiscal year range, then
-			// it is
-			// valid transaction date
-
-			// 2. if( isInPreventPostingBeforeDate(transactionDate)) ERROR
-			// i.e the transaction date should not be before the company's
-			// preferred
-			// preventPostingBeforeDate
-
-			// 3. vendorForm validation
-			// 4. termsForm validation
-			// 5. if(isBlankTransation(vendorTransactionGrid)) ERROR
-			// 6. vendorTransactionGrid validation
-
-			// if (!AccounterValidator.isValidTransactionDate(transactionDate))
-			// {
-			// result.addError(transactionDate,
-			// accounterConstants.invalidateTransactionDate());
-			// }
-
 			if (AccounterValidator
 					.isInPreventPostingBeforeDate(transactionDate)) {
-				result.addError(transactionDate, accounterConstants
-						.invalidateDate());
+				result.addError(transactionDate, messages.invalidateDate());
 			}
 
 			result.add(vendorForm.validate());
 			result.add(termsForm.validate());
 			if (getAllTransactionItems().isEmpty()) {
 				result.addError(vendorAccountTransactionTable,
-						accounterConstants.blankTransaction());
+						messages.blankTransaction());
 			} else {
 				result.add(vendorAccountTransactionTable.validateGrid());
 				result.add(vendorItemTransactionTable.validateGrid());
@@ -908,6 +910,7 @@ public class CreditCardChargeView extends
 
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -937,6 +940,7 @@ public class CreditCardChargeView extends
 
 	}
 
+	@Override
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
@@ -968,8 +972,8 @@ public class CreditCardChargeView extends
 		transactionDateItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
 		// payMethSelect.setDisabled(isEdit);
-		if (paymentMethod.equals(Accounter.constants().check())
-				|| paymentMethod.equals(Accounter.constants().cheque())) {
+		if (paymentMethod.equals(Accounter.messages().check())
+				|| paymentMethod.equals(Accounter.messages().cheque())) {
 			cheqNoText.setDisabled(isInViewMode());
 		} else {
 			cheqNoText.setDisabled(!isInViewMode());
@@ -988,6 +992,9 @@ public class CreditCardChargeView extends
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
+		if (currencyWidget != null) {
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 
 	}
@@ -1015,13 +1022,13 @@ public class CreditCardChargeView extends
 	}
 
 	private void resetFormView() {
-		vendorForm.getCellFormatter().setWidth(0, 1, "200px");
+		// vendorForm.getCellFormatter().setWidth(0, 1, "200px");
 		// refText.setWidth("200px");
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().creditCardCharge();
+		return Accounter.messages().creditCardCharge();
 	}
 
 	public ClientVendor getSelectedVendor() {
@@ -1039,10 +1046,12 @@ public class CreditCardChargeView extends
 		selectedVendor.addContact(contact);
 		AccounterAsyncCallback<Long> asyncallBack = new AccounterAsyncCallback<Long>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 				caught.printStackTrace();
 			}
 
+			@Override
 			public void onResultSuccess(Long result) {
 				contactSelected(contact);
 			}
@@ -1107,6 +1116,26 @@ public class CreditCardChargeView extends
 			vendorItemTransactionTable.setTaxCode(taxCode.getID(), true);
 		} else {
 			taxCodeSelect.setValue("");
+		}
+	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		modifyForeignCurrencyTotalWidget();
+		this.vendorItemTransactionTable.updateAmountsFromGUI();
+		this.vendorAccountTransactionTable.updateAmountsFromGUI();
+
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		if (currencyWidget.isShowFactorField()) {
+			foreignCurrencyamountLabel.hide();
+		} else {
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+					.currencyTotal(
+							currencyWidget.getSelectedCurrency()
+									.getFormalName()));
 		}
 	}
 }

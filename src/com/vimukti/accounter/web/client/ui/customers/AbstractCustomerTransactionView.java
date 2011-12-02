@@ -17,12 +17,14 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -31,7 +33,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
@@ -67,6 +69,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected DepositInAccountCombo depositInCombo;
 	protected ShippingMethodsCombo shippingMethodsCombo;
 	protected DynamicForm custForm;
+	protected ClientTAXCode taxCode;
 
 	protected SelectCombo statusSelect;
 
@@ -106,7 +109,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected ClientCustomer customer;
 
-	AccounterConstants accounterConstants = Global.get().constants();
+	AccounterMessages messages = Global.get().messages();
 
 	private boolean useAccountNumbers;
 
@@ -245,12 +248,18 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		this.setCustomer(customer);
 		if (customer == null)
 			return;
-
+		currency = getCurrency(customer.getCurrency());
 		initContacts(customer);
 		Iterator<ClientContact> iterator = contacts.iterator();
 		while (iterator.hasNext()) {
-			contactCombo.setValue(iterator.next().getName());
-			break;
+			ClientContact next = iterator.next();
+			if (next.isPrimary()) {
+				contactCombo.setComboItem(next);
+				contactSelected(next);
+				break;
+			} else {
+				contactSelected(next);
+			}
 		}
 
 		ClientCompany company = getCompany();
@@ -262,33 +271,39 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		shippingMethodSelected(company.getShippingMethod(customer
 				.getShippingMethod()));
-		if (isTrackTax()) {
-			taxCodeSelected(company.getTAXCode(customer.getTAXCode()));
-		}
 
 		priceLevelSelected(company.getPriceLevel(customer.getPriceLevel()));
 
 		paymentMethodSelected(customer.getPaymentMethod());
+
+		paymentTermsSelected(getCompany().getPaymentTerms(
+				customer.getPaymentTerm()));
 
 		if (this.shippingMethod != null && shippingMethodsCombo != null)
 			shippingMethodsCombo.setComboItem(this.shippingMethod);
 
 		if (this.paymentMethod != null && paymentMethodCombo != null)
 			paymentMethodCombo.setComboItem(customer.getPaymentMethod());
+
+		if (this.paymentTerm != null && payTermsSelect != null)
+			payTermsSelect.setComboItem(this.paymentTerm);
 		// if (transactionObject == null)
 		initAddressAndContacts();
-		long taxCodeID = customer.getTAXCode();
-		ClientTAXCode taxCode = getCompany().getTAXCode(taxCodeID);
-		if (taxCode != null) {
-			taxCodeSelected(taxCode);
+		if (isTrackTax()) {
+			long taxCodeID = customer.getTAXCode();
+			if (taxCodeID == 0)
+				taxCodeID = Accounter.getCompany().getDefaultTaxCode();
+			ClientTAXCode taxCode = getCompany().getTAXCode(taxCodeID);
+			if (taxCode != null) {
+				taxCodeSelected(taxCode);
+			}
 		}
 	}
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button,
-				Accounter.messages().accounts(Global.get().Account()),
-				Accounter.constants().productOrServiceItem());
+		setMenuItems(button, messages.Accounts(),
+				messages.productOrServiceItem());
 		// FinanceApplication.constants().salesTax());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
@@ -327,14 +342,14 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		customerCombo.setRequired(true);
 		customerCombo.setDisabled(isInViewMode());
 		// formItems.add(customerCombo);
+		setCustomer(customerCombo.getSelectedValue());
 		return customerCombo;
 
 	}
 
 	public ContactCombo createContactComboItem() {
 
-		ContactCombo contactCombo = new ContactCombo(Accounter.constants()
-				.contact(), true);
+		ContactCombo contactCombo = new ContactCombo(messages.contact(), true);
 		contactCombo.setDisabled(true);
 		contactCombo.setHelpInformation(true);
 		contactCombo
@@ -379,8 +394,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 							.equals(contact.getDisplayName())
 					&& clientContacts.get(j).getBusinessPhone()
 							.equals(contact.getBusinessPhone())) {
-				Accounter.showError(Accounter.constants()
-						.youHaveEnteredduplicateContacts());
+				Accounter.showError(messages.youHaveEnteredduplicateContacts());
 				return;
 			}
 		}
@@ -402,8 +416,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(Accounter.constants()
-				.billTo(), false);
+		AddressCombo addressCombo = new AddressCombo(messages.billTo(), false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -493,8 +506,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	public AddressCombo createShipToComboItem() {
 
-		AddressCombo shipToCombo = new AddressCombo(Accounter.constants()
-				.shipTo());
+		AddressCombo shipToCombo = new AddressCombo(messages.shipTo());
 		shipToCombo.setHelpInformation(true);
 		shipToCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -519,7 +531,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	public SalesPersonCombo createSalesPersonComboItem() {
 
 		SalesPersonCombo salesPersonCombo = new SalesPersonCombo(Accounter
-				.constants().salesPerson());
+				.messages().salesPerson());
 		salesPersonCombo.setHelpInformation(true);
 		salesPersonCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
@@ -541,10 +553,11 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	}
 
-	public DepositInAccountCombo createDepositInComboItem() {
+	public DepositInAccountCombo createDepositInComboItem(
+			final AmountField endBalText) {
 
 		DepositInAccountCombo accountCombo = new DepositInAccountCombo(
-				Accounter.constants().depositIn());
+				messages.depositIn());
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 
@@ -554,7 +567,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 
 						depositInAccountSelected(selectItem);
-
+						if (endBalText != null) {
+							endBalText.setAmount(selectItem
+									.getTotalBalanceInAccountCurrency());
+						}
 					}
 
 				});
@@ -569,7 +585,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected ShippingMethodsCombo createShippingMethodCombo() {
 
 		ShippingMethodsCombo shippingMethodsCombo = new ShippingMethodsCombo(
-				Accounter.constants().shippingMethod());
+				messages.shippingMethod());
 		shippingMethodsCombo.setHelpInformation(true);
 		shippingMethodsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
@@ -591,10 +607,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected DateField createTransactionDeliveryDateItem() {
 
-		final DateField dateItem = new DateField(Accounter.constants()
-				.deliveryDate());
+		final DateField dateItem = new DateField(messages.deliveryDate());
 		dateItem.setHelpInformation(true);
-		dateItem.setTitle(Accounter.constants().deliveryDate());
+		dateItem.setTitle(messages.deliveryDate());
 		dateItem.setColSpan(1);
 
 		dateItem.setDisabled(isInViewMode());
@@ -607,8 +622,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
-		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter.constants()
-				.tax(), true);
+		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(messages.tax(), true);
 		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
 		taxCodeCombo.addStyleName("tax_combo");
@@ -668,7 +682,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	public PaymentTermsCombo createPaymentTermsSelectItem() {
 
 		PaymentTermsCombo comboItem = new PaymentTermsCombo(Accounter
-				.constants().paymentTerms());
+				.messages().paymentTerms());
 		comboItem.setHelpInformation(true);
 		comboItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
@@ -687,10 +701,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		return comboItem;
 	}
 
-	protected AmountField createSalesTaxNonEditableItem() {
+	protected AmountField createSalesTaxNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.constants()
-				.salesTax(), this);
+		AmountField amountItem = new AmountField(messages.salesTax(), this,
+				currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -699,34 +713,34 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected AmountLabel createSalesTaxNonEditableLabel() {
 
-		AmountLabel amountLabel = new AmountLabel(Accounter.constants().tax());
+		AmountLabel amountLabel = new AmountLabel(messages.tax());
 
 		return amountLabel;
 
 	}
 
-	protected AmountField createTransactionTotalNonEditableItem() {
+	protected AmountField createTransactionTotalNonEditableItem(
+			ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.constants().total(),
-				this);
+		AmountField amountItem = new AmountField(messages.total(), this,
+				currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
 
 	}
 
-	protected AmountLabel createTransactionTotalNonEditableLabel() {
-
-		AmountLabel amountLabel = new AmountLabel(Accounter.constants().total());
-
+	protected AmountLabel createTransactionTotalNonEditableLabel(
+			ClientCurrency currecny) {
+		AmountLabel amountLabel = new AmountLabel(
+				messages.currencyTotal(currecny.getFormalName()));
 		return amountLabel;
 
 	}
 
-	protected AmountField createVATTotalNonEditableItem() {
+	protected AmountField createVATTotalNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(Accounter.constants().tax(),
-				this);
+		AmountField amountItem = new AmountField(messages.tax(), this, currency);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -734,7 +748,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	}
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
-		AmountLabel amountLabel = new AmountLabel(Accounter.constants().tax());
+		AmountLabel amountLabel = new AmountLabel(messages.tax());
 
 		return amountLabel;
 	}
@@ -777,13 +791,38 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		// if (!AccounterValidator.isValidTransactionDate(this.transactionDate))
 		// {
 		// result.addError(transactionDateItem,
-		// customerConstants.invalidateTransactionDate());
+		// messages.invalidateTransactionDate());
 		// }
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, messages.invalidateDate());
 		}
+
+		if (getPreferences().isTrackTax()) {
+			// Exception Report
+			// TODO need to get last vat period date
+			for (ClientTransactionItem item : transaction.getTransactionItems()) {
+				ClientTAXCode taxCode = getCompany().getTAXCode(
+						item.getTaxCode());
+				if (taxCode == null || !taxCode.isTaxable()) {
+					continue;
+				}
+				ClientTAXItem taxItem = getCompany().getTaxItem(
+						taxCode.getTAXItemGrpForSales());
+				if (taxItem == null) {
+					continue;
+				}
+				ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+						taxItem.getTaxAgency());
+				if (taxAgency != null
+						&& this.transactionDate.before(taxAgency
+								.getLastTAXReturnDate())) {
+					result.addWarning(this.transactionDate,
+							messages.taxExceptionMesg());
+				}
+			}
+		}
+
 		if (custForm != null) {
 			result.add(custForm.validate());
 		}
@@ -827,14 +866,14 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	// }
 	protected void onAddNew(String item) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (item.equals(Accounter.messages().accounts(Global.get().Account()))) {
+		if (item.equals(messages.Accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			long ztaxCodeid = getPreferences().getDefaultTaxCode();
 			transactionItem
 					.setTaxCode(getCustomer() != null ? (getCustomer()
 							.getTAXCode() > 0 ? getCustomer().getTAXCode()
 							: ztaxCodeid) : ztaxCodeid);
-		} else if (item.equals(Accounter.constants().productOrServiceItem())) {
+		} else if (item.equals(messages.productOrServiceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			long staxCodeid = getPreferences().getDefaultTaxCode();
 			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
@@ -939,10 +978,17 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-		long defaultTax = getPreferences().getDefaultTaxCode();
-		transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
-				.getTAXCode() > 0 ? getCustomer().getTAXCode() : defaultTax)
-				: defaultTax);
+		if (isTrackTax() && getPreferences().isTaxPerDetailLine()) {
+			long defaultTax = getPreferences().getDefaultTaxCode();
+			transactionItem
+					.setTaxCode(getCustomer() != null ? (getCustomer()
+							.getTAXCode() > 0 ? getCustomer().getTAXCode()
+							: defaultTax) : defaultTax);
+		} else {
+			if (taxCode != null) {
+				transactionItem.setTaxCode(taxCode.getID());
+			}
+		}
 		// if (zvatCodeid != null)
 		// transactionItem.setVatCode(zvatCodeid);
 
@@ -955,10 +1001,15 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 		long defaultTaxCode = getPreferences().getDefaultTaxCode();
-		transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
-				.getTAXCode() != 0 ? getCustomer().getTAXCode()
-				: defaultTaxCode) : defaultTaxCode);
-
+		if (isTrackTax() && getPreferences().isTaxPerDetailLine()) {
+			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
+					.getTAXCode() != 0 ? getCustomer().getTAXCode()
+					: defaultTaxCode) : defaultTaxCode);
+		} else {
+			if (taxCode != null) {
+				transactionItem.setTaxCode(taxCode.getID());
+			}
+		}
 		addItemTransactionItem(transactionItem);
 	}
 

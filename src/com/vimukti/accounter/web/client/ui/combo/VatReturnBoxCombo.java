@@ -25,7 +25,7 @@ public class VatReturnBoxCombo extends CustomCombo<ClientVATReturnBox> {
 	}
 
 	@Override
-	protected String getColumnData(ClientVATReturnBox object, int row, int col) {
+	protected String getColumnData(ClientVATReturnBox object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

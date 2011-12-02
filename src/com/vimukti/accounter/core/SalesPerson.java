@@ -4,10 +4,12 @@ import java.io.Serializable;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class SalesPerson extends CreatableObject implements
@@ -326,6 +328,17 @@ public class SalesPerson extends CreatableObject implements
 	@Override
 	public void setName(String name) {
 		this.firstName = name;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.SALES_PERSON;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

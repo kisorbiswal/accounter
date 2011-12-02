@@ -4,7 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -32,8 +31,8 @@ public class SelectAccountTypeDialog extends BaseDialog<ClientAccount> {
 
 	public SelectAccountTypeDialog(List<Integer> options,
 			ViewConfiguration configuration) {
-		super(Accounter.messages().selectAccountType(Global.get().Account()),
-				Accounter.messages().selectAccountType(Global.get().Account()));
+		super(messages.selectAccountType(), messages
+				.selectAccountType());
 		this.options = options;
 		this.configuration = configuration;
 		createControls();
@@ -46,8 +45,8 @@ public class SelectAccountTypeDialog extends BaseDialog<ClientAccount> {
 
 		incomeAndExpenseForm = new DynamicForm();
 		incomeAndExpenseForm.setIsGroup(true);
-		incomeAndExpenseForm.setGroupTitle(Accounter.messages()
-				.incomeAndExpenseAccounts(Global.get().Account()));
+		incomeAndExpenseForm.setGroupTitle(messages
+				.incomeAndExpenseAccounts());
 		// incomeAndExpenseForm.setWrapItemTitles(false);
 		// incomeAndExpenseForm.setItemLayout(FormLayoutType.ABSOLUTE);
 		// incomeAndExpenseForm.setMargin(10);

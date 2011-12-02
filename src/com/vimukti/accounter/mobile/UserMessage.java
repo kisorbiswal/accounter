@@ -19,12 +19,26 @@ public class UserMessage {
 
 	private Type type = Type.UNKNOWN;
 	private Result result;
+	private Result lastResult;
 	private Command command;
 	private List<String> inputs = new ArrayList<String>();
 	private String originalMsg;
+	private String networkId;
+	private int networkType;
+	private String commandString;
 
-	public UserMessage(String message) {
+	public UserMessage(String message, String networkId, int networkType) {
 		this.originalMsg = message;
+		this.networkId = networkId;
+		this.networkType = networkType;
+	}
+
+	public String getNetworkId() {
+		return networkId;
+	}
+
+	public int getNetworkType() {
+		return networkType;
 	}
 
 	/**
@@ -87,4 +101,23 @@ public class UserMessage {
 		return this.originalMsg;
 	}
 
+	public void setOriginalMsg(String originalMsg) {
+		this.originalMsg = originalMsg;
+	}
+
+	public Result getLastResult() {
+		return lastResult;
+	}
+
+	public void setLastResult(Result lastResult) {
+		this.lastResult = lastResult;
+	}
+
+	public String getCommandString() {
+		return commandString;
+	}
+
+	public void setCommandString(String commandString) {
+		this.commandString = commandString;
+	}
 }
