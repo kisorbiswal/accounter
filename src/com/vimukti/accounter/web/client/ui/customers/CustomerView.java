@@ -1227,7 +1227,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			balanceText.setCurrency(selectCurrency);
 			if (!selectCurrency.equals(getCompany().getPreferences()
 					.getPrimaryCurrency())) {
-				currencyCombo.disabledFactorField(true);
+				currencyCombo.disabledFactorField(false);
 			}
 		}
 		currencyCombo.setCurrencyFactor(data.getCurrencyFactor());
