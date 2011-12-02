@@ -102,7 +102,7 @@ public abstract class Transaction extends CreatableObject implements
 	FinanceDate clonedTransactionDate;
 	String number = "0";
 	boolean isDefault;
-	private Location location;
+	Location location;
 	private Currency currency;
 
 	private RecurringTransaction recurringTransaction;
@@ -1082,8 +1082,8 @@ public abstract class Transaction extends CreatableObject implements
 	 * 
 	 * @param coreObject
 	 */
-		
-		public void cleanTransactionitems(Transaction coreObject) {
+
+	public void cleanTransactionitems(Transaction coreObject) {
 		getTaxRateCalculationEntriesList().clear();
 	}
 

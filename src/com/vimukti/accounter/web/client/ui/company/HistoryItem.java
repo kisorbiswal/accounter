@@ -26,7 +26,7 @@ public class HistoryItem extends SimplePanel {
 		sb.appendHtmlConstant("<table class='historyItem'>");
 
 		// take each element and add to html
-		for (int x = 0; x < array.size(); x++) {
+		for (int x = 0; x < array.size();) {
 			sb.appendHtmlConstant("<tr>");
 			// for two columns of key:values
 			for (int y = 0; y < 2 & x < array.size(); y++) {
@@ -36,7 +36,7 @@ public class HistoryItem extends SimplePanel {
 				String key = getKey(obj);
 				if (key == null) {
 					// Empty object is a GAP
-					sb.appendHtmlConstant("<td>&nbsp;</td><td>&nbsp;</td>");
+					sb.appendHtmlConstant("<td class='space'>&nbsp;</td><td class='space'>&nbsp;</td>");
 				} else {
 					value = obj.get(key);
 					JSONArray list = value.isArray();
@@ -48,6 +48,10 @@ public class HistoryItem extends SimplePanel {
 						sb.appendEscaped(toString(value));
 						sb.appendHtmlConstant("</td>");
 					} else if (list.size() > 0) {
+						// TODO finish the previous unfinished row if any
+						if (y == 0) {
+							// sb.appendHtmlConstant("<td class='space'>&nbsp;</td><td class='space'>&nbsp;</td>");
+						}
 						// It is a list of items, we need a table for it
 						// sb.appendHtmlConstant("<td colspan='5'><table class='historyItemList'>");
 						sb.appendHtmlConstant("<td colspan='5'>");
@@ -111,16 +115,21 @@ public class HistoryItem extends SimplePanel {
 							sb.appendHtmlConstant("</tr>");
 						}
 						sb.appendHtmlConstant("</table></td>");
+						// break;
 					}
 				}
 				x++;
-				sb.appendHtmlConstant("<td class='historyGap'>&nbsp;</td>");
+				if (y == 0) {
+					sb.appendHtmlConstant("<td class='historyGap'>&nbsp;</td>");
+				}
 			}
 			sb.appendHtmlConstant("</tr>");
 		}
 		sb.appendHtmlConstant("</table>");
 
 		html.setHTML(sb.toSafeHtml());
+
+		System.out.println(html);
 
 	}
 

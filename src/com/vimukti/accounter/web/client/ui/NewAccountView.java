@@ -1130,6 +1130,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			((ClientBankAccount) data).setBankAccountNumber(bankAccNumText
 					.getValue().toString());
 			data.setIncrease(Boolean.FALSE);
+
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
 			if (limitText.getValue() != null)
@@ -1183,9 +1184,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (accountType == ClientAccount.TYPE_PAYPAL) {
 			getPaypalData();
 		}
+
 		if (isInViewMode())
 			initView();
 		super.initData();
+
 		// if (takenAccount == null)
 		// getNextAccountNumber();
 
@@ -1208,6 +1211,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			accNoText.setDisabled(true);
 
 		accNameText.setValue(data.getName());
+
+		currencyCombo.setSelectedCurrency(getCurrency(data.getCurrency()));
+
 		accountName = data.getName();
 		long id = data.getID();
 		if (id == getCompany().getOpeningBalancesAccount()

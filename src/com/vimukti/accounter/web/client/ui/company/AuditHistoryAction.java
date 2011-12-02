@@ -10,16 +10,19 @@ public class AuditHistoryAction extends Action {
 
 	private int objT;
 	private long objID;
+	private String dataString;
 
 	public AuditHistoryAction(String text) {
 		super(text);
 	}
 
-	public AuditHistoryAction(String text, int objectType, long objectID) {
+	public AuditHistoryAction(String text, int objectType, long objectID,
+			String dataType) {
 
 		super(text);
 		objT = objectType;
 		objID = objectID;
+		dataString = dataType;
 		// run();
 	}
 
@@ -33,7 +36,7 @@ public class AuditHistoryAction extends Action {
 
 			@Override
 			public void onCreated() {
-				HistoryView view = new HistoryView(objT, objID);
+				HistoryView view = new HistoryView(objT, objID, dataString);
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isEditable, AuditHistoryAction.this);

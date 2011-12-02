@@ -783,16 +783,50 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), messages.item());
-		// w.put(messages.account(), this.account.getName());
+		if (this.type == TYPE_ACCOUNT) {
+			w.put(messages.type(), messages.account());
+		} else {
+			w.put(messages.type(), messages.item());
+		}
+
+		if (this.account != null) {
+			w.put(messages.account(), this.account.name);
+		}
 
 		w.put(messages.description(), this.description);
 		w.put(messages.quantity(), this.quantity.toString());
 
 		w.put(messages.unitPrice(), this.unitPrice);
+		w.put(messages.discount(), this.discount);
 
 		w.put(messages.lineTotal(), this.lineTotal);
+
+		// removed cause the customer is null
 		// w.put(messages.customer(), this.customer.name);
+
+		if (isTaxable() == true) {
+			w.put(messages.isTaxable(), true);
+		} else {
+			w.put(messages.isTaxable(), false);
+		}
+
+		if (this.transaction.location != null) {
+			w.put(messages.location(), this.transaction.location.toString());
+		}
+		// not sure whats this
+		// w.put(messages.amount(), this.usedamt.toString());
+
+		w.put("Back Order", this.backOrder.toString());
+		w.put(messages.vat(), this.VATfraction.toString());
+
+		if (this.taxCode != null) {
+			w.put(messages.taxCode(), this.taxCode.toString());
+		}
+
+		if (this.wareHouse != null) {
+			w.put(messages.wareHouse(), this.wareHouse.toString());
+		}
+		w.put(messages.isBillable(), this.isBillable);
 
 	}
 

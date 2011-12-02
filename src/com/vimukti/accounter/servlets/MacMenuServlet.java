@@ -275,7 +275,8 @@ public class MacMenuServlet extends BaseServlet {
 				"company/accounter#vatItems");
 		subMenu(vatListValue, iGlobal.messages().taxCodesList(),
 				"company/accounter#vatCodes");
-		subMenu(vatListValue, iGlobal.messages().taxAgency(),
+		subMenu(vatListValue,
+				iGlobal.messages().payeesList(iGlobal.messages().taxAgencie()),
 				"company/accounter#TAXAgencyList");
 		menu(mainValue, iGlobal.messages().taxList(), vatListValue);
 
@@ -404,7 +405,7 @@ public class MacMenuServlet extends BaseServlet {
 				"company/accounter#purchaseByVendorDetail");
 		subMenu(purchasesValue, iGlobal.messages().purchaseByItemSummary(),
 				"company/accounter#purchaseByItemSummary");
-		subMenu(purchasesValue, iGlobal.messages().purchaseByProductDetail(),
+		subMenu(purchasesValue, iGlobal.messages().purchaseByItemDetail(),
 				"company/accounter#purchaseByItemDetail");
 		if (preferences.isPurchaseOrderEnabled()) {
 			subMenu(purchasesValue, iGlobal.messages().purchaseOrderReport(),

@@ -1104,26 +1104,43 @@ public class Invoice extends Transaction implements Lifecycle {
 
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), "Invoice").gap();
+		w.put(messages.type(), messages.invoice()).gap();
 		w.put(messages.invoiceNo(), this.number);
 
 		w.put(messages.date(), this.transactionDate.toString()).gap();
+
 		w.put(messages.Customer(), this.customer.name);
 
 		w.put(messages.currency(), this.customer.currency.getFormalName())
-				.gap().gap();
+				.gap();
 
-		w.put(messages.factor(), this.currencyFactor).gap().gap();
+		w.put(messages.factor(), this.currencyFactor).gap();
 
 		w.put(messages.amount(), this.total).gap();
-		w.put(messages.address(), this.customer.address);
+		// w.put(messages.address(), this.customer.address.toString());
 
 		w.put(messages.dueDate(), this.dueDate.toString()).gap();
 		w.put(messages.email(), this.customer.getEmail());
 
-		w.put(messages.paymentTerm(), this.paymentTerm.name).gap();
+		if (this.paymentTerm != null) {
+			w.put(messages.paymentTerm(), this.paymentTerm.name).gap();
+		}
 		w.put(messages.memo(), this.memo);
 
+		if (this.shippingAdress != null) {
+			w.put(messages.shippingAddress(), this.shippingAdress.toString())
+					.gap();
+		}
+		if (this.billingAddress != null) {
+			w.put(messages.billingAddress(), this.billingAddress.toString())
+					.gap();
+		}
+
+		if (this.contact != null) {
+			w.put(messages.contact(), this.contact.name).gap();
+		}
+
 		w.put(messages.details(), this.transactionItems);
+
 	}
 }
