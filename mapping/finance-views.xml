@@ -142,64 +142,64 @@ T.T_TYPE as Type,
  T.T_DATE as DATE,
 T.NUMBER,
 case
-	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 8 or T.T_TYPE = 2 or T.T_TYPE = 6  or T.T_TYPE = 29 then T.TOTAL
-	when T.T_TYPE = 4 or T.T_TYPE = 14 then -1*T.TOTAL 
+	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 8 or T.T_TYPE = 2 or T.T_TYPE = 6  or T.T_TYPE = 29 then T.TOTAL*T.CURRENCY_FACTOR 
+	when T.T_TYPE = 4 or T.T_TYPE = 14 then -1*T.TOTAL*T.CURRENCY_FACTOR 
 	when T.T_TYPE = 10 then 
 		case 
-			when TMD.TYPE = 3 then -1*TMD.AMOUNT
-			when TMD.TYPE = 2 then TMD.AMOUNT
+			when TMD.TYPE = 3 then -1*TMD.AMOUNT*T.CURRENCY_FACTOR 
+			when TMD.TYPE = 2 then TMD.AMOUNT*T.CURRENCY_FACTOR 
 			else 0.0
 		end
 	when T.T_TYPE = 15 then 
 		case 
-			when WC.PAY_TO_TYPE = 1 then -1*T.TOTAL
-			when WC.PAY_TO_TYPE = 2 then T.TOTAL
+			when WC.PAY_TO_TYPE = 1 then -1*T.TOTAL*T.CURRENCY_FACTOR 
+			when WC.PAY_TO_TYPE = 2 then T.TOTAL*T.CURRENCY_FACTOR 
 			else 0.0
 		end
 	
 	when T.T_TYPE = 16 then
 
 		case
-			when E.TYPE = 2 then E.CREDIT
+			when E.TYPE = 2 then E.CREDIT*T.CURRENCY_FACTOR 
 			else E.DEBIT
 		end
 
 	else 0.0
 end as INVOICED_OR_TRANSASCTION_AMOUNT,
 case
-	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 12 or T.T_TYPE = 2 or  T.T_TYPE = 11 then T.TOTAL
-	when T.T_TYPE = 5 or T.T_TYPE = 15 then -1*T.TOTAL
+	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 12 or T.T_TYPE = 2 or  T.T_TYPE = 11 then T.TOTAL*T.CURRENCY_FACTOR 
+	when T.T_TYPE = 5 or T.T_TYPE = 15 then -1*T.TOTAL*T.CURRENCY_FACTOR 
 	else 0.0
 end as PAID_AMOUNT,
 
 case
-	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 5 or T.T_TYPE = 8 or T.T_TYPE = 2 or T.T_TYPE = 14 or T.T_TYPE = 15 then  T.TOTAL
+	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 5 or T.T_TYPE = 8 or T.T_TYPE = 2 or T.T_TYPE = 14 or T.T_TYPE = 15 then  T.TOTAL*T.CURRENCY_FACTOR 
 	when T.T_TYPE = 11 then 
 		case 
-			when PB.PAYBILL_TYPE = 1 then T.TOTAL + (select sum(TPB.CASH_DISCOUNT) from TRANSACTION_PAYBILL TPB where TPB.TRANSACTION_ID = T.ID and TPB.DISCOUNT_ID IS NOT NULL and TPB.CASH_DISCOUNT >0.0)
-			when PB.PAYBILL_TYPE = 2 then T.TOTAL
+			when PB.PAYBILL_TYPE = 1 then (T.TOTAL + (select sum(TPB.CASH_DISCOUNT) from TRANSACTION_PAYBILL TPB where TPB.TRANSACTION_ID = T.ID and TPB.DISCOUNT_ID IS NOT NULL and TPB.CASH_DISCOUNT >0.0))*T.CURRENCY_FACTOR 
+			when PB.PAYBILL_TYPE = 2 then T.TOTAL*T.CURRENCY_FACTOR 
 		end
 	when T.T_TYPE = 16 then 
 
 		case
-			when E.TYPE = 3 then E.DEBIT
+			when E.TYPE = 3 then E.DEBIT*T.CURRENCY_FACTOR 
 			else 0.0
 		end
 	else 0.0
 end as DEBIT,
 case
-	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 4 or  T.T_TYPE = 2 or  T.T_TYPE = 10 or T.T_TYPE = 6 or T.T_TYPE = 15 or T.T_TYPE = 29 then T.TOTAL
-	when T.T_TYPE = 12 then RP.AMOUNT + RP.TOTAL_CASH_DISCOUNT + RP.TOTAL_WRITE_OFF 
+	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 4 or  T.T_TYPE = 2 or  T.T_TYPE = 10 or T.T_TYPE = 6 or T.T_TYPE = 15 or T.T_TYPE = 29 then T.TOTAL*T.CURRENCY_FACTOR 
+	when T.T_TYPE = 12 then (RP.AMOUNT + RP.TOTAL_CASH_DISCOUNT + RP.TOTAL_WRITE_OFF)*T.CURRENCY_FACTOR  
 	when T.T_TYPE = 16 then 
 		case
-			when E.TYPE = 2 then E.CREDIT
+			when E.TYPE = 2 then E.CREDIT*T.CURRENCY_FACTOR 
 			else 0.0
 		end
 	else 0.0
 end as CREDIT,
 case
-	when T.T_TYPE = 12 then RP.TOTAL_CASH_DISCOUNT 
-	when T.T_TYPE = 11 then (select sum(TPB.CASH_DISCOUNT) from TRANSACTION_PAYBILL TPB where TPB.TRANSACTION_ID = T.ID)
+	when T.T_TYPE = 12 then RP.TOTAL_CASH_DISCOUNT *T.CURRENCY_FACTOR 
+	when T.T_TYPE = 11 then (select sum(TPB.CASH_DISCOUNT) from TRANSACTION_PAYBILL TPB where TPB.TRANSACTION_ID = T.ID)*T.CURRENCY_FACTOR 
 	else 0.0
 end as DISCOUNT,
 
