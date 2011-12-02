@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -323,6 +324,31 @@ public class UserManager extends Manager {
 		namedQuery.setParameter(BaseServlet.EMAIL_ID, emailId);
 		Client client = (Client) namedQuery.uniqueResult();
 		return client;
+	}
+
+	public ArrayList<String> getAuditHistory(int objectType, long objectID,
+			Long companyId) {
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		try {
+			Query query = session.getNamedQuery("getAuditHistory")
+					.setParameter("companyId", companyId)
+					.setParameter("objectType", objectType)
+					.setParameter("objectID", objectID);
+
+			Iterator<String> iterator = query.list().iterator();
+
+			ArrayList<String> jsonString = new ArrayList<String>();
+
+			while (iterator.hasNext()) {
+				jsonString.add(iterator.next().toString());
+			}
+			return jsonString;
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		return null;
 	}
 
 }
