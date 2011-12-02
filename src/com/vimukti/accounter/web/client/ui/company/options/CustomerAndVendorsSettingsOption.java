@@ -146,8 +146,10 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 				oneperdetaillineRadioButton.getValue());
 		getCompanyPreferences().setTrackPaidTax(enableTaxCheckbox.getValue());
 		if (getCompany().getCountryPreferences().isTDSAvailable()) {
-			getCompanyPreferences().setTDSEnabled(
-					enableTaxTdsCheckbox.getValue());
+			getCompanyPreferences()
+					.setTDSEnabled(
+							trackCheckbox.getValue()
+									&& enableTaxTdsCheckbox.getValue());
 		}
 	}
 
