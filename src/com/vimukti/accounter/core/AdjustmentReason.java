@@ -46,8 +46,8 @@ public class AdjustmentReason extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), "Adjustment Reason");
+
+		w.put(messages.type(), messages.adjustmentreason());
 		w.put(messages.name(), this.name);
 	}
 

@@ -20,7 +20,7 @@ public class FixedAssetNote extends CreatableObject implements
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private String note;
 
 	public FixedAssetNote() {
@@ -51,8 +51,8 @@ public class FixedAssetNote extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), "Fixed Asset Note").gap();
+
+		w.put(messages.type(), messages.fixedAssetNote()).gap();
 	}
 
 }

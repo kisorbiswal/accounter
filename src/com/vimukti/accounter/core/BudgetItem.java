@@ -68,7 +68,7 @@ public class BudgetItem implements IAccounterServerCore {
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}
-	
+
 	public Account getAccount() {
 		return account;
 	}
@@ -304,8 +304,8 @@ public class BudgetItem implements IAccounterServerCore {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), "Budget Item").gap().gap();
+
+		w.put(messages.type(), messages.budgetitem()).gap().gap();
 	}
 
 }

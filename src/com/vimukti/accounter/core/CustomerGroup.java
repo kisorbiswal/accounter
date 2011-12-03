@@ -131,8 +131,8 @@ public class CustomerGroup extends CreatableObject implements
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), "Customer Group").gap().gap();
+		w.put(messages.type(), messages.customergroup()).gap().gap();
 		w.put(messages.name(), this.name);
-		
+
 	}
 }

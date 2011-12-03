@@ -190,8 +190,8 @@ public class AccountTransaction extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), "Account Transaction").gap().gap();
+
+		w.put(messages.type(), messages.accounttransaction()).gap().gap();
 		w.put(messages.amount(), this.amount);
 	}
 }

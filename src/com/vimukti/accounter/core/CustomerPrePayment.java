@@ -320,16 +320,16 @@ public class CustomerPrePayment extends Transaction {
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), "Customer PrePayment").gap();
+		w.put(messages.type(), messages.customerprePayment()).gap();
 		w.put(messages.no(), this.number);
 		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
-	    w.put(messages.currency(), this.currencyFactor).gap().gap();
-	    w.put(messages.amount(), this.total);
-	    w.put(messages.paymentMethod(), this.paymentMethod);
-	    w.put(messages.memo(), this.memo);
-	    
-	    w.put(messages.details(), this.transactionCreditsAndPayments);
-		
+		w.put(messages.currency(), this.currencyFactor).gap().gap();
+		w.put(messages.amount(), this.total);
+		w.put(messages.paymentMethod(), this.paymentMethod);
+		w.put(messages.memo(), this.memo);
+
+		w.put(messages.details(), this.transactionCreditsAndPayments);
+
 	}
 
 }

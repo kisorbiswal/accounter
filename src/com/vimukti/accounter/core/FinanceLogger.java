@@ -17,7 +17,7 @@ public class FinanceLogger implements IAccounterServerCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private static Logger log = Logger.getLogger(FinanceLogger.class);
 	private static ThreadLocal<FinanceLogger> cache = new ThreadLocal<FinanceLogger>();
 
@@ -126,14 +126,14 @@ public class FinanceLogger implements IAccounterServerCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(),"Finance Logger").gap();
+
+		w.put(messages.type(), messages.financeLogger()).gap();
 	}
 
 }

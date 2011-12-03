@@ -483,14 +483,15 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), "Credits & Payments").gap();
+
+		w.put(messages.type(), messages.creditsPayments()).gap();
 		w.put(messages.no(), this.transaction.number);
 		w.put(messages.currency(), this.transaction.currencyFactor).gap().gap();
 		w.put(messages.amount(), this.transaction.total).gap().gap();
-		w.put(messages.paymentMethod(), this.transaction.paymentMethod).gap().gap();
+		w.put(messages.paymentMethod(), this.transaction.paymentMethod).gap()
+				.gap();
 		w.put(messages.memo(), this.memo);
-		
+
 		w.put(messages.details(), this.transactionCreditsAndPayments);
 	}
 }

@@ -12,7 +12,7 @@ public class CommodityCode implements IAccounterServerCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	long id;
 	/**
 	 * commodity code name.
@@ -47,14 +47,14 @@ public class CommodityCode implements IAccounterServerCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), "Commodity Code").gap().gap();
+
+		w.put(messages.type(), messages.commodityCode()).gap().gap();
 		w.put(messages.name(), this.name);
 	}
 }

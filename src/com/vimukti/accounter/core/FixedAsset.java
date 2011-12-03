@@ -1863,8 +1863,8 @@ public class FixedAsset extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), "Fixed Assest").gap();
+
+		w.put(messages.type(), messages.fixedAssest()).gap();
 		w.put(messages.name(), this.name);
 	}
 }
