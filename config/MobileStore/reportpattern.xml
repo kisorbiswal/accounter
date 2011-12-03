@@ -18,7 +18,7 @@
 			<command title="Sales Reports" />
 			<command title="Suppliers and Payable Reports" />
 			<command title="Purchases Reports" />
-			<command title="VAT Reports" />
+			<command if="trackTax" title="VAT Reports" />
 		</outputs>
 	</pattern>
 
@@ -85,7 +85,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern login="true">
+	<pattern login="true" if="trackTax">
 		<input>VAT Reports</input>
 		<input>TAX Reports</input>
 		<outputs>
