@@ -1092,6 +1092,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private void updateAccountObject() {
 
 		data.setType(accountType);
+		data.setOpeningBalanceEditable(true);
 		data.setNumber(accNoText.getNumber() != null ? accNoText.getNumber()
 				.toString() : "0");
 		data.setName(accNameText.getValue().toString() != null ? accNameText
@@ -1583,9 +1584,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		if (data.isOpeningBalanceEditable()) {
-			opBalText.setDisabled(isInViewMode());
-		}
+		opBalText.setDisabled(isInViewMode());
+		asofDate.setDisabled(isInViewMode());
 		accNoText.setDisabled(isInViewMode());
 		accNameText.setDisabled(isInViewMode());
 		cashAccountCheck.setDisabled(isInViewMode());
