@@ -32,7 +32,7 @@ public class CancelCommand extends Command {
 			currentCommand.markDone();
 			context.getIOSession().refreshCurrentCommand();
 		} else {
-			makeResult.add("There is no commands to cancel.");
+			// makeResult.add("There is no commands to cancel.");
 		}
 
 		// currentCommand = context.getIOSession().getCurrentCommand();
