@@ -21,7 +21,6 @@ public class BillsList implements IsSerializable, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	long transactionId;
 
@@ -39,11 +38,12 @@ public class BillsList implements IsSerializable, Serializable {
 
 	Double balance;
 	boolean isVoided;
+	private long currency;
 
 	int status;
-	
+
 	private int expenseStatus;
-	
+
 	private long payFrom;
 
 	/**
@@ -208,6 +208,14 @@ public class BillsList implements IsSerializable, Serializable {
 
 	public long getPayFrom() {
 		return payFrom;
+	}
+
+	public long getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(long currency) {
+		this.currency = currency;
 	}
 
 }

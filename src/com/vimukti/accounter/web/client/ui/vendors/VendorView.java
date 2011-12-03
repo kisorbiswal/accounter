@@ -957,8 +957,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		data.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 
 		// Setting Balance
-		data.setOpeningBalance(openingBalText.getAmount()
-				* data.getCurrencyFactor());
+		data.setOpeningBalance(openingBalText.getAmount());
 
 		data.setBalance(balanceText.getAmount());
 
@@ -1203,7 +1202,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			balanceText.setCurrency(selectCurrency);
 			if (!selectCurrency.equals(getCompany().getPreferences()
 					.getPrimaryCurrency())) {
-				currencyWidget.disabledFactorField(true);
+				currencyWidget.disabledFactorField(false);
 			}
 		}
 		currencyWidget.setCurrencyFactor(data.getCurrencyFactor());
@@ -1216,8 +1215,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		// accountText.setValue(takenVendor.getBankAccountNo());
 
 		// Setting Balance
-		openingBalText.setAmount(getAmountInPayeeCurrency(
-				data.getOpeningBalance(), data.getCurrencyFactor()));
+		openingBalText.setAmount(data.getOpeningBalance());
 		balanceText.setAmount(data.getBalance());
 
 		// Setting Balance as of
@@ -1391,7 +1389,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		openingBalText.setDisabled(isInViewMode());
 		balanceDate.setDisabled(isInViewMode());
 		expenseAccountsSelect.setDisabled(isInViewMode());
-		currencyWidget.setDisabled(true);
+		currencyWidget.setDisabled(!isInViewMode(),isInViewMode());
 		// if (!selectCurrency.equals(getCompany().getPreferences()
 		// .getPrimaryCurrency())) {
 		// currencyWidget.disabledFactorField(false);
@@ -1453,9 +1451,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		return widget;
 	}
 
-	public double getAmountInPayeeCurrency(double amount, double factor) {
-		return amount / factor;
-	}
 
 	@Override
 	protected boolean canVoid() {

@@ -16,7 +16,7 @@ public abstract class TaxCodeRequirement extends ListRequirement<TAXCode> {
 	@Override
 	protected Record createRecord(TAXCode value) {
 		Record record = new Record(value);
-		record.add(value.getName() + " - " + value.getSalesTaxRate());
+		record.add("", value.getName() + "-" + value.getSalesTaxRate());
 		return record;
 	}
 

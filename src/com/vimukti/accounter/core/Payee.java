@@ -349,11 +349,11 @@ public abstract class Payee extends CreatableObject implements
 
 		if (this.type == TYPE_CUSTOMER) {
 			if (updateBalanceInPayeeCurrency) {
-				this.balance -= amount / transaction.getCurrencyFactor();
+				this.balance -= amount;
 			}
 		} else if (this.type == TYPE_VENDOR || this.type == TYPE_TAX_AGENCY) {
 			if (updateBalanceInPayeeCurrency) {
-				this.balance += amount / transaction.getCurrencyFactor();
+				this.balance += amount;
 			}
 		}
 
@@ -506,7 +506,7 @@ public abstract class Payee extends CreatableObject implements
 		journalEntry.number = number;
 		journalEntry.transactionDate = balanceAsOf;
 		journalEntry.memo = "Opening Balance";
-		journalEntry.balanceDue = getOpeningBalance() * currencyFactor;
+		journalEntry.balanceDue = getOpeningBalance();
 
 		List<TransactionItem> items = new ArrayList<TransactionItem>();
 		// Line 1
@@ -515,9 +515,9 @@ public abstract class Payee extends CreatableObject implements
 		item1.setType(TransactionItem.TYPE_ACCOUNT);
 		item1.setDescription(getName());
 		if (this instanceof Customer) {
-			item1.setLineTotal(-1 * getOpeningBalance() * currencyFactor);
+			item1.setLineTotal(-1 * getOpeningBalance());
 		} else {
-			item1.setLineTotal(getOpeningBalance() * currencyFactor);
+			item1.setLineTotal(getOpeningBalance());
 		}
 		items.add(item1);
 
@@ -526,9 +526,9 @@ public abstract class Payee extends CreatableObject implements
 		item2.setType(TransactionItem.TYPE_ACCOUNT);
 		item2.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
 		if (this instanceof Customer) {
-			item2.setLineTotal(getOpeningBalance() * currencyFactor);
+			item2.setLineTotal(getOpeningBalance() );
 		} else {
-			item2.setLineTotal(-1 * getOpeningBalance() * currencyFactor);
+			item2.setLineTotal(-1 * getOpeningBalance());
 		}
 		items.add(item2);
 

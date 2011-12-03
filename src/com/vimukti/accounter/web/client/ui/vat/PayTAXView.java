@@ -390,11 +390,12 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		transactionDateItem.setEnteredDate(transaction.getDate());
 		transNumber.setValue(transaction.getNumber());
 
-		endingBalanceText.setAmount(getAmountInTransactionCurrency(transaction
-				.getEndingBalance()));
+		if (selectedPayFromAccount != null) {
+			endingBalanceText.setAmount(selectedPayFromAccount
+					.getTotalBalanceInAccountCurrency());
+		}
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
-		amountText.setAmount(getAmountInTransactionCurrency(transaction
-				.getTotal()));
+		amountText.setAmount(transaction.getTotal());
 		if (selectedPayFromAccount != null) {
 			amountText.setCurrency(getCurrency(selectedPayFromAccount
 					.getCurrency()));
@@ -563,7 +564,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			transaction.setTaxAgency(selectedTAXAgency.getID());
 		}
 		transaction.setTotal(totalAmount);
-		transaction.setEndingBalance(endingBalance);
 		if (currency != null) {
 			transaction.setCurrency(currency.getID());
 		}
@@ -597,22 +597,21 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// toBeSetAmount += rec.getAmountToPay();
 		// }
 		// if (this.transaction == null) {
-		amountText.setAmount(getAmountInTransactionCurrency(toBeSetAmount));
+		amountText.setAmount(toBeSetAmount);
 		totalAmount = toBeSetAmount;
 		if (selectedPayFromAccount != null) {
 			double toBeSetEndingBalance = 0.0;
 			if (selectedPayFromAccount.isIncrease())
 				toBeSetEndingBalance = selectedPayFromAccount.getTotalBalance()
 						+ DataUtils.getBalance(
-								getAmountInBaseCurrency(amountText.getAmount())
-										.toString()).doubleValue();
+								amountText.getAmount().toString())
+								.doubleValue();
 			else
 				toBeSetEndingBalance = selectedPayFromAccount.getTotalBalance()
 						- DataUtils.getBalance(
-								getAmountInBaseCurrency(amountText.getAmount())
-										.toString()).doubleValue();
-			endingBalanceText
-					.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
+								amountText.getAmount().toString())
+								.doubleValue();
+			endingBalanceText.setAmount(toBeSetEndingBalance);
 			// }
 		}
 

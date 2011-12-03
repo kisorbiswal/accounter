@@ -54,7 +54,7 @@ public abstract class CustomerItemTransactionTable extends
 	@Override
 	protected void initColumns() {
 
-		this.addColumn(new ItemNameColumn(isSales()) {
+		this.addColumn(new ItemNameColumn(isSales(), currencyProvider) {
 
 			@Override
 			public ListFilter<ClientItem> getItemsFilter() {

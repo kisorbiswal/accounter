@@ -129,7 +129,7 @@ public class CustomerPrePaymentView extends
 		this.paymentMethod = UIUtils
 				.getpaymentMethodCheckBy_CompanyType(Accounter.messages()
 						.check());
-		amountText.setAmount(getAmountInTransactionCurrency(0D));
+		amountText.setAmount(0D);
 		// endBalText.setAmount(getAmountInTransactionCurrency(0D));
 		// customerBalText.setAmount(getAmountInTransactionCurrency(0D));
 		memoTextAreaItem.setValue("");
@@ -209,10 +209,10 @@ public class CustomerPrePaymentView extends
 			if (billingAddress != null)
 				billToaddressSelected(billingAddress);
 			amountText.setDisabled(true);
-			amountText.setAmount(getAmountInTransactionCurrency(transaction
-					.getTotal()));
-			customerBalText.setAmount(getAmountInTransactionCurrency(customer
-					.getBalance()));
+			amountText.setAmount(transaction
+					.getTotal());
+			customerBalText.setAmount(customer
+					.getBalance());
 			// bankBalText.setAmount(getAmountInTransactionCurrency(transaction.g));
 			paymentMethodSelected(transaction.getPaymentMethod());
 			this.depositInAccount = comapny.getAccount(transaction
@@ -274,7 +274,7 @@ public class CustomerPrePaymentView extends
 		// setCheckNumber();
 		// } else if (account == null)
 		// checkNo.setValue("");
-		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
+		adjustBalance(amountText.getAmount());
 	}
 
 	private void adjustBalance(double amount) {
@@ -309,7 +309,7 @@ public class CustomerPrePaymentView extends
 					.getPrimaryCurrency().getID()) {
 				balanceToBeUpdate = enteredBalance;
 			} else {
-				balanceToBeUpdate = getAmountInTransactionCurrency(enteredBalance);
+				balanceToBeUpdate = enteredBalance;
 			}
 
 			if (depositInAccount.isIncrease()) {
@@ -602,7 +602,7 @@ public class CustomerPrePaymentView extends
 						Accounter.showError(Accounter.messages()
 								.noNegativeAmounts());
 						amountText
-								.setAmount(getAmountInTransactionCurrency(0.00D));
+								.setAmount(0.00D);
 
 					}
 
@@ -610,8 +610,8 @@ public class CustomerPrePaymentView extends
 							.setAmount(DataUtils.isValidAmount(amount + "") ? amount
 									: 0.0);
 
-					adjustBalance(getAmountInBaseCurrency(amountText
-							.getAmount()));
+					adjustBalance(amountText
+							.getAmount());
 
 				} catch (Exception e) {
 					if (e instanceof InvalidEntryException) {
@@ -662,7 +662,7 @@ public class CustomerPrePaymentView extends
 		this.addressListOfCustomer = customer.getAddress();
 		initBillToCombo();
 		customerBalText.setAmount(customer.getBalance());
-		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
+		adjustBalance(amountText.getAmount());
 		currencyWidget.setSelectedCurrencyFactorInWidget(clientCurrency,
 				transactionDateItem.getDate().getDate());
 
@@ -750,10 +750,10 @@ public class CustomerPrePaymentView extends
 	public void updateNonEditableItems() {
 		if (bankBalText != null)
 			this.bankBalText
-					.setAmount(getAmountInTransactionCurrency(toBeSetEndingBalance));
+					.setAmount(toBeSetEndingBalance);
 		if (customerBalText != null)
 			this.customerBalText
-					.setAmount(getAmountInTransactionCurrency(toBeSetCustomerBalance));
+					.setAmount(toBeSetCustomerBalance);
 	}
 
 	@Override
@@ -792,7 +792,7 @@ public class CustomerPrePaymentView extends
 	@Override
 	protected void depositInAccountSelected(ClientAccount depositInAccount2) {
 		super.depositInAccountSelected(depositInAccount2);
-		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
+		adjustBalance(amountText.getAmount());
 	}
 
 	@Override
@@ -867,7 +867,7 @@ public class CustomerPrePaymentView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
-		adjustBalance(getAmountInBaseCurrency(amountText.getAmount()));
+		adjustBalance(amountText.getAmount());
 	}
 
 }

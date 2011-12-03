@@ -469,10 +469,10 @@ public class JournalEntryView extends
 	public void updateNonEditableItems() {
 		if (grid == null)
 			return;
-		deditTotalText.setAmount(getAmountInTransactionCurrency(grid
-				.getTotalDebittotal()));
-		creditTotalText.setAmount(getAmountInTransactionCurrency(grid
-				.getTotalCredittotal()));
+		deditTotalText.setAmount(grid
+				.getTotalDebittotal());
+		creditTotalText.setAmount(grid
+				.getTotalCredittotal());
 
 	}
 

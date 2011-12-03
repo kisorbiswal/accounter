@@ -67,9 +67,6 @@ public class CustomerCreditMemoView extends
 	private DisclosurePanel accountsDisclosurePanel;
 	private DisclosurePanel itemsDisclosurePanel;
 
-	private AmountLabel transactionTotalinBaseCurrency,
-			transactionTotalinForeignCurrency;
-
 	public CustomerCreditMemoView() {
 
 		super(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
@@ -179,9 +176,9 @@ public class CustomerCreditMemoView extends
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 
 		taxTotalNonEditableText = createVATTotalNonEditableLabel();
-		transactionTotalinBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
+		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getCompany()
 				.getPrimaryCurrency());
-		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
 		netAmountLabel = createNetAmountLabel();
@@ -283,9 +280,9 @@ public class CustomerCreditMemoView extends
 				form.setFields(taxCodeSelect, vatinclusiveCheck);
 			}
 		}
-		prodAndServiceForm2.setFields(transactionTotalinBaseCurrency);
+		prodAndServiceForm2.setFields(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			prodAndServiceForm2.setFields(transactionTotalinForeignCurrency);
+			prodAndServiceForm2.setFields(foreignCurrencyamountLabel);
 		}
 
 		prodAndServiceForm2.addStyleName("boldtext");
@@ -360,7 +357,7 @@ public class CustomerCreditMemoView extends
 
 		settabIndexes();
 		if (isMultiCurrencyEnabled()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		}
 	}
 
@@ -445,14 +442,13 @@ public class CustomerCreditMemoView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
 		if (isTrackTax()) {
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
-					.getAmount()));
+			transaction.setNetAmount(netAmountLabel.getAmount());
 			if (vatinclusiveCheck != null) {
 				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 			}
 			transaction.setTaxTotal(this.salesTax);
 		}
-		transaction.setTotal(transactionTotalinBaseCurrency.getAmount());
+		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
@@ -506,9 +502,7 @@ public class CustomerCreditMemoView extends
 
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
-					netAmountLabel
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getNetAmount()));
+					netAmountLabel.setAmount(transaction.getNetAmount());
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -516,20 +510,16 @@ public class CustomerCreditMemoView extends
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 					}
 				}
-				taxTotalNonEditableText
-						.setAmount(getAmountInTransactionCurrency(transaction
-								.getTaxTotal()));
+				taxTotalNonEditableText.setAmount(transaction.getTaxTotal());
 				if (vatinclusiveCheck != null) {
 					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
 				}
 			}
 
-			transactionTotalinBaseCurrency
+			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 
-			transactionTotalinForeignCurrency
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()));
+			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
 			memoTextAreaItem.setDisabled(true);
 			initAccounterClass();
@@ -599,8 +589,7 @@ public class CustomerCreditMemoView extends
 		if (transaction != null) {
 			Double salesTaxAmout = transaction.getTaxTotal();
 			if (salesTaxAmout != null) {
-				taxTotalNonEditableText
-						.setAmount(getAmountInTransactionCurrency(salesTaxAmout));
+				taxTotalNonEditableText.setAmount(salesTaxAmout);
 			}
 
 		}
@@ -612,10 +601,9 @@ public class CustomerCreditMemoView extends
 		if (transaction != null) {
 			Double transactionTotal = transaction.getTotal();
 			if (transactionTotal != null) {
-				transactionTotalinBaseCurrency.setAmount(transactionTotal);
-				transactionTotalinForeignCurrency
-						.setAmount(getAmountInTransactionCurrency(transaction
-								.getTotal()));
+				transactionTotalBaseCurrencyText
+						.setAmount(getAmountInBaseCurrency(transactionTotal));
+				foreignCurrencyamountLabel.setAmount(transactionTotal);
 			}
 
 		}
@@ -657,9 +645,8 @@ public class CustomerCreditMemoView extends
 			// + this.salesTax);
 			double lineTotal = customerAccountTransactionTable.getLineTotal()
 					+ customerItemTransactionTable.getLineTotal();
-			netAmountLabel.setAmount(getAmountInTransactionCurrency(lineTotal));
-			taxTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(total - lineTotal));
+			netAmountLabel.setAmount(lineTotal);
+			taxTotalNonEditableText.setAmount(total - lineTotal);
 
 		}
 
@@ -673,9 +660,9 @@ public class CustomerCreditMemoView extends
 	public void setTransactionTotal(Double transactionTotal) {
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
-		transactionTotalinBaseCurrency.setAmount(transactionTotal);
-		transactionTotalinForeignCurrency
-				.setAmount(getAmountInTransactionCurrency(transactionTotal));
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(transactionTotal));
+		foreignCurrencyamountLabel.setAmount(transactionTotal);
 	}
 
 	// @Override
@@ -690,8 +677,7 @@ public class CustomerCreditMemoView extends
 		this.salesTax = salesTax;
 
 		if (taxTotalNonEditableText != null)
-			taxTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(salesTax));
+			taxTotalNonEditableText.setAmount(salesTax);
 
 	}
 
@@ -1004,10 +990,10 @@ public class CustomerCreditMemoView extends
 
 	public void modifyForeignCurrencyTotalWidget() {
 		if (currencyWidget.isShowFactorField()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		} else {
-			transactionTotalinForeignCurrency.show();
-			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

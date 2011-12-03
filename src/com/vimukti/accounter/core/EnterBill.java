@@ -1078,14 +1078,14 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	public void updateBalance(Session session, double amount,
 			TransactionPayBill tpb) {
 		double currencyFactor = tpb.payBill.getCurrencyFactor();
-		double amountInPaymentCurrency = amount / currencyFactor;
 
-		double amountToUpdate = amountInPaymentCurrency * this.currencyFactor;
+		double amountToUpdate = amount * this.currencyFactor;
 
-		this.payments += amountToUpdate;
-		this.balanceDue -= amountToUpdate;
+		this.payments += amount;
+		this.balanceDue -= amount;
 
-		double diff = amount - amountToUpdate;
+		// loss is paid amount - entered amount in base currency
+		double diff = amount * currencyFactor - amountToUpdate;
 
 		Account exchangeLossOrGainAccount = getCompany()
 				.getExchangeLossOrGainAccount();
@@ -1098,6 +1098,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -163,7 +163,7 @@ public class PurchaseOrderView extends
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
 				.getPrimaryCurrency());
 
-		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabelforPurchase();
@@ -199,7 +199,7 @@ public class PurchaseOrderView extends
 			if (isMultiCurrencyEnabled()) {
 				amountsForm.setFields(netAmount, vatTotalNonEditableText,
 						transactionTotalNonEditableText,
-						transactionTotalinForeignCurrency);
+						foreignCurrencyamountLabel);
 			} else {
 				amountsForm.setFields(netAmount, vatTotalNonEditableText,
 						transactionTotalNonEditableText);
@@ -226,8 +226,9 @@ public class PurchaseOrderView extends
 					+ UIUtils.getCurrencySymbol() + " 0.00");
 
 			balanceDueNonEditableText = new AmountLabel(messages.balanceDue());
-//			balanceDueNonEditableText = new AmountField(messages.balanceDue(),
-//					this, getBaseCurrency());
+			// balanceDueNonEditableText = new
+			// AmountField(messages.balanceDue(),
+			// this, getBaseCurrency());
 			balanceDueNonEditableText.setDisabled(true);
 			balanceDueNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -239,7 +240,7 @@ public class PurchaseOrderView extends
 			amountsForm.addStyleName("boldtext");
 			if (isMultiCurrencyEnabled()) {
 				amountsForm.setFields(transactionTotalNonEditableText,
-						transactionTotalinForeignCurrency);
+						foreignCurrencyamountLabel);
 			} else {
 				amountsForm.setFields(transactionTotalNonEditableText);
 			}
@@ -600,7 +601,7 @@ public class PurchaseOrderView extends
 		listforms.add(memoForm);
 		listforms.add(linksform);
 		if (isMultiCurrencyEnabled()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		}
 		settabIndexes();
 	}
@@ -1012,16 +1013,14 @@ public class PurchaseOrderView extends
 				+ vendorItemTransactionTable.getLineTotal();
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
-		transactionTotalNonEditableText.setAmount(grandTotal);
-		transactionTotalinForeignCurrency
-				.setAmount(getAmountInTransactionCurrency(grandTotal));
+		transactionTotalNonEditableText
+				.setAmount(getAmountInBaseCurrency(grandTotal));
+		foreignCurrencyamountLabel.setAmount(grandTotal);
 
-		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
+		netAmount.setAmount(lineTotal);
 		// vatTotalNonEditableText.setValue(vendorTransactionGrid.getVatTotal());
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(grandTotal
-							- lineTotal));
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 
 	}
@@ -1505,10 +1504,10 @@ public class PurchaseOrderView extends
 
 	public void modifyForeignCurrencyTotalWidget() {
 		if (currencyWidget.isShowFactorField()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		} else {
-			transactionTotalinForeignCurrency.show();
-			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

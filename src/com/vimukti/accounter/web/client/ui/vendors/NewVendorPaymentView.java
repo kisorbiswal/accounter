@@ -83,9 +83,9 @@ public class NewVendorPaymentView extends
 		this.paymentMethod = UIUtils
 				.getpaymentMethodCheckBy_CompanyType(Accounter.messages()
 						.check());
-		amountText.setAmount(getAmountInTransactionCurrency(0D));
-		endBalText.setAmount(getAmountInTransactionCurrency(0D));
-		vendorBalText.setAmount(getAmountInTransactionCurrency(0D));
+		amountText.setAmount(0D);
+		endBalText.setAmount(0D);
+		vendorBalText.setAmount(0D);
 		memoTextAreaItem.setValue("");
 	}
 
@@ -109,11 +109,10 @@ public class NewVendorPaymentView extends
 			}
 
 			if (transaction.isAmountIncludeTDS()) {
-				amountText.setAmount(getAmountInTransactionCurrency(transaction
-						.getUnusedAmount()));
+				amountText.setAmount(transaction.getUnusedAmount());
 			} else {
-				amountText.setAmount(getAmountInTransactionCurrency(transaction
-						.getTotal() - transaction.getTdsTotal()));
+				amountText.setAmount(transaction.getTotal()
+						- transaction.getTdsTotal());
 			}
 			ClientVendor vendor = comapny.getVendor(transaction.getVendor());
 			vendorCombo.select(vendor);
@@ -137,10 +136,8 @@ public class NewVendorPaymentView extends
 			// currencyCombo.setValue(currency.getFormalName());
 			// }
 
-			endBalText.setAmount(getAmountInTransactionCurrency(transaction
-					.getEndingBalance()));
-			vendorBalText.setAmount(getAmountInTransactionCurrency(vendor
-					.getBalance()));
+			endBalText.setAmount(transaction.getEndingBalance());
+			vendorBalText.setAmount(vendor.getBalance());
 
 			if (transaction.getCheckNumber() != null) {
 				if (transaction.getCheckNumber().equals(
@@ -303,9 +300,9 @@ public class NewVendorPaymentView extends
 				paymentMethodCombo, printCheck, checkNo, memoTextAreaItem);
 		payForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
 
-		endBalText.setAmount(getAmountInTransactionCurrency(payFromCombo
-				.getSelectedValue() != null ? payFromCombo.getSelectedValue()
-				.getCurrentBalance() : 0.00));
+		endBalText
+				.setAmount(payFromCombo.getSelectedValue() != null ? payFromCombo
+						.getSelectedValue().getCurrentBalance() : 0.00);
 
 		payForm.setCellSpacing(5);
 		// payForm.setWidth("100%");
@@ -454,8 +451,7 @@ public class NewVendorPaymentView extends
 					transaction.setPayFrom(payFromAccount);
 				if (getPreferences().isTDSEnabled()
 						&& getVendor().isTdsApplicable()) {
-					transaction.setTotal(getAmountInBaseCurrency(totalAmount
-							.getAmount()));
+					transaction.setTotal(totalAmount.getAmount());
 					ClientTAXItem selectedValue = tdsCombo.getSelectedValue();
 					if (selectedValue != null) {
 						transaction.setTdsTaxItem(selectedValue);
@@ -464,8 +460,7 @@ public class NewVendorPaymentView extends
 					transaction
 							.setAmountIncludeTDS(amountIncludeTds.getValue());
 				} else {
-					transaction.setTotal(getAmountInBaseCurrency(totalAmount
-							.getAmount()));
+					transaction.setTotal(totalAmount.getAmount());
 				}
 
 				transaction.setPaymentMethod(paymentMethodCombo
@@ -586,10 +581,10 @@ public class NewVendorPaymentView extends
 
 	public void adjustBalance() {
 
-		double enteredBalance = getAmountInBaseCurrency(amountText.getAmount());
+		double enteredBalance = amountText.getAmount();
 		if (DecimalUtil.isLessThan(enteredBalance, 0)
 				|| DecimalUtil.isGreaterThan(enteredBalance, 1000000000000.00)) {
-			amountText.setAmount(getAmountInTransactionCurrency(0D));
+			amountText.setAmount(0D);
 			return;
 		}
 
@@ -638,7 +633,7 @@ public class NewVendorPaymentView extends
 					.getPrimaryCurrency().getID()) {
 				balanceToBeUpdate = enteredBalance;
 			} else {
-				balanceToBeUpdate = getAmountInTransactionCurrency(enteredBalance);
+				balanceToBeUpdate = enteredBalance;
 			}
 
 			if (payFromAccount.isIncrease()) {
@@ -761,7 +756,7 @@ public class NewVendorPaymentView extends
 					if (e instanceof InvalidEntryException) {
 						Accounter.showError(e.getMessage());
 					}
-					amountText.setAmount(getAmountInTransactionCurrency(0.0));
+					amountText.setAmount(0.0);
 				}
 
 			}
@@ -842,7 +837,7 @@ public class NewVendorPaymentView extends
 	}
 
 	protected Double getTransactionTotal() {
-		return getAmountInBaseCurrency(this.totalAmount.getAmount());
+		return this.totalAmount.getAmount();
 	}
 
 	@Override

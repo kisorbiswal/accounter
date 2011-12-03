@@ -663,7 +663,7 @@ public class ReceivePaymentView extends
 
 		transaction.setCustomerBalance(getCustomerBalance());
 
-		transaction.setAmount(getAmountInBaseCurrency(this.amountRecieved));
+		transaction.setAmount(this.amountRecieved);
 
 		transaction
 				.setTransactionReceivePayment(getTransactionRecievePayments(transaction));
@@ -687,7 +687,7 @@ public class ReceivePaymentView extends
 
 	private void setUnUsedCredits(Double unusedCredits) {
 
-		unUsedCreditsText.setAmount(getAmountInBaseCurrency(unusedCredits));
+		unUsedCreditsText.setAmount(unusedCredits);
 		// unUsedCreditsTextForeignCurrency
 		// .setAmount(getAmountInTransactionCurrency(unusedCredits));
 
@@ -751,8 +751,8 @@ public class ReceivePaymentView extends
 			// if (paymentToBeEdited.getReference() != null)
 			// refText.setValue(paymentToBeEdited.getReference());
 			paymentMethod = transaction.getPaymentMethod();
-			setAmountRecieved(getAmountInTransactionCurrency(transaction
-					.getAmount()));
+			setAmountRecieved(transaction
+					.getAmount());
 
 			initTransactionTotalNonEditableItem();
 			List<ClientTransactionReceivePayment> tranReceivePaymnetsList = transaction
@@ -806,7 +806,7 @@ public class ReceivePaymentView extends
 
 	public void recalculateGridAmounts() {
 		this.transactionTotal = getGridTotal();
-		this.unUsedPayments = (amountRecieved - getAmountInTransactionCurrency(transactionTotal));
+		this.unUsedPayments = (amountRecieved - transactionTotal);
 		setUnusedPayments(unUsedPayments);
 		calculateUnusedCredits();
 	}
@@ -867,7 +867,7 @@ public class ReceivePaymentView extends
 				if (!AccounterValidator.isValidRecievePaymentAmount(
 						DataUtils.getAmountStringAsDouble(amtText.getValue()
 								.toString()),
-						getAmountInTransactionCurrency(this.transactionTotal))) {
+						this.transactionTotal)) {
 					result.addError(amtText, Accounter.messages()
 							.recievePaymentTotalAmount());
 				}

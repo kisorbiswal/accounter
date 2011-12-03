@@ -273,7 +273,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 				.setDate(((ClientFinanceDate) transactionDateItem.getValue())
 						.getDate());
 
-		transaction.setTotal(getAmountInBaseCurrency(amount.getAmount()));
+		transaction.setTotal(amount.getAmount());
 
 		transaction.setMemo(memo.getValue().toString());
 
@@ -281,7 +281,6 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		transaction.setPayFrom(selectedPayFromAccount.getID());
 
-		transaction.setEndingBalance(endingBalance);
 
 		transaction.setPaymentMethod(paymentMethod);
 	}

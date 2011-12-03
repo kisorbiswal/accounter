@@ -69,8 +69,7 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected void onChangeValue(boolean value,
 					ClientTransactionPayBill row) {
-				row.setPayment(currencyProvider.getAmountInBaseCurrency(row
-						.getAmountDue()));
+				row.setPayment(row.getAmountDue());
 				onSelectionChanged(row, value);
 			}
 
@@ -337,19 +336,17 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getColumnName() {
-					return getColumnNameWithBaseCurrency(messages.payments());
+					return getColumnNameWithCurrency(messages.payments());
 				}
 
 				@Override
 				protected Double getAmount(ClientTransactionPayBill row) {
-					return currencyProvider.getAmountInTransactionCurrency(row
-							.getPayment());
+					return row.getPayment();
 				}
 
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
 						Double value) {
-					value = currencyProvider.getAmountInBaseCurrency(value);
 					row.setPayment(value);
 					updateValue(row);
 					adjustAmountAndEndingBalance();
@@ -390,8 +387,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
-					return DataUtils.getAmountAsString(currencyProvider
-							.getAmountInTransactionCurrency(row.getPayment()));
+					return DataUtils.getAmountAsString(row.getPayment());
 				}
 
 				@Override
@@ -406,8 +402,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected Double getAmount(ClientTransactionPayBill row) {
-					return currencyProvider.getAmountInTransactionCurrency(row
-							.getPayment());
+					return row.getPayment();
 				}
 
 				@Override
@@ -766,9 +761,8 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			public boolean onOK() {
 				try {
-					selectedObject.setCashDiscount(currencyProvider
-							.getAmountInTransactionCurrency(cashDiscountDialog
-									.getCashDiscount()));
+					selectedObject.setCashDiscount(cashDiscountDialog
+							.getCashDiscount());
 
 					selectedObject.setDiscountAccount(cashDiscountDialog
 							.getSelectedDiscountAccount().getID());
@@ -820,8 +814,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected Double getAmount(ClientTransactionPayBill row) {
-					return currencyProvider.getAmountInTransactionCurrency(row
-							.getTdsAmount());
+					return row.getTdsAmount();
 				}
 
 				@Override
@@ -867,10 +860,8 @@ public abstract class TransactionPayBillTable extends
 			if (DecimalUtil.isEquals(totalValue, 0)) {
 				result.addError(this,
 						messages.totalPaymentNotZeroForSelectedRecords());
-			} else if (DecimalUtil
-					.isGreaterThan(totalValue, currencyProvider
-							.getAmountInBaseCurrency(transactionPayBill
-									.getAmountDue()))) {
+			} else if (DecimalUtil.isGreaterThan(totalValue,
+					transactionPayBill.getAmountDue())) {
 				result.addError(this,
 						messages.totalPaymentNotExceedDueForSelectedRecords());
 			}

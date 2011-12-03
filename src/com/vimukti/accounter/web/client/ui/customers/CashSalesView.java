@@ -79,11 +79,9 @@ public class CashSalesView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel accountsDisclosurePanel;
 	private DisclosurePanel itemsDisclosurePanel;
+
 	// private WarehouseAllocationTable inventoryTransactionTable;
 	// private DisclosurePanel inventoryDisclosurePanel;
-
-	private AmountLabel transactionTotalBaseCurrency,
-			transactionTotalForeignCurrency;
 
 	public CashSalesView() {
 		super(ClientTransaction.TYPE_CASH_SALES);
@@ -240,9 +238,9 @@ public class CashSalesView extends
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		transactionTotalBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
+		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getCompany()
 				.getPrimaryCurrency());
-		transactionTotalForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
@@ -353,9 +351,9 @@ public class CashSalesView extends
 				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
 			}
 		}
-		prodAndServiceForm2.setFields(transactionTotalBaseCurrency);
+		prodAndServiceForm2.setFields(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			prodAndServiceForm2.setFields(transactionTotalForeignCurrency);
+			prodAndServiceForm2.setFields(foreignCurrencyamountLabel);
 		}
 		prodAndServiceForm2.addStyleName("boldtext");
 
@@ -429,7 +427,7 @@ public class CashSalesView extends
 
 		settabIndexes();
 		if (isMultiCurrencyEnabled()) {
-			transactionTotalForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		}
 
 	}
@@ -620,13 +618,12 @@ public class CashSalesView extends
 			transaction.setPriceLevel(priceLevel.getID());
 		transaction.setMemo(getMemoTextAreaItem());
 		if (isTrackTax()) {
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
-					.getAmount()));
+			transaction.setNetAmount(netAmountLabel.getAmount());
 			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
-			transaction.setTaxTotal(getAmountInBaseCurrency(salesTax));
+			transaction.setTaxTotal(salesTax);
 		}
 
-		transaction.setTotal(transactionTotalBaseCurrency.getAmount());
+		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
@@ -652,7 +649,7 @@ public class CashSalesView extends
 		double total = customerAccountTransactionTable.getGrandTotal()
 				+ customerItemTransactionTable.getGrandTotal();
 		if (getCompany().getPreferences().isTrackTax()) {
-			netAmountLabel.setAmount(getAmountInTransactionCurrency(lineTotal));
+			netAmountLabel.setAmount(lineTotal);
 			setSalesTax(totalTax);
 		}
 
@@ -680,10 +677,10 @@ public class CashSalesView extends
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
 		this.transactionTotal = transactionTotal;
-		if (transactionTotalBaseCurrency != null) {
-			transactionTotalBaseCurrency.setAmount(transactionTotal);
-			transactionTotalForeignCurrency
-					.setAmount(getAmountInTransactionCurrency(transactionTotal));
+		if (transactionTotalBaseCurrencyText != null) {
+			transactionTotalBaseCurrencyText
+					.setAmount(getAmountInBaseCurrency(transactionTotal));
+			foreignCurrencyamountLabel.setAmount(transactionTotal);
 		}
 
 	}
@@ -773,12 +770,9 @@ public class CashSalesView extends
 			// refText.setValue(cashSale.getReference());
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
-					netAmountLabel
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getNetAmount()));
-					taxTotalNonEditableText
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+					netAmountLabel.setAmount(transaction.getNetAmount());
+					taxTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -794,14 +788,11 @@ public class CashSalesView extends
 			}
 
 			memoTextAreaItem.setDisabled(true);
-			netAmountLabel.setAmount(getAmountInBaseCurrency(transaction
-					.getTotal()));
-			transactionTotalBaseCurrency
+			netAmountLabel.setAmount(transaction.getTotal());
+			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 
-			transactionTotalForeignCurrency
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()));
+			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
 			this.clientAccounterClass = transaction.getAccounterClass();
 			if (getPreferences().isClassTrackingEnabled()
@@ -901,8 +892,7 @@ public class CashSalesView extends
 		this.salesTax = salesTax;
 
 		if (taxTotalNonEditableText != null)
-			taxTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(salesTax));
+			taxTotalNonEditableText.setAmount(salesTax);
 
 	}
 
@@ -911,10 +901,9 @@ public class CashSalesView extends
 
 		if (transaction != null) {
 			this.transactionTotal = transaction.getTotal();
-			this.transactionTotalBaseCurrency
+			this.transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(this.transactionTotal));
-			this.transactionTotalForeignCurrency
-					.setAmount(getAmountInTransactionCurrency(this.transactionTotal));
+			this.foreignCurrencyamountLabel.setAmount(this.transactionTotal);
 
 		}
 	}
@@ -1162,10 +1151,10 @@ public class CashSalesView extends
 
 	public void modifyForeignCurrencyTotalWidget() {
 		if (currencyWidget.isShowFactorField()) {
-			transactionTotalForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		} else {
-			transactionTotalForeignCurrency.show();
-			transactionTotalForeignCurrency.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

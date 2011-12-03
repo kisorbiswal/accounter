@@ -403,7 +403,7 @@ public class AdjustTAXView extends
 
 		data.setAdjustmentAccount(adjustAccountCombo.getSelectedValue().getID());
 
-		data.setTotal(getAmountInBaseCurrency(amount.getAmount()));
+		data.setTotal(amount.getAmount());
 		if (typeRadio.getValue().equals(messages.increaseTAXLine()))
 			data.setIncreaseVATLine(true);
 		else
@@ -501,7 +501,7 @@ public class AdjustTAXView extends
 			}
 			adjustAccountCombo.setComboItem(getCompany().getAccount(
 					data.getAdjustmentAccount()));
-			amount.setAmount(getAmountInTransactionCurrency(data.getTotal()));
+			amount.setAmount(data.getTotal());
 			if (data.isIncreaseVATLine()) {
 				typeRadio.setDefaultValue(messages.increaseTAXLine());
 			} else {

@@ -24,6 +24,8 @@ public class PayeeStatementsList extends BaseReport implements IsSerializable,
 	private String paymentTerm;
 	private long ageing;
 	private int category;
+	private long currency;
+	private double currencyFactor;
 
 	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
@@ -143,6 +145,22 @@ public class PayeeStatementsList extends BaseReport implements IsSerializable,
 
 	public int getCategory() {
 		return category;
+	}
+
+	public void setCurrencyFactor(double currencyFactor) {
+		this.currencyFactor = currencyFactor;
+	}
+
+	public double getCurrencyFactor() {
+		return this.currencyFactor;
+	}
+	
+	public void setCurrency(long currency) {
+		this.currency = currency;
+	}
+
+	public long getCurrency() {
+		return this.currency;
 	}
 
 }

@@ -974,7 +974,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		if (amount == 0) {
 			return;
 		}
-		amount = (isIncrease ? 1 : -1) * amount;
+		amount = (isIncrease ? 1 : -1) * amount * currencyFactor;
 
 		if (this.getCurrency() == getCompany().getPrimaryCurrency()) {
 			currencyFactor = 1;
@@ -1164,7 +1164,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		journalEntry.number = number;
 		journalEntry.transactionDate = account.asOf;
 		journalEntry.memo = "Opening Balance";
-		journalEntry.currencyFactor = this.currencyFactor;
+		journalEntry.setCurrency(this.currency);
+		journalEntry.currencyFactor = this.currencyFactor; 
 
 		List<TransactionItem> items = new ArrayList<TransactionItem>();
 		TransactionItem item1 = new TransactionItem();

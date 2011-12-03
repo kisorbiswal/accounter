@@ -808,9 +808,14 @@ public class Invoice extends Transaction implements Lifecycle {
 		return customer;
 	}
 
-	public void updatePaymentsAndBalanceDue(double amount) {
-		this.payments -= amount;
-		this.balanceDue += amount;
+	/**
+	 * Amount should be in Transaction Currency
+	 * 
+	 * @param amountInTransactionCurrency
+	 */
+	public void updatePaymentsAndBalanceDue(double amountInTransactionCurrency) {
+		this.payments -= amountInTransactionCurrency;
+		this.balanceDue += amountInTransactionCurrency;
 
 		if (DecimalUtil.isGreaterThan(this.balanceDue, 0.0)
 				&& DecimalUtil.isLessThan(this.balanceDue, this.total)) {
@@ -1080,14 +1085,14 @@ public class Invoice extends Transaction implements Lifecycle {
 	public void updateBalance(Session session, double amount,
 			TransactionReceivePayment trp) {
 		double currencyFactor = trp.receivePayment.getCurrencyFactor();
-		double amountInPaymentCurrency = amount / currencyFactor;
 
-		double amountToUpdate = amountInPaymentCurrency * this.currencyFactor;
+		double amountToUpdate = amount * this.currencyFactor;
 
-		this.payments += amountToUpdate;
-		this.balanceDue -= amountToUpdate;
+		this.payments += amount;
+		this.balanceDue -= amount;
 
-		double diff = amountToUpdate - amount;
+		// loss is invoiced amount - received amount in base currency
+		double diff = amountToUpdate - amount * currencyFactor;
 
 		Account exchangeLossOrGainAccount = getCompany()
 				.getExchangeLossOrGainAccount();

@@ -63,7 +63,6 @@ public class MakeDepositView extends
 	TextAreaItem memoText;
 
 	AmountField cashBackAmountText;
-	AmountLabel totalTextinBaseCurrency, totalTextInTransactionCurrency;
 	TAXCodeCombo taxCodeSelect;
 	TextItem cashBackMemoText;
 	DynamicForm memoForm, totForm;
@@ -207,8 +206,7 @@ public class MakeDepositView extends
 
 	protected void validateCashBackAmount() {
 
-		String amount = getAmountInBaseCurrency(cashBackAmountText.getAmount())
-				.toString();
+		String amount = cashBackAmountText.getAmount().toString();
 		if (amount.substring(0, 1)
 				.equals("" + UIUtils.getCurrencySymbol() + "")) {
 			amount = amount.substring(1);
@@ -223,8 +221,7 @@ public class MakeDepositView extends
 					Accounter.showError(messages.cashBackAmountErrorMsg());
 					cashBackAmount = 0.00;
 					// cashBackAmountText.setValue("$0.00");
-					cashBackAmountText
-							.setAmount(getAmountInTransactionCurrency(0.00));
+					cashBackAmountText.setAmount(0.00);
 				} /*
 				 * else if (cashBackAmount > 1000000000000.00) { SC.say(
 				 * "Cash-back Amount should not exceed +UIUtils.getCurrencySymbol() +"
@@ -238,14 +235,13 @@ public class MakeDepositView extends
 			Double diff = calculatedTotal.doubleValue()
 					- cashBackAmount.doubleValue();
 			// cashBackAmountText.setValue(UIUtils.format(cashBackAmount));
-			cashBackAmountText
-					.setAmount(getAmountInTransactionCurrency(cashBackAmount));
+			cashBackAmountText.setAmount(cashBackAmount);
 			// totText.setValue(UIUtils.format(diff));
 			// totText.setAmount(getAmountInTransactionCurrency(diff));
 		} catch (Exception e) {
 			Accounter.showError(messages.enterValidAmount());
 			// cashBackAmountText.setValue("$0.00");
-			cashBackAmountText.setAmount(getAmountInTransactionCurrency(0.00));
+			cashBackAmountText.setAmount(0.00);
 
 		}
 
@@ -333,14 +329,12 @@ public class MakeDepositView extends
 
 		// if (UIUtils.unFormat(UIUtils.toStr(cashBackAmountText.getValue())) ==
 		// 0.00)
-		if (!DecimalUtil.isEquals(
-				getAmountInBaseCurrency(cashBackAmountText.getAmount()), 0.00))
+		if (!DecimalUtil.isEquals(cashBackAmountText.getAmount(), 0.00))
 			return true;
 
 		// if (UIUtils.unFormat(UIUtils.toStr(cashBackAmountText.getValue())) >
 		// calculatedTotal) {
-		if (DecimalUtil.isGreaterThan(
-				getAmountInBaseCurrency(cashBackAmountText.getAmount()),
+		if (DecimalUtil.isGreaterThan(cashBackAmountText.getAmount(),
 				calculatedTotal)) {
 			Accounter.showError(messages
 					.cashBackAmountShouldnotBeGreaterthanDepositedAmount());
@@ -661,8 +655,7 @@ public class MakeDepositView extends
 			// .getTotal())));
 			if (transaction.getCurrency() == selectedDepositFromAccount
 					.getCurrency()) {
-				amtText.setAmount(getAmountInTransactionCurrency(transaction
-						.getTotal()));
+				amtText.setAmount(transaction.getTotal());
 			} else {
 				amtText.setAmount(transaction.getTotal());
 			}
@@ -685,7 +678,7 @@ public class MakeDepositView extends
 					.getLocation(transaction.getLocation()));
 		// if (isMultiCurrencyEnabled()) {
 		// modifyForeignCurrencyTotalWidget();
-		// totalTextInTransactionCurrency
+		// foreignCurrencyamountLabel
 		// .setAmount(getAmountInTransactionCurrency(transaction
 		// .getTotal()));
 		// }
@@ -874,21 +867,21 @@ public class MakeDepositView extends
 			}
 		});
 
-		totalTextinBaseCurrency = createTransactionTotalNonEditableLabel(getBaseCurrency());
-		totalTextInTransactionCurrency = createTransactionTotalNonEditableLabel(getBaseCurrency());
+		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
+		foreignCurrencyamountLabel = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
-		// totalTextinBaseCurrency.setWidth("100px");
-		totalTextinBaseCurrency.setDefaultValue(""
+		// transactionTotalBaseCurrencyText.setWidth("100px");
+		transactionTotalBaseCurrencyText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + "0.00");
-		totalTextinBaseCurrency.setDisabled(true);
-		((Label) totalTextinBaseCurrency.getMainWidget())
+		transactionTotalBaseCurrencyText.setDisabled(true);
+		((Label) transactionTotalBaseCurrencyText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 
 		form2 = new DynamicForm();
 
-		form2.setFields(totalTextinBaseCurrency);
+		form2.setFields(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			form2.setFields(totalTextInTransactionCurrency);
+			form2.setFields(foreignCurrencyamountLabel);
 		}
 
 		form2.addStyleName("textbold");
@@ -956,15 +949,12 @@ public class MakeDepositView extends
 			// .getTotal());
 			// totText.setValue(UIUtils.format(((MakeDeposit) transactionObject)
 			// .getTotal()));
-			totalTextinBaseCurrency
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()));
+			transactionTotalBaseCurrencyText
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 			// cashBackAmountText.setValue(UIUtils
 			// .format(((MakeDeposit) transactionObject)
 			// .getCashBackAmount()));
-			cashBackAmountText
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getCashBackAmount()));
+			cashBackAmountText.setAmount(transaction.getCashBackAmount());
 			addTransactionMakeDepositsToGrid(transaction
 					.getTransactionMakeDeposit());
 
@@ -1016,15 +1006,15 @@ public class MakeDepositView extends
 		Double amount = amtText.getAmount();
 		if (selectedDepositFromAccount.getCurrency() != getBaseCurrency()
 				.getID()) {
-			totalTextinBaseCurrency.setAmount(getAmountInBaseCurrency(amount));
+			transactionTotalBaseCurrencyText
+					.setAmount(getAmountInBaseCurrency(amount));
 			if (isMultiCurrencyEnabled()) {
-				totalTextInTransactionCurrency.setAmount(amount);
+				foreignCurrencyamountLabel.setAmount(amount);
 			}
 		} else {
-			totalTextinBaseCurrency.setAmount(amount);
+			transactionTotalBaseCurrencyText.setAmount(amount);
 			if (isMultiCurrencyEnabled()) {
-				totalTextInTransactionCurrency
-						.setAmount(getAmountInTransactionCurrency(amount));
+				foreignCurrencyamountLabel.setAmount(amount);
 			}
 		}
 	}
@@ -1301,7 +1291,7 @@ public class MakeDepositView extends
 		if (transactionNumber.getValue() != null)
 			transaction.setNumber(transactionNumber.getValue());
 
-		transaction.setTotal(getAmountInBaseCurrency(amtText.getAmount()));
+		transaction.setTotal(amtText.getAmount());
 
 		// setting transaction make deposits list
 		List<ClientTransactionMakeDeposit> listOfTrannsactionMakeDeposits = getAllSelectedRecords(transaction);
@@ -1320,13 +1310,11 @@ public class MakeDepositView extends
 			transaction.setCashBackMemo(cashBackMemoText.getValue().toString());
 
 		// Setting Cash back amount
-		transaction
-				.setCashBackAmount(getAmountInBaseCurrency(cashBackAmountText
-						.getAmount()));
+		transaction.setCashBackAmount(cashBackAmountText.getAmount());
 		// Setting Total amount
 
 		// Setting Total
-		transaction.setTotal(getAmountInBaseCurrency(amtText.getAmount()));
+		transaction.setTotal(amtText.getAmount());
 
 		// Setting Transaction type
 		transaction.setType(ClientTransaction.TYPE_MAKE_DEPOSIT);
@@ -1430,10 +1418,10 @@ public class MakeDepositView extends
 
 	public void modifyForeignCurrencyTotalWidget() {
 		if (currencyWidget.isShowFactorField()) {
-			totalTextInTransactionCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		} else {
-			totalTextInTransactionCurrency.show();
-			totalTextInTransactionCurrency.setTitle(messages
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(currencyWidget.getSelectedCurrency()
 							.getFormalName()));
 		}

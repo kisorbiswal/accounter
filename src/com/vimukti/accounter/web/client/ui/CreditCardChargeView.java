@@ -275,12 +275,9 @@ public class CreditCardChargeView extends
 			phoneSelect.setValue(transaction.getPhone());
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getNetAmount()));
-					vatTotalNonEditableText
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+					netAmount.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -290,10 +287,8 @@ public class CreditCardChargeView extends
 				}
 			}
 			transactionTotalBaseCurrencyText
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()));
-			transactionTotalTransactionCurrencyText.setAmount(transaction
-					.getTotal());
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -537,7 +532,7 @@ public class CreditCardChargeView extends
 
 		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
-		transactionTotalTransactionCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
+		foreignCurrencyamountLabel = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
@@ -662,7 +657,7 @@ public class CreditCardChargeView extends
 			if (isMultiCurrencyEnabled()) {
 				totalForm.setFields(netAmount, vatTotalNonEditableText,
 						transactionTotalBaseCurrencyText,
-						transactionTotalTransactionCurrencyText);
+						foreignCurrencyamountLabel);
 			} else {
 				totalForm.setFields(netAmount, vatTotalNonEditableText,
 						transactionTotalBaseCurrencyText);
@@ -685,7 +680,7 @@ public class CreditCardChargeView extends
 
 		} else {
 			if (isMultiCurrencyEnabled()) {
-				totForm.setFields(transactionTotalTransactionCurrencyText,
+				totForm.setFields(foreignCurrencyamountLabel,
 						transactionTotalBaseCurrencyText);
 			} else {
 				totForm.setFields(transactionTotalBaseCurrencyText);
@@ -764,7 +759,7 @@ public class CreditCardChargeView extends
 		}
 		settabIndexes();
 		if (isMultiCurrencyEnabled()) {
-			transactionTotalTransactionCurrencyText.hide();
+			foreignCurrencyamountLabel.hide();
 		}
 	}
 
@@ -779,8 +774,7 @@ public class CreditCardChargeView extends
 		updateTransaction();
 
 		if (isTrackTax())
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
-					.getAmount()));
+			transaction.setNetAmount(netAmount.getAmount());
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 
@@ -881,14 +875,12 @@ public class CreditCardChargeView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		transactionTotalBaseCurrencyText.setAmount(grandTotal);
-		transactionTotalTransactionCurrencyText
-				.setAmount(getAmountInTransactionCurrency(grandTotal));
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(grandTotal));
+		foreignCurrencyamountLabel.setAmount(grandTotal);
 		if (isTrackTax()) {
-			netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(grandTotal
-							- lineTotal));
+			netAmount.setAmount(lineTotal);
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 	}
 
@@ -898,8 +890,7 @@ public class CreditCardChargeView extends
 			ValidationResult result = super.validate();
 			if (AccounterValidator
 					.isInPreventPostingBeforeDate(transactionDate)) {
-				result.addError(transactionDate,
-						messages.invalidateDate());
+				result.addError(transactionDate, messages.invalidateDate());
 			}
 
 			result.add(vendorForm.validate());
@@ -1138,11 +1129,11 @@ public class CreditCardChargeView extends
 
 	public void modifyForeignCurrencyTotalWidget() {
 		if (currencyWidget.isShowFactorField()) {
-			transactionTotalTransactionCurrencyText.hide();
+			foreignCurrencyamountLabel.hide();
 		} else {
-			transactionTotalTransactionCurrencyText.show();
-			transactionTotalTransactionCurrencyText.setTitle(Accounter
-					.messages().currencyTotal(
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));
 		}

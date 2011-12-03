@@ -66,8 +66,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected CheckboxItem vatinclusiveCheck;
 
 	protected List<ClientAccount> accounts;
-	protected AmountLabel netAmount, transactionTotalBaseCurrencyText,
-			transactionTotalTransactionCurrencyText, vatTotalNonEditableText;
+	protected AmountLabel netAmount, vatTotalNonEditableText;
 	protected ClientVendor selectedVendor;
 	protected ClientTAXCode taxCode;
 
@@ -124,8 +123,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, messages.Accounts(), messages
-				.productOrServiceItem());
+		setMenuItems(button, messages.Accounts(),
+				messages.productOrServiceItem());
 		// FinanceApplication.constants().comment());
 
 	}
@@ -312,8 +311,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected AmountLabel createTransactionTotalNonEditableLabel(
 			ClientCurrency clientCurrency) {
 
-		AmountLabel amountLabel = new AmountLabel(messages
-				.currencyTotal(clientCurrency.getFormalName()));
+		AmountLabel amountLabel = new AmountLabel(
+				messages.currencyTotal(clientCurrency.getFormalName()));
 
 		return amountLabel;
 

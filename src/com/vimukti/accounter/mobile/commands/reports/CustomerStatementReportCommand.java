@@ -69,7 +69,8 @@ public class CustomerStatementReportCommand extends
 		statementRecord.add(getMessages().date(), record.getTransactionDate());
 		statementRecord.add(getMessages().transactionName(),
 				Utility.getTransactionName(record.getTransactiontype()));
-		statementRecord.add(getMessages().amount(), record.getTotal());
+		statementRecord.add(getMessages().amount(),
+				record.getTotal() * record.getCurrencyFactor());
 		return statementRecord;
 	}
 

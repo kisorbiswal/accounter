@@ -1103,7 +1103,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (cashFlowCatSelect.getValue() != null)
 			data.setCashFlowCategory(cashFlowCatSelect.getSelectedIndex() + 1);
 		// data.setCashFlowCategory(0);
-		data.setOpeningBalance(getAmountInBaseCurrency(opBalText.getAmount()));
+		data.setOpeningBalance(opBalText.getAmount());
 		data.setAsOf(asofDate.getEnteredDate().getDate());
 		data.setCurrencyFactor(currencyFactor);
 		switch (accountType) {
@@ -1130,7 +1130,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			((ClientBankAccount) data).setBankAccountNumber(bankAccNumText
 					.getValue().toString());
 			data.setIncrease(Boolean.FALSE);
-
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
 			if (limitText.getValue() != null)
@@ -1184,11 +1183,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (accountType == ClientAccount.TYPE_PAYPAL) {
 			getPaypalData();
 		}
-
 		if (isInViewMode())
 			initView();
 		super.initData();
-
 		// if (takenAccount == null)
 		// getNextAccountNumber();
 
@@ -1211,9 +1208,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			accNoText.setDisabled(true);
 
 		accNameText.setValue(data.getName());
-
-		currencyCombo.setSelectedCurrency(getCurrency(data.getCurrency()));
-
 		accountName = data.getName();
 		long id = data.getID();
 		if (id == getCompany().getOpeningBalancesAccount()
@@ -1291,7 +1285,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		currencyCombo.setCurrencyFactor(data.getCurrencyFactor());
 		if (!selectCurrency.equals(getCompany().getPreferences()
 				.getPrimaryCurrency())) {
-			currencyCombo.disabledFactorField(true);
+			currencyCombo.disabledFactorField(false);
 		}
 		currencyCombo.setDisabled(isInViewMode());
 		updateCurrencyForItems(selectCurrency);
@@ -1606,7 +1600,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accTypeSelect.setDisabled(isInViewMode());
 
 		// if (currencyCombo != null && data.isAllowCurrencyChange()) {
-		currencyCombo.setDisabled(true);
+		currencyCombo.setDisabled(!isInViewMode(),isInViewMode());
 		// if (!selectCurrency.equals(getCompany().getPreferences()
 		// .getPrimaryCurrency())) {
 		// currencyCombo.disabledFactorField(false);

@@ -77,9 +77,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private AmountLabel netAmountLabel, vatTotalNonEditableText,
 			salesTaxTextNonEditable;
 
-	private AmountLabel transactionTotalinBaseCurrency,
-			transactionTotalinForeignCurrency;
-
 	private Double salesTax;
 	private ShipToForm shipToAddress;
 	private int type;
@@ -282,7 +279,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// quote.setReference(this.refText.getValue() != null ? this.refText
 		// .getValue().toString() : "");
 		quote.setPaymentTerm(Utility.getID(paymentTerm));
-		quote.setNetAmount(getAmountInBaseCurrency(netAmountLabel.getAmount()));
+		quote.setNetAmount(netAmountLabel.getAmount());
 
 		if (isTrackTax()) {
 			if (vatinclusiveCheck != null) {
@@ -293,8 +290,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			quote.setTaxTotal(this.salesTax);
 		}
 
-		quote.setTotal(getAmountInBaseCurrency(transactionTotalinBaseCurrency
-				.getAmount()));
+		quote.setTotal(foreignCurrencyamountLabel.getAmount());
 
 		String selectedValue = statusCombo.getSelectedValue();
 		quote.setStatus(getStatus(selectedValue));
@@ -511,10 +507,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
-		transactionTotalinBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
+		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getCompany()
 				.getPrimaryCurrency());
 
-		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
 		currencyWidget = createCurrencyFactorWidget();
@@ -579,9 +575,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			}
 		}
 
-		prodAndServiceForm2.setFields(transactionTotalinBaseCurrency);
+		prodAndServiceForm2.setFields(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			prodAndServiceForm2.setFields(transactionTotalinForeignCurrency);
+			prodAndServiceForm2.setFields(foreignCurrencyamountLabel);
 		}
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
@@ -669,7 +665,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		listforms.add(prodAndServiceForm2);
 		settabIndexes();
 		if (isMultiCurrencyEnabled()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		}
 	}
 
@@ -677,9 +673,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	protected void updateTransaction() {
 		super.updateTransaction();
 
-		transaction
-				.setTotal(getAmountInBaseCurrency(transactionTotalinBaseCurrency
-						.getAmount()));
+		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 
 		transaction.setEstimateType(type);
 		if (currency != null)
@@ -715,8 +709,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (transaction != null) {
 			Double salesTaxAmout = transaction.getTaxTotal();
 			if (salesTaxAmout != null) {
-				salesTaxTextNonEditable
-						.setAmount(getAmountInTransactionCurrency(salesTaxAmout));
+				salesTaxTextNonEditable.setAmount(salesTaxAmout);
 			}
 
 		}
@@ -728,10 +721,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (transaction != null) {
 			Double transactionTotal = transaction.getTotal();
 			if (transactionTotal != null) {
-				transactionTotalinBaseCurrency
+				transactionTotalBaseCurrencyText
 						.setAmount(getAmountInBaseCurrency(transactionTotal));
-				transactionTotalinForeignCurrency
-						.setAmount(getAmountInTransactionCurrency(transactionTotal));
+				foreignCurrencyamountLabel.setAmount(transactionTotal);
 			}
 
 		}
@@ -816,9 +808,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(estimate.getReference());
 			if (isTrackTax()) {
-				netAmountLabel
-						.setAmount(getAmountInTransactionCurrency(transaction
-								.getNetAmount()));
+				netAmountLabel.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setValue(DataUtils
 						.getAmountAsString(transaction.getTotal()
 								- transaction.getNetAmount()));
@@ -828,11 +818,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			}
 
 			memoTextAreaItem.setDisabled(true);
-			transactionTotalinBaseCurrency
+			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
-			transactionTotalinForeignCurrency
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()));
+			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
 			customerTransactionTable.setDisabled(isInViewMode());
 			transactionDateItem.setDisabled(isInViewMode());
@@ -915,12 +903,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (customerTransactionTable == null)
 			return;
 		if (isTrackTax()) {
-			netAmountLabel
-					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
-							.getLineTotal()));
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
-							.getTotalTax()));
+			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
+			vatTotalNonEditableText.setAmount(customerTransactionTable
+					.getTotalTax());
 			setSalesTax(customerTransactionTable.getTotalTax());
 		}
 		setTransactionTotal(customerTransactionTable.getGrandTotal());
@@ -929,17 +914,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	public void setTransactionTotal(Double transactionTotal) {
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
-		transactionTotalinBaseCurrency.setAmount(transactionTotal);
-		transactionTotalinForeignCurrency
-				.setAmount(getAmountInTransactionCurrency(transactionTotal));
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(transactionTotal));
+		foreignCurrencyamountLabel.setAmount(transactionTotal);
 	}
 
 	public void setSalesTax(Double salesTax) {
 		if (salesTax == null)
 			salesTax = 0.0D;
 		this.salesTax = salesTax;
-		salesTaxTextNonEditable
-				.setAmount(getAmountInTransactionCurrency(salesTax));
+		salesTaxTextNonEditable.setAmount(salesTax);
 	}
 
 	@Override
@@ -1170,10 +1154,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	public void modifyForeignCurrencyTotalWidget() {
 		if (currencyWidget.isShowFactorField()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		} else {
-			transactionTotalinForeignCurrency.show();
-			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

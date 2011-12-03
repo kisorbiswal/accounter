@@ -196,8 +196,8 @@ public class CustomerRefundView extends
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				Double givenAmount = getAmountInBaseCurrency(amtText
-						.getAmount());
+				Double givenAmount = amtText
+						.getAmount();
 				if (DecimalUtil.isLessThan(givenAmount, 0)) {
 					addError(amtText, Accounter.messages().noNegativeAmounts());
 					setRefundAmount(0.00D);
@@ -387,9 +387,9 @@ public class CustomerRefundView extends
 
 		transaction.setType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 
-		transaction.setTotal(amtText.getAmount() * currencyFactor);
+		transaction.setTotal(amtText.getAmount() );
 
-		transaction.setBalanceDue(getAmountInBaseCurrency(amtText.getAmount()));
+		transaction.setBalanceDue(amtText.getAmount());
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
@@ -421,7 +421,7 @@ public class CustomerRefundView extends
 	protected void setRefundAmount(Double amountValue) {
 		if (amountValue == null)
 			amountValue = 0.00D;
-		amtText.setAmount(getAmountInTransactionCurrency(amountValue));
+		amtText.setAmount(amountValue);
 	}
 
 	@Override
@@ -469,8 +469,8 @@ public class CustomerRefundView extends
 			this.setCustomer(getCompany().getCustomer(transaction.getPayTo()));
 			customerSelected(getCompany().getCustomer(transaction.getPayTo()));
 
-			amtText.setAmount(getAmountInTransactionCurrency(transaction
-					.getTotal()));
+			amtText.setAmount(transaction
+					.getTotal());
 			paymentMethodSelected(transaction.getPaymentMethod());
 			if (transaction.getPaymentMethod().equals(messages.check())) {
 				printCheck.setDisabled(isInViewMode());
@@ -558,7 +558,7 @@ public class CustomerRefundView extends
 					.valueCannotBe0orlessthan0(Accounter.messages().amount()));
 		}
 		if (!AccounterValidator.isValidCustomerRefundAmount(
-				getAmountInBaseCurrency(amtText.getAmount()),
+				amtText.getAmount(),
 				payFromSelect.getSelectedValue())) {
 			result.addWarning(amtText,
 					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT);

@@ -100,11 +100,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	 * the non-editable fields
 	 */
 	public void resetTotlas() {
-		amountLabelForeign.setAmount(getAmountInTransactionCurrency(0.0));
-		amountLableBase.setAmount(getAmountInTransactionCurrency(0.0));
-		toBeSetEndingBalance = getAmountInTransactionCurrency(payFromCombo
-				.getSelectedValue() != null ? payFromCombo.getSelectedValue()
-				.getTotalBalance() : 0.0);
+		amountLabelForeign.setAmount(0.0);
+		amountLableBase.setAmount(0.0);
+		toBeSetEndingBalance = payFromCombo.getSelectedValue() != null ? payFromCombo
+				.getSelectedValue().getTotalBalance() : 0.0;
 		endBalText.setAmount(toBeSetEndingBalance);
 	}
 
@@ -120,19 +119,17 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			toBeSetAmount += rec.getPayment();
 		}
 		if (this.transaction != null) {
-			Double totalPayment = getAmountInTransactionCurrency(toBeSetAmount);
-			Double tdsTotal = getAmountInTransactionCurrency(grid.getTDSTotal());
+			Double totalPayment = toBeSetAmount;
+			Double tdsTotal = grid.getTDSTotal();
 
 			amountToVendor.setAmount(totalPayment - tdsTotal);
 			tdsPayableAmount.setAmount(tdsTotal);
 			amountLabelForeign.setAmount(totalPayment);
-			amountLableBase.setAmount(toBeSetAmount);
+			amountLableBase.setAmount(getAmountInBaseCurrency(toBeSetAmount));
 
 			if (payFromAccount != null) {
 				if (isInViewMode()) {
-					endBalText
-							.setAmount(getAmountInTransactionCurrency(payFromAccount
-									.getTotalBalance()));
+					endBalText.setAmount(payFromAccount.getTotalBalance());
 				} else {
 					if (payFromAccount.isIncrease()) {
 						toBeSetEndingBalance = payFromAccount.getTotalBalance()
@@ -176,8 +173,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			transaction.setVendor(getVendor());
 		// Setting Amount
 
-		transaction.setTotal(getAmountInBaseCurrency(amountLabelForeign
-				.getAmount()));
+		transaction.setTotal(amountLabelForeign.getAmount());
 
 		if (getPreferences().isTDSEnabled() && vendor.isTdsApplicable()) {
 			ClientTAXItem taxItem = tdsCombo.getSelectedValue();
@@ -188,8 +184,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 
 		// Setting ending Balance
-		transaction
-				.setEndingBalance(getAmountInBaseCurrency(toBeSetEndingBalance));
+		transaction.setEndingBalance(toBeSetEndingBalance);
 
 		transaction.setMemo(memoTextAreaItem.getValue().toString());
 		if (getPreferences().isTDSEnabled() && getVendor().isTdsApplicable()) {
@@ -239,9 +234,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 		transaction.setTransactionPayBill(transactionPayBill);
 
-		transaction
-				.setUnUsedCredits(getAmountInBaseCurrency(this.unUsedCreditsText
-						.getAmount()));
+		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
 
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
@@ -703,8 +696,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	private void setUnUsedCredits(Double unusedCredits) {
-		unUsedCreditsText
-				.setAmount(getAmountInTransactionCurrency(unusedCredits));
+		unUsedCreditsText.setAmount(unusedCredits);
 	}
 
 	public void calculateUnusedCredits() {
@@ -718,8 +710,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			}
 		}
 
-		this.unUsedCreditsText
-				.setAmount(getAmountInTransactionCurrency(totalCredits));
+		this.unUsedCreditsText.setAmount(totalCredits);
 
 	}
 
@@ -733,7 +724,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			vendorCurrency = getCompany().getPrimaryCurrency();
 		}
 
-		endBalText.setCurrency(vendorCurrency);
+		// endBalText.setCurrency(vendorCurrency);
 
 		amountLabelForeign.setTitle(Accounter.messages().currencyTotal(
 				vendorCurrency.getFormalName()));
@@ -881,15 +872,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			if (isTDSEnable()) {
 				tdsCombo.setVisible(true);
 			}
-			amountLabelForeign
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getNetAmount()));
+			amountLabelForeign.setAmount(transaction.getNetAmount());
 
 			amountLableBase.setAmount(getAmountInBaseCurrency(transaction
 					.getNetAmount()));
 
-			endBalText.setAmount(getAmountInTransactionCurrency(transaction
-					.getEndingBalance()));
+			endBalText.setAmount(transaction.getEndingBalance());
 			initListGridData(this.transaction.getTransactionPayBill());
 			initTransactionTotalNonEditableItem();
 			memoTextAreaItem.setDisabled(true);
@@ -1225,7 +1213,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	protected Double getTransactionTotal() {
-		return getAmountInBaseCurrency(this.amountLabelForeign.getAmount());
+		return this.amountLabelForeign.getAmount();
 	}
 
 	@Override

@@ -219,7 +219,7 @@ public class CashPurchaseView extends
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
 				.getPrimaryCurrency());
 
-		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
@@ -371,7 +371,7 @@ public class CashPurchaseView extends
 			if (isMultiCurrencyEnabled()) {
 				totalForm.setFields(netAmount, vatTotalNonEditableText,
 						transactionTotalNonEditableText,
-						transactionTotalinForeignCurrency);
+						foreignCurrencyamountLabel);
 			} else {
 				totalForm.setFields(netAmount, vatTotalNonEditableText,
 						transactionTotalNonEditableText);
@@ -412,7 +412,7 @@ public class CashPurchaseView extends
 			bottomLayout.add(memoForm);
 			if (isMultiCurrencyEnabled()) {
 				totalForm.setFields(transactionTotalNonEditableText,
-						transactionTotalinForeignCurrency);
+						foreignCurrencyamountLabel);
 			} else {
 				totalForm.setFields(transactionTotalNonEditableText);
 			}
@@ -449,7 +449,7 @@ public class CashPurchaseView extends
 		// if (UIUtils.isMSIEBrowser())
 		// resetFormView();
 		if (isMultiCurrencyEnabled()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		}
 		initViewType();
 
@@ -547,12 +547,9 @@ public class CashPurchaseView extends
 			checkNo.setDisabled(true);
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getNetAmount()));
-					vatTotalNonEditableText
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+					netAmount.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -581,9 +578,7 @@ public class CashPurchaseView extends
 			//
 			transactionTotalNonEditableText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
-			transactionTotalinForeignCurrency
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()));
+			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -696,8 +691,7 @@ public class CashPurchaseView extends
 	public void saveAndUpdateView() {
 		updateTransaction();
 		if (getPreferences().isTrackPaidTax()) {
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
-					.getAmount()));
+			transaction.setNetAmount(netAmount.getAmount());
 			// if (vatinclusiveCheck != null)
 			// cashPurchase.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 			// .getValue());
@@ -790,15 +784,13 @@ public class CashPurchaseView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
+		netAmount.setAmount(lineTotal);
 		if (getCompany().getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(grandTotal
-							- lineTotal));
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
-		transactionTotalNonEditableText.setAmount(grandTotal);
-		transactionTotalinForeignCurrency
-				.setAmount(getAmountInTransactionCurrency(grandTotal));
+		transactionTotalNonEditableText
+				.setAmount(getAmountInBaseCurrency(grandTotal));
+		foreignCurrencyamountLabel.setAmount(grandTotal);
 	}
 
 	@Override
@@ -950,8 +942,7 @@ public class CashPurchaseView extends
 
 	@Override
 	protected Double getTransactionTotal() {
-		return getAmountInBaseCurrency(this.transactionTotalNonEditableText
-				.getAmount());
+		return this.transactionTotalNonEditableText.getAmount();
 	}
 
 	private void resetFormView() {
@@ -1050,10 +1041,10 @@ public class CashPurchaseView extends
 
 	public void modifyForeignCurrencyTotalWidget() {
 		if (currencyWidget.isShowFactorField()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		} else {
-			transactionTotalinForeignCurrency.show();
-			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

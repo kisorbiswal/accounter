@@ -104,6 +104,7 @@ public class VendorManager extends Manager {
 					billsList.setStatus((Integer) object[8]);
 					billsList.setDate(new ClientFinanceDate((Long) object[9]));
 					billsList.setExpenseStatus((Integer) object[10]);
+					billsList.setCurrency((Long) object[11]);
 
 					// if (object[4] != null) {
 					if (isExpensesList) {
@@ -850,6 +851,7 @@ public class VendorManager extends Manager {
 					billsList.setVendorName((String) object[4]);
 					billsList.setOriginalAmount((Double) object[5]);
 					billsList.setBalance((Double) object[6]);
+					billsList.setCurrency((Long) object[7]);
 
 					queryResult.add(billsList);
 				}
@@ -885,10 +887,9 @@ public class VendorManager extends Manager {
 				payBillTransactionList.setDueDate(new ClientFinanceDate(je
 						.getDate().getDate()));
 				payBillTransactionList.setBillNumber(je.getNumber());
-				payBillTransactionList.setOriginalAmount(je.getDebitTotal()
-						/ je.getCurrencyFactor());
-				payBillTransactionList.setAmountDue(je.getBalanceDue()
-						/ je.getCurrencyFactor());
+				payBillTransactionList.setOriginalAmount(-1
+						* je.getDebitTotal());
+				payBillTransactionList.setAmountDue(je.getBalanceDue());
 				payBillTransactionList.setDiscountDate(new ClientFinanceDate(je
 						.getDate().getDate()));
 				payBillTransactionList.setVendorName(je.getInvolvedPayee()

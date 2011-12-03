@@ -12,7 +12,7 @@ public interface ICurrencyProvider {
 	 * @param amount
 	 * @return
 	 */
-	public Double getAmountInTransactionCurrency(Double amount);
+//	public Double getAmountInTransactionCurrency(Double amount);
 
 	/**
 	 * This should return the given amount in the base currency. If your base

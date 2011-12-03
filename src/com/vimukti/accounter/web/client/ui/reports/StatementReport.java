@@ -146,7 +146,9 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 					obj2.getTransactionDate());
 
 		case 4:
-			return UIUtils.compareDouble(obj1.getTotal(), obj2.getTotal());
+			return UIUtils.compareDouble(
+					obj1.getTotal() * obj1.getCurrencyFactor(), obj2.getTotal()
+							* obj1.getCurrencyFactor());
 
 		}
 		return 0;

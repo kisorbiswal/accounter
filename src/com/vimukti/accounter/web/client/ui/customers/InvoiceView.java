@@ -91,9 +91,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	// private WarehouseAllocationTable table;
 	// private DisclosurePanel inventoryDisclosurePanel;
 
-	private AmountLabel transactionTotalinForeignCurrency,
-			transactionTotalinBaseCurrency;
-
 	// private Double currencyfactor;
 	// private ClientCurrency currencyCode;
 	TransactionsTree<EstimatesAndSalesOrdersList> transactionsTree;
@@ -414,10 +411,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		netAmountLabel = createNetAmountLabel();
 
-		transactionTotalinBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
+		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getCompany()
 				.getPreferences().getPrimaryCurrency());
 
-		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPreferences().getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
@@ -529,9 +526,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				amountsForm.setFields(vatTotalNonEditableText);
 			}
 		}
-		amountsForm.setFields(transactionTotalinBaseCurrency);
+		amountsForm.setFields(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			amountsForm.setFields(transactionTotalinForeignCurrency);
+			amountsForm.setFields(foreignCurrencyamountLabel);
 		}
 		if (isInViewMode()) {
 			amountsForm.setFields(paymentsNonEditableText,
@@ -646,7 +643,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (isMultiCurrencyEnabled()) {
 			if (!isInViewMode()) {
-				transactionTotalinForeignCurrency.hide();
+				foreignCurrencyamountLabel.hide();
 			}
 		}
 		settabIndexes();
@@ -747,9 +744,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					+ transactionsTree.getTotalTax());
 			vatTotalNonEditableText.setAmount(customerTransactionTable
 					.getTotalTax() + transactionsTree.getTotalTax());
-			netAmountLabel
-					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
-							.getLineTotal() + transactionsTree.getLineTotal()));
+			netAmountLabel.setAmount(customerTransactionTable.getLineTotal()
+					+ transactionsTree.getLineTotal());
 		}
 
 		setTransactionTotal(customerTransactionTable.getGrandTotal()
@@ -944,12 +940,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 							transaction.getDueDate()) : getTransactionDate());
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
-					netAmountLabel
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getNetAmount()));
-					vatTotalNonEditableText
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+					netAmountLabel.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -973,17 +966,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			if (locationTrackingEnabled)
 				locationSelected(company.getLocation(transaction.getLocation()));
-			transactionTotalinBaseCurrency
+			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
-			transactionTotalinForeignCurrency
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()));
-			paymentsNonEditableText
-					.setAmount(getAmountInBaseCurrency(transaction
-							.getPayments()));
-			balanceDueNonEditableText
-					.setAmount(getAmountInBaseCurrency(transaction
-							.getBalanceDue()));
+			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
+			paymentsNonEditableText.setAmount(transaction.getPayments());
+			balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
 			memoTextAreaItem.setDisabled(true);
 			initAccounterClass();
 		}
@@ -1072,8 +1059,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		this.salesTax = salesTax;
 
 		if (salesTaxTextNonEditable != null)
-			salesTaxTextNonEditable
-					.setAmount(getAmountInTransactionCurrency(salesTax));
+			salesTaxTextNonEditable.setAmount(salesTax);
 
 	}
 
@@ -1088,10 +1074,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	public void setTransactionTotal(Double transactionTotal) {
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
-		if (transactionTotalinBaseCurrency != null) {
-			transactionTotalinBaseCurrency.setAmount(transactionTotal);
-			transactionTotalinForeignCurrency
-					.setAmount(getAmountInTransactionCurrency(transactionTotal));
+		if (transactionTotalBaseCurrencyText != null) {
+			transactionTotalBaseCurrencyText
+					.setAmount(getAmountInBaseCurrency(transactionTotal));
+			foreignCurrencyamountLabel.setAmount(transactionTotal);
 		}
 
 	}
@@ -1195,9 +1181,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					.setDeliverydate(deliveryDate.getEnteredDate().getDate());
 		if (getCountryPreferences().isSalesTaxAvailable()) {
 
-			transaction
-					.setTaxTotal(getAmountInBaseCurrency(salesTaxTextNonEditable
-							.getAmount()));
+			transaction.setTaxTotal(salesTaxTextNonEditable.getAmount());
 		}
 		if (contactCombo.getSelectedValue() != null) {
 			contact = contactCombo.getSelectedValue();
@@ -1231,8 +1215,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// transaction.setTaxItemGroup(taxItemGroup);
 		if (isTrackTax()) {
 			// if (isTaxPerDetailLine()) {
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
-					.getAmount()));
+			transaction.setNetAmount(netAmountLabel.getAmount());
 			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 			// } else {
 			// if (taxCode != null) {
@@ -1249,7 +1232,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			// }
 
 		}
-		transaction.setTotal(transactionTotalinBaseCurrency.getAmount());
+		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 
 		// transaction.setBalanceDue(getBalanceDue());
 		transaction.setPayments(getPayments());
@@ -1329,8 +1312,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (payments == null)
 			payments = 0.0D;
 		this.payments = payments;
-		paymentsNonEditableText
-				.setAmount(getAmountInTransactionCurrency(payments));
+		paymentsNonEditableText.setAmount(payments);
 	}
 
 	public Double getPayments() {
@@ -1341,8 +1323,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (balanceDue == null)
 			balanceDue = 0.0D;
 		this.balanceDue = balanceDue;
-		balanceDueNonEditableText
-				.setAmount(getAmountInTransactionCurrency(balanceDue));
+		balanceDueNonEditableText.setAmount(balanceDue);
 	}
 
 	public static InvoiceView getInstance() {
@@ -1634,10 +1615,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	public void modifyForeignCurrencyTotalWidget() {
 		if (currencyWidget.isShowFactorField()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		} else {
-			transactionTotalinForeignCurrency.show();
-			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

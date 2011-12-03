@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -56,8 +57,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 			ClientAccount account, ICurrencyProvider currencyProvider) {
 		super(messages.cashDiscount(), messages.cashDiscountPleaseAddDetails());
 		this.currencyProvider = currencyProvider;
-		this.cashDiscountValue = currencyProvider
-				.getAmountInBaseCurrency(discountValue);
+		this.cashDiscountValue = discountValue;
 		this.canEdit = canEdit;
 		this.selectedDiscountAccount = account;
 		createControls();
@@ -103,9 +103,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 		discAccSelect.setRequired(true);
 
 		discAmtText = new AmountField(messages.discountAmount(), this,
-				getBaseCurrency());
-		discAmtText.setAmount(currencyProvider
-				.getAmountInTransactionCurrency(cashDiscountValue));
+				currencyProvider.getTransactionCurrency());
 		discAmtText.setAmount(cashDiscountValue);
 
 		form = new DynamicForm();

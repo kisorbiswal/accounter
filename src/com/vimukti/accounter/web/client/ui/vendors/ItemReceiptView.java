@@ -442,14 +442,14 @@ public class ItemReceiptView extends
 			paymentTermsSelected(this.paymentTerm);
 
 			if (getPreferences().isTrackPaidTax()) {
-				netAmount.setAmount(getAmountInTransactionCurrency(transaction
-						.getNetAmount()));
+				netAmount.setAmount(transaction
+						.getNetAmount());
 				vatTotalNonEditableText
-						.setAmount(getAmountInTransactionCurrency(transaction
-								.getTotal() - transaction.getNetAmount()));
+						.setAmount(transaction
+								.getTotal() - transaction.getNetAmount());
 			}
 			transactionTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(transaction
+					.setAmount(getAmountInBaseCurrency(transaction
 							.getTotal()));
 
 			if (vatinclusiveCheck != null) {
@@ -483,12 +483,12 @@ public class ItemReceiptView extends
 				+ vendorItemTransactionTable.getGrandTotal();
 
 		transactionTotalNonEditableText
-				.setAmount(getAmountInTransactionCurrency(grandTotal));
-		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
+				.setAmount(getAmountInBaseCurrency(grandTotal));
+		netAmount.setAmount(lineTotal);
 		if (getPreferences().isTrackPaidTax()) {
 			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(grandTotal
-							- lineTotal));
+					.setAmount(grandTotal
+							- lineTotal);
 		}
 	}
 
@@ -536,8 +536,7 @@ public class ItemReceiptView extends
 		transaction.setPurchaseOrder(selectedPurchaseOrder);
 
 		if (getPreferences().isTrackPaidTax()) {
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
-					.getAmount()));
+			transaction.setNetAmount(netAmount.getAmount());
 		}
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 	}
@@ -765,7 +764,7 @@ public class ItemReceiptView extends
 
 	@Override
 	protected Double getTransactionTotal() {
-		return getAmountInBaseCurrency(this.transactionTotalItem.getAmount());
+		return this.transactionTotalItem.getAmount();
 	}
 
 	@Override

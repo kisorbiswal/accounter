@@ -74,6 +74,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.customers.CustomerPrePaymentView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
+import com.vimukti.accounter.web.client.ui.customers.InvoiceView;
 import com.vimukti.accounter.web.client.ui.customers.RecurringTransactionDialog;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -142,7 +143,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected VendorCombo vendorCombo;
 	protected PayFromAccountsCombo payFromCombo;
 
-	AmountLabel foreignCurrencyamountLabel;
+	protected AmountLabel foreignCurrencyamountLabel,
+			transactionTotalBaseCurrencyText;
 
 	private boolean isMenuRequired = true;
 
@@ -1007,7 +1009,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			result.addWarning(classListCombo, AccounterWarningType.EMPTY_CLASS);
 		}
 		if (!(this instanceof NewVendorPaymentView
-				|| this instanceof CustomerPrePaymentView || this instanceof CustomerRefundView)) {
+				|| this instanceof CustomerPrePaymentView
+				|| this instanceof CustomerRefundView || this instanceof InvoiceView)) {
 			if (transactionItems != null && transactionItems.size() != 0) {
 				for (ClientTransactionItem transactionItem : transactionItems) {
 
@@ -1558,17 +1561,17 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	 */
 	public abstract void updateAmountsFromGUI();
 
-	@Override
-	public Double getAmountInTransactionCurrency(Double amount) {
-		if (currency != null && amount != null) {
-			if (currencyFactor < 1.0) {
-				currencyFactor = 1.0;
-			}
-			return amount / currencyFactor;
-		} else {
-			return amount;
-		}
-	}
+	// @Override
+	// public Double getAmountInTransactionCurrency(Double amount) {
+	// if (currency != null && amount != null) {
+	// if (currencyFactor < 1.0) {
+	// currencyFactor = 1.0;
+	// }
+	// return amount / currencyFactor;
+	// } else {
+	// return amount;
+	// }
+	// }
 
 	@Override
 	public Double getAmountInBaseCurrency(Double amount) {

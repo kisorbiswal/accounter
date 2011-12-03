@@ -1227,7 +1227,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			balanceText.setCurrency(selectCurrency);
 			if (!selectCurrency.equals(getCompany().getPreferences()
 					.getPrimaryCurrency())) {
-				currencyCombo.disabledFactorField(true);
+				currencyCombo.disabledFactorField(false);
 			}
 		}
 		currencyCombo.setCurrencyFactor(data.getCurrencyFactor());
@@ -1338,7 +1338,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		creditLimitText.setDisabled(isInViewMode());
 		// priceLevelSelect.setDisabled(isInViewMode());
 		creditRatingSelect.setDisabled(isInViewMode());
-		currencyCombo.setDisabled(true);
+		currencyCombo.setDisabled(!isInViewMode(),isInViewMode());
 		// if (!selectCurrency.equals(getCompany().getPreferences()
 		// .getPrimaryCurrency())) {
 		// currencyCombo.disabledFactorField(false);
@@ -1395,9 +1395,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		return widget;
 	}
 
-	public double getAmountInPayeeCurrency(double amount, double factor) {
-		return amount / factor;
-	}
 
 	@Override
 	protected boolean canVoid() {

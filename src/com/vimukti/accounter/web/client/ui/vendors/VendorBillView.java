@@ -150,12 +150,9 @@ public class VendorBillView extends
 
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getNetAmount()));
-					vatTotalNonEditableText
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+					netAmount.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -170,13 +167,9 @@ public class VendorBillView extends
 
 			transactionTotalNonEditableText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
-			transactionTotalinForeignCurrency
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()));
+			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
-			balanceDueNonEditableText
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getBalanceDue()));
+			balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
 			// balanceDueNonEditableText.setCurrency(getTransactionCurrency());
 
 			this.dueDateItem
@@ -218,8 +211,7 @@ public class VendorBillView extends
 		if (balanceDue == null)
 			balanceDue = 0.0D;
 		this.balanceDue = balanceDue;
-		balanceDueNonEditableText
-				.setAmount(getAmountInTransactionCurrency(balanceDue));
+		balanceDueNonEditableText.setAmount(balanceDue);
 	}
 
 	public Double getBalanceDue() {
@@ -506,7 +498,7 @@ public class VendorBillView extends
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
 				.getPrimaryCurrency());
 
-		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
@@ -668,7 +660,7 @@ public class VendorBillView extends
 		}
 		totalForm.setFields(transactionTotalNonEditableText);
 		if (isMultiCurrencyEnabled()) {
-			totalForm.setFields(transactionTotalinForeignCurrency);
+			totalForm.setFields(foreignCurrencyamountLabel);
 		}
 
 		taxPanel.add(totalForm);
@@ -805,7 +797,7 @@ public class VendorBillView extends
 		listforms.add(vatCheckform);
 		listforms.add(totalForm);
 		if (isMultiCurrencyEnabled()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		}
 		settabIndexes();
 	}
@@ -913,8 +905,7 @@ public class VendorBillView extends
 			transaction.setPurchaseOrder(selectedPurchaseOrder);
 
 		if (isTrackTax()) {
-			transaction.setNetAmount(getAmountInBaseCurrency(netAmount
-					.getAmount()));
+			transaction.setNetAmount(netAmount.getAmount());
 			if (vatinclusiveCheck != null)
 				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 
@@ -942,16 +933,14 @@ public class VendorBillView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		transactionTotalNonEditableText.setAmount(grandTotal);
+		transactionTotalNonEditableText
+				.setAmount(getAmountInBaseCurrency(grandTotal));
 
-		transactionTotalinForeignCurrency
-				.setAmount(getAmountInTransactionCurrency(grandTotal));
+		foreignCurrencyamountLabel.setAmount(grandTotal);
 
-		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
+		netAmount.setAmount(lineTotal);
 		if (isTrackTax()) {
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(grandTotal
-							- lineTotal));
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 
 	}
@@ -1398,10 +1387,10 @@ public class VendorBillView extends
 
 	public void modifyForeignCurrencyTotalWidget() {
 		if (currencyWidget.isShowFactorField()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		} else {
-			transactionTotalinForeignCurrency.show();
-			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

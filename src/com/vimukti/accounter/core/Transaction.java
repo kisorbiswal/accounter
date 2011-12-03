@@ -102,7 +102,7 @@ public abstract class Transaction extends CreatableObject implements
 	FinanceDate clonedTransactionDate;
 	String number = "0";
 	boolean isDefault;
-	Location location;
+	private Location location;
 	private Currency currency;
 
 	private RecurringTransaction recurringTransaction;

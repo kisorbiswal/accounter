@@ -48,7 +48,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	@ReffereredObject
 	TAXAgency taxAgency;
 
-	double endingBalance;
 
 	boolean isEdited = false;
 
@@ -101,20 +100,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 		this.taxAgency = taxAgency;
 	}
 
-	/**
-	 * @return the endingBalance
-	 */
-	public double getEndingBalance() {
-		return endingBalance;
-	}
-
-	/**
-	 * @param endingBalance
-	 *            the endingBalance to set
-	 */
-	public void setEndingBalance(double endingBalance) {
-		this.endingBalance = endingBalance;
-	}
 
 	/**
 	 * @return the isVoid

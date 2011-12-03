@@ -94,9 +94,6 @@ public class SalesOrderView extends
 			balanceDueNonEditableText, paymentsNonEditableText,
 			salesTaxTextNonEditable;
 
-	private AmountLabel transactionTotalinBaseCurrency,
-			transactionTotalinForeignCurrency;
-
 	private Double salesTax;
 
 	public SalesOrderView() {
@@ -345,9 +342,9 @@ public class SalesOrderView extends
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
 				"memoFormAlign");
 
-		transactionTotalinBaseCurrency = createTransactionTotalNonEditableLabel(getCompany()
+		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getCompany()
 				.getPrimaryCurrency());
-		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
 		// priceLevelSelect = createPriceLevelSelectItem();
@@ -422,9 +419,9 @@ public class SalesOrderView extends
 				prodAndServiceForm2.setFields(salesTaxTextNonEditable);
 			}
 		}
-		prodAndServiceForm2.setFields(transactionTotalinBaseCurrency);
+		prodAndServiceForm2.setFields(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			prodAndServiceForm2.setFields(transactionTotalinForeignCurrency);
+			prodAndServiceForm2.setFields(foreignCurrencyamountLabel);
 		}
 
 		currencyWidget = createCurrencyFactorWidget();
@@ -504,7 +501,7 @@ public class SalesOrderView extends
 
 		settabIndexes();
 		if (isMultiCurrencyEnabled()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		}
 
 	}
@@ -704,9 +701,8 @@ public class SalesOrderView extends
 			// billToaddressSelected(this.billingAddress);
 			// shipToAddressSelected(shippingAddress);
 
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal() - transaction.getNetAmount()));
+			vatTotalNonEditableText.setAmount(transaction.getTotal()
+					- transaction.getNetAmount());
 			customerOrderText.setValue(transaction.getCustomerOrderNumber());
 			paymentTermsSelected(this.paymentTerm);
 			// priceLevelSelected(this.priceLevel);
@@ -728,26 +724,22 @@ public class SalesOrderView extends
 
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
-					netAmountLabel
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getNetAmount()));
-					vatTotalNonEditableText
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+					netAmountLabel.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
 						this.taxCodeSelect
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 					}
-					this.salesTaxTextNonEditable
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTaxTotal()));
-					this.transactionTotalinBaseCurrency.setAmount(transaction
-							.getTotal());
-					this.transactionTotalinForeignCurrency
-							.setAmount(getAmountInTransactionCurrency(transaction
+					this.salesTaxTextNonEditable.setAmount(transaction
+							.getTaxTotal());
+					this.transactionTotalBaseCurrencyText
+							.setAmount(getAmountInBaseCurrency(transaction
 									.getTotal()));
+					this.foreignCurrencyamountLabel.setAmount(transaction
+							.getTotal());
 				}
 
 			}
@@ -810,8 +802,7 @@ public class SalesOrderView extends
 		this.salesTax = salesTax;
 
 		if (salesTaxTextNonEditable != null)
-			salesTaxTextNonEditable
-					.setAmount(getAmountInTransactionCurrency(salesTax));
+			salesTaxTextNonEditable.setAmount(salesTax);
 
 	}
 
@@ -828,9 +819,9 @@ public class SalesOrderView extends
 	public void setTransactionTotal(Double transactionTotal) {
 		if (transactionTotal == null)
 			transactionTotal = 0.0D;
-		transactionTotalinBaseCurrency.setAmount(transactionTotal);
-		transactionTotalinForeignCurrency
-				.setAmount(getAmountInTransactionCurrency(transactionTotal));
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(transactionTotal));
+		foreignCurrencyamountLabel.setAmount(transactionTotal);
 
 	}
 
@@ -839,11 +830,11 @@ public class SalesOrderView extends
 		updateTransaction();
 
 		super.saveAndUpdateView();
-		transactionTotalinBaseCurrency.setAmount(customerTransactionTable
-				.getGrandTotal());
-		transactionTotalinForeignCurrency
-				.setAmount(getAmountInTransactionCurrency(customerTransactionTable
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(customerTransactionTable
 						.getGrandTotal()));
+		foreignCurrencyamountLabel.setAmount(customerTransactionTable
+				.getGrandTotal());
 
 		saveOrUpdate(transaction);
 	}
@@ -889,8 +880,7 @@ public class SalesOrderView extends
 
 		if (isTrackTax()) {
 			if (isTaxPerDetailLine()) {
-				transaction.setNetAmount(getAmountInBaseCurrency(netAmountLabel
-						.getAmount()));
+				transaction.setNetAmount(netAmountLabel.getAmount());
 			} else {
 				// if (taxCode != null) {
 				// for (ClientTransactionItem record : customerTransactionTable
@@ -906,7 +896,7 @@ public class SalesOrderView extends
 			}
 		}
 
-		transaction.setTotal(transactionTotalinBaseCurrency.getAmount());
+		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
@@ -1073,21 +1063,18 @@ public class SalesOrderView extends
 			return;
 
 		if (isTrackTax()) {
-			netAmountLabel
-					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
-							.getLineTotal()));
+			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
 			setSalesTax(customerTransactionTable.getTotalTax());
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(customerTransactionTable
-							.getTotalTax()));
+			vatTotalNonEditableText.setAmount(customerTransactionTable
+					.getTotalTax());
 		}
 		setTransactionTotal(customerTransactionTable.getGrandTotal());
-		transactionTotalinBaseCurrency.setAmount(customerTransactionTable
-				.getGrandTotal());
-
-		transactionTotalinForeignCurrency
-				.setAmount(getAmountInTransactionCurrency(customerTransactionTable
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(customerTransactionTable
 						.getGrandTotal()));
+
+		foreignCurrencyamountLabel.setAmount(customerTransactionTable
+				.getGrandTotal());
 		// Double payments = this.paymentsNonEditableText.getAmount();
 		// setBalanceDue((this.transactionTotal - payments));
 	}
@@ -1484,10 +1471,10 @@ public class SalesOrderView extends
 
 	public void modifyForeignCurrencyTotalWidget() {
 		if (currencyWidget.isShowFactorField()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		} else {
-			transactionTotalinForeignCurrency.show();
-			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

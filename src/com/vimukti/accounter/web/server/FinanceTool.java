@@ -756,9 +756,8 @@ public class FinanceTool {
 						je.getDate().getDate()));
 				receivePaymentTransactionList.setNumber(je.getNumber());
 				receivePaymentTransactionList.setInvoiceAmount(je
-						.getDebitTotal() / currencyFactor);
-				receivePaymentTransactionList.setAmountDue(je.getBalanceDue()
-						/ currencyFactor);
+						.getDebitTotal());
+				receivePaymentTransactionList.setAmountDue(je.getBalanceDue());
 				receivePaymentTransactionList
 						.setDiscountDate(new ClientFinanceDate(je.getDate()
 								.getDate()));
@@ -1678,42 +1677,37 @@ public class FinanceTool {
 				while ((iterator).hasNext()) {
 
 					object = (Object[]) iterator.next();
-					double currencyFactor = (Double) object[12];
 
 					if (payeeName != null && ((String) object[1]) != null
 							&& payeeName.equals(object[1])) {
 
 						double currentMount = (Double) object[4];
 						payeeList.setCurrentMonth(payeeList.getCurrentMonth()
-								+ (currentMount / currencyFactor));
+								+ (currentMount));
 
 						double preMnt = (Double) object[5];
 						payeeList.setPreviousMonth(payeeList.getPreviousMonth()
-								+ (preMnt / currencyFactor));
+								+ (preMnt));
 
 						double pre2Mnt = (Double) object[6];
 						payeeList.setPreviousSecondMonth(payeeList
-								.getPreviousSecondMonth()
-								+ (pre2Mnt / currencyFactor));
+								.getPreviousSecondMonth() + (pre2Mnt));
 
 						double pre3Mnt = (Double) object[7];
 						payeeList.setPreviousThirdMonth(payeeList
-								.getPreviousThirdMonth()
-								+ (pre3Mnt / currencyFactor));
+								.getPreviousThirdMonth() + (pre3Mnt));
 
 						double pre4mnt = (Double) object[8];
 						payeeList.setPreviousFourthMonth(payeeList
-								.getPreviousFourthMonth()
-								+ (pre4mnt / currencyFactor));
+								.getPreviousFourthMonth() + (pre4mnt));
 
 						double pre5Mnt = (Double) object[9];
 						payeeList.setPreviousFifthMonth(payeeList
-								.getPreviousFifthMonth()
-								+ (pre5Mnt / currencyFactor));
+								.getPreviousFifthMonth() + (pre5Mnt));
 
 						double yearToDate = (Double) object[10];
 						payeeList.setYearToDate(payeeList.getYearToDate()
-								+ (yearToDate / currencyFactor));
+								+ (yearToDate));
 
 					} else {
 
@@ -1728,24 +1722,19 @@ public class FinanceTool {
 						payeeList.setCurrecny((Long) object[13]);
 
 						double currentMonth = (Double) object[4];
-						payeeList
-								.setCurrentMonth(currentMonth / currencyFactor);
+						payeeList.setCurrentMonth(currentMonth);
 						double preMnt = (Double) object[5];
-						payeeList.setPreviousMonth(preMnt / currencyFactor);
+						payeeList.setPreviousMonth(preMnt);
 						double pre2Mnt = (Double) object[6];
-						payeeList.setPreviousSecondMonth(pre2Mnt
-								/ currencyFactor);
+						payeeList.setPreviousSecondMonth(pre2Mnt);
 						double pre3Mnt = (Double) object[7];
-						payeeList.setPreviousThirdMonth(pre3Mnt
-								/ currencyFactor);
+						payeeList.setPreviousThirdMonth(pre3Mnt);
 						double pre4Mnt = (Double) object[8];
-						payeeList.setPreviousFourthMonth(pre4Mnt
-								/ currencyFactor);
+						payeeList.setPreviousFourthMonth(pre4Mnt);
 						double pre5Mnt = (Double) object[9];
-						payeeList.setPreviousFifthMonth(pre5Mnt
-								/ currencyFactor);
+						payeeList.setPreviousFifthMonth(pre5Mnt);
 						double yearToDate = (Double) object[10];
-						payeeList.setYearToDate(yearToDate / currencyFactor);
+						payeeList.setYearToDate(yearToDate);
 						payeeList.setBalance((Double) object[11]);
 
 						queryResult.add(payeeList);

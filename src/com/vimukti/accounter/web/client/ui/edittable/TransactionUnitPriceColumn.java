@@ -14,13 +14,12 @@ public class TransactionUnitPriceColumn extends TransactionAmountColumn {
 
 	@Override
 	protected Double getAmount(ClientTransactionItem row) {
-		return currencyProvider.getAmountInTransactionCurrency(row
-				.getUnitPrice());
+		return row.getUnitPrice();
 	}
 
 	@Override
 	protected void setAmount(ClientTransactionItem row, Double value) {
-		row.setUnitPrice(currencyProvider.getAmountInBaseCurrency(value));
+		row.setUnitPrice(value);
 		// TODO doubt, currencyConversion.
 		if (row.getQuantity() != null && row.getUnitPrice() != null
 				&& row.getDiscount() != null) {

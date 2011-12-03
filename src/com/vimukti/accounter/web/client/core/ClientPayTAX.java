@@ -17,8 +17,6 @@ public class ClientPayTAX extends ClientTransaction {
 
 	// double amount;
 
-	double endingBalance;
-
 	// boolean isVoid = false;
 
 	boolean isEdited = false;
@@ -69,13 +67,6 @@ public class ClientPayTAX extends ClientTransaction {
 		this.taxAgency = taxAgency;
 	}
 
-	public double getEndingBalance() {
-		return endingBalance;
-	}
-
-	public void setEndingBalance(double endingBalance) {
-		this.endingBalance = endingBalance;
-	}
 
 	public List<ClientTransactionPayTAX> getTransactionPayTax() {
 		return transactionPayTAX;

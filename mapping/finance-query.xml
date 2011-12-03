@@ -381,26 +381,32 @@
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="CURRENCY" type="long" />
 		SELECT
+		T.CURRENCY AS CURRENCY,
 		T.ID AS TRANSACTION_ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
 		CASE
 		WHEN
 		T.T_TYPE = 6
 		THEN EB.DUE_DATE
-		WHEN T.T_TYPE = 23
+		WHEN T.T_TYPE =
+		23
 		THEN IR.DUE_DATE
 		ELSE
 		null
 		END AS DUE_DATE ,
-		T.NUMBER AS TRANSACTION_NUMBER,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
 		CASE
 		WHEN T.T_TYPE
 		= 28
 		THEN C.FULL_NAME
 		ELSE
 		P.NAME
-		END AS
+		END
+		AS
 		VENDOR_NAME ,
 		T.TOTAL AS
 		ORIGINAL_AMOUNT,
@@ -502,27 +508,34 @@
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="CURRENCY_ID" type="long" />
 		SELECT
+		T.CURRENCY AS CURRENCY_ID,
 		T.ID AS TRANSACTION_ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
 		T.T_DATE AS
 		TRANSACTION_DATE,
-		T.NUMBER TRANSACTION_NUMBER,
+		T.NUMBER
+		TRANSACTION_NUMBER,
 		P.NAME AS
 		CUSTOMER_NAME,
-		T.NET_AMOUNT AS TRANSACTION_NET_AMOUNT,
+		T.NET_AMOUNT AS
+		TRANSACTION_NET_AMOUNT,
 		CASE
 		WHEN T.T_TYPE = 8
 		THEN
 		I.DUE_DATE
 		ELSE
 		null
-		END AS DUE_DATE,
+		END
+		AS DUE_DATE,
 		T.TOTAL AS TOTAL_PRICE,
 		CASE
 		WHEN
 		T.T_TYPE = 8
-		THEN I.BALANCE_DUE
+		THEN
+		I.BALANCE_DUE
 		ELSE
 		null
 		END AS BALANCE,
@@ -546,14 +559,16 @@
 		T.ID = CCM.ID
 		LEFT OUTER JOIN
 		CUSTOMER C
-		ON C.ID
+		ON
+		C.ID
 		=
 		I.CUSTOMER_ID
 		OR
 		C.ID = CS.CUSTOMER_ID
 		OR C.ID =
 		CCM.CUSTOMER_ID
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		PAYEE P
 		ON
 		P.ID = C.ID
@@ -583,8 +598,7 @@
 		P.NAME AS
 		CUSTOMER_NAME,
 		T.PAYMENT_METHOD AS PAYMENT_METHOD_NAME,
-		(T.TOTAL /
-		T.CURRENCY_FACTOR) AS
+		T.TOTAL AS
 		AMOUNT,
 		T.IS_VOID AS IS_VOIDED,
 		T.STATUS AS
@@ -607,14 +621,16 @@
 		LEFT OUTER
 		JOIN
 		CUSTOMER_PREPAYMENT CP
-		ON T.ID=CP.ID
+		ON
+		T.ID=CP.ID
 		LEFT OUTER
 		JOIN
 		CUSTOMER C
 		ON
 		C.ID
 		= RP.CUSTOMER_ID
-		OR C.ID = CP.CUSTOMER_ID
+		OR C.ID =
+		CP.CUSTOMER_ID
 		LEFT
 		OUTER JOIN
 		PAYEE P
@@ -622,7 +638,8 @@
 		P.ID =
 		C.ID
 
-		WHERE T.T_TYPE IN(12,29) AND
+		WHERE T.T_TYPE
+		IN(12,29) AND
 		T.COMPANY_ID=:companyId
 	</sql-query>
 	<!-- To generate the Payments List which Includes Cash Purchases, Credit 
@@ -678,11 +695,11 @@
 		OR
 		T.T_TYPE = 5
 		THEN
-		(T.TOTAL/T.CURRENCY_FACTOR)
+		T.TOTAL
 		WHEN T.T_TYPE=17
 		THEN
 		(SELECT
-		(SUM(TPV1.AMOUNT_TO_PAY)/T.CURRENCY_FACTOR) FROM PAY_TAX PV1
+		(SUM(TPV1.AMOUNT_TO_PAY)) FROM PAY_TAX PV1
 		LEFT OUTER
 		JOIN
 		TRANSACTION_PAY_TAX TPV1
@@ -692,7 +709,7 @@
 		WHEN T.T_TYPE=31
 		THEN
 		(SELECT
-		(SUM(TRV1.AMOUNT_TO_RECEIVE)/T.CURRENCY_FACTOR) FROM
+		(SUM(TRV1.AMOUNT_TO_RECEIVE)) FROM
 		RECEIVE_VAT RV1
 		LEFT OUTER JOIN
 		TRANSACTION_RECEIVE_VAT TRV1
@@ -848,7 +865,7 @@
 		WHEN T.T_TYPE=11
 		THEN P.NAME END AS NAME,
 		T.PAYMENT_METHOD AS PAYMENT_METHOD,
-		(T.TOTAL/T.CURRENCY_FACTOR) AS
+		T.TOTAL AS
 		AMOUNT_PAID,
 		PB.PAYBILL_TYPE AS
 		PAYBILL_TYPE,
@@ -1641,33 +1658,37 @@
 		TRANSACTION_NUMBER,
 		CASE WHEN T.T_TYPE =
 		6 THEN
-		(T.TOTAL/T.CURRENCY_FACTOR) WHEN
+		T.TOTAL WHEN
 		T.T_TYPE =
-		10 THEN
-		(TMD.AMOUNT/T.CURRENCY_FACTOR) END AS
+		10
+		THEN
+		TMD.AMOUNT END AS
 		ORIGINAL_AMOUNT ,
 		CASE WHEN
 		T.T_TYPE = 6 THEN
-		(EB.BALANCE_DUE/T.CURRENCY_FACTOR) WHEN
+		EB.BALANCE_DUE WHEN
 		T.T_TYPE = 10
 		THEN
-		(TMD.BALANCE_DUE/T.CURRENCY_FACTOR) END AS
+		TMD.BALANCE_DUE END AS
 		AMOUNT_DUE,
 		CASE WHEN
 		T.T_TYPE = 6 THEN
-		(EB.PAYMENTS/T.CURRENCY_FACTOR) WHEN T.T_TYPE = 10
-		THEN (TMD.PAYMENTS/T.CURRENCY_FACTOR) END
+		EB.PAYMENTS WHEN T.T_TYPE = 10
+		THEN
+		TMD.PAYMENTS END
 		AS PAYMENTS,
 		T.PAYMENT_METHOD
 		AS PAYMENT_METHOD,
-		CASE WHEN T.T_TYPE = 6 THEN
+		CASE
+		WHEN T.T_TYPE = 6 THEN
 		EB.DISCOUNT_DATE
 		ELSE
 		NULL
 		END AS
 		DISCOUNT_DATE
 
-		FROM TRANSACTION T
+		FROM
+		TRANSACTION T
 		LEFT
 		OUTER JOIN ENTER_BILL EB ON
 		T.ID=EB.ID LEFT OUTER
@@ -1675,13 +1696,17 @@
 		MAKE_DEPOSIT MD
 		ON T.ID = MD.ID LEFT OUTER
 		JOIN
-		TRANSACTION_MAKE_DEPOSIT TMD ON
+		TRANSACTION_MAKE_DEPOSIT
+		TMD ON
 		TMD.TRANSACTION_ID = MD.ID and
-		TMD.IS_NEW_ENTRY= TRUE and TMD.TYPE = 2
+		TMD.IS_NEW_ENTRY= TRUE and
+		TMD.TYPE = 2
 		WHERE T.T_TYPE in (6,10) and
-		(EB.BALANCE_DUE>0.0 OR TMD.BALANCE_DUE
+		(EB.BALANCE_DUE>0.0 OR
+		TMD.BALANCE_DUE
 		>0.0) and (EB.VENDOR_ID
-		=:vendorId OR TMD.VENDOR_ID =:vendorId) AND
+		=:vendorId OR TMD.VENDOR_ID
+		=:vendorId) AND
 		T.COMPANY_ID=:companyId
 	</sql-query>
 	<!-- To retrieve the Invoices and Customer Refunds of corresponding customers 
@@ -1709,15 +1734,15 @@
 		END AS DUE_DATE ,
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
-		(T.TOTAL/T.CURRENCY_FACTOR) AS INVOICE_AMOUNT,
+		T.TOTAL AS INVOICE_AMOUNT,
 		CASE
 		WHEN
 		T.T_TYPE = 5
 		THEN
-		(CR.BALANCE_DUE/T.CURRENCY_FACTOR)
+		CR.BALANCE_DUE
 		WHEN T.T_TYPE =
 		8
-		THEN (I.BALANCE_DUE/T.CURRENCY_FACTOR)
+		THEN (I.BALANCE_DUE)
 		END
 		AS AMOUNT_DUE,
 		CASE
@@ -1731,10 +1756,10 @@
 		CASE
 		WHEN T.T_TYPE = 5
 		THEN
-		(CR.PAYMENTS/T.CURRENCY_FACTOR)
+		CR.PAYMENTS
 		WHEN
 		T.T_TYPE = 8
-		THEN (I.PAYMENTS/T.CURRENCY_FACTOR)
+		THEN (I.PAYMENTS)
 		END AS PAYMENTS,
 		PT.DISCOUNT_PERCENT AS
 		PT_DISCOUNT
@@ -1756,10 +1781,12 @@
 		in (5,8)
 		AND
 		(I.BALANCE_DUE>0.0
-		OR CR.BALANCE_DUE >0.0)
+		OR
+		CR.BALANCE_DUE >0.0)
 		AND (I.CUSTOMER_ID
 		=:customerId OR
-		CR.CUSTOMER_ID =:customerId)
+		CR.CUSTOMER_ID
+		=:customerId)
 		AND T.IS_VOID=false AND
 		T.COMPANY_ID=:companyId
 	</sql-query>
@@ -1812,10 +1839,12 @@
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-
+		<return-scalar column="CURRENCY_ID" type="long" />
 		SELECT
+		T.CURRENCY AS CURRENCY_ID,
 		T.ID TRANSACTION_ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
 		T.T_DATE AS
 		DATE ,
 		T.NUMBER AS TRANSACTION_NUMBER,
@@ -1882,7 +1911,8 @@
 		LEFT OUTER JOIN
 		PAYEE P
 		on P.ID = C.ID
-		where T.T_TYPE in(1,4,8,15) AND T.COMPANY_ID=:companyId
+		where T.T_TYPE in(1,4,8,15)
+		AND T.COMPANY_ID=:companyId
 		ORDER BY T.ID DESC LIMIT 10
 	</sql-query>
 
@@ -1915,9 +1945,10 @@
 
 		T.PAYMENT_METHOD AS PAYMENT_METHOD,
 
-		(T.TOTAL/T.CURRENCY_FACTOR) AS
+		T.TOTAL AS
 		AMOUNT_PAID,
-		T.CURRENCY AS CURRENCY
+		T.CURRENCY AS
+		CURRENCY
 
 
 		FROM
@@ -1927,21 +1958,25 @@
 		PAY_BILL PB
 		on T.ID=PB.ID
 
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		WRITE_CHECKS WC
 		on T.ID = WC.ID
 		LEFT OUTER JOIN
 		VENDOR V
-		on V.ID =
+		on V.ID
+		=
 		PB.VENDOR_ID OR V.ID = WC.VENDOR_ID
 		LEFT OUTER JOIN
 		TAXAGENCY TA
-		on TA.ID
+		on
+		TA.ID
 		= PB.VENDOR_ID OR TA.ID =
 		WC.VENDOR_ID
 		LEFT JOIN
 		PAYEE P
-		on P.ID = V.ID
+		on P.ID =
+		V.ID
 		OR P.ID = TA.ID
 		WHERE
 		T.T_TYPE in(11,15) AND T.COMPANY_ID=:companyId
@@ -1961,16 +1996,19 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="ORIGINAL_AMOUNT" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-
+		<return-scalar column="CURRENCY" type="long" />
 		SELECT
+		T.CURRENCY AS CURRENCY,
 		T.ID AS TRANSACTION_ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
 		CASE
 		WHEN
 		T.T_TYPE = 6
 		THEN EB.DUE_DATE
 		ELSE null
-		END AS DUE_DATE ,
+		END AS
+		DUE_DATE ,
 
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
@@ -1985,31 +2023,39 @@
 		ELSE T.TOTAL
 		END AS BALANCE
 
-		FROM TRANSACTION T
+		FROM
+		TRANSACTION T
 		LEFT OUTER JOIN
 		CASH_PURCHASE CP
 		on T.ID=CP.ID
-		LEFT OUTER JOIN
+		LEFT OUTER
+		JOIN
 		VENDOR_CREDIT_MEMO VCM
 		on
 		T.ID=VCM.ID
 		LEFT OUTER JOIN
 		ENTER_BILL EB
-		on T.ID=EB.ID
+		on
+		T.ID=EB.ID
 		LEFT OUTER JOIN
 		CREDIT_CARD_CHARGES CCC
 		on T.ID = CCC.ID
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		WRITE_CHECKS WC
 		on T.ID = WC.ID and WC.PAY_TO_TYPE = 2
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		VENDOR V
 		on V.ID =
-		EB.VENDOR_ID OR V.ID = VCM.VENDOR_ID OR V.ID = CCC.VENDOR_ID
+		EB.VENDOR_ID OR V.ID = VCM.VENDOR_ID OR
+		V.ID = CCC.VENDOR_ID
 		OR V.ID =
 		CP.VENDOR_ID OR WC.VENDOR_ID
-		LEFT OUTER JOIN PAYEE P ON P.ID = V.ID
-		WHERE T.T_TYPE in (2,4,6,14,15) AND T.COMPANY_ID=:companyId ORDER BY
+		LEFT OUTER
+		JOIN PAYEE P ON P.ID = V.ID
+		WHERE T.T_TYPE in (2,4,6,14,15) AND
+		T.COMPANY_ID=:companyId ORDER BY
 		T.ID DESC LIMIT 10
 	</sql-query>
 
@@ -2041,14 +2087,15 @@
 		T.PAYMENT_METHOD AS PAYMENT_METHOD,
 		CASE
 		WHEN T.T_TYPE = 5 THEN
-		(CR.PAYMENTS/T.CURRENCY_FACTOR)
-		ELSE (T.TOTAL/T.CURRENCY_FACTOR)
+		CR.PAYMENTS
+		ELSE T.TOTAL
 		END AS
 		AMOUNT_PAID,
 		T.CURRENCY AS CURRENCY
 
 
-		FROM TRANSACTION T
+		FROM
+		TRANSACTION T
 		LEFT OUTER
 		JOIN
 		CASH_PURCHASE CP
@@ -2078,7 +2125,8 @@
 		= WC.CUSTOMER_ID
 		LEFT OUTER JOIN
 		VENDOR V
-		ON V.ID
+		ON
+		V.ID
 		= CP.VENDOR_ID OR V.ID =
 		CCC.VENDOR_ID OR V.ID = PB.VENDOR_ID
 		OR
@@ -2091,7 +2139,8 @@
 		T.T_TYPE in (2,3,5,11,15) AND
 		T.COMPANY_ID=:companyId ORDER BY
 		T.ID
-		DESC LIMIT 10
+		DESC
+		LIMIT 10
 	</sql-query>
 
 	<!-- To generate the Cash Purchases of Latest 10 -->
@@ -3867,18 +3916,19 @@
 		as QUANTITY,
 		TI.QTY_UNIT as UNIT,
 
-		TI.UNIT_PRICE as
+		TI.UNIT_PRICE*T.CURRENCY_FACTOR as
 		UNIT_PRICE,
-		TI.DISCOUNT as
+		TI.DISCOUNT*T.CURRENCY_FACTOR as
 		DISCOUNT,
 
 		case
 		when T.T_TYPE =
-		4 OR T_TYPE = 14
+		4 OR
+		T_TYPE = 14
 		then
-		-1*LINE_TOTAL
+		-1*TI.LINE_TOTAL*T.CURRENCY_FACTOR
 		else
-		TI.LINE_TOTAL
+		TI.LINE_TOTAL*T.CURRENCY_FACTOR
 		end as AMOUNT,
 		case
 		when T.T_TYPE = 8
@@ -3906,7 +3956,8 @@
 		IT.SALES_DESCRIPTION,
 		IT.PURCHASE_DESCRIPTION,
 		T.IS_VOID as VOID,
-		T.REFERENCE as REFERENCE
+		T.REFERENCE as REFERENCE,
+		T.CURRENCY_FACTOR as CURRENCY_FACTOR
 		from
 		TRANSACTION T
 		left outer join
@@ -3915,7 +3966,8 @@
 		left outer
 		join
 		CUSTOMER_CREDIT_MEMO CCM
-		on T.ID=CCM.ID
+		on
+		T.ID=CCM.ID
 		left outer join
 		INVOICE I
 		on
@@ -3926,7 +3978,8 @@
 		T.ID=CP.ID
 		left outer join
 		VENDOR_CREDIT_MEMO VCM
-		on T.ID=VCM.ID
+		on
+		T.ID=VCM.ID
 		left
 		outer join
 		ENTER_BILL EB
@@ -3946,15 +3999,18 @@
 		outer join
 		VENDOR V
 		on
-		V.ID = CP.VENDOR_ID or V.ID = VCM.VENDOR_ID or
+		V.ID = CP.VENDOR_ID or V.ID =
+		VCM.VENDOR_ID or
 		V.ID = EB.VENDOR_ID
 		left
 		outer join
 		PAYEE P
-		on P.ID = C.ID OR P.ID = V.ID
+		on P.ID = C.ID
+		OR P.ID = V.ID
 		left outer join
 		PAYMENTTERMS PT
-		on PT.ID = EB.PAYMENT_TERM_ID or PT.ID =
+		on PT.ID =
+		EB.PAYMENT_TERM_ID or PT.ID =
 		I.PAYMENT_TERMS_ID
 		left outer join
 		CUSTOMER_GROUP CG
@@ -3966,7 +4022,8 @@
 		V.VENDOR_GROUP_ID
 		left outer join
 		ITEM IT
-		on IT.ID = TI.ITEM_ID
+		on
+		IT.ID = TI.ITEM_ID
 		left outer
 		join
 		ITEMGROUP IG
@@ -3975,7 +4032,8 @@
 		ACCOUNT A
 		on
 		A.ID = TI.ACCOUNT_ID
-		where T.IS_VOID=false and (TI.ITEM_ID is not null
+		where T.IS_VOID=false
+		and (TI.ITEM_ID is not null
 		or TI.ACCOUNT_ID is
 		not null) order by T.ID
 
@@ -4041,22 +4099,24 @@
 		= 6 or T.T_TYPE
 		= 27
 		then
-		T.TOTAL
+		T.TOTAL * T.CURRENCY_FACTOR
 		when T.T_TYPE = 4 or T.T_TYPE =
-		14 or
+		14
+		or
 		T.T_TYPE = 29
 		then
-		-1*T.TOTAL
+		-1*T.TOTAL * T.CURRENCY_FACTOR
 		when T.T_TYPE = 10
 		then
 		case
 		when
 		TMD.TYPE = 3
 		then
-		-1*TMD.AMOUNT
-		when TMD.TYPE = 2
+		-1*TMD.AMOUNT * T.CURRENCY_FACTOR
+		when
+		TMD.TYPE = 2
 		then
-		TMD.AMOUNT
+		TMD.AMOUNT * T.CURRENCY_FACTOR
 		else
 		0.0
 		end
@@ -4068,24 +4128,25 @@
 		when
 		WC.PAY_TO_TYPE = 1
 		then
-		-1*T.TOTAL
+		-1*T.TOTAL * T.CURRENCY_FACTOR
 		when
 		WC.PAY_TO_TYPE = 2
 		then
-		T.TOTAL
+		T.TOTAL * T.CURRENCY_FACTOR
 		else
 		0.0
 		end
 
-		when T.T_TYPE = 16
+		when
+		T.T_TYPE = 16
 		then
 		case
 		when
 		P.TYPE = 2
 		then
-		-1* T.TOTAL
+		-1* T.TOTAL * T.CURRENCY_FACTOR
 		else
-		T.TOTAL
+		T.TOTAL * T.CURRENCY_FACTOR
 		end
 		else 0.0
 		end as
@@ -4095,17 +4156,19 @@
 		when
 		T.T_TYPE = 1
 		or T.T_TYPE = 3
-		or T.T_TYPE = 2 or T.T_TYPE = 26 or
+		or
+		T.T_TYPE = 2 or T.T_TYPE = 26 or
 		T.T_TYPE = 27
 		then
-		T.TOTAL
+		T.TOTAL *
+		T.CURRENCY_FACTOR
 		when
 		T.T_TYPE = 5 or
 		T.T_TYPE = 15 or T.T_TYPE =
 		11 or
 		T.T_TYPE = 12
 		then
-		-1*T.TOTAL
+		-1*T.TOTAL * T.CURRENCY_FACTOR
 		else 0.0
 		end as
 		PAID_AMOUNT,
@@ -4115,12 +4178,14 @@
 		T.T_TYPE
 		= 1 or T.T_TYPE =
 		3 or T.T_TYPE = 5
-		or T.T_TYPE = 8 or
+		or
+		T.T_TYPE = 8 or
 		T.T_TYPE =
 		2 or
 		T.T_TYPE = 14 or
 		T.T_TYPE = 15 or
-		T.T_TYPE = 27
+		T.T_TYPE
+		= 27
 		then
 		T.TOTAL
 		when
@@ -4133,7 +4198,7 @@
 		then
 		case when
 		(select
-		sum(TPB.CASH_DISCOUNT)
+		sum(TPB.CASH_DISCOUNT * T.CURRENCY_FACTOR)
 		from
 		TRANSACTION_PAYBILL
 		TPB where
@@ -4146,7 +4211,7 @@
 		else
 		T.TOTAL
 		+ (select
-		sum(TPB.CASH_DISCOUNT)
+		sum(TPB.CASH_DISCOUNT* T.CURRENCY_FACTOR)
 		from
 		TRANSACTION_PAYBILL TPB where
 		TPB.TRANSACTION_ID = T.ID and
@@ -4156,7 +4221,7 @@
 		when
 		PB.PAYBILL_TYPE = 2
 		then
-		T.TOTAL
+		T.TOTAL * T.CURRENCY_FACTOR
 		end
 		when
 		T.T_TYPE = 16
@@ -4165,7 +4230,7 @@
 		when P.TYPE
 		= 1
 		then
-		T.TOTAL
+		T.TOTAL * T.CURRENCY_FACTOR
 		else
 		0.0
 		end
@@ -4185,19 +4250,21 @@
 		T.T_TYPE = 27 or
 		T.T_TYPE = 29
 		then
-		T.TOTAL
-		when T.T_TYPE = 12
+		T.TOTAL * T.CURRENCY_FACTOR
+		when
+		T.T_TYPE = 12
 		then
-		RP.AMOUNT +
+		(RP.AMOUNT +
 		RP.TOTAL_CASH_DISCOUNT +
-		RP.TOTAL_WRITE_OFF
+		RP.TOTAL_WRITE_OFF) * T.CURRENCY_FACTOR
 		when T.T_TYPE =
 		16
 		then
 		case
-		when P.TYPE = 2
+		when
+		P.TYPE = 2
 		then
-		-1*T.TOTAL
+		-1*T.TOTAL * T.CURRENCY_FACTOR
 		else
 		0.0
 		end
@@ -4210,12 +4277,14 @@
 		when
 		T.T_TYPE = 12
 		then
-		RP.TOTAL_CASH_DISCOUNT
+		RP.TOTAL_CASH_DISCOUNT *
+		T.CURRENCY_FACTOR
 		when T.T_TYPE =
 		11
 		then
 		(select
-		sum(TPB.CASH_DISCOUNT) from
+		sum(TPB.CASH_DISCOUNT*
+		T.CURRENCY_FACTOR) from
 		TRANSACTION_PAYBILL TPB where
 		TPB.TRANSACTION_ID = T.ID)
 		else
@@ -4248,7 +4317,8 @@
 		case
 		when T.T_TYPE = 12
 		then
-		RP.TOTAL_WRITE_OFF
+		RP.TOTAL_WRITE_OFF *
+		T.CURRENCY_FACTOR
 		else
 		0.0
 		end as
@@ -6080,7 +6150,9 @@
 		<return-scalar column="SALES_PERSON_NAME" type="string" />
 		<return-scalar column="SHIPPING_METHOD_NAME" type="string" />
 		<return-scalar column="PAYMENT_TERM_NAME" type="string" />
-		<return-scalar column="TRANSACTION_ID" type="long"></return-scalar>
+		<return-scalar column="TRANSACTION_ID" type="long"/>
+		<return-scalar column="CURRENCY" type="long"/>
+		<return-scalar column="CURRENCY_FACTOR" type="double"/>
 
 		SELECT T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS TRANSACTION_NUMBER,
@@ -6120,8 +6192,10 @@
 		SP.FIRST_NAME AS SALES_PERSON_NAME,
 		SM.NAME AS SHIPPING_METHOD_NAME,
 		PT.NAME AS PAYMENT_TERM_NAME,
-		T.ID AS TRANSACTION_ID
-
+		T.ID AS TRANSACTION_ID,
+		T.CURRENCY as
+		CURRENCY, T.CURRENCY_FACTOR
+		as CURRENCY_FACTOR
 
 		FROM TRANSACTION T
 		LEFT OUTER JOIN INVOICE I ON I.ID = T.ID
@@ -6202,6 +6276,8 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TOTAL" type="double" />
 		<return-scalar column="BALANCE" type="double" />
+		<return-scalar column="CURRENCY" type="long" />
+		<return-scalar column="CURRENCY_FACTOR" type="double" />
 
 		SELECT T.T_DATE AS TRANSACTION_DATE,
 		T.T_TYPE AS
@@ -6229,9 +6305,12 @@
 		END AS
 		BALANCE,
 
-		T.ID AS TRANSACTION_ID FROM TRANSACTION T
+		T.ID AS TRANSACTION_ID, T.CURRENCY as
+		CURRENCY, T.CURRENCY_FACTOR
+		as CURRENCY_FACTOR FROM TRANSACTION T
 
-		LEFT OUTER
+		LEFT
+		OUTER
 		JOIN
 		ENTER_BILL
 		E ON
@@ -6258,7 +6337,8 @@
 		T.ID
 		LEFT
 		OUTER
-		JOIN EXPENSE EX ON EX.ID =
+		JOIN
+		EXPENSE EX ON EX.ID =
 		T.ID
 		<!-- LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID -->
 

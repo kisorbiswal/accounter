@@ -67,8 +67,7 @@ public class WriteChequeView extends
 	private DynamicForm bankAccForm;
 
 	private HorizontalPanel labelLayout;
-	public AmountLabel netAmount, totalTxtTransactionCurrency,
-			totalTxtBaseCurrency;
+	public AmountLabel netAmount;
 
 	AmountLabel vatTotalNonEditableText;
 	private TextAreaItem addrArea;
@@ -218,11 +217,10 @@ public class WriteChequeView extends
 		transactionVendorAccountTable.updateTotals();
 		this.transactionVendorAccountTable.updateAmountsFromGUI();
 
-		totalTxtTransactionCurrency
-				.setTitle(messages.currencyTotal(formalName));
+		foreignCurrencyamountLabel.setTitle(messages.currencyTotal(formalName));
 
-		totalTxtBaseCurrency.setTitle(messages.currencyTotal(getBaseCurrency()
-				.getFormalName()));
+		transactionTotalBaseCurrencyText.setTitle(messages
+				.currencyTotal(getBaseCurrency().getFormalName()));
 
 		amtText.setCurrency(clientCurrency);
 		// getAddreses(add);
@@ -510,8 +508,7 @@ public class WriteChequeView extends
 		if (isInViewMode()) {
 			Double transactionTotal = transaction.getTotal();
 			if (transactionTotal != null && !isAmountChange) {
-				amtText.setAmount(getAmountInTransactionCurrency(transactionTotal
-						.doubleValue()));
+				amtText.setAmount(transactionTotal.doubleValue());
 			}
 
 		}
@@ -634,8 +631,8 @@ public class WriteChequeView extends
 				break;
 			}
 		}
-		transaction.setTotal(getAmountInBaseCurrency(amtText.getAmount()));
-		transaction.setAmount(getAmountInBaseCurrency(amtText.getAmount()));
+		transaction.setTotal(amtText.getAmount());
+		transaction.setAmount(amtText.getAmount());
 		transaction.setInWords(amtText.getValue().toString());
 
 		// Setting Date
@@ -798,7 +795,7 @@ public class WriteChequeView extends
 
 		amtText = new AmountField(messages.amount(), this, getBaseCurrency());
 		amtText.setWidth(100);
-		amtText.setAmount(getAmountInTransactionCurrency(0.00));
+		amtText.setAmount(0.00);
 		amtText.setDisabled(isInViewMode());
 		amtText.addBlurHandler(new BlurHandler() {
 
@@ -865,9 +862,9 @@ public class WriteChequeView extends
 		amountPanel.setWidth("100%");
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		totalTxtTransactionCurrency = createTransactionTotalNonEditableLabel(getBaseCurrency());
+		foreignCurrencyamountLabel = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
-		totalTxtBaseCurrency = createTransactionTotalNonEditableLabel(getBaseCurrency());
+		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
 		vatTotalNonEditableText = new AmountLabel("Tax");
 
@@ -898,10 +895,10 @@ public class WriteChequeView extends
 
 			}
 		}
-		totalForm.setFields(totalTxtTransactionCurrency);
+		totalForm.setFields(foreignCurrencyamountLabel);
 
 		if (isMultiCurrencyEnabled()) {
-			totalForm.setFields(totalTxtBaseCurrency);
+			totalForm.setFields(transactionTotalBaseCurrencyText);
 		}
 
 		totalForm.addStyleName("boldtext");
@@ -1023,8 +1020,7 @@ public class WriteChequeView extends
 			transactionItems = transaction.getTransactionItems();
 			transactionNumber.setValue(transaction.getNumber());
 
-			amtText.setAmount(getAmountInTransactionCurrency(transaction
-					.getTotal()));
+			amtText.setAmount(transaction.getTotal());
 			memoTextAreaItem.setValue(transaction.getMemo());
 			date.setValue(transaction.getDate());
 			toprintCheck.setValue(transaction.isToBePrinted());
@@ -1081,7 +1077,7 @@ public class WriteChequeView extends
 		settabIndexes();
 
 		if (isMultiCurrencyEnabled() && !isInViewMode()) {
-			totalTxtBaseCurrency.hide();
+			transactionTotalBaseCurrencyText.hide();
 		}
 
 	}
@@ -1155,30 +1151,45 @@ public class WriteChequeView extends
 	@Override
 	public void updateNonEditableItems() {
 
+		// if (vendorAccountTransactionTable == null
+		// || vendorItemTransactionTable == null) {
+		// return;
+		// }
+		// double lineTotal = vendorAccountTransactionTable.getLineTotal()
+		// + vendorItemTransactionTable.getLineTotal();
+		// double grandTotal = vendorAccountTransactionTable.getGrandTotal()
+		// + vendorItemTransactionTable.getGrandTotal();
+		//
+		// netAmount.setAmount(lineTotal);
+		// if (getCompany().getPreferences().isTrackPaidTax()) {
+		// vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+		// }
+		// transactionTotalNonEditableText
+		// .setAmount(getAmountInBaseCurrency(grandTotal));
+		// foreignCurrencyamountLabel.setAmount(grandTotal);
+		//
 		if (transactionVendorAccountTable == null) {
 			return;
 		}
 		double total = transactionVendorAccountTable.getGrandTotal();
 
 		if (!isAmountChange) {
-			this.amtText.setAmount(getAmountInTransactionCurrency(total));
+			this.amtText.setAmount(total);
 			previousValue = amtText.getAmount();
 		}
 		double grandTotal = transactionVendorAccountTable.getLineTotal();
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(total
-							- grandTotal));
+			vatTotalNonEditableText.setAmount(total - grandTotal);
 		}
-		netAmount.setAmount(getAmountInTransactionCurrency(grandTotal));
+		netAmount.setAmount(grandTotal);
 
-		totalTxtTransactionCurrency
-				.setAmount(getAmountInTransactionCurrency(total));
+		foreignCurrencyamountLabel.setAmount(total);
 
-		totalTxtBaseCurrency.setAmount(total);
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(total));
 
 		if (amtText.getAmount() == 0) {
-			amtText.setAmount(totalTxtTransactionCurrency.getAmount());
+			amtText.setAmount(foreignCurrencyamountLabel.getAmount());
 			previousValue = amtText.getAmount();
 		}
 		if (isAmountChange)
@@ -1188,7 +1199,7 @@ public class WriteChequeView extends
 
 	private void validateAmountAndTotal() {
 		unassignedAmount.setAmount(amtText.getAmount()
-				- totalTxtTransactionCurrency.getAmount());
+				- foreignCurrencyamountLabel.getAmount());
 		if (unassignedAmount.getAmount() != 0) {
 			showUnassignedFields();
 		} else {
@@ -1470,12 +1481,9 @@ public class WriteChequeView extends
 			// }
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
-					netAmount
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getNetAmount()));
-					vatTotalNonEditableText
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+					netAmount.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
@@ -1575,10 +1583,10 @@ public class WriteChequeView extends
 
 	public void modifyForeignCurrencyTotalWidget() {
 		if (currencyWidget.isShowFactorField()) {
-			totalTxtBaseCurrency.hide();
+			transactionTotalBaseCurrencyText.hide();
 		} else {
-			totalTxtBaseCurrency.show();
-			totalTxtBaseCurrency.setTitle(messages
+			transactionTotalBaseCurrencyText.show();
+			transactionTotalBaseCurrencyText.setTitle(messages
 					.currencyTotal(getBaseCurrency().getFormalName()));
 		}
 	}

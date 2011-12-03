@@ -31,7 +31,7 @@ public class CreditsandPaymentsGrid extends
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
 
-	ClientCurrency currency = getCompany().getPrimaryCurrency();
+	private ClientCurrency currency;
 
 	private ClientTransactionReceivePayment traReceivePayment;
 	public LinkedHashMap<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>> creditsMap = new LinkedHashMap<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>>();
@@ -39,17 +39,20 @@ public class CreditsandPaymentsGrid extends
 
 	public CreditsandPaymentsGrid(boolean isMultiSelectionEnable,
 			CustomerCreditsAndPaymentsDialiog creditdialog,
+			ClientCurrency currency,
 			ClientTransactionReceivePayment trareceivePayment) {
 		super(isMultiSelectionEnable);
+		this.currency = currency;
 		this.dialog = creditdialog;
 		this.traReceivePayment = trareceivePayment;
 	}
 
 	public CreditsandPaymentsGrid(boolean isMultiSelectionEnable,
-			NewApplyCreditsDialog creditdialog,
+			NewApplyCreditsDialog creditdialog, ClientCurrency currency,
 			ClientTransactionReceivePayment trareceivePayment) {
 		super(isMultiSelectionEnable);
 		this.newdialog = creditdialog;
+		this.currency = currency;
 		this.traReceivePayment = trareceivePayment;
 	}
 
@@ -163,9 +166,9 @@ public class CreditsandPaymentsGrid extends
 	@Override
 	protected String[] getColumns() {
 
-		return new String[] { messages.date(),
-				messages.memo(), messages.creditAmount(),
-				messages.balance(), messages.amountToUse() };
+		return new String[] { messages.date(), messages.memo(),
+				messages.creditAmount(), messages.balance(),
+				messages.amountToUse() };
 	}
 
 	@Override
@@ -195,14 +198,18 @@ public class CreditsandPaymentsGrid extends
 					// : false) {
 					Accounter.showError(Accounter.messages()
 							.receivedPaymentAppliedCreditsAmount());
-					setText(indexOf(item), 4,
-							DataUtils.amountAsStringWithCurrency(item.getAmtTouse(), currency));
+					setText(indexOf(item),
+							4,
+							DataUtils.amountAsStringWithCurrency(
+									item.getAmtTouse(), currency));
 				} else {
 					if (DecimalUtil.isLessThan(balance, 0)) {
 						Accounter.showError(Accounter.messages()
 								.receivedPaymentAppliedCreditsAmount());
-						setText(indexOf(item), 4,
-								DataUtils.amountAsStringWithCurrency(item.getAmtTouse(), currency));
+						setText(indexOf(item),
+								4,
+								DataUtils.amountAsStringWithCurrency(
+										item.getAmtTouse(), currency));
 					} else {
 						double newValue = getAmountInBaseCurrency((Double) amtTouse);
 						editingRecord.setAmtTouse(newValue);
@@ -323,16 +330,17 @@ public class CreditsandPaymentsGrid extends
 		case 2:
 			return DataUtils.amountAsStringWithCurrency(
 					getAmountInForeignCurrency(creditsAndPayments
-							.getCreditAmount()),
-					currency);
+							.getCreditAmount()), currency);
 		case 3:
-			return DataUtils.amountAsStringWithCurrency(
-					getAmountInForeignCurrency(creditsAndPayments.getBalance()),
-					currency);
+			return DataUtils
+					.amountAsStringWithCurrency(
+							getAmountInForeignCurrency(creditsAndPayments
+									.getBalance()), currency);
 		case 4:
-			return DataUtils.amountAsStringWithCurrency(
-					getAmountInForeignCurrency(creditsAndPayments.getAmtTouse()),
-					currency);
+			return DataUtils
+					.amountAsStringWithCurrency(
+							getAmountInForeignCurrency(creditsAndPayments
+									.getAmtTouse()), currency);
 		default:
 			break;
 		}

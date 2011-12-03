@@ -18,6 +18,7 @@ public class VendorAndPurchasePreferencesCommand extends
 	protected static final String TAXITEM_TRANSACTIONS = "taxitemtransactions";
 	private static final String ENABLE_TRACKING_TAXPAID = "enabletracktax";
 	private static final String ENABLE_TDS = "enabletds";
+	private static final String TRACKING_QUOTES = "trackquotes";
 	private static final String USE_DELAYED_CHARGES = "usedelayedcharges";
 	private static final String DO_YOU_Do_SHIPPING = "doyoudoshipping";
 	private static final String INCLUDE_ESTIMATES = "includeestimates";
@@ -116,22 +117,32 @@ public class VendorAndPurchasePreferencesCommand extends
 				return getMessages().disabledTDS();
 			}
 		});
-		// list.add(new BooleanRequirement(TRACKING_QUOTES, true) {
-		//
-		// @Override
-		// protected String getTrueString() {
-		// return getMessages().trackingEstimates();
-		// }
-		//
-		// @Override
-		// protected String getFalseString() {
-		// return getMessages().doNottrackingEstimates();
-		// }
-		// });
+		list.add(new BooleanRequirement(TRACKING_QUOTES, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().trackingEstimates();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().doNottrackingEstimates();
+			}
+		});
 
 		list.add(new StringListRequirement(INCLUDE_ESTIMATES, getMessages()
 				.accept() + " " + getMessages().estimate(), getMessages()
 				.accept() + " " + getMessages().estimate(), true, true, null) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				boolean trackquotes = get(TRACKING_QUOTES).getValue();
+				if (trackquotes) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
 			@Override
 			protected String getSelectString() {
 				return getMessages()
@@ -147,7 +158,8 @@ public class VendorAndPurchasePreferencesCommand extends
 
 			@Override
 			protected String getSetMessage() {
-				return null;
+				return getMessages().hasSelected(
+						getMessages().productAndServices());
 			}
 
 			@Override
@@ -190,7 +202,6 @@ public class VendorAndPurchasePreferencesCommand extends
 		arrayList.add(getMessages().dontWantToIncludeEstimates());
 		arrayList.add(getMessages().includeAcceptedEstimates());
 		arrayList.add(getMessages().includePendingAndAcceptedEstimates());
-		arrayList.add(getMessages().doNottrackingEstimates());
 		return arrayList;
 	}
 
@@ -208,21 +219,7 @@ public class VendorAndPurchasePreferencesCommand extends
 
 			get(ENABLE_TDS).setValue(preferences.isTDSEnabled());
 		}
-
-		String string = null;
-		if (!preferences.isDoyouwantEstimates()) {
-			string = getMessages().doNottrackingEstimates();
-		}
-		if (preferences.isDontIncludeEstimates()) {
-			string = getMessages().dontWantToIncludeEstimates();
-		} else if (preferences.isIncludeAcceptedEstimates()) {
-			string = getMessages().includeAcceptedEstimates();
-		} else if (preferences.isIncludePendingAcceptedEstimates()) {
-			string = getMessages().includePendingAndAcceptedEstimates();
-		}
-
-		get(INCLUDE_ESTIMATES).setValue(string);
-
+		get(TRACKING_QUOTES).setValue(preferences.isDoyouwantEstimates());
 		get(USE_DELAYED_CHARGES)
 				.setValue(preferences.isDelayedchargesEnabled());
 		get(DO_YOU_Do_SHIPPING).setValue(preferences.isDoProductShipMents());
@@ -244,36 +241,13 @@ public class VendorAndPurchasePreferencesCommand extends
 			preferences.setTrackPaidTax(tracktaxpaid);
 			preferences.setTDSEnabled(enabletds);
 		}
-		String includeestimates = get(INCLUDE_ESTIMATES).getValue();
-		Integer incluestimate = getAcceptEstimateList().indexOf(
-				includeestimates);
-		if (incluestimate == 0) {// setDontIncludeEstimates
-			preferences.setDontIncludeEstimates(true);
-			preferences.setIncludeAcceptedEstimates(false);
-			preferences.setIncludePendingAcceptedEstimates(false);
-			preferences.setDoyouwantEstimates(true);
-		} else if (incluestimate == 1) {// setIncludeAcceptedEstimates
-			preferences.setIncludeAcceptedEstimates(true);
-			preferences.setDontIncludeEstimates(false);
-			preferences.setIncludePendingAcceptedEstimates(false);
-			preferences.setDoyouwantEstimates(true);
-		} else if (incluestimate == 2) {// setIncludePendingAcceptedEstimates
-			preferences.setIncludePendingAcceptedEstimates(true);
-			preferences.setDontIncludeEstimates(false);
-			preferences.setIncludeAcceptedEstimates(false);
-			preferences.setDoyouwantEstimates(true);
-		} else {
-			preferences.setIncludePendingAcceptedEstimates(false);
-			preferences.setDontIncludeEstimates(false);
-			preferences.setIncludeAcceptedEstimates(false);
-			preferences.setDoyouwantEstimates(false);
-		}
-
+		boolean trackquotes = get(TRACKING_QUOTES).getValue();
 		boolean delayedcharges = get(USE_DELAYED_CHARGES).getValue();
 		boolean doyoushipping = get(DO_YOU_Do_SHIPPING).getValue();
 
 		preferences.setKeepTrackofBills(mangebills);
 		preferences.setTaxTrack(tax);
+		preferences.setDoyouwantEstimates(trackquotes);
 		preferences.setDelayedchargesEnabled(delayedcharges);
 		preferences.setDoProductShipMents(doyoushipping);
 

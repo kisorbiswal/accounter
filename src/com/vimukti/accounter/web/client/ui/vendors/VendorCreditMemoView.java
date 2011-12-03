@@ -125,12 +125,9 @@ public class VendorCreditMemoView extends
 			transactionNumber.setValue(transaction.getNumber());
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getNetAmount()));
-					vatTotalNonEditableText
-							.setAmount(getAmountInTransactionCurrency(transaction
-									.getTotal() - transaction.getNetAmount()));
+					netAmount.setAmount(transaction.getNetAmount());
+					vatTotalNonEditableText.setAmount(transaction.getTotal()
+							- transaction.getNetAmount());
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -146,9 +143,7 @@ public class VendorCreditMemoView extends
 
 			transactionTotalNonEditableText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
-			transactionTotalinForeignCurrency
-					.setAmount(getAmountInTransactionCurrency(transaction
-							.getTotal()));
+			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 			initAccounterClass();
 		}
 		if (locationTrackingEnabled)
@@ -239,7 +234,7 @@ public class VendorCreditMemoView extends
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
 				.getPrimaryCurrency());
 
-		transactionTotalinForeignCurrency = createForeignCurrencyAmountLable(getCompany()
+		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
 		vatTotalNonEditableText = createVATTotalNonEditableItem();
@@ -410,7 +405,7 @@ public class VendorCreditMemoView extends
 			if (isMultiCurrencyEnabled()) {
 				totalForm.setFields(netAmount, vatTotalNonEditableText,
 						transactionTotalNonEditableText,
-						transactionTotalinForeignCurrency);
+						foreignCurrencyamountLabel);
 			} else {
 				totalForm.setFields(netAmount, vatTotalNonEditableText,
 						transactionTotalNonEditableText);
@@ -437,7 +432,7 @@ public class VendorCreditMemoView extends
 			bottomLayout1.add(memoForm);
 			if (isMultiCurrencyEnabled()) {
 				totalForm.setFields(transactionTotalNonEditableText,
-						transactionTotalinForeignCurrency);
+						foreignCurrencyamountLabel);
 			} else {
 				totalForm.setFields(transactionTotalNonEditableText);
 			}
@@ -474,7 +469,7 @@ public class VendorCreditMemoView extends
 		listforms.add(vatCheckform);
 		listforms.add(totalForm);
 		if (isMultiCurrencyEnabled()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		}
 
 		settabIndexes();
@@ -530,8 +525,7 @@ public class VendorCreditMemoView extends
 		// Setting Reference
 		// transaction.setReference(getRefText());
 
-		transaction
-				.setNetAmount(getAmountInBaseCurrency(netAmount.getAmount()));
+		transaction.setNetAmount(netAmount.getAmount());
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 
@@ -581,15 +575,13 @@ public class VendorCreditMemoView extends
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal();
 
-		transactionTotalNonEditableText.setAmount(grandTotal);
-		transactionTotalinForeignCurrency
-				.setAmount(getAmountInTransactionCurrency(grandTotal));
+		transactionTotalNonEditableText
+				.setAmount(getAmountInBaseCurrency(grandTotal));
+		foreignCurrencyamountLabel.setAmount(grandTotal);
 
-		netAmount.setAmount(getAmountInTransactionCurrency(lineTotal));
+		netAmount.setAmount(lineTotal);
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText
-					.setAmount(getAmountInTransactionCurrency(grandTotal
-							- lineTotal));
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 	}
 
@@ -700,8 +692,7 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected Double getTransactionTotal() {
-		return getAmountInBaseCurrency(this.transactionTotalNonEditableText
-				.getAmount());
+		return this.transactionTotalNonEditableText.getAmount();
 	}
 
 	private void resetFormView() {
@@ -791,10 +782,10 @@ public class VendorCreditMemoView extends
 
 	public void modifyForeignCurrencyTotalWidget() {
 		if (currencyWidget.isShowFactorField()) {
-			transactionTotalinForeignCurrency.hide();
+			foreignCurrencyamountLabel.hide();
 		} else {
-			transactionTotalinForeignCurrency.show();
-			transactionTotalinForeignCurrency.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(Accounter.messages()
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

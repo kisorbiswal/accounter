@@ -191,7 +191,7 @@ public class PopupCalendar extends PopupPanel {
 		previousMonth.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				leave = false;
-				PopupCalendar.this.changeMonth(-1);
+				PopupCalendar.this.changeMonth(-12);
 			};
 		});
 		previousMonth.addStyleName("prenextyear-label");
@@ -236,7 +236,7 @@ public class PopupCalendar extends PopupPanel {
 		nextMonth.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				leave = false;
-				PopupCalendar.this.changeMonth(1);
+				PopupCalendar.this.changeMonth(12);
 			};
 		});
 		monthLine.setWidget(0, 3, nextMonth);

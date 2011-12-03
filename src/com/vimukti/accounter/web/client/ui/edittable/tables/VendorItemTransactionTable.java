@@ -60,7 +60,8 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 	@Override
 	protected void initColumns() {
 
-		ItemNameColumn transactionItemNameColumn = new ItemNameColumn(isSales()) {
+		ItemNameColumn transactionItemNameColumn = new ItemNameColumn(
+				isSales(), currencyProvider) {
 
 			@Override
 			protected void setValue(ClientTransactionItem row,
