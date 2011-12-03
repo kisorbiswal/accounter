@@ -163,5 +163,10 @@ public class CurrencyComboWidget extends DynamicForm {
 			currencyForm.show();
 		}
 	}
+	
+	public void setDisabled(boolean isAccountDisabled,boolean isFormDisabled) {
+		currencyCombo.setDisabled(isAccountDisabled);
+		currencyForm.setDisabled(isFormDisabled);
+	}
 
 }
