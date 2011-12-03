@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class PortletPageConfiguration implements IAccounterServerCore {
 
@@ -72,8 +74,9 @@ public class PortletPageConfiguration implements IAccounterServerCore {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 		
+		w.put(messages.type(), "Portlet Page Configuration").gap();
 	}
 
 }

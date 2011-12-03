@@ -3,6 +3,9 @@ package com.vimukti.accounter.core;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+
 public class PayTDS extends Transaction implements IAccounterServerCore,
 		Lifecycle {
 
@@ -69,7 +72,14 @@ public class PayTDS extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 		
+		w.put(messages.type(), messages.payTDS()).gap().gap();
+		w.put(messages.no(), this.number);
+		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
+		w.put(messages.currency(), this.currencyFactor).gap().gap();
+		w.put(messages.amount(), this.total).gap().gap();
+		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
+		w.put(messages.memo(), this.memo).gap().gap();
 	}
 }

@@ -4,7 +4,9 @@ import java.util.LinkedHashMap;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class Fax implements IAccounterServerCore {
 
@@ -80,8 +82,10 @@ public class Fax implements IAccounterServerCore {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 		
+		w.put(messages.type(), messages.fax()).gap();
+		w.put(messages.no(), this.number);
 	}
 
 }

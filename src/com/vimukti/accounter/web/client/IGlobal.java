@@ -21,4 +21,12 @@ public interface IGlobal {
 
 	public String toCurrencyFormat(double amount);
 
+	public String customers();
+
+	public String vendors();
+
+	public String Customers();
+
+	public String Vendors();
+
 }

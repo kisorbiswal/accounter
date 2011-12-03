@@ -102,14 +102,14 @@ public class SetupReferPage extends AbstractSetupPage {
 		if (customerListBox.getSelectedIndex() == -1
 				&& vendorListBox.getSelectedIndex() == -1) {
 			Accounter.showError(messages.howDoYouRefer() + " "
-					+ Accounter.messages().payees(Global.get().customer())
+					+ Accounter.messages().payees(Global.get().customers())
 					+ " " + Global.get().vendor() + " "
 					+ messages.Accounts() + "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1
 				&& vendorListBox.getSelectedIndex() == -1) {
 			Accounter.showError(messages.howDoYouRefer() + " "
-					+ Accounter.messages().payees(Global.get().customer())
+					+ Accounter.messages().payees(Global.get().customers())
 					+ " " + Global.get().vendor() + "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1) {

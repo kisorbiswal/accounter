@@ -82,7 +82,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().payees(Global.get().messages().budget());
+		return Accounter.messages().payees(Global.get().messages().budgets());
 
 	}
 

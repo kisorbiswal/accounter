@@ -110,4 +110,24 @@ public abstract class AbstractGlobal implements IGlobal {
 		}
 	}
 
+	@Override
+	public String vendors() {
+		return messages().vendors();
+	}
+
+	@Override
+	public String customers() {
+		return messages().customers();
+	}
+
+	@Override
+	public String Customers() {
+		return messages().Customers();
+	}
+
+	@Override
+	public String Vendors() {
+		return messages().Vendors();
+	}
+
 }

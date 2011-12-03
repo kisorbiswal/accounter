@@ -246,7 +246,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 					@Override
 					public void onException(AccounterException exception) {
 						Accounter.showError(messages.unableToGet(messages
-								.transaction()));
+								.transactions()));
 					}
 
 					@Override

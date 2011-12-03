@@ -4,7 +4,10 @@ import java.util.LinkedHashMap;
 
 import org.json.JSONException;
 
+import com.sun.accessibility.internal.resources.accessibility;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class Address implements IAccounterServerCore {
 
@@ -235,7 +238,14 @@ public class Address implements IAccounterServerCore {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
+		
+		w.put(messages.type(), messages.address()).gap().gap();
+		w.put(messages.address1(), this.address1).gap().gap();
+		w.put(messages.city(), this.city).gap().gap();
+		w.put(messages.state(), this.stateOrProvinence).gap().gap();
+		w.put(messages.country(), this.countryOrRegion).gap().gap();
+		w.put(messages.zipCode(), this.zipOrPostalCode);
 		
 	}
 }

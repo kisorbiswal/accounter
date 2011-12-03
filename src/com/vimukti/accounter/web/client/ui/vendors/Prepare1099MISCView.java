@@ -79,13 +79,18 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	@Override
 	public void init() {
-		boxes = new String[] { messages.box1() + "\n(600.00)",
-				messages.box2() + "\n(10.00)", messages.box3() + "\n(600.00)",
-				messages.box4() + "\n(0.00)", messages.box5() + "\n(0.00)",
-				messages.box6() + "\n(600.00)", messages.box7() + "\n(600.00)",
-				messages.box8() + "\n(10.00)", messages.box9() + "\n(5000.00)",
-				messages.box10() + "\n(600.00)", messages.box13() + "\n(0.00)",
-				messages.box14() + "\n(0.00)" };
+		boxes = new String[] { messages.boxNumber(1) + "\n(600.00)",
+				messages.boxNumber(2) + "\n(10.00)",
+				messages.boxNumber(3) + "\n(600.00)",
+				messages.boxNumber(4) + "\n(0.00)",
+				messages.boxNumber(5) + "\n(0.00)",
+				messages.boxNumber(6) + "\n(600.00)",
+				messages.boxNumber(7) + "\n(600.00)",
+				messages.boxNumber(8) + "\n(10.00)",
+				messages.boxNumber(9) + "\n(5000.00)",
+				messages.boxNumber(10) + "\n(600.00)",
+				messages.boxNumber(13) + "\n(0.00)",
+				messages.boxNumber(14) + "\n(0.00)" };
 
 		this.createControl();
 
@@ -281,28 +286,29 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	private DisclosurePanel getSetupPanel() {
 
-		disclosurePanel = new DisclosurePanel(
-				messages.setupVendorsAndAccounts(Global.get().Vendor()));
+		disclosurePanel = new DisclosurePanel(messages
+				.setupVendorsAndAccounts(Global.get().vendors()));
 		disclosurePanel.setOpen(true);
 
 		setVendorsPanel = new HorizontalPanel();
 		setAccountsPanel = new HorizontalPanel();
 
 		setVendor = new Label(getSelectedVendorsNum() + " "
-				+ messages.vendorsSelected(Global.get().Vendor()));
+				+ messages.vendorsSelected(Global.get().vendors()));
 
 		addAccount = new Label(getSelectedAccountsNum() + " "
 				+ messages.accountsSelected());
 
-		changeVendorHtml = new HTML(
-				messages.changePayees(Global.get().Vendor()));
+		changeVendorHtml = new HTML(messages
+				.changePayees(Global.get().vendors()));
 		changeVendorHtml.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				final SelectItemsTo1099Dialog<ClientVendor> selectVendorsTo1099Dialog = new SelectItemsTo1099Dialog<ClientVendor>(
-						messages.vendorsSelected(Global.get().Vendor()),
-						messages.SelectVendorsToTrack1099(Global.get().Vendor()));
+						messages.vendorsSelected(Global.get().vendors()),
+						messages
+								.SelectVendorsToTrack1099(Global.get().vendors()));
 				ArrayList<ClientVendor> vendors = getCompany().getVendors();
 				ArrayList<ClientVendor> tempSelectedItemsList = new ArrayList<ClientVendor>();
 
@@ -456,9 +462,10 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		amountPanel.add(amountForm);
 
 		arrayList = new ArrayList<String>();
-		arrayList.add(messages.venodrsThatMeetThreshold(Global.get().Vendor()));
-		arrayList.add(messages.vendorsBelowThreshold(Global.get().Vendor()));
-		arrayList.add(messages.non1099Vendors(Global.get().Vendor()));
+		arrayList
+				.add(messages.venodrsThatMeetThreshold(Global.get().vendors()));
+		arrayList.add(messages.vendorsBelowThreshold(Global.get().vendors()));
+		arrayList.add(messages.non1099Vendors(Global.get().vendors()));
 
 		selectComboItem = new SelectCombo(messages.show());
 		selectComboItem.initCombo(arrayList);

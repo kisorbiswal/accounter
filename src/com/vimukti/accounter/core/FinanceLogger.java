@@ -4,10 +4,12 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class FinanceLogger implements IAccounterServerCore {
 
@@ -129,8 +131,9 @@ public class FinanceLogger implements IAccounterServerCore {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 		
+		w.put(messages.type(),"Finance Logger").gap();
 	}
 
 }

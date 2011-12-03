@@ -5,7 +5,9 @@ import java.io.Serializable;
 import org.json.JSONException;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -187,7 +189,9 @@ public class AccountTransaction extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 		
+		w.put(messages.type(), "Account Transaction").gap().gap();
+		w.put(messages.amount(), this.amount);
 	}
 }

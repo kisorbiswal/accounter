@@ -34,7 +34,7 @@ public class VendorsHomeAction extends Action {
 					.showView(view, null, false, this);
 		} catch (Exception e) {
 			Accounter.showError(Global.get().messages()
-					.failedToLoadVendorsHome(Global.get().Vendor()));
+					.failedToLoadVendorsHome(Global.get().Vendors()));
 		}
 
 	}

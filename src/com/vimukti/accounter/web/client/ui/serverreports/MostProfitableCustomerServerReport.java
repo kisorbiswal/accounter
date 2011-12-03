@@ -43,7 +43,7 @@ public class MostProfitableCustomerServerReport extends
 	@Override
 	public String getTitle() {
 		return Accounter.messages().mostProfitableCustomers(
-				Global.get().customer());
+				Global.get().customers());
 	}
 
 	@Override

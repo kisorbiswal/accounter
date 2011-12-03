@@ -10,7 +10,9 @@ import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -480,7 +482,15 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 		
+		w.put(messages.type(), "Credits & Payments").gap();
+		w.put(messages.no(), this.transaction.number);
+		w.put(messages.currency(), this.transaction.currencyFactor).gap().gap();
+		w.put(messages.amount(), this.transaction.total).gap().gap();
+		w.put(messages.paymentMethod(), this.transaction.paymentMethod).gap().gap();
+		w.put(messages.memo(), this.memo);
+		
+		w.put(messages.details(), this.transactionCreditsAndPayments);
 	}
 }

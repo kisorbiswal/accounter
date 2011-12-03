@@ -5,7 +5,9 @@ package com.vimukti.accounter.core;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * @author vimukti16
@@ -48,8 +50,9 @@ public class FixedAssetNote extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 		
+		w.put(messages.type(), "Fixed Asset Note").gap();
 	}
 
 }

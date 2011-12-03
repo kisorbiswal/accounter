@@ -7,8 +7,10 @@ import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class Bank extends CreatableObject implements IAccounterServerCore,
 		INamedObject {
@@ -93,7 +95,10 @@ public class Bank extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
+		
+		w.put(messages.type(), "Bank").gap().gap();
+		w.put(messages.name(), this.name);
 		
 	}
 

@@ -159,7 +159,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		if (fromclientVendor != null && toClientVendor != null) {
 			if (fromclientVendor.getID() == toClientVendor.getID()) {
 				result.addError(fromclientVendor,
-						Accounter.messages().notMove(Global.get().vendor()));
+						Accounter.messages().notMove(Global.get().vendors()));
 			}
 		}
 

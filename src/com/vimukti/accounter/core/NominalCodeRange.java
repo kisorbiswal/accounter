@@ -7,7 +7,9 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 
@@ -119,7 +121,8 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 		
+		w.put(messages.type(), "Nominal Code Range").gap();
 	}
 }

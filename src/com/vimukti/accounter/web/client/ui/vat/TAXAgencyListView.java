@@ -156,6 +156,6 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.payees(messages.taxAgency());
+		return messages.payees(messages.taxAgencies());
 	}
 }

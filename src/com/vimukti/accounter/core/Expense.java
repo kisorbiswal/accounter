@@ -6,7 +6,9 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class Expense extends Transaction {
 
@@ -321,7 +323,16 @@ public class Expense extends Transaction {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 		
+		w.put(messages.type(), messages.expense()).gap();
+		w.put(messages.no(), this.number);
+		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
+		w.put(messages.currency(), this.currencyFactor).gap().gap();
+		w.put(messages.amount(), this.total).gap().gap();
+		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
+		w.put(messages.memo(), this.memo).gap().gap();
+		
+		w.put(messages.details(), this.transactionExpenses);
 	}
 }

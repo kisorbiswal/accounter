@@ -5,9 +5,9 @@ import com.vimukti.accounter.web.client.i18n.Messages;
 
 public interface AccounterMessages extends Messages {
 
-	public String a2Code();
+	// public String a2Code();
 
-	public String a3Code();
+	// public String a3Code();
 
 	public String a4();
 
@@ -17,13 +17,13 @@ public interface AccounterMessages extends Messages {
 
 	public String accepted();
 
-	public String Accounnumbers();
+	// public String Accounnumbers();
 
 	public String account();
 
 	public String Account();
 
-	public String accountDescription();
+	// public String accountDescription();
 
 	public String accounter();
 
@@ -46,9 +46,9 @@ public interface AccounterMessages extends Messages {
 	public String accountNumberToolTipDesc(String startingRange,
 			String endingRange);
 
-	public String accountPayable();
+	// public String accountPayable();
 
-	public String accountReceivable();
+	// public String accountReceivable();
 
 	public String accountRegister();
 
@@ -56,21 +56,21 @@ public interface AccounterMessages extends Messages {
 
 	public String accountsSelected();
 
-	public String accountTo();
+	// public String accountTo();
 
 	public String accountToDebitForSale();
 
-	public String accountTransactionItems();
+	// public String accountTransactionItems();
 
 	public String accountType();
 
-	public String accountVScustom();
+	// public String accountVScustom();
 
-	public String accountVSmonths();
+	// public String accountVSmonths();
 
-	public String accountVSquaters();
+	// public String accountVSquaters();
 
-	public String accountVSyears();
+	// public String accountVSyears();
 
 	public String accrual();
 
@@ -90,7 +90,7 @@ public interface AccounterMessages extends Messages {
 
 	public String add();
 
-	public String add3dots();
+	// public String add3dots();
 
 	public String addaNew(String transactionName);
 
@@ -114,15 +114,15 @@ public interface AccounterMessages extends Messages {
 
 	public String addBank();
 
-	public String addBankAccount();
+	// public String addBankAccount();
 
 	public String addBill();
 
 	public String addComparativeButton();
 
-	public String addCountry();
+	// public String addCountry();
 
-	public String addCountryLabel();
+	// public String addCountryLabel();
 
 	public String addCurrency();
 
@@ -142,13 +142,13 @@ public interface AccounterMessages extends Messages {
 
 	public String addNewAsset();
 
-	public String addNewBrandingTheme();
+	// public String addNewBrandingTheme();
 
 	public String addNewBudget();
 
 	public String addNewCharge();
 
-	public String addNewCredit();
+	// public String addNewCredit();
 
 	public String addNewEmployeeExpense();
 
@@ -198,7 +198,7 @@ public interface AccounterMessages extends Messages {
 
 	public String adjust();
 
-	public String adjustedPayment();
+	// public String adjustedPayment();
 
 	public String adjustmentAccount();
 
@@ -210,7 +210,7 @@ public interface AccounterMessages extends Messages {
 
 	public String adjustPayment();
 
-	public String adjustSalesTax();
+	// public String adjustSalesTax();
 
 	public String adjustTAXReturn();
 
@@ -240,7 +240,7 @@ public interface AccounterMessages extends Messages {
 
 	public String allowThisUsertoAddorRemoveusers();
 
-	public String allPayees(String payee);
+	// public String allPayees(String payee);
 
 	public String allRecords();
 
@@ -288,7 +288,7 @@ public interface AccounterMessages extends Messages {
 
 	public String amountToUseMustLessthanTotal();
 
-	public String amountWithCurrencyName(String currencyCode);
+	// public String amountWithCurrencyName(String currencyCode);
 
 	public String and();
 
@@ -388,7 +388,7 @@ public interface AccounterMessages extends Messages {
 
 	public String balanceSheet();
 
-	public String balanceWithCurrencyName(String currencyCode);
+	// public String balanceWithCurrencyName(String currencyCode);
 
 	public String bankAccount();
 
@@ -414,7 +414,7 @@ public interface AccounterMessages extends Messages {
 
 	public String bankingSummary();
 
-	public String bankingTransactions();
+	// public String bankingTransactions();
 
 	public String bankName();
 
@@ -452,7 +452,7 @@ public interface AccounterMessages extends Messages {
 
 	public String billsDue();
 
-	public String billsDueOnOrBefore();
+	// public String billsDueOnOrBefore();
 
 	public String billsToPay();
 
@@ -484,57 +484,57 @@ public interface AccounterMessages extends Messages {
 
 	public String box();
 
-	public String box1();
+	public String boxNumber(int boxNumber);
 
-	public String box10();
+	// public String box10();
 
 	public String box1099();
 
 	public String box10Label();
 
-	public String box13();
+	// public String box13();
 
 	public String box13Label();
 
-	public String box14();
+	// public String box14();
 
 	public String box14Label();
 
 	public String box1Label();
 
-	public String box2();
+	// public String box2();
 
 	public String box2Label();
 
-	public String box3();
+	// public String box3();
 
 	public String box3Label();
 
 	public String box3TotalVATDue();
 
-	public String box4();
+	// public String box4();
 
 	public String box4Label();
 
-	public String box5();
+	// public String box5();
 
 	public String box5Label();
 
 	public String box5NetVATToPayOrReclaimIfNegative();
 
-	public String box6();
+	// public String box6();
 
 	public String box6Label();
 
-	public String box7();
+	// public String box7();
 
 	public String box7Label();
 
-	public String box8();
+	// public String box8();
 
 	public String box8Label();
 
-	public String box9();
+	// public String box9();
 
 	public String box9Label();
 
@@ -550,7 +550,7 @@ public interface AccounterMessages extends Messages {
 
 	public String budgetList();
 
-	public String budgetMonth();
+	// public String budgetMonth();
 
 	public String budgetStartWith();
 
@@ -644,7 +644,7 @@ public interface AccounterMessages extends Messages {
 
 	public String Categories();
 
-	public String category();
+	// public String category();
 
 	public String Category();
 
@@ -764,7 +764,7 @@ public interface AccounterMessages extends Messages {
 
 	public String comboDefaultAddNew(String comboType);
 
-	public String command();
+	// public String command();
 
 	public String comment();
 
@@ -782,7 +782,7 @@ public interface AccounterMessages extends Messages {
 
 	public String companyCommentHtml();
 
-	public String companyDefaultTaxCode(String TAX);
+	// public String companyDefaultTaxCode(String TAX);
 
 	public String companyHome();
 
@@ -854,11 +854,11 @@ public interface AccounterMessages extends Messages {
 
 	public String country();
 
-	public String countryCode();
+	// public String countryCode();
 
-	public String countryListLabel();
+	// public String countryListLabel();
 
-	public String countryName();
+	// public String countryName();
 
 	public String countryRegion();
 
@@ -870,7 +870,7 @@ public interface AccounterMessages extends Messages {
 
 	public String create(String transactionName);
 
-	public String createanyadditionalbankaccounts();
+	// public String createanyadditionalbankaccounts();
 
 	public String createClass();
 
@@ -886,7 +886,7 @@ public interface AccounterMessages extends Messages {
 
 	public String credit();
 
-	public String creditAccount();
+	// public String creditAccount();
 
 	public String creditAmount();
 
@@ -904,9 +904,9 @@ public interface AccounterMessages extends Messages {
 
 	public String creditCardExpenses();
 
-	public String creditCardOrLineOfCredit();
+	// public String creditCardOrLineOfCredit();
 
-	public String creditCardProcessing();
+	// public String creditCardProcessing();
 
 	public String creditLimit();
 
@@ -4541,6 +4541,24 @@ public interface AccounterMessages extends Messages {
 	public String SeeAllCompanies();
 
 	public String budgetOverview();
+
+	public String admin();
+
+	public String customers();
+
+	public String vendors();
+
+	public String Customers();
+
+	public String Vendors();
+
+	public String budgets();
+
+	public String taxAgencies();
+
+	public String transactions();
+
+	public String openBalances();
 
 	public String getNoDifferentLegalName();
 

@@ -7,7 +7,9 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * A class which hold the tracking of the VAT to be paid to the VATAgency. It
@@ -201,7 +203,9 @@ public class PayTAXEntries implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 		
+		w.put(messages.type(), "Pay Tax Entries").gap().gap();
+		w.put(messages.amount(), this.amount);
 	}
 }

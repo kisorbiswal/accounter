@@ -5,7 +5,9 @@ import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -475,8 +477,17 @@ public class CashPurchase extends Transaction {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 
+		w.put(messages.type(), messages.cashPurchase()).gap();
+		w.put(messages.no(), this.number);
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+		w.put(messages.name(), this.vendor.name);
+		w.put(messages.currency(), this.currencyFactor).gap().gap();
+		w.put(messages.amount(), this.total).gap();
+		w.put(messages.address(), this.vendorAddress.address1+this.vendorAddress.stateOrProvinence);
+		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
+		
 	}
 
 }

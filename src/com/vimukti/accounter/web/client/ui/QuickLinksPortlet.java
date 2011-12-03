@@ -33,7 +33,7 @@ public class QuickLinksPortlet extends Portlet {
 				.getNewInvoiceAction().getHistoryToken());
 		quickLinksMap.put(messages.expenses(),
 				ActionFactory.getExpensesAction("").getHistoryToken());
-		quickLinksMap.put(messages.payees(Global.get().Customer()),
+		quickLinksMap.put(messages.payees(Global.get().Customers()),
 				ActionFactory.getCustomersAction().getHistoryToken());
 		quickLinksMap.put(messages.banking(), ActionFactory
 				.getBankingHomeAction().getHistoryToken());

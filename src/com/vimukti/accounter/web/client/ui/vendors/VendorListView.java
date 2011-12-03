@@ -192,6 +192,6 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.payees(Global.get().Vendor());
+		return messages.payees(Global.get().Vendors());
 	}
 }

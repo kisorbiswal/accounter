@@ -11,10 +11,12 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class Employee extends CreatableObject implements IAccounterServerCore,
 		INamedObject {
@@ -480,7 +482,14 @@ public class Employee extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+AccounterMessages messages = Global.get().messages();
+		
+		w.put(messages.type(), messages.employee()).gap().gap();
+		w.put(messages.address1(), this.address1).gap().gap();
+		w.put(messages.address2(), this.address2).gap().gap();
+		w.put(messages.city(), this.city).gap().gap();
+		w.put(messages.state(), this.state).gap().gap();
+		w.put(messages.postalCode(), this.postalCode).gap().gap();
 		
 	}
 

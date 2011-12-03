@@ -171,7 +171,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 		if (clientCustomer != null && clientCustomer1 != null) {
 			if (clientCustomer1.getID() == clientCustomer.getID()) {
 				result.addError(clientCustomer,
-						Accounter.messages().notMove(Global.get().customer()));
+						Accounter.messages().notMove(Global.get().customers()));
 				return result;
 			}
 		}

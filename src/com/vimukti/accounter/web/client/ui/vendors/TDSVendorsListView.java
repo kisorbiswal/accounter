@@ -159,7 +159,7 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 
 	@Override
 	protected String getViewTitle() {
-		return messages.payees(Global.get().Vendor());
+		return messages.payees(Global.get().Vendors());
 	}
 
 	private void filterListByDate() {

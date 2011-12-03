@@ -142,20 +142,20 @@ public class MISCInformationTemplate {
 		t.setVariable("i18_Company_Name", messages.companyName());
 		t.setVariable("i18_Id_Number", messages.idNumber());
 		t.setVariable("i18_1099_vendors_that_meet_threshold",
-				messages.venodrsThatMeetThreshold(Global.get().Vendor()));
+				messages.venodrsThatMeetThreshold(Global.get().vendors()));
 		t.setVariable("i18_Recipient_Information",
 				messages.receipientInformation());
 		t.setVariable("i18_Payer_Information", messages.payerInformation());
-		t.setVariable("i18_Box1", messages.box1());
-		t.setVariable("i18_Box2", messages.box2());
-		t.setVariable("i18_Box3", messages.box3());
-		t.setVariable("i18_Box4", messages.box4());
-		t.setVariable("i18_Box5", messages.box5());
-		t.setVariable("i18_Box6", messages.box6());
-		t.setVariable("i18_Box7", messages.box7());
-		t.setVariable("i18_Box8", messages.box8());
-		t.setVariable("i18_Box8", messages.box9());
-		t.setVariable("i18_Box10", messages.box10());
+		t.setVariable("i18_Box1", messages.boxNumber(1));
+		t.setVariable("i18_Box2", messages.boxNumber(2));
+		t.setVariable("i18_Box3", messages.boxNumber(3));
+		t.setVariable("i18_Box4", messages.boxNumber(4));
+		t.setVariable("i18_Box5", messages.boxNumber(5));
+		t.setVariable("i18_Box6", messages.boxNumber(6));
+		t.setVariable("i18_Box7", messages.boxNumber(7));
+		t.setVariable("i18_Box8", messages.boxNumber(8));
+		t.setVariable("i18_Box8", messages.boxNumber(9));
+		t.setVariable("i18_Box10", messages.boxNumber(10));
 		t.setVariable("i18_Summary_for_1099", messages.summaryFor1099());
 		t.setVariable("i18_Total_number_of_forms",
 				messages.totalNoOf1099Forms());

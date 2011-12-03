@@ -16,7 +16,7 @@ public class MergeCustomerAction extends Action{
 	public void run() {
 		
 		CustomerMergeDialog customerMergeDialog = new CustomerMergeDialog(
-				messages.mergeCustomers(Global.get().Customer()),
+				messages.mergeCustomers(Global.get().customers()),
 				messages.payeeMergeDescription(Global.get().customer()));
 
 		customerMergeDialog.show();		

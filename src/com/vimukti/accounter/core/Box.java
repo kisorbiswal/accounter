@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * This class an intermediate class which stores all the static values of the
@@ -126,7 +128,13 @@ public class Box implements IAccounterServerCore {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 		
+		w.put(messages.type(), messages.box()).gap();
+		w.put(messages.no(), this.boxNumber);
+		w.put(messages.name(), this.name).gap().gap();
+		w.put(messages.total(), this.amount);
+		
+		w.put(messages.details(), this.taxRateCalculations);
 	}
 }

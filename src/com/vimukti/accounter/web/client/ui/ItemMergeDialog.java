@@ -156,12 +156,12 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 		if (fromClientItem != null && toClientItem != null) {
 			if (fromClientItem.getID() == toClientItem.getID()) {
 				result.addError(fromClientItem,
-						Accounter.messages().notMove(messages.item()));
+						Accounter.messages().notMove(messages.items()));
 				return result;
 			}
 			if (fromClientItem.getID() == toClientItem.getID()) {
 				result.addError(fromClientItem,
-						Accounter.messages().notMove(messages.item()));
+						Accounter.messages().notMove(messages.items()));
 				return result;
 			}
 			result = form1.validate();

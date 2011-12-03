@@ -235,13 +235,13 @@ public class AccounterMenuBar extends HorizontalPanel {
 		reportMenuBar.addMenuItem(messages.companyAndFinancial(),
 				getCompanyAndFinancialMenu());
 		reportMenuBar.addMenuItem(
-				messages.customersAndReceivable(Global.get().Customer()),
+				messages.customersAndReceivable(Global.get().Customers()),
 				getCustomersAndReceivableMenu());
 
 		reportMenuBar.addMenuItem(messages.sales(), getSalesMenu());
 		reportMenuBar.addMenuItem(
 				Global.get().messages()
-						.vendorsAndPayables(Global.get().Vendor()),
+						.vendorsAndPayables(Global.get().Vendors()),
 				getVendorAndPayablesMenu());
 		reportMenuBar.addMenuItem(messages.purchase(), getPurchaseMenu());
 
@@ -744,10 +744,10 @@ public class AccounterMenuBar extends HorizontalPanel {
 		// getMergeCustomerCommand());
 		//
 		mergeAccountsMenuBar.addMenuItem(
-				messages.mergeCustomers(Global.get().Customer()),
+				messages.mergeCustomers(Global.get().customers()),
 				ActionFactory.getCustomerMergeAction());
 		mergeAccountsMenuBar.addMenuItem(
-				messages.mergeCustomers(Global.get().Vendor()),
+				messages.mergeCustomers(Global.get().vendors()),
 				ActionFactory.getVendorMergeAction());
 		mergeAccountsMenuBar.addMenuItem(messages.mergeAccounts(),
 				ActionFactory.getAccountMergeAction());

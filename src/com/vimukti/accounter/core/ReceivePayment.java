@@ -9,7 +9,9 @@ import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -635,7 +637,19 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 
+		w.put(messages.type(), messages.receivePayment()).gap();
+		w.put(messages.paymentNo(), this.number);
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+		w.put(messages.name(), this.customer.name);
+		w.put(messages.currency(), this.currencyFactor).gap().gap();
+		w.put(messages.amount(), this.total).gap().gap();
+		w.put(messages.openBalance(), this.customer.openingBalance).gap().gap();
+		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
+		w.put(messages.memo(), this.memo).gap().gap();
+		
+		w.put(messages.details(), this.transactionReceivePayment);
+		
 	}
 }

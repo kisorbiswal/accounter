@@ -145,7 +145,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().payees(Global.get().Customer());
+		return Accounter.messages().payees(Global.get().Customers());
 	}
 
 	@Override

@@ -346,7 +346,7 @@ public class MacMenuServlet extends BaseServlet {
 				iGlobal.messages().payeeTransactionHistory(iGlobal.Customer()),
 				"company/accounter#customerTransactionHistory");
 		menu(reportsValue,
-				iGlobal.messages().customersAndReceivable(iGlobal.Customer()),
+				iGlobal.messages().customersAndReceivable(iGlobal.Customers()),
 				receivablesValue);
 
 		StringBuilder salesValue = new StringBuilder();
@@ -393,7 +393,7 @@ public class MacMenuServlet extends BaseServlet {
 				iGlobal.messages().payeeTransactionHistory(iGlobal.Vendor()),
 				"company/accounter#vendorTransactionHistory");
 		menu(reportsValue,
-				iGlobal.messages().vendorsAndPayables(iGlobal.Vendor()),
+				iGlobal.messages().vendorsAndPayables(iGlobal.vendors()),
 				suppliersValue);
 
 		StringBuilder purchasesValue = new StringBuilder();
@@ -516,7 +516,7 @@ public class MacMenuServlet extends BaseServlet {
 	private void addVendorMenuItem() {
 
 		StringBuilder vendorValue = new StringBuilder();
-		menu(vendorValue, iGlobal.messages().payeesHome(iGlobal.Vendor()), "S",
+		menu(vendorValue, iGlobal.messages().payeesHome(iGlobal.vendors()), "S",
 				"company/accounter#vendorHome");
 		separator(vendorValue);
 
@@ -578,10 +578,10 @@ public class MacMenuServlet extends BaseServlet {
 		}
 
 		StringBuilder supplierValues = new StringBuilder();
-		subMenu(supplierValues, iGlobal.messages().payees(iGlobal.Vendor()),
+		subMenu(supplierValues, iGlobal.messages().payees(iGlobal.vendors()),
 				"company/accounter#VendorList");
 		if (canSeeInvoiceTransactions()) {
-			subMenu(supplierValues, iGlobal.messages().payees(iGlobal.Vendor())
+			subMenu(supplierValues, iGlobal.messages().payees(iGlobal.vendors())
 					+ " " + iGlobal.messages().items(),
 					"company/accounter#vendorItems");
 			if (preferences.isDoyouKeepTrackofBills()) {
@@ -602,7 +602,7 @@ public class MacMenuServlet extends BaseServlet {
 
 	private void addCustomerMenuItem() {
 		StringBuilder mainMenuValue = new StringBuilder();
-		menu(mainMenuValue, iGlobal.messages().payeesHome(iGlobal.Customer()),
+		menu(mainMenuValue, iGlobal.messages().payeesHome(iGlobal.customers()),
 				"company/accounter#customerHome");
 		separator(mainMenuValue);
 
@@ -662,10 +662,10 @@ public class MacMenuServlet extends BaseServlet {
 
 		StringBuilder customerListValue = new StringBuilder();
 		subMenu(customerListValue, iGlobal.messages()
-				.payees(iGlobal.Customer()), "company/accounter#customers");
+				.payees(iGlobal.customers()), "company/accounter#customers");
 		if (canSeeInvoiceTransactions()) {
 			subMenu(customerListValue,
-					iGlobal.messages().payees(iGlobal.Customer()) + " "
+					iGlobal.messages().payees(iGlobal.customers()) + " "
 							+ iGlobal.messages().items(),
 					"company/accounter#customerItems");
 			if (preferences.isDoyouwantEstimates()) {
@@ -820,10 +820,10 @@ public class MacMenuServlet extends BaseServlet {
 
 		StringBuilder mergeMenuList = new StringBuilder();
 		subMenu(mergeMenuList,
-				iGlobal.messages().mergeCustomers(iGlobal.Customer()),
+				iGlobal.messages().mergeCustomers(iGlobal.customers()),
 				"company/accounter#merge_customers");
 		subMenu(mergeMenuList, iGlobal.messages()
-				.mergeVendors(iGlobal.Vendor()),
+				.mergeVendors(iGlobal.vendors()),
 				"company/accounter#merge_vendor");
 		subMenu(mergeMenuList, iGlobal.messages().mergeAccounts(),
 				"company/accounter#merge_account");

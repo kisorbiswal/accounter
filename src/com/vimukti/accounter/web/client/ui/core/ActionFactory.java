@@ -409,7 +409,7 @@ public class ActionFactory {
 
 	public static MergeAccountsAction getMergeVendorsAction() {
 		return new MergeAccountsAction(messages.mergeVendors(Global.get()
-				.vendor()));
+				.vendors()));
 	}
 
 	public static MergeItemsAction getMergeItemsAction() {
@@ -611,7 +611,7 @@ public class ActionFactory {
 
 	public static CustomersHomeAction getCustomersHomeAction() {
 		return new CustomersHomeAction(messages.payeesHome(Global.get()
-				.Customer().trim()));
+				.Customers()));
 	}
 
 	public static NewQuoteAction getNewQuoteAction(int type, String title) {
@@ -693,7 +693,7 @@ public class ActionFactory {
 	}
 
 	public static CustomersAction getCustomersAction() {
-		return new CustomersAction(messages.payees(Global.get().Customer()));
+		return new CustomersAction(messages.payees(Global.get().Customers()));
 	}
 
 	public static ItemsAction getItemsAction(boolean customer, boolean vendor) {
@@ -816,12 +816,12 @@ public class ActionFactory {
 
 	public static VendorsListAction getVendorListAction() {
 		return new VendorsListAction(Global.get().messages()
-				.payeesList(Global.get().Vendor()));
+				.payeesList(Global.get().Vendors()));
 	}
 
 	public static TAXAgencyListAction getTAXAgencyListAction() {
 		return new TAXAgencyListAction(messages.payeesList(messages
-				.taxAgencie()));
+				.taxAgencies()));
 	}
 
 	public static BalanceSheetAction getBalanceSheetAction() {
@@ -870,7 +870,7 @@ public class ActionFactory {
 
 	public static MostProfitableCustomersAction getMostProfitableCustomersAction() {
 		return new MostProfitableCustomersAction(
-				messages.mostProfitableCustomers(Global.get().customer()));
+				messages.mostProfitableCustomers(Global.get().customers()));
 	}
 
 	public static SalesByCustomerSummaryAction getSalesByCustomerSummaryAction() {
@@ -1102,7 +1102,7 @@ public class ActionFactory {
 
 	public static VendorsHomeAction getVendorsHomeAction() {
 		return new VendorsHomeAction(Global.get().messages()
-				.payeesHome(Global.get().Vendor().trim()));
+				.payeesHome(Global.get().Vendors().trim()));
 	}
 
 	public static NewVendorAction getNewVendorAction() {
@@ -1189,7 +1189,7 @@ public class ActionFactory {
 
 	public static VendorsListAction getVendorsAction() {
 		return new VendorsListAction(Global.get().messages()
-				.payees(Global.get().Vendor()));
+				.payees(Global.get().Vendors()));
 	}
 
 	// public static Item getItemAction() {
@@ -1391,12 +1391,12 @@ public class ActionFactory {
 
 	public static MergeCustomerAction getCustomerMergeAction() {
 		return new MergeCustomerAction(messages.mergeCustomers(Global.get()
-				.Customer()));
+				.customers()));
 	}
 
 	public static MergeVendorAction getVendorMergeAction() {
 		return new MergeVendorAction(messages.mergeVendors(Global.get()
-				.Vendor()));
+				.vendors()));
 	}
 
 	public static MergeAccountsAction getAccountMergeAction() {
