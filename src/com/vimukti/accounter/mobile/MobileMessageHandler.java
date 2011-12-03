@@ -323,11 +323,17 @@ public class MobileMessageHandler extends Thread {
 			session.refreshLastMessage();
 			UserMessage lastMessage2 = session.getLastMessage();
 			if (lastMessage2 != null) {
-				return lastMessage2;
+				message = lastMessage2.getCommandString();
+			} else {
+				message = "Menu";
 			}
-			message = "Menu";
 			Result result = PatternStore.INSTANCE.find(message,
 					session.isAuthenticated(), company);
+			if (lastMessage2 != null) {
+				lastMessage2.setResult(result);
+				return lastMessage2;
+			}
+
 			if (result != null) {
 				result.setShowBack(session.getLastMessage() != null);
 				userMessage.setType(Type.HELP);
