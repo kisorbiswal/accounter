@@ -69,9 +69,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionReceivePayment record,
 			ICurrencyProvider currencyProvider) {
-		super(Accounter.messages().applyCreditsAndPaymentsFor(),
-		// + (customer != null ? customer.getName() : ""),
-				Accounter.messages().applyCreditsandPayments());
+		super(Accounter.messages().applyCreditsandPayments());
 		this.currencyProvider = currencyProvider;
 		this.customer = customer;
 		this.canEdit = canEdit;
@@ -88,9 +86,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionPayBill record,
 			ICurrencyProvider currencyProvider) {
-		super(Accounter.messages().applyCreditsAndPaymentsFor()
-				+ (venddor != null ? venddor.getName() : ""), Accounter
-				.messages().applyCreditsandPayments());
+		super(Accounter.messages().applyCreditsandPayments());
 		this.currencyProvider = currencyProvider;
 		this.vendor = venddor;
 		this.canEdit = canEdit;
@@ -109,7 +105,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			LinkedHashMap<String, List<ClientTransactionCreditsAndPayments>> creditsAndPaymentsMap,
 			IGenericCallback<String> callback,
 			ICurrencyProvider currencyProvider) {
-		super(Accounter.messages().applyCreditsAndPaymentsFor(), "");
+		super(Accounter.messages().applyCreditsandPayments(), "");
 		this.currencyProvider = currencyProvider;
 		this.key = key;
 		// this.creditsAndPaymentsMap = creditsAndPaymentsMap;
@@ -126,8 +122,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		for (ClientCreditsAndPayments crd : grid.getSelectedRecords()) {
 			totalCreditApplied += crd.getAmtTouse();
 		}
-		return totAmtUseText
-				.getAmount();
+		return totAmtUseText.getAmount();
 	}
 
 	public double getTotalUnuseCreditAmount() {
@@ -200,8 +195,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			grid.removeAllRecords();
 			grid.setRecords(creditsAndPayments);
 		} else {
-			grid.addEmptyMessage(Accounter.messages()
-					.therearenocreditstoshow());
+			grid.addEmptyMessage(Accounter.messages().therearenocreditstoshow());
 		}
 		for (ClientCreditsAndPayments cr : creditsAndPayments) {
 			int row = grid.indexOf(cr);
@@ -232,7 +226,8 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		mainPanel.setSpacing(5);
 
 		if (canEdit) {
-			amtDueText = new AmountField(messages.amountDue(), this,getBaseCurrency());
+			amtDueText = new AmountField(messages.amountDue(), this,
+					currencyProvider.getTransactionCurrency());
 			amtDueText.setColSpan(1);
 			if (transactionPaybill != null)
 				amtDueText
@@ -262,7 +257,8 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		if (canEdit)
 			form.setFields(amtDueText);
 
-		grid = new CreditsandPaymentsGrid(false, this, this.record);
+		grid = new CreditsandPaymentsGrid(false, this,
+				currencyProvider.getTransactionCurrency(), this.record);
 		grid.isEnable = false;
 		grid.init();
 		grid.setWidth("100%");
@@ -270,8 +266,8 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		grid.setCanEdit(canEdit);
 		grid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 
-		totAmtUseText = new AmountField(messages.totalAmountToUse(),
-				this,getBaseCurrency());
+		totAmtUseText = new AmountField(messages.totalAmountToUse(), this,
+				currencyProvider.getTransactionCurrency());
 		totAmtUseText.setColSpan(1);
 		totAmtUseText.setValue("");
 		totAmtUseText.setBlurHandler(new BlurHandler() {
@@ -390,8 +386,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		} else if (getTotalUnuseCreditAmount() > amountDue) {
 			totAmtUseText.setAmount(amountDue);
 		} else {
-			totAmtUseText
-					.setAmount(getTotalUnuseCreditAmount());
+			totAmtUseText.setAmount(getTotalUnuseCreditAmount());
 		}
 		double totalAmount = totAmtUseText.getAmount();
 		for (ClientCreditsAndPayments credit : updatedCreditsAndPayments) {

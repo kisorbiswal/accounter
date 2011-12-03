@@ -7,7 +7,9 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.ibm.icu.util.Currency;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
@@ -20,6 +22,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.core.IGenericCallback;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable;
@@ -74,6 +77,8 @@ public class CustomerCreditsAndPaymentsDialiog extends
 	public double totalCreditApplied = 0.0;
 	public double totalUnusedCreditAmount = 0.0;
 
+	private ClientCurrency currency;
+
 	public CustomerCreditsAndPaymentsDialiog(ClientCustomer customer,
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionReceivePayment record) {
@@ -84,6 +89,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 		this.canEdit = canEdit;
 		updatedCreditsAndPayments = updatedCustomerCreditsAndPayments;
 		this.record = record;
+		this.currency = getCurrency(customer.getCurrency());
 		createControls();
 		grid.initialCreditsAndPayments(updatedCustomerCreditsAndPayments);
 		addGridRecordsToListGrid(updatedCreditsAndPayments);
@@ -100,6 +106,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 		this.canEdit = canEdit;
 		updatedCreditsAndPayments = updatedCustomerCreditsAndPayments;
 		this.transactionPaybill = record;
+		this.currency = getCurrency(venddor.getCurrency());
 		createControls();
 		grid.initialCreditsAndPayments(updatedCustomerCreditsAndPayments);
 		addGridRecordsToListGrid(updatedCreditsAndPayments);
@@ -196,8 +203,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 			grid.removeAllRecords();
 			grid.setRecords(creditsAndPayments);
 		} else {
-			grid.addEmptyMessage(Accounter.messages()
-					.therearenocreditstoshow());
+			grid.addEmptyMessage(Accounter.messages().therearenocreditstoshow());
 		}
 		for (ClientCreditsAndPayments cr : creditsAndPayments) {
 			int row = grid.indexOf(cr);
@@ -230,7 +236,8 @@ public class CustomerCreditsAndPaymentsDialiog extends
 		mainPanel.setSpacing(5);
 
 		if (canEdit) {
-			amtDueText = new AmountField(messages.amountDue(), this,getBaseCurrency());
+			amtDueText = new AmountField(messages.amountDue(), this,
+					getBaseCurrency());
 			amtDueText.setColSpan(1);
 			if (transactionPaybill != null)
 				amtDueText.setValue(amountAsString(transactionPaybill
@@ -240,12 +247,13 @@ public class CustomerCreditsAndPaymentsDialiog extends
 			amtDueText.setDisabled(true);
 		}
 
-		totCredAmtText = new AmountField(messages.totalCreditMemo(),
-				this,getBaseCurrency());
+		totCredAmtText = new AmountField(messages.totalCreditMemo(), this,
+				getBaseCurrency());
 		totCredAmtText.setColSpan(1);
 		totCredAmtText.setDisabled(true);
 
-		cashDiscText = new AmountField(messages.cashDiscount(), this,getBaseCurrency());
+		cashDiscText = new AmountField(messages.cashDiscount(), this,
+				getBaseCurrency());
 		cashDiscText.setColSpan(1);
 		if (transactionPaybill != null)
 			cashDiscText.setValue(amountAsString(transactionPaybill
@@ -254,11 +262,13 @@ public class CustomerCreditsAndPaymentsDialiog extends
 			cashDiscText.setValue(amountAsString(record.getCashDiscount()));
 		cashDiscText.setDisabled(true);
 
-		totBalText = new AmountField(messages.totalBalance(), this,getBaseCurrency());
+		totBalText = new AmountField(messages.totalBalance(), this,
+				getBaseCurrency());
 		totBalText.setColSpan(1);
 		totBalText.setDisabled(true);
 
-		adjPayText = new AmountField(messages.adjustPayment(), this,getBaseCurrency());
+		adjPayText = new AmountField(messages.adjustPayment(), this,
+				getBaseCurrency());
 		adjPayText.setColSpan(1);
 		adjPayText.setDisabled(true);
 
@@ -280,8 +290,8 @@ public class CustomerCreditsAndPaymentsDialiog extends
 			else if (record != null)
 				adjPayText.setValue(amountAsString(record.getPayment()));
 		}
-		totAmtUseText = new AmountField(messages.totalAmountToUse(),
-				this,getBaseCurrency());
+		totAmtUseText = new AmountField(messages.totalAmountToUse(), this,
+				getBaseCurrency());
 		totAmtUseText.setColSpan(1);
 		totAmtUseText.setDisabled(true);
 		totAmtUseText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
@@ -296,7 +306,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 			form.setFields(totCredAmtText, cashDiscText, totBalText,
 					adjPayText, totAmtUseText);
 
-		grid = new CreditsandPaymentsGrid(true, this, this.record);
+		grid = new CreditsandPaymentsGrid(true, this, currency, this.record);
 		grid.isEnable = false;
 		grid.init();
 		grid.setWidth("100%");
