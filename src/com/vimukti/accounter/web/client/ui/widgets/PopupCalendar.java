@@ -183,7 +183,7 @@ public class PopupCalendar extends PopupPanel {
 
 			public void onClick(ClickEvent event) {
 				leave = false;
-				PopupCalendar.this.changeMonth(-12);
+				PopupCalendar.this.changeMonth(-1);
 			}
 		});
 		monthLine.setWidget(0, 0, previousYear);
@@ -244,7 +244,7 @@ public class PopupCalendar extends PopupPanel {
 		nextYear.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				leave = false;
-				PopupCalendar.this.changeMonth(12);
+				PopupCalendar.this.changeMonth(1);
 			}
 		});
 		monthLine.setWidget(0, 4, nextYear);

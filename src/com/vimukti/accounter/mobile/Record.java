@@ -45,7 +45,7 @@ public class Record extends ArrayList<Cell> {
 			if (cell.title.isEmpty()) {
 				builder.append(cell);
 			} else {
-				builder.append(cell.title).append(":\t").append(cell);
+				builder.append(cell.title).append("\t").append(cell);
 			}
 		} else {
 			for (Cell cell : this) {

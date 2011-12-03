@@ -195,7 +195,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 		list.add("Other current Asset");
 		list.add("Inventory Asset");
 		list.add("Other Asset");
-		list.add("Fixted Asset");
+		list.add("Fixed Asset");
 		list.add("Credit card");
 		list.add("Payroll Liability");
 		list.add("current Liability");
@@ -210,7 +210,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 		if (account.getID() == 0) {
 			return "Account is ready to created with following details.";
 		} else {
-			return "Account is ready to updated with following details.";
+			return "Account is ready to update with following details.";
 		}
 	}
 

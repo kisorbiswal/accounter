@@ -79,7 +79,6 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 
 			}
 		});
-
 		/*
 		 * list.add(new CurrencyRequirement(CURRENCY,
 		 * getMessages().pleaseSelect( getConstants().currency()),
@@ -267,7 +266,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 	protected void setDefaultValues(Context context) {
 		get(VAT_RETURN_END_DATE).setDefaultValue(new ClientFinanceDate());
 		get(DATE).setDefaultValue(new ClientFinanceDate());
-		get(NUMBER).setDefaultValue(
+		get(ORDER_NO).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_PAY_TAX, context.getCompany()));
 		/*

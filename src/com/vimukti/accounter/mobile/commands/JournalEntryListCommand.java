@@ -53,7 +53,7 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(ClientJournalEntry value) {
-				return "update journalentry " + value.getNumber();
+				return "Update Journal Entry " + value.getNumber();
 			}
 
 			@Override
@@ -81,7 +81,7 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create JournalEntry");
+				list.add("Create Journal Entry");
 			}
 
 			@Override

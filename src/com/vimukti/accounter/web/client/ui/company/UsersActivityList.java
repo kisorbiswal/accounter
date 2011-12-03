@@ -183,8 +183,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 					@Override
 					public void update(int index, final ClientActivity object,
 							String value) {
-						ActionFactory.getAuditHistory(object.getObjType(),
-								object.getObjectID()).run();
+
 					}
 				});
 
@@ -205,8 +204,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 					@Override
 					public void update(int index, ClientActivity object,
 							ImageResource value) {
-						ActionFactory.getAuditHistory(object.getObjType(),
-								object.getObjectID()).run();
+
 					}
 				});
 
@@ -226,10 +224,13 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 					@Override
 					public void update(int index, ClientActivity object,
 							String value) {
-						ActionFactory.getAuditHistory(object.getObjType(),
-								object.getObjectID()).run();
-					}
+						if (object.getObjectID() != 0) {
 
+							ActionFactory.getAuditHistory(object.getObjType(),
+									object.getObjectID(), object.getDataType())
+									.run();
+						}
+					}
 				});
 
 		this.addColumn(dateColumn, messages.modifiedTime());

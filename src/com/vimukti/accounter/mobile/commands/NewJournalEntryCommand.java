@@ -361,12 +361,16 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getMessages().journalEntry());
+		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getMessages().journalEntry());
+		if (entry.getID() == 0) {
+			return getMessages().readyToCreate(getMessages().journalEntry());
+		} else {
+			return getMessages().readyToUpdate(getMessages().journalEntry());
+		}
 	}
 
 	@Override
@@ -375,6 +379,12 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getMessages().journalEntry());
+		if (entry.getID() == 0) {
+			return getMessages().createSuccessfully(
+					getMessages().journalEntry());
+		} else {
+			return getMessages().updateSuccessfully(
+					getMessages().journalEntry());
+		}
 	}
 }

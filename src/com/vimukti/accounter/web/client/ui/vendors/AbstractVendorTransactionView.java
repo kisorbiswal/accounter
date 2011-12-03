@@ -77,8 +77,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected AddressCombo billToCombo;
 	protected PayFromAccountsCombo payFromCombo;
 	protected AmountLabel netAmount, transactionTotalNonEditableText,
-			vatTotalNonEditableText, paymentsNonEditableText,
-			salesTaxTextNonEditable;
+			transactionTotalinForeignCurrency, vatTotalNonEditableText,
+			paymentsNonEditableText, salesTaxTextNonEditable;
 
 	protected AmountLabel balanceDueNonEditableText;// protected
 
