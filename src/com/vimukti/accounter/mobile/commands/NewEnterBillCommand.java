@@ -454,7 +454,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		if (enterBill.getTransactionItems() != null
 				&& !enterBill.getTransactionItems().isEmpty()) {
 			for (ClientTransactionItem item : enterBill.getTransactionItems()) {
-				if (item.getType() == ClientAccount.ACCOUNT) {
+				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
 					accountsList.add(item);
 				} else {
 					itemsList.add(item);
