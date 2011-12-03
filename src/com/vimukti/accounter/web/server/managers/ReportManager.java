@@ -2817,7 +2817,9 @@ public class ReportManager extends Manager {
 									: new ClientFinanceDate((Long) object[2]));
 					statementsList.setTransactionId((Long) object[3]);
 					statementsList.setTotal((Double) object[4]);
-					statementsList.setBalance((Double) object[5]);
+					statementsList.setBalance((Double) object[5]);					
+					statementsList.setCurrency((Long)object[7]);
+					statementsList.setCurrencyFactor((Long)object[8]);
 					queryResult.add(statementsList);
 				}
 				return new ArrayList<PayeeStatementsList>(queryResult);
