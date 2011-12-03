@@ -1338,7 +1338,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		creditLimitText.setDisabled(isInViewMode());
 		// priceLevelSelect.setDisabled(isInViewMode());
 		creditRatingSelect.setDisabled(isInViewMode());
-		currencyCombo.setDisabled(true);
+		currencyCombo.setDisabled(!isInViewMode(),isInViewMode());
 		// if (!selectCurrency.equals(getCompany().getPreferences()
 		// .getPrimaryCurrency())) {
 		// currencyCombo.disabledFactorField(false);
