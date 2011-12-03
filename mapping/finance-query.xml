@@ -512,25 +512,30 @@
 		SELECT
 		T.CURRENCY AS CURRENCY_ID,
 		T.ID AS TRANSACTION_ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
 		T.T_DATE AS
 		TRANSACTION_DATE,
-		T.NUMBER TRANSACTION_NUMBER,
+		T.NUMBER
+		TRANSACTION_NUMBER,
 		P.NAME AS
 		CUSTOMER_NAME,
-		T.NET_AMOUNT AS TRANSACTION_NET_AMOUNT,
+		T.NET_AMOUNT AS
+		TRANSACTION_NET_AMOUNT,
 		CASE
 		WHEN T.T_TYPE = 8
 		THEN
 		I.DUE_DATE
 		ELSE
 		null
-		END AS DUE_DATE,
+		END
+		AS DUE_DATE,
 		T.TOTAL AS TOTAL_PRICE,
 		CASE
 		WHEN
 		T.T_TYPE = 8
-		THEN I.BALANCE_DUE
+		THEN
+		I.BALANCE_DUE
 		ELSE
 		null
 		END AS BALANCE,
@@ -554,14 +559,16 @@
 		T.ID = CCM.ID
 		LEFT OUTER JOIN
 		CUSTOMER C
-		ON C.ID
+		ON
+		C.ID
 		=
 		I.CUSTOMER_ID
 		OR
 		C.ID = CS.CUSTOMER_ID
 		OR C.ID =
 		CCM.CUSTOMER_ID
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		PAYEE P
 		ON
 		P.ID = C.ID
@@ -1836,7 +1843,8 @@
 		SELECT
 		T.CURRENCY AS CURRENCY_ID,
 		T.ID TRANSACTION_ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
 		T.T_DATE AS
 		DATE ,
 		T.NUMBER AS TRANSACTION_NUMBER,
@@ -1903,7 +1911,8 @@
 		LEFT OUTER JOIN
 		PAYEE P
 		on P.ID = C.ID
-		where T.T_TYPE in(1,4,8,15) AND T.COMPANY_ID=:companyId
+		where T.T_TYPE in(1,4,8,15)
+		AND T.COMPANY_ID=:companyId
 		ORDER BY T.ID DESC LIMIT 10
 	</sql-query>
 
@@ -3914,7 +3923,8 @@
 
 		case
 		when T.T_TYPE =
-		4 OR T_TYPE = 14
+		4 OR
+		T_TYPE = 14
 		then
 		-1*TI.LINE_TOTAL*T.CURRENCY_FACTOR
 		else
@@ -3947,7 +3957,7 @@
 		IT.PURCHASE_DESCRIPTION,
 		T.IS_VOID as VOID,
 		T.REFERENCE as REFERENCE,
-		T.CURRENCY_FACTOR as CURRENCY_FACTOR 
+		T.CURRENCY_FACTOR as CURRENCY_FACTOR
 		from
 		TRANSACTION T
 		left outer join
@@ -3956,7 +3966,8 @@
 		left outer
 		join
 		CUSTOMER_CREDIT_MEMO CCM
-		on T.ID=CCM.ID
+		on
+		T.ID=CCM.ID
 		left outer join
 		INVOICE I
 		on
@@ -3967,7 +3978,8 @@
 		T.ID=CP.ID
 		left outer join
 		VENDOR_CREDIT_MEMO VCM
-		on T.ID=VCM.ID
+		on
+		T.ID=VCM.ID
 		left
 		outer join
 		ENTER_BILL EB
@@ -3987,15 +3999,18 @@
 		outer join
 		VENDOR V
 		on
-		V.ID = CP.VENDOR_ID or V.ID = VCM.VENDOR_ID or
+		V.ID = CP.VENDOR_ID or V.ID =
+		VCM.VENDOR_ID or
 		V.ID = EB.VENDOR_ID
 		left
 		outer join
 		PAYEE P
-		on P.ID = C.ID OR P.ID = V.ID
+		on P.ID = C.ID
+		OR P.ID = V.ID
 		left outer join
 		PAYMENTTERMS PT
-		on PT.ID = EB.PAYMENT_TERM_ID or PT.ID =
+		on PT.ID =
+		EB.PAYMENT_TERM_ID or PT.ID =
 		I.PAYMENT_TERMS_ID
 		left outer join
 		CUSTOMER_GROUP CG
@@ -4007,7 +4022,8 @@
 		V.VENDOR_GROUP_ID
 		left outer join
 		ITEM IT
-		on IT.ID = TI.ITEM_ID
+		on
+		IT.ID = TI.ITEM_ID
 		left outer
 		join
 		ITEMGROUP IG
@@ -4016,7 +4032,8 @@
 		ACCOUNT A
 		on
 		A.ID = TI.ACCOUNT_ID
-		where T.IS_VOID=false and (TI.ITEM_ID is not null
+		where T.IS_VOID=false
+		and (TI.ITEM_ID is not null
 		or TI.ACCOUNT_ID is
 		not null) order by T.ID
 
@@ -4084,7 +4101,8 @@
 		then
 		T.TOTAL * T.CURRENCY_FACTOR
 		when T.T_TYPE = 4 or T.T_TYPE =
-		14 or
+		14
+		or
 		T.T_TYPE = 29
 		then
 		-1*T.TOTAL * T.CURRENCY_FACTOR
@@ -4095,7 +4113,8 @@
 		TMD.TYPE = 3
 		then
 		-1*TMD.AMOUNT * T.CURRENCY_FACTOR
-		when TMD.TYPE = 2
+		when
+		TMD.TYPE = 2
 		then
 		TMD.AMOUNT * T.CURRENCY_FACTOR
 		else
@@ -4118,7 +4137,8 @@
 		0.0
 		end
 
-		when T.T_TYPE = 16
+		when
+		T.T_TYPE = 16
 		then
 		case
 		when
@@ -4136,10 +4156,12 @@
 		when
 		T.T_TYPE = 1
 		or T.T_TYPE = 3
-		or T.T_TYPE = 2 or T.T_TYPE = 26 or
+		or
+		T.T_TYPE = 2 or T.T_TYPE = 26 or
 		T.T_TYPE = 27
 		then
-		T.TOTAL * T.CURRENCY_FACTOR
+		T.TOTAL *
+		T.CURRENCY_FACTOR
 		when
 		T.T_TYPE = 5 or
 		T.T_TYPE = 15 or T.T_TYPE =
@@ -4156,12 +4178,14 @@
 		T.T_TYPE
 		= 1 or T.T_TYPE =
 		3 or T.T_TYPE = 5
-		or T.T_TYPE = 8 or
+		or
+		T.T_TYPE = 8 or
 		T.T_TYPE =
 		2 or
 		T.T_TYPE = 14 or
 		T.T_TYPE = 15 or
-		T.T_TYPE = 27
+		T.T_TYPE
+		= 27
 		then
 		T.TOTAL
 		when
@@ -4227,7 +4251,8 @@
 		T.T_TYPE = 29
 		then
 		T.TOTAL * T.CURRENCY_FACTOR
-		when T.T_TYPE = 12
+		when
+		T.T_TYPE = 12
 		then
 		(RP.AMOUNT +
 		RP.TOTAL_CASH_DISCOUNT +
@@ -4236,7 +4261,8 @@
 		16
 		then
 		case
-		when P.TYPE = 2
+		when
+		P.TYPE = 2
 		then
 		-1*T.TOTAL * T.CURRENCY_FACTOR
 		else
@@ -4251,12 +4277,14 @@
 		when
 		T.T_TYPE = 12
 		then
-		RP.TOTAL_CASH_DISCOUNT * T.CURRENCY_FACTOR
+		RP.TOTAL_CASH_DISCOUNT *
+		T.CURRENCY_FACTOR
 		when T.T_TYPE =
 		11
 		then
 		(select
-		sum(TPB.CASH_DISCOUNT* T.CURRENCY_FACTOR) from
+		sum(TPB.CASH_DISCOUNT*
+		T.CURRENCY_FACTOR) from
 		TRANSACTION_PAYBILL TPB where
 		TPB.TRANSACTION_ID = T.ID)
 		else
@@ -4289,7 +4317,8 @@
 		case
 		when T.T_TYPE = 12
 		then
-		RP.TOTAL_WRITE_OFF * T.CURRENCY_FACTOR
+		RP.TOTAL_WRITE_OFF *
+		T.CURRENCY_FACTOR
 		else
 		0.0
 		end as
@@ -6270,9 +6299,12 @@
 		END AS
 		BALANCE,
 
-		T.ID AS TRANSACTION_ID FROM TRANSACTION T
+		T.ID AS TRANSACTION_ID, T.CURRENCY as
+		CURRENCY, T.CURRENCY_FACTOR
+		as CURRENCY_FACTOR FROM TRANSACTION T
 
-		LEFT OUTER
+		LEFT
+		OUTER
 		JOIN
 		ENTER_BILL
 		E ON
@@ -6299,7 +6331,8 @@
 		T.ID
 		LEFT
 		OUTER
-		JOIN EXPENSE EX ON EX.ID =
+		JOIN
+		EXPENSE EX ON EX.ID =
 		T.ID
 		<!-- LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID -->
 
