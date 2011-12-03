@@ -49,9 +49,11 @@ import com.vimukti.accounter.web.client.ui.reports.MISC1099TransactionDetailActi
 
 public class Prepare1099MISCView extends AbstractBaseView {
 	private String[] boxes;
-	private int[] boxNums = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14 };
+	private final int[] boxNums = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+			13, 14 };
 	private int totalNoOf1099Forms;
 	private double totalAll1099Payments;
+	int vendorComboSelected;
 	private ListDataProvider<Client1099Form> listDataProvider;
 
 	private DisclosurePanel disclosurePanel;
@@ -223,11 +225,11 @@ public class Prepare1099MISCView extends AbstractBaseView {
 				});
 
 		cellTable.addColumn(checkBoxColumn, messages.select());
-		cellTable.addColumn(informationColumn, messages.payeeInformation(Global
-				.get().Vendor()));
+		cellTable.addColumn(informationColumn,
+				messages.payeeInformation(Global.get().Vendor()));
 		addBoxColumnsToCellTable(cellTable);
-		cellTable.addColumn(total1099PaymentsColumn, messages
-				.total1099Payments());
+		cellTable.addColumn(total1099PaymentsColumn,
+				messages.total1099Payments());
 		cellTable
 				.addColumn(totalAllPaymentsColumn, messages.totalAllPayments());
 
@@ -260,19 +262,18 @@ public class Prepare1099MISCView extends AbstractBaseView {
 						return box != 0 ? "" + box : "";
 					}
 				};
-				boxCell
-						.setFieldUpdater(new FieldUpdater<Client1099Form, String>() {
+				boxCell.setFieldUpdater(new FieldUpdater<Client1099Form, String>() {
 
-							@Override
-							public void update(int index,
-									Client1099Form object, String value) {
-								MISC1099TransactionDetailAction action = ActionFactory
-										.getMisc1099TransactionDetailAction();
-								action.setBoxNo(boxNum);
-								action.setVendorId(object.getVendor().getID());
-								action.run();
-							}
-						});
+					@Override
+					public void update(int index, Client1099Form object,
+							String value) {
+						MISC1099TransactionDetailAction action = ActionFactory
+								.getMisc1099TransactionDetailAction();
+						action.setBoxNo(boxNum);
+						action.setVendorId(object.getVendor().getID());
+						action.run();
+					}
+				});
 				cellTable.addColumn(boxCell, boxes[i]);
 			}
 		}
@@ -280,8 +281,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	private DisclosurePanel getSetupPanel() {
 
-		disclosurePanel = new DisclosurePanel(messages
-				.setupVendorsAndAccounts(Global.get().Vendor()));
+		disclosurePanel = new DisclosurePanel(
+				messages.setupVendorsAndAccounts(Global.get().Vendor()));
 		disclosurePanel.setOpen(true);
 
 		setVendorsPanel = new HorizontalPanel();
@@ -293,16 +294,15 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		addAccount = new Label(getSelectedAccountsNum() + " "
 				+ messages.accountsSelected());
 
-		changeVendorHtml = new HTML(messages
-				.changePayees(Global.get().Vendor()));
+		changeVendorHtml = new HTML(
+				messages.changePayees(Global.get().Vendor()));
 		changeVendorHtml.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				final SelectItemsTo1099Dialog<ClientVendor> selectVendorsTo1099Dialog = new SelectItemsTo1099Dialog<ClientVendor>(
 						messages.vendorsSelected(Global.get().Vendor()),
-						messages
-								.SelectVendorsToTrack1099(Global.get().Vendor()));
+						messages.SelectVendorsToTrack1099(Global.get().Vendor()));
 				ArrayList<ClientVendor> vendors = getCompany().getVendors();
 				ArrayList<ClientVendor> tempSelectedItemsList = new ArrayList<ClientVendor>();
 
@@ -341,8 +341,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			}
 		});
 
-		changeAccountsHtml = new HTML(messages
-				.changePayees(messages.Accounts()));
+		changeAccountsHtml = new HTML(
+				messages.changePayees(messages.Accounts()));
 		changeAccountsHtml.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -644,8 +644,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			public void onClick(ClickEvent event) {
 				if (listDataProvider.getList().size() > 0) {
 					int type = 0;
-					UIUtils.downloadMISCForm(1, type, 1, 1, horizontalValue,
-							verticalValue);
+					UIUtils.downloadMISCForm(selected, type, 1, 1,
+							horizontalValue, verticalValue);
 				}
 			}
 		});
