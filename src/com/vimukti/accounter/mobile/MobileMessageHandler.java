@@ -330,7 +330,7 @@ public class MobileMessageHandler extends Thread {
 			Result result = PatternStore.INSTANCE.find(message,
 					session.isAuthenticated(), company);
 			if (lastMessage2 != null) {
-				Result lastResult2 = lastMessage2.getLastResult();
+				Result lastResult2 = lastMessage2.getResult();
 				result.setShowBack(lastResult2 != null ? lastResult2
 						.isShowBack() : false);
 				lastMessage2.setResult(result);
