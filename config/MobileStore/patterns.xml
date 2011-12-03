@@ -235,7 +235,7 @@
 			<command if="manageBills" title="Pay Bill" />
 			<command title="New Credit Card Charge" />
 			<command title="Deposit and Transfer Funds" />
-			<command title="Reconciliations History " />
+			<!-- <command title="Reconciliations History " /> -->
 			<command title="Banking Overview" />
 		</outputs>
 	</pattern>

@@ -841,11 +841,8 @@
 		<alias>Add Class</alias>
 	</command>
 
-	<command
-		clazz="com.vimukti.accounter.mobile.commands.BankAccountReconcilationHistoryCommand"
-		name="ReconcilationHistory">
-		<alias>Reconcilation History</alias>
-	</command>
+	<!-- <command clazz="com.vimukti.accounter.mobile.commands.BankAccountReconcilationHistoryCommand" 
+		name="ReconcilationHistory"> <alias>Reconcilation History</alias> </command> -->
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.NewVendorPrepaymentCommand"
