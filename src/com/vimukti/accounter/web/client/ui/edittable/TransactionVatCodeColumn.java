@@ -8,9 +8,9 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class TransactionVatCodeColumn extends
 		ComboColumn<ClientTransactionItem, ClientTAXCode> {
-	private AbstractDropDownTable<ClientTAXCode> taxCodeTable = new TaxCodeTable(
+	private final AbstractDropDownTable<ClientTAXCode> taxCodeTable = new TaxCodeTable(
 			getTaxCodeFilter(), isSales());
-	private ClientCompany company;
+	private final ClientCompany company;
 
 	public TransactionVatCodeColumn() {
 		company = Accounter.getCompany();
@@ -43,8 +43,8 @@ public abstract class TransactionVatCodeColumn extends
 
 	@Override
 	protected void setValue(ClientTransactionItem row, ClientTAXCode newValue) {
-	if(newValue != null)
-		row.setTaxCode(newValue.getID());
+		if (newValue != null)
+			row.setTaxCode(newValue.getID());
 		getTable().update(row);
 	}
 }
