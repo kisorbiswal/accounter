@@ -4600,6 +4600,28 @@ public interface AccounterMessages extends Messages {
 
 	public String thereAreNoTransactionItemsToSave();
 
+	public String fixedNumberOfDays();
+
+	public String netDueIn();
+
+	public String discountPercentageIs();
+
+	public String discountIfPaidWithin();
+
+	public String dateDriven();
+
+	public String netDueBefore();
+
+	public String discountIfPaidBefore();
+
+	public String trackingDiscounts();
+
+	public String discounts();
+
+	public String selectDiscountDesc();
+
+	public String selectDiscountAccountDesc();
+
 	public String W_101();
 
 	public String W_102();
