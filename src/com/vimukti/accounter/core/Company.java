@@ -703,8 +703,6 @@ public class Company implements IAccounterServerCore {
 		this.nonInventoryItemDefaultExpenseAccount = nonInventoryItemDefaultExpenseAccount;
 	}
 
-
-
 	public void setUkServiceItemDefaultIncomeAccount(
 			String ukServiceItemDefaultIncomeAccount) {
 		this.ukServiceItemDefaultIncomeAccount = ukServiceItemDefaultIncomeAccount;
@@ -847,7 +845,7 @@ public class Company implements IAccounterServerCore {
 
 		cmp.currencies = this.getCurrencies();
 
-		cmp.warehouses = this.getWarehouse();
+		cmp.setWarehouses(this.getWarehouse());
 
 		cmp.measurements = this.getMeasurements();
 
@@ -859,7 +857,7 @@ public class Company implements IAccounterServerCore {
 	}
 
 	private Set<Warehouse> getWarehouse() {
-		return warehouses;
+		return getWarehouses();
 	}
 
 	public Set<BrandingTheme> getBrandingTheme() {
@@ -1377,7 +1375,7 @@ public class Company implements IAccounterServerCore {
 		delete(taxItemGroups, session);
 		delete(activities, session);
 		delete(reconciliations, session);
-		delete(warehouses, session);
+		delete(getWarehouses(), session);
 		delete(measurements, session);
 		delete(usersList, session);
 		delete(currencies, session);
@@ -1466,7 +1464,15 @@ public class Company implements IAccounterServerCore {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public Set<Warehouse> getWarehouses() {
+		return warehouses;
+	}
+
+	public void setWarehouses(Set<Warehouse> warehouses) {
+		this.warehouses = warehouses;
 	}
 
 }
