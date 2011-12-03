@@ -653,6 +653,7 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.NewMakeDepositCommand"
 		name="New MakeDeposit">
 		<alias>Make Deposit</alias>
+		<alias>Update Make Deposit</alias>
 		<alias>Add Make Deposit</alias>
 		<alias>New Transfer Funds</alias>
 		<alias>Add Transfer Funds</alias>
