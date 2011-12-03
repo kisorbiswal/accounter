@@ -1007,8 +1007,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				&& getPreferences().isClassOnePerTransaction()
 				&& getPreferences().isWarnOnEmptyClass()
 				&& this.transaction.getAccounterClass() == null) {
-			result.addWarning(classListCombo, AccounterWarningType
-					.getWarning(AccounterWarningType.EMPTY_CLASS));
+			result.addWarning(classListCombo, messages.W_105());
 		}
 		if (!(this instanceof NewVendorPaymentView
 				|| this instanceof CustomerPrePaymentView

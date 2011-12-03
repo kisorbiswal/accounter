@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
@@ -178,8 +177,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 	protected void helpClick() {
 
-		Accounter.showInformation(AccounterWarningType
-				.getWarning(AccounterWarningType.NOT_YET_IMPLEMENTED));
+		Accounter.showInformation(messages.W_111());
 
 	}
 

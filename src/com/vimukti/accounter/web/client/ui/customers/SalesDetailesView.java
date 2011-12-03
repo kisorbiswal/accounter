@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractView;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 
 /**
  * 
@@ -222,8 +221,7 @@ public class SalesDetailesView extends AbstractView {
 	 */
 	public void refreshView() {
 		itemsGrid.clear();
-		itemsGrid.addEmptyMessage(AccounterWarningType
-				.getWarning(AccounterWarningType.RECORDSEMPTY));
+		itemsGrid.addEmptyMessage(messages.noRecordsToShow());
 		orderNumberField.setText("");
 		customerNumberField.setText("");
 		dueDateField.setText("");

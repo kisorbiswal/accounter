@@ -196,8 +196,7 @@ public class CustomerRefundView extends
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				Double givenAmount = amtText
-						.getAmount();
+				Double givenAmount = amtText.getAmount();
 				if (DecimalUtil.isLessThan(givenAmount, 0)) {
 					addError(amtText, Accounter.messages().noNegativeAmounts());
 					setRefundAmount(0.00D);
@@ -387,7 +386,7 @@ public class CustomerRefundView extends
 
 		transaction.setType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 
-		transaction.setTotal(amtText.getAmount() );
+		transaction.setTotal(amtText.getAmount());
 
 		transaction.setBalanceDue(amtText.getAmount());
 		if (currency != null)
@@ -469,8 +468,7 @@ public class CustomerRefundView extends
 			this.setCustomer(getCompany().getCustomer(transaction.getPayTo()));
 			customerSelected(getCompany().getCustomer(transaction.getPayTo()));
 
-			amtText.setAmount(transaction
-					.getTotal());
+			amtText.setAmount(transaction.getTotal());
 			paymentMethodSelected(transaction.getPaymentMethod());
 			if (transaction.getPaymentMethod().equals(messages.check())) {
 				printCheck.setDisabled(isInViewMode());
@@ -558,12 +556,8 @@ public class CustomerRefundView extends
 					.valueCannotBe0orlessthan0(Accounter.messages().amount()));
 		}
 		if (!AccounterValidator.isValidCustomerRefundAmount(
-				amtText.getAmount(),
-				payFromSelect.getSelectedValue())) {
-			result.addWarning(
-					amtText,
-					AccounterWarningType
-							.getWarning(AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT));
+				amtText.getAmount(), payFromSelect.getSelectedValue())) {
+			result.addWarning(amtText, messages.W_109());
 		}
 		ClientAccount bankAccount = payFromSelect.getSelectedValue();
 		// check if the currency of accounts is valid or not

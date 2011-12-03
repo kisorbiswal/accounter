@@ -227,8 +227,7 @@ public class ViewManager extends HorizontalPanel {
 	 * @param command
 	 */
 	private void tryToClose(final IEditableView editView, final Command command) {
-		Accounter.showWarning(AccounterWarningType
-				.getWarning(AccounterWarningType.saveOrClose),
+		Accounter.showWarning(Accounter.messages().W_106(),
 				AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
 					@Override

@@ -31,7 +31,6 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -349,8 +348,7 @@ public class ReceiveVATView extends
 				.getReturnsDueOnOrBefore()));
 		transactionDateItem.setEnteredDate(transaction.getDate());
 		transNumber.setValue(transaction.getNumber());
-		endingBalanceText.setAmount(transaction
-				.getEndingBalance());
+		endingBalanceText.setAmount(transaction.getEndingBalance());
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 		amountText
 				.setValue(DataUtils.getAmountAsString(transaction.getTotal()));
@@ -585,9 +583,8 @@ public class ReceiveVATView extends
 			// if (selectedDepositInAccount.isIncrease())
 			toBeSetEndingBalance = selectedDepositInAccount.getTotalBalance()
 
-					+ DataUtils.getBalance(
-							amountText.getAmount()
-									.toString()).doubleValue();
+					+ DataUtils.getBalance(amountText.getAmount().toString())
+							.doubleValue();
 
 			// else
 			// toBeSetEndingBalance = selectedDepositInAccount
@@ -596,8 +593,7 @@ public class ReceiveVATView extends
 			// - DataUtils.getBalance(
 			// getAmountInBaseCurrency(amountText.getAmount())
 			// .toString()).doubleValue();
-			endingBalanceText
-					.setAmount(toBeSetEndingBalance);
+			endingBalanceText.setAmount(toBeSetEndingBalance);
 		}
 		// }
 
@@ -627,9 +623,8 @@ public class ReceiveVATView extends
 	public void onEdit() {
 
 		if (!transaction.isVoid()) {
-			Accounter.showWarning(AccounterWarningType
-					.getWarning(AccounterWarningType.TAXREFUND_EDITING),
-					AccounterType.WARNING, new ErrorDialogHandler() {
+			Accounter.showWarning(messages.W_116(), AccounterType.WARNING,
+					new ErrorDialogHandler() {
 
 						@Override
 						public boolean onYesClick() {

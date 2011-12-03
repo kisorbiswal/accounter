@@ -271,8 +271,7 @@ public class AccounterValidator {
 
 	public static void saveOrClose(final AbstractBaseView<?> view,
 			final ViewManager viewManager) {
-		Accounter.showWarning(AccounterWarningType
-				.getWarning(AccounterWarningType.saveOrClose),
+		Accounter.showWarning(messages.W_106(),
 				AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
 					@Override
@@ -303,33 +302,29 @@ public class AccounterValidator {
 		company = getCompany();
 		if (defaultIncomeAccount != null)
 			if (!(defaultIncomeAccount.equals(selectItem))) {
-				Accounter
-						.showWarning(
-								AccounterWarningType
-										.getWarning(AccounterWarningType.default_IncomeAccount),
-								AccounterType.WARNING,
-								new ErrorDialogHandler() {
+				Accounter.showWarning(messages.W_101(), AccounterType.WARNING,
+						new ErrorDialogHandler() {
 
-									@Override
-									public boolean onCancelClick() {
+							@Override
+							public boolean onCancelClick() {
 
-										return false;
-									}
+								return false;
+							}
 
-									@Override
-									public boolean onNoClick() {
+							@Override
+							public boolean onNoClick() {
 
-										return true;
-									}
+								return true;
+							}
 
-									@Override
-									public boolean onYesClick() {
-										company.setServiceItemDefaultIncomeAccount(selectItem
-												.getName());
-										return true;
-									}
+							@Override
+							public boolean onYesClick() {
+								company.setServiceItemDefaultIncomeAccount(selectItem
+										.getName());
+								return true;
+							}
 
-								});
+						});
 			}
 
 	}
@@ -342,32 +337,29 @@ public class AccounterValidator {
 			final ClientAccount selectItem, ClientAccount defaultIncomeAccount) {
 		company = getCompany();
 		if (!(defaultIncomeAccount.equals(selectItem))) {
-			Accounter
-					.showWarning(
-							AccounterWarningType
-									.getWarning(AccounterWarningType.default_IncomeAccountNonInventory),
-							AccounterType.WARNING, new ErrorDialogHandler() {
+			Accounter.showWarning(messages.W_103(), AccounterType.WARNING,
+					new ErrorDialogHandler() {
 
-								@Override
-								public boolean onCancelClick() {
+						@Override
+						public boolean onCancelClick() {
 
-									return false;
-								}
+							return false;
+						}
 
-								@Override
-								public boolean onNoClick() {
+						@Override
+						public boolean onNoClick() {
 
-									return true;
-								}
+							return true;
+						}
 
-								@Override
-								public boolean onYesClick() {
-									company.setNonInventoryItemDefaultIncomeAccount(selectItem
-											.getName());
-									return true;
-								}
+						@Override
+						public boolean onYesClick() {
+							company.setNonInventoryItemDefaultIncomeAccount(selectItem
+									.getName());
+							return true;
+						}
 
-							});
+					});
 		}
 
 	}
@@ -380,33 +372,29 @@ public class AccounterValidator {
 		company = getCompany();
 		if (defaultExpenseAccount != null)
 			if (!(defaultExpenseAccount.equals(selectItem))) {
-				Accounter
-						.showWarning(
-								AccounterWarningType
-										.getWarning(AccounterWarningType.default_ExpenseAccount),
-								AccounterType.WARNING,
-								new ErrorDialogHandler() {
+				Accounter.showWarning(messages.W_102(), AccounterType.WARNING,
+						new ErrorDialogHandler() {
 
-									@Override
-									public boolean onCancelClick() {
+							@Override
+							public boolean onCancelClick() {
 
-										return false;
-									}
+								return false;
+							}
 
-									@Override
-									public boolean onNoClick() {
+							@Override
+							public boolean onNoClick() {
 
-										return true;
-									}
+								return true;
+							}
 
-									@Override
-									public boolean onYesClick() {
-										company.setServiceItemDefaultExpenseAccount(selectItem
-												.getName());
-										return true;
-									}
+							@Override
+							public boolean onYesClick() {
+								company.setServiceItemDefaultExpenseAccount(selectItem
+										.getName());
+								return true;
+							}
 
-								});
+						});
 			}
 
 	}
@@ -421,33 +409,29 @@ public class AccounterValidator {
 		company = getCompany();
 		if (defaultExpAccount != null)
 			if (!(defaultExpAccount.equals(selectExpAccount))) {
-				Accounter
-						.showWarning(
-								AccounterWarningType
-										.getWarning(AccounterWarningType.default_ExpenseAccountNonInventory),
-								AccounterType.WARNING,
-								new ErrorDialogHandler() {
+				Accounter.showWarning(messages.W_104(), AccounterType.WARNING,
+						new ErrorDialogHandler() {
 
-									@Override
-									public boolean onCancelClick() {
+							@Override
+							public boolean onCancelClick() {
 
-										return false;
-									}
+								return false;
+							}
 
-									@Override
-									public boolean onNoClick() {
+							@Override
+							public boolean onNoClick() {
 
-										return true;
-									}
+								return true;
+							}
 
-									@Override
-									public boolean onYesClick() {
-										company.setNonInventoryItemDefaultExpenseAccount(selectExpAccount
-												.getName());
-										return true;
-									}
+							@Override
+							public boolean onYesClick() {
+								company.setNonInventoryItemDefaultExpenseAccount(selectExpAccount
+										.getName());
+								return true;
+							}
 
-								});
+						});
 			}
 
 	}

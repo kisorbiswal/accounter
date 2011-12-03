@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -164,9 +163,8 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 						grid.addData(purchaseOrder);
 					if (grid.getRecords().isEmpty()) {
 						purchaseDetailView.itemsGrid.clear();
-						purchaseDetailView.itemsGrid
-								.addEmptyMessage(AccounterWarningType
-										.getWarning(AccounterWarningType.RECORDSEMPTY));
+						purchaseDetailView.itemsGrid.addEmptyMessage(messages
+								.noRecordsToShow());
 					}
 					continue;
 				}
@@ -177,8 +175,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 						if (purchaseDetailView.itemsGrid != null) {
 							purchaseDetailView.itemsGrid.clear();
 							purchaseDetailView.itemsGrid
-									.addEmptyMessage(AccounterWarningType
-											.getWarning(AccounterWarningType.RECORDSEMPTY));
+									.addEmptyMessage(messages.noRecordsToShow());
 						}
 					}
 					continue;
@@ -190,8 +187,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 						if (purchaseDetailView.itemsGrid != null) {
 							purchaseDetailView.itemsGrid.clear();
 							purchaseDetailView.itemsGrid
-									.addEmptyMessage(AccounterWarningType
-											.getWarning(AccounterWarningType.RECORDSEMPTY));
+									.addEmptyMessage(messages.noRecordsToShow());
 						}
 					}
 					continue;
@@ -199,14 +195,12 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 			}
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(AccounterWarningType
-					.getWarning(AccounterWarningType.RECORDSEMPTY));
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 		if (purchaseDetailView.itemsGrid != null)
 			if (purchaseDetailView.itemsGrid.getRecords().isEmpty()) {
-				purchaseDetailView.itemsGrid
-						.addEmptyMessage(AccounterWarningType
-								.getWarning(AccounterWarningType.RECORDSEMPTY));
+				purchaseDetailView.itemsGrid.addEmptyMessage(messages
+						.noRecordsToShow());
 			}
 	}
 

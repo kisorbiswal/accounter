@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 
 public class WhoIOwePortlet extends Portlet {
 	private DashboardOweGrid grid;
@@ -26,8 +25,7 @@ public class WhoIOwePortlet extends Portlet {
 				if (result != null && !(result.isEmpty())) {
 					grid.setRecords(result);
 				} else {
-					grid.addEmptyMessage(AccounterWarningType
-							.getWarning(AccounterWarningType.RECORDSEMPTY));
+					grid.addEmptyMessage(messages.noRecordsToShow());
 				}
 				body.add(grid);
 			}

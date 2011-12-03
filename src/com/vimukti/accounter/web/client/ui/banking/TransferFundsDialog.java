@@ -24,7 +24,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.IncomeAndExpensesAccountCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -264,8 +263,7 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 		} else if (isValidatedTransferAmount == false) {
 			if (AccounterValidator.validate_TransferFromAccount(accountFrom,
 					amountText.getAmount(), this)) {
-				result.addWarning(amountText, AccounterWarningType
-						.getWarning(AccounterWarningType.transferFromAccount));
+				result.addWarning(amountText, messages.W_108());
 			}
 
 		}

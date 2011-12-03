@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.grids.RecurringsListGrid;
@@ -117,8 +116,7 @@ public class RecurringTransactionsListView extends
 		}
 
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(AccounterWarningType
-					.getWarning(AccounterWarningType.RECORDSEMPTY));
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 	}
 

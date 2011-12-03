@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
@@ -116,9 +115,8 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 
 	@Override
 	public void onEdit() {
-		Accounter.showWarning(AccounterWarningType
-				.getWarning(AccounterWarningType.WAREHOUSE_TRANSFER_EDITING),
-				AccounterType.WARNING, new ErrorDialogHandler() {
+		Accounter.showWarning(messages.W_117(), AccounterType.WARNING,
+				new ErrorDialogHandler() {
 
 					@Override
 					public boolean onCancelClick() {

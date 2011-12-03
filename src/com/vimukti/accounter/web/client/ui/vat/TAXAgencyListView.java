@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -118,8 +117,7 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType
-					.getWarning(AccounterWarningType.RECORDSEMPTY));
+			grid.addEmptyMessage(messages.noRecordsToShow());
 
 		getTotalLayout(grid);
 	}

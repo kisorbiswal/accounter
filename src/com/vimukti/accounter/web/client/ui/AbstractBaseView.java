@@ -25,7 +25,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult.Error;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.AbstractView;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
 
@@ -440,8 +439,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	 */
 	public void onClose() {
 		if (isDirty) {
-			Accounter.showWarning(AccounterWarningType
-					.getWarning(AccounterWarningType.saveOrClose),
+			Accounter.showWarning(messages.W_106(),
 					AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
 						@Override

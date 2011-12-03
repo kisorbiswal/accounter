@@ -38,7 +38,6 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -469,10 +468,8 @@ public class JournalEntryView extends
 	public void updateNonEditableItems() {
 		if (grid == null)
 			return;
-		deditTotalText.setAmount(grid
-				.getTotalDebittotal());
-		creditTotalText.setAmount(grid
-				.getTotalCredittotal());
+		deditTotalText.setAmount(grid.getTotalDebittotal());
+		creditTotalText.setAmount(grid.getTotalCredittotal());
 
 	}
 
@@ -595,11 +592,9 @@ public class JournalEntryView extends
 	private void showEditWarnDialog(ClientPayee payee) {
 		String warning;
 		if (payee.getType() == ClientPayee.TYPE_CUSTOMER) {
-			warning = AccounterWarningType
-					.getWarning(AccounterWarningType.CUSTOMER_EDITING);
+			warning = messages.W_113();
 		} else {
-			warning = AccounterWarningType
-					.getWarning(AccounterWarningType.VENDOR_EDITING);
+			warning = messages.W_114();
 		}
 		Accounter.showWarning(warning, AccounterType.WARNING,
 				new ErrorDialogHandler() {

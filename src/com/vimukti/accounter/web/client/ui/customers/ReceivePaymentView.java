@@ -36,7 +36,6 @@ import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -751,8 +750,7 @@ public class ReceivePaymentView extends
 			// if (paymentToBeEdited.getReference() != null)
 			// refText.setValue(paymentToBeEdited.getReference());
 			paymentMethod = transaction.getPaymentMethod();
-			setAmountRecieved(transaction
-					.getAmount());
+			setAmountRecieved(transaction.getAmount());
 
 			initTransactionTotalNonEditableItem();
 			List<ClientTransactionReceivePayment> tranReceivePaymnetsList = transaction
@@ -866,8 +864,7 @@ public class ReceivePaymentView extends
 			try {
 				if (!AccounterValidator.isValidRecievePaymentAmount(
 						DataUtils.getAmountStringAsDouble(amtText.getValue()
-								.toString()),
-						this.transactionTotal)) {
+								.toString()), this.transactionTotal)) {
 					result.addError(amtText, Accounter.messages()
 							.recievePaymentTotalAmount());
 				}
@@ -878,8 +875,7 @@ public class ReceivePaymentView extends
 
 		if (!isInViewMode()
 				&& DecimalUtil.isGreaterThan(unUsedPaymentsText.getAmount(), 0))
-			result.addWarning(unUsedPaymentsText, AccounterWarningType
-					.getWarning(AccounterWarningType.recievePayment));
+			result.addWarning(unUsedPaymentsText, messages.W_107());
 
 		return result;
 	}
@@ -927,9 +923,8 @@ public class ReceivePaymentView extends
 	public void onEdit() {
 		if (transaction.canEdit && !transaction.isVoid()) {
 
-			Accounter.showWarning(AccounterWarningType
-					.getWarning(AccounterWarningType.RECEIVEPAYMENT_EDITING),
-					AccounterType.WARNING, new ErrorDialogHandler() {
+			Accounter.showWarning(messages.W_112(), AccounterType.WARNING,
+					new ErrorDialogHandler() {
 
 						@Override
 						public boolean onCancelClick() {

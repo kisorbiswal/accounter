@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -140,8 +139,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType
-					.getWarning(AccounterWarningType.RECORDSEMPTY));
+			grid.addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	public void setCatageoryType(String catagory) {

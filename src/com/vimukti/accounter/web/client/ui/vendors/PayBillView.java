@@ -37,7 +37,6 @@ import com.vimukti.accounter.web.client.ui.combo.TaxItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -1094,9 +1093,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	@Override
 	public void onEdit() {
 		if (!transaction.isVoid()) {
-			Accounter.showWarning(AccounterWarningType
-					.getWarning(AccounterWarningType.PAYBILL_EDITING),
-					AccounterType.WARNING, new ErrorDialogHandler() {
+			Accounter.showWarning(messages.W_115(), AccounterType.WARNING,
+					new ErrorDialogHandler() {
 
 						@Override
 						public boolean onYesClick() {
