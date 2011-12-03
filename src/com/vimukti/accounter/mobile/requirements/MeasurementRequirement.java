@@ -1,18 +1,19 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
-import com.vimukti.accounter.web.client.core.ClientMeasurement;
 
 public abstract class MeasurementRequirement extends
-		ListRequirement<ClientMeasurement> {
+		ListRequirement<Measurement> {
 
 	public MeasurementRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientMeasurement> listner) {
+			ChangeListner<Measurement> listner) {
 		super(requirementName, enterString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
@@ -23,7 +24,7 @@ public abstract class MeasurementRequirement extends
 	}
 
 	@Override
-	protected Record createRecord(ClientMeasurement value) {
+	protected Record createRecord(Measurement value) {
 		Record record = new Record(value);
 		record.add(getMessages().name(), value.getName());
 		record.add(getMessages().description(), value.getDesctiption());
@@ -31,8 +32,8 @@ public abstract class MeasurementRequirement extends
 	}
 
 	@Override
-	protected String getDisplayValue(ClientMeasurement value) {
-		return getMessages().measurementName();
+	protected String getDisplayValue(Measurement value) {
+		return value.getName();
 	}
 
 	@Override
@@ -47,13 +48,14 @@ public abstract class MeasurementRequirement extends
 	}
 
 	@Override
-	protected boolean filter(ClientMeasurement e, String name) {
+	protected boolean filter(Measurement e, String name) {
 		return e.getName().equals(name);
 	}
 
 	@Override
-	protected List<ClientMeasurement> getLists(Context context) {
-		return null;// context.getCompany().getMeasurements();
+	protected List<Measurement> getLists(Context context) {
+		return new ArrayList<Measurement>(context.getCompany()
+				.getMeasurements());
 	}
 
 }

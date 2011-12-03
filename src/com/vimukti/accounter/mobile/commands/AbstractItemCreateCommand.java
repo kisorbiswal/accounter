@@ -7,8 +7,10 @@ import java.util.List;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
+import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -49,6 +51,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	protected static final String WEIGHT = "weight";
 	private static final String TAXCODE = "taxCode";
 	protected static final String WARE_HOUSE = "wareHouse";
+	protected static final String MEASUREMENT = "measurement";
 
 	private int itemType;
 	private ClientItem item;
@@ -402,6 +405,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
+		get(IS_TAXABLE).setDefaultValue(Boolean.TRUE);
 	}
 
 	@Override
@@ -460,8 +464,17 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			getItem().setVendorItemNumber(supplierServiceNo);
 		}
 		getItem().setType(itemType);
+		Requirement requirement = get(WARE_HOUSE);
+		if (requirement != null) {
+			Warehouse warehouse = requirement.getValue();
+			getItem().setWarehouse(warehouse.getID());
+		}
+		Requirement measurementreq = get(MEASUREMENT);
+		if (measurementreq != null) {
+			Measurement measurement = measurementreq.getValue();
+			getItem().setMeasurement(measurement.getID());
+		}
 		create(getItem(), context);
-
 		return null;
 	}
 
@@ -565,6 +578,12 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			get(WARE_HOUSE).setValue(
 					CommandUtils.getServerObjectById(item.getWarehouse(),
 							AccounterCoreType.WAREHOUSE));
+		}
+
+		if (get(MEASUREMENT) != null) {
+			get(MEASUREMENT).setValue(
+					CommandUtils.getServerObjectById(item.getMeasurement(),
+							AccounterCoreType.MEASUREMENT));
 		}
 	}
 

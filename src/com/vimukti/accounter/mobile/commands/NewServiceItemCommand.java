@@ -1,12 +1,12 @@
 package com.vimukti.accounter.mobile.commands;
 
-import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.web.client.core.ClientItem;
 
 public class NewServiceItemCommand extends AbstractItemCreateCommand {
 
 	public NewServiceItemCommand() {
-		super(Item.TYPE_SERVICE);
+		super(ClientItem.TYPE_SERVICE);
 	}
 
 	@Override
