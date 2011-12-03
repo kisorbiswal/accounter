@@ -2199,3 +2199,15 @@ input.date-field-textbox {
 .portlet_column_parent{
 	width: 50% !important;
 }
+
+.user_activity_log tr:nth-child(even) button {
+	background: #e8e8e8;
+}
+
+.user_activity_log tr:nth-child(odd) button {
+	background: white;
+}
+
+.user_activity_log tr td button {
+	border: 0 none;
+}
