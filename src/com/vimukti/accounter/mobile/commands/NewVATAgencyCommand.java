@@ -315,7 +315,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isTrackTax()) {
-			addFirstMessage(context, "You dnt have permission to do this.");
+			addFirstMessage(context, "You do not have permission to do this.");
 			return "cancel";
 		}
 
@@ -375,13 +375,13 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return taxAgency.getID() == 0 ? "NewVatAgency commond is activated"
-				: "Update VAT Agency command is activated";
+		return taxAgency.getID() == 0 ? "Vat Agency is activated"
+				: "Update VAT Agency is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return taxAgency.getID() == 0 ? "NewVatAgencyCommond is ready to create with the following values"
+		return taxAgency.getID() == 0 ? "Vat Agency is ready to create with the following values"
 				: "VAT Agency is ready to update with following details";
 	}
 
@@ -392,7 +392,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return taxAgency.getID() == 0 ? "New vat commond is created successfully"
+		return taxAgency.getID() == 0 ? "Vat Agency created successfully"
 				: "VAT Agency is updated successfully";
 	}
 
