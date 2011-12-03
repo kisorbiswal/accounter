@@ -20,8 +20,6 @@ import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImp
 
 public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
-	private String country;
-
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
@@ -40,83 +38,21 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		list.add(new NameRequirement(TAX_ID, getMessages().pleaseEnter(
 				getMessages().taxId()), getMessages().taxId(), true, true));
 
-		list.add(new StringListRequirement(COUNTRY, getMessages()
-				.pleaseEnterName(getMessages().country()), getMessages()
-				.country(), true, true, new ChangeListner<String>() {
+		list.add(new CountryRequirement(COUNTRY, true, true,
+				new ChangeListner<String>() {
 
-			@Override
-			public void onSelection(String value) {
-				country = value;
-			}
-		}) {
+					@Override
+					public void onSelection(String value) {
+						get(STATE).setValue(null);
+					}
+				}));
 
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
-			protected Record createRecord(String value) {
-				Record record = new Record(value);
-				record.add(getMessages().country(), value);
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(String value) {
-				return value;
-			}
-
-			@Override
-			protected void setCreateCommand(CommandList list) {
-				super.setCreateCommand(list);
-			}
-
-			@Override
-			protected String getSelectString() {
-				return getMessages().pleaseSelect(getMessages().country());
-			}
-
-			@Override
-			protected boolean filter(String e, String name) {
-				return e.startsWith(name);
-			}
-
-			@Override
-			protected List<String> getLists(Context context) {
-				return getCountryList();
-			}
+		list.add(new StringListRequirement(STATE, getMessages().pleaseEnter(
+				getMessages().state()), getMessages().state(), true, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getMessages().country());
-			}
-		});
-
-		list.add(new StringListRequirement(STATE, getMessages()
-				.pleaseEnterName(getMessages().state()), getMessages().state(),
-				true, true, null) {
-
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
-			protected Record createRecord(String value) {
-				Record record = new Record(value);
-				record.add(getMessages().state(), value);
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(String value) {
-				return value;
-			}
-
-			@Override
-			protected void setCreateCommand(CommandList list) {
-				super.setCreateCommand(list);
+				return getMessages().hasSelected(getMessages().state());
 			}
 
 			@Override
@@ -125,18 +61,13 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			}
 
 			@Override
-			protected boolean filter(String e, String name) {
-				return e.startsWith(name);
-			}
-
-			@Override
 			protected List<String> getLists(Context context) {
-				return getStatesList(country);
+				return getStatesList((String) get(COUNTRY).getValue());
 			}
 
 			@Override
-			protected String getSetMessage() {
-				return getMessages().hasSelected(getMessages().state());
+			protected String getEmptyString() {
+				return null;
 			}
 		});
 
@@ -414,8 +345,6 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(COUNTRY).setDefaultValue("United Kingdom");
-		get(STATE).setDefaultValue("Buckinghamshire");
 		get(TIME_ZONE).setDefaultValue(getDefaultTzOffsetStr());
 		get(ORGANIZATION_REFER).setDefaultValue(getOrganizationTypes().get(0));
 		get(FISCAL_YEAR).setDefaultValue(getMessages().april());
