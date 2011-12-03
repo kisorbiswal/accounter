@@ -50,6 +50,8 @@ public class JournalEntry extends Transaction {
 	 */
 
 	Payee involvedPayee;
+	
+	Account involvedAccount;
 
 	// @ReffereredObject
 	// Transaction transaction;
@@ -249,5 +251,13 @@ public class JournalEntry extends Transaction {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	public Account getInvolvedAccount() {
+		return involvedAccount;
+	}
+	
+	public void setInvolvedAccount(Account involvedAccount){
+		this.involvedAccount = involvedAccount;
+	}
+		
 }
