@@ -101,6 +101,7 @@ public abstract class NewCommand extends Command {
 				return result;
 			}
 		}
+		requirementSequence.push(-1);
 		list.setTitle(getDetailsMessage());
 		makeResult.add(actions);
 		String finish = getFinishCommandString();
