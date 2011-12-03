@@ -16,7 +16,9 @@ import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -25,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 	private static final String DEPOSIT_OR_TRANSFER_FROM = "depositOrTransferFrom";
 	private static final String DEPOSIT_OR_TRANSFER_TO = "DepositOrTransferTo";
+	ClientMakeDeposit makeDeposit;
 
 	@Override
 	public String getId() {
@@ -207,9 +210,6 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
-
-		ClientMakeDeposit makeDeposit = new ClientMakeDeposit();
-
 		ClientFinanceDate date = get(DATE).getValue();
 		makeDeposit.setDate(date.getDate());
 
@@ -252,18 +252,61 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, "Select a transaction to update.");
+				return "Transaction Detail By Account";
+			}
+			long numberFromString = getNumberFromString(string);
+			if (numberFromString != 0) {
+				string = String.valueOf(numberFromString);
+			}
+			ClientMakeDeposit invoiceByNum = (ClientMakeDeposit) CommandUtils
+					.getClientTransactionByNumber(context.getCompany(), string,
+							AccounterCoreType.MAKEDEPOSIT);
+			if (invoiceByNum == null) {
+				addFirstMessage(context, "Select a transction to update.");
+				return "Transaction Detail By Account ," + string;
+			}
+			makeDeposit = invoiceByNum;
+			setValues(context);
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			makeDeposit = new ClientMakeDeposit();
+		}
+		setTransaction(makeDeposit);
 		return null;
+	}
+
+	private void setValues(Context context) {
+		get(DATE).setValue(makeDeposit.getDate());
+		get(NUMBER).setValue(makeDeposit.getNumber());
+		get(DEPOSIT_OR_TRANSFER_FROM).setValue(
+				CommandUtils.getServerObjectById(makeDeposit.getDepositFrom(),
+						AccounterCoreType.ACCOUNT));
+		get(DEPOSIT_OR_TRANSFER_TO).setValue(
+				CommandUtils.getServerObjectById(makeDeposit.getDepositIn(),
+						AccounterCoreType.ACCOUNT));
+		get(AMOUNT).setValue(makeDeposit.getTotal());
+		get(MEMO).setValue(makeDeposit.getMemo());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getMessages().makeDeposit());
+		return makeDeposit.getID() == 0 ? getMessages().creating(
+				getMessages().makeDeposit())
+				: "Maker deposit is ready to updating ";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getMessages().makeDeposit());
+		return makeDeposit.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().makeDeposit())
+				: "Make deposit is ready to update with following details";
 	}
 
 	@Override
@@ -279,7 +322,9 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getMessages().makeDeposit());
+		return makeDeposit.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().makeDeposit()) : getMessages()
+				.updateSuccessfully(getMessages().makeDeposit());
 	}
 
 }
