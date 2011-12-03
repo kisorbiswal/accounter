@@ -185,22 +185,24 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 	protected List<String> getAccountTypes() {
 		List<String> list = new ArrayList<String>();
-
 		list.add("Income");
 		list.add("Other Income");
 		list.add("Expense");
+		list.add("Account Payble");
 		list.add("Other Expense");
 		list.add("Cost of Goods Sold");
 		list.add("cash");
+		list.add("bank");
 		list.add("Other current Asset");
+		list.add("Account Receivable");
 		list.add("Inventory Asset");
 		list.add("Other Asset");
 		list.add("Fixed Asset");
 		list.add("Credit card");
 		list.add("Payroll Liability");
-		list.add("current Liability");
+		list.add("Other Current Liability");
 		list.add("Long Term Liability");
-		list.add("	Equity");
+		list.add("Equity");
 		list.add("Paypal");
 		return list;
 	}
@@ -247,7 +249,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 					.getValue());
 		}
 		account.setDefault(true);
-		account.setType(getAccountTypes().indexOf(accType) + 1);
+		account.setType(getAccountType(accType));
 		account.setName(accname);
 		account.setNumber(accountNum);
 		account.setOpeningBalance(openingBal);
@@ -257,6 +259,49 @@ public class NewAccountCommand extends NewAbstractCommand {
 		account.setComment(comment);
 		create(account, context);
 		return null;
+	}
+
+	private int getAccountType(String accType) {
+		if (accType.equalsIgnoreCase("cash")) {
+			return 1;
+		} else if (accType.equalsIgnoreCase("bank")) {
+			return 2;
+		} else if (accType.equalsIgnoreCase("Account Payble")) {
+			return 3;
+		} else if (accType.equalsIgnoreCase("Other current Asset")) {
+			return 4;
+		} else if (accType.equalsIgnoreCase("Inventory Asset")) {
+			return 5;
+		} else if (accType.equalsIgnoreCase("Fixed Asset")) {
+			return 6;
+		} else if (accType.equalsIgnoreCase("Other Asset")) {
+			return 7;
+		} else if (accType.equalsIgnoreCase("Account Receivable")) {
+			return 8;
+		} else if (accType.equalsIgnoreCase("Other Current Liability")) {
+			return 9;
+		} else if (accType.equalsIgnoreCase("Credit card")) {
+			return 10;
+		} else if (accType.equalsIgnoreCase("Payroll Liability")) {
+			return 11;
+		} else if (accType.equalsIgnoreCase("Long Term Liability")) {
+			return 12;
+		} else if (accType.equalsIgnoreCase("Equity")) {
+			return 13;
+		} else if (accType.equalsIgnoreCase("Income")) {
+			return 14;
+		} else if (accType.equalsIgnoreCase("Cost of Goods Sold")) {
+			return 15;
+		} else if (accType.equalsIgnoreCase("Expense")) {
+			return 16;
+		} else if (accType.equalsIgnoreCase("Other Income")) {
+			return 17;
+		} else if (accType.equalsIgnoreCase("Other Expense")) {
+			return 18;
+		} else if (accType.equalsIgnoreCase("Paypal")) {
+			return 19;
+		}
+		return 0;
 	}
 
 	@Override
@@ -283,8 +328,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 			return "Accounts " + string.trim();
 		}
 
-		get(ACCOUNT_TYPE)
-				.setValue(getAccountTypes().get(account.getType() - 1));
+		get(ACCOUNT_TYPE).setValue(getAccountType(account.getType()));
 		get(ACCOUNT_TYPE).setEditable(false);
 		get(ACCOUNT_NAME).setValue(account.getName());
 
@@ -303,5 +347,52 @@ public class NewAccountCommand extends NewAbstractCommand {
 		get(ASOF).setEditable(false);
 		get(COMMENTS).setValue(account.getComment());
 		return null;
+	}
+
+	private String getAccountType(int i) {
+		i--;// Starting from 0
+		switch (i) {
+		case 0:
+			return "cash";
+		case 1:
+			return "bank";
+		case 2:
+			return "Account Payble";
+		case 3:
+			return "Other current Asset";
+		case 4:
+			return "Inventory Asset";
+		case 5:
+			return "Fixed Asset";
+		case 6:
+			return "Other Asset";
+		case 7:
+			return "Account Receivable";
+		case 8:
+			return "Other Current Liability";
+		case 9:
+			return "Credit card";
+		case 10:
+			return "Payroll Liability";
+		case 11:
+			return "Long Term Liability";
+		case 12:
+			return "Equity";
+		case 13:
+			return "Income";
+		case 14:
+			return "Cost of Goods Sold";
+		case 15:
+			return "Expense";
+		case 16:
+			return "Other Income";
+		case 17:
+			return "Other Expense";
+		case 18:
+			return "Paypal";
+		default:
+			break;
+		}
+		return "";
 	}
 }

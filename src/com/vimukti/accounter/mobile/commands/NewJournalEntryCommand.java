@@ -76,16 +76,22 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 
 					@Override
 					protected List<Account> getLists(Context context) {
+						List<ClientEntry> oldVals = NewJournalEntryCommand.this
+								.get(VOUCHER).getValue();
+
 						List<Account> filteredList = new ArrayList<Account>();
 						for (Account obj : context.getCompany().getAccounts()) {
-							if (new ListFilter<Account>() {
-
-								@Override
-								public boolean filter(Account e) {
-									return e.getIsActive();
+							if (obj.getIsActive()) {
+								boolean contains = false;
+								for (ClientEntry ce : oldVals) {
+									if (ce.getAccount() == obj.getID()) {
+										contains = true;
+										break;
+									}
 								}
-							}.filter(obj)) {
-								filteredList.add(obj);
+								if (!contains) {
+									filteredList.add(obj);
+								}
 							}
 						}
 						return filteredList;
