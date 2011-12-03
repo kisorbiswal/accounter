@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -145,9 +146,11 @@ public class InvoiceListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(InvoicesList value) {
 				Record record = new Record(value);
-				record.add("Name", value.getCustomerName());
-				record.add("Date", value.getDate());
-				record.add("Balance", value.getBalance());
+				record.add(getMessages().transactionName(),
+						Utility.getTransactionName(value.getType()));
+				record.add(getMessages().name(), value.getCustomerName());
+				record.add(getMessages().date(), value.getDate());
+				record.add(getMessages().balance(), value.getBalance());
 				return record;
 			}
 
