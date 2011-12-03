@@ -24,7 +24,7 @@ public abstract class NewCommand extends Command {
 	private Company company;
 	private ClientCompanyPreferences preferences;
 	private Stack<Integer> requirementSequence = new Stack<Integer>();
-	private int lastRequirement = -1;
+	private int lastRequirement = -2;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -90,6 +90,9 @@ public abstract class NewCommand extends Command {
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		actions = new ResultList("actions");
+		if (lastRequirement == -1) {
+			requirementSequence.pop();
+		}
 		for (int i = 0; i < allRequirements.size(); i++) {
 			Result result = allRequirements.get(i).process(context, makeResult,
 					list, actions);
@@ -102,6 +105,7 @@ public abstract class NewCommand extends Command {
 			}
 		}
 		requirementSequence.push(-1);
+		lastRequirement = -1;
 		list.setTitle(getDetailsMessage());
 		makeResult.add(actions);
 		String finish = getFinishCommandString();
