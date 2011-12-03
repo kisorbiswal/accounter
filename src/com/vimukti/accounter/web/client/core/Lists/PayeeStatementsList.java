@@ -15,7 +15,7 @@ public class PayeeStatementsList extends BaseReport implements IsSerializable,
 	private ClientFinanceDate transactionDate;
 	private ClientFinanceDate dueDate;
 	private double total = 0D;
-	private double balance;
+	private double balance = 0D;
 	private ClientAddress billingAddress;
 	private String payeeName;
 	private String salesPerson;

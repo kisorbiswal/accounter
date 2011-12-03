@@ -811,7 +811,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 
 		if (this.transaction.getLocation() != null) {
-			w.put(messages.location(), this.transaction.getLocation().toString());
+			w.put(messages.location(), this.transaction.getLocation()
+					.toString());
 		}
 		// not sure whats this
 		// w.put(messages.amount(), this.usedamt.toString());
