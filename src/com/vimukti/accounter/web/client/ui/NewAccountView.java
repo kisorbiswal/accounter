@@ -1285,7 +1285,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		currencyCombo.setCurrencyFactor(data.getCurrencyFactor());
 		if (!selectCurrency.equals(getCompany().getPreferences()
 				.getPrimaryCurrency())) {
-			currencyCombo.disabledFactorField(true);
+			currencyCombo.disabledFactorField(false);
 		}
 		currencyCombo.setDisabled(isInViewMode());
 		updateCurrencyForItems(selectCurrency);
@@ -1600,7 +1600,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accTypeSelect.setDisabled(isInViewMode());
 
 		// if (currencyCombo != null && data.isAllowCurrencyChange()) {
-		currencyCombo.setDisabled(true);
+		currencyCombo.setDisabled(!isInViewMode(),isInViewMode());
 		// if (!selectCurrency.equals(getCompany().getPreferences()
 		// .getPrimaryCurrency())) {
 		// currencyCombo.disabledFactorField(false);
