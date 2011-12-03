@@ -23,7 +23,7 @@ public abstract class AccountNameColumn extends
 	public abstract List<Integer> getCanAddedAccountTypes();
 
 	@Override
-	@SuppressWarnings( { "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public AbstractDropDownTable getDisplayTable(ClientTransactionItem row) {
 		return accountsList;
 	}
