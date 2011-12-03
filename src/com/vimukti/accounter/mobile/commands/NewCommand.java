@@ -68,6 +68,9 @@ public abstract class NewCommand extends Command {
 		if (backString != null && backString.equalsIgnoreCase("back")) {
 			context.setString("");
 			if (requirementSequence.size() > 1) {
+				requirementSequence.pop();
+				// Current req
+				lastRequirement = requirementSequence.pop();// Last Req
 				context.setAttribute("processAttr", "");
 				Requirement requirement = allRequirements.get(lastRequirement);
 				context.putSelection("values", requirement.getName());
@@ -75,10 +78,9 @@ public abstract class NewCommand extends Command {
 				Result process = requirement.process(context,
 						context.makeResult(), list2, actions);
 				if (process != null) {
+					requirementSequence.push(lastRequirement);
 					return process;
 				}
-				requirementSequence.pop();
-				lastRequirement = requirementSequence.firstElement();
 			} else {
 				Result result = new Result();
 				result.setNextCommand("cancel");
@@ -92,7 +94,7 @@ public abstract class NewCommand extends Command {
 			Result result = allRequirements.get(i).process(context, makeResult,
 					list, actions);
 			if (result != null) {
-				if (lastRequirement != i && i != 0) {
+				if (lastRequirement != i) {
 					requirementSequence.push(i);
 				}
 				lastRequirement = i;
