@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 import com.vimukti.accounter.web.client.ui.ISaveCallback;
 import com.vimukti.accounter.web.client.ui.WarningsDialog;
 import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
 
@@ -417,8 +416,7 @@ public abstract class AdminAbstractBaseView<T> extends AdminAbstractView<T>
 	 */
 	public void onClose() {
 		if (isDirty) {
-			Accounter.showWarning(AccounterWarningType
-					.getWarning(AccounterWarningType.saveOrClose),
+			Accounter.showWarning(messages.W_106(),
 					AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
 						@Override

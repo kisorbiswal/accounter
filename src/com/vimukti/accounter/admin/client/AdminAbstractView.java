@@ -3,6 +3,8 @@ package com.vimukti.accounter.admin.client;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public abstract class AdminAbstractView<T> extends VerticalPanel {
@@ -10,7 +12,7 @@ public abstract class AdminAbstractView<T> extends VerticalPanel {
 	abstract public void init();
 
 	private Action action;
-
+	protected AccounterMessages messages = Accounter.messages();
 	/**
 	 * Flag, to Determine, whether in Edit Mode or Create mode.
 	 */

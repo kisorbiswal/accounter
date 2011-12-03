@@ -1062,7 +1062,7 @@ iframe,.address div {
 	border-width: 1px;
 }
 
-.date-number td:nth-child (2),.datenumber-panel table {
+.date-number td:nth-child    (2),.datenumber-panel table {
 	padding-right: 15px;
 }
 
@@ -1246,7 +1246,7 @@ iframe,.address div {
 	background-color: #29646C;
 	background-position: 5px center;
 	border: 1px solid #1A5158;
-	padding: 0 5px 5px 27px;
+	padding: 3px 5px 5px 27px;
 	padding: 0 5px 0 27px\0  !important;
 }
 
@@ -2188,7 +2188,7 @@ input.date-field-textbox {
 	width: 50% !important;
 }
 
-.main_manager ,.main_manager table:SECOND-CHILD{
+.main_manager,.main_manager table:SECOND-CHILD {
 	width: 100%;
 }
 
@@ -2196,8 +2196,12 @@ input.date-field-textbox {
 	width: 100%;
 }
 
-.portlet_column_parent{
+.portlet_column_parent {
 	width: 50% !important;
+}
+
+.portlet_close_button img:hover {
+	background-color: #1A5158 !important;
 }
 
 .user_activity_log tr:nth-child(even) button {
