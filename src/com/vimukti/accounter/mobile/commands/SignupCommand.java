@@ -108,7 +108,7 @@ public class SignupCommand extends NewCommand {
 			}
 		});
 
-		list.add(new PhoneRequirement(PHONE, "Eneter Phone number", "Phone No",
+		list.add(new PhoneRequirement(PHONE, "Enter Phone number", "Phone No",
 				false, true));
 
 		list.add(new CountryRequirement(COUNTRY, false, true, null));

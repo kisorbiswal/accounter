@@ -195,7 +195,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 		list.add("Other current Asset");
 		list.add("Inventory Asset");
 		list.add("Other Asset");
-		list.add("Fixted Asset");
+		list.add("Fixed Asset");
 		list.add("Credit card");
 		list.add("Payroll Liability");
 		list.add("current Liability");
