@@ -27,11 +27,11 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 	@Override
 	public void messageReceived(final ChannelHandlerContext ctx,
 			final MessageEvent e) throws Exception {
-		System.out.println("Got Message From: "
-				+ ctx.getChannel().getRemoteAddress());
+		// System.out.println("Got Message From: "
+		// + ctx.getChannel().getRemoteAddress());
 
 		String message = (String) e.getMessage();
-		System.out.println("Message: " + message);
+		// System.out.println("Message: " + message);
 		String networkId = (String) ctx.getAttachment();
 		MobileChannelContext context = new MobileChannelContext(networkId,
 				message, AdaptorType.MOBILE,
@@ -39,10 +39,7 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 
 			@Override
 			public void send(String string) {
-				if (string.isEmpty()) {
-					System.out.println();
-				}
-				System.out.println(string);
+				// System.out.println(string);
 				ChannelBuffer copiedBuffer = ChannelBuffers.copiedBuffer(
 						string, Charset.forName("UTF-8"));
 
