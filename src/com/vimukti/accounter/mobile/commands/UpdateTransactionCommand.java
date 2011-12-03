@@ -12,6 +12,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ForwardRequirement;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class UpdateTransactionCommand extends NewAbstractCommand {
 
@@ -23,38 +24,37 @@ public class UpdateTransactionCommand extends NewAbstractCommand {
 		Session session = context.getHibernateSession();
 		Transaction transaction = (Transaction) session.get(Transaction.class,
 				transactionId);
-		get(TRANSACTION).setValue(transaction);
-		context.setString("");
+		try {
+			transaction.canEdit(transaction);
+			get(TRANSACTION).setValue(transaction);
+			context.setString("");
+		} catch (AccounterException e) {
+			return e.getMessage();
+		}
 		return null;
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public String getSuccessMessage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -67,55 +67,45 @@ public class UpdateTransactionCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			protected String getSetMessage() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			protected Record createRecord(Transaction value) {
 				Record record = new Record(value);
-
 				record.add(getMessages().type(), value.getType());
 				record.add(getMessages().date(), value.getDate());
 				record.add(getMessages().netAmount(), value.getNetAmount());
 				record.add(getMessages().total(), value.getTotal());
-
 				return null;
 			}
 
 			@Override
 			protected String getDisplayValue(Transaction value) {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			protected String getSelectString() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			protected boolean filter(Transaction e, String name) {
-				// TODO Auto-generated method stub
 				return false;
 			}
 
 			@Override
 			protected List<Transaction> getLists(Context context) {
-
 				return null;
 			}
 		});
