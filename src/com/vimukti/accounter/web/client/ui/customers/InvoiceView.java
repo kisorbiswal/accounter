@@ -452,7 +452,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		};
 
 		customerTransactionTable = new CustomerItemTransactionTable(
-				isTrackTax(), isTaxPerDetailLine(), this) {
+				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			public boolean isShowPriceWithVat() {

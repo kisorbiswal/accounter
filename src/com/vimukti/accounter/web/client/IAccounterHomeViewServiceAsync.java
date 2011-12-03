@@ -83,6 +83,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ArrayList<PayBillTransactionList>> callback);
 
 	public void getTransactionPayBills(long vendorId,
+			ClientFinanceDate paymentDate,
 			AsyncCallback<ArrayList<PayBillTransactionList>> callback);
 
 	public void getVendorPaymentsList(

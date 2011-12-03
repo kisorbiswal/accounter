@@ -411,7 +411,8 @@ public class PurchaseOrderView extends
 
 		// Label lab2 = new Label(messages.itemsAndExpenses());
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(), this) {
+				isDiscountEnabled(), isTrackTax() && isTrackPaidTax(),
+				isTaxPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -451,7 +452,7 @@ public class PurchaseOrderView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isTrackTax(), isTaxPerDetailLine(), this) {
+				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {

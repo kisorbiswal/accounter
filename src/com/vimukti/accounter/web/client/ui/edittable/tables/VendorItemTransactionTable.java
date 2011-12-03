@@ -29,9 +29,10 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 		this(true, enableTax, showTaxCode, currencyProvider);
 	}
 
-	public VendorItemTransactionTable(boolean enableTax, boolean showTaxCode,
-			ICurrencyProvider currencyProvider, boolean isCustomerAllowedToAdd) {
-		super(true, isCustomerAllowedToAdd, currencyProvider);
+	public VendorItemTransactionTable(boolean needDiscount, boolean enableTax,
+			boolean showTaxCode, ICurrencyProvider currencyProvider,
+			boolean isCustomerAllowedToAdd) {
+		super(needDiscount, isCustomerAllowedToAdd, currencyProvider);
 		this.enableTax = enableTax;
 		this.showTaxCode = showTaxCode;
 		addEmptyRecords();

@@ -7,6 +7,7 @@ import java.util.List;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CreditsAndPayments;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXItem;
@@ -268,7 +269,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 							.getTransactionPayBills(
 									((Vendor) NewPayBillCommand.this
 											.get(VENDOR).getValue()).getID(),
-									getCompany().getID());
+									getCompany().getID(),
+									(FinanceDate) get(DATE).getValue());
 				} catch (DAOException e) {
 					e.printStackTrace();
 				}

@@ -294,14 +294,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<PayBillTransactionList> getTransactionPayBills(
-			long vendorId) {
+			long vendorId, ClientFinanceDate paymentDate) {
 
 		List<PayBillTransactionList> paybillTrList = null;
 
 		try {
 
 			paybillTrList = getFinanceTool().getVendorManager()
-					.getTransactionPayBills(vendorId, getCompanyId());
+					.getTransactionPayBills(vendorId, getCompanyId(),
+							new FinanceDate(paymentDate));
 
 			// paybillTrList = (List<PayBillTransactionList>) manager
 			// .merge(paybillTrList);

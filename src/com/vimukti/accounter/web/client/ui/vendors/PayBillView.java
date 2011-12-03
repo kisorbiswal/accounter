@@ -241,7 +241,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	private void initListGrid() {
-		grid = new TransactionPayBillTable(!isInViewMode(), this) {
+		grid = new TransactionPayBillTable(isDiscountEnabled(),
+				!isInViewMode(), this) {
 
 			@Override
 			protected void updateFootervalues(ClientTransactionPayBill row,
@@ -359,6 +360,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 				record.setOriginalAmount(curntRec.getOriginalAmount());
 
+				record.setDiscountAccount(getCompany().getCashDiscountAccount());
+
 				// record.setPayment(curntRec.getPayment());
 				ClientVendor vendor = getCompany().getVendorByName(
 						curntRec.getVendorName());
@@ -444,8 +447,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				if (changedDate != null) {
 					try {
 						ClientFinanceDate newDate = date.getValue();
-						if (newDate != null)
+						if (newDate != null) {
 							setTransactionDate(newDate);
+							getTransactionPayBills(vendor);
+						}
 					} catch (Exception e) {
 						Accounter.showError(Accounter.messages()
 								.invalidTransactionDate());
@@ -783,9 +788,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	private void getTransactionPayBills(ClientVendor vendor) {
+		ClientFinanceDate paymentDate = date.getDate();
+
 		this.rpcUtilService
 				.getTransactionPayBills(
 						vendor.getID(),
+						paymentDate,
 						new AccounterAsyncCallback<ArrayList<PayBillTransactionList>>() {
 
 							@Override
@@ -799,6 +807,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 									ArrayList<PayBillTransactionList> result) {
 
 								paybillTransactionList = result;
+								grid.removeAllRecords();
 								if (result.size() > 0) {
 									addGridRecords(result);
 									dueDateOnOrBefore = dueDate.getValue();
@@ -1049,6 +1058,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 			record.setOriginalAmount(cont.getOriginalAmount());
 			record.setPayment(cont.getPayment());
+			record.setDiscountAccount(getCompany().getCashDiscountAccount());
 			records.add(record);
 		}
 

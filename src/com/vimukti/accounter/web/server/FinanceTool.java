@@ -117,6 +117,7 @@ import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.server.managers.CompanyManager;
 import com.vimukti.accounter.web.server.managers.CustomerManager;
 import com.vimukti.accounter.web.server.managers.DashboardManager;
@@ -729,7 +730,8 @@ public class FinanceTool {
 					.getNamedQuery(
 							"getReceivePaymentTransactionsListForCustomer")
 					.setParameter("customerId", customerId)
-					.setParameter("companyId", companyId);
+					.setParameter("companyId", companyId)
+					.setParameter("paymentDate", paymentDate1);
 			List list = query.list();
 
 			// Query query = session.getNamedQuery(
@@ -794,11 +796,45 @@ public class FinanceTool {
 
 					double amountDue = (Double) object[5];
 					receivePaymentTransactionList.setAmountDue(amountDue);
+					ClientFinanceDate transactionDate = object[6] == null ? null
+							: new ClientFinanceDate((Long) object[6]);
 					receivePaymentTransactionList
-							.setDiscountDate(object[6] == null ? null
-									: new ClientFinanceDate((Long) object[6]));
+							.setDiscountDate(transactionDate);
 					receivePaymentTransactionList
 							.setPayment((Double) object[7]);
+					double discPerc = 0;
+					if (object[8] != null) {
+						boolean isDateDriven = (Boolean) object[8];
+						int ifPaidWithin = (Integer) object[9];
+						double discount = (Double) object[10];
+
+						if (isDateDriven) {
+							ClientFinanceDate currentDate = new ClientFinanceDate(
+									paymentDate.getAsDateObject());
+							if (currentDate.getYear() == transactionDate
+									.getYear()
+									&& currentDate.getMonth() == transactionDate
+											.getMonth()
+									&& currentDate.getDay() <= ifPaidWithin) {
+
+								discPerc = discount;
+							} else {
+								discPerc = 0;
+							}
+						} else {
+							long differenceBetween = UIUtils.getDays_between(
+									transactionDate.getDateAsObject(),
+									paymentDate.getAsDateObject());
+							if (differenceBetween >= 0
+									&& differenceBetween <= ifPaidWithin) {
+								discPerc = discount;
+							} else {
+								discPerc = 0;
+							}
+						}
+					}
+					receivePaymentTransactionList
+							.setCashDiscount((amountDue / 100) * (discPerc));
 					queryResult.add(receivePaymentTransactionList);
 				}
 			} else {

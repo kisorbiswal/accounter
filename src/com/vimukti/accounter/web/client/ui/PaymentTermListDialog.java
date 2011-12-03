@@ -102,11 +102,30 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		this.paymentTerm = rec;
 		if (rec != null) {
 			dialog.payTermText.setValue(rec.getName());
-			dialog.descText.setValue(rec.getDescription());
+			dialog.dateDriven.setValue(paymentTerm.isDateDriven());
+			dialog.disableForms(paymentTerm.isDateDriven());
+			if (!paymentTerm.isDateDriven()) {
+				dialog.netDueIn.setNumber(UIUtils.toLong(paymentTerm
+						.getDueDays()));
+				dialog.discountField
+						.setAmount(paymentTerm.getDiscountPercent());
+				dialog.discountDue.setNumber(UIUtils.toLong(paymentTerm
+						.getIfPaidWithIn()));
+			} else {
+				dialog.netDueBefore.setNumber(UIUtils.toLong(paymentTerm
+						.getDueDays()));
+				dialog.discountPerField.setAmount(paymentTerm
+						.getDiscountPercent());
+				dialog.discountPaidBefore.setNumber(UIUtils.toLong(paymentTerm
+						.getIfPaidWithIn()));
+
+			}
+
+			// dialog.descText.setValue(rec.getDescription());
 			// if (rec.getDue() != 0) {
 			// dialog.dueSelect.setValue(dialog.dueValues[rec.getDue() - 1]);
 			// }
-			dialog.dayText.setValue(String.valueOf(rec.getDueDays()));
+			// dialog.dayText.setValue(String.valueOf(rec.getDueDays()));
 			// dialog.discText.setValue(String.valueOf(rec.getDiscountPercent()));
 			// dialog.discDayText.setValue(String.valueOf(rec.getIfPaidWithIn()));
 		}
@@ -129,9 +148,34 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 			clientPaymentTerms
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
 							.getValue().toString() : "");
-			clientPaymentTerms
-					.setDescription(dialog.descText.getValue() != null ? dialog.descText
-							.getValue().toString() : "");
+			paymentTerm.setDateDriven(dialog.dateDriven.getValue());
+			if (dialog.fixedDays.getValue()) {
+				paymentTerm.setDueDays(UIUtils.toInt((this.dialog.netDueIn
+						.getNumber() != null ? this.dialog.netDueIn.getNumber()
+						: 0)));
+				paymentTerm.setDiscountPercent(this.dialog.discountField
+						.getAmount() != null ? this.dialog.discountField
+						.getAmount() : 0);
+				paymentTerm
+						.setIfPaidWithIn(UIUtils.toInt((this.dialog.discountDue
+								.getNumber() != null ? this.dialog.discountDue
+								.getNumber() : 0)));
+			} else {
+				paymentTerm.setDueDays(UIUtils.toInt((this.dialog.netDueBefore
+						.getNumber() != null ? this.dialog.netDueBefore
+						.getNumber() : 0)));
+				paymentTerm.setDiscountPercent(this.dialog.discountPerField
+						.getAmount() != null ? this.dialog.discountPerField
+						.getAmount() : 0);
+				paymentTerm
+						.setIfPaidWithIn(UIUtils.toInt((this.dialog.discountPaidBefore
+								.getNumber() != null ? this.dialog.discountPaidBefore
+								.getNumber() : 0)));
+			}
+			// clientPaymentTerms
+			// .setDescription(dialog.descText.getValue() != null ?
+			// dialog.descText
+			// .getValue().toString() : "");
 			// clientPaymentTerms.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
 			// .getValue() != null ? dialog.discDayText.getValue() : "0"));
 			// clientPaymentTerms.setDiscountPercent(UIUtils
@@ -146,17 +190,46 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 			// clientPaymentTerms.setDue(i + 1);
 			// }
 			// }
-			clientPaymentTerms.setDueDays(UIUtils.toInt(dialog.dayText
-					.getValue() != null ? dialog.dayText.getValue() : "0"));
+			// clientPaymentTerms.setDueDays(UIUtils.toInt(dialog.dayText
+			// .getValue() != null ? dialog.dayText.getValue() : "0"));
 		} else {
 			clientPaymentTerms = new ClientPaymentTerms();
 
 			clientPaymentTerms
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
 							.getValue().toString() : "");
-			clientPaymentTerms
-					.setDescription(dialog.descText.getValue() != null ? dialog.descText
-							.getValue().toString() : "");
+
+			clientPaymentTerms.setDateDriven(dialog.dateDriven.getValue());
+			if (dialog.fixedDays.getValue()) {
+				clientPaymentTerms
+						.setDueDays(UIUtils.toInt((this.dialog.netDueIn
+								.getNumber() != null ? this.dialog.netDueIn
+								.getNumber() : 0)));
+				clientPaymentTerms.setDiscountPercent(this.dialog.discountField
+						.getAmount() != null ? this.dialog.discountField
+						.getAmount() : 0);
+				clientPaymentTerms
+						.setIfPaidWithIn(UIUtils.toInt((this.dialog.discountDue
+								.getNumber() != null ? this.dialog.discountDue
+								.getNumber() : 0)));
+			} else {
+				clientPaymentTerms
+						.setDueDays(UIUtils.toInt((this.dialog.netDueBefore
+								.getNumber() != null ? this.dialog.netDueBefore
+								.getNumber() : 0)));
+				clientPaymentTerms
+						.setDiscountPercent(this.dialog.discountPerField
+								.getAmount() != null ? this.dialog.discountPerField
+								.getAmount() : 0);
+				clientPaymentTerms
+						.setIfPaidWithIn(UIUtils.toInt((this.dialog.discountPaidBefore
+								.getNumber() != null ? this.dialog.discountPaidBefore
+								.getNumber() : 0)));
+			}
+			// clientPaymentTerms
+			// .setDescription(dialog.descText.getValue() != null ?
+			// dialog.descText
+			// .getValue().toString() : "");
 			// clientPaymentTerms
 			// .setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
 			// .getNumber() != null ? dialog.discDayText
@@ -174,8 +247,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 			// clientPaymentTerms.setDue(i + 1);
 			// }
 			// }
-			clientPaymentTerms.setDueDays(UIUtils.toInt(dialog.dayText
-					.getNumber() != null ? dialog.dayText.getNumber() : "0"));
+			// clientPaymentTerms.setDueDays(UIUtils.toInt(dialog.dayText
+			// .getNumber() != null ? dialog.dayText.getNumber() : "0"));
 		}
 		/*
 		 * all these are modified cause after editing clientPaymentTerms was not

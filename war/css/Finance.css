@@ -1196,7 +1196,7 @@ iframe,.address div {
 	padding: 5px 0 15px 22px;
 }
 
-.organisation_comment,.referComment {
+.organisation_comment,.referComment,.account_comment {
 	color: #808080;
 }
 
@@ -2218,3 +2218,10 @@ input.date-field-textbox {
 .user_activity_log tr td button {
 	border: 0 none;
 }
+
+.account_comment {
+	padding: 5px 0 0 22px;
+}
+
+.account_panel {
+	padding: 0 0 15px 22px;

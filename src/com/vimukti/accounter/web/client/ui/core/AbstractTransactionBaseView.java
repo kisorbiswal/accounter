@@ -1603,6 +1603,18 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isDiscountEnabled() {
+		if (transaction != null && transaction.haveDiscount()) {
+			return true;
+		} else {
+			return getPreferences().isTrackDiscounts();
+		}
+	}
+
 	@Override
 	protected VerticalPanel createHistoryView() {
 		VerticalPanel historyNotesPanel = new VerticalPanel();

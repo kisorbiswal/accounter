@@ -53,6 +53,7 @@ import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class VendorManager extends Manager {
 	HashMap<Integer, Integer> boxThresholds = new HashMap<Integer, Integer>();
@@ -186,7 +187,8 @@ public class VendorManager extends Manager {
 
 					payBillTransactionList
 							.setOriginalAmount((Double) object[5]);
-					payBillTransactionList.setAmountDue((Double) object[6]);
+					Double amountDue = (Double) object[6];
+					payBillTransactionList.setAmountDue(amountDue);
 					payBillTransactionList.setPayment((Double) object[7]);
 					payBillTransactionList.setPaymentMethod((String) object[8]);
 					queryResult.add(payBillTransactionList);
@@ -865,7 +867,8 @@ public class VendorManager extends Manager {
 	}
 
 	public ArrayList<PayBillTransactionList> getTransactionPayBills(
-			final long vendorId, long companyId) throws DAOException {
+			final long vendorId, long companyId, FinanceDate paymentDate)
+			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -900,7 +903,8 @@ public class VendorManager extends Manager {
 			query = session
 					.getNamedQuery("getPayBillTransactionsListForVendor")
 					.setParameter("vendorId", vendorId)
-					.setParameter("companyId", companyId);
+					.setParameter("companyId", companyId)
+					.setParameter("paymentDate", paymentDate.getDate());
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
 			List list = query.list();
@@ -924,12 +928,50 @@ public class VendorManager extends Manager {
 
 					payBillTransactionList
 							.setOriginalAmount((Double) object[5]);
-					payBillTransactionList.setAmountDue((Double) object[6]);
+					Double amountDue = (Double) object[6];
+					payBillTransactionList.setAmountDue(amountDue);
 					// payBillTransactionList.setPayment((Double) object[7]);
 					payBillTransactionList.setPaymentMethod((String) object[8]);
 					payBillTransactionList
 							.setDiscountDate(object[9] == null ? null
 									: new ClientFinanceDate((Long) object[9]));
+
+					ClientFinanceDate transactionDate = new ClientFinanceDate(
+							(Long) object[10]);
+
+					double discPerc = 0;
+					if (object[11] != null) {
+						boolean isDateDriven = (Boolean) object[11];
+						int ifPaidWithin = (Integer) object[12];
+						double discount = (Double) object[13];
+
+						if (isDateDriven) {
+							ClientFinanceDate currentDate = new ClientFinanceDate(
+									paymentDate.getAsDateObject());
+							if (currentDate.getYear() == transactionDate
+									.getYear()
+									&& currentDate.getMonth() == transactionDate
+											.getMonth()
+									&& currentDate.getDay() <= ifPaidWithin) {
+
+								discPerc = discount;
+							} else {
+								discPerc = 0;
+							}
+						} else {
+							long differenceBetween = UIUtils.getDays_between(
+									transactionDate.getDateAsObject(),
+									paymentDate.getAsDateObject());
+							if (differenceBetween > 0
+									&& differenceBetween <= ifPaidWithin) {
+								discPerc = discount;
+							} else {
+								discPerc = 0;
+							}
+						}
+					}
+					payBillTransactionList.setCashDiscount((amountDue / 100)
+							* (discPerc));
 					queryResult.add(payBillTransactionList);
 				}
 			} else

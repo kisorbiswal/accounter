@@ -60,11 +60,13 @@ public abstract class TransactionReceivePaymentTable extends
 
 	List<ClientTransactionReceivePayment> tranReceivePayments = new ArrayList<ClientTransactionReceivePayment>();
 	private ICurrencyProvider currencyProvider;
+	private boolean enableDiscount;
 
-	public TransactionReceivePaymentTable(boolean canEdit,
-			ICurrencyProvider currencyProvider) {
+	public TransactionReceivePaymentTable(boolean enableDisCount,
+			boolean canEdit, ICurrencyProvider currencyProvider) {
 		this.currencyProvider = currencyProvider;
 		this.canEdit = canEdit;
+		this.enableDiscount = enableDisCount;
 		this.company = Accounter.getCompany();
 	}
 
@@ -270,7 +272,9 @@ public abstract class TransactionReceivePaymentTable extends
 				return selectedValues.contains(indexOf(row));
 			}
 		};
-		this.addColumn(cashDiscountColumn);
+		if (enableDiscount) {
+			this.addColumn(cashDiscountColumn);
+		}
 
 		AnchorEditColumn<ClientTransactionReceivePayment> writeOffColumn = new AnchorEditColumn<ClientTransactionReceivePayment>() {
 
@@ -416,8 +420,11 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	private double getTotalValue(ClientTransactionReceivePayment payment) {
-		double totalValue = payment.getCashDiscount() + payment.getWriteOff()
-				+ payment.getAppliedCredits() + payment.getPayment();
+		double totalValue = payment.getWriteOff() + payment.getAppliedCredits()
+				+ payment.getPayment();
+		if (enableDiscount) {
+			totalValue += payment.getCashDiscount();
+		}
 		return totalValue;
 	}
 
@@ -909,7 +916,7 @@ public abstract class TransactionReceivePaymentTable extends
 		// setAccountDefaultValues(obj);
 		deleteTotalPayment(obj.getPayment());
 		obj.setPayment(0.0d);
-		obj.setCashDiscount(0.0d);
+		// obj.setCashDiscount(0.0d);
 		obj.setWriteOff(0.0d);
 		obj.setAppliedCredits(0.0d);
 		obj.setDummyDue(obj.getAmountDue());

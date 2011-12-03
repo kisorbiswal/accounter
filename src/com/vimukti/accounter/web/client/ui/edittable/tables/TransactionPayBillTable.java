@@ -56,11 +56,13 @@ public abstract class TransactionPayBillTable extends
 	private ClientTAXItem tdsCode;
 	private boolean showTds;
 	private boolean isForceShowTDS;
+	private boolean enableDiscount;
 
-	public TransactionPayBillTable(boolean canEdit,
+	public TransactionPayBillTable(boolean enableDiscount, boolean canEdit,
 			ICurrencyProvider currencyProvider) {
 		this.currencyProvider = currencyProvider;
 		this.canEdit = canEdit;
+		this.enableDiscount = enableDiscount;
 	}
 
 	protected void initColumns() {
@@ -238,7 +240,7 @@ public abstract class TransactionPayBillTable extends
 			});
 		}
 
-		this.addColumn(new TextEditColumn<ClientTransactionPayBill>() {
+		TextEditColumn<ClientTransactionPayBill> discountDateColumn = new TextEditColumn<ClientTransactionPayBill>() {
 
 			@Override
 			protected String getValue(ClientTransactionPayBill row) {
@@ -265,9 +267,9 @@ public abstract class TransactionPayBillTable extends
 			protected String getColumnName() {
 				return messages.discountDate();
 			}
-		});
+		};
 
-		this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>() {
+		AnchorEditColumn<ClientTransactionPayBill> discountColumn = new AnchorEditColumn<ClientTransactionPayBill>() {
 
 			@Override
 			protected void onClick(ClientTransactionPayBill row) {
@@ -289,7 +291,11 @@ public abstract class TransactionPayBillTable extends
 				return selectedValues.contains(indexOf(row));
 			}
 
-		});
+		};
+		if (enableDiscount) {
+			this.addColumn(discountDateColumn);
+			this.addColumn(discountColumn);
+		}
 
 		this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>() {
 
@@ -953,7 +959,7 @@ public abstract class TransactionPayBillTable extends
 				creditsStack.clear();
 
 			obj.setPayment(0.0);
-			obj.setCashDiscount(0);
+			// obj.setCashDiscount(0);
 			obj.setAppliedCredits(0);
 			selectedValues.remove((Integer) indexOf(obj));
 			update(obj);

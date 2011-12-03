@@ -80,7 +80,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<PayBillTransactionList> getTransactionPayBills();
 
 	public ArrayList<PayBillTransactionList> getTransactionPayBills(
-			long vendorId);
+			long vendorId, ClientFinanceDate paymentDate);
 
 	public ArrayList<PaymentsList> getVendorPaymentsList();
 

@@ -244,7 +244,7 @@ public class CashSalesView extends
 				.getPrimaryCurrency());
 
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
-				isTrackTax(), isTaxPerDetailLine(), this) {
+				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -286,7 +286,7 @@ public class CashSalesView extends
 		accountsDisclosurePanel.setWidth("100%");
 
 		customerItemTransactionTable = new CustomerItemTransactionTable(
-				isTrackTax(), isTaxPerDetailLine(), this) {
+				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {

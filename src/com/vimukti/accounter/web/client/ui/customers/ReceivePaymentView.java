@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -37,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
+import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
@@ -46,6 +48,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
  * 
@@ -191,6 +194,7 @@ public class ReceivePaymentView extends
 									gridView.initCreditsAndPayments(selectedCustomer);
 									addTransactionRecievePayments(result);
 								} else {
+									gridView.removeAllRecords();
 									gridView.addEmptyMessage(Accounter
 											.messages().noRecordsToShow());
 									totalInoiceAmt = 0.00d;
@@ -256,6 +260,7 @@ public class ReceivePaymentView extends
 			record.setDiscountDate(receivePaymentTransaction.getDiscountDate() != null ? receivePaymentTransaction
 					.getDiscountDate().getDate() : 0);
 
+			record.setDiscountAccount(getCompany().getCashDiscountAccount());
 			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
 
 			record.setWriteOff(receivePaymentTransaction.getWriteOff());
@@ -312,7 +317,8 @@ public class ReceivePaymentView extends
 	}
 
 	private void initListGrid() {
-		gridView = new TransactionReceivePaymentTable(!isInViewMode(), this) {
+		gridView = new TransactionReceivePaymentTable(isDiscountEnabled(),
+				!isInViewMode(), this) {
 
 			@Override
 			public void updateTotalPayment(Double payment) {
@@ -398,7 +404,54 @@ public class ReceivePaymentView extends
 			lab = new Label(Utility.getTransactionName(transactionType));
 		}
 		lab.setStyleName(Accounter.messages().labelTitle());
-		transactionDateItem = createTransactionDateItem();
+		// transactionDateItem = createTransactionDateItem();
+		transactionDateItem = new DateField(messages.date());
+		transactionDateItem
+				.setToolTip(Accounter.messages()
+						.selectDateWhenTransactioCreated(
+								this.getAction().getViewName()));
+		transactionDateItem.setHelpInformation(true);
+		if (transaction != null && transaction.getDate() != null) {
+			transactionDateItem.setEnteredDate(transaction.getDate());
+			setTransactionDate(transaction.getDate());
+
+		} else {
+			setTransactionDate(new ClientFinanceDate());
+			transactionDateItem.setEnteredDate(new ClientFinanceDate());
+
+		}
+
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionDateItem.setShowTitle(false);
+
+		transactionDateItem.setWidth(100);
+		transactionDateItem.setColSpan(2);
+		transactionDateItem
+				.addDateValueChangeHandler(new DateValueChangeHandler() {
+
+					@Override
+					public void onDateValueChange(ClientFinanceDate date) {
+						if (date != null) {
+							try {
+								ClientFinanceDate newDate = transactionDateItem
+										.getValue();
+								if (newDate != null) {
+									setTransactionDate(newDate);
+									gridView.removeAllRecords();
+									gridView.addLoadingImagePanel();
+									getTransactionReceivePayments(customer);
+								}
+							} catch (Exception e) {
+								Accounter.showError(messages
+										.invalidTransactionDate());
+								setTransactionDate(new ClientFinanceDate());
+								transactionDateItem
+										.setEnteredDate(getTransactionDate());
+							}
+
+						}
+					}
+				});
 		transactionNumber = createTransactionNumberItem();
 
 		listforms = new ArrayList<DynamicForm>();

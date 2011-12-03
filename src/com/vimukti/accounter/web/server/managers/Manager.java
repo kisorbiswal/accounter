@@ -257,7 +257,7 @@ public class Manager {
 			Query hibernateQuery = session
 					.getNamedQuery(
 							"unique.name." + type.getServerClassSimpleName())
-					.setString(0, name)
+					.setString("name", name)
 					.setEntity("company", getCompany(companyId));
 
 			List objects = hibernateQuery.list();

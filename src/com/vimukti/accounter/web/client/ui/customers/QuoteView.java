@@ -516,7 +516,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		currencyWidget = createCurrencyFactorWidget();
 
 		customerTransactionTable = new CustomerItemTransactionTable(
-				isTrackTax(), isTaxPerDetailLine(), this) {
+				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {

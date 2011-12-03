@@ -172,7 +172,8 @@ public class ItemReceiptView extends
 		HTML lab2 = new HTML("<strong>"
 				+ Accounter.messages().itemsAndExpenses() + "</strong>");
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(), this) {
+				isDiscountEnabled(), isTrackTax() && isTrackPaidTax(),
+				isTaxPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -209,7 +210,7 @@ public class ItemReceiptView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isTrackTax(), isTaxPerDetailLine(), this) {
+				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {

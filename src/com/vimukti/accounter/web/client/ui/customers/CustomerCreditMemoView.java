@@ -185,7 +185,7 @@ public class CustomerCreditMemoView extends
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
-				isTrackTax(), isTaxPerDetailLine(), this) {
+				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -226,7 +226,7 @@ public class CustomerCreditMemoView extends
 		accountsDisclosurePanel.setWidth("100%");
 
 		customerItemTransactionTable = new CustomerItemTransactionTable(
-				isTrackTax(), isTaxPerDetailLine(), this) {
+				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {

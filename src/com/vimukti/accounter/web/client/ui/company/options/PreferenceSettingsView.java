@@ -111,12 +111,15 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				messages.vendorAndPurchases());
 		CustomerAndVendorsSettingsOption customerAndVendorsSettingsPage = new CustomerAndVendorsSettingsOption();
 		ManageBillsOption manageBillsOption = new ManageBillsOption();
+		TrackDiscountsOption discountsOption = new TrackDiscountsOption();
 		TrackEstimatesOption estimatesOption = new TrackEstimatesOption();
 
 		DoyouUseShipingsOption shipingsOption = new DoyouUseShipingsOption();
 		customerAndVendorPage.addPreferenceOption(manageBillsOption);
 		customerAndVendorPage
 				.addPreferenceOption(customerAndVendorsSettingsPage);
+
+		customerAndVendorPage.addPreferenceOption(discountsOption);
 		customerAndVendorPage.addPreferenceOption(estimatesOption);
 
 		customerAndVendorPage.addPreferenceOption(shipingsOption);
