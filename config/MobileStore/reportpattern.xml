@@ -32,7 +32,7 @@
 			<command title="Trial Balance" />
 			<command title="Transaction Detail By Account" />
 			<command title="Expense Report" />
-			<command title="Transaction Detail by Tax Item" />
+			<command if="trackTax" title="Transaction Detail by Tax Item" />
 		</outputs>
 	</pattern>
 
