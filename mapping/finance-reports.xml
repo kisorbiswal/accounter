@@ -421,7 +421,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		SELECT NAME , SUM(AMOUNT*CURRENCY_FACTOR) FROM
+		SELECT NAME , SUM(AMOUNT) FROM
 		SALES_PURCHASES_VIEW WHERE
 		CUSTOMER_ID IS
 		NOT NULL AND COMPANY_ID=:companyId AND DATE BETWEEN
