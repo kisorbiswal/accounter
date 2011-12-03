@@ -1501,7 +1501,13 @@
 		from com.vimukti.accounter.core.JournalEntry je where
 		je.involvedPayee.id=:id
 	</query>
-
+	
+	<query name="getJournalEntryForAccount">
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.JournalEntry je where
+		je.involvedAccount.id=:id
+	</query>
+	
 	<query name="get.last.taxReturn.endDate">
 		<query-param name="company" type="Company" />
 		<query-param name="taxAgency" type="long" />
