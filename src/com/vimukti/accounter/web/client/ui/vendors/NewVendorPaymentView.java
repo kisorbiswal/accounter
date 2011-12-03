@@ -638,10 +638,14 @@ public class NewVendorPaymentView extends
 
 			if (payFromAccount.isIncrease()) {
 				toBeSetEndingBalance = payFromAccount
-						.getTotalBalanceInAccountCurrency() + balanceToBeUpdate;
+						.getTotalBalanceInAccountCurrency()
+						+ balanceToBeUpdate
+						* vendor.getCurrencyFactor();
 			} else {
 				toBeSetEndingBalance = payFromAccount
-						.getTotalBalanceInAccountCurrency() - balanceToBeUpdate;
+						.getTotalBalanceInAccountCurrency()
+						- balanceToBeUpdate
+						* vendor.getCurrencyFactor();
 			}
 
 			// endBalText
