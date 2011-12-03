@@ -1013,7 +1013,7 @@ public class MakeDepositView extends
 		} else {
 			transactionTotalBaseCurrencyText.setAmount(amount);
 			if (isMultiCurrencyEnabled()) {
-				foreignCurrencyamountLabel.setAmount(amount);
+				foreignCurrencyamountLabel.setAmount(amount / currencyFactor);
 			}
 		}
 	}
