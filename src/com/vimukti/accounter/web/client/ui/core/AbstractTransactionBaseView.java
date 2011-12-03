@@ -1011,8 +1011,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		if (!(this instanceof NewVendorPaymentView
 				|| this instanceof CustomerPrePaymentView
-				|| this instanceof CustomerRefundView
-				|| this instanceof InvoiceView || this instanceof MakeDepositView)) {
+				|| this instanceof CustomerRefundView || this instanceof InvoiceView)) {
 			if (transactionItems != null && transactionItems.size() != 0) {
 				for (ClientTransactionItem transactionItem : transactionItems) {
 

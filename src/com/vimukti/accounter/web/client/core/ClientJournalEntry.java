@@ -26,6 +26,8 @@ public class ClientJournalEntry extends ClientTransaction implements
 	double balanceDue = 0d;
 
 	long involvedPayee;
+	
+	long involvedAccount;
 
 	Set<ClientTransactionReceivePayment> transactionReceivePayments = new HashSet<ClientTransactionReceivePayment>();
 
@@ -291,5 +293,13 @@ public class ClientJournalEntry extends ClientTransaction implements
 
 	public void setInvolvedPayee(long involvedPayee) {
 		this.involvedPayee = involvedPayee;
+	}
+	
+	public long getInvolvedAccount() {
+		return involvedAccount;
+	}
+	
+	public void setInvolvedAccount(long involvedAccount){
+		this.involvedAccount = involvedAccount;
 	}
 }
