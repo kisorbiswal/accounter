@@ -210,7 +210,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 		if (account.getID() == 0) {
 			return "Account is ready to created with following details.";
 		} else {
-			return "Account is ready to updated with following details.";
+			return "Account is ready to update with following details.";
 		}
 	}
 
