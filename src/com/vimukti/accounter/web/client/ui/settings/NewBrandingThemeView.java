@@ -65,13 +65,13 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private Label measureLabel;
 	private FlexTable textBoxTable;
 	private List<String> listOfFontNames, listOfFontSizes;
-	private AccounterMessages messages = Accounter.messages();
-	private AccounterMessages accounterMessages = Accounter.messages();
+	private final AccounterMessages messages = Accounter.messages();
+	private final AccounterMessages accounterMessages = Accounter.messages();
 	private DynamicForm nameForm;
 	private ArrayList<String> templatesList;
 
 	private TemplateCombo invoiceCombo, creditMemoCombo;
-	private FinanceImages financeImages = Accounter.getFinanceImages();
+	private final FinanceImages financeImages = Accounter.getFinanceImages();
 	private Image invoiceTempImage;
 	private Image creditTempImage;
 	private String invVal, creditVal;
@@ -664,6 +664,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		return textBoxHorizontalPanel;
 	}
 
+	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		ClientBrandingTheme brandingThemeByName = Accounter.getCompany()
