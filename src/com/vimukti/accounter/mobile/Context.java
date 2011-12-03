@@ -264,7 +264,7 @@ public class Context {
 	 */
 	public void putSelection(String name, Object obj) {
 		if (selectedRecords.containsKey(name)) {
-			selectedRecords.get(name).add(obj);
+			selectedRecords.get(name).add(0, obj);
 		} else {
 			List<Object> records = new ArrayList<Object>();
 			records.add(obj);
