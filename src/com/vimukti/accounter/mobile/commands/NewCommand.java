@@ -114,9 +114,26 @@ public abstract class NewCommand extends Command {
 			record.add(finish);
 			actions.add(record);
 		}
+		Object selection = context.getSelection("actions");
+		String thirdCommand = getThirdCommand(context);
+
+		if (selection == ActionNames.THIRD_COMMAND) {
+			if (thirdCommand != null) {
+				Result result = new Result();
+				result.setNextCommand(thirdCommand);
+				context.getIOSession().getCurrentCommand().markDone();
+				return result;
+			}
+		}
+
+		if (thirdCommand != null) {
+			Record record = new Record(ActionNames.THIRD_COMMAND);
+			record.add(getThirdCommandString());
+			actions.add(record);
+		}
+
 		String deleteCommand = getDeleteCommand(context);
 
-		Object selection = context.getSelection("actions");
 		if (selection == ActionNames.DELETE_COMMAND) {
 			if (deleteCommand != null) {
 				Result result = new Result();
@@ -153,6 +170,14 @@ public abstract class NewCommand extends Command {
 		}
 		markDone();
 		return finishResult;
+	}
+
+	protected String getThirdCommandString() {
+		return null;
+	}
+
+	protected String getThirdCommand(Context context) {
+		return null;
 	}
 
 	protected String getDeleteCommand(Context context) {
