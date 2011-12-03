@@ -1085,14 +1085,14 @@ public class Invoice extends Transaction implements Lifecycle {
 	public void updateBalance(Session session, double amount,
 			TransactionReceivePayment trp) {
 		double currencyFactor = trp.receivePayment.getCurrencyFactor();
-		double amountInPaymentCurrency = amount / currencyFactor;
 
-		double amountToUpdate = amountInPaymentCurrency * this.currencyFactor;
+		double amountToUpdate = amount * this.currencyFactor;
 
-		this.payments += amountInPaymentCurrency;
-		this.balanceDue -= amountInPaymentCurrency;
+		this.payments += amount;
+		this.balanceDue -= amount;
 
-		double diff = amountToUpdate - amount;
+		// loss is invoiced amount - received amount in base currency
+		double diff = amountToUpdate - amount * currencyFactor;
 
 		Account exchangeLossOrGainAccount = getCompany()
 				.getExchangeLossOrGainAccount();
