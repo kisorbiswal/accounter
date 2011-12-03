@@ -4662,5 +4662,31 @@ public interface AccounterMessages extends Messages {
 
 	public String noTransactionsToshow();
 
+	public String adminuser();
+
+	public String accounttransaction();
+
+	public String adjustmentreason();
+
+	public String bank();
+
+	public String budgetitem();
+
+	public String creditsPayments();
+
+	public String customergroup();
+
+	public String customerprePayment();
+
+	public String customerRefund();
+
+	public String financeLogger();
+
+	public String fixedAssest();
+
+	public String fixedAssetHistory();
+
+	public String fixedAssetNote();
+
 	public String doNottrackingLocation();
 }
