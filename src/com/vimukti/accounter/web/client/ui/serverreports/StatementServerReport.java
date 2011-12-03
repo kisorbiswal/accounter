@@ -45,7 +45,7 @@ public class StatementServerReport extends
 		case 3:
 			return record.getAgeing();
 		case 4:
-			return record.getBalance();
+			return record.getBalance() * record.getCurrencyFactor();
 		}
 		return null;
 	}
