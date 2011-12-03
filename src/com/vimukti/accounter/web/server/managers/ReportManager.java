@@ -2775,6 +2775,9 @@ public class ReportManager extends Manager {
 					statementsList.setAgeing(ageing);
 					statementsList.setCategory(getCategory(ageing));
 
+					statementsList.setCurrency((Long)object[17]);
+					statementsList.setCurrencyFactor((Double)object[18]);
+					
 					queryResult.add(statementsList);
 				}
 				return new ArrayList<PayeeStatementsList>(queryResult);
@@ -2784,6 +2787,7 @@ public class ReportManager extends Manager {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -2818,8 +2822,8 @@ public class ReportManager extends Manager {
 					statementsList.setTransactionId((Long) object[3]);
 					statementsList.setTotal((Double) object[4]);
 					statementsList.setBalance((Double) object[5]);					
-					statementsList.setCurrency((Long)object[7]);
-					statementsList.setCurrencyFactor((Long)object[8]);
+					statementsList.setCurrency((Long)object[6]);
+					statementsList.setCurrencyFactor((Double)object[7]);
 					queryResult.add(statementsList);
 				}
 				return new ArrayList<PayeeStatementsList>(queryResult);

@@ -6150,7 +6150,9 @@
 		<return-scalar column="SALES_PERSON_NAME" type="string" />
 		<return-scalar column="SHIPPING_METHOD_NAME" type="string" />
 		<return-scalar column="PAYMENT_TERM_NAME" type="string" />
-		<return-scalar column="TRANSACTION_ID" type="long"></return-scalar>
+		<return-scalar column="TRANSACTION_ID" type="long"/>
+		<return-scalar column="CURRENCY" type="long"/>
+		<return-scalar column="CURRENCY_FACTOR" type="double"/>
 
 		SELECT T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS TRANSACTION_NUMBER,
@@ -6190,8 +6192,10 @@
 		SP.FIRST_NAME AS SALES_PERSON_NAME,
 		SM.NAME AS SHIPPING_METHOD_NAME,
 		PT.NAME AS PAYMENT_TERM_NAME,
-		T.ID AS TRANSACTION_ID
-
+		T.ID AS TRANSACTION_ID,
+		T.CURRENCY as
+		CURRENCY, T.CURRENCY_FACTOR
+		as CURRENCY_FACTOR
 
 		FROM TRANSACTION T
 		LEFT OUTER JOIN INVOICE I ON I.ID = T.ID
@@ -6272,6 +6276,8 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TOTAL" type="double" />
 		<return-scalar column="BALANCE" type="double" />
+		<return-scalar column="CURRENCY" type="long" />
+		<return-scalar column="CURRENCY_FACTOR" type="double" />
 
 		SELECT T.T_DATE AS TRANSACTION_DATE,
 		T.T_TYPE AS
