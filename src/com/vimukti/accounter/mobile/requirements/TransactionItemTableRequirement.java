@@ -112,11 +112,10 @@ public abstract class TransactionItemTableRequirement extends
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (getPreferences().isTrackTax()
-						&& getPreferences().isTaxPerDetailLine()) {
-					return null;
-				} else {
+						&& !getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
+				return null;
 			}
 
 			@Override
@@ -148,14 +147,15 @@ public abstract class TransactionItemTableRequirement extends
 		obj.getQuantity().setValue((Double) get(QUANITY).getValue());
 		obj.setUnitPrice((Double) get(UNITPTICE).getValue());
 		obj.setDiscount((Double) get(DISCOUNT).getValue());
-		if (getPreferences().isTrackTax()
-				&& getPreferences().isTaxPerDetailLine()) {
-			TAXCode taxCode = get(TAXCODE).getValue();
-			if (taxCode != null) {
-				obj.setTaxCode(taxCode.getID());
+		if (getPreferences().isTrackTax()) {
+			if (getPreferences().isTaxPerDetailLine()) {
+				TAXCode taxCode = get(TAXCODE).getValue();
+				if (taxCode != null) {
+					obj.setTaxCode(taxCode.getID());
+				}
+			} else {
+				obj.setTaxable((Boolean) get(TAX).getValue());
 			}
-		} else {
-			obj.setTaxable((Boolean) get(TAX).getValue());
 		}
 		obj.setDescription((String) get(DESCRIPTION).getValue());
 		double lt = obj.getQuantity().getValue() * obj.getUnitPrice();
@@ -179,7 +179,7 @@ public abstract class TransactionItemTableRequirement extends
 					CommandUtils.getServerObjectById(obj.getTaxCode(),
 							AccounterCoreType.TAX_CODE));
 			get(TAX).setDefaultValue(false);
-		} else {
+		} else if (getPreferences().isTrackTax()) {
 			get(TAX).setDefaultValue(obj.isTaxable());
 		}
 		get(DESCRIPTION).setDefaultValue(obj.getDescription());
@@ -208,17 +208,18 @@ public abstract class TransactionItemTableRequirement extends
 		}
 		record.add("Quantity", t.getQuantity().getValue());
 		record.add("Unit price", t.getUnitPrice());
-		if (getPreferences().isTrackTax()
-				&& getPreferences().isTaxPerDetailLine()) {
-			record.add("Tax Code", ((ClientTAXCode) (CommandUtils
-					.getClientObjectById(t.getTaxCode(),
-							AccounterCoreType.TAX_CODE, getCompanyId())))
-					.getDisplayName());
-		} else {
-			if (t.isTaxable()) {
-				record.add(getMessages().taxable());
+		if (getPreferences().isTrackTax()) {
+			if (getPreferences().isTaxPerDetailLine()) {
+				record.add("Tax Code", ((ClientTAXCode) (CommandUtils
+						.getClientObjectById(t.getTaxCode(),
+								AccounterCoreType.TAX_CODE, getCompanyId())))
+						.getDisplayName());
 			} else {
-				record.add(getMessages().taxExempt());
+				if (t.isTaxable()) {
+					record.add(getMessages().taxable());
+				} else {
+					record.add(getMessages().taxExempt());
+				}
 			}
 		}
 		record.add("Description", t.getDescription());

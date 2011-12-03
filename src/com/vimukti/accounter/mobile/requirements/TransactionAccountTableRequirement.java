@@ -109,8 +109,8 @@ public class TransactionAccountTableRequirement extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (!(getPreferences().isTrackTax() && getPreferences()
-						.isTaxPerDetailLine())) {
+				if (getPreferences().isTrackTax()
+						&& !getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -139,8 +139,11 @@ public class TransactionAccountTableRequirement extends
 		obj.setDescription(description);
 		double amount = get(AMOUNT).getValue();
 		obj.setUnitPrice(amount);
-		Boolean isTaxable = get(TAX).getValue();
-		obj.setTaxable(isTaxable);
+		if (getPreferences().isTrackTax()
+				&& !getPreferences().isTaxPerDetailLine()) {
+			Boolean isTaxable = get(TAX).getValue();
+			obj.setTaxable(isTaxable);
+		}
 		TAXCode taxCode = get(TAXCODE).getValue();
 		if (taxCode != null) {
 			obj.setTaxCode(taxCode.getID());
@@ -160,14 +163,14 @@ public class TransactionAccountTableRequirement extends
 						AccounterCoreType.ACCOUNT));
 		get(DESCRIPTION).setDefaultValue(obj.getDescription());
 		get(AMOUNT).setValue(obj.getUnitPrice());
-		if (getPreferences().isTrackTax()
-				&& getPreferences().isTaxPerDetailLine()) {
-			get(TAXCODE).setValue(
-					CommandUtils.getServerObjectById(obj.getTaxCode(),
-							AccounterCoreType.TAX_CODE));
-			get(TAX).setDefaultValue(false);
-		} else {
-			get(TAX).setDefaultValue(obj.isTaxable());
+		if (getPreferences().isTrackTax()) {
+			if (getPreferences().isTaxPerDetailLine()) {
+				get(TAXCODE).setValue(
+						CommandUtils.getServerObjectById(obj.getTaxCode(),
+								AccounterCoreType.TAX_CODE));
+			} else {
+				get(TAX).setDefaultValue(obj.isTaxable());
+			}
 		}
 		get(DISCOUNT).setDefaultValue(obj.getDiscount());
 	}
@@ -190,18 +193,19 @@ public class TransactionAccountTableRequirement extends
 				clientObjectById == null ? "" : clientObjectById
 						.getDisplayName());
 		record.add("Unit ptice", t.getUnitPrice());
-		if (getPreferences().isTrackTax()
-				&& getPreferences().isTaxPerDetailLine()) {
-			ClientTAXCode taxCode = (ClientTAXCode) CommandUtils
-					.getClientObjectById(t.getTaxCode(),
-							AccounterCoreType.TAX_CODE, getCompanyId());
-			record.add("Tax Code",
-					taxCode == null ? "" : taxCode.getDisplayName());
-		} else {
-			if (t.isTaxable()) {
-				record.add(getMessages().taxable());
+		if (getPreferences().isTrackTax()) {
+			if (getPreferences().isTaxPerDetailLine()) {
+				ClientTAXCode taxCode = (ClientTAXCode) CommandUtils
+						.getClientObjectById(t.getTaxCode(),
+								AccounterCoreType.TAX_CODE, getCompanyId());
+				record.add("Tax Code",
+						taxCode == null ? "" : taxCode.getDisplayName());
 			} else {
-				record.add(getMessages().taxExempt());
+				if (t.isTaxable()) {
+					record.add(getMessages().taxable());
+				} else {
+					record.add(getMessages().taxExempt());
+				}
 			}
 		}
 		record.add("Discount", t.getDiscount());
