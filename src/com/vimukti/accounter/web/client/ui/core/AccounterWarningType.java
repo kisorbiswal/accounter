@@ -1,43 +1,68 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-public class AccounterWarningType {
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
-	public static final String AMOUNTEXCEEDS = "Amount Range Should be in: 0 t0 1000";
-	public static final String INVALIDAMOUNT = "Invalid Amount";
-	public static final String INVALIDENTRY = "";
-	public static final String AMOUNTPOSITIVEEXCEEDS = "Amount Range Should be in:";
-	public static final String on_CreditCardSave = "It is recommended that you setup a supplier record for the company that you make "
-			+ "credit card or line of credit card payments. Do you want to setup this supplier record now?";
-	public static final String Create_FiscalYear = "This will create all necessary fiscal years to include the selected start date./n "
-			+ "Do you want to continue?";
-	public static final String default_IncomeAccount = "Would you like to set this to be the default Income Finance Category for service item?";
-	public static final String default_ExpenseAccount = "Would you like to set this to be the default Expense Finance Category for service item?";
-	public static final String default_IncomeAccountNonInventory = "Would you like to set this to be the default Income Finance Category for Non-Inventory item?";
-	public static final String default_ExpenseAccountNonInventory = "Would you like to set this to be the default Expense Finance Category for Non-Inventory item?";
-	public static final String different_IncomeAccountType = "A sale is generally linked to an income Finance Category, but you have selected "
-			+ "different finance category type. Do you want to continue? ";
-	public static final String different_ExpenseAccountType = "A purchase is generally linked to an expense Finance Category, but you have selected"
-			+ " different finance category type. Do you want to continue? ";
-	public static final String sales_price_zero = "The Sales Price is £0.00, do you want to continue?";
-	public static final String purchase_price_zero = "The purchase price is zero. Do you want to continue?";
-	public static final String different_CurrentLiabilityAccount = "A Tax Agency is generally linked to a current liability Finance Category,"
-			+ " but you have selected different finance category type. Do you want to continue? ";
-	public static final String void_Transaction = "Are you sure you want to void this transaction";
-	public static final String saveOrClose = "Do you want to save your changes?";
-	public static final String distributePaymentToOutstandingInvoices = "Do you want to distribute this payment to the outstanding invoices";
-	public static final String recievePayment = "The full payment has not been applied to the invoices. Are you sure want to save this payment?";
-	public static final String total_Exceeds_BankBalance = "The total amount exceeds the bank balance. Do you want to continue";
-	public static final String transferFromAccount = "The selected transfer from Finance Category contains insufficient funds to support this transaction. Do you want to contiue? ";
-	public static final String INVALID_CUSTOMERREFUND_AMOUNT = "The total Amount exceeds the bank balance.Do you want to continue ";
-	public static final String RECORDSEMPTY = "No Records to show";
-	public static final String NOT_YET_IMPLEMENTED = "Not yet implemeted...";
-	public static final String CLOSED_FISCALYEAR = "The Financial year for your Company has been closed.You can enter Opening balances when a Financial year"
-			+ "hasn't been closed.To re-open Finnacial year,select Manage FiscalYear on the Company menu";
-	public static final String RECEIVEPAYMENT_EDITING = "Editing this receive payment will void this transaction and create a new receive payment. Do you want to continue?";
-	public static final String PAYBILL_EDITING = "Editing this Pay Bill will void this transaction and create a new paybill. Do you want to continue?";
-	public static final String prior_CustomerSinceDate = "Customer Since date is prior to the company start date. Do you want to continue?";
-	public static final String PAYTAX_EDITING = "Editing this Pay TAX will void this transaction and create a new Pay TAX. Do you want to continue?";
-	public static final String TAXREFUND_EDITING = "Editing this TAX Refund will void this transaction and create a new TAX Refund. Do you want to continue?";
-	public static final String EMPTY_CLASS = "You did n't selected class for this transaction.Do you want to continue?";
-	public static final String WAREHOUSE_TRANSFER_EDITING = "Editing of this ware house transfer will delete this and create new one. Do you want to continue?";
+public class AccounterWarningType {
+	public static final int default_IncomeAccount = 101;
+	public static final int default_ExpenseAccount = 102;
+	public static final int default_IncomeAccountNonInventory = 103;
+	public static final int default_ExpenseAccountNonInventory = 104;
+	public static final int EMPTY_CLASS = 105;
+	public static final int saveOrClose = 106;
+	public static final int recievePayment = 107;
+	public static final int transferFromAccount = 108;
+	public static final int INVALID_CUSTOMERREFUND_AMOUNT = 109;
+	public static final int RECORDSEMPTY = 110;
+	public static final int NOT_YET_IMPLEMENTED = 111;
+	public static final int RECEIVEPAYMENT_EDITING = 112;
+	public static final int CUSTOMER_EDITING = 113;
+	public static final int VENDOR_EDITING = 114;
+	public static final int PAYBILL_EDITING = 115;
+	public static final int TAXREFUND_EDITING = 116;
+	public static final int WAREHOUSE_TRANSFER_EDITING = 117;
+
+	public static String getWarning(int warningType) {
+		AccounterMessages messages = Global.get().messages();
+		switch (warningType) {
+		case default_IncomeAccount:
+			return messages.W_101();
+		case default_ExpenseAccount:
+			return messages.W_102();
+		case default_IncomeAccountNonInventory:
+			return messages.W_103();
+		case default_ExpenseAccountNonInventory:
+			return messages.W_104();
+		case EMPTY_CLASS:
+			return messages.W_105();
+		case saveOrClose:
+			return messages.W_106();
+		case recievePayment:
+			return messages.W_107();
+		case transferFromAccount:
+			return messages.W_108();
+		case INVALID_CUSTOMERREFUND_AMOUNT:
+			return messages.W_109();
+		case RECORDSEMPTY:
+			return messages.W_110();
+		case NOT_YET_IMPLEMENTED:
+			return messages.W_111();
+		case RECEIVEPAYMENT_EDITING:
+			return messages.W_112();
+		case CUSTOMER_EDITING:
+			return messages.W_113();
+		case VENDOR_EDITING:
+			return messages.W_114();
+		case PAYBILL_EDITING:
+			return messages.W_115();
+		case TAXREFUND_EDITING:
+			return messages.W_116();
+		case WAREHOUSE_TRANSFER_EDITING:
+			return messages.W_117();
+		default:
+			break;
+		}
+		return null;
+
+	}
 }

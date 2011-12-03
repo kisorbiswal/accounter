@@ -323,6 +323,11 @@ public class CashPurchase extends Transaction {
 	}
 
 	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkingVendorNull(vendor);
+	}
+
+	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
 		super.onUpdate(session);
@@ -471,7 +476,7 @@ public class CashPurchase extends Transaction {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -186,8 +186,17 @@ public class MoneyGoingPortlet extends Portlet {
 
 	@Override
 	public void refreshWidget() {
+
+	}
+
+	private void refreshPortlet() {
 		this.body.clear();
 		createBody();
 	}
 
+	@Override
+	protected void onAttach() {
+		super.onAttach();
+		refreshPortlet();
+	}
 }

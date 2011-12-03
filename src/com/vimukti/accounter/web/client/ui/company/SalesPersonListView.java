@@ -100,7 +100,8 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 
 	}
 
@@ -125,7 +126,8 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 		if (salesPersons != null)
 			this.grid.setRecords(salesPersons);
 		else
-			this.grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			this.grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 
 		super.saveSuccess(object);
 	}

@@ -146,6 +146,16 @@ public class IssuePayment extends Transaction {
 	}
 
 	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkPaymentMethodNull();
+		checkAccountNull(account);
+		if (transactionItems.size() == 0) {
+			throw new AccounterException(
+					AccounterException.ERROR_THERE_IS_NO_TRANSACTIONS_TO_ISSUE);
+		}
+	}
+
+	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		// TODO Auto-generated method stub
@@ -155,7 +165,7 @@ public class IssuePayment extends Transaction {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

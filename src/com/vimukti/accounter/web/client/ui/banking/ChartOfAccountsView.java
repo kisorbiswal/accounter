@@ -127,13 +127,15 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 			} else if (account.getIsActive() == false) {
 				grid.addData(account);
 				if (grid.getRecords().isEmpty()) {
-					grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+					grid.addEmptyMessage(AccounterWarningType
+							.getWarning(AccounterWarningType.RECORDSEMPTY));
 				}
 			}
 
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 		}
 		Window.scrollTo(0, 0);
 	}

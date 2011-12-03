@@ -64,7 +64,6 @@ public class JournalEntry extends Transaction {
 		setType(Transaction.TYPE_JOURNAL_ENTRY);
 	}
 
-
 	public double getBalanceDue() {
 		return balanceDue;
 	}
@@ -149,7 +148,6 @@ public class JournalEntry extends Transaction {
 			return true;
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
-
 		this.total = this.debitTotal;
 
 		// Creating Activity
@@ -159,6 +157,17 @@ public class JournalEntry extends Transaction {
 		this.setLastActivity(activity);
 
 		return false;
+	}
+
+	@Override
+	protected void checkNullValues() {
+		if (this.creditTotal != this.debitTotal) {
+			try {
+				throw new AccounterException(
+						AccounterException.ERROR_CREDIT_DEBIT_TOTALS_NOT_EQUAL);
+			} catch (AccounterException e) {
+			}
+		}
 	}
 
 	@Override
@@ -210,7 +219,6 @@ public class JournalEntry extends Transaction {
 
 		this.balanceDue = 0.0;
 
-
 	}
 
 	@Override
@@ -234,6 +242,13 @@ public class JournalEntry extends Transaction {
 	public Map<Account, Double> getEffectingAccountsWithAmounts() {
 		Map<Account, Double> map = new HashMap<Account, Double>();
 		for (TransactionItem e : transactionItems) {
+			if (e == null) {
+				try {
+					throw new AccounterException(
+							AccounterException.ERROR_TRANSACTION_ITEM_NULL);
+				} catch (Exception e2) {
+				}
+			}
 			map.put(e.getAccount(), e.getLineTotal());
 		}
 		return map;
@@ -243,11 +258,10 @@ public class JournalEntry extends Transaction {
 		this.involvedPayee = involvedPayee;
 	}
 
-
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

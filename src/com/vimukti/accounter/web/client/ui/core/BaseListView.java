@@ -518,7 +518,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				filterList(true);
 			}
 		} else {
-			Accounter.showInformation(AccounterWarningType.RECORDSEMPTY);
+			Accounter.showInformation(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 			grid.removeLoadingImage();
 		}
 	}

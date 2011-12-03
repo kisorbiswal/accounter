@@ -213,7 +213,9 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 
 	protected void addEmptyMsg() {
 		createNewDataPanel();
-		Label error = new Label(AccounterWarningType.RECORDSEMPTY);
+		Label error = new Label(
+				AccounterWarningType
+						.getWarning(AccounterWarningType.RECORDSEMPTY));
 		dataPanel.add(error);
 		dataPanel.setCellHorizontalAlignment(error, HasAlignment.ALIGN_CENTER);
 		pager.setVisible(false);

@@ -691,6 +691,10 @@ public abstract class Transaction extends CreatableObject implements
 		return false;
 	}
 
+	protected void checkNullValues() throws AccounterException {
+
+	}
+
 	protected void addCreateHistory() {
 		TransactionLog log = new TransactionLog(TransactionLog.TYPE_CREATE);
 		if (this.history == null) {
@@ -1179,6 +1183,7 @@ public abstract class Transaction extends CreatableObject implements
 
 		Transaction transaction = (Transaction) clientObject;
 		checkForReconciliation(transaction);
+		checkNullValues();
 		return true;
 	}
 
@@ -1188,6 +1193,10 @@ public abstract class Transaction extends CreatableObject implements
 			return;
 		}
 		Map<Account, Double> map = getEffectingAccountsWithAmounts();
+		if (map.size() == 0) {
+			throw new AccounterException(
+					AccounterException.ERROR_THERE_IS_NO_TRANSACTION_ITEMS);
+		}
 		for (ReconciliationItem item : reconciliationItems) {
 			BankAccount reconciliedAccount = item.getReconciliation()
 					.getAccount();
@@ -1378,5 +1387,44 @@ public abstract class Transaction extends CreatableObject implements
 	public void setTaxRateCalculationEntriesList(
 			Set<TAXRateCalculation> taxRateCalculationEntriesList) {
 		this.taxRateCalculationEntriesList = taxRateCalculationEntriesList;
+	}
+
+	protected void checkingCustomerNull(Customer customer)
+			throws AccounterException {
+		if (customer == null) {
+			throw new AccounterException(AccounterException.ERROR_CUSTOMER_NULL);
+		}
+	}
+
+	protected void chekingTaxCodeNull(TAXCode taxCode)
+			throws AccounterException {
+		if (taxCode == null) {
+			throw new AccounterException(AccounterException.ERROR_TAX_CODE_NULL);
+		}
+	}
+
+	protected void checkAccountNull(Account account) throws AccounterException {
+		if (account == null) {
+			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL);
+		}
+	}
+
+	protected void checkPaymentMethodNull() throws AccounterException {
+		if (paymentMethod == null) {
+			throw new AccounterException(
+					AccounterException.ERROR_PAYMENT_METHOD_NULL);
+		}
+	}
+
+	protected void checkingTotal0() throws AccounterException {
+		if (total != 0) {
+			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO);
+		}
+	}
+
+	protected void checkingVendorNull(Vendor vendor) throws AccounterException {
+		if (vendor == null) {
+			throw new AccounterException(AccounterException.ERROR_VENDOR_NULL);
+		}
 	}
 }

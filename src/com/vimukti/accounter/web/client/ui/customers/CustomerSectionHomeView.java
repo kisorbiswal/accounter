@@ -203,7 +203,8 @@ public class CustomerSectionHomeView extends BaseHomeView {
 						listGrid.clear();
 						listGrid.addRecords(result);
 						if (listGrid.getRecords().isEmpty())
-							listGrid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+							listGrid.addEmptyMessage(AccounterWarningType
+									.getWarning(AccounterWarningType.RECORDSEMPTY));
 					}
 
 					@Override
@@ -277,7 +278,8 @@ public class CustomerSectionHomeView extends BaseHomeView {
 						listGrid.addRecords(result);
 
 						if (listGrid.getRecords().isEmpty())
-							listGrid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+							listGrid.addEmptyMessage(AccounterWarningType
+									.getWarning(AccounterWarningType.RECORDSEMPTY));
 					}
 
 					@Override

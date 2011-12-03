@@ -112,10 +112,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 	}
 
 	String[] dateRangeArray = { Accounter.messages().all(),
-			Accounter.messages().thisWeek(),
-			Accounter.messages().thisMonth(),
-			Accounter.messages().lastWeek(),
-			Accounter.messages().lastMonth(),
+			Accounter.messages().thisWeek(), Accounter.messages().thisMonth(),
+			Accounter.messages().lastWeek(), Accounter.messages().lastMonth(),
 			Accounter.messages().thisFinancialYear(),
 			Accounter.messages().lastFinancialYear(),
 			Accounter.messages().thisFinancialQuarter(),
@@ -241,7 +239,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 
 		grid.sort(DUE_DATE, false);
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 		}
 	}
 
@@ -261,8 +260,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 					1);
 			Calendar endCal = Calendar.getInstance();
 			endCal.setTime(new ClientFinanceDate().getDateAsObject());
-			endCal.set(Calendar.DAY_OF_MONTH, endCal
-					.getActualMaximum(Calendar.DAY_OF_MONTH));
+			endCal.set(Calendar.DAY_OF_MONTH,
+					endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 			endDate = new ClientFinanceDate(endCal.getTime());
 
 		}
@@ -281,8 +280,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 				endDate = new ClientFinanceDate(date.getYear() - 1, 11, day);
 			} else {
 				day = getMonthLastDate(date.getMonth() - 1, date.getYear());
-				startDate = new ClientFinanceDate(date.getYear(), date
-						.getMonth() - 1, 1);
+				startDate = new ClientFinanceDate(date.getYear(),
+						date.getMonth() - 1, 1);
 				endDate = new ClientFinanceDate(date.getYear(),
 						date.getMonth() - 1, day);
 			}
@@ -298,8 +297,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 			Calendar endCal = Calendar.getInstance();
 			endCal.setTime(Accounter.getCompany().getCurrentFiscalYearEndDate()
 					.getDateAsObject());
-			endCal.set(Calendar.DAY_OF_MONTH, endCal
-					.getActualMaximum(Calendar.DAY_OF_MONTH));
+			endCal.set(Calendar.DAY_OF_MONTH,
+					endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 			endDate = new ClientFinanceDate(endCal.getTime());
 			endDate.setYear(endDate.getYear() - 1);
 
@@ -537,8 +536,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 					if (!v.contains(ClientTransaction.TYPE_INVOICE))
 						v.add(ClientTransaction.TYPE_INVOICE);
 				} else if (invoice.getType() == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-					if (!v
-							.contains(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO))
+					if (!v.contains(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO))
 						v.add(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
 
 				} else if (invoice.getType() == ClientTransaction.TYPE_CASH_SALES) {
@@ -662,8 +660,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 
 		} else if (type == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 			UIUtils.downloadMultipleAttachment(ids.toString(),
-					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO, brandingTheme
-							.getID());
+					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
+					brandingTheme.getID());
 
 		}
 

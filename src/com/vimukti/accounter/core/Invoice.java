@@ -26,13 +26,13 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * <br>
  *         <b><i>Effect on Transaction Item </i></b><br>
  *         ===============================>Item <br>
- *         If Item's IncomeAccount isIncrease true then Increasae the current
- *         and total balance by line total otherwise Decrease.<br>
+ *         If Item's IncomeAccount isIncrease true then Increase the current and
+ *         total balance by line total otherwise Decrease.<br>
  * 
  * <br>
  *         ===============================>Account<br>
  * 
- *         If Account isIncrease true then Increasae the current and total
+ *         If Account isIncrease true then Increase the current and total
  *         balance by line total otherwise Decrease.<br>
  * 
  * <br>
@@ -454,6 +454,11 @@ public class Invoice extends Transaction implements Lifecycle {
 		doCreateEffect(session);
 		return false;
 
+	}
+
+	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkingCustomerNull(customer);
 	}
 
 	private void doCreateEffect(Session session) {
@@ -1023,6 +1028,7 @@ public class Invoice extends Transaction implements Lifecycle {
 					if (est.getEstimateType() == Estimate.CREDITS) {
 						clone.updateAsCredit();
 					}
+					super.chekingTaxCodeNull(clone.taxCode);
 					this.transactionItems.add(clone);
 				}
 			} catch (Exception e) {
@@ -1106,9 +1112,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-
 		AccounterMessages messages = Global.get().messages();
-
 		w.put(messages.type(), messages.invoice()).gap();
 		w.put(messages.invoiceNo(), this.number);
 

@@ -4582,4 +4582,43 @@ public interface AccounterMessages extends Messages {
 
 	public String thereAreNoTransactionItemsToSave();
 
+	public String W_101();
+
+	public String W_102();
+
+	public String W_103();
+
+	public String W_104();
+
+	public String W_105();
+
+	public String W_106();
+
+	public String W_107();
+
+	public String W_108();
+
+	public String W_109();
+
+	public String W_110();
+
+	public String W_111();
+
+	public String W_112();
+
+	public String W_113();
+
+	public String W_114();
+
+	public String W_115();
+
+	public String W_116();
+
+	public String W_117();
+
+	public String writeCheckPaid();
+
+	public String noBanksToShow();
+
+	public String noTransactionsToshow();
 }

@@ -195,6 +195,13 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	}
 
 	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkAccountNull(payFrom);
+		checkingCustomerNull(payTo);
+		checkingTotal0();
+	}
+
+	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
 		//
@@ -420,6 +427,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

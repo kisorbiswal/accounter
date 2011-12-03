@@ -191,7 +191,8 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 
 	}
 

@@ -322,6 +322,14 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
+	protected void checkNullValues() {
+		try {
+			checkingVendorNull(vendor);
+		} catch (AccounterException e) {
+		}
+	}
+
+	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
 		createAndSaveEstimates(this.transactionItems, session);

@@ -310,13 +310,15 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 		return Accounter.getCompany();
 
 	}
+
 	public String getBaseCurrencyAsString() {
 		return "";
-		
+
 	}
+
 	public String getCurrencyAsString(long id) {
 		return "";
-		
+
 	}
 
 	/**
@@ -438,7 +440,8 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	 */
 	public void onClose() {
 		if (isDirty) {
-			Accounter.showWarning(AccounterWarningType.saveOrClose,
+			Accounter.showWarning(AccounterWarningType
+					.getWarning(AccounterWarningType.saveOrClose),
 					AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
 						@Override
@@ -494,6 +497,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	public boolean isMultiCurrencyEnabled() {
 		return getCompany().getPreferences().isEnableMultiCurrency();
 	}
+
 	protected ClientCurrency getBaseCurrency() {
 		return getCompany().getPrimaryCurrency();
 	}

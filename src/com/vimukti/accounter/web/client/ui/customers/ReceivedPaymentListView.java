@@ -145,7 +145,8 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 
 	}
 

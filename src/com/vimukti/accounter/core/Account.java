@@ -949,6 +949,23 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	}
 
+	private void checkNullValues() throws AccounterException {
+		if (this.name.trim().length() == 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL);
+		}
+		if (this.number.trim().length() == 0) {
+			throw new AccounterException(AccounterException.ERROR_NUMBER_NULL);
+		}
+		/*
+		 * Set<Account> accounts = getCompany().getAccounts(); for (Account
+		 * account : accounts) { if
+		 * (this.name.equalsIgnoreCase(account.getName())) { throw new
+		 * AccounterException( AccounterException.ERROR_NAME_CONFLICT); } if
+		 * (this.number.equalsIgnoreCase(account.getNumber())) { throw new
+		 * AccounterException( AccounterException.ERROR_NUMBER_CONFLICT); } }
+		 */
+	}
+
 	public void updateTotalBalance(double amount, double currencyFactor) {
 		System.out.println(this.getName());
 
@@ -1165,7 +1182,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		journalEntry.transactionDate = account.asOf;
 		journalEntry.memo = "Opening Balance";
 		journalEntry.setCurrency(this.currency);
-		journalEntry.currencyFactor = this.currencyFactor; 
+		journalEntry.currencyFactor = this.currencyFactor;
 
 		List<TransactionItem> items = new ArrayList<TransactionItem>();
 		TransactionItem item1 = new TransactionItem();
@@ -1291,6 +1308,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				// "An Account already exists with this number");
 			}
 		}
+		checkNullValues();
 		return true;
 
 	}

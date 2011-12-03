@@ -3,7 +3,6 @@
  */
 package com.vimukti.accounter.mobile;
 
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;

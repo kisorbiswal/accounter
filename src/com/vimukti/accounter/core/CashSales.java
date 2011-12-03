@@ -402,6 +402,13 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkingCustomerNull(customer);
+		checkAccountNull(depositIn);
+		checkPaymentMethodNull();
+	}
+
+	@Override
 	public boolean isDebitTransaction() {
 		return false;
 	}
@@ -600,7 +607,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

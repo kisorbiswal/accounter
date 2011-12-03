@@ -107,7 +107,8 @@ public class CustomerListView extends BaseListView<PayeeList> {
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 
 		getTotalLayout(grid);
 	}

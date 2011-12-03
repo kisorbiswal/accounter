@@ -394,6 +394,13 @@ public class PayBill extends Transaction {
 	}
 
 	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkingVendorNull(vendor);
+		checkPaymentMethodNull();
+		checkAccountNull(payFrom);
+	}
+
+	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
 		// if (isBecameVoid()) {
@@ -848,6 +855,6 @@ public class PayBill extends Transaction {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

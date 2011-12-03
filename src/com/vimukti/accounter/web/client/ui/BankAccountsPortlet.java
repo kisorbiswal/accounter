@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class BankAccountsPortlet extends Portlet {
 	private DashBoardBankAccountGrid grid;
@@ -12,6 +13,11 @@ public class BankAccountsPortlet extends Portlet {
 	public BankAccountsPortlet(ClientPortletConfiguration configuration) {
 		super(configuration, messages.bankAccounts(), messages
 				.gotoBankAccountsList());
+	}
+
+	@Override
+	public void goToClicked() {
+		ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK).run();
 	}
 
 	@Override
@@ -25,6 +31,8 @@ public class BankAccountsPortlet extends Portlet {
 						grid.init();
 						if (result != null && !(result.isEmpty())) {
 							grid.setRecords(result);
+						} else {
+							grid.addEmptyMessage(messages.noBanksToShow());
 						}
 						body.add(grid);
 					}

@@ -12,6 +12,7 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -83,7 +84,10 @@ public class ViewManager extends HorizontalPanel {
 
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
-		addStyleName("view_manager");
+		HorizontalPanel mainPanel = new HorizontalPanel();
+		VerticalPanel rightPanel = new VerticalPanel();
+		rightPanel.add(getAdvertisePanel(rightPanel));
+
 		VerticalPanel leftPanel = new VerticalPanel();
 		leftPanel.addStyleName("view_manager_body");
 		// leftPanel.setWidth("100%");
@@ -102,9 +106,21 @@ public class ViewManager extends HorizontalPanel {
 		this.toolBar = new ToolBar();
 		leftPanel.add(toolBar);
 		leftPanel.add(viewHolder);
-		this.add(leftPanel);
+		mainPanel.add(leftPanel);
+		leftPanel.getElement().getParentElement().addClassName("view_manager");
+		rightPanel.addStyleName("frame_manager");
+		rightPanel.setVisible(false);
+		mainPanel.add(rightPanel);
+		this.addStyleName("main_manager");
+		this.add(mainPanel);
 		initilizeToolBar();
 		initializeActivityManager();
+	}
+
+	private Frame getAdvertisePanel(VerticalPanel rightPanel) {
+		Frame advertiseFrame = new Frame(
+				"file:///C:/Documents%20and%20Settings/Administrator/Desktop/JS/JavaScriptPractise.html");
+		return advertiseFrame;
 	}
 
 	private HelpPanel helpPanel;
@@ -211,7 +227,8 @@ public class ViewManager extends HorizontalPanel {
 	 * @param command
 	 */
 	private void tryToClose(final IEditableView editView, final Command command) {
-		Accounter.showWarning(AccounterWarningType.saveOrClose,
+		Accounter.showWarning(AccounterWarningType
+				.getWarning(AccounterWarningType.saveOrClose),
 				AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
 					@Override

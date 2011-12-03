@@ -67,7 +67,8 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 			}
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 		}
 	}
 

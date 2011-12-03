@@ -417,8 +417,23 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
-
 		return false;
+	}
+
+	private void checkAccountsNull() throws AccounterException {
+		if (isIBuyThisItem && expenseAccount == null) {
+			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL);
+		}
+		if (isISellThisItem && incomeAccount == null) {
+			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL);
+		}
+	}
+
+	private void checkNameNull() throws AccounterException {
+		if (name.trim().length() == 0) {
+			throw new AccounterException(
+					AccounterException.ERROR_ITEM_NAME_NULL);
+		}
 	}
 
 	@Override
@@ -446,7 +461,8 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 				// "An Item already exists with this Name");
 			}
 		}
-
+		checkNameNull();
+		checkAccountsNull();
 		return true;
 
 	}
@@ -497,6 +513,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

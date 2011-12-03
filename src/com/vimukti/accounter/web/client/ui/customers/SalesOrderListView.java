@@ -108,8 +108,8 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 			}
 		};
-		rpcGetService.getObjectById(AccounterCoreType.SALESORDER, obj
-				.getTransactionId(), callbackforsalesOrder);
+		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
+				obj.getTransactionId(), callbackforsalesOrder);
 
 	}
 
@@ -160,7 +160,8 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 					if (grid.getRecords().isEmpty()) {
 						salesDetailView.itemsGrid.clear();
 						salesDetailView.itemsGrid
-								.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+								.addEmptyMessage(AccounterWarningType
+										.getWarning(AccounterWarningType.RECORDSEMPTY));
 					}
 					continue;
 				}
@@ -170,7 +171,8 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 					if (grid.getRecords().isEmpty()) {
 						salesDetailView.itemsGrid.clear();
 						salesDetailView.itemsGrid
-								.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+								.addEmptyMessage(AccounterWarningType
+										.getWarning(AccounterWarningType.RECORDSEMPTY));
 					}
 					continue;
 				}
@@ -180,7 +182,8 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 					if (grid.getRecords().isEmpty()) {
 						salesDetailView.itemsGrid.clear();
 						salesDetailView.itemsGrid
-								.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+								.addEmptyMessage(AccounterWarningType
+										.getWarning(AccounterWarningType.RECORDSEMPTY));
 					}
 					continue;
 				}
@@ -188,11 +191,12 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 			}
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 		}
 		if (salesDetailView.itemsGrid.getRecords().isEmpty()) {
-			salesDetailView.itemsGrid
-					.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			salesDetailView.itemsGrid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 		}
 	}
 

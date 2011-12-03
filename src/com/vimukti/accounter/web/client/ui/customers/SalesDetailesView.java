@@ -39,7 +39,7 @@ public class SalesDetailesView extends AbstractView {
 		super();
 
 		this.setStyleName("selectedview");
-		//init();
+		// init();
 	}
 
 	/**
@@ -104,7 +104,8 @@ public class SalesDetailesView extends AbstractView {
 		orderNumberField = new HTML();
 
 		Label conLabel = new Label();
-		conLabel.setText(Accounter.messages().payeeOrderNumber(Global.get().customer()));
+		conLabel.setText(Accounter.messages().payeeOrderNumber(
+				Global.get().customer()));
 		conLabel.setStyleName("selectedview_labelstyle");
 
 		customerNumberField = new HTML();
@@ -221,7 +222,8 @@ public class SalesDetailesView extends AbstractView {
 	 */
 	public void refreshView() {
 		itemsGrid.clear();
-		itemsGrid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+		itemsGrid.addEmptyMessage(AccounterWarningType
+				.getWarning(AccounterWarningType.RECORDSEMPTY));
 		orderNumberField.setText("");
 		customerNumberField.setText("");
 		dueDateField.setText("");

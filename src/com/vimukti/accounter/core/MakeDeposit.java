@@ -113,6 +113,12 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	}
 
 	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkAccountNull(depositFrom);
+		checkAccountNull(depositIn);
+	}
+
+	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
 		super.onUpdate(session);
@@ -335,6 +341,6 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

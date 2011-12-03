@@ -495,6 +495,11 @@ public class CustomerCreditMemo extends Transaction implements
 	}
 
 	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkingCustomerNull(customer);
+	}
+
+	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
@@ -512,6 +517,6 @@ public class CustomerCreditMemo extends Transaction implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -560,8 +560,10 @@ public class CustomerRefundView extends
 		if (!AccounterValidator.isValidCustomerRefundAmount(
 				amtText.getAmount(),
 				payFromSelect.getSelectedValue())) {
-			result.addWarning(amtText,
-					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT);
+			result.addWarning(
+					amtText,
+					AccounterWarningType
+							.getWarning(AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT));
 		}
 		ClientAccount bankAccount = payFromSelect.getSelectedValue();
 		// check if the currency of accounts is valid or not

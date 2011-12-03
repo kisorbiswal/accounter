@@ -559,7 +559,9 @@ public class JournalEntryView extends
 	@Override
 	public void onEdit() {
 		if (transaction.getInvolvedPayee() != 0) {
-			showEditWarnDialog();
+			ClientPayee payee = getCompany().getPayee(
+					transaction.getInvolvedPayee());
+			showEditWarnDialog(payee);
 		} else {
 			AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
 
@@ -590,9 +592,17 @@ public class JournalEntryView extends
 		}
 	}
 
-	private void showEditWarnDialog() {
-		Accounter.showWarning(AccounterWarningType.RECEIVEPAYMENT_EDITING,
-				AccounterType.WARNING, new ErrorDialogHandler() {
+	private void showEditWarnDialog(ClientPayee payee) {
+		String warning;
+		if (payee.getType() == ClientPayee.TYPE_CUSTOMER) {
+			warning = AccounterWarningType
+					.getWarning(AccounterWarningType.CUSTOMER_EDITING);
+		} else {
+			warning = AccounterWarningType
+					.getWarning(AccounterWarningType.VENDOR_EDITING);
+		}
+		Accounter.showWarning(warning, AccounterType.WARNING,
+				new ErrorDialogHandler() {
 
 					@Override
 					public boolean onCancelClick() {

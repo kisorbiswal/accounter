@@ -111,7 +111,6 @@ public class CustomerPrePayment extends Transaction {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-
 		super.onSave(session);
 
 		// Inserting this Customer prePayment entry in to Credits And Payments
@@ -137,6 +136,13 @@ public class CustomerPrePayment extends Transaction {
 		}
 
 		return false;
+	}
+
+	@Override
+	public void checkNullValues() throws AccounterException {
+		checkingCustomerNull(customer);
+		checkAccountNull(depositIn);
+		checkPaymentMethodNull();
 	}
 
 	@Override
@@ -311,7 +317,7 @@ public class CustomerPrePayment extends Transaction {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

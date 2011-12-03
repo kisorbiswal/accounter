@@ -11,7 +11,7 @@ public class WhoIOwePortlet extends Portlet {
 	private DashboardOweGrid grid;
 
 	public WhoIOwePortlet(ClientPortletConfiguration configuration) {
-		super(configuration, messages.whoIOwe(), messages.goToIOweList());
+		super(configuration, messages.whoIOwe(), "");
 	}
 
 	@Override
@@ -26,7 +26,8 @@ public class WhoIOwePortlet extends Portlet {
 				if (result != null && !(result.isEmpty())) {
 					grid.setRecords(result);
 				} else {
-					grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+					grid.addEmptyMessage(AccounterWarningType
+							.getWarning(AccounterWarningType.RECORDSEMPTY));
 				}
 				body.add(grid);
 			}

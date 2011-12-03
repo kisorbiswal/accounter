@@ -133,8 +133,8 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 		listOfTypes.add(CANCELLED);
 		viewSelect.initCombo(listOfTypes);
 
-//		if (UIUtils.isMSIEBrowser())
-//			viewSelect.setWidth("120px");
+		// if (UIUtils.isMSIEBrowser())
+		// viewSelect.setWidth("120px");
 		viewSelect.setComboItem(OPEN);
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -165,7 +165,8 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 					if (grid.getRecords().isEmpty()) {
 						purchaseDetailView.itemsGrid.clear();
 						purchaseDetailView.itemsGrid
-								.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+								.addEmptyMessage(AccounterWarningType
+										.getWarning(AccounterWarningType.RECORDSEMPTY));
 					}
 					continue;
 				}
@@ -176,7 +177,8 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 						if (purchaseDetailView.itemsGrid != null) {
 							purchaseDetailView.itemsGrid.clear();
 							purchaseDetailView.itemsGrid
-									.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+									.addEmptyMessage(AccounterWarningType
+											.getWarning(AccounterWarningType.RECORDSEMPTY));
 						}
 					}
 					continue;
@@ -188,7 +190,8 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 						if (purchaseDetailView.itemsGrid != null) {
 							purchaseDetailView.itemsGrid.clear();
 							purchaseDetailView.itemsGrid
-									.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+									.addEmptyMessage(AccounterWarningType
+											.getWarning(AccounterWarningType.RECORDSEMPTY));
 						}
 					}
 					continue;
@@ -196,12 +199,14 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 			}
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 		}
 		if (purchaseDetailView.itemsGrid != null)
 			if (purchaseDetailView.itemsGrid.getRecords().isEmpty()) {
 				purchaseDetailView.itemsGrid
-						.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+						.addEmptyMessage(AccounterWarningType
+								.getWarning(AccounterWarningType.RECORDSEMPTY));
 			}
 	}
 

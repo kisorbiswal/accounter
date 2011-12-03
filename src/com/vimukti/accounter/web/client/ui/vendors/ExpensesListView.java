@@ -136,8 +136,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(Accounter.messages()
-				.Voided())) {
+		} else if (text.equalsIgnoreCase(Accounter.messages().Voided())) {
 			List<BillsList> voidedRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
@@ -152,7 +151,8 @@ public class ExpensesListView extends BaseListView<BillsList> {
 		}
 
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 
 	}
 

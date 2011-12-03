@@ -301,6 +301,12 @@ public class SalesPerson extends CreatableObject implements
 		return false;
 	}
 
+	private void checkNameConflictsOrNull() throws AccounterException {
+		if (firstName.trim().length() == 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL);
+		}
+	}
+
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
 		super.onUpdate(arg0);
@@ -316,7 +322,7 @@ public class SalesPerson extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// FIXME have to check
+		checkNameConflictsOrNull();
 		return true;
 	}
 
@@ -338,7 +344,7 @@ public class SalesPerson extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

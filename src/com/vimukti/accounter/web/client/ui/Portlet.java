@@ -28,7 +28,7 @@ public abstract class Portlet extends WorkbenchPanel {
 	public static final String WHO_I_OWE = "Who I Owe";
 	public static final String WHO_OWES_ME = "who Owes Me";
 	public static final String RECENT_TRANSACTIONS = "Recent Transactions";
-	public static final String MESSAGES_AND_TASKS = "Messages And Tasks";
+	// public static final String MESSAGES_AND_TASKS = "Messages And Tasks";
 	public static final String QUICK_LINKS = "Quick Links";
 
 	public static final int TYPE_I_OWE = 1;

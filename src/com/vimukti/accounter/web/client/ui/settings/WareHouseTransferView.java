@@ -116,7 +116,8 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 
 	@Override
 	public void onEdit() {
-		Accounter.showWarning(AccounterWarningType.WAREHOUSE_TRANSFER_EDITING,
+		Accounter.showWarning(AccounterWarningType
+				.getWarning(AccounterWarningType.WAREHOUSE_TRANSFER_EDITING),
 				AccounterType.WARNING, new ErrorDialogHandler() {
 
 					@Override

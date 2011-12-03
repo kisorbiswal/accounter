@@ -1094,7 +1094,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	@Override
 	public void onEdit() {
 		if (!transaction.isVoid()) {
-			Accounter.showWarning(AccounterWarningType.PAYBILL_EDITING,
+			Accounter.showWarning(AccounterWarningType
+					.getWarning(AccounterWarningType.PAYBILL_EDITING),
 					AccounterType.WARNING, new ErrorDialogHandler() {
 
 						@Override

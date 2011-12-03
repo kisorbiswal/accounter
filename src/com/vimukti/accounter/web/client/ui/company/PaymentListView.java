@@ -102,8 +102,8 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 		listOfTypes.add(ALL);
 		viewSelect.initCombo(listOfTypes);
 
-//		if (UIUtils.isMSIEBrowser())
-//			viewSelect.setWidth("150px");
+		// if (UIUtils.isMSIEBrowser())
+		// viewSelect.setWidth("150px");
 
 		viewSelect.setComboItem(NOT_ISSUED);
 		viewSelect
@@ -160,7 +160,8 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 	}
 
 	@Override

@@ -382,18 +382,27 @@ public class Estimate extends Transaction {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		updateTotals();
+		try {
+			updateTotals();
+		} catch (AccounterException e) {
+		}
 		super.onSave(session);
 		return false;
 	}
 
-	private void updateTotals() {
+	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkingCustomerNull(customer);
+	}
+
+	private void updateTotals() throws AccounterException {
 		double lineTotal = 0.0;
 		double totalTax = 0.0;
 		for (TransactionItem record : this.getTransactionItems()) {
 			Double lineTotalAmt = record.getLineTotal();
 			lineTotal += lineTotalAmt;
 			if (record != null && record.isTaxable()) {
+				chekingTaxCodeNull(record.taxCode);
 				totalTax += record.getVATfraction();
 			}
 		}
@@ -451,7 +460,7 @@ public class Estimate extends Transaction {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

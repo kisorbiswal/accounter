@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.exception;
 
 import com.google.gwt.core.client.GWT;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class AccounterExceptions {
@@ -58,10 +59,89 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_CANT_EDIT_DELETE:
 			return accounterMessages.cantEditOrDelete();
 
+		case AccounterException.ERROR_CUSTOMER_NULL:
+			return accounterMessages.pleaseSelect(Global.get().Customer());
+
+		case AccounterException.ERROR_VENDOR_NULL:
+			return accounterMessages.pleaseSelect(Global.get().Vendor());
+
+		case AccounterException.ERROR_TAX_CODE_NULL:
+			return accounterMessages.pleaseSelect(accounterMessages.taxCode());
+
+		case AccounterException.ERROR_ACCOUNT_NULL:
+			return accounterMessages.pleaseSelect(accounterMessages.Account());
+
+		case AccounterException.ERROR_TRANSACTION_ITEM_NULL:
+			return accounterMessages.pleaseSelect(accounterMessages
+					.transactionItem());
+
+		case AccounterException.ERROR_TRANSACTION_TOTAL_ZERO:
+			return accounterMessages.transactionitemtotalcannotbe0orlessthan0();
+
+		case AccounterException.ERROR_AMOUNT_ZERO:
+			return accounterMessages
+					.shouldNotbeZero(accounterMessages.amount());
+
+		case AccounterException.ERROR_PAY_FROM_NULL:
+			return accounterMessages.pleaseSelect(accounterMessages.payFrom());
+
+		case AccounterException.ERROR_PAY_TO_NULL:
+			return accounterMessages.pleaseSelect(accounterMessages.payTo());
+
+		case AccounterException.ERROR_DEPOSIT_FROM_NULL:
+			return accounterMessages.pleaseSelect(accounterMessages
+					.transferFrom());
+
+		case AccounterException.ERROR_DEPOSIT_TO_NULL:
+			return accounterMessages.pleaseSelect(accounterMessages
+					.transferTo());
+
+		case AccounterException.ERROR_PAYMENT_METHOD_NULL:
+			return accounterMessages.pleaseSelect(accounterMessages
+					.paymentMethod());
+
+		case AccounterException.ERROR_BANK_ACCOUNT_NULL:
+			return accounterMessages.pleaseSelect(accounterMessages
+					.bankAccount());
+
+		case AccounterException.ERROR_CREDIT_DEBIT_TOTALS_NOT_EQUAL:
+			return accounterMessages.totalMustBeSame();
+
+		case AccounterException.ERROR_INCOME_ACCOUNT_NULL:
+			return accounterMessages.pleaseSelect(accounterMessages
+					.incomeAccount());
+
+		case AccounterException.ERROR_EXPENSE_ACCOUNT_NULL:
+			return accounterMessages.pleaseSelect(accounterMessages
+					.expenseAccount());
+
+		case AccounterException.ERROR_CUSTOMER_NAME_EMPTY:
+			return accounterMessages.pleaseEnterName(Global.get().Customer());
+
+		case AccounterException.ERROR_CUSTOMER_NUMBER_EMPTY:
+			return accounterMessages.pleaseEnter(accounterMessages
+					.payeeNumber(Global.get().Customer()));
+
+		case AccounterException.ERROR_VENDOR_NAME_EMPTY:
+			return accounterMessages.pleaseEnterName(Global.get().Vendor());
+
+		case AccounterException.ERROR_VENDOR_NUMBER_EMPTY:
+			return accounterMessages.pleaseEnter(accounterMessages
+					.payeeNumber(Global.get().Vendor()));
+		case AccounterException.ERROR_THERE_IS_NO_TRANSACTION_ITEMS:
+			return accounterMessages.thereAreNoTransactionItemsToSave();
+
+		case AccounterException.ERROR_ITEM_NAME_NULL:
+			return accounterMessages.pleaseEnterName(accounterMessages.item());
+
+		case AccounterException.ERROR_TRANSACTION_ITEM_TOTAL_0:
+			return accounterMessages.transactionitemtotalcannotbe0orlessthan0();
+
+		case AccounterException.WRITECHECK_PAID_VOID_IT:
+			return accounterMessages.writeCheckPaid();
 		default:
 			return null;
 		}
 
 	}
-
 }

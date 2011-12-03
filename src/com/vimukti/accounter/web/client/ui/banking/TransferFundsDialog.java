@@ -57,8 +57,7 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 	public boolean isValidatedTransferAmount = false;
 
 	public TransferFundsDialog(Object data) {
-		super(messages.transferFunds(), messages
-				.toTransferFunds());
+		super(messages.transferFunds(), messages.toTransferFunds());
 		createControls();
 		addAccountsNameToList();
 		addAccountsName2ToList();
@@ -156,8 +155,7 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 
 		// Transfer To
 
-		accountComboTo = new IncomeAndExpensesAccountCombo(messages
-				.toAccount());
+		accountComboTo = new IncomeAndExpensesAccountCombo(messages.toAccount());
 		// accountComboTo.setAddNewCaptionTitle(CustomCombo.addNewBankAccount);
 
 		accountComboTo.setRequired(true);
@@ -201,8 +199,7 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 						}
 
 					} catch (Exception e) {
-						Accounter.showError(messages
-								.invalidAmount());
+						Accounter.showError(messages.invalidAmount());
 						transferAmount = 0D;
 					} finally {
 						amountText.setAmount(transferAmount);
@@ -267,8 +264,8 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 		} else if (isValidatedTransferAmount == false) {
 			if (AccounterValidator.validate_TransferFromAccount(accountFrom,
 					amountText.getAmount(), this)) {
-				result.addWarning(amountText,
-						AccounterWarningType.transferFromAccount);
+				result.addWarning(amountText, AccounterWarningType
+						.getWarning(AccounterWarningType.transferFromAccount));
 			}
 
 		}

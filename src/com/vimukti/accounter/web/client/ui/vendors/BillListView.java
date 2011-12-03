@@ -162,8 +162,7 @@ public class BillListView extends BaseListView<BillsList> {
 			grid.setRecords(openRecs);
 			table.setData(openRecs);
 
-		} else if (text.equalsIgnoreCase(Accounter.messages()
-				.voided())) {
+		} else if (text.equalsIgnoreCase(Accounter.messages().voided())) {
 			ArrayList<BillsList> voidedRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
@@ -174,8 +173,7 @@ public class BillListView extends BaseListView<BillsList> {
 			grid.setRecords(voidedRecs);
 			table.setData(voidedRecs);
 
-		} else if (text.equalsIgnoreCase(Accounter.messages()
-				.overDue())) {
+		} else if (text.equalsIgnoreCase(Accounter.messages().overDue())) {
 			ArrayList<BillsList> overDueRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
@@ -208,7 +206,8 @@ public class BillListView extends BaseListView<BillsList> {
 			table.setData(list);
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 		}
 
 	}

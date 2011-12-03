@@ -11,7 +11,7 @@ public class WhoOwesMePortlet extends Portlet {
 	private DashboardOweGrid grid;
 
 	public WhoOwesMePortlet(ClientPortletConfiguration configuration) {
-		super(configuration, messages.whoOwesMe(), messages.gotoWhoOweMeList());
+		super(configuration, messages.whoOwesMe(), "");
 	}
 
 	@Override
@@ -26,7 +26,8 @@ public class WhoOwesMePortlet extends Portlet {
 				if (result != null && !(result.isEmpty())) {
 					grid.setRecords(result);
 				} else {
-					grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+					grid.addEmptyMessage(AccounterWarningType
+							.getWarning(AccounterWarningType.RECORDSEMPTY));
 				}
 				body.add(grid);
 			}

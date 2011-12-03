@@ -7328,19 +7328,18 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="limit" type="int" />
 
-		SELECT a.ID FROM ACTIVITY a
-		LEFT JOIN TRANSACTION T ON
-		T.ID=a.OBJECT_ID
-		WHERE T.IS_VOID=false AND
-		a.OBJECT_TYPE BETWEEN 1 AND
-		31 AND
-		a.COMPANY_ID=:companyId AND
-		a.ACTIVITY_TYPE=2
-		OR a.ACTIVITY_TYPE=3 AND
-		NOT EXISTS (select 1 from ACTIVITY where ID = a.ID and OBJECT_ID >
-		a.OBJECT_ID)
-		GROUP BY
-		a.ID ORDER by a.TRANSACTION_DATE DESC LIMIT :limit
+	SELECT a.ID FROM ACTIVITY a
+	LEFT JOIN TRANSACTION T ON
+	T.ID=a.OBJECT_ID
+	WHERE T.IS_VOID=false AND
+	a.OBJECT_TYPE BETWEEN 1 AND
+	31 AND
+	a.COMPANY_ID=:companyId AND
+	a.ACTIVITY_TYPE IN(2,3) AND
+	NOT EXISTS (select 1 from ACTIVITY where ID = a.ID and OBJECT_ID >
+	a.OBJECT_ID)
+	GROUP BY
+	a.ID ORDER by a.TRANSACTION_DATE DESC LIMIT :limit
 
 	</sql-query>
 

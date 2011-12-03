@@ -69,7 +69,7 @@ public class AccounterException extends Exception implements IsSerializable {
 	public static final int ERROR_CANT_VOID = 12;
 
 	/**
-	 * In the ReceivePayment writeoff or discount is used for this Invoice.
+	 * In the ReceivePayment write off or discount is used for this Invoice.
 	 */
 	public static final int ERROR_RECEIVE_PAYMENT_DISCOUNT_USED = 13;
 
@@ -84,6 +84,60 @@ public class AccounterException extends Exception implements IsSerializable {
 	public static final int INVOICE_PAID_VOID_IT = 18;
 
 	public static final int ERROR_CANT_EDIT_DELETE = 19;
+
+	public static final int ERROR_CUSTOMER_NULL = 20;
+
+	public static final int ERROR_VENDOR_NULL = 21;
+
+	public static final int ERROR_TAX_CODE_NULL = 22;
+
+	public static final int ERROR_ACCOUNT_NULL = 23;
+
+	public static final int ERROR_TRANSACTION_ITEM_NULL = 24;
+
+	public static final int ERROR_TRANSACTION_TOTAL_ZERO = 25;
+
+	public static final int ERROR_AMOUNT_ZERO = 26;
+
+	public static final int ERROR_PAY_FROM_NULL = 27;
+
+	public static final int ERROR_PAY_TO_NULL = 28;
+
+	public static final int ERROR_DEPOSIT_FROM_NULL = 29;
+
+	public static final int ERROR_DEPOSIT_TO_NULL = 30;
+
+	public static final int ERROR_PAYMENT_METHOD_NULL = 31;
+
+	public static final int ERROR_BANK_ACCOUNT_NULL = 32;
+
+	public static final int ERROR_CREDIT_DEBIT_TOTALS_NOT_EQUAL = 33;
+
+	public static final int ERROR_INCOME_ACCOUNT_NULL = 34;
+
+	public static final int ERROR_EXPENSE_ACCOUNT_NULL = 35;
+
+	public static final int ERROR_CUSTOMER_NAME_EMPTY = 36;
+
+	public static final int ERROR_CUSTOMER_NUMBER_EMPTY = 37;
+
+	public static final int ERROR_VENDOR_NAME_EMPTY = 38;
+
+	public static final int ERROR_VENDOR_NUMBER_EMPTY = 39;
+
+	public static final int ERROR_THERE_IS_NO_TRANSACTION_ITEMS = 40;
+
+	public static final int ERROR_ITEM_NAME_NULL = 41;
+
+	public static final int ERROR_TRANSACTION_ITEM_TOTAL_0 = 42;
+
+	public static final int ERROR_THERE_IS_NO_TRANSACTIONS_TO_ISSUE = 43;
+
+	public static final int ERROR_NAME_NULL = 44;
+
+	public static final int ERROR_NUMBER_NULL = 45;
+
+	public static final int WRITECHECK_PAID_VOID_IT = 46;
 
 	protected int errorCode;
 

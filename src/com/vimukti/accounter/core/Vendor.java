@@ -296,6 +296,7 @@ public class Vendor extends Payee {
 			this.vendorNumber = NumberUtils
 					.getNextAutoVendorNumber(getCompany());
 		}
+
 		return onUpdate(session);
 	}
 

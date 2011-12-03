@@ -52,8 +52,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 			String lastDepreciationDateString = UIUtils
 					.getDateByCompanyType(lastDepreciationDate);
 			Label introLabel = new Label(Accounter.messages()
-					.lastDepreciation()
-					+ "  " + lastDepreciationDateString);
+					.lastDepreciation() + "  " + lastDepreciationDateString);
 			contentPanel.add(introLabel);
 		}
 		HTML prefixText = new HTML(Accounter.messages()
@@ -127,7 +126,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 			while (!(tempDate.getDay() == tempLastDate.getDay()
 					&& tempDate.getMonth() == tempLastDate.getMonth() && tempDate
-					.getYear() == tempLastDate.getYear())) {
+						.getYear() == tempLastDate.getYear())) {
 
 				depreciationDate.add(new ClientFinanceDate(tempDate.getDate()));
 				int month = tempDate.getMonth();
@@ -154,8 +153,8 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 	private void rollBackDepreciation() {
 		String dateString = dateBox.getValue(dateBox.getSelectedIndex());
-		ClientFinanceDate date = UIUtils.stringToDate(dateString, (Accounter
-				.messages().ddMMyyyy()));
+		ClientFinanceDate date = UIUtils.stringToDate(dateString,
+				(Accounter.messages().ddMMyyyy()));
 
 		AccounterAsyncCallback callBack = new AccounterAsyncCallback() {
 
@@ -179,7 +178,8 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 	protected void helpClick() {
 
-		Accounter.showInformation(AccounterWarningType.NOT_YET_IMPLEMENTED);
+		Accounter.showInformation(AccounterWarningType
+				.getWarning(AccounterWarningType.NOT_YET_IMPLEMENTED));
 
 	}
 

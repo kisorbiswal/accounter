@@ -118,7 +118,8 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 	}
 
 	public void setCatageoryType(String catagory) {

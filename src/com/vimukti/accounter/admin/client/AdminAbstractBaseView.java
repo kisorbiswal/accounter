@@ -417,7 +417,8 @@ public abstract class AdminAbstractBaseView<T> extends AdminAbstractView<T>
 	 */
 	public void onClose() {
 		if (isDirty) {
-			Accounter.showWarning(AccounterWarningType.saveOrClose,
+			Accounter.showWarning(AccounterWarningType
+					.getWarning(AccounterWarningType.saveOrClose),
 					AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
 						@Override

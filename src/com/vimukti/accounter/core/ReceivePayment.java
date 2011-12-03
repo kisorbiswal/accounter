@@ -366,6 +366,13 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		return false;
 	}
 
+	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkingCustomerNull(customer);
+		checkPaymentMethodNull();
+		checkAccountNull(depositIn);
+	}
+
 	public void updateUnUsedAmount(Session session, double payment) {
 		if (DecimalUtil.isEquals(this.unUsedPayments, 0.0)) {
 			this.unUsedPayments += payment;
@@ -629,6 +636,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

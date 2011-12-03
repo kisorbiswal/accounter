@@ -97,6 +97,12 @@ public class ShippingTerms extends CreatableObject implements
 		return false;
 	}
 
+	private void checkNameConflictsOrNull() throws AccounterException {
+		if (name.trim().length() == 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL);
+		}
+	}
+
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
 		super.onUpdate(arg0);
@@ -121,6 +127,7 @@ public class ShippingTerms extends CreatableObject implements
 				// "ShippingTerms already exists with this name");
 			}
 		}
+		checkNameConflictsOrNull();
 		return true;
 	}
 
@@ -137,6 +144,6 @@ public class ShippingTerms extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

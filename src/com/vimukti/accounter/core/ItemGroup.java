@@ -90,6 +90,11 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 		if (this.isOnSaveProccessed)
 			return true;
 		super.onSave(arg0);
+		try {
+			checkNameConflictsOrNull();
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
 		this.isOnSaveProccessed = true;
 
 		if (this.items != null) {
@@ -99,6 +104,12 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 			}
 		}
 		return false;
+	}
+
+	private void checkNameConflictsOrNull() throws AccounterException {
+		if (name.trim().length() == 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL);
+		}
 	}
 
 	@Override
@@ -154,6 +165,6 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

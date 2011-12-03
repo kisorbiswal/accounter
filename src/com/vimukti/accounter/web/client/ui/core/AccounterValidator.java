@@ -271,7 +271,8 @@ public class AccounterValidator {
 
 	public static void saveOrClose(final AbstractBaseView<?> view,
 			final ViewManager viewManager) {
-		Accounter.showWarning(AccounterWarningType.saveOrClose,
+		Accounter.showWarning(AccounterWarningType
+				.getWarning(AccounterWarningType.saveOrClose),
 				AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
 					@Override
@@ -302,122 +303,10 @@ public class AccounterValidator {
 		company = getCompany();
 		if (defaultIncomeAccount != null)
 			if (!(defaultIncomeAccount.equals(selectItem))) {
-				Accounter.showWarning(
-						AccounterWarningType.default_IncomeAccount,
-						AccounterType.WARNING, new ErrorDialogHandler() {
-
-							@Override
-							public boolean onCancelClick() {
-
-								return false;
-							}
-
-							@Override
-							public boolean onNoClick() {
-
-								return true;
-							}
-
-							@Override
-							public boolean onYesClick() {
-								company
-										.setServiceItemDefaultIncomeAccount(selectItem
-												.getName());
-								return true;
-							}
-
-						});
-			}
-
-	}
-
-	// Set the selected income account as default Income account for
-	// Non-Inventory
-	// Item
-
-	public static void defaultIncomeAccountNonInventory(
-			final ClientAccount selectItem, ClientAccount defaultIncomeAccount) {
-		company = getCompany();
-		if (!(defaultIncomeAccount.equals(selectItem))) {
-			Accounter.showWarning(
-					AccounterWarningType.default_IncomeAccountNonInventory,
-					AccounterType.WARNING, new ErrorDialogHandler() {
-
-						@Override
-						public boolean onCancelClick() {
-
-							return false;
-						}
-
-						@Override
-						public boolean onNoClick() {
-
-							return true;
-						}
-
-						@Override
-						public boolean onYesClick() {
-							company
-									.setNonInventoryItemDefaultIncomeAccount(selectItem
-											.getName());
-							return true;
-						}
-
-					});
-		}
-
-	}
-
-	// set the selected income account as default Expense account for Service
-	// Item
-	public static void defaultExpenseAccountServiceItem(
-			final ClientAccount selectItem, ClientAccount defaultExpenseAccount) {
-
-		company = getCompany();
-		if (defaultExpenseAccount != null)
-			if (!(defaultExpenseAccount.equals(selectItem))) {
-				Accounter.showWarning(
-						AccounterWarningType.default_ExpenseAccount,
-						AccounterType.WARNING, new ErrorDialogHandler() {
-
-							@Override
-							public boolean onCancelClick() {
-
-								return false;
-							}
-
-							@Override
-							public boolean onNoClick() {
-
-								return true;
-							}
-
-							@Override
-							public boolean onYesClick() {
-								company
-										.setServiceItemDefaultExpenseAccount(selectItem
-												.getName());
-								return true;
-							}
-
-						});
-			}
-
-	}
-
-	// Set the selected Expense Account as default Expense Account for
-	// Non-Inventory
-	// Item
-
-	public static void defaultExpenseAccountNonInventory(
-			final ClientAccount selectExpAccount,
-			ClientAccount defaultExpAccount) {
-		company = getCompany();
-		if (defaultExpAccount != null)
-			if (!(defaultExpAccount.equals(selectExpAccount))) {
 				Accounter
 						.showWarning(
-								AccounterWarningType.default_ExpenseAccountNonInventory,
+								AccounterWarningType
+										.getWarning(AccounterWarningType.default_IncomeAccount),
 								AccounterType.WARNING,
 								new ErrorDialogHandler() {
 
@@ -435,9 +324,126 @@ public class AccounterValidator {
 
 									@Override
 									public boolean onYesClick() {
-										company
-												.setNonInventoryItemDefaultExpenseAccount(selectExpAccount
-														.getName());
+										company.setServiceItemDefaultIncomeAccount(selectItem
+												.getName());
+										return true;
+									}
+
+								});
+			}
+
+	}
+
+	// Set the selected income account as default Income account for
+	// Non-Inventory
+	// Item
+
+	public static void defaultIncomeAccountNonInventory(
+			final ClientAccount selectItem, ClientAccount defaultIncomeAccount) {
+		company = getCompany();
+		if (!(defaultIncomeAccount.equals(selectItem))) {
+			Accounter
+					.showWarning(
+							AccounterWarningType
+									.getWarning(AccounterWarningType.default_IncomeAccountNonInventory),
+							AccounterType.WARNING, new ErrorDialogHandler() {
+
+								@Override
+								public boolean onCancelClick() {
+
+									return false;
+								}
+
+								@Override
+								public boolean onNoClick() {
+
+									return true;
+								}
+
+								@Override
+								public boolean onYesClick() {
+									company.setNonInventoryItemDefaultIncomeAccount(selectItem
+											.getName());
+									return true;
+								}
+
+							});
+		}
+
+	}
+
+	// set the selected income account as default Expense account for Service
+	// Item
+	public static void defaultExpenseAccountServiceItem(
+			final ClientAccount selectItem, ClientAccount defaultExpenseAccount) {
+
+		company = getCompany();
+		if (defaultExpenseAccount != null)
+			if (!(defaultExpenseAccount.equals(selectItem))) {
+				Accounter
+						.showWarning(
+								AccounterWarningType
+										.getWarning(AccounterWarningType.default_ExpenseAccount),
+								AccounterType.WARNING,
+								new ErrorDialogHandler() {
+
+									@Override
+									public boolean onCancelClick() {
+
+										return false;
+									}
+
+									@Override
+									public boolean onNoClick() {
+
+										return true;
+									}
+
+									@Override
+									public boolean onYesClick() {
+										company.setServiceItemDefaultExpenseAccount(selectItem
+												.getName());
+										return true;
+									}
+
+								});
+			}
+
+	}
+
+	// Set the selected Expense Account as default Expense Account for
+	// Non-Inventory
+	// Item
+
+	public static void defaultExpenseAccountNonInventory(
+			final ClientAccount selectExpAccount,
+			ClientAccount defaultExpAccount) {
+		company = getCompany();
+		if (defaultExpAccount != null)
+			if (!(defaultExpAccount.equals(selectExpAccount))) {
+				Accounter
+						.showWarning(
+								AccounterWarningType
+										.getWarning(AccounterWarningType.default_ExpenseAccountNonInventory),
+								AccounterType.WARNING,
+								new ErrorDialogHandler() {
+
+									@Override
+									public boolean onCancelClick() {
+
+										return false;
+									}
+
+									@Override
+									public boolean onNoClick() {
+
+										return true;
+									}
+
+									@Override
+									public boolean onYesClick() {
+										company.setNonInventoryItemDefaultExpenseAccount(selectExpAccount
+												.getName());
 										return true;
 									}
 
@@ -982,8 +988,8 @@ public class AccounterValidator {
 			throws InvalidTransactionEntryException {
 		for (Object object : objects)
 			if (object == null)
-				throw new InvalidTransactionEntryException(messages
-						.requiredFields());
+				throw new InvalidTransactionEntryException(
+						messages.requiredFields());
 		return true;
 
 	}
@@ -1276,8 +1282,8 @@ public class AccounterValidator {
 	public static boolean isAmountNegative(Double amount)
 			throws InvalidEntryException {
 		if (DecimalUtil.isLessThan(amount, 0.00)) {
-			throw new InvalidEntryException(messages
-					.valueCannotBe0orlessthan0(messages.amount()));
+			throw new InvalidEntryException(
+					messages.valueCannotBe0orlessthan0(messages.amount()));
 		}
 		return false;
 

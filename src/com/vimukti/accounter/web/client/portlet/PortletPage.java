@@ -76,6 +76,8 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 		for (int x = 0; x < config.getColumnsCount(); x++) {
 			columns[x] = new PortletColumn(x);
 			panel.add(columns[x]);
+			columns[x].getElement().getParentElement()
+					.addClassName("portlet_column_parent");
 			dragController.registerDropController(columns[x]
 					.getDropController());
 		}
@@ -106,7 +108,7 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 
 	@Override
 	public void onDragEnd(DragEndEvent event) {
-		refreshWidgets();
+		// refreshWidgets();
 		haveToRefresh = false;
 		updatePortletPage();
 	}

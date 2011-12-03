@@ -510,7 +510,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 			}
 		}
 
-		// }
 		return true;
 	}
 
@@ -522,7 +521,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

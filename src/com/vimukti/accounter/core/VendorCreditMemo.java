@@ -125,6 +125,11 @@ public class VendorCreditMemo extends Transaction {
 	}
 
 	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkingVendorNull(vendor);
+	}
+
+	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
 		// if (isBecameVoid()) {

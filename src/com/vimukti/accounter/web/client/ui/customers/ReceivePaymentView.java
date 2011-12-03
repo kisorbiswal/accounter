@@ -878,8 +878,8 @@ public class ReceivePaymentView extends
 
 		if (!isInViewMode()
 				&& DecimalUtil.isGreaterThan(unUsedPaymentsText.getAmount(), 0))
-			result.addWarning(unUsedPaymentsText,
-					AccounterWarningType.recievePayment);
+			result.addWarning(unUsedPaymentsText, AccounterWarningType
+					.getWarning(AccounterWarningType.recievePayment));
 
 		return result;
 	}
@@ -927,7 +927,8 @@ public class ReceivePaymentView extends
 	public void onEdit() {
 		if (transaction.canEdit && !transaction.isVoid()) {
 
-			Accounter.showWarning(AccounterWarningType.RECEIVEPAYMENT_EDITING,
+			Accounter.showWarning(AccounterWarningType
+					.getWarning(AccounterWarningType.RECEIVEPAYMENT_EDITING),
 					AccounterType.WARNING, new ErrorDialogHandler() {
 
 						@Override

@@ -627,7 +627,8 @@ public class ReceiveVATView extends
 	public void onEdit() {
 
 		if (!transaction.isVoid()) {
-			Accounter.showWarning(AccounterWarningType.TAXREFUND_EDITING,
+			Accounter.showWarning(AccounterWarningType
+					.getWarning(AccounterWarningType.TAXREFUND_EDITING),
 					AccounterType.WARNING, new ErrorDialogHandler() {
 
 						@Override

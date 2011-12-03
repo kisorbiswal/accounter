@@ -64,7 +64,8 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	public void onSuccess(ArrayList<ClientJournalEntry> result) {
 		super.onSuccess(result);
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 		// grid.setViewType(FinanceApplication.constants().all());
 		// filterList(FinanceApplication.constants().all());
 	}
@@ -157,7 +158,8 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 			grid.setRecords(initialRecords);
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 
 	}
 

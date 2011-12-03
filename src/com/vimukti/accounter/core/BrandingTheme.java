@@ -516,6 +516,7 @@ public class BrandingTheme extends CreatableObject implements
 				}
 			}
 		}
+		checkNameConflictsOrNull();
 		return true;
 	}
 
@@ -543,6 +544,12 @@ public class BrandingTheme extends CreatableObject implements
 		isOnSaveProccessed = true;
 
 		return false;
+	}
+
+	private void checkNameConflictsOrNull() throws AccounterException {
+		if (themeName.trim().length() == 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL);
+		}
 	}
 
 	@Override
@@ -633,7 +640,7 @@ public class BrandingTheme extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

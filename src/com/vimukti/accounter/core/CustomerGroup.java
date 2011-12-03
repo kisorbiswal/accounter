@@ -73,9 +73,20 @@ public class CustomerGroup extends CreatableObject implements
 	public boolean onSave(Session arg0) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
+		try {
+			checkNameConflictsOrNull();
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
 		return false;
+	}
+
+	private void checkNameConflictsOrNull() throws AccounterException {
+		if (name.trim().length() == 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL);
+		}
 	}
 
 	@Override
@@ -117,6 +128,6 @@ public class CustomerGroup extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

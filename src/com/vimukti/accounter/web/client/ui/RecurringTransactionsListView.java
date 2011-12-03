@@ -17,7 +17,8 @@ public class RecurringTransactionsListView extends
 	private final static String ALL = Accounter.messages().all();
 	private final static String SCHEDULES = Accounter.messages().schedule();
 	private final static String REMAINDERS = Accounter.messages().remainder();
-	private final static String TEMPLATES = Accounter.messages().noneJustTemplate();
+	private final static String TEMPLATES = Accounter.messages()
+			.noneJustTemplate();
 
 	private String viewType;
 
@@ -65,8 +66,8 @@ public class RecurringTransactionsListView extends
 		else
 			viewSelect.setComboItem(ALL);
 
-//		if (UIUtils.isMSIEBrowser())
-//			viewSelect.setWidth("105px");
+		// if (UIUtils.isMSIEBrowser())
+		// viewSelect.setWidth("105px");
 
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -116,7 +117,8 @@ public class RecurringTransactionsListView extends
 		}
 
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 		}
 	}
 

@@ -96,6 +96,12 @@ public class VendorGroup extends CreatableObject implements
 		return false;
 	}
 
+	private void checkNameConflictsOrNull() throws AccounterException {
+		if (name.trim().length() == 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL);
+		}
+	}
+
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
 		super.onSave(arg0);
@@ -133,6 +139,7 @@ public class VendorGroup extends CreatableObject implements
 				// "SupplierGroup already exists with this name");
 			}
 		}
+		checkNameConflictsOrNull();
 		return true;
 	}
 

@@ -53,8 +53,8 @@ public class StartDateDialog extends BaseDialog {
 				+ getStartDateString());
 
 		Label infoLabel = new Label();
-		infoLabel.setText(Accounter.messages()
-				.startDateForManagingFixedAsset());
+		infoLabel
+				.setText(Accounter.messages().startDateForManagingFixedAsset());
 		HTML prefixText = new HTML(Accounter.messages().newStartDate());
 		dateBox = new ListBox();
 		dateBox.addChangeHandler(new ChangeHandler() {
@@ -124,8 +124,8 @@ public class StartDateDialog extends BaseDialog {
 
 	private void changeStartDate() {
 		String dateString = dateBox.getValue(dateBox.getSelectedIndex());
-		ClientFinanceDate date = UIUtils.stringToDate(dateString, (Accounter
-				.messages().ddMMyyyy()));
+		ClientFinanceDate date = UIUtils.stringToDate(dateString,
+				(Accounter.messages().ddMMyyyy()));
 
 		AccounterAsyncCallback callBack = new AccounterAsyncCallback() {
 
@@ -149,7 +149,8 @@ public class StartDateDialog extends BaseDialog {
 
 	protected void helpClick() {
 
-		Accounter.showInformation(AccounterWarningType.NOT_YET_IMPLEMENTED);
+		Accounter.showInformation(AccounterWarningType
+				.getWarning(AccounterWarningType.NOT_YET_IMPLEMENTED));
 
 	}
 

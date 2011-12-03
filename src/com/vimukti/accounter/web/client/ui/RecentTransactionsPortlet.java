@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class RecentTransactionsPortlet extends Portlet {
@@ -17,8 +16,7 @@ public class RecentTransactionsPortlet extends Portlet {
 	private List<String> limitList;
 
 	public RecentTransactionsPortlet(ClientPortletConfiguration configuration) {
-		super(configuration, messages.recentTransactions(), messages
-				.goToRecentTransactions());
+		super(configuration, messages.recentTransactions(), "");
 	}
 
 	@Override
@@ -60,7 +58,8 @@ public class RecentTransactionsPortlet extends Portlet {
 						if (result != null && !(result.isEmpty())) {
 							grid.setRecords(result);
 						} else {
-							grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+							grid.addEmptyMessage(messages
+									.noTransactionsToshow());
 						}
 						body.add(grid);
 					}

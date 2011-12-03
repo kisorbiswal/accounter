@@ -114,8 +114,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 			List<PaymentsList> allRecs = initialRecords;
 			for (PaymentsList rec : allRecs) {
 				if (Utility.getStatus(rec.getType(), rec.getStatus())
-						.equalsIgnoreCase("Not Issued")
-						&& !rec.isVoided()) {
+						.equalsIgnoreCase("Not Issued") && !rec.isVoided()) {
 					notIssuedRecs.add(rec);
 				}
 			}
@@ -125,8 +124,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 			List<PaymentsList> allRecs = initialRecords;
 			for (PaymentsList rec : allRecs) {
 				if (Utility.getStatus(rec.getType(), rec.getStatus())
-						.equalsIgnoreCase("Issued")
-						&& !rec.isVoided()) {
+						.equalsIgnoreCase("Issued") && !rec.isVoided()) {
 					issued.add(rec);
 				}
 			}
@@ -160,7 +158,8 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		}
 
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 
 	}
 

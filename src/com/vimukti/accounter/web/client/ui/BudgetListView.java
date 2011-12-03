@@ -134,14 +134,15 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 			for (ClientBudgetItem budgetItem : budgetItems) {
 
 				budgetItem.setAccountsName(budgetItem.getAccount().getName());
-				
+
 				if (budgetItem.getTotalAmount() > 0) {
 					grid.addData(budgetItem);
 				}
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 
 		getTotalLayout(grid);
 	}
@@ -167,7 +168,8 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			grid.addEmptyMessage(AccounterWarningType
+					.getWarning(AccounterWarningType.RECORDSEMPTY));
 
 		getTotalLayout(grid);
 	}

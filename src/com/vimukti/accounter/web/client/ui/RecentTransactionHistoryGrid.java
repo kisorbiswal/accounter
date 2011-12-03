@@ -12,10 +12,14 @@ public class RecentTransactionHistoryGrid extends ListGrid<ClientActivity> {
 
 	@Override
 	protected int getColumnType(int index) {
-		if (index == 1)
+		switch (index) {
+		case 1:
 			return ListGrid.COLUMN_TYPE_LINK;
-		else
+		case 2:
+			return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
+		default:
 			return ListGrid.COLUMN_TYPE_LABEL;
+		}
 	}
 
 	@Override
@@ -67,6 +71,14 @@ public class RecentTransactionHistoryGrid extends ListGrid<ClientActivity> {
 
 	@Override
 	protected int getCellWidth(int index) {
+		switch (index) {
+		case 0:
+			return 60;
+		case 3:
+			return 100;
+		default:
+			break;
+		}
 		return 0;
 	}
 
