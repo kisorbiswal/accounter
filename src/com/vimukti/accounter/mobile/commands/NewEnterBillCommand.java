@@ -418,7 +418,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 			ClientEnterBill enterBill = (ClientEnterBill) CommandUtils
 					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.INVOICE);
+							AccounterCoreType.ENTERBILL);
 			if (enterBill == null) {
 				addFirstMessage(context, "Select an Enter bill to update.");
 				return "Bills List " + string;
@@ -436,14 +436,19 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 	}
 
 	private void setValues(Context context) {
-		get(VENDOR).setValue(enterBill.getVendor());
-		get(DATE).setValue(context.getDate());
+		get(VENDOR).setValue(
+				CommandUtils.getServerObjectById(enterBill.getVendor(),
+						AccounterCoreType.VENDOR));
+		get(DATE).setValue(enterBill.getDate());
 		get(NUMBER).setValue(enterBill.getNumber());
-		get(CONTACT).setValue(enterBill.getContact());
+		get(CONTACT).setValue(toServerContact(enterBill.getContact()));
 		get(PHONE).setValue(enterBill.getPhone());
-		get(PAYMENT_TERMS).setValue(enterBill.getPaymentTerm());
-		get(DUE_DATE).setValue(enterBill.getDueDate());
-		get(DELIVERY_DATE).setValue(enterBill.getDeliveryDate());
+		get(PAYMENT_TERMS).setValue(
+				CommandUtils.getServerObjectById(enterBill.getPaymentTerm(),
+						AccounterCoreType.PAYMENT_TERM));
+		get(DUE_DATE).setValue(new ClientFinanceDate(enterBill.getDueDate()));
+		get(DELIVERY_DATE).setValue(
+				new ClientFinanceDate(enterBill.getDeliveryDate()));
 		ArrayList<ClientTransactionItem> itemsList = new ArrayList<ClientTransactionItem>();
 		ArrayList<ClientTransactionItem> accountsList = new ArrayList<ClientTransactionItem>();
 		if (enterBill.getTransactionItems() != null
