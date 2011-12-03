@@ -170,6 +170,9 @@ public class Company implements IAccounterServerCore {
 
 	private Account exchangeLossOrGainAccount;
 
+	@ReffereredObject
+	private Account cashDiscountAccount;
+
 	/**
 	 * Each company have a set of {@link Account} This will hold all the
 	 * Accounts created in this company.
@@ -1475,6 +1478,14 @@ public class Company implements IAccounterServerCore {
 
 	public void setWarehouses(Set<Warehouse> warehouses) {
 		this.warehouses = warehouses;
+	}
+
+	public Account getCashDiscountAccount() {
+		return cashDiscountAccount;
+	}
+
+	public void setCashDiscountAccount(Account cashDiscountAccount) {
+		this.cashDiscountAccount = cashDiscountAccount;
 	}
 
 }

@@ -115,6 +115,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private static final long INCLUDE_ACCEPTED_ESTIMATES = 0x20000000000000L;
 	private static final long INCLUDE_PENDING_ACCEPTED_ESTIMATES = 0x4000000000000L;
 
+	private static final long WANT_DISCOUNTS = 0x80000000000000L;
+
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
 	public static int VAT_REPORTING_PERIOD_QUARTERLY = 3;
@@ -873,7 +875,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 		this.referVendors = referSuplliers;
 	}
 
-
 	public boolean isDoyouwantEstimates() {
 		return get(WANT_ESTIMATES);
 	}
@@ -1454,10 +1455,18 @@ public class CompanyPreferences implements IAccounterServerCore {
 				includePendingAcceptedEstimates);
 	}
 
+	public Boolean isTrackDiscounts() {
+		return get(WANT_DISCOUNTS);
+	}
+
+	public void setTrackDiscounts(boolean isTrackDiscounts) {
+		this.set(WANT_DISCOUNTS, isTrackDiscounts);
+	}
+
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
+
 		w.put(messages.type(), messages.companyPreferences()).gap().gap();
 		w.put(messages.name(), this.tradingName);
 		w.put(messages.address(), this.tradingAddress.address1);

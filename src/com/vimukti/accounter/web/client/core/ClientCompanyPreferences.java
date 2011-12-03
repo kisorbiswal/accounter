@@ -123,6 +123,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private static final long INCLUDE_ACCEPTED_ESTIMATES = 0x20000000000000L;
 	private static final long INCLUDE_PENDING_ACCEPTED_ESTIMATES = 0x4000000000000L;
 
+	private static final long WANT_DISCOUNTS = 0x80000000000000L;
+
 	private static ClientCompanyPreferences preferences;
 
 	private String dateFormat;
@@ -1268,4 +1270,13 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		this.set(INCLUDE_PENDING_ACCEPTED_ESTIMATES,
 				includePendingAcceptedEstimates);
 	}
+
+	public Boolean isTrackDiscounts() {
+		return get(WANT_DISCOUNTS);
+	}
+
+	public void setTrackDiscounts(boolean isTrackDiscounts) {
+		this.set(WANT_DISCOUNTS, isTrackDiscounts);
+	}
+
 }

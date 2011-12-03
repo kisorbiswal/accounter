@@ -1632,6 +1632,7 @@
 	<sql-query name="getPayBillTransactionsListForVendor">
 		<query-param name="vendorId" type="long" />
 		<query-param name="companyId" type="long" />
+		<query-param name="paymentDate" type="long" />
 		<return-scalar column="ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
@@ -1642,6 +1643,10 @@
 		<return-scalar column="PAYMENTS" type="double" />
 		<return-scalar column="PAYMENT_METHOD" type="string" />
 		<return-scalar column="DISCOUNT_DATE" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="IS_DATE_DRIVEN" type="boolean" />
+		<return-scalar column="PAID_WITHIN" type="int" />
+		<return-scalar column="DISCOUNT" type="double" />
 		SELECT
 		CASE WHEN T.T_TYPE = 6 THEN T.ID WHEN T.T_TYPE = 10 THEN
 		TMD.ID
@@ -1685,7 +1690,11 @@
 		ELSE
 		NULL
 		END AS
-		DISCOUNT_DATE
+		DISCOUNT_DATE,
+		T.T_DATE AS TRANSACTION_DATE,
+		PT.IS_DATE_DRIVEN AS IS_DATE_DRIVEN,
+		PT.IF_PAID_WITHIN AS PAID_WITHIN,
+		PT.DISCOUNT_PERCENT AS DISCOUNT
 
 		FROM
 		TRANSACTION T
@@ -1701,7 +1710,8 @@
 		TMD.TRANSACTION_ID = MD.ID and
 		TMD.IS_NEW_ENTRY= TRUE and
 		TMD.TYPE = 2
-		WHERE T.T_TYPE in (6,10) and
+		LEFT JOIN PAYMENTTERMS PT ON PT.ID=EB.PAYMENT_TERM_ID
+		WHERE T.T_TYPE in (6,10) AND T.T_DATE &lt;= :paymentDate and
 		(EB.BALANCE_DUE>0.0 OR
 		TMD.BALANCE_DUE
 		>0.0) and (EB.VENDOR_ID
@@ -1714,15 +1724,18 @@
 	<sql-query name="getReceivePaymentTransactionsListForCustomer">
 		<query-param name="customerId" type="long" />
 		<query-param name="companyId" type="long" />
+		<query-param name="paymentDate" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
 		<return-scalar column="INVOICE_AMOUNT" type="double" />
 		<return-scalar column="AMOUNT_DUE" type="double" />
-		<return-scalar column="DISCOUNT_DATE" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="PAYMENTS" type="double" />
-		<return-scalar column="PT_DISCOUNT" type="int" />
+		<return-scalar column="IS_DATE_DRIVEN" type="boolean" />
+		<return-scalar column="PAID_WITHIN" type="int" />
+		<return-scalar column="DISCOUNT_PERC" type="double" />
 		SELECT
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
@@ -1745,14 +1758,10 @@
 		THEN (I.BALANCE_DUE)
 		END
 		AS AMOUNT_DUE,
-		CASE
-		WHEN
-		T.T_TYPE = 8
-		THEN I.DISCOUNT_DATE
-		ELSE
+
 		T.T_DATE
-		END AS
-		DISCOUNT_DATE ,
+		AS
+		TRANSACTION_DATE ,
 		CASE
 		WHEN T.T_TYPE = 5
 		THEN
@@ -1761,33 +1770,44 @@
 		T.T_TYPE = 8
 		THEN (I.PAYMENTS)
 		END AS PAYMENTS,
+		PT.IS_DATE_DRIVEN AS
+		IS_DATE_DRIVEN,
+		PT.IF_PAID_WITHIN AS PAID_WITHIN,
 		PT.DISCOUNT_PERCENT AS
-		PT_DISCOUNT
+		DISCOUNT_PERC
 
 		FROM
 		TRANSACTION T
 		LEFT OUTER JOIN
 		INVOICE I
-		on T.ID=I.ID
+		on
+		T.ID=I.ID
 		LEFT
 		OUTER JOIN
 		CUSTOMER_REFUND CR
 		on T.ID = CR.ID
-		LEFT OUTER JOIN
-		PAYMENTTERMS PT
+		LEFT OUTER
+		JOIN
+		PAYMENTTERMS
+		PT
 		ON
 		PT.ID=I.PAYMENT_TERMS_ID
 		WHERE T.T_TYPE
 		in (5,8)
 		AND
+		T.T_DATE
+		&lt;=:paymentDate
+		AND
 		(I.BALANCE_DUE>0.0
 		OR
 		CR.BALANCE_DUE >0.0)
-		AND (I.CUSTOMER_ID
+		AND
+		(I.CUSTOMER_ID
 		=:customerId OR
 		CR.CUSTOMER_ID
 		=:customerId)
-		AND T.IS_VOID=false AND
+		AND
+		T.IS_VOID=false AND
 		T.COMPANY_ID=:companyId
 	</sql-query>
 
@@ -6150,9 +6170,9 @@
 		<return-scalar column="SALES_PERSON_NAME" type="string" />
 		<return-scalar column="SHIPPING_METHOD_NAME" type="string" />
 		<return-scalar column="PAYMENT_TERM_NAME" type="string" />
-		<return-scalar column="TRANSACTION_ID" type="long"/>
-		<return-scalar column="CURRENCY" type="long"/>
-		<return-scalar column="CURRENCY_FACTOR" type="double"/>
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="CURRENCY" type="long" />
+		<return-scalar column="CURRENCY_FACTOR" type="double" />
 
 		SELECT T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS TRANSACTION_NUMBER,

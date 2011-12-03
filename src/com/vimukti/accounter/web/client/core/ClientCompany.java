@@ -199,6 +199,8 @@ public class ClientCompany implements IAccounterCore {
 	private ClientAddress registeredAddress;
 	private int version;
 
+	private long cashDiscountAccount;
+
 	public void setTaxItemGroups(ArrayList<ClientTAXItemGroup> taxItemGroups) {
 		this.taxItemGroups = taxItemGroups;
 	}
@@ -3071,8 +3073,16 @@ public class ClientCompany implements IAccounterCore {
 
 	}
 
-	public ClientPortletPageConfiguration getPortletPageConfiguration(String name) {
+	public ClientPortletPageConfiguration getPortletPageConfiguration(
+			String name) {
 		return PortletFactory.get().getDefaultConfiguration(name);
 	}
 
+	public long getCashDiscountAccount() {
+		return cashDiscountAccount;
+	}
+
+	public void setCashDiscountAccount(long cashDiscountAccount) {
+		this.cashDiscountAccount = cashDiscountAccount;
+	}
 }

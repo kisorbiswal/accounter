@@ -56,6 +56,8 @@ public class PaymentTerms extends CreatableObject implements
 	int ifPaidWithIn;
 	boolean isDefault;
 
+	boolean isDateDriven;
+
 	transient private boolean isOnSaveProccessed;
 
 	public PaymentTerms() {
@@ -64,7 +66,7 @@ public class PaymentTerms extends CreatableObject implements
 
 	public PaymentTerms(Company company, String name, String description,
 			int ifPaidWithIn, double discountPercent, int due, int dueDays,
-			boolean isDefault) {
+			boolean isDefault, boolean isDateDriven) {
 		setCompany(company);
 		this.name = name;
 		this.description = description;
@@ -73,6 +75,7 @@ public class PaymentTerms extends CreatableObject implements
 		this.due = due;
 		this.dueDays = dueDays;
 		this.isDefault = isDefault;
+		this.isDateDriven = isDateDriven;
 	}
 
 	/**

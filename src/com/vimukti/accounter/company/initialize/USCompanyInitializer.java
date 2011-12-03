@@ -7,17 +7,12 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
-import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.NominalCodeRange;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
-import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.SecureUtils;
 
 public class USCompanyInitializer extends CompanyInitializer {
 
@@ -99,151 +94,9 @@ public class USCompanyInitializer extends CompanyInitializer {
 				AccounterServerConstants.SALES_TAX_PAYABLE,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
-		// Account retainedEarnings = new Account(Account.TYPE_EQUITY, "3100",
-		// "Retained Earnings", true, null,
-		// Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
-		// null, true, true, openingBalancesAccount, "8", true,
-		// this.preferences.getPreventPostingBeforeDate());
-		//
-		// session.save(retainedEarnings);
-
-		// Account cashDiscountGiven = new Account(Account.TYPE_INCOME, "4100",
-		// "Income and Distribution", true, null,
-		// Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
-		// null, true, true, openingBalancesAccount, "9", true,
-		// this.preferences.getPreventPostingBeforeDate());
-		//
-		// session.save(cashDiscountGiven);
-
-		// Account writeOff = new Account(Account.TYPE_INCOME, "4200",
-		// "Write off", true, null, Account.CASH_FLOW_CATEGORY_FINANCING,
-		// 0.0, false, "", 0.0, null, true, true, openingBalancesAccount,
-		// "10", true, this.preferences.getPreventPostingBeforeDate());
-		//
-		// session.save(writeOff);
-
-		// Account cashDiscountTaken = new Account(
-		// Account.TYPE_COST_OF_GOODS_SOLD, "5100", "Cash Discount taken",
-		// true, null, Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false,
-		// "", 0.0, null, false, true, openingBalancesAccount, "11", true,
-		// this.preferences.getPreventPostingBeforeDate());
-		//
-		// session.save(cashDiscountTaken);
-
-		// Account bankCharge = new Account(Account.TYPE_EXPENSE, "7250",
-		// "Bank Charge", true, null,
-		// Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
-		// null, false, true, openingBalancesAccount, "12", true,
-		// this.preferences.getPreventPostingBeforeDate());
-		//
-		// session.save(bankCharge);
-
-		// The following two accounts for Cash Basis Journal Entries purpose.
-
-		// this.accountsReceivableAccount = accountsReceivable;
-		// this.accountsPayableAccount = accountsPayable;
-		// this.openingBalancesAccount = openingBalancesAccount;
-		// this.retainedEarningsAccount = retainedEarnings;
 		company.setTaxLiabilityAccount(salesTaxPayable);
-		// this.pendingItemReceiptsAccount = pendingItemReceipts;
 
 		createUSDefaultTaxGroup();
-		// createNominalCodesRanges(session);
-		// createDefaultBrandingTheme(session);
-	}
-
-	private void setDefaultsUSValues() {
-
-		Session session = HibernateUtil.getCurrentSession();
-		// Create Default Payment Terms
-
-		// PaymentTerms onePercentTenNetThirty = new PaymentTerms(
-		// AccounterConstants.PM_ONE_PERCENT_TEN_NET_THIRTY,
-		// AccounterConstants.DISCOUNT_ONEPERCENT_IF_PAID_WITHIN_TENDAYS,
-		// 10, 1, PaymentTerms.DUE_NONE, 30, true);
-		//
-		// session.save(onePercentTenNetThirty);
-
-		// PaymentTerms twoPercentTenNetThirty = new PaymentTerms(
-		// AccounterConstants.PM_TWO_PERCENT_TEN_NET_THIRTY,
-		// AccounterConstants.DISCOUNT_TWOPERCENT_IF_PAID_WITHIN_TENDAYS,
-		// 10, 2, PaymentTerms.DUE_NONE, 30, true);
-		// session.save(twoPercentTenNetThirty);
-
-		//
-		// PaymentTerms netFifteen = new PaymentTerms(
-		// AccounterConstants.PM_NET_FIFTEEN,
-		// AccounterConstants.PAY_WITH_IN_FIFTEEN_DAYS, 0, 0,
-		// PaymentTerms.DUE_NONE, 15, true);
-		//
-		// session.save(netFifteen);
-
-		PaymentTerms dueOnReceipt = new PaymentTerms(company,
-				AccounterServerConstants.PM_DUE_ON_RECEIPT,
-				AccounterServerConstants.DUE_ON_RECEIPT, 0, 0,
-				PaymentTerms.DUE_NONE, 0, true);
-
-		session.save(dueOnReceipt);
-
-		PaymentTerms netThirty = new PaymentTerms(company,
-				AccounterServerConstants.PM_NET_THIRTY,
-				AccounterServerConstants.PAY_WITH_IN_THIRTY_DAYS, 0, 0,
-				PaymentTerms.DUE_NONE, 30, true);
-
-		session.save(netThirty);
-
-		PaymentTerms netSixty = new PaymentTerms(company,
-				AccounterServerConstants.PM_NET_SIXTY,
-				AccounterServerConstants.PAY_WITH_IN_SIXTY_DAYS, 0, 0,
-				PaymentTerms.DUE_NONE, 60, true);
-
-		session.save(netSixty);
-
-		PaymentTerms monthly = new PaymentTerms(company,
-				AccounterServerConstants.PM_MONTHLY,
-				AccounterServerConstants.SALES_TAX_PAID_MONTHLY, 0, 0,
-				PaymentTerms.DUE_CURRENT_MONTH, 30, true);
-
-		session.save(monthly);
-
-		// PaymentTerms quarterly = new PaymentTerms(
-		// AccounterConstants.PM_QUARTERLY,
-		// AccounterConstants.SALES_TAX_PAID_QUARTERLY, 0, 0,
-		// PaymentTerms.DUE_CURRENT_QUARTER, 30, true);
-		//
-		// session.save(quarterly);
-		//
-		// PaymentTerms annually = new PaymentTerms(
-		// AccounterConstants.PM_ANNUALLY,
-		// AccounterConstants.SALES_TAX_PAID_ANNUALLY, 0, 0,
-		// PaymentTerms.DUE_CURRENT_YEAR, 30, true);
-		//
-		// session.save(annually);
-
-		// Current Fiscal Year creation
-		FinanceDate currentDate = new FinanceDate();
-		FinanceDate fiscalYearStartDate = new FinanceDate(
-				(int) currentDate.getYear(), 0, 1);
-		FinanceDate fiscalYearEndDate = new FinanceDate(
-				(int) currentDate.getYear(), 11, 31);
-
-		String dateFormat = AccounterServerConstants.MMddyyyy;
-		FiscalYear fiscalYear = new FiscalYear(fiscalYearStartDate,
-				fiscalYearEndDate, FiscalYear.STATUS_OPEN, Boolean.TRUE);
-
-		session.save(fiscalYear);
-
-		// Create Default PayTypes
-
-		// Set Default Preferences
-		// SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
-		VendorGroup creditCardCompanies = new VendorGroup();
-		creditCardCompanies
-				.setName(AccounterServerConstants.CREDIT_CARD_COMPANIES);
-		creditCardCompanies.setDefault(true);
-		session.save(creditCardCompanies);
-
 	}
 
 	private void createNominalCodesRanges(Session session) {
@@ -327,15 +180,6 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 		this.setNominalCodeRange(nominalCodesRangeSet);
 
-	}
-
-	private void createDefaultBrandingTheme(Session session) {
-		BrandingTheme brandingTheme = new BrandingTheme("Standard",
-				SecureUtils.createID(), 1.35, 1.00, 1.00, "Times New Roman",
-				"10pt", "INVOICE", "CREDIT", "STATEMENT", "democo@democo.co",
-				true, this.getName(), "(None Added)", "Classic Tempalate",
-				"Classic Template");
-		session.save(brandingTheme);
 	}
 
 	public void createUSDefaultTaxGroup() {

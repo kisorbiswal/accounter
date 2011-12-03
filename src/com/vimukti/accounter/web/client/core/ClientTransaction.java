@@ -902,6 +902,23 @@ public abstract class ClientTransaction implements IAccounterCore {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean haveDiscount() {
+		if (transactionItems == null) {
+			return false;
+		}
+		for (ClientTransactionItem item : this.transactionItems) {
+			double discount = item.getDiscount();
+			if (discount != 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public List<ClientWareHouseAllocation> getWareHouseAllocations() {
 		return wareHouseAllocations;
 	}

@@ -26,6 +26,7 @@ public class ClientPaymentTerms implements IAccounterCore {
 	double discountPercent;
 	int ifPaidWithIn;
 	boolean isDefault;
+	boolean isDateDriven;
 
 	public ClientPaymentTerms() {
 
@@ -162,6 +163,14 @@ public class ClientPaymentTerms implements IAccounterCore {
 		this.isDefault = isDefault;
 	}
 
+	public boolean isDateDriven() {
+		return isDateDriven;
+	}
+
+	public void setDateDriven(boolean isDateDriven) {
+		this.isDateDriven = isDateDriven;
+	}
+
 	public ClientPaymentTerms clone() {
 		ClientPaymentTerms paymentTerms = (ClientPaymentTerms) this.clone();
 		return paymentTerms;
@@ -185,6 +194,6 @@ public class ClientPaymentTerms implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-	this.version=version;
+		this.version = version;
 	}
 }

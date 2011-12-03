@@ -306,6 +306,8 @@
 
 		<property name="bankAccountNo" column="BANK_ACCOUNT_NO"></property>
 		<property name="sortCode" column="SORT_CODE"></property>
+		<many-to-one name="cashDiscountAccount" class="Account"
+			lazy="false" column="CASH_DISCOUNT_ACCOUNT"></many-to-one>
 		<many-to-one name="accountsReceivableAccount" class="Account"
 			lazy="false" column="ACCOUNTS_RECEIVABLE_ID" cascade="delete">
 		</many-to-one>
@@ -1069,6 +1071,7 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<property name="isDefault" column="IS_DEFAULT"></property>
+		<property name="isDateDriven" column="IS_DATE_DRIVEN"></property>
 	</class>
 	<!-- <class name="Phone" table="PHONE"> <id name="id" column="ID"> <generator 
 		class="identity" /> </id> <property name="type" column="TYPE"></property> 
