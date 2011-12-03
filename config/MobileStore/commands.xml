@@ -857,15 +857,16 @@
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.NewVendorPrepaymentCommand"
-		name="New VendorPrepayment">
-		<alias>Add a New Vendor Prepayment</alias>
+		name="New Vendor Prepayment">
 		<alias>Vendor Prepayment</alias>
 		<alias>Add Vendor Prepayment</alias>
+		<alias>Add Vendor Payment</alias>
 		<alias>Create Vendor Prepayment</alias>
+		<alias>Create Vendor Payment</alias>
 		<alias>Update Vendor Prepayment</alias>
 		<alias>Modify Vendor Prepayment</alias>
 		<alias>Edit Vendor Prepayment</alias>
-		<alias>New Vendor Prepayment</alias>
+		<alias>New Vendor Payment</alias>
 		<alias>Update Vendor Payment</alias>
 		<alias>Update supplier Payment</alias>
 	</command>
