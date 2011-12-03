@@ -127,7 +127,7 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 			@Override
 			protected void setCreateCommand(CommandList list) {
 				if (commandString.contains("Vendor")) {
-					list.add("Add Vendor payment");
+					list.add("Add a New Vendor Prepayment");
 				} else {
 					list.add("Add a New Payment");
 				}
