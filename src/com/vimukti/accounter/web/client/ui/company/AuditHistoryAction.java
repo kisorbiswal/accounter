@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -8,22 +9,15 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class AuditHistoryAction extends Action {
 
-	private int objT;
-	private long objID;
-	private String dataString;
+	private ClientActivity obj;
 
 	public AuditHistoryAction(String text) {
 		super(text);
 	}
 
-	public AuditHistoryAction(String text, int objectType, long objectID,
-			String dataType) {
-
-		super(text);
-		objT = objectType;
-		objID = objectID;
-		dataString = dataType;
-		// run();
+	public AuditHistoryAction(String history, ClientActivity object) {
+		super(history);
+		obj = object;
 	}
 
 	@Override
@@ -36,7 +30,7 @@ public class AuditHistoryAction extends Action {
 
 			@Override
 			public void onCreated() {
-				HistoryView view = new HistoryView(objT, objID, dataString);
+				HistoryView view = new HistoryView(obj);
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isEditable, AuditHistoryAction.this);

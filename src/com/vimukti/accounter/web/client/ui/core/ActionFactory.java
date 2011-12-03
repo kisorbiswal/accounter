@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -1410,9 +1411,8 @@ public class ActionFactory {
 		return new BudgetOverviewReportAction(messages.budgetOverview());
 	}
 
-	public static AuditHistoryAction getAuditHistory(int objectType,
-			long objectID, String dataType) {
-		return new AuditHistoryAction(messages.history(), objectType, objectID,
-				dataType);
+	public static AuditHistoryAction getAuditHistory(ClientActivity object) {
+		return new AuditHistoryAction(messages.history(), object);
+
 	}
 }

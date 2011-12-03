@@ -1800,12 +1800,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<String> getAuditHistory(int objectType, long objectID)
-			throws AccounterException {
+	public ArrayList<ClientActivity> getAuditHistory(int objectType,
+			long objectID, long activityID) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			return tool.getUserManager().getAuditHistory(objectType, objectID,
-					getCompanyId());
+					activityID, getCompanyId());
 		}
 		return null;
 	}

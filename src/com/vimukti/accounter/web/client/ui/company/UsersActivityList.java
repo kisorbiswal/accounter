@@ -226,9 +226,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 							String value) {
 						if (object.getObjectID() != 0) {
 
-							ActionFactory.getAuditHistory(object.getObjType(),
-									object.getObjectID(), object.getDataType())
-									.run();
+							ActionFactory.getAuditHistory(object).run();
 						}
 					}
 				});

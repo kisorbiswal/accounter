@@ -7353,13 +7353,16 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="objectType" type="int" />
 		<query-param name="objectID" type="long" />
+		<query-param name="activityID" type="long" />
 
-		SELECT AUDITHISTORY FROM ACTIVITY WHERE
-		COMPANY_ID=:companyId AND
-		OBJECT_TYPE=:objectType AND
-		OBJECT_ID=:objectID
+		SELECT * FROM Activity a WHERE
+		a.COMPANY_ID=:companyId AND
+		a.OBJECT_TYPE=:objectType AND
+		a.ID &lt;=:activityID AND
+		a.OBJECT_ID=:objectID
 
 	</sql-query>
+
 
 	<query name="getTaxreturnByTransactionid">
 		<query-param name="transaction" type="Transaction" />

@@ -326,29 +326,42 @@ public class UserManager extends Manager {
 		return client;
 	}
 
-	public ArrayList<String> getAuditHistory(int objectType, long objectID,
-			Long companyId) {
+	public ArrayList<ClientActivity> getAuditHistory(int objectType,
+			long objectID, long activityID, Long companyId) {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		try {
-			Query query = session.getNamedQuery("getAuditHistory")
-					.setParameter("companyId", companyId)
-					.setParameter("objectType", objectType)
-					.setParameter("objectID", objectID);
+		Query query = session.getNamedQuery("getAuditHistory")
+				.setParameter("companyId", companyId)
+				.setParameter("objectType", objectType)
+				.setParameter("activityID", activityID)
+				.setParameter("objectID", objectID);
 
-			Iterator<String> iterator = query.list().iterator();
+		Iterator i = query.list().iterator();
 
-			ArrayList<String> jsonString = new ArrayList<String>();
+		ArrayList<ClientActivity> clientActivities = new ArrayList<ClientActivity>();
 
-			while (iterator.hasNext()) {
-				jsonString.add(iterator.next().toString());
+		while (i.hasNext()) {
+			Object[] object = (Object[]) i.next();
+			Activity activity = new Activity();
+			activity.setUserName(object[4].toString());
+			java.sql.Timestamp ts2 = java.sql.Timestamp.valueOf(object[3]
+					.toString());
+			activity.setTime(ts2);
+			activity.setHistory(object[13].toString());
+
+			ClientActivity clientActivity;
+			try {
+				clientActivity = new ClientConvertUtil().toClientObject(
+						activity, ClientActivity.class);
+				clientActivities.add(clientActivity);
+			} catch (AccounterException e) {
+				e.printStackTrace();
 			}
-			return jsonString;
-		} catch (Exception e) {
-			System.err.println(e);
-		}
-		return null;
-	}
 
+		}
+
+		return clientActivities;
+
+	}
 }

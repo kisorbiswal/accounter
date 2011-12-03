@@ -18,9 +18,15 @@ public class HistoryItem extends SimplePanel {
 	public HistoryItem(JSONArray jsonArray) {
 		this.html = new HTML();
 		this.add(html);
+		// compareJsonArrays(jsonArray);
 		initItem(jsonArray);
 	}
 
+	/**
+	 * this method creates the html code for the array
+	 * 
+	 * @param array
+	 */
 	private void initItem(JSONArray array) {
 		SafeHtmlBuilder sb = new SafeHtmlBuilder();
 		sb.appendHtmlConstant("<table class='historyItem'>");
