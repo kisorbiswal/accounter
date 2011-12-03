@@ -48,6 +48,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	private static final String SERVICE_NO = "supplierServiceNo";
 	protected static final String WEIGHT = "weight";
 	private static final String TAXCODE = "taxCode";
+	protected static final String WARE_HOUSE = "wareHouse";
+
 	private int itemType;
 	private ClientItem item;
 
@@ -239,7 +241,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		});
 
 		list.add(new TaxCodeRequirement(TAXCODE, "Enter the Tax Code name",
-				getMessages().taxCode(), false, true, null) {
+				getMessages().taxCode(), true, true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -558,6 +560,12 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		get(PREFERRED_SUPPLIER).setValue(
 				CommandUtils.getServerObjectById(item.getPreferredVendor(),
 						AccounterCoreType.VENDOR));
+
+		if (get(WARE_HOUSE).getValue() != null) {
+			get(WARE_HOUSE).setValue(
+					CommandUtils.getServerObjectById(item.getWarehouse(),
+							AccounterCoreType.WAREHOUSE));
+		}
 	}
 
 	public ClientItem getItem() {

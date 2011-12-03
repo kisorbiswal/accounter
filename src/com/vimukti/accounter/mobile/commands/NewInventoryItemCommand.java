@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.MeasurementRequirement;
+import com.vimukti.accounter.mobile.requirements.WarehouseRequirement;
 
 public class NewInventoryItemCommand extends NewNonInventoryItemCommand {
 
@@ -32,6 +34,17 @@ public class NewInventoryItemCommand extends NewNonInventoryItemCommand {
 			}
 
 		});
+
+		list.add(new WarehouseRequirement(WARE_HOUSE, getMessages()
+				.pleaseSelect(getMessages().wareHouse()), getMessages()
+				.wareHouse(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().inventoryItem());
+			}
+
+		});
 	}
 
 	@Override
@@ -42,6 +55,12 @@ public class NewInventoryItemCommand extends NewNonInventoryItemCommand {
 	@Override
 	public String getId() {
 		return null;
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		super.setDefaultValues(context);
+		get(WARE_HOUSE).setDefaultValue(getCompany().getDefaultWarehouse());
 	}
 
 }
