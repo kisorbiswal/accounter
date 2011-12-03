@@ -258,6 +258,23 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 		return null;
 	}
 
+	@Override
+	protected String getThirdCommandString() {
+		return "Void";
+	}
+
+	@Override
+	protected String getThirdCommand(Context context) {
+		if (this.transaction != null
+				&& this.transaction.getID() != 0
+				&& !this.transaction.isVoid()
+				&& context.getUser().getPermissions().getTypeOfInvoices() == RolePermissions.TYPE_YES) {
+			return "Void Transaction " + transaction.getType() + " "
+					+ transaction.getID();
+		}
+		return null;
+	}
+
 	protected boolean checkOpen(Collection<ClientTransactionItem> items,
 			int type, boolean defaultValue) {
 		if (items.isEmpty()) {
