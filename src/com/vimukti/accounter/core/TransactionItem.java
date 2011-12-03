@@ -810,8 +810,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			w.put(messages.isTaxable(), false);
 		}
 
-		if (this.transaction.location != null) {
-			w.put(messages.location(), this.transaction.location.toString());
+		if (this.transaction.getLocation() != null) {
+			w.put(messages.location(), this.transaction.getLocation().toString());
 		}
 		// not sure whats this
 		// w.put(messages.amount(), this.usedamt.toString());
