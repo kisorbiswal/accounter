@@ -31,7 +31,7 @@ public abstract class ContactRequirement extends ListRequirement<Contact> {
 	@Override
 	protected Record createRecord(Contact value) {
 		Record record = new Record(value);
-		record.add("Contact", value.getName());
+		record.add(value.getName());
 		return record;
 	}
 
