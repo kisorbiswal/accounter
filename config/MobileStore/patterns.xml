@@ -157,7 +157,7 @@
 		<outputs>
 			<command title="New Customer " />
 			<command title="New Item" />
-			<command title="New Quote" />
+			<command if="trackingQuotes" title="New Quote" />
 			<command if="delayedCharges" title="New Credit" />
 			<command if="delayedCharges" title="New Charge" />
 			<command title="New Invoice" />
