@@ -156,8 +156,9 @@ public class MISCInfoServlet extends BaseServlet {
 
 		} else if (formType == 0) {
 
-			ArrayList<Client1099Form> miscinfo = financetool.getVendorManager()
-					.get1099Vendors(1, company.getID());
+			ArrayList<Client1099Form> miscinfo = financetool
+					.getVendorManager()
+					.get1099Vendors(Integer.parseInt(objectId), company.getID());
 
 			converter = new Converter(PD4Constants.LETTER);
 			MISCInformationTemplate info = new MISCInformationTemplate(

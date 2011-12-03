@@ -128,7 +128,7 @@ public class MISCInformationTemplate {
 			outPutString = t.getFileString();
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		return outPutString;

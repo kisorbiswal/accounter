@@ -1651,12 +1651,12 @@ public class UIUtils {
 	public static void downloadMISCForm(long objectID, int type,
 			long brandingThemeId, long vendorID, int horizontalValue,
 			int verticalValue) {
-		downloadMISCForm(String.valueOf(objectID), type,
+		downloadMISC(String.valueOf(objectID), type,
 				String.valueOf(brandingThemeId), String.valueOf(vendorID),
 				String.valueOf(horizontalValue), String.valueOf(verticalValue));
 	}
 
-	public native static void downloadMISCForm(String objectID, int type,
+	public native static void downloadMISC(String objectID, int type,
 			String brandingThemeId, String vendorID, String horizontalValue,
 			String verticalValue)/*-{
 		try {
