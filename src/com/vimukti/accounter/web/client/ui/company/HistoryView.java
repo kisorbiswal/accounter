@@ -65,7 +65,7 @@ public class HistoryView extends BaseView {
 						if (result != null) {
 
 							if (result.size() > 1) {
-								compareHistoryString(result);
+								// compareHistoryString(result);
 							}
 							showItems(result);
 						}
