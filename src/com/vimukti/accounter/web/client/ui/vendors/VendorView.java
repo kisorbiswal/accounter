@@ -1389,7 +1389,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		openingBalText.setDisabled(isInViewMode());
 		balanceDate.setDisabled(isInViewMode());
 		expenseAccountsSelect.setDisabled(isInViewMode());
-		currencyWidget.setDisabled(true);
+		currencyWidget.setDisabled(!isInViewMode(),isInViewMode());
 		// if (!selectCurrency.equals(getCompany().getPreferences()
 		// .getPrimaryCurrency())) {
 		// currencyWidget.disabledFactorField(false);
