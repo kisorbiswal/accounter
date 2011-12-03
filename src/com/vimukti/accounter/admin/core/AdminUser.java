@@ -1,7 +1,6 @@
 package com.vimukti.accounter.admin.core;
 
 import org.json.JSONException;
-import org.openxri.xri3.impl.parser.Parser.global_subseg;
 
 import com.vimukti.accounter.admin.client.ClientAdminUser;
 import com.vimukti.accounter.core.AuditWriter;
@@ -12,7 +11,8 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
-public class AdminUser extends CreatableObject implements IAccounterServerCore ,INamedObject{
+public class AdminUser extends CreatableObject implements IAccounterServerCore,
+		INamedObject {
 
 	public AdminUser() {
 	}
@@ -107,9 +107,9 @@ public class AdminUser extends CreatableObject implements IAccounterServerCore ,
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), "Admin User").gap().gap();
+
+		w.put(messages.type(), messages.adminuser()).gap().gap();
 		w.put(messages.name(), this.name);
-		
+
 	}
 }
