@@ -934,6 +934,9 @@
 			<many-to-one name="involvedPayee" class="Payee" lazy="false"
 				cascade="save-update" column="PAYEE_ID">
 			</many-to-one>
+			<many-to-one name="involvedAccount" class="Account" lazy="false"
+				cascade="save-update" column="ACCOUNT_ID">
+			</many-to-one>
 			<set name="transactionReceivePayments" inverse="true" lazy="false"
 				cascade="save-update,delete">
 				<key column="JOURNAL_ENTRY_ID"></key>
