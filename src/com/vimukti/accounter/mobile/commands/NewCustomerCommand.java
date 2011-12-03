@@ -84,9 +84,20 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new NameRequirement(CUSTOMER_NAME,
-				"Please Enter Customer name", getMessages().payeeName(
-						Global.get().Customer()), false, true));
+		list.add(new NameRequirement(CUSTOMER_NAME, getMessages().pleaseEnter(
+				getMessages().payeeName(Global.get().Customer())),
+				getMessages().payeeName(Global.get().Customer()), false, true) {
+			@Override
+			public void setValue(Object value) {
+				if (NewCustomerCommand.this.isCustomerExists((String) value)) {
+					addFirstMessage(getMessages().alreadyExist());
+					return;
+				}
+				addFirstMessage(getMessages().pleaseEnter(
+						getMessages().payeeName(Global.get().Customer())));
+				super.setValue(value);
+			}
+		});
 
 		list.add(new BooleanRequirement(ACTIVE, true) {
 
@@ -403,6 +414,11 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 		});
 
+	}
+
+	protected boolean isCustomerExists(String value) {
+		return CommandUtils.isCustomerExistsWithSameName(getCompany()
+				.getCustomers(), value);
 	}
 
 	@Override

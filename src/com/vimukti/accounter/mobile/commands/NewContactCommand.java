@@ -73,8 +73,7 @@ public class NewContactCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<Customer> getLists(Context context) {
-				return new ArrayList<Customer>(context.getCompany()
-						.getCustomers());
+				return getCustomers();
 			}
 		});
 	}

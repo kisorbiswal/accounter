@@ -85,7 +85,18 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 		list.add(new NameRequirement(VENDOR_NAME, getMessages().pleaseEnter(
 				getMessages().payeeName(Global.get().Vendor())), getMessages()
-				.payeeName(Global.get().Vendor()), false, true));
+				.payeeName(Global.get().Vendor()), false, true) {
+			@Override
+			public void setValue(Object value) {
+				if (NewVendorCommand.this.isVendorExists((String) value)) {
+					addFirstMessage(getMessages().alreadyExist());
+					return;
+				}
+				addFirstMessage(getMessages().pleaseEnter(
+						getMessages().payeeName(Global.get().Vendor())));
+				super.setValue(value);
+			}
+		});
 
 		list.add(new NumberRequirement(VENDOR_NUMBER, getMessages()
 				.pleaseEnter(getMessages().payeeNumber(Global.get().Vendor())),
@@ -390,6 +401,11 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 		});
 
+	}
+
+	protected boolean isVendorExists(String value) {
+		return CommandUtils.isVendorExistsWithSameName(getCompany()
+				.getVendors(), value);
 	}
 
 	protected List<ClientContact> getVendorContacts() {

@@ -1299,4 +1299,24 @@ public class CommandUtils {
 		return UIUtils.getpaymentMethodCheckBy_CompanyType(messages,
 				paymentMethod);
 	}
+
+	public static boolean isCustomerExistsWithSameName(Set<Customer> customers,
+			String value) {
+		for (Customer customer : customers) {
+			if (customer.getName().equalsIgnoreCase(value)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean isVendorExistsWithSameName(Set<Vendor> vendors,
+			String value) {
+		for (Vendor vendor : vendors) {
+			if (vendor.getName().equalsIgnoreCase(value)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
