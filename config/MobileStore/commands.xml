@@ -996,8 +996,7 @@
 		New PurchaseOrder</alias> </command> -->
 
 	<command clazz="com.vimukti.accounter.mobile.commands.VoidTransactionCommand"
-		name="">
-		<alias>Void</alias>
+		name="Void Transaction">
 	</command>
 
 	<command
