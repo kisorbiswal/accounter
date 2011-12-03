@@ -1412,7 +1412,6 @@ public class ActionFactory {
 
 	public static AuditHistoryAction getAuditHistory(int objectType,
 			long objectID, String dataType) {
-		return new AuditHistoryAction(messages.history(), objectType, objectID,
-				dataType);
+		return new AuditHistoryAction(messages.history(), objectType, objectID);
 	}
 }
