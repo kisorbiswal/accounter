@@ -561,7 +561,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 				CommandUtils.getServerObjectById(item.getPreferredVendor(),
 						AccounterCoreType.VENDOR));
 
-		if (get(WARE_HOUSE).getValue() != null) {
+		if (get(WARE_HOUSE) != null) {
 			get(WARE_HOUSE).setValue(
 					CommandUtils.getServerObjectById(item.getWarehouse(),
 							AccounterCoreType.WAREHOUSE));
