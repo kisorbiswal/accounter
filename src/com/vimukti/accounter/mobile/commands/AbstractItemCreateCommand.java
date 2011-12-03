@@ -437,44 +437,44 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		Vendor preferedSupplier = (Vendor) get(PREFERRED_SUPPLIER).getValue();
 		String supplierServiceNo = (String) get(SERVICE_NO).getValue();
 
-		getItem().setName(name);
-		getItem().setWeight(weight);
-		getItem().setISellThisItem(iSellthis);
+		item.setName(name);
+		item.setWeight(weight);
+		item.setISellThisItem(iSellthis);
 		if (iSellthis) {
-			getItem().setSalesDescription(description);
-			getItem().setSalesPrice(price);
-			getItem().setIncomeAccount(incomeAccount.getID());
-			getItem().setTaxable(isTaxable);
-			getItem().setCommissionItem(isCommisionItem);
+			item.setSalesDescription(description);
+			item.setSalesPrice(price);
+			item.setIncomeAccount(incomeAccount.getID());
+			item.setTaxable(isTaxable);
+			item.setCommissionItem(isCommisionItem);
 		}
-		getItem().setStandardCost(cost);
+		item.setStandardCost(cost);
 		if (context.getCompany().getPreferences().isClassOnePerTransaction()) {
-			getItem().setTaxCode(vatcode.getID());
+			item.setTaxCode(vatcode.getID());
 		}
-		getItem().setActive(isActive);
-		getItem().setIBuyThisItem(isBuyservice);
+		item.setActive(isActive);
+		item.setIBuyThisItem(isBuyservice);
 		if (itemGroup != null)
-			getItem().setItemGroup(itemGroup.getID());
+			item.setItemGroup(itemGroup.getID());
 		if (isBuyservice) {
-			getItem().setPurchaseDescription(purchaseDescription);
-			getItem().setPurchasePrice(purchasePrice);
-			getItem().setExpenseAccount(expenseAccount.getID());
+			item.setPurchaseDescription(purchaseDescription);
+			item.setPurchasePrice(purchasePrice);
+			item.setExpenseAccount(expenseAccount.getID());
 			if (preferedSupplier != null)
-				getItem().setPreferredVendor(preferedSupplier.getID());
-			getItem().setVendorItemNumber(supplierServiceNo);
+				item.setPreferredVendor(preferedSupplier.getID());
+			item.setVendorItemNumber(supplierServiceNo);
 		}
-		getItem().setType(itemType);
+		item.setType(itemType);
 		Requirement requirement = get(WARE_HOUSE);
 		if (requirement != null) {
 			Warehouse warehouse = requirement.getValue();
-			getItem().setWarehouse(warehouse.getID());
+			item.setWarehouse(warehouse.getID());
 		}
 		Requirement measurementreq = get(MEASUREMENT);
 		if (measurementreq != null) {
 			Measurement measurement = measurementreq.getValue();
-			getItem().setMeasurement(measurement.getID());
+			item.setMeasurement(measurement.getID());
 		}
-		create(getItem(), context);
+		create(item, context);
 		return null;
 	}
 
