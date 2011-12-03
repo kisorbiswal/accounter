@@ -56,7 +56,7 @@
 			<command title="Sales By Customer Detail" />
 			<command title="Sales By Item Summary" />
 			<command title="Sales By Item Detail" />
-			<command title="Sales Order Report" />
+			<!-- <command title="Sales Order Report" /> -->
 		</outputs>
 	</pattern>
 
@@ -81,7 +81,7 @@
 			<command title="Purchase By Supplier Detail" />
 			<command title="Purchase By Item Summary" />
 			<command title="Purchase By Item Detail" />
-			<command title="Purchase Order Report" />
+			<!-- <command title="Purchase Order Report" /> -->
 		</outputs>
 	</pattern>
 

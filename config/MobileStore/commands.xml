@@ -265,13 +265,9 @@
 		<alias>PSS report</alias>
 	</command>
 
-	<command
-		clazz="com.vimukti.accounter.mobile.commands.reports.PurchaseOpenOrderReportCommand"
-		name="Purchase Order Report">
-		<alias>Purchase Order Report</alias>
-		<alias>PO</alias>
-		<alias>PO report</alias>
-	</command>
+	<!-- <command clazz="com.vimukti.accounter.mobile.commands.reports.PurchaseOpenOrderReportCommand" 
+		name="Purchase Order Report"> <alias>Purchase Order Report</alias> <alias>PO</alias> 
+		<alias>PO report</alias> </command> -->
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.reports.SalesByCustomerDetailReportCommand"
@@ -305,13 +301,9 @@
 		<alias>SIS report</alias>
 	</command>
 
-	<command
-		clazz="com.vimukti.accounter.mobile.commands.reports.SalesOpenOrderReportCommand"
-		name="Sales Order Report">
-		<alias>Sales Order Report</alias>
-		<alias>SO</alias>
-		<alias>SO report</alias>
-	</command>
+	<!-- <command clazz="com.vimukti.accounter.mobile.commands.reports.SalesOpenOrderReportCommand" 
+		name="Sales Order Report"> <alias>Sales Order Report</alias> <alias>SO</alias> 
+		<alias>SO report</alias> </command> -->
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.reports.SupplierTransactionHistoryReportCommand"
