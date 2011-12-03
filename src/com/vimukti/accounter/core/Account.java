@@ -266,6 +266,12 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	private String paypalEmail;
 
+	transient private FinanceDate previousAsOfDate;
+
+	transient private double previousCurrencyFactor;
+
+	transient private double previousOpeningBalance;
+
 	/**
 	 * Constructor of Account class
 	 */
@@ -796,6 +802,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
 		this.oldParent = parent;
+		this.previousOpeningBalance = openingBalance;
+		this.previousCurrencyFactor = currencyFactor;
+		this.previousAsOfDate = asOf;
 
 	}
 
@@ -1121,12 +1130,26 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			}
 		}
 
-		if (!DecimalUtil.isEquals(this.openingBalance, 0.0)
-				&& isOpeningBalanceEditable) {
+		if (isOpenBalanceFieldsChanged()) {
+			boolean temp = isOpeningBalanceEditable;
+			isOpeningBalanceEditable = false;
+			JournalEntry existEntry = (JournalEntry) session
+					.getNamedQuery("getJournalEntryForAccount")
+					.setLong("id", this.id).uniqueResult();
+			if (existEntry == null) {
+				JournalEntry journalEntry = createJournalEntry(this, null);
+				session.save(journalEntry);
+			} else {
+				session = HibernateUtil.getCurrentSession();
+				session.delete(existEntry);
+				if (!DecimalUtil.isEquals(this.openingBalance, 0)) {
+					JournalEntry journalEntry = createJournalEntry(this,
+							existEntry.getNumber());
+					session.save(journalEntry);
+				}
 
-			this.isOpeningBalanceEditable = Boolean.FALSE;
-			JournalEntry journalEntry = createJournalEntry(this);
-			session.save(journalEntry);
+			}
+			isOpeningBalanceEditable = temp;
 		}
 
 		// if (this.accountTransaction != null) {
@@ -1155,17 +1178,19 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		return false;
 	}
 
-	private JournalEntry createJournalEntry(Account account) {
-		String number = NumberUtils.getNextTransactionNumber(
-				Transaction.TYPE_JOURNAL_ENTRY, getCompany());
-
+	private JournalEntry createJournalEntry(Account account, String number) {
+		if (number == null) {
+			number = NumberUtils.getNextTransactionNumber(
+					Transaction.TYPE_JOURNAL_ENTRY, getCompany());
+		}
 		JournalEntry journalEntry = new JournalEntry();
 		journalEntry.setCompany(account.getCompany());
+		journalEntry.setInvolvedAccount(this);
 		journalEntry.number = number;
 		journalEntry.transactionDate = account.asOf;
 		journalEntry.memo = "Opening Balance";
 		journalEntry.setCurrency(this.currency);
-		journalEntry.currencyFactor = this.currencyFactor; 
+		journalEntry.currencyFactor = this.currencyFactor;
 
 		List<TransactionItem> items = new ArrayList<TransactionItem>();
 		TransactionItem item1 = new TransactionItem();
@@ -1345,6 +1370,20 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		w.put(Global.get().messages().name(), this.name);
+	}
+
+	public boolean isOpenBalanceFieldsChanged() {
+		if(!isOpeningBalanceEditable){
+			return false;
+		}
+		if (!DecimalUtil.isEquals(openingBalance, previousOpeningBalance)
+				|| !DecimalUtil
+						.isEquals(currencyFactor, previousCurrencyFactor)
+
+				|| (previousAsOfDate != null && !asOf.equals(previousAsOfDate))) {
+			return true;
+		}
+		return false;
 	}
 
 }
