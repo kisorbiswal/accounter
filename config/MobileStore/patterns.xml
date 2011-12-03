@@ -55,7 +55,7 @@
 			<command title="New Journal Entry" />
 			<command title="New Account" />
 			<command title="Company Preferences" />
-			<command title="Item Tax" />
+			<command if="trackTax" title="Item Tax" />
 			<command title="Manage Support List" />
 			<command title="Lists" />
 		</outputs>
@@ -73,14 +73,14 @@
 		</outputs>
 	</pattern>
 
-	<pattern login="true">
+	<pattern login="true" if="trackTax">
 		<input>Item Tax</input>
 		<outputs>
+			<command title="Manage Sales Tax Groups" />
+			<command title="Manage Sales Tax Items" />
 			<command title="Pay Tax" />
 			<command title="Tax Adjustments" />
 			<command title="New Tax Agency" />
-			<command title="Manage Sales Tax Groups" />
-			<command title="Manage Sales Tax Items" />
 		</outputs>
 	</pattern>
 
