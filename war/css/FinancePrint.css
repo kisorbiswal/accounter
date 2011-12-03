@@ -264,3 +264,6 @@ table tr.ReportGridRow td {
 table tr.gridHeaderRow td {
 	width: 0px !important;
 }
+.gridHeaderRow th{
+	padding-bottom :20px;
+}
