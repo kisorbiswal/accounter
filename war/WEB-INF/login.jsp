@@ -120,12 +120,12 @@
 			      <div class="email_password">
 				    <label>Email</label>
 					<br \>
-					<input id="mid-box"  type="text" name="emailId" tabindex="1" value=""/>
+					<input id="mid-box"  type="text" name="emailId" tabindex="1" />
 				  </div>
 				  <div class="email_password">
 				    <label>Password</label>
 					<br \>
-					<input id="mid-box1"  type="password" name="password" tabindex="2" value=""/>
+					<input id="mid-box1"  type="password" name="password" tabindex="2" />
 				  </div>
 				  <div class="rememberMe">
 				    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn"/> 
