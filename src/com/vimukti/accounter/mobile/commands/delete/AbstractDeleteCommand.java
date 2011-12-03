@@ -11,6 +11,7 @@ import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.commands.NewAbstractCommand;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -92,17 +93,15 @@ public abstract class AbstractDeleteCommand extends NewAbstractCommand {
 	 */
 	public boolean deleteTransaction(AccounterCoreType accounterCoreType,
 			long id, Context context) throws AccounterException {
-		IAccounterServerCore serverCore = (IAccounterServerCore) loadObjectById(
-				accounterCoreType.getServerClassSimpleName(), id, context);
+		IAccounterServerCore serverCore = CommandUtils.getServerObjectById(id,
+				accounterCoreType);
+		FinanceTool tool = new FinanceTool();
 		if (serverCore instanceof Transaction) {
-			Transaction trans = (Transaction) serverCore;
-			trans.setStatus(Transaction.STATUS_DELETED);
-			trans.setVoid(true);
-			update((IAccounterCore) new ClientConvertUtil().toClientObject(
-					serverCore,
-					Util.getClientEqualentClass(serverCore.getClass())),
-					context);
-
+			IAccounterCore clientObject = (IAccounterCore) new ClientConvertUtil()
+					.toClientObject(serverCore,
+							Util.getClientEqualentClass(serverCore.getClass()));
+			tool.deleteTransactionFromDb(context.getCompany().getID(),
+					clientObject);
 			return true;
 		}
 		return false;
@@ -163,16 +162,14 @@ public abstract class AbstractDeleteCommand extends NewAbstractCommand {
 	 */
 	public Boolean voidTransaction(AccounterCoreType accounterCoreType,
 			long id, Context context) throws AccounterException {
-		IAccounterServerCore serverCore = (IAccounterServerCore) loadObjectById(
-				accounterCoreType.getServerClassFullyQualifiedName(), id,
-				context);
+		IAccounterServerCore serverCore = CommandUtils.getServerObjectById(id,
+				accounterCoreType);
 		if (serverCore instanceof Transaction) {
 			IAccounterCore clientObject = (IAccounterCore) new ClientConvertUtil()
 					.toClientObject(serverCore,
 							Util.getClientEqualentClass(serverCore.getClass()));
 			((ClientTransaction) clientObject).setVoid(true);
 			update(clientObject, context);
-
 			return true;
 		}
 		return false;

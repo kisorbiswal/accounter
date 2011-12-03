@@ -23,11 +23,11 @@ public class TransactionDeleteCommand extends AbstractDeleteCommand {
 		String transactionName = Utility.getTransactionName(Integer
 				.parseInt(split[0]));
 		try {
-			voidTransaction(accounterCoreType, Long.parseLong(split[1]),
+			deleteTransaction(accounterCoreType, Long.parseLong(split[1]),
 					context);
-			addFirstMessage(context, "The transaction has been voided.");
+			addFirstMessage(context, "The transaction has been deleted.");
 		} catch (AccounterException e) {
-			addFirstMessage(context, "You can not void it, this was bill paid");
+			addFirstMessage(context, e.getMessage());
 		}
 		return transactionName + " List";
 	}
