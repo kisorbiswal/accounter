@@ -30,7 +30,11 @@ public abstract class ItemRequirement extends ListRequirement<Item> {
 	@Override
 	protected Record createRecord(Item value) {
 		Record record = new Record(value);
-		record.add(value.getName(), value.getStandardCost());
+		if (isSales) {
+			record.add(value.getName(), value.getSalesPrice());
+		} else {
+			record.add(value.getName(), value.getPurchasePrice());
+		}
 		return record;
 	}
 
