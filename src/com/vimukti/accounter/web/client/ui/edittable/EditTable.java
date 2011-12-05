@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -32,6 +33,7 @@ public abstract class EditTable<R> extends SimplePanel {
 		cellFormatter = table.getCellFormatter();
 		rowFormatter = table.getRowFormatter();
 		rowFormatter.addStyleName(0, "editheader");
+		addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	public void addColumn(EditColumn<R> column) {
@@ -92,6 +94,13 @@ public abstract class EditTable<R> extends SimplePanel {
 	 */
 	public void add(R row) {
 		createColumns();
+		if (this.table.getRowCount() == 2 && rows.size() == 0) {
+			Widget label = table.getWidget(1, 0);
+			if (label != null) {
+				this.table.getFlexCellFormatter().removeStyleName(1, 0,
+						"norecord-empty-message");
+			}
+		}
 		rows.add(row);
 		int index = rows.size() - 1;
 		index += 1;// for header
@@ -247,7 +256,7 @@ public abstract class EditTable<R> extends SimplePanel {
 	}
 
 	public void addEmptyMessage(String emptyMessage) {
-		this.table.setText(1, 0, emptyMessage);
+		this.table.setWidget(1, 0, new Label(emptyMessage));
 		this.table.getFlexCellFormatter().setStyleName(1, 0,
 				"norecord-empty-message");
 		this.table.addStyleName("no_records");
