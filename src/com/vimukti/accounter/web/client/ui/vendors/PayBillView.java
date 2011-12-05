@@ -445,21 +445,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			@Override
 			public void onDateValueChange(ClientFinanceDate changedDate) {
 				if (changedDate != null) {
-					try {
-						ClientFinanceDate newDate = date.getValue();
-						if (newDate != null) {
-							setTransactionDate(newDate);
-							getTransactionPayBills(vendor);
-						}
-					} catch (Exception e) {
-						Accounter.showError(Accounter.messages()
-								.invalidTransactionDate());
-						setTransactionDate(new ClientFinanceDate());
-						date.setEnteredDate(getTransactionDate());
-					}
-
+					onDateChanged(changedDate);
 				}
-
 			}
 
 		});
@@ -680,6 +667,23 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	}
 
+	protected void onDateChanged(ClientFinanceDate changedDate) {
+		try {
+			ClientFinanceDate newDate = date.getValue();
+			if (newDate != null) {
+				setTransactionDate(newDate);
+				if (vendor != null) {
+					getTransactionPayBills(vendor);
+				}
+			}
+		} catch (Exception e) {
+			Accounter.showError(Accounter.messages().invalidTransactionDate());
+			setTransactionDate(new ClientFinanceDate());
+			date.setEnteredDate(getTransactionDate());
+		}
+
+	}
+
 	private void addTextFormFields() {
 		textForm.setNumCols(2);
 		textForm.setStyleName("unused-payments");
@@ -805,23 +809,26 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 							@Override
 							public void onResultSuccess(
 									ArrayList<PayBillTransactionList> result) {
-
-								paybillTransactionList = result;
-								grid.removeAllRecords();
-								if (result.size() > 0) {
-									addGridRecords(result);
-									dueDateOnOrBefore = dueDate.getValue();
-									clearGrid();
-									filterGrid();
-								} else {
-									grid.addEmptyMessage(Accounter.messages()
-											.noRecordsToShow());
-									updateFooterValues();
-								}
+								onGetPayBillTransactionList(result);
 							}
 
 						});
 
+	}
+
+	protected void onGetPayBillTransactionList(
+			ArrayList<PayBillTransactionList> result) {
+		paybillTransactionList = result;
+		grid.removeAllRecords();
+		if (result.size() > 0) {
+			addGridRecords(result);
+			dueDateOnOrBefore = dueDate.getValue();
+			clearGrid();
+			filterGrid();
+		} else {
+			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
+			updateFooterValues();
+		}
 	}
 
 	@Override
