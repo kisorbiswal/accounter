@@ -2225,3 +2225,7 @@ input.date-field-textbox {
 
 .account_panel {
 	padding: 0 0 15px 22px;
+}
+.budget_overview .gridBody .depth2{
+	padding-left:2px;
+}
