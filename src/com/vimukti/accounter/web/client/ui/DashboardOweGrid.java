@@ -22,7 +22,7 @@ public class DashboardOweGrid extends ListGrid<ClientPayee> {
 		case 0:
 			return ListGrid.COLUMN_TYPE_LABEL;
 		case 1:
-			return ListGrid.COLUMN_TYPE_LABEL;
+			return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
 		default:
 			break;
 		}
@@ -45,7 +45,8 @@ public class DashboardOweGrid extends ListGrid<ClientPayee> {
 		case 0:
 			return obj.getName();
 		case 1:
-			return obj.getBalance();
+			return DataUtils.amountAsStringWithCurrency(obj.getBalance(),
+					obj.getCurrency());
 		default:
 			break;
 		}
