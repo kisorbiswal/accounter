@@ -393,7 +393,7 @@ public class MacMenuServlet extends BaseServlet {
 				iGlobal.messages().payeeTransactionHistory(iGlobal.Vendor()),
 				"company/accounter#vendorTransactionHistory");
 		menu(reportsValue,
-				iGlobal.messages().vendorsAndPayables(iGlobal.vendor()),
+				iGlobal.messages().vendorsAndPayables(iGlobal.Vendors()),
 				suppliersValue);
 
 		StringBuilder purchasesValue = new StringBuilder();
