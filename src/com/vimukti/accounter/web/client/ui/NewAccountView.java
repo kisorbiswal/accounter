@@ -1163,10 +1163,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (data.isAllowCurrencyChange() && selectCurrency != null) {
 			data.setCurrency(selectCurrency.getID());
 		}
-
-		if (data.getID() == 0) {
-			data.setCurrentBalance(data.getOpeningBalance());
-		}
 	}
 
 	@Override
