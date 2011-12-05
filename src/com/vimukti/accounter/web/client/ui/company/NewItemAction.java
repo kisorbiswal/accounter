@@ -82,7 +82,8 @@ public class NewItemAction extends Action<ClientItem> {
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, NewItemAction.this);
 				} else if (sellProducts) {
-					ItemView view = new ItemView(type, forCustomer);
+					ItemView view = new ItemView(
+							ClientItem.TYPE_NON_INVENTORY_PART, forCustomer);
 					view.setItemName(itemName);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, NewItemAction.this);
