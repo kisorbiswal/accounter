@@ -88,6 +88,7 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 	public static final String TYPE_CREDIT_CARD_CHARGE = "Credit Card Charge";
 	public static final String TYPE_CUSTOMER_CREDIT_MEMO = "Customer Credit";
 	public static final String TYPE_CUSTOMER_PREPAYMENT = "Customer PrePayment";
+	public static final String TYPE_TAX_ADJUSTMENT = "Tax Adjustment";
 
 	public static final String TYPE_CUSTOMER_REFUNDS = "Customer Refund";
 	public static final String TYPE_ENTER_BILL = Global.get().messages()
