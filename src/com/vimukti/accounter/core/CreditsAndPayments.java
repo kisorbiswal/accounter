@@ -58,11 +58,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	 */
 	double balance = 0D;
 
-	/**
-	 * This will hold how much balance of this CreditsAndPayments is still
-	 * remain in PayeeCurrency.
-	 */
-	double balanceInPayeeCurrency;
 
 	/**
 	 * This is the {@link Transaction} object through which this
@@ -151,7 +146,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 			this.creditAmount = -(transaction.getTotal());
 		}
 
-		this.balanceInPayeeCurrency = balance / transaction.getCurrencyFactor();
 	}
 
 	public CreditsAndPayments(TransactionMakeDeposit transactionMakeDeposit) {
@@ -469,20 +463,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	/**
-	 * @return the balanceInPayeeCurrency
-	 */
-	public double getBalanceInPayeeCurrency() {
-		return balanceInPayeeCurrency;
-	}
-
-	/**
-	 * @param balanceInPayeeCurrency
-	 *            the balanceInPayeeCurrency to set
-	 */
-	public void setBalanceInPayeeCurrency(double balanceInPayeeCurrency) {
-		this.balanceInPayeeCurrency = balanceInPayeeCurrency;
-	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
@@ -496,6 +476,5 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 				.gap();
 		w.put(messages.memo(), this.memo);
 
-		w.put(messages.details(), this.transactionCreditsAndPayments);
 	}
 }
