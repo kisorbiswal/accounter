@@ -55,7 +55,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		list.add(new NameRequirement(TAX_ID, getMessages().pleaseEnter(
 				getMessages().taxId()), getMessages().taxId(), true, true));
 
-		list.add(new CountryRequirement(COUNTRY, true, true,
+		list.add(new CountryRequirement(COUNTRY, false, true,
 				new ChangeListner<String>() {
 
 					@Override
