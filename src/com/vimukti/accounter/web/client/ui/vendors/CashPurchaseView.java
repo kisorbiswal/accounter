@@ -665,9 +665,9 @@ public class CashPurchaseView extends
 
 	@Override
 	protected void paymentMethodSelected(String paymentMethod) {
-		// super.paymentMethodSelected(paymentMethod);
-		// setDisableStateForCheckNo(paymentMethod);
-		// paymentMethodCombo.setValue(paymentMethod);
+		super.paymentMethodSelected(paymentMethod);
+		setDisableStateForCheckNo(paymentMethod);
+		paymentMethodCombo.setComboItem(paymentMethod);
 	}
 
 	private void setDisableStateForCheckNo(String paymentMethod) {
