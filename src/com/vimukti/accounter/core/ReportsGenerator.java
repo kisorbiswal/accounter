@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Set;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -119,10 +120,10 @@ public class ReportsGenerator {
 	private FinanceDate startDate;
 	private FinanceDate endDate;
 	private String navigateObjectName;
-	private String status;
+	private static String status;
 	private int boxNo;
 	private long vendorId;
-	private Company company;
+	private static Company company;
 
 	public static final int GENERATIONTYPEPDF = 1001;
 	public static final int GENERATIONTYPECSV = 1002;
@@ -1143,8 +1144,8 @@ public class ReportsGenerator {
 			}
 			return amountsDueToVendorServerReport.getGridTemplate();
 		case REPORT_TYPE_CUSTOMERSTATEMENT:
-			StatementServerReport statementReport = new StatementServerReport(false,
-					this.startDate.getDate(), this.endDate.getDate(),
+			StatementServerReport statementReport = new StatementServerReport(
+					false, this.startDate.getDate(), this.endDate.getDate(),
 					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
@@ -1165,8 +1166,8 @@ public class ReportsGenerator {
 			return statementReport.getGridTemplate();
 
 		case REPORT_TYPE_VENDORSTATEMENT:
-			StatementServerReport statementReport1 = new StatementServerReport(true,
-					this.startDate.getDate(), this.endDate.getDate(),
+			StatementServerReport statementReport1 = new StatementServerReport(
+					true, this.startDate.getDate(), this.endDate.getDate(),
 					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
@@ -1214,7 +1215,7 @@ public class ReportsGenerator {
 			}
 			return misc1099TransactionDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_BUDGET:
-			
+
 			BudgetOverviewServerReport budgetServerReport = new BudgetOverviewServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
 					generationType1) {
@@ -1226,7 +1227,7 @@ public class ReportsGenerator {
 				}
 
 			};
-			
+
 			updateReport(budgetServerReport, finaTool);
 			budgetServerReport.resetVariables();
 			try {
@@ -1516,10 +1517,22 @@ public class ReportsGenerator {
 			return "TAXItemDetail Report";
 		case REPORT_TYPE_VAT_EXCEPTION_DETAIL:
 			return "VAT Exception Detail Report";
+		case REPORT_TYPE_VENDORSTATEMENT:
+			return getVendorName();
 		default:
 			break;
 		}
 		return "";
+	}
+
+	private static String getVendorName() {
+		Set<Vendor> vendors = company.getVendors();
+		for (Vendor vendor : vendors) {
+			if (String.valueOf(vendor.getID()).equals(status)) {
+				return vendor.getName();
+			}
+		}
+		return Global.get().Vendor() + " Statement";
 	}
 
 	public String getDateInDefaultType(ClientFinanceDate date) {
