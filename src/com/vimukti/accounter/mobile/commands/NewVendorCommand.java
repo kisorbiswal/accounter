@@ -88,12 +88,13 @@ public class NewVendorCommand extends NewAbstractCommand {
 				.payeeName(Global.get().Vendor()), false, true) {
 			@Override
 			public void setValue(Object value) {
-				if (NewVendorCommand.this.isVendorExists((String) value)) {
+				if (vendor.getID() == 0
+						&& NewVendorCommand.this.isVendorExists((String) value)) {
 					addFirstMessage(getMessages().alreadyExist());
+					addFirstMessage(getMessages().pleaseEnter(
+							getMessages().payeeName(Global.get().Vendor())));
 					return;
 				}
-				addFirstMessage(getMessages().pleaseEnter(
-						getMessages().payeeName(Global.get().Vendor())));
 				super.setValue(value);
 			}
 		});
