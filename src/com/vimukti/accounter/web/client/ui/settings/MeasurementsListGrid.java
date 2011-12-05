@@ -48,8 +48,7 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 	protected String[] getColumns() {
 		return new String[] { Accounter.messages().measurementName(),
 				Accounter.messages().measurementDescription(),
-				Accounter.messages().unitName(),
-				Accounter.messages().getFactorName(),
+				Accounter.messages().unitName(), Accounter.messages().factor(),
 				Accounter.messages().delete() };
 	}
 
@@ -107,7 +106,7 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 			return getDefaultUnitType();
 		case 3:
 			this.units = obj.getUnits();
-			return getDefaultUnitFactor();
+			return String.valueOf(getDefaultUnitFactor());
 		case 4:
 			return Accounter.getFinanceMenuImages().delete();
 		default:
