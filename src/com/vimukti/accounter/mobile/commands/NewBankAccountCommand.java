@@ -286,7 +286,8 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		String number = get(BANK_ACCOUNT_NUMBER).getValue();
 		bankAccount.setBankAccountNumber(number);
 		bankAccount.setIsActive((Boolean) get(ACTIVE).getValue());
-
+		bankAccount.setOpeningBalanceEditable(true);
+		bankAccount.setCurrencyFactor(1.0);
 		create(bankAccount, context);
 		return null;
 	}

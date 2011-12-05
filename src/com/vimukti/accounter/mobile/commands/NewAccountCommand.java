@@ -248,6 +248,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 			account.setCardOrLoanNumber((String) get(CARD_OR_LOAD_NUMBER)
 					.getValue());
 		}
+		account.setOpeningBalanceEditable(true);
 		account.setDefault(true);
 		account.setType(getAccountType(accType));
 		account.setName(accname);
@@ -257,6 +258,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 		account.setAsOf(asOf.getDate());
 		account.setConsiderAsCashAccount(isCashAcount);
 		account.setComment(comment);
+		account.setCurrencyFactor(1.0);
 		create(account, context);
 		return null;
 	}
