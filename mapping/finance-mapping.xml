@@ -1823,7 +1823,9 @@
 		<property name="amount" column="AMOUNT"></property>
 		<property name="dataType" column="DATA_TYPE"></property>
 		<property name="description" type="text" column="DESCRIPTION"></property>
-		<property name="currency" type="long" column="CURRENCY"></property>
+		<many-to-one name="currency" class="com.vimukti.accounter.core.Currency"
+			column="CURRENCY">
+		</many-to-one>
 		<property name="auditHistory" type="text" column="AUDITHISTORY"></property>
 
 	</class>

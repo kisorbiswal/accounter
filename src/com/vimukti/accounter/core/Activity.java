@@ -28,7 +28,7 @@ public class Activity extends CreatableObject {
 
 	private String description;
 
-	private long currency;
+	private Currency currency;
 
 	private String auditHistory;
 
@@ -53,7 +53,7 @@ public class Activity extends CreatableObject {
 		if (obj instanceof Transaction) {
 			Transaction tr = (Transaction) obj;
 			this.amount = tr.getTotal() / tr.getCurrencyFactor();
-			currency = tr.getCurrency().getID();
+			currency = tr.getCurrency();
 			this.transactionDate = tr.getDate();
 			Payee payee = tr.getInvolvedPayee();
 			if (payee != null) {
@@ -182,7 +182,7 @@ public class Activity extends CreatableObject {
 	/**
 	 * @return the currency
 	 */
-	public long getCurrency() {
+	public Currency getCurrency() {
 		return currency;
 	}
 
@@ -190,7 +190,7 @@ public class Activity extends CreatableObject {
 	 * @param currency
 	 *            the currency to set
 	 */
-	public void setCurrency(long currency) {
+	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
 
