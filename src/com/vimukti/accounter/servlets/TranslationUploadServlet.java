@@ -19,6 +19,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.translate.Key;
 import com.vimukti.accounter.web.server.translate.Message;
@@ -191,14 +195,45 @@ public class TranslationUploadServlet extends BaseServlet {
 
 		oldMessages.addAll(newMessages.values());
 
-		FinanceTool financeTool = new FinanceTool();
+		Session session = HibernateUtil.openSession();
+		try {
+			org.hibernate.Transaction deleteTransaction = session
+					.beginTransaction();
+			for (Message message : messagesToDelete) {
+				session.delete(message);
+			}
+			deleteTransaction.commit();
 
-		for (Message message : messagesToDelete) {
-			financeTool.deleteMessage(message);
-		}
+			org.hibernate.Transaction transaction = session.beginTransaction();
+			for (Message message : oldMessages) {
+				if (message.getId() == 0) {
+					Query messageQuery = session.getNamedQuery(
+							"getMessageByValue").setParameter("value",
+							message.getValue());
+					for (Key key : message.getKeys()) {
+						Query keyQuery = session.getNamedQuery("getKeyByValue")
+								.setParameter("value", key.getKey());
+						Key duplicateKey = (Key) keyQuery.uniqueResult();
+						if (duplicateKey != null
+								&& key.getId() != duplicateKey.getId()) {
+							message.getKeys().remove(key);
+							message.getKeys().add(duplicateKey);
+						}
+					}
+					Message oldMessage = (Message) messageQuery.uniqueResult();
+					if (oldMessage != null) {
+						Set<Key> keys = oldMessage.getKeys();
+						keys.addAll(message.getKeys());
+						oldMessage.setKeys(keys);
+						message = oldMessage;
+					}
+				}
+				session.saveOrUpdate(message);
 
-		for (Message message : oldMessages) {
-			financeTool.createMessage(message);
+			}
+			transaction.commit();
+		} finally {
+			session.close();
 		}
 
 	}
