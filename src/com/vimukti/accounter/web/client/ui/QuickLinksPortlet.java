@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -36,7 +37,8 @@ public class QuickLinksPortlet extends Portlet {
 		quickLinksMap.put(messages.payees(Global.get().Customers()),
 				ActionFactory.getCustomersAction().getHistoryToken());
 		quickLinksMap.put(messages.banking(), ActionFactory
-				.getBankingHomeAction().getHistoryToken());
+				.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
+				.getHistoryToken());
 		quickLinksMap.put(messages.reports(), ActionFactory
 				.getReportsHomeAction().getHistoryToken());
 		quickLinksMap.put(messages.bills(), ActionFactory.getBillsAction()
