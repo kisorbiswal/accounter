@@ -89,12 +89,14 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				getMessages().payeeName(Global.get().Customer()), false, true) {
 			@Override
 			public void setValue(Object value) {
-				if (NewCustomerCommand.this.isCustomerExists((String) value)) {
+				if (customer.getID() == 0
+						&& NewCustomerCommand.this
+								.isCustomerExists((String) value)) {
 					addFirstMessage(getMessages().alreadyExist());
+					addFirstMessage(getMessages().pleaseEnter(
+							getMessages().payeeName(Global.get().Customer())));
 					return;
 				}
-				addFirstMessage(getMessages().pleaseEnter(
-						getMessages().payeeName(Global.get().Customer())));
 				super.setValue(value);
 			}
 		});
