@@ -3,8 +3,12 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.mobile.CommandList;
@@ -17,6 +21,7 @@ import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -25,10 +30,12 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
@@ -134,7 +141,27 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 
 		list.add(new CustomerRequirement(CUSTOMER, getMessages().pleaseSelect(
 				getMessages().payTo()), getMessages().payTo(), false, true,
-				null) {
+				new ChangeListner<Customer>() {
+
+					@Override
+					public void onSelection(Customer value) {
+						get(BILL_TO).setValue(null);
+						Set<Address> addresses = value.getAddress();
+						for (Address address : addresses) {
+							if (address.getType() == Address.TYPE_BILL_TO) {
+								try {
+									ClientAddress addr = new ClientConvertUtil()
+											.toClientObject(address,
+													ClientAddress.class);
+									get(BILL_TO).setValue(addr);
+								} catch (AccounterException e) {
+									e.printStackTrace();
+								}
+								break;
+							}
+						}
+					}
+				}) {
 
 			@Override
 			protected List<Customer> getLists(Context context) {
