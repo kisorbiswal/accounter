@@ -19,7 +19,7 @@ public abstract class AccountRequirement extends ListRequirement<Account> {
 		Record record = new Record(value);
 		record.add("Name", value.getName());
 		record.add("Number", value.getNumber());
-		record.add("Current Balance", value.getTotalBalanceInAccountCurrency());
+		record.add("Balance", value.getTotalBalanceInAccountCurrency());
 		return record;
 	}
 
