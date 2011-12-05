@@ -265,12 +265,15 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			protected List<PayBillTransactionList> getList() {
 				ArrayList<PayBillTransactionList> transactionPayBills = new ArrayList<PayBillTransactionList>();
 				try {
-					transactionPayBills = new FinanceTool().getVendorManager()
+					transactionPayBills = new FinanceTool()
+							.getVendorManager()
 							.getTransactionPayBills(
 									((Vendor) NewPayBillCommand.this
 											.get(VENDOR).getValue()).getID(),
 									getCompany().getID(),
-									(FinanceDate) get(DATE).getValue());
+									new FinanceDate(
+											(ClientFinanceDate) NewPayBillCommand.this
+													.get(DATE).getValue()));
 				} catch (DAOException e) {
 					e.printStackTrace();
 				}
