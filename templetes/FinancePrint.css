@@ -423,3 +423,9 @@ table tr.gridHeaderRow td {
 .hole_margin{
 	margin:10px 20px 20px;
 }
+ .invoice_details_table tr,.invoice_details_table td,.invoice_details_table,.removeHeadBorder,.removeHeadBorder tr,.removeHeadBorder td,
+#items,#items tr,#items td,#billto,#billto tr,#billto td,#shippingAddressTable,#shippingAddressTable tr,#shippingAddressTable td,#permethterms,#permethterms tr,#permethterms td,
+#termsconditions,#termsconditions tr,#termsconditions td{
+border:1px solid #000;
+}
+
