@@ -158,6 +158,7 @@ public class CashSalesView extends
 		// .setAttribute(messages.width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setDisabled(true);
+		shipToAddress.businessSelect.setDisabled(true);
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -1015,6 +1016,8 @@ public class CashSalesView extends
 
 		shippingTermsCombo.setDisabled(isInViewMode());
 		shippingMethodsCombo.setDisabled(isInViewMode());
+
+		shipToAddress.businessSelect.setDisabled(isInViewMode());
 
 		deliveryDate.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());

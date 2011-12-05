@@ -909,7 +909,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// else
 
 		lab1.setText(" " + Utility.getAccountTypeString(accountType) + " "
-				+ messages.account());
+				+ messages.Account());
 
 	}
 

@@ -51,11 +51,9 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.item(),
-				messages.assetNumber(), messages.account(),
-				messages.purchaseDate(),
-				messages.purchasePrice(),
-				messages.showHistory(),
+		return new String[] { messages.item(), messages.assetNumber(),
+				messages.Account(), messages.purchaseDate(),
+				messages.purchasePrice(), messages.showHistory(),
 				messages.addNote(), "" };
 	}
 
@@ -80,8 +78,9 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 					.getDateByCompanyType(new ClientFinanceDate(asset
 							.getPurchaseDate())) : "";
 		case 4:
-			return DataUtils.amountAsStringWithCurrency(asset.getPurchasePrice(), getCompany()
-					.getPrimaryCurrency());
+			return DataUtils
+					.amountAsStringWithCurrency(asset.getPurchasePrice(),
+							getCompany().getPrimaryCurrency());
 		case 5:
 			return messages.showHistory();
 		case 6:
@@ -225,8 +224,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	protected void validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
-		throw new InvalidEntryException(messages
-				.pleaseenterthenote());
+		throw new InvalidEntryException(messages.pleaseenterthenote());
 
 	}
 

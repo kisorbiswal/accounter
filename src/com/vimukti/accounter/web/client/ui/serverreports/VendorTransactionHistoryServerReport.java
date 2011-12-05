@@ -42,7 +42,7 @@ public class VendorTransactionHistoryServerReport extends
 		return new String[] { messages.vendor1099(Global.get().vendor()),
 				messages.date(), messages.type(), messages.no(),
 				// FinanceApplication.constants().reference(),
-				messages.account(), messages.amount()
+				messages.Account(), messages.amount()
 		// FinanceApplication.constants().transactionAmount(),
 		// FinanceApplication.constants().paidAmount(),
 		// FinanceApplication.constants().discount(),

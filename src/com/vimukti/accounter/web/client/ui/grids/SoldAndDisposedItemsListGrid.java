@@ -151,8 +151,7 @@ public class SoldAndDisposedItemsListGrid extends
 			@Override
 			public boolean onOK() {
 				String note = noteDialog.noteArea.getValue() != null ? noteDialog.noteArea
-						.getValue().toString()
-						: "";
+						.getValue().toString() : "";
 				// setAttribute("note", note, currentRow);
 				if (note.length() != 0)
 					executeUpdate(asset, note);
@@ -185,7 +184,7 @@ public class SoldAndDisposedItemsListGrid extends
 	@Override
 	protected String[] getColumns() {
 		return new String[] { messages.item(), messages.assetNumber(),
-				messages.account(), messages.disposalDate(),
+				messages.Account(), messages.disposalDate(),
 				messages.disposalPrice(), messages.gainsOrLosses(),
 				messages.showHistory(), messages.addNote(), "" };
 	}
@@ -206,10 +205,10 @@ public class SoldAndDisposedItemsListGrid extends
 			return getAccount(obj1).compareTo(getAccount(obj2));
 
 		case 3:
-			ClientFinanceDate date1 = new ClientFinanceDate(obj1
-					.getSoldOrDisposedDate());
-			ClientFinanceDate date2 = new ClientFinanceDate(obj2
-					.getSoldOrDisposedDate());
+			ClientFinanceDate date1 = new ClientFinanceDate(
+					obj1.getSoldOrDisposedDate());
+			ClientFinanceDate date2 = new ClientFinanceDate(
+					obj2.getSoldOrDisposedDate());
 			if (date1 != null && date2 != null)
 				return date1.compareTo(date2);
 			break;

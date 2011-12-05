@@ -19,8 +19,8 @@ public class CheckDetailReportView extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ReportsRPC.openTransactionView(getType(record), record
-				.getTransactionId());
+		ReportsRPC.openTransactionView(getType(record),
+				record.getTransactionId());
 
 	}
 
@@ -54,7 +54,7 @@ public class CheckDetailReportView extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { "", messages.number(), messages.date(),
-				messages.name(), messages.account(), messages.amount() };
+				messages.name(), messages.Account(), messages.amount() };
 	}
 
 	@Override
@@ -144,15 +144,15 @@ public class CheckDetailReportView extends
 
 	@Override
 	public int sort(CheckDetailReport obj1, CheckDetailReport obj2, int col) {
-		int ret = UIUtils.compareInt(obj1.getTransactionType(), obj2
-				.getTransactionType());
+		int ret = UIUtils.compareInt(obj1.getTransactionType(),
+				obj2.getTransactionType());
 		if (ret != 0) {
 			return ret;
 		}
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 1:
 			int num1 = UIUtils.isInteger(obj1.getNumber()) ? Integer
 					.parseInt(obj1.getNumber()) : 0;

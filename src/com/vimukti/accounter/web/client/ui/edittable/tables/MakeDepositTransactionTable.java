@@ -268,11 +268,11 @@ public abstract class MakeDepositTransactionTable extends
 	private String getTypeAsString(int type) {
 		switch (type) {
 		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-			return messages.account();
+			return messages.Account();
 		case ClientTransactionMakeDeposit.TYPE_VENDOR:
 			return Global.get().Vendor();
 		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
-			return Global.get().customer();
+			return Global.get().Customer();
 		default:
 			return messages.type();
 		}

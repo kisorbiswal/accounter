@@ -47,7 +47,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		else if (accountType == ClientAccount.TYPE_CREDIT_CARD)
 			return new String[] { Accounter.messages().date(), messages.type(),
 					messages.docNo(), messages.payTo(), messages.memo(),
-					messages.account(), messages.charge(), messages.payment(),
+					messages.Account(), messages.charge(), messages.payment(),
 					messages.currentBalance(), messages.voided() };
 		return new String[0];
 	}

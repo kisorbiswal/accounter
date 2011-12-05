@@ -217,7 +217,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// }
 		// });
 
-		accountCombo = new FixedAssetAccountCombo(messages.account());
+		accountCombo = new FixedAssetAccountCombo(messages.Account());
 		accountCombo.setWidth("323px");
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -243,10 +243,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 							// accumltdAccVPanel.clear();
 							// }
 							NativeEvent ne = Document.get().createChangeEvent();
-							DomEvent.fireNativeEvent(ne, purchaseDateTxt
-									.getMainWidget());
-							DomEvent.fireNativeEvent(ne, purchasePriceTxt
-									.getMainWidget());
+							DomEvent.fireNativeEvent(ne,
+									purchaseDateTxt.getMainWidget());
+							DomEvent.fireNativeEvent(ne,
+									purchasePriceTxt.getMainWidget());
 
 						}
 					}
@@ -327,8 +327,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		assetType = new TextItem(messages.assetType());
 
-		depreciationRate = new PercentageField(this, messages
-				.depreciationRate());
+		depreciationRate = new PercentageField(this,
+				messages.depreciationRate());
 		depreciationRate.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -378,8 +378,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// }
 		// });
 
-		depreciationMethod = new DepreciationMethodCombo(messages
-				.depreciationMethod());
+		depreciationMethod = new DepreciationMethodCombo(
+				messages.depreciationMethod());
 		depreciationMethod.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -390,8 +390,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		});
 		depreciationMethod.setView(this);
 
-		depreciationAccount = new DepreciationAccountCombo(messages
-				.depreciationAccount());
+		depreciationAccount = new DepreciationAccountCombo(
+				messages.depreciationAccount());
 
 		assetTypeForm = new DynamicForm();
 		assetTypeForm.setFields(assetType, depreciationRate);
@@ -416,14 +416,14 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			assetOptions = new SelectItem(messages.assetOptions());
 			if (data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
 				assetOptions.setValueMap("", messages.edit(), messages.sell(),
-						messages.dispose(), messages.addNote(), messages
-								.showHistory());
+						messages.dispose(), messages.addNote(),
+						messages.showHistory());
 			} else if (data.getStatus() == ClientFixedAsset.STATUS_PENDING) {
-				assetOptions.setValueMap("", messages.edit(), messages
-						.addNote(), messages.showHistory());
+				assetOptions.setValueMap("", messages.edit(),
+						messages.addNote(), messages.showHistory());
 			} else {
-				assetOptions.setValueMap("", messages.addNote(), messages
-						.showHistory());
+				assetOptions.setValueMap("", messages.addNote(),
+						messages.showHistory());
 			}
 			assetOptions.addChangeHandler(new ChangeHandler() {
 
@@ -505,8 +505,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				depreciationAccount.setSelected("");
 			if (!DecimalUtil.isEquals(data.getAccumulatedDepreciationAmount(),
 					0)) {
-				showAccumultdDepAmountForm(new ClientFinanceDate(data
-						.getPurchaseDate()));
+				showAccumultdDepAmountForm(new ClientFinanceDate(
+						data.getPurchaseDate()));
 			}
 			Label bookValueLbl = new Label();
 			bookValueLbl.setText(messages.bookValue() + data.getBookValue());
@@ -521,8 +521,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			// .constants().lastDepreciation()
 			// + data.getLastDate());
 			ClientAccount assetAcc = accountCombo.getSelectedValue() != null ? accountCombo
-					.getSelectedValue()
-					: null;
+					.getSelectedValue() : null;
 			if (assetAcc != null) {
 				long strID = assetAcc.getLinkedAccumulatedDepreciationAccount();
 				if (strID != 0)
@@ -702,18 +701,18 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			if (!enteredDate.equals(getDepreciationStartDate())
 					&& enteredDate.before(getDepreciationStartDate())) {
 				isAssetAccumulated = true;
-				infoLabel1 = new Label(messages
-						.purchaseDatePriorToFixedAssetsStartDate()
-						+ UIUtils
-								.getDateStringByDate(getDepreciationStartDate()
-										.toString())
-						+ messages.openBraseSoPleaseSelect());
+				infoLabel1 = new Label(
+						messages.purchaseDatePriorToFixedAssetsStartDate()
+								+ UIUtils
+										.getDateStringByDate(getDepreciationStartDate()
+												.toString())
+								+ messages.openBraseSoPleaseSelect());
 				infoLabel1.setStyleName("requiredField");
-				accmulatdDepreciationTxt = new AmountField(messages
-						.accumulatedDepreciationTo()
-						+ " "
-						+ UIUtils.getDateStringByDate(enteredDate.toString()),
-						this, getBaseCurrency());
+				accmulatdDepreciationTxt = new AmountField(
+						messages.accumulatedDepreciationTo()
+								+ " "
+								+ UIUtils.getDateStringByDate(enteredDate
+										.toString()), this, getBaseCurrency());
 				accmulatdDepreciationTxt.setValue(DataUtils
 						.getAmountAsString(getDepreciationAmount()));
 
@@ -754,8 +753,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				ClientFinanceDate purchaseDate = purchaseDateTxt
 						.getEnteredDate();
 				int depMethod = depreciationMethod.getSelectedValue() != 0 ? depreciationMethod
-						.getSelectedValue()
-						: 0;
+						.getSelectedValue() : 0;
 				double depRate = depreciationRate.getPercentage();
 				double purchasePrice = purchasePriceTxt.getAmount();
 				ClientFinanceDate depStartDate = new ClientFinanceDate(
@@ -858,28 +856,22 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				.getValue().toString() : "");
 		if (selectedAssetAccount != null) {
 			if (accumulatedDepreciationAccount != null) {
-				data
-						.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount
-								.getSelectedValue() != null ? accumulatedDepreciationAccount
-								.getSelectedValue().getID()
-								: 0);
+				data.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount
+						.getSelectedValue() != null ? accumulatedDepreciationAccount
+						.getSelectedValue().getID() : 0);
 			}
 			data.setAssetAccount(selectedAssetAccount.getID());
 
 		}
 		data.setPurchaseDate(purchaseDateTxt.getEnteredDate().getDate());
 		data.setPurchasePrice(purchasePriceTxt.getAmount());
-		data
-				.setDescription(descriptionTxtArea.getValue() != null ? descriptionTxtArea
-						.getValue().toString()
-						: "");
+		data.setDescription(descriptionTxtArea.getValue() != null ? descriptionTxtArea
+				.getValue().toString() : "");
 
 		data.setAssetType(assetType.getValue() != null ? assetType.getValue()
 				.toString() : "");
-		data
-				.setDepreciationRate(depreciationRate.getPercentage() != null ? depreciationRate
-						.getPercentage()
-						: 0.0);
+		data.setDepreciationRate(depreciationRate.getPercentage() != null ? depreciationRate
+				.getPercentage() : 0.0);
 		data.setDepreciationMethod(depreciationMethod.getSelectedValue());
 		data.setDepreciationExpenseAccount(depreciationAccount
 				.getSelectedValue() != null ? depreciationAccount
