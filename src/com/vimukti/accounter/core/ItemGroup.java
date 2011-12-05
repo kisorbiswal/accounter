@@ -170,7 +170,8 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 
 		w.put(messages.type(), messages.itemGroup()).gap().gap();
 		w.put(messages.name(), this.name);
-		
-		w.put(messages.details(), this.items);
+		if (this.items != null) {
+			w.put(messages.details(), this.items);
+		}
 	}
 }
