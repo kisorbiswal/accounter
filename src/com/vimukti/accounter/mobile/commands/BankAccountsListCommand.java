@@ -41,7 +41,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 				Record record = new Record(value);
 				record.add(getMessages().name(), value.getName());
 				record.add(getMessages().currentBalance(),
-						value.getCurrentBalance());
+						value.getTotalBalanceInAccountCurrency());
 				return record;
 			}
 
