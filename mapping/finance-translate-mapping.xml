@@ -71,6 +71,12 @@
 		from com.vimukti.accounter.web.server.translate.Message m where
 		m.value=:value
 	</query>
+	
+	<query name="getKeyByValue">
+		<query-param name="value" type="string" />
+		from com.vimukti.accounter.web.server.translate.Key k where
+		k.key=:value
+	</query>
 
 	<query name="getLocalMessageById">
 		<query-param name="id" type="long" />
