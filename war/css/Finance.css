@@ -2171,7 +2171,6 @@ input.date-field-textbox {
 	border-right: medium none;
 	margin-left: 400px;
 	position: absolute;
-	z-index: 1;
 }
 
 .quick-links-table .gwt-Anchor {
