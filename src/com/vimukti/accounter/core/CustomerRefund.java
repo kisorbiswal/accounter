@@ -200,7 +200,7 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	protected void checkNullValues() throws AccounterException {
 		checkAccountNull(payFrom);
 		checkingCustomerNull(payTo);
-		checkingTotal0();
+		// checkingTotal0();
 	}
 
 	@Override
