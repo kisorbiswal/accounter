@@ -759,6 +759,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				amountToVendor.setVisible(false);
 				tdsPayableAmount.setVisible(false);
 			}
+
+			paymentMethodCombo.setComboItem(vendor.getPaymentMethod());
 		}
 
 		/*
