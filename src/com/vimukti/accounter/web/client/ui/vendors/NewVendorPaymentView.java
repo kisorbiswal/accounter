@@ -318,7 +318,7 @@ public class NewVendorPaymentView extends
 		rightPanel.add(balForm);
 		rightPanel.setHeight("100%");
 		rightPanel.setCellHorizontalAlignment(balForm,
-				HasHorizontalAlignment.ALIGN_CENTER);
+				HasHorizontalAlignment.ALIGN_LEFT);
 		this.tdsCombo = new TaxItemCombo(messages.tds(),
 				ClientTAXAgency.TAX_TYPE_TDS);
 		tdsCombo.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
