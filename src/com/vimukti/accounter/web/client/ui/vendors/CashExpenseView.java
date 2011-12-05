@@ -711,9 +711,10 @@ public class CashExpenseView extends
 
 	@Override
 	protected void paymentMethodSelected(String paymentMethod) {
-		// super.paymentMethodSelected(paymentMethod);
-		// setDisableStateForCheckNo(paymentMethod);
-		// paymentMethodCombo.setValue(paymentMethod);
+		super.paymentMethodSelected(paymentMethod);
+		if (paymentMethodCombo.getComboItems().contains(paymentMethod)) {
+			paymentMethodCombo.setComboItem(paymentMethod);
+		}
 	}
 
 	@Override
