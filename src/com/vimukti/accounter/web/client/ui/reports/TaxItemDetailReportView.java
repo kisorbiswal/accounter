@@ -66,6 +66,14 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 	}
 
 	@Override
+	public void exportToCsv() {
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 165, "",
+				"", this.taxAgency);
+	}
+
+	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		// TODO Auto-generated method stub
 
