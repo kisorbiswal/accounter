@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -24,7 +24,6 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	public double balance = 0.0;
 	public double totalBalance = 0.0;
 	private AccountRegisterOthersView view;
-	ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	public AccountRegisterOtherListGrid(boolean isMultiSelectionEnable) {
 		super(false, true);
@@ -135,6 +134,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 		// return -1;
 	}
 
+	@Override
 	protected void onClick(AccountRegister obj, int row, int col) {
 		if (col == 8 && !obj.isVoided()) {
 			showWarningDialog(obj);
@@ -227,6 +227,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 				obj.getTransactionId());
 	}
 
+	@Override
 	public AccounterCoreType getType() {
 		return null;
 	}
@@ -240,4 +241,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 		this.view = accountRegisterOthersView;
 	}
 
+	public void setAccount(ClientAccount account) {
+		this.currency = getCompany().getCurrency(account.getCurrency());
+	}
 }
