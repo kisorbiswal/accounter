@@ -947,7 +947,7 @@ input.dropdown-button {
 }
 
 .gridHeader td,.gridBody td {
-	padding: 4px;
+	padding: 2px;
 }
 
 .gridTextBoxCell input[type="text"] {
@@ -1746,7 +1746,7 @@ input[type="text"] {
 }
 
 .editTable .selected,.editTable,.user_activity_log {
-	background: #fff;
+	background: #fff !important;
 }
 
 #contactable {
