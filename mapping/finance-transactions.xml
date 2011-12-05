@@ -112,7 +112,7 @@
 			<property name="isEdited" column="IS_EDITED"></property>
 			<list name="transactionPayTAX" cascade="save-update,delete-orphan"
 				lazy="false">
-				<key column="PAY_VAT_ID" />
+				<key column="PAY_TAX_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionPayTAX" />
 			</list>
