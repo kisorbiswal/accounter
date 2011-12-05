@@ -7,24 +7,25 @@ table {
 	font-size: 15px;
 	border-collapse: collapse;
 	table-layout: fixed;
-	font-family: Arial Unicode MS,Arial,sans-serif;
+	font-family: Arial Unicode MS, Arial, sans-serif;
 }
-body,table,tr,td,th,p{
-    padding:0px;
-	margin:0px;
+
+body,table,tr,td,th,p {
+	padding: 0px;
+	margin: 0px;
 }
 /******** Styles for ListGrid *********/
-.gridBody,.gridHeader {
-	/*border-width: 0 1px 1px 0;
+.gridBody,.gridHeader { /*border-width: 0 1px 1px 0;
 	border-style: ridge;*/
+	
 }
 
 .gridBody .parentNode td,.gridBody .childNode td {
 	border: 0 !important;
 }
 
-.gridHeader  td{
-	/*border-width: 1px 1px 1px 1px !important;*/
+.gridHeader  td { /*border-width: 1px 1px 1px 1px !important;*/
+	
 }
 
 .margin-l {
@@ -35,9 +36,9 @@ body,table,tr,td,th,p{
 	margin-right: 15px;
 }
 
-.gridBody td,.gridHeader td {
-	/*border-width: 2px 0 0 2px;
+.gridBody td,.gridHeader td { /*border-width: 2px 0 0 2px;
 	border-style: ridge;*/
+	
 }
 
 .gridBody td div,.gridHeader td div {
@@ -47,7 +48,7 @@ body,table,tr,td,th,p{
 }
 
 .thinBorder {
-	border : 1px solid #E1E1E1;
+	border: 1px solid #E1E1E1;
 }
 
 .gridHeaderBackGround {
@@ -267,170 +268,216 @@ table tr.ReportGridRow td {
 table tr.gridHeaderRow td {
 	width: 0px !important;
 }
-.removeHeadBorder{
-    margin-top: 40px;
-    text-align: center;
-    width: 100%;
-}
-.invoice_quick_header p{   
-    padding-bottom: 15px;
-}
-.invoice_details_table td:first-child,.removeHeadBorder th,.removeHeadBorder th p,
-.xero_invoice_table th,.xero_credit_memo th{
-   background-color:#F2F2F2 !important;
-   font-weight:bold;
-}
-#permethterms td,
-.due_date td,#vat_sort_bankaccount  td,#shipto td,
-#billto table td,#header-part-invoice td{
-   padding:5px;
-}
-.invoice_main_div{
-   margin:10px;
-}
-#salesPerson,#shippingMethod,#paymentTerms{
-   font-weight:bold;
-}
-#permethterms,#vat_sort_bankaccount,.due_date,#footer {
-   margin-top:20px;
-}
-#billto td,#shippingAddressTable td{
-  padding:5px;
-}
-.invoice_details_quicktable{
-  text-align:center;
-}
-.table-head{
-  text-transform: uppercase;
-}
-.invoice_zoho_table td:first-child,.table-head,.credit-head,.credito_vimukti tr:first-child td,.main_credit_vimukti th{
-  background-color:#F2F2F2;
-  font-weight:bold;
-}
-.billto_quick tr:last-child td,.credito_vimukti tr:last-child td{
-  width:400px;
-  height:200px;
-}
-.due_date{
-	clear:both;
-	width:100%;
-}
-.dueamount_enclosed,.quick_total_table{
-   float:right;
-}
-.dueamount_enclosed td,.quick_total_table td{
-   padding:3px;
-}
-.quick_credit_total td{
-    height: 40px;
-    text-align: center;
-    width: 200px;
-}
-.dueamount_enclosed  tr:last-child td,.zoho_subtotal_table td,.credit_zoho_total td{
-   height: 35px;
-   width: 150px;
-}
-.quick_invoice_header  tbody td,.credit_zoho_main tbody td,.xero_credit_memo tbody td,.main_credit_vimukti tbody .item-row td{
-   vertical-align:top;
-}
-.xero_invoice_table tr{
-   border-bottom:1px solid #000;
-}
-.due_xerodate{
-   clear:both;
-   margin-top:30px;
-}
-.due_xerodate td,.zoho_subtotal_table td{
-   padding:3px;
-}
-.xero_invoice_table{
-   margin-top:20px;
-}
-.zoho_subtotal_table,.credit_zoho_total{
-    border: 1px solid #000;
-    float: right;
-    margin-top: 25px;
-}
-.memo-text{
-    border-right: 1px solid #000;
-    text-align: center;
-}
-.xero_credit_memo{
-    margin:20px 0 0;
-}
-.xero_credit_memo td,.xero_credit_memo th,.xero_invoice_table td,.xero_invoice_table th{
-    padding:10px;
-}
-.xero_credit_memo td,.credit_quick_number .credit_note_vimukti td{
-    text-align:center;
-}
-.xero_credit_total,.xero_sub_total {
-   margin-top:20px;
-   float:right;
-   border:1px solid #000;
-}
-.xero_credit_total td,.xero_sub_total td{
-   padding: 10px 50px;
-}
-.credit_zoho_header{
-   margin-bottom:-25px;
-}
-.credit_to_zoho{
-    height: 150px;
-    padding: 5px;
-    vertical-align: top;
-    width: 280px;
-}
-.credit_zoho_main td,.credit_zoho_main th,.credit_zoho_total td,.main_credit_vimukti td{
-   padding:3px;
-   text-align:center;
-}
-.credit_zoho_main,.credit_zoho_total,.margin{
-   margin:10px 0;
-}
-.credito_vimukti td{
-   padding:3px;
-   vertical-align: top;
-}
-.credit_note_vimukti td,.main_credit_vimukti td,.main_credit_vimukti th,#items th,#items td,.due_xerodate td{
-   padding:5px;
-}
-.credit_note_head{
-   margin:10px 0;
-   border-bottom:1px solid;
-}
-.credit_note_head td{
-   padding-bottom:10px;
-}
-.credit_quick_head,.dueamount_enclosed{
-   margin:10px 0px;
-}
-.quick_credit_total{
-   float:right;
-   margin:20px 0;
-}
-.plaincredit{
-	width:200px;
-	height:200px;
-}
-.invoice_xero_header,.title_font_size{
-	font-size: 20px;
-}
-.credit_quick_number  .credit_note_vimukti .credit-head,.credit_quick_upp .gridHeaderBackGround,
-.credit_quick_upp th{
-     text-transform: uppercase;
-}
-.hole_margin{
-	margin:10px 20px 20px;
-}
- .invoice_details_table tr,.invoice_details_table td,.invoice_details_table,.removeHeadBorder,.removeHeadBorder tr,.removeHeadBorder td,
-#items,#items th,#items tr,#items td,#billto,#billto tr,#billto td,#shippingAddressTable,#shippingAddressTable tr,#shippingAddressTable td,#permethterms,#permethterms tr,#permethterms td,
-#termsconditions,#termsconditions tr,#termsconditions td,.invoice_details_quicktable ,.invoice_details_quicktable tr,.invoice_details_quicktable td,
-.quick_total_table,.quick_total_table tr,.quick_total_table td,.invoice_zoho_table,.invoice_zoho_table tr,.invoice_zoho_table td,.xero_invoice_table,.xero_invoice_table tr,
-.xero_invoice_table td,.xero_invoice_table th{
-border:1px solid #000 !important;
-}
-.invoice_zoho_table{
-  width:600px;
+
+.removeHeadBorder {
+	margin-top: 40px;
+	text-align: center;
+	width: 100%;
 }
 
+.invoice_quick_header p {
+	padding-bottom: 15px;
+}
+
+.invoice_details_table td:first-child,.removeHeadBorder th,.removeHeadBorder th p,.xero_invoice_table th,.xero_credit_memo th
+	{
+	background-color: #F2F2F2 !important;
+	font-weight: bold;
+}
+
+#permethterms td,.due_date td,#vat_sort_bankaccount  td,#shipto td,#billto table td,#header-part-invoice td
+	{
+	padding: 5px;
+}
+
+.invoice_main_div {
+	margin: 10px;
+}
+
+#salesPerson,#shippingMethod,#paymentTerms {
+	font-weight: bold;
+}
+
+#permethterms,#vat_sort_bankaccount,.due_date,#footer {
+	margin-top: 20px;
+}
+
+#billto td,#shippingAddressTable td {
+	padding: 5px;
+}
+
+.invoice_details_quicktable {
+	text-align: center;
+}
+
+.table-head {
+	text-transform: uppercase;
+}
+
+.invoice_zoho_table td:first-child,.table-head,.credit-head,.credito_vimukti tr:first-child td,.main_credit_vimukti th
+	{
+	background-color: #F2F2F2;
+	font-weight: bold;
+}
+
+.billto_quick tr:last-child td,.credito_vimukti tr:last-child td {
+	width: 400px;
+	height: 200px;
+}
+
+.due_date {
+	clear: both;
+	width: 100%;
+}
+
+.dueamount_enclosed,.quick_total_table {
+	float: right;
+}
+
+.dueamount_enclosed td,.quick_total_table td {
+	padding: 3px;
+}
+
+.quick_credit_total td {
+	height: 40px;
+	text-align: center;
+	width: 200px;
+}
+
+.dueamount_enclosed  tr:last-child td,.zoho_subtotal_table td,.credit_zoho_total td
+	{
+	height: 35px;
+	width: 150px;
+}
+
+.quick_invoice_header  tbody td,.credit_zoho_main tbody td,.xero_credit_memo tbody td,.main_credit_vimukti tbody .item-row td
+	{
+	vertical-align: top;
+}
+
+.xero_invoice_table tr {
+	border-bottom: 1px solid #000;
+}
+
+.due_xerodate {
+	clear: both;
+	margin-top: 30px;
+}
+
+.due_xerodate td,.zoho_subtotal_table td {
+	padding: 3px;
+}
+
+.xero_invoice_table {
+	margin-top: 20px;
+}
+
+.zoho_subtotal_table,.credit_zoho_total {
+	border: 1px solid #000;
+	float: right;
+	margin-top: 25px;
+}
+
+.memo-text {
+	border-right: 1px solid #000;
+	text-align: center;
+}
+
+.xero_credit_memo {
+	margin: 20px 0 0;
+}
+
+.xero_credit_memo td,.xero_credit_memo th,.xero_invoice_table td,.xero_invoice_table th
+	{
+	padding: 10px;
+}
+
+.xero_credit_memo td,.credit_quick_number .credit_note_vimukti td {
+	text-align: center;
+}
+
+.xero_credit_total,.xero_sub_total {
+	margin-top: 20px;
+	float: right;
+	border: 1px solid #000;
+}
+
+.xero_credit_total td,.xero_sub_total td {
+	padding: 10px 50px;
+}
+
+.credit_zoho_header {
+	margin-bottom: -25px;
+}
+
+.credit_to_zoho {
+	height: 150px;
+	padding: 5px;
+	vertical-align: top;
+	width: 280px;
+}
+
+.credit_zoho_main td,.credit_zoho_main th,.credit_zoho_total td,.main_credit_vimukti td
+	{
+	padding: 3px;
+	text-align: center;
+}
+
+.credit_zoho_main,.credit_zoho_total,.margin {
+	margin: 10px 0;
+}
+
+.credito_vimukti td {
+	padding: 3px;
+	vertical-align: top;
+}
+
+.credit_note_vimukti td,.main_credit_vimukti td,.main_credit_vimukti th,#items th,#items td,.due_xerodate td
+	{
+	padding: 5px;
+}
+
+.credit_note_head {
+	margin: 10px 0;
+	border-bottom: 1px solid;
+}
+
+.credit_note_head td {
+	padding-bottom: 10px;
+}
+
+.credit_quick_head,.dueamount_enclosed {
+	margin: 10px 0px;
+}
+
+.quick_credit_total {
+	float: right;
+	margin: 20px 0;
+}
+
+.plaincredit {
+	width: 200px;
+	height: 200px;
+}
+
+.invoice_xero_header,.title_font_size {
+	font-size: 20px;
+}
+
+.credit_quick_number  .credit_note_vimukti .credit-head,.credit_quick_upp .gridHeaderBackGround,.credit_quick_upp th
+	{
+	text-transform: uppercase;
+}
+
+.hole_margin {
+	margin: 10px 20px 20px;
+}
+
+.invoice_details_table tr,.invoice_details_table td,.invoice_details_table,.removeHeadBorder,.removeHeadBorder tr,.removeHeadBorder td,#items,#items th,#items tr,#items td,#billto,#billto tr,#billto td,#shippingAddressTable,#shippingAddressTable tr,#shippingAddressTable td,#permethterms,#permethterms tr,#permethterms td,#termsconditions,#termsconditions tr,#termsconditions td,.invoice_details_quicktable,.invoice_details_quicktable tr,.invoice_details_quicktable td,.quick_total_table,.quick_total_table tr,.quick_total_table td,.invoice_zoho_table,.invoice_zoho_table tr,.invoice_zoho_table td,.credito_vimukti,.credito_vimukti tr,.credito_vimukti th,.credito_vimukti td,.credit_note_vimukti,.credit_note_vimukti td,.credit_note_vimukti tr,.credit_note_vimukti th,.main_credit_vimukti,.main_credit_vimukti td,.main_credit_vimukti tr,.main_credit_vimukti th
+	{
+	border: 1px solid #000 !important;
+}
+
+.invoice_zoho_table {
+	width: 500px;
+}
