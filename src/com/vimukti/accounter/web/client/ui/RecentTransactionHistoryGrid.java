@@ -28,7 +28,8 @@ public class RecentTransactionHistoryGrid extends ListGrid<ClientActivity> {
 		case 1:
 			return obj.getDataType();
 		case 2:
-			return obj.getAmount();
+			return DataUtils.amountAsStringWithCurrency(obj.getAmount(),
+					obj.getCurrency());
 		case 0:
 			return obj.getDate();
 		case 3:
