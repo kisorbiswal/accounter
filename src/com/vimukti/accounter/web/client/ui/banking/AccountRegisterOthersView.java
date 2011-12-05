@@ -27,7 +27,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 	private String selectedOption;
 	private SelectCombo showTransactionSelect;
 
-	private ClientAccount takenaccount;
+	private final ClientAccount takenaccount;
 
 	private ClientAccount account;
 	protected List<AccountRegister> accountRegister;
@@ -44,9 +44,8 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 	private final int FOOTER = 25;
 	private final int BORDER = 20;
 
-	String[] dateRangeArray = { messages.all(),
-			messages.today(), messages.last30Days(),
-			messages.last45Days() };
+	String[] dateRangeArray = { messages.all(), messages.today(),
+			messages.last30Days(), messages.last45Days() };
 	private List<String> listOfDateRanges;
 
 	private ClientFinanceDate endDate;
@@ -61,8 +60,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 
 	protected void createControls() {
 
-		showTransactionSelect = new SelectCombo(messages
-				.showTransactions());
+		showTransactionSelect = new SelectCombo(messages.showTransactions());
 		listOfDateRanges = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			listOfDateRanges.add(dateRangeArray[i]);
@@ -149,16 +147,16 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		} else if (!selectedDateRange.equals(messages.last30Days())
 				&& selectedOption.equals(messages.last30Days())) {
 			selectedDateRange = messages.last30Days();
-			startDate = new ClientFinanceDate(todaydate.getYear(), todaydate
-					.getMonth() - 1, todaydate.getDay());
+			startDate = new ClientFinanceDate(todaydate.getYear(),
+					todaydate.getMonth() - 1, todaydate.getDay());
 			endDate = todaydate;
 
 		} else if (!selectedDateRange.equals(messages.last45Days())
 				&& selectedOption.equals(messages.last45Days())) {
 
 			selectedDateRange = messages.last45Days();
-			startDate = new ClientFinanceDate(todaydate.getYear(), todaydate
-					.getMonth() - 2, todaydate.getDay() + 16);
+			startDate = new ClientFinanceDate(todaydate.getYear(),
+					todaydate.getMonth() - 2, todaydate.getDay() + 16);
 			endDate = todaydate;
 		}
 		accountSelected(takenaccount);
@@ -198,18 +196,20 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		}
 
 		this.account = takenaccount;
-
+		grid.setAccount(takenaccount);
 		Accounter.createReportService().getAccountRegister(startDate, endDate,
 				takenaccount.getID(),
 				new AccounterAsyncCallback<ArrayList<AccountRegister>>() {
 
+					@Override
 					public void onException(AccounterException caught) {
 						Accounter.showError(messages
-								.failedtoGetListofAccounts(
-										takenaccount.getName()));
+								.failedtoGetListofAccounts(takenaccount
+										.getName()));
 
 					}
 
+					@Override
 					public void onResultSuccess(
 							ArrayList<AccountRegister> result) {
 						accountRegister = result;
