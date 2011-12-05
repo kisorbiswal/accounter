@@ -72,7 +72,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			if (currency != null)
 				if (currency.getFormalName().trim().length() > 0) {
 					t.setVariable("currency", currency.getFormalName().trim());
-					t.addBlock("currency");
+
 				}
 
 			// for getting customer contact name
