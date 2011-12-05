@@ -239,16 +239,22 @@ public abstract class AbstractTransactionTable extends
 					result.addError("Customer",
 							messages.mustSelectCustomerForBillable());
 				}
-				if (transactionItem.getItem() > 0) {
-					ClientItem item = getCompany().getItem(
-							transactionItem.getItem());
-					if (!item.isIBuyThisItem || !item.isISellThisItem) {
-						result.addError("Item", messages
-								.onlySellableItemsCanBeMarkedAsBillable());
+				switch (transactionItem.getType()) {
+				case ClientTransactionItem.TYPE_ITEM:
+					if (transactionItem.getItem() > 0) {
+						ClientItem item = getCompany().getItem(
+								transactionItem.getItem());
+						if (!item.isIBuyThisItem || !item.isISellThisItem) {
+							result.addError("Item", messages
+									.onlySellableItemsCanBeMarkedAsBillable());
+						}
+					} else {
+						result.addError("Item", messages.pleaseSelect(messages
+								.transactionItem()));
 					}
-				} else {
-					result.addError("Item",
-							messages.pleaseSelect(messages.transactionItem()));
+					break;
+				default:
+					break;
 				}
 			}
 		}
