@@ -23,18 +23,6 @@ import com.vimukti.accounter.web.client.ui.widgets.WorkbenchPanel;
 public abstract class Portlet extends WorkbenchPanel {
 	protected static AccounterMessages messages = Accounter.messages();
 
-	public static final String BANK_ACCOUNT = messages.bankAccount();
-	public static final String MONEY_COMING = messages.moneyComingIn();
-	public static final String MONEY_GOING = messages.moneyGoingOut();
-	public static final String EXPENSES_CLAIM = messages.expenseClaims();
-	public static final String WHO_I_OWE = messages.whoIOwe();
-	public static final String WHO_OWES_ME = messages.whoOwesMe();
-	public static final String RECENT_TRANSACTIONS = messages
-			.recentTransactions();
-	// public static final String MESSAGES_AND_TASKS = "Messages And Tasks";
-	public static final String QUICK_LINKS = messages.quickLinks();
-	public static final String BANKING = messages.banking();
-
 	public static final int TYPE_I_OWE = 1;
 	public static final int TYPE_OWE_TO_ME = 2;
 
