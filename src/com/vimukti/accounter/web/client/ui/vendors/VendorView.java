@@ -958,11 +958,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		// Setting Balance
 		data.setOpeningBalance(openingBalText.getAmount());
-		if (data.getID() == 0) {
-			data.setBalance(openingBalText.getAmount());
-		} else {
-			data.setBalance(balanceText.getAmount());
-		}
+		data.setBalance(balanceText.getAmount());
 
 		// Setting Balance As of
 		if (balanceDate.getEnteredDate() != null)
