@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -9,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.StatementServerReport;
 public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public int precategory = 1001;
 	public long payeeId = 0;
-	private boolean isVendor;
+	private final boolean isVendor;
 
 	public StatementReport(boolean isVendor) {
 		this.isVendor = isVendor;
@@ -71,7 +72,13 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public void print() {
 
 		if (payeeId == 0) {
-			Accounter.showError(Accounter.messages().pleaseSelectAnyCustomer());
+			if (isVendor) {
+				Accounter.showError(Accounter.messages().pleaseSelect(
+						Global.get().Vendor()));
+			} else {
+				Accounter.showError(Accounter.messages().pleaseSelect(
+						Global.get().Customer()));
+			}
 		} else {
 			if (isVendor) {
 				UIUtils.generateReportPDF(
@@ -87,9 +94,16 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		}
 	}
 
+	@Override
 	public void exportToCsv() {
 		if (payeeId == 0) {
-			Accounter.showError(Accounter.messages().pleaseSelectAnyCustomer());
+			if (isVendor) {
+				Accounter.showError(Accounter.messages().pleaseSelect(
+						Global.get().Vendor()));
+			} else {
+				Accounter.showError(Accounter.messages().pleaseSelect(
+						Global.get().Customer()));
+			}
 		} else {
 			if (isVendor) {
 				UIUtils.exportReport(
