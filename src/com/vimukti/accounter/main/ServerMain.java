@@ -236,6 +236,16 @@ public class ServerMain extends Main {
 					Query messageQuery = session.getNamedQuery(
 							"getMessageByValue").setParameter("value",
 							message.getValue());
+					for (Key key : message.getKeys()) {
+						Query keyQuery = session.getNamedQuery("getKeyByValue")
+								.setParameter("value", key.getKey());
+						Key duplicateKey = (Key) keyQuery.uniqueResult();
+						if (duplicateKey != null
+								&& key.getId() != duplicateKey.getId()) {
+							message.getKeys().remove(key);
+							message.getKeys().add(duplicateKey);
+						}
+					}
 					Message oldMessage = (Message) messageQuery.uniqueResult();
 					if (oldMessage != null) {
 						Set<Key> keys = oldMessage.getKeys();
