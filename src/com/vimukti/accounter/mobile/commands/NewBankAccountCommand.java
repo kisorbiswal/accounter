@@ -253,8 +253,8 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(ASOF).setDefaultValue(new ClientFinanceDate());
 		get(ACCOUNT_NUMBER).setDefaultValue(
-				autoGenerateAccountnumber(context, BANK_CAT_BEGIN_NO,
-						BANK_CAT_END_NO));
+				autoGenerateAccountnumber(BANK_CAT_BEGIN_NO, BANK_CAT_END_NO,
+						context.getCompany()));
 
 	}
 
@@ -304,24 +304,5 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		else
 			return Account.BANK_ACCCOUNT_TYPE_NONE;
 
-	}
-
-	public String autoGenerateAccountnumber(Context context, int range1,
-			int range2) {
-		// TODO::: add a filter to filter the accounts based on the account type
-		Set<Account> accounts = context.getCompany().getAccounts();
-		Long number = null;
-		if (number == null) {
-			number = (long) range1;
-			for (Account account : accounts) {
-				while (number.toString().equals(account.getNumber())) {
-					number++;
-					if (number >= range2) {
-						number = (long) range1;
-					}
-				}
-			}
-		}
-		return number.toString();
 	}
 }
