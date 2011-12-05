@@ -51,10 +51,6 @@ public class MoneyGoingPortlet extends Portlet {
 
 	@Override
 	public void createBody() {
-		if (isCreatingBody) {
-			return;
-		}
-		isCreatingBody = true;
 		updateCreditorsAccount();
 
 		HorizontalPanel hPanel = new HorizontalPanel();
@@ -197,6 +193,10 @@ public class MoneyGoingPortlet extends Portlet {
 	}
 
 	private void refreshPortlet() {
+		if (isCreatingBody) {
+			return;
+		}
+		isCreatingBody = true;
 		this.body.clear();
 		createBody();
 	}

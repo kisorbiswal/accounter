@@ -54,11 +54,6 @@ public class MoneyComingPortlet extends Portlet {
 
 	@Override
 	public void createBody() {
-		if (isCreatingBody) {
-			return;
-		}
-
-		this.isCreatingBody = true;
 		updateDebitorsAccount();
 
 		HorizontalPanel hPanel = new HorizontalPanel();
@@ -220,6 +215,11 @@ public class MoneyComingPortlet extends Portlet {
 	}
 
 	private void refreshPortlet() {
+		if (isCreatingBody) {
+			return;
+		}
+
+		this.isCreatingBody = true;
 		this.body.clear();
 		createBody();
 	}
