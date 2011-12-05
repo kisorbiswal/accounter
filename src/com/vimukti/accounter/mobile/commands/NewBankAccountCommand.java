@@ -52,7 +52,23 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 				"Account Type", false, true));
 
 		list.add(new NumberRequirement(ACCOUNT_NUMBER,
-				"Please Enter Account number", "Account Number", true, true));
+				"Please Enter Account number", "Account Number", true, true) {
+
+			@Override
+			public void setValue(Object value) {
+				try {
+					if (bankAccount.getID() == 0) {
+						int parseInt = Integer.parseInt((String) value);
+						if (parseInt > 1179 || parseInt < 1100) {
+							addFirstMessage("Number Should be with in the range (1100 to 1179)");
+							return;
+						}
+					}
+					super.setValue(value);
+				} catch (Exception e) {
+				}
+			}
+		});
 
 		list.add(new NameRequirement(ACCOUNT_NAME, "Please Enter Account Name",
 				"Account Name", false, true));

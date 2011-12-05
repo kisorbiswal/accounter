@@ -16,6 +16,7 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
@@ -90,7 +91,22 @@ public class NewAccountCommand extends NewAbstractCommand {
 				"Name", false, true));
 
 		list.add(new NumberRequirement(ACCOUNT_NUMBER,
-				"Please Enter Account number", "Account Number", false, true));
+				"Please Enter Account number", "Account Number", false, true) {
+			@Override
+			public void setValue(Object value) {
+				try {
+					if (account.getID() == 0) {
+						int parseInt = Integer.parseInt((String) value);
+						if (parseInt > 1179 || parseInt < 1100) {
+							addFirstMessage("Number Should be with in the range (1100 to 1179)");
+							return;
+						}
+					}
+					super.setValue(value);
+				} catch (Exception e) {
+				}
+			}
+		});
 
 		list.add(new AmountRequirement(OPENINGBALANCE,
 				"Please Enter Opening balece", "Opening balence", true, true));
