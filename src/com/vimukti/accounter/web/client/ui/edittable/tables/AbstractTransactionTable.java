@@ -244,7 +244,7 @@ public abstract class AbstractTransactionTable extends
 					if (transactionItem.getItem() > 0) {
 						ClientItem item = getCompany().getItem(
 								transactionItem.getItem());
-						if (!item.isIBuyThisItem || !item.isISellThisItem) {
+						if (!item.isISellThisItem) {
 							result.addError("Item", messages
 									.onlySellableItemsCanBeMarkedAsBillable());
 						}
