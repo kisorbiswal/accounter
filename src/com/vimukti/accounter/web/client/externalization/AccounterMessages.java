@@ -4689,4 +4689,6 @@ public interface AccounterMessages extends Messages {
 	public String fixedAssetNote();
 
 	public String doNottrackingLocation();
+
+	public String pleaseEnterAmountToReceive();
 }

@@ -208,7 +208,7 @@ public class TransactionReceiveVATGrid extends
 		for (ClientTransactionReceiveVAT tax : getSelectedRecords()) {
 			if (!DecimalUtil.isGreaterThan(tax.getAmountToReceive(), 0.00)) {
 				result.addError(this, Accounter.messages()
-						.pleaseEnterAmountToPay());
+						.pleaseEnterAmountToReceive());
 			}
 
 		}

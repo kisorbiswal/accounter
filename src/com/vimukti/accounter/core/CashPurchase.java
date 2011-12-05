@@ -326,7 +326,7 @@ public class CashPurchase extends Transaction {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkingVendorNull(vendor);
+		// checkingVendorNull(vendor);
 	}
 
 	@Override
