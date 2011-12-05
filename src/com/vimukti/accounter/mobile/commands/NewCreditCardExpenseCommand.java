@@ -382,19 +382,14 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select a Credit Expense to update.");
 				return "Expenses List ," + getMessages().creditCard();
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientCreditCardCharge transactionByNum = (ClientCreditCardCharge) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.CREDITCARDCHARGE);
-			if (transactionByNum == null) {
+			creditCardCharge = getTransaction(string,
+					AccounterCoreType.CREDITCARDCHARGE, context);
+
+			if (creditCardCharge == null) {
 				addFirstMessage(context, "Select a Credit Expense to update.");
 				return "Expenses List " + string + " ,"
 						+ getMessages().creditCard();
 			}
-			creditCardCharge = transactionByNum;
 			setValues(context);
 		} else {
 			if (!string.isEmpty()) {

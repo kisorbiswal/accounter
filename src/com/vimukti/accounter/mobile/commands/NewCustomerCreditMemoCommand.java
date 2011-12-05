@@ -323,19 +323,14 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 						"Select a Customer credit note to update.");
 				return "Invoices List";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientCustomerCreditMemo invoiceByNum = (ClientCustomerCreditMemo) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.CUSTOMERCREDITMEMO);
-			if (invoiceByNum == null) {
+
+			creditMemo = getTransaction(string,
+					AccounterCoreType.CUSTOMERCREDITMEMO, context);
+			if (creditMemo == null) {
 				addFirstMessage(context,
 						"Select a Customer credit note to update.");
 				return "Invoices List " + string;
 			}
-			creditMemo = invoiceByNum;
 			setValues();
 		} else {
 			String string = context.getString();

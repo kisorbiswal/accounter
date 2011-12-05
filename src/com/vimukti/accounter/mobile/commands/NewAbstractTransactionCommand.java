@@ -287,4 +287,21 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 		}
 		return false;
 	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T getTransaction(String string, AccounterCoreType type,
+			Context context) {
+		long numberFromString = getNumberFromString(string);
+		T transactionByNum;
+		if (numberFromString != 0) {
+			string = String.valueOf(numberFromString);
+			transactionByNum = (T) CommandUtils.getClientTransactionByNumber(
+					context.getCompany(), string, type);
+		} else {
+			transactionByNum = (T) CommandUtils.getClientObjectById(
+					Long.parseLong(string), type, getCompanyId());
+		}
+		return transactionByNum;
+	}
+
 }

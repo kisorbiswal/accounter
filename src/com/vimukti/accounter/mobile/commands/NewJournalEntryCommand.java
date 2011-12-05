@@ -319,18 +319,14 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select an journalEntry to update.");
 				return "journalEntries List";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientJournalEntry journalEntry = (ClientJournalEntry) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.JOURNALENTRY);
-			if (journalEntry == null) {
+
+			entry = getTransaction(string, AccounterCoreType.JOURNALENTRY,
+					context);
+
+			if (entry == null) {
 				addFirstMessage(context, "Select an journalEntry to update.");
 				return "journalEntries List " + string;
 			}
-			entry = journalEntry;
 			setValues();
 		} else {
 			String string = context.getString();

@@ -388,18 +388,12 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select a Write Check to update.");
 				return "Invoices List";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientWriteCheck invoiceByNum = (ClientWriteCheck) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.WRITECHECK);
-			if (invoiceByNum == null) {
+			writeCheck = getTransaction(string, AccounterCoreType.WRITECHECK,
+					context);
+			if (writeCheck == null) {
 				addFirstMessage(context, "Select a Write Check to update.");
 				return "Invoices List " + string;
 			}
-			writeCheck = invoiceByNum;
 			setValues(context);
 		} else {
 			String string = context.getString();

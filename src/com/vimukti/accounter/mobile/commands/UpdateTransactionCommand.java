@@ -126,8 +126,7 @@ public class UpdateTransactionCommand extends NewAbstractCommand {
 				Transaction transaction = get(TRANSACTION).getValue();
 				String transactionName = Utility.getTransactionName(transaction
 						.getType());
-				return "Update " + transactionName + " #"
-						+ transaction.getNumber();
+				return "Update " + transactionName + " " + transaction.getID();
 			}
 		});
 	}

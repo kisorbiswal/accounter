@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -259,18 +260,14 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select a Credit Note to update.");
 				return "Invoices List";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientCustomerCreditMemo invoiceByNum = (ClientCustomerCreditMemo) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.CUSTOMERCREDITMEMO);
-			if (invoiceByNum == null) {
+
+			creditMemo = getTransaction(string,
+					AccounterCoreType.CUSTOMERCREDITMEMO, context);
+
+			if (creditMemo == null) {
 				addFirstMessage(context, "Select a Credit Note to update.");
 				return "Invoices List " + string;
 			}
-			creditMemo = invoiceByNum;
 			setValues();
 		} else {
 			String string = context.getString();

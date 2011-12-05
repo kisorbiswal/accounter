@@ -30,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -370,18 +371,13 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select a Cash Expense to update.");
 				return "Expenses List ," + getMessages().cash();
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientCashPurchase transactionByNum = (ClientCashPurchase) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.CASHPURCHASE);
-			if (transactionByNum == null) {
+			cashPurchase = getTransaction(string,
+					AccounterCoreType.CASHPURCHASE, context);
+
+			if (cashPurchase == null) {
 				addFirstMessage(context, "Select a Cash Expense to update.");
 				return "Expenses List " + string + "," + getMessages().cash();
 			}
-			cashPurchase = transactionByNum;
 			setValues(context);
 		} else {
 			if (!string.isEmpty()) {

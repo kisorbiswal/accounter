@@ -55,18 +55,13 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select a Purchase order to update.");
 				return "Invoices List";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientPurchaseOrder invoiceByNum = (ClientPurchaseOrder) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.PURCHASEORDER);
-			if (invoiceByNum == null) {
+			purchaseOrder = getTransaction(string,
+					AccounterCoreType.PURCHASEORDER, context);
+
+			if (purchaseOrder == null) {
 				addFirstMessage(context, "Select a purchase order to update.");
 				return "Invoices List " + string;
 			}
-			purchaseOrder = invoiceByNum;
 			setValues();
 		} else {
 			String string = context.getString();

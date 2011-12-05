@@ -411,18 +411,13 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select an Enter bill to update.");
 				return "bills List";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientEnterBill enterBill = (ClientEnterBill) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.ENTERBILL);
+			enterBill = getTransaction(string, AccounterCoreType.ENTERBILL,
+					context);
+
 			if (enterBill == null) {
 				addFirstMessage(context, "Select an Enter bill to update.");
 				return "Bills List " + string;
 			}
-			this.enterBill = enterBill;
 			setValues(context);
 		} else {
 			String string = context.getString();

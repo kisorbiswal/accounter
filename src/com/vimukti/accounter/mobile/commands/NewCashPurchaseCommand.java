@@ -51,18 +51,13 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select a Cash Purchase to update.");
 				return "Bills And Expenses List";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientCashPurchase transactionByNum = (ClientCashPurchase) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.CASHPURCHASE);
-			if (transactionByNum == null) {
+			cashPurchase = getTransaction(string,
+					AccounterCoreType.CASHPURCHASE, context);
+
+			if (cashPurchase == null) {
 				addFirstMessage(context, "Select a Cash Purchase to update.");
 				return "Bills And Expenses List " + string;
 			}
-			cashPurchase = transactionByNum;
 			setValues();
 		} else {
 			String string = context.getString();

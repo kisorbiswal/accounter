@@ -50,18 +50,14 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select a Customer Refund to update.");
 				return "Customer Refunds List";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientCustomerRefund transactionByNum = (ClientCustomerRefund) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.CUSTOMERREFUND);
-			if (transactionByNum == null) {
+
+			customerRefund = getTransaction(string,
+					AccounterCoreType.CUSTOMERREFUND, context);
+
+			if (customerRefund == null) {
 				addFirstMessage(context, "Select a Customer Refund to update.");
 				return "Customer Refunds List " + string;
 			}
-			customerRefund = transactionByNum;
 			setValues();
 		} else {
 			String string = context.getString();

@@ -298,18 +298,13 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select an Issue payment to update.");
 				return "Vendor Payments";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientIssuePayment invoiceByNum = (ClientIssuePayment) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.ISSUEPAYMENT);
-			if (invoiceByNum == null) {
+			issuePayment = getTransaction(string,
+					AccounterCoreType.ISSUEPAYMENT, context);
+
+			if (issuePayment == null) {
 				addFirstMessage(context, "Select an Issue payment to update.");
 				return "Vendor Payments " + string;
 			}
-			issuePayment = invoiceByNum;
 			setValues(context);
 		} else {
 			String string = context.getString();

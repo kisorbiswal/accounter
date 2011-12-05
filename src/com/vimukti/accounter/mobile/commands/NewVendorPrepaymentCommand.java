@@ -54,19 +54,12 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 						"Select a Vendor Prepayment to update.");
 				return "Vendor Payments List";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientPayBill invoiceByNum = (ClientPayBill) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.PAYBILL);
-			if (invoiceByNum == null) {
+			paybill = getTransaction(string, AccounterCoreType.PAYBILL, context);
+			if (paybill == null) {
 				addFirstMessage(context,
 						"Select a Vendor Prepayment to update.");
 				return "Vendor Payments List " + string;
 			}
-			paybill = invoiceByNum;
 			setValues();
 		} else {
 			String string = context.getString();

@@ -518,18 +518,12 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select an Invoice to update.");
 				return "Invoices List";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientInvoice invoiceByNum = (ClientInvoice) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.INVOICE);
-			if (invoiceByNum == null) {
+			invoice = getTransaction(string, AccounterCoreType.INVOICE, context);
+
+			if (invoice == null) {
 				addFirstMessage(context, "Select an Invoice to update.");
 				return "Invoices List " + string;
 			}
-			invoice = invoiceByNum;
 			setValues(context);
 		} else {
 			String string = context.getString();

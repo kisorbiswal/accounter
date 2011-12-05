@@ -30,6 +30,7 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -386,19 +387,14 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 						"Select a Credit Card Charge to update.");
 				return "Expenses List";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientCreditCardCharge transactionByNum = (ClientCreditCardCharge) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.CREDITCARDCHARGE);
-			if (transactionByNum == null) {
+			creditCardCharge = getTransaction(string,
+					AccounterCoreType.CREDITCARDCHARGE, context);
+
+			if (creditCardCharge == null) {
 				addFirstMessage(context,
 						"Select a Credit Card Charge to update.");
 				return "Expenses List " + string;
 			}
-			creditCardCharge = transactionByNum;
 			setValues();
 		} else {
 			if (!string.isEmpty()) {

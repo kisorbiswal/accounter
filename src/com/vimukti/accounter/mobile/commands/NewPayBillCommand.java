@@ -317,18 +317,12 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select a Bill to update.");
 				return "Bills And Expenses List";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientPayBill invoiceByNum = (ClientPayBill) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.PAYBILL);
-			if (invoiceByNum == null) {
+			paybill = getTransaction(string, AccounterCoreType.PAYBILL, context);
+
+			if (paybill == null) {
 				addFirstMessage(context, "Select a Bill to update.");
 				return "Bills And Expenses List " + string;
 			}
-			paybill = invoiceByNum;
 			setValues(context);
 		} else {
 			String string = context.getString();

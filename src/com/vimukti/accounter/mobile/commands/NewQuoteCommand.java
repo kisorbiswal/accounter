@@ -485,14 +485,10 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 					return "Charges List";
 				}
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientEstimate estimateByNum = (ClientEstimate) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.ESTIMATE);
-			if (estimateByNum == null) {
+
+			estimate = getTransaction(string, AccounterCoreType.ESTIMATE,
+					context);
+			if (estimate == null) {
 				if (estimateType == ClientEstimate.QUOTES) {
 					addFirstMessage(context, "Select a Quote to update.");
 					return "Quotes List " + string;
@@ -504,7 +500,6 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 					return "Charges List " + string;
 				}
 			}
-			estimate = estimateByNum;
 			setValues(context);
 		} else {
 			String string = context.getString();

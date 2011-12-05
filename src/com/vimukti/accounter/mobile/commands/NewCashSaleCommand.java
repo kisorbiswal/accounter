@@ -41,6 +41,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -600,18 +601,12 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select a Cash Sale to update.");
 				return "Invoices List";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientCashSales invoiceByNum = (ClientCashSales) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.CASHSALES);
-			if (invoiceByNum == null) {
+			cashSale = getTransaction(string, AccounterCoreType.CASHSALES,
+					context);
+			if (cashSale == null) {
 				addFirstMessage(context, "Select a Cash Sale to update.");
 				return "Invoices List " + string;
 			}
-			cashSale = invoiceByNum;
 			setValues();
 		} else {
 			String string = context.getString();

@@ -258,18 +258,12 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select a transaction to update.");
 				return "Transaction Detail By Account";
 			}
-			long numberFromString = getNumberFromString(string);
-			if (numberFromString != 0) {
-				string = String.valueOf(numberFromString);
-			}
-			ClientMakeDeposit invoiceByNum = (ClientMakeDeposit) CommandUtils
-					.getClientTransactionByNumber(context.getCompany(), string,
-							AccounterCoreType.MAKEDEPOSIT);
-			if (invoiceByNum == null) {
+			makeDeposit = getTransaction(string, AccounterCoreType.MAKEDEPOSIT,
+					context);
+			if (makeDeposit == null) {
 				addFirstMessage(context, "Select a transction to update.");
 				return "Transaction Detail By Account ," + string;
 			}
-			makeDeposit = invoiceByNum;
 			setValues(context);
 		} else {
 			String string = context.getString();
