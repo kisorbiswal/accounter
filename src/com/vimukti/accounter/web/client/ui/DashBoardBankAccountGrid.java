@@ -23,7 +23,8 @@ public class DashBoardBankAccountGrid extends ListGrid<ClientAccount> {
 		case 0:
 			return obj.getName();
 		case 1:
-			return obj.getCurrentBalance();
+			return DataUtils.amountAsStringWithCurrency(
+					obj.getTotalBalanceInAccountCurrency(), obj.getCurrency());
 		default:
 			break;
 		}
