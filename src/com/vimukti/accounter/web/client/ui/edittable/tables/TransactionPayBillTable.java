@@ -353,7 +353,15 @@ public abstract class TransactionPayBillTable extends
 				@Override
 				protected void setAmount(ClientTransactionPayBill row,
 						Double value) {
+					double previous = row.getPayment();
 					row.setPayment(value);
+					double totalValue = getTotalValue(row);
+					if (DecimalUtil.isGreaterThan(totalValue,
+							row.getAmountDue())) {
+						Accounter.showError(Accounter.messages()
+								.totalPaymentNotExceedDueForSelectedRecords());
+						row.setPayment(previous);
+					}
 					updateValue(row);
 					adjustAmountAndEndingBalance();
 					updateFootervalues(row, canEdit);
@@ -699,9 +707,10 @@ public abstract class TransactionPayBillTable extends
 									.setAppliedCredits(getCreditsAndPaymentsDialiog()
 											.getTotalCreditAmount());
 
-							// selectedObject.setPayment(selectedObject
-							// .getAmountDue()
-							// - selectedObject.getAppliedCredits());
+							selectedObject.setPayment(selectedObject
+									.getAmountDue()
+									- selectedObject.getAppliedCredits()
+									- selectedObject.getCashDiscount());
 
 							// setAttribute("creditsAndPayments",
 							// creditsAndPaymentsDialiog
