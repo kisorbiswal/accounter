@@ -487,7 +487,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 				Iterator it2 = list.iterator();
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
-					if (this.number.equals((String) object2[1])) {
+					if (this.number.equals(object2[1])) {
 						throw new AccounterException(
 								AccounterException.ERROR_NAME_CONFLICT);
 						// "A Customer already exists with this name and number");
@@ -496,7 +496,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_CONFLICT);
 				// "A Customer already exists with this name");
-			} else if (this.number.equals((String) object[1])) {
+			} else if (this.number.equals(object[1])) {
 				Iterator it2 = list.iterator();
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
@@ -526,10 +526,21 @@ public class Customer extends Payee implements IAccounterServerCore,
 
 		w.put(messages.type(), messages.customer()).gap();
 		w.put(messages.no(), this.number);
+
 		w.put(messages.name(), this.name);
-		w.put(messages.currency(), this.currencyFactor).gap().gap();
+		w.put(messages.currency(), this.currencyFactor).gap();
+
 		w.put(messages.paymentMethod(), this.paymentMethod);
 		w.put(messages.memo(), this.memo);
+
+		w.put(messages.priceLevel(), this.priceLevel.getName());
+		w.put(messages.creditRating(), this.creditRating.getName());
+
+		w.put(messages.shippingMethod(), this.shippingMethod.getName());
+		w.put(messages.paymentTerm(), this.paymentTerm.getName());
+
+		w.put(messages.customergroup(), this.customerGroup.getName());
+		w.put(messages.taxGroup(), this.taxGroup.getName());
 
 	}
 

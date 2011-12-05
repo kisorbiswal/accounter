@@ -612,12 +612,33 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 
 		w.put(messages.type(), messages.cashSale()).gap();
 		w.put(messages.no(), this.number);
-		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
-		w.put(messages.currency(), this.currencyFactor).gap().gap();
-		w.put(messages.amount(), this.total).gap().gap();
+
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+		w.put(messages.currency(), this.currencyFactor);
+
+		w.put(messages.amount(), this.total).gap();
 		w.put(messages.paymentMethod(), this.paymentMethod);
-		
-		
+
+		w.put(messages.customer(), this.customer.getName()).gap();
+		w.put(messages.contactName(), this.contact.getName());
+
+		w.put(messages.total(), this.total).gap();
+		w.put(messages.paymentMethod(), this.paymentMethod);
+
+		w.put(messages.billingAddress(), this.billingAddress.toString()).gap();
+		w.put(messages.shippingAddress(), this.shippingAdress.toString());
+
+		w.put(messages.phone(), this.phone).gap();
+		w.put(messages.salesPersonName(), this.salesPerson.getName());
+
+		w.put(messages.depositAccount(), this.depositIn.getName()).gap();
+		w.put(messages.shippingTerm(), this.shippingTerm.getName());
+
+		w.put(messages.shippingMethod(), this.shippingMethod.getName()).gap();
+		w.put(messages.deliveryDate(), this.deliverydate.toString());
+
+		w.put(messages.priceLevel(), this.priceLevel.toString()).gap();
+
 	}
 
 }

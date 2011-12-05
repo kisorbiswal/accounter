@@ -274,7 +274,7 @@ public class CreditCardCharge extends Transaction {
 		} else if (!this.equals(creditCardCharge)) {
 
 			this.cleanTransactionitems(this);
-			
+
 			if ((this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
@@ -319,13 +319,27 @@ public class CreditCardCharge extends Transaction {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
+
 		w.put(messages.type(), messages.creditCardCharge()).gap();
 		w.put(messages.no(), this.number);
-		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
-		w.put(messages.currency(), this.currencyFactor).gap().gap();
+
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+		w.put(messages.currency(), this.currencyFactor);
+
 		w.put(messages.amount(), this.total);
-		
+
+		w.put(messages.vendor(), this.vendor.getName()).gap();
+		w.put(messages.contactName(), this.contact.getName());
+
+		w.put(messages.address(), this.vendorAddress.toString()).gap();
+		w.put(messages.phone(), this.phone);
+
+		w.put(messages.payFrom(), this.payFrom.getName()).gap();
+		w.put(messages.check(), this.checkNumber);
+
+		w.put(messages.deliveryDate(), this.deliveryDate.toString()).gap();
+		w.put(messages.transactionDate(), this.transactionDate.toString());
+
 	}
 
 }

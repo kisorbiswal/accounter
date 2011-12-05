@@ -48,7 +48,14 @@ public class AdjustmentReason extends CreatableObject implements
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.adjustmentreason());
-		w.put(messages.name(), this.name);
+
+		if (this.section != null) {
+			w.put(messages.sectionhash1(), this.section);
+		}
+
+		if (this.name != null) {
+			w.put(messages.name(), this.name);
+		}
 	}
 
 }

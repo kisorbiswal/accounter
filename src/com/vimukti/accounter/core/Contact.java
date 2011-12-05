@@ -170,9 +170,10 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
+
 		AccounterMessages messages = Global.get().messages();
 		w.put(messages.type(), this.title).gap().gap();
-		w.put(messages.name(),this.name).gap().gap();
+		w.put(messages.name(), this.name).gap().gap();
 		w.put(messages.email(), this.email);
 	}
 }

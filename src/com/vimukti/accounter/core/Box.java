@@ -129,12 +129,13 @@ public class Box implements IAccounterServerCore {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), messages.box()).gap();
-		w.put(messages.no(), this.boxNumber);
-		w.put(messages.name(), this.name).gap().gap();
+
+		w.put(messages.type(), messages.box());
+
+		w.put(messages.number(), this.boxNumber).gap();
 		w.put(messages.total(), this.amount);
-		
+
+		w.put(messages.name(), this.name).gap();
 		w.put(messages.details(), this.taxRateCalculations);
 	}
 }

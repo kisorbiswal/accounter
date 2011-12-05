@@ -11,10 +11,12 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  *  This is a type of {@link Payee)  It refers to a real time entity, supplier or vendor, in accounting terms, to whom the company has debt to pay. This has a 'openingBalance' and 'balance' fields to note its corresponding opening balances and present balance. And this balance is recorded as per the balanceAsOf date provided while creation.
@@ -346,7 +348,20 @@ public class Vendor extends Payee {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), messages.vendor());
+
+		w.put(messages.vendor() + " " + messages.number(), this.vendorNumber)
+				.gap();
+		w.put(messages.expenseAccount(), this.expenseAccount.getName());
+
+		w.put(messages.creditLimit(), this.creditLimit).gap();
+		w.put(messages.shippingMethod(), this.shippingMethod.getName());
+
+		w.put(messages.paymentTerm(), this.paymentTerms.getName()).gap();
+		w.put(messages.vendors(), this.vendorGroup.getName());
 
 	}
 }

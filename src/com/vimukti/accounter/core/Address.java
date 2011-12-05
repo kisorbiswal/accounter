@@ -4,7 +4,6 @@ import java.util.LinkedHashMap;
 
 import org.json.JSONException;
 
-import com.sun.accessibility.internal.resources.accessibility;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -239,13 +238,27 @@ public class Address implements IAccounterServerCore {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), messages.address()).gap().gap();
-		w.put(messages.address1(), this.address1).gap().gap();
-		w.put(messages.city(), this.city).gap().gap();
-		w.put(messages.state(), this.stateOrProvinence).gap().gap();
-		w.put(messages.country(), this.countryOrRegion).gap().gap();
-		w.put(messages.zipCode(), this.zipOrPostalCode);
-		
+
+		w.put(messages.type(), messages.address()).gap();
+
+		if (this.address1 != null) {
+			w.put(messages.address1(), this.address1);
+		}
+
+		if (this.city != null) {
+			w.put(messages.city(), this.city).gap();
+		}
+
+		if (this.stateOrProvinence != null) {
+			w.put(messages.state(), this.stateOrProvinence);
+		}
+
+		if (this.countryOrRegion != null) {
+			w.put(messages.country(), this.countryOrRegion).gap();
+		}
+
+		if (this.zipOrPostalCode != null) {
+			w.put(messages.zipCode(), this.zipOrPostalCode);
+		}
 	}
 }
