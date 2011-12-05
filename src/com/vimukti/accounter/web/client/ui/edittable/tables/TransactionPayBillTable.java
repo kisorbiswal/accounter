@@ -1060,7 +1060,7 @@ public abstract class TransactionPayBillTable extends
 			creditsStack.clear();
 		deleteTotalPayment(obj);
 		obj.setPayment(0.0d);
-		obj.setCashDiscount(0.0d);
+		// obj.setCashDiscount(0.0d);
 		obj.setAppliedCredits(0.0d);
 		obj.setTdsAmount(0.00D);
 		update(obj);

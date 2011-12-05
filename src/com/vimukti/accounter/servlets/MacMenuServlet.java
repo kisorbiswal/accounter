@@ -393,7 +393,7 @@ public class MacMenuServlet extends BaseServlet {
 				iGlobal.messages().payeeTransactionHistory(iGlobal.Vendor()),
 				"company/accounter#vendorTransactionHistory");
 		menu(reportsValue,
-				iGlobal.messages().vendorsAndPayables(iGlobal.vendors()),
+				iGlobal.messages().vendorsAndPayables(iGlobal.vendor()),
 				suppliersValue);
 
 		StringBuilder purchasesValue = new StringBuilder();
@@ -516,8 +516,8 @@ public class MacMenuServlet extends BaseServlet {
 	private void addVendorMenuItem() {
 
 		StringBuilder vendorValue = new StringBuilder();
-		menu(vendorValue, iGlobal.messages().payeesHome(iGlobal.vendors()), "S",
-				"company/accounter#vendorHome");
+		menu(vendorValue, iGlobal.messages().payeesHome(iGlobal.vendors()),
+				"S", "company/accounter#vendorHome");
 		separator(vendorValue);
 
 		int items = 0;
@@ -581,8 +581,10 @@ public class MacMenuServlet extends BaseServlet {
 		subMenu(supplierValues, iGlobal.messages().payees(iGlobal.vendors()),
 				"company/accounter#VendorList");
 		if (canSeeInvoiceTransactions()) {
-			subMenu(supplierValues, iGlobal.messages().payees(iGlobal.vendors())
-					+ " " + iGlobal.messages().items(),
+			subMenu(supplierValues, iGlobal.messages()
+					.payees(iGlobal.vendors())
+					+ " "
+					+ iGlobal.messages().items(),
 					"company/accounter#vendorItems");
 			if (preferences.isDoyouKeepTrackofBills()) {
 				subMenu(supplierValues, "Bills And Expenses",
@@ -661,8 +663,9 @@ public class MacMenuServlet extends BaseServlet {
 		}
 
 		StringBuilder customerListValue = new StringBuilder();
-		subMenu(customerListValue, iGlobal.messages()
-				.payees(iGlobal.customers()), "company/accounter#customers");
+		subMenu(customerListValue,
+				iGlobal.messages().payees(iGlobal.customers()),
+				"company/accounter#customers");
 		if (canSeeInvoiceTransactions()) {
 			subMenu(customerListValue,
 					iGlobal.messages().payees(iGlobal.customers()) + " "
@@ -822,8 +825,8 @@ public class MacMenuServlet extends BaseServlet {
 		subMenu(mergeMenuList,
 				iGlobal.messages().mergeCustomers(iGlobal.customers()),
 				"company/accounter#merge_customers");
-		subMenu(mergeMenuList, iGlobal.messages()
-				.mergeVendors(iGlobal.vendors()),
+		subMenu(mergeMenuList,
+				iGlobal.messages().mergeVendors(iGlobal.vendors()),
 				"company/accounter#merge_vendor");
 		subMenu(mergeMenuList, iGlobal.messages().mergeAccounts(),
 				"company/accounter#merge_account");

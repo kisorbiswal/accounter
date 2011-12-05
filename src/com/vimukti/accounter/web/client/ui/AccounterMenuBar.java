@@ -241,7 +241,7 @@ public class AccounterMenuBar extends HorizontalPanel {
 		reportMenuBar.addMenuItem(messages.sales(), getSalesMenu());
 		reportMenuBar.addMenuItem(
 				Global.get().messages()
-						.vendorsAndPayables(Global.get().Vendors()),
+						.vendorsAndPayables(Global.get().Vendor()),
 				getVendorAndPayablesMenu());
 		reportMenuBar.addMenuItem(messages.purchase(), getPurchaseMenu());
 
