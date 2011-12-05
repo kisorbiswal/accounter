@@ -62,7 +62,6 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
-import com.vimukti.accounter.web.client.ui.MakeDepositView;
 import com.vimukti.accounter.web.client.ui.TransactionHistoryTable;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
@@ -98,7 +97,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	@Override
 	public ClientCurrency getTransactionCurrency() {
-		return this.currency;
+		return this.currency != null ? this.currency : getCompany()
+				.getPrimaryCurrency();
 	}
 
 	protected T transaction;
