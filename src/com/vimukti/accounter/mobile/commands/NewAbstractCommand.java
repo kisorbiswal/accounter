@@ -3,10 +3,13 @@ package com.vimukti.accounter.mobile.commands;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Vendor;
@@ -14,6 +17,7 @@ import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IGlobal;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -212,5 +216,24 @@ public abstract class NewAbstractCommand extends NewCommand {
 				.getNamedQuery("getVendorsOrderByName")
 				.setParameter("company", getCompany()).list();
 		return new ArrayList<Vendor>(customers);
+	}
+
+	public long autoGenerateAccountnumber(int range1, int range2,
+			Company company) {
+		// TODO::: add a filter to filter the accounts based on the account type
+		Set<Account> accounts = company.getAccounts();
+		Long number = null;
+		if (number == null) {
+			number = (long) range1;
+			for (Account account : accounts) {
+				while (number.toString().equals(account.getNumber())) {
+					number++;
+					if (number >= range2) {
+						number = (long) range1;
+					}
+				}
+			}
+		}
+		return number;
 	}
 }
