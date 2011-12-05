@@ -15,6 +15,7 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 		serverreport = new BudgetOverviewServerReport(this);
 		this.serverReport = serverreport;
 		this.serverReport.setIshowGridFooter(true);
+		this.addStyleName("budget_overview");
 	}
 
 	@Override
@@ -27,13 +28,13 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 
 	@Override
 	public int getToolbarType() {
-			return TOOLBAR_TYPE_BUDGET;
+		return TOOLBAR_TYPE_BUDGET;
 	}
 
 	@Override
 	public void makeReportRequest(long id, ClientFinanceDate start,
 			ClientFinanceDate end) {
-		
+
 		budgetId = id;
 		Accounter.createReportService().getBudgetItemsList(id, this);
 	}
@@ -45,12 +46,12 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 
 	@Override
 	public void print() {
-			//UIUtils.generateBudgetReportPDF(154, BUDGET_TYPE_CUSTOM);
-			
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(new ClientFinanceDate().getDate())),
-					Integer.parseInt(String.valueOf(new ClientFinanceDate().getDate())), 154, "",
-					"", budgetId);
+		// UIUtils.generateBudgetReportPDF(154, BUDGET_TYPE_CUSTOM);
+
+		UIUtils.generateReportPDF(Integer.parseInt(String
+				.valueOf(new ClientFinanceDate().getDate())), Integer
+				.parseInt(String.valueOf(new ClientFinanceDate().getDate())),
+				154, "", "", budgetId);
 
 	}
 
@@ -66,7 +67,5 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 		// TODO Auto-generated method stub
 
 	}
-
-
 
 }
