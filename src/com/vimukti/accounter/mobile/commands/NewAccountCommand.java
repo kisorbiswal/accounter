@@ -218,7 +218,8 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(ACCOUNT_NUMBER).setDefaultValue("1");
+		get(ACCOUNT_NUMBER).setDefaultValue(
+				autoGenerateAccountnumber(1100, 1179, context.getCompany()));
 		get(ACCOUNT_TYPE).setDefaultValue("Income");
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(CONSIDER_AS_CASH_ACCOUNT).setDefaultValue(Boolean.TRUE);
