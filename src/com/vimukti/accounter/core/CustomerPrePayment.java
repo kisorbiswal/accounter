@@ -328,8 +328,6 @@ public class CustomerPrePayment extends Transaction {
 		w.put(messages.paymentMethod(), this.paymentMethod);
 		w.put(messages.memo(), this.memo);
 
-		w.put(messages.details(), this.transactionCreditsAndPayments);
-
 	}
 
 }
