@@ -687,8 +687,7 @@ public class CustomerPrePaymentView extends
 
 				int errorCode = caught.getErrorCode();
 
-				Accounter.showError(AccounterExceptions
-						.getErrorString(errorCode));
+				Accounter.showError(caught.getMessage());
 
 			}
 

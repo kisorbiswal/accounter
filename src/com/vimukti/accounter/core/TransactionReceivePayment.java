@@ -378,18 +378,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		if (this.invoice != null) {
 			// Update the Payments and the balance due of the corresponding
 			// Invoice
-			this.invoice.updateBalance(session, amount, this);
-
-			// To Decide whether this Invoice is Not paid, Partially paid or
-			// Paid
-
-			if (DecimalUtil.isGreaterThan(this.invoice.getBalanceDue(), 0D)
-					&& DecimalUtil.isLessThan(this.invoice.getBalanceDue(),
-							this.invoice.getTotal())) {
-				this.invoice.status = Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED;
-			} else if (DecimalUtil.isEquals(this.invoice.getBalanceDue(), 0D)) {
-				this.invoice.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-			}
+			this.invoice.updateBalance(amount, this.receivePayment);
 
 		} else if (this.customerRefund != null) {
 			// Update the Payments and the balance due of the corresponding
@@ -449,7 +438,6 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 				this.writeOffAccount.onUpdate(session);
 			}
 
-		
 			session.saveOrUpdate(this.getReceivePayment().getCustomer());
 
 			double amount = (getCashDiscount()) + (getWriteOff())
@@ -471,7 +459,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			// this.payment = 0.0;
 
 			if (this.getInvoice() != null) {
-				this.getInvoice().updatePaymentsAndBalanceDue(amount);
+				this.getInvoice().updateBalance(-amount, this.receivePayment);
 				session.saveOrUpdate(this.getInvoice());
 				this.invoice = null;
 			} else if (this.getCustomerRefund() != null) {
@@ -507,11 +495,11 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		this.setAppliedCredits(0.0);
 	}
 
-	public void updateAppliedCredits(double amount) {
+	public void updateAppliedCredits(double amount, Transaction transaction) {
 
 		this.appliedCredits -= amount;
 		if (this.invoice != null) {
-			this.invoice.updatePaymentsAndBalanceDue(amount);
+			this.invoice.updateBalance(amount, transaction);
 		} else if (this.customerRefund != null) {
 			this.customerRefund.updatePaymentsAndBalanceDue(amount);
 		} else if (this.journalEntry != null) {
@@ -645,6 +633,6 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

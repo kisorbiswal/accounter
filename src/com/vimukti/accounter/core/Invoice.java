@@ -813,15 +813,7 @@ public class Invoice extends Transaction implements Lifecycle {
 		return customer;
 	}
 
-	/**
-	 * Amount should be in Transaction Currency
-	 * 
-	 * @param amountInTransactionCurrency
-	 */
-	public void updatePaymentsAndBalanceDue(double amountInTransactionCurrency) {
-		this.payments -= amountInTransactionCurrency;
-		this.balanceDue += amountInTransactionCurrency;
-
+	public void updateStatus() {
 		if (DecimalUtil.isGreaterThan(this.balanceDue, 0.0)
 				&& DecimalUtil.isLessThan(this.balanceDue, this.total)) {
 			this.status = Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED;
@@ -1088,9 +1080,9 @@ public class Invoice extends Transaction implements Lifecycle {
 		this.estimates = estimates;
 	}
 
-	public void updateBalance(Session session, double amount,
-			TransactionReceivePayment trp) {
-		double currencyFactor = trp.receivePayment.getCurrencyFactor();
+	public void updateBalance(double amount, Transaction transaction) {
+		Session session = HibernateUtil.getCurrentSession();
+		double currencyFactor = transaction.getCurrencyFactor();
 
 		double amountToUpdate = amount * this.currencyFactor;
 
@@ -1102,12 +1094,11 @@ public class Invoice extends Transaction implements Lifecycle {
 
 		Account exchangeLossOrGainAccount = getCompany()
 				.getExchangeLossOrGainAccount();
-		exchangeLossOrGainAccount.updateCurrentBalance(trp.receivePayment,
-				-diff, 1);
+		exchangeLossOrGainAccount.updateCurrentBalance(transaction, -diff, 1);
 
-		Customer customer = trp.getReceivePayment().getCustomer();
-		customer.updateBalance(session, trp.receivePayment, diff, false);
-
+		customer.updateBalance(session, transaction, diff / currencyFactor,
+				false);
+		updateStatus();
 	}
 
 	@Override

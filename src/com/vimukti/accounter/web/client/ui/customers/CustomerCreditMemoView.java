@@ -798,8 +798,7 @@ public class CustomerCreditMemoView extends
 			@Override
 			public void onException(AccounterException caught) {
 				int errorCode = caught.getErrorCode();
-				Accounter.showError(AccounterExceptions
-						.getErrorString(errorCode));
+				Accounter.showError(caught.getMessage());
 			}
 
 			@Override

@@ -308,7 +308,7 @@ public class ReceiveVATView extends
 	private void initListGrid() {
 
 		gridLayout = new VerticalPanel();
-		grid = new TransactionReceiveVATGrid(!isInViewMode(), true);
+		grid = new TransactionReceiveVATGrid(true, true);
 		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;
 		grid.init();
@@ -687,7 +687,9 @@ public class ReceiveVATView extends
 		billsDue.setDisabled(isInViewMode());
 		// vatAgencyCombo.setDisabled(isInViewMode());
 		depositInAccCombo.setDisabled(isInViewMode());
-		grid.setDisabled(isInViewMode());
+		grid.isEnable = true;
+		grid.setDisabled(false);
+		grid.setCanEdit(true);
 		super.onEdit();
 
 		fillGrid();

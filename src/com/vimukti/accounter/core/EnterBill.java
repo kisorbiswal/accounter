@@ -476,6 +476,10 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	public void updatePaymentsAndBalanceDue(double amount) {
 		this.payments -= amount;
 		this.balanceDue += amount;
+
+	}
+
+	public void updateStatus() {
 		if (DecimalUtil.isGreaterThan(this.balanceDue, 0)
 				&& DecimalUtil.isLessThan(this.balanceDue, this.total)) {
 
@@ -486,7 +490,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 			this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 		}
-
 	}
 
 	/*
@@ -1085,9 +1088,9 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		this.estimates = estimates;
 	}
 
-	public void updateBalance(Session session, double amount,
-			TransactionPayBill tpb) {
-		double currencyFactor = tpb.payBill.getCurrencyFactor();
+	public void updateBalance(double amount, Transaction transaction) {
+		Session session = HibernateUtil.getCurrentSession();
+		double currencyFactor = transaction.getCurrencyFactor();
 
 		double amountToUpdate = amount * this.currencyFactor;
 
@@ -1099,15 +1102,15 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 		Account exchangeLossOrGainAccount = getCompany()
 				.getExchangeLossOrGainAccount();
-		exchangeLossOrGainAccount.updateCurrentBalance(tpb.payBill, -diff, 1);
+		exchangeLossOrGainAccount.updateCurrentBalance(transaction, -diff, 1);
 
-		Vendor vendor = tpb.payBill.getVendor();
-		vendor.updateBalance(session, tpb.payBill, diff, false);
+		vendor.updateBalance(session, transaction, diff / currencyFactor, false);
+		updateStatus();
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-      AccounterMessages messages = Global.get().messages();
+		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.enterBill()).gap();
 		w.put(messages.no(), this.number);
@@ -1116,7 +1119,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		w.put(messages.amount(), this.total).gap().gap();
 		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
 		w.put(messages.memo(), this.memo).gap().gap();
-		
+
 		w.put(messages.details(), this.transactionItems);
 	}
 }

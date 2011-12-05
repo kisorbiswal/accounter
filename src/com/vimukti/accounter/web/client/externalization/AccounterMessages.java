@@ -4690,5 +4690,7 @@ public interface AccounterMessages extends Messages {
 
 	public String doNottrackingLocation();
 
+	public String editingCreditsFailed();
+
 	public String pleaseEnterAmountToReceive();
 }

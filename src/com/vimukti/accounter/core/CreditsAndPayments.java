@@ -377,13 +377,13 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 						.isLessThan(presentCreditAmount, tcp.amountToUse)) {
 
 					if (tcp.transactionPayBill != null)
-						tcp.transactionPayBill
-								.updateAppliedCredits(tcp.amountToUse
-										- presentCreditAmount);
+						tcp.transactionPayBill.updateAppliedCredits(
+								tcp.amountToUse - presentCreditAmount,
+								this.transaction);
 					if (tcp.transactionReceivePayment != null)
-						tcp.transactionReceivePayment
-								.updateAppliedCredits(tcp.amountToUse
-										- presentCreditAmount);
+						tcp.transactionReceivePayment.updateAppliedCredits(
+								tcp.amountToUse - presentCreditAmount,
+								this.transaction);
 
 					tcp.setAmountToUse(presentCreditAmount);
 
@@ -439,7 +439,11 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// TODO Auto-generated method stub
+		if (transactionCreditsAndPayments != null
+				&& !transactionCreditsAndPayments.isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_CANT_EDIT,
+					Global.get().messages().editingCreditsFailed());
+		}
 		return true;
 	}
 

@@ -1121,10 +1121,11 @@ public abstract class Transaction extends CreatableObject implements
 				if (DecimalUtil.isGreaterThan(tcp.getAmountToUse(), 0)) {
 					if (tcp.getTransactionReceivePayment() != null) {
 						tcp.getTransactionReceivePayment()
-								.updateAppliedCredits(tcp.getAmountToUse());
+								.updateAppliedCredits(tcp.getAmountToUse(),
+										this);
 					} else if (tcp.getTransactionPayBill() != null) {
 						tcp.getTransactionPayBill().updateAppliedCredits(
-								tcp.getAmountToUse());
+								tcp.getAmountToUse(), this);
 					}
 					tcp.setAmountToUse(0.0);
 				}
@@ -1180,7 +1181,9 @@ public abstract class Transaction extends CreatableObject implements
 		// AccounterException.ERROR_NO_SUCH_OBJECT);
 		// // "This Transaction  is already voided or Deleted, can't Modify");
 		// }
-
+		if (creditsAndPayments != null) {
+			creditsAndPayments.canEdit(clientObject);
+		}
 		Transaction transaction = (Transaction) clientObject;
 		checkForReconciliation(transaction);
 		checkNullValues();

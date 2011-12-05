@@ -338,19 +338,7 @@ public class TransactionPayBill extends CreatableObject implements
 				setCompany(enterBill.getCompany());
 				// Update the Payments and the balance due of the corresponding
 				// enterBill
-				this.enterBill.updateBalance(session, amount, this);
-
-				if (DecimalUtil.isGreaterThan(this.enterBill.getBalanceDue(),
-						0D)
-						&& DecimalUtil.isLessThan(
-								this.enterBill.getBalanceDue(),
-								this.enterBill.getTotal())) {
-					this.enterBill.status = Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED;
-				} else if (DecimalUtil.isEquals(this.enterBill.getBalanceDue(),
-						0D)) {
-					this.enterBill.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-				}
-				// To Decide whether this Invoice is Not paid, Partially paid or
+				this.enterBill.updateBalance(amount, this.payBill);
 
 			} else if (this.transactionMakeDeposit != null) {
 				// Update the Payments and the balance due of the corresponding
@@ -408,7 +396,7 @@ public class TransactionPayBill extends CreatableObject implements
 			// this.payment = 0.0;
 			if (this.enterBill != null) {
 
-				this.enterBill.updatePaymentsAndBalanceDue(amount);
+				this.enterBill.updateBalance(-amount, this.payBill);
 				session.saveOrUpdate(this.enterBill);
 				this.enterBill = null;
 
@@ -456,12 +444,12 @@ public class TransactionPayBill extends CreatableObject implements
 	 * 
 	 * @param amount
 	 */
-	public void updateAppliedCredits(double amount) {
+	public void updateAppliedCredits(double amount, Transaction transaction) {
 
 		this.appliedCredits -= amount;
 
 		if (this.enterBill != null) {
-			this.enterBill.updatePaymentsAndBalanceDue(amount);
+			this.enterBill.updateBalance(amount, transaction);
 		} else if (this.transactionMakeDeposit != null) {
 			this.transactionMakeDeposit.updatePaymentsAndBalanceDue(amount);
 		} else if (this.journalEntry != null) {
@@ -660,7 +648,7 @@ public class TransactionPayBill extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

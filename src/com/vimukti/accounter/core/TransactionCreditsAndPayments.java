@@ -249,11 +249,12 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 	 */
 	public void updateAmountToUse() {
 		if (this.transactionPayBill != null) {
-			this.transactionPayBill.updateAppliedCredits(this.amountToUse);
+			this.transactionPayBill.updateAppliedCredits(this.amountToUse,
+					this.creditsAndPayments.getTransaction());
 			this.amountToUse = 0.0;
 		} else if (this.transactionReceivePayment != null) {
-			this.transactionReceivePayment
-					.updateAppliedCredits(this.amountToUse);
+			this.transactionReceivePayment.updateAppliedCredits(
+					this.amountToUse, this.creditsAndPayments.getTransaction());
 			this.amountToUse = 0.0;
 		}
 		this.creditsAndPayments = null;
@@ -298,12 +299,12 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
