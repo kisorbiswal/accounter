@@ -958,8 +958,11 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		// Setting Balance
 		data.setOpeningBalance(openingBalText.getAmount());
-
-		data.setBalance(balanceText.getAmount());
+		if (data.getID() == 0) {
+			data.setBalance(openingBalText.getAmount());
+		} else {
+			data.setBalance(balanceText.getAmount());
+		}
 
 		// Setting Balance As of
 		if (balanceDate.getEnteredDate() != null)
@@ -1389,7 +1392,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		openingBalText.setDisabled(isInViewMode());
 		balanceDate.setDisabled(isInViewMode());
 		expenseAccountsSelect.setDisabled(isInViewMode());
-		currencyWidget.setDisabled(!isInViewMode(),isInViewMode());
+		currencyWidget.setDisabled(!isInViewMode(), isInViewMode());
 		// if (!selectCurrency.equals(getCompany().getPreferences()
 		// .getPrimaryCurrency())) {
 		// currencyWidget.disabledFactorField(false);
@@ -1450,7 +1453,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		widget.setDisabled(isInViewMode());
 		return widget;
 	}
-
 
 	@Override
 	protected boolean canVoid() {

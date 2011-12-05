@@ -1163,6 +1163,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (data.isAllowCurrencyChange() && selectCurrency != null) {
 			data.setCurrency(selectCurrency.getID());
 		}
+
+		if (data.getID() == 0) {
+			data.setCurrentBalance(data.getOpeningBalance());
+		}
 	}
 
 	@Override
@@ -1600,7 +1604,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accTypeSelect.setDisabled(isInViewMode());
 
 		// if (currencyCombo != null && data.isAllowCurrencyChange()) {
-		currencyCombo.setDisabled(!isInViewMode(),isInViewMode());
+		currencyCombo.setDisabled(!isInViewMode(), isInViewMode());
 		// if (!selectCurrency.equals(getCompany().getPreferences()
 		// .getPrimaryCurrency())) {
 		// currencyCombo.disabledFactorField(false);
