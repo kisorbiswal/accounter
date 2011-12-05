@@ -1189,7 +1189,7 @@ public class ActionFactory {
 
 	public static VendorsListAction getVendorsAction() {
 		return new VendorsListAction(Global.get().messages()
-				.payees(Global.get().Vendor()));
+				.payees(Global.get().Vendors()));
 	}
 
 	// public static Item getItemAction() {
