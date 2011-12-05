@@ -962,7 +962,7 @@ public class VendorManager extends Manager {
 							long differenceBetween = UIUtils.getDays_between(
 									transactionDate.getDateAsObject(),
 									paymentDate.getAsDateObject());
-							if (differenceBetween > 0
+							if (differenceBetween >= 0
 									&& differenceBetween <= ifPaidWithin) {
 								discPerc = discount;
 							} else {
