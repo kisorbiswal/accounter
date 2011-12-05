@@ -334,7 +334,7 @@ table tr.gridHeaderRow td {
    vertical-align:top;
 }
 .xero_invoice_table tr{
-   border-bottom:1px solid ;
+   border-bottom:1px solid #000;
 }
 .due_xerodate{
    clear:both;
@@ -347,12 +347,12 @@ table tr.gridHeaderRow td {
    margin-top:20px;
 }
 .zoho_subtotal_table,.credit_zoho_total{
-    border: 1px solid;
+    border: 1px solid #000;
     float: right;
     margin-top: 25px;
 }
 .memo-text{
-    border-right: 1px solid;
+    border-right: 1px solid #000;
     text-align: center;
 }
 .xero_credit_memo{
@@ -367,7 +367,7 @@ table tr.gridHeaderRow td {
 .xero_credit_total,.xero_sub_total {
    margin-top:20px;
    float:right;
-   border:1px solid;
+   border:1px solid #000;
 }
 .xero_credit_total td,.xero_sub_total td{
    padding: 10px 50px;
@@ -424,8 +424,13 @@ table tr.gridHeaderRow td {
 	margin:10px 20px 20px;
 }
  .invoice_details_table tr,.invoice_details_table td,.invoice_details_table,.removeHeadBorder,.removeHeadBorder tr,.removeHeadBorder td,
-#items,#items tr,#items td,#billto,#billto tr,#billto td,#shippingAddressTable,#shippingAddressTable tr,#shippingAddressTable td,#permethterms,#permethterms tr,#permethterms td,
-#termsconditions,#termsconditions tr,#termsconditions td{
-border:1px solid #000;
+#items,#items th,#items tr,#items td,#billto,#billto tr,#billto td,#shippingAddressTable,#shippingAddressTable tr,#shippingAddressTable td,#permethterms,#permethterms tr,#permethterms td,
+#termsconditions,#termsconditions tr,#termsconditions td,.invoice_details_quicktable ,.invoice_details_quicktable tr,.invoice_details_quicktable td,
+.quick_total_table,.quick_total_table tr,.quick_total_table td,.invoice_zoho_table,.invoice_zoho_table tr,.invoice_zoho_table td,.xero_invoice_table,.xero_invoice_table tr,
+.xero_invoice_table td,.xero_invoice_table th{
+border:1px solid #000 !important;
+}
+.invoice_zoho_table{
+  width:500px;
 }
 
