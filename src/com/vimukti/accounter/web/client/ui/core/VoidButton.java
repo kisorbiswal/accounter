@@ -19,7 +19,7 @@ public class VoidButton extends ImageButton {
 	 * Creates new Instance
 	 */
 	public VoidButton(AbstractBaseView<?> view, IAccounterCore obj) {
-		super(Accounter.messages().voided(), Accounter.getFinanceImages()
+		super(Accounter.messages().void1(), Accounter.getFinanceImages()
 				.voided());
 		this.view = view;
 		this.obj = obj;
