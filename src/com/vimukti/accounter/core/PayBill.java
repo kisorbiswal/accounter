@@ -865,7 +865,10 @@ public class PayBill extends Transaction {
 		w.put(messages.amount(), this.total).gap().gap();
 		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
 		w.put(messages.memo(), this.memo).gap().gap();
-		
-		w.put(messages.details(), this.transactionPayBill);
+
+		// If it is vendor pre-payment this will be null.
+		if (this.transactionPayBill != null) {
+			w.put(messages.details(), this.transactionPayBill);
+		}
 	}
 }
