@@ -209,10 +209,8 @@ public class CustomerPrePaymentView extends
 			if (billingAddress != null)
 				billToaddressSelected(billingAddress);
 			amountText.setDisabled(true);
-			amountText.setAmount(transaction
-					.getTotal());
-			customerBalText.setAmount(customer
-					.getBalance());
+			amountText.setAmount(transaction.getTotal());
+			customerBalText.setAmount(customer.getBalance());
 			// bankBalText.setAmount(getAmountInTransactionCurrency(transaction.g));
 			paymentMethodSelected(transaction.getPaymentMethod());
 			this.depositInAccount = comapny.getAccount(transaction
@@ -259,8 +257,9 @@ public class CustomerPrePaymentView extends
 	}
 
 	private void initCustomers() {
-		// TODO Auto-generated method stub
-
+		List<ClientCustomer> result = getCompany().getActiveCustomers();
+		customerCombo.initCombo(result);
+		customerCombo.setDisabled(isInViewMode());
 	}
 
 	@Override
@@ -601,8 +600,7 @@ public class CustomerPrePaymentView extends
 					if (DecimalUtil.isLessThan(amount, 0)) {
 						Accounter.showError(Accounter.messages()
 								.noNegativeAmounts());
-						amountText
-								.setAmount(0.00D);
+						amountText.setAmount(0.00D);
 
 					}
 
@@ -610,8 +608,7 @@ public class CustomerPrePaymentView extends
 							.setAmount(DataUtils.isValidAmount(amount + "") ? amount
 									: 0.0);
 
-					adjustBalance(amountText
-							.getAmount());
+					adjustBalance(amountText.getAmount());
 
 				} catch (Exception e) {
 					if (e instanceof InvalidEntryException) {
@@ -749,11 +746,9 @@ public class CustomerPrePaymentView extends
 	@Override
 	public void updateNonEditableItems() {
 		if (bankBalText != null)
-			this.bankBalText
-					.setAmount(toBeSetEndingBalance);
+			this.bankBalText.setAmount(toBeSetEndingBalance);
 		if (customerBalText != null)
-			this.customerBalText
-					.setAmount(toBeSetCustomerBalance);
+			this.customerBalText.setAmount(toBeSetCustomerBalance);
 	}
 
 	@Override
