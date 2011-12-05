@@ -27,7 +27,7 @@
 			    <tr>
 				  <!-- $BeginBlock billhead -->
 	   <td style="vertical-align: top;" align="left">
-	     <table border="1"  id="billto" class="billto_quick" style="width:400px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
+	     <table  id="billto" class="billto_quick" style="width:400px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
 		
           <tr>
 			<td class="table-head"><p class="fontSetting"><center>${i18_Bill_To}</center></p></td>
@@ -44,7 +44,7 @@
 		</td>
 	   <!-- $EndBlock billhead -->
 				  <td width="40%">
-				     <table width="100%" class="invoice_details_quicktable" border="1"  style="font-family:${fontStyle};font-size:${font};">
+				     <table width="100%" class="invoice_details_quicktable"   style="font-family:${fontStyle};font-size:${font};">
 					   <colgroup><col></colgroup>
 						<!-- $BeginBlock invNumberHead -->
 						<tr>
@@ -113,7 +113,7 @@
       
 	   <td style="vertical-align: top;" align="right">
 		<!-- $BeginBlock shiphead -->
-		 <table  id = "shippingAddressTable" border="1" class="gridHeader" style="width:300px;font-family:${fontStyle};font-size:${font};"> 
+		 <table  id = "shippingAddressTable"  class="gridHeader" style="width:300px;font-family:${fontStyle};font-size:${font};"> 
 		    <colgroup><col></colgroup>
 			<tr>
 			  <td class="gridHeaderBackGround" ><center class="fontSetting">${i18_Ship_To}</center></td>
@@ -129,7 +129,7 @@
 		 </tr>
  </table>
    <!-- $BeginBlock salesNShipping -->
-  <table width="100%" border="1" id="permethterms" style="font-family:${fontStyle};font-size:${font};">
+  <table width="100%"  id="permethterms" style="font-family:${fontStyle};font-size:${font};">
 		 <tr>
 		 <table>
 		 <tr>
@@ -166,7 +166,7 @@
 		 </tr>
  </table>
    <!-- $EndBlock salesNShipping -->
-<table border="1" width="100%"  class="removeHeadBorder quick_invoice_header margin" id="items" style="clear:both;font-family:${fontStyle};font-size:${font};clear:both">
+<table  width="100%"  class="removeHeadBorder quick_invoice_header margin" id="items" style="clear:both;font-family:${fontStyle};font-size:${font};clear:both">
 <!-- $BeginBlock  itemDetails -->
 <thead>
   <tr class="table-head"><!-- $BeginBlock showLabels -->
@@ -220,7 +220,7 @@
   </tr><!-- $EndBlock invoiceRecord -->
   </tbody>
   </table>
-  <table border="1" width="50%" class="quick_total_table margin" style="float:right" >
+  <table  width="50%" class="quick_total_table margin" style="float:right" >
   <tr>
 	<td class="blank" colspan="4" rowspan="5" width="50%">
 	  <p class="fontSetting">${blankText}</p>
@@ -266,7 +266,7 @@
 <!-- $EndBlock itemDetails -->
 </table>
 <!-- $BeginBlock termsNpaypalId -->
-<table border="1" width="100%" class="due_date" style="clear:both;font-family:${fontStyle};font-size:${font};">
+<table width="100%" class="due_date" style="clear:both;font-family:${fontStyle};font-size:${font};">
 	<!-- $BeginBlock termsAndAdvice -->
 	 <tr>
      <td ><strong>${termsAndPaymentAdvice}</strong></td>
@@ -279,7 +279,7 @@
     <!-- $EndBlock paypalemail -->
 </table>
 <!-- $EndBlock termsNpaypalId -->
-<table width="100%" id="vat_sort_bankaccount" border="1" style="font-family:${fontStyle};font-size:${font};">
+<table width="100%" id="vat_sort_bankaccount"  style="font-family:${fontStyle};font-size:${font};">
    <colgroup><col></colgroup>
 			<tr>
 				<!-- $BeginBlock vat --><td><center>${vatNum}</center></td><!-- $EndBlock vat -->
