@@ -260,7 +260,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	/**
 	 * Used in OpeningBalance Only
 	 */
-	private double currencyFactor;
+	private double currencyFactor = 1;
 
 	private double totalBalanceInAccountCurrency;
 
@@ -268,7 +268,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	transient private FinanceDate previousAsOfDate;
 
-	transient private double previousCurrencyFactor;
+	transient private double previousCurrencyFactor = 1;
 
 	transient private double previousOpeningBalance;
 
@@ -1153,19 +1153,17 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			JournalEntry existEntry = (JournalEntry) session
 					.getNamedQuery("getJournalEntryForAccount")
 					.setLong("id", this.id).uniqueResult();
-			if (existEntry == null) {
-				JournalEntry journalEntry = createJournalEntry(this, null);
-				session.save(journalEntry);
-			} else {
-				session = HibernateUtil.getCurrentSession();
+			String number = null;
+			if (existEntry != null) {
+				number = existEntry.getNumber();
 				session.delete(existEntry);
-				if (!DecimalUtil.isEquals(this.openingBalance, 0)) {
-					JournalEntry journalEntry = createJournalEntry(this,
-							existEntry.getNumber());
-					session.save(journalEntry);
-				}
-
 			}
+
+			if (!DecimalUtil.isEquals(this.openingBalance, 0)) {
+				JournalEntry journalEntry = createJournalEntry(this, number);
+				session.save(journalEntry);
+			}
+
 			isOpeningBalanceEditable = temp;
 		}
 
@@ -1391,13 +1389,12 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	}
 
 	public boolean isOpenBalanceFieldsChanged() {
-		if(!isOpeningBalanceEditable){
+		if (!isOpeningBalanceEditable) {
 			return false;
 		}
 		if (!DecimalUtil.isEquals(openingBalance, previousOpeningBalance)
 				|| !DecimalUtil
 						.isEquals(currencyFactor, previousCurrencyFactor)
-
 				|| (previousAsOfDate != null && !asOf.equals(previousAsOfDate))) {
 			return true;
 		}

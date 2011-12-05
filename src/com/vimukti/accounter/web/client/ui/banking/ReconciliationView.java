@@ -188,6 +188,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	}
 
 	private void updateData(ClientReconciliation reconciliation) {
+		clearedTransactions.clear();
 		bankaccountLabel.setValue(reconciliation.getAccount().getName());
 		closebalanceLable.setAmount(reconciliation.getClosingBalance());
 		startdateLable.setValue(DateUtills.getDateAsString(reconciliation

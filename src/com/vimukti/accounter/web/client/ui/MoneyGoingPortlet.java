@@ -33,6 +33,7 @@ public class MoneyGoingPortlet extends Portlet {
 	public Label overDueLabel;
 	public Label draftAmtLabel;
 	public Label overDueAmtLabel;
+	private boolean isCreatingBody;
 
 	public MoneyGoingPortlet(ClientPortletConfiguration pc) {
 		super(pc, messages.moneyGoingOut(), messages.goToAccountsPayable());
@@ -50,6 +51,10 @@ public class MoneyGoingPortlet extends Portlet {
 
 	@Override
 	public void createBody() {
+		if (isCreatingBody) {
+			return;
+		}
+		isCreatingBody = true;
 		updateCreditorsAccount();
 
 		HorizontalPanel hPanel = new HorizontalPanel();
@@ -97,6 +102,7 @@ public class MoneyGoingPortlet extends Portlet {
 
 			@Override
 			public void onException(AccounterException caught) {
+				isCreatingBody = false;
 				Accounter.showError(messages
 						.failedtogetmoneygoingportletvalues());
 			}
@@ -122,6 +128,7 @@ public class MoneyGoingPortlet extends Portlet {
 					public void run() {
 						GraphChart chart = new GraphChart();
 						body.add(chart.createAccountPayableChart(result));
+						isCreatingBody = false;
 					}
 				};
 				VisualizationUtils.loadVisualizationApi(runnable,

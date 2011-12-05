@@ -10,6 +10,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -52,7 +53,7 @@ public class JournalEntry extends Transaction {
 	 */
 
 	Payee involvedPayee;
-	
+
 	Account involvedAccount;
 
 	// @ReffereredObject
@@ -229,6 +230,26 @@ public class JournalEntry extends Transaction {
 	public void onEdit(Transaction clonedObject) {
 
 		super.onEdit(clonedObject);
+		if (isBecameVoid()) {
+			doReverseEffect(HibernateUtil.getCurrentSession());
+		}
+
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		doReverseEffect(session);
+		return super.onDelete(session);
+	}
+
+	private void doReverseEffect(Session session) {
+		if (this.involvedPayee != null) {
+			involvedPayee.clearOpeningBalance();
+			session.save(involvedPayee);
+		} else if (this.involvedAccount != null) {
+			involvedAccount.setOpeningBalance(0.00D);
+		}
+
 	}
 
 	@Override
@@ -271,18 +292,18 @@ public class JournalEntry extends Transaction {
 		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
 		w.put(messages.currency(), this.currencyFactor).gap().gap();
 		w.put(messages.memo(), this.memo);
-		
+
 		w.put(messages.details(), this.transactionPayBills);
 		w.put(messages.details(), this.transactionReceivePayments);
-		
+
 	}
-	
+
 	public Account getInvolvedAccount() {
 		return involvedAccount;
 	}
-	
-	public void setInvolvedAccount(Account involvedAccount){
+
+	public void setInvolvedAccount(Account involvedAccount) {
 		this.involvedAccount = involvedAccount;
 	}
-		
+
 }

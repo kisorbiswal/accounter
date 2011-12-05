@@ -36,6 +36,7 @@ public class MoneyComingPortlet extends Portlet {
 	public Label overDueLabel;
 	public Label draftAmtLabel;
 	public Label overDueAmtLabel;
+	private boolean isCreatingBody;
 
 	public MoneyComingPortlet(ClientPortletConfiguration pc) {
 		super(pc, messages.moneyComingIn(), messages.goToAccountReceivable());
@@ -53,6 +54,11 @@ public class MoneyComingPortlet extends Portlet {
 
 	@Override
 	public void createBody() {
+		if (isCreatingBody) {
+			return;
+		}
+
+		this.isCreatingBody = true;
 		updateDebitorsAccount();
 
 		HorizontalPanel hPanel = new HorizontalPanel();
@@ -109,6 +115,7 @@ public class MoneyComingPortlet extends Portlet {
 
 			@Override
 			public void onException(AccounterException caught) {
+				isCreatingBody = false;
 				Accounter.showError(messages
 						.failedtogetAccountReceivablechartvalues());
 			}
@@ -134,6 +141,7 @@ public class MoneyComingPortlet extends Portlet {
 					public void run() {
 						GraphChart chart = new GraphChart();
 						body.add(chart.createAccountReceivableChart(result));
+						isCreatingBody = false;
 					}
 				};
 				VisualizationUtils.loadVisualizationApi(runnable,

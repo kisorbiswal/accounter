@@ -47,8 +47,7 @@ public class DashBoardBankAccountGrid extends ListGrid<ClientAccount> {
 
 	@Override
 	protected void onClick(ClientAccount obj, int row, int index) {
-		ActionFactory.getNewBankAccountAction().run((ClientBankAccount) obj,
-				false);
+		ActionFactory.getAccountRegisterAction().run(obj, false);
 	}
 
 	@Override

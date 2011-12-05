@@ -602,4 +602,9 @@ public abstract class Payee extends CreatableObject implements
 		this.previousOpeningBal = openingBalance;
 		this.previousCurrencyFactor = currencyFactor;
 	}
+
+	public void clearOpeningBalance() {
+		balance -= openingBalance;
+		openingBalance = 0.00D;
+	}
 }
