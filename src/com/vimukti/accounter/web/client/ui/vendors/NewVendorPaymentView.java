@@ -551,6 +551,9 @@ public class NewVendorPaymentView extends
 		adjustBalance();
 		currencyWidget.setSelectedCurrencyFactorInWidget(clientCurrency,
 				transactionDateItem.getValue().getDate());
+		if (!isInViewMode()) {
+			paymentMethodCombo.setComboItem(vendor.getPaymentMethod());
+		}
 	}
 
 	protected void setCheckNumber() {
