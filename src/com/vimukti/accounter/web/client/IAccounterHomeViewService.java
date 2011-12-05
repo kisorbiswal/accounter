@@ -96,10 +96,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<ClientCreditCardCharge> getCreditCardChargesThisMonth(
 			long date);
 
-	public ArrayList<ClientCustomer> getLatestCustomers();
-
-	public ArrayList<ClientVendor> getLatestVendors();
-
 	public ArrayList<ClientItem> getLatestItems();
 
 	public ArrayList<PaymentsList> getLatestPayments();

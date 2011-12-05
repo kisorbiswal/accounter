@@ -247,40 +247,6 @@ public class VendorManager extends Manager {
 		return tdsInfos;
 	}
 
-	public ArrayList<Vendor> getLatestVendors(long companyId)
-			throws DAOException {
-		try {
-
-			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestVendors")
-					.setParameter("companyId", companyId);
-			List list2 = query.list();
-
-			Object object[] = null;
-			Iterator iterator = list2.iterator();
-			List<Vendor> list = new ArrayList<Vendor>();
-			while (iterator.hasNext()) {
-				while (iterator.hasNext()) {
-					object = (Object[]) iterator.next();
-					Vendor vendor = new Vendor();
-					// vendor.setID((object[0] == null ? null : ((Long)
-					// object[0])));
-					vendor.setName((String) object[1]);
-					vendor.setDate(new FinanceDate((Long) object[2]));
-					// vendor.setID((String) object[3]);
-					list.add(vendor);
-				}
-			}
-			if (list != null) {
-				return new ArrayList<Vendor>(list);
-			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		}
-	}
-
 	public ArrayList<IssuePaymentTransactionsList> getChecks(long companyId)
 			throws DAOException {
 

@@ -41,7 +41,7 @@ public abstract class Payee extends CreatableObject implements
 	FinanceDate payeeSince;
 	int type;
 
-	FinanceDate date;
+	// FinanceDate date;
 
 	double balance;
 
@@ -214,20 +214,20 @@ public abstract class Payee extends CreatableObject implements
 		this.type = type;
 	}
 
-	/**
-	 * @return the date
-	 */
-	public FinanceDate getDate() {
-		return date;
-	}
-
-	/**
-	 * @param date
-	 *            the date to set
-	 */
-	public void setDate(FinanceDate date) {
-		this.date = date;
-	}
+	// /**
+	// * @return the date
+	// */
+	// public FinanceDate getDate() {
+	// return date;
+	// }
+	//
+	// /**
+	// * @param date
+	// * the date to set
+	// */
+	// public void setDate(FinanceDate date) {
+	// this.date = date;
+	// }
 
 	public Set<Address> getAddress() {
 		return address;
@@ -526,7 +526,7 @@ public abstract class Payee extends CreatableObject implements
 		item2.setType(TransactionItem.TYPE_ACCOUNT);
 		item2.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
 		if (this instanceof Customer) {
-			item2.setLineTotal(getOpeningBalance() );
+			item2.setLineTotal(getOpeningBalance());
 		} else {
 			item2.setLineTotal(-1 * getOpeningBalance());
 		}

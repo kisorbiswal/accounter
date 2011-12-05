@@ -485,9 +485,13 @@ public class CashPurchase extends Transaction {
 		w.put(messages.name(), this.vendor.name);
 		w.put(messages.currency(), this.currencyFactor).gap().gap();
 		w.put(messages.amount(), this.total).gap();
-		w.put(messages.address(), this.vendorAddress.address1+this.vendorAddress.stateOrProvinence);
+
+		if (this.vendorAddress != null) {
+			w.put(messages.address(), this.vendorAddress.address1
+					+ this.vendorAddress.stateOrProvinence);
+		}
 		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
-		
+
 	}
 
 }

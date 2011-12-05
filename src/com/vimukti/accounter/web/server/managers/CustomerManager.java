@@ -200,38 +200,6 @@ public class CustomerManager extends Manager {
 		}
 	}
 
-	public ArrayList<Customer> getLatestCustomers(long companyId)
-			throws DAOException {
-		try {
-
-			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestCustomers")
-					.setParameter("companyId", companyId);
-			List list2 = query.list();
-
-			Object[] object = null;
-			Iterator iterator = list2.iterator();
-			List<Customer> list = new ArrayList<Customer>();
-			while (iterator.hasNext()) {
-				object = (Object[]) iterator.next();
-				Customer customer = new Customer();
-				// customer.setID((object[0] == null ? null : ((Long)
-				// object[0])));
-				customer.setName((String) object[1]);
-				customer.setDate(new FinanceDate((Long) object[2]));
-				// customer.setID((String) object[3]);
-				list.add(customer);
-			}
-			if (list != null) {
-				return new ArrayList<Customer>(list);
-			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		}
-	}
-
 	public ArrayList<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
 			long customerId, long companyId) throws DAOException {
 

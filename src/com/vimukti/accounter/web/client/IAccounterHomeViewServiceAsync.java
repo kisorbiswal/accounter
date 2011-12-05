@@ -106,11 +106,6 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getCreditCardChargesThisMonth(long date,
 			AsyncCallback<ArrayList<ClientCreditCardCharge>> callback);
 
-	public void getLatestCustomers(
-			AsyncCallback<ArrayList<ClientCustomer>> callBack);
-
-	public void getLatestVendors(AsyncCallback<ArrayList<ClientVendor>> callBack);
-
 	public void getLatestItems(AsyncCallback<ArrayList<ClientItem>> callBack);
 
 	public void getLatestPayments(

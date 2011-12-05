@@ -1045,7 +1045,6 @@ public class TaxManager extends Manager {
 		collectorGeneral.setName("Collector-General");
 		collectorGeneral.setActive(true);
 		collectorGeneral.setBalance(0.0);
-		collectorGeneral.setDate(new FinanceDate());
 		collectorGeneral.setPayeeSince(new FinanceDate());
 		collectorGeneral.setPurchaseLiabilityAccount(vatLiabilityAccount);
 		collectorGeneral.setSalesLiabilityAccount(vatLiabilityAccount);

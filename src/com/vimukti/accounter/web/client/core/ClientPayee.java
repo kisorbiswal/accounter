@@ -205,21 +205,6 @@ public abstract class ClientPayee implements IAccounterCore {
 		this.version = version;
 	}
 
-	/**
-	 * @return the date
-	 */
-	public long getDate() {
-		return date;
-	}
-
-	/**
-	 * @param date
-	 *            the date to set
-	 */
-	public void setDate(long date) {
-		this.date = date;
-	}
-
 	public boolean isCustomer() {
 		return this != null && this instanceof ClientCustomer;
 	}

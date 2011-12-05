@@ -545,27 +545,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientCustomer> getLatestCustomers() {
-		List<ClientCustomer> clientCustomers = new ArrayList<ClientCustomer>();
-		List<Customer> serverCustomers = null;
-		try {
-
-			serverCustomers = getFinanceTool().getCustomerManager()
-					.getLatestCustomers(getCompanyId());
-			for (Customer customer : serverCustomers) {
-				clientCustomers.add(new ClientConvertUtil().toClientObject(
-						customer, ClientCustomer.class));
-			}
-			// customers = (List<ClientCustomer>) manager.merge(customers);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return new ArrayList<ClientCustomer>(clientCustomers);
-	}
-
-	@Override
 	public ArrayList<ClientMakeDeposit> getLatestDeposits() {
 		List<ClientMakeDeposit> clientMakeDeposits = new ArrayList<ClientMakeDeposit>();
 		List<MakeDeposit> serverMakeDeposits = null;
@@ -644,27 +623,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return new ArrayList<PaymentsList>(payments);
-	}
-
-	@Override
-	public ArrayList<ClientVendor> getLatestVendors() {
-		List<ClientVendor> clientVendors = new ArrayList<ClientVendor>();
-		List<Vendor> serverVendors = null;
-		try {
-
-			serverVendors = getFinanceTool().getVendorManager()
-					.getLatestVendors(getCompanyId());
-			for (Vendor vendor : serverVendors) {
-				clientVendors.add(new ClientConvertUtil().toClientObject(
-						vendor, ClientVendor.class));
-			}
-			// vendors = (List<ClientVendor>) manager.merge(vendors);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return new ArrayList<ClientVendor>(clientVendors);
 	}
 
 	@Override

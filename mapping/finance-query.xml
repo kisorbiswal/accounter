@@ -2289,25 +2289,6 @@
 		ORDER BY T.ID DESC LIMIT 10
 	</sql-query>
 
-	<!-- To generate the Customers of Latest 10 -->
-	<sql-query name="getLatestCustomers">
-		<query-param name="companyId" type="long" />
-		<return-scalar column="CUSTOMER_ID" type="long" />
-		<return-scalar column="CUSTOMER_NAME" type="string" />
-		<return-scalar column="DATE" type="long" />
-		<return-scalar column="CUSTOMER_ID" type="string" />
-
-		SELECT C.ID AS CUSTOMER_ID,
-		P.NAME AS CUSTOMER_NAME,
-		P.P_DATE AS DATE
-		,P.ID AS CUSTOMER_ID
-		FROM CUSTOMER C LEFT JOIN
-		PAYEE P ON
-		P.ID = C.ID AND
-		P.COMPANY_ID=:companyId
-		ORDER BY C.ID DESC LIMIT 10
-	</sql-query>
-
 	<!-- To generate the Deposits of Latest 10 -->
 	<sql-query name="getLatestDeposits">
 		<query-param name="companyId" type="long" />
@@ -7338,7 +7319,8 @@
 
 	<query name="getCustomersOrderByName">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.Customer c where c.company=:company and c.isActive=true
+		from com.vimukti.accounter.core.Customer c where c.company=:company
+		and c.isActive=true
 		order by c.name
 	</query>
 	<query name="getVendorsOrderByName">
@@ -7351,18 +7333,18 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="limit" type="int" />
 
-	SELECT a.ID FROM ACTIVITY a
-	LEFT JOIN TRANSACTION T ON
-	T.ID=a.OBJECT_ID
-	WHERE T.IS_VOID=false AND
-	a.OBJECT_TYPE BETWEEN 1 AND
-	31 AND
-	a.COMPANY_ID=:companyId AND
-	a.ACTIVITY_TYPE IN(2,3) AND
-	NOT EXISTS (select 1 from ACTIVITY where ID = a.ID and OBJECT_ID >
-	a.OBJECT_ID)
-	GROUP BY
-	a.ID ORDER by a.TRANSACTION_DATE DESC LIMIT :limit
+		SELECT a.ID FROM ACTIVITY a
+		LEFT JOIN TRANSACTION T ON
+		T.ID=a.OBJECT_ID
+		WHERE T.IS_VOID=false AND
+		a.OBJECT_TYPE BETWEEN 1 AND
+		31 AND
+		a.COMPANY_ID=:companyId AND
+		a.ACTIVITY_TYPE IN(2,3) AND
+		NOT EXISTS (select 1 from ACTIVITY where ID = a.ID and OBJECT_ID >
+		a.OBJECT_ID)
+		GROUP BY
+		a.ID ORDER by a.TRANSACTION_DATE DESC LIMIT :limit
 
 	</sql-query>
 

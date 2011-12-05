@@ -526,12 +526,11 @@ public class Customer extends Payee implements IAccounterServerCore,
 
 		w.put(messages.type(), messages.customer()).gap();
 		w.put(messages.no(), this.number);
-		w.put(messages.date(), this.date.toString()).gap();
 		w.put(messages.name(), this.name);
 		w.put(messages.currency(), this.currencyFactor).gap().gap();
 		w.put(messages.paymentMethod(), this.paymentMethod);
 		w.put(messages.memo(), this.memo);
-		
+
 	}
 
 }
