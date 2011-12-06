@@ -103,7 +103,7 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 
 					@Override
 					public void onSuccess(Boolean arg0) {
-						// Accounter.getCompany().setPortletConfiguration(config);
+						Accounter.getCompany().setPortletConfiguration(config);
 						if (arg0 && haveToRefresh) {
 							clear();
 							refreshPage();

@@ -3132,12 +3132,19 @@ public class FinanceTool {
 		org.hibernate.Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			PortletPageConfiguration serverObj = (PortletPageConfiguration) session
-					.get(PortletPageConfiguration.class,
-							pageConfiguration.getId());
+			PortletPageConfiguration serverObj = null;
+			if (pageConfiguration.getId() != 0) {
+				serverObj = (PortletPageConfiguration) session.get(
+						PortletPageConfiguration.class,
+						pageConfiguration.getId());
+			} else {
+				serverObj = new PortletPageConfiguration();
+			}
 			new ServerConvertUtil().toServerObject(serverObj,
 					(IAccounterCore) pageConfiguration, session);
+
 			User user = AccounterThreadLocal.get();
+			serverObj.setUser(user);
 			session.saveOrUpdate(serverObj);
 			tx.commit();
 			return true;
