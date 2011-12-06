@@ -415,6 +415,25 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 			result.addError(emailField, Accounter.messages()
 					.userExistsWithThisMailId());
 		}
+
+		// for checking the userList for another admin role
+		ArrayList<ClientUserInfo> usersList = getCompany().getUsersList();
+		boolean hasAnotherAdmin = false;
+		for (ClientUserInfo user : usersList) {
+			if (user.isAdmin()
+					&& !(user.getEmail().equals(getData().getEmail()))) {
+				hasAnotherAdmin = true;
+			}
+		}
+
+		if (getData().getID() != 0) {
+			if (hasAnotherAdmin == false)
+				result.addError(getData(), Accounter.messages()
+						.cannotCreateUserAsTheirIsNoUserWithAdminRole());
+		} else {
+			clearError(getData());
+		}
+
 		return result;
 	}
 
