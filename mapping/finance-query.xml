@@ -6045,6 +6045,29 @@
 		P.NAME =:name) AND P.ID !=:id
 
 	</sql-query>
+	
+	<sql-query name="getFixedAssets">
+		<query-param name="companyId" type="long" />
+		<query-param name="name" type="String" />
+		<query-param name="number" type="String" />
+		<query-param name="id" type="Long" />
+
+		<return-scalar column="NAME" type="string" />
+		<return-scalar column="NUMBER" type="string" />
+
+		SELECT FA.NAME AS NAME,
+		FA.ASSET_NUMBER AS NUMBER
+
+		FROM FIXED_ASSET FA
+
+		WHERE FA.COMPANY_ID=:companyId AND (CASE WHEN
+		:number = '' OR :number IS NULL
+		THEN FALSE
+		ELSE FA.ASSET_NUMBER =:number
+		END OR
+		FA.NAME =:name) AND FA.ID  !=:id
+
+	</sql-query>
 
 	<!-- To get the accounts who have same name or number -->
 	<sql-query name="getAccounts">
