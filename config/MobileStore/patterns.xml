@@ -232,6 +232,7 @@
 			<command title="New Bank Account" />
 			<command title="Write Check" />
 			<command if="manageBills" title="Pay Bill" />
+			<command if="manageBills" title="Issue Payment" />
 			<command title="New Credit Card Charge" />
 			<command title="Deposit and Transfer Funds" />
 			<!-- <command title="Reconciliations History " /> -->
