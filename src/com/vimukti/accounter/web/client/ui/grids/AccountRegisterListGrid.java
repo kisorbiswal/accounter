@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -16,10 +15,9 @@ import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
 public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 
-	private int accountType;
+	private final int accountType;
 	public double balance = 0.0, payment = 0.0, deposit = 0.0;
 	public double totalBalance = 0.0;
-	ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	public AccountRegisterListGrid(boolean isMultiSelectionEnable, int type) {
 		super(isMultiSelectionEnable, true);
@@ -176,6 +174,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		// return -1;
 	}
 
+	@Override
 	protected void onClick(AccountRegister obj, int row, int col) {
 		// if (col == 9 && !obj.isVoided()) {
 		// showWarningDialog(obj);
@@ -240,15 +239,18 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		// NOTHING TO DO.
 	}
 
+	@Override
 	public AccounterCoreType getType() {
 		// TODO
 		return null;
 	}
 
+	@Override
 	public boolean isVoided(AccountRegister obj) {
 		return obj.isVoided();
 	}
 
+	@Override
 	public AccounterCoreType getAccounterCoreType(AccountRegister obj) {
 
 		return UIUtils.getAccounterCoreType(obj.getType());
@@ -258,5 +260,9 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	public void deleteFailed(AccounterException caught) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setAccount(ClientAccount account) {
+		this.currency = getCompany().getCurrency(account.getCurrency());
 	}
 }
