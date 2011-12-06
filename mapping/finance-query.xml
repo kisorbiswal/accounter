@@ -580,6 +580,7 @@
 		WHERE T.T_TYPE
 		IN(1,4,8) AND
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate
+		ORDER BY DUE_DATE
 	</sql-query>
 	<sql-query name="getReceivePaymentsList">
 		<query-param name="companyId" type="long" />
