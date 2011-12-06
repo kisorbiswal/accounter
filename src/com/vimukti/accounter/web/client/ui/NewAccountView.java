@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -218,9 +219,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accNoText.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(BlurEvent event) {
-				if (accNoText.getNumber() != null)
-					validateAccountNumber(accNoText.getNumber());
-
+				new Timer() {
+					@Override
+					public void run() {
+						if (accNoText.getNumber() != null) {
+							validateAccountNumber(accNoText.getNumber());
+						}
+					}
+				}.schedule(1000);
 			}
 		});
 		accNoText.addFocusHandler(new FocusHandler() {
