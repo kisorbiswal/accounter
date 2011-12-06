@@ -113,8 +113,9 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 				} else {
 					if (dstFieldName.equals(srcField.getName())
 							|| isString(dstField.getType())) {
-						dstField.set(dst, getFieldInstanceID(dstFieldName
-								.equals("id") ? src : srcField.get(src)));
+						dstField.set(dst,
+								getIdDirect(dstFieldName.equals("id") ? src
+										: srcField.get(src)));
 
 					}
 				}
@@ -352,7 +353,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		try {
 			for (Object obj : set) {
 				if (obj != null) {
-					obj=HibernateUtil.initializeAndUnproxy(obj);
+					obj = HibernateUtil.initializeAndUnproxy(obj);
 					Class<? extends Object> resultClass = Class
 							.forName("com.vimukti.accounter.web.client.core.Client"
 									+ obj.getClass().getSimpleName());

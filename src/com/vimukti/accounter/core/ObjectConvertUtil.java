@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
+import org.hibernate.proxy.HibernateProxy;
+import org.hibernate.proxy.LazyInitializer;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -33,7 +35,7 @@ public class ObjectConvertUtil {
 		return mapFields;
 	}
 
-	protected <T> Long getFieldInstanceID(T obj) {
+	protected static <T> Long getFieldInstanceID(T obj) {
 		try {
 			if (obj == null)
 				return null;
@@ -430,5 +432,19 @@ public class ObjectConvertUtil {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static <T> Long getIdDirect(T entity) {
+		if (entity instanceof HibernateProxy) {
+			LazyInitializer lazyInitializer = ((HibernateProxy) entity)
+					.getHibernateLazyInitializer();
+			if (lazyInitializer.isUninitialized()) {
+				return (Long) lazyInitializer.getIdentifier();
+			}
+		}
+		if (entity instanceof IAccounterServerCore) {
+			return ((IAccounterServerCore) entity).getID();
+		}
+		return getFieldInstanceID(entity);
 	}
 }

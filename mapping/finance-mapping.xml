@@ -1823,7 +1823,7 @@
 		<property name="amount" column="AMOUNT"></property>
 		<property name="dataType" column="DATA_TYPE"></property>
 		<property name="description" type="text" column="DESCRIPTION"></property>
-		<many-to-one name="currency" class="com.vimukti.accounter.core.Currency" lazy="false"
+		<many-to-one name="currency" class="com.vimukti.accounter.core.Currency"
 			column="CURRENCY">
 		</many-to-one>
 		<property name="auditHistory" type="text" column="AUDITHISTORY"></property>
