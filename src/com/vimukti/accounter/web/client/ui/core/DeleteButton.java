@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -85,11 +84,7 @@ public class DeleteButton extends ImageButton {
 			}
 		};
 
-		if (obj instanceof ClientTransaction) {
-			Accounter.deleteTransaction(iDeleteCallback, obj);
-		} else {
-			Accounter.deleteObject(iDeleteCallback, obj);
-		}
+		Accounter.deleteObject(iDeleteCallback, obj);
 	}
 
 }

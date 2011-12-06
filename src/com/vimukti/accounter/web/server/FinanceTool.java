@@ -374,62 +374,64 @@ public class FinanceTool {
 
 		org.hibernate.Transaction hibernateTransaction = session
 				.beginTransaction();
+		try {
+			String arg1 = (context).getArg1();
+			String arg2 = (context).getArg2();
 
-		String arg1 = (context).getArg1();
-		String arg2 = (context).getArg2();
+			if (arg1 == null || arg2 == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_ILLEGAL_ARGUMENT,
+						"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
+								+ context);
+			}
 
-		if (arg1 == null || arg2 == null) {
-			throw new AccounterException(
-					AccounterException.ERROR_ILLEGAL_ARGUMENT,
-					"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
-							+ context);
-		}
+			Class<?> clientClass = ObjectConvertUtil
+					.getEqivalentClientClass(arg2);
 
-		Class<?> clientClass = ObjectConvertUtil.getEqivalentClientClass(arg2);
+			Class<?> serverClass = ObjectConvertUtil
+					.getServerEqivalentClass(clientClass);
 
-		Class<?> serverClass = ObjectConvertUtil
-				.getServerEqivalentClass(clientClass);
+			IAccounterServerCore serverObject = (IAccounterServerCore) session
+					.get(serverClass, Long.parseLong(arg1));
 
-		IAccounterServerCore serverObject = (IAccounterServerCore) session.get(
-				serverClass, Long.parseLong(arg1));
+			// if (objects != null && objects.size() > 0) {
 
-		// if (objects != null && objects.size() > 0) {
-
-		// IAccounterServerCore serverObject = (IAccounterServerCore)
-		// objects
-		// .get(0);
-		String userID = context.getUserEmail();
-		Company company = getCompany(context.getCompanyId());
-		User user1 = company.getUserByUserEmail(userID);
-		if (serverObject == null) {
-			throw new AccounterException(
-					AccounterException.ERROR_ILLEGAL_ARGUMENT);
-		}
-		if (serverObject instanceof FiscalYear) {
-			((FiscalYear) serverObject).canDelete((FiscalYear) serverObject);
-			session.delete(serverObject);
-			// ChangeTracker.put(serverObject);
-		} else if (serverObject instanceof User) {
-			User user = (User) serverObject;
-			user.setDeleted(true);
-			session.saveOrUpdate(user);
-		} else if (serverObject instanceof RecurringTransaction) {
-			session.delete(serverObject);
-		} else if (serverObject instanceof Reconciliation) {
-			session.delete(serverObject);
-		} else {
-			if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1),
-					company.getID())) {
+			// IAccounterServerCore serverObject = (IAccounterServerCore)
+			// objects
+			// .get(0);
+			String userID = context.getUserEmail();
+			Company company = getCompany(context.getCompanyId());
+			User user1 = company.getUserByUserEmail(userID);
+			if (serverObject == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_ILLEGAL_ARGUMENT);
+			}
+			if (serverObject instanceof FiscalYear) {
+				((FiscalYear) serverObject)
+						.canDelete((FiscalYear) serverObject);
+				session.delete(serverObject);
+				// ChangeTracker.put(serverObject);
+			} else if (serverObject instanceof User) {
+				User user = (User) serverObject;
+				user.setDeleted(true);
+				session.saveOrUpdate(user);
+			} else if (serverObject instanceof RecurringTransaction) {
+				session.delete(serverObject);
+			} else if (serverObject instanceof Reconciliation) {
 				session.delete(serverObject);
 			} else {
-				throw new AccounterException(
-						AccounterException.ERROR_OBJECT_IN_USE);
+				if (canDelete(serverClass.getSimpleName(),
+						Long.parseLong(arg1), company.getID())) {
+					session.delete(serverObject);
+				} else {
+					throw new AccounterException(
+							AccounterException.ERROR_OBJECT_IN_USE);
+				}
 			}
-		}
-		Activity activity = new Activity(company, user1, ActivityType.DELETE,
-				serverObject);
-		session.save(activity);
-		try {
+			Activity activity = new Activity(company, user1,
+					ActivityType.DELETE, serverObject);
+			session.save(activity);
+
 			hibernateTransaction.commit();
 
 		} catch (Exception e) {
@@ -3238,7 +3240,7 @@ public class FinanceTool {
 
 		for (TAXReturnEntry taxReturnEntry : list) {
 			taxReturnEntry.setTransaction(null);
-			session.save(taxReturnEntry);
+			session.update(taxReturnEntry);
 		}
 
 		Class<?> clientClass = ObjectConvertUtil.getEqivalentClientClass(obj

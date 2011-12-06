@@ -98,13 +98,10 @@ public class JournalEntryView extends
 
 		List<ClientTransactionItem> allEntries = grid.getAllRows();
 		for (ClientTransactionItem entry : allEntries) {
-			if (grid.getTotalCredittotal() > 0 || grid.getTotalDebittotal() > 0) {
-				if (entry.getLineTotal() == null || entry.getLineTotal() == 0) {
-					result.addError(this, Accounter.messages()
-							.valueCannotBe0orlessthan0(messages.amount()));
-				}
+			if (entry.getLineTotal() == null || entry.getLineTotal() == 0) {
+				result.addError(this, Accounter.messages()
+						.valueCannotBe0orlessthan0(messages.amount()));
 			}
-
 		}
 		if (memoText.getValue().toString() != null
 				&& memoText.getValue().toString().length() >= 256) {

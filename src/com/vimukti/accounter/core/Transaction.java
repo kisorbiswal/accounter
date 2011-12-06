@@ -829,6 +829,9 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
+		if (!isVoid) {
+			doVoidEffect(this);
+		}
 		return false;
 	}
 
@@ -972,17 +975,7 @@ public abstract class Transaction extends CreatableObject implements
 		if ((this.isVoid && !clonedObject.isVoid)
 				|| (this.isDeleted() && !clonedObject.isDeleted() && !this.isVoid)) {
 
-			double amount = (isDebitTransaction() ? -1d : 1d) * this.total;
-
-			this.updateEffectedAccount(amount);
-
-			this.updatePayee(amount);
-
-			this.voidCreditsAndPayments(this);
-			voidTransactionItems();
-			deleteCreatedEntries(clonedObject);
-			addVoidHistory();
-			cleanTransactionitems(clonedObject);
+			doVoidEffect(clonedObject);
 		} else if (this.isDeleted && !clonedObject.isDeleted() && this.isVoid) {
 			this.setStatus(STATUS_DELETED);
 		} else if (this.transactionItems != null
@@ -995,6 +988,20 @@ public abstract class Transaction extends CreatableObject implements
 			addUpdateHistory();
 		}
 
+	}
+
+	private void doVoidEffect(Transaction clonedObject) {
+		double amount = (isDebitTransaction() ? -1d : 1d) * this.total;
+
+		this.updateEffectedAccount(amount);
+
+		this.updatePayee(amount);
+
+		this.voidCreditsAndPayments(this);
+		voidTransactionItems();
+		deleteCreatedEntries(clonedObject);
+		addVoidHistory();
+		cleanTransactionitems(clonedObject);
 	}
 
 	protected void voidTransactionItems() {

@@ -238,7 +238,9 @@ public class JournalEntry extends Transaction {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		doReverseEffect(session);
+		if (!isVoid) {
+			doReverseEffect(session);
+		}
 		return super.onDelete(session);
 	}
 
