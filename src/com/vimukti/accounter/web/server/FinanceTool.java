@@ -3132,14 +3132,13 @@ public class FinanceTool {
 		org.hibernate.Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			PortletPageConfiguration serverPageConfiguration = new PortletPageConfiguration();
-			serverPageConfiguration = new ServerConvertUtil().toServerObject(
-					serverPageConfiguration,
+			PortletPageConfiguration serverObj = (PortletPageConfiguration) session
+					.get(PortletPageConfiguration.class,
+							pageConfiguration.getId());
+			new ServerConvertUtil().toServerObject(serverObj,
 					(IAccounterCore) pageConfiguration, session);
 			User user = AccounterThreadLocal.get();
-			serverPageConfiguration.setUser(user);
-			user.getPortletPages().add(serverPageConfiguration);
-			session.saveOrUpdate(serverPageConfiguration);
+			session.saveOrUpdate(serverObj);
 			tx.commit();
 			return true;
 		} catch (Exception e) {
@@ -3249,5 +3248,25 @@ public class FinanceTool {
 		transaction.commit();
 
 		return true;
+	}
+
+	public List<ClientTransactionItem> getRecordExpensesAccounts(long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			Query query = session.getNamedQuery("getRecordExpensesAccounts")
+					.setParameter("companyId", companyId);
+			List<BigInteger> accountsIdsList = query.list();
+			List<ClientTransactionItem> clientTransactionItems = new ArrayList<ClientTransactionItem>();
+			for (BigInteger accountId : accountsIdsList) {
+				ClientTransactionItem transactionItem = getManager()
+						.getObjectById(AccounterCoreType.TRANSACTION_ITEM,
+								accountId.longValue(), companyId);
+				clientTransactionItems.add(transactionItem);
+			}
+			return clientTransactionItems;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
 	}
 }

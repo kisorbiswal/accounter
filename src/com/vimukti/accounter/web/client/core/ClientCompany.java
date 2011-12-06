@@ -6,11 +6,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.vimukti.accounter.web.client.portlet.PortletFactory;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
@@ -3075,7 +3075,31 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientPortletPageConfiguration getPortletPageConfiguration(
 			String name) {
-		return PortletFactory.get().getDefaultConfiguration(name);
+		Set<ClientPortletPageConfiguration> portletPageConfigurations = getLoggedInUser()
+				.getPortletPages();
+		for (ClientPortletPageConfiguration pageConfiguration : portletPageConfigurations) {
+			if (pageConfiguration.getPageName().equals(name)) {
+				return pageConfiguration;
+			}
+		}
+		return new ClientPortletPageConfiguration();
+	}
+
+	public void setPortletConfiguration(
+			ClientPortletPageConfiguration configuration) {
+		Set<ClientPortletPageConfiguration> portletPages = getLoggedInUser()
+				.getPortletPages();
+		Iterator<ClientPortletPageConfiguration> iterator = portletPages
+				.iterator();
+		while (iterator.hasNext()) {
+			ClientPortletPageConfiguration next = iterator.next();
+			if (next.getPageName().equals(configuration.getPageName())) {
+				iterator.remove();
+			}
+		}
+
+		portletPages.add(configuration);
+
 	}
 
 	public long getCashDiscountAccount() {

@@ -26,7 +26,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 
-public class MoneyComingPortlet extends Portlet {
+public class MoneyComingPortlet extends GraphPointsPortlet {
 
 	public double draftInvoiceAmount = 0.00;
 	public double overDueInvoiceAmount = 0.00;
@@ -36,7 +36,6 @@ public class MoneyComingPortlet extends Portlet {
 	public Label overDueLabel;
 	public Label draftAmtLabel;
 	public Label overDueAmtLabel;
-	private boolean isCreatingBody;
 
 	public MoneyComingPortlet(ClientPortletConfiguration pc) {
 		super(pc, messages.moneyComingIn(), messages.goToAccountReceivable());
@@ -110,9 +109,9 @@ public class MoneyComingPortlet extends Portlet {
 
 			@Override
 			public void onException(AccounterException caught) {
-				isCreatingBody = false;
 				Accounter.showError(messages
 						.failedtogetAccountReceivablechartvalues());
+				completeInitialization();
 			}
 
 			@Override
@@ -136,7 +135,7 @@ public class MoneyComingPortlet extends Portlet {
 					public void run() {
 						GraphChart chart = new GraphChart();
 						body.add(chart.createAccountReceivableChart(result));
-						isCreatingBody = false;
+						completeInitialization();
 					}
 				};
 				VisualizationUtils.loadVisualizationApi(runnable,
@@ -211,22 +210,9 @@ public class MoneyComingPortlet extends Portlet {
 
 	@Override
 	public void refreshWidget() {
-
-	}
-
-	private void refreshPortlet() {
-		if (isCreatingBody) {
-			return;
-		}
-
-		this.isCreatingBody = true;
+		super.refreshWidget();
 		this.body.clear();
 		createBody();
 	}
 
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		refreshPortlet();
-	}
 }

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -220,10 +219,18 @@ public class User extends CreatableObject implements IAccounterServerCore,
 		}
 		Set<PortletPageConfiguration> portletPages2 = this.getPortletPages();
 		Set<ClientPortletPageConfiguration> set = new HashSet<ClientPortletPageConfiguration>();
-		Collection<ClientPortletPageConfiguration> collection = new ClientConvertUtil()
-				.toCollection(portletPages2, set);
-		user.setPortletPages(new HashSet<ClientPortletPageConfiguration>(
-				collection));
+		ClientConvertUtil utils = new ClientConvertUtil();
+		try {
+			for (PortletPageConfiguration pc : this.getPortletPages()) {
+				ClientPortletPageConfiguration clientObject = utils
+						.toClientObject(pc,
+								ClientPortletPageConfiguration.class);
+				set.add(clientObject);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		user.setPortletPages(set);
 		user.setID(getID());
 		return user;
 	}

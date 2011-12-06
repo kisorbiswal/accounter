@@ -31,7 +31,9 @@ public class PortletColumn extends VerticalPanel {
 
 	public void refreshWidgets() {
 		for (Portlet portlet : portlets) {
-			portlet.refreshWidget();
+			if (!portlet.isInitializing()) {
+				portlet.refreshWidget();
+			}
 		}
 	}
 

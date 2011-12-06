@@ -35,12 +35,12 @@ public class BankAccountsPortlet extends Portlet {
 							grid.addEmptyMessage(messages.noBanksToShow());
 						}
 						body.add(grid);
+						completeInitialization();
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
+						completeInitialization();
 					}
 				});
 		grid = new DashBoardBankAccountGrid();
@@ -49,6 +49,7 @@ public class BankAccountsPortlet extends Portlet {
 
 	@Override
 	public void refreshWidget() {
+		super.refreshWidget();
 		this.body.clear();
 		createBody();
 	}

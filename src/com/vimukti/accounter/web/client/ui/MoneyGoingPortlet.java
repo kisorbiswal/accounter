@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
-public class MoneyGoingPortlet extends Portlet {
+public class MoneyGoingPortlet extends GraphPointsPortlet {
 
 	public double draftInvoiceAmount = 0.00;
 	public double overDueInvoiceAmount = 0.00;
@@ -33,7 +33,6 @@ public class MoneyGoingPortlet extends Portlet {
 	public Label overDueLabel;
 	public Label draftAmtLabel;
 	public Label overDueAmtLabel;
-	private boolean isCreatingBody;
 
 	public MoneyGoingPortlet(ClientPortletConfiguration pc) {
 		super(pc, messages.moneyGoingOut(), messages.goToAccountsPayable());
@@ -70,8 +69,6 @@ public class MoneyGoingPortlet extends Portlet {
 		overDueLabel = getLabel(messages.overDueBills());
 		overDueLabel.getElement().getStyle().setMarginLeft(10, Unit.PX);
 
-		updateAmounts();
-
 		draftAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
 				+ DataUtils.getAmountAsString(draftInvoiceAmount));
 		overDueAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
@@ -98,9 +95,9 @@ public class MoneyGoingPortlet extends Portlet {
 
 			@Override
 			public void onException(AccounterException caught) {
-				isCreatingBody = false;
 				Accounter.showError(messages
 						.failedtogetmoneygoingportletvalues());
+				completeInitialization();
 			}
 
 			@Override
@@ -124,7 +121,7 @@ public class MoneyGoingPortlet extends Portlet {
 					public void run() {
 						GraphChart chart = new GraphChart();
 						body.add(chart.createAccountPayableChart(result));
-						isCreatingBody = false;
+						completeInitialization();
 					}
 				};
 				VisualizationUtils.loadVisualizationApi(runnable,
@@ -183,27 +180,11 @@ public class MoneyGoingPortlet extends Portlet {
 		return label;
 	}
 
-	private void updateAmounts() {
-
-	}
-
 	@Override
 	public void refreshWidget() {
-
-	}
-
-	private void refreshPortlet() {
-		if (isCreatingBody) {
-			return;
-		}
-		isCreatingBody = true;
+		super.refreshWidget();
 		this.body.clear();
 		createBody();
 	}
 
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		refreshPortlet();
-	}
 }

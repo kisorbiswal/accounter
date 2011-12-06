@@ -28,12 +28,12 @@ public class WhoOwesMePortlet extends Portlet {
 					grid.addEmptyMessage(messages.noRecordsToShow());
 				}
 				body.add(grid);
+				completeInitialization();
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
+				completeInitialization();
 			}
 		};
 		Accounter.createHomeService().getOwePayees(TYPE_OWE_TO_ME, callback);
@@ -41,6 +41,7 @@ public class WhoOwesMePortlet extends Portlet {
 
 	@Override
 	public void refreshWidget() {
+		super.refreshWidget();
 		this.body.clear();
 		createBody();
 	}

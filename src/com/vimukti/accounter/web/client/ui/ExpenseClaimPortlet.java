@@ -115,6 +115,7 @@ public class ExpenseClaimPortlet extends Portlet {
 			public void onException(AccounterException caught) {
 				Accounter.showError(Accounter.messages()
 						.failedtogetExpensetotals());
+				completeInitialization();
 			}
 
 			@Override
@@ -125,6 +126,7 @@ public class ExpenseClaimPortlet extends Portlet {
 					employeeExpenseAmount = result.get(2);
 					allExpensesAmount = result.get(3);
 					updateAmountLabels();
+					completeInitialization();
 				}
 			}
 		};
@@ -192,6 +194,7 @@ public class ExpenseClaimPortlet extends Portlet {
 
 	@Override
 	public void refreshWidget() {
+		super.refreshWidget();
 		this.body.clear();
 		createBody();
 	}

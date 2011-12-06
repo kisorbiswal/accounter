@@ -92,7 +92,7 @@ public class QuickLinksPortlet extends Portlet {
 			}
 		}
 		body.add(linksTable);
-
+		completeInitialization();
 	}
 
 	protected void historyChanged(String value) {
@@ -102,6 +102,7 @@ public class QuickLinksPortlet extends Portlet {
 
 	@Override
 	public void refreshWidget() {
+		super.refreshWidget();
 		this.body.clear();
 		createBody();
 	}

@@ -4694,5 +4694,7 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseEnterAmountToReceive();
 
+	public String addBankAccount();
+
 	public String cannotCreateUserAsTheirIsNoUserWithAdminRole();
 }

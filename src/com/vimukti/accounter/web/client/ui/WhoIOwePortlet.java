@@ -28,10 +28,12 @@ public class WhoIOwePortlet extends Portlet {
 					grid.addEmptyMessage(messages.noRecordsToShow());
 				}
 				body.add(grid);
+				completeInitialization();
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
+				completeInitialization();
 				// TODO Auto-generated method stub
 
 			}
@@ -41,6 +43,7 @@ public class WhoIOwePortlet extends Portlet {
 
 	@Override
 	public void refreshWidget() {
+		super.refreshWidget();
 		this.body.clear();
 		createBody();
 	}

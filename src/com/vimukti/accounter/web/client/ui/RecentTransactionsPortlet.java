@@ -62,11 +62,12 @@ public class RecentTransactionsPortlet extends Portlet {
 									.noTransactionsToshow());
 						}
 						body.add(grid);
+						completeInitialization();
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
-
+						completeInitialization();
 					}
 				});
 	}
@@ -77,6 +78,7 @@ public class RecentTransactionsPortlet extends Portlet {
 
 	@Override
 	public void refreshWidget() {
+		super.refreshWidget();
 		this.body.clear();
 		createBody();
 	}

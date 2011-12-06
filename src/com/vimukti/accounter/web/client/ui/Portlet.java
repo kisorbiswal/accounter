@@ -39,9 +39,12 @@ public abstract class Portlet extends WorkbenchPanel {
 	private ClientPortletConfiguration configuration;
 	private PortletPage portletPage;
 
+	protected boolean isInitializing;
+
 	public Portlet(ClientPortletConfiguration configuration, String title,
 			String gotoString) {
 		this(title, gotoString);
+		setName(title);
 		this.configuration = configuration;
 	}
 
@@ -105,7 +108,11 @@ public abstract class Portlet extends WorkbenchPanel {
 	}
 
 	public void refreshWidget() {
+		isInitializing = true;
+	}
 
+	protected void completeInitialization() {
+		isInitializing = false;
 	}
 
 	public void refreshClicked() {
@@ -190,5 +197,9 @@ public abstract class Portlet extends WorkbenchPanel {
 
 	public void setPortletPage(PortletPage portletPage) {
 		this.portletPage = portletPage;
+	}
+
+	public boolean isInitializing() {
+		return isInitializing;
 	}
 }

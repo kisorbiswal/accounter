@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.Portlet;
 
 public class PortletPage extends AbsolutePanel implements DragHandler {
@@ -25,7 +24,6 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 	public ClientPortletPageConfiguration config;
 	private PortletColumn[] columns;
 	private PickupDragController dragController;
-	private ImageButton settingsButton;
 	public boolean haveToRefresh = true;
 
 	public PortletPage(String pageName) {
@@ -35,24 +33,9 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 
 	public void refreshPage() {
 		this.addStyleName("portletPage");
-
-		Accounter.createHomeService().getPortletPageConfiguration(name,
-				new AsyncCallback<ClientPortletPageConfiguration>() {
-
-					@Override
-					public void onSuccess(ClientPortletPageConfiguration arg0) {
-						config = arg0;
-						setup();
-						refreshWidgets();
-					}
-
-					@Override
-					public void onFailure(Throwable arg0) {
-						// TODO Auto-generated method stub
-
-					}
-				});
-
+		config = Accounter.getCompany().getPortletPageConfiguration(name);
+		setup();
+		refreshWidgets();
 	}
 
 	public void setName(String name) {
@@ -110,6 +93,7 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 	public void onDragEnd(DragEndEvent event) {
 		// refreshWidgets();
 		haveToRefresh = false;
+		updateConfiguration();
 		updatePortletPage();
 	}
 
@@ -119,6 +103,7 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 
 					@Override
 					public void onSuccess(Boolean arg0) {
+						// Accounter.getCompany().setPortletConfiguration(config);
 						if (arg0 && haveToRefresh) {
 							clear();
 							refreshPage();

@@ -35,7 +35,8 @@ public class PortletPageConfigureDialog extends
 		VerticalPanel portletNamesPanel = new VerticalPanel();
 		portletNameCheckBoxs = new ArrayList<CheckBox>();
 		for (int i = 0; i < prefferedPortlets.size(); i++) {
-			CheckBox checkBox = new CheckBox(prefferedPortlets.get(i).getName());
+			CheckBox checkBox = new CheckBox(PortletFactory.get()
+					.getPortletName(prefferedPortlets.get(i)));
 			portletNameCheckBoxs.add(i, checkBox);
 			portletNamesPanel.setSpacing(8);
 			portletNamesPanel.add(checkBox);
@@ -94,7 +95,8 @@ public class PortletPageConfigureDialog extends
 		while (it.hasNext()) {
 			ClientPortletConfiguration entry = it.next();
 			for (CheckBox checkBox : portletNameCheckBoxs) {
-				if (checkBox.getText().equals(entry.getName())) {
+				if (checkBox.getText().equals(
+						PortletFactory.get().getPortletName(entry))) {
 					checkBox.setValue(mapportletNameCheckBoxs.get(entry));
 				}
 			}
