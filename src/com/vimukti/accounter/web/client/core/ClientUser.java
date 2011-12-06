@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
@@ -33,7 +33,7 @@ public class ClientUser implements IAccounterCore {
 
 	String admin;
 
-	private List<ClientPortletPageConfiguration> portletPages;
+	private Set<ClientPortletPageConfiguration> portletPages;
 	private boolean isDeleted;
 
 	private boolean isActive;
@@ -316,12 +316,11 @@ public class ClientUser implements IAccounterCore {
 		this.isActive = isActive;
 	}
 
-	public List<ClientPortletPageConfiguration> getPortletPages() {
+	public Set<ClientPortletPageConfiguration> getPortletPages() {
 		return portletPages;
 	}
 
-	public void setPortletPages(
-			List<ClientPortletPageConfiguration> portletPages) {
+	public void setPortletPages(Set<ClientPortletPageConfiguration> portletPages) {
 		this.portletPages = portletPages;
 	}
 }

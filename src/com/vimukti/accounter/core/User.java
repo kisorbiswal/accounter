@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import org.json.JSONException;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -216,6 +218,12 @@ public class User extends CreatableObject implements IAccounterServerCore,
 					.getTypeOfLockDates());
 			user.setPermissions(userPermissions);
 		}
+		Set<PortletPageConfiguration> portletPages2 = this.getPortletPages();
+		Set<ClientPortletPageConfiguration> set = new HashSet<ClientPortletPageConfiguration>();
+		Collection<ClientPortletPageConfiguration> collection = new ClientConvertUtil()
+				.toCollection(portletPages2, set);
+		user.setPortletPages(new HashSet<ClientPortletPageConfiguration>(
+				collection));
 		user.setID(getID());
 		return user;
 	}
@@ -288,8 +296,7 @@ public class User extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
 }

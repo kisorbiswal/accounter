@@ -1240,7 +1240,7 @@
 		</many-to-one>
 		<set name="portletPages" inverse="true" cascade="save-update,delete-orphan"
 			lazy="false">
-			<key column="PORTLET_PAGE_CONFIGURATION_ID" />
+			<key column="USER_ID" />
 			<one-to-many class="PortletPageConfiguration" />
 		</set>
 		<!--<property name="version" column="VERSION"></property> -->
