@@ -310,9 +310,8 @@ public class VendorCreditMemo extends Transaction {
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid) {
 			this.balanceDue = 0d;
-			return true;
 		}
-		return false;
+		return super.onDelete(session);
 	}
 
 	@Override

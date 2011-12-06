@@ -626,10 +626,9 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid) {
-			setVoid(true);
 			doVoidEffect(session, this);
 		}
-		return false;
+		return super.onDelete(session);
 	}
 
 	public void doVoidEffect(Session session, ItemReceipt itemReceipt) {
@@ -760,7 +759,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
+
 		w.put(messages.type(), messages.itemReceipt()).gap();
 		w.put(messages.no(), this.number);
 		w.put(messages.date(), this.transactionDate.toString()).gap().gap();

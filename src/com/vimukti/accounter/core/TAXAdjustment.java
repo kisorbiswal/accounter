@@ -109,9 +109,8 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 		if (!this.isVoid) {
 			this.balanceDue = 0;
 			doVoidEffect(session, this);
-			return true;
 		}
-		return false;
+		return super.onDelete(session);
 	}
 
 	@Override
@@ -310,7 +309,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

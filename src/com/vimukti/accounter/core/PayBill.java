@@ -653,10 +653,9 @@ public class PayBill extends Transaction {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid) {
-			setVoid(true);
 			doVoidEffect(session, this);
 		}
-		return false;
+		return super.onDelete(session);
 	}
 
 	private void doEffectTDS(Session session, PayBill payBill) {

@@ -50,7 +50,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	@ReffereredObject
 	TAXAgency taxAgency;
 
-
 	boolean isEdited = false;
 
 	List<TransactionPayTAX> transactionPayTAX;
@@ -101,7 +100,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	public void setTaxAgency(TAXAgency taxAgency) {
 		this.taxAgency = taxAgency;
 	}
-
 
 	/**
 	 * @return the isVoid
@@ -216,10 +214,9 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid) {
-			setVoid(true);
 			doVoidEffect(session);
 		}
-		return false;
+		return super.onDelete(session);
 	}
 
 	private void doVoidEffect(Session session) {
@@ -296,7 +293,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
+
 		w.put(messages.type(), messages.payTax()).gap();
 		w.put(messages.no(), this.number);
 		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
@@ -304,7 +301,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 		w.put(messages.amount(), this.total).gap().gap();
 		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
 		w.put(messages.memo(), this.memo).gap().gap();
-		
+
 	}
 
 }

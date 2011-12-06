@@ -427,11 +427,9 @@ public class Invoice extends Transaction implements Lifecycle {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid) {
-			setVoid(true);
 			doVoidEffect(session, this);
-			return true;
 		}
-		return false;
+		return super.onDelete(session);
 	}
 
 	@Override

@@ -389,10 +389,9 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid) {
-			setVoid(true);
 			doVoidEffect(session);
 		}
-		return false;
+		return super.onDelete(session);
 	}
 
 	private void updateTransactionReceivepayments() {

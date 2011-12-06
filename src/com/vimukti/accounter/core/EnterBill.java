@@ -692,10 +692,9 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid) {
-			setVoid(true);
 			doVoidEffect(session, this);
 		}
-		return false;
+		return super.onDelete(session);
 	}
 
 	private void updateTransactionPayBills() {

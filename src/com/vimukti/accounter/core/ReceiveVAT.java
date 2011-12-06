@@ -200,9 +200,9 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public boolean onDelete(Session s) throws CallbackException {
+	public boolean onDelete(Session session) throws CallbackException {
 
-		return false;
+		return super.onDelete(session);
 	}
 
 	@Override
@@ -272,6 +272,6 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -264,9 +264,8 @@ public class TransferFund extends Transaction {
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid) {
 			this.effectAccount(session, this.transferFrom, -this.total);
-			return true;
 		}
-		return false;
+		return super.onDelete(session);
 	}
 
 	private void effectAccount(Session session, Account transferFrom,
@@ -308,7 +307,7 @@ public class TransferFund extends Transaction {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

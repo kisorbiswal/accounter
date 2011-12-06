@@ -577,9 +577,8 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 
 			if (this.status != Transaction.STATUS_DELETED)
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-			return true;
 		}
-		return false;
+		return super.onDelete(session);
 	}
 
 	@Override
@@ -648,8 +647,8 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		w.put(messages.openBalance(), this.customer.openingBalance).gap().gap();
 		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
 		w.put(messages.memo(), this.memo).gap().gap();
-		
+
 		w.put(messages.details(), this.transactionReceivePayment);
-		
+
 	}
 }

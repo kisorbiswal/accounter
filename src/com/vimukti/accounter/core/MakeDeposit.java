@@ -302,10 +302,9 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid) {
-			setVoid(true);
 			doVoidEffect(session);
 		}
-		return false;
+		return super.onDelete(session);
 	}
 
 	private void doVoidEffect(Session session) {
