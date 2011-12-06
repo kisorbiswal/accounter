@@ -6,9 +6,9 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class FixedAssetSellOrDisposeReviewJournal implements IsSerializable {
 
-	Map<String, Double> disposalSummary;
+	private Map<String, Double> disposalSummary;
 
-	Map<String, Double> disposalJournal;
+	private Map<String, Double> disposalJournal;
 
 	private long id;
 
