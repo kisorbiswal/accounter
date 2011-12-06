@@ -189,7 +189,7 @@ public class InvoiceListCommand extends NewAbstractCommand {
 			} else {
 				invoices = new FinanceTool().getInventoryManager()
 						.getInvoiceList(context.getCompany().getId(),
-								startDate, endDate);
+								startDate.getDate(), endDate.getDate());
 			}
 			List<InvoicesList> list = new ArrayList<InvoicesList>(
 					invoices.size());
@@ -316,7 +316,8 @@ public class InvoiceListCommand extends NewAbstractCommand {
 		}
 		try {
 			return new FinanceTool().getInventoryManager().getInvoiceList(
-					context.getCompany().getId(), startDate, endDate);
+					context.getCompany().getId(), startDate.getDate(),
+					endDate.getDate());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
