@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 public class CategoriesPreferencesCommand extends
@@ -21,20 +22,19 @@ public class CategoriesPreferencesCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new StringListRequirement(LOCATION_TRACKING, getMessages()
-				.accept() + " " + getMessages().location(), getMessages()
-				.accept() + " " + getMessages().location(), true, true, null) {
+		list.add(new StringListRequirement(
+				LOCATION_TRACKING,
+				getMessages().useTerminologyFor(Global.get().Location() + " :"),
+				getMessages().useTerminologyFor(Global.get().Location() + " :"),
+				true, true, null) {
 			@Override
 			protected String getSelectString() {
-				return getMessages()
-						.pleaseSelect(
-								getMessages().accept() + " "
-										+ getMessages().location());
+				return getMessages().pleaseSelect(getMessages().location());
 			}
 
 			@Override
 			protected List<String> getLists(Context context) {
-				return getAcceptEstimateList();
+				return getLocationsList();
 			}
 
 			@Override
@@ -91,7 +91,7 @@ public class CategoriesPreferencesCommand extends
 		});
 	}
 
-	private List<String> getAcceptEstimateList() {
+	private List<String> getLocationsList() {
 		ArrayList<String> arrayList = new ArrayList<String>();
 		arrayList.add(getMessages().location());
 		arrayList.add(getMessages().buisiness());
@@ -144,7 +144,7 @@ public class CategoriesPreferencesCommand extends
 		ClientCompanyPreferences preferences = context.getPreferences();
 
 		String locTrack = get(LOCATION_TRACKING).getValue();
-		Integer incluestimate = getAcceptEstimateList().indexOf(locTrack);
+		Integer incluestimate = getLocationsList().indexOf(locTrack);
 
 		if (incluestimate == 0) {// location
 			preferences.setLocationTrackingId(0);
