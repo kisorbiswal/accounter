@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReview
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -116,7 +118,8 @@ public class FixedAsset extends CreatableObject implements
 	 * 
 	 * @see Account
 	 */
-	// private Account accumulatedDepreciationAccount;
+	private Account accumulatedDepreciationAccount;
+
 	private double accumulatedDepreciationAmount = 0.0;
 
 	/**
@@ -161,7 +164,7 @@ public class FixedAsset extends CreatableObject implements
 	 */
 
 	// private SellingOrDisposingFixedAsset sellingOrDisposingFixedAsset;
-	private DecimalFormat decimalFormat = new DecimalFormat("##.##");
+	private final DecimalFormat decimalFormat = new DecimalFormat("##.##");
 
 	@ReffereredObject
 	private List<Transaction> transactions = new ArrayList<Transaction>();
@@ -324,12 +327,12 @@ public class FixedAsset extends CreatableObject implements
 		return depreciationExpenseAccount;
 	}
 
-	// /**
-	// * @return the accumulatedDepreciationAccount
-	// */
-	// public Account getAccumulatedDepreciationAccount() {
-	// return accumulatedDepreciationAccount;
-	// }
+	/**
+	 * @return the accumulatedDepreciationAccount
+	 */
+	public Account getAccumulatedDepreciationAccount() {
+		return accumulatedDepreciationAccount;
+	}
 
 	/**
 	 * @return the accumulatedDepreciationAmount
@@ -455,14 +458,14 @@ public class FixedAsset extends CreatableObject implements
 		this.depreciationExpenseAccount = depreciationExpenseAccount;
 	}
 
-	// /**
-	// * @param accumulatedDepreciationAccount
-	// * the accumulatedDepreciationAccount to set
-	// */
-	// public void setAccumulatedDepreciationAccount(
-	// Account accumulatedDepreciationAccount) {
-	// this.accumulatedDepreciationAccount = accumulatedDepreciationAccount;
-	// }
+	/**
+	 * @param accumulatedDepreciationAccount
+	 *            the accumulatedDepreciationAccount to set
+	 */
+	public void setAccumulatedDepreciationAccount(
+			Account accumulatedDepreciationAccount) {
+		this.accumulatedDepreciationAccount = accumulatedDepreciationAccount;
+	}
 
 	/**
 	 * @param accumulatedDepreciationAmount
@@ -711,6 +714,7 @@ public class FixedAsset extends CreatableObject implements
 					.setActionType(FixedAssetHistory.ACTION_TYPE_CREATED);
 			fixedAssetHistory.setActionDate(new FinanceDate());
 			fixedAssetHistory.setDetails("");
+			fixedAssetHistory.setCompany(this.getCompany());
 			this.fixedAssetsHistory.add(fixedAssetHistory);
 		}
 
@@ -725,6 +729,7 @@ public class FixedAsset extends CreatableObject implements
 			fixedAssetHistory.setActionDate(new FinanceDate());
 			fixedAssetHistory.setDetails("");
 			this.fixedAssetsHistory.add(fixedAssetHistory);
+			fixedAssetHistory.setCompany(this.getCompany());
 
 			/**
 			 * Saving the action into History
@@ -736,6 +741,7 @@ public class FixedAsset extends CreatableObject implements
 			fixedAssetHistory2.setActionDate(new FinanceDate());
 			fixedAssetHistory2.setDetails("");
 			this.fixedAssetsHistory.add(fixedAssetHistory2);
+			fixedAssetHistory2.setCompany(this.getCompany());
 
 		}
 
@@ -776,6 +782,7 @@ public class FixedAsset extends CreatableObject implements
 					.get(this.fixedAssetNotes.size() - 1);
 			fixedAssetHistory.setDetails(recentNote.getNote());
 			this.getFixedAssetsHistory().add(fixedAssetHistory);
+			fixedAssetHistory.setCompany(this.getCompany());
 		}
 
 		if (this.linkedAccumulatedDepreciationAccount != null
@@ -799,6 +806,7 @@ public class FixedAsset extends CreatableObject implements
 			fixedAssetHistory.setActionDate(new FinanceDate());
 			fixedAssetHistory.setDetails("");
 			this.getFixedAssetsHistory().add(fixedAssetHistory);
+			fixedAssetHistory.setCompany(this.getCompany());
 		}
 		/**
 		 * If this Fixed Asset is purchased before the Last Depreciation Date
@@ -852,6 +860,7 @@ public class FixedAsset extends CreatableObject implements
 			fixedAssetHistory.setDetails("View disposal journal");
 			fixedAssetHistory.setPostedJournalEntry(journalEntry);
 			this.getFixedAssetsHistory().add(fixedAssetHistory);
+			fixedAssetHistory.setCompany(this.getCompany());
 
 			// Date lastDepreciationDate =
 			// Depreciation.getDepreciationLastDate();
@@ -912,6 +921,7 @@ public class FixedAsset extends CreatableObject implements
 
 					Depreciation depreciation = new Depreciation();
 					depreciation.setStatus(Depreciation.APPROVE);
+					depreciation.setCompany(this.getCompany());
 					// List<FixedAsset> fixedAssets = new
 					// ArrayList<FixedAsset>();
 					// fixedAssets.add(this);
@@ -930,6 +940,7 @@ public class FixedAsset extends CreatableObject implements
 									.getPurchaseDate());
 					depreciation.setDepreciateTo(new FinanceDate(
 							requiredStartDateCal.getTime()));
+
 					session.save(depreciation);
 
 				}
@@ -986,6 +997,7 @@ public class FixedAsset extends CreatableObject implements
 									lastDepreciationDateCal.getTime())) : this
 									.getPurchaseDate());
 					depreciation.setDepreciateTo(depreciationTillDate);
+					depreciation.setCompany(this.getCompany());
 					session.save(depreciation);
 
 				}
@@ -1065,6 +1077,7 @@ public class FixedAsset extends CreatableObject implements
 					+ depreciationAmount + " on "
 					+ format.format(fromCal.getTime()));
 			this.fixedAssetsHistory.add(fixedAssetHistory);
+			fixedAssetHistory.setCompany(this.getCompany());
 
 			/**
 			 * update the book value with the calculated depreciation amount
@@ -1176,7 +1189,7 @@ public class FixedAsset extends CreatableObject implements
 						fixedAsset.getAssetAccount()
 								.getLinkedAccumulatedDepreciationAccount()
 								.getName())) {
-			lessAccumulatedDepreciationAmount = (Double) reviewJournal
+			lessAccumulatedDepreciationAmount = reviewJournal
 					.getDisposalJournal().get(
 							fixedAsset.getAssetAccount()
 									.getLinkedAccumulatedDepreciationAccount()
@@ -1441,7 +1454,7 @@ public class FixedAsset extends CreatableObject implements
 		 * Preparing the keys and values for disposalSummary Map.
 		 */
 		String purchasedDate = "Purchase "
-				+ format.format(fixedAsset.getPurchaseDate());
+				+ UIUtils.getDateStringFormat(fixedAsset.getPurchaseDate());
 		String currentAccumulatedDepreciation = "Current accumulated depreciation";
 		String depreciationTobePosted = "Depreciation to be posted (";
 		String rollBackDepreciation = "rollback deprecaition till ";
@@ -1547,10 +1560,13 @@ public class FixedAsset extends CreatableObject implements
 							: new FinanceDate(fixedAsset.getPurchaseDate()
 									.getDate());
 
-					depreciationTobePosted += format.format(depFrom);
+					depreciationTobePosted += UIUtils
+							.getDateStringFormat(new ClientFinanceDate(depFrom
+									.getDate()));
 					depreciationTobePosted += " to";
-					depreciationTobePosted += format
-							.format(depreciationTillDate);
+					depreciationTobePosted += UIUtils
+							.getDateStringFormat(new ClientFinanceDate(
+									depreciationTillDate.getDate()));
 					depreciationTobePosted += ")";
 					depreciationToBePostedAmount = getCalculatedDepreciatedAmount(
 							fixedAsset.getDepreciationMethod(),
@@ -1577,7 +1593,8 @@ public class FixedAsset extends CreatableObject implements
 		}
 
 		String soldDate = "Sold "
-				+ format.format(fixedAsset.getSoldOrDisposedDate());
+				+ UIUtils.getDateStringFormat(fixedAsset
+						.getSoldOrDisposedDate());
 
 		/**
 		 * Preparing the disposalSummary Map with the above calculated Keys and
@@ -1853,11 +1870,153 @@ public class FixedAsset extends CreatableObject implements
 		return (FixedAsset) super.clone();
 	}
 
+	public boolean equals(FixedAsset fixedAsset) {
+
+		if (this.id == fixedAsset.id
+				&& this.assetNumber == fixedAsset.assetNumber
+				&& (this.getPurchaseDate().getDate() == fixedAsset
+						.getPurchaseDate().getDate())
+				&& (DecimalUtil.isEquals(this.getPurchasePrice(),
+						fixedAsset.getPurchasePrice()))
+				&& ((this.getDescription() != null && fixedAsset
+						.getDescription() != null) ? this.getDescription()
+						.equals(fixedAsset.getDescription()) : true)
+				&& ((this.getAssetType() != null && fixedAsset.getAssetType() != null) ? this
+						.getAssetType().equals(fixedAsset.getAssetType())
+						: true)
+				&& (this.getDepreciationMethod() == fixedAsset
+						.getDepreciationMethod())
+				&& (this.getDepreciationExpenseAccount() != null && fixedAsset
+						.getDepreciationExpenseAccount() != null) ? this
+				.getDepreciationExpenseAccount().getID() == fixedAsset
+				.getDepreciationExpenseAccount().getID() : true) {
+			return true;
+		}
+		// if (this.id == vendor.id
+		// && this.address.size() == vendor.address.size()
+		// && this.address.equals(vendor.address)
+		// && this.phoneNumbers.size() == vendor.phoneNumbers.size()
+		// && this.phoneNumbers.equals(vendor.phoneNumbers)
+		// && this.faxNumbers.size() == vendor.faxNumbers.size()
+		// && this.faxNumbers.equals(vendor.faxNumbers)
+		// && this.contacts.size() == vendor.contacts.size()
+		// && this.contacts.equals(vendor.contacts)
+		// && this.isActive == vendor.isActive
+		// && DecimalUtil.isEquals(this.balance, vendor.balance)
+		// && DecimalUtil.isEquals(this.openingBalance,
+		// vendor.openingBalance)
+		// && this.VATRegistrationNumber == vendor.VATRegistrationNumber
+		// && DecimalUtil.isEquals(this.openingBalance,
+		// vendor.openingBalance)
+		// && DecimalUtil.isEquals(this.creditLimit, vendor.creditLimit)
+		// && (this.name != null && vendor.name != null) ? (this.name
+		// .equals(vendor.name))
+		// : true && (this.fileAs != null && vendor.fileAs != null) ?
+		// (this.fileAs
+		// .equals(vendor.fileAs))
+		// : true && (this.TAXCode != null && vendor.TAXCode != null) ?
+		// (this.TAXCode == vendor.TAXCode)
+		// : true && (this.webPageAddress != null && vendor.webPageAddress !=
+		// null) ? (this.webPageAddress
+		// .equals(vendor.webPageAddress))
+		// : true && (this.balanceAsOf != null && vendor.balanceAsOf != null) ?
+		// (this.balanceAsOf
+		// .equals(vendor.balanceAsOf))
+		// : true && (this.shippingMethod != null && vendor.shippingMethod !=
+		// null) ? (this.shippingMethod
+		// .equals(vendor.shippingMethod))
+		//
+		// : true && (this.paymentMethod != null && vendor.paymentMethod !=
+		// null) ? (this.paymentMethod
+		// .equals(vendor.paymentMethod))
+		//
+		// : true && (this.vendorGroup != null && vendor.vendorGroup != null) ?
+		// (this.vendorGroup
+		// .equals(vendor.vendorGroup))
+		//
+		// : true) {
+		// return true;
+		// }
+		return false;
+
+	}
+
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// TODO Auto-generated method stub
+
+		Session session = HibernateUtil.getCurrentSession();
+		FixedAsset fixedAsset = (FixedAsset) clientObject;
+		//
+		// // if (this.name.equals(customer.name)
+		// // && this.number.equals(customer.number)
+		// // && this.id == customer.id)
+		// // return true;
+		// //
+		// // else {
+		//
+		// // Query query = session
+		// // .createQuery(
+		// // "from com.vimukti.accounter.core.Customer C where C.number=?")
+		// // .setParameter(0, this.number);
+		// //
+		// // List list = query.list();
+		// //
+		// // if (list != null && list.size() > 0) {
+		// //
+		// // for (int i = 0; i < list.size(); i++) {
+		// // Customer newCustomer = (Customer) list.get(i);
+		// // if ((this.name.equals(newCustomer.name) ||
+		// // this.number.equals(newCustomer.number))
+		// // && this.id != newCustomer.id) {
+		// // throw new InvalidOperationException(
+		// // "Customer name or number is already in use Please enter Unique");
+		// // }
+		// // }
+		// // }
+		//
+		Query query = session.getNamedQuery("getFixedAssets")
+				.setString("name", this.name)
+				.setString("number", this.assetNumber).setLong("id", this.id)
+				.setParameter("companyId", fixedAsset.getCompany().getID());
+
+		List list = query.list();
+		Iterator it = list.iterator();
+		while (it.hasNext()) {
+			Object[] object = (Object[]) it.next();
+
+			if (this.name.equalsIgnoreCase((String) object[0])) {
+				Iterator it2 = list.iterator();
+				while (it2.hasNext()) {
+					Object[] object2 = (Object[]) it2.next();
+					if (this.assetNumber.equals(object2[1])) {
+						throw new AccounterException(
+								AccounterException.ERROR_NAME_CONFLICT);
+						// "A Fixed Asset already exists with this name and number");
+					}
+				}
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "A Fixed Asset already exists with this name");
+			} else if (this.assetNumber.equals(object[1])) {
+				Iterator it2 = list.iterator();
+				while (it2.hasNext()) {
+					Object[] object2 = (Object[]) it2.next();
+					if (this.name.equalsIgnoreCase((String) object2[0])) {
+						throw new AccounterException(
+								AccounterException.ERROR_NUMBER_CONFLICT);
+						// "A Customer already exists with this name and number");
+					}
+				}
+				throw new AccounterException(
+						AccounterException.ERROR_NUMBER_CONFLICT);
+				// "A Fixed Asset already exists with this number");
+			}
+		}
+
+		// }
 		return true;
+
 	}
 
 	@Override
