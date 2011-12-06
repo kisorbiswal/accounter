@@ -1217,4 +1217,24 @@
 		<alias>TerminologyPreferences</alias>
 		<alias>Terminologies</alias>
 	</command>
+	
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.preferences.CategoriesPreferencesCommand"
+		name="Categories Preferences ">
+		<alias>CategoriesPreferences</alias>
+		<alias>Categories</alias>
+	</command>
+	
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.ForgotPasswordCommand"
+		name="Forgot Password">
+		<alias>ForgotPassword</alias>
+	</command>
+	
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.ChangePasswordCommand"
+		name="Change Password">
+		<alias>ChangePassword</alias>
+	</command>
+	
 </commands>
