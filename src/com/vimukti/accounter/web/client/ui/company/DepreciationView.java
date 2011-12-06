@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -126,6 +127,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 			}
 		});
+		depreciatedToCombo.setWidth("100%");
 
 		Button updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
@@ -258,7 +260,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			year = fromDateCal.get(Calendar.YEAR);
 		}
 
-		// openFiscalYears = AccounterValidator.getOpenFiscalYears();
+		 openFiscalYears = AccounterValidator.getOpenFiscalYears();
 
 		toDateCal.set(Calendar.YEAR, year);
 		int month = startDateCal.get(Calendar.MONTH) - 1;
