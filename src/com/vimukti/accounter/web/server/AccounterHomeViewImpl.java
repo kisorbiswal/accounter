@@ -13,7 +13,6 @@ import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.CreditsAndPayments;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
@@ -27,7 +26,6 @@ import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransferFund;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
@@ -738,53 +736,24 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<InvoicesList> getInvoiceList() {
+	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate) {
 		List<InvoicesList> invoicesList = null;
-
+		FinanceDate[] dates = getMinimumAndMaximumDates(new ClientFinanceDate(
+				fromDate), new ClientFinanceDate(toDate), getCompanyId());
 		try {
 
 			invoicesList = getFinanceTool().getInventoryManager()
-					.getInvoiceList(getCompanyId());
-
-			// invoicesList = (List<InvoicesList>) manager.merge(invoicesList);
+					.getInvoiceList(getCompanyId(), dates[0].getDate(),
+							dates[1].getDate());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return new ArrayList<InvoicesList>(invoicesList);
 	}
 
-	@Override
-	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate) {
-		List<InvoicesList> invoicesList = null;
-		List<InvoicesList> filteredList = null;
-		// getMinimumAndMaximumDates(Utility.dateToString(fromDate), Utility
-		// .dateToString(toDate));
-		try {
-
-			filteredList = new ArrayList<InvoicesList>();
-			invoicesList = getFinanceTool().getInventoryManager()
-					.getInvoiceList(getCompanyId());
-			for (InvoicesList list : invoicesList) {
-				if (!list.getDate().before(new ClientFinanceDate(fromDate))
-						&& !list.getDate().after(new ClientFinanceDate(toDate)))
-
-					filteredList.add(list);
-
-			}
-			return new ArrayList<InvoicesList>(filteredList);
-			// invoicesList = (List<InvoicesList>) manager.merge(invoicesList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return new ArrayList<InvoicesList>(filteredList);
-	}
-
-	@Override
-	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate() {
+	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(
+			long companyId) {
 		List<ClientFinanceDate> transactionDates = new ArrayList<ClientFinanceDate>();
 		try {
 
@@ -796,6 +765,33 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return new ArrayList<ClientFinanceDate>(transactionDates);
+	}
+
+	private FinanceDate[] getMinimumAndMaximumDates(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+
+		// if ((startDate.equals("") || startDate == null)
+		// || (endDate.equals("") || endDate == null)) {
+
+		List<ClientFinanceDate> dates = getMinimumAndMaximumTransactionDate(companyId);
+		ClientFinanceDate startDate1 = dates.get(0) == null ? new ClientFinanceDate()
+				: dates.get(0);
+		ClientFinanceDate endDate2 = dates.get(1) == null ? new ClientFinanceDate()
+				: dates.get(1);
+
+		FinanceDate transtartDate;
+		if (startDate == null || startDate.isEmpty())
+			transtartDate = new FinanceDate(startDate1);
+		else
+			transtartDate = new FinanceDate(startDate.getDate());
+		FinanceDate tranendDate;
+		if (endDate == null || endDate.isEmpty())
+			tranendDate = new FinanceDate(endDate2);
+		else
+			tranendDate = new FinanceDate(endDate.getDate());
+
+		return new FinanceDate[] { transtartDate, tranendDate };
 	}
 
 	@Override
