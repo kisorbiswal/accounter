@@ -4697,4 +4697,6 @@ public interface AccounterMessages extends Messages {
 	public String addBankAccount();
 
 	public String cannotCreateUserAsTheirIsNoUserWithAdminRole();
+
+	public String newpasswordAndPreviouspasswordAreSame();
 }
