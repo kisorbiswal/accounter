@@ -11,6 +11,13 @@ public class RecentTransactionHistoryGrid extends ListGrid<ClientActivity> {
 	}
 
 	@Override
+	public void init() {
+		super.init();
+		this.header.getElement().getParentElement().getParentElement()
+				.addClassName("dashboard_grid_header");
+	}
+
+	@Override
 	protected int getColumnType(int index) {
 		switch (index) {
 		case 1:

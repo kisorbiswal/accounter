@@ -9,7 +9,13 @@ public class DashBoardBankAccountGrid extends ListGrid<ClientAccount> {
 
 	public DashBoardBankAccountGrid() {
 		super(false);
-		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		this.header.getElement().getParentElement().getParentElement()
+				.addClassName("dashboard_grid_header");
 	}
 
 	@Override
