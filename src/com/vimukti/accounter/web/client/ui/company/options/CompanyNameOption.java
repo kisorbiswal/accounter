@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Header;
 
 /**
  * @author Prasanna Kumar G
@@ -73,6 +74,7 @@ public class CompanyNameOption extends AbstractPreferenceOption {
 		getCompany().setLegalName(legalNameTextBox.getValue());
 		getCompany().setTradingName(companyNameTextBox.getValue());
 		getCompanyPreferences().setShowLegalName(isShowLegalName.getValue());
+		Header.companyNameLabel.setText(companyNameTextBox.getValue());
 	}
 
 	@Override
