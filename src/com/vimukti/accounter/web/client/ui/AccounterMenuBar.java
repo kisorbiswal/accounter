@@ -62,7 +62,7 @@ public class AccounterMenuBar extends HorizontalPanel {
 			menuBar.addMenuItem(messages.inventory(), getInventoryMenu());
 		}
 
-		// menuBar.addMenuItem(messages.fixedAssets(), getFixedAssetsMenu());
+		menuBar.addMenuItem(messages.fixedAssets(), getFixedAssetsMenu());
 		// ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (Accounter.getUser().canViewReports()) {
