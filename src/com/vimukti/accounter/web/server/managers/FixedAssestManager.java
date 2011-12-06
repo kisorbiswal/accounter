@@ -30,6 +30,7 @@ import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
 import com.vimukti.accounter.web.client.core.Lists.SellingOrDisposingFixedAssetList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class FixedAssestManager extends Manager {
@@ -366,7 +367,7 @@ public class FixedAssestManager extends Manager {
 		 */
 		Company company = getCompany(companyId);
 		String purchasedDate = "Purchase "
-				+ format.format(fixedAsset.getPurchaseDate());
+				+ UIUtils.getDateStringFormat(fixedAsset.getPurchaseDate());
 		String currentAccumulatedDepreciation = "Current accumulated depreciation";
 		String depreciationTobePosted = "Depreciation to be posted (";
 		String rollBackDepreciation = "rollback deprecaition till ";
@@ -426,7 +427,7 @@ public class FixedAssestManager extends Manager {
 								.getDate())) <= 0 ? new FinanceDate(
 						lastDepreciationDateCal.getTime()) : new FinanceDate(
 						fixedAsset.getPurchaseDate().getDate());
-				depreciationTobePosted += format.format(depFrom);
+				depreciationTobePosted += UIUtils.getDateStringFormat(new ClientFinanceDate(depFrom.getDate()));
 				depreciationTobePosted += " to";
 				depreciationTobePosted += format.format(soldYearStartDateCal
 						.getTime());
@@ -480,10 +481,9 @@ public class FixedAssestManager extends Manager {
 					lastDepreciationDateCal.getTime())
 							: new FinanceDate(fixedAsset.getPurchaseDate()
 									.getDate());
-					depreciationTobePosted += format.format(depFrom);
+					depreciationTobePosted += UIUtils.getDateStringFormat(new ClientFinanceDate(depFrom.getDate()));
 					depreciationTobePosted += " to";
-					depreciationTobePosted += format
-							.format(depreciationTillDate);
+					depreciationTobePosted +=UIUtils.getDateStringFormat(new ClientFinanceDate(depreciationTillDate.getDate()));
 					depreciationTobePosted += ")";
 					depreciationToBePostedAmount = getCalculatedDepreciatedAmount(
 							fixedAsset.getDepreciationMethod(),
@@ -511,7 +511,7 @@ public class FixedAssestManager extends Manager {
 		}
 
 		String soldDate = "Sold "
-				+ format.format(fixedAsset.getSoldOrDisposedDate());
+				+ UIUtils.getDateStringFormat(fixedAsset.getSoldOrDisposedDate());
 
 		/**
 		 * Preparing the disposalSummary Map with the above calculated Keys and
