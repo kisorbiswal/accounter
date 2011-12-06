@@ -7,20 +7,24 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public class TempFixedAsset implements IsSerializable, Serializable {
 
-	long fixedAssetID;
-	ClientFinanceDate purchaseDate;
-	boolean isNoDepreciation;
-	ClientFinanceDate soldOrDisposedDate;
-	ClientFinanceDate depreciationTillDate;
-	double purchasePrice;
-	double salesPrice;
-	double bookValue;
-	String assetAccountName;
-	String linkedAccumulatedDepreciatedAccountName;
-	String expenseAccountName;
-	String salesAccountName;
-	int depreciationMethod;
-	double depreciationRate;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long fixedAssetID;
+	private ClientFinanceDate purchaseDate;
+	private boolean isNoDepreciation;
+	private ClientFinanceDate soldOrDisposedDate;
+	private ClientFinanceDate depreciationTillDate;
+	private double purchasePrice;
+	private double salesPrice;
+	private double bookValue;
+	private String assetAccountName;
+	private String linkedAccumulatedDepreciatedAccountName;
+	private String expenseAccountName;
+	private String salesAccountName;
+	private int depreciationMethod;
+	private double depreciationRate;
 
 	public long getFixedAssetID() {
 		return fixedAssetID;
