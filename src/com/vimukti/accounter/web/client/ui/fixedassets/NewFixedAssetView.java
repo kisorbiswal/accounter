@@ -12,12 +12,12 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
@@ -88,7 +88,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	private ArrayList<DynamicForm> listforms;
 	private double depAmount;
-	protected String selectedOption;
+	private String selectedOption;
 	private boolean isVerified = false;
 	private ImageButton registerButton;
 
@@ -115,6 +115,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	private void disableFields(boolean disable) {
+
+		setMode(EditMode.EDIT);
 		itmNameForm.setDisabled(disable);
 		itemInfoForm.setDisabled(disable);
 		purchaseInfoForm.setDisabled(disable);
@@ -125,7 +127,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		registerButton.setEnabled(!disable);
 		if (acumulatedDeprcForm != null)
 			acumulatedDeprcForm.setDisabled(disable);
-		if (accumulatedDepreciationAccountForm != null)
+		if (accumulatedDepreciationAccountForm != null
+				&& accumulatedDepreciationAccount != null)
 			accumulatedDepreciationAccountForm.setDisabled(disable);
 		/*
 		 * If an asset saved as a pending item,the linkedaccount might be
@@ -139,6 +142,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				&& mainVPanel.getWidgetIndex(accumltdAccVPanel) == -1) {
 			showAccumltdAccountForm();
 		}
+
 	}
 
 	private void initAssetNumber() {
@@ -147,8 +151,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 					@Override
 					public void onException(AccounterException caught) {
-						// TODO Auto-generated method stub
-
+						Accounter.showError(caught.getMessage());
 					}
 
 					@Override
@@ -167,6 +170,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		listforms = new ArrayList<DynamicForm>();
 
 		Label labl = new Label(messages.newAsset());
+		labl.addStyleName(messages.labelTitle());
 		labl.setStyleName(messages.requiredField());
 		if (getData() != null) {
 			switch (data.getStatus()) {
@@ -251,6 +255,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						}
 					}
 				});
+		accountCombo.initCombo(getFixedAssetAccounts());
 		purchaseDateTxt = new DateField(messages.purchaseDate());
 		purchaseDateTxt.setDatethanFireEvent(new ClientFinanceDate());
 		purchaseDateTxt.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -275,10 +280,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		descrptionLabel = new Label(messages.description());
 		descriptionTxtArea = new TextAreaItem();
-		descriptionTxtArea.setToolTip(messages.writeCommentsForThis(
-				this.getAction().getViewName()).replace(messages.comments(),
-				messages.description()));
-		descriptionTxtArea.setWidth(98);
+		descriptionTxtArea.setToolTip(Accounter.messages()
+				.writeCommentsForThis(this.getAction().getViewName())
+				.replace(messages.comments(), messages.description()));
+		descriptionTxtArea.setWidth("100px");
+		descriptionTxtArea.setWidth("800px");
 
 		itmNameForm = new DynamicForm();
 		itmNameForm.setStyleName("margin-b");
@@ -435,23 +441,22 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 								.getSellingRegisteredItemAction();
 						action.catagory = messages.fixedAssetsNewFixedAsset();
 						action.run(data, true);
-					} else if (selectedOption.equalsIgnoreCase(Accounter
-							.messages().dispose())) {
+					} else if (selectedOption.equalsIgnoreCase(messages
+							.dispose())) {
 						Action action = ActionFactory
 								.getDiposingRegisteredItemAction();
 						action.catagory = messages.fixedAssetsNewFixedAsset();
 						action.run(data, true);
-					} else if (selectedOption.equalsIgnoreCase(Accounter
-							.messages().showHistory())) {
+					} else if (selectedOption.equalsIgnoreCase(messages
+							.showHistory())) {
 						Action action = ActionFactory.getHistoryListAction();
 						action.catagory = messages.fixedAssetsNewFixedAsset();
 						action.run(data, true);
-					} else if (selectedOption.equalsIgnoreCase(Accounter
-							.messages().addNote())) {
+					} else if (selectedOption.equalsIgnoreCase(messages
+							.addNote())) {
 						openNoteDialog();
-					} else if (selectedOption.equalsIgnoreCase(Accounter
-							.messages().edit())) {
-						disableFields(false);
+					} else if (selectedOption.equalsIgnoreCase(messages.edit())) {
+						onEdit();
 					} else {
 						disableFields(true);
 					}
@@ -565,6 +570,15 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	}
 
+	private List<ClientAccount> getFixedAssetAccounts() {
+		List<ClientAccount> fixedAssetAccountsList = new ArrayList<ClientAccount>();
+		for (ClientAccount account : getCompany().getAccounts())
+			if (account.getType() == ClientAccount.TYPE_FIXED_ASSET) {
+				fixedAssetAccountsList.add(account);
+			}
+		return fixedAssetAccountsList;
+	}
+
 	/*
 	 * The note dialog get opened in edit mode on selecting the "Add Note"
 	 * option in options combo And this note is saved into the asset object on
@@ -608,12 +622,20 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	 */
 	private void showAccumltdAccountForm() {
 		isAccumltd = true;
+		// infoLabl2 = new Label(
+		// Accounter
+		// .messages()
+		// .assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount(
+		// Global.get().account()));
 		infoLabl2 = new Label(
 				Accounter
 						.messages()
 						.assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount());
 		infoLabl2.addStyleName("requiredField");
 
+		// accumulatedDepreciationAccount = new FixedAssetAccountCombo(Accounter
+		// .messages().accumulatedDepreciationAccount(
+		// Global.get().account()));
 		accumulatedDepreciationAccount = new FixedAssetAccountCombo(Accounter
 				.messages().accumulatedDepreciationAccount());
 		accumulatedDepreciationAccount
@@ -621,7 +643,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
-
 						validateAccount();
 
 					}
@@ -634,6 +655,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		 */
 		List<ClientAccount> accumulatedAccounts = accumulatedDepreciationAccount
 				.getAccounts();
+		if (selectedAssetAccount == null && isInViewMode()) {
+			selectedAssetAccount = getCompany().getAccount(
+					data.getAssetAccount());
+		}
 		List<ClientFixedAsset> fixedAssets = getCompany().getFixedAssets();
 		for (ClientFixedAsset asset : fixedAssets) {
 			for (ClientAccount accumulatedAccount : accumulatedAccounts) {
@@ -641,6 +666,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						&& selectedAssetAccount.getID() != accumulatedAccount
 								.getID())
 					accumulatedDepreciationAccount.setValue(accumulatedAccount);
+				// data.setAccumulatedDepreciationAmount(accumulatedAccount.getID());
 			}
 		}
 
@@ -685,9 +711,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				.getSelectedValue();
 		if (assetAccount != null && selectItem != null
 				&& assetAccount.getID() == selectItem.getID()) {
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 
 	}
 
@@ -843,7 +869,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// addError(this, messages.accountUpdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		AccounterException accounterException = (AccounterException) exception;
+		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -857,6 +883,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		if (selectedAssetAccount != null) {
 			if (accumulatedDepreciationAccount != null) {
 				data.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount
+						.getSelectedValue() != null ? accumulatedDepreciationAccount
+						.getSelectedValue().getID() : 0);
+				selectedAssetAccount
+				.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount
 						.getSelectedValue() != null ? accumulatedDepreciationAccount
 						.getSelectedValue().getID() : 0);
 			}
@@ -903,6 +933,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	}
 
+	/*
+	 * --------- I think TODO No Need
+	 */
+
 	@Override
 	protected void onLoad() {
 		int assetNumberWidth = itemInfoForm.getCellFormatter().getElement(0, 0)
@@ -913,16 +947,18 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	protected void onAttach() {
-		Element e = itemInfoForm.getCellFormatter().getElement(0, 0).cast();
-		int assetNumberWidth = e.getOffsetWidth();
-		adjustFormWidths(assetNumberWidth);
+		// int assetNumberWidth = itemInfoForm.getCellFormatter().getElement(0,
+		// 0).getOffsetWidth();
+		// adjustFormWidths(assetNumberWidth);
 		super.onAttach();
 	};
 
 	private void adjustFormWidths(int assetNumberWidth) {
-		// itmNameForm.getCellFormatter().getElement(0, 0).setAttribute("width",
-		// assetNumberWidth + "");
+		itmNameForm.getCellFormatter().getElement(0, 0)
+				.setAttribute("width", assetNumberWidth + "");
 	}
+
+	/*---------------------------up to this ------------*/
 
 	/*
 	 * If "Save" button clicked, only itemname & assetnumber fields are
@@ -935,12 +971,15 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// related form validations
 		// purchase date validation
 
-		ClientFixedAsset fixedAssetByName = getCompany().getFixedAssetByName(
-				itemTxt.getValue().toString());
-		if (fixedAssetByName != null) {
-			result.addError(itemTxt, messages.alreadyExist());
-			return result;
-		}
+		// ClientFixedAsset fixedAssetByName = getCompany().getFixedAssetByName(
+		// itemTxt.getValue().toString());
+		// if (fixedAssetByName != null && (selectedOption != null ?
+		// selectedOption
+		// .equalsIgnoreCase(messages.edit()) ? false : true
+		// : true)) {
+		// result.addError(itemTxt, messages.alreadyExist());
+		// return result;
+		// }
 		// if (Utility.isObjectExist(getCompany().getFixedAssets(), itemTxt
 		// .getValue().toString())) {
 		// result.addError(itemTxt, messages.alreadyExist());
@@ -999,7 +1038,12 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		if (accountCombo != null && accumulatedDepreciationAccount != null) {
 			if (validateAccount()) {
-				result.addError(accountCombo, messages
+				result.addError(accountCombo,
+				/*
+				 * Accounter .messages()
+				 * .accandaccumulatedDepreciationAccShouldnotbesame(
+				 * Global.get().account())
+				 */Accounter.messages()
 						.accandaccumulatedDepreciationAccShouldnotbesame());
 			}
 		}
@@ -1026,6 +1070,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1056,7 +1101,30 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	public void onEdit() {
-		setMode(EditMode.EDIT);
+
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result.booleanValue()) {
+					disableFields(!result.booleanValue());
+				}
+			}
+
+		};
+
+		this.rpcDoSerivce.canEdit(AccounterCoreType.FIXEDASSET, data.getID(),
+				editCallBack);
+	}
+
+	@Override
+	public boolean canEdit() {
+		return false;
 	}
 
 	@Override
@@ -1097,7 +1165,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	protected void registerAsset() {
-		// TODO Auto-generated method stub
-
+		data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
+		validate();
+		saveAndUpdateView();
+		this.onSave(false);
 	}
 }
