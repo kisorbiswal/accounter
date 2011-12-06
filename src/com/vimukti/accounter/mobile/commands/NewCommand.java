@@ -25,6 +25,7 @@ public abstract class NewCommand extends Command {
 	private ClientCompanyPreferences preferences;
 	private Stack<Integer> requirementSequence = new Stack<Integer>();
 	private int lastRequirement = -2;
+	private Context context;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -43,6 +44,7 @@ public abstract class NewCommand extends Command {
 	}
 
 	public Result process(Context context) {
+		this.context = context;
 		context.setAttribute("firstMessage", new ArrayList<String>());
 		Result makeResult = context.makeResult();
 		if (getAttribute("input") == null) {
@@ -121,7 +123,7 @@ public abstract class NewCommand extends Command {
 			if (thirdCommand != null) {
 				Result result = new Result();
 				result.setNextCommand(thirdCommand);
-				context.getIOSession().getCurrentCommand().markDone();
+				markDone();
 				return result;
 			}
 		}
@@ -138,7 +140,7 @@ public abstract class NewCommand extends Command {
 			if (deleteCommand != null) {
 				Result result = new Result();
 				result.setNextCommand(deleteCommand);
-				context.getIOSession().getCurrentCommand().markDone();
+				markDone();
 				return result;
 			}
 		}
@@ -150,7 +152,7 @@ public abstract class NewCommand extends Command {
 		}
 
 		beforeFinishing(context, makeResult);
-		if (selection != ActionNames.FINISH_COMMAND) {
+		if (!isDone() && selection != ActionNames.FINISH_COMMAND) {
 			return makeResult;
 		}
 
@@ -223,6 +225,10 @@ public abstract class NewCommand extends Command {
 
 	public void setPreferences(ClientCompanyPreferences preferences) {
 		this.preferences = preferences;
+	}
+
+	public Context getContext() {
+		return context;
 	}
 
 	protected Client getClient(String emailId) {
