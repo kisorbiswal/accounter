@@ -17,6 +17,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 
 /**
  * 
@@ -74,7 +75,7 @@ public class Depreciation extends CreatableObject implements
 	 * This contains the list of possible Registered Fixed Assets which has
 	 * purchased under this period. (between Depreciation from and to dates)
 	 */
-	// List<FixedAsset> fixedAssets;
+	 List<FixedAsset> fixedAssets;
 	FixedAsset fixedAsset;
 
 	/**
@@ -93,7 +94,7 @@ public class Depreciation extends CreatableObject implements
 
 	transient private boolean isOnSaveProccessed;
 
-	// FixedAssetLinkedAccountMap linkedAccounts;
+	 FixedAssetLinkedAccountMap linkedAccounts;
 
 	public Depreciation() {
 		this.depreciationFor = DEPRECIATION_FOR_ALL_FIXEDASSET;
@@ -123,13 +124,13 @@ public class Depreciation extends CreatableObject implements
 		this.depreciateTo = depreciateTo;
 	}
 
-	// public List<FixedAsset> getFixedAssets() {
-	// return fixedAssets;
-	// }
-	//
-	// public void setFixedAssets(List<FixedAsset> fixedAssets) {
-	// this.fixedAssets = fixedAssets;
-	// }
+	 public List<FixedAsset> getFixedAssets() {
+	 return fixedAssets;
+	 }
+	
+	 public void setFixedAssets(List<FixedAsset> fixedAssets) {
+	 this.fixedAssets = fixedAssets;
+	 }
 
 	public int getDepreciationFor() {
 		return depreciationFor;
@@ -155,14 +156,14 @@ public class Depreciation extends CreatableObject implements
 		this.rollBackDepreciationDate = rollbackDepreciationDate;
 	}
 
-	// public FixedAssetLinkedAccountMap getLinkedAccounts() {
-	// return linkedAccounts;
-	// }
-	//
-	// public void setLinkedAccounts(FixedAssetLinkedAccountMap linkedAccounts)
-	// {
-	// this.linkedAccounts = linkedAccounts;
-	// }
+	 public FixedAssetLinkedAccountMap getLinkedAccounts() {
+	 return linkedAccounts;
+	 }
+	
+	 public void setLinkedAccounts(FixedAssetLinkedAccountMap linkedAccounts)
+	 {
+	 this.linkedAccounts = linkedAccounts;
+	 }
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
@@ -630,8 +631,7 @@ public class Depreciation extends CreatableObject implements
 	 */
 
 	public static FinanceDate getDepreciationLastDate(Company company) {
-		Session session = HibernateUtil.getCurrentSession() == null ? Utility
-				.getCurrentSession() : HibernateUtil.getCurrentSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
 				.getNamedQuery("getMaxDepreciation.from.Depreciation.byStatus")
 				.setInteger("depreciationFor",
