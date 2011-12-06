@@ -44,7 +44,7 @@ public class ClientFixedAsset implements IAccounterCore {
 	 */
 	private long assetAccount;
 
-	long linkedAccumulatedDepreciationAccount;
+	private long linkedAccumulatedDepreciationAccount;
 
 	/**
 	 * Date of Purchase
@@ -93,7 +93,7 @@ public class ClientFixedAsset implements IAccounterCore {
 
 	private long soldOrDisposedDate;
 
-	private ClientAccount accountForSale;
+	private long accountForSale;
 
 	private double salePrice = 0.0;
 
@@ -297,11 +297,11 @@ public class ClientFixedAsset implements IAccounterCore {
 		return soldOrDisposedDate;
 	}
 
-	public void setAccountForSale(ClientAccount accountForSale) {
+	public void setAccountForSale(long accountForSale) {
 		this.accountForSale = accountForSale;
 	}
 
-	public ClientAccount getAccountForSale() {
+	public long getAccountForSale() {
 		return accountForSale;
 	}
 
@@ -406,7 +406,7 @@ public class ClientFixedAsset implements IAccounterCore {
 
 	public ClientFixedAsset clone() {
 		ClientFixedAsset fixedAsset = (ClientFixedAsset) this.clone();
-		fixedAsset.accountForSale = this.accountForSale.clone();
+		fixedAsset.accountForSale = this.accountForSale;
 		List<ClientFixedAssetNote> fixedAssetNotes = new ArrayList<ClientFixedAssetNote>();
 		for (ClientFixedAssetNote clientFixedAssetNote : this.fixedAssetNotes) {
 			fixedAssetNotes.add(clientFixedAssetNote.clone());
@@ -431,5 +431,16 @@ public class ClientFixedAsset implements IAccounterCore {
 	@Override
 	public void setVersion(int version) {
 		this.version=version;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientFixedAsset) {
+			ClientFixedAsset fixedAsset = (ClientFixedAsset) obj;
+			return this.getID() == fixedAsset.getID() ? true : false;
+		}
+		return false;
 	}
 }
