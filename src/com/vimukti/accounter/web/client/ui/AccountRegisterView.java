@@ -24,7 +24,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 	private DepositInAccountCombo bankAccSelect;
 	PayeeCombo paytoSelect;
-	private ClientAccount takenaccount;
+	private final ClientAccount takenaccount;
 	private ClientAccount account;
 	protected List<AccountRegister> accountRegister;
 	private AccountRegister accRegister;
@@ -84,6 +84,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 		bankAccSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						ClientAccount selectBankAccMethod = selectItem;
 
@@ -133,8 +134,8 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 		hlayTop.add(hlay);
 
-		lab1 = new Label(messages.accountRegister()
-				+ " - " + takenaccount.getName());
+		lab1 = new Label(messages.accountRegister() + " - "
+				+ takenaccount.getName());
 
 		grid = new AccountRegisterListGrid(false, ClientAccount.TYPE_BANK);
 		grid.addStyleName("listgrid-tl");
@@ -222,6 +223,9 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 		this.account = takenaccount;
 
+		grid.setAccount(takenaccount);
+		grid2.setAccount(takenaccount);
+
 		ClientFinanceDate endDate = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 		// .getLastandOpenedFiscalYearEndDate();
@@ -233,12 +237,15 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 				Accounter.getStartDate(), endDate, takenaccount.getID(),
 				new AccounterAsyncCallback<ArrayList<AccountRegister>>() {
 
+					@Override
 					public void onException(AccounterException caught) {
 						Accounter.showError(messages
-								.failedtoGetListofAccounts(takenaccount.getName()));
+								.failedtoGetListofAccounts(takenaccount
+										.getName()));
 
 					}
 
+					@Override
 					public void onResultSuccess(
 							ArrayList<AccountRegister> result) {
 						accountRegister = result;
