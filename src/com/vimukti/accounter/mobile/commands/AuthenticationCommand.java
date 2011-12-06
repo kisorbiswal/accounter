@@ -154,7 +154,7 @@ public class AuthenticationCommand extends Command {
 				String userName = (String) context.getAttribute("userName");
 				context.setAttribute("input", "userName");
 				String password = HexUtil.bytesToHex(Security.makeHash(userName
-						+ string));
+						.toLowerCase() + string));
 				client = getClient(userName);
 				if (client == null || !client.getPassword().equals(password)) {
 					context.setAttribute("userName", null);
