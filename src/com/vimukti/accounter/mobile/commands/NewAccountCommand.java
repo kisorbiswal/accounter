@@ -16,7 +16,6 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
@@ -235,7 +234,8 @@ public class NewAccountCommand extends NewAbstractCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(ACCOUNT_NUMBER).setDefaultValue(
-				autoGenerateAccountnumber(1100, 1179, context.getCompany()));
+				String.valueOf(autoGenerateAccountnumber(1100, 1179,
+						context.getCompany())));
 		get(ACCOUNT_TYPE).setDefaultValue("Income");
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(CONSIDER_AS_CASH_ACCOUNT).setDefaultValue(Boolean.TRUE);
