@@ -169,7 +169,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	protected DynamicForm getDetailForm() {
 		datesold = new DateField(Accounter.messages().datesold());
 		datesold.setEnteredDate(new ClientFinanceDate());
-		yearValue = String.valueOf(datesold.getYear() + 1900);
+		yearValue = String.valueOf(datesold.getYear());
 		datesold.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override
@@ -232,7 +232,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		ClientFixedAsset sellingAsset = getSellOrDisposeObject();
 		sellingAsset.setSalePrice(salepriceText.getAmount());
 		if (this.accountForSale != null)
-			sellingAsset.setAccountForSale(this.accountForSale);
+			sellingAsset.setAccountForSale(this.accountForSale.getID());
 		return sellingAsset;
 	}
 
@@ -279,7 +279,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	protected void dateSelected() {
 		yearValue = String
-				.valueOf(getSoldorDisposedDateField().getYear() + 1900);
+				.valueOf(getSoldorDisposedDateField().getYear() );
 		depriciationForFinancialyearLabel.setText(Accounter.messages()
 				.depriciationForThe()
 				+ yearValue + "     " + Accounter.messages().financialYear());
@@ -320,7 +320,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			else
 				format = lastdates[key] + " " + months[key] + " " + year;
 			dateList[pos] = format;
-			dateValueMap.put(format, new ClientFinanceDate((year - 1900), key,
+			dateValueMap.put(format, new ClientFinanceDate((year), key,
 					lastdates[key]));
 			pos++;
 		}
@@ -355,10 +355,10 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 				.getEnteredDate();
 		if (soldorDisposedate.getMonth() >= startDate.getMonth()) {
 			monthvalue = startDate.getMonth();
-			year = soldorDisposedate.getYear() + 1900;
+			year = soldorDisposedate.getYear() ;
 		} else if (soldorDisposedate.getMonth() < startDate.getMonth()) {
 			monthvalue = startDate.getMonth();
-			year = (soldorDisposedate.getYear() + 1900) - 1;
+			year = (soldorDisposedate.getYear()) - 1;
 		}
 		for (int month = 0; month < 12; month++) {
 			if (monthvalue > 11) {
@@ -419,7 +419,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	}
 
 	public void saveAndUpdateView() {
-		getJournalViewObjet(getTempFixedAssetObject());
+		reviewJournal();
 	}
 
 	/**
@@ -646,8 +646,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	}
 
 	protected void reviewJournal() {
-		// TODO Auto-generated method stub
-
+		getJournalViewObjet(getTempFixedAssetObject());
 	}
 
 }
