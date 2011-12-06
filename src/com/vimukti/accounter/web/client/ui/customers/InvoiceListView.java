@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -28,8 +27,6 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 	private List<InvoicesList> listOfInvoices;
 
 	private List<String> dateRangeList;
-	private static final int DUE_DATE = 5;
-
 	public static String OPEN = Accounter.messages().open();
 	public static String OVER_DUE = Accounter.messages().overDue();
 	public static String VOID = Accounter.messages().voided();
