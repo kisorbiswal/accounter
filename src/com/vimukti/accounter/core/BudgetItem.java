@@ -305,7 +305,34 @@ public class BudgetItem implements IAccounterServerCore {
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), messages.budgetitem()).gap().gap();
+		w.put(messages.type(), messages.budgetitem());
+
+		w.put(messages.account(), this.account.getName()).gap();
+
+		w.put(messages.january() + " " + messages.amount(),
+				Double.toString(this.januaryAmount));
+		w.put(messages.february() + " " + messages.amount(),
+				Double.toString(this.febrauaryAmount));
+		w.put(messages.march() + " " + messages.amount(),
+				Double.toString(this.marchAmount));
+		w.put(messages.april() + " " + messages.amount(),
+				Double.toString(this.aprilAmount));
+		w.put(messages.may() + " " + messages.amount(),
+				Double.toString(this.mayAmount));
+		w.put(messages.june() + " " + messages.amount(),
+				Double.toString(this.juneAmount));
+		w.put(messages.july() + " " + messages.amount(),
+				Double.toString(this.julyAmount));
+		w.put(messages.august() + " " + messages.amount(),
+				Double.toString(this.augustAmount));
+		w.put(messages.september() + " " + messages.amount(),
+				Double.toString(this.septemberAmount));
+		w.put(messages.october() + " " + messages.amount(),
+				Double.toString(this.octoberAmount));
+		w.put(messages.november() + " " + messages.amount(),
+				Double.toString(this.novemberAmount));
+		w.put(messages.december() + " " + messages.amount(),
+				Double.toString(this.decemberAmount));
 	}
 
 }

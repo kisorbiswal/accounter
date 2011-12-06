@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 public class ClientBudgetItem implements IAccounterCore {
 
 	/**
@@ -284,7 +283,7 @@ public class ClientBudgetItem implements IAccounterCore {
 	}
 
 	public ClientBudgetItem clone() {
-		ClientBudgetItem budget = (ClientBudgetItem) this.clone();
+		ClientBudgetItem budget = this.clone();
 		return budget;
 
 	}

@@ -24,7 +24,9 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -1385,7 +1387,22 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		w.put(Global.get().messages().name(), this.name);
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.accountType(), Utility.getAccountTypeString(this.type))
+				.gap();
+		w.put(messages.accountNumber(), this.number);
+
+		w.put(messages.accountName(), this.name).gap();
+		w.put(messages.currency(), this.currency.getFormalName());
+
+		w.put(messages.openingBalance(), this.openingBalance).gap();
+		w.put(messages.date(), this.asOf.toString());
+
+		w.put(messages.comment(), this.comment).gap();
+		w.put(messages.date(), this.asOf.toString());
+
 	}
 
 	public boolean isOpenBalanceFieldsChanged() {

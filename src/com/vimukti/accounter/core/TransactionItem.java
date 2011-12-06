@@ -825,8 +825,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 
 		if (this.transaction.getLocation() != null) {
-			w.put(messages.location(), this.transaction.getLocation()
-					.toString());
+			w.put(messages.location(), this.transaction.getLocation().getName());
 		}
 		// not sure whats this
 		// w.put(messages.amount(), this.usedamt.toString());
@@ -835,14 +834,13 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		w.put(messages.vat(), this.VATfraction.toString());
 
 		if (this.taxCode != null) {
-			w.put(messages.taxCode(), this.taxCode.toString());
+			w.put(messages.taxCode(), this.taxCode.getName());
 		}
 
 		if (this.wareHouse != null) {
-			w.put(messages.wareHouse(), this.wareHouse.toString());
+			w.put(messages.wareHouse(), this.wareHouse.getName());
 		}
 		w.put(messages.isBillable(), this.isBillable);
 
 	}
-
 }

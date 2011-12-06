@@ -7,8 +7,10 @@ import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * Transfers items from one warehouse to another.
@@ -137,7 +139,18 @@ public class StockTransfer extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-		
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), "Stock Transfer").gap();
+
+		w.put(messages.fromWarehouse(), this.fromWarehouse.getName());
+
+		w.put(messages.toWarehouse(), this.toWarehouse.getName());
+
+		w.put(messages.stockItemName(), this.stockTransferItems);
+
+		w.put(messages.memo(), this.memo);
+
 	}
 }

@@ -81,7 +81,7 @@ public class AccountTransaction extends CreatableObject implements
 				+ tempTransactionDate.getMonth();
 		if (this.account.monthViceAmounts.containsKey(key)) {
 			this.account.monthViceAmounts.put(key,
-					(Double) this.account.monthViceAmounts.get(key) + amount);
+					this.account.monthViceAmounts.get(key) + amount);
 		} else {
 			this.account.monthViceAmounts.put(key, amount);
 		}
@@ -191,7 +191,19 @@ public class AccountTransaction extends CreatableObject implements
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), messages.accounttransaction()).gap().gap();
+		w.put(messages.type(), messages.accounttransaction()).gap();
+
 		w.put(messages.amount(), this.amount);
+
+		if (this.transaction != null)
+			w.put(messages.transactionAmount(), this.transaction.getNetAmount());
+
+		if (this.account != null)
+			w.put(messages.account(), this.account.getName());
+
+		w.put(messages.closeFiscalYear(), closingFYEntry);
+		w.put(messages.cashBasisAccounting(), this.cashBasisEntry);
+		w.put(messages.transactionDate(), this.tempTransactionDate.toString());
+
 	}
 }

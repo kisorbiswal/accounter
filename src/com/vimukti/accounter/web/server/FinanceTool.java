@@ -374,64 +374,64 @@ public class FinanceTool {
 
 		org.hibernate.Transaction hibernateTransaction = session
 				.beginTransaction();
-		try {
-			String arg1 = (context).getArg1();
-			String arg2 = (context).getArg2();
 
-			if (arg1 == null || arg2 == null) {
-				throw new AccounterException(
-						AccounterException.ERROR_ILLEGAL_ARGUMENT,
-						"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
-								+ context);
-			}
+		String arg1 = (context).getArg1();
+		String arg2 = (context).getArg2();
 
-			Class<?> clientClass = ObjectConvertUtil
-					.getEqivalentClientClass(arg2);
+		if (arg1 == null || arg2 == null) {
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
+					"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
+							+ context);
+		}
 
-			Class<?> serverClass = ObjectConvertUtil
-					.getServerEqivalentClass(clientClass);
+		Class<?> clientClass = ObjectConvertUtil.getEqivalentClientClass(arg2);
 
-			IAccounterServerCore serverObject = (IAccounterServerCore) session
-					.get(serverClass, Long.parseLong(arg1));
+		Class<?> serverClass = ObjectConvertUtil
+				.getServerEqivalentClass(clientClass);
 
-			// if (objects != null && objects.size() > 0) {
+		IAccounterServerCore serverObject = (IAccounterServerCore) session.get(
+				serverClass, Long.parseLong(arg1));
 
-			// IAccounterServerCore serverObject = (IAccounterServerCore)
-			// objects
-			// .get(0);
-			String userID = context.getUserEmail();
-			Company company = getCompany(context.getCompanyId());
-			User user1 = company.getUserByUserEmail(userID);
-			if (serverObject == null) {
-				throw new AccounterException(
-						AccounterException.ERROR_ILLEGAL_ARGUMENT);
-			}
-			if (serverObject instanceof FiscalYear) {
-				((FiscalYear) serverObject)
-						.canDelete((FiscalYear) serverObject);
-				session.delete(serverObject);
-				// ChangeTracker.put(serverObject);
-			} else if (serverObject instanceof User) {
-				User user = (User) serverObject;
-				user.setDeleted(true);
-				session.saveOrUpdate(user);
-			} else if (serverObject instanceof RecurringTransaction) {
-				session.delete(serverObject);
-			} else if (serverObject instanceof Reconciliation) {
+		// if (objects != null && objects.size() > 0) {
+
+		// IAccounterServerCore serverObject = (IAccounterServerCore)
+		// objects
+		// .get(0);
+		String userID = context.getUserEmail();
+		Company company = getCompany(context.getCompanyId());
+		User user1 = company.getUserByUserEmail(userID);
+		if (serverObject == null) {
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT);
+		}
+		if (serverObject instanceof FiscalYear) {
+			((FiscalYear) serverObject).canDelete((FiscalYear) serverObject);
+			session.delete(serverObject);
+			// ChangeTracker.put(serverObject);
+		} else if (serverObject instanceof User) {
+			User user = (User) serverObject;
+			user.setDeleted(true);
+			session.saveOrUpdate(user);
+		} else if (serverObject instanceof RecurringTransaction) {
+			session.delete(serverObject);
+		} else if (serverObject instanceof Reconciliation) {
+			session.delete(serverObject);
+		} else if (serverObject instanceof Budget) {
+			session.delete(serverObject);
+		} else {
+			if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1),
+					company.getID())) {
 				session.delete(serverObject);
 			} else {
-				if (canDelete(serverClass.getSimpleName(),
-						Long.parseLong(arg1), company.getID())) {
-					session.delete(serverObject);
-				} else {
-					throw new AccounterException(
-							AccounterException.ERROR_OBJECT_IN_USE);
-				}
+				throw new AccounterException(
+						AccounterException.ERROR_OBJECT_IN_USE);
 			}
-			Activity activity = new Activity(company, user1,
-					ActivityType.DELETE, serverObject);
-			session.save(activity);
-
+		}
+		Activity activity = new Activity(company, user1, ActivityType.DELETE,
+				serverObject);
+		session.save(activity);
+		try {
 			hibernateTransaction.commit();
 
 		} catch (Exception e) {
@@ -3134,20 +3134,14 @@ public class FinanceTool {
 		org.hibernate.Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			PortletPageConfiguration serverObj = null;
-			if (pageConfiguration.getId() != 0) {
-				serverObj = (PortletPageConfiguration) session.get(
-						PortletPageConfiguration.class,
-						pageConfiguration.getId());
-			} else {
-				serverObj = new PortletPageConfiguration();
-			}
-			new ServerConvertUtil().toServerObject(serverObj,
+			PortletPageConfiguration serverPageConfiguration = new PortletPageConfiguration();
+			serverPageConfiguration = new ServerConvertUtil().toServerObject(
+					serverPageConfiguration,
 					(IAccounterCore) pageConfiguration, session);
-
 			User user = AccounterThreadLocal.get();
-			serverObj.setUser(user);
-			session.saveOrUpdate(serverObj);
+			serverPageConfiguration.setUser(user);
+			user.getPortletPages().add(serverPageConfiguration);
+			session.saveOrUpdate(serverPageConfiguration);
 			tx.commit();
 			return true;
 		} catch (Exception e) {
@@ -3240,7 +3234,7 @@ public class FinanceTool {
 
 		for (TAXReturnEntry taxReturnEntry : list) {
 			taxReturnEntry.setTransaction(null);
-			session.update(taxReturnEntry);
+			session.save(taxReturnEntry);
 		}
 
 		Class<?> clientClass = ObjectConvertUtil.getEqivalentClientClass(obj
@@ -3258,5 +3252,4 @@ public class FinanceTool {
 
 		return true;
 	}
-
 }

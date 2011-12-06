@@ -487,14 +487,50 @@ public class PurchaseOrder extends Transaction {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
+
 		w.put(messages.type(), messages.purchaseOrder()).gap();
 		w.put(messages.no(), this.number);
-		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
-		w.put(messages.currency(), this.currencyFactor).gap().gap();
-		w.put(messages.amount(), this.total).gap().gap();
-		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
-		w.put(messages.memo(), this.memo).gap().gap();
+
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+		w.put(messages.currency(), this.currencyFactor);
+
+		w.put(messages.amount(), this.total).gap();
+		w.put(messages.paymentMethod(), this.paymentMethod);
+
+		if (this.vendor != null)
+			w.put(messages.name(), this.vendor.getName()).gap();
+		if (this.shipTo != null)
+			w.put(messages.shipTo(), this.shipTo.getName());
+
+		w.put(messages.purchaseDate(), this.purchaseOrderDate.toString()).gap();
+		if (this.contact != null)
+			w.put(messages.contact(), this.contact.getName());
+
+		if (this.vendorAddress != null)
+			w.put(messages.memo(), this.vendorAddress.toString()).gap();
+		w.put(messages.memo(), this.phone);
+
+		if (this.paymentTerm != null)
+			w.put(messages.memo(), this.paymentTerm.getName()).gap();
+		w.put(messages.memo(), this.dispatchDate.toString());
+
+		w.put(messages.memo(), this.dueDate.toString()).gap();
+
+		w.put(messages.memo(), this.deliveryDate.toString());
+
+		if (this.shippingAddress != null)
+			w.put(messages.memo(), this.shippingAddress.toString()).gap();
+
+		if (this.shippingTerms != null)
+			w.put(messages.memo(), this.shippingTerms.getName());
+
+		if (this.shippingMethod != null)
+			w.put(messages.memo(), this.shippingMethod.getName()).gap();
+		w.put(messages.memo(), this.purchaseOrderNumber);
+
+		if (this.usedBill != null)
+			w.put(messages.memo(), this.usedBill.toString()).gap();
+
 	}
 
 }

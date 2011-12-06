@@ -10,13 +10,13 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class StatementReportAction extends Action {
 
 	protected StatementReport report;
-	private boolean isVendor;
-	private long payeeId;
-	
-	public StatementReportAction(long payeeId, String text,boolean isVendor) {
+	private final boolean isVendor;
+	private final long payeeId;
+
+	public StatementReportAction(long payeeId, String text, boolean isVendor) {
 		super(text);
-		this.isVendor=isVendor;
-		this.payeeId=payeeId;
+		this.isVendor = isVendor;
+		this.payeeId = payeeId;
 		this.catagory = Accounter.messages().report();
 
 	}
@@ -62,7 +62,12 @@ public class StatementReportAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "customerStatement";
+
+		if (isVendor == true) {
+			return "vendorStatement";
+		} else {
+			return "customerStatement";
+		}
 	}
 
 	@Override

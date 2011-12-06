@@ -16,7 +16,10 @@ public class AuditWriterImpl implements AuditWriter {
 
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put(key, value);
+			if (value != null)
+				jsonObject.put(key, value);
+			else
+				jsonObject.put(key, " ");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

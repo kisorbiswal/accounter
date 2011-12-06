@@ -9,7 +9,9 @@ import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -647,7 +649,40 @@ public class TransactionPayBill extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), messages.purchaseOrder()).gap();
+
+		w.put(messages.dueDate(), this.dueDate.toString());
+
+		if (this.enterBill != null)
+			w.put(messages.enterBill(), this.enterBill.getNumber());
+
+		w.put(messages.originalAmount(), this.originalAmount);
+
+		w.put(messages.amountDue(), this.amountDue);
+
+		w.put(messages.discountDate(), this.discountDate.toString());
+
+		w.put(messages.discountAccount(), this.discountAccount.getName());
+
+		w.put(messages.cashDiscount(), this.cashDiscount);
+
+		w.put(messages.appliedCredits(), this.appliedCredits);
+
+		w.put(messages.payment(), this.payment);
+
+		w.put(messages.tdsAmount(), this.tdsAmount);
+
+		if (this.payBill != null)
+			w.put(messages.payBill(), this.payBill.getNumber());
+
+		if (this.vendor != null)
+			w.put(messages.vendor(), this.vendor.getName());
+
+		if (this.billNumber != null)
+			w.put(messages.billNo(), this.billNumber);
 
 	}
 

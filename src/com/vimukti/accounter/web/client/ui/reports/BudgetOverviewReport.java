@@ -11,7 +11,7 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 	BudgetOverviewServerReport serverreport;
 
 	public BudgetOverviewReport() {
-		//super(false, "");
+		// super(false, "");
 		serverreport = new BudgetOverviewServerReport(this);
 		this.serverReport = serverreport;
 		this.serverReport.setIshowGridFooter(true);
@@ -23,7 +23,6 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		// ReportsRPC.openTransactionView(record.getTransactionType(),record.getTransactionId());
 	}
 
 	@Override
@@ -56,10 +55,11 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 	}
 
 	public void exportToCsv() {
-		// UIUtils.exportBudgetReport(
-		// Integer.parseInt(String.valueOf(startDate.getDate())),
-		// Integer.parseInt(String.valueOf(endDate.getDate())), 154, "",
-		// "");
+		UIUtils.exportReport(Integer.parseInt(String
+				.valueOf(new ClientFinanceDate().getDate())), Integer
+				.parseInt(String.valueOf(new ClientFinanceDate().getDate())),
+				154, "", "", budgetId);
+
 	}
 
 	@Override

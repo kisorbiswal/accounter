@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -56,6 +55,12 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 	public static final String FISCAL_YEAR_7 = "FY2016 (Jan2016 - Dec2016)";
 	public static final String FISCAL_YEAR_8 = "FY2017 (Jan2017 - Dec2017)";
 	public static final String FISCAL_YEAR_9 = "FY2018 (Jan2018 - Dec2018)";
+	public static final String FISCAL_YEAR_10 = "FY2018 (Jan2018 - Dec2019)";
+	public static final String FISCAL_YEAR_11 = "FY2018 (Jan2018 - Dec2020)";
+	public static final String FISCAL_YEAR_12 = "FY2018 (Jan2018 - Dec2021)";
+	public static final String FISCAL_YEAR_13 = "FY2018 (Jan2018 - Dec2022)";
+	public static final String FISCAL_YEAR_14 = "FY2018 (Jan2018 - Dec2023)";
+	public static final String FISCAL_YEAR_15 = "FY2018 (Jan2018 - Dec2024)";
 
 	private SelectCombo budgetStartWithSelect, budgetSubdevideBy;
 	private SelectCombo selectFinancialYear;
@@ -64,13 +69,8 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 	private HorizontalPanel topHLay;
 	private HorizontalPanel leftLayout;
 	private Label lab1;
-	private final List<ClientAccount> listOfAccounts = getCompany()
-			.getAccounts();
-	// boolean isEditing;
 
 	VerticalPanel mainVLay;
-
-	// BudgetAccountGrid gridView;
 
 	private ArrayList<DynamicForm> listforms;
 
@@ -79,18 +79,19 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 	ClientBudget budgetForEditing = new ClientBudget();
 
 	private BudgetCellTable budgetCellTable;
+	private boolean isEditing;
 
 	public NewBudgetView1(List<ClientBudget> listData) {
 		budgetList = listData;
 	}
 
-	// public NewBudgetView(boolean isEdit, Object data1) {
-	// isEditing = isEdit;
-	// data = (ClientBudget) data1;
-	// }
-
 	public NewBudgetView1() {
 
+	}
+
+	public NewBudgetView1(boolean isEdit, Object data1) {
+		isEditing = isEdit;
+		data = (ClientBudget) data1;
 	}
 
 	@Override
@@ -98,6 +99,10 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 		super.init();
 		createControls();
 		setSize("100%", "100%");
+
+		if (data != null) {
+			onEdit();
+		}
 
 	}
 
@@ -107,9 +112,7 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 			ClientBudget account = new ClientBudget();
 			setData(account);
 		}
-		// if (data != null) {
-		// onEdit();
-		// }
+
 	}
 
 	private void initView() {
@@ -124,8 +127,6 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 		lab1.removeStyleName("gwt-Label");
 		lab1.addStyleName(Accounter.messages().labelTitle());
 		lab1.setText(Accounter.messages().newBudget());
-
-		// hierarchy = new String("");
 
 		budgetStartWithSelect = new SelectCombo(Global.get().messages()
 				.budgetStartWith());
@@ -174,6 +175,7 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 				.budgetFinancialYear());
 		selectFinancialYear.setHelpInformation(true);
 		selectFinancialYear.initCombo(getFiscalYearList());
+		selectFinancialYear.setSelected(FISCAL_YEAR_3);
 		selectFinancialYear.setRequired(true);
 		selectFinancialYear
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -220,43 +222,22 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 		leftLayout = new HorizontalPanel();
 		leftLayout.setWidth("100%");
 
-		// budgetInfoForm.setFields(budgetStartWithSelect, budgetSubdevideBy,
-		// selectFinancialYear, budgetNameText);
-
 		budgetInfoForm.setFields(budgetStartWithSelect, selectFinancialYear,
 				budgetNameText);
 
 		leftLayout.add(budgetInfoForm);
 		topHLay.add(leftLayout);
 
-		// budgetInfoForm.getCellFormatter().setWidth(0, 0, "200");
-
-		/*
-		 * gridView = new BudgetAccountGrid(); gridView.setCanEdit(true);
-		 * gridView.setEditEventType(ListGrid.EDIT_EVENT_DBCLICK);
-		 * gridView.isEnable = false; if (data != null) {
-		 * gridView.setDisabled(true); }
-		 * 
-		 * gridView.init();
-		 * 
-		 * if (data != null) { List<ClientBudgetItem> itemsList = new
-		 * ArrayList<ClientBudgetItem>(); itemsList = data.getBudgetItem(); for
-		 * (ClientBudgetItem item : itemsList) { ClientBudgetItem obj = new
-		 * ClientBudgetItem(); obj.setAccountsName(item.getAccount().getName());
-		 * obj = item; gridView.addData(obj); } } else {
-		 * 
-		 * listOfAccounts = getCompany().getAccounts(); for (ClientAccount
-		 * account : listOfAccounts) { ClientBudgetItem obj = new
-		 * ClientBudgetItem(); gridView.addData(obj, account); } }
-		 */
-
 		budgetCellTable = new BudgetCellTable();
+		if (data != null) {
+			budgetCellTable.setDataProvided(data);
+		}
+
 		SimplePager.Resources pagerResources = GWT
 				.create(SimplePager.Resources.class);
 		SimplePager pager = new SimplePager(TextLocation.CENTER,
 				pagerResources, false, 0, true);
 		pager.setDisplay(budgetCellTable);
-		// pager.setStyleName("pager-alignment");
 		budgetCellTable.addColumnSortHandler(new Handler() {
 
 			@Override
@@ -276,11 +257,8 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 		mainVLay.add(topHLay);
 		mainVLay.add(budgetCellTable);
 
-		// mainVLay.add(getAccountsAmountGrid());
-
 		this.add(mainVLay);
 
-		/* Adding dynamic forms in list */
 		listforms.add(budgetInfoForm);
 
 	}
@@ -290,35 +268,8 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 		budgetStartWithSelect.setDisabled(true);
 		budgetNameText.setDisabled(true);
 		selectFinancialYear.setDisabled(true);
-
-		String budgetname = data.getBudgetName();
-
-		String[] temp;
-		String delimiter = " ";
-		temp = budgetname.split(delimiter);
-
-		budgetNameText.setValue(temp[0]);
-
-		if (temp[2].equals("FY2010")) {
-			selectFinancialYear.setSelected(FISCAL_YEAR_1);
-		} else if (temp[2].equals("FY2011")) {
-			selectFinancialYear.setSelected(FISCAL_YEAR_2);
-		} else if (temp[2].equals("FY2012")) {
-			selectFinancialYear.setSelected(FISCAL_YEAR_3);
-		} else if (temp[2].equals("FY2013")) {
-			selectFinancialYear.setSelected(FISCAL_YEAR_4);
-		} else if (temp[2].equals("FY2014")) {
-			selectFinancialYear.setSelected(FISCAL_YEAR_5);
-		} else if (temp[2].equals("FY2015")) {
-			selectFinancialYear.setSelected(FISCAL_YEAR_6);
-		} else if (temp[2].equals("FY2016")) {
-			selectFinancialYear.setSelected(FISCAL_YEAR_7);
-		} else if (temp[2].equals("FY2017")) {
-			selectFinancialYear.setSelected(FISCAL_YEAR_8);
-		} else if (temp[2].equals("FY2018")) {
-			selectFinancialYear.setSelected(FISCAL_YEAR_9);
-		}
-
+		budgetNameText.setValue(data.getBudgetName());
+		selectFinancialYear.setSelected(data.getFinancialYear());
 	}
 
 	private List<String> getFiscalYearList() {
@@ -333,6 +284,12 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 		list.add(FISCAL_YEAR_7);
 		list.add(FISCAL_YEAR_8);
 		list.add(FISCAL_YEAR_9);
+		list.add(FISCAL_YEAR_10);
+		list.add(FISCAL_YEAR_11);
+		list.add(FISCAL_YEAR_12);
+		list.add(FISCAL_YEAR_13);
+		list.add(FISCAL_YEAR_14);
+		list.add(FISCAL_YEAR_15);
 
 		return list;
 	}
@@ -384,7 +341,6 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 	@Override
 	public void saveAndUpdateView() {
 		updateBudgetObject();
-
 		saveOrUpdate(getData());
 
 	}
@@ -393,20 +349,20 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 
 		String budgetname = budgetNameText.getValue() != null ? budgetNameText
 				.getValue() : " ";
-		String financialYear = selectFinancialYear.getSelectedValue();
+		data.setBudgetName(budgetname);
 
-		String[] temp;
-		String delimiter = " ";
-		temp = financialYear.split(delimiter);
-
-		data.setBudgetName(budgetname + " - " + temp[0]);
+		data.setFinancialYear(selectFinancialYear.getSelectedValue());
 
 		List<ClientBudgetItem> allGivenRecords = budgetCellTable.getDataList();
-
 		List<ClientBudgetItem> newList = new ArrayList<ClientBudgetItem>();
+
 		for (ClientBudgetItem clientBudgetItem : allGivenRecords) {
-			newList.add(clientBudgetItem);
+
+			if (clientBudgetItem.getTotalAmount() > 0) {
+				newList.add(clientBudgetItem);
+			}
 		}
+
 		data.setBudgetItem(newList);
 
 	}
@@ -414,11 +370,7 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 	@Override
 	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
-		// BaseView.errordata.setHTML(exception.getMessage());
-		// BaseView.commentPanel.setVisible(true);
-		// this.errorOccured = true;
-		// String exceptionMessage = exception.getMessage();
-		// addError(this, exceptionMessage);
+
 		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
@@ -466,24 +418,31 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 				}
 			}
 		}
+
+		List<ClientBudgetItem> allGivenRecords = budgetCellTable.getDataList();
+		List<ClientBudgetItem> newList = new ArrayList<ClientBudgetItem>();
+		boolean errorAdded = false;
+
+		for (ClientBudgetItem clientBudgetItem : allGivenRecords) {
+			if (clientBudgetItem.getTotalAmount() > 0) {
+				errorAdded = true;
+				break;
+			} else {
+				errorAdded = false;
+			}
+		}
+		if (errorAdded == false) {
+			result.addError(allGivenRecords, Accounter.messages()
+					.noAmountAddedtoAccounts());
+
+		}
+
 		return result;
 
 	}
 
 	private void refreshView(String result) {
 
-		/*
-		 * gridView.removeAllRecords();
-		 * 
-		 * for (ClientBudget budget : budgetList) { List<ClientBudgetItem>
-		 * budgetItemList = budget.getBudgetItem(); if
-		 * (result.equals(budget.getBudgetName())) { for (ClientBudgetItem items
-		 * : budgetItemList) {
-		 * items.setAccountsName(items.getAccount().getName());
-		 * gridView.addData(items); } break; }
-		 * 
-		 * }
-		 */
 	}
 
 	@Override
@@ -512,7 +471,6 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 		budgetStartWithSelect.setDisabled(false);
 		budgetNameText.setDisabled(false);
 		selectFinancialYear.setDisabled(false);
-		// gridView.setDisabled(false);
 
 		super.onEdit();
 

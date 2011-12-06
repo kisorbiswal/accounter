@@ -480,9 +480,10 @@ public class CashPurchase extends Transaction {
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.cashPurchase()).gap();
+
 		w.put(messages.no(), this.number);
 		w.put(messages.date(), this.transactionDate.toString()).gap();
-		w.put(messages.name(), this.vendor.name);
+		w.put(messages.vendor(), this.vendor.getName());
 		w.put(messages.currency(), this.currencyFactor).gap().gap();
 		w.put(messages.amount(), this.total).gap();
 
@@ -490,8 +491,28 @@ public class CashPurchase extends Transaction {
 			w.put(messages.address(), this.vendorAddress.address1
 					+ this.vendorAddress.stateOrProvinence);
 		}
-		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
+		w.put(messages.paymentMethod(), this.paymentMethod).gap();
 
+		if (this.cashExpenseAccount != null)
+			w.put(messages.cashExpense() + " " + messages.account(),
+					this.cashExpenseAccount.getName()).gap();
+
+		if (this.employee != null)
+			w.put(messages.paymentMethod(), this.employee.getName());
+
+		if (this.contact != null)
+			w.put(messages.paymentMethod(), this.contact.getName()).gap();
+		if (this.vendorAddress != null)
+			w.put(messages.paymentMethod(), this.vendorAddress.toString());
+
+		w.put(messages.paymentMethod(), this.phone).gap();
+		if (this.payFrom != null)
+			w.put(messages.paymentMethod(), this.payFrom.toString());
+
+		w.put(messages.paymentMethod(), this.checkNumber).gap();
+		w.put(messages.paymentMethod(), this.deliveryDate.toString());
+
+		w.put(messages.paymentMethod(), this.expenseStatus).gap();
 	}
 
 }

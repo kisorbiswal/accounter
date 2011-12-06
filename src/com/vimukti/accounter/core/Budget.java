@@ -17,6 +17,8 @@ public class Budget extends CreatableObject implements IAccounterServerCore {
 
 	private String budgetName;
 
+	private String financialYear;
+
 	List<BudgetItem> budgetItems = new ArrayList<BudgetItem>();
 
 	private int version;
@@ -42,11 +44,20 @@ public class Budget extends CreatableObject implements IAccounterServerCore {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		
+
 		for (BudgetItem item : budgetItems) {
 			item.setCompany(getCompany());
 		}
 		return super.onSave(session);
+	}
+
+	@Override
+	public boolean onUpdate(Session session) throws CallbackException {
+
+		for (BudgetItem item : budgetItems) {
+			item.setCompany(getCompany());
+		}
+		return super.onUpdate(session);
 	}
 
 	@Override
@@ -85,15 +96,24 @@ public class Budget extends CreatableObject implements IAccounterServerCore {
 		this.budgetItems = budgetItems;
 	}
 
+	public String getFinancialYear() {
+		return financialYear;
+	}
+
+	public void setFinancialYear(String financialYear) {
+		this.financialYear = financialYear;
+	}
+
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
+
 		w.put(messages.type(), messages.budget()).gap().gap();
+
 		w.put(messages.name(), this.budgetName);
-		
+
 		w.put(messages.details(), this.budgetItems);
-		
+
 	}
-	
+
 }

@@ -10,7 +10,9 @@ import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -523,7 +525,7 @@ public class SalesOrder extends Transaction {
 		if (this.transactionItems != null) {
 			for (TransactionItem ti : this.transactionItems) {
 				if (ti instanceof Lifecycle) {
-					Lifecycle lifeCycle = (Lifecycle) ti;
+					Lifecycle lifeCycle = ti;
 					lifeCycle.onUpdate(session);
 				}
 			}
@@ -751,8 +753,51 @@ public class SalesOrder extends Transaction {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-		
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), messages.salesOrder()).gap();
+
+		if (this.customer != null)
+			w.put(messages.customer(), this.customer.getName());
+
+		if (this.contact != null)
+			w.put(messages.contact(), this.contact.getName()).gap();
+
+		if (this.billingAddress != null)
+			w.put(messages.billingAddress(), this.billingAddress.toString());
+		if (this.shippingAdress != null)
+			w.put(messages.shippingAddress(), this.shippingAdress.toString())
+					.gap();
+
+		w.put(messages.phone(), this.phone);
+
+		if (this.salesPerson != null)
+			w.put(messages.salesPerson(), this.salesPerson.getName()).gap();
+		if (this.paymentTerm != null)
+			w.put(messages.paymentTerm(), this.paymentTerm.getName());
+		if (this.shippingTerm != null)
+			w.put(messages.shippingTerm(), this.shippingTerm.getName()).gap();
+		if (this.shippingMethod != null)
+			w.put(messages.shippingMethod(), this.shippingMethod.getName());
+
+		w.put(messages.dueDate(), this.dueDate.toString()).gap();
+
+		w.put(messages.discountAccount(), this.discountTotal);
+
+		if (this.priceLevel != null)
+			w.put(messages.priceLevel(), this.priceLevel.getName()).gap();
+
+		w.put(messages.taxAccount(), this.taxTotal);
+
+		if (this.estimate != null)
+			w.put(messages.estimate(), this.estimate.getNumber()).gap();
+
+		if (this.salesTaxItem != null)
+			w.put(messages.salesTaxItem(), this.salesTaxItem.getName()).gap();
+
+		w.put(messages.orderNo(), this.customerOrderNumber);
+
 	}
 
 }

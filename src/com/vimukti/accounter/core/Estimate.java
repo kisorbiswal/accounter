@@ -465,14 +465,18 @@ public class Estimate extends Transaction {
 
 		w.put(messages.type(), messages.estimate()).gap();
 		w.put(messages.no(), this.number);
+
 		w.put(messages.date(), this.transactionDate.toString()).gap();
 		w.put(messages.name(), this.customer.name);
-		w.put(messages.currency(), this.currencyFactor).gap().gap();
-		w.put(messages.amount(), this.total).gap().gap();
-		w.put(messages.openBalance(), this.customer.openingBalance).gap().gap();
-		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
+
+		w.put(messages.currency(), this.currencyFactor).gap();
+		w.put(messages.amount(), this.total);
+
+		w.put(messages.openBalance(), this.customer.openingBalance).gap();
+		w.put(messages.paymentMethod(), this.paymentMethod);
+
 		w.put(messages.memo(), this.memo).gap().gap();
-		
+
 	}
 
 }

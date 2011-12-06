@@ -30,7 +30,7 @@ public class AuditHistoryAction extends Action {
 
 			@Override
 			public void onCreated() {
-				HistoryView view = new HistoryView(obj);
+				AuditHistoryView view = new AuditHistoryView(obj);
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isEditable, AuditHistoryAction.this);

@@ -11,10 +11,12 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * A VATCode is the entity which actually applies VAT. In a transaction we need
@@ -303,7 +305,32 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-		
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), messages.taxCode()).gap();
+
+		w.put(messages.name(), this.name);
+
+		w.put(messages.description(), this.description).gap();
+
+		w.put(messages.isTaxable(), this.isTaxable);
+
+		w.put(messages.isActive(), this.isActive).gap();
+
+		if (this.TAXItemGrpForPurchases != null)
+			w.put(messages.taxItemForPurchases(),
+					this.TAXItemGrpForPurchases.getName()).gap();
+
+		if (this.TAXItemGrpForSales != null)
+			w.put(messages.taxItemForSales(), this.TAXItemGrpForSales.getName());
+
+		w.put(messages.isDefault(), this.isDefault).gap();
+
+		w.put(messages.salesTax(), this.salesTaxRate);
+
+		w.put(messages.purchase() + " " + messages.taxRate(),
+				this.purchaseTaxRate).gap();
+
 	}
 }

@@ -7,10 +7,12 @@ import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class SalesPerson extends CreatableObject implements
 		IAccounterServerCore, INamedObject {
@@ -343,7 +345,40 @@ public class SalesPerson extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), messages.salesPerson()).gap();
+
+		w.put(messages.title(), this.title);
+		w.put(messages.firstName(), this.firstName);
+
+		w.put(messages.lastName(), this.lastName);
+
+		w.put(messages.jobTitle(), this.jobTitle);
+		if (this.expenseAccount != null)
+			w.put(messages.expenseAccount(), this.expenseAccount.getName());
+
+		w.put(messages.gender(), this.gender);
+
+		w.put(messages.dateofBirth(), this.dateOfBirth.toString());
+		w.put(messages.dateofHire(), this.dateOfHire.toString());
+
+		w.put(messages.dateofLastReview(), this.dateOfLastReview.toString());
+		w.put(messages.dateofRelease(), this.dateOfRelease.toString());
+
+		w.put(messages.memo(), this.memo);
+		w.put(messages.fileAs(), this.fileAs);
+
+		if (this.address != null)
+			w.put(messages.address(), this.address.toString());
+
+		w.put(messages.phone(), this.phoneNo);
+
+		w.put(messages.faxNumber(), this.faxNo);
+		w.put(messages.email(), this.email);
+
+		w.put(messages.webPageAddress(), this.webPageAddress);
 
 	}
 

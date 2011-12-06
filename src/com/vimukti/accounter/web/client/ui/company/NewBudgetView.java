@@ -380,9 +380,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 		data.setBudgetName(budgetname + " - " + temp[0]);
 
-		List<ClientBudgetItem> allGivenRecords = (List<ClientBudgetItem>) gridView
-				.getRecords();
-
+		List<ClientBudgetItem> allGivenRecords = gridView.getRecords();
 
 		data.setBudgetItem(allGivenRecords);
 
@@ -396,7 +394,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		// this.errorOccured = true;
 		// String exceptionMessage = exception.getMessage();
 		// addError(this, exceptionMessage);
-		AccounterException accounterException = (AccounterException) exception;
+		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -422,8 +420,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		result.add(budgetInfoForm.validate());
 		if (data == null) {
 			String name = budgetNameText.getValue().toString() != null ? budgetNameText
-					.getValue().toString()
-					: "";
+					.getValue().toString() : "";
 
 			String financialYear = selectFinancialYear.getSelectedValue();
 

@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 
-public class HistoryView extends BaseView {
+public class AuditHistoryView extends BaseView {
 
 	private final int objType;
 	private final long objID;
@@ -33,7 +33,7 @@ public class HistoryView extends BaseView {
 
 	}
 
-	public HistoryView(ClientActivity obj) {
+	public AuditHistoryView(ClientActivity obj) {
 		objType = obj.getObjType();
 		objID = obj.getObjectID();
 		mainVerticalPanel = new VerticalPanel();
@@ -65,7 +65,7 @@ public class HistoryView extends BaseView {
 						if (result != null) {
 
 							if (result.size() > 1) {
-								// compareHistoryString(result);
+								compareHistoryString(result);
 							}
 							showItems(result);
 						}
@@ -76,7 +76,7 @@ public class HistoryView extends BaseView {
 
 	protected void compareHistoryString(ArrayList<ClientActivity> result) {
 
-		for (int i = 0; i < result.size(); i++) {
+		for (int i = 0; i < result.size() - 1; i++) {
 
 			ClientActivity activity1 = result.get(i);
 			ClientActivity activity2 = result.get(i + 1);
@@ -93,7 +93,24 @@ public class HistoryView extends BaseView {
 	}
 
 	private void compare(JSONArray array, JSONArray array2) {
+		int size = 0;
+		if (array.size() >= array2.size()) {
+			size = array.size();
+		} else {
+			size = array2.size();
+		}
 
+		int j = 0;
+
+		for (int i = 0; i < size; i++) {
+			if (array.get(j).toString().equals(array2.get(i).toString())) {
+				System.out.println("same" + array.get(j) + array2.get(i));
+				j++;
+
+			} else {
+				System.out.println("different" + array.get(j) + array2.get(i));
+			}
+		}
 	}
 
 	protected void showItems(ArrayList<ClientActivity> activityList) {
@@ -130,12 +147,13 @@ public class HistoryView extends BaseView {
 
 		DisclosurePanel panel = new DisclosurePanel(title);
 		JSONValue value = JSONParser.parseLenient(activity.getAuditHistory());
-		HistoryItem item = new HistoryItem(value.isArray());
+		AuditHistoryItem item = new AuditHistoryItem(value.isArray());
 		panel.setContent(item);
 		return panel;
 	}
 
-	public HistoryItem getHistoryItem(String currentItem, String previousItem) {
+	public AuditHistoryItem getHistoryItem(String currentItem,
+			String previousItem) {
 		return null;
 
 	}

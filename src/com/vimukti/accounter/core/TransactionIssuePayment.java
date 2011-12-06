@@ -7,7 +7,9 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -445,8 +447,42 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-		
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), "Transaction Issue Payment").gap();
+
+		w.put(messages.date(), this.date.toString());
+
+		w.put(messages.number(), this.number);
+
+		w.put(messages.name(), this.name);
+
+		w.put(messages.memo(), this.memo);
+
+		w.put(messages.amount(), this.amount);
+
+		w.put(messages.transaction(), this.transaction.getNumber());
+
+		w.put(messages.writeCheck(), this.writeCheck.getNumber());
+
+		w.put(messages.customerRefund(), this.customerRefund.getNumber());
+
+		w.put(messages.payBill(), this.payBill.getNumber());
+
+		w.put(messages.creditCardCharge(), this.creditCardCharge.getNumber());
+
+		w.put(messages.cashPurchase(), this.cashPurchase.getNumber());
+
+		w.put(messages.receiveVAT(), this.receiveVAT.getNumber());
+
+		w.put(messages.salesTax(), this.paySalesTax.getNumber());
+
+		w.put(messages.payVAT(), this.payVAT.getNumber());
+
+		w.put(messages.customerprePayment(),
+				this.customerPrepayment.getNumber());
+
 	}
 
 }

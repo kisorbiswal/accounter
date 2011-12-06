@@ -52,6 +52,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	protected List<String> listOfTypes;
 	protected BaseListGrid grid;
 
+	boolean budgetItemsExists = false;
+
 	public BaseListGrid getGrid() {
 		return grid;
 	}
@@ -133,11 +135,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				viewSelect = new SelectCombo(Accounter.messages()
 						.currentBudget());
 				viewSelect.setHelpInformation(true);
-				// viewSelect.setWidth("150px");
-
 				viewSelect
 						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
 							@Override
 							public void selectedComboBoxItem(String selectItem) {
 								if (viewSelect.getSelectedValue() != null) {
@@ -247,14 +246,16 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			}
 		});
 
-		budgetDetails = new Button(Accounter.messages().details());
+		budgetDetails = new Button(Accounter.messages().edit());
 		budgetDetails.setWidth("10");
 		budgetDetails.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getNewBudgetAction().run((ClientBudget) data,
-						false);
+				if (budgetItemsExists == true) {
+					ActionFactory.getNewBudgetAction().run((ClientBudget) data,
+							false);
+				}
 			}
 		});
 
@@ -280,9 +281,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 			hlay.setCellHorizontalAlignment(prepare1099MiscForms, ALIGN_RIGHT);
 			hlay.addStyleName("vendor_list_1099");
-		} else if (this instanceof BudgetListView
-				&& getCompany().getCountry().equals(
-						CountryPreferenceFactory.UNITED_STATES)) {
+		} else if (this instanceof BudgetListView) {
 			form.setFields(viewSelect);
 			hlay.add(form);
 			hlay.add(budgetDetails);
@@ -491,9 +490,11 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				List<String> typeList = new ArrayList<String>();
 				for (ClientBudget budget : (List<ClientBudget>) result) {
 					typeList.add(budget.getBudgetName());
+					budgetItemsExists = true;
 				}
 				if (typeList.size() < 1) {
-					typeList.add("");
+					budgetItemsExists = false;
+					typeList.add("No Budget added");
 				}
 				viewSelect.initCombo(typeList);
 				viewSelect.setSelectedItem(0);

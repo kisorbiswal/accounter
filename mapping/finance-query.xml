@@ -3781,6 +3781,20 @@
 		T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
+	<sql-query name="canDeleteBudget">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="BUDGET_ITEM_ID" type="long" />
+		SELECT BI.ID AS BUDGET_ITEM_ID FROM BUDGET B LEFT JOIN
+		BUDGETITEM BI
+		ON
+		BI.BUDGET_ID=B.ID WHERE B.COMPANY_ID=:companyId AND
+		B.ID=:inputId
+		LIMIT
+		1
+	</sql-query>
+
+
 	<sql-query name="canDeleteCashPurchase">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />

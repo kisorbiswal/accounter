@@ -533,14 +533,23 @@ public class Customer extends Payee implements IAccounterServerCore,
 		w.put(messages.paymentMethod(), this.paymentMethod);
 		w.put(messages.memo(), this.memo);
 
-		w.put(messages.priceLevel(), this.priceLevel.getName());
-		w.put(messages.creditRating(), this.creditRating.getName());
+		if (this.priceLevel != null)
+			w.put(messages.priceLevel(), this.priceLevel.getName());
 
-		w.put(messages.shippingMethod(), this.shippingMethod.getName());
-		w.put(messages.paymentTerm(), this.paymentTerm.getName());
+		if (this.creditRating != null)
+			w.put(messages.creditRating(), this.creditRating.getName());
 
-		w.put(messages.customergroup(), this.customerGroup.getName());
-		w.put(messages.taxGroup(), this.taxGroup.getName());
+		if (this.shippingMethod != null)
+			w.put(messages.shippingMethod(), this.shippingMethod.getName());
+
+		if (this.paymentTerm != null)
+			w.put(messages.paymentTerm(), this.paymentTerm.getName());
+
+		if (this.customerGroup != null)
+			w.put(messages.customergroup(), this.customerGroup.getName());
+
+		if (this.taxGroup != null)
+			w.put(messages.taxGroup(), this.taxGroup.getName());
 
 	}
 

@@ -1113,12 +1113,37 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 		w.put(messages.type(), messages.enterBill()).gap();
 		w.put(messages.no(), this.number);
-		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
-		w.put(messages.currency(), this.currencyFactor).gap().gap();
-		w.put(messages.amount(), this.total).gap().gap();
-		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
-		w.put(messages.memo(), this.memo).gap().gap();
 
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+		w.put(messages.currency(), this.currencyFactor);
+
+		w.put(messages.amount(), this.total).gap();
+		
+		w.put(messages.paymentMethod(), this.paymentMethod);
+
+		w.put(messages.memo(), this.memo).gap();
+		
 		w.put(messages.details(), this.transactionItems);
+
+		if (this.vendor != null)
+			w.put(messages.vendor(), this.vendor.getName());
+
+		if (this.contact != null)
+			w.put(messages.contact(), this.contact.getName());
+
+		if (this.vendorAddress != null)
+			w.put(messages.address(), this.vendorAddress.toString());
+
+		w.put(messages.phone(), this.phone);
+
+		if (this.paymentTerm != null)
+			w.put(messages.paymentTerm(), this.paymentTerm.getName());
+
+		w.put(messages.dueDate(), this.dueDate.toString());
+
+		w.put(messages.deliveryDate(), this.deliveryDate.toString());
+
+		w.put(messages.discountDate(), this.discountDate.toString());
+
 	}
 }

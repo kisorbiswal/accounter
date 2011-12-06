@@ -757,6 +757,10 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getBudgetOverView().getHistoryToken(),
 				ActionFactory.getBudgetOverView());
+
+		actions.put(ActionFactory.getRecordExpensesAction().getHistoryToken(),
+				ActionFactory.getRecordExpensesAction());
+
 	}
 
 	public ClientCompany getCompany() {

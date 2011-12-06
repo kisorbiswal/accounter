@@ -355,13 +355,17 @@ public class Vendor extends Payee {
 
 		w.put(messages.vendor() + " " + messages.number(), this.vendorNumber)
 				.gap();
-		w.put(messages.expenseAccount(), this.expenseAccount.getName());
+		if (this.expenseAccount != null)
+			w.put(messages.expenseAccount(), this.expenseAccount.getName());
 
 		w.put(messages.creditLimit(), this.creditLimit).gap();
-		w.put(messages.shippingMethod(), this.shippingMethod.getName());
+		if (this.shippingMethod != null)
+			w.put(messages.shippingMethod(), this.shippingMethod.getName());
 
-		w.put(messages.paymentTerm(), this.paymentTerms.getName()).gap();
-		w.put(messages.vendors(), this.vendorGroup.getName());
+		if (this.paymentTerms != null)
+			w.put(messages.paymentTerm(), this.paymentTerms.getName()).gap();
+		if (this.vendorGroup != null)
+			w.put(messages.vendors(), this.vendorGroup.getName());
 
 	}
 }

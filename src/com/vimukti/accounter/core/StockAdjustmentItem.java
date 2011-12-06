@@ -8,7 +8,9 @@ import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class StockAdjustmentItem implements IAccounterServerCore, Lifecycle {
 
@@ -171,7 +173,25 @@ public class StockAdjustmentItem implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-		
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), messages.stockAdjustments()).gap();
+
+		w.put(messages.adjustments() + " " + messages.price(),
+				this.adjustmentPriceValue);
+
+		if (this.adjustmentQty != null)
+			w.put(messages.adjustmentQty(), this.adjustmentQty.getValue());
+
+		w.put(messages.comment(), this.comment);
+
+		if (this.qtyBeforeTransaction != null)
+			w.put(messages.transferQuantity(),
+					this.qtyBeforeTransaction.getValue());
+
+		if (this.wareHouse != null)
+			w.put(messages.wareHouse(), this.wareHouse.getName());
+
 	}
 }

@@ -291,8 +291,10 @@ public class JournalEntry extends Transaction {
 
 		w.put(messages.type(), messages.journalEntry()).gap();
 		w.put(messages.journalEntryNo(), this.number);
+
 		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
 		w.put(messages.currency(), this.currencyFactor).gap().gap();
+
 		w.put(messages.memo(), this.memo);
 
 		w.put(messages.details(), this.transactionPayBills);

@@ -354,7 +354,7 @@ public class Depreciation extends CreatableObject implements
 
 							trans.setVoid(true);
 							if (trans instanceof Lifecycle) {
-								Lifecycle lifeCycle = (Lifecycle) trans;
+								Lifecycle lifeCycle = trans;
 								lifeCycle.onUpdate(session);
 							}
 						}
@@ -615,7 +615,7 @@ public class Depreciation extends CreatableObject implements
 			org.hibernate.Transaction t = session.beginTransaction();
 			session.saveOrUpdate(dep);
 			if (dep instanceof Lifecycle) {
-				Lifecycle lifecycle = (Lifecycle) dep;
+				Lifecycle lifecycle = dep;
 				lifecycle.onUpdate(session);
 			}
 			t.commit();
@@ -656,9 +656,9 @@ public class Depreciation extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), messages.depreciation()).gap().gap();
+
+		w.put(messages.type(), messages.depreciation()).gap();
 		w.put(messages.status(), this.status);
-		
+
 	}
 }

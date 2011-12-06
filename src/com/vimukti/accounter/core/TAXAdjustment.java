@@ -10,6 +10,7 @@ import org.json.JSONException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * A VATAdjustment is to be done when there are amounts in uncategorised amounts
@@ -308,7 +309,24 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), "Stock Transfer Item").gap();
+
+		if (this.adjustmentAccount != null)
+			w.put(messages.adjustmentAccount(),
+					this.adjustmentAccount.getName());
+
+		if (this.taxItem != null)
+			w.put(messages.taxItem(), this.taxItem.getName());
+
+		if (this.taxAgency != null)
+			w.put(messages.taxAgency(), this.taxAgency.getName());
+
+		w.put(messages.balanceDue(), this.balanceDue);
+
+		w.put(messages.sales(), this.isSales);
 
 	}
 

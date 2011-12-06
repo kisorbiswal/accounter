@@ -516,7 +516,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), messages.item()).gap().gap();
+		w.put(messages.type(), messages.item()).gap();
 		w.put(messages.name(), this.name);
 	}
 }

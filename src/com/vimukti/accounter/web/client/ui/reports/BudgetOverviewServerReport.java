@@ -1,5 +1,9 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
@@ -8,11 +12,40 @@ import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport;
 public class BudgetOverviewServerReport extends
 		AbstractFinaneReport<ClientBudgetList> {
 
-	private String sectionName = "";
-	private String currentsectionName = "";
+	protected List<String> sectiontypes;
+	private String sectionName;
+
+	protected Double janincome = 0.0D;
+	protected Double febincome = 0.0D;
+	protected Double marincome = 0.0D;
+	protected Double aprincome = 0.0D;
+	protected Double mayincome = 0.0D;
+	protected Double junincome = 0.0D;
+	protected Double julincome = 0.0D;
+	protected Double augincome = 0.0D;
+	protected Double septincome = 0.0D;
+	protected Double octincome = 0.0D;
+	protected Double novincome = 0.0D;
+	protected Double decincome = 0.0D;
+	protected Double totalincome = 0.0D;
+
+	protected Double janexpense = 0.0D;
+	protected Double febexpense = 0.0D;
+	protected Double marexpense = 0.0D;
+	protected Double aprexpense = 0.0D;
+	protected Double mayexpense = 0.0D;
+	protected Double junexpense = 0.0D;
+	protected Double julexpense = 0.0D;
+	protected Double augexpense = 0.0D;
+	protected Double septexpense = 0.0D;
+	protected Double octexpense = 0.0D;
+	protected Double novexpense = 0.0D;
+	protected Double decexpense = 0.0D;
+	protected Double totalexpense = 0.0D;
 
 	public BudgetOverviewServerReport(
 			IFinanceReport<ClientBudgetList> reportView) {
+		sectiontypes = new ArrayList<String>();
 		this.reportView = reportView;
 
 	}
@@ -94,31 +127,229 @@ public class BudgetOverviewServerReport extends
 	@Override
 	public void processRecord(ClientBudgetList record) {
 
-	/*	if (sectionDepth == 0) {
-			addSection("", getMessages().total(), new int[] { 13 });
+		/*
+		 * if (sectionDepth == 0) { if (record.getAccount().getType() ==
+		 * ClientAccount.TYPE_EXPENSE) { if (!sectiontypes.contains("Expense"))
+		 * { addSection("Expense", "Expense Total", new int[] { 13 });
+		 * sectiontypes.add("Expense"); } else { return; } } else if
+		 * (record.getAccount().getType() == ClientAccount.TYPE_OTHER_EXPENSE) {
+		 * if (!sectiontypes.contains("Other Expense")) {
+		 * addSection("Other Expense", "Other Expense Total", new int[] { 13 });
+		 * sectiontypes.add("Other Expense"); } else { return; } } else if
+		 * (record.getAccount().getType() == ClientAccount.TYPE_OTHER_INCOME) {
+		 * if (!sectiontypes.contains("Other Income")) {
+		 * addSection("Other Income", "Other Income Total", new int[] { 13 });
+		 * sectiontypes.add("Other Income"); } else { return; } } else if
+		 * (record.getAccount().getType() == ClientAccount.TYPE_INCOME) { if
+		 * (!sectiontypes.contains("Income")) { addSection("Income",
+		 * "Income Total", new int[] { 13 }); sectiontypes.add("Income"); } else
+		 * { return; } } else if (record.getAccount().getType() ==
+		 * ClientAccount.TYPE_COST_OF_GOODS_SOLD) { if
+		 * (!sectiontypes.contains("Cost of Good Sold")) {
+		 * addSection("Cost of Good Sold", "Cost of Good Sold Total", new int[]
+		 * { 13 }); sectiontypes.add("Cost of Good Sold"); } else { return; } }
+		 * else { if (!sectiontypes.contains("Other")) { addSection("Other", "",
+		 * new int[] { 13 }); sectiontypes.add("Other"); } else { return; } } }
+		 * else if (sectionDepth == 1) {
+		 * 
+		 * if (record.getAccount().getType() != ClientAccount.TYPE_EXPENSE) {
+		 * endSection(); } else if (record.getAccount().getType() !=
+		 * ClientAccount.TYPE_OTHER_EXPENSE) { endSection(); } else if
+		 * (record.getAccount().getType() != ClientAccount.TYPE_OTHER_INCOME) {
+		 * endSection(); } else if (record.getAccount().getType() !=
+		 * ClientAccount.TYPE_INCOME) { endSection(); } else if
+		 * (record.getAccount().getType() !=
+		 * ClientAccount.TYPE_COST_OF_GOODS_SOLD) { endSection(); } else {
+		 * return; }
+		 * 
+		 * }
+		 */
+
+		if (this.handler == null)
+			iniHandler();
+
+		String sectionName1 = null;
+
+		if (record.getAccount().getType() == ClientAccount.TYPE_EXPENSE) {
+			sectionName1 = messages.expense();
+		} else if (record.getAccount().getType() == ClientAccount.TYPE_OTHER_EXPENSE) {
+			sectionName1 = messages.otherExpense();
+		} else if (record.getAccount().getType() == ClientAccount.TYPE_OTHER_INCOME) {
+			sectionName1 = messages.otherIncome();
+		} else if (record.getAccount().getType() == ClientAccount.TYPE_INCOME) {
+			sectionName1 = getMessages().income();
+		} else if (record.getAccount().getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
+			sectionName1 = messages.costOfGoodSold();
+		}
+
+		if (sectionDepth == 0) {
+			addSection("", messages.netAmount(), new int[] { 13 });
 		} else if (sectionDepth == 1) {
-			addSection("", getMessages().total(), new int[] { 13 });
+			this.sectionName = sectionName1;
+			addSection(sectionName, sectionName + messages.total(), new int[] {
+					1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
-			if (!sectionName.equals(record.getName())) {
+			if (!sectionName.equals(sectionName1)) {
 				endSection();
 			} else {
 				return;
 			}
 		}
 		// Go on recursive calling if we reached this place
-
-		processRecord(record);*/
-
-		
-		
-		if (sectionDepth == 0) {
-			addSection("", getMessages().total(), new int[] {13 });
-		} else if (sectionDepth == 1) {
-			return;
-		}
-		// Go on recursive calling if we reached this place
 		processRecord(record);
+	}
+
+	private void iniHandler() {
+
+		this.handler = new ISectionHandler<ClientBudgetList>() {
+
+			@Override
+			public void OnSectionAdd(Section<ClientBudgetList> section) {
+				if (section.title.equals(getMessages().grossProfit())) {
+					section.data[0] = "";
+				}
+			}
+
+			@Override
+			public void OnSectionEnd(Section<ClientBudgetList> section) {
+				if (section.title.equals(getMessages().income())) {
+					janincome = Double.valueOf(section.data[1].toString());
+					febincome = Double.valueOf(section.data[2].toString());
+					marincome = Double.valueOf(section.data[3].toString());
+					aprincome = Double.valueOf(section.data[4].toString());
+					mayincome = Double.valueOf(section.data[5].toString());
+					junincome = Double.valueOf(section.data[6].toString());
+					julincome = Double.valueOf(section.data[7].toString());
+					augincome = Double.valueOf(section.data[8].toString());
+					septincome = Double.valueOf(section.data[9].toString());
+					octincome = Double.valueOf(section.data[10].toString());
+					novincome = Double.valueOf(section.data[11].toString());
+					decincome = Double.valueOf(section.data[12].toString());
+					totalincome = Double.valueOf(section.data[13].toString());
+				}
+				if (section.title.equals(getMessages().otherIncome())) {
+					janincome = janincome
+							+ Double.valueOf(section.data[1].toString());
+					febincome = febincome
+							+ Double.valueOf(section.data[2].toString());
+					marincome = marincome
+							+ Double.valueOf(section.data[3].toString());
+					aprincome = aprincome
+							+ Double.valueOf(section.data[4].toString());
+					mayincome = mayincome
+							+ Double.valueOf(section.data[5].toString());
+					junincome = junincome
+							+ Double.valueOf(section.data[6].toString());
+					julincome = julincome
+							+ Double.valueOf(section.data[7].toString());
+					augincome = augincome
+							+ Double.valueOf(section.data[8].toString());
+					septincome = septincome
+							+ Double.valueOf(section.data[9].toString());
+					octincome = octincome
+							+ Double.valueOf(section.data[10].toString());
+					novincome = novincome
+							+ Double.valueOf(section.data[11].toString());
+					decincome = decincome
+							+ Double.valueOf(section.data[12].toString());
+					totalincome = totalincome
+							+ Double.valueOf(section.data[13].toString());
+				}
+				if (section.title.equals(getMessages().costOfGoodSold())) {
+
+					janexpense = Double.valueOf(section.data[1].toString());
+					febexpense = Double.valueOf(section.data[2].toString());
+					marexpense = Double.valueOf(section.data[3].toString());
+					aprexpense = Double.valueOf(section.data[4].toString());
+					mayexpense = Double.valueOf(section.data[5].toString());
+					junexpense = Double.valueOf(section.data[6].toString());
+					julexpense = Double.valueOf(section.data[7].toString());
+					augexpense = Double.valueOf(section.data[8].toString());
+					septexpense = Double.valueOf(section.data[9].toString());
+					octexpense = Double.valueOf(section.data[10].toString());
+					novexpense = Double.valueOf(section.data[11].toString());
+					decexpense = Double.valueOf(section.data[12].toString());
+					totalexpense = Double.valueOf(section.data[13].toString());
+
+				}
+				if (section.title.equals(getMessages().otherExpense())) {
+					janexpense = janexpense
+							+ Double.valueOf(section.data[1].toString());
+					febexpense = febexpense
+							+ Double.valueOf(section.data[2].toString());
+					marexpense = marexpense
+							+ Double.valueOf(section.data[3].toString());
+					aprexpense = aprexpense
+							+ Double.valueOf(section.data[4].toString());
+					mayexpense = mayexpense
+							+ Double.valueOf(section.data[5].toString());
+					junexpense = junexpense
+							+ Double.valueOf(section.data[6].toString());
+					julexpense = julexpense
+							+ Double.valueOf(section.data[7].toString());
+					augexpense = augexpense
+							+ Double.valueOf(section.data[8].toString());
+					septexpense = septexpense
+							+ Double.valueOf(section.data[9].toString());
+					octexpense = octexpense
+							+ Double.valueOf(section.data[10].toString());
+					novexpense = novexpense
+							+ Double.valueOf(section.data[11].toString());
+					decexpense = decexpense
+							+ Double.valueOf(section.data[12].toString());
+					totalexpense = totalexpense
+							+ Double.valueOf(section.data[13].toString());
+				}
+				if (section.title.equals(messages.expense())) {
+					janexpense = janexpense
+							+ Double.valueOf(section.data[1].toString());
+					febexpense = febexpense
+							+ Double.valueOf(section.data[2].toString());
+					marexpense = marexpense
+							+ Double.valueOf(section.data[3].toString());
+					aprexpense = aprexpense
+							+ Double.valueOf(section.data[4].toString());
+					mayexpense = mayexpense
+							+ Double.valueOf(section.data[5].toString());
+					junexpense = junexpense
+							+ Double.valueOf(section.data[6].toString());
+					julexpense = julexpense
+							+ Double.valueOf(section.data[7].toString());
+					augexpense = augexpense
+							+ Double.valueOf(section.data[8].toString());
+					septexpense = septexpense
+							+ Double.valueOf(section.data[9].toString());
+					octexpense = octexpense
+							+ Double.valueOf(section.data[10].toString());
+					novexpense = novexpense
+							+ Double.valueOf(section.data[11].toString());
+					decexpense = decexpense
+							+ Double.valueOf(section.data[12].toString());
+					totalexpense = totalexpense
+							+ Double.valueOf(section.data[13].toString());
+				}
+				if (section.footer.equals(messages.netAmount())) {
+
+					section.data[1] = janincome - janexpense;
+					section.data[2] = febincome - febexpense;
+					section.data[3] = marincome - marexpense;
+					section.data[4] = aprincome - aprexpense;
+					section.data[5] = mayincome - mayexpense;
+					section.data[6] = junincome - junexpense;
+					section.data[7] = julincome - julexpense;
+					section.data[8] = augincome - augexpense;
+					section.data[9] = septincome - septexpense;
+					section.data[10] = octincome - octexpense;
+					section.data[11] = novincome - novexpense;
+					section.data[12] = decincome - decexpense;
+					section.data[13] = totalincome - totalexpense;
+
+				}
+
+			}
+
+		};
 	}
 
 	@Override
@@ -162,8 +393,6 @@ public class BudgetOverviewServerReport extends
 	@Override
 	public void resetVariables() {
 		this.sectionDepth = 0;
-		this.sectionName = "";
-		this.currentsectionName = "";
 	}
 
 	@Override

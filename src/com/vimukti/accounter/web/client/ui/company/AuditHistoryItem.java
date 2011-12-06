@@ -11,11 +11,11 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class HistoryItem extends SimplePanel {
+public class AuditHistoryItem extends SimplePanel {
 
 	private final HTML html;
 
-	public HistoryItem(JSONArray jsonArray) {
+	public AuditHistoryItem(JSONArray jsonArray) {
 		this.html = new HTML();
 		this.add(html);
 		// compareJsonArrays(jsonArray);
@@ -134,8 +134,6 @@ public class HistoryItem extends SimplePanel {
 		sb.appendHtmlConstant("</table>");
 
 		html.setHTML(sb.toSafeHtml());
-
-		System.out.println(html);
 
 	}
 

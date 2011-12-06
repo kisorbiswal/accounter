@@ -245,7 +245,7 @@ public class AccounterMenuBar extends HorizontalPanel {
 				getVendorAndPayablesMenu());
 		reportMenuBar.addMenuItem(messages.purchase(), getPurchaseMenu());
 
-		// reportMenuBar.addMenuItem(messages.budget(), getBudgetSubMenus());
+		reportMenuBar.addMenuItem(messages.budget(), getBudgetSubMenus());
 
 		// reportMenuBar.addItem(messages.budget() + " "
 		// + messages.report(), getBudgetSubMenus());
@@ -711,8 +711,8 @@ public class AccounterMenuBar extends HorizontalPanel {
 			companyMenuBar.addMenuItem(ActionFactory.getPreferencesAction());
 			companyMenuBar.addSeparatorItem();
 		}
-		// companyMenuBar.addMenuItem(ActionFactory.getBudgetActions());
-		// companyMenuBar.addSeparatorItem();
+		companyMenuBar.addMenuItem(ActionFactory.getBudgetActions());
+		companyMenuBar.addSeparatorItem();
 
 		if (getPreferences().isTrackTax()) {
 			companyMenuBar

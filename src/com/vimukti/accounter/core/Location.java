@@ -96,11 +96,16 @@ public class Location extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
+
 		w.put(messages.type(), messages.location()).gap();
+		
 		w.put(messages.name(), this.locationName);
-		w.put(messages.companyName(), this.companyName).gap().gap();
-		w.put(messages.address(), this.address.address1);
+
+		if (this.companyName != null)
+			w.put(messages.companyName(), this.companyName).gap();
+		if (this.address != null)
+			w.put(messages.address(), this.address.address1);
+
 		w.put(messages.email(), this.email);
 	}
 

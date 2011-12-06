@@ -152,11 +152,14 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		ClientTransaction data = null;
 		if (getData() instanceof ClientTransaction) {
 			data = ((ClientTransaction) getData());
-		}
-		if (data != null & data.isVoid()) {
+			if (data != null & data.isVoid()) {
+				return false;
+			}
+			return true;
+		} else {
 			return false;
 		}
-		return true;
+
 	}
 
 	protected boolean canDelete() {

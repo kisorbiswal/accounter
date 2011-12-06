@@ -614,31 +614,47 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		w.put(messages.no(), this.number);
 
 		w.put(messages.date(), this.transactionDate.toString()).gap();
+
 		w.put(messages.currency(), this.currencyFactor);
 
 		w.put(messages.amount(), this.total).gap();
-		w.put(messages.paymentMethod(), this.paymentMethod);
+		if (this.paymentMethod != null)
+			w.put(messages.paymentMethod(), this.paymentMethod);
 
-		w.put(messages.customer(), this.customer.getName()).gap();
-		w.put(messages.contactName(), this.contact.getName());
+		if (this.customer != null)
+			w.put(messages.customer(), this.customer.getName()).gap();
+
+		if (this.contact != null)
+			w.put(messages.contactName(), this.contact.getName());
 
 		w.put(messages.total(), this.total).gap();
-		w.put(messages.paymentMethod(), this.paymentMethod);
 
-		w.put(messages.billingAddress(), this.billingAddress.toString()).gap();
-		w.put(messages.shippingAddress(), this.shippingAdress.toString());
+		if (this.paymentMethod != null)
+			w.put(messages.paymentMethod(), this.paymentMethod);
+
+		if (this.billingAddress != null)
+			w.put(messages.billingAddress(), this.billingAddress.toString())
+					.gap();
+		if (this.shippingAdress != null)
+			w.put(messages.shippingAddress(), this.shippingAdress.toString());
 
 		w.put(messages.phone(), this.phone).gap();
-		w.put(messages.salesPersonName(), this.salesPerson.getName());
 
-		w.put(messages.depositAccount(), this.depositIn.getName()).gap();
-		w.put(messages.shippingTerm(), this.shippingTerm.getName());
+		if (this.salesPerson != null)
+			w.put(messages.salesPersonName(), this.salesPerson.getName());
 
-		w.put(messages.shippingMethod(), this.shippingMethod.getName()).gap();
+		if (this.depositIn != null)
+			w.put(messages.depositAccount(), this.depositIn.getName()).gap();
+		if (this.shippingTerm != null)
+			w.put(messages.shippingTerm(), this.shippingTerm.getName());
+
+		if (this.shippingMethod != null)
+			w.put(messages.shippingMethod(), this.shippingMethod.getName())
+					.gap();
 		w.put(messages.deliveryDate(), this.deliverydate.toString());
 
-		w.put(messages.priceLevel(), this.priceLevel.toString()).gap();
+		if (this.priceLevel != null)
+			w.put(messages.priceLevel(), this.priceLevel.toString()).gap();
 
 	}
-
 }

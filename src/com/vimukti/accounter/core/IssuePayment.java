@@ -170,12 +170,15 @@ public class IssuePayment extends Transaction {
 
 		w.put(messages.type(), messages.issuePayment()).gap();
 		w.put(messages.no(), this.number);
-		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
-		w.put(messages.currency(), this.currencyFactor).gap().gap();
-		w.put(messages.amount(), this.total).gap().gap();
-		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
-		w.put(messages.memo(), this.memo).gap().gap();
-		
+
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+		w.put(messages.currency(), this.currencyFactor);
+
+		w.put(messages.amount(), this.total).gap();
+		w.put(messages.paymentMethod(), this.paymentMethod);
+		;
+
+		w.put(messages.memo(), this.memo).gap();
 		w.put(messages.details(), this.transactionIssuePayment);
 	}
 

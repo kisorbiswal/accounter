@@ -91,10 +91,10 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
+
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), messages.currency()).gap().gap();
+
+		w.put(messages.type(), messages.currency()).gap();
 		w.gap().put(messages.name(), this.name);
 	}
-
 }

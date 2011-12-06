@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.CompositeCell;
 import com.google.gwt.cell.client.FieldUpdater;
@@ -28,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
+import com.vimukti.accounter.web.client.ui.grids.columns.ClickImage;
 import com.vimukti.accounter.web.client.ui.grids.columns.ImageColumn;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -209,7 +209,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				});
 
 		Column<ClientActivity, String> imageColumn1 = new Column<ClientActivity, String>(
-				new ButtonCell()) {
+				new ClickImage()) {
 			@Override
 			public String getValue(ClientActivity object) {
 				if (object.getObjectID() == 0) {

@@ -8,7 +8,9 @@ import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * @author vimukti16 This is the class where we kept all UK VAT related Box
@@ -143,7 +145,14 @@ public class VATReturnBox extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), messages.wareHouse()).gap();
+
+		w.put(messages.name(), this.name).gap();
+		w.put(messages.box(), this.vatBox);
+		w.put(messages.total() + " " + messages.box(), this.totalBox).gap();
 
 	}
 }

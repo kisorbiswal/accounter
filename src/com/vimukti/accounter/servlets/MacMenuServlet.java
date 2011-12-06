@@ -390,6 +390,9 @@ public class MacMenuServlet extends BaseServlet {
 		subMenu(suppliersValue, iGlobal.messages().apAgeingDetail(),
 				"company/accounter#apAgingDetail");
 		subMenu(suppliersValue,
+				iGlobal.messages().payeeStatement(iGlobal.Vendors()),
+				"company/accounter#vendorStatement");
+		subMenu(suppliersValue,
 				iGlobal.messages().payeeTransactionHistory(iGlobal.Vendor()),
 				"company/accounter#vendorTransactionHistory");
 		menu(reportsValue,

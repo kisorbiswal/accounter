@@ -1802,7 +1802,8 @@
 			not-null="true" lazy="false">
 		</many-to-one>
 		<property name="budgetName" column="BUDGET_NAME"></property>
-		<list name="budgetItems" lazy="false" cascade="save-update,delete">
+		<property name="financialYear" column="FINANCIAL_YEAR"></property>
+		<list name="budgetItems" lazy="false" cascade="save-update,delete-orphan">
 			<key column="BUDGET_ID"></key>
 			<list-index column="IDX" />
 			<one-to-many class="BudgetItem" />

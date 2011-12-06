@@ -118,10 +118,10 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 					}
 
 					@Override
-					public void onSuccess(ArrayList<ClientBudget> result) {
-
-						List<ClientBudget> budgetList = result;// TODO
-																// Auto-generated
+					public void onSuccess(ArrayList<ClientBudget> budgetList) {
+						if (budgetList == null) {
+							budgetList = new ArrayList<ClientBudget>();
+						}
 						for (ClientBudget budget : budgetList) {
 							budgetArray.add(budget.getBudgetName());
 							idArray.add(budget.getID());
@@ -131,6 +131,9 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 						if (idArray.size() > 0) {
 							budgetId = idArray.get(0);
 							monthSelected = 1;
+							changeDates(new ClientFinanceDate(),
+									new ClientFinanceDate());
+						} else {
 							changeDates(new ClientFinanceDate(),
 									new ClientFinanceDate());
 						}

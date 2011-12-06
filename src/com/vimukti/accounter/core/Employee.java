@@ -400,11 +400,11 @@ public class Employee extends CreatableObject implements IAccounterServerCore,
 		while (it.hasNext()) {
 			Object[] object = (Object[]) it.next();
 
-			if (this.employeeName.equals((String) object[0])) {
+			if (this.employeeName.equals(object[0])) {
 				Iterator it2 = list.iterator();
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
-					if (this.employeeNumber.equals((String) object2[1])) {
+					if (this.employeeNumber.equals(object2[1])) {
 						throw new AccounterException(
 								AccounterException.ERROR_NAME_CONFLICT);
 						// "A Employee already exists with this name and number");
@@ -413,11 +413,11 @@ public class Employee extends CreatableObject implements IAccounterServerCore,
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_CONFLICT);
 				// "A Employee already exists with this name");
-			} else if (this.employeeNumber.equals((String) object[1])) {
+			} else if (this.employeeNumber.equals(object[1])) {
 				Iterator it2 = list.iterator();
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
-					if (this.employeeName.equals((String) object2[0])) {
+					if (this.employeeName.equals(object2[0])) {
 						throw new AccounterException(
 								AccounterException.ERROR_NUMBER_CONFLICT);
 						// "A Employee already exists with this name and number");
@@ -482,15 +482,17 @@ public class Employee extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), messages.employee()).gap().gap();
-		w.put(messages.address1(), this.address1).gap().gap();
-		w.put(messages.address2(), this.address2).gap().gap();
-		w.put(messages.city(), this.city).gap().gap();
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), messages.employee()).gap();
+		w.put(messages.address1(), this.address1);
+
+		w.put(messages.address2(), this.address2).gap();
+		w.put(messages.city(), this.city);
+
 		w.put(messages.state(), this.state).gap().gap();
-		w.put(messages.postalCode(), this.postalCode).gap().gap();
-		
+		w.put(messages.postalCode(), this.postalCode);
+
 	}
 
 }

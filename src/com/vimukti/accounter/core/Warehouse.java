@@ -16,10 +16,12 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * Warehouse POJO.
@@ -235,7 +237,27 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), messages.wareHouse()).gap();
+
+		if (this.address != null)
+			w.put(messages.address(), this.address.toString());
+
+		w.put(messages.name(), this.name).gap();
+
+		w.put(messages.warehouseCode(), this.warehouseCode).gap();
+
+		if (this.contact != null)
+			w.put(messages.contact(), this.contact.getName());
+
+		w.put(messages.defaultWareHouse(), this.isDefaultWarehouse).gap();
+
+		w.put(messages.number(), this.DDINumber).gap();
+
+		if (this.mobileNumber != null)
+			w.put(messages.mobileNumber(), this.mobileNumber).gap();
 
 	}
 }

@@ -7,7 +7,9 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class WareHouseAllocation implements IAccounterServerCore, Lifecycle {
 
@@ -122,7 +124,22 @@ public class WareHouseAllocation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), messages.wareHouse()).gap();
+
+		if (this.item != null)
+			w.put(messages.item(), this.item.getName()).gap();
+
+		if (this.quantity != null)
+			w.put(messages.quantity(), this.quantity.toString());
+
+		if (this.wareHouse != null)
+			w.put(messages.wareHouse(), this.wareHouse.getName()).gap();
+
+		if (this.transaction != null)
+			w.put(messages.transaction(), this.transaction.toString());
 
 	}
 

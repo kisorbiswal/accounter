@@ -321,9 +321,11 @@ public class CustomerPrePayment extends Transaction {
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.customerprePayment()).gap();
+
 		w.put(messages.no(), this.number);
-		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
-		w.put(messages.currency(), this.currencyFactor).gap().gap();
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+
+		w.put(messages.currency(), this.currencyFactor).gap();
 		w.put(messages.amount(), this.total);
 		w.put(messages.paymentMethod(), this.paymentMethod);
 		w.put(messages.memo(), this.memo);

@@ -406,16 +406,26 @@ public class WriteCheck extends Transaction {
 		w.put(messages.type(), messages.writeCheck()).gap();
 
 		w.put(messages.payTo(), this.payToType).gap();
-		w.put(messages.bankAccount(), this.bankAccount.getName());
 
-		w.put(messages.customer(), this.customer.getName()).gap();
-		w.put(messages.vendor(), this.vendor.getName());
+		if (this.bankAccount != null)
+			w.put(messages.bankAccount(), this.bankAccount.getName());
 
-		w.put(messages.taxAgencie(), this.taxAgency.getName()).gap();
-		w.put(messages.address(), this.address.toString());
+		if (this.customer != null)
+			w.put(messages.customer(), this.customer.getName()).gap();
+
+		if (this.vendor != null)
+			w.put(messages.vendor(), this.vendor.getName());
+
+		if (this.taxAgency != null)
+			w.put(messages.taxAgencie(), this.taxAgency.getName()).gap();
+
+		if (this.address != null)
+			w.put(messages.address(), this.address.toString());
 
 		w.put(messages.amount(), this.amount).gap();
-		w.put(messages.salesPerson(), this.salesPerson.getName());
+
+		if (this.salesPerson != null)
+			w.put(messages.salesPerson(), this.salesPerson.getName());
 
 	}
 

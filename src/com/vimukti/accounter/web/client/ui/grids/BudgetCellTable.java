@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -17,8 +19,6 @@ import com.vimukti.accounter.web.client.ui.company.AddBudgetAmountDialogue;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 
 public class BudgetCellTable extends CellTable<ClientBudgetItem> {
-
-	// private AsyncDataProvider<ClientBudgetItem> listDataProvider;
 
 	ListDataProvider<ClientBudgetItem> listDataProvider = new ListDataProvider<ClientBudgetItem>();
 
@@ -33,32 +33,30 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 
 	private void createControls() {
 
-		/*
-		 * listDataProvider = new AsyncDataProvider<ClientBudgetItem>() {
-		 * 
-		 * @Override protected void onRangeChanged(HasData<ClientBudgetItem>
-		 * display) {
-		 * 
-		 * List<ClientAccount> listOfAccounts = Accounter.getCompany()
-		 * .getAccounts();
-		 * 
-		 * List<ClientBudgetItem> list = new ArrayList<ClientBudgetItem>(); for
-		 * (ClientAccount account : listOfAccounts) { ClientBudgetItem obj = new
-		 * ClientBudgetItem(); obj.setAccountsName(account.getName());
-		 * obj.setAccount(account);
-		 * 
-		 * list.add(obj);
-		 * 
-		 * } updateRowData(0, list); setRowCount(list.size()); } };
-		 */
 		setPageSize(50);
 		listDataProvider.addDataDisplay(this);
 		List<ClientBudgetItem> list = listDataProvider.getList();
 
-		List<ClientAccount> listOfAccounts = Accounter.getCompany()
-				.getAccounts();
+		List<ClientAccount> listOfExpenseAccounts = Accounter.getCompany()
+				.getAccounts(ClientAccount.TYPE_EXPENSE);
+		List<ClientAccount> listOfOtherExpenseAccounts = Accounter.getCompany()
+				.getAccounts(ClientAccount.TYPE_OTHER_EXPENSE);
+		List<ClientAccount> listOfIncomeAccounts = Accounter.getCompany()
+				.getAccounts(ClientAccount.TYPE_INCOME);
+		List<ClientAccount> listOfOtherIncomeAccounts = Accounter.getCompany()
+				.getAccounts(ClientAccount.TYPE_OTHER_INCOME);
+		List<ClientAccount> listOfCostOFGoodAccounts = Accounter.getCompany()
+				.getAccounts(ClientAccount.TYPE_COST_OF_GOODS_SOLD);
+
+		List<ClientAccount> listOfAccounts = new ArrayList<ClientAccount>(
+				listOfExpenseAccounts);
+		listOfAccounts.addAll(listOfOtherExpenseAccounts);
+		listOfAccounts.addAll(listOfIncomeAccounts);
+		listOfAccounts.addAll(listOfOtherIncomeAccounts);
+		listOfAccounts.addAll(listOfCostOFGoodAccounts);
 
 		for (ClientAccount account : listOfAccounts) {
+
 			ClientBudgetItem obj = new ClientBudgetItem();
 			obj.setAccountsName(account.getName());
 			obj.setAccount(account);
@@ -74,7 +72,6 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 	}
 
 	private void initTableColumns() {
-		// adding accounts column to cell table
 
 		Column<ClientBudgetItem, String> accountInfoColumn = new Column<ClientBudgetItem, String>(
 				new ClickableTextCell()) {
@@ -478,5 +475,25 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 	public List<ClientBudgetItem> getDataList() {
 		List<ClientBudgetItem> list = listDataProvider.getList();
 		return list;
+	}
+
+	public void setDataProvided(ClientBudget data) {
+
+		List<ClientBudgetItem> list = listDataProvider.getList();
+
+		for (ClientBudgetItem budgetItem : data.getBudgetItem()) {
+			int i = 0;
+			for (ClientBudgetItem item : list) {
+				if (item.getAccount().getID() == budgetItem.getAccount()
+						.getID()) {
+					System.out.println(i);
+					list.remove(i);
+					break;
+				}
+				i++;
+			}
+			list.add(budgetItem);
+		}
+
 	}
 }

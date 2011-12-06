@@ -11,6 +11,8 @@ public class ClientBudget implements IAccounterCore {
 
 	private String budgetName;
 
+	private String financialYear;
+
 	private int version;
 
 	List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
@@ -69,6 +71,14 @@ public class ClientBudget implements IAccounterCore {
 	@Override
 	public String getClientClassSimpleName() {
 		return "ClientBudget";
+	}
+
+	public String getFinancialYear() {
+		return financialYear;
+	}
+
+	public void setFinancialYear(String financialYear) {
+		this.financialYear = financialYear;
 	}
 
 }
