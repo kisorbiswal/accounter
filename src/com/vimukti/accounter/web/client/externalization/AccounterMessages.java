@@ -4693,4 +4693,6 @@ public interface AccounterMessages extends Messages {
 	public String editingCreditsFailed();
 
 	public String pleaseEnterAmountToReceive();
+
+	public String cannotCreateUserAsTheirIsNoUserWithAdminRole();
 }
