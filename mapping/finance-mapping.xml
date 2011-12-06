@@ -50,7 +50,7 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<many-to-one name="linkedAccumulatedDepreciationAccount"
-			column="LINKED_ID" class="Account" cascade="save-update,delete">
+			column="LINKED_ID" lazy="false" class="Account" cascade="save-update,delete">
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<property name="boxNumber" column="BOX_NUMBER"></property>
@@ -1299,11 +1299,13 @@
 		<property name="assetType" column="ASSET_TYPE"></property>
 		<property name="depreciationRate" column="DEPRECIATION_RATE"></property>
 		<property name="depreciationMethod" column="DEPRECIATION_METHOD"></property>
+		<property name="version" column="VERSION"></property>
 		<many-to-one name="depreciationExpenseAccount" class="Account"
 			lazy="false" column="DEPRECIATION_EXPENSE_ACCOUNT_ID">
 		</many-to-one>
-		<!-- <many-to-one name="accumulatedDepreciationAccount" class="Account" 
-			lazy="false" column="ACCUMULATED_DEPRECIATION_ACCOUNT_ID"> </many-to-one> -->
+		<many-to-one name="accumulatedDepreciationAccount" class="Account"
+			lazy="false" column="ACCUMULATED_DEPRECIATION_ACCOUNT_ID">
+		</many-to-one>
 		<property name="accumulatedDepreciationAmount" column="ACCUMULATED_DEPRECIATION_AMOUNT"></property>
 		<property name="status" column="status"></property>
 		<property name="bookValue" column="BOOK_VALUE"></property>
@@ -1378,9 +1380,11 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="depreciateTo" column="DEPRECIATE_TO"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<!-- <list name="fixedAssets" lazy="false" cascade="save-update,delete"> 
-			<key column="FIXED_ASSET_ID"></key> <list-index column="IDX" /> <one-to-many 
-			class="FixedAsset" /> </list> -->
+		<list name="fixedAssets" lazy="false" cascade="save-update,delete">
+			<key column="FIXED_ASSET_ID"></key>
+			<list-index column="IDX" />
+			<one-to-many class="FixedAsset" />
+		</list>
 		<many-to-one name="fixedAsset" class="FixedAsset" lazy="false"
 			cascade="save-update" column="FIXED_ASSET_ID">
 		</many-to-one>
