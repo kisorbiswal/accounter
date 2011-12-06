@@ -1625,7 +1625,7 @@ a#fdbk_tab,#overlay {
 }
 
 .editTable .editheader td,.editTable td,.gridHeader td {
-	border-width: 0 1px 1px 0;
+	border-width: 1px;
 }
 
 .gridBody tr td {
@@ -2165,11 +2165,12 @@ input.date-field-textbox {
 	cursor: pointer;
 	color: #FFFFFF;
 }
-
 .no_records .norecord-empty-message {
+    margin-left: 400px;
+}
+.no_records .norecord-empty-message,.no_records .records_label {
 	border-bottom: medium none;
 	border-right: medium none;
-	margin-left: 400px;
 	position: absolute;
 }
 
