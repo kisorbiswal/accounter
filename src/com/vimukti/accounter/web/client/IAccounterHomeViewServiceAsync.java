@@ -200,10 +200,6 @@ public interface IAccounterHomeViewServiceAsync {
 	// public AccountRegister getAccountRegister(String accountId)
 	// throws DAOException;
 
-	// To get all Invoices, Customer Credit Memo, Cash Sales and Write Checks ->
-	// for Customer
-	public void getInvoiceList(AsyncCallback<ArrayList<InvoicesList>> callback);
-
 	// To get all Customer Refunds and Write Checks -> for Customer
 	public void getCustomerRefundsList(
 			AsyncCallback<ArrayList<CustomerRefundsList>> callback);
@@ -315,9 +311,6 @@ public interface IAccounterHomeViewServiceAsync {
 
 	public void getInvoiceList(long fromDate, long toDate,
 			AsyncCallback<ArrayList<InvoicesList>> callback);
-
-	public void getMinimumAndMaximumTransactionDate(
-			AsyncCallback<ArrayList<ClientFinanceDate>> callBack);
 
 	public void getCustomerNumber(AsyncCallback<String> callback);
 

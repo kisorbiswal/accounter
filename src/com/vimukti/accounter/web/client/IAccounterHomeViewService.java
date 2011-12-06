@@ -174,10 +174,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 	// public AccountRegister getAccountRegister(String accountId)
 	// throws DAOException;
 
-	// To get all Invoices, Customer Credit Memo, Cash Sales and Write Checks ->
-	// for Customer
-	public ArrayList<InvoicesList> getInvoiceList();
-
 	// To get all Customer Refunds and Write Checks -> for Customer
 	public ArrayList<CustomerRefundsList> getCustomerRefundsList();
 
@@ -277,8 +273,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 			throws AccounterException;
 
 	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate);
-
-	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
 
 	public String getCustomerNumber();
 
