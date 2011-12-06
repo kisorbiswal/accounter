@@ -3250,23 +3250,4 @@ public class FinanceTool {
 		return true;
 	}
 
-	public List<ClientTransactionItem> getRecordExpensesAccounts(long companyId) {
-		Session session = HibernateUtil.getCurrentSession();
-		try {
-			Query query = session.getNamedQuery("getRecordExpensesAccounts")
-					.setParameter("companyId", companyId);
-			List<BigInteger> accountsIdsList = query.list();
-			List<ClientTransactionItem> clientTransactionItems = new ArrayList<ClientTransactionItem>();
-			for (BigInteger accountId : accountsIdsList) {
-				ClientTransactionItem transactionItem = getManager()
-						.getObjectById(AccounterCoreType.TRANSACTION_ITEM,
-								accountId.longValue(), companyId);
-				clientTransactionItems.add(transactionItem);
-			}
-			return clientTransactionItems;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return null;
-	}
 }
