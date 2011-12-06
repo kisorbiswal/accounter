@@ -3079,7 +3079,6 @@ public class ClientCompany implements IAccounterCore {
 
 	}
 
-
 	public ArrayList<ClientCustomField> getCustomFields() {
 		return customFields;
 	}
@@ -3101,7 +3100,14 @@ public class ClientCompany implements IAccounterCore {
 		this.cashDiscountAccount = cashDiscountAccount;
 	}
 
-	
+	public ClientCustomField getCustomFieldByTitle(String title) {
+		ArrayList<ClientCustomField> customFields = getCustomFields();
+		for (ClientCustomField f : customFields) {
+			if (f.isShowCustomer() && f.getName().equals(title)) {
+				return f;
+			}
+		}
+		return null;
+	}
 
-	
 }

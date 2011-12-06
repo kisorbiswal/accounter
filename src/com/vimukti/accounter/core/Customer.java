@@ -349,12 +349,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 			this.number = NumberUtils.getNextAutoCustomerNumber(getCompany());
 		}
 
-		for (CustomFieldValue c : this.getCustomFieldValues()) {
-			c.setPayee(this);
-			session.saveOrUpdate(c);
-
-		}
-
 		return onUpdate(session);
 	}
 

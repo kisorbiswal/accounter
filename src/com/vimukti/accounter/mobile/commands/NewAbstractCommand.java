@@ -87,7 +87,8 @@ public abstract class NewAbstractCommand extends NewCommand {
 				new FinanceTool().update(opContext);
 			}
 		} catch (AccounterException e) {
-			e.printStackTrace();
+			int errorCode = e.getErrorCode();
+			// addFirstMessage(context, string);
 		}
 	}
 

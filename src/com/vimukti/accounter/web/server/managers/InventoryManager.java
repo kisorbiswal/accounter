@@ -29,14 +29,16 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 public class InventoryManager extends Manager {
-	public ArrayList<InvoicesList> getInvoiceList(long companyId)
-			throws DAOException {
+
+	public ArrayList<InvoicesList> getInvoiceList(long companyId,
+			long fromDate, long toDate) throws DAOException {
+
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			// FIXME :: query optimization
 			Query query = session.getNamedQuery("getInvoicesList")
-					.setParameter("companyId", companyId);
-			;
+					.setParameter("companyId", companyId)
+					.setLong("fromDate", fromDate).setLong("toDate", toDate);
 			List list = query.list();
 
 			if (list != null) {
@@ -75,25 +77,6 @@ public class InventoryManager extends Manager {
 		} catch (DAOException e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
 		}
-	}
-
-	public ArrayList<InvoicesList> getInvoiceList(long companyId,
-			ClientFinanceDate fromDate, ClientFinanceDate toDate)
-			throws DAOException {
-
-		List<InvoicesList> invoicesList = null;
-		List<InvoicesList> filteredList = null;
-
-		filteredList = new ArrayList<InvoicesList>();
-		invoicesList = getInvoiceList(companyId);
-		for (InvoicesList list : invoicesList) {
-			if (!list.getDate().before(fromDate)
-					&& !list.getDate().after(toDate))
-
-				filteredList.add(list);
-
-		}
-		return new ArrayList<InvoicesList>(filteredList);
 
 	}
 

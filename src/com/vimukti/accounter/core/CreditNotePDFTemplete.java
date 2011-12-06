@@ -37,7 +37,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 	}
 
 	public String getFileName() {
-		return "CreditNote_Templete_" + memo.getNumber();
+		return "CreditNote_" + memo.getNumber();
 	}
 
 	@Override

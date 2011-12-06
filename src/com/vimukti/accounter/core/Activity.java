@@ -2,8 +2,6 @@ package com.vimukti.accounter.core;
 
 import java.sql.Timestamp;
 
-import org.json.JSONException;
-
 public class Activity extends CreatableObject {
 
 	private User user;
@@ -69,13 +67,13 @@ public class Activity extends CreatableObject {
 			this.setDataType(obj.getClass().getSimpleName());
 		}
 		this.objectID = obj.getID();
-		AuditWriterImpl writer = new AuditWriterImpl();
-		try {
-			obj.writeAudit(writer);
-			this.auditHistory = writer.toString();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		// AuditWriterImpl writer = new AuditWriterImpl();
+		// try {
+		// obj.writeAudit(writer);
+		// this.auditHistory = writer.toString();
+		// } catch (JSONException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	public Timestamp getTime() {

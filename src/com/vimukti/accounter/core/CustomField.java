@@ -1,8 +1,5 @@
 package com.vimukti.accounter.core;
 
-import org.hibernate.CallbackException;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -88,19 +85,6 @@ public class CustomField extends CreatableObject implements
 	}
 
 	@Override
-	public boolean onDelete(Session session) throws CallbackException {
-
-		try {
-			 		session.getNamedQuery("delete.payeeCustomFieldValue.by.Id")
-					.setLong("customID", this.id).executeUpdate();
-		} catch (HibernateException h) {
-
-		}
-
-		return true;
-	}
-
-	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		// TODO Auto-generated method stub
 		return super.clone();
@@ -109,6 +93,6 @@ public class CustomField extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

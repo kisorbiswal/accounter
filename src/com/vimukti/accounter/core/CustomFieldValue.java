@@ -6,6 +6,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.sun.org.apache.regexp.internal.recompile;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -13,14 +14,13 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Sai Prasad N
  * 
  */
-public class CustomFieldValue extends CreatableObject implements
-		IAccounterServerCore {
+public class CustomFieldValue implements IAccounterServerCore {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	long id;
 	String value;
 
 	CustomField customField;
@@ -70,44 +70,12 @@ public class CustomFieldValue extends CreatableObject implements
 	}
 
 	@Override
-	public boolean onSave(Session s) throws CallbackException {
-
-		return true;
-	}
-
-	@Override
-	public boolean onUpdate(Session s) throws CallbackException {
-
-		return true;
-	}
-
-	@Override
-	public boolean onDelete(Session s) throws CallbackException {
-
-		return true;
-	}
-
-	@Override
-	public void onLoad(Session s, Serializable id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public long getID() {
-
-		return this.id;
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void setId(long id) {
-
 		this.id = id;
 	}
 
@@ -117,6 +85,11 @@ public class CustomFieldValue extends CreatableObject implements
 
 	public void setPayee(Payee payee) {
 		this.payee = payee;
+	}
+
+	@Override
+	public long getID() {
+		return id;
 	}
 
 }

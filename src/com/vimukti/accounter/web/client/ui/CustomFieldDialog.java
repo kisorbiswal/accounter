@@ -8,7 +8,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCustomField;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.customers.CustomerView;
 import com.vimukti.accounter.web.client.ui.edittable.CustomFieldTable;
@@ -72,21 +74,59 @@ public class CustomFieldDialog extends BaseDialog {
 	protected boolean onOK() {
 
 		allRows = customFieldTable.getAllRows();
-		if (!allRows.isEmpty())
-			for (ClientCustomField cf : allRows) {
-				saveOrUpdate(cf);
-				if (!getCompany().getCustomFields().contains(cf)) {
-					getCompany().getCustomFields().add(cf);
+		ArrayList<ClientCustomField> arrayList = new ArrayList<ClientCustomField>(
+				allRows);
+		ArrayList<ClientCustomField> customFields = new ArrayList<ClientCustomField>(
+				getCompany().getCustomFields());
+		ArrayList<ClientCustomField> customFields2 = getCompany()
+				.getCustomFields();
+		for (ClientCustomField f : customFields) {
+			boolean canDelete = true;
+			for (ClientCustomField ff : allRows) {
+				if (f.getName().equals(ff.getName())) {
+					saveOrUpdate(ff);
+					arrayList.remove(ff);
+					canDelete = false;
+					break;
 				}
 			}
+			if (canDelete) {
+				delete(f);
+				customFields2.remove(f);
+			}
+		}
+
+		for (ClientCustomField f : arrayList) {
+			if (f.getName() != null && !f.getName().isEmpty()) {
+				customFields2.add(f);
+				saveOrUpdate(f);
+			} else {
+				customFieldTable.delete(f);
+			}
+		}
 		if (parentView instanceof CustomerView) {
-			((CustomerView) parentView).updateCustomFields();
+			((CustomerView) parentView).createCustomFieldControls();
 		} else {
-			((VendorView) parentView).updateCustomFields();
+			((VendorView) parentView).createCustomFieldControls();
 		}
 
 		return true;
 
+	}
+
+	private void delete(ClientCustomField field) {
+		Accounter.deleteObject(new IDeleteCallback() {
+
+			@Override
+			public void deleteSuccess(IAccounterCore result) {
+				System.out.println();
+			}
+
+			@Override
+			public void deleteFailed(AccounterException caught) {
+				System.out.println();
+			}
+		}, field);
 	}
 
 	@Override

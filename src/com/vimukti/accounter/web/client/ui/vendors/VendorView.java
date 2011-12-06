@@ -29,8 +29,6 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientCustomField;
-import com.vimukti.accounter.web.client.core.ClientCustomFieldValue;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEmail;
 import com.vimukti.accounter.web.client.core.ClientFax;
@@ -73,6 +71,7 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.edittable.tables.ContactsTable;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.CustomFieldForm;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -115,7 +114,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	CheckboxItem isTDS;
 	TabPanel tabSet;
 	AddButton addButton;
-	DynamicForm customForm;
+	CustomFieldForm customFieldForm;
 
 	LinkedHashMap<String, ClientAddress> allAddresses;
 	LinkedHashMap<String, ClientPhone> allPhones;
@@ -166,7 +165,6 @@ public class VendorView extends BaseView<ClientVendor> {
 	protected ClientTAXCode selectTaxCodeFromDetailsTab;
 	protected ClientTAXItem selectTaxItemFromDetailsTab;
 	public CustomFieldDialog customFieldDialog;
-	TextItem customField[];
 
 	public VendorView() {
 		super();
@@ -201,7 +199,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		tabSet.add(getDetailsTab(), Accounter.messages().details());
 		tabSet.selectTab(0);
 		tabSet.setSize("100%", "100%");
-		updateCustomFields();
+		createCustomFieldControls();
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(tabSet);
@@ -655,9 +653,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		bankBranchText.setHelpInformation(true);
 		bankBranchText.setDisabled(isInViewMode());
 
-		customForm = new DynamicForm();
+		customFieldForm = new CustomFieldForm();
 		// customForm.setIsGroup(true);
-		customForm.setWidth("100%");
+		customFieldForm.setWidth("100%");
 		DynamicForm financeDetailsForm = new DynamicForm();
 		financeDetailsForm.setIsGroup(true);
 		financeDetailsForm.setWidth("100%");
@@ -823,7 +821,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			rVLayout.add(tdsFrom);
 		}
 		rVLayout.add(addCustomFieldButton);
-		rVLayout.add(customForm);
+		rVLayout.add(customFieldForm);
 		HorizontalPanel mainHLay = new HorizontalPanel();
 		mainHLay.setSize("100%", "100%");
 		mainHLay.add(leftVLay);
@@ -838,7 +836,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		listforms.add(financeDetailsForm);
 		listforms.add(vendorGrpForm);
 		listforms.add(vatform);
-		listforms.add(customForm);
 
 		// if (UIUtils.isMSIEBrowser()) {
 		// financeDetailsForm.getCellFormatter().setWidth(0, 1, "200px");
@@ -852,34 +849,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		return mainVLayout;
 	}
 
-	public void updateCustomFields() {
-
-		customForm.clear();
-		int size = 0;
-		List<ClientCustomField> customFields = getCompany().getCustomFields();
-
-		for (ClientCustomField c : customFields) {
-			if (c.isShowVendor()) {
-				size += 1;
-			}
-		}
-		int i = 0;
-		customField = new TextItem[size];
-		if (customFields != null) {
-			for (ClientCustomField c : customFields) {
-				if (c.isShowVendor()) {
-					TextItem t = new TextItem(c.getName());
-					t.setDisabled(isInViewMode());
-					customForm.setFields(t);
-					customField[i] = t;
-					i = i + 1;
-				}
-			}
-
-		}
-		if (data != null) {
-			initCustomFieldValues();
-		}
+	public void createCustomFieldControls() {
+		customFieldForm.createControls(getCompany(),
+				data == null ? null : data.getCustomFieldValues());
 
 	}
 
@@ -966,7 +938,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	private void updateVendorObject() {
 
-		updateCustomFieldValues();
+		customFieldForm.updateValues(data.getCustomFieldValues(), getCompany());
 		// Setting data from General Tab
 
 		// Setting Vendor Name
@@ -1479,11 +1451,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		}
 		taxIDText.setDisabled(isInViewMode());
 		taxID.setDisabled(isInViewMode());
-
-		for (int i = 0; i < customField.length; i++) {
-			customField[i].setDisabled(isInViewMode());
-
-		}
+		customFieldForm.setDisabled(isInViewMode());
 		addCustomFieldButton.setEnabled(!isInViewMode());
 		super.onEdit();
 
@@ -1527,85 +1495,5 @@ public class VendorView extends BaseView<ClientVendor> {
 	@Override
 	protected boolean canVoid() {
 		return false;
-	}
-
-	public void updateCustomFieldValues() {
-
-		int i = 0;
-		boolean flag = false;
-		Set<ClientCustomFieldValue> list = data.getCustomFieldValues();
-		if (data.getCustomFieldValues().isEmpty()) {
-			data.setCustomFieldValues(list);
-			for (ClientCustomField cf : getCompany().getCustomFields()) {
-				if (cf.isShowVendor()) {
-					ClientCustomFieldValue clientCustomFieldValue = new ClientCustomFieldValue();
-					for (int j = 0; j < customField.length; j++) {
-						if (customField[j].getTitle().equals(cf.getName())) {
-							clientCustomFieldValue.setValue(customField[j]
-									.getValue());
-						}
-					}
-					clientCustomFieldValue.setCustomField(cf.getID());
-
-					list.add(clientCustomFieldValue);
-				}
-			}
-		} else {
-			for (ClientCustomField cf : getCompany().getCustomFields()) {
-				flag = false;
-				if (cf.isShowVendor()) {
-					for (ClientCustomFieldValue cv : list) {
-						if (i < customField.length) {
-							if (getCompany()
-									.getClientCustomField(cv.getCustomField())
-									.getName()
-									.equals(customField[i].getTitle())) {
-								cv.setValue(customField[i].getValue());
-								i = i + 1;
-
-								flag = true;
-								break;
-							}
-						}
-
-					}
-				}
-				if (!flag) {
-					i = i + 1;
-					ClientCustomFieldValue clientCustomFieldValue = new ClientCustomFieldValue();
-					for (int j = 0; j < customField.length; j++) {
-						if (cf.getName().equals(customField[j].getTitle())) {
-							clientCustomFieldValue.setValue(customField[j]
-									.getValue());
-							clientCustomFieldValue.setCustomField(cf.getID());
-							list.add(clientCustomFieldValue);
-						}
-					}
-				}
-			}
-		}
-	}
-
-	private void initCustomFieldValues() {
-
-		int i = 0;
-
-		for (ClientCustomFieldValue cv : data.getCustomFieldValues()) {
-			{
-				ClientCustomField cf = getCompany().getClientCustomField(
-						cv.getCustomField());
-				if (cf.isShowVendor()) {
-					for (int j = 0; j < customField.length; j++) {
-						if (customField[j].getTitle().equals(cf.getName())) {
-							customField[j].setValue(cv.getValue());
-
-						}
-
-					}
-
-				}
-			}
-
-		}
 	}
 }

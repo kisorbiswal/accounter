@@ -94,7 +94,11 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 
 	@Override
 	public void delete(ClientCustomField row) {
-		showWarningDialog(row);
+		if (row.getName() == null || row.getName().isEmpty()) {
+			deleteRow(row);
+		} else {
+			showWarningDialog(row);
+		}
 
 	}
 
@@ -118,19 +122,7 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 
 			@Override
 			public boolean onYesClick() {
-
-				Accounter.deleteObject(new IDeleteCallback() {
-
-					@Override
-					public void deleteSuccess(IAccounterCore result) {
-						Accounter.getCompany().getCustomFields().remove(row);
-						updateRows(row);
-					}
-
-					@Override
-					public void deleteFailed(AccounterException caught) {
-					}
-				}, row);
+				deleteRow(row);
 				return true;
 			}
 
@@ -138,7 +130,7 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 
 	}
 
-	private void updateRows(ClientCustomField row) {
+	private void deleteRow(ClientCustomField row) {
 		super.delete(row);
 	}
 

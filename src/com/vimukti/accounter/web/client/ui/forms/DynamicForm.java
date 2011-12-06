@@ -45,12 +45,12 @@ public class DynamicForm extends FlexTable {
 		// this.getElement().getElementsByTagName("td").getItem(0)
 		// .setAttribute("class", "align-form");
 	}
-	
+
 	/**
 	 * 
 	 * @param item
 	 */
-	public void addField(FormItem item){
+	public void addField(FormItem item) {
 		this.formItems.add(item);
 		item.addWidgets(this);
 	}
@@ -155,9 +155,9 @@ public class DynamicForm extends FlexTable {
 
 			// Logical detach.
 			formItems.remove(formItem);
-			
+
 		}
-		removeFormItemTitle(formItem);		
+		removeFormItemTitle(formItem);
 		return true;
 	}
 

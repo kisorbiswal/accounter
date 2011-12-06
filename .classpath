@@ -146,5 +146,6 @@
 	<classpathentry kind="lib" path="libs/yguard.jar"/>
 	<classpathentry kind="lib" path="libs/gwt-dnd-3.1.2.jar"/>
 	<classpathentry kind="lib" path="libs/gwt-dnd-3.1.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="libs/gwt-servlet.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

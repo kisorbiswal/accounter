@@ -5,13 +5,11 @@ import java.util.List;
 import java.util.Vector;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -450,37 +448,11 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		if (dateRangeSelector.getValue() != null
 				&& dateRangeSelector.getValue().equals(
 						Accounter.messages().all())) {
-			AccounterAsyncCallback<ArrayList<ClientFinanceDate>> callback = new AccounterAsyncCallback<ArrayList<ClientFinanceDate>>() {
-
-				@Override
-				public void onException(AccounterException caught) {
-					return;
-				}
-
-				@Override
-				public void onResultSuccess(ArrayList<ClientFinanceDate> result) {
-
-					if (result == null)
-						onFailure(new Exception());
-					if (result.size() > 0) {
-						ClientFinanceDate startDate1 = result.get(0) == null ? new ClientFinanceDate()
-								: result.get(0);
-						ClientFinanceDate endDate2 = result.get(1) == null ? new ClientFinanceDate()
-								: result.get(1);
-						startDate = startDate1;
-						endDate = endDate2;
-						callRPCMethod();
-						fromItem.setValue(startDate);
-						toItem.setValue(endDate);
-
-					} else {
-						onFailure(new Exception());
-
-					}
-
-				}
-			};
-			this.rpcUtilService.getMinimumAndMaximumTransactionDate(callback);
+			startDate = null;
+			endDate = null;
+			callRPCMethod();
+			fromItem.setValue(startDate);
+			toItem.setValue(endDate);
 		} else {
 			callRPCMethod();
 		}
@@ -667,8 +639,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 
 	private void callRPCMethod() {
 		Accounter.createHomeService().getInvoiceList(
-				startDate == null ? 0 : startDate.getDate(), endDate.getDate(),
-				this);
+				startDate == null ? 0 : startDate.getDate(),
+				endDate == null ? 0 : endDate.getDate(), this);
 	}
 
 }

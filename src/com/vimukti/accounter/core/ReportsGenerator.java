@@ -1529,7 +1529,9 @@ public class ReportsGenerator {
 		Set<Vendor> vendors = company.getVendors();
 		for (Vendor vendor : vendors) {
 			if (String.valueOf(vendor.getID()).equals(status)) {
-				return vendor.getName();
+				String name = vendor.getName();
+				name = name.substring(0, 1).toUpperCase() + name.substring(1);
+				return name;
 			}
 		}
 		return Global.get().Vendor() + " Statement";

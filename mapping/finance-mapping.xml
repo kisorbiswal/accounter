@@ -876,7 +876,7 @@
 		</id>
 		<property name="value" column="VALUE"></property>
 		<many-to-one name="payee" column="PAYEE_ID" class="Payee"
-			lazy="false" not-null="true" >
+			lazy="false" not-null="true">
 		</many-to-one>
 		<many-to-one name="customField" column="CUSTOMFIELD_ID"
 			class="CustomField" lazy="false" not-null="true">
@@ -907,7 +907,7 @@
 		<property name="bankName" column="BANK_NAME"></property>
 		<property name="bankBranch" column="BANK_BRANCH"></property>
 
-		<set name="customFieldValues" inverse="true" lazy="false">
+		<set name="customFieldValues" lazy="false" cascade="save-update,delete-orphan">
 			<key column="PAYEE_ID" />
 			<one-to-many class="CustomFieldValue" />
 		</set>
@@ -1278,7 +1278,7 @@
 		</many-to-one>
 		<set name="portletPages" inverse="true" cascade="save-update,delete-orphan"
 			lazy="false">
-			<key column="PORTLET_PAGE_CONFIGURATION_ID" />
+			<key column="USER_ID" />
 			<one-to-many class="PortletPageConfiguration" />
 		</set>
 		<!--<property name="version" column="VERSION"></property> -->

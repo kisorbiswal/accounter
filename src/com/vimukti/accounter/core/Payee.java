@@ -569,8 +569,10 @@ public abstract class Payee extends CreatableObject implements
 		if (currency == null) {
 			this.currency = getCompany().getPrimaryCurrency();
 		}
-		
-		
+
+		for (CustomFieldValue c : this.getCustomFieldValues()) {
+			c.setPayee(this);
+		}
 		return super.onSave(session);
 	}
 
@@ -607,7 +609,6 @@ public abstract class Payee extends CreatableObject implements
 		this.previousCurrencyFactor = currencyFactor;
 	}
 
-
 	public Set<CustomFieldValue> getCustomFieldValues() {
 		return customFieldValues;
 	}
@@ -615,6 +616,7 @@ public abstract class Payee extends CreatableObject implements
 	public void setCustomFieldValues(Set<CustomFieldValue> customFieldValues) {
 		this.customFieldValues = customFieldValues;
 	}
+
 	public void clearOpeningBalance() {
 		balance -= openingBalance;
 		openingBalance = 0.00D;

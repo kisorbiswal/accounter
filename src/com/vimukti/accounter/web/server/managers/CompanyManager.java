@@ -28,6 +28,7 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.FixedAssetHistory;
+import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.Transaction;
@@ -577,10 +578,13 @@ public class CompanyManager extends Manager {
 			throw new AccounterException(
 					AccounterException.ERROR_PERMISSION_DENIED);
 		}
+		Set<PortletPageConfiguration> portletPages = logInUser
+				.getPortletPages();
 		if (!logInUser.isActive()) {
 			activateUser(logInUser);
 		}
 
+		logInUser = HibernateUtil.initializeAndUnproxy(logInUser);
 		Hibernate.initialize(company);
 
 		// company.setAccounts(getAccountsListBySorted());
