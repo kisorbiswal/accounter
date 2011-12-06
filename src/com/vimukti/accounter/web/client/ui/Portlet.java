@@ -55,7 +55,6 @@ public abstract class Portlet extends WorkbenchPanel {
 		body.setStyleName("portlet-body");
 		this.setSize("100%", "100%");
 		addStyleName("portlet");
-
 		vPanel.add(body);
 		vPanel.setWidth("100%");
 		super.add(vPanel);
@@ -201,5 +200,11 @@ public abstract class Portlet extends WorkbenchPanel {
 
 	public boolean isInitializing() {
 		return isInitializing;
+	}
+
+	@Override
+	public void setHeight(String height) {
+		super.setHeight(height);
+		vPanel.setHeight(height);
 	}
 }
