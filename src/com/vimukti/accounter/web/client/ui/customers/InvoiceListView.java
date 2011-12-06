@@ -95,7 +95,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 
 	@Override
 	public void onSuccess(ArrayList<InvoicesList> result) {
-		super.onSuccess(result);
+		grid.removeLoadingImage();
 		listOfInvoices = result;
 		filterList(viewSelect.getValue().toString());
 		grid.setViewType(viewSelect.getValue().toString());
@@ -161,7 +161,6 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 			dateRangeList.add(dateRangeArray[i]);
 		}
 		dateRangeSelector.initCombo(dateRangeList);
-		dateRangeSelector.setDefaultValue(ALL);
 
 		dateRangeSelector.setComboItem(ALL);
 		// if (UIUtils.isMSIEBrowser())
@@ -190,10 +189,14 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 	private void filterList(String text) {
 
 		grid.removeAllRecords();
-		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy-MM-dd");
 
-		for (InvoicesList invoice : listOfInvoices) {
-			if (text.equals(OPEN)) {
+		if (text.equals(ALL)) {
+			for (InvoicesList invoice : listOfInvoices) {
+				invoice.setPrint(false);
+				grid.addData(invoice);
+			}
+		} else if (text.equals(OPEN)) {
+			for (InvoicesList invoice : listOfInvoices) {
 				if (invoice.getBalance() != null
 						&& DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
 						&& invoice.getDueDate() != null
@@ -202,9 +205,10 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 					invoice.setPrint(false);
 					grid.addData(invoice);
 				}
-				continue;
+			}
 
-			} else if (text.equals(OVER_DUE)) {
+		} else if (text.equals(OVER_DUE)) {
+			for (InvoicesList invoice : listOfInvoices) {
 				if (invoice.getBalance() != null
 						&& DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
 						&& invoice.getDueDate() != null
@@ -214,27 +218,24 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 					invoice.setPrint(false);
 					grid.addData(invoice);
 				}
-				continue;
-			} else if (text.equals(VOID)) {
-				if (invoice.isVoided()
-				// && !invoice.isDeleted()
-				) {
+			}
+		} else if (text.equals(VOID)) {
+			for (InvoicesList invoice : listOfInvoices) {
+				if (invoice.isVoided()) {
 					invoice.setPrint(false);
 					grid.addData(invoice);
 				}
-				continue;
-			} else if (text.equals(ALL)) {
-				invoice.setPrint(false);
-				grid.addData(invoice);
-			} else if (text.equals(DRAFT)) {
+			}
+		} else if (text.equals(DRAFT)) {
+			for (InvoicesList invoice : listOfInvoices) {
 				if (invoice.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
 					invoice.setPrint(false);
 					grid.addData(invoice);
 				}
 			}
+
 		}
 
-		grid.sort(DUE_DATE, false);
 		if (grid.getRecords().isEmpty()) {
 			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
@@ -442,9 +443,6 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 
 	private void refreshDatesAndRecords() {
 
-		if (this.rpcUtilService == null) {
-			this.rpcUtilService = Accounter.createHomeService();
-		}
 		if (dateRangeSelector.getValue() != null
 				&& dateRangeSelector.getValue().equals(
 						Accounter.messages().all())) {
