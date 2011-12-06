@@ -97,8 +97,8 @@ public abstract class EditTable<R> extends SimplePanel {
 		if (this.table.getRowCount() == 2 && rows.size() == 0) {
 			Widget label = table.getWidget(1, 0);
 			if (label != null) {
-				this.table.getFlexCellFormatter().removeStyleName(1, 0,
-						"norecord-empty-message");
+				 this.table.getFlexCellFormatter().setStyleName(1, 0,
+				 "records_label");
 			}
 		}
 		rows.add(row);
