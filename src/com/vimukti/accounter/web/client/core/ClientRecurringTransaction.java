@@ -107,9 +107,9 @@ public class ClientRecurringTransaction implements IAccounterCore {
 	 * previous schedule date
 	 */
 	private long prevScheduleOn;
+private long id;
 
-	private long id;
-
+	
 	// Extra client fields, will be used for displaying in grid
 	private double refTransactionTotal;
 	private int refTransactionType;

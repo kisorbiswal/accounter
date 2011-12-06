@@ -16,7 +16,7 @@
 		activation.token
 		=:token
 	</query>
-	
+
 	<query name="get.activation.by.emailid">
 		<query-param name="emailId" type="String" />
 		from com.vimukti.accounter.core.Activation activation
@@ -38,7 +38,7 @@
 		where
 		activation.id=:id
 	</query>
-
+	
 
 	<query name="get.companiesList.by.emailId.and.password">
 		<query-param name="emailId" type="String" />
@@ -82,12 +82,13 @@
 		company.id
 		=:id
 	</query>
-	
+
 	<query name="delete.remembermeKeys">
 		<query-param name="key" type="String" />
-		delete from com.vimukti.accounter.core.RememberMeKey rk where rk.key=:key
+		delete from com.vimukti.accounter.core.RememberMeKey rk where
+		rk.key=:key
 	</query>
-	
+
 	<query name="get.remembermeKey">
 		<query-param name="key" type="String" />
 		from com.vimukti.accounter.core.RememberMeKey rk where rk.key=:key

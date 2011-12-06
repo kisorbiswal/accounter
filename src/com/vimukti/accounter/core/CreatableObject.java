@@ -78,7 +78,9 @@ public abstract class CreatableObject implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
+
 		return false;
+
 	}
 
 	@Override

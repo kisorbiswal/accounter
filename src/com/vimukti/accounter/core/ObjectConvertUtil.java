@@ -77,7 +77,8 @@ public class ObjectConvertUtil {
 
 	public boolean isNotMappingEntity(Class<?> class1) {
 		String classNames[] = { "Contact", "Phone", "Fax", "Email", "Address",
-				"UserPreferences", "CompanyPreferences", "NominalCodeRange" };
+				"UserPreferences", "CompanyPreferences", "NominalCodeRange",
+				"CustomFieldValue" };
 		String packge = "com.vimukti.accounter.core.";
 		return class1.getName().equals(packge + classNames[0])
 				|| class1.getName().equals(packge + classNames[1])
@@ -86,7 +87,8 @@ public class ObjectConvertUtil {
 				|| class1.getName().equals(packge + classNames[4])
 				|| class1.getName().equals(packge + classNames[5])
 				|| class1.getName().equals(packge + classNames[6])
-				|| class1.getName().equals(packge + classNames[7]);
+				|| class1.getName().equals(packge + classNames[7])
+				|| class1.getName().equals(packge + classNames[8]);
 	}
 
 	protected boolean isString(Class<?> type) {

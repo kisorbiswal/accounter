@@ -3163,6 +3163,13 @@
 		WHERE L.ID = :inputId AND L.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
+	<sql-query name="canDeleteCustomField">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+				
+		delete from CustomField cf where cf.id=:inputId AND
+		cf.COMPANY_ID=:companyId
+	</sql-query>
 	<sql-query name="canDeleteCurrency">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />

@@ -188,6 +188,8 @@ public class ClientCompany implements IAccounterCore {
 	private ArrayList<ClientCurrency> currencies;
 
 	private ArrayList<ClientQuantity> quantities;
+
+	private ArrayList<ClientCustomField> customFields;
 	// private ArrayList<ClientTAXItemGroup> vatItemGroups;
 
 	Set<ClientNominalCodeRange> nominalCodeRange = new HashSet<ClientNominalCodeRange>();
@@ -1270,6 +1272,10 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientVATReturnBox getVatReturnBox(long id) {
 		return Utility.getObject(this.vatReturnBoxes, id);
+	}
+
+	public ClientCustomField getClientCustomField(long id) {
+		return Utility.getObject(this.customFields, id);
 	}
 
 	// public ClientFiscalYear getFixelYear(long id) {
@@ -3073,6 +3079,15 @@ public class ClientCompany implements IAccounterCore {
 
 	}
 
+
+	public ArrayList<ClientCustomField> getCustomFields() {
+		return customFields;
+	}
+
+	public void setCustomFields(ArrayList<ClientCustomField> customFields) {
+		this.customFields = customFields;
+	}
+
 	public ClientPortletPageConfiguration getPortletPageConfiguration(
 			String name) {
 		return PortletFactory.get().getDefaultConfiguration(name);
@@ -3085,4 +3100,8 @@ public class ClientCompany implements IAccounterCore {
 	public void setCashDiscountAccount(long cashDiscountAccount) {
 		this.cashDiscountAccount = cashDiscountAccount;
 	}
+
+	
+
+	
 }

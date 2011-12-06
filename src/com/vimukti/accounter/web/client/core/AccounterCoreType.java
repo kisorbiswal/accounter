@@ -219,6 +219,9 @@ public enum AccounterCoreType implements IsSerializable {
 
 	LANGUAGE("ClientLanguage", "Language"),
 
+	CUSTOMFIELD("ClientCustomField", "CustomField"), CUSTOMFIELDVALUE(
+			"ClientCustomFieldValue", "CustomFieldValue"),
+
 	PORTLET_CONFIG("ClientPortletConfiguration", "PortletConfiguration"),
 
 	PORTLET_PAGE_CONFIG("ClientPortletPageConfiguration",

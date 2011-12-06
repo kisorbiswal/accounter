@@ -55,6 +55,7 @@ public abstract class ClientPayee implements IAccounterCore {
 	Set<ClientEmail> emails = new HashSet<ClientEmail>();
 	Set<ClientContact> contacts = new HashSet<ClientContact>();
 	protected Set<ClientLocation> locations = new HashSet<ClientLocation>();
+	Set<ClientCustomFieldValue> customFieldValues = new HashSet<ClientCustomFieldValue>();
 	String webPageAddress;
 	boolean isActive = Boolean.TRUE;
 	String memo;
@@ -463,6 +464,15 @@ public abstract class ClientPayee implements IAccounterCore {
 	 */
 	public void setCurrencyFactor(double currencyFactor) {
 		this.currencyFactor = currencyFactor;
+	}
+
+	public Set<ClientCustomFieldValue> getCustomFieldValues() {
+		return customFieldValues;
+	}
+
+	public void setCustomFieldValues(
+			Set<ClientCustomFieldValue> customFieldValues) {
+		this.customFieldValues = customFieldValues;
 	}
 
 }

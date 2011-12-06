@@ -343,6 +343,11 @@
 		delete from com.vimukti.accounter.core.AccountTransaction where
 		account.id=:from and company=:company
 	</query>
+	<query name="delete.payeeCustomFieldValue.by.Id">
+		<query-param name="customID" type="long" />
+		delete from com.vimukti.accounter.core.CustomFieldValue cv
+		where cv.customField.id=:customID
+	</query>
 
 	<query name="get.TransactionDate.from.TransactionbyDate">
 		<query-param name="date" type="com.vimukti.accounter.core.LongUseType" />

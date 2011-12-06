@@ -4532,6 +4532,8 @@ public interface AccounterMessages extends Messages {
 
 	public String youcannotEditDeleteDefaultTerms();
 
+	public String areYouwantToDeletecustomField();
+
 	public String lastOf(int limit);
 
 	public String usedinReceivepayYoucantEdit();
