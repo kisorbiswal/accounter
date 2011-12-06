@@ -18,7 +18,23 @@ public class ForgotPasswordCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
-				getMessages().email()), getMessages().email(), false, true));
+				getMessages().email()), getMessages().email(), false, true) {
+			@Override
+			public void setValue(Object val) {
+				String value = (String) val;
+				if (value == null) {
+					return;
+				} else if (!isValidEmailId(value)) {
+					setEnterString("Enter a valid email address. Password will be sent to this email");
+					return;
+				} else if (getClient(value) == null) {
+					setEnterString("This Email ID is not registered with Accounter,  first signup with Accounter.");
+					return;
+				}
+				setEnterString("Enter Email");
+				super.setValue(value);
+			}
+		});
 
 	}
 
