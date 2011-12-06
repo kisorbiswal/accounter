@@ -16,8 +16,8 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -87,7 +87,8 @@ public abstract class NewAbstractCommand extends NewCommand {
 				new FinanceTool().update(opContext);
 			}
 		} catch (AccounterException e) {
-			e.printStackTrace();
+			int errorCode = e.getErrorCode();
+			addFirstMessage(context, showErrorCode(errorCode));
 		}
 	}
 
@@ -235,5 +236,133 @@ public abstract class NewAbstractCommand extends NewCommand {
 			}
 		}
 		return number;
+	}
+
+	private String showErrorCode(int errorCode) {
+		switch (errorCode) {
+		case AccounterException.ERROR_NUMBER_CONFLICT:
+			return getMessages().numberConflict();
+
+		case AccounterException.ERROR_NAME_CONFLICT:
+			return getMessages().nameConflict();
+
+		case AccounterException.ERROR_TRAN_CONFLICT:
+			return getMessages().transactionConflict();
+
+		case AccounterException.ERROR_PERMISSION_DENIED:
+			return getMessages().permissionDenied();
+
+		case AccounterException.ERROR_INTERNAL:
+			return getMessages().internal();
+
+		case AccounterException.ERROR_ILLEGAL_ARGUMENT:
+			return getMessages().illegalArgument();
+
+		case AccounterException.ERROR_NO_SUCH_OBJECT:
+			return getMessages().noSuchObject();
+
+		case AccounterException.ERROR_DEPOSITED_FROM_UNDEPOSITED_FUNDS:
+			return getMessages().depositedFromUndepositedFunds();
+
+		case AccounterException.ERROR_CANT_EDIT:
+			return getMessages().cantEdit();
+
+		case AccounterException.ERROR_CANT_VOID:
+			return getMessages().cantVoid();
+
+		case AccounterException.ERROR_RECEIVE_PAYMENT_DISCOUNT_USED:
+			return getMessages().receivePaymentDiscountUsed();
+
+		case AccounterException.ERROR_OBJECT_IN_USE:
+			return getMessages().objectInUse();
+
+		case AccounterException.ERROR_VERSION_MISMATCH:
+			return getMessages().objectModified();
+		case AccounterException.ERROR_TRANSACTION_RECONCILIED:
+			return getMessages().transactionReconcilied();
+		case AccounterException.USED_IN_INVOICE:
+			return getMessages().usedinInvoiceSoYoucantEdit();
+		case AccounterException.INVOICE_PAID_VOID_IT:
+			return getMessages().usedinReceivepayYoucantEdit();
+
+		case AccounterException.ERROR_CANT_EDIT_DELETE:
+			return getMessages().cantEditOrDelete();
+
+		case AccounterException.ERROR_CUSTOMER_NULL:
+			return getMessages().pleaseSelect(Global.get().Customer());
+
+		case AccounterException.ERROR_VENDOR_NULL:
+			return getMessages().pleaseSelect(Global.get().Vendor());
+
+		case AccounterException.ERROR_TAX_CODE_NULL:
+			return getMessages().pleaseSelect(getMessages().taxCode());
+
+		case AccounterException.ERROR_ACCOUNT_NULL:
+			return getMessages().pleaseSelect(getMessages().Account());
+
+		case AccounterException.ERROR_TRANSACTION_ITEM_NULL:
+			return getMessages().pleaseSelect(getMessages().transactionItem());
+
+		case AccounterException.ERROR_TRANSACTION_TOTAL_ZERO:
+			return getMessages().transactionitemtotalcannotbe0orlessthan0();
+
+		case AccounterException.ERROR_AMOUNT_ZERO:
+			return getMessages().shouldNotbeZero(getMessages().amount());
+
+		case AccounterException.ERROR_PAY_FROM_NULL:
+			return getMessages().pleaseSelect(getMessages().payFrom());
+
+		case AccounterException.ERROR_PAY_TO_NULL:
+			return getMessages().pleaseSelect(getMessages().payTo());
+
+		case AccounterException.ERROR_DEPOSIT_FROM_NULL:
+			return getMessages().pleaseSelect(getMessages().transferFrom());
+
+		case AccounterException.ERROR_DEPOSIT_TO_NULL:
+			return getMessages().pleaseSelect(getMessages().transferTo());
+
+		case AccounterException.ERROR_PAYMENT_METHOD_NULL:
+			return getMessages().pleaseSelect(getMessages().paymentMethod());
+
+		case AccounterException.ERROR_BANK_ACCOUNT_NULL:
+			return getMessages().pleaseSelect(getMessages().bankAccount());
+
+		case AccounterException.ERROR_CREDIT_DEBIT_TOTALS_NOT_EQUAL:
+			return getMessages().totalMustBeSame();
+
+		case AccounterException.ERROR_INCOME_ACCOUNT_NULL:
+			return getMessages().pleaseSelect(getMessages().incomeAccount());
+
+		case AccounterException.ERROR_EXPENSE_ACCOUNT_NULL:
+			return getMessages().pleaseSelect(getMessages().expenseAccount());
+
+		case AccounterException.ERROR_CUSTOMER_NAME_EMPTY:
+			return getMessages().pleaseEnterName(Global.get().Customer());
+
+		case AccounterException.ERROR_CUSTOMER_NUMBER_EMPTY:
+			return getMessages().pleaseEnter(
+					getMessages().payeeNumber(Global.get().Customer()));
+
+		case AccounterException.ERROR_VENDOR_NAME_EMPTY:
+			return getMessages().pleaseEnterName(Global.get().Vendor());
+
+		case AccounterException.ERROR_VENDOR_NUMBER_EMPTY:
+			return getMessages().pleaseEnter(
+					getMessages().payeeNumber(Global.get().Vendor()));
+		case AccounterException.ERROR_THERE_IS_NO_TRANSACTION_ITEMS:
+			return getMessages().thereAreNoTransactionItemsToSave();
+
+		case AccounterException.ERROR_ITEM_NAME_NULL:
+			return getMessages().pleaseEnterName(getMessages().item());
+
+		case AccounterException.ERROR_TRANSACTION_ITEM_TOTAL_0:
+			return getMessages().transactionitemtotalcannotbe0orlessthan0();
+
+		case AccounterException.WRITECHECK_PAID_VOID_IT:
+			return getMessages().writeCheckPaid();
+
+		default:
+			return null;
+		}
 	}
 }
