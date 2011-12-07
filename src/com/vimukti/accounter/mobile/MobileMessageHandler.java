@@ -246,30 +246,30 @@ public class MobileMessageHandler extends Thread {
 				userMessage.setCommandString("Company Selection");
 			}
 		}
-
-		String commandString = message;
-		Command matchedCommand = null;
-		if (session.isAuthenticated() || message.equalsIgnoreCase("cancel")) {
-			CommandResult commandResult = findCommand(message);
-			commandString = commandResult.commandString;
-			matchedCommand = commandResult.command;
-		}
 		Company company = session.getCompany();
-		if (matchedCommand != null) {
-			message = message.replaceAll(commandString.trim(), "").trim();
+		Result result = PatternStore.INSTANCE.find(clientMessage,
+				session.isAuthenticated(), company);
+		if (result != null) {
+			result.setShowBack(session.getLastMessage() != null);
+			userMessage.setType(Type.HELP);
+			userMessage.setResult(result);
+			userMessage.setCommandString(message);
 			userMessage.setOriginalMsg(message);
-			command = matchedCommand;
-			userMessage.setCommandString(commandString.trim());
+			return userMessage;
 		} else {
-			Result result = PatternStore.INSTANCE.find(clientMessage,
-					session.isAuthenticated(), company);
-			if (result != null) {
-				result.setShowBack(session.getLastMessage() != null);
-				userMessage.setType(Type.HELP);
-				userMessage.setResult(result);
-				userMessage.setCommandString(message);
+			String commandString = message;
+			Command matchedCommand = null;
+			if (session.isAuthenticated() || message.equalsIgnoreCase("cancel")) {
+				CommandResult commandResult = findCommand(message);
+				commandString = commandResult.commandString;
+				matchedCommand = commandResult.command;
+			}
+
+			if (matchedCommand != null) {
+				message = message.replaceAll(commandString.trim(), "").trim();
 				userMessage.setOriginalMsg(message);
-				return userMessage;
+				command = matchedCommand;
+				userMessage.setCommandString(commandString.trim());
 			}
 		}
 
@@ -282,11 +282,11 @@ public class MobileMessageHandler extends Thread {
 		if (lastResult instanceof PatternResult) {
 			PatternResult patternResult = (PatternResult) lastResult;
 
-			commandString = getPatternResultString(patternResult.getCommands(),
-					clientMessage);
+			String commandString = getPatternResultString(
+					patternResult.getCommands(), clientMessage);
 
 			if (commandString != null) {
-				Result result = PatternStore.INSTANCE.find(commandString,
+				result = PatternStore.INSTANCE.find(commandString,
 						session.isAuthenticated(), company);
 				if (result != null) {
 					result.setShowBack(session.getLastMessage() != null);
@@ -315,7 +315,7 @@ public class MobileMessageHandler extends Thread {
 			} else {
 				message = "Menu";
 			}
-			Result result = PatternStore.INSTANCE.find(message,
+			result = PatternStore.INSTANCE.find(message,
 					session.isAuthenticated(), company);
 			if (lastMessage2 != null) {
 				Result lastResult2 = lastMessage2.getResult();
