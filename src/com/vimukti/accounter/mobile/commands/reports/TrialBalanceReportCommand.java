@@ -54,10 +54,6 @@ public class TrialBalanceReportCommand extends
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
 		trialRecord.add(getMessages().accountName(), record.getAccountName());
-		if (getCompany().getPreferences().getUseAccountNumbers()) {
-			trialRecord.add(getMessages().accountNumber(),
-					record.getAccountNumber());
-		}
 		trialRecord.add(getMessages().debit(), record.getDebitAmount());
 		trialRecord.add(getMessages().credit(), record.getCreditAmount());
 		return trialRecord;

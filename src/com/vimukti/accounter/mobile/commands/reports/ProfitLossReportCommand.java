@@ -140,10 +140,6 @@ public class ProfitLossReportCommand extends
 
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
-		if (getCompany().getPreferences().getUseAccountNumbers() == true) {
-			trialRecord.add(getMessages().categoryNumber(),
-					record.getAccountNumber());
-		}
 		trialRecord.add(getMessages().name(), record.getAccountName());
 		trialRecord.add(getMessages().amount(), record.getAmount());
 		trialRecord.add(getMessages().totalBalance(), record.getTotalAmount());
