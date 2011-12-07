@@ -199,7 +199,9 @@ public class TransactionAccountTableRequirement extends
 		Boolean isBillable = get(IS_BILLABLE).getValue();
 		obj.setIsBillable(isBillable);
 		Customer customer = get(CUSTOMER).getValue();
-		obj.setCustomer(customer.getID());
+		if (customer != null) {
+			obj.setCustomer(customer.getID());
+		}
 		double discount = get(DISCOUNT).getValue();
 		obj.setDiscount(discount);
 		double lt = obj.getUnitPrice();

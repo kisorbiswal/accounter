@@ -209,7 +209,9 @@ public abstract class TransactionItemTableRequirement extends
 		Boolean isBillable = get(IS_BILLABLE).getValue();
 		obj.setIsBillable(isBillable);
 		Customer customer = get(CUSTOMER).getValue();
-		obj.setCustomer(customer.getID());
+		if (customer != null) {
+			obj.setCustomer(customer.getID());
+		}
 		obj.setDescription((String) get(DESCRIPTION).getValue());
 		double lt = obj.getQuantity().getValue() * obj.getUnitPrice();
 		double disc = obj.getDiscount();
