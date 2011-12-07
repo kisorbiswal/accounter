@@ -16,6 +16,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -237,6 +238,12 @@ public class TransactionAccountTableRequirement extends
 	protected ClientTransactionItem getNewObject() {
 		ClientTransactionItem clientTransactionItem = new ClientTransactionItem();
 		clientTransactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
+		clientTransactionItem.setTaxable(false);
+		clientTransactionItem.setIsBillable(false);
+		ClientQuantity clientQuantity = new ClientQuantity();
+		clientQuantity.setValue(1.0);
+		clientTransactionItem.setQuantity(clientQuantity);
+		clientTransactionItem.setDiscount(0.0);
 		return clientTransactionItem;
 	}
 
