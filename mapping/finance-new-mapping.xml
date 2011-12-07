@@ -112,7 +112,7 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<property name="pageName" column="PAGE_NAME"></property>
+		<property name="pageName" column="PAGE_NAME" not-null="true"></property>
 		<list name="portlets" cascade="save-update,delete" lazy="false">
 			<key column="PORTLET_CONFIG_ID" />
 			<list-index column="PORTLET_CONFIGURATION_ID" />
