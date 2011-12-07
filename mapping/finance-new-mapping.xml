@@ -130,7 +130,7 @@
 		</id>
 		<property name="portletName" column="PORTLET_NAME"></property>
 		<property name="column" column="COLUMN_NO" type="integer"></property>
-		<property name="portletKey" column="PORTLET_KEY"></property>
+		<property name="portletData" column="PORTLET_DATA"></property>
 	</class>
 
 
