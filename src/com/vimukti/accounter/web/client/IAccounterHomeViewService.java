@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -356,4 +357,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 	List<ClientPayee> getOwePayees(int oweType);
 
 	List<ClientActivity> getRecentTransactions(int limit);
+
+	Map<String, Double> getAccountsAndValues(long startDate, long endDate);
 }

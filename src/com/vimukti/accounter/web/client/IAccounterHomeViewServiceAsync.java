@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -394,5 +395,8 @@ public interface IAccounterHomeViewServiceAsync {
 
 	public void getRecentTransactions(int limit,
 			AsyncCallback<List<ClientActivity>> asyncCallback);
+
+	void getAccountsAndValues(long startDate, long endDate,
+			AsyncCallback<Map<String, Double>> callback);
 
 }

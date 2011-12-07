@@ -4,12 +4,14 @@ import java.util.Date;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
 public abstract class ReportToolbar extends HorizontalPanel {
+	protected AccounterMessages messages = Accounter.messages();
 	protected ClientFinanceDate startDate;
 	protected ClientFinanceDate endDate;
 	private DynamicForm form;
@@ -56,7 +58,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		this.itemSelectionHandler = itemSelectionHandler;
 	}
 
-	public void addItems(FormItem... items) {
+	public void addItems(FormItem<?>... items) {
 		form.setItems(items);
 	}
 
@@ -152,7 +154,6 @@ public abstract class ReportToolbar extends HorizontalPanel {
 				int month = (date.getMonth()) % 3;
 				int startMonth = date.getMonth() - month;
 
-				int endMonth = startMonth + 2;
 				startDate = new ClientFinanceDate(date.getYear(), startMonth, 1);
 				endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
 				// .getLastandOpenedFiscalYearEndDate();
@@ -770,7 +771,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 
 	public ClientFinanceDate getWeekStartDate() {
 		ClientFinanceDate date = new ClientFinanceDate();
-		int day = date.getDay() % 6;
+		int day = date.getDayOfWeek() % 6;
 		ClientFinanceDate newDate = new ClientFinanceDate();
 		if (day != 1) {
 			newDate.setDay(date.getDay() - day);

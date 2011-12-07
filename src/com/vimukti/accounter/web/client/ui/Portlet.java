@@ -45,7 +45,7 @@ public abstract class Portlet extends WorkbenchPanel {
 			String gotoString) {
 		this(title, gotoString);
 		setName(title);
-		this.configuration = configuration;
+		this.setConfiguration(configuration);
 	}
 
 	public Portlet(String title, String gotoString) {
@@ -180,7 +180,7 @@ public abstract class Portlet extends WorkbenchPanel {
 	@Override
 	protected void onClose() {
 		this.removeFromParent();
-		portletPage.config.getPortletConfigurations().remove(configuration);
+		portletPage.config.getPortletConfigurations().remove(getConfiguration());
 		portletPage.haveToRefresh = false;
 		portletPage.updatePortletPage();
 	}
@@ -206,5 +206,9 @@ public abstract class Portlet extends WorkbenchPanel {
 	public void setHeight(String height) {
 		super.setHeight(height);
 		vPanel.setHeight(height);
+	}
+
+	public void setConfiguration(ClientPortletConfiguration configuration) {
+		this.configuration = configuration;
 	}
 }

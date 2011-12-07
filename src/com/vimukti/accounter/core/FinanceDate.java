@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 public class FinanceDate {
 
 	int year, month, day;
+	private int dayOfWeek;
 
 	public FinanceDate(long date) {
 		initDate(date);
@@ -444,17 +445,32 @@ public class FinanceDate {
 		return clientFinanceDate;
 	}
 
-	
 	/**
 	 * @param serverTime
-	 * @param clientTzOffset in minutes
+	 * @param clientTzOffset
+	 *            in minutes
 	 * @return
 	 */
-	public static Date clientTimeAtServer(Date serverTime,int clientTzOffset){
+	public static Date clientTimeAtServer(Date serverTime, int clientTzOffset) {
 		// the formula is ClientTimeAtServer = ServerTime + ClientTimezoneOffset
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(serverTime);
 		calendar.add(Calendar.MINUTE, clientTzOffset);
 		return calendar.getTime();
-	}	
+	}
+
+	/**
+	 * @return the dayOfWeek
+	 */
+	public int getDayOfWeek() {
+		return dayOfWeek;
+	}
+
+	/**
+	 * @param dayOfWeek
+	 *            the dayOfWeek to set
+	 */
+	public void setDayOfWeek(int dayOfWeek) {
+		this.dayOfWeek = dayOfWeek;
+	}
 }

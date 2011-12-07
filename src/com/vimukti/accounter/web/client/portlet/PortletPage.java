@@ -154,4 +154,11 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 			}
 	}
 
+	@Override
+	protected void onDetach() {
+		super.onDetach();
+		haveToRefresh = false;
+		updatePortletPage();
+	}
+
 }

@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -384,6 +385,30 @@ public class DashboardManager extends Manager {
 		} else {
 			return getExpensePortletValues(companyId);
 		}
+	}
+
+	public Map<String, Double> getExpensesAccountsBalances(long companyId,
+			long startDate, long endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			Query query = session.getNamedQuery("getRecordExpensesAccounts")
+					.setParameter("companyId", companyId)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate);
+			List<Object[]> objects = query.list();
+			Map<String, Double> accountNamesWitBalances = new HashMap<String, Double>();
+			Iterator<Object[]> iterator = objects.iterator();
+			while (iterator.hasNext()) {
+				Object[] object = iterator.next();
+				String accountName = (String) object[0];
+				Double accountBalance = (Double) object[1];
+				accountNamesWitBalances.put(accountName, accountBalance);
+			}
+			return accountNamesWitBalances;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
 	}
 
 	public ArrayList<BillsList> getEmployeeExpensesByStatus(

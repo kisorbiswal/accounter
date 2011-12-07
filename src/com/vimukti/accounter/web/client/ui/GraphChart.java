@@ -11,6 +11,8 @@ import com.google.gwt.visualization.client.visualizations.corechart.AxisOptions;
 import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
 import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
 import com.google.gwt.visualization.client.visualizations.corechart.Options;
+import com.google.gwt.visualization.client.visualizations.corechart.PieChart;
+import com.google.gwt.visualization.client.visualizations.corechart.PieChart.PieOptions;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 
@@ -18,11 +20,13 @@ public class GraphChart {
 
 	ArrayList<Double> graph_Values = new ArrayList<Double>();
 	ArrayList<Object> x_Axis_Labels = new ArrayList<Object>();
+	public List<String> expenseAccountNames;
 
 	public static final int BANK_ACCOUNT_CHART_TYPE = 1;
 	public static final int ACCOUNTS_RECEIVABLE_CHART_TYPE = 2;
 	public static final int ACCOUNTS_PAYABLE_CHART_TYPE = 3;
 	public static final int EXPENSE_CHART_TYPE = 4;
+	private static final int ACCOUNTS_EXPENSE_CHART_TYPE = 5;
 
 	int chartType = 0;
 	int MAX_REVENUE = 0;
@@ -92,6 +96,34 @@ public class GraphChart {
 				createTable(ACCOUNTS_RECEIVABLE_CHART_TYPE),
 				createOptionsToAccountReceivableChart());
 		return chart;
+	}
+
+	public PieChart createAccountExpenseChart(List<Double> graph_values) {
+		this.graph_Values = (ArrayList<Double>) graph_values;
+		if (this.graph_Values == null || this.graph_Values.size() == 0)
+			initializeGraphValues();
+
+		createLabels(ACCOUNTS_EXPENSE_CHART_TYPE);
+		PieChart chart = new PieChart(createTable(ACCOUNTS_EXPENSE_CHART_TYPE),
+				createOptionsToAccountExpenseChart());
+		return chart;
+
+	}
+
+	private Options createOptionsToAccountExpenseChart() {
+		Options options = (PieOptions) Options.create();
+		options.setWidth(444);
+		options.setHeight(225);
+		options.setLegend(LegendPosition.RIGHT);
+		options.setColors("#6CA92F", "#e0440e", "#91AB56", "#40640e",
+				"#07891D", "#800000", "#628906", "#0000FF", "#800080",
+				"#A52A2A", "#0000A0", "#800000", "#FF4000");
+
+		AxisOptions axisOptions = AxisOptions.create();
+		axisOptions.setMinValue(100);
+		options.setVAxisOptions(axisOptions);
+
+		return options;
 	}
 
 	public LineChart createAccountPayableChart(List<Double> graph_Values) {
@@ -193,7 +225,10 @@ public class GraphChart {
 			data.addRows(30);
 			data = addGraphPoints(chartType, data, 30);
 		}
-
+		if (chartType == ACCOUNTS_EXPENSE_CHART_TYPE) {
+			data.addRows(expenseAccountNames.size());
+			data = addGraphPoints(chartType, data, expenseAccountNames.size());
+		}
 		return data;
 	}
 
@@ -264,7 +299,9 @@ public class GraphChart {
 						cal.get(Calendar.DAY_OF_MONTH) + 1);
 			}
 		}
-
+		if (chartType == ACCOUNTS_EXPENSE_CHART_TYPE) {
+			x_Axis_Labels.addAll(expenseAccountNames);
+		}
 	}
 
 	private String getMonthAsString(int month) {

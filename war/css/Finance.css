@@ -2178,11 +2178,6 @@ input.date-field-textbox {
 	color: #2D8B93;
 }
 
-.portletColumn .gridHeaderParent {
-	visibility: collapse !important;
-	height: 0px !important;
-}
-
 .list_combo_form {
 	float: right;
 	width: 50% !important;
@@ -2228,4 +2223,10 @@ input.date-field-textbox {
 }
 .budget_overview .gridBody .depth2{
 	padding-left:2px;
+}
+.dashboard_grid_header{
+	display: none !important;
+}
+.no_records_label{
+	padding: 30px 0;
 }

@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BankAccountsPortlet;
 import com.vimukti.accounter.web.client.ui.BankingPortlet;
 import com.vimukti.accounter.web.client.ui.ExpenseClaimPortlet;
+import com.vimukti.accounter.web.client.ui.ExpensesChartPortlet;
 import com.vimukti.accounter.web.client.ui.MoneyComingPortlet;
 import com.vimukti.accounter.web.client.ui.MoneyGoingPortlet;
 import com.vimukti.accounter.web.client.ui.Portlet;
@@ -29,6 +30,7 @@ public class PortletFactory {
 	// public static final String MESSAGES_AND_TASKS = "Messages And Tasks";
 	public static final String QUICK_LINKS = "QUICK_LINKS";
 	public static final String BANKING = "BANKING";
+	public static final String EXPENSE_ACCOUNTS = "EXPENSE_ACCOUNTS";
 
 	public static PortletFactory get() {
 		if (factory == null) {
@@ -59,6 +61,8 @@ public class PortletFactory {
 			portlet = new QuickLinksPortlet(pc);
 		} else if (name.equals(BANKING)) {
 			portlet = new BankingPortlet(pc);
+		} else if (name.equals(EXPENSE_ACCOUNTS)) {
+			portlet = new ExpensesChartPortlet(pc);
 		}
 		/*
 		 * else if (name.equals(Portlet.MESSAGES_AND_TASKS)) { portlet = new
@@ -89,6 +93,8 @@ public class PortletFactory {
 			portletName = messages.quickLinks();
 		} else if (name.equals(BANKING)) {
 			portletName = messages.banking();
+		} else if (name.equals(EXPENSE_ACCOUNTS)) {
+			portletName = messages.expenseAccount();
 		}
 		return portletName;
 	}
@@ -104,12 +110,11 @@ public class PortletFactory {
 
 	public ClientPortletPageConfiguration getPrefferedConfiguration(String page) {
 		if (page.equals(PortletPage.DASHBOARD)) {
-			return new ClientPortletPageConfiguration(2,
-					new String[][] {
-							{ BANKING, EXPENSES_CLAIM, WHO_I_OWE,
-									RECENT_TRANSACTIONS, },
-							{ BANK_ACCOUNT, MONEY_COMING, MONEY_GOING,
-									WHO_OWES_ME, QUICK_LINKS } });
+			return new ClientPortletPageConfiguration(2, new String[][] {
+					{ BANKING, EXPENSES_CLAIM, WHO_I_OWE, RECENT_TRANSACTIONS,
+							EXPENSE_ACCOUNTS },
+					{ BANK_ACCOUNT, MONEY_COMING, MONEY_GOING, WHO_OWES_ME,
+							QUICK_LINKS } });
 		}
 		return null;
 	}

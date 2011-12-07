@@ -80,7 +80,13 @@ public class DatePopupCalendar extends PopupPanel {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(ClickEvent event) {
-
+				if (datePicker.getSelectedDate() == null) {
+					datePicker.setSelectedDate(new Date());
+				}
+				if (month == null) {
+					month = String.valueOf(datePicker.getSelectedDate()
+							.getMonth());
+				}
 				datePicker.getSelectedDate().setYear(getYear() - 1900);
 				datePicker.getSelectedDate().setMonth(
 						new DateUtills().evaluateMonthFormat(month) - 1);

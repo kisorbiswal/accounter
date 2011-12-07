@@ -6,6 +6,7 @@ package com.vimukti.accounter.web.server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CashPurchase;
@@ -1763,5 +1764,16 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 					activityID, getCompanyId());
 		}
 		return null;
+	}
+
+	@Override
+	public Map<String, Double> getAccountsAndValues(long startDate, long endDate) {
+		FinanceTool tool = new FinanceTool();
+		FinanceDate[] dates = getMinimumAndMaximumDates(new ClientFinanceDate(
+				startDate), new ClientFinanceDate(endDate), getCompanyId());
+		Map<String, Double> map = tool.getDashboardManager()
+				.getExpensesAccountsBalances(getCompanyId(),
+						dates[0].getDate(), dates[1].getDate());
+		return map;
 	}
 }

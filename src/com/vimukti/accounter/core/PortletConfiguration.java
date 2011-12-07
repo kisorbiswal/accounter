@@ -14,6 +14,7 @@ public class PortletConfiguration extends CreatableObject implements
 	private int column;
 	private String portletName;
 	private static final long serialVersionUID = 1L;
+	private String portletKey;
 
 	@Override
 	public String getName() {
@@ -59,8 +60,16 @@ public class PortletConfiguration extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
+
 		w.put(messages.type(), "Portlet Configuration").gap();
+	}
+
+	public String getPortletKey() {
+		return portletKey;
+	}
+
+	public void setPortletKey(String portletKey) {
+		this.portletKey = portletKey;
 	}
 
 }
