@@ -122,12 +122,11 @@ public class TaxHistoryCommand extends NewAbstractCommand {
 
 	private List<TAXReturn> gettaxReturnEntries(Context context) {
 		TaxManager manager = new TaxManager();
-		List<TAXReturn> allTAXReturns = null;
+		List<TAXReturn> allTAXReturns = new ArrayList<TAXReturn>();
 		List<TAXReturn> result = new ArrayList<TAXReturn>();
 		try {
 			allTAXReturns = manager.getAllTAXReturnsFromDB(getCompanyId());
 		} catch (AccounterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String viewType = get(VIEW_BY).getValue();
