@@ -2202,7 +2202,7 @@ public interface AccounterMessages extends Messages {
 
 	public String manageItemTax();
 
-	public String manageLocationGroup();
+	public String manageLocationGroup(String location);
 
 	public String managePaymentTerm();
 
