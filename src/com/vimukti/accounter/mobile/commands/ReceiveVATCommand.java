@@ -7,9 +7,11 @@ import java.util.List;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ReceiveVATEntries;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -45,6 +47,18 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(getMessages().payFrom());
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(new UserCommand("Create BankAccount", "Bank"));
+				list.add(new UserCommand("Create BankAccount",
+						"Create Other CurrentAsset Account",
+						"Other Current Asset"));
+				list.add(new UserCommand("Create BankAccount",
+						"Create CreditAccount", "CreditAccount"));
+				list.add(new UserCommand("Create BankAccount",
+						"Create FixedAsset Account", "FixedAsset"));
 			}
 
 			@Override
@@ -213,7 +227,6 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected Result onCompleteProcess(Context context) {
 		ClientReceiveVAT receiveVAT = new ClientReceiveVAT();
-
 		ClientAccount depositTo = get(DEPOSIT_TO).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		List<ClientTransactionReceiveVAT> billsToReceive = get(BILLS_TO_RECEIVE)
