@@ -347,7 +347,9 @@ public class ReceiveVATView extends
 		billsDue.setEnteredDate(new ClientFinanceDate(transaction
 				.getReturnsDueOnOrBefore()));
 		transactionDateItem.setEnteredDate(transaction.getDate());
-		transNumber.setValue(transaction.getNumber());
+		transactionNumber = transaction.getNumber();
+		transNumber.setValue(transactionNumber);
+
 		endingBalanceText.setAmount(transaction.getEndingBalance());
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 		amountText
@@ -693,7 +695,7 @@ public class ReceiveVATView extends
 		super.onEdit();
 
 		fillGrid();
-		transaction = null;
+		setData(new ClientReceiveVAT());
 
 	}
 
