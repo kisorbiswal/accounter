@@ -4709,4 +4709,6 @@ public interface AccounterMessages extends Messages {
 	public String cannotCreateUserAsTheirIsNoUserWithAdminRole();
 
 	public String newpasswordAndPreviouspasswordAreSame();
+
+	public String taxAgenciesList();
 }
