@@ -14,7 +14,7 @@ public class PortletConfiguration extends CreatableObject implements
 	private int column;
 	private String portletName;
 	private static final long serialVersionUID = 1L;
-	private String portletKey;
+	private String portletData;
 
 	@Override
 	public String getName() {
@@ -65,11 +65,11 @@ public class PortletConfiguration extends CreatableObject implements
 	}
 
 	public String getPortletKey() {
-		return portletKey;
+		return portletData;
 	}
 
 	public void setPortletKey(String portletKey) {
-		this.portletKey = portletKey;
+		this.portletData = portletKey;
 	}
 
 }

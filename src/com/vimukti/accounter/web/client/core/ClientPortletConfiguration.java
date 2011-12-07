@@ -9,7 +9,7 @@ public class ClientPortletConfiguration implements IAccounterCore {
 	public int column;
 	private String portletName;
 	private long id;
-	private String portletKey;
+	private String portletData;
 
 	// private HashMap<String, String> store = new HashMap<String, String>();
 	public ClientPortletConfiguration() {
@@ -69,11 +69,11 @@ public class ClientPortletConfiguration implements IAccounterCore {
 	}
 
 	public String getPortletKey() {
-		return portletKey;
+		return portletData;
 	}
 
 	public void setPortletKey(String portletKey) {
-		this.portletKey = portletKey;
+		this.portletData = portletKey;
 	}
 
 }
