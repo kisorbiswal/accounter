@@ -1,17 +1,18 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -20,7 +21,6 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
-import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
@@ -39,7 +39,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 
 /**
  * 
@@ -253,23 +252,25 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
-				return Utility.filteredList(new ListFilter<Account>() {
+				return com.vimukti.accounter.web.client.core.Utility
+						.filteredList(new ListFilter<Account>() {
 
-					@Override
-					public boolean filter(Account account) {
-						if (account.getType() == Account.TYPE_EXPENSE
-								|| account.getType() == Account.TYPE_COST_OF_GOODS_SOLD
-								|| account.getType() == Account.TYPE_OTHER_EXPENSE) {
-							return true;
-						} else {
-							return false;
-						}
-						// return Arrays.asList(Account.TYPE_EXPENSE,
-						// Account.TYPE_COST_OF_GOODS_SOLD,
-						// Account.TYPE_OTHER_EXPENSE).contains(
-						// account.getType());
-					}
-				}, new ArrayList<Account>(context.getCompany().getAccounts()));
+							@Override
+							public boolean filter(Account account) {
+								if (account.getType() == Account.TYPE_EXPENSE
+										|| account.getType() == Account.TYPE_COST_OF_GOODS_SOLD
+										|| account.getType() == Account.TYPE_OTHER_EXPENSE) {
+									return true;
+								} else {
+									return false;
+								}
+								// return Arrays.asList(Account.TYPE_EXPENSE,
+								// Account.TYPE_COST_OF_GOODS_SOLD,
+								// Account.TYPE_OTHER_EXPENSE).contains(
+								// account.getType());
+							}
+						}, new ArrayList<Account>(context.getCompany()
+								.getAccounts()));
 			}
 		});
 
@@ -435,6 +436,9 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		String phone = get(PHONE).getValue();
 		enterBill.setPhone(phone);
 
+		Date discountDate = Utility.getCalculatedDiscountDate(new Date(
+				enterBill.getDate().getDate()), paymentTerm);
+		enterBill.setDiscountDate(discountDate.getTime());
 		create(enterBill, context);
 		return null;
 	}
