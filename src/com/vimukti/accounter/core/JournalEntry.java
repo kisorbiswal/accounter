@@ -250,6 +250,7 @@ public class JournalEntry extends Transaction {
 			session.save(involvedPayee);
 		} else if (this.involvedAccount != null) {
 			involvedAccount.setOpeningBalance(0.00D);
+			session.save(involvedAccount);
 		}
 
 	}

@@ -1265,7 +1265,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	public void setOpeningBalance(double openingBalance) {
 		this.openingBalance = openingBalance;
-
+		this.previousOpeningBalance = openingBalance;
 	}
 
 	public void setAsOf(FinanceDate asOf) {

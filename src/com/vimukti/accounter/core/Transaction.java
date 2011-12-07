@@ -998,7 +998,6 @@ public abstract class Transaction extends CreatableObject implements
 		this.updatePayee(amount);
 
 		this.voidCreditsAndPayments(this);
-		voidTransactionItems();
 		deleteCreatedEntries(clonedObject);
 		addVoidHistory();
 		cleanTransactionitems(clonedObject);
