@@ -654,8 +654,9 @@ public class TransactionPayBill extends CreatableObject implements
 
 		w.put(messages.type(), messages.purchaseOrder()).gap();
 
-		w.put(messages.dueDate(), this.dueDate.toString());
-
+		if (dueDate != null) {
+			w.put(messages.dueDate(), this.dueDate.toString());
+		}
 		if (this.enterBill != null)
 			w.put(messages.enterBill(), this.enterBill.getNumber());
 
@@ -663,9 +664,13 @@ public class TransactionPayBill extends CreatableObject implements
 
 		w.put(messages.amountDue(), this.amountDue);
 
-		w.put(messages.discountDate(), this.discountDate.toString());
+		if (discountDate != null) {
+			w.put(messages.discountDate(), this.discountDate.toString());
+		}
 
-		w.put(messages.discountAccount(), this.discountAccount.getName());
+		if (discountAccount != null) {
+			w.put(messages.discountAccount(), this.discountAccount.getName());
+		}
 
 		w.put(messages.cashDiscount(), this.cashDiscount);
 
