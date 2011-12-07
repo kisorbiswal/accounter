@@ -82,11 +82,32 @@ public class NewItemAction extends Action<ClientItem> {
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, NewItemAction.this);
 				} else if (sellProducts) {
-					ItemView view = new ItemView(
-							ClientItem.TYPE_NON_INVENTORY_PART, forCustomer);
-					view.setItemName(itemName);
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, NewItemAction.this);
+					if (Accounter.getCompany().getPreferences()
+							.isInventoryEnabled()) {
+						if (type == 0 && data == null) {
+							SelectItemTypeDialog dialog = new SelectItemTypeDialog(
+									forCustomer);
+							dialog.setDependent(isDependent);
+							dialog.setCallback(getCallback());
+							dialog.setItemname(itemName);
+							dialog.show();
+						} else {
+							if (data != null) {
+								type = data.getType();
+							}
+							ItemView view = new ItemView(type, forCustomer);
+							view.setItemName(itemName);
+							MainFinanceWindow.getViewManager().showView(view,
+									data, isDependent, NewItemAction.this);
+						}
+
+					} else {
+						ItemView view = new ItemView(
+								ClientItem.TYPE_NON_INVENTORY_PART, forCustomer);
+						view.setItemName(itemName);
+						MainFinanceWindow.getViewManager().showView(view, data,
+								isDependent, NewItemAction.this);
+					}
 
 				}
 

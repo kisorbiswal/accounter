@@ -42,15 +42,22 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 		// String>();
 		// typeMap.put("service", "Service");
 		// typeMap.put("non-inventory", "Non-Inventory&nbsp;Item");
-
+		boolean sellServices = company.getPreferences().isSellServices();
+		boolean sellProducts = company.getPreferences().isSellProducts();
 		if (getPreferences().isInventoryEnabled()) {
-			typeRadio.setValueMap(Accounter.messages().serviceItem(),
-					Accounter.messages().inventoryItem(), Accounter
-							.messages().nonInventoryItem());
-			typeRadio.setDefaultValue(Accounter.messages().serviceItem());
+			if (sellProducts && sellServices) {
+				typeRadio.setValueMap(Accounter.messages().serviceItem(),
+						Accounter.messages().inventoryItem(), Accounter
+								.messages().nonInventoryItem());
+				typeRadio.setDefaultValue(Accounter.messages().serviceItem());
+			} else if (sellProducts) {
+				typeRadio.setValueMap(Accounter.messages().inventoryItem(),
+						Accounter.messages().nonInventoryItem());
+				typeRadio.setDefaultValue(Accounter.messages().inventoryItem());
+			}
 		} else {
-			typeRadio.setValueMap(Accounter.messages().serviceItem(),
-					Accounter.messages().productItem());
+			typeRadio.setValueMap(Accounter.messages().serviceItem(), Accounter
+					.messages().productItem());
 			typeRadio.setDefaultValue(Accounter.messages().serviceItem());
 		}
 
