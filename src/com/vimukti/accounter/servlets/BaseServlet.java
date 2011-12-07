@@ -88,6 +88,24 @@ public class BaseServlet extends HttpServlet {
 	public static final int PHONE_NO = 2;
 	private static final int ACTIVATION_CODE_SIZE = 10;
 
+	
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+
+				Session session = HibernateUtil.openSession();
+				try {
+						super.service(request, response);
+				} finally {
+					session.close();
+				}
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+					"Could Not Complete the Request!");
+		}
+	}
+
 	protected Company getCompany(HttpServletRequest req) {
 		Long companyID = (Long) req.getSession().getAttribute(COMPANY_ID);
 		Session session = HibernateUtil.openSession();

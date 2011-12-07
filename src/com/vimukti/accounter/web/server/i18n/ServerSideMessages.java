@@ -49,7 +49,7 @@ public class ServerSideMessages {
 	 * @param name
 	 * @return
 	 */
-	private static String getMessage(String key) {
+	public static String getMessage(String key) {
 		User user = AccounterThreadLocal.get();
 		Locale locale = ServerLocal.get();
 		Session session = HibernateUtil.getCurrentSession();

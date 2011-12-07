@@ -40,7 +40,7 @@ public class NewLoginServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
@@ -92,9 +92,6 @@ public class NewLoginServlet extends BaseServlet {
 				transaction.rollback();
 			}
 		} finally {
-			if (session.isOpen()) {
-				session.close();
-			}
 		}
 	}
 
@@ -180,7 +177,7 @@ public class NewLoginServlet extends BaseServlet {
 				return;
 			}
 
-			Session session = HibernateUtil.openSession();
+			Session session = HibernateUtil.getCurrentSession();
 			Transaction transaction = null;
 			try {
 				transaction = session.beginTransaction();
@@ -210,7 +207,6 @@ public class NewLoginServlet extends BaseServlet {
 					transaction.rollback();
 				}
 			} finally {
-				session.close();
 			}
 			redirectExternal(request, response, COMPANIES_URL);
 
@@ -301,7 +297,7 @@ public class NewLoginServlet extends BaseServlet {
 	}
 
 	private String getNews() {
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		try {
 
 			@SuppressWarnings("unchecked")
@@ -313,7 +309,6 @@ public class NewLoginServlet extends BaseServlet {
 
 			return xstream.toXML(list);
 		} finally {
-			session.close();
 		}
 	}
 

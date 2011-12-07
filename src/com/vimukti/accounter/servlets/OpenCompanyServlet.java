@@ -58,7 +58,7 @@ public class OpenCompanyServlet extends BaseServlet {
 		String emailID = (String) request.getSession().getAttribute(EMAIL_ID);
 
 		if (emailID != null) {
-			Session session = HibernateUtil.openSession();
+			Session session = HibernateUtil.getCurrentSession();
 			FinanceTool financeTool = new FinanceTool();
 			Query namedQuery = session.getNamedQuery("getClient.by.mailId");
 			namedQuery.setParameter(BaseServlet.EMAIL_ID, emailID);
@@ -118,7 +118,6 @@ public class OpenCompanyServlet extends BaseServlet {
 						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
 				dispatcher.forward(request, response);
 			} finally {
-				session.close();
 			}
 		} else {
 			response.sendRedirect(LOGIN_URL);
