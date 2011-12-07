@@ -7441,6 +7441,21 @@
 		tr.transaction=:transaction
 	</query>
 
+	<sql-query name="getRecordExpensesAccounts">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		SELECT A.NAME,SUM(AT.AMOUNT) AS AMOUNT FROM ACCOUNT_TRANSACTION AT
+		LEFT JOIN
+		ACCOUNT A ON AT.ACCOUNT_ID=A.ID
+		LEFT JOIN TRANSACTION T ON
+		T.ID=AT.TRANSACTION_ID
+		WHERE A.A_TYPE=16 AND AT.COMPANY_ID=:companyId AND
+		T.T_DATE
+		BETWEEN :startDate AND :endDate GROUP BY
+		AT.AMOUNT,A.NAME ORDER BY AMOUNT DESC
+	</sql-query>
+
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
