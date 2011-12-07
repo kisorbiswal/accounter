@@ -97,7 +97,9 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 	}
 
 	public void updatePortletPage() {
-		updateConfiguration();
+		if (config.getPageName() == null) {
+			config.setPageName(name);
+		}
 		Accounter.createHomeService().savePortletConfig(config,
 				new AsyncCallback<Boolean>() {
 
