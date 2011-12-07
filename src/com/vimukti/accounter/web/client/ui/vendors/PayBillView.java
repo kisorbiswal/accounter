@@ -701,6 +701,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			amountToVendor.setVisible(false);
 			tdsPayableAmount.setVisible(false);
 		}
+
+		if (isMultiCurrencyEnabled()) {
+			if (!isInViewMode()) {
+				amountLabelForeign.hide();
+			}
+		}
 	}
 
 	private void setUnUsedCredits(Double unusedCredits) {
@@ -1369,10 +1375,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {
+
 		if (currencyWidget.isShowFactorField()) {
 			amountLabelForeign.hide();
 		} else {
 			amountLabelForeign.show();
+			amountLabelForeign.setTitle(Accounter.messages().currencyTotal(
+					currencyWidget.getSelectedCurrency().getFormalName()));
 		}
 	}
 
