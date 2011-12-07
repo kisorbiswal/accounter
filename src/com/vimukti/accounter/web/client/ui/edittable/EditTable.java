@@ -265,9 +265,12 @@ public abstract class EditTable<R> extends SimplePanel {
 
 	private void updateHeaderState(boolean isDisable) {
 		for (int x = 0; x < columns.size(); x++) {
-			Widget widget = table.getWidget(0, x);
-			if (widget instanceof CheckBox) {
-				((CheckBox) widget).setEnabled(!isDisable);
+			ArrayList<EditColumn<R>> list = columns.get(x);
+			for (int y = 0; y < list.size(); y++) {
+				Widget widget = table.getWidget(x, y);
+				if (widget instanceof CheckBox) {
+					((CheckBox) widget).setEnabled(!isDisable);
+				}
 			}
 		}
 	}
