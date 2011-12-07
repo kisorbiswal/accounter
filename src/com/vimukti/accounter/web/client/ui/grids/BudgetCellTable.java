@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.view.client.ListDataProvider;
@@ -17,6 +18,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.AddBudgetAmountDialogue;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 
 public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 
@@ -73,21 +75,25 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 
 	private void initTableColumns() {
 
-		Column<ClientBudgetItem, String> accountInfoColumn = new Column<ClientBudgetItem, String>(
-				new ClickableTextCell()) {
+		Column<ClientBudgetItem, SafeHtml> accountLinkColumn = new Column<ClientBudgetItem, SafeHtml>(
+				new ClickableSafeHtmlCell()) {
 
 			@Override
-			public String getValue(ClientBudgetItem object) {
-				return object.getAccountsName();
+			public SafeHtml getValue(ClientBudgetItem object) {
+				SafeHtmlBuilder shb = new SafeHtmlBuilder();
 
+				shb.appendHtmlConstant("<u>");
+				shb.appendEscaped(object.getAccountsName());
+				shb.appendHtmlConstant("</u>");
+				return shb.toSafeHtml();
 			}
 		};
-		accountInfoColumn
-				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, String>() {
+		accountLinkColumn
+				.setFieldUpdater(new FieldUpdater<ClientBudgetItem, SafeHtml>() {
 
 					@Override
 					public void update(int index,
-							final ClientBudgetItem object, String value) {
+							final ClientBudgetItem object, SafeHtml safeHtml) {
 						rowSelected = index;
 
 						HashMap<String, String> map = new HashMap<String, String>();
@@ -106,25 +112,8 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 									}
 								});
 						assignAccountsTo1099Dialog.show();
-
-						// TODO Auto-generated method stub
 					}
 				});
-
-		/*
-		 * Column<ClientBudgetItem, SafeHtml> accountLinkColumn = new
-		 * Column<ClientBudgetItem, SafeHtml>( new ClickableSafeHtmlCell()) {
-		 * 
-		 * @Override public SafeHtml getValue(ClientBudgetItem object) { final
-		 * String value = object.getAccountsName(); SafeHtmlBuilder shb = new
-		 * SafeHtmlBuilder(); shb.appendHtmlConstant("<a href='#'>");
-		 * shb.appendEscaped(value); shb.appendHtmlConstant("</a>"); return
-		 * shb.toSafeHtml(); } }; accountLinkColumn .setFieldUpdater(new
-		 * FieldUpdater<ClientBudgetItem, SafeHtml>() {
-		 * 
-		 * @Override public void update(int index, ClientBudgetItem object,
-		 * SafeHtml safeHtml) { openLinkAction(object); } });
-		 */
 
 		Column<ClientBudgetItem, String> janMonthColumn = new Column<ClientBudgetItem, String>(
 				new TextCell()) {
@@ -378,7 +367,7 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 
 				});
 
-		this.setColumnWidth(accountInfoColumn, "200px");
+		this.setColumnWidth(accountLinkColumn, "200px");
 		this.setColumnWidth(janMonthColumn, "53px");
 		this.setColumnWidth(febMonthColumn, "53px");
 		this.setColumnWidth(marMonthColumn, "53px");
@@ -392,7 +381,7 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 		this.setColumnWidth(novMonthColumn, "53px");
 		this.setColumnWidth(decMonthColumn, "53px");
 
-		this.addColumn(accountInfoColumn, messages.Account());
+		this.addColumn(accountLinkColumn, messages.Account());
 		this.addColumn(janMonthColumn, messages.jan());
 		this.addColumn(febMonthColumn, messages.feb());
 		this.addColumn(marMonthColumn, messages.mar());
@@ -486,7 +475,6 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 			for (ClientBudgetItem item : list) {
 				if (item.getAccount().getID() == budgetItem.getAccount()
 						.getID()) {
-					System.out.println(i);
 					list.remove(i);
 					break;
 				}

@@ -9,7 +9,6 @@ import com.google.gwt.cell.client.CompositeCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.HasCell;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -28,7 +27,6 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 import com.vimukti.accounter.web.client.ui.grids.columns.ClickImage;
-import com.vimukti.accounter.web.client.ui.grids.columns.ImageColumn;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class UsersActivityList extends CellTable<ClientActivity> {
@@ -187,28 +185,24 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 					}
 				});
 
-		ImageColumn<ClientActivity> imageColumn = new ImageColumn<ClientActivity>() {
-			@Override
-			public ImageResource getValue(ClientActivity object) {
-				if (object.getObjectID() == 0) {
-					return null;
-				} else {
-					return Accounter.getFinanceMenuImages()
-							.accounterRegisterIcon();
-				}
-			}
-		};
+		/*
+		 * ImageColumn<ClientActivity> imageColumn = new
+		 * ImageColumn<ClientActivity>() {
+		 * 
+		 * @Override public ImageResource getValue(ClientActivity object) { if
+		 * (object.getObjectID() == 0) { return null; } else { return
+		 * Accounter.getFinanceMenuImages() .accounterRegisterIcon(); } } };
+		 * 
+		 * imageColumn .setFieldUpdater(new FieldUpdater<ClientActivity,
+		 * ImageResource>() {
+		 * 
+		 * @Override public void update(int index, ClientActivity object,
+		 * ImageResource value) {
+		 * 
+		 * } });
+		 */
 
-		imageColumn
-				.setFieldUpdater(new FieldUpdater<ClientActivity, ImageResource>() {
-					@Override
-					public void update(int index, ClientActivity object,
-							ImageResource value) {
-
-					}
-				});
-
-		Column<ClientActivity, String> imageColumn1 = new Column<ClientActivity, String>(
+		Column<ClientActivity, String> imageColumn = new Column<ClientActivity, String>(
 				new ClickImage()) {
 			@Override
 			public String getValue(ClientActivity object) {
@@ -219,17 +213,15 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				}
 			}
 		};
-		imageColumn1
-				.setFieldUpdater(new FieldUpdater<ClientActivity, String>() {
-					@Override
-					public void update(int index, ClientActivity object,
-							String value) {
-						if (object.getObjectID() != 0) {
+		imageColumn.setFieldUpdater(new FieldUpdater<ClientActivity, String>() {
+			@Override
+			public void update(int index, ClientActivity object, String value) {
+				if (object.getObjectID() != 0) {
 
-							ActionFactory.getAuditHistory(object).run();
-						}
-					}
-				});
+					ActionFactory.getAuditHistory(object).run();
+				}
+			}
+		});
 
 		this.addColumn(dateColumn, messages.modifiedTime());
 		this.addColumn(userNameColumn, messages.userName());
@@ -237,12 +229,12 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		this.addColumn(nameColumn, messages.name());
 		this.addColumn(transactionDateColumn, messages.date());
 		this.addColumn(amountColumn, messages.amount());
-		this.addColumn(imageColumn1, messages.history());
+		this.addColumn(imageColumn, messages.history());
 
 		this.setColumnWidth(dateColumn, "170px");
 		this.setColumnWidth(userNameColumn, "160px");
 		this.setColumnWidth(activityColumn, "200px");
-		this.setColumnWidth(imageColumn1, "50px");
+		this.setColumnWidth(imageColumn, "50px");
 
 	}
 

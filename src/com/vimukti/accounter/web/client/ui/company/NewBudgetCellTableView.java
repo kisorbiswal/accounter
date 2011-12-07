@@ -34,7 +34,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.BudgetCellTable;
 
-public class NewBudgetView1 extends BaseView<ClientBudget> {
+public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 	public static final String AUCTUAL_AMOUNT_LAST_FISCAL_YEAR = "Actual Amount from last fiscal year";
 	public static final String AUCTUAL_AMOUNT_THIS_FISCAL_YEAR = "Actual Amount from this fiscal year";
@@ -81,15 +81,15 @@ public class NewBudgetView1 extends BaseView<ClientBudget> {
 	private BudgetCellTable budgetCellTable;
 	private boolean isEditing;
 
-	public NewBudgetView1(List<ClientBudget> listData) {
+	public NewBudgetCellTableView(List<ClientBudget> listData) {
 		budgetList = listData;
 	}
 
-	public NewBudgetView1() {
+	public NewBudgetCellTableView() {
 
 	}
 
-	public NewBudgetView1(boolean isEdit, Object data1) {
+	public NewBudgetCellTableView(boolean isEdit, Object data1) {
 		isEditing = isEdit;
 		data = (ClientBudget) data1;
 	}

@@ -110,14 +110,12 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		mayAmount.setRequired(false);
 		mayAmount.setWidth(100);
 
-		junAmount = new IntegerField(this, Global.get().messages().june()
-				+ ":");
+		junAmount = new IntegerField(this, Global.get().messages().june() + ":");
 		junAmount.setHelpInformation(true);
 		junAmount.setRequired(false);
 		junAmount.setWidth(100);
 
-		julAmount = new IntegerField(this, Global.get().messages().july()
-				+ ":");
+		julAmount = new IntegerField(this, Global.get().messages().july() + ":");
 		julAmount.setHelpInformation(true);
 		julAmount.setRequired(false);
 		julAmount.setWidth(100);
@@ -128,8 +126,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		augAmount.setRequired(false);
 		augAmount.setWidth(100);
 
-		septAmount = new IntegerField(this, Global.get().messages()
-				.september()
+		septAmount = new IntegerField(this, Global.get().messages().september()
 				+ ":");
 		septAmount.setHelpInformation(true);
 		septAmount.setRequired(false);
@@ -153,15 +150,13 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		decAmount.setRequired(false);
 		decAmount.setWidth(100);
 
-		budgetAddForm = UIUtils.form(messages
-				.chartOfAccountsInformation());
+		budgetAddForm = UIUtils.form(messages.chartOfAccountsInformation());
 		budgetAddForm.setWidth("100%");
 		budgetAddForm.setFields(janAmount, febAmount, marAmount, aprAmount,
 				mayAmount, junAmount, julAmount, augAmount, septAmount,
 				octAmount, novAmount, decAmount);
 
-		budgetInfoForm = UIUtils.form(messages
-				.chartOfAccountsInformation());
+		budgetInfoForm = UIUtils.form(messages.chartOfAccountsInformation());
 		budgetInfoForm.setWidth("100%");
 
 		budgetInfoForm.setFields(budgetAddBy);
@@ -314,26 +309,34 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			String one, two, three, four;
 
 			if (quater1Amount.getValue() != null)
-				one = Double.toString(Double.parseDouble(quater1Amount
-						.getValue()) / 3.00);
+				one = Double
+						.toString(round(
+								Double.parseDouble(quater1Amount.getValue()) / 3.00,
+								2));
 			else
 				one = "0.00";
 
 			if (quater2Amount.getValue() != null)
-				two = Double.toString(Double.parseDouble(quater2Amount
-						.getValue()) / 3.00);
+				two = Double
+						.toString(round(
+								Double.parseDouble(quater2Amount.getValue()) / 3.00,
+								2));
 			else
 				two = "0.00";
 
 			if (quater3Amount.getValue() != null)
-				three = Double.toString(Double.parseDouble(quater3Amount
-						.getValue()) / 3.00);
+				three = Double
+						.toString(round(
+								Double.parseDouble(quater3Amount.getValue()) / 3.00,
+								2));
 			else
 				three = "0.00";
 
 			if (quater4Amount.getValue() != null)
-				four = Double.toString(Double.parseDouble(quater4Amount
-						.getValue()) / 3.00);
+				four = Double
+						.toString(round(
+								Double.parseDouble(quater4Amount.getValue()) / 3.00,
+								2));
 			else
 				four = "0.00";
 
@@ -366,8 +369,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			String one;
 
 			if (annualAmount.getValue() != null)
-				one = Double.toString(Double.parseDouble(annualAmount
-						.getValue()) / 12.00);
+				one = Double
+						.toString(round(
+								Double.parseDouble(annualAmount.getValue()) / 12.00,
+								2));
 			else
 				one = "0.00";
 
@@ -423,4 +428,13 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 	}
 
+	public static double round(double value, int places) {
+		if (places < 0)
+			throw new IllegalArgumentException();
+
+		long factor = (long) Math.pow(10, places);
+		value = value * factor;
+		long tmp = Math.round(value);
+		return (double) tmp / factor;
+	}
 }
