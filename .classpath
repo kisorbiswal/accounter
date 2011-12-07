@@ -56,7 +56,6 @@
 	<classpathentry kind="lib" path="libs/guice-servlet-3.0-snapshot-20101120.jar"/>
 	<classpathentry kind="lib" path="libs/guice-snapshot.jar"/>
 	<classpathentry kind="lib" path="libs/gwt-comet-1.2.3.jar"/>
-	<classpathentry kind="lib" path="libs/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="libs/gwt-visualization.jar"/>
 	<classpathentry kind="lib" path="libs/h2-1.1.115.jar"/>
 	<classpathentry kind="lib" path="libs/hermes-1.2.0-sources.jar"/>
@@ -147,5 +146,6 @@
 	<classpathentry kind="lib" path="libs/yguard.jar"/>
 	<classpathentry kind="lib" path="libs/gwt-dnd-3.1.2.jar"/>
 	<classpathentry kind="lib" path="libs/gwt-dnd-3.1.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="libs/gwt-servlet.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -48,6 +49,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
+import com.vimukti.accounter.web.client.ui.CustomFieldDialog;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -69,6 +71,7 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.edittable.tables.ContactsTable;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.CustomFieldForm;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -86,7 +89,7 @@ import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 public class VendorView extends BaseView<ClientVendor> {
 
 	DynamicForm vendorForm, accInfoForm;
-
+	Button addCustomFieldButton;
 	TextItem vendorNoText;
 	TextItem vendorNameText;
 	TextItem fileAsText, accountText, bankNameText, bankBranchText, webText,
@@ -111,6 +114,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	CheckboxItem isTDS;
 	TabPanel tabSet;
 	AddButton addButton;
+	CustomFieldForm customFieldForm;
 
 	LinkedHashMap<String, ClientAddress> allAddresses;
 	LinkedHashMap<String, ClientPhone> allPhones;
@@ -160,6 +164,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	protected ClientTAXCode selectTaxCodeFromDetailsTab;
 	protected ClientTAXItem selectTaxItemFromDetailsTab;
+	public CustomFieldDialog customFieldDialog;
 
 	public VendorView() {
 		super();
@@ -194,7 +199,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		tabSet.add(getDetailsTab(), Accounter.messages().details());
 		tabSet.selectTab(0);
 		tabSet.setSize("100%", "100%");
-
+		createCustomFieldControls();
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(tabSet);
@@ -648,6 +653,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		bankBranchText.setHelpInformation(true);
 		bankBranchText.setDisabled(isInViewMode());
 
+		customFieldForm = new CustomFieldForm();
+		// customForm.setIsGroup(true);
+		customFieldForm.setWidth("100%");
 		DynamicForm financeDetailsForm = new DynamicForm();
 		financeDetailsForm.setIsGroup(true);
 		financeDetailsForm.setWidth("100%");
@@ -661,7 +669,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorGroupSelect = new VendorGroupCombo(messages.payeeGroup(Global
 				.get().Vendor()));
 		vendorGroupSelect.setHelpInformation(true);
-		// vendorGroupSelect.setWidth(100);
+		vendorGroupSelect.setWidth("100%");
 		vendorGroupSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendorGroup>() {
 					public void selectedComboBoxItem(
@@ -685,7 +693,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				}
 			}
 		}
-
+		vendorGroupSelect.setWidth("100%");
 		taxIDText = new TextItem(Accounter.messages().taxId());
 		taxIDText.setHelpInformation(true);
 		taxIDText.setWidth(100);
@@ -729,7 +737,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		serviceTaxRegisterationNumber = new TextItem(Accounter.messages()
 				.serviceTaxRegistrationNumber());
 		serviceTaxRegisterationNumber.setHelpInformation(true);
-		serviceTaxRegisterationNumber.setWidth(100);
+		serviceTaxRegisterationNumber.setWidth("100%");
 		serviceTaxRegisterationNumber.setDisabled(isInViewMode());
 		DynamicForm vendorGrpForm = new DynamicForm();
 		vendorGrpForm.setIsGroup(false);
@@ -761,7 +769,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				});
 		vendorTaxCode.setDisabled(isInViewMode());
 		DynamicForm vatform = new DynamicForm();
-		vatform.setIsGroup(true);
+		// vatform.setIsGroup(true);
 		vatform.setWidth("100%");
 		vatform.setGroupTitle(Accounter.messages().vatDetails());
 		if (getPreferences().isTrackTax()) {
@@ -773,6 +781,22 @@ public class VendorView extends BaseView<ClientVendor> {
 				vatform.setFields(serviceTaxRegisterationNumber);
 			}
 		}
+
+		customFieldDialog = new CustomFieldDialog(this, "CustomField",
+				"Manage CustomFields");
+
+		addCustomFieldButton = new Button();
+		addCustomFieldButton.setText("Manage CustomFields");
+		addCustomFieldButton.setWidth("100%");
+		addCustomFieldButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				customFieldDialog.show();
+
+			}
+		});
+		addCustomFieldButton.setEnabled(!isInViewMode());
 		DynamicForm tdsFrom = new DynamicForm();
 		tdsFrom.setFields(isTDS, vendorTDSTaxCode);
 
@@ -785,6 +809,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		leftVLay.add(financeDetailsForm);
 
 		VerticalPanel rVLayout = new VerticalPanel();
+
+		// rVLayout.setSize("100%", "100%");
 		rVLayout.setWidth("100%");
 		rVLayout.setSpacing(10);
 		rVLayout.add(vendorGrpForm);
@@ -794,7 +820,12 @@ public class VendorView extends BaseView<ClientVendor> {
 		if (getPreferences().isTDSEnabled()) {
 			rVLayout.add(tdsFrom);
 		}
-
+		HorizontalPanel customField = new HorizontalPanel();
+		Label customLable = new Label("Custom Fields");
+		customField.add(customLable);
+		customField.add(addCustomFieldButton);
+		rVLayout.add(customField);
+		rVLayout.add(customFieldForm);
 		HorizontalPanel mainHLay = new HorizontalPanel();
 		mainHLay.setSize("100%", "100%");
 		mainHLay.add(leftVLay);
@@ -820,6 +851,12 @@ public class VendorView extends BaseView<ClientVendor> {
 		// }
 
 		return mainVLayout;
+	}
+
+	public void createCustomFieldControls() {
+		customFieldForm.createControls(getCompany(),
+				data == null ? null : data.getCustomFieldValues());
+
 	}
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
@@ -905,6 +942,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	private void updateVendorObject() {
 
+		customFieldForm.updateValues(data.getCustomFieldValues(), getCompany());
 		// Setting data from General Tab
 
 		// Setting Vendor Name
@@ -1133,6 +1171,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		super.initData();
 		if (data == null) {
 			setData(new ClientVendor(getCompany().getPrimaryCurrency().getID()));
+
 		}
 		company = getCompany();
 		// getFiscalYear();
@@ -1214,7 +1253,12 @@ public class VendorView extends BaseView<ClientVendor> {
 		// accountText.setValue(takenVendor.getBankAccountNo());
 
 		// Setting Balance
+
+		// openingBalText.setAmount(getAmountInPayeeCurrency(
+		// data.getOpeningBalance(), data.getCurrencyFactor()));
+
 		openingBalText.setAmount(data.getOpeningBalance());
+
 		balanceText.setAmount(data.getBalance());
 
 		// Setting Balance as of
@@ -1411,6 +1455,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		}
 		taxIDText.setDisabled(isInViewMode());
 		taxID.setDisabled(isInViewMode());
+		customFieldForm.setDisabled(isInViewMode());
+		addCustomFieldButton.setEnabled(!isInViewMode());
 		super.onEdit();
 
 	}

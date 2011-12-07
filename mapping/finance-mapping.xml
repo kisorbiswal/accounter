@@ -543,6 +543,11 @@
 			<one-to-many class="TAXAgency" />
 		</set>
 
+		<set name="customFields" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="CustomField" />
+		</set>
+
 		<!-- <set name="vatBoxes" inverse="true" cascade="save-update,delete"> 
 			<key column="COMPANY_ID" /> <one-to-many class="Box" /> </set> -->
 
@@ -774,6 +779,18 @@
 			<property name="groupRate" column="GROUP_RATE"></property>
 		</joined-subclass>
 	</class>
+	<class name="CustomField" table="CUSTOMFIELD">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
+		<property name="name" column="NAME"></property>
+		<property name="showCustomer" column="SHOWCUSTOMER"></property>
+		<property name="showVendor" column="SHOWVENDOR"></property>
+	</class>
+
 	<class name="ItemGroup" table="ITEMGROUP">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -851,6 +868,20 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_ON"
 			not-null="true" />
 	</class>
+
+	<class name="CustomFieldValue" table="PAYEE_CUSTOMFIELDS">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="value" column="VALUE"></property>
+		<many-to-one name="payee" column="PAYEE_ID" class="Payee"
+			lazy="false" not-null="true">
+		</many-to-one>
+		<many-to-one name="customField" column="CUSTOMFIELD_ID"
+			class="CustomField" lazy="false" not-null="true">
+		</many-to-one>
+	</class>
+
 	<class name="Payee" table="PAYEE">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -874,6 +905,12 @@
 		<property name="bankAccountNo" column="BANK_ACCOUNT_NO"></property>
 		<property name="bankName" column="BANK_NAME"></property>
 		<property name="bankBranch" column="BANK_BRANCH"></property>
+
+		<set name="customFieldValues" lazy="false" cascade="save-update,delete-orphan">
+			<key column="PAYEE_ID" />
+			<one-to-many class="CustomFieldValue" />
+		</set>
+
 		<set name="address" table="PAYEE_ADDRESS" lazy="false" cascade="save-update">
 			<key column="PAYEE_ID" not-null="true" />
 			<composite-element class="Address">

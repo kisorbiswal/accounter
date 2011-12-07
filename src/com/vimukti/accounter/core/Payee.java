@@ -60,6 +60,8 @@ public abstract class Payee extends CreatableObject implements
 	Set<Phone> phoneNumbers = new HashSet<Phone>();
 	Set<Fax> faxNumbers = new HashSet<Fax>();
 	Set<Contact> contacts = new HashSet<Contact>();
+	Set<CustomFieldValue> customFieldValues = new HashSet<CustomFieldValue>();
+
 	String webPageAddress;
 	boolean isActive = Boolean.TRUE;
 	String memo;
@@ -567,6 +569,10 @@ public abstract class Payee extends CreatableObject implements
 		if (currency == null) {
 			this.currency = getCompany().getPrimaryCurrency();
 		}
+
+		for (CustomFieldValue c : this.getCustomFieldValues()) {
+			c.setPayee(this);
+		}
 		return super.onSave(session);
 	}
 
@@ -603,8 +609,17 @@ public abstract class Payee extends CreatableObject implements
 		this.previousCurrencyFactor = currencyFactor;
 	}
 
+	public Set<CustomFieldValue> getCustomFieldValues() {
+		return customFieldValues;
+	}
+
+	public void setCustomFieldValues(Set<CustomFieldValue> customFieldValues) {
+		this.customFieldValues = customFieldValues;
+	}
+
 	public void clearOpeningBalance() {
 		balance -= openingBalance;
 		openingBalance = 0.00D;
 	}
+
 }

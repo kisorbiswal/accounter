@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.forms.CustomFieldForm;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -2143,6 +2144,14 @@ public class UIUtils {
 			break;
 		}
 		return 0;
+	}
+
+	public static CustomFieldForm CustomFieldsform(String terms) {
+		CustomFieldForm f = new CustomFieldForm();
+		f.setIsGroup(true);
+		f.setGroupTitle(terms);
+		// f.setWrapItemTitles(false);
+		return f;
 	}
 
 }

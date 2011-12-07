@@ -272,6 +272,8 @@ public class Company implements IAccounterServerCore {
 
 	private Set<Reconciliation> reconciliations = new HashSet<Reconciliation>();
 
+	private Set<CustomField> customFields = new HashSet<CustomField>();
+
 	String bankAccountNo;
 
 	String sortCode;
@@ -1464,6 +1466,14 @@ public class Company implements IAccounterServerCore {
 	 */
 	public void setExchangeLossOrGainAccount(Account exchangeLossOrGainAccount) {
 		this.exchangeLossOrGainAccount = exchangeLossOrGainAccount;
+	}
+
+	public Set<CustomField> getCustomFields() {
+		return customFields;
+	}
+
+	public void setCustomFields(Set<CustomField> customFields) {
+		this.customFields = customFields;
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -41,6 +42,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
+import com.vimukti.accounter.web.client.ui.CustomFieldDialog;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -61,6 +63,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.edittable.tables.ContactsTable;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.CustomFieldForm;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -87,6 +90,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	TextAreaItem memoArea;
 	AddButton addButton;
 	TAXCodeCombo custTaxCode;
+	Button addCustomFieldButton;
+	CustomFieldDialog customFieldDialog;
 
 	CheckboxItem statusCheck, selectCheckBox;
 
@@ -132,6 +137,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	private ClientSalesPerson selectSalesPersonFromDetailsTab;
 	private ClientTAXCode selectVatCodeFromDetailsTab;
 
+	CustomFieldForm customFieldForm;
 	// protected List<ClientTaxAgency> taxAgencies = new
 	// ArrayList<ClientTaxAgency>();
 
@@ -247,7 +253,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		tabSet.selectTab(0);
 		tabSet.setSize("100%", "100%");
-
+		createCustomFieldControls();
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(tabSet);
@@ -403,9 +409,15 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	// }
 	// return true;
 	// }
+	public void createCustomFieldControls() {
+		customFieldForm.createControls(getCompany(),
+				data == null ? null : data.getCustomFieldValues());
+		customFieldForm.setDisabled(isInViewMode());
+	}
 
 	private void updateData() {
 
+		customFieldForm.updateValues(data.getCustomFieldValues(), getCompany());
 		// Setting data from General Tab
 
 		// Setting customer Name
@@ -1015,7 +1027,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				});
 
 		DynamicForm termsForm = UIUtils.form(messages.terms());
-
+		customFieldForm = UIUtils.CustomFieldsform(messages.terms());
 		termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect);
 
 		if (getPreferences().isTrackTax()) {
@@ -1046,17 +1058,39 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		vatregno.setDisabled(isInViewMode());
 		custTaxCode.setDisabled(isInViewMode());
 
-		termsForm.setWidth("100%");
+		customFieldDialog = new CustomFieldDialog(this, "CustomField",
+				"Manage CustomFields");
 
+		addCustomFieldButton = new Button();
+		addCustomFieldButton.setText("Manage CustomFields");
+		addCustomFieldButton.setWidth("100%");
+		addCustomFieldButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				customFieldDialog.show();
+
+			}
+		});
+		addCustomFieldButton.setEnabled(!isInViewMode());
+
+		termsForm.setWidth("100%");
+		customFieldForm.setWidth("100%");
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setSize("100%", "100%");
-		leftVLay.setHeight("350px");
+		leftVLay.setHeight("250px");
 		// leftVLay.getElement().getStyle()
 		// .setBorderColor("none repeat scroll 0 0 #eee !important");
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
-
+		HorizontalPanel customField = new HorizontalPanel();
+		Label customLable = new Label("Custom Fields");
+		customField.add(customLable);
+		customField.add(addCustomFieldButton);
 		rightVLay.add(termsForm);
+		rightVLay.add(customField);
+		rightVLay.add(customFieldForm);
 
 		// leftVLay.add(salesForm);
 
@@ -1075,6 +1109,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// listforms.add(salesForm);
 		listforms.add(financeDitailsForm);
 		listforms.add(termsForm);
+		listforms.add(customFieldForm);
 
 		if (UIUtils.isMSIEBrowser()) {
 			// financeDitailsForm.getCellFormatter().setWidth(0, 1, "200px");
@@ -1103,6 +1138,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			setData(new ClientCustomer(getCompany().getPrimaryCurrency()
 					.getID()));
 		}
+
 		// initTaxAgenciesList();
 		initMainValues();
 		initSalesPersonList();
@@ -1118,6 +1154,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		if (getPreferences().isTrackTax()) {
 			initVatCodeList();
 		}
+
 		super.initData();
 
 	}
@@ -1338,7 +1375,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		creditLimitText.setDisabled(isInViewMode());
 		// priceLevelSelect.setDisabled(isInViewMode());
 		creditRatingSelect.setDisabled(isInViewMode());
-		currencyCombo.setDisabled(!isInViewMode(),isInViewMode());
+		currencyCombo.setDisabled(!isInViewMode(), isInViewMode());
 		// if (!selectCurrency.equals(getCompany().getPreferences()
 		// .getPrimaryCurrency())) {
 		// currencyCombo.disabledFactorField(false);
@@ -1356,6 +1393,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		custGroupSelect.setDisabled(isInViewMode());
 		vatregno.setDisabled(isInViewMode());
 		custTaxCode.setDisabled(isInViewMode());
+		customFieldForm.setDisabled(isInViewMode());
+		addCustomFieldButton.setEnabled(!isInViewMode());
 		super.onEdit();
 
 	}
@@ -1395,9 +1434,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		return widget;
 	}
 
-
 	@Override
 	protected boolean canVoid() {
 		return false;
 	}
+
 }

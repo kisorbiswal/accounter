@@ -9,12 +9,14 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
 public class ItemsCommand extends NewAbstractCommand {
 
 	private static final String ITEMS_TYPE = "itemsType";
+	private boolean isBuy;
 
 	@Override
 	public String getId() {
@@ -71,7 +73,18 @@ public class ItemsCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Add a New Item");
+				if (!isBuy) {
+					list.add(new UserCommand("Create New Service Item", "sell"));
+					list.add(new UserCommand("Create New NonInventory Item",
+							"sell"));
+					list.add(new UserCommand("Create New Inventory Item",
+							"sell"));
+				} else {
+					list.add(new UserCommand("Create New Service Item", "buy"));
+					list.add(new UserCommand("Create New NonInventory Item",
+							"buy"));
+					list.add(new UserCommand("Create New Inventory Item", "buy"));
+				}
 			}
 
 			@Override
@@ -87,17 +100,12 @@ public class ItemsCommand extends NewAbstractCommand {
 				Set<Item> items = getItems(context);
 				List<Item> result = new ArrayList<Item>();
 				String type = get(ITEMS_TYPE).getValue();
-
+				boolean isActive = type.equalsIgnoreCase("Active") ? true
+						: false;
 				for (Item item : items) {
-
-					if (type.equalsIgnoreCase("Active")) {
-						if (item.isActive())
-							result.add(item);
-
-					}
-					if (type.equalsIgnoreCase("In-Active")) {
-						if (!item.isActive())
-							result.add(item);
+					if (isActive == item.isActive()
+							&& item.isIBuyThisItem() == isBuy) {
+						result.add(item);
 					}
 				}
 				return result;
@@ -114,6 +122,10 @@ public class ItemsCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		if (context.getString().equalsIgnoreCase("vendor")) {
+			isBuy = true;
+		}
+		context.setString("");
 		return null;
 	}
 

@@ -13,7 +13,9 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class ObjectConvertUtil {
-
+	private static final String classNames[] = { "Contact", "Phone", "Fax",
+			"Email", "Address", "UserPreferences", "CompanyPreferences",
+			"NominalCodeRange", "CustomFieldValue" };
 	protected ThreadLocal<Map<Object, Object>> cache = new ThreadLocal<Map<Object, Object>>();
 	public ThreadLocal<Map<String, Object>> importedObjectsCache = new ThreadLocal<Map<String, Object>>();
 
@@ -78,8 +80,6 @@ public class ObjectConvertUtil {
 	}
 
 	public boolean isNotMappingEntity(Class<?> class1) {
-		String classNames[] = { "Contact", "Phone", "Fax", "Email", "Address",
-				"UserPreferences", "CompanyPreferences", "NominalCodeRange" };
 		String packge = "com.vimukti.accounter.core.";
 		return class1.getName().equals(packge + classNames[0])
 				|| class1.getName().equals(packge + classNames[1])
@@ -88,7 +88,8 @@ public class ObjectConvertUtil {
 				|| class1.getName().equals(packge + classNames[4])
 				|| class1.getName().equals(packge + classNames[5])
 				|| class1.getName().equals(packge + classNames[6])
-				|| class1.getName().equals(packge + classNames[7]);
+				|| class1.getName().equals(packge + classNames[7])
+				|| class1.getName().equals(packge + classNames[8]);
 	}
 
 	protected boolean isString(Class<?> type) {

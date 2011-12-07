@@ -250,20 +250,9 @@ public class MobileMessageHandler extends Thread {
 		String commandString = message;
 		Command matchedCommand = null;
 		if (session.isAuthenticated() || message.equalsIgnoreCase("cancel")) {
-			while (!commandString.isEmpty()) {
-				matchedCommand = CommandsFactory.INSTANCE
-						.getCommand(commandString);
-				if (matchedCommand != null) {
-					break;
-				}
-				int lastIndexOf = commandString.lastIndexOf(" ");
-				if (lastIndexOf > 0) {
-					commandString = commandString.substring(0, lastIndexOf);
-				}
-				if (lastIndexOf < 0) {
-					break;
-				}
-			}
+			CommandResult commandResult = findCommand(message);
+			commandString = commandResult.commandString;
+			matchedCommand = commandResult.command;
 		}
 		Company company = session.getCompany();
 		if (matchedCommand != null) {
@@ -372,6 +361,29 @@ public class MobileMessageHandler extends Thread {
 		return userMessage;
 	}
 
+	private CommandResult findCommand(String message) {
+		String commandString = message;
+		Command matchedCommand = null;
+		while (!commandString.isEmpty()) {
+			matchedCommand = CommandsFactory.INSTANCE.getCommand(commandString);
+			if (matchedCommand != null) {
+				break;
+			}
+			int lastIndexOf = commandString.lastIndexOf(" ");
+			if (lastIndexOf > 0) {
+				commandString = commandString.substring(0, lastIndexOf);
+			}
+			if (lastIndexOf < 0) {
+				break;
+			}
+		}
+		CommandResult result = new CommandResult();
+		result.command = matchedCommand;
+		result.commandString = commandString;
+		result.input = message.replace(commandString, "").trim();
+		return result;
+	}
+
 	private String getPatternResultString(CommandList commands, String input) {
 		// Getting the First Character of the Input
 		if (input == null || input.isEmpty() || input.length() > 1) {
@@ -409,14 +421,15 @@ public class MobileMessageHandler extends Thread {
 		if (index >= commands.size()) {
 			return null;
 		}
+		// Rao
 		UserCommand userCommand = commands.get(index);
-		Command command = CommandsFactory.INSTANCE.getCommand(userCommand
-				.getCommandName());
+		CommandResult findCommand = findCommand(userCommand.getCommandName());
+		Command command = findCommand.command;
 		if (command == null) {
 			return null;
 		}
-		userMessage.setOriginalMsg(userCommand.getInputs());
-		userMessage.setCommandString(userCommand.getCommandName());
+		userMessage.setOriginalMsg(findCommand.input + userCommand.getInputs());
+		userMessage.setCommandString(findCommand.commandString);
 		return command;
 	}
 
@@ -462,4 +475,10 @@ public class MobileMessageHandler extends Thread {
 		}
 		return instance;
 	}
+}
+
+class CommandResult {
+	Command command;
+	String commandString;
+	String input;
 }
