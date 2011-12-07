@@ -1630,17 +1630,16 @@ public class ReportManager extends Manager {
 			ExpenseList expense = new ExpenseList();
 			object = (Object[]) iterator.next();
 
-			expense.setTransactionId(object[0] != null ? (Long) object[0]
-					: null);
+			expense.setTransactionId(object[0] != null ? (Long) object[0] : 0);
 			expense.setTransactionType(object[1] != null ? (Integer) object[1]
-					: null);
+					: 0);
 			expense.setTransactionDate(object[2] != null ? new ClientFinanceDate(
-					((Long) object[2])) : null);
+					((Long) object[2])) : new ClientFinanceDate());
 			expense.setTransactionNumber(object[3] != null ? (String) object[3]
-					: null);
-			expense.setMemo(object[4] != null ? (String) object[4] : null);
-			expense.setName(object[5] != null ? (String) object[5] : null);
-			expense.setTotal(object[6] != null ? (Double) object[6] : null);
+					: "");
+			expense.setMemo(object[4] != null ? (String) object[4] : "");
+			expense.setName(object[5] != null ? (String) object[5] : "");
+			expense.setTotal(object[6] != null ? (Double) object[6] : 0);
 			queryResult.add(expense);
 
 		}
@@ -1677,7 +1676,7 @@ public class ReportManager extends Manager {
 			if (v.getTransaction().getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
 
 				String s = v.getTransaction().getInvolvedPayee() != null ? v
-						.getTransaction().getInvolvedPayee().getName() : null;
+						.getTransaction().getInvolvedPayee().getName() : "";
 
 				if (maps.containsKey(s)) {
 					maps.put(s,
@@ -2355,8 +2354,7 @@ public class ReportManager extends Manager {
 							.getDate()));
 					e.setMemo(v.getTransaction().getMemo());
 					e.setName(v.getTransaction().getInvolvedPayee() != null ? v
-							.getTransaction().getInvolvedPayee().getName()
-							: null);
+							.getTransaction().getInvolvedPayee().getName() : "");
 					e.setSalesPrice(v.getLineTotal());
 					e.setTransactionId(v.getTransaction().getID());
 					e.setTransactionNumber(v.getTransaction().getNumber());
@@ -2433,16 +2431,12 @@ public class ReportManager extends Manager {
 
 		Map<String, Double> customerWiseDetail = new LinkedHashMap<String, Double>();
 
-		long transactionItemId = 0;
-
 		for (TAXRateCalculation v : taxRateCalculations) {
 			if (v.getTransaction().getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
 
-				String customerName;
-
-				customerName = v.getTransaction().getInvolvedPayee() != null ? v
+				String customerName = v.getTransaction().getInvolvedPayee() != null ? v
 						.getTransaction().getInvolvedPayee().getName()
-						: null;
+						: "";
 
 				if (customerWiseDetail.containsKey(customerName)) {
 					customerWiseDetail.put(customerName, (customerWiseDetail
@@ -2636,8 +2630,7 @@ public class ReportManager extends Manager {
 			agedDebtors.setIsVoid(object[11] == null ? true
 					: ((Boolean) object[11]).booleanValue());
 			agedDebtors.setTransactionId((Long) object[12]);
-			agedDebtors
-					.setMemo(object[13] != null ? (String) object[13] : null);
+			agedDebtors.setMemo(object[13] != null ? (String) object[13] : "");
 			long ageing = getAgeing(agedDebtors.getDate(),
 					agedDebtors.getDueDate(), endDate, companyId);
 			int category = getCategory(ageing);
@@ -2775,9 +2768,9 @@ public class ReportManager extends Manager {
 					statementsList.setAgeing(ageing);
 					statementsList.setCategory(getCategory(ageing));
 
-					statementsList.setCurrency((Long)object[17]);
-					statementsList.setCurrencyFactor((Double)object[18]);
-					
+					statementsList.setCurrency((Long) object[17]);
+					statementsList.setCurrencyFactor((Double) object[18]);
+
 					queryResult.add(statementsList);
 				}
 				return new ArrayList<PayeeStatementsList>(queryResult);
@@ -2821,9 +2814,9 @@ public class ReportManager extends Manager {
 									: new ClientFinanceDate((Long) object[2]));
 					statementsList.setTransactionId((Long) object[3]);
 					statementsList.setTotal((Double) object[4]);
-					statementsList.setBalance((Double) object[5]);					
-					statementsList.setCurrency((Long)object[6]);
-					statementsList.setCurrencyFactor((Double)object[7]);
+					statementsList.setBalance((Double) object[5]);
+					statementsList.setCurrency((Long) object[6]);
+					statementsList.setCurrencyFactor((Double) object[7]);
 					queryResult.add(statementsList);
 				}
 				return new ArrayList<PayeeStatementsList>(queryResult);
