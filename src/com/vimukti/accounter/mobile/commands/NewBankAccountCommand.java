@@ -269,8 +269,8 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(ASOF).setDefaultValue(new ClientFinanceDate());
 		get(ACCOUNT_NUMBER).setDefaultValue(
-				autoGenerateAccountnumber(BANK_CAT_BEGIN_NO, BANK_CAT_END_NO,
-						context.getCompany()));
+				String.valueOf(autoGenerateAccountnumber(BANK_CAT_BEGIN_NO,
+						BANK_CAT_END_NO, context.getCompany())));
 
 	}
 
