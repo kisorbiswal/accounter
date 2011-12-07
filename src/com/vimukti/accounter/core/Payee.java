@@ -491,6 +491,7 @@ public abstract class Payee extends CreatableObject implements
 
 	protected void modifyJournalEntry(JournalEntry existEntry) {
 		Session session = HibernateUtil.getCurrentSession();
+		existEntry.setVoid(true);
 		session.delete(existEntry);
 		if (!DecimalUtil.isEquals(this.openingBalance, 0)) {
 			JournalEntry journalEntry = createJournalEntry();
