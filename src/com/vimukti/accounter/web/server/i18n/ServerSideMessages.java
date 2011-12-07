@@ -69,7 +69,7 @@ public class ServerSideMessages {
 					.setString("language", language)
 					.setLong("client", clientId).setString("key", key)
 					.uniqueResult();
-			return msg;
+			return msg.replace("'", "\\'");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
