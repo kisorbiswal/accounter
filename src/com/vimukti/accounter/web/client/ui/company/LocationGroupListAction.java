@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.LocationGroupListDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -26,8 +27,9 @@ public class LocationGroupListAction extends Action {
 			public void onCreated() {
 
 				LocationGroupListDialog dialog = new LocationGroupListDialog(
-						Accounter.messages().manageLocationGroup(), Accounter
-								.messages().toAddLocation());
+						Accounter.messages().manageLocationGroup(
+								Global.get().Location()), Accounter.messages()
+								.toAddLocation());
 				dialog.show();
 
 			}
