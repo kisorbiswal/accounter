@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
@@ -24,11 +26,36 @@ import com.vimukti.accounter.web.server.managers.ReportManager;
 
 public class TransactionDetailByAccountReportCommand extends
 		NewAbstractReportCommand<TransactionDetailByAccount> {
-	ClientAccount account;
+	private static String ACCOUNT = "account";
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		addDateRangeFromToDateRequirements(list);
+		list.add(new AccountRequirement(ACCOUNT, getMessages().pleaseSelect(
+				getMessages().Account()), getMessages().Account(), false, true,
+				null) {
+
+			@Override
+			protected String getSetMessage() {
+				return null;
+			}
+
+			@Override
+			protected List<Account> getLists(Context context) {
+				return TransactionDetailByAccountReportCommand.this
+						.getAccounts();
+			}
+
+			@Override
+			protected boolean filter(Account e, String name) {
+				return false;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getMessages().Accounts());
+			}
+		});
 		list.add(new ReportResultRequirement<TransactionDetailByAccount>() {
 
 			@Override
@@ -79,11 +106,23 @@ public class TransactionDetailByAccountReportCommand extends
 					grandTotal += totalAmount;
 					makeResult.add("Amount Total: " + totalAmount);
 				}
+				Account account = get(ACCOUNT).getValue();
 				if (account == null) {
 					makeResult.add("Grand Total: " + grandTotal);
 				}
 			}
 		});
+	}
+
+	protected List<Account> getAccounts() {
+		List<Account> accounts = new ArrayList<Account>();
+		Set<Account> companyAccs = getCompany().getAccounts();
+		for (Account account : companyAccs) {
+			if (account.getIsActive()) {
+				accounts.add(account);
+			}
+		}
+		return accounts;
 	}
 
 	protected Record createReportRecord(TransactionDetailByAccount record) {
@@ -103,6 +142,7 @@ public class TransactionDetailByAccountReportCommand extends
 	protected List<TransactionDetailByAccount> getRecords() {
 		List<TransactionDetailByAccount> transactionDetailsByAc = new ArrayList<TransactionDetailByAccount>();
 		ReportManager reportManager = new FinanceTool().getReportManager();
+		Account account = get(ACCOUNT).getValue();
 		if (account == null) {
 			try {
 				transactionDetailsByAc = reportManager
@@ -156,13 +196,19 @@ public class TransactionDetailByAccountReportCommand extends
 				accountName = split[1];
 			}
 		}
+		ClientAccount accountByNumber = null;
 		if (accountName != null) {
-			account = CommandUtils
-					.getAccountByNumber(getCompany(), accountName);
-			if (account == null) {
-				account = CommandUtils.getAccountByName(getCompany(),
+			accountByNumber = CommandUtils.getAccountByNumber(getCompany(),
+					accountName);
+			if (accountByNumber == null) {
+				accountByNumber = CommandUtils.getAccountByName(getCompany(),
 						accountName);
 			}
+		}
+		if (accountByNumber != null) {
+			Account account = CommandUtils.getaccount(getCompany(),
+					accountByNumber.getName());
+			get(ACCOUNT).setValue(account);
 		}
 		endDate = new ClientFinanceDate();
 		get(TO_DATE).setValue(endDate);
