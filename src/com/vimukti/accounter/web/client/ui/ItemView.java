@@ -532,18 +532,6 @@ public class ItemView extends BaseView<ClientItem> {
 			// skuText.setValue(data.getUPCorSKU() != null ? data
 			// .getUPCorSKU() : "");
 
-			ClientAccount incomeAccount = getCompany().getAccount(
-					data.getIncomeAccount());
-			if (incomeAccount != null) {
-				accountCombo.setValue(incomeAccount);
-			}
-
-			ClientAccount expenseAccount = getCompany().getAccount(
-					data.getExpenseAccount());
-			if (expenseAccount != null) {
-				expAccCombo.setValue(expenseAccount);
-			}
-
 			weightText.setValue(String.valueOf(data.getWeight()));
 
 			isellCheck.setValue(data.isISellThisItem());
@@ -941,9 +929,22 @@ public class ItemView extends BaseView<ClientItem> {
 			else
 				expAccCombo.setDisabled(false);
 
-		} else
+		} else {
 			expAccCombo.setDisabled(true);
 
+			ClientAccount incomeAccount = getCompany().getAccount(
+					data.getIncomeAccount());
+			if (incomeAccount != null) {
+				accountCombo.select(incomeAccount);
+			}
+
+			ClientAccount expenseAccount = getCompany().getAccount(
+					data.getExpenseAccount());
+			if (expenseAccount != null) {
+				expAccCombo.setValue(expenseAccount);
+			}
+
+		}
 	}
 
 	@Override
