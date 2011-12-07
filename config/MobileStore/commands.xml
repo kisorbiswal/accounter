@@ -547,6 +547,7 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.ReceiveVATCommand"
 		name="Receive VAT">
 		<alias>New Receive Vat</alias>
+		<alias>Tax Refund</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.NewTaxGroupCommand"
