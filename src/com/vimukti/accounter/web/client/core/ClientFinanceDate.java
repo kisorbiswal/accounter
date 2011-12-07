@@ -14,7 +14,6 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 		IsSerializable, Cloneable {
 
 	int year, month, day;
-	private int dayOfWeek;
 
 	public ClientFinanceDate(Date date) {
 		initDate(date);
@@ -25,7 +24,6 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 			this.year = (date.getYear() + 1900);
 			this.month = (date.getMonth() + 1);
 			this.day = date.getDate();
-			this.setDayOfWeek(date.getDay());
 			// this.month = this.month.length() == 1 ? "0" + this.month
 			// : this.month;
 			// this.day = this.day.length() == 1 ? "0" + this.day : this.day;
@@ -269,18 +267,5 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 		return financeDate;
 	}
 
-	/**
-	 * @return the dayOfWeek
-	 */
-	public int getDayOfWeek() {
-		return dayOfWeek;
-	}
-
-	/**
-	 * @param dayOfWeek the dayOfWeek to set
-	 */
-	public void setDayOfWeek(int dayOfWeek) {
-		this.dayOfWeek = dayOfWeek;
-	}
 
 }
