@@ -93,11 +93,11 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 	public void onDragEnd(DragEndEvent event) {
 		// refreshWidgets();
 		haveToRefresh = false;
-		updateConfiguration();
 		updatePortletPage();
 	}
 
 	public void updatePortletPage() {
+		updateConfiguration();
 		Accounter.createHomeService().savePortletConfig(config,
 				new AsyncCallback<Boolean>() {
 
