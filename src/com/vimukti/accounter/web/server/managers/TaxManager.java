@@ -1246,4 +1246,12 @@ public class TaxManager extends Manager {
 		return taxReturns;
 	}
 
+	public List<TAXReturn> getAllTAXReturnsFromDB(Long companyID)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyID);
+		List<TAXReturn> list = session.getNamedQuery("list.TAXReturns")
+				.setEntity("company", company).list();
+		return list;
+	}
 }
