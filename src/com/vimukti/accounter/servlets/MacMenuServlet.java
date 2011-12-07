@@ -565,11 +565,11 @@ public class MacMenuServlet extends BaseServlet {
 						"company/accounter#payBill");
 				menu(vendorValue, iGlobal.messages().issuePayments(),
 						"company/accounter#issuePayments");
-				menu(vendorValue,
-						iGlobal.messages().payeePrePayment(iGlobal.Vendor()),
-						"company/accounter#vendorPrePayment");
 			}
 		}
+		menu(vendorValue, iGlobal.messages().payeePrePayment(iGlobal.Vendor()),
+				"company/accounter#vendorPrePayment");
+
 		if (canDoInvoiceTransactions()) {
 			menu(vendorValue, iGlobal.messages().recordExpenses(),
 					"company/accounter#recordExpenses");
