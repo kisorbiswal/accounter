@@ -55,8 +55,6 @@ public class AccountTransaction extends CreatableObject implements
 	 */
 	boolean cashBasisEntry = false;
 
-	FinanceDate tempTransactionDate;
-
 	public AccountTransaction() {
 	}
 
@@ -69,16 +67,13 @@ public class AccountTransaction extends CreatableObject implements
 		this.closingFYEntry = closingFYEntry;
 		this.cashBasisEntry = cashBasisEntry;
 
-		tempTransactionDate = transaction.clonedTransactionDate != null ? transaction.clonedTransactionDate
-				: transaction.transactionDate;
-
 		// CompanyPreferences preferences =
 		// Company.getCompany().getPreferences();
 		// if (this.transaction.transactionDate.getYear() == preferences
 		// .getStartOfFiscalYear().getYear()) {
 
-		int key = (tempTransactionDate.getYear() + 1900) * 100
-				+ tempTransactionDate.getMonth();
+		int key = (transaction.transactionDate.getYear() + 1900) * 100
+				+ transaction.transactionDate.getMonth();
 		if (this.account.monthViceAmounts.containsKey(key)) {
 			this.account.monthViceAmounts.put(key,
 					this.account.monthViceAmounts.get(key) + amount);
@@ -203,7 +198,6 @@ public class AccountTransaction extends CreatableObject implements
 
 		w.put(messages.closeFiscalYear(), closingFYEntry);
 		w.put(messages.cashBasisAccounting(), this.cashBasisEntry);
-		w.put(messages.transactionDate(), this.tempTransactionDate.toString());
 
 	}
 }

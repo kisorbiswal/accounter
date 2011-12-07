@@ -99,7 +99,6 @@ public abstract class Transaction extends CreatableObject implements
 
 	int type;
 	FinanceDate transactionDate;
-	FinanceDate clonedTransactionDate;
 	String number = "0";
 	boolean isDefault;
 	private Location location;
@@ -190,8 +189,6 @@ public abstract class Transaction extends CreatableObject implements
 	double totalTaxableAmount;
 	double totalNonTaxableAmount;
 
-	transient Transaction oldTransaction;
-
 	private Set<ReconciliationItem> reconciliationItems;
 
 	// Last Activity
@@ -221,7 +218,6 @@ public abstract class Transaction extends CreatableObject implements
 	// For UK version only
 	boolean amountsIncludeVAT;
 	transient protected boolean isOnSaveProccessed;
-	private boolean isDeleted;
 
 	private AccounterClass accounterClass;
 	private List<TransactionLog> history;
@@ -664,14 +660,6 @@ public abstract class Transaction extends CreatableObject implements
 	public void onLoad(Session session, Serializable arg1) {
 		this.previousTotal = total;
 		this.isVoidBefore = isVoid;
-		if (oldTransaction == null) {
-			try {
-				oldTransaction = this.clone();
-			} catch (CloneNotSupportedException e) {
-				e.printStackTrace();
-			}
-		}
-
 	}
 
 	/**
@@ -830,7 +818,7 @@ public abstract class Transaction extends CreatableObject implements
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!isVoid) {
-			doVoidEffect(this);
+			doDeleteEffect(this);
 		}
 		return false;
 	}
@@ -975,9 +963,8 @@ public abstract class Transaction extends CreatableObject implements
 		if ((this.isVoid && !clonedObject.isVoid)
 				|| (this.isDeleted() && !clonedObject.isDeleted() && !this.isVoid)) {
 
-			doVoidEffect(clonedObject);
-		} else if (this.isDeleted && !clonedObject.isDeleted() && this.isVoid) {
-			this.setStatus(STATUS_DELETED);
+			doDeleteEffect(clonedObject);
+			voidTransactionItems();
 		} else if (this.transactionItems != null
 				&& !this.transactionItems.equals(clonedObject.transactionItems)) {
 			updateTranasactionItems(clonedObject);
@@ -990,7 +977,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	}
 
-	private void doVoidEffect(Transaction clonedObject) {
+	private void doDeleteEffect(Transaction clonedObject) {
 		double amount = (isDebitTransaction() ? -1d : 1d) * this.total;
 
 		this.updateEffectedAccount(amount);

@@ -74,18 +74,10 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	// static Logger log = Logger.getLogger(Invoice.class);
 
-	Invoice oldInvoice;
-
 	@Override
 	public void onLoad(Session session, Serializable arg1) {
 		// log.info("Invoice Loaded: " + this.id + " " + this);
 		super.onLoad(session, arg1);
-		try {
-			oldInvoice = (Invoice) super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	/**
@@ -906,8 +898,7 @@ public class Invoice extends Transaction implements Lifecycle {
 		 * not voided then only it will enter the loop
 		 */
 
-		if ((this.isVoid && invoice.isVoid)
-				|| (this.isDeleted() && !invoice.isDeleted() && !this.isVoid)) {
+		if (isBecameVoid()) {
 			doVoidEffect(session, this);
 		} else if (!invoice.equals(this)) {
 			if (this.total < 0) {

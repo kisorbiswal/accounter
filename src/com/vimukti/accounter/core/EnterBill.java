@@ -334,7 +334,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
-		createAndSaveEstimates(this.transactionItems, session);
+		// createAndSaveEstimates(this.transactionItems, session);
 		// if (this.isBecameVoid()) {
 		//
 		// for (TransactionPayBill tx : this.transactionPayBills) {
@@ -752,6 +752,11 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 		modifyPurchaseOrder(enterBill, false);
 
+		for (Estimate estimate : enterBill.getEstimates()) {
+			session.delete(estimate);
+		}
+		enterBill.estimates.clear();
+
 		// modifyItemReceipt(enterBill, false);
 		// if (enterBill.purchaseOrder != null) {
 		// enterBill.purchaseOrder.status = Transaction.STATUS_CANCELLED;
@@ -979,15 +984,10 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		Session session = HibernateUtil.getCurrentSession();
 		for (Estimate estimate : this.getEstimates()) {
 			if (estimate.getUsedInvoice() != null) {
 				throw new AccounterException(AccounterException.USED_IN_INVOICE);
 			}
-			if (!isBecameVoid()) {
-				session.delete(estimate);
-			}
-			estimates.remove(estimate);
 		}
 		if (this.transactionPayBills != null) {
 			for (TransactionPayBill transactionPayBill : this.transactionPayBills) {
@@ -1118,11 +1118,11 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		w.put(messages.currency(), this.currencyFactor);
 
 		w.put(messages.amount(), this.total).gap();
-		
+
 		w.put(messages.paymentMethod(), this.paymentMethod);
 
 		w.put(messages.memo(), this.memo).gap();
-		
+
 		w.put(messages.details(), this.transactionItems);
 
 		if (this.vendor != null)

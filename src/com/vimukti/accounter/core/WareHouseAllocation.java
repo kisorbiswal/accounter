@@ -51,9 +51,7 @@ public class WareHouseAllocation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-		if ((transaction.isVoid() && !transaction.isVoidBefore())
-				|| (transaction.isDeleted()
-						&& !transaction.oldTransaction.isDeleted() && !transaction.isVoid)) {
+		if ((transaction.isVoid() && !transaction.isVoidBefore())) {
 			// wareHouse.updateItemStatus(item, quantity, false);
 		}
 		return false;

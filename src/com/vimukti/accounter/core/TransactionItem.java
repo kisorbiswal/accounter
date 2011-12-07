@@ -350,11 +350,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			return false;
 
 		if (shouldUpdateAccounts(true)) {
-			this.transaction.clonedTransactionDate = this.transaction.oldTransaction.transactionDate;
 
-			// Double amount = (isPositiveTransaction() ? -1d : 1d)
-			// * (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
-			// - this.VATfraction : this.lineTotal);
 			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
 				Account effectingAccount = this.getEffectingAccount();
 				if (effectingAccount != null) {
@@ -569,7 +565,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 						* this.getUpdateAmount(), transaction.currencyFactor);
 				effectingAccount.onUpdate(session);
 				session.saveOrUpdate(effectingAccount);
-
 			}
 
 			if (this.isTaxable) {
@@ -579,8 +574,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 					&& this.item.getType() == Item.TYPE_INVENTORY_PART) {
 				this.updateWareHouse(true);
 			}
-
 		}
+
 		// else if (this.type == TYPE_SALESTAX) {
 		// if (Company.getCompany().getAccountingType() ==
 		// Company.ACCOUNTING_TYPE_US) {
