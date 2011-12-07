@@ -78,7 +78,8 @@ public class PatternStore {
 		xStream.aliasAttribute(Text.class, "text", "name");
 		xStream.alias("command", PCommand.class);
 		xStream.aliasAttribute(PCommand.class, "condition", "if");
-		xStream.aliasAttribute(PCommand.class, "command", "title");
+		xStream.aliasAttribute(PCommand.class, "title", "title");
+		xStream.aliasAttribute(PCommand.class, "value", "value");
 		return xStream;
 
 	}

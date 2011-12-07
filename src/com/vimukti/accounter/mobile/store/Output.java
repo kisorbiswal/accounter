@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.store;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.PatternResult;
+import com.vimukti.accounter.mobile.UserCommand;
 
 public abstract class Output {
 
@@ -11,8 +12,17 @@ public abstract class Output {
 			result.add(((Text) this).text);
 		} else {
 			PCommand command = (PCommand) this;
+			if (command.title == null) {
+				command.title = command.value;
+			}
+			if (command.value == null) {
+				command.value = command.title;
+			}
 			CommandList commandList = new CommandList();
-			commandList.add(command.command);
+			UserCommand comd = new UserCommand();
+			comd.setDisplayName(command.title);
+			comd.setCommandName(command.value);
+			commandList.add(comd);
 			if (command.condition == null
 					|| result.checkCondition(command.condition, company)) {
 				result.add(commandList);
@@ -27,5 +37,6 @@ class Text extends Output {
 
 class PCommand extends Output {
 	String condition;
-	String command;
+	String title;
+	String value;
 }

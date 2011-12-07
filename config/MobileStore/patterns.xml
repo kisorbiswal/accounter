@@ -170,7 +170,7 @@
 		<input>Customer Overview</input>
 		<outputs>
 			<command title="Customers " />
-			<command title="Items" />
+			<command value="items customer" title="Items" />
 			<command if="trackingQuotes" title="Quotes" />
 			<command if="delayedCharges" title="Credits" />
 			<command if="delayedCharges" title="Charges" />
@@ -219,7 +219,7 @@
 		<input>Vendor Overview</input>
 		<outputs>
 			<command title="Vendors" />
-			<command title="Items" />
+			<command value="items vendor" title="Items" />
 			<command if="manageBills" title="Bills and Expenses" />
 			<command title="Vendor Payments" />
 		</outputs>

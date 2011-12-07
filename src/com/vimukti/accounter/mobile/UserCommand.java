@@ -5,6 +5,10 @@ public class UserCommand {
 	private String commandName;
 	private String displayName;
 
+	public UserCommand() {
+		this("");
+	}
+
 	public UserCommand(String commandName) {
 		this(commandName, commandName, "");
 	}
