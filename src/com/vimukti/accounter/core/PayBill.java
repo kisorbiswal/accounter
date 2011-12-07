@@ -572,8 +572,7 @@ public class PayBill extends Transaction {
 		 * transaction is not voided then it will entered into the loop
 		 */
 
-		if ((this.isVoid && !payBill.isVoid)
-				|| (this.isDeleted() && !payBill.isDeleted() && !this.isVoid)) {
+		if (this.isVoid && !payBill.isVoid) {
 			doVoidEffect(session, this);
 		} else {
 
@@ -697,8 +696,7 @@ public class PayBill extends Transaction {
 
 	private void doVoidEffect(Session session, PayBill payBill) {
 
-		if (payBill.status != Transaction.STATUS_DELETED)
-			payBill.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		payBill.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 
 		if (payBill.getPayBillType() == PayBill.TYPE_VENDOR_PAYMENT
 				&& DecimalUtil.isGreaterThan(payBill.getUnusedAmount(), 0.0)) {
@@ -738,8 +736,7 @@ public class PayBill extends Transaction {
 		/**
 		 * If Pay Bill is already is voided or deleted , we can't edit it
 		 */
-		if ((this.isVoidBefore && payBill.isVoidBefore)
-				|| (this.isDeleted() && payBill.isDeleted())) {
+		if (this.isVoidBefore && payBill.isVoidBefore) {
 			if (this.type == PayBill.TYPE_PAY_BILL)
 				throw new AccounterException(
 						AccounterException.ERROR_NO_SUCH_OBJECT);

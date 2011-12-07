@@ -555,8 +555,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		 * If present transaction is deleted or voided & the previous
 		 * transaction is not voided then only it will entered into the loop
 		 */
-		if ((this.isVoid && !cashSales.isVoid)
-				|| (this.isDeleted() && !cashSales.isDeleted() && !this.isVoid)) {
+		if (this.isVoid && !cashSales.isVoid) {
 
 		} else if (!cashSales.equals(this)) {
 

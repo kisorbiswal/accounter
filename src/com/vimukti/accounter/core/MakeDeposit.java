@@ -262,8 +262,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		Session session = HibernateUtil.getCurrentSession();
 		MakeDeposit makeDeposit = (MakeDeposit) clonedObject;
 
-		if ((this.isVoid && !makeDeposit.isVoid)
-				|| (this.isDeleted() && !makeDeposit.isDeleted())) {
+		if (this.isVoid && !makeDeposit.isVoid) {
 			this.doVoidEffect(session);
 
 		} else {

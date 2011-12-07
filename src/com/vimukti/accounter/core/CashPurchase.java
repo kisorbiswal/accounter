@@ -408,8 +408,7 @@ public class CashPurchase extends Transaction {
 		 * transaction is not voided then it will entered into the loop
 		 */
 
-		if ((this.isVoid && !cashPurchase.isVoid)
-				|| (this.isDeleted() && !cashPurchase.isDeleted() && !this.isVoid)) {
+		if (this.isVoid && !cashPurchase.isVoid) {
 
 		} else if (!this.equals(cashPurchase)) {
 

@@ -647,8 +647,7 @@ public class Invoice extends Transaction implements Lifecycle {
 				session.saveOrUpdate(trp);
 			}
 		}
-		if (invoice.status != Transaction.STATUS_DELETED)
-			invoice.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+		invoice.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 		invoice.payments = invoice.total;
 		invoice.balanceDue = 0.0;
 

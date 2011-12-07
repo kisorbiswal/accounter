@@ -437,7 +437,7 @@ public class PurchaseOrder extends Transaction {
 		// }
 		// Session session = HibernateUtil.getCurrentSession();
 		PurchaseOrder purchaseOrder = (PurchaseOrder) clonedObject;
-		if (this.status != STATUS_DELETED && this.status == STATUS_OPEN) {
+		if (this.status == STATUS_OPEN) {
 			for (TransactionItem transactionItem : purchaseOrder.transactionItems) {
 
 				if (DecimalUtil.isLessThan(transactionItem.lineTotal,

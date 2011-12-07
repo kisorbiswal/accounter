@@ -235,8 +235,7 @@ public class CustomerPrePayment extends Transaction {
 
 		Session session = HibernateUtil.getCurrentSession();
 		CustomerPrePayment customerPrePayment = (CustomerPrePayment) clonedObject;
-		if ((this.isVoid && !clonedObject.isVoid)
-				|| (this.isDeleted() && !clonedObject.isDeleted() && !this.isVoid)) {
+		if (this.isVoid && !clonedObject.isVoid) {
 
 		} else if (!this.equals(customerPrePayment)) {
 

@@ -584,8 +584,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		 * previous transaction then it is entered into the loop
 		 */
 
-		if ((this.isVoid && !itemReceipt.isVoid)
-				|| (this.isDeleted() && !itemReceipt.isDeleted() && !this.isVoid)) {
+		if (this.isVoid && !itemReceipt.isVoid) {
 			doVoidEffect(session, this);
 
 		} else {

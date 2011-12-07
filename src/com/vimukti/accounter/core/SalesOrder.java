@@ -651,7 +651,7 @@ public class SalesOrder extends Transaction {
 		// if (this.status != STATUS_DELETED
 		// && (this.status != STATUS_CANCELLED || this.status !=
 		// STATUS_COMPLETED)) {
-		if (this.status != STATUS_DELETED && this.status == STATUS_OPEN) {
+		if (this.status == STATUS_OPEN) {
 			for (TransactionItem item : salesOrder.transactionItems) {
 				if (DecimalUtil.isLessThan(item.lineTotal, item.usedamt)
 						|| DecimalUtil.isEquals(item.lineTotal, item.usedamt)) {

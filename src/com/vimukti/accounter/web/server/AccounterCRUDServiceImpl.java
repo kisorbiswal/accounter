@@ -132,7 +132,6 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 				accounterCoreType.getServerClassSimpleName(), id);
 		if (serverCore instanceof Transaction) {
 			Transaction trans = (Transaction) serverCore;
-			trans.setStatus(Transaction.STATUS_DELETED);
 			trans.setVoid(true);
 			update((IAccounterCore) new ClientConvertUtil().toClientObject(
 					serverCore,

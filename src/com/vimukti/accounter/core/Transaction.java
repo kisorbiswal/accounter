@@ -78,7 +78,6 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
 	public static final int STATUS_PAID_OR_APPLIED_OR_ISSUED = 2;
-	public static final int STATUS_DELETED = 3;
 	public static final int STATUS_APPLIED = 5;
 
 	public static final int STATUS_DRAFT = 201;
@@ -960,8 +959,7 @@ public abstract class Transaction extends CreatableObject implements
 		 * transaction is not voided then it will entered into the loop
 		 */
 
-		if ((this.isVoid && !clonedObject.isVoid)
-				|| (this.isDeleted() && !clonedObject.isDeleted() && !this.isVoid)) {
+		if (this.isVoid && !clonedObject.isVoid) {
 
 			doDeleteEffect(clonedObject);
 			voidTransactionItems();
@@ -1158,10 +1156,6 @@ public abstract class Transaction extends CreatableObject implements
 
 	public int compareTo(Object o) {
 		return 0;
-	}
-
-	public boolean isDeleted() {
-		return this.status == Transaction.STATUS_DELETED;
 	}
 
 	@Override

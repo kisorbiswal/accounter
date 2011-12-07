@@ -250,8 +250,7 @@ public class VendorCreditMemo extends Transaction {
 		// this.vendor.updateBalance(session, this, this.total);
 		//
 		// } else
-		if ((this.isVoid && !vendorCreditMemo.isVoid)
-				|| (this.isDeleted() && !vendorCreditMemo.isDeleted() && !this.isVoid)) {
+		if (this.isVoid && !vendorCreditMemo.isVoid) {
 
 			this.balanceDue = 0d;
 

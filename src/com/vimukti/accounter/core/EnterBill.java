@@ -599,8 +599,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		 * transaction is not voided then it will entered into the loop
 		 */
 
-		if ((this.isVoid && !enterBill.isVoid)
-				|| (this.isDeleted() && !enterBill.isDeleted() && !this.isVoid)) {
+		if (this.isVoid && !enterBill.isVoid) {
 
 			doVoidEffect(session, this);
 
@@ -720,8 +719,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			}
 		}
 
-		if (enterBill.status != Transaction.STATUS_DELETED)
-			enterBill.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+		enterBill.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
 		enterBill.payments = enterBill.total;
 		enterBill.balanceDue = 0.0;

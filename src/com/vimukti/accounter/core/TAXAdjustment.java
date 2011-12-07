@@ -224,8 +224,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 		TAXAdjustment taxAdjustment = (TAXAdjustment) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
 
-		if ((this.isVoid && !taxAdjustment.isVoid)
-				|| (this.isDeleted() && !taxAdjustment.isDeleted() && !this.isVoid)) {
+		if (this.isVoid && !taxAdjustment.isVoid) {
 			this.balanceDue = 0;
 			doVoidEffect(session, this);
 		} else if (!taxAdjustment.equals(this)) {

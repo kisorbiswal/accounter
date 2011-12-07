@@ -218,8 +218,7 @@ public class TransferFund extends Transaction {
 		 * not voided then only it will enter the loop
 		 */
 
-		if ((this.isVoid && !transferFund.isVoid)
-				|| (this.isDeleted() && !transferFund.isDeleted() && !this.isVoid)) {
+		if (this.isVoid && !transferFund.isVoid) {
 
 			transferFund.effectAccount(session, transferFund.transferFrom,
 					-transferFund.total);
@@ -287,8 +286,7 @@ public class TransferFund extends Transaction {
 		/**
 		 * If Transfer Fund is already void or deleted we can't edit it
 		 */
-		if ((this.isVoid && !transferFund.isVoid)
-				|| (this.isDeleted() && !transferFund.isDeleted())) {
+		if (this.isVoid && !transferFund.isVoid) {
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 			// "Transfer Fund is already voided or deleted we can't Edit");

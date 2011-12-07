@@ -265,8 +265,7 @@ public class CreditCardCharge extends Transaction {
 
 		CreditCardCharge creditCardCharge = (CreditCardCharge) clonedObject;
 
-		if ((this.isVoid && !creditCardCharge.isVoid)
-				|| (this.isDeleted() && !creditCardCharge.isDeleted())) {
+		if (this.isVoid && !creditCardCharge.isVoid) {
 
 			// if (this.status != Transaction.STATUS_DELETED)
 			// this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;

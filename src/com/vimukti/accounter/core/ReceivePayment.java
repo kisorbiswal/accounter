@@ -523,8 +523,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		 * transaction is not voided then it is entered into the loop
 		 */
 
-		if ((this.isVoid && !clonedObject.isVoid)
-				|| (this.isDeleted() && !clonedObject.isDeleted() && !this.isVoid)) {
+		if (this.isVoid && !clonedObject.isVoid) {
 
 			super.onEdit(clonedObject);
 
@@ -548,8 +547,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 				trp.onUpdate(session);
 			}
 
-			if (this.status != Transaction.STATUS_DELETED)
-				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 	}
 
@@ -575,8 +573,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 				trp.onUpdate(session);
 			}
 
-			if (this.status != Transaction.STATUS_DELETED)
-				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 		return super.onDelete(session);
 	}

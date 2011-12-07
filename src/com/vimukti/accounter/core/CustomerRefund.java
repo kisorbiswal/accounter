@@ -335,8 +335,7 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		 * if present transaction is deleted,without voided & delete the
 		 * previous transaction then it is entered into the loop
 		 */
-		if ((this.isVoid && !customerRefund.isVoid)
-				|| (this.isDeleted() && !customerRefund.isDeleted() && !this.isVoid)) {
+		if (this.isVoid && !customerRefund.isVoid) {
 			doVoidEffect(session);
 		} else if (!this.equals(customerRefund)) {
 
