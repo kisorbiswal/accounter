@@ -1625,7 +1625,7 @@ a#fdbk_tab,#overlay {
 }
 
 .editTable .editheader td,.editTable td,.gridHeader td {
-	border-width: 1px;
+	border-width: 0 1px 1px 0;
 }
 
 .gridBody tr td {
@@ -2167,11 +2167,11 @@ input.date-field-textbox {
 }
 .no_records .norecord-empty-message {
     margin-left: 400px;
+    position: absolute ;
 }
-.no_records .norecord-empty-message,.no_records .records_label {
+.no_records .norecord-empty-message td:FIRST-CHILD{
 	border-bottom: medium none;
 	border-right: medium none;
-	position: absolute;
 }
 
 .quick-links-table .gwt-Anchor {
