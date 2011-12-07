@@ -673,6 +673,12 @@ public class NewVendorPaymentView extends
 			result.addError(transactionDate, messages.invalidateDate());
 		}
 
+		if (!AccounterValidator.isPositiveAmount(amountText.getAmount())) {
+			amountText.textBox.addStyleName("highlightedFormItem");
+			result.addError(amountText,
+					messages.valueCannotBe0orlessthan0(messages.amount()));
+		}
+
 		ClientAccount bankAccount = payFromCombo.getSelectedValue();
 		// check if the currency of accounts is valid or not
 		if (bankAccount != null) {
