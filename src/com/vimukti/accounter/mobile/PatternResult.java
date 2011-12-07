@@ -74,7 +74,7 @@ public class PatternResult extends Result {
 		if (condition.equals("trackTax")) {
 			return preferences.isTrackTax();
 		} else if (condition.equals("trackingQuotes")) {
-			return preferences.isDoyouwantstatements();
+			return preferences.isDoyouwantEstimates();
 		} else if (condition.equals("delayedCharges")) {
 			return preferences.isDelayedchargesEnabled();
 		} else if (condition.equals("manageBills")) {
