@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Item;
@@ -63,7 +64,20 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new NameRequirement(NAME, getMessages().pleaseEnter(
-				getMessages().itemName()), getMessages().name(), false, true));
+				getMessages().itemName()), getMessages().name(), false, true) {
+			@Override
+			public void setValue(Object value) {
+				if (AbstractItemCreateCommand.this
+						.isItemExistsWithSameName((String) value)) {
+					addFirstMessage(getMessages()
+							.anItemAlreadyExistswiththisname());
+					return;
+				}
+				addFirstMessage(getMessages().pleaseEnter(
+						getMessages().itemName()));
+				super.setValue(value);
+			}
+		});
 
 		list.add(new BooleanRequirement(I_SELL_THIS, true) {
 
@@ -400,6 +414,16 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 		});
 
+	}
+
+	protected boolean isItemExistsWithSameName(String value) {
+		Set<Item> items = getCompany().getItems();
+		for (Item item : items) {
+			if (item.getName().equalsIgnoreCase(value)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
