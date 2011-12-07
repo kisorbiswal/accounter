@@ -307,7 +307,8 @@ public class BudgetItem implements IAccounterServerCore {
 
 		w.put(messages.type(), messages.budgetitem());
 
-		w.put(messages.account(), this.account.getName()).gap();
+		if (this.account != null)
+			w.put(messages.account(), this.account.getName()).gap();
 
 		w.put(messages.january() + " " + messages.amount(),
 				Double.toString(this.januaryAmount));

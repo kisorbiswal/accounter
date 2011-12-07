@@ -485,12 +485,15 @@ public class Employee extends CreatableObject implements IAccounterServerCore,
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.employee()).gap();
-		w.put(messages.address1(), this.address1);
+		if (this.address1 != null)
+			w.put(messages.address1(), this.address1);
+		if (this.address2 != null)
+			w.put(messages.address2(), this.address2).gap();
 
-		w.put(messages.address2(), this.address2).gap();
 		w.put(messages.city(), this.city);
 
 		w.put(messages.state(), this.state).gap().gap();
+
 		w.put(messages.postalCode(), this.postalCode);
 
 	}

@@ -2,9 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.json.JSONException;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class MaintananceInfoUser extends CreatableObject implements
 		IAccounterServerCore, INamedObject {
@@ -50,9 +48,7 @@ public class MaintananceInfoUser extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), "Maintance Info User").gap();
+
 	}
 
 }

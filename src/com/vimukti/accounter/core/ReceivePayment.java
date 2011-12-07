@@ -637,13 +637,18 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 
 		w.put(messages.type(), messages.receivePayment()).gap();
 		w.put(messages.paymentNo(), this.number);
+
 		w.put(messages.date(), this.transactionDate.toString()).gap();
+
 		w.put(messages.name(), this.customer.name);
-		w.put(messages.currency(), this.currencyFactor).gap().gap();
-		w.put(messages.amount(), this.total).gap().gap();
-		w.put(messages.openBalance(), this.customer.openingBalance).gap().gap();
-		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
-		w.put(messages.memo(), this.memo).gap().gap();
+		w.put(messages.currency(), this.currencyFactor).gap();
+
+		w.put(messages.amount(), this.total).gap();
+		if (this.customer != null)
+			w.put(messages.openBalance(), this.customer.openingBalance).gap()
+					.gap();
+		w.put(messages.paymentMethod(), this.paymentMethod).gap();
+		w.put(messages.memo(), this.memo).gap();
 
 		w.put(messages.details(), this.transactionReceivePayment);
 

@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
-public class Admin implements IAccounterServerCore,INamedObject {
+public class Admin implements IAccounterServerCore, INamedObject {
 
 	private static final long serialVersionUID = 1L;
 
@@ -84,9 +84,11 @@ public class Admin implements IAccounterServerCore,INamedObject {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), messages.admin()).gap().gap();
-		w.put(messages.name(), this.name).gap().gap();
+
+		w.put(messages.type(), messages.admin()).gap();
+
+		w.put(messages.name(), this.name).gap();
+
 		w.put(messages.email(), this.emailID);
 	}
 

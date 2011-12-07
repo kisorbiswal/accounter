@@ -108,7 +108,8 @@ public class AdminUser extends CreatableObject implements IAccounterServerCore,
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), messages.adminuser()).gap().gap();
+		w.put(messages.type(), messages.adminuser()).gap();
+
 		w.put(messages.name(), this.name);
 
 	}

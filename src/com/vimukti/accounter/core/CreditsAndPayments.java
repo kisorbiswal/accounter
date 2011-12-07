@@ -58,7 +58,6 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	 */
 	double balance = 0D;
 
-
 	/**
 	 * This is the {@link Transaction} object through which this
 	 * CreditsAndPayments object is got created.
@@ -212,8 +211,7 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 			break;
 
 		case Transaction.TYPE_PAY_BILL:
-			HibernateUtil.getCurrentSession().saveOrUpdate(
-					(PayBill) transaction);
+			HibernateUtil.getCurrentSession().saveOrUpdate(transaction);
 			break;
 		}
 
@@ -463,17 +461,23 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	}
 
-
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.creditsPayments()).gap();
-		w.put(messages.no(), this.transaction.number);
-		w.put(messages.currency(), this.transaction.currencyFactor).gap().gap();
-		w.put(messages.amount(), this.transaction.total).gap().gap();
-		w.put(messages.paymentMethod(), this.transaction.paymentMethod).gap()
-				.gap();
+
+		if (this.transaction != null) {
+			w.put(messages.no(), this.transaction.number);
+
+			w.put(messages.currency(), this.transaction.currencyFactor).gap()
+					.gap();
+
+			w.put(messages.amount(), this.transaction.total).gap().gap();
+
+			w.put(messages.paymentMethod(), this.transaction.paymentMethod)
+					.gap().gap();
+		}
 		w.put(messages.memo(), this.memo);
 
 	}

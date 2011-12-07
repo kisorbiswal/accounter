@@ -2,9 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.json.JSONException;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class CompanyPreferences implements IAccounterServerCore {
 
@@ -1465,10 +1463,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), messages.companyPreferences()).gap().gap();
-		w.put(messages.name(), this.tradingName);
-		w.put(messages.address(), this.tradingAddress.address1);
 	}
 }

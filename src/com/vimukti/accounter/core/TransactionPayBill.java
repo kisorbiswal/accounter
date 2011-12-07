@@ -672,7 +672,8 @@ public class TransactionPayBill extends CreatableObject implements
 			w.put(messages.discountAccount(), this.discountAccount.getName());
 		}
 
-		w.put(messages.cashDiscount(), this.cashDiscount);
+		if (this.cashDiscount != 0.0)
+			w.put(messages.cashDiscount(), this.cashDiscount);
 
 		w.put(messages.appliedCredits(), this.appliedCredits);
 

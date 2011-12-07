@@ -324,6 +324,7 @@ public class CreditCardCharge extends Transaction {
 
 		if (this.transactionDate != null)
 			w.put(messages.date(), this.transactionDate.toString()).gap();
+
 		w.put(messages.currency(), this.currencyFactor);
 
 		w.put(messages.amount(), this.total);

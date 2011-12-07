@@ -521,13 +521,20 @@ public class CustomerCreditMemo extends Transaction implements
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.CustomerCreditNote()).gap();
+
 		w.put(messages.no(), this.number);
-		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
-		w.put(messages.currency(), this.currencyFactor).gap().gap();
-		w.put(messages.amount(), this.total).gap().gap();
+
+		if (this.transactionDate != null)
+			w.put(messages.date(), this.transactionDate.toString()).gap();
+
+		w.put(messages.currency(), this.currencyFactor).gap();
+
+		w.put(messages.amount(), this.total).gap();
+
 		w.put(messages.memo(), this.memo);
-		
-		w.put(messages.details(), this.transactionItems);
-		
+
+		if (this.transactionItems != null)
+			w.put(messages.details(), this.transactionItems);
+
 	}
 }

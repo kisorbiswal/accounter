@@ -197,7 +197,12 @@ public class AccountTransaction extends CreatableObject implements
 			w.put(messages.account(), this.account.getName());
 
 		w.put(messages.closeFiscalYear(), closingFYEntry);
+
 		w.put(messages.cashBasisAccounting(), this.cashBasisEntry);
+
+		if (this.tempTransactionDate != null)
+			w.put(messages.transactionDate(),
+					this.tempTransactionDate.toString());
 
 	}
 }

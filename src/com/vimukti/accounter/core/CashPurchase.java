@@ -481,9 +481,13 @@ public class CashPurchase extends Transaction {
 		w.put(messages.type(), messages.cashPurchase()).gap();
 
 		w.put(messages.no(), this.number);
+
 		w.put(messages.date(), this.transactionDate.toString()).gap();
+
 		w.put(messages.vendor(), this.vendor.getName());
-		w.put(messages.currency(), this.currencyFactor).gap().gap();
+
+		w.put(messages.currency(), this.currencyFactor).gap();
+
 		w.put(messages.amount(), this.total).gap();
 
 		if (this.vendorAddress != null) {
@@ -509,6 +513,7 @@ public class CashPurchase extends Transaction {
 			w.put(messages.paymentMethod(), this.payFrom.toString());
 
 		w.put(messages.paymentMethod(), this.checkNumber).gap();
+
 		w.put(messages.paymentMethod(), this.deliveryDate.toString());
 
 		w.put(messages.paymentMethod(), this.expenseStatus).gap();

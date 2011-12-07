@@ -54,7 +54,8 @@ public class CommodityCode implements IAccounterServerCore {
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), messages.commodityCode()).gap().gap();
+		w.put(messages.type(), messages.commodityCode()).gap();
+
 		w.put(messages.name(), this.name);
 	}
 }

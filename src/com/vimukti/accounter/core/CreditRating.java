@@ -108,7 +108,7 @@ public class CreditRating extends CreatableObject implements
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), messages.creditRating()).gap().gap();
+		w.put(messages.type(), messages.creditRating()).gap();
 
 		w.put(messages.name(), this.name);
 	}

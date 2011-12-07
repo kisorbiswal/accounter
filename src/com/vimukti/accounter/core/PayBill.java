@@ -713,7 +713,7 @@ public class PayBill extends Transaction {
 		for (TransactionPayBill transactionPayBill : this.transactionPayBill) {
 			transactionPayBill.setIsVoid(true);
 			if (transactionPayBill instanceof Lifecycle) {
-				Lifecycle lifeCycle = (Lifecycle) transactionPayBill;
+				Lifecycle lifeCycle = transactionPayBill;
 				lifeCycle.onUpdate(session);
 			}
 			session.update(transactionPayBill);
@@ -856,13 +856,12 @@ public class PayBill extends Transaction {
 
 		w.put(messages.type(), messages.payBill()).gap();
 		w.put(messages.no(), this.number);
-		w.put(messages.date(), this.transactionDate.toString()).gap().gap();
+		w.put(messages.date(), this.transactionDate.toString()).gap();
 		w.put(messages.currency(), this.currencyFactor).gap().gap();
-		w.put(messages.amount(), this.total).gap().gap();
+		w.put(messages.amount(), this.total).gap();
 		w.put(messages.paymentMethod(), this.paymentMethod).gap().gap();
-		w.put(messages.memo(), this.memo).gap().gap();
+		w.put(messages.memo(), this.memo).gap();
 
-		// If it is vendor pre-payment this will be null.
 		if (this.transactionPayBill != null) {
 			w.put(messages.details(), this.transactionPayBill);
 		}

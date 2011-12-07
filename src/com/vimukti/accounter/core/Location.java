@@ -98,11 +98,12 @@ public class Location extends CreatableObject implements IAccounterServerCore,
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.location()).gap();
-		
+
 		w.put(messages.name(), this.locationName);
 
 		if (this.companyName != null)
 			w.put(messages.companyName(), this.companyName).gap();
+
 		if (this.address != null)
 			w.put(messages.address(), this.address.address1);
 

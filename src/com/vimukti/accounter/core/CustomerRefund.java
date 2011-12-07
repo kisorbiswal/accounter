@@ -429,11 +429,16 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.customerRefund()).gap();
+
 		w.put(messages.no(), this.number);
+
 		w.put(messages.date(), this.transactionDate.toString()).gap();
+
 		w.put(messages.currency(), this.currencyFactor).gap();
+
 		w.put(messages.amount(), this.total).gap();
-		w.put(messages.paymentMethod(), this.paymentMethod);
+		if (this.paymentMethod != null)
+			w.put(messages.paymentMethod(), this.paymentMethod);
 
 		w.put(messages.details(), this.transactionReceivePayments);
 	}
