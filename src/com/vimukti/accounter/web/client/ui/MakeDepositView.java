@@ -1004,7 +1004,7 @@ public class MakeDepositView extends
 	protected void updateTotals() {
 		Double amount = amtText.getAmount();
 		transactionTotalBaseCurrencyText
-					.setAmount(getAmountInBaseCurrency(amount));
+				.setAmount(getAmountInBaseCurrency(amount));
 		if (isMultiCurrencyEnabled()) {
 			foreignCurrencyamountLabel.setAmount(amount);
 		}
@@ -1074,12 +1074,12 @@ public class MakeDepositView extends
 
 		// result.add(depoForm.validate());
 
-		// if
-		// (AccounterValidator.isNegativeAmount(cashBackAmountText.getAmount()))
-		// {
-		// result.addError(cashBackAmountText,
-		// messages.invalidNegativeAmount());
-		// } else if (!AccounterValidator.isValidMakeDeposit_CashBackAmount(
+		if (!AccounterValidator.isPositiveAmount(amtText.getAmount())) {
+			amtText.textBox.addStyleName("highlightedFormItem");
+			result.addError(amtText,
+					messages.valueCannotBe0orlessthan0(messages.amount()));
+		}
+		// else if (!AccounterValidator.isValidMakeDeposit_CashBackAmount(
 		// cashBackAmountText.getAmount().doubleValue(),
 		// totText.getAmount())) {
 		// result.addError(cashBackAmountText, messages

@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
@@ -53,6 +54,8 @@ public class CashExpenseView extends
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	protected AddNewButton accountTableButton, itemTableButton;
 	protected DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+
+	private AmountField accountBalText, vendorBalText;
 
 	public CashExpenseView() {
 		super(ClientTransaction.TYPE_CASH_EXPENSE);
@@ -148,8 +151,7 @@ public class CashExpenseView extends
 		// check if the currency of accounts is valid or not
 		if (bankAccount != null) {
 			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
-			if (!bankCurrency.equals(getBaseCurrency())
-					&& bankCurrency.equals(currency)) {
+			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
 				result.addError(payFromCombo,
 						messages.selectProperBankAccount());
 			}
@@ -204,11 +206,14 @@ public class CashExpenseView extends
 		checkNo.setTabIndex(3);
 		transactionDateItem.setTabIndex(4);
 		transactionNumber.setTabIndex(5);
-		memoTextAreaItem.setTabIndex(6);
+		accountBalText.setTabIndex(6);
+		vendorBalText.setTabIndex(7);
+		memoTextAreaItem.setTabIndex(8);
 		// menuButton.setTabIndex(7);
-		saveAndCloseButton.setTabIndex(8);
-		saveAndNewButton.setTabIndex(9);
-		cancelButton.setTabIndex(10);
+
+		saveAndCloseButton.setTabIndex(9);
+		saveAndNewButton.setTabIndex(10);
+		cancelButton.setTabIndex(11);
 
 	}
 
@@ -318,6 +323,19 @@ public class CashExpenseView extends
 		paymentMethodCombo.initCombo(selectedComboList);
 
 		vendorForm.setFields(vendorCombo, paymentMethodCombo, payFromCombo);
+
+		// Ending and Vendor Balance
+		accountBalText = new AmountField(Accounter.messages().bankBalance(),
+				this, getBaseCurrency());
+		accountBalText.setHelpInformation(true);
+		accountBalText.setWidth(100);
+		accountBalText.setDisabled(true);
+
+		vendorBalText = new AmountField(messages.payeeBalance(Global.get()
+				.Vendor()), this, getBaseCurrency());
+		vendorBalText.setHelpInformation(true);
+		vendorBalText.setDisabled(true);
+		vendorBalText.setWidth(100);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -442,8 +460,10 @@ public class CashExpenseView extends
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		DynamicForm locationform = new DynamicForm();
-		if (locationTrackingEnabled)
+		if (locationTrackingEnabled) {
 			locationform.setFields(locationCombo);
+		}
+		locationform.setFields(accountBalText, vendorBalText);
 		locationform.getElement().getStyle().setFloat(Float.RIGHT);
 		rightVLay.add(locationform);
 		if (isMultiCurrencyEnabled()) {
@@ -561,6 +581,15 @@ public class CashExpenseView extends
 		} else {
 			checkNo.setValue("");
 		}
+
+		this.accountBalText.setAmount(account.getCurrentBalance());
+		accountBalText.setCurrency(getCurrency(account.getCurrency()));
+		// ClientCurrency currency = getCurrency(account.getCurrency());
+		// if (currency != null && currency.getID() != 0) {
+		// currencyWidget.setSelectedCurrency(currency);
+		// } else {
+		// currencyWidget.setSelectedCurrency(getBaseCurrency());
+		// }
 	}
 
 	protected void setCheckNumber() {
@@ -639,6 +668,7 @@ public class CashExpenseView extends
 			deliveryDateItem.setValue(new ClientFinanceDate(transaction
 					.getDeliveryDate()));
 			initAccounterClass();
+			vendorBalText.setAmount(vendor.getBalance());
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -689,16 +719,19 @@ public class CashExpenseView extends
 		}
 
 		long currency = vendor.getCurrency();
+		ClientCurrency clientCurrency;
 		if (currency != 0) {
-			ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+			clientCurrency = getCompany().getCurrency(currency);
 			currencyWidget.setSelectedCurrencyFactorInWidget(clientCurrency,
 					transactionDateItem.getDate().getDate());
 		} else {
-			ClientCurrency clientCurrency = getCompany().getPrimaryCurrency();
+			clientCurrency = getCompany().getPrimaryCurrency();
 			if (clientCurrency != null) {
 				currencyWidget.setSelectedCurrency(clientCurrency);
 			}
 		}
+		vendorBalText.setAmount(vendor.getBalance());
+		vendorBalText.setCurrency(clientCurrency);
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
 

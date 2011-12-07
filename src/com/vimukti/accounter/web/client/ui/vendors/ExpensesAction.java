@@ -74,7 +74,7 @@ public class ExpensesAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		if (viewType == null) {
+		if (viewType == null || viewType.isEmpty()) {
 			return "expenses";
 		} else if (viewType.equals(Accounter.messages().cash())) {
 			return "cashExpenses";
