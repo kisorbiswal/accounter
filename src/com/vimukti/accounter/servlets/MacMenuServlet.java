@@ -441,7 +441,7 @@ public class MacMenuServlet extends BaseServlet {
 			subMenu(vatValue, iGlobal.messages().vatItemSummary(),
 					"company/accounter#vatItemSummary");
 
-			menu(reportsValue, iGlobal.messages().vat(), vatValue);
+			menu(reportsValue, iGlobal.messages().tax(), vatValue);
 		}
 
 		StringBuilder budgetMenu = new StringBuilder();
