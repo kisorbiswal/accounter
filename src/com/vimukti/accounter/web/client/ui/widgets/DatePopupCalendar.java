@@ -14,6 +14,8 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * 
@@ -71,7 +73,8 @@ public class DatePopupCalendar extends PopupPanel {
 	}
 
 	private void drawButtons(final VerticalPanel panel) {
-		okButton = new Button("Ok");
+		AccounterMessages messages = Global.get().messages();
+		okButton = new Button(messages.ok());
 		okButton.addClickHandler(new ClickHandler() {
 
 			@SuppressWarnings("deprecation")
@@ -87,7 +90,7 @@ public class DatePopupCalendar extends PopupPanel {
 
 			}
 		});
-		cancelButton = new Button("Cancel");
+		cancelButton = new Button(messages.cancel());
 
 		cancelButton.addClickHandler(new ClickHandler() {
 
