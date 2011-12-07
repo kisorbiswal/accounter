@@ -58,34 +58,61 @@ public class BudgetOverviewServerReport extends
 	@Override
 	public Object getColumnData(ClientBudgetList record, int columnIndex) {
 
+		// switch (columnIndex) {
+		// case 0:
+		// return record.getAccount().getName();
+		// case 1:
+		// return record.getJanuaryAmount();
+		// case 2:
+		// return record.getFebrauaryAmount();
+		// case 3:
+		// return record.getMarchAmount();
+		// case 4:
+		// return record.getAprilAmount();
+		// case 5:
+		// return record.getMayAmount();
+		// case 6:
+		// return record.getJuneAmount();
+		// case 7:
+		// return record.getJulyAmount();
+		// case 8:
+		// return record.getAugustAmount();
+		// case 9:
+		// return record.getSeptemberAmount();
+		// case 10:
+		// return record.getOctoberAmount();
+		// case 11:
+		// return record.getNovemberAmount();
+		// case 12:
+		// return record.getDecemberAmount();
+		// case 13:
+		// return record.getTotalAmount();
+		// }
+		//
+		// return null;
+
 		switch (columnIndex) {
 		case 0:
 			return record.getAccount().getName();
 		case 1:
-			return record.getJanuaryAmount();
+			return Double.toString(record.getJanuaryAmount()
+					+ record.getFebrauaryAmount());
 		case 2:
-			return record.getFebrauaryAmount();
+			return Double.toString(record.getMarchAmount()
+					+ record.getAprilAmount());
 		case 3:
-			return record.getMarchAmount();
+			return Double.toString(record.getMayAmount()
+					+ record.getJuneAmount());
 		case 4:
-			return record.getAprilAmount();
+			return Double.toString(record.getJulyAmount()
+					+ record.getAugustAmount());
 		case 5:
-			return record.getMayAmount();
+			return Double.toString(record.getSeptemberAmount()
+					+ record.getOctoberAmount());
 		case 6:
-			return record.getJuneAmount();
+			return Double.toString(record.getNovemberAmount()
+					+ record.getDecemberAmount());
 		case 7:
-			return record.getJulyAmount();
-		case 8:
-			return record.getAugustAmount();
-		case 9:
-			return record.getSeptemberAmount();
-		case 10:
-			return record.getOctoberAmount();
-		case 11:
-			return record.getNovemberAmount();
-		case 12:
-			return record.getDecemberAmount();
-		case 13:
 			return record.getTotalAmount();
 		}
 
@@ -100,9 +127,13 @@ public class BudgetOverviewServerReport extends
 	@Override
 	public int[] getColumnTypes() {
 
+		// return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
+		// COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
+		// COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
+		// COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
+		// COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
+
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
 				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
 				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
 
@@ -111,11 +142,14 @@ public class BudgetOverviewServerReport extends
 	@Override
 	public String[] getColunms() {
 
-		return new String[] { getMessages().name(), getMessages().jan(),
-				getMessages().feb(), getMessages().mar(), getMessages().apr(),
-				getMessages().may(), getMessages().jun(), getMessages().jul(),
-				getMessages().aug(), getMessages().sept(), getMessages().oct(),
-				getMessages().nov(), getMessages().dec(), getMessages().total() };
+		return new String[] { getMessages().name(),
+				getMessages().jan() + "-" + getMessages().feb(),
+				getMessages().mar() + "-" + getMessages().apr(),
+				getMessages().may() + "-" + getMessages().jun(),
+				getMessages().jul() + "-" + getMessages().aug(),
+				getMessages().sept() + "-" + getMessages().oct(),
+				getMessages().nov() + "-" + getMessages().dec(),
+				getMessages().total() };
 
 	}
 
@@ -183,11 +217,15 @@ public class BudgetOverviewServerReport extends
 		}
 
 		if (sectionDepth == 0) {
-			addSection("", messages.netAmount(), new int[] { 13 });
+			// addSection("", messages.netAmount(), new int[] { 13 });
+			addSection("", messages.netAmount(), new int[] { 7 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = sectionName1;
+			// addSection(sectionName, sectionName + messages.total(), new int[]
+			// {
+			// 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 });
 			addSection(sectionName, sectionName + messages.total(), new int[] {
-					1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 });
+					1, 2, 3, 4, 5, 6, 7 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(sectionName1)) {
@@ -221,12 +259,13 @@ public class BudgetOverviewServerReport extends
 					mayincome = Double.valueOf(section.data[5].toString());
 					junincome = Double.valueOf(section.data[6].toString());
 					julincome = Double.valueOf(section.data[7].toString());
-					augincome = Double.valueOf(section.data[8].toString());
-					septincome = Double.valueOf(section.data[9].toString());
-					octincome = Double.valueOf(section.data[10].toString());
-					novincome = Double.valueOf(section.data[11].toString());
-					decincome = Double.valueOf(section.data[12].toString());
-					totalincome = Double.valueOf(section.data[13].toString());
+					// augincome = Double.valueOf(section.data[8].toString());
+					// septincome = Double.valueOf(section.data[9].toString());
+					// octincome = Double.valueOf(section.data[10].toString());
+					// novincome = Double.valueOf(section.data[11].toString());
+					// decincome = Double.valueOf(section.data[12].toString());
+					// totalincome =
+					// Double.valueOf(section.data[13].toString());
 				}
 				if (section.title.equals(getMessages().otherIncome())) {
 					janincome = janincome
@@ -243,18 +282,18 @@ public class BudgetOverviewServerReport extends
 							+ Double.valueOf(section.data[6].toString());
 					julincome = julincome
 							+ Double.valueOf(section.data[7].toString());
-					augincome = augincome
-							+ Double.valueOf(section.data[8].toString());
-					septincome = septincome
-							+ Double.valueOf(section.data[9].toString());
-					octincome = octincome
-							+ Double.valueOf(section.data[10].toString());
-					novincome = novincome
-							+ Double.valueOf(section.data[11].toString());
-					decincome = decincome
-							+ Double.valueOf(section.data[12].toString());
-					totalincome = totalincome
-							+ Double.valueOf(section.data[13].toString());
+					// augincome = augincome
+					// + Double.valueOf(section.data[8].toString());
+					// septincome = septincome
+					// + Double.valueOf(section.data[9].toString());
+					// octincome = octincome
+					// + Double.valueOf(section.data[10].toString());
+					// novincome = novincome
+					// + Double.valueOf(section.data[11].toString());
+					// decincome = decincome
+					// + Double.valueOf(section.data[12].toString());
+					// totalincome = totalincome
+					// + Double.valueOf(section.data[13].toString());
 				}
 				if (section.title.equals(getMessages().costOfGoodSold())) {
 
@@ -264,13 +303,14 @@ public class BudgetOverviewServerReport extends
 					aprexpense = Double.valueOf(section.data[4].toString());
 					mayexpense = Double.valueOf(section.data[5].toString());
 					junexpense = Double.valueOf(section.data[6].toString());
-					julexpense = Double.valueOf(section.data[7].toString());
-					augexpense = Double.valueOf(section.data[8].toString());
-					septexpense = Double.valueOf(section.data[9].toString());
-					octexpense = Double.valueOf(section.data[10].toString());
-					novexpense = Double.valueOf(section.data[11].toString());
-					decexpense = Double.valueOf(section.data[12].toString());
-					totalexpense = Double.valueOf(section.data[13].toString());
+					// julexpense = Double.valueOf(section.data[7].toString());
+					// augexpense = Double.valueOf(section.data[8].toString());
+					// septexpense = Double.valueOf(section.data[9].toString());
+					// octexpense = Double.valueOf(section.data[10].toString());
+					// novexpense = Double.valueOf(section.data[11].toString());
+					// decexpense = Double.valueOf(section.data[12].toString());
+					// totalexpense =
+					// Double.valueOf(section.data[13].toString());
 
 				}
 				if (section.title.equals(getMessages().otherExpense())) {
@@ -288,18 +328,18 @@ public class BudgetOverviewServerReport extends
 							+ Double.valueOf(section.data[6].toString());
 					julexpense = julexpense
 							+ Double.valueOf(section.data[7].toString());
-					augexpense = augexpense
-							+ Double.valueOf(section.data[8].toString());
-					septexpense = septexpense
-							+ Double.valueOf(section.data[9].toString());
-					octexpense = octexpense
-							+ Double.valueOf(section.data[10].toString());
-					novexpense = novexpense
-							+ Double.valueOf(section.data[11].toString());
-					decexpense = decexpense
-							+ Double.valueOf(section.data[12].toString());
-					totalexpense = totalexpense
-							+ Double.valueOf(section.data[13].toString());
+					// augexpense = augexpense
+					// + Double.valueOf(section.data[8].toString());
+					// septexpense = septexpense
+					// + Double.valueOf(section.data[9].toString());
+					// octexpense = octexpense
+					// + Double.valueOf(section.data[10].toString());
+					// novexpense = novexpense
+					// + Double.valueOf(section.data[11].toString());
+					// decexpense = decexpense
+					// + Double.valueOf(section.data[12].toString());
+					// totalexpense = totalexpense
+					// + Double.valueOf(section.data[13].toString());
 				}
 				if (section.title.equals(messages.expense())) {
 					janexpense = janexpense
@@ -316,18 +356,18 @@ public class BudgetOverviewServerReport extends
 							+ Double.valueOf(section.data[6].toString());
 					julexpense = julexpense
 							+ Double.valueOf(section.data[7].toString());
-					augexpense = augexpense
-							+ Double.valueOf(section.data[8].toString());
-					septexpense = septexpense
-							+ Double.valueOf(section.data[9].toString());
-					octexpense = octexpense
-							+ Double.valueOf(section.data[10].toString());
-					novexpense = novexpense
-							+ Double.valueOf(section.data[11].toString());
-					decexpense = decexpense
-							+ Double.valueOf(section.data[12].toString());
-					totalexpense = totalexpense
-							+ Double.valueOf(section.data[13].toString());
+					// augexpense = augexpense
+					// + Double.valueOf(section.data[8].toString());
+					// septexpense = septexpense
+					// + Double.valueOf(section.data[9].toString());
+					// octexpense = octexpense
+					// + Double.valueOf(section.data[10].toString());
+					// novexpense = novexpense
+					// + Double.valueOf(section.data[11].toString());
+					// decexpense = decexpense
+					// + Double.valueOf(section.data[12].toString());
+					// totalexpense = totalexpense
+					// + Double.valueOf(section.data[13].toString());
 				}
 				if (section.footer.equals(messages.netAmount())) {
 
@@ -338,12 +378,12 @@ public class BudgetOverviewServerReport extends
 					section.data[5] = mayincome - mayexpense;
 					section.data[6] = junincome - junexpense;
 					section.data[7] = julincome - julexpense;
-					section.data[8] = augincome - augexpense;
-					section.data[9] = septincome - septexpense;
-					section.data[10] = octincome - octexpense;
-					section.data[11] = novincome - novexpense;
-					section.data[12] = decincome - decexpense;
-					section.data[13] = totalincome - totalexpense;
+					// section.data[8] = augincome - augexpense;
+					// section.data[9] = septincome - septexpense;
+					// section.data[10] = octincome - octexpense;
+					// section.data[11] = novincome - novexpense;
+					// section.data[12] = decincome - decexpense;
+					// section.data[13] = totalincome - totalexpense;
 
 				}
 
@@ -404,11 +444,20 @@ public class BudgetOverviewServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 
-		return new String[] { getMessages().name(), getMessages().jan(),
-				getMessages().feb(), getMessages().mar(), getMessages().apr(),
-				getMessages().may(), getMessages().jun(), getMessages().jul(),
-				getMessages().aug(), getMessages().sept(), getMessages().oct(),
-				getMessages().nov(), getMessages().dec(), getMessages().total() };
+		// return new String[] { getMessages().name(), getMessages().jan(),
+		// getMessages().feb(), getMessages().mar(), getMessages().apr(),
+		// getMessages().may(), getMessages().jun(), getMessages().jul(),
+		// getMessages().aug(), getMessages().sept(), getMessages().oct(),
+		// getMessages().nov(), getMessages().dec(), getMessages().total() };
+
+		return new String[] { getMessages().name(),
+				getMessages().jan() + "-" + getMessages().feb(),
+				getMessages().mar() + "-" + getMessages().apr(),
+				getMessages().may() + "-" + getMessages().jun(),
+				getMessages().jul() + "-" + getMessages().aug(),
+				getMessages().sept() + "-" + getMessages().oct(),
+				getMessages().nov() + "-" + getMessages().dec(),
+				getMessages().total() };
 
 	}
 

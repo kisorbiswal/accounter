@@ -14,7 +14,7 @@ public class CurrencyFactorWidget extends DynamicForm {
 	private ClientCurrency selectedCurrencyItem;
 	private boolean showFactorField = true;
 	private final CurrencyFormItem currencyForm;
-	double factor = 1;
+	double factor = 1.0;
 
 	public CurrencyFactorWidget(ClientCurrency baseCurrency) {
 		this.baseCurrency = baseCurrency;
@@ -41,9 +41,9 @@ public class CurrencyFactorWidget extends DynamicForm {
 		this.factor = factor;
 		if (factor == 0.0) {
 			factor = 1.0;
+			this.factor = 1.0;
 			currencyForm.changeTextField(factor);
 		}
-
 		if (listener != null) {
 			listener.currencyChanged(selectedCurrencyItem, factor);
 		}
