@@ -4450,7 +4450,29 @@ public interface AccounterMessages extends Messages {
 
 	public String ztozeroperc();
 
+	public String productOrService();
+
+	public String descOrMemo();
+
+	public String refNo();
+
+	public String statementDate();
+
+	public String statementNo();
+
+	public String contains();
+
+	public String exact();
+
+	public String greater();
+
+	public String Less();
+
+	public String search();
+
 	public String invoiceDate();
+
+	public String selectCreteria();
 
 	public String customerTaxRegNo(String customer);
 
@@ -4473,6 +4495,26 @@ public interface AccounterMessages extends Messages {
 	public String summaryFor1099();
 
 	public String totalAmountReported();
+
+	public String match();
+
+	public String bill();
+
+	public String billableExpenseCharge();
+
+	public String billPayment();
+
+	public String paymentFromCustomer();
+
+	public String chargeNo();
+
+	public String estimateNo();
+
+	public String saleNo();
+
+	public String receivedChequeNo();
+
+	public String refundNo();
 
 	public String taxAgencie();
 
@@ -4528,6 +4570,8 @@ public interface AccounterMessages extends Messages {
 
 	public String youDontHaveAnyReports();
 
+	public String findBy();
+
 	public String void1();
 
 	public String youcannotEditDeleteDefaultTerms();
@@ -4539,6 +4583,10 @@ public interface AccounterMessages extends Messages {
 	public String usedinReceivepayYoucantEdit();
 
 	public String gotoBankAccountsList();
+
+	public String customize();
+
+	public String charactersticsToShow();
 
 	public String SeeAllCompanies();
 
@@ -4713,4 +4761,24 @@ public interface AccounterMessages extends Messages {
 	public String newpasswordAndPreviouspasswordAreSame();
 
 	public String taxAgenciesList();
+
+	public String showActivitiesFor();
+
+	public String showAllActivities();
+
+	public String showOnlyTheseActivities();
+
+	public String logutOrLogin();
+
+	public String recurringTransactions();
+
+	public String statements();
+
+	public String preferences();
+
+	public String salesCustomization();
+
+	public String dataExchange();
+
+	public String customiseActivityLog();
 }

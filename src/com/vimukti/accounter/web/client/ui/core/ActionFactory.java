@@ -160,6 +160,7 @@ import com.vimukti.accounter.web.client.ui.reports.VATUncategorisedAmountsReport
 import com.vimukti.accounter.web.client.ui.reports.VaTItemDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.VatExceptionDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VendorTransactionHistoryAction;
+import com.vimukti.accounter.web.client.ui.search.SearchInputAction;
 import com.vimukti.accounter.web.client.ui.settings.AddMeasurementAction;
 import com.vimukti.accounter.web.client.ui.settings.AutomaticSequenceAction;
 import com.vimukti.accounter.web.client.ui.settings.ConversionBalancesAction;
@@ -240,7 +241,7 @@ public class ActionFactory {
 	}
 
 	public static NewBrandThemeAction getNewBrandThemeAction() {
-		return new NewBrandThemeAction(messages.newBrandThemeLabel());
+		return new NewBrandThemeAction(messages.newBrandTheme());
 
 	}
 
@@ -1387,6 +1388,10 @@ public class ActionFactory {
 
 	public static TranslationAction getTranslationAction() {
 		return new TranslationAction(messages.translation());
+	}
+
+	public static SearchInputAction getSearchInputAction() {
+		return new SearchInputAction(messages.search());
 	}
 
 	public static MergeCustomerAction getCustomerMergeAction() {

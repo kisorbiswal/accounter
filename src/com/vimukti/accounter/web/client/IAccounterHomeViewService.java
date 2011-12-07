@@ -40,6 +40,8 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.SearchInput;
+import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
@@ -346,6 +348,9 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	ArrayList<ClientAccount> getAccounts(int typeOfAccount)
 			throws AccounterException;
+
+	PaginationList<SearchResultlist> getSearchResultByInput(SearchInput input,
+			int start, int length);
 
 	boolean savePortletConfig(ClientPortletPageConfiguration config);
 

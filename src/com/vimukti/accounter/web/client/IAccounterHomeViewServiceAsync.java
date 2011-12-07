@@ -42,6 +42,8 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.SearchInput;
+import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
@@ -381,7 +383,10 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getAccounts(int typeOfAccount,
 			AsyncCallback<ArrayList<ClientAccount>> callBack);
 
-	public void savePortletConfig(ClientPortletPageConfiguration config,
+	void getSearchResultByInput(SearchInput input, int start, int length,
+			AsyncCallback<PaginationList<SearchResultlist>> callBack);
+
+		public void savePortletConfig(ClientPortletPageConfiguration config,
 			AsyncCallback<Boolean> callback);
 
 	public void getMostRecentTransactionCurrencyFactor(long companyId,

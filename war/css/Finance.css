@@ -2146,7 +2146,11 @@ input.date-field-textbox {
 	border: 1px solid #3299A4;
 }
 
-.settingsButton {
+.search-transaction-combo{
+	text-align: center;
+}
+
+.settingsButton{
 	float: right;
 }
 
@@ -2165,7 +2169,9 @@ input.date-field-textbox {
 	cursor: pointer;
 	color: #FFFFFF;
 }
+
 .no_records .norecord-empty-message {
+
     margin-left: 400px;
     position: absolute ;
 }
@@ -2173,8 +2179,45 @@ input.date-field-textbox {
 	border-bottom: medium none;
 	border-right: medium none;
 }
-
-.quick-links-table .gwt-Anchor {
+.search-width table{
+	width: 100%;
+}
+.search_combo_width{
+	width: auto !important;
+}
+.label-status{
+	margin-top: 20px;
+}
+.search-all-forms{
+	margin-top: 10px;
+}
+.search_date{
+	width: auto !important;
+  	margin-right: 20px;
+}
+.charaterisitc_label{
+	margin: 5px;
+}
+.search_match{
+	width: auto !important;
+	 margin-left: 8px;
+}
+.search_select_combo{
+	width: auto !important;
+	margin-right: 20px;
+}
+.search_account_combo{
+	width: auto !important;
+	margin-right: 20px;
+}
+.customise-checkbox-align{
+	margin-left: 35px;
+}
+.search_textbox{
+	width: auto !important;
+	margin-right: 20px;
+}
+.quick-links-table .gwt-Anchor{
 	color: #2D8B93;
 }
 

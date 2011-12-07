@@ -64,6 +64,8 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.SearchInput;
+import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
@@ -1605,7 +1607,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public PaginationList<ClientActivity> getUsersActivityLog(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			int startIndex, int length) throws AccounterException {
-
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			return tool.getUserManager().getUsersActivityLog(startDate,
@@ -1701,6 +1702,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			return tool.getCompanyManager().getAccounts(typeOfAccount,
 					getCompanyId());
 		}
+	}
+
+	@Override
+	public PaginationList<SearchResultlist> getSearchResultByInput(
+			SearchInput input, int start, int length) {
+		FinanceTool tool = new FinanceTool();
+		return tool.getCompanyManager().getSearchByInput(input, start, length,
+				getCompanyId());
+
 	}
 
 	@Override

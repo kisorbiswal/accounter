@@ -49,6 +49,9 @@ import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.SearchInput;
+import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
@@ -790,4 +793,639 @@ public class CompanyManager extends Manager {
 		}
 		return result;
 	}
+
+	public PaginationList<SearchResultlist> getSearchByInput(SearchInput input,
+			int start, int length, Long companyId) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = null;
+
+		if (input.getTransactionType() == Transaction.ALL) {
+			if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double amount = Double.valueOf(input.getFindBy());
+				query = session.getNamedQuery("getAllTransactionsByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", amount).setParameter("match", input.getMatchType());
+
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllTransactionsByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session.getNamedQuery("getAllTransactionsByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", "%" + input.getFindBy() + "%");
+			} else if (input.getSearchbyType() == SearchInput.TYPE_PAYEE) {
+				query = session.getNamedQuery("getAllTransactionsByPayeeName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+			// if (input.getSearchbyType() == SearchInput.TYPE_REF_NO) {
+			// query = session.getNamedQuery("getAllTransactionsByRefNo")
+			// .setParameter("value", input.getFindBy());
+			// }
+
+		} else if (input.getTransactionType() == Transaction.TYPE_ENTER_BILL) {
+			if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session.getNamedQuery("getAllEnterBillssByAccounName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session.getNamedQuery("getAllEnterBillssByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllEnterBillsByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session.getNamedQuery("getAllEnterBillsByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", "%" + input.getFindBy() + "%");
+			} else if (input.getSearchbyType() == SearchInput.TYPE_PRODUCT_SERVICE) {
+				query = session
+						.getNamedQuery("getAllEnterBillsByProductOrService")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DUE_DATE) {
+				ClientFinanceDate date = new ClientFinanceDate(
+						input.getFindBy());
+				query = session.getNamedQuery("getAllEnterBillsByDueDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", date.getDate());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_VENDOR) {
+				query = session.getNamedQuery("getAllEnterBillsByVendorName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+			// if (input.getSearchbyType() == SearchInput.TYPE_REF_NO) {
+			// query = session.getNamedQuery("getAllTransactionsByRefNo")
+			// .setParameter("value", input.getFindBy());
+			// }
+
+		} else if (input.getTransactionType() == Transaction.TYPE_PAY_BILL) {
+			if (input.getSearchbyType() == SearchInput.TYPE_VENDOR) {
+				query = session.getNamedQuery("getAllPayBillsByVendorName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session.getNamedQuery("getAllPayBillssByAccounName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+
+			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session.getNamedQuery("getAllPayBillssByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllPayBillsByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_CHEQUE_NO) {
+				query = session.getNamedQuery("getAllPayBillsByChequeNo")
+						.setParameter("companyId", companyId)
+						.setParameter("number", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+			// if (input.getSearchbyType() == SearchInput.TYPE_PRODUCT_SERVICE)
+			// {
+			// query = session
+			// .getNamedQuery("getAllPayBillsByProductOrService")
+			// .setParameter("companyId", companyId)
+			// .setParameter("value", input.getFindBy());
+			// }
+		} else if (input.getTransactionType() == Transaction.TYPE_CASH_EXPENSE) {
+			if (input.getSearchbyType() == SearchInput.TYPE_VENDOR) {
+				query = session.getNamedQuery("getAllCashExpensesByVendorName")
+						.setParameter("companyId", companyId)
+						.setParameter("type", input.getTransactionType())
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session.getNamedQuery("getAllCashExpensesByAccounName")
+						.setParameter("companyId", companyId)
+						.setParameter("type", input.getTransactionType())
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+
+			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session.getNamedQuery("getAllCashExpensesByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("type", input.getTransactionType())
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllCashExpensesByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("type", input.getTransactionType())
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_PRODUCT_SERVICE) {
+				query = session
+						.getNamedQuery("getAllCashExpensesByProductOrService")
+						.setParameter("companyId", companyId)
+						.setParameter("type", input.getTransactionType())
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session.getNamedQuery("getAllCashExpensesByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("type", input.getTransactionType())
+						.setParameter("memo", "%" + input.getFindBy() + "%");
+			} // if (input.getSearchbyType() == SearchInput.TYPE_REF_NO) {
+				// query = session.getNamedQuery("getAllCashExpensesByRefNo")
+				// .setParameter("value", input.getFindBy());//not
+				// }
+
+		} else if (input.getTransactionType() == Transaction.TYPE_WRITE_CHECK) {
+			if (input.getSearchbyType() == SearchInput.TYPE_CUSTOMER) {
+				query = session
+						.getNamedQuery("getAllWriteChecksByCustomerName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_VENDOR) {
+				query = session.getNamedQuery("getAllWriteChecksByVendorName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session.getNamedQuery("getAllWriteChecksByAccounName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session.getNamedQuery("getAllWriteChecksByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllWriteChecksByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session.getNamedQuery("getAllWriteChecksByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", "%" + input.getFindBy() + "%");
+			} else if (input.getSearchbyType() == SearchInput.TYPE_CHEQUE_NO) {
+				query = session.getNamedQuery("getAllWriteChecksByChequeNo")
+						.setParameter("companyId", companyId)
+						.setParameter("number", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+			// else if (input.getSearchbyType() ==
+			// SearchInput.TYPE_PRODUCT_SERVICE) {
+			// query = session
+			// .getNamedQuery("getAllWriteChecksByProductOrService")
+			// .setParameter("companyId", companyId)
+			// .setParameter("value", input.getFindBy());// Not
+			// // Completed
+			// }
+		} else if (input.getTransactionType() == Transaction.TYPE_CREDIT_CARD_EXPENSE) {
+			if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session
+						.getNamedQuery("getAllCreditCardExpensesByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("type", input.getTransactionType())
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session
+						.getNamedQuery("getAllCreditCardExpensesByAccounName")
+						.setParameter("companyId", companyId)
+						.setParameter("type", input.getTransactionType())
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllCreditCardExpensesByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("type", input.getTransactionType())
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session
+						.getNamedQuery("getAllCreditCardExpensesByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("type", input.getTransactionType())
+						.setParameter("memo", "%" + input.getFindBy() + "%");
+			} else if (input.getSearchbyType() == SearchInput.TYPE_PRODUCT_SERVICE) {
+				query = session
+						.getNamedQuery(
+								"getAllCreditCardExpensesByProductOrService")
+						.setParameter("companyId", companyId)
+						.setParameter("type", input.getTransactionType())
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_VENDOR) {
+				query = session
+						.getNamedQuery("getAllCreditCardExpensesByVendorName")
+						.setParameter("companyId", companyId)
+						.setParameter("type", input.getTransactionType())
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+			// if (input.getSearchbyType() == SearchInput.TYPE_REF_NO) {
+			// query = session
+			// .getNamedQuery("getAllCreditCardExpensesByRefNo")
+			// .setParameter("companyId", companyId)
+			// .setParameter("value", input.getFindBy());// Not
+			// }
+
+		} else if (input.getTransactionType() == Transaction.TYPE_CREDIT_CARD_CHARGE) {
+			if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session
+						.getNamedQuery("getAllCreditCardChargesByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session
+						.getNamedQuery("getAllCreditCardChargesByAccounName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllCreditCardChargesByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session
+						.getNamedQuery("getAllCreditCardChargesByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", "%" + input.getFindBy() + "%");
+			} else if (input.getSearchbyType() == SearchInput.TYPE_PRODUCT_SERVICE) {
+				query = session
+						.getNamedQuery(
+								"getAllCreditCardChargesByProductOrService")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_VENDOR) {
+				query = session
+						.getNamedQuery("getAllCreditCardChargesByVendorName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+			// if (input.getSearchbyType() == SearchInput.TYPE_REF_NO) {
+			// query = session.getNamedQuery("getAllCreditCardChargesByRefNo")
+			// .setParameter("companyId", companyId)
+			// .setParameter("value", input.getFindBy());
+			// }
+
+		} else if (input.getTransactionType() == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+			if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session
+						.getNamedQuery("getAllCustomerCreditNotesByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+
+			} else if (input.getSearchbyType() == SearchInput.TYPE_CUSTOMER) {
+				query = session
+						.getNamedQuery(
+								"getAllCustomerCreditNotesByCustomerName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session
+						.getNamedQuery("getAllCustomerCreditNotesByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_CREDIT_NOTE_NO) {
+				query = session
+						.getNamedQuery(
+								"getAllCustomerCreditNotesByCreditNoteeNo")
+						.setParameter("companyId", companyId)
+						.setParameter("number", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session
+						.getNamedQuery("getAllCustomerCreditNotesByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", "%" + input.getFindBy() + "%");
+			} else if (input.getSearchbyType() == SearchInput.TYPE_PRODUCT_SERVICE) {
+				query = session
+						.getNamedQuery(
+								"getAllCustomerCreditNotesByProductOrService")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+		} else if (input.getTransactionType() == Transaction.TYPE_ESTIMATE) {
+			if (input.getSearchbyType() == SearchInput.TYPE_CUSTOMER) {
+				query = session.getNamedQuery("getAllEstimatesByCustomerName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session.getNamedQuery("getAllEstimatesByAccounName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+
+			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session.getNamedQuery("getAllEstimatesByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllEstimatesByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			}
+			// else if (input.getSearchbyType() == SearchInput.TYPE_DUE_DATE) {
+			// ClientFinanceDate date = new ClientFinanceDate(
+			// input.getFindBy());
+			// query = session.getNamedQuery("getAllEstimatesByDueDate")
+			// .setParameter("companyId", companyId)
+			// .setParameter("value", date.getDate());// Not
+			// }
+			if (input.getSearchbyType() == SearchInput.TYPE_INVOICE_DATE) {
+				query = session.getNamedQuery("getAllEstimatesByInvoiceDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			}
+			if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session.getNamedQuery("getAllEstimatesByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", "%" + input.getFindBy() + "%");
+			}
+			if (input.getSearchbyType() == SearchInput.TYPE_PRODUCT_SERVICE) {
+				query = session
+						.getNamedQuery("getAllEstimatesByProductOrService")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+			if (input.getSearchbyType() == SearchInput.TYPE_CHARGE_NO) {
+				query = session.getNamedQuery("getAllEstimatesByChargeNo")
+						.setParameter("companyId", companyId)
+						.setParameter("number", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+
+			if (input.getSearchbyType() == SearchInput.TYPE_ESTIMATE_NO) {
+				query = session.getNamedQuery("getAllEstimatesByEstimateNo")
+						.setParameter("companyId", companyId)
+						.setParameter("number", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+			if (input.getSearchbyType() == SearchInput.TYPE_CREDIT_NO) {
+				query = session.getNamedQuery("getAllEstimatesByCreditNo")
+						.setParameter("companyId", companyId)
+						.setParameter("number", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+
+		} else if (input.getTransactionType() == Transaction.TYPE_JOURNAL_ENTRY) {
+			if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session.getNamedQuery("getAllJournalEntriesByAccount")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllJournalEntriesByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session
+						.getNamedQuery("getAllJournalEntriesByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", "%" + input.getFindBy() + "%");
+			} else if (input.getSearchbyType() == SearchInput.TYPE_ENTRY_NO) {
+				query = session.getNamedQuery("getAllJournalEntriesByEntryNo")
+						.setParameter("companyId", companyId)
+						.setParameter("number", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+		} else if (input.getTransactionType() == Transaction.TYPE_INVOICE) {
+			if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session.getNamedQuery("getAllInvoicesByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+
+			} else if (input.getSearchbyType() == SearchInput.TYPE_CUSTOMER) {
+				query = session.getNamedQuery("getAllInvoicesByCustomerName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllInvoicesByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DUE_DATE) {
+				query = session.getNamedQuery("getAllInvoicesByDueDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_INOVICE_NO) {
+				query = session.getNamedQuery("getAllInvoicesByInvoiceNo")
+						.setParameter("companyId", companyId)
+						.setParameter("number", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session.getNamedQuery("getAllInvoicesByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", "%" + input.getFindBy() + "%");
+			} else if (input.getSearchbyType() == SearchInput.TYPE_PRODUCT_SERVICE) {
+				query = session
+						.getNamedQuery("getAllInvoicesByProductOrService")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+
+		} else if (input.getTransactionType() == Transaction.TYPE_RECEIVE_PAYMENT) {
+			if (input.getSearchbyType() == SearchInput.TYPE_CUSTOMER) {
+				query = session
+						.getNamedQuery("getAllReceivePaymentsByCustomerName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session.getNamedQuery("getAllReceivePaymentsByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session.getNamedQuery("getAllReceivePaymentsByAccount")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllReceivePaymentsByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("value", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session
+						.getNamedQuery("getAllReceivePaymentsByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo",input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_RECEIVED_NO) {
+				query = session
+						.getNamedQuery(
+								"getAllReceivePaymentsByReceivedChequeNo")
+						.setParameter("companyId", companyId)
+						.setParameter("number", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+		} else if (input.getTransactionType() == Transaction.TYPE_CUSTOMER_REFUNDS) {
+			if (input.getSearchbyType() == SearchInput.TYPE_CUSTOMER) {
+				query = session
+						.getNamedQuery("getAllCustomerRefundsByCustomerName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session.getNamedQuery("getAllCustomerRefundsByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllCustomerRefundsByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session
+						.getNamedQuery("getAllCustomerRefundsByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo",input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_REFUND_NO) {
+				query = session
+						.getNamedQuery("getAllCustomerRefundsByRefundNo")
+						.setParameter("companyId", companyId)
+						.setParameter("number", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+		} else if (input.getTransactionType() == Transaction.TYPE_CASH_SALES) {
+			if (input.getSearchbyType() == SearchInput.TYPE_CUSTOMER) {
+				query = session.getNamedQuery("getAllCashSalesByCustomerName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session.getNamedQuery("getAllCashSalesByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllCashSalesByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session.getNamedQuery("getAllCashSalesByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_PRODUCT_SERVICE) {
+				query = session
+						.getNamedQuery("getAllCashSalesByProductOrService")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_SALE_NO) {
+				query = session.getNamedQuery("getAllCashSalesByCashSaleNo")
+						.setParameter("companyId", companyId)
+						.setParameter("number", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+		} else if (input.getTransactionType() == Transaction.TYPE_MAKE_DEPOSIT) {
+			if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session
+						.getNamedQuery("getAllDepositsOrTransfersByAccounName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session
+						.getNamedQuery("getAllDepositsOrTransfersByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session
+						.getNamedQuery("getAllDepositsOrTransfersByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session
+						.getNamedQuery("getAllDepositsOrTransfersByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+			}
+
+		} else if (input.getTransactionType() == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
+			if (input.getSearchbyType() == SearchInput.TYPE_VENDOR) {
+				query = session
+						.getNamedQuery("getAllVendorCreditsByVendorName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session
+						.getNamedQuery("getAllVendorCreditsByAccounName")
+						.setParameter("companyId", companyId)
+						.setParameter("value", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				double value = Double.valueOf(input.getFindBy());
+				query = session.getNamedQuery("getAllVendorCreditsByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", value).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				ClientFinanceDate date = new ClientFinanceDate(
+						input.getFindBy());
+				query = session.getNamedQuery("getAllVendorCreditsByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", date.getDate());
+			}
+			if (input.getSearchbyType() == SearchInput.TYPE_PRODUCT_SERVICE) {
+				query = session
+						.getNamedQuery("getAllVendorCreditsByProductOrService")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session
+						.getNamedQuery("getAllVendorCreditsByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", input.getFindBy()).setParameter("match", input.getMatchType());
+			}// if (input.getSearchbyType() == SearchInput.TYPE_REF_NO) {
+				// query = session.getNamedQuery("getAllVendorCreditsByRefNo")
+				// .setParameter("value", input.getFindBy());
+				// }
+
+		} else if (input.getTransactionType() == Transaction.TYPE_PAY_TAX) {
+			if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session.getNamedQuery("getAllTaxPaymentsByAccounName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+			if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				ClientFinanceDate date = new ClientFinanceDate(
+						input.getFindBy());
+				query = session.getNamedQuery("getAllTaxPaymentsByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", date.getDate());
+			}
+			if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session.getNamedQuery("getAllTaxPaymentsByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+		} else if (input.getTransactionType() == Transaction.TYPE_ADJUST_VAT_RETURN) {
+			if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session
+						.getNamedQuery("getAllTaxAdjustmentsByAccounName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+			if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				ClientFinanceDate date = new ClientFinanceDate(
+						input.getFindBy());
+				query = session.getNamedQuery("getAllTaxAdjustmentsByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", date.getDate());
+			}
+			if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session
+						.getNamedQuery("getAllTaxAdjustmentsByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", input.getFindBy()).setParameter("match", input.getMatchType());
+			}
+
+		}
+
+		List list = query.list();
+		if (list != null) {
+
+			Object[] object = null;
+			Iterator iterator = list.iterator();
+			PaginationList<SearchResultlist> queryResult = new PaginationList<SearchResultlist>();
+			while ((iterator).hasNext()) {
+
+				SearchResultlist searchList = new SearchResultlist();
+				object = (Object[]) iterator.next();
+
+				long tId = (object[0] == null ? 0 : ((Long) object[0]));
+				searchList.setId(tId);
+				searchList.setDate(new ClientFinanceDate((Long) object[1]));
+				searchList.setTransactionType((Integer) object[2]);
+				searchList.setAmount((Double) object[3]);
+				queryResult.add(searchList);
+			}
+			queryResult.setTotalCount(queryResult.size());
+			return queryResult;
+
+		}
+		return null;
+	}
+
 }

@@ -132,7 +132,7 @@ public class AccounterMenuBar extends HorizontalPanel {
 		IMenu settingsMenuBar = factory.createMenu();
 		settingsMenuBar.addMenuItem(ActionFactory.getGeneralSettingsAction());
 		settingsMenuBar.addMenuItem(ActionFactory.getTranslationAction());
-		// settingsMenuBar.addItem(ActionFactory.getChartOfAccountsAction());
+		settingsMenuBar.addMenuItem(ActionFactory.getSearchInputAction());
 		return settingsMenuBar;
 	}
 
@@ -458,9 +458,9 @@ public class AccounterMenuBar extends HorizontalPanel {
 		if (Accounter.getCompany().getPreferences().isKeepTrackofBills())
 			bankingMenuBar.addMenuItem(ActionFactory.getPayBillsAction());
 		// bankingMenuBar.addItem(ActionFactory.getEnterPaymentsAction());
-		bankingMenuBar.addSeparatorItem();
-		// bankingMenuBar.addMenuItem(ActionFactory.getCreditCardChargeAction());
 		// bankingMenuBar.addSeparatorItem();
+		// bankingMenuBar.addMenuItem(ActionFactory.getCreditCardChargeAction());
+		bankingMenuBar.addSeparatorItem();
 		bankingMenuBar
 				.addMenuItem(ActionFactory.getReconciliationsListAction());
 		bankingMenuBar.addSeparatorItem();

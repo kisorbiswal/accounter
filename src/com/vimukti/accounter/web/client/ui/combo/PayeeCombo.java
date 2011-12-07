@@ -10,6 +10,10 @@ public class PayeeCombo extends CustomCombo<ClientPayee> {
 		super(title);
 	}
 
+	public PayeeCombo(String title, boolean isAddNewRequired) {
+		super(title, isAddNewRequired, 1);
+	}
+
 	@Override
 	public String getDefaultAddNewCaption() {
 		return messages.payee();
@@ -47,18 +51,18 @@ public class PayeeCombo extends CustomCombo<ClientPayee> {
 		// action.run(this, null, true);
 	}
 
-		// NewPayeeAction action = ActionFactory.getNewPayeeAction();
-		// action.setCallback(new ActionCallback<ClientPayee>() {
-		//
-		// @Override
-		// public void actionResult(ClientPayee result) {
-		// addItemThenfireEvent(result);
-		// }
-		// });
-		// action.run(this, null, true);
+	// NewPayeeAction action = ActionFactory.getNewPayeeAction();
+	// action.setCallback(new ActionCallback<ClientPayee>() {
+	//
+	// @Override
+	// public void actionResult(ClientPayee result) {
+	// addItemThenfireEvent(result);
+	// }
+	// });
+	// action.run(this, null, true);
 
 	@Override
-	protected String getColumnData(ClientPayee object,  int col) {
+	protected String getColumnData(ClientPayee object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

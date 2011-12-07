@@ -95,6 +95,7 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int UPDATE_TYPE_MINUS = 101;
 	public static final int TYPE_ADJUST_SALES_TAX = 32;
 	public static final int TYPE_MISC_SAMPLE_FORM = 33;
+	public static final int ALL = 1000;
 
 	int type;
 	FinanceDate transactionDate;
