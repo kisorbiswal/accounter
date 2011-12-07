@@ -4696,6 +4696,14 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseEnterAmountToReceive();
 
+	public String parentAccount();
+
+	public String isSubAccount();
+
+	public String parenAccountTypeShouldBeSame();
+
+	public String parenAccountCurrencyShouldBeSame();
+
 	public String addBankAccount();
 
 	public String cannotCreateUserAsTheirIsNoUserWithAdminRole();
