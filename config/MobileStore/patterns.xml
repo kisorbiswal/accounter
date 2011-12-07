@@ -542,7 +542,7 @@
 		<outputs>
 			<command title="Company Settings" />
 			<command title="Users" />
-			<command title="Invoice Branding" />
+			<!-- <command title="Invoice Branding" /> -->
 		</outputs>
 	</pattern>
 
