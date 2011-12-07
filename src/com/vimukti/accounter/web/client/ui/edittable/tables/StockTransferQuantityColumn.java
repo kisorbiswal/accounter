@@ -108,9 +108,7 @@ public class StockTransferQuantityColumn extends
 				getTable().update(row);
 			}
 		});
-		Widget widget = getTable().getTable().getWidget(
-				getTable().getAllRows().indexOf(row),
-				getTable().getColumns().indexOf(this));
+		Widget widget = getTable().getWidget(row,this);
 		popup.setAutoHideEnabled(true);
 		popup.showRelativeTo(widget);
 	}

@@ -18,33 +18,47 @@ public abstract class EditTable<R> extends SimplePanel {
 
 	protected AccounterMessages messages = Accounter.messages();
 	private FlexTable table;
-	private List<EditColumn<R>> columns = new ArrayList<EditColumn<R>>();
+	private ArrayList<ArrayList<EditColumn<R>>> columns = new ArrayList<ArrayList<EditColumn<R>>>();
 	private CellFormatter cellFormatter;
 	private RowFormatter rowFormatter;
 	private List<R> rows = new ArrayList<R>();
 	private boolean isDisabled;
 	private boolean columnsCreated;
+	private int numOfRowsPerObject;
 
 	public EditTable() {
+		this(1);
+	}
+
+	public EditTable(int numOfRowsPerObject) {
+		this.numOfRowsPerObject = numOfRowsPerObject;
 		this.addStyleName("editTable");
 		table = new FlexTable();
 		table.setWidth("100%");
 		this.add(table);
 		cellFormatter = table.getCellFormatter();
 		rowFormatter = table.getRowFormatter();
-		rowFormatter.addStyleName(0, "editheader");
+
 		addEmptyMessage(messages.noRecordsToShow());
+		for (int x = 0; x < numOfRowsPerObject; x++) {
+			rowFormatter.addStyleName(x, "editheader");
+			this.columns.add(new ArrayList<EditColumn<R>>());
+		}
 	}
 
 	public void addColumn(EditColumn<R> column) {
-		columns.add(column);
-		int index = columns.size() - 1;
+		addColumn(column, 0);
+	}
+
+	public void addColumn(EditColumn<R> column, int rowIndex) {
+		columns.get(rowIndex).add(column);
+		int index = columns.get(rowIndex).size() - 1;
 		column.setTable(this);
-		table.setWidget(0, index, column.getHeader());
+		table.setWidget(rowIndex, index, column.getHeader());
 		// Set width
 		int width = column.getWidth();
 		if (width != -1) {
-			cellFormatter.setWidth(0, index, width + "px");
+			cellFormatter.setWidth(rowIndex, index, width + "px");
 		}
 	}
 
@@ -64,26 +78,34 @@ public abstract class EditTable<R> extends SimplePanel {
 	 * @param row
 	 */
 	public void update(R row) {
-		int index = rows.indexOf(row);
-		index += 1;// for header
+		int index = rows.indexOf(row) * numOfRowsPerObject;
+		index += numOfRowsPerObject;// for header
 		RenderContext<R> context = new RenderContext<R>(this, row);
 		context.setDesable(isDisabled);
 		context.setCellFormatter(cellFormatter);
 		context.setRowFormatter(rowFormatter);
 		for (int x = 0; x < columns.size(); x++) {
-			EditColumn<R> column = columns.get(x);
-			IsWidget widget = table.getWidget(index, x);
-			column.render(widget, context);
+			ArrayList<EditColumn<R>> list = columns.get(x);
+			for (int y = 0; y < list.size(); y++) {
+				EditColumn<R> column = list.get(x);
+				IsWidget widget = table.getWidget(index, x);
+				column.render(widget, context);
+			}
+			index++;
 		}
 	}
 
 	public void updateFromGUI(R row) {
-		int index = rows.indexOf(row);
-		index += 1;// for header
+		int index = rows.indexOf(row) * numOfRowsPerObject;
+		index += numOfRowsPerObject;// for header
 		for (int x = 0; x < columns.size(); x++) {
-			EditColumn<R> column = columns.get(x);
-			IsWidget widget = table.getWidget(index, x);
-			column.updateFromGUI(widget, row);
+			ArrayList<EditColumn<R>> list = columns.get(x);
+			for (int y = 0; y < list.size(); y++) {
+				EditColumn<R> column = list.get(x);
+				IsWidget widget = table.getWidget(index, x);
+				column.updateFromGUI(widget, row);
+			}
+			index++;
 		}
 	}
 
@@ -94,26 +116,30 @@ public abstract class EditTable<R> extends SimplePanel {
 	 */
 	public void add(R row) {
 		createColumns();
-		if (this.table.getRowCount() == 2 && rows.size() == 0) {
-			Widget label = table.getWidget(1, 0);
-			if (label != null) {
-				// this.table.getFlexCellFormatter().setStyleName(1, 0,
-				// "records_label");
-				this.table.getRowFormatter().setStyleName(1, "records_label");
-			}
-		}
+		clearEmptyMessageIfPresent();
 		rows.add(row);
-		int index = rows.size() - 1;
-		index += 1;// for header
+		int index = (rows.size() - 1) * numOfRowsPerObject;
+		index += numOfRowsPerObject;// for header
 		RenderContext<R> context = new RenderContext<R>(this, row);
 		context.setCellFormatter(cellFormatter);
 		context.setDesable(isDisabled);
 		context.setRowFormatter(rowFormatter);
 		for (int x = 0; x < columns.size(); x++) {
-			EditColumn<R> column = columns.get(x);
-			IsWidget widget = column.getWidget(context);
-			table.setWidget(index, x, widget);
-			column.render(widget, context);
+			ArrayList<EditColumn<R>> list = columns.get(x);
+			for (int y = 0; y < list.size(); y++) {
+				EditColumn<R> column = list.get(x);
+				IsWidget widget = column.getWidget(context);
+				table.setWidget(index, x, widget);
+				column.render(widget, context);
+			}
+			index++;
+		}
+	}
+
+	private void clearEmptyMessageIfPresent() {
+		if (rows.size() == 0) {
+			this.table.getRowFormatter().removeStyleName(numOfRowsPerObject,
+					"records_label");
 		}
 	}
 
@@ -127,7 +153,10 @@ public abstract class EditTable<R> extends SimplePanel {
 		rows.remove(row);
 		if (index != -1) {
 			index += 1;// For header
-			table.removeRow(index);
+			index *= numOfRowsPerObject;
+			for (int x = 0; x < numOfRowsPerObject; x++) {
+				table.removeRow(index + x);
+			}
 		}
 	}
 
@@ -145,7 +174,9 @@ public abstract class EditTable<R> extends SimplePanel {
 	 */
 	public void clear() {
 		for (int x = 1; x <= rows.size(); x++) {
-			table.removeRow(1);
+			for (int y = 0; y < numOfRowsPerObject; y++) {
+				table.removeRow(numOfRowsPerObject);
+			}
 		}
 		rows.clear();
 	}
@@ -167,11 +198,17 @@ public abstract class EditTable<R> extends SimplePanel {
 	public List<R> getSelectedRecords(int colInd) {
 		List<R> selected = new ArrayList<R>();
 		for (int x = 0; x < rows.size(); x++) {
-			IsWidget widget = table.getWidget(x + 1, colInd);
-			if (widget instanceof CheckBox) {
-				CheckBox checkedWidget = (CheckBox) widget;
-				if (checkedWidget.getValue()) {
-					selected.add(rows.get(x));
+			for (int y = 0; y < numOfRowsPerObject; y++) {
+				int index = (x + 1) * numOfRowsPerObject;
+				IsWidget widget = table.getWidget(index + y, colInd);
+				if (widget instanceof CheckBox) {
+					CheckBox checkedWidget = (CheckBox) widget;
+					if (checkedWidget.getValue()) {
+						R r = rows.get(x);
+						if (selected.contains(r)) {
+							selected.add(r);
+						}
+					}
 				}
 			}
 		}
@@ -179,21 +216,23 @@ public abstract class EditTable<R> extends SimplePanel {
 	}
 
 	public void checkColumn(int row, int colInd, boolean isChecked) {
-		IsWidget widget = table.getWidget(row + 1, colInd);
+		int index = (row + 1) * numOfRowsPerObject;
+		IsWidget widget = table.getWidget(index, colInd);
 		if (widget instanceof CheckBox) {
 			CheckBox checkedWidget = (CheckBox) widget;
 			checkedWidget.setValue(isChecked);
 			if (isChecked) {
-				rowFormatter.removeStyleName(row + 1, "selected");
+				rowFormatter.removeStyleName(index, "selected");
 			} else {
-				rowFormatter.addStyleName(row + 1, "selected");
+				rowFormatter.addStyleName(index, "selected");
 			}
 		}
 	}
 
 	public boolean isChecked(R row, int colInd) {
 		int x = getAllRows().indexOf(row);
-		IsWidget widget = table.getWidget(x + 1, colInd);
+		int index = (x + 1) * numOfRowsPerObject;
+		IsWidget widget = table.getWidget(index, colInd);
 		if (widget instanceof CheckBox) {
 			CheckBox checkedWidget = (CheckBox) widget;
 			return checkedWidget.getValue();
@@ -234,11 +273,11 @@ public abstract class EditTable<R> extends SimplePanel {
 	}
 
 	public List<EditColumn<R>> getColumns() {
-		return columns;
+		return getColumns(0);
 	}
 
-	public FlexTable getTable() {
-		return table;
+	public List<EditColumn<R>> getColumns(int row) {
+		return columns.get(row);
 	}
 
 	public void reDraw() {
@@ -246,23 +285,45 @@ public abstract class EditTable<R> extends SimplePanel {
 		columnsCreated = false;
 		columns.clear();
 		table.removeAllRows();
-		rowFormatter.addStyleName(0, "editheader");
+		for (int x = 0; x < numOfRowsPerObject; x++) {
+			rowFormatter.addStyleName(x, "editheader");
+		}
 		createColumns();
 	}
 
 	public void updateColumnHeaders() {
-		for (EditColumn<R> column : columns) {
-			column.updateHeader();
+		for (int x = 0; x < columns.size(); x++) {
+			ArrayList<EditColumn<R>> list = columns.get(x);
+			for (EditColumn<R> column : list) {
+				column.updateHeader();
+			}
 		}
 	}
 
 	public void addEmptyMessage(String emptyMessage) {
 		this.table.setWidget(1, 0, new Label(emptyMessage));
-		// this.table.getFlexCellFormatter().setStyleName(1, 0,
-		// "norecord-empty-message");
-		this.table.getRowFormatter().setStyleName(1, "norecord-empty-message");
+		this.table.getRowFormatter().setStyleName(numOfRowsPerObject,
+				"norecord-empty-message");
 		this.table.addStyleName("no_records");
 	}
 
 	protected abstract boolean isInViewMode();
+
+	public Widget getWidget(R row, EditColumn<R> column) {
+		int rowIndex = rows.indexOf(row);
+		rowIndex++;// for header
+		rowIndex *= numOfRowsPerObject;
+
+		int columnIndex = -1;
+		for (ArrayList<EditColumn<R>> list : columns) {
+			columnIndex = list.indexOf(column);
+			if (columnIndex != -1) {
+				break;
+			}
+		}
+		if (columnIndex == -1) {
+			return null;
+		}
+		return table.getWidget(rowIndex, columnIndex);
+	}
 }
