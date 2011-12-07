@@ -11,8 +11,8 @@ import com.vimukti.accounter.web.client.ui.CoreUtils;
  */
 public class CurrencyListCombo extends CustomCombo<ClientCurrency> {
 	public CurrencyListCombo(String text) {
-		super(text);
-		
+		super(text, false, 1);
+
 		initCombo(getCurrencyList());
 
 	}
@@ -31,11 +31,6 @@ public class CurrencyListCombo extends CustomCombo<ClientCurrency> {
 	}
 
 	@Override
-	public String getDefaultAddNewCaption() {
-		return null;
-	}
-
-	@Override
 	protected String getDisplayName(ClientCurrency object) {
 
 		if (object != null)
@@ -45,12 +40,20 @@ public class CurrencyListCombo extends CustomCombo<ClientCurrency> {
 	}
 
 	@Override
-	public void onAddNew() {
+	protected String getColumnData(ClientCurrency object, int col) {
+		return object.getName();
 	}
 
 	@Override
-	protected String getColumnData(ClientCurrency object, int col) {
-		return object.getName();
+	public void onAddNew() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getDefaultAddNewCaption() {
+		// TODO Auto-generated method stub
+		return " ";
 	}
 
 }

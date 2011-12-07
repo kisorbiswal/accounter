@@ -13,11 +13,12 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 public class CurrencyComboWidget extends DynamicForm {
 
 	private CurrencyChangeListener listener;
-	private CurrencyCombo currencyCombo;
-	private ClientCurrency baseCurrency, selectedCurrencyItem;
+	private final CurrencyCombo currencyCombo;
+	private final ClientCurrency baseCurrency;
+	private ClientCurrency selectedCurrencyItem;
 	private List<ClientCurrency> currencies;
 	private boolean showFactorField = true;
-	private CurrencyFormItem currencyForm;
+	private final CurrencyFormItem currencyForm;
 
 	public CurrencyComboWidget(List<ClientCurrency> currencies,
 			ClientCurrency baseCurrency) {
@@ -36,7 +37,6 @@ public class CurrencyComboWidget extends DynamicForm {
 					@Override
 					public void selectedComboBoxItem(ClientCurrency selectItem) {
 						currencyChanged(selectItem);
-
 					}
 				});
 
@@ -163,8 +163,8 @@ public class CurrencyComboWidget extends DynamicForm {
 			currencyForm.show();
 		}
 	}
-	
-	public void setDisabled(boolean isAccountDisabled,boolean isFormDisabled) {
+
+	public void setDisabled(boolean isAccountDisabled, boolean isFormDisabled) {
 		currencyCombo.setDisabled(isAccountDisabled);
 		currencyForm.setDisabled(isFormDisabled);
 	}

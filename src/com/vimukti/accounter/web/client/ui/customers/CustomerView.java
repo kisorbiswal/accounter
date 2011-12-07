@@ -144,7 +144,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	protected boolean isClose;
 	private boolean wait;
 
-	private ClientCompany company = getCompany();
+	private final ClientCompany company = getCompany();
 	private ArrayList<DynamicForm> listforms;
 	private TextItem custNoText;
 
@@ -333,7 +333,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// BaseView.errordata.setHTML(exception.getMessage());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		AccounterException accounterException = (AccounterException) exception;
+		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -454,7 +454,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		data.setWebPageAddress(emailForm.getWebTextValue());
 
 		// Setting Active
-		data.setActive((Boolean) statusCheck.getValue());
+		data.setActive(statusCheck.getValue());
 
 		// Setting accout number
 		data.setBankAccountNo(bankAccountSelect.getValue().toString());
@@ -497,8 +497,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		data.setBalanceAsOf(balanceDate.getEnteredDate().getDate());
 
 		// Setting Contacts
-		List<ClientContact> allGivenRecords = (List<ClientContact>) gridView
-				.getRecords();
+		List<ClientContact> allGivenRecords = gridView.getRecords();
 		// ListGridRecord selectedRecord = gridView.();
 		//
 		// if (selectedRecord != null) {
@@ -1418,7 +1417,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	protected CurrencyComboWidget createCurrencyComboWidget() {
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
 		ClientCurrency baseCurrency = getCompany().getPrimaryCurrency();
-
 		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
 				baseCurrency);
 		widget.setListener(new CurrencyChangeListener() {
