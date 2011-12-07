@@ -1238,4 +1238,11 @@
 		<alias>ChangePassword</alias>
 	</command>
 	
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.TaxHistoryCommand"
+		name="TaxHistory Command">
+		<alias>Tax History Command</alias>
+		<alias>TaxHistoryCommand</alias>
+	</command>
+	
 </commands>
