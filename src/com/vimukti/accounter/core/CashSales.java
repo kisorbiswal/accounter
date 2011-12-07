@@ -405,7 +405,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkingCustomerNull(customer);
+		// checkingCustomerNull(customer);
 		checkAccountNull(depositIn);
 		checkPaymentMethodNull();
 	}
@@ -485,6 +485,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	// return false;
 	// }
 
+	@Override
 	public void setVoid(boolean isVoid) {
 		this.isVoid = isVoid;
 	}
@@ -497,6 +498,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		this.subTotal = allLineTotal;
 	}
 
+	@Override
 	public void setNumber(String number) {
 		this.number = number;
 	}
