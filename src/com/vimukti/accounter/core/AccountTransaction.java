@@ -200,9 +200,5 @@ public class AccountTransaction extends CreatableObject implements
 
 		w.put(messages.cashBasisAccounting(), this.cashBasisEntry);
 
-		if (this.tempTransactionDate != null)
-			w.put(messages.transactionDate(),
-					this.tempTransactionDate.toString());
-
 	}
 }
