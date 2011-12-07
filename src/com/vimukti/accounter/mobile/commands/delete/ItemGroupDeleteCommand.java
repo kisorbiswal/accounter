@@ -14,7 +14,7 @@ public class ItemGroupDeleteCommand extends AbstractDeleteCommand {
 		} catch (AccounterException e) {
 			addFirstMessage(
 					context,
-					"You can no not delete. This Item Group Might be participating in some transactions");
+					"You can not delete. This Item Group might be participating in some transactions");
 		}
 		return "ItemGroups";
 	}

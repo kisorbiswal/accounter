@@ -12,9 +12,8 @@ public class VendorDeleteCommand extends AbstractDeleteCommand {
 		try {
 			delete(AccounterCoreType.VENDOR, vendorId, context);
 		} catch (AccounterException e) {
-			addFirstMessage(
-					context,
-					"You can no not delete. This vendor Might be participating in some transactions");
+			addFirstMessage(context,
+					"You can not delete. This vendor might be participating in some transactions");
 		}
 		return "Vendors";
 	}

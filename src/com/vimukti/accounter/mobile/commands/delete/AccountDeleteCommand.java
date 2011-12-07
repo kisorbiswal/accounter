@@ -17,9 +17,8 @@ public class AccountDeleteCommand extends AbstractDeleteCommand {
 		try {
 			delete(AccounterCoreType.ACCOUNT, accountId, context);
 		} catch (AccounterException e) {
-			addFirstMessage(
-					context,
-					"You can no not delete. This Account Might be participating in some transactions");
+			addFirstMessage(context,
+					"You can not delete. This Account might be participating in some transactions");
 		}
 		if (account.getType() == Account.TYPE_BANK) {
 			return "Bank Accounts";

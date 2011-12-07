@@ -14,7 +14,7 @@ public class CreditRatingDeleteCommand extends AbstractDeleteCommand {
 		} catch (AccounterException e) {
 			addFirstMessage(
 					context,
-					"You can no not delete. This Credit Rating Might be participating in some transactions");
+					"You can not delete. This Credit Rating might be participating in some transactions");
 		}
 		return "Credit Rating List";
 	}

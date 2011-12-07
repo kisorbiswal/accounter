@@ -17,9 +17,8 @@ public class CustomerDeleteCommand extends AbstractDeleteCommand {
 		try {
 			delete(AccounterCoreType.CUSTOMER, customerId, context);
 		} catch (AccounterException e) {
-			addFirstMessage(
-					context,
-					"You can no not delete. This Customer Might be participating in some transactions");
+			addFirstMessage(context,
+					"You can not delete. This Customer might be participating in some transactions");
 		}
 		return "Customers";
 	}
