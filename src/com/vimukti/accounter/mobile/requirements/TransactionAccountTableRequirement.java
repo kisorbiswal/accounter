@@ -13,7 +13,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
@@ -30,8 +29,8 @@ public class TransactionAccountTableRequirement extends
 	private static final String DISCOUNT = "accountitemdiscount";
 	private static final String DESCRIPTION = "accountitemdescription";
 	private static final String TAX = "accountitemtax";
-	private static final String IS_BILLABLE = "isBillable";
-	private static final String CUSTOMER = "accountcustomer";
+	protected static final String IS_BILLABLE = "isBillable";
+	protected static final String ACCOUNT_CUSTOMER = "accountcustomer";
 
 	public TransactionAccountTableRequirement(String requirementName,
 			String enterString, String recordName, boolean isOptional,
@@ -122,50 +121,6 @@ public class TransactionAccountTableRequirement extends
 			}
 		});
 
-		list.add(new CustomerRequirement(CUSTOMER, getMessages().pleaseSelect(
-				Global.get().Customer()), Global.get().Customer(), true, true,
-				null) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getPreferences()
-						.isBillableExpsesEnbldForProductandServices()
-						&& getPreferences()
-								.isProductandSerivesTrackingByCustomerEnabled()) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-			}
-
-			@Override
-			protected List<Customer> getLists(Context context) {
-				return getCustomers();
-			}
-		});
-
-		list.add(new BooleanRequirement(IS_BILLABLE, true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getPreferences()
-						.isBillableExpsesEnbldForProductandServices()
-						&& getPreferences()
-								.isProductandSerivesTrackingByCustomerEnabled()) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-			}
-
-			@Override
-			protected String getTrueString() {
-				return getMessages().billabe();
-			}
-
-			@Override
-			protected String getFalseString() {
-				return "Not Billable";
-			}
-		});
 		list.add(new StringRequirement(DESCRIPTION, getMessages().pleaseEnter(
 				getMessages().description()), getMessages().description(),
 				true, true));
@@ -197,11 +152,13 @@ public class TransactionAccountTableRequirement extends
 		if (taxCode != null) {
 			obj.setTaxCode(taxCode.getID());
 		}
-		Boolean isBillable = get(IS_BILLABLE).getValue();
-		obj.setIsBillable(isBillable);
-		Customer customer = get(CUSTOMER).getValue();
-		if (customer != null) {
-			obj.setCustomer(customer.getID());
+		if (get(IS_BILLABLE) != null) {
+			Boolean isBillable = get(IS_BILLABLE).getValue();
+			obj.setIsBillable(isBillable);
+			Customer customer = get(ACCOUNT_CUSTOMER).getValue();
+			if (customer != null) {
+				obj.setCustomer(customer.getID());
+			}
 		}
 		double discount = get(DISCOUNT).getValue();
 		obj.setDiscount(discount);
@@ -228,10 +185,12 @@ public class TransactionAccountTableRequirement extends
 			}
 		}
 		get(DISCOUNT).setDefaultValue(obj.getDiscount());
-		get(IS_BILLABLE).setDefaultValue(obj.isBillable());
-		get(CUSTOMER).setValue(
-				CommandUtils.getServerObjectById(obj.getCustomer(),
-						AccounterCoreType.CUSTOMER));
+		if (get(IS_BILLABLE) != null) {
+			get(IS_BILLABLE).setDefaultValue(obj.isBillable());
+			get(ACCOUNT_CUSTOMER).setValue(
+					CommandUtils.getServerObjectById(obj.getCustomer(),
+							AccounterCoreType.CUSTOMER));
+		}
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
@@ -21,6 +22,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
+import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
@@ -214,40 +216,52 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected void addRequirement(List<Requirement> list) {
 				super.addRequirement(list);
-				// list.add(new CustomerRequirement("BillableCustomer",
-				// getMessages().pleaseSelect(getMessages().customer()),
-				// getMessages().customer(), false, true, null) {
-				// @Override
-				// public Result run(Context context, Result makeResult,
-				// ResultList list, ResultList actions) {
-				// if (getPreferences()
-				// .isBillableExpsesEnbldForProductandServices()) {
-				// return super
-				// .run(context, makeResult, list, actions);
-				// }
-				// }
-				//
-				// @Override
-				// protected List<Customer> getLists(Context context) {
-				// // TODO Auto-generated method stub
-				// return null;
-				// }
-				// });
-				//
-				// list.add(new BooleanRequirement("isBillable", false) {
-				//
-				// @Override
-				// protected String getTrueString() {
-				// // TODO Auto-generated method stub
-				// return null;
-				// }
-				//
-				// @Override
-				// protected String getFalseString() {
-				// // TODO Auto-generated method stub
-				// return null;
-				// }
-				// });
+				list.add(new CustomerRequirement(ACCOUNT_CUSTOMER,
+						getMessages().pleaseSelect(Global.get().Customer()),
+						Global.get().Customer(), true, true, null) {
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						if (getPreferences()
+								.isBillableExpsesEnbldForProductandServices()
+								&& getPreferences()
+										.isProductandSerivesTrackingByCustomerEnabled()) {
+							return super
+									.run(context, makeResult, list, actions);
+						}
+						return null;
+					}
+
+					@Override
+					protected List<Customer> getLists(Context context) {
+						return NewEnterBillCommand.this.getCustomers();
+					}
+				});
+
+				list.add(new BooleanRequirement(IS_BILLABLE, true) {
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						if (getPreferences()
+								.isBillableExpsesEnbldForProductandServices()
+								&& getPreferences()
+										.isProductandSerivesTrackingByCustomerEnabled()) {
+							return super
+									.run(context, makeResult, list, actions);
+						}
+						return null;
+					}
+
+					@Override
+					protected String getTrueString() {
+						return getMessages().billabe();
+					}
+
+					@Override
+					protected String getFalseString() {
+						return "Not Billable";
+					}
+				});
 			}
 
 			@Override
@@ -264,10 +278,6 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 								} else {
 									return false;
 								}
-								// return Arrays.asList(Account.TYPE_EXPENSE,
-								// Account.TYPE_COST_OF_GOODS_SOLD,
-								// Account.TYPE_OTHER_EXPENSE).contains(
-								// account.getType());
 							}
 						}, new ArrayList<Account>(context.getCompany()
 								.getAccounts()));
@@ -277,6 +287,56 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
 				true, true) {
+			@Override
+			protected void addRequirement(List<Requirement> list) {
+				super.addRequirement(list);
+				list.add(new CustomerRequirement(ITEM_CUSTOMER, getMessages()
+						.pleaseSelect(Global.get().Customer()), Global.get()
+						.Customer(), true, true, null) {
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						if (getPreferences()
+								.isBillableExpsesEnbldForProductandServices()
+								&& getPreferences()
+										.isProductandSerivesTrackingByCustomerEnabled()) {
+							return super
+									.run(context, makeResult, list, actions);
+						}
+						return null;
+					}
+
+					@Override
+					protected List<Customer> getLists(Context context) {
+						return NewEnterBillCommand.this.getCustomers();
+					}
+				});
+
+				list.add(new BooleanRequirement(IS_BILLABLE, true) {
+					@Override
+					public Result run(Context context, Result makeResult,
+							ResultList list, ResultList actions) {
+						if (getPreferences()
+								.isBillableExpsesEnbldForProductandServices()
+								&& getPreferences()
+										.isProductandSerivesTrackingByCustomerEnabled()) {
+							return super
+									.run(context, makeResult, list, actions);
+						}
+						return null;
+					}
+
+					@Override
+					protected String getTrueString() {
+						return getMessages().billabe();
+					}
+
+					@Override
+					protected String getFalseString() {
+						return "Not Billable";
+					}
+				});
+			}
 
 			@Override
 			public List<Item> getItems(Context context) {

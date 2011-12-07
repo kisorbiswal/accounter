@@ -3,9 +3,6 @@ package com.vimukti.accounter.mobile.requirements;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -15,7 +12,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.utils.HibernateUtil;
 
 public abstract class AbstractTableRequirement<T> extends
 		AbstractRequirement<T> {
@@ -235,13 +231,4 @@ public abstract class AbstractTableRequirement<T> extends
 	protected abstract Record createRecord(T t);
 
 	protected abstract String getAddMoreString();
-
-	protected List<Customer> getCustomers() {
-		Session currentSession = HibernateUtil.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		List<Customer> customers = currentSession
-				.getNamedQuery("getCustomersOrderByName")
-				.setParameter("company", getCompany()).list();
-		return new ArrayList<Customer>(customers);
-	}
 }
