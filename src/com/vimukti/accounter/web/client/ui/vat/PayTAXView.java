@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -30,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -49,13 +47,11 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private AmountField endingBalanceText;
 	private DynamicForm balForm;
 	protected ClientAccount selectedPayFromAccount;
-	protected double initialEndingBalance;
 	protected ClientTAXAgency selectedTAXAgency;
 	private VerticalPanel gridLayout;
 	private TransactionPayTAXGrid grid;
 	private Double totalAmount = 0.0D;
 	private String transactionNumber;
-	private double endingBalance;
 	private ClientFinanceDate dueDateOnOrBefore;
 	private TextItem transNumber;
 
@@ -103,11 +99,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 						// .getTotalBalance()
 						// : 0D;
 
-						initialEndingBalance = !DecimalUtil.isEquals(
-								selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-								.getTotalBalance() : 0D;
-
-						calculateEndingBalance();
+						endingBalanceText.setAmount(selectedPayFromAccount
+								.getTotalBalanceInAccountCurrency());
 
 					}
 
@@ -231,12 +224,10 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		listforms.add(balForm);
 
 		selectedPayFromAccount = payFromAccCombo.getSelectedValue();
-		initialEndingBalance = selectedPayFromAccount == null ? 0D
-				: !DecimalUtil.isEquals(
-						selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-						.getTotalBalance() : 0D;
-
-		calculateEndingBalance();
+		if (selectedPayFromAccount != null) {
+			endingBalanceText.setAmount(selectedPayFromAccount
+					.getTotalBalanceInAccountCurrency());
+		}
 		settabIndexes();
 
 	}
@@ -293,21 +284,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		int size = grid.getRecords().size();
 		if (size == 0)
 			grid.addEmptyMessage(messages.noRecordsToShow());
-	}
-
-	private void calculateEndingBalance() {
-
-		if (selectedPayFromAccount != null) {
-
-			if (selectedPayFromAccount.isIncrease())
-				endingBalance = initialEndingBalance + totalAmount;
-			else
-				endingBalance = initialEndingBalance - totalAmount;
-
-			endingBalanceText.setValue(DataUtils
-					.getAmountAsString(endingBalance));
-
-		}
 	}
 
 	protected void filterlistbyTAXAgency(ClientTAXAgency selectedVATAgency) {
@@ -599,21 +575,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// if (this.transaction == null) {
 		amountText.setAmount(toBeSetAmount);
 		totalAmount = toBeSetAmount;
-		if (selectedPayFromAccount != null) {
-			double toBeSetEndingBalance = 0.0;
-			if (selectedPayFromAccount.isIncrease())
-				toBeSetEndingBalance = selectedPayFromAccount.getTotalBalance()
-						+ DataUtils.getBalance(
-								amountText.getAmount().toString())
-								.doubleValue();
-			else
-				toBeSetEndingBalance = selectedPayFromAccount.getTotalBalance()
-						- DataUtils.getBalance(
-								amountText.getAmount().toString())
-								.doubleValue();
-			endingBalanceText.setAmount(toBeSetEndingBalance);
-			// }
-		}
 
 	}
 
