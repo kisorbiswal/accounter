@@ -244,7 +244,7 @@ public abstract class AbstractTransactionTable extends
 					if (transactionItem.getItem() > 0) {
 						ClientItem item = getCompany().getItem(
 								transactionItem.getItem());
-							if (!item.isIBuyThisItem || !item.isISellThisItem) {
+						if (!item.isIBuyThisItem || !item.isISellThisItem) {
 							result.addError("Item", messages
 									.onlySellableItemsCanBeMarkedAsBillable());
 						}
@@ -333,5 +333,17 @@ public abstract class AbstractTransactionTable extends
 
 	public boolean isSales() {
 		return isSales;
+	}
+
+	public boolean isEmpty() {
+		List<ClientTransactionItem> records = getRecords();
+		boolean isEmpty = true;
+		for (ClientTransactionItem item : records) {
+			if (!item.isEmpty()) {
+				isEmpty = false;
+				break;
+			}
+		}
+		return isEmpty;
 	}
 }
