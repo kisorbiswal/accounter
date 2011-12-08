@@ -108,12 +108,14 @@ public class ExpensesListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(BillsList value) {
 				Record record = new Record(value);
-				record.add("Name", Utility.getTransactionName(value.getType()));
-				record.add("Date", value.getDate());
-				record.add("Number", value.getNumber());
-				record.add("Vendo Name", value.getVendorName());
-				record.add("Original Amount", value.getOriginalAmount());
-				record.add("Balance", value.getBalance());
+				record.add(getMessages().name(),
+						Utility.getTransactionName(value.getType()));
+				record.add(getMessages().date(), value.getDate());
+				record.add(getMessages().number(), value.getNumber());
+				record.add(getMessages().vendor(), value.getVendorName());
+				record.add(getMessages().originalAmount(),
+						value.getOriginalAmount());
+				record.add(getMessages().balance(), value.getBalance());
 				return record;
 			}
 
