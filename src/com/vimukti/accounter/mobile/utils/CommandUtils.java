@@ -31,6 +31,7 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
+import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
@@ -48,10 +49,12 @@ import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
+import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
+import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -1334,5 +1337,24 @@ public class CommandUtils {
 		FinanceTool tool = new FinanceTool();
 		return tool.getMostRecentTransactionCurreencyFactorBasedOnCurrency(
 				companyId, currencyId, tdate);
+	}
+
+	public static ClientWarehouse getWareHouse(Company company, String string) {
+		Set<Warehouse> warehouses = company.getWarehouses();
+		for (Warehouse warehouse : warehouses) {
+			if (warehouse.getName().equalsIgnoreCase(string)
+					|| warehouse.getWarehouseCode().equalsIgnoreCase(string)) {
+				return (ClientWarehouse) CommandUtils.getClientObjectById(
+						warehouse.getID(), AccounterCoreType.WAREHOUSE,
+						company.getId());
+			}
+		}
+		return null;
+	}
+
+	public static ClientStockTransfer getWareHouseTransfer(Company company,
+			String string) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
