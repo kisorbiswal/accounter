@@ -260,12 +260,6 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 				return null;
 			}
 
-			@Override
-			protected double getCurrencyFactor() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),

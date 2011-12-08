@@ -239,16 +239,6 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 				}
 				return false;
 			}
-
-			@Override
-			protected Payee getPayee() {
-				return null;
-			}
-
-			@Override
-			protected double getCurrencyFactor() {
-				return NewJournalEntryCommand.this.getCurrencyFactor();
-			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));

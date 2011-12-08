@@ -180,10 +180,6 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
-			@Override
-			protected double getCurrencyFactor() {
-				return NewCreditCardChargeCommand.this.getCurrencyFactor();
-			}
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(

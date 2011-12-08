@@ -280,11 +280,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				return (Vendor) NewPayBillCommand.this.get(VENDOR).getValue();
 			}
 
-			@Override
-			protected double getCurrencyFactor() {
-				return NewPayBillCommand.this.getCurrencyFactor();
-			}
-
+			
 		});
 
 	}

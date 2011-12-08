@@ -142,11 +142,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
-			@Override
-			protected double getCurrencyFactor() {
-				return NewInvoiceCommand.this.getCurrencyFactor();
-			}
-
+			
 		});
 
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()

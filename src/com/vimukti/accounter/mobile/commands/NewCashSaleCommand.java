@@ -226,10 +226,6 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
-			@Override
-			protected double getCurrencyFactor() {
-				return NewCashSaleCommand.this.getCurrencyFactor();
-			}
 		});
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
 				.pleaseEnterName(getMessages().paymentMethod()), getMessages()

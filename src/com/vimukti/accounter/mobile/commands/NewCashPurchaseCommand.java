@@ -342,10 +342,6 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
-			@Override
-			protected double getCurrencyFactor() {
-				return NewCashPurchaseCommand.this.getCurrencyFactor();
-			}
 		});
 
 		list.add(new TransactionItemTableRequirement(ITEMS,

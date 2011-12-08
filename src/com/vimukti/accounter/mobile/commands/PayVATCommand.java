@@ -184,17 +184,6 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 				return getClientTransactionPayTAXes();
 			}
 
-			@Override
-			protected Payee getPayee() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			protected double getCurrencyFactor() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
 		});
 	}
 

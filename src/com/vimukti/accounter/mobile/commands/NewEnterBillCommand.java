@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -42,7 +41,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -278,11 +276,6 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected Payee getPayee() {
 				return (Vendor) NewEnterBillCommand.this.get(VENDOR).getValue();
-			}
-
-			@Override
-			protected double getCurrencyFactor() {
-				return NewEnterBillCommand.this.getCurrencyFactor();
 			}
 
 		});

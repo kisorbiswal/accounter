@@ -118,17 +118,6 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
-			@Override
-			protected Payee getPayee() {
-				return null;
-			}
-
-			@Override
-			protected double getCurrencyFactor() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
 		});
 	}
 

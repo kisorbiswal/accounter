@@ -257,10 +257,6 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
-			@Override
-			protected double getCurrencyFactor() {
-				return NewCashExpenseCommand.this.getCurrencyFactor();
-			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),

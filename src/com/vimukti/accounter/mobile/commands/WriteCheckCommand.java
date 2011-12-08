@@ -201,10 +201,6 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				return (Payee) WriteCheckCommand.this.get(PAYEE).getValue();
 			}
 
-			@Override
-			protected double getCurrencyFactor() {
-				return WriteCheckCommand.this.getCurrencyFactor();
-			}
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(

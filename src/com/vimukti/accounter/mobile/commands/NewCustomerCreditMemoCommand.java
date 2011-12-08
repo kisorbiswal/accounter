@@ -199,11 +199,6 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				return (Customer) NewCustomerCreditMemoCommand.this.get(
 						CUSTOMER).getValue();
 			}
-
-			@Override
-			protected double getCurrencyFactor() {
-				return NewCustomerCreditMemoCommand.this.getCurrencyFactor();
-			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),

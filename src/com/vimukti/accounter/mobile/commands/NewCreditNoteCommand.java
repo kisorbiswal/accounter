@@ -124,10 +124,6 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
 				.pleaseEnterNameOrNumber(getMessages().Account()),
 				getMessages().Account(), true, true) {
-			@Override
-			protected double getCurrencyFactor() {
-				return NewCreditNoteCommand.this.getCurrencyFactor();
-			}
 
 			@Override
 			protected List<Account> getAccounts(Context context) {

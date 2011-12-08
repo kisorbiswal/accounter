@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Measurement;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -128,17 +127,6 @@ public class NewMeasurementCommand extends NewAbstractCommand {
 				return null;
 			}
 
-			@Override
-			protected Payee getPayee() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			protected double getCurrencyFactor() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
 		});
 	}
 

@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CompanyPreferences;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
@@ -228,17 +227,6 @@ public class NewVendorCommand extends NewAbstractCommand {
 				return new ArrayList<ClientContact>(contacts);
 			}
 
-			@Override
-			protected Payee getPayee() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			protected double getCurrencyFactor() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
 		});
 
 		list.add(new AccountRequirement(ACCOUNT, getMessages().pleaseSelect(

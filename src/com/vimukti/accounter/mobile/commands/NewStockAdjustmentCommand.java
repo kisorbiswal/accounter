@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -117,15 +116,6 @@ public class NewStockAdjustmentCommand extends NewAbstractCommand {
 				return NewStockAdjustmentCommand.this.get(WAREHOUSE).getValue();
 			}
 
-			@Override
-			protected double getCurrencyFactor() {
-				return 0;
-			}
-
-			@Override
-			protected Payee getPayee() {
-				return null;
-			}
 		});
 	}
 

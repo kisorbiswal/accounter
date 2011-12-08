@@ -132,15 +132,6 @@ public class NewWareHouseTransferCommand extends NewAbstractCommand {
 				return NewWareHouseTransferCommand.this.getStockTransferItems();
 			}
 
-			@Override
-			protected double getCurrencyFactor() {
-				return 0;
-			}
-
-			@Override
-			protected Payee getPayee() {
-				return null;
-			}
 		});
 	}
 

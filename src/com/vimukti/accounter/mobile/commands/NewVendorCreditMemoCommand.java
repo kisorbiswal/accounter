@@ -184,11 +184,6 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
-			@Override
-			protected double getCurrencyFactor() {
-				return NewVendorCreditMemoCommand.this.getCurrencyFactor();
-			}
-
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),

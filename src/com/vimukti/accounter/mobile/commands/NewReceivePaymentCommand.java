@@ -204,10 +204,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
-			@Override
-			protected double getCurrencyFactor() {
-				return NewReceivePaymentCommand.this.getCurrencyFactor();
-			}
+			
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(

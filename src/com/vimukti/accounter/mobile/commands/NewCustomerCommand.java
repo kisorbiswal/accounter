@@ -8,7 +8,6 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CustomerGroup;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
@@ -455,18 +454,6 @@ public class NewCustomerCommand extends NewAbstractCommand {
 					return new ArrayList<ClientContact>(customer.getContacts());
 				}
 				return null;
-			}
-
-			@Override
-			protected Payee getPayee() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			protected double getCurrencyFactor() {
-				// TODO Auto-generated method stub
-				return 0;
 			}
 
 		});
