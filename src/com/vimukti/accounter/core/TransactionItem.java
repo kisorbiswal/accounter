@@ -346,6 +346,10 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 
+		if (transaction.isVoid) {
+			return false;
+		}
+
 		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE)
 			return false;
 
