@@ -96,12 +96,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	 */
 	double balanceDue = 0D;
 
-	/**
-	 * This consists a Set of {@link TransactionReceivePayment} This will
-	 * specify in which Receive Payments this Customer Refund is being paid.
-	 */
-	public Set<TransactionReceivePayment> transactionReceivePayments = new HashSet<TransactionReceivePayment>();
-
 	//
 
 	public CustomerRefund() {
@@ -220,11 +214,12 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 				.updateCurrentBalance(this, -1 * this.total, currencyFactor);
 		this.payFrom.onUpdate(session);
 
-		if (this.transactionReceivePayments != null) {
-			for (TransactionReceivePayment trp : this.transactionReceivePayments) {
-				trp.onVoidTransaction(session);
-			}
-		}
+		// if (this.transactionReceivePayments != null) {
+		// for (TransactionReceivePayment trp : this.transactionReceivePayments)
+		// {
+		// trp.onVoidTransaction(session);
+		// }
+		// }
 
 		// if (this.status != Transaction.STATUS_DELETED)
 		// this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
@@ -369,7 +364,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			// session.saveOrUpdate(trp);
 			// }
 			// }
-			this.updateTransactionReceivepayments();
 
 			if ((this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
@@ -391,22 +385,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			doVoidEffect(session);
 		}
 		return super.onDelete(session);
-	}
-
-	private void updateTransactionReceivepayments() {
-		/**
-		 * First do the reverse effect of the old Invoice
-		 */
-		if (this.transactionReceivePayments != null) {
-			Double amtdue = this.total;
-			for (TransactionReceivePayment trp : this.transactionReceivePayments) {
-				trp.setInvoiceAmount(this.total);
-				amtdue = trp.updatePayments(amtdue);
-				HibernateUtil.getCurrentSession().saveOrUpdate(trp);
-			}
-			this.balanceDue = amtdue;
-		}
-
 	}
 
 	@Override
@@ -440,6 +418,5 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		if (this.paymentMethod != null)
 			w.put(messages.paymentMethod(), this.paymentMethod);
 
-		w.put(messages.details(), this.transactionReceivePayments);
 	}
 }

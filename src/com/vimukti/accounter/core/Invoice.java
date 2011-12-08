@@ -641,12 +641,12 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	private void doVoidEffect(Session session, Invoice invoice) {
 
-		if (invoice.transactionReceivePayments != null) {
-			for (TransactionReceivePayment trp : invoice.transactionReceivePayments) {
-				trp.onVoidTransaction(session);
-				session.saveOrUpdate(trp);
-			}
-		}
+//		if (invoice.transactionReceivePayments != null) {
+//			for (TransactionReceivePayment trp : invoice.transactionReceivePayments) {
+//				trp.onVoidTransaction(session);
+//				session.saveOrUpdate(trp);
+//			}
+//		}
 		invoice.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 		invoice.payments = invoice.total;
 		invoice.balanceDue = 0.0;

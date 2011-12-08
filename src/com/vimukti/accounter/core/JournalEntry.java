@@ -197,34 +197,6 @@ public class JournalEntry extends Transaction {
 		this.balanceDue += amount2;
 	}
 
-	private void doVoidEffect(Session session, JournalEntry journalEntry) {
-
-		/* If this Journal Entry has any Credits then make them as null. */
-		if (this.creditsAndPayments != null)
-			this.creditsAndPayments = null;
-
-		/*
-		 * If this Journal entry has been paid in any receive payments then roll
-		 * back the payments and Update the credits balances.
-		 */
-		if (this.transactionReceivePayments != null) {
-			for (TransactionReceivePayment trp : this.transactionReceivePayments) {
-				trp.onVoidTransaction(session);
-				session.saveOrUpdate(trp);
-			}
-		}
-
-		/*
-		 * If this Journal entry has been paid in any payments then roll back
-		 * the payments and and Update the credits balances.
-		 */
-		for (TransactionPayBill tx : this.transactionPayBills) {
-			tx.makeVoid(session);
-		}
-
-		this.balanceDue = 0.0;
-
-	}
 
 	@Override
 	public void onEdit(Transaction clonedObject) {

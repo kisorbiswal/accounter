@@ -339,11 +339,6 @@
 			<property name="isPaid" column="IS_PAID"></property>
 			<property name="payments" column="PAYMENTS"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
-			<set name="transactionReceivePayments" inverse="true"
-				cascade="save-update,delete" lazy="false">
-				<key column="CUSTOMER_REFUND_ID"></key>
-				<one-to-many class="TransactionReceivePayment" />
-			</set>
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 		</joined-subclass>
 		<joined-subclass name="EnterBill" table="ENTER_BILL">
@@ -936,11 +931,6 @@
 			<many-to-one name="involvedAccount" class="Account" lazy="false"
 				cascade="save-update" column="ACCOUNT_ID">
 			</many-to-one>
-			<set name="transactionReceivePayments" inverse="true" lazy="false"
-				cascade="save-update,delete">
-				<key column="JOURNAL_ENTRY_ID"></key>
-				<one-to-many class="TransactionReceivePayment" />
-			</set>
 			<set name="transactionPayBills" inverse="true" cascade="save-update,delete"
 				lazy="false">
 				<key column="JOURNAL_ENTRY_ID"></key>
