@@ -46,28 +46,30 @@ public abstract class TransactionItemTableRequirement extends
 	protected void addRequirement(List<Requirement> list) {
 		list.add(new ItemRequirement(ITEM,
 				"Please Select an Item for Transaction", "Item", false, true,
-				null, isSales()) {
+				new ChangeListner<Item>() {
+
+					@Override
+					public void onSelection(Item item) {
+						if (isSales()) {
+							get(UNITPTICE).setValue(
+									item.getSalesPrice() / getCurrencyFactor());
+						} else {
+							get(UNITPTICE).setValue(
+									item.getPurchasePrice()
+											/ getCurrencyFactor());
+						}
+						get(TAXCODE)
+								.setValue(
+										get(TAXCODE).getValue() == null ? item
+												.getTaxCode() : get(TAXCODE)
+												.getValue());
+						get(TAX).setValue(item.isTaxable());
+					}
+				}, isSales()) {
 
 			@Override
 			protected List<Item> getLists(Context context) {
 				return getItems(context);
-			}
-
-			@Override
-			public void setValue(Object value) {
-				Item item = (Item) value;
-				super.setValue(value);
-				if (item != null) {
-					if (isSales()) {
-						get(UNITPTICE).setValue(item.getSalesPrice());
-					} else {
-						get(UNITPTICE).setValue(item.getPurchasePrice());
-					}
-					get(TAXCODE).setValue(
-							get(TAXCODE).getValue() == null ? item.getTaxCode()
-									: get(TAXCODE).getValue());
-					get(TAX).setValue(item.isTaxable());
-				}
 			}
 		});
 
@@ -247,8 +249,7 @@ public abstract class TransactionItemTableRequirement extends
 		} else {
 			formalName = getPreferences().getPrimaryCurrency().getFormalName();
 		}
-		record.add("Unit price" + "(" + formalName + ")", Global.get()
-				.toCurrencyFormat(t.getUnitPrice() / getCurrencyFactor()));
+		record.add("Unit price" + "(" + formalName + ")", t.getUnitPrice());
 		if (getPreferences().isTrackTax()) {
 			if (getPreferences().isTaxPerDetailLine()) {
 				record.add("Tax Code", ((ClientTAXCode) (CommandUtils
@@ -263,6 +264,7 @@ public abstract class TransactionItemTableRequirement extends
 				}
 			}
 		}
+		record.add("Total price" + "(" + formalName + ")", t.getLineTotal());
 		record.add("Description", t.getDescription());
 		return record;
 	}
