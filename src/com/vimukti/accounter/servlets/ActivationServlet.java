@@ -70,6 +70,7 @@ public class ActivationServlet extends BaseServlet {
 			dispatch(req, resp, VIEW);
 			return;
 		}
+		token=token.trim();
 
 		// get activation record
 		Session hibernateSession = HibernateUtil.openSession();
