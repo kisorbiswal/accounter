@@ -36,7 +36,7 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 				return process;
 			}
 		}
-		Result finish = finish(context, makeResult, list, list2, actions2);
+		Result finish = finish(context, makeResult, list, actions);
 		if (finish == null) {
 			object = getObject();
 		}
@@ -62,7 +62,7 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 	protected abstract T getObject();
 
 	protected abstract Result finish(Context context, Result makeResult,
-			ResultList list, ResultList reqList, ResultList reqActions);
+			ResultList list, ResultList actions);
 
 	@Override
 	public InputType getInputType() {
