@@ -47,7 +47,7 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 	@Override
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
-		String process = (String) context.getAttribute(PROCESS_ATR);
+		String process = (String) context.getAttribute(PROCESS_ATR + getName());
 		if (process != null && process.equals(getName())) {
 			Result res = edit(context);
 			if (res != null) {
@@ -85,7 +85,7 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 	}
 
 	private Result edit(Context context) {
-		context.setAttribute(PROCESS_ATR, getName());
+		context.setAttribute(PROCESS_ATR + getName(), getName());
 		Result result = new Result();
 		ResultList list = new ResultList("values");
 		list.setTitle(getRecordName());
@@ -97,18 +97,18 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 				return process;
 			}
 		}
-		Record record = new Record(ActionNames.FINISH);
+		Record record = new Record("finish" + getName());
 		record.add("Finish");
 		actions.add(record);
 		result.add(actions);
 		Object selection = context.getSelection("actions");
-		if (selection == ActionNames.FINISH) {
+		if (selection != null && selection.equals("finish" + getName())) {
 			Result finish = onFinish(context);
 			if (finish != null) {
 				return finish;
 			}
 			isDone = true;
-			context.removeAttribute(PROCESS_ATR);
+			context.removeAttribute(PROCESS_ATR + getName());
 			return null;
 		}
 		context.removeSelection("actions");

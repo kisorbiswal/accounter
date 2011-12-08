@@ -126,6 +126,7 @@ public class NewStockAdjustmentCommand extends NewAbstractCommand {
 						STOCK_ADJUSTMENT).getValue());
 		stockAdjustment.setWareHouse(((Warehouse) get(WAREHOUSE).getValue())
 				.getID());
+		create(stockAdjustment, context);
 		return super.onCompleteProcess(context);
 	}
 

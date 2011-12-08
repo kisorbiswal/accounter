@@ -15,15 +15,14 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientStockAdjustmentItem;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public abstract class StockAdjustmentItemTableRequirement extends
 		AbstractTableRequirement<ClientStockAdjustmentItem> {
 
 	private static final String ITEM = "inventoryItems";
 	private static final String COMMENT = "comment";
-	private static final String AVAILABLE_QTY = "availableQty";
 	private static final String ADJUSTMENT_QTY = "adjustmentQty";
 
 	public StockAdjustmentItemTableRequirement(String requirementName,
@@ -34,8 +33,21 @@ public abstract class StockAdjustmentItemTableRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		list.add(new ItemRequirement(ITEM, getMessages().pleaseSelect(
-				getMessages().item()), getMessages().item(), false, true, null,
-				true) {
+				getMessages().item()), getMessages().item(), false, true,
+				new ChangeListner<Item>() {
+
+					@Override
+					public void onSelection(Item item) {
+						ClientQuantity value2 = get(ADJUSTMENT_QTY).getValue();
+						value2.setUnit(item.getMeasurement().getDefaultUnit()
+								.getID());
+
+						QuantityRequirement requirement = (QuantityRequirement) get(ADJUSTMENT_QTY);
+						requirement.setDefaultUnit(item.getMeasurement()
+								.getDefaultUnit());
+					}
+
+				}, true) {
 
 			@Override
 			protected List<Item> getLists(Context context) {
@@ -50,29 +62,22 @@ public abstract class StockAdjustmentItemTableRequirement extends
 
 		list.add(new StringRequirement(COMMENT, getMessages().pleaseEnter(
 				getMessages().comment()), getMessages().comment(), true, true));
-		StringRequirement adjustmentQty = new StringRequirement(AVAILABLE_QTY,
-				getMessages().pleaseEnter(getMessages().availableQty()),
-				getMessages().availableQty(), true, true) {
-			@Override
-			public String getValue() {
-				return getAvailableQuantity((Item) get(ITEM).getValue());
-			}
-		};
-		adjustmentQty.setEditable(false);
-		list.add(adjustmentQty);
 
-		list.add(new AmountRequirement(ADJUSTMENT_QTY, getMessages()
-				.pleaseEnter(getMessages().adjustmentQty()), getMessages()
-				.adjustmentQty(), true, true) {
+		list.add(new QuantityRequirement(ADJUSTMENT_QTY,
+				getMessages().pleaseEnter(getMessages().adjustmentQty()),
+				getMessages().adjustmentQty()) {
+
 			@Override
-			public void setValue(Object value) {
-				Double amount = (Double) value;
-				if (amount != null && DecimalUtil.isEquals(amount, 0)) {
-					amount = (double) 1;
-				}
-				super.setValue(amount);
+			protected List<Unit> getLists(Context context) {
+				return StockAdjustmentItemTableRequirement.this.getUnits();
 			}
 		});
+	}
+
+	protected List<Unit> getUnits() {
+		Item item = get(ITEM).getValue();
+		Set<Unit> units = item.getMeasurement().getUnits();
+		return new ArrayList<Unit>(units);
 	}
 
 	protected List<Item> getItems() {
@@ -97,10 +102,8 @@ public abstract class StockAdjustmentItemTableRequirement extends
 		obj.setItem(item.getID());
 		String comment = get(COMMENT).getValue();
 		obj.setComment(comment);
-		double value = get(ADJUSTMENT_QTY).getValue();
-		obj.getAdjustmentQty().setUnit(
-				getCompany().getDefaultMeasurement().getDefaultUnit().getID());
-		obj.getAdjustmentQty().setValue(value);
+		ClientQuantity clientQuantity = get(ADJUSTMENT_QTY).getValue();
+		obj.setAdjustmentQty(clientQuantity);
 	}
 
 	@Override
@@ -109,8 +112,7 @@ public abstract class StockAdjustmentItemTableRequirement extends
 				AccounterCoreType.ITEM);
 		get(ITEM).setValue(item);
 		get(COMMENT).setValue(obj.getComment());
-		get(AVAILABLE_QTY).setValue(getAvailableQuantity(item));
-		get(ADJUSTMENT_QTY).setValue(obj.getAdjustmentQty().getValue());
+		get(ADJUSTMENT_QTY).setValue(obj.getAdjustmentQty());
 	}
 
 	@Override
@@ -127,8 +129,16 @@ public abstract class StockAdjustmentItemTableRequirement extends
 		record.add(getMessages().itemName(), item != null ? item.getName() : "");
 		record.add(getMessages().comment(), t.getComment());
 		record.add(getMessages().availableQty(), getAvailableQuantity(item));
-		record.add(getMessages().availableQty(), t.getAdjustmentQty()
-				.getValue());
+
+		Unit clientUnit = (Unit) CommandUtils.getServerObjectById(t
+				.getAdjustmentQty().getUnit(), AccounterCoreType.UNIT);
+		if (clientUnit != null) {
+			record.add(getMessages().availableQty(), t.getAdjustmentQty()
+					.getValue() + " " + clientUnit.getType());
+		} else {
+			record.add(getMessages().availableQty(), t.getAdjustmentQty()
+					.getValue());
+		}
 		return record;
 	}
 

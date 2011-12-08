@@ -1,20 +1,23 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.Unit;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
-import com.vimukti.accounter.web.client.core.ClientUnit;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public abstract class WareHouseTransferTableRequirement extends
 		AbstractTableRequirement<ClientStockTransferItem> {
 	private static final String ITEM_NAME = "item_name";
-	private static final String TOTAL_QUANTITY = "totalQuantity";
 	private static final String QUANTITY = "quantity";
 
 	public WareHouseTransferTableRequirement(String requirementName,
@@ -30,21 +33,13 @@ public abstract class WareHouseTransferTableRequirement extends
 		itemNameReq.setEditable(false);
 		list.add(itemNameReq);
 
-		AmountRequirement totalQuantity = new AmountRequirement(TOTAL_QUANTITY,
-				getMessages().pleaseEnter(getMessages().totalQuantity()),
-				getMessages().totalQuantity(), true, true);
-		totalQuantity.setEditable(false);
-		list.add(totalQuantity);
+		list.add(new QuantityRequirement(QUANTITY, getMessages()
+				.pleaseEnter(getMessages().adjustmentQty()), getMessages()
+				.adjustmentQty()) {
 
-		list.add(new AmountRequirement(QUANTITY, getMessages().pleaseEnter(
-				getMessages().quantity()), getMessages().quantity(), true, true) {
 			@Override
-			public void setValue(Object value) {
-				Double amount = (Double) value;
-				if (amount != null && DecimalUtil.isEquals(amount, 0)) {
-					amount = (double) 1;
-				}
-				super.setValue(amount);
+			protected List<Unit> getLists(Context context) {
+				return WareHouseTransferTableRequirement.this.getUnits();
 			}
 		});
 	}
@@ -56,22 +51,16 @@ public abstract class WareHouseTransferTableRequirement extends
 
 	@Override
 	protected void getRequirementsValues(ClientStockTransferItem obj) {
-		double value = get(QUANTITY).getValue();
-		if (value == 0) {
-			value = 1.0;
-		}
-		obj.getQuantity().setUnit(
-				getCompany().getDefaultMeasurement().getDefaultUnit().getID());
-		obj.getQuantity().setValue(value);
+		ClientQuantity clientQuantity = get(QUANTITY).getValue();
+		obj.setQuantity(clientQuantity);
 	}
 
 	@Override
 	protected void setRequirementsDefaultValues(ClientStockTransferItem obj) {
-		ClientItem item = (ClientItem) CommandUtils.getClientObjectById(
-				obj.getItem(), AccounterCoreType.ITEM, getCompanyId());
-		get(ITEM_NAME).setValue(item != null ? item.getName() : " ");
-		get(TOTAL_QUANTITY).setValue(obj.getTotalQuantity().getValue());
-		get(QUANTITY).setValue(obj.getQuantity().getValue());
+		Item item = (Item) CommandUtils.getServerObjectById(obj.getItem(),
+				AccounterCoreType.ITEM);
+		get(ITEM_NAME).setValue(item);
+		get(QUANTITY).setValue(obj.getQuantity());
 	}
 
 	@Override
@@ -90,12 +79,11 @@ public abstract class WareHouseTransferTableRequirement extends
 		if (item == null) {
 			totalQty = String.valueOf(t.getTotalQuantity().getValue());
 		} else {
-			ClientUnit unit = null;
+			Unit unit = null;
 			StringBuffer data = new StringBuffer();
 			if (t.getTotalQuantity() != null) {
-				unit = (ClientUnit) CommandUtils.getClientObjectById(t
-						.getTotalQuantity().getUnit(), AccounterCoreType.UNIT,
-						getCompanyId());
+				unit = (Unit) CommandUtils.getServerObjectById(t
+						.getTotalQuantity().getUnit(), AccounterCoreType.UNIT);
 				data.append(String.valueOf(t.getTotalQuantity().getValue()));
 				data.append(" ");
 			}
@@ -109,12 +97,11 @@ public abstract class WareHouseTransferTableRequirement extends
 		if (item == null || t.getQuantity() == null) {
 			quantity = "";
 		} else {
-			ClientUnit unit = null;
+			Unit unit = null;
 			StringBuffer data = new StringBuffer();
 			if (t.getQuantity() != null) {
-				unit = (ClientUnit) CommandUtils.getClientObjectById(t
-						.getQuantity().getUnit(), AccounterCoreType.UNIT,
-						getCompanyId());
+				unit = (Unit) CommandUtils.getServerObjectById(t.getQuantity()
+						.getUnit(), AccounterCoreType.UNIT);
 				data.append(String.valueOf(t.getQuantity().getValue()));
 				data.append(" ");
 			}
@@ -148,4 +135,9 @@ public abstract class WareHouseTransferTableRequirement extends
 		return false;
 	}
 
+	protected List<Unit> getUnits() {
+		Item item = get(ITEM_NAME).getValue();
+		Set<Unit> units = item.getMeasurement().getUnits();
+		return new ArrayList<Unit>(units);
+	}
 }
