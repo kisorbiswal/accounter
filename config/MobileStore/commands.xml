@@ -1246,4 +1246,48 @@
 		<alias>Tax History</alias>
 	</command>
 
+	<command clazz="com.vimukti.accounter.mobile.commands.NewWareHouseCommand"
+		name="New WareHouse">
+		<alias>Create Warehouse</alias>
+		<alias>Warehouse</alias>
+		<alias>Update Warehouse</alias>
+	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.NewWareHouseTransferCommand"
+		name="New WareHouse Transfer">
+		<alias>Create Warehouse Transfer</alias>
+		<alias>Warehouse Transfer</alias>
+		<alias>Update Warehouse Transfer</alias>
+	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.NewStockAdjustmentCommand"
+		name="New Stockadjustment">
+		<alias>New Stock Adjustment</alias>
+		<alias>Create Stock Adjustment</alias>
+		<alias>Stock Adjustment</alias>
+		<alias>Update Stock Adjustment</alias>
+	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.InventoryItemsListCommand"
+		name="Inventory Items">
+		<alias>Inventory Items List</alias>
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.WareHouseListCommand"
+		name="WareHouse List">
+		<alias>WareHouses</alias>
+	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.WareHouseTransferListCommand"
+		name="WareHouse Transfer List">
+		<alias>WareHouse Transfers</alias>
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.MeasurementListCommand"
+		name="Measurement List">
+		<alias>Measurements</alias>
+	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.StockAdjustmentListCommand"
+		name="StockAdjustment List">
+		<alias>Stock Adjustments</alias>
+	</command>
 </commands>
