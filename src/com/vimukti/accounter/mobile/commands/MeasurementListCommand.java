@@ -1,4 +1,5 @@
 package com.vimukti.accounter.mobile.commands;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +48,9 @@ public class MeasurementListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new ShowListRequirement<Measurement>("measurements",
-				getMessages().pleaseSelect(
+		list.add(new ShowListRequirement<Measurement>(getMessages()
+				.measurementList(), getMessages()
+				.pleaseSelect(
 						"any " + getMessages().wareHouseTransfer()
 								+ " to view details"), 40) {
 
