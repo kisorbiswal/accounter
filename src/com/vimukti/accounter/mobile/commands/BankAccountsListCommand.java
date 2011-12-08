@@ -34,8 +34,8 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ShowListRequirement<Account>("AccountsList",
-				"Please Select ", 20) {
+		list.add(new ShowListRequirement<Account>(getMessages().Accounts(),
+				getMessages().pleaseSelect(getMessages().account()), 20) {
 			@Override
 			protected Record createRecord(Account value) {
 				Record record = new Record(value);
@@ -80,12 +80,12 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 				for (Account account : completeList) {
 
-					if (type.equals("Active")) {
+					if (type.equals(getMessages().active())) {
 						if (account.getIsActive())
 
 							result.add(account);
 					}
-					if (type.equals("In-Active")) {
+					if (type.equals(getMessages().inActive())) {
 						if (!account.getIsActive())
 							result.add(account);
 					}
