@@ -99,8 +99,9 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ShowListRequirement<AccountRegister>("Account Register",
-				"Please Enter name or number", 20) {
+		list.add(new ShowListRequirement<AccountRegister>(getMessages()
+				.accountRegister(), getMessages().pleaseEnter(
+				getMessages().name()), 20) {
 
 			@Override
 			protected String onSelection(AccountRegister value) {
@@ -115,15 +116,15 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(AccountRegister accRegister) {
 				Record record = new Record(accRegister);
-				record.add("Date", accRegister.getDate());
-				record.add("Type",
+				record.add(getMessages().date(), accRegister.getDate());
+				record.add(getMessages().transactionType(),
 						Utility.getTransactionName(accRegister.getType()));
-				record.add("Doc No", accRegister.getNumber());
-				record.add("Increase", accRegister.getPayTo());
-				record.add("Decrease", accRegister.getAmount());
-				record.add("Account", accRegister.getAccount());
-				record.add("Memo", accRegister.getMemo());
-				record.add("Balance", accRegister.getBalance());
+				record.add(getMessages().docNo(), accRegister.getNumber());
+				record.add(getMessages().increase(), accRegister.getPayTo());
+				record.add(getMessages().decrease(), accRegister.getAmount());
+				record.add(getMessages().account(), accRegister.getAccount());
+				record.add(getMessages().memo(), accRegister.getMemo());
+				record.add(getMessages().balance(), accRegister.getBalance());
 				return record;
 			}
 
