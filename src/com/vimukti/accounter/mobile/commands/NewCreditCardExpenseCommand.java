@@ -369,12 +369,6 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
-		/*
-		 * if (preferences.isEnableMultiCurrency()) { double factor =
-		 * get(CURRENCY_FACTOR).getValue();
-		 * creditCardCharge.setCurrencyFactor(factor); }
-		 */
-
 		String memo = get(MEMO).getValue();
 		creditCardCharge.setMemo(memo);
 		creditCardCharge.setCurrency(supplier.getCurrency().getID());
@@ -471,7 +465,6 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		get("deliveryDate").setValue(
 				new ClientFinanceDate(creditCardCharge.getDeliveryDate()));
 		get(IS_VAT_INCLUSIVE).setValue(creditCardCharge.isAmountsIncludeVAT());
-		/* get(CURRENCY_FACTOR).setValue(creditCardCharge.getCurrencyFactor()); */
 		get(MEMO).setValue(creditCardCharge.getMemo());
 	}
 
@@ -501,7 +494,6 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		get("deliveryDate").setDefaultValue(new ClientFinanceDate());
 		get(PAYMENT_METHOD).setDefaultValue(getMessages().creditCard());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
-		/* get(CURRENCY_FACTOR).setDefaultValue(1.0); */
 	}
 
 	@Override

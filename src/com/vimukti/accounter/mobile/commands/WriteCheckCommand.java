@@ -391,6 +391,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 	}
 
 	private void setValues(Context context) {
+		get(CURRENCY_FACTOR).setValue(writeCheck.getCurrencyFactor());
 		if (writeCheck.getCustomer() != 0) {
 			get(PAYEE).setValue(
 					CommandUtils.getServerObjectById(writeCheck.getCustomer(),
@@ -418,7 +419,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		get(AMOUNT).setValue(writeCheck.getNetAmount());
 		get(ACCOUNTS).setValue(writeCheck.getTransactionItems());
 		get(IS_VAT_INCLUSIVE).setValue(writeCheck.isAmountsIncludeVAT());
-		// get(CURRENCY_FACTOR).setValue(writeCheck.getCurrencyFactor());
+
 		get(MEMO).setValue(writeCheck.getMemo());
 	}
 
@@ -443,8 +444,6 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 						ClientTransaction.TYPE_WRITE_CHECK, getCompany()));
 		get(AMOUNT).setDefaultValue(0.0);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
-		// get(CURRENCY).setDefaultValue(null);
-		// get(CURRENCY_FACTOR).setDefaultValue(1.0);
 	}
 
 	private void setAmountValue() {

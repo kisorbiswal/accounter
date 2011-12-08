@@ -93,10 +93,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 				}
 		}
 		get(MEMO).setDefaultValue("");
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
+
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 
 	}
@@ -426,14 +423,6 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
-		/*
-		 * if (preferences.isEnableMultiCurrency()) { Currency currency =
-		 * get(CURRENCY).getValue(); if (currency != null) {
-		 * enterBill.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * enterBill.setCurrencyFactor(factor); }
-		 */
 		enterBill.setTransactionItems(items);
 		updateTotals(context, enterBill, false);
 

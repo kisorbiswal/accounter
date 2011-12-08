@@ -89,7 +89,6 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		get(ACCOUNTS).setValue(accounts);
 		get(DATE).setValue(cashPurchase.getDate());
 		get(NUMBER).setValue(cashPurchase.getNumber());
-		/* get(CURRENCY_FACTOR).setValue(cashPurchase.getCurrencyFactor()); */
 		get(VENDOR).setValue(
 				CommandUtils.getServerObjectById(cashPurchase.getVendor(),
 						AccounterCoreType.VENDOR));
@@ -143,10 +142,6 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		}
 		get(MEMO).setDefaultValue("");
 
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
 	}
 
 	@Override
@@ -474,14 +469,6 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
-		/*
-		 * if (preferences.isEnableMultiCurrency()) { Currency currency =
-		 * get(CURRENCY).getValue(); if (currency != null) {
-		 * cashPurchase.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * cashPurchase.setCurrencyFactor(factor); }
-		 */
 		Vendor vendor = get(VENDOR).getValue();
 		cashPurchase.setVendor(vendor.getID());
 

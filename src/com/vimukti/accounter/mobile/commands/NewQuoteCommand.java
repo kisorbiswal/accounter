@@ -96,6 +96,18 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 								break;
 							}
 						}
+
+						try {
+							double mostRecentTransactionCurrencyFactor = CommandUtils
+									.getMostRecentTransactionCurrencyFactor(
+											getCompanyId(), value.getCurrency()
+													.getID(),
+											new ClientFinanceDate().getDate());
+							NewQuoteCommand.this.get(CURRENCY_FACTOR).setValue(
+									mostRecentTransactionCurrencyFactor);
+						} catch (AccounterException e) {
+							e.printStackTrace();
+						}
 					}
 				}) {
 
@@ -104,37 +116,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 				return getCustomers();
 			}
 		});
-		/*
-		 * list.add(new CurrencyRequirement(CURRENCY,
-		 * getMessages().pleaseSelect( getConstants().currency()),
-		 * getConstants().currency(), true, true, null) {
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (context.getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } else { return null;
-		 * } }
-		 * 
-		 * @Override protected List<Currency> getLists(Context context) { return
-		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
-		 * 
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
-		 * return "1 " + selc.getFormalName() + " = " + value + " " +
-		 * primaryCurrency.getFormalName(); }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
-		 * != null) { if (context.getPreferences().isEnableMultiCurrency() &&
-		 * !((Currency) get(CURRENCY).getValue())
-		 * .equals(context.getPreferences() .getPrimaryCurrency())) { return
-		 * super.run(context, makeResult, list, actions); } } return null; } });
-		 */
+
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
 				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
 			@Override
@@ -358,15 +340,6 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
-		/*
-		 * if (preferences.isEnableMultiCurrency()) { Currency currency =
-		 * get(CURRENCY).getValue(); if (currency != null) {
-		 * estimate.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * estimate.setCurrencyFactor(factor); }
-		 */
-
 		estimate.setTransactionItems(items);
 
 		PaymentTerms paymentTerm = get(PAYMENT_TERMS).getValue();
@@ -447,10 +420,6 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue(" ");
 		get(BILL_TO).setDefaultValue(new ClientAddress());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
 
 	}
 
@@ -560,7 +529,6 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 				CommandUtils.getServerObjectById(estimate.getPaymentTerm(),
 						AccounterCoreType.PAYMENT_TERM));
 		get(MEMO).setValue(estimate.getMemo());
-		/* get(CURRENCY_FACTOR).setValue(estimate.getCurrencyFactor()); */
 		get(IS_VAT_INCLUSIVE).setValue(estimate.isAmountsIncludeVAT());
 		get(PHONE).setValue(estimate.getPhone());
 	}

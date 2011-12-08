@@ -5,21 +5,27 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
-import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.CurrencyAmountRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -51,6 +57,16 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(getMessages().fromAccount());
+			}
+
+			@Override
+			public void setValue(Object value) {
+				Account account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
+				if (account == null) {
+					addFirstMessage("One of the account currency should be primary currency");
+					return;
+				}
+				super.setValue(value);
 			}
 
 			@Override
@@ -111,9 +127,48 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 				return getMessages().youDontHaveAny(getMessages().Accounts());
 			}
 		});
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter(getMessages().currencyFactor()), getMessages()
+				.currencyFactor()) {
 
-		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getMessages().amount()), getMessages().amount(), false, true));
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				Account fromAccount = NewMakeDepositCommand.this.get(
+						DEPOSIT_OR_TRANSFER_FROM).getValue();
+				Account toAccount = NewMakeDepositCommand.this.get(
+						DEPOSIT_OR_TRANSFER_TO).getValue();
+				if (getPreferences().isEnableMultiCurrency()
+						&& (!fromAccount
+								.getCurrency()
+								.getFormalName()
+								.equalsIgnoreCase(
+										toAccount.getCurrency().getFormalName()))) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Account account = NewMakeDepositCommand.this.get(
+						DEPOSIT_OR_TRANSFER_FROM).getValue();
+				return getCurrency(account.getCurrency().getID());
+			}
+
+		});
+		list.add(new CurrencyAmountRequirement(AMOUNT, getMessages()
+				.pleaseEnter(getMessages().amount()), getMessages().amount(),
+				false, true) {
+
+			@Override
+			protected String getFormalName() {
+				Account account = NewMakeDepositCommand.this.get(
+						DEPOSIT_OR_TRANSFER_FROM).getValue();
+				return account.getCurrency().getFormalName();
+			}
+		});
 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
@@ -182,21 +237,44 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 		String memo = get(MEMO).getValue();
 		makeDeposit.setMemo(memo);
-
-		// caluclateTotals(makeDeposit);
-
-		// if (context.getPreferences().isEnableMultiCurrency()) {
-		// Currency currency = get(CURRENCY).getValue();
-		// if (currency != null) {
-		// makeDeposit.setCurrency(currency.getID());
-		// }
-		//
-		// double factor = get(CURRENCY_FACTOR).getValue();
-		// makeDeposit.setCurrencyFactor(factor);
-		// }
+		Currency depositOrTransferFromCurrency = depositOrTransferFromAccount
+				.getCurrency();
+		Currency depositOrTransferToCurrency = depositOrTransferToAccount
+				.getCurrency();
+		ClientCurrency primaryCurrency = getPreferences().getPrimaryCurrency();
+		if (!primaryCurrency.equals(depositOrTransferToCurrency)) {
+			makeDeposit.setCurrency(depositOrTransferToCurrency.getID());
+		}
+		if (!primaryCurrency.equals(depositOrTransferFromCurrency)) {
+			makeDeposit.setCurrency(depositOrTransferFromCurrency.getID());
+		}
+		makeDeposit.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		create(makeDeposit, context);
 
 		return null;
+	}
+
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+
+		double amount = get(AMOUNT).getValue();
+		Account depositOrTransferToAccount = get(DEPOSIT_OR_TRANSFER_TO)
+				.getValue();
+		Account depositOrTransferFromAccount = get(DEPOSIT_OR_TRANSFER_FROM)
+				.getValue();
+		if (!depositOrTransferToAccount
+				.getCurrency()
+				.getFormalName()
+				.equalsIgnoreCase(
+						depositOrTransferFromAccount.getCurrency()
+								.getFormalName()))
+			makeResult.add("Total" + "("
+					+ getPreferences().getPrimaryCurrency().getFormalName()
+					+ ")" + ": " + (amount * getCurrencyFactor()));
+		makeResult.add("Total" + "("
+				+ depositOrTransferFromAccount.getCurrency().getFormalName()
+				+ ")" + ": " + (amount));
+
 	}
 
 	@Override
@@ -259,8 +337,6 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_MAKE_DEPOSIT, getCompany()));
 		get(MEMO).setDefaultValue("");
-		// get(CURRENCY).setDefaultValue(null);
-		// get(CURRENCY_FACTOR).setDefaultValue(1.0);
 	}
 
 	@Override
@@ -272,7 +348,7 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Payee getPayee() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 

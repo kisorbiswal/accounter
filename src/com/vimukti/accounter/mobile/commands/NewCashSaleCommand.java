@@ -116,39 +116,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 
 		});
-		/*
-		 * list.add(new CurrencyRequirement(CURRENCY,
-		 * getMessages().pleaseSelect( getConstants().currency()),
-		 * getConstants().currency(), true, true, null) {
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } else { return null;
-		 * } }
-		 * 
-		 * @Override protected List<Currency> getLists(Context context) { return
-		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
-		 * 
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
-		 * return "1 " + selc.getFormalName() + " = " + value + " " +
-		 * primaryCurrency.getFormalName(); }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
-		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
-		 * !((Currency) get(CURRENCY).getValue()) .equals(getPreferences()
-		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
-		 * actions); } } return null;
-		 * 
-		 * } });
-		 */
+
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
 				true, true) {
@@ -545,18 +513,6 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
-		/*
-		 * if (preferences.isEnableMultiCurrency()) { Currency currency =
-		 * get(CURRENCY).getValue(); if (currency != null) {
-		 * cashSale.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * cashSale.setCurrencyFactor(factor); }
-		 */
-
-		// if (context.getCompany())
-		// ClientTAXCode taxCode = get(TAXCODE).getValue();
-		// cashSale.setTaxTotal(getTaxTotal(accounts, taxCode));
 		cashSale.setCurrency(customer.getID());
 		cashSale.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		double taxTotal = updateTotals(context, cashSale, true);
@@ -606,10 +562,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		get(CONTACT).setDefaultValue(contact);
 		get(PAYMENT_METHOD).setDefaultValue(getMessages().cash());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
+
 	}
 
 	@Override
@@ -659,6 +612,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 	}
 
 	private void setValues() {
+		get(CURRENCY_FACTOR).setValue(cashSale.getCurrencyFactor());
 		List<ClientTransactionItem> transactionItems = cashSale
 				.getTransactionItems();
 		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
@@ -694,7 +648,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 						AccounterCoreType.ACCOUNT));
 		get(DELIVERY_DATE).setValue(
 				new ClientFinanceDate(cashSale.getDeliverydate()));
-		/* get(CURRENCY_FACTOR).setValue(cashSale.getCurrencyFactor()); */
+
 	}
 
 	@Override

@@ -368,14 +368,6 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
-		/*
-		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
-		 * currency = get(CURRENCY).getValue(); if (currency != null) {
-		 * cashPurchase.setCurrency(currency.getID()); } double factor =
-		 * get(CURRENCY_FACTOR).getValue();
-		 * cashPurchase.setCurrencyFactor(factor); }
-		 */
-
 		cashPurchase.setTransactionItems(items);
 		cashPurchase.setCurrency(vendor.getCurrency().getID());
 		cashPurchase
@@ -452,7 +444,6 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		get(NUMBER).setValue(cashPurchase.getNumber());
 		get(MEMO).setValue(cashPurchase.getMemo());
 
-		/* get(CURRENCY_FACTOR).setValue(cashPurchase.getCurrencyFactor()); */
 	}
 
 	@Override

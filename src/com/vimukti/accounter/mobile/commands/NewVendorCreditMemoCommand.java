@@ -60,10 +60,6 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 						context.getCompany()));
 		get(PHONE).setDefaultValue("");
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
 
 	}
 
