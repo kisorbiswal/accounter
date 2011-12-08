@@ -526,8 +526,7 @@
 			</list>
 			<property name="discountDate" column="DISCOUNT_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<set name="transactionReceivePayments" inverse="true" lazy="false"
-				cascade="save-update,delete">
+			<set name="transactionReceivePayments" inverse="true">
 				<key column="INVOICE_ID"></key>
 				<one-to-many class="TransactionReceivePayment" />
 			</set>
