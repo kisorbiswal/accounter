@@ -27,16 +27,17 @@ public class AddressRequirement extends MultiRequirement<ClientAddress> {
 
 	@Override
 	protected void addRequirement(List<Requirement> list) {
-		list.add(new StringRequirement(ADDRESS1, "Please enter address1",
-				"Address1", true, true));
-		list.add(new StringRequirement(CITY, "Please enter city", "City", true,
+		list.add(new StringRequirement(ADDRESS1, getMessages().pleaseEnter(
+				getMessages().address1()), getMessages().address1(), true, true));
+		list.add(new StringRequirement(CITY, getMessages().pleaseEnter(
+				getMessages().city()), getMessages().city(), true, true));
+		list.add(new StringRequirement(STREET, getMessages().pleaseEnter(
+				getMessages().streetName()), getMessages().streetName(), true,
 				true));
-		list.add(new StringRequirement(STREET, "Please enter street", "Stree",
-				true, true));
-		list.add(new StringRequirement(STATE, "Please enter state", "State",
-				true, true));
-		list.add(new StringRequirement(COUNTRY, "Please enter country",
-				"Country", true, true));
+		list.add(new StringRequirement(STATE, getMessages().pleaseEnter(
+				getMessages().state()), getMessages().state(), true, true));
+		list.add(new StringRequirement(COUNTRY, getMessages().pleaseEnter(
+				getMessages().country()), getMessages().country(), true, true));
 	}
 
 	@Override

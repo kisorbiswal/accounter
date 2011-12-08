@@ -17,8 +17,8 @@ public abstract class ShippingTermRequirement extends
 	@Override
 	protected Record createRecord(ShippingTerms value) {
 		Record record = new Record(value);
-		record.add("Name", value.getName());
-		record.add("Desc", value.getDescription());
+		record.add(getMessages().name(), value.getName());
+		record.add(getMessages().description(), value.getDescription());
 		return record;
 	}
 

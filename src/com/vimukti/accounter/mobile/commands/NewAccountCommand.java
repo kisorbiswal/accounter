@@ -62,17 +62,18 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new StringListRequirement(ACCOUNT_TYPE,
-				"Please Enter Account Type", "Account Type", true, true, null) {
+		list.add(new StringListRequirement(ACCOUNT_TYPE, getMessages()
+				.pleaseEnter(getMessages().accountType()), getMessages()
+				.accountType(), true, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return "Account type has been selected";
+				return getMessages().hasSelected(getMessages().account());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return "Select Account type";
+				return getMessages().pleaseSelect(getMessages().accountType());
 			}
 
 			@Override
@@ -86,18 +87,21 @@ public class NewAccountCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new NameRequirement(ACCOUNT_NAME, "Please Enter Account Name",
-				"Name", false, true));
+		list.add(new NameRequirement(ACCOUNT_NAME, getMessages()
+				.pleaseEnterName(getMessages().account()),
+				getMessages().name(), false, true));
 
-		list.add(new NumberRequirement(ACCOUNT_NUMBER,
-				"Please Enter Account number", "Account Number", false, true) {
+		list.add(new NumberRequirement(ACCOUNT_NUMBER, getMessages()
+				.pleaseEnter(getMessages().accountNumber()), getMessages()
+				.accountNumber(), false, true) {
 			@Override
 			public void setValue(Object value) {
 				try {
 					if (account.getID() == 0) {
 						int parseInt = Integer.parseInt((String) value);
 						if (parseInt > 2000 || parseInt < 1100) {
-							addFirstMessage("Number Should be with in the range (1100 to 1999)");
+							addFirstMessage(getMessages()
+									.nameShouldbewithinThe1100to1199Ranage());
 							return;
 						}
 					}
@@ -107,38 +111,39 @@ public class NewAccountCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new AmountRequirement(OPENINGBALANCE,
-				"Please Enter Opening balece", "Opening balence", true, true));
+		list.add(new AmountRequirement(OPENINGBALANCE, getMessages()
+				.pleaseEnter(getMessages().openBalance()), getMessages()
+				.openBalance(), true, true));
 
 		list.add(new BooleanRequirement(ACTIVE, true) {
 
 			@Override
 			protected String getTrueString() {
-				return "This account is Active";
+				return getMessages().accountisActive();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "This account is InActive";
+				return getMessages().accountisInActive();
 			}
 		});
 
-		list.add(new DateRequirement(ASOF, "Please Enter As Of Date",
-				"As Of Date", true, true));
+		list.add(new DateRequirement(ASOF, getMessages().pleaseEnter(
+				getMessages().asOf()), getMessages().asOf(), true, true));
 
-		list.add(new StringRequirement(COMMENTS, "Please Enter Comment",
-				"Comment", true, true));
+		list.add(new StringRequirement(COMMENTS, getMessages().pleaseEnter(
+				getMessages().comment()), getMessages().comment(), true, true));
 
 		list.add(new BooleanRequirement(CONSIDER_AS_CASH_ACCOUNT, true) {
 
 			@Override
 			protected String getTrueString() {
-				return "This account is cash account";
+				return getMessages().accountCashAccount();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "This account is not a cash account";
+				return getMessages().accountisNotCashAccount();
 			}
 		});
 
@@ -149,7 +154,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (NewAccountCommand.this.get(ACCOUNT_TYPE).getValue()
-						.equals("Credit card")) {
+						.equals(getMessages().creditCard())) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -164,7 +169,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (NewAccountCommand.this.get(ACCOUNT_TYPE).getValue()
-						.equals("Credit card")) {
+						.equals(getMessages().creditCard())) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -200,34 +205,34 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 	protected List<String> getAccountTypes() {
 		List<String> list = new ArrayList<String>();
-		list.add("Income");
-		list.add("Other Income");
-		list.add("Expense");
-		list.add("Account Payble");
-		list.add("Other Expense");
-		list.add("Cost of Goods Sold");
-		list.add("cash");
-		list.add("bank");
-		list.add("Other current Asset");
-		list.add("Account Receivable");
-		list.add("Inventory Asset");
-		list.add("Other Asset");
-		list.add("Fixed Asset");
-		list.add("Credit card");
-		list.add("Payroll Liability");
-		list.add("Other Current Liability");
-		list.add("Long Term Liability");
-		list.add("Equity");
-		list.add("Paypal");
+		list.add(getMessages().income());
+		list.add(getMessages().otherIncome());
+		list.add(getMessages().expense());
+		list.add(getMessages().accountPayble());
+		list.add(getMessages().otherExpense());
+		list.add(getMessages().costOfGoodSold());
+		list.add(getMessages().cash());
+		list.add(getMessages().bank());
+		list.add(getMessages().otherCurrentAsset());
+		list.add(getMessages().accountReceivable());
+		list.add(getMessages().inventoryAsset());
+		list.add(getMessages().otherAssets());
+		list.add(getMessages().fixedAssest());
+		list.add(getMessages().creditCard());
+		list.add(getMessages().payrollLiability());
+		list.add(getMessages().otherCurrentLiability());
+		list.add(getMessages().longTermLiabilities());
+		list.add(getMessages().equity());
+		list.add(getMessages().paypal());
 		return list;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		if (account.getID() == 0) {
-			return "Account is ready to created with following details.";
+			return getMessages().readyToCreate(getMessages().account());
 		} else {
-			return "Account is ready to update with following details.";
+			return getMessages().readyToUpdate(getMessages().account());
 		}
 	}
 
@@ -236,7 +241,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 		get(ACCOUNT_NUMBER).setDefaultValue(
 				String.valueOf(autoGenerateAccountnumber(1100, 1999,
 						context.getCompany())));
-		get(ACCOUNT_TYPE).setDefaultValue("Income");
+		get(ACCOUNT_TYPE).setDefaultValue(getMessages().income());
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(CONSIDER_AS_CASH_ACCOUNT).setDefaultValue(Boolean.TRUE);
 	}
@@ -244,9 +249,9 @@ public class NewAccountCommand extends NewAbstractCommand {
 	@Override
 	public String getSuccessMessage() {
 		if (account.getID() == 0) {
-			return "Account is created succesfully.";
+			return getMessages().createSuccessfully(getMessages().account());
 		} else {
-			return "Account is updated successfully.";
+			return getMessages().updateSuccessfully(getMessages().account());
 		}
 	}
 

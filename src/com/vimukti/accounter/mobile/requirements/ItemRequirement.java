@@ -24,7 +24,7 @@ public abstract class ItemRequirement extends ListRequirement<Item> {
 
 	@Override
 	protected String getSetMessage() {
-		return "Item has been selected";
+		return getMessages().hasSelected(getMessages().item());
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public abstract class ItemRequirement extends ListRequirement<Item> {
 
 	@Override
 	protected String getSelectString() {
-		return "Select the Item";
+		return getMessages().pleaseSelect(getMessages().item());
 	}
 
 	@Override

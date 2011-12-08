@@ -21,7 +21,7 @@ public abstract class ItemGroupRequirement extends ListRequirement<ItemGroup> {
 	@Override
 	protected Record createRecord(ItemGroup value) {
 		Record record = new Record(value);
-		record.add("Name", value.getName());
+		record.add(getMessages().name(), value.getName());
 		return record;
 	}
 

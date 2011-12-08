@@ -46,8 +46,8 @@ public abstract class TransactionItemTableRequirement extends
 
 	@Override
 	protected void addRequirement(List<Requirement> list) {
-		list.add(new ItemRequirement(ITEM,
-				"Please Select an Item for Transaction", "Item", false, true,
+		list.add(new ItemRequirement(ITEM, getMessages().pleaseSelect(
+				getMessages().item()), getMessages().item(), false, true,
 				new ChangeListner<Item>() {
 
 					@Override
@@ -79,11 +79,12 @@ public abstract class TransactionItemTableRequirement extends
 
 		});
 
-		list.add(new AmountRequirement(QUANITY, "Please Enter Quantity",
-				"Quantity", true, true));
+		list.add(new AmountRequirement(QUANITY, getMessages().pleaseEnter(
+				getMessages().quantity()), getMessages().quantity(), true, true));
 
-		list.add(new CurrencyAmountRequirement(UNITPTICE,
-				"Please Enter Unit Price", "Unit Price", false, true) {
+		list.add(new CurrencyAmountRequirement(UNITPTICE, getMessages()
+				.pleaseEnter(getMessages().unitPrice()), getMessages()
+				.unitPrice(), false, true) {
 
 			@Override
 			protected String getFormalName() {
@@ -91,11 +92,12 @@ public abstract class TransactionItemTableRequirement extends
 			}
 		});
 
-		list.add(new AmountRequirement(DISCOUNT, "Please Enter Discount",
-				"Discount", true, true));
+		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
+				getMessages().discount()), getMessages().discount(), true, true));
 
-		list.add(new TaxCodeRequirement(TAXCODE, "Please Select TaxCode",
-				"Tax Code", false, true, null) {
+		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnter(
+				getMessages().taxCode()), getMessages().taxCode(), false, true,
+				null) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -147,15 +149,16 @@ public abstract class TransactionItemTableRequirement extends
 			}
 		});
 
-		list.add(new StringRequirement(DESCRIPTION, "Please Enter Description",
-				"Description", true, true));
+		list.add(new StringRequirement(DESCRIPTION, getMessages().pleaseEnter(
+				getMessages().description()), getMessages().description(),
+				true, true));
 	}
 
 	public abstract List<Item> getItems(Context context);
 
 	@Override
 	protected String getEmptyString() {
-		return "There are no Transaction Items";
+		return getMessages().noRecordsToShow();
 	}
 
 	@Override
@@ -237,23 +240,23 @@ public abstract class TransactionItemTableRequirement extends
 				.getClientObjectById(t.getItem(), AccounterCoreType.ITEM,
 						getCompanyId());
 		if (iAccounterCore != null) {
-			record.add("Name", iAccounterCore.getDisplayName());
+			record.add(getMessages().name(), iAccounterCore.getDisplayName());
 		}
-		record.add("Quantity", t.getQuantity().getValue());
+		record.add(getMessages().quantity(), t.getQuantity().getValue());
 		String formalName;
 		if (getPreferences().isEnableMultiCurrency()) {
 			formalName = getCurrency().getFormalName();
 		} else {
 			formalName = getPreferences().getPrimaryCurrency().getFormalName();
 		}
-		record.add("Unit price" + "(" + formalName + ")", Global.get()
-				.toCurrencyFormat(t.getUnitPrice()));
+		record.add(getMessages().unitPrice() + "(" + formalName + ")", Global
+				.get().toCurrencyFormat(t.getUnitPrice()));
 		if (getPreferences().isTrackTax()) {
 			if (getPreferences().isTaxPerDetailLine()) {
-				record.add("Tax Code", ((ClientTAXCode) (CommandUtils
-						.getClientObjectById(t.getTaxCode(),
-								AccounterCoreType.TAX_CODE, getCompanyId())))
-						.getDisplayName());
+				record.add(getMessages().taxCode(),
+						((ClientTAXCode) (CommandUtils.getClientObjectById(
+								t.getTaxCode(), AccounterCoreType.TAX_CODE,
+								getCompanyId()))).getDisplayName());
 			} else {
 				if (t.isTaxable()) {
 					record.add(getMessages().taxable());
@@ -262,8 +265,9 @@ public abstract class TransactionItemTableRequirement extends
 				}
 			}
 		}
-		record.add("Total price" + "(" + formalName + ")", t.getLineTotal());
-		record.add("Description", t.getDescription());
+		record.add(getMessages().totalPrice() + "(" + formalName + ")",
+				t.getLineTotal());
+		record.add(getMessages().description(), t.getDescription());
 		return record;
 	}
 

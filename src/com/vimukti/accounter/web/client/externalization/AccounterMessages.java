@@ -4783,4 +4783,31 @@ public interface AccounterMessages extends Messages {
 	public String customiseActivityLog();
 
 	public String currencyFactor();
+
+	public String nameShouldbewithinThe1100to1199Ranage();
+
+	public String accountisActive();
+
+	public String accountisInActive();
+
+	public String accountCashAccount();
+
+	public String accountisNotCashAccount();
+
+	public String accountPayble();
+
+	public String otherCurrentAsset();
+
+	public String accountReceivable();
+
+	public String inventoryAsset();
+
+	public String payrollLiability();
+
+	public String otherCurrentLiability();
+
+	public String paypal();
+
+	public String unitDefault();
+	public String unitNotDefault();
 }

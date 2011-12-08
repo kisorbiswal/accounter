@@ -16,7 +16,7 @@ public abstract class TaxAgencyRequirement extends ListRequirement<TAXAgency> {
 	@Override
 	protected Record createRecord(TAXAgency value) {
 		Record record = new Record(value);
-		record.add("Name", value.getName());
+		record.add(getMessages().name(), value.getName());
 		return record;
 	}
 

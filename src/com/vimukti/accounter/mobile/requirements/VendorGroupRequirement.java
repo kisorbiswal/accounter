@@ -24,7 +24,7 @@ public abstract class VendorGroupRequirement extends
 	@Override
 	protected Record createRecord(VendorGroup value) {
 		Record record = new Record(value);
-		record.add("value", value.getName());
+		record.add(getMessages().name(), value.getName());
 		return record;
 	}
 

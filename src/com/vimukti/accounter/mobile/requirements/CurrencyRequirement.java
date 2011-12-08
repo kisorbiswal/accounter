@@ -20,8 +20,8 @@ public abstract class CurrencyRequirement extends
 	@Override
 	protected Record createRecord(ClientCurrency value) {
 		Record record = new Record(value);
-		record.add("Curency",
-				value.getFormalName() + " - " + value.getDisplayName());
+		record.add(getMessages().currency(), value.getFormalName() + " - "
+				+ value.getDisplayName());
 		return record;
 	}
 

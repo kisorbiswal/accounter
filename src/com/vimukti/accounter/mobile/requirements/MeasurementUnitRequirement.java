@@ -35,12 +35,12 @@ public abstract class MeasurementUnitRequirement extends
 
 			@Override
 			protected String getTrueString() {
-				return "Unit default";
+				return getMessages().unitDefault();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "Unit not default";
+				return getMessages().unitNotDefault();
 			}
 		});
 	}

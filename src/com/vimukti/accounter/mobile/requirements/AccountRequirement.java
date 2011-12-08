@@ -17,9 +17,10 @@ public abstract class AccountRequirement extends ListRequirement<Account> {
 	@Override
 	protected Record createRecord(Account value) {
 		Record record = new Record(value);
-		record.add("Name", value.getName());
-		record.add("Number", value.getNumber());
-		record.add("Balance", value.getTotalBalanceInAccountCurrency());
+		record.add(getMessages().name(), value.getName());
+		record.add(getMessages().number(), value.getNumber());
+		record.add(getMessages().balance(),
+				value.getTotalBalanceInAccountCurrency());
 		return record;
 	}
 

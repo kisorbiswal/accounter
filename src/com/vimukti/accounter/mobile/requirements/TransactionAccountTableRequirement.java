@@ -221,24 +221,23 @@ public abstract class TransactionAccountTableRequirement extends
 		ClientAccount clientObjectById = (ClientAccount) CommandUtils
 				.getClientObjectById(t.getAccount(), AccounterCoreType.ACCOUNT,
 						getCompanyId());
-		record.add(
-				"Name",
-				clientObjectById == null ? "" : clientObjectById
-						.getDisplayName());
+		record.add(getMessages().name(), clientObjectById == null ? ""
+				: clientObjectById.getDisplayName());
 		String formalName;
 		if (getPreferences().isEnableMultiCurrency()) {
 			formalName = getCurrency().getFormalName();
 		} else {
 			formalName = getPreferences().getPrimaryCurrency().getFormalName();
 		}
-		record.add("Unit price" + "(" + formalName + ")", t.getUnitPrice());
+		record.add(getMessages().unitPrice() + "(" + formalName + ")",
+				t.getUnitPrice());
 		if (getPreferences().isTrackTax()) {
 			if (getPreferences().isTaxPerDetailLine()) {
 				ClientTAXCode taxCode = (ClientTAXCode) CommandUtils
 						.getClientObjectById(t.getTaxCode(),
 								AccounterCoreType.TAX_CODE, getCompanyId());
-				record.add("Tax Code",
-						taxCode == null ? "" : taxCode.getDisplayName());
+				record.add(getMessages().taxCode(), taxCode == null ? ""
+						: taxCode.getDisplayName());
 			} else {
 				if (t.isTaxable()) {
 					record.add(getMessages().taxable());
@@ -247,8 +246,8 @@ public abstract class TransactionAccountTableRequirement extends
 				}
 			}
 		}
-		record.add("Discount", t.getDiscount());
-		record.add("Description", t.getDescription());
+		record.add(getMessages().discount(), t.getDiscount());
+		record.add(getMessages().description(), t.getDescription());
 		return record;
 	}
 

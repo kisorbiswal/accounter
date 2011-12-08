@@ -52,9 +52,10 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * 
- * @author Sai Prasad N
+ * @author SaiPrasad N
  * 
  */
+
 public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 	private static final String ESTIMATEANDSALESORDER = "estimateAndSalesOrder";
@@ -141,6 +142,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				return (Customer) NewInvoiceCommand.this.get(CUSTOMER)
 						.getValue();
 			}
+
 		});
 
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
@@ -568,6 +570,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	 * 
 	 * @param context
 	 */
+
 	private void setValues(Context context) {
 		get(DATE).setValue(invoice.getDate());
 		get(NUMBER).setValue(invoice.getNumber());
@@ -611,6 +614,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	 * 
 	 * @return
 	 */
+
 	private List<EstimatesAndSalesOrdersList> getEstimatesSalesOrderList() {
 		List<EstimatesAndSalesOrdersList> list = new ArrayList<EstimatesAndSalesOrdersList>();
 		List<ClientEstimate> estimates = invoice.getEstimates();
