@@ -96,8 +96,8 @@ public class NewAccountCommand extends NewAbstractCommand {
 				try {
 					if (account.getID() == 0) {
 						int parseInt = Integer.parseInt((String) value);
-						if (parseInt > 1179 || parseInt < 1100) {
-							addFirstMessage("Number Should be with in the range (1100 to 1179)");
+						if (parseInt > 2000 || parseInt < 1100) {
+							addFirstMessage("Number Should be with in the range (1100 to 1999)");
 							return;
 						}
 					}
@@ -234,7 +234,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(ACCOUNT_NUMBER).setDefaultValue(
-				String.valueOf(autoGenerateAccountnumber(1100, 1179,
+				String.valueOf(autoGenerateAccountnumber(1100, 1999,
 						context.getCompany())));
 		get(ACCOUNT_TYPE).setDefaultValue("Income");
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
