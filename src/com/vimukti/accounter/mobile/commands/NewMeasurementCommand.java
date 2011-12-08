@@ -2,7 +2,9 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.mobile.Context;
@@ -34,13 +36,13 @@ public class NewMeasurementCommand extends NewAbstractCommand {
 			String string = context.getString();
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select a Measurement to update.");
-				return "";
+				return "Measurement List";
 			}
 			ClientMeasurement clientmeasurement = CommandUtils.getMeasurement(
 					context.getCompany(), string);
 			if (clientmeasurement == null) {
 				addFirstMessage(context, "Select a Measurement to update.");
-				return " " + string;
+				return "Measurement List " + string;
 			}
 			measurement = clientmeasurement;
 			setValues();
@@ -98,8 +100,20 @@ public class NewMeasurementCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new NameRequirement(MEASUREMENT_NAME,
-				"Please Enter Measurement Name", "Name", false, true));
+		list.add(new NameRequirement(MEASUREMENT_NAME, getMessages()
+				.pleaseEnter(getMessages().measurementName()), getMessages()
+				.measurementName(), false, true) {
+			@Override
+			public void setValue(Object value) {
+				if (isMeasurementExistsWithSameName((String) value)) {
+					addFirstMessage(getMessages().alreadyExist());
+					return;
+				}
+				addFirstMessage(getMessages().pleaseEnter(
+						getMessages().measurementName()));
+				super.setValue(value);
+			}
+		});
 
 		list.add(new StringRequirement(MEASUREMENT_DESCRIPTION,
 				"Please Enter Measurement Description", "Description", true,
@@ -128,17 +142,35 @@ public class NewMeasurementCommand extends NewAbstractCommand {
 		});
 	}
 
+	protected boolean isMeasurementExistsWithSameName(String value) {
+		Set<Measurement> measurements = getCompany().getMeasurements();
+		for (Measurement measurement : measurements) {
+			if (measurement.getID() != this.measurement.getID()
+					&& measurement.getName().equalsIgnoreCase(value)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	protected Result onCompleteProcess(Context context) {
-
-		measurement = new ClientMeasurement();
-
 		String name = get(MEASUREMENT_NAME).getValue();
 		String description = get(MEASUREMENT_DESCRIPTION).getValue();
 		List<Unit> units = get(UNIT).getValue();
 		List<ClientUnit> clientUnits = new ArrayList<ClientUnit>();
+		boolean hasDefaultUnit = false;
 		for (Unit unit : units) {
-			clientUnits.add(new ClientUnit(unit.getType(), unit.getFactor()));
+			if (!hasDefaultUnit) {
+				hasDefaultUnit = unit.isDefault();
+			}
+			ClientUnit clientUnit = new ClientUnit(unit.getType(),
+					unit.getFactor());
+			clientUnit.setDefault(unit.isDefault());
+			clientUnits.add(clientUnit);
+		}
+		if (!hasDefaultUnit) {
+			return new Result(getMessages().pleaseSelectDefaultUnit());
 		}
 		measurement.setUnits(clientUnits);
 		measurement.setName(name);

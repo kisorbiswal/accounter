@@ -39,13 +39,6 @@ public class ItemsCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<Item>("items", "Please Select Item",
 				20) {
-			// @Override
-			// protected void setSelectCommands(CommandList commandList, Item
-			// value) {
-			// commandList.add(new UserCommand("Update Item", String
-			// .valueOf(value.getID())));
-			// commandList.add(new UserCommand("Delete Item", value.getID()));
-			// }
 
 			@Override
 			protected String onSelection(Item value) {
@@ -64,37 +57,12 @@ public class ItemsCommand extends NewAbstractCommand {
 
 			@Override
 			protected Record createRecord(Item value) {
-				Record record = new Record(value);
-				record.add("Name", value.getName());
-				record.add("Description", value.getPurchaseDescription());
-				record.add("Type", value.getType());
-				if (value.isIBuyThisItem()) {
-					record.add("Purchase Price",
-							getPreferences().getPrimaryCurrency().getSymbol()
-									+ " " + value.getPurchasePrice());
-				}
-				if (value.isISellThisItem()) {
-					record.add("Sales Price",
-							getPreferences().getPrimaryCurrency().getSymbol()
-									+ " " + value.getSalesPrice());
-				}
-				return record;
+				return ItemsCommand.this.createRecord(value);
 			}
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				if (!isBuy) {
-					list.add(new UserCommand("Create New Service Item", "sell"));
-					list.add(new UserCommand("Create New NonInventory Item",
-							"sell"));
-					list.add(new UserCommand("Create New Inventory Item",
-							"sell"));
-				} else {
-					list.add(new UserCommand("Create New Service Item", "buy"));
-					list.add(new UserCommand("Create New NonInventory Item",
-							"buy"));
-					list.add(new UserCommand("Create New Inventory Item", "buy"));
-				}
+				ItemsCommand.this.setCreateCommand(list);
 			}
 
 			@Override
@@ -125,9 +93,49 @@ public class ItemsCommand extends NewAbstractCommand {
 
 	}
 
-	private Set<Item> getItems(Context context) {
-		return context.getCompany().getItems();
+	protected Record createRecord(Item value) {
+		Record record = new Record(value);
+		record.add("Name", value.getName());
+		record.add("Description", value.getPurchaseDescription());
+		record.add("Type", value.getType());
+		if (value.isIBuyThisItem()) {
+			record.add("Purchase Price",
+					getPreferences().getPrimaryCurrency().getSymbol()
+							+ " " + value.getPurchasePrice());
+		}
+		if (value.isISellThisItem()) {
+			record.add("Sales Price",
+					getPreferences().getPrimaryCurrency().getSymbol()
+							+ " " + value.getSalesPrice());
+		}
+		return record;
+	}
 
+	protected String getItemTypeString(int type) {
+		if (type == Item.TYPE_SERVICE) {
+			return getMessages().serviceItem();
+		} else if (type == Item.TYPE_INVENTORY_PART) {
+			return getMessages().inventoryItem();
+		} else if (type == Item.TYPE_NON_INVENTORY_PART) {
+			return getMessages().nonInventoryItem();
+		}
+		return getMessages().productItem();
+	}
+
+	protected void setCreateCommand(CommandList list) {
+		if (!isBuy) {
+			list.add(new UserCommand("Create New Service Item", "sell"));
+			list.add(new UserCommand("Create New NonInventory Item", "sell"));
+			list.add(new UserCommand("Create New Inventory Item", "sell"));
+		} else {
+			list.add(new UserCommand("Create New Service Item", "buy"));
+			list.add(new UserCommand("Create New NonInventory Item", "buy"));
+			list.add(new UserCommand("Create New Inventory Item", "buy"));
+		}
+	}
+
+	protected Set<Item> getItems(Context context) {
+		return context.getCompany().getItems();
 	}
 
 	@Override
