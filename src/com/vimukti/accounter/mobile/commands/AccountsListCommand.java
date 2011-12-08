@@ -29,8 +29,8 @@ public class AccountsListCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new ShowListRequirement<Account>("Accounts",
-				"Please Enter name or number", 20) {
+		list.add(new ShowListRequirement<Account>(getMessages().Accounts(),
+				getMessages().pleaseEnter(getMessages().name()), 20) {
 
 			@Override
 			protected Record createRecord(Account value) {
@@ -59,10 +59,10 @@ public class AccountsListCommand extends NewAbstractCommand {
 				Set<Account> accounts = context.getCompany().getAccounts();
 				String type = AccountsListCommand.this.get(ACCOUNT_TYPE)
 						.getValue();
-				if (type.equals("All Accounts")) {
+				if (type.equals(getMessages().allAccounts())) {
 					return new ArrayList<Account>(accounts);
 				}
-				if (type.equals("Active Accounts")) {
+				if (type.equals(getMessages().activeAccounts())) {
 					for (Account a : accounts) {
 						if (a.getIsActive()) {
 							list.add(a);
@@ -85,7 +85,7 @@ public class AccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return "There are no accounts";
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
@@ -99,9 +99,9 @@ public class AccountsListCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add("Active Accounts");
-				list.add("In Active Accounts");
-				list.add("All Accounts");
+				list.add(getMessages().activeAccounts());
+				list.add(getMessages().inAllactiveAccounts());
+				list.add(getMessages().allAccounts());
 				return list;
 			}
 		});
@@ -121,7 +121,7 @@ public class AccountsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(ACCOUNT_TYPE).setDefaultValue("All Accounts");
+		get(ACCOUNT_TYPE).setDefaultValue(getMessages().allAccounts());
 	}
 
 	@Override

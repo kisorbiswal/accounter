@@ -4812,4 +4812,10 @@ public interface AccounterMessages extends Messages {
 	public String unitNotDefault();
 
 	public String selectItemToUpdate();
+
+	public String activeAccounts();
+
+	public String inAllactiveAccounts();
+
+	public String allAccounts();
 }
