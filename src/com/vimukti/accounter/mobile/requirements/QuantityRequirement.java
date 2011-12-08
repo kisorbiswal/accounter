@@ -16,8 +16,8 @@ public abstract class QuantityRequirement extends
 	private static final String VALUE = "itemvalue";
 	private static final String UNIT = "itemunit";
 
-	public QuantityRequirement(String requirementName,
-			String enterString, String recordName) {
+	public QuantityRequirement(String requirementName, String enterString,
+			String recordName) {
 		super(requirementName, enterString, recordName, false, true);
 		ClientQuantity clientQuantity = new ClientQuantity();
 		clientQuantity.setValue(1.0);
@@ -31,7 +31,8 @@ public abstract class QuantityRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		list.add(new AmountRequirement(VALUE, getMessages().pleaseEnter(
-				getMessages().value()), getMessages().value(), false, true));
+				getMessages().adjustmentQty()), getMessages().adjustmentQty()
+				+ " " + getMessages().value(), false, true));
 
 		list.add(new ListRequirement<Unit>(UNIT, getMessages().pleaseSelect(
 				getMessages().unit()), getMessages().unit(), true, true, null) {
@@ -74,8 +75,7 @@ public abstract class QuantityRequirement extends
 
 			@Override
 			protected List<Unit> getLists(Context context) {
-				return QuantityRequirement.this
-						.getLists(context);
+				return QuantityRequirement.this.getLists(context);
 			}
 		});
 	}
