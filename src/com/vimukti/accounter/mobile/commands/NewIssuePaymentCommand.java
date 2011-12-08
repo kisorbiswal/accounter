@@ -66,37 +66,6 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		/*
-		 * list.add(new CurrencyRequirement(CURRENCY,
-		 * getMessages().pleaseSelect( getConstants().currency()),
-		 * getConstants().currency(), true, true, null) {
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (context.getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } else { return null;
-		 * } }
-		 * 
-		 * @Override protected List<Currency> getLists(Context context) { return
-		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
-		 * 
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
-		 * return "1 " + selc.getFormalName() + " = " + value + " " +
-		 * primaryCurrency.getFormalName(); }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
-		 * != null) { if (context.getPreferences().isEnableMultiCurrency() &&
-		 * !((Currency) get(CURRENCY).getValue())
-		 * .equals(context.getPreferences() .getPrimaryCurrency())) { return
-		 * super.run(context, makeResult, list, actions); } } return null; } });
-		 */
 		list.add(new AccountRequirement(ACCOUNT, getMessages()
 				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
 				false, false, null) {
@@ -189,12 +158,6 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		return nextTransactionNumber;
 	}
 
-	// private List<TransactionIssuePayment> getclientTransactionIssuePayments()
-	// {
-	// Account account = get(ACCOUNT).getValue();
-	// return getchecks(account.getCompany().getId(), account.getID());
-	// }
-
 	private void completeProcess(Context context) {
 		issuePayment.setType(ClientTransaction.TYPE_ISSUE_PAYMENT);
 		issuePayment.setNumber(getNextTransactionNumber(context));
@@ -203,15 +166,6 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		issuePayment.setPaymentMethod(paymentmethod);
 		Account account = get(ACCOUNT).getValue();
 		issuePayment.setAccount(account.getID());
-
-		/*
-		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
-		 * currency = get(CURRENCY).getValue(); if (currency != null) {
-		 * issuePayment.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * issuePayment.setCurrencyFactor(factor); }
-		 */
 
 		String chequenum = get(CHEQUE_NO).getValue();
 		if (chequenum.isEmpty()) {

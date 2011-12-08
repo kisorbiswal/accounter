@@ -1319,4 +1319,20 @@ public class CommandUtils {
 		}
 		return false;
 	}
+
+	/**
+	 * Get The most Recent Currency Factor
+	 * 
+	 * @param companyId
+	 * @param currencyId
+	 * @param tdate
+	 * @return {@link Double CurrencyFactor}
+	 * @throws AccounterException
+	 */
+	public static double getMostRecentTransactionCurrencyFactor(long companyId,
+			long currencyId, long tdate) throws AccounterException {
+		FinanceTool tool = new FinanceTool();
+		return tool.getMostRecentTransactionCurreencyFactorBasedOnCurrency(
+				companyId, currencyId, tdate);
+	}
 }

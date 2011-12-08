@@ -17,6 +17,7 @@ import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
@@ -34,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class WriteCheckCommand extends NewAbstractTransactionCommand {
@@ -53,7 +55,25 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new PayeeRequirement(PAYEE, getMessages().pleaseEnterName(
 				getMessages().payee()), getMessages().payee(), false, true,
-				null) {
+				new ChangeListner<Payee>() {
+
+					@Override
+					public void onSelection(Payee value) {
+						try {
+							double mostRecentTransactionCurrencyFactor = CommandUtils
+									.getMostRecentTransactionCurrencyFactor(
+											getCompanyId(), value.getCurrency()
+													.getID(),
+											new ClientFinanceDate().getDate());
+							WriteCheckCommand.this
+									.get(CURRENCY_FACTOR)
+									.setValue(
+											mostRecentTransactionCurrencyFactor);
+						} catch (AccounterException e) {
+							e.printStackTrace();
+						}
+					}
+				}) {
 
 			@Override
 			protected String getSetMessage() {
@@ -75,7 +95,16 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				return e.getName().startsWith(name);
 			}
 		});
-
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter(getMessages().currencyFactor()), getMessages()
+				.currencyFactor()) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Payee payee = (Payee) WriteCheckCommand.this.get(PAYEE)
+						.getValue();
+				return getCurrency(payee.getCurrency().getID());
+			}
+		});
 		list.add(new AccountRequirement(BANK_ACCOUNT, getMessages()
 				.pleaseEnterNameOrNumber(getMessages().bankAccount()),
 				getMessages().bankAccount(), false, true, null) {
@@ -246,15 +275,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				super.setValue(value);
 			}
 		});
-		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
-			@Override
-			protected ClientCurrency getSelectedCurrency() {
-				Payee payee = (Payee) WriteCheckCommand.this.get(PAYEE)
-						.getValue();
-				return getCurrency(payee.getCurrency().getID());
-			}
-		});
+
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 	}

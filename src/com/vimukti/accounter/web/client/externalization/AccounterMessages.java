@@ -4781,4 +4781,6 @@ public interface AccounterMessages extends Messages {
 	public String dataExchange();
 
 	public String customiseActivityLog();
+
+	public String currencyFactor();
 }

@@ -71,6 +71,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getWelcomeMessage() {
+
 		return invoice.getID() == 0 ? "Creating new invoice... "
 				: "Updating invoice";
 	}
@@ -108,6 +109,19 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 								break;
 							}
 						}
+						try {
+							double mostRecentTransactionCurrencyFactor = CommandUtils
+									.getMostRecentTransactionCurrencyFactor(
+											getCompanyId(), value.getCurrency()
+													.getID(),
+											new ClientFinanceDate().getDate());
+							NewInvoiceCommand.this
+									.get(CURRENCY_FACTOR)
+									.setValue(
+											mostRecentTransactionCurrencyFactor);
+						} catch (AccounterException e) {
+							e.printStackTrace();
+						}
 
 					}
 				}) {
@@ -117,11 +131,11 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				return getCustomers();
 			}
 		});
+
 		list.add(new EstimatesAndSalesOrderTableRequirement(
 				ESTIMATEANDSALESORDER, getMessages().selectTypeOfThis(
 						getMessages().quote()), getMessages()
 						.quoteAndSalesOrderList()) {
-
 			@Override
 			protected Customer getCustomer() {
 				return (Customer) NewInvoiceCommand.this.get(CUSTOMER)
@@ -136,7 +150,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+				.pleaseEnter("Currency Factor"), getMessages().currencyFactor()) {
 			@Override
 			protected ClientCurrency getSelectedCurrency() {
 				Customer customer = (Customer) NewInvoiceCommand.this.get(

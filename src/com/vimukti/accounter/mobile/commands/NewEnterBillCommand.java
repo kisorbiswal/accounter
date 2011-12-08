@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
@@ -128,6 +129,19 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 								break;
 							}
 						}
+						try {
+							double mostRecentTransactionCurrencyFactor = CommandUtils
+									.getMostRecentTransactionCurrencyFactor(
+											getCompanyId(), value.getCurrency()
+													.getID(),
+											new ClientFinanceDate().getDate());
+							NewEnterBillCommand.this
+									.get(CURRENCY_FACTOR)
+									.setValue(
+											mostRecentTransactionCurrencyFactor);
+						} catch (AccounterException e) {
+							e.printStackTrace();
+						}
 					}
 				}) {
 
@@ -153,7 +167,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+				.pleaseEnter("Currency Factor"), getMessages().currencyFactor()) {
 			@Override
 			protected ClientCurrency getSelectedCurrency() {
 				Vendor vendor = (Vendor) NewEnterBillCommand.this.get(VENDOR)

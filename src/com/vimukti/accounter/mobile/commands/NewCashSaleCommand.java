@@ -85,6 +85,19 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 								break;
 							}
 						}
+						try {
+							double mostRecentTransactionCurrencyFactor = CommandUtils
+									.getMostRecentTransactionCurrencyFactor(
+											getCompanyId(), value.getCurrency()
+													.getID(),
+											new ClientFinanceDate().getDate());
+							NewCashSaleCommand.this
+									.get(CURRENCY_FACTOR)
+									.setValue(
+											mostRecentTransactionCurrencyFactor);
+						} catch (AccounterException e) {
+							e.printStackTrace();
+						}
 					}
 				}) {
 
@@ -94,7 +107,7 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+				.pleaseEnter("Currency Factor"), getMessages().currencyFactor()) {
 			@Override
 			protected ClientCurrency getSelectedCurrency() {
 				Customer customer = (Customer) NewCashSaleCommand.this.get(

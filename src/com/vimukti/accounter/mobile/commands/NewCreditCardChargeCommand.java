@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 
@@ -53,7 +54,27 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseEnterName(
 				Global.get().Vendor()), getMessages().payeeName(
-				Global.get().Vendor()), false, true, null) {
+				Global.get().Vendor()), false, true,
+				new ChangeListner<Vendor>() {
+
+					@Override
+					public void onSelection(Vendor value) {
+						try {
+							double mostRecentTransactionCurrencyFactor = CommandUtils
+									.getMostRecentTransactionCurrencyFactor(
+											getCompanyId(), value.getCurrency()
+													.getID(),
+											new ClientFinanceDate().getDate());
+							NewCreditCardChargeCommand.this
+									.get(CURRENCY_FACTOR)
+									.setValue(
+											mostRecentTransactionCurrencyFactor);
+						} catch (AccounterException e) {
+							e.printStackTrace();
+						}
+
+					}
+				}) {
 
 			@Override
 			protected String getSetMessage() {
@@ -70,7 +91,17 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 				return e.getName().startsWith(name);
 			}
 		});
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter(getMessages().currencyFactor()), getMessages()
+				.currencyFactor()) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Vendor vendor = (Vendor) NewCreditCardChargeCommand.this.get(
+						VENDOR).getValue();
+				return getCurrency(vendor.getCurrency().getID());
+			}
 
+		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
 				true, true) {
@@ -269,16 +300,7 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 				return e.getName().toLowerCase().startsWith(name);
 			}
 		});
-		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
-			@Override
-			protected ClientCurrency getSelectedCurrency() {
-				Vendor vendor = (Vendor) NewCreditCardChargeCommand.this.get(
-						VENDOR).getValue();
-				return getCurrency(vendor.getCurrency().getID());
-			}
 
-		});
 		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
 			@Override
 			public Result run(Context context, Result makeResult,

@@ -16,6 +16,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -36,6 +37,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 	ClientCashPurchase cashPurchase;
@@ -71,7 +73,26 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
 				getMessages().Vendor()), getMessages().vendor(), false, true,
-				null)
+				new ChangeListner<Vendor>() {
+
+					@Override
+					public void onSelection(Vendor value) {
+						try {
+							double mostRecentTransactionCurrencyFactor = CommandUtils
+									.getMostRecentTransactionCurrencyFactor(
+											getCompanyId(), value.getCurrency()
+													.getID(),
+											new ClientFinanceDate().getDate());
+							NewCashExpenseCommand.this
+									.get(CURRENCY_FACTOR)
+									.setValue(
+											mostRecentTransactionCurrencyFactor);
+						} catch (AccounterException e) {
+							e.printStackTrace();
+						}
+
+					}
+				})
 
 		{
 
@@ -97,7 +118,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+				.pleaseEnter(getMessages().currencyFactor()), getMessages()
+				.currencyFactor()) {
 			@Override
 			protected ClientCurrency getSelectedCurrency() {
 				Vendor vendor = (Vendor) NewCashExpenseCommand.this.get(VENDOR)

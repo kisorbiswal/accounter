@@ -157,6 +157,18 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 								break;
 							}
 						}
+						try {
+							double mostRecentTransactionCurrencyFactor = CommandUtils
+									.getMostRecentTransactionCurrencyFactor(
+											getCompanyId(), value.getCurrency()
+													.getID(),
+											new ClientFinanceDate().getDate());
+							NewCustomerPrepaymentCommand.this.get(
+									CURRENCY_FACTOR).setValue(
+									mostRecentTransactionCurrencyFactor);
+						} catch (AccounterException e) {
+							e.printStackTrace();
+						}
 					}
 				}) {
 
@@ -165,40 +177,6 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 				return getCustomers();
 			}
 		});
-
-		/*
-		 * list.add(new CurrencyRequirement(CURRENCY,
-		 * getMessages().pleaseSelect( getConstants().currency()),
-		 * getConstants().currency(), true, true, null) {
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } else { return null;
-		 * } }
-		 * 
-		 * @Override protected List<Currency> getLists(Context context) { return
-		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
-		 * 
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
-		 * return "1 " + selc.getFormalName() + " = " + value + " " +
-		 * primaryCurrency.getFormalName(); }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
-		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
-		 * !((Currency) get(CURRENCY).getValue()) .equals(getPreferences()
-		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
-		 * actions); } } return null;
-		 * 
-		 * } });
-		 */
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().billNo()), getMessages().billNo(), true, true));
@@ -336,7 +314,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 			}
 		});
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+				.pleaseEnter("Currency Factor"), getMessages().currencyFactor()) {
 			@Override
 			protected ClientCurrency getSelectedCurrency() {
 				Customer customer = (Customer) NewCustomerPrepaymentCommand.this

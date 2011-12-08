@@ -40,6 +40,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
@@ -97,7 +98,19 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 					@Override
 					public void onSelection(Vendor value) {
-
+						try {
+							double mostRecentTransactionCurrencyFactor = CommandUtils
+									.getMostRecentTransactionCurrencyFactor(
+											getCompanyId(), value.getCurrency()
+													.getID(),
+											new ClientFinanceDate().getDate());
+							NewPayBillCommand.this
+									.get(CURRENCY_FACTOR)
+									.setValue(
+											mostRecentTransactionCurrencyFactor);
+						} catch (AccounterException e) {
+							e.printStackTrace();
+						}
 					}
 				}) {
 
@@ -121,38 +134,17 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				return e.getName().toLowerCase().startsWith(name.toLowerCase());
 			}
 		});
-		/*
-		 * list.add(new CurrencyRequirement(CURRENCY,
-		 * getMessages().pleaseSelect( getConstants().currency()),
-		 * getConstants().currency(), true, true, null) {
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } else { return null;
-		 * } }
-		 * 
-		 * @Override protected List<Currency> getLists(Context context) { return
-		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
-		 * 
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
-		 * return "1 " + selc.getFormalName() + " = " + value + " " +
-		 * primaryCurrency.getFormalName(); }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
-		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
-		 * !((Currency) get(CURRENCY).getValue()) .equals(getPreferences()
-		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
-		 * actions); } } return null; } });
-		 */
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter(getMessages().currencyFactor()), getMessages()
+				.currencyFactor()) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Vendor vendor = (Vendor) NewPayBillCommand.this.get(VENDOR)
+						.getValue();
+				return getCurrency(vendor.getCurrency().getID());
+			}
 
+		});
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
 				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
 				false, false, null) {
@@ -294,16 +286,7 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			}
 
 		});
-		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
-			@Override
-			protected ClientCurrency getSelectedCurrency() {
-				Vendor vendor = (Vendor) NewPayBillCommand.this.get(VENDOR)
-						.getValue();
-				return getCurrency(vendor.getCurrency().getID());
-			}
 
-		});
 	}
 
 	protected List<ClientCreditsAndPayments> getVendorCreditsAndPayments() {
