@@ -50,20 +50,23 @@ public abstract class TransactionItemTableRequirement extends
 
 					@Override
 					public void onSelection(Item item) {
-						if (isSales()) {
-							get(UNITPTICE).setValue(
-									item.getSalesPrice() / getCurrencyFactor());
-						} else {
-							get(UNITPTICE).setValue(
-									item.getPurchasePrice()
-											/ getCurrencyFactor());
+						if (item != null) {
+							if (isSales()) {
+								get(UNITPTICE).setValue(
+
+								item.getSalesPrice() / getCurrencyFactor());
+							} else {
+								get(UNITPTICE).setValue(
+
+								item.getPurchasePrice() / getCurrencyFactor());
+							}
+							get(TAXCODE).setValue(
+									get(TAXCODE).getValue() == null ? item
+											.getTaxCode() : get(TAXCODE)
+											.getValue());
+							get(TAX).setValue(item.isTaxable());
 						}
-						get(TAXCODE)
-								.setValue(
-										get(TAXCODE).getValue() == null ? item
-												.getTaxCode() : get(TAXCODE)
-												.getValue());
-						get(TAX).setValue(item.isTaxable());
+
 					}
 				}, isSales()) {
 
@@ -71,6 +74,7 @@ public abstract class TransactionItemTableRequirement extends
 			protected List<Item> getLists(Context context) {
 				return getItems(context);
 			}
+
 		});
 
 		list.add(new AmountRequirement(QUANITY, "Please Enter Quantity",
@@ -82,15 +86,6 @@ public abstract class TransactionItemTableRequirement extends
 			@Override
 			protected String getFormalName() {
 				return getCurrency().getFormalName();
-			}
-
-			@Override
-			protected void createRecord(ResultList list) {
-				Double t = getValue();
-				Record nameRecord = new Record(getName());
-				nameRecord.add(getRecordName(),
-						Global.get().toCurrencyFormat(t / getCurrencyFactor()));
-				list.add(nameRecord);
 			}
 		});
 
@@ -249,7 +244,8 @@ public abstract class TransactionItemTableRequirement extends
 		} else {
 			formalName = getPreferences().getPrimaryCurrency().getFormalName();
 		}
-		record.add("Unit price" + "(" + formalName + ")", t.getUnitPrice());
+		record.add("Unit price" + "(" + formalName + ")", Global.get()
+				.toCurrencyFormat(t.getUnitPrice()));
 		if (getPreferences().isTrackTax()) {
 			if (getPreferences().isTaxPerDetailLine()) {
 				record.add("Tax Code", ((ClientTAXCode) (CommandUtils
