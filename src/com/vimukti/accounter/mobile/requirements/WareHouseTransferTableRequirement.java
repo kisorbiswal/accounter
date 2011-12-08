@@ -33,9 +33,8 @@ public abstract class WareHouseTransferTableRequirement extends
 		itemNameReq.setEditable(false);
 		list.add(itemNameReq);
 
-		list.add(new QuantityRequirement(QUANTITY, getMessages()
-				.pleaseEnter(getMessages().adjustmentQty()), getMessages()
-				.adjustmentQty()) {
+		list.add(new QuantityRequirement(QUANTITY, getMessages().pleaseEnter(
+				getMessages().adjustmentQty()), getMessages().adjustmentQty()) {
 
 			@Override
 			protected List<Unit> getLists(Context context) {
@@ -59,8 +58,12 @@ public abstract class WareHouseTransferTableRequirement extends
 	protected void setRequirementsDefaultValues(ClientStockTransferItem obj) {
 		Item item = (Item) CommandUtils.getServerObjectById(obj.getItem(),
 				AccounterCoreType.ITEM);
-		get(ITEM_NAME).setValue(item);
+		get(ITEM_NAME).setValue(item.getName());
 		get(QUANTITY).setValue(obj.getQuantity());
+		ClientQuantity value2 = get(QUANTITY).getValue();
+		value2.setUnit(item.getMeasurement().getDefaultUnit().getID());
+		QuantityRequirement requirement = (QuantityRequirement) get(QUANTITY);
+		requirement.setDefaultUnit(item.getMeasurement().getDefaultUnit());
 	}
 
 	@Override
@@ -136,7 +139,8 @@ public abstract class WareHouseTransferTableRequirement extends
 	}
 
 	protected List<Unit> getUnits() {
-		Item item = get(ITEM_NAME).getValue();
+		String itemName = get(ITEM_NAME).getValue();
+		Item item = CommandUtils.getItemByName(getCompany(), itemName);
 		Set<Unit> units = item.getMeasurement().getUnits();
 		return new ArrayList<Unit>(units);
 	}
