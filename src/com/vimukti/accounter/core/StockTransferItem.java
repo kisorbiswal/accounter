@@ -92,8 +92,6 @@ public class StockTransferItem implements IAccounterServerCore {
 
 		w.put(messages.type(), "Stock Transfer Item").gap();
 
-		w.put(messages.company(), this.company.getDisplayName());
-
 		w.put(messages.item(), this.item.getName());
 
 		w.put(messages.quantity(), this.quantity.getValue());

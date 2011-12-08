@@ -97,7 +97,7 @@ public class Bank extends CreatableObject implements IAccounterServerCore,
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), messages.back()).gap();
+		w.put(messages.type(), messages.bank()).gap();
 
 		if (this.name != null) {
 			w.put(messages.name(), this.name);

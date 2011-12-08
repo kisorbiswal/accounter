@@ -361,11 +361,17 @@ public class SalesPerson extends CreatableObject implements
 
 		w.put(messages.gender(), this.gender);
 
-		w.put(messages.dateofBirth(), this.dateOfBirth.toString());
-		w.put(messages.dateofHire(), this.dateOfHire.toString());
+		if (this.dateOfBirth != null)
+			w.put(messages.dateofBirth(), this.dateOfBirth.toString());
 
-		w.put(messages.dateofLastReview(), this.dateOfLastReview.toString());
-		w.put(messages.dateofRelease(), this.dateOfRelease.toString());
+		if (this.dateOfHire != null)
+			w.put(messages.dateofHire(), this.dateOfHire.toString());
+
+		if (this.dateOfLastReview != null)
+			w.put(messages.dateofLastReview(), this.dateOfLastReview.toString());
+
+		if (this.dateOfRelease != null)
+			w.put(messages.dateofRelease(), this.dateOfRelease.toString());
 
 		w.put(messages.memo(), this.memo);
 		w.put(messages.fileAs(), this.fileAs);

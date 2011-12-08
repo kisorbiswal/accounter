@@ -766,6 +766,7 @@ public class SalesOrder extends Transaction {
 
 		if (this.billingAddress != null)
 			w.put(messages.billingAddress(), this.billingAddress.toString());
+
 		if (this.shippingAdress != null)
 			w.put(messages.shippingAddress(), this.shippingAdress.toString())
 					.gap();
@@ -774,14 +775,18 @@ public class SalesOrder extends Transaction {
 
 		if (this.salesPerson != null)
 			w.put(messages.salesPerson(), this.salesPerson.getName()).gap();
+
 		if (this.paymentTerm != null)
 			w.put(messages.paymentTerm(), this.paymentTerm.getName());
+
 		if (this.shippingTerm != null)
 			w.put(messages.shippingTerm(), this.shippingTerm.getName()).gap();
+
 		if (this.shippingMethod != null)
 			w.put(messages.shippingMethod(), this.shippingMethod.getName());
 
-		w.put(messages.dueDate(), this.dueDate.toString()).gap();
+		if (this.dueDate != null)
+			w.put(messages.dueDate(), this.dueDate.toString()).gap();
 
 		w.put(messages.discountAccount(), this.discountTotal);
 

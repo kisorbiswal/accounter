@@ -514,6 +514,7 @@ public class CashPurchase extends Transaction {
 
 		w.put(messages.paymentMethod(), this.checkNumber).gap();
 
+		if (this.deliveryDate != null)
 		w.put(messages.paymentMethod(), this.deliveryDate.toString());
 
 		w.put(messages.paymentMethod(), this.expenseStatus).gap();

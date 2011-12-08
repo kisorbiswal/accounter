@@ -499,24 +499,32 @@ public class PurchaseOrder extends Transaction {
 
 		if (this.vendor != null)
 			w.put(messages.name(), this.vendor.getName()).gap();
+
 		if (this.shipTo != null)
 			w.put(messages.shipTo(), this.shipTo.getName());
 
-		w.put(messages.purchaseDate(), this.purchaseOrderDate.toString()).gap();
+		if (this.purchaseOrderDate != null)
+			w.put(messages.purchaseDate(), this.purchaseOrderDate.toString())
+					.gap();
 		if (this.contact != null)
 			w.put(messages.contact(), this.contact.getName());
 
 		if (this.vendorAddress != null)
 			w.put(messages.memo(), this.vendorAddress.toString()).gap();
+
 		w.put(messages.memo(), this.phone);
 
 		if (this.paymentTerm != null)
 			w.put(messages.memo(), this.paymentTerm.getName()).gap();
-		w.put(messages.memo(), this.dispatchDate.toString());
 
-		w.put(messages.memo(), this.dueDate.toString()).gap();
+		if (this.dispatchDate != null)
+			w.put(messages.memo(), this.dispatchDate.toString());
 
-		w.put(messages.memo(), this.deliveryDate.toString());
+		if (this.dueDate != null)
+			w.put(messages.memo(), this.dueDate.toString()).gap();
+
+		if (this.deliveryDate != null)
+			w.put(messages.memo(), this.deliveryDate.toString());
 
 		if (this.shippingAddress != null)
 			w.put(messages.memo(), this.shippingAddress.toString()).gap();
@@ -526,6 +534,7 @@ public class PurchaseOrder extends Transaction {
 
 		if (this.shippingMethod != null)
 			w.put(messages.memo(), this.shippingMethod.getName()).gap();
+
 		w.put(messages.memo(), this.purchaseOrderNumber);
 
 		if (this.usedBill != null)

@@ -1099,15 +1099,15 @@ public class Invoice extends Transaction implements Lifecycle {
 
 		w.put(messages.Customer(), this.customer.name);
 
-		w.put(messages.currency(), this.customer.currency.getFormalName())
-				.gap();
+		w.put(messages.currency(), this.getCurrency().getFormalName()).gap();
 
 		w.put(messages.factor(), this.currencyFactor).gap();
 
 		w.put(messages.amount(), this.total).gap();
 		// w.put(messages.address(), this.customer.address.toString());
 
-		w.put(messages.dueDate(), this.dueDate.toString()).gap();
+		if (this.dueDate != null)
+			w.put(messages.dueDate(), this.dueDate.toString()).gap();
 		w.put(messages.email(), this.customer.getEmail());
 
 		if (this.paymentTerm != null) {

@@ -462,24 +462,34 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 
 		w.put(messages.amount(), this.amount);
 
+		if(transaction!=null)
 		w.put(messages.transaction(), this.transaction.getNumber());
 
+		if(writeCheck!=null)
 		w.put(messages.writeCheck(), this.writeCheck.getNumber());
 
+		if(customerRefund!=null)
 		w.put(messages.customerRefund(), this.customerRefund.getNumber());
 
+		if(payBill!=null)
 		w.put(messages.payBill(), this.payBill.getNumber());
 
+		if(creditCardCharge!=null)
 		w.put(messages.creditCardCharge(), this.creditCardCharge.getNumber());
 
+		if(cashPurchase!=null)
 		w.put(messages.cashPurchase(), this.cashPurchase.getNumber());
 
+		if(receiveVAT!=null)
 		w.put(messages.receiveVAT(), this.receiveVAT.getNumber());
 
+		if(paySalesTax!=null)
 		w.put(messages.salesTax(), this.paySalesTax.getNumber());
 
+		if(payVAT!=null)
 		w.put(messages.payVAT(), this.payVAT.getNumber());
 
+		if(customerPrepayment!=null)
 		w.put(messages.customerprePayment(),
 				this.customerPrepayment.getNumber());
 

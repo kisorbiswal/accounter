@@ -1137,10 +1137,13 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		if (this.paymentTerm != null)
 			w.put(messages.paymentTerm(), this.paymentTerm.getName());
 
+		if (this.dueDate != null)
 		w.put(messages.dueDate(), this.dueDate.toString());
 
+		if (this.deliveryDate != null)
 		w.put(messages.deliveryDate(), this.deliveryDate.toString());
 
+		if (this.discountDate != null)
 		w.put(messages.discountDate(), this.discountDate.toString());
 
 	}

@@ -803,7 +803,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 
 		w.put(messages.description(), this.description);
-		w.put(messages.quantity(), this.quantity.toString());
+
+		if (quantity != null)
+			w.put(messages.quantity(), this.quantity.toString());
 
 		w.put(messages.unitPrice(), this.unitPrice);
 		w.put(messages.discount(), this.discount);
@@ -824,9 +826,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 		// not sure whats this
 		// w.put(messages.amount(), this.usedamt.toString());
+		if (backOrder != null)
+			w.put("Back Order", this.backOrder.toString());
 
-		w.put("Back Order", this.backOrder.toString());
-		w.put(messages.vat(), this.VATfraction.toString());
+		if (VATfraction != null)
+			w.put(messages.vat(), this.VATfraction.toString());
 
 		if (this.taxCode != null) {
 			w.put(messages.taxCode(), this.taxCode.getName());
