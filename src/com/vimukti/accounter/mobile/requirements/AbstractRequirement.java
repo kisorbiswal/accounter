@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public abstract class AbstractRequirement<T> extends Requirement {
+	public static final String PROCESS_ATR = "processAttr";
 	public static final String INPUT_ATTR = "input";
 	public static final String VALUES = "values";
 	public static final String ACTIONS = "actions";

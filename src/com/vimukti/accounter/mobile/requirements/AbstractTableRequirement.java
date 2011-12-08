@@ -15,10 +15,9 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 
 public abstract class AbstractTableRequirement<T> extends
 		AbstractRequirement<T> {
-	private static final String PROCESS_ATR = "processAttr";
+
 	private List<Requirement> requirements;
 	private boolean isCreatable;
-	protected static final String DUE_DATE = "BillDueDate";
 
 	public AbstractTableRequirement(String requirementName, String enterString,
 			String recordName, boolean isCreatable, boolean isOptional,

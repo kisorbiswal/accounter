@@ -14,6 +14,7 @@ public abstract class PaybillTableRequirement extends
 	private static final String BILL_NO = "BillNo";
 	private static final String ORIGINAL_AMOUNT = "OriginalAmount";
 	private static final String AMOUNT = "Amount";
+	private static final String DUE_DATE = "BillDueDate";
 
 	public PaybillTableRequirement(String requirementName, String enterString,
 			String recordName) {

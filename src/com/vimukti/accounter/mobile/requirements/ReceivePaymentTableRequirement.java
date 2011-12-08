@@ -15,6 +15,7 @@ public abstract class ReceivePaymentTableRequirement extends
 	private static final String INVOICE_AMOUNT = "invoiceAmount";
 	private static final String PAYMENT = "receivePayment";
 	private static final String AMOUNT_DUE = "amountDue";
+	private static final String DUE_DATE = "BillDueDate";
 
 	public ReceivePaymentTableRequirement(String requirementName,
 			String enterString, String recordName) {
