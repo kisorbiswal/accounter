@@ -90,12 +90,15 @@ public abstract class WareHouseTransferTableRequirement extends
 		if (item == null) {
 			totalQty = String.valueOf(t.getTotalQuantity().getValue());
 		} else {
-			ClientUnit unit = (ClientUnit) CommandUtils.getClientObjectById(t
-					.getTotalQuantity().getUnit(), AccounterCoreType.UNIT,
-					getCompanyId());
+			ClientUnit unit = null;
 			StringBuffer data = new StringBuffer();
-			data.append(String.valueOf(t.getTotalQuantity().getValue()));
-			data.append(" ");
+			if (t.getTotalQuantity() != null) {
+				unit = (ClientUnit) CommandUtils.getClientObjectById(t
+						.getTotalQuantity().getUnit(), AccounterCoreType.UNIT,
+						getCompanyId());
+				data.append(String.valueOf(t.getTotalQuantity().getValue()));
+				data.append(" ");
+			}
 			if (unit != null) {
 				data.append(unit.getType());
 			}
@@ -106,12 +109,15 @@ public abstract class WareHouseTransferTableRequirement extends
 		if (item == null || t.getQuantity() == null) {
 			quantity = "";
 		} else {
-			ClientUnit unit = (ClientUnit) CommandUtils.getClientObjectById(t
-					.getQuantity().getUnit(), AccounterCoreType.UNIT,
-					getCompanyId());
+			ClientUnit unit = null;
 			StringBuffer data = new StringBuffer();
-			data.append(String.valueOf(t.getQuantity().getValue()));
-			data.append(" ");
+			if (t.getQuantity() != null) {
+				unit = (ClientUnit) CommandUtils.getClientObjectById(t
+						.getQuantity().getUnit(), AccounterCoreType.UNIT,
+						getCompanyId());
+				data.append(String.valueOf(t.getQuantity().getValue()));
+				data.append(" ");
+			}
 			if (unit != null) {
 				data.append(unit.getType());
 			}

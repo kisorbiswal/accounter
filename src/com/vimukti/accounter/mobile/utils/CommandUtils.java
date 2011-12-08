@@ -1354,7 +1354,7 @@ public class CommandUtils {
 
 	public static ClientStockTransfer getWareHouseTransfer(Company company,
 			String string) {
-		// TODO Auto-generated method stub
-		return null;
+		return (ClientStockTransfer) getClientObjectById(Long.valueOf(string),
+				AccounterCoreType.STOCK_TRANSFER, company.getId());
 	}
 }
