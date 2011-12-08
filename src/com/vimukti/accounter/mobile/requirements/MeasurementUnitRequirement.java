@@ -69,7 +69,9 @@ public abstract class MeasurementUnitRequirement extends
 
 	@Override
 	protected Unit getNewObject() {
-		return new Unit();
+		Unit unit = new Unit();
+		unit.setFactor(1.0);
+		return unit;
 	}
 
 	@Override
