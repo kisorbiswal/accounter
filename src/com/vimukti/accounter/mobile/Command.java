@@ -12,6 +12,7 @@ public abstract class Command {
 	private List<Requirement> requirements = new ArrayList<Requirement>();
 	private boolean isDone;
 	private String successMessage;
+	private boolean canTrackRequirements = true;
 
 	public Command() {
 		init();
@@ -108,5 +109,13 @@ public abstract class Command {
 
 	public Object removeAttribute(String name) {
 		return attributes.remove(name);
+	}
+
+	public boolean isCanTrackRequirements() {
+		return canTrackRequirements;
+	}
+
+	public void setCanTrackRequirements(boolean canTrackRequirements) {
+		this.canTrackRequirements = canTrackRequirements;
 	}
 }

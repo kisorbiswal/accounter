@@ -460,7 +460,7 @@ public class MobileMessageHandler extends Thread {
 		sessions.remove(networkId);
 	}
 
-	public void putMessage(MobileChannelContext context) {
+	public synchronized void putMessage(MobileChannelContext context) {
 		try {
 			queue.put(context);
 		} catch (InterruptedException e) {
