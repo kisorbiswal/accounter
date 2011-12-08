@@ -43,7 +43,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 			dispatch(req, resp, view);
 			return;
 		}
-		emailID = emailID.toLowerCase();
+		emailID = emailID.toLowerCase().trim();
 
 		Session serverSession = HibernateUtil.openSession();
 		Transaction transaction = null;
