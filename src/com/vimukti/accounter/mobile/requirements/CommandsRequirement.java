@@ -18,12 +18,17 @@ public abstract class CommandsRequirement extends AbstractRequirement<String> {
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
 		String value = context.getSelection(getName());
-		if (value != null) {
+		Object attribute = context.getAttribute("onSelection");
+		context.removeAttribute("onSelection");
+		if (attribute == null && value != null) {
 			setValue(value);
 			String onSelection = onSelection(value);
 			if (onSelection != null) {
+				context.setAttribute("onSelection", "");
 				Result result = new Result();
 				result.setNextCommand(onSelection);
+				context.getIOSession().getCurrentCommand()
+						.setCanTrackRequirements(false);
 				return result;
 			}
 			context.setString("");
