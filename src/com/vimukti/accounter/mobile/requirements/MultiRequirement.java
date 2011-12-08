@@ -103,7 +103,7 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 		result.add(actions);
 		Object selection = context.getSelection("actions");
 		if (selection == ActionNames.FINISH) {
-			Result finish = finish(context);
+			Result finish = onFinish(context);
 			if (finish != null) {
 				return finish;
 			}
@@ -115,9 +115,11 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 		return result;
 	}
 
-	protected abstract String getDisplayValue();
+	protected Result onFinish(Context context) {
+		return null;
+	}
 
-	protected abstract Result finish(Context context);
+	protected abstract String getDisplayValue();
 
 	@Override
 	public InputType getInputType() {
