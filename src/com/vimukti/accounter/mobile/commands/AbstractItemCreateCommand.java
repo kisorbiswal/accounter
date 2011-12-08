@@ -434,7 +434,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	protected boolean isItemExistsWithSameName(String value) {
 		Set<Item> items = getCompany().getItems();
 		for (Item item : items) {
-			if (item.getName().equalsIgnoreCase(value)) {
+			if (item.getID() != this.item.getID()
+					&& item.getName().equalsIgnoreCase(value)) {
 				return true;
 			}
 		}
