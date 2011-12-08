@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public abstract class MultiRequirement extends AbstractRequirement<String> {
+public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 
 	private List<Requirement> requirements;
 	private boolean isDone;
@@ -115,9 +115,7 @@ public abstract class MultiRequirement extends AbstractRequirement<String> {
 		return result;
 	}
 
-	protected Result onFinish(Context context) {
-		return null;
-	}
+	protected abstract Result onFinish(Context context);
 
 	protected abstract String getDisplayValue();
 
