@@ -111,8 +111,9 @@ public class InvoiceListCommand extends NewAbstractCommand {
 		list.add(new DateRequirement(TO_DATE, getMessages().pleaseEnter(
 				getMessages().toDate()), getMessages().toDate(), true, true));
 
-		list.add(new ShowListRequirement<InvoicesList>("Invoices",
-				"Please select", 20) {
+		list.add(new ShowListRequirement<InvoicesList>(
+				getMessages().invoices(), getMessages().pleaseSelect(
+						getMessages().invoice()), 20) {
 
 			// @Override
 			// protected void setSelectCommands(CommandList commandList,
