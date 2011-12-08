@@ -62,13 +62,13 @@ public class AddNewCurrency extends NewAbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return "currency has been selected";
+				return getMessages().hasSelected(getMessages().currency());
 			}
 
 			@Override
 			protected Record createRecord(ClientCurrency value) {
 				Record record = new Record(value);
-				record.add("", value.getDisplayName());
+				record.add(getMessages().name(), value.getDisplayName());
 				return record;
 			}
 
