@@ -1438,6 +1438,7 @@ public class FinanceTool {
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		session.getNamedQuery("createSalesPurchasesView").executeUpdate();
 		session.getNamedQuery("createTransactionHistoryView").executeUpdate();
+		session.getNamedQuery("createDeleteCompanyFunction").executeUpdate();
 		transaction.commit();
 	}
 
