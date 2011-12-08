@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
-public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
+public abstract class MultiRequirement extends AbstractRequirement<String> {
 
 	private List<Requirement> requirements;
 	private boolean isDone;
