@@ -8,6 +8,7 @@ import java.util.Set;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
@@ -15,6 +16,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
@@ -29,6 +31,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -93,39 +96,16 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		/*
-		 * set list.add(new CurrencyRequirement(CURRENCY,
-		 * getMessages().pleaseSelect( getConstants().currency()),
-		 * getConstants().currency(), true, true, null) {
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } else { return null;
-		 * } }
-		 * 
-		 * @Override protected List<Currency> getLists(Context context) { return
-		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
-		 * 
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
-		 * return "1 " + selc.getFormalName() + " = " + value + " " +
-		 * primaryCurrency.getFormalName(); }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
-		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
-		 * !((Currency) get(CURRENCY).getValue()) .equals(getPreferences()
-		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
-		 * actions); } } return null;
-		 * 
-		 * } });
-		 */
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Vendor vendor = (Vendor) NewCashExpenseCommand.this.get(VENDOR)
+						.getValue();
+				return getCurrency(vendor.getCurrency().getID());
+			}
+
+		});
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().billNo()), getMessages().billNo(), true, true));
@@ -248,6 +228,17 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				}
 				return filteredList;
 			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Vendor) NewCashExpenseCommand.this.get(VENDOR)
+						.getValue();
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewCashExpenseCommand.this.getCurrencyFactor();
+			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
@@ -269,6 +260,17 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			@Override
 			public boolean isSales() {
 				return false;
+			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Vendor) NewCashExpenseCommand.this.get(VENDOR)
+						.getValue();
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewCashExpenseCommand.this.getCurrencyFactor();
 			}
 
 		});
@@ -297,6 +299,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				return e.getName().contains(name);
 			}
 		});
+
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 
@@ -356,7 +359,9 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		 */
 
 		cashPurchase.setTransactionItems(items);
-
+		cashPurchase.setCurrency(vendor.getCurrency().getID());
+		cashPurchase
+				.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		updateTotals(context, cashPurchase, false);
 		create(cashPurchase, context);
 		return null;
@@ -394,6 +399,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 	 * @param context
 	 */
 	private void setValues(Context context) {
+		get(CURRENCY_FACTOR).setValue(cashPurchase.getCurrencyFactor());
 		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
 		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
 		List<ClientTransactionItem> transactionItems = cashPurchase
@@ -438,4 +444,10 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 						ClientTransaction.TYPE_CASH_EXPENSE,
 						context.getCompany()));
 	}
+
+	@Override
+	protected Payee getPayee() {
+		return (Vendor) NewCashExpenseCommand.this.get(VENDOR).getValue();
+	}
+
 }

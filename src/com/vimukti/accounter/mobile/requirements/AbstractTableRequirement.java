@@ -3,6 +3,8 @@ package com.vimukti.accounter.mobile.requirements;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -216,6 +218,14 @@ public abstract class AbstractTableRequirement<T> extends
 
 	public void setOtherFields(ResultList list, T obj) {
 
+	}
+
+	protected abstract double getCurrencyFactor();
+
+	protected abstract Payee getPayee();
+
+	protected Currency getCurrency() {
+		return getPayee().getCurrency();
 	}
 
 	protected abstract void getRequirementsValues(T obj);

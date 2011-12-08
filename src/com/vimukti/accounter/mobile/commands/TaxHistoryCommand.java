@@ -70,7 +70,6 @@ public class TaxHistoryCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-
 				return getMessages().taxHistory();
 			}
 

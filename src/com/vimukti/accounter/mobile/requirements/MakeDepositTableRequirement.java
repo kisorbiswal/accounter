@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
-public class MakeDepositTableRequirement extends
+public abstract class MakeDepositTableRequirement extends
 		AbstractTableRequirement<ClientTransactionMakeDeposit> {
 
 	private static final String ACCOUNT_FROM = "accountFrom";

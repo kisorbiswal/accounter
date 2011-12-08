@@ -343,7 +343,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 
 	/**
 	 * @param discountTotal
-	 *            the discountTotal to set
+	 *            the  to set
 	 */
 	// public void setDiscountTotal(double discountTotal) {
 	// this.discountTotal = discountTotal;

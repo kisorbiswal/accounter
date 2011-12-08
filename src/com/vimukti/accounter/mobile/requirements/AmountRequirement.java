@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.requirements;
 
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.InputType;
+import com.vimukti.accounter.web.client.Global;
 
 public class AmountRequirement extends SingleRequirement<Double> {
 
@@ -29,7 +30,7 @@ public class AmountRequirement extends SingleRequirement<Double> {
 
 	@Override
 	protected String getDisplayValue(Double value) {
-		return value != null ? value.toString() : "";
+		return value != null ? Global.get().toCurrencyFormat(value) : "";
 	}
 
 	@Override

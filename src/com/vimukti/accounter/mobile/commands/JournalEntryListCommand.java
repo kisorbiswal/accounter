@@ -71,7 +71,9 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 				Record record = new Record(entry);
 				record.add(getMessages().voucherNo(), entry.getNumber());
 				record.add(getMessages().date(), entry.getDate());
-				record.add(getMessages().amount(), entry.getTotal());
+				record.add(getMessages().amount(),
+						getCurrency(entry.getCurrency()).getSymbol() + " "
+								+ entry.getTotal());
 				record.add(getMessages().memo(), entry.getMemo());
 				record.add(getMessages().voided(),
 						entry.isVoid() == true ? getMessages().Voided()

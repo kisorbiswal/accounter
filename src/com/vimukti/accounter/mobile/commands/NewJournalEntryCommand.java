@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -24,7 +25,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ListFilter;
 
 /**
  * 
@@ -116,6 +116,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 						}
 					}
 
+					@SuppressWarnings("unchecked")
 					@Override
 					public Double getValue() {
 						return currentValue.getCredit();
@@ -138,6 +139,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 						}
 					}
 
+					@SuppressWarnings("unchecked")
 					@Override
 					public Double getValue() {
 						return currentValue.getDebit();
@@ -236,6 +238,16 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					}
 				}
 				return false;
+			}
+
+			@Override
+			protected Payee getPayee() {
+				return null;
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewJournalEntryCommand.this.getCurrencyFactor();
 			}
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
@@ -389,4 +401,11 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					getMessages().journalEntry());
 		}
 	}
+
+	@Override
+	protected Payee getPayee() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

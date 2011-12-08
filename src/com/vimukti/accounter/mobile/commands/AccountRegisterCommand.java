@@ -2,7 +2,6 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Utility;
@@ -40,13 +39,11 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -62,13 +59,11 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		// account requirement
 		list.add(new AccountRequirement(ACCOUNT, getMessages().pleaseSelect(
 				getMessages().account()), getMessages().account(), false, true,
 				null) {
@@ -105,16 +100,6 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<AccountRegister>("Account Register",
 				"Please Enter name or number", 20) {
-			// @Override
-			// protected void setSelectCommands(CommandList commandList,
-			// AccountRegister value) {
-			//
-			// commandList.add(new UserCommand("Edit Transaction", String
-			// .valueOf(value.getTransactionId())));
-			//
-			// commandList.add(new UserCommand("Delete Transaction", Utility
-			// .getTransactionName(value.getType())));
-			// }
 
 			@Override
 			protected String onSelection(AccountRegister value) {
@@ -143,7 +128,6 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				// TODO Auto-generated method stub
 			}
 
 			@Override
@@ -160,7 +144,6 @@ public class AccountRegisterCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 		});

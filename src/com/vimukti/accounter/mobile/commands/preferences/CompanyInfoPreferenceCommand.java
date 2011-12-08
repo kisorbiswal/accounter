@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.commands.URLRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
@@ -17,6 +18,7 @@ import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 
@@ -42,12 +44,12 @@ public class CompanyInfoPreferenceCommand extends
 	private static final String TAX_ID = "taxid";
 	protected static final String FISCAL_MONTH = "fiscalamonth";
 	private static final String PREVENT_POSTING_DATE = "preventdate";
-	// private static final String PRIMARY_CURRENCY = "primarycurrency";
 	private static final String USE_CUSTOMER_NUMBER = "usecustomernumber";
 	private static final String USE_VENDOR_NUMBER = "usevendornumber";
 	private static final String USE_ACCOUNT_NUMBER = "primarycurrency";
-	// private static final String IS_MULTI_CURRENCY = "useaccountnumber";
 	protected static final String TIMEZONE = "timezone";
+	protected static final String PRIMARY_CURRENCY = "Primary Currency";
+	protected static final String IS_MULTI_CURRENCY_ENBLED = "ismultiCurrecnyEnbled";
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -135,7 +137,36 @@ public class CompanyInfoPreferenceCommand extends
 
 		list.add(new StringRequirement(TAX_ID, getMessages().pleaseEnter(
 				getMessages().taxId()), getMessages().taxId(), true, true));
+		list.add(new CurrencyRequirement(PRIMARY_CURRENCY, getMessages()
+				.primaryCurrency(), getMessages().primaryCurrency(), true,
+				true, null) {
 
+			@Override
+			protected List<ClientCurrency> getLists(Context context) {
+
+				List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
+				List<ClientCurrency> currencies = CoreUtils
+						.getCurrencies(new ArrayList<ClientCurrency>());
+				for (ClientCurrency currency : currencies) {
+					currenciesList.add(currency);
+				}
+				return currenciesList;
+
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_MULTI_CURRENCY_ENBLED, true) {
+
+			@Override
+			protected String getTrueString() {
+				return " Multi currency enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return " Multi currency is not enabled";
+			}
+		});
 		list.add(new StringListRequirement(FISCAL_MONTH, getMessages()
 				.pleaseSelect(getMessages().FirstFiscalMonth()), getMessages()
 				.FirstFiscalMonth(), true, true, null) {
@@ -274,8 +305,8 @@ public class CompanyInfoPreferenceCommand extends
 		// get(COMPANY_DATEFORMAT).setValue(preferences.getDateFormat());
 		get(TAX_ID).setValue(preferences.getTaxId());
 		get(FISCAL_MONTH).setValue(
-				getFiscalYearMonths()
-						.get(preferences.getFiscalYearFirstMonth()));
+				getFiscalYearMonths().get(
+						preferences.getFiscalYearFirstMonth() - 1));
 		if (preferences.getPreventPostingBeforeDate() != 0) {
 			get(PREVENT_POSTING_DATE).setValue(
 					new ClientFinanceDate(preferences
@@ -285,7 +316,9 @@ public class CompanyInfoPreferenceCommand extends
 		get(USE_VENDOR_NUMBER).setValue(preferences.getUseVendorId());
 		get(USE_ACCOUNT_NUMBER).setValue(preferences.getUseAccountNumbers());
 		get(TIMEZONE).setValue(preferences.getTimezone());
-
+		get(PRIMARY_CURRENCY).setValue(preferences.getPrimaryCurrency());
+		get(IS_MULTI_CURRENCY_ENBLED).setValue(
+				preferences.isEnableMultiCurrency());
 		return null;
 
 	}
@@ -299,7 +332,9 @@ public class CompanyInfoPreferenceCommand extends
 		String email = get(EMAIL).getValue();
 		String website = get(WEBSITE).getValue();
 		String phno = get(PHONE_NUMBER).getValue();
-
+		ClientCurrency primaryCurrency = get(PRIMARY_CURRENCY).getValue();
+		Boolean ismultiCurrencyEnabled = get(IS_MULTI_CURRENCY_ENBLED)
+				.getValue();
 		preferences.setTradingName(name);
 
 		if (isdiffname) {
@@ -337,6 +372,9 @@ public class CompanyInfoPreferenceCommand extends
 		preferences.setUseCustomerId(customernumber);
 		preferences.setUseVendorId(vendornumber);
 		preferences.setUseAccountNumbers(accountnumber);
+
+		preferences.setPrimaryCurrency(primaryCurrency);
+		preferences.setEnableMultiCurrency(ismultiCurrencyEnabled);
 		preferences.setTimezone(timezone);
 		savePreferences(context, preferences);
 		return null;

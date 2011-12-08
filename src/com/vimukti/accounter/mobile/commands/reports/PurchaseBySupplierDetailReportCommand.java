@@ -37,9 +37,9 @@ public class PurchaseBySupplierDetailReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<SalesByCustomerDetail> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
-					}
+				}
 
 				Map<String, List<SalesByCustomerDetail>> recordGroups = new HashMap<String, List<SalesByCustomerDetail>>();
 				for (SalesByCustomerDetail transactionDetailByAccount : records) {
@@ -68,7 +68,8 @@ public class PurchaseBySupplierDetailReportCommand extends
 						resultList.add(createReportRecord(rec));
 					}
 					makeResult.add(resultList);
-					makeResult.add("Total: " + totalAmount);
+					makeResult.add("Total: "
+							+ getAmountWithCurrency(totalAmount));
 				}
 			}
 		});
@@ -82,7 +83,8 @@ public class PurchaseBySupplierDetailReportCommand extends
 		transactionRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getType()));
 		transactionRecord.add(getMessages().number(), record.getNumber());
-		transactionRecord.add(getMessages().amount(), record.getAmount());
+		transactionRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getAmount()));
 		return transactionRecord;
 	}
 
@@ -112,7 +114,7 @@ public class PurchaseBySupplierDetailReportCommand extends
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		String string = context.getString();
-		if (string != null && string.isEmpty()) {
+		if (!string.isEmpty()) {
 			String[] split = string.split(",");
 			context.setString(split[0]);
 			supplierName = split[1];

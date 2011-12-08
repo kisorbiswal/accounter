@@ -99,16 +99,19 @@ public class TransactionDetailByAccountReportCommand extends
 						resultList.setTitle(rec.getAccountName());
 						totalAmount += rec.getTotal();
 						Record createReportRecord = createReportRecord(rec);
-						createReportRecord.add("Balance", totalAmount);
+						createReportRecord.add("Balance",
+								getAmountWithCurrency(totalAmount));
 						resultList.add(createReportRecord);
 					}
 					makeResult.add(resultList);
 					grandTotal += totalAmount;
-					makeResult.add("Amount Total: " + totalAmount);
+					makeResult.add("Amount Total: "
+							+ getAmountWithCurrency(totalAmount));
 				}
 				Account account = get(ACCOUNT).getValue();
 				if (account == null) {
-					makeResult.add("Grand Total: " + grandTotal);
+					makeResult.add("Grand Total: "
+							+ getAmountWithCurrency(grandTotal));
 				}
 			}
 		});
@@ -135,7 +138,8 @@ public class TransactionDetailByAccountReportCommand extends
 				Utility.getTransactionName(record.getTransactionType()));
 		transactionRecord.add(getMessages().number(),
 				record.getTransactionNumber());
-		transactionRecord.add(getMessages().total(), record.getTotal());
+		transactionRecord.add(getMessages().total(),
+				getAmountWithCurrency(record.getTotal()));
 		return transactionRecord;
 	}
 

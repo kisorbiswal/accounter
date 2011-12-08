@@ -150,7 +150,9 @@ public class InvoiceListCommand extends NewAbstractCommand {
 						Utility.getTransactionName(value.getType()));
 				record.add(getMessages().name(), value.getCustomerName());
 				record.add(getMessages().date(), value.getDate());
-				record.add(getMessages().balance(), value.getBalance());
+				record.add(getMessages().balance(),
+						getCurrency(value.getCurrency()).getSymbol() + " "
+								+ value.getBalance());
 				return record;
 			}
 

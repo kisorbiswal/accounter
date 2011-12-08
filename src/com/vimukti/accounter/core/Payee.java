@@ -577,6 +577,10 @@ public abstract class Payee extends CreatableObject implements
 		return super.onSave(session);
 	}
 
+	public double getCurrencyFactor() {
+		return currencyFactor;
+	}
+
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 

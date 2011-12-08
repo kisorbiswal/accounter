@@ -32,14 +32,25 @@ public abstract class PaybillTableRequirement extends
 		billNo.setEditable(false);
 		list.add(billNo);
 
-		AmountRequirement originalAmount = new AmountRequirement(
-				ORIGINAL_AMOUNT, "", getMessages().originalAmount(), true, true);
+		CurrencyAmountRequirement originalAmount = new CurrencyAmountRequirement(
+				ORIGINAL_AMOUNT, "", getMessages().originalAmount(), true, true) {
+
+			@Override
+			protected String getFormalName() {
+				return getCurrency().getFormalName();
+			}
+		};
 		originalAmount.setEditable(false);
 		list.add(originalAmount);
 
-		AmountRequirement amount = new AmountRequirement(AMOUNT, getMessages()
-				.pleaseEnter(getMessages().amount()), getMessages().amount(),
-				true, true);
+		CurrencyAmountRequirement amount = new CurrencyAmountRequirement(
+				AMOUNT, getMessages().pleaseEnter(getMessages().amount()),
+				getMessages().amount(), true, true) {
+			@Override
+			protected String getFormalName() {
+				return getCurrency().getFormalName();
+			}
+		};
 		list.add(amount);
 
 	}
@@ -77,12 +88,22 @@ public abstract class PaybillTableRequirement extends
 
 	@Override
 	protected Record createFullRecord(PayBillTransactionList t) {
+		String formalName;
+		if (getPreferences().isEnableMultiCurrency()) {
+			formalName = getCurrency().getFormalName();
+		} else {
+			formalName = getPreferences().getPrimaryCurrency().getFormalName();
+		}
+
 		Record record = new Record(t);
 		record.add(getMessages().dueDate(), t.getDueDate());
 		record.add(getMessages().billNo(), t.getBillNumber());
-		record.add(getMessages().originalAmount(), t.getOriginalAmount());
-		record.add(getMessages().amountDue(), t.getAmountDue());
-		record.add(getMessages().payment(), t.getPayment());
+		record.add(getMessages().originalAmount() + "(" + formalName + ")",
+				t.getOriginalAmount());
+		record.add(getMessages().amountDue() + "(" + formalName + ")",
+				t.getAmountDue());
+		record.add(getMessages().payment() + "(" + formalName + ")",
+				t.getPayment());
 		return record;
 	}
 

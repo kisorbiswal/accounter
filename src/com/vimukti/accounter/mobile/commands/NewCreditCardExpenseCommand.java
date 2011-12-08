@@ -19,6 +19,7 @@ import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
@@ -32,6 +33,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -84,23 +86,16 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		/*
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); return value + " " +
-		 * primaryCurrency.getFormalName(); }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } return null;
-		 * 
-		 * } });
-		 */
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Vendor vendor = (Vendor) NewCreditCardExpenseCommand.this.get(
+						VENDOR).getValue();
+				return getCurrency(vendor.getCurrency().getID());
+			}
+
+		});
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
@@ -122,6 +117,17 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			@Override
 			public boolean isSales() {
 				return false;
+			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Vendor) NewCreditCardExpenseCommand.this.get(VENDOR)
+						.getValue();
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewCreditCardExpenseCommand.this.getCurrencyFactor();
 			}
 
 		});
@@ -161,6 +167,17 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 					}
 				}
 				return filteredList;
+			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Vendor) NewCreditCardExpenseCommand.this.get(VENDOR)
+						.getValue();
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewCreditCardExpenseCommand.this.getCurrencyFactor();
 			}
 		});
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
@@ -348,6 +365,9 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 
 		String memo = get(MEMO).getValue();
 		creditCardCharge.setMemo(memo);
+		creditCardCharge.setCurrency(supplier.getCurrency().getID());
+		creditCardCharge.setCurrencyFactor((Double) get(CURRENCY_FACTOR)
+				.getValue());
 		updateTotals(context, creditCardCharge, false);
 		create(creditCardCharge, context);
 
@@ -402,6 +422,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 	}
 
 	private void setValues(Context context) {
+		get(CURRENCY_FACTOR).setValue(creditCardCharge.getCurrencyFactor());
 		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
 		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
 		List<ClientTransactionItem> transactionItemsList = creditCardCharge
@@ -489,5 +510,10 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 					"Transaction total can not zero or less than zero.So you can't finish this command");
 		}
 		super.beforeFinishing(context, makeResult);
+	}
+
+	@Override
+	protected Payee getPayee() {
+		return (Vendor) NewCreditCardExpenseCommand.this.get(VENDOR).getValue();
 	}
 }

@@ -40,8 +40,10 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 			protected Record createRecord(Account value) {
 				Record record = new Record(value);
 				record.add(getMessages().name(), value.getName());
-				record.add(getMessages().balance(),
-						value.getTotalBalanceInAccountCurrency());
+				record.add(
+						getMessages().balance(),
+						value.getCurrency().getSymbol() + " "
+								+ value.getTotalBalanceInAccountCurrency());
 				return record;
 			}
 

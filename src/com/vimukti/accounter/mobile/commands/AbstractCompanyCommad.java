@@ -23,6 +23,8 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 import com.vimukti.accounter.web.server.AccountsTemplateManager;
 
 public abstract class AbstractCompanyCommad extends NewAbstractCommand {
@@ -51,6 +53,8 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 	protected static final String ACCOUNTS = "defaultaccounts";
 	protected static final String ORGANIZATION_TYPES = "orgtypes";
 	protected static final String FISCAL_YEAR_LIST = "fiscalyearsList";
+	protected static final String PRIMARY_CURRENCY = "Primary Currency";
+	protected static final String IS_MULTI_CURRENCY_ENBLED = "ismultiCurrecnyEnbled";
 
 	List<AccountsTemplate> allAccounts = new ArrayList<AccountsTemplate>();
 
@@ -355,5 +359,25 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 		Query query = session.getNamedQuery("getServerCompany.by.name")
 				.setParameter("name", companyName);
 		return (Company) query.uniqueResult();
+	}
+
+	/**
+	 * WHEN SELECT THE COUNTRY THEN GET THE CURRENCY OF THAT COUNTRY
+	 * 
+	 * @param value
+	 * @return
+	 */
+	protected ClientCurrency countrySelected(String value) {
+		ICountryPreferences countryPreferences = CountryPreferenceFactory
+				.get(value);
+		List<ClientCurrency> currenciesList = CoreUtils
+				.getCurrencies(new ArrayList<ClientCurrency>());
+		for (int i = 0; i < currenciesList.size(); i++) {
+			if (countryPreferences.getPreferredCurrency().trim()
+					.equals(currenciesList.get(i).getFormalName())) {
+				return currenciesList.get(i);
+			}
+		}
+		return null;
 	}
 }

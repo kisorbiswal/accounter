@@ -14,6 +14,7 @@ import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
@@ -241,6 +242,12 @@ public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
 		if (toDateReq != null) {
 			toDateReq.setValue(endDate);
 		}
+
+	}
+
+	protected String getAmountWithCurrency(double amount) {
+		String symbol = getPreferences().getPrimaryCurrency().getSymbol();
+		return symbol + " " + Global.get().toCurrencyFormat(amount);
 
 	}
 }

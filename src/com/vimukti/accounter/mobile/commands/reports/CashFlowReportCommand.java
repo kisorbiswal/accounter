@@ -98,27 +98,27 @@ public class CashFlowReportCommand extends
 				netIncomeList.setTitle(getMessages().operatingActivities());
 				Record record = new Record(getMessages().netIncome());
 				record.add(" ", getMessages().netIncome());
-				record.add(" ", netIncomeTotal);
+				record.add(" ", getAmountWithCurrency(netIncomeTotal));
 				netIncomeList.add(record);
 				makeResult.add(netIncomeList);
 				if (!operatingActivitieList.isEmpty()) {
 					makeResult.add(operatingActivitieList);
 					makeResult.add(getMessages().endOfARNINC() + " :"
-							+ operatingActivitieAmount);
+							+ getAmountWithCurrency(operatingActivitieAmount));
 				}
 				double operatingActivitieNetAmount = netIncomeTotal
 						+ operatingActivitieAmount;
 				makeResult.add(getMessages()
 						.netCashProvidedByOperatingActivities()
 						+ " :"
-						+ operatingActivitieNetAmount);
+						+ getAmountWithCurrency(operatingActivitieNetAmount));
 
 				if (!invetList.isEmpty()) {
 					makeResult.add(invetList);
 					makeResult.add(getMessages()
 							.netCashProvidedByinvestingActivities()
 							+ " :"
-							+ investingActivitieAmount);
+							+ getAmountWithCurrency(investingActivitieAmount));
 				}
 				double netAmountTotal = operatingActivitieNetAmount
 						+ financingActivitieAmount + investingActivitieAmount;
@@ -128,10 +128,10 @@ public class CashFlowReportCommand extends
 					makeResult.add(getMessages()
 							.netCashProvidedByfinancingActivities()
 							+ " :"
-							+ financingActivitieAmount);
+							+ getAmountWithCurrency(financingActivitieAmount));
 				}
 				makeResult.add(getMessages().cashAtEndOfPeriod() + " :"
-						+ netAmountTotal);
+						+ getAmountWithCurrency(netAmountTotal));
 
 			}
 
@@ -169,8 +169,8 @@ public class CashFlowReportCommand extends
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
 		trialRecord.add("", record.getAccountName());
-		trialRecord
-				.add(getStartDate() + "_" + getEndDate(), record.getAmount());
+		trialRecord.add(getStartDate() + "_" + getEndDate(),
+				getAmountWithCurrency(record.getAmount()));
 		return trialRecord;
 	}
 

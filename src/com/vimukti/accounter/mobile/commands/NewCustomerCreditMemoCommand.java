@@ -20,6 +20,7 @@ import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -31,6 +32,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -105,7 +107,16 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				return getCustomers();
 			}
 		});
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Customer customer = (Customer) NewCustomerCreditMemoCommand.this
+						.get(CUSTOMER).getValue();
+				return getCurrency(customer.getCurrency().getID());
+			}
 
+		});
 		/*
 		 * list.add(new CurrencyRequirement(CURRENCY,
 		 * getMessages().pleaseSelect( getConstants().currency()),
@@ -169,10 +180,25 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				}
 				return filteredList;
 			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Customer) NewCustomerCreditMemoCommand.this.get(
+						CUSTOMER).getValue();
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewCustomerCreditMemoCommand.this.getCurrencyFactor();
+			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
 				true, true) {
+			@Override
+			protected double getCurrencyFactor() {
+				return NewCustomerCreditMemoCommand.this.getCurrencyFactor();
+			}
 
 			@Override
 			public List<Item> getItems(Context context) {
@@ -190,6 +216,12 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			@Override
 			public boolean isSales() {
 				return true;
+			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Customer) NewCustomerCreditMemoCommand.this.get(
+						CUSTOMER).getValue();
 			}
 
 		});
@@ -307,6 +339,8 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 
 		String memo = get(MEMO).getValue();
 		creditMemo.setMemo(memo);
+		creditMemo.setCurrency(customer.getID());
+		creditMemo.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		double taxTotal = updateTotals(context, creditMemo, true);
 		creditMemo.setTaxTotal(taxTotal);
 		create(creditMemo, context);
@@ -344,6 +378,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 	}
 
 	private void setValues() {
+		get(CURRENCY_FACTOR).setValue(creditMemo.getCurrencyFactor());
 		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
 		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
 		List<ClientTransactionItem> transactionItems = creditMemo
@@ -381,4 +416,11 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		}
 		super.beforeFinishing(context, makeResult);
 	}
+
+	@Override
+	protected Payee getPayee() {
+		return (Customer) NewCustomerCreditMemoCommand.this.get(CUSTOMER)
+				.getValue();
+	}
+
 }

@@ -98,7 +98,9 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 				record.add(getMessages().name(), value.getCustomerName());
 				record.add(getMessages().paymentMethod(),
 						value.getPaymentMethodName());
-				record.add(getMessages().amountPaid(), value.getAmountPaid());
+				record.add(getMessages().amountPaid(),
+						getCurrency(value.getCurrency()).getSymbol() + " "
+								+ value.getAmountPaid());
 				return record;
 			}
 

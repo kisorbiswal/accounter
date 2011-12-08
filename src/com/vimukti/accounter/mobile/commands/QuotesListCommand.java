@@ -178,7 +178,8 @@ public class QuotesListCommand extends NewAbstractCommand {
 								.getCustomer().getName() : "");
 				estrecord.add(getMessages().expirationDate(), value
 						.getExpirationDate().toString());
-				estrecord.add(getMessages().total(), value.getTotal());
+				estrecord.add(getMessages().total(), value.getCurrency()
+						.getSymbol() + " " + value.getTotal());
 				return estrecord;
 			}
 

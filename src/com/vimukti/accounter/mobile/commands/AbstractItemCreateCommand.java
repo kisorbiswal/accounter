@@ -19,6 +19,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyAmountRequirement;
 import com.vimukti.accounter.mobile.requirements.ItemGroupRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -118,9 +119,9 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new AmountRequirement(SALES_PRICE, getMessages().pleaseEnter(
-				getMessages().salesPrice()), getMessages().salesPrice(), true,
-				true) {
+		list.add(new CurrencyAmountRequirement(SALES_PRICE, getMessages()
+				.pleaseEnter(getMessages().salesPrice()), getMessages()
+				.salesPrice(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -128,6 +129,12 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
+			}
+
+			@Override
+			protected String getFormalName() {
+				return getCompany().getPreferences().getPrimaryCurrency()
+						.getFormalName();
 			}
 		});
 
@@ -232,9 +239,17 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new AmountRequirement(STANDARD_COST, getMessages()
+		list.add(new CurrencyAmountRequirement(STANDARD_COST, getMessages()
 				.pleaseEnter(getMessages().standardCost()), getMessages()
-				.standardCost(), true, true));
+				.standardCost(), true, true) {
+
+			@Override
+			protected String getFormalName() {
+				return getCompany().getPreferences().getPrimaryCurrency()
+						.getFormalName();
+			}
+
+		});
 
 		list.add(new ItemGroupRequirement(ITEM_GROUP,
 				"Enter the item group name", getMessages().itemGroup(), true,

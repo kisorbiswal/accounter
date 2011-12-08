@@ -45,8 +45,10 @@ public class TrialBalanceReportCommand extends
 					resultList.add(createReportRecord(record));
 				}
 				makeResult.add(resultList);
-				makeResult.add("Total Debit : " + totalDebit);
-				makeResult.add("Total Credit : " + totalCredit);
+				makeResult.add("Total Debit : "
+						+ getAmountWithCurrency(totalDebit));
+				makeResult.add("Total Credit : "
+						+ getAmountWithCurrency(totalCredit));
 			}
 		});
 	}
@@ -54,8 +56,10 @@ public class TrialBalanceReportCommand extends
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
 		trialRecord.add(getMessages().accountName(), record.getAccountName());
-		trialRecord.add(getMessages().debit(), record.getDebitAmount());
-		trialRecord.add(getMessages().credit(), record.getCreditAmount());
+		trialRecord.add(getMessages().debit(),
+				getAmountWithCurrency(record.getDebitAmount()));
+		trialRecord.add(getMessages().credit(),
+				getAmountWithCurrency(record.getCreditAmount()));
 		return trialRecord;
 	}
 

@@ -18,6 +18,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
@@ -28,6 +29,7 @@ import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -116,39 +118,16 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		/*
-		 * list.add(new CurrencyRequirement(CURRENCY,
-		 * getMessages().pleaseSelect( getConstants().currency()),
-		 * getConstants().currency(), true, true, null) {
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (context.getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } else { return null;
-		 * } }
-		 * 
-		 * @Override protected List<Currency> getLists(Context context) { return
-		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
-		 * 
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
-		 * return "1 " + selc.getFormalName() + " = " + value + " " +
-		 * primaryCurrency.getFormalName(); }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
-		 * != null) { if (context.getPreferences().isEnableMultiCurrency() &&
-		 * !((Currency) get(CURRENCY).getValue())
-		 * .equals(context.getPreferences() .getPrimaryCurrency())) { return
-		 * super.run(context, makeResult, list, actions); } } return null;
-		 * 
-		 * } });
-		 */
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Vendor vendor = (Vendor) NewVendorCreditMemoCommand.this.get(
+						VENDOR).getValue();
+				return getCurrency(vendor.getCurrency().getID());
+			}
+
+		});
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().creditNoteNo()), getMessages().creditNoteNo(),
@@ -182,6 +161,18 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 				}
 				return filteredList;
 			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Vendor) NewVendorCreditMemoCommand.this.get(VENDOR)
+						.getValue();
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewVendorCreditMemoCommand.this.getCurrencyFactor();
+			}
+
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
@@ -203,6 +194,17 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 			@Override
 			public boolean isSales() {
 				return false;
+			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Vendor) NewVendorCreditMemoCommand.this.get(VENDOR)
+						.getValue();
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewVendorCreditMemoCommand.this.getCurrencyFactor();
 			}
 
 		});
@@ -317,6 +319,9 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 		vendorCreditMemo.setVendor(supplier.getID());
 		String memo = get(MEMO).getValue();
 		vendorCreditMemo.setMemo(memo);
+		vendorCreditMemo.setCurrency(supplier.getCurrency().getID());
+		vendorCreditMemo.setCurrencyFactor((Double) get(CURRENCY_FACTOR)
+				.getValue());
 		updateTotals(context, vendorCreditMemo, false);
 		create(vendorCreditMemo, context);
 		return null;
@@ -339,6 +344,11 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 					"Transaction total can not zero or less than zero.So you can't finish this command");
 		}
 		super.beforeFinishing(context, makeResult);
+	}
+
+	@Override
+	protected Payee getPayee() {
+		return (Vendor) NewVendorCreditMemoCommand.this.get(VENDOR).getValue();
 	}
 
 }

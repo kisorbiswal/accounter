@@ -92,7 +92,8 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 						resultList.add(createReportRecord);
 					}
 					makeResult.add(resultList);
-					makeResult.add("" + totalAmount);
+					makeResult
+							.add("Total" + getAmountWithCurrency(totalAmount));
 				}
 			}
 		});
@@ -104,7 +105,8 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 				Utility.getTransactionName(record.getTransactionType()));
 		expenseRecord.add(getMessages().transactionDate(),
 				record.getTransactionDate());
-		expenseRecord.add(getMessages().amount(), record.getTotal());
+		expenseRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getTotal()));
 		return expenseRecord;
 	}
 

@@ -7,6 +7,7 @@ import java.util.List;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CreditsAndPayments;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
@@ -19,6 +20,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaybillTableRequirement;
@@ -30,6 +32,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -279,6 +282,27 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				}
 				return transactionPayBills;
 			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Vendor) NewPayBillCommand.this.get(VENDOR).getValue();
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewPayBillCommand.this.getCurrencyFactor();
+			}
+
+		});
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Vendor vendor = (Vendor) NewPayBillCommand.this.get(VENDOR)
+						.getValue();
+				return getCurrency(vendor.getCurrency().getID());
+			}
+
 		});
 	}
 
@@ -406,7 +430,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		paybill.setDate(date.getDate());
 		String memo = get(MEMO).getValue();
 		paybill.setMemo(memo);
-
+		paybill.setCurrency(vendor.getCurrency().getID());
+		paybill.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		/*
 		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
 		 * currency = get(CURRENCY).getValue(); if (currency != null) {
@@ -425,7 +450,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 								AccounterCoreType.TAXITEM, getCompanyId()));
 			}
 		}
-
+		paybill.setCurrency(vendor.getCurrency().getID());
+		paybill.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		updateCreditsAndTotals();
 
 		create(paybill, context);
@@ -499,7 +525,20 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 	@Override
 	public void beforeFinishing(Context context, Result makeResult) {
 		updateCreditsAndTotals();
-		makeResult.add("Total: " + paybill.getTotal());
+		Currency currency = getCurrency();
+		String formalName = getPreferences().getPrimaryCurrency()
+				.getFormalName();
+		if (!currency.getFormalName().equalsIgnoreCase(formalName))
+			makeResult.add("Total" + "(" + formalName + ")" + ": "
+					+ (paybill.getTotal() * getCurrencyFactor()));
+		makeResult.add("Total" + "(" + currency.getFormalName() + ")"
+				+ paybill.getTotal());
 		makeResult.add("Un Used credits : " + paybill.getUnUsedCredits());
 	}
+
+	@Override
+	protected Payee getPayee() {
+		return (Vendor) NewPayBillCommand.this.get(VENDOR).getValue();
+	}
+
 }

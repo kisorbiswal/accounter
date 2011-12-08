@@ -8,18 +8,22 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CustomerGroup;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
-import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.CreditRatingRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyAmountRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyListRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerGroupRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -39,6 +43,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -74,6 +79,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	private static final String SHIPTO = "shipTo";
 	private static final String BILLTO = "billTo";
 	private static final String ACTIVE = "active";
+
 	private ClientCustomer customer;
 
 	@Override
@@ -126,14 +132,51 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
+		list.add(new CurrencyListRequirement(CURRENCY,
+				getMessages().currency(), getMessages().currency(), true, true,
+				null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Currency has been selected";
+			}
+
+			@Override
+			protected boolean filter(ClientCurrency e, String name) {
+				return e.getFormalName().startsWith(name);
+			}
+
+			@Override
+			protected List<ClientCurrency> getLists(Context context) {
+				return getCurrencies(context.getCompany().getCurrencies());
+			}
+		});
+
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				return get(CURRENCY).getValue();
+			}
+
+		});
+
 		list.add(new DateRequirement(CUSTOMER_SINCEDATE,
 				getMessages().pleaseEnter(
 						getMessages().payeeSince(Global.get().Customer())),
 				getMessages().payeeSince(Global.get().Customer()), true, true));
 
-		list.add(new AmountRequirement(BALANCE, getMessages().pleaseEnter(
-				getMessages().openingBalance()),
-				getMessages().openingBalance(), true, true));
+		list.add(new CurrencyAmountRequirement(BALANCE, getMessages()
+				.pleaseEnter(getMessages().openingBalance()), getMessages()
+				.openingBalance(), true, true) {
+
+			@Override
+			protected String getFormalName() {
+				ClientCurrency currency = get(CURRENCY).getValue();
+				return currency.getFormalName();
+			}
+		});
 
 		list.add(new DateRequirement(BALANCE_ASOF_DATE, getMessages()
 				.pleaseEnter(getMessages().balanceAsOfDate()), getMessages()
@@ -414,6 +457,18 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				return null;
 			}
 
+			@Override
+			protected Payee getPayee() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
 		});
 
 	}
@@ -520,7 +575,11 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 			// customer.setPANno(panNum);
 		}
-
+		ClientCurrency currency = get(CURRENCY).getValue();
+		if (getPreferences().isEnableMultiCurrency()) {
+			customer.setCurrency(currency.getID());
+		}
+		customer.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		create(customer, context);
 		return null;
 	}
@@ -550,6 +609,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		get(BALANCE_ASOF_DATE).setDefaultValue(new ClientFinanceDate());
 		get(BILLTO).setDefaultValue(new ClientAddress());
 		get(SHIPTO).setDefaultValue(new ClientAddress());
+		get(CURRENCY).setValue(
+				CompanyPreferenceThreadLocal.get().getPrimaryCurrency());
 	}
 
 	@Override
@@ -655,5 +716,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		get(SERVICE_TAX_NUM).setValue(
 				customer.getServiceTaxRegistrationNumber());
 		get(TIN_NUM).setValue(customer.getTinNumber());
+		get(CURRENCY).setValue(getCurrency(customer.getCurrency()));
+		get(CURRENCY_FACTOR).setValue(customer.getCurrencyFactor());
 	}
+
 }

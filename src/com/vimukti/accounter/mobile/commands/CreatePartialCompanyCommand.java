@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.CommandList;
@@ -7,13 +8,17 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
@@ -43,6 +48,8 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 					@Override
 					public void onSelection(String value) {
+						ClientCurrency currency = countrySelected(value);
+						get(PRIMARY_CURRENCY).setValue(currency);
 						get(STATE).setValue(null);
 					}
 				}));
@@ -230,7 +237,36 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 			}
 
 		});
+		list.add(new CurrencyRequirement(PRIMARY_CURRENCY, getMessages()
+				.primaryCurrency(), getMessages().primaryCurrency(), true,
+				true, null) {
 
+			@Override
+			protected List<ClientCurrency> getLists(Context context) {
+
+				List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
+				List<ClientCurrency> currencies = CoreUtils
+						.getCurrencies(new ArrayList<ClientCurrency>());
+				for (ClientCurrency currency : currencies) {
+					currenciesList.add(currency);
+				}
+				return currenciesList;
+
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_MULTI_CURRENCY_ENBLED, true) {
+
+			@Override
+			protected String getTrueString() {
+				return " Multi currency enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return " Multi currency is not enabled";
+			}
+		});
 		list.add(new StringListRequirement(FISCAL_YEAR, getMessages()
 				.pleaseSelect(getMessages().fiscalYear()), getMessages()
 				.fiscalYear(), true, true, null) {
@@ -297,6 +333,9 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		String address2 = get(ADDRESS2).getValue();
 		String city = get(CITY).getValue();
 		String zipCode = get(ZIPCODE).getValue();
+		ClientCurrency primaryCurrency = get(PRIMARY_CURRENCY).getValue();
+		Boolean ismultiCurrencyEnabled = get(IS_MULTI_CURRENCY_ENBLED)
+				.getValue();
 
 		Integer industryType = getIndustryList().indexOf(industry);
 
@@ -330,8 +369,9 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		String organizationRefer = get(ORGANIZATION_REFER).getValue();
 		preferences.setOrganizationType(getOrganizationTypes().indexOf(
 				organizationRefer));
+		preferences.setPrimaryCurrency(primaryCurrency);
+		preferences.setEnableMultiCurrency(ismultiCurrencyEnabled);
 		setStartDateOfFiscalYear(preferences);
-		preferences.setPrimaryCurrency(getCurrenciesList().get(0));
 		AccounterCompanyInitializationServiceImpl.intializeCompany(preferences,
 				accounts, context.getIOSession().getClient());
 

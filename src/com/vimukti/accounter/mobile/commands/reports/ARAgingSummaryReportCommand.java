@@ -63,11 +63,11 @@ public class ARAgingSummaryReportCommand extends
 				}
 				Record totalrecord = new Record("Total");
 				totalrecord.add("", "Total");
-				totalrecord.add("", total0to30);
-				totalrecord.add("", total30to60);
-				totalrecord.add("", tota60to90);
-				totalrecord.add("", olderTotal);
-				totalrecord.add("", total);
+				totalrecord.add("", getAmountWithCurrency(total0to30));
+				totalrecord.add("", getAmountWithCurrency(total30to60));
+				totalrecord.add("", getAmountWithCurrency(tota60to90));
+				totalrecord.add("", getAmountWithCurrency(olderTotal));
+				totalrecord.add("", getAmountWithCurrency(total));
 				makeResult.add(resultList);
 				list.add(totalrecord);
 				makeResult.add(list);
@@ -78,17 +78,23 @@ public class ARAgingSummaryReportCommand extends
 	protected Record createReportRecord(DummyDebitor record) {
 		Record agingRecord = new Record(record);
 		agingRecord.add(getMessages().creditor(), record.getDebitorName());
-		agingRecord.add("0-30 days",
-				record.getDebitdays_in30() + record.getDebitdays_incurrent());
-		agingRecord.add("31-60 days", record.getDebitdays_in60());
-		agingRecord.add("61-90 days", record.getDebitdays_in90());
-		agingRecord.add(getMessages().older(), record.getDebitdays_inolder());
+		agingRecord.add(
+				"0-30 days",
+				getAmountWithCurrency(record.getDebitdays_in30()
+						+ record.getDebitdays_incurrent()));
+		agingRecord.add("31-60 days",
+				getAmountWithCurrency(record.getDebitdays_in60()));
+		agingRecord.add("61-90 days",
+				getAmountWithCurrency(record.getDebitdays_in90()));
+		agingRecord.add(getMessages().older(),
+				getAmountWithCurrency(record.getDebitdays_inolder()));
 		agingRecord.add(
 				getMessages().totalBalance(),
-				record.getDebitdays_in30() + record.getDebitdays_in60()
+				getAmountWithCurrency(record.getDebitdays_in30()
+						+ record.getDebitdays_in60()
 						+ record.getDebitdays_in90()
 						+ record.getDebitdays_inolder()
-						+ record.getDebitdays_incurrent());
+						+ record.getDebitdays_incurrent()));
 		return agingRecord;
 	}
 

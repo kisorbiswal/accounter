@@ -78,9 +78,11 @@ public class SupplierTransactionHistoryReportCommand extends
 				Utility.getTransactionName(record.getType()));
 		transactionRecord.add(getMessages().number(), record.getNumber());
 		transactionRecord.add(getMessages().account(), record.getAccount());
-		transactionRecord.add(getMessages().amount(), DecimalUtil.isEquals(
-				record.getInvoicedAmount(), 0.0) ? record.getPaidAmount()
-				: record.getInvoicedAmount());
+		transactionRecord.add(
+				getMessages().amount(),
+				getAmountWithCurrency(DecimalUtil.isEquals(
+						record.getInvoicedAmount(), 0.0) ? record
+						.getPaidAmount() : record.getInvoicedAmount()));
 		return transactionRecord;
 	}
 

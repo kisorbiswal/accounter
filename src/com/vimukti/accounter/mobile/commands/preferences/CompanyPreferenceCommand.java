@@ -19,12 +19,11 @@ public class CompanyPreferenceCommand extends AbstractCompanyPreferencesCommand 
 	private static final String TAX_ID = "taxid";
 	protected static final String FISCAL_MONTH = "fiscalamonth";
 	private static final String PREVENT_POSTING_DATE = "preventdate";
-	// private static final String PRIMARY_CURRENCY = "primarycurrency";
 	private static final String USE_CUSTOMER_NUMBER = "usecustomernumber";
 	private static final String USE_VENDOR_NUMBER = "usevendornumber";
 	private static final String USE_ACCOUNT_NUMBER = "primarycurrency";
-	// private static final String IS_MULTI_CURRENCY = "useaccountnumber";
 	protected static final String TIMEZONE = "timezone";
+	
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -163,6 +162,8 @@ public class CompanyPreferenceCommand extends AbstractCompanyPreferencesCommand 
 			}
 		});
 
+		
+
 		list.add(new StringListRequirement(TIMEZONE, getMessages()
 				.pleaseSelect(getMessages().timezone()), getMessages()
 				.timezone(), true, true, null) {
@@ -225,6 +226,7 @@ public class CompanyPreferenceCommand extends AbstractCompanyPreferencesCommand 
 		get(USE_VENDOR_NUMBER).setValue(preferences.getUseVendorId());
 		get(USE_ACCOUNT_NUMBER).setValue(preferences.getUseAccountNumbers());
 		get(TIMEZONE).setValue(preferences.getTimezone());
+		
 
 		return null;
 
@@ -242,7 +244,7 @@ public class CompanyPreferenceCommand extends AbstractCompanyPreferencesCommand 
 		boolean vendornumber = get(USE_VENDOR_NUMBER).getValue();
 		boolean accountnumber = get(USE_ACCOUNT_NUMBER).getValue();
 		String timezone = get(TIMEZONE).getValue();
-
+		
 		// preferences.setDateFormat(dateformat);
 		preferences.setTaxId(taxid);
 		preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
@@ -252,6 +254,7 @@ public class CompanyPreferenceCommand extends AbstractCompanyPreferencesCommand 
 		preferences.setUseVendorId(vendornumber);
 		preferences.setUseAccountNumbers(accountnumber);
 		preferences.setTimezone(timezone);
+		
 
 		savePreferences(context, preferences);
 		return null;

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -430,4 +431,11 @@ public class FileVATCommand extends NewAbstractTransactionCommand {
 	public String getSuccessMessage() {
 		return getMessages().createSuccessfully(getMessages().fileVAT());
 	}
+
+	@Override
+	protected Payee getPayee() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

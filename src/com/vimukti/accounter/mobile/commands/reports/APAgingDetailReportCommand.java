@@ -77,12 +77,12 @@ public class APAgingDetailReportCommand extends
 					Record record = new Record(name);
 					record.add("", name);
 					record.add("", getMessages().openBalance());
-					record.add("", vendorAmount);
+					record.add("", getAmountWithCurrency(vendorAmount));
 					list.add(record);
 				}
 				if (vendorName.equals(""))
 					makeResult.add(list);
-				makeResult.add("Total :" + total);
+				makeResult.add("Total :" + getAmountWithCurrency(total));
 			}
 
 			private void addResultList(Result makeResult,
@@ -105,7 +105,8 @@ public class APAgingDetailReportCommand extends
 					customerBalance.put(name, balance);
 				}
 				makeResult.add(list);
-				makeResult.add(string + " total " + total);
+				makeResult.add(string + " total "
+						+ getAmountWithCurrency(total));
 			}
 
 			/**
@@ -152,7 +153,8 @@ public class APAgingDetailReportCommand extends
 		record.add(getMessages().date(), recordReport.getDate());
 		record.add(getMessages().transactionType(),
 				ReportUtility.getTransactionName(recordReport.getType()));
-		record.add(getMessages().total(), recordReport.getTotal());
+		record.add(getMessages().total(),
+				getAmountWithCurrency(recordReport.getTotal()));
 		return record;
 	}
 

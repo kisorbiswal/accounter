@@ -9,6 +9,7 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -18,9 +19,10 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
-import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.CurrencyAmountRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
@@ -30,6 +32,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -314,8 +317,17 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 						getMessages().paymentMethod());
 			}
 		});
-		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getMessages().amount()), getMessages().amount(), false, true));
+		list.add(new CurrencyAmountRequirement(AMOUNT, getMessages()
+				.pleaseEnter(getMessages().amount()), getMessages().amount(),
+				false, true) {
+
+			@Override
+			protected String getFormalName() {
+				Vendor vendor = (Vendor) NewVendorPrepaymentCommand.this.get(
+						VENDOR).getValue();
+				return vendor.getCurrency().getFormalName();
+			}
+		});
 
 		list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
 
@@ -343,7 +355,16 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Vendor vendor = (Vendor) NewVendorPrepaymentCommand.this.get(
+						VENDOR).getValue();
+				return getCurrency(vendor.getCurrency().getID());
+			}
 
+		});
 	}
 
 	@Override
@@ -379,8 +400,14 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 		paybill.setToBePrinted(toBePrinted);
 		paybill.setNumber((String) get(NUMBER).getValue());
 		paybill.setCheckNumber(chequeNumber);
+		paybill.setCurrency(vendor.getCurrency().getID());
+		paybill.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		create(paybill, context);
 		return null;
 	}
 
+	@Override
+	protected Payee getPayee() {
+		return (Vendor) NewVendorPrepaymentCommand.this.get(VENDOR).getValue();
+	}
 }

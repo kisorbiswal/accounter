@@ -85,18 +85,21 @@ public class BalanceSheetReportCommand extends
 					list.add(createReportRecord);
 				}
 				makeResult.add(list);
-				makeResult.add(string + " Total " + total);
+				makeResult.add(string + " Total "
+						+ getAmountWithCurrency(total));
 
 				if (string.equals(getMessages().currentLiabilities())
 						|| string.equals(getMessages().equity())) {
 					liabilitiesAndEquitityTotal += total;
 				}
 				if (string.equals(getMessages().currentAssets())) {
-					makeResult.add("Assets Total  :" + total);
+					makeResult.add("Assets Total  :"
+							+ getAmountWithCurrency(total));
 				}
 				if (string.equals(getMessages().equity())) {
-					makeResult.add("Liabilities and equity Total :"
-							+ liabilitiesAndEquitityTotal);
+					makeResult
+							.add("Liabilities and equity Total :"
+									+ getAmountWithCurrency(liabilitiesAndEquitityTotal));
 				}
 			}
 		});
@@ -105,8 +108,8 @@ public class BalanceSheetReportCommand extends
 	private Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
 		trialRecord.add(getMessages().accountName(), record.getAccountName());
-		trialRecord
-				.add(getStartDate() + "-" + getEndDate(), record.getAmount());
+		trialRecord.add(getStartDate() + "-" + getEndDate(),
+				getAmountWithCurrency(record.getAmount()));
 		return trialRecord;
 	}
 

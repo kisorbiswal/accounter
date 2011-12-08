@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -182,6 +183,18 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 			protected List<ClientTransactionPayTAX> getList() {
 				return getClientTransactionPayTAXes();
 			}
+
+			@Override
+			protected Payee getPayee() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
 		});
 	}
 
@@ -278,6 +291,12 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 	@Override
 	public String getSuccessMessage() {
 		return getMessages().createSuccessfully(getMessages().payVAT());
+	}
+
+	@Override
+	protected Payee getPayee() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	// private Record createTransactionPayVatRecord(TransactionPayTAX

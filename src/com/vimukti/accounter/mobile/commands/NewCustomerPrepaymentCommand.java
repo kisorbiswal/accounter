@@ -10,6 +10,7 @@ import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -18,8 +19,9 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
-import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.CurrencyAmountRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -29,6 +31,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -299,8 +302,18 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 						getMessages().paymentMethod());
 			}
 		});
-		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getMessages().amount()), getMessages().amount(), false, true));
+		list.add(new CurrencyAmountRequirement(AMOUNT, getMessages()
+				.pleaseEnter(getMessages().amount()), getMessages().amount(),
+				false, true) {
+
+			@Override
+			protected String getFormalName() {
+				Customer customer = (Customer) NewCustomerPrepaymentCommand.this
+						.get(CUSTOMER).getValue();
+				return customer.getCurrency().getFormalName();
+			}
+
+		});
 
 		// list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
 		//
@@ -321,6 +334,16 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 					ResultList list, ResultList actions) {
 				return super.run(context, makeResult, list, actions);
 			}
+		});
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Customer customer = (Customer) NewCustomerPrepaymentCommand.this
+						.get(CUSTOMER).getValue();
+				return getCurrency(customer.getCurrency().getID());
+			}
+
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
@@ -358,6 +381,8 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		prePayment.setMemo(memo);
 		prePayment.setStatus(ClientCustomerPrePayment.STATUS_OPEN);
 		prePayment.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+		prePayment.setCurrency(customer.getID());
+		prePayment.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		adjustBalance(amount, customer, prePayment, context);
 		create(prePayment, context);
 		return null;
@@ -387,4 +412,11 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		// + enteredBalance);
 		// }
 	}
+
+	@Override
+	protected Payee getPayee() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

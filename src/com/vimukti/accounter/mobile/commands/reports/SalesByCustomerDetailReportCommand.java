@@ -39,7 +39,7 @@ public class SalesByCustomerDetailReportCommand extends
 				if (records.isEmpty()) {
 					makeResult.add("No Records to show");
 					return;
-					}
+				}
 
 				Map<String, List<SalesByCustomerDetail>> recordGroups = new HashMap<String, List<SalesByCustomerDetail>>();
 				for (SalesByCustomerDetail transactionDetailByAccount : records) {
@@ -68,7 +68,8 @@ public class SalesByCustomerDetailReportCommand extends
 						resultList.add(createReportRecord(rec));
 					}
 					makeResult.add(resultList);
-					makeResult.add("Total: " + totalAmount);
+					makeResult.add("Total: "
+							+ getAmountWithCurrency(totalAmount));
 				}
 			}
 		});
@@ -80,7 +81,8 @@ public class SalesByCustomerDetailReportCommand extends
 		transactionRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getType()));
 		transactionRecord.add(getMessages().type(), record.getNumber());
-		transactionRecord.add(getMessages().amount(), record.getAmount());
+		transactionRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getAmount()));
 		return transactionRecord;
 	}
 

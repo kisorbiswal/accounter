@@ -31,9 +31,9 @@ public class PurchaseBySupplierSummaryReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<SalesByCustomerDetail> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
-					}
+				}
 
 				ResultList vendorSummaryList = new ResultList("vendorsummary");
 				addSelection("vendorsummary");
@@ -43,7 +43,7 @@ public class PurchaseBySupplierSummaryReportCommand extends
 					totalAmount += record.getAmount();
 					vendorSummaryList.add(createReportRecord(record));
 				}
-				makeResult.add("Total: " + totalAmount);
+				makeResult.add("Total: " + getAmountWithCurrency(totalAmount));
 			}
 		});
 	}
@@ -52,7 +52,8 @@ public class PurchaseBySupplierSummaryReportCommand extends
 		Record salesRecord = new Record(record);
 		salesRecord.add(getMessages().payeeName(Global.get().Vendor()),
 				record.getName());
-		salesRecord.add(getMessages().amount(), record.getAmount());
+		salesRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getAmount()));
 		return salesRecord;
 	}
 

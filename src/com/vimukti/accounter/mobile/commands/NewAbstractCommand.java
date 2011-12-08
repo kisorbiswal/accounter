@@ -11,15 +11,19 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -42,6 +46,8 @@ public abstract class NewAbstractCommand extends NewCommand {
 	protected static final String FROM_DATE = "fromDate";
 	protected static final String TO_DATE = "to_date";
 	protected static final String DATE_RANGE = "dateRange";
+	protected static final String CURRENCY = "Currency";
+	protected static final String CURRENCY_FACTOR = "Currency Factor";
 
 	public NewAbstractCommand() {
 
@@ -217,6 +223,32 @@ public abstract class NewAbstractCommand extends NewCommand {
 				.getNamedQuery("getVendorsOrderByName")
 				.setParameter("company", getCompany()).list();
 		return new ArrayList<Vendor>(customers);
+	}
+
+	/**
+	 * get client currency object by id
+	 * 
+	 * @param currency
+	 * @return {@link ClientCurrency}
+	 */
+	protected ClientCurrency getCurrency(long currency) {
+		return (ClientCurrency) CommandUtils.getClientObjectById(currency,
+				AccounterCoreType.CURRENCY, getCompanyId());
+	}
+
+	/**
+	 * get client currencies
+	 * 
+	 * @param currencies
+	 * @return {@link ClientCurrencies}
+	 */
+	protected List<ClientCurrency> getCurrencies(Set<Currency> currencies) {
+		List<ClientCurrency> clientCurrencies = new ArrayList<ClientCurrency>();
+		for (Currency currency : currencies) {
+			ClientCurrency curency = getCurrency(currency.getID());
+			clientCurrencies.add(curency);
+		}
+		return clientCurrencies;
 	}
 
 	public long autoGenerateAccountnumber(int range1, int range2,

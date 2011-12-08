@@ -161,7 +161,6 @@ public class BankAccountReconcilationHistoryCommand extends NewAbstractCommand {
 
 	protected List<Reconciliation> getListData(Context context) {
 		Account viewBY = get(BANK_ACCOUNT).getValue();
-		ArrayList<Reconciliation> list = new ArrayList<Reconciliation>();
 		List<Reconciliation> allRecords = null;
 
 		allRecords = new FinanceTool().getReconciliationslist(viewBY.getID(),

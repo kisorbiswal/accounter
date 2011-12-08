@@ -31,7 +31,7 @@ public class VATItemSummaryReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<VATItemSummary> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 
@@ -50,8 +50,10 @@ public class VATItemSummaryReportCommand extends
 		Record vatItemRecord = new Record(record);
 		vatItemRecord.add(getMessages().name(), record.getName());
 		vatItemRecord.add(getMessages().taxRate(), record.getTaxRate());
-		vatItemRecord.add(getMessages().amount(), record.getAmount());
-		vatItemRecord.add(getMessages().taxableAmount(), record.getTaxAmount());
+		vatItemRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getAmount()));
+		vatItemRecord.add(getMessages().taxableAmount(),
+				getAmountWithCurrency(record.getTaxAmount()));
 		return vatItemRecord;
 	}
 

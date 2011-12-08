@@ -26,6 +26,7 @@ import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -41,9 +42,9 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -61,7 +62,6 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -93,7 +93,16 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 				return getCustomers();
 			}
 		});
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Customer customer = (Customer) NewCashSaleCommand.this.get(
+						CUSTOMER).getValue();
+				return getCurrency(customer.getCurrency().getID());
+			}
 
+		});
 		/*
 		 * list.add(new CurrencyRequirement(CURRENCY,
 		 * getMessages().pleaseSelect( getConstants().currency()),
@@ -130,6 +139,10 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
 				true, true) {
+			@Override
+			protected double getCurrencyFactor() {
+				return NewCashSaleCommand.this.getCurrencyFactor();
+			}
 
 			@Override
 			public List<Item> getItems(Context context) {
@@ -147,6 +160,12 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			@Override
 			public boolean isSales() {
 				return true;
+			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Customer) NewCashSaleCommand.this.get(CUSTOMER)
+						.getValue();
 			}
 
 		});
@@ -186,6 +205,17 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 					}
 				}
 				return filteredList;
+			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Customer) NewCashSaleCommand.this.get(CUSTOMER)
+						.getValue();
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewCashSaleCommand.this.getCurrencyFactor();
 			}
 		});
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
@@ -448,8 +478,6 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		accounts.addAll(items);
 		cashSale.setTransactionItems(accounts);
 
-		// TODO Location
-		// TODO Class
 		ShippingTerms shippingTerms = get(SHIPPING_TERMS).getValue();
 		cashSale.setShippingTerm(shippingTerms != null ? shippingTerms.getID()
 				: 0);
@@ -520,6 +548,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		// if (context.getCompany())
 		// ClientTAXCode taxCode = get(TAXCODE).getValue();
 		// cashSale.setTaxTotal(getTaxTotal(accounts, taxCode));
+		cashSale.setCurrency(customer.getID());
+		cashSale.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		double taxTotal = updateTotals(context, cashSale, true);
 		cashSale.setTaxTotal(taxTotal);
 		create(cashSale, context);
@@ -656,6 +686,11 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		get(DELIVERY_DATE).setValue(
 				new ClientFinanceDate(cashSale.getDeliverydate()));
 		/* get(CURRENCY_FACTOR).setValue(cashSale.getCurrencyFactor()); */
+	}
+
+	@Override
+	protected Payee getPayee() {
+		return (Customer) NewCashSaleCommand.this.get(CUSTOMER).getValue();
 	}
 
 }

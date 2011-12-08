@@ -54,46 +54,53 @@ public class ProfitLossReportCommand extends
 						makeResult);
 				if (recordGroups.get(getMessages().income()) != null) {
 					makeResult.add(getMessages().incomeTotals() + " : "
-							+ incomeTotals[0] + " \t" + incomeTotals[1]);
+							+ getAmountWithCurrency(incomeTotals[0]) + " \t"
+							+ getAmountWithCurrency(incomeTotals[1]));
 				}
 				double[] cogsTotals = addResultList(
 						recordGroups.get(getMessages().costOfGoodSold()),
 						getMessages().costOfGoodSold(), makeResult);
 				if (recordGroups.get(getMessages().costOfGoodSold()) != null) {
 					makeResult.add(getMessages().cogsTotal() + " : "
-							+ cogsTotals[0] + " \t" + cogsTotals[1]);
+							+ getAmountWithCurrency(cogsTotals[0]) + " \t"
+							+ getAmountWithCurrency(cogsTotals[1]));
 				}
 				double[] otherExpTotals = addResultList(
 						recordGroups.get(getMessages().otherExpense()),
 						getMessages().otherExpense(), makeResult);
 				if (recordGroups.get(getMessages().otherExpense()) != null) {
 					makeResult.add(getMessages().otherExpenseTotals() + " : "
-							+ otherExpTotals[0] + " \t" + otherExpTotals[1]);
+							+ getAmountWithCurrency(otherExpTotals[0]) + " \t"
+							+ getAmountWithCurrency(otherExpTotals[1]));
 				}
 				Double grosProfitAmount = incomeTotals[0]
 						- (otherExpTotals[0] + cogsTotals[0]);
 				Double grosProfitTotal = incomeTotals[1]
 						- (otherExpTotals[1] + cogsTotals[1]);
 				makeResult.add(getMessages().grossProfit() + " : "
-						+ grosProfitAmount + " \t" + grosProfitTotal);
+						+ getAmountWithCurrency(grosProfitAmount) + " \t"
+						+ getAmountWithCurrency(grosProfitTotal));
 				double[] expTotals = addResultList(
 						recordGroups.get(getMessages().expense()),
 						getMessages().expense(), makeResult);
 				if (recordGroups.get(getMessages().expense()) != null) {
 					makeResult.add(getMessages().expenseTotals() + " : "
-							+ expTotals[0] + " \t" + expTotals[1]);
+							+ getAmountWithCurrency(expTotals[0]) + " \t"
+							+ getAmountWithCurrency(expTotals[1]));
 				}
 				double[] otherIncTotals = addResultList(
 						recordGroups.get(getMessages().otherIncome()),
 						getMessages().otherIncome(), makeResult);
 				if (recordGroups.get(getMessages().otherIncome()) != null) {
 					makeResult.add(getMessages().otherIncomeTotal() + " : "
-							+ otherIncTotals[0] + " \t" + otherIncTotals[1]);
+							+ getAmountWithCurrency(otherIncTotals[0]) + " \t"
+							+ getAmountWithCurrency(otherIncTotals[1]));
 				}
 				Double netProfitAmount = grosProfitAmount - (expTotals[0]);
 				Double netProfitTotal = grosProfitTotal - (expTotals[1]);
 				makeResult.add(getMessages().netProfit() + " : "
-						+ netProfitAmount + " \t" + netProfitTotal);
+						+ getAmountWithCurrency(netProfitAmount) + " \t"
+						+ getAmountWithCurrency(netProfitTotal));
 			}
 
 			private double[] addResultList(List<TrialBalance> group,
@@ -141,8 +148,10 @@ public class ProfitLossReportCommand extends
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
 		trialRecord.add(getMessages().name(), record.getAccountName());
-		trialRecord.add(getMessages().amount(), record.getAmount());
-		trialRecord.add(getMessages().totalBalance(), record.getTotalAmount());
+		trialRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getAmount()));
+		trialRecord.add(getMessages().totalBalance(),
+				getAmountWithCurrency(record.getTotalAmount()));
 		return trialRecord;
 	}
 

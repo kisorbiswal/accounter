@@ -106,8 +106,11 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 				rec.add(getMessages().number(), value.getNumber());
 				rec.add(Global.get().Vendor(), value.getVendorName());
 				rec.add(getMessages().originalAmount(),
-						value.getOriginalAmount());
-				rec.add(getMessages().balance(), value.getBalance());
+						getCurrency(value.getCurrency()).getSymbol() + " "
+								+ value.getOriginalAmount());
+				rec.add(getMessages().balance(),
+						getCurrency(value.getCurrency()).getSymbol() + " "
+								+ value.getBalance());
 				return rec;
 			}
 

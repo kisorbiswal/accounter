@@ -68,7 +68,8 @@ public class PurchaseByItemDetailReportCommand extends
 						resultList.add(createReportRecord(rec));
 					}
 					makeResult.add(resultList);
-					makeResult.add("Total: " + totalAmount);
+					makeResult.add("Total: "
+							+ getAmountWithCurrency(totalAmount));
 				}
 			}
 		});
@@ -81,9 +82,12 @@ public class PurchaseByItemDetailReportCommand extends
 				ReportUtility.getTransactionName(record.getType()));
 		salesRecord.add(getMessages().number(), record.getNumber());
 		salesRecord.add(getMessages().quantity(), record.getQuantity());
-		salesRecord.add(getMessages().unitPrice(), record.getUnitPrice());
-		salesRecord.add(getMessages().discount(), record.getDiscount());
-		salesRecord.add(getMessages().total(), record.getAmount());
+		salesRecord.add(getMessages().unitPrice(),
+				getAmountWithCurrency(record.getUnitPrice()));
+		salesRecord.add(getMessages().discount(),
+				getAmountWithCurrency(record.getDiscount()));
+		salesRecord.add(getMessages().total(),
+				getAmountWithCurrency(record.getAmount()));
 		return salesRecord;
 	}
 
@@ -113,7 +117,7 @@ public class PurchaseByItemDetailReportCommand extends
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		String string = context.getString();
-		if (string != null && string.isEmpty()) {
+		if (!string.isEmpty()) {
 			String[] split = string.split(",");
 			context.setString(split[0]);
 			itemName = split[1];

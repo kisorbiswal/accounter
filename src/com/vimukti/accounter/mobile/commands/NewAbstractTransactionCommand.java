@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -237,10 +240,24 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 			isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		}
 		double[] result = getTransactionTotal(isVatInclusive, allrecords, true);
+
 		if (context.getPreferences().isTrackTax()) {
 			makeResult.add("Total Tax: " + result[1]);
 		}
-		makeResult.add("Total: " + (result[0] + result[1]));
+
+		Currency currency = getCurrency();
+		String formalName = getPreferences().getPrimaryCurrency()
+				.getFormalName();
+		if (!currency.getFormalName().equalsIgnoreCase(formalName))
+			makeResult.add("Total"
+					+ "("
+					+ formalName
+					+ ")"
+					+ ": "
+					+ (result[0] * getCurrencyFactor() + result[1]
+							* getCurrencyFactor()));
+		makeResult.add("Total" + "(" + currency.getFormalName() + ")" + ": "
+				+ (result[0] + result[1]));
 	}
 
 	protected void setTransaction(ClientTransaction transction) {
@@ -304,4 +321,17 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 		return transactionByNum;
 	}
 
+	protected double getCurrencyFactor() {
+		Requirement requirement = get(CURRENCY_FACTOR);
+		if (requirement != null) {
+			return requirement.getValue();
+		}
+		return 1.0;
+	}
+
+	protected abstract Payee getPayee();
+
+	protected Currency getCurrency() {
+		return getPayee().getCurrency();
+	}
 }

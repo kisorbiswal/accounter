@@ -69,10 +69,14 @@ public class ItemsCommand extends NewAbstractCommand {
 				record.add("Description", value.getPurchaseDescription());
 				record.add("Type", value.getType());
 				if (value.isIBuyThisItem()) {
-					record.add("Type", value.getType());
+					record.add("Purchase Price",
+							getPreferences().getPrimaryCurrency().getSymbol()
+									+ " " + value.getPurchasePrice());
 				}
 				if (value.isISellThisItem()) {
-					record.add("Type", value.getType());
+					record.add("Sales Price",
+							getPreferences().getPrimaryCurrency().getSymbol()
+									+ " " + value.getSalesPrice());
 				}
 				return record;
 			}

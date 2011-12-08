@@ -42,7 +42,7 @@ public class SalesByItemSummaryReportCommand extends
 					totalAmount += record.getAmount();
 					customerSummaryList.add(createReportRecord(record));
 				}
-				makeResult.add("Total: " + totalAmount);
+				makeResult.add("Total: " + getAmountWithCurrency(totalAmount));
 			}
 		});
 	}
@@ -51,7 +51,8 @@ public class SalesByItemSummaryReportCommand extends
 		Record salesRecord = new Record(record);
 		salesRecord.add(getMessages().item(), record.getItemName());
 		salesRecord.add(getMessages().quantity(), record.getQuantity());
-		salesRecord.add(getMessages().amount(), record.getAmount());
+		salesRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getAmount()));
 		return salesRecord;
 	}
 

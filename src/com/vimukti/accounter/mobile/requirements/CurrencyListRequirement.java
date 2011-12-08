@@ -1,27 +1,40 @@
 package com.vimukti.accounter.mobile.requirements;
 
-import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 
-public abstract class CurrencyRequirement extends
+public abstract class CurrencyListRequirement extends
 		ListRequirement<ClientCurrency> {
 
-	public CurrencyRequirement(String requirementName, String displayString,
+	public CurrencyListRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
 			ChangeListner<ClientCurrency> listner) {
-		super(requirementName, displayString, recordName, isOptional,
+		super(requirementName, enterString, recordName, isOptional,
 				isAllowFromContext, listner);
-		setDefaultValue(CompanyPreferenceThreadLocal.get().getPrimaryCurrency());
+	}
 
+	@Override
+	public Result run(Context context, Result makeResult, ResultList list,
+			ResultList actions) {
+		if (getPreferences().isEnableMultiCurrency()) {
+			return super.run(context, makeResult, list, actions);
+		}
+		return null;
+	}
+
+	@Override
+	protected String getEmptyString() {
+		return getMessages().youDontHaveAny(getMessages().salesPerson());
 	}
 
 	@Override
 	protected Record createRecord(ClientCurrency value) {
 		Record record = new Record(value);
-		record.add("Curency",
-				value.getFormalName() + " - " + value.getDisplayName());
+		record.add("Name", value.getFormalName());
 		return record;
 	}
 
@@ -32,26 +45,11 @@ public abstract class CurrencyRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-
-	}
-
-	@Override
-	protected String getSetMessage() {
-		return getMessages().hasSelected(getMessages().currency());
+		list.add("Add Currency");
 	}
 
 	@Override
 	protected String getSelectString() {
 		return getMessages().pleaseSelect(getMessages().currency());
-	}
-
-	@Override
-	protected boolean filter(ClientCurrency e, String name) {
-		return e.getName().contains(name);
-	}
-
-	@Override
-	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getMessages().currency());
 	}
 }

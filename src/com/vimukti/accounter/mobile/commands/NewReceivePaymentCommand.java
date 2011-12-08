@@ -7,13 +7,15 @@ import java.util.List;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
-import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyAmountRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -23,6 +25,7 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -173,9 +176,18 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new AmountRequirement(AMOUNT_RECEIVED, getMessages()
+		list.add(new CurrencyAmountRequirement(AMOUNT_RECEIVED, getMessages()
 				.pleaseEnter(getMessages().amountReceived()), getMessages()
-				.amountReceived(), true, true));
+				.amountReceived(), true, true) {
+
+			@Override
+			protected String getFormalName() {
+				Customer customer = (Customer) NewReceivePaymentCommand.this
+						.get(CUSTOMER).getValue();
+				return customer.getCurrency().getFormalName();
+			}
+
+		});
 
 		list.add(new ReceivePaymentTableRequirement(TRANSACTIONS, getMessages()
 				.pleaseSelect(getMessages().dueForPayment()), getMessages()
@@ -184,6 +196,17 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected List<ReceivePaymentTransactionList> getList() {
 				return getRequirementList();
+			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Customer) NewReceivePaymentCommand.this.get(CUSTOMER)
+						.getValue();
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewReceivePaymentCommand.this.getCurrencyFactor();
 			}
 		});
 
@@ -199,6 +222,16 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 		list.add(new NumberRequirement(CHECK_NUMBER, getMessages().pleaseEnter(
 				getMessages().checkNo()), getMessages().checkNo(), true, true));
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Customer customer = (Customer) NewReceivePaymentCommand.this
+						.get(CUSTOMER).getValue();
+				return getCurrency(customer.getCurrency().getID());
+			}
+
+		});
 	}
 
 	private ArrayList<ReceivePaymentTransactionList> getRequirementList() {
@@ -315,7 +348,8 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 		String checkNumber = get(CHECK_NUMBER).getValue();
 		payment.setCheckNumber(checkNumber);
-
+		payment.setCurrency(customer.getID());
+		payment.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		recalculateGridAmounts();
 
 		create(payment, context);
@@ -459,5 +493,11 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		recalculateGridAmounts();
 		makeResult.add("Unused Credits :" + payment.getUnUsedCredits());
 		makeResult.add("Unused Payments : " + payment.getUnUsedPayments());
+	}
+
+	@Override
+	protected Payee getPayee() {
+		return (Customer) NewReceivePaymentCommand.this.get(CUSTOMER)
+				.getValue();
 	}
 }

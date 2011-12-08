@@ -83,9 +83,11 @@ public class CustomerTransactionHistoryReportCommand extends
 		transactionRecord.add(getMessages().transactionType(),
 				Utility.getTransactionName(record.getType()));
 		transactionRecord.add(getMessages().amount(), record.getAccount());
-		transactionRecord.add(getMessages().amount(), DecimalUtil.isEquals(
-				record.getInvoicedAmount(), 0.0) ? record.getPaidAmount()
-				: record.getInvoicedAmount());
+		transactionRecord.add(
+				getMessages().amount(),
+				getAmountWithCurrency(DecimalUtil.isEquals(
+						record.getInvoicedAmount(), 0.0) ? record
+						.getPaidAmount() : record.getInvoicedAmount()));
 		return transactionRecord;
 	}
 

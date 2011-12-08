@@ -21,6 +21,7 @@ import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -34,6 +35,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -133,7 +135,15 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		 * .equals(context.getPreferences() .getPrimaryCurrency())) { return
 		 * super.run(context, makeResult, list, actions); } } return null; } });
 		 */
-
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Customer customer = (Customer) NewQuoteCommand.this.get(
+						CUSTOMER).getValue();
+				return getCurrency(customer.getCurrency().getID());
+			}
+		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
 				false, true) {
@@ -154,6 +164,16 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 			@Override
 			public boolean isSales() {
 				return true;
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewQuoteCommand.this.getCurrencyFactor();
+			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Customer) NewQuoteCommand.this.get(CUSTOMER).getValue();
 			}
 
 		});
@@ -364,6 +384,8 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		estimate.setMemo(memo);
 		double taxTotal = updateTotals(context, estimate, true);
 		estimate.setTaxTotal(taxTotal);
+		estimate.setCurrency(customer.getID());
+		estimate.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		create(estimate, context);
 
 		return null;
@@ -514,6 +536,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 	}
 
 	private void setValues(Context context) {
+		get(CURRENCY_FACTOR).setValue(estimate.getCurrencyFactor());
 		get(DATE).setValue(estimate.getDate());
 		get(NUMBER).setValue(estimate.getNumber());
 		get(ITEMS).setValue(estimate.getTransactionItems());
@@ -540,6 +563,11 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		/* get(CURRENCY_FACTOR).setValue(estimate.getCurrencyFactor()); */
 		get(IS_VAT_INCLUSIVE).setValue(estimate.isAmountsIncludeVAT());
 		get(PHONE).setValue(estimate.getPhone());
+	}
+
+	@Override
+	protected Payee getPayee() {
+		return (Customer) NewQuoteCommand.this.get(CUSTOMER).getValue();
 	}
 
 }

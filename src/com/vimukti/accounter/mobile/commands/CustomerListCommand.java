@@ -66,15 +66,6 @@ public class CustomerListCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<Customer>("Customers", "", 20) {
 
-			// @Override
-			// protected void setSelectCommands(CommandList commandList,
-			// Customer value) {
-			// commandList.add(new UserCommand("update customer", value
-			// .getNumber()));
-			// commandList.add(new UserCommand("Delete customer", value
-			// .getID()));
-			// }
-
 			@Override
 			protected String onSelection(Customer value) {
 				return "update customer #" + value.getNumber();
@@ -97,7 +88,8 @@ public class CustomerListCommand extends NewAbstractCommand {
 			protected Record createRecord(Customer value) {
 				Record customerRec = new Record(value);
 				customerRec.add(getMessages().name(), value.getName());
-				customerRec.add(getMessages().balance(), value.getBalance());
+				customerRec.add(getMessages().balance(), value.getCurrency()
+						.getSymbol() + " " + value.getBalance());
 				return customerRec;
 
 			}

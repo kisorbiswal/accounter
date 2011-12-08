@@ -169,6 +169,17 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 				return true;
 			}
 
+			@Override
+			protected double getCurrencyFactor() {
+				return NewSalesOrderCommand.this.getCurrencyFactor();
+			}
+
+			@Override
+			protected Payee getPayee() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
@@ -429,4 +440,11 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 		updateTotals(context, createSalesOrderObjetc(context), true);
 		super.beforeFinishing(context, makeResult);
 	}
+
+	@Override
+	protected Payee getPayee() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

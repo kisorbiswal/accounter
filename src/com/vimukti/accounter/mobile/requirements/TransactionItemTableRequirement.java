@@ -73,8 +73,14 @@ public abstract class TransactionItemTableRequirement extends
 		list.add(new AmountRequirement(QUANITY, "Please Enter Quantity",
 				"Quantity", true, true));
 
-		list.add(new AmountRequirement(UNITPTICE, "Please Enter Unit Price",
-				"Unit Price", false, true));
+		list.add(new CurrencyAmountRequirement(UNITPTICE,
+				"Please Enter Unit Price", "Unit Price", false, true) {
+
+			@Override
+			protected String getFormalName() {
+				return getCurrency().getFormalName();
+			}
+		});
 
 		list.add(new AmountRequirement(DISCOUNT, "Please Enter Discount",
 				"Discount", true, true));
@@ -225,7 +231,14 @@ public abstract class TransactionItemTableRequirement extends
 			record.add("Name", iAccounterCore.getDisplayName());
 		}
 		record.add("Quantity", t.getQuantity().getValue());
-		record.add("Unit price", t.getUnitPrice());
+		String formalName;
+		if (getPreferences().isEnableMultiCurrency()) {
+			formalName = getCurrency().getFormalName();
+		} else {
+			formalName = getPreferences().getPrimaryCurrency().getFormalName();
+		}
+		record.add("Unit price" + "(" + formalName + ")", t.getUnitPrice()
+				/ getCurrencyFactor());
 		if (getPreferences().isTrackTax()) {
 			if (getPreferences().isTaxPerDetailLine()) {
 				record.add("Tax Code", ((ClientTAXCode) (CommandUtils

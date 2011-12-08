@@ -32,7 +32,7 @@ public class PurchaseByItemSummaryReportCommand extends
 				if (records.isEmpty()) {
 					makeResult.add("No Records to show");
 					return;
-					}
+				}
 
 				ResultList customerSummaryList = new ResultList(
 						"purchaseitemsummary");
@@ -43,7 +43,7 @@ public class PurchaseByItemSummaryReportCommand extends
 					totalAmount += record.getAmount();
 					customerSummaryList.add(createReportRecord(record));
 				}
-				makeResult.add("Total: " + totalAmount);
+				makeResult.add("Total: " + getAmountWithCurrency(totalAmount));
 			}
 		});
 	}
@@ -52,7 +52,8 @@ public class PurchaseByItemSummaryReportCommand extends
 		Record salesRecord = new Record(record);
 		salesRecord.add(getMessages().item(), record.getItemName());
 		salesRecord.add(getMessages().quantity(), record.getQuantity());
-		salesRecord.add(getMessages().amount(), record.getAmount());
+		salesRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getAmount()));
 		return salesRecord;
 	}
 

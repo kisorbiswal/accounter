@@ -8,9 +8,9 @@ import java.util.Set;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.ClientConvertUtil;
-import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -19,9 +19,10 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
-import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.CurrencyAmountRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -31,6 +32,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -296,8 +298,18 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 						getMessages().paymentMethod());
 			}
 		});
-		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getMessages().amount()), getMessages().amount(), false, true));
+		list.add(new CurrencyAmountRequirement(AMOUNT, getMessages()
+				.pleaseEnter(getMessages().amount()), getMessages().amount(),
+				false, true) {
+
+			@Override
+			protected String getFormalName() {
+				Customer customer = (Customer) NewCustomerRefundCommand.this
+						.get(CUSTOMER).getValue();
+				return customer.getCurrency().getFormalName();
+			}
+
+		});
 
 		list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
 
@@ -319,6 +331,16 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 				setEditable((Boolean) get(TO_BE_PRINTED).getValue());
 				return super.run(context, makeResult, list, actions);
 			}
+		});
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Customer customer = (Customer) NewCustomerRefundCommand.this
+						.get(CUSTOMER).getValue();
+				return getCurrency(customer.getCurrency().getID());
+			}
+
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
@@ -354,7 +376,13 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		customerRefund.setType(ClientCustomerRefund.TYPE_CUSTOMER_REFUNDS);
 		customerRefund.setStatus(ClientCustomerRefund.STATUS_OPEN);
 		adjustBalance(amount, clientcustomer, customerRefund, context);
+
+		customerRefund.setCurrency(clientcustomer.getID());
+		customerRefund.setCurrencyFactor((Double) get(CURRENCY_FACTOR)
+				.getValue());
+
 		create(customerRefund, context);
+
 		return null;
 
 	}
@@ -379,6 +407,12 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		// refund.setEndingBalance(depositIn.getTotalBalance()
 		// + enteredBalance);
 		// }
+	}
+
+	@Override
+	protected Payee getPayee() {
+		return (Customer) NewCustomerRefundCommand.this.get(CUSTOMER)
+				.getValue();
 	}
 
 }

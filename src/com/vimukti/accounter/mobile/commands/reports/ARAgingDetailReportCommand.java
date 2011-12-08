@@ -78,13 +78,13 @@ public class ARAgingDetailReportCommand extends
 					total += vendorAmount;
 					Record record = new Record(name);
 					record.add("", name);
-					record.add("", "Opening Balance");
-					record.add("", vendorAmount);
+					record.add("", getMessages().openingBalance());
+					record.add("", getAmountWithCurrency(vendorAmount));
 					list.add(record);
 				}
 				if (customerName.equals(""))
 					makeResult.add(list);
-				makeResult.add("Total :" + total);
+				makeResult.add("Total :" + getAmountWithCurrency(total));
 			}
 
 			private void addResultList(Result makeResult,
@@ -107,7 +107,8 @@ public class ARAgingDetailReportCommand extends
 					vendrBalance.put(name, balance);
 				}
 				makeResult.add(list);
-				makeResult.add(string + " total " + total);
+				makeResult.add(string + " total "
+						+ getAmountWithCurrency(total));
 			}
 
 			/**
@@ -144,7 +145,8 @@ public class ARAgingDetailReportCommand extends
 		agingRecord.add(getMessages().date(), record.getDate());
 		agingRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getType()));
-		agingRecord.add(getMessages().amount(), record.getTotal());
+		agingRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getTotal()));
 		return agingRecord;
 	}
 

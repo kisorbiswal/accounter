@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -283,6 +284,18 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 			protected List<ClientContact> getList() {
 				List<ClientContact> contacts = getAgencyContacts();
 				return new ArrayList<ClientContact>(contacts);
+			}
+
+			@Override
+			protected Payee getPayee() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				// TODO Auto-generated method stub
+				return 0;
 			}
 		});
 

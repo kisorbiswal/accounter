@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -146,6 +147,17 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			protected Account getAccount() {
 				return (Account) NewIssuePaymentCommand.this.get(ACCOUNT)
 						.getValue();
+			}
+
+			@Override
+			protected Payee getPayee() {
+				return null;
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				// TODO Auto-generated method stub
+				return 0;
 			}
 
 		});
@@ -307,7 +319,6 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 			}
 			setValues(context);
 		} else {
-			String string = context.getString();
 			issuePayment = new ClientIssuePayment();
 		}
 		setTransaction(issuePayment);
@@ -384,5 +395,11 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 	@Override
 	public void beforeFinishing(Context context, Result makeResult) {
 		makeResult.add("Total: " + getTransactionTotal());
+	}
+
+	@Override
+	protected Payee getPayee() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -13,7 +13,6 @@ import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -22,6 +21,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -36,11 +36,13 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 
 /**
  * 
@@ -107,7 +109,6 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -151,39 +152,16 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		/*
-		 * list.add(new CurrencyRequirement(CURRENCY,
-		 * getMessages().pleaseSelect( getConstants().currency()),
-		 * getConstants().currency(), true, true, null) {
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } else { return null;
-		 * } }
-		 * 
-		 * @Override protected List<Currency> getLists(Context context) { return
-		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
-		 * 
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
-		 * return "1 " + selc.getFormalName() + " = " + value + " " +
-		 * primaryCurrency.getFormalName(); }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
-		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
-		 * !((Currency) get(CURRENCY).getValue()) .equals(getPreferences()
-		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
-		 * actions); } } return null;
-		 * 
-		 * } });
-		 */
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Vendor vendor = (Vendor) NewEnterBillCommand.this.get(VENDOR)
+						.getValue();
+				return getCurrency(vendor.getCurrency().getID());
+			}
+
+		});
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().billNo()), getMessages().billNo(), true, true));
@@ -282,61 +260,22 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 						}, new ArrayList<Account>(context.getCompany()
 								.getAccounts()));
 			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Vendor) NewEnterBillCommand.this.get(VENDOR).getValue();
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewEnterBillCommand.this.getCurrencyFactor();
+			}
+
 		});
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
 				true, true) {
-			@Override
-			protected void addRequirement(List<Requirement> list) {
-				super.addRequirement(list);
-				list.add(new CustomerRequirement(ITEM_CUSTOMER, getMessages()
-						.pleaseSelect(Global.get().Customer()), Global.get()
-						.Customer(), true, true, null) {
-					@Override
-					public Result run(Context context, Result makeResult,
-							ResultList list, ResultList actions) {
-						if (getPreferences()
-								.isBillableExpsesEnbldForProductandServices()
-								&& getPreferences()
-										.isProductandSerivesTrackingByCustomerEnabled()) {
-							return super
-									.run(context, makeResult, list, actions);
-						}
-						return null;
-					}
-
-					@Override
-					protected List<Customer> getLists(Context context) {
-						return NewEnterBillCommand.this.getCustomers();
-					}
-				});
-
-				list.add(new BooleanRequirement(IS_BILLABLE, true) {
-					@Override
-					public Result run(Context context, Result makeResult,
-							ResultList list, ResultList actions) {
-						if (getPreferences()
-								.isBillableExpsesEnbldForProductandServices()
-								&& getPreferences()
-										.isProductandSerivesTrackingByCustomerEnabled()) {
-							return super
-									.run(context, makeResult, list, actions);
-						}
-						return null;
-					}
-
-					@Override
-					protected String getTrueString() {
-						return getMessages().billabe();
-					}
-
-					@Override
-					protected String getFalseString() {
-						return "Not Billable";
-					}
-				});
-			}
 
 			@Override
 			public List<Item> getItems(Context context) {
@@ -354,6 +293,16 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			@Override
 			public boolean isSales() {
 				return false;
+			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Vendor) NewEnterBillCommand.this.get(VENDOR).getValue();
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				return NewEnterBillCommand.this.getCurrencyFactor();
 			}
 
 		});
@@ -495,10 +444,11 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 		String phone = get(PHONE).getValue();
 		enterBill.setPhone(phone);
-
-		Date discountDate = Utility.getCalculatedDiscountDate(new Date(
-				enterBill.getDate().getDate()), paymentTerm);
-		enterBill.setDiscountDate(discountDate.getTime());
+		enterBill.setCurrency(vendor.getCurrency().getID());
+		enterBill.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
+		if (enterBill.getID() == 0) {
+			enterBill.setDiscountDate(enterBill.getDate().getDate());
+		}
 		create(enterBill, context);
 		return null;
 	}
@@ -537,6 +487,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		get(VENDOR).setValue(
 				CommandUtils.getServerObjectById(enterBill.getVendor(),
 						AccounterCoreType.VENDOR));
+		get(CURRENCY_FACTOR).setValue(enterBill.getCurrencyFactor());
 		get(DATE).setValue(enterBill.getDate());
 		get(NUMBER).setValue(enterBill.getNumber());
 		get(CONTACT).setValue(toServerContact(enterBill.getContact()));
@@ -569,4 +520,10 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		}
 		get(MEMO).setValue(enterBill.getMemo());
 	}
+
+	@Override
+	protected Payee getPayee() {
+		return (Vendor) NewEnterBillCommand.this.get(VENDOR).getValue();
+	}
+
 }

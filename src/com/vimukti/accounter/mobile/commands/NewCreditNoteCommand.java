@@ -21,6 +21,7 @@ import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -34,7 +35,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -141,6 +142,10 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
 				.pleaseEnterNameOrNumber(getMessages().Account()),
 				getMessages().Account(), true, true) {
+			@Override
+			protected double getCurrencyFactor() {
+				return NewCreditNoteCommand.this.getCurrencyFactor();
+			}
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
@@ -150,19 +155,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account account) {
-							if (account.getType() != ClientAccount.TYPE_CASH
-									&& account.getType() != Account.TYPE_BANK
-									&& account.getType() != Account.TYPE_INVENTORY_ASSET
-									&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-									&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
-									&& account.getType() != Account.TYPE_EXPENSE
-									&& account.getType() != Account.TYPE_OTHER_EXPENSE
-									&& account.getType() != Account.TYPE_COST_OF_GOODS_SOLD
-									&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-									&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-									&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY
-									&& account.getType() != Account.TYPE_OTHER_ASSET
-									&& account.getType() != Account.TYPE_EQUITY) {
+							if (account.getType() == ClientAccount.TYPE_INCOME) {
 								return true;
 							} else {
 								return false;
@@ -174,11 +167,21 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 				}
 				return filteredList;
 			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Customer) NewCreditNoteCommand.this.get(CUSTOMER)
+						.getValue();
+			}
 		});
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
 				true, true) {
+			@Override
+			protected double getCurrencyFactor() {
+				return NewCreditNoteCommand.this.getCurrencyFactor();
+			}
 
 			@Override
 			public List<Item> getItems(Context context) {
@@ -196,6 +199,12 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 			@Override
 			public boolean isSales() {
 				return true;
+			}
+
+			@Override
+			protected Payee getPayee() {
+				return (Customer) NewCreditNoteCommand.this.get(CUSTOMER)
+						.getValue();
 			}
 		});
 
@@ -224,7 +233,16 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 				return e.getName().contains(name);
 			}
 		});
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+			@Override
+			protected ClientCurrency getSelectedCurrency() {
+				Customer customer = (Customer) NewCreditNoteCommand.this.get(
+						CUSTOMER).getValue();
+				return getCurrency(customer.getCurrency().getID());
+			}
 
+		});
 		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -369,15 +387,6 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		ClientAddress billTo = get(BILL_TO).getValue();
 		creditMemo.setBillingAddress(billTo);
 
-		/*
-		 * if (preferences.isEnableMultiCurrency()) { Currency currency =
-		 * get(CURRENCY).getValue(); if (currency != null) {
-		 * creditMemo.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * creditMemo.setCurrencyFactor(factor); }
-		 */
-
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
@@ -399,4 +408,10 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		create(creditMemo, context);
 		return null;
 	}
+
+	@Override
+	protected Payee getPayee() {
+		return (Customer) NewCreditNoteCommand.this.get(CUSTOMER).getValue();
+	}
+
 }

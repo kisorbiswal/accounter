@@ -76,7 +76,9 @@ public class VendorsListCommand extends NewAbstractCommand {
 				Record record = new Record(value);
 				record.add(getMessages().payeeName(Global.get().Vendor()),
 						value.getPayeeName());
-				record.add(getMessages().balance(), value.getBalance());
+				record.add(getMessages().balance(),
+						getCurrency(value.getCurrecny()).getSymbol() + " "
+								+ value.getBalance());
 				return record;
 			}
 

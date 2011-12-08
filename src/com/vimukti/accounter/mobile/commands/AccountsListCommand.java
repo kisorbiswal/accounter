@@ -20,7 +20,6 @@ import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 public class AccountsListCommand extends NewAbstractCommand {
 
 	private static final String ACCOUNT_TYPE = "accountType";
-	private String destType;
 
 	@Override
 	public String getId() {
@@ -32,23 +31,13 @@ public class AccountsListCommand extends NewAbstractCommand {
 
 		list.add(new ShowListRequirement<Account>("Accounts",
 				"Please Enter name or number", 20) {
-			// @Override
-			// protected void setSelectCommands(CommandList commandList,
-			// Account value) {
-			// if (destType == null) {
-			// commandList.add(new UserCommand("Bank Registers", value
-			// .getName()));
-			// commandList.add(new UserCommand("Edit account", value
-			// .getName()));
-			//
-			// }
-			// }
 
 			@Override
 			protected Record createRecord(Account value) {
 				Record record = new Record(value);
 				record.add(getMessages().name(), value.getName());
-				record.add(getMessages().balance(), value.getTotalBalance());
+				record.add(getMessages().balance(), value.getCurrency()
+						.getSymbol() + " " + value.getTotalBalance());
 				return record;
 			}
 
@@ -145,7 +134,6 @@ public class AccountsListCommand extends NewAbstractCommand {
 		String string = context.getString();
 		String[] split = string.split(",");
 		if (split.length > 2) {
-			destType = split[1];
 			context.setString(split[0]);
 		}
 		return null;

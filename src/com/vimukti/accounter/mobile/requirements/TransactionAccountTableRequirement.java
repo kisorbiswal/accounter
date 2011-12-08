@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-public class TransactionAccountTableRequirement extends
+public abstract class TransactionAccountTableRequirement extends
 		AbstractTableRequirement<ClientTransactionItem> {
 
 	private static final String ACCOUNT = "accountitemaccount";
@@ -61,8 +61,15 @@ public class TransactionAccountTableRequirement extends
 			}
 		});
 
-		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
-				getMessages().amount()), getMessages().amount(), false, true));
+		list.add(new CurrencyAmountRequirement(AMOUNT, getMessages()
+				.pleaseEnter(getMessages().amount()), getMessages().amount(),
+				false, true) {
+
+			@Override
+			protected String getFormalName() {
+				return getCurrency().getFormalName();
+			}
+		});
 
 		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
 				getMessages().discount()), getMessages().discount(), true, true));
@@ -216,7 +223,13 @@ public class TransactionAccountTableRequirement extends
 				"Name",
 				clientObjectById == null ? "" : clientObjectById
 						.getDisplayName());
-		record.add("Unit ptice", t.getUnitPrice());
+		String formalName;
+		if (getPreferences().isEnableMultiCurrency()) {
+			formalName = getCurrency().getFormalName();
+		} else {
+			formalName = getPreferences().getPrimaryCurrency().getFormalName();
+		}
+		record.add("Unit price" + "(" + formalName + ")", t.getUnitPrice());
 		if (getPreferences().isTrackTax()) {
 			if (getPreferences().isTaxPerDetailLine()) {
 				ClientTAXCode taxCode = (ClientTAXCode) CommandUtils

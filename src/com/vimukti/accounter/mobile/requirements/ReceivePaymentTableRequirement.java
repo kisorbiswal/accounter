@@ -32,17 +32,40 @@ public abstract class ReceivePaymentTableRequirement extends
 		billNo.setEditable(false);
 		list.add(billNo);
 
-		AmountRequirement originalAmount = new AmountRequirement(
-				INVOICE_AMOUNT, "", getMessages().originalAmount(), true, true);
+		CurrencyAmountRequirement originalAmount = new CurrencyAmountRequirement(
+				INVOICE_AMOUNT, "", getMessages().originalAmount(), true, true) {
+
+			@Override
+			protected String getFormalName() {
+				return getCurrency().getFormalName();
+			}
+
+		};
 		originalAmount.setEditable(false);
 		list.add(originalAmount);
 
-		AmountRequirement amount = new AmountRequirement(AMOUNT_DUE,
-				getMessages().pleaseEnter(getMessages().amountDue()),
-				getMessages().amountDue(), true, true);
-		AmountRequirement receivePayment = new AmountRequirement(PAYMENT,
-				getMessages().pleaseEnter(getMessages().receivedPayment()),
-				getMessages().receivedPayment(), true, true);
+		CurrencyAmountRequirement amount = new CurrencyAmountRequirement(
+				AMOUNT_DUE, getMessages()
+						.pleaseEnter(getMessages().amountDue()), getMessages()
+						.amountDue(), true, true) {
+
+			@Override
+			protected String getFormalName() {
+				return getCurrency().getFormalName();
+			}
+
+		};
+		CurrencyAmountRequirement receivePayment = new CurrencyAmountRequirement(
+				PAYMENT, getMessages().pleaseEnter(
+						getMessages().receivedPayment()), getMessages()
+						.receivedPayment(), true, true) {
+
+			@Override
+			protected String getFormalName() {
+				return getCurrency().getFormalName();
+			}
+
+		};
 		list.add(amount);
 		list.add(receivePayment);
 	}
@@ -74,12 +97,21 @@ public abstract class ReceivePaymentTableRequirement extends
 
 	@Override
 	protected Record createFullRecord(ReceivePaymentTransactionList t) {
+		String formalName;
+		if (getPreferences().isEnableMultiCurrency()) {
+			formalName = getCurrency().getFormalName();
+		} else {
+			formalName = getPreferences().getPrimaryCurrency().getFormalName();
+		}
 		Record record = new Record(t);
 		record.add(getMessages().dueDate(), t.getDueDate());
 		record.add(getMessages().invoiceNo(), t.getNumber());
-		record.add(getMessages().invoiceAmount(), t.getInvoiceAmount());
-		record.add(getMessages().amountDue(), t.getAmountDue());
-		record.add(getMessages().payment(), t.getPayment());
+		record.add(getMessages().invoiceAmount() + "(" + formalName + ")",
+				t.getInvoiceAmount());
+		record.add(getMessages().amountDue() + "(" + formalName + ")",
+				t.getAmountDue());
+		record.add(getMessages().payment() + "(" + formalName + ")",
+				t.getPayment());
 		return record;
 	}
 

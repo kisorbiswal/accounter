@@ -67,7 +67,8 @@ public class VATItemDetailReportCommand extends
 						resultList.add(createReportRecord(rec));
 					}
 					makeResult.add(resultList);
-					makeResult.add("Total: " + totalAmount);
+					makeResult.add("Total: "
+							+ getAmountWithCurrency(totalAmount));
 				}
 			}
 		});
@@ -81,32 +82,28 @@ public class VATItemDetailReportCommand extends
 		ecRecord.add("No", record.getTransactionNumber());
 		ecRecord.add("Name", record.getName());
 		ecRecord.add("Memo", record.getMemo());
-		ecRecord.add("Amount", record.getAmount());
-		ecRecord.add("Sales Price", record.getSalesPrice());
+		ecRecord.add("Amount", getAmountWithCurrency(record.getAmount()));
+		ecRecord.add("Sales Price",
+				getAmountWithCurrency(record.getSalesPrice()));
 		return ecRecord;
 	}
 
 	protected List<VATItemDetail> getRecords() {
-		if (taxItem == null) {
-			try {
+
+		try {
+			if (taxItem == null) {
 				return new FinanceTool().getReportManager()
 						.getVATItemDetailReport(getStartDate(), getEndDate(),
 								getCompanyId());
-			} catch (DAOException e) {
-				e.printStackTrace();
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		} else {
-			try {
+			} else {
 				return new FinanceTool().getReportManager()
 						.getVATItemDetailReport(taxItem.getName(),
 								getStartDate(), getEndDate(), getCompanyId());
-			} catch (DAOException e) {
-				e.printStackTrace();
-			} catch (ParseException e) {
-				e.printStackTrace();
 			}
+		} catch (DAOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
 
 		return new ArrayList<VATItemDetail>();

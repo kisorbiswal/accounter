@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.mobile.Context;
@@ -320,5 +321,13 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 	public String getSuccessMessage() {
 		return getMessages().createSuccessfully(getMessages().vatAdjustment());
 	}
+
+	@Override
+	protected Payee getPayee() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 }

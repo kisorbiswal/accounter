@@ -253,6 +253,19 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 				}
 				return filteredList;
 			}
+
+			@Override
+			protected Payee getPayee() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
@@ -274,6 +287,18 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 			@Override
 			public boolean isSales() {
 				return false;
+			}
+
+			@Override
+			protected Payee getPayee() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				// TODO Auto-generated method stub
+				return 0;
 			}
 
 		});
@@ -501,4 +526,11 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 		}
 		super.beforeFinishing(context, makeResult);
 	}
+
+	@Override
+	protected Payee getPayee() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

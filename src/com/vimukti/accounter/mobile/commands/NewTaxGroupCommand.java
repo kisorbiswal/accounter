@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -34,6 +35,18 @@ public class NewTaxGroupCommand extends NewAbstractCommand {
 			@Override
 			protected List<ClientTAXItem> getList() {
 				return CommandUtils.getClientTaxItems(getCompanyId());
+			}
+
+			@Override
+			protected Payee getPayee() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected double getCurrencyFactor() {
+				// TODO Auto-generated method stub
+				return 0;
 			}
 
 		});

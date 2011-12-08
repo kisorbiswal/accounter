@@ -12,6 +12,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ClientCurrencyRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
@@ -20,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
 
@@ -60,8 +62,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 					@Override
 					public void onSelection(String value) {
+						ClientCurrency currency = countrySelected(value);
+						get(PRIMARY_CURRENCY).setValue(currency);
 						get(STATE).setValue(null);
 					}
+
 				}));
 
 		list.add(new StringListRequirement(STATE, getMessages().pleaseEnter(
@@ -288,6 +293,36 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				return null;
 			}
 		});
+		list.add(new CurrencyRequirement(PRIMARY_CURRENCY, getMessages()
+				.primaryCurrency(), getMessages().primaryCurrency(), true,
+				true, null) {
+
+			@Override
+			protected List<ClientCurrency> getLists(Context context) {
+
+				List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
+				List<ClientCurrency> currencies = CoreUtils
+						.getCurrencies(new ArrayList<ClientCurrency>());
+				for (ClientCurrency currency : currencies) {
+					currenciesList.add(currency);
+				}
+				return currenciesList;
+
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_MULTI_CURRENCY_ENBLED, true) {
+
+			@Override
+			protected String getTrueString() {
+				return " Multi currency enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return " Multi currency is not enabled";
+			}
+		});
 
 		list.add(new StringListRequirement(SERVICE_PRODUCTS_BOTH, getMessages()
 				.productAndService(), getMessages().productAndService(), true,
@@ -503,6 +538,9 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		ClientCurrency currency = get(SELECT_CURRENCY).getValue();
 		Boolean manageBills = get(MANAGE_BILLS_OWE).getValue();
 		List<TemplateAccount> accounts = get(ACCOUNTS).getValue();
+		ClientCurrency primaryCurrency = get(PRIMARY_CURRENCY).getValue();
+		Boolean ismultiCurrencyEnabled = get(IS_MULTI_CURRENCY_ENBLED)
+				.getValue();
 
 		ClientCompanyPreferences preferences = new ClientCompanyPreferences();
 		preferences.setPrimaryCurrency(currency);
@@ -536,7 +574,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				organizationRefer));
 		String customerTerm = get(CUSTOMER_TERMINOLOGY).getValue();
 		String supplierTerm = get(SUPPLIER_TERMINOLOGY).getValue();
-
+		preferences.setPrimaryCurrency(primaryCurrency);
+		preferences.setEnableMultiCurrency(ismultiCurrencyEnabled);
 		preferences.setReferCustomers(getCustomerTerminologies().indexOf(
 				customerTerm));
 		preferences.setReferVendors(getSupplierTerminologies().indexOf(
@@ -591,4 +630,5 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	protected String initObject(Context context, boolean isUpdate) {
 		return null;
 	}
+
 }

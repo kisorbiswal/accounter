@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -42,55 +43,6 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().number()), getMessages().number(), true, false));
-		//
-		// list.add(new CurrencyRequirement(CURRENCY,
-		// getMessages().pleaseSelect(
-		// getConstants().currency()), getConstants().currency(), true,
-		// true, null) {
-		// @Override
-		// public Result run(Context context, Result makeResult,
-		// ResultList list, ResultList actions) {
-		// if (context.getPreferences().isEnableMultiCurrency()) {
-		// return super.run(context, makeResult, list, actions);
-		// } else {
-		// return null;
-		// }
-		// }
-		//
-		// @Override
-		// protected List<Currency> getLists(Context context) {
-		// return new ArrayList<Currency>(context.getCompany()
-		// .getCurrencies());
-		// }
-		// });
-		//
-		// list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		// .pleaseSelect(getConstants().currency()), getConstants()
-		// .currency(), true, true) {
-		// @Override
-		// protected String getDisplayValue(Double value) {
-		// ClientCurrency primaryCurrency = getPreferences()
-		// .getPrimaryCurrency();
-		// Currency selc = get(CURRENCY).getValue();
-		// return "1 " + selc.getFormalName() + " = " + value + " "
-		// + primaryCurrency.getFormalName();
-		// }
-		//
-		// @Override
-		// public Result run(Context context, Result makeResult,
-		// ResultList list, ResultList actions) {
-		// if (get(CURRENCY).getValue() != null) {
-		// if (context.getPreferences().isEnableMultiCurrency()
-		// && !((Currency) get(CURRENCY).getValue())
-		// .equals(context.getPreferences()
-		// .getPrimaryCurrency())) {
-		// return super.run(context, makeResult, list, actions);
-		// }
-		// }
-		// return null;
-		//
-		// }
-		// });
 
 		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_FROM, getMessages()
 				.pleaseEnterName(getMessages().fromAccount()), getMessages()
@@ -162,9 +114,6 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 		list.add(new AmountRequirement(AMOUNT, getMessages().pleaseEnter(
 				getMessages().amount()), getMessages().amount(), false, true));
-		// list.add(new MakeDepositTableRequirement(TRANSFERED_ACCOUNT, "",
-		// Global
-		// .get().Accounts()));
 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
@@ -319,6 +268,12 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 		return makeDeposit.getID() == 0 ? getMessages().createSuccessfully(
 				getMessages().makeDeposit()) : getMessages()
 				.updateSuccessfully(getMessages().makeDeposit());
+	}
+
+	@Override
+	protected Payee getPayee() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
