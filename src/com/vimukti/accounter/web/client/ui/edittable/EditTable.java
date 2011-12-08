@@ -205,7 +205,7 @@ public abstract class EditTable<R> extends SimplePanel {
 					CheckBox checkedWidget = (CheckBox) widget;
 					if (checkedWidget.getValue()) {
 						R r = rows.get(x);
-						if (selected.contains(r)) {
+						if (!selected.contains(r)) {
 							selected.add(r);
 						}
 					}
