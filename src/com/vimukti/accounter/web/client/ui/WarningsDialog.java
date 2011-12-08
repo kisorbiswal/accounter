@@ -41,7 +41,7 @@ public class WarningsDialog extends AccounterDialog implements
 			return true;
 		}
 
-		message = warnings.get(index + 1).getMessage();
+		message = warnings.get(index).getMessage();
 		super.show();
 
 		return false;
