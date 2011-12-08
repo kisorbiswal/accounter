@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.requirements;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Record;
