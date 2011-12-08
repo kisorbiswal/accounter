@@ -87,6 +87,8 @@ public class PatternResult extends Result {
 			ICountryPreferences countryPreferences = company
 					.getCountryPreferences();
 			return countryPreferences instanceof UnitedKingdom;
+		} else if (condition.equals("inventoryEnabled")) {
+			return preferences.isInventoryEnabled();
 		}
 		return true;
 	}

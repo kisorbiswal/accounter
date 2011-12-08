@@ -44,6 +44,7 @@
 			<command title="Vendor" />
 			<command title="Banking" />
 			<command title="Reports" />
+			<command if="inventoryEnabled" title="Inventory" />
 			<command title="Settings" />
 			<command title="Logout" />
 		</outputs>
@@ -553,7 +554,7 @@
 			<command title="Users List" />
 		</outputs>
 	</pattern>
-	<pattern login="true">
+	<pattern login="true" if="inventoryEnabled">
 		<input>Inventory</input>
 		<outputs>
 			<command title="New Stock Adjustment" />
