@@ -56,7 +56,8 @@
 		<alias>Modify Vendor Group</alias>
 		<alias>Edit Vendor Group</alias>
 	</command>
-
+	<command clazz="com.vimukti.accounter.mobile.commands.AddNewCurrency"
+		name="Add Currency"></command>
 	<command clazz="com.vimukti.accounter.mobile.commands.NewAccountCommand"
 		name="New Account">
 		<alias>Create Account</alias>
@@ -364,6 +365,7 @@
 		<alias>VIS report</alias>
 		<alias>VAT IS report</alias>
 		<alias>VISR</alias>
+		<alias>Tax Item Summary</alias>
 	</command>
 
 	<command
@@ -392,6 +394,7 @@
 		<alias>VID report</alias>
 		<alias>VAT ID report</alias>
 		<alias>VIDR</alias>
+		<alias>Tax Item Detail</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.NewVATItemCommand"
@@ -1218,31 +1221,29 @@
 		<alias>TerminologyPreferences</alias>
 		<alias>Terminologies</alias>
 	</command>
-	
+
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.preferences.CategoriesPreferencesCommand"
 		name="Categories Preferences ">
 		<alias>CategoriesPreferences</alias>
 		<alias>Categories</alias>
 	</command>
-	
-	<command
-		clazz="com.vimukti.accounter.mobile.commands.ForgotPasswordCommand"
+
+	<command clazz="com.vimukti.accounter.mobile.commands.ForgotPasswordCommand"
 		name="Forgot Password">
 		<alias>ForgotPassword</alias>
 	</command>
-	
-	<command
-		clazz="com.vimukti.accounter.mobile.commands.ChangePasswordCommand"
+
+	<command clazz="com.vimukti.accounter.mobile.commands.ChangePasswordCommand"
 		name="Change Password">
 		<alias>ChangePassword</alias>
 	</command>
-	
-	<command
-		clazz="com.vimukti.accounter.mobile.commands.TaxHistoryCommand"
+
+	<command clazz="com.vimukti.accounter.mobile.commands.TaxHistoryCommand"
 		name="TaxHistory Command">
 		<alias>Tax History Command</alias>
 		<alias>TaxHistoryCommand</alias>
+		<alias>Tax History</alias>
 	</command>
-	
+
 </commands>
