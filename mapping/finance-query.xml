@@ -6649,8 +6649,6 @@
 	<sql-query name="getWarehouse">
 		<query-param name="companyId" type="long" />
 		<query-param name="name" type="string" />
-		<query-param name="id" type="long" />
-
 		<return-scalar column="NAME" type="string" />
 
 		SELECT
