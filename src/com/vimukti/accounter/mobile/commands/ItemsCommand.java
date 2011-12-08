@@ -37,8 +37,8 @@ public class ItemsCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ShowListRequirement<Item>("items", "Please Select Item",
-				20) {
+		list.add(new ShowListRequirement<Item>(getMessages().items(),
+				getMessages().pleaseSelect(getMessages().item()), 20) {
 
 			@Override
 			protected String onSelection(Item value) {
@@ -95,18 +95,18 @@ public class ItemsCommand extends NewAbstractCommand {
 
 	protected Record createRecord(Item value) {
 		Record record = new Record(value);
-		record.add("Name", value.getName());
-		record.add("Description", value.getPurchaseDescription());
-		record.add("Type", value.getType());
+		record.add(getMessages().name(), value.getName());
+		record.add(getMessages().description(), value.getPurchaseDescription());
+		record.add(getMessages().type(), value.getType());
 		if (value.isIBuyThisItem()) {
-			record.add("Purchase Price",
-					getPreferences().getPrimaryCurrency().getSymbol()
-							+ " " + value.getPurchasePrice());
+			record.add(getMessages().purchasePrice(),
+					getPreferences().getPrimaryCurrency().getSymbol() + " "
+							+ value.getPurchasePrice());
 		}
 		if (value.isISellThisItem()) {
-			record.add("Sales Price",
-					getPreferences().getPrimaryCurrency().getSymbol()
-							+ " " + value.getSalesPrice());
+			record.add(getMessages().salesPrice(),
+					getPreferences().getPrimaryCurrency().getSymbol() + " "
+							+ value.getSalesPrice());
 		}
 		return record;
 	}
