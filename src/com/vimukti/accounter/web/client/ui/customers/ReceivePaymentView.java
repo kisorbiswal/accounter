@@ -164,6 +164,9 @@ public class ReceivePaymentView extends
 
 	private void getTransactionReceivePayments(
 			final ClientCustomer selectedCustomer) {
+		if (selectedCustomer == null) {
+			return;
+		}
 
 		long paymentDate = transactionDateItem.getDate().getDate();
 
@@ -444,9 +447,6 @@ public class ReceivePaymentView extends
 							} catch (Exception e) {
 								Accounter.showError(messages
 										.invalidTransactionDate());
-								setTransactionDate(new ClientFinanceDate());
-								transactionDateItem
-										.setEnteredDate(getTransactionDate());
 							}
 
 						}

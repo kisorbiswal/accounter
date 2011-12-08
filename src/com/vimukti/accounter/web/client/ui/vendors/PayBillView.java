@@ -678,8 +678,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			}
 		} catch (Exception e) {
 			Accounter.showError(Accounter.messages().invalidTransactionDate());
-			setTransactionDate(new ClientFinanceDate());
-			date.setEnteredDate(getTransactionDate());
 		}
 
 	}
