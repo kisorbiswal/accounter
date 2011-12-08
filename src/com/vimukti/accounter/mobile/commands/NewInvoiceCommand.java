@@ -141,8 +141,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				return (Customer) NewInvoiceCommand.this.get(CUSTOMER)
 						.getValue();
 			}
-
-			
 		});
 
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
@@ -158,7 +156,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
-				false, true) {
+				true, true) {
 			@Override
 			protected double getCurrencyFactor() {
 				return NewInvoiceCommand.this.getCurrencyFactor();
@@ -345,7 +343,11 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		invoice.setNumber(number);
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
-
+		List<EstimatesAndSalesOrdersList> e = get(ESTIMATEANDSALESORDER)
+				.getValue();
+		if (items.isEmpty() && e.isEmpty()) {
+			return new Result();
+		}
 		Customer customer = get(CUSTOMER).getValue();
 		invoice.setCustomer(customer.getID());
 
@@ -379,8 +381,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		 * invoice.setCurrencyFactor(factor); }
 		 */
 
-		List<EstimatesAndSalesOrdersList> e = get(ESTIMATEANDSALESORDER)
-				.getValue();
 		List<ClientEstimate> estimates = new ArrayList<ClientEstimate>();
 		List<ClientSalesOrder> salesOrders = new ArrayList<ClientSalesOrder>();
 		for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : e) {
@@ -477,6 +477,11 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	public void beforeFinishing(Context context, Result makeResult) {
 		// TODO
 		List<ClientTransactionItem> allrecords = get(ITEMS).getValue();
+		List<EstimatesAndSalesOrdersList> e = get(ESTIMATEANDSALESORDER)
+				.getValue();
+		if (allrecords.isEmpty() && e.isEmpty()) {
+			addFirstMessage(context, "Please select Transaction Item");
+		}
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			TAXCode taxCode = get(TAXCODE).getValue();
@@ -489,8 +494,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		double[] result = getTransactionTotal(isVatInclusive, allrecords, true);
-		List<EstimatesAndSalesOrdersList> e = get(ESTIMATEANDSALESORDER)
-				.getValue();
+
 		for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : e) {
 			if (e != null) {
 				if (estimatesAndSalesOrdersList.getType() == ClientTransaction.TYPE_ESTIMATE) {
