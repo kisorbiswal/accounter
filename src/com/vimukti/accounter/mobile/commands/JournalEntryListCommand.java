@@ -63,7 +63,7 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return "There are no Journal entries";
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
