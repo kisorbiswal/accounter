@@ -17,7 +17,7 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 
 	public EstimatesAndSalesOrderTableRequirement(String requirementName,
 			String enterString, String recordName) {
-		super(requirementName, enterString, recordName, false, true, true);
+		super(requirementName, enterString, recordName, false, false, true);
 		// setDefaultValue(new ArrayList<EstimatesAndSalesOrdersList>());
 	}
 
