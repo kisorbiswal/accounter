@@ -110,6 +110,9 @@ public class DatePopupCalendar extends PopupPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				panel.clear();
+				int y = getYear();
+				y = y + 10;
+				setYear(y);
 				drawGrid(panel);
 
 			}
@@ -121,7 +124,7 @@ public class DatePopupCalendar extends PopupPanel {
 
 				panel.clear();
 				int y = getYear();
-				y = y - 20;
+				y = y - 10;
 				setYear(y);
 				drawGrid(panel);
 			}
@@ -177,7 +180,7 @@ public class DatePopupCalendar extends PopupPanel {
 			}
 
 		}
-		setYear(k);
+		// setYear(k);
 
 		this.daysGrid.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -244,6 +247,8 @@ public class DatePopupCalendar extends PopupPanel {
 		super.show();
 		if (getDisplayMonth() != null) {
 			setYear(getDisplayMonth().getYear() + 1900);
+			month = DateUtills.getMonthNameByNumber(getDisplayMonth()
+					.getMonth()+1);
 		}
 		panel.clear();
 
