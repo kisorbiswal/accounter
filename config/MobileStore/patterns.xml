@@ -553,22 +553,24 @@
 			<command title="Users List" />
 		</outputs>
 	</pattern>
-
 	<pattern login="true">
 		<input>Inventory</input>
 		<outputs>
-			<command title="Stock Settings View" />
-			<command title="Inventory Lists" />
+			<command title="New Stock Adjustment" />
+			<command title="New WareHouse" />
+			<command title="New WareHouse Transfer" />
+			<command title="New Measurement" />
+			<command title="Inventory Lists"></command>
 		</outputs>
 	</pattern>
-
 	<pattern login="true">
 		<input>Inventory Lists</input>
 		<outputs>
 			<command title="Inventory Items" />
-			<command title="Stock Adjustments" />
 			<command title="Warehouse List" />
-			<command title="Measurements List" />
+			<command title="Warehouse Transfer List" />
+			<command title="Stock adjustments" />
+			<command title="Measurement List" />
 		</outputs>
 	</pattern>
 
