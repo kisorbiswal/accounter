@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import org.openxri.xri3.impl.parser.Parser.global_subseg;
+
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
@@ -251,13 +253,13 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 		});
 
-		list.add(new ItemGroupRequirement(ITEM_GROUP,
-				"Enter the item group name", getMessages().itemGroup(), true,
-				true, null) {
+		list.add(new ItemGroupRequirement(ITEM_GROUP, getMessages()
+				.pleaseEnter(getMessages().itemGroup()), getMessages()
+				.itemGroup(), true, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return "Item group has been selected";
+				return getMessages().hasSelected(getMessages().itemGroup());
 			}
 
 			@Override
@@ -272,8 +274,9 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new TaxCodeRequirement(TAXCODE, "Enter the Tax Code name",
-				getMessages().taxCode(), true, true, null) {
+		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnter(
+				getMessages().taxCode()), getMessages().taxCode(), true, true,
+				null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -376,14 +379,16 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return "Expense Account has been selected";
+				return getMessages()
+						.hasSelected(getMessages().expenseAccount());
 			}
 		});
 
-		list.add(new VendorRequirement(PREFERRED_SUPPLIER,
-				"enter the supplier name or number", getMessages()
-						.preferredVendor(Global.get().Vendor()), true, true,
-				null) {
+		list.add(new VendorRequirement(PREFERRED_SUPPLIER, getMessages()
+				.pleaseEnter(
+						getMessages().preferredVendor(Global.get().vendor())),
+				getMessages().preferredVendor(Global.get().Vendor()), true,
+				true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -396,7 +401,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return "Preferred Supplier has been selected";
+				return getMessages().hasSelected(
+						getMessages().preferredVendor(Global.get().vendor()));
 			}
 
 			@Override
@@ -567,13 +573,13 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			setItem(new ClientItem());
 		} else {
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select an Item to update.");
+				addFirstMessage(context, getMessages().selectItemToUpdate());
 				return "Items List";
 			}
 			Item customerByName = CommandUtils.getItemByName(
 					context.getCompany(), string);
 			if (customerByName == null) {
-				addFirstMessage(context, "Select an Item to update.");
+				addFirstMessage(context, getMessages().selectItemToUpdate());
 				return "Items List " + string;
 			}
 			setItem((ClientItem) CommandUtils.getClientObjectById(
