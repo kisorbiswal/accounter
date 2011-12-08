@@ -99,9 +99,10 @@ public abstract class NewCommand extends Command {
 			Result result = allRequirements.get(i).process(context, makeResult,
 					list, actions);
 			if (result != null) {
-				if (lastRequirement != i) {
+				if (lastRequirement != i && isCanTrackRequirements()) {
 					requirementSequence.push(i);
 				}
+				setCanTrackRequirements(true);
 				lastRequirement = i;
 				return result;
 			}
