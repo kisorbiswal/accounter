@@ -6654,7 +6654,7 @@
 		<query-param name="name" type="string" />
 		<query-param name="id" type="long" />
 
-		<return-scalar column="WAREHOUSE_NAME" type="string" />
+		<return-scalar column="NAME" type="string" />
 
 		SELECT
 		W.NAME AS NAME
