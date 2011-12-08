@@ -13,6 +13,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
@@ -79,6 +80,15 @@ public abstract class TransactionItemTableRequirement extends
 			@Override
 			protected String getFormalName() {
 				return getCurrency().getFormalName();
+			}
+
+			@Override
+			protected void createRecord(ResultList list) {
+				Double t = getValue();
+				Record nameRecord = new Record(getName());
+				nameRecord.add(getRecordName(),
+						Global.get().toCurrencyFormat(t / getCurrencyFactor()));
+				list.add(nameRecord);
 			}
 		});
 
@@ -237,8 +247,8 @@ public abstract class TransactionItemTableRequirement extends
 		} else {
 			formalName = getPreferences().getPrimaryCurrency().getFormalName();
 		}
-		record.add("Unit price" + "(" + formalName + ")", t.getUnitPrice()
-				/ getCurrencyFactor());
+		record.add("Unit price" + "(" + formalName + ")", Global.get()
+				.toCurrencyFormat(t.getUnitPrice() / getCurrencyFactor()));
 		if (getPreferences().isTrackTax()) {
 			if (getPreferences().isTaxPerDetailLine()) {
 				record.add("Tax Code", ((ClientTAXCode) (CommandUtils
