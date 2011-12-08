@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -93,11 +92,6 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 	@Override
 	protected String getAddMoreString() {
 		return "Add More Estimates";
-	}
-
-	@Override
-	protected Payee getPayee() {
-		return getCustomer();
 	}
 
 	@Override

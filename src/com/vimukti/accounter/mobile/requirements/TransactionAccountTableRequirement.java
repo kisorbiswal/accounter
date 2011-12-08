@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -279,4 +281,9 @@ public abstract class TransactionAccountTableRequirement extends
 		return false;
 	}
 
+	protected abstract Payee getPayee();
+
+	protected Currency getCurrency() {
+		return getPayee().getCurrency();
+	}
 }

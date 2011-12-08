@@ -2,6 +2,8 @@ package com.vimukti.accounter.mobile.requirements;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.ResultList;
@@ -132,5 +134,11 @@ public abstract class PaybillTableRequirement extends
 			}
 		}
 		return false;
+	}
+
+	protected abstract Payee getPayee();
+
+	protected Currency getCurrency() {
+		return getPayee().getCurrency();
 	}
 }

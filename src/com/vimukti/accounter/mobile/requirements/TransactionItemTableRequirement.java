@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -292,5 +294,13 @@ public abstract class TransactionItemTableRequirement extends
 			}
 		}
 		return false;
+	}
+
+	protected abstract double getCurrencyFactor();
+
+	protected abstract Payee getPayee();
+
+	protected Currency getCurrency() {
+		return getPayee().getCurrency();
 	}
 }
