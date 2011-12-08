@@ -20,7 +20,7 @@ public class MyCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return "MyCommand is ready to create";
+		return getMessages().readyToCreate("My Command");
 	}
 
 	@Override
