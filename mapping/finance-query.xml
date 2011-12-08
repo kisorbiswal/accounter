@@ -3733,14 +3733,12 @@
 		<query-param name="companyId" type="long" />
 		<return-scalar column="ENTER_BILL_ID" type="long" />
 		<return-scalar column="CREDITS_ID" type="long" />
-		SELECT TP.ENTER_BILL_ID AS ENTER_BILL_ID,TC.ID CREDITS_ID FROM
-		PAY_BILL P LEFT JOIN TRANSACTION T
-		ON T.ID=P.ID LEFT JOIN
-		TRANSACTION_PAYBILL TP ON TP.TRANSACTION_ID=
-		P.ID LEFT JOIN
-		TRANSACTION_CREDITS_AND_PAYMENTS TC ON
-		TC.TRANSACTION_PAYBILL_ID =
-		TP.ID WHERE P.ID=:inputId AND T.COMPANY_ID=:companyId LIMIT 1
+		SELECT P.ID AS ID FROM PAY_BILL P LEFT JOIN TRANSACTION T
+		ON
+		T.ID=P.ID
+		WHERE P.ID IS NULL AND P.ID =:inputId AND
+		T.COMPANY_ID=:companyId LIMIT
+		1
 	</sql-query>
 
 	<sql-query name="canDeleteCustomerCreditMemo">
@@ -7450,27 +7448,32 @@
 		SELECT
 		T.ID AS TRANSACTION_ID,
 		T.T_DATE AS TRANSACTION_DATE,
-		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
 		T.TOTAL AS TOTAL_PRICE
 		FROM
 		INVOICE I
-		LEFT JOIN TRANSACTION T ON T.ID = I.ID
+		LEFT JOIN
+		TRANSACTION T ON T.ID = I.ID
 		WHERE
 		CASE
 		WHEN 0=:match
-		then T.TOTAL = :amount
+		then T.TOTAL =
+		:amount
 		ELSE
 		CASE
 		WHEN 1=:match
 		THEN T.TOTAL &gt;= :amount
 		ELSE
 		CASE
-		WHEN 2=:match
+		WHEN
+		2=:match
 		THEN T.TOTAL &lt;= :amount
 		ELSE
 		CASE
 		WHEN 3=0
-		THEN T.TOTAL = :amount
+		THEN T.TOTAL =
+		:amount
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -7656,7 +7659,8 @@
 		ELSE
 		CASE
 		WHEN 3=:match
-		THEN I.NAME LIKE :name
+		THEN I.NAME LIKE
+		:name
 		END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -7683,12 +7687,14 @@
 		TRANSACTION T
 		WHERE
 		CASE
-		WHEN 0=:match
+		WHEN
+		0=:match
 		then T.TOTAL = :amount
 		ELSE
 		CASE
 		WHEN 1=:match
-		THEN T.TOTAL &gt;= :amount
+		THEN T.TOTAL &gt;=
+		:amount
 		ELSE
 		CASE
 		WHEN 2=:match
@@ -7835,19 +7841,22 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		then T.TOTAL = :amount
+		then T.TOTAL =
+		:amount
 		ELSE
 		CASE
 		WHEN 1=:match
 		THEN T.TOTAL &gt;= :amount
 		ELSE
 		CASE
-		WHEN 2=:match
+		WHEN
+		2=:match
 		THEN T.TOTAL &lt;= :amount
 		ELSE
 		CASE
 		WHEN 3=0
-		THEN T.TOTAL = :amount
+		THEN T.TOTAL =
+		:amount
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -7884,7 +7893,8 @@
 		ELSE
 		CASE
 		WHEN 3=:match
-		THEN A.NAME LIKE :name
+		THEN A.NAME
+		LIKE :name
 		END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -7921,7 +7931,8 @@
 		ELSE
 		CASE
 		WHEN 3=:match
-		THEN I.NAME LIKE :name
+		THEN I.NAME LIKE
+		:name
 		END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -8033,7 +8044,8 @@
 		ELSE
 		CASE
 		WHEN 3=:match
-		THEN P.NAME LIKE :name
+		THEN
+		P.NAME LIKE :name
 		END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -8068,7 +8080,8 @@
 		ELSE
 		CASE
 		WHEN 3=:match
-		THEN P.NAME LIKE :name
+		THEN
+		P.NAME LIKE :name
 		END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -8136,19 +8149,22 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		then T.TOTAL = :amount
+		then T.TOTAL =
+		:amount
 		ELSE
 		CASE
 		WHEN 1=:match
 		THEN T.TOTAL &gt;= :amount
 		ELSE
 		CASE
-		WHEN 2=:match
+		WHEN
+		2=:match
 		THEN T.TOTAL &lt;= :amount
 		ELSE
 		CASE
 		WHEN 3=0
-		THEN T.TOTAL = :amount
+		THEN T.TOTAL =
+		:amount
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -8211,12 +8227,14 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		THEN P.CHECK_NUMBER=:number
+		THEN
+		P.CHECK_NUMBER=:number
 		ELSE
 		CASE
 		WHEN 3=:match
 		THEN
-		P.CHECK_NUMBER LIKE :number
+		P.CHECK_NUMBER LIKE
+		:number
 		END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -8327,19 +8345,22 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		then T.TOTAL = :amount
+		then T.TOTAL =
+		:amount
 		ELSE
 		CASE
 		WHEN 1=:match
 		THEN T.TOTAL &gt;= :amount
 		ELSE
 		CASE
-		WHEN 2=:match
+		WHEN
+		2=:match
 		THEN T.TOTAL &lt;= :amount
 		ELSE
 		CASE
 		WHEN 3=0
-		THEN T.TOTAL = :amount
+		THEN T.TOTAL =
+		:amount
 		END END END END
 		AND
 		T.T_TYPE=:type
@@ -8408,7 +8429,8 @@
 		ELSE
 		CASE
 		WHEN 3=:match
-		THEN I.NAME LIKE :name
+		THEN I.NAME LIKE
+		:name
 		END END
 		AND
 		T.T_TYPE=:type
@@ -8476,7 +8498,8 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		then P.NAME = :name
+		then
+		P.NAME = :name
 		ELSE
 		CASE
 		WHEN 3=:match
@@ -8552,12 +8575,14 @@
 		T.T_TYPE=:type
 		AND
 		CASE
-		WHEN 0=:match
+		WHEN
+		0=:match
 		then T.TOTAL = :amount
 		ELSE
 		CASE
 		WHEN 1=:match
-		THEN T.TOTAL &gt;= :amount
+		THEN T.TOTAL &gt;=
+		:amount
 		ELSE
 		CASE
 		WHEN 2=:match
@@ -8633,7 +8658,8 @@
 		then I.NAME = :name
 		ELSE
 		CASE
-		WHEN 3=:match
+		WHEN
+		3=:match
 		THEN I.NAME LIKE :name
 		END END
 		AND
@@ -8737,7 +8763,8 @@
 		ELSE
 		CASE
 		WHEN 3=:match
-		THEN P.NAME LIKE :name
+		THEN
+		P.NAME LIKE :name
 		END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -8805,19 +8832,22 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		then T.TOTAL = :amount
+		then T.TOTAL =
+		:amount
 		ELSE
 		CASE
 		WHEN 1=:match
 		THEN T.TOTAL &gt;= :amount
 		ELSE
 		CASE
-		WHEN 2=:match
+		WHEN
+		2=:match
 		THEN T.TOTAL &lt;= :amount
 		ELSE
 		CASE
 		WHEN 3=0
-		THEN T.TOTAL = :amount
+		THEN T.TOTAL =
+		:amount
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -8943,7 +8973,8 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		then T.TOTAL = :amount
+		then
+		T.TOTAL = :amount
 		ELSE
 		CASE
 		WHEN 1=:match
@@ -8955,7 +8986,8 @@
 		ELSE
 		CASE
 		WHEN 3=0
-		THEN T.TOTAL = :amount
+		THEN
+		T.TOTAL = :amount
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -9078,7 +9110,8 @@
 		ELSE
 		CASE
 		WHEN 3=:match
-		THEN I.NAME LIKE :name
+		THEN I.NAME LIKE
+		:name
 		END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -9112,7 +9145,8 @@
 		then P.NAME = :name
 		ELSE
 		CASE
-		WHEN 3=:match
+		WHEN
+		3=:match
 		THEN P.NAME LIKE :name
 		END END
 		AND
@@ -9142,7 +9176,8 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		then T.TOTAL = :amount
+		then
+		T.TOTAL = :amount
 		ELSE
 		CASE
 		WHEN 1=:match
@@ -9154,7 +9189,8 @@
 		ELSE
 		CASE
 		WHEN 3=0
-		THEN T.TOTAL = :amount
+		THEN
+		T.TOTAL = :amount
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -9309,7 +9345,8 @@
 		ELSE
 		CASE
 		WHEN 3=:match
-		THEN I.NAME LIKE :name
+		THEN I.NAME LIKE
+		:name
 		END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -9436,7 +9473,8 @@
 		ELSE
 		CASE
 		WHEN 3=:match
-		THEN I.NAME LIKE :name
+		THEN I.NAME LIKE
+		:name
 		END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -9608,19 +9646,22 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		then T.TOTAL = :amount
+		then T.TOTAL =
+		:amount
 		ELSE
 		CASE
 		WHEN 1=:match
 		THEN T.TOTAL &gt;= :amount
 		ELSE
 		CASE
-		WHEN 2=:match
+		WHEN
+		2=:match
 		THEN T.TOTAL &lt;= :amount
 		ELSE
 		CASE
 		WHEN 3=0
-		THEN T.TOTAL = :amount
+		THEN T.TOTAL =
+		:amount
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -9738,19 +9779,22 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		then T.TOTAL = :amount
+		then T.TOTAL =
+		:amount
 		ELSE
 		CASE
 		WHEN 1=:match
 		THEN T.TOTAL &gt;= :amount
 		ELSE
 		CASE
-		WHEN 2=:match
+		WHEN
+		2=:match
 		THEN T.TOTAL &lt;= :amount
 		ELSE
 		CASE
 		WHEN 3=0
-		THEN T.TOTAL = :amount
+		THEN T.TOTAL =
+		:amount
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -9944,19 +9988,22 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		then T.TOTAL = :amount
+		then T.TOTAL =
+		:amount
 		ELSE
 		CASE
 		WHEN 1=:match
 		THEN T.TOTAL &gt;= :amount
 		ELSE
 		CASE
-		WHEN 2=:match
+		WHEN
+		2=:match
 		THEN T.TOTAL &lt;= :amount
 		ELSE
 		CASE
 		WHEN 3=0
-		THEN T.TOTAL = :amount
+		THEN T.TOTAL =
+		:amount
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -10112,19 +10159,22 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		then T.TOTAL = :amount
+		then T.TOTAL =
+		:amount
 		ELSE
 		CASE
 		WHEN 1=:match
 		THEN T.TOTAL &gt;= :amount
 		ELSE
 		CASE
-		WHEN 2=:match
+		WHEN
+		2=:match
 		THEN T.TOTAL &lt;= :amount
 		ELSE
 		CASE
 		WHEN 3=0
-		THEN T.TOTAL = :amount
+		THEN T.TOTAL =
+		:amount
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -10249,7 +10299,8 @@
 		ELSE
 		CASE
 		WHEN 3=:match
-		THEN I.NAME LIKE :name
+		THEN I.NAME LIKE
+		:name
 		END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -10279,19 +10330,22 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		then T.TOTAL = :amount
+		then T.TOTAL =
+		:amount
 		ELSE
 		CASE
 		WHEN 1=:match
 		THEN T.TOTAL &gt;= :amount
 		ELSE
 		CASE
-		WHEN 2=:match
+		WHEN
+		2=:match
 		THEN T.TOTAL &lt;= :amount
 		ELSE
 		CASE
 		WHEN 3=0
-		THEN T.TOTAL = :amount
+		THEN T.TOTAL =
+		:amount
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -10417,7 +10471,8 @@
 		then P.NAME = :name
 		ELSE
 		CASE
-		WHEN 3=:match
+		WHEN
+		3=:match
 		THEN P.NAME LIKE :name
 		END END
 		AND
@@ -10448,19 +10503,22 @@
 		WHERE
 		CASE
 		WHEN 0=:match
-		then T.TOTAL = :amount
+		then T.TOTAL
+		= :amount
 		ELSE
 		CASE
 		WHEN 1=:match
 		THEN T.TOTAL &gt;= :amount
 		ELSE
 		CASE
-		WHEN 2=:match
+		WHEN
+		2=:match
 		THEN T.TOTAL &lt;= :amount
 		ELSE
 		CASE
 		WHEN 3=0
-		THEN T.TOTAL = :amount
+		THEN T.TOTAL =
+		:amount
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -10588,7 +10646,8 @@
 		ELSE
 		CASE
 		WHEN 3=:match
-		THEN I.NAME LIKE :name
+		THEN I.NAME LIKE
+		:name
 		END END
 		AND
 		T.COMPANY_ID=:companyId
@@ -10921,9 +10980,11 @@
 
 
 	<sql-query name="createDeleteCompanyFunction">
-		CREATE OR REPLACE FUNCTION delete_company(cid bigint) RETURNS boolean AS
+		CREATE OR REPLACE FUNCTION delete_company(cid
+		bigint) RETURNS boolean AS
 		$BODY$begin
-		delete from transaction where company_id=cid;
+		delete from transaction where
+		company_id=cid;
 		return true;
 		end;$BODY$
 		LANGUAGE plpgsql VOLATILE;
