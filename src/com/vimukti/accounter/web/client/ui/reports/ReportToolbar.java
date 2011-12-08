@@ -770,16 +770,14 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	}
 
 	public ClientFinanceDate getWeekStartDate() {
-		ClientFinanceDate date = new ClientFinanceDate();
-		int day = date.getDayOfWeek() % 6;
-		ClientFinanceDate newDate = new ClientFinanceDate();
-		if (day != 1) {
-			newDate.setDay(date.getDay() - day);
-		} else {
-			newDate.setDay(date.getDay());
-		}
-
-		return newDate;
+		Date date = new Date();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int i = calendar.get(Calendar.DAY_OF_WEEK);
+		ClientFinanceDate financeDate = new ClientFinanceDate(
+				calendar.getTime());
+		financeDate.setDay(financeDate.getDay() - i);
+		return financeDate;
 	}
 
 	// public native double getWeekStartDate()/*-{
