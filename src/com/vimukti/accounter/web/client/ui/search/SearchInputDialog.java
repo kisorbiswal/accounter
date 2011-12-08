@@ -69,9 +69,10 @@ public class SearchInputDialog extends BaseDialog {
 			messages.estimate(), messages.journalEntry(), messages.invoice(),
 			messages.paymentFromCustomer(),
 			messages.customerRefund(Global.get().Customer()),
-			messages.cashSale(), messages.statement(), messages.transfer(),
-			messages.payeeCredit(Global.get().Vendor()), messages.vatPayment(),
-			messages.vatAdjustment() };
+			messages.cashSale(),
+			// messages.statement(),
+			messages.transfer(), messages.payeeCredit(Global.get().Vendor()),
+			messages.vatPayment(), messages.vatAdjustment() };
 
 	private String[] searchByAll = { messages.amount(), messages.date(),
 			messages.descOrMemo(), messages.payee() };// , messages.refNo() };
@@ -79,8 +80,8 @@ public class SearchInputDialog extends BaseDialog {
 	private String[] searchByPayee = { messages.payee(), messages.Account(),
 			messages.amount(), messages.date(), messages.descOrMemo() };
 
-	private String[] searchByCustomerStatement = { Global.get().Customer(),
-			messages.statementDate(), messages.statementNo() };
+	// private String[] searchByCustomerStatement = { Global.get().Customer(),
+	// messages.statementDate(), messages.statementNo() };
 
 	private String[] searchByJournalOptions = { messages.Account(),
 			messages.date(), messages.descOrMemo(), messages.journalEntryNo() };
@@ -130,7 +131,7 @@ public class SearchInputDialog extends BaseDialog {
 		dateField.setValue(new ClientFinanceDate());
 		findByItem = new TextItem(messages.findBy());
 		dateField.addStyleName("search_combo_width");
-		amountField=new AmountField(messages.findBy(), this);
+		amountField = new AmountField(messages.findBy(), this);
 		amountField.addStyleName("search_combo_width");
 		searchTypeForm = new DynamicForm();
 		searchByTypeCombo = new SelectCombo(messages.search());
@@ -208,7 +209,7 @@ public class SearchInputDialog extends BaseDialog {
 
 		labelItem = new Label();
 		labelItem.setStyleName("label-status");
-		labelItem.setText(messages.status()+": " + messages.selectCreteria());
+		labelItem.setText(messages.status() + ": " + messages.selectCreteria());
 
 		mainForm.setFields(transactionTypeCombo);
 		transactionTypeCombo.getMainWidget().getParent().getElement()
@@ -347,11 +348,11 @@ public class SearchInputDialog extends BaseDialog {
 	private int getMatachType(String selectedValue) {
 		if (selectedValue.equals(messages.contains())) {
 			return 3;
-		}else if(selectedValue.equals(messages.exact())){
+		} else if (selectedValue.equals(messages.exact())) {
 			return 0;
-		}else if(selectedValue.equals(messages.greater())){
+		} else if (selectedValue.equals(messages.greater())) {
 			return 1;
-		}else if(selectedValue.equals(messages.Less())){
+		} else if (selectedValue.equals(messages.Less())) {
 			return 2;
 		}
 		return 3;
@@ -429,9 +430,9 @@ public class SearchInputDialog extends BaseDialog {
 			return ClientTransaction.TYPE_JOURNAL_ENTRY;
 		}
 
-		if (selectItem.equals(messages.statement())) {
-			setOptiosByStatement();
-		}
+		// if (selectItem.equals(messages.statement())) {
+		// setOptiosByStatement();
+		// }
 		if (selectItem.equals(messages.transfer())) {
 			return ClientTransaction.TYPE_MAKE_DEPOSIT;
 		}
@@ -460,6 +461,7 @@ public class SearchInputDialog extends BaseDialog {
 		list.remove(2);
 		return list;
 	}
+
 	private List<String> getMatchByNumber() {
 		List<String> list = new ArrayList<String>();
 		for (String string : matchIfoptions) {
@@ -468,6 +470,7 @@ public class SearchInputDialog extends BaseDialog {
 		list.remove(0);
 		return list;
 	}
+
 	private List<String> getMatchByDate() {
 		List<String> list = new ArrayList<String>();
 		for (String string : matchIfoptions) {
@@ -526,13 +529,13 @@ public class SearchInputDialog extends BaseDialog {
 			itemCombo.getMainWidget().addStyleName("search_account_combo");
 			matchIfForm.setFields(matchIfCombo);
 			matchIfCombo.initCombo(getMatchIfComboList());
-		}else if (selectItem.equals(messages.amount())) {
+		} else if (selectItem.equals(messages.amount())) {
 			findbyForm.setFields(amountField);
 			amountField.getMainWidget().addStyleName("search_textbox");
 			matchIfForm.setFields(matchIfCombo);
 			matchIfCombo.initCombo(getMatchByNumber());
 		}
-//		matchIfCombo.getMainWidget().addStyleName("search_account_combo");
+		// matchIfCombo.getMainWidget().addStyleName("search_account_combo");
 
 	}
 
@@ -660,8 +663,8 @@ public class SearchInputDialog extends BaseDialog {
 			setOptionsForPayeeList(selectItem);
 		} else if (selectItem.equals(messages.journalEntry())) {
 			setOptionsByJournal();
-		} else if (selectItem.equals(messages.statement())) {
-			setOptiosByStatement();
+			// } else if (selectItem.equals(messages.statement())) {
+			// setOptiosByStatement();
 		} else if (selectItem.equals(messages.transfer())) {
 			setOptionsByVatOrTransfer(selectItem);
 		} else if (selectItem.equals(messages.vatPayment())) {
@@ -797,16 +800,16 @@ public class SearchInputDialog extends BaseDialog {
 		findbyForm.setFields(dateField);
 	}
 
-	private void setOptiosByStatement() {
-		searchTypeForm.clear();
-		findbyForm.clear();
-		List<String> list = new ArrayList<String>();
-		for (String string : searchByCustomerStatement) {
-			list.add(string);
-		}
-		searchByTypeCombo.initCombo(list);
-		searchTypeForm.setFields(searchByTypeCombo);
-	}
+	// private void setOptiosByStatement() {
+	// searchTypeForm.clear();
+	// findbyForm.clear();
+	// List<String> list = new ArrayList<String>();
+	// for (String string : searchByCustomerStatement) {
+	// list.add(string);
+	// }
+	// searchByTypeCombo.initCombo(list);
+	// searchTypeForm.setFields(searchByTypeCombo);
+	// }
 
 	private void setOptionsByVatOrTransfer(String selectItem) {
 		searchTypeForm.clear();
