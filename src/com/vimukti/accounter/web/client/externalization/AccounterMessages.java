@@ -4762,6 +4762,8 @@ public interface AccounterMessages extends Messages {
 
 	public String taxAgenciesList();
 
+	public String doyouwanttoDeleteObj(String name);
+
 	public String showActivitiesFor();
 
 	public String showAllActivities();
