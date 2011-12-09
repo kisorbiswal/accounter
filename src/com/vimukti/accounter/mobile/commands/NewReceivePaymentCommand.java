@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
@@ -57,38 +58,6 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				return getCustomers();
 			}
 		});
-
-		/*
-		 * list.add(new CurrencyRequirement(CURRENCY,
-		 * getMessages().pleaseSelect( getConstants().currency()),
-		 * getConstants().currency(), true, true, null) {
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } else { return null;
-		 * } }
-		 * 
-		 * @Override protected List<Currency> getLists(Context context) { return
-		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
-		 * 
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); ClientCurrency selc =
-		 * get(CURRENCY).getValue(); return "1 " + selc.getFormalName() + " = "
-		 * + value + " " + primaryCurrency.getFormalName(); }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
-		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
-		 * !((ClientCurrency) get(CURRENCY).getValue()) .equals(getPreferences()
-		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
-		 * actions); } } return null; } });
-		 */
 
 		list.add(new AccountRequirement(DEPOSIT_OR_TRANSFER_TO, getMessages()
 				.pleaseEnterNameOrNumber(getMessages().Account()),
@@ -204,7 +173,6 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
-			
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
@@ -219,6 +187,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 		list.add(new NumberRequirement(CHECK_NUMBER, getMessages().pleaseEnter(
 				getMessages().checkNo()), getMessages().checkNo(), true, true));
+
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
 				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
 			@Override
@@ -285,7 +254,8 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				record.setJournalEntry(receivePaymentTransaction
 						.getTransactionId());
 			}
-			record.setAppliedCredits(receivePaymentTransaction.getAppliedCredits());
+			record.setAppliedCredits(receivePaymentTransaction
+					.getAppliedCredits());
 			records.add(record);
 		}
 		return records;
@@ -308,9 +278,9 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 	public Double getGridTotal() {
 		Double total = 0.0D;
-		ArrayList<ClientTransactionReceivePayment> records = getClientTransactionReceivePayments();
-		payment.setTransactionReceivePayment(records);
-		for (ClientTransactionReceivePayment record : records) {
+		List<ReceivePaymentTransactionList> records = get(TRANSACTIONS)
+				.getValue();
+		for (ReceivePaymentTransactionList record : records) {
 			total += record.getPayment();
 		}
 		return total;
@@ -333,14 +303,6 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 		Account account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
 		payment.setDepositIn(account.getID());
-		/*
-		 * if (context.getPreferences().isEnableMultiCurrency()) {
-		 * ClientCurrency currency = get(CURRENCY).getValue(); if (currency !=
-		 * null) { payment.setCurrency(currency.getID()); } double factor =
-		 * get(CURRENCY_FACTOR).getValue(); payment.setCurrencyFactor(factor);
-		 * 
-		 * }
-		 */
 		String memo = get(MEMO).getValue();
 		payment.setMemo(memo);
 
@@ -349,10 +311,41 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		payment.setCurrency(customer.getID());
 		payment.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		recalculateGridAmounts();
-
+		payment.setTransactionReceivePayment(getClientTransactionReceivePayments());
 		create(payment, context);
 
 		return null;
+	}
+
+	private List<ClientTransactionReceivePayment> getTransactionRecievePayments(
+			ClientReceivePayment receivePayment) {
+
+		List<ClientTransactionReceivePayment> paymentsList = new ArrayList<ClientTransactionReceivePayment>();
+		ReceivePaymentTableRequirement requirement = (ReceivePaymentTableRequirement) get(TRANSACTIONS);
+		ArrayList<ClientTransactionReceivePayment> clientTransactionReceivePayments = getClientTransactionReceivePayments();
+		for (ClientTransactionReceivePayment payment : clientTransactionReceivePayments) {
+			payment.setTransaction(receivePayment.getID());
+
+			if (isApplyCredis()) {
+				List<ClientTransactionCreditsAndPayments> tranCreditsandPayments = requirement
+						.getTransactionCredits(payment);
+				if (tranCreditsandPayments != null)
+					for (ClientTransactionCreditsAndPayments transactionCreditsAndPayments : tranCreditsandPayments) {
+						transactionCreditsAndPayments
+								.setTransactionReceivePayment(payment);
+					}
+
+				payment.setTransactionCreditsAndPayments(tranCreditsandPayments);
+			}
+			paymentsList.add(payment);
+			payment.getTempCredits().clear();
+		}
+		return paymentsList;
+	}
+
+	private boolean isApplyCredis() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
