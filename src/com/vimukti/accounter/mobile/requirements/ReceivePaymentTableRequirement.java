@@ -11,7 +11,6 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
-import com.vimukti.accounter.web.client.ui.customers.ApplyCreditsRequirement;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class ReceivePaymentTableRequirement extends
