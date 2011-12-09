@@ -59,6 +59,9 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			t.setVariable("creditNoteNumber", memo.getNumber());
 			t.setVariable("creditNoteDate", memo.getDate().toString());
 
+			// for title
+			t.setVariable("title", brandingTheme.getCreditMemoTitle());
+
 			int customerNumber = memo.getCustomer().getNumber() == null ? 0
 					: Integer.parseInt(memo.getCustomer().getNumber());
 
