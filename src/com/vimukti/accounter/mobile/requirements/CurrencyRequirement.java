@@ -1,9 +1,15 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
 
 public abstract class CurrencyRequirement extends
 		ListRequirement<ClientCurrency> {
@@ -13,7 +19,11 @@ public abstract class CurrencyRequirement extends
 			ChangeListner<ClientCurrency> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
-		setDefaultValue(CompanyPreferenceThreadLocal.get().getPrimaryCurrency());
+		ClientCompanyPreferences clientCompanyPreferences = CompanyPreferenceThreadLocal
+				.get();
+		if (clientCompanyPreferences != null)
+			setDefaultValue(CompanyPreferenceThreadLocal.get()
+					.getPrimaryCurrency());
 
 	}
 
@@ -54,4 +64,5 @@ public abstract class CurrencyRequirement extends
 	protected String getEmptyString() {
 		return getMessages().youDontHaveAny(getMessages().currency());
 	}
+
 }

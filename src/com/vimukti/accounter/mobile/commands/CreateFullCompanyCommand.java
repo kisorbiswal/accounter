@@ -297,10 +297,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		list.add(new CurrencyRequirement(PRIMARY_CURRENCY, getMessages()
 				.primaryCurrency(), getMessages().primaryCurrency(), true,
 				true, null) {
-
 			@Override
 			protected List<ClientCurrency> getLists(Context context) {
-
 				List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
 				List<ClientCurrency> currencies = CoreUtils
 						.getCurrencies(new ArrayList<ClientCurrency>());
@@ -308,7 +306,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 					currenciesList.add(currency);
 				}
 				return currenciesList;
-
 			}
 		});
 
