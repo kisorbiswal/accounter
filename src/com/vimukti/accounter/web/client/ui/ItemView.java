@@ -934,15 +934,11 @@ public class ItemView extends BaseView<ClientItem> {
 
 			ClientAccount incomeAccount = getCompany().getAccount(
 					data.getIncomeAccount());
-			if (incomeAccount != null) {
-				accountCombo.select(incomeAccount);
-			}
+			accountCombo.setComboItem(incomeAccount);
 
 			ClientAccount expenseAccount = getCompany().getAccount(
 					data.getExpenseAccount());
-			if (expenseAccount != null) {
-				expAccCombo.setValue(expenseAccount);
-			}
+			expAccCombo.setComboItem(expenseAccount);
 
 		}
 	}
