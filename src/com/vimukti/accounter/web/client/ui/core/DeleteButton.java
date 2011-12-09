@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -39,9 +40,10 @@ public class DeleteButton extends ImageButton {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				String name = obj.getName() != null ? obj.getName() : "";
-				Accounter.showWarning(Accounter.messages().doyouwanttoDelete()
-						+ name, AccounterType.WARNING,
+				String name = getObjectName(obj);
+				String warning = Accounter.messages()
+						.doyouwanttoDeleteObj(name);
+				Accounter.showWarning(warning, AccounterType.WARNING,
 						new ErrorDialogHandler() {
 
 							@Override
@@ -63,6 +65,20 @@ public class DeleteButton extends ImageButton {
 			}
 		});
 
+	}
+
+	protected String getObjectName(IAccounterCore accounterCore) {
+		String name = "";
+		if (accounterCore instanceof ClientTransaction) {
+			name = ReportUtility
+					.getTransactionName(((ClientTransaction) accounterCore)
+							.getType());
+		} else {
+			if (accounterCore.getName() != null) {
+				name = accounterCore.getName();
+			}
+		}
+		return name;
 	}
 
 	private void executeDelete(IAccounterCore obj) {
