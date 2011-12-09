@@ -1,7 +1,9 @@
 package com.vimukti.accounter.mobile.requirements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -10,6 +12,14 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
+import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable;
+import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable.TempCredit;
 
 public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 
@@ -102,15 +112,162 @@ public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 
 	protected abstract List<ClientCreditsAndPayments> getCreditsPayments();
 
+	public List<ClientCreditsAndPayments> getAppliedCredits() {
+		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
+		for (ClientCreditsAndPayments crdPayment : getCreditsPayments()) {
+			if (!DecimalUtil.isEquals(crdPayment.getAmtTouse(), 0)) {
+				clientCreditsAndPayments.add(crdPayment);
+			}
+		}
+		return clientCreditsAndPayments;
+	}
+
+	public void checkBalance(double amount) throws Exception {
+		if (DecimalUtil.isEquals(amount, 0))
+			throw new Exception(Accounter.messages()
+					.youdnthaveBalToApplyCredits());
+	}
+
 	@Override
 	protected Result onFinish(Context context) {
 		setValue(getRequirement(AMOUNT_TO_USE).getValue());
+		updateTempCredits();
+		return null;
+	}
+
+	private void updateTempCredits() {
+		ClientTransactionReceivePayment selectedObject = getSelectedObject();
+		List<ClientCreditsAndPayments> appliedCreditsForThisRec = getAppliedCredits();
+		Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
+		TempCredit creditRec = null;
+		List<ClientTransactionReceivePayment> selectedRecords = getSelectedRecords();
+		List<ClientTransactionReceivePayment> allRecords = getAllRecords();
+		for (ClientCreditsAndPayments rec : appliedCreditsForThisRec) {
+			try {
+				checkBalance(rec.getAmtTouse());
+			} catch (Exception e) {
+				Accounter.showError(e.getMessage());
+				return;
+			}
+
+			Integer recordIndx = allRecords.indexOf(rec);
+			creditRec = new TransactionReceivePaymentTable.TempCredit();
+			for (ClientTransactionReceivePayment rcvp : selectedRecords) {
+				if (rcvp.isCreditsApplied()) {
+					for (Integer idx : rcvp.getTempCredits().keySet()) {
+						if (recordIndx == idx)
+							((TempCredit) rcvp.getTempCredits().get(idx))
+									.setRemainingBalance(rec.getBalance());
+					}
+				}
+			}
+			creditRec.setRemainingBalance(rec.getBalance());
+			creditRec.setAmountToUse(rec.getAmtTouse());
+			appliedCredits.put(recordIndx, creditRec);
+		}
+		selectedObject.setTempCredits(appliedCredits);
+		selectedObject.setCreditsApplied(true);
+
+		selectedObject.setAppliedCredits((Double) getValue());
+	}
+
+	private List<ClientTransactionReceivePayment> getAllRecords() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private List<ClientTransactionReceivePayment> getSelectedRecords() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private ClientTransactionReceivePayment getSelectedObject() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected String getDisplayValue() {
 		return String.valueOf((Double) getValue());
+	}
+
+	public List<ClientTransactionCreditsAndPayments> getTransactionCredits(
+			IAccounterCore transctn) {
+		List<ClientTransactionCreditsAndPayments> clientTransactionCreditsAndPayments = new ArrayList<ClientTransactionCreditsAndPayments>();
+		// if (transctn instanceof ClientTransactionPayBill) {
+		// ClientTransactionPayBill trPayBill = (ClientTransactionPayBill)
+		// transctn;
+		// if (trPayBill.getTempCredits() != null) {
+		// for (Integer indx : trPayBill.getTempCredits().keySet()) {
+		// ClientCreditsAndPayments crdPayment = grid
+		// .getRecordByIndex(indx);
+		// crdPayment.setBalance(crdPayment.getActualAmt());
+		// crdPayment.setRemaoningBalance(crdPayment.getBalance());
+		// crdPayment
+		// .setAmtTouse(((TransactionPayBillTable.TempCredit) trPayBill
+		// .getTempCredits().get(indx))
+		// .getAmountToUse());
+		// // }
+		// // for (IsSerializable obj : grid.getSelectedRecords()) {
+		// // ClientCreditsAndPayments crdPayment =
+		// // (ClientCreditsAndPayments)
+		// // obj;
+		// /*
+		// * For backnd purpose,they need the original dueamount(the
+		// * calculations(decreasing balance by 'amountToUse') are
+		// * done at backend side)
+		// */
+		// // crdPayment.setBalance(crdPayment.getActualAmt());
+		// ClientTransactionCreditsAndPayments creditsAndPayments = new
+		// ClientTransactionCreditsAndPayments();
+		// try {
+		// creditsAndPayments.setAmountToUse(crdPayment
+		// .getAmtTouse());
+		// } catch (Exception e) {
+		// }
+		// creditsAndPayments.setDate(crdPayment.getTransaction()
+		// .getTransactionDate());
+		// creditsAndPayments.setMemo(crdPayment.getMemo());
+		// creditsAndPayments.setCreditsAndPayments(crdPayment);
+		// clientTransactionCreditsAndPayments.add(creditsAndPayments);
+		// }
+		// }
+		// } else {
+		// ClientTransactionReceivePayment rcvPaymnt =
+		// (ClientTransactionReceivePayment) transctn;
+		// for (Integer indx : rcvPaymnt.getTempCredits().keySet()) {
+		// ClientCreditsAndPayments crdPayment = grid.getRecords().get(
+		// indx);
+		// crdPayment.setBalance(crdPayment.getActualAmt());
+		// crdPayment.setRemaoningBalance(crdPayment.getBalance());
+		// crdPayment
+		// .setAmtTouse(((TransactionReceivePaymentTable.TempCredit) (rcvPaymnt
+		// .getTempCredits().get(indx))).getAmountToUse());
+		// // }
+		// // for (IsSerializable obj : grid.getSelectedRecords()) {
+		// // ClientCreditsAndPayments crdPayment =
+		// // (ClientCreditsAndPayments)
+		// // obj;
+		// /*
+		// * For backnd purpose,they need the original dueamount(the
+		// * calculations(decreasing balance by 'amountToUse') are done at
+		// * backend side)
+		// */
+		// // crdPayment.setBalance(crdPayment.getActualAmt());
+		// ClientTransactionCreditsAndPayments creditsAndPayments = new
+		// ClientTransactionCreditsAndPayments();
+		// try {
+		// creditsAndPayments.setAmountToUse(crdPayment.getAmtTouse());
+		// } catch (Exception e) {
+		// }
+		// creditsAndPayments.setDate(crdPayment.getTransaction()
+		// .getTransactionDate());
+		// creditsAndPayments.setMemo(crdPayment.getMemo());
+		// creditsAndPayments.setCreditsAndPayments(crdPayment);
+		// clientTransactionCreditsAndPayments.add(creditsAndPayments);
+		// }
+		// }
+		return clientTransactionCreditsAndPayments;
 	}
 
 }
