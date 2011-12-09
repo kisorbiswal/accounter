@@ -136,39 +136,41 @@ public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 	}
 
 	private void updateTempCredits() {
-		ClientTransactionReceivePayment selectedObject = getSelectedObject();
-		List<ClientCreditsAndPayments> appliedCreditsForThisRec = getAppliedCredits();
-		Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
-		TempCredit creditRec = null;
-		List<ClientTransactionReceivePayment> selectedRecords = getSelectedRecords();
-		List<ClientTransactionReceivePayment> allRecords = getAllRecords();
-		for (ClientCreditsAndPayments rec : appliedCreditsForThisRec) {
-			try {
-				checkBalance(rec.getAmtTouse());
-			} catch (Exception e) {
-				Accounter.showError(e.getMessage());
-				return;
-			}
-
-			Integer recordIndx = allRecords.indexOf(rec);
-			creditRec = new TransactionReceivePaymentTable.TempCredit();
-			for (ClientTransactionReceivePayment rcvp : selectedRecords) {
-				if (rcvp.isCreditsApplied()) {
-					for (Integer idx : rcvp.getTempCredits().keySet()) {
-						if (recordIndx == idx)
-							((TempCredit) rcvp.getTempCredits().get(idx))
-									.setRemainingBalance(rec.getBalance());
-					}
-				}
-			}
-			creditRec.setRemainingBalance(rec.getBalance());
-			creditRec.setAmountToUse(rec.getAmtTouse());
-			appliedCredits.put(recordIndx, creditRec);
-		}
-		selectedObject.setTempCredits(appliedCredits);
-		selectedObject.setCreditsApplied(true);
-
-		selectedObject.setAppliedCredits((Double) getValue());
+		// ClientTransactionReceivePayment selectedObject = getSelectedObject();
+		// List<ClientCreditsAndPayments> appliedCreditsForThisRec =
+		// getAppliedCredits();
+		// Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
+		// TempCredit creditRec = null;
+		// List<ClientTransactionReceivePayment> selectedRecords =
+		// getSelectedRecords();
+		// List<ClientTransactionReceivePayment> allRecords = getAllRecords();
+		// for (ClientCreditsAndPayments rec : appliedCreditsForThisRec) {
+		// try {
+		// checkBalance(rec.getAmtTouse());
+		// } catch (Exception e) {
+		// Accounter.showError(e.getMessage());
+		// return;
+		// }
+		//
+		// Integer recordIndx = allRecords.indexOf(rec);
+		// creditRec = new TransactionReceivePaymentTable.TempCredit();
+		// for (ClientTransactionReceivePayment rcvp : selectedRecords) {
+		// if (rcvp.isCreditsApplied()) {
+		// for (Integer idx : rcvp.getTempCredits().keySet()) {
+		// if (recordIndx == idx)
+		// ((TempCredit) rcvp.getTempCredits().get(idx))
+		// .setRemainingBalance(rec.getBalance());
+		// }
+		// }
+		// }
+		// creditRec.setRemainingBalance(rec.getBalance());
+		// creditRec.setAmountToUse(rec.getAmtTouse());
+		// appliedCredits.put(recordIndx, creditRec);
+		// }
+		// selectedObject.setTempCredits(appliedCredits);
+		// selectedObject.setCreditsApplied(true);
+		//
+		// selectedObject.setAppliedCredits((Double) getValue());
 	}
 
 	private List<ClientTransactionReceivePayment> getAllRecords() {
