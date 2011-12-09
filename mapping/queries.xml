@@ -1792,5 +1792,9 @@
 		where
 		bankAccount.id=:fromID and company=:company
 	</query>
-
+	<query name="getEnterBillByEstimate">
+		<query-param name="estimate" type="Estimate" />
+		from com.vimukti.accounter.core.EnterBill eb left join eb.estimates es where es=:estimate 
+		
+	</query>
 </hibernate-mapping>
