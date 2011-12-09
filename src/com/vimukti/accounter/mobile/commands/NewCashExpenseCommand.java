@@ -16,6 +16,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -317,7 +318,28 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				return e.getName().contains(name);
 			}
 		});
+		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				ClientCompanyPreferences preferences = context.getPreferences();
+				if (preferences.isTrackTax()
+						&& !preferences.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 
+			@Override
+			protected String getTrueString() {
+				return "Include VAT with Amount enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Include VAT with Amount disabled";
+			}
+		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 
@@ -358,15 +380,15 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		cashPurchase.setMemo(memoText);
 
 		items.addAll(accounts);
-
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			cashPurchase.setAmountsIncludeVAT(isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-
 		cashPurchase.setTransactionItems(items);
 		cashPurchase.setCurrency(vendor.getCurrency().getID());
 		cashPurchase

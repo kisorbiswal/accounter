@@ -29,6 +29,7 @@ import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement
 import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -39,6 +40,7 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
+	ClientVendorCreditMemo vendorCreditMemo;
 
 	@Override
 	protected String getWelcomeMessage() {
@@ -287,7 +289,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 		if (items.isEmpty() && accounts.isEmpty()) {
 			return new Result();
 		}
-		ClientVendorCreditMemo vendorCreditMemo = new ClientVendorCreditMemo();
+		vendorCreditMemo = new ClientVendorCreditMemo();
 
 		ClientFinanceDate date = get(DATE).getValue();
 		vendorCreditMemo.setDate(date.getDate());
@@ -328,7 +330,75 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+
+		if (!context.getPreferences().isKeepTrackofBills()) {
+			addFirstMessage(context, "You dnt have permission to do this.");
+			return "cancel";
+		}
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().vendorCreditMemo()));
+				return "bills List";
+			}
+			vendorCreditMemo = getTransaction(string,
+					AccounterCoreType.VENDORCREDITMEMO, context);
+
+			if (vendorCreditMemo == null) {
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().vendorCreditMemo()));
+				return "Bills List " + string;
+			}
+			setValues(context);
+		} else {
+			String string = context.getString();
+			if (!string.isEmpty()) {
+				get(NUMBER).setValue(string);
+			}
+			vendorCreditMemo = new ClientVendorCreditMemo();
+		}
+		setTransaction(vendorCreditMemo);
 		return null;
+
+	}
+
+	private void setValues(Context context) {
+		get(VENDOR).setValue(
+				CommandUtils.getServerObjectById(vendorCreditMemo.getVendor(),
+						AccounterCoreType.VENDOR));
+		get(CURRENCY_FACTOR).setValue(vendorCreditMemo.getCurrencyFactor());
+		get(DATE).setValue(vendorCreditMemo.getDate());
+		get(NUMBER).setValue(vendorCreditMemo.getNumber());
+		get(CONTACT).setValue(toServerContact(vendorCreditMemo.getContact()));
+		get(PHONE).setValue(vendorCreditMemo.getPhone());
+
+		ArrayList<ClientTransactionItem> itemsList = new ArrayList<ClientTransactionItem>();
+		ArrayList<ClientTransactionItem> accountsList = new ArrayList<ClientTransactionItem>();
+		if (vendorCreditMemo.getTransactionItems() != null
+				&& !vendorCreditMemo.getTransactionItems().isEmpty()) {
+			for (ClientTransactionItem item : vendorCreditMemo
+					.getTransactionItems()) {
+				if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+					accountsList.add(item);
+				} else {
+					itemsList.add(item);
+				}
+			}
+		}
+		get(ACCOUNTS).setValue(accountsList);
+		get(ITEMS).setValue(itemsList);
+		ClientCompanyPreferences preferences = context.getPreferences();
+		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+			get(TAXCODE).setValue(
+					getTaxCodeForTransactionItems(
+							vendorCreditMemo.getTransactionItems(), context));
+		}
+		get(MEMO).setValue(vendorCreditMemo.getMemo());
 	}
 
 	@Override

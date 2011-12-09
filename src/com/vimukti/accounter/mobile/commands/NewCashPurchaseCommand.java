@@ -19,6 +19,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
@@ -61,7 +62,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(context, "Select a Cash Purchase to update.");
 				return "Bills And Expenses List " + string;
 			}
-			setValues();
+			setValues(context);
 		} else {
 			String string = context.getString();
 			if (!string.isEmpty()) {
@@ -73,7 +74,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		return null;
 	}
 
-	private void setValues() {
+	private void setValues(Context context) {
 		get(CURRENCY_FACTOR).setValue(cashPurchase.getCurrencyFactor());
 		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
 		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
@@ -84,6 +85,13 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 			} else {
 				items.add(clientTransactionItem);
 			}
+		}
+		if (getPreferences().isTrackTax()
+				&& !getPreferences().isTaxPerDetailLine()) {
+			get(TAXCODE).setValue(
+					getTaxCodeForTransactionItems(
+							cashPurchase.getTransactionItems(), context));
+			get(IS_VAT_INCLUSIVE).setValue(cashPurchase.isAmountsIncludeVAT());
 		}
 		get(ITEMS).setValue(items);
 		get(ACCOUNTS).setValue(accounts);
@@ -425,7 +433,28 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 				return null;
 			}
 		});
+		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				ClientCompanyPreferences preferences = context.getPreferences();
+				if (preferences.isTrackTax()
+						&& !preferences.isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 
+			@Override
+			protected String getTrueString() {
+				return "Include VAT with Amount enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Include VAT with Amount disabled";
+			}
+		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
 	}
