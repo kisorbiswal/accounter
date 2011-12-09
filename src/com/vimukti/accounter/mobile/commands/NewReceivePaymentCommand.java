@@ -285,6 +285,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				record.setJournalEntry(receivePaymentTransaction
 						.getTransactionId());
 			}
+			record.setAppliedCredits(receivePaymentTransaction.getAppliedCredits());
 			records.add(record);
 		}
 		return records;
