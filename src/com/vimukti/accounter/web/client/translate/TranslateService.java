@@ -1,11 +1,11 @@
 package com.vimukti.accounter.web.client.translate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
+import com.vimukti.accounter.web.client.core.PaginationList;
 
 public interface TranslateService extends RemoteService {
 
@@ -17,8 +17,8 @@ public interface TranslateService extends RemoteService {
 
 	boolean vote(long localMessageId);
 
-	ArrayList<ClientMessage> getMessages(String lang, int status, int from,
-			int to, String searchTerm);
+	PaginationList<ClientMessage> getMessages(String lang, int status,
+			int from, int to, String searchTerm);
 
 	boolean setApprove(long localMessageId, boolean isApprove);
 
@@ -27,7 +27,7 @@ public interface TranslateService extends RemoteService {
 	ClientLanguage getLocalLanguage();
 
 	public boolean validateUserValue(ClientMessage clientMessage, String data);
-	
+
 	public Set<String> getServerMatchList();
 
 	boolean canApprove(String lang);

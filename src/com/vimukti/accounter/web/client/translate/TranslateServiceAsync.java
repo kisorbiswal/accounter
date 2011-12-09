@@ -1,11 +1,11 @@
 package com.vimukti.accounter.web.client.translate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
+import com.vimukti.accounter.web.client.core.PaginationList;
 
 public interface TranslateServiceAsync {
 
@@ -20,7 +20,8 @@ public interface TranslateServiceAsync {
 	void vote(long localMessageId, AsyncCallback<Boolean> callback);
 
 	void getMessages(String lang, int status, int from, int to,
-			String searchTerm, AsyncCallback<ArrayList<ClientMessage>> callback);
+			String searchTerm,
+			AsyncCallback<PaginationList<ClientMessage>> callback);
 
 	public void setApprove(long localMessageId, boolean isApprove,
 			AsyncCallback<Boolean> callback);

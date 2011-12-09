@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.translate.TranslateService;
@@ -83,7 +84,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public ArrayList<ClientMessage> getMessages(String lang, int status,
+	public PaginationList<ClientMessage> getMessages(String lang, int status,
 			int from, int to, String searchTerm) {
 		String userEmail = getUserEmail();
 		if (userEmail == null) {
