@@ -20,7 +20,7 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	private Widget createControl() {
-		setPage(new PortletPage(PortletPage.DASHBOARD));
+		page = new PortletPage(PortletPage.DASHBOARD);
 		return getPage();
 	}
 

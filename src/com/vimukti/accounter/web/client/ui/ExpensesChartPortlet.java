@@ -13,6 +13,7 @@ import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.reports.ExpensePortletToolBar;
 import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
 
 public class ExpensesChartPortlet extends GraphPointsPortlet {
@@ -27,10 +28,49 @@ public class ExpensesChartPortlet extends GraphPointsPortlet {
 
 	@Override
 	public void createBody() {
-		toolBar = new PortletToolBar(this);
+		toolBarInitilization();
 		graphPanel = new VerticalPanel();
 		this.body.add(toolBar);
 		this.body.add(graphPanel);
+
+	}
+
+	private void toolBarInitilization() {
+		toolBar = new ExpensePortletToolBar() {
+			@Override
+			protected void initData() {
+				if (ExpensesChartPortlet.this.getConfiguration()
+						.getPortletKey() != null) {
+					setDefaultDateRange(ExpensesChartPortlet.this
+							.getConfiguration().getPortletKey());
+				} else {
+					setDefaultDateRange(messages.thisMonth());
+				}
+			}
+
+			@Override
+			protected void refreshPortletData(String selectItem) {
+				ExpensesChartPortlet.this.clearGraph();
+				dateRangeItemCombo.setSelected(selectItem);
+				ExpensesChartPortlet.this.getConfiguration().setPortletKey(
+						selectItem);
+				dateRangeChanged(selectItem);
+				ExpensesChartPortlet.this.updateData(startDate.getDate(),
+						endDate.getDate());
+			}
+
+			@Override
+			public void setDefaultDateRange(String defaultDateRange) {
+				dateRangeItemCombo.setSelected(defaultDateRange);
+				dateRangeChanged(defaultDateRange);
+				ExpensesChartPortlet.this.updateData(startDate.getDate(),
+						endDate.getDate());
+			}
+		};
+	}
+
+	protected void refreshPortletData(String selectItem) {
+
 	}
 
 	public void updateData(long startDate, long endDate) {
