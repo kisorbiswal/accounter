@@ -74,7 +74,7 @@ public class NewWareHouseCommand extends NewAbstractCommand {
 		get(POSTAL_CODE).setValue(address.getZipOrPostalCode());
 
 		ClientContact contact = warehouse.getContact();
-		get(CONTACT_NAME).setValue(contact.getName());
+		get(CONTACT_NAME).setValue(contact == null ? null : contact.getName());
 		get(CONTACT_NUM).setValue(contact.getBusinessPhone());
 	}
 

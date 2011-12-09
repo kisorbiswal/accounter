@@ -212,6 +212,15 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnterName(
 				getMessages().taxCode()), getMessages().taxCode(), false, true,
 				null) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (context.getPreferences().isTrackTax()
+						&& !context.getPreferences().isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 
 			@Override
 			protected List<TAXCode> getLists(Context context) {

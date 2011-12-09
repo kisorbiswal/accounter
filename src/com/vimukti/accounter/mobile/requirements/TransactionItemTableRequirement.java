@@ -230,6 +230,7 @@ public abstract class TransactionItemTableRequirement extends
 		clientQuantity.setValue(1.0);
 		clientTransactionItem.setQuantity(clientQuantity);
 		clientTransactionItem.setDiscount(0.0);
+		clientTransactionItem.setLineTotal(0d);
 		return clientTransactionItem;
 	}
 
@@ -249,8 +250,10 @@ public abstract class TransactionItemTableRequirement extends
 		} else {
 			formalName = getPreferences().getPrimaryCurrency().getFormalName();
 		}
-		record.add(getMessages().unitPrice() + "(" + formalName + ")", Global
-				.get().toCurrencyFormat(t.getUnitPrice()));
+		record.add(
+				getMessages().unitPrice() + "(" + formalName + ")",
+				Global.get().toCurrencyFormat(
+						t.getUnitPrice() == null ? 0d : t.getUnitPrice()));
 		if (getPreferences().isTrackTax()) {
 			if (getPreferences().isTaxPerDetailLine()) {
 				record.add(getMessages().taxCode(),
