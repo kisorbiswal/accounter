@@ -204,8 +204,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 						salesOrder.getID());
 			}
 		});
-		horizontalPanel.add(new Label(Accounter.messages().totalWithCurrencyName(
-				Accounter.messages().salesOrder())
+		horizontalPanel.add(new Label(Accounter.messages()
+				.totalWithCurrencyName(Accounter.messages().salesOrder())
 				+ " : " + salesOrder.getTotal()));
 		transactionTree.setUserObject(salesOrder);
 		salesOrderTree.addItem(transactionTree);
@@ -240,11 +240,12 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		transactionTree.setUserObject(estimate);
 		billableTree.addItem(transactionTree);
 		CheckBox checkBox = new CheckBox();
-		transactionTree.setWidget(checkBox);
+		// transactionTree.setWidget(checkBox);
 		checkBox.setValue(isSelected);
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.add(checkBox);
 		horizontalPanel.addStyleName("transactionPanel");
-		transactionTree.addItem(horizontalPanel);
+		transactionTree.setWidget(horizontalPanel);
 		Anchor transactionLabel = new Anchor(transactionLink) {
 			@Override
 			public void setEnabled(boolean enabled) {
@@ -261,9 +262,10 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			}
 		};
 		horizontalPanel.add(transactionLabel);
-		horizontalPanel.add(new Label(Accounter.messages().totalWithCurrencyName(
-				Accounter.messages().billabe())
-				+ " : " + estimate.getTotal()));
+		horizontalPanel.add(new Label(Accounter.messages()
+				.totalWithCurrencyName(Accounter.messages().billabe())
+				+ " : "
+				+ estimate.getTotal()));
 		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -318,10 +320,11 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			}
 		});
 		checkBox.setValue(isSelected);
-		transactionTree.setWidget(checkBox);
+		// transactionTree.setWidget(checkBox);
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.add(checkBox);
 		horizontalPanel.addStyleName("transactionPanel");
-		transactionTree.addItem(horizontalPanel);
+		transactionTree.setWidget(horizontalPanel);
 		Anchor transactionLabel = new Anchor(transactionLink) {
 			@Override
 			public void setEnabled(boolean enabled) {
@@ -347,9 +350,10 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 						estimate.getID());
 			}
 		});
-		horizontalPanel.add(new Label(Accounter.messages().totalWithCurrencyName(
-				Accounter.messages().quote())
-				+ " : " + estimate.getTotal()));
+		horizontalPanel.add(new Label(Accounter.messages()
+				.totalWithCurrencyName(Accounter.messages().quote())
+				+ " : "
+				+ estimate.getTotal()));
 		transactionTree.setUserObject(estimate);
 		quotesTree.addItem(transactionTree);
 		addTransactionTree(transactionTree, estimate);
@@ -390,10 +394,11 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			}
 		});
 		checkBox.setValue(isSelected);
-		transactionTree.setWidget(checkBox);
+		// transactionTree.setWidget(checkBox);
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.add(checkBox);
 		horizontalPanel.addStyleName("transactionPanel");
-		transactionTree.addItem(horizontalPanel);
+		transactionTree.setWidget(horizontalPanel);
 		Anchor transactionLabel = new Anchor(transactionLink) {
 			@Override
 			public void setEnabled(boolean enabled) {
@@ -419,9 +424,10 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 						estimate.getID());
 			}
 		});
-		horizontalPanel.add(new Label(Accounter.messages().totalWithCurrencyName(
-				Accounter.messages().charge())
-				+ " : " + estimate.getTotal()));
+		horizontalPanel.add(new Label(Accounter.messages()
+				.totalWithCurrencyName(Accounter.messages().charge())
+				+ " : "
+				+ estimate.getTotal()));
 		transactionTree.setUserObject(estimate);
 		chargesTree.addItem(transactionTree);
 		addTransactionTree(transactionTree, estimate);
@@ -460,10 +466,10 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			}
 		});
 		checkBox.setValue(isSelected);
-		transactionTree.setWidget(checkBox);
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.add(checkBox);
 		horizontalPanel.addStyleName("transactionPanel");
-		transactionTree.addItem(horizontalPanel);
+		transactionTree.setWidget(horizontalPanel);
 		Anchor transactionLabel = new Anchor(Accounter.messages().credit()) {
 			@Override
 			public void setEnabled(boolean enabled) {
@@ -489,9 +495,10 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 						estimate.getID());
 			}
 		});
-		horizontalPanel.add(new Label(Accounter.messages().totalWithCurrencyName(
-				Accounter.messages().credit())
-				+ " : " + estimate.getTotal()));
+		horizontalPanel.add(new Label(Accounter.messages()
+				.totalWithCurrencyName(Accounter.messages().credit())
+				+ " : "
+				+ estimate.getTotal()));
 		transactionTree.setUserObject(estimate);
 		creditsTree.addItem(transactionTree);
 		addTransactionTree(transactionTree, estimate);
@@ -521,6 +528,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			box.setValue(value);
 			treeItem.setState(value);
 		}
+
 		ClientTransaction transaction = (ClientTransaction) treeItem
 				.getUserObject();
 		if (transaction != null) {
@@ -537,6 +545,15 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			if (widget instanceof CheckBox) {
 				CheckBox box = (CheckBox) widget;
 				box.setValue(value);
+			}
+
+			if (widget != null && widget instanceof HorizontalPanel) {
+				HorizontalPanel hPanel = (HorizontalPanel) widget;
+				Widget checkBox = hPanel.getWidget(0);
+				if (checkBox instanceof CheckBox) {
+					CheckBox childBox = (CheckBox) checkBox;
+					childBox.setValue(value);
+				}
 			}
 		}
 		updateTransactionTreeItemTotals();
@@ -571,14 +588,20 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			for (int j = 0; j < item.getChildCount(); j++) {
 				TreeItem child = item.getChild(j);
 				Widget childWidget = child.getWidget();
-				if (childWidget instanceof CheckBox) {
-					CheckBox childBox = (CheckBox) childWidget;
-					if (childBox.getValue()) {
-						ClientTransaction userObject = (ClientTransaction) child
-								.getUserObject();
-						selected.add(userObject);
+				if (childWidget != null
+						&& childWidget instanceof HorizontalPanel) {
+					HorizontalPanel hPanel = (HorizontalPanel) childWidget;
+					Widget checkBox = hPanel.getWidget(0);
+					if (checkBox instanceof CheckBox) {
+						CheckBox childBox = (CheckBox) checkBox;
+						if (childBox.getValue()) {
+							ClientTransaction userObject = (ClientTransaction) child
+									.getUserObject();
+							selected.add(userObject);
+						}
 					}
 				}
+
 			}
 		}
 		return selected;
@@ -665,8 +688,13 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 				childBox.setEnabled(isEnabled);
 			}
 			if (childWidget != null && childWidget instanceof HorizontalPanel) {
-				HorizontalPanel anchor = (HorizontalPanel) childWidget;
-				Widget widget2 = anchor.getWidget(0);
+				HorizontalPanel hPanel = (HorizontalPanel) childWidget;
+				Widget checkBox = hPanel.getWidget(0);
+				if (checkBox != null && checkBox instanceof CheckBox) {
+					CheckBox childBox = (CheckBox) checkBox;
+					childBox.setEnabled(isEnabled);
+				}
+				Widget widget2 = hPanel.getWidget(1);
 				if (widget2 != null && widget2 instanceof Anchor) {
 					Anchor childAnchor = (Anchor) widget2;
 					childAnchor.setEnabled(isEnabled);
