@@ -75,14 +75,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 		list.add(new PaymentTermRequirement(PAYMENT_TERM, getMessages()
 				.pleaseSelect(getMessages().paymentTerm()), getMessages()
-				.paymentTerm(), false, true, new ChangeListner<PaymentTerms>() {
-
-			@Override
-			public void onSelection(PaymentTerms value) {
-				// TODO Auto-generated method stub
-
-			}
-		}) {
+				.paymentTerm(), false, true, null) {
 
 			@Override
 			protected List<PaymentTerms> getLists(Context context) {
@@ -122,21 +115,13 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 		});
 
 		list.add(new StringListRequirement(VAT_RETURN, getMessages()
 				.pleaseSelect(getMessages().taxReturn()), "Vat Return", false,
-				true, new ChangeListner<String>() {
-
-					@Override
-					public void onSelection(String value) {
-						// TODO Auto-generated method stub
-
-					}
-				}) {
+				true, null) {
 			@Override
 			protected String getSetMessage() {
 				return null;
@@ -175,15 +160,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 				.pleaseSelect(
 						getMessages().sales() + getMessages().liability()
 								+ getMessages().account()), getMessages()
-				.sales() + getMessages().account(), false, true,
-				new ChangeListner<Account>() {
-
-					@Override
-					public void onSelection(Account value) {
-						// TODO Auto-generated method stub
-
-					}
-				}) {
+				.sales() + getMessages().account(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -219,15 +196,7 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 				.pleaseSelect(
 						getMessages().purchase() + getMessages().liability()
 								+ getMessages().account()), getMessages()
-				.purchase() + getMessages().account(), false, true,
-				new ChangeListner<Account>() {
-
-					@Override
-					public void onSelection(Account value) {
-						// TODO Auto-generated method stub
-
-					}
-				}) {
+				.purchase() + getMessages().account(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -316,20 +285,23 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isTrackTax()) {
-			addFirstMessage(context, "You do not have permission to do this.");
+			addFirstMessage(context, getMessages()
+					.youDntHavePermissionToDoThis());
 			return "cancel";
 		}
 
 		String string = context.getString();
 		if (isUpdate) {
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Tax Agency to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().taxAgency()));
 				return "vendors";
 			}
 			ClientPayee vendorByName = CommandUtils.getPayeeByName(
 					context.getCompany(), string);
 			if (vendorByName == null) {
-				addFirstMessage(context, "Select a Tax Agency to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().taxAgency()));
 				return "vendors " + string;
 			}
 			taxAgency = (ClientTAXAgency) vendorByName;
@@ -382,8 +354,9 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return taxAgency.getID() == 0 ? "Vat Agency is ready to create with the following values"
-				: "VAT Agency is ready to update with following details";
+		return taxAgency.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().taxAgency()) : getMessages().readyToUpdate(
+				getMessages().taxAgency());
 	}
 
 	@Override
@@ -393,8 +366,9 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return taxAgency.getID() == 0 ? "Vat Agency created successfully"
-				: "VAT Agency is updated successfully";
+		return taxAgency.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().taxAgency()) : getMessages().updateSuccessfully(
+				getMessages().taxAgency());
 	}
 
 	@Override
@@ -408,26 +382,15 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 		PaymentTerms paymentTerm = get(PAYMENT_TERM).getValue();
 		Account salesAccount = get(SALES_ACCOUNT).getValue();
 
-		// ClientAddress address = (ClientAddress) get(VAT_AGENCY_ADDRESS)
-		// .getValue();
-
 		String phone = (String) get(PHONE).getValue();
 		String fax = (String) get(FAX).getValue();
 		String email = (String) get(EMAIL).getValue();
 		String website = (String) get(WEBSITE).getValue();
 
-		// Set<ClientContact> contacts = get(VAT_AGENCY_CONTACT).getValue();
-		//
-		// HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
-		// if (address != null) {
-		// addresses.add(address);
-		// }
-
 		taxAgency.setName(name);
 		taxAgency.setPaymentTerm(paymentTerm.getID());
 		taxAgency.setSalesLiabilityAccount(salesAccount == null ? 0
 				: salesAccount.getID());
-		// taxAgency.setAddress(addresses);
 		taxAgency.setPhoneNo(phone);
 		taxAgency.setFaxNo(fax);
 		taxAgency.setEmail(email);

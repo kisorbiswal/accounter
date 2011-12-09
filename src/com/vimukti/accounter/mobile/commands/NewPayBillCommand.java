@@ -60,8 +60,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return paybill.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().payBill())
-				: "Pay bill is ready to update with follwoing values ";
+				getMessages().payBill()) : getMessages().readyToUpdate(
+				getMessages().payBill());
 	}
 
 	@Override
@@ -72,17 +72,14 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(FILTER_BY_DUE_ON_BEFORE).setDefaultValue(new ClientFinanceDate());
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
 
 	}
 
 	@Override
 	public String getSuccessMessage() {
 		return paybill.getID() == 0 ? getMessages().createSuccessfully(
-				getMessages().payBill()) : "Pay bill updated successfully";
+				getMessages().payBill()) : getMessages().updateSuccessfully(
+				getMessages().payBill());
 	}
 
 	@Override
@@ -280,7 +277,6 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				return (Vendor) NewPayBillCommand.this.get(VENDOR).getValue();
 			}
 
-			
 		});
 
 	}
@@ -317,13 +313,15 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Bill to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().payBill()));
 				return "Bills And Expenses List";
 			}
 			paybill = getTransaction(string, AccounterCoreType.PAYBILL, context);
 
 			if (paybill == null) {
-				addFirstMessage(context, "Select a Bill to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().payBill()));
 				return "Bills And Expenses List " + string;
 			}
 			setValues(context);
@@ -411,14 +409,6 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 		paybill.setMemo(memo);
 		paybill.setCurrency(vendor.getCurrency().getID());
 		paybill.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
-		/*
-		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
-		 * currency = get(CURRENCY).getValue(); if (currency != null) {
-		 * paybill.setCurrency(currency.getID()); } double factor =
-		 * get(CURRENCY_FACTOR).getValue(); paybill.setCurrencyFactor(factor);
-		 * 
-		 * }
-		 */
 
 		if (context.getPreferences().isTDSEnabled()) {
 

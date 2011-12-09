@@ -549,8 +549,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return cashSale.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().cashSale())
-				: "Cash sale is ready to update with following details";
+				getMessages().cashSale()) : getMessages().readyToUpdate(
+				getMessages().cashSale());
 	}
 
 	@Override
@@ -577,9 +577,8 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(
-					context,
-					"Transaction total can not zero or less than zero.So you can't finish this command");
+			addFirstMessage(context, getMessages()
+					.transactiontotalcannotbe0orlessthan0());
 		}
 		super.beforeFinishing(context, makeResult);
 	}
@@ -590,13 +589,15 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Cash Sale to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().cashSale()));
 				return "Invoices List";
 			}
 			cashSale = getTransaction(string, AccounterCoreType.CASHSALES,
 					context);
 			if (cashSale == null) {
-				addFirstMessage(context, "Select a Cash Sale to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().cashSale()));
 				return "Invoices List " + string;
 			}
 			setValues();

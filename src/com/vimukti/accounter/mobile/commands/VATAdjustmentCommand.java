@@ -99,40 +99,6 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		/*
-		 * list.add(new CurrencyRequirement(CURRENCY,
-		 * getMessages().pleaseSelect( getConstants().currency()),
-		 * getConstants().currency(), true, true, null) {
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (context.getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } else { return null;
-		 * } }
-		 * 
-		 * @Override protected List<Currency> getLists(Context context) { return
-		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
-		 * 
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
-		 * return "1 " + selc.getFormalName() + " = " + value + " " +
-		 * primaryCurrency.getFormalName(); }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
-		 * != null) { if (context.getPreferences().isEnableMultiCurrency() &&
-		 * !((Currency) get(CURRENCY).getValue())
-		 * .equals(context.getPreferences().getPrimaryCurrency())) { return
-		 * super.run(context, makeResult, list, actions); } } return null;
-		 * 
-		 * } });
-		 */
-
 		list.add(new TaxItemRequirement(TAX_ITEM, getMessages()
 				.pleaseEnterName(getMessages().taxItem()), getMessages()
 				.taxItem(), false, true, null) {
@@ -267,15 +233,6 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
 		taxAdjustment.setMemo(memo);
 
-		/*
-		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
-		 * currency = get(CURRENCY).getValue(); if (currency != null) {
-		 * taxAdjustment.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * taxAdjustment.setCurrencyFactor(factor); }
-		 */
-
 		create(taxAdjustment, context);
 
 		return null;
@@ -284,7 +241,8 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isTrackTax()) {
-			addFirstMessage(context, "You dnt have permission to do this.");
+			addFirstMessage(context, getMessages()
+					.youDntHavePermissionToDoThis());
 			return "cancel";
 		}
 		return null;
@@ -311,10 +269,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 								getCompany()));
 		get(MEMO).setDefaultValue(new String());
 		get(IS_SALES).setDefaultValue(true);
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
+
 	}
 
 	@Override
@@ -324,10 +279,7 @@ public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Payee getPayee() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
 
 }

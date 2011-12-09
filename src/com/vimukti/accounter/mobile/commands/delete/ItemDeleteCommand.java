@@ -13,7 +13,7 @@ public class ItemDeleteCommand extends AbstractDeleteCommand {
 			delete(AccounterCoreType.ITEM, itemId, context);
 		} catch (AccounterException e) {
 			addFirstMessage(context,
-					"You can not delete. This Might be participating in transactions.");
+					getMessages().payeeInUse(getMessages().item()));
 		}
 		return "Items";
 	}

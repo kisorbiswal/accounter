@@ -18,7 +18,7 @@ public class ShippingTermDeleteCommand extends AbstractDeleteCommand {
 			delete(AccounterCoreType.SHIPPING_TERM, shippingTermId, context);
 		} catch (AccounterException e) {
 			addFirstMessage(context,
-					"You can not delete. This shippingTerm Might be used in some transactions.");
+					getMessages().payeeInUse(getMessages().shippingTerm()));
 		}
 		return "Shipping Terms";
 	}

@@ -22,7 +22,7 @@ public class UsersCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new ShowListRequirement<ClientUserInfo>("UsersList",
-				"Please Select User", 20) {
+				getMessages().pleaseSelect(getMessages().users()), 20) {
 
 			@Override
 			protected String onSelection(ClientUserInfo value) {

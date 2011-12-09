@@ -13,7 +13,7 @@ public class VendorDeleteCommand extends AbstractDeleteCommand {
 			delete(AccounterCoreType.VENDOR, vendorId, context);
 		} catch (AccounterException e) {
 			addFirstMessage(context,
-					"You can not delete. This vendor might be participating in some transactions");
+					getMessages().payeeInUse(getMessages().vendor()));
 		}
 		return "Vendors";
 	}

@@ -4809,6 +4809,7 @@ public interface AccounterMessages extends Messages {
 	public String paypal();
 
 	public String unitDefault();
+
 	public String unitNotDefault();
 
 	public String selectItemToUpdate();
@@ -4818,4 +4819,20 @@ public interface AccounterMessages extends Messages {
 	public String inAllactiveAccounts();
 
 	public String allAccounts();
+
+	public String cuurentAccount();
+
+	public String checking();
+
+	public String moneyMarket();
+
+	public String saving();
+
+	public String nameShouldbewithinThe1100to1179Ranage();
+
+	public String selectATransactionToUpdate(String transactionName);
+
+	public String youdontHavepermissiosToinviteUser();
+
+	public String youDntHavePermissionToDoThis();
 }

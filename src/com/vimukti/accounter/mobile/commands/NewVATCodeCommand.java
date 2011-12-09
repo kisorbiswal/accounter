@@ -76,7 +76,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 		list.add(new ListRequirement<TAXItemGroup>(VATITEM_FOR_SALES,
 				getMessages().pleaseSelect(getMessages().taxItemForSales()),
-				"Vat item or Group for Sales", true, true, null) {
+				getMessages().taxItemForSales(), true, true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -97,7 +97,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return "vat item or group has been selected";
+				return getMessages().hasSelected(getMessages().taxCode());
 			}
 
 			@Override
@@ -138,7 +138,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 		list.add(new ListRequirement<TAXItemGroup>(
 				VATITEM_FOR_PURCHASE,
 				getMessages().pleaseSelect(getMessages().taxItemForPurchases()),
-				"Vat item or Group for Purchases", false, true, null) {
+				getMessages().taxItemForPurchases(), false, true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -153,7 +153,6 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
@@ -231,13 +230,15 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isTrackTax()) {
-			addFirstMessage(context, "You dnt have permission to do this.");
+			addFirstMessage(context, getMessages()
+					.youDntHavePermissionToDoThis());
 			return "cancel";
 		}
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a VAT Code to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().taxCode()));
 				return "VAT Codes List";
 			}
 			taxCode = (ClientTAXCode) CommandUtils.getClientObjectById(
@@ -245,7 +246,8 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 					getCompanyId());
 
 			if (taxCode == null) {
-				addFirstMessage(context, "Select a VAT Code to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().taxCode()));
 				return "VAT Codes List " + string;
 			}
 			get(TAX_CODE).setValue(taxCode.getName());
@@ -278,8 +280,9 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return taxCode.getID() == 0 ? "New vat code commond is ready to create with the following values"
-				: "VAT Code is ready to update with following values";
+		return taxCode.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().taxCode()) : getMessages().readyToUpdate(
+				getMessages().taxCode());
 	}
 
 	@Override
@@ -290,8 +293,9 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return taxCode.getID() == 0 ? "New vat code commond is created successfully"
-				: "VAT Code updated successfully";
+		return taxCode.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().taxCode()) : getMessages().updateSuccessfully(
+				getMessages().taxCode());
 	}
 
 	private List<TAXItemGroup> getFilteredVATItems(Context context,

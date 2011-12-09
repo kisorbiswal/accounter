@@ -67,13 +67,19 @@ public class NewPaymentTermCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Payment Term to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().paymentTerm()));
 				return "Payment Terms List";
 			}
 			ClientPaymentTerms paymentTermsByName = CommandUtils
 					.getPaymentTermByName(context.getCompany(), string);
 			if (paymentTermsByName == null) {
-				addFirstMessage(context, "Select a Payment Term to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().paymentTerm()));
 				return "Payment Terms List " + string.trim();
 			}
 			paymentTerms = paymentTermsByName;
@@ -102,9 +108,9 @@ public class NewPaymentTermCommand extends NewAbstractCommand {
 	@Override
 	protected String getDetailsMessage() {
 		if (paymentTerms.getID() == 0) {
-			return "New Payment term command is ready to create with the following values";
+			return getMessages().readyToCreate(getMessages().paymentTerm());
 		} else {
-			return "Payment term is ready update with following values";
+			return getMessages().readyToUpdate(getMessages().paymentTerm());
 		}
 	}
 
@@ -117,9 +123,11 @@ public class NewPaymentTermCommand extends NewAbstractCommand {
 	@Override
 	public String getSuccessMessage() {
 		if (paymentTerms.getID() == 0) {
-			return "New payment term is created successfully";
+			return getMessages()
+					.createSuccessfully(getMessages().paymentTerm());
 		} else {
-			return "Payment term updated successfully";
+			return getMessages()
+					.updateSuccessfully(getMessages().paymentTerm());
 		}
 	}
 

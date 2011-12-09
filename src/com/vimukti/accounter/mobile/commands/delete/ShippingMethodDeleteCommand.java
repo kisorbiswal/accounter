@@ -13,7 +13,7 @@ public class ShippingMethodDeleteCommand extends AbstractDeleteCommand {
 			delete(AccounterCoreType.SHIPPING_METHOD, shippingMethodID, context);
 		} catch (AccounterException e) {
 			addFirstMessage(context,
-					"You can not delete. This shipping method Might be used in some transactions.");
+					getMessages().payeeInUse(getMessages().shippingMethod()));
 		}
 		return "Shipping Methods";
 	}

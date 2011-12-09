@@ -29,15 +29,19 @@ public class NewWareHouseTransferCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context,
-						"Select a Warehouse transfer to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().wareHouseTransfer()));
 				return "WareHouse Transfer List";
 			}
 			ClientStockTransfer clientWarehouse = CommandUtils
 					.getWareHouseTransfer(context.getCompany(), string);
 			if (clientWarehouse == null) {
-				addFirstMessage(context,
-						"Select a Warehouse transfer to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().wareHouseTransfer()));
 				return "WareHouse Transfer List " + string;
 			}
 			stockTransfer = clientWarehouse;
@@ -63,8 +67,9 @@ public class NewWareHouseTransferCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return stockTransfer.getID() == 0 ? "Creating ware house transfer"
-				: "Updating stock transfer";
+		return stockTransfer.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().wareHouseTransfer()) : getMessages()
+				.updateSuccessfully(getMessages().wareHouseTransfer());
 	}
 
 	@Override

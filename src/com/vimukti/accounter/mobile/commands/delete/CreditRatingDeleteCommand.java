@@ -12,9 +12,8 @@ public class CreditRatingDeleteCommand extends AbstractDeleteCommand {
 		try {
 			delete(AccounterCoreType.CREDIT_RATING, creditratingID, context);
 		} catch (AccounterException e) {
-			addFirstMessage(
-					context,
-					"You can not delete. This Credit Rating might be participating in some transactions");
+			addFirstMessage(context,
+					getMessages().payeeInUse(getMessages().creditRating()));
 		}
 		return "Credit Rating List";
 	}

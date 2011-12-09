@@ -53,14 +53,20 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context,
-						"Select a Vendor Prepayment to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().payeePrePayment(
+										Global.get().Vendor())));
 				return "Vendor Payments List";
 			}
 			paybill = getTransaction(string, AccounterCoreType.PAYBILL, context);
 			if (paybill == null) {
-				addFirstMessage(context,
-						"Select a Vendor Prepayment to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().payeePrePayment(
+										Global.get().Vendor())));
 				return "Vendor Payments List " + string;
 			}
 			setValues();
@@ -99,14 +105,16 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 	protected String getWelcomeMessage() {
 		return paybill.getID() == 0 ? getMessages().create(
 				getMessages().payeePrePayment(Global.get().Vendor()))
-				: "Update Vendor Prepayment command activated";
+				: getMessages().readyToUpdate(
+						getMessages().payeePrePayment(Global.get().Vendor()));
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return paybill.getID() == 0 ? getMessages().readyToCreate(
 				getMessages().payeePrePayment(Global.get().Vendor()))
-				: "Vendor prepayment is ready to update with following details";
+				: getMessages().readyToUpdate(
+						getMessages().payeePrePayment(Global.get().Vendor()));
 	}
 
 	@Override
@@ -117,10 +125,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_VENDOR_PAYMENT,
 						context.getCompany()));
-		/*
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 * get(CURRENCY).setDefaultValue(null);
-		 */
+
 	}
 
 	@Override

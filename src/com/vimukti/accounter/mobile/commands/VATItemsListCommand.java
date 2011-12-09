@@ -35,8 +35,8 @@ public class VATItemsListCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ShowListRequirement<TAXItem>("taxItemsList",
-				"Please Select Vat Item", 20) {
+		list.add(new ShowListRequirement<TAXItem>("taxItemsList", getMessages()
+				.pleaseSelect(getMessages().taxItem()), 20) {
 			@Override
 			protected Record createRecord(TAXItem value) {
 				Record record = new Record(value);
@@ -45,14 +45,6 @@ public class VATItemsListCommand extends NewAbstractCommand {
 				return record;
 			}
 
-			// @Override
-			// protected void setSelectCommands(CommandList commandList,
-			// TAXItem value) {
-			// commandList.add(new UserCommand("Update TaxItem", String
-			// .valueOf(value.getID())));
-			// commandList.add(new UserCommand("Delete VatItem",
-			// value.getID()));
-			// }
 			@Override
 			protected String onSelection(TAXItem value) {
 				return "Update TaxItem " + value.getID();

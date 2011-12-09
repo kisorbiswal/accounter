@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.commands.delete;
 
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -18,7 +19,7 @@ public class CustomerDeleteCommand extends AbstractDeleteCommand {
 			delete(AccounterCoreType.CUSTOMER, customerId, context);
 		} catch (AccounterException e) {
 			addFirstMessage(context,
-					"You can not delete. This Customer might be participating in some transactions");
+					getMessages().payeeInUse(Global.get().customer()));
 		}
 		return "Customers";
 	}

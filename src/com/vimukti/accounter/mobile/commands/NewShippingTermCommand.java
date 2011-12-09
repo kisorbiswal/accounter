@@ -23,10 +23,12 @@ public class NewShippingTermCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new NameRequirement(SHIPPING_TERMNAME,
-				"Enter Shipping Term Name", "Shipping Term", false, true));
-		list.add(new NameRequirement(DESCRIPTION, "Enter Description",
-				"Description", true, true));
+		list.add(new NameRequirement(SHIPPING_TERMNAME, getMessages()
+				.pleaseEnter(getMessages().shippingTerm()), getMessages()
+				.shippingTerm(), false, true));
+		list.add(new NameRequirement(DESCRIPTION, getMessages().pleaseEnter(
+				getMessages().description()), getMessages().description(),
+				true, true));
 	}
 
 	@Override
@@ -40,13 +42,19 @@ public class NewShippingTermCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Shipping Term to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().shippingTerm()));
 				return "Shipping Terms";
 			}
 			ClientShippingTerms shippingTermsByName = CommandUtils
 					.getshippingTermsByNameByName(context.getCompany(), string);
 			if (shippingTermsByName == null) {
-				addFirstMessage(context, "Select a Shipping Term to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().shippingTerm()));
 				return "Shipping Terms " + string.trim();
 			}
 			shippingTerm = shippingTermsByName;
@@ -70,8 +78,11 @@ public class NewShippingTermCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return shippingTerm.getID() == 0 ? "Shppping Term is ready to created with following details."
-				: "Shipping term is ready to update with following values";
+		if (shippingTerm.getID() == 0) {
+			return getMessages().readyToCreate(getMessages().shippingTerm());
+		} else {
+			return getMessages().readyToUpdate(getMessages().shippingTerm());
+		}
 	}
 
 	@Override
@@ -80,8 +91,13 @@ public class NewShippingTermCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return shippingTerm.getID() == 0 ? "New Shipping Term is Created Successfully"
-				: "Shipping term updated successfully";
+		if (shippingTerm.getID() == 0) {
+			return getMessages().createSuccessfully(
+					getMessages().shippingTerm());
+		} else {
+			return getMessages().updateSuccessfully(
+					getMessages().shippingTerm());
+		}
 	}
 
 	@Override

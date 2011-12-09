@@ -118,7 +118,7 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+				.pleaseEnter(getMessages().currencyFactor()), CURRENCY_FACTOR) {
 			@Override
 			protected ClientCurrency getSelectedCurrency() {
 				Customer customer = (Customer) NewQuoteCommand.this.get(
@@ -126,8 +126,8 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 				return getCurrency(customer.getCurrency().getID());
 			}
 		});
-		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getMessages().items(),
+		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
+				.pleaseEnter(getMessages().itemName()), getMessages().items(),
 				false, true) {
 
 			@Override
@@ -384,16 +384,16 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 	protected String getDetailsMessage() {
 		if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
 			return estimate.getID() == 0 ? getMessages().readyToCreate(
-					getMessages().quote())
-					: "Quote is ready to update with following details";
+					getMessages().quote()) : getMessages().readyToUpdate(
+					getMessages().estimate());
 		} else if (estimate.getEstimateType() == ClientEstimate.CREDITS) {
 			return estimate.getID() == 0 ? getMessages().readyToCreate(
-					getMessages().credit())
-					: "Credit is ready to update with following details";
+					getMessages().credit()) : getMessages().readyToUpdate(
+					getMessages().credits());
 		} else if (estimate.getEstimateType() == ClientEstimate.CHARGES) {
 			return estimate.getID() == 0 ? getMessages().readyToCreate(
-					getMessages().charge())
-					: "Charge is ready to update with following details";
+					getMessages().charge()) : getMessages().readyToUpdate(
+					getMessages().Charges());
 		}
 
 		return "";
@@ -452,12 +452,14 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		}
 		if (commandString.contains("quote")) {
 			if (!context.getPreferences().isDoyouwantEstimates()) {
-				addFirstMessage(context, "You dnt have permission to do this.");
+				addFirstMessage(context, getMessages()
+						.youDntHavePermissionToDoThis());
 				return "cancel";
 			}
 		} else {
 			if (!context.getPreferences().isDelayedchargesEnabled()) {
-				addFirstMessage(context, "You dnt have permission to do this.");
+				addFirstMessage(context, getMessages()
+						.youDntHavePermissionToDoThis());
 				return "cancel";
 			}
 		}
@@ -466,13 +468,22 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 			String string = context.getString();
 			if (string.isEmpty()) {
 				if (estimateType == ClientEstimate.QUOTES) {
-					addFirstMessage(context, "Select a Quote to update.");
+					addFirstMessage(
+							context,
+							getMessages().selectATransactionToUpdate(
+									getMessages().estimate()));
 					return "Quotes List";
 				} else if (estimateType == ClientEstimate.CREDITS) {
-					addFirstMessage(context, "Select a Credit to update.");
+					addFirstMessage(
+							context,
+							getMessages().selectATransactionToUpdate(
+									getMessages().credits()));
 					return "Credits List";
 				} else if (estimateType == ClientEstimate.CHARGES) {
-					addFirstMessage(context, "Select a Charge to update.");
+					addFirstMessage(
+							context,
+							getMessages().selectATransactionToUpdate(
+									getMessages().Charges()));
 					return "Charges List";
 				}
 			}
@@ -481,13 +492,22 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 					context);
 			if (estimate == null) {
 				if (estimateType == ClientEstimate.QUOTES) {
-					addFirstMessage(context, "Select a Quote to update.");
+					addFirstMessage(
+							context,
+							getMessages().selectATransactionToUpdate(
+									getMessages().estimate()));
 					return "Quotes List " + string;
 				} else if (estimateType == ClientEstimate.CREDITS) {
-					addFirstMessage(context, "Select a Credit to update.");
+					addFirstMessage(
+							context,
+							getMessages().selectATransactionToUpdate(
+									getMessages().credits()));
 					return "Credits List " + string;
 				} else if (estimateType == ClientEstimate.CHARGES) {
-					addFirstMessage(context, "Select a Charge to update.");
+					addFirstMessage(
+							context,
+							getMessages().selectATransactionToUpdate(
+									getMessages().Charges()));
 					return "Charges List " + string;
 				}
 			}

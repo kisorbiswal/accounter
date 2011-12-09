@@ -27,8 +27,9 @@ public class NewVendorGroupCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new NameRequirement(VENDORGROUP_NAME, "Please enter "
-				+ Global.get().Vendor() + "Group name", "Comment", false, true));
+		list.add(new NameRequirement(VENDORGROUP_NAME, getMessages()
+				.pleaseEnter(getMessages().payeeGroup(Global.get().Vendor())),
+				getMessages().payeeGroup(Global.get().vendor()), false, true));
 
 	}
 
@@ -43,13 +44,23 @@ public class NewVendorGroupCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Vendor Group to update.");
+				addFirstMessage(
+						context,
+						getMessages()
+								.selectATransactionToUpdate(
+										getMessages().payeeGroup(
+												Global.get().Vendor())));
 				return "VendorGroups";
 			}
 			ClientVendorGroup customerGroupByName = CommandUtils
 					.getVendorGroupByName(context.getCompany(), string);
 			if (customerGroupByName == null) {
-				addFirstMessage(context, "Select a Vendor Group to update.");
+				addFirstMessage(
+						context,
+						getMessages()
+								.selectATransactionToUpdate(
+										getMessages().payeeGroup(
+												Global.get().Vendor())));
 				return "VendorGroups " + string.trim();
 			}
 			vendorGroup = customerGroupByName;
@@ -93,7 +104,6 @@ public class NewVendorGroupCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		// TODO Auto-generated method stub
 
 	}
 

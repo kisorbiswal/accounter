@@ -314,14 +314,6 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 			}
 		}
 
-		/*
-		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
-		 * currency = get(CURRENCY).getValue(); if (currency != null) {
-		 * vendorCreditMemo.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * vendorCreditMemo.setCurrencyFactor(factor); }
-		 */
 		Vendor supplier = get(VENDOR).getValue();
 		vendorCreditMemo.setVendor(supplier.getID());
 		String memo = get(MEMO).getValue();
@@ -336,7 +328,6 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -346,9 +337,8 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(
-					context,
-					"Transaction total can not zero or less than zero.So you can't finish this command");
+			addFirstMessage(context, getMessages()
+					.transactiontotalcannotbe0orlessthan0());
 		}
 		super.beforeFinishing(context, makeResult);
 	}

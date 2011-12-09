@@ -117,8 +117,8 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return cashPurchase.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().cashPurchase())
-				: "Cash Purchase is ready to update with following details";
+				getMessages().cashPurchase()) : getMessages().readyToUpdate(
+				getMessages().cashPurchase());
 	}
 
 	@Override
@@ -315,9 +315,9 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
-				"please select accountItems", getMessages().Account(), true,
-				true) {
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
+				.pleaseSelect(getMessages().account()),
+				getMessages().Account(), true, true) {
 			@Override
 			public List<Account> getAccounts(Context context) {
 				Set<Account> accounts = context.getCompany().getAccounts();
@@ -339,8 +339,8 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 		});
 
-		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getMessages().items(),
+		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
+				.pleaseEnter(getMessages().name()), getMessages().items(),
 				true, true) {
 			@Override
 			protected double getCurrencyFactor() {
@@ -373,8 +373,9 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 		});
 
-		list.add(new ContactRequirement(CONTACT, "Enter contact name",
-				"Contact", true, true, null) {
+		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
+				getMessages().contactName()), getMessages().contact(), true,
+				true, null) {
 
 			@Override
 			protected Payee getPayee() {
@@ -435,9 +436,8 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(
-					context,
-					"Transaction total can not zero or less than zero.So you can't finish this command");
+			addFirstMessage(context, getMessages()
+					.transactiontotalcannotbe0orlessthan0());
 		}
 		super.beforeFinishing(context, makeResult);
 	}

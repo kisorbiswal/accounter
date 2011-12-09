@@ -48,7 +48,7 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 				if (emailId == null) {
 					return;
 				} else if (NewInviteAUserCommand.this.isUserExists(emailId)) {
-					addFirstMessage("User already exists with this email id");
+					addFirstMessage(getMessages().userExistsWithThisMailId());
 					return;
 				}
 				addFirstMessage(getMessages()
@@ -299,8 +299,8 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return user.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().user())
-				: "User is ready to update with following details";
+				getMessages().user()) : getMessages().readyToUpdate(
+				getMessages().user());
 	}
 
 	@Override
@@ -320,20 +320,21 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 	protected String initObject(Context context, boolean isUpdate) {
 		User currentUser = context.getUser();
 		if (!currentUser.isCanDoUserManagement()) {
-			addFirstMessage(context,
-					"You do not have permissions to invite or update a user");
+			addFirstMessage(context, getMessages().youdontHavepermissiosToinviteUser());
 			return "Users List";
 		}
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a User to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().user()));
 				return "Users List";
 			}
 			User userByUserEmail = context.getCompany().getUserByUserEmail(
 					string);
 			if (userByUserEmail == null) {
-				addFirstMessage(context, "Select a User to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().user()));
 				return "Users List " + string;
 			}
 			user = userByUserEmail.getClientUser();

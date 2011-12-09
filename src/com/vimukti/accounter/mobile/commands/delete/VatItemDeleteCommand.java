@@ -13,8 +13,10 @@ public class VatItemDeleteCommand extends AbstractDeleteCommand {
 		try {
 			delete(AccounterCoreType.TAXITEM, vatItemId, context);
 		} catch (AccounterException e) {
-			addFirstMessage(context,
-					"You can not delete. This VAT Item Might be used in some transactions.");
+			addFirstMessage(
+					context,
+					getMessages().payeeInUse(
+							getMessages().payeeGroup(getMessages().taxItem())));
 		}
 		return "VAT Items";
 

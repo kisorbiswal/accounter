@@ -48,16 +48,22 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context,
-						"Select a Customer Prepayment to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().payeePrePayment(
+										Global.get().Customer())));
 				return "Received Payments List";
 			}
 			prePayment = getTransaction(string,
 					AccounterCoreType.CUSTOMERPREPAYMENT, context);
 
 			if (prePayment == null) {
-				addFirstMessage(context,
-						"Select a Customer Prepayment to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().payeePrePayment(
+										Global.get().Customer())));
 				return "Received Payments List " + string;
 			}
 			setValues();
@@ -102,7 +108,8 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 	protected String getDetailsMessage() {
 		return prePayment.getID() == 0 ? getMessages().readyToCreate(
 				getMessages().payeePrePayment(Global.get().Customer()))
-				: "Customer Prepayment is ready to update with following details";
+				: getMessages().readyToUpdate(
+						getMessages().payeePrePayment(Global.get().Customer()));
 	}
 
 	@Override
@@ -113,10 +120,6 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_CUSTOMER_PREPAYMENT,
 						context.getCompany()));
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
 
 	}
 
@@ -136,9 +139,9 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new CustomerRequirement(CUSTOMER,
-				"Please Enter Customer name or number ", "Customer", false,
-				true, new ChangeListner<Customer>() {
+		list.add(new CustomerRequirement(CUSTOMER, getMessages().pleaseEnter(
+				Global.get().customer()), "Customer", false, true,
+				new ChangeListner<Customer>() {
 
 					@Override
 					public void onSelection(Customer value) {
@@ -293,18 +296,6 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 
 		});
 
-		// list.add(new BooleanRequirement(TO_BE_PRINTED, true) {
-		//
-		// @Override
-		// protected String getTrueString() {
-		// return getMessages().toBePrinted();
-		// }
-		//
-		// @Override
-		// protected String getFalseString() {
-		// return "Not Printed ";
-		// }
-		// });
 		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
 				getMessages().checkNo()), getMessages().checkNo(), true, true) {
 			@Override
@@ -314,7 +305,8 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 			}
 		});
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), getMessages().currencyFactor()) {
+				.pleaseEnter(getMessages().currencyFactor()), getMessages()
+				.currencyFactor()) {
 			@Override
 			protected ClientCurrency getSelectedCurrency() {
 				Customer customer = (Customer) NewCustomerPrepaymentCommand.this
@@ -348,14 +340,6 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 		// prePayment.setToBePrinted(tobePrinted);
 		String memo = get(MEMO).getValue();
 
-		/*
-		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
-		 * currency = get(CURRENCY).getValue(); if (currency != null) {
-		 * prePayment.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * prePayment.setCurrencyFactor(factor); }
-		 */
 		prePayment.setMemo(memo);
 		prePayment.setStatus(ClientCustomerPrePayment.STATUS_OPEN);
 		prePayment.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
@@ -379,21 +363,11 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 					- enteredBalance);
 
 		}
-		// ClientAccount depositIn = (ClientAccount) CommandUtils
-		// .getClientObjectById(customerPrePayment.getDepositIn(),
-		// AccounterCoreType.ACCOUNT, getCompanyId());
-		// if (depositIn.isIncrease()) {
-		// customerPrePayment.setEndingBalance(depositIn.getTotalBalance()
-		// - enteredBalance);
-		// } else {
-		// customerPrePayment.setEndingBalance(depositIn.getTotalBalance()
-		// + enteredBalance);
-		// }
+
 	}
 
 	@Override
 	protected Payee getPayee() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

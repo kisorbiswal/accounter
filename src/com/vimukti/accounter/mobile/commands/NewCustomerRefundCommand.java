@@ -49,7 +49,11 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Customer Refund to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().customerRefund(
+										Global.get().Customer())));
 				return "Customer Refunds List";
 			}
 
@@ -57,7 +61,11 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 					AccounterCoreType.CUSTOMERREFUND, context);
 
 			if (customerRefund == null) {
-				addFirstMessage(context, "Select a Customer Refund to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().customerRefund(
+										Global.get().Customer())));
 				return "Customer Refunds List " + string;
 			}
 			setValues();
@@ -88,7 +96,6 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		get(AMOUNT).setValue(customerRefund.getTotal());
 		get(TO_BE_PRINTED).setValue(customerRefund.getIsToBePrinted());
 		get(CHEQUE_NO).setValue(customerRefund.getCheckNumber());
-		/* get(CURRENCY_FACTOR).setValue(customerRefund.getCurrencyFactor()); */
 		get(MEMO).setValue(customerRefund.getMemo());
 	}
 
@@ -103,7 +110,8 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 	protected String getDetailsMessage() {
 		return customerRefund.getID() == 0 ? getMessages().readyToCreate(
 				getMessages().customerRefund(Global.get().Customer()))
-				: "Customer Refund is ready to update with following details";
+				: getMessages().readyToUpdate(
+						getMessages().customerRefund(Global.get().Customer()));
 	}
 
 	@Override
@@ -114,10 +122,6 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_CUSTOMER_REFUNDS,
 						context.getCompany()));
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
 		get(CHEQUE_NO).setDefaultValue(getMessages().toBePrinted());
 	}
 
@@ -180,7 +184,8 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), getMessages().currencyFactor()) {
+				.pleaseEnter(getMessages().currencyFactor()), getMessages()
+				.currencyFactor()) {
 			@Override
 			protected ClientCurrency getSelectedCurrency() {
 				Customer customer = (Customer) NewCustomerRefundCommand.this
@@ -341,14 +346,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		String cheqNum = get(CHEQUE_NO).getValue();
 		customerRefund.setCheckNumber(cheqNum);
 		customerRefund.setNumber((String) get(NUMBER).getValue());
-		/*
-		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
-		 * currency = get(CURRENCY).getValue(); if (currency != null) {
-		 * customerRefund.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * customerRefund.setCurrencyFactor(factor); }
-		 */
+
 		customerRefund.setMemo(get(MEMO).getValue() == null ? "" : get(MEMO)
 				.getValue().toString());
 		customerRefund.setTotal(amount);
@@ -369,7 +367,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public void beforeFinishing(Context context, Result makeResult) {
-		makeResult.add("Total : " + get(AMOUNT).getValue());
+		makeResult.add(getMessages().total() + " : " + get(AMOUNT).getValue());
 	}
 
 	private void adjustBalance(double amount, Customer customer,
@@ -380,13 +378,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 				|| DecimalUtil.isGreaterThan(enteredBalance, 1000000000000.00)) {
 			enteredBalance = 0D;
 		}
-		// if (depositIn.isIncrease()) {
-		// refund.setEndingBalance(depositIn.getTotalBalance()
-		// - enteredBalance);
-		// } else {
-		// refund.setEndingBalance(depositIn.getTotalBalance()
-		// + enteredBalance);
-		// }
+
 	}
 
 	@Override

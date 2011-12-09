@@ -52,8 +52,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return cashPurchase.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().cashExpense())
-				: "Cash expense is ready to update with following details";
+				getMessages().cashExpense()) : getMessages().readyToUpdate(
+				getMessages().cashExpense());
 	}
 
 	@Override
@@ -215,9 +215,9 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				return e.getName().contains(name);
 			}
 		});
-		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
-				"please select accountItems", getMessages().Account(), true,
-				true) {
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
+				.pleaseSelect(getMessages().account()),
+				getMessages().Account(), true, true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
@@ -258,8 +258,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			}
 
 		});
-		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getMessages().items(),
+		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
+				.pleaseEnter(getMessages().name()), getMessages().items(),
 				true, true) {
 
 			@Override
@@ -329,9 +329,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(
-					context,
-					"Transaction total can not zero or less than zero.So you can't finish this command");
+			addFirstMessage(context, getMessages()
+					.transactiontotalcannotbe0orlessthan0());
 		}
 		super.beforeFinishing(context, makeResult);
 	}
@@ -382,14 +381,20 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		String string = context.getString();
 		if (isUpdate) {
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Cash Expense to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().cashExpense()));
 				return "Expenses List ," + getMessages().cash();
 			}
 			cashPurchase = getTransaction(string,
 					AccounterCoreType.CASHPURCHASE, context);
 
 			if (cashPurchase == null) {
-				addFirstMessage(context, "Select a Cash Expense to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().cashExpense()));
 				return "Expenses List " + string + "," + getMessages().cash();
 			}
 			setValues(context);

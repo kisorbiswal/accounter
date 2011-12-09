@@ -35,8 +35,8 @@ public class VATCodesListCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ShowListRequirement<TAXCode>("vatCodesList",
-				"Please Select Vat Code", 20) {
+		list.add(new ShowListRequirement<TAXCode>("vatCodesList", getMessages()
+				.pleaseSelect(getMessages().taxCode()), 20) {
 			@Override
 			protected Record createRecord(TAXCode value) {
 				Record record = new Record(value);
@@ -45,14 +45,6 @@ public class VATCodesListCommand extends NewAbstractCommand {
 				return record;
 			}
 
-			// @Override
-			// protected void setSelectCommands(CommandList commandList,
-			// TAXCode value) {
-			// commandList.add(new UserCommand("Update vatCode", String
-			// .valueOf(value.getID())));
-			// commandList.add(new UserCommand("Delete VatCode",
-			// value.getID()));
-			// }
 			@Override
 			protected String onSelection(TAXCode value) {
 				return "Update vatCode " + value.getID();
@@ -105,7 +97,8 @@ public class VATCodesListCommand extends NewAbstractCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isTrackTax()) {
-			addFirstMessage(context, "You dnt have permission to do this.");
+			addFirstMessage(context, getMessages()
+					.youDntHavePermissionToDoThis());
 			return "cancel";
 		}
 		return null;

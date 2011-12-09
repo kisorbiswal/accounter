@@ -12,8 +12,10 @@ public class VatCodeDeleteCommand extends AbstractDeleteCommand {
 		try {
 			delete(AccounterCoreType.TAX_CODE, vatCodeId, context);
 		} catch (AccounterException e) {
-			addFirstMessage(context,
-					"You can not delete. This VAT Code Might be used in some transactions.");
+			addFirstMessage(
+					context,
+					getMessages().payeeInUse(
+							getMessages().payeeGroup(getMessages().taxCode())));
 		}
 		return "VAT Codes";
 	}

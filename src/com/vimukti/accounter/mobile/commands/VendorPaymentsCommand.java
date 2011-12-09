@@ -92,7 +92,7 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return "No Payments are available";
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override

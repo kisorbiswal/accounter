@@ -12,9 +12,8 @@ public class ItemGroupDeleteCommand extends AbstractDeleteCommand {
 		try {
 			delete(AccounterCoreType.ITEM_GROUP, itemGroupId, context);
 		} catch (AccounterException e) {
-			addFirstMessage(
-					context,
-					"You can not delete. This Item Group might be participating in some transactions");
+			addFirstMessage(context,
+					getMessages().payeeInUse(getMessages().itemGroup()));
 		}
 		return "ItemGroups";
 	}

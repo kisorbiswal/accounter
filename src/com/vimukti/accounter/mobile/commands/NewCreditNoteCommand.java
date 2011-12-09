@@ -53,9 +53,9 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new CustomerRequirement(CUSTOMER,
-				"Please Enter Customer name or number to set credit Note",
-				"Customer", false, true, new ChangeListner<Customer>() {
+		list.add(new CustomerRequirement(CUSTOMER, getMessages().pleaseEnter(
+				Global.get().customer()), Global.get().customer(), false, true,
+				new ChangeListner<Customer>() {
 
 					@Override
 					public void onSelection(Customer value) {
@@ -110,8 +110,9 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().creditNo()), getMessages().creditNo(), true, true));
-		list.add(new ContactRequirement(CONTACT, "Enter contact name",
-				"Contact", true, true, null) {
+		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
+				getMessages().contactName()), getMessages().contact(), true,
+				true, null) {
 			@Override
 			protected Payee getPayee() {
 				return get(CUSTOMER).getValue();
@@ -153,8 +154,8 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getMessages().items(),
+		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
+				.pleaseEnter(getMessages().itemName()), getMessages().items(),
 				true, true) {
 			@Override
 			protected double getCurrencyFactor() {
@@ -212,7 +213,8 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 			}
 		});
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), getMessages().currencyFactor()) {
+				.pleaseEnter(getMessages().currencyFactor()), getMessages()
+				.currencyFactor()) {
 			@Override
 			protected ClientCurrency getSelectedCurrency() {
 				Customer customer = (Customer) NewCreditNoteCommand.this.get(
@@ -253,7 +255,10 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Credit Note to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().CustomerCreditNote()));
 				return "Invoices List";
 			}
 
@@ -261,7 +266,10 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 					AccounterCoreType.CUSTOMERCREDITMEMO, context);
 
 			if (creditMemo == null) {
-				addFirstMessage(context, "Select a Credit Note to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().CustomerCreditNote()));
 				return "Invoices List " + string;
 			}
 			setValues();
@@ -311,7 +319,9 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 	protected String getDetailsMessage() {
 		return creditMemo.getID() == 0 ? getMessages().readyToCreate(
 				getMessages().customerCreditNote(Global.get().customer()))
-				: "Customer credit memo is ready to create with following details";
+				: getMessages().readyToUpdate(
+						getMessages().customerCreditNote(
+								Global.get().customer()));
 	}
 
 	@Override

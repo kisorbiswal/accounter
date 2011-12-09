@@ -40,8 +40,9 @@ public class NewVATItemCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new NameRequirement(TAX_ITEM_NAME, "Enter Tax/Vat Item Name",
-				"Tax/Vat Item Name", false, true) {
+		list.add(new NameRequirement(TAX_ITEM_NAME, getMessages().pleaseEnter(
+				getMessages().taxItemName()), getMessages().taxItemName(),
+				false, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {

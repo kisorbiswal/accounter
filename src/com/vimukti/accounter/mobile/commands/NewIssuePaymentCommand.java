@@ -37,13 +37,13 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new StringListRequirement(PAYMENT_METHOD,
-				"Please select payment method", PAYMENT_METHOD, false, true,
-				null) {
+		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
+				.pleaseSelect(getMessages().paymentMethod()), getMessages()
+				.paymentMethod(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return "Payment method selected";
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -98,7 +98,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return "No bank acounts available";
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
@@ -250,14 +250,20 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select an Issue payment to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().issuePayment()));
 				return "Vendor Payments";
 			}
 			issuePayment = getTransaction(string,
 					AccounterCoreType.ISSUEPAYMENT, context);
 
 			if (issuePayment == null) {
-				addFirstMessage(context, "Select an Issue payment to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().issuePayment()));
 				return "Vendor Payments " + string;
 			}
 			setValues(context);
@@ -312,21 +318,20 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return issuePayment.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().issuePayment())
-				: "Issue payment is ready to update with following values";
+				getMessages().issuePayment()) : getMessages().readyToUpdate(
+				getMessages().issuePayment());
 	}
 
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(CHEQUE_NO).setValue(getNextCheckNumber(context));
-		// get(CURRENCY_FACTOR).setDefaultValue(1.0);
 	}
 
 	@Override
 	public String getSuccessMessage() {
 		return issuePayment.getID() == 0 ? getMessages().createSuccessfully(
-				getMessages().issuePayment())
-				: "Isssue payment updated successfully";
+				getMessages().issuePayment()) : getMessages()
+				.updateSuccessfully(getMessages().issuePayment());
 	}
 
 	@Override
@@ -337,12 +342,11 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public void beforeFinishing(Context context, Result makeResult) {
-		makeResult.add("Total: " + getTransactionTotal());
+		makeResult.add(getMessages().total() + ":" + getTransactionTotal());
 	}
 
 	@Override
 	protected Payee getPayee() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

@@ -27,14 +27,18 @@ public class NewStockAdjustmentCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context,
-						"Select a Warehouse transfer to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().wareHouseTransfer()));
 				return "WareHouse Transfer List";
 			}
 			stockAdjustment = getStockAdustMent(string);
 			if (stockAdjustment == null) {
-				addFirstMessage(context,
-						"Select a Warehouse transfer to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().wareHouseTransfer()));
 				return "WareHouse Transfer List " + string;
 			}
 			setValues();
@@ -119,6 +123,7 @@ public class NewStockAdjustmentCommand extends NewAbstractCommand {
 		});
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected Result onCompleteProcess(Context context) {
 		stockAdjustment

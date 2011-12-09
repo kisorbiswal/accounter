@@ -122,7 +122,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return "No bank acounts available";
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
@@ -303,13 +303,19 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Sales Person to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().salesPerson()));
 				return "Sales Person List";
 			}
 			ClientSalesPerson salesPersonByName = CommandUtils
 					.getSalesPersonByName(context.getCompany(), string);
 			if (salesPersonByName == null) {
-				addFirstMessage(context, "Select a Sales Person to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().salesPerson()));
 				return "Sales Person List " + string.trim();
 			}
 			salesPerson = salesPersonByName;

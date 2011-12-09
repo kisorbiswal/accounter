@@ -584,7 +584,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 		String string = context.getString();
 		if (isUpdate) {
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Vendor to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(Global.get().Vendor()));
 				return "vendors";
 			}
 			ClientPayee vendorByName = CommandUtils.getPayeeByName(
@@ -597,7 +598,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 				vendorByName = CommandUtils.getVendorByNumber(
 						context.getCompany(), string);
 				if (vendorByName == null) {
-					addFirstMessage(context, "Select a Vendor to update.");
+					addFirstMessage(context, getMessages()
+							.selectATransactionToUpdate(Global.get().Vendor()));
 					return "vendors " + string.trim();
 				}
 			}

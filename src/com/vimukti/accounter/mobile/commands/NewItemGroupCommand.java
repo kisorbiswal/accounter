@@ -44,7 +44,10 @@ public class NewItemGroupCommand extends NewAbstractCommand {
 		itemGroup = CommandUtils.getItemGroupByName(context.getCompany(),
 				string);
 		if (itemGroup == null) {
-			addFirstMessage(context, "Select an item group to update.");
+			addFirstMessage(
+					context,
+					getMessages().selectATransactionToUpdate(
+							getMessages().itemGroup()));
 			return "Item Groups " + string.trim();
 		}
 
@@ -66,9 +69,9 @@ public class NewItemGroupCommand extends NewAbstractCommand {
 	@Override
 	protected String getDetailsMessage() {
 		if (itemGroup.getID() == 0) {
-			return "Item Group is ready to created with following details.";
+			return getMessages().readyToCreate(getMessages().itemGroup());
 		} else {
-			return "Item Group is ready to updated with following details.";
+			return getMessages().readyToUpdate(getMessages().itemGroup());
 		}
 	}
 
@@ -87,9 +90,9 @@ public class NewItemGroupCommand extends NewAbstractCommand {
 	@Override
 	public String getSuccessMessage() {
 		if (itemGroup.getID() == 0) {
-			return "Item Group is created succesfully.";
+			return getMessages().createSuccessfully(getMessages().itemGroup());
 		} else {
-			return "Item Group is updated successfully.";
+			return getMessages().updateSuccessfully(getMessages().itemGroup());
 
 		}
 	}

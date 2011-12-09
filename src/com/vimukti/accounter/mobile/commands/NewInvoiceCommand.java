@@ -35,6 +35,7 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -80,9 +81,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new CustomerRequirement(CUSTOMER,
-				"Please Enter Customer name or number to set InvoiceCustomer",
-				"Customer", false, true, new ChangeListner<Customer>() {
+		list.add(new CustomerRequirement(CUSTOMER, getMessages().pleaseSelect(
+				Global.get().customer()), Global.get().Customer(), false, true,
+				new ChangeListner<Customer>() {
 
 					@Override
 					public void onSelection(Customer value) {
@@ -146,7 +147,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), getMessages().currencyFactor()) {
+				.pleaseEnter(getMessages().currencyFactor()), getMessages()
+				.currencyFactor()) {
 			@Override
 			protected ClientCurrency getSelectedCurrency() {
 				Customer customer = (Customer) NewInvoiceCommand.this.get(
@@ -156,8 +158,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		});
 
-		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getMessages().items(),
+		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
+				.pleaseEnter(getMessages().itemName()), getMessages().items(),
 				true, true) {
 			@Override
 			protected double getCurrencyFactor() {
@@ -207,8 +209,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new ContactRequirement(CONTACT, "Enter contact name",
-				"Contact", true, true, null) {
+		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
+				getMessages().contactName()), getMessages().contact(), true,
+				true, null) {
 
 			@Override
 			protected Payee getPayee() {
@@ -228,33 +231,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
-
-		// list.add(new EstimatesAndSalesOrderListRequirement(
-		// ESTIMATEANDSALESORDER, getMessages().selectTypeOfThis(
-		// getMessages().quote()), getMessages()
-		// .quoteAndSalesOrderList(), true, true, null) {
-		//
-		// @Override
-		// protected List<EstimatesAndSalesOrdersList> getLists(Context context)
-		// {
-		// try {
-		// return new FinanceTool().getCustomerManager()
-		// .getEstimatesAndSalesOrdersList(
-		// ((ClientCustomer) get(CUSTOMER).getValue())
-		// .getID(),
-		// context.getCompany().getID());
-		// } catch (DAOException e) {
-		// e.printStackTrace();
-		// }
-		// return null;
-		// }
-		//
-		// @Override
-		// protected boolean filter(EstimatesAndSalesOrdersList e, String name)
-		// {
-		// return e.getName().contains(name);
-		// }
-		// });
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
 				getMessages().taxCode()), getMessages().taxCode(), false, true,
@@ -374,14 +350,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		// Adding selecting estimate or salesOrder to Invoice
 		invoice.setCurrencyFactor(1);
 		ClientCompanyPreferences preferences = context.getPreferences();
-		/*
-		 * if (preferences.isEnableMultiCurrency()) { Currency currency =
-		 * get(CURRENCY).getValue(); if (currency != null) {
-		 * invoice.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * invoice.setCurrencyFactor(factor); }
-		 */
 
 		List<ClientEstimate> estimates = new ArrayList<ClientEstimate>();
 		List<ClientSalesOrder> salesOrders = new ArrayList<ClientSalesOrder>();
@@ -443,8 +411,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return invoice.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().invoice())
-				: "Invoice ready to update with follwoing details";
+				getMessages().invoice()) : getMessages().readyToUpdate(
+				getMessages().invoice());
 	}
 
 	@Override
@@ -462,10 +430,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		}
 		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
+
 	}
 
 	@Override
@@ -482,7 +447,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		List<EstimatesAndSalesOrdersList> e = get(ESTIMATEANDSALESORDER)
 				.getValue();
 		if (allrecords.isEmpty() && e.isEmpty()) {
-			addFirstMessage(context, "Please select Transaction Item");
+			addFirstMessage(context,
+					getMessages().pleaseSelect(getMessages().transactionItem()));
 		}
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
@@ -544,13 +510,15 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select an Invoice to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().invoice()));
 				return "Invoices List";
 			}
 			invoice = getTransaction(string, AccounterCoreType.INVOICE, context);
 
 			if (invoice == null) {
-				addFirstMessage(context, "Select an Invoice to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().invoice()));
 				return "Invoices List " + string;
 			}
 			setValues(context);

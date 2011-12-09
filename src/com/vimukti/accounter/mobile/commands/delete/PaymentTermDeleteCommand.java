@@ -20,7 +20,7 @@ public class PaymentTermDeleteCommand extends AbstractDeleteCommand {
 			delete(AccounterCoreType.PAYMENT_TERM, paymentTermId, context);
 		} catch (AccounterException e) {
 			addFirstMessage(context,
-					"You can not delete. This payment Term  Might be used in some transactions.");
+					getMessages().payeeInUse(getMessages().paymentTerm()));
 		}
 		return "PaymentTerms";
 	}

@@ -45,7 +45,7 @@ public class NewContactCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Contact created successfully";
+		return getMessages().createSuccessfully(getMessages().contact());
 	}
 
 	@Override
@@ -55,20 +55,22 @@ public class NewContactCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new NameRequirement("Name", "Please enter name", "Name",
-				false, true));
+		list.add(new NameRequirement("Name", getMessages().pleaseEnter(
+				getMessages().name()), getMessages().name(), false, true));
 
-		list.add(new StringRequirement("Title", "Please enter title", "Title",
-				true, true));
+		list.add(new StringRequirement("Title", getMessages().pleaseEnter(
+				getMessages().title()), getMessages().title(), true, true));
 
-		list.add(new PhoneRequirement("BusinessPhone",
-				"Please enter Business Phone", "Phone", true, true));
+		list.add(new PhoneRequirement("BusinessPhone", getMessages()
+				.pleaseEnter(getMessages().businessPhone()), getMessages()
+				.businessPhone(), true, true));
 
-		list.add(new EmailRequirement("Email", "Please enter Email", "Email",
-				true, true));
+		list.add(new EmailRequirement("Email", getMessages().pleaseEnter(
+				getMessages().email()), getMessages().email(), true, true));
 
-		list.add(new CustomerRequirement("Customer", "Please select customer",
-				"Related Customer", false, true, null) {
+		list.add(new CustomerRequirement("Customer", getMessages().pleaseEnter(
+				getMessages().customer()), "Related Customer", false, true,
+				null) {
 
 			@Override
 			protected List<Customer> getLists(Context context) {

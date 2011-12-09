@@ -405,14 +405,20 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		String string = context.getString();
 		if (isUpdate) {
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Credit Expense to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().cashExpense()));
 				return "Expenses List ," + getMessages().creditCard();
 			}
 			creditCardCharge = getTransaction(string,
 					AccounterCoreType.CREDITCARDCHARGE, context);
 
 			if (creditCardCharge == null) {
-				addFirstMessage(context, "Select a Credit Expense to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().cashExpense()));
 				return "Expenses List " + string + " ,"
 						+ getMessages().creditCard();
 			}
@@ -478,8 +484,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return creditCardCharge.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().creditCardExpense())
-				: "Credit card expense is ready to update with following details";
+				getMessages().creditCardExpense()) : getMessages()
+				.readyToUpdate(getMessages().creditCardExpense());
 	}
 
 	@Override
@@ -509,9 +515,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(
-					context,
-					"Transaction total can not zero or less than zero.So you can't finish this command");
+			addFirstMessage(context, getMessages()
+					.transactiontotalcannotbe0orlessthan0());
 		}
 		super.beforeFinishing(context, makeResult);
 	}

@@ -13,7 +13,7 @@ public class SalesPersonDeleteCommand extends AbstractDeleteCommand {
 			delete(AccounterCoreType.SALES_PERSON, salesPersonId, context);
 		} catch (AccounterException e) {
 			addFirstMessage(context,
-					"You can not delete. This Might be participating in transactions.");
+					getMessages().payeeInUse(getMessages().salesPerson()));
 		}
 		return "Sales Persons";
 	}

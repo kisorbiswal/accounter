@@ -23,10 +23,12 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new NameRequirement(SHIPPING_METHOD_NAME,
-				"Enter Shipping Method Name", "Shipping Method", false, true));
-		list.add(new NameRequirement(DESCRIPTION, "Enter Description",
-				"Description", true, true));
+		list.add(new NameRequirement(SHIPPING_METHOD_NAME, getMessages()
+				.pleaseEnter(getMessages().shippingMethod()), getMessages()
+				.shippingMethod(), false, true));
+		list.add(new NameRequirement(DESCRIPTION, getMessages().pleaseEnter(
+				getMessages().description()), getMessages().description(),
+				true, true));
 	}
 
 	@Override
@@ -40,7 +42,10 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Shipping Method to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().shippingMethod()));
 				return "Shipping Methods";
 			}
 
@@ -49,7 +54,10 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 							AccounterCoreType.SHIPPING_METHOD, getCompanyId());
 
 			if (shippingMethod == null) {
-				addFirstMessage(context, "Select a Shipping Method to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().shippingMethod()));
 				return "Shipping Methods " + string.trim();
 			}
 			get(SHIPPING_METHOD_NAME).setValue(shippingMethod.getName());
@@ -76,9 +84,9 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 	@Override
 	protected String getDetailsMessage() {
 		if (shippingMethod.getID() == 0) {
-			return " Shipping Method is ready to create with following details.";
+			return getMessages().readyToCreate(getMessages().shippingMethod());
 		} else {
-			return "Shipping method is ready to update with following details";
+			return getMessages().readyToUpdate(getMessages().shippingMethod());
 		}
 	}
 
@@ -89,9 +97,11 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 	@Override
 	public String getSuccessMessage() {
 		if (shippingMethod.getID() == 0) {
-			return "Shipping Method is Created Successfully";
+			return getMessages().createSuccessfully(
+					getMessages().shippingMethod());
 		} else {
-			return "Shipping method updated successdfully";
+			return getMessages().updateSuccessfully(
+					getMessages().shippingMethod());
 		}
 	}
 

@@ -114,41 +114,8 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		/*
-		 * list.add(new CurrencyRequirement(CURRENCY,
-		 * getMessages().pleaseSelect( getConstants().currency()),
-		 * getConstants().currency(), true, true, null) {
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (context.getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } else { return null;
-		 * } }
-		 * 
-		 * @Override protected List<Currency> getLists(Context context) { return
-		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
-		 * 
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
-		 * return "1 " + selc.getFormalName() + " = " + value + " " +
-		 * primaryCurrency.getFormalName(); }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
-		 * != null) { if (context.getPreferences().isEnableMultiCurrency() &&
-		 * !((Currency) get(CURRENCY).getValue())
-		 * .equals(context.getPreferences() .getPrimaryCurrency())) { return
-		 * super.run(context, makeResult, list, actions); } } return null;
-		 * 
-		 * } });
-		 */
-		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getMessages().items(),
+		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
+				.pleaseEnter(getMessages().itemName()), getMessages().items(),
 				false, true) {
 
 			@Override
@@ -200,8 +167,9 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new ContactRequirement(CONTACT, "Enter contact name",
-				"Contact", true, true, null) {
+		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
+				getMessages().contactName()), getMessages().contact(), true,
+				true, null) {
 
 			@Override
 			protected Payee getPayee() {
@@ -388,14 +356,6 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-		/*
-		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
-		 * currency = get(CURRENCY).getValue(); if (currency != null) {
-		 * newSalesOrder.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * newSalesOrder.setCurrencyFactor(factor); }
-		 */
 
 		newSalesOrder.setTransactionItems(items);
 		double taxTotal = updateTotals(context, newSalesOrder, true);
@@ -443,7 +403,6 @@ public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Payee getPayee() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

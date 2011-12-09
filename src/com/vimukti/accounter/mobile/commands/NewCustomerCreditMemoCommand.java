@@ -29,6 +29,7 @@ import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -58,8 +59,8 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 	@Override
 	protected String getDetailsMessage() {
 		return creditMemo.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().CustomerCreditNote())
-				: "Customer credit note is ready to update with following details";
+				getMessages().CustomerCreditNote()) : getMessages()
+				.readyToUpdate(getMessages().CustomerCreditNote());
 	}
 
 	@Override
@@ -117,7 +118,8 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 			}
 		});
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), getMessages().currencyFactor()) {
+				.pleaseEnter(getMessages().currencyFactor()), getMessages()
+				.currencyFactor()) {
 			@Override
 			protected ClientCurrency getSelectedCurrency() {
 				Customer customer = (Customer) NewCustomerCreditMemoCommand.this
@@ -133,9 +135,9 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
-		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
-				"please select accountItems", getMessages().Account(), true,
-				true) {
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
+				.pleaseEnter(getMessages().account()), getMessages().Account(),
+				true, true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
@@ -164,8 +166,8 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 						CUSTOMER).getValue();
 			}
 		});
-		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getMessages().items(),
+		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
+				.pleaseEnter(getMessages().itemName()), getMessages().items(),
 				true, true) {
 			@Override
 			protected double getCurrencyFactor() {
@@ -198,8 +200,9 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 
 		});
 
-		list.add(new ContactRequirement(CONTACT, "Enter contact name",
-				"Contact", true, true, null) {
+		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
+				getMessages().contactName()), getMessages().contact(), true,
+				true, null) {
 
 			@Override
 			protected Payee getPayee() {
@@ -316,16 +319,22 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context,
-						"Select a Customer credit note to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().customerCreditNote(
+										Global.get().customer())));
 				return "Invoices List";
 			}
 
 			creditMemo = getTransaction(string,
 					AccounterCoreType.CUSTOMERCREDITMEMO, context);
 			if (creditMemo == null) {
-				addFirstMessage(context,
-						"Select a Customer credit note to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().customerCreditNote(
+										Global.get().customer())));
 				return "Invoices List " + string;
 			}
 			setValues();
@@ -372,9 +381,8 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(
-					context,
-					"Transaction total can not zero or less than zero.So you can't finish this command");
+			addFirstMessage(context, getMessages()
+					.transactionitemtotalcannotbe0orlessthan0());
 		}
 		super.beforeFinishing(context, makeResult);
 	}

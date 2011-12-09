@@ -38,13 +38,15 @@ public class NewWareHouseCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Warehouse to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().wareHouse()));
 				return "WareHouse List";
 			}
 			ClientWarehouse clientWarehouse = CommandUtils.getWareHouse(
 					context.getCompany(), string);
 			if (clientWarehouse == null) {
-				addFirstMessage(context, "Select a Warehouse to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().wareHouse()));
 				return "WareHouse List " + string;
 			}
 			warehouse = clientWarehouse;

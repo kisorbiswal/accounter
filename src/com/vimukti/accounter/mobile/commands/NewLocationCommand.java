@@ -42,13 +42,15 @@ public class NewLocationCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Location to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().location()));
 				return "Location list";
 			}
 			Location locationByName = CommandUtils.getLocationByName(
 					context.getCompany(), string);
 			if (locationByName == null) {
-				addFirstMessage(context, "Select a Location to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().location()));
 				return "Location list " + string;
 			}
 			location = (ClientLocation) CommandUtils.getClientObjectById(
@@ -73,8 +75,9 @@ public class NewLocationCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return location.getID() == 0 ? "New Location commond is ready with the following values"
-				: "Location is ready to update with following details";
+		return location.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().location()) : getMessages().readyToUpdate(
+				getMessages().location());
 	}
 
 	@Override
@@ -83,8 +86,9 @@ public class NewLocationCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return location.getID() == 0 ? "New Location commond is created successfully"
-				: "Location updated successfully";
+		return location.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().location()) : getMessages().updateSuccessfully(
+				getMessages().location());
 	}
 
 }

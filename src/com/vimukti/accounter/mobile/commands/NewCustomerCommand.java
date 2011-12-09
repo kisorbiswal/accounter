@@ -137,7 +137,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return "Currency has been selected";
+				return getMessages().selectCurrency();
 			}
 
 			@Override
@@ -152,7 +152,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		});
 
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+				.pleaseEnter(getMessages().currencyFactor()), getMessages()
+				.currencyFactor()) {
 
 			@Override
 			protected ClientCurrency getSelectedCurrency() {
@@ -199,13 +200,13 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		list.add(new URLRequirement(WEBADRESS, getMessages().pleaseEnter(
 				getMessages().webSite()), getMessages().webSite(), true, true));
 
-		list.add(new SalesPersonRequirement(SALESPERSON,
-				"please enter the sales person name", getMessages()
-						.salesPerson(), true, true, null) {
+		list.add(new SalesPersonRequirement(SALESPERSON, getMessages()
+				.pleaseEnter(getMessages().salesPerson()), getMessages()
+				.salesPerson(), true, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return "sales person has been selected";
+				return getMessages().hasSelected(getMessages().salesPerson());
 			}
 
 			@Override
@@ -220,9 +221,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ShippingMethodRequirement(SHIPPING_METHODS,
-				"please enter the shipping method name", getMessages()
-						.shippingMethod(), true, true, null) {
+		list.add(new ShippingMethodRequirement(SHIPPING_METHODS, getMessages()
+				.pleaseEnter(getMessages().shippingMethod()), getMessages()
+				.shippingMethod(), true, true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -235,7 +236,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return "Shipping method has been selected";
+				return getMessages()
+						.hasSelected(getMessages().shippingMethod());
 			}
 
 			@Override
@@ -254,13 +256,13 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 		// TODO list.add(new Requirement(PRICE_LEVEL, true, true));
 
-		list.add(new CreditRatingRequirement(CREDIT_RATING,
-				"Please enter the credit rating name", getMessages()
-						.creditRating(), true, true, null) {
+		list.add(new CreditRatingRequirement(CREDIT_RATING, getMessages()
+				.pleaseEnter(getMessages().creditRating()), getMessages()
+				.creditRating(), true, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return "Credit Rating has been selected";
+				return getMessages().hasSelected(getMessages().creditRating());
 			}
 
 			@Override
@@ -292,7 +294,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return "Payment method has been selected";
+				return getMessages().hasSelected(getMessages().paymentMethod());
 			}
 
 			@Override
@@ -316,9 +318,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new PaymentTermRequirement(PAYMENT_TERMS,
-				"Please enter the payment term name", getMessages()
-						.paymentTerm(), true, true, null) {
+		list.add(new PaymentTermRequirement(PAYMENT_TERMS, getMessages()
+				.pleaseEnter(getMessages().paymentTerm()), getMessages()
+				.paymentTerm(), true, true, null) {
 
 			@Override
 			protected List<PaymentTerms> getLists(Context context) {
@@ -327,13 +329,13 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new CustomerGroupRequirement(CUSTOMER_GROUP,
-				"Please enter the customer group", getMessages().payeeGroup(
-						Global.get().Customer()), true, true, null) {
+		list.add(new CustomerGroupRequirement(CUSTOMER_GROUP, getMessages()
+				.pleaseEnter(getMessages().customergroup()), getMessages()
+				.payeeGroup(Global.get().Customer()), true, true, null) {
 
 			@Override
 			protected String getSetMessage() {
-				return "Customer Group has been selected";
+				return getMessages().hasSelected(getMessages().customergroup());
 			}
 
 			@Override
@@ -363,8 +365,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new TaxCodeRequirement(CUSTOMER_VATCODE,
-				"Please enter the tax code name", getMessages().taxCode(),
+		list.add(new TaxCodeRequirement(CUSTOMER_VATCODE, getMessages()
+				.pleaseEnter(getMessages().taxCode()), getMessages().taxCode(),
 				true, true, null) {
 
 			@Override
@@ -388,8 +390,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(PAN_NUM, "Please Enter the pan number",
-				"Pan Number", true, true) {
+		list.add(new NumberRequirement(PAN_NUM, getMessages().pleaseEnter(
+				getMessages().panNumber()), getMessages().panNumber(), true,
+				true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -621,7 +624,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Customer to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(Global.get().customer()));
 				return "Customers";
 			}
 			ClientPayee customerByName = CommandUtils.getPayeeByName(
@@ -634,7 +638,10 @@ public class NewCustomerCommand extends NewAbstractCommand {
 				customerByName = CommandUtils.getCustomerByNumber(
 						context.getCompany(), string);
 				if (customerByName == null) {
-					addFirstMessage(context, "Select a Customer to update.");
+					addFirstMessage(
+							context,
+							getMessages().selectATransactionToUpdate(
+									Global.get().customer()));
 					return "Customers " + string.trim();
 				}
 			}

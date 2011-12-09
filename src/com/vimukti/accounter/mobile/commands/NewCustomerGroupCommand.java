@@ -25,13 +25,19 @@ public class NewCustomerGroupCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Customer Group to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().customergroup()));
 				return "Customers";
 			}
 			ClientCustomerGroup customerGroupByName = CommandUtils
 					.getCustomerGroupByName(context.getCompany(), string);
 			if (customerGroupByName == null) {
-				addFirstMessage(context, "Select a Customer Group to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().customergroup()));
 				return "Customers " + string.trim();
 			}
 			customerGroup = customerGroupByName;
@@ -68,7 +74,6 @@ public class NewCustomerGroupCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -91,8 +96,9 @@ public class NewCustomerGroupCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new NameRequirement(CUSTPMERGROUP_NAME,
-				"Please Enter Customer Group Name", getMessages().payeeGroup(
-						Global.get().Customer()), false, true));
+				getMessages().pleaseEnter(
+						getMessages().payeeGroup(Global.get().Customer())),
+				getMessages().payeeGroup(Global.get().Customer()), false, true));
 	}
 
 	@Override

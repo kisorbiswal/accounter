@@ -318,7 +318,10 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select an journalEntry to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().journalEntry()));
 				return "journalEntries List";
 			}
 
@@ -326,7 +329,10 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 					context);
 
 			if (entry == null) {
-				addFirstMessage(context, "Select an journalEntry to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().journalEntry()));
 				return "journalEntries List " + string;
 			}
 			setValues();

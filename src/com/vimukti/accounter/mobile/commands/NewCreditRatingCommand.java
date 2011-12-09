@@ -49,15 +49,15 @@ public class NewCreditRatingCommand extends NewAbstractCommand {
 	@Override
 	public String getSuccessMessage() {
 		return creditRating.getID() == 0 ? getMessages().createSuccessfully(
-				getMessages().creditRating())
-				: "Credit rating list updated succesfully";
+				getMessages().creditRating()) : getMessages()
+				.createSuccessfully(getMessages().creditRating());
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
 		return creditRating.getID() == 0 ? getMessages().creating(
-				getMessages().creditRating())
-				: "Update credit rating command activated";
+				getMessages().creditRating()) : getMessages().readyToUpdate(
+				getMessages().creditRating());
 	}
 
 	@Override

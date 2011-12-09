@@ -61,7 +61,8 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 			public void setValue(Object value) {
 				Account account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
 				if (account == null) {
-					addFirstMessage("One of the account currency should be primary currency");
+					addFirstMessage(getMessages()
+							.oneOfTheAccountCurrencyShouldBePrimaryCurrency());
 					return;
 				}
 				super.setValue(value);

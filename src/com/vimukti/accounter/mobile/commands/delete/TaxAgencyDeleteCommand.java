@@ -13,7 +13,7 @@ public class TaxAgencyDeleteCommand extends AbstractDeleteCommand {
 			delete(AccounterCoreType.TAXAGENCY, taxagencyId, context);
 		} catch (AccounterException e) {
 			addFirstMessage(context,
-					"You can not delete. This Tax Agency Might be used in some transactions.");
+					getMessages().payeeInUse(getMessages().taxAgency()));
 		}
 		return "TaxAgencies";
 	}

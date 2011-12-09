@@ -377,13 +377,15 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Write Check to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().writeCheck()));
 				return "Invoices List";
 			}
 			writeCheck = getTransaction(string, AccounterCoreType.WRITECHECK,
 					context);
 			if (writeCheck == null) {
-				addFirstMessage(context, "Select a Write Check to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().writeCheck()));
 				return "Invoices List " + string;
 			}
 			setValues(context);
@@ -441,8 +443,8 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return writeCheck.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().writeCheck())
-				: "Write check is ready to update with following details";
+				getMessages().writeCheck()) : getMessages().readyToUpdate(
+				getMessages().writeCheck());
 	}
 
 	@Override

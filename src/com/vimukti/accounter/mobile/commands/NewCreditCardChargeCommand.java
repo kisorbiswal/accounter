@@ -102,8 +102,8 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 			}
 
 		});
-		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getMessages().items(),
+		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
+				.pleaseEnter(getMessages().itemName()), getMessages().items(),
 				true, true) {
 
 			@Override
@@ -395,16 +395,20 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 		String string = context.getString();
 		if (isUpdate) {
 			if (string.isEmpty()) {
-				addFirstMessage(context,
-						"Select a Credit Card Charge to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().creditCardCharge()));
 				return "Expenses List";
 			}
 			creditCardCharge = getTransaction(string,
 					AccounterCoreType.CREDITCARDCHARGE, context);
 
 			if (creditCardCharge == null) {
-				addFirstMessage(context,
-						"Select a Credit Card Charge to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().creditCardCharge()));
 				return "Expenses List " + string;
 			}
 			setValues();
@@ -463,8 +467,8 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return creditCardCharge.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().creditCardCharge())
-				: "Credit card charge is ready to update with following details";
+				getMessages().creditCardCharge()) : getMessages()
+				.readyToUpdate(getMessages().creditCardCharge());
 	}
 
 	@Override
@@ -502,9 +506,8 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(
-					context,
-					"Transaction total can not zero or less than zero.So you can't finish this command");
+			addFirstMessage(context, getMessages()
+					.transactiontotalcannotbe0orlessthan0());
 		}
 		super.beforeFinishing(context, makeResult);
 	}

@@ -36,8 +36,7 @@ public class NewFiscalYearCommand extends NewAbstractCommand {
 				true));
 
 		list.add(new DateRequirement(END_DATE, getMessages().pleaseEnter(
-				getMessages().endDate()), getMessages().endDate(), false,
-				true));
+				getMessages().endDate()), getMessages().endDate(), false, true));
 
 		list.add(new NumberRequirement(STATUS, getMessages().pleaseEnter(
 				getMessages().status()), getMessages().status(), false, true));
@@ -67,7 +66,8 @@ public class NewFiscalYearCommand extends NewAbstractCommand {
 		String string = context.getString();
 		if (isUpdate) {
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select Fiscal year to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().fiscalYear()));
 				return "";
 			}
 			ClientFinanceDate date = context.getDate();
@@ -75,7 +75,8 @@ public class NewFiscalYearCommand extends NewAbstractCommand {
 			ClientFiscalYear year = CommandUtils.getFiscalYearByDate(
 					date.getDate(), integer, context.getCompany());
 			if (year == null) {
-				addFirstMessage(context, "Select a fiscal year to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().fiscalYear()));
 				return "" + string;
 			}
 			fiscalYear = year;
@@ -103,8 +104,9 @@ public class NewFiscalYearCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return fiscalYear.getID() == 0 ? "Fiscal year is ready with the following values"
-				: "Fiscal year is ready to update with following details";
+		return fiscalYear.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().fiscalYear()) : getMessages().readyToUpdate(
+				getMessages().fiscalYear());
 	}
 
 	@Override
@@ -113,8 +115,9 @@ public class NewFiscalYearCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return fiscalYear.getID() == 0 ? "new fiscal year is created successfully"
-				: "Fiscal year updated successfully";
+		return fiscalYear.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().fiscalYear()) : getMessages().updateSuccessfully(
+				getMessages().fiscalYear());
 	}
 
 }

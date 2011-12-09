@@ -23,7 +23,8 @@ public class NewClassCommand extends NewAbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new NameRequirement(CLASS_NAME, getMessages().pleaseEnter(
-				getMessages().className()), "class name", false, true));
+				getMessages().className()), getMessages().className(), false,
+				true));
 
 	}
 
@@ -41,13 +42,15 @@ public class NewClassCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Class to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().className()));
 				return "Location list";
 			}
 			AccounterClass classByName = CommandUtils.getClassByName(
 					context.getCompany(), string);
 			if (classByName == null) {
-				addFirstMessage(context, "Select a Class to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().className()));
 				return "Location list " + string;
 			}
 			accounterClass = (ClientAccounterClass) CommandUtils
@@ -73,8 +76,9 @@ public class NewClassCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return accounterClass.getID() == 0 ? "New class is ready with the following values"
-				: "Class is ready to update with following details";
+		return accounterClass.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().className()) : getMessages().readyToUpdate(
+				getMessages().className());
 	}
 
 	@Override
@@ -84,8 +88,9 @@ public class NewClassCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return accounterClass.getID() == 0 ? "New class is created successfully"
-				: "Class updated successfully";
+		return accounterClass.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().className()) : getMessages().updateSuccessfully(
+				getMessages().className());
 	}
 
 }

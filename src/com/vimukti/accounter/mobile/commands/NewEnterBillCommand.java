@@ -162,7 +162,8 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		});
 
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), getMessages().currencyFactor()) {
+				.pleaseEnter(getMessages().currencyFactor()), getMessages()
+				.currencyFactor()) {
 			@Override
 			protected ClientCurrency getSelectedCurrency() {
 				Vendor vendor = (Vendor) NewEnterBillCommand.this.get(VENDOR)
@@ -197,9 +198,9 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 		});
 
-		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
-				"please select account Items", getMessages().Account(), true,
-				true) {
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
+				.pleaseEnter(getMessages().Account()), getMessages().Account(),
+				true, true) {
 			@Override
 			protected void addRequirement(List<Requirement> list) {
 				super.addRequirement(list);
@@ -277,8 +278,8 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 		});
 
-		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getMessages().items(),
+		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
+				.pleaseEnter(getMessages().itemName()), getMessages().items(),
 				true, true) {
 
 			@Override
@@ -311,8 +312,8 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 		});
 
-		list.add(new ContactRequirement(CONTACT, "Please Enter contact name",
-				"Contact", true, true, null) {
+		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
+				getMessages().contactName()), "Contact", true, true, null) {
 
 			@Override
 			protected Payee getPayee() {
@@ -383,9 +384,8 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(
-					context,
-					"Transaction total can not zero or less than zero.So you can't finish this command");
+			addFirstMessage(context, getMessages()
+					.transactionitemtotalcannotbe0orlessthan0());
 		}
 		super.beforeFinishing(context, makeResult);
 	}
@@ -458,14 +458,16 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select an Enter bill to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().enterBill()));
 				return "bills List";
 			}
 			enterBill = getTransaction(string, AccounterCoreType.ENTERBILL,
 					context);
 
 			if (enterBill == null) {
-				addFirstMessage(context, "Select an Enter bill to update.");
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().enterBill()));
 				return "Bills List " + string;
 			}
 			setValues(context);

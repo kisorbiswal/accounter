@@ -12,8 +12,10 @@ public class VendorGroupDeleteCommand extends AbstractDeleteCommand {
 		try {
 			delete(AccounterCoreType.VENDOR_GROUP, vendorGroupId, context);
 		} catch (AccounterException e) {
-			addFirstMessage(context,
-					"You can not delete. This vendorGroup Might be used in some Vendors.");
+			addFirstMessage(
+					context,
+					getMessages().payeeInUse(
+							getMessages().payeeGroup(getMessages().vendor())));
 		}
 		return "VendorGroups";
 	}

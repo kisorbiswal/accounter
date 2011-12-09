@@ -303,6 +303,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 		Account account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
 		payment.setDepositIn(account.getID());
+
 		String memo = get(MEMO).getValue();
 		payment.setMemo(memo);
 
@@ -353,14 +354,20 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		String string = context.getString();
 		if (isUpdate) {
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Received Payment to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().receivePayment()));
 				return "Received Payments List";
 			}
 
 			payment = getTransaction(string, AccounterCoreType.RECEIVEPAYMENT,
 					context);
 			if (payment == null) {
-				addFirstMessage(context, "Select a Received Payment to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectATransactionToUpdate(
+								getMessages().receivePayment()));
 				return "Received Payments List " + string;
 			}
 			setValues();
@@ -446,15 +453,15 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return payment.getID() == 0 ? getMessages().creating(
-				getMessages().receivePayment())
-				: "Update Receive Payment command activated";
+				getMessages().receivePayment()) : getMessages().readyToUpdate(
+				getMessages().receivePayment());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return payment.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().receivePayment())
-				: "Receive payment is ready to update with following details";
+				getMessages().receivePayment()) : getMessages().readyToUpdate(
+				getMessages().receivePayment());
 	}
 
 	@Override
@@ -466,10 +473,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 		get(AMOUNT_RECEIVED).setDefaultValue(new Double(0));
 		get(CHECK_NUMBER).setDefaultValue("1");
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
+
 	}
 
 	@Override

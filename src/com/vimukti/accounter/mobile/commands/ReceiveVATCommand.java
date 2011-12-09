@@ -35,7 +35,6 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -123,40 +122,6 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 						getMessages().paymentMethod());
 			}
 		});
-
-		/*
-		 * list.add(new CurrencyRequirement(CURRENCY,
-		 * getMessages().pleaseSelect( getConstants().currency()),
-		 * getConstants().currency(), true, true, null) {
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } else { return null;
-		 * } }
-		 * 
-		 * @Override protected List<Currency> getLists(Context context) { return
-		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
-		 * 
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); ClientCurrency selc =
-		 * get(CURRENCY).getValue(); return "1 " + selc.getFormalName() + " = "
-		 * + value + " " + primaryCurrency.getFormalName(); }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
-		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
-		 * !((ClientCurrency) get(CURRENCY).getValue()) .equals(getPreferences()
-		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
-		 * actions); } } return null;
-		 * 
-		 * } });
-		 */
 
 		list.add(new DateRequirement(VAT_RETURN_END_DATE, getMessages()
 				.pleaseEnter(getMessages().returnsDueOnOrBefore()),
@@ -260,7 +225,6 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -282,10 +246,7 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 		get(ORDER_NO).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_RECEIVE_TAX, getCompany()));
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
+
 	}
 
 	@Override
@@ -295,7 +256,6 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Payee getPayee() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

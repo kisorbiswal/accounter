@@ -32,7 +32,6 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -80,39 +79,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 
 			}
 		});
-		/*
-		 * list.add(new CurrencyRequirement(CURRENCY,
-		 * getMessages().pleaseSelect( getConstants().currency()),
-		 * getConstants().currency(), true, true, null) {
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if
-		 * (getPreferences().isEnableMultiCurrency()) { return
-		 * super.run(context, makeResult, list, actions); } else { return null;
-		 * } }
-		 * 
-		 * @Override protected List<Currency> getLists(Context context) { return
-		 * new ArrayList<Currency>(context.getCompany() .getCurrencies()); } });
-		 * 
-		 * list.add(new AmountRequirement(CURRENCY_FACTOR, getMessages()
-		 * .pleaseSelect(getConstants().currency()), getConstants() .currency(),
-		 * false, true) {
-		 * 
-		 * @Override protected String getDisplayValue(Double value) {
-		 * ClientCurrency primaryCurrency = getPreferences()
-		 * .getPrimaryCurrency(); Currency selc = get(CURRENCY).getValue();
-		 * return "1 " + selc.getFormalName() + " = " + value + " " +
-		 * primaryCurrency; }
-		 * 
-		 * @Override public Result run(Context context, Result makeResult,
-		 * ResultList list, ResultList actions) { if (get(CURRENCY).getValue()
-		 * != null) { if (getPreferences().isEnableMultiCurrency() &&
-		 * !((Currency) get(CURRENCY).getValue()) .equals(getPreferences()
-		 * .getPrimaryCurrency())) { return super.run(context, makeResult, list,
-		 * actions); } } return null;
-		 * 
-		 * } });
-		 */
+
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
 				.pleaseEnterName(getMessages().paymentMethod()), getMessages()
 				.paymentMethod(), false, true, null) {
@@ -231,15 +198,6 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 		payVAT.setTaxAgency(taxAgency == null ? 0 : taxAgency.getID());
 		payVAT.setDate(transactionDate.getDate());
 
-		/*
-		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
-		 * currency = get(CURRENCY).getValue(); if (currency != null) {
-		 * payVAT.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * payVAT.setCurrencyFactor(factor); }
-		 */
-
 		create(payVAT, context);
 
 		return null;
@@ -271,10 +229,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 		get(ORDER_NO).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_PAY_TAX, context.getCompany()));
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
+
 	}
 
 	@Override
@@ -284,18 +239,7 @@ public class PayVATCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected Payee getPayee() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
-	// private Record createTransactionPayVatRecord(TransactionPayTAX
-	// payVatBill) {
-	// Record record = new Record(payVatBill);
-	// TAXAgency taxAgency = payVatBill.getTaxAgency();
-	// record.add("Vat Agency", taxAgency != null ? taxAgency.getName() : "");
-	// record.add("Tax Due", payVatBill.getTaxDue());
-	// record.add("Amount to pay", payVatBill.getAmountToPay());
-	// return record;
-	// }
 
 }
