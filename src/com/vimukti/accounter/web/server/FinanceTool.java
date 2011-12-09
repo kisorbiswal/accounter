@@ -110,6 +110,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
@@ -2521,12 +2522,12 @@ public class FinanceTool {
 	// }
 	// }
 
-	public ArrayList<ClientMessage> getMessages(int status, String lang,
+	public PaginationList<ClientMessage> getMessages(int status, String lang,
 			String email, int frm, int limit, String searchTerm) {
 		Session session = null;
 		try {
 			session = HibernateUtil.openSession();
-			List<Message> messages = new ArrayList<Message>();
+			PaginationList<Message> messages = new PaginationList<Message>();
 			switch (status) {
 			case ClientMessage.ALL:
 				messages = getMessagesList(lang, frm, limit, searchTerm);
@@ -2549,7 +2550,8 @@ public class FinanceTool {
 				break;
 			}
 
-			ArrayList<ClientMessage> clientMessages = new ArrayList<ClientMessage>();
+			PaginationList<ClientMessage> clientMessages = new PaginationList<ClientMessage>();
+			clientMessages.setTotalCount(messages.getTotalCount());
 
 			for (Message message : messages) {
 
@@ -2590,9 +2592,9 @@ public class FinanceTool {
 		}
 	}
 
-	private List<Message> getUnApprovedMessages(String lang, int frm,
+	private PaginationList<Message> getUnApprovedMessages(String lang, int frm,
 			int limit, String searchTerm) {
-		List<Message> messages = new ArrayList<Message>();
+		PaginationList<Message> messages = new PaginationList<Message>();
 
 		Session session = null;
 		try {
@@ -2603,6 +2605,14 @@ public class FinanceTool {
 					.setParameter("lang", lang).setInteger("limt", limit)
 					.setInteger("fm", frm)
 					.setParameter("searchTerm", "%" + searchTerm + "%");
+
+			int count = ((BigInteger) session
+					.getNamedQuery("getCountOfUnApprovedMessages")
+					.setParameter("lang", lang)
+					.setParameter("searchTerm", "%" + searchTerm + "%")
+					.uniqueResult()).intValue();
+
+			messages.setTotalCount(count);
 
 			Iterator iter = approvedMessagesQuery.list().iterator();
 			while (iter.hasNext()) {
@@ -2632,9 +2642,9 @@ public class FinanceTool {
 		}
 	}
 
-	private List<Message> getMyTranslations(String lang, String email, int frm,
-			int limit, String searchTerm) {
-		List<Message> messages = new ArrayList<Message>();
+	private PaginationList<Message> getMyTranslations(String lang,
+			String email, int frm, int limit, String searchTerm) {
+		PaginationList<Message> messages = new PaginationList<Message>();
 
 		Session session = null;
 		try {
@@ -2649,6 +2659,16 @@ public class FinanceTool {
 					.setInteger("limt", limit)
 					.setParameter("clientId", client.getID())
 					.setParameter("searchTerm", "%" + searchTerm + "%");
+
+			int count = ((BigInteger) session
+					.getNamedQuery("getCountOfMyTranslations")
+					.setParameter("lang", lang)
+					.setParameter("clientId", client.getID())
+					.setParameter("searchTerm", "%" + searchTerm + "%")
+					.uniqueResult()).intValue();
+
+			messages.setTotalCount(count);
+
 			List queryList = myTranslationsQuery.list();
 			Iterator i = queryList.iterator();
 			while (i.hasNext()) {
@@ -2678,9 +2698,9 @@ public class FinanceTool {
 		}
 	}
 
-	private List<Message> getUntranslatedMessages(String lang, int frm,
-			int limit, String searchTerm) {
-		List<Message> messages = new ArrayList<Message>();
+	private PaginationList<Message> getUntranslatedMessages(String lang,
+			int frm, int limit, String searchTerm) {
+		PaginationList<Message> messages = new PaginationList<Message>();
 
 		Session session = null;
 		try {
@@ -2690,6 +2710,15 @@ public class FinanceTool {
 					.setParameter("lang", lang).setInteger("limt", limit)
 					.setInteger("fm", frm)
 					.setParameter("searchTerm", "%" + searchTerm + "%");
+
+			int count = ((BigInteger) session
+					.getNamedQuery("getCountOfUntranslatedMessages")
+					.setParameter("lang", lang)
+					.setParameter("searchTerm", "%" + searchTerm + "%")
+					.uniqueResult()).intValue();
+
+			messages.setTotalCount(count);
+
 			List list = messageIdsQuery.list();
 			Iterator iterator = list.iterator();
 			while (iterator.hasNext()) {
@@ -2711,9 +2740,9 @@ public class FinanceTool {
 		}
 	}
 
-	private ArrayList<Message> getMessagesList(String lang, int frm, int limit,
-			String searchTerm) {
-		List<Message> messages = new ArrayList<Message>();
+	private PaginationList<Message> getMessagesList(String lang, int frm,
+			int limit, String searchTerm) {
+		PaginationList<Message> messages = new PaginationList<Message>();
 
 		Session session = null;
 		try {
@@ -2722,6 +2751,14 @@ public class FinanceTool {
 					.setInteger("fm", frm).setInteger("limt", limit)
 					.setParameter("lang", lang)
 					.setParameter("searchTerm", "%" + searchTerm + "%");
+			int count = ((BigInteger) session
+					.getNamedQuery("getCountOfMessages")
+					.setParameter("lang", lang)
+					.setParameter("searchTerm", "%" + searchTerm + "%")
+					.uniqueResult()).intValue();
+
+			messages.setTotalCount(count);
+
 			List list2 = query.list();
 			Iterator iterator1 = list2.iterator();
 			while (iterator1.hasNext()) {
@@ -2742,7 +2779,7 @@ public class FinanceTool {
 
 				messages.add(message);
 			}
-			return new ArrayList<Message>(messages);
+			return messages;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

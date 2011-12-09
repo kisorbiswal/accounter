@@ -71,7 +71,7 @@
 		from com.vimukti.accounter.web.server.translate.Message m where
 		m.value=:value
 	</query>
-	
+
 	<query name="getKeyByValue">
 		<query-param name="value" type="string" />
 		from com.vimukti.accounter.web.server.translate.Key k where
@@ -156,6 +156,27 @@
 		ASC ,M.VALUE LIMIT :limt OFFSET :fm
 	</sql-query>
 
+	<sql-query name="getCountOfMessages">
+		<query-param name="lang" type="string" />
+		<query-param name="searchTerm" type="string" />
+		SELECT COUNT(*) FROM MESSAGE M WHERE M.VALUE LIKE :searchTerm ORDER BY
+		(
+		SELECT
+		COUNT(*) FROM LOCAL_MESSAGE
+		LM WHERE LM.MESSAGE_ID=M.ID AND
+		LM.LANGUAGE=:lang) ASC ,
+		(SELECT
+		MAX(VOTES) FROM LOCAL_MESSAGE LM WHERE
+		LM.MESSAGE_ID=M.ID AND
+		LM.LANGUAGE=:lang) ASC ,
+		(SELECT COUNT(*) FROM
+		LOCAL_MESSAGE LM WHERE
+		LM.MESSAGE_ID=M.ID AND
+		LM.LANGUAGE=:lang AND
+		LM.IS_APPROVED=TRUE )=1
+		ASC ,M.VALUE;
+	</sql-query>
+
 	<sql-query name="getUntranslatedMessages">
 		<query-param name="lang" type="string" />
 		<query-param name="fm" type="int" />
@@ -165,6 +186,16 @@
 		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0 AND M.VALUE LIKE
 		:searchTerm ORDER BY M.VALUE
 		LIMIT :limt OFFSET :fm
+	</sql-query>
+
+	<sql-query name="getCountOfUntranslatedMessages">
+		<query-param name="lang" type="string" />
+		<query-param name="searchTerm" type="string" />
+		SELECT COUNT(*) FROM MESSAGE M WHERE(SELECT COUNT(*) FROM
+		LOCAL_MESSAGE LM
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0 AND
+		M.VALUE LIKE
+		:searchTerm ORDER BY M.VALUE;
 	</sql-query>
 
 	<sql-query name="getMyTranslations">
@@ -193,6 +224,30 @@
 		:limt OFFSET :fm
 	</sql-query>
 
+	<sql-query name="getCountOfMyTranslations">
+		<query-param name="lang" type="string" />
+		<query-param name="clientId" type="long" />
+		<query-param name="searchTerm" type="string" />
+		SELECT COUNT(*) FROM MESSAGE M WHERE (SELECT COUNT(*) FROM
+		LOCAL_MESSAGE LM
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
+		LM.CLIENT=:clientId)=1 AND M.VALUE LIKE :searchTerm
+		ORDER BY (SELECT
+		COUNT(*) FROM LOCAL_MESSAGE LM
+		WHERE
+		LM.MESSAGE_ID=M.ID AND
+		LM.LANGUAGE=:lang) ASC ,(SELECT MAX(VOTES)
+		FROM
+		LOCAL_MESSAGE LM WHERE
+		LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)
+		ASC
+		,(SELECT COUNT(*) FROM
+		LOCAL_MESSAGE LM WHERE LM.MESSAGE_ID=M.ID
+		AND
+		LM.LANGUAGE=:lang AND
+		LM.IS_APPROVED=TRUE )=1 ASC ,M.VALUE;
+	</sql-query>
+
 	<sql-query name="getUnApprovedMessages">
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
@@ -207,7 +262,23 @@
 		MAX(VOTES) FROM LOCAL_MESSAGE LM WHERE
 		LM.MESSAGE_ID=M.ID AND
 		LM.LANGUAGE=:lang) ASC , M.VALUE LIMIT
-		:limt OFFSET :fm
+		:limt
+		OFFSET :fm
+	</sql-query>
+
+	<sql-query name="getCountOfUnApprovedMessages">
+		<query-param name="lang" type="string" />
+		<query-param name="searchTerm" type="string" />
+		SELECT COUNT(*) FROM MESSAGE M WHERE (SELECT COUNT(*) FROM
+		LOCAL_MESSAGE LM
+		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
+		LM.IS_APPROVED=TRUE)=0 AND M.VALUE LIKE :searchTerm ORDER BY (SELECT
+		COUNT(*) FROM LOCAL_MESSAGE LM
+		WHERE LM.MESSAGE_ID=M.ID AND
+		LM.LANGUAGE=:lang) ASC ,(SELECT
+		MAX(VOTES) FROM LOCAL_MESSAGE LM WHERE
+		LM.MESSAGE_ID=M.ID AND
+		LM.LANGUAGE=:lang) ASC , M.VALUE;
 	</sql-query>
 
 	<query name="getLanguageById">
