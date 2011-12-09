@@ -27,7 +27,11 @@ public class RecentTransactionsPortlet extends Portlet {
 			limitList.add(messages.lastOf((i + 1) * 5));
 		}
 		limitCombo.initCombo(limitList);
-		limitCombo.setSelectedItem(0);
+		if (getConfiguration().getPortletKey() != null) {
+			limitCombo.setSelected(getConfiguration().getPortletKey());
+		} else {
+			limitCombo.setSelectedItem(0);
+		}
 		DynamicForm dynamicForm = new DynamicForm();
 		dynamicForm.setFields(limitCombo);
 		dynamicForm.addStyleName("list_combo_form");
@@ -37,6 +41,8 @@ public class RecentTransactionsPortlet extends Portlet {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
+						getConfiguration().setPortletKey(
+								limitCombo.getSelectedValue());
 						updateData();
 					}
 				});
