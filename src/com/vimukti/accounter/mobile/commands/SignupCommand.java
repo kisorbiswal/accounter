@@ -28,7 +28,7 @@ import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.Global;
 
-public class SignupCommand extends NewCommand {
+public class SignupCommand extends NewAbstractCommand {
 	private static final String FIRST_NAME = "firstname";
 	private static final String LAST_NAME = "lastname";
 	private static final String SUBSCRIBED_NEWSLETTER = "subscribed";
@@ -77,15 +77,12 @@ public class SignupCommand extends NewCommand {
 				String value = (String) val;
 				if (value == null) {
 					return;
-				} else if (!isValidEmailId(value)) {
-					setEnterString("Enter a valid email address. A mail will be sent to this email to confirm your account and also in case you forgot your password");
-					return;
 				} else if (getClient(value) != null) {
 					setEnterString("This Email ID is already registered with Accounter, try to signup with another Email ID. If you are the registered user type login to login.");
 					return;
 				}
 				setEnterString("Enter Email");
-				super.setValue(value);
+				super.setValue(value.toLowerCase().trim());
 			}
 		});
 
@@ -135,7 +132,7 @@ public class SignupCommand extends NewCommand {
 	}
 
 	protected String createActivation(String emailID, Context context) {
-		String token = SecureUtils.createID(16);
+		String token = SecureUtils.createID(16).toLowerCase().trim();
 		Activation activation = new Activation();
 		activation.setEmailId(emailID);
 		activation.setToken(token);
