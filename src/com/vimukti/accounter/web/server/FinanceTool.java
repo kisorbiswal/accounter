@@ -3063,8 +3063,8 @@ public class FinanceTool {
 				if (result.containsKey(key)) {
 					continue;
 				}
-				value.replace("'", "\\'");
-				result.put(key, value);
+				String replace = value.replace("'", "\\'");
+				result.put(key, replace);
 			}
 
 			return result;
