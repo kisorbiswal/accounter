@@ -683,6 +683,7 @@
 		<alias>Create Supplier Credit Memo</alias>
 		<alias>Create Vendor Credit</alias>
 		<alias>Vendor Credit</alias>
+		<alias>Update Vendor Credit</alias>
 	</command>
 
 	<command
