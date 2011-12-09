@@ -1933,10 +1933,9 @@ button.disable,button.disable:hover {
 }
 /*need to add these styles to tabletcss also */
 .gwt-TreeItem .transactionPanel {
-	margin-top: -23px;
 }
 
-.gwt-TreeItem .transactionPanel td:FIRST-CHILD {
+.gwt-TreeItem .transactionPanel td {
 	padding-right: 10px;
 }
 
@@ -2272,4 +2271,9 @@ input.date-field-textbox {
 }
 .no_records_label{
 	padding: 30px 0;
+}
+.transactionPanel .editTable_disable_anchor{
+	color:black;
+	background:none;
+	cursor: auto;
 }
