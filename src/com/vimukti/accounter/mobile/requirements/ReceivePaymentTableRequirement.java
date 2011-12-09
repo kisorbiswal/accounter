@@ -10,6 +10,8 @@ import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -66,19 +68,19 @@ public abstract class ReceivePaymentTableRequirement extends
 		};
 		list.add(amount);
 
-		list.add(new ApplyCreditsRequirement(APPLIED_CREDITS,
-				"Please select record", "Record") {
-
-			@Override
-			protected String getFormalName() {
-				return ReceivePaymentTableRequirement.this.getFormalName();
-			}
-
-			@Override
-			protected List<ClientCreditsAndPayments> getCreditsPayments() {
-				return ReceivePaymentTableRequirement.this.getCreditsPayments();
-			}
-		});
+		// list.add(new ApplyCreditsRequirement(APPLIED_CREDITS,
+		// "Please select record", "Record") {
+		//
+		// @Override
+		// protected String getFormalName() {
+		// return ReceivePaymentTableRequirement.this.getFormalName();
+		// }
+		//
+		// @Override
+		// protected List<ClientCreditsAndPayments> getCreditsPayments() {
+		// return ReceivePaymentTableRequirement.this.getCreditsPayments();
+		// }
+		// });
 
 		CurrencyAmountRequirement receivePayment = new CurrencyAmountRequirement(
 				PAYMENT, getMessages().pleaseEnter(
@@ -195,5 +197,11 @@ public abstract class ReceivePaymentTableRequirement extends
 
 	protected Currency getCurrency() {
 		return getPayee().getCurrency();
+	}
+
+	public List<ClientTransactionCreditsAndPayments> getTransactionCredits(
+			ClientTransactionReceivePayment payment) {
+		ApplyCreditsRequirement requirement = (ApplyCreditsRequirement) get(APPLIED_CREDITS);
+		return requirement.getTransactionCredits(payment);
 	}
 }
