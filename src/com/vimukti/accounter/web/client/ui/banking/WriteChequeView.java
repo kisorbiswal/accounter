@@ -1032,6 +1032,7 @@ public class WriteChequeView extends
 
 		}
 		mainVLay.add(titleLabel);
+		mainVLay.add(voidedPanel);
 		mainVLay.add(topHLay);
 		mainVLay.add(vendorAccountsDisclosurePanel);
 

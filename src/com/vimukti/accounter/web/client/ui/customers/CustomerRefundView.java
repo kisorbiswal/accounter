@@ -314,6 +314,7 @@ public class CustomerRefundView extends
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setWidth("100%");
 		mainVLay.add(lab1);
+		mainVLay.add(voidedPanel);
 		mainVLay.add(totalLabel);
 		mainVLay.add(hLay);
 

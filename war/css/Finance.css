@@ -1062,7 +1062,7 @@ iframe,.address div {
 	border-width: 1px;
 }
 
-.date-number td:nth-child    (2),.datenumber-panel table {
+.date-number td:nth-child       (2),.datenumber-panel table {
 	padding-right: 15px;
 }
 
@@ -2145,11 +2145,11 @@ input.date-field-textbox {
 	border: 1px solid #3299A4;
 }
 
-.search-transaction-combo{
+.search-transaction-combo {
 	text-align: center;
 }
 
-.settingsButton{
+.settingsButton {
 	float: right;
 }
 
@@ -2170,53 +2170,65 @@ input.date-field-textbox {
 }
 
 .no_records .norecord-empty-message {
-
-    margin-left: 400px;
-    position: absolute ;
+	margin-left: 400px;
+	position: absolute;
 }
-.no_records .norecord-empty-message td:FIRST-CHILD{
+
+.no_records .norecord-empty-message td:FIRST-CHILD {
 	border-bottom: medium none;
 	border-right: medium none;
 }
-.search-width table{
+
+.search-width table {
 	width: 100%;
 }
-.search_combo_width{
+
+.search_combo_width {
 	width: auto !important;
 }
-.label-status{
+
+.label-status {
 	margin-top: 20px;
 }
-.search-all-forms{
+
+.search-all-forms {
 	margin-top: 10px;
 }
-.search_date{
+
+.search_date {
 	width: auto !important;
-  	margin-right: 20px;
+	margin-right: 20px;
 }
-.charaterisitc_label{
+
+.charaterisitc_label {
 	margin: 5px;
 }
-.search_match{
+
+.search_match {
 	width: auto !important;
-	 margin-left: 8px;
+	margin-left: 8px;
 }
-.search_select_combo{
-	width: auto !important;
-	margin-right: 20px;
-}
-.search_account_combo{
+
+.search_select_combo {
 	width: auto !important;
 	margin-right: 20px;
 }
-.customise-checkbox-align{
+
+.search_account_combo {
+	width: auto !important;
+	margin-right: 20px;
+}
+
+.customise-checkbox-align {
 	margin-left: 35px;
 }
-.search_textbox{
+
+.search_textbox {
 	width: auto !important;
 	margin-right: 20px;
 }
-.quick-links-table .gwt-Anchor{
+
+.quick-links-table .gwt-Anchor {
 	color: #2D8B93;
 }
 
@@ -2248,6 +2260,7 @@ input.date-field-textbox {
 .user_activity_log tr:nth-child(odd) button {
 	background: white;
 }
+
 .user_activity_log tr:nth-child(odd):hover button {
 	background: #eeeeee;
 }
@@ -2263,14 +2276,30 @@ input.date-field-textbox {
 .account_panel {
 	padding: 0 0 15px 22px;
 }
-.budget_overview .gridBody .depth2{
-	padding-left:2px;
+
+.budget_overview .gridBody .depth2 {
+	padding-left: 2px;
 }
-.dashboard_grid_header{
+
+.dashboard_grid_header {
 	display: none !important;
 }
-.no_records_label{
+
+.no_records_label {
 	padding: 30px 0;
+}
+
+.title_voided_panel {
+	border: 1px solid #1A5158 !important;
+	margin: 10px 0;
+	padding: 5px 0 5px 15px;
+	width: 100%;
+}
+
+.title_voided_label {
+	color: #FF0000;
+	font-size: 19px;
+	text-transform: uppercase;
 }
 .transactionPanel .editTable_disable_anchor{
 	color:black;

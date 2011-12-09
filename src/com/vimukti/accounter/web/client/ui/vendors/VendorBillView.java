@@ -768,6 +768,7 @@ public class VendorBillView extends
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.add(lab1);
+		mainVLay.add(voidedPanel);
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.setCellHorizontalAlignment(topHLay, ALIGN_RIGHT);

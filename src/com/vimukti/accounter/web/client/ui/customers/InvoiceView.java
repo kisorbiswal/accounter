@@ -614,6 +614,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
+		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		mainVLay.add(transactionsTree);

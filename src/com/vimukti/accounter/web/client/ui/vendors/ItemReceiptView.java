@@ -314,6 +314,7 @@ public class ItemReceiptView extends
 		mainVLay.setSize("100%", "100%");
 		mainVLay.setSpacing(2);
 		mainVLay.add(labeldateNoLayout);
+		mainVLay.add(voidedPanel);
 		mainVLay.add(topHLay);
 		mainVLay.add(lab2);
 		// mainVLay.add(menuButton);
@@ -443,15 +444,12 @@ public class ItemReceiptView extends
 			paymentTermsSelected(this.paymentTerm);
 
 			if (getPreferences().isTrackPaidTax()) {
-				netAmount.setAmount(transaction
-						.getNetAmount());
-				vatTotalNonEditableText
-						.setAmount(transaction
-								.getTotal() - transaction.getNetAmount());
+				netAmount.setAmount(transaction.getNetAmount());
+				vatTotalNonEditableText.setAmount(transaction.getTotal()
+						- transaction.getNetAmount());
 			}
 			transactionTotalNonEditableText
-					.setAmount(getAmountInBaseCurrency(transaction
-							.getTotal()));
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -487,9 +485,7 @@ public class ItemReceiptView extends
 				.setAmount(getAmountInBaseCurrency(grandTotal));
 		netAmount.setAmount(lineTotal);
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText
-					.setAmount(grandTotal
-							- lineTotal);
+			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
 		}
 	}
 

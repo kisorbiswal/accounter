@@ -652,6 +652,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab);
+		mainVLay.add(voidedPanel);
 		mainVLay.add(datepanel);
 		mainVLay.add(topHLay);
 		mainVLay.add(gridLayout);

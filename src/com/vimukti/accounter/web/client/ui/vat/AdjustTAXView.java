@@ -240,6 +240,7 @@ public class AdjustTAXView extends
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
 		mainPanel.add(infoLabel);
+		mainPanel.add(voidedPanel);
 		mainPanel.add(datepanel);
 		mainPanel.add(topform);
 		// if (getCompany().getAccountingType() ==

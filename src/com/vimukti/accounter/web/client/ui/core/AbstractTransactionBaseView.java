@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -206,6 +207,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	private ArrayList<ClientAccounterClass> clientAccounterClasses = new ArrayList<ClientAccounterClass>();
 
+	protected HorizontalPanel voidedPanel;
+
+	private Label voidedLabel;
+
 	public boolean isVatInclusive() {
 		return isVATInclusive;
 	}
@@ -216,6 +221,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public AbstractTransactionBaseView(int transactionType) {
 		super();
 		this.transactionType = transactionType;
+		getVoidedPanel();
 		// this.gridType = transactionViewType;
 
 	}
@@ -261,6 +267,15 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		}
 		return taxCode;
+	}
+
+	protected HorizontalPanel getVoidedPanel() {
+		voidedPanel = new HorizontalPanel();
+		voidedLabel = new Label();
+		voidedPanel.add(voidedLabel);
+		voidedPanel.setCellHorizontalAlignment(voidedLabel,
+				HasAlignment.ALIGN_CENTER);
+		return voidedPanel;
 	}
 
 	public double getVATRate(long VATCodeID) {
@@ -756,6 +771,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	@Override
 	public void init() {
 		super.init();
+		getVoidedPanel();
 		createControls();
 		setSize("100%", "100%");
 	}
@@ -764,7 +780,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public void initData() {
 
 		initTransactionViewData();
-
+		if (transaction.isVoid()) {
+			voidedLabel.setText(messages.Voided());
+			voidedPanel.addStyleName("title_voided_panel");
+			voidedLabel.addStyleName("title_voided_label");
+		}
 		super.initData();
 
 	}

@@ -91,7 +91,7 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 
 	@Override
 	public void onDragEnd(DragEndEvent event) {
-		// refreshWidgets();
+		updateConfiguration();
 		haveToRefresh = false;
 		updatePortletPage();
 	}

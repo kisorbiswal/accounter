@@ -231,6 +231,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// mainLayout.setMembersMargin(10);
 		// mainLayout.setMargin(10);
 		mainLayout.add(lab);
+		mainLayout.add(voidedPanel);
 		mainLayout.add(dateNoForm);
 		mainLayout.add(hPanel);
 		this.add(mainLayout);
@@ -280,7 +281,6 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		transaction.setReference(referenceNo.getValue().toString());
 
 		transaction.setPayFrom(selectedPayFromAccount.getID());
-
 
 		transaction.setPaymentMethod(paymentMethod);
 	}
