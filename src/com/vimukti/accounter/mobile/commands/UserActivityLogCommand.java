@@ -51,8 +51,8 @@ public class UserActivityLogCommand extends NewAbstractCommand {
 						new ClientFinanceDate(value.getTime()));
 				record.add(getMessages().userName(), value.getUserName());
 				record.add(getMessages().activity(), getActivityDataType(value));
-				record.add("Amount", getCurrency(value.getCurrency())
-						.getSymbol() + " " + value.getAmount());
+				record.add(getMessages().amount(),
+						value.getAmount() == null ? 0.0 : value.getAmount());
 				return record;
 			}
 
