@@ -385,14 +385,16 @@ public class ViewManager extends HorizontalPanel {
 				if (data != null && callback != null) {
 					callback.actionResult(data);
 				}
-				if (item.view instanceof BaseView)
-					if (((BaseView<IAccounterCore>) item.view).isInViewMode()) {
-						viewTitleLabel.setText(item.action.getCatagory()
-								+ "  >  " + item.action.getViewModeText());
-					} else {
-						viewTitleLabel.setText(item.action.getCatagory()
-								+ "  >  " + item.action.getText());
-					}
+
+				if (item.view instanceof BaseView
+						&& (((BaseView<IAccounterCore>) item.view)
+								.isInViewMode())) {
+					viewTitleLabel.setText(item.action.getCatagory() + "  >  "
+							+ item.action.getViewModeText());
+				} else {
+					viewTitleLabel.setText(item.action.getCatagory() + "  >  "
+							+ item.action.getText());
+				}
 				viewHolder.add(item.view);
 				this.views.add(item);
 				History.newItem(item.action.getHistoryToken(), false);
