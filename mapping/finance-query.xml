@@ -3695,14 +3695,14 @@
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
 		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
-		<return-scalar column="ESTIMATE_ID" type="long" />
-		SELECT TR.ID AS RECEIVE_PAYMENT_ID,E.ID AS ESTIMATE_ID FROM INVOICE I
-		LEFT JOIN TRANSACTION T ON T.ID=I.ID
+		SELECT TR.ID AS RECEIVE_PAYMENT_ID FROM INVOICE I
+		LEFT JOIN TRANSACTION
+		T ON T.ID=I.ID
 		LEFT JOIN
-		TRANSACTION_RECEIVE_PAYMENT TR ON TR.INVOICE_ID=I.ID LEFT
-		JOIN ESTIMATE
-		E ON E.USED_INVOICE=I.ID WHERE I.ID=:inputId AND
-		T.COMPANY_ID=:companyId LIMIT 1
+		TRANSACTION_RECEIVE_PAYMENT TR ON
+		TR.INVOICE_ID=I.ID WHERE I.ID=:inputId AND
+		T.COMPANY_ID=:companyId
+		LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteReceivePayment">
