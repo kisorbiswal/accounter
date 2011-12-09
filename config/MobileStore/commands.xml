@@ -56,7 +56,7 @@
 		<alias>Modify Vendor Group</alias>
 		<alias>Edit Vendor Group</alias>
 	</command>
-	<command clazz="com.vimukti.accounter.mobile.commands.AddNewCurrency"
+	<command clazz="com.vimukti.accounter.mobile.commands.AddNewCurrencyCommand"
 		name="Add Currency"></command>
 	<command clazz="com.vimukti.accounter.mobile.commands.NewAccountCommand"
 		name="New Account">
