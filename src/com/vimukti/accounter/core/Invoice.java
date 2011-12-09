@@ -512,7 +512,9 @@ public class Invoice extends Transaction implements Lifecycle {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					estimate.setUsedInvoice(invoice, session);
+					if (!this.isVoid) {
+						estimate.setUsedInvoice(invoice, session);
+					}
 				}
 				estimate.onUpdate(session);
 				session.saveOrUpdate(estimate);
@@ -641,15 +643,16 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	private void doVoidEffect(Session session, Invoice invoice) {
 
-//		if (invoice.transactionReceivePayments != null) {
-//			for (TransactionReceivePayment trp : invoice.transactionReceivePayments) {
-//				trp.onVoidTransaction(session);
-//				session.saveOrUpdate(trp);
-//			}
-//		}
+		// if (invoice.transactionReceivePayments != null) {
+		// for (TransactionReceivePayment trp :
+		// invoice.transactionReceivePayments) {
+		// trp.onVoidTransaction(session);
+		// session.saveOrUpdate(trp);
+		// }
+		// }
 		invoice.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
-		invoice.payments = invoice.total;
-		invoice.balanceDue = 0.0;
+		// invoice.payments = invoice.total;
+		// invoice.balanceDue = 0.0;
 
 		for (Estimate estimate : invoice.getEstimates()) {
 			estimate.setUsedInvoice(null, session);
@@ -987,7 +990,7 @@ public class Invoice extends Transaction implements Lifecycle {
 					break;
 				}
 			}
-			if (est != null) {
+			if (est != null && !this.isVoid) {
 				est.setUsedInvoice(newInvoice, session);
 			} else {
 				est = (Estimate) session.get(Estimate.class, oldEstiamte.id);
@@ -1014,7 +1017,7 @@ public class Invoice extends Transaction implements Lifecycle {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if (!estimatesExistsInOldInvoice.contains(est)) {
+			if (!estimatesExistsInOldInvoice.contains(est) && !this.isVoid) {
 				est.setUsedInvoice(newInvoice, session);
 				session.saveOrUpdate(est);
 			}
