@@ -1,6 +1,5 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.CommandList;
@@ -9,13 +8,15 @@ import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
 
 public class CountryRequirement extends ListRequirement<String> {
 
-	public CountryRequirement(String requirementName, boolean isOptional,
-			boolean isAllowFromContext, ChangeListner<String> listner) {
-		super(requirementName, "Please enter Country name", "Country",
-				isOptional, isAllowFromContext, listner);
+	public CountryRequirement(String requirementName, String enterString,
+			String recordName, boolean isOptional, boolean isAllowFromContext,
+			ChangeListner<String> listner) {
+		super(requirementName, enterString, recordName, isOptional,
+				isAllowFromContext, listner);
 	}
 
 	@Override
@@ -56,15 +57,7 @@ public class CountryRequirement extends ListRequirement<String> {
 
 	@Override
 	protected List<String> getLists(Context context) {
-		List<String> countries = new ArrayList<String>();
-		countries.add("United Kingdom");
-		countries.add("US");
-		countries.add("India");
-		countries.add("Afganistan");
-		countries.add("China");
-		countries.add("Colombia");
-		countries.add("France");
-		return countries;
+		return CoreUtils.getCountriesAsList();
 	}
 
 	@Override

@@ -111,7 +111,9 @@ public class SignupCommand extends NewAbstractCommand {
 				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				false, true));
 
-		list.add(new CountryRequirement(COUNTRY, false, true, null));
+		list.add(new CountryRequirement(COUNTRY, getMessages().pleaseEnter(
+				getMessages().country()), getMessages().country(), false, true,
+				null));
 
 		list.add(new BooleanRequirement(SUBSCRIBED_NEWSLETTER, true) {
 
