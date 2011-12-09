@@ -205,17 +205,17 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void addBillableTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (billableTree == null) {
-			billableTree = new TreeItem();
-			createTransactionsTree(isSelected, billableTree, Accounter
-					.messages().billabelList());
+			billableTree = getTransactionsTree(isSelected, Accounter.messages()
+					.billabelList());
+			tree.addItem(billableTree);
 		}
 		String transactionLink = Accounter.messages().billabe();
 		billableTree.addItem(getChildTransactionTree(transactionLink, estimate,
 				isSelected));
 	}
 
-	private void createTransactionsTree(boolean isSelected,
-			final TreeItem treeItem, String message) {
+	private TreeItem getTransactionsTree(boolean isSelected, String message) {
+		final TreeItem treeItem = new TreeItem();
 		CheckBox billableSelection = new CheckBox(message);
 		billableSelection.setEnabled(isinViewMode());
 		billableSelection.setValue(isSelected);
@@ -228,15 +228,15 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 						onSelectionChanged(event.getValue(), treeItem);
 					}
 				});
-		tree.addItem(treeItem);
+		return treeItem;
 	}
 
 	private void addQuotesTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (quotesTree == null) {
-			quotesTree = new TreeItem();
-			createTransactionsTree(isSelected, quotesTree, Accounter.messages()
+			quotesTree = getTransactionsTree(isSelected, Accounter.messages()
 					.quotesList());
+			tree.addItem(quotesTree);
 		}
 		String transactionLink = Accounter.messages().quote();
 		quotesTree.addItem(getChildTransactionTree(transactionLink, estimate,
@@ -248,9 +248,9 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void addChargesTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (chargesTree == null) {
-			chargesTree = new TreeItem();
-			createTransactionsTree(isSelected, chargesTree, Accounter
-					.messages().chargesList());
+			chargesTree = getTransactionsTree(isSelected, Accounter.messages()
+					.chargesList());
+			tree.addItem(chargesTree);
 		}
 		String transactionLink = Accounter.messages().charge();
 		chargesTree.addItem(getChildTransactionTree(transactionLink, estimate,
@@ -260,9 +260,9 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void addCreditsTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (creditsTree == null) {
-			creditsTree = new TreeItem();
-			createTransactionsTree(isSelected, creditsTree, Accounter
-					.messages().creditsList());
+			creditsTree = getTransactionsTree(isSelected, Accounter.messages()
+					.creditsList());
+			tree.addItem(creditsTree);
 		}
 		creditsTree.addItem(getChildTransactionTree(Accounter.messages()
 				.credit(), estimate, isSelected));
