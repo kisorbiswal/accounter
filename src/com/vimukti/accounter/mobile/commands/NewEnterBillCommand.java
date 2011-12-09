@@ -478,6 +478,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 			enterBill = new ClientEnterBill();
 		}
+		setTransaction(enterBill);
 		return null;
 	}
 
