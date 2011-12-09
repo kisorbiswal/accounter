@@ -332,20 +332,6 @@
 	</pattern>
 
 	<pattern login="true">
-		<input>Invoice Branding</input>
-		<outputs>
-			<command title="NewBrandingThemeCommand" />
-		</outputs>
-	</pattern>
-
-	<pattern login="true">
-		<input>Users</input>
-		<outputs>
-			<command title="InviteAUserCommand" />
-		</outputs>
-	</pattern>
-
-	<pattern login="true">
 		<input>Item</input>
 		<input>Product and Service Item</input>
 		<input>Product and Service Items</input>
