@@ -1377,10 +1377,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 							.quotesSelected(transaction.getEstimates() != null ? transaction
 									.getEstimates()
 									: new ArrayList<ClientEstimate>());
-					transactionsTree.salesOrdersSelected(transaction
-							.getSalesOrders() != null ? transaction
-							.getSalesOrders()
-							: new ArrayList<ClientSalesOrder>());
 					transactionsTree.setEnabled(!isInViewMode());
 					refreshTransactionGrid();
 				}

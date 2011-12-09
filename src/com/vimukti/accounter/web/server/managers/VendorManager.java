@@ -24,6 +24,7 @@ import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
+import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.NumberUtils;
@@ -38,6 +39,7 @@ import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.Client1099Form;
+import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
@@ -1702,5 +1704,17 @@ public class VendorManager extends Manager {
 		return createPurchasesByVendorDetail(new ArrayList<SalesByCustomerDetail>(
 				l));
 
+	}
+
+	public ClientEnterBill getEnterBillByEstimateId(long estimateId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Estimate estimate = (Estimate) session.get(Estimate.class, estimateId);
+		Object[] uniqueResult = (Object[]) session
+				.getNamedQuery("getEnterBillByEstimate")
+				.setParameter("estimate", estimate).uniqueResult();
+		ClientEnterBill enterBillId = new ClientConvertUtil().toClientObject(
+				((EnterBill) uniqueResult[0]), ClientEnterBill.class);
+		return enterBillId;
 	}
 }

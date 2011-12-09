@@ -63,6 +63,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
@@ -386,7 +387,7 @@ public interface IAccounterHomeViewServiceAsync {
 	void getSearchResultByInput(SearchInput input, int start, int length,
 			AsyncCallback<PaginationList<SearchResultlist>> callBack);
 
-		public void savePortletConfig(ClientPortletPageConfiguration config,
+	public void savePortletConfig(ClientPortletPageConfiguration config,
 			AsyncCallback<Boolean> callback);
 
 	public void getMostRecentTransactionCurrencyFactor(long companyId,
@@ -403,5 +404,8 @@ public interface IAccounterHomeViewServiceAsync {
 
 	void getAccountsAndValues(long startDate, long endDate,
 			AsyncCallback<Map<String, Double>> callback);
+
+	void getEnterBillByEstimateId(long l,
+			AsyncCallback<ClientEnterBill> asyncCallback);
 
 }

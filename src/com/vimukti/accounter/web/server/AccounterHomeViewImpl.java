@@ -1786,4 +1786,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 						dates[0].getDate(), dates[1].getDate());
 		return map;
 	}
+
+	@Override
+	public ClientEnterBill getEnterBillByEstimateId(long estimate)
+			throws AccounterException {
+		return new FinanceTool().getVendorManager().getEnterBillByEstimateId(
+				estimate);
+	}
 }

@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
@@ -25,6 +26,8 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -34,8 +37,6 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	ICurrencyProvider currencyProvider;
 	boolean showTaxCode;
 	boolean enableTax;
-
-	private TreeItem salesOrderTree;
 
 	private TreeItem billableTree;
 
@@ -74,15 +75,6 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		tree.addItem(checkBox);
 	}
 
-	private void addTransactionTree(TreeItem transactionTree,
-			ClientTransaction transaction) {
-		TransactionItemsTable itemsTable = new TransactionItemsTable();
-		transactionTree.addItem(itemsTable);
-		List<ClientTransactionItem> transactionItems = transaction
-				.getTransactionItems();
-		itemsTable.setAllRows(transactionItems);
-	}
-
 	public void setAllrows(ArrayList<EstimatesAndSalesOrdersList> result,
 			boolean isNew) {
 		tree.clear();
@@ -90,7 +82,6 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		chargesTree = null;
 		creditsTree = null;
 		billableTree = null;
-		salesOrderTree = null;
 		boolean isAllrowsSelected = false;
 		if (result.isEmpty() && isNew) {
 			return;
@@ -99,11 +90,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		}
 		createColumns(isAllrowsSelected);
 		for (final EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : result) {
-			if (estimatesAndSalesOrdersList.getEstimateType() != 0) {
-				addQuotesTreeItem(estimatesAndSalesOrdersList);
-			} else {
-				addSalesOrderTree(estimatesAndSalesOrdersList);
-			}
+			addQuotesTreeItem(estimatesAndSalesOrdersList);
 		}
 	}
 
@@ -140,46 +127,17 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		setEnabled(isinViewMode());
 	}
 
-	private void addSalesOrderTree(
-			EstimatesAndSalesOrdersList estimatesAndSalesOrdersList) {
-		Accounter.createGETService().getObjectById(
-				AccounterCoreType.SALESORDER,
-				estimatesAndSalesOrdersList.getTransactionId(),
-				new AsyncCallback<ClientSalesOrder>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Accounter.showError(Accounter.messages()
-								.unableToLoadRequiredQuote());
-					}
-
-					@Override
-					public void onSuccess(ClientSalesOrder result) {
-						addSalesOrderTransactionTreeItem(result, false);
-					}
-				});
-	}
-
-	private void addSalesOrderTransactionTreeItem(
-			final ClientSalesOrder salesOrder, boolean isSelected) {
-		if (salesOrderTree == null) {
-			createSalesOrderTree(isSelected);
-		}
+	private TreeItem getChildTransactionTree(String transactionLink,
+			final ClientEstimate estimate, boolean isSelected) {
 		final TreeItem transactionTree = new TreeItem();
+		transactionTree.setUserObject(estimate);
 		CheckBox checkBox = new CheckBox();
-		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				onSelectionChanged(event.getValue(), transactionTree);
-			}
-		});
 		checkBox.setValue(isSelected);
-		transactionTree.setWidget(checkBox);
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.add(checkBox);
 		horizontalPanel.addStyleName("transactionPanel");
-		transactionTree.addItem(horizontalPanel);
-		Anchor transactionLabel = new Anchor(Accounter.messages().salesOrder()) {
+		transactionTree.setWidget(horizontalPanel);
+		Anchor transactionLabel = new Anchor(transactionLink) {
 			@Override
 			public void setEnabled(boolean enabled) {
 				super.setEnabled(enabled);
@@ -195,330 +153,119 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			}
 		};
 		horizontalPanel.add(transactionLabel);
+		horizontalPanel.add(new Label(Accounter.messages()
+				.totalWithCurrencyName(transactionLink)
+				+ " : "
+				+ estimate.getTotal()));
+		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				onSelectionChanged(event.getValue(), transactionTree);
+			}
+		});
 		transactionLabel.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
-				ReportsRPC.openTransactionView(salesOrder.getType(),
-						salesOrder.getID());
+				if (estimate.getEstimateType() == ClientEstimate.BILLABLEEXAPENSES) {
+					openEnterBillView(estimate);
+				} else {
+					ReportsRPC.openTransactionView(estimate.getType(),
+							estimate.getID());
+				}
 			}
 		});
-		horizontalPanel.add(new Label(Accounter.messages()
-				.totalWithCurrencyName(Accounter.messages().salesOrder())
-				+ " : " + salesOrder.getTotal()));
-		transactionTree.setUserObject(salesOrder);
-		salesOrderTree.addItem(transactionTree);
-		addTransactionTree(transactionTree, salesOrder);
-		setEnabled(isinViewMode());
+		TransactionItemsTable itemsTable = new TransactionItemsTable();
+		transactionTree.addItem(itemsTable);
+		List<ClientTransactionItem> transactionItems = estimate
+				.getTransactionItems();
+		itemsTable.setAllRows(transactionItems);
+		return transactionTree;
 	}
 
-	private void createSalesOrderTree(boolean isSelected) {
-		CheckBox salesOrderSelection = new CheckBox(Accounter.messages()
-				.salesOrderList());
-		salesOrderSelection.setEnabled(isinViewMode());
-		salesOrderSelection.setValue(isSelected);
-		salesOrderTree = new TreeItem(salesOrderSelection);
-		salesOrderSelection
-				.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+	protected void openEnterBillView(ClientEstimate estimate) {
+
+		Accounter.createHomeService().getEnterBillByEstimateId(
+				estimate.getID(), new AsyncCallback<ClientEnterBill>() {
 
 					@Override
-					public void onValueChange(ValueChangeEvent<Boolean> event) {
-						onSelectionChanged(event.getValue(), salesOrderTree);
+					public void onFailure(Throwable caught) {
+					}
+
+					@Override
+					public void onSuccess(ClientEnterBill result) {
+						UIUtils.runAction(result,
+								ActionFactory.getEnterBillsAction());
 					}
 				});
-		tree.addItem(salesOrderTree);
 	}
 
 	private void addBillableTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (billableTree == null) {
-			createBillableTree(isSelected);
+			billableTree = new TreeItem();
+			createTransactionsTree(isSelected, billableTree, Accounter
+					.messages().billabelList());
 		}
 		String transactionLink = Accounter.messages().billabe();
-		final TreeItem transactionTree = new TreeItem();
-		transactionTree.setUserObject(estimate);
-		billableTree.addItem(transactionTree);
-		CheckBox checkBox = new CheckBox();
-		// transactionTree.setWidget(checkBox);
-		checkBox.setValue(isSelected);
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		horizontalPanel.add(checkBox);
-		horizontalPanel.addStyleName("transactionPanel");
-		transactionTree.setWidget(horizontalPanel);
-		Anchor transactionLabel = new Anchor(transactionLink) {
-			@Override
-			public void setEnabled(boolean enabled) {
-				super.setEnabled(enabled);
-				if (isAttached()) {
-					onDetach();
-					if (enabled) {
-						sinkEvents(Event.ONCLICK);
-					} else {
-						unsinkEvents(Event.ONCLICK);
-					}
-					onAttach();
-				}
-			}
-		};
-		horizontalPanel.add(transactionLabel);
-		horizontalPanel.add(new Label(Accounter.messages()
-				.totalWithCurrencyName(Accounter.messages().billabe())
-				+ " : "
-				+ estimate.getTotal()));
-		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				onSelectionChanged(event.getValue(), transactionTree);
-			}
-		});
-		transactionLabel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				event.preventDefault();
-				ReportsRPC.openTransactionView(
-						ClientTransaction.TYPE_ENTER_BILL,
-						estimate.getEnterBill());
-			}
-		});
-		addTransactionTree(transactionTree, estimate);
+		billableTree.addItem(getChildTransactionTree(transactionLink, estimate,
+				isSelected));
 	}
 
-	private void createBillableTree(boolean isSelected) {
-		CheckBox billableSelection = new CheckBox(Accounter.messages()
-				.billabelList());
+	private void createTransactionsTree(boolean isSelected,
+			final TreeItem treeItem, String message) {
+		CheckBox billableSelection = new CheckBox(message);
 		billableSelection.setEnabled(isinViewMode());
 		billableSelection.setValue(isSelected);
-		billableTree = new TreeItem(billableSelection);
+		treeItem.setWidget(billableSelection);
 		billableSelection
 				.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
 					@Override
 					public void onValueChange(ValueChangeEvent<Boolean> event) {
-						onSelectionChanged(event.getValue(), billableTree);
+						onSelectionChanged(event.getValue(), treeItem);
 					}
 				});
-		tree.addItem(billableTree);
+		tree.addItem(treeItem);
 	}
 
 	private void addQuotesTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (quotesTree == null) {
-			createQuoteTree(isSelected);
+			quotesTree = new TreeItem();
+			createTransactionsTree(isSelected, quotesTree, Accounter.messages()
+					.quotesList());
 		}
 		String transactionLink = Accounter.messages().quote();
-		final TreeItem transactionTree = new TreeItem();
-		CheckBox checkBox = new CheckBox();
-		checkBox.setEnabled(isinViewMode());
-		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				onSelectionChanged(event.getValue(), transactionTree);
-			}
-		});
-		checkBox.setValue(isSelected);
-		// transactionTree.setWidget(checkBox);
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		horizontalPanel.add(checkBox);
-		horizontalPanel.addStyleName("transactionPanel");
-		transactionTree.setWidget(horizontalPanel);
-		Anchor transactionLabel = new Anchor(transactionLink) {
-			@Override
-			public void setEnabled(boolean enabled) {
-				super.setEnabled(enabled);
-				if (isAttached()) {
-					onDetach();
-					if (enabled) {
-						sinkEvents(Event.ONCLICK);
-					} else {
-						unsinkEvents(Event.ONCLICK);
-					}
-					onAttach();
-				}
-			}
-		};
-		horizontalPanel.add(transactionLabel);
-		transactionLabel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				event.preventDefault();
-				ReportsRPC.openTransactionView(estimate.getType(),
-						estimate.getID());
-			}
-		});
-		horizontalPanel.add(new Label(Accounter.messages()
-				.totalWithCurrencyName(Accounter.messages().quote())
-				+ " : "
-				+ estimate.getTotal()));
-		transactionTree.setUserObject(estimate);
-		quotesTree.addItem(transactionTree);
-		addTransactionTree(transactionTree, estimate);
+		quotesTree.addItem(getChildTransactionTree(transactionLink, estimate,
+				isSelected));
 	}
 
 	public abstract boolean isinViewMode();
 
-	private void createQuoteTree(boolean isSelected) {
-		CheckBox quotesSelection = new CheckBox(Accounter.messages()
-				.quotesList());
-		quotesSelection.setEnabled(isinViewMode());
-		quotesSelection.setValue(isSelected);
-		quotesTree = new TreeItem(quotesSelection);
-		quotesSelection
-				.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-
-					@Override
-					public void onValueChange(ValueChangeEvent<Boolean> event) {
-						onSelectionChanged(event.getValue(), quotesTree);
-					}
-				});
-		tree.addItem(quotesTree);
-	}
-
 	private void addChargesTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (chargesTree == null) {
-			createChargesTree(isSelected);
+			chargesTree = new TreeItem();
+			createTransactionsTree(isSelected, chargesTree, Accounter
+					.messages().chargesList());
 		}
 		String transactionLink = Accounter.messages().charge();
-		final TreeItem transactionTree = new TreeItem();
-		CheckBox checkBox = new CheckBox();
-		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				onSelectionChanged(event.getValue(), transactionTree);
-			}
-		});
-		checkBox.setValue(isSelected);
-		// transactionTree.setWidget(checkBox);
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		horizontalPanel.add(checkBox);
-		horizontalPanel.addStyleName("transactionPanel");
-		transactionTree.setWidget(horizontalPanel);
-		Anchor transactionLabel = new Anchor(transactionLink) {
-			@Override
-			public void setEnabled(boolean enabled) {
-				super.setEnabled(enabled);
-				if (isAttached()) {
-					onDetach();
-					if (enabled) {
-						sinkEvents(Event.ONCLICK);
-					} else {
-						unsinkEvents(Event.ONCLICK);
-					}
-					onAttach();
-				}
-			}
-		};
-		horizontalPanel.add(transactionLabel);
-		transactionLabel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				event.preventDefault();
-				ReportsRPC.openTransactionView(estimate.getType(),
-						estimate.getID());
-			}
-		});
-		horizontalPanel.add(new Label(Accounter.messages()
-				.totalWithCurrencyName(Accounter.messages().charge())
-				+ " : "
-				+ estimate.getTotal()));
-		transactionTree.setUserObject(estimate);
-		chargesTree.addItem(transactionTree);
-		addTransactionTree(transactionTree, estimate);
-	}
-
-	private void createChargesTree(boolean isSelected) {
-		CheckBox chargesSelection = new CheckBox(Accounter.messages()
-				.chargesList());
-		chargesSelection.setEnabled(isinViewMode());
-		chargesSelection.setValue(isSelected);
-		chargesTree = new TreeItem(chargesSelection);
-		chargesSelection
-				.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-
-					@Override
-					public void onValueChange(ValueChangeEvent<Boolean> event) {
-						onSelectionChanged(event.getValue(), chargesTree);
-					}
-				});
-		tree.addItem(chargesTree);
+		chargesTree.addItem(getChildTransactionTree(transactionLink, estimate,
+				isSelected));
 	}
 
 	private void addCreditsTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (creditsTree == null) {
-			createCreditsTree(isSelected);
+			creditsTree = new TreeItem();
+			createTransactionsTree(isSelected, creditsTree, Accounter
+					.messages().creditsList());
 		}
-
-		final TreeItem transactionTree = new TreeItem();
-		CheckBox checkBox = new CheckBox();
-		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				onSelectionChanged(event.getValue(), transactionTree);
-			}
-		});
-		checkBox.setValue(isSelected);
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		horizontalPanel.add(checkBox);
-		horizontalPanel.addStyleName("transactionPanel");
-		transactionTree.setWidget(horizontalPanel);
-		Anchor transactionLabel = new Anchor(Accounter.messages().credit()) {
-			@Override
-			public void setEnabled(boolean enabled) {
-				super.setEnabled(enabled);
-				if (isAttached()) {
-					onDetach();
-					if (enabled) {
-						sinkEvents(Event.ONCLICK);
-					} else {
-						unsinkEvents(Event.ONCLICK);
-					}
-					onAttach();
-				}
-			}
-		};
-		horizontalPanel.add(transactionLabel);
-		transactionLabel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				event.preventDefault();
-				ReportsRPC.openTransactionView(estimate.getType(),
-						estimate.getID());
-			}
-		});
-		horizontalPanel.add(new Label(Accounter.messages()
-				.totalWithCurrencyName(Accounter.messages().credit())
-				+ " : "
-				+ estimate.getTotal()));
-		transactionTree.setUserObject(estimate);
-		creditsTree.addItem(transactionTree);
-		addTransactionTree(transactionTree, estimate);
-	}
-
-	private void createCreditsTree(boolean isSelected) {
-		CheckBox creditsSelection = new CheckBox(Accounter.messages()
-				.creditsList());
-		creditsSelection.setEnabled(isinViewMode());
-		creditsSelection.setValue(isSelected);
-		creditsSelection
-				.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-
-					@Override
-					public void onValueChange(ValueChangeEvent<Boolean> event) {
-						onSelectionChanged(event.getValue(), creditsTree);
-					}
-				});
-		creditsTree = new TreeItem(creditsSelection);
-		tree.addItem(creditsTree);
+		creditsTree.addItem(getChildTransactionTree(Accounter.messages()
+				.credit(), estimate, isSelected));
 	}
 
 	protected void onSelectionChanged(Boolean value, TreeItem treeItem) {
@@ -645,16 +392,6 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 
 	private void addEstimateTreeItemRow(ClientEstimate estimate) {
 		addAllQuoteTransactionTreeItem(estimate, true);
-	}
-
-	public void salesOrdersSelected(List<ClientSalesOrder> estimates) {
-		for (ClientSalesOrder salesOrder : estimates) {
-			addSalesOrderTreeItemRow(salesOrder);
-		}
-	}
-
-	private void addSalesOrderTreeItemRow(ClientSalesOrder salesOrder) {
-		addSalesOrderTransactionTreeItem(salesOrder, true);
 	}
 
 	public void setEnabled(boolean isEnabled) {

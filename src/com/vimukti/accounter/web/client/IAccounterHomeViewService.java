@@ -364,4 +364,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 	List<ClientActivity> getRecentTransactions(int limit);
 
 	Map<String, Double> getAccountsAndValues(long startDate, long endDate);
+
+	ClientEnterBill getEnterBillByEstimateId(long l) throws AccounterException;
 }
