@@ -1,12 +1,18 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
+import com.vimukti.accounter.web.client.ui.customers.ApplyCreditsRequirement;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class ReceivePaymentTableRequirement extends
 		AbstractTableRequirement<ReceivePaymentTransactionList> {
@@ -16,6 +22,7 @@ public abstract class ReceivePaymentTableRequirement extends
 	private static final String PAYMENT = "receivePayment";
 	private static final String AMOUNT_DUE = "amountDue";
 	private static final String DUE_DATE = "BillDueDate";
+	private static final String APPLIED_CREDITS = "appliedcredits";
 
 	public ReceivePaymentTableRequirement(String requirementName,
 			String enterString, String recordName) {
@@ -58,6 +65,22 @@ public abstract class ReceivePaymentTableRequirement extends
 			}
 
 		};
+		list.add(amount);
+
+		list.add(new ApplyCreditsRequirement(APPLIED_CREDITS,
+				"Please select record", "Record") {
+
+			@Override
+			protected String getFormalName() {
+				return ReceivePaymentTableRequirement.this.getFormalName();
+			}
+
+			@Override
+			protected List<ClientCreditsAndPayments> getCreditsPayments() {
+				return ReceivePaymentTableRequirement.this.getCreditsPayments();
+			}
+		});
+
 		CurrencyAmountRequirement receivePayment = new CurrencyAmountRequirement(
 				PAYMENT, getMessages().pleaseEnter(
 						getMessages().receivedPayment()), getMessages()
@@ -69,8 +92,31 @@ public abstract class ReceivePaymentTableRequirement extends
 			}
 
 		};
-		list.add(amount);
+
 		list.add(receivePayment);
+	}
+
+	protected String getFormalName() {
+		return getPayee().getCurrency().getFormalName();
+	}
+
+	protected List<ClientCreditsAndPayments> getCreditsPayments() {
+		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
+		List<CreditsAndPayments> serverCreditsAndPayments = null;
+		try {
+
+			serverCreditsAndPayments = new FinanceTool().getCustomerManager()
+					.getCustomerCreditsAndPayments(getPayee().getID(),
+							getCompanyId());
+			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
+				clientCreditsAndPayments.add(new ClientConvertUtil()
+						.toClientObject(creditsAndPayments,
+								ClientCreditsAndPayments.class));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<ClientCreditsAndPayments>(clientCreditsAndPayments);
 	}
 
 	@Override
@@ -79,6 +125,8 @@ public abstract class ReceivePaymentTableRequirement extends
 		Double due = obj.getAmountDue() - amount;
 		obj.setPayment(amount);
 		obj.setAmountDue(due);
+		obj.setAppliedCredits((Double) get(APPLIED_CREDITS).getValue());
+
 	}
 
 	@Override
@@ -89,12 +137,11 @@ public abstract class ReceivePaymentTableRequirement extends
 		get(INVOICE_AMOUNT).setDefaultValue(obj.getInvoiceAmount());
 		get(AMOUNT_DUE).setDefaultValue(obj.getAmountDue());
 		get(PAYMENT).setDefaultValue(obj.getAmountDue());
-
+		get(APPLIED_CREDITS).setValue(obj.getAppliedCredits());
 	}
 
 	@Override
 	protected ReceivePaymentTransactionList getNewObject() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
