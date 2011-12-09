@@ -31,6 +31,7 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -254,9 +255,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 				List<Account> filteredList = new ArrayList<Account>();
 				for (Account obj : context.getCompany().getAccounts()) {
 					if (obj.getIsActive()
-							&& Arrays.asList(Account.TYPE_BANK,
-									Account.TYPE_OTHER_CURRENT_ASSET).contains(
-									obj.getType())) {
+							&& obj.getType() == ClientAccount.TYPE_CREDIT_CARD) {
 						filteredList.add(obj);
 					}
 				}
