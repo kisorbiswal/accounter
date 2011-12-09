@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
@@ -165,10 +166,10 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 				languageCombo.getSelectedValue().getLanguageCode(),
 				getStatus(optionsCombo.getSelectedValue()), pager.getStart(),
 				pager.getRange() + 1, searchItem.getValue(),
-				new AsyncCallback<ArrayList<ClientMessage>>() {
+				new AsyncCallback<PaginationList<ClientMessage>>() {
 
 					@Override
-					public void onSuccess(ArrayList<ClientMessage> result) {
+					public void onSuccess(PaginationList<ClientMessage> result) {
 						if (result.size() != 0) {
 							result = setCorrectResult(result);
 							createNewDataPanel();
@@ -192,8 +193,8 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 				});
 	}
 
-	protected ArrayList<ClientMessage> setCorrectResult(
-			ArrayList<ClientMessage> result) {
+	protected PaginationList<ClientMessage> setCorrectResult(
+			PaginationList<ClientMessage> result) {
 		if (result.size() == pager.getRange() + 1) {
 			hasMoreRecords = true;
 			result.remove(pager.getRange());
