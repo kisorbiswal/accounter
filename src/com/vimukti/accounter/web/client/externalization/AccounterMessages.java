@@ -4837,4 +4837,16 @@ public interface AccounterMessages extends Messages {
 	public String youdontHavepermissiosToinviteUser();
 
 	public String youDntHavePermissionToDoThis();
+
+	public String enteredEmailAlreadyRegistred();
+
+	public String password();
+
+	public String subscribed();
+
+	public String notsubscribed();
+
+	public String createdSucessFullysentAnActivationCodetoYourMail();
+
+	public String acceptThetermsAndCondition();
 }

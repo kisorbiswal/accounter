@@ -44,41 +44,43 @@ public class SignupCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new NameRequirement(FIRST_NAME, "Enter First Name",
-				"First Name", false, true) {
-			@Override
-			public void setValue(Object value) {
-				String v = (String) value;
-				v.replaceFirst(String.valueOf(v.charAt(0)),
-						String.valueOf(v.charAt(0)).toUpperCase());
-				if (v.trim().length() > 0) {
-					super.setValue(v);
-				}
-			}
-		});
-
-		list.add(new NameRequirement(LAST_NAME, "Enter Last Name", "Last Name",
-				false, true) {
-			@Override
-			public void setValue(Object value) {
-				String v = (String) value;
-				v.replaceFirst(String.valueOf(v.charAt(0)),
-						String.valueOf(v.charAt(0)).toUpperCase());
-				if (v.trim().length() > 0) {
-					super.setValue(v);
-				}
-			}
-		});
-
-		list.add(new EmailRequirement(EMAIL, "Enter Email", "Email", false,
+		list.add(new NameRequirement(FIRST_NAME, getMessages().pleaseEnter(
+				getMessages().firstName()), getMessages().firstName(), false,
 				true) {
+			@Override
+			public void setValue(Object value) {
+				String v = (String) value;
+				v.replaceFirst(String.valueOf(v.charAt(0)),
+						String.valueOf(v.charAt(0)).toUpperCase());
+				if (v.trim().length() > 0) {
+					super.setValue(v);
+				}
+			}
+		});
+
+		list.add(new NameRequirement(LAST_NAME, getMessages().pleaseEnter(
+				getMessages().lastName()), getMessages().lastName(), false,
+				true) {
+			@Override
+			public void setValue(Object value) {
+				String v = (String) value;
+				v.replaceFirst(String.valueOf(v.charAt(0)),
+						String.valueOf(v.charAt(0)).toUpperCase());
+				if (v.trim().length() > 0) {
+					super.setValue(v);
+				}
+			}
+		});
+
+		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
+				getMessages().email()), getMessages().email(), false, true) {
 			@Override
 			public void setValue(Object val) {
 				String value = (String) val;
 				if (value == null) {
 					return;
 				} else if (getClient(value) != null) {
-					setEnterString("This Email ID is already registered with Accounter, try to signup with another Email ID. If you are the registered user type login to login.");
+					setEnterString(getMessages().enteredEmailAlreadyRegistred());
 					return;
 				}
 				setEnterString("Enter Email");
@@ -86,9 +88,9 @@ public class SignupCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new NameRequirement(PASSOWRD,
-				"Enter password. This is used to login in accounter",
-				"Password", false, true) {
+		list.add(new NameRequirement(PASSOWRD, getMessages().pleaseEnter(
+				getMessages().password()), getMessages().password(), false,
+				true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -105,7 +107,8 @@ public class SignupCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new PhoneRequirement(PHONE, "Enter Phone number", "Phone No",
+		list.add(new PhoneRequirement(PHONE, getMessages().pleaseEnter(
+				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				false, true));
 
 		list.add(new CountryRequirement(COUNTRY, false, true, null));
@@ -114,12 +117,12 @@ public class SignupCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getFalseString() {
-				return "Not subscribed";
+				return getMessages().notsubscribed();
 			}
 
 			@Override
 			protected String getTrueString() {
-				return "Subscribed";
+				return getMessages().subscribed();
 			}
 		});
 
@@ -150,7 +153,7 @@ public class SignupCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return "Your account is ready to be create with below details :";
+		return getMessages().readyToCreate(getMessages().account());
 	}
 
 	@Override
@@ -163,7 +166,7 @@ public class SignupCommand extends NewAbstractCommand {
 		Result result = new Result();
 		Boolean boolean1 = get("TermsAndConditions").getValue();
 		if (!boolean1) {
-			result.add("Please 'Accept' the terms and conditions.");
+			result.add(getMessages().acceptThetermsAndCondition());
 			return result;
 		}
 		Client client = new Client();
@@ -218,7 +221,7 @@ public class SignupCommand extends NewAbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Your account was created successfully. We have sent an activation code to your mail";
+		return getMessages().createdSucessFullysentAnActivationCodetoYourMail();
 	}
 
 	@Override
