@@ -6980,8 +6980,8 @@
 		ATT.ACCOUNT_ID=:openingBalanceAccount)
 
 		GROUP BY
-		AT.TRANSACTION_ID,AT.ACCOUNT_ID
-
+		AT.TRANSACTION_ID,AT.ACCOUNT_ID, T.ID
+		
 		ORDER BY T.T_DATE;
 
 	</sql-query>
