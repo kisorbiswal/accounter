@@ -558,11 +558,11 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 					currencyFactor);
 			this.depositIn.onUpdate(session);
 
-			if (this.creditsAndPayments != null) {
-				// this.creditsAndPayments.setTransaction(null);
-				// session.delete(this.creditsAndPayments);
-				this.creditsAndPayments = null;
-			}
+			// if (this.creditsAndPayments != null) {
+			// this.creditsAndPayments.setTransaction(null);
+			// session.delete(this.creditsAndPayments);
+			// this.creditsAndPayments = null;
+			// }
 
 			this.totalCashDiscount = 0.0;
 			this.totalWriteOff = 0.0;
@@ -644,9 +644,9 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		w.put(messages.currency(), this.currencyFactor).gap();
 
 		w.put(messages.amount(), this.total).gap();
-		
+
 		w.put(messages.paymentMethod(), this.paymentMethod).gap();
-		
+
 		w.put(messages.memo(), this.memo).gap();
 
 		w.put(messages.details(), this.transactionReceivePayment);
