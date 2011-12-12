@@ -4851,4 +4851,10 @@ public interface AccounterMessages extends Messages {
 	public String createdSucessFullysentAnActivationCodetoYourMail();
 
 	public String acceptThetermsAndCondition();
+
+	public String add(String quotes);
+
+	public String acceptedTermsandconditions();
+
+	public String readTermsAndConditions();
 }
