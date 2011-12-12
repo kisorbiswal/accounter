@@ -249,4 +249,7 @@ public interface FinanceImages extends ClientBundle {
 	@Source("portlet_settings.png")
 	ImageResource portletSettings();
 
+	@Source("search.png")
+	ImageResource searchButton();
+
 }

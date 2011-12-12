@@ -4784,6 +4784,8 @@ public interface AccounterMessages extends Messages {
 
 	public String customiseActivityLog();
 
+	public String findByMustBeFilled();
+
 	public String currencyFactor();
 
 	public String nameShouldbewithinThe1100to1199Ranage();
