@@ -42,6 +42,8 @@ public class CustomerRefundsList implements IsSerializable, Serializable {
 
 	boolean isVoided;
 
+	private long currency;
+
 	public boolean isVoided() {
 		return isVoided;
 	}
@@ -187,5 +189,20 @@ public class CustomerRefundsList implements IsSerializable, Serializable {
 
 	public boolean isDeleted() {
 		return this.status == ClientTransaction.STATUS_DELETED;
+	}
+
+	/**
+	 * @return the currency
+	 */
+	public long getCurrency() {
+		return currency;
+	}
+
+	/**
+	 * @param currency
+	 *            the currency to set
+	 */
+	public void setCurrency(long currency) {
+		this.currency = currency;
 	}
 }

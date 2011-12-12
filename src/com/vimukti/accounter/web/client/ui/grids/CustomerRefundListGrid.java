@@ -42,9 +42,9 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		case 6:
 			return customerRefund.getPaymentMethod();
 		case 7:
-			return DataUtils.amountAsStringWithCurrency(customerRefund.getAmountPaid(),
-
-			getCompany().getPrimaryCurrency());
+			return DataUtils.amountAsStringWithCurrency(
+					customerRefund.getAmountPaid(),
+					getCompany().getCurrency(customerRefund.getCurrency()));
 		case 8:
 			if (!customerRefund.isVoided())
 				return Accounter.getFinanceImages().notvoid();
@@ -68,9 +68,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	@Override
 	protected String[] getColumns() {
 		messages = Accounter.messages();
-		return new String[] { messages.paymentDate(),
-				messages.paymentNo(), messages.status(),
-				messages.issueDate(), messages.name(),
+		return new String[] { messages.paymentDate(), messages.paymentNo(),
+				messages.status(), messages.issueDate(), messages.name(),
 				messages.type(), messages.paymentMethod(),
 				messages.amountPaid(), messages.voided()
 		// , ""

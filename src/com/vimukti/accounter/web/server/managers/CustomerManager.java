@@ -76,6 +76,7 @@ public class CustomerManager extends Manager {
 									.getPaymentMethod() : null);
 					customerRefund.setAmountPaid(cr.getTotal());
 					customerRefund.setVoided(cr.isVoid());
+					customerRefund.setCurrency(cr.getCurrency().getID());
 
 					customerRefundsList.add(customerRefund);
 				}
@@ -107,6 +108,8 @@ public class CustomerManager extends Manager {
 					customerRefund.setPaymentMethod(null);
 					customerRefund.setAmountPaid(wc.getAmount());
 					customerRefund.setVoided(wc.isVoid());
+					customerRefund.setCurrency(wc.getCurrency().getID());
+
 					customerRefundsList.add(customerRefund);
 
 				}

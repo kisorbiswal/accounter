@@ -1,7 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,7 +13,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -294,31 +292,33 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	}
 
 	// @Overridetrue
-	public boolean equals(CustomerRefund cr) {
-
-		if (DecimalUtil.isEquals(this.getTotal(), cr.getTotal())
-				&& this.id == cr.id
-				// && this.transactionItems.size() == cr.transactionItems.size()
-				// && (this.transactionDate != null && cr.transactionDate !=
-				// null) ? (this.transactionDate.equals(cr.transactionDate)):
-				// true
-
-				&& ((this.paymentMethod != null && cr.paymentMethod != null) ? (this.paymentMethod
-						.equals(cr.paymentMethod)) : true)
-				&& ((this.payTo != null && cr.payTo != null) ? (this.payTo
-						.equals(cr.payTo)) : true)
-				&& ((this.getPayFrom() != null && cr.getPayFrom() != null) ? (getPayFrom()
-						.equals(cr.getPayFrom())) : true)) {
-			// for (int i = 0; i < this.transactionItems.size(); i++) {
-			// if (!this.transactionItems.get(i).equals(
-			// cr.transactionItems.get(i)))
-			// return false;
-			// }
-			return true;
-		}
-
-		return false;
-	}
+	// public boolean equals(CustomerRefund cr) {
+	//
+	// if (DecimalUtil.isEquals(this.getTotal(), cr.getTotal())
+	// && this.id == cr.id
+	// // && this.transactionItems.size() == cr.transactionItems.size()
+	// // && (this.transactionDate != null && cr.transactionDate !=
+	// // null) ? (this.transactionDate.equals(cr.transactionDate)):
+	// // true
+	//
+	// && ((this.paymentMethod != null && cr.paymentMethod != null) ?
+	// (this.paymentMethod
+	// .equals(cr.paymentMethod)) : true)
+	// && ((this.payTo != null && cr.payTo != null) ? (this.payTo
+	// .equals(cr.payTo)) : true)
+	// && ((this.getPayFrom() != null && cr.getPayFrom() != null) ?
+	// (getPayFrom()
+	// .equals(cr.getPayFrom())) : true)) {
+	// // for (int i = 0; i < this.transactionItems.size(); i++) {
+	// // if (!this.transactionItems.get(i).equals(
+	// // cr.transactionItems.get(i)))
+	// // return false;
+	// // }
+	// return true;
+	// }
+	//
+	// return false;
+	// }
 
 	@Override
 	public void onEdit(Transaction clonedObject) {

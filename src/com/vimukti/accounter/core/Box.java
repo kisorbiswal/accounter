@@ -3,18 +3,12 @@ package com.vimukti.accounter.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
-
-import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-
 /**
  * This class an intermediate class which stores all the static values of the
  * VAT return boxes for both UK and Ireland.
  */
 
-public class Box implements IAccounterServerCore {
+public class Box {
 
 	/**
 	 * 
@@ -91,16 +85,8 @@ public class Box implements IAccounterServerCore {
 		this.amount = amount;
 	}
 
-	@Override
 	public long getID() {
 		return id;
-	}
-
-	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
-		// TODO Auto-generated method stub
-		return true;
 	}
 
 	public boolean isPositiveBox() {
@@ -108,12 +94,10 @@ public class Box implements IAccounterServerCore {
 
 	}
 
-	@Override
 	public int getVersion() {
 		return version;
 	}
 
-	@Override
 	public void setVersion(int version) {
 		this.version = version;
 	}
@@ -126,8 +110,4 @@ public class Box implements IAccounterServerCore {
 		this.company = company;
 	}
 
-	@Override
-	public void writeAudit(AuditWriter w) throws JSONException {
-		//NO need
-	}
 }

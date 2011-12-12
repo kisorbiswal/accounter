@@ -172,6 +172,7 @@ public class PayBill extends Transaction {
 
 	private double tdsTotal;
 
+	/** Will be used in VendorPrePayment. */
 	private boolean isAmountIncludeTDS;
 
 	//
@@ -378,13 +379,13 @@ public class PayBill extends Transaction {
 				if (DecimalUtil.isGreaterThan(tdsTotal, 0.00D)) {
 					TAXItem taxItem = this.getTdsTaxItem();
 					if (taxItem != null) {
-						// TAXAgency taxAgency = taxItem.getTaxAgency();
-						// Account account = taxAgency
-						// .getPurchaseLiabilityAccount();
-						// account.updateCurrentBalance(this, tdsTotal,
-						// currencyFactor);
-						// session.update(account);
-						addTAXRateCalculation(taxItem, total, false);
+						// For PayBill it'll be TRUE.
+						if (isAmountIncludeTDS) {
+							addTAXRateCalculation(taxItem, total, false);
+						} else {
+							addTAXRateCalculation(taxItem,
+									amountEffectedToAccount, false);
+						}
 					}
 				}
 			}

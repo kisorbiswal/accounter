@@ -1156,11 +1156,12 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 					.getNamedQuery("getJournalEntryForAccount")
 					.setLong("id", this.id).uniqueResult();
 			String number = null;
+			double openingBalance = this.openingBalance;
 			if (existEntry != null) {
 				number = existEntry.getNumber();
 				session.delete(existEntry);
 			}
-
+			this.openingBalance = openingBalance;
 			if (!DecimalUtil.isEquals(this.openingBalance, 0)) {
 				JournalEntry journalEntry = createJournalEntry(this, number);
 				session.save(journalEntry);
