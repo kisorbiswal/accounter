@@ -60,7 +60,6 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 							@Override
 							public void onSuccess(
 									PaginationList<ClientActivity> result) {
-								setPagerData(result);
 								updateRowData(start, result);
 								setRowCount(result.getTotalCount());
 							}
@@ -80,10 +79,6 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 		initTableColumns();
 		updateGridData();
-	}
-
-	protected void setPagerData(PaginationList<ClientActivity> result) {
-
 	}
 
 	private void updateGridData() {
