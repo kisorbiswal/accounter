@@ -8,8 +8,7 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			lazy="false">
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
 		<property name="type" column="A_TYPE"></property>
 		<property name="baseType" column="BASE_TYPE"></property>
@@ -19,7 +18,7 @@
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<many-to-one name="parent" column="PARENT_ID" class="Account"
-			lazy="false" cascade="save-update">
+			cascade="save-update">
 		</many-to-one>
 		<property name="cashFlowCategory" column="CASHFLOW_CATEGORY"></property>
 		<property name="openingBalance" column="OPENING_BALANCE"></property>
@@ -39,7 +38,7 @@
 		<property name="flow" column="FLOW"></property>
 		<property name="paypalEmail" column="PAYPAL_EMAIL"></property>
 		<many-to-one name="currency" column="ACCOUNT_CURRENCY"
-			class="Currency" not-null="true" lazy="false">
+			class="Currency" not-null="true">
 		</many-to-one>
 		<property name="currencyFactor" column="CURRENCY_FACTOR"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -50,7 +49,7 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<many-to-one name="linkedAccumulatedDepreciationAccount"
-			column="LINKED_ID" lazy="false" class="Account" cascade="save-update,delete">
+			column="LINKED_ID" class="Account" cascade="save-update,delete">
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<property name="boxNumber" column="BOX_NUMBER"></property>
@@ -64,9 +63,7 @@
 		</map>
 		<joined-subclass name="BankAccount" table="BANK_ACCOUNT">
 			<key column="ID" />
-			<many-to-one name="bank" column="BANK_ID" class="Bank"
-				lazy="false">
-			</many-to-one>
+			<many-to-one name="bank" column="BANK_ID" class="Bank" />
 			<property name="bankAccountType" column="BANK_ACCOUNT_TYPE"></property>
 			<property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER"></property>
 			<property name="lastReconcilationDate" column="LAST_RECONCILATION_DATE"
@@ -78,7 +75,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="locationName" column="LOCATION_NAME"></property>
 		<property name="version" column="VERSION"></property>
@@ -102,15 +99,14 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			lazy="false">
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
 		<property name="className" not-null="true" column="CLASS_NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -126,21 +122,20 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
-		<many-to-one name="transaction" class="Transaction" lazy="false"
+		<many-to-one name="transaction" class="Transaction"
 			column="TRANSACTION_ID">
 		</many-to-one>
-		<many-to-one name="account" class="Account" lazy="false"
-			column="ACCOUNT_ID">
+		<many-to-one name="account" class="Account" column="ACCOUNT_ID">
 		</many-to-one>
 		<property name="amount" column="AMOUNT"></property>
 		<property name="closingFYEntry" column="IS_CLOSING_FISCALYEAR_ENTRY"></property>
 		<property name="cashBasisEntry" column="IS_CASH_BASIS_ENTRY"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -151,7 +146,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="startDate" column="START_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -161,9 +156,9 @@
 		<property name="isCurrentFiscalYear" column="IS_CURRENT_FISCAL_YEAR"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -174,7 +169,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
@@ -187,12 +182,12 @@
 		<property name="isConfigured" column="IS_CONFIGURED"></property>
 		<property name="createdDate" column="CREATED_DATE"></property>
 
-		<set name="users" lazy="false" cascade="save-update,delete">
+		<set name="users" cascade="save-update,delete">
 			<key column="COMPANY_ID"></key>
 			<one-to-many class="User" />
 		</set>
 		<!-- <set name="paySalesTaxEntriesList" inverse="true" -->
-		<!-- cascade="save-update" lazy="false"> -->
+		<!-- cascade="save-update" > -->
 		<!-- <key column="COMPANY_ID"></key> -->
 		<!-- <one-to-many class="PaySalesTaxEntries" /> -->
 		<!-- </set> -->
@@ -218,8 +213,7 @@
 		<property name="fiscalYearStarting" column="FISCAL_YEAR_STARTING"></property>
 		<property name="industry" column="INDUSTRY"></property>
 
-		<component name="preferences" class="CompanyPreferences"
-			lazy="false">
+		<component name="preferences" class="CompanyPreferences">
 			<property name="tradingName" not-null="true" column="TRADING_NAME"></property>
 			<property name="timezone" column="TIMEZONE"></property>
 			<property name="companyEmail" column="COMPANY_EMAIL"></property>
@@ -231,7 +225,7 @@
 			<property name="isShowLegalName" column="SHOW_LEGAL_NAME"></property>
 			<property name="isShowRegisteredAddress" column="SHOW_REGISTERED_ADDRESS"></property>
 
-			<component name="tradingAddress" class="Address" lazy="false">
+			<component name="tradingAddress" class="Address">
 				<property name="type" column="TRADING_ADDRESS_TYPE"></property>
 				<property name="address1" column="TRADING_ADDRESS1"
 					not-null="true" length="100"></property>
@@ -267,7 +261,7 @@
 
 			<!-- Customer Preferences -->
 			<many-to-one name="defaultShippingTerm" class="ShippingTerms"
-				lazy="false" column="CP_DEFAULT_SHIPPING_TERM">
+				column="CP_DEFAULT_SHIPPING_TERM">
 			</many-to-one>
 			<property name="defaultAnnualInterestRate" column="CP_DEFAULT_ANNUAL_INTEREST_RATE"
 				not-null="true"></property>
@@ -296,59 +290,59 @@
 			<property name="locationTrackingId" column="LOCATION_TRACKING_ID"></property>
 
 			<many-to-one name="defaultTaxCode" class="com.vimukti.accounter.core.TAXCode"
-				lazy="false" cascade="save-update" column="DEFAULT_TAX_CODE">
+				cascade="save-update" column="DEFAULT_TAX_CODE">
 			</many-to-one>
 
 			<many-to-one name="primaryCurrency" class="Currency"
-				lazy="false" column="PRIMARY_CURRENCY" cascade="save-update,delete">
+				column="PRIMARY_CURRENCY" cascade="save-update,delete">
 			</many-to-one>
 		</component>
 
 		<property name="bankAccountNo" column="BANK_ACCOUNT_NO"></property>
 		<property name="sortCode" column="SORT_CODE"></property>
 		<many-to-one name="cashDiscountAccount" class="Account"
-			lazy="false" column="CASH_DISCOUNT_ACCOUNT"></many-to-one>
+			column="CASH_DISCOUNT_ACCOUNT"></many-to-one>
 		<many-to-one name="accountsReceivableAccount" class="Account"
-			lazy="false" column="ACCOUNTS_RECEIVABLE_ID" cascade="delete">
+			column="ACCOUNTS_RECEIVABLE_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="accountsPayableAccount" class="Account"
-			lazy="false" column="ACCOUNTS_PAYABLE_ID" cascade="delete">
+			column="ACCOUNTS_PAYABLE_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="openingBalancesAccount" class="Account"
-			lazy="false" column="OPENING_BALANCES_ID" cascade="delete">
+			column="OPENING_BALANCES_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="retainedEarningsAccount" class="Account"
-			lazy="false" column="RETAINED_EARNINGS_ID" cascade="delete">
+			column="RETAINED_EARNINGS_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="otherCashIncomeAccount" class="Account"
-			lazy="false" column="OTHER_CASH_INCOME_ID" cascade="delete">
+			column="OTHER_CASH_INCOME_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="otherCashExpenseAccount" class="Account"
-			lazy="false" column="OTHER_CASH_EXPENSE_ID" cascade="delete">
+			column="OTHER_CASH_EXPENSE_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="cashDiscountsGiven" class="Account"
-			lazy="false" column="CASH_DISCOUNTS_GIVEN" cascade="delete">
+			column="CASH_DISCOUNTS_GIVEN" cascade="delete">
 		</many-to-one>
 		<many-to-one name="cashDiscountsTaken" class="Account"
-			lazy="false" column="CASH_DISCOUNTS_TAKEN" cascade="delete">
+			column="CASH_DISCOUNTS_TAKEN" cascade="delete">
 		</many-to-one>
 		<many-to-one name="taxLiabilityAccount" class="Account"
-			lazy="false" column="TAX_LIABILITY_ACCOUNT_ID" cascade="delete">
+			column="TAX_LIABILITY_ACCOUNT_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="tAXFiledLiabilityAccount" class="Account"
-			lazy="false" column="VAT_FILED_LIABILITY_ACCOUNT_ID" cascade="delete">
+			column="VAT_FILED_LIABILITY_ACCOUNT_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="pendingItemReceiptsAccount" class="Account"
-			lazy="false" column="PENDING_ITEM_RECEIPTS_ACCOUNT_ID" cascade="delete">
+			column="PENDING_ITEM_RECEIPTS_ACCOUNT_ID" cascade="delete">
 		</many-to-one>
 		<many-to-one name="exchangeLossOrGainAccount" class="Account"
-			lazy="false" column="EXCHANGE_LOSS_OR_GAIN_ACCOUNT" cascade="delete">
+			column="EXCHANGE_LOSS_OR_GAIN_ACCOUNT" cascade="delete">
 		</many-to-one>
 		<!-- <many-to-one name="prepaidVATaccount" class="Account" -->
-		<!-- lazy="false" column="PREPAID_VAT_ACCOUNT_ID"> -->
+		<!-- column="PREPAID_VAT_ACCOUNT_ID"> -->
 		<!-- </many-to-one> -->
 		<!-- <many-to-one name="ECAcquisitionVATaccount" class="Account" -->
-		<!-- lazy="false" column="EC_ACQUISITION_VAT_ID"> -->
+		<!-- column="EC_ACQUISITION_VAT_ID"> -->
 		<!-- </many-to-one> -->
 		<property name="version" column="VERSION"></property>
 		<property name="serviceItemDefaultIncomeAccount" column="SERVICE_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
@@ -365,25 +359,24 @@
 
 		<property name="registrationNumber" column="REGISTRATION_NUMBER"></property>
 
-		<!-- <component name="tradingAddress" class="Address" lazy="false"> <property 
-			name="type" column="TRADING_ADDRESS_TYPE"></property> <property name="address1" 
-			column="TRADING_ADDRESS1" not-null="true" length="100"></property> <property 
-			name="street" column="TRADING_STREET" not-null="true" length="100"></property> 
-			<property name="city" column="TRADING_CITY" not-null="true" length="100"></property> 
-			<property name="stateOrProvinence" column="TRADING_STATE" not-null="true" 
-			length="100"></property> <property name="zipOrPostalCode" column="TRADING_ZIP" 
-			not-null="true" length="100"></property> <property name="countryOrRegion" 
-			column="TRADING_COUNTRY" not-null="true" length="100"></property> <property 
-			name="isSelected" column="TRADING_IS_SELECTED" not-null="true"></property> 
-			</component> -->
+		<!-- <component name="tradingAddress" class="Address" > <property name="type" 
+			column="TRADING_ADDRESS_TYPE"></property> <property name="address1" column="TRADING_ADDRESS1" 
+			not-null="true" length="100"></property> <property name="street" column="TRADING_STREET" 
+			not-null="true" length="100"></property> <property name="city" column="TRADING_CITY" 
+			not-null="true" length="100"></property> <property name="stateOrProvinence" 
+			column="TRADING_STATE" not-null="true" length="100"></property> <property 
+			name="zipOrPostalCode" column="TRADING_ZIP" not-null="true" length="100"></property> 
+			<property name="countryOrRegion" column="TRADING_COUNTRY" not-null="true" 
+			length="100"></property> <property name="isSelected" column="TRADING_IS_SELECTED" 
+			not-null="true"></property> </component> -->
 
 		<many-to-one name="defaultMeasurement" class="Measurement"
-			lazy="false" column="DEFAULT_MEASUREMENT" cascade="delete">
+			column="DEFAULT_MEASUREMENT" cascade="delete">
 		</many-to-one>
 		<many-to-one name="defaultWarehouse" class="Warehouse"
-			lazy="false" column="DEFAULT_WAREHOUSE" cascade="delete">
+			column="DEFAULT_WAREHOUSE" cascade="delete">
 		</many-to-one>
-		<component name="registeredAddress" class="Address" lazy="false">
+		<component name="registeredAddress" class="Address">
 			<property name="type" column="REGISTRED_ADDRESS_TYPE"></property>
 			<property name="address1" column="REGISTRED_ADDRESS1"
 				not-null="true" length="100"></property>
@@ -615,14 +608,14 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -644,14 +637,14 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -671,7 +664,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<!-- <many-to-one name="VATCode" class="TaxCode" column="VAT_CODE_ID"> -->
 		<!-- </many-to-one> -->
@@ -679,31 +672,29 @@
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="UPCorSKU" column="UPC_OR_SKU"></property>
 		<property name="weight" column="WEIGHT"></property>
-		<many-to-one name="itemGroup" class="ItemGroup" column="ITEMGROUP_ID"
-			lazy="false">
+		<many-to-one name="itemGroup" class="ItemGroup" column="ITEMGROUP_ID">
 		</many-to-one>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="isISellThisItem" column="IS_SELL_ITEM"></property>
 		<property name="salesDescription" type="text" column="SALES_DESCRIPTION"></property>
 		<property name="salesPrice" column="SALES_PRICE"></property>
 		<many-to-one name="incomeAccount" class="Account"
-			column="INCOME_ACCOUNT_ID" lazy="false">
+			column="INCOME_ACCOUNT_ID">
 		</many-to-one>
 
 		<component name="minStockAlertLevel" class="Quantity">
 			<property name="value" column="MIN_QTY_VALUE" />
 			<many-to-one name="unit" column="MIN_UNIT" class="Unit"
-				lazy="false" cascade="save-update" />
+				cascade="save-update" />
 		</component>
 		<component name="maxStockAlertLevel" class="Quantity">
 			<property name="value" column="MAX_QTY_VALUE" />
 			<many-to-one name="unit" column="MAX_UNIT" class="Unit"
-				lazy="false" cascade="save-update" />
+				cascade="save-update" />
 		</component>
 		<many-to-one name="measurement" class="Measurement"
-			column="MEASUREMENT" lazy="false" />
-		<many-to-one name="warehouse" class="Warehouse" column="WAREHOUSE"
-			lazy="false" />
+			column="MEASUREMENT" />
+		<many-to-one name="warehouse" class="Warehouse" column="WAREHOUSE" />
 		<property name="openingBalance" column="OPENING_BALANCE"></property>
 		<property name="isTaxable" column="IS_TAXABLE"></property>
 		<property name="isCommissionItem" column="IS_COMMISSION_ITME"></property>
@@ -712,21 +703,20 @@
 			column="PURCHASE_DESCRIPTION"></property>
 		<property name="purchasePrice" column="PURCHASE_PRISE"></property>
 		<many-to-one name="expenseAccount" class="Account"
-			column="EXPENSE_ACCOUNT_ID" lazy="false">
+			column="EXPENSE_ACCOUNT_ID">
 		</many-to-one>
 		<many-to-one name="preferredVendor" class="Vendor"
-			column="PREFFERED_VENDOR" lazy="false">
+			column="PREFFERED_VENDOR">
 		</many-to-one>
-		<many-to-one name="taxCode" class="TAXCode" column="TAX_CODE"
-			lazy="false">
+		<many-to-one name="taxCode" class="TAXCode" column="TAX_CODE">
 		</many-to-one>
 		<property name="vendorItemNumber" column="VENDOR_ITEM_NUMBER"></property>
 		<property name="standardCost" column="SATNDARD_COST"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -744,9 +734,9 @@
 		<property name="description" type="text" column="DESCRIPTION"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -755,23 +745,22 @@
 		<joined-subclass name="TAXItem" table="TAX_ITEM">
 			<key column="ID" />
 			<many-to-one name="company" column="COMPANY_ID" class="Company"
-				not-null="true" lazy="false">
+				not-null="true">
 			</many-to-one>
 			<many-to-one name="taxAgency" class="TAXAgency" column="TAX_AGENCY"
-				lazy="false" not-null="true">
+				not-null="true">
 			</many-to-one>
 			<property name="taxRate" column="TAX_RATE"></property>
 			<many-to-one name="vatReturnBox" class="VATReturnBox"
-				cascade="save-update" column="VAT_RETURN_BOX" lazy="false">
+				cascade="save-update" column="VAT_RETURN_BOX">
 			</many-to-one>
 		</joined-subclass>
 		<joined-subclass name="TAXGroup" table="TAX_GROUP">
 			<key column="ID" />
 			<many-to-one name="company" column="COMPANY_ID" class="Company"
-				not-null="true" lazy="false">
+				not-null="true">
 			</many-to-one>
-			<list name="taxItems" table="TAX_GROUP_TAX_ITEM" lazy="false"
-				cascade="save-update">
+			<list name="taxItems" table="TAX_GROUP_TAX_ITEM" cascade="save-update">
 				<key column="TAX_GROUP_ID"></key>
 				<list-index column="VTX" />
 				<many-to-many column="TAX_ITEM_ID" class="TAXItem" />
@@ -784,7 +773,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" column="NAME"></property>
 		<property name="showCustomer" column="SHOWCUSTOMER"></property>
@@ -796,19 +785,19 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<property name="isDefault" column="IS_DEFAULT"></property>
-		<!-- <list name="items" table="ITEM_ITEM_GROUP" lazy="false" cascade="save-update"> -->
+		<!-- <list name="items" table="ITEM_ITEM_GROUP" cascade="save-update"> -->
 		<!-- <key column="ITEM_GROUP_ID"></key> -->
 		<!-- <list-index column="IG_INDEX" /> -->
 		<!-- <many-to-many column="ITEM_ID" class="Item" /> -->
@@ -819,7 +808,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="title" column="TITLE"></property>
 		<property name="firstName" column="FIRST_NAME"></property>
@@ -831,7 +820,7 @@
 		<property name="suffix" column="SUFFIX"></property>
 		<property name="jobTitle" column="JOB_TITLE"></property>
 		<many-to-one name="expenseAccount" class="Account"
-			column="EXPENSE_ACCOUNT_ID" lazy="false">
+			column="EXPENSE_ACCOUNT_ID">
 		</many-to-one>
 		<property name="gender" column="GENDER"></property>
 		<property name="dateOfBirth" column="DATE_OF_BIRTH"
@@ -849,7 +838,7 @@
 		<property name="faxNo" column="FAX_NO"></property>
 		<property name="email" column="EMAIL"></property>
 		<property name="webPageAddress" column="WEB_PAGE_ADDRESS"></property>
-		<component name="address" class="Address" lazy="false">
+		<component name="address" class="Address">
 			<property name="type" column="TYPE"></property>
 			<property name="address1" column="ADDRESS1" length="100"></property>
 			<property name="street" column="STREET" length="100"></property>
@@ -861,9 +850,9 @@
 		</component>
 
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIED_BY"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_ON" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_ON"
 			not-null="true" />
@@ -875,10 +864,10 @@
 		</id>
 		<property name="value" column="VALUE"></property>
 		<many-to-one name="payee" column="PAYEE_ID" class="Payee"
-			lazy="false" not-null="true">
+			not-null="true">
 		</many-to-one>
 		<many-to-one name="customField" column="CUSTOMFIELD_ID"
-			class="CustomField" lazy="false" not-null="true">
+			class="CustomField" not-null="true">
 		</many-to-one>
 	</class>
 
@@ -895,7 +884,7 @@
 		<property name="fileAs" column="FILE_AS"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="currency" column="CURRENCY" class="Currency"
-			lazy="false" not-null="true">
+			not-null="true">
 		</many-to-one>
 		<property name="currencyFactor" column="CURRENCY_FACTOR"></property>
 		<property name="type" column="TYPE"></property>
@@ -906,12 +895,12 @@
 		<property name="bankName" column="BANK_NAME"></property>
 		<property name="bankBranch" column="BANK_BRANCH"></property>
 
-		<set name="customFieldValues" lazy="false" cascade="save-update,delete-orphan">
+		<set name="customFieldValues" cascade="save-update,delete-orphan">
 			<key column="PAYEE_ID" />
 			<one-to-many class="CustomFieldValue" />
 		</set>
 
-		<set name="address" table="PAYEE_ADDRESS" lazy="false" cascade="save-update">
+		<set name="address" table="PAYEE_ADDRESS" cascade="save-update">
 			<key column="PAYEE_ID" not-null="true" />
 			<composite-element class="Address">
 				<property name="type" column="TYPE" not-null="true"></property>
@@ -930,7 +919,7 @@
 			</composite-element>
 		</set>
 
-		<set name="contacts" table="PAYEE_CONTACT" lazy="false" cascade="save-update">
+		<set name="contacts" table="PAYEE_CONTACT" cascade="save-update">
 			<key column="PAYEE_ID" not-null="true" />
 			<composite-element class="Contact">
 				<property name="isPrimary" column="IS_PRIMARY" not-null="true"></property>
@@ -949,20 +938,19 @@
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="memo" type="text" column="MEMO"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<!-- <property name="isEUVATExemptPayee" column="IS_EU_VAT_EXEMPT_PAYEE"></property> -->
 		<property name="VATRegistrationNumber" column="VAT_REGISTRATION_NUMBER"
 			type="string"></property>
-		<many-to-one name="TAXCode" column="TAX_CODE_ID" class="TAXCode"
-			lazy="false">
+		<many-to-one name="TAXCode" column="TAX_CODE_ID" class="TAXCode">
 		</many-to-one>
 		<many-to-one name="TAXItem" column="TDS_TAX_ITEM_ID"
-			class="TAXItem" lazy="false">
+			class="TAXItem">
 		</many-to-one>
 		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
@@ -979,26 +967,26 @@
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="number" column="NUMBER"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
-				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+				column="SALES_PERSON_ID">
 			</many-to-one>
 			<property name="creditLimit" column="CREDIT_LIMIT"></property>
 			<many-to-one name="priceLevel" class="PriceLevel" column="PRICE_LEVEL_ID"
-				cascade="save-update" lazy="false">
+				cascade="save-update">
 			</many-to-one>
 			<many-to-one name="creditRating" class="CreditRating"
-				column="CREDIT_RATING_ID" cascade="save-update" lazy="false">
+				column="CREDIT_RATING_ID" cascade="save-update">
 			</many-to-one>
 			<many-to-one name="shippingMethod" class="ShippingMethod"
-				column="SHIPPING_METHOD_ID" cascade="save-update" lazy="false">
+				column="SHIPPING_METHOD_ID" cascade="save-update">
 			</many-to-one>
 			<many-to-one name="paymentTerm" class="PaymentTerms"
-				column="PAYMENT_TERM_ID" cascade="save-update" lazy="false">
+				column="PAYMENT_TERM_ID" cascade="save-update">
 			</many-to-one>
 			<many-to-one name="customerGroup" class="CustomerGroup"
-				column="CUSTOMER_GROUP_ID" cascade="save-update" lazy="false">
+				column="CUSTOMER_GROUP_ID" cascade="save-update">
 			</many-to-one>
 			<many-to-one name="taxGroup" class="TAXGroup" column="TAX_GROUP_ID"
-				cascade="save-update" lazy="false">
+				cascade="save-update">
 			</many-to-one>
 			<property name="current" column="CURRET_DUE"></property>
 			<property name="overDueOneToThirtyDays" column="OVER_DUE_ONE_TO_THIRY_DAYS"></property>
@@ -1026,17 +1014,17 @@
 			<property name="tdsApplicable" column="IS_TDSAPPLICABLE"></property>
 
 			<many-to-one name="expenseAccount" class="Account"
-				column="EXPENSE_ACCOUNT_ID" cascade="save-update" lazy="false">
+				column="EXPENSE_ACCOUNT_ID" cascade="save-update">
 			</many-to-one>
 			<property name="creditLimit" column="CREDIT_LIMIT"></property>
 			<many-to-one name="shippingMethod" class="ShippingMethod"
-				column="SHIPPING_METHOD_ID" cascade="save-update" lazy="false">
+				column="SHIPPING_METHOD_ID" cascade="save-update">
 			</many-to-one>
 			<many-to-one name="paymentTerms" class="PaymentTerms"
-				column="PAYMENT_TERMS_ID" cascade="save-update" lazy="false">
+				column="PAYMENT_TERMS_ID" cascade="save-update">
 			</many-to-one>
 			<many-to-one name="vendorGroup" class="VendorGroup"
-				column="VENDOR_GROUP_ID" cascade="save-update" lazy="false">
+				column="VENDOR_GROUP_ID" cascade="save-update">
 			</many-to-one>
 			<property name="federalTaxId" column="FEDERAL_TAXID"></property>
 			<property name="current" column="CURRET_DUE"></property>
@@ -1052,12 +1040,12 @@
 		</joined-subclass>
 		<!-- <joined-subclass name="TaxAgency" table="TAXAGENCY"> <key column="id" 
 			/> <many-to-one name="paymentTerm" class="PaymentTerms" column="PAYMENT_TERM" 
-			cascade="save-update" lazy="false"> </many-to-one> <many-to-one name="liabilityAccount" 
-			class="Account" column="ACCOUNT_ID" cascade="save-update" lazy="false"> </many-to-one> 
+			cascade="save-update" > </many-to-one> <many-to-one name="liabilityAccount" 
+			class="Account" column="ACCOUNT_ID" cascade="save-update" > </many-to-one> 
 			<many-to-one name="salesVATAccount" class="Account" column="SALES_VAT_ACCOUNT_ID" 
-			cascade="save-update,delete" lazy="false"> </many-to-one> <many-to-one name="purchasesVATAccount" 
+			cascade="save-update,delete" > </many-to-one> <many-to-one name="purchasesVATAccount" 
 			class="Account" column="PURCHASES_VAT_ACCOUNT_ID" cascade="save-update,delete" 
-			lazy="false"> </many-to-one> <property name="VATReturn" column="VAT_RETURN"></property> 
+			> </many-to-one> <property name="VATReturn" column="VAT_RETURN"></property> 
 			</joined-subclass> -->
 		<joined-subclass name="TAXAgency" table="TAXAGENCY">
 			<key column="ID" />
@@ -1065,16 +1053,16 @@
 				not-null="true">
 			</many-to-one>
 			<many-to-one name="paymentTerm" class="PaymentTerms"
-				column="PAYMENT_TERM" cascade="save-update" lazy="false">
+				column="PAYMENT_TERM" cascade="save-update">
 			</many-to-one>
 			<many-to-one name="salesLiabilityAccount" class="Account"
-				column="SALES_ACCOUNT_ID" cascade="save-update" lazy="false">
+				column="SALES_ACCOUNT_ID" cascade="save-update">
 			</many-to-one>
 			<many-to-one name="purchaseLiabilityAccount" class="Account"
-				column="PURCHASE_ACCOUNT_ID" cascade="save-update" lazy="false">
+				column="PURCHASE_ACCOUNT_ID" cascade="save-update">
 			</many-to-one>
 			<many-to-one name="filedLiabilityAccount" class="Account"
-				column="FILED_LIABILITY_ACCOUNT" cascade="save-update" lazy="false">
+				column="FILED_LIABILITY_ACCOUNT" cascade="save-update">
 			</many-to-one>
 			<property name="VATReturn" column="VAT_RETURN"></property>
 			<property name="taxType" column="TAX_TYPE"></property>
@@ -1089,7 +1077,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="description" type="text" column="DESCRIPTION"></property>
@@ -1099,9 +1087,9 @@
 		<property name="ifPaidWithIn" column="IF_PAID_WITHIN"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -1118,16 +1106,16 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="percentage" column="PERCENTAGE"></property>
 		<property name="isPriceLevelDecreaseByThisPercentage" column="IS_P_DECREASE_BY_THIS_PERCENT"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -1138,15 +1126,15 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="description" type="text" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -1157,15 +1145,15 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="description" type="text" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -1174,17 +1162,16 @@
 	<!-- <class name="TaxCode" table="TAXCODE"> <id name="id" column="ID"> <generator 
 		class="identity" /> </id><property name="name" unique="true" column="NAME"></property> 
 		<property name="description" column="DESCRIPTION"></property> <many-to-one 
-		name="taxAgency" class="TaxAgency" column="TAXAGENCY_ID" lazy="false"> </many-to-one> 
-		<many-to-one name="taxGroup" class="TaxGroup" column="TAXGROUP_ID" lazy="false"> 
-		</many-to-one> <set name="taxRates" lazy="false" cascade="save-update,delete" 
-		order-by="AS_OF desc"> <key column="TAXCODE_ID"></key> <one-to-many class="TaxRates" 
-		/> </set> <property name="isActive" column="IS_ACTIVE"></property> <property 
-		name="isTaxable" column="IS_TAXABLE"></property> <property name="version" 
-		column="VERSION"></property> <property name="createdBy" column="CREATED_BY" 
-		type="string" /> <property name="lastModifier" column="LAST_MODIFIER" type="string" 
-		/> <property name="createdDate" column="CREATED_DATE" /> <property name="lastModifiedDate" 
-		column="LAST_MODIFIED_DATE" /> <property name="isDefault" column="IS_DEFAULT"></property> 
-		</class> -->
+		name="taxAgency" class="TaxAgency" column="TAXAGENCY_ID" > </many-to-one> 
+		<many-to-one name="taxGroup" class="TaxGroup" column="TAXGROUP_ID" > </many-to-one> 
+		<set name="taxRates" cascade="save-update,delete" order-by="AS_OF desc"> 
+		<key column="TAXCODE_ID"></key> <one-to-many class="TaxRates" /> </set> <property 
+		name="isActive" column="IS_ACTIVE"></property> <property name="isTaxable" 
+		column="IS_TAXABLE"></property> <property name="version" column="VERSION"></property> 
+		<property name="createdBy" column="CREATED_BY" type="string" /> <property 
+		name="lastModifier" column="LAST_MODIFIER" type="string" /> <property name="createdDate" 
+		column="CREATED_DATE" /> <property name="lastModifiedDate" column="LAST_MODIFIED_DATE" 
+		/> <property name="isDefault" column="IS_DEFAULT"></property> </class> -->
 
 	<class name="TaxRates" table="TAXRATES">
 		<id name="id" column="ID">
@@ -1198,12 +1185,11 @@
 	<!-- <class name="TaxRateCalculation" table="TAX_RATE_CALCULATION"> <id 
 		name="id" column="ID"> <generator class="increment" /> </id> <property name="rate" 
 		column="RATE"></property> <many-to-one name="transactionItem" class="TransactionItem" 
-		lazy="false" column="TRANSACTION_ITEM_ID"> </many-to-one> <many-to-one name="taxItem" 
-		class="TAXItem" lazy="false" column="TAX_ITEM_ID"> </many-to-one> <many-to-one 
-		name="taxAgency" class="TAXAgency" lazy="false" column="TAXAGENCY_ID"> </many-to-one> 
-		<many-to-one name="liabilityAccount" class="Account" lazy="false" column="LIABILITY_ACCOUNT_ID"> 
-		</many-to-one> <property name="taxableAmount" column="TAXABLE_AMOUNT"></property> 
-		<property name="nonTaxableAmount" column="NON_TAXABLE_AMOUNT"></property> 
+		column="TRANSACTION_ITEM_ID"> </many-to-one> <many-to-one name="taxItem" 
+		class="TAXItem" column="TAX_ITEM_ID"> </many-to-one> <many-to-one name="taxAgency" 
+		class="TAXAgency" column="TAXAGENCY_ID"> </many-to-one> <many-to-one name="liabilityAccount" 
+		class="Account" column="LIABILITY_ACCOUNT_ID"> </many-to-one> <property name="taxableAmount" 
+		column="TAXABLE_AMOUNT"></property> <property name="nonTaxableAmount" column="NON_TAXABLE_AMOUNT"></property> 
 		<property name="taxCollected" column="TAX_COLLECTED"></property> </class> -->
 	<class name="TAXRateCalculation" table="TAX_RATE_CALCULATION">
 		<id name="id" column="ID">
@@ -1237,16 +1223,15 @@
 	</class>
 	<!-- <class name="ItemBackUp" table="ITEM_BACK_UP"> <id name="id" column="ID"> 
 		<generator class="identity"></generator> </id> <many-to-one name="item" class="Item" 
-		lazy="false" column="ITEM_ID"></many-to-one> <many-to-one name="incomeAccount" 
-		class="Account" lazy="false" column="INCOME_ACCOUNT_ID"></many-to-one> <many-to-one 
-		name="expenseAccount" class="Account" lazy="false" column="EXPENSE_ACCOUNT_ID"></many-to-one> 
-		</class> -->
+		column="ITEM_ID"></many-to-one> <many-to-one name="incomeAccount" class="Account" 
+		column="INCOME_ACCOUNT_ID"></many-to-one> <many-to-one name="expenseAccount" 
+		class="Account" column="EXPENSE_ACCOUNT_ID"></many-to-one> </class> -->
 	<class name="UnitOfMeasure" table="UNIT_OF_MEASURE">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="type" column="TYPE"></property>
 		<property name="name" not-null="true" column="NAME"></property>
@@ -1270,13 +1255,11 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="client" column="CLIENT_ID" class="Client"
-			lazy="false" not-null="true">
+			not-null="true">
 		</many-to-one>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			lazy="false">
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
-		<set name="portletPages" inverse="true" cascade="save-update,delete-orphan"
-			lazy="false">
+		<set name="portletPages" inverse="true" cascade="save-update,delete-orphan">
 			<key column="USER_ID" />
 			<one-to-many class="PortletPageConfiguration" />
 		</set>
@@ -1290,7 +1273,7 @@
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="isAdmin" column="IS_ADMIN"></property>
 		<many-to-one name="permissions" class="UserPermissions"
-			lazy="false" cascade="save-update,delete" column="USER_PERMISSIONS_ID"></many-to-one>
+			cascade="save-update,delete" column="USER_PERMISSIONS_ID"></many-to-one>
 	</class>
 	<!-- <class name="UserPreferences" table="USER_PREFERENCES"> <id name="id" 
 		column="ID"> <generator class="identity" /> </id> <property name="version" 
@@ -1304,14 +1287,14 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -1322,12 +1305,11 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="assetNumber" column="ASSET_NUMBER"></property>
-		<many-to-one name="assetAccount" class="Account" lazy="false"
-			column="ASSET_ACCOUNT_ID">
+		<many-to-one name="assetAccount" class="Account" column="ASSET_ACCOUNT_ID">
 		</many-to-one>
 		<property name="purchaseDate" column="PURCHASE_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1338,10 +1320,10 @@
 		<property name="depreciationMethod" column="DEPRECIATION_METHOD"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="depreciationExpenseAccount" class="Account"
-			lazy="false" column="DEPRECIATION_EXPENSE_ACCOUNT_ID">
+			column="DEPRECIATION_EXPENSE_ACCOUNT_ID">
 		</many-to-one>
 		<many-to-one name="accumulatedDepreciationAccount" class="Account"
-			lazy="false" column="ACCUMULATED_DEPRECIATION_ACCOUNT_ID">
+			column="ACCUMULATED_DEPRECIATION_ACCOUNT_ID">
 		</many-to-one>
 		<property name="accumulatedDepreciationAmount" column="ACCUMULATED_DEPRECIATION_AMOUNT"></property>
 		<property name="status" column="status"></property>
@@ -1349,12 +1331,10 @@
 		<property name="openingBalanceForFiscalYear" column="OPENING_BALANCE_FOR_FISCALYEAR"></property>
 		<property name="isSoldOrDisposed" column="IS_SOLD_OR_DISPOSED"></property>
 		<!-- <many-to-one name="sellingOrDisposingFixedAsset" class="SellingOrDisposingFixedAsset" 
-			lazy="false" column="SELLING_OR_DISPOSING_FIXED_ASSET_ID" cascade="save-update"> 
-			</many-to-one> -->
+			column="SELLING_OR_DISPOSING_FIXED_ASSET_ID" cascade="save-update"> </many-to-one> -->
 		<property name="soldOrDisposedDate" column="SOLD_OR_DISPOSED_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<many-to-one name="accountForSale" class="Account" lazy="false"
-			column="SALE_ACCOUNT_ID">
+		<many-to-one name="accountForSale" class="Account" column="SALE_ACCOUNT_ID">
 		</many-to-one>
 		<property name="salePrice" column="SALE_PRICE"></property>
 		<property name="noDepreciation" column="NO_DEPRECIATION"></property>
@@ -1362,31 +1342,31 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="notes" column="NOTES"></property>
 		<many-to-one name="lossOrGainOnDisposalAccount" class="Account"
-			lazy="false" column="LOSS_OR_GAIN_DISPOSAL_ACCOUNT_ID">
+			column="LOSS_OR_GAIN_DISPOSAL_ACCOUNT_ID">
 		</many-to-one>
-		<many-to-one name="totalCapitalGain" class="Account" lazy="false"
+		<many-to-one name="totalCapitalGain" class="Account"
 			column="TOTAL_CAPITAL_GAIN_ACCOUNT_ID">
 		</many-to-one>
 		<property name="lossOrGain" column="LOSS_OR_GAIN"></property>
-		<list name="transactions" lazy="false" cascade="save-update,delete">
+		<list name="transactions" cascade="save-update,delete">
 			<key column="FIXED_ASSET_ID"></key>
 			<list-index column="IDX" />
 			<one-to-many class="Transaction" />
 		</list>
-		<list name="fixedAssetNotes" lazy="false" cascade="save-update,delete">
+		<list name="fixedAssetNotes" cascade="save-update,delete">
 			<key column="FIXED_ASSET_NOTE_ID"></key>
 			<list-index column="IDX" />
 			<one-to-many class="FixedAssetNote" />
 		</list>
-		<list name="fixedAssetsHistory" lazy="false" cascade="save-update,delete">
+		<list name="fixedAssetsHistory" cascade="save-update,delete">
 			<key column="FIXED_ASSET_HISTORY_ID"></key>
 			<list-index column="IDX" />
 			<one-to-many class="FixedAssetHistory" />
 		</list>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -1394,15 +1374,15 @@
 	</class>
 	<!-- <class name="SellingOrDisposingFixedAsset" table="SELLING_OR_DISPOSING_FIXED_ASSET"> 
 		<id name="id" column="ID"> <generator class="identity" /> </id> <many-to-one 
-		name="fixedAsset" class="FixedAsset" lazy="false" column="FIXED_ASSET_ID"> 
-		</many-to-one> <property name="soldOrDisposedDate" column="SOLD_OR_DISPOSED_DATE" 
-		type="date"></property> <many-to-one name="accountForSale" class="Account" 
-		lazy="false" column="SALE_ACCOUNT_ID"> </many-to-one> <property name="salePrice" 
-		column="SALE_PRICE"></property> <property name="noDepreciation" column="NO_DEPRECIATION"></property> 
-		<property name="depreciationTillDate" column="DEPRECIATION_TILL_DATE" type="date"></property> 
+		name="fixedAsset" class="FixedAsset" column="FIXED_ASSET_ID"> </many-to-one> 
+		<property name="soldOrDisposedDate" column="SOLD_OR_DISPOSED_DATE" type="date"></property> 
+		<many-to-one name="accountForSale" class="Account" column="SALE_ACCOUNT_ID"> 
+		</many-to-one> <property name="salePrice" column="SALE_PRICE"></property> 
+		<property name="noDepreciation" column="NO_DEPRECIATION"></property> <property 
+		name="depreciationTillDate" column="DEPRECIATION_TILL_DATE" type="date"></property> 
 		<property name="notes" column="NOTES"></property> <many-to-one name="lossOrGainOnDisposalAccount" 
-		class="Account" lazy="false" column="LOSS_OR_GAIN_DISPOSAL_ACCOUNT_ID"> </many-to-one> 
-		<many-to-one name="totalCapitalGain" class="Account" lazy="false" column="TOTAL_CAPITAL_GAIN_ACCOUNT_ID"> 
+		class="Account" column="LOSS_OR_GAIN_DISPOSAL_ACCOUNT_ID"> </many-to-one> 
+		<many-to-one name="totalCapitalGain" class="Account" column="TOTAL_CAPITAL_GAIN_ACCOUNT_ID"> 
 		</many-to-one> <property name="lossOrGain" column="LOSS_OR_GAIN"></property> 
 		</class> -->
 	<class name="Depreciation" table="DEPRECIATION">
@@ -1410,20 +1390,20 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="status" column="STATUS"></property>
 		<property name="depreciateFrom" column="DEPRECIATE_FROM"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="depreciateTo" column="DEPRECIATE_TO"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<list name="fixedAssets" lazy="false" cascade="save-update,delete">
+		<list name="fixedAssets" cascade="save-update,delete">
 			<key column="FIXED_ASSET_ID"></key>
 			<list-index column="IDX" />
 			<one-to-many class="FixedAsset" />
 		</list>
-		<many-to-one name="fixedAsset" class="FixedAsset" lazy="false"
-			cascade="save-update" column="FIXED_ASSET_ID">
+		<many-to-one name="fixedAsset" class="FixedAsset" cascade="save-update"
+			column="FIXED_ASSET_ID">
 		</many-to-one>
 		<property name="depreciationFor" column="DEPRECIATION_FOR"></property>
 	</class>
@@ -1432,7 +1412,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="actionDate" column="ACTION_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1440,7 +1420,7 @@
 		<property name="user" column="USER_NAME"></property>
 		<property name="details" column="DETAILS"></property>
 		<many-to-one name="postedJournalEntry" class="JournalEntry"
-			lazy="false" column="JOURNAL_ENTRY_ID">
+			column="JOURNAL_ENTRY_ID">
 		</many-to-one>
 	</class>
 	<class name="FixedAssetNote" table="FIXED_ASSET_NOTE">
@@ -1448,13 +1428,13 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="note" type="text" column="NOTE"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -1464,7 +1444,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="vatBox" column="VAT_BOX"></property>
@@ -1477,7 +1457,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="version" column="VERSION" />
 		<property name="name" not-null="true" column="NAME"></property>
@@ -1488,10 +1468,10 @@
 		<property name="isActive" column="ISACTIVE"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<many-to-one name="TAXItemGrpForPurchases" class="TAXItemGroup"
-			lazy="false" column="TAXITEMGROUP_PURCHASES">
+			column="TAXITEMGROUP_PURCHASES">
 		</many-to-one>
 		<many-to-one name="TAXItemGrpForSales" class="TAXItemGroup"
-			lazy="false" column="TAXITEMGROUP_SALES">
+			column="TAXITEMGROUP_SALES">
 		</many-to-one>
 	</class>
 
@@ -1500,7 +1480,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="themeName" column="THEME_NAME" not-null="true">
 		</property>
@@ -1554,9 +1534,9 @@
 		</property>
 
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -1582,7 +1562,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" column="NAME" not-null="true" />
 		<property name="warehouseCode" column="WAREHOUSE_CODE"
@@ -1592,19 +1572,17 @@
 		<property name="DDINumber" column="DDI_NUMBER" />
 		<property name="mobileNumber" column="MOBILE_NUMBER" />
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 
-		<!-- <many-to-one name="contact" column="CONTACT_ID" class="Contact" lazy="false" 
-			/> -->
-		<!-- <many-to-one name="address" column="ADDRESS_ID" class="Address" lazy="false" 
-			/> -->
+		<!-- <many-to-one name="contact" column="CONTACT_ID" class="Contact" /> -->
+		<!-- <many-to-one name="address" column="ADDRESS_ID" class="Address" /> -->
 
-		<component name="address" class="Address" lazy="false">
+		<component name="address" class="Address">
 			<property name="type" column="TYPE"></property>
 			<property name="address1" column="ADDRESS1" length="100"></property>
 			<property name="street" column="STREET" length="100"></property>
@@ -1615,7 +1593,7 @@
 			<property name="isSelected" column="IS_SELECTED"></property>
 		</component>
 
-		<component name="contact" class="Contact" lazy="false">
+		<component name="contact" class="Contact">
 			<property name="isPrimary" column="IS_PRIMARY"></property>
 			<property name="name" column="CONTACT__NAME"></property>
 			<property name="title" column="CONTACT__TITLE"></property>
@@ -1623,8 +1601,7 @@
 			<property name="email" column="CONTACT_EMAIL"></property>
 		</component>
 
-		<set name="itemStatuses" inverse="true" cascade="save-update,delete-orphan"
-			lazy="false">
+		<set name="itemStatuses" inverse="true" cascade="save-update,delete-orphan">
 			<key column="WARE_HOUSE" />
 			<one-to-many class="ItemStatus" />
 		</set>
@@ -1635,15 +1612,13 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="warehouse" column="WARE_HOUSE" class="Warehouse"
-			lazy="false">
+		<many-to-one name="warehouse" column="WARE_HOUSE" class="Warehouse">
 		</many-to-one>
-		<many-to-one name="item" column="ITEM_ID" class="Item"
-			lazy="false">
+		<many-to-one name="item" column="ITEM_ID" class="Item">
 		</many-to-one>
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE" />
-			<many-to-one name="unit" column="UNIT" class="Unit" lazy="false"
+			<many-to-one name="unit" column="UNIT" class="Unit"
 				cascade="save-update" />
 		</component>
 	</class>
@@ -1653,14 +1628,14 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="section" column="SECTION" />
 		<property name="name" column="NAME" />
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -1672,13 +1647,12 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="name" column="NAME" />
 		<property name="desctiption" column="DESCRIPTION" />
 
-		<set name="units" inverse="true" cascade="save-update,delete-orphan"
-			lazy="false">
+		<set name="units" inverse="true" cascade="save-update,delete-orphan">
 			<key column="MEASUREMENT_ID" />
 			<one-to-many class="Unit" />
 		</set>
@@ -1689,13 +1663,13 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="type" column="TYPE" />
 		<property name="factor" column="FACTOR" />
 		<property name="isDefault" column="IS_DEFAULT" />
 		<many-to-one name="measurement" column="MEASUREMENT_ID"
-			class="Measurement" lazy="false" />
+			class="Measurement" />
 	</class>
 
 	<class name="StockAdjustment" table="STOCK_ADJUSTMENT">
@@ -1703,15 +1677,14 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 
 		<many-to-one name="wareHouse" column="WAREHOUSE" class="Warehouse"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 
-		<set name="stockAdjustmentItems" cascade="save-update,delete-orphan"
-			lazy="false">
+		<set name="stockAdjustmentItems" cascade="save-update,delete-orphan">
 			<key column="STOCK_ADJUSTMENT"></key>
 			<one-to-many class="StockAdjustmentItem" />
 		</set>
@@ -1730,8 +1703,7 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="wareHouse" column="WAREHOUSE" class="Warehouse"
-			lazy="false">
+		<many-to-one name="wareHouse" column="WAREHOUSE" class="Warehouse">
 		</many-to-one>
 		<property name="adjustmentPriceValue" type="double">
 			<column name="ADJUSTMENT_PRICE_VALUE" />
@@ -1739,7 +1711,7 @@
 		<component name="adjustmentQty" class="Quantity">
 			<property name="value" column="ADJUSTMENT_QTY_VALUE" />
 			<many-to-one name="unit" column="ADJUSTMENT_QTY_UNIT"
-				class="Unit" lazy="false" cascade="save-update" />
+				class="Unit" cascade="save-update" />
 		</component>
 		<property name="comment" type="java.lang.String">
 			<column name="COMMENT" />
@@ -1751,7 +1723,7 @@
 		<component name="qtyBeforeTransaction" class="Quantity">
 			<property name="value" column="QTY_BEFORE_TRANSACTION_VALUE" />
 			<many-to-one name="unit" column="QTY_BEFORE_TRANSACTION_UNIT"
-				class="Unit" lazy="false" cascade="save-update" />
+				class="Unit" cascade="save-update" />
 		</component>
 	</class>
 
@@ -1760,15 +1732,15 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
-		<many-to-one name="item" class="Item" lazy="false" column="ITEM">
+		<many-to-one name="item" class="Item" column="ITEM">
 		</many-to-one>
 
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE" />
 			<many-to-one name="unit" column="QTY_UNIT" class="Unit"
-				lazy="false" cascade="save-update" />
+				cascade="save-update" />
 		</component>
 
 	</class>
@@ -1778,7 +1750,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<many-to-one name="createdBy" class="User" column="CREATED_BY"
 			not-null="true" />
@@ -1790,14 +1762,13 @@
 
 
 		<many-to-one name="fromWarehouse" column="FROM_WAREHOUSE"
-			class="Warehouse" lazy="false">
+			class="Warehouse">
 		</many-to-one>
 		<many-to-one name="toWarehouse" column="TO_WAREHOUSE"
-			class="Warehouse" lazy="false">
+			class="Warehouse">
 		</many-to-one>
 
-		<set name="stockTransferItems" cascade="save-update,delete-orphan"
-			lazy="false">
+		<set name="stockTransferItems" cascade="save-update,delete-orphan">
 			<key column="STOCK_TRANSFER"></key>
 			<one-to-many class="StockTransferItem" />
 		</set>
@@ -1810,7 +1781,7 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="account" column="ACCOUNT"></property>
 		<property name="januaryAmount" column="JANUARY_AMOUNT"></property>
@@ -1836,11 +1807,11 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<property name="budgetName" column="BUDGET_NAME"></property>
 		<property name="financialYear" column="FINANCIAL_YEAR"></property>
-		<list name="budgetItems" lazy="false" cascade="save-update,delete-orphan">
+		<list name="budgetItems" cascade="save-update,delete-orphan">
 			<key column="BUDGET_ID"></key>
 			<list-index column="IDX" />
 			<one-to-many class="BudgetItem" />
@@ -1877,10 +1848,10 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true" lazy="false">
+			not-null="true">
 		</many-to-one>
 		<many-to-one name="account" class="com.vimukti.accounter.core.BankAccount"
-			lazy="false" cascade="save-update" column="ACCOUNT">
+			cascade="save-update" column="ACCOUNT">
 		</many-to-one>
 		<property name="startDate" column="START_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1892,8 +1863,7 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 
 
-		<set name="items" cascade="save-update,delete" lazy="false"
-			table="RECONCILIATION">
+		<set name="items" cascade="save-update,delete" table="RECONCILIATION">
 			<key column="RECONCILIATION_ID"></key>
 			<one-to-many class="com.vimukti.accounter.core.ReconciliationItem" />
 		</set>
@@ -1908,9 +1878,9 @@
 		<property name="transationType" column="TRANSACTION_TYPE"></property>
 		<property name="transactionDate" column="TRANSACTION_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<many-to-one name="reconciliation" lazy="false"
-			column="RECONCILIATION_ID" class="Reconciliation" />
-		<many-to-one name="transaction" lazy="false" column="TRANSACTION_ID"
+		<many-to-one name="reconciliation" column="RECONCILIATION_ID"
+			class="Reconciliation" />
+		<many-to-one name="transaction" column="TRANSACTION_ID"
 			class="Transaction" />
 	</class>
 	<class name="News" table="NEWS">
@@ -1932,13 +1902,13 @@
 		name="lastModifiedDate" column="LAST_MODIFIED_DATE" /> <property name="isPercentage" 
 		column="IS_PERCENTAGE"></property> <property name="isDefault" column="IS_DEFAULT"></property> 
 		<joined-subclass name="TaxItem" table="TAX_ITEM"> <key column="id" /> <many-to-one 
-		name="taxAgency" class="TaxAgency" column="TAX_AGENCY" lazy="false"> </many-to-one> 
-		<property name="taxRate" column="TAX_RATE"></property> </joined-subclass> 
-		<joined-subclass name="TaxGroup" table="TAX_GROUP"> <key column="id" /> <list 
-		name="taxItems" table="TAX_GROUP_TAX_ITEM" lazy="false" cascade="save-update"> 
-		<key column="TAX_GROUP_ID"></key> <list-index column="IDX" /> <many-to-many 
-		column="TAX_ITEM_ID" class="TaxItem" /> </list> <property name="groupRate" 
-		column="GROUP_RATE"></property> </joined-subclass> </class> -->
+		name="taxAgency" class="TaxAgency" column="TAX_AGENCY" > </many-to-one> <property 
+		name="taxRate" column="TAX_RATE"></property> </joined-subclass> <joined-subclass 
+		name="TaxGroup" table="TAX_GROUP"> <key column="id" /> <list name="taxItems" 
+		table="TAX_GROUP_TAX_ITEM" cascade="save-update"> <key column="TAX_GROUP_ID"></key> 
+		<list-index column="IDX" /> <many-to-many column="TAX_ITEM_ID" class="TaxItem" 
+		/> </list> <property name="groupRate" column="GROUP_RATE"></property> </joined-subclass> 
+		</class> -->
 
 	<class name="MaintananceInfoUser" table="MAINTANANCE_USER">
 		<id name="userEmail" column="USER_EMAIL"></id>

@@ -12,6 +12,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
@@ -135,6 +136,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 					if (user != null && !user.isAdmin()) {
 						canDeleteFromAll = false;
 					}
+					AccounterThreadLocal.set(user);
 
 					transaction = session.beginTransaction();
 
@@ -173,29 +175,17 @@ public class DeleteCompanyServlet extends BaseServlet {
 						httpSession
 								.setAttribute("DeletionFailureMessage",
 										"You Don't have Permissions to Delete this Company");
-						// req.setAttribute("message",
-						// "You don't have permisssions to to Delete this Company");
-						// dispatch(req, resp, deleteCompanyView);
 						return;
 					}
 
 					if (canDeleteFromAll
 							&& (deleteAllUsers || serverCompany
 									.getNonDeletedUsers().size() == 1)) {
-						// Deleting ServerCompany
-						// Set<Client> clients = serverCompany.getClients();
-						// for (Client clnt : clients) {
-						// clnt.getUsers().remove(user);
-						// session.saveOrUpdate(clnt);
-						// }
-						serverCompany.onDelete(session);
-						session.delete(serverCompany);
-
-						// Deleting Company
-						// IS2SService s2sSyncProxy =
-						// getS2sSyncProxy(serverCompany
-						// .getServer().getAddress());
-						// s2sSyncProxy.deleteCompany(serverCompany.getId());
+						Query namedQuery = session
+								.getNamedQuery("deleteCompany");
+						namedQuery.setParameter("companyId",
+								serverCompany.getId());
+						namedQuery.executeUpdate();
 
 					} else if (canDeleteFromSingle) {
 

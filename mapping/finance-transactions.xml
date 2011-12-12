@@ -8,8 +8,7 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			lazy="false">
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
 		<property name="version" column="VERSION"></property>
 		<!-- <property name="netAmount" column="NET_AMOUNT"></property> -->
@@ -28,8 +27,7 @@
 		<property name="amountsIncludeVAT" column="AMOUNTS_INCLUDE_VAT"></property>
 		<!-- <property name="EUVATExemptPayee" column="EU_VAT_EXEMPT_PAYEE"></property> -->
 		<!-- <property name="isVATreturned" column="IS_VAT_RETURNED"></property> -->
-		<list name="transactionItems" cascade="save-update,delete-orphan"
-			lazy="false">
+		<list name="transactionItems" cascade="save-update,delete-orphan">
 			<key column="TRANSACTION_ID" />
 			<list-index column="IDX" />
 			<one-to-many class="TransactionItem" />
@@ -59,17 +57,16 @@
 			<key column="TRANSACTION_ID"></key> <one-to-many class="PayTAXEntries" /> 
 			</set> -->
 		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
-			column="CREDITS_AND_PAYMENTS_ID" cascade="delete" lazy="false">
+			column="CREDITS_AND_PAYMENTS_ID" cascade="delete">
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<many-to-one name="accounterClass" class="AccounterClass"
 			column="TRANSACTION_ACCOUNTER_CLASS" lazy='false'>
 		</many-to-one>
 		<many-to-one name="transactionMakeDepositEntries" class="TransactionMakeDepositEntries"
-			cascade="save-update" lazy="false" column="TRANSACTION_MAKE_DEPOSIT_ENTRY_ID">
+			cascade="save-update" column="TRANSACTION_MAKE_DEPOSIT_ENTRY_ID">
 		</many-to-one>
-		<many-to-one name="location" class="Location" lazy="false"
-			column="LOCATION_ID">
+		<many-to-one name="location" class="Location" column="LOCATION_ID">
 		</many-to-one>
 
 		<set name="reconciliationItems" inverse="true">
@@ -77,14 +74,14 @@
 			<one-to-many class="com.vimukti.accounter.core.ReconciliationItem" />
 		</set>
 
-		<list name="history" cascade="save-update,delete" lazy="false">
+		<list name="history" cascade="save-update,delete">
 			<key column="TRANSACTION_ID" />
 			<list-index column="LAST_HISTORY" />
 			<one-to-many class="TransactionLog" />
 		</list>
 
 		<set name="taxRateCalculationEntriesList" inverse="true"
-			cascade="all-delete-orphan" lazy="false">
+			cascade="all-delete-orphan">
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="TAXRateCalculation" />
 		</set>
@@ -92,26 +89,24 @@
 
 		<!-- <joined-subclass name="PayTAX" table="PAY_TAX"> <key column="ID" /> 
 			<property name="billsDueOnOrBefore" column="BILLS_DUE_ON_OR_BEFORE" type="com.vimukti.accounter.core.LongUseType"></property> 
-			<many-to-one name="payFrom" class="Account" lazy="false" cascade="save-update" 
-			column="PAYFROM_ACCOUNT_ID"> </many-to-one> <many-to-one name="taxAgency" 
-			class="TAXAgency" lazy="false" cascade="save-update" column="TAX_AGENCY_ID"> 
-			</many-to-one> <property name="endingBalance" column="ENDING_BALANCE"></property> 
+			<many-to-one name="payFrom" class="Account" cascade="save-update" column="PAYFROM_ACCOUNT_ID"> 
+			</many-to-one> <many-to-one name="taxAgency" class="TAXAgency" cascade="save-update" 
+			column="TAX_AGENCY_ID"> </many-to-one> <property name="endingBalance" column="ENDING_BALANCE"></property> 
 			<property name="isEdited" column="IS_EDITED"></property> <list name="transactionPaySalesTax" 
-			cascade="save-update" lazy="false"> <key column="TRANSACTION_ID" /> <list-index 
-			column="IDX" /> <one-to-many class="TransactionPaySalesTax" /> </list> </joined-subclass> -->
+			cascade="save-update" > <key column="TRANSACTION_ID" /> <list-index column="IDX" 
+			/> <one-to-many class="TransactionPaySalesTax" /> </list> </joined-subclass> -->
 		<joined-subclass name="PayTAX" table="PAY_TAX">
 			<key column="ID" />
 			<property name="returnsDueOnOrBefore" column="RETURNS_DUE_ON_OR_BEFORE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<many-to-one name="payFrom" class="Account" lazy="false"
-				cascade="save-update" column="PAYFROM_ACCOUNT_ID">
+			<many-to-one name="payFrom" class="Account" cascade="save-update"
+				column="PAYFROM_ACCOUNT_ID">
 			</many-to-one>
-			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-				cascade="save-update" column="TAX_AGENCY_ID">
+			<many-to-one name="taxAgency" class="TAXAgency" cascade="save-update"
+				column="TAX_AGENCY_ID">
 			</many-to-one>
 			<property name="isEdited" column="IS_EDITED"></property>
-			<list name="transactionPayTAX" cascade="save-update,delete-orphan"
-				lazy="false">
+			<list name="transactionPayTAX" cascade="save-update,delete-orphan">
 				<key column="PAY_TAX_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionPayTAX" />
@@ -121,16 +116,15 @@
 			<key column="ID" />
 			<property name="returnsDueOnOrBefore" column="RETURNS_DUE_ON_OR_BEFORE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<many-to-one name="depositIn" class="Account" lazy="false"
-				cascade="save-update" column="DEPOSIT_IN_ACCOUNT_ID">
+			<many-to-one name="depositIn" class="Account" cascade="save-update"
+				column="DEPOSIT_IN_ACCOUNT_ID">
 			</many-to-one>
-			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-				cascade="save-update" column="TAX_AGENCY_ID">
+			<many-to-one name="taxAgency" class="TAXAgency" cascade="save-update"
+				column="TAX_AGENCY_ID">
 			</many-to-one>
 			<property name="endingBalance" column="ENDING_BALANCE"></property>
 			<property name="isEdited" column="IS_EDITED"></property>
-			<list name="transactionReceiveVAT" cascade="save-update,delete"
-				lazy="false">
+			<list name="transactionReceiveVAT" cascade="save-update,delete">
 				<key column="RECEIVE_VAT_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionReceiveVAT" />
@@ -138,17 +132,17 @@
 		</joined-subclass>
 		<joined-subclass name="CashPurchase" table="CASH_PURCHASE">
 			<key column="ID" />
-			<many-to-one name="vendor" class="Vendor" lazy="false"
-				cascade="save-update" column="VENDOR_ID">
+			<many-to-one name="vendor" class="Vendor" cascade="save-update"
+				column="VENDOR_ID">
 			</many-to-one>
-			<component name="contact" class="Contact" lazy="false">
+			<component name="contact" class="Contact">
 				<property name="isPrimary" column="CP_IS_PRIMARY"></property>
 				<property name="name" column="CP_NAME"></property>
 				<property name="title" column="CP_TITLE"></property>
 				<property name="businessPhone" column="CP_BUSINESS_PHONE"></property>
 				<property name="email" column="CP_EMAIL"></property>
 			</component>
-			<component name="vendorAddress" class="Address" lazy="false">
+			<component name="vendorAddress" class="Address">
 				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
 				<property name="address1" column="VENDOR_ADDRESS_ADDRESS1"
 					length="100"></property>
@@ -160,14 +154,14 @@
 				<property name="isSelected" column="VENDOR_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<property name="phone" column="PHONE"></property>
-			<many-to-one name="payFrom" class="Account" lazy="false"
-				cascade="save-update" column="PAYFROM_ACCOUNT_ID">
+			<many-to-one name="payFrom" class="Account" cascade="save-update"
+				column="PAYFROM_ACCOUNT_ID">
 			</many-to-one>
 			<many-to-one name="cashExpenseAccount" class="Account"
-				lazy="false" cascade="save-update" column="CASH_EXPENSE_ACCOUNT_ID">
+				cascade="save-update" column="CASH_EXPENSE_ACCOUNT_ID">
 			</many-to-one>
-			<many-to-one name="employee" class="User" lazy="false"
-				cascade="save-update" column="EMPLOYEE">
+			<many-to-one name="employee" class="User" cascade="save-update"
+				column="EMPLOYEE">
 			</many-to-one>
 			<!-- <property name="employeeName" column="EMPLOYEE_NAME" type="string"></property> -->
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
@@ -177,17 +171,17 @@
 		</joined-subclass>
 		<joined-subclass name="CashSales" table="CASH_SALES">
 			<key column="ID" />
-			<many-to-one name="customer" class="Customer" lazy="false"
-				cascade="save-update" column="CUSTOMER_ID">
+			<many-to-one name="customer" class="Customer" cascade="save-update"
+				column="CUSTOMER_ID">
 			</many-to-one>
-			<component name="contact" class="Contact" lazy="false">
+			<component name="contact" class="Contact">
 				<property name="isPrimary" column="CS_IS_PRIMARY"></property>
 				<property name="name" column="CS_NAME"></property>
 				<property name="title" column="CS_TITLE"></property>
 				<property name="businessPhone" column="CS_BUSINESS_PHONE"></property>
 				<property name="email" column="CS_EMAIL"></property>
 			</component>
-			<component name="billingAddress" class="Address" lazy="false">
+			<component name="billingAddress" class="Address">
 				<property name="type" column="BILLING_ADDRESS_TYPE"></property>
 				<property name="address1" column="BILLING_ADDRESS1" length="100"></property>
 				<property name="street" column="BILLING_ADDRESS_STREET"></property>
@@ -197,7 +191,7 @@
 				<property name="countryOrRegion" column="BILLING_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="BILLING_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<component name="shippingAdress" class="Address" lazy="false">
+			<component name="shippingAdress" class="Address">
 				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
 				<property name="address1" column="SHIPPING_ADDRESS1"
 					length="100"></property>
@@ -210,38 +204,37 @@
 			</component>
 			<property name="phone" column="PHONE"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
-				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+				column="SALES_PERSON_ID">
 			</many-to-one>
-			<many-to-one name="depositIn" class="Account" lazy="false"
-				cascade="save-update" column="DEPOSIT_IN_ACCOUNT_ID">
+			<many-to-one name="depositIn" class="Account" cascade="save-update"
+				column="DEPOSIT_IN_ACCOUNT_ID">
 			</many-to-one>
 			<many-to-one name="shippingTerm" class="ShippingTerms"
-				lazy="false" column="SHIPPING_TERMS_ID">
+				column="SHIPPING_TERMS_ID">
 			</many-to-one>
 			<many-to-one name="shippingMethod" class="ShippingMethod"
-				lazy="false" column="SHIPPING_METHOD_ID">
+				column="SHIPPING_METHOD_ID">
 			</many-to-one>
 			<property name="deliverydate" column="DELIVERY_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
-				column="PRICE_LEVEL_ID">
+			<many-to-one name="priceLevel" class="PriceLevel" column="PRICE_LEVEL_ID">
 			</many-to-one>
 			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
 		</joined-subclass>
 		<joined-subclass name="CreditCardCharge" table="CREDIT_CARD_CHARGES">
 			<key column="ID" />
-			<many-to-one name="vendor" class="Vendor" lazy="false"
-				cascade="save-update" column="VENDOR_ID">
+			<many-to-one name="vendor" class="Vendor" cascade="save-update"
+				column="VENDOR_ID">
 			</many-to-one>
-			<component name="contact" class="Contact" lazy="false">
+			<component name="contact" class="Contact">
 				<property name="isPrimary" column="CCC_IS_PRIMARY"></property>
 				<property name="name" column="CCC_NAME"></property>
 				<property name="title" column="CCC_TITLE"></property>
 				<property name="businessPhone" column="CCC_BUSINESS_PHONE"></property>
 				<property name="email" column="CCC_EMAIL"></property>
 			</component>
-			<component name="vendorAddress" class="Address" lazy="false">
+			<component name="vendorAddress" class="Address">
 				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
 				<property name="street" column="VENDOR_ADDRESS_STREET"></property>
 				<property name="city" column="VENDOR_ADDRESS_CITY"></property>
@@ -251,8 +244,8 @@
 				<property name="isSelected" column="VENDOR_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<property name="phone" column="PHONE"></property>
-			<many-to-one name="payFrom" class="Account" lazy="false"
-				cascade="save-update" column="PAYFROM_ACCOUNT_ID">
+			<many-to-one name="payFrom" class="Account" cascade="save-update"
+				column="PAYFROM_ACCOUNT_ID">
 			</many-to-one>
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 			<property name="deliveryDate" column="DELIVERY_DATE"
@@ -260,17 +253,17 @@
 		</joined-subclass>
 		<joined-subclass name="CustomerCreditMemo" table="CUSTOMER_CREDIT_MEMO">
 			<key column="ID" />
-			<many-to-one name="customer" class="Customer" lazy="false"
-				cascade="save-update" column="CUSTOMER_ID">
+			<many-to-one name="customer" class="Customer" cascade="save-update"
+				column="CUSTOMER_ID">
 			</many-to-one>
-			<component name="contact" class="Contact" lazy="false">
+			<component name="contact" class="Contact">
 				<property name="isPrimary" column="CCM_IS_PRIMARY"></property>
 				<property name="name" column="CCM_NAME"></property>
 				<property name="title" column="CCM_TITLE"></property>
 				<property name="businessPhone" column="CCM_BUSINESS_PHONE"></property>
 				<property name="email" column="CCM_EMAIL"></property>
 			</component>
-			<component name="billingAddress" class="Address" lazy="false">
+			<component name="billingAddress" class="Address">
 				<property name="type" column="BILLING_ADDRESS_TYPE"></property>
 				<property name="address1" column="BILLING_ADDRESS1" length="100"></property>
 				<property name="street" column="BILLING_ADDRESS_STREET"></property>
@@ -282,13 +275,12 @@
 			</component>
 			<property name="phone" column="PHONE"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
-				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+				column="SALES_PERSON_ID">
 			</many-to-one>
-			<many-to-one name="account" class="Account" lazy="false"
-				cascade="save-update" column="ACCOUNT_ID">
+			<many-to-one name="account" class="Account" cascade="save-update"
+				column="ACCOUNT_ID">
 			</many-to-one>
-			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
-				column="PRICE_LEVEL_ID">
+			<many-to-one name="priceLevel" class="PriceLevel" column="PRICE_LEVEL_ID">
 			</many-to-one>
 			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
@@ -297,13 +289,13 @@
 
 		<joined-subclass name="CustomerPrePayment" table="CUSTOMER_PREPAYMENT">
 			<key column="ID"></key>
-			<many-to-one name="depositIn" class="Account" lazy="false"
-				cascade="save-update" column="DEPOSITIN_ID"></many-to-one>
-			<many-to-one name="customer" class="Customer" lazy="false"
-				cascade="save-update" column="CUSTOMER_ID"></many-to-one>
+			<many-to-one name="depositIn" class="Account" cascade="save-update"
+				column="DEPOSITIN_ID"></many-to-one>
+			<many-to-one name="customer" class="Customer" cascade="save-update"
+				column="CUSTOMER_ID"></many-to-one>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
-			<component name="address" class="Address" lazy="false">
+			<component name="address" class="Address">
 				<property name="type" column="CPP_ADDRESS_TYPE"></property>
 				<property name="address1" column="CPP_ADDRESS_ADDRESS1"
 					length="100"></property>
@@ -318,10 +310,10 @@
 
 		<joined-subclass name="CustomerRefund" table="CUSTOMER_REFUND">
 			<key column="ID" />
-			<many-to-one name="payTo" class="Customer" lazy="false"
-				cascade="save-update" column="CUSTOMER_ID">
+			<many-to-one name="payTo" class="Customer" cascade="save-update"
+				column="CUSTOMER_ID">
 			</many-to-one>
-			<component name="address" class="Address" lazy="false">
+			<component name="address" class="Address">
 				<property name="type" column="CR__ADDRESS_TYPE"></property>
 				<property name="address1" column="CR_ADDRESS_ADDRESS1"
 					length="100"></property>
@@ -332,8 +324,8 @@
 				<property name="countryOrRegion" column="CR__ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="CR__ADDRESS_IS_SELECTED"></property>
 			</component>
-			<many-to-one name="payFrom" class="Account" lazy="false"
-				cascade="save-update" column="PAYFROM_ACCOUNT_ID">
+			<many-to-one name="payFrom" class="Account" cascade="save-update"
+				column="PAYFROM_ACCOUNT_ID">
 			</many-to-one>
 			<property name="isToBePrinted" column="IS_TO_BE_PRINTED"></property>
 			<property name="isPaid" column="IS_PAID"></property>
@@ -343,17 +335,17 @@
 		</joined-subclass>
 		<joined-subclass name="EnterBill" table="ENTER_BILL">
 			<key column="ID" />
-			<many-to-one name="vendor" class="Vendor" lazy="false"
-				cascade="save-update" column="VENDOR_ID">
+			<many-to-one name="vendor" class="Vendor" cascade="save-update"
+				column="VENDOR_ID">
 			</many-to-one>
-			<component name="contact" class="Contact" lazy="false">
+			<component name="contact" class="Contact">
 				<property name="isPrimary" column="EB_IS_PRIMARY"></property>
 				<property name="name" column="EB_NAME"></property>
 				<property name="title" column="EB_TITLE"></property>
 				<property name="businessPhone" column="EB_BUSINESS_PHONE"></property>
 				<property name="email" column="EB_EMAIL"></property>
 			</component>
-			<component name="vendorAddress" class="Address" lazy="false">
+			<component name="vendorAddress" class="Address">
 				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
 				<property name="address1" column="VENDOR_ADDRESS_ADDRESS1"
 					length="100"></property>
@@ -366,7 +358,7 @@
 			</component>
 			<property name="phone" column="PHONE"></property>
 			<many-to-one name="paymentTerm" class="PaymentTerms"
-				lazy="false" column="PAYMENT_TERM_ID">
+				column="PAYMENT_TERM_ID">
 			</many-to-one>
 			<property name="dueDate" column="DUE_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
@@ -377,35 +369,34 @@
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 			<property name="discountDate" column="DISCOUNT_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<set name="transactionPayBills" inverse="true" cascade="save-update,delete"
-				lazy="false">
+			<set name="transactionPayBills" inverse="true">
 				<key column="ENTER_BILL_ID"></key>
 				<one-to-many class="TransactionPayBill" />
 			</set>
-			<set name="estimates" cascade="save-update" table="ENTERBILL_ESTIMATES">
+			<set name="estimates" table="ENTERBILL_ESTIMATES">
 				<key column="ENTER_BILL_ID"></key>
 				<many-to-many class="Estimate" />
 			</set>
 			<many-to-one name="purchaseOrder" class="PurchaseOrder"
-				lazy="false" cascade="save-update" column="PURCHASE_ORDER_ID">
+				column="PURCHASE_ORDER_ID">
 			</many-to-one>
-			<many-to-one name="itemReceipt" class="ItemReceipt" lazy="false"
+			<many-to-one name="itemReceipt" class="ItemReceipt"
 				cascade="save-update" column="ITEM_RECEIPT_ID">
 			</many-to-one>
 		</joined-subclass>
 		<joined-subclass name="Estimate" table="ESTIMATE">
 			<key column="ID" />
-			<many-to-one name="customer" class="Customer" lazy="false"
-				cascade="save-update" column="CUSTOMER_ID">
+			<many-to-one name="customer" class="Customer" cascade="save-update"
+				column="CUSTOMER_ID">
 			</many-to-one>
-			<component name="contact" class="Contact" lazy="false">
+			<component name="contact" class="Contact">
 				<property name="isPrimary" column="EST_IS_PRIMARY"></property>
 				<property name="name" column="EST_NAME"></property>
 				<property name="title" column="EST_TITLE"></property>
 				<property name="businessPhone" column="EST_BUSINESS_PHONE"></property>
 				<property name="email" column="EST_EMAIL"></property>
 			</component>
-			<component name="address" class="Address" lazy="false">
+			<component name="address" class="Address">
 				<property name="type" column="ESTIMATE_ADDRESS_TYPE"></property>
 				<property name="address1" column="ESTIMATE_ADDRESS_ADDRESS1"
 					length="100"></property>
@@ -416,7 +407,7 @@
 				<property name="countryOrRegion" column="ESTIMATE_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="ESTIMATE_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<component name="shippingAdress" class="Address" lazy="false">
+			<component name="shippingAdress" class="Address">
 				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
 				<property name="address1" column="SHIPPING_ADDRESS1"
 					length="100"></property>
@@ -430,17 +421,16 @@
 			<property name="phone" column="PHONE"></property>
 			<property name="estimateType" column="ESTIMATETYPE"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
-				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+				column="SALES_PERSON_ID">
 			</many-to-one>
 			<many-to-one name="paymentTerm" class="PaymentTerms"
-				lazy="false" column="PAYMENT_TERMS_ID">
+				column="PAYMENT_TERMS_ID">
 			</many-to-one>
 			<property name="expirationDate" column="EXPIRATION_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="deliveryDate" column="DELIVERY_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
-				column="PRICE_LEVEL_ID">
+			<many-to-one name="priceLevel" class="PriceLevel" column="PRICE_LEVEL_ID">
 			</many-to-one>
 			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="isTurnedToInvoiceOrSalesOrder" column="IS_TURNED_TO_INVOICE"></property>
@@ -449,17 +439,17 @@
 		</joined-subclass>
 		<joined-subclass name="Invoice" table="INVOICE">
 			<key column="ID" />
-			<many-to-one name="customer" class="Customer" lazy="false"
-				cascade="save-update" column="CUSTOMER_ID">
+			<many-to-one name="customer" class="Customer" cascade="save-update"
+				column="CUSTOMER_ID">
 			</many-to-one>
-			<component name="contact" class="Contact" lazy="false">
+			<component name="contact" class="Contact">
 				<property name="isPrimary" column="INVOICE_IS_PRIMARY"></property>
 				<property name="name" column="INVOICE_NAME"></property>
 				<property name="title" column="INVOICE_TITLE"></property>
 				<property name="businessPhone" column="INVOICE_BUSINESS_PHONE"></property>
 				<property name="email" column="INVOICE_EMAIL"></property>
 			</component>
-			<component name="billingAddress" class="Address" lazy="false">
+			<component name="billingAddress" class="Address">
 				<property name="type" column="BILLING_ADDRESS_TYPE"></property>
 				<property name="address1" column="BILLING_ADDRESS1" length="100"></property>
 				<property name="street" column="BILLING_ADDRESS_STREET"></property>
@@ -469,7 +459,7 @@
 				<property name="countryOrRegion" column="BILLING_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="BILLING_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<component name="shippingAdress" class="Address" lazy="false">
+			<component name="shippingAdress" class="Address">
 				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
 				<property name="address1" column="SHIPPING_ADDRESS1"
 					length="100"></property>
@@ -482,16 +472,16 @@
 			</component>
 			<property name="phone" column="PHONE"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
-				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+				column="SALES_PERSON_ID">
 			</many-to-one>
 			<many-to-one name="paymentTerm" class="PaymentTerms"
-				lazy="false" column="PAYMENT_TERMS_ID">
+				column="PAYMENT_TERMS_ID">
 			</many-to-one>
 			<many-to-one name="shippingTerm" class="ShippingTerms"
-				lazy="false" column="SHIPPING_TERMS_ID">
+				column="SHIPPING_TERMS_ID">
 			</many-to-one>
 			<many-to-one name="shippingMethod" class="ShippingMethod"
-				lazy="false" column="SHIPPING_METHOD_ID">
+				column="SHIPPING_METHOD_ID">
 			</many-to-one>
 			<property name="dueDate" column="DUE_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
@@ -499,22 +489,19 @@
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="orderNum" column="SALES_ORDER_NO"></property>
 			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
-			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
-				column="PRICE_LEVEL_ID">
+			<many-to-one name="priceLevel" class="PriceLevel" column="PRICE_LEVEL_ID">
 			</many-to-one>
 			<property name="taxTotal" column="SALES_TAX_AMOUNT"></property>
 			<property name="payments" column="PAYMENTS"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 			<property name="isPaid" column="IS_PAID"></property>
 			<property name="isEdited" column="IS_EDITED"></property>
-			<list name="estimates" table="INVOICE_ESTIMATES" lazy="false"
-				cascade="save-update">
+			<list name="estimates" table="INVOICE_ESTIMATES">
 				<key column="INVOICE_ID"></key>
 				<list-index column="VTX" />
 				<many-to-many column="ESTIMATE_ID" class="Estimate" />
 			</list>
-			<list name="salesOrders" table="INVOICE_SALES_ORDERS" lazy="false"
-				cascade="save-update">
+			<list name="salesOrders" table="INVOICE_SALES_ORDERS" cascade="save-update">
 				<key column="INVOICE_ID"></key>
 				<list-index column="VTX" />
 				<many-to-many column="SALES_ORDER_ID" class="SalesOrder" />
@@ -528,19 +515,18 @@
 		</joined-subclass>
 		<joined-subclass name="MakeDeposit" table="MAKE_DEPOSIT">
 			<key column="ID" />
-			<many-to-one name="depositIn" class="Account" lazy="false"
-				cascade="save-update" column="DEPOSIT_IN_ID">
+			<many-to-one name="depositIn" class="Account" cascade="save-update"
+				column="DEPOSIT_IN_ID">
 			</many-to-one>
-			<many-to-one name="depositFrom" class="Account" lazy="false"
-				cascade="save-update" column="DEPOSIT_FROM_ID">
+			<many-to-one name="depositFrom" class="Account" cascade="save-update"
+				column="DEPOSIT_FROM_ID">
 			</many-to-one>
-			<many-to-one name="cashBackAccount" class="Account" lazy="false"
+			<many-to-one name="cashBackAccount" class="Account"
 				cascade="save-update" column="CASH_BACK_ACCOUNT_ID">
 			</many-to-one>
 			<property name="cashBackMemo" column="CASH_BACK_MEMO"></property>
 			<property name="cashBackAmount" column="CASH_BACK_AMOUNT"></property>
-			<list name="transactionMakeDeposit" cascade="save-update,delete-orphan"
-				lazy="false">
+			<list name="transactionMakeDeposit" cascade="save-update,delete-orphan">
 				<key column="TRANSACTION_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionMakeDeposit" />
@@ -548,16 +534,16 @@
 		</joined-subclass>
 		<joined-subclass name="PayBill" table="PAY_BILL">
 			<key column="ID" />
-			<many-to-one name="payFrom" class="Account" lazy="false"
-				cascade="save-update" column="PAYFROM_ID">
+			<many-to-one name="payFrom" class="Account" cascade="save-update"
+				column="PAYFROM_ID">
 			</many-to-one>
 			<property name="billDueOnOrBefore" column="BILL_DUE_ONORBEFORE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<many-to-one name="vendor" class="Vendor" lazy="false"
-				cascade="save-update" column="VENDOR_ID">
+			<many-to-one name="vendor" class="Vendor" cascade="save-update"
+				column="VENDOR_ID">
 			</many-to-one>
-			<many-to-one name="tdsTaxItem" class="TAXItem" lazy="false"
-				cascade="save-update" column="TDS_TAXITEM">
+			<many-to-one name="tdsTaxItem" class="TAXItem" cascade="save-update"
+				column="TDS_TAXITEM">
 			</many-to-one>
 			<property name="tdsTotal" column="TDS_TOTAL"></property>
 			<property name="isToBePrinted" column="IS_TO_BE_PRINTED"></property>
@@ -565,7 +551,7 @@
 			<property name="unusedAmount" column="UNUSED_AMOUNT"></property>
 			<property name="vendorBalance" column="VENDOR_BALANCE"></property>
 			<property name="payBillType" column="PAYBILL_TYPE"></property>
-			<component name="address" class="Address" lazy="false">
+			<component name="address" class="Address">
 				<property name="type" column="PAYBILL_ADDRESS_TYPE"></property>
 				<property name="address1" column="PAYBILL_ADDRESS_ADDRESS1"
 					length="100"></property>
@@ -577,11 +563,10 @@
 				<property name="isSelected" column="PAYBILL_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<!-- <many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode" -->
-			<!-- lazy="false"> -->
+			<!-- > -->
 			<!-- </many-to-one> -->
 			<!-- <property name="VATFraction" column="VAT_FRACTION"></property> -->
-			<list name="transactionPayBill" cascade="save-update,delete"
-				lazy="false">
+			<list name="transactionPayBill" cascade="save-update,delete">
 				<key column="TRANSACTION_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionPayBill" />
@@ -591,24 +576,23 @@
 		</joined-subclass>
 		<joined-subclass name="PurchaseOrder" table="PURCHASE_ORDER">
 			<key column="ID" />
-			<many-to-one name="vendor" class="Vendor" lazy="false"
-				cascade="save-update" column="VENDOR_ID">
+			<many-to-one name="vendor" class="Vendor" cascade="save-update"
+				column="VENDOR_ID">
 			</many-to-one>
-			<many-to-one name="shipTo" class="Account" lazy="false"
-				column="SHIP_TO_ID">
+			<many-to-one name="shipTo" class="Account" column="SHIP_TO_ID">
 			</many-to-one>
 			<property name="purchaseOrderDate" column="PURCHASE_ORDER_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="toBePrinted" column="TO_BE_PRINTED"></property>
 			<property name="toBeEmailed" column="TO_BE_EMAILED"></property>
-			<component name="contact" class="Contact" lazy="false">
+			<component name="contact" class="Contact">
 				<property name="isPrimary" column="EB_IS_PRIMARY"></property>
 				<property name="name" column="EB_NAME"></property>
 				<property name="title" column="EB_TITLE"></property>
 				<property name="businessPhone" column="EB_BUSINESS_PHONE"></property>
 				<property name="email" column="EB_EMAIL"></property>
 			</component>
-			<component name="vendorAddress" class="Address" lazy="false">
+			<component name="vendorAddress" class="Address">
 				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
 				<property name="address1" column="VENDOR_ADDRESS_ADDRESS1"
 					length="100"></property>
@@ -621,7 +605,7 @@
 			</component>
 			<property name="phone" column="PHONE"></property>
 			<many-to-one name="paymentTerm" class="PaymentTerms"
-				lazy="false" column="PAYMENT_TERM_ID">
+				column="PAYMENT_TERM_ID">
 			</many-to-one>
 			<property name="dueDate" column="DUE_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
@@ -629,7 +613,7 @@
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="dispatchDate" column="DISPATCH_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<component name="shippingAddress" class="Address" lazy="false">
+			<component name="shippingAddress" class="Address">
 				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
 				<property name="address1" column="SHIPPING_ADDRESS_ADDRESS1"
 					length="100"></property>
@@ -641,38 +625,36 @@
 				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<many-to-one name="shippingTerms" class="ShippingTerms"
-				lazy="false" cascade="save-update" column="SHIPPING_TERMS_ID">
+				cascade="save-update" column="SHIPPING_TERMS_ID">
 			</many-to-one>
 			<many-to-one name="shippingMethod" class="ShippingMethod"
-				lazy="false" cascade="save-update" column="SHIPPING_METHOD_ID">
+				cascade="save-update" column="SHIPPING_METHOD_ID">
 			</many-to-one>
 			<property name="purchaseOrderNumber" column="PURCHASE_ORDER_NUMBER"></property>
-			<!-- <list name="enterBills" cascade="save-update,delete" lazy="false"> 
-				<key column="TRANSACTION_ID" /> <list-index column="EBX" /> <one-to-many 
-				class="EnterBill" /> </list> <list name="itemReceipts" cascade="save-update,delete" 
-				lazy="false"> <key column="TRANSACTION_ID" /> <list-index column="IRX" /> 
-				<one-to-many class="ItemReceipt" /> </list> -->
+			<!-- <list name="enterBills" cascade="save-update,delete" > <key column="TRANSACTION_ID" 
+				/> <list-index column="EBX" /> <one-to-many class="EnterBill" /> </list> 
+				<list name="itemReceipts" cascade="save-update,delete" > <key column="TRANSACTION_ID" 
+				/> <list-index column="IRX" /> <one-to-many class="ItemReceipt" /> </list> -->
 		</joined-subclass>
 		<joined-subclass name="ItemReceipt" table="ITEM_RECEIPT">
 			<key column="ID" />
-			<many-to-one name="vendor" class="Vendor" lazy="false"
-				cascade="save-update" column="VENDOR_ID">
+			<many-to-one name="vendor" class="Vendor" cascade="save-update"
+				column="VENDOR_ID">
 			</many-to-one>
-			<many-to-one name="shipTo" class="Account" lazy="false"
-				column="SHIP_TO_ID">
+			<many-to-one name="shipTo" class="Account" column="SHIP_TO_ID">
 			</many-to-one>
 			<property name="purchaseOrderDate" column="PURCHASE_ORDER_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="toBePrinted" column="TO_BE_PRINTED"></property>
 			<property name="toBeEmailed" column="TO_BE_EMAILED"></property>
-			<component name="contact" class="Contact" lazy="false">
+			<component name="contact" class="Contact">
 				<property name="isPrimary" column="EB_IS_PRIMARY"></property>
 				<property name="name" column="EB_NAME"></property>
 				<property name="title" column="EB_TITLE"></property>
 				<property name="businessPhone" column="EB_BUSINESS_PHONE"></property>
 				<property name="email" column="EB_EMAIL"></property>
 			</component>
-			<component name="vendorAddress" class="Address" lazy="false">
+			<component name="vendorAddress" class="Address">
 				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
 				<property name="address1" column="VENDOR_ADDRESS_ADDRESS1"
 					length="100"></property>
@@ -685,13 +667,13 @@
 			</component>
 			<property name="phone" column="PHONE"></property>
 			<many-to-one name="paymentTerm" class="PaymentTerms"
-				lazy="false" column="PAYMENT_TERM_ID">
+				column="PAYMENT_TERM_ID">
 			</many-to-one>
 			<property name="dueDate" column="DUE_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="deliveryDate" column="DELIVERY_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<component name="shippingAddress" class="Address" lazy="false">
+			<component name="shippingAddress" class="Address">
 				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
 				<property name="address1" column="SHIPPING_ADDRESS_ADDRESS1"
 					length="100"></property>
@@ -703,29 +685,28 @@
 				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<many-to-one name="shippingTerms" class="ShippingTerms"
-				lazy="false" cascade="save-update" column="SHIPPING_TERMS_ID">
+				cascade="save-update" column="SHIPPING_TERMS_ID">
 			</many-to-one>
 			<many-to-one name="shippingMethod" class="ShippingMethod"
-				lazy="false" cascade="save-update" column="SHIPPING_METHOD_ID">
+				cascade="save-update" column="SHIPPING_METHOD_ID">
 			</many-to-one>
-			<!-- <list name="enterBills" cascade="save-update,delete" lazy="false"> 
-				<key column="TRANSACTION_ID" /> <list-index column="EBX" /> <one-to-many 
-				class="EnterBill" /> </list> -->
+			<!-- <list name="enterBills" cascade="save-update,delete" > <key column="TRANSACTION_ID" 
+				/> <list-index column="EBX" /> <one-to-many class="EnterBill" /> </list> -->
 			<many-to-one name="purchaseOrder" class="PurchaseOrder"
-				lazy="false" cascade="save-update" column="PURCHASE_ORDER_ID">
+				cascade="save-update" column="PURCHASE_ORDER_ID">
 			</many-to-one>
 			<property name="isBilled" column="IS_BILLED"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 		</joined-subclass>
 		<joined-subclass name="ReceivePayment" table="RECEIVE_PAYMENT">
 			<key column="ID" />
-			<many-to-one name="customer" class="Customer" lazy="false"
-				cascade="save-update" column="CUSTOMER_ID">
+			<many-to-one name="customer" class="Customer" cascade="save-update"
+				column="CUSTOMER_ID">
 			</many-to-one>
 			<property name="amount" column="AMOUNT"></property>
 			<property name="customerBalance" column="CUSTOMER_BALANCE"></property>
-			<many-to-one name="depositIn" class="Account" lazy="false"
-				cascade="save-update" column="ACCOUNT_ID">
+			<many-to-one name="depositIn" class="Account" cascade="save-update"
+				column="ACCOUNT_ID">
 			</many-to-one>
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 			<property name="unUsedCredits" column="UNUSED_CREDITS"></property>
@@ -735,14 +716,13 @@
 			<property name="totalWriteOff" column="TOTAL_WRITE_OFF"></property>
 			<property name="totalAppliedCredits" column="TOTAL_APPLIED_CREDITS"></property>
 			<!-- <many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode" -->
-			<!-- lazy="false"> -->
+			<!-- > -->
 			<!-- </many-to-one> -->
 			<!-- <property name="VATFraction" column="VAT_FRACTION"></property> -->
 			<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
-				lazy="false" column="CREDITS_AND_PAYMENTS_ID">
+				column="CREDITS_AND_PAYMENTS_ID">
 			</many-to-one>
-			<list name="transactionReceivePayment" cascade="save-update,delete"
-				lazy="false">
+			<list name="transactionReceivePayment" cascade="save-update,delete">
 				<key column="TRANSACTION_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionReceivePayment" />
@@ -750,17 +730,17 @@
 		</joined-subclass>
 		<joined-subclass name="SalesOrder" table="SALES_ORDER">
 			<key column="ID" />
-			<many-to-one name="customer" class="Customer" lazy="false"
-				cascade="save-update" column="CUSTOMER_ID">
+			<many-to-one name="customer" class="Customer" cascade="save-update"
+				column="CUSTOMER_ID">
 			</many-to-one>
-			<component name="contact" class="Contact" lazy="false">
+			<component name="contact" class="Contact">
 				<property name="isPrimary" column="INVOICE_IS_PRIMARY"></property>
 				<property name="name" column="INVOICE_NAME"></property>
 				<property name="title" column="INVOICE_TITLE"></property>
 				<property name="businessPhone" column="INVOICE_BUSINESS_PHONE"></property>
 				<property name="email" column="INVOICE_EMAIL"></property>
 			</component>
-			<component name="billingAddress" class="Address" lazy="false">
+			<component name="billingAddress" class="Address">
 				<property name="type" column="BILLING_ADDRESS_TYPE"></property>
 				<property name="address1" column="BILLING_ADDRESS1" length="100"></property>
 				<property name="street" column="BILLING_ADDRESS_STREET"></property>
@@ -770,7 +750,7 @@
 				<property name="countryOrRegion" column="BILLING_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="BILLING_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<component name="shippingAdress" class="Address" lazy="false">
+			<component name="shippingAdress" class="Address">
 				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
 				<property name="address1" column="SHIPPING_ADDRESS1"
 					length="100"></property>
@@ -783,34 +763,30 @@
 			</component>
 			<property name="phone" column="PHONE"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
-				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+				column="SALES_PERSON_ID">
 			</many-to-one>
 			<many-to-one name="paymentTerm" class="PaymentTerms"
-				lazy="false" column="PAYMENT_TERMS_ID">
+				column="PAYMENT_TERMS_ID">
 			</many-to-one>
 			<many-to-one name="shippingTerm" class="ShippingTerms"
-				lazy="false" column="SHIPPING_TERMS_ID">
+				column="SHIPPING_TERMS_ID">
 			</many-to-one>
 			<many-to-one name="shippingMethod" class="ShippingMethod"
-				lazy="false" column="SHIPPING_METHOD_ID">
+				column="SHIPPING_METHOD_ID">
 			</many-to-one>
 			<property name="dueDate" column="DUE_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
-			<many-to-one name="priceLevel" class="PriceLevel" lazy="false"
-				column="PRICE_LEVEL_ID">
+			<many-to-one name="priceLevel" class="PriceLevel" column="PRICE_LEVEL_ID">
 			</many-to-one>
 			<property name="taxTotal" column="SALES_TAX_AMOUNT"></property>
-			<many-to-one name="salesTaxItem" class="Item" lazy="false"
-				column="ITEM_ID">
+			<many-to-one name="salesTaxItem" class="Item" column="ITEM_ID">
 			</many-to-one>
-			<many-to-one name="estimate" class="Estimate" lazy="false"
-				cascade="save-update" column="ESTIMATE_ID">
+			<many-to-one name="estimate" class="Estimate" column="ESTIMATE_ID">
 			</many-to-one>
 			<property name="customerOrderNumber" column="CUSTOMER_ORDER_NUMBER"></property>
-			<!-- <list name="invoices" cascade="save-update,delete" lazy="false"> 
-				<key column="TRANSACTION_ID" /> <list-index column="IDX" /> <one-to-many 
-				class="Invoice" /> </list> -->
+			<!-- <list name="invoices" cascade="save-update,delete" > <key column="TRANSACTION_ID" 
+				/> <list-index column="IDX" /> <one-to-many class="Invoice" /> </list> -->
 		</joined-subclass>
 		<joined-subclass name="Expense" table="EXPENSE">
 			<key column="ID" />
@@ -828,8 +804,7 @@
 			<property name="paidAmount" column="PAID_AMOUNT"></property>
 			<property name="category" column="CATEGORY"></property>
 			<property name="isAuthorised" column="IS_AUTHORISED"></property>
-			<list name="transactionExpenses" cascade="save-update,delete"
-				lazy="false">
+			<list name="transactionExpenses" cascade="save-update,delete">
 				<key column="EXPENSE_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionExpense" />
@@ -837,10 +812,10 @@
 		</joined-subclass>
 		<joined-subclass name="VendorCreditMemo" table="VENDOR_CREDIT_MEMO">
 			<key column="ID" />
-			<many-to-one name="vendor" class="Vendor" lazy="false"
-				cascade="save-update" column="VENDOR_ID">
+			<many-to-one name="vendor" class="Vendor" cascade="save-update"
+				column="VENDOR_ID">
 			</many-to-one>
-			<component name="contact" class="Contact" lazy="false">
+			<component name="contact" class="Contact">
 				<property name="isPrimary" column="VCM_IS_PRIMARY"></property>
 				<property name="name" column="VCM_NAME"></property>
 				<property name="title" column="VCM_TITLE"></property>
@@ -852,12 +827,10 @@
 		</joined-subclass>
 		<joined-subclass name="PayExpense" table="PAY_EXPENSE">
 			<key column="ID" />
-			<many-to-one name="paidFrom" class="Account" lazy="false"
-				column="ACCOUNT_ID">
+			<many-to-one name="paidFrom" class="Account" column="ACCOUNT_ID">
 			</many-to-one>
 			<property name="refernceOrChequeNumber" column="REFERENCE_OR_CHEQUE_NUMBER"></property>
-			<list name="transactionPayExpenses" cascade="save-update,delete"
-				lazy="false">
+			<list name="transactionPayExpenses" cascade="save-update,delete">
 				<key column="PAY_EXPENSE_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionPayExpense" />
@@ -866,19 +839,19 @@
 		<joined-subclass name="WriteCheck" table="WRITE_CHECKS">
 			<key column="ID" />
 			<property name="payToType" column="PAY_TO_TYPE"></property>
-			<many-to-one name="bankAccount" class="Account" lazy="false"
-				cascade="save-update" column="ACCOUNT_ID">
+			<many-to-one name="bankAccount" class="Account" cascade="save-update"
+				column="ACCOUNT_ID">
 			</many-to-one>
-			<many-to-one name="customer" class="Customer" lazy="false"
-				cascade="save-update" column="CUSTOMER_ID">
+			<many-to-one name="customer" class="Customer" cascade="save-update"
+				column="CUSTOMER_ID">
 			</many-to-one>
-			<many-to-one name="vendor" class="Vendor" lazy="false"
-				cascade="save-update" column="VENDOR_ID">
+			<many-to-one name="vendor" class="Vendor" cascade="save-update"
+				column="VENDOR_ID">
 			</many-to-one>
-			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-				cascade="save-update" column="TAX_AGENCY_ID">
+			<many-to-one name="taxAgency" class="TAXAgency" cascade="save-update"
+				column="TAX_AGENCY_ID">
 			</many-to-one>
-			<component name="address" class="Address" lazy="false">
+			<component name="address" class="Address">
 				<property name="type" column="WRITECHECK_ADDRESS_TYPE"></property>
 				<property name="address1" column="WRITECHECK_ADDRESS_ADDRESS1"
 					length="100"></property>
@@ -892,28 +865,27 @@
 			<property name="amount" column="AMOUNT"></property>
 			<property name="toBePrinted" column="TO_BE_PRINTED"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
-				column="SALES_PERSON_ID" cascade="save-update,delete" lazy="false">
+				column="SALES_PERSON_ID">
 			</many-to-one>
 			<property name="inWords" column="IN_WORDS"></property>
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 		</joined-subclass>
 		<joined-subclass name="TransferFund" table="TRANSFER_FUND">
 			<key column="ID" />
-			<many-to-one name="transferFrom" class="Account" lazy="false"
-				cascade="save-update" column="TRANSFER_FROM">
+			<many-to-one name="transferFrom" class="Account" cascade="save-update"
+				column="TRANSFER_FROM">
 			</many-to-one>
-			<many-to-one name="transferTo" class="Account" lazy="false"
-				cascade="save-update" column="TRANSFER_TO">
+			<many-to-one name="transferTo" class="Account" cascade="save-update"
+				column="TRANSFER_TO">
 			</many-to-one>
 		</joined-subclass>
 		<joined-subclass name="IssuePayment" table="ISSUEPAYMENT">
 			<key column="ID" />
-			<many-to-one name="account" class="Account" lazy="false"
-				cascade="save-update" column="ACCOUNT_ID">
+			<many-to-one name="account" class="Account" cascade="save-update"
+				column="ACCOUNT_ID">
 			</many-to-one>
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
-			<list name="transactionIssuePayment" cascade="save-update,delete"
-				lazy="false">
+			<list name="transactionIssuePayment" cascade="save-update,delete">
 				<key column="TRANSACTION_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionIssuePayment" />
@@ -925,14 +897,13 @@
 			<property name="creditTotal" column="CREDIT_TOTAL"></property>
 			<property name="journalEntryType" column="JOURNAL_ENTRY_TYPE"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
-			<many-to-one name="involvedPayee" class="Payee" lazy="false"
-				cascade="save-update" column="PAYEE_ID">
+			<many-to-one name="involvedPayee" class="Payee" cascade="save-update"
+				column="PAYEE_ID">
 			</many-to-one>
-			<many-to-one name="involvedAccount" class="Account" lazy="false"
+			<many-to-one name="involvedAccount" class="Account"
 				cascade="save-update" column="ACCOUNT_ID">
 			</many-to-one>
-			<set name="transactionPayBills" inverse="true" cascade="save-update,delete"
-				lazy="false">
+			<set name="transactionPayBills" inverse="true" cascade="save-update,delete">
 				<key column="JOURNAL_ENTRY_ID"></key>
 				<one-to-many class="TransactionPayBill" />
 			</set>
@@ -944,15 +915,14 @@
 			<property name="periodEndDate" column="END_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 
-			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-				cascade="save-update" column="TAX_AGENCY">
+			<many-to-one name="taxAgency" class="TAXAgency" cascade="save-update"
+				column="TAX_AGENCY">
 			</many-to-one>
 
 			<property name="balance" column="BALANCE"></property>
 			<property name="totalTAXAmount" column="TAX_TOTAL"></property>
 
-			<list name="taxReturnEntries" cascade="save-update,delete-orphan"
-				lazy="false">
+			<list name="taxReturnEntries" cascade="save-update,delete-orphan">
 				<key column="TAX_RETURN_ID" />
 				<list-index column="TEI" />
 				<one-to-many class="TAXReturnEntry" />
@@ -966,23 +936,23 @@
 			<property name="isSales" column="IS_SALES"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 			<many-to-one name="adjustmentAccount" class="Account"
-				lazy="false" cascade="save-update" column="ADJUSTMENT_ACCOUNT">
+				cascade="save-update" column="ADJUSTMENT_ACCOUNT">
 			</many-to-one>
-			<many-to-one name="taxItem" class="TAXItem" lazy="false"
-				cascade="save-update" column="TAX_ITEM">
+			<many-to-one name="taxItem" class="TAXItem" cascade="save-update"
+				column="TAX_ITEM">
 			</many-to-one>
-			<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-				cascade="save-update" column="TAX_AGENCY_ID">
+			<many-to-one name="taxAgency" class="TAXAgency" cascade="save-update"
+				column="TAX_AGENCY_ID">
 			</many-to-one>
 		</joined-subclass>
 
 		<!-- <joined-subclass name="TAXAdjustment" table="TAX_ADJUSTMENT"> <key 
 			column="id" /> <property name="increaseTAXLine" column="INCREASE_TAX_LINE"></property> 
-			<many-to-one name="adjustmentAccount" class="Account" lazy="false" cascade="save-update" 
+			<many-to-one name="adjustmentAccount" class="Account" cascade="save-update" 
 			column="ADJUSTMENT_ACCOUNT_ID"> </many-to-one> <many-to-one name="taxAgency" 
-			class="TAXAgency" lazy="false" cascade="save-update" column="TAX_AGENCY_ID"> 
-			</many-to-one> <many-to-one name="journalEntry" class="JournalEntry" lazy="false" 
-			cascade="save-update,delete" column="JOURNAL_ENTRY_ID"> </many-to-one> </joined-subclass> -->
+			class="TAXAgency" cascade="save-update" column="TAX_AGENCY_ID"> </many-to-one> 
+			<many-to-one name="journalEntry" class="JournalEntry" cascade="save-update,delete" 
+			column="JOURNAL_ENTRY_ID"> </many-to-one> </joined-subclass> -->
 	</class>
 
 
@@ -992,28 +962,22 @@
 		</id>
 		<property name="version" column="VERSION"></property>
 		<property name="type" column="TYPE"></property>
-		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID">
+		<many-to-one name="item" class="Item" column="ITEM_ID">
 		</many-to-one>
-		<many-to-one name="customer" class="Customer" lazy="false"
-			column="CUSTOMER_ID">
+		<many-to-one name="customer" class="Customer" column="CUSTOMER_ID">
 		</many-to-one>
-		<many-to-one name="account" class="Account" lazy="false"
-			column="ACCOUNT_ID">
+		<many-to-one name="account" class="Account" column="ACCOUNT_ID">
 		</many-to-one>
-		<many-to-one name="taxCode" class="TAXCode" lazy="false"
-			column="TAX_CODE">
+		<many-to-one name="taxCode" class="TAXCode" column="TAX_CODE">
 		</many-to-one>
-		<!-- <many-to-one name="vatItem" class="VATItem" lazy="false" column="VAT_ITEM"> 
-			</many-to-one> -->
+		<!-- <many-to-one name="vatItem" class="VATItem" column="VAT_ITEM"> </many-to-one> -->
 		<property name="description" type="text" column="DESCRIPTION"></property>
 		<!--<property name="quantity" column="QUANTITY"></property> -->
-		<many-to-one name="wareHouse" class="Warehouse" lazy="false"
-			column="WARE_HOUSE">
+		<many-to-one name="wareHouse" class="Warehouse" column="WARE_HOUSE">
 		</many-to-one>
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE"></property>
-			<many-to-one name="unit" class="Unit" column="QTY_UNIT"
-				lazy="false"></many-to-one>
+			<many-to-one name="unit" class="Unit" column="QTY_UNIT"></many-to-one>
 		</component>
 		<property name="unitPrice" column="UNIT_PRICE"></property>
 		<property name="discount" column="DISCOUNT"></property>
@@ -1021,20 +985,20 @@
 		<property name="updateAmount" column="UPDATE_AMOUNT"></property>
 		<property name="isTaxable" column="IS_TAXABLE"></property>
 		<property name="isBillable" column="IS_BILLABLE"></property>
-		<many-to-one name="transaction" class="Transaction" lazy="false"
+		<many-to-one name="transaction" class="Transaction"
 			column="TRANSACTION_ID">
 		</many-to-one>
 		<!-- <many-to-one name="itemBackUp" class="ItemBackUp" cascade="save-update,delete" 
-			lazy="false" column="ITEM_BACK_UP"> </many-to-one> -->
+			column="ITEM_BACK_UP"> </many-to-one> -->
 		<!-- <set name="taxRateCalculationEntriesList" inverse="true" cascade="all-delete-orphan" 
-			lazy="false"> <key column="TRANSACTION_ITEM_ID"></key> <one-to-many class="TaxRateCalculation" 
+			> <key column="TRANSACTION_ITEM_ID"></key> <one-to-many class="TaxRateCalculation" 
 			/> </set> -->
 
 		<property name="VATfraction" column="VAT_FRACTION"></property>
 		<property name="usedamt" column="INVOICED"></property>
 		<property name="backOrder" column="BACK_ORDER"></property>
 		<many-to-one name="referringTransactionItem" class="TransactionItem"
-			lazy="false" column="REFERRING_TRANSACTION_ITEM_ID">
+			column="REFERRING_TRANSACTION_ITEM_ID">
 		</many-to-one>
 		<many-to-one name="accounterClass" class="AccounterClass"
 			column="TRANS_ITEM_ACCOUNTER_CLASS" lazy='false'>
@@ -1047,13 +1011,12 @@
 		<property name="memo" type="text" column="MEMO"></property>
 		<property name="creditAmount" column="CREDIT_AMOUNT"></property>
 		<property name="balance" column="BALANCE"></property>
-		<many-to-one name="transaction" class="Transaction" lazy="false"
+		<many-to-one name="transaction" class="Transaction"
 			column="TRANSACTION_ID">
 		</many-to-one>
-		<many-to-one name="payee" class="Payee" column="PAYEE_ID"
-			lazy="false">
+		<many-to-one name="payee" class="Payee" column="PAYEE_ID">
 		</many-to-one>
-		<set name="transactionCreditsAndPayments" lazy="false">
+		<set name="transactionCreditsAndPayments">
 			<key column="CREDITS_AND_PAYMENTS_ID"></key>
 			<one-to-many class="TransactionCreditsAndPayments" />
 		</set>
@@ -1070,13 +1033,13 @@
 		<property name="memo" type="text" column="MEMO"></property>
 		<property name="amountToUse" column="AMOUNT_TO_USE"></property>
 		<many-to-one name="transactionReceivePayment" class="TransactionReceivePayment"
-			lazy="false" cascade="save-update" column="TRANSACTION_RECEIVE_PAYMENT_ID">
+			cascade="save-update" column="TRANSACTION_RECEIVE_PAYMENT_ID">
 		</many-to-one>
 		<many-to-one name="transactionPayBill" class="TransactionPayBill"
-			lazy="false" cascade="save-update" column="TRANSACTION_PAYBILL_ID">
+			cascade="save-update" column="TRANSACTION_PAYBILL_ID">
 		</many-to-one>
 		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
-			cascade="save-update" lazy="false" column="CREDITS_AND_PAYMENTS_ID">
+			cascade="save-update" column="CREDITS_AND_PAYMENTS_ID">
 		</many-to-one>
 		<property name="isVoid" column="IS_VOID"></property>
 		<property name="version" type="int">
@@ -1091,33 +1054,32 @@
 		<property name="date" column="DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="type" column="TYPE"></property>
-		<many-to-one name="account" class="Account" lazy="false"
-			cascade="save-update" column="ACCOUNT_ID">
+		<many-to-one name="account" class="Account" cascade="save-update"
+			column="ACCOUNT_ID">
 		</many-to-one>
-		<many-to-one name="vendor" class="Vendor" lazy="false"
-			cascade="save-update" column="VENDOR_ID">
+		<many-to-one name="vendor" class="Vendor" cascade="save-update"
+			column="VENDOR_ID">
 		</many-to-one>
-		<many-to-one name="customer" class="Customer" lazy="false"
-			cascade="save-update" column="CUSTOMER_ID">
+		<many-to-one name="customer" class="Customer" cascade="save-update"
+			column="CUSTOMER_ID">
 		</many-to-one>
 		<property name="reference" column="REFERENCE"></property>
 		<property name="amount" column="AMOUNT"></property>
 		<property name="isNewEntry" column="IS_NEW_ENTRY"></property>
-		<many-to-one name="cashAccount" class="Account" lazy="false"
-			cascade="save-update" column="CASH_ACCOUNT_ID">
+		<many-to-one name="cashAccount" class="Account" cascade="save-update"
+			column="CASH_ACCOUNT_ID">
 		</many-to-one>
-		<many-to-one name="makeDeposit" class="MakeDeposit" lazy="false"
+		<many-to-one name="makeDeposit" class="MakeDeposit"
 			column="MAKE_DEPOSIT_ID">
 		</many-to-one>
 		<property name="payments" column="PAYMENTS"></property>
 		<property name="balanceDue" column="BALANCE_DUE"></property>
 		<many-to-one name="depositedTransaction" class="Transaction"
-			lazy="false" column="DEPOSITED_TRANSACTION_ID">
+			column="DEPOSITED_TRANSACTION_ID">
 		</many-to-one>
 		<property name="number" column="NUMBER"></property>
 		<property name="isVoid" column="IS_VOID"></property>
-		<set name="transactionPayBills" inverse="true" lazy="false"
-			cascade="save-update,delete">
+		<set name="transactionPayBills" inverse="true" cascade="save-update,delete">
 			<key column="TRANSACTION_MAKE_DEPOSIT_ID"></key>
 			<one-to-many class="TransactionPayBill" />
 		</set>
@@ -1129,42 +1091,38 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			lazy="false">
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
 		<property name="version" column="VERSION"></property>
 		<property name="dueDate" column="DUE_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<many-to-one name="enterBill" class="EnterBill" lazy="false"
-			cascade="save-update" column="ENTER_BILL_ID">
+		<many-to-one name="enterBill" class="EnterBill" column="ENTER_BILL_ID">
 		</many-to-one>
 		<property name="originalAmount" column="ORIGINAL_AMOUNT"></property>
 		<property name="amountDue" column="AMOUNT_DUE"></property>
 		<property name="discountDate" column="DISCOUNT_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<many-to-one name="discountAccount" class="Account" lazy="false"
+		<many-to-one name="discountAccount" class="Account"
 			column="DISCOUNT_ID">
 		</many-to-one>
 		<property name="cashDiscount" column="CASH_DISCOUNT"></property>
 		<property name="appliedCredits" column="APPLIED_CREDITS"></property>
 		<property name="payment" column="PAYMENT"></property>
 		<property name="tdsAmount" column="TDS_AMOUNT"></property>
-		<many-to-one name="payBill" class="PayBill" lazy="false"
-			column="PAYBILL_ID">
+		<many-to-one name="payBill" class="PayBill" column="PAYBILL_ID">
 		</many-to-one>
-		<list name="transactionCreditsAndPayments" cascade="save-update,delete"
-			lazy="false">
+		<list name="transactionCreditsAndPayments" cascade="save-update,delete">
 			<key column="TRANSACTION_PAYBILL_ID" />
 			<list-index column="IDX" />
 			<one-to-many class="TransactionCreditsAndPayments" />
 		</list>
 		<property name="isVoid" column="IS_VOID"></property>
 		<many-to-one name="transactionMakeDeposit" class="TransactionMakeDeposit"
-			lazy="false" cascade="save-update" column="TRANSACTION_MAKE_DEPOSIT_ID">
+			cascade="save-update" column="TRANSACTION_MAKE_DEPOSIT_ID">
 		</many-to-one>
 		<property name="billNumber" column="BILL_NUMBER"></property>
 		<many-to-one name="journalEntry" class="JournalEntry"
-			cascade="save-update" lazy="false" column="JOURNAL_ENTRY_ID">
+			cascade="save-update" column="JOURNAL_ENTRY_ID">
 		</many-to-one>
 	</class>
 	<class name="TransactionReceivePayment" table="TRANSACTION_RECEIVE_PAYMENT">
@@ -1174,37 +1132,36 @@
 		<property name="version" column="VERSION"></property>
 		<property name="dueDate" column="DUE_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<many-to-one name="invoice" class="Invoice" lazy="false"
-			cascade="save-update" column="INVOICE_ID">
+		<many-to-one name="invoice" class="Invoice" cascade="save-update"
+			column="INVOICE_ID">
 		</many-to-one>
 		<property name="invoiceAmount" column="INVOICE_AMOUNT"></property>
 		<property name="discountDate" column="DISCOUNT_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<many-to-one name="discountAccount" class="Account" lazy="false"
+		<many-to-one name="discountAccount" class="Account"
 			cascade="save-update" column="DISCOUNT_ID">
 		</many-to-one>
 		<property name="cashDiscount" column="CASH_DISCOUNT"></property>
-		<many-to-one name="writeOffAccount" class="Account" lazy="false"
+		<many-to-one name="writeOffAccount" class="Account"
 			cascade="save-update" column="WRITE_OFF_ID">
 		</many-to-one>
 		<property name="writeOff" column="WRITE_OFF"></property>
 		<property name="appliedCredits" column="APPLIED_CREDITS"></property>
 		<property name="payment" column="PAYMENT"></property>
 		<many-to-one name="receivePayment" class="ReceivePayment"
-			lazy="false" column="TRANSACTION_ID">
+			column="TRANSACTION_ID">
 		</many-to-one>
-		<list name="transactionCreditsAndPayments" cascade="save-update,delete"
-			lazy="false">
+		<list name="transactionCreditsAndPayments" cascade="save-update,delete">
 			<key column="TRANSACTION_RECEIVE_PAYMENT_ID" />
 			<list-index column="IDX" />
 			<one-to-many class="TransactionCreditsAndPayments" />
 		</list>
 		<property name="isVoid" column="IS_VOID"></property>
 		<many-to-one name="customerRefund" class="CustomerRefund"
-			cascade="save-update" lazy="false" column="CUSTOMER_REFUND_ID">
+			cascade="save-update" column="CUSTOMER_REFUND_ID">
 		</many-to-one>
 		<many-to-one name="journalEntry" class="JournalEntry"
-			cascade="save-update" lazy="false" column="JOURNAL_ENTRY_ID">
+			cascade="save-update" column="JOURNAL_ENTRY_ID">
 		</many-to-one>
 		<property name="number" column="NUMBER"></property>
 	</class>
@@ -1214,29 +1171,26 @@
 		</id>
 		<property name="date" column="DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<many-to-one name="writeCheck" class="WriteCheck" lazy="false"
-			column="WRITE_CHECK_ID">
+		<many-to-one name="writeCheck" class="WriteCheck" column="WRITE_CHECK_ID">
 		</many-to-one>
 		<many-to-one name="customerRefund" class="CustomerRefund"
-			lazy="false" column="CUSTOMER_REFUND_ID">
+			column="CUSTOMER_REFUND_ID">
 		</many-to-one>
-		<many-to-one name="payBill" class="PayBill" lazy="false"
-			column="PAYBILL_ID">
+		<many-to-one name="payBill" class="PayBill" column="PAYBILL_ID">
 		</many-to-one>
 		<many-to-one name="creditCardCharge" class="CreditCardCharge"
-			lazy="false" column="CREDIT_CARD_CHARGE_ID">
+			column="CREDIT_CARD_CHARGE_ID">
 		</many-to-one>
 		<many-to-one name="cashPurchase" class="CashPurchase"
-			lazy="false" column="CASH_PURCHASE_ID">
+			column="CASH_PURCHASE_ID">
 		</many-to-one>
-		<many-to-one name="paySalesTax" class="PayTAX" lazy="false"
-			column="PAY_SALES_TAX_ID">
+		<many-to-one name="paySalesTax" class="PayTAX" column="PAY_SALES_TAX_ID">
 		</many-to-one>
 		<property name="number" column="NUMBER"></property>
 		<property name="name" column="NAME"></property>
 		<property name="memo" type="text" column="MEMO"></property>
 		<property name="amount" column="AMOUNT"></property>
-		<many-to-one name="transaction" class="Transaction" lazy="false"
+		<many-to-one name="transaction" class="Transaction"
 			column="TRANSACTION_ID">
 		</many-to-one>
 		<property name="version" column="VERSION"></property>
@@ -1245,16 +1199,14 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-			cascade="save-update" column="TAX_AGENCY_ID">
+		<many-to-one name="taxAgency" class="TAXAgency" cascade="save-update"
+			column="TAX_AGENCY_ID">
 		</many-to-one>
 		<property name="amountToPay" column="AMOUNT_TO_PAY"></property>
 		<property name="taxDue" column="TAX_DUE"></property>
-		<many-to-one name="taxReturn" class="TAXReturn" lazy="false"
-			column="VAT_RETURN_ID">
+		<many-to-one name="taxReturn" class="TAXReturn" column="VAT_RETURN_ID">
 		</many-to-one>
-		<many-to-one name="payTAX" class="PayTAX" lazy="false"
-			column="PAY_TAX_ID">
+		<many-to-one name="payTAX" class="PayTAX" column="PAY_TAX_ID">
 		</many-to-one>
 		<property name="version" column="VERSION"></property>
 	</class>
@@ -1262,16 +1214,14 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-			cascade="save-update" column="TAX_AGENCY_ID">
+		<many-to-one name="taxAgency" class="TAXAgency" cascade="save-update"
+			column="TAX_AGENCY_ID">
 		</many-to-one>
 		<property name="amountToReceive" column="AMOUNT_TO_RECEIVE"></property>
 		<property name="taxDue" column="TAX_DUE"></property>
-		<many-to-one name="taxReturn" class="TAXReturn" lazy="false"
-			column="TAX_RETURN_ID">
+		<many-to-one name="taxReturn" class="TAXReturn" column="TAX_RETURN_ID">
 		</many-to-one>
-		<many-to-one name="receiveVAT" class="ReceiveVAT" lazy="false"
-			column="RECEIVE_VAT_ID">
+		<many-to-one name="receiveVAT" class="ReceiveVAT" column="RECEIVE_VAT_ID">
 		</many-to-one>
 		<property name="version" column="VERSION"></property>
 	</class>
@@ -1279,17 +1229,14 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="transaction" class="Transaction" lazy="false"
+		<many-to-one name="transaction" class="Transaction"
 			column="TRANSACTION_ID">
 		</many-to-one>
-		<many-to-one name="taxItem" class="TAXItem" lazy="false"
-			column="TAXITEM_ID">
+		<many-to-one name="taxItem" class="TAXItem" column="TAXITEM_ID">
 		</many-to-one>
-		<many-to-one name="taxAgency" class="TAXAgency" lazy="false"
-			column="TAXAGENCY_ID">
+		<many-to-one name="taxAgency" class="TAXAgency" column="TAXAGENCY_ID">
 		</many-to-one>
-		<many-to-one name="taxReturn" class="TAXReturn" lazy="false"
-			column="TAX_RETURN_ID">
+		<many-to-one name="taxReturn" class="TAXReturn" column="TAX_RETURN_ID">
 		</many-to-one>
 		<property name="grassAmount" column="GRASS_AMOUNT"></property>
 		<property name="netAmount" column="NET_AMOUNT"></property>
@@ -1302,22 +1249,21 @@
 	</class>
 	<!-- <class name="PayTAXEntries" table="PAY_TAX_ENTRIES"> <id name="id" 
 		column="ID"> <generator class="identity" /> </id> <many-to-one name="transaction" 
-		class="Transaction" lazy="false" column="TRANSACTION_ID"> </many-to-one> 
-		<many-to-one name="taxCode" class="TAXCode" lazy="false" column="TAXCODE_ID"> 
-		</many-to-one> <many-to-one name="taxAgency" class="TAXAgency" lazy="false" 
-		column="TAXAGENCY_ID"> </many-to-one> <property name="amount" column="AMOUNT"></property> 
-		<property name="balance" column="BALANCE"></property> <property name="version" 
-		column="VERSION"></property> </class> -->
+		class="Transaction" column="TRANSACTION_ID"> </many-to-one> <many-to-one 
+		name="taxCode" class="TAXCode" column="TAXCODE_ID"> </many-to-one> <many-to-one 
+		name="taxAgency" class="TAXAgency" column="TAXAGENCY_ID"> </many-to-one> 
+		<property name="amount" column="AMOUNT"></property> <property name="balance" 
+		column="BALANCE"></property> <property name="version" column="VERSION"></property> 
+		</class> -->
 	<class name="TransactionMakeDepositEntries" table="TRANSACTION_MAKE_DEPOSIT_ENTRIES">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
 		<property name="type" column="TYPE"></property>
-		<many-to-one name="transaction" class="Transaction" lazy="false"
+		<many-to-one name="transaction" class="Transaction"
 			column="TRANSACTION_ID">
 		</many-to-one>
-		<many-to-one name="account" class="Account" lazy="false"
-			column="ACCOUNT_ID">
+		<many-to-one name="account" class="Account" column="ACCOUNT_ID">
 		</many-to-one>
 		<property name="amount" column="AMOUNT"></property>
 		<property name="balance" column="BALANCE"></property>
@@ -1327,37 +1273,33 @@
 			<generator class="identity" />
 		</id>
 		<property name="type" column="TYPE"></property>
-		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID">
+		<many-to-one name="item" class="Item" column="ITEM_ID">
 		</many-to-one>
-		<many-to-one name="account" class="Account" lazy="false"
-			column="ACCOUNT_ID">
+		<many-to-one name="account" class="Account" column="ACCOUNT_ID">
 		</many-to-one>
 		<property name="description" type="text" column="DESCRIPTION"></property>
 		<property name="quantity" column="QUANTITY"></property>
 		<property name="unitPrice" column="UNIT_PRICE"></property>
 		<property name="amount" column="AMOUNT"></property>
-		<many-to-one name="expense" class="Expense" lazy="false"
-			column="EXPENSE_ID">
+		<many-to-one name="expense" class="Expense" column="EXPENSE_ID">
 		</many-to-one>
 	</class>
 	<class name="TransactionPayExpense" table="TRANSACTION_PAY_EXPENSE">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="expense" class="Expense" lazy="false"
-			cascade="save-update" column="EXPENSE_ID">
+		<many-to-one name="expense" class="Expense" cascade="save-update"
+			column="EXPENSE_ID">
 		</many-to-one>
 		<property name="payment" column="PAYMENT"></property>
-		<many-to-one name="payExpense" class="PayExpense" lazy="false"
-			column="PAY_EXPENSE_ID">
+		<many-to-one name="payExpense" class="PayExpense" column="PAY_EXPENSE_ID">
 		</many-to-one>
 	</class>
 	<class name="RecurringTransaction" table="RECURRING_TRANSACTION">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			lazy="false">
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
 
 		<property name="occurencesCount" column="OCCURRENCES_COUNT"></property>
@@ -1385,9 +1327,9 @@
 		<many-to-one name="referringTransaction" column="REF_TRANSACTION"
 			unique="true" not-null="true" />
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false" not-null="true"></many-to-one>
+			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false" not-null="true"></many-to-one>
+			class="User" not-null="true"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -1410,7 +1352,7 @@
 		<property name="userName" column="USER_NAME"></property>
 		<property name="time" column="TIME"></property>
 		<property name="description" type="text" column="DESCRIPTION"></property>
-		<many-to-one name="transaction" class="Transaction" lazy="false"
+		<many-to-one name="transaction" class="Transaction"
 			column="TRANSACTION_ID">
 		</many-to-one>
 	</class>

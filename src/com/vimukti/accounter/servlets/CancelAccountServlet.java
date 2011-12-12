@@ -1,6 +1,7 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +15,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
@@ -55,6 +57,7 @@ public class CancelAccountServlet extends BaseServlet {
 		try {
 			httpSession.setAttribute(ACCOUNT_DELETION_STATUS, ACCOUNT_DELETING);
 			Client client = getClient(emailID);
+			AccounterThreadLocal.set(client.toUser());
 			Set<User> users = client.getUsers();
 			if (users != null && !users.isEmpty()) {
 				final List<Company> list = new ArrayList<Company>();
@@ -96,7 +99,7 @@ public class CancelAccountServlet extends BaseServlet {
 
 	private void deleteComapny(HttpSession httpSession,
 			final List<Company> sortedCompanies) throws IOException,
-			AccounterException {
+			AccounterException, SQLException {
 		String email = (String) httpSession.getAttribute(EMAIL_ID);
 		Long companyID;
 		for (Company company : sortedCompanies) {
@@ -126,8 +129,10 @@ public class CancelAccountServlet extends BaseServlet {
 				}
 			}
 			if (canDeleteFromAll) {
-				serverCompany.onDelete(session);
-				session.delete(serverCompany);
+				Query namedQuery = session.getNamedQuery("deleteCompany");
+				namedQuery.setParameter("companyId", serverCompany.getId());
+				namedQuery.executeUpdate();
+
 			} else {
 				user.setDeleted(true);
 				session.saveOrUpdate(user);
@@ -162,11 +167,12 @@ public class CancelAccountServlet extends BaseServlet {
 				}
 				req.setAttribute(ATTR_COMPANY_LIST, list);
 			}
+
 		} catch (Exception e) {
 		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
+			// if (session != null && session.isOpen()) {
+			// session.close();
+			// }
 		}
 		dispatch(req, resp, cancelFormList);
 	}
