@@ -53,14 +53,14 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 			String string = context.getString();
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select a Cash Purchase to update.");
-				return "Bills And Expenses List";
+				return "billsAndExpensesList";
 			}
 			cashPurchase = getTransaction(string,
 					AccounterCoreType.CASHPURCHASE, context);
 
 			if (cashPurchase == null) {
 				addFirstMessage(context, "Select a Cash Purchase to update.");
-				return "Bills And Expenses List " + string;
+				return "billsAndExpensesList " + string;
 			}
 			setValues(context);
 		} else {
@@ -286,8 +286,8 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("Create BankAccount", "Bank"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("createBankAccount", "Bank"));
+				list.add(new UserCommand("createBankAccount",
 						"Create Other CurrentAsset Account",
 						"Other Current Asset"));
 			}

@@ -40,14 +40,14 @@ public class NewWareHouseCommand extends NewAbstractCommand {
 			if (string.isEmpty()) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().wareHouse()));
-				return "WareHouse List";
+				return "warehouseList";
 			}
 			ClientWarehouse clientWarehouse = CommandUtils.getWareHouse(
 					context.getCompany(), string);
 			if (clientWarehouse == null) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().wareHouse()));
-				return "WareHouse List " + string;
+				return "warehouseList " + string;
 			}
 			warehouse = clientWarehouse;
 			setValues();

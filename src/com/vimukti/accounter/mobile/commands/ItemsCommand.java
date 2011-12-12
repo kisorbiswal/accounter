@@ -42,7 +42,7 @@ public class ItemsCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Item value) {
-				return "Update Item " + value.getID();
+				return "updateItem " + value.getID();
 			}
 
 			@Override
@@ -124,13 +124,13 @@ public class ItemsCommand extends NewAbstractCommand {
 
 	protected void setCreateCommand(CommandList list) {
 		if (!isBuy) {
-			list.add(new UserCommand("Create New Service Item", "sell"));
-			list.add(new UserCommand("Create New NonInventory Item", "sell"));
-			list.add(new UserCommand("Create New Inventory Item", "sell"));
+			list.add(new UserCommand("createNewServiceItem", "sell"));
+			list.add(new UserCommand("createNewNonInventoryItem", "sell"));
+			list.add(new UserCommand("createNewInventoryItem", "sell"));
 		} else {
-			list.add(new UserCommand("Create New Service Item", "buy"));
-			list.add(new UserCommand("Create New NonInventory Item", "buy"));
-			list.add(new UserCommand("Create New Inventory Item", "buy"));
+			list.add(new UserCommand("createNewServiceItem", "buy"));
+			list.add(new UserCommand("createNewNonInventoryItem", "buy"));
+			list.add(new UserCommand("createNewInventoryItem", "buy"));
 		}
 	}
 

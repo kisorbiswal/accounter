@@ -269,7 +269,7 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 		if (this.transaction != null
 				&& this.transaction.getID() != 0
 				&& context.getUser().getPermissions().getTypeOfInvoices() == RolePermissions.TYPE_YES) {
-			return "Delete Transaction " + transaction.getType() + " "
+			return "deleteTransaction " + transaction.getType() + " "
 					+ transaction.getID();
 		}
 		return null;
@@ -286,7 +286,7 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 				&& this.transaction.getID() != 0
 				&& !this.transaction.isVoid()
 				&& context.getUser().getPermissions().getTypeOfInvoices() == RolePermissions.TYPE_YES) {
-			return "Void Transaction " + transaction.getType() + " "
+			return "voidTransaction " + transaction.getType() + " "
 					+ transaction.getID();
 		}
 		return null;

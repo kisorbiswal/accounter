@@ -44,14 +44,14 @@ public class NewLocationCommand extends NewAbstractCommand {
 			if (string.isEmpty()) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().location()));
-				return "Location list";
+				return "{Location}list";
 			}
 			Location locationByName = CommandUtils.getLocationByName(
 					context.getCompany(), string);
 			if (locationByName == null) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().location()));
-				return "Location list " + string;
+				return "{Location}list " + string;
 			}
 			location = (ClientLocation) CommandUtils.getClientObjectById(
 					locationByName.getID(), AccounterCoreType.LOCATION, context

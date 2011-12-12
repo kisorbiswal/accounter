@@ -64,7 +64,7 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(SalesPerson value) {
-				return "Update Sales Person " + value.getFirstName();
+				return "updateSalesPerson " + value.getFirstName();
 			}
 
 			@Override
@@ -93,7 +93,7 @@ public class SalesPersonsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create Sales Person");
+				list.add("createSalesPerson");
 			}
 
 			@Override

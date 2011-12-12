@@ -456,7 +456,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			if (string.isEmpty()) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().enterBill()));
-				return "bills List";
+				return "billsList";
 			}
 			enterBill = getTransaction(string, AccounterCoreType.ENTERBILL,
 					context);
@@ -464,7 +464,7 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			if (enterBill == null) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().enterBill()));
-				return "Bills List " + string;
+				return "billsList " + string;
 			}
 			setValues(context);
 		} else {

@@ -58,7 +58,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 						getMessages().selectATransactionToUpdate(
 								getMessages().payeePrePayment(
 										Global.get().Vendor())));
-				return "Vendor Payments List";
+				return "{Vendor}PaymentsList";
 			}
 			paybill = getTransaction(string, AccounterCoreType.PAYBILL, context);
 			if (paybill == null) {
@@ -67,7 +67,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 						getMessages().selectATransactionToUpdate(
 								getMessages().payeePrePayment(
 										Global.get().Vendor())));
-				return "Vendor Payments List " + string;
+				return "{Vendor}PaymentsList " + string;
 			}
 			setValues();
 		} else {
@@ -227,8 +227,8 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 				false, false, null) {
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("Create BankAccount", "Bank"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("createBankAccount", "Bank"));
+				list.add(new UserCommand("createBankAccount",
 						"Create Other CurrentAsset Account",
 						"Other Current Asset"));
 			}

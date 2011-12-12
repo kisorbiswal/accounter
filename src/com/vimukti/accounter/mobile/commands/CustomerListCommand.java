@@ -68,7 +68,7 @@ public class CustomerListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Customer value) {
-				return "update customer #" + value.getNumber();
+				return "update{Customer} #" + value.getNumber();
 			}
 
 			@Override
@@ -96,7 +96,7 @@ public class CustomerListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create Customer");
+				list.add("create{Customer}");
 
 			}
 

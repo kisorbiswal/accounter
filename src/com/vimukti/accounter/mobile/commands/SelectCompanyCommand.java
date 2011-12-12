@@ -105,14 +105,14 @@ public class SelectCompanyCommand extends Command {
 							+ "' company.");
 					makeResult.add("It has been selected.");
 					CommandList commandList = new CommandList();
-					commandList.add(new UserCommand("Create Company",
+					commandList.add(new UserCommand("createCompany",
 							"Create Another Company", ""));
 					makeResult.add(commandList);
 				} else {
 					ResultList companyList = new ResultList(COMPANY);
 					if (companies.isEmpty()) {
 						makeResult.add("You don't have any companies.");
-						makeResult.setNextCommand("Create Company");
+						makeResult.setNextCommand("createCompany");
 						return makeResult;
 					}
 					makeResult.add("Select a company");
@@ -133,7 +133,7 @@ public class SelectCompanyCommand extends Command {
 					}
 					makeResult.add(companyList);
 					CommandList commandList = new CommandList();
-					commandList.add("Create Company");
+					commandList.add("createCompany");
 					makeResult.add(commandList);
 					return makeResult;
 				}

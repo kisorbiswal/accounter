@@ -407,7 +407,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().cashExpense()));
-				return "Expenses List ," + getMessages().cash();
+				return "expensesList ," + getMessages().cash();
 			}
 			cashPurchase = getTransaction(string,
 					AccounterCoreType.CASHPURCHASE, context);
@@ -417,7 +417,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().cashExpense()));
-				return "Expenses List " + string + "," + getMessages().cash();
+				return "expensesList " + string + "," + getMessages().cash();
 			}
 			setValues(context);
 		} else {

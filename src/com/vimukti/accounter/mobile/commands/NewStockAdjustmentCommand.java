@@ -31,7 +31,7 @@ public class NewStockAdjustmentCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().wareHouseTransfer()));
-				return "WareHouse Transfer List";
+				return "warehouseTransferList";
 			}
 			stockAdjustment = getStockAdustMent(string);
 			if (stockAdjustment == null) {
@@ -39,7 +39,7 @@ public class NewStockAdjustmentCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().wareHouseTransfer()));
-				return "WareHouse Transfer List " + string;
+				return "warehouseTransferList " + string;
 			}
 			setValues();
 		} else {

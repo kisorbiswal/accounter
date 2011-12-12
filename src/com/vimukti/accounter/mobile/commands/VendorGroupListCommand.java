@@ -51,7 +51,7 @@ public class VendorGroupListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(VendorGroup value) {
-				return "update vendor group " + value.getName();
+				return "update{Vendor}Group " + value.getName();
 			}
 
 			@Override

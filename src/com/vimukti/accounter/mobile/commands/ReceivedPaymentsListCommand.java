@@ -72,7 +72,7 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(ReceivePaymentsList value) {
-				return "Edit Transaction " + value.getTransactionId();
+				return "editTransaction " + value.getTransactionId();
 			}
 
 			@Override
@@ -106,8 +106,8 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create CustomerPrepayment");
-				list.add("Create Receive Payment");
+				list.add("create{Customer}Prepayment");
+				list.add("createReceivePayment");
 
 			}
 

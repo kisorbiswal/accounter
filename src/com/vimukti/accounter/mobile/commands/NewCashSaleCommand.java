@@ -250,13 +250,13 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("Create BankAccount", "Bank"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("createBankAccount", "Bank"));
+				list.add(new UserCommand("createBankAccount",
 						"Create Other CurrentAsset Account",
 						"Other Current Asset"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("createBankAccount",
 						"Create CreditAccount", "CreditAccount"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("createBankAccount",
 						"Create FixedAsset Account", "FixedAsset"));
 			}
 

@@ -35,13 +35,13 @@ public class NewMeasurementCommand extends NewAbstractCommand {
 			String string = context.getString();
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select a Measurement to update.");
-				return "Measurement List";
+				return "measurementList";
 			}
 			ClientMeasurement clientmeasurement = CommandUtils.getMeasurement(
 					context.getCompany(), string);
 			if (clientmeasurement == null) {
 				addFirstMessage(context, "Select a Measurement to update.");
-				return "Measurement List " + string;
+				return "measurementList " + string;
 			}
 			measurement = clientmeasurement;
 			setValues();

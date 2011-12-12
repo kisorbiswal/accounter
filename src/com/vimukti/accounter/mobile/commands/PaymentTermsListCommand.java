@@ -64,7 +64,7 @@ public class PaymentTermsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(PaymentTerms value) {
-				return "Update Payment Term " + value.getName();
+				return "updatePaymentTerm " + value.getName();
 			}
 		});
 	}

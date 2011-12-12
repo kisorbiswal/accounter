@@ -81,7 +81,7 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(CustomerRefundsList value) {
-				return "Edit Transaction " + value.getTransactionId();
+				return "editTransaction " + value.getTransactionId();
 			}
 
 			@Override
@@ -117,7 +117,7 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create Customer Refund");
+				list.add("create{Customer}Refund");
 
 			}
 

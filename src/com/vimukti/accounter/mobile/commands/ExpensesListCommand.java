@@ -92,7 +92,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(BillsList value) {
-				return "Update Transaction " + value.getTransactionId();
+				return "editTransaction " + value.getTransactionId();
 			}
 
 			@Override
@@ -121,9 +121,8 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("New Cash Expense");
-				list.add("New Credit Card Expense");
-
+				list.add("newCashExpense");
+				list.add("newCreditCardExpense");
 			}
 
 			@Override

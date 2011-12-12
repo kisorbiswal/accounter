@@ -56,7 +56,7 @@ public class MeasurementListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Measurement value) {
-				return "update measurement " + value.getName();
+				return "updateMeasurement " + value.getName();
 			}
 
 			@Override
@@ -83,7 +83,7 @@ public class MeasurementListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("create measurement");
+				list.add("createMeasurement");
 			}
 
 			@Override

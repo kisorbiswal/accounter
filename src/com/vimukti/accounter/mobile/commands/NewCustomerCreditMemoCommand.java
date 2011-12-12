@@ -324,7 +324,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 						getMessages().selectATransactionToUpdate(
 								getMessages().customerCreditNote(
 										Global.get().customer())));
-				return "Invoices List";
+				return "invoices";
 			}
 
 			creditMemo = getTransaction(string,
@@ -335,7 +335,7 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 						getMessages().selectATransactionToUpdate(
 								getMessages().customerCreditNote(
 										Global.get().customer())));
-				return "Invoices List " + string;
+				return "invoices " + string;
 			}
 			setValues();
 		} else {

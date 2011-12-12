@@ -174,12 +174,12 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 	}
 
 	protected void addCreateAccountCommands(CommandList list) {
-		list.add(new UserCommand("Create BankAccount", "Bank"));
-		list.add(new UserCommand("Create BankAccount",
+		list.add(new UserCommand("createBankAccount", "Bank"));
+		list.add(new UserCommand("createBankAccount",
 				"Create Other CurrentAsset Account", "Other Current Asset"));
-		list.add(new UserCommand("Create BankAccount",
+		list.add(new UserCommand("createBankAccount",
 				"Create Current Liability Account", "Current Liability"));
-		list.add(new UserCommand("Create BankAccount", "Create Equity Account",
+		list.add(new UserCommand("createBankAccount", "Create Equity Account",
 				"Equity"));
 	}
 
@@ -282,13 +282,13 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 			String string = context.getString();
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select a transaction to update.");
-				return "Transaction Detail By Account";
+				return "transactionDetailByAccount";
 			}
 			makeDeposit = getTransaction(string, AccounterCoreType.MAKEDEPOSIT,
 					context);
 			if (makeDeposit == null) {
 				addFirstMessage(context, "Select a transction to update.");
-				return "Transaction Detail By Account ," + string;
+				return "transactionDetailByAccount ," + string;
 			}
 			setValues(context);
 		} else {

@@ -12,7 +12,7 @@ import com.vimukti.accounter.mobile.UserCommand;
 public class InventoryItemsListCommand extends ItemsCommand {
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(new UserCommand("Create New Inventory Item", "sell"));
+		list.add(new UserCommand("createNewInventoryItem", "sell"));
 	}
 
 	@Override

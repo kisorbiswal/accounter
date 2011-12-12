@@ -259,7 +259,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().CustomerCreditNote()));
-				return "Invoices List";
+				return "invoices";
 			}
 
 			creditMemo = getTransaction(string,
@@ -270,7 +270,7 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().CustomerCreditNote()));
-				return "Invoices List " + string;
+				return "invoices " + string;
 			}
 			setValues();
 		} else {

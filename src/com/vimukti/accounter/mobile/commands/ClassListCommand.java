@@ -51,7 +51,7 @@ public class ClassListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(AccounterClass value) {
-				return "update class #" + value.getclassName();
+				return "updateClass #" + value.getclassName();
 			}
 
 			@Override

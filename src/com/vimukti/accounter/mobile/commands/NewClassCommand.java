@@ -44,14 +44,14 @@ public class NewClassCommand extends NewAbstractCommand {
 			if (string.isEmpty()) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().className()));
-				return "Location list";
+				return "accounterClassList";
 			}
 			AccounterClass classByName = CommandUtils.getClassByName(
 					context.getCompany(), string);
 			if (classByName == null) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().className()));
-				return "Location list " + string;
+				return "accounterClassList " + string;
 			}
 			accounterClass = (ClientAccounterClass) CommandUtils
 					.getClientObjectById(classByName.getID(),

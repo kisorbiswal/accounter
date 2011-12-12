@@ -64,7 +64,7 @@ public class ShippingTermsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(ShippingTerms value) {
-				return "Update Shipping Term " + value.getName();
+				return "updateShippingTerm " + value.getName();
 			}
 		});
 	}

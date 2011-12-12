@@ -85,7 +85,7 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(BillsList value) {
-				return "Edit Transaction " + value.getTransactionId();
+				return "editTransaction " + value.getTransactionId();
 			}
 
 			@Override
@@ -116,8 +116,7 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create Enter Bill");
-
+				list.add("newEnterBill");
 			}
 
 			@Override

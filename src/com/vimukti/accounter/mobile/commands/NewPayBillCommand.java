@@ -153,8 +153,8 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("Create BankAccount", "Bank"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("createBankAccount", "Bank"));
+				list.add(new UserCommand("createBankAccount",
 						"Create Other CurrentAsset Account",
 						"Other Current Asset"));
 			}
@@ -315,14 +315,14 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 			if (string.isEmpty()) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().payBill()));
-				return "Bills And Expenses List";
+				return "billsAndExpensesList";
 			}
 			paybill = getTransaction(string, AccounterCoreType.PAYBILL, context);
 
 			if (paybill == null) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().payBill()));
-				return "Bills And Expenses List " + string;
+				return "billsAndExpensesList " + string;
 			}
 			setValues(context);
 		} else {

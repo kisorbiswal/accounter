@@ -40,11 +40,11 @@ public class CreditRatingListCommand extends NewAbstractCommand {
 			// }
 			@Override
 			protected String onSelection(CreditRating value) {
-				return "Edit Credit Rating " + value.getName();
+				return "editCreditRating " + value.getName();
 			}
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create CreditRating");
+				list.add("createCreditRating");
 			}
 
 			@Override

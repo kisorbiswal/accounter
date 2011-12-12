@@ -399,7 +399,7 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().creditCardCharge()));
-				return "Expenses List";
+				return "expensesList";
 			}
 			creditCardCharge = getTransaction(string,
 					AccounterCoreType.CREDITCARDCHARGE, context);
@@ -409,7 +409,7 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().creditCardCharge()));
-				return "Expenses List " + string;
+				return "expensesList " + string;
 			}
 			setValues();
 		} else {

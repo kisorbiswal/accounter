@@ -340,21 +340,21 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 		if (!currentUser.isCanDoUserManagement()) {
 			addFirstMessage(context, getMessages()
 					.youdontHavepermissiosToinviteUser());
-			return "Users List";
+			return "usersList";
 		}
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().user()));
-				return "Users List";
+				return "usersList";
 			}
 			User userByUserEmail = context.getCompany().getUserByUserEmail(
 					string);
 			if (userByUserEmail == null) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().user()));
-				return "Users List " + string;
+				return "usersList " + string;
 			}
 			user = userByUserEmail.getClientUser();
 			setValues(context);

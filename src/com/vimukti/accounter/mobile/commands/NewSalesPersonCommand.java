@@ -295,7 +295,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 	@Override
 	protected String getDeleteCommand(Context context) {
 		long id = salesPerson.getID();
-		return id != 0 ? "Delete SalesPerson " + id : null;
+		return id != 0 ? "deleteSalesPerson " + id : null;
 	}
 
 	@Override
@@ -307,7 +307,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().salesPerson()));
-				return "Sales Person List";
+				return "salesPersonList";
 			}
 			ClientSalesPerson salesPersonByName = CommandUtils
 					.getSalesPersonByName(context.getCompany(), string);
@@ -316,7 +316,7 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().salesPerson()));
-				return "Sales Person List " + string.trim();
+				return "salesPersonList " + string.trim();
 			}
 			salesPerson = salesPersonByName;
 			setValues();

@@ -28,7 +28,7 @@ public class NewItemGroupCommand extends NewAbstractCommand {
 	@Override
 	protected String getDeleteCommand(Context context) {
 		long id = itemGroup.getID();
-		return id != 0 ? "Delete Item Group " + id : null;
+		return id != 0 ? "deleteItemGroup " + id : null;
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class NewItemGroupCommand extends NewAbstractCommand {
 					context,
 					getMessages().selectATransactionToUpdate(
 							getMessages().itemGroup()));
-			return "Item Groups " + string.trim();
+			return "itemGroups " + string.trim();
 		}
 
 		if (itemGroup != null) {

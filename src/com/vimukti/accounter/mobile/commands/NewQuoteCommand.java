@@ -472,19 +472,19 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 							context,
 							getMessages().selectATransactionToUpdate(
 									getMessages().estimate()));
-					return "Quotes List";
+					return "quotesList";
 				} else if (estimateType == ClientEstimate.CREDITS) {
 					addFirstMessage(
 							context,
 							getMessages().selectATransactionToUpdate(
 									getMessages().credits()));
-					return "Credits List";
+					return "creditsList";
 				} else if (estimateType == ClientEstimate.CHARGES) {
 					addFirstMessage(
 							context,
 							getMessages().selectATransactionToUpdate(
 									getMessages().Charges()));
-					return "Charges List";
+					return "chargesList";
 				}
 			}
 
@@ -496,19 +496,19 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 							context,
 							getMessages().selectATransactionToUpdate(
 									getMessages().estimate()));
-					return "Quotes List " + string;
+					return "quotesList " + string;
 				} else if (estimateType == ClientEstimate.CREDITS) {
 					addFirstMessage(
 							context,
 							getMessages().selectATransactionToUpdate(
 									getMessages().credits()));
-					return "Credits List " + string;
+					return "creditsList " + string;
 				} else if (estimateType == ClientEstimate.CHARGES) {
 					addFirstMessage(
 							context,
 							getMessages().selectATransactionToUpdate(
 									getMessages().Charges()));
-					return "Charges List " + string;
+					return "chargesList " + string;
 				}
 			}
 			setValues(context);

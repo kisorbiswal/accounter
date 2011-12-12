@@ -116,8 +116,8 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("Create BankAccount", "Bank"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("createBankAccount", "Bank"));
+				list.add(new UserCommand("createBankAccount",
 						"Create Other CurrentAsset Account",
 						"Other Current Asset"));
 			}
@@ -379,14 +379,14 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			if (string.isEmpty()) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().writeCheck()));
-				return "Invoices List";
+				return "invoicesList";
 			}
 			writeCheck = getTransaction(string, AccounterCoreType.WRITECHECK,
 					context);
 			if (writeCheck == null) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().writeCheck()));
-				return "Invoices List " + string;
+				return "invoicesList " + string;
 			}
 			setValues(context);
 		} else {

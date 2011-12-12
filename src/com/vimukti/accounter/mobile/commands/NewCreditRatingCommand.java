@@ -63,7 +63,7 @@ public class NewCreditRatingCommand extends NewAbstractCommand {
 	@Override
 	protected String getDeleteCommand(Context context) {
 		long id = creditRating.getID();
-		return id != 0 ? "Delete Credit Rating " + id : null;
+		return id != 0 ? "deleteCreditRating " + id : null;
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class NewCreditRatingCommand extends NewAbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				return "Credit Rating List";
+				return "creditRatingList";
 			}
 			Set<CreditRating> shippingMethods = context.getCompany()
 					.getCreditRatings();
@@ -84,7 +84,7 @@ public class NewCreditRatingCommand extends NewAbstractCommand {
 				}
 			}
 			if (creditRating == null) {
-				return "Credit Rating List " + string;
+				return "creditRatingList " + string;
 			}
 			get(CREDIT_RATING_NAME).setValue(creditRating.getName());
 		} else {

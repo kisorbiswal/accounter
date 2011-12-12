@@ -112,14 +112,7 @@ public class QuotesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Estimate value) {
-				if (estimateType == ClientEstimate.QUOTES) {
-					return "Edit Transaction " + value.getID();
-				} else if (estimateType == ClientEstimate.CREDITS) {
-					return "Edit Transaction " + value.getID();
-				} else if (estimateType == ClientEstimate.CHARGES) {
-					return "Edit Transaction " + value.getID();
-				}
-				return "";
+				return "editTransaction " + value.getID();
 			}
 
 			@Override
@@ -166,11 +159,11 @@ public class QuotesListCommand extends NewAbstractCommand {
 			@Override
 			protected void setCreateCommand(CommandList list) {
 				if (estimateType == ClientEstimate.QUOTES) {
-					list.add("Create Quote");
+					list.add("createQuote");
 				} else if (estimateType == ClientEstimate.CREDITS) {
-					list.add("Create Charge");
+					list.add("newCharge");
 				} else if (estimateType == ClientEstimate.CHARGES) {
-					list.add("Create Credit");
+					list.add("newCredit");
 				}
 
 			}

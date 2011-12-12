@@ -26,7 +26,7 @@ public class UsersCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(ClientUserInfo value) {
-				return "Update User " + value.getEmail();
+				return "updateUser " + value.getEmail();
 			}
 
 			@Override
@@ -51,7 +51,7 @@ public class UsersCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("New User");
+				list.add("newUser");
 			}
 
 			@Override

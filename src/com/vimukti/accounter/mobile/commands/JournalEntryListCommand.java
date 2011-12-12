@@ -53,7 +53,7 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(ClientJournalEntry value) {
-				return "Edit Transaction " + value.getID();
+				return "editTransaction " + value.getID();
 			}
 
 			@Override
@@ -83,7 +83,7 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create Journal Entry");
+				list.add("createJournalEntry");
 			}
 
 			@Override

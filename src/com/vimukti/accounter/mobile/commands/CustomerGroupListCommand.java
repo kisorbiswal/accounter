@@ -59,7 +59,7 @@ public class CustomerGroupListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(CustomerGroup value) {
-				return "Update Customer Group " + value.getName();
+				return "update{customergroup} " + value.getName();
 			}
 
 			@Override
@@ -87,8 +87,7 @@ public class CustomerGroupListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(
-						getMessages().customer() + " " + getMessages().group()));
+				list.add("create{customergroup}");
 
 			}
 

@@ -76,7 +76,7 @@ public class TaxAgenciesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(TAXAgency value) {
-				return "update Tax Agency " + value.getName();
+				return "updateTAXAgency " + value.getName();
 			}
 
 			@Override

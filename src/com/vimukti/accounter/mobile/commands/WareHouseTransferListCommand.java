@@ -55,7 +55,7 @@ public class WareHouseTransferListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(ClientStockTransfer value) {
-				return "update warehouse transfer " + value.getID();
+				return "updateWarehouseTransfer " + value.getID();
 			}
 
 			@Override
@@ -86,7 +86,7 @@ public class WareHouseTransferListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("create warehouse transfer");
+				list.add("createWarehouseTransfer");
 			}
 
 			@Override

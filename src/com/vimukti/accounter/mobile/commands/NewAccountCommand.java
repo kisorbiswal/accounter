@@ -56,7 +56,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return account.getID() == 0 ? null : "Delete account "
+		return account.getID() == 0 ? null : "deleteAccount "
 				+ account.getID();
 	}
 
@@ -182,7 +182,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add("Account Register");
+				list.add("accountRegister");
 				return list;
 			}
 
@@ -197,7 +197,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 			@Override
 			public String onSelection(String value) {
-				return "Bank Registers " + account.getName();
+				return "bankRegisters " + account.getName();
 			}
 		});
 

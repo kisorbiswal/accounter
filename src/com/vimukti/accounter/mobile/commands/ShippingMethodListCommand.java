@@ -44,7 +44,7 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 			// }
 			@Override
 			protected String onSelection(ShippingMethod value) {
-				return "Edit Shipping Method " + value.getID();
+				return "editShippingMethod " + value.getID();
 			}
 
 			@Override

@@ -59,7 +59,7 @@ public class NewPaymentTermCommand extends NewAbstractCommand {
 	@Override
 	protected String getDeleteCommand(Context context) {
 		long id = paymentTerms.getID();
-		return id != 0 ? "Delete PaymentTerm " + id : null;
+		return id != 0 ? "deletePaymentTerm " + id : null;
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class NewPaymentTermCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().paymentTerm()));
-				return "Payment Terms List";
+				return "paymentTermsList";
 			}
 			ClientPaymentTerms paymentTermsByName = CommandUtils
 					.getPaymentTermByName(context.getCompany(), string);
@@ -80,7 +80,7 @@ public class NewPaymentTermCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().paymentTerm()));
-				return "Payment Terms List " + string.trim();
+				return "paymentTermsList " + string.trim();
 			}
 			paymentTerms = paymentTermsByName;
 			get(PAYMENT_TERMS).setValue(paymentTermsByName.getName());

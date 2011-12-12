@@ -71,13 +71,13 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("Create BankAccount", "Bank"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("createBankAccount", "Bank"));
+				list.add(new UserCommand("createBankAccount",
 						"Create Other CurrentAsset Account",
 						"Other Current Asset"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("createBankAccount",
 						"Create CreditAccount", "CreditAccount"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("createBankAccount",
 						"Create FixedAsset Account", "FixedAsset"));
 			}
 
@@ -358,7 +358,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().receivePayment()));
-				return "Received Payments List";
+				return "receivedPaymentsList";
 			}
 
 			payment = getTransaction(string, AccounterCoreType.RECEIVEPAYMENT,
@@ -368,7 +368,7 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().receivePayment()));
-				return "Received Payments List " + string;
+				return "receivedPaymentsList " + string;
 			}
 			setValues();
 		} else {

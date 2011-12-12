@@ -1,4 +1,5 @@
 package com.vimukti.accounter.mobile.commands;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class StockAdjustmentListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(StockAdjustmentList value) {
-				return "update stock adjustment " + value.getStockAdjustment();
+				return "updateStockAdjustment " + value.getStockAdjustment();
 			}
 
 			@Override
@@ -81,7 +82,7 @@ public class StockAdjustmentListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("create stockadjustment");
+				list.add("createStockAdjustment");
 			}
 
 			@Override

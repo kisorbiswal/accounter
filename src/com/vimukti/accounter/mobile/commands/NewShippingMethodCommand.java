@@ -34,7 +34,7 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 	@Override
 	protected String getDeleteCommand(Context context) {
 		long id = shippingMethod.getID();
-		return id != 0 ? "Delete Shipping Method " + id : null;
+		return id != 0 ? "deleteShippingMethod " + id : null;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().shippingMethod()));
-				return "Shipping Methods";
+				return "shippingMethods";
 			}
 
 			shippingMethod = (ClientShippingMethod) CommandUtils
@@ -58,7 +58,7 @@ public class NewShippingMethodCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().shippingMethod()));
-				return "Shipping Methods " + string.trim();
+				return "shippingMethods " + string.trim();
 			}
 			get(SHIPPING_METHOD_NAME).setValue(shippingMethod.getName());
 			get(DESCRIPTION).setValue(shippingMethod.getDescription());

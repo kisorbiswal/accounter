@@ -136,7 +136,7 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add("Bank Account Register");
+				list.add("accountRegister");
 				return list;
 			}
 
@@ -151,7 +151,7 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 
 			@Override
 			public String onSelection(String value) {
-				return "Bank Registers " + bankAccount.getName();
+				return "bankRegisters " + bankAccount.getName();
 			}
 		});
 
@@ -207,7 +207,7 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 					context,
 					getMessages().selectATransactionToUpdate(
 							getMessages().account()));
-			return "Accounts " + string.trim();
+			return "listOfAccounts " + string.trim();
 		}
 
 		get(BANK_ACCOUNT_TYPE).setValue(

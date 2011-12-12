@@ -225,8 +225,8 @@ public class AuthenticationCommand extends Command {
 						}
 						makeResult.add("Please enter valid accounter email.");
 						CommandList commandList = new CommandList();
-						commandList.add("Signup");
-						commandList.add(new UserCommand("Signup",
+						commandList.add("signup");
+						commandList.add(new UserCommand("signup",
 								"Signup with " + networkId, context
 										.getNetworkId()));
 						makeResult.add(commandList);
@@ -280,7 +280,7 @@ public class AuthenticationCommand extends Command {
 			}
 		}
 		if (isDone()) {
-			makeResult.setNextCommand("Select Company");
+			makeResult.setNextCommand("selectCompany");
 			context.getIOSession().setClient(imUser.getClient());
 			context.getIOSession().setAuthentication(true);
 		}

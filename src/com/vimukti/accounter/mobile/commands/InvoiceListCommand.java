@@ -127,7 +127,7 @@ public class InvoiceListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(InvoicesList value) {
-				return "Edit Transaction " + value.getTransactionId();
+				return "editTransaction " + value.getTransactionId();
 			}
 
 			@Override
@@ -159,7 +159,7 @@ public class InvoiceListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create Invoice");
+				list.add("createInvoice");
 
 			}
 

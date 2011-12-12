@@ -52,11 +52,11 @@ public class VendorsListCommand extends NewAbstractCommand {
 			@Override
 			protected String onSelection(PayeeList value) {
 				if (value.getType() == Payee.TYPE_CUSTOMER) {
-					return "Update Customer " + value.getPayeeName();
+					return "update{Customer} " + value.getPayeeName();
 				} else if (value.getType() == Payee.TYPE_VENDOR) {
-					return "Update vendor " + value.getPayeeName();
+					return "update{vendor} " + value.getPayeeName();
 				} else if (value.getType() == Payee.TYPE_TAX_AGENCY) {
-					return "Update TAX Agency " + value.getPayeeName();
+					return "updateTAXAgency " + value.getPayeeName();
 				}
 				return "";
 			}
@@ -84,7 +84,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("New Vendor");
+				list.add("new{Vendor}");
 			}
 
 			@Override

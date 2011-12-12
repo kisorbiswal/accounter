@@ -218,7 +218,7 @@ public class NewVATItemCommand extends NewAbstractCommand {
 	@Override
 	protected String getDeleteCommand(Context context) {
 		long id = taxItem.getID();
-		return id != 0 ? "Delete VatItem " + id : null;
+		return id != 0 ? "deleteVatItem " + id : null;
 	}
 
 	@Override
@@ -232,14 +232,14 @@ public class NewVATItemCommand extends NewAbstractCommand {
 			String string = context.getString();
 			if (string.isEmpty()) {
 				addFirstMessage(context, "Select a VAT Item to update.");
-				return "VAT Items List";
+				return "vATItems";
 			}
 			taxItem = (ClientTAXItem) CommandUtils.getClientObjectById(
 					Long.parseLong(string), AccounterCoreType.TAXITEM,
 					getCompanyId());
 			if (taxItem == null) {
 				addFirstMessage(context, "Select a VAT Item to update.");
-				return "VAT Items List " + string;
+				return "vATItems " + string;
 			}
 			get(TAX_ITEM_NAME).setValue(taxItem.getName());
 			get(DESCRIPTION).setValue(taxItem.getDescription());

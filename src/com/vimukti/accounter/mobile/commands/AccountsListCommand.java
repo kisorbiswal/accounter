@@ -43,7 +43,7 @@ public class AccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create Account");
+				list.add("createAccount");
 			}
 
 			@Override
@@ -90,7 +90,7 @@ public class AccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Account value) {
-				return "Edit account " + value.getName();
+				return "editAccount " + value.getName();
 			}
 		});
 

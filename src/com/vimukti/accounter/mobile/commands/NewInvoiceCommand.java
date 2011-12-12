@@ -512,14 +512,14 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			if (string.isEmpty()) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().invoice()));
-				return "Invoices List";
+				return "invoices";
 			}
 			invoice = getTransaction(string, AccounterCoreType.INVOICE, context);
 
 			if (invoice == null) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().invoice()));
-				return "Invoices List " + string;
+				return "invoices" + string;
 			}
 			setValues(context);
 		} else {

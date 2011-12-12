@@ -33,7 +33,7 @@ public class NewWareHouseTransferCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().wareHouseTransfer()));
-				return "WareHouse Transfer List";
+				return "warehouseTransferList";
 			}
 			ClientStockTransfer clientWarehouse = CommandUtils
 					.getWareHouseTransfer(context.getCompany(), string);
@@ -42,7 +42,7 @@ public class NewWareHouseTransferCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().wareHouseTransfer()));
-				return "WareHouse Transfer List " + string;
+				return "warehouseTransferList " + string;
 			}
 			stockTransfer = clientWarehouse;
 			setValues();

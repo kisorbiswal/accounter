@@ -34,7 +34,7 @@ public class NewShippingTermCommand extends NewAbstractCommand {
 	@Override
 	protected String getDeleteCommand(Context context) {
 		long id = shippingTerm.getID();
-		return id != 0 ? "Delete ShippingTerm " + id : null;
+		return id != 0 ? "deleteShippingTerm " + id : null;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class NewShippingTermCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().shippingTerm()));
-				return "Shipping Terms";
+				return "shippingTerms";
 			}
 			ClientShippingTerms shippingTermsByName = CommandUtils
 					.getshippingTermsByNameByName(context.getCompany(), string);
@@ -55,7 +55,7 @@ public class NewShippingTermCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().shippingTerm()));
-				return "Shipping Terms " + string.trim();
+				return "shippingTerms " + string.trim();
 			}
 			shippingTerm = shippingTermsByName;
 			get(SHIPPING_TERMNAME).setValue(shippingTerm.getName());

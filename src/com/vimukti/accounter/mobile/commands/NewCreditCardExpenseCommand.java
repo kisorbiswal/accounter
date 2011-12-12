@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -408,7 +407,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().cashExpense()));
-				return "Expenses List ," + getMessages().creditCard();
+				return "expensesList ," + getMessages().creditCard();
 			}
 			creditCardCharge = getTransaction(string,
 					AccounterCoreType.CREDITCARDCHARGE, context);
@@ -418,7 +417,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().cashExpense()));
-				return "Expenses List " + string + " ,"
+				return "expensesList " + string + " ,"
 						+ getMessages().creditCard();
 			}
 			setValues(context);

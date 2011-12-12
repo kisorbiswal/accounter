@@ -61,7 +61,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create New Bank Account");
+				list.add("createNewBankAccount");
 			}
 
 			@Override
@@ -106,7 +106,7 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Account value) {
-				return "Edit BankAccount " + value.getName();
+				return "editBankAccount " + value.getName();
 			}
 
 		});

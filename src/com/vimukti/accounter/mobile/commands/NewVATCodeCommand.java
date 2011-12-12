@@ -224,7 +224,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 	@Override
 	protected String getDeleteCommand(Context context) {
 		long id = taxCode.getID();
-		return id != 0 ? "Delete VatCode " + id : null;
+		return id != 0 ? "deleteVatCode " + id : null;
 	}
 
 	@Override
@@ -239,7 +239,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			if (string.isEmpty()) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().taxCode()));
-				return "VAT Codes List";
+				return "vATCodesList";
 			}
 			taxCode = (ClientTAXCode) CommandUtils.getClientObjectById(
 					Long.parseLong(string), AccounterCoreType.TAX_CODE,
@@ -248,7 +248,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			if (taxCode == null) {
 				addFirstMessage(context, getMessages()
 						.selectATransactionToUpdate(getMessages().taxCode()));
-				return "VAT Codes List " + string;
+				return "vATCodesList " + string;
 			}
 			get(TAX_CODE).setValue(taxCode.getName());
 			get(DESCRIPTION).setValue(taxCode.getDescription());

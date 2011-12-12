@@ -322,7 +322,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().journalEntry()));
-				return "journalEntries List";
+				return "journalEntries";
 			}
 
 			entry = getTransaction(string, AccounterCoreType.JOURNALENTRY,
@@ -333,7 +333,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().journalEntry()));
-				return "journalEntries List " + string;
+				return "journalEntries " + string;
 			}
 			setValues();
 		} else {

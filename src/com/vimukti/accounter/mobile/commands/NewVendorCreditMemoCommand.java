@@ -342,7 +342,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().vendorCreditMemo()));
-				return "bills List";
+				return "billsList";
 			}
 			vendorCreditMemo = getTransaction(string,
 					AccounterCoreType.VENDORCREDITMEMO, context);
@@ -352,7 +352,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().vendorCreditMemo()));
-				return "Bills List " + string;
+				return "billsList " + string;
 			}
 			setValues(context);
 		} else {

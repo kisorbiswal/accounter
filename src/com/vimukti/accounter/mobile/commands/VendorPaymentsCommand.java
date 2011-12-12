@@ -76,7 +76,7 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(PaymentsList value) {
-				return "Edit Transaction " + value.getTransactionId();
+				return "editTransaction " + value.getTransactionId();
 			}
 
 			@Override
@@ -119,9 +119,9 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 			@Override
 			protected void setCreateCommand(CommandList list) {
 				if (commandString.contains("Vendor")) {
-					list.add("Add a New Vendor Prepayment");
+					list.add("addANewVendorPayment");
 				} else {
-					list.add("Add a New Payment");
+					list.add("addaNewPayment");
 				}
 
 			}

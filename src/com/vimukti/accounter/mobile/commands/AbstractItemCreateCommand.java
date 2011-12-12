@@ -543,13 +543,13 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		if (item.getID() != 0)
 			switch (item.getType()) {
 			case Item.TYPE_SERVICE:
-				itemCommand = "Delete Service Item " + item.getID();
+				itemCommand = "deleteServiceItem " + item.getID();
 				break;
 			case Item.TYPE_NON_INVENTORY_PART:
-				itemCommand = "Delete Non Inventory Item " + item.getID();
+				itemCommand = "deleteNonInventoryItem " + item.getID();
 				break;
 			case Item.TYPE_INVENTORY_PART:
-				itemCommand = "Delete Inventory Item " + item.getID();
+				itemCommand = "deleteInventoryItem " + item.getID();
 				break;
 			}
 		return itemCommand;
@@ -572,13 +572,13 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 		} else {
 			if (string.isEmpty()) {
 				addFirstMessage(context, getMessages().selectItemToUpdate());
-				return "Items List";
+				return "listOfItems";
 			}
 			Item customerByName = CommandUtils.getItemByName(
 					context.getCompany(), string);
 			if (customerByName == null) {
 				addFirstMessage(context, getMessages().selectItemToUpdate());
-				return "Items List " + string;
+				return "listOfItems " + string;
 			}
 			setItem((ClientItem) CommandUtils.getClientObjectById(
 					customerByName.getID(), AccounterCoreType.ITEM, context

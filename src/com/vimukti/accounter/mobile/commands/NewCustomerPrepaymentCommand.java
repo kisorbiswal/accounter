@@ -53,7 +53,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 						getMessages().selectATransactionToUpdate(
 								getMessages().payeePrePayment(
 										Global.get().Customer())));
-				return "Received Payments List";
+				return "receivedPaymentsList";
 			}
 			prePayment = getTransaction(string,
 					AccounterCoreType.CUSTOMERPREPAYMENT, context);
@@ -64,7 +64,7 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 						getMessages().selectATransactionToUpdate(
 								getMessages().payeePrePayment(
 										Global.get().Customer())));
-				return "Received Payments List " + string;
+				return "receivedPaymentsList " + string;
 			}
 			setValues();
 		} else {
@@ -197,13 +197,13 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("Create BankAccount", "Bank"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("createBankAccount", "Bank"));
+				list.add(new UserCommand("createBankAccount",
 						"Create Other CurrentAsset Account",
 						"Other Current Asset"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("createBankAccount",
 						"Create CreditAccount", "CreditAccount"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("createBankAccount",
 						"Create FixedAsset Account", "FixedAsset"));
 			}
 

@@ -120,13 +120,13 @@ public class UpdateItemCommand extends NewAbstractCommand {
 				String nextCommand = null;
 				switch (item.getType()) {
 				case Item.TYPE_SERVICE:
-					nextCommand = "Update Service Item " + name;
+					nextCommand = "updateServiceItem " + name;
 					break;
 				case Item.TYPE_NON_INVENTORY_PART:
-					nextCommand = "Update Non Inventory Item " + name;
+					nextCommand = "updateNonInventoryItem " + name;
 					break;
 				case Item.TYPE_INVENTORY_PART:
-					nextCommand = "Update Inventory Item " + name;
+					nextCommand = "updateInventoryItem " + name;
 					break;
 				}
 				return nextCommand;

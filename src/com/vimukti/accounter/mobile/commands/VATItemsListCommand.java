@@ -47,7 +47,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(TAXItem value) {
-				return "Update TaxItem " + value.getID();
+				return "updateTaxItem " + value.getID();
 			}
 
 			@Override

@@ -65,7 +65,7 @@ public class TaxHistoryCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(TAXReturn value) {
-				return "Update tax history" + value.getTaxAgency().getName();
+				return "updatetaxhistory " + value.getTaxAgency().getName();
 			}
 
 			@Override
@@ -101,7 +101,6 @@ public class TaxHistoryCommand extends NewAbstractCommand {
 			@Override
 			protected void setCreateCommand(CommandList list) {
 				list.add(getMessages().taxHistory());
-
 			}
 
 			@Override
