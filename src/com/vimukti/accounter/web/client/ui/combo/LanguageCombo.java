@@ -44,8 +44,7 @@ public class LanguageCombo extends CustomCombo<ClientLanguage> {
 					@Override
 					public void onSuccess(ClientLanguage result) {
 						setComboItem(result);
-						view.languageSelected(result);
-						view.updateListData();
+						updateData(result);
 					}
 
 					@Override
@@ -53,6 +52,11 @@ public class LanguageCombo extends CustomCombo<ClientLanguage> {
 
 					}
 				});
+
+	}
+
+	protected void updateData(ClientLanguage result) {
+		// TODO Auto-generated method stub
 
 	}
 
