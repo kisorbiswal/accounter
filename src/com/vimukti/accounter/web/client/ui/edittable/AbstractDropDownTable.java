@@ -87,6 +87,7 @@ public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
 		data.add(0, getAddNewRow());
 		dataProvider.setList(data);
 		dataProvider.refresh();
+		getRowElement(0);
 	}
 
 	public abstract List<T> getTotalRowsData();
