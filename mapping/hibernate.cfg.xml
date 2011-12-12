@@ -11,8 +11,8 @@
 		<property name="hibernate.c3p0.min_size">10</property>
 		<property name="hibernate.c3p0.timeout">100</property> <!-- seconds -->
 		<!-- DEPRECATED very expensive property name="c3p0.validate> -->
-		
-		 <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+
+		<property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
 
 		<property name="connection.driver_class">
 			${db.driver}
@@ -77,7 +77,8 @@
 		<mapping resource="mapping/finance-new-mapping.xml" />
 		<mapping resource="mapping/finance-new-queries.xml" />
 		<mapping resource="mapping/finance-translate-mapping.xml" />
-	
+		<mapping resource="mapping/finance-search.xml" />
+
 
 
 	</session-factory>
