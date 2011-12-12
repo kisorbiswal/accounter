@@ -721,6 +721,10 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<property name="isDefault" column="IS_DEFAULT"></property>
+		<set name="itemStatuses" inverse="true" cascade="delete">
+			<key column="ITEM_ID" />
+			<one-to-many class="ItemStatus" />
+		</set>
 	</class>
 	<class name="TAXItemGroup" table="TAX_ITEM_GROUPS">
 		<id name="id" column="ID">

@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.Set;
+
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 
 public class ClientItem extends BaseReport implements IAccounterCore,
@@ -59,6 +61,8 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 	private long measurement;
 
 	boolean isDefault;
+
+	Set<ClientItemStatus> itemStatuses;
 
 	public ClientItem() {
 	}

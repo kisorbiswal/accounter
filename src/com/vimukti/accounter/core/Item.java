@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
@@ -124,6 +125,8 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	private Warehouse warehouse;
 	private Measurement measurement;
+
+	Set<ItemStatus> itemStatuses;
 
 	// TaxCode VATCode;
 
