@@ -9,6 +9,8 @@ import net.zschech.gwt.comet.client.CometClient;
 import net.zschech.gwt.comet.client.CometListener;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -52,6 +54,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	private CometClient cometClient;
 
 	AccounterMessages messages = Accounter.messages();
+	private boolean shouldReconnect = true;
 
 	public MainFinanceWindow() {
 		initializeActionsWithTokens();
@@ -165,15 +168,17 @@ public class MainFinanceWindow extends VerticalPanel {
 	}
 
 	private void startCometService() {
+		shouldReconnect = true;
 		AccounterCometSerializer serializer = GWT
 				.create(AccounterCometSerializer.class);
 		this.cometClient = new CometClient("/do/comet", serializer,
 				new CometListener() {
+					private int attempts;
+					private int interval = 1;
 
 					@Override
 					public void onRefresh() {
-						// TODO Auto-generated method stub
-
+						JNSI.log("onRefresh");
 					}
 
 					@Override
@@ -186,26 +191,52 @@ public class MainFinanceWindow extends VerticalPanel {
 
 					@Override
 					public void onHeartbeat() {
-						// TODO Auto-generated method stub
-
+						JNSI.log("onHeartbeat");
 					}
 
 					@Override
 					public void onError(Throwable exception, boolean connected) {
-						// TODO Auto-generated method stub
-
+						JNSI.log("onError ->" + exception.getMessage());
+						onDisconnected();
 					}
 
 					@Override
 					public void onDisconnected() {
-						// TODO Auto-generated method stub
+						JNSI.log("onDisconnected->" + interval);
+						cometClient.stop();
+						if (!shouldReconnect) {
+							return;
+						}
+						if (attempts > 20) {
+							attempts = 0;
+							shouldReconnect = false;
+							return;
+						}
+						attempts++;
+						startTimer();
+						interval++;
 
+					}
+
+					private void startTimer() {
+						Scheduler.get().scheduleFixedDelay(
+								new RepeatingCommand() {
+
+									@Override
+									public boolean execute() {
+										JNSI.log("Re-Connecting->" + interval);
+										cometClient.start();
+										return false;
+									}
+								}, interval * 1000);
 					}
 
 					@Override
 					public void onConnected(int heartbeat) {
-						// TODO Auto-generated method stub
-
+						JNSI.log("onConnected->" + heartbeat);
+						attempts = 0;
+						interval = 0;
+						shouldReconnect = true;
 					}
 				});
 		cometClient.start();
@@ -765,5 +796,10 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	public ClientCompany getCompany() {
 		return Accounter.getCompany();
+	}
+
+	public void onSessionExpired() {
+		cometClient.stop();
+		shouldReconnect = false;
 	}
 }
