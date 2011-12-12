@@ -157,24 +157,8 @@
 	</sql-query>
 
 	<sql-query name="getCountOfMessages">
-		<query-param name="lang" type="string" />
 		<query-param name="searchTerm" type="string" />
-		SELECT COUNT(*) FROM MESSAGE M WHERE M.VALUE LIKE :searchTerm ORDER BY
-		(
-		SELECT
-		COUNT(*) FROM LOCAL_MESSAGE
-		LM WHERE LM.MESSAGE_ID=M.ID AND
-		LM.LANGUAGE=:lang) ASC ,
-		(SELECT
-		MAX(VOTES) FROM LOCAL_MESSAGE LM WHERE
-		LM.MESSAGE_ID=M.ID AND
-		LM.LANGUAGE=:lang) ASC ,
-		(SELECT COUNT(*) FROM
-		LOCAL_MESSAGE LM WHERE
-		LM.MESSAGE_ID=M.ID AND
-		LM.LANGUAGE=:lang AND
-		LM.IS_APPROVED=TRUE )=1
-		ASC ,M.VALUE;
+		SELECT COUNT(*) FROM MESSAGE M WHERE M.VALUE LIKE :searchTerm
 	</sql-query>
 
 	<sql-query name="getUntranslatedMessages">
@@ -195,7 +179,7 @@
 		LOCAL_MESSAGE LM
 		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0 AND
 		M.VALUE LIKE
-		:searchTerm ORDER BY M.VALUE;
+		:searchTerm
 	</sql-query>
 
 	<sql-query name="getMyTranslations">
@@ -232,20 +216,6 @@
 		LOCAL_MESSAGE LM
 		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
 		LM.CLIENT=:clientId)=1 AND M.VALUE LIKE :searchTerm
-		ORDER BY (SELECT
-		COUNT(*) FROM LOCAL_MESSAGE LM
-		WHERE
-		LM.MESSAGE_ID=M.ID AND
-		LM.LANGUAGE=:lang) ASC ,(SELECT MAX(VOTES)
-		FROM
-		LOCAL_MESSAGE LM WHERE
-		LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)
-		ASC
-		,(SELECT COUNT(*) FROM
-		LOCAL_MESSAGE LM WHERE LM.MESSAGE_ID=M.ID
-		AND
-		LM.LANGUAGE=:lang AND
-		LM.IS_APPROVED=TRUE )=1 ASC ,M.VALUE;
 	</sql-query>
 
 	<sql-query name="getUnApprovedMessages">
@@ -272,13 +242,7 @@
 		SELECT COUNT(*) FROM MESSAGE M WHERE (SELECT COUNT(*) FROM
 		LOCAL_MESSAGE LM
 		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
-		LM.IS_APPROVED=TRUE)=0 AND M.VALUE LIKE :searchTerm ORDER BY (SELECT
-		COUNT(*) FROM LOCAL_MESSAGE LM
-		WHERE LM.MESSAGE_ID=M.ID AND
-		LM.LANGUAGE=:lang) ASC ,(SELECT
-		MAX(VOTES) FROM LOCAL_MESSAGE LM WHERE
-		LM.MESSAGE_ID=M.ID AND
-		LM.LANGUAGE=:lang) ASC , M.VALUE;
+		LM.IS_APPROVED=TRUE)=0 AND M.VALUE LIKE :searchTerm 
 	</sql-query>
 
 	<query name="getLanguageById">

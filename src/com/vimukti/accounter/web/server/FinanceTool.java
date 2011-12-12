@@ -2753,7 +2753,6 @@ public class FinanceTool {
 					.setParameter("searchTerm", "%" + searchTerm + "%");
 			int count = ((BigInteger) session
 					.getNamedQuery("getCountOfMessages")
-					.setParameter("lang", lang)
 					.setParameter("searchTerm", "%" + searchTerm + "%")
 					.uniqueResult()).intValue();
 
