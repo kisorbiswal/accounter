@@ -1,6 +1,8 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.sql.CallableStatement;
+import java.sql.Types;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -181,11 +183,16 @@ public class DeleteCompanyServlet extends BaseServlet {
 					if (canDeleteFromAll
 							&& (deleteAllUsers || serverCompany
 									.getNonDeletedUsers().size() == 1)) {
-						Query namedQuery = session
-								.getNamedQuery("deleteCompany");
-						namedQuery.setParameter("companyId",
-								serverCompany.getId());
-						namedQuery.executeUpdate();
+
+						CallableStatement call = session.connection()
+								.prepareCall("{ ? = call delete_company(?) }");
+						call.registerOutParameter(1, Types.BOOLEAN);
+						call.setLong(2, serverCompany.getId());
+						call.execute();
+						boolean isDeleted = call.getBoolean(1);
+						if (!isDeleted) {
+							throw new Exception();
+						}
 
 					} else if (canDeleteFromSingle) {
 
