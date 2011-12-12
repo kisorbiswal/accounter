@@ -116,6 +116,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		billsDue.setHelpInformation(true);
 		billsDue.setTitle(messages.returnsDueOnOrBefore());
 		billsDue.setDisabled(isInViewMode());
+		billsDue.setEnteredDate(new ClientFinanceDate());
 
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
 
