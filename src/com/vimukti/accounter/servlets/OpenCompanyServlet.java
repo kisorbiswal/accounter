@@ -87,7 +87,9 @@ public class OpenCompanyServlet extends BaseServlet {
 					return;
 				}
 			}
-			initComet(request.getSession(), serverCompanyID, emailID);
+
+			// initComet(request.getSession(), serverCompanyID, emailID);
+			// we are create comet in getCompany method
 
 			try {
 				Transaction transaction = session.beginTransaction();
@@ -130,19 +132,19 @@ public class OpenCompanyServlet extends BaseServlet {
 		return ServerLocal.get();
 	}
 
-	/**
-	 * Initialising comet stuff
-	 * 
-	 * @param request
-	 * @param identity
-	 */
-	private void initComet(HttpSession httpSession, long companyID,
-			String emailID) {
-		// Stream must be created otherwise user will get data
-		// Continuously and browser will struck
-		CometSession cometSession = CometServlet.getCometSession(httpSession);
-		CometManager.initStream(httpSession.getId(), companyID, emailID,
-				cometSession);
-	}
+	// /**
+	// * Initialising comet stuff
+	// *
+	// * @param request
+	// * @param identity
+	// */
+	// private void initComet(HttpSession httpSession, long companyID,
+	// String emailID) {
+	// // Stream must be created otherwise user will get data
+	// // Continuously and browser will struck
+	// CometSession cometSession = CometServlet.getCometSession(httpSession);
+	// CometManager.initStream(httpSession.getId(), companyID, emailID,
+	// cometSession);
+	// }
 
 }
