@@ -5,17 +5,12 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.translation.TranslationView;
 
 public class LanguageCombo extends CustomCombo<ClientLanguage> {
 
-	private TranslationView view;
-
-	public LanguageCombo(String title, final TranslationView view) {
+	public LanguageCombo(String title) {
 		super(title, false, 1);
-		this.view = view;
 		initComboData();
-
 	}
 
 	private void initComboData() {
