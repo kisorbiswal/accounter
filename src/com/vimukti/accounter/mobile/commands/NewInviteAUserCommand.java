@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.Context;
@@ -11,8 +12,10 @@ import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
@@ -96,7 +99,22 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
+		Set<User> usersList = getCompany().getUsersList();
+		boolean hasAnotherAdmin = false;
+		for (User user : usersList) {
+			if (user.isAdmin()
+					&& !(user.getClient().getEmailId().equals(this.user
+							.getEmail()))) {
+				hasAnotherAdmin = true;
+			}
+		}
 
+		if (user.getID() != 0) {
+			if (hasAnotherAdmin == false)
+				addFirstMessage(context, getMessages()
+						.cannotCreateUserAsTheirIsNoUserWithAdminRole());
+			return null;
+		}
 		String firstName = get(FIRST_NAME).getValue();
 		String lastName = get(LAST_NAME).getValue();
 		String email = get(EMAIL).getValue();
@@ -320,7 +338,8 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 	protected String initObject(Context context, boolean isUpdate) {
 		User currentUser = context.getUser();
 		if (!currentUser.isCanDoUserManagement()) {
-			addFirstMessage(context, getMessages().youdontHavepermissiosToinviteUser());
+			addFirstMessage(context, getMessages()
+					.youdontHavepermissiosToinviteUser());
 			return "Users List";
 		}
 		if (isUpdate) {
