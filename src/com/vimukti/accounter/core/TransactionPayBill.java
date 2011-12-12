@@ -327,6 +327,7 @@ public class TransactionPayBill extends CreatableObject implements
 					&& DecimalUtil.isGreaterThan(this.cashDiscount, 0.0)) {
 				if (this.enterBill != null) {
 					this.enterBill.setCanVoidOrEdit(Boolean.FALSE);
+					session.saveOrUpdate(this.enterBill);
 				}
 
 			}
@@ -452,6 +453,7 @@ public class TransactionPayBill extends CreatableObject implements
 
 		if (this.enterBill != null) {
 			this.enterBill.updateBalance(amount, transaction);
+			HibernateUtil.getCurrentSession().saveOrUpdate(this.enterBill);
 		} else if (this.transactionMakeDeposit != null) {
 			this.transactionMakeDeposit.updatePaymentsAndBalanceDue(amount);
 		} else if (this.journalEntry != null) {

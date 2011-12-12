@@ -73,6 +73,8 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		if (src == null)
 			return null;
 
+		src = HibernateUtil.initializeAndUnproxy(src);
+
 		Class<? extends Object> srcType = src.getClass();
 
 		if (dstType == null)

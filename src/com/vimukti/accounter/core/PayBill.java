@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -712,10 +711,7 @@ public class PayBill extends Transaction {
 
 		for (TransactionPayBill transactionPayBill : this.transactionPayBill) {
 			transactionPayBill.setIsVoid(true);
-			if (transactionPayBill instanceof Lifecycle) {
-				Lifecycle lifeCycle = transactionPayBill;
-				lifeCycle.onUpdate(session);
-			}
+			transactionPayBill.onUpdate(session);
 			session.update(transactionPayBill);
 		}
 
