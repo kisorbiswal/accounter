@@ -234,9 +234,9 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			getThreadLocalRequest().getSession().setAttribute("offSet", offSet);
 			CometSession cometSession = CometServlet
 					.getCometSession(getHttpSession());
-			CometManager.initStream(getThreadLocalRequest().getSession()
-					.getId(), getCompanyId(), user.getClient().getEmailId(),
-					cometSession);
+			// CometManager.initStream(getThreadLocalRequest().getSession()
+			// .getId(), getCompanyId(), user.getClient().getEmailId(),
+			// cometSession);
 
 			if (rememberMe) {
 				setCookies(string, password);
