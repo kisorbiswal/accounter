@@ -27,12 +27,13 @@ public abstract class AccounterAsyncCallback<T> implements AsyncCallback<T> {
 	public void onFailure(Throwable exception) {
 		// processDialog.removeFromParent();
 		if (exception instanceof AccounterException) {
-			onException((AccounterException) exception);
+			AccounterException accounterException = (AccounterException) exception;
+			onException(accounterException);
 			return;
 		} else if (exception instanceof StatusCodeException) {
 			if (((StatusCodeException) exception).getStatusCode() == 403) {
-				Accounter
-						.showMessage(Global.get().messages().sessionExpired());
+				Accounter.showMessage(Global.get().messages().sessionExpired());
+				Accounter.getMainFinanceWindow().onSessionExpired();
 			} else {
 				Accounter.showInformation(Global.get().messages()
 						.unableToPerformTryAfterSomeTime());
