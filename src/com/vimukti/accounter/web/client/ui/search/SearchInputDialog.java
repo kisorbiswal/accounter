@@ -53,6 +53,7 @@ public class SearchInputDialog extends BaseDialog {
 	private Label labelItem;
 	List<ClientAccount> accounts;
 	private AmountField amountField;
+	private SimplePager pager;
 	protected AccounterMessages messages = Accounter.messages();
 
 	private String[] transactionNames = {
@@ -167,18 +168,18 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.setFields(searchByTypeCombo);
 
 		findbyForm = new DynamicForm();
-		findbyForm.setFields(findByItem);
-		findByItem.addStyleName("search_combo_width");
+		findbyForm.setFields(amountField);
 
 		matchIfForm = new DynamicForm();
 		matchIfForm.setFields(matchIfCombo);
-		matchIfCombo.addStyleName("search_match");
+		// matchIfCombo.addStyleName("search_match");
 
 		allFormPanel = new VerticalPanel();
 		allFormPanel.setHorizontalAlignment(HasAlignment.ALIGN_LEFT);
 		allFormPanel.add(searchTypeForm);
 		allFormPanel.add(findbyForm);
 		allFormPanel.add(matchIfForm);
+		allFormPanel.addStyleName("search_textbox_labels");
 
 		buttonPanel = new VerticalPanel();
 		buttonPanel.setSpacing(5);
@@ -201,6 +202,7 @@ public class SearchInputDialog extends BaseDialog {
 		});
 		buttonPanel.add(findButton);
 		buttonPanel.add(closeButton);
+		buttonPanel.addStyleName("search_buttons");
 
 		panel = new HorizontalPanel();
 		panel.setStyleName("search-all-forms");
@@ -217,6 +219,7 @@ public class SearchInputDialog extends BaseDialog {
 		transactionTypeCombo.getMainWidget().getParent().getElement()
 				.addClassName("search_combo_width");
 		typePanel.add(mainForm);
+		typePanel.setStyleName("transaction_type_panel");
 
 		mainPanel = new VerticalPanel();
 		mainPanel.add(typePanel);
@@ -300,13 +303,23 @@ public class SearchInputDialog extends BaseDialog {
 
 	protected void makeResult() {
 
+		Object value = getFindByObjType().getValue();
+		if (value == null || value.equals("")) {
+			updateGrid();
+			labelItem.setText(messages.status() + ": "
+					+ messages.findByMustBeFilled());
+			return;
+		}
+
 		input = new SearchInput();
 		input.setTransactionType(getTransactionType(transactionTypeCombo
 				.getSelectedValue()));
 		input.setSearchbyType(getSearchByType(searchByTypeCombo
 				.getSelectedValue()));
+
 		if (getFindByObjType() instanceof TextItem) {
-			input.setFindBy(getFindByObjType().getValue().toString());
+			String string = getFindByObjType().getValue().toString();
+			input.setFindBy(string.equals("") ? "0.00" : string);
 		} else if (getFindByObjType() instanceof CustomerCombo) {
 			input.setFindBy(((CustomerCombo) getFindByObjType())
 					.getSelectedValue().getDisplayName());
@@ -331,18 +344,50 @@ public class SearchInputDialog extends BaseDialog {
 		}
 
 		resultPanel = new VerticalPanel();
-		grid = new SearchTable(input);
 		SimplePager.Resources pagerResources = GWT
 				.create(SimplePager.Resources.class);
-		SimplePager pager = new SimplePager(TextLocation.CENTER,
-				pagerResources, false, 0, true);
+		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0,
+				true);
+
+		grid = new SearchTable(input) {
+			@Override
+			public void disableGrid() {
+				updateGrid();
+			}
+
+			@Override
+			public void enableGrid() {
+				enableGridAndPager();
+			}
+		};
+
 		pager.setDisplay(grid);
 		pager.setStyleName("pager-alignment");
+
+		// if (!grid.listDataProvider.getDataDisplays().isEmpty()) {
+		// labelItem.setText(messages.status() + ": "
+		// + messages.noRecordsToShow());
+		// } else {
 		resultPanel.add(grid);
 		resultPanel.add(pager);
 		labelItem.setVisible(false);
+		// }
 		mainPanel.add(resultPanel);
+		resultPanel.setVisible(false);
+	}
 
+	protected void enableGridAndPager() {
+		labelItem.setVisible(false);
+		resultPanel.setVisible(true);
+	}
+
+	private void updateGrid() {
+		labelItem.setVisible(true);
+		labelItem
+				.setText(messages.status() + ": " + messages.noRecordsToShow());
+		if (resultPanel != null) {
+			resultPanel.setVisible(false);
+		}
 	}
 
 	private int getMatachType(String selectedValue) {
@@ -483,6 +528,9 @@ public class SearchInputDialog extends BaseDialog {
 	}
 
 	protected void setFindByComboOptions(String selectItem) {
+		labelItem.setText(messages.status() + ": " + messages.selectCreteria());
+		findByItem.setValue("");
+		amountField.setAmount(null);
 		findbyForm.clear();
 		matchIfForm.clear();
 		if (selectItem.equals(messages.descOrMemo())
@@ -621,7 +669,8 @@ public class SearchInputDialog extends BaseDialog {
 	}
 
 	protected void setSearchOptionsComboByType(String selectItem) {
-
+		updateGrid();
+		labelItem.setText(messages.status() + ": " + messages.selectCreteria());
 		if (selectItem.equals(messages.all())) {
 			setOptionsForAll(selectItem);
 		} else if (selectItem.equals(messages.bill())) {
@@ -711,7 +760,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.setFields(searchByTypeCombo);
 		findByItem.addStyleName("search_combo_width");
 		findbyForm.setFields(findByItem);
-
+		setFindByComboOptions(list.get(1));
 	}
 
 	private void setOptionsForAll(String selectItem) {
@@ -726,7 +775,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.setFields(searchByTypeCombo);
 		findbyForm.setFields(findByItem);
 		findByItem.addStyleName("search_combo_width");
-
+		setFindByComboOptions(searchAll.get(0));
 	}
 
 	public void setOptionsForSupplierTransactions(String selectItem) {
@@ -746,6 +795,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.setFields(searchByTypeCombo);
 		findbyForm.setFields(findByItem);
 		findByItem.addStyleName("search_combo_width");
+		setFindByComboOptions(list.get(1));
 	}
 
 	public void setOptionsByCustomerTransactions(String selectItem) {
@@ -785,6 +835,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.setFields(searchByTypeCombo);
 		customerCombo.addStyleName("search_combo_width");
 		findbyForm.setFields(customerCombo);
+		setFindByComboOptions(list.get(0));
 	}
 
 	private void setOptionsByJournal() {
@@ -795,9 +846,10 @@ public class SearchInputDialog extends BaseDialog {
 			list.add(string);
 		}
 		searchByTypeCombo.initCombo(list);
-		searchByTypeCombo.setComboItem(list.get(0));
+		searchByTypeCombo.setComboItem(list.get(1));
 		searchTypeForm.setFields(searchByTypeCombo);
 		findbyForm.setFields(dateField);
+		setFindByComboOptions(list.get(1));
 	}
 
 	// private void setOptiosByStatement() {
@@ -826,6 +878,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchByTypeCombo.setComboItem(list.get(0));
 		searchTypeForm.setFields(searchByTypeCombo);
 		findbyForm.setFields(accountCombo);
+		setFindByComboOptions(list.get(0));
 	}
 
 	public void setOptionsByCustomer(String slectItem) {
@@ -845,6 +898,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.setFields(searchByTypeCombo);
 		findbyForm.setFields(customerCombo);
 		customerCombo.addStyleName("search_combo_width");
+		setFindByComboOptions(list.get(0));
 	}
 
 	private List<String> allList() {

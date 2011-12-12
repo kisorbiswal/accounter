@@ -1712,6 +1712,8 @@ input[type="text"] {
 	box-shadow: 0 -6px 10px #1A5158;
 	-moz-box-shadow: 0 -6px 10px #1A5158;
 	-webkit-box-shadow: 0 -6px 10px #1A5158;
+	overflow: auto;
+	padding: 0px;
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem {
@@ -2183,9 +2185,6 @@ input.date-field-textbox {
 	width: 100%;
 }
 
-.search_combo_width {
-	width: auto !important;
-}
 
 .label-status {
 	margin-top: 20px;
@@ -2202,11 +2201,6 @@ input.date-field-textbox {
 
 .charaterisitc_label {
 	margin: 5px;
-}
-
-.search_match {
-	width: auto !important;
-	margin-left: 8px;
 }
 
 .search_select_combo {
@@ -2289,6 +2283,31 @@ input.date-field-textbox {
 	padding: 30px 0;
 }
 
+.transaction_type_panel {
+	border-bottom: 1px groove;
+	padding-bottom: 10px;
+}
+
+.search_result_table {
+	border: 1px solid #aaa;
+	margin: 10px 0 2px;
+	padding: 5px;
+}
+
+.grouped-buttons {
+	float: right;
+	margin: 0 5px;
+}
+
+.search_buttons .gwt-Button {
+	padding-top: 3px;
+	width: 50px;
+}
+
+.search_textbox_labels .gwt-Label {
+	width: 50px;
+}
+
 .title_voided_panel {
 	border: 1px solid #1A5158 !important;
 	margin: 10px 0;
@@ -2301,6 +2320,7 @@ input.date-field-textbox {
 	font-size: 19px;
 	text-transform: uppercase;
 }
+
 .transactionPanel .editTable_disable_anchor{
 	color:black;
 	background:none;

@@ -132,7 +132,6 @@ public class AccounterMenuBar extends HorizontalPanel {
 		IMenu settingsMenuBar = factory.createMenu();
 		settingsMenuBar.addMenuItem(ActionFactory.getGeneralSettingsAction());
 		settingsMenuBar.addMenuItem(ActionFactory.getTranslationAction());
-		settingsMenuBar.addMenuItem(ActionFactory.getSearchInputAction());
 		return settingsMenuBar;
 	}
 
@@ -695,6 +694,10 @@ public class AccounterMenuBar extends HorizontalPanel {
 		IMenu companyMenuBar = getSubMenu();
 
 		companyMenuBar.addMenuItem(messages.dashBoard(), getDashBoardCommand());
+		companyMenuBar.addSeparatorItem();
+
+		companyMenuBar.addMenuItem(messages.search(),
+				ActionFactory.getSearchInputAction());
 		companyMenuBar.addSeparatorItem();
 
 		if (Accounter.getUser().canDoBanking())

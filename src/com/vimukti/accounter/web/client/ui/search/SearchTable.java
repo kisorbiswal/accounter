@@ -1,6 +1,9 @@
 package com.vimukti.accounter.web.client.ui.search;
 
+import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
@@ -13,6 +16,8 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
+import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class SearchTable extends CellTable<SearchResultlist> {
 
@@ -40,12 +45,14 @@ public class SearchTable extends CellTable<SearchResultlist> {
 							@Override
 							public void onSuccess(
 									PaginationList<SearchResultlist> result) {
-								if (result != null || result.size() != 0
-										|| !result.isEmpty()) {
+								if (result != null && result.size() != 0
+										&& !result.isEmpty()) {
+									enableGrid();
 									updateRowData(start, result);
 									setRowCount(result.getTotalCount());
 								} else {
-									addEmptyMsg();
+									disableGrid();
+									setVisible(false);
 								}
 
 							}
@@ -62,15 +69,23 @@ public class SearchTable extends CellTable<SearchResultlist> {
 		listDataProvider.addDataDisplay(this);
 
 		this.setWidth("100%", true);
+		this.setStyleName("search_result_table");
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
 		initTableColumns();
+	}
+
+	public void disableGrid() {
+
+	}
+
+	public void enableGrid() {
 
 	}
 
 	private void addEmptyMsg() {
 		HTML emptyMessage = new HTML(messages.noRecordsToShow());
-		setEmptyTableWidget(emptyMessage);
+		this.setEmptyTableWidget(emptyMessage);
 	}
 
 	private void initTableColumns() {
@@ -84,19 +99,39 @@ public class SearchTable extends CellTable<SearchResultlist> {
 			}
 		};
 
-		TextColumn<SearchResultlist> typeColumn = new TextColumn<SearchResultlist>() {
+		Column<SearchResultlist, SafeHtml> typeColumn = new Column<SearchResultlist, SafeHtml>(
+				new ClickableSafeHtmlCell()) {
 
 			@Override
-			public String getValue(SearchResultlist object) {
-				return Utility.getTransactionName(object.getTransactionType());
+			public SafeHtml getValue(final SearchResultlist object) {
+				return new SafeHtml() {
+
+					@Override
+					public String asString() {
+						return Utility.getTransactionName(object
+								.getTransactionType());
+					}
+				};
 			}
 		};
+
+		typeColumn
+				.setFieldUpdater(new FieldUpdater<SearchResultlist, SafeHtml>() {
+
+					@Override
+					public void update(int index, SearchResultlist object,
+							SafeHtml value) {
+						ReportsRPC.openTransactionView(
+								object.getTransactionType(), object.getId());
+					}
+				});
 
 		TextColumn<SearchResultlist> amountColumn = new TextColumn<SearchResultlist>() {
 
 			@Override
 			public String getValue(SearchResultlist object) {
-				return DataUtils.getAmountAsString(object.getAmount());
+				return DataUtils.amountAsStringWithCurrency(object.getAmount(),
+						object.getCurrency());
 			}
 		};
 

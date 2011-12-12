@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.activity.shared.ActivityManager;
+import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -13,7 +14,6 @@ import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Frame;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -71,6 +71,8 @@ public class ViewManager extends HorizontalPanel {
 
 	private ImageButton configButton;
 
+	private ImageButton searchButton;
+
 	private Label viewTitleLabel;
 
 	ButtonGroup group1;
@@ -81,6 +83,7 @@ public class ViewManager extends HorizontalPanel {
 
 	ButtonGroup group4;
 	ButtonGroup group5;
+	ButtonGroup group6;
 
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
@@ -453,6 +456,7 @@ public class ViewManager extends HorizontalPanel {
 		group3 = new ButtonGroup();
 		group4 = new ButtonGroup();
 		group5 = new ButtonGroup();
+		group6 = new ButtonGroup();
 		viewTitleLabel = new Label(Accounter.messages().dashBoard());
 		viewTitleLabel.addStyleName("viewTitle");
 
@@ -536,6 +540,19 @@ public class ViewManager extends HorizontalPanel {
 				existingView.cancel();
 			}
 		});
+
+		searchButton = new ImageButton(Accounter.getFinanceImages()
+				.searchButton());
+		searchButton.setTitle(Accounter.messages().clickThisTo(
+				Accounter.messages().open(), Accounter.messages().search()));
+		searchButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				ActionFactory.getSearchInputAction().run();
+			}
+		});
+
 		group1.add(previousButton);
 		group1.add(nextButton);
 
@@ -549,11 +566,16 @@ public class ViewManager extends HorizontalPanel {
 		group3.add(closeButton);
 		group5.add(configButton);
 
-		toolBar.add(HasHorizontalAlignment.ALIGN_LEFT, group1);
-		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group4);
-		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group2);
-		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group5);
-		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group3);
+		group6.add(searchButton);
+
+		toolBar.add(group1);
+		group1.getElement().getStyle().setFloat(Float.LEFT);
+		toolBar.add(group3);
+		toolBar.add(group6);
+		toolBar.add(group5);
+		toolBar.add(group2);
+		toolBar.add(group4);
+
 		toolBar.addStyleName("group-toolbar");
 	}
 
