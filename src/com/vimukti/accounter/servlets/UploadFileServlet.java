@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.utils.SecureUtils;
+import com.vimukti.accounter.main.upload.UploadAttachment;
+import com.vimukti.accounter.main.upload.UploadFileServer;
 
 public class UploadFileServlet extends HttpServlet {
 
@@ -29,35 +30,24 @@ public class UploadFileServlet extends HttpServlet {
 					ServerConfiguration.getTmpDir(), 50 * 1024 * 1024,
 					"ISO-8859-1", new DefaultFileRenamePolicy());
 
-			// response.getWriter().print("<html><body>");
-			// JSONObject obj=new JSONObject();
-			Enumeration<?> files = multi.getFileNames();
-			String parentID = (String) request.getParameter("parentId");
-			if (parentID == null) {
-				return;
-			}
-
-			String fileID = (String) files.nextElement();
-			File file = multi.getFile(fileID);
-			if (file != null) {
-				// String fileName = file.getName();
-				// int size = (int) file.length();
-				// String filepath = file.getPath();
-				if (fileID == null || fileID == "") {
-					fileID = SecureUtils.createID();
+			String attachmentId = request.getParameter("attachmentId");
+			if (attachmentId != null && !attachmentId.isEmpty()) {
+				Enumeration<?> files = multi.getFileNames();
+				String fileID = (String) files.nextElement();
+				File file = multi.getFile(fileID);
+				if (file != null) {
+					file.renameTo(new File(ServerConfiguration.getTmpDir()
+							+ File.separator + attachmentId));
+					UploadAttachment attachment = new UploadAttachment(
+							attachmentId, UploadAttachment.CREATE);
+					UploadFileServer.put(attachment);
 				}
 
-				file.renameTo(new File(ServerConfiguration.getTmpDir()
-						+ File.separator + parentID + fileID));
-
+				response.setContentType("text/html");
+				response.getWriter().print(fileID);
 			}
-			response.setContentType("text/html");
-			response.getWriter().print(parentID + fileID);
-			// jsonObj.put("fileIDS", fileArray);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }

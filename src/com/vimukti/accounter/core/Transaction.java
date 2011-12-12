@@ -113,6 +113,8 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	List<TransactionItem> transactionItems;
 
+	Set<Attachment> attachments;
+
 	@ReffereredObject
 	protected Set<TAXRateCalculation> taxRateCalculationEntriesList = new HashSet<TAXRateCalculation>();
 

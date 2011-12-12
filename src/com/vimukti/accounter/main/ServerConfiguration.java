@@ -31,6 +31,9 @@ public class ServerConfiguration {
 	private static boolean enableConsoleChatServer;
 	private static boolean enableIMChatServer;
 	private static boolean enableMobileChatServer;
+	private static String encriptTmpDir;
+	private static boolean uploadToRackSpace;
+	private static String attchmentContainerName;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -77,6 +80,12 @@ public class ServerConfiguration {
 
 			mobileSSLChatServerPort = Integer.parseInt(prop.getProperty(
 					"mobileSSLChatServer", null));
+
+			encriptTmpDir = prop.getProperty("encriptTmpDir", null);
+			attchmentContainerName = prop.getProperty("attchmentContainerName",
+					null);
+			uploadToRackSpace = prop.getProperty("uploadToRackSpace", "false")
+					.equalsIgnoreCase("true");
 
 			/*
 			 * mobilePort = Integer.parseInt(prop.getProperty("mobilePort",
@@ -246,6 +255,18 @@ public class ServerConfiguration {
 
 	public static int getMobileSSLChatServerPort() {
 		return mobileSSLChatServerPort;
+	}
+
+	public static String getEncriptTmpDir() {
+		return encriptTmpDir;
+	}
+
+	public static boolean uploadToRackSpace() {
+		return uploadToRackSpace;
+	}
+
+	public static String getAttachmentsContainerName() {
+		return attchmentContainerName;
 	}
 
 }
