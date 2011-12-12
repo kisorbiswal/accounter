@@ -11,6 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.zschech.gwt.comet.server.CometServlet;
+import net.zschech.gwt.comet.server.CometSession;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -174,9 +177,18 @@ public class AccounterCompanyInitializationServiceImpl extends
 		if (companyID == null) {
 			return null;
 		}
+
 		FinanceTool tool = new FinanceTool();
-		return tool.getCompanyManager().getClientCompany(getUserEmail(),
-				companyID);
+		ClientCompany clientCompany = tool.getCompanyManager()
+				.getClientCompany(getUserEmail(), companyID);
+
+		CometSession cometSession = CometServlet
+				.getCometSession(getThreadLocalRequest().getSession());
+		CometManager.initStream(getThreadLocalRequest().getSession().getId(),
+				companyID, clientCompany.getLoggedInUser().getEmail(),
+				cometSession);
+
+		return clientCompany;
 	}
 
 	protected String getUserEmail() {
