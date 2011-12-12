@@ -52,7 +52,13 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 		}
 		optionsCombo.setSelected(messages.untranslated());
 
-		languageCombo = new LanguageCombo(messages.languages(), this);
+		languageCombo = new LanguageCombo(messages.languages(), this) {
+			@Override
+			protected void updateData(ClientLanguage result) {
+				languageSelected(result);
+				pager.updateListData();
+			}
+		};
 
 		languageCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientLanguage>() {
@@ -100,10 +106,30 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 			protected void initData() {
 				super.initData();
 			}
+
+			@Override
+			public void updateListData() {
+				if ((languageCombo.getSelectedValue() != null)
+						&& (optionsCombo.getSelectedValue() != null)) {
+					selectedLanguageLabel.setText(messages
+							.selectedTranslated(languageCombo
+									.getSelectedValue().getLanguageTooltip()));
+
+					addMessagesToView();
+
+				}
+			}
+
+			@Override
+			public int getDataSize() {
+				if (t != null) {
+					return t.size();
+				} else {
+					return 0;
+				}
+			}
 		};
 		dataPanel = new VerticalPanel();
-		refreshPager();
-		updateListData();
 
 		DynamicForm combosForm = new DynamicForm();
 		combosForm.setNumCols(6);
@@ -139,20 +165,6 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 
 					}
 				});
-	}
-
-	@Override
-	public void updateListData() {
-
-		if ((languageCombo.getSelectedValue() != null)
-				&& (optionsCombo.getSelectedValue() != null)) {
-			selectedLanguageLabel.setText(messages
-					.selectedTranslated(languageCombo.getSelectedValue()
-							.getLanguageTooltip()));
-
-			addMessagesToView();
-
-		}
 	}
 
 	private void addMessagesToView() {

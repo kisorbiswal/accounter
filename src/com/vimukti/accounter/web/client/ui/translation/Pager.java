@@ -8,24 +8,22 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 
-public class Pager extends HorizontalPanel {
+public abstract class Pager extends HorizontalPanel implements PagerListener {
 	public static final int DEFAULT_START = 0;
 	public static int DEFAULT_RANGE = 0;
 
-	private HorizontalPanel pagerPanel;
 	private ImageButton previousButton, nextButton;
 	private Label rangeLabel;
 	private int totalResultCount, presentResultCount, startRange, endRange,
 			range;
-	private AbstractPagerView<?> pagerView;
 	private boolean isNext;
 	private boolean isBack;
+	private boolean hasMoreRecords;
 
 	public Pager(int range, AbstractPagerView<?> pagerView) {
 		createControls();
 		DEFAULT_RANGE = range;
 		refreshPager();
-		this.pagerView = pagerView;
 	}
 
 	public void refreshPager() {
@@ -41,7 +39,7 @@ public class Pager extends HorizontalPanel {
 	}
 
 	private void createControls() {
-		pagerPanel = new HorizontalPanel();
+		HorizontalPanel pagerPanel = new HorizontalPanel();
 		previousButton = new ImageButton(Accounter.getFinanceImages()
 				.leftArrow());
 		nextButton = new ImageButton(Accounter.getFinanceImages().rightArrow());
@@ -74,7 +72,7 @@ public class Pager extends HorizontalPanel {
 		isNext = true;
 		isBack = false;
 		setStartRange(getStartRange() + getRange());
-		pagerView.updateListData();
+		updateListData();
 	}
 
 	protected void updateRangeData() {
@@ -82,7 +80,7 @@ public class Pager extends HorizontalPanel {
 			nextRange();
 		}
 		if (isBack) {
-			presentResultCount = pagerView.getDataSize();
+			presentResultCount = getDataSize();
 			setStartRange(endRange - presentResultCount);
 		}
 		if (!isNext && !isBack) {
@@ -92,7 +90,7 @@ public class Pager extends HorizontalPanel {
 	}
 
 	private void nextRange() {
-		presentResultCount = pagerView.getDataSize();
+		presentResultCount = getDataSize();
 		endRange = getStartRange() + presentResultCount;
 	}
 
@@ -107,11 +105,11 @@ public class Pager extends HorizontalPanel {
 			previousButton.setVisible(false);
 		}
 		if ((totalResultCount != 0) && (totalResultCount > endRange)) {
-			pagerView.hasMoreRecords = true;
+			setMoreRecords(true);
 		} else {
-			pagerView.hasMoreRecords = false;
+			setMoreRecords(false);
 		}
-		if (range != DEFAULT_RANGE || (!pagerView.hasMoreRecords)) {
+		if (range != DEFAULT_RANGE || (!hasMoreRecords())) {
 			nextButton.setVisible(false);
 			// range = DEFAULT_RANGE;
 		} else {
@@ -125,7 +123,7 @@ public class Pager extends HorizontalPanel {
 		isBack = true;
 		endRange = getStartRange();
 		startRange = startRange - range;
-		pagerView.updateListData();
+		updateListData();
 
 	}
 
@@ -160,5 +158,21 @@ public class Pager extends HorizontalPanel {
 	public void setRange(int range) {
 		this.range = range;
 	}
+
+	@Override
+	public boolean hasMoreRecords() {
+		return hasMoreRecords;
+	}
+
+	@Override
+	public void setMoreRecords(boolean b) {
+		this.hasMoreRecords = b;
+	}
+
+	@Override
+	public abstract void updateListData();
+
+	@Override
+	public abstract int getDataSize();
 
 }
