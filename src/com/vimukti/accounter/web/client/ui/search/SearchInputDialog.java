@@ -63,17 +63,18 @@ public class SearchInputDialog extends BaseDialog {
 			// messages.billableExpenseCharge(),
 			messages.cashExpense(),
 			messages.charge(),
-			messages.writeCheck(),
 			// messages.payeeCredit(Global.get().Customer()),
 			messages.creditCardExpense(), messages.creditCardCharge(),
-			messages.CustomerCreditNote(), messages.deposit(),
-			messages.estimate(), messages.journalEntry(), messages.invoice(),
-			messages.paymentFromCustomer(),
+			messages.CustomerCreditNote(),
 			messages.customerRefund(Global.get().Customer()),
-			messages.cashSale(),
+			messages.cashSale(), messages.deposit(), messages.estimate(),
+			messages.invoice(),
+			messages.journalEntry(),
+			messages.paymentFromCustomer(),
 			// messages.statement(),
-			messages.transfer(), messages.payeeCredit(Global.get().Vendor()),
-			messages.vatPayment(), messages.vatAdjustment() };
+			messages.payeeCredit(Global.get().Vendor()), messages.transfer(),
+			messages.vatPayment(), messages.vatAdjustment(),
+			messages.writeCheck() };
 
 	private String[] searchByAll = { messages.amount(), messages.date(),
 			messages.descOrMemo(), messages.payee() };// , messages.refNo() };
@@ -98,6 +99,9 @@ public class SearchInputDialog extends BaseDialog {
 			messages.Account(), messages.amount(), messages.date(),
 			messages.dueDate(), messages.invoiceDate(), messages.descOrMemo(),
 			messages.productOrService() };
+
+	private String[] searchByDepositOptions = { messages.amount(),
+			messages.Account(), messages.date(), messages.descOrMemo() };
 
 	private String[] matchIfoptions = { messages.contains(), messages.exact(),
 			messages.greater(), messages.Less() };
@@ -317,9 +321,12 @@ public class SearchInputDialog extends BaseDialog {
 		input.setSearchbyType(getSearchByType(searchByTypeCombo
 				.getSelectedValue()));
 
-		if (getFindByObjType() instanceof TextItem) {
-			String string = getFindByObjType().getValue().toString();
+		if (getFindByObjType() instanceof AmountField) {
+			String string = "" + ((AmountField) getFindByObjType()).getAmount();
 			input.setFindBy(string.equals("") ? "0.00" : string);
+		} else if (getFindByObjType() instanceof TextItem) {
+			String string = getFindByObjType().getValue().toString();
+			input.setFindBy(string);
 		} else if (getFindByObjType() instanceof CustomerCombo) {
 			input.setFindBy(((CustomerCombo) getFindByObjType())
 					.getSelectedValue().getDisplayName());
@@ -582,7 +589,16 @@ public class SearchInputDialog extends BaseDialog {
 			amountField.getMainWidget().addStyleName("search_textbox");
 			matchIfForm.setFields(matchIfCombo);
 			matchIfCombo.initCombo(getMatchByNumber());
+		} else if (selectItem.equals(messages.journalEntryNo())
+				|| selectItem.equals(messages.refundNo())
+				|| selectItem.equals(messages.saleNo())
+				|| selectItem.equals(messages.estimateNo())) {
+			findbyForm.setFields(findByItem);
+			findByItem.getMainWidget().addStyleName("search_textbox");
+			matchIfForm.setFields(matchIfCombo);
+			matchIfCombo.initCombo(getMatchByNumber());
 		}
+		matchIfCombo.setSelectedItem(0);
 		// matchIfCombo.getMainWidget().addStyleName("search_account_combo");
 
 	}
@@ -709,7 +725,7 @@ public class SearchInputDialog extends BaseDialog {
 		} else if (selectItem.equals(messages.cashSale())) {
 			setOptionsByCustomerTransactions(selectItem);
 		} else if (selectItem.equals(messages.deposit())) {
-			setOptionsForPayeeList(selectItem);
+			setOptionsForDepositList(selectItem);
 		} else if (selectItem.equals(messages.journalEntry())) {
 			setOptionsByJournal();
 			// } else if (selectItem.equals(messages.statement())) {
@@ -724,6 +740,20 @@ public class SearchInputDialog extends BaseDialog {
 				.payeeCredit(Global.get().Vendor()))) {
 			setOptionsForSupplierTransactions(selectItem);
 		}
+	}
+
+	private void setOptionsForDepositList(String selectItem) {
+		searchTypeForm.clear();
+		findbyForm.clear();
+		List<String> list = new ArrayList<String>();
+		for (String string : searchByDepositOptions) {
+			list.add(string);
+		}
+		searchByTypeCombo.initCombo(list);
+		searchByTypeCombo.setComboItem(list.get(0));
+		searchTypeForm.setFields(searchByTypeCombo);
+		findbyForm.setFields(amountField);
+		setFindByComboOptions(list.get(0));
 	}
 
 	private void setOptionsForPayeeList(String selectItem) {
@@ -815,7 +845,6 @@ public class SearchInputDialog extends BaseDialog {
 		if (selectItem.equals(messages.customerCreditNote(Global.get()
 				.Customer()))) {
 			list.add(messages.creditNoteNo());
-			list.add(messages.Account());
 		}
 		if (selectItem.equals(messages.invoice())) {
 			list.add(messages.invoiceNo());
