@@ -52,7 +52,7 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 		}
 		optionsCombo.setSelected(messages.untranslated());
 
-		languageCombo = new LanguageCombo(messages.languages(), this) {
+		languageCombo = new LanguageCombo(messages.languages()) {
 			@Override
 			protected void updateData(ClientLanguage result) {
 				languageSelected(result);
