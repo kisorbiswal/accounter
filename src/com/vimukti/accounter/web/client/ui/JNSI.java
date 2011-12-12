@@ -12,7 +12,7 @@ public class JNSI {
 		}
 	}-*/;
 
-	public static native boolean log(String message)/*-{
+	public static native void log(String message)/*-{
 		if (window.console != undefined) {
 			console.log(message);
 		}
