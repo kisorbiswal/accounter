@@ -216,7 +216,7 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 			data.setToWarehouse(toCombo.getSelectedValue().getID());
 		}
 		data.setMemo(commentArea.getValue());
-		data.setStockTransferItems(table.getAllRows());
+		data.setStockTransferItems(table.getSelectedRecords());
 	}
 
 	@Override
