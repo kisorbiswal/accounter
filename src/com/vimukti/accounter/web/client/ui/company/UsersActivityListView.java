@@ -1,15 +1,10 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import java.util.List;
-
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.Handler;
-import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -18,14 +13,15 @@ import com.google.gwt.view.client.Range;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.translation.AbstractPagerView;
+import com.vimukti.accounter.web.client.ui.translation.Pager;
 
-public class UsersActivityListView extends BaseView {
+public class UsersActivityListView extends AbstractPagerView<ClientActivity> {
 
 	private Label titleItem;
 	private DateField fromdate, toDate;
@@ -35,12 +31,7 @@ public class UsersActivityListView extends BaseView {
 	private Button updateButton;
 
 	@Override
-	public void init() {
-		super.init();
-		createControls();
-	}
-
-	private void createControls() {
+	protected void createControls() {
 		mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
 		titleItem = new Label(Accounter.messages().usersActivityLogTitle());
@@ -56,6 +47,7 @@ public class UsersActivityListView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				refreshPager();
 				refreshActivityList();
 			}
 		});
@@ -67,14 +59,22 @@ public class UsersActivityListView extends BaseView {
 		dateForm.setNumCols(6);
 		dateForm.setFields(fromdate, toDate);
 
+		pager = new Pager(50, this) {
+			@Override
+			protected void initData() {
+				super.initData();
+			}
+		};
+
 		activityList = new UsersActivityList(fromdate.getValue(),
-				toDate.getValue());
-		SimplePager.Resources pagerResources = GWT
-				.create(SimplePager.Resources.class);
-		SimplePager pager = new SimplePager(TextLocation.CENTER,
-				pagerResources, false, 0, true);
-		pager.setDisplay(activityList);
-		pager.setStyleName("pager-alignment");
+				toDate.getValue()) {
+			@Override
+			protected void setPagerData(PaginationList<ClientActivity> result) {
+				super.setPagerData(result);
+				pager.setTotalResultCount(result.getTotalCount());
+				updateData(result);
+			}
+		};
 		activityList.addColumnSortHandler(new Handler() {
 
 			@Override
@@ -117,10 +117,6 @@ public class UsersActivityListView extends BaseView {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
-	}
-
-	@Override
 	public void deleteSuccess(IAccounterCore result) {
 
 	}
@@ -131,23 +127,15 @@ public class UsersActivityListView extends BaseView {
 	}
 
 	@Override
-	public List<DynamicForm> getForms() {
-		return null;
-	}
-
-	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected boolean canVoid() {
-		return false;
+	public void updateListData() {
+		activityList.setVisibleRangeAndClearData(
+				new Range(pager.getStartRange(), pager.getRange()), true);
 	}
 
-	@Override
-	protected boolean canDelete() {
-		return false;
-	}
 }

@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
-import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.LanguageCombo;
@@ -23,15 +22,12 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class TranslationView extends AbstractBaseView<ClientMessage> {
+public class TranslationView extends AbstractPagerView<ClientMessage> {
 	private LanguageCombo languageCombo;
 	private SelectCombo optionsCombo;
 	private List<String> optionsList;
 	private Label selectedLanguageLabel;
 	private VerticalPanel dataPanel, mainPanel;
-	private CustomTranslationPager pager;
-	private boolean haveRecords;
-	public boolean hasMoreRecords;
 	private FlowPanel notePanel;
 	private boolean canApprove;
 	private TextItem searchItem;
@@ -40,10 +36,10 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 
 	public TranslationView() {
 		super();
-		createControls();
 	}
 
-	private void createControls() {
+	@Override
+	protected void createControls() {
 		optionsList = new ArrayList<String>();
 		optionsList.add(messages.untranslated());
 		optionsList.add(messages.all());
@@ -72,7 +68,6 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						haveRecords = false;
 						refreshPager();
 						updateListData();
 					}
@@ -100,7 +95,12 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 		notePanel.addStyleName("translation_note");
 		noteLabel.addStyleName("translation_note_label");
 
-		pager = new CustomTranslationPager(0, 5, this);
+		pager = new Pager(5, this) {
+			@Override
+			protected void initData() {
+				super.initData();
+			}
+		};
 		dataPanel = new VerticalPanel();
 		refreshPager();
 		updateListData();
@@ -128,7 +128,6 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 
 					@Override
 					public void onSuccess(Boolean result) {
-						haveRecords = false;
 						setCanApprove(result);
 						refreshPager();
 						updateListData();
@@ -142,12 +141,7 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 				});
 	}
 
-	protected void refreshPager() {
-		pager.setStart(CustomTranslationPager.DEFAULT_START);
-		pager.setRange(CustomTranslationPager.DEFAULT_RANGE);
-		pager.updateRange();
-	}
-
+	@Override
 	public void updateListData() {
 
 		if ((languageCombo.getSelectedValue() != null)
@@ -164,24 +158,23 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 	private void addMessagesToView() {
 		Accounter.createTranslateService().getMessages(
 				languageCombo.getSelectedValue().getLanguageCode(),
-				getStatus(optionsCombo.getSelectedValue()), pager.getStart(),
-				pager.getRange() + 1, searchItem.getValue(),
+				getStatus(optionsCombo.getSelectedValue()),
+				pager.getStartRange(), pager.getRange(), searchItem.getValue(),
 				new AsyncCallback<PaginationList<ClientMessage>>() {
 
 					@Override
 					public void onSuccess(PaginationList<ClientMessage> result) {
 						if (result.size() != 0) {
-							result = setCorrectResult(result);
 							createNewDataPanel();
-							pager.updateData(result);
+							pager.setTotalResultCount(result.getTotalCount());
+							updateData(result);
+							pager.setVisible(true);
 							for (int i = 0; i < result.size(); i++) {
 								addMessageToMessagePanel(result.get(i),
 										canApprove);
 							}
 						} else {
-							if (!isHaveRecords()) {
-								addEmptyMsg();
-							}
+							addEmptyMsg();
 						}
 					}
 
@@ -191,17 +184,6 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 
 					}
 				});
-	}
-
-	protected PaginationList<ClientMessage> setCorrectResult(
-			PaginationList<ClientMessage> result) {
-		if (result.size() == pager.getRange() + 1) {
-			hasMoreRecords = true;
-			result.remove(pager.getRange());
-		} else {
-			hasMoreRecords = false;
-		}
-		return result;
 	}
 
 	protected void addMessageToMessagePanel(ClientMessage result,
@@ -264,14 +246,6 @@ public class TranslationView extends AbstractBaseView<ClientMessage> {
 	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public void setHaveRecords(boolean haveRecords) {
-		this.haveRecords = haveRecords;
-	}
-
-	public boolean isHaveRecords() {
-		return haveRecords;
 	}
 
 	private void setCanApprove(boolean canApprove) {
