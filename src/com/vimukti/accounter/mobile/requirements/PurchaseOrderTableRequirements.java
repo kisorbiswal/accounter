@@ -76,12 +76,15 @@ public abstract class PurchaseOrderTableRequirements extends
 
 	@Override
 	protected String getAddMoreString() {
-		return "Add More PurchaseOrders";
+		List<PurchaseOrdersList> oldValues = getValue();
+		return oldValues.isEmpty() ? getMessages().add(
+				getMessages().purchaseOrders()) : getMessages().addMore(
+				getMessages().purchaseOrders());
 	}
 
 	@Override
 	protected void addCreateCommands(CommandList commandList) {
-		commandList.add("Create New PurchaseOrder");
+		commandList.add(getMessages().create(getMessages().purchaseOrder()));
 	}
 
 	protected abstract Vendor getVendor();

@@ -45,7 +45,7 @@ public abstract class WareHouseTransferTableRequirement extends
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny("records");
+		return getMessages().noRecordsToShow();
 	}
 
 	@Override

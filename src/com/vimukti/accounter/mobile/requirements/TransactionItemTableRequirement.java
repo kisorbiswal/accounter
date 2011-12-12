@@ -287,8 +287,8 @@ public abstract class TransactionItemTableRequirement extends
 	@Override
 	protected String getAddMoreString() {
 		List<ClientTransactionItem> items = getValue();
-		return items.isEmpty() ? "Add Items" : getMessages().addMore(
-				getMessages().items());
+		return items.isEmpty() ? getMessages().add(getMessages().items())
+				: getMessages().addMore(getMessages().items());
 	}
 
 	@Override

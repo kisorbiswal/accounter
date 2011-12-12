@@ -231,13 +231,13 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 
 		if (records.size() > index) {
 			Record inActiveRec = new Record(ActionNames.NEXT_PAGE);
-			inActiveRec.add("Next Page");
+			inActiveRec.add(getMessages().nextPage());
 			actions.add(inActiveRec);
 		}
 
 		if (index > recordsToShow) {
 			Record inActiveRec = new Record(ActionNames.PREV_PAGE);
-			inActiveRec.add("Prev Page");
+			inActiveRec.add(getMessages().prevPage());
 			actions.add(inActiveRec);
 		}
 		return result;

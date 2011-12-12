@@ -15,7 +15,7 @@ public class EmailRequirement extends SingleRequirement<String> {
 	@Override
 	public void setValue(Object value) {
 		if (!isValidEmailId((String) value)) {
-			setEnterString("Enter a valid email address.");
+			setEnterString(getMessages().invalidEmail());
 			return;
 		}
 		super.setValue(value);

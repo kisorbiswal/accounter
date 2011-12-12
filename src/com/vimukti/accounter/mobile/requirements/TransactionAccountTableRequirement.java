@@ -49,7 +49,7 @@ public abstract class TransactionAccountTableRequirement extends
 
 			@Override
 			protected String getSetMessage() {
-				return "Account has been Selected";
+				return getMessages().hasSelected(getMessages().Account());
 			}
 
 			@Override
@@ -141,7 +141,7 @@ public abstract class TransactionAccountTableRequirement extends
 
 	@Override
 	protected String getEmptyString() {
-		return "There are no transaction account items";
+		return getMessages().thereAreNo(getMessages().accountsSelected());
 	}
 
 	@Override
@@ -265,8 +265,8 @@ public abstract class TransactionAccountTableRequirement extends
 	@Override
 	protected String getAddMoreString() {
 		List<ClientTransactionItem> items = getValue();
-		return items.isEmpty() ? "Add Account Items" : getMessages().addMore(
-				getMessages().Accounts());
+		return items.isEmpty() ? getMessages().add(getMessages().Accounts())
+				: getMessages().addMore(getMessages().Accounts());
 	}
 
 	@Override

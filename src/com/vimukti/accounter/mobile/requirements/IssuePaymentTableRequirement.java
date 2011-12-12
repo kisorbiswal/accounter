@@ -123,7 +123,10 @@ public abstract class IssuePaymentTableRequirement extends
 
 	@Override
 	protected String getAddMoreString() {
-		return "Add More PayMent Issues";
+		List<IssuePaymentTransactionsList> oldValues = getValue();
+		return oldValues.isEmpty() ? getMessages().add(
+				getMessages().issuePayments()) : getMessages().addMore(
+				getMessages().issuePayments());
 	}
 
 	@Override
