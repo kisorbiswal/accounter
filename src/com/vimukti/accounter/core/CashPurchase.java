@@ -8,7 +8,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -359,39 +358,6 @@ public class CashPurchase extends Transaction {
 		return this.getVendor();
 	}
 
-	// @Override
-	public boolean equals(CashPurchase obj) {
-		if (((this.vendor != null && obj.vendor != null) ? (this.vendor.getID() == obj.vendor
-				.getID()) : true)
-				&& ((this.cashExpenseAccount != null && obj.cashExpenseAccount != null) ? (this.cashExpenseAccount
-						.getID() == obj.cashExpenseAccount.getID()) : true)
-				&& ((this.employee != null && obj.employee != null) ? (this.employee
-						.equals(obj.employee)) : true)
-
-				&& ((this.payFrom != null && obj.payFrom != null) ? (this.payFrom
-						.equals(obj.payFrom)) : true)
-				&& ((this.paymentMethod != null && obj.paymentMethod != null) ? (this.paymentMethod
-						.equals(obj.paymentMethod)) : true)
-				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
-						.isEquals(obj.total, 0.0)) ? DecimalUtil.isEquals(
-						this.total, obj.total) : true)
-
-				&& (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE && this.expenseStatus == obj.expenseStatus)
-
-				&& this.transactionItems.size() == obj.transactionItems.size()) {
-
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						obj.transactionItems.get(i))) {
-					return false;
-				}
-			}
-
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public void onEdit(Transaction clonedObject) {
 
@@ -410,7 +376,7 @@ public class CashPurchase extends Transaction {
 
 		if (this.isVoid && !cashPurchase.isVoid) {
 
-		} else if (!this.equals(cashPurchase)) {
+		} else {
 
 			this.cleanTransactionitems(this);
 

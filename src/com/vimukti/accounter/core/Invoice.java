@@ -655,13 +655,17 @@ public class Invoice extends Transaction implements Lifecycle {
 		// invoice.balanceDue = 0.0;
 
 		for (Estimate estimate : invoice.getEstimates()) {
-			estimate.setUsedInvoice(null, session);
-			session.saveOrUpdate(estimate);
+			Estimate est = (Estimate) session.get(Estimate.class,
+					estimate.getID());
+			est.setUsedInvoice(null, session);
+			session.saveOrUpdate(est);
 		}
 
 		for (SalesOrder salesOrder : invoice.getSalesOrders()) {
-			salesOrder.setUsedInvoice(null, session);
-			session.saveOrUpdate(salesOrder);
+			SalesOrder so = (SalesOrder) session.get(SalesOrder.class,
+					salesOrder.getID());
+			so.setUsedInvoice(null, session);
+			session.saveOrUpdate(so);
 		}
 
 	}
@@ -902,7 +906,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 		if (isBecameVoid()) {
 			doVoidEffect(session, this);
-		} else if (!invoice.equals(this)) {
+		} else {
 			if (this.total < 0) {
 				if (this.creditsAndPayments != null) {
 					session.delete(creditsAndPayments);
@@ -918,7 +922,7 @@ public class Invoice extends Transaction implements Lifecycle {
 				session.delete(invoice.creditsAndPayments);
 			}
 			this.cleanTransactionitems(this);
-			if (!this.customer.equals(invoice.customer)) {
+			if (this.customer.getID() != invoice.getCustomer().getID()) {
 				doVoidEffect(session, invoice);
 
 				Customer customer = (Customer) session.get(Customer.class,

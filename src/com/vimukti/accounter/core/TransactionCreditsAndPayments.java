@@ -273,23 +273,6 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 		return this.id;
 	}
 
-	public boolean equals(TransactionCreditsAndPayments obj) {
-		if ((this.transactionReceivePayment != null && obj.transactionReceivePayment != null) ? (this.transactionReceivePayment
-				.equals(obj.transactionReceivePayment))
-				: true && (this.transactionPayBill != null && obj.transactionPayBill != null) ? (this.transactionPayBill
-						.equals(obj.transactionPayBill))
-						: true && (this.creditsAndPayments != null && obj.creditsAndPayments != null) ? (this.creditsAndPayments
-								.equals(obj.creditsAndPayments))
-								: true && (!DecimalUtil.isEquals(
-										this.amountToUse, 0) && !DecimalUtil
-										.isEquals(obj.amountToUse, 0)) ? DecimalUtil
-										.isEquals(this.amountToUse,
-												obj.amountToUse) : true) {
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {

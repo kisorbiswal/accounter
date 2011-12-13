@@ -8,7 +8,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -236,28 +235,6 @@ public class CreditCardCharge extends Transaction {
 		return this.vendor;
 	}
 
-	public boolean equals(CreditCardCharge obj) {
-		if (((this.vendor != null && obj.vendor != null) ? (this.vendor.getID() == obj.vendor
-				.getID()) : true)
-				&& ((this.payFrom != null && obj.payFrom != null) ? (this.payFrom
-						.equals(obj.payFrom)) : true)
-				&& ((this.paymentMethod != null && obj.paymentMethod != null) ? (this.paymentMethod
-						.equals(obj.paymentMethod)) : true)
-				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
-						.isEquals(obj.total, 0.0)) ? (DecimalUtil.isEquals(
-						this.total, obj.total)) : true)
-				&& this.transactionItems.size() == obj.transactionItems.size()) {
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						obj.transactionItems.get(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public void onEdit(Transaction clonedObject) {
 
@@ -270,7 +247,7 @@ public class CreditCardCharge extends Transaction {
 			// if (this.status != Transaction.STATUS_DELETED)
 			// this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 
-		} else if (!this.equals(creditCardCharge)) {
+		} else {
 
 			this.cleanTransactionitems(this);
 
@@ -282,7 +259,7 @@ public class CreditCardCharge extends Transaction {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 
-			if (!this.payFrom.equals(creditCardCharge.payFrom)) {
+			if (this.payFrom.getID() != creditCardCharge.getPayFrom().getID()) {
 				Account prePayFrom = (Account) session.get(Account.class,
 						creditCardCharge.payFrom.getID());
 				prePayFrom.updateCurrentBalance(this, -creditCardCharge.total,
@@ -292,7 +269,8 @@ public class CreditCardCharge extends Transaction {
 						this.currencyFactor);
 				payFrom.onUpdate(session);
 
-			} else if (this.payFrom.equals(creditCardCharge.payFrom)) {
+			} else if (this.payFrom.getID() != creditCardCharge.getPayFrom()
+					.getID()) {
 				this.payFrom.updateCurrentBalance(this, this.total
 						- creditCardCharge.total,
 						creditCardCharge.currencyFactor);

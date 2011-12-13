@@ -403,21 +403,6 @@ public class PurchaseOrder extends Transaction {
 		return this.vendor;
 	}
 
-	public boolean equals(PurchaseOrder purchaseOrder) {
-		if (vendor.getID() == purchaseOrder.vendor.getID()
-				&& this.transactionItems.size() == purchaseOrder.transactionItems
-						.size()) {
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						purchaseOrder.transactionItems.get(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public void onEdit(Transaction clonedObject) {
 		// Session session = HibernateUtil.getCurrentSession();

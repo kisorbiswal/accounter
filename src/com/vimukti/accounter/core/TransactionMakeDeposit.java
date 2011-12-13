@@ -510,51 +510,6 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 		return this.id;
 	}
 
-	public boolean equals(TransactionMakeDeposit obj) {
-		if ((this.account != null & obj.account != null) ? (this.account
-				.equals(obj.account))
-				: true && (this.vendor.getID() != 0 && obj.vendor.getID() != 0) ? (this.vendor
-						.getID() == obj.vendor.getID())
-						: true && (this.customer.getID() != 0 && obj.customer
-								.getID() != 0) ? (this.customer.getID() == obj.customer
-								.getID())
-								: true && (this.cashAccount != null && obj.cashAccount != null) ? (this.cashAccount
-										.equals(obj.cashAccount))
-										: true && (this.makeDeposit != null && obj.makeDeposit != null) ? (this.makeDeposit
-												.equals(obj.makeDeposit))
-												: true && (this.accountsPayable != null && obj.accountsPayable != null) ? (this.accountsPayable
-														.equals(obj.accountsPayable))
-														: true && (this.accountsReceivable != null && obj.accountsReceivable != null) ? (this.accountsReceivable
-																.equals(obj.accountsReceivable))
-																: true && (this.creditsAndPayments != null && obj.creditsAndPayments != null) ? (this.creditsAndPayments
-																		.equals(obj.creditsAndPayments))
-																		: true && (this.depositedTransaction != null && obj.depositedTransaction != null) ? (this.depositedTransaction
-																				.equals(obj.depositedTransaction))
-																				: true
-																						&& DecimalUtil
-																								.isEquals(
-																										this.balanceDue,
-																										obj.balanceDue)
-																						&& DecimalUtil
-																								.isEquals(
-																										this.payments,
-																										obj.payments)
-																						&& (!DecimalUtil
-																								.isEquals(
-																										this.amount,
-																										0) && !DecimalUtil
-																								.isEquals(
-																										obj.amount,
-																										0)) ? DecimalUtil
-																						.isEquals(
-																								this.amount,
-																								obj.amount)
-																						: true) {
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {

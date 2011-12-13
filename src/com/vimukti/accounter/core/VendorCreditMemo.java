@@ -216,23 +216,6 @@ public class VendorCreditMemo extends Transaction {
 		return this.vendor;
 	}
 
-	public boolean equals(VendorCreditMemo obj) {
-		if (this.vendor.getID() == obj.vendor.getID()
-				&& (!DecimalUtil.isEquals(this.total, 0.0)
-						&& !DecimalUtil.isEquals(obj.total, 0.0) ? DecimalUtil
-						.isEquals(this.total, obj.total) : true)
-				&& this.transactionItems.size() == obj.transactionItems.size()) {
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						obj.transactionItems.get(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public void onEdit(Transaction clonedObject) {
 
@@ -279,7 +262,7 @@ public class VendorCreditMemo extends Transaction {
 				session.save(creditsAndPayments);
 
 			}
-			if ((this.vendor.equals(vendorCreditMemo.vendor))
+			if (this.vendor.getID() == vendorCreditMemo.vendor.getID()
 					&& (!DecimalUtil.isEquals(this.total,
 							vendorCreditMemo.total))) {
 

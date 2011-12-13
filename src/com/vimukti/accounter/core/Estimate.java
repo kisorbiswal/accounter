@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class Estimate extends Transaction {
 
@@ -308,24 +307,6 @@ public class Estimate extends Transaction {
 	public Payee getInvolvedPayee() {
 
 		return this.customer;
-	}
-
-	public boolean equals(Estimate est) {
-		if (DecimalUtil.isEquals(this.getTotal(), est.getTotal())
-				&& this.getID() == est.getID()
-				&& this.transactionItems.size() == est.transactionItems.size()
-				&& ((this.transactionDate != null && est.transactionDate != null) ? (this.transactionDate
-						.equals(est.transactionDate)) : true)
-				&& ((this.customer != null && est.customer != null) ? (this.customer
-						.equals(est.customer)) : true)) {
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						est.transactionItems.get(i)))
-					return false;
-			}
-			return true;
-		}
-		return false;
 	}
 
 	@Override

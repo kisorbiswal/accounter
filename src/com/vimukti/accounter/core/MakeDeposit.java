@@ -231,31 +231,6 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		this.depositFrom = depositFrom;
 	}
 
-	public boolean equals(MakeDeposit obj) {
-		if (((this.depositIn != null && obj.depositIn != null) ? (this.depositIn
-				.equals(obj.depositIn)) : true)
-				&& ((this.cashBackAccount != null && obj.cashBackAccount != null) ? (this.cashBackAccount
-						.equals(obj.cashBackAccount)) : true)
-				&& ((!DecimalUtil.isEquals(this.total, 0) && !DecimalUtil
-						.isEquals(obj.total, 0)) ? DecimalUtil.isEquals(
-						this.total, obj.total) : true)
-				&& ((!DecimalUtil.isEquals(this.cashBackAmount, 0) && !DecimalUtil
-						.isEquals(obj.cashBackAmount, 0)) ? DecimalUtil
-						.isEquals(this.cashBackAmount, obj.cashBackAmount)
-						: true)
-				&& (this.transactionMakeDeposit.size() == obj.transactionMakeDeposit
-						.size())) {
-			for (int i = 0; i < this.transactionMakeDeposit.size(); i++) {
-				if (!this.transactionMakeDeposit.get(i).equals(
-						obj.transactionMakeDeposit.get(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public void onEdit(Transaction clonedObject) {
 
@@ -266,7 +241,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 			this.doVoidEffect(session);
 
 		} else {
-			if (!this.depositIn.equals(makeDeposit.depositIn)
+			if (this.depositIn.getID() != makeDeposit.depositIn.getID()
 					|| !DecimalUtil.isEquals(this.total, makeDeposit.total)) {
 				Account depositInAccount = (Account) session.get(Account.class,
 						makeDeposit.depositIn.getID());
@@ -280,7 +255,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 				this.depositIn.onUpdate(session);
 				session.saveOrUpdate(this.depositIn);
 			}
-			if (!this.depositFrom.equals(makeDeposit.depositFrom)
+			if (this.depositFrom.getID() != makeDeposit.depositFrom.getID()
 					|| !DecimalUtil.isEquals(this.total, makeDeposit.total)) {
 				Account depositFromAccount = (Account) session.get(
 						Account.class, makeDeposit.depositFrom.getID());

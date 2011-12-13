@@ -184,22 +184,6 @@ public class TransferFund extends Transaction {
 		return this.getPayee();
 	}
 
-	public boolean equals(TransferFund obj) {
-		if ((this.transferFrom != null && obj.transferFrom != null) ? (this.transferFrom
-				.equals(obj.transferFrom))
-				: true && (this.transferTo != null && obj.transferTo != null) ? (this.transferTo
-						.equals(obj.transferTo))
-						: true && (this.journalEntry != null && obj.journalEntry != null) ? (this.journalEntry
-								.equals(obj.journalEntry))
-								: true && (!DecimalUtil.isEquals(this.total, 0) && !DecimalUtil
-										.isEquals(obj.total, 0)) ? DecimalUtil
-										.isEquals(this.total, obj.total) : true) {
-
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public void onEdit(Transaction clonedObject) {
 

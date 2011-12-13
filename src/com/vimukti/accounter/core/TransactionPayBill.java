@@ -496,41 +496,6 @@ public class TransactionPayBill extends CreatableObject implements
 		this.dueDate = dueDate;
 	}
 
-	public boolean equals(TransactionPayBill obj) {
-		if (this.vendor.getID() == obj.vendor.getID()
-				&& (this.enterBill != null && obj.enterBill != null) ? (this.enterBill
-				.equals(obj.enterBill))
-				: true && (this.payBill != null && obj.payBill != null) ? (this.payBill
-						.equals(obj.payBill))
-						: true
-								&& DecimalUtil.isEquals(this.originalAmount,
-										obj.originalAmount)
-								&& DecimalUtil.isEquals(this.cashDiscount,
-										obj.cashDiscount)
-								&& (this.discountAccount != null && obj.discountAccount != null) ? (this.discountAccount
-								.equals(obj.discountAccount))
-								: true
-										&& DecimalUtil.isEquals(
-												this.appliedCredits,
-												obj.appliedCredits)
-										&& DecimalUtil.isEquals(this.payment,
-												obj.payment)
-										&& (this.journalEntry != null && obj.journalEntry != null) ? (this.journalEntry
-										.equals(obj.journalEntry))
-										: true && this.transactionCreditsAndPayments
-												.size() == obj.transactionCreditsAndPayments
-												.size()) {
-			for (int i = 0; i < this.transactionCreditsAndPayments.size(); i++) {
-				if (!this.transactionCreditsAndPayments.get(i).equals(
-						obj.transactionCreditsAndPayments.get(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
 	public double updatePayments(Double amtdue) {
 		double previousUnusedAmount = 0.0;
 

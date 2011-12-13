@@ -534,29 +534,6 @@ public class PayBill extends Transaction {
 		return this.vendor;
 	}
 
-	public boolean equals(PayBill obj) {
-		if (this.vendor.getID() == obj.vendor.getID()
-
-				&& ((this.payFrom != null && obj.payFrom != null) ? (this.payFrom
-						.equals(obj.payFrom)) : true)
-				&& ((this.paymentMethod != null && obj.paymentMethod != null) ? (this.paymentMethod
-						.equals(obj.paymentMethod)) : true)
-				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
-						.isEquals(obj.total, 0.0)) ? DecimalUtil.isEquals(
-						this.total, obj.total) : true)
-				&& this.transactionItems.size() == obj.transactionItems.size()) {
-
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						obj.transactionItems.get(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public void onLoad(Session session, Serializable arg1) {
 		// NOTHING TO DO.
@@ -596,7 +573,7 @@ public class PayBill extends Transaction {
 
 				double effectToAccount = payBill.total - payBill.tdsTotal;
 				double preEffectedToAccount = this.total - this.tdsTotal;
-				if (!this.payFrom.equals(payBill.payFrom)) {
+				if (this.payFrom.getID() != payBill.payFrom.getID()) {
 					Account payFromAccount = (Account) session.get(
 							Account.class, payBill.payFrom.getID());
 					payFromAccount.updateCurrentBalance(this, effectToAccount,
@@ -615,7 +592,7 @@ public class PayBill extends Transaction {
 
 				doEffectTDS(session, payBill);
 
-				if ((this.vendor.equals(payBill.vendor))
+				if (this.vendor.getID() == payBill.vendor.getID()
 						&& !(DecimalUtil.isEquals(this.total, payBill.total))) {
 					this.vendor.updateBalance(session, this, payBill.total
 							- this.total);

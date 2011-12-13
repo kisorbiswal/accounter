@@ -10,7 +10,6 @@ import org.json.JSONException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -402,37 +401,6 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 		return this.id;
 	}
 
-	public boolean equals(TransactionIssuePayment obj) {
-		if ((this.transaction != null && obj.transaction != null) ? (this.transaction
-				.equals(obj.transaction))
-				: true && (this.writeCheck != null && obj.writeCheck != null) ? (this.writeCheck
-						.equals(obj.writeCheck))
-						: true && (this.customerRefund != null && obj.customerRefund != null) ? (this.customerRefund
-								.equals(obj.customerRefund))
-								: true && (this.payBill != null && obj.payBill != null) ? (this.payBill
-										.equals(obj.payBill))
-										: true && (this.creditCardCharge != null && obj.creditCardCharge != null) ? (this.creditCardCharge
-												.equals(obj.creditCardCharge))
-												: true && (this.cashPurchase != null && obj.cashPurchase != null) ? (this.cashPurchase
-														.equals(obj.cashPurchase))
-														: true && (this.paySalesTax != null && obj.paySalesTax != null) ? (this.paySalesTax
-																.equals(obj.paySalesTax))
-																: true && (!DecimalUtil
-																		.isEquals(
-																				this.amount,
-																				0) && !DecimalUtil
-																		.isEquals(
-																				obj.amount,
-																				0)) ? DecimalUtil
-																		.isEquals(
-																				this.amount,
-																				obj.amount)
-																		: true) {
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
@@ -462,36 +430,37 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 
 		w.put(messages.amount(), this.amount);
 
-		if(transaction!=null)
-		w.put(messages.transaction(), this.transaction.getNumber());
+		if (transaction != null)
+			w.put(messages.transaction(), this.transaction.getNumber());
 
-		if(writeCheck!=null)
-		w.put(messages.writeCheck(), this.writeCheck.getNumber());
+		if (writeCheck != null)
+			w.put(messages.writeCheck(), this.writeCheck.getNumber());
 
-		if(customerRefund!=null)
-		w.put(messages.customerRefund(), this.customerRefund.getNumber());
+		if (customerRefund != null)
+			w.put(messages.customerRefund(), this.customerRefund.getNumber());
 
-		if(payBill!=null)
-		w.put(messages.payBill(), this.payBill.getNumber());
+		if (payBill != null)
+			w.put(messages.payBill(), this.payBill.getNumber());
 
-		if(creditCardCharge!=null)
-		w.put(messages.creditCardCharge(), this.creditCardCharge.getNumber());
+		if (creditCardCharge != null)
+			w.put(messages.creditCardCharge(),
+					this.creditCardCharge.getNumber());
 
-		if(cashPurchase!=null)
-		w.put(messages.cashPurchase(), this.cashPurchase.getNumber());
+		if (cashPurchase != null)
+			w.put(messages.cashPurchase(), this.cashPurchase.getNumber());
 
-		if(receiveVAT!=null)
-		w.put(messages.receiveVAT(), this.receiveVAT.getNumber());
+		if (receiveVAT != null)
+			w.put(messages.receiveVAT(), this.receiveVAT.getNumber());
 
-		if(paySalesTax!=null)
-		w.put(messages.salesTax(), this.paySalesTax.getNumber());
+		if (paySalesTax != null)
+			w.put(messages.salesTax(), this.paySalesTax.getNumber());
 
-		if(payVAT!=null)
-		w.put(messages.payVAT(), this.payVAT.getNumber());
+		if (payVAT != null)
+			w.put(messages.payVAT(), this.payVAT.getNumber());
 
-		if(customerPrepayment!=null)
-		w.put(messages.customerprePayment(),
-				this.customerPrepayment.getNumber());
+		if (customerPrepayment != null)
+			w.put(messages.customerprePayment(),
+					this.customerPrepayment.getNumber());
 
 	}
 

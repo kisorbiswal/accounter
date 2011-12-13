@@ -210,21 +210,6 @@ public class CustomerPrePayment extends Transaction {
 		return this.customer;
 	}
 
-	public boolean equals(CustomerPrePayment obj) {
-		if (((this.depositIn != null && obj.depositIn != null) ? (this.depositIn
-				.getID() == obj.depositIn.getID()) : true)
-				&& ((this.customer != null && obj.customer != null) ? (this.customer
-						.equals(obj.customer)) : true)
-				&& ((this.paymentMethod != null && obj.paymentMethod != null) ? (this.paymentMethod
-						.equals(obj.paymentMethod)) : true)
-				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
-						.isEquals(obj.total, 0.0)) ? DecimalUtil.isEquals(
-						this.total, obj.total) : true)) {
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public void onLoad(Session session, Serializable arg1) {
 		super.onLoad(session, arg1);
@@ -237,7 +222,7 @@ public class CustomerPrePayment extends Transaction {
 		CustomerPrePayment customerPrePayment = (CustomerPrePayment) clonedObject;
 		if (this.isVoid && !clonedObject.isVoid) {
 
-		} else if (!this.equals(customerPrePayment)) {
+		} else {
 
 			/**
 			 * Checking that whether two customers are same are not. If they are
@@ -267,7 +252,7 @@ public class CustomerPrePayment extends Transaction {
 				this.creditsAndPayments.updateCreditPayments(this.total);
 
 			}
-			if (!this.depositIn.equals(customerPrePayment.depositIn)
+			if (this.depositIn.getID() != customerPrePayment.depositIn.getID()
 					|| !DecimalUtil.isEquals(this.total,
 							customerPrePayment.total)) {
 

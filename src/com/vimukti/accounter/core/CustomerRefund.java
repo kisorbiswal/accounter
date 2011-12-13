@@ -332,7 +332,7 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		 */
 		if (this.isVoid && !customerRefund.isVoid) {
 			doVoidEffect(session);
-		} else if (!this.equals(customerRefund)) {
+		} else {
 
 			// if (!this.payTo.equals(customerRefund.payTo)) {
 			// Customer preCustomer = (Customer) session.get(Customer.class,

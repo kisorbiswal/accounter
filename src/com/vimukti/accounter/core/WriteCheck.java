@@ -279,29 +279,6 @@ public class WriteCheck extends Transaction {
 
 	}
 
-	public boolean equals(WriteCheck obj) {
-		if ((this.bankAccount != null && obj.bankAccount != null) ? (this.bankAccount
-				.equals(obj.bankAccount))
-				: true && (!DecimalUtil.isEquals(this.payToType, 0) && !DecimalUtil
-						.isEquals(obj.payToType, 0)) ? DecimalUtil.isEquals(
-						this.payToType, obj.payToType)
-						: true && (!DecimalUtil.isEquals(this.amount, 0.0) && !DecimalUtil
-								.isEquals(obj.amount, 0.0)) ? DecimalUtil
-								.isEquals(this.amount, obj.amount)
-								: true && this.transactionItems.size() == obj.transactionItems
-										.size()) {
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						obj.transactionItems.get(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-
-	}
-
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)

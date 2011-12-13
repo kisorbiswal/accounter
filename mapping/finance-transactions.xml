@@ -46,7 +46,7 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-				<set name="attachments" table="ATTACHMENT" lazy="false"
+				<set name="attachments" table="ATTACHMENT"
 			cascade="save-update,delete-orphan">
 			<key column="TRANSACTION_ID" not-null="true" />
 			<composite-element class="Attachment">
@@ -55,7 +55,7 @@
 				<property name="name" column="NAME" not-null="true"></property>
 				<property name="size" column="SIZE" not-null="true"></property>
 				<many-to-one name="company" column="COMPANY_ID" class="Company"
-					lazy="false">
+					>
 				</many-to-one>
 				<property name="version" column="VERSION"></property>
 				<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -83,7 +83,7 @@
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<many-to-one name="accounterClass" class="AccounterClass"
-			column="TRANSACTION_ACCOUNTER_CLASS" lazy='false'>
+			column="TRANSACTION_ACCOUNTER_CLASS">
 		</many-to-one>
 		<many-to-one name="transactionMakeDepositEntries" class="TransactionMakeDepositEntries"
 			cascade="save-update" column="TRANSACTION_MAKE_DEPOSIT_ENTRY_ID">
@@ -1023,7 +1023,7 @@
 			column="REFERRING_TRANSACTION_ITEM_ID">
 		</many-to-one>
 		<many-to-one name="accounterClass" class="AccounterClass"
-			column="TRANS_ITEM_ACCOUNTER_CLASS" lazy='false'>
+			column="TRANS_ITEM_ACCOUNTER_CLASS">
 		</many-to-one>
 	</class>
 	<class name="CreditsAndPayments" table="CREDITS_AND_PAYMENTS">

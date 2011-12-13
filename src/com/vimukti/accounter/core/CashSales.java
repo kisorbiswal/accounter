@@ -8,7 +8,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -522,28 +521,6 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		return this.customer;
 	}
 
-	// @Override
-	public boolean equals(CashSales cs) {
-		if (this.transactionItems.size() == cs.transactionItems.size()
-				&& this.getID() == cs.getID()
-				&& DecimalUtil.isEquals(this.getTotal(), cs.getTotal())
-				// && (this.customer != null && cs.customer != null) ?
-				// (this.customer.equals(cs.customer)): true
-				&& ((this.getDepositIn() != null && cs.getDepositIn() != null) ? (this
-						.getDepositIn().equals(cs.getDepositIn())) : true)
-				&& ((this.paymentMethod != null && cs.paymentMethod != null) ? (this.paymentMethod
-						.equals(cs.paymentMethod)) : true)) {
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						cs.transactionItems.get(i)))
-					return false;
-			}
-			return true;
-		}
-		return false;
-
-	}
-
 	/**
 	 * This method is called when we save in the edit mode
 	 */
@@ -559,7 +536,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		 */
 		if (this.isVoid && !cashSales.isVoid) {
 
-		} else if (!cashSales.equals(this)) {
+		} else {
 
 			this.cleanTransactionitems(this);
 

@@ -8,37 +8,62 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hibernate.proxy.HibernateProxy;
+import org.hibernate.proxy.LazyInitializer;
+
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+
 /**
  * 
  * @author vimukti3
  * 
- * @param <BT>
+ * @param <IAccounterServerCore>
  *            base type : IAccounterServerCore or IAccounterCore
  */
-public class CloneUtil<BT> extends ObjectConvertUtil {
+public class CloneUtil2 extends ObjectConvertUtil {
 
 	private Class<?> clazz;
 
-	public CloneUtil(Class<?> clazz) {
+	public CloneUtil2(Class<?> clazz) {
 		super();
 		this.clazz = clazz;
 	}
 
-	private <D extends BT, S extends BT> Object toCloneList(List<?> set,
-			boolean ignoreReferredObject) {
+	@SuppressWarnings("unchecked")
+	private <D extends IAccounterServerCore, S extends IAccounterServerCore> Object toCloneList(
+			List<?> set, boolean ignoreReferredObject) {
 		if (set == null)
 			return null;
 		ArrayList result = new ArrayList();
 		if (set.size() == 0)
 			return result;
 		for (Object src : set) {
-			result.add(cloneObject(null, (S) src, ignoreReferredObject));
+
+			Class<? extends IAccounterCore> clientType = getClientClass(src);
+			if (clientType != null) {
+				result.add(cloneObject(null, (S) src, clientType,
+						ignoreReferredObject));
+			} else {
+				result.add(src);
+			}
+
 		}
 		return result;
 	}
 
-	private <D extends BT, S extends BT> Object toCloneSet(Set<?> set,
-			boolean ignoreReferredObject) {
+	@SuppressWarnings("unchecked")
+	private Class<? extends IAccounterCore> getClientClass(Object src) {
+		Class<?> srcClass = src.getClass();
+		if (src instanceof HibernateProxy) {
+			LazyInitializer lazyInitializer = ((HibernateProxy) src)
+					.getHibernateLazyInitializer();
+			srcClass = lazyInitializer.getPersistentClass();
+		}
+		return (Class<? extends IAccounterCore>) getClientEqualentClass(srcClass);
+	}
+
+	private <D extends IAccounterServerCore, S extends IAccounterServerCore> Object toCloneSet(
+			Set<?> set, boolean ignoreReferredObject) {
 		if (set == null)
 			return null;
 		HashSet result = new HashSet();
@@ -47,15 +72,22 @@ public class CloneUtil<BT> extends ObjectConvertUtil {
 		Object next = set.iterator().next();
 		if (next != null) {
 			for (Object src : set) {
-				result.add(cloneObject(null, (S) src, ignoreReferredObject));
+				Class<? extends IAccounterCore> clientType = getClientClass(src);
+				if (clientType != null) {
+					result.add(cloneObject(null, (S) src, clientType,
+							ignoreReferredObject));
+				} else {
+					result.add(src);
+				}
 			}
 		}
 		return result;
 	}
 
 	@SuppressWarnings({ "unchecked", "null" })
-	private <D extends BT, S extends BT> void cloneList(Field desField,
-			Field srcField, Object dst, Object src, boolean ignoreReferredObject) {
+	private <D extends IAccounterServerCore, S extends IAccounterServerCore> void cloneList(
+			Field desField, Field srcField, Object dst, Object src,
+			boolean ignoreReferredObject) {
 
 		try {
 			List<S> list = null;
@@ -68,8 +100,9 @@ public class CloneUtil<BT> extends ObjectConvertUtil {
 		}
 	}
 
-	private <D extends BT, S extends BT> void cloneSet(Field desField,
-			Field srcField, Object dst, Object src, boolean ignoreReferredObject) {
+	private <D extends IAccounterServerCore, S extends IAccounterServerCore> void cloneSet(
+			Field desField, Field srcField, Object dst, Object src,
+			boolean ignoreReferredObject) {
 		try {
 
 			Set<S> set = new HashSet<S>();
@@ -83,19 +116,22 @@ public class CloneUtil<BT> extends ObjectConvertUtil {
 
 	}
 
-	public <D extends BT, S extends BT> D clone(D dst, S src) {
-		return clone(dst, src, false);
+	public <D extends IAccounterServerCore, S extends IAccounterServerCore> D clone(
+			D dst, S src, Class<? extends IAccounterCore> clientType) {
+		return clone(dst, src, clientType, false);
 	}
 
-	public <D extends BT, S extends BT> D clone(D dst, S src,
+	public <D extends IAccounterServerCore, S extends IAccounterServerCore> D clone(
+			D dst, S src, Class<? extends IAccounterCore> clientType,
 			boolean ignoreReferredObject) {
 		cache.set(null);
-		D ret = cloneObject(dst, src, ignoreReferredObject);
+		D ret = cloneObject(dst, src, clientType, ignoreReferredObject);
 		cache.set(null);
 		return ret;
 	}
 
-	private <D extends BT, S extends BT> D cloneObject(D dst, S src,
+	private <D extends IAccounterServerCore, S extends IAccounterServerCore, C extends IAccounterCore> D cloneObject(
+			D dst, S src, Class<? extends IAccounterCore> clientType,
 			boolean ignoreReferredObject) {
 
 		try {
@@ -115,11 +151,15 @@ public class CloneUtil<BT> extends ObjectConvertUtil {
 
 			Map<String, Field> dstMap = getAllFields(dstType);
 
+			Map<String, Field> clientMap = getAllFields(clientType);
+
 			for (String srcFieldName : srcMap.keySet()) {
 
 				Field dstField = dstMap.get(srcFieldName);
 
 				Field srcField = srcMap.get(srcFieldName);
+
+				Field clientField = clientMap.get(srcFieldName);
 
 				if (srcField == null)
 					continue;
@@ -136,6 +176,16 @@ public class CloneUtil<BT> extends ObjectConvertUtil {
 				// For Collection Objects
 				if (srcField.get(src) == null)
 					continue;
+
+				Class<C> clientFieldType = null;
+				if (clientField != null) {
+					clientFieldType = (Class<C>) clientField.getType();
+				} else {
+					dstField.set(dst, srcField.get(src));
+					continue;
+				}
+
+				clientField.setAccessible(true);
 
 				if (!ignoreReferredObject && isRefferedObject(srcField)) {
 					dstField.set(dst, srcField.get(src));
@@ -165,10 +215,16 @@ public class CloneUtil<BT> extends ObjectConvertUtil {
 				} else if (isString(dstField.getType())) {
 					dstField.set(dst, srcField.get(src));
 				} else if (clazz.isInstance(srcField.get(src))) {
-					dstField.set(
-							dst,
-							getAfterCheckingInCache((D) dstField.get(dst),
-									(S) srcField.get(src), ignoreReferredObject));
+					// Check if we have this object in client side
+					if (clientFieldType.isPrimitive()) {
+						dstField.set(dst, srcField.get(src));
+					} else {
+						dstField.set(
+								dst,
+								getAfterCheckingInCache((D) dstField.get(dst),
+										(S) srcField.get(src), clientFieldType,
+										ignoreReferredObject));
+					}
 				}
 
 			}
@@ -188,8 +244,9 @@ public class CloneUtil<BT> extends ObjectConvertUtil {
 		return false;
 	}
 
-	private <D extends BT, S extends BT> D getAfterCheckingInCache(D dst,
-			S src, boolean ignoreReferredObject) {
+	private <D extends IAccounterServerCore, S extends IAccounterServerCore> D getAfterCheckingInCache(
+			D dst, S src, Class<? extends IAccounterCore> clientType,
+			boolean ignoreReferredObject) {
 		Map<Object, Object> localCache = getCache();
 
 		if (src == null) {
@@ -197,7 +254,7 @@ public class CloneUtil<BT> extends ObjectConvertUtil {
 		}
 		D ret = (D) localCache.get(src);
 		if (ret == null) {
-			ret = cloneObject(dst, src, ignoreReferredObject);
+			ret = cloneObject(dst, src, clientType, ignoreReferredObject);
 			localCache.put(src, ret);
 		}
 		return ret;

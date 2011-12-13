@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class IssuePayment extends Transaction {
 
@@ -110,28 +109,6 @@ public class IssuePayment extends Transaction {
 	public Payee getInvolvedPayee() {
 
 		return null;
-	}
-
-	public boolean equals(IssuePayment obj) {
-
-		if ((this.paymentMethod != null && obj.paymentMethod != null) ? (this.paymentMethod == obj.paymentMethod)
-				: true && (this.account != null && obj.account != null) ? (this.account
-						.equals(obj.account))
-						: true && (!DecimalUtil.isEquals(this.total, 0) && !DecimalUtil
-								.isEquals(obj.total, 0)) ? DecimalUtil
-								.isEquals(this.total, obj.total)
-								: true && (this.checkNumber != null && obj.checkNumber != null) ? (this.checkNumber == obj.checkNumber)
-										: true && this.transactionItems.size() == obj.transactionItems
-												.size()) {
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						obj.transactionItems.get(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
 	}
 
 	@Override

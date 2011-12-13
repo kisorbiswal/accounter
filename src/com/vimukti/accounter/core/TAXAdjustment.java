@@ -227,7 +227,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 		if (this.isVoid && !taxAdjustment.isVoid) {
 			this.balanceDue = 0;
 			doVoidEffect(session, this);
-		} else if (!taxAdjustment.equals(this)) {
+		} else {
 			doVoidEffect(session, taxAdjustment);
 			this.balanceDue = this.total;
 			doCreateEffect(session, this);

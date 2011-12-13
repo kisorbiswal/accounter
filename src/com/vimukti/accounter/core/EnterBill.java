@@ -561,31 +561,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		return this.vendor;
 	}
 
-	public boolean equals(EnterBill obj) {
-
-		if (this.vendor.getID() == obj.vendor.getID()
-
-				&& ((this.purchaseOrder != null && obj.purchaseOrder != null) ? (this.purchaseOrder
-						.equals(obj.purchaseOrder)) : true)
-				&& ((this.itemReceipt != null && obj.itemReceipt != null) ? (this.itemReceipt
-						.equals(obj.itemReceipt)) : true)
-				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
-						.isEquals(obj.total, 0.0)) ? DecimalUtil.isEquals(
-						this.total, obj.total) : true)
-				&& this.transactionItems.size() == obj.transactionItems.size()) {
-
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						obj.transactionItems.get(i))) {
-					return false;
-
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public void onEdit(Transaction clonedObject) {
 		EnterBill enterBill = (EnterBill) clonedObject;

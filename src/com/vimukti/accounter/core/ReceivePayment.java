@@ -463,58 +463,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		return this.customer;
 	}
 
-	/**
-	 * Returns a boolean value by checking all the values and references in it.
-	 * 
-	 * @param rp
-	 * @return
-	 */
-	// @Override
-	public boolean equals(ReceivePayment rp) {
-
-		if (DecimalUtil.isEquals(this.getTotal(), rp.getTotal())
-				&& DecimalUtil.isEquals(this.getAmount(), rp.getAmount())
-				&& DecimalUtil.isEquals(this.getDiscountTotalSum(),
-						rp.getDiscountTotalSum())
-				&& DecimalUtil.isEquals(this.getTotal(), rp.getTotal())
-				&& DecimalUtil.isEquals(this.getTotalAppliedCredits(),
-						rp.getTotalAppliedCredits())
-				&& DecimalUtil.isEquals(this.getTotalCashDiscount(),
-						rp.getTotalCashDiscount())
-				&& DecimalUtil.isEquals(this.getLineTotalSum(),
-						rp.getLineTotalSum())
-				&& this.getTransactionItems().size() == rp
-						.getTransactionItems().size()
-				&& (this.transactionDate != null && rp.transactionDate != null) ? (this.transactionDate
-				.equals(rp.transactionDate))
-				: true
-						&& this.transactionReceivePayment.size() == rp.transactionReceivePayment
-								.size()
-						&& (this.customer != null && rp.customer != null) ? (this.customer
-						.equals(rp.customer))
-						: true && (this.getPaymentMethod() != null && rp
-								.getPaymentMethod() != null) ? (this
-								.getPaymentMethod().equals(rp
-								.getPaymentMethod()))
-								: true && (this.getDepositIn() != null && rp
-										.getDepositIn() != null) ? (this
-										.getDepositIn().equals(rp
-										.getDepositIn())) : true) {
-			for (int i = 0; i < this.transactionReceivePayment.size(); i++) {
-				if (!this.transactionReceivePayment.get(i).equals(
-						rp.transactionReceivePayment.get(i)))
-					return false;
-			}
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						rp.transactionItems.get(i)))
-					return false;
-			}
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public void onEdit(Transaction clonedObject) {
 
@@ -606,8 +554,8 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		}
 		ReceivePayment receivePayment = (ReceivePayment) transaction;
 		for (ReconciliationItem item : getReconciliationItems()) {
-			if (item.getReconciliation().getAccount().equals(depositIn)
-					&& this.amount != receivePayment.amount) {
+			if (item.getReconciliation().getAccount().getID() == getDepositIn()
+					.getID() && this.amount != receivePayment.amount) {
 				throw new AccounterException(
 						AccounterException.ERROR_TRANSACTION_RECONCILIED);
 			}

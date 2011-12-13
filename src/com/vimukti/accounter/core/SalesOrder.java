@@ -665,7 +665,8 @@ public class SalesOrder extends Transaction {
 					modifyEstimate(salesOrder, false);
 				} else if (this.estimate != null && salesOrder.estimate == null) {
 					modifyEstimate(this, true);
-				} else if (!this.estimate.equals(salesOrder.estimate)) {
+				} else if (this.estimate.getID() != salesOrder.getEstimate()
+						.getID()) {
 					modifyEstimate(salesOrder, false);
 					modifyEstimate(this, true);
 				} else {

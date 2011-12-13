@@ -683,27 +683,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		this.item = item;
 	}
 
-	/**
-	 * Checks all the values and references of Transaction Item and gives the
-	 * boolean result whether they are equal or not.
-	 * 
-	 * @param obj
-	 * @return
-	 */
-
-	public boolean equals(TransactionItem obj) {
-
-		if ((item != null && obj.item != null) ? (item.equals(obj.item))
-				: true && (account != null && obj.account != null) ? (account
-						.equals(obj.account))
-						: true && (transaction != null && obj.transaction != null) ? (transaction
-								.equals(obj.transaction)) : true) {
-
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {

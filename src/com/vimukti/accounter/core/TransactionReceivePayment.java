@@ -542,29 +542,6 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		return this.id;
 	}
 
-	// @Override
-	public boolean equals(TransactionReceivePayment tr) {
-
-		ReceivePayment rp = tr.getReceivePayment();
-		if (this.receivePayment.getID() == rp.getID()
-				&& this.appliedCredits == tr.appliedCredits
-				&& this.cashDiscount == tr.cashDiscount
-				&& this.journalEntry == tr.journalEntry
-				&& this.payment == tr.payment
-				&& this.writeOff == tr.writeOff
-				&& this.transactionCreditsAndPayments.size() == tr.transactionCreditsAndPayments
-						.size()) {
-			for (int i = 0; i < this.transactionCreditsAndPayments.size(); i++) {
-				if (!this.transactionCreditsAndPayments.get(i).equals(
-						tr.transactionCreditsAndPayments.get(i)))
-					return false;
-			}
-			return true;
-		}
-		return false;
-
-	}
-
 	public double updatePayments(Double amtdue) {
 		if (DecimalUtil.isGreaterThan(amtdue, 0)) {
 			if (DecimalUtil.isGreaterThan(this.getPayment(), amtdue)) {

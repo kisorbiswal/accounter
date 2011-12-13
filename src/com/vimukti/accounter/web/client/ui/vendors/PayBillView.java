@@ -1217,6 +1217,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		getTransactionPayBills(this.getVendor());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		transaction = new ClientPayBill();
+		transaction.setAmountIncludeTDS(true);
 		data = transaction;
 		tdsCombo.setDisabled(isInViewMode());
 		textForm.clear();

@@ -368,25 +368,6 @@ public class CustomerCreditMemo extends Transaction implements
 	}
 
 	// @Override
-	public boolean equals(CustomerCreditMemo ccm) {
-		if (DecimalUtil.isEquals(this.getTotal(), ccm.getTotal())
-				&& this.getID() == ccm.getID()
-				&& DecimalUtil.isEquals(this.total, ccm.total)
-				// && (this.transactionDate != null && ccm.transactionDate !=
-				// null) ? (this.transactionDate.equals(transactionDate)): true
-				&& ((this.customer != null && ccm.customer != null) ? (this.customer
-						.equals(ccm.customer)) : true)) {
-			for (int i = 0; i < this.transactionItems.size(); i++) {
-				if (!this.transactionItems.get(i).equals(
-						ccm.transactionItems.get(i)))
-					return false;
-			}
-			return true;
-		}
-		return false;
-	}
-
-	// @Override
 	// public boolean canEdit(IAccounterServerCore clientObject)
 	// throws InvalidOperationException {
 	// //
@@ -404,94 +385,88 @@ public class CustomerCreditMemo extends Transaction implements
 		// cust.updateBalance(session, clonedObject, -customerCreditMemo.total);
 		// session.saveOrUpdate(cust);
 
-		if (!this.equals(customerCreditMemo)) {
+		this.cleanTransactionitems(this);
 
-			this.cleanTransactionitems(this);
+		/**
+		 * Checking that whether two customers are same are not. If they are not
+		 * same then update clonedObject customer and New customer balances same
+		 * customers.
+		 */
 
-			/**
-			 * Checking that whether two customers are same are not. If they are
-			 * not same then update clonedObject customer and New customer
-			 * balances same customers.
-			 */
+		if (this.customer.getID() != customerCreditMemo.getCustomer().getID()) {
 
-			if (!this.customer.equals(customerCreditMemo.customer)) {
+			voidCreditsAndPayments(customerCreditMemo);
 
-				voidCreditsAndPayments(customerCreditMemo);
+			if (creditsAndPayments != null
+					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
+							0.0d)) {
+				creditsAndPayments.update(this);
 
-				if (creditsAndPayments != null
-						&& DecimalUtil.isEquals(
-								creditsAndPayments.creditAmount, 0.0d)) {
-					creditsAndPayments.update(this);
-
-				} else {
-					creditsAndPayments = new CreditsAndPayments(this);
-				}
-				this.setCreditsAndPayments(creditsAndPayments);
-				session.save(creditsAndPayments);
-
+			} else {
+				creditsAndPayments = new CreditsAndPayments(this);
 			}
-			if ((this.customer.equals(customerCreditMemo.customer))
-					&& (!DecimalUtil.isEquals(this.total,
-							customerCreditMemo.total))) {
-				// updateCreditPayments
-				// if (this.total > customerCreditMemo.total) {
-				// this.total += this.total - customerCreditMemo.total;
-				// } else if (this.total < customerCreditMemo.total) {
-				// this.total -= customerCreditMemo.total - this.total;
-				// }
-
-				// Double dueAmount = this.total;
-				// for (TransactionCreditsAndPayments tcp :
-				// this.creditsAndPayments.transactionCreditsAndPayments) {
-				// if (tcp.getTransactionReceivePayment() != null) {
-				// this.creditsAndPayments.updateCreditPayments(dueAmount);
-				// }
-				// HibernateUtil.getCurrentSession().saveOrUpdate(tcp);
-				// }
-
-				if (DecimalUtil
-						.isLessThan(this.total, customerCreditMemo.total)) {
-					this.customer.updateBalance(session, this, this.total
-							- customerCreditMemo.total);
-					this.creditsAndPayments.updateCreditPayments(this.total);
-				} else {
-					// this.total = this.total - customerCreditMemo.total;
-					this.customer.updateBalance(session, this, this.total
-							- customerCreditMemo.total);
-					if (creditsAndPayments != null) {
-						this.creditsAndPayments
-								.updateCreditPayments(this.total);
-					}
-
-					// CreditsAndPayments creditsAndPayments = new
-					// CreditsAndPayments(
-					// this);
-					// session.saveOrUpdate(creditsAndPayments);
-					// this.creditsAndPayments
-					// .updateCreditPayments(customerCreditMemo.total
-					// - this.total);
-
-				}
-				// session.saveOrUpdate(this.creditsAndPayments);
-
-			}
-			// this.customer.updateBalance(session, this, this.total);
-			// if (customerCreditMemo.customer.id == this.customer.id) {
-			//
-			// if (customerCreditMemo.total > this.total) {
-			// customerCreditMemo.total -= customerCreditMemo.total
-			// - this.total;
-			//
-			// } else if (customerCreditMemo.total < this.total) {
-			// customerCreditMemo.total -= customerCreditMemo.total
-			// - this.total;
-			// }
-			//
-			// this.customer.updateBalance(session, customerCreditMemo,
-			// customerCreditMemo.total);
-			// }
+			this.setCreditsAndPayments(creditsAndPayments);
+			session.save(creditsAndPayments);
 
 		}
+		if ((this.customer.getID() == customerCreditMemo.customer.getID())
+				&& (!DecimalUtil.isEquals(this.total, customerCreditMemo.total))) {
+			// updateCreditPayments
+			// if (this.total > customerCreditMemo.total) {
+			// this.total += this.total - customerCreditMemo.total;
+			// } else if (this.total < customerCreditMemo.total) {
+			// this.total -= customerCreditMemo.total - this.total;
+			// }
+
+			// Double dueAmount = this.total;
+			// for (TransactionCreditsAndPayments tcp :
+			// this.creditsAndPayments.transactionCreditsAndPayments) {
+			// if (tcp.getTransactionReceivePayment() != null) {
+			// this.creditsAndPayments.updateCreditPayments(dueAmount);
+			// }
+			// HibernateUtil.getCurrentSession().saveOrUpdate(tcp);
+			// }
+
+			if (DecimalUtil.isLessThan(this.total, customerCreditMemo.total)) {
+				this.customer.updateBalance(session, this, this.total
+						- customerCreditMemo.total);
+				this.creditsAndPayments.updateCreditPayments(this.total);
+			} else {
+				// this.total = this.total - customerCreditMemo.total;
+				this.customer.updateBalance(session, this, this.total
+						- customerCreditMemo.total);
+				if (creditsAndPayments != null) {
+					this.creditsAndPayments.updateCreditPayments(this.total);
+				}
+
+				// CreditsAndPayments creditsAndPayments = new
+				// CreditsAndPayments(
+				// this);
+				// session.saveOrUpdate(creditsAndPayments);
+				// this.creditsAndPayments
+				// .updateCreditPayments(customerCreditMemo.total
+				// - this.total);
+
+			}
+			// session.saveOrUpdate(this.creditsAndPayments);
+
+		}
+		// this.customer.updateBalance(session, this, this.total);
+		// if (customerCreditMemo.customer.id == this.customer.id) {
+		//
+		// if (customerCreditMemo.total > this.total) {
+		// customerCreditMemo.total -= customerCreditMemo.total
+		// - this.total;
+		//
+		// } else if (customerCreditMemo.total < this.total) {
+		// customerCreditMemo.total -= customerCreditMemo.total
+		// - this.total;
+		// }
+		//
+		// this.customer.updateBalance(session, customerCreditMemo,
+		// customerCreditMemo.total);
+		// }
+
 		super.onEdit(clonedObject);
 
 	}

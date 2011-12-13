@@ -42,6 +42,7 @@ import com.vimukti.accounter.core.Budget;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CloneUtil;
+import com.vimukti.accounter.core.CloneUtil2;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.CreditNotePDFTemplete;
@@ -276,10 +277,9 @@ public class FinanceTool {
 				throw new AccounterException(
 						AccounterException.ERROR_VERSION_MISMATCH);
 			}
-
-			IAccounterServerCore clonedObject = new CloneUtil<IAccounterServerCore>(
-					IAccounterServerCore.class).clone(null, serverObject);
-
+			IAccounterServerCore clonedObject = new CloneUtil2(
+					IAccounterServerCore.class).clone(null, serverObject,
+					data.getClass());
 			ObjectConvertUtil.setCompany(clonedObject, company);
 
 			getManager().canEdit(clonedObject, data);
