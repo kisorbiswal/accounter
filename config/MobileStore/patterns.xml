@@ -52,7 +52,7 @@
 		<input>companySettingsTitle</input>
 		<outputs>
 			<command title="setCompanyInfo" />
-			<command title="{Vendor}andPurchases" />
+			<command title="vendorandPurchases" />
 			<command title="productAndServices" />
 			<command title="accounterTerminologies" />
 		</outputs>
@@ -75,11 +75,11 @@
 			<command title="currencyList" />
 			<command title="locationsList" />
 			<command title="itemGroupList" />
-			<command title="{Vendor} Group List" />
+			<command title="vendorGroupList" />
 			<command title="paymentTermList" />
 			<command title="shippingTermList" />
 			<command title="creditRatingList" />
-			<command title="{Customer} Group List" />
+			<command title="customerGroupList" />
 			<command title="shippingMethodList" />
 		</outputs>
 	</pattern>
@@ -101,8 +101,8 @@
 	<pattern login="true">
 		<input>addaNewPayment</input>
 		<outputs>
-			<command title="Add{Vendor}Prepayment" />
-			<command title="add{Customer}Refund" />
+			<command title="addVendorPrepayment" />
+			<command title="addCustomerRefund" />
 		</outputs>
 	</pattern>
 
@@ -126,14 +126,14 @@
 	<pattern login="true">
 		<input>Customer</input>
 		<outputs>
-			<command title="new{Customer}" />
+			<command title="newCustomer" />
 			<command title="createInvoice" />
 			<command if="trackingQuotes" title="createQuote" />
 			<command title="createCashSale" />
 			<command title="newReceivePayment" />
-			<command title="{Customer}Refund" />
-			<command title="{Customer}Prepayment" />
-			<command title="{Customer}Overview" />
+			<command title="customerRefund" />
+			<command title="customerPrepayment" />
+			<command title="customerOverview" />
 			<command title="more" />
 		</outputs>
 	</pattern>
@@ -141,7 +141,7 @@
 	<pattern login="true">
 		<input>more</input>
 		<outputs>
-			<command title="new{Customer}" />
+			<command title="newCustomer" />
 			<command title="newItem" />
 			<command if="trackingQuotes" title="newQuote" />
 			<command if="delayedCharges" title="newCredit" />
@@ -162,22 +162,22 @@
 			<command if="delayedCharges" title="Charges" />
 			<command title="invoices" />
 			<command title="receivedPayments" />
-			<command title="{Customer}Refunds" />
+			<command title="customerRefunds" />
 		</outputs>
 	</pattern>
 
 	<pattern login="true">
 		<input>Vendor</input>
 		<outputs>
-			<command title="new{Vendor}" />
+			<command title="newVendor" />
 			<command if="manageBills" title="enterBill" />
 			<command if="manageBills" title="payBill" />
 			<command if="manageBills" title="issuePayment" />
-			<command if="manageBills" title="{Vendor}Prepayment" />
+			<command if="manageBills" title="vendorPrepayment" />
 			<command title="recordExpenses" />
 			<command title="createCashPurchase" />
-			<command title="create{Vendor}Credit" />
-			<command title="{Vendor}Overview" />
+			<command title="createVendorCredit" />
+			<command title="vendorOverview" />
 			<command title="others" />
 		</outputs>
 	</pattern>
@@ -207,7 +207,7 @@
 			<command title="Vendors" />
 			<command value="items vendor" title="items" />
 			<command if="manageBills" title="billsAndItemReceipts" />
-			<command title="{Vendor}Payments" />
+			<command title="vendorPayments" />
 		</outputs>
 	</pattern>
 
@@ -393,7 +393,7 @@
 	<pattern>
 		<input>howToCreateTransaction</input>
 		<outputs>
-
+			<command title="HowtocreateCustomertransactions" />
 			<command title="Howtocreate{Customer}transactions" />
 			<command title="howtoCreateBankTransaction" />
 			<command title="howToCreateTaxTransaction" />
@@ -401,29 +401,29 @@
 	</pattern>
 
 	<pattern>
-		<input>Howtocreate{Vendor}transactions</input>
+		<input>HowtocreateVendortransactions</input>
 		<outputs>
 			<text name="EnterAnyoneofThesecommands" />
 			<command title="createEnterBill" />
 			<command title="createPayBill" />
 			<command title="createCashExpense" />
 			<command title="createCashPurchase" />
-			<command title="create{Vendor}Credit" />
+			<command title="createVendorCredit" />
 			<command title="createIssuePayment" />
-			<command title="create{Vendor}Payment" />
+			<command title="createVendorPayment" />
 		</outputs>
 	</pattern>
 
 	<pattern>
-		<input>Howtocreate{Customer}transactions</input>
+		<input>HowtocreateCustomertransactions</input>
 		<outputs>
 			<text name="EnterAnyoneofThesecommands" />
 			<command title="createInvoice" />
 			<command title="createQuote" />
 			<command title="createCashSale" />
 			<command title="createCustomerCredit" />
-			<command title="create{Customer}Payment" />
-			<command title="create{Customer}Refund" />
+			<command title="createCustomerPayment" />
+			<command title="createCustomerRefund" />
 			<command title="createReceivePayment" />
 		</outputs>
 	</pattern>
@@ -462,8 +462,8 @@
 			<command title="quotesList" />
 			<command title="invoicesList" />
 			<command title="receivedPaymentsList" />
-			<command title="{Customer}RefundsList" />
-			<command title="{Vendor}PaymentsList" />
+			<command title="customerRefundsList" />
+			<command title="vendorPaymentsList" />
 			<command title="billsAndItemReceiptsList" />
 			<command title="bankAccountsList" />
 			<command title="salesOrderList" />
@@ -473,7 +473,7 @@
 			<command title="taxCodesList" />
 			<command title="shippingMethodsList" />
 			<command title="shippingTermsList" />
-			<command title="{Location}List" />
+			<command title="locationList" />
 			<command title="accounterClassList" />
 		</outputs>
 	</pattern>
@@ -508,8 +508,8 @@
 	<pattern login="true">
 		<input>payment</input>
 		<outputs>
-			<command title="create{Customer}Payment" />
-			<command title="create{Vendor}Payment" />
+			<command title="createCustomerPayment" />
+			<command title="createVendorPayment" />
 		</outputs>
 	</pattern>
 	<pattern login="true">

@@ -14,7 +14,7 @@
 		<input>reports</input>
 		<outputs>
 			<command title="companyFinancialReports" />
-			<command title="{Customers}andReceivablesReports" />
+			<command title="customersandReceivablesReports" />
 			<command title="salesReports" />
 			<command title="purchasesReports" />
 			<command if="trackTax" title="vATReports" />
@@ -36,14 +36,14 @@
 	</pattern>
 
 	<pattern login="true">
-		<input>{Customers}andReceivablesReports</input>
-		<input>{customer}reports</input>
+		<input>customersandReceivablesReports</input>
+		<input>customerreports</input>
 		<outputs>
 			<text name="salesReports" />
 			<command title="arAgeingSummary" />
 			<command title="arAgeingDetail" />
-			<command title="{Customer}Statement" />
-			<command title="{Customer}TransactionHistory" />
+			<command title="customerStatement" />
+			<command title="customerTransactionHistory" />
 		</outputs>
 	</pattern>
 
@@ -51,8 +51,8 @@
 		<input>salesReports</input>
 		<outputs>
 			<text name="salesReports" />
-			<command title="salesBy{Customer}Summary" />
-			<command title="salesBy{Customer}Detail" />
+			<command title="salesByCustomerSummary" />
+			<command title="salesByCustomerDetail" />
 			<command title="salesByItemSummary" />
 			<command title="salesByItemDetail" />
 			<!-- <command title="Sales Order Report" /> -->
@@ -60,8 +60,8 @@
 	</pattern>
 
 	<pattern login="true">
-		<input>{Vendors}andPayableReports</input>
-		<input>{vendor}reports</input>
+		<input>vendorsandPayableReports</input>
+		<input>vendorReports</input>
 		<outputs>
 			<command title="apAgeingSummary" />
 			<command title="apAgeingDetail" />
@@ -72,8 +72,8 @@
 		<input>purchasesReports</input>
 		<outputs>
 			<text name="purchasesReports" />
-			<command title="purchaseBy{Vendor}Summary" />
-			<command title="purchaseBy{Vendor}Detail" />
+			<command title="purchaseByVendorSummary" />
+			<command title="purchaseByVendorDetail" />
 			<command title="purchaseByItemSummary" />
 			<command title="purchaseByItemDetail" />
 			<!-- <command title="Purchase Order Report" /> -->
