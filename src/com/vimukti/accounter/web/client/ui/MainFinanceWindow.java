@@ -803,7 +803,15 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getDepriciationAction().getHistoryToken(),
 				ActionFactory.getDepriciationAction());
-
+		actions.put(ActionFactory.getRegisteredItemsListAction()
+				.getHistoryToken(), ActionFactory
+				.getRegisteredItemsListAction());
+		actions.put(
+				ActionFactory.getPendingItemsListAction().getHistoryToken(),
+				ActionFactory.getPendingItemsListAction());
+		actions.put(
+				ActionFactory.getSoldDisposedListAction().getHistoryToken(),
+				ActionFactory.getSoldDisposedListAction());
 	}
 
 	public ClientCompany getCompany() {
