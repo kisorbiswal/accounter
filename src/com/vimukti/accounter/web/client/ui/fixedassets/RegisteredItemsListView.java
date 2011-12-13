@@ -3,6 +3,9 @@
  */
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
+import java.util.List;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -50,14 +53,35 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 	/*
 	 * @see com.vimukti.accounter.web.client.ui.core.BaseListView#initGrid()
 	 */
-	
+
 	@Override
 	protected void initGrid() {
 		grid = new RegisteredItemsListGrid(false);
 		grid.init();
-		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_REGISTERED,
-				getCompany().getFixedAssets()));
+		getRegistredFixedAssetsList();
+		// grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_REGISTERED,
+		// getCompany().getFixedAssets()));
 		disableFilter();
+	}
+
+	private void getRegistredFixedAssetsList() {
+
+		Accounter.createHomeService().getFixedAssetList(
+				ClientFixedAsset.STATUS_REGISTERED,
+				new AsyncCallback<List<ClientFixedAsset>>() {
+
+					@Override
+					public void onSuccess(List<ClientFixedAsset> list) {
+						grid.setRecords(list);
+					}
+
+					@Override
+					public void onFailure(Throwable arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+
 	}
 
 	/*
@@ -78,8 +102,6 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 	public void updateInGrid(ClientFixedAsset objectTobeModified) {
 
 	}
-
-	
 
 	@Override
 	public void fitToSize(int height, int width) {
