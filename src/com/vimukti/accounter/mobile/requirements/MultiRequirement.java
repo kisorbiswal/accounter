@@ -21,7 +21,6 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 				isAllowFromContext);
 		requirements = new ArrayList<Requirement>();
 		addRequirement(requirements);
-		setDefaultValues();
 		isDone = isOptional;
 	}
 
@@ -84,6 +83,7 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 	}
 
 	private Result edit(Context context) {
+		setDefaultValues();
 		context.setAttribute(PROCESS_ATR + getName(), getName());
 		Result result = new Result();
 		ResultList list = new ResultList("values");
