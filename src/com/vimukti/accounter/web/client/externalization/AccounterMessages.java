@@ -990,8 +990,6 @@ public interface AccounterMessages extends Messages {
 
 	public String customerAndvendorSettings();
 
-	public String CustomerCreditNote();
-
 	public String customerCreditNote(String payee);
 
 	public String customerDescription();
@@ -4588,7 +4586,7 @@ public interface AccounterMessages extends Messages {
 
 	public String charactersticsToShow();
 
-	public String SeeAllCompanies();
+	public String seeAllCompanies();
 
 	public String budgetOverview();
 
