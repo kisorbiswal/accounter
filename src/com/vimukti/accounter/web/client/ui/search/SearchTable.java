@@ -138,9 +138,9 @@ public class SearchTable extends CellTable<SearchResultlist> {
 		this.addColumn(transactionDateColumn, messages.date());
 		this.addColumn(typeColumn, messages.type());
 		this.addColumn(amountColumn, messages.amount());
-		this.setColumnWidth(transactionDateColumn, "25px");
-		this.setColumnWidth(typeColumn, "25px");
-		this.setColumnWidth(amountColumn, "25px");
+		this.setColumnWidth(transactionDateColumn, "15px");
+		this.setColumnWidth(typeColumn, "40px");
+		this.setColumnWidth(amountColumn, "20px");
 
 	}
 }
