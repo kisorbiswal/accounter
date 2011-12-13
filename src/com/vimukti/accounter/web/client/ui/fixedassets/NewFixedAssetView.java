@@ -422,8 +422,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			assetOptions = new SelectItem(messages.assetOptions());
 			if (data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
 				assetOptions.setValueMap("", messages.edit(), messages.sell(),
-						messages.dispose(), messages.addNote(),
-						messages.showHistory());
+						messages.dispose());
 			} else if (data.getStatus() == ClientFixedAsset.STATUS_PENDING) {
 				assetOptions.setValueMap("", messages.edit(),
 						messages.addNote(), messages.showHistory());
@@ -567,7 +566,16 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		listforms.add(depreciationForm);
 		listforms.add(emptyPanel);
 		listforms.add(assetTypeForm);
+	}
 
+	private void setRequiredFields() {
+		purchaseDateTxt.setRequired(true);
+		purchasePriceTxt.setRequired(true);
+		accountCombo.setRequired(true);
+		assetType.setRequired(true);
+		depreciationAccount.setRequired(true);
+		depreciationMethod.setRequired(true);
+		depreciationRate.setRequired(true);
 	}
 
 	private List<ClientAccount> getFixedAssetAccounts() {
@@ -596,10 +604,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 					if (isInViewMode() && value.length() != 0) {
 						ClientFixedAssetNote note = new ClientFixedAssetNote();
 						note.setNote(value);
-						List<ClientFixedAssetNote> noteList = data
-								.getFixedAssetNotes();
-						noteList.add(note);
-						data.setFixedAssetNotes(noteList);
+						// List<ClientFixedAssetNote> noteList = data
+						// .getFixedAssetNotes();
+						// noteList.add(note);
+						// data.setFixedAssetNotes(noteList);
 						saveOrUpdate(data);
 					}
 				}
@@ -886,9 +894,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						.getSelectedValue() != null ? accumulatedDepreciationAccount
 						.getSelectedValue().getID() : 0);
 				selectedAssetAccount
-				.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount
-						.getSelectedValue() != null ? accumulatedDepreciationAccount
-						.getSelectedValue().getID() : 0);
+						.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount
+								.getSelectedValue() != null ? accumulatedDepreciationAccount
+								.getSelectedValue().getID() : 0);
 			}
 			data.setAssetAccount(selectedAssetAccount.getID());
 
@@ -906,6 +914,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		data.setDepreciationExpenseAccount(depreciationAccount
 				.getSelectedValue() != null ? depreciationAccount
 				.getSelectedValue().getID() : 0);
+		data.setBookValue(purchasePriceTxt.getAmount());
 
 		// if (isAssetAccumulated || fixedAsset != null
 		// && accmulatdDepreciationTxt != null) {
@@ -1027,9 +1036,25 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// }
 		//
 		// } else {
+
 		result.add(itmNameForm.validate());
 		result.add(itemInfoForm.validate());
-
+		if (data != null
+				&& data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
+			result.add(itmNameForm.validate());
+			result.add(purchaseInfoForm.validate());
+			result.add(validatePurchaseAmount());
+			result.add(assetTypeForm.validate());
+			result.add(validateDepreciationRate());
+			result.add(depreciationForm.validate());
+			result.add(validateAccumulatedDepreciationAccount());
+		}
+		if (data != null
+				&& data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
+			if (result.haveErrors()) {
+				data.setStatus(ClientFixedAsset.STATUS_PENDING);
+			}
+		}
 		// if (!AccounterValidator.isValidPurchaseDate(purchaseDateTxt
 		// .getEnteredDate())) {
 		// result.addError(purchaseDateTxt, messages
@@ -1054,6 +1079,43 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// result.addError(purchaseDateTxt, messages
 		// .purchaseDatesShoudBewithInFiscalYearRange());
 		// }
+		return result;
+	}
+
+	private ValidationResult validateAccumulatedDepreciationAccount() {
+		ValidationResult result = new ValidationResult();
+		if (accumulatedDepreciationAccount != null) {
+			if (accumulatedDepreciationAccount.getSelectedValue() == null) {
+				result.addError(accumulatedDepreciationAccount,
+						messages.pleaseChooseAnAccount());
+			}
+		}
+		return result;
+	}
+
+	private ValidationResult validateDepreciationRate() {
+		ValidationResult result = new ValidationResult();
+		if (depreciationRate != null) {
+			double rateOfDepreciation = depreciationRate.getPercentage();
+			if (rateOfDepreciation <= 0) {
+				result.addError(depreciationRate,
+						messages.pleaseEnter(messages.depreciationRate()));
+			}
+		}
+		return result;
+	}
+
+	private ValidationResult validatePurchaseAmount() {
+		ValidationResult result = new ValidationResult();
+		if (purchasePriceTxt != null) {
+			Double amount = purchasePriceTxt.getAmount();
+			if (amount <= 0) {
+				result.addError(
+						purchasePriceTxt,
+						messages.pleaseEnter(messages.purchase()
+								+ messages.amount()));
+			}
+		}
 		return result;
 	}
 
@@ -1166,8 +1228,12 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	protected void registerAsset() {
 		data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
-		validate();
-		saveAndUpdateView();
+		setRequiredFields();
 		this.onSave(false);
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return true;
 	}
 }
