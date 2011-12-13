@@ -17,6 +17,7 @@ public class ItemsCommand extends NewAbstractCommand {
 
 	private static final String ITEMS_TYPE = "itemsType";
 	private boolean isCustomer;
+	private boolean isInventory;
 
 	@Override
 	public String getId() {
@@ -82,9 +83,11 @@ public class ItemsCommand extends NewAbstractCommand {
 						: false;
 				for (Item item : items) {
 					if (isActive == item.isActive()) {
-						if (isCustomer ? item.isISellThisItem() : item
-								.isIBuyThisItem())
+						if (isInventory ? item.getType() == Item.TYPE_INVENTORY_PART
+								: isCustomer ? item.isISellThisItem() : item
+										.isIBuyThisItem()) {
 							result.add(item);
+						}
 					}
 				}
 				return result;
@@ -124,6 +127,10 @@ public class ItemsCommand extends NewAbstractCommand {
 	}
 
 	protected void setCreateCommand(CommandList list) {
+		if (isInventory) {
+			list.add(new UserCommand("createNewInventoryItem", "sell"));
+			return;
+		}
 		if (isCustomer) {
 			list.add(new UserCommand("createNewServiceItem", "sell"));
 			list.add(new UserCommand("createNewNonInventoryItem", "sell"));
@@ -143,6 +150,9 @@ public class ItemsCommand extends NewAbstractCommand {
 	protected String initObject(Context context, boolean isUpdate) {
 		if (context.getString().equalsIgnoreCase("customer")) {
 			isCustomer = true;
+		}
+		if (context.getString().equalsIgnoreCase("inventory")) {
+			isInventory = true;
 		}
 		context.setString("");
 		return null;
