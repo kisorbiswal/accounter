@@ -4850,7 +4850,7 @@ public interface AccounterMessages extends Messages {
 
 	public String acceptThetermsAndCondition();
 
-	public String add(String quotes);
+	public String addOf(String quotes);
 
 	public String acceptedTermsandconditions();
 
