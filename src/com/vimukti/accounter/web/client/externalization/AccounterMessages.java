@@ -990,17 +990,17 @@ public interface AccounterMessages extends Messages {
 
 	public String customerAndvendorSettings();
 
-	public String customerCreditNote(String payee);
+	public String customerCreditNote(String Customer);
 
 	public String customerDescription();
 
-	public String customerRefund(String payee);
+	public String customerRefund(String Customer);
 
-	public String customerRefundIssued(String payee);
+	public String customerRefundIssued(String Customer);
 
-	public String customerRefunds(String payee);
+	public String customerRefunds(String Customer);
 
-	public String customersAndReceivable(String payee);
+	public String customersAndReceivable(String Customer);
 
 	public String cyprus();
 
@@ -3545,7 +3545,7 @@ public interface AccounterMessages extends Messages {
 
 	public String setupProgress();
 
-	public String setupVendorsAndAccounts(String payee);
+	public String setupVendorsAndAccounts(String Vendors);
 
 	public String setUserpermissions();
 
