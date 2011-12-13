@@ -27,7 +27,6 @@ import com.vimukti.accounter.core.Depreciation;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.FixedAsset;
-import com.vimukti.accounter.core.FixedAssetHistory;
 import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.ServerConvertUtil;
@@ -132,37 +131,37 @@ public class CompanyManager extends Manager {
 			fixedAsset.setTotalCapitalGain(null);
 			fixedAsset.setLossOrGain(0.0);
 
-			 /**
+			/**
 			 * Saving the action into History
 			 */
-			 FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-			 if (fixedAsset.getPurchaseDate().before(newStartDate)) {
-			 fixedAsset.setStatus(FixedAsset.STATUS_PENDING);
-			
-			 fixedAssetHistory
-			 .setActionType(FixedAssetHistory.ACTION_TYPE_ROLLBACK);
-			 fixedAssetHistory.setActionDate(new FinanceDate());
-			 fixedAssetHistory
-			 .setDetails("Fixed Asset Start Long altered from "
-			 + format.format(startDate.getAsDateObject())
-			 + " to "
-			 + format.format(newStartDate.getAsDateObject())
-			 + ". All fixed assets journals reversed.");
-			
-			 } else {
-			
-			 fixedAssetHistory
-			 .setActionType(FixedAssetHistory.ACTION_TYPE_NONE);
-			 fixedAssetHistory.setActionDate(new FinanceDate());
-			 fixedAssetHistory
-			 .setDetails("Fixed Asset Start Long altered from "
-			 + format.format(startDate.getAsDateObject())
-			 + " to "
-			 + format.format(newStartDate.getAsDateObject())
-			 + ". All fixed assets book values are set");
-			
-			 }
-			 fixedAsset.getFixedAssetsHistory().add(fixedAssetHistory);
+			// FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
+			// if (fixedAsset.getPurchaseDate().before(newStartDate)) {
+			// fixedAsset.setStatus(FixedAsset.STATUS_PENDING);
+			//
+			// fixedAssetHistory
+			// .setActionType(FixedAssetHistory.ACTION_TYPE_ROLLBACK);
+			// fixedAssetHistory.setActionDate(new FinanceDate());
+			// fixedAssetHistory
+			// .setDetails("Fixed Asset Start Long altered from "
+			// + format.format(startDate.getAsDateObject())
+			// + " to "
+			// + format.format(newStartDate.getAsDateObject())
+			// + ". All fixed assets journals reversed.");
+			//
+			// } else {
+			//
+			// fixedAssetHistory
+			// .setActionType(FixedAssetHistory.ACTION_TYPE_NONE);
+			// fixedAssetHistory.setActionDate(new FinanceDate());
+			// fixedAssetHistory
+			// .setDetails("Fixed Asset Start Long altered from "
+			// + format.format(startDate.getAsDateObject())
+			// + " to "
+			// + format.format(newStartDate.getAsDateObject())
+			// + ". All fixed assets book values are set");
+			//
+			// }
+			// fixedAsset.getFixedAssetsHistory().add(fixedAssetHistory);
 			session.saveOrUpdate(fixedAsset);
 			ChangeTracker.put(fixedAsset);
 
