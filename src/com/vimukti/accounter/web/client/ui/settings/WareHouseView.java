@@ -104,8 +104,54 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	public ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
+
+		data.setName(wareHouseNameItem.getValue());
+		data.setWarehouseCode(warehouseCodeItem.getValue());
+
+		objectExist(data, result);
+
 		result.add(leftSideForm.validate());
 		return result;
+	}
+
+	private void objectExist(ClientWarehouse warehouse, ValidationResult result) {
+
+		List<ClientWarehouse> list = Accounter.getCompany().getWarehouses();
+		if (list == null || list.isEmpty())
+			return;
+		boolean checkName = false, checkCode = false;
+		if (warehouse.getWarehouseCode() == null
+				|| warehouse.getWarehouseCode().isEmpty()) {
+			result.addError(warehouseCodeItem,
+					messages.pleaseEnterCodeItShouldNotBeEmpty());
+		} else {
+			checkCode = true;
+		}
+		if (warehouse.getName() == null || warehouse.getName().isEmpty()) {
+			result.addError(wareHouseNameItem,
+					messages.pleaseEnterNameItShouldNotBeEmpty());
+		} else {
+			checkName = true;
+		}
+		if (checkName || checkCode) {
+			for (ClientWarehouse old : list) {
+				if (old.getID() == warehouse.getID()) {
+					continue;
+				}
+
+				if (checkName
+						&& warehouse.getName().equalsIgnoreCase(old.getName())) {
+					result.addError(wareHouseNameItem, messages
+							.objAlreadyExistsWithName(messages.wareHouse()));
+				}
+				if (checkCode
+						&& warehouse.getWarehouseCode().equalsIgnoreCase(
+								old.getWarehouseCode())) {
+					result.addError(warehouseCodeItem,
+							messages.warehouseAlreadyExistsWithCode());
+				}
+			}
+		}
 	}
 
 	private void createControls() {
