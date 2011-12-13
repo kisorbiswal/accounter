@@ -86,6 +86,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	private void getLastDepreciationDate() {
 		AccounterAsyncCallback<ClientFinanceDate> callBack = new AccounterAsyncCallback<ClientFinanceDate>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 				saveFailed(caught);
 				return;
@@ -137,6 +138,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 	}
 
+	@Override
 	protected void processCancel() {
 		removeFromParent();
 	}
@@ -144,6 +146,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	/**
 	 * Called when Ok button clicked
 	 */
+	@Override
 	protected void processOK() {
 		rollBackDepreciation();
 		removeFromParent();
@@ -155,8 +158,9 @@ public class RollBackDepreciationDialog extends BaseDialog {
 		ClientFinanceDate date = UIUtils.stringToDate(dateString,
 				(Accounter.messages().ddMMyyyy()));
 
-		AccounterAsyncCallback callBack = new AccounterAsyncCallback() {
+		AccounterAsyncCallback<Boolean> callBack = new AccounterAsyncCallback<Boolean>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 				saveFailed(caught);
 				return;
@@ -164,7 +168,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 			}
 
 			@Override
-			public void onResultSuccess(Object result) {
+			public void onResultSuccess(Boolean result) {
 				History.newItem(ActionFactory.getDepriciationAction()
 						.getHistoryToken());
 				// ActionFactory.getDepriciationAction().run(null, true);
