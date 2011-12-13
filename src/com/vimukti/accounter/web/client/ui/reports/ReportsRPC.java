@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
+import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -326,6 +327,10 @@ public class ReportsRPC {
 		case IAccounterCore.FIXED_ASSET:
 			initCallBack(new ClientFixedAsset(),
 					ActionFactory.getNewFixedAssetAction(), transactionId);
+			break;
+		case IAccounterCore.BUDGET:
+			initCallBack(new ClientBudget(),
+					ActionFactory.getNewBudgetAction(), transactionId);
 			break;
 		}
 

@@ -2443,6 +2443,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 							e.setNovemberAmount(item.getNovemberAmount());
 							e.setDecemberAmount(item.getDecemberAmount());
 							e.setTotalAmount(item.getTotalAmount());
+							e.setTransactionId(budget.getID());
 							budgetList.add(e);
 						}
 

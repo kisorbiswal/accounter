@@ -78,7 +78,7 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "sold or disposed items";
+		return "soldDisposedFixedAssets";
 	}
 
 	@Override

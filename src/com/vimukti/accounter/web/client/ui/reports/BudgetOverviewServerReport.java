@@ -233,6 +233,8 @@ public class BudgetOverviewServerReport extends
 
 	private void iniHandler() {
 
+		initVariables();
+
 		this.handler = new ISectionHandler<ClientBudgetList>() {
 
 			@Override
@@ -376,11 +378,44 @@ public class BudgetOverviewServerReport extends
 					section.data[12] = decincome - decexpense;
 					section.data[13] = totalincome - totalexpense;
 
+					initVariables();
+
 				}
 
 			}
 
 		};
+	}
+
+	private void initVariables() {
+		janincome = 0.0D;
+		febincome = 0.0D;
+		marincome = 0.0D;
+		aprincome = 0.0D;
+		mayincome = 0.0D;
+		junincome = 0.0D;
+		julincome = 0.0D;
+		augincome = 0.0D;
+		septincome = 0.0D;
+		octincome = 0.0D;
+		novincome = 0.0D;
+		decincome = 0.0D;
+		totalincome = 0.0D;
+
+		janexpense = 0.0D;
+		febexpense = 0.0D;
+		marexpense = 0.0D;
+		aprexpense = 0.0D;
+		mayexpense = 0.0D;
+		junexpense = 0.0D;
+		julexpense = 0.0D;
+		augexpense = 0.0D;
+		septexpense = 0.0D;
+		octexpense = 0.0D;
+		novexpense = 0.0D;
+		decexpense = 0.0D;
+		totalexpense = 0.0D;
+
 	}
 
 	@Override
