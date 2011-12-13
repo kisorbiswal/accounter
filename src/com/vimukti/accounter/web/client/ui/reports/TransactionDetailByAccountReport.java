@@ -1,12 +1,24 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
+import com.vimukti.accounter.web.client.core.reports.VATSummary;
+import com.vimukti.accounter.web.client.countries.UnitedKingdom;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAccountServerReport;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class TransactionDetailByAccountReport extends
 		AbstractReportView<TransactionDetailByAccount> {
@@ -22,9 +34,87 @@ public class TransactionDetailByAccountReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(getType(record),
-					record.getTransactionId());
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			int type = getType(record);
+			if (type == ClientTransaction.TYPE_TAX_RETURN) {
+				openTaxReturnView(record.getTransactionId());
+			} else {
+				ReportsRPC.openTransactionView(getType(record),
+						record.getTransactionId());
+			}
+		}
+	}
+
+	private void openTaxReturnView(long transactionId) {
+		AccounterAsyncCallback<ClientTAXReturn> callback = new AccounterAsyncCallback<ClientTAXReturn>() {
+
+			public void onException(AccounterException caught) {
+				Accounter.showMessage(Accounter.messages().sessionExpired());
+			}
+
+			public void onResultSuccess(ClientTAXReturn result) {
+				if (result != null) {
+					ICountryPreferences countryPreferences = Accounter
+							.getCompany().getCountryPreferences();
+					if (countryPreferences instanceof UnitedKingdom
+							&& countryPreferences.isVatAvailable()) {
+						List<VATSummary> summaries = getVatSummaires(result);
+						ActionFactory.getVATSummaryReportAction().run(
+								summaries, false);
+					} else {
+						List<ClientTAXReturnEntry> taxEntries = null;
+						List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
+						taxEntries = result.getTaxReturnEntries();
+						details = getTaxItemDetails(taxEntries);
+						ActionFactory.getTaxItemDetailReportAction().run(
+								details, true);
+					}
+				}
+			}
+
+		};
+		Accounter.createGETService().getObjectById(
+				new ClientTAXReturn().getObjectType(), transactionId, callback);
+	}
+
+	private List<VATSummary> getVatSummaires(ClientTAXReturn data) {
+
+		List<VATSummary> result = new ArrayList<VATSummary>();
+		for (ClientBox c : data.getBoxes()) {
+			VATSummary summary = new VATSummary();
+			summary.setStartDate(new ClientFinanceDate(data
+					.getPeriodStartDate()));
+			summary.setEndDate(new ClientFinanceDate(data.getPeriodEndDate()));
+			summary.setName(c.getName());
+			summary.setValue(c.getAmount());
+			result.add(summary);
+		}
+
+		return result;
+
+	}
+
+	private List<TAXItemDetail> getTaxItemDetails(
+			List<ClientTAXReturnEntry> taxEntries) {
+
+		List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
+
+		for (ClientTAXReturnEntry c : taxEntries) {
+			TAXItemDetail detail = new TAXItemDetail();
+			detail.setTaxAmount(c.getTaxAmount());
+			detail.setTransactionId(c.getTransaction());
+			detail.setTaxItemName(Accounter.getCompany()
+					.getTAXItem(c.getTaxItem()).getName());
+			detail.setTransactionType(c.getTransactionType());
+			detail.setTransactionDate(new ClientFinanceDate(c
+					.getTransactionDate()));
+			detail.setNetAmount(c.getNetAmount());
+			detail.setTAXRate(Accounter.getCompany().getTaxItem(c.getTaxItem())
+					.getTaxRate());
+			detail.setTotal(c.getGrassAmount());
+			details.add(detail);
+		}
+		return details;
 	}
 
 	int getType(TransactionDetailByAccount record) {
