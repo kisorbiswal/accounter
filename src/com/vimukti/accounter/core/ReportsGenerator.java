@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.AmountsDueToVendorServe
 import com.vimukti.accounter.web.client.ui.serverreports.BalanceSheetServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.CashFlowStatementServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.CustomerTransactionHistoryServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.DepreciationSheduleServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ExpenseServerReport;
@@ -112,14 +113,16 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_TAX_ITEM_DETAIL = 165;
 	public final static int REPORT_TYPE_VAT_EXCEPTION_DETAIL = 166;
 	public final static int REPORT_TYPE_VENDORSTATEMENT = 167;
+	public final static int REPORT_TYPE_DEPRECIATIONSHEDULE = 168;
 
 	// private static int companyType;
-	private ClientCompanyPreferences preferences = Global.get().preferences();
+	private final ClientCompanyPreferences preferences = Global.get()
+			.preferences();
 
-	private int reportType;
-	private FinanceDate startDate;
-	private FinanceDate endDate;
-	private String navigateObjectName;
+	private final int reportType;
+	private final FinanceDate startDate;
+	private final FinanceDate endDate;
+	private final String navigateObjectName;
 	private static String status;
 	private int boxNo;
 	private long vendorId;
@@ -189,6 +192,29 @@ public class ReportsGenerator {
 		};
 
 		switch (reportType) {
+		case REPORT_TYPE_DEPRECIATIONSHEDULE:
+			DepreciationSheduleServerReport depreciationSheduleServerReport = new DepreciationSheduleServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(depreciationSheduleServerReport, finaTool);
+			depreciationSheduleServerReport.resetVariables();
+			try {
+				depreciationSheduleServerReport.onResultSuccess(reportsSerivce
+						.getDepreciationSheduleReport(startDate
+								.toClientFinanceDate(), endDate
+								.toClientFinanceDate(),
+								FixedAsset.STATUS_REGISTERED, getCompany()
+										.getId()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return depreciationSheduleServerReport.getGridTemplate();
 		case REPORT_TYPE_PROFITANDLOSS:
 
 			ProfitAndLossServerReport profitAndLossServerReport = new ProfitAndLossServerReport(
@@ -1395,6 +1421,13 @@ public class ReportsGenerator {
 		return salesByLocationsummaryServerReport.getGridTemplate();
 	}
 
+	private ReportGridTemplate<?> generateDepreciationSheduleForFixedAssetsTemplate(
+			AccounterReportServiceImpl reportsSerivce, boolean isLocation,
+			int generationType1, FinanceTool finaTool) {
+
+		return null;
+	}
+
 	private void updateReport(AbstractFinaneReport<?> abstractFinaneReport,
 			FinanceTool financeTool) {
 		abstractFinaneReport.setNavigatedObjectName(navigateObjectName);
@@ -1417,6 +1450,8 @@ public class ReportsGenerator {
 		switch (reportType) {
 		case REPORT_TYPE_PROFITANDLOSS:
 			return "Profit And Loss Report";
+		case REPORT_TYPE_DEPRECIATIONSHEDULE:
+			return "Depreciation Shedule Report";
 		case REPORT_TYPE_BALANCESHEET:
 			return "Balance Sheet Report";
 		case REPORT_TYPE_TRIALBALANCE:
