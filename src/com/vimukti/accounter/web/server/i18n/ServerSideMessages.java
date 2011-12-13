@@ -13,6 +13,7 @@ import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ServerSideMessages {
 
@@ -69,6 +70,11 @@ public class ServerSideMessages {
 					.setString("language", language)
 					.setLong("client", clientId).setString("key", key)
 					.uniqueResult();
+			if (msg == null) {
+				new AccounterException("no value found for '" + key + "'")
+						.printStackTrace();
+				return "";
+			}
 			return msg.replace("'", "\\'");
 		} catch (Exception e) {
 			e.printStackTrace();
