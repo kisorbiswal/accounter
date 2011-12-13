@@ -166,14 +166,15 @@ public class SoldAndDisposedItemsListGrid extends
 	}
 
 	private void executeUpdate(ClientFixedAsset asset, String value) {
-		List<ClientFixedAssetNote> noteList = asset.getFixedAssetNotes();
+		// List<ClientFixedAssetNote> noteList = asset.getFixedAssetNotes();
 		ClientFixedAssetNote note = new ClientFixedAssetNote();
 		note.setNote(value);
-		noteList.add(note);
-		asset.setFixedAssetNotes(noteList);
+		// noteList.add(note);
+		// asset.setFixedAssetNotes(noteList);
 		Accounter.createOrUpdate(this, asset);
 	}
 
+	@Override
 	protected void executeDelete(ClientFixedAsset asset) {
 		deleteObject(asset);
 	}
@@ -237,6 +238,7 @@ public class SoldAndDisposedItemsListGrid extends
 
 	// its not using any where
 
+	@Override
 	public AccounterCoreType getType() {
 		return null;
 	}
