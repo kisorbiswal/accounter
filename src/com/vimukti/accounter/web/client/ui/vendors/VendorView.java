@@ -799,6 +799,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		addCustomFieldButton.setEnabled(!isInViewMode());
 		DynamicForm tdsFrom = new DynamicForm();
 		tdsFrom.setFields(isTDS, vendorTDSTaxCode);
+		tdsFrom.setWidth("100%");
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setSize("100%", "100%");
@@ -821,15 +822,22 @@ public class VendorView extends BaseView<ClientVendor> {
 			rVLayout.add(tdsFrom);
 		}
 		HorizontalPanel customField = new HorizontalPanel();
+		customField.setWidth("100%");
+		customFieldForm.setWidth("100%");
 		Label customLable = new Label("Custom Fields");
 		customField.add(customLable);
+		customField.setCellWidth(customLable, "225px");
 		customField.add(addCustomFieldButton);
 		rVLayout.add(customField);
 		rVLayout.add(customFieldForm);
 		HorizontalPanel mainHLay = new HorizontalPanel();
+		mainHLay.addStyleName("fields-panel");
 		mainHLay.setSize("100%", "100%");
 		mainHLay.add(leftVLay);
 		mainHLay.add(rVLayout);
+		mainHLay.setCellWidth(leftVLay, "50%");
+		mainHLay.setCellWidth(rVLayout, "50%");
+		mainHLay.setCellHorizontalAlignment(rVLayout, ALIGN_RIGHT);
 
 		VerticalPanel mainVLayout = new VerticalPanel();
 		mainVLayout.setSize("100%", "100%");
