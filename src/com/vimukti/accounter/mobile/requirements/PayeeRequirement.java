@@ -1,8 +1,12 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public abstract class PayeeRequirement extends ListRequirement<Payee> {
 
@@ -11,6 +15,13 @@ public abstract class PayeeRequirement extends ListRequirement<Payee> {
 			ChangeListner<Payee> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
+	}
+
+	@Override
+	public void setValue(Object value) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Payee payee = (Payee) value;
+		super.setValue(currentSession.load(Payee.class, payee.getID()));
 	}
 
 	@Override

@@ -1,8 +1,11 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 
 public abstract class CustomerRequirement extends ListRequirement<Customer> {
@@ -12,6 +15,13 @@ public abstract class CustomerRequirement extends ListRequirement<Customer> {
 			ChangeListner<Customer> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
+	}
+
+	@Override
+	public void setValue(Object value) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Customer customer = (Customer) value;
+		super.setValue(currentSession.load(Customer.class, customer.getID()));
 	}
 
 	@Override

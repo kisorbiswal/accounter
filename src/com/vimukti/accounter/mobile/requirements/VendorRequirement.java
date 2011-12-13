@@ -1,8 +1,11 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 
 public abstract class VendorRequirement extends ListRequirement<Vendor> {
@@ -12,6 +15,13 @@ public abstract class VendorRequirement extends ListRequirement<Vendor> {
 			ChangeListner<Vendor> listner) {
 		super(requirementName, displayString, recordName, isOptional,
 				isAllowFromContext, listner);
+	}
+
+	@Override
+	public void setValue(Object value) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Vendor vendor = (Vendor) value;
+		super.setValue(currentSession.load(Vendor.class, vendor.getID()));
 	}
 
 	@Override
