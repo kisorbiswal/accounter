@@ -6,20 +6,15 @@
 		<input>About</input>
 		<outputs>
 			<text name="welcomeToStartup" />
-			<text
-				name="accounterIsAFinancialMangement" />
+			<text name="accounterIsAFinancialMangement" />
 			<text name="manageContactEasily" />
-			<text
-				name="theSoftwareallowsBusiness" />
+			<text name="theSoftwareallowsBusiness" />
 			<text name="monitorFinancialData" />
-			<text
-				name="withThisSoftwareSupplierPrepayments" />
+			<text name="withThisSoftwareSupplierPrepayments" />
 			<text name="generateReports" />
-			<text
-				name="keepsTrackofYoursales" />
+			<text name="keepsTrackofYoursales" />
 			<text name="easySharing" />
-			<text
-				name="informationFromInternetEnabledlocation" />
+			<text name="informationFromInternetEnabledlocation" />
 			<text name="contact" />
 			<text name="https://www.accounterlive.com" />
 			<text name="Mail to:support@accounterlive.com" />
@@ -382,7 +377,7 @@
 		<input>InactiveItems</input>
 		<outputs>
 			<command title="inactiveItemsList" />
-			<command title="createNewItem"  />
+			<command title="createNewItem" />
 		</outputs>
 	</pattern>
 
@@ -398,7 +393,7 @@
 	<pattern>
 		<input>howToCreateTransaction</input>
 		<outputs>
-		
+
 			<command title="Howtocreate{Customer}transactions" />
 			<command title="howtoCreateBankTransaction" />
 			<command title="howToCreateTaxTransaction" />
@@ -544,7 +539,7 @@
 		</outputs>
 	</pattern>
 
-	<pattern login="true">
+	<pattern login="true" if="inventoryEnabled">
 		<input>inventory</input>
 		<outputs>
 			<command title="newStockAdjustment" />
@@ -558,7 +553,7 @@
 	<pattern login="true">
 		<input>InventoryLists</input>
 		<outputs>
-			<command title="InventoryItems" />
+			<command value="InventoryItems inventory" title="InventoryItems" />
 			<command title="warehouseList" />
 			<command title="warehouseTransferList" />
 			<command title="warehouseList" />
