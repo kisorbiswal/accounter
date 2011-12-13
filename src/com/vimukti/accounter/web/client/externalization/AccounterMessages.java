@@ -4739,13 +4739,13 @@ public interface AccounterMessages extends Messages {
 	public String fixedAssetNote();
 
 	public String doNottrackingLocation();
-
+	
 	public String noAmountAddedtoAccounts();
 
 	public String editingCreditsFailed();
-
-	public String pleaseEnterAmountToReceive();
-
+	
+	public String companyDefaultTaxCode(String TAX);
+	
 	public String parentAccount();
 
 	public String isSubAccount();
