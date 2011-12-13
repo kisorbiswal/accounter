@@ -402,7 +402,9 @@ public class DashboardManager extends Manager {
 				Object[] object = iterator.next();
 				String accountName = (String) object[0];
 				Double accountBalance = (Double) object[1];
-				accountNamesWitBalances.put(accountName, accountBalance);
+				if (accountBalance > 0) {
+					accountNamesWitBalances.put(accountName, accountBalance);
+				}
 			}
 			return accountNamesWitBalances;
 		} catch (Exception e) {
