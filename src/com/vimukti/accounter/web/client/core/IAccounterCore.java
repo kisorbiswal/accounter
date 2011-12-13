@@ -48,6 +48,7 @@ public interface IAccounterCore extends IsSerializable, Serializable,
 	public static final int ACCOUNTER_CLASS = 78;
 	public static final int BANK_ACCOUNT = 79;
 	public static final int FIXED_ASSET = 80;
+	public static final int BUDGET = 81;
 
 	String getName();
 
