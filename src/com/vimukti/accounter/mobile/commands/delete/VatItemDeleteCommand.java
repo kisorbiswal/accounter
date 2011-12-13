@@ -18,7 +18,7 @@ public class VatItemDeleteCommand extends AbstractDeleteCommand {
 					getMessages().payeeInUse(
 							getMessages().payeeGroup(getMessages().taxItem())));
 		}
-		return "VAT Items";
+		return "vatItems";
 
 	}
 

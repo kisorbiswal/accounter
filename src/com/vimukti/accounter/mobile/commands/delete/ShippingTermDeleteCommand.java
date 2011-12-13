@@ -20,6 +20,6 @@ public class ShippingTermDeleteCommand extends AbstractDeleteCommand {
 			addFirstMessage(context,
 					getMessages().payeeInUse(getMessages().shippingTerm()));
 		}
-		return "Shipping Terms";
+		return "shippingTerms";
 	}
 }

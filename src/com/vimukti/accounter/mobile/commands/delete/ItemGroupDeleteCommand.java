@@ -15,7 +15,7 @@ public class ItemGroupDeleteCommand extends AbstractDeleteCommand {
 			addFirstMessage(context,
 					getMessages().payeeInUse(getMessages().itemGroup()));
 		}
-		return "ItemGroups";
+		return "itemGroupList";
 	}
 
 }

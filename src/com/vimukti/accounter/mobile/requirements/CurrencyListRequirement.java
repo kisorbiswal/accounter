@@ -45,7 +45,7 @@ public abstract class CurrencyListRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add("Add Currency");
+		list.add("addCurrency");
 	}
 
 	@Override

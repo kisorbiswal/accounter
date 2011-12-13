@@ -29,6 +29,6 @@ public class TransactionDeleteCommand extends AbstractDeleteCommand {
 		} catch (AccounterException e) {
 			addFirstMessage(context, e.getMessage());
 		}
-		return transactionName + " List";
+		return transactionName + "List";
 	}
 }

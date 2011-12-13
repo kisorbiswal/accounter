@@ -56,7 +56,7 @@ public class PatternResult extends Result {
 			result.add("You do not have permission to do this action.");
 			result.add("You can change permissions from Company Preferences.");
 			CommandList list = new CommandList();
-			list.add("Change Preferences");
+			list.add("companyPreferences");
 			result.add(list);
 			result.setNextCommand("back");
 			return result;

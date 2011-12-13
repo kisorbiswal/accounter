@@ -21,7 +21,7 @@ public class AccountDeleteCommand extends AbstractDeleteCommand {
 					getMessages().payeeInUse(getMessages().account()));
 		}
 		if (account.getType() == Account.TYPE_BANK) {
-			return "Bank Accounts";
+			return "bankAccounts";
 		} else {
 			return "Accounts";
 		}

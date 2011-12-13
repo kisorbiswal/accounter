@@ -84,7 +84,7 @@ public abstract class PurchaseOrderTableRequirements extends
 
 	@Override
 	protected void addCreateCommands(CommandList commandList) {
-		commandList.add(getMessages().create(getMessages().purchaseOrder()));
+		commandList.add("createPurchaseOrder");
 	}
 
 	protected abstract Vendor getVendor();

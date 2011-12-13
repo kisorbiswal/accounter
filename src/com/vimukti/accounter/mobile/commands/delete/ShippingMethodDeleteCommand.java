@@ -15,6 +15,6 @@ public class ShippingMethodDeleteCommand extends AbstractDeleteCommand {
 			addFirstMessage(context,
 					getMessages().payeeInUse(getMessages().shippingMethod()));
 		}
-		return "Shipping Methods";
+		return "shippingMethods";
 	}
 }

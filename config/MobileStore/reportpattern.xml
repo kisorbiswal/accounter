@@ -11,134 +11,90 @@
 		/> </outputs> </pattern> -->
 
 	<pattern login="true">
-		<input>Reports</input>
+		<input>reports</input>
 		<outputs>
-			<command title="Company &amp; Financial Reports" />
-			<command title="Customers and Receivables Reports" />
-			<command title="Sales Reports" />
-			<command title="Suppliers and Payable Reports" />
-			<command title="Purchases Reports" />
-			<command if="trackTax" title="VAT Reports" />
+			<command title="companyFinancialReports" />
+			<command title="{Customers}andReceivablesReports" />
+			<command title="salesReports" />
+			<command title="purchasesReports" />
+			<command if="trackTax" title="vATReports" />
 		</outputs>
 	</pattern>
 
 	<pattern login="true">
-		<input>Company &amp; Financial Reports</input>
+		<input>companyFinancialReports</input>
 		<outputs>
-			<text name="Company &amp; Financial Reports" />
-			<command title="Profit and Loss" />
-			<command title="Balance Sheet" />
-			<command title="Cash Flow Report" />
-			<command title="Trial Balance" />
-			<command title="Transaction Detail By Account" />
-			<command title="Expense Report" />
-			<command if="trackTax" title="Transaction Detailed by Tax Item" />
+			<text name="companyFinancialReports" />
+			<command title="profitandLoss" />
+			<command title="balanceSheet" />
+			<command title="cashFlowReport" />
+			<command title="trialBalance" />
+			<command title="transactionDetailByAccount" />
+			<command title="expenseReport" />
+			<command if="trackTax" title="transactionDetailedbyTaxItem" />
 		</outputs>
 	</pattern>
 
 	<pattern login="true">
-		<input>Customers and Receivables Reports</input>
-		<input>customer reports</input>
+		<input>{Customers}andReceivablesReports</input>
+		<input>{customer}reports</input>
 		<outputs>
-			<text name="Sales Reports" />
-			<command title="A/R Aging Summary" />
-			<command title="A/R Aging Detail" />
-			<command title="Customer Statement" />
-			<command title="Customer Transaction History" />
+			<text name="salesReports" />
+			<command title="arAgeingSummary" />
+			<command title="arAgeingDetail" />
+			<command title="{Customer}Statement" />
+			<command title="{Customer}TransactionHistory" />
 		</outputs>
 	</pattern>
 
 	<pattern login="true">
-		<input>Sales Reports</input>
+		<input>salesReports</input>
 		<outputs>
-			<text name="Sales Reports" />
-			<command title="Sales By Customer Summary" />
-			<command title="Sales By Customer Detail" />
-			<command title="Sales By Item Summary" />
-			<command title="Sales By Item Detail" />
+			<text name="salesReports" />
+			<command title="salesBy{Customer}Summary" />
+			<command title="salesBy{Customer}Detail" />
+			<command title="salesByItemSummary" />
+			<command title="salesByItemDetail" />
 			<!-- <command title="Sales Order Report" /> -->
 		</outputs>
 	</pattern>
 
 	<pattern login="true">
-		<input>Suppliers and Payable Reports</input>
-		<input>Vendors and Payable Reports</input>
-		<input>vendor reports</input>
-		<input>supplier reports</input>
+		<input>{Vendors}andPayableReports</input>
+		<input>{vendor}reports</input>
 		<outputs>
-			<text name="Suppliers and Payable Reports" />
-			<command title="A/P Aging Summary" />
-			<command title="A/P Aging Detail" />
-			<command title="Supplier Transaction History" />
+			<command title="apAgeingSummary" />
+			<command title="apAgeingDetail" />
 		</outputs>
 	</pattern>
 
 	<pattern login="true">
-		<input>Purchases Reports</input>
+		<input>purchasesReports</input>
 		<outputs>
-			<text name="Purchases Reports" />
-			<command title="Purchase By Supplier Summary" />
-			<command title="Purchase By Supplier Detail" />
-			<command title="Purchase By Item Summary" />
-			<command title="Purchase By Item Detail" />
+			<text name="purchasesReports" />
+			<command title="purchaseBy{Vendor}Summary" />
+			<command title="purchaseBy{Vendor}Detail" />
+			<command title="purchaseByItemSummary" />
+			<command title="purchaseByItemDetail" />
 			<!-- <command title="Purchase Order Report" /> -->
 		</outputs>
 	</pattern>
 
 	<pattern login="true" if="trackTax">
-		<input>VAT Reports</input>
-		<input>TAX Reports</input>
+		<input>vATReports</input>
+		<input>tAXReports</input>
 		<outputs>
 			<text name="VAT Reports" />
-			<command if="isUK" title="Prior VAT Return" />
-			<command if="isUK" title="VAT Detail" />
-			<command if="isNotUK" title="TAX Item Detail" />
-			<command if="isUK" title="VAT 100" />
-			<command if="isUK" title="VAT Exception Detail" />
-			<command if="isNotUK" title="Tax Item Exception Report" />
-			<command if="isUK" title="Uncategorized VAT Amounts" />
-			<command if="isUK" title="EC Sales List" />
-			<command if="isUK" title="VAT Item Summary" />
-			<command if="isNotUK" title="TAX Item Summary" />
-		</outputs>
-	</pattern>
-
-	<pattern login="true">
-		<input>dateRanges</input>
-		<outputs>
-			<text name="Select A Date Range" />
-			<command title="All" />
-			<command title="This Week" />
-			<command title="This Month" />
-			<command title="Last Week" />
-			<command title="Last Month" />
-			<command title="This Financial Year" />
-			<command title="Last Financial Year" />
-			<command title="This Financial Quarter" />
-			<command title="Last Financial Quarter" />
-			<command title="Financial Year To Date" />
-			<command title="Custom" />
-		</outputs>
-	</pattern>
-
-	<pattern login="true">
-		<input>status</input>
-		<outputs>
-			<text name="Select A Status" />
-			<command title="Open" />
-			<command title="Completed" />
-			<command title="Canceled" />
-			<command title="All" />
-		</outputs>
-	</pattern>
-
-	<pattern login="true">
-		<input>expenceType</input>
-		<outputs>
-			<text name="Select An Expense Type" />
-			<command title="All Expenses" />
-			<command title="Cash Expense" />
-			<command title="Credit Card Expenses" />
+			<command if="isUK" title="priorVATReturns" />
+			<command if="isUK" title="vatDetail" />
+			<command if="isNotUK" title="taxItemDetailReport" />
+			<command if="isUK" title="vat100" />
+			<command if="isUK" title="vatExceptionDetail" />
+			<command if="isNotUK" title="taxItemExceptionDetailReport" />
+			<command if="isUK" title="uncategorizedVATAmounts" />
+			<command if="isUK" title="ecSalesList" />
+			<command if="isUK" title="vATItemSummary" />
+			<command if="isNotUK" title="vatItemSummary" />
 		</outputs>
 	</pattern>
 </patterns>

@@ -43,7 +43,6 @@ public class PatternStore {
 		}
 
 		return result.render(isAuthenticated, company);
-
 	}
 
 	public void reload() throws AccounterMobileException {

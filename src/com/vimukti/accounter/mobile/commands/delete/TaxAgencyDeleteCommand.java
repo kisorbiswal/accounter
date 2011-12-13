@@ -15,7 +15,7 @@ public class TaxAgencyDeleteCommand extends AbstractDeleteCommand {
 			addFirstMessage(context,
 					getMessages().payeeInUse(getMessages().taxAgency()));
 		}
-		return "TaxAgencies";
+		return "taxAgencies";
 	}
 
 }

@@ -1,15 +1,10 @@
 package com.vimukti.accounter.mobile.requirements;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.CommandList;
-import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.ui.CoreUtils;
 
 public abstract class CurrencyRequirement extends
 		ListRequirement<ClientCurrency> {

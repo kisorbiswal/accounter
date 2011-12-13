@@ -46,13 +46,13 @@ public abstract class ItemRequirement extends ListRequirement<Item> {
 	@Override
 	protected void setCreateCommand(CommandList list) {
 		if (isSales) {
-			list.add(new UserCommand("Create New Service Item", "sell"));
-			list.add(new UserCommand("Create New NonInventory Item", "sell"));
-			list.add(new UserCommand("Create New Inventory Item", "sell"));
+			list.add(new UserCommand("createServiceItem", "sell"));
+			list.add(new UserCommand("createNonInventoryItem", "sell"));
+			list.add(new UserCommand("createInventoryItem", "sell"));
 		} else {
-			list.add(new UserCommand("Create New Service Item", "buy"));
-			list.add(new UserCommand("Create New NonInventory Item", "buy"));
-			list.add(new UserCommand("Create New Inventory Item", "buy"));
+			list.add(new UserCommand("createServiceItem", "buy"));
+			list.add(new UserCommand("createNonInventoryItem", "buy"));
+			list.add(new UserCommand("createInventoryItem", "buy"));
 		}
 	}
 

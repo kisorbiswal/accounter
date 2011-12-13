@@ -22,6 +22,6 @@ public class PaymentTermDeleteCommand extends AbstractDeleteCommand {
 			addFirstMessage(context,
 					getMessages().payeeInUse(getMessages().paymentTerm()));
 		}
-		return "PaymentTerms";
+		return "paymentTerms";
 	}
 }

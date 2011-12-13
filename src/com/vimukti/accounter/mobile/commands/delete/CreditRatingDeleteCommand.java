@@ -15,7 +15,7 @@ public class CreditRatingDeleteCommand extends AbstractDeleteCommand {
 			addFirstMessage(context,
 					getMessages().payeeInUse(getMessages().creditRating()));
 		}
-		return "Credit Rating List";
+		return "creditRatingList";
 	}
 
 }

@@ -10,7 +10,7 @@ public class UserCommand {
 	}
 
 	public UserCommand(String commandName) {
-		this(commandName, commandName, "");
+		this(commandName, MobileServerMessages.getMessage(commandName), "");
 	}
 
 	public UserCommand(String commandName, String displayName, String inputs) {
@@ -20,7 +20,7 @@ public class UserCommand {
 	}
 
 	public UserCommand(String commandName, String inputs) {
-		this(commandName, commandName, inputs);
+		this(commandName, MobileServerMessages.getMessage(commandName), inputs);
 	}
 
 	public UserCommand(String commandName, long id) {

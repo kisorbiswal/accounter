@@ -15,6 +15,6 @@ public class SalesPersonDeleteCommand extends AbstractDeleteCommand {
 			addFirstMessage(context,
 					getMessages().payeeInUse(getMessages().salesPerson()));
 		}
-		return "Sales Persons";
+		return "salesPersons";
 	}
 }

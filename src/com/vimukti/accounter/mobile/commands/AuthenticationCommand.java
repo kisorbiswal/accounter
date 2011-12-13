@@ -83,8 +83,10 @@ public class AuthenticationCommand extends Command {
 		if (networkType == AccounterChatServer.NETWORK_TYPE_MOBILE) {
 
 			String string = context.getString();
-			if (string.isEmpty()) {
+			Object last = context.getLast(RequirementType.STRING);
+			if (last != null) {
 				string = (String) context.getLast(RequirementType.STRING);
+				context.setLast(RequirementType.STRING, null);
 				context.setAttribute("input", "userName");
 			}
 			Object attribute = context.getAttribute("input");
@@ -111,8 +113,9 @@ public class AuthenticationCommand extends Command {
 
 			if (attribute.equals("activation")) {
 				String userName = (String) context.getAttribute("userName");
-
-				Activation activation = getActivation(context.getString());
+				String activationCode = context.getString().toLowerCase()
+						.trim();
+				Activation activation = getActivation(activationCode);
 				if (activation == null) {
 					makeResult.add("Wrong activation code");
 					context.setAttribute("input", "userName");
@@ -129,7 +132,7 @@ public class AuthenticationCommand extends Command {
 			}
 
 			if (attribute.equals("userName")) {
-				context.setAttribute("userName", string);
+				context.setAttribute("userName", string.toLowerCase().trim());
 				client = getClient(string);
 				if (client != null && !client.isActive()) {
 					context.setAttribute("input", "activation");
@@ -188,7 +191,7 @@ public class AuthenticationCommand extends Command {
 
 			if (isDone()) {
 				makeResult.add("Your Successfully Logged.");
-				makeResult.setNextCommand("Select Company");
+				makeResult.setNextCommand("selectCompany");
 				context.getIOSession().setClient(client);
 				context.getIOSession().setAuthentication(true);
 				return makeResult;
@@ -288,7 +291,7 @@ public class AuthenticationCommand extends Command {
 	}
 
 	private String createUserActivationCode(String emailId) {
-		String token = SecureUtils.createID(16);
+		String token = SecureUtils.createID(16).toLowerCase().trim();
 		Activation activation = new Activation();
 		activation.setEmailId(emailId);
 		activation.setToken(token);
@@ -344,7 +347,7 @@ public class AuthenticationCommand extends Command {
 			list.add(record);
 			makeResult.add(list);
 			CommandList commandList = new CommandList();
-			commandList.add("Signup");
+			commandList.add("signup");
 			makeResult.add(commandList);
 			return makeResult;
 		}
@@ -367,11 +370,11 @@ public class AuthenticationCommand extends Command {
 		return (MobileCookie) session.get(MobileCookie.class, string);
 	}
 
-	private Activation getActivation(String string) {
+	private Activation getActivation(String activationCode) {
 		Session session = HibernateUtil.getCurrentSession();
 		Activation val = (Activation) session
 				.getNamedQuery("get.activation.by.token")
-				.setString("token", string).uniqueResult();
+				.setString("token", activationCode).uniqueResult();
 		return val;
 	}
 
@@ -392,7 +395,7 @@ public class AuthenticationCommand extends Command {
 	}
 
 	private void sendActivationMail(String networkId, String emailId) {
-		String activationCode = SecureUtils.createID(16);
+		String activationCode = SecureUtils.createID(16).toLowerCase().trim();
 		System.out.println("NetWorkID: " + networkId);
 		System.out.println("EmailId: " + emailId);
 		System.out.println("Activation Code: " + activationCode);
@@ -422,7 +425,8 @@ public class AuthenticationCommand extends Command {
 		Session session = HibernateUtil.getCurrentSession();
 		IMActivation activation = (IMActivation) session
 				.getNamedQuery("activation.by.tocken")
-				.setString("tocken", string).uniqueResult();
+				.setString("tocken", string.toLowerCase().trim())
+				.uniqueResult();
 		return activation;
 	}
 
@@ -437,7 +441,7 @@ public class AuthenticationCommand extends Command {
 	private Client getClient(String emailId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
-		namedQuery.setParameter("emailId", emailId.toLowerCase());
+		namedQuery.setParameter("emailId", emailId.toLowerCase().trim());
 		Client client = (Client) namedQuery.uniqueResult();
 		return client;
 	}

@@ -17,7 +17,7 @@ public class VendorGroupDeleteCommand extends AbstractDeleteCommand {
 					getMessages().payeeInUse(
 							getMessages().payeeGroup(getMessages().vendor())));
 		}
-		return "VendorGroups";
+		return "{Vendor}Groups";
 	}
 
 }

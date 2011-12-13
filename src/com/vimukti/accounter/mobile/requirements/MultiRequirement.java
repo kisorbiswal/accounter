@@ -97,7 +97,7 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 			}
 		}
 		Record record = new Record("finish" + getName());
-		record.add("Finish");
+		record.add(getMessages().finish());
 		actions.add(record);
 		result.add(actions);
 		Object selection = context.getSelection("actions");

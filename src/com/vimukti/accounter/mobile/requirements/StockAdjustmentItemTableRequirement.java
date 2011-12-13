@@ -56,7 +56,7 @@ public abstract class StockAdjustmentItemTableRequirement extends
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("create inventory item");
+				list.add("createInventoryItem");
 			}
 		});
 

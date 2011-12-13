@@ -15,6 +15,6 @@ public class ItemDeleteCommand extends AbstractDeleteCommand {
 			addFirstMessage(context,
 					getMessages().payeeInUse(getMessages().item()));
 		}
-		return "Items";
+		return "items";
 	}
 }

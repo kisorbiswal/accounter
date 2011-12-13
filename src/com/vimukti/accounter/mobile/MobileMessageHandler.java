@@ -163,8 +163,9 @@ public class MobileMessageHandler extends Thread {
 					}
 				}
 			}
-
-			result.setTitle(userMessage.getCommandString());
+			String commandString = userMessage.getCommandString();
+			result.setTitle(commandString == null ? null : MobileServerMessages
+					.getMessage(commandString));
 			String postProcess = adoptor.postProcess(result);
 			session.setLastReply(postProcess);
 			if (session.isExpired()) {
@@ -226,14 +227,8 @@ public class MobileMessageHandler extends Thread {
 		}
 
 		if (command == null && !session.isAuthenticated()) {
-			// Result result = PatternStore.INSTANCE.find("login");
-			// if (result != null) {
-			// userMessage.setType(Type.HELP);
-			// userMessage.setResult(result);
-			// return userMessage;
-			// }
 			command = new AuthenticationCommand();
-			userMessage.setCommandString("Login");
+			userMessage.setCommandString("logIn");
 			if (networkType != AccounterChatServer.NETWORK_TYPE_MOBILE) {
 				userMessage.setOriginalMsg("");// To know it is first
 				message = "";
@@ -243,7 +238,7 @@ public class MobileMessageHandler extends Thread {
 			long companyId = session.getCompanyID();
 			if (companyId == 0) {
 				command = new SelectCompanyCommand();
-				userMessage.setCommandString("Company Selection");
+				userMessage.setCommandString("selectCompany");
 			}
 		}
 		Company company = session.getCompany();
@@ -313,7 +308,7 @@ public class MobileMessageHandler extends Thread {
 			if (lastMessage2 != null) {
 				message = lastMessage2.getCommandString();
 			} else {
-				message = "Menu";
+				message = "menu";
 			}
 			result = PatternStore.INSTANCE.find(message,
 					session.isAuthenticated(), company);
@@ -363,20 +358,22 @@ public class MobileMessageHandler extends Thread {
 
 	private CommandResult findCommand(String message) {
 		String commandString = message;
+		commandString = message.split(" ")[0];
 		Command matchedCommand = null;
-		while (!commandString.isEmpty()) {
-			matchedCommand = CommandsFactory.INSTANCE.getCommand(commandString);
-			if (matchedCommand != null) {
-				break;
-			}
-			int lastIndexOf = commandString.lastIndexOf(" ");
-			if (lastIndexOf > 0) {
-				commandString = commandString.substring(0, lastIndexOf);
-			}
-			if (lastIndexOf < 0) {
-				break;
-			}
-		}
+		// while (!commandString.isEmpty()) {
+		// matchedCommand = CommandsFactory.INSTANCE.getCommand(commandString);
+		// if (matchedCommand != null) {
+		// break;
+		// }
+		// int lastIndexOf = commandString.lastIndexOf(" ");
+		// if (lastIndexOf > 0) {
+		// commandString = commandString.substring(0, lastIndexOf);
+		// }
+		// if (lastIndexOf < 0) {
+		// break;
+		// }
+		// }
+		matchedCommand = CommandsFactory.INSTANCE.getCommand(commandString);
 		CommandResult result = new CommandResult();
 		result.command = matchedCommand;
 		result.commandString = commandString;

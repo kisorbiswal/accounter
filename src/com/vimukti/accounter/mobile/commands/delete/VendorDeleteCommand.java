@@ -15,7 +15,7 @@ public class VendorDeleteCommand extends AbstractDeleteCommand {
 			addFirstMessage(context,
 					getMessages().payeeInUse(getMessages().vendor()));
 		}
-		return "Vendors";
+		return "{Vendors}";
 	}
 
 }

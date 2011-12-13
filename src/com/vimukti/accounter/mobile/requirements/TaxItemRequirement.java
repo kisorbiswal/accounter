@@ -27,7 +27,7 @@ public abstract class TaxItemRequirement extends ListRequirement<TAXItem> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().taxItem()));
+		list.add("createTaxItem");
 	}
 
 	@Override
