@@ -335,21 +335,22 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		} else if (!this.equals(customerRefund)) {
 
 			if (!this.payTo.equals(customerRefund.payTo)) {
-				Customer preCustomer = (Customer) session.get(Customer.class,
-						customerRefund.payTo.id);
-				preCustomer.updateBalance(session, this, customerRefund.total);
-				customerRefund.doVoidEffect(session);
+				// Customer preCustomer = (Customer) session.get(Customer.class,
+				// customerRefund.payTo.id);
+				customerRefund.payTo.updateBalance(session, this,
+						customerRefund.total);
+				// customerRefund.doVoidEffect(session);
 			}
 
 			this.payTo.updateBalance(session, this, customerRefund.total
 					- this.total);
 
 			// if (!this.payFrom.equals(customerRefund.payFrom)) {
-			Account oldAccount = (Account) session.get(Account.class,
-					customerRefund.payFrom.id);
-			oldAccount.updateCurrentBalance(this, -clonedObject.total,
-					clonedObject.currencyFactor);
-			oldAccount.onUpdate(session);
+			// Account oldAccount = (Account) session.get(Account.class,
+			// customerRefund.payFrom.id);
+			customerRefund.payFrom.updateCurrentBalance(this,
+					-clonedObject.total, clonedObject.currencyFactor);
+			customerRefund.payFrom.onUpdate(session);
 			// }
 			this.payFrom.updateCurrentBalance(this, this.total,
 					this.currencyFactor);
