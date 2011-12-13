@@ -2169,7 +2169,9 @@ input.date-field-textbox {
 	cursor: pointer;
 	color: #FFFFFF;
 }
-
+.customfileddialog .no_records .norecord-empty-message{
+	margin-left:265px;
+}
 .no_records .norecord-empty-message {
 	margin-left: 400px;
 	position: absolute;
