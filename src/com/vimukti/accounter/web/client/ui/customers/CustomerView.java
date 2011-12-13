@@ -35,7 +35,6 @@ import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -918,7 +917,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		bankAccountSelect = new TextItem(messages.bankAccountNo());
+		bankAccountSelect = new TextItem(messages.bankAccountNumber());
 		bankAccountSelect.setHelpInformation(true);
 		bankNameSelect = new TextItem(messages.bankName());
 		bankNameSelect.setHelpInformation(true);
@@ -1082,8 +1081,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		HorizontalPanel customField = new HorizontalPanel();
+		customField.setWidth("100%");
 		Label customLable = new Label("Custom Fields");
 		customField.add(customLable);
+		customField.setCellWidth(customLable, "225px");
 		customField.add(addCustomFieldButton);
 		rightVLay.add(termsForm);
 		rightVLay.add(customField);
