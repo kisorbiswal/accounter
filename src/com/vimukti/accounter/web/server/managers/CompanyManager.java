@@ -132,37 +132,37 @@ public class CompanyManager extends Manager {
 			fixedAsset.setTotalCapitalGain(null);
 			fixedAsset.setLossOrGain(0.0);
 
-			/**
+			 /**
 			 * Saving the action into History
 			 */
-			FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-			if (fixedAsset.getPurchaseDate().before(newStartDate)) {
-				fixedAsset.setStatus(FixedAsset.STATUS_PENDING);
-
-				fixedAssetHistory
-						.setActionType(FixedAssetHistory.ACTION_TYPE_ROLLBACK);
-				fixedAssetHistory.setActionDate(new FinanceDate());
-				fixedAssetHistory
-						.setDetails("Fixed Asset Start Long altered from "
-								+ format.format(startDate.getAsDateObject())
-								+ " to "
-								+ format.format(newStartDate.getAsDateObject())
-								+ ". All fixed assets journals reversed.");
-
-			} else {
-
-				fixedAssetHistory
-						.setActionType(FixedAssetHistory.ACTION_TYPE_NONE);
-				fixedAssetHistory.setActionDate(new FinanceDate());
-				fixedAssetHistory
-						.setDetails("Fixed Asset Start Long altered from "
-								+ format.format(startDate.getAsDateObject())
-								+ " to "
-								+ format.format(newStartDate.getAsDateObject())
-								+ ". All fixed assets book values are set");
-
-			}
-			fixedAsset.getFixedAssetsHistory().add(fixedAssetHistory);
+			 FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
+			 if (fixedAsset.getPurchaseDate().before(newStartDate)) {
+			 fixedAsset.setStatus(FixedAsset.STATUS_PENDING);
+			
+			 fixedAssetHistory
+			 .setActionType(FixedAssetHistory.ACTION_TYPE_ROLLBACK);
+			 fixedAssetHistory.setActionDate(new FinanceDate());
+			 fixedAssetHistory
+			 .setDetails("Fixed Asset Start Long altered from "
+			 + format.format(startDate.getAsDateObject())
+			 + " to "
+			 + format.format(newStartDate.getAsDateObject())
+			 + ". All fixed assets journals reversed.");
+			
+			 } else {
+			
+			 fixedAssetHistory
+			 .setActionType(FixedAssetHistory.ACTION_TYPE_NONE);
+			 fixedAssetHistory.setActionDate(new FinanceDate());
+			 fixedAssetHistory
+			 .setDetails("Fixed Asset Start Long altered from "
+			 + format.format(startDate.getAsDateObject())
+			 + " to "
+			 + format.format(newStartDate.getAsDateObject())
+			 + ". All fixed assets book values are set");
+			
+			 }
+			 fixedAsset.getFixedAssetsHistory().add(fixedAssetHistory);
 			session.saveOrUpdate(fixedAsset);
 			ChangeTracker.put(fixedAsset);
 
@@ -171,15 +171,16 @@ public class CompanyManager extends Manager {
 	}
 
 	// SURESH
-	public void rollBackDepreciation(long rollBackDepreciationTo, long companyId)
-			throws AccounterException {
-		rollBackDepreciation(new FinanceDate(rollBackDepreciationTo),
+	public Boolean rollBackDepreciation(long rollBackDepreciationTo,
+			long companyId) throws AccounterException {
+		return rollBackDepreciation(new FinanceDate(rollBackDepreciationTo),
 				getCompany(companyId));
 	}
 
-	public void rollBackDepreciation(FinanceDate rollBackDepreciationTo,
+	public boolean rollBackDepreciation(FinanceDate rollBackDepreciationTo,
 			Company company) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction t = session.beginTransaction();
 		Query query = session.getNamedQuery("getDepreciation.by.ToandStatus")
 				.setParameter("deprediationTo", (rollBackDepreciationTo))
 				.setParameter("status", Depreciation.APPROVE)
@@ -193,16 +194,19 @@ public class CompanyManager extends Manager {
 			dep.setRollBackDepreciationDate(new FinanceDate(
 					rollBackDepreciationTo.getDate()));
 
-			org.hibernate.Transaction t = session.beginTransaction();
+			// FixedAsset fixedAsset = dep.getFixedAsset();
+			// fixedAsset.deleteJournalEntriesTillDate(rollBackDepreciationTo,
+			// session);
+
 			session.saveOrUpdate(dep);
 			if (dep instanceof Lifecycle) {
-				Lifecycle lifecycle = (Lifecycle) dep;
+				Lifecycle lifecycle = dep;
 				lifecycle.onUpdate(session);
 			}
-			t.commit();
+
 			// }
 		}
-
+		t.commit();
 		// for (Depreciation dep : list) {
 		// for (FixedAsset fixedAsset : dep.getFixedAsset()) {
 		// if (fixedAsset != null)
@@ -213,6 +217,8 @@ public class CompanyManager extends Manager {
 		//
 		// t.commit();
 		// }
+
+		return true;
 
 	}
 
