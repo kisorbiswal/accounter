@@ -254,7 +254,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().issuePayment()));
-				return "{Vendor}Payments";
+				return "vendorPayments";
 			}
 			issuePayment = getTransaction(string,
 					AccounterCoreType.ISSUEPAYMENT, context);
@@ -264,7 +264,7 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().issuePayment()));
-				return "{Vendor}Payments " + string;
+				return "vendorPayments " + string;
 			}
 			setValues(context);
 		} else {

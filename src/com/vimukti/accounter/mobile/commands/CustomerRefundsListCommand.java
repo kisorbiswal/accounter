@@ -117,7 +117,7 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("create{Customer}Refund");
+				list.add("createCustomerRefund");
 
 			}
 

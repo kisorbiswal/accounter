@@ -106,7 +106,7 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("create{Customer}Prepayment");
+				list.add("createCustomerPrepayment");
 				list.add("createReceivePayment");
 
 			}

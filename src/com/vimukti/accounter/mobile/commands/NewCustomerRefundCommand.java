@@ -54,7 +54,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 						getMessages().selectATransactionToUpdate(
 								getMessages().customerRefund(
 										Global.get().Customer())));
-				return "{Customer}RefundList";
+				return "customerRefundList";
 			}
 
 			customerRefund = getTransaction(string,
@@ -66,7 +66,7 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 						getMessages().selectATransactionToUpdate(
 								getMessages().customerRefund(
 										Global.get().Customer())));
-				return "{Customer}RefundList " + string;
+				return "customerRefundList " + string;
 			}
 			setValues();
 		} else {

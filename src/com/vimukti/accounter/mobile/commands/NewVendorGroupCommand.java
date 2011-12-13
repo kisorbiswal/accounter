@@ -50,7 +50,7 @@ public class NewVendorGroupCommand extends NewAbstractCommand {
 								.selectATransactionToUpdate(
 										getMessages().payeeGroup(
 												Global.get().Vendor())));
-				return "{Vendor}Groups";
+				return "vendorGroups";
 			}
 			ClientVendorGroup customerGroupByName = CommandUtils
 					.getVendorGroupByName(context.getCompany(), string);
@@ -61,7 +61,7 @@ public class NewVendorGroupCommand extends NewAbstractCommand {
 								.selectATransactionToUpdate(
 										getMessages().payeeGroup(
 												Global.get().Vendor())));
-				return "{Vendor}Groups " + string.trim();
+				return "vendorGroups " + string.trim();
 			}
 			vendorGroup = customerGroupByName;
 			get(VENDORGROUP_NAME).setValue(vendorGroup.getName());

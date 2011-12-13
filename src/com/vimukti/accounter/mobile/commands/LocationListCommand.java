@@ -50,7 +50,7 @@ public class LocationListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Location value) {
-				return "update{Location} " + value.getName();
+				return "updateLocation " + value.getName();
 			}
 
 			@Override
@@ -73,7 +73,7 @@ public class LocationListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("create{Location}");
+				list.add("createLocation");
 			}
 
 			@Override

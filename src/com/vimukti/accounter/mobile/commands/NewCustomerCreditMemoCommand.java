@@ -52,15 +52,17 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 	@Override
 	protected String getWelcomeMessage() {
 		return creditMemo.getID() == 0 ? getMessages().create(
-				getMessages().CustomerCreditNote())
+				getMessages().customerCreditNote(Global.get().Customer()))
 				: "Update Customer Credit Note Command is activated";
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return creditMemo.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().CustomerCreditNote()) : getMessages()
-				.readyToUpdate(getMessages().CustomerCreditNote());
+				getMessages().customerCreditNote(Global.get().Customer()))
+				: getMessages().readyToUpdate(
+						getMessages().customerCreditNote(
+								Global.get().Customer()));
 	}
 
 	@Override
@@ -78,8 +80,10 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 	@Override
 	public String getSuccessMessage() {
 		return creditMemo.getID() == 0 ? getMessages().createSuccessfully(
-				getMessages().CustomerCreditNote()) : getMessages()
-				.updateSuccessfully(getMessages().CustomerCreditNote());
+				getMessages().customerCreditNote(Global.get().Customer()))
+				: getMessages().updateSuccessfully(
+						getMessages().customerCreditNote(
+								Global.get().Customer()));
 	}
 
 	@Override

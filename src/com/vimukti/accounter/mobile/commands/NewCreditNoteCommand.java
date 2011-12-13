@@ -258,7 +258,8 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(
 						context,
 						getMessages().selectATransactionToUpdate(
-								getMessages().CustomerCreditNote()));
+								getMessages().customerCreditNote(
+										Global.get().Customer())));
 				return "invoices";
 			}
 
@@ -269,7 +270,8 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 				addFirstMessage(
 						context,
 						getMessages().selectATransactionToUpdate(
-								getMessages().CustomerCreditNote()));
+								getMessages().customerCreditNote(
+										Global.get().Customer())));
 				return "invoices " + string;
 			}
 			setValues();

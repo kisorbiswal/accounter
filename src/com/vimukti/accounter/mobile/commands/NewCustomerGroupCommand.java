@@ -29,7 +29,7 @@ public class NewCustomerGroupCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().customergroup()));
-				return "{customergroup}List";
+				return "customergroupList";
 			}
 			ClientCustomerGroup customerGroupByName = CommandUtils
 					.getCustomerGroupByName(context.getCompany(), string);
@@ -38,7 +38,7 @@ public class NewCustomerGroupCommand extends NewAbstractCommand {
 						context,
 						getMessages().selectATransactionToUpdate(
 								getMessages().customergroup()));
-				return "{customergroup}List " + string.trim();
+				return "customergroupList " + string.trim();
 			}
 			customerGroup = customerGroupByName;
 			get(CUSTPMERGROUP_NAME).setValue(customerGroup.getName());
@@ -111,6 +111,6 @@ public class NewCustomerGroupCommand extends NewAbstractCommand {
 	@Override
 	protected String getDeleteCommand(Context context) {
 		long id = customerGroup.getID();
-		return id != 0 ? "delete{CustomerGroup} " + id : null;
+		return id != 0 ? "deletecustomergroup " + id : null;
 	}
 }

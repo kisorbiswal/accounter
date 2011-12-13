@@ -58,7 +58,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 						getMessages().selectATransactionToUpdate(
 								getMessages().payeePrePayment(
 										Global.get().Vendor())));
-				return "{Vendor}PaymentsList";
+				return "vendorPaymentsList";
 			}
 			paybill = getTransaction(string, AccounterCoreType.PAYBILL, context);
 			if (paybill == null) {
@@ -67,7 +67,7 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 						getMessages().selectATransactionToUpdate(
 								getMessages().payeePrePayment(
 										Global.get().Vendor())));
-				return "{Vendor}PaymentsList " + string;
+				return "vendorPaymentsList " + string;
 			}
 			setValues();
 		} else {
