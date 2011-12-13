@@ -6,6 +6,10 @@ import com.vimukti.accounter.web.server.i18n.ServerSideMessages;
 public class MobileServerMessages {
 	public static String getMessage(String key) {
 		String message = ServerSideMessages.getMessage(key);
+		String innerMsg = getInnerMessage(message);
+		if (innerMsg != null) {
+			return innerMsg;
+		}
 		int a = key.indexOf('{');
 		int b = key.indexOf('}');
 		if (a != -1) {
@@ -37,7 +41,7 @@ public class MobileServerMessages {
 		} else if (innerKey.equals("Vendors")) {
 			global = Global.get().Vendors();
 		} else {
-			global = getMessage(innerKey);
+			global = null;
 		}
 		return global;
 	}

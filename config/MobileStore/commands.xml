@@ -751,7 +751,7 @@
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.CustomerListCommand"
-		name="{Customers}">
+		name="Customers">
 		<alias>customerLists</alias>
 	</command>
 
@@ -785,8 +785,8 @@
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.VendorsListCommand"
-		name="{Vendors}List">
-		<alias>{Vendors}</alias>
+		name="vendorsList">
+		<alias>Vendors</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.InvoiceListCommand"

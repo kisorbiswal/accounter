@@ -21,6 +21,6 @@ public class CustomerDeleteCommand extends AbstractDeleteCommand {
 			addFirstMessage(context,
 					getMessages().payeeInUse(Global.get().customer()));
 		}
-		return "{Customers}";
+		return "Customers";
 	}
 }

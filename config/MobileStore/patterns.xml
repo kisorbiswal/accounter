@@ -25,8 +25,8 @@
 		<outputs>
 			<command title="company" />
 			<command if="trackTax" title="tax" />
-			<command title="{Customer}" />
-			<command title="{Vendor}" />
+			<command title="Customer" />
+			<command title="Vendor" />
 			<command title="banking" />
 			<command title="reports" />
 			<command if="inventoryEnabled" title="inventory" />
@@ -394,7 +394,6 @@
 		<input>howToCreateTransaction</input>
 		<outputs>
 			<command title="HowtocreateCustomertransactions" />
-			<command title="Howtocreate{Customer}transactions" />
 			<command title="howtoCreateBankTransaction" />
 			<command title="howToCreateTaxTransaction" />
 		</outputs>
@@ -455,8 +454,8 @@
 		<outputs>
 			<text name="EnterAnyoneofThesecommands" />
 			<command title="accountsList" />
-			<command title="{Customers}List" />
-			<command title="{Vendors}List" />
+			<command title="customersList" />
+			<command title="vendorsList" />
 			<command title="itemList" />
 			<command title="salesPersonsList" />
 			<command title="quotesList" />
