@@ -60,6 +60,7 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 	public void run() {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
+			@Override
 			public void onCreated() {
 				view = new SoldAndDisposedItemsListView();
 				MainFinanceWindow.getViewManager().showView(view, null, false,
@@ -77,7 +78,7 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return null;
+		return "sold or disposed items";
 	}
 
 	@Override
