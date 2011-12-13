@@ -280,5 +280,5 @@ public interface IAccounterReportService extends RemoteService {
 
 	ArrayList<DepreciationShedule> getDepreciationSheduleReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int status,
-			long comapnyId) throws AccounterException;
+			long comapnyId);
 }
