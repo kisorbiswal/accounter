@@ -183,6 +183,9 @@ public abstract class EditTable<R> extends SimplePanel {
 
 	public void setAllRows(List<R> rows) {
 		clear();
+		if (rows == null) {
+			return;
+		}
 		for (R row : rows) {
 			add(row);
 		}

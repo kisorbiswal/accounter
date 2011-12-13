@@ -139,6 +139,9 @@ public class AccounterExceptions {
 
 		case AccounterException.WRITECHECK_PAID_VOID_IT:
 			return accounterMessages.writeCheckPaid();
+
+		case AccounterException.ERROR_INVOICE_USED_IN_ESTIMATES:
+			return accounterMessages.invoiceUsedInEstimates();
 		default:
 			return null;
 		}

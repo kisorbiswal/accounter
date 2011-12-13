@@ -1061,6 +1061,15 @@ public class Invoice extends Transaction implements Lifecycle {
 			// "You have already paid  amount for this Invoice, You can't Edit  it and Void it.");
 		}
 
+		if (isBecameVoid()) {
+			for (TransactionItem item : getTransactionItems()) {
+				if (item.referringTransactionItem != null) {
+					throw new AccounterException(
+							AccounterException.ERROR_INVOICE_USED_IN_ESTIMATES);
+				}
+			}
+		}
+
 		return super.canEdit(clientObject);
 	}
 

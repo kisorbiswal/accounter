@@ -4857,7 +4857,9 @@ public interface AccounterMessages extends Messages {
 	public String acceptedTermsandconditions();
 
 	public String readTermsAndConditions();
-	
+
+	public String invoiceUsedInEstimates();
+
 	public String logout();
 
 	public String pleaseEnterNameItShouldNotBeEmpty();
