@@ -37,6 +37,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		IPrintableView {
 	public final static int REPORT_TYPE_GENERAL_LEDGER_REPORT = 162;
 	public final static int REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT = 115;
+	public final static int REPORT_TYPE_DEPRECIATIONSHEDULE = 168;
 	public static final int TOOLBAR_TYPE_DATE_RANGE = 1;
 	public static final int TOOLBAR_TYPE_AS_OF = 2;
 	public static final int TOOLBAR_TYPE_PRIOR_VATRETURN = 3;
@@ -59,7 +60,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	protected IFinanceReport<R> serverReport = null;
 
 	ReportGrid<R> grid;
-	private String emptyMsg;
+	private final String emptyMsg;
 
 	public interface ReportGridRowHandler {
 		public void OnRowClick(IsSerializable serializable);
@@ -108,6 +109,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	 * This method will be called when the RPC method returns. This is a async
 	 * call back.
 	 */
+	@Override
 	public void onSuccess(ArrayList<R> result) {
 		try {
 			if (result != null && result.size() > 1) {
@@ -494,6 +496,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			toolbar.setView(this);
 			toolbar.itemSelectionHandler = new ReportToolBarItemSelectionHandler() {
 
+				@Override
 				public void onItemSelectionChanged(int type,
 						ClientFinanceDate startDate, ClientFinanceDate endDate) {
 					if (data != null && data instanceof BaseReport) {
@@ -525,11 +528,13 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		makeReportRequest(startDate, endDate);
 	}
 
+	@Override
 	public String[] getDynamicHeaders() {
 
 		return this.serverReport.getDynamicHeaders();
 	}
 
+	@Override
 	public void initRecords(List<R> records) {
 		this.serverReport.initRecords(records);
 	}
@@ -593,6 +598,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	/**
 	 * Reset Variables in Report,
 	 */
+	@Override
 	public void resetVariables() {
 		this.serverReport.resetVariables();
 	}
@@ -619,6 +625,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		this.serverReport.addSection(sectionTitles, footerTitles, sumColumns);
 	}
 
+	@Override
 	public boolean isWiderReport() {
 		return this.serverReport.isWiderReport();
 	}
@@ -628,6 +635,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		this.serverReport.endSection();
 	}
 
+	@Override
 	public boolean isIshowGridFooter() {
 		return this.serverReport.isIshowGridFooter();
 	}
@@ -664,6 +672,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 	}
 
+	@Override
 	public void refresh() {
 		resetVariables();
 		this.initRecords(this.serverReport.getRecords());
@@ -690,6 +699,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		return 0;
 	}
 
+	@Override
 	public List<Integer> getColumnstoHide() {
 		return this.serverReport.getColumnstoHide();
 	}
@@ -699,6 +709,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		return false;
 	}
 
+	@Override
 	public ISectionHandler<R> getSectionHanlder() {
 		return this.serverReport.getSectionHanlder();
 	}
@@ -728,6 +739,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		return this.serverReport.getStartDate(obj);
 	}
 
+	@Override
 	public void processRecord(R record) {
 		this.serverReport.processRecord(record);
 	}
@@ -772,6 +784,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 	}
 
+	@Override
 	public void exportToCsv() {
 	}
 
