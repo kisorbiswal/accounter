@@ -8,7 +8,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
-import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -167,12 +166,13 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	}
 
 	private void executeUpdate(ClientFixedAsset asset, String value) {
-		ClientFixedAssetNote note = new ClientFixedAssetNote();
-		note.setNote(value);
-		asset.getFixedAssetNotes().add(note);
+		// ClientFixedAssetNote note = new ClientFixedAssetNote();
+		// note.setNote(value);
+		// asset.getFixedAssetNotes().add(note);
 		createOrUpdate(asset);
 	}
 
+	@Override
 	protected void executeDelete(ClientFixedAsset asset) {
 		deleteObject(asset);
 	}
@@ -218,6 +218,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 				: "";
 	}
 
+	@Override
 	public AccounterCoreType getType() {
 		return AccounterCoreType.FIXEDASSET;
 	}
