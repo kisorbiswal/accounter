@@ -2832,7 +2832,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<DepreciationShedule> getDepreciationSheduleReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int status,
-			long companyId) throws AccounterException {
+			long companyId) {
 		ArrayList<DepreciationShedule> list = new ArrayList<DepreciationShedule>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate, companyId);
@@ -2844,7 +2844,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			if (list != null)
 				list.add((DepreciationShedule) setStartEndDates(
 						depreciationShedule, financeDates));
-		} catch (DAOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
