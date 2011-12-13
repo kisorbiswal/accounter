@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -64,10 +65,12 @@ public class ReportsRPC {
 			T c, final A a, final long id) {
 		AccounterAsyncCallback<T> callback = new AccounterAsyncCallback<T>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 				Accounter.showMessage(Accounter.messages().sessionExpired());
 			}
 
+			@Override
 			public void onResultSuccess(T result) {
 				if (result != null) {
 					UIUtils.runAction(result, a);
@@ -319,6 +322,10 @@ public class ReportsRPC {
 		case IAccounterCore.BANK_ACCOUNT:
 			initCallBack(new ClientBankAccount(),
 					ActionFactory.getNewBankAccountAction(), transactionId);
+			break;
+		case IAccounterCore.FIXED_ASSET:
+			initCallBack(new ClientFixedAsset(),
+					ActionFactory.getNewFixedAssetAction(), transactionId);
 			break;
 		}
 
