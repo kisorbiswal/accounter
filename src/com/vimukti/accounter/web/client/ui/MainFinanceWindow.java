@@ -797,6 +797,13 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getNewFixedAssetAction().getHistoryToken(),
 				ActionFactory.getNewFixedAssetAction());
 
+		actions.put(ActionFactory.getDepreciationSheduleAction()
+				.getHistoryToken(), ActionFactory
+				.getDepreciationSheduleAction());
+
+		actions.put(ActionFactory.getDepriciationAction().getHistoryToken(),
+				ActionFactory.getDepriciationAction());
+
 	}
 
 	public ClientCompany getCompany() {
