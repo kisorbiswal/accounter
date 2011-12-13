@@ -55,7 +55,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	protected ClientFinanceDate depreciationEndDate;
 	private Button startDateButton;
 	protected ClientAccount account;
-	private List<Long> assetIDList;
+	private final List<Long> assetIDList;
 	private List<ClientFiscalYear> openFiscalYears;
 	private Label fromLabel;
 	private DateTimeFormat format;
@@ -105,7 +105,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 				new RollBackDepreciationDialog();
 			}
 		});
-
+		
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setSpacing(10);
 		buttonPanel.add(startDateButton);
@@ -169,12 +169,14 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 		AccounterAsyncCallback<ClientFinanceDate> callBack = new AccounterAsyncCallback<ClientFinanceDate>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 				saveFailed(caught);
 				return;
 
 			}
 
+			@Override
 			public void onResultSuccess(ClientFinanceDate date) {
 				if (date == null) {
 					ClientFinanceDate date2 = new ClientFinanceDate(
@@ -254,16 +256,20 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 		Calendar toDateCal = Calendar.getInstance();
 		int year = 0;
+
 		if (fromDateCal.get(Calendar.MONTH) >= startDateCal.get(Calendar.MONTH)) {
 			year = fromDateCal.get(Calendar.YEAR) + 1;
 		} else {
 			year = fromDateCal.get(Calendar.YEAR);
 		}
 
-		 openFiscalYears = AccounterValidator.getOpenFiscalYears();
+		openFiscalYears = AccounterValidator.getOpenFiscalYears();
 
 		toDateCal.set(Calendar.YEAR, year);
-		int month = startDateCal.get(Calendar.MONTH) - 1;
+		int month = 0;
+		if (startDateCal.get(Calendar.MONTH) - 1 >= 0) {
+			month = startDateCal.get(Calendar.MONTH) - 1;
+		}
 		toDateCal.set(Calendar.DAY_OF_MONTH, 1);
 		toDateCal.set(Calendar.MONTH, month);
 
@@ -307,11 +313,13 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	@Override
 	public void saveAndUpdateView() {
+		if (data == null) {
+			setData(new ClientDepreciation());
+		}
 		data.setDepreciateFrom(depreciationStartDate.getDate());
 		data.setDepreciateTo(depreciationEndDate.getDate());
-		// depreciation
-		// .setDepreciationFor(ClientDepreciation.DEPRECIATION_FOR_ALL_FIXEDASSET);
-		// depreciation.setFixedAsset(getAssetsList())
+		data.setDepreciationFor(ClientDepreciation.DEPRECIATION_FOR_ALL_FIXEDASSET);
+		// data.setFixedAssets(getAssetsList());
 		// // depreciation.setFixedAssets(getAssetsList());
 		// depreciation.setStatus(ClientDepreciation.APPROVE);
 		//
@@ -377,7 +385,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	@Override
 	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
-		AccounterException accounterException = (AccounterException) exception;
+		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -396,12 +404,14 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 			AccounterAsyncCallback<DepreciableFixedAssetsList> callBack = new AccounterAsyncCallback<DepreciableFixedAssetsList>() {
 
+				@Override
 				public void onException(AccounterException caught) {
 					saveFailed(caught);
 					return;
 
 				}
 
+				@Override
 				public void onResultSuccess(DepreciableFixedAssetsList result) {
 					setValuesInGrid(result);
 
@@ -452,6 +462,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
