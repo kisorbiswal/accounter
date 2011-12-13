@@ -2326,3 +2326,6 @@ input.date-field-textbox {
 	background:none;
 	cursor: auto;
 }
+.search_textbox_labels td table td:FIRST-CHILD {
+	width:85px;
+}
