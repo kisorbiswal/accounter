@@ -16,7 +16,7 @@ import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 public class ItemsCommand extends NewAbstractCommand {
 
 	private static final String ITEMS_TYPE = "itemsType";
-	private boolean isBuy;
+	private boolean isCustomer;
 
 	@Override
 	public String getId() {
@@ -81,9 +81,10 @@ public class ItemsCommand extends NewAbstractCommand {
 				boolean isActive = type.equalsIgnoreCase("Active") ? true
 						: false;
 				for (Item item : items) {
-					if (isActive == item.isActive()
-							&& item.isIBuyThisItem() == isBuy) {
-						result.add(item);
+					if (isActive == item.isActive()) {
+						if (isCustomer ? item.isISellThisItem() : item
+								.isIBuyThisItem())
+							result.add(item);
 					}
 				}
 				return result;
@@ -123,7 +124,7 @@ public class ItemsCommand extends NewAbstractCommand {
 	}
 
 	protected void setCreateCommand(CommandList list) {
-		if (!isBuy) {
+		if (isCustomer) {
 			list.add(new UserCommand("createNewServiceItem", "sell"));
 			list.add(new UserCommand("createNewNonInventoryItem", "sell"));
 			list.add(new UserCommand("createNewInventoryItem", "sell"));
@@ -140,8 +141,8 @@ public class ItemsCommand extends NewAbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		if (context.getString().equalsIgnoreCase("vendor")) {
-			isBuy = true;
+		if (context.getString().equalsIgnoreCase("customer")) {
+			isCustomer = true;
 		}
 		context.setString("");
 		return null;
