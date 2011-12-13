@@ -254,22 +254,24 @@ public class Depreciation extends CreatableObject implements
 			// for (FixedAsset fixedAsset : this.getFixedAssets()) {
 			if (fixedAsset != null) {
 
-				/**
-				 * 
-				 * Save the Action into History
-				 */
-				FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-				if (fixedAsset.isSoldOrDisposed()) {
-					fixedAssetHistory
-							.setActionType(FixedAssetHistory.ACTION_TYPE_DISPOSAL_REVERSED);
-				} else {
-					fixedAssetHistory
-							.setActionType(FixedAssetHistory.ACTION_TYPE_ROLLBACK);
-				}
-
-				fixedAssetHistory.setActionDate(new FinanceDate());
-				fixedAssetHistory.setDetails("Depreciation Rolled back.");
-				fixedAsset.getFixedAssetsHistory().add(fixedAssetHistory);
+				// /**
+				// *
+				// * Save the Action into History
+				// */
+				// FixedAssetHistory fixedAssetHistory = new
+				// FixedAssetHistory();
+				// if (fixedAsset.isSoldOrDisposed()) {
+				// fixedAssetHistory
+				// .setActionType(FixedAssetHistory.ACTION_TYPE_DISPOSAL_REVERSED);
+				// } else {
+				// fixedAssetHistory
+				// .setActionType(FixedAssetHistory.ACTION_TYPE_ROLLBACK);
+				// }
+				//
+				// fixedAssetHistory.setActionDate(new FinanceDate());
+				// fixedAssetHistory.setDetails("Depreciation Rolled back.");
+				// fixedAssetHistory.setCompany(fixedAsset.getCompany());
+				// fixedAsset.getFixedAssetsHistory().add(fixedAssetHistory);
 
 				/**
 				 * In order to roll-back the depreciation, we need to roll-back
@@ -507,6 +509,8 @@ public class Depreciation extends CreatableObject implements
 				this.setStatus(Depreciation.APPROVE);
 			}
 
+			fixedAsset.deleteJournalEntriesTillDate(rollBackDepreciationDate,
+					session);
 			// }
 
 		}
@@ -558,6 +562,7 @@ public class Depreciation extends CreatableObject implements
 			depreciation.setDepreciationFor(DEPRECIATION_FOR_SINGLE_FIXEDASSET);
 			depreciation.setDepreciateFrom(new FinanceDate(fromCal.getTime()));
 			depreciation.setDepreciateTo(new FinanceDate(toCal.getTime()));
+			depreciation.setCompany(fixedAsset.getCompany());
 			session.save(depreciation);
 		}
 	}
