@@ -46,28 +46,10 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-				<set name="attachments" table="ATTACHMENT"
-			cascade="save-update,delete-orphan">
+		<set name="attachments" table="ATTACHMENT" cascade="save-update,delete-orphan">
 			<key column="TRANSACTION_ID" not-null="true" />
-			<composite-element class="Attachment">
-				<property name="attachmentId" column="ATTACHMENT_ID"
-					not-null="true"></property>
-				<property name="name" column="NAME" not-null="true"></property>
-				<property name="size" column="SIZE" not-null="true"></property>
-				<many-to-one name="company" column="COMPANY_ID" class="Company"
-					>
-				</many-to-one>
-				<property name="version" column="VERSION"></property>
-				<many-to-one name="createdBy" column="CREATED_BY" class="User"
-					not-null="true"></many-to-one>
-				<many-to-one name="lastModifier" column="LAST_MODIFIER"
-					class="User" not-null="true"></many-to-one>
-				<property name="createdDate" column="CREATED_DATE"
-					not-null="true" />
-				<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-					not-null="true" />
-			</composite-element>
-		</set>			
+			<one-to-many class="Attachment" />
+		</set>
 		<property name="currency" column="CURRENCY"></property>
 		<property name="currencyFactor" column="CURRENCY_FACTOR"></property>
 		<set name="accountTransactionEntriesList" inverse="true"
@@ -975,6 +957,25 @@
 			class="TAXAgency" cascade="save-update" column="TAX_AGENCY_ID"> </many-to-one> 
 			<many-to-one name="journalEntry" class="JournalEntry" cascade="save-update,delete" 
 			column="JOURNAL_ENTRY_ID"> </many-to-one> </joined-subclass> -->
+	</class>
+
+	<class name="Attachment" table="ATTACHMENTS">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="attachmentId" column="ATTACHMENT_ID"
+			not-null="true"></property>
+		<property name="name" column="NAME" not-null="true"></property>
+		<property name="size" column="SIZE" not-null="true"></property>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"/>
+		<property name="version" column="VERSION"></property>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			not-null="true"/>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" not-null="true"/>
+		<property name="createdDate" column="CREATED_DATE" not-null="true" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			not-null="true" />
 	</class>
 
 
