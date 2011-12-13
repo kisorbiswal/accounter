@@ -292,15 +292,15 @@ public abstract class Payee extends CreatableObject implements
 	}
 
 	public boolean isCustomer() {
-		return this != null && this instanceof Customer;
+		return this != null && getType() == TYPE_CUSTOMER;
 	}
 
 	public boolean isVendor() {
-		return this != null && this instanceof Vendor;
+		return this != null && getType() == TYPE_VENDOR;
 	}
 
 	public boolean isTaxAgency() {
-		return this != null && this instanceof TAXAgency;
+		return this != null && getType() == TYPE_TAX_AGENCY;
 	}
 
 	public FinanceDate getPayeeSince() {
@@ -517,7 +517,7 @@ public abstract class Payee extends CreatableObject implements
 		item1.setAccount(getCompany().getOpeningBalancesAccount());
 		item1.setType(TransactionItem.TYPE_ACCOUNT);
 		item1.setDescription(getName());
-		if (this instanceof Customer) {
+		if (isCustomer()) {
 			item1.setLineTotal(-1 * getOpeningBalance());
 		} else {
 			item1.setLineTotal(getOpeningBalance());
@@ -528,7 +528,7 @@ public abstract class Payee extends CreatableObject implements
 		item2.setAccount(getAccount());
 		item2.setType(TransactionItem.TYPE_ACCOUNT);
 		item2.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
-		if (this instanceof Customer) {
+		if (isCustomer()) {
 			item2.setLineTotal(getOpeningBalance());
 		} else {
 			item2.setLineTotal(-1 * getOpeningBalance());
