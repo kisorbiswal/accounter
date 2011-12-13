@@ -495,8 +495,8 @@ public class CustomerCreditMemo extends Transaction implements
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(),
-				messages.customerCreditNote(Global.get().Customer())).gap();
+		w.put(messages.type(), messages.customerCreditNote(messages.Customer()))
+				.gap();
 
 		w.put(messages.no(), this.number);
 
