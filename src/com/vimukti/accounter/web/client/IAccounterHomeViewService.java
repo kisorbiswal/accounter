@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
@@ -229,7 +230,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ClientFinanceDate getDepreciationLastDate()
 			throws AccounterException;
 
-	public void rollBackDepreciation(long rollBackDepreciationTo)
+	Boolean rollBackDepreciation(long rollBackDepreciationTo)
 			throws AccounterException;
 
 	public ArrayList<ClientFinanceDate> getFinancialYearStartDates()
@@ -366,4 +367,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	Map<String, Double> getAccountsAndValues(long startDate, long endDate);
 
 	ClientEnterBill getEnterBillByEstimateId(long l) throws AccounterException;
+
+	List<ClientFixedAsset> getFixedAssetList(int status)
+			throws AccounterException;
 }
