@@ -18,6 +18,7 @@ import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.MakeDeposit;
@@ -42,6 +43,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
@@ -1257,6 +1259,26 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
+	public List<ClientFixedAsset> getFixedAssetList(int status)
+			throws AccounterException {
+		List<ClientFixedAsset> list = new ArrayList<ClientFixedAsset>();
+		List<FixedAsset> list1 = null;
+		try {
+
+			list1 = getFinanceTool().getFixedAssetManager().getFixedAssets(
+					status, getCompanyId());
+			for (FixedAsset asset : list1) {
+				list.add(new ClientConvertUtil().toClientObject(asset,
+						ClientFixedAsset.class));
+			}
+		} catch (DAOException e) {
+
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
 	public DepreciableFixedAssetsList getDepreciableFixedAssets(
 			long depreciationFrom, long depreciationTo)
 			throws AccounterException {
@@ -1311,11 +1333,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public void rollBackDepreciation(long rollBackDepreciationTo)
+	public Boolean rollBackDepreciation(long rollBackDepreciationTo)
 			throws AccounterException {
 		FinanceTool tool = getFinanceTool();
-		tool.getCompanyManager().rollBackDepreciation(rollBackDepreciationTo,
-				getCompanyId());
+		return tool.getCompanyManager().rollBackDepreciation(
+				rollBackDepreciationTo, getCompanyId());
 
 	}
 
@@ -1745,6 +1767,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return null;
 	}
 
+	@Override
 	public List<ClientActivity> getRecentTransactions(int limit) {
 		FinanceTool tool = new FinanceTool();
 		List<ClientActivity> activities = tool.getRecentTransactionsList(
