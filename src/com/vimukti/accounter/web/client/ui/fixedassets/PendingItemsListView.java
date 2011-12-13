@@ -3,6 +3,9 @@
  */
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
+import java.util.List;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -35,14 +38,32 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 		return Accounter.messages().pendingItemsList();
 	}
 
-	
 	@Override
 	protected void initGrid() {
 		grid = new PendingItemsListGrid(false);
 		grid.init();
-		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_PENDING,
-				getCompany().getFixedAssets()));
+		getPendingFixedAssetsList();
+		// grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_PENDING,
+		// getCompany().getFixedAssets()));
 		disableFilter();
+	}
+
+	private void getPendingFixedAssetsList() {
+		Accounter.createHomeService().getFixedAssetList(
+				ClientFixedAsset.STATUS_PENDING,
+				new AsyncCallback<List<ClientFixedAsset>>() {
+
+					@Override
+					public void onSuccess(List<ClientFixedAsset> list) {
+						grid.setRecords(list);
+					}
+
+					@Override
+					public void onFailure(Throwable arg0) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 	}
 
 	@Override
