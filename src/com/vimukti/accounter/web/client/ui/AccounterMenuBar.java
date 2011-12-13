@@ -254,9 +254,18 @@ public class AccounterMenuBar extends HorizontalPanel {
 		if (Accounter.getCompany().getPreferences().isTrackTax()) {
 			reportMenuBar.addMenuItem(messages.tax(), getVATReportMenu());
 		}
+		reportMenuBar.addMenuItem(messages.fixedAssest(),
+				getFixedAssetReportSubMenu());
 		// reportMenuBar.addItem(messages
 		// .salesAndPurchaseOrders(), getSalesAndPurchaseMenu());
 		return reportMenuBar;
+	}
+
+	private IMenu getFixedAssetReportSubMenu() {
+		IMenu subMenu = getSubMenu();
+		subMenu.addMenuItem(messages.depreciation(),
+				ActionFactory.getDepreciationSheduleAction());
+		return subMenu;
 	}
 
 	private IMenu getSalesSubMenu() {
