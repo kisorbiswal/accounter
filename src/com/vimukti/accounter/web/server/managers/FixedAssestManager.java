@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -30,6 +31,7 @@ import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
 import com.vimukti.accounter.web.client.core.Lists.SellingOrDisposingFixedAssetList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -177,6 +179,7 @@ public class FixedAssestManager extends Manager {
 			depreciation.setFixedAsset(fixedAsset);
 			depreciation.setDepreciateFrom(new FinanceDate(depreciationFrom));
 			depreciation.setDepreciateTo(new FinanceDate(depreciationTo));
+			depreciation.setCompany(company);
 			session.save(depreciation);
 		}
 
@@ -427,7 +430,9 @@ public class FixedAssestManager extends Manager {
 								.getDate())) <= 0 ? new FinanceDate(
 						lastDepreciationDateCal.getTime()) : new FinanceDate(
 						fixedAsset.getPurchaseDate().getDate());
-				depreciationTobePosted += UIUtils.getDateStringFormat(new ClientFinanceDate(depFrom.getDate()));
+				depreciationTobePosted += UIUtils
+						.getDateStringFormat(new ClientFinanceDate(depFrom
+								.getDate()));
 				depreciationTobePosted += " to";
 				depreciationTobePosted += format.format(soldYearStartDateCal
 						.getTime());
@@ -481,9 +486,13 @@ public class FixedAssestManager extends Manager {
 					lastDepreciationDateCal.getTime())
 							: new FinanceDate(fixedAsset.getPurchaseDate()
 									.getDate());
-					depreciationTobePosted += UIUtils.getDateStringFormat(new ClientFinanceDate(depFrom.getDate()));
+					depreciationTobePosted += UIUtils
+							.getDateStringFormat(new ClientFinanceDate(depFrom
+									.getDate()));
 					depreciationTobePosted += " to";
-					depreciationTobePosted +=UIUtils.getDateStringFormat(new ClientFinanceDate(depreciationTillDate.getDate()));
+					depreciationTobePosted += UIUtils
+							.getDateStringFormat(new ClientFinanceDate(
+									depreciationTillDate.getDate()));
 					depreciationTobePosted += ")";
 					depreciationToBePostedAmount = getCalculatedDepreciatedAmount(
 							fixedAsset.getDepreciationMethod(),
@@ -511,7 +520,8 @@ public class FixedAssestManager extends Manager {
 		}
 
 		String soldDate = "Sold "
-				+ UIUtils.getDateStringFormat(fixedAsset.getSoldOrDisposedDate());
+				+ UIUtils.getDateStringFormat(fixedAsset
+						.getSoldOrDisposedDate());
 
 		/**
 		 * Preparing the disposalSummary Map with the above calculated Keys and
@@ -668,6 +678,63 @@ public class FixedAssestManager extends Manager {
 
 		}
 		return rollBackDepAmt;
+	}
+
+	public ArrayList<FixedAsset> getFixedAssets(int statusPending,
+			long companyId) throws DAOException {
+		ArrayList<FixedAsset> fixedAssetList = new ArrayList<FixedAsset>();
+		Company company = getCompany(companyId);
+		Session session = HibernateUtil.getCurrentSession() == null ? Utility
+				.getCurrentSession() : HibernateUtil.getCurrentSession();
+
+		Query query = session.getNamedQuery("getFixedAsset.from.status")
+				.setParameter("status", statusPending)
+				.setParameter("company", company);
+		List<FixedAsset> list = query.list();
+		for (FixedAsset f : list) {
+			fixedAssetList.add(f);
+		}
+		return fixedAssetList;
+	}
+
+	public ArrayList<DepreciationShedule> getDepreciationShedule(
+			int statusPending, long companyId) throws DAOException {
+		ArrayList<DepreciationShedule> list = new ArrayList<DepreciationShedule>();
+		ArrayList<FixedAsset> list1 = null;
+		try {
+
+			list1 = getFixedAssets(statusPending, companyId);
+			for (FixedAsset asset : list1) {
+				DepreciationShedule depreciationShedule = new DepreciationShedule();
+				depreciationShedule.setAccumulatedDepreciationAmount(asset
+						.getAccumulatedDepreciationAmount());
+				depreciationShedule.setAssetAccountName(asset.getAssetAccount()
+						.getName());
+				depreciationShedule.setAssetName(asset.getName());
+				depreciationShedule.setCostOfAsset(asset.getPurchasePrice());
+				depreciationShedule.setDepreciationRate(asset
+						.getDepreciationRate());
+				depreciationShedule.setDisposeDate(new ClientFinanceDate(asset
+						.getSoldOrDisposedDate() == null ? new Date(0)
+						.getTime() : asset.getSoldOrDisposedDate().getDate()));
+				depreciationShedule.setNumber(asset.getAssetNumber());
+				depreciationShedule.setPurchaseCost(asset.getPurchasePrice());
+				depreciationShedule.setPurchaseDate(new ClientFinanceDate(asset
+						.getPurchaseDate().getDate()));
+				depreciationShedule.setSoldOrDisposalAmount(asset
+						.getSalePrice());
+				depreciationShedule.setType(asset.getAssetType());
+				depreciationShedule.setNetTotalOfAnFixedAssetAmount(asset
+						.getBookValue());
+				depreciationShedule.setFixedAssetId(asset.getID());
+
+				list.add(depreciationShedule);
+			}
+		} catch (DAOException e) {
+
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }
