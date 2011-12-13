@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
@@ -63,7 +64,6 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
@@ -268,7 +268,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ClientFinanceDate> callback);
 
 	public void rollBackDepreciation(long rollBackDepreciationTo,
-			AsyncCallback callback);
+			AsyncCallback<Boolean> callback);
 
 	public void getFinancialYearStartDates(
 			AsyncCallback<ArrayList<ClientFinanceDate>> callback);
@@ -407,5 +407,8 @@ public interface IAccounterHomeViewServiceAsync {
 
 	void getEnterBillByEstimateId(long l,
 			AsyncCallback<ClientEnterBill> asyncCallback);
+
+	void getFixedAssetList(int status,
+			AsyncCallback<List<ClientFixedAsset>> callback);
 
 }
