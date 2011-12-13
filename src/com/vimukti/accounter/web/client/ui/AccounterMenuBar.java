@@ -61,8 +61,6 @@ public class AccounterMenuBar extends HorizontalPanel {
 		if (getPreferences().isInventoryEnabled()) {
 			menuBar.addMenuItem(messages.inventory(), getInventoryMenu());
 		}
-
-		menuBar.addMenuItem(messages.fixedAssets(), getFixedAssetsMenu());
 		// ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (Accounter.getUser().canViewReports()) {
@@ -736,8 +734,38 @@ public class AccounterMenuBar extends HorizontalPanel {
 		companyMenuBar.addSeparatorItem();
 		companyMenuBar.addMenuItem(messages.companyLists(),
 				getCompanyListMenu());
+		companyMenuBar.addMenuItem(messages.fixedAssets(),
+				getFixedAssetsSubMenu());
 
 		return companyMenuBar;
+	}
+
+	private IMenu getFixedAssetsSubMenu() {
+
+		IMenu fixedAssetSubMenu = getSubMenu();
+		// mergeAccountsMenuBar.addMenuItem(
+		// messages.mergeCustomers(Global.get().Customer()),
+		// getMergeCustomerCommand());
+		//
+		fixedAssetSubMenu.addMenuItem(messages.newFixedAsset(),
+				ActionFactory.getNewFixedAssetAction());
+		fixedAssetSubMenu.addMenuItem(messages.depreciation(),
+				ActionFactory.getDepriciationAction());
+		fixedAssetSubMenu.addMenuItem(messages.fixedAssetsList(),
+				getAssetListSubMenu());
+
+		return fixedAssetSubMenu;
+	}
+
+	private IMenu getAssetListSubMenu() {
+		IMenu fixedAssetListSubMenu = getSubMenu();
+		fixedAssetListSubMenu.addMenuItem(messages.pendingItemsList(),
+				ActionFactory.getPendingItemsListAction());
+		fixedAssetListSubMenu.addMenuItem(messages.registeredItemsList(),
+				ActionFactory.getRegisteredItemsListAction());
+		fixedAssetListSubMenu.addMenuItem(messages.soldAndDisposedItems(),
+				ActionFactory.getSoldDisposedListAction());
+		return fixedAssetListSubMenu;
 	}
 
 	private IMenu getMergeSubMenu() {
