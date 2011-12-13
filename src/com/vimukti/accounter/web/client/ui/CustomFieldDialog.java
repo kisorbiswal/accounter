@@ -64,6 +64,7 @@ public class CustomFieldDialog extends BaseDialog {
 		VerticalPanel layout = new VerticalPanel();
 		layout.setWidth("100%");
 		layout.setSpacing(10);
+		customFieldTable.addStyleName("customfileddialog");
 		layout.add(customFieldTable);
 		layout.add(addNew);
 		setBodyLayout(layout);
