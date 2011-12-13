@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class ClientBudgetList extends BaseReport implements IsSerializable,
 		Serializable {
@@ -16,6 +17,10 @@ public class ClientBudgetList extends BaseReport implements IsSerializable,
 	String name = "";
 
 	String accountName = "";
+
+	private int transactionType;
+
+	private long transactionId;
 
 	ClientAccount account;
 
@@ -159,6 +164,22 @@ public class ClientBudgetList extends BaseReport implements IsSerializable,
 
 	public void setTotalAmount(double totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+
+	public int getTransactionType() {
+		return transactionType = IAccounterCore.BUDGET;
+	}
+
+	public void setTransactionType(int transactionType) {
+		this.transactionType = transactionType;
+	}
+
+	public long getTransactionId() {
+		return transactionId;
+	}
+
+	public void setTransactionId(long transactionId) {
+		this.transactionId = transactionId;
 	}
 
 }
