@@ -74,7 +74,7 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.ITEM_GROUP);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -140,7 +140,7 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 		// .setParameter(0, itemGroup.name);
 		Query query = session.getNamedQuery("getItemGroupWithSameName")
 				.setParameter("name", itemGroup.name)
-				.setParameter("id", itemGroup.id)
+				.setParameter("id", itemGroup.getID())
 				.setParameter("companyId", itemGroup.getCompany().getID());
 		List list = query.list();
 		if (list != null && list.size() > 0) {

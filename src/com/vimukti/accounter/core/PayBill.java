@@ -308,7 +308,7 @@ public class PayBill extends Transaction {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		if (this.id == 0l) {
+		if (this.getID() == 0l) {
 			if ((!this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
@@ -535,7 +535,7 @@ public class PayBill extends Transaction {
 	}
 
 	public boolean equals(PayBill obj) {
-		if (this.vendor.id == obj.vendor.id
+		if (this.vendor.getID() == obj.vendor.getID()
 
 				&& ((this.payFrom != null && obj.payFrom != null) ? (this.payFrom
 						.equals(obj.payFrom)) : true)
@@ -577,7 +577,7 @@ public class PayBill extends Transaction {
 		} else {
 
 			if (this.payBillType == TYPE_VENDOR_PAYMENT) {
-				if (this.vendor.id != payBill.vendor.id) {
+				if (this.vendor.getID() != payBill.vendor.getID()) {
 
 					doVoidEffect(session, payBill);
 
@@ -598,7 +598,7 @@ public class PayBill extends Transaction {
 				double preEffectedToAccount = this.total - this.tdsTotal;
 				if (!this.payFrom.equals(payBill.payFrom)) {
 					Account payFromAccount = (Account) session.get(
-							Account.class, payBill.payFrom.id);
+							Account.class, payBill.payFrom.getID());
 					payFromAccount.updateCurrentBalance(this, effectToAccount,
 							payBill.currencyFactor);
 					payFromAccount.onUpdate(session);
@@ -634,7 +634,7 @@ public class PayBill extends Transaction {
 					this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 				}
 
-				if (this.vendor.id == payBill.vendor.id) {
+				if (this.vendor.getID() == payBill.vendor.getID()) {
 					this.creditsAndPayments.updateCreditPayments(this.total);
 				}
 				// } else {
@@ -660,7 +660,7 @@ public class PayBill extends Transaction {
 	private void doEffectTDS(Session session, PayBill payBill) {
 		if (this.tdsTaxItem != null) {
 			if (payBill.tdsTaxItem != null) {
-				if (tdsTaxItem.id != payBill.tdsTaxItem.id) {
+				if (tdsTaxItem.getID() != payBill.tdsTaxItem.getID()) {
 					TAXAgency presentAgency = (TAXAgency) session.get(
 							TAXAgency.class, payBill.getTdsTaxItem()
 									.getTaxAgency().getID());

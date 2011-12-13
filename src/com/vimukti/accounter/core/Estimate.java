@@ -312,7 +312,7 @@ public class Estimate extends Transaction {
 
 	public boolean equals(Estimate est) {
 		if (DecimalUtil.isEquals(this.getTotal(), est.getTotal())
-				&& this.id == est.id
+				&& this.getID() == est.getID()
 				&& this.transactionItems.size() == est.transactionItems.size()
 				&& ((this.transactionDate != null && est.transactionDate != null) ? (this.transactionDate
 						.equals(est.transactionDate)) : true)
@@ -342,7 +342,7 @@ public class Estimate extends Transaction {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		if (this.id != 0) {
+		if (this.getID() != 0) {
 			if (this.status == Transaction.STATUS_APPLIED) {
 				throw new AccounterException(
 						AccounterException.ERROR_OBJECT_IN_USE);

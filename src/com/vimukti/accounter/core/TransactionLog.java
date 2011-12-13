@@ -67,9 +67,9 @@ public class TransactionLog extends CreatableObject implements
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		super.onSave(session);
-		this.user = createdBy;
-		this.userName = createdBy.getClient().getFullName();
-		this.time = createdDate;
+		this.user = getCreatedBy();
+		this.userName = getCreatedBy().getClient().getFullName();
+		this.time = getCreatedDate();
 		return false;
 	}
 
@@ -84,7 +84,7 @@ public class TransactionLog extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

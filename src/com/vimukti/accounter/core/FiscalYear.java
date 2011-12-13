@@ -156,7 +156,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 	public boolean onDelete(Session s) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(id);
+		accounterCore.setID(getID());
 		accounterCore.setObjectType(AccounterCoreType.FISCALYEAR);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -276,7 +276,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 			}
 		} else if (this.getPreviousStartDate() != null
 				&& this.getStartDate().equals(this.getPreviousStartDate())) {
-//			session.saveOrUpdate(this);
+			// session.saveOrUpdate(this);
 		} else if ((this.getPreviousStartDate() != null && !this.getStartDate()
 				.equals(this.getPreviousStartDate()))
 				|| this.getPreviousStartDate() == null) {
@@ -288,7 +288,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 				session.saveOrUpdate(company);
 				this.setEndDate(getEndDateForStartDate(this.startDate.getDate()));
 				checkIsCurrentFY(this);
-//				session.saveOrUpdate(this);
+				// session.saveOrUpdate(this);
 				addOrUpdateFiscalYears(this);
 			}
 		}
@@ -550,7 +550,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
+
 		w.put(messages.type(), messages.fiscalYear()).gap().gap();
 		w.put(messages.status(), this.status);
 	}

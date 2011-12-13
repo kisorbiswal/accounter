@@ -343,7 +343,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 
 	/**
 	 * @param discountTotal
-	 *            the  to set
+	 *            the to set
 	 */
 	// public void setDiscountTotal(double discountTotal) {
 	// this.discountTotal = discountTotal;
@@ -525,7 +525,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	// @Override
 	public boolean equals(CashSales cs) {
 		if (this.transactionItems.size() == cs.transactionItems.size()
-				&& this.id == cs.id
+				&& this.getID() == cs.getID()
 				&& DecimalUtil.isEquals(this.getTotal(), cs.getTotal())
 				// && (this.customer != null && cs.customer != null) ?
 				// (this.customer.equals(cs.customer)): true
@@ -579,7 +579,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 
 			// if (cashSales.depositIn.id != this.depositIn.id) {
 			Account preDepositAccnt = (Account) session.get(Account.class,
-					cashSales.depositIn.id);
+					cashSales.depositIn.getID());
 			preDepositAccnt.updateCurrentBalance(this, cashSales.total,
 					cashSales.currencyFactor);
 			preDepositAccnt.onUpdate(session);

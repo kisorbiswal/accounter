@@ -85,7 +85,8 @@ public class AccountTransaction extends CreatableObject implements
 
 	public boolean equals(AccountTransaction at) {
 
-		if (this.id == at.id && DecimalUtil.isEquals(this.amount, at.amount)
+		if (this.getID() == at.getID()
+				&& DecimalUtil.isEquals(this.amount, at.amount)
 				&& this.transaction.equals(at.transaction)
 				&& this.account.equals(at.account))
 			return true;
@@ -100,13 +101,6 @@ public class AccountTransaction extends CreatableObject implements
 					+ amount;
 		} else
 			return "";
-	}
-
-	/**
-	 * @return the id
-	 */
-	public long getID() {
-		return id;
 	}
 
 	/**

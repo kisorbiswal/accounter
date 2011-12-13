@@ -361,10 +361,10 @@ public class CashPurchase extends Transaction {
 
 	// @Override
 	public boolean equals(CashPurchase obj) {
-		if (((this.vendor != null && obj.vendor != null) ? (this.vendor.id == obj.vendor.id)
-				: true)
-				&& ((this.cashExpenseAccount != null && obj.cashExpenseAccount != null) ? (this.cashExpenseAccount.id == obj.cashExpenseAccount.id)
-						: true)
+		if (((this.vendor != null && obj.vendor != null) ? (this.vendor.getID() == obj.vendor
+				.getID()) : true)
+				&& ((this.cashExpenseAccount != null && obj.cashExpenseAccount != null) ? (this.cashExpenseAccount
+						.getID() == obj.cashExpenseAccount.getID()) : true)
 				&& ((this.employee != null && obj.employee != null) ? (this.employee
 						.equals(obj.employee)) : true)
 
@@ -429,7 +429,7 @@ public class CashPurchase extends Transaction {
 					|| (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE && this.expenseStatus == cashPurchase.expenseStatus)) {
 
 				Account payFromAccount = (Account) session.get(Account.class,
-						cashPurchase.payFrom.id);
+						cashPurchase.payFrom.getID());
 
 				/**
 				 * Updating the balance values of present and previous accounts
@@ -515,7 +515,7 @@ public class CashPurchase extends Transaction {
 		w.put(messages.paymentMethod(), this.checkNumber).gap();
 
 		if (this.deliveryDate != null)
-		w.put(messages.paymentMethod(), this.deliveryDate.toString());
+			w.put(messages.paymentMethod(), this.deliveryDate.toString());
 
 		w.put(messages.paymentMethod(), this.expenseStatus).gap();
 	}

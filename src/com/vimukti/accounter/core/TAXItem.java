@@ -68,21 +68,6 @@ public class TAXItem extends TAXItemGroup {
 	}
 
 	/**
-	 * @return the id
-	 */
-	public long getID() {
-		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id) {
-		this.id = id;
-	}
-
-	/**
 	 * @return the vatAgency
 	 */
 	public TAXAgency getTaxAgency() {
@@ -132,7 +117,7 @@ public class TAXItem extends TAXItemGroup {
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.TAXITEM);
 		ChangeTracker.put(accounterCore);
 
@@ -204,11 +189,11 @@ public class TAXItem extends TAXItemGroup {
 		 */
 
 		session.getNamedQuery("updateTaxCodeSalesTaxRate")
-				.setParameter("id", this.id)
+				.setParameter("id", this.getID())
 				.setParameter("companyId", getCompany().getID())
 				.setParameter("salesTaxRate", this.taxRate).executeUpdate();
 		session.getNamedQuery("updateTaxCodePurchaseTaxRate")
-				.setParameter("id", this.id)
+				.setParameter("id", this.getID())
 				.setParameter("companyId", getCompany().getID())
 				.setParameter("purchaseTaxRate", this.taxRate).executeUpdate();
 

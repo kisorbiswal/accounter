@@ -474,7 +474,7 @@ public class Invoice extends Transaction implements Lifecycle {
 		}
 		Session session = HibernateUtil.getCurrentSession();
 		for (Estimate estimate : invoice.getEstimates()) {
-			estimate = (Estimate) session.get(Estimate.class, estimate.id);
+			estimate = (Estimate) session.get(Estimate.class, estimate.getID());
 			if (estimate != null) {
 
 				boolean isPartiallyInvoiced = false;
@@ -672,7 +672,7 @@ public class Invoice extends Transaction implements Lifecycle {
 		Session session = HibernateUtil.getCurrentSession();
 		for (SalesOrder salesOrder : invoice.salesOrders) {
 			salesOrder = (SalesOrder) session.get(SalesOrder.class,
-					salesOrder.id);
+					salesOrder.getID());
 			if (salesOrder != null) {
 				boolean isPartiallyInvoiced = false;
 				boolean flag = true;
@@ -922,7 +922,7 @@ public class Invoice extends Transaction implements Lifecycle {
 				doVoidEffect(session, invoice);
 
 				Customer customer = (Customer) session.get(Customer.class,
-						invoice.customer.id);
+						invoice.customer.getID());
 				customer.updateBalance(session, this, invoice.total);
 				this.onSave(session);
 				return;
@@ -930,7 +930,7 @@ public class Invoice extends Transaction implements Lifecycle {
 			if (!DecimalUtil.isEquals(this.total, invoice.total)) {
 				// if (DecimalUtil.isGreaterThan(this.total, this.payments)) {
 				Customer customer = (Customer) session.get(Customer.class,
-						invoice.customer.id);
+						invoice.customer.getID());
 				customer.updateBalance(session, this, invoice.total);
 				this.customer.updateBalance(session, this, -this.total);
 				// }
@@ -961,7 +961,7 @@ public class Invoice extends Transaction implements Lifecycle {
 				salesOrder.setUsedInvoice(newInvoice, session);
 			} else {
 				salesOrder = (SalesOrder) session.get(SalesOrder.class,
-						oldEstiamte.id);
+						oldEstiamte.getID());
 				salesOrder.setUsedInvoice(null, session);
 			}
 			if (salesOrder != null) {
@@ -993,7 +993,8 @@ public class Invoice extends Transaction implements Lifecycle {
 			if (est != null && !this.isVoid) {
 				est.setUsedInvoice(newInvoice, session);
 			} else {
-				est = (Estimate) session.get(Estimate.class, oldEstiamte.id);
+				est = (Estimate) session.get(Estimate.class,
+						oldEstiamte.getID());
 				est.setUsedInvoice(null, session);
 			}
 			if (est != null) {

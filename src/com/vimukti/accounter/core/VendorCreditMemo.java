@@ -104,7 +104,7 @@ public class VendorCreditMemo extends Transaction {
 			return true;
 		this.isOnSaveProccessed = true;
 		super.onSave(session);
-		if (this.id == 0) {
+		if (this.getID() == 0) {
 
 			/**
 			 * If the total is greater than 0.0, then we need to add to
@@ -217,7 +217,7 @@ public class VendorCreditMemo extends Transaction {
 	}
 
 	public boolean equals(VendorCreditMemo obj) {
-		if (this.vendor.id == obj.vendor.id
+		if (this.vendor.getID() == obj.vendor.getID()
 				&& (!DecimalUtil.isEquals(this.total, 0.0)
 						&& !DecimalUtil.isEquals(obj.total, 0.0) ? DecimalUtil
 						.isEquals(this.total, obj.total) : true)
@@ -264,7 +264,7 @@ public class VendorCreditMemo extends Transaction {
 			 * same vendors.
 			 */
 
-			if (vendorCreditMemo.vendor.id != this.vendor.id) {
+			if (vendorCreditMemo.vendor.getID() != this.vendor.getID()) {
 
 				voidCreditsAndPayments(vendorCreditMemo);
 

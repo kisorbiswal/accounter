@@ -58,12 +58,6 @@ public class UnitOfMeasure extends CreatableObject implements
 	}
 
 	@Override
-	public void setVersion(int version) {
-		this.version = version;
-
-	}
-
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -77,7 +71,7 @@ public class UnitOfMeasure extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

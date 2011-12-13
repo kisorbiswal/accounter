@@ -36,13 +36,6 @@ public class ShippingTerms extends CreatableObject implements
 	}
 
 	/**
-	 * @return the id
-	 */
-	public long getID() {
-		return id;
-	}
-
-	/**
 	 * @return the name
 	 */
 	public String getName() {
@@ -79,7 +72,7 @@ public class ShippingTerms extends CreatableObject implements
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.SHIPPING_TERM);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -123,7 +116,7 @@ public class ShippingTerms extends CreatableObject implements
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			ShippingTerms newShippingTerms = (ShippingTerms) list.get(0);
-			if (shippingTerms.id != newShippingTerms.id) {
+			if (shippingTerms.getID() != newShippingTerms.getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_CONFLICT);
 				// "ShippingTerms already exists with this name");

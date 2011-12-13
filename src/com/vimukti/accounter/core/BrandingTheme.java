@@ -502,7 +502,8 @@ public class BrandingTheme extends CreatableObject implements
 				.getNamedQuery("getBrandingTheme")
 				.setParameter("companyId",
 						((BrandingTheme) clientObject).getCompany().getID())
-				.setString("themeName", this.themeName).setLong("id", this.id);
+				.setString("themeName", this.themeName)
+				.setLong("id", this.getID());
 		List list = query.list();
 
 		if (list != null || list.size() > 0 || list.get(0) != null) {
@@ -526,7 +527,7 @@ public class BrandingTheme extends CreatableObject implements
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.BRANDINGTHEME);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -560,13 +561,6 @@ public class BrandingTheme extends CreatableObject implements
 		if (isLogoAdded() == false)
 			this.setFileName(null);
 		return false;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public long getID() {
-		return id;
 	}
 
 	/**

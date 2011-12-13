@@ -113,11 +113,11 @@ public class TAXGroup extends TAXItemGroup {
 		// }
 
 		session.getNamedQuery("updateTaxCodeSalesTaxRate")
-				.setParameter("id", this.id)
+				.setParameter("id", this.getID())
 				.setParameter("salesTaxRate", this.groupRate)
 				.setLong("companyId", getCompany().getID()).executeUpdate();
 		session.getNamedQuery("updateTaxCodePurchaseTaxRate")
-				.setParameter("id", this.id)
+				.setParameter("id", this.getID())
 				.setParameter("purchaseTaxRate", this.groupRate)
 				.setLong("companyId", getCompany().getID()).executeUpdate();
 
@@ -131,7 +131,7 @@ public class TAXGroup extends TAXItemGroup {
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.TAX_GROUP);
 		ChangeTracker.put(accounterCore);
 

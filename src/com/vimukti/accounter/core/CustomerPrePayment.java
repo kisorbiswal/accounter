@@ -211,8 +211,8 @@ public class CustomerPrePayment extends Transaction {
 	}
 
 	public boolean equals(CustomerPrePayment obj) {
-		if (((this.depositIn != null && obj.depositIn != null) ? (this.depositIn.id == obj.depositIn.id)
-				: true)
+		if (((this.depositIn != null && obj.depositIn != null) ? (this.depositIn
+				.getID() == obj.depositIn.getID()) : true)
 				&& ((this.customer != null && obj.customer != null) ? (this.customer
 						.equals(obj.customer)) : true)
 				&& ((this.paymentMethod != null && obj.paymentMethod != null) ? (this.paymentMethod
@@ -244,7 +244,7 @@ public class CustomerPrePayment extends Transaction {
 			 * not same then update clonedObject customer and New customer
 			 * balances same customers.
 			 */
-			if (customerPrePayment.customer.id != this.customer.id) {
+			if (customerPrePayment.customer.getID() != this.customer.getID()) {
 
 				voidCreditsAndPayments(customerPrePayment);
 
@@ -272,7 +272,7 @@ public class CustomerPrePayment extends Transaction {
 							customerPrePayment.total)) {
 
 				Account depositInAccount = (Account) session.get(Account.class,
-						customerPrePayment.depositIn.id);
+						customerPrePayment.depositIn.getID());
 				depositInAccount.updateCurrentBalance(this,
 						customerPrePayment.total,
 						customerPrePayment.currencyFactor);

@@ -57,14 +57,6 @@ public class IssuePayment extends Transaction {
 	}
 
 	/**
-	 * @return the id
-	 */
-	@Override
-	public long getID() {
-		return id;
-	}
-
-	/**
 	 * @return the checkNumber
 	 */
 	public String getCheckNumber() {

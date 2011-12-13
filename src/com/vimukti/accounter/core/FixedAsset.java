@@ -379,14 +379,6 @@ public class FixedAsset extends CreatableObject implements
 	// }
 
 	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id) {
-		this.id = id;
-	}
-
-	/**
 	 * @param assetNumber
 	 *            the assetNumber to set
 	 */
@@ -651,7 +643,7 @@ public class FixedAsset extends CreatableObject implements
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(id);
+		accounterCore.setID(getID());
 		accounterCore.setObjectType(AccounterCoreType.FIXEDASSET);
 
 		ChangeTracker.put(accounterCore);
@@ -1872,7 +1864,7 @@ public class FixedAsset extends CreatableObject implements
 
 	public boolean equals(FixedAsset fixedAsset) {
 
-		if (this.id == fixedAsset.id
+		if (this.getID() == fixedAsset.getID()
 				&& this.assetNumber == fixedAsset.assetNumber
 				&& (this.getPurchaseDate().getDate() == fixedAsset
 						.getPurchaseDate().getDate())
@@ -1977,7 +1969,8 @@ public class FixedAsset extends CreatableObject implements
 		//
 		Query query = session.getNamedQuery("getFixedAssets")
 				.setString("name", this.name)
-				.setString("number", this.assetNumber).setLong("id", this.id)
+				.setString("number", this.assetNumber)
+				.setLong("id", this.getID())
 				.setParameter("companyId", fixedAsset.getCompany().getID());
 
 		List list = query.list();

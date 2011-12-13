@@ -548,7 +548,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 	}
 
 	public boolean equals(ItemReceipt obj) {
-		if (this.vendor.id == obj.vendor.id
+		if (this.vendor.getID() == obj.vendor.getID()
 				&& ((this.purchaseOrder != null && obj.purchaseOrder != null) ? (this.purchaseOrder
 						.equals(obj.purchaseOrder)) : true)
 				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
@@ -590,7 +590,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		} else {
 			this.cleanTransactionitems(this);
 
-			if (itemReceipt.vendor.id == this.vendor.id) {
+			if (itemReceipt.vendor.getID() == this.vendor.getID()) {
 
 				if (DecimalUtil.isGreaterThan(itemReceipt.total, this.total)) {
 					modifyPurchaseOrder(this, false);
@@ -604,7 +604,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 				itemReceipt.total -= this.total;
 			}
 
-			else if (itemReceipt.vendor.id != this.vendor.id) {
+			else if (itemReceipt.vendor.getID() != this.vendor.getID()) {
 
 				// pendingItemReceipt
 				// .updateCurrentBalance(itemReceipt, this.total);
@@ -653,7 +653,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 		Session session = HibernateUtil.getCurrentSession();
 		PurchaseOrder purchaseOrder = (PurchaseOrder) session.get(
-				PurchaseOrder.class, itemReceipt.purchaseOrder.id);
+				PurchaseOrder.class, itemReceipt.purchaseOrder.getID());
 		if (purchaseOrder != null) {
 			boolean isPartialItemReceipt = false;
 			boolean flag = true;
@@ -680,10 +680,10 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 						else
 							transactionItem.lineTotal = transactionItem.lineTotal;
 
-						if (id == 0l)
+						if (getID() == 0l)
 							referringTransactionItem.usedamt += transactionItem.lineTotal;
 
-						else if (id != 0l && !itemReceipt.isVoid())
+						else if (getID() != 0l && !itemReceipt.isVoid())
 							referringTransactionItem.usedamt += transactionItem.lineTotal
 									- referringTransactionItem.usedamt;
 
@@ -707,7 +707,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 							}
 						}
 
-						if (id != 0l && !itemReceipt.isVoid())
+						if (getID() != 0l && !itemReceipt.isVoid())
 							referringTransactionItem.usedamt += amount;
 
 						session.update(referringTransactionItem);

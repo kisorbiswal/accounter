@@ -405,7 +405,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.ITEM);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -460,7 +460,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			Item newItem = (Item) list.get(0);
-			if (item.id != newItem.id) {
+			if (item.getID() != newItem.getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_CONFLICT);
 				// "An Item already exists with this Name");

@@ -22,37 +22,12 @@ public class CustomField extends CreatableObject implements
 	boolean showCustomer;
 	boolean showVendor;
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public long getID() {
-		return this.id;
 	}
 
 	@Override

@@ -546,7 +546,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 	public boolean equals(TransactionReceivePayment tr) {
 
 		ReceivePayment rp = tr.getReceivePayment();
-		if (this.receivePayment.id == rp.id
+		if (this.receivePayment.getID() == rp.getID()
 				&& this.appliedCredits == tr.appliedCredits
 				&& this.cashDiscount == tr.cashDiscount
 				&& this.journalEntry == tr.journalEntry

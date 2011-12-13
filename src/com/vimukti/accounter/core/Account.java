@@ -795,7 +795,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(id);
+		accounterCore.setID(getID());
 		accounterCore.setObjectType(AccounterCoreType.ACCOUNT);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -1079,7 +1079,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		log.info("Update Account: " + this.getName() + "Balace:"
 				+ this.totalBalance);
 
-		if (this.id != 0
+		if (this.getID() != 0
 				&& this.parent != null
 				&& ((this.oldParent != null && this.oldParent != this.parent) || this.oldParent == null)) {
 
@@ -1154,7 +1154,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			isOpeningBalanceEditable = false;
 			JournalEntry existEntry = (JournalEntry) session
 					.getNamedQuery("getJournalEntryForAccount")
-					.setLong("id", this.id).uniqueResult();
+					.setLong("id", this.getID()).uniqueResult();
 			String number = null;
 			double openingBalance = this.openingBalance;
 			if (existEntry != null) {
@@ -1297,7 +1297,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 		Query query = session.getNamedQuery("getAccounts")
 				.setString("name", this.name).setString("number", this.number)
-				.setLong("id", this.id)
+				.setLong("id", this.getID())
 				.setParameter("companyId", account.getCompany().getID());
 
 		List list = query.list();

@@ -76,7 +76,7 @@ public class VendorGroup extends CreatableObject implements
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.VENDOR_GROUP);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -111,14 +111,8 @@ public class VendorGroup extends CreatableObject implements
 		return false;
 	}
 
-	@Override
-	public long getID() {
-
-		return this.id;
-	}
-
 	public boolean equals(VendorGroup obj) {
-		if (this.id == obj.id && this.name == obj.name) {
+		if (this.getID() == obj.getID() && this.name == obj.name) {
 			return true;
 		}
 		return false;
@@ -135,7 +129,7 @@ public class VendorGroup extends CreatableObject implements
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			VendorGroup newVendorGroup = (VendorGroup) list.get(0);
-			if (vendorGroup.id != newVendorGroup.id) {
+			if (vendorGroup.getID() != newVendorGroup.getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_CONFLICT);
 				// "SupplierGroup already exists with this name");

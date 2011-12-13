@@ -286,7 +286,7 @@ public class SalesPerson extends CreatableObject implements
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.SALES_PERSON);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -314,11 +314,6 @@ public class SalesPerson extends CreatableObject implements
 		super.onUpdate(arg0);
 		ChangeTracker.put(this);
 		return false;
-	}
-
-	@Override
-	public long getID() {
-		return this.id;
 	}
 
 	@Override

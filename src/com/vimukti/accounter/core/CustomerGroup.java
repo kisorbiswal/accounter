@@ -60,7 +60,7 @@ public class CustomerGroup extends CreatableObject implements
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.CUSTOMER_GROUP);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -111,7 +111,7 @@ public class CustomerGroup extends CreatableObject implements
 		List list = query.list();
 		if (list.size() > 0 && list != null) {
 			CustomerGroup newCustomerGroup = (CustomerGroup) list.get(0);
-			if (customerGroup.id != newCustomerGroup.id) {
+			if (customerGroup.getID() != newCustomerGroup.getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_CONFLICT);
 				// "A CustomerGroup already exists with this name");

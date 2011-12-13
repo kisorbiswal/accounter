@@ -1229,7 +1229,7 @@ public abstract class Transaction extends CreatableObject implements
 		Transaction clone = (Transaction) super.clone();
 
 		// cloned should be a template.
-		clone.id = 0;
+		clone.setId(0);
 
 		List<TransactionItem> items = new ArrayList<TransactionItem>();
 		for (TransactionItem transactionItem : transactionItems) {
@@ -1243,7 +1243,7 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	public void resetID() {
-		id = 0;
+		setId(0);
 	}
 
 	public AccounterClass getAccounterClass() {

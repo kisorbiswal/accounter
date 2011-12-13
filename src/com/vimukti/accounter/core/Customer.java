@@ -329,7 +329,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.CUSTOMER);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -475,7 +475,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 
 		Query query = session.getNamedQuery("getCustomers")
 				.setString("name", this.name).setString("number", this.number)
-				.setLong("id", this.id)
+				.setLong("id", this.getID())
 				.setParameter("companyId", customer.getCompany().getID());
 
 		List list = query.list();

@@ -92,14 +92,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id) {
-		this.id = id;
-	}
-
-	/**
 	 * @return the description
 	 */
 	public String getDescription() {
@@ -183,16 +175,11 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 	}
 
 	@Override
-	public long getID() {
-		return this.id;
-	}
-
-	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.TAX_CODE);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -272,7 +259,8 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 		// Query query = session.createQuery("from VATCode V where V.name=?")
 		// .setParameter(0, vatCode.name);
 		Query query = session.getNamedQuery("getTAXCodeWithSameName")
-				.setParameter("name", this.name).setParameter("id", this.id)
+				.setParameter("name", this.name)
+				.setParameter("id", this.getID())
 				.setParameter("companyId", taxCode.getCompany().getID());
 		List list = query.list();
 		if (list != null && list.size() > 0) {

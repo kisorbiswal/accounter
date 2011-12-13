@@ -404,7 +404,7 @@ public class PurchaseOrder extends Transaction {
 	}
 
 	public boolean equals(PurchaseOrder purchaseOrder) {
-		if (vendor.id == purchaseOrder.vendor.id
+		if (vendor.getID() == purchaseOrder.vendor.getID()
 				&& this.transactionItems.size() == purchaseOrder.transactionItems
 						.size()) {
 			for (int i = 0; i < this.transactionItems.size(); i++) {

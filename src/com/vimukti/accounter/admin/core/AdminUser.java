@@ -90,7 +90,6 @@ public class AdminUser extends CreatableObject implements IAccounterServerCore,
 	}
 
 	public AdminUser(ClientAdminUser clientuser) {
-		super.id = clientuser.getID();
 		this.name = clientuser.getName();
 		this.emailId = clientuser.getEmailId();
 		this.password = clientuser.getPassword();

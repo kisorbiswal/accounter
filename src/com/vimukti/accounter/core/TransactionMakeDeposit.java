@@ -513,8 +513,11 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 	public boolean equals(TransactionMakeDeposit obj) {
 		if ((this.account != null & obj.account != null) ? (this.account
 				.equals(obj.account))
-				: true && (this.vendor.id != 0 && obj.vendor.id != 0) ? (this.vendor.id == obj.vendor.id)
-						: true && (this.customer.id != 0 && obj.customer.id != 0) ? (this.customer.id == obj.customer.id)
+				: true && (this.vendor.getID() != 0 && obj.vendor.getID() != 0) ? (this.vendor
+						.getID() == obj.vendor.getID())
+						: true && (this.customer.getID() != 0 && obj.customer
+								.getID() != 0) ? (this.customer.getID() == obj.customer
+								.getID())
 								: true && (this.cashAccount != null && obj.cashAccount != null) ? (this.cashAccount
 										.equals(obj.cashAccount))
 										: true && (this.makeDeposit != null && obj.makeDeposit != null) ? (this.makeDeposit
@@ -585,7 +588,7 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -23,21 +23,6 @@ public class Budget extends CreatableObject implements IAccounterServerCore {
 
 	private int version;
 
-	/**
-	 * @return the id
-	 */
-	public long getID() {
-		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setID(long id) {
-		this.id = id;
-	}
-
 	public String getBudgetName() {
 		return budgetName;
 	}

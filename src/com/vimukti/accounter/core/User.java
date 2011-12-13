@@ -66,7 +66,7 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 	public User(ClientUser clientUser) {
 		// User user = new User();
-		this.id = clientUser.getID();
+		this.setId(clientUser.getID());
 		// this.setFirstName(clientUser.getFirstName());
 		// this.setLastName(clientUser.getLastName());
 		// this.setFullName(clientUser.getFullName());
@@ -120,11 +120,6 @@ public class User extends CreatableObject implements IAccounterServerCore,
 	// this.fullName = fname;
 	//
 	// }
-
-	@Override
-	public long getID() {
-		return this.id;
-	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
@@ -256,7 +251,7 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.USER);
 		ChangeTracker.put(accounterCore);
 		return false;

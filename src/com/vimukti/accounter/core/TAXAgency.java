@@ -172,7 +172,7 @@ public class TAXAgency extends Payee {
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.TAXAGENCY);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -218,7 +218,7 @@ public class TAXAgency extends Payee {
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			TAXAgency newTaxAgency = (TAXAgency) list.get(0);
-			if (taxAgency.id != newTaxAgency.id) {
+			if (taxAgency.getID() != newTaxAgency.getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_CONFLICT);
 				// "A TAXAgency already exists with this name");

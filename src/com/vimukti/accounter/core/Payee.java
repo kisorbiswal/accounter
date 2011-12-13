@@ -195,13 +195,6 @@ public abstract class Payee extends CreatableObject implements
 	}
 
 	/**
-	 * @return the id
-	 */
-	public long getID() {
-		return id;
-	}
-
-	/**
 	 * @return the type
 	 */
 	public int getType() {
@@ -594,7 +587,7 @@ public abstract class Payee extends CreatableObject implements
 
 			JournalEntry existEntry = (JournalEntry) session
 					.getNamedQuery("getJournalEntryForCustomer")
-					.setLong("id", this.id).uniqueResult();
+					.setLong("id", this.getID()).uniqueResult();
 			if (existEntry == null) {
 				JournalEntry journalEntry = createJournalEntry();
 				session.save(journalEntry);

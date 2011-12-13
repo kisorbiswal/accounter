@@ -61,10 +61,6 @@ public class StockTransfer extends CreatableObject implements
 		return stockTransferItems;
 	}
 
-	public long getId() {
-		return id;
-	}
-
 	public String getMemo() {
 		return memo;
 	}

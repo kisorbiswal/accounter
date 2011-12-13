@@ -237,8 +237,8 @@ public class CreditCardCharge extends Transaction {
 	}
 
 	public boolean equals(CreditCardCharge obj) {
-		if (((this.vendor != null && obj.vendor != null) ? (this.vendor.id == obj.vendor.id)
-				: true)
+		if (((this.vendor != null && obj.vendor != null) ? (this.vendor.getID() == obj.vendor
+				.getID()) : true)
 				&& ((this.payFrom != null && obj.payFrom != null) ? (this.payFrom
 						.equals(obj.payFrom)) : true)
 				&& ((this.paymentMethod != null && obj.paymentMethod != null) ? (this.paymentMethod
@@ -284,7 +284,7 @@ public class CreditCardCharge extends Transaction {
 
 			if (!this.payFrom.equals(creditCardCharge.payFrom)) {
 				Account prePayFrom = (Account) session.get(Account.class,
-						creditCardCharge.payFrom.id);
+						creditCardCharge.payFrom.getID());
 				prePayFrom.updateCurrentBalance(this, -creditCardCharge.total,
 						creditCardCharge.currencyFactor);
 				prePayFrom.onUpdate(session);

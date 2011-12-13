@@ -9,13 +9,13 @@ import org.hibernate.classic.Lifecycle;
 
 public abstract class CreatableObject implements Lifecycle {
 
-	protected long id;
+	private long id;
 
-	protected User createdBy;
-	protected User lastModifier;
-	protected Timestamp createdDate;
-	protected Timestamp lastModifiedDate;
-	protected int version;
+	private User createdBy;
+	private User lastModifier;
+	private Timestamp createdDate;
+	private Timestamp lastModifiedDate;
+	private int version;
 	private Company company;
 
 	public void setCreatedBy(User createdBy) {

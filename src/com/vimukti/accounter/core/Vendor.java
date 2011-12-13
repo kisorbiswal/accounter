@@ -281,7 +281,7 @@ public class Vendor extends Payee {
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.VENDOR);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -319,7 +319,7 @@ public class Vendor extends Payee {
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			Vendor newVendor = (Vendor) list.get(0);
-			if (vendor.id != newVendor.id) {
+			if (vendor.getID() != newVendor.getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_CONFLICT);
 				// "A Supplier already exists with this name");

@@ -54,7 +54,8 @@ public class Bank extends CreatableObject implements IAccounterServerCore,
 
 	public boolean equals(Bank bank) {
 
-		if (bank.id == this.id && this.version == bank.version
+		if (bank.getID() == this.getID()
+				&& this.getVersion() == bank.getVersion()
 				&& this.name.equals(bank.name))
 			return true;
 		return false;
@@ -71,7 +72,7 @@ public class Bank extends CreatableObject implements IAccounterServerCore,
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			Bank newBank = (Bank) list.get(0);
-			if (bank.id != newBank.id) {
+			if (bank.getID() != newBank.getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_CONFLICT);
 				// "Bank name is alreay in use Please enter Unique name");

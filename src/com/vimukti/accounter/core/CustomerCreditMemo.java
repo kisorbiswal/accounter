@@ -370,7 +370,7 @@ public class CustomerCreditMemo extends Transaction implements
 	// @Override
 	public boolean equals(CustomerCreditMemo ccm) {
 		if (DecimalUtil.isEquals(this.getTotal(), ccm.getTotal())
-				&& this.id == ccm.id
+				&& this.getID() == ccm.getID()
 				&& DecimalUtil.isEquals(this.total, ccm.total)
 				// && (this.transactionDate != null && ccm.transactionDate !=
 				// null) ? (this.transactionDate.equals(transactionDate)): true

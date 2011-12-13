@@ -764,7 +764,7 @@ public class Utility_R {
 
 		while (iterator.hasNext()) {
 			account = (Account) iterator.next();
-			if (account.id == (id)) {
+			if (account.getID() == (id)) {
 				return account;
 			}
 		}

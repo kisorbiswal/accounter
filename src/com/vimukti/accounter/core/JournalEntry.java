@@ -78,14 +78,6 @@ public class JournalEntry extends Transaction {
 	}
 
 	/**
-	 * @return the id
-	 */
-	@Override
-	public long getID() {
-		return id;
-	}
-
-	/**
 	 * @return the memo
 	 */
 	@Override
@@ -196,7 +188,6 @@ public class JournalEntry extends Transaction {
 
 		this.balanceDue += amount2;
 	}
-
 
 	@Override
 	public void onEdit(Transaction clonedObject) {

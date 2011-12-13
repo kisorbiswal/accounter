@@ -761,7 +761,7 @@ public class Utility {
 
 		while (iterator.hasNext()) {
 			account = (Account) iterator.next();
-			if (account.id == (id)) {
+			if (account.getID() == (id)) {
 				return account;
 			}
 		}
@@ -1395,7 +1395,8 @@ public class Utility {
 
 	public static void updateCurrentFiscalYear(Company company) {
 		Session session = HibernateUtil.getCurrentSession();
-		List list = session.getNamedQuery("getFiscalYears.of.company").setEntity("company", company).list();
+		List list = session.getNamedQuery("getFiscalYears.of.company")
+				.setEntity("company", company).list();
 		Iterator<FiscalYear> iterator = list.iterator();
 
 		boolean isCurrentOne = false;

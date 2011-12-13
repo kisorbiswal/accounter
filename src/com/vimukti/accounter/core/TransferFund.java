@@ -65,14 +65,6 @@ public class TransferFund extends Transaction {
 	}
 
 	/**
-	 * @return the id
-	 */
-	@Override
-	public long getID() {
-		return id;
-	}
-
-	/**
 	 * @return the transferFrom
 	 */
 	public Account getTransferFrom() {
@@ -101,7 +93,7 @@ public class TransferFund extends Transaction {
 			return true;
 		this.isOnSaveProccessed = true;
 		super.onSave(session);
-		if (this.id == 0l) {
+		if (this.getID() == 0l) {
 			Account account = this.transferFrom;
 			account.updateCurrentBalance(this, this.total, currencyFactor);
 			session.update(account);
@@ -225,8 +217,9 @@ public class TransferFund extends Transaction {
 
 		} else {
 
-			if ((this.transferFrom.id == transferFund.transferFrom.id)
-					&& (this.transferTo.id == transferFund.transferTo.id)
+			if ((this.transferFrom.getID() == transferFund.transferFrom.getID())
+					&& (this.transferTo.getID() == transferFund.transferTo
+							.getID())
 					&& !DecimalUtil.isEquals(this.total, transferFund.total)) {
 
 				transferFund.total -= this.total;
@@ -238,7 +231,8 @@ public class TransferFund extends Transaction {
 
 			} else {
 
-				if (this.transferFrom.id != transferFund.transferFrom.id) {
+				if (this.transferFrom.getID() != transferFund.transferFrom
+						.getID()) {
 
 					transferFund.effectAccount(session,
 							transferFund.transferFrom, -transferFund.total);
@@ -246,7 +240,7 @@ public class TransferFund extends Transaction {
 					this.effectAccount(session, this.transferFrom, this.total);
 				}
 
-				if (this.transferTo.id != transferFund.transferTo.id) {
+				if (this.transferTo.getID() != transferFund.transferTo.getID()) {
 
 					transferFund.effectAccount(session,
 							transferFund.transferTo, transferFund.total);
@@ -270,7 +264,8 @@ public class TransferFund extends Transaction {
 	private void effectAccount(Session session, Account transferFrom,
 			double amount) {
 
-		Account account = (Account) session.get(Account.class, transferFrom.id);
+		Account account = (Account) session.get(Account.class,
+				transferFrom.getID());
 
 		account.updateCurrentBalance(this, amount, currencyFactor);
 		session.update(account);

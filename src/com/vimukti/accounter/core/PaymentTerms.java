@@ -121,7 +121,7 @@ public class PaymentTerms extends CreatableObject implements
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.PAYMENT_TERM);
 		ChangeTracker.put(accounterCore);
 		return false;
@@ -155,11 +155,6 @@ public class PaymentTerms extends CreatableObject implements
 	}
 
 	@Override
-	public long getID() {
-		return this.id;
-	}
-
-	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -170,7 +165,7 @@ public class PaymentTerms extends CreatableObject implements
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			PaymentTerms newPaymentTerms = (PaymentTerms) list.get(0);
-			if (paymentTerms.id != newPaymentTerms.id) {
+			if (paymentTerms.getID() != newPaymentTerms.getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_CONFLICT);
 				// "PaymentTerms already exists with this name");

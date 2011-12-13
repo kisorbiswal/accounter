@@ -159,7 +159,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 		for (TransactionPayTAX t : transactionPayTAX) {
 			t.setPayTAX(this);
 		}
-		if (this.id == 0) {
+		if (this.getID() == 0) {
 			super.onSave(session);
 
 			if (!(this.paymentMethod
@@ -191,10 +191,10 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 		if (this.isVoid && !oldPayTAX.isVoid) {
 			doVoidEffect(session);
 		} else {
-			if ((payFrom.id != oldPayTAX.payFrom.id)
+			if ((payFrom.getID() != oldPayTAX.payFrom.getID())
 					|| !DecimalUtil.isEquals(this.total, oldPayTAX.total)) {
 				Account account = (Account) session.get(Account.class,
-						payFrom.id);
+						payFrom.getID());
 				if (account != null) {
 					account.updateCurrentBalance(this, -oldPayTAX.getTotal(),
 							oldPayTAX.getCurrencyFactor());

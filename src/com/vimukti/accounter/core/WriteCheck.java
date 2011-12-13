@@ -94,11 +94,6 @@ public class WriteCheck extends Transaction {
 	public WriteCheck() {
 	}
 
-	@Override
-	public long getID() {
-		return id;
-	}
-
 	/**
 	 * @return the payToType
 	 */
@@ -350,11 +345,11 @@ public class WriteCheck extends Transaction {
 
 		if (!this.isVoid && !writeCheck.isVoid) {
 
-			if (this.bankAccount.id != writeCheck.bankAccount.id
+			if (this.bankAccount.getID() != writeCheck.bankAccount.getID()
 					|| !DecimalUtil.isEquals(this.total, writeCheck.total)) {
 
 				Account account = (Account) session.get(Account.class,
-						writeCheck.bankAccount.id);
+						writeCheck.bankAccount.getID());
 				account.updateCurrentBalance(this, -writeCheck.total,
 						currencyFactor);
 				session.update(account);

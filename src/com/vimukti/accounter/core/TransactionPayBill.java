@@ -305,7 +305,7 @@ public class TransactionPayBill extends CreatableObject implements
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		if (this.id == 0l) {
+		if (this.getID() == 0l) {
 
 			// this.enterBill.getVendor().updateBalance(session, this.payBill,
 			// -this.payment);
@@ -497,7 +497,7 @@ public class TransactionPayBill extends CreatableObject implements
 	}
 
 	public boolean equals(TransactionPayBill obj) {
-		if (this.vendor.id == obj.vendor.id
+		if (this.vendor.getID() == obj.vendor.getID()
 				&& (this.enterBill != null && obj.enterBill != null) ? (this.enterBill
 				.equals(obj.enterBill))
 				: true && (this.payBill != null && obj.payBill != null) ? (this.payBill

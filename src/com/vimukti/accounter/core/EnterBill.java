@@ -563,7 +563,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 	public boolean equals(EnterBill obj) {
 
-		if (this.vendor.id == obj.vendor.id
+		if (this.vendor.getID() == obj.vendor.getID()
 
 				&& ((this.purchaseOrder != null && obj.purchaseOrder != null) ? (this.purchaseOrder
 						.equals(obj.purchaseOrder)) : true)
@@ -612,12 +612,12 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			 * cloned and client Object vendor balances and PurchaseOrder
 			 */
 
-			if (enterBill.vendor.id != this.vendor.id) {
+			if (enterBill.vendor.getID() != this.vendor.getID()) {
 
 				// doVoidEffect(session, enterBill);
 
 				Vendor vendor = (Vendor) session.get(Vendor.class,
-						enterBill.vendor.id);
+						enterBill.vendor.getID());
 				vendor.updateBalance(session, this, -enterBill.total);
 
 				// this.onSave(session);
@@ -657,7 +657,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					modifyPurchaseOrder(this, true);
 
 				}
-			else if (enterBill.vendor.id == this.vendor.id) {
+			else if (enterBill.vendor.getID() == this.vendor.getID()) {
 
 				/*
 				 * If cloned and client Object vendors are same then update
@@ -769,7 +769,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 		Session session = HibernateUtil.getCurrentSession();
 		PurchaseOrder purchaseOrder = (PurchaseOrder) session.get(
-				PurchaseOrder.class, enterBill.purchaseOrder.id);
+				PurchaseOrder.class, enterBill.purchaseOrder.getID());
 
 		if (purchaseOrder != null) {
 			boolean isPartialEnterBill = false;
@@ -1138,13 +1138,13 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			w.put(messages.paymentTerm(), this.paymentTerm.getName());
 
 		if (this.dueDate != null)
-		w.put(messages.dueDate(), this.dueDate.toString());
+			w.put(messages.dueDate(), this.dueDate.toString());
 
 		if (this.deliveryDate != null)
-		w.put(messages.deliveryDate(), this.deliveryDate.toString());
+			w.put(messages.deliveryDate(), this.deliveryDate.toString());
 
 		if (this.discountDate != null)
-		w.put(messages.discountDate(), this.discountDate.toString());
+			w.put(messages.discountDate(), this.discountDate.toString());
 
 	}
 }

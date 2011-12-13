@@ -147,7 +147,7 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
-		accounterCore.setID(this.id);
+		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.WAREHOUSE);
 		ChangeTracker.put(accounterCore);
 

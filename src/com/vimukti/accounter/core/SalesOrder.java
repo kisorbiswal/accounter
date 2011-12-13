@@ -397,7 +397,7 @@ public class SalesOrder extends Transaction {
 			return;
 		Session session = HibernateUtil.getCurrentSession();
 		Estimate estimate = (Estimate) session.get(Estimate.class,
-				salesorder.estimate.id);
+				salesorder.estimate.getID());
 		if (estimate != null) {
 			boolean isPartiallyInvoiced = false;
 			boolean flag = true;
@@ -617,7 +617,7 @@ public class SalesOrder extends Transaction {
 	// }
 
 	public boolean equals(SalesOrder salesOrder) {
-		if (this.id == salesOrder.id) {
+		if (this.getID() == salesOrder.getID()) {
 			return true;
 		}
 
