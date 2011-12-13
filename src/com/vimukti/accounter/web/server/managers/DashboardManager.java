@@ -429,10 +429,14 @@ public class DashboardManager extends Manager {
 
 			}
 			expensePortletData.setAccountDetails(accountDetails);
-			expensePortletData.setCashExpenseTotal(cashExpenseTotal);
+			expensePortletData.setCashExpenseTotal(cashExpenseTotal == null ? 0
+					: cashExpenseTotal);
 			expensePortletData
-					.setCreditCardExpensesTotal(creditCardExpenseTotal);
-			expensePortletData.setAllExpensesTotal(expenseAccountTotal);
+					.setCreditCardExpensesTotal(creditCardExpenseTotal == null ? 0
+							: creditCardExpenseTotal);
+			expensePortletData
+					.setAllExpensesTotal(expenseAccountTotal == null ? 0
+							: expenseAccountTotal);
 
 			return expensePortletData;
 		} catch (Exception e) {
