@@ -715,7 +715,7 @@ class NumberFormat2 {
 		// remove any characters that are not digit, decimal separator, +, -, (,
 		// ), e, or E
 		String re = "[^\\" + inputDecimalValue + "\\d\\-\\+\\(\\)eE]";
-		newVal = newVal.replaceAll("", "");
+		newVal = newVal.replaceAll(" ", "");
 
 		// ensure that the first decimal separator is a . and remove the rest.
 		int index = newVal.indexOf(inputDecimalValue);
