@@ -266,10 +266,10 @@ public class WriteCheck extends Transaction {
 
 	@Override
 	public int getTransactionCategory() {
-		if (this.getCustomer() != null)
-			return Transaction.CATEGORY_CUSTOMER;
-		else
-			return Transaction.CATEGORY_VENDOR;
+		// if (this.getCustomer() != null)
+		// return Transaction.CATEGORY_CUSTOMER;
+		// else
+		return Transaction.CATEGORY_VENDOR;
 	}
 
 	@Override
