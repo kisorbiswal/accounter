@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
+import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
@@ -1346,6 +1347,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return getCashFlowReport(startDate, endDate, getCompanyId());
 	}
 
+	@Override
 	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocationReport(
 			boolean isLocation, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
@@ -1843,6 +1845,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return vatDetailReport;
 	}
 
+	@Override
 	public ArrayList<VATSummary> getPriorReturnVATSummary(long taxAgncy,
 			ClientFinanceDate endDate) {
 		return priorReturnVATSummary(taxAgncy, endDate, getCompanyId());
@@ -1882,6 +1885,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
 	public ArrayList<VATSummary> getVAT100Report(long taxAgency,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 		return vat100Report(taxAgency, fromDate, toDate, getCompanyId());
@@ -2823,6 +2827,27 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return resultList;
+	}
+
+	@Override
+	public ArrayList<DepreciationShedule> getDepreciationSheduleReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int status,
+			long companyId) throws AccounterException {
+		ArrayList<DepreciationShedule> list = new ArrayList<DepreciationShedule>();
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate, companyId);
+		try {
+			list = getFinanceTool().getFixedAssetManager()
+					.getDepreciationShedule(status, companyId);
+
+			DepreciationShedule depreciationShedule = new DepreciationShedule();
+			if (list != null)
+				list.add((DepreciationShedule) setStartEndDates(
+						depreciationShedule, financeDates));
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }
