@@ -77,7 +77,7 @@ public abstract class PurchaseOrderTableRequirements extends
 	@Override
 	protected String getAddMoreString() {
 		List<PurchaseOrdersList> oldValues = getValue();
-		return oldValues.isEmpty() ? getMessages().add(
+		return oldValues.isEmpty() ? getMessages().addOf(
 				getMessages().purchaseOrders()) : getMessages().addMore(
 				getMessages().purchaseOrders());
 	}

@@ -106,7 +106,7 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 	@Override
 	protected String getAddMoreString() {
 		List<EstimatesAndSalesOrdersList> oldValues = getValue();
-		return (oldValues == null || oldValues.isEmpty()) ? getMessages().add(
+		return (oldValues == null || oldValues.isEmpty()) ? getMessages().addOf(
 				getMessages().quotes()) : getMessages().addMore(
 				getMessages().quotes());
 	}
