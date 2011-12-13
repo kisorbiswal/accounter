@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -342,13 +343,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	@Override
 	public void saveSuccess(IAccounterCore result) {
 		if (result != null) {
-			// if (takenCustomer == null)
-			// Accounter.showInformation(FinanceApplication
-			// .constants().newCustomerCreated());
-			// else
-			// Accounter.showInformation(FinanceApplication
-			// .constants().customerUpdatedSuccessfully());
-
+			ClientCustomer customer = (ClientCustomer) result;
+			if (getMode() == EditMode.CREATE) {
+				customer.setBalance(customer.getOpeningBalance());
+			}
 			super.saveSuccess(result);
 
 		} else {

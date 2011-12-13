@@ -919,15 +919,10 @@ public class VendorView extends BaseView<ClientVendor> {
 	@Override
 	public void saveSuccess(IAccounterCore result) {
 		if (result != null) {
-			// if (takenVendor == null) {
-			// Accounter.showInformation(FinanceApplication
-			// .constants().newVendorCreated());
-			//
-			// } else {
-			// Accounter.showInformation(FinanceApplication
-			// .constants().vendorUpdatedSuccessfully());
-			//
-			// }
+			ClientVendor vendor = (ClientVendor) result;
+			if (getMode() == EditMode.CREATE) {
+				vendor.setBalance(vendor.getOpeningBalance());
+			}
 			super.saveSuccess(result);
 
 		} else {

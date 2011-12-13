@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
@@ -31,6 +32,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -1005,6 +1007,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	@Override
 	public void saveSuccess(IAccounterCore result) {
 		if (result != null) {
+			ClientAccount account = (ClientAccount) result;
+			if (getMode() == EditMode.CREATE) {
+				account.setCurrentBalance(account.getOpeningBalance());
+				account.setTotalBalanceInAccountCurrency(account
+						.getOpeningBalance() / account.getCurrencyFactor());
+			}
 			super.saveSuccess(result);
 		} else {
 			saveFailed(new AccounterException());
