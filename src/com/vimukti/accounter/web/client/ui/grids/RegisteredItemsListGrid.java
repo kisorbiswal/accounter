@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
-import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -25,7 +24,7 @@ import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
 public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private NoteDialog noteDialog;
-	private ClientCurrency currency = getCompany().getPrimaryCurrency();
+	private final ClientCurrency currency = getCompany().getPrimaryCurrency();
 
 	/**
 	 * @param isMultiSelectionEnable
@@ -140,8 +139,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			@Override
 			public boolean onOK() {
 				String note = noteDialog.noteArea.getValue() != null ? noteDialog.noteArea
-						.getValue().toString()
-						: "";
+						.getValue().toString() : "";
 				// setAttribute("note", note, currentRow);
 				if (note.length() != 0)
 					executeUpdate(asset, note);
@@ -157,13 +155,14 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private void executeUpdate(ClientFixedAsset asset, String value) {
 
-		List<ClientFixedAssetNote> noteList = asset.getFixedAssetNotes();
-		ClientFixedAssetNote note = new ClientFixedAssetNote();
-		note.setNote(value);
-		asset.getFixedAssetNotes().add(note);
+		// List<ClientFixedAssetNote> noteList = asset.getFixedAssetNotes();
+		// ClientFixedAssetNote note = new ClientFixedAssetNote();
+		// note.setNote(value);
+		// asset.getFixedAssetNotes().add(note);
 		Accounter.createOrUpdate(this, asset);
 	}
 
+	@Override
 	protected void executeDelete(ClientFixedAsset asset) {
 		deleteObject(asset);
 	}
@@ -195,10 +194,10 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			return getAccount(obj1).compareTo(getAccount(obj2));
 
 		case 3:
-			ClientFinanceDate date1 = new ClientFinanceDate(obj1
-					.getPurchaseDate());
-			ClientFinanceDate date2 = new ClientFinanceDate(obj2
-					.getPurchaseDate());
+			ClientFinanceDate date1 = new ClientFinanceDate(
+					obj1.getPurchaseDate());
+			ClientFinanceDate date2 = new ClientFinanceDate(
+					obj2.getPurchaseDate());
 			if (date1 != null && date2 != null)
 				return date1.compareTo(date2);
 			break;
@@ -225,6 +224,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 				: "";
 	}
 
+	@Override
 	public AccounterCoreType getType() {
 		return null;
 	}
