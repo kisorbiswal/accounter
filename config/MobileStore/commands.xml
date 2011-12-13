@@ -1060,7 +1060,7 @@
 
 	</command>
 
-	<command clazz="com.vimukti.accounter.mobile.commands.MeasurmentsListCommand"
+	<command clazz="com.vimukti.accounter.mobile.commands.MeasurementListCommand"
 		name="Measurments List">
 		<alias>measurmentsList</alias>
 		<alias>measurmentlist</alias>
