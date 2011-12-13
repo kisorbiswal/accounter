@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
+import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
@@ -275,5 +276,9 @@ public interface IAccounterReportService extends RemoteService {
 			long startDate, long endDate) throws AccounterException;
 
 	ArrayList<PayeeStatementsList> getStatements(boolean isVendor, long id,
-			ClientFinanceDate fromDate, ClientFinanceDate toDate);;
+			ClientFinanceDate fromDate, ClientFinanceDate toDate);
+
+	ArrayList<DepreciationShedule> getDepreciationSheduleReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int status,
+			long comapnyId) throws AccounterException;
 }
