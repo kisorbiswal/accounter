@@ -53,10 +53,12 @@ public class QuickLinksPortlet extends Portlet {
 				messages.newQuote(),
 				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
 						messages.newQuote()).getHistoryToken());
-		quickLinksMap.put(
-				messages.newCharge(),
-				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
-						messages.newCharge()).getHistoryToken());
+		if (Accounter.getCompany().getPreferences().isDelayedchargesEnabled()) {
+			quickLinksMap.put(
+					messages.newCharge(),
+					ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
+							messages.newCharge()).getHistoryToken());
+		}
 		quickLinksMap.put(messages.newJournalEntry(), ActionFactory
 				.getNewJournalEntryAction().getHistoryToken());
 		quickLinksMap.put(messages.receivePayment(), ActionFactory
@@ -67,8 +69,10 @@ public class QuickLinksPortlet extends Portlet {
 				.getVendorListAction().getHistoryToken());
 		quickLinksMap.put(messages.writeCheck(), ActionFactory
 				.getWriteChecksAction().getHistoryToken());
-		quickLinksMap.put(messages.enterBill(), ActionFactory
-				.getEnterBillsAction().getHistoryToken());
+		if (Accounter.getCompany().getPreferences().isKeepTrackofBills()) {
+			quickLinksMap.put(messages.enterBill(), ActionFactory
+					.getEnterBillsAction().getHistoryToken());
+		}
 
 		// adding to flex table...
 		Iterator<String> iterator = quickLinksMap.keySet().iterator();
