@@ -697,13 +697,30 @@ public class FixedAssestManager extends Manager {
 		return fixedAssetList;
 	}
 
+	public ArrayList<FixedAsset> getFixedAssetsForReport(int statusPending,
+			long companyId) throws DAOException {
+		ArrayList<FixedAsset> fixedAssetList = new ArrayList<FixedAsset>();
+		Company company = getCompany(companyId);
+		Session session = HibernateUtil.getCurrentSession() == null ? Utility
+				.getCurrentSession() : HibernateUtil.getCurrentSession();
+
+		Query query = session.getNamedQuery("getFixedAsset.from.status2or3")
+				.setParameter("status", statusPending)
+				.setParameter("company", company);
+		List<FixedAsset> list = query.list();
+		for (FixedAsset f : list) {
+			fixedAssetList.add(f);
+		}
+		return fixedAssetList;
+	}
+
 	public ArrayList<DepreciationShedule> getDepreciationShedule(
 			int statusPending, long companyId) throws DAOException {
 		ArrayList<DepreciationShedule> list = new ArrayList<DepreciationShedule>();
 		ArrayList<FixedAsset> list1 = null;
 		try {
 
-			list1 = getFixedAssets(statusPending, companyId);
+			list1 = getFixedAssetsForReport(statusPending, companyId);
 			for (FixedAsset asset : list1) {
 				DepreciationShedule depreciationShedule = new DepreciationShedule();
 				depreciationShedule.setAccumulatedDepreciationAmount(asset
