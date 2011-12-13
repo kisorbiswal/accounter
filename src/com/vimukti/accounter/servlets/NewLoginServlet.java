@@ -213,7 +213,7 @@ public class NewLoginServlet extends BaseServlet {
 		} else {
 
 			// Get the Client using the mail id
-			Session session = HibernateUtil.openSession();
+			Session session = HibernateUtil.getCurrentSession();
 			try {
 				Query query = session.getNamedQuery("getClient.by.mailId");
 				query.setParameter(EMAIL_ID, emailID);
@@ -279,10 +279,7 @@ public class NewLoginServlet extends BaseServlet {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				if (session != null)
-					session.close();
-			}
+			} finally {}
 
 		}
 
