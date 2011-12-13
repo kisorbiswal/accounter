@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -42,7 +43,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  *         can Sell or Dispose any Fixed Asset.
  */
 public class FixedAsset extends CreatableObject implements
-		IAccounterServerCore, Cloneable {
+		IAccounterServerCore, Cloneable, INamedObject {
 
 	/**
 	 * 
@@ -256,10 +257,12 @@ public class FixedAsset extends CreatableObject implements
 		this.linkedAccumulatedDepreciationAccount = linkedAccumulatedDepreciationAccount;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -700,40 +703,40 @@ public class FixedAsset extends CreatableObject implements
 		/**
 		 * Saving the action into History
 		 */
-		if (this.status == STATUS_PENDING) {
-			FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-			fixedAssetHistory
-					.setActionType(FixedAssetHistory.ACTION_TYPE_CREATED);
-			fixedAssetHistory.setActionDate(new FinanceDate());
-			fixedAssetHistory.setDetails("");
-			fixedAssetHistory.setCompany(this.getCompany());
-			this.fixedAssetsHistory.add(fixedAssetHistory);
-		}
+		// if (this.status == STATUS_PENDING) {
+		// FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
+		// fixedAssetHistory
+		// .setActionType(FixedAssetHistory.ACTION_TYPE_CREATED);
+		// fixedAssetHistory.setActionDate(new FinanceDate());
+		// fixedAssetHistory.setDetails("");
+		// fixedAssetHistory.setCompany(this.getCompany());
+		// this.fixedAssetsHistory.add(fixedAssetHistory);
+		// }
 
 		if (this.status == STATUS_REGISTERED) {
 			/**
 			 * Saving the action into History
 			 */
 
-			FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-			fixedAssetHistory
-					.setActionType(FixedAssetHistory.ACTION_TYPE_CREATED);
-			fixedAssetHistory.setActionDate(new FinanceDate());
-			fixedAssetHistory.setDetails("");
-			this.fixedAssetsHistory.add(fixedAssetHistory);
-			fixedAssetHistory.setCompany(this.getCompany());
+			// FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
+			// fixedAssetHistory
+			// .setActionType(FixedAssetHistory.ACTION_TYPE_CREATED);
+			// fixedAssetHistory.setActionDate(new FinanceDate());
+			// fixedAssetHistory.setDetails("");
+			// this.fixedAssetsHistory.add(fixedAssetHistory);
+			// fixedAssetHistory.setCompany(this.getCompany());
 
 			/**
 			 * Saving the action into History
 			 */
 
-			FixedAssetHistory fixedAssetHistory2 = new FixedAssetHistory();
-			fixedAssetHistory2
-					.setActionType(FixedAssetHistory.ACTION_TYPE_REGISTERED);
-			fixedAssetHistory2.setActionDate(new FinanceDate());
-			fixedAssetHistory2.setDetails("");
-			this.fixedAssetsHistory.add(fixedAssetHistory2);
-			fixedAssetHistory2.setCompany(this.getCompany());
+			// FixedAssetHistory fixedAssetHistory2 = new FixedAssetHistory();
+			// fixedAssetHistory2
+			// .setActionType(FixedAssetHistory.ACTION_TYPE_REGISTERED);
+			// fixedAssetHistory2.setActionDate(new FinanceDate());
+			// fixedAssetHistory2.setDetails("");
+			// this.fixedAssetsHistory.add(fixedAssetHistory2);
+			// fixedAssetHistory2.setCompany(this.getCompany());
 
 		}
 
@@ -767,14 +770,14 @@ public class FixedAsset extends CreatableObject implements
 		if (this.fixedAssetNotes.size() > 0
 				&& this.fixedAssetNotes.size() >= this.oldFixedAssetNotes
 						.size()) {
-			FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-			fixedAssetHistory.setActionType(FixedAssetHistory.ACTION_TYPE_NOTE);
-			fixedAssetHistory.setActionDate(new FinanceDate());
-			FixedAssetNote recentNote = this.fixedAssetNotes
-					.get(this.fixedAssetNotes.size() - 1);
-			fixedAssetHistory.setDetails(recentNote.getNote());
-			this.getFixedAssetsHistory().add(fixedAssetHistory);
-			fixedAssetHistory.setCompany(this.getCompany());
+			// FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
+			// fixedAssetHistory.setActionType(FixedAssetHistory.ACTION_TYPE_NOTE);
+			// fixedAssetHistory.setActionDate(new FinanceDate());
+			// FixedAssetNote recentNote = this.fixedAssetNotes
+			// .get(this.fixedAssetNotes.size() - 1);
+			// fixedAssetHistory.setDetails(recentNote.getNote());
+			// this.getFixedAssetsHistory().add(fixedAssetHistory);
+			// fixedAssetHistory.setCompany(this.getCompany());
 		}
 
 		if (this.linkedAccumulatedDepreciationAccount != null
@@ -792,13 +795,13 @@ public class FixedAsset extends CreatableObject implements
 			 * 
 			 * Save the Action into History
 			 */
-			FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-			fixedAssetHistory
-					.setActionType(FixedAssetHistory.ACTION_TYPE_REGISTERED);
-			fixedAssetHistory.setActionDate(new FinanceDate());
-			fixedAssetHistory.setDetails("");
-			this.getFixedAssetsHistory().add(fixedAssetHistory);
-			fixedAssetHistory.setCompany(this.getCompany());
+			// FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
+			// fixedAssetHistory
+			// .setActionType(FixedAssetHistory.ACTION_TYPE_REGISTERED);
+			// fixedAssetHistory.setActionDate(new FinanceDate());
+			// fixedAssetHistory.setDetails("");
+			// this.getFixedAssetsHistory().add(fixedAssetHistory);
+			// fixedAssetHistory.setCompany(this.getCompany());
 		}
 		/**
 		 * If this Fixed Asset is purchased before the Last Depreciation Date
@@ -1023,12 +1026,12 @@ public class FixedAsset extends CreatableObject implements
 		fromCal.set(fromCal.get(Calendar.YEAR), fromCal.get(Calendar.MONTH),
 				maxDay);
 
-		FinanceDate startDate = getCompany().getPreferences()
-				.getDepreciationStartDate();
+		FinanceDate startDate = new FinanceDate(fromCal.getTime());
 		Calendar startDateCal = new GregorianCalendar();
 		startDateCal.setTime(startDate.getAsDateObject());
+		FinanceDate toDate = new FinanceDate(toCal.getTime());
 
-		while (fromCal.getTime().compareTo(toCal.getTime()) <= 0) {
+		while (startDate.getDate() - toDate.getDate() <= 0) {
 
 			/**
 			 * Adjusting the opening balance of this Fixed Asset each year after
@@ -1061,15 +1064,15 @@ public class FixedAsset extends CreatableObject implements
 			 * 
 			 * Save the Action into History
 			 */
-			FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-			fixedAssetHistory
-					.setActionType(FixedAssetHistory.ACTION_TYPE_DEPRECIATED);
-			fixedAssetHistory.setActionDate(new FinanceDate());
-			fixedAssetHistory.setDetails("Depreciation of "
-					+ depreciationAmount + " on "
-					+ format.format(fromCal.getTime()));
-			this.fixedAssetsHistory.add(fixedAssetHistory);
-			fixedAssetHistory.setCompany(this.getCompany());
+			// FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
+			// fixedAssetHistory
+			// .setActionType(FixedAssetHistory.ACTION_TYPE_DEPRECIATED);
+			// fixedAssetHistory.setActionDate(new FinanceDate());
+			// fixedAssetHistory.setDetails("Depreciation of "
+			// + depreciationAmount + " on "
+			// + format.format(fromCal.getTime()));
+			// this.fixedAssetsHistory.add(fixedAssetHistory);
+			// fixedAssetHistory.setCompany(this.getCompany());
 
 			/**
 			 * update the book value with the calculated depreciation amount
@@ -1079,7 +1082,7 @@ public class FixedAsset extends CreatableObject implements
 			 * Update the accumulated Depreciation amount with the calculated
 			 * Depreciation amount.
 			 */
-			// this.accumulatedDepreciationAmount += depreciationAmount;
+			this.accumulatedDepreciationAmount += depreciationAmount;
 
 			// if (fromCal.get(Calendar.YEAR) > toCal.get(Calendar.YEAR)
 			// && fromCal.get(Calendar.MONTH) == 11) {
@@ -1101,6 +1104,8 @@ public class FixedAsset extends CreatableObject implements
 				fromCal.set(Calendar.MONTH, month);
 				fromCal.set(Calendar.DATE,
 						fromCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+				startDate.set(new FinanceDate(fromCal.getTime()));
 
 			}
 
@@ -1939,34 +1944,6 @@ public class FixedAsset extends CreatableObject implements
 
 		Session session = HibernateUtil.getCurrentSession();
 		FixedAsset fixedAsset = (FixedAsset) clientObject;
-		//
-		// // if (this.name.equals(customer.name)
-		// // && this.number.equals(customer.number)
-		// // && this.id == customer.id)
-		// // return true;
-		// //
-		// // else {
-		//
-		// // Query query = session
-		// // .createQuery(
-		// // "from com.vimukti.accounter.core.Customer C where C.number=?")
-		// // .setParameter(0, this.number);
-		// //
-		// // List list = query.list();
-		// //
-		// // if (list != null && list.size() > 0) {
-		// //
-		// // for (int i = 0; i < list.size(); i++) {
-		// // Customer newCustomer = (Customer) list.get(i);
-		// // if ((this.name.equals(newCustomer.name) ||
-		// // this.number.equals(newCustomer.number))
-		// // && this.id != newCustomer.id) {
-		// // throw new InvalidOperationException(
-		// // "Customer name or number is already in use Please enter Unique");
-		// // }
-		// // }
-		// // }
-		//
 		Query query = session.getNamedQuery("getFixedAssets")
 				.setString("name", this.name)
 				.setString("number", this.assetNumber)
@@ -2012,11 +1989,27 @@ public class FixedAsset extends CreatableObject implements
 
 	}
 
+	public void deleteJournalEntriesTillDate(FinanceDate toDate, Session session) {
+		ArrayList<Transaction> list = new ArrayList<Transaction>();
+		for (Transaction entry : transactions) {
+			if (entry.getDate().after(toDate)) {
+				list.add(entry);
+				session.delete(entry);
+			}
+		}
+		transactions.removeAll(list);
+	}
+
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.fixedAssest()).gap();
 		w.put(messages.name(), this.name);
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.FIXED_ASSET;
 	}
 }
