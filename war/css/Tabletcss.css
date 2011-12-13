@@ -1275,3 +1275,182 @@ input.date-field-textbox{
 .currentmonth{
 	border: 1px solid #3299A4 ;
 }
+.search-transaction-combo {
+	text-align: center;
+}
+
+.settingsButton {
+	float: right;
+}
+
+.portlet_close_button,.portlet_config_button {
+	width: 13px;
+}
+
+.portlet_close_button button {
+	padding: 8px 7px 7px;
+}
+
+.goToLink {
+	float: right;
+	font-size: 13px;
+	margin-top: 4px;
+	cursor: pointer;
+	color: #FFFFFF;
+}
+
+.no_records .norecord-empty-message {
+	margin-left: 400px;
+	position: absolute;
+}
+
+.no_records .norecord-empty-message td:FIRST-CHILD {
+	border-bottom: medium none;
+	border-right: medium none;
+}
+
+.search-width table {
+	width: 100%;
+}
+
+
+.label-status {
+	margin-top: 20px;
+}
+
+.search-all-forms {
+	margin-top: 10px;
+}
+
+.search_date {
+	width: auto !important;
+	margin-right: 20px;
+}
+
+.charaterisitc_label {
+	margin: 5px;
+}
+
+.search_select_combo {
+	width: auto !important;
+	margin-right: 20px;
+}
+
+.search_account_combo {
+	width: auto !important;
+	margin-right: 20px;
+}
+
+.customise-checkbox-align {
+	margin-left: 35px;
+}
+
+.search_textbox {
+	width: auto !important;
+	margin-right: 20px;
+}
+
+.quick-links-table .gwt-Anchor {
+	color: #2D8B93;
+}
+
+.list_combo_form {
+	float: right;
+	width: 50% !important;
+}
+
+.main_manager,.main_manager table:SECOND-CHILD {
+	width: 100%;
+}
+
+.frame_manager {
+	width: 100%;
+}
+
+.portlet_column_parent {
+	width: 50% !important;
+}
+
+.portlet_close_button img:hover {
+	background-color: #1A5158 !important;
+}
+
+.user_activity_log tr:nth-child(even) button {
+	background: #e8e8e8;
+}
+
+.user_activity_log tr:nth-child(odd) button {
+	background: white;
+}
+
+.user_activity_log tr:nth-child(odd):hover button {
+	background: #eeeeee;
+}
+
+.user_activity_log tr td button {
+	border: 0 none;
+}
+
+.account_comment {
+	padding: 5px 0 0 22px;
+}
+
+.account_panel {
+	padding: 0 0 15px 22px;
+}
+
+.budget_overview .gridBody .depth2 {
+	padding-left: 2px;
+}
+
+.dashboard_grid_header {
+	display: none !important;
+}
+
+.no_records_label {
+	padding: 30px 0;
+}
+
+.transaction_type_panel {
+	border-bottom: 1px groove;
+	padding-bottom: 10px;
+}
+
+.search_result_table {
+	border: 1px solid #aaa;
+	margin: 10px 0 2px;
+	padding: 5px;
+}
+
+.grouped-buttons {
+	float: right;
+	margin: 0 5px;
+}
+
+.search_buttons .gwt-Button {
+	padding-top: 3px;
+	width: 50px;
+}
+
+.search_textbox_labels .gwt-Label {
+	width: 50px;
+}
+
+.title_voided_panel {
+	border: 1px solid #1A5158 !important;
+	margin: 10px 0;
+	padding: 5px 0 5px 15px;
+	width: 100%;
+}
+
+.title_voided_label {
+	color: #FF0000;
+	font-size: 19px;
+	text-transform: uppercase;
+}
+
+.transactionPanel .editTable_disable_anchor{
+	color:black;
+	background:none;
+	cursor: auto;
+}
