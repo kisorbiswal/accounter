@@ -184,6 +184,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		for (Object key : map.keySet()) {
 			Object val = map.get(key);
 			Object clientKey = null;
+			val=HibernateUtil.initializeAndUnproxy(val);
 			if (key instanceof IAccounterServerCore) {
 				clientKey = toClientObject(val,
 						getClientEqualentClass(val.getClass()));
@@ -326,6 +327,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 			if (s instanceof Address) {
 				return dstCollection;
 			}
+			s=HibernateUtil.initializeAndUnproxy(s);
 			collection2.add(toClientWithidInternal(s,
 					getObject(dstCollection, s.getID())));
 		}
@@ -383,6 +385,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		try {
 			for (Object obj : list) {
 				if (obj != null) {
+					obj=HibernateUtil.initializeAndUnproxy(obj);
 					Class<? extends Object> resultClass = Class
 							.forName("com.vimukti.accounter.web.client.core.Client"
 									+ obj.getClass().getSimpleName());
