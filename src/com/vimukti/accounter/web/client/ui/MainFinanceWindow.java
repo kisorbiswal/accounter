@@ -303,10 +303,12 @@ public class MainFinanceWindow extends VerticalPanel {
 			if (historyToken.getType() != null && historyToken.getValue() != 0) {
 				AccounterAsyncCallback<T> callback = new AccounterAsyncCallback<T>() {
 
+					@Override
 					public void onException(AccounterException caught) {
 						Accounter.showError(messages.unableToshowtheview());
 					}
 
+					@Override
 					public void onResultSuccess(T result) {
 						if (result != null) {
 							action.setInput(result);
@@ -791,6 +793,9 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getRecordExpensesAction().getHistoryToken(),
 				ActionFactory.getRecordExpensesAction());
+
+		actions.put(ActionFactory.getNewFixedAssetAction().getHistoryToken(),
+				ActionFactory.getNewFixedAssetAction());
 
 	}
 
