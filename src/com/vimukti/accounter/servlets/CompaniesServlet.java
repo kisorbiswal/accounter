@@ -191,25 +191,21 @@ public class CompaniesServlet extends BaseServlet {
 		httpSession.setAttribute(IS_TOUCH, req.getParameter(IS_TOUCH));
 		addMacAppCookie(req, resp);
 
-		Session session = HibernateUtil.openSession();
-		try {
+		Session session = HibernateUtil.getCurrentSession();
 
-			Company company = (Company) session.get(Company.class, companyID);
-			if (company != null) {
+		Company company = (Company) session.get(Company.class, companyID);
+		if (company != null) {
 
-				// if (!company.isActive()) {
-				// dispatch(req, resp, MIGRATION_VIEW);
-				// return;
-				// }
-				String url = ACCOUNTER_OLD_URL;
-				if (ServerConfiguration.isDebugMode) {
-					url = ACCOUNTER_URL;
-				}
-
-				redirectExternal(req, resp, url);
+			// if (!company.isActive()) {
+			// dispatch(req, resp, MIGRATION_VIEW);
+			// return;
+			// }
+			String url = ACCOUNTER_OLD_URL;
+			if (ServerConfiguration.isDebugMode) {
+				url = ACCOUNTER_URL;
 			}
-		} finally {
-			session.close();
+
+			redirectExternal(req, resp, url);
 		}
 	}
 
