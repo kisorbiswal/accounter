@@ -49,11 +49,11 @@ public class ViewManager extends HorizontalPanel {
 	 */
 	public AbstractView<?> existingView;
 
-	private MainFinanceWindow mainWindow;
+	private final MainFinanceWindow mainWindow;
 
-	private HistoryList views = new HistoryList();
+	private final HistoryList views = new HistoryList();
 
-	private ToolBar toolBar;
+	private final ToolBar toolBar;
 
 	private ActivityManager manager;
 
@@ -79,7 +79,7 @@ public class ViewManager extends HorizontalPanel {
 	ButtonGroup group2;
 	ButtonGroup group3;
 
-	private SimplePanel viewHolder;
+	private final SimplePanel viewHolder;
 
 	ButtonGroup group4;
 	ButtonGroup group5;
@@ -87,7 +87,9 @@ public class ViewManager extends HorizontalPanel {
 
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
+		this.setWidth("100%");
 		HorizontalPanel mainPanel = new HorizontalPanel();
+		mainPanel.setWidth("100%");
 		VerticalPanel rightPanel = new VerticalPanel();
 		rightPanel.add(getAdvertisePanel(rightPanel));
 
