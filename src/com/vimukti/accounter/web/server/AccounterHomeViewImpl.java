@@ -6,7 +6,6 @@ package com.vimukti.accounter.web.server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CashPurchase;
@@ -36,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -88,6 +88,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
@@ -1800,14 +1801,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public Map<String, Double> getAccountsAndValues(long startDate, long endDate) {
+	public ExpensePortletData getAccountsAndValues(long startDate, long endDate) {
 		FinanceTool tool = new FinanceTool();
 		FinanceDate[] dates = getMinimumAndMaximumDates(new ClientFinanceDate(
 				startDate), new ClientFinanceDate(endDate), getCompanyId());
-		Map<String, Double> map = tool.getDashboardManager()
+		ExpensePortletData portletData = tool.getDashboardManager()
 				.getExpensesAccountsBalances(getCompanyId(),
 						dates[0].getDate(), dates[1].getDate());
-		return map;
+		return portletData;
 	}
 
 	@Override
@@ -1816,4 +1817,5 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new FinanceTool().getVendorManager().getEnterBillByEstimateId(
 				estimate);
 	}
+
 }

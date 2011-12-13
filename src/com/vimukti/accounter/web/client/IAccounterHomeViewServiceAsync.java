@@ -5,7 +5,6 @@ package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -13,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -64,6 +64,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
@@ -403,12 +404,12 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<List<ClientActivity>> asyncCallback);
 
 	void getAccountsAndValues(long startDate, long endDate,
-			AsyncCallback<Map<String, Double>> callback);
+			AsyncCallback<ExpensePortletData> callback);
 
 	void getEnterBillByEstimateId(long l,
 			AsyncCallback<ClientEnterBill> asyncCallback);
 
-	void getFixedAssetList(int status,
+		void getFixedAssetList(int status,
 			AsyncCallback<List<ClientFixedAsset>> callback);
 
 }

@@ -1,27 +1,34 @@
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-import com.google.gwt.dom.client.Style.Cursor;
-import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.visualization.client.VisualizationUtils;
+import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.reports.ExpensePortletToolBar;
+import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
 
 public class ExpenseClaimPortlet extends Portlet {
+
+	private PortletToolBar toolBar;
+	private VerticalPanel graphPanel;
 
 	public double allExpensesAmount = 0.00;
 	public double cashExpenseAmount = 0.00;
@@ -34,7 +41,8 @@ public class ExpenseClaimPortlet extends Portlet {
 	public Label ccExpAmtLabel;
 
 	public ExpenseClaimPortlet(ClientPortletConfiguration pc) {
-		super(pc, messages.expenseClaims(), messages.goToExpenseCliams());
+		super(pc, messages.expenses(), "");
+		this.setConfiguration(pc);
 	}
 
 	@Override
@@ -64,14 +72,45 @@ public class ExpenseClaimPortlet extends Portlet {
 			}
 		});
 
-		Label allExpLabel = getLabel(Accounter.messages().allExpenses());
-		Label cashExpLabel = getLabel(Accounter.messages().cashExpenses());
+		Label allExpLabel = new Label(messages.allExpenses());
+
+		Label cashExpLabel = new Label(messages.cashExpenses());
+		cashExpLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ExpenseList expenseList = new ExpenseList();
+				expenseList.setStartDate(toolBar.getStartDate());
+				expenseList.setEndDate(toolBar.getEndDate());
+				expenseList.setDateRange(toolBar.getSelectedDateRange());
+				expenseList
+						.setTransactionType(ClientTransaction.TYPE_CASH_EXPENSE);
+				UIUtils.runAction(expenseList,
+						ActionFactory.getExpenseReportAction());
+			}
+		});
 		cashExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		Label empExpLabel = getLabel(Accounter.messages().employeeExpenses());
-		Label ccExpLabel = getLabel(Accounter.messages().creditCardExpenses());
+		// Label empExpLabel =
+		// getLabel(Accounter.messages().employeeExpenses());
+		Label ccExpLabel = new Label(messages.creditCardExpenses());
+		ccExpLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ExpenseList expenseList = new ExpenseList();
+				expenseList.setStartDate(toolBar.getStartDate());
+				expenseList.setEndDate(toolBar.getEndDate());
+				expenseList.setDateRange(toolBar.getSelectedDateRange());
+				expenseList
+						.setTransactionType(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
+				UIUtils.runAction(expenseList,
+						ActionFactory.getExpenseReportAction());
+
+			}
+		});
 		ccExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
-		updateAmounts();
+		Label empExpLabel = new Label();
 
 		allExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
 				+ amountAsString(allExpensesAmount));
@@ -99,90 +138,17 @@ public class ExpenseClaimPortlet extends Portlet {
 			fTable.setWidget(2, 0, empExpLabel);
 			fTable.setWidget(3, 0, empExpAmtLabel);
 		}
-
+		HorizontalPanel topPanel = new HorizontalPanel();
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			vPanel.add(addExpenseBtn);
+			topPanel.add(addExpenseBtn);
 		}
 		vPanel.add(fTable);
-
-		body.add(vPanel);
-	}
-
-	private void updateAmounts() {
-		AccounterAsyncCallback<ArrayList<Double>> callBack = new AccounterAsyncCallback<ArrayList<Double>>() {
-
-			@Override
-			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.messages()
-						.failedtogetExpensetotals());
-				completeInitialization();
-			}
-
-			@Override
-			public void onResultSuccess(ArrayList<Double> result) {
-				if (result != null && result.size() != 0) {
-					cashExpenseAmount = result.get(0);
-					ccExpenseAmount = result.get(1);
-					employeeExpenseAmount = result.get(2);
-					allExpensesAmount = result.get(3);
-					updateAmountLabels();
-					completeInitialization();
-				}
-			}
-		};
-		Accounter.createHomeService().getGraphPointsforAccount(4, 0, callBack);
-	}
-
-	private Label getLabel(final String title) {
-		final Label label = new Label(title);
-
-		label.addMouseOverHandler(new MouseOverHandler() {
-
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				label.getElement().getStyle().setCursor(Cursor.POINTER);
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.UNDERLINE);
-			}
-		});
-		label.addMouseOutHandler(new MouseOutHandler() {
-
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
-			}
-		});
-		label.addClickHandler(new ClickHandler() {
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public void onClick(ClickEvent event) {
-
-				label.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
-
-				if (title.equals(Accounter.messages().cashExpenses())) {
-					ActionFactory
-							.getExpensesAction(Accounter.messages().cash())
-							.run(null, true);
-				} else if (title.equals(Accounter.messages()
-						.creditCardExpenses())) {
-					ActionFactory.getExpensesAction(
-							Accounter.messages().creditCard()).run(null, true);
-				} else if (title
-						.equals(Accounter.messages().employeeExpenses())) {
-					ActionFactory.getExpensesAction(
-							Accounter.messages().employee()).run(null, true);
-				} else if (title.equals(Accounter.messages().allExpenses())) {
-					ActionFactory.getExpensesAction(null).run(null, true);
-				}
-			}
-		});
-
-		label.getElement().getStyle().setMarginLeft(10, Unit.PX);
-		label.getElement().getStyle().setMarginTop(10, Unit.PX);
-		return label;
+		toolBarInitilization();
+		graphPanel = new VerticalPanel();
+		topPanel.add(toolBar);
+		this.body.add(topPanel);
+		this.body.add(graphPanel);
+		this.body.add(vPanel);
 	}
 
 	Label getAmountLabel(String title) {
@@ -209,6 +175,119 @@ public class ExpenseClaimPortlet extends Portlet {
 
 		allExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
 				+ amountAsString(allExpensesAmount));
+	}
+
+	private void toolBarInitilization() {
+		toolBar = new ExpensePortletToolBar() {
+			@Override
+			protected void initData() {
+				if (ExpenseClaimPortlet.this.getConfiguration().getPortletKey() != null) {
+					setDefaultDateRange(ExpenseClaimPortlet.this
+							.getConfiguration().getPortletKey());
+				} else {
+					setDefaultDateRange(messages.financialYearToDate());
+				}
+			}
+
+			@Override
+			protected void refreshPortletData(String selectItem) {
+				ExpenseClaimPortlet.this.clearGraph();
+				dateRangeItemCombo.setSelected(selectItem);
+				ExpenseClaimPortlet.this.getConfiguration().setPortletKey(
+						selectItem);
+				dateRangeChanged(selectItem);
+				ExpenseClaimPortlet.this.updateData(startDate.getDate(),
+						endDate.getDate());
+			}
+
+			@Override
+			public void setDefaultDateRange(String defaultDateRange) {
+				dateRangeItemCombo.setSelected(defaultDateRange);
+				dateRangeChanged(defaultDateRange);
+				ExpenseClaimPortlet.this.updateData(startDate.getDate(),
+						endDate.getDate());
+			}
+		};
+	}
+
+	protected void refreshPortletData(String selectItem) {
+
+	}
+
+	public void updateData(long startDate, long endDate) {
+
+		AccounterAsyncCallback<ExpensePortletData> callback = new AccounterAsyncCallback<ExpensePortletData>() {
+
+			@Override
+			public void onResultSuccess(ExpensePortletData result) {
+				if (result != null) {
+					updateLabelsData(result);
+					updateGraphData(result);
+				} else {
+					Label label = new Label(messages.noRecordsToShow());
+					graphPanel.add(label);
+					label.addStyleName("no_records_label");
+					graphPanel.setCellHorizontalAlignment(label,
+							HasAlignment.ALIGN_CENTER);
+				}
+				completeInitialization();
+			}
+
+			@Override
+			public void onException(AccounterException exception) {
+				completeInitialization();
+			}
+		};
+
+		Accounter.createHomeService().getAccountsAndValues(startDate, endDate,
+				callback);
+	}
+
+	protected void updateLabelsData(ExpensePortletData result) {
+		cashExpenseAmount = result.getCashExpenseTotal();
+		ccExpenseAmount = result.getCreditCardExpensesTotal();
+		allExpensesAmount = result.getAllExpensesTotal();
+		updateAmountLabels();
+	}
+
+	protected void updateGraphData(ExpensePortletData result) {
+		final List<String> accountsNames = new ArrayList<String>();
+		final List<Double> accountBalances = new ArrayList<Double>();
+		Iterator<AccountDetail> iterator = result.getAccountDetails()
+				.iterator();
+		int i = 0;
+		double amount = 0;
+		while (iterator.hasNext()) {
+			AccountDetail accountDetail = iterator.next();
+			Double accountBalance = accountDetail.getAmount();
+			if (i < 11) {
+				accountsNames.add(accountDetail.getName());
+				accountBalances.add(accountBalance);
+			} else {
+				amount = amount + accountBalance;
+				if (i == result.getAccountDetails().size() - 2) {
+					accountsNames.add(messages.other());
+					accountBalances.add(amount);
+				}
+			}
+			i++;
+		}
+		Runnable runnable = new Runnable() {
+
+			@Override
+			public void run() {
+				GraphChart chart = new GraphChart();
+				chart.expenseAccountNames = accountsNames;
+				graphPanel
+						.add(chart.createAccountExpenseChart(accountBalances));
+			}
+		};
+		VisualizationUtils.loadVisualizationApi(runnable,
+				AnnotatedTimeLine.PACKAGE);
+	}
+
+	public void clearGraph() {
+		graphPanel.clear();
 	}
 
 	@Override

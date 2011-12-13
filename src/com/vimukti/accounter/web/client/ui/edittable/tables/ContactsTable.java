@@ -263,23 +263,25 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 	public void validate(ValidationResult result) {
 		for (int i = 0; i < getAllRows().size(); i++) {
 			for (int j = 0; j < getAllRows().size(); j++) {
-				if (i != j) {
-					if (getAllRows().get(i).getTitle()
-							.equals(getAllRows().get(j).getTitle())
-							&& getAllRows().get(i).getEmail()
-									.equals(getAllRows().get(j).getEmail())
-							&& getAllRows()
-									.get(i)
-									.getDisplayName()
-									.equals(getAllRows().get(j)
-											.getDisplayName())
-							&& getAllRows()
-									.get(i)
-									.getBusinessPhone()
-									.equals(getAllRows().get(j)
-											.getBusinessPhone()))
-						result.addError(this, Accounter.messages()
-								.youHaveEnteredduplicateContacts());
+				if (!getAllRows().get(i).isEmpty()) {
+					if (i != j) {
+						if (getAllRows().get(i).getTitle()
+								.equals(getAllRows().get(j).getTitle())
+								&& getAllRows().get(i).getEmail()
+										.equals(getAllRows().get(j).getEmail())
+								&& getAllRows()
+										.get(i)
+										.getDisplayName()
+										.equals(getAllRows().get(j)
+												.getDisplayName())
+								&& getAllRows()
+										.get(i)
+										.getBusinessPhone()
+										.equals(getAllRows().get(j)
+												.getBusinessPhone()))
+							result.addError(this, Accounter.messages()
+									.youHaveEnteredduplicateContacts());
+					}
 				}
 			}
 		}

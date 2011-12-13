@@ -137,6 +137,18 @@ public class ClientContact implements IAccounterCore {
 		this.version = version;
 	}
 
+	public boolean isEmpty() {
+		if ((this.title == null || this.title.trim().length() == 0)
+				&& (this.name == null || this.name.trim().length() == 0)
+				&& (this.email == null || this.email.trim().length() == 0)
+				&& (this.businessPhone == null || this.businessPhone.trim()
+						.length() == 0)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();

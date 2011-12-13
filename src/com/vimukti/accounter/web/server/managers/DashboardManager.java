@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -32,6 +31,8 @@ import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
 import com.vimukti.accounter.web.client.core.Lists.OverDueInvoicesList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.AccountDetail;
+import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 
 public class DashboardManager extends Manager {
@@ -387,26 +388,53 @@ public class DashboardManager extends Manager {
 		}
 	}
 
-	public Map<String, Double> getExpensesAccountsBalances(long companyId,
+	public ExpensePortletData getExpensesAccountsBalances(long companyId,
 			long startDate, long endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 		try {
+			Double cashExpenseTotal = (Double) session
+					.getNamedQuery("getExpensesTotalByType")
+					.setParameter("expenseType", 26)
+					.setParameter("companyId", companyId)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).uniqueResult();
+
+			Double creditCardExpenseTotal = (Double) session
+					.getNamedQuery("getExpensesTotalByType")
+					.setParameter("expenseType", 27)
+					.setParameter("companyId", companyId)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate).uniqueResult();
+
 			Query query = session.getNamedQuery("getRecordExpensesAccounts")
 					.setParameter("companyId", companyId)
 					.setParameter("startDate", startDate)
 					.setParameter("endDate", endDate);
 			List<Object[]> objects = query.list();
-			Map<String, Double> accountNamesWitBalances = new HashMap<String, Double>();
+
+			ExpensePortletData expensePortletData = new ExpensePortletData();
 			Iterator<Object[]> iterator = objects.iterator();
+			Double expenseAccountTotal = 0.0;
+			List<AccountDetail> accountDetails = new ArrayList<AccountDetail>();
 			while (iterator.hasNext()) {
 				Object[] object = iterator.next();
 				String accountName = (String) object[0];
 				Double accountBalance = (Double) object[1];
+				expenseAccountTotal = expenseAccountTotal + accountBalance;
 				if (accountBalance > 0) {
-					accountNamesWitBalances.put(accountName, accountBalance);
+					AccountDetail accountDetail = new AccountDetail(
+							accountName, accountBalance);
+					accountDetails.add(accountDetail);
 				}
+
 			}
-			return accountNamesWitBalances;
+			expensePortletData.setAccountDetails(accountDetails);
+			expensePortletData.setCashExpenseTotal(cashExpenseTotal);
+			expensePortletData
+					.setCreditCardExpensesTotal(creditCardExpenseTotal);
+			expensePortletData.setAllExpensesTotal(expenseAccountTotal);
+
+			return expensePortletData;
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
