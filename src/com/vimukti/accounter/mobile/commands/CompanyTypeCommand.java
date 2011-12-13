@@ -45,10 +45,10 @@ public class CompanyTypeCommand extends Command {
 		}
 		markDone();
 		if (selection == ActionNames.FULL_SETUP) {
-			makeResult.setNextCommand("fullCompanysetup");
+			makeResult.setNextCommand("fullCompanySetup");
 		}
 		if (selection == ActionNames.PARTIAL_SETUP) {
-			makeResult.setNextCommand("partialCompanysetup");
+			makeResult.setNextCommand("partialCompanySetup");
 		}
 		return makeResult;
 	}

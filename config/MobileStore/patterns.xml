@@ -52,7 +52,7 @@
 		<input>companySettingsTitle</input>
 		<outputs>
 			<command title="setCompanyInfo" />
-			<command title="vendorandPurchases" />
+			<command title="vendorAndPurchases" />
 			<command title="productAndServices" />
 			<command title="accounterTerminologies" />
 		</outputs>

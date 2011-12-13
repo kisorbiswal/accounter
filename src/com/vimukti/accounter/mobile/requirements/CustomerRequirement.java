@@ -21,7 +21,7 @@ public abstract class CustomerRequirement extends ListRequirement<Customer> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(Global.get().Customer()));
+		list.add("createCustomer");
 	}
 
 	@Override

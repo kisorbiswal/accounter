@@ -10,7 +10,8 @@ public class UserCommand {
 	}
 
 	public UserCommand(String commandName) {
-		this(commandName, MobileServerMessages.getMessage(commandName), "");
+		this(commandName, commandName.isEmpty() ? commandName
+				: MobileServerMessages.getMessage(commandName), "");
 	}
 
 	public UserCommand(String commandName, String displayName, String inputs) {

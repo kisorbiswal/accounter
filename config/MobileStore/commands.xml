@@ -20,12 +20,12 @@
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.CreateFullCompanyCommand"
-		name="fullCompanysetup">
+		name="fullCompanySetup">
 	</command>
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.CreatePartialCompanyCommand"
-		name="partialCompanysetup">
+		name="partialCompanySetup">
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.CompanyTypeCommand"
@@ -1099,7 +1099,7 @@
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.preferences.VendorAndPurchasePreferencesCommand"
 		name="vendorAndPurchasePreferences">
-		<alias>vendorandPurchases</alias>
+		<alias>vendorAndPurchases</alias>
 	</command>
 
 	<command

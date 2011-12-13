@@ -10,10 +10,10 @@ public class MobileServerMessages {
 		if (innerMsg != null) {
 			return innerMsg;
 		}
-		int a = key.indexOf('{');
-		int b = key.indexOf('}');
+		int a = message.indexOf('{');
+		int b = message.indexOf('}');
 		if (a != -1) {
-			String innerKey = key.substring(a + 1, b);
+			String innerKey = message.substring(a + 1, b);
 			message = message.replaceFirst("\\{.+?\\}",
 					getInnerMessage(innerKey));
 		}
