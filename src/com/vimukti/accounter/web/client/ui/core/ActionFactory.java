@@ -120,6 +120,7 @@ import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewReportAction;
 import com.vimukti.accounter.web.client.ui.reports.CashFlowStatementAction;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.CustomerTransactionHistoryAction;
+import com.vimukti.accounter.web.client.ui.reports.DepreciationSheduleAction;
 import com.vimukti.accounter.web.client.ui.reports.ECSalesListAction;
 import com.vimukti.accounter.web.client.ui.reports.ECSalesListDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.ExpenseReportAction;
@@ -1419,5 +1420,9 @@ public class ActionFactory {
 	public static AuditHistoryAction getAuditHistory(ClientActivity object) {
 		return new AuditHistoryAction(messages.history(), object);
 
+	}
+
+	public static DepreciationSheduleAction getDepreciationSheduleAction() {
+		return new DepreciationSheduleAction(messages.depreciationShedule());
 	}
 }
