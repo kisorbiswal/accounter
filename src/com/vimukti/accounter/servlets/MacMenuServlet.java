@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
@@ -17,7 +15,6 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.main.ServerLocal;
-import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
@@ -46,7 +43,6 @@ public class MacMenuServlet extends BaseServlet {
 
 			Company company = getCompany(req);
 
-			Session hibernateSession = HibernateUtil.openSession();
 			try {
 				CompanyPreferenceThreadLocal.set(new FinanceTool()
 						.getCompanyManager().getClientCompanyPreferences(
@@ -59,10 +55,7 @@ public class MacMenuServlet extends BaseServlet {
 					resp.getOutputStream().write(builder.toString().getBytes());
 				}
 			} catch (Exception e) {
-			} finally {
-				if (hibernateSession.isOpen()) {
-					hibernateSession.close();
-				}
+				e.printStackTrace();
 			}
 		}
 

@@ -9,15 +9,12 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.CSVReportTemplate;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
-import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -84,28 +81,21 @@ public class ExportReportServlet extends BaseServlet {
 		String companyName = getCompanyName(request);
 		if (companyName == null)
 			return null;
-		Session session = HibernateUtil.openSession();
-		try {
 
-			FinanceTool financetool = new FinanceTool();
-			Company company = financetool.getCompany(companyID);
-			// int companyType = company.getAccountingType();
+		FinanceTool financetool = new FinanceTool();
+		Company company = financetool.getCompany(companyID);
+		// int companyType = company.getAccountingType();
 
-			TemplateBuilder.setCmpName(companyName);
+		TemplateBuilder.setCmpName(companyName);
 
-			ClientCompanyPreferences clientCompanyPreferences = financetool
-					.getCompanyManager().getClientCompanyPreferences(company);
-			CompanyPreferenceThreadLocal.set(clientCompanyPreferences);
+		ClientCompanyPreferences clientCompanyPreferences = financetool
+				.getCompanyManager().getClientCompanyPreferences(company);
+		CompanyPreferenceThreadLocal.set(clientCompanyPreferences);
 
-			ITemplate template = null;
-			template = getReportTemplate(request, financetool);
+		ITemplate template = null;
+		template = getReportTemplate(request, financetool);
 
-			return template;
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
+		return template;
 
 	}
 
