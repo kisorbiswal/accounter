@@ -29,6 +29,7 @@ public class PreferencesAction extends Action {
 			MainFinanceWindow.getViewManager().showView(page, null, true,
 					PreferencesAction.this);
 		} catch (Exception e) {
+			e.printStackTrace();
 			Accounter.showError(Accounter.messages()
 					.failedToLoadCompanyPreferences());
 		}
