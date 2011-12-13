@@ -1471,10 +1471,10 @@
 		<property name="isTaxable" column="ISTAXABLE"></property>
 		<property name="isActive" column="ISACTIVE"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
-		<many-to-one name="TAXItemGrpForPurchases" class="TAXItemGroup"
+		<many-to-one name="TAXItemGrpForPurchases" class="TAXItemGroup" lazy="false"
 			column="TAXITEMGROUP_PURCHASES">
 		</many-to-one>
-		<many-to-one name="TAXItemGrpForSales" class="TAXItemGroup"
+		<many-to-one name="TAXItemGrpForSales" class="TAXItemGroup"  lazy="false"
 			column="TAXITEMGROUP_SALES">
 		</many-to-one>
 	</class>
