@@ -65,7 +65,7 @@ public class SearchInputDialog extends BaseDialog {
 			messages.charge(),
 			// messages.payeeCredit(Global.get().Customer()),
 			messages.creditCardExpense(), messages.creditCardCharge(),
-			messages.CustomerCreditNote(),
+			messages.customerCreditNote(Global.get().Customer()),
 			messages.customerRefund(Global.get().Customer()),
 			messages.cashSale(), messages.deposit(), messages.estimate(),
 			messages.invoice(),
