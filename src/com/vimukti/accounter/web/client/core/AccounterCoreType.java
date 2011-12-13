@@ -215,7 +215,7 @@ public enum AccounterCoreType implements IsSerializable {
 
 	TRANSACTION_LOG("ClientTransactionLog", "TransactionLog"),
 
-	TAX_RETURN("ClientAbstractTAXReturn", "AbstractTAXReturn"),
+	TAX_RETURN("ClientTAXReturn", "TAXReturn"),
 
 	LANGUAGE("ClientLanguage", "Language"),
 
