@@ -8,6 +8,9 @@
 		where client.emailId
 		=:emailId
 	</query>
+	<query name="getAdvertisements">
+		from com.vimukti.accounter.core.Advertisement add
+	</query>
 
 	<query name="get.activation.by.token">
 		<query-param name="token" type="String" />

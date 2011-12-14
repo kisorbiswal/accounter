@@ -1357,16 +1357,11 @@
 			<list-index column="IDX" />
 			<one-to-many class="Transaction" />
 		</list>
-		<!--<list name="fixedAssetNotes" cascade="save-update,delete">
-			<key column="FIXED_ASSET_NOTE_ID"></key>
-			<list-index column="IDX" />
-			<one-to-many class="FixedAssetNote" />
-		</list>-->
-		<!--<list name="fixedAssetsHistory" cascade="save-update,delete">
-			<key column="FIXED_ASSET_HISTORY_ID"></key>
-			<list-index column="IDX" />
-			<one-to-many class="FixedAssetHistory" />
-		</list>-->
+		<!--<list name="fixedAssetNotes" cascade="save-update,delete"> <key column="FIXED_ASSET_NOTE_ID"></key> 
+			<list-index column="IDX" /> <one-to-many class="FixedAssetNote" /> </list> -->
+		<!--<list name="fixedAssetsHistory" cascade="save-update,delete"> <key 
+			column="FIXED_ASSET_HISTORY_ID"></key> <list-index column="IDX" /> <one-to-many 
+			class="FixedAssetHistory" /> </list> -->
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
@@ -1471,11 +1466,11 @@
 		<property name="isTaxable" column="ISTAXABLE"></property>
 		<property name="isActive" column="ISACTIVE"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
-		<many-to-one name="TAXItemGrpForPurchases" class="TAXItemGroup" lazy="false"
-			column="TAXITEMGROUP_PURCHASES">
+		<many-to-one name="TAXItemGrpForPurchases" class="TAXItemGroup"
+			lazy="false" column="TAXITEMGROUP_PURCHASES">
 		</many-to-one>
-		<many-to-one name="TAXItemGrpForSales" class="TAXItemGroup"  lazy="false"
-			column="TAXITEMGROUP_SALES">
+		<many-to-one name="TAXItemGrpForSales" class="TAXItemGroup"
+			lazy="false" column="TAXITEMGROUP_SALES">
 		</many-to-one>
 	</class>
 
@@ -1929,5 +1924,13 @@
 
 	</class>
 
+	<class name="Advertisement" table="ADVERTISEMENT">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="url" column="URL"></property>
+		<property name="height" column="HEIGHT" type='double'></property>
+		<property name="width" column="WIDTH" type='double'></property>
+	</class>
 </hibernate-mapping>
 

@@ -32,6 +32,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
@@ -1815,6 +1816,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			throws AccounterException {
 		return new FinanceTool().getVendorManager().getEnterBillByEstimateId(
 				estimate);
+	}
+
+	@Override
+	public List<ClientAdvertisement> getAdvertisements() {
+		FinanceTool financeTool = new FinanceTool();
+		return financeTool.getAdvertisements();
 	}
 
 }

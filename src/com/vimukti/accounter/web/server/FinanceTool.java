@@ -37,6 +37,7 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
+import com.vimukti.accounter.core.Advertisement;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Budget;
 import com.vimukti.accounter.core.Client;
@@ -89,6 +90,7 @@ import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -3290,5 +3292,24 @@ public class FinanceTool {
 		transaction.commit();
 
 		return true;
+	}
+
+	List<ClientAdvertisement> getAdvertisements() {
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			Query query = session.getNamedQuery("getAdvertisements");
+			List<Advertisement> list = query.list();
+			List<ClientAdvertisement> adds = new ArrayList<ClientAdvertisement>();
+			for (Advertisement advertisement : list) {
+				ClientAdvertisement clientAdvertisement = new ClientConvertUtil()
+						.toClientObject(advertisement,
+								ClientAdvertisement.class);
+				adds.add(clientAdvertisement);
+			}
+			return adds;
+		} catch (Exception e) {
+		}
+		return null;
+
 	}
 }

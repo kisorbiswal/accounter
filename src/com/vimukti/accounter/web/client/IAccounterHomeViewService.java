@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
@@ -370,4 +371,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	List<ClientFixedAsset> getFixedAssetList(int status)
 			throws AccounterException;
+
+	List<ClientAdvertisement> getAdvertisements();
 }

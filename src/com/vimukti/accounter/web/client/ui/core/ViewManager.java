@@ -16,6 +16,7 @@ import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.WindowResizeListener;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -126,30 +127,54 @@ public class ViewManager extends HorizontalPanel {
 
 	@SuppressWarnings("deprecation")
 	private void getAdvertisePanel(final VerticalPanel rightPanel) {
-		final List<ClientAdvertisement> advertisements = getCompany()
-				.getAdvertisements();
-		if ((advertisements != null) && !(advertisements.isEmpty())) {
-			final double addPanelWidth = advertisements.get(0).getWidth();
-			Window.addWindowResizeListener(new WindowResizeListener() {
+		Accounter.createHomeService().getAdvertisements(
+				new AsyncCallback<List<ClientAdvertisement>>() {
 
-				@Override
-				public void onWindowResized(int width, int height) {
-					if ((addPanelWidth + 960) <= Window.getClientWidth()) {
-						rightPanel.setVisible(true);
-					} else {
-						rightPanel.setVisible(false);
+					@Override
+					public void onSuccess(
+							List<ClientAdvertisement> advertisements) {
+
+						if ((advertisements != null)
+								&& !(advertisements.isEmpty())) {
+							final double addPanelWidth = advertisements.get(0)
+									.getWidth();
+							Window.addWindowResizeListener(new WindowResizeListener() {
+
+								@Override
+								public void onWindowResized(int width,
+										int height) {
+									if ((addPanelWidth + 960) <= Window
+											.getClientWidth()) {
+										rightPanel.setVisible(true);
+									} else {
+										rightPanel.setVisible(false);
+									}
+								}
+							});
+							if ((addPanelWidth + 960) <= Window
+									.getClientWidth()) {
+								for (ClientAdvertisement clientAdvertisement : advertisements) {
+									Frame frame = new Frame(clientAdvertisement
+											.getUrl());
+									frame.setSize(
+											clientAdvertisement.getWidth()
+													+ "px",
+											clientAdvertisement.getHeight()
+													+ "px");
+									rightPanel.add(frame);
+								}
+							}
+						}
+						// TODO Auto-generated method stub
+
 					}
-				}
-			});
-			if ((addPanelWidth + 960) <= Window.getClientWidth()) {
-				for (ClientAdvertisement clientAdvertisement : advertisements) {
-					Frame frame = new Frame(clientAdvertisement.getUrl());
-					frame.setSize(clientAdvertisement.getWidth() + "px",
-							clientAdvertisement.getHeight() + "px");
-					rightPanel.add(frame);
-				}
-			}
-		}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 	}
 
 	private HelpPanel helpPanel;

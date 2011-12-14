@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
@@ -408,7 +409,9 @@ public interface IAccounterHomeViewServiceAsync {
 	void getEnterBillByEstimateId(long l,
 			AsyncCallback<ClientEnterBill> asyncCallback);
 
-		void getFixedAssetList(int status,
+	void getFixedAssetList(int status,
 			AsyncCallback<List<ClientFixedAsset>> callback);
+
+	void getAdvertisements(AsyncCallback<List<ClientAdvertisement>> callback);
 
 }
