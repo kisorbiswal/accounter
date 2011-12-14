@@ -2064,8 +2064,7 @@ public class FinanceTool {
 		// Instead of cloning directly on transaction, we'll perform cloning on
 		// client transacton.
 		ClientTransaction clientTransaction = (ClientTransaction) new ClientConvertUtil()
-				.toClientObject(transaction,
-						Util.getClientEqualentClass(transaction.getClass()));
+				.toClientObject(transaction, Util.getClientClass(transaction));
 
 		ClientTransaction clone = new CloneUtil<IAccounterCore>(
 				IAccounterCore.class).clone(null, clientTransaction, true);
@@ -2261,9 +2260,8 @@ public class FinanceTool {
 
 			reconciliationItems
 					.add((ClientReconciliationItem) new ClientConvertUtil()
-							.toClientObject(reconciliationItem, Util
-									.getClientEqualentClass(reconciliationItem
-											.getClass())));
+							.toClientObject(reconciliationItem,
+									Util.getClientClass(reconciliationItem)));
 
 		}
 		return reconciliationItems;

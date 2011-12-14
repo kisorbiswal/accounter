@@ -7,8 +7,11 @@ import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.proxy.HibernateProxy;
+import org.hibernate.proxy.LazyInitializer;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class Util {
 
@@ -184,6 +187,17 @@ public class Util {
 		} else
 			return 0;
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Class<? extends IAccounterCore> getClientClass(Object src) {
+		Class<?> srcClass = src.getClass();
+		if (src instanceof HibernateProxy) {
+			LazyInitializer lazyInitializer = ((HibernateProxy) src)
+					.getHibernateLazyInitializer();
+			srcClass = lazyInitializer.getPersistentClass();
+		}
+		return (Class<? extends IAccounterCore>) getClientEqualentClass(srcClass);
 	}
 
 }

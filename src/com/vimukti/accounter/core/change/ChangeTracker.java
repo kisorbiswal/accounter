@@ -25,7 +25,7 @@ public class ChangeTracker {
 		IAccounterCore core;
 		try {
 			core = (IAccounterCore) new ClientConvertUtil().toClientObject(obj,
-					Util.getClientEqualentClass(obj.getClass()));
+					Util.getClientClass(obj));
 		} catch (AccounterException e) {
 			e.printStackTrace();
 			return;
@@ -61,7 +61,7 @@ public class ChangeTracker {
 		if (serverObject == null)
 			return;
 
-		Class<?> d = Util.getClientEqualentClass(serverObject.getClass());
+		Class<?> d = Util.getClientClass(serverObject);
 		if (d == null)
 			return;
 		IAccounterCore core;

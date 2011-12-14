@@ -115,8 +115,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 				accounterCoreType.getServerClassFullyQualifiedName(), id);
 		if (serverCore instanceof Transaction) {
 			IAccounterCore clientObject = (IAccounterCore) new ClientConvertUtil()
-					.toClientObject(serverCore,
-							Util.getClientEqualentClass(serverCore.getClass()));
+					.toClientObject(serverCore, Util.getClientClass(serverCore));
 			((ClientTransaction) clientObject).setVoid(true);
 			update(clientObject);
 
@@ -134,8 +133,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			Transaction trans = (Transaction) serverCore;
 			trans.setVoid(true);
 			update((IAccounterCore) new ClientConvertUtil().toClientObject(
-					serverCore,
-					Util.getClientEqualentClass(serverCore.getClass())));
+					serverCore, Util.getClientClass(serverCore)));
 
 			return true;
 		}

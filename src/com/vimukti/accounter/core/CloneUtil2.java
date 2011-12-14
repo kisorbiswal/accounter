@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.proxy.HibernateProxy;
-import org.hibernate.proxy.LazyInitializer;
-
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 /**
@@ -39,7 +36,8 @@ public class CloneUtil2 extends ObjectConvertUtil {
 			return result;
 		for (Object src : set) {
 
-			Class<? extends IAccounterCore> clientType = getClientClass(src);
+			Class<? extends IAccounterCore> clientType = Util
+					.getClientClass(src);
 			if (clientType != null) {
 				result.add(cloneObject(null, (S) src, clientType,
 						ignoreReferredObject));
@@ -49,17 +47,6 @@ public class CloneUtil2 extends ObjectConvertUtil {
 
 		}
 		return result;
-	}
-
-	@SuppressWarnings("unchecked")
-	private Class<? extends IAccounterCore> getClientClass(Object src) {
-		Class<?> srcClass = src.getClass();
-		if (src instanceof HibernateProxy) {
-			LazyInitializer lazyInitializer = ((HibernateProxy) src)
-					.getHibernateLazyInitializer();
-			srcClass = lazyInitializer.getPersistentClass();
-		}
-		return (Class<? extends IAccounterCore>) getClientEqualentClass(srcClass);
 	}
 
 	private <D extends IAccounterServerCore, S extends IAccounterServerCore> Object toCloneSet(
@@ -72,7 +59,8 @@ public class CloneUtil2 extends ObjectConvertUtil {
 		Object next = set.iterator().next();
 		if (next != null) {
 			for (Object src : set) {
-				Class<? extends IAccounterCore> clientType = getClientClass(src);
+				Class<? extends IAccounterCore> clientType = Util
+						.getClientClass(src);
 				if (clientType != null) {
 					result.add(cloneObject(null, (S) src, clientType,
 							ignoreReferredObject));

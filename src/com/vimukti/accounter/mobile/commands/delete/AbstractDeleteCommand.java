@@ -98,8 +98,7 @@ public abstract class AbstractDeleteCommand extends NewAbstractCommand {
 		FinanceTool tool = new FinanceTool();
 		if (serverCore instanceof Transaction) {
 			IAccounterCore clientObject = (IAccounterCore) new ClientConvertUtil()
-					.toClientObject(serverCore,
-							Util.getClientEqualentClass(serverCore.getClass()));
+					.toClientObject(serverCore, Util.getClientClass(serverCore));
 			tool.deleteTransactionFromDb(context.getCompany().getID(),
 					clientObject);
 			return true;
@@ -166,8 +165,7 @@ public abstract class AbstractDeleteCommand extends NewAbstractCommand {
 				accounterCoreType);
 		if (serverCore instanceof Transaction) {
 			IAccounterCore clientObject = (IAccounterCore) new ClientConvertUtil()
-					.toClientObject(serverCore,
-							Util.getClientEqualentClass(serverCore.getClass()));
+					.toClientObject(serverCore, Util.getClientClass(serverCore));
 			((ClientTransaction) clientObject).setVoid(true);
 			update(clientObject, context);
 			return true;
