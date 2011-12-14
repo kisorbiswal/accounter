@@ -65,10 +65,8 @@ public class MobileMessageHandler extends Thread {
 			processMessage = "Exception: " + e.getMessage();
 		}
 
-		if (context.getNetworkType() == AccounterChatServer.NETWORK_TYPE_GTALK) {
-			sessions.get(context.getNetworkId()).await(this,
-					context.getNetworkId());
-		}
+		sessions.get(context.getNetworkId())
+				.await(this, context.getNetworkId());
 		context.send(processMessage);
 	}
 
