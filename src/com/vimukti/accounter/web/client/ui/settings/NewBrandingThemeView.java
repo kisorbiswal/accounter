@@ -514,7 +514,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		statementBox = new TextItem(messages.statementTitle());
 		statementBox.setValue(messages.statement());
 
-		a4Button = new RadioButton(messages.pageType(), messages.a4());
+		a4Button = new RadioButton(messages.pageType(), "A4");
 		usLetterButton = new RadioButton(messages.pageType(),
 				messages.usLetter());
 		a4Button.setChecked(true);
@@ -527,8 +527,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 				messages.cambria(), messages.georgia(), messages.myriad(),
 				messages.tahoma(), messages.timesNewRoman(),
 				messages.trebuchet() };
-		fontSizeArray = new String[] { messages.point8(), messages.point9(),
-				messages.point10(), messages.point11(),
+		fontSizeArray = new String[] { messages.pointnumber(8), messages.pointnumber(9),
+				messages.pointnumber(10), messages.pointnumber(11),
 		// messages.point13(),
 		// messages.point14(),
 		// messages.point15()

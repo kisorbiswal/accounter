@@ -34,7 +34,7 @@ import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.core.AccounterClientConstants;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
@@ -1144,64 +1144,65 @@ public class CommandUtils {
 
 	public static String getAccountTypeString(int accountType) {
 
+		AccounterMessages messages = Global.get().messages();
 		String accountTypeName = null;
 		switch (accountType) {
 		case ClientAccount.TYPE_INCOME:
-			accountTypeName = AccounterClientConstants.TYPE_INCOME;
+			accountTypeName = messages.income();
 			break;
 		case ClientAccount.TYPE_OTHER_INCOME:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_INCOME;
+			accountTypeName =messages.otherIncome();
 			break;
 		case ClientAccount.TYPE_EXPENSE:
-			accountTypeName = AccounterClientConstants.TYPE_EXPENSE;
+			accountTypeName = messages.expense();
 			break;
 		case ClientAccount.TYPE_OTHER_EXPENSE:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_EXPENSE;
+			accountTypeName = messages.otherExpense();
 			break;
 		case ClientAccount.TYPE_COST_OF_GOODS_SOLD:
-			accountTypeName = AccounterClientConstants.TYPE_COST_OF_GOODS_SOLD;
+			accountTypeName = messages.costofGoodsSold();
 			break;
 		case ClientAccount.TYPE_CASH:
-			accountTypeName = AccounterClientConstants.TYPE_CASH;
+			accountTypeName = messages.cash();
 			break;
 		case ClientAccount.TYPE_BANK:
-			accountTypeName = AccounterClientConstants.TYPE_BANK;
+			accountTypeName = messages.bank();
 			break;
 		case ClientAccount.TYPE_OTHER_CURRENT_ASSET:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_CURRENT_ASSET;
+			accountTypeName = messages.otherCurrentAsset();
 			break;
 		case ClientAccount.TYPE_INVENTORY_ASSET:
-			accountTypeName = AccounterClientConstants.TYPE_INVENTORY_ASSET;
+			accountTypeName = messages.inventoryAsset();
 			break;
 		case ClientAccount.TYPE_OTHER_ASSET:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_ASSET;
+			accountTypeName = messages.otherAssets();
 			break;
 		case ClientAccount.TYPE_FIXED_ASSET:
-			accountTypeName = AccounterClientConstants.TYPE_FIXED_ASSET;
+			accountTypeName = messages.fixedAsset();
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
-			accountTypeName = AccounterClientConstants.TYPE_CREDIT_CARD;
+			accountTypeName = messages.creditCard();
 			break;
 		case ClientAccount.TYPE_PAYPAL:
-			accountTypeName = AccounterClientConstants.TYPE_PAYPAL;
+			accountTypeName = messages.paypal();
 			break;
 		case ClientAccount.TYPE_PAYROLL_LIABILITY:
-			accountTypeName = AccounterClientConstants.TYPE_PAYROLL_LIABILITY;
+			accountTypeName = messages.payrollLiability();
 			break;
 		case ClientAccount.TYPE_OTHER_CURRENT_LIABILITY:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_CURRENT_LIABILITY;
+			accountTypeName =  messages.currentLiability();
 			break;
 		case ClientAccount.TYPE_LONG_TERM_LIABILITY:
-			accountTypeName = AccounterClientConstants.TYPE_LONG_TERM_LIABILITY;
+			accountTypeName = messages.longTermLiability();
 			break;
 		case ClientAccount.TYPE_EQUITY:
-			accountTypeName = AccounterClientConstants.TYPE_EQUITY;
+			accountTypeName = messages.equity();
 			break;
 		case ClientAccount.TYPE_ACCOUNT_RECEIVABLE:
-			accountTypeName = AccounterClientConstants.TYPE_ACCOUNT_RECEIVABLE;
+			accountTypeName = messages.accountsReceivable();
 			break;
 		case ClientAccount.TYPE_ACCOUNT_PAYABLE:
-			accountTypeName = AccounterClientConstants.TYPE_ACCOUNT_PAYABLE;
+			accountTypeName = messages.accountsPayable();
 			break;
 
 		}

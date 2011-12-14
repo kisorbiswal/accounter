@@ -20,10 +20,8 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
@@ -32,12 +30,12 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.combo.BankNameCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.DropDownCombo;
@@ -302,11 +300,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		cashFlowof = new LinkedHashMap<String, String>();
 
 		cashFlowof.put(ClientAccount.CASH_FLOW_CATEGORY_FINANCING + "",
-				AccounterClientConstants.CASH_FLOW_CATEGORY_FINANCING);
+				messages.financing());
 		cashFlowof.put(ClientAccount.CASH_FLOW_CATEGORY_INVESTING + "",
-				AccounterClientConstants.CASH_FLOW_CATEGORY_INVESTING);
+				messages.investing());
 		cashFlowof.put(ClientAccount.CASH_FLOW_CATEGORY_OPERATING + "",
-				AccounterClientConstants.CASH_FLOW_CATEGORY_OPERATING);
+				messages.operating());
 
 		cashFlowCatSelect.setValueMap(cashFlowof);
 
@@ -733,8 +731,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			typeMap = new ArrayList<String>();
 
 			typeMap.add("Add New Type");
-			typeMap.add(AccounterClientConstants.CREDITCARDTYPE_MASTER);
-			typeMap.add(AccounterClientConstants.CREDITCARDTYPE_VISA);
+			typeMap.add(messages.master());
+			typeMap.add(messages.visa());
 			typeSelect.initCombo(typeMap);
 			typeSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -805,7 +803,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	private void addBankForm() {
-
+		AccounterMessages messages = Global.get().messages();
 		if (creditCardForm != null) {
 
 			topHLay.remove(creditCardForm);
@@ -821,10 +819,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// typeSelect.setWidth(100);
 			// typeSelect.setWidth("*");
 			typeMap = new ArrayList<String>();
-			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT);
-			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING);
-			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET);
-			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING);
+			typeMap.add(messages.cuurentAccount());
+			typeMap.add(messages.checking());
+			typeMap.add(messages.moneyMarket());
+			typeMap.add(messages.saving());
 			typeSelect.initCombo(typeMap);
 			typeSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -1104,7 +1102,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	// }
 
 	private void updateAccountObject() {
-
+		AccounterMessages messages = Global.get().messages();
 		data.setType(accountType);
 		data.setOpeningBalanceEditable(true);
 		data.setNumber(accNoText.getNumber() != null ? accNoText.getNumber()
@@ -1128,17 +1126,17 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				int type = 0;
 				if (typeSelect
 						.getSelectedValue()
-						.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT))
+						.equals(messages.cuurentAccount()))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT;
 				else if (typeSelect.getSelectedValue().equals(
-						AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING))
+						messages.checking()))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING;
 				else if (typeSelect
 						.getSelectedValue()
-						.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET))
+						.equals(messages.moneyMarket()))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
 				else if (typeSelect.getSelectedValue().equals(
-						AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING))
+						messages.saving()))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_SAVING;
 				((ClientBankAccount) data).setBankAccountType(type);
 			}
@@ -1327,15 +1325,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	private String getCashFlowCategory(int i) {
+		AccounterMessages messages = Global.get().messages();
 		switch (i) {
 		case ClientAccount.CASH_FLOW_CATEGORY_FINANCING:
-			return AccounterClientConstants.CASH_FLOW_CATEGORY_FINANCING;
+			return messages.financing();
 
 		case ClientAccount.CASH_FLOW_CATEGORY_INVESTING:
-			return AccounterClientConstants.CASH_FLOW_CATEGORY_INVESTING;
+			return messages.investing();
 
 		case ClientAccount.CASH_FLOW_CATEGORY_OPERATING:
-			return AccounterClientConstants.CASH_FLOW_CATEGORY_OPERATING;
+			return messages.operating();
 		default:
 			break;
 		}
@@ -1519,16 +1518,17 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	private String getBankAccountType(int type) {
+		AccounterMessages messages = Global.get().messages();
 		switch (type) {
 		case ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING:
-			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING;
+			return messages.checking();
 
 		case ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET:
-			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
+			return messages.moneyMarket();
 		case ClientAccount.BANK_ACCCOUNT_TYPE_SAVING:
-			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING;
+			return messages.saving();
 		case ClientAccount.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT:
-			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT;
+			return messages.cuurentAccount();
 		default:
 			break;
 		}

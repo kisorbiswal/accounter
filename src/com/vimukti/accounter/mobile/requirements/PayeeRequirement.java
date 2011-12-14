@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.requirements;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Payee;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.utils.HibernateUtil;

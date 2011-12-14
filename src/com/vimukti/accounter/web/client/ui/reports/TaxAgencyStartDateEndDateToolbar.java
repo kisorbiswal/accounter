@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -124,7 +123,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 				.getActiveTAXAgencies();
 		for (ClientTAXAgency vatAgency : vatAgencies) {
 			if (vatAgency.getName().equals(
-					AccounterClientConstants.DEFAULT_VAT_AGENCY_NAME))
+					messages.hmRevenueCustomsVAT()))
 				taxAgencyCombo.addItemThenfireEvent(vatAgency);
 		}
 		this.setCellVerticalAlignment(updateButton,

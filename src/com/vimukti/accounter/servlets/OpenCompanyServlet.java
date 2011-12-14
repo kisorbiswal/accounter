@@ -9,10 +9,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import net.zschech.gwt.comet.server.CometServlet;
-import net.zschech.gwt.comet.server.CometSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,7 +23,6 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.server.CometManager;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class OpenCompanyServlet extends BaseServlet {

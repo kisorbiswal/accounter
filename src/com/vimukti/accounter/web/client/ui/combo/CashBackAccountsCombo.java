@@ -3,8 +3,9 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.core.AccounterClientConstants;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
@@ -20,13 +21,14 @@ public class CashBackAccountsCombo extends AccountCombo {
 	}
 
 	public List<ClientAccount> getAccounts() {
+		AccounterMessages messages = Global.get().messages();
 		cashBackAccounts = new ArrayList<ClientAccount>();
 		for (ClientAccount account : Accounter.getCompany().getActiveAccounts()) {
 			if (account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
 					&& !account.getName().equals(
-							AccounterClientConstants.UN_DEPOSITED_FUNDS)) {
+							messages.unDepositedFunds())) {
 				cashBackAccounts.add(account);
 			}
 		}

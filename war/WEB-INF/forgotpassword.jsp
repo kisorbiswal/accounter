@@ -1,8 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="i18n" uri="/WEB-INF/i18n.tld"%>
 <html>
 <head>
-<title> Forgotten Password
+<title> <i18n:i18n msg='forgottenPassword'/>
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible" />
 
@@ -29,8 +30,8 @@ $(document).ready(function() {
 				companyName: "required"
 			},
 			messages: {
-				emailId: "please enter a valid Email",
-				companyName: "please enter Company ID"
+				emailId: "<i18n:i18n msg='pleaseenteravalidemailaddress'/>",
+				companyName: "<i18n:i18n msg='pleaseentercompanyID'/>"
 			}
 		});
 	});
@@ -42,20 +43,20 @@ $(document).ready(function() {
 		<div id="commanContainer">
 		   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
 		   <div id="forgot-password_error" class="common-box">
-		      <p>Please enter your email address. You will receive a code to create a new password through the email.</p>	
+		      <p><i18n:i18n msg='forgotpasswordMsg'/></p>	
 		   </div>
 		   <form id="accounterForm" method="post" action="/main/forgotpassword">
 		      <div>
-			    <label>E-mail</label>
+			    <label><i18n:i18n msg='email'/></label>
 				<br></br>
 				<input id="mid-box"  type="text" name="emailId" tabindex="1" value="${emailId}" />
 			  </div>
 			  <div id="forgot-login">
-			     <input type="submit" tabindex="3" value="Get New Password" name="ok" class="allviews-common-button" id="submitButton" />
+			     <input type="submit" tabindex="3" value="<i18n:i18n msg='getNewPassword'/>" name="ok" class="allviews-common-button" id="submitButton" />
 			  </div>
 		   </form>
 		   <div class="form-bottom-options">
-		      <a href="/main/login" >Login</a>
+		      <a href="/main/login" ><i18n:i18n msg='login'/></a>
 		   </div>
 		</div>
 		
@@ -64,10 +65,10 @@ $(document).ready(function() {
 		
 		<div id="mainFooter"  >
 	    <div>
-	       <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
-	       <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
-	       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
-	       <a target="_blank" href="/site/support"> Support </a>
+	       <span><i18n:i18n msg='atTherateCopy'/></span> |
+	       <a target="_blank" href="/site/termsandconditions"><i18n:i18n msg='termsConditions'/></a> |
+	       <a target="_blank" href="/site/privacypolicy"><i18n:i18n msg='privacyPolicy'/></a> |
+	       <a target="_blank" href="/site/support"><i18n:i18n msg='support'/></a>
 	    </div>
 	</div>
 		

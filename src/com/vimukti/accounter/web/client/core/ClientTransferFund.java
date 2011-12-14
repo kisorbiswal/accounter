@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
+
 public class ClientTransferFund extends ClientTransaction {
 
 	/**
@@ -62,7 +64,7 @@ public class ClientTransferFund extends ClientTransaction {
 
 	@Override
 	public String toString() {
-		return AccounterClientConstants.TYPE_TRANSFER_FUND;
+		return Global.get().messages().transferFund();
 	}
 
 	@Override

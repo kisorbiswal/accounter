@@ -27,8 +27,8 @@
 			password: "required",
 			},
 		messages: {
-			emailId: "please enter your Email",
-			password: "please enter password",
+			emailId: "<i18n:i18n msg='pleaseenteryouremailid'/>",
+			password: "<i18n:i18n msg='pleaseenterpassword'/>",
 			}
 		});
 	});
@@ -103,7 +103,7 @@
 			  
 			  <div class="new_login_page">
 			  <div id ="feedDiv">
-			  <h2>What's New</h2>
+			  <h2><i18n:i18n msg='whatsnew'/></h2>
 			  <div id="unChangedNewsDiv" class = "news"><h3>
 			  <a target="_blank"></a></h3><div id='news_body'></div>
 			  </div>
@@ -116,35 +116,35 @@
 					<span>${message} </span>
 			   </div>
 			   </c:if>	
-			   <h3>Sign In</h3>
+			   <h3><i18n:i18n msg='signIn'/></h3>
 			   <form id="accounterForm" method="post" action="/main/login">
 			      <div class="email_password">
-				    <label>Email</label>
+				    <label><i18n:i18n msg='signinEmail'/></label>
 					<br \>
-					<input id="mid-box"  type="text" name="emailId" tabindex="1" />
+					<input id="mid-box"  type="text" name="emailId" tabindex="1" value="praveena.a@vimukti.com" />
 				  </div>
 				  <div class="email_password">
-				    <label>Password</label>
+				    <label><i18n:i18n msg='password'/></label>
 					<br \>
-					<input id="mid-box1"  type="password" name="password" tabindex="2" />
+					<input id="mid-box1"  type="password" name="password" tabindex="2" value="***REMOVED***" />
 				  </div>
 				  <div class="rememberMe">
 				    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn"/> 
-					<label>Remember Me</label>
+					<label><i18n:i18n msg='rememberMe'/></label>
 				  </div>
 				  <div class="loginbutton">
-				     <input id="submitButton" style="width:60px" type="submit" class="allviews-common-button" name="login" value="Login" tabindex="6"/>
+				     <input id="submitButton" style="width:60px" type="submit" class="allviews-common-button" name="login" value="<i18n:i18n msg='login'/>" tabindex="6"/>
 				  </div>
 			   </form>
 			   <div class="form-bottom-options">
-			      <a href="/main/forgotpassword" id="forget-link1" tabindex="5"> Lost your password?</a>
+			      <a href="/main/forgotpassword" id="forget-link1" tabindex="5"><i18n:i18n msg='lostyourpassword'/></a>
 			   </div>
 			    <div class="form-bottom-options">
-			      <a href="/main/signup" id="signUp-link1" tabindex="6"> Sign up Accounter?</a>
+			      <a href="/main/signup" id="signUp-link1" tabindex="6"><i18n:i18n msg='signupAccounter'/></a>
 			   </div>
 			   
 			   <form id="openIdForm" method="post" action="/main/openid">
-			   <span>Sign In using : </span>
+			   <span><i18n:i18n msg='signInusing'/> : </span>
 			   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="5"> Google  </a>
 			   <a href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="6">  Yahoo</a>
 			   <a href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="6">  AOL</a>
@@ -158,10 +158,10 @@
 		
 		<div id="mainFooter"  >
 	    <div>
-	       <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
-	       <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
-	       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
-	       <a target="_blank" href="/site/support"> Support </a>
+	       <span><i18n:i18n msg='atTherateCopy'/></span> |
+	       <a target="_blank" href="/site/termsandconditions"><i18n:i18n msg='termsConditions'/></a> |
+	       <a target="_blank" href="/site/privacypolicy"><i18n:i18n msg='privacyPolicy'/></a> |
+	       <a target="_blank" href="/site/support"><i18n:i18n msg='support'/></a>
 	    </div>
 	</div>
  

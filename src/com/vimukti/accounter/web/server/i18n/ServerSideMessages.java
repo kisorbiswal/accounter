@@ -54,6 +54,11 @@ public class ServerSideMessages {
 		User user = AccounterThreadLocal.get();
 		Locale locale = ServerLocal.get();
 		Session session = HibernateUtil.getCurrentSession();
+		boolean sessionOpened = false;
+		if (session == null || !session.isOpen()) {
+			session = HibernateUtil.openSession();
+			sessionOpened = true;
+		}
 		try {
 			long clientId = 0;
 			if (user != null) {
@@ -78,6 +83,10 @@ public class ServerSideMessages {
 			return msg.replace("'", "\\'");
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if (sessionOpened) {
+				session.close();
+			}
 		}
 		return "";
 	}

@@ -212,34 +212,34 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 		if (month == null || year == null) {
 			returnValue = "";
 		} else if (month.equals(messages.january())) {
-			returnValue = messages.date31() + " " + messages.december();
+			returnValue = messages.datenumber(31) + " " + messages.december();
 		} else if (month.equals(messages.february())) {
-			returnValue = messages.date31() + " " + messages.january();
+			returnValue = messages.datenumber(31) + " " + messages.january();
 		} else if (month.equals(messages.march())) {
 			if (Integer.parseInt(year) % 4 == 0) {
-				returnValue = messages.date29() + " " + messages.february();
+				returnValue = messages.datenumber(29) + " " + messages.february();
 			} else {
-				returnValue = messages.date28() + " " + messages.february();
+				returnValue = messages.datenumber(28) + " " + messages.february();
 			}
 
 		} else if (month.equals(messages.april())) {
-			returnValue = messages.date31() + " " + messages.march();
+			returnValue = messages.datenumber(31) + " " + messages.march();
 		} else if (month.equals(messages.may())) {
-			returnValue = messages.date30() + " " + messages.april();
+			returnValue = messages.datenumber(30) + " " + messages.april();
 		} else if (month.equals(messages.june())) {
 			returnValue = messages.april() + " " + messages.may();
 		} else if (month.equals(messages.july())) {
-			returnValue = messages.date30() + " " + messages.june();
+			returnValue = messages.datenumber(30) + " " + messages.june();
 		} else if (month.equals(messages.august())) {
-			returnValue = messages.date31() + " " + messages.july();
+			returnValue = messages.datenumber(31) + " " + messages.july();
 		} else if (month.equals(messages.september())) {
-			returnValue = messages.date31() + " " + messages.august();
+			returnValue = messages.datenumber(31) + " " + messages.august();
 		} else if (month.equals(messages.october())) {
-			returnValue = messages.date30() + " " + messages.september();
+			returnValue = messages.datenumber(30) + " " + messages.september();
 		} else if (month.equals(messages.november())) {
-			returnValue = messages.date31() + " " + messages.october();
+			returnValue = messages.datenumber(31) + " " + messages.october();
 		} else if (month.equals(messages.december())) {
-			returnValue = messages.date31() + " " + messages.november();
+			returnValue = messages.datenumber(31) + " " + messages.november();
 		}
 
 		return returnValue;

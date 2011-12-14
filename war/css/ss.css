@@ -970,6 +970,7 @@ a#fdbk_tab:hover {
 .delete-account-description{
 	height: 100px;
     width: 280px;
+    border:1px solid #aaa;
 }
 .delete-account-options input[type="checkbox"]{
 	margin:5px;

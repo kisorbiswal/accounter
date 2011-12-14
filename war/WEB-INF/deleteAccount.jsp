@@ -1,6 +1,9 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ taglib prefix="i18n" uri="/WEB-INF/i18n.tld"%>
 <html>
 <head>
-<title>  Delete My Account
+<title>  <i18n:i18n msg='deleteMyAccount'/>
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible">
 
@@ -17,29 +20,29 @@
 	
 	<div>
 		<form id="deleteform" name="deleteform" method="post" action="/main/deleteAccount">
-		<div class="company-heading" style="text-align:center"><h3>Delete Account</h3></div>
+		<div class="company-heading" style="text-align:center"><h3><i18n:i18n msg='deleteAccount'/></h3></div>
 		<div>
-			<h4>We're really sorry to see you go.</h4><br \>
+			<h4><i18n:i18n msg='deleteaccountmsg'/></h4><br \>
 		</div>
-		<span>Why are you leaving Accounter ? </span><br \>
+		<span><i18n:i18n msg='whyareyouleavingAccounter'/></span><br \>
 		<div class="delete-account-options">
-			<input id="tooslow" type="checkbox" name="tooslow" value="Too Slow" /> Too Slow<br />
-			<input id="takelong" type="checkbox" name="takelong" value="Takes long time to learn" /> Takes long time to learn<br />
-			<input id="mydata" type="checkbox" name="mydata" value="Can't get my data in" /> Can't get my data in<br />
-			<input id="features" type="checkbox" name="features" value="Doesn't have the features I need" /> Doesn't have the features I need<br />
-			<input id="wentoutof" type="checkbox" name="wentoutof" value="Went out of business" /> Went out of business<br />
-			<input id="personalfinance" type="checkbox" name="personalfinance" value="I'm Looking for personal finance software" /> I'm Looking for personal finance software<br />
-			<input id="nobusinessyet" type="checkbox" name="nobusinesssyet" value="I do not have a business yet" /> I do not have a business yet
+			<input id="tooslow" type="checkbox" name="tooslow"  /> <i18n:i18n msg='tooSlow'/><br />
+			<input id="takelong" type="checkbox" name="takelong"  /><i18n:i18n msg='takeslongtimetolearn'/> <br />
+			<input id="mydata" type="checkbox" name="mydata"  /><i18n:i18n msg='cantgetmydatain'/> <br />
+			<input id="features" type="checkbox" name="features"  /><i18n:i18n msg='doesnthavethefeaturesIneed'/> <br />
+			<input id="wentoutof" type="checkbox" name="wentoutof"  /><i18n:i18n msg='wentoutofbusiness'/> <br />
+			<input id="personalfinance" type="checkbox" name="personalfinance"  /><i18n:i18n msg='imLookingforpersonalfinancesoftware'/> <br />
+			<input id="nobusinessyet" type="checkbox" name="nobusinesssyet"  /><i18n:i18n msg='idonothaveabusinessyet'/> 
 		</div>
 			<br \>
-		    <h4>Other Reasons:</h4>
+		    <h4><i18n:i18n msg='otherReasons'/> :</h4>
 			<textarea class="delete-account-description" name="content"></textarea>
 			<div>
 	  			  <div class="signup-submit">
-	      			<input type="button" class="allviews-common-button" value="Back" onclick="parent.location='/main/companies'" />
+	      			<input type="button" class="allviews-common-button" value="<i18n:i18n msg='backtoaccount'/>" onclick="parent.location='/main/companies'" />
 	  			 </div>
 	  			 <div class="signup-submit">
-	      			<input type="submit" class="allviews-common-button" value="Continue" />
+	      			<input type="submit" class="allviews-common-button" value="<i18n:i18n msg='continuetofront'/>" />
 	  			 </div>
 			</div>
 		</form>

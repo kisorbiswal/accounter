@@ -59,7 +59,7 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 		customerDescriptionLabel.setText(messages.customerDescription());
 		customerDescriptionLabel.setStyleName("organisation_comment");
 		tenantsLabelRadioButton.setName(messages.group());
-		tenantsLabelRadioButton.setHTML(messages.tenant());
+		tenantsLabelRadioButton.setHTML(messages.Tenant());
 		custimersRadioBuitton.setName(messages.group());
 		custimersRadioBuitton.setHTML(messages.Customer());
 		guestardioButton.setName(messages.group());

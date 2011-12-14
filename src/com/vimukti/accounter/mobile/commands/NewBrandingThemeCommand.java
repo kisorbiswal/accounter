@@ -97,7 +97,7 @@ public class NewBrandingThemeCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().a4();
+				return "A4";
 			}
 
 			@Override
@@ -191,9 +191,9 @@ public class NewBrandingThemeCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<String> getLists(Context context) {
-				String[] fontSizeArray = new String[] { getMessages().point8(),
-						getMessages().point9(), getMessages().point10(),
-						getMessages().point11() };
+				String[] fontSizeArray = new String[] { getMessages().pointnumber(8),
+						getMessages().pointnumber(9), getMessages().pointnumber(10),
+						getMessages().pointnumber(11) };
 				fontSizeArrayList = new ArrayList<String>();
 				Collections.addAll(fontSizeArrayList, fontSizeArray);
 				return fontSizeArrayList;
@@ -367,7 +367,7 @@ public class NewBrandingThemeCommand extends NewAbstractCommand {
 
 	private int getPageSize() {
 		String value = get(getMessages().pageSize()).getValue();
-		if (value.equals(getMessages().a4())) {
+		if (value.equals("A4")) {
 			return 1;
 		} else {
 			return 2;

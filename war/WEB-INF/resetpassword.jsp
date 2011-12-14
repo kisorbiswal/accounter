@@ -1,10 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="i18n" uri="/WEB-INF/i18n.tld"%>
 
 <html>
 <head>
-<title> Reset Password | Accounter
+<title> <i18n:i18n msg='resetPassword'/> | Accounter
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible" />
 <link rel="shortcut icon" href="/images/favicon.ico" />
@@ -29,10 +30,10 @@ $(document).ready(function() {
 				}
 			},
 			messages: {
-				newPassword: "please enter your password",
+				newPassword: "<i18n:i18n msg='pleaseenteryourpassword'/>",
 				confirmPassword: {
-					required: "please confirm your password",
-					equalTo: "Please enter the same password as above"
+					required: "<i18n:i18n msg='pleaseconfirmyourpassword'/>",
+					equalTo: "<i18n:i18n msg='pleaseenterthesamepasswordasabove'/>"
 				}
 			}
 		});
@@ -40,7 +41,7 @@ $(document).ready(function() {
 	
 	$('.reset_password').click(function(){
 	    $('.indication-box').remove();	
-	     $('#reset_hint_box').append("<div class='indication-box'><div class='left-arrow'></div><div class='box-data'>Use 3 to 60characters, don't use your name. Use mix of lower/uppercase letters, numbers and special characters</div></div>");        
+	     $('#reset_hint_box').append("<div class='indication-box'><div class='left-arrow'></div><div class='box-data'><i18n:i18n msg='use3to60characters'/></div></div>");        
 	    }).blur(function() {
 	        $('.indication-box').remove();
 	 });
@@ -98,19 +99,19 @@ $(document).ready(function() {
 								<c:if test="${errorMessage == null}">
 								<div class="mid-login-box1">
 							   <div >
-								     <div>New Password : </div>
+								     <div><i18n:i18n msg='newPassword'/> : </div>
 									 <div>
 										<input id="mid-box"  type="password" name="newPassword" onkeyup="CheckPassword(this.value)" tabindex="1" value="" class="reset_password" />								
 									 </div>
 									 <div id="reset_hint_box">
 									 
 									 </div>
-									 <div>Confirm Password : </div>
+									 <div><i18n:i18n msg='confirmPassword'/> : </div>
 									 <div>
 										<input id="mid-box1"  type="password" name="confirmPassword" tabindex="2" value="" />
 									</div>
 								   <div class="OkButton">
-			  						   <input type="submit" tabindex="6" value="Reset" name="login" class="allviews-common-button" style="width:60px" id="submitButton" />
+			  						   <input type="submit" tabindex="6" value="<i18n:i18n msg='reset'/>" name="login" class="allviews-common-button" style="width:60px" id="submitButton" />
 			 						 </div>
 								  </div>
 								</c:if>

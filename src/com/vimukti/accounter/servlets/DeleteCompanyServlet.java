@@ -49,7 +49,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 	private void setOptions(HttpServletRequest req, String companyId,
 			String emailID) {
 		boolean canDeleteFromSingle = true, canDeleteFromAll = true;
-		Session hibernateSession = HibernateUtil.openSession();
+		Session hibernateSession = HibernateUtil.getCurrentSession();
 		try {
 			Company company = (Company) hibernateSession.get(Company.class,
 					Long.parseLong(companyId));
@@ -74,7 +74,6 @@ public class DeleteCompanyServlet extends BaseServlet {
 				canDeleteFromAll = false;
 			}
 		} finally {
-			hibernateSession.close();
 		}
 		req.setAttribute("canDeleteFromSingle", canDeleteFromSingle);
 		req.setAttribute("canDeleteFromAll", canDeleteFromAll);
@@ -112,7 +111,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 			public void run() {
 				httpSession.setAttribute(COMPANY_DELETION_STATUS,
 						COMPANY_DELETING);
-				Session session = HibernateUtil.openSession();
+				Session session = HibernateUtil.getCurrentSession();
 				Transaction transaction = null;
 				try {
 					boolean canDeleteFromSingle = true, canDeleteFromAll = true;
@@ -218,7 +217,6 @@ public class DeleteCompanyServlet extends BaseServlet {
 							"Internal Error Occured");
 				} finally {
 					httpSession.removeAttribute(COMPANY_ID);
-					session.close();
 				}
 			}
 		}).start();

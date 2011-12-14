@@ -54,7 +54,7 @@ public class CancelAccountServlet extends BaseServlet {
 
 	private void deleteAccount(HttpSession httpSession) {
 		String emailID = (String) httpSession.getAttribute(EMAIL_ID);
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			httpSession.setAttribute(ACCOUNT_DELETION_STATUS, ACCOUNT_DELETING);
@@ -93,7 +93,6 @@ public class CancelAccountServlet extends BaseServlet {
 			transaction.rollback();
 			httpSession.setAttribute(ACCOUNT_DELETION_STATUS, "Fail");
 		} finally {
-			session.close();
 			httpSession.setAttribute("DeletionFailureMessage",
 					"Internal Error Occured");
 		}
@@ -159,7 +158,7 @@ public class CancelAccountServlet extends BaseServlet {
 			return;
 		}
 
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		try {
 			Client client = getClient(emailID);
 			if (client == null) {

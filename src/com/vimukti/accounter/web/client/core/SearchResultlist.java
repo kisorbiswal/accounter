@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.core;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public class SearchResultlist implements IsSerializable, Serializable {
 

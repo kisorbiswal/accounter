@@ -784,10 +784,10 @@ public class AccounterMenuBar extends HorizontalPanel {
 		// getMergeCustomerCommand());
 		//
 		mergeAccountsMenuBar.addMenuItem(
-				messages.mergeCustomers(Global.get().customers()),
+				messages.mergeCustomers(Global.get().Customers()),
 				ActionFactory.getCustomerMergeAction());
 		mergeAccountsMenuBar.addMenuItem(
-				messages.mergeCustomers(Global.get().vendors()),
+				messages.mergeCustomers(Global.get().Vendors()),
 				ActionFactory.getVendorMergeAction());
 		mergeAccountsMenuBar.addMenuItem(messages.mergeAccounts(),
 				ActionFactory.getAccountMergeAction());

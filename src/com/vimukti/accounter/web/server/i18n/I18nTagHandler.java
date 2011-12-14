@@ -22,7 +22,7 @@ public class I18nTagHandler extends TagSupport {
 			JspWriter out = pageContext.getOut();
 
 			// Perform substr operation on string.
-			out.println(ServerSideMessages.getMessage(msg));
+			out.print(ServerSideMessages.getMessage(msg));
 
 		} catch (IOException e) {
 			e.printStackTrace();

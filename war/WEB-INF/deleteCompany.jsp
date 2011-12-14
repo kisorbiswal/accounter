@@ -1,8 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="i18n" uri="/WEB-INF/i18n.tld"%>
 <html>
   <head>
-  <title>Delete company| Accounter
+  <title><i18n:i18n msg='deletecompany'/>| Accounter
   </title>
         <meta content="IE=100" http-equiv="X-UA-Compatible" />
 		<link rel="shortcut icon" href="/images/favicon.ico" />
@@ -24,20 +25,20 @@
 	   <form action="/main/deletecompany" method="post">
 	  	 	<c:if test="${canDeleteFromSingle}">
             	<input type="radio" name="delete" value="deleteUser">
-            		Delete company from this account
-				<p class="delete_message">Are you sure you want to delete this company from your account? If you delete it you cannot undo this action.</p>
+            		<i18n:i18n msg='deletecompanyfromaccount'/>
+				<p class="delete_message"><i18n:i18n msg='deletecompanyWarningMsg'/></p>
 			</c:if>
 			<c:if test="${canDeleteFromAll}">
             <br>
             <input type="radio" name="delete" value="deleteAllUsers">
-            Delete company from all users accounts
-            <p class="delete_message">Are you sure you want to delete this company from all users accounts? If you delete it you cannot undo this action.</p>
+                <i18n:i18n msg='deletecompanyfromallusers'/>
+            <p class="delete_message"><i18n:i18n msg='deleteMsg'/></p>
 			</c:if>
 			<br>
             <br>
             <div class="company_list_buttons">
-	            <input type="submit" value="Delete" class="allviews-common-button">
-	            <input type="button" value="Cancel" class="allviews-common-button" onclick="parent.location='/main/companies'">
+	            <input type="submit" value="<i18n:i18n msg='delete'/>" class="allviews-common-button">
+	            <input type="button" value="<i18n:i18n msg='cancel'/>" class="allviews-common-button" onclick="parent.location='/main/companies'">
             </div>
         </form>
 	    
@@ -47,10 +48,10 @@
    
    <div id="mainFooter"  >
    <div>
-      <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
-      <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
-      <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
-      <a target="_blank" href="/site/support"> Support </a>
+	       <span><i18n:i18n msg='atTherateCopy'/></span> |
+	       <a target="_blank" href="/site/termsandconditions"><i18n:i18n msg='termsConditions'/></a> |
+	       <a target="_blank" href="/site/privacypolicy"><i18n:i18n msg='privacyPolicy'/></a> |
+	       <a target="_blank" href="/site/support"><i18n:i18n msg='support'/></a>
    </div>
 </div>
 <%@ include file="./scripts.jsp" %>

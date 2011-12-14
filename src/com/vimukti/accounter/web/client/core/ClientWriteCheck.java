@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.Global;
+
 public class ClientWriteCheck extends ClientTransaction {
 
 	/**
@@ -206,7 +208,7 @@ public class ClientWriteCheck extends ClientTransaction {
 
 	@Override
 	public String toString() {
-		return AccounterClientConstants.TYPE_WRITE_CHECK;
+		return Global.get().messages().writeCheck();
 	}
 
 	@Override

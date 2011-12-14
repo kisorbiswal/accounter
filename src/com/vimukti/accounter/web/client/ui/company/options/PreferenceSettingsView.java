@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -108,7 +109,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private PreferencePage getCustomerAndVendorPage() {
 		PreferencePage customerAndVendorPage = new PreferencePage(
-				messages.vendorAndPurchases());
+				messages.vendorAndPurchases(Global.get().Vendor()));
 		CustomerAndVendorsSettingsOption customerAndVendorsSettingsPage = new CustomerAndVendorsSettingsOption();
 		ManageBillsOption manageBillsOption = new ManageBillsOption();
 		TrackDiscountsOption discountsOption = new TrackDiscountsOption();

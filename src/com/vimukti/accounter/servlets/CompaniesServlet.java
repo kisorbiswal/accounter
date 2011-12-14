@@ -59,7 +59,7 @@ public class CompaniesServlet extends BaseServlet {
 			return;
 		}
 
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		try {
 			Client client = getClient(emailID);
 			if (client == null) {
@@ -114,7 +114,6 @@ public class CompaniesServlet extends BaseServlet {
 			// addUserCookies(resp, client);
 		} finally {
 			if (session != null && session.isOpen()) {
-				session.close();
 			}
 		}
 		dispatch(req, resp, companiedListView);
@@ -190,6 +189,7 @@ public class CompaniesServlet extends BaseServlet {
 		httpSession.setAttribute(COMPANY_ID, companyID);
 		httpSession.setAttribute(IS_TOUCH, req.getParameter(IS_TOUCH));
 		addMacAppCookie(req, resp);
+
 
 		Session session = HibernateUtil.getCurrentSession();
 

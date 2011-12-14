@@ -1,7 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ taglib prefix="i18n" uri="/WEB-INF/i18n.tld"%>
 <html>
 <head>
-<title>Under Maintanance | Accounter
+<title> <i18n:i18n msg='underMaintanance'/>| Accounter
 </title>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 <meta content="IE=100" http-equiv="X-UA-Compatible" />
@@ -58,20 +59,20 @@ $(document).ready(function() {
         <img src="/images/maintainence_show.jpg" class="accounterLogo" alt= "Maintanance"/> 
       </div>
       <div class="maintainence_message">
-	    <h3>Sorry! Accounter is down for maintanance.</h3>
-	    <h5>We are performing maintenance on our systems to provide you with better service of Accounter.</h5>
-	    <span> Please visit again later.For more info, visit </span>
-	    <a target="_blank"  href="http://blog.accounterlive.com" style="color:RoyalBlue">blog.accounterlive.com</a>
+	    <h3> <i18n:i18n msg='sorryAccounterisdownformaintanance'/> </h3>
+	    <h5> <i18n:i18n msg='weareperformingmaintenance'/> </h5>
+	    <span> <i18n:i18n msg='pleasevisitagainlaterFormoreinfovisit'/> </span>
+	    <a target="_blank"  href="http://blog.accounterlive.com" style="color:RoyalBlue"> <i18n:i18n msg='blogaccounterlivecom'/> </a>
 	    <br/>
-	    <a id="notifyMe" style="color:RoyalBlue">notify when working</a>
+	    <a id="notifyMe" style="color:RoyalBlue"> <i18n:i18n msg='notifywhenworking'/> </a>
 	    <div id="enterEmailDiv" class= "display-none">
 	    <form id="submitForm">
-	    <span>Please enter your emailid</span>
+	    <span><i18n:i18n msg='pleaseenteryouremailid'/></span>
 	    <input id="emailField"type="text" />
-	    <input id= "submitButton" type="button" class="allviews-common-button" value ="submit"/></form>
+	    <input id= "submitButton" type="button" class="allviews-common-button" value ="<i18n:i18n msg='submit'/>"/></form>
 	    </div>
-	    <div class ="display-none" id="successmsgDiv">successfully registered your email</div>
-	    <div class ="display-none" id="errorMsg">Please Enter Valid Email Id</div>
+	    <div class ="display-none" id="successmsgDiv"> <i18n:i18n msg='successfullyregisteredyouremail'/> </div>
+	    <div class ="display-none" id="errorMsg"> <i18n:i18n msg='pleaseEnterValidEmailId'/> </div>
 	</div>
    </div>
    </div>

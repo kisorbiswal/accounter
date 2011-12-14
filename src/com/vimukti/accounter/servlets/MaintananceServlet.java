@@ -49,7 +49,7 @@ public class MaintananceServlet extends BaseServlet {
 
 		ServerConfiguration.setUnderMaintainance(isUndermaintanance);
 
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		List<MaintananceInfoUser> usersList = session.getNamedQuery(
 				"getallMaintanaceInfoUsers").list();
@@ -83,7 +83,6 @@ public class MaintananceServlet extends BaseServlet {
 				transaction.rollback();
 			}
 		} finally {
-			session.close();
 		}
 
 		dispatch(req, resp, MAINTANANCE_VIEW);

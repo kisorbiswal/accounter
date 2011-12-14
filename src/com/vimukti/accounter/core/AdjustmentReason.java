@@ -50,7 +50,7 @@ public class AdjustmentReason extends CreatableObject implements
 		w.put(messages.type(), messages.adjustmentreason());
 
 		if (this.section != null) {
-			w.put(messages.sectionhash1(), this.section);
+			w.put(messages.sectionhashnumber(1), this.section);
 		}
 
 		if (this.name != null) {

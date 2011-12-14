@@ -8,6 +8,8 @@ import java.util.Set;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
@@ -22,6 +24,7 @@ public class Utility implements IsSerializable, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	static AccounterMessages messages = Global.get().messages();
 
 	int version;
 	static boolean isDelete;
@@ -39,93 +42,93 @@ public class Utility implements IsSerializable, Serializable {
 		String transactionName = null;
 		switch (transactionType) {
 		case 0:
-			transactionName = AccounterClientConstants.MEMO_OPENING_BALANCE;
+			transactionName = messages.openingBalance();
 			break;
 		case ClientTransaction.TYPE_CASH_SALES:
-			transactionName = AccounterClientConstants.TYPE_CASH_SALES;
+			transactionName = messages.cashSale();
 			break;
 		case ClientTransaction.TYPE_CASH_PURCHASE:
-			transactionName = AccounterClientConstants.TYPE_CASH_PURCHASE;
+			transactionName = messages.cashPurchase();
 			break;
 		case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
-			transactionName = AccounterClientConstants.TYPE_CREDIT_CARD_CHARGE;
+			transactionName = messages.creditCardCharge();
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
-			transactionName = AccounterClientConstants.TYPE_CUSTOMER_CREDIT_MEMO;
+			transactionName = messages.customerCredit();
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
-			transactionName = AccounterClientConstants.TYPE_CUSTOMER_REFUNDS;
+			transactionName = messages.customerRefund();
 			break;
 		case ClientTransaction.TYPE_ENTER_BILL:
-			transactionName = AccounterClientConstants.TYPE_ENTER_BILL;
+			transactionName = messages.vendorBill(Global.get().Vendor());
 			break;
 		case ClientTransaction.TYPE_ESTIMATE:
-			transactionName = AccounterClientConstants.TYPE_ESTIMATE;
+			transactionName = messages.quote();
 			break;
 		case ClientTransaction.TYPE_INVOICE:
-			transactionName = AccounterClientConstants.TYPE_INVOICE;
+			transactionName = messages.invoice();
 			break;
 		case ClientTransaction.TYPE_ISSUE_PAYMENT:
-			transactionName = AccounterClientConstants.TYPE_ISSUE_PAYMENT;
+			transactionName = messages.issuePayment();
 			break;
 		case ClientTransaction.TYPE_MAKE_DEPOSIT:
-			transactionName = AccounterClientConstants.TYPE_MAKE_DEPOSIT;
+			transactionName = messages.makeDeposit();
 			break;
 		case ClientTransaction.TYPE_PAY_BILL:
-			transactionName = AccounterClientConstants.TYPE_PAY_BILL;
+			transactionName = messages.payeePayment(Global.get().Vendor());
 			break;
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
-			transactionName = AccounterClientConstants.TYPE_VENDOR_PAYMENT;
+			transactionName = messages.payeePrePayment(Global.get().Vendor());
 			break;
 		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
-			transactionName = AccounterClientConstants.TYPE_RECEIVE_PAYMENT;
+			transactionName = messages.customerPayment();
 			break;
 		case ClientTransaction.TYPE_TRANSFER_FUND:
-			transactionName = AccounterClientConstants.TYPE_TRANSFER_FUND;
+			transactionName = messages.transferFund();
 			break;
 		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
-			transactionName = AccounterClientConstants.TYPE_VENDOR_CREDIT_MEMO;
+			transactionName = messages.payeeCredit(Global.get().Vendor());
 			break;
 		case ClientTransaction.TYPE_WRITE_CHECK:
-			transactionName = AccounterClientConstants.TYPE_WRITE_CHECK;
+			transactionName = messages.writeCheck();
 			break;
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
-			transactionName = AccounterClientConstants.TYPE_JOURNAL_ENTRY;
+			transactionName = messages.journalEntry();
 			break;
 		case ClientTransaction.TYPE_PAY_TAX:
-			transactionName = AccounterClientConstants.TYPE_PAY_TAX;
+			transactionName = messages.payTax();
 			break;
 		case ClientTransaction.TYPE_RECEIVE_TAX:
-			transactionName = AccounterClientConstants.TYPE_RECEIVE_TAX;
+			transactionName = messages.receiveTAX();
 			break;
 		case ClientTransaction.TYPE_SALES_ORDER:
-			transactionName = AccounterClientConstants.TYPE_SALES_ORDER;
+			transactionName = messages.salesOrder();
 			break;
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
-			transactionName = AccounterClientConstants.TYPE_PURCHASE_ORDER;
+			transactionName = messages.purchaseOrder();
 			break;
 		case ClientTransaction.TYPE_ITEM_RECEIPT:
-			transactionName = AccounterClientConstants.TYPE_ITEM_RECEIPT;
+			transactionName = messages.itemReceipt();
 			break;
 		case ClientTransaction.TYPE_CASH_EXPENSE:
-			transactionName = AccounterClientConstants.TYPE_CASH_EXPENSE;
+			transactionName = messages.cashExpense();
 			break;
 		case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
-			transactionName = AccounterClientConstants.TYPE_EMPLOYEE_EXPENSE;
+			transactionName = messages.employeeExpense();
 			break;
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
-			transactionName = AccounterClientConstants.TYPE_CREDIT_CARD_EXPENSE;
+			transactionName = messages.creditCardExpense();
 			break;
 		case ClientTransaction.TYPE_TAX_RETURN:
-			transactionName = AccounterClientConstants.TYPE_VAT_RETURN;
+			transactionName = messages.vatReturn();
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
-			transactionName = AccounterClientConstants.TYPE_CUSTOMER_PREPAYMENT;
+			transactionName = messages.customerprePayment();
 			break;
 		case ClientTransaction.TYPE_ADJUST_SALES_TAX:
 		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
 			// transactionName = Accounter.messages().taxAdjustment();
-			transactionName = AccounterClientConstants.TYPE_TAX_ADJUSTMENT;
+			transactionName = messages.taxAdjustment();
 			break;
 		}
 		return transactionName;
@@ -147,65 +150,65 @@ public class Utility implements IsSerializable, Serializable {
 	}
 
 	public static String getAccountTypeString(int accountType) {
-
+		
 		String accountTypeName = null;
 		switch (accountType) {
 		case ClientAccount.TYPE_INCOME:
-			accountTypeName = AccounterClientConstants.TYPE_INCOME;
+			accountTypeName = messages.income();
 			break;
 		case ClientAccount.TYPE_OTHER_INCOME:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_INCOME;
+			accountTypeName = messages.otherIncome();
 			break;
 		case ClientAccount.TYPE_EXPENSE:
-			accountTypeName = AccounterClientConstants.TYPE_EXPENSE;
+			accountTypeName = messages.expense();
 			break;
 		case ClientAccount.TYPE_OTHER_EXPENSE:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_EXPENSE;
+			accountTypeName = messages.otherExpense();
 			break;
 		case ClientAccount.TYPE_COST_OF_GOODS_SOLD:
-			accountTypeName = AccounterClientConstants.TYPE_COST_OF_GOODS_SOLD;
+			accountTypeName = messages.costofGoodsSold();
 			break;
 		case ClientAccount.TYPE_CASH:
-			accountTypeName = AccounterClientConstants.TYPE_CASH;
+			accountTypeName = messages.cash();
 			break;
 		case ClientAccount.TYPE_BANK:
-			accountTypeName = AccounterClientConstants.TYPE_BANK;
+			accountTypeName = messages.bank();
 			break;
 		case ClientAccount.TYPE_OTHER_CURRENT_ASSET:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_CURRENT_ASSET;
+			accountTypeName = messages.otherCurrentAsset();
 			break;
 		case ClientAccount.TYPE_INVENTORY_ASSET:
-			accountTypeName = AccounterClientConstants.TYPE_INVENTORY_ASSET;
+			accountTypeName = messages.inventoryAsset();
 			break;
 		case ClientAccount.TYPE_OTHER_ASSET:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_ASSET;
+			accountTypeName = messages.otherAssets();
 			break;
 		case ClientAccount.TYPE_FIXED_ASSET:
-			accountTypeName = AccounterClientConstants.TYPE_FIXED_ASSET;
+			accountTypeName = messages.fixedAsset();
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
-			accountTypeName = AccounterClientConstants.TYPE_CREDIT_CARD;
+			accountTypeName = messages.creditCard();
 			break;
 		case ClientAccount.TYPE_PAYPAL:
-			accountTypeName = AccounterClientConstants.TYPE_PAYPAL;
+			accountTypeName = messages.paypal();
 			break;
 		case ClientAccount.TYPE_PAYROLL_LIABILITY:
-			accountTypeName = AccounterClientConstants.TYPE_PAYROLL_LIABILITY;
+			accountTypeName = messages.payrollLiability();
 			break;
 		case ClientAccount.TYPE_OTHER_CURRENT_LIABILITY:
-			accountTypeName = AccounterClientConstants.TYPE_OTHER_CURRENT_LIABILITY;
+			accountTypeName = messages.currentLiability();
 			break;
 		case ClientAccount.TYPE_LONG_TERM_LIABILITY:
-			accountTypeName = AccounterClientConstants.TYPE_LONG_TERM_LIABILITY;
+			accountTypeName = messages.longTermLiability();
 			break;
 		case ClientAccount.TYPE_EQUITY:
-			accountTypeName = AccounterClientConstants.TYPE_EQUITY;
+			accountTypeName = messages.equity();
 			break;
 		case ClientAccount.TYPE_ACCOUNT_RECEIVABLE:
-			accountTypeName = AccounterClientConstants.TYPE_ACCOUNT_RECEIVABLE;
+			accountTypeName = messages.accountsReceivable();
 			break;
 		case ClientAccount.TYPE_ACCOUNT_PAYABLE:
-			accountTypeName = AccounterClientConstants.TYPE_ACCOUNT_PAYABLE;
+			accountTypeName = messages.accountsPayable();
 			break;
 
 		}
@@ -217,33 +220,32 @@ public class Utility implements IsSerializable, Serializable {
 		String CashFlowCategoryName = null;
 		switch (type) {
 		case ClientAccount.CASH_FLOW_CATEGORY_FINANCING:
-			CashFlowCategoryName = AccounterClientConstants.CASH_FLOW_CATEGORY_FINANCING;
+			CashFlowCategoryName = messages.financing();
 			break;
 		case ClientAccount.CASH_FLOW_CATEGORY_INVESTING:
-			CashFlowCategoryName = AccounterClientConstants.CASH_FLOW_CATEGORY_INVESTING;
+			CashFlowCategoryName = messages.investing();
 			break;
 		case ClientAccount.CASH_FLOW_CATEGORY_OPERATING:
-			CashFlowCategoryName = AccounterClientConstants.CASH_FLOW_CATEGORY_OPERATING;
+			CashFlowCategoryName = messages.operating();
 			break;
 		}
 		return CashFlowCategoryName;
 	}
 
 	public static String getBankAccountType(int type) {
-
 		String bankAccountName = null;
 		switch (type) {
 		case ClientAccount.BANK_ACCCOUNT_TYPE_NONE:
-			bankAccountName = AccounterClientConstants.BANK_ACCCOUNT_TYPE_NONE;
+			bankAccountName = messages.none();
 			break;
 		case ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING:
-			bankAccountName = AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING;
+			bankAccountName = messages.checking();
 			break;
 		case ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET:
-			bankAccountName = AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
+			bankAccountName = messages.moneyMarket();
 			break;
 		case ClientAccount.BANK_ACCCOUNT_TYPE_SAVING:
-			bankAccountName = AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING;
+			bankAccountName = messages.saving();
 			break;
 		}
 		return bankAccountName;
@@ -1104,52 +1106,52 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_UN_APPLIED);
+				buffer.append(messages.unApplied());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
 				buffer
-						.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
+						.append(messages.partiallyApplied());
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_APPLIED);
+				buffer.append(messages.applied());
 				break;
 			}
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NOT_ISSUED);
+				buffer.append(messages.notIssued());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_ISSUED);
+				buffer.append(messages.issued());
 				break;
 			}
 			break;
 		case ClientTransaction.TYPE_ENTER_BILL:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NOT_PAID);
+				buffer.append(messages.notPaid());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(AccounterClientConstants.STATUS_PARTIALLY_PAID);
+				buffer.append(messages.partiallyPaid());
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_PAID);
+				buffer.append(messages.paid());
 				break;
 			}
 			break;
 		case ClientTransaction.TYPE_ESTIMATE:
 			switch (status) {
 			case ClientEstimate.STATUS_ACCECPTED:
-				buffer.append(AccounterClientConstants.STATUS_ACCEPTED);
+				buffer.append(messages.accepted());
 				break;
 			case ClientEstimate.STATUS_REJECTED:
-				buffer.append(AccounterClientConstants.STATUS_REJECTED);
+				buffer.append(messages.rejected());
 				break;
 			case ClientEstimate.STATUS_OPEN:
-				buffer.append(AccounterClientConstants.STATUS_OPEN);
+				buffer.append(messages.open());
 				break;
 
 			}
@@ -1157,13 +1159,13 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_INVOICE:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NOT_PAID);
+				buffer.append(messages.notPaid());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(AccounterClientConstants.STATUS_PARTIALLY_PAID);
+				buffer.append(messages.partiallyPaid());
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_PAID);
+				buffer.append(messages.paid());
 				break;
 			}
 			break;
@@ -1171,26 +1173,26 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_PAY_BILL:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NOT_ISSUED);
+				buffer.append(messages.notIssued());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_ISSUED);
+				buffer.append(messages.issued());
 				break;
 			}
 			break;
 		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_UN_APPLIED);
+				buffer.append(messages.unApplied());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
 				buffer
-						.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
+						.append(messages.partiallyApplied());
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_APPLIED);
+				buffer.append(messages.applied());
 				break;
 			}
 			break;
@@ -1198,14 +1200,14 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_UN_APPLIED);
+				buffer.append(messages.unApplied());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
 				buffer
-						.append(AccounterClientConstants.STATUS_PARTIALLY_APPLIED);
+						.append(messages.partiallyApplied());
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_APPLIED);
+				buffer.append(messages.applied());
 				break;
 			}
 			break;
@@ -1213,12 +1215,12 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NEW);
+				buffer.append(messages.new1());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_POSTED);
+				buffer.append(messages.posted());
 				break;
 			}
 			break;
@@ -1227,24 +1229,24 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_CASH_PURCHASE:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NOT_ISSUED);
+				buffer.append(messages.notIssued());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_ISSUED);
+				buffer.append(messages.issued());
 				break;
 			}
 			break;
 		case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NOT_ISSUED);
+				buffer.append(messages.notIssued());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_ISSUED);
+				buffer.append(messages.issued());
 				break;
 			}
 			break;
@@ -1257,52 +1259,52 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_SALES_ORDER:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NOT_INVOICED);
+				buffer.append(messages.notInvoiced());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
 				buffer
-						.append(AccounterClientConstants.STATUS_PARTIALLY_INVOICED);
+						.append(messages.partiallyInvoiced());
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_INVOICED);
+				buffer.append(messages.invoiced());
 				break;
 			}
 			break;
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NOT_RECEIVED);
+				buffer.append(messages.notReceived());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
 				buffer
-						.append(AccounterClientConstants.STATUS_PARTIALLY_RECEIVED);
+						.append(messages.partiallyReceived());
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_RECEIVED);
+				buffer.append(messages.received());
 				break;
 			}
 			break;
 		case ClientTransaction.TYPE_WRITE_CHECK:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NOT_ISSUED);
+				buffer.append(messages.notIssued());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_ISSUED);
+				buffer.append(messages.issued());
 				break;
 			}
 			break;
 		case ClientTransaction.TYPE_PAY_TAX:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NOT_ISSUED);
+				buffer.append(messages.notIssued());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_ISSUED);
+				buffer.append(messages.issued());
 				break;
 			}
 			break;
@@ -1310,12 +1312,12 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_RECEIVE_TAX:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_NOT_ISSUED);
+				buffer.append(messages.notIssued());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterClientConstants.STATUS_ISSUED);
+				buffer.append(messages.issued());
 				break;
 			}
 			break;
@@ -1575,10 +1577,10 @@ public class Utility implements IsSerializable, Serializable {
 		String description = null;
 		switch (boxType) {
 		case 1:
-			description = AccounterClientConstants.Box1_Description;
+			description = messages.box1Description();
 			break;
 		case 2:
-			description = AccounterClientConstants.Box2_Description;
+			description = messages.box2Description();
 			break;
 
 		}

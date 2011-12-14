@@ -1,8 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="i18n" uri="/WEB-INF/i18n.tld"%>
 <html>
 <head>
-<title>Server Maintanace| Accounter
+<title><i18n:i18n msg='serverMaintanace'/>| Accounter
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible" />
 <link rel="shortcut icon" href="/images/favicon.ico" />
@@ -17,7 +18,7 @@
 		</c:if>
 		<form id = "maintananceForm" method="post" action="/main/maintanance">
 			<div class="text_box_margin">
-				<label>Please enter your admin password:</label>
+				<label><i18n:i18n msg='pleaseenteradminpassword'/> :</label>
 				<input type = "password"  id = "adminPassword"  name ="password" />
 			</div>
 			<c:choose>
@@ -25,11 +26,11 @@
 			       <input type="checkbox" name="option1" value="CheckedValue" checked="" /><label>Server under maintainace</label> <br>
 			    </c:when>
 			    <c:otherwise>
-			       <input type="checkbox" name="option1" /><label>Server under maintainace</label> <br />
+			       <input type="checkbox" name="option1" /><label><i18n:i18n msg='serverundermaintainace'/></label> <br />
 			    </c:otherwise>
 		    </c:choose>
 			<div class="OkButton">
-			    <input type = "submit" class="allviews-common-button" value = "Submit " id = "submitButton"  />
+			    <input type = "submit" class="allviews-common-button" value = "<i18n:i18n msg='submit'/>" id = "submitButton"  />
 			</div>
 		</form>
 	</div>

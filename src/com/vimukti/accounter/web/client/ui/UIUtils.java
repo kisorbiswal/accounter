@@ -1100,11 +1100,11 @@ public class UIUtils {
 	}
 
 	public static int getEmailType(String type) {
-		if (type.equalsIgnoreCase(Accounter.messages().email1()))
+		if (type.equalsIgnoreCase(Accounter.messages().emailnumber(1)))
 			return ClientEmail.TYPE_EMAIL_1;
-		else if (type.equalsIgnoreCase(Accounter.messages().email2()))
+		else if (type.equalsIgnoreCase(Accounter.messages().emailnumber(2)))
 			return ClientEmail.TYPE_EMAIL_2;
-		else if (type.equalsIgnoreCase(Accounter.messages().email3()))
+		else if (type.equalsIgnoreCase(Accounter.messages().emailnumber(3)))
 			return ClientEmail.TYPE_EMAIL_3;
 		else
 			return ClientEmail.TYPE_EMAIL_1;

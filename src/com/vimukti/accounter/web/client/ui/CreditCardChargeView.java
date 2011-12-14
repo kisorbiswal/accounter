@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
@@ -234,10 +235,11 @@ public class CreditCardChargeView extends
 	@Override
 	protected void paymentMethodSelected(String paymentMethod2) {
 		super.paymentMethodSelected(paymentMethod2);
+		AccounterMessages messages = Global.get().messages();
 		if (paymentMethod != null
 				&& (paymentMethod
-						.equals(com.vimukti.accounter.web.client.core.AccounterClientConstants.PAYMENT_METHOD_CHECK) || paymentMethod
-						.equals(com.vimukti.accounter.web.client.core.AccounterClientConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+						.equals(messages.check()) || paymentMethod
+						.equals(messages.cheque()))) {
 			if (isInViewMode()) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction

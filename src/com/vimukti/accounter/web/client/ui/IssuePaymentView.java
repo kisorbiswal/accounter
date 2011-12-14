@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
@@ -228,7 +227,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		payMethodItemList = new ArrayList<String>();
 		payMethodItemList
 				.add(UIUtils
-						.getpaymentMethodCheckBy_CompanyType(AccounterClientConstants.PAYMENT_METHOD_CHECK));
+						.getpaymentMethodCheckBy_CompanyType(messages.check()));
 		payMethodSelect.initCombo(payMethodItemList);
 		payMethodSelect.setSelectedItem(0);
 

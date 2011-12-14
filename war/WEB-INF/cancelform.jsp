@@ -1,9 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="i18n" uri="/WEB-INF/i18n.tld"%>
 <html>
 <head>
-<title> Cancel My Account
+<title> <i18n:i18n msg='cancelMyAccount'/>
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible">
 
@@ -17,8 +18,8 @@
    <div class="maintanance_subcont">
     <img src="/images/Accounter_logo_title.png" class="accounterLogo" />
     <form id="cancelform" name="cancelform" method="post" action="/main/cancelform" style="height:200px">
-      <h3 style="color:#28757D;text-align:center">Cancel Account</h3>
-      <h3>The following companies will be delete permanently if you cancel the Account.</h3>
+      <h3 style="color:#28757D;text-align:center"><i18n:i18n msg='cancelAccount'/></h3>
+      <h4><i18n:i18n msg='deletepermanentlyMsg'/></h4>
 		<div>
 			<ul>
 				<li>
@@ -32,13 +33,13 @@
 	    		</li>
 	   		</ul>
 		</div>	
-	  	 <h3>You are about to cancel your Accounter account. Once you cancel, your data will be deleted immediately.</h3>
+	  	 <h4><i18n:i18n msg='deletedImmediatelyMsg'/></h4>
 	    <div>
 	   	    <div style="float:left">
-	      		<input type="button" class="allviews-common-button" value="Keep Using Accounter" onclick="parent.location='/main/companies'"/>
+	      		<input type="button" class="allviews-common-button" value="<i18n:i18n msg='keepUsingAccounter'/>" onclick="parent.location='/main/companies'"/>
 	   		</div>
 	   		<div style="float:right">
-	      		<input type="submit" class="allviews-common-button" value="Cancel my Account" />
+	      		<input type="submit" class="allviews-common-button" value="<i18n:i18n msg='cancelMyAccount'/>" />
 	   		</div>
 	   	</div>
 	  </form>

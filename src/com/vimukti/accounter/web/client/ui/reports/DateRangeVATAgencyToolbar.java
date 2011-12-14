@@ -9,7 +9,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -98,7 +97,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		List<ClientTAXAgency> vatAgencies = vatAgencyCombo.getComboItems();
 		for (ClientTAXAgency vatAgency : vatAgencies) {
 			if (vatAgency.getName().equals(
-					AccounterClientConstants.DEFAULT_VAT_AGENCY_NAME)) {
+					messages.hmRevenueCustomsVAT())) {
 				vatAgencyCombo.setComboItem(vatAgency);
 				break;
 			}

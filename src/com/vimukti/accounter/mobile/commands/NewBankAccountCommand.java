@@ -19,10 +19,11 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.web.client.core.AccounterClientConstants;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * 
@@ -235,16 +236,17 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 	 * @return
 	 */
 	private String getBankAccountType(int type) {
+		AccounterMessages messages = Global.get().messages();
 		switch (type) {
 		case ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING:
-			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING;
+			return messages.checking();
 
 		case ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET:
-			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
+			return messages.moneyMarket();
 		case ClientAccount.BANK_ACCCOUNT_TYPE_SAVING:
-			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING;
+			return messages.saving();
 		case ClientAccount.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT:
-			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT;
+			return messages.cuurentAccount();
 		default:
 			break;
 		}
@@ -319,13 +321,14 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 	}
 
 	private int getType(String type) {
-		if (type.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING))
+		AccounterMessages messages = Global.get().messages();
+		if (type.equals(messages.saving()))
 			return Account.BANK_ACCCOUNT_TYPE_SAVING;
 		else if (type
-				.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING))
+				.equals(messages.checking()))
 			return Account.BANK_ACCCOUNT_TYPE_CHECKING;
 		else if (type
-				.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET))
+				.equals(messages.moneyMarket()))
 			return Account.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
 		else
 			return Account.BANK_ACCCOUNT_TYPE_NONE;

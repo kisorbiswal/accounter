@@ -1,12 +1,7 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
-
-import org.hibernate.CallbackException;
-import org.hibernate.Session;
 import org.json.JSONException;
 
-import com.sun.org.apache.regexp.internal.recompile;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**

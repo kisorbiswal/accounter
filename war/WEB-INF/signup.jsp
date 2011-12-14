@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="i18n" uri="/WEB-INF/i18n.tld"%>
  
 <!-- The HTML 4.01 Transitional DOCTYPE declaration-->
 <!-- above set at the top of the file will set     -->
@@ -11,7 +12,7 @@
 
 <html>
 <head>
-<title> Sign up & Trial free | Accounter
+<title> <i18n:i18n msg='trailfree'/> | Accounter
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible" />
 
@@ -80,26 +81,26 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 			agree: "required"
 		},
 		messages: {
-			firstName: "Please enter your first name",
-			lastName: "Please enter your last name",
-			companyName: "Please enter company ID",
+			firstName: "<i18n:i18n msg='pleaseenteryourfirstname'/>",
+			lastName: "<i18n:i18n msg='pleaseenteryourlastname'/>",
+			companyName: "<i18n:i18n msg='pleaseentercompanyID'/>",
 			companyName: {
-				required: "Please enter company ID",
-				no_special_characters: "Company ID should contain atleast one letter and no special characters",
-				maxlength: "Company ID exceeded the maximum length"
+				required: "<i18n:i18n msg='pleaseentercompanyID'/>",
+				no_special_characters: "<i18n:i18n msg='CompanyIDshouldcontainatleastoneletterandnospecialcharacters'/>",
+				maxlength: "<i18n:i18n msg='CompanyIDexceededthemaximumlength'/>"
 			},
-			companyFullName: "Please enter company name",
+			companyFullName: "<i18n:i18n msg='pleaseentercompanyname'/>",
 			password: {
-				required: "Please provide a password",
-				minlength: "Your password must be at least 6 characters long"
+				required: "<i18n:i18n msg='pleaseprovideapassword'/>",
+				minlength: "<i18n:i18n msg='yourpasswordmustbeatleast6characterslong'/>"
 			},
 			confirmPassword: {
-				required: "Please provide a password",
-				minlength: "Your password must be at least 6 characters long",
-				equalTo: "Please enter the same password as above"
+				required: "<i18n:i18n msg='pleaseprovideapassword'/>",
+				minlength: "<i18n:i18n msg='yourpasswordmustbeatleast6characterslong'/>",
+				equalTo: "<i18n:i18n msg='pleaseenterthesamepasswordasabove'/>"
 			},
-			emailId: "Please enter a valid email address",
-			agree: "Please accept Terms of use"
+			emailId: "<i18n:i18n msg='pleaseenteravalidemailaddress'/>",
+			agree: "<i18n:i18n msg='pleaseacceptTermsofuse'/>"
 		}
 	});
 			 <!--$.blockUI({ message: $('#hiddenLoaderDiv'), css: {height: '80px', width: '300px'} });--> 
@@ -138,34 +139,34 @@ $.validator.addMethod("no_special_characters", function(value, element) {
   <c:if test="${successmessage==null}">
     <form id="accounterForm" method="post" action="/main/signup">
 	   <div>
-	      <span class="mandatory">All fields are mandatory</span>
+	      <span class="mandatory"><i18n:i18n msg='mandatoryMsg'/></span>
 	   </div>
 	   <div style="clear:both" class="check_label">
-	     <label>First Name</label><br />
+	     <label><i18n:i18n msg='firstName'/></label><br />
 		 <input id="mid-box"  type="text" tabindex="4" name="firstName" />	
 	   </div>
 	    <div class="check_label">
-	     <label>Last Name</label><br />
+	     <label><i18n:i18n msg='lastName'/></label><br />
 		 <input id="mid-box1"  type="text" tabindex="5" name="lastName" />	
 	   </div>
 	   <div class="check_label">
-	     <label>Email Address</label><br />
+	     <label><i18n:i18n msg='emailAddress'/></label><br />
 		 <input id="mid-box2"  type="text" tabindex="6" name="emailId" />	
 	   </div>
 	   <div class="check_label">
-	     <label>Password</label><br />
+	     <label><i18n:i18n msg='password'/></label><br />
 		 <input id="mid-box4"  type="password" tabindex="7" name="password" />
 	   </div>
 	   <div class="check_label">
-	     <label>Confirm Password</label><br />
+	     <label><i18n:i18n msg='confirmPassword'/></label><br />
 		 <input id="mid-box5" type="password" tabindex="8" name="confirmPassword" />
 	   </div>
 	   <div class="check_label">
-	     <label>Phone Number</label><br />
+	     <label><i18n:i18n msg='phoneNumber'/></label><br />
 		 <input id="mid-box6"  type="text" tabindex="9" name="phoneNumber" />
 	   </div>
 	   <div class="check_label">
-	     <label>Country</label><br />
+	     <label><i18n:i18n msg='country'/></label><br />
 		 <select id="select-box" tabindex="10" name="country">
 <option value="United Kingdom">United Kingdom</option>
 											<option value="United States">United States</option>
@@ -409,21 +410,21 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		 </select>
 	   </div>
 	   <div>
-	     <label style="padding-left:5px;">I have read and I accept the<a href="/site/termsandconditions" target="_blank" tabindex="12">Terms of Use</a></label>
+	     <label style="padding-left:5px;"><i18n:i18n msg='readAccept'/><a href="/site/termsandconditions" target="_blank" tabindex="12"><i18n:i18n msg='termsofUse'/></a></label>
 	     <input id="checkbox" type="checkbox" name="agree" tabindex="11" style="float:left" />
 		 
 	   </div>
 	   <div>
 	      <input id="newsletter" type="checkbox" name="newsletter" />
-		  <label>Yes, Subscribe me to Accounter Newsletter <b>(Optional)</b></label>
+		  <label><i18n:i18n msg='newsletter'/><b>(<i18n:i18n msg='optional'/>)</b></label>
 	   </div>
 	   <div class="signup-submit">
-	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="Sign Up" tabindex="13" />
+	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="<i18n:i18n msg='signUp'/>" tabindex="13" />
 	   </div>
 	</form>
   </c:if>
   <div class="form-bottom-options">
-  <a href="/main/login" id="forget-link1">I already have an account</a>
+  <a href="/main/login" id="forget-link1"><i18n:i18n msg='alreadyAccount'/></a>
   <br />
   </div> 
 </div>
@@ -433,10 +434,10 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 
 <div id="mainFooter"  >
 <div>
-   <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
-   <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
-   <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
-   <a target="_blank" href="/site/support"> Support </a>
+	       <span><i18n:i18n msg='atTherateCopy'/></span> |
+	       <a target="_blank" href="/site/termsandconditions"><i18n:i18n msg='termsConditions'/></a> |
+	       <a target="_blank" href="/site/privacypolicy"><i18n:i18n msg='privacyPolicy'/></a> |
+	       <a target="_blank" href="/site/support"><i18n:i18n msg='support'/></a>
 </div>
 </div>
 		<script  type="text/javascript" >

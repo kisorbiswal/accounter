@@ -135,7 +135,7 @@ public class InvoiceBrandingView<T> extends
 	private String getPageType(int type) {
 		String pageType = null;
 		if (type == ClientBrandingTheme.PAGE_SIZE_A4) {
-			pageType = messages.a4();
+			pageType = "A4";
 		} else {
 			pageType = messages.usLetter();
 		}
