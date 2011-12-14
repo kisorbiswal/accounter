@@ -29,7 +29,12 @@ public class ServerGlobal extends AbstractGlobal {
 
 	@Override
 	public String toCurrencyFormat(double amount) {
-		DecimalFormat format = new DecimalFormat("#,##0.00");
+		int decimalNumber = preferences().getDecimalNumber();
+		String pattern="#,##0.";
+		for (int i = 0; i < decimalNumber; i++) {
+			pattern=pattern+"0";
+		}
+		DecimalFormat format = new DecimalFormat(pattern);
 		return format.format(amount);
 	}
 

@@ -224,7 +224,9 @@
 			<property name="webSite" column="WEBSITE"></property>
 			<property name="isShowLegalName" column="SHOW_LEGAL_NAME"></property>
 			<property name="isShowRegisteredAddress" column="SHOW_REGISTERED_ADDRESS"></property>
-
+			<property name="negativeNumberShownType" column="NEGATIVE_NUMBER_SHOWN_TYPE"
+				type='int'></property>
+			<property name="decimalNumber" column="DECIMAL_NUMBER" type='int'></property>
 			<component name="tradingAddress" class="Address">
 				<property name="type" column="TRADING_ADDRESS_TYPE"></property>
 				<property name="address1" column="TRADING_ADDRESS1"

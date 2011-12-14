@@ -119,6 +119,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public static int VAT_REP_ENDPERIOD_APR_JUL_OCT_JAN = 2;
 	public static int VAT_REP_ENDPERIOD_MAY_AUG_NOV_FEB = 3;
 
+	public static final int NEGATIVE_NUMBER_NORMAL = 1;
+	public static final int NEGATIVE_NUMBER_WITHIN_PARENTHESES = 2;
+	public static final int NEGATIVE_NUMBER_MINUS_WITHIN_PARENTHESES = 3;
+	public static final int NEGATIVE_NUMBER_WITH_TRAILING_MINUS = 4;
+
 	private static final long DONT_INCLUDE_ESTIMATES = 0x10000000000000L;
 	private static final long INCLUDE_ACCEPTED_ESTIMATES = 0x20000000000000L;
 	private static final long INCLUDE_PENDING_ACCEPTED_ESTIMATES = 0x4000000000000L;
@@ -218,6 +223,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private boolean isShowLegalName;
 
 	private boolean isShowRegisteredAddress;
+
+	private int negativeNumberShownType;
+	
+	private int decimalNumber = 2;
 
 	/**
 	 * Creates new Instance
@@ -1280,6 +1289,35 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		this.set(WANT_DISCOUNTS, isTrackDiscounts);
 	}
 
+	/**
+	 * @return the negativeNumberShownType
+	 */
+	public int getNegativeNumberShownType() {
+		return negativeNumberShownType;
+	}
+
+	/**
+	 * @param negativeNumberShownType
+	 *            the negativeNumberShownType to set
+	 */
+	public void setNegativeNumberShownType(int negativeNumberShownType) {
+		this.negativeNumberShownType = negativeNumberShownType;
+	}
+
+	/**
+	 * @return the decimalNumber
+	 */
+	public int getDecimalNumber() {
+		return decimalNumber;
+	}
+
+	/**
+	 * @param decimalNumber the decimalNumber to set
+	 */
+	public void setDecimalNumber(int decimalNumber) {
+		this.decimalNumber = decimalNumber;
+	}
+	
 	public boolean isPricingLevelsEnabled() {
 		return get(ENABLE_PRICE_LEVEL);
 	}
@@ -1287,4 +1325,5 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public void setPricingLevelsEnabled(boolean isPricingLevelsEnabled) {
 		set(ENABLE_PRICE_LEVEL, isPricingLevelsEnabled);
 	}
+
 }

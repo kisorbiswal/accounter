@@ -124,6 +124,11 @@ public class CompanyPreferences implements IAccounterServerCore {
 	public static int VAT_REP_ENDPERIOD_APR_JUL_OCT_JAN = 2;
 	public static int VAT_REP_ENDPERIOD_MAY_AUG_NOV_FEB = 3;
 
+	public static int NEGATIVE_NUMBER_NORMAL = 1;
+	public static int NEGATIVE_NUMBER_WITHIN_PARENTHESES = 2;
+	public static int NEGATIVE_NUMBER_MINUS_WITHIN_PARENTHESES = 3;
+	public static int NEGATIVE_NUMBER_WITH_TRAILING_MINUS = 4;
+
 	// Company Preferrences
 
 	// /**
@@ -145,6 +150,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 	FinanceDate endOfFiscalYear = new FinanceDate();
 
 	FinanceDate startDate = new FinanceDate();
+	
+	private int decimalNumber;
 
 	private FinanceDate depreciationStartDate = new FinanceDate();
 
@@ -164,6 +171,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	String VATtaxAgencyName = AccounterServerConstants.DEFAULT_VAT_AGENCY_NAME;
 	private String dateFormat = AccounterServerConstants.ddMMyyyy;
 	public long id;
+	private int negativeNumberShownType;
 
 	// currency related properties
 	private Currency primaryCurrency;
@@ -1464,5 +1472,34 @@ public class CompanyPreferences implements IAccounterServerCore {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 
+	}
+
+	/**
+	 * @return the negativeNumberShownType
+	 */
+	public int getNegativeNumberShownType() {
+		return negativeNumberShownType;
+	}
+
+	/**
+	 * @param negativeNumberShownType
+	 *            the negativeNumberShownType to set
+	 */
+	public void setNegativeNumberShownType(int negativeNumberShownType) {
+		this.negativeNumberShownType = negativeNumberShownType;
+	}
+
+	/**
+	 * @return the decimalNumber
+	 */
+	public int getDecimalNumber() {
+		return decimalNumber;
+	}
+
+	/**
+	 * @param decimalNumber the decimalNumber to set
+	 */
+	public void setDecimalNumber(int decimalNumber) {
+		this.decimalNumber = decimalNumber;
 	}
 }

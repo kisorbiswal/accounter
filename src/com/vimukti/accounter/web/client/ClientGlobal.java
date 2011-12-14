@@ -18,8 +18,13 @@ public class ClientGlobal extends AbstractGlobal {
 
 	@Override
 	public String toCurrencyFormat(double amount) {
+		int decimalNumber = preferences().getDecimalNumber();
+		String pattern="#,##0.";
+		for (int i = 0; i < decimalNumber; i++) {
+			pattern=pattern+"0";
+		}
 		com.google.gwt.i18n.client.NumberFormat format = com.google.gwt.i18n.client.NumberFormat
-				.getFormat("#,##0.00");
+				.getFormat(pattern);
 		return format.format(amount);
 	}
 

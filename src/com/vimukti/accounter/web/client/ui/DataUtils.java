@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -335,12 +336,39 @@ public class DataUtils {
 		if (currency == null) {
 			currency = Accounter.getCompany().getPrimaryCurrency();
 		}
-		return currency.getSymbol() + " " + DataUtils.getAmountAsString(amount);
+		if (amount < 0) {
+			ClientCompanyPreferences preferences = Accounter.getCompany()
+					.getPreferences();
+			switch (preferences.getNegativeNumberShownType()) {
+			case ClientCompanyPreferences.NEGATIVE_NUMBER_NORMAL:
+				return currency.getSymbol() + " "
+						+ DataUtils.getAmountAsString(amount);
+			case ClientCompanyPreferences.NEGATIVE_NUMBER_WITHIN_PARENTHESES:
+				return currency.getSymbol() + " " + "("
+						+ DataUtils.getAmountAsString(amount * -1) + ")";
+			case ClientCompanyPreferences.NEGATIVE_NUMBER_WITH_TRAILING_MINUS:
+				return currency.getSymbol() + " "
+						+ DataUtils.getAmountAsString(amount * -1) + "-";
+			case ClientCompanyPreferences.NEGATIVE_NUMBER_MINUS_WITHIN_PARENTHESES:
+				return currency.getSymbol() + " " + "(-)"
+						+ DataUtils.getAmountAsString(amount * -1);
+			}
+		} else {
+			return currency.getSymbol() + " "
+					+ DataUtils.getAmountAsString(amount);
+		}
+		return null;
 	}
 
 	public static String amountAsStringWithCurrency(Double amount,
 			ClientCurrency currency) {
-		return currency.getSymbol() + " " + DataUtils.getAmountAsString(amount);
+		if (amount < 0) {
+			return currency.getSymbol() + " " + "("
+					+ DataUtils.getAmountAsString(amount) + ")";
+		} else {
+			return currency.getSymbol() + " "
+					+ DataUtils.getAmountAsString(amount);
+		}
 	}
 
 	public static String getAmountAsString(double amount, String currencySymbol) {
