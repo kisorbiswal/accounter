@@ -863,7 +863,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	public void createCustomFieldControls() {
 		customFieldForm.createControls(getCompany(),
-				data == null ? null : data.getCustomFieldValues());
+				data == null ? null : data.getCustomFieldValues(), false);
 
 	}
 
@@ -945,7 +945,8 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	private void updateVendorObject() {
 
-		customFieldForm.updateValues(data.getCustomFieldValues(), getCompany());
+		customFieldForm.updateValues(data.getCustomFieldValues(), getCompany(),
+				false);
 		// Setting data from General Tab
 
 		// Setting Vendor Name
