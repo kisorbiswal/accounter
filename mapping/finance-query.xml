@@ -3132,7 +3132,8 @@
 		ON
 		P.ID=I.PRICE_LEVEL_ID
 		WHERE P.ID = :inputId AND
-		P.COMPANY_ID=:companyIdLIMIT 1
+		P.COMPANY_ID=:companyId
+		LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteItemGroup">
