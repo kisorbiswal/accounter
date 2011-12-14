@@ -73,9 +73,11 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 
 	private void addPortletToPage(ClientPortletConfiguration pc) {
 		Portlet portlet = createPortlet(pc);
-		portlet.setPortletPage(this);
-		columns[pc.column].addPortlet(portlet);
-		dragController.makeDraggable(portlet, portlet.getHeader());
+		if (portlet != null) {
+			portlet.setPortletPage(this);
+			columns[pc.column].addPortlet(portlet);
+			dragController.makeDraggable(portlet, portlet.getHeader());
+		}
 	}
 
 	public PortletPageConfigureDialog createSettingsDialog() {
