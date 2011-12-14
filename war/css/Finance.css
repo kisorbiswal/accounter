@@ -1185,6 +1185,7 @@ iframe,.address div {
 .view_manager {
 	margin-left: 20px;
 	padding-bottom: 50px;
+	width: 960px;
 }
 
 .view_manager_body {
@@ -2329,4 +2330,7 @@ input.date-field-textbox {
 }
 .search_textbox_labels td table td:FIRST-CHILD {
 	width:85px;
+}
+.frame_manager iframe {
+	border:0px;
 }
