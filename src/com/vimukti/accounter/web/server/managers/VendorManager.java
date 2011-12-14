@@ -1360,7 +1360,13 @@ public class VendorManager extends Manager {
 					.setLong("fromID", fromClientVendor.getID())
 					.setLong("toID", toClientVendor.getID())
 					.setEntity("company", company).executeUpdate();
+			session.getNamedQuery("update.merge.CreditsAndPayments")
+					.setLong("fromID", fromClientVendor.getID())
+					.setLong("toID", toClientVendor.getID()).executeUpdate();
 
+			session.getNamedQuery("update.merge.CustomFieldValue")
+					.setLong("fromID", fromClientVendor.getID())
+					.setLong("toID", toClientVendor.getID()).executeUpdate();
 			session.getNamedQuery(
 					"update.mergeVendor.CreditCardCharge.old.tonew")
 					.setLong("fromID", fromClientVendor.getID())
@@ -1382,12 +1388,6 @@ public class VendorManager extends Manager {
 					.setLong("toID", toClientVendor.getID())
 					.setEntity("company", company).executeUpdate();
 
-			// session.getNamedQuery(
-			// "update.mergeVendor.transactionMakeDeposit.old.tonew").setLong(
-			// "fromID", fromClientVendor.getID()).setLong("toID",
-			// toClientVendor.getID()).setEntity("company", company)
-			// .executeUpdate();
-
 			session.getNamedQuery(
 					"update.mergeVendor.vendorCreditMemo.old.tonew")
 					.setLong("fromID", fromClientVendor.getID())
@@ -1399,11 +1399,6 @@ public class VendorManager extends Manager {
 					.setLong("toID", toClientVendor.getID())
 					.setEntity("company", company).executeUpdate();
 
-			// session.getNamedQuery("update.mergeVendor.Entry.old.tonew").setLong(
-			// "fromID", fromClientVendor.getID()).setLong("toID",
-			// toClientVendor.getID()).setEntity("company", company)
-			// .executeUpdate();
-
 			session.getNamedQuery("update.mergeVendor.Item.old.tonew")
 					.setLong("fromID", fromClientVendor.getID())
 					.setLong("toID", toClientVendor.getID())
@@ -1414,20 +1409,9 @@ public class VendorManager extends Manager {
 					.setLong("toID", toClientVendor.getID())
 					.setEntity("company", company).executeUpdate();
 
-			// session.getNamedQuery("delete.vendorentry.old")
-			// .setLong("from", fromClientVendor.getID())
-			// .setEntity("company", company).executeUpdate();
-
-			// ServerConvertUtil convertUtil = new ServerConvertUtil();
-			// Vendor vendor = new Vendor();
-			//
-			// vendor = convertUtil.toServerObject(vendor, fromClientVendor,
-			// session);
-			// session.delete(vendor);
-
 			Vendor vendor = (Vendor) session.get(Vendor.class,
 					fromClientVendor.getID());
-			company.getCustomers().remove(vendor);
+			company.getVendors().remove(vendor);
 			session.saveOrUpdate(company);
 			vendor.setCompany(null);
 			session.delete(vendor);
