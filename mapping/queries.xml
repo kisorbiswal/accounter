@@ -153,6 +153,22 @@
 		update com.vimukti.accounter.core.Invoice set customer.id=:toID where
 		customer.id=:fromID and company=:company
 	</query>
+	<query name="update.merge.CreditsAndPayments">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.CreditsAndPayments set
+		payee.id=:toID where
+		payee.id=:fromID
+	</query>
+	<query name="update.merge.CustomFieldValue">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.CustomFieldValue set
+		payee.id=:toID
+		where
+		payee.id=:fromID
+	</query>
+
 	<query name="update.merge.cashsale.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
