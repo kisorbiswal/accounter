@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -25,6 +26,7 @@ public abstract class EditTable<R> extends SimplePanel {
 	private boolean isDisabled;
 	private boolean columnsCreated;
 	private int numOfRowsPerObject;
+	private FlexCellFormatter flexCellFormatter;
 
 	public EditTable() {
 		this(1);
@@ -38,7 +40,7 @@ public abstract class EditTable<R> extends SimplePanel {
 		this.add(table);
 		cellFormatter = table.getCellFormatter();
 		rowFormatter = table.getRowFormatter();
-
+		flexCellFormatter = table.getFlexCellFormatter();
 		addEmptyMessage(messages.noRecordsToShow());
 		for (int x = 0; x < numOfRowsPerObject; x++) {
 			rowFormatter.addStyleName(x, "editheader");
@@ -55,9 +57,11 @@ public abstract class EditTable<R> extends SimplePanel {
 		int index = columns.get(rowIndex).size() - 1;
 		column.setTable(this);
 		table.setWidget(rowIndex, index, column.getHeader());
+		flexCellFormatter.setColSpan(rowIndex, index, column.getColumnSpan());
 		// Set width
 		int width = column.getWidth();
 		if (width != -1) {
+
 			cellFormatter.setWidth(rowIndex, index, width + "px");
 		}
 	}
@@ -129,6 +133,7 @@ public abstract class EditTable<R> extends SimplePanel {
 				EditColumn<R> column = list.get(y);
 				IsWidget widget = column.getWidget(context);
 				table.setWidget(index, y, widget);
+				flexCellFormatter.setColSpan(index, y, column.getColumnSpan());
 				column.render(widget, context);
 			}
 			index++;
