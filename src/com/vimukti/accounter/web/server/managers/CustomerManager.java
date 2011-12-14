@@ -498,6 +498,14 @@ public class CustomerManager extends Manager {
 					.setLong("toID", toClientCustomer.getID())
 					.setEntity("company", company).executeUpdate();
 
+			session.getNamedQuery("update.merge.CreditsAndPayments")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID()).executeUpdate();
+
+			session.getNamedQuery("update.merge.CustomFieldValue")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID()).executeUpdate();
+
 			session.getNamedQuery("update.merge.cashsale.old.tonew")
 					.setLong("fromID", fromClientCustomer.getID())
 					.setLong("toID", toClientCustomer.getID())
@@ -512,12 +520,6 @@ public class CustomerManager extends Manager {
 					.setLong("fromID", fromClientCustomer.getID())
 					.setLong("toID", toClientCustomer.getID())
 					.setEntity("company", company).executeUpdate();
-			//
-			// session.getNamedQuery("update.merge.Entry.old.tonew")
-			// .setLong("fromID", fromClientCustomer.getID())
-			// .setLong("toID", toClientCustomer.getID())
-			// .setString("memo", toClientCustomer.getName())
-			// .setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.CustomerPrePayment.old.tonew")
 					.setLong("fromID", fromClientCustomer.getID())
@@ -539,12 +541,6 @@ public class CustomerManager extends Manager {
 					.setLong("toID", toClientCustomer.getID())
 					.setEntity("company", company).executeUpdate();
 
-			// session.getNamedQuery(
-			// "update.merge.transactionMakeDeposit.old.tonew")
-			// .setLong("fromID", fromClientCustomer.getID())
-			// .setLong("toID", toClientCustomer.getID())
-			// .setEntity("company", company).executeUpdate();
-
 			session.getNamedQuery("update.merge.writeCheck.old.tonew")
 					.setLong("fromID", fromClientCustomer.getID())
 					.setLong("toID", toClientCustomer.getID())
@@ -555,10 +551,6 @@ public class CustomerManager extends Manager {
 					.setLong("toID", toClientCustomer.getID())
 					.setEntity("company", company).executeUpdate();
 
-			// session.getNamedQuery("delete.entry.old")
-			// .setLong("from", fromClientCustomer.getID())
-			// .setEntity("company", company).executeUpdate();
-
 			Customer customer = (Customer) session.get(Customer.class,
 					fromClientCustomer.getID());
 			company.getCustomers().remove(customer);
@@ -568,6 +560,7 @@ public class CustomerManager extends Manager {
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();
+			e.printStackTrace();
 		}
 
 	}
