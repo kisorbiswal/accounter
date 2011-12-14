@@ -408,13 +408,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	// }
 	public void createCustomFieldControls() {
 		customFieldForm.createControls(getCompany(),
-				data == null ? null : data.getCustomFieldValues());
+				data == null ? null : data.getCustomFieldValues(), true);
 		customFieldForm.setDisabled(isInViewMode());
 	}
 
 	private void updateData() {
 
-		customFieldForm.updateValues(data.getCustomFieldValues(), getCompany());
+		customFieldForm.updateValues(data.getCustomFieldValues(), getCompany(),
+				true);
 		// Setting data from General Tab
 
 		// Setting customer Name
