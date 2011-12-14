@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import java.util.List;
+
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,12 +15,14 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.help.HelpDialog;
@@ -91,8 +95,7 @@ public class ViewManager extends HorizontalPanel {
 		HorizontalPanel mainPanel = new HorizontalPanel();
 		mainPanel.setWidth("100%");
 		VerticalPanel rightPanel = new VerticalPanel();
-		rightPanel.add(getAdvertisePanel(rightPanel));
-
+		getAdvertisePanel(rightPanel);
 		VerticalPanel leftPanel = new VerticalPanel();
 		leftPanel.addStyleName("view_manager_body");
 		// leftPanel.setWidth("100%");
@@ -114,7 +117,6 @@ public class ViewManager extends HorizontalPanel {
 		mainPanel.add(leftPanel);
 		leftPanel.getElement().getParentElement().addClassName("view_manager");
 		rightPanel.addStyleName("frame_manager");
-		rightPanel.setVisible(false);
 		mainPanel.add(rightPanel);
 		this.addStyleName("main_manager");
 		this.add(mainPanel);
@@ -122,10 +124,32 @@ public class ViewManager extends HorizontalPanel {
 		initializeActivityManager();
 	}
 
-	private Frame getAdvertisePanel(VerticalPanel rightPanel) {
-		Frame advertiseFrame = new Frame(
-				"file:///C:/Documents%20and%20Settings/Administrator/Desktop/JS/JavaScriptPractise.html");
-		return advertiseFrame;
+	@SuppressWarnings("deprecation")
+	private void getAdvertisePanel(final VerticalPanel rightPanel) {
+		final List<ClientAdvertisement> advertisements = getCompany()
+				.getAdvertisements();
+		if ((advertisements != null) && !(advertisements.isEmpty())) {
+			final double addPanelWidth = advertisements.get(0).getWidth();
+			Window.addWindowResizeListener(new WindowResizeListener() {
+
+				@Override
+				public void onWindowResized(int width, int height) {
+					if ((addPanelWidth + 960) <= Window.getClientWidth()) {
+						rightPanel.setVisible(true);
+					} else {
+						rightPanel.setVisible(false);
+					}
+				}
+			});
+			if ((addPanelWidth + 960) <= Window.getClientWidth()) {
+				for (ClientAdvertisement clientAdvertisement : advertisements) {
+					Frame frame = new Frame(clientAdvertisement.getUrl());
+					frame.setSize(clientAdvertisement.getWidth() + "px",
+							clientAdvertisement.getHeight() + "px");
+					rightPanel.add(frame);
+				}
+			}
+		}
 	}
 
 	private HelpPanel helpPanel;
@@ -706,4 +730,5 @@ public class ViewManager extends HorizontalPanel {
 	public boolean isHelpPanelEnabled() {
 		return this.isHelpPanelEnabled;
 	}
+
 }

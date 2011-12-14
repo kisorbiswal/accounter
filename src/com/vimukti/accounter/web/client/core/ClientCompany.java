@@ -132,6 +132,7 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientLocation> locations;
 	// private ArrayList<ClientTaxAgency> taxAgencies;
+	private ArrayList<ClientAdvertisement> advertisements;
 
 	private ArrayList<ClientItem> items;
 
@@ -1458,6 +1459,10 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientLocation getLocation(long locationId) {
 		return Utility.getObject(this.locations, locationId);
+	}
+
+	public ClientAdvertisement getAdvertisement(long advertiseId) {
+		return Utility.getObject(this.advertisements, advertiseId);
 	}
 
 	public void deleteTaxGroup(long taxGroup) {
@@ -3133,6 +3138,21 @@ public class ClientCompany implements IAccounterCore {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @return the advertisements
+	 */
+	public ArrayList<ClientAdvertisement> getAdvertisements() {
+		return advertisements;
+	}
+
+	/**
+	 * @param advertisements
+	 *            the advertisements to set
+	 */
+	public void setAdvertisements(ArrayList<ClientAdvertisement> advertisements) {
+		this.advertisements = advertisements;
 	}
 
 }
