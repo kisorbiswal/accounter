@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
+import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -541,6 +542,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 		wareHouse.onUpdate(session);
 		session.saveOrUpdate(wareHouse);
+		ChangeTracker.put(wareHouse);
 	}
 
 	@Override
