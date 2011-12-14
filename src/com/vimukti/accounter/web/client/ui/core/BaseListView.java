@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -202,8 +203,11 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
 		fromItem.setTitle(Accounter.messages().from());
-		fromItem.setDatethanFireEvent(Accounter.getStartDate());
-
+		if (Accounter.getStartDate() != null) {
+			fromItem.setDatethanFireEvent(Accounter.getStartDate());
+		} else {
+			fromItem.setDatethanFireEvent(new ClientFinanceDate());
+		}
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
 		toItem.setTitle(Accounter.messages().to());
