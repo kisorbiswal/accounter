@@ -122,6 +122,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private static final long DONT_INCLUDE_ESTIMATES = 0x10000000000000L;
 	private static final long INCLUDE_ACCEPTED_ESTIMATES = 0x20000000000000L;
 	private static final long INCLUDE_PENDING_ACCEPTED_ESTIMATES = 0x4000000000000L;
+	public static final long ENABLE_PRICE_LEVEL = 0x100000000000000L;
 
 	private static final long WANT_DISCOUNTS = 0x80000000000000L;
 
@@ -1279,4 +1280,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		this.set(WANT_DISCOUNTS, isTrackDiscounts);
 	}
 
+	public boolean isPricingLevelsEnabled() {
+		return get(ENABLE_PRICE_LEVEL);
+	}
+
+	public void setPricingLevelsEnabled(boolean isPricingLevelsEnabled) {
+		set(ENABLE_PRICE_LEVEL, isPricingLevelsEnabled);
+	}
 }
