@@ -2430,6 +2430,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 						if (item.getTotalAmount() > 0.0) {
 							ClientBudgetList e = new ClientBudgetList();
 							e.setAccount(item.getAccount());
+							e.setAccountName(item.getAccount().getName());
 							e.setJanuaryAmount(item.getJanuaryAmount());
 							e.setFebrauaryAmount(item.getFebruaryAmount());
 							e.setMarchAmount(item.getMarchAmount());

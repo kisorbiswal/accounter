@@ -421,6 +421,8 @@ public class FinanceTool {
 				session.delete(serverObject);
 			} else if (serverObject instanceof Reconciliation) {
 				session.delete(serverObject);
+			} else if (serverObject instanceof Budget) {
+				session.delete(serverObject);
 			} else {
 				if (canDelete(serverClass.getSimpleName(),
 						Long.parseLong(arg1), company.getID())) {
