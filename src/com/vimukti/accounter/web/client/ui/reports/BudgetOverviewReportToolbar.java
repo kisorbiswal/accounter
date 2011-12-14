@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -19,11 +18,11 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 	protected SelectCombo budgetName;
 
 	protected List<String> statusList, dateRangeList, yearRangeList;
-	private Button updateButton;
+	// private Button updateButton;
 	List<String> budgetArray = new ArrayList<String>();
 	List<Long> idArray = new ArrayList<Long>();
 
-	private Long budgetId;
+	long budgetId = 999L;
 	int monthSelected;
 
 	public BudgetOverviewReportToolbar() {
@@ -33,9 +32,8 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 	@Override
 	public void changeDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		if (budgetId != null) {
-			reportview.makeReportRequest(budgetId, startDate, endDate);
-		}
+
+		reportview.makeReportRequest(budgetId, startDate, endDate);
 
 	}
 
@@ -74,14 +72,14 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 					}
 				});
 
-		updateButton = new Button(Accounter.messages().update());
-		updateButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				changeDates(startDate, endDate);
-			}
-		});
+		// updateButton = new Button(Accounter.messages().update());
+		// updateButton.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// changeDates(startDate, endDate);
+		// }
+		// });
 
 		// fromItem.setDisabled(true);
 		// toItem.setDisabled(true);
@@ -99,11 +97,6 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 		});
 
 		addItems(budgetName);
-
-		add(updateButton);
-		this.setCellVerticalAlignment(updateButton,
-				HasVerticalAlignment.ALIGN_MIDDLE);
-
 	}
 
 	public void createData() {
@@ -130,13 +123,13 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 
 						if (idArray.size() > 0) {
 							budgetId = idArray.get(0);
-							monthSelected = 1;
-							changeDates(new ClientFinanceDate(),
-									new ClientFinanceDate());
 						} else {
-							changeDates(new ClientFinanceDate(),
-									new ClientFinanceDate());
+							budgetId = 999L;
 						}
+						monthSelected = 1;
+						changeDates(new ClientFinanceDate(),
+								new ClientFinanceDate());
+
 					}
 				});
 

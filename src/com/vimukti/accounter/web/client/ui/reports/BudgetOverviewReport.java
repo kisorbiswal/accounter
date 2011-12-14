@@ -20,13 +20,9 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 
 	@Override
 	public void OnRecordClick(ClientBudgetList record) {
-		record.setStartDate(toolbar.getStartDate());
-		record.setEndDate(toolbar.getEndDate());
-		record.setDateRange(toolbar.getSelectedDateRange());
 
-		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(record.getTransactionType(),
-					record.getTransactionId());
+		ReportsRPC.openTransactionView(record.getTransactionType(),
+				record.getTransactionId());
 	}
 
 	@Override
@@ -39,7 +35,11 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 			ClientFinanceDate end) {
 
 		budgetId = id;
-		Accounter.createReportService().getBudgetItemsList(id, this);
+		if (budgetId == 999L) {
+			super.addEmptyMessage(Accounter.messages().noRecordsToShow());
+		} else {
+			Accounter.createReportService().getBudgetItemsList(id, this);
+		}
 	}
 
 	@Override

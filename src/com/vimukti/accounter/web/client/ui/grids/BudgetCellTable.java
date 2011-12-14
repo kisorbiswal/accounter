@@ -472,6 +472,7 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 
 		for (ClientBudgetItem budgetItem : data.getBudgetItem()) {
 			int i = 0;
+			budgetItem.setAccountsName(budgetItem.getAccount().getName());
 			for (ClientBudgetItem item : list) {
 				if (item.getAccount().getID() == budgetItem.getAccount()
 						.getID()) {
