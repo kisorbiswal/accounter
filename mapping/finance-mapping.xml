@@ -1528,6 +1528,8 @@
 		</property>
 		<property name="isLogoAdded" column="IS_LOGO_ADDED">
 		</property>
+		<property name="isCustomFile" column="IS_CUSTOM_FILE">
+		</property>
 		<property name="payPalEmailID" column="PAYPAL_EMAIL_ID">
 		</property>
 		<property name="logoAlignmentType" column="LOGO_ALIGNMENT_TYPE">
