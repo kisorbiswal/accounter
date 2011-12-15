@@ -720,10 +720,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// priceLevel.getID()));
 		//
 		// }
-		// if (this.transaction == null || customerTransactionTable != null) {
-		// customerTransactionTable.setPricingLevel(priceLevel);
-		// customerTransactionTable.updatePriceLevel();
-		// }
+		if (this.transaction == null || customerTransactionTable != null) {
+			customerTransactionTable.setPricingLevel(priceLevel);
+			// customerTransactionTable.updatePriceLevel();
+		}
 		updateNonEditableItems();
 
 	}
@@ -766,7 +766,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	protected void customerSelected(final ClientCustomer customer) {
-
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 
 		if (this.getCustomer() != null && !this.getCustomer().equals(customer)
