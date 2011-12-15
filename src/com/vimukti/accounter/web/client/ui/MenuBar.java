@@ -43,8 +43,6 @@ public class MenuBar {
 
 	private boolean isKeepTrackofBills;
 
-	private boolean isDoyouKeepTrackofBills;
-
 	private boolean canViewReports;
 
 	private boolean iswareHouseEnabled;
@@ -529,7 +527,7 @@ public class MenuBar {
 		bankingMenuBar.addMenuItem(messages.makeDeposit(),
 				HistoryTokens.DEPOSITETRANSFERFUNDS);
 
-		if (isDoyouKeepTrackofBills) {
+		if (isKeepTrackofBills) {
 			bankingMenuBar.addMenuItem(messages.payBills(),
 					HistoryTokens.PAYBILL);
 		}
@@ -614,7 +612,7 @@ public class MenuBar {
 					messages.payees(Global.get().Vendors()) + " "
 							+ messages.items(), HistoryTokens.VENDORITEMS);
 
-			if (isDoyouKeepTrackofBills) {
+			if (isKeepTrackofBills) {
 				vendorListMenuBar.addMenuItem("Bills And Expenses",
 						HistoryTokens.BILLSANDEXPENSES);
 			}
