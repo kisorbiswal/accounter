@@ -180,7 +180,8 @@ public class MenuBar {
 				HistoryTokens.GENERALSETTINGS);
 		settingsMenuBar.addMenuItem(messages.translation(),
 				HistoryTokens.TRANSLATION);
-		settingsMenuBar.addMenuItem("Check Print", HistoryTokens.CHECK_PRINT);
+		// settingsMenuBar.addMenuItem("Check Print",
+		// HistoryTokens.CHECK_PRINT);
 
 		return settingsMenuBar;
 	}
