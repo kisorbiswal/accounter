@@ -1,11 +1,9 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style>
-		.important {
+	<ui:style>.important {
 			font-weight: bold;
-		}
-	</ui:style>
+		}</ui:style>
 	<g:VerticalPanel styleName="companyInfoPanel" spacing="8">
 		<g:Label ui:field="managingBillLabelItem" styleName="header" />
 		<g:Label ui:field="managingBilldescritionLabel" />
@@ -14,5 +12,8 @@
 			<g:RadioButton name="managingBillRadioButton" ui:field="managingBillNoRadioButton"
 				checked="true" />
 		</g:HorizontalPanel>
+		<g:HorizontalPanel spacing="10">
+				<g:CheckBox ui:field="isPriceLevelsEnabled" />
+			</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 
