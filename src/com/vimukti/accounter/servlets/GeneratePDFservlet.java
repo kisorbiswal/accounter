@@ -22,6 +22,7 @@ import org.zefer.pd4ml.PD4Constants;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditNotePDFTemplete;
+import com.vimukti.accounter.core.CreditNotePdfGeneration;
 import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.Invoice;
@@ -33,6 +34,7 @@ import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -65,11 +67,12 @@ public class GeneratePDFservlet extends BaseServlet {
 		super.service(arg0, arg1);
 	}
 
-	public void generatePDF(HttpServletRequest request,
+	public void generateHtmlPDF(HttpServletRequest request,
 			HttpServletResponse response, String companyName) {
-		HashMap map = null;
+
 		ITemplate template = null;
-		Converter converter;
+		Converter converter = null;
+		BrandingTheme brandingTheme = null;
 		Invoice invoice = null;
 		String fileName = "";
 		int transactionType;
@@ -97,8 +100,18 @@ public class GeneratePDFservlet extends BaseServlet {
 						.getCompanyManager().getClientCompanyPreferences(
 								company));
 
-				String objectId = request.getParameter("objectId");
+				String brandingThemeId = request
+						.getParameter("brandingThemeId");
+				if (brandingThemeId != null) {
+					brandingTheme = (BrandingTheme) financetool.getManager()
+							.getServerObjectForid(
+									AccounterCoreType.BRANDINGTHEME,
+									Long.parseLong(brandingThemeId));
 
+					converter = new Converter(
+							getPageSizeType(brandingTheme.getPageSizeType()));
+				}
+				String objectId = request.getParameter("objectId");
 				String multipleId = request.getParameter("multipleIds");
 				String[] ids = null;
 				if (multipleId != null) {
@@ -107,14 +120,6 @@ public class GeneratePDFservlet extends BaseServlet {
 
 				// this is used to print multiple pdf documents at a time
 				if (multipleId != null) {
-					String brandingThemeId = request
-							.getParameter("brandingThemeId");
-					BrandingTheme brandingTheme = (BrandingTheme) financetool
-							.getManager().getServerObjectForid(
-									AccounterCoreType.BRANDINGTHEME,
-									Long.parseLong(brandingThemeId));
-					converter = new Converter(
-							getPageSizeType(brandingTheme.getPageSizeType()));
 
 					transactionType = Integer.parseInt(request
 							.getParameter("type"));
@@ -158,15 +163,6 @@ public class GeneratePDFservlet extends BaseServlet {
 					}
 
 				} else if (objectId != null) {
-
-					String brandingThemeId = request
-							.getParameter("brandingThemeId");
-					BrandingTheme brandingTheme = (BrandingTheme) financetool
-							.getManager().getServerObjectForid(
-									AccounterCoreType.BRANDINGTHEME,
-									Long.parseLong(brandingThemeId));
-					converter = new Converter(
-							getPageSizeType(brandingTheme.getPageSizeType()));
 
 					transactionType = Integer.parseInt(request
 							.getParameter("type"));
@@ -274,7 +270,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			HttpServletResponse response, String companyName) {
 		HashMap map = null;
 		ITemplate template = null;
-		Converter converter;
+		Converter converter = null;
 		Invoice invoice = null;
 		String fileName = "";
 		int transactionType;
@@ -291,152 +287,141 @@ public class GeneratePDFservlet extends BaseServlet {
 					COMPANY_ID);
 			StringBuilder outPutString = new StringBuilder();
 			transactionType = 0;
-			FinanceTool financetool = new FinanceTool();
-			TemplateBuilder.setCmpName(companyName);
+			try {
+				FinanceTool financetool = new FinanceTool();
+				TemplateBuilder.setCmpName(companyName);
 
-			Company company = financetool.getCompany(companyID);
+				Company company = financetool.getCompany(companyID);
 
-			CompanyPreferenceThreadLocal.set(financetool.getCompanyManager()
-					.getClientCompanyPreferences(company));
+				CompanyPreferenceThreadLocal.set(financetool
+						.getCompanyManager().getClientCompanyPreferences(
+								company));
 
-			String objectId = request.getParameter("objectId");
+				String objectId = request.getParameter("objectId");
 
-			String multipleId = request.getParameter("multipleIds");
-			String[] ids = null;
-			if (multipleId != null) {
-				ids = multipleId.split(",");
-			}
-			String brandingThemeId = request.getParameter("brandingThemeId");
-			BrandingTheme brandingTheme = (BrandingTheme) financetool
-					.getManager().getServerObjectForid(
-							AccounterCoreType.BRANDINGTHEME,
-							Long.parseLong(brandingThemeId));
-			converter = new Converter(
-					getPageSizeType(brandingTheme.getPageSizeType()));
-			// this is used to print multiple pdf documents at a time
-			if (multipleId != null) {
-				transactionType = Integer
-						.parseInt(request.getParameter("type"));
+				String multipleId = request.getParameter("multipleIds");
+				String[] ids = null;
+				if (multipleId != null) {
+					ids = multipleId.split(",");
+				}
+				String brandingThemeId = request
+						.getParameter("brandingThemeId");
+				BrandingTheme brandingTheme = null;
+				if (brandingThemeId != null) {
+					brandingTheme = (BrandingTheme) financetool.getManager()
+							.getServerObjectForid(
+									AccounterCoreType.BRANDINGTHEME,
+									Long.parseLong(brandingThemeId));
 
-				for (int i = 0; i < ids.length; i++) {
+					converter = new Converter(
+							getPageSizeType(brandingTheme.getPageSizeType()));
 
+				}
+
+				// this is used to print multiple pdf documents at a time
+				if (multipleId != null) {
+					transactionType = Integer.parseInt(request
+							.getParameter("type"));
+
+					for (int i = 0; i < ids.length; i++) {
+
+						if (transactionType == Transaction.TYPE_INVOICE) {
+							invoice = (Invoice) financetool.getManager()
+									.getServerObjectForid(
+											AccounterCoreType.INVOICE,
+											Long.parseLong(ids[i]));
+
+							fileName = "Invoice_" + invoice.getNumber();
+
+							map = Odt2PdfGeneration(invoice, company,
+									brandingTheme);
+
+						}
+						if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+							CustomerCreditMemo memo = (CustomerCreditMemo) financetool
+									.getManager()
+									.getServerObjectForid(
+											AccounterCoreType.CUSTOMERCREDITMEMO,
+											Long.parseLong(ids[i]));
+							fileName = "CreditNote" + memo.getNumber();
+							map = Odt2PdfGeneration(memo, company,
+									brandingTheme);
+						}
+
+					}
+
+				} else if (objectId != null) {
+
+					transactionType = Integer.parseInt(request
+							.getParameter("type"));
+
+					// for printing individual pdf documents
 					if (transactionType == Transaction.TYPE_INVOICE) {
+
 						invoice = (Invoice) financetool.getManager()
 								.getServerObjectForid(
 										AccounterCoreType.INVOICE,
-										Long.parseLong(ids[i]));
-
+										Long.parseLong(objectId));
 						fileName = "Invoice_" + invoice.getNumber();
-
 						map = Odt2PdfGeneration(invoice, company, brandingTheme);
 
-					}
-					if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+					} else if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+						// for Credit Note
+
 						CustomerCreditMemo memo = (CustomerCreditMemo) financetool
 								.getManager().getServerObjectForid(
 										AccounterCoreType.CUSTOMERCREDITMEMO,
-										Long.parseLong(ids[i]));
+										Long.parseLong(objectId));
 
-						printTemplete = getCreditReportTemplete(memo,
-								brandingTheme, company);
-
-						fileName = printTemplete.getFileName();
-
-						outPutString = outPutString.append(printTemplete
-								.getPdfData());
+						fileName = "CreditNote" + memo.getNumber();
+						map = Odt2PdfGeneration(memo, company, brandingTheme);
 
 					}
-
-					outPutString.append(PAGE_BREAK);
-
+				}
+				// for Reports
+				else {
+					transactionType = 0;
+					converter = new Converter();
+					template = getReportTemplate(company, request, financetool,
+							footerImg, style);
+					fileName = template.getFileName();
 				}
 
-			} else if (objectId != null) {
+				response.setContentType("application/pdf");
+				response.setHeader("Content-disposition",
+						"attachment; filename=" + fileName.replace(" ", "")
+								+ ".pdf");
+				sos = response.getOutputStream();
 
-				transactionType = Integer
-						.parseInt(request.getParameter("type"));
+				switch (transactionType) {
+				// for invoice or CreditNote
+				case Transaction.TYPE_INVOICE:
+				case Transaction.TYPE_CUSTOMER_CREDIT_MEMO:
 
-				// for printing individual pdf documents
-				if (transactionType == Transaction.TYPE_INVOICE) {
+					IContext context = (IContext) map.get("context");
+					IXDocReport report = (IXDocReport) map.get("report");
 
-					invoice = (Invoice) financetool.getManager()
-							.getServerObjectForid(AccounterCoreType.INVOICE,
-									Long.parseLong(objectId));
-					fileName = "Invoice_" + invoice.getNumber();
-					map = Odt2PdfGeneration(invoice, company, brandingTheme);
+					Options options = Options.getTo(ConverterTypeTo.PDF).via(
+							ConverterTypeVia.ITEXT);
+					report.convert(context, options, sos);
 
-				} else if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-					// for Credit Note
+					break;
 
-					CustomerCreditMemo memo = (CustomerCreditMemo) financetool
-							.getManager().getServerObjectForid(
-									AccounterCoreType.CUSTOMERCREDITMEMO,
-									Long.parseLong(objectId));
-
-					printTemplete = getCreditReportTemplete(memo,
-							brandingTheme, company);
-
-					fileName = printTemplete.getFileName();
-
-					outPutString = outPutString.append(printTemplete
-							.getPdfData());
-
+				default:
+					// for generating pdf document for reports
+					converter.generatePdfReports(template, sos);
+					break;
 				}
+
+				System.err.println("Pdf created");
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			// for Reports
-			else {
-				transactionType = 0;
-				converter = new Converter();
-				template = getReportTemplate(company, request, financetool,
-						footerImg, style);
-				fileName = template.getFileName();
-			}
-
-			response.setContentType("application/pdf");
-			response.setHeader("Content-disposition", "attachment; filename="
-					+ fileName.replace(" ", "") + ".pdf");
-			sos = response.getOutputStream();
-
-			switch (transactionType) {
-			// for invoice
-			case Transaction.TYPE_INVOICE:
-
-				IContext context = (IContext) map.get("context");
-				IXDocReport report = (IXDocReport) map.get("report");
-
-				Options options = Options.getTo(ConverterTypeTo.PDF).via(
-						ConverterTypeVia.ITEXT);
-				report.convert(context, options, sos);
-
-				break;
-			// for credit note
-			case Transaction.TYPE_CUSTOMER_CREDIT_MEMO:
-				String creditOutput = outPutString.toString().replaceAll(
-						"</html>", "");
-				creditOutput = creditOutput.toString().replaceAll("<html>", "");
-
-				creditOutput = "<html>" + creditOutput + "</html>";
-
-				java.io.InputStream inputStr = new ByteArrayInputStream(
-						creditOutput.toString().getBytes());
-				InputStreamReader creditReader = new InputStreamReader(inputStr);
-				converter
-						.generatePdfDocuments(printTemplete, sos, creditReader);
-				break;
-			default:
-				// for generating pdf document for reports
-				converter.generatePdfReports(template, sos);
-				break;
-			}
-
-			System.err.println("Pdf created");
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
 
 		}
@@ -483,13 +468,33 @@ public class GeneratePDFservlet extends BaseServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String companyName = getCompanyName(request);
+		BrandingTheme brandingTheme = null;
 		if (companyName == null)
 			return;
-		// for generating reports using html templates
-		generatePDF(request, response, companyName);
 
-		// TODO for genearting reports using XdocReport
-		// generateODT2PDF(request, response, companyName);
+		String brandingThemeId = request.getParameter("brandingThemeId");
+		FinanceTool financetool = new FinanceTool();
+		if (brandingThemeId != null) {
+			// If branding theme is valid, then check for isCustomFile.If
+			// isCustomFile is true , then call generateODT2PDF and if false,
+			// then call generateHtmlPDF
+			brandingTheme = (BrandingTheme) financetool.getManager()
+					.getServerObjectForid(AccounterCoreType.BRANDINGTHEME,
+							Long.parseLong(brandingThemeId));
+
+			if (brandingTheme.isCustomFile()) {
+				// for genearting reports using XdocReport
+				generateODT2PDF(request, response, companyName);
+			} else {
+				// for generating reports using html templates
+				generateHtmlPDF(request, response, companyName);
+			}
+
+		} else {
+			// for all kinds of other reports
+			generateODT2PDF(request, response, companyName);
+		}
+
 	}
 
 	@Override
@@ -543,41 +548,61 @@ public class GeneratePDFservlet extends BaseServlet {
 		return null;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private HashMap Odt2PdfGeneration(Invoice invoice, Company company,
+	private HashMap Odt2PdfGeneration(Transaction transaction, Company company,
 			BrandingTheme brandingTheme) {
+
 		try {
-			String templeteName = "";
-			String invStyle = brandingTheme.getInvoiceTempleteName();
-			InvoicePdfGeneration pdfGeneration = null;
-			if (invStyle.contains(CLASSIC)) {
-				templeteName = "templetes" + File.separator
-						+ "classicinvoiceodt" + ".odt";
 
-			} else if (invStyle.contains(PLAIN)) {
-				templeteName = "templetes" + File.separator + "plainInvoiceodt"
-						+ ".odt";
+			CreditNotePdfGeneration creditPdfGeneration = null;
+			InvoicePdfGeneration invoicePdfGeneration = null;
+			String templeteName = null;
 
-			} else if (invStyle.contains(PROFESSIONAL)) {
-				templeteName = "templetes" + File.separator
-						+ "professionalinvoiceodt" + ".odt";
+			if (transaction instanceof Invoice) {
+				// for Invoice
+				if (brandingTheme.getInvoiceTempleteName().contains(
+						"Classic Template")) {
+					templeteName = "templetes" + File.separator
+							+ "InvoiceDocx.docx";
+				} else {
 
-			} else if (invStyle.contains(MODERN)) {
-				templeteName = "templetes" + File.separator
-						+ "modernInvoiceodt" + ".odt";
-
+					templeteName = ServerConfiguration.getAttachmentsDir()
+							+ "/" + company.getId() + "/" + "templateFiles"
+							+ "/" + brandingTheme.getID() + "/"
+							+ brandingTheme.getInvoiceTempleteName();
+				}
+				invoicePdfGeneration = new InvoicePdfGeneration(
+						(Invoice) transaction, company, brandingTheme);
 			}
-			pdfGeneration = new InvoicePdfGeneration(invoice, company,
-					brandingTheme);
+
+			if (transaction instanceof CustomerCreditMemo) {
+				// For CreditNote
+				if (brandingTheme.getCreditNoteTempleteName().contains(
+						"Classic Template")) {
+					templeteName = "templetes" + File.separator
+							+ "CreditDocx.docx";
+				} else {
+					templeteName = ServerConfiguration.getAttachmentsDir()
+							+ "/" + company.getId() + "/" + "templateFiles"
+							+ "/" + brandingTheme.getID() + "/"
+							+ brandingTheme.getCreditNoteTempleteName();
+				}
+				creditPdfGeneration = new CreditNotePdfGeneration(
+						(CustomerCreditMemo) transaction, company,
+						brandingTheme);
+			}
+
 			InputStream in = new BufferedInputStream(new FileInputStream(
 					templeteName));
+
 			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
 					in, TemplateEngineKind.Velocity);
-
 			IContext context = report.createContext();
 
-			context = pdfGeneration.assignValues(context, report);
-
+			if (transaction instanceof CustomerCreditMemo) {
+				context = creditPdfGeneration.assignValues(context, report);
+			} else if (transaction instanceof Invoice) {
+				context = invoicePdfGeneration.assignValues(context, report);
+			}
 			HashMap objects = new HashMap();
 			objects.put("context", context);
 			objects.put("report", report);
@@ -588,6 +613,6 @@ public class GeneratePDFservlet extends BaseServlet {
 		}
 
 		return null;
-	}
 
+	}
 }
