@@ -817,6 +817,10 @@ public class AccounterMenuBar extends HorizontalPanel {
 			companyListMenuBar.addMenuItem(ActionFactory
 					.getPaymentsAction(PaymentsAction.COMPANY));
 		companyListMenuBar.addMenuItem(ActionFactory.getSalesPersonAction());
+		if (getPreferences().isPricingLevelsEnabled()) {
+			companyListMenuBar.addMenuItem(ActionFactory
+					.getPriceLevelListAction());
+		}
 		// companyListMenuBar.addItem(ActionFactory.getWarehouseListAction());
 		// companyListMenuBar.addItem(ActionFactory.getRecurringsListAction());
 		companyListMenuBar.addMenuItem(ActionFactory
