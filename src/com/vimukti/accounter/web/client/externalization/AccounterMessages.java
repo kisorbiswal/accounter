@@ -4737,7 +4737,7 @@ public interface AccounterMessages extends Messages {
 
 	public String customerprePayment();
 
-	public String customerRefund();
+	// public String customerRefund();
 
 	public String financeLogger();
 
