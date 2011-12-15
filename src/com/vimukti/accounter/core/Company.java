@@ -272,6 +272,8 @@ public class Company implements IAccounterServerCore {
 
 	private Set<CustomField> customFields = new HashSet<CustomField>();
 
+	private Set<ChequeLayout> chequeLayouts = new HashSet<ChequeLayout>();
+
 	String bankAccountNo;
 
 	String sortCode;
@@ -1493,6 +1495,14 @@ public class Company implements IAccounterServerCore {
 
 	public void setCashDiscountAccount(Account cashDiscountAccount) {
 		this.cashDiscountAccount = cashDiscountAccount;
+	}
+
+	public Set<ChequeLayout> getChequeLayouts() {
+		return chequeLayouts;
+	}
+
+	public void setChequeLayouts(Set<ChequeLayout> chequeLayouts) {
+		this.chequeLayouts = chequeLayouts;
 	}
 
 }

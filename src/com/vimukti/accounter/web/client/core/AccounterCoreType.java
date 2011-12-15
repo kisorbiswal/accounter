@@ -225,7 +225,10 @@ public enum AccounterCoreType implements IsSerializable {
 	PORTLET_CONFIG("ClientPortletConfiguration", "PortletConfiguration"),
 
 	PORTLET_PAGE_CONFIG("ClientPortletPageConfiguration",
-			"PortletPageConfiguration");
+			"PortletPageConfiguration"),
+
+	CHEQUE_LAYOUT("ClientChequeLayout", "ChequeLayout");
+
 	private String clientName;
 	private String serverName;
 
@@ -294,7 +297,9 @@ public enum AccounterCoreType implements IsSerializable {
 				return TRANSACTION_RECEIVEPAYMENT;
 			} else if (upperCaseString.equals("TRANSACTIONPAYBILL")) {
 				return TRANSACTION_PAYBILL;
-			} 
+			} else if (upperCaseString.equals("CHEQUELAYOUT")) {
+				return CHEQUE_LAYOUT;
+			}
 		}
 
 		return type;
