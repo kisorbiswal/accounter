@@ -22,7 +22,7 @@ public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 	public RadioGroupItem levelRadio;
 	public DynamicForm nameDescForm;
 	private String incrOrDecrPercentValue;
-	private PriceLevelListDialog parent;
+	private final PriceLevelListDialog parent;
 
 	public AddPriceLevelDialog(PriceLevelListDialog parent, String title,
 			String desc) {
