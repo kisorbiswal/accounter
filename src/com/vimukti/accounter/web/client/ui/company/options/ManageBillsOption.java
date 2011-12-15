@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -19,6 +20,8 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 	RadioButton managingBillNoRadioButton;
 	@UiField
 	Label managingBilldescritionLabel;
+	@UiField
+	CheckBox isPriceLevelsEnabled;
 
 	interface ManageBillsOptionUiBinder extends
 			UiBinder<Widget, ManageBillsOption> {
@@ -38,7 +41,11 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 			managingBillYesRadioButton.setValue(false);
 			managingBillNoRadioButton.setValue(true);
 		}
-
+		if (getCompanyPreferences().isPricingLevelsEnabled()){
+			isPriceLevelsEnabled.setValue(true);
+		}else{
+			isPriceLevelsEnabled.setValue(false);
+		}
 	}
 
 	public void createControls() {
@@ -49,6 +56,8 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 
 		managingBillYesRadioButton.setText(messages.yes());
 		managingBillNoRadioButton.setText(messages.no());
+		isPriceLevelsEnabled.setText(messages.enabled() + " " +messages.priceLevel());
+		isPriceLevelsEnabled.setStyleName("header");
 
 	}
 
@@ -68,7 +77,11 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 		} else {
 			getCompanyPreferences().setKeepTrackofBills(false);
 		}
-
+		if (isPriceLevelsEnabled.getValue()){
+			getCompanyPreferences().setPricingLevelsEnabled(true);
+		}else{
+			getCompanyPreferences().setPricingLevelsEnabled(false);
+		}
 	}
 
 	@Override
