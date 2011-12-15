@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 /**
  * this class is used to generate PDF file for Credit note Object
  * 
- * @author vimukti28
+ * @author G.Srinivas
  * 
  */
 public class CreditNotePDFTemplete implements PrintTemplete {
@@ -144,16 +144,14 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 					String description = forNullValue(item.getDescription());
 					description = description.replace("\n", "<br/>");
-					String qty = forZeroAmounts(getDecimalsUsingMaxDecimals(
-							item.getQuantity().getValue(), null,
-							maxDecimalPoints));
-					String unitPrice = forZeroAmounts(largeAmountConversation(item
-							.getUnitPrice() / currencyFactor));
-					String totalPrice = largeAmountConversation(item
+					String qty = String.valueOf(item.getQuantity().getValue());
+					String unitPrice = Utility.decimalConversation(item
+							.getUnitPrice() / currencyFactor);
+					String totalPrice = Utility.decimalConversation(item
 							.getLineTotal() / currencyFactor);
 					String vatRate = item.getTaxCode().getName();
-					String vatAmount = getDecimalsUsingMaxDecimals(
-							item.getVATfraction() / currencyFactor, null, 2);
+					String vatAmount = Utility.decimalConversation(item
+							.getVATfraction() / currencyFactor);
 
 					String name = "";
 					if (item.type == TransactionItem.TYPE_ITEM)
@@ -163,7 +161,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 					t.setVariable("name", name);
 					t.setVariable("discount",
-							largeAmountConversation(item.getDiscount()));
+							Utility.decimalConversation(item.getDiscount()));
 
 					t.setVariable("description", description);
 					t.setVariable("quantity", qty);
@@ -182,11 +180,12 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			// for displaying the total price details
 
 			String memoVal = forNullValue(memo.getMemo());
-			String subTotal = largeAmountConversation(memo.getNetAmount()
+			String subTotal = Utility.decimalConversation(memo.getNetAmount()
 					/ currencyFactor);
-			String vatTotal = largeAmountConversation((memo.getTotal() - memo
-					.getNetAmount()) / currencyFactor);
-			String total = largeAmountConversation(memo.getTotal()
+			String vatTotal = Utility
+					.decimalConversation((memo.getTotal() - memo.getNetAmount())
+							/ currencyFactor);
+			String total = Utility.decimalConversation(memo.getTotal()
 					/ currencyFactor);
 
 			t.setVariable("memoText", memoVal);
@@ -351,32 +350,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 		return amount;
 	}
 
-	private String getDecimalsUsingMaxDecimals(double quantity, String amount,
-			int maxDecimalPoint) {
-		String qty = "";
-		String max;
-		if (maxDecimalPoint != 0) {
-			if (amount == null)
-				qty = String.valueOf(quantity);
-			else
-				qty = amount;
-			max = qty.substring(qty.indexOf(".") + 1);
-			if (maxDecimalPoint > max.length()) {
-				for (int i = max.length(); maxDecimalPoint != i; i++) {
-					qty = qty + "0";
-				}
-			}
-		} else {
-			qty = String.valueOf((long) quantity);
-		}
-
-		String temp = qty.contains(".") ? qty.replace(".", "-").split("-")[0]
-				: qty;
-		return insertCommas(temp)
-				+ (qty.contains(".") ? "."
-						+ qty.replace(".", "-").split("-")[1] : "");
-	}
-
 	/*
 	 * For Max DecimalPoints
 	 */
@@ -404,12 +377,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 		}
 		return insertCommas(str.substring(0, str.length() - 3)) + ","
 				+ str.substring(str.length() - 3, str.length());
-	}
-
-	private String largeAmountConversation(double amount) {
-		String amt = Utility.decimalConversation(amount);
-		amt = getDecimalsUsingMaxDecimals(0.0, amt, 2);
-		return (amt);
 	}
 
 	private String getLogoAlignment() {
