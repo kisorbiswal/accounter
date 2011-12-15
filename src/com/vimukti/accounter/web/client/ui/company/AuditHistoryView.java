@@ -122,6 +122,7 @@ public class AuditHistoryView extends BaseView {
 		pageNameLabel.addStyleName("historyPageTitle");
 
 		mainVerticalPanel.add(pageNameLabel);
+		mainVerticalPanel.setWidth("100%");
 
 		for (ClientActivity activity : activityList) {
 			mainVerticalPanel.add(createControl(activity));
@@ -146,6 +147,7 @@ public class AuditHistoryView extends BaseView {
 				+ dateformat + " " + timeFormat;
 
 		DisclosurePanel panel = new DisclosurePanel(title);
+		panel.setWidth("100%");
 		JSONValue value = JSONParser.parseLenient(activity.getAuditHistory());
 		AuditHistoryItem item = new AuditHistoryItem(value.isArray());
 		panel.setContent(item);

@@ -29,7 +29,7 @@ public class AuditHistoryItem extends SimplePanel {
 	 */
 	private void initItem(JSONArray array) {
 		SafeHtmlBuilder sb = new SafeHtmlBuilder();
-		sb.appendHtmlConstant("<table class='historyItem'>");
+		sb.appendHtmlConstant("<table width='100%' class='historyItem'>");
 
 		// take each element and add to html
 		for (int x = 0; x < array.size();) {
@@ -78,7 +78,7 @@ public class AuditHistoryItem extends SimplePanel {
 						}
 						// we got all columns
 						// first create column headers
-						sb.appendHtmlConstant("<table class='items' border='1px'>");
+						sb.appendHtmlConstant("<table width='100%' class='items audit_history_item' border='1px'>");
 						for (String columnName : columns) {
 							sb.appendHtmlConstant("<td class='historyItemListColumn'>");
 							if (columnName.equals("")) {
