@@ -10,6 +10,7 @@ import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.mail.EMailJob;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.Context;
@@ -133,7 +134,8 @@ public class SignupCommand extends NewAbstractCommand {
 
 	private void sendPasswordMail(String token, String emailId) {
 		System.out.println("Password : " + token);
-		// TODO
+		Client client = getClient(emailId);
+		UsersMailSendar.sendActivationMail(token, client);
 	}
 
 	protected String createActivation(String emailID, Context context) {
