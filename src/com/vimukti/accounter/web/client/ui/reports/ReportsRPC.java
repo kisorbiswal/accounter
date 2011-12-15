@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
+import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
@@ -331,6 +332,10 @@ public class ReportsRPC {
 		case IAccounterCore.BUDGET:
 			initCallBack(new ClientBudget(),
 					ActionFactory.getNewBudgetAction(), transactionId);
+
+		case IAccounterCore.RECONCILIATION:
+			initCallBack(new ClientReconciliation(),
+					ActionFactory.getNewReconciliationAction(), transactionId);
 			break;
 		}
 

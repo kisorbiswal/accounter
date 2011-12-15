@@ -56,7 +56,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		label.setText(messages.Reconciliation());
 
 		bankaccountLabel = new LabelItem();
-		bankaccountLabel.setTitle(messages.bankAccount());
+		bankaccountLabel.setTitle(messages.Account());
 		bankaccountLabel.setValue(data.getAccount().getName());
 
 		closebalanceLable = new AmountLabel(messages.ClosingBalance());

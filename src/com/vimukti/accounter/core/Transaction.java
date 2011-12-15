@@ -1196,8 +1196,7 @@ public abstract class Transaction extends CreatableObject implements
 					AccounterException.ERROR_THERE_IS_NO_TRANSACTION_ITEMS);
 		}
 		for (ReconciliationItem item : reconciliationItems) {
-			BankAccount reconciliedAccount = item.getReconciliation()
-					.getAccount();
+			Account reconciliedAccount = item.getReconciliation().getAccount();
 			for (Account account : map.keySet()) {
 				if (reconciliedAccount.getID() == account.getID()) {
 					Double presentAmount = map.get(account);

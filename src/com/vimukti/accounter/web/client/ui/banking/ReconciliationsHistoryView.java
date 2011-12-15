@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.combo.BankAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.ReconciliationAccountCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -26,21 +26,20 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  */
 public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 
-	private BankAccountCombo bankAccountsCombo;
+	private ReconciliationAccountCombo bankAccountsCombo;
 	private ReconciliationsTable grid;
-	private ClientBankAccount selectedBankAccount;
+	private ClientAccount selectedAccount;
 
 	private void createControls() {
 
-		this.bankAccountsCombo = new BankAccountCombo(
+		this.bankAccountsCombo = new ReconciliationAccountCombo(
 				messages.selectBankAccount());
 		this.bankAccountsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
-						bankAccountChanged((ClientBankAccount) bankAccountsCombo
-								.getSelectedValue());
+						bankAccountChanged(selectItem);
 					}
 				});
 		this.grid = new ReconciliationsTable();
@@ -67,10 +66,10 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 	/**
 	 * @param selectItem
 	 */
-	protected void bankAccountChanged(ClientBankAccount clientAccount) {
-		this.selectedBankAccount = clientAccount;
+	protected void bankAccountChanged(ClientAccount clientAccount) {
+		this.selectedAccount = clientAccount;
 		rpcGetService.getReconciliationsByBankAccountID(
-				selectedBankAccount.getID(),
+				selectedAccount.getID(),
 				new AccounterAsyncCallback<List<ClientReconciliation>>() {
 
 					@Override

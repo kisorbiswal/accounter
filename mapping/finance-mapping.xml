@@ -1856,7 +1856,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<many-to-one name="account" class="com.vimukti.accounter.core.BankAccount"
+		<many-to-one name="account" class="com.vimukti.accounter.core.Account"
 			cascade="save-update" column="ACCOUNT">
 		</many-to-one>
 		<property name="startDate" column="START_DATE"

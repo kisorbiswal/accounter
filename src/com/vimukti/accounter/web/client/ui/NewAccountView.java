@@ -1124,19 +1124,17 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			((ClientBankAccount) data).setBank(Utility.getID(selectedBank));
 			if (typeSelect.getSelectedValue() != null) {
 				int type = 0;
-				if (typeSelect
-						.getSelectedValue()
-						.equals(messages.cuurentAccount()))
+				if (typeSelect.getSelectedValue().equals(
+						messages.cuurentAccount()))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_CURRENT_ACCOUNT;
 				else if (typeSelect.getSelectedValue().equals(
 						messages.checking()))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING;
-				else if (typeSelect
-						.getSelectedValue()
-						.equals(messages.moneyMarket()))
-					type = ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
 				else if (typeSelect.getSelectedValue().equals(
-						messages.saving()))
+						messages.moneyMarket()))
+					type = ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
+				else if (typeSelect.getSelectedValue()
+						.equals(messages.saving()))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_SAVING;
 				((ClientBankAccount) data).setBankAccountType(type);
 			}
@@ -1653,14 +1651,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
-		if (accountType == ClientAccount.TYPE_BANK && getData() != null) {
+		if ((accountType == ClientAccount.TYPE_BANK || accountType == ClientAccount.TYPE_CREDIT_CARD)
+				&& getData() != null) {
 			Button reconcileBtn = new Button(messages.Reconcile());
 			reconcileBtn.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
 					ClientReconciliation clientReconciliation = new ClientReconciliation();
-					clientReconciliation.setAccount((ClientBankAccount) data);
+					clientReconciliation.setAccount(data);
 					ReconciliationDailog dialog = new ReconciliationDailog(
 							Global.get().messages().Reconciliation(),
 							clientReconciliation);

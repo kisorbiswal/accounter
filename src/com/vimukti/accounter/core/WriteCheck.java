@@ -337,6 +337,7 @@ public class WriteCheck extends Transaction {
 				this.bankAccount.updateCurrentBalance(this, this.total,
 						currencyFactor);
 				this.bankAccount.onUpdate(session);
+				cleanTransactionitems(writeCheck);
 			}
 
 		}
@@ -348,7 +349,6 @@ public class WriteCheck extends Transaction {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 
-		HibernateUtil.getCurrentSession().saveOrUpdate(this);
 		super.onEdit(writeCheck);
 	}
 

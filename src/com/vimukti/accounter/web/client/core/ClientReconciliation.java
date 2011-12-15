@@ -17,7 +17,7 @@ public class ClientReconciliation implements IAccounterCore {
 	private static final long serialVersionUID = 1L;
 
 	/** Reconciliation of Account */
-	private ClientBankAccount account;
+	private ClientAccount account;
 
 	/** StartDate of the Reconciliation */
 	private ClientFinanceDate startDate;
@@ -174,7 +174,7 @@ public class ClientReconciliation implements IAccounterCore {
 	/**
 	 * @return the account
 	 */
-	public ClientBankAccount getAccount() {
+	public ClientAccount getAccount() {
 		return account;
 	}
 
@@ -182,7 +182,7 @@ public class ClientReconciliation implements IAccounterCore {
 	 * @param account
 	 *            the account to set
 	 */
-	public void setAccount(ClientBankAccount account) {
+	public void setAccount(ClientAccount account) {
 		this.account = account;
 	}
 

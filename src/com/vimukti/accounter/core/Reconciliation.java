@@ -7,14 +7,17 @@ import java.util.Set;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * @author Prasanna Kumar G
  * 
  */
 public class Reconciliation extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -22,7 +25,7 @@ public class Reconciliation extends CreatableObject implements
 	private static final long serialVersionUID = 1L;
 
 	/** Reconciliation of Account */
-	private BankAccount account;
+	private Account account;
 
 	/** StartDate of the Reconciliation */
 	private FinanceDate startDate;
@@ -135,7 +138,7 @@ public class Reconciliation extends CreatableObject implements
 	/**
 	 * @return the account
 	 */
-	public BankAccount getAccount() {
+	public Account getAccount() {
 		return account;
 	}
 
@@ -143,7 +146,7 @@ public class Reconciliation extends CreatableObject implements
 	 * @param account
 	 *            the account to set
 	 */
-	public void setAccount(BankAccount account) {
+	public void setAccount(Account account) {
 		this.account = account;
 	}
 
@@ -155,7 +158,39 @@ public class Reconciliation extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
+		AccounterMessages messages = Global.get().messages();
+		w.put(messages.type(), messages.Reconciliation()).gap();
+		if (account != null) {
+			w.put(messages.Account(), account.getName());
+		}
+		if (reconcilationDate != null) {
+			w.put(messages.ReconciliationDate(), reconcilationDate.toString());
+		}
+		if (startDate != null) {
+			w.put(messages.startDate(), startDate.toString());
+		}
+
+		if (endDate != null) {
+			w.put(messages.endDate(), endDate.toString());
+		}
+
+		w.put(messages.openingBalance(), openingBalance);
+		w.put(messages.ClosingBalance(), closingBalance);
+	}
+
+	@Override
+	public String getName() {
+		return getAccount().getName();
+	}
+
+	@Override
+	public void setName(String name) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.RECONCILIATION;
 	}
 }

@@ -44,7 +44,6 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PayeeCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
-import com.vimukti.accounter.web.client.ui.combo.TaxItemCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -83,8 +82,6 @@ public class WriteChequeView extends
 
 	protected ClientSalesPerson selectedSalesPerson;
 	protected ClientAccount selectedBalance;
-
-	private TaxItemCombo vendorTDSTaxCode;
 
 	protected ClientPayee payee;
 	private VerticalPanel mainVLay, nHPanel;
@@ -699,11 +696,6 @@ public class WriteChequeView extends
 		labelLayout.setCellHorizontalAlignment(nHPanel,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		vendorTDSTaxCode = new TaxItemCombo(messages.tds(),
-				ClientTAXAgency.TAX_TYPE_TDS);
-
-		vendorTDSTaxCode.setDisabled(true);
-
 		balText = new AmountField(messages.balance(), this, getBaseCurrency());
 		balText.setWidth(100);
 		balText.setDisabled(true);
@@ -729,12 +721,8 @@ public class WriteChequeView extends
 		bankAccForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			bankAccForm.setFields(locationCombo);
-		if (getCompany().getPreferences().isTDSEnabled()) {
-			bankAccForm.setFields(bankAccSelect, balText, vendorTDSTaxCode);
-		} else {
-			bankAccForm.setFields(bankAccSelect, balText);
+		bankAccForm.setFields(bankAccSelect, balText);
 
-		}
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
@@ -752,11 +740,7 @@ public class WriteChequeView extends
 					@Override
 					public void selectedComboBoxItem(ClientPayee selectItem) {
 						amtText.setValue("0.00");
-						vendorTDSTaxCode.setSelected("");
 						if (payee != null) {
-							vendorTDSTaxCode.setSelected(vendorTDSTaxCode
-									.getDisplayName(getCompany().getTAXItem(
-											payee.getTaxItemCode())));
 
 							transactionVendorAccountTable.resetRecords();
 
@@ -782,10 +766,6 @@ public class WriteChequeView extends
 							}
 						} else {
 							payee = selectItem;
-							vendorTDSTaxCode.setSelected(vendorTDSTaxCode
-									.getDisplayName(getCompany().getTAXItem(
-											payee.getTaxItemCode())));
-
 						}
 						updateAddressAndGrid();
 
