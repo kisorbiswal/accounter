@@ -891,10 +891,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// priceLevel.getID()));
 		//
 		// }
-		// if (transaction == null && customerTransactionTable != null) {
-		// customerTransactionTable.priceLevelSelected(this.priceLevel);
-		// customerTransactionTable.updatePriceLevel();
-		// }
+		 if (transaction == null && customerTransactionTable != null) {
+			 customerTransactionTable.setPricingLevel(priceLevel);
+//		 customerTransactionTable.updatePriceLevel();
+		 }
 		updateNonEditableItems();
 
 	}
