@@ -160,7 +160,7 @@ public abstract class EditTable<R> extends SimplePanel {
 			index += 1;// For header
 			index *= numOfRowsPerObject;
 			for (int x = 0; x < numOfRowsPerObject; x++) {
-				table.removeRow(index + x);
+				table.removeRow(index);
 			}
 		}
 	}

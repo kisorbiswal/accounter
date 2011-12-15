@@ -36,19 +36,18 @@ public abstract class AbstractTransactionTable extends
 
 	protected ICurrencyProvider currencyProvider;
 
-	public AbstractTransactionTable(boolean needDiscount, boolean isSales,
+	public AbstractTransactionTable(int rowsPerObject,boolean needDiscount, boolean isSales,
 			boolean isCustomerAllowedToAdd, ICurrencyProvider currencyProvider) {
+		super(rowsPerObject);
 		this.currencyProvider = currencyProvider;
 		this.needDiscount = needDiscount;
 		this.isCustomerAllowedToAdd = isCustomerAllowedToAdd;
 		this.isSales = isSales;
 	}
 
-	public AbstractTransactionTable(boolean needDiscount, boolean isSales,
+	public AbstractTransactionTable(int rowsPerObject,boolean needDiscount, boolean isSales,
 			ICurrencyProvider currencyProvider) {
-		this.currencyProvider = currencyProvider;
-		this.needDiscount = needDiscount;
-		this.isSales = isSales;
+		this(rowsPerObject,needDiscount,isSales,false,currencyProvider);
 	}
 
 	protected abstract void addEmptyRecords();

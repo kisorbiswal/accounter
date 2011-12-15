@@ -32,7 +32,7 @@ public abstract class CustomerAccountTransactionTable extends
 	public CustomerAccountTransactionTable(boolean needDiscount,
 			boolean enableTax, boolean showTaxCode,
 			ICurrencyProvider currencyProvider) {
-		super(needDiscount, currencyProvider);
+		super(1,needDiscount, currencyProvider);
 		this.enableTax = enableTax;
 		this.showTaxCode = showTaxCode;
 		addEmptyRecords();

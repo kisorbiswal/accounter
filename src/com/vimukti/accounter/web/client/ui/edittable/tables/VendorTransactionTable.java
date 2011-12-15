@@ -4,13 +4,13 @@ import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 
 public abstract class VendorTransactionTable extends AbstractTransactionTable {
 
-	public VendorTransactionTable(boolean needDiscount,
+	public VendorTransactionTable(int rowsPerObject,boolean needDiscount,
 			ICurrencyProvider currencyProvider) {
-		super(needDiscount, false, currencyProvider);
+		this(rowsPerObject,needDiscount, false,currencyProvider);
 	}
 
-	public VendorTransactionTable(boolean needDiscount,
+	public VendorTransactionTable(int rowsPerObject, boolean needDiscount,
 			boolean isCustomerAllowedToAdd, ICurrencyProvider currencyProvider) {
-		super(needDiscount, false, isCustomerAllowedToAdd, currencyProvider);
+		super(rowsPerObject,needDiscount, false, isCustomerAllowedToAdd, currencyProvider);
 	}
 }

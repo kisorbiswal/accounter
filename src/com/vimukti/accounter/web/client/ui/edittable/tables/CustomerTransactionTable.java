@@ -10,9 +10,9 @@ import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
  */
 public abstract class CustomerTransactionTable extends AbstractTransactionTable {
 
-	public CustomerTransactionTable(boolean needDiscount,
+	public CustomerTransactionTable(int rowsPerObject, boolean needDiscount,
 			ICurrencyProvider currencyProvider) {
-		super(needDiscount, true, currencyProvider);
+		super(rowsPerObject, needDiscount, true, currencyProvider);
 	}
 
 }
