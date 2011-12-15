@@ -115,6 +115,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private static final long WANT_DISCOUNTS = 0x80000000000000L;
 
+	public static final long ENABLE_PRICE_LEVEL = 0x100000000000000L;
+
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
 	public static int VAT_REPORTING_PERIOD_QUARTERLY = 3;
@@ -150,7 +152,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	FinanceDate endOfFiscalYear = new FinanceDate();
 
 	FinanceDate startDate = new FinanceDate();
-	
+
 	private int decimalNumber;
 
 	private FinanceDate depreciationStartDate = new FinanceDate();
@@ -1497,9 +1499,18 @@ public class CompanyPreferences implements IAccounterServerCore {
 	}
 
 	/**
-	 * @param decimalNumber the decimalNumber to set
+	 * @param decimalNumber
+	 *            the decimalNumber to set
 	 */
 	public void setDecimalNumber(int decimalNumber) {
 		this.decimalNumber = decimalNumber;
+	}
+
+	public boolean isPricingLevelsEnabled() {
+		return get(ENABLE_PRICE_LEVEL);
+	}
+
+	public void setPricingLevelsEnabled(boolean isPricingLevelsEnabled) {
+		set(ENABLE_PRICE_LEVEL, isPricingLevelsEnabled);
 	}
 }
