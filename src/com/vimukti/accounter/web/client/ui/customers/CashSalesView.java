@@ -561,10 +561,10 @@ public class CashSalesView extends
 		// priceLevel.getID()));
 		//
 		// }
-		// if (transaction == null && customerAccountTransactionTable != null) {
-		// customerAccountTransactionTable.priceLevelSelected(priceLevel);
-		// customerAccountTransactionTable.updatePriceLevel();
-		// }
+		if (this.transaction == null || customerItemTransactionTable != null) {
+			customerItemTransactionTable.setPricingLevel(priceLevel);
+			// customerTransactionTable.updatePriceLevel();
+		}
 		updateNonEditableItems();
 
 	}
