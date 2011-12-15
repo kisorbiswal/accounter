@@ -963,16 +963,18 @@ public abstract class Transaction extends CreatableObject implements
 		 */
 
 		if (this.isVoid && !clonedObject.isVoid) {
-
+			// voidTransactionItems();
 			doDeleteEffect(clonedObject);
-			voidTransactionItems();
-		} else if (this.transactionItems != null
-				&& !this.transactionItems.equals(clonedObject.transactionItems)) {
-			updateTranasactionItems(clonedObject);
-			deleteCreatedEntries(clonedObject);
-			clonedObject.transactionItems.clear();
-			addUpdateHistory();
-		} else {
+
+		}
+		/*
+		 * else if (this.transactionItems != null &&
+		 * !this.transactionItems.equals(clonedObject.transactionItems)) {
+		 * updateTranasactionItems(clonedObject);
+		 * deleteCreatedEntries(clonedObject);
+		 * clonedObject.transactionItems.clear(); addUpdateHistory(); }
+		 */
+		else {
 			addUpdateHistory();
 		}
 
@@ -986,9 +988,10 @@ public abstract class Transaction extends CreatableObject implements
 		this.updatePayee(amount);
 
 		this.voidCreditsAndPayments(this);
-		deleteCreatedEntries(clonedObject);
+
 		addVoidHistory();
 		cleanTransactionitems(clonedObject);
+		deleteCreatedEntries(clonedObject);
 	}
 
 	protected void voidTransactionItems() {
@@ -1286,6 +1289,10 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	public boolean addAccountTransaction(AccountTransaction accountTransaction) {
+		if (isBecameVoid()) {
+			accountTransactionEntriesList.clear();
+			return false;
+		}
 		AccountTransaction similar = getSimilarAccountTransaction(accountTransaction);
 		if (similar == null) {
 			accountTransactionEntriesList.add(accountTransaction);
