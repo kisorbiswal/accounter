@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -99,8 +100,8 @@ public class ForgotPasswordCommand extends NewAbstractCommand {
 
 	private void sendPasswordMail(String password, String emailId) {
 		System.out.println("password " + password);
-		// TODO Auto-generated method stub
-
+		Client client = getClient(emailId);
+		UsersMailSendar.sendActivationMail(password, client);
 	}
 
 }
