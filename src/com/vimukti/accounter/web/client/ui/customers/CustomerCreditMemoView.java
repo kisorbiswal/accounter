@@ -372,10 +372,10 @@ public class CustomerCreditMemoView extends
 		//
 		// }
 		//
-		// if (transaction == null && customerAccountTransactionTable != null) {
-		// customerAccountTransactionTable.priceLevelSelected(priceLevel);
-		// customerAccountTransactionTable.updatePriceLevel();
-		// }
+		 if (transaction == null && customerItemTransactionTable != null) {
+		 customerItemTransactionTable.setPricingLevel(priceLevel);
+//		 customerAccountTransactionTable.updatePriceLevel();
+		 }
 		updateNonEditableItems();
 
 	}
