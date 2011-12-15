@@ -363,16 +363,52 @@ public class DataUtils {
 	public static String amountAsStringWithCurrency(Double amount,
 			ClientCurrency currency) {
 		if (amount < 0) {
-			return currency.getSymbol() + " " + "("
-					+ DataUtils.getAmountAsString(amount) + ")";
+			ClientCompanyPreferences preferences = Accounter.getCompany()
+					.getPreferences();
+			switch (preferences.getNegativeNumberShownType()) {
+			case ClientCompanyPreferences.NEGATIVE_NUMBER_NORMAL:
+				return currency.getSymbol() + " "
+						+ DataUtils.getAmountAsString(amount);
+			case ClientCompanyPreferences.NEGATIVE_NUMBER_WITHIN_PARENTHESES:
+				return currency.getSymbol() + " " + "("
+						+ DataUtils.getAmountAsString(amount * -1) + ")";
+			case ClientCompanyPreferences.NEGATIVE_NUMBER_WITH_TRAILING_MINUS:
+				return currency.getSymbol() + " "
+						+ DataUtils.getAmountAsString(amount * -1) + "-";
+			case ClientCompanyPreferences.NEGATIVE_NUMBER_MINUS_WITHIN_PARENTHESES:
+				return currency.getSymbol() + " " + "(-)"
+						+ DataUtils.getAmountAsString(amount * -1);
+			}
 		} else {
 			return currency.getSymbol() + " "
 					+ DataUtils.getAmountAsString(amount);
 		}
+		return null;
 	}
 
 	public static String getAmountAsString(double amount, String currencySymbol) {
-		return currencySymbol + " " + DataUtils.getAmountAsString(amount);
+		if (amount < 0) {
+			ClientCompanyPreferences preferences = Accounter.getCompany()
+					.getPreferences();
+			switch (preferences.getNegativeNumberShownType()) {
+			case ClientCompanyPreferences.NEGATIVE_NUMBER_NORMAL:
+				return currencySymbol + " "
+						+ DataUtils.getAmountAsString(amount);
+			case ClientCompanyPreferences.NEGATIVE_NUMBER_WITHIN_PARENTHESES:
+				return currencySymbol + " " + "("
+						+ DataUtils.getAmountAsString(amount * -1) + ")";
+			case ClientCompanyPreferences.NEGATIVE_NUMBER_WITH_TRAILING_MINUS:
+				return currencySymbol + " "
+						+ DataUtils.getAmountAsString(amount * -1) + "-";
+			case ClientCompanyPreferences.NEGATIVE_NUMBER_MINUS_WITHIN_PARENTHESES:
+				return currencySymbol + " " + "(-)"
+						+ DataUtils.getAmountAsString(amount * -1);
+			}
+		} else {
+			return currencySymbol + " "
+					+ DataUtils.getAmountAsString(amount);
+		}
+		return null;
 	}
 
 }
