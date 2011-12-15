@@ -2334,3 +2334,6 @@ input.date-field-textbox {
 .frame_manager iframe {
 	border:0px;
 }
+.audit_history_item{
+	border-collapse: collapse;
+}
