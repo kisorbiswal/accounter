@@ -77,6 +77,8 @@ public class BrandingTheme extends CreatableObject implements
 	private boolean isShowLogo;
 	private boolean isLogoAdded;
 
+	private boolean isCustomFile;
+
 	String payPalEmailID;
 	private int logoAlignmentType;
 	// int showTaxesAsType;
@@ -641,6 +643,14 @@ public class BrandingTheme extends CreatableObject implements
 
 		w.put(messages.name(), this.themeName);
 
+	}
+
+	public boolean isCustomFile() {
+		return isCustomFile;
+	}
+
+	public void setCustomFile(boolean isCustomFile) {
+		this.isCustomFile = isCustomFile;
 	}
 
 }
