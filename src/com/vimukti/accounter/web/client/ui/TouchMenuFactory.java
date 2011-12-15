@@ -19,7 +19,7 @@ public class TouchMenuFactory implements IMenuFactory {
 
 	private final TouchMenuPanel panel;
 
-	TouchMenuFactory() {
+	public TouchMenuFactory() {
 		panel = new TouchMenuPanel();
 		panel.setAutoHideEnabled(true);
 	}

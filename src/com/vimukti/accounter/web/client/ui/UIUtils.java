@@ -1642,6 +1642,24 @@ public class UIUtils {
 	}-*/;
 
 	/**
+	 * Used to download Invoice and CreditNote custom template files
+	 */
+	public static void downloadCustomFile(String fileName) {
+		downloadCustomFiles(fileName);
+	}
+
+	public native static void downloadCustomFiles(String fileName)/*-{
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src", "/downloads/" + fileName);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
+
+	/**
 	 * this method is used to create 1099 MISC forms
 	 * 
 	 * @param verticalValue

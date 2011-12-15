@@ -30,9 +30,10 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
-@SuppressWarnings( { "deprecation" })
+@SuppressWarnings({ "deprecation" })
 public class FileUploadDilaog extends CustomDialog {
 
 	private String parentID;
@@ -48,28 +49,31 @@ public class FileUploadDilaog extends CustomDialog {
 	private HorizontalPanel buttonHlay;
 	private boolean closeAfterUploaded;
 	private static ClientBrandingTheme brandingTheme;
+	private boolean isCustomTemplateUpload;
 
 	private String title;
-	private HTML detailsHtml1, helpHtml, chooseHtml, detailsHtml2,
+	private HTML detailsHtml1, helpHtml, chooseHtml, chooseHtml1, detailsHtml2,
 			detailsHtml3, detailsHtml4, detailsHtml5;
+	AccounterMessages messages;
 
 	public FileUploadDilaog(String title, String parentID,
 			ValueCallBack<ClientBrandingTheme> callback, String[] fileTypes,
-			ClientBrandingTheme theme) {
+			ClientBrandingTheme theme, boolean forCusotomTemplateUpload) {
 		super(false, true);
 		this.title = title;
-		setHTML(title);
+		setText(title);
 		this.parentID = parentID;
 		this.callback = callback;
 		this.fileTypes = fileTypes;
 		this.brandingTheme = theme;
 		closeAfterUploaded = true;
+		this.isCustomTemplateUpload = forCusotomTemplateUpload;
 		doCreateContents();
 		center();
 	}
 
 	protected void doCreateContents() {
-
+		messages = Accounter.messages();
 		uploadForm = new FormPanel();
 		uploadForm.setStyleName("fileuploaddialog-uploadform");
 		final String fileID = createID();
@@ -85,54 +89,94 @@ public class FileUploadDilaog extends CustomDialog {
 		panel.setSpacing(2);
 		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		// Create a FileUpload widget.
-		detailsHtml1 = new HTML(Accounter.messages().logoComment1());
-		detailsHtml2 = new HTML(Accounter.messages().logoComment2());
-		detailsHtml3 = new HTML(Accounter.messages().logoComment3());
-		detailsHtml4 = new HTML(Accounter.messages().logoComment4());
-		detailsHtml5 = new HTML(Accounter.messages().logoComment5());
-		detailsHtml5.addStyleName("bold_HTML");
-		helpHtml = new HTML(Accounter.messages().helpContent());
-		helpHtml.addStyleName("help_content");
-		helpHtml.addMouseOverHandler(new MouseOverHandler() {
 
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				helpHtml.getElement().getStyle().setCursor(Cursor.POINTER);
-				helpHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
-			}
-		});
-		helpHtml.addMouseOutHandler(new MouseOutHandler() {
+		if (isCustomTemplateUpload) {
 
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				helpHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
-			}
-		});
-		helpHtml.setVisible(false);
-		chooseHtml = new HTML(Accounter.messages().chooseLogo());
-		final FileUpload upload = new FileUpload();
-		/* Default height of upload text box 26 */
-		upload.getElement().setAttribute("size", "33");
-		upload.setName(fileID);
-		uploadItems.add(upload);
-		panel.add(detailsHtml1);
-		panel.add(detailsHtml2);
-		panel.add(detailsHtml3);
-		panel.add(detailsHtml4);
-		panel.add(detailsHtml5);
-		panel.add(helpHtml);
-		panel.add(chooseHtml);
-		panel.add(upload);
-		vpaPanel.add(panel);
+			// for uploading the custom template files
+			detailsHtml1 = new HTML(messages.uploadOneOrMoreTemplates());
+			detailsHtml2 = new HTML(messages.eachFileCanBeNoLongerThan());
+			detailsHtml3 = new HTML(messages.invoice());
+			detailsHtml3.addStyleName("bold_HTML");
+			detailsHtml4 = new HTML(messages.creditNote());
+			detailsHtml4.addStyleName("bold_HTML");
 
+			final FileUpload invoice_upload = new FileUpload();
+			/* Default height of upload text box 26 */
+			invoice_upload.getElement().setAttribute("size", "33");
+			invoice_upload.setName(fileID);
+
+			final FileUpload creditNote_upload = new FileUpload();
+			final String fileID_1 = createID();
+			/* Default height of upload text box 26 */
+			creditNote_upload.getElement().setAttribute("size", "33");
+			creditNote_upload.setName(fileID_1);
+
+			uploadItems.add(invoice_upload);
+			uploadItems.add(creditNote_upload);
+
+			// panel.add(detailsHtml1);
+			// panel.setSpacing(5);
+			// panel.add(detailsHtml2);
+			// panel.setSpacing(5);
+			// panel.add(detailsHtml3);
+			// panel.setSpacing(5);
+			panel.add(invoice_upload);
+			// panel.setSpacing(5);
+			// panel.add(detailsHtml4);
+			// panel.setSpacing(5);
+			// panel.add(creditNote_upload);
+
+			vpaPanel.add(panel);
+		} else {
+			// for uploading the CompanyLogo image
+			detailsHtml1 = new HTML(messages.logoComment1());
+			detailsHtml2 = new HTML(messages.logoComment2());
+			detailsHtml3 = new HTML(messages.logoComment3());
+			detailsHtml4 = new HTML(messages.logoComment4());
+			detailsHtml5 = new HTML(messages.logoComment5());
+			detailsHtml5.addStyleName("bold_HTML");
+			helpHtml = new HTML(messages.helpContent());
+			helpHtml.addStyleName("help_content");
+			helpHtml.addMouseOverHandler(new MouseOverHandler() {
+
+				@Override
+				public void onMouseOver(MouseOverEvent event) {
+					helpHtml.getElement().getStyle().setCursor(Cursor.POINTER);
+					helpHtml.getElement().getStyle()
+							.setTextDecoration(TextDecoration.UNDERLINE);
+				}
+			});
+			helpHtml.addMouseOutHandler(new MouseOutHandler() {
+
+				@Override
+				public void onMouseOut(MouseOutEvent event) {
+					helpHtml.getElement().getStyle()
+							.setTextDecoration(TextDecoration.NONE);
+				}
+			});
+			helpHtml.setVisible(false);
+			chooseHtml = new HTML(messages.chooseLogo());
+			final FileUpload upload = new FileUpload();
+			/* Default height of upload text box 26 */
+			upload.getElement().setAttribute("size", "33");
+			upload.setName(fileID);
+			uploadItems.add(upload);
+			panel.add(detailsHtml1);
+			panel.add(detailsHtml2);
+			panel.add(detailsHtml3);
+			panel.add(detailsHtml4);
+			panel.add(detailsHtml5);
+			panel.add(helpHtml);
+			panel.add(chooseHtml);
+			panel.add(upload);
+			vpaPanel.add(panel);
+		}
 		// Add a 'submit' button.
-		Button uploadSubmitButton = new Button(Accounter.messages().upload());
+		Button uploadSubmitButton = new Button(messages.upload());
 		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
-		Button closeButton = new Button(Accounter.messages().close());
+		Button closeButton = new Button(messages.close());
 		closeButton.setWidth("80px");
 		buttonHlay = new HorizontalPanel();
 		buttonHlay.add(uploadSubmitButton);
@@ -170,19 +214,45 @@ public class FileUploadDilaog extends CustomDialog {
 			public void onSubmitComplete(FormSubmitCompleteEvent event) {
 
 				String value = event.getResults();
-				if (brandingTheme != null) {
-					brandingTheme.setFileName(value);
-					brandingTheme.setLogoAdded(true);
-				} else {
+
+				if (brandingTheme == null) {
 					brandingTheme = new ClientBrandingTheme();
+				}
+
+				if (isCustomTemplateUpload) {
+					// for custom files upload for Brandingtheme
+					// String[] split = value.split(".docx");
+					//
+					// if (split.length == 1) {
+					// // if only one file is uploaded
+					// brandingTheme.setInvoiceTempleteName(split[0]
+					// .toString());
+					// } else {
+					// // if two files are uploaded
+					// brandingTheme.setInvoiceTempleteName(split[0]
+					// .toString());
+					// brandingTheme.setCreditNoteTempleteName(split[1]
+					// .toString());
+					// }
+
+					brandingTheme.setCustomFile(true);
+					if (title.toLowerCase().contains("invoice")) {
+						brandingTheme.setInvoiceTempleteName(value);
+					} else if (title.toLowerCase().contains("credit")) {
+						brandingTheme.setCreditNoteTempleteName(value);
+					}
+				} else {
+					// for CompanyLogo upload for BrandingTheme
 					brandingTheme.setFileName(value);
 					brandingTheme.setLogoAdded(true);
+					brandingTheme.setCustomFile(false);
 				}
 
 				if (value == null) {
 					getFileInfo();
 				} else {
 					if (value.trim().length() != 0) {
+
 						processUploadAttachments(brandingTheme, callback);
 					} else {
 						loadingLayout.setVisible(false);
@@ -275,19 +345,32 @@ public class FileUploadDilaog extends CustomDialog {
 	}
 
 	protected void processOnUpload() {
+
 		if (!validateFileItems()) {
-			Accounter
-					.showInformation(Accounter.messages().noImageisselected());
+
+			if (isCustomTemplateUpload) {
+				// for custom file error message
+				Accounter
+						.showInformation(Accounter.messages().noFileSelected());
+			} else {
+				// for image error message
+				Accounter.showInformation(Accounter.messages()
+						.noImageisselected());
+			}
 			return;
 		}
 
-		if (fileTypes != null) {
-			for (FileUpload fileUpload : uploadItems) {
-				if (!checkFileType(fileUpload.getFilename(), fileTypes)) {
-					return;
+		if (!isCustomTemplateUpload) {
+			// we need to validate for images types only when uploading company
+			// logo for the BrandingTheme
+			if (fileTypes != null) {
+				for (FileUpload fileUpload : uploadItems) {
+					if (!checkFileType(fileUpload.getFilename(), fileTypes)) {
+						return;
+					}
 				}
-			}
 
+			}
 		}
 		uploadForm.submit();
 
@@ -305,7 +388,13 @@ public class FileUploadDilaog extends CustomDialog {
 		}
 
 		if (fileSelected) {
-			uploadForm.setAction("/do/uploadfile");
+			if (isCustomTemplateUpload) {
+				uploadForm.setAction("/do/uploadtemplatefile?themeId="
+						+ brandingTheme.getID());
+			} else {
+				uploadForm.setAction("/do/uploadfile");
+			}
+
 			return fileSelected;
 		}
 
@@ -349,18 +438,22 @@ public class FileUploadDilaog extends CustomDialog {
 
 	public void getFileInfo(String parentID,
 			final AccounterAsyncCallback<ClientBrandingTheme> callback) {
-		post("/do/uploadfile?parentId=" + parentID,
-				new AccounterAsyncCallback<ClientBrandingTheme>() {
 
-					public void onResultSuccess(ClientBrandingTheme value) {
-						callback.onResultSuccess(value);
-					}
+		String url = "/do/uploadfile?parentId=" + parentID;
+		if (isCustomTemplateUpload) {
+			url = "/do/uploadtemplatefile?parentId=" + parentID;
+		}
+		post(url, new AccounterAsyncCallback<ClientBrandingTheme>() {
 
-					@Override
-					public void onException(AccounterException caught) {
-						// TODO Auto-generated method stub
-					}
-				}, parentID);
+			public void onResultSuccess(ClientBrandingTheme value) {
+				callback.onResultSuccess(value);
+			}
+
+			@Override
+			public void onException(AccounterException caught) {
+				// TODO Auto-generated method stub
+			}
+		}, parentID);
 	}
 
 	public static <E, T> Object post(String url,
