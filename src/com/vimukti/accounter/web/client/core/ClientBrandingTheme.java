@@ -58,6 +58,8 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private boolean isDefault;
 	private boolean isLogoAdded;
 
+	private boolean isCustomFile;
+
 	private String payPalEmailID;
 	private int logoAlignmentType;
 	// private int showTaxesAsType;
@@ -367,6 +369,14 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	public void setCreditNoteTempleteName(String creditNoteTempleteName) {
 		this.creditNoteTempleteName = creditNoteTempleteName;
+	}
+
+	public boolean isCustomFile() {
+		return isCustomFile;
+	}
+
+	public void setCustomFile(boolean isCustomFile) {
+		this.isCustomFile = isCustomFile;
 	}
 
 }
