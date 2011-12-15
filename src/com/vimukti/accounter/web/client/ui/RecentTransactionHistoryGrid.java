@@ -64,7 +64,7 @@ public class RecentTransactionHistoryGrid extends ListGrid<ClientActivity> {
 
 	@Override
 	protected void onClick(ClientActivity obj, int row, int index) {
-		ReportsRPC.openTransactionView(obj.getObjType(), obj.getObjectID());
+
 	}
 
 	@Override
