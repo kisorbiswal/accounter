@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -21,6 +22,8 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
 public abstract class CustomerItemTransactionTable extends
 		CustomerTransactionTable {
+
+	private ClientPriceLevel priceLevel;
 
 	/**
 	 * Creates the instance
@@ -70,6 +73,7 @@ public abstract class CustomerItemTransactionTable extends
 			@Override
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
+				super.setPriceLevel(priceLevel);
 				super.setValue(row, newValue);
 				if (newValue != null
 						&& newValue.getType() == ClientItem.TYPE_INVENTORY_PART) {
@@ -167,6 +171,10 @@ public abstract class CustomerItemTransactionTable extends
 	public void updateAmountsFromGUI() {
 		super.updateAmountsFromGUI();
 
+	}
+
+	public void setPricingLevel(ClientPriceLevel priceLevel) {
+		this.priceLevel = priceLevel;
 	}
 
 }
