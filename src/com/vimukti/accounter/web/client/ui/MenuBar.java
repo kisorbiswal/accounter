@@ -123,10 +123,12 @@ public class MenuBar {
 
 		Menu inventoryMenuBar = new Menu(string);
 
-		inventoryMenuBar.addMenuItem(messages.stockAdjustment(),
-				HistoryTokens.STOCKADJUSTMENT);
-		inventoryMenuBar.addMenuItem(getNewInventoryMenu(messages.new1()));
-
+		if (Accounter.getUser().getUserRole()
+				.equalsIgnoreCase(messages.readOnly())) {
+			inventoryMenuBar.addMenuItem(messages.stockAdjustment(),
+					HistoryTokens.STOCKADJUSTMENT);
+			inventoryMenuBar.addMenuItem(getNewInventoryMenu(messages.new1()));
+		}
 		inventoryMenuBar.addMenuItem(getInventoryListsMenu(messages
 				.InventoryLists()));
 
@@ -178,6 +180,7 @@ public class MenuBar {
 				HistoryTokens.GENERALSETTINGS);
 		settingsMenuBar.addMenuItem(messages.translation(),
 				HistoryTokens.TRANSLATION);
+		settingsMenuBar.addMenuItem("Check Print", HistoryTokens.CHECK_PRINT);
 
 		return settingsMenuBar;
 	}

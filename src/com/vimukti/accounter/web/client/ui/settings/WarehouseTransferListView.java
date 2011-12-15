@@ -66,12 +66,20 @@ public class WarehouseTransferListView extends
 
 	@Override
 	protected Action getAddNewAction() {
-		return ActionFactory.getWareHouseTransferAction();
+		if (!Accounter.getUser().getUserRole()
+				.equalsIgnoreCase(messages.readOnly()))
+			return ActionFactory.getWareHouseTransferAction();
+		else
+			return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.messages().addNewWarehouseTransfer();
+		if (!Accounter.getUser().getUserRole()
+				.equalsIgnoreCase(messages.readOnly()))
+			return Accounter.messages().addNewWarehouseTransfer();
+		else
+			return "";
 	}
 
 	@Override

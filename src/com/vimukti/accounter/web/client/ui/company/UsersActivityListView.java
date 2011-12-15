@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -32,7 +33,9 @@ public class UsersActivityListView extends BaseView {
 	private VerticalPanel mainPanel;
 	private DynamicForm dateForm, buttonForm;
 	private UsersActivityList activityList;
-	private Button updateButton;
+	private Button updateButton, customizeButton;
+	private long value;
+	private ActivityCustomizationDialog customizationDialog;
 
 	@Override
 	public void init() {
@@ -43,6 +46,8 @@ public class UsersActivityListView extends BaseView {
 	private void createControls() {
 		mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
+		customizationDialog = new ActivityCustomizationDialog(
+				messages.customize());
 		titleItem = new Label(Accounter.messages().usersActivityLogTitle());
 		titleItem.setStyleName(Accounter.messages().labelTitle());
 
@@ -51,6 +56,14 @@ public class UsersActivityListView extends BaseView {
 		fromdate.setEnteredDate(new ClientFinanceDate());
 		toDate.setEnteredDate(new ClientFinanceDate());
 
+		customizeButton = new Button(messages.customize());
+		customizeButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				customiseActivityLog();
+			}
+		});
 		updateButton = new Button(Accounter.messages().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -68,7 +81,7 @@ public class UsersActivityListView extends BaseView {
 		dateForm.setFields(fromdate, toDate);
 
 		activityList = new UsersActivityList(fromdate.getValue(),
-				toDate.getValue());
+				toDate.getValue(), value);
 		SimplePager.Resources pagerResources = GWT
 				.create(SimplePager.Resources.class);
 		SimplePager pager = new SimplePager(TextLocation.CENTER,
@@ -90,7 +103,9 @@ public class UsersActivityListView extends BaseView {
 
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.add(dateForm);
+		panel.add(customizeButton);
 		panel.add(updateButton);
+		panel.setCellHorizontalAlignment(customizeButton, ALIGN_RIGHT);
 		panel.setCellHorizontalAlignment(updateButton, ALIGN_RIGHT);
 		panel.setWidth("100%");
 		panel.addStyleName("user_activity_dateform");
@@ -101,6 +116,30 @@ public class UsersActivityListView extends BaseView {
 		activityList.setStyleName("user_activity_log");
 		mainPanel.add(pager);
 		add(mainPanel);
+	}
+
+	protected void customiseActivityLog() {
+		customizationDialog.show();
+		customizationDialog.showRelativeTo(customizeButton);
+		customizationDialog.setCallback(new ActionCallback<Long>() {
+
+			@Override
+			public void actionResult(Long result) {
+				value = result;
+				refreshActivityByCustomiseValues(value);
+				customizationDialog.setCustomiseValue(value);
+			}
+		});
+
+	}
+
+	private void refreshActivityByCustomiseValues(long value) {
+		ClientFinanceDate startDate = fromdate.getEnteredDate();
+		ClientFinanceDate endDate = toDate.getEnteredDate();
+		activityList.setFromDate(startDate);
+		activityList.setEndDate(endDate);
+		activityList.setCustomiseValue(value);
+		activityList.setVisibleRangeAndClearData(new Range(0, 50), true);
 	}
 
 	private void refreshActivityList() {

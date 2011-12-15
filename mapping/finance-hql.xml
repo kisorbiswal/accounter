@@ -283,8 +283,10 @@
 
 	<query name="list.Activity">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.Activity at where at.company=:company
-		order by at.id
+		<query-param name="fromDate" type="long" />
+		<query-param name="endDate" type="long" />
+		from com.vimukti.accounter.core.Activity at where at.company=:company and at.time between :fromDate and :endDate
+		order by at.id desc
 	</query>
 
 	<query name="list.locations">

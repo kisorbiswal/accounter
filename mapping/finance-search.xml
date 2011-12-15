@@ -47,6 +47,8 @@
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -87,6 +89,8 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -115,6 +119,8 @@
 		T.T_DATE=:date
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -143,6 +149,8 @@
 		I.DUE_DATE=:date
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -171,6 +179,8 @@
 		T.MEMO LIKE :memo
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -208,6 +218,8 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -250,6 +262,8 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -292,6 +306,8 @@
 		END END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -319,6 +335,8 @@
 		= :date
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -346,6 +364,8 @@
 		LIKE :memo
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -422,6 +442,8 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -471,6 +493,8 @@
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -513,6 +537,8 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -556,6 +582,9 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
+		
 	</sql-query>
 
 	<sql-query name="getAllEnterBillsByDate">
@@ -583,6 +612,8 @@
 		T.T_DATE=:date
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -612,6 +643,8 @@
 		:memo
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -639,6 +672,8 @@
 		E.DUE_DATE=:date
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -679,6 +714,8 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -718,6 +755,8 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -761,6 +800,8 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -810,6 +851,8 @@
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -837,6 +880,8 @@
 		WHERE
 		T.T_DATE=:date AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -885,6 +930,8 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -928,6 +975,9 @@
 		T.T_TYPE=:type
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
+		
 	</sql-query>
 
 	<sql-query name="getAllCashExpensesByAccounName">
@@ -973,6 +1023,8 @@
 		T.T_TYPE=:type
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -1025,6 +1077,8 @@
 		T.T_TYPE=:type
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -1056,6 +1110,8 @@
 		T.T_DATE=:date
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -1102,6 +1158,8 @@
 		T.T_TYPE=:type
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -1134,6 +1192,9 @@
 		:memo
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
+		
 	</sql-query>
 
 	<sql-query name="getAllCreditCardExpensesByVendorName">
@@ -1177,6 +1238,9 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
+		
 	</sql-query>
 
 	<sql-query name="getAllCreditCardExpensesByAccounName">
@@ -1222,6 +1286,9 @@
 		T.T_TYPE=:type
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
+		
 	</sql-query>
 
 	<sql-query name="getAllCreditCardExpensesByAmount">
@@ -1272,6 +1339,8 @@
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -1303,6 +1372,8 @@
 		T.T_DATE=:date
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -1349,6 +1420,8 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -1381,6 +1454,9 @@
 		LIKE :memo
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
+		
 	</sql-query>
 
 
@@ -1420,6 +1496,8 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -1459,6 +1537,8 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -1502,6 +1582,8 @@
 		END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -1551,6 +1633,8 @@
 		END END END END
 		AND
 		T.COMPANY_ID=:companyId
+		ORDER BY
+		T.T_DATE DESC
 
 	</sql-query>
 
@@ -1578,7 +1662,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -1607,7 +1691,7 @@
 		T.MEMO LIKE
 		:memo
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -1618,7 +1702,7 @@
 		column="TOTAL_PRICE" type="double" /> SELECT T.ID AS TRANSACTION_ID, T.T_DATE 
 		AS TRANSACTION_DATE, T.T_TYPE AS TRANSACTION_TYPE, T.TOTAL AS TOTAL_PRICE 
 		FROM WRITE_CHECKS W LEFT JOIN TRANSACTION T ON T.ID = W.ID WHERE T.MEMO=:memo 
-		AND T.COMPANY_ID=:companyId </sql-query> -->
+		AND T.COMPANY_ID=:companyId ORDER BY T.T_DATE </sql-query> -->
 
 	<sql-query name="getAllWriteChecksByChequeNo">
 		<query-param name="companyId" type="long" />
@@ -1655,7 +1739,7 @@
 		W.CHECK_NUMBER=:number
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -1701,7 +1785,7 @@
 		T.TOTAL = :amount
 		END END END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -1743,7 +1827,7 @@
 		END
 		END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -1770,7 +1854,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -1797,7 +1881,7 @@
 		WHERE
 		T.MEMO LIKE :memo
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -1839,7 +1923,7 @@
 		:name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -1879,7 +1963,7 @@
 		THEN P.NAME LIKE :name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -1925,7 +2009,7 @@
 		T.TOTAL = :amount
 		END END END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -1964,7 +2048,7 @@
 		THEN P.NAME LIKE :name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -1991,7 +2075,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2028,7 +2112,7 @@
 		T.NUMBER LIKE :number
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2055,7 +2139,7 @@
 		WHERE
 		T.MEMO LIKE :memo
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2096,7 +2180,7 @@
 		:name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2135,7 +2219,7 @@
 		P.NAME LIKE :name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2166,7 +2250,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2194,7 +2278,7 @@
 		WHERE
 		T.MEMO LIKE :memo
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2237,7 +2321,7 @@
 		:name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2279,7 +2363,7 @@
 		LIKE :name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2316,7 +2400,7 @@
 		THEN T.NUMBER LIKE :number
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2353,7 +2437,7 @@
 		THEN T.NUMBER LIKE :number
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2389,7 +2473,7 @@
 		WHEN 3=:match
 		THEN T.NUMBER LIKE :number
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2437,7 +2521,7 @@
 		:amount
 		END END END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2465,7 +2549,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2493,7 +2577,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2532,7 +2616,7 @@
 		P.NAME LIKE :name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2581,7 +2665,7 @@
 		:amount
 		END END END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2624,7 +2708,7 @@
 		:name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2652,7 +2736,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2681,7 +2765,7 @@
 		T.MEMO
 		LIKE :memo
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2721,7 +2805,7 @@
 		:number
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2761,7 +2845,7 @@
 		THEN P.NAME LIKE :name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2810,7 +2894,7 @@
 		:amount
 		END END END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2838,7 +2922,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2867,7 +2951,7 @@
 		T.MEMO
 		LIKE :memo
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2906,7 +2990,7 @@
 		:number
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2946,7 +3030,7 @@
 		THEN P.NAME LIKE :name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -2995,7 +3079,7 @@
 		:amount
 		END END END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3023,7 +3107,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3052,7 +3136,7 @@
 		T.MEMO LIKE
 		:memo
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3091,7 +3175,7 @@
 		:number
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3134,7 +3218,7 @@
 		:name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3183,7 +3267,7 @@
 		:amount
 		END END END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3211,7 +3295,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3240,7 +3324,7 @@
 		T.MEMO LIKE
 		:memo
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3287,7 +3371,7 @@
 		:name)
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3328,7 +3412,7 @@
 		THEN P.NAME LIKE :name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3376,7 +3460,7 @@
 		:amount
 		END END END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3404,7 +3488,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3432,7 +3516,7 @@
 		WHERE
 		T.MEMO LIKE :memo
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3476,7 +3560,7 @@
 		:name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3519,7 +3603,7 @@
 		:name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3562,7 +3646,7 @@
 		LIKE :name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3590,7 +3674,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3619,7 +3703,7 @@
 		T.MEMO
 		LIKE :memo
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3662,7 +3746,7 @@
 		LIKE :name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3690,7 +3774,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3718,7 +3802,7 @@
 		WHERE
 		T.MEMO LIKE :memo
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3746,7 +3830,7 @@
 		WHERE
 		T.T_DATE=:date
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3785,7 +3869,7 @@
 		:number
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3814,7 +3898,7 @@
 		T.MEMO LIKE
 		:memo
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3857,7 +3941,7 @@
 		LIKE :name
 		END END
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
 	</sql-query>
 

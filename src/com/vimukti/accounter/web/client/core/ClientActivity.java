@@ -2,6 +2,11 @@ package com.vimukti.accounter.web.client.core;
 
 public class ClientActivity implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static final int CREATED = 2;
 
 	public static final int EDITED = 3;
@@ -9,6 +14,26 @@ public class ClientActivity implements IAccounterCore {
 	public static final int VOIDED = 4;
 
 	public static final int NOTE = 6;
+
+	public static final long LOGIN_LOGOUT = 0x1L;
+
+	public static final long TRNASACTIONS = 0x2L;
+
+	public static final long RECURRING_TRNASACTIONS = 0x4L;
+
+	public static final long PREFERENCES = 0x8L;
+
+	public static final long RECONCILIATIONS = 0x10L;
+
+	public static final long BUDGETS = 0x20L;
+
+	// public static final long SALES_CUSTOMIZATION = 0x40L;
+
+	// public static final long DATA_EXCHANGE = 0x100L;
+
+	// public static final long LISTS = 0x4L;
+
+	// public static final long STATEMENTS = 0x8L;
 
 	private long id;
 
@@ -191,4 +216,5 @@ public class ClientActivity implements IAccounterCore {
 	public void setAuditHistory(String auditHistory) {
 		this.auditHistory = auditHistory;
 	}
+
 }

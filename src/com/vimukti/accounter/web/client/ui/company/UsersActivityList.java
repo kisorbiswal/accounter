@@ -35,15 +35,17 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 	private ClientFinanceDate fromDate, endDate;
 	private final AccounterMessages messages = Accounter.messages();
 	boolean addButton = true;
+	private long value;
 
 	public UsersActivityList() {
 		createControls();
 	}
 
 	public UsersActivityList(ClientFinanceDate fromdate,
-			ClientFinanceDate endDate) {
+			ClientFinanceDate endDate, long value) {
 		this.setFromDate(fromdate);
 		this.setEndDate(endDate);
+		this.setCustomiseValue(value);
 		createControls();
 	}
 
@@ -55,6 +57,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				int length = display.getVisibleRange().getLength();
 				Accounter.createHomeService().getUsersActivityLog(
 						getFromDate(), getEndDate(), start, length,
+						getCustomiseValue(),
 						new AsyncCallback<PaginationList<ClientActivity>>() {
 
 							@Override
@@ -346,5 +349,13 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 					object.getObjectID());
 		}
 
+	}
+
+	public void setCustomiseValue(long value) {
+		this.value = value;
+	}
+
+	public long getCustomiseValue() {
+		return value;
 	}
 }

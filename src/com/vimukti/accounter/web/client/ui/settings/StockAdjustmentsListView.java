@@ -59,13 +59,21 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 
 	@Override
 	protected Action getAddNewAction() {
-		return ActionFactory.getStockAdjustmentAction();
+		if (!Accounter.getUser().getUserRole()
+				.equalsIgnoreCase(messages.readOnly()))
+			return ActionFactory.getStockAdjustmentAction();
+		else
+			return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.messages().addaNew(
-				Accounter.messages().stockAdjustment());
+		if (!Accounter.getUser().getUserRole()
+				.equalsIgnoreCase(messages.readOnly()))
+			return Accounter.messages().addaNew(
+					Accounter.messages().stockAdjustment());
+		else
+			return "";
 	}
 
 	@Override

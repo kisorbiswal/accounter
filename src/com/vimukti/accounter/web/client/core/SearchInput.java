@@ -39,6 +39,7 @@ public class SearchInput implements IsSerializable, Serializable {
 	private int matchType;
 	private String findBy;
 	private long value;
+	private double amount;
 
 	public SearchInput() {
 	}
@@ -81,6 +82,14 @@ public class SearchInput implements IsSerializable, Serializable {
 
 	public void setMatchType(int matchType) {
 		this.matchType = matchType;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
 }

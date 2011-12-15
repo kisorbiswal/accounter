@@ -6780,18 +6780,115 @@
 
 	</sql-query>
 
-	<sql-query name="getActivityLog">
+	<sql-query name="getAllUserActivities">
 		<query-param name="companyId" type="long" />
-		<return-scalar column="TIME_STAMP" type="long" />
-		<return-scalar column="USER_NAME" type="string" />
-		<return-scalar column="ACTIVITY_TYPE" type="int" />
-		<return-scalar column="OBJECT_ID" type="long" />
-		<return-scalar column="NAME" type="string" />
-		<return-scalar column="TRANSACTION_DATE" type="long" />
-		<return-scalar column="AMOUNT" type="double" />
+		<query-param name="fromDate" type="timestamp" />
+		<query-param name="endDate" type="timestamp" />
+		<query-param name="logoutOrLogin" type="boolean" />
+		<query-param name="preferences" type="boolean" />
+		<query-param name="transactions" type="boolean" />
+		<query-param name="budgets" type="boolean" />
+		<query-param name="reconciliations" type="boolean" />
+		<!-- <query-param name="recurringTransactions" type="boolean" /> -->
+		
+		<return-scalar column="ID" type="long" />
+		
 
-		SELECT * FROM ACTIVITY A WHERE A.COMPANY_ID=:companyId
+		SELECT 
+			AT.ID AS ID
+		FROM 
+			ACTIVITY AT 
+		WHERE 
+			CASE
+				WHEN :logoutOrLogin
+					THEN (AT.ACTIVITY_TYPE='0' OR AT.ACTIVITY_TYPE='1')
+			END
+			OR
+			CASE
+				WHEN :preferences
+					THEN AT.ACTIVITY_TYPE='5'
+			END
+			OR
+			CASE
+				WHEN :transactions
+					THEN (AT.OBJECT_TYPE BETWEEN '1' AND '30')
+			END
+			OR
+			CASE
+				WHEN :budgets
+					THEN AT.OBJECT_TYPE='81'
+			END
+			OR
+			CASE
+				WHEN :reconciliations
+					THEN AT.OBJECT_TYPE='82'
+			END
+			<!-- OR
+			CASE
+				WHEN :recurringTransactions
+					THEN AT.OBJECT_TYPE='83'
+			END -->
+		AND
+			(AT.TIME_STAMP BETWEEN :fromDate AND :endDate) 
+		AND 
+			AT.COMPANY_ID=:companyId
+		ORDER BY 
+			AT.TIME_STAMP desc
 
+	</sql-query>
+	
+	<sql-query name="getCountByCustomiseValues">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="timestamp" />
+		<query-param name="endDate" type="timestamp" />
+		<query-param name="logoutOrLogin" type="boolean" />
+		<query-param name="preferences" type="boolean" />
+		<query-param name="transactions" type="boolean" />
+		<query-param name="budgets" type="boolean" />
+		<query-param name="reconciliations" type="boolean" />
+		<!-- <query-param name="recurringTransactions" type="boolean" /> -->
+		
+		<return-scalar column="COUNT" type="int" />
+
+		SELECT 
+			COUNT(*) AS COUNT 
+		FROM 
+			ACTIVITY AT 
+		WHERE 
+			CASE
+				WHEN :logoutOrLogin
+					THEN (AT.ACTIVITY_TYPE='0' OR AT.ACTIVITY_TYPE='1')
+			END
+		OR
+			CASE
+				WHEN :preferences
+					THEN AT.ACTIVITY_TYPE='5'
+			END
+		OR
+			CASE
+				WHEN :transactions
+					THEN (AT.OBJECT_TYPE BETWEEN '1' AND '30')
+			END
+		OR
+			CASE
+				WHEN :budgets
+					THEN AT.OBJECT_TYPE='81'
+			END
+		OR
+			CASE
+				WHEN :reconciliations
+					THEN AT.OBJECT_TYPE='82'
+			END
+		<!-- OR
+			CASE
+				WHEN :recurringTransactions
+					THEN AT.OBJECT_TYPE='83'
+			END-->
+		AND
+			(AT.TIME_STAMP BETWEEN :fromDate AND :endDate) 
+		AND 
+			AT.COMPANY_ID=:companyId
+		
 	</sql-query>
 
 	<sql-query name="getCustomerStatement">

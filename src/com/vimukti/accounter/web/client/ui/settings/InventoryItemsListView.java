@@ -42,7 +42,6 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
-
 		allItems.remove(toBeDeletedItem);
 		refreshTotal();
 

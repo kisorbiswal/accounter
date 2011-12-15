@@ -310,7 +310,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public PaginationList<ClientActivity> getUsersActivityLog(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			int startIndex, int length) throws AccounterException;
+			int startIndex, int length, long value) throws AccounterException;
 
 	public ArrayList<ClientActivity> getAuditHistory(int objectType,
 			long objectID, long activityID) throws AccounterException;

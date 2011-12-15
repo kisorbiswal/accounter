@@ -38,12 +38,20 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return ActionFactory.getAddMeasurementAction();
+		if (!Accounter.getUser().getUserRole()
+				.equalsIgnoreCase(messages.readOnly()))
+			return ActionFactory.getAddMeasurementAction();
+		else
+			return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.messages().addNewMeasurement();
+		if (!Accounter.getUser().getUserRole()
+				.equalsIgnoreCase(messages.readOnly()))
+			return Accounter.messages().addNewMeasurement();
+		else
+			return "";
 	}
 
 	@Override

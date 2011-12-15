@@ -8,10 +8,12 @@ import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
-public class Budget extends CreatableObject implements IAccounterServerCore {
+public class Budget extends CreatableObject implements IAccounterServerCore,
+		INamedObject {
 
 	private static final long serialVersionUID = 1L;
 
@@ -99,6 +101,23 @@ public class Budget extends CreatableObject implements IAccounterServerCore {
 
 		w.put(messages.details(), this.budgetItems);
 
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.BUDGET;
 	}
 
 }

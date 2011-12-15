@@ -49,21 +49,25 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 
 	@Override
 	public void onDoubleClick(StockAdjustmentList obj) {
-		AccounterAsyncCallback<ClientStockAdjustment> callback = new AccounterAsyncCallback<ClientStockAdjustment>() {
+		if (!Accounter.getUser().getUserRole()
+				.equalsIgnoreCase(messages.readOnly())) {
+			AccounterAsyncCallback<ClientStockAdjustment> callback = new AccounterAsyncCallback<ClientStockAdjustment>() {
 
-			public void onException(AccounterException caught) {
-			}
-
-			public void onResultSuccess(ClientStockAdjustment result) {
-				if (result != null) {
-					ActionFactory.getStockAdjustmentAction().run(result, false);
+				public void onException(AccounterException caught) {
 				}
-			}
 
-		};
-		Accounter.createGETService().getObjectById(
-				AccounterCoreType.STOCK_ADJUSTMENT, obj.getStockAdjustment(),
-				callback);
+				public void onResultSuccess(ClientStockAdjustment result) {
+					if (result != null) {
+						ActionFactory.getStockAdjustmentAction().run(result,
+								false);
+					}
+				}
+
+			};
+			Accounter.createGETService().getObjectById(
+					AccounterCoreType.STOCK_ADJUSTMENT,
+					obj.getStockAdjustment(), callback);
+		}
 	}
 
 	@Override

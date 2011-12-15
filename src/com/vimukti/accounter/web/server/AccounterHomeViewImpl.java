@@ -1629,11 +1629,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public PaginationList<ClientActivity> getUsersActivityLog(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			int startIndex, int length) throws AccounterException {
+			int startIndex, int length, long value) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			return tool.getUserManager().getUsersActivityLog(startDate,
-					endDate, startIndex, length, getCompanyId());
+					endDate, startIndex, length, getCompanyId(),value);
 		}
 		return null;
 

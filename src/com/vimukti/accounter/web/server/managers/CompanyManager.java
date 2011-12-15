@@ -807,10 +807,9 @@ public class CompanyManager extends Manager {
 
 		if (input.getTransactionType() == Transaction.ALL) {
 			if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double amount = Double.valueOf(input.getFindBy());
 				query = session.getNamedQuery("getAllTransactionsByAmount")
 						.setParameter("companyId", companyId)
-						.setParameter("amount", amount)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 
 			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
@@ -839,10 +838,9 @@ public class CompanyManager extends Manager {
 						.setParameter("name", input.getFindBy())
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session.getNamedQuery("getAllEnterBillssByAmount")
 						.setParameter("companyId", companyId)
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
 				query = session.getNamedQuery("getAllEnterBillsByDate")
@@ -888,10 +886,9 @@ public class CompanyManager extends Manager {
 						.setParameter("match", input.getMatchType());
 
 			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session.getNamedQuery("getAllPayBillssByAmount")
 						.setParameter("companyId", companyId)
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 
 			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
@@ -926,11 +923,10 @@ public class CompanyManager extends Manager {
 						.setParameter("match", input.getMatchType());
 
 			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session.getNamedQuery("getAllCashExpensesByAmount")
 						.setParameter("companyId", companyId)
 						.setParameter("type", input.getTransactionType())
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 
 			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
@@ -973,10 +969,9 @@ public class CompanyManager extends Manager {
 						.setParameter("name", input.getFindBy())
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session.getNamedQuery("getAllWriteChecksByAmount")
 						.setParameter("companyId", companyId)
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 
 			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
@@ -1003,12 +998,11 @@ public class CompanyManager extends Manager {
 			// }
 		} else if (input.getTransactionType() == Transaction.TYPE_CREDIT_CARD_EXPENSE) {
 			if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session
 						.getNamedQuery("getAllCreditCardExpensesByAmount")
 						.setParameter("companyId", companyId)
 						.setParameter("type", input.getTransactionType())
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
 				query = session
@@ -1054,11 +1048,10 @@ public class CompanyManager extends Manager {
 
 		} else if (input.getTransactionType() == Transaction.TYPE_CREDIT_CARD_CHARGE) {
 			if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session
 						.getNamedQuery("getAllCreditCardChargesByAmount")
 						.setParameter("companyId", companyId)
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
 				query = session
@@ -1098,11 +1091,10 @@ public class CompanyManager extends Manager {
 
 		} else if (input.getTransactionType() == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 			if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session
 						.getNamedQuery("getAllCustomerCreditNotesByAmount")
 						.setParameter("companyId", companyId)
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 
 			} else if (input.getSearchbyType() == SearchInput.TYPE_CUSTOMER) {
@@ -1150,55 +1142,40 @@ public class CompanyManager extends Manager {
 						.setParameter("match", input.getMatchType());
 
 			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session.getNamedQuery("getAllEstimatesByAmount")
 						.setParameter("companyId", companyId)
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 
 			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
 				query = session.getNamedQuery("getAllEstimatesByDate")
 						.setParameter("companyId", companyId)
 						.setParameter("date", input.getValue());
-			}
-			// else if (input.getSearchbyType() == SearchInput.TYPE_DUE_DATE) {
-			// ClientFinanceDate date = new ClientFinanceDate(
-			// input.getFindBy());
-			// query = session.getNamedQuery("getAllEstimatesByDueDate")
-			// .setParameter("companyId", companyId)
-			// .setParameter("value", date.getDate());// Not
-			// }
-			if (input.getSearchbyType() == SearchInput.TYPE_INVOICE_DATE) {
+			} else if (input.getSearchbyType() == SearchInput.TYPE_INVOICE_DATE) {
 				query = session.getNamedQuery("getAllEstimatesByInvoiceDate")
 						.setParameter("companyId", companyId)
 						.setParameter("date", input.getValue());
-			}
-			if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
 				query = session.getNamedQuery("getAllEstimatesByDescOrMemo")
 						.setParameter("companyId", companyId)
 						.setParameter("memo", "%" + input.getFindBy() + "%");
-			}
-			if (input.getSearchbyType() == SearchInput.TYPE_PRODUCT_SERVICE) {
+			} else if (input.getSearchbyType() == SearchInput.TYPE_PRODUCT_SERVICE) {
 				query = session
 						.getNamedQuery("getAllEstimatesByProductOrService")
 						.setParameter("companyId", companyId)
 						.setParameter("name", input.getFindBy())
 						.setParameter("match", input.getMatchType());
-			}
-			if (input.getSearchbyType() == SearchInput.TYPE_CHARGE_NO) {
+			} else if (input.getSearchbyType() == SearchInput.TYPE_CHARGE_NO) {
 				query = session.getNamedQuery("getAllEstimatesByChargeNo")
 						.setParameter("companyId", companyId)
 						.setParameter("number", input.getFindBy())
 						.setParameter("match", input.getMatchType());
-			}
-
-			if (input.getSearchbyType() == SearchInput.TYPE_ESTIMATE_NO) {
+			} else if (input.getSearchbyType() == SearchInput.TYPE_ESTIMATE_NO) {
 				query = session.getNamedQuery("getAllEstimatesByEstimateNo")
 						.setParameter("companyId", companyId)
 						.setParameter("number", input.getFindBy())
 						.setParameter("match", input.getMatchType());
-			}
-			if (input.getSearchbyType() == SearchInput.TYPE_CREDIT_NO) {
+			} else if (input.getSearchbyType() == SearchInput.TYPE_CREDIT_NO) {
 				query = session.getNamedQuery("getAllEstimatesByCreditNo")
 						.setParameter("companyId", companyId)
 						.setParameter("number", input.getFindBy())
@@ -1228,10 +1205,9 @@ public class CompanyManager extends Manager {
 			}
 		} else if (input.getTransactionType() == Transaction.TYPE_INVOICE) {
 			if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session.getNamedQuery("getAllInvoicesByAmount")
 						.setParameter("companyId", companyId)
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 
 			} else if (input.getSearchbyType() == SearchInput.TYPE_CUSTOMER) {
@@ -1272,10 +1248,9 @@ public class CompanyManager extends Manager {
 						.setParameter("name", input.getFindBy())
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session.getNamedQuery("getAllReceivePaymentsByAmount")
 						.setParameter("companyId", companyId)
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
 				query = session.getNamedQuery("getAllReceivePaymentsByAccount")
@@ -1307,10 +1282,9 @@ public class CompanyManager extends Manager {
 						.setParameter("name", input.getFindBy())
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session.getNamedQuery("getAllCustomerRefundsByAmount")
 						.setParameter("companyId", companyId)
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
 				query = session.getNamedQuery("getAllCustomerRefundsByDate")
@@ -1335,10 +1309,9 @@ public class CompanyManager extends Manager {
 						.setParameter("name", input.getFindBy())
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session.getNamedQuery("getAllCashSalesByAmount")
 						.setParameter("companyId", companyId)
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
 				query = session.getNamedQuery("getAllCashSalesByDate")
@@ -1378,11 +1351,10 @@ public class CompanyManager extends Manager {
 						.setParameter("companyId", companyId)
 						.setParameter("memo", "%" + input.getFindBy() + "%");
 			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session
 						.getNamedQuery("getAllDepositsOrTransfersByAmount")
 						.setParameter("companyId", companyId)
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 			}
 
@@ -1400,10 +1372,9 @@ public class CompanyManager extends Manager {
 						.setParameter("name", input.getFindBy())
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				double value = Double.valueOf(input.getFindBy());
 				query = session.getNamedQuery("getAllVendorCreditsByAmount")
 						.setParameter("companyId", companyId)
-						.setParameter("amount", value)
+						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
 				ClientFinanceDate date = new ClientFinanceDate(

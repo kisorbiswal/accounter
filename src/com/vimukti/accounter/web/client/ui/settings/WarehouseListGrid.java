@@ -57,8 +57,8 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 	protected String[] getColumns() {
 		return new String[] { Accounter.messages().warehouseCode(),
 				Accounter.messages().warehouseName(),
-				Accounter.messages().ddiNumber(),
-				Accounter.messages().items(), Accounter.messages().delete() };
+				Accounter.messages().ddiNumber(), Accounter.messages().items(),
+				Accounter.messages().delete() };
 	}
 
 	@Override
@@ -101,9 +101,14 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 
 	@Override
 	protected void onClick(ClientWarehouse obj, int row, int col) {
+		if (!Accounter.getUser().getUserRole().equals(messages.readOnly())) {
+			return;
+		}
+
 		switch (col) {
 		case 3:
-			ActionFactory.getWareHouseItemsListAction(obj.getID()).run(null, false);
+			ActionFactory.getWareHouseItemsListAction(obj.getID()).run(null,
+					false);
 			break;
 		case 4:
 			showWarnDialog(obj);
@@ -116,8 +121,11 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 
 	@Override
 	public void onDoubleClick(ClientWarehouse obj) {
-		WareHouseViewAction action = new WareHouseViewAction(Accounter
-				.messages().wareHouse());
-		action.run(obj, false);
+		if (!Accounter.getUser().getUserRole()
+				.equalsIgnoreCase(messages.readOnly())) {
+			WareHouseViewAction action = new WareHouseViewAction(Accounter
+					.messages().wareHouse());
+			action.run(obj, false);
+		}
 	}
 }

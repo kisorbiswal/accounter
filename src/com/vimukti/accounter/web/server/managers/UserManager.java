@@ -147,8 +147,7 @@ public class UserManager extends Manager {
 
 	public PaginationList<ClientActivity> getUsersActivityLog(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			int startIndex, int length, long companyId) {
-
+			int startIndex, int length, long companyId, long value) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Timestamp startTime = new Timestamp(startDate.getDateAsObject()
@@ -159,41 +158,98 @@ public class UserManager extends Manager {
 		endTime.setSeconds(59);
 		Query query;
 		int count;
-		if (startDate.getDate() == 0 || endDate.getDate() == 0) {
-			query = session.getNamedQuery("list.Activity").setEntity("company",
-					company);
-			query.setFirstResult(startIndex);
-			query.setMaxResults(length);
-			count = ((BigInteger) session.getNamedQuery("getCountOfActivity")
-					.setLong("companyId", companyId).uniqueResult()).intValue();
-		} else {
-			query = session.getNamedQuery("get.Activities.by.date");
+		if (value == 0) {
+			query = session.getNamedQuery("list.Activity");
+			query.setEntity("company", company);
 			query.setParameter("fromDate", startTime);
 			query.setParameter("endDate", endTime);
 			query.setFirstResult(startIndex);
 			query.setMaxResults(length);
-			query.setEntity("company", company);
 			count = ((BigInteger) session
 					.getNamedQuery("getCountOfActivityBetweenDates")
 					.setParameter("fromDate", startTime)
 					.setParameter("endDate", endTime)
 					.setLong("companyId", companyId).uniqueResult()).intValue();
-		}
-		List<Activity> activites = query.list();
-		PaginationList<ClientActivity> clientActivities = new PaginationList<ClientActivity>();
-		for (Activity activity : activites) {
-			ClientActivity clientActivity;
-			try {
-				clientActivity = new ClientConvertUtil().toClientObject(
-						activity, ClientActivity.class);
-				clientActivities.add(clientActivity);
-			} catch (AccounterException e) {
-				e.printStackTrace();
+			List<Activity> activites = query.list();
+			PaginationList<ClientActivity> clientActivities = new PaginationList<ClientActivity>();
+			for (Activity activity : activites) {
+				ClientActivity clientActivity;
+				try {
+					clientActivity = new ClientConvertUtil().toClientObject(
+							activity, ClientActivity.class);
+					clientActivities.add(clientActivity);
+				} catch (AccounterException e) {
+					e.printStackTrace();
+				}
+
 			}
+			clientActivities.setTotalCount(count);
+			return clientActivities;
+
+		} else {
+			boolean logoutOrLogin = get(ClientActivity.LOGIN_LOGOUT, value);
+			boolean preferences = get(ClientActivity.PREFERENCES, value);
+			boolean transactions = get(ClientActivity.TRNASACTIONS, value);
+			boolean budgets = get(ClientActivity.BUDGETS, value);
+			boolean reconciliations = get(ClientActivity.RECONCILIATIONS, value);
+			// boolean recurringTransactions = get(
+			// ClientActivity.RECURRING_TRNASACTIONS, value);
+			query = session.getNamedQuery("getAllUserActivities")
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", startTime)
+					.setParameter("endDate", endTime)
+					.setParameter("logoutOrLogin", logoutOrLogin)
+					.setParameter("preferences", preferences)
+					.setParameter("transactions", transactions)
+					.setParameter("budgets", budgets)
+					.setParameter("reconciliations", reconciliations)
+					// .setParameter("recurringTransactions",
+					// recurringTransactions)
+					.setFirstResult(startIndex).setMaxResults(length);
+			count = ((Integer) session
+					.getNamedQuery("getCountByCustomiseValues")
+					.setLong("companyId", companyId)
+					.setParameter("fromDate", startTime)
+					.setParameter("endDate", endTime)
+					.setParameter("fromDate", startTime)
+					.setParameter("endDate", endTime)
+					.setParameter("logoutOrLogin", logoutOrLogin)
+					.setParameter("preferences", preferences)
+					.setParameter("transactions", transactions)
+					.setParameter("budgets", budgets)
+					.setParameter("reconciliations", reconciliations)
+					.uniqueResult()).intValue();
+			List list = query.list();
+			Iterator i = list.iterator();
+			PaginationList<ClientActivity> clientActivities = new PaginationList<ClientActivity>();
+			while ((i).hasNext()) {
+				Object object = i.next();
+				if(object == null){
+					continue;
+				}
+				long activityId = (Long) object;
+				Activity activity = (Activity) session.get(Activity.class,
+						activityId);
+				ClientActivity clientActivity;
+				try {
+					clientActivity = new ClientConvertUtil().toClientObject(
+							activity, ClientActivity.class);
+					clientActivities.add(clientActivity);
+				} catch (AccounterException e) {
+					e.printStackTrace();
+				}
+
+			}
+			clientActivities.setTotalCount(count);
+			return clientActivities;
 
 		}
-		clientActivities.setTotalCount(count);
-		return clientActivities;
+
+	}
+
+	private boolean get(long flag, long value) {
+		return (value & flag) == flag;
+
 	}
 
 	public ArrayList<ClientUserInfo> getAllUsers(long companyId)

@@ -336,7 +336,7 @@ public interface IAccounterHomeViewServiceAsync {
 	void getAllUsers(AsyncCallback<ArrayList<ClientUserInfo>> callback);
 
 	public void getUsersActivityLog(ClientFinanceDate startDate,
-			ClientFinanceDate endDate, int startIndex, int length,
+			ClientFinanceDate endDate, int startIndex, int length, long value,
 			AsyncCallback<PaginationList<ClientActivity>> callback);
 
 	public void getAuditHistory(int objectType, long objectID, long activityID,

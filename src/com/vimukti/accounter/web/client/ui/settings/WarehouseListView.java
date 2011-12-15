@@ -60,12 +60,20 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return ActionFactory.getWareHouseViewAction();
+		if (!Accounter.getUser().getUserRole()
+				.equalsIgnoreCase(messages.readOnly()))
+			return ActionFactory.getWareHouseViewAction();
+		else
+			return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.messages().addNewWarehouse();
+		if (!Accounter.getUser().getUserRole()
+				.equalsIgnoreCase(messages.readOnly()))
+			return Accounter.messages().addNewWarehouse();
+		else
+			return "";
 	}
 
 	@Override

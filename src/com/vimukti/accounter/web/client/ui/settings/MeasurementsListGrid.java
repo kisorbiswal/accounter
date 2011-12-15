@@ -84,6 +84,9 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 
 	@Override
 	protected void onClick(ClientMeasurement obj, int row, int col) {
+		if (!Accounter.getUser().getUserRole().equals(messages.readOnly())) {
+			return;
+		}
 		switch (col) {
 		case 4:
 			showWarnDialog(obj);
@@ -135,8 +138,11 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 
 	@Override
 	public void onDoubleClick(ClientMeasurement obj) {
-		AddMeasurementAction action = new AddMeasurementAction(Accounter
-				.messages().measurement());
-		action.run(obj, false);
+		if (!Accounter.getUser().getUserRole()
+				.equalsIgnoreCase(messages.readOnly())) {
+			AddMeasurementAction action = new AddMeasurementAction(Accounter
+					.messages().measurement());
+			action.run(obj, false);
+		}
 	}
 }

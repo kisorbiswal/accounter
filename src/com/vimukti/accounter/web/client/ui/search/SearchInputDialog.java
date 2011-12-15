@@ -322,8 +322,7 @@ public class SearchInputDialog extends BaseDialog {
 				.getSelectedValue()));
 
 		if (getFindByObjType() instanceof AmountField) {
-			String string = "" + ((AmountField) getFindByObjType()).getAmount();
-			input.setFindBy(string.equals("") ? "0.00" : string);
+			input.setAmount(amountField.getAmount());
 		} else if (getFindByObjType() instanceof TextItem) {
 			String string = getFindByObjType().getValue().toString();
 			input.setFindBy(string);
@@ -414,7 +413,6 @@ public class SearchInputDialog extends BaseDialog {
 		if (selectItem.equals(messages.all())) {
 			return ClientTransaction.TYPE_ALL;
 		}
-
 		if (selectItem.equals(messages.bill())) {
 			return ClientTransaction.TYPE_ENTER_BILL;
 		}
@@ -537,7 +535,7 @@ public class SearchInputDialog extends BaseDialog {
 	protected void setFindByComboOptions(String selectItem) {
 		labelItem.setText(messages.status() + ": " + messages.selectCreteria());
 		findByItem.setValue("");
-		amountField.setAmount(null);
+		amountField.setAmount(0.00);
 		findbyForm.clear();
 		matchIfForm.clear();
 		if (selectItem.equals(messages.descOrMemo())
