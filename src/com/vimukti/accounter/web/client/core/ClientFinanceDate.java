@@ -267,5 +267,9 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 		return financeDate;
 	}
 
+	public int getDayOfWeek() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }
