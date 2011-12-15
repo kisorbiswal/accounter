@@ -53,8 +53,8 @@ public class NewBrandThemeAction extends Action<ClientBrandingTheme> {
 						.editBrandThemeLabel(), "", (ClientBrandingTheme) data);
 
 			}
-			MainFinanceWindow.getViewManager()
-					.showView(view, data, isDependent, this);
+			MainFinanceWindow.getViewManager().showView(view, data,
+					isDependent, this);
 
 		} catch (Exception e) {
 			e.printStackTrace();

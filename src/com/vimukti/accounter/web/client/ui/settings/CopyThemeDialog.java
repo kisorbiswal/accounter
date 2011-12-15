@@ -45,9 +45,7 @@ public class CopyThemeDialog extends BaseDialog {
 		}
 
 		if (brandingThemeByName != null) {
-			result
-					.addError(this, Accounter.messages()
-							.themenamealreadyexist());
+			result.addError(this, Accounter.messages().themenamealreadyexist());
 		}
 		// if (Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
 		// nameBox.getText())) {
@@ -60,35 +58,45 @@ public class CopyThemeDialog extends BaseDialog {
 	protected ClientBrandingTheme setValues() {
 
 		ClientBrandingTheme clientBrandingTheme = new ClientBrandingTheme();
-		clientBrandingTheme.setPageSizeType(theme.getPageSizeType());
-		clientBrandingTheme.setAddressPadding(theme.getAddressPadding());
-		clientBrandingTheme.setBottomMargin(theme.getBottomMargin());
-		clientBrandingTheme.setTopMargin(theme.getTopMargin());
-		clientBrandingTheme.setMarginsMeasurementType(theme
-				.getMarginsMeasurementType());
-		clientBrandingTheme.setFont(theme.getFont());
-		clientBrandingTheme.setFontSize(theme.getFontSize());
-		clientBrandingTheme.setOverDueInvoiceTitle(theme
-				.getOverDueInvoiceTitle());
-		clientBrandingTheme.setCreditMemoTitle(theme.getCreditMemoTitle());
-		clientBrandingTheme.setStatementTitle(theme.getStatementTitle());
-		clientBrandingTheme.setContactDetails(theme.getContactDetails());
-		clientBrandingTheme.setTerms_And_Payment_Advice(theme
-				.getTerms_And_Payment_Advice());
-		clientBrandingTheme.setPayPalEmailID(theme.getPayPalEmailID());
-		clientBrandingTheme.setShowLogo(theme.isShowLogo());
-		clientBrandingTheme.setShowColumnHeadings(theme.isShowColumnHeadings());
-		clientBrandingTheme.setShowRegisteredAddress(theme
-				.isShowRegisteredAddress());
-		clientBrandingTheme.setShowTaxColumn(theme.isShowTaxColumn());
-		clientBrandingTheme.setShowTaxNumber(theme.isShowTaxNumber());
-		clientBrandingTheme.setShowUnitPrice_And_Quantity(theme
-				.isShowUnitPrice_And_Quantity());
-		clientBrandingTheme.setInvoiceTempleteName(theme
-				.getInvoiceTempleteName());
-		clientBrandingTheme.setCreditNoteTempleteName(theme
-				.getCreditNoteTempleteName());
-
+		if (theme.isCustomFile()) {// for uploaded custom BrandingTheme
+			clientBrandingTheme.setCustomFile(true);
+			clientBrandingTheme.setInvoiceTempleteName(theme
+					.getInvoiceTempleteName());
+			clientBrandingTheme.setCreditNoteTempleteName(theme
+					.getCreditNoteTempleteName());
+		} else {
+			// for regular BrandingTheme
+			clientBrandingTheme.setPageSizeType(theme.getPageSizeType());
+			clientBrandingTheme.setAddressPadding(theme.getAddressPadding());
+			clientBrandingTheme.setBottomMargin(theme.getBottomMargin());
+			clientBrandingTheme.setTopMargin(theme.getTopMargin());
+			clientBrandingTheme.setMarginsMeasurementType(theme
+					.getMarginsMeasurementType());
+			clientBrandingTheme.setFont(theme.getFont());
+			clientBrandingTheme.setFontSize(theme.getFontSize());
+			clientBrandingTheme.setOverDueInvoiceTitle(theme
+					.getOverDueInvoiceTitle());
+			clientBrandingTheme.setCreditMemoTitle(theme.getCreditMemoTitle());
+			clientBrandingTheme.setStatementTitle(theme.getStatementTitle());
+			clientBrandingTheme.setContactDetails(theme.getContactDetails());
+			clientBrandingTheme.setTerms_And_Payment_Advice(theme
+					.getTerms_And_Payment_Advice());
+			clientBrandingTheme.setPayPalEmailID(theme.getPayPalEmailID());
+			clientBrandingTheme.setShowLogo(theme.isShowLogo());
+			clientBrandingTheme.setShowColumnHeadings(theme
+					.isShowColumnHeadings());
+			clientBrandingTheme.setShowRegisteredAddress(theme
+					.isShowRegisteredAddress());
+			clientBrandingTheme.setShowTaxColumn(theme.isShowTaxColumn());
+			clientBrandingTheme.setShowTaxNumber(theme.isShowTaxNumber());
+			clientBrandingTheme.setShowUnitPrice_And_Quantity(theme
+					.isShowUnitPrice_And_Quantity());
+			clientBrandingTheme.setInvoiceTempleteName(theme
+					.getInvoiceTempleteName());
+			clientBrandingTheme.setCreditNoteTempleteName(theme
+					.getCreditNoteTempleteName());
+			clientBrandingTheme.setCustomFile(false);
+		}
 		return clientBrandingTheme;
 	}
 

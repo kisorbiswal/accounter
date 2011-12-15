@@ -157,10 +157,12 @@
     <th><p class="fontSetting">${i18_Description}</p></th>
 	<th><p class="fontSetting">${i18_Qty}</p></th>
 	<th><p class="fontSetting">${i18_Unit_Price}</p></th>
+	<!-- $BeginBlock discountBlock -->
 	<th><p class="fontSetting">${i18_Discount}</p></th>
+	<!-- $EndBlock discountBlock -->
 	<th><p class="fontSetting">${i18_Total_Price}</p></th>
 	<!-- $BeginBlock vatBlock -->
-<th><p class="fontSetting">${i18_VATRate}</p></th>
+	<th><p class="fontSetting">${i18_VATRate}</p></th>
 	<th><p class="fontSetting">${i18_VATAmount}</p></th>
 	<!-- $EndBlock vatBlock -->
 	<!-- $EndBlock showLabels -->
@@ -180,11 +182,13 @@
 	     <p class="fontSetting">${itemUnitPrice}</p>
 	   </div>
 	</td>
-	<td align="center">
+	<!-- $BeginBlock discountValueBlock -->
+	<td>
 	   <div class="cost">
 	     <p class="fontSetting">${discount}</p>
 	   </div>
 	</td>
+	<!-- $EndBlock discountValueBlock -->
     <td align="center">
 	   <div class="price">
 	     <p class="fontSetting">${itemTotalPrice}</p>

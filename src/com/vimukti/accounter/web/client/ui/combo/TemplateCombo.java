@@ -13,7 +13,7 @@ public class TemplateCombo extends CustomCombo {
 	private String compareText;
 
 	public TemplateCombo(String title, String compareText) {
-		super(title);
+		super(title, false, 1);
 
 		this.compareText = compareText;
 		initCombo(getTempletes());

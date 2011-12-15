@@ -92,12 +92,12 @@
 						 <!-- $EndBlock currency -->
 						 <!-- $BeginBlock dueDateDetails -->
 						 <tr>
-                            <td class="table-head" id="duedate"><strong>${i18_Due_Date}</strong></td>
+                            <td class="table-head" id="duedate">${i18_Due_Date}</td>
 	                        <td align="right">${dueDate}</td>
 						 </tr><!-- $EndBlock dueDateDetails -->
 						  <!-- $BeginBlock customerVat -->
 						 <tr>
-                            <td class="table-head" id="duedate"><strong>${i18_Customer_TAX_Registration_Number}</strong></td>
+                            <td class="table-head" id="duedate">${i18_Customer_TAX_Registration_Number}</td>
 	                        <td align="right">${customerVATNumber}</td>
 						 </tr><!-- $EndBlock customerVat -->
 					 </table> 
@@ -174,7 +174,9 @@
     <td><p class="fontSetting">${i18_Description}</p></td>
 	<td><p class="fontSetting">${i18_Qty}</p></td>
 	<td><p class="fontSetting">${i18_Unit_Price}</p></td>
-	 <td><p class="fontSetting">${i18_Discount}</p></td>
+	<!-- $BeginBlock discountBlock -->
+	<th><p class="fontSetting">${i18_Discount}</p></th>
+	<!-- $EndBlock discountBlock -->
 	<td><p class="fontSetting">${i18_Total_Price}</p></td>
 	<!-- $BeginBlock vatBlock -->
 	<td><p class="fontSetting">${i18_VATRate}</p></td>
@@ -199,11 +201,13 @@
 	     <p class="fontSetting">${itemUnitPrice}</p>
 	   </div>
 	</td>
+	<!-- $BeginBlock discountValueBlock -->
 	<td>
 	   <div class="cost">
 	     <p class="fontSetting">${discount}</p>
 	   </div>
 	</td>
+	<!-- $EndBlock discountValueBlock -->
     <td>
 	   <div class="price">
 	     <p class="fontSetting">${itemTotalPrice}</p>

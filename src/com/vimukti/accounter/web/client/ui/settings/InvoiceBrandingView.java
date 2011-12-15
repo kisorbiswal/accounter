@@ -19,12 +19,20 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DesktopMenuFactory;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
+import com.vimukti.accounter.web.client.ui.IMenuFactory;
+import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenu;
+import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenuBar;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.TouchMenuFactory;
+import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.UploadTemplateFileDialog;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 /**
@@ -38,14 +46,18 @@ public class InvoiceBrandingView<T> extends
 	private ClientBrandingTheme brandingTheme;
 	private HTML generalSettingsHTML, allLabelsHtml, ShowHtml, checkBoxHtml,
 			headingsHtml, paypalEmailHtml, termsHtml, radioButtonHtml,
-			contactDetailsHtml, titleHtml, invoiceHtml, creditNoteHtml;
+			contactDetailsHtml, titleHtml, invoiceHtml, creditNoteHtml,
+			invoiceFileName, creditNoteFileName, downloadOdtHtml,
+			downloadDocxHtml, uploadHtml;
 	private Label titleLabel;
 	// helpHtml;
 	private VerticalPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
 			contactDetailsPanel, vPanel;
 	private Button newBrandButton, automaticButton;
 	private HorizontalPanel buttonPanel, showPanel, allPanel, nameAndMenuPanel,
-			buttonPanel2;
+			buttonPanel2, detailsPanel;
+	private IMenuFactory menuFactory = null;
+	private ClientCompany company;
 
 	@Override
 	public void setData(ClientBrandingTheme data) {
@@ -57,6 +69,7 @@ public class InvoiceBrandingView<T> extends
 	}
 
 	private void createControls() {
+		company = Accounter.getCompany();
 		mainPanel = new VerticalPanel();
 		titlePanel = new VerticalPanel();
 		generalSettingsHTML = new HTML(messages.generalSettingsLabel());
@@ -94,11 +107,16 @@ public class InvoiceBrandingView<T> extends
 		titlePanel.add(titleLabel);
 
 		buttonPanel = new HorizontalPanel();
+		// for displaying the Branding theme menu
+		IMenuBar menuBar = getBrandingmenuBar();
+		menuBar.addMenuItem(messages.newBrandTheme(), getBrandingMenu());
+
 		newBrandButton = new Button(messages.newBrandTheme());
 		newBrandButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
 				ActionFactory.getNewBrandThemeAction().run(null, false);
 			}
 		});
@@ -114,7 +132,9 @@ public class InvoiceBrandingView<T> extends
 		});
 		automaticButton.setVisible(false);
 
-		buttonPanel.add(newBrandButton);
+		// buttonPanel.add(newBrandButton);
+		buttonPanel.add(menuBar);
+
 		buttonPanel.add(automaticButton);
 
 		mainPanel.add(titlePanel);
@@ -123,13 +143,58 @@ public class InvoiceBrandingView<T> extends
 		List<ClientBrandingTheme> brandingThemes = Accounter.getCompany()
 				.getBrandingTheme();
 
+		// To display regular and uploaded themes separately, taken loop two
+		// times
+
 		for (int i = 0; i < brandingThemes.size(); i++) {
+			// for regular BrandingTheme Objects
 			brandingTheme = brandingThemes.get(i);
-			mainPanel.add(addingThemeToView(brandingTheme));
+			if (brandingTheme.isCustomFile() == false) {
+
+				mainPanel.add(addingThemeToView(brandingTheme));
+			}
 		}
+		for (int i = 0; i < brandingThemes.size(); i++) {
+			// for custom file uploaded themes
+			brandingTheme = brandingThemes.get(i);
+			if (brandingTheme.isCustomFile()) {
+				mainPanel.add(addingCustomThemeToView(brandingTheme));
+			}
+		}
+
 		mainPanel.setWidth("100%");
 		add(mainPanel);
 
+	}
+
+	private native boolean isTouch() /*-{
+		return $wnd.isTouch;
+	}-*/;
+
+	private IMenuBar getBrandingmenuBar() {
+		boolean isTouch = isTouch();
+
+		if (isTouch) {
+			menuFactory = new TouchMenuFactory();
+		} else {
+			menuFactory = new DesktopMenuFactory();
+		}
+
+		return menuFactory.createMenuBar();
+	}
+
+	/**
+	 * This method is used to display the Branding Menu
+	 */
+	private IMenu getBrandingMenu() {
+		IMenu themesMenuBar = getSubMenu();
+		themesMenuBar.addMenuItem(ActionFactory.getNewBrandThemeAction());
+		themesMenuBar.addMenuItem(ActionFactory.getNewBrandCustomThemeAction());
+		return themesMenuBar;
+	}
+
+	private IMenu getSubMenu() {
+		return menuFactory.createMenu();
 	}
 
 	private String getPageType(int type) {
@@ -152,6 +217,154 @@ public class InvoiceBrandingView<T> extends
 			logoType = messages.right();
 		}
 		return logoType;
+
+	}
+
+	private SimplePanel addingCustomThemeToView(final ClientBrandingTheme theme) {
+		vPanel = new VerticalPanel();
+		subLayPanel = new VerticalPanel();
+		final Button editButton, copyThemeButton, deleteButton, downloadOdtFiles, downloadDocxFiles, uploadButton;
+		editButton = new Button(messages.edit());
+		editButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+
+				ActionFactory.getNewBrandCustomThemeAction().run(theme, true);
+			}
+		});
+
+		copyThemeButton = new Button(messages.copy());
+		copyThemeButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ActionFactory.getCopyThemeAction().run(theme, false);
+			}
+		});
+
+		deleteButton = new Button(messages.delete());
+		deleteButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ActionFactory.getDeleteThemeAction().run(theme, false);
+			}
+		});
+
+		downloadOdtFiles = new Button(messages.downloadOdtFiles());
+		downloadOdtFiles.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				UIUtils.downloadCustomFile("CustomOdtFiles.zip");
+			}
+		});
+
+		downloadDocxFiles = new Button(messages.downloadDocxFiles());
+		downloadDocxFiles.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				UIUtils.downloadCustomFile("CustomDocxFiles.zip");
+			}
+		});
+
+		uploadButton = new Button(messages.upload());
+		uploadButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+
+				ValueCallBack<ClientBrandingTheme> callback = new ValueCallBack<ClientBrandingTheme>() {
+					@Override
+					public void execute(ClientBrandingTheme value) {
+						saveOrUpdate(value);
+					}
+				};
+				UploadTemplateFileDialog uploadDialog = new UploadTemplateFileDialog(
+						"Upload Custom Templates", "parent", callback, theme);
+			}
+		});
+
+		titleHtml = new HTML("<strong>" + theme.getThemeName() + "</strong>");
+
+		nameAndMenuPanel = new HorizontalPanel();
+		buttonPanel2 = new HorizontalPanel();
+
+		nameAndMenuPanel.add(titleHtml);
+		nameAndMenuPanel.setStyleName("standard-options");
+		titleHtml.getElement().getAbsoluteLeft();
+
+		buttonPanel2.add(editButton);
+		buttonPanel2.add(copyThemeButton);
+		buttonPanel2.add(deleteButton);
+
+		titleHtml.getElement().getParentElement()
+				.addClassName("standard_label");
+
+		nameAndMenuPanel.add(buttonPanel2);
+
+		buttonPanel2.getElement().getParentElement()
+				.setAttribute("width", "18%");
+		buttonPanel2.setWidth("100%");
+
+		vPanel.add(nameAndMenuPanel);
+		vPanel.setWidth("100%");
+
+		VerticalPanel invoicePanel = new VerticalPanel();
+		invoiceHtml = new HTML("<p>" + messages.invoice()
+				+ "<br/><br/><br/></p>");
+		invoiceFileName = new HTML("<p>" + theme.getInvoiceTempleteName()
+				+ "</p>");
+		invoicePanel.add(invoiceHtml);
+		invoicePanel.add(invoiceFileName);
+		invoicePanel.setSpacing(10);
+		invoicePanel.setStyleName("rightBorder");
+
+		VerticalPanel creditPanel = new VerticalPanel();
+		creditNoteHtml = new HTML("<p>" + messages.creditNoteTitle()
+				+ "<br/><br/><br/></p>");
+		creditNoteFileName = new HTML("<p>" + theme.getCreditNoteTempleteName()
+				+ "</p>");
+		creditPanel.add(creditNoteHtml);
+		creditPanel.add(creditNoteFileName);
+		creditPanel.setSpacing(10);
+		creditPanel.setStyleName("rightBorder");
+
+		downloadOdtHtml = new HTML("<p>" + messages.odtDownloadMessage()
+				+ "</p>");
+		downloadDocxHtml = new HTML("<p>" + messages.docxDownloadMessage()
+				+ "</p>");
+
+		uploadHtml = new HTML("<p>" + messages.themeUploadMessage() + "</p>");
+
+		detailsPanel = new HorizontalPanel();
+		detailsPanel.setWidth("100%");
+
+		VerticalPanel downloadPanel = new VerticalPanel();
+		// downloadPanel.setWidth("30%");
+		downloadPanel.add(downloadOdtFiles);
+		downloadPanel.add(downloadOdtHtml);
+		downloadPanel.add(downloadDocxFiles);
+		downloadPanel.add(downloadDocxHtml);
+		downloadPanel.setSpacing(10);
+		downloadPanel.setStyleName("rightBorder");
+
+		VerticalPanel uploadPanel = new VerticalPanel();
+		// uploadPanel.setWidth("30%");
+		uploadPanel.add(uploadButton);
+		uploadPanel.add(uploadHtml);
+		uploadPanel.setSpacing(10);
+		uploadPanel.setStyleName("leftBorder");
+
+		detailsPanel.add(invoicePanel);
+		detailsPanel.add(creditPanel);
+		detailsPanel.add(downloadPanel);
+		detailsPanel.add(uploadPanel);
+
+		vPanel.add(detailsPanel);
+
+		SimplePanel simplePanel = new SimplePanel();
+		simplePanel.setStyleName("setting-class-panel");
+		simplePanel.add(vPanel);
+		return simplePanel;
 
 	}
 
@@ -245,11 +458,11 @@ public class InvoiceBrandingView<T> extends
 				+ getLogoType(theme.getLogoAlignmentType()) + "<ui>");
 
 		// adding titles.....
-		String overDueTitle = theme.getOverDueInvoiceTitle().isEmpty() ? messages
+		String overDueTitle = theme.getOverDueInvoiceTitle() == null ? messages
 				.none() : theme.getOverDueInvoiceTitle();
-		String creditMemoTitle = theme.getCreditMemoTitle().isEmpty() ? messages
+		String creditMemoTitle = theme.getCreditMemoTitle() == null ? messages
 				.none() : theme.getCreditMemoTitle();
-		String statementTitle = theme.getStatementTitle().isEmpty() ? messages
+		String statementTitle = theme.getStatementTitle() == null ? messages
 				.none() : theme.getStatementTitle();
 
 		headingsHtml = new HTML("<p>" + messages.headings() + " : "
@@ -258,27 +471,27 @@ public class InvoiceBrandingView<T> extends
 				+ statementTitle + "</p>");
 
 		// adding paypal email......
-		String paypalEmail = theme.getPayPalEmailID().isEmpty() ? messages
-				.none() : theme.getPayPalEmailID();
+		String paypalEmail = theme.getPayPalEmailID() == null ? messages.none()
+				: theme.getPayPalEmailID();
 
 		paypalEmailHtml = new HTML("<p>" + messages.paypalEmail() + " : "
 				+ paypalEmail + "</p>");
 
 		// adding terms.....
-		String terms = theme.getTerms_And_Payment_Advice().isEmpty() ? messages
+		String terms = theme.getTerms_And_Payment_Advice() == null ? messages
 				.notAdded() : theme.getTerms_And_Payment_Advice();
 
 		termsHtml = new HTML("<p> " + messages.terms() + " : " + terms + "</p>");
 
 		// adding invoice templete name
-		String invoiceTemp = theme.getInvoiceTempleteName().isEmpty() ? messages
+		String invoiceTemp = theme.getInvoiceTempleteName() == null ? messages
 				.classicTemplate() : theme.getInvoiceTempleteName();
 
 		invoiceHtml = new HTML("<p>" + messages.invoiceTemplete() + " : "
 				+ invoiceTemp + "</p>");
 
 		// adding credit note templete note
-		String creditTemp = theme.getCreditNoteTempleteName().isEmpty() ? messages
+		String creditTemp = theme.getCreditNoteTempleteName() == null ? messages
 				.classicTemplate() : theme.getCreditNoteTempleteName();
 
 		creditNoteHtml = new HTML("<p>" + messages.creditNoteTemplete() + " : "
@@ -294,7 +507,7 @@ public class InvoiceBrandingView<T> extends
 		contactDetailsHtml = new HTML("<p><b>" + messages.contactDetailsLabel()
 				+ "</b><br>" + contactDetails + "</p>");
 
-		if (theme.getContactDetails().isEmpty()) {
+		if (theme.getContactDetails() == null) {
 			contactDetailsPanel = new VerticalPanel();
 			contactDetailsPanel.add(contactDetailsHtml);
 			contactDetailsPanel.setStyleName("contact-deatails-panel");
@@ -510,7 +723,7 @@ public class InvoiceBrandingView<T> extends
 		};
 		String[] filetypes = { "png", "jpg", "gif", "jpeg" };
 		FileUploadDilaog dilaog = new FileUploadDilaog("Upload file", "parent",
-				callback, filetypes, theme);
+				callback, filetypes, theme, false);
 		dilaog.center();
 
 	}

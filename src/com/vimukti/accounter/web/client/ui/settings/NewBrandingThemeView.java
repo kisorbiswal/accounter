@@ -612,7 +612,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 				String[] filetypes = { "png", "jpg", "jpeg", "gif" };
 
 				FileUploadDilaog dilaog = new FileUploadDilaog("Upload Logo",
-						"parent", callback, filetypes, getData());
+						"parent", callback, filetypes, getData(), false);
 			}
 		});
 

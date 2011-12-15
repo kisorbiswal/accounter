@@ -79,24 +79,24 @@
 						 <!-- $EndBlock invCustNumHead -->
 						  <!-- $BeginBlock paymentTermsBlock -->
 						<tr>
-						  <td id = "customerNumber">${i18_Payment_Terms}</td>
-						  <td align="right"> ${paymentTerms} </td>
+						  <td id = "paymentTerms">${i18_Payment_Terms}</td>
+						  <td align="right">${paymentTerms} </td>
 						 </tr>
 						 <!-- $EndBlock paymentTermsBlock -->
 						   <!-- $BeginBlock currency -->
 						<tr>
-						  <td id = "customerNumber">${i18_Currency}</td>
+						  <td id = "currency">${i18_Currency}</td>
 						  <td align="right"> ${currency} </td>
 						 </tr>
 						 <!-- $EndBlock currency -->
 						 <!-- $BeginBlock dueDateDetails -->
 						 <tr>
-                            <td id="duedate"><strong>${i18_Due_Date}</strong></td>
+                            <td id="duedate">${i18_Due_Date}</td>
 	                        <td align="right">${dueDate}</td>
 						 </tr><!-- $EndBlock dueDateDetails -->
 						 <!-- $BeginBlock customerVat -->
 						 <tr>
-                            <td id="duedate"><strong>${i18_Customer_TAX_Registration_Number}</strong></td>
+                            <td id="vatNumber">${i18_Customer_TAX_Registration_Number}</td>
 	                        <td align="right">${customerVATNumber}</td>
 						 </tr><!-- $EndBlock customerVat -->
 					 </table> 
@@ -167,7 +167,9 @@
     <th><p class="fontSetting">${i18_Description}</p></th>
 	<th><p class="fontSetting">${i18_Qty}</p></th>
 	<th><p class="fontSetting">${i18_Unit_Price}</p></th>
+	<!-- $BeginBlock discountBlock -->
 	<th><p class="fontSetting">${i18_Discount}</p></th>
+	<!-- $EndBlock discountBlock -->
 	<th><p class="fontSetting">${i18_Total_Price}</p></th>
 	<!-- $BeginBlock vatBlock -->
 	<th><p class="fontSetting">${i18_VATRate}</p></th>
@@ -190,11 +192,13 @@
 	     <p class="fontSetting">${itemUnitPrice}</p>
 	   </div>
 	</td>
-	<td align="right">
+	<!-- $BeginBlock discountValueBlock -->
+	<td>
 	   <div class="cost">
 	     <p class="fontSetting">${discount}</p>
 	   </div>
 	</td>
+	<!-- $EndBlock discountValueBlock -->
     <td align="right">
 	   <div class="price">
 	     <p class="fontSetting">${itemTotalPrice}</p>

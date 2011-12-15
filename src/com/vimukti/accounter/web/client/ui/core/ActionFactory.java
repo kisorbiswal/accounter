@@ -246,6 +246,16 @@ public class ActionFactory {
 
 	}
 
+	public static NewBrandCustomThemeAction getNewBrandCustomThemeAction() {
+		return new NewBrandCustomThemeAction(messages.customTheme());
+
+	}
+
+	public static NewBrandCustomThemeAction getEditBrandCustomThemeAction() {
+		return new NewBrandCustomThemeAction(messages.customTheme());
+
+	}
+
 	public static ConversionDateAction getConversionDateAction() {
 		return new ConversionDateAction(messages.conversionDate());
 	}

@@ -60,13 +60,8 @@ public class UploadTemplateFileServlet extends BaseServlet {
 				if (file != null) {
 					String fileName = file.getName();
 					File attachmentDir = new File(
-							ServerConfiguration.getAttachmentsDir()
-									+ "/"
-									+ companyID
-									+ "/"
-									+ ServerConfiguration
-											.getTemplateFilesPath() + "/"
-									+ themeId);
+							ServerConfiguration.getAttachmentsDir() + "/"
+									+ companyID + "/templateFiles/" + themeId);
 					if (!attachmentDir.exists()) {
 						attachmentDir.mkdirs();
 					}
