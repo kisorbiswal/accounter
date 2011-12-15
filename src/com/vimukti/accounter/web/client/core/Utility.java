@@ -57,7 +57,7 @@ public class Utility implements IsSerializable, Serializable {
 			transactionName = messages.customerCredit();
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
-			transactionName = messages.customerRefund();
+			transactionName = messages.customerRefund(messages.Customer());
 			break;
 		case ClientTransaction.TYPE_ENTER_BILL:
 			transactionName = messages.vendorBill(Global.get().Vendor());
