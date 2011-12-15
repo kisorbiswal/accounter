@@ -7,6 +7,7 @@ public class PriceLevelCombo extends CustomCombo<ClientPriceLevel> {
 
 	public PriceLevelCombo(String title) {
 		super(title);
+		initCombo(getCompany().getPriceLevels());
 	}
 
 	@Override
@@ -31,7 +32,7 @@ public class PriceLevelCombo extends CustomCombo<ClientPriceLevel> {
 	}
 
 	@Override
-	protected String getColumnData(ClientPriceLevel object,  int col) {
+	protected String getColumnData(ClientPriceLevel object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();
