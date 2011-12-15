@@ -222,6 +222,13 @@
 				 }
 			}
   		</script>
+  		<script type="text/javascript" charset="utf-8">
+			function ClearMacMenu(){
+				 if(window.macclient){
+				 	window.macclient.clearMenu();
+				 }
+			}
+  		</script>
 	<script type="text/javascript" language="javascript" src="/accounter.client/accounter.client.nocache.js"></script>
 
 	<div id="mainFooter" style="visibility:hidden" >

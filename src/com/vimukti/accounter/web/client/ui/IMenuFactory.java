@@ -6,19 +6,19 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public interface IMenuFactory {
 
-	public static interface IMenu extends IsWidget{
+	public static interface IMenu extends IsWidget {
 		void addMenuItem(String text, IMenu menu);
-		
-		void addMenuItem(String text,Command cmd);
-		
+
+		void addMenuItem(String text, Command cmd);
+
 		void addMenuItem(Action<?> action);
-		
+
 		void addSeparatorItem();
 	}
-	
-	public static interface IMenuBar extends IsWidget{
+
+	public static interface IMenuBar extends IsWidget {
 		void addMenuItem(String text, IMenu menu);
-		
+
 	}
 
 	IMenu createMenu();

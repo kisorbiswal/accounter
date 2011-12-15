@@ -53,11 +53,12 @@ public class CustomDialog extends DialogBox {
 		// help = new Image("/images/help-icon.png");
 		help = new Image(Accounter.getFinanceImages().helpIcon());
 		help.setStyleName("dialog_help_icon");
-		help.setTitle(Accounter.messages().clickThisTo(
-				Accounter.messages().help(), "").replace(
-				Accounter.messages().to().toLowerCase()+" ",
-				Accounter.messages().For()).replace(
-				Accounter.messages().This(), ""));
+		help.setTitle(Accounter
+				.messages()
+				.clickThisTo(Accounter.messages().help(), "")
+				.replace(Accounter.messages().to().toLowerCase() + " ",
+						Accounter.messages().For())
+				.replace(Accounter.messages().This(), ""));
 		// help.setStyleName("helpAlign");
 		caption = new HTML();
 
@@ -145,6 +146,7 @@ public class CustomDialog extends DialogBox {
 	}
 
 	protected boolean onCancel() {
+		com.google.gwt.user.client.History.back();
 		return true;
 	}
 

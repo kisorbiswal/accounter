@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
@@ -47,6 +48,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 	DynamicForm budgetAddForm;
 	SelectCombo budgetAddBy;
 	ClientBudgetItem defaultValues = new ClientBudgetItem();
+	private DisclosurePanel panel;
+	private SelectCombo budgetRoundOfMethod;
 
 	public AddBudgetAmountDialogue(String title, String desc,
 			HashMap<String, String> map, ClientBudgetItem budgetItem) {
@@ -160,6 +163,26 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		budgetInfoForm.setWidth("100%");
 
 		budgetInfoForm.setFields(budgetAddBy);
+
+		budgetRoundOfMethod = new SelectCombo("Round Off Budget Amount to :");
+		budgetRoundOfMethod.setHelpInformation(true);
+		budgetRoundOfMethod.initCombo(getStartWithList());
+		budgetRoundOfMethod.setSelected(MONTHS);
+		budgetRoundOfMethod
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+
+					}
+
+				});
+
+		DynamicForm advanceCalculationVPanel = new DynamicForm();
+		advanceCalculationVPanel.setFields(budgetRoundOfMethod);
+
+		panel = new DisclosurePanel("Advance Budget Calculation");
+		panel.add(advanceCalculationVPanel);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.add(budgetInfoForm);
@@ -436,5 +459,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		value = value * factor;
 		long tmp = Math.round(value);
 		return (double) tmp / factor;
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 }

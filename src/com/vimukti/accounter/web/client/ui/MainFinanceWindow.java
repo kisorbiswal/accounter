@@ -281,10 +281,15 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	@Override
 	protected void onUnload() {
+		clearMacMenu();
 		super.onUnload();
 		// TODO
 		// AccounterCometClient.cometStop();
 	}
+
+	private native static void clearMacMenu() /*-{
+		$wnd.ClearMacMenu();
+	}-*/;
 
 	public <T extends IAccounterCore> void historyChanged(String value) {
 		if (actions == null || value == null)
@@ -699,6 +704,7 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		SalesByLocationDetailsAction salesByLocationDetailActionFalse = ActionFactory
 				.getSalesByLocationDetailsAction(false);
+
 		SalesByLocationSummaryAction salesByLocationSummaryActionFalse = ActionFactory
 				.getSalesByLocationSummaryAction(false);
 
@@ -812,6 +818,10 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(
 				ActionFactory.getSoldDisposedListAction().getHistoryToken(),
 				ActionFactory.getSoldDisposedListAction());
+
+		actions.put(ActionFactory.getSearchInputAction().getHistoryToken(),
+				ActionFactory.getSearchInputAction());
+
 	}
 
 	public ClientCompany getCompany() {

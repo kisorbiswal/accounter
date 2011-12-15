@@ -68,6 +68,16 @@
 		<url-pattern>desktop/mac/menu</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>newmenuxml</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.NewMenuServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>newmenuxml</servlet-name>
+		<url-pattern>desktop/mac/newmenu</url-pattern>
+	</servlet-mapping>
+
 	<!-- <servlet-mapping> <servlet-name>new signup</servlet-name> <url-pattern>/signup</url-pattern> 
 		</servlet-mapping> <servlet> <servlet-name>new signup</servlet-name> <servlet-class>com.vimukti.accounter.servlets.SignupServlet 
 		</servlet-class> </servlet> -->

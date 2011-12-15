@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class TouchMenuFactory implements IMenuFactory {
 
-	private TouchMenuPanel panel;
+	private final TouchMenuPanel panel;
 
 	TouchMenuFactory() {
 		panel = new TouchMenuPanel();
@@ -56,8 +56,9 @@ public class TouchMenuFactory implements IMenuFactory {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					int x=labeltext.getAbsoluteLeft();
-					int y=labeltext.getAbsoluteTop()+labeltext.getOffsetHeight();
+					int x = labeltext.getAbsoluteLeft();
+					int y = labeltext.getAbsoluteTop()
+							+ labeltext.getOffsetHeight();
 					showMenu(menu, x, y);
 				}
 			});
@@ -83,6 +84,10 @@ public class TouchMenuFactory implements IMenuFactory {
 
 		public TouchMenuItem() {
 
+		}
+
+		public TouchMenuItem(String text2, String url) {
+			// TODO Auto-generated constructor stub
 		}
 	}
 

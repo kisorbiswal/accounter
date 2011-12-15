@@ -1,0 +1,307 @@
+package com.vimukti.accounter.web.client.ui;
+
+public class HistoryTokens {
+
+	public static final String CUSTOMERHOME = "customerHome";
+
+	public static final String NEWCUSTOMER = "newCustomer";
+
+	public static final String NEWITEMCUSTOMER = "newItemCustomer";
+
+	public static final String NEWQUOTE = "newQuote";
+
+	public static final String NEWCHARGE = "newCharge";
+
+	public static final String NEWCREDIT = "newCredit";
+
+	public static final String NEWINVOICE = "newInvoice";
+
+	public static final String NEWCASHSALE = "newCashSale";
+
+	public static final String NRECREDITNOTE = "newCreditNote";
+
+	public static final String CUSTOMERPREPAYMENT = "customerPrepayment";
+
+	public static final String RECEIVEPAYMENT = "receivePayment";
+
+	public static final String CUSTOMERREFUND = "customerRefund";
+
+	public static final String CUSTOMERITEMS = "customerItems";
+
+	public static final String CUSTOMERS = "customers";
+
+	public static final String DASHBOARD = "dashBoard";
+
+	public static final String QUOTES = "quotes";
+
+	public static final String CHARGES = "charges";
+
+	public static final String CREDITS = "credits";
+
+	public static final String INVOICES = "invoices";
+
+	public static final String RECEIVEPAYMENTS = "receivePayments";
+
+	public static final String CUSTOMERREFUNDS = "customerRefunds";
+
+	public static final String VENDOREHOME = "vendorHome";
+
+	public static final String NEWVENDOR = "newVendor";
+
+	public static final String NEWITEMSUPPLIERS = "newItemSupplier";
+
+	public static final String NEWCASHPURCHASE = "newCashPurchase";
+
+	public static final String VENDORCREDIT = "vendorCredit";
+
+	public static final String CHECK = "check";
+
+	public static final String ENTERBILL = "enterBill";
+
+	public static final String PAYBILL = "payBill";
+
+	public static final String ISSUEPAYMENTS = "issuePayments";
+
+	public static final String VENDORPREPAYMENT = "vendorPrePayment";
+
+	public static final String RECORDEXPENSES = "recordExpenses";
+
+	public static final String EXPENSECLAIMS = "expenseClaims";
+
+	public static final String VENDORLIST = "VendorList";
+
+	public static final String VENDORITEMS = "vendorItems";
+
+	public static final String BILLSANDEXPENSES = "billsAndExpenses";
+
+	public static final String VENDORPAYMENTS = "vendorPayments";
+
+	public static final String NEWBANKACCOUNT = "newBankAccount";
+
+	public static final String WRITECHECK = "writeCheck";
+
+	public static final String DEPOSITETRANSFERFUNDS = "depositTransferFunds";
+
+	public static final String RECOUNCILATIONSLIST = "recounciliationsList";
+
+	public static final String BANKACCOUNTS = "bankAccounts";
+
+	public static final String PAYMENTS = "payments";
+
+	public static final String SALESORDER = "salesOrder";
+
+	public static final String SALESORDERLIST = "salesOrderList";
+
+	public static final String SALESORDERREPORT = "salesOrderReport";
+
+	public static final String PURCHASEORDER = "purchaseOrder";
+
+	public static final String PURCHASEORDERLIST = "purchaseOrderList";
+
+	public static final String PURCHASEORDERREPORT = "purchaseOrderReport";
+
+	public static final String REPORTHOME = "reportHome";
+
+	public static final String APAGINGSUMMARY = "apAgingSummary";
+
+	public static final String APAGINGDETAIL = "apAgingDetail";
+
+	public static final String VENDORSTATEMENT = "vendorStatement";
+
+	public static final String VENDORTRANSACTIONHISTORY = "vendorTransactionHistory";
+
+	public static final String PURCHASEBYVENDORSUMMARY = "purchaseByVendorSummary";
+
+	public static final String PURCHASEBYVENDORDETAIL = "purchaseByVendorDetail";
+
+	public static final String PURCHASEBYITEMSUMMARY = "purchaseByItemSummary";
+
+	public static final String PURCHASEBYITEMDETAIL = "purchaseByItemDetail";
+
+	public static final String PRIORVATRETURN = "priorVatReturns";
+
+	public static final String VATDETAIL = "vatDetail";
+
+	public static final String VAT100 = "vat100";
+
+	public static final String UNCATEGORISEDVATAMOUNT = "uncategorisedVatAmounts";
+
+	public static final String ECSALESLIST = "ecSalesList";
+
+	public static final String TAXITEMDETAIL = "TaxItemDetail";
+
+	public static final String TAXITEMEXCEPTIONDETAILS = "taxItemExceptionDetails";
+
+	public static final String VATITEMSUMMARY = "vatItemSummary";
+
+	public static final String SALESBYCUSTOMERSUMMARY = "salesByCustomerSummary";
+
+	public static final String SALESBYCUSTOMERDETAIL = "salesByCustomerDetail";
+
+	public static final String SALESBYITEMSUMMARY = "salesByItemSummary";
+
+	public static final String SALESBYITEMDETAIL = "salesByItemDetail";
+
+	public static final String SALESBYCLASSDETAILS = "salesByClassDetails";
+
+	public static final String SALESBYCLASSSUMMARY = "salesByClassSummary";
+
+	public static final String SALESBYLOCATIONDETAILS = "salesByLocationDetails";
+
+	public static final String SALESBYLOCATIONSUMMARY = "salesByLocationSummary";
+
+	public static final String ARAGINGSUMMARY = "arAgingSummary";
+
+	public static final String ARAGINGDETAIL = "arAgingDetail";
+
+	public static final String CUSTOMERSTATEMENT = "customerStatement";
+
+	public static final String CUSTOMERTRANSACTIONHISTORY = "customerTransactionHistory";
+
+	public static final String PROFITANDLOSS = "profitAndLoss";
+
+	public static final String BALANCESHEET = "balanceSheet";
+
+	public static final String CASHFLOWREPORT = "cashFlowReport";
+
+	public static final String TRIALBALANCE = "trialBalance";
+
+	public static final String TRANSACTIONDETAILBYACCOUNT = "transactionDetailByAccount";
+
+	public static final String GENERALLEDGER = "generalLedger";
+
+	public static final String EXPENSEREPORT = "expenseReport";
+
+	public static final String SALESTAXLIABILITY = "salesTaxLiability";
+
+	public static final String TRANSACTIONDETAILBYTAXITEM = "transactionDetailByTaxItem";
+
+	public static final String PROFITANDLOSSBYLOCATION = "profitAndLossByLocation";
+
+	public static final String PROFITANDLOSSBYCLASS = "profitAndLossByClass";
+
+	public static final String NEWJOURNALENTRY = "newJournalEntry";
+
+	public static final String NEWACCOUNT = "newAccount";
+
+	public static final String MANAGESALESTAXGROUPS = "manageSalesTaxGroups";
+
+	public static final String SALESTAXGROUP = "salesTaxGroups";
+
+	public static final String NEWTAXAGENCY = "newTaxAgency";
+
+	public static final String PAYSALESTAX = "paySalesTax";
+
+	public static final String MANAGESALESTAXITEMS = "manageSalesTaxItems";
+
+	public static final String SALESTAXITEMS = "salesTaxItems";
+
+	public static final String TAXADJUSTMENT = "taxAdjustment";
+
+	public static final String CUSTOMERGROUPLIST = "customerGroupList";
+
+	public static final String VENDORGROUPLIST = "vendorGroupList";
+
+	public static final String PAYMENTTERMS = "paymentTerms";
+
+	public static final String SHIPPINGMETHODSLIST = "shippingMethodsList";
+
+	public static final String SHIPPINGTERMSLIST = "shippingTermsList";
+
+	public static final String ITEMGROUPLIST = "itemGroupList";
+
+	public static final String CURRENCYGROUPLIST = "currencyGroupList";
+
+	public static final String ACCOUNTERCLASSLIST = "accounter-Class-List";
+
+	public static final String LOCATIONGROUPLIST = "location-group-list";
+
+	public static final String MERGEITEM = "merge_item";
+
+	public static final String MERGEACCOUNT = "merge_account";
+
+	public static final String MERGEVENDOR = "merge_vendor";
+
+	public static final String MERGECUSTOMERS = "merge_customers";
+
+	public static final String ACCOUNTSLIST = "accountsList";
+
+	public static final String JOURNALENTRIES = "journalEntries";
+
+	public static final String ALLITEMS = "allItems";
+
+	public static final String SALESPRESONS = "salesPersons";
+
+	public static final String USERACTIVITY = "userActivity";
+
+	public static final String NEWACCOUNTACTION = "newAccountAction";
+
+	public static final String COMPANYPREFERENCES = "companyPreferences";
+
+	public static final String BUDGET = "Budget";
+
+	public static final String MANAGESALESTAXGROUP = "manageSalesTaxGroups";
+
+	public static final String SALESTAXGROUPsalesTaxGroup = "salesTaxGroup";
+
+	public static final String GENERALSETTINGS = "generalSettings";
+
+	public static final String TRANSLATION = "translation";
+
+	public static final String BUDGETREPORTOVERVIEW = "budgetOverviewReport";
+
+	public static final String STOCKADJUSTMENT = "stockAdjustment";
+
+	public static final String INVENTORYITEM = "inventoryItem";
+
+	public static final String WAREHOUSELIST = "WarehouseList";
+
+	public static final String WAREHOUSETRANSFERLIST = "WarehouseTransferList";
+
+	public static final String STOCKADJUSTMENTS = "stockAdjustments";
+
+	public static final String MEASUREMENTLIST = "MeasurementList";
+
+	public static final String WAREHOUSE = "wareHouse";
+
+	public static final String WAREHOUSETRANSFER = "wareHouseTransfer";
+
+	public static final String ADDMEASUREMENT = "addMeasurement";
+
+	public static final String NEWTAXITEM = "newTaxItem";
+
+	public static final String NEWVATCODE = "newVatCode";
+
+	public static final String FILETAX = "fileTax";
+
+	public static final String PAYTAX = "payTAX";
+
+	public static final String TAXREFUND = "taxRefund";
+
+	public static final String TAXHISTORY = "taxHistory";
+
+	public static final String VATITEMS = "vatItems";
+
+	public static final String VATCODES = "vatCodes";
+
+	public static final String TAXAGENCYLIST = "TAXAgencyList";
+
+	public static final String PENDINGITEMS = "pendingItems";
+
+	public static final String REGISTEREDITEMS = "registeredItems";
+
+	public static final String SOLIDDISPOSEDFIXEDASSETS = "soldDisposedFixedAssets";
+
+	public static final String NEWFIXEDASSETS = "newFixedAsset";
+
+	public static final String DEPRICATION = "depreciation";
+
+	public static final String SEARCH = "search";
+
+	public static final String DEPRECIATIONSHEDULE = "depreciationShedule";
+
+	public HistoryTokens() {
+
+	}
+
+}

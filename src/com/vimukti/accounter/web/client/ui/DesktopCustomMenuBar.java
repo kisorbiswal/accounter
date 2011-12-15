@@ -10,9 +10,23 @@ import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenu;
 import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenuBar;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
+class UrlCommand implements Command {
+	private final String url;
+
+	UrlCommand(String url) {
+		this.url = url;
+	}
+
+	@Override
+	public void execute() {
+		Accounter.getMainFinanceWindow().historyChanged(url);
+	}
+
+}
+
 public class DesktopCustomMenuBar extends MenuBar implements IMenu, IMenuBar {
 	List<CustomMenuItem> menuItems = new ArrayList<CustomMenuItem>();
-	private boolean isBar;
+	private final boolean isBar;
 
 	public DesktopCustomMenuBar(boolean isBar) {
 		super(!isBar);

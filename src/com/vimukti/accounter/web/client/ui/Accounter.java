@@ -181,6 +181,7 @@ public class Accounter implements EntryPoint {
 		AccounterMenuBar menubar = new AccounterMenuBar(menuFactory);
 		mainWindow.remove(1);
 		mainWindow.insert(menubar, 1);
+
 		reloadMacMenu();
 	}
 
