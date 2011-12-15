@@ -1,11 +1,9 @@
 package com.vimukti.accounter.core;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 
@@ -20,8 +18,6 @@ public class InvoicePdfGeneration {
 	private Invoice invoice;
 	private Company company;
 	private BrandingTheme brandingTheme;
-	private InputStream in;
-	private IXDocReport report;
 	private int maxDecimalPoints;
 
 	public InvoicePdfGeneration(Invoice invoice, Company company,
@@ -30,8 +26,6 @@ public class InvoicePdfGeneration {
 		this.company = company;
 		this.brandingTheme = brandingTheme;
 		this.maxDecimalPoints = getMaxDecimals(invoice);
-
-		
 
 	}
 
@@ -52,15 +46,31 @@ public class InvoicePdfGeneration {
 
 			// assigning the original values
 			DummyInvoice i = new DummyInvoice();
+			String title = brandingTheme.getOverDueInvoiceTitle() == null ? "Invoice"
+					: brandingTheme.getOverDueInvoiceTitle().toString();
+			i.setTitle(title);
 			i.setBillAddress(getBillingAddress());
 			i.setInvoiceNumber(invoice.getNumber());
 			i.setInvoiceDate(invoice.getDate().toString());
-			i.setCurrency("IND");
-			i.setTerms("On Receipt");
+
+			// for primary curreny
+			Currency currency = invoice.getCustomer().getCurrency();
+			if (currency != null)
+				if (currency.getFormalName().trim().length() > 0) {
+					i.setCurrency(currency.getFormalName().trim());
+				}
+
+			PaymentTerms paymentterm = invoice.getPaymentTerm();
+			String payterm = paymentterm != null ? paymentterm.getName() : "";
+			i.setTerms(payterm);
+
 			i.setDueDate(invoice.getDueDate().toString());
 			i.setShipAddress(getShippingAddress());
 			i.setSalesPersonName(getSalesPersonName());
-			i.setShippingMethod("");
+
+			ShippingMethod shipMtd = invoice.getShippingMethod();
+			String shipMtdName = shipMtd != null ? shipMtd.getName() : "";
+			i.setShippingMethod(shipMtdName);
 
 			// for transactions
 
@@ -77,37 +87,57 @@ public class InvoicePdfGeneration {
 			List<ItemList> itemList = new ArrayList<ItemList>();
 			List<TransactionItem> transactionItems = invoice
 					.getTransactionItems();
+
+			double currencyFactor = invoice.getCurrencyFactor();
+
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
+
 				TransactionItem item = (TransactionItem) iterator.next();
 
 				String description = forNullValue(item.getDescription());
-				String discount = largeAmountConversation(item.getDiscount());
-				String qty = forZeroAmounts(getDecimalsUsingMaxDecimals(item
-						.getQuantity().getValue(), null, maxDecimalPoints));
-				String unitPrice = forZeroAmounts(largeAmountConversation(item
-						.getUnitPrice()));
-				String totalPrice = largeAmountConversation(item.getLineTotal());
+				description = description.replaceAll("\n", "<br/>");
 
-				String vatAmount = getDecimalsUsingMaxDecimals(
-						item.getVATfraction(), null, 2);
-				String vatRate = item.getTaxCode().getName();
+				String qty = "";
+				if (item.getQuantity() != null) {
+					qty = String.valueOf(item.getQuantity().getValue());
+				}
+				String unitPrice = Utility.decimalConversation(item
+						.getUnitPrice() / currencyFactor);
+				String totalPrice = Utility.decimalConversation(item
+						.getLineTotal() / currencyFactor);
 
-				itemList.add(new ItemList(item.getItem().getName(),
-						description, qty, unitPrice, discount, totalPrice,
-						vatRate, vatAmount));
+				Double vaTfraction = item.getVATfraction();
+				String vatAmount = " ";
+				if (vaTfraction != null) {
+					vatAmount = Utility.decimalConversation(item
+							.getVATfraction() / currencyFactor);
+				}
+				String name = item.getItem() != null ? item.getItem().getName()
+						: item.getAccount().getName();
 
+				String discount = Utility.decimalConversation(item
+						.getDiscount());
+
+				TAXCode taxCode = item.getTaxCode();
+				String vatRate = " ";
+				if (taxCode != null) {
+					vatRate = item.getTaxCode().getName();
+				}
+				itemList.add(new ItemList(name, description, qty, unitPrice,
+						discount, totalPrice, vatRate, vatAmount));
 			}
 
 			context.put("item", itemList);
-			String total = largeAmountConversation(invoice.getTotal());
+			String total = Utility.decimalConversation(invoice.getTotal());
 
 			i.setTotal(total);
-			i.setPayment(largeAmountConversation(invoice.getPayments()));
-			i.setBalancedue(largeAmountConversation(invoice.getBalanceDue()));
+			i.setPayment(Utility.decimalConversation(invoice.getPayments()));
+			i.setBalancedue(Utility.decimalConversation(invoice.getBalanceDue()));
 
-			String termsNCondn = forNullValue(
-					brandingTheme.getTerms_And_Payment_Advice());
+			i.setMemo(invoice.getMemo());
+			String termsNCondn = forNullValue(brandingTheme
+					.getTerms_And_Payment_Advice());
 
 			if (termsNCondn.equalsIgnoreCase("(None Added)")) {
 				termsNCondn = " ";
@@ -123,20 +153,17 @@ public class InvoicePdfGeneration {
 			i.setVatNum(getVatNumber());
 			i.setSortCode(getSortCode());
 			i.setBankAccountNo(getBankAccountNumbere());
-			i.setRegestrationAddress(getRegistrationAddress());
+			i.setRegistrationAddress(getRegistrationAddress());
 
 			context.put("logo", logo);
-			context.put("inv", i);
+			context.put("invoice", i);
 			context.put("companyImg", footerImg);
 
-			
-
-			
 			return context;
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
-return null;
+		}
+		return null;
 	}
 
 	private String getRegistrationAddress() {
@@ -144,8 +171,7 @@ return null;
 		Address reg = company.getRegisteredAddress();
 
 		if (reg != null)
-			regestrationAddress = ("Registered Address: "
-					+ reg.getAddress1()
+			regestrationAddress = ("Registered Address: " + reg.getAddress1()
 					+ forUnusedAddress(reg.getStreet(), true)
 					+ forUnusedAddress(reg.getCity(), true)
 					+ forUnusedAddress(reg.getStateOrProvinence(), true)
@@ -158,13 +184,8 @@ return null;
 				+ company.getRegistrationNumber()
 				: ""));
 
-		if (regestrationAddress != null
-				&& regestrationAddress.trim().length() > 0) {
-			if (brandingTheme.isShowRegisteredAddress()) {
-				return regestrationAddress;
-			}
-		}
-		return "";
+		return regestrationAddress;
+
 	}
 
 	private String getSortCode() {
@@ -242,39 +263,52 @@ return null;
 	}
 
 	private String getBillingAddress() {
-		// for getting customer contact name
+		// To get the selected contact name form Invoice
 		String cname = "";
 		String phone = "";
-		Customer customer = invoice.getCustomer();
-		Set<Contact> contacts = customer.getContacts();
-		for (Contact contact : contacts) {
-			if (contact.isPrimary()) {
-				cname = contact.getName().trim();
-
-				if (contact.getBusinessPhone().trim().length() > 0)
-					phone = contact.getBusinessPhone();
-
+		boolean hasPhone = false;
+		Contact selectedContact = invoice.getContact();
+		if (selectedContact != null) {
+			cname = selectedContact.getName().trim();
+			if (selectedContact.getBusinessPhone().trim().length() > 0)
+				phone = selectedContact.getBusinessPhone();
+			if (phone.trim().length() > 0) {
+				// If phone variable has value, then only we need to display
+				// the text 'phone'
+				hasPhone = true;
 			}
 		}
+
 		// setting billing address
 		Address bill = invoice.getBillingAddress();
 		String customerName = forUnusedAddress(invoice.getCustomer().getName(),
 				false);
+		StringBuffer billAddress = new StringBuffer();
 		if (bill != null) {
-			String billAddress = forUnusedAddress(cname, false) + customerName
+			billAddress = billAddress.append(forUnusedAddress(cname, false)
+					+ customerName
 					+ forUnusedAddress(bill.getAddress1(), false)
 					+ forUnusedAddress(bill.getStreet(), false)
 					+ forUnusedAddress(bill.getCity(), false)
 					+ forUnusedAddress(bill.getStateOrProvinence(), false)
 					+ forUnusedAddress(bill.getZipOrPostalCode(), false)
-					+ forUnusedAddress(bill.getCountryOrRegion(), false)
-					+ forUnusedAddress("Phone : " + phone, false);
+					+ forUnusedAddress(bill.getCountryOrRegion(), false));
+			if (hasPhone) {
+				billAddress.append(forUnusedAddress("Phone : " + phone, false));
+			}
 
-			if (billAddress.trim().length() > 0) {
-				return billAddress;
+			String billAddres = billAddress.toString();
+
+			if (billAddres.trim().length() > 0) {
+				return billAddres;
 			}
 		} else {
-			return customerName;
+			// If there is no Bill Address, then display only customer and
+			// contact name
+			StringBuffer contact = new StringBuffer();
+			contact = contact.append(forUnusedAddress(cname, false)
+					+ customerName);
+			return contact.toString();
 		}
 		return "";
 	}
@@ -324,32 +358,6 @@ return null;
 		return logoAlignment;
 	}
 
-	private String getDecimalsUsingMaxDecimals(double quantity, String amount,
-			int maxDecimalPoint) {
-		String qty = "";
-		String max;
-		if (maxDecimalPoint != 0) {
-			if (amount == null)
-				qty = String.valueOf(quantity);
-			else
-				qty = amount;
-			max = qty.substring(qty.indexOf(".") + 1);
-			if (maxDecimalPoint > max.length()) {
-				for (int i = max.length(); maxDecimalPoint != i; i++) {
-					qty = qty + "0";
-				}
-			}
-		} else {
-			qty = String.valueOf((long) quantity);
-		}
-
-		String temp = qty.contains(".") ? qty.replace(".", "-").split("-")[0]
-				: qty;
-		return insertCommas(temp)
-				+ (qty.contains(".") ? "."
-						+ qty.replace(".", "-").split("-")[1] : "");
-	}
-
 	public String forZeroAmounts(String amount) {
 		String[] amt = amount.replace(".", "-").split("-");
 		if (amt[0].equals("0")) {
@@ -358,23 +366,9 @@ return null;
 		return amount;
 	}
 
-	private static String insertCommas(String str) {
-
-		if (str.length() < 4) {
-			return str;
-		}
-		return insertCommas(str.substring(0, str.length() - 3)) + ","
-				+ str.substring(str.length() - 3, str.length());
-	}
-
-	private String largeAmountConversation(double amount) {
-		String amt = Utility.decimalConversation(amount);
-		amt = getDecimalsUsingMaxDecimals(0.0, amt, 2);
-		return (amt);
-	}
-
 	public class DummyInvoice {
 
+		private String title;
 		private String invoiceNumber;
 		private String invoiceDate;
 		private String currency;
@@ -393,7 +387,7 @@ return null;
 		private String vatNum;
 		private String sortCode;
 		private String BankAccountNo;
-		private String regestrationAddress;
+		private String registrationAddress;
 
 		public String getInvoiceNumber() {
 			return invoiceNumber;
@@ -427,7 +421,6 @@ return null;
 			this.dueDate = dueDate;
 		}
 
-		
 		public String getSalesPersonName() {
 			return salesPersonName;
 		}
@@ -500,14 +493,6 @@ return null;
 			BankAccountNo = bankAccountNo;
 		}
 
-		public String getRegestrationAddress() {
-			return regestrationAddress;
-		}
-
-		public void setRegestrationAddress(String regestrationAddress) {
-			this.regestrationAddress = regestrationAddress;
-		}
-
 		public String getShippingMethod() {
 			return shippingMethod;
 		}
@@ -548,7 +533,22 @@ return null;
 			this.adviceTerms = adviceTerms;
 		}
 
-		
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
+		}
+
+		public String getRegistrationAddress() {
+			return registrationAddress;
+		}
+
+		public void setRegistrationAddress(String registrationAddress) {
+			this.registrationAddress = registrationAddress;
+		}
+
 	}
 
 	public class ItemList {

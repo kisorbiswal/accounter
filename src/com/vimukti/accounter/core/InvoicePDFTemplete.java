@@ -253,6 +253,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 						&& brandingTheme.isShowTaxColumn()) {
 					t.addBlock("vatBlock");
 				}
+				if (company.getPreferences().isTrackDiscounts()) {
+
+					t.addBlock("discountBlock");
+				}
 				t.addBlock("showLabels");
 			}
 
@@ -260,25 +264,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			// vat details
 			List<TransactionItem> transactionItems = invoice
 					.getTransactionItems();
-
-			// List<Estimate> estimates = invoice.getEstimates();
-			// if (estimates != null) {
-			// for (Estimate estimate : estimates) {
-			// for (TransactionItem item : estimate.getTransactionItems()) {
-			// transactionItems.add(item);
-			// }
-			// }
-			// }
-			//
-			// List<SalesOrder> salesOrders = invoice.getSalesOrders();
-			// if (salesOrders != null) {
-			// for (SalesOrder salesOrder : salesOrders) {
-			// for (TransactionItem item : salesOrder
-			// .getTransactionItems()) {
-			// transactionItems.add(item);
-			// }
-			// }
-			// }
 
 			double currencyFactor = invoice.getCurrencyFactor();
 
@@ -290,27 +275,30 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				description = description.replaceAll("\n", "<br/>");
 				String qty = "";
 				if (item.getQuantity() != null) {
-					qty = forZeroAmounts(getDecimalsUsingMaxDecimals(item
-							.getQuantity().getValue(), null, maxDecimalPoints));
+					qty = String.valueOf(item.getQuantity().getValue());
 				}
-				String unitPrice = forZeroAmounts(largeAmountConversation(item
-						.getUnitPrice() / currencyFactor));
-				String totalPrice = largeAmountConversation(item.getLineTotal()
-						/ currencyFactor);
+				String unitPrice = Utility.decimalConversation(item
+						.getUnitPrice() / currencyFactor);
+				String totalPrice = Utility.decimalConversation(item
+						.getLineTotal() / currencyFactor);
 
-				String vatAmount = getDecimalsUsingMaxDecimals(
-						item.getVATfraction() / currencyFactor, null, 2);
+				String vatAmount = Utility.decimalConversation(item
+						.getVATfraction() / currencyFactor);
 
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
 				t.setVariable("name", name);
-				t.setVariable("discount",
-						largeAmountConversation(item.getDiscount()));
 				t.setVariable("description", description);
 				t.setVariable("quantity", qty);
 				t.setVariable("itemUnitPrice", unitPrice);
-				t.setVariable("discount",
-						largeAmountConversation(item.getDiscount()));
+
+				if (company.getPreferences().isTrackDiscounts()) {
+					// if Discounts is enabled in Company Preferences, then
+					// only we need to show Discount Column
+					t.setVariable("discount",
+							Utility.decimalConversation(item.getDiscount()));
+					t.addBlock("discountValueBlock");
+				}
 				t.setVariable("itemTotalPrice", totalPrice);
 
 				if (company.getPreferences().isTrackTax()
@@ -327,8 +315,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			}
 
 			// for displaying sub total, vat total, total
-			String subtotal = largeAmountConversation(invoice.getNetAmount()
-					/ currencyFactor);
+			String subtotal = Utility.decimalConversation(invoice
+					.getNetAmount() / currencyFactor);
 			if (company.getPreferences().isTrackTax()) {
 
 				t.setVariable("subTotal", subtotal);
@@ -336,21 +324,23 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				if (brandingTheme.isShowTaxColumn()) {
 					t.setVariable(
 							"vatTotal",
-							largeAmountConversation((invoice.getTaxTotal() / currencyFactor)));
+							Utility.decimalConversation((invoice.getTaxTotal() / currencyFactor)));
 					t.addBlock("VatTotal");
 				}
 			}
 
-			String total = largeAmountConversation(invoice.getTotal()
+			String total = Utility.decimalConversation(invoice.getTotal()
 					/ currencyFactor);
 			t.setVariable("total", total);
 			t.setVariable("blankText", invoice.getMemo());
 
-			t.setVariable("payment",
-					largeAmountConversation(invoice.getPayments()
+			t.setVariable(
+					"payment",
+					Utility.decimalConversation(invoice.getPayments()
 							/ currencyFactor));
-			t.setVariable("balancedue",
-					largeAmountConversation(invoice.getBalanceDue()
+			t.setVariable(
+					"balancedue",
+					Utility.decimalConversation(invoice.getBalanceDue()
 							/ currencyFactor));
 			t.addBlock("itemDetails");
 
@@ -467,19 +457,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			t.addBlock("theme");
 
 			outPutString = t.getFileString();
+			System.err.println(outPutString);
 			return outPutString;
-			// OutputStream outputstream = new ByteArrayOutputStream();
-			//
-			// java.io.InputStream inputStream = new ByteArrayInputStream(
-			// outPutString.getBytes());
-			// InputStreamReader reader = new InputStreamReader(inputStream);
-
-			// OutputStream templeteOutputStream = new
-			// create output stream
-			// then create input stream
-			// /pass that input stream to render method
-
-			// converter.generatePDF(template, sos, reader);
 
 		} catch (Exception e) {
 			System.err.println(e.getMessage() + "..." + e.getStackTrace()
@@ -571,55 +550,14 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		return logoAlignment;
 	}
 
-	private String getDecimalsUsingMaxDecimals(double quantity, String amount,
-			int maxDecimalPoint) {
-		String qty = "";
-		String max;
-		if (maxDecimalPoint != 0) {
-			if (amount == null)
-				qty = NumberFormat.getInstance().format(quantity);
-			else
-				qty = amount;
-			max = qty.substring(qty.indexOf(".") + 1);
-			if (maxDecimalPoint > max.length()) {
-				for (int i = max.length(); maxDecimalPoint != i; i++) {
-					qty = qty + "0";
-				}
-			}
-		} else {
-			qty = NumberFormat.getInstance().format(quantity);
-			// qty = String.valueOf((long) quantity);
-		}
-
-		String temp = qty.contains(".") ? qty.replace(".", "-").split("-")[0]
-				: qty;
-		return insertCommas(temp)
-				+ (qty.contains(".") ? "."
-						+ qty.replace(".", "-").split("-")[1] : "");
-	}
-
-	public String forZeroAmounts(String amount) {
-		String[] amt = amount.replace(".", "-").split("-");
-		if (amt[0].equals("0")) {
-			return "";
-		}
-		return amount;
-	}
-
-	private static String insertCommas(String str) {
-
-		if (str.length() < 4) {
-			return str;
-		}
-		return insertCommas(str.substring(0, str.length() - 3)) + ","
-				+ str.substring(str.length() - 3, str.length());
-	}
-
-	private String largeAmountConversation(double amount) {
-		String amt = Utility.decimalConversation(amount);
-		amt = getDecimalsUsingMaxDecimals(0.0, amt, 2);
-		return (amt);
-	}
+	// private static String insertCommas(String str) {
+	//
+	// if (str.length() < 4) {
+	// return str;
+	// }
+	// return insertCommas(str.substring(0, str.length() - 4)) + ","
+	// + str.substring(str.length() - 3, str.length());
+	// }
 
 	public String getImage() {
 

@@ -1,8 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,6 +16,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -1358,8 +1357,7 @@ public class Utility {
 	}
 
 	public static String decimalConversation(double amount) {
-		NumberFormat formatter = new DecimalFormat("#0.00");
-		return formatter.format(amount);
+		return Global.get().toCurrencyFormat(amount);
 	}
 
 	public static String splitString(String val) {
