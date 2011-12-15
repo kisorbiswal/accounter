@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -14,7 +15,8 @@ public abstract class ItemNameColumn extends
 
 	ItemsDropDownTable itemsList = new ItemsDropDownTable(getItemsFilter());
 	private boolean isSales;
-	private ICurrencyProvider currencyProvider;
+	private final ICurrencyProvider currencyProvider;
+	private ClientPriceLevel priceLevel;
 
 	public ItemNameColumn(boolean isSales, ICurrencyProvider currencyProvider) {
 		this.isSales = isSales;
@@ -41,14 +43,23 @@ public abstract class ItemNameColumn extends
 
 	@Override
 	protected void setValue(ClientTransactionItem row, ClientItem newValue) {
-
 		if (newValue != null) {
+			Double unitPrice = 0.0;
 			if (isSales()) {
-				row.setUnitPrice(newValue.getSalesPrice()
-						/ currencyProvider.getCurrencyFactor());
+				unitPrice = newValue.getSalesPrice()
+						/ currencyProvider.getCurrencyFactor();
 			} else {
-				row.setUnitPrice(newValue.getPurchasePrice()
-						/ currencyProvider.getCurrencyFactor());
+				unitPrice = newValue.getPurchasePrice()
+						/ currencyProvider.getCurrencyFactor();
+			}
+			if (getPreferences().isPricingLevelsEnabled()) {
+				if (priceLevel != null && !priceLevel.isDefault()) {
+					row.setUnitPrice(getPriceLevel(unitPrice));
+				} else {
+					row.setUnitPrice(unitPrice);
+				}
+			} else {
+				row.setUnitPrice(unitPrice);
 			}
 			row.setAccountable(newValue);
 			row.setDescription(getDiscription(newValue));
@@ -102,5 +113,26 @@ public abstract class ItemNameColumn extends
 
 	public void setSales(boolean isSales) {
 		this.isSales = isSales;
+	}
+
+	protected Double getPriceLevel(Double unitPrice) {
+		double amount = 0.0;
+		if (unitPrice == 0) {
+			return unitPrice;
+		} else {
+			if (priceLevel.isPriceLevelDecreaseByThisPercentage()) {
+				amount = unitPrice
+						- (priceLevel.getPercentage() * (unitPrice / 100));
+			} else {
+				amount = unitPrice
+						+ (priceLevel.getPercentage() * (unitPrice / 100));
+			}
+
+		}
+		return amount;
+	}
+
+	public void setPriceLevel(ClientPriceLevel priceLevel) {
+		this.priceLevel = priceLevel;
 	}
 }
