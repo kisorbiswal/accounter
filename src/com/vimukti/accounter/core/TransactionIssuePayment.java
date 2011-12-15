@@ -437,7 +437,7 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 			w.put(messages.writeCheck(), this.writeCheck.getNumber());
 
 		if (customerRefund != null)
-			w.put(messages.customerRefund(), this.customerRefund.getNumber());
+			w.put(messages.customerRefund(messages.Customer()), this.customerRefund.getNumber());
 
 		if (payBill != null)
 			w.put(messages.payBill(), this.payBill.getNumber());
