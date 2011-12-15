@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
@@ -21,6 +24,11 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 	private static final String MONTHS = "Months";
 	private static final String QUARTERS = "Quarters";
 	private static final String YEARS = "Years";
+
+	private static final String NEAREST_AMOUNT = "Nearest Amount";
+	private static final String NEAREST_TEN = "Nearest Ten";
+	private static final String NEAREST_HUNDRED = "Nearest Hundred";
+	private static final String NONE = "None";
 
 	IntegerField janAmount;
 	IntegerField febAmount;
@@ -48,8 +56,11 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 	DynamicForm budgetAddForm;
 	SelectCombo budgetAddBy;
 	ClientBudgetItem defaultValues = new ClientBudgetItem();
-	private DisclosurePanel panel;
+	private DisclosurePanel discloserPanel;
 	private SelectCombo budgetRoundOfMethod;
+
+	int calculation = 2;
+	int roundOff = 0;
 
 	public AddBudgetAmountDialogue(String title, String desc,
 			HashMap<String, String> map, ClientBudgetItem budgetItem) {
@@ -166,14 +177,23 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		budgetRoundOfMethod = new SelectCombo("Round Off Budget Amount to :");
 		budgetRoundOfMethod.setHelpInformation(true);
-		budgetRoundOfMethod.initCombo(getStartWithList());
-		budgetRoundOfMethod.setSelected(MONTHS);
+		budgetRoundOfMethod.initCombo(getBudgetCalculationTypesList());
+		budgetRoundOfMethod.setSelected(NONE);
 		budgetRoundOfMethod
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 
+						if (selectItem.equals(NEAREST_AMOUNT)) {
+							roundOff = 1;
+						} else if (selectItem.equals(NEAREST_TEN)) {
+							roundOff = 2;
+						} else if (selectItem.equals(NEAREST_HUNDRED)) {
+							roundOff = 3;
+						} else if (selectItem.equals(NONE)) {
+							roundOff = 0;
+						}
 					}
 
 				});
@@ -181,14 +201,46 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		DynamicForm advanceCalculationVPanel = new DynamicForm();
 		advanceCalculationVPanel.setFields(budgetRoundOfMethod);
 
-		panel = new DisclosurePanel("Advance Budget Calculation");
-		panel.add(advanceCalculationVPanel);
+		VerticalPanel vPanel = new VerticalPanel();
+		vPanel.add(advanceCalculationVPanel);
+
+		final String[] stringArray = {
+				"Calendar Days (Annual Amount* No. of Days in Month/365 or 366)",
+				"Calendar Month (Annual Amount/12)" };
+
+		for (int i = 0; i < stringArray.length; i++) {
+			String sport = stringArray[i];
+			final RadioButton radioButton = new RadioButton("sport", sport);
+			radioButton.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					if (radioButton == event.getSource()) {
+						System.out.println(radioButton.getText());
+						if ((radioButton.getText().toString())
+								.endsWith(stringArray[0]))
+							calculation = 1;
+						else if ((radioButton.getText().toString())
+								.endsWith(stringArray[1]))
+							calculation = 2;
+					}
+				}
+			});
+			if (i == 1) {
+				radioButton.setValue(true);
+			}
+			vPanel.add(radioButton);
+		}
+
+		discloserPanel = new DisclosurePanel("Advance Budget Calculation");
+		discloserPanel.setContent(vPanel);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.add(budgetInfoForm);
 
 		verticalPanel.add(horizontalPanel);
 		verticalPanel.add(budgetAddForm);
+		verticalPanel.add(discloserPanel);
 
 		setBodyLayout(verticalPanel);
 		center();
@@ -202,6 +254,17 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		list.add(MONTHS);
 		list.add(QUARTERS);
 		list.add(YEARS);
+
+		return list;
+	}
+
+	private List<String> getBudgetCalculationTypesList() {
+		List<String> list = new ArrayList<String>();
+
+		list.add(NEAREST_AMOUNT);
+		list.add(NEAREST_TEN);
+		list.add(NEAREST_HUNDRED);
+		list.add(NONE);
 
 		return list;
 	}
@@ -334,6 +397,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			if (quater1Amount.getValue() != null)
 				one = Double
 						.toString(round(
+								false,
+								0,
+								roundOff,
+								calculation,
 								Double.parseDouble(quater1Amount.getValue()) / 3.00,
 								2));
 			else
@@ -342,6 +409,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			if (quater2Amount.getValue() != null)
 				two = Double
 						.toString(round(
+								false,
+								0,
+								roundOff,
+								calculation,
 								Double.parseDouble(quater2Amount.getValue()) / 3.00,
 								2));
 			else
@@ -350,6 +421,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			if (quater3Amount.getValue() != null)
 				three = Double
 						.toString(round(
+								false,
+								0,
+								roundOff,
+								calculation,
 								Double.parseDouble(quater3Amount.getValue()) / 3.00,
 								2));
 			else
@@ -358,6 +433,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			if (quater4Amount.getValue() != null)
 				four = Double
 						.toString(round(
+								false,
+								0,
+								roundOff,
+								calculation,
 								Double.parseDouble(quater4Amount.getValue()) / 3.00,
 								2));
 			else
@@ -389,39 +468,155 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		} else if (budgetAddBy.getSelectedValue() == YEARS) {
 
-			String one;
+			if (annualAmount.getValue() != null) {
 
-			if (annualAmount.getValue() != null)
-				one = Double
-						.toString(round(
-								Double.parseDouble(annualAmount.getValue()) / 12.00,
-								2));
-			else
+				newMap.put(
+						"jan",
+						Double.toString(round(
+								true,
+								31,
+								roundOff,
+								calculation,
+								Double.parseDouble(annualAmount.getValue()) / 365.00,
+								2)));
+
+				newMap.put(
+						"feb",
+						Double.toString(round(
+								true,
+								28,
+								roundOff,
+								calculation,
+								Double.parseDouble(annualAmount.getValue()) / 365.00,
+								2)));
+
+				newMap.put(
+						"mar",
+						Double.toString(round(
+								true,
+								31,
+								roundOff,
+								calculation,
+								Double.parseDouble(annualAmount.getValue()) / 365.00,
+								2)));
+
+				newMap.put(
+						"apr",
+						Double.toString(round(
+								true,
+								30,
+								roundOff,
+								calculation,
+								Double.parseDouble(annualAmount.getValue()) / 365.00,
+								2)));
+
+				newMap.put(
+						"may",
+						Double.toString(round(
+								true,
+								31,
+								roundOff,
+								calculation,
+								Double.parseDouble(annualAmount.getValue()) / 365.00,
+								2)));
+
+				newMap.put(
+						"jun",
+						Double.toString(round(
+								true,
+								30,
+								roundOff,
+								calculation,
+								Double.parseDouble(annualAmount.getValue()) / 365.00,
+								2)));
+
+				newMap.put(
+						"jul",
+						Double.toString(round(
+								true,
+								31,
+								roundOff,
+								calculation,
+								Double.parseDouble(annualAmount.getValue()) / 365.00,
+								2)));
+
+				newMap.put(
+						"aug",
+						Double.toString(round(
+								true,
+								31,
+								roundOff,
+								calculation,
+								Double.parseDouble(annualAmount.getValue()) / 365.00,
+								2)));
+
+				newMap.put(
+						"sept",
+						Double.toString(round(
+								true,
+								30,
+								roundOff,
+								calculation,
+								Double.parseDouble(annualAmount.getValue()) / 365.00,
+								2)));
+
+				newMap.put(
+						"oct",
+						Double.toString(round(
+								true,
+								31,
+								roundOff,
+								calculation,
+								Double.parseDouble(annualAmount.getValue()) / 365.00,
+								2)));
+
+				newMap.put(
+						"nov",
+						Double.toString(round(
+								true,
+								30,
+								roundOff,
+								calculation,
+								Double.parseDouble(annualAmount.getValue()) / 365.00,
+								2)));
+
+				newMap.put(
+						"dec",
+						Double.toString(round(
+								true,
+								31,
+								roundOff,
+								calculation,
+								Double.parseDouble(annualAmount.getValue()) / 365.00,
+								2)));
+			} else {
+				String one;
 				one = "0.00";
 
-			newMap.put("jan", one);
+				newMap.put("jan", one);
 
-			newMap.put("feb", one);
+				newMap.put("feb", one);
 
-			newMap.put("mar", one);
+				newMap.put("mar", one);
 
-			newMap.put("apr", one);
+				newMap.put("apr", one);
 
-			newMap.put("may", one);
+				newMap.put("may", one);
 
-			newMap.put("jun", one);
+				newMap.put("jun", one);
 
-			newMap.put("jul", one);
+				newMap.put("jul", one);
 
-			newMap.put("aug", one);
+				newMap.put("aug", one);
 
-			newMap.put("sept", one);
+				newMap.put("sept", one);
 
-			newMap.put("oct", one);
+				newMap.put("oct", one);
 
-			newMap.put("nov", one);
+				newMap.put("nov", one);
 
-			newMap.put("dec", one);
+				newMap.put("dec", one);
+			}
 		}
 
 		getCallback().actionResult(newMap);
@@ -451,14 +646,47 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 	}
 
-	public static double round(double value, int places) {
+	public static double round(boolean year, int month, int round, int calc,
+			double value, int places) {
 		if (places < 0)
 			throw new IllegalArgumentException();
 
 		long factor = (long) Math.pow(10, places);
 		value = value * factor;
 		long tmp = Math.round(value);
-		return (double) tmp / factor;
+
+		double valueFinal = tmp / factor;
+
+		double valueToReturn = calculateValue(valueFinal, round, calc, month,
+				year);
+
+		return valueToReturn;
+	}
+
+	private static double calculateValue(double valueFinal, int round,
+			int calc, int monthDays, boolean year) {
+
+		long round2 = Math.round(valueFinal);
+
+		if (round == 1) {
+			valueFinal = round2;
+		} else if (round == 2) {
+			round2 = (round2 / 10);
+			round2 = round2 * 10;
+			valueFinal = round2;
+		} else if (round == 3) {
+			round2 = (round2 / 100);
+			round2 = round2 * 100;
+			valueFinal = round2;
+		}
+
+		if (year == true) {
+			if (calc == 1) {
+				valueFinal = valueFinal * monthDays;
+			}
+		}
+
+		return valueFinal;
 	}
 
 	@Override
