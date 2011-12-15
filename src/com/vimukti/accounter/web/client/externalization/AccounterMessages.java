@@ -1267,6 +1267,8 @@ public interface AccounterMessages extends Messages {
 
 	public String editBrandThemeLabel();
 
+	public String editBrandingThemeLabel();
+
 	// public String editCountry();
 
 	public String edited();
@@ -4770,6 +4772,28 @@ public interface AccounterMessages extends Messages {
 	public String newpasswordAndPreviouspasswordAreSame();
 
 	public String taxAgenciesList();
+
+	public String customTheme();
+
+	public String standardTemplate();
+
+	public String downloadOdtFiles();
+
+	public String downloadDocxFiles();
+
+	public String odtDownloadMessage();
+
+	public String docxDownloadMessage();
+
+	public String themeUploadMessage();
+
+	public String uploadOneOrMoreTemplates();
+
+	public String eachFileCanBeNoLongerThan();
+
+	public String noFileSelected();
+
+	public String creditNote();
 
 	public String doyouwanttoDeleteObj(String name);
 
