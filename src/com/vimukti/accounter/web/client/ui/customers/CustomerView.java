@@ -50,6 +50,7 @@ import com.vimukti.accounter.web.client.ui.combo.CreditRatingCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
+import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
@@ -95,7 +96,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	CheckboxItem statusCheck, selectCheckBox;
 
-	// PriceLevelCombo priceLevelSelect;
+	PriceLevelCombo priceLevelSelect;
 	CreditRatingCombo creditRatingSelect;
 
 	TextItem bankAccountSelect;
@@ -225,14 +226,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					.getCreditRating()));
 	}
 
-	// private void initPriceLevelList() {
-	//
-	// priceLevelSelect.initCombo(getCompany().getPriceLevels());
-	// // Setting Preferred Shipping Method
-	// if (data != null && data.getPriceLevel() != 0)
-	// priceLevelSelect.setComboItem(company.getPriceLevel(data
-	// .getPriceLevel()));
-	// }
+	private void initPriceLevelList() {
+
+		priceLevelSelect.initCombo(getCompany().getPriceLevels());
+		// Setting Preferred Shipping Method
+		if (data != null && data.getPriceLevel() != 0)
+			priceLevelSelect.setComboItem(company.getPriceLevel(data
+					.getPriceLevel()));
+	}
 
 	private void initVatCodeList() {
 		List<ClientTAXCode> taxcodes = company.getActiveTaxCodes();
@@ -342,7 +343,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	@Override
 	public void saveSuccess(IAccounterCore result) {
 		if (result != null) {
-			ClientCustomer customer = (ClientCustomer) result;
+				ClientCustomer customer = (ClientCustomer) result;
 			if (getMode() == EditMode.CREATE) {
 				customer.setBalance(customer.getOpeningBalance());
 			}
@@ -694,10 +695,28 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		// accInfoForm.setWidth("100%");
 
+		priceLevelSelect = new PriceLevelCombo(messages.priceLevel());
+		priceLevelSelect.setHelpInformation(true);
+		priceLevelSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPriceLevel>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientPriceLevel selectItem) {
+						selectPriceLevelFromDetailsTab = selectItem;
+
+					}
+
+				});
+
 		currencyCombo = createCurrencyComboWidget();
 		currencyCombo.setDisabled(isInViewMode());
 		accInfoForm.setFields(statusCheck, customerSinceDate);
-		balanceForm.setFields(openingBalText, balanceDate, balanceText);
+		if (getPreferences().isPricingLevelsEnabled()) {
+			balanceForm.setFields(openingBalText, balanceDate, balanceText,
+					priceLevelSelect);
+		} else {
+			balanceForm.setFields(openingBalText, balanceDate, balanceText);
+		}
 		Label l1 = new Label(messages.contacts());
 		addButton = new AddButton(this);
 
@@ -875,6 +894,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		salesPersonSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
 
+					@Override
 					public void selectedComboBoxItem(
 							ClientSalesPerson selectItem) {
 						selectSalesPersonFromDetailsTab = selectItem;
@@ -892,25 +912,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
 
-		// priceLevelSelect = new
-		// PriceLevelCombo(messages.priceLevel());
-		// priceLevelSelect.setHelpInformation(true);
-		// priceLevelSelect
-		// .addSelectionChangeHandler(new
-		// IAccounterComboSelectionChangeHandler<ClientPriceLevel>() {
-		//
-		// public void selectedComboBoxItem(ClientPriceLevel selectItem) {
-		// selectPriceLevelFromDetailsTab = selectItem;
-		//
-		// }
-		//
-		// });
-
 		creditRatingSelect = new CreditRatingCombo(messages.creditRating());
 		creditRatingSelect.setHelpInformation(true);
 		creditRatingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
 
+					@Override
 					public void selectedComboBoxItem(
 							ClientCreditRating selectItem) {
 						selectCreditRatingFromDetailsTab = selectItem;
@@ -961,6 +968,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		shipMethSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
 
+					@Override
 					public void selectedComboBoxItem(
 							ClientShippingMethod selectItem) {
 						selectShippingMethodFromDetailsTab = selectItem;
@@ -987,6 +995,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		payTermsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
 
+					@Override
 					public void selectedComboBoxItem(
 							ClientPaymentTerms selectItem) {
 						selectPayTermFromDetailsTab = selectItem;
@@ -1001,6 +1010,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		custGroupSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomerGroup>() {
 
+					@Override
 					public void selectedComboBoxItem(
 							ClientCustomerGroup selectItem) {
 						selectCustomerGroupFromDetailsTab = selectItem;
@@ -1017,6 +1027,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		custTaxCode
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientTAXCode selectItem) {
 						selectVatCodeFromDetailsTab = selectItem;
 					}
@@ -1039,7 +1050,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		}
 		salesPersonSelect.setDisabled(isInViewMode());
 		creditLimitText.setDisabled(isInViewMode());
-		// priceLevelSelect.setDisabled(isInViewMode());
+		priceLevelSelect.setDisabled(isInViewMode());
 		creditRatingSelect.setDisabled(isInViewMode());
 		bankAccountSelect.setDisabled(isInViewMode());
 		bankNameSelect.setDisabled(isInViewMode());
@@ -1152,6 +1163,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			data.setFaxNo(data.getFaxNo());
 		if (getPreferences().isTrackTax()) {
 			initVatCodeList();
+		}
+		if (data != null && data.getPriceLevel() != 0) {
+			priceLevelSelect.setValue(company.getPriceLevel(data
+					.getPriceLevel()));
 		}
 
 		super.initData();
@@ -1372,7 +1387,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		gridView.setDisabled(isInViewMode());
 		salesPersonSelect.setDisabled(isInViewMode());
 		creditLimitText.setDisabled(isInViewMode());
-		// priceLevelSelect.setDisabled(isInViewMode());
+		priceLevelSelect.setDisabled(isInViewMode());
 		creditRatingSelect.setDisabled(isInViewMode());
 		currencyCombo.setDisabled(!isInViewMode(), isInViewMode());
 		// if (!selectCurrency.equals(getCompany().getPreferences()
