@@ -7,9 +7,7 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class PurchaseOrderTableRequirements extends
 		AbstractTableRequirement<PurchaseOrdersList> {
@@ -60,12 +58,12 @@ public abstract class PurchaseOrderTableRequirements extends
 
 	@Override
 	protected List<PurchaseOrdersList> getList() {
-		try {
-			return new FinanceTool().getPurchageManager()
-					.getPurchaseOrdersList(getCompanyId());
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
+		// try {
+		// return new FinanceTool().getPurchageManager()
+		// .getPurchaseOrdersList(getCompanyId());
+		// } catch (DAOException e) {
+		// e.printStackTrace();
+		// }
 		return new ArrayList<PurchaseOrdersList>();
 	}
 
