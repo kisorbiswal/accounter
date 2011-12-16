@@ -22,13 +22,15 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 	@Override
 	protected int getColumnType(int col) {
 		if (col == 3) {
-			String opration = ((ClientFixedAssetHistory) selectedObject)
-					.getActionType();
-			if (opration
-					.equalsIgnoreCase(ClientFixedAssetHistory.ACTION_TYPE_DISPOSED)
-					|| opration
-							.equalsIgnoreCase(ClientFixedAssetHistory.ACTION_TYPE_DISPOSAL_REVERSED)) {
-				return ListGrid.COLUMN_TYPE_LINK;
+			if (selectedObject != null) {
+				String opration = ((ClientFixedAssetHistory) selectedObject)
+						.getActionType();
+				if (opration
+						.equalsIgnoreCase(ClientFixedAssetHistory.ACTION_TYPE_DISPOSED)
+						|| opration
+								.equalsIgnoreCase(ClientFixedAssetHistory.ACTION_TYPE_DISPOSAL_REVERSED)) {
+					return ListGrid.COLUMN_TYPE_LINK;
+				}
 			}
 		}
 
