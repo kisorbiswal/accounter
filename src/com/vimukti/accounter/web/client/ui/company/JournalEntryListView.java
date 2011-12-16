@@ -5,13 +5,9 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
+import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.JournalEntriesListGrid;
 
 /**
@@ -19,38 +15,35 @@ import com.vimukti.accounter.web.client.ui.grids.JournalEntriesListGrid;
  * @author Mandeep Singh
  * 
  */
-public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
-	SelectItem viewSelect;
-	DynamicForm form;
+public class JournalEntryListView extends
+		TransactionsListView<ClientJournalEntry> {
 	List<ClientJournalEntry> allEntries;
-	private SelectCombo currentView;
 
 	public JournalEntryListView() {
+		super(Accounter.messages().all());
 		isDeleteDisable = true;
 	}
 
 	@Override
 	protected Action getAddNewAction() {
-
 		return ActionFactory.getNewJournalEntryAction();
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-
-		return Accounter.messages().addNewJournalEntry();
+		return messages().addNewJournalEntry();
 	}
 
 	@Override
 	protected String getListViewHeading() {
-
-		return Accounter.messages().journalEntryList();
+		return messages().journalEntryList();
 	}
 
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		rpcUtilService.getJournalEntries(this);
+		rpcUtilService.getJournalEntries(getStartDate().getDate(), getEndDate()
+				.getDate(), this);
 	}
 
 	@Override
@@ -63,9 +56,10 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	public void onSuccess(ArrayList<ClientJournalEntry> result) {
 		super.onSuccess(result);
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 		// grid.setViewType(FinanceApplication.constants().all());
 		// filterList(FinanceApplication.constants().all());
+		grid.sort(10, false);
 	}
 
 	@Override
@@ -74,37 +68,19 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	}
 
 	@Override
-	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(null);
-		currentView.setHelpInformation(true);
-		listOfTypes = new ArrayList<String>();
+	protected List<String> getViewSelectTypes() {
+		List<String> listOfTypes = new ArrayList<String>();
 		// listOfTypes.add(FinanceApplication.constants().nonVoided());
 		// listOfTypes.add(FinanceApplication.constants().Voided());
 		// listOfTypes.add(FinanceApplication.constants().cashBasis());
 		// listOfTypes.add(FinanceApplication.constants()
 		// .voidedCashBasis());
-		listOfTypes.add(Accounter.messages().all());
-		currentView.initCombo(listOfTypes);
-		// currentView.setComboItem(FinanceApplication.constants().all());
-		currentView.setComboItem(Accounter.messages().all());
-		currentView
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-
-						if (currentView.getSelectedValue() != null) {
-							currentView.setSelected(currentView
-									.getSelectedValue());
-							grid.setViewType(currentView.getSelectedValue());
-							filterList(currentView.getSelectedValue());
-						}
-					}
-				});
-		return currentView;
+		listOfTypes.add(messages().all());
+		return listOfTypes;
 	}
 
-	private void filterList(String text) {
+	@Override
+	protected void filterList(String text) {
 		/*
 		 * if (currentView.getSelectedValue().equalsIgnoreCase("Non Voided")) {
 		 * List<ClientJournalEntry> nonVoidedRecs = new
@@ -152,11 +128,11 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 		// grid.setRecords(deletedRecs);
 		//
 		// }
-		if (currentView.getSelectedValue().equalsIgnoreCase("All")) {
+		if (viewSelect.getSelectedValue().equalsIgnoreCase("All")) {
 			grid.setRecords(initialRecords);
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 
 	}
 
@@ -185,7 +161,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().journalEntries();
+		return messages().journalEntries();
 	}
 
 }

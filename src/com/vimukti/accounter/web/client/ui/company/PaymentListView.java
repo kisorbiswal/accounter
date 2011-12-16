@@ -3,15 +3,13 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.SelectPaymentTypeDialog;
-import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.PaymentsListGrid;
 
@@ -20,18 +18,11 @@ import com.vimukti.accounter.web.client.ui.grids.PaymentsListGrid;
  * @author Mandeep Singh
  * 
  */
-public class PaymentListView extends BaseListView<PaymentsList> {
-	Label addPayLabel;
-	SelectCombo viewSelect;
-	DynamicForm form;
-	Action action;
+public class PaymentListView extends TransactionsListView<PaymentsList> {
 	List<PaymentsList> allPayments;
 	private List<PaymentsList> listOfPayments;
+	private int checkType;
 
-	private static String NOT_ISSUED = Accounter.messages().notIssued();
-	private static String ISSUED = Accounter.messages().issued();
-	private static String VOID = Accounter.messages().voided();
-	private static String ALL = Accounter.messages().all();
 	// private static String DELETED = "Deleted";
 
 	private static final int STATUS_NOT_ISSUED = 0;
@@ -39,8 +30,16 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	private static final int STATUS_ISSUED = 2;
 	private static final int STATUS_VOID = 4;
 
+	public static final int TYPE_CUSTOMER_CHECKS = 1;
+	public static final int TYPE_VENDOR_CHECKS = 2;
+
 	public PaymentListView() {
-		super();
+		super(Accounter.messages().notIssued());
+	}
+
+	public PaymentListView(int checkType) {
+		super(Accounter.messages().notIssued());
+		this.checkType = checkType;
 	}
 
 	public static PaymentListView getInstance() {
@@ -49,25 +48,47 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected Action getAddNewAction() {
-		new SelectPaymentTypeDialog().show();
+		if (checkType == 0) {
+			new SelectPaymentTypeDialog().show();
+		} else {
+			return ActionFactory.getWriteChecksAction();
+		}
 		return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.messages().addaNewPayment();
+		if (checkType == 0) {
+			return messages().addaNewPayment();
+		} else {
+			return messages().writeCheck();
+		}
 	}
 
 	@Override
 	protected String getListViewHeading() {
-
-		return Accounter.messages().paymentsList();
+		if (checkType == 0) {
+			return messages().paymentsList();
+		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
+			return messages().payeeChecks(Global.get().Customer());
+		} else {
+			return messages().payeeChecks(Global.get().Vendor());
+		}
 	}
 
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getPaymentsList(this);
+		if (checkType == 0) {
+			Accounter.createHomeService().getPaymentsList(
+					getStartDate().getDate(), getEndDate().getDate(), this);
+		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
+			Accounter.createHomeService().getPayeeChecks(true,
+					getStartDate().getDate(), getEndDate().getDate(), this);
+		} else {
+			Accounter.createHomeService().getPayeeChecks(false,
+					getStartDate().getDate(), getEndDate().getDate(), this);
+		}
 	}
 
 	@Override
@@ -76,6 +97,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 		listOfPayments = result;
 		filterList(viewSelect.getSelectedValue());
 		grid.setViewType(viewSelect.getSelectedValue());
+		grid.sort(10, false);
 	}
 
 	@Override
@@ -85,48 +107,27 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected void initGrid() {
-		grid = new PaymentsListGrid(false);
+		grid = new PaymentsListGrid(false, checkType);
 		grid.init();
 		grid.setEditEventType(ListGrid.EDIT_EVENT_DBCLICK);
 		// FinanceApplication.createHomeService().getPaymentsList(this);
 	}
 
-	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.messages().currentView());
-		viewSelect.setHelpInformation(true);
-		listOfTypes = new ArrayList<String>();
-		listOfTypes.add(NOT_ISSUED);
-		listOfTypes.add(ISSUED);
-		listOfTypes.add(VOID);
-		listOfTypes.add(ALL);
-		viewSelect.initCombo(listOfTypes);
-
-		// if (UIUtils.isMSIEBrowser())
-		// viewSelect.setWidth("150px");
-
-		viewSelect.setComboItem(NOT_ISSUED);
-		viewSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						if (viewSelect.getSelectedValue() != null) {
-							grid.setViewType(viewSelect.getSelectedValue());
-							filterList(viewSelect.getSelectedValue());
-						}
-
-					}
-				});
-
-		return viewSelect;
+	protected java.util.List<String> getViewSelectTypes() {
+		List<String> listOfTypes = new ArrayList<String>();
+		listOfTypes.add(messages().notIssued());
+		listOfTypes.add(messages().issued());
+		listOfTypes.add(messages().Voided());
+		listOfTypes.add(messages().all());
+		return listOfTypes;
 	}
 
-	private void filterList(String text) {
+	protected void filterList(String text) {
 
 		grid.removeAllRecords();
 
 		for (PaymentsList payment : listOfPayments) {
-			if (text.equals(NOT_ISSUED)) {
+			if (text.equals(messages().notIssued())) {
 				if ((payment.getStatus() == STATUS_NOT_ISSUED || payment
 						.getStatus() == STATUS_PARTIALLY_PAID)
 						&& (!payment.isVoided()))
@@ -135,14 +136,14 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 				// grid.addEmptyMessage("No records to show");
 				continue;
 			}
-			if (text.equals(ISSUED)) {
+			if (text.equals(messages().issued())) {
 				if (payment.getStatus() == STATUS_ISSUED
 						&& (!payment.isVoided()))
 					grid.addData(payment);
 
 				continue;
 			}
-			if (text.equals(VOID)) {
+			if (text.equals(messages().Voided())) {
 				if (payment.isVoided()
 				// && payment.getStatus()!=ClientTransaction.STATUS_DELETED
 				)
@@ -154,12 +155,12 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 			// grid.addData(payment);
 			// continue;
 			// }
-			if (text.equals(ALL)) {
+			if (text.equals(messages().all())) {
 				grid.addData(payment);
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 	}
 
 	@Override
@@ -187,7 +188,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().payments();
+		return messages().payments();
 	}
 
 }
