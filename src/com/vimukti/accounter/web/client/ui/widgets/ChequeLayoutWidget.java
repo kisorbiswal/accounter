@@ -88,9 +88,15 @@ public class ChequeLayoutWidget extends SimplePanel {
 				chequeLayout.getChequeHeight() + "cm");
 
 		HorizontalPanel topScale = new HorizontalPanel();
+		Label top = new Label(
+				"| | | | 1 | | | | 2 | | | | 3 | | | | 4 | | | | 5 | | | | 6 | | | | 7 | | | | 8 | | | | 9 | | | | 10");
+		topScale.add(top);
 		topScale.addStyleName("chequeTopScal");
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		VerticalPanel vertScale = new VerticalPanel();
+		Label left = new Label(
+				"| | | | 1 | | | | 2 | | | | 3 | | | | 4 | | | | 5");
+		vertScale.add(left);
 		vertScale.setStyleName("chequeLeftScal");
 		SimplePanel chequeBg = new SimplePanel();
 		chequeBg.add(chequeBody);
