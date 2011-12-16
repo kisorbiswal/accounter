@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -11,8 +12,8 @@ public class PurchaseByVendorSummaryAction extends Action {
 
 	protected PurchaseByVendorSummaryReport report;
 
-	public PurchaseByVendorSummaryAction(String text) {
-		super(text);
+	public PurchaseByVendorSummaryAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -66,6 +67,12 @@ public class PurchaseByVendorSummaryAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "purchase-vendor-summary";
+	}
+
+	@Override
+	public String getText() {
+		return Global.get().messages()
+				.purchaseByVendorSummary(Global.get().Vendor());
 	}
 
 }

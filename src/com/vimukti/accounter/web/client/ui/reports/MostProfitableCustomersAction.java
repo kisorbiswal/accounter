@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -16,8 +17,8 @@ public class MostProfitableCustomersAction extends Action {
 
 	protected MostProfitableCustomerReport report;
 
-	public MostProfitableCustomersAction(String text) {
-		super(text);
+	public MostProfitableCustomersAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -71,6 +72,11 @@ public class MostProfitableCustomersAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "profitable-customers";
+	}
+
+	@Override
+	public String getText() {
+		return messages.mostProfitableCustomers(Global.get().customers());
 	}
 
 }

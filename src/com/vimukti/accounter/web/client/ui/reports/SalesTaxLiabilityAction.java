@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class SalesTaxLiabilityAction extends Action {
 
-	public SalesTaxLiabilityAction(String text) {
-		super(text);
+	public SalesTaxLiabilityAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -68,6 +68,11 @@ public class SalesTaxLiabilityAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "sales-tax-liability";
+	}
+
+	@Override
+	public String getText() {
+		return messages.salesTaxLiability();
 	}
 
 }

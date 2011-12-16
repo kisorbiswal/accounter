@@ -19,8 +19,8 @@ public class TAXItemExceptionDetailReport extends Action {
 
 	private ClientTAXReturn taxReturn;
 
-	public TAXItemExceptionDetailReport(String text) {
-		super(text);
+	public TAXItemExceptionDetailReport() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -83,5 +83,10 @@ public class TAXItemExceptionDetailReport extends Action {
 
 	public void setTaxReturn(ClientTAXReturn taxReturn) {
 		this.taxReturn = taxReturn;
+	}
+
+	@Override
+	public String getText() {
+		return messages.taxItemExceptionDetailReport();
 	}
 }

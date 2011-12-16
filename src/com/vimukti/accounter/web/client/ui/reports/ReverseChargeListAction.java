@@ -11,8 +11,8 @@ public class ReverseChargeListAction extends Action {
 
 	protected ReverseChargeListReport report;
 
-	public ReverseChargeListAction(String text) {
-		super(text);
+	public ReverseChargeListAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -64,6 +64,11 @@ public class ReverseChargeListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "reverse-charge-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.reverseChargeList();
 	}
 
 }

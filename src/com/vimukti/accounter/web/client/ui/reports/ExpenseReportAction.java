@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class ExpenseReportAction extends Action {
 
-	public ExpenseReportAction(String text) {
-		super(text);
+	public ExpenseReportAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -75,6 +75,11 @@ public class ExpenseReportAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "expense-report";
+	}
+
+	@Override
+	public String getText() {
+		return messages.expenseReport();
 	}
 
 }

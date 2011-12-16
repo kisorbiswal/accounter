@@ -16,8 +16,8 @@ public class CashFlowStatementAction extends Action {
 
 	protected CashFlowStatementReport report;
 
-	public CashFlowStatementAction(String text) {
-		super(text);
+	public CashFlowStatementAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -67,6 +67,11 @@ public class CashFlowStatementAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "cash-flow";
+	}
+
+	@Override
+	public String getText() {
+		return messages.cashFlowReport();
 	}
 
 }

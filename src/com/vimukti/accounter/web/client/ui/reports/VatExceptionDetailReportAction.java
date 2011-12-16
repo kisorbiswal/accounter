@@ -16,8 +16,8 @@ public class VatExceptionDetailReportAction extends Action {
 
 	private VATExceptionDetailReportView report;
 
-	public VatExceptionDetailReportAction(String text) {
-		super(text);
+	public VatExceptionDetailReportAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -68,5 +68,10 @@ public class VatExceptionDetailReportAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "vat-ExceptionDetails";
+	}
+
+	@Override
+	public String getText() {
+		return messages.vatExceptionDetail();
 	}
 }

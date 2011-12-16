@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -15,8 +16,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class VendorTransactionHistoryAction extends Action {
 
-	public VendorTransactionHistoryAction(String text) {
-		super(text);
+	public VendorTransactionHistoryAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -72,6 +73,12 @@ public class VendorTransactionHistoryAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "vendor-transaction";
+	}
+
+	@Override
+	public String getText() {
+		return Global.get().messages()
+				.payeeTransactionHistory(Global.get().Vendor());
 	}
 
 }

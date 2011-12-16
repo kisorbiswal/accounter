@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class TaxItemDetailReportAction extends Action {
 
-	public TaxItemDetailReportAction(String text) {
-		super(text);
+	public TaxItemDetailReportAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -58,6 +58,11 @@ public class TaxItemDetailReportAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "Tax Item Detail";
+	}
+
+	@Override
+	public String getText() {
+		return messages.taxItemDetailReport();
 	}
 
 }

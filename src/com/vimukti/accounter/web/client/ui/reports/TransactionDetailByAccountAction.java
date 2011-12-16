@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class TransactionDetailByAccountAction extends Action {
 
-	public TransactionDetailByAccountAction(String text) {
-		super(text);
+	public TransactionDetailByAccountAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -72,6 +72,11 @@ public class TransactionDetailByAccountAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "transaction-by-account";
+	}
+
+	@Override
+	public String getText() {
+		return messages.transactionDetailByAccount();
 	}
 
 }

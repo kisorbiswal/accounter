@@ -12,8 +12,8 @@ public class APAgingSummaryReportAction extends Action<DummyDebitor> {
 
 	protected APAgingSummaryReport report;
 
-	public APAgingSummaryReportAction(String text) {
-		super(text);
+	public APAgingSummaryReportAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 
 	}
@@ -68,6 +68,11 @@ public class APAgingSummaryReportAction extends Action<DummyDebitor> {
 	@Override
 	public String getHelpToken() {
 		return "ap-aging-summary";
+	}
+
+	@Override
+	public String getText() {
+		return messages.apAgeingSummary();
 	}
 
 }

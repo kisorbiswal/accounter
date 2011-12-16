@@ -12,8 +12,8 @@ public class ARAgingSummaryReportAction extends Action<DummyDebitor> {
 
 	protected ARAgingSummaryReport report;
 
-	public ARAgingSummaryReportAction(String text) {
-		super(text);
+	public ARAgingSummaryReportAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 
 	}
@@ -67,6 +67,11 @@ public class ARAgingSummaryReportAction extends Action<DummyDebitor> {
 	@Override
 	public String getHelpToken() {
 		return "ar-aging-summary";
+	}
+
+	@Override
+	public String getText() {
+		return messages.arAgeingSummary();
 	}
 
 }

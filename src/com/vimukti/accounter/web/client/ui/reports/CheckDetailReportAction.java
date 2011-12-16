@@ -11,8 +11,8 @@ public class CheckDetailReportAction extends Action {
 
 	private CheckDetailReportView report;
 
-	public CheckDetailReportAction(String text, String string) {
-		super(text);
+	public CheckDetailReportAction(String string) {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -61,5 +61,10 @@ public class CheckDetailReportAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "check-detail";
+	}
+
+	@Override
+	public String getText() {
+		return messages.checkDetail();
 	}
 }

@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class VaTItemDetailAction extends Action {
 	private VATItemDetailReport report;
 
-	public VaTItemDetailAction(String text) {
-		super(text);
+	public VaTItemDetailAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -68,5 +68,10 @@ public class VaTItemDetailAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "vat-item-detail";
+	}
+
+	@Override
+	public String getText() {
+		return messages.vatItemDetailReport();
 	}
 }

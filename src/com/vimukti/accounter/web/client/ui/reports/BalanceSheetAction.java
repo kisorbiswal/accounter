@@ -16,8 +16,8 @@ public class BalanceSheetAction extends Action {
 
 	protected BalanceSheetReport report;
 
-	public BalanceSheetAction(String text) {
-		super(text);
+	public BalanceSheetAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -70,6 +70,11 @@ public class BalanceSheetAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "balance-sheet";
+	}
+
+	@Override
+	public String getText() {
+		return messages.balanceSheet();
 	}
 
 }

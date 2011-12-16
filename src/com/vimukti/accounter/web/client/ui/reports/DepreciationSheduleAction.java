@@ -11,8 +11,8 @@ public class DepreciationSheduleAction extends Action {
 
 	protected DepreciationSheduleReport report;
 
-	public DepreciationSheduleAction(String text) {
-		super(text);
+	public DepreciationSheduleAction() {
+		super();
 		this.catagory = messages.report();
 	}
 
@@ -59,6 +59,11 @@ public class DepreciationSheduleAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "depreciation-shedule";
+	}
+
+	@Override
+	public String getText() {
+		return messages.depreciationShedule();
 	}
 
 }

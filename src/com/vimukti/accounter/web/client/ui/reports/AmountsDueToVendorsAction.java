@@ -16,8 +16,8 @@ public class AmountsDueToVendorsAction extends Action {
 
 	protected AmountsDueToVendorReport report;
 
-	public AmountsDueToVendorsAction(String text) {
-		super(text);
+	public AmountsDueToVendorsAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -68,6 +68,11 @@ public class AmountsDueToVendorsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "vendors-amount-due";
+	}
+
+	@Override
+	public String getText() {
+		return null;
 	}
 
 }

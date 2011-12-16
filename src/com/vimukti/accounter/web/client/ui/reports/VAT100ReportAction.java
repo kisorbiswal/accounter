@@ -11,8 +11,8 @@ public class VAT100ReportAction extends Action {
 
 	protected VAT100Report report;
 
-	public VAT100ReportAction(String text) {
-		super(text);
+	public VAT100ReportAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -72,6 +72,11 @@ public class VAT100ReportAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "vat-100";
+	}
+
+	@Override
+	public String getText() {
+		return messages.vat100();
 	}
 
 }

@@ -17,8 +17,8 @@ public class APAgingDetailAction extends Action<AgedDebtors> {
 
 	protected APAgingDetailReport report;
 
-	public APAgingDetailAction(String text) {
-		super(text);
+	public APAgingDetailAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -68,6 +68,11 @@ public class APAgingDetailAction extends Action<AgedDebtors> {
 	@Override
 	public String getHelpToken() {
 		return "reports-aging-details";
+	}
+
+	@Override
+	public String getText() {
+		return messages.apAgeingDetail();
 	}
 
 }

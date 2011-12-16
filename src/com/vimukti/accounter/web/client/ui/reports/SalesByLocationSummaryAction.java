@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationSummary;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -11,8 +12,8 @@ public class SalesByLocationSummaryAction extends Action {
 
 	private boolean isLocation;
 
-	public SalesByLocationSummaryAction(String text, boolean isLocation) {
-		super(text);
+	public SalesByLocationSummaryAction(boolean isLocation) {
+		super();
 		this.isLocation = isLocation;
 	}
 
@@ -69,6 +70,16 @@ public class SalesByLocationSummaryAction extends Action {
 			return "sales-by-class-summary";
 		}
 		return "sales-by-location-summary";
+	}
+
+	@Override
+	public String getText() {
+		String actionsting = messages.salesByLocationSummary(Global.get()
+				.Location());
+		if (!isLocation) {
+			actionsting = messages.salesByClassSummary();
+		}
+		return actionsting;
 	}
 
 }

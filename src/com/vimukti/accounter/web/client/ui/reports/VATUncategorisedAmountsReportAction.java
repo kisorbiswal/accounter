@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class VATUncategorisedAmountsReportAction extends Action {
 
-	public VATUncategorisedAmountsReportAction(String text) {
-		super(text);
+	public VATUncategorisedAmountsReportAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -71,6 +71,11 @@ public class VATUncategorisedAmountsReportAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "vat-uncategorized-amount";
+	}
+
+	@Override
+	public String getText() {
+		return messages.uncategorisedVATAmounts();
 	}
 
 }

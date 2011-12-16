@@ -12,8 +12,8 @@ public class BudgetOverviewReportAction extends Action {
 	protected BudgetOverviewReport report;
 
 
-	public BudgetOverviewReportAction(String text) {
-		super(text);
+	public BudgetOverviewReportAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -66,6 +66,11 @@ public class BudgetOverviewReportAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "budget-report";
+	}
+
+	@Override
+	public String getText() {
+		return messages.budgetOverview();
 	}
 
 }

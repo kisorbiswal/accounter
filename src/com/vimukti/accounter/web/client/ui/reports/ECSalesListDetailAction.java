@@ -11,8 +11,8 @@ public class ECSalesListDetailAction extends Action {
 
 	protected ECSalesListDetailReport report;
 
-	public ECSalesListDetailAction(String text) {
-		super(text);
+	public ECSalesListDetailAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -69,6 +69,11 @@ public class ECSalesListDetailAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "ec-sales-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.ecSalesListDetailReport();
 	}
 
 }

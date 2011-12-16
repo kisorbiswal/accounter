@@ -16,8 +16,8 @@ public class GLReportAction extends Action {
 
 	protected GeneralLedgerReport report;
 
-	public GLReportAction(String text) {
-		super(text);
+	public GLReportAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -81,6 +81,11 @@ public class GLReportAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "gl-report";
+	}
+
+	@Override
+	public String getText() {
+		return messages.generalLedgerReport();
 	}
 
 }

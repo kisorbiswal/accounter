@@ -17,8 +17,8 @@ public class ARAgingDetailAction extends Action<AgedDebtors> {
 
 	protected ARAgingDetailReport report;
 
-	public ARAgingDetailAction(String text) {
-		super(text);
+	public ARAgingDetailAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 
 	}
@@ -68,6 +68,11 @@ public class ARAgingDetailAction extends Action<AgedDebtors> {
 	@Override
 	public String getHelpToken() {
 		return "ar-aging-detail";
+	}
+
+	@Override
+	public String getText() {
+		return messages.arAgeingDetail();
 	}
 
 }

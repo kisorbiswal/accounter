@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class TrialBalanceAction extends Action {
 
-	public TrialBalanceAction(String text) {
-		super(text);
+	public TrialBalanceAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -72,6 +72,11 @@ public class TrialBalanceAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "trial-balance";
+	}
+
+	@Override
+	public String getText() {
+		return messages.trialBalance();
 	}
 
 }

@@ -12,8 +12,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class ReportsHomeAction extends Action {
 
-	public ReportsHomeAction(String text) {
-		super(text);
+	public ReportsHomeAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -57,6 +57,11 @@ public class ReportsHomeAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "report";
+	}
+
+	@Override
+	public String getText() {
+		return messages.reportsHome();
 	}
 
 }

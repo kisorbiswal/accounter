@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -13,8 +14,8 @@ public class MISC1099TransactionDetailAction extends Action {
 	private int boxNo;
 	private long vendorId;
 
-	public MISC1099TransactionDetailAction(String text) {
-		super(text);
+	public MISC1099TransactionDetailAction() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -64,5 +65,11 @@ public class MISC1099TransactionDetailAction extends Action {
 
 	public void setVendorId(long vendorId) {
 		this.vendorId = vendorId;
+	}
+
+	@Override
+	public String getText() {
+		return messages.MISC1099TransactionDetailByVendor(Global.get()
+						.Vendor());
 	}
 }

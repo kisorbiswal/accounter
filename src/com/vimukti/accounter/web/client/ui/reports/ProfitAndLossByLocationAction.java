@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -11,8 +12,8 @@ public class ProfitAndLossByLocationAction extends Action {
 	protected ProfitAndLossByLocationReport locationReport;
 	private boolean isLocation;
 
-	public ProfitAndLossByLocationAction(String text, boolean isLocation) {
-		super(text);
+	public ProfitAndLossByLocationAction(boolean isLocation) {
+		super();
 		this.isLocation = isLocation;
 	}
 
@@ -65,6 +66,16 @@ public class ProfitAndLossByLocationAction extends Action {
 			return "profit-loss-by-location";
 		}
 		return "profit-loss-by-class";
+	}
+
+	@Override
+	public String getText() {
+		String actionstring = messages.profitAndLoss() + " By "
+				+ Global.get().Location();
+		if (!isLocation) {
+			actionstring = messages.profitAndLossbyClass();
+		}
+		return actionstring;
 	}
 
 }

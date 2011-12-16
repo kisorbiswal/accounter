@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class PurchaseClosedOrderAction extends Action {
 
-	public PurchaseClosedOrderAction(String text) {
-		super(text);
+	public PurchaseClosedOrderAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -70,6 +70,11 @@ public class PurchaseClosedOrderAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "purchase-closed";
+	}
+
+	@Override
+	public String getText() {
+		return messages.purchaseClosedOrder();
 	}
 
 }

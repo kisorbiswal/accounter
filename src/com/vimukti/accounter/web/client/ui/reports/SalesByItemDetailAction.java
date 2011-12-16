@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class SalesByItemDetailAction extends Action {
 
-	public SalesByItemDetailAction(String text) {
-		super(text);
+	public SalesByItemDetailAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -72,6 +72,11 @@ public class SalesByItemDetailAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "sales-by-item-detail";
+	}
+
+	@Override
+	public String getText() {
+		return messages.salesByItemDetail();
 	}
 
 }

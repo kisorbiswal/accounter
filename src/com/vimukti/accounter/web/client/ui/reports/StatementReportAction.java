@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -13,8 +14,8 @@ public class StatementReportAction extends Action {
 	private final boolean isVendor;
 	private final long payeeId;
 
-	public StatementReportAction(long payeeId, String text, boolean isVendor) {
-		super(text);
+	public StatementReportAction(long payeeId, boolean isVendor) {
+		super();
 		this.isVendor = isVendor;
 		this.payeeId = payeeId;
 		this.catagory = Accounter.messages().report();
@@ -73,6 +74,21 @@ public class StatementReportAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "statement-report";
+	}
+
+	@Override
+	public String getText() {
+		String text = "";
+		try {
+			if (isVendor) {
+				text = messages.payeeStatement(Global.get().Vendor());
+			} else {
+				text = messages.payeeStatement(Global.get().Customer());
+			}
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		return text;
 	}
 
 }

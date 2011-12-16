@@ -16,8 +16,8 @@ public class ProfitAndLossAction extends Action {
 
 	protected ProfitAndLossReport report;
 
-	public ProfitAndLossAction(String text) {
-		super(text);
+	public ProfitAndLossAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -73,6 +73,11 @@ public class ProfitAndLossAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "profit-loss";
+	}
+
+	@Override
+	public String getText() {
+		return messages.profitAndLoss();
 	}
 
 }

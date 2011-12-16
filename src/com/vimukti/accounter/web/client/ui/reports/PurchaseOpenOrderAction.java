@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class PurchaseOpenOrderAction extends Action {
 
-	public PurchaseOpenOrderAction(String text) {
-		super(text);
+	public PurchaseOpenOrderAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -70,6 +70,11 @@ public class PurchaseOpenOrderAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "purchase-open-order";
+	}
+
+	@Override
+	public String getText() {
+		return messages.purchaseOrderReport();
 	}
 
 }

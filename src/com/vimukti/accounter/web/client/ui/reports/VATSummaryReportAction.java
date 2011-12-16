@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class VATSummaryReportAction extends Action {
 
-	public VATSummaryReportAction(String text) {
-		super(text);
+	public VATSummaryReportAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -74,6 +74,11 @@ public class VATSummaryReportAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "vat-summary";
+	}
+
+	@Override
+	public String getText() {
+		return messages.priorVATReturns();
 	}
 
 }

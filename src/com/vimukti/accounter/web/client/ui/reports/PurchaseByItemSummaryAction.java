@@ -11,8 +11,8 @@ public class PurchaseByItemSummaryAction extends Action {
 
 	protected PurchaseByItemSummaryReport report;
 
-	public PurchaseByItemSummaryAction(String text) {
-		super(text);
+	public PurchaseByItemSummaryAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -67,6 +67,11 @@ public class PurchaseByItemSummaryAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "purchased-item";
+	}
+
+	@Override
+	public String getText() {
+		return messages.purchaseByItemSummary();
 	}
 
 }
