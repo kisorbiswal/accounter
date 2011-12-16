@@ -37,15 +37,15 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			return UIUtils.getDateByCompanyType(customerRefund.getIssueDate());
 		case 4:
 			return customerRefund.getName();
+			// case 5:
+			// return Utility.getTransactionName((customerRefund.getType()));
 		case 5:
-			return Utility.getTransactionName((customerRefund.getType()));
-		case 6:
 			return customerRefund.getPaymentMethod();
-		case 7:
+		case 6:
 			return DataUtils.amountAsStringWithCurrency(
 					customerRefund.getAmountPaid(),
 					getCompany().getCurrency(customerRefund.getCurrency()));
-		case 8:
+		case 7:
 			if (!customerRefund.isVoided())
 				return Accounter.getFinanceImages().notvoid();
 			// return "/images/not-void.png";
@@ -70,8 +70,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		messages = Accounter.messages();
 		return new String[] { messages.paymentDate(), messages.paymentNo(),
 				messages.status(), messages.issueDate(), messages.name(),
-				messages.type(), messages.paymentMethod(),
-				messages.amountPaid(), messages.voided()
+				messages.paymentMethod(), messages.amountPaid(),
+				messages.voided()
 		// , ""
 		};
 	}
@@ -81,8 +81,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				ListGrid.COLUMN_TYPE_IMAGE
 		// ,ListGrid.COLUMN_TYPE_IMAGE
 		};
 	}
@@ -94,7 +94,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	}
 
 	protected void onClick(CustomerRefundsList obj, int row, int col) {
-		if (col == 8 && !obj.isVoided()) {
+		if (col == 7 && !obj.isVoided()) {
 			showWarningDialog(obj, col);
 		}
 		// else if (col == 9) {
@@ -108,7 +108,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	private void showWarningDialog(final CustomerRefundsList obj, final int col) {
 		String msg = null;
-		if (col == 8) {
+		if (col == 7) {
 			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
@@ -130,7 +130,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 					@Override
 					public boolean onYesClick() {
-						if (col == 8)
+						if (col == 7)
 							voidTransaction(obj);
 						// else if (col == 9)
 						// deleteTransaction(obj);
@@ -173,7 +173,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 8)
+		if (index == 7)
 			return 50;
 		else if (index == 0)
 			return 100;
@@ -186,8 +186,6 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		else if (index == 5)
 			return 100;
 		else if (index == 6)
-			return 100;
-		else if (index == 7)
 			return 80;
 		return -1;
 	}
@@ -238,18 +236,18 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			return obj1.getName().toLowerCase()
 					.compareTo(obj2.getName().toLowerCase());
 
-		case 5:
-			String type1 = Utility.getTransactionName((obj1.getType()))
-					.toLowerCase();
-			String type2 = Utility.getTransactionName((obj2.getType()))
-					.toLowerCase();
-			return type1.compareTo(type2);
+			// case 5:
+			// String type1 = Utility.getTransactionName((obj1.getType()))
+			// .toLowerCase();
+			// String type2 = Utility.getTransactionName((obj2.getType()))
+			// .toLowerCase();
+			// return type1.compareTo(type2);
 
-		case 6:
+		case 5:
 			return obj1.getPaymentMethod().toLowerCase()
 					.compareTo(obj2.getPaymentMethod().toLowerCase());
 
-		case 7:
+		case 6:
 			return obj1.getAmountPaid().compareTo(obj2.getAmountPaid());
 
 		default:

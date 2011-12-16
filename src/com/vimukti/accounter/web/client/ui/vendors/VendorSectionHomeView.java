@@ -189,6 +189,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 					public void onResultSuccess(ArrayList<PayeeList> result) {
 						listGrid.clear();
 						listGrid.addRecords(result);
+						listGrid.sort(12, false);
 					}
 
 					@Override
@@ -266,6 +267,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 					public void onResultSuccess(ArrayList<PayeeList> result) {
 						listGrid.clear();
 						listGrid.addRecords(result);
+						listGrid.sort(12, false);
 					}
 
 					@Override

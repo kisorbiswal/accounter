@@ -21,6 +21,11 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		super(isMultiSelectionEnable);
 	}
 
+	public VendorPaymentsListGrid(boolean isMultiSelectionEnable,
+			int transactionType) {
+		super(isMultiSelectionEnable, transactionType);
+	}
+
 	boolean isDeleted;
 
 	@Override
@@ -41,10 +46,24 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		case 6:
 			return list.getPaymentMethodName();
 		case 7:
-			return list.getCheckNumber();
+			if (type != 0) {
+				return DataUtils.amountAsStringWithCurrency(
+						list.getAmountPaid(),
+						getCompany().getCurrency(list.getCurrency()));
+			} else {
+				return list.getCheckNumber();
+			}
 		case 8:
-			return DataUtils.amountAsStringWithCurrency(list.getAmountPaid(),
-					getCompany().getCurrency(list.getCurrency()));
+			if (type != 0) {
+				if (!list.isVoided())
+					return Accounter.getFinanceImages().notvoid();
+				else
+					return Accounter.getFinanceImages().voided();
+			} else {
+				return DataUtils.amountAsStringWithCurrency(
+						list.getAmountPaid(),
+						getCompany().getCurrency(list.getCurrency()));
+			}
 		case 9:
 			if (!list.isVoided())
 				return Accounter.getFinanceImages().notvoid();
@@ -133,18 +152,34 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 	@Override
 	protected String[] getColumns() {
 		messages = Accounter.messages();
-		return new String[] { messages.payDate(),
-				messages.payNo(), messages.status(),
-				messages.issueDate(), messages.name(),
-				messages.type(), messages.payMethod(),
-				messages.checkNo(), messages.amountPaid(),
-				messages.Voided()
+		if (type != 0) {
+			return new String[] { messages.payDate(), messages.payNo(),
+					messages.status(), messages.issueDate(), messages.name(),
+					messages.type(), messages.payMethod(),
+					messages.amountPaid(), messages.Voided()
+			// , ""
+			};
+		}
+		return new String[] { messages.payDate(), messages.payNo(),
+				messages.status(), messages.issueDate(), messages.name(),
+				messages.type(), messages.payMethod(), messages.checkNo(),
+				messages.amountPaid(), messages.Voided()
 		// , ""
 		};
 	}
 
 	@Override
 	protected int[] setColTypes() {
+		if (type != 0) {
+			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_IMAGE
+			// ,ListGrid.COLUMN_TYPE_IMAGE
+			};
+		}
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
@@ -157,6 +192,9 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected void onClick(PaymentsList obj, int row, int col) {
+		if (type != 0) {
+			col += 1;
+		}
 		if (col == 9 && !obj.isVoided()) {
 			showWarningDialog(obj, col);
 		}
@@ -186,13 +224,22 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected int getCellWidth(int index) {
+		if (type != 0 && index == 8) {
+			return 40;
+		}
 		if (index == 9)
 			return 40;
 		else if (index == 0 || index == 2 || index == 3)
 			return 65;
 		else if (index == 1)
 			return 50;
-		else if (index == 5)
+		else if (index == 4) {
+			if (type != 0) {
+				return 120;
+			} else {
+				return 165;
+			}
+		} else if (index == 5)
 			return 130;
 		else if (index == 6)
 			return 80;
@@ -214,7 +261,9 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected int sort(PaymentsList obj1, PaymentsList obj2, int index) {
-
+		if (type != 0 && index == 7) {
+			index += 1;
+		}
 		switch (index) {
 		case 0:
 			// ClientFinanceDate date1 = obj1.getPaymentDate();
@@ -253,9 +302,9 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 					.compareTo(obj2.getName().toLowerCase());
 
 		case 5:
-			String type1 = Utility.getTransactionName(obj1.getType())
+			String type1 = Utility.getTransactionName(getType(obj1))
 					.toLowerCase();
-			String type2 = Utility.getTransactionName(obj2.getType())
+			String type2 = Utility.getTransactionName(getType(obj2))
 					.toLowerCase();
 			return type1.compareTo(type2);
 

@@ -660,14 +660,17 @@ public class FinanceTool {
 
 	}
 
-	public ArrayList<JournalEntry> getJournalEntries(long companyId)
-			throws DAOException {
+	public ArrayList<JournalEntry> getJournalEntries(long companyId,
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery("getJournalEntry").setEntity(
-					"company", company);
+			Query query = session.getNamedQuery("getJournalEntry")
+					.setEntity("company", company)
+					.setParameter("fromDate", fromDate)
+					.setParameter("toDate", toDate);
+			;
 			List<JournalEntry> list = query.list();
 
 			if (list != null) {
@@ -1882,11 +1885,14 @@ public class FinanceTool {
 	}
 
 	public ArrayList<ClientRecurringTransaction> getAllRecurringTransactions(
-			long companyId) throws AccounterException {
+			long companyId, FinanceDate fromDate, FinanceDate toDate)
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<RecurringTransaction> transactions = session
 				.getNamedQuery("list.RecurringTransaction")
-				.setEntity("company", getCompany(companyId)).list();
+				.setEntity("company", getCompany(companyId))
+				.setParameter("fromDate", fromDate)
+				.setParameter("toDate", toDate).list();
 
 		List<ClientRecurringTransaction> clientObjs = new ArrayList<ClientRecurringTransaction>();
 		for (RecurringTransaction recurringTransaction : transactions) {
@@ -2398,7 +2404,6 @@ public class FinanceTool {
 	 * @return
 	 * @throws AccounterException
 	 */
-	@SuppressWarnings("unchecked")
 	public List<ClientTransactionLog> getTransactionHistory(long transactionId,
 			long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();

@@ -3,21 +3,16 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.SelectItem;
+import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.BillsListGrid;
-import com.vimukti.accounter.web.client.ui.grids.BillsTable;
 
 /**
  * 
@@ -25,23 +20,21 @@ import com.vimukti.accounter.web.client.ui.grids.BillsTable;
  * @modified by Ravi kiran.G
  * 
  */
-public class BillListView extends BaseListView<BillsList> {
-	SelectItem viewSelect;
-	DynamicForm form;
-	Label lab1;
+public class BillListView extends TransactionsListView<BillsList> {
 	protected List<BillsList> allEnterBills;
-	private SelectCombo currentView;
-	public String viewType;
-	public int transactionType;
-	private BillsTable table;
+	private int transactionType;
 
 	private BillListView() {
-		super();
+		super(Accounter.messages().all());
 	}
 
 	public BillListView(String viewType) {
-		super();
-		this.viewType = viewType;
+		super(viewType);
+	}
+
+	public BillListView(String viewType, int listType) {
+		super(viewType);
+		this.transactionType = listType;
 	}
 
 	public static BillListView getInstance() {
@@ -50,31 +43,41 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected Action getAddNewAction() {
-		if (Accounter.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			if (transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) {
+				return ActionFactory.getNewCreditMemoAction();
+			}
 			return ActionFactory.getEnterBillsAction();
-		else
-			return null;
+		}
+		return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions()
-				&& getCompany().getPreferences().isKeepTrackofBills())
-			return Accounter.messages().addaNewBill();
-		else
-			return "";
+				&& getCompany().getPreferences().isKeepTrackofBills()) {
+			if (transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) {
+				return messages().customerCreditNote(Global.get().Vendor());
+			}
+			return messages().addaNewBill();
+		}
+		return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().billsAndItemReceiptsList();
+		if (transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) {
+			return messages().payeeCreditNotes(Global.get().Vendor());
+		}
+		return messages().billsAndItemReceiptsList();
 	}
 
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getBillsAndItemReceiptList(false, this);
-
+		Accounter.createHomeService().getBillsAndItemReceiptList(false,
+				transactionType, getStartDate().getDate(),
+				getEndDate().getDate(), this);
 	}
 
 	@Override
@@ -97,71 +100,49 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected void initGrid() {
-		grid = new BillsListGrid(false);
+		grid = new BillsListGrid(false, transactionType);
 		grid.init();
-
-		table = new BillsTable();
-		table.init();
 	}
 
 	@Override
 	public void onSuccess(ArrayList<BillsList> result) {
 		super.onSuccess(result);
 		allEnterBills = result;
-		filterList(currentView.getValue().toString());
-		grid.setViewType(currentView.getValue().toString());
+		filterList(viewSelect.getValue().toString());
+		grid.setViewType(viewSelect.getValue().toString());
+		grid.sort(10, false);
 	}
 
 	@Override
-	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(Accounter.messages().currentView());
-		currentView.setHelpInformation(true);
-		listOfTypes = new ArrayList<String>();
-		listOfTypes.add(Accounter.messages().open());
-		listOfTypes.add(Accounter.messages().voided());
-		listOfTypes.add(Accounter.messages().overDue());
-		listOfTypes.add(Accounter.messages().all());
-		currentView.initCombo(listOfTypes);
-
-		// if (UIUtils.isMSIEBrowser())
-		// currentView.setWidth("150px");
-
-		if (this.viewType != null && !viewType.equals(""))
-			currentView.setComboItem(viewType);
-		else {
-			currentView.setComboItem(Accounter.messages().all());
+	protected List<String> getViewSelectTypes() {
+		List<String> listOfTypes = new ArrayList<String>();
+		listOfTypes.add(messages().open());
+		listOfTypes.add(messages().voided());
+		if (transactionType == 0) {
+			listOfTypes.add(messages().overDue());
 		}
-		currentView
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						if (currentView.getSelectedValue() != null) {
-							grid.setViewType(currentView.getSelectedValue());
-							filterList(currentView.getSelectedValue());
-						}
-					}
-				});
-		return currentView;
+		listOfTypes.add(messages().all());
+		return listOfTypes;
 	}
 
+	@Override
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equalsIgnoreCase(Accounter.messages().open())) {
+		if (text.equalsIgnoreCase(messages().open())) {
 			ArrayList<BillsList> openRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
 				if ((rec.getType() == ClientTransaction.TYPE_ENTER_BILL || rec
 						.getType() == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO)
 						&& DecimalUtil.isGreaterThan(rec.getBalance(), 0)) {
-					if (!rec.isDeleted() && !rec.isVoided())
+					if (!rec.isDeleted() && !rec.isVoided()) {
 						openRecs.add(rec);
+					}
 				}
 			}
 			grid.setRecords(openRecs);
-			table.setData(openRecs);
 
-		} else if (text.equalsIgnoreCase(Accounter.messages().voided())) {
+		} else if (text.equalsIgnoreCase(messages().voided())) {
 			ArrayList<BillsList> voidedRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
@@ -170,9 +151,8 @@ public class BillListView extends BaseListView<BillsList> {
 				}
 			}
 			grid.setRecords(voidedRecs);
-			table.setData(voidedRecs);
 
-		} else if (text.equalsIgnoreCase(Accounter.messages().overDue())) {
+		} else if (text.equalsIgnoreCase(messages().overDue())) {
 			ArrayList<BillsList> overDueRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
@@ -183,8 +163,6 @@ public class BillListView extends BaseListView<BillsList> {
 				}
 			}
 			grid.setRecords(overDueRecs);
-			table.setData(overDueRecs);
-
 		}
 		// else if (currentView.getValue().toString().equalsIgnoreCase(
 		// "Deleted")) {
@@ -198,14 +176,13 @@ public class BillListView extends BaseListView<BillsList> {
 		//
 		// grid.setRecords(deletedRecs);
 		// }
-		if (text.equalsIgnoreCase(Accounter.messages().all())) {
+		if (text.equalsIgnoreCase(messages().all())) {
 			ArrayList<BillsList> list = new ArrayList<BillsList>();
 			list.addAll(initialRecords);
 			grid.setRecords(initialRecords);
-			table.setData(list);
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 		}
 
 	}
@@ -232,7 +209,6 @@ public class BillListView extends BaseListView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().billsAndItemReceipts();
+		return messages().billsAndItemReceipts();
 	}
-
 }

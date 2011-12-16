@@ -44,6 +44,7 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				datePicker.fireEvent(event);
 				if (!datePicker.isEnabled())
 					return;
 				datePicker.showPopup();
@@ -70,10 +71,10 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				datePicker.fireEvent(event);
 				if (!datePicker.isEnabled())
 					return;
 				datePicker.showPopup();
-
 			}
 		});
 

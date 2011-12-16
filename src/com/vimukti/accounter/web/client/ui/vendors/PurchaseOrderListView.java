@@ -11,25 +11,21 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderListGrid;
 
-public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
+public class PurchaseOrderListView extends
+		TransactionsListView<PurchaseOrdersList> {
 
 	private PurchaseDetailesView purchaseDetailView;
 	private List<PurchaseOrdersList> listOfPurchaseOrders;
 
-	private static String OPEN = Accounter.messages().open();
-	private static String COMPLETED = Accounter.messages().completed();
-	private static String CANCELLED = Accounter.messages().cancelled();
-
 	// private static String CANCELLED = "Cancelled";
 
 	public PurchaseOrderListView() {
+		super(Accounter.messages().open());
 		isDeleteDisable = true;
 	}
 
@@ -44,14 +40,14 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.messages().addNewPurchaseOrder();
+			return messages().addNewPurchaseOrder();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().purchaseOrderList();
+		return messages().purchaseOrderList();
 	}
 
 	@Override
@@ -69,7 +65,8 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getPurchaseOrders(this);
+		Accounter.createHomeService().getPurchaseOrders(
+				getStartDate().getDate(), getEndDate().getDate(), this);
 
 	}
 
@@ -124,70 +121,52 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 		grid.setViewType(viewSelect.getValue().toString());
 	}
 
-	protected SelectCombo getSelectItem() {
-		listOfTypes = new ArrayList<String>();
-		viewSelect = new SelectCombo(Accounter.messages().currentView());
-		listOfTypes.add(OPEN);
-		listOfTypes.add(COMPLETED);
-		listOfTypes.add(CANCELLED);
-		viewSelect.initCombo(listOfTypes);
-
-		// if (UIUtils.isMSIEBrowser())
-		// viewSelect.setWidth("120px");
-		viewSelect.setComboItem(OPEN);
-		viewSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						if (viewSelect.getSelectedValue() != null) {
-							grid.setViewType(viewSelect.getSelectedValue()
-									.toString());
-							filterList(viewSelect.getSelectedValue().toString());
-
-						}
-
-					}
-				});
-
-		return viewSelect;
+	@Override
+	protected List<String> getViewSelectTypes() {
+		List<String> listOfTypes = new ArrayList<String>();
+		listOfTypes.add(messages().open());
+		listOfTypes.add(messages().completed());
+		listOfTypes.add(messages().cancelled());
+		return listOfTypes;
 	}
 
-	private void filterList(String text) {
+	protected void filterList(String text) {
 		grid.removeAllRecords();
 		if (listOfPurchaseOrders != null) {
 			for (PurchaseOrdersList purchaseOrder : listOfPurchaseOrders) {
-				if (text.equals(OPEN)) {
+				if (text.equals(messages().open())) {
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_OPEN
 							|| purchaseOrder.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
 						grid.addData(purchaseOrder);
 					if (grid.getRecords().isEmpty()) {
 						purchaseDetailView.itemsGrid.clear();
-						purchaseDetailView.itemsGrid.addEmptyMessage(messages
+						purchaseDetailView.itemsGrid.addEmptyMessage(messages()
 								.noRecordsToShow());
 					}
 					continue;
 				}
-				if (text.equals(COMPLETED)) {
+				if (text.equals(messages().completed())) {
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_COMPLETED)
 						grid.addData(purchaseOrder);
 					if (grid.getRecords().isEmpty()) {
 						if (purchaseDetailView.itemsGrid != null) {
 							purchaseDetailView.itemsGrid.clear();
 							purchaseDetailView.itemsGrid
-									.addEmptyMessage(messages.noRecordsToShow());
+									.addEmptyMessage(messages()
+											.noRecordsToShow());
 						}
 					}
 					continue;
 				}
-				if (text.equals(CANCELLED)) {
+				if (text.equals(messages().cancelled())) {
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_CANCELLED)
 						grid.addData(purchaseOrder);
 					if (grid.getRecords().isEmpty()) {
 						if (purchaseDetailView.itemsGrid != null) {
 							purchaseDetailView.itemsGrid.clear();
 							purchaseDetailView.itemsGrid
-									.addEmptyMessage(messages.noRecordsToShow());
+									.addEmptyMessage(messages()
+											.noRecordsToShow());
 						}
 					}
 					continue;
@@ -195,11 +174,11 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 			}
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 		}
 		if (purchaseDetailView.itemsGrid != null)
 			if (purchaseDetailView.itemsGrid.getRecords().isEmpty()) {
-				purchaseDetailView.itemsGrid.addEmptyMessage(messages
+				purchaseDetailView.itemsGrid.addEmptyMessage(messages()
 						.noRecordsToShow());
 			}
 	}
@@ -250,6 +229,6 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().purchaseOrders();
+		return messages().purchaseOrders();
 	}
 }

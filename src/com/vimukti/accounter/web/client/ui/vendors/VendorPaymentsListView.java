@@ -8,11 +8,9 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.VendorPaymentsListGrid;
 
 /**
@@ -20,42 +18,45 @@ import com.vimukti.accounter.web.client.ui.grids.VendorPaymentsListGrid;
  * 
  */
 
-public class VendorPaymentsListView extends BaseListView<PaymentsList> {
+public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 
 	protected List<PaymentsList> allPayments;
-	private SelectCombo currentView;
+	private int transactionType;
 
 	private VendorPaymentsListView() {
+		super(Accounter.messages().notIssued());
+	}
 
-		super();
+	public VendorPaymentsListView(int transactionType) {
+		super(Accounter.messages().notIssued());
+		this.transactionType = transactionType;
 	}
 
 	public static VendorPaymentsListView getInstance() {
-
 		return new VendorPaymentsListView();
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected Action getAddNewAction() {
-
 		return ActionFactory.getNewVendorPaymentAction();
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages.addANewVendorPayment(Global.get().Vendor());
+		return messages().addANewVendorPayment(Global.get().Vendor());
 	}
 
 	@Override
 	protected String getListViewHeading() {
-
-		return messages.payeePaymentList(Global.get().Vendor());
+		return messages().payeePaymentList(Global.get().Vendor());
 	}
 
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getVendorPaymentsList(this);
+		Accounter.createHomeService().getVendorPaymentsList(
+				getStartDate().getDate(), getEndDate().getDate(), this);
 
 	}
 
@@ -66,49 +67,34 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected void initGrid() {
-		grid = new VendorPaymentsListGrid(false);
+		grid = new VendorPaymentsListGrid(false, transactionType);
 		grid.init();
-		grid.setViewType(Accounter.messages().notIssued());
+		grid.setViewType(messages().notIssued());
 	}
 
 	@Override
 	public void onSuccess(ArrayList<PaymentsList> result) {
 		super.onSuccess(result);
-		grid.setViewType(Accounter.messages().all());
-		filterList(Accounter.messages().all());
+		grid.setViewType(messages().all());
+		filterList(messages().all());
+		grid.sort(10, false);
 	}
 
 	@Override
-	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(Accounter.messages().currentView());
-		currentView.setHelpInformation(true);
-		listOfTypes = new ArrayList<String>();
-		listOfTypes.add(Accounter.messages().notIssued());
-		listOfTypes.add(Accounter.messages().issued());
-		listOfTypes.add(Accounter.messages().voided());
-		listOfTypes.add(Accounter.messages().all());
-		currentView.initCombo(listOfTypes);
-		// if (UIUtils.isMSIEBrowser())
-		// currentView.setWidth("150px");
-
-		currentView.setComboItem(Accounter.messages().notIssued());
-		currentView
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						if (viewSelect.getSelectedValue() != null) {
-							grid.setViewType(currentView.getSelectedValue());
-							filterList(currentView.getSelectedValue());
-						}
-					}
-				});
-		return currentView;
+	protected List<String> getViewSelectTypes() {
+		List<String> listOfTypes = new ArrayList<String>();
+		listOfTypes.add(messages().notIssued());
+		listOfTypes.add(messages().issued());
+		listOfTypes.add(messages().voided());
+		listOfTypes.add(messages().all());
+		return listOfTypes;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (currentView.getSelectedValue().equalsIgnoreCase("Not Issued")) {
+		if (viewSelect.getSelectedValue().equalsIgnoreCase("Not Issued")) {
 			List<PaymentsList> notIssuedRecs = new ArrayList<PaymentsList>();
 			List<PaymentsList> allRecs = initialRecords;
 			for (PaymentsList rec : allRecs) {
@@ -118,7 +104,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 				}
 			}
 			grid.setRecords(notIssuedRecs);
-		} else if (currentView.getSelectedValue().equalsIgnoreCase("Issued")) {
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Issued")) {
 			List<PaymentsList> issued = new ArrayList<PaymentsList>();
 			List<PaymentsList> allRecs = initialRecords;
 			for (PaymentsList rec : allRecs) {
@@ -128,7 +114,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 				}
 			}
 			grid.setRecords(issued);
-		} else if (currentView.getSelectedValue().equalsIgnoreCase("Voided")) {
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Voided")) {
 			List<PaymentsList> voidedRecs = new ArrayList<PaymentsList>();
 			List<PaymentsList> allRecs = initialRecords;
 			for (PaymentsList rec : allRecs) {
@@ -152,12 +138,12 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		// grid.setRecords(deletedRecs);
 		//
 		// }
-		if (currentView.getSelectedValue().equalsIgnoreCase("All")) {
+		if (viewSelect.getSelectedValue().equalsIgnoreCase("All")) {
 			grid.setRecords(initialRecords);
 		}
 
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 
 	}
 
@@ -184,6 +170,6 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.payeePayments(Global.get().Vendor());
+		return messages().payeePayments(Global.get().Vendor());
 	}
 }

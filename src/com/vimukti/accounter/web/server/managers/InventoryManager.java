@@ -14,6 +14,7 @@ import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.StockAdjustment;
 import com.vimukti.accounter.core.StockAdjustmentItem;
 import com.vimukti.accounter.core.StockTransfer;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -31,7 +32,7 @@ import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 public class InventoryManager extends Manager {
 
 	public ArrayList<InvoicesList> getInvoiceList(long companyId,
-			long fromDate, long toDate) throws DAOException {
+			long fromDate, long toDate, int invoicesType) throws DAOException {
 
 		try {
 			Session session = HibernateUtil.getCurrentSession();
@@ -39,6 +40,24 @@ public class InventoryManager extends Manager {
 			Query query = session.getNamedQuery("getInvoicesList")
 					.setParameter("companyId", companyId)
 					.setLong("fromDate", fromDate).setLong("toDate", toDate);
+
+			if (invoicesType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+				query = session.getNamedQuery("getCustomerCreditMemos")
+						.setParameter("companyId", companyId)
+						.setLong("fromDate", fromDate)
+						.setLong("toDate", toDate);
+			} else if (invoicesType == Transaction.TYPE_INVOICE) {
+				query = session.getNamedQuery("getInvoicesOnly")
+						.setParameter("companyId", companyId)
+						.setLong("fromDate", fromDate)
+						.setLong("toDate", toDate);
+			} else if (invoicesType == Transaction.TYPE_CASH_SALES) {
+				query = session.getNamedQuery("getCashSalesList")
+						.setParameter("companyId", companyId)
+						.setLong("fromDate", fromDate)
+						.setLong("toDate", toDate);
+			}
+
 			List list = query.list();
 
 			if (list != null) {
@@ -244,6 +263,58 @@ public class InventoryManager extends Manager {
 			result.add(clientRecord);
 		}
 		return result;
+	}
+
+	public List<InvoicesList> getPayeeCreditMemosList(Long companyId,
+			boolean isCustomer, long fromDate, long toDate) throws DAOException {
+
+		try {
+			Session session = HibernateUtil.getCurrentSession();
+			// FIXME :: query optimization
+			Query query = session.getNamedQuery("getVendorCreditMemos")
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", fromDate)
+					.setParameter("toDate", toDate);
+			if (isCustomer) {
+				query = session.getNamedQuery("getCustomerCreditMemos")
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", fromDate)
+						.setParameter("toDate", toDate);
+			}
+			List list = query.list();
+
+			if (list != null) {
+				Object[] object = null;
+				Iterator iterator = list.iterator();
+				List<InvoicesList> queryResult = new ArrayList<InvoicesList>();
+				while ((iterator).hasNext()) {
+
+					InvoicesList invoicesList = new InvoicesList();
+					object = (Object[]) iterator.next();
+
+					long transactionNumber = (object[0] == null ? 0
+							: ((Long) object[0]));
+					invoicesList.setTransactionId(transactionNumber);
+					invoicesList.setType((Integer) object[1]);
+					invoicesList
+							.setDate(new ClientFinanceDate((Long) object[2]));
+					invoicesList.setNumber((object[3] == null ? null
+							: ((String) object[3])));
+					invoicesList.setCustomerName((String) object[4]);
+					invoicesList.setNetAmount((Double) object[5]);
+					invoicesList.setTotalPrice((Double) object[6]);
+					invoicesList.setVoided((Boolean) object[7]);
+					invoicesList.setStatus((Integer) object[8]);
+					invoicesList.setCurrency((Long) object[9]);
+					queryResult.add(invoicesList);
+				}
+				return new ArrayList<InvoicesList>(queryResult);
+			} else
+				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
+						null));
+		} catch (DAOException e) {
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+		}
 	}
 
 }

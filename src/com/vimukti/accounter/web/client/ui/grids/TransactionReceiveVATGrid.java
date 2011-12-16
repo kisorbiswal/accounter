@@ -207,8 +207,8 @@ public class TransactionReceiveVATGrid extends
 		ValidationResult result = new ValidationResult();
 		for (ClientTransactionReceiveVAT tax : getSelectedRecords()) {
 			if (!DecimalUtil.isGreaterThan(tax.getAmountToReceive(), 0.00)) {
-				result.addError(this, Accounter.messages()
-						.pleaseEnterAmountToReceive());
+				// result.addError(this, Accounter.messages()
+				// .pleaseEnterAmountToReceive());
 			}
 
 		}

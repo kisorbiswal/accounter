@@ -599,13 +599,15 @@ public class SalesManager extends Manager {
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
-	public ArrayList<SalesOrdersList> getSalesOrdersList(long companyId)
-			throws DAOException {
+	public ArrayList<SalesOrdersList> getSalesOrdersList(long companyId,
+			long fromDate, long toDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Query query = session.getNamedQuery("getSalesOrdersList").setParameter(
-				"companyId", companyId);
+		Query query = session.getNamedQuery("getSalesOrdersList")
+				.setParameter("companyId", companyId)
+				.setParameter("fromDate", fromDate)
+				.setParameter("toDate", toDate);
 		;
 
 		List list = query.list();

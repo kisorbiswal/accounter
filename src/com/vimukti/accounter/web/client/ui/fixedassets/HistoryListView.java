@@ -3,9 +3,10 @@
  */
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
+import java.util.ArrayList;
+
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetHistory;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.grids.HistoryListGrid;
@@ -49,13 +50,13 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 	 */
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().history();
+		return messages().history();
 	}
 
 	/*
 	 * @see com.vimukti.accounter.web.client.ui.core.BaseListView#initGrid()
 	 */
-	
+
 	@Override
 	protected void initGrid() {
 		grid = new HistoryListGrid(false);
@@ -94,6 +95,12 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 	}
 
 	@Override
+	public void onSuccess(ArrayList<ClientFixedAssetHistory> result) {
+		super.onSuccess(result);
+		grid.sort(10, false);
+	}
+
+	@Override
 	public void print() {
 		// TODO Auto-generated method stub
 
@@ -106,7 +113,7 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().history();
+		return messages().history();
 	}
 
 }

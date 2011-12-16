@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -23,9 +24,15 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 	}
 
 	@Override
+	public void onSuccess(ArrayList<ClientTAXItem> result) {
+		super.onSuccess(result);
+		grid.sort(10, false);
+	}
+
+	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			return messages.addaNewTaxItem();
+			return messages().addaNewTaxItem();
 		} else {
 			return "";
 		}
@@ -33,7 +40,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().vatItemsList();
+		return messages().vatItemsList();
 	}
 
 	@Override
@@ -58,7 +65,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 		}
 	}
 
@@ -99,7 +106,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().vatItemList();
+		return messages().vatItemList();
 	}
 
 }

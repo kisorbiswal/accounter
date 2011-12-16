@@ -23,10 +23,17 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		super(isMultiSelectionEnable);
 	}
 
+	public BillsListGrid(boolean isMultiSelectionEnable, int transactionType) {
+		super(isMultiSelectionEnable, transactionType);
+	}
+
 	boolean isDeleted;
 
 	@Override
 	protected Object getColumnValue(BillsList bills, int col) {
+		if (type != 0) {
+			col += 1;
+		}
 		switch (col) {
 		case 0:
 			return Utility.getTransactionName((bills.getType()));
@@ -49,16 +56,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		case 6:
 			if (!bills.isVoided())
 				return Accounter.getFinanceImages().notvoid();
-			// return "/images/not-void.png";
 			else
 				return Accounter.getFinanceImages().voided();
-			// return "/images/voided.png";
-			// case 7:
-			// if (bills.isDeleted())
-			// return FinanceApplication.getFinanceImages().delSuccess()
-			// .getURL();
-			// else
-			// return FinanceApplication.getFinanceImages().delete().getURL();
 		default:
 			break;
 		}
@@ -67,6 +66,9 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected int getCellWidth(int index) {
+		if (type != 0) {
+			index = index + 1;
+		}
 		if (index == 0)
 			return 135;
 		if (index == 1)
@@ -85,6 +87,14 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 	@Override
 	protected String[] getColumns() {
 		messages = Accounter.messages();
+		if (type != 0) {
+			return new String[] { messages.date(), messages.no(),
+					Global.get().messages().payeeName(Global.get().Vendor()),
+					messages.originalAmount(), messages.balance(),
+					messages.Voided()
+			// , ""
+			};
+		}
 		return new String[] { messages.type(), messages.date(), messages.no(),
 				Global.get().messages().payeeName(Global.get().Vendor()),
 				messages.originalAmount(), messages.balance(),
@@ -108,6 +118,15 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected int[] setColTypes() {
+		if (type != 0) {
+			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_IMAGE
+			// ,ListGrid.COLUMN_TYPE_IMAGE
+			};
+		}
 		return new int[] { ListGrid.COLUMN_TYPE_LINK,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
@@ -120,21 +139,10 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 	protected void onClick(BillsList obj, int row, int col) {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
-		if (col == 6 && !obj.isVoided()) {
-			if (obj.getType() == ClientTransaction.TYPE_ENTER_BILL
-					&& (obj.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED || obj
-							.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)) {
-				Accounter.showError(messages.billPaidSoYouCantVoid());
-				// "You have already paid some amount for this Bill, You can't Edit and Void it.");
-			} else if (obj.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE
-					|| (obj.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE && obj
-							.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)) {
-				showWarningDialog(obj, this.getAccounterCoreType(obj),
-						this.getTransactionID(obj), col);
-			} else {
-				Accounter.showError(Accounter.messages()
-						.expensecantbevoiditisApproved());
-			}
+		if (type == 0 && col == 6 && !obj.isVoided()) {
+			processVoidTransaction(obj, col);
+		} else if (type != 0 && col == 5 && !obj.isVoided()) {
+			processVoidTransaction(obj, col);
 		}
 		// else if (col == 7) {
 		// if (!isDeleted)
@@ -143,6 +151,23 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		// return;
 		// }
 
+	}
+
+	private void processVoidTransaction(BillsList obj, int col) {
+		if (obj.getType() == ClientTransaction.TYPE_ENTER_BILL
+				&& (obj.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED || obj
+						.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)) {
+			Accounter.showError(messages.billPaidSoYouCantVoid());
+			// "You have already paid some amount for this Bill, You can't Edit and Void it.");
+		} else if (obj.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE
+				|| (obj.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE && obj
+						.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)) {
+			showWarningDialog(obj, this.getAccounterCoreType(obj),
+					this.getTransactionID(obj), col);
+		} else {
+			Accounter.showError(Accounter.messages()
+					.expensecantbevoiditisApproved());
+		}
 	}
 
 	protected void deleteTransaction(final BillsList obj) {
@@ -178,7 +203,9 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected int sort(BillsList obj1, BillsList obj2, int index) {
-
+		if (type != 0) {
+			index = index + 1;
+		}
 		switch (index) {
 		case 0:
 			String type1 = Utility.getTransactionName((obj1.getType()))

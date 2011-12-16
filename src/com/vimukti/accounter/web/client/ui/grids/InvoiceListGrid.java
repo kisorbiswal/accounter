@@ -22,10 +22,25 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		super(false);
 	}
 
+	public InvoiceListGrid(int transactionType) {
+		super(false, transactionType);
+	}
+
 	boolean isDeleted;
 
 	@Override
 	protected int[] setColTypes() {
+		if (type != 0) {
+			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
+					ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_IMAGE,
+			// ListGrid.COLUMN_TYPE_IMAGE
+			};
+		}
 		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
 				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
@@ -38,6 +53,9 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	protected Object getColumnValue(InvoicesList invoicesList, int col) {
+		if (type != 0) {
+			col += 2;
+		}
 		switch (col) {
 		case 0:
 			return false;
@@ -89,6 +107,15 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	@Override
 	protected String[] getColumns() {
 		messages = Accounter.messages();
+		if (type != 0) {
+			return new String[] { messages.date(), messages.no(),
+					Global.get().messages().payeeName(Global.get().Customer()),
+					messages.dueDate(), messages.netPrice(),
+					messages.totalPrice(), messages.balance(),
+					messages.voided()
+			// , ""
+			};
+		}
 		return new String[] { " ", messages.type(), messages.date(),
 				messages.no(),
 				Global.get().messages().payeeName(Global.get().Customer()),
@@ -106,6 +133,9 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	}
 
 	protected void onClick(InvoicesList obj, int row, int col) {
+		if (type != 0) {
+			col += 2;
+		}
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 9 && !obj.isVoided()) {
@@ -206,11 +236,14 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	protected int getCellWidth(int index) {
+		if (type != 0) {
+			index += 2;
+		}
 		switch (index) {
 		case 0:
 			return 20;
 		case 1:
-			return 60;
+			return 100;
 		case 2:
 			return 90;
 		case 3:
@@ -239,7 +272,12 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	protected int sort(InvoicesList obj1, InvoicesList obj2, int index) {
-		index = index - 1;
+		if (type == 0) {
+			index = index - 1;
+		} else {
+			index = index + 1;
+		}
+
 		switch (index) {
 		case 0:
 			String type1 = Utility.getTransactionName((obj1.getType()));

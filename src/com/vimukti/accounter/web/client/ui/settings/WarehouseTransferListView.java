@@ -36,7 +36,7 @@ public class WarehouseTransferListView extends
 
 					@Override
 					public void onException(AccounterException exception) {
-						grid.addEmptyMessage(messages.noRecordsToShow());
+						grid.addEmptyMessage(messages().noRecordsToShow());
 					}
 
 					@Override
@@ -46,8 +46,9 @@ public class WarehouseTransferListView extends
 						if (result != null && !result.isEmpty()) {
 							grid.addRecords(result);
 						} else {
-							grid.addEmptyMessage(messages.noRecordsToShow());
+							grid.addEmptyMessage(messages().noRecordsToShow());
 						}
+						grid.sort(10, false);
 					}
 				});
 	}
@@ -67,7 +68,7 @@ public class WarehouseTransferListView extends
 	@Override
 	protected Action getAddNewAction() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly()))
+				.equalsIgnoreCase(messages().readOnly()))
 			return ActionFactory.getWareHouseTransferAction();
 		else
 			return null;
@@ -76,7 +77,7 @@ public class WarehouseTransferListView extends
 	@Override
 	protected String getAddNewLabelString() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly()))
+				.equalsIgnoreCase(messages().readOnly()))
 			return Accounter.messages().addNewWarehouseTransfer();
 		else
 			return "";

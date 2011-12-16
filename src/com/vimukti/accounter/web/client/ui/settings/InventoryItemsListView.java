@@ -32,6 +32,12 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 	}
 
 	@Override
+	public void onSuccess(ArrayList<ClientItem> result) {
+		super.onSuccess(result);
+		grid.sort(10, false);
+	}
+
+	@Override
 	public void deleteFailed(AccounterException caught) {
 		super.deleteFailed(caught);
 		AccounterException accounterException = (AccounterException) caught;
@@ -55,7 +61,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 				total += item.getSalesPrice();
 		}
 		if (totalLabel != null) {
-			totalLabel.setText(Accounter.messages().totalSalesPrice() + " = "
+			totalLabel.setText(messages().totalSalesPrice() + " = "
 					+ DataUtils.getAmountAsString(total));
 		}
 	}
@@ -74,14 +80,14 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.messages().addaNewInventoryItem();
+			return messages().addaNewInventoryItem();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().productList();
+		return messages().productList();
 	}
 
 	@Override
@@ -116,11 +122,11 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 	}
 
 	public void setCatageoryType(String catagory) {
-		this.catageory = messages.inventory();
+		this.catageory = messages().inventory();
 	}
 
 	@Override
@@ -148,7 +154,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().items();
+		return messages().items();
 	}
 
 }

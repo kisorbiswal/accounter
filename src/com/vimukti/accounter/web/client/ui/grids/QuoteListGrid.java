@@ -34,7 +34,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_IMAGE
 			// ,ListGrid.COLUMN_TYPE_IMAGE
@@ -55,12 +55,13 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 		if (estimate != null) {
 			ClientCustomer customer = getCompany().getCustomer(
 					estimate.getCustomer());
-			ClientSalesPerson clientSalesPerson = Accounter.getCompany()
-					.getSalesPerson(estimate.getSalesPerson());
-			String salesPerson = clientSalesPerson != null ? clientSalesPerson
-					.getFirstName() : "";
-			if (salesPerson == null)
-				salesPerson = messages.unavailabel();
+			// ClientSalesPerson clientSalesPerson = Accounter.getCompany()
+			// .getSalesPerson(estimate.getSalesPerson());
+			// String salesPerson = clientSalesPerson != null ?
+			// clientSalesPerson
+			// .getFirstName() : "";
+			// if (salesPerson == null)
+			// salesPerson = messages.unavailabel();
 
 			switch (col) {
 			case 0:
@@ -81,18 +82,18 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 				// }
 				return estimate.getPhone();
 
+				// case 4:
+				// return String.valueOf(salesPerson);
 			case 4:
-				return String.valueOf(salesPerson);
-			case 5:
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						estimate.getExpirationDate()));
-			case 6:
+			case 5:
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						estimate.getDeliveryDate()));
-			case 7:
+			case 6:
 				return DataUtils.amountAsStringWithCurrency(
 						estimate.getTotal(), getCompany().getPrimaryCurrency());
-			case 8:
+			case 7:
 
 				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
 					return Accounter.getFinanceImages().beforereject();
@@ -123,20 +124,16 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = messages;
 		if (type == ClientEstimate.QUOTES) {
-			return new String[] { messages.date(),
-					messages.no(),
+			return new String[] { messages.date(), messages.no(),
 					Accounter.messages().payeeName(Global.get().Customer()),
-					messages.phone(), messages.salesPerson(),
-					messages.expirationDate(),
-					messages.deliveryDate(),
-					messages.totalPrice(), messages.reject()
+					messages.phone(), messages.expirationDate(),
+					messages.deliveryDate(), messages.totalPrice(),
+					messages.reject()
 			// , ""
 			};
 		} else {
-			return new String[] { messages.date(),
-					messages.no(),
+			return new String[] { messages.date(), messages.no(),
 					Accounter.messages().payeeName(Global.get().Customer()),
 					messages.totalPrice(), messages.reject() };
 		}
@@ -155,15 +152,13 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 		else if (index == 5)
 			return 100;
 		else if (index == 6)
-			return 90;
-		else if (index == 7)
 			return 80;
-		else if (index == 8)
+		else if (index == 7)
 			return 60;
-
 		return -1;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onDoubleClick(ClientEstimate obj) {
 		int estimateType = obj.getEstimateType();
@@ -184,7 +179,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	protected void onClick(ClientEstimate obj, int row, int col) {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
-		if (col == 8 && obj.getStatus() == ClientEstimate.STATUS_OPEN) {
+		if (col == 7 && obj.getStatus() == ClientEstimate.STATUS_OPEN) {
 			showWarningDialog(obj, col);
 		}
 		// else if (col == 9 && obj.getStatus() !=
@@ -292,26 +287,26 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			String phone2 = getPhoneNumber(obj2);
 			return phone1.compareTo(phone2);
 
-		case 4:
-			String salesPerson1 = getSalesPerson(obj1).toLowerCase();
-			String salesPerson2 = getSalesPerson(obj2).toLowerCase();
-			return salesPerson1.compareTo(salesPerson2);
+			// case 4:
+			// String salesPerson1 = getSalesPerson(obj1).toLowerCase();
+			// String salesPerson2 = getSalesPerson(obj2).toLowerCase();
+			// return salesPerson1.compareTo(salesPerson2);
 
-		case 5:
+		case 4:
 			ClientFinanceDate expiration1 = new ClientFinanceDate(
 					obj1.getExpirationDate());
 			ClientFinanceDate expiration2 = new ClientFinanceDate(
 					obj2.getExpirationDate());
 			return expiration1.compareTo(expiration2);
 
-		case 6:
+		case 5:
 			ClientFinanceDate deliveryDate1 = new ClientFinanceDate(
 					obj1.getDeliveryDate());
 			ClientFinanceDate deliveryDate2 = new ClientFinanceDate(
 					obj2.getDeliveryDate());
 			return deliveryDate1.compareTo(deliveryDate2);
 
-		case 7:
+		case 6:
 			Double price1 = obj1.getTotal();
 			Double price2 = obj2.getTotal();
 			return price1.compareTo(price2);

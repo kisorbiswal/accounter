@@ -35,7 +35,7 @@ public class InvoicesAction extends Action {
 
 	}
 
-	public void run(Object data, Boolean isDependent, String viewType) {
+	private void run(Object data, Boolean isDependent, String viewType) {
 		this.viewType = viewType;
 		runAsync(data, isDependent);
 	}
@@ -80,7 +80,7 @@ public class InvoicesAction extends Action {
 	public String getHistoryToken() {
 		if (viewType == null) {
 			return "invoices";
-		} else if (viewType.equals(InvoiceListView.OVER_DUE)) {
+		} else if (viewType.equals(messages.overDue())) {
 			return "overDueInvoices";
 		}
 		return "";

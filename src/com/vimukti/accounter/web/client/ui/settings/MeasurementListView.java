@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import java.util.ArrayList;
+
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -25,6 +27,12 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 	}
 
 	@Override
+	public void onSuccess(ArrayList<ClientMeasurement> result) {
+		super.onSuccess(result);
+		grid.sort(10, false);
+	}
+
+	@Override
 	protected void initGrid() {
 		viewSelect.setVisible(false);
 		grid = new MeasurementsListGrid(false);
@@ -39,7 +47,7 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 	@Override
 	protected Action getAddNewAction() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly()))
+				.equalsIgnoreCase(messages().readOnly()))
 			return ActionFactory.getAddMeasurementAction();
 		else
 			return null;
@@ -48,7 +56,7 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly()))
+				.equalsIgnoreCase(messages().readOnly()))
 			return Accounter.messages().addNewMeasurement();
 		else
 			return "";

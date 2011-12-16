@@ -21,16 +21,31 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 		super(isMultiSelectionEnable);
 	}
 
+	public PaymentsListGrid(boolean isMultiSelectionEnable, int checkType) {
+		super(isMultiSelectionEnable, checkType);
+	}
+
 	@Override
 	protected int[] setColTypes() {
+		if (type == 0) {
+			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_IMAGE
+			// ,ListGrid.COLUMN_TYPE_IMAGE
+			};
+		}
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_IMAGE
 		// ,ListGrid.COLUMN_TYPE_IMAGE
 		};
+
 	}
 
 	@Override
@@ -49,12 +64,31 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 		case 4:
 			return obj.getName() != null ? obj.getName() : "";
 		case 5:
-			return Utility.getTransactionName(getType(obj));
+			if (type == 0) {
+				return Utility.getTransactionName(getType(obj));
+			} else {
+				return obj.getCheckNumber();
+			}
+
 		case 6:
-			return obj.getPaymentMethodName() != null ? obj
-					.getPaymentMethodName() : "";
+			if (type == 0) {
+				return obj.getPaymentMethodName() != null ? obj
+						.getPaymentMethodName() : "";
+			} else {
+				return DataUtils.amountAsStringWithCurrency(
+						obj.getAmountPaid(),
+						getCompany().getCurrency(obj.getCurrency()));
+			}
 		case 7:
-			return obj.getCheckNumber();
+			if (type == 0) {
+				return obj.getCheckNumber();
+			} else {
+				if (!obj.isVoided())
+					return Accounter.getFinanceImages().notvoid();
+				// return "/images/not-void.png";
+				else
+					return Accounter.getFinanceImages().voided();
+			}
 		case 8:
 			return DataUtils.amountAsStringWithCurrency(obj.getAmountPaid(),
 					getCompany().getCurrency(obj.getCurrency()));
@@ -83,12 +117,26 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 			return 65;
 		else if (index == 1)
 			return 50;
-		else if (index == 5)
-			return 130;
+		else if (index == 4) {
+			return 150;
+		} else if (index == 5)
+			if (type == 0) {
+				return 130;
+			} else {
+				return 100;
+			}
 		else if (index == 6)
-			return 80;
+			if (type == 0) {
+				return 80;
+			} else {
+				return 100;
+			}
 		else if (index == 8 || index == 7)
-			return 100;
+			if (type == 0) {
+				return 100;
+			} else {
+				return 40;
+			}
 
 		return -1;
 	}
@@ -96,20 +144,34 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 	@Override
 	protected String[] getColumns() {
 		messages = Accounter.messages();
-		return new String[] { messages.payDate(),
-				messages.payNo(), messages.status(),
-				messages.issueDate(), messages.name(),
-				messages.type(), messages.payMethod(),
-				messages.checkNo(), messages.amountPaid(),
-				messages.Voided()
-		// , ""
-		};
+		if (type == 0) {
+			return new String[] { messages.payDate(), messages.payNo(),
+					messages.status(), messages.issueDate(), messages.name(),
+					messages.type(), messages.payMethod(), messages.checkNo(),
+					messages.amountPaid(), messages.Voided()
+			// , ""
+			};
+		} else {
+			return new String[] { messages.payDate(), messages.payNo(),
+					messages.status(), messages.issueDate(), messages.name(),
+					messages.checkNo(), messages.amountPaid(),
+					messages.Voided()
+			// , ""
+			};
+		}
+
 	}
 
 	@Override
 	protected void onClick(PaymentsList obj, int row, int col) {
-		if (col == 9 && !obj.isVoided()) {
-			showWarningDialog(obj, col);
+		if (type == 0) {
+			if (col == 9 && !obj.isVoided()) {
+				showWarningDialog(obj, col);
+			}
+		} else {
+			if (col == 7 && !obj.isVoided()) {
+				showWarningDialog(obj, col);
+			}
 		}
 		// else if (col == 9)
 		// showWarningDialog(obj, col);
@@ -118,8 +180,14 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	private void showWarningDialog(final PaymentsList obj, final int col) {
 		String msg = null;
-		if (col == 9 && !obj.isVoided()) {
-			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
+		if (type == 0) {
+			if (col == 9 && !obj.isVoided()) {
+				msg = Accounter.messages().doyouwanttoVoidtheTransaction();
+			}
+		} else {
+			if (col == 7 && !obj.isVoided()) {
+				msg = Accounter.messages().doyouwanttoVoidtheTransaction();
+			}
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
@@ -141,8 +209,15 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 					@Override
 					public boolean onYesClick() {
-						if (col == 9)
-							voidTransaction(obj);
+						if (type == 0) {
+							if (col == 9) {
+								voidTransaction(obj);
+							}
+						} else {
+							if (col == 7) {
+								voidTransaction(obj);
+							}
+						}
 						// else if (col == 9)
 						// deleteTransaction(obj);
 						return true;
@@ -237,31 +312,48 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 					.compareTo(obj2.getName().toLowerCase());
 
 		case 5:
-
-			String type1 = Utility.getTransactionName(obj1.getType())
-					.toLowerCase();
-			String type2 = Utility.getTransactionName(obj2.getType())
-					.toLowerCase();
-			type1.compareTo(type2);
+			if (type == 0) {
+				String type1 = Utility.getTransactionName(obj1.getType())
+						.toLowerCase();
+				String type2 = Utility.getTransactionName(obj2.getType())
+						.toLowerCase();
+				type1.compareTo(type2);
+			} else {
+				String check1 = obj1.getCheckNumber() != null ? obj1
+						.getCheckNumber() : "";
+				String check2 = obj2.getCheckNumber() != null ? obj2
+						.getCheckNumber() : "";
+				return check1.toLowerCase().compareTo(check2.toLowerCase());
+			}
 
 		case 6:
-			String method1 = obj1.getPaymentMethodName() != null ? obj1
-					.getPaymentMethodName() : "";
-			String method2 = obj2.getPaymentMethodName() != null ? obj2
-					.getPaymentMethodName() : "";
-			return method1.toLowerCase().compareTo(method2.toLowerCase());
+			if (type == 0) {
+				String method1 = obj1.getPaymentMethodName() != null ? obj1
+						.getPaymentMethodName() : "";
+				String method2 = obj2.getPaymentMethodName() != null ? obj2
+						.getPaymentMethodName() : "";
+				return method1.toLowerCase().compareTo(method2.toLowerCase());
+			} else {
+				Double amt1 = obj1.getAmountPaid();
+				Double amt2 = obj2.getAmountPaid();
+				return amt1.compareTo(amt2);
+			}
 
 		case 7:
-			String check1 = obj1.getCheckNumber() != null ? obj1
-					.getCheckNumber() : "";
-			String check2 = obj2.getCheckNumber() != null ? obj2
-					.getCheckNumber() : "";
-			return check1.toLowerCase().compareTo(check2.toLowerCase());
+			if (type == 0) {
+				String check1 = obj1.getCheckNumber() != null ? obj1
+						.getCheckNumber() : "";
+				String check2 = obj2.getCheckNumber() != null ? obj2
+						.getCheckNumber() : "";
+				return check1.toLowerCase().compareTo(check2.toLowerCase());
+			}
 
 		case 8:
-			Double amt1 = obj1.getAmountPaid();
-			Double amt2 = obj2.getAmountPaid();
-			return amt1.compareTo(amt2);
+			if (type == 0) {
+				Double amt1 = obj1.getAmountPaid();
+				Double amt2 = obj2.getAmountPaid();
+				return amt1.compareTo(amt2);
+			}
 
 		default:
 			break;

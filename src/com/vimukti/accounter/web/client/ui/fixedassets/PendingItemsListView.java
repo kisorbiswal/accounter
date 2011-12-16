@@ -30,12 +30,12 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.messages().addNewAsset();
+		return messages().addNewAsset();
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().pendingItemsList();
+		return messages().pendingItemsList();
 	}
 
 	@Override
@@ -56,6 +56,7 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 					@Override
 					public void onSuccess(List<ClientFixedAsset> list) {
 						grid.setRecords(list);
+						grid.sort(10, false);
 					}
 
 					@Override
@@ -102,7 +103,7 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().pendingItemsList();
+		return messages().pendingItemsList();
 	}
 
 }

@@ -3,6 +3,7 @@
  */
 package com.vimukti.accounter.web.client.ui.vat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -30,9 +31,15 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 	}
 
 	@Override
+	public void onSuccess(ArrayList<ClientTAXCode> result) {
+		super.onSuccess(result);
+		grid.sort(10, false);
+	}
+
+	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			return messages.addaNewTaxCode();
+			return messages().addaNewTaxCode();
 		} else {
 			return "";
 		}
@@ -40,7 +47,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	@Override
 	protected String getListViewHeading() {
-		return messages.taxCodesList();
+		return messages().taxCodesList();
 	}
 
 	@Override
@@ -66,7 +73,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 			}
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 		}
 	}
 
@@ -105,7 +112,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.vatCodeList();
+		return messages().vatCodeList();
 	}
 
 }

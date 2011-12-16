@@ -36,7 +36,7 @@ public class SoldAndDisposedItemsListView extends
 	 */
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.messages().addNewAsset();
+		return messages().addNewAsset();
 	}
 
 	/*
@@ -46,7 +46,7 @@ public class SoldAndDisposedItemsListView extends
 	 */
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().soldAndDisposedItems();
+		return messages().soldAndDisposedItems();
 	}
 
 	/*
@@ -73,6 +73,7 @@ public class SoldAndDisposedItemsListView extends
 					@Override
 					public void onSuccess(List<ClientFixedAsset> list) {
 						grid.setRecords(list);
+						grid.sort(10, false);
 					}
 
 					@Override
@@ -129,7 +130,7 @@ public class SoldAndDisposedItemsListView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().soldDisposedItems();
+		return messages().soldDisposedItems();
 	}
 
 }

@@ -6,13 +6,10 @@ import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
-import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
-import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -326,8 +323,7 @@ public class ActionFactory {
 	public static WriteChecksAction getWriteChecksAction(
 			ClientWriteCheck writeCheck,
 			AccounterAsyncCallback<Object> callBackObject) {
-		return new WriteChecksAction(writeCheck,
-				callBackObject);
+		return new WriteChecksAction(writeCheck, callBackObject);
 	}
 
 	public static MakeDepositAction getMakeDepositAction() {
@@ -337,8 +333,7 @@ public class ActionFactory {
 	public static MakeDepositAction getMakeDepositAction(
 			ClientMakeDeposit makeDeposit,
 			AccounterAsyncCallback<Object> callBackObject) {
-		return new MakeDepositAction(makeDeposit,
-				callBackObject);
+		return new MakeDepositAction(makeDeposit, callBackObject);
 	}
 
 	public static TransferFundsAction getTransferFundsAction() {
@@ -414,14 +409,14 @@ public class ActionFactory {
 		return new NewAccountAction();
 	}
 
-//	public static MergeAccountsAction getMergeVendorsAction() {
-//		return new MergeAccountsAction(messages.mergeVendors(Global.get()
-//				.vendors()));
-//	}
+	// public static MergeAccountsAction getMergeVendorsAction() {
+	// return new MergeAccountsAction(messages.mergeVendors(Global.get()
+	// .vendors()));
+	// }
 
-//	public static MergeItemsAction getMergeItemsAction() {
-//		return new MergeItemsAction(messages.mergeItems());
-//	}
+	// public static MergeItemsAction getMergeItemsAction() {
+	// return new MergeItemsAction(messages.mergeItems());
+	// }
 
 	public static MergeFinancialAccountsAction getMergeFinancialAccountsAction() {
 		return new MergeFinancialAccountsAction();
@@ -590,8 +585,7 @@ public class ActionFactory {
 	public static NewCustomerAction getNewCustomerAction(
 			ClientCustomer customer,
 			AccounterAsyncCallback<Object> callBackObject) {
-		return new NewCustomerAction(customer,
-				callBackObject);
+		return new NewCustomerAction(customer, callBackObject);
 	}
 
 	public static CustomersHomeAction getCustomersHomeAction() {
@@ -623,8 +617,7 @@ public class ActionFactory {
 
 	public static NewInvoiceAction getNewInvoiceAction(ClientInvoice invoice,
 			AccounterAsyncCallback<Object> callBackObject) {
-		return new NewInvoiceAction(invoice,
-				callBackObject);
+		return new NewInvoiceAction(invoice, callBackObject);
 	}
 
 	public static NewCashSaleAction getNewCashSaleAction() {
@@ -634,20 +627,19 @@ public class ActionFactory {
 	public static NewCashSaleAction getNewCashSaleAction(
 			ClientCashSales cashSales,
 			AccounterAsyncCallback<Object> callBackObject) {
-		return new NewCashSaleAction(cashSales,
-				callBackObject);
+		return new NewCashSaleAction(cashSales, callBackObject);
 	}
 
 	public static NewCreditsAndRefundsAction getNewCreditsAndRefundsAction() {
 		return new NewCreditsAndRefundsAction();
 	}
 
-//	public static NewCreditsAndRefundsAction getNewCreditsAndRefundsAction(
-//			ClientCustomerCreditMemo creditMemo,
-//			AccounterAsyncCallback<Object> callBackObject) {
-//		return new NewCreditsAndRefundsAction(messages.newCreditsAndRefunds(),
-//				creditMemo, callBackObject);
-//	}
+	// public static NewCreditsAndRefundsAction getNewCreditsAndRefundsAction(
+	// ClientCustomerCreditMemo creditMemo,
+	// AccounterAsyncCallback<Object> callBackObject) {
+	// return new NewCreditsAndRefundsAction(messages.newCreditsAndRefunds(),
+	// creditMemo, callBackObject);
+	// }
 
 	public static ReceivePaymentAction getReceivePaymentAction() {
 		return new ReceivePaymentAction();
@@ -683,11 +675,10 @@ public class ActionFactory {
 		if (customer) {
 			return new ItemsAction(Global.get().customer());
 		} else if (vendor) {
-			return new ItemsAction( Global.get().vendor());
+			return new ItemsAction(Global.get().vendor());
 		} else
-			return new ItemsAction(Accounter.messages()
-					.bothCustomerAndVendor(Global.get().Customer(),
-							Global.get().Vendor()));
+			return new ItemsAction(Accounter.messages().bothCustomerAndVendor(
+					Global.get().Customer(), Global.get().Vendor()));
 	}
 
 	public static QuotesAction getQuotesAction(int type) {
@@ -793,10 +784,10 @@ public class ActionFactory {
 		return new ReportsHomeAction();
 	}
 
-//	public static VendorsListAction getVendorListAction() {
-//		return new VendorsListAction(Global.get().messages()
-//				.payeesList(Global.get().Vendors()));
-//	}
+	// public static VendorsListAction getVendorListAction() {
+	// return new VendorsListAction(Global.get().messages()
+	// .payeesList(Global.get().Vendors()));
+	// }
 
 	public static TAXAgencyListAction getTAXAgencyListAction() {
 		return new TAXAgencyListAction();
@@ -1102,11 +1093,11 @@ public class ActionFactory {
 		return new NewCreditMemoAction();
 	}
 
-//	public static NewCreditMemoAction getNewCreditMemoAction(
-//			ClientVendorCreditMemo vendorCreditMemo,
-//			AccounterAsyncCallback<Object> callBack) {
-//		return new NewCreditMemoAction(vendorCreditMemo, callBack);
-//	}
+	// public static NewCreditMemoAction getNewCreditMemoAction(
+	// ClientVendorCreditMemo vendorCreditMemo,
+	// AccounterAsyncCallback<Object> callBack) {
+	// return new NewCreditMemoAction(vendorCreditMemo, callBack);
+	// }
 
 	public static NewCheckAction getNewCheckAction() {
 		return new NewCheckAction();
@@ -1230,14 +1221,14 @@ public class ActionFactory {
 
 	public static SalesByLocationSummaryAction getSalesByLocationSummaryAction(
 			boolean isLocation) {
-		
+
 		return new SalesByLocationSummaryAction(isLocation);
 	}
 
 	public static ProfitAndLossByLocationAction getProfitAndLossByLocationAction(
 			boolean isLocation) {
-		
-		return new ProfitAndLossByLocationAction( isLocation);
+
+		return new ProfitAndLossByLocationAction(isLocation);
 	}
 
 	public static BudgetAction getBudgetActions() {
@@ -1350,6 +1341,10 @@ public class ActionFactory {
 	public static AuditHistoryAction getAuditHistory(ClientActivity object) {
 		return new AuditHistoryAction(object);
 
+	}
+
+	public static TransactionsCenterAction getTransactionCenterAction() {
+		return new TransactionsCenterAction();
 	}
 
 	public static DepreciationSheduleAction getDepreciationSheduleAction() {

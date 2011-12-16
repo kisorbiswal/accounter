@@ -55,7 +55,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages.addaNew(Global.get().vendor());
+			return messages().addaNew(Global.get().vendor());
 		else
 			return "";
 	}
@@ -63,7 +63,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return messages.payeeList(Global.get().Vendor());
+		return messages().payeeList(Global.get().Vendor());
 	}
 
 	// protected List<ClientPayee> getRecords() {
@@ -98,7 +98,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 			total += t.getBalance();
 		} else
 			total -= t.getBalance();
-		totalLabel.setText(Accounter.messages().totalOutStandingBalance()
+		totalLabel.setText(messages().totalOutStandingBalance()
 
 		+ DataUtils.getAmountAsString(total) + "");
 	}
@@ -153,7 +153,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 
 		getTotalLayout(grid);
 	}
@@ -162,6 +162,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	public void onSuccess(ArrayList<PayeeList> result) {
 		this.listOfPayees = result;
 		super.onSuccess(result);
+		grid.sort(10, false);
 	}
 
 	@Override
@@ -192,6 +193,6 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.payees(Global.get().Vendors());
+		return messages().payees(Global.get().Vendors());
 	}
 }

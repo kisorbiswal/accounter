@@ -48,7 +48,7 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages.addaNew(messages.taxAgency());
+			return messages().addaNew(messages().taxAgency());
 		else
 			return "";
 	}
@@ -56,7 +56,7 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return messages.payeeList(messages.taxAgency());
+		return messages().payeeList(messages().taxAgency());
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 			total += t.getBalance();
 		} else
 			total -= t.getBalance();
-		totalLabel.setText(Accounter.messages().totalOutStandingBalance()
+		totalLabel.setText(messages().totalOutStandingBalance()
 
 		+ DataUtils.getAmountAsString(total) + "");
 	}
@@ -117,7 +117,7 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 
 		getTotalLayout(grid);
 	}
@@ -126,6 +126,7 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 	public void onSuccess(ArrayList<PayeeList> result) {
 		this.listOfPayees = result;
 		super.onSuccess(result);
+		grid.sort(10, false);
 	}
 
 	@Override
@@ -156,6 +157,6 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.payees(messages.taxAgencies());
+		return messages().payees(messages().taxAgencies());
 	}
 }

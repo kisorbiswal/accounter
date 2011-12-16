@@ -11,45 +11,32 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.InvoiceListGrid;
 
-public class InvoiceListView extends BaseListView<InvoicesList> implements
-		IPrintableView {
+public class InvoiceListView extends TransactionsListView<InvoicesList>
+		implements IPrintableView {
 
 	private List<InvoicesList> listOfInvoices;
 
-	private List<String> dateRangeList;
-	public static String OPEN = Accounter.messages().open();
-	public static String OVER_DUE = Accounter.messages().overDue();
-	public static String VOID = Accounter.messages().voided();
-	public static String ALL = Accounter.messages().all();
-	public static String DRAFT = Accounter.messages().draft();
 	// private static String DELETE = "Deleted";
-	protected ClientFinanceDate startDate;
-	protected ClientFinanceDate endDate;
-	public String viewType;
 	private ClientBrandingTheme brandingTheme;
 
+	private int transactionType;
+
 	public InvoiceListView() {
+		super(Accounter.messages().all());
 		isDeleteDisable = true;
-		startDate = Accounter.getStartDate();
-		endDate = getCompany().getCurrentFiscalYearEndDate();
 		// getLastandOpenedFiscalYearEndDate();
 	}
 
 	public InvoiceListView(String viewType) {
-		this.viewType = viewType;
+		super(viewType);
 		isDeleteDisable = true;
-		startDate = Accounter.getStartDate();
-		endDate = getCompany().getCurrentFiscalYearEndDate();
 		// getLastandOpenedFiscalYearEndDate();
 	}
 
@@ -58,25 +45,53 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 	//
 	// }
 
+	public InvoiceListView(int typeInvoicesOnly) {
+		super(Accounter.messages().all());
+		isDeleteDisable = true;
+		this.transactionType = typeInvoicesOnly;
+	}
+
 	@Override
 	protected Action getAddNewAction() {
-		if (Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewInvoiceAction();
-		else
-			return null;
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			if (transactionType == 0
+					|| transactionType == ClientTransaction.TYPE_INVOICE) {
+				return ActionFactory.getNewInvoiceAction();
+			} else if (transactionType == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+				return ActionFactory.getNewCreditsAndRefundsAction();
+			} else if (transactionType == ClientTransaction.TYPE_CASH_SALES) {
+				return ActionFactory.getNewCashSaleAction();
+			}
+		}
+		return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages.addaNewInvoice();
-		else
-			return "";
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			if (transactionType == 0
+					|| transactionType == ClientTransaction.TYPE_INVOICE) {
+				return messages().addaNewInvoice();
+			} else if (transactionType == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+				return messages().newCreditNotes();
+			} else if (transactionType == ClientTransaction.TYPE_CASH_SALES) {
+				return messages().newCashSale();
+			}
+		}
+		return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().invoiceList();
+		if (transactionType == 0
+				|| transactionType == ClientTransaction.TYPE_INVOICE) {
+			return messages().invoiceList();
+		} else if (transactionType == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+			return messages().customerCreditNotes();
+		} else if (transactionType == ClientTransaction.TYPE_CASH_SALES) {
+			return messages().cashSalesList();
+		}
+		return messages().invoiceList();
 	}
 
 	@Override
@@ -96,103 +111,47 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		listOfInvoices = result;
 		filterList(viewSelect.getValue().toString());
 		grid.setViewType(viewSelect.getValue().toString());
+		grid.sort(10, false);
 	}
 
 	@Override
 	protected void initGrid() {
-		grid = new InvoiceListGrid();
+		grid = new InvoiceListGrid(this.transactionType);
 		grid.init();
-
 	}
 
-	String[] dateRangeArray = { Accounter.messages().all(),
-			Accounter.messages().thisWeek(), Accounter.messages().thisMonth(),
-			Accounter.messages().lastWeek(), Accounter.messages().lastMonth(),
-			Accounter.messages().thisFinancialYear(),
-			Accounter.messages().lastFinancialYear(),
-			Accounter.messages().thisFinancialQuarter(),
-			Accounter.messages().lastFinancialQuarter(),
-			Accounter.messages().financialYearToDate(),
-			Accounter.messages().custom() };
-
-	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.messages().currentView());
-		viewSelect.setHelpInformation(true);
-		listOfTypes = new ArrayList<String>();
-		listOfTypes.add(OPEN);
-		listOfTypes.add(OVER_DUE);
-		listOfTypes.add(VOID);
-		listOfTypes.add(ALL);
-		// listOfTypes.add(DRAFT);
-		viewSelect.initCombo(listOfTypes);
-
-		if (viewType != null && !viewType.equals(""))
-			viewSelect.setComboItem(viewType);
-		else
-			viewSelect.setComboItem(OPEN);
-
-		// if (UIUtils.isMSIEBrowser())
-		// viewSelect.setWidth("105px");
-
-		viewSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						if (viewSelect.getSelectedValue() != null) {
-							grid.setViewType(viewSelect.getSelectedValue());
-							filterList(viewSelect.getSelectedValue());
-						}
-
-					}
-				});
-		viewSelect.addStyleName("invoiceListCombo");
-
-		return viewSelect;
-	}
-
-	protected SelectCombo getDateRangeSelectItem() {
-		dateRangeSelector = new SelectCombo(Accounter.messages().date());
-		dateRangeList = new ArrayList<String>();
-		for (int i = 0; i < dateRangeArray.length; i++) {
-			dateRangeList.add(dateRangeArray[i]);
+	@Override
+	protected List<String> getViewSelectTypes() {
+		List<String> listOfTypes = new ArrayList<String>();
+		if (transactionType == 0
+				|| transactionType == ClientTransaction.TYPE_INVOICE) {
+			listOfTypes.add(messages().open());
+			listOfTypes.add(messages().overDue());
 		}
-		dateRangeSelector.initCombo(dateRangeList);
-
-		dateRangeSelector.setComboItem(ALL);
-		// if (UIUtils.isMSIEBrowser())
-		// dateRangeSelector.setWidth("105px");
-
-		dateRangeSelector
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						dateRangeSelector.setComboItem(selectItem);
-						if (dateRangeSelector.getValue() != null
-								&& !dateRangeSelector.getValue().equals(
-										Accounter.messages().custom())) {
-							dateRangeChanged(dateRangeSelector
-									.getSelectedValue());
-							grid.setViewType(dateRangeSelector
-									.getSelectedValue());
-						}
-					}
-				});
-		dateRangeSelector.addStyleName("invoiceListCombo");
-
-		return dateRangeSelector;
+		listOfTypes.add(messages().voided());
+		listOfTypes.add(messages().all());
+		if (viewType != null && !viewType.equals("")) {
+			viewSelect.setComboItem(viewType);
+		} else {
+			if (transactionType == 0
+					|| transactionType == ClientTransaction.TYPE_INVOICE) {
+				viewSelect.setComboItem(messages().open());
+			} else {
+				viewSelect.setComboItem(messages().all());
+			}
+		}
+		return listOfTypes;
 	}
 
-	private void filterList(String text) {
-
+	@Override
+	protected void filterList(String text) {
 		grid.removeAllRecords();
-
-		if (text.equals(ALL)) {
+		if (text.equals(messages().all())) {
 			for (InvoicesList invoice : listOfInvoices) {
 				invoice.setPrint(false);
 				grid.addData(invoice);
 			}
-		} else if (text.equals(OPEN)) {
+		} else if (text.equals(messages().open())) {
 			for (InvoicesList invoice : listOfInvoices) {
 				if (invoice.getBalance() != null
 						&& DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
@@ -204,7 +163,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 				}
 			}
 
-		} else if (text.equals(OVER_DUE)) {
+		} else if (text.equals(messages().overDue())) {
 			for (InvoicesList invoice : listOfInvoices) {
 				if (invoice.getBalance() != null
 						&& DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
@@ -216,14 +175,14 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 					grid.addData(invoice);
 				}
 			}
-		} else if (text.equals(VOID)) {
+		} else if (text.equals(messages().voided())) {
 			for (InvoicesList invoice : listOfInvoices) {
 				if (invoice.isVoided()) {
 					invoice.setPrint(false);
 					grid.addData(invoice);
 				}
 			}
-		} else if (text.equals(DRAFT)) {
+		} else if (text.equals(messages().draft())) {
 			for (InvoicesList invoice : listOfInvoices) {
 				if (invoice.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
 					invoice.setPrint(false);
@@ -234,215 +193,13 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		}
 
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
-		}
-	}
-
-	public void dateRangeChanged(String dateRange) {
-		ClientFinanceDate date = new ClientFinanceDate();
-		startDate = Accounter.getStartDate();
-		endDate = getCompany().getCurrentFiscalYearEndDate();
-		// getLastandOpenedFiscalYearEndDate();
-		if (dateRange.equals(Accounter.messages().thisWeek())) {
-			startDate = getWeekStartDate();
-			endDate.setDay(startDate.getDay() + 6);
-			endDate.setMonth(startDate.getMonth());
-			endDate.setYear(startDate.getYear());
-		}
-		if (dateRange.equals(Accounter.messages().thisMonth())) {
-			startDate = new ClientFinanceDate(date.getYear(), date.getMonth(),
-					1);
-			Calendar endCal = Calendar.getInstance();
-			endCal.setTime(new ClientFinanceDate().getDateAsObject());
-			endCal.set(Calendar.DAY_OF_MONTH,
-					endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-			endDate = new ClientFinanceDate(endCal.getTime());
-
-		}
-		if (dateRange.equals(Accounter.messages().lastWeek())) {
-			endDate = getWeekStartDate();
-			endDate.setDay(endDate.getDay() - 1);
-			startDate = new ClientFinanceDate(endDate.getDate());
-			startDate.setDay(startDate.getDay() - 6);
-
-		}
-		if (dateRange.equals(Accounter.messages().lastMonth())) {
-			int day;
-			if (date.getMonth() == 0) {
-				day = getMonthLastDate(11, date.getYear() - 1);
-				startDate = new ClientFinanceDate(date.getYear() - 1, 11, 1);
-				endDate = new ClientFinanceDate(date.getYear() - 1, 11, day);
-			} else {
-				day = getMonthLastDate(date.getMonth() - 1, date.getYear());
-				startDate = new ClientFinanceDate(date.getYear(),
-						date.getMonth() - 1, 1);
-				endDate = new ClientFinanceDate(date.getYear(),
-						date.getMonth() - 1, day);
-			}
-		}
-		if (dateRange.equals(Accounter.messages().thisFinancialYear())) {
-			startDate = getCompany().getCurrentFiscalYearStartDate();
-			endDate = getCompany().getCurrentFiscalYearEndDate();
-		}
-		if (dateRange.equals(Accounter.messages().lastFinancialYear())) {
-
-			startDate = Accounter.getCompany().getCurrentFiscalYearStartDate();
-			startDate.setYear(startDate.getYear() - 1);
-			Calendar endCal = Calendar.getInstance();
-			endCal.setTime(Accounter.getCompany().getCurrentFiscalYearEndDate()
-					.getDateAsObject());
-			endCal.set(Calendar.DAY_OF_MONTH,
-					endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-			endDate = new ClientFinanceDate(endCal.getTime());
-			endDate.setYear(endDate.getYear() - 1);
-
-		}
-		if (dateRange.equals(Accounter.messages().thisFinancialQuarter())) {
-			startDate = new ClientFinanceDate();
-			endDate = getCompany().getCurrentFiscalYearEndDate();
-			// getLastandOpenedFiscalYearEndDate();
-			getCurrentQuarter();
-		}
-		if (dateRange.equals(Accounter.messages().lastFinancialQuarter())) {
-			startDate = new ClientFinanceDate();
-			endDate = getCompany().getCurrentFiscalYearEndDate();
-			// getLastandOpenedFiscalYearEndDate();
-			getCurrentQuarter();
-			startDate.setYear(startDate.getYear() - 1);
-			endDate.setYear(endDate.getYear() - 1);
-		}
-		if (dateRange.equals(Accounter.messages().financialYearToDate())) {
-			startDate = getCompany().getCurrentFiscalYearStartDate();
-			endDate = new ClientFinanceDate();
-		}
-		setStartDate(startDate);
-		setEndDate(endDate);
-		changeDates(startDate, endDate);
-	}
-
-	public void changeDates(ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
-		fromItem.setValue(startDate);
-		toItem.setValue(endDate);
-		initListCallback();
-	}
-
-	public ClientFinanceDate getWeekStartDate() {
-		ClientFinanceDate date = new ClientFinanceDate();
-		int day = date.getDay() % 6;
-		ClientFinanceDate newDate = new ClientFinanceDate();
-		if (day != 1) {
-			newDate.setDay(date.getDay() - day);
-		} else {
-			newDate.setDay(date.getDay());
-		}
-		return newDate;
-	}
-
-	// public native double getWeekStartDate()/*-{
-	// var date= new Date();
-	// var day=date.getDay();
-	// var newDate=new Date();
-	// newDate.setDate(date.getDate()-day);
-	// var tmp=newDate.getTime();
-	// return tmp;
-	// }-*/;
-
-	public int getMonthLastDate(int month, int year) {
-		int lastDay;
-		switch (month) {
-		case 0:
-		case 2:
-		case 4:
-		case 6:
-		case 7:
-		case 9:
-		case 11:
-			lastDay = 31;
-			break;
-		case 1:
-			if (year % 4 == 0 && year % 100 == 0)
-				lastDay = 29;
-			else
-				lastDay = 28;
-			break;
-
-		default:
-			lastDay = 30;
-			break;
-		}
-		return lastDay;
-	}
-
-	public void getCurrentQuarter() {
-
-		ClientFinanceDate date = new ClientFinanceDate();
-
-		int currentQuarter;
-		if ((date.getMonth() + 1) % 3 == 0) {
-			currentQuarter = (date.getMonth() + 1) / 3;
-		} else {
-			currentQuarter = ((date.getMonth() + 1) / 3) + 1;
-		}
-		switch (currentQuarter) {
-		case 1:
-			startDate = new ClientFinanceDate(date.getYear(), 0, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 2, 31);
-			break;
-
-		case 2:
-			startDate = new ClientFinanceDate(date.getYear(), 3, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 5, 30);
-			break;
-
-		case 3:
-			startDate = new ClientFinanceDate(date.getYear(), 6, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 8, 30);
-			break;
-		default:
-			startDate = new ClientFinanceDate(date.getYear(), 9, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 11, 31);
-			break;
-		}
-	}
-
-	public void getPreviousQuarter() {
-
-		ClientFinanceDate date = new ClientFinanceDate();
-
-		int currentQuarter;
-		if ((date.getMonth() + 1) % 3 == 0) {
-			currentQuarter = (date.getMonth() + 1) / 3;
-		} else {
-			currentQuarter = ((date.getMonth() + 1) / 3) + 1;
-		}
-		switch (currentQuarter) {
-		case 1:
-			startDate = new ClientFinanceDate(date.getYear() - 1, 9, 1);
-			endDate = new ClientFinanceDate(date.getYear() - 1, 11, 31);
-			break;
-
-		case 2:
-			startDate = new ClientFinanceDate(date.getYear(), 0, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 2, 31);
-			break;
-
-		case 3:
-			startDate = new ClientFinanceDate(date.getYear(), 3, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 5, 30);
-			break;
-		default:
-			startDate = new ClientFinanceDate(date.getYear(), 6, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 8, 30);
-			break;
+			grid.addEmptyMessage(messages().noRecordsToShow());
 		}
 	}
 
 	private void refreshDatesAndRecords() {
-
 		if (dateRangeSelector.getValue() != null
-				&& dateRangeSelector.getValue().equals(
-						Accounter.messages().all())) {
+				&& dateRangeSelector.getValue().equals(messages().all())) {
 			startDate = null;
 			endDate = null;
 			callRPCMethod();
@@ -451,30 +208,6 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 		} else {
 			callRPCMethod();
 		}
-	}
-
-	@Override
-	public void customManage() {
-
-		setStartDate(fromItem.getDate());
-		setEndDate(toItem.getDate());
-		changeDates(startDate, endDate);
-	}
-
-	public ClientFinanceDate getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(ClientFinanceDate startDate) {
-		this.startDate = startDate;
-	}
-
-	public ClientFinanceDate getEndDate() {
-		return UIUtils.toDate(endDate);
-	}
-
-	public void setEndDate(ClientFinanceDate endDate) {
-		this.endDate = endDate;
 	}
 
 	@Override
@@ -570,7 +303,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().invoices();
+		return messages().invoices();
 	}
 
 	@Override
@@ -627,15 +360,13 @@ public class InvoiceListView extends BaseListView<InvoicesList> implements
 			UIUtils.downloadMultipleAttachment(ids.toString(),
 					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
 					brandingTheme.getID());
-
 		}
 
 	}
 
 	private void callRPCMethod() {
-		Accounter.createHomeService().getInvoiceList(
-				startDate == null ? 0 : startDate.getDate(),
-				endDate == null ? 0 : endDate.getDate(), this);
+		Accounter.createHomeService().getInvoiceList(getStartDate().getDate(),
+				getEndDate().getDate(), transactionType, this);
 	}
 
 }

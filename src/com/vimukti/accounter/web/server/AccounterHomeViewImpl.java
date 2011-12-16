@@ -190,66 +190,30 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<BillsList> getBillsAndItemReceiptList(
-			boolean isExpensesList) {
-
-		List<BillsList> billList = null;
-
-		try {
-
-			billList = getFinanceTool().getVendorManager().getBillsList(
-					isExpensesList, getCompanyId());
-
-			// billList = (List<BillsList>) manager.merge(billList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return new ArrayList<BillsList>(billList);
-
-	}
-
-	@Override
-	public ArrayList<PaymentsList> getPaymentsList() {
-
+	public ArrayList<PaymentsList> getPaymentsList(long fromDate, long toDate) {
 		List<PaymentsList> paymentsList = null;
-
 		try {
 
 			paymentsList = getFinanceTool().getCustomerManager()
-					.getPaymentsList(getCompanyId());
-
-			// paymentsList = (List<PaymentsList>) manager.merge(paymentsList);
-
+					.getPaymentsList(getCompanyId(), fromDate, toDate);
 		} catch (Exception e) {
 			e.printStackTrace();
-			// return paymentsList;
 		}
-
 		return new ArrayList<PaymentsList>(paymentsList);
-
 	}
 
 	@Override
 	public ArrayList<PayBillTransactionList> getTransactionPayBills() {
-
 		List<PayBillTransactionList> paybillTrList = null;
-
 		try {
-
 			paybillTrList = getFinanceTool().getVendorManager()
 					.getTransactionPayBills(getCompanyId());
-
 			// paybillTrList = (List<PayBillTransactionList>)
 			// manager.merge(paybillTrList);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return new ArrayList<PayBillTransactionList>(paybillTrList);
-
 	}
 
 	// public ArrayList<ClientFileTAXEntry> getPaySalesTaxEntries(
@@ -345,13 +309,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<PaymentsList> getVendorPaymentsList() {
+	public ArrayList<PaymentsList> getVendorPaymentsList(long fromDate,
+			long toDate) {
 
 		ArrayList<PaymentsList> vendorPaymentsList = new ArrayList<PaymentsList>();
+
 		try {
 
 			vendorPaymentsList = getFinanceTool().getVendorManager()
-					.getVendorPaymentsList(getCompanyId());
+					.getVendorPaymentsList(getCompanyId(), fromDate, toDate);
 
 			// vendorPaymentsList = (List<PaymentsList>) manager
 			// .merge(vendorPaymentsList);
@@ -685,12 +651,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<CustomerRefundsList> getCustomerRefundsList() {
+	public ArrayList<CustomerRefundsList> getCustomerRefundsList(long fromDate,
+			long toDate) {
 		List<CustomerRefundsList> customerRefundsList = null;
 		try {
 
 			customerRefundsList = getFinanceTool().getCustomerManager()
-					.getCustomerRefundsList(getCompanyId());
+					.getCustomerRefundsList(getCompanyId(),
+							new FinanceDate(fromDate), new FinanceDate(toDate));
 			// customerRefundsList = (List<CustomerRefundsList>) manager
 			// .merge(customerRefundsList);
 		} catch (Exception e) {
@@ -700,14 +668,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientEstimate> getEstimates(int type) {
+	public ArrayList<ClientEstimate> getEstimates(int type, long fromDate,
+			long toDate) {
 		List<ClientEstimate> clientEstimate = new ArrayList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
-
 		try {
-
 			serverEstimates = getFinanceTool().getCustomerManager()
-					.getEstimates(getCompanyId(), type);
+					.getEstimates(getCompanyId(), type,
+							new FinanceDate(fromDate), new FinanceDate(toDate));
 			for (Estimate estimate : serverEstimates) {
 				clientEstimate.add(new ClientConvertUtil().toClientObject(
 						estimate, ClientEstimate.class));
@@ -742,15 +710,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate) {
+	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate,
+			int type) {
 		List<InvoicesList> invoicesList = null;
-		FinanceDate[] dates = getMinimumAndMaximumDates(new ClientFinanceDate(
-				fromDate), new ClientFinanceDate(toDate), getCompanyId());
 		try {
 
 			invoicesList = getFinanceTool().getInventoryManager()
-					.getInvoiceList(getCompanyId(), dates[0].getDate(),
-							dates[1].getDate());
+					.getInvoiceList(getCompanyId(), fromDate, toDate, type);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -801,13 +767,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientJournalEntry> getJournalEntries() {
+	public ArrayList<ClientJournalEntry> getJournalEntries(long fromDate,
+			long toDate) {
 		List<ClientJournalEntry> clientJournalEntries = new ArrayList<ClientJournalEntry>();
 		List<JournalEntry> serverJournalEntries = null;
 		try {
 
 			serverJournalEntries = getFinanceTool().getJournalEntries(
-					getCompanyId());
+					getCompanyId(), new FinanceDate(fromDate),
+					new FinanceDate(toDate));
 			for (JournalEntry journalEntry : serverJournalEntries) {
 				clientJournalEntries
 						.add(new ClientConvertUtil().toClientObject(
@@ -991,12 +959,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ReceivePaymentsList> getReceivePaymentsList() {
+	public ArrayList<ReceivePaymentsList> getReceivePaymentsList(long fromDate,
+			long toDate, int transactionType) {
 
 		try {
-
 			return getFinanceTool().getCustomerManager()
-					.getReceivePaymentsList(getCompanyId());
+					.getReceivePaymentsList(getCompanyId(), fromDate, toDate,
+							transactionType);
 
 			// receivePaymentList = (List<ReceivePaymentsList>) manager
 			// .merge(receivePaymentList);
@@ -1115,14 +1084,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<PurchaseOrdersList> getPurchaseOrders()
-			throws AccounterException {
-
+	public ArrayList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
+			long toDate) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 
 		try {
 			return tool != null ? tool.getPurchageManager()
-					.getPurchaseOrdersList(getCompanyId()) : null;
+					.getPurchaseOrdersList(getCompanyId(), fromDate, toDate)
+					: null;
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1138,14 +1107,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	 * return tool != null ? tool.getPurchaseOrdersForVendor(vendorID) : null; }
 	 */
 	@Override
-	public ArrayList<SalesOrdersList> getSalesOrders()
+	public ArrayList<SalesOrdersList> getSalesOrders(long fromDate, long toDate)
 			throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
 
 		try {
 			return tool != null ? tool.getSalesManager().getSalesOrdersList(
-					getCompanyId()) : null;
+					getCompanyId(), fromDate, toDate) : null;
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1564,12 +1533,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientRecurringTransaction> getRecurringsList()
-			throws AccounterException {
-
+	public ArrayList<ClientRecurringTransaction> getRecurringsList(
+			long fromDate, long toDate) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
+
 		if (tool != null) {
-			return tool.getAllRecurringTransactions(getCompanyId());
+			return tool.getAllRecurringTransactions(getCompanyId(),
+					new FinanceDate(fromDate), new FinanceDate(toDate));
 		}
 		return null;
 	}
@@ -1633,7 +1603,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			return tool.getUserManager().getUsersActivityLog(startDate,
-					endDate, startIndex, length, getCompanyId(),value);
+					endDate, startIndex, length, getCompanyId(), value);
 		}
 		return null;
 
@@ -1822,6 +1792,36 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public List<ClientAdvertisement> getAdvertisements() {
 		FinanceTool financeTool = new FinanceTool();
 		return financeTool.getAdvertisements();
+	}
+
+	@Override
+	public ArrayList<PaymentsList> getPayeeChecks(boolean isCustomerChecks,
+			long fromDate, long toDate) {
+		List<PaymentsList> checks = null;
+		try {
+			checks = getFinanceTool().getVendorManager().getPayeeChecks(
+					getCompanyId(), isCustomerChecks,
+					new FinanceDate(fromDate), new FinanceDate(toDate));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<PaymentsList>(checks);
+	}
+
+	@Override
+	public ArrayList<BillsList> getBillsAndItemReceiptList(
+			boolean isExpensesList, int transactionType, long fromDate,
+			long toDate) {
+		List<BillsList> billList = null;
+		try {
+			billList = getFinanceTool().getVendorManager().getBillsList(
+					isExpensesList, getCompanyId(), transactionType, fromDate,
+					toDate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<BillsList>(billList);
+
 	}
 
 }

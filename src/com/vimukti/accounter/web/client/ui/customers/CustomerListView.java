@@ -54,7 +54,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.messages().addaNew(Global.get().Customer());
+			return messages().addaNew(Global.get().Customer());
 		else
 			return "";
 	}
@@ -62,7 +62,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return Accounter.messages().payeeList(Global.get().Customer());
+		return messages().payeeList(Global.get().Customer());
 	}
 
 	@Override
@@ -99,14 +99,15 @@ public class CustomerListView extends BaseListView<PayeeList> {
 		grid.setTotal();
 		for (PayeeList customer : listOfCustomers) {
 			if (isActive) {
-				if (customer.isActive() == true)
+				if (customer.isActive() == true) {
 					grid.addData(customer);
+				}
 			} else if (customer.isActive() == false) {
 				grid.addData(customer);
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 
 		getTotalLayout(grid);
 	}
@@ -115,6 +116,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	public void onSuccess(ArrayList<PayeeList> result) {
 		this.listOfCustomers = result;
 		super.onSuccess(result);
+		grid.sort(10, false);
 	}
 
 	@Override
@@ -145,7 +147,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().payees(Global.get().Customers());
+		return messages().payees(Global.get().Customers());
 	}
 
 	@Override
@@ -157,5 +159,14 @@ public class CustomerListView extends BaseListView<PayeeList> {
 				iterator.remove();
 			}
 		}
+	}
+
+	@Override
+	protected List<String> getViewSelectTypes() {
+		List<String> selectTypes = new ArrayList<String>();
+		selectTypes.add(messages().active());
+		selectTypes.add(messages().inActive());
+		viewSelect.setComboItem(messages().active());
+		return selectTypes;
 	}
 }

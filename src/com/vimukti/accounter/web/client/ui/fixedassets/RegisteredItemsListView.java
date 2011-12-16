@@ -38,7 +38,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 	 */
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.messages().addNewAsset();
+		return messages().addNewAsset();
 	}
 
 	/*
@@ -47,7 +47,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 	 */
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().registeredItemsList();
+		return messages().registeredItemsList();
 	}
 
 	/*
@@ -73,6 +73,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 					@Override
 					public void onSuccess(List<ClientFixedAsset> list) {
 						grid.setRecords(list);
+						grid.sort(10, false);
 					}
 
 					@Override
@@ -126,7 +127,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().registeredItemsList();
+		return messages().registeredItemsList();
 	}
 
 }

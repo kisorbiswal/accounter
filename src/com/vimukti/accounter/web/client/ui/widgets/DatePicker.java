@@ -182,7 +182,6 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			this.setText("");
 		default:
 			break;
-
 		}
 		super.onBrowserEvent(event);
 	}
@@ -192,7 +191,6 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	 */
 	public void onClick(ClickEvent event) {
 		showPopup();
-
 	}
 
 	/**
@@ -486,7 +484,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	 */
 	private void parseDate() {
 		if (getText() == null || getText().length() == 0) {
-			selectedDate = null;
+			selectedDate = popup.getDisplayedMonth();
 		} else {
 			try {
 				// Date parsedDate = dateFormatter.parse(getText());

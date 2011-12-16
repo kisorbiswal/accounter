@@ -2357,8 +2357,10 @@ input.date-field-textbox {
     width: 170px;
 }
 .tree_menu_item {
-	text-decoration: none;
-	color:black;
+	color: black;
+    display: block;
+    text-decoration: none;
+    width: 100%;
 }
 .tree_list_panel {
 	width: 175px;

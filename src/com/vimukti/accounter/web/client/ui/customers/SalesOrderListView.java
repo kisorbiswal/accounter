@@ -11,14 +11,12 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.SalesOrderListGrid;
 
-public class SalesOrderListView extends BaseListView<SalesOrdersList> {
+public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 
 	protected List<SalesOrdersList> salesList;
 
@@ -26,14 +24,10 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	private List<SalesOrdersList> listOfSalesOrder;
 
-	private static String OPEN = Accounter.messages().open();
-	private static String COMPLETED = Accounter.messages().completed();
-	private static String CANCELLED = Accounter.messages().cancelled();
-	private List<String> listOfTypes;
-
 	// private static String CANCELLED = "Cancelled";
 
 	public SalesOrderListView() {
+		super(Accounter.messages().open());
 		isDeleteDisable = true;
 	}
 
@@ -48,14 +42,14 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.messages().addNewSalesOrder();
+			return messages().addNewSalesOrder();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().salesOrderList();
+		return messages().salesOrderList();
 	}
 
 	@Override
@@ -70,7 +64,8 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getSalesOrders(this);
+		Accounter.createHomeService().getSalesOrders(getStartDate().getDate(),
+				getEndDate().getDate(), this);
 	}
 
 	@Override
@@ -118,67 +113,50 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 		listOfSalesOrder = result;
 		filterList(viewSelect.getValue().toString());
 		grid.setViewType(viewSelect.getValue().toString());
+		grid.sort(10, false);
 	}
 
-	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.messages().currentView());
-		listOfTypes = new ArrayList<String>();
-		listOfTypes.add(OPEN);
-		listOfTypes.add(COMPLETED);
-		listOfTypes.add(CANCELLED);
-		viewSelect.initCombo(listOfTypes);
-		viewSelect.setComboItem(OPEN);
-		// if (UIUtils.isMSIEBrowser())
-		// viewSelect.setWidth("120px");
-
-		viewSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						if (viewSelect.getSelectedValue() != null) {
-							grid.setViewType(viewSelect.getSelectedValue());
-							filterList(viewSelect.getSelectedValue());
-							salesDetailView.refreshView();
-						}
-
-					}
-				});
-
-		return viewSelect;
+	@Override
+	protected List<String> getViewSelectTypes() {
+		List<String> listOfTypes = new ArrayList<String>();
+		listOfTypes.add(messages().all());
+		listOfTypes.add(messages().completed());
+		listOfTypes.add(messages().cancelled());
+		return listOfTypes;
 	}
 
-	private void filterList(String text) {
+	@Override
+	protected void filterList(String text) {
 		grid.removeAllRecords();
 		if (listOfSalesOrder != null) {
 			for (SalesOrdersList salesOrder : listOfSalesOrder) {
-				if (text.equals(OPEN)) {
+				if (text.equals(messages().open())) {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_OPEN
 							|| salesOrder.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
 						grid.addData(salesOrder);
 					if (grid.getRecords().isEmpty()) {
 						salesDetailView.itemsGrid.clear();
-						salesDetailView.itemsGrid.addEmptyMessage(messages
+						salesDetailView.itemsGrid.addEmptyMessage(messages()
 								.noRecordsToShow());
 					}
 					continue;
 				}
-				if (text.equals(COMPLETED)) {
+				if (text.equals(messages().completed())) {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_COMPLETED)
 						grid.addData(salesOrder);
 					if (grid.getRecords().isEmpty()) {
 						salesDetailView.itemsGrid.clear();
-						salesDetailView.itemsGrid.addEmptyMessage(messages
+						salesDetailView.itemsGrid.addEmptyMessage(messages()
 								.noRecordsToShow());
 					}
 					continue;
 				}
-				if (text.equals(CANCELLED)) {
+				if (text.equals(messages().cancelled())) {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_CANCELLED)
 						grid.addData(salesOrder);
 					if (grid.getRecords().isEmpty()) {
 						salesDetailView.itemsGrid.clear();
-						salesDetailView.itemsGrid.addEmptyMessage(messages
+						salesDetailView.itemsGrid.addEmptyMessage(messages()
 								.noRecordsToShow());
 					}
 					continue;
@@ -187,10 +165,10 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 			}
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 		}
 		if (salesDetailView.itemsGrid.getRecords().isEmpty()) {
-			salesDetailView.itemsGrid.addEmptyMessage(messages
+			salesDetailView.itemsGrid.addEmptyMessage(messages()
 					.noRecordsToShow());
 		}
 	}
@@ -251,7 +229,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().salesOrders();
+		return messages().salesOrders();
 	}
 
 }

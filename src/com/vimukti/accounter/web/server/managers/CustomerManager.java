@@ -23,6 +23,7 @@ import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.SalesPerson;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
@@ -45,15 +46,18 @@ public class CustomerManager extends Manager {
 		// return NumberUtils.getNextCustomerNumber();
 	}
 
-	public ArrayList<CustomerRefundsList> getCustomerRefundsList(long companyId)
+	public ArrayList<CustomerRefundsList> getCustomerRefundsList(
+			long companyId, FinanceDate fromDate, FinanceDate toDate)
 			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
 			List<CustomerRefundsList> customerRefundsList = new ArrayList<CustomerRefundsList>();
-			Query query = session.getNamedQuery("getCustomerRefund").setEntity(
-					"company", company);
+			Query query = session.getNamedQuery("getCustomerRefund")
+					.setEntity("company", company)
+					.setParameter("fromDate", fromDate)
+					.setParameter("toDate", toDate);
 			List list = query.list();
 
 			if (list != null) {
@@ -238,15 +242,17 @@ public class CustomerManager extends Manager {
 		return new ArrayList<EstimatesAndSalesOrdersList>(esl);
 	}
 
-	public ArrayList<Estimate> getEstimates(long companyId, int type)
-			throws DAOException {
+	public ArrayList<Estimate> getEstimates(long companyId, int type,
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 
 			Company company = getCompany(companyId);
 			Query query = session.getNamedQuery("getEstimate")
 					.setEntity("company", company)
-					.setParameter("estimateType", type);
+					.setParameter("estimateType", type)
+					.setParameter("fromDate", fromDate)
+					.setParameter("toDate", toDate);
 			List<Estimate> list = query.list();
 
 			if (list != null) {
@@ -290,14 +296,27 @@ public class CustomerManager extends Manager {
 					null));
 	}
 
-	public ArrayList<ReceivePaymentsList> getReceivePaymentsList(long companyId)
+	public ArrayList<ReceivePaymentsList> getReceivePaymentsList(
+			long companyId, long fromDate, long toDate, int transactionType)
 			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getReceivePaymentsList")
-					.setParameter("companyId", companyId);
-			;
+			Query query = session.getNamedQuery("getAllCustomersPaymentsList")
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", fromDate)
+					.setParameter("toDate", toDate);
+			if (transactionType == Transaction.TYPE_RECEIVE_PAYMENT) {
+				query = session.getNamedQuery("getCustomerReceivePaymentsList")
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", fromDate)
+						.setParameter("toDate", toDate);
+			} else if (transactionType == Transaction.TYPE_CUSTOMER_PRE_PAYMENT) {
+				query = session.getNamedQuery("getCustomerPrepaymentsList")
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", fromDate)
+						.setParameter("toDate", toDate);
+			}
 			List list = query.list();
 
 			if (list != null) {
@@ -380,13 +399,15 @@ public class CustomerManager extends Manager {
 		}
 	}
 
-	public ArrayList<PaymentsList> getPaymentsList(long companyId)
-			throws DAOException {
+	public ArrayList<PaymentsList> getPaymentsList(long companyId,
+			long fromDate, long toDate) throws DAOException {
 		List<PaymentsList> queryResult = new ArrayList<PaymentsList>();
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("getPaymentsList")
-					.setParameter("companyId", companyId);
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", fromDate)
+					.setParameter("toDate", toDate);
 			;
 			// FIXME ::: check the sql query and change it to hql query if
 			// required

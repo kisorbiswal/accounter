@@ -203,6 +203,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 						listGrid.addRecords(result);
 						if (listGrid.getRecords().isEmpty())
 							listGrid.addEmptyMessage(messages.noRecordsToShow());
+						listGrid.sort(12, false);
 					}
 
 					@Override

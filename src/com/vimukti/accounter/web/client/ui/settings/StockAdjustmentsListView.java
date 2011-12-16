@@ -36,7 +36,7 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 
 					@Override
 					public void onException(AccounterException exception) {
-						grid.addEmptyMessage(messages.noRecordsToShow());
+						grid.addEmptyMessage(messages().noRecordsToShow());
 					}
 
 					@Override
@@ -46,8 +46,9 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 						if (result != null && !result.isEmpty()) {
 							grid.addRecords(result);
 						} else {
-							grid.addEmptyMessage(messages.noRecordsToShow());
+							grid.addEmptyMessage(messages().noRecordsToShow());
 						}
+						grid.sort(10, false);
 					}
 				});
 	}
@@ -60,7 +61,7 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 	@Override
 	protected Action getAddNewAction() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly()))
+				.equalsIgnoreCase(messages().readOnly()))
 			return ActionFactory.getStockAdjustmentAction();
 		else
 			return null;
@@ -69,7 +70,7 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 	@Override
 	protected String getAddNewLabelString() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly()))
+				.equalsIgnoreCase(messages().readOnly()))
 			return Accounter.messages().addaNew(
 					Accounter.messages().stockAdjustment());
 		else

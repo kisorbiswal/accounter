@@ -21,10 +21,18 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		super(isMultiSelectionEnable);
 	}
 
+	public ReceivedPaymentListGrid(boolean isMultiSelectionEnable,
+			int transactionType) {
+		super(isMultiSelectionEnable, transactionType);
+	}
+
 	boolean isDeleted;
 
 	@Override
 	protected Object getColumnValue(ReceivePaymentsList receivePayment, int col) {
+		if (type != 0) {
+			col += 1;
+		}
 		switch (col) {
 		case 0:
 			return Utility.getTransactionName(receivePayment.getType());
@@ -66,8 +74,16 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 	@Override
 	protected String[] getColumns() {
 		messages = Accounter.messages();
-		return new String[] { messages.type(),
-				messages.paymentDate(), messages.no(),
+		if (type != 0) {
+			return new String[] { messages.paymentDate(), messages.no(),
+					Accounter.messages().payeeName(Global.get().Customer()),
+					messages.payMethod(), messages.checkNo(),
+					messages.amountPaid(), messages.voided()
+			// , ""
+			};
+		}
+		return new String[] { messages.type(), messages.paymentDate(),
+				messages.no(),
 				Accounter.messages().payeeName(Global.get().Customer()),
 				messages.payMethod(), messages.checkNo(),
 				messages.amountPaid(), messages.voided()
@@ -77,6 +93,15 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	@Override
 	protected int[] setColTypes() {
+		if (type != 0) {
+			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_IMAGE,
+			// ListGrid.COLUMN_TYPE_IMAGE
+			};
+		}
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
@@ -93,6 +118,9 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 	}
 
 	protected void onClick(ReceivePaymentsList obj, int row, int col) {
+		if (type != 0) {
+			col += 1;
+		}
 		if (col == 7 && !obj.isVoided()) {
 			showWarningDialog(obj, col);
 		}
@@ -174,6 +202,9 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	@Override
 	protected int getCellWidth(int index) {
+		if (type != 0) {
+			index += 1;
+		}
 		if (index == 4 || index == 5 || index == 6)
 			return 100;
 		else if (index == 0)
@@ -199,6 +230,9 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 	@Override
 	protected int sort(ReceivePaymentsList obj1, ReceivePaymentsList obj2,
 			int index) {
+		if (type != 0) {
+			index += 1;
+		}
 		switch (index) {
 		case 0:
 			String type1 = Utility.getTransactionName(obj1.getType());

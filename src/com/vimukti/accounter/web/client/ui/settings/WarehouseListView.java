@@ -61,7 +61,7 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 	@Override
 	protected Action getAddNewAction() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly()))
+				.equalsIgnoreCase(messages().readOnly()))
 			return ActionFactory.getWareHouseViewAction();
 		else
 			return null;
@@ -70,7 +70,7 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly()))
+				.equalsIgnoreCase(messages().readOnly()))
 			return Accounter.messages().addNewWarehouse();
 		else
 			return "";

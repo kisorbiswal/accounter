@@ -214,13 +214,16 @@ public class PurchaseManager extends Manager {
 					null));
 	}
 
-	public ArrayList<PurchaseOrdersList> getPurchaseOrdersList(long companyId)
-			throws DAOException {
+	public ArrayList<PurchaseOrdersList> getPurchaseOrdersList(long companyId,
+			long fromDate, long toDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getPurchaseOrdersList")
-				.setParameter("companyId", companyId);
+				.setParameter("companyId", companyId)
+				.setParameter("fromDate", fromDate)
+				.setParameter("toDate", toDate);
+
 		// FIXME ::: check the sql query and change it to hql query if required
 		List list = query.list();
 		List<PurchaseOrdersList> pil = new ArrayList<PurchaseOrdersList>();
