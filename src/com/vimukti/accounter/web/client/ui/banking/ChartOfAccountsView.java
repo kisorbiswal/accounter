@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -22,7 +21,6 @@ import com.vimukti.accounter.web.client.ui.grids.ChartOfAccountsListGrid;
  * 
  */
 public class ChartOfAccountsView extends BaseListView<ClientAccount> {
-	SelectCombo viewSelect;
 	Label addAccLabel, hierLabel, lab1;
 
 	protected List<ClientAccount> allAccounts;
@@ -78,14 +76,14 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages.addNew(messages.Account());
+			return messages().addNew(messages().Account());
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return messages.payeesList(messages.Accounts());
+		return messages().payeesList(messages().Accounts());
 	}
 
 	@Override
@@ -98,6 +96,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	public void onSuccess(ArrayList<ClientAccount> result) {
 		listOfAccounts = result;
 		filterList(true);
+		grid.sort(12, false);
 	}
 
 	@Override
@@ -114,6 +113,14 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	}
 
 	@Override
+	protected List<String> getViewSelectTypes() {
+		List<String> selectTypes = new ArrayList<String>();
+		selectTypes.add(messages().active());
+		selectTypes.add(messages().inActive());
+		return selectTypes;
+	}
+
+	@Override
 	protected void filterList(final boolean isActive) {
 		grid.removeAllRecords();
 		for (ClientAccount account : listOfAccounts) {
@@ -126,13 +133,12 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 			} else if (account.getIsActive() == false) {
 				grid.addData(account);
 				if (grid.getRecords().isEmpty()) {
-					grid.addEmptyMessage(messages.noRecordsToShow());
+					grid.addEmptyMessage(messages().noRecordsToShow());
 				}
 			}
-
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 		}
 		Window.scrollTo(0, 0);
 	}
@@ -160,7 +166,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.Account();
+		return messages().Account();
 	}
 
 }

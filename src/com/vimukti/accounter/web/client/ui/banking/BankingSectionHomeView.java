@@ -255,6 +255,8 @@ public class BankingSectionHomeView extends BaseHomeView {
 
 		}
 
+		accounts.sort(12, false);
+
 	}
 
 	@Override
