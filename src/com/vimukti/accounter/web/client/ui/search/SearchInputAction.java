@@ -8,8 +8,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class SearchInputAction extends Action {
 
-	public SearchInputAction(String text) {
-		super(text);
+	public SearchInputAction() {
+		super();
 	}
 
 	@Override
@@ -52,6 +52,11 @@ public class SearchInputAction extends Action {
 	public String getHelpToken() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return messages.search();
 	}
 
 }
