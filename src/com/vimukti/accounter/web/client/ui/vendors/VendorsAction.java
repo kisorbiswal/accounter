@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class VendorsAction extends Action {
 
-	public VendorsAction(String text) {
-		super(text);
+	public VendorsAction() {
+		super();
 	}
 
 	/**
@@ -58,6 +58,12 @@ public class VendorsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "vendor-center";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

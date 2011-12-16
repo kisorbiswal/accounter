@@ -12,8 +12,8 @@ public class PurchaseOrderAction extends Action {
 
 	protected PurchaseOrderView view;
 
-	public PurchaseOrderAction(String text) {
-		super(text);
+	public PurchaseOrderAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
@@ -70,6 +70,11 @@ public class PurchaseOrderAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "purchase-order";
+	}
+
+	@Override
+	public String getText() {
+		return messages.purchaseOrder();
 	}
 
 }

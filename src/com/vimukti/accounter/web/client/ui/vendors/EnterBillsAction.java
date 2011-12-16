@@ -19,8 +19,8 @@ public class EnterBillsAction extends Action<ClientEnterBill> {
 
 	protected VendorBillView view;
 
-	public EnterBillsAction(String text) {
-		super(text);
+	public EnterBillsAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
@@ -79,6 +79,11 @@ public class EnterBillsAction extends Action<ClientEnterBill> {
 	@Override
 	public String getHelpToken() {
 		return "add-bill";
+	}
+
+	@Override
+	public String getText() {
+		return messages.enterBill();
 	}
 
 }

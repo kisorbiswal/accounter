@@ -20,15 +20,14 @@ public class NewCashPurchaseAction extends Action {
 
 	protected CashPurchaseView view;
 
-	public NewCashPurchaseAction(String text) {
-		super(text);
+	public NewCashPurchaseAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
-	public NewCashPurchaseAction(String newCashPurchase,
-			ClientCashPurchase cashPurchase,
+	public NewCashPurchaseAction(ClientCashPurchase cashPurchase,
 			AccounterAsyncCallback<Object> callback) {
-		super(newCashPurchase);
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
@@ -83,6 +82,11 @@ public class NewCashPurchaseAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "new-cash-purchase";
+	}
+
+	@Override
+	public String getText() {
+		return messages.newCashPurchase();
 	}
 
 }

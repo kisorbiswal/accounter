@@ -19,8 +19,8 @@ public class BillsAction extends Action {
 	protected BillListView view;
 	public String viewType;
 
-	public BillsAction(String text) {
-		super(text);
+	public BillsAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
@@ -74,6 +74,11 @@ public class BillsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "bill-expense";
+	}
+
+	@Override
+	public String getText() {
+		return messages.billsAndItemReceipts();
 	}
 
 }

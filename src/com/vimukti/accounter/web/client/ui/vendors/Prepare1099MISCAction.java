@@ -10,8 +10,8 @@ public class Prepare1099MISCAction extends Action {
 
 	Prepare1099MISCView view;
 
-	public Prepare1099MISCAction(String text) {
-		super(text);
+	public Prepare1099MISCAction() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -55,6 +55,11 @@ public class Prepare1099MISCAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "prepare-1099-MISC";
+	}
+
+	@Override
+	public String getText() {
+		return messages.prepare1099MiscForms();
 	}
 
 }

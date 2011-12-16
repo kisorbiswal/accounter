@@ -16,8 +16,8 @@ public class ExpenseClaimsAction extends Action {
 	ExpenseClaims view;
 	int selectedTab;
 
-	public ExpenseClaimsAction(String text, int selectedTab) {
-		super(text);
+	public ExpenseClaimsAction(int selectedTab) {
+		super();
 		this.selectedTab = selectedTab;
 		catagory = Global.get().vendor();
 	}
@@ -57,5 +57,10 @@ public class ExpenseClaimsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "expense-claims";
+	}
+
+	@Override
+	public String getText() {
+		return messages.expenseClaims();
 	}
 }

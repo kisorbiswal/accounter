@@ -8,8 +8,8 @@ public class PreviousClaimAction extends Action {
 
 	PreviousClaimsView view;
 
-	public PreviousClaimAction(String text) {
-		super(text);
+	public PreviousClaimAction() {
+		super();
 
 	}
 
@@ -51,6 +51,11 @@ public class PreviousClaimAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "previous-claim";
+	}
+
+	@Override
+	public String getText() {
+		return messages.previousClaims();
 	}
 
 }

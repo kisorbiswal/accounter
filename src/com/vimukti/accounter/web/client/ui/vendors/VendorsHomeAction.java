@@ -15,8 +15,8 @@ public class VendorsHomeAction extends Action {
 
 	private VendorSectionHomeView view;
 
-	public VendorsHomeAction(String text) {
-		super(text);
+	public VendorsHomeAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
@@ -62,5 +62,11 @@ public class VendorsHomeAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "vendor-center";
+	}
+
+	@Override
+	public String getText() {
+		return Global.get().messages()
+				.payeesHome(Global.get().Vendors().trim());
 	}
 }

@@ -12,8 +12,8 @@ public class PurchaseOrderListAction extends Action {
 
 	private PurchaseOrderListView view;
 
-	public PurchaseOrderListAction(String text) {
-		super(text);
+	public PurchaseOrderListAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
@@ -65,5 +65,10 @@ public class PurchaseOrderListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "purchase-order-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.purchaseOrderList();
 	}
 }

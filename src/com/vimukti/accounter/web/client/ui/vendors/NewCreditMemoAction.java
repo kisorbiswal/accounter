@@ -20,15 +20,14 @@ public class NewCreditMemoAction extends Action {
 
 	protected VendorCreditMemoView view;
 
-	public NewCreditMemoAction(String text) {
-		super(text);
+	public NewCreditMemoAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
-	public NewCreditMemoAction(String newCreditMemo,
-			ClientVendorCreditMemo vendorCreditMemo,
+	public NewCreditMemoAction(ClientVendorCreditMemo vendorCreditMemo,
 			AccounterAsyncCallback<Object> callBack) {
-		super(newCreditMemo);
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
@@ -81,6 +80,11 @@ public class NewCreditMemoAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "credit-memo";
+	}
+
+	@Override
+	public String getText() {
+		return Global.get().messages().payeeCredit(Global.get().Vendor());
 	}
 
 }

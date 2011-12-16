@@ -11,8 +11,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class RecordExpensesAction extends Action {
 
-	public RecordExpensesAction(String text) {
-		super(text);
+	public RecordExpensesAction() {
+		super();
 	}
 
 	// @Override
@@ -50,6 +50,11 @@ public class RecordExpensesAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "add-expense";
+	}
+
+	@Override
+	public String getText() {
+		return messages.recordExpenses();
 	}
 
 }

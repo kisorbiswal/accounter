@@ -16,8 +16,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class VendorPaymentsListAction extends Action {
 
-	public VendorPaymentsListAction(String text) {
-		super(text);
+	public VendorPaymentsListAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
@@ -78,5 +78,11 @@ public class VendorPaymentsListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "issue-payment";
+	}
+
+	@Override
+	public String getText() {
+		return Global.get().messages()
+				.payeePayment(Global.get().Vendor());
 	}
 }

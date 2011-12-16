@@ -14,8 +14,8 @@ public class PayBillsAction extends Action {
 	ClientPayBill payBill;
 	protected PayBillView view;
 
-	public PayBillsAction(String icon) {
-		super(Accounter.messages().payBill());
+	public PayBillsAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
@@ -69,6 +69,12 @@ public class PayBillsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "pay-bill";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return messages.payBill();
 	}
 
 }

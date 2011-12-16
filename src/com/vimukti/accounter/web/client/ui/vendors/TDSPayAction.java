@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class TDSPayAction extends Action {
 
-	public TDSPayAction(String text) {
-		super(text);
+	public TDSPayAction() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -54,6 +54,11 @@ public class TDSPayAction extends Action {
 	public String getHelpToken() {
 		//
 		return Accounter.messages().payTDS();
+	}
+
+	@Override
+	public String getText() {
+		return messages.payTDS();
 	}
 
 }

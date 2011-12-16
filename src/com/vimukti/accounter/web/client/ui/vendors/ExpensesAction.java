@@ -13,13 +13,13 @@ public class ExpensesAction extends Action {
 	protected ExpensesListView view;
 	public String viewType;
 
-	public ExpensesAction(String text) {
-		super(text);
+	public ExpensesAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
-	public ExpensesAction(String text, String viewType) {
-		super(text);
+	public ExpensesAction(String viewType) {
+		super();
 		this.catagory = Global.get().Vendor();
 		this.viewType = viewType;
 	}
@@ -89,6 +89,11 @@ public class ExpensesAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "add-expense";
+	}
+
+	@Override
+	public String getText() {
+		return messages.recordExpenses();
 	}
 
 }

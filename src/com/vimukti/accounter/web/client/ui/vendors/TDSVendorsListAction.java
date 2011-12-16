@@ -10,8 +10,8 @@ public class TDSVendorsListAction extends Action {
 
 	private boolean isTDSView;
 
-	public TDSVendorsListAction(String text, boolean isTDSView) {
-		super(text);
+	public TDSVendorsListAction( boolean isTDSView) {
+		super();
 		this.isTDSView = isTDSView;
 	}
 
@@ -57,6 +57,11 @@ public class TDSVendorsListAction extends Action {
 	public String getHelpToken() {
 		// TODO Auto-generated method stub
 		return "TDSVendorList";
+	}
+
+	@Override
+	public String getText() {
+		return messages.tdsVendorsList();
 	}
 
 }

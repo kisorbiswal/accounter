@@ -14,14 +14,14 @@ public class CashExpenseAction extends Action {
 
 	private CashExpenseView view;
 
-	public CashExpenseAction(String text) {
-		super(text);
+	public CashExpenseAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
-	public CashExpenseAction(String text, ClientVendor vendor,
+	public CashExpenseAction(ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
@@ -75,5 +75,10 @@ public class CashExpenseAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "cash-expense";
+	}
+
+	@Override
+	public String getText() {
+		return messages.cashExpense();
 	}
 }

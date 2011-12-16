@@ -14,14 +14,14 @@ public class CreditCardExpenseAction extends Action {
 
 	CreditCardExpenseView view;
 
-	public CreditCardExpenseAction(String text) {
-		super(text);
+	public CreditCardExpenseAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
-	public CreditCardExpenseAction(String text, ClientVendor vendor,
+	public CreditCardExpenseAction( ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
@@ -79,5 +79,10 @@ public class CreditCardExpenseAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "creditcard-expense";
+	}
+
+	@Override
+	public String getText() {
+		return messages.creditCardCharge();
 	}
 }

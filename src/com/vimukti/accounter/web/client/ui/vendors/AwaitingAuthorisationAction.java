@@ -8,8 +8,8 @@ public class AwaitingAuthorisationAction extends Action<Object> {
 
 	AwaitingAuthorisationView view;
 
-	public AwaitingAuthorisationAction(String text) {
-		super(text);
+	public AwaitingAuthorisationAction() {
+		super();
 	}
 
 	@Override
@@ -45,5 +45,10 @@ public class AwaitingAuthorisationAction extends Action<Object> {
 	@Override
 	public String getHelpToken() {
 		return "awaiting-authorization";
+	}
+
+	@Override
+	public String getText() {
+		return messages.awaitingAuthorisation();
 	}
 }

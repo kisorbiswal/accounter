@@ -12,8 +12,8 @@ public class NewItemReceiptAction extends Action {
 
 	private ItemReceiptView view;
 
-	public NewItemReceiptAction(String text) {
-		super(text);
+	public NewItemReceiptAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
@@ -69,6 +69,11 @@ public class NewItemReceiptAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "new-item-receipt";
+	}
+
+	@Override
+	public String getText() {
+		return messages.itemReceipt();
 	}
 
 }

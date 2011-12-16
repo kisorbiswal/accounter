@@ -14,14 +14,14 @@ public class EmployeeExpenseAction extends Action {
 
 	EmployeeExpenseView view;
 
-	public EmployeeExpenseAction(String text) {
-		super(text);
+	public EmployeeExpenseAction() {
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
-	public EmployeeExpenseAction(String text, ClientVendor vendor,
+	public EmployeeExpenseAction(ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Global.get().Vendor();
 	}
 
@@ -78,6 +78,11 @@ public class EmployeeExpenseAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "employee-expense";
+	}
+
+	@Override
+	public String getText() {
+		return messages.employeeExpense();
 	}
 
 }
