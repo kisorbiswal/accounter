@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class AccounterClassListAction extends Action {
 
-	public AccounterClassListAction(String text) {
-		super(text);
+	public AccounterClassListAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -55,6 +55,11 @@ public class AccounterClassListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "accounter-Class-List";
+	}
+
+	@Override
+	public String getText() {
+		return messages.accounterClassList();
 	}
 
 }

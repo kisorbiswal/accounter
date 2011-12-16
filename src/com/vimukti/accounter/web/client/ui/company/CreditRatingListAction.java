@@ -14,8 +14,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class CreditRatingListAction extends Action {
 
-	public CreditRatingListAction(String text) {
-		super(text);
+	public CreditRatingListAction() {
+		super();
 	}
 
 	@Override
@@ -51,6 +51,11 @@ public class CreditRatingListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "credit-rating";
+	}
+
+	@Override
+	public String getText() {
+		return messages.creditRatingList();
 	}
 
 }

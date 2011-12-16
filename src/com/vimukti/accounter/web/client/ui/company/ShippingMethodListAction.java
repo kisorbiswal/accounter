@@ -14,8 +14,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class ShippingMethodListAction extends Action {
 
-	public ShippingMethodListAction(String text) {
-		super(text);
+	public ShippingMethodListAction() {
+		super();
 	}
 
 	@Override
@@ -54,5 +54,10 @@ public class ShippingMethodListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "shipping_method-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.shippingMethodList();
 	}
 }

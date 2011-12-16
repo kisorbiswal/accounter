@@ -5,8 +5,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class Preferences extends Action {
 
-	public Preferences(String text) {
-		super(text);
+	public Preferences() {
+		super();
 
 	}
 
@@ -37,6 +37,12 @@ public class Preferences extends Action {
 	@Override
 	public String getHelpToken() {
 		return "company-preferences";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

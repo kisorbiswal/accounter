@@ -17,8 +17,8 @@ public class PaymentsAction extends Action {
 	public static final int BANKING = 2;
 	public static final int COMPANY = 1;
 
-	public PaymentsAction(String text, int category) {
-		super(text);
+	public PaymentsAction(int category) {
+		super();
 		if (category == COMPANY)
 			catagory = Accounter.messages().company();
 		else
@@ -64,5 +64,10 @@ public class PaymentsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return messages.payments();
 	}
 }

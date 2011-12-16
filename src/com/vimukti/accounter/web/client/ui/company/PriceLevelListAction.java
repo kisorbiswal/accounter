@@ -14,8 +14,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class PriceLevelListAction extends Action {
 
-	public PriceLevelListAction(String text) {
-		super(text);
+	public PriceLevelListAction() {
+		super();
 	}
 
 	@Override
@@ -54,5 +54,10 @@ public class PriceLevelListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "price_level-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.priceLevelList();
 	}
 }

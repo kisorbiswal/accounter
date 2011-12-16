@@ -18,8 +18,8 @@ public class NewSalesperSonAction extends Action<ClientSalesPerson> {
 
 	private boolean isEdit;
 
-	public NewSalesperSonAction(String text) {
-		super(text);
+	public NewSalesperSonAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -68,6 +68,11 @@ public class NewSalesperSonAction extends Action<ClientSalesPerson> {
 	@Override
 	public String getHelpToken() {
 		return "new_sales-person";
+	}
+
+	@Override
+	public String getText() {
+		return messages.newSalesPerson();
 	}
 
 }

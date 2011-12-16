@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class ChangePasswordAction extends Action {
 	private ChangePasswordDialog view;
 
-	public ChangePasswordAction(String text) {
-		super(text);
+	public ChangePasswordAction() {
+		super();
 	}
 
 	@Override
@@ -47,6 +47,11 @@ public class ChangePasswordAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "change-password";
+	}
+
+	@Override
+	public String getText() {
+		return messages.changePassword();
 	}
 
 }

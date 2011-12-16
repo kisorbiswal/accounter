@@ -10,14 +10,14 @@ public class DepreciationAction extends Action {
 
 	private DepreciationView view;
 
-	public DepreciationAction(String text) {
-		super(text);
+	public DepreciationAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
-	public DepreciationAction(String text, Object editableObject,
+	public DepreciationAction(Object editableObject,
 			AccounterAsyncCallback<Object> callbackObject) {
-		super(text);
+		super();
 		this.catagory = Accounter.messages().fixedAssets();
 	}
 
@@ -47,6 +47,11 @@ public class DepreciationAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "depreciation";
+	}
+
+	@Override
+	public String getText() {
+		return messages.depreciation();
 	}
 
 }

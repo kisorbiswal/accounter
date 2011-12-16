@@ -8,8 +8,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class MergeVendorAction extends Action {
 
-	public MergeVendorAction(String text) {
-		super(text);
+	public MergeVendorAction() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -43,6 +43,12 @@ public class MergeVendorAction extends Action {
 	public String getHelpToken() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return messages.mergeVendors(Global.get()
+				.vendors());
 	}
 
 	

@@ -5,8 +5,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class CompressDataAction extends Action {
 
-	public CompressDataAction(String text) {
-		super(text);
+	public CompressDataAction() {
+		super();
 	}
 
 	// @Override
@@ -35,6 +35,12 @@ public class CompressDataAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "compress-data";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -5,8 +5,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class SendBooksTransferAction extends Action {
 
-	public SendBooksTransferAction(String text) {
-		super(text);
+	public SendBooksTransferAction() {
+		super();
 	}
 
 	// @Override
@@ -37,6 +37,12 @@ public class SendBooksTransferAction extends Action {
 
 	@Override
 	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getText() {
 		// TODO Auto-generated method stub
 		return null;
 	}

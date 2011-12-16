@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class EmployeesAction extends Action {
 
-	public EmployeesAction(String text) {
-		super(text);
+	public EmployeesAction() {
+		super();
 	}
 
 	// @Override
@@ -40,6 +40,12 @@ public class EmployeesAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "employee";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

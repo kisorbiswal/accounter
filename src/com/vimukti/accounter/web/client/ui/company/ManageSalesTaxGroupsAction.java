@@ -13,8 +13,8 @@ public class ManageSalesTaxGroupsAction extends Action<ClientTAXGroup> {
 
 	SalesTaxGroupListView view;
 
-	public ManageSalesTaxGroupsAction(String text) {
-		super(text);
+	public ManageSalesTaxGroupsAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -58,6 +58,16 @@ public class ManageSalesTaxGroupsAction extends Action<ClientTAXGroup> {
 	@Override
 	public String getHelpToken() {
 		return "sales_tax-group";
+	}
+
+	@Override
+	public String getText() {
+		String text;
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			text = messages.manageSalesGroups();
+		else
+			text = messages.salesTaxGroups();
+		return text;
 	}
 
 }

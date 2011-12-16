@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.vat.PayTAXView;
 
 public class PaySalesTaxAction extends Action {
 
-	public PaySalesTaxAction(String text) {
-		super(text);
+	public PaySalesTaxAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -58,6 +58,13 @@ public class PaySalesTaxAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "pay_sales-tax";
+	}
+
+	@Override
+	public String getText() {
+		String constant = null;
+		constant = messages.payTax();
+		return constant;
 	}
 
 }

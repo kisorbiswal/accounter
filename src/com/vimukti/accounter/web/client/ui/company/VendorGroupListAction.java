@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -9,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorGroupListDialog;
 
 public class VendorGroupListAction extends Action {
 
-	public VendorGroupListAction(String text) {
-		super(text);
+	public VendorGroupListAction() {
+		super();
 	}
 
 	@Override
@@ -47,5 +48,11 @@ public class VendorGroupListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "vendor_group-list";
+	}
+
+	@Override
+	public String getText() {
+		return Global.get().messages()
+				.payeeGroupList(Global.get().Vendor());
 	}
 }

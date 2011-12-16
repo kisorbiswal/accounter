@@ -11,12 +11,12 @@ public class AuditHistoryAction extends Action {
 
 	private ClientActivity obj;
 
-	public AuditHistoryAction(String text) {
-		super(text);
+	public AuditHistoryAction() {
+		super();
 	}
 
-	public AuditHistoryAction(String history, ClientActivity object) {
-		super(history);
+	public AuditHistoryAction( ClientActivity object) {
+		super();
 		obj = object;
 	}
 
@@ -60,6 +60,11 @@ public class AuditHistoryAction extends Action {
 	public String getHelpToken() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return messages.history();
 	}
 
 }

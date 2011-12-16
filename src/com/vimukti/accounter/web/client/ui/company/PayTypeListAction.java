@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class PayTypeListAction extends Action {
 
-	public PayTypeListAction(String text) {
-		super(text);
+	public PayTypeListAction() {
+		super();
 	}
 
 	// @Override
@@ -45,6 +45,11 @@ public class PayTypeListAction extends Action {
 	public String getHelpToken() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return messages.payTypeList();
 	}
 
 }

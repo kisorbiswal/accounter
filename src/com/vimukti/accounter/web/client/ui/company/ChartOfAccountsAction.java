@@ -19,13 +19,13 @@ public class ChartOfAccountsAction extends Action {
 	protected ChartOfAccountsView view;
 	public int accountType;
 
-	public ChartOfAccountsAction(String text) {
-		super(text);
+	public ChartOfAccountsAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
-	public ChartOfAccountsAction(String text, int accountType) {
-		super(text);
+	public ChartOfAccountsAction(int accountType) {
+		super();
 		this.accountType = accountType;
 		this.catagory = Accounter.messages().company();
 	}
@@ -72,5 +72,10 @@ public class ChartOfAccountsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "accountcharts";
+	}
+
+	@Override
+	public String getText() {
+		return messages.accounterCategoryList();
 	}
 }

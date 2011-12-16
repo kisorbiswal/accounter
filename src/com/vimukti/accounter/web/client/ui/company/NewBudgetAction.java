@@ -16,15 +16,15 @@ public class NewBudgetAction extends Action<ClientBudget> {
 	NewBudgetCellTableView view;
 	boolean edit;
 
-	public NewBudgetAction(String text) {
-		super(text);
+	public NewBudgetAction() {
+		super();
 		this.catagory = Global.get().messages().budget();
 		super.setToolTip(Global.get().messages().budget());
 	}
 
-	public NewBudgetAction(String text, ClientBudget budget,
+	public NewBudgetAction(ClientBudget budget,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Global.get().messages().budget();
 	}
 
@@ -101,5 +101,10 @@ public class NewBudgetAction extends Action<ClientBudget> {
 		edit = true;
 		// runAsync(edit, budgetItem);
 
+	}
+
+	@Override
+	public String getText() {
+		return messages.newBudget();
 	}
 }

@@ -18,8 +18,8 @@ public class NewAccountAction extends Action<ClientAccount> {
 	protected NewAccountView view;
 	private String accountName;
 
-	public NewAccountAction(String text) {
-		super(text);
+	public NewAccountAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -79,5 +79,10 @@ public class NewAccountAction extends Action<ClientAccount> {
 
 	public void setAccountName(String text) {
 		this.accountName = text;
+	}
+
+	@Override
+	public String getText() {
+		return messages.newAccount();
 	}
 }

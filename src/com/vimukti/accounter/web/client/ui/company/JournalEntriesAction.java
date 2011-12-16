@@ -14,8 +14,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class JournalEntriesAction extends Action {
 
-	public JournalEntriesAction(String text) {
-		super(text);
+	public JournalEntriesAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -57,6 +57,11 @@ public class JournalEntriesAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "journal-entries";
+	}
+
+	@Override
+	public String getText() {
+		return messages.journalEntries();
 	}
 
 }

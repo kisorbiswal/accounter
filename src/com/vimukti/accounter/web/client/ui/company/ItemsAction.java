@@ -16,13 +16,13 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class ItemsAction extends Action {
 
-	public ItemsAction(String text) {
-		super(text);
+	public ItemsAction() {
+		super();
 		this.catagory = Global.get().customer();
 	}
 
-	public ItemsAction(String text, String catageory) {
-		super(text);
+	public ItemsAction(String catageory) {
+		super();
 		this.catagory = catageory;
 	}
 
@@ -100,6 +100,11 @@ public class ItemsAction extends Action {
 		else
 			return "customerItems";
 
+	}
+
+	@Override
+	public String getText() {
+		return messages.items();
 	}
 
 }

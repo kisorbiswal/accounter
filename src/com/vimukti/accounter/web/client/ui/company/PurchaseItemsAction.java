@@ -11,13 +11,13 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class PurchaseItemsAction extends Action {
 
-	public PurchaseItemsAction(String text) {
-		super(text);
+	public PurchaseItemsAction() {
+		super();
 		this.catagory = Global.get().customer();
 	}
 
-	public PurchaseItemsAction(String text, String catageory) {
-		super(text);
+	public PurchaseItemsAction( String catageory) {
+		super();
 		this.catagory = catageory;
 	}
 
@@ -60,5 +60,10 @@ public class PurchaseItemsAction extends Action {
 	public String getHelpToken() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return messages.items();
 	}
 }

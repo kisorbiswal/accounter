@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class MergeAccountsAction extends Action {
 
-	public MergeAccountsAction(String text) {
-		super(text);
+	public MergeAccountsAction() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -41,6 +41,11 @@ public class MergeAccountsAction extends Action {
 	public String getHelpToken() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return messages.mergeAccounts();
 	}
 
 

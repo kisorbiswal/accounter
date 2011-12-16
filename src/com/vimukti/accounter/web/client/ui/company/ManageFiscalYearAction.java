@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class ManageFiscalYearAction extends Action {
 
-	public ManageFiscalYearAction(String text) {
-		super(text);
+	public ManageFiscalYearAction() {
+		super();
 	}
 
 	@Override
@@ -34,5 +34,10 @@ public class ManageFiscalYearAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "fiscal-year";
+	}
+
+	@Override
+	public String getText() {
+		return messages.manageFiscalYear();
 	}
 }

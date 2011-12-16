@@ -5,8 +5,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class AddInPacksUtilitiesAction extends Action {
 
-	public AddInPacksUtilitiesAction(String text) {
-		super(text);
+	public AddInPacksUtilitiesAction() {
+		super();
 	}
 
 	// @Override
@@ -35,5 +35,11 @@ public class AddInPacksUtilitiesAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "addin-pack-utilities";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

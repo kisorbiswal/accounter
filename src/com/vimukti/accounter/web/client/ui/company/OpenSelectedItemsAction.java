@@ -5,8 +5,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class OpenSelectedItemsAction extends Action {
 
-	public OpenSelectedItemsAction(String text) {
-		super(text);
+	public OpenSelectedItemsAction() {
+		super();
 	}
 
 	// @Override
@@ -38,6 +38,12 @@ public class OpenSelectedItemsAction extends Action {
 
 	@Override
 	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getText() {
 		// TODO Auto-generated method stub
 		return null;
 	}

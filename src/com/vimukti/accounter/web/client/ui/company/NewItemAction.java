@@ -23,20 +23,20 @@ public class NewItemAction extends Action<ClientItem> {
 	private boolean forCustomer;
 	private String itemName;
 
-	public NewItemAction(String text) {
-		super(text);
+	public NewItemAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
-	public NewItemAction(String text, boolean forCustomer) {
-		super(text);
+	public NewItemAction(boolean forCustomer) {
+		super();
 		this.catagory = Accounter.messages().company();
 		this.forCustomer = forCustomer;
 	}
 
-	public NewItemAction(String text, ClientItem item,
+	public NewItemAction(ClientItem item,
 			AccounterAsyncCallback<Object> callback, boolean forCustomer) {
-		super(text);
+		super();
 		this.catagory = Accounter.messages().company();
 		this.forCustomer = forCustomer;
 		// this.baseView = baseView;
@@ -146,5 +146,11 @@ public class NewItemAction extends Action<ClientItem> {
 	public void setItemText(String text) {
 		this.itemName = text;
 
+	}
+
+	@Override
+	public String getText() {
+		return Accounter.messages()
+				.newItem();
 	}
 }

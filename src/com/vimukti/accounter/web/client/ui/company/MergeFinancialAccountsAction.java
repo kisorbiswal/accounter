@@ -5,8 +5,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class MergeFinancialAccountsAction extends Action {
 
-	public MergeFinancialAccountsAction(String text) {
-		super(text);
+	public MergeFinancialAccountsAction() {
+		super();
 	}
 
 	// @Override
@@ -39,6 +39,11 @@ public class MergeFinancialAccountsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "merge-financial-account";
+	}
+
+	@Override
+	public String getText() {
+		return messages.mergeFinancialAccounts();
 	}
 
 }

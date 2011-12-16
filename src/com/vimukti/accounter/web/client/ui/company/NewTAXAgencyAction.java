@@ -18,8 +18,8 @@ public class NewTAXAgencyAction extends Action<ClientTAXAgency> {
 
 	protected TAXAgencyView view;
 
-	public NewTAXAgencyAction(String text) {
-		super(text);
+	public NewTAXAgencyAction() {
+		super();
 		String flag;
 		// if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_US)
@@ -68,5 +68,11 @@ public class NewTAXAgencyAction extends Action<ClientTAXAgency> {
 	@Override
 	public String getHelpToken() {
 		return "new_tax-agency";
+	}
+
+	@Override
+	public String getText() {
+		String flag = messages.newTAXAgency();
+		return flag;
 	}
 }

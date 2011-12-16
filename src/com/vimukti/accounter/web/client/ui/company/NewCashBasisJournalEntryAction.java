@@ -12,8 +12,8 @@ public class NewCashBasisJournalEntryAction extends Action {
 
 	private boolean isEdit;
 
-	public NewCashBasisJournalEntryAction(String text) {
-		super(text);
+	public NewCashBasisJournalEntryAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -60,6 +60,11 @@ public class NewCashBasisJournalEntryAction extends Action {
 	public String getHelpToken() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return messages.newCashBasisJournalEntry();
 	}
 
 }

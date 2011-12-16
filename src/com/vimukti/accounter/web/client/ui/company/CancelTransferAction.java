@@ -5,8 +5,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class CancelTransferAction extends Action {
 
-	public CancelTransferAction(String text) {
-		super(text);
+	public CancelTransferAction() {
+		super();
 	}
 
 	// @Override
@@ -37,6 +37,11 @@ public class CancelTransferAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "cancel-transfer";
+	}
+
+	@Override
+	public String getText() {
+		return null;
 	}
 
 }

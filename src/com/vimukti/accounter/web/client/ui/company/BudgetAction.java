@@ -18,8 +18,8 @@ public class BudgetAction extends Action {
 
 	protected BudgetListView view;
 
-	public BudgetAction(String text) {
-		super(text);
+	public BudgetAction() {
+		super();
 		this.catagory = Accounter.messages().budget();
 	}
 
@@ -59,6 +59,12 @@ public class BudgetAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "Budget";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return messages.budgetView();
 	}
 
 }

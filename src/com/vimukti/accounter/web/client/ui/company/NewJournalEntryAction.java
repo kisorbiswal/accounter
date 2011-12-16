@@ -11,14 +11,14 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewJournalEntryAction extends Action {
 
-	public NewJournalEntryAction(String text) {
-		super(Accounter.messages().newJournalEntry());
+	public NewJournalEntryAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
-	public NewJournalEntryAction(String text, ClientJournalEntry journalEntry,
+	public NewJournalEntryAction( ClientJournalEntry journalEntry,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -59,5 +59,11 @@ public class NewJournalEntryAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "new_journal-entry";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return messages.newJournalEntry();
 	}
 }

@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class EditProfileAction extends Action {
 	private EditProfileDialog view;
 
-	public EditProfileAction(String text) {
-		super(text);
+	public EditProfileAction() {
+		super();
 	}
 
 	@Override
@@ -43,6 +43,11 @@ public class EditProfileAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "edit-profile";
+	}
+
+	@Override
+	public String getText() {
+		return messages.editProfile();
 	}
 
 }

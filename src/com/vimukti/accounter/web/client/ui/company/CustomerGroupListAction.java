@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.customers.CustomerGroupListDialog;
 
 public class CustomerGroupListAction extends Action {
 
-	public CustomerGroupListAction(String text) {
-		super(text);
+	public CustomerGroupListAction() {
+		super();
 	}
 
 	@Override
@@ -48,5 +48,10 @@ public class CustomerGroupListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "customer-group";
+	}
+
+	@Override
+	public String getText() {
+		return messages.payeeGroupList(Global.get().Customer());
 	}
 }

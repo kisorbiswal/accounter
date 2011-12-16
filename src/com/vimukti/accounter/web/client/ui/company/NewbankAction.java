@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewbankAction extends Action {
 
-	public NewbankAction(String text) {
-		super(text);
+	public NewbankAction() {
+		super();
 
 	}
 
@@ -56,6 +56,11 @@ public class NewbankAction extends Action {
 	public String getHelpToken() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return messages.newBank();
 	}
 
 }

@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class ManageItemTaxAction extends Action {
 
 	public ManageItemTaxAction(String text) {
-		super(text);
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -58,5 +58,11 @@ public class ManageItemTaxAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "item-tax";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -8,8 +8,8 @@ public class UserDetailsAction extends Action {
 
 	private UserDetailsView view;
 
-	public UserDetailsAction(String text) {
-		super(text);
+	public UserDetailsAction() {
+		super();
 	}
 
 	// its not using any where
@@ -48,6 +48,12 @@ public class UserDetailsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "user-details";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return messages.userDetails();
 	}
 
 }

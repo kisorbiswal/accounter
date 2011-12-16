@@ -14,8 +14,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class ShippingTermListAction extends Action {
 
-	public ShippingTermListAction(String text) {
-		super(text);
+	public ShippingTermListAction() {
+		super();
 	}
 
 	@Override
@@ -54,5 +54,10 @@ public class ShippingTermListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "shipping_term-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.shippingTermList();
 	}
 }

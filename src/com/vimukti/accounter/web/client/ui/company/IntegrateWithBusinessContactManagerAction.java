@@ -5,8 +5,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class IntegrateWithBusinessContactManagerAction extends Action {
 
-	public IntegrateWithBusinessContactManagerAction(String text) {
-		super(text);
+	public IntegrateWithBusinessContactManagerAction() {
+		super();
 	}
 
 	// @Override
@@ -39,6 +39,11 @@ public class IntegrateWithBusinessContactManagerAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "integrate-business-contact-manager";
+	}
+
+	@Override
+	public String getText() {
+		return messages.integrateWithBusinessContactManager();
 	}
 
 }

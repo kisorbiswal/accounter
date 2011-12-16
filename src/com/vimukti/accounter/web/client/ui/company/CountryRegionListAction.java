@@ -12,8 +12,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class CountryRegionListAction extends Action {
 
-	public CountryRegionListAction(String text) {
-		super(text);
+	public CountryRegionListAction() {
+		super();
 	}
 
 	// @Override
@@ -51,6 +51,12 @@ public class CountryRegionListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "country-region-list";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return messages.countryRegionList();
 	}
 
 }

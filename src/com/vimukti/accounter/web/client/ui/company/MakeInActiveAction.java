@@ -5,8 +5,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class MakeInActiveAction extends Action {
 
-	public MakeInActiveAction(String text) {
-		super(text);
+	public MakeInActiveAction() {
+		super();
 	}
 
 	// @Override
@@ -35,6 +35,11 @@ public class MakeInActiveAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return messages.makeInActive();
 	}
 
 }

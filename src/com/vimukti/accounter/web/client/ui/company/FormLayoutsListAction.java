@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class FormLayoutsListAction extends Action {
 
-	public FormLayoutsListAction(String text) {
-		super(text);
+	public FormLayoutsListAction() {
+		super();
 	}
 
 	// @Override
@@ -46,6 +46,11 @@ public class FormLayoutsListAction extends Action {
 		// TODO Auto-generated method stub
 		// Noting to do
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return messages.formLayoutsList();
 	}
 
 }

@@ -12,14 +12,14 @@ public class CompanyHomeAction extends Action {
 
 	private DashBoardView view;
 
-	public CompanyHomeAction(String text) {
-		super(text);
+	public CompanyHomeAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
-	public CompanyHomeAction(String text, IsSerializable editableObject,
+	public CompanyHomeAction(IsSerializable editableObject,
 			AccounterAsyncCallback<Object> callbackObject) {
-		super(text);
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -48,6 +48,11 @@ public class CompanyHomeAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "company";
+	}
+
+	@Override
+	public String getText() {
+		return messages.home();
 	}
 
 }

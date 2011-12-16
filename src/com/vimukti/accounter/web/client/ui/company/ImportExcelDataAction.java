@@ -5,8 +5,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class ImportExcelDataAction extends Action {
 
-	public ImportExcelDataAction(String text) {
-		super(text);
+	public ImportExcelDataAction() {
+		super();
 	}
 
 	// @Override
@@ -39,6 +39,12 @@ public class ImportExcelDataAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "import-excell-data";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -13,8 +13,8 @@ public class PreferencesAction extends Action {
 	public static final int SETTINGS = 2;
 
 	@SuppressWarnings("unchecked")
-	public PreferencesAction(String text) {
-		super(text);
+	public PreferencesAction() {
+		super();
 		if (CATEGORY == COMPANY)
 			this.catagory = Accounter.messages().company();
 		else if (CATEGORY == SETTINGS)
@@ -53,6 +53,11 @@ public class PreferencesAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "company-preferences";
+	}
+
+	@Override
+	public String getText() {
+		return messages.companyPreferences();
 	}
 
 }

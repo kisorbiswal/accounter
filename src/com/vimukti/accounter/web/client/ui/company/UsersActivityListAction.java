@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class UsersActivityListAction extends Action<ClientActivity> {
 
-	public UsersActivityListAction(String text) {
-		super(text);
+	public UsersActivityListAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -51,6 +51,11 @@ public class UsersActivityListAction extends Action<ClientActivity> {
 	@Override
 	public String getHelpToken() {
 		return "users-activity-log";
+	}
+
+	@Override
+	public String getText() {
+		return messages.usersActivityLogTitle();
 	}
 
 }

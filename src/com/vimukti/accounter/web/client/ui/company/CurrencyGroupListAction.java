@@ -13,10 +13,12 @@ import com.vimukti.accounter.web.client.ui.customers.CurrencyGroupListDialog;
  * this action class is used to display currencyGroupListDialog view
  */
 public class CurrencyGroupListAction extends Action {
-	private AccounterMessages messages = Global.get().messages();
+	private AccounterMessages messages;
 
-	public CurrencyGroupListAction(String text) {
-		super(text);
+	public CurrencyGroupListAction() {
+		super();
+		
+
 	}
 
 	@Override
@@ -62,6 +64,12 @@ public class CurrencyGroupListAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "currencyGroupList";
+	}
+
+	@Override
+	public String getText() {
+		 messages = Global.get().messages();
+		return messages.currencyList();
 	}
 
 }

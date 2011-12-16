@@ -8,8 +8,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class PaymentTermListAction extends Action {
-	public PaymentTermListAction(String text) {
-		super(text);
+	public PaymentTermListAction() {
+		super();
 	}
 
 	@Override
@@ -47,5 +47,10 @@ public class PaymentTermListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "payment_tem-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.paymentTermList();
 	}
 }

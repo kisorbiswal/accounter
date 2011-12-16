@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class LocationGroupListAction extends Action {
 
-	public LocationGroupListAction(String text) {
-		super(text);
+	public LocationGroupListAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -56,6 +56,11 @@ public class LocationGroupListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "location-group-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.locationGroupList(Global.get().Location());
 	}
 
 }

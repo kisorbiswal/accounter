@@ -5,8 +5,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class StopOnlineSharingTransferAction extends Action {
 
-	public StopOnlineSharingTransferAction(String text) {
-		super(text);
+	public StopOnlineSharingTransferAction() {
+		super();
 	}
 
 	// @Override
@@ -38,6 +38,12 @@ public class StopOnlineSharingTransferAction extends Action {
 
 	@Override
 	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getText() {
 		// TODO Auto-generated method stub
 		return null;
 	}

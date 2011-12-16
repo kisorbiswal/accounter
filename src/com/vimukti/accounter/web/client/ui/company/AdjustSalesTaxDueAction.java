@@ -8,8 +8,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
  */
 public class AdjustSalesTaxDueAction extends Action {
 
-	public AdjustSalesTaxDueAction(String text) {
-		super(text);
+	public AdjustSalesTaxDueAction() {
+		super();
 	}
 
 	// @Override
@@ -38,6 +38,12 @@ public class AdjustSalesTaxDueAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "adjust-salestax-due";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -17,8 +18,8 @@ public class CustomersAction extends Action {
 
 	protected CustomerListView view;
 
-	public CustomersAction(String text) {
-		super(text);
+	public CustomersAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -59,6 +60,11 @@ public class CustomersAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "customers";
+	}
+
+	@Override
+	public String getText() {
+		return messages.payees(Global.get().Customers());
 	}
 
 }
