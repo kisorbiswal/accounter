@@ -5149,4 +5149,27 @@ public interface AccounterMessages extends Messages {
 
 	public String printCheque();
 
+	public String checks();
+
+	public String customerCreditNotes();
+
+	public String billCredits();
+
+	public String billPayments();
+
+	public String deposits();
+
+	public String inventoryAdjustments();
+
+	public String payeeChecks(String customer);
+
+	public String cashSalesList();
+
+	public String payeeCreditNotes(String payee);
+
+	public String customerchecks();
+
+	public String vendorchecks();
+
+	public String transactionscenter();
 }

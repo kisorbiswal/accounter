@@ -79,17 +79,18 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public ArrayList<ClientEstimate> getLatestQuotes();
 
-	public ArrayList<BillsList> getBillsAndItemReceiptList(
-			boolean isExpensesList);
+	ArrayList<BillsList> getBillsAndItemReceiptList(boolean isExpensesList,
+			int transactionType, long fromDate, long toDate);
 
 	public ArrayList<PayBillTransactionList> getTransactionPayBills();
 
 	public ArrayList<PayBillTransactionList> getTransactionPayBills(
 			long vendorId, ClientFinanceDate paymentDate);
 
-	public ArrayList<PaymentsList> getVendorPaymentsList();
+	public ArrayList<PaymentsList> getVendorPaymentsList(long fromDate,
+			long toDate);
 
-	public ArrayList<PaymentsList> getPaymentsList();
+	public ArrayList<PaymentsList> getPaymentsList(long fromDate, long toDate);
 
 	public ArrayList<ClientCreditsAndPayments> getVendorCreditsAndPayments(
 			long vendorId);
@@ -142,7 +143,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public boolean isSalesTaxPayableAccountByName(String accountName);
 
 	// To get all the Estimates/Quotes in a company
-	public ArrayList<ClientEstimate> getEstimates(int type);
+	public ArrayList<ClientEstimate> getEstimates(int type, long fromDate,
+			long toDate);
 
 	// To get the Estimates/Quotes of a particular customer in the company
 	public ArrayList<ClientEstimate> getEstimates(long customerId);
@@ -173,20 +175,23 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ClientJournalEntry getJournalEntry(long journalEntryId);
 
 	// To get all the Journal Entries in a company
-	public ArrayList<ClientJournalEntry> getJournalEntries();
+	public ArrayList<ClientJournalEntry> getJournalEntries(long fromDate,
+			long toDate);
 
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)
 	// throws DAOException;
 
 	// To get all Customer Refunds and Write Checks -> for Customer
-	public ArrayList<CustomerRefundsList> getCustomerRefundsList();
+	public ArrayList<CustomerRefundsList> getCustomerRefundsList(long fromDate,
+			long toDate);
 
 	// To display the liabilityAccount combo box of New Tax Agency window
 	public ArrayList<ClientAccount> getTaxAgencyAccounts();
 
 	// To display Received payments in list View.
-	public ArrayList<ReceivePaymentsList> getReceivePaymentsList();
+	public ArrayList<ReceivePaymentsList> getReceivePaymentsList(long fromDate,
+			long toDate, int transactionType);
 
 	public ArrayList<ClientItem> getLatestPurchaseItems();
 
@@ -199,11 +204,11 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public List<ClientTransactionMakeDeposit> getTransactionMakeDeposits();
 
-	public ArrayList<SalesOrdersList> getSalesOrders()
+	public ArrayList<SalesOrdersList> getSalesOrders(long fromDate, long endDate)
 			throws AccounterException;
 
-	public ArrayList<PurchaseOrdersList> getPurchaseOrders()
-			throws AccounterException;
+	public ArrayList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
+			long toDate) throws AccounterException;
 
 	/*
 	 * public ArrayList<SalesOrdersList> getSalesOrdersForCustomer(long
@@ -277,7 +282,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<PayeeList> getPayeeList(int transactionCategory)
 			throws AccounterException;
 
-	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate);
+	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate,
+			int type);
 
 	public String getCustomerNumber();
 
@@ -294,8 +300,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public ArrayList<ClientUserInfo> getAllUsers() throws AccounterException;
 
-	ArrayList<ClientRecurringTransaction> getRecurringsList()
-			throws AccounterException;
+	ArrayList<ClientRecurringTransaction> getRecurringsList(long fromDate,
+			long toDate) throws AccounterException;
 
 	// For merging
 
@@ -373,4 +379,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			throws AccounterException;
 
 	List<ClientAdvertisement> getAdvertisements();
+
+	ArrayList<PaymentsList> getPayeeChecks(boolean isCustomerChecks,
+			long fromDate, long toDate);
 }

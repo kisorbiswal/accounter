@@ -81,9 +81,6 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getLatestQuotes(
 			AsyncCallback<ArrayList<ClientEstimate>> callBack);
 
-	public void getBillsAndItemReceiptList(boolean isExpensesList,
-			AsyncCallback<ArrayList<BillsList>> callBack);
-
 	public void getTransactionPayBills(
 			AsyncCallback<ArrayList<PayBillTransactionList>> callback);
 
@@ -91,12 +88,13 @@ public interface IAccounterHomeViewServiceAsync {
 			ClientFinanceDate paymentDate,
 			AsyncCallback<ArrayList<PayBillTransactionList>> callback);
 
-	public void getVendorPaymentsList(
+	public void getVendorPaymentsList(long fromDate, long toDate,
 			AsyncCallback<ArrayList<PaymentsList>> callBack);
 
-	public void getPaymentsList(AsyncCallback<ArrayList<PaymentsList>> callBack);
+	public void getPaymentsList(long fromDate, long toDate,
+			AsyncCallback<ArrayList<PaymentsList>> callBack);
 
-	public void getRecurringsList(
+	public void getRecurringsList(long fromDate, long toDate,
 			AsyncCallback<ArrayList<ClientRecurringTransaction>> callBack);
 
 	public void getVendorCreditsAndPayments(long vendorId,
@@ -162,7 +160,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<Boolean> callback);
 
 	// To get all the Estimates/Quotes in a company
-	public void getEstimates(int type,
+	public void getEstimates(int type, long fromDate, long toDate,
 			AsyncCallback<ArrayList<ClientEstimate>> callback);
 
 	// To get the Estimates/Quotes of a particular customer in the company
@@ -198,7 +196,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ClientJournalEntry> callback);
 
 	// To get all the Journal Entries in a company
-	public void getJournalEntries(
+	public void getJournalEntries(long fromDate, long toDate,
 			AsyncCallback<ArrayList<ClientJournalEntry>> callback);
 
 	// to get the Account Register of a particular account
@@ -206,14 +204,15 @@ public interface IAccounterHomeViewServiceAsync {
 	// throws DAOException;
 
 	// To get all Customer Refunds and Write Checks -> for Customer
-	public void getCustomerRefundsList(
+	public void getCustomerRefundsList(long fromDate, long toDate,
 			AsyncCallback<ArrayList<CustomerRefundsList>> callback);
 
 	// To display the liabilityAccount combo box of New Tax Agency window
 	public void getTaxAgencyAccounts(
 			AsyncCallback<ArrayList<ClientAccount>> callback);
 
-	public void getReceivePaymentsList(
+	public void getReceivePaymentsList(long fromDate, long toDate,
+			int transactionType,
 			AsyncCallback<ArrayList<ReceivePaymentsList>> callback);
 
 	public void getLatestPurchaseItems(
@@ -231,10 +230,10 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getTransactionMakeDeposits(
 			AsyncCallback<List<ClientTransactionMakeDeposit>> callback);
 
-	public void getSalesOrders(
+	public void getSalesOrders(long fromDate, long endDate,
 			AsyncCallback<ArrayList<SalesOrdersList>> callback);
 
-	public void getPurchaseOrders(
+	public void getPurchaseOrders(long fromDate, long toDate,
 			AsyncCallback<ArrayList<PurchaseOrdersList>> callback);
 
 	/*
@@ -314,7 +313,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getPayeeList(int transactionCategory,
 			AsyncCallback<ArrayList<PayeeList>> callBack);
 
-	public void getInvoiceList(long fromDate, long toDate,
+	public void getInvoiceList(long fromDate, long toDate, int invoicesType,
 			AsyncCallback<ArrayList<InvoicesList>> callback);
 
 	public void getCustomerNumber(AsyncCallback<String> callback);
@@ -413,5 +412,12 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<List<ClientFixedAsset>> callback);
 
 	void getAdvertisements(AsyncCallback<List<ClientAdvertisement>> callback);
+
+	public void getPayeeChecks(boolean isCustomerChecks, long fromDate,
+			long toDate, AsyncCallback<ArrayList<PaymentsList>> callBack);
+
+	void getBillsAndItemReceiptList(boolean isExpensesList,
+			int transactionType, long fromDate, long toDate,
+			AsyncCallback<ArrayList<BillsList>> callback);
 
 }
