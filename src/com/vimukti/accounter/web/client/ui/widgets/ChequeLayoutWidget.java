@@ -89,13 +89,13 @@ public class ChequeLayoutWidget extends SimplePanel {
 
 		HorizontalPanel topScale = new HorizontalPanel();
 		Label top = new Label(
-				"| | | | 1 | | | | 2 | | | | 3 | | | | 4 | | | | 5 | | | | 6 | | | | 7 | | | | 8 | | | | 9 | | | | 10");
+				" | | | | 1 | | | | 2 | | | | 3 | | | | 4 | | | | 5 | | | | 6 | | | | 7 | | | | 8 | | | | 9 | | | | 10");
 		topScale.add(top);
 		topScale.addStyleName("chequeTopScal");
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		VerticalPanel vertScale = new VerticalPanel();
 		Label left = new Label(
-				"| | | | 1 | | | | 2 | | | | 3 | | | | 4 | | | | 5");
+				"_ _ _ _ 1 _ _ _ _ 2 _ _ _ _ 3 _ _ _ _ 4 _ _ _ _ 5");
 		vertScale.add(left);
 		vertScale.setStyleName("chequeLeftScal");
 		SimplePanel chequeBg = new SimplePanel();
@@ -118,7 +118,7 @@ public class ChequeLayoutWidget extends SimplePanel {
 	}
 
 	private int getPixel(double cm) {
-		return (int) (96 * cm * 100 / 254);// ScreenResolution.centimeterAsPixel(cm);
+		return (int) (72 * cm * 100 / 254);// ScreenResolution.centimeterAsPixel(cm);
 	}
 
 	private void updateParameter(Label label, double left, double top) {
