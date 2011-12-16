@@ -4,8 +4,8 @@ import com.google.gwt.resources.client.ImageResource;
 
 public class PaymentDialogAction extends Action {
 
-	public PaymentDialogAction(String text) {
-		super(text);
+	public PaymentDialogAction() {
+		super();
 
 	}
 
@@ -42,6 +42,11 @@ public class PaymentDialogAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "payment-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.payments();
 	}
 
 }

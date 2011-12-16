@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.reports.DepositDetailReport;
 
 public class DepositDetailAction extends Action {
 
-	public DepositDetailAction(String text) {
-		super(text);
+	public DepositDetailAction() {
+		super();
 		this.catagory = Accounter.messages().report();
 	}
 
@@ -51,6 +51,11 @@ public class DepositDetailAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "deposit-detail";
+	}
+
+	@Override
+	public String getText() {
+		return messages.depositDetail();
 	}
 
 }

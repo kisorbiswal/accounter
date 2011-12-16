@@ -8,8 +8,8 @@ import com.vimukti.accounter.web.client.ui.SalesTaxItemsView;
 public class ManageSalesTaxItemsAction extends Action {
 	protected SalesTaxItemsView view;
 
-	public ManageSalesTaxItemsAction(String text) {
-		super(text);
+	public ManageSalesTaxItemsAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -60,6 +60,16 @@ public class ManageSalesTaxItemsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "pay_sales-tax";
+	}
+
+	@Override
+	public String getText() {
+		String constant;
+		if (Accounter.getUser().canDoInvoiceTransactions())
+			constant = messages.manageSalesItems();
+		else
+			constant = messages.salesTaxItems();
+		return constant;
 	}
 
 }

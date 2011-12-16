@@ -39,7 +39,7 @@ public abstract class Action<T> implements Command {
 	/**
 	 * This action's text, or <code>null</code> if none.
 	 */
-	private String text;
+	//private String text;
 	private String viewName;
 	/**
 	 * This action's tool tip text, or <code>null</code> if none.
@@ -62,8 +62,7 @@ public abstract class Action<T> implements Command {
 	/**
 	 * setting Text for Action
 	 */
-	public Action(String text) {
-		setText(text);
+	public Action() {
 		setViewName(null);
 	}
 
@@ -72,12 +71,10 @@ public abstract class Action<T> implements Command {
 	 * 
 	 * @return String
 	 */
-	public String getText() {
-		return text;
-	}
+	public abstract String getText();
 
 	public String getViewModeText() {
-		String viewText = text;
+		String viewText = getText();
 		if (viewText.contains(Accounter.messages().new1())) {
 			viewText = viewText.replace(Accounter.messages().new1(), Accounter
 					.messages().view());
@@ -122,9 +119,9 @@ public abstract class Action<T> implements Command {
 	 * 
 	 * @param text
 	 */
-	public void setText(String text) {
-		this.text = text;
-	}
+//	public void setText(String text) {
+//		this. = text;
+//	}
 
 	/**
 	 * Setter for Tool tip
@@ -232,7 +229,7 @@ public abstract class Action<T> implements Command {
 	}
 
 	public String getEditText() {
-		String editText = text;
+		String editText = getText();
 		if (editText.contains(Accounter.messages().new1())) {
 			editText = editText.replace(Accounter.messages().new1(), Accounter
 					.messages().edit());

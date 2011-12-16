@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.customers.BrandingThemeComboDialog;
 
 public class BrandingThemeComboAction extends Action {
 
-	public BrandingThemeComboAction(String text) {
-		super(text);
+	public BrandingThemeComboAction() {
+		super();
 	}
 
 	@Override
@@ -63,6 +63,11 @@ public class BrandingThemeComboAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "new-branding-theme";
+	}
+
+	@Override
+	public String getText() {
+		return messages.brandingThemeCombo();
 	}
 
 }

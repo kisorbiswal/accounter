@@ -226,220 +226,209 @@ public class ActionFactory {
 	public static AccounterMessages messages = Accounter.messages();
 
 	public static GeneralSettingsAction getGeneralSettingsAction() {
-		return new GeneralSettingsAction(messages.generalSettings());
+		return new GeneralSettingsAction();
 	}
 
 	public static InventoryItemsAction getInventoryItemsAction() {
-		return new InventoryItemsAction(messages.inventoryItems());
+		return new InventoryItemsAction();
 	}
 
 	public static ConversionBalancesAction getConversionBalancesAction() {
-		return new ConversionBalancesAction(messages.conversionBalance());
+		return new ConversionBalancesAction();
 	}
 
 	public static InvoiceBrandingAction getInvoiceBrandingAction() {
-		return new InvoiceBrandingAction(messages.invoiceBranding());
+		return new InvoiceBrandingAction();
 	}
 
 	public static NewBrandThemeAction getNewBrandThemeAction() {
-		return new NewBrandThemeAction(messages.newBrandTheme());
+		return new NewBrandThemeAction();
 
 	}
 
 	public static NewBrandCustomThemeAction getNewBrandCustomThemeAction() {
-		return new NewBrandCustomThemeAction(messages.customTheme());
+		return new NewBrandCustomThemeAction();
 
 	}
 
 	public static NewBrandCustomThemeAction getEditBrandCustomThemeAction() {
-		return new NewBrandCustomThemeAction(messages.customTheme());
+		return new NewBrandCustomThemeAction();
 
 	}
 
 	public static ConversionDateAction getConversionDateAction() {
-		return new ConversionDateAction(messages.conversionDate());
+		return new ConversionDateAction();
 	}
 
 	public static AutomaticSequenceAction getAutomaticSequenceAction() {
-		return new AutomaticSequenceAction(messages.automaticSequencing());
+		return new AutomaticSequenceAction();
 	}
 
 	public static CustomThemeAction getCustomThemeAction() {
-		return new CustomThemeAction(messages.newBrandThemeLabel());
+		return new CustomThemeAction();
 	}
 
 	public static UsersAction getUsersAction() {
-		return new UsersAction(messages.users());
+		return new UsersAction();
 	}
 
 	public static InviteUserAction getInviteUserAction() {
-		return new InviteUserAction(messages.inviteUser());
+		return new InviteUserAction();
 	}
 
 	public static DeleteThemeAction getDeleteThemeAction() {
-		return new DeleteThemeAction(messages.users());
+		return new DeleteThemeAction();
 	}
 
 	public static CopyThemeAction getCopyThemeAction() {
-		return new CopyThemeAction(messages.copyTheme());
+		return new CopyThemeAction();
 	}
 
 	public static WareHouseViewAction getWareHouseViewAction() {
-		return new WareHouseViewAction(messages.wareHouse());
+		return new WareHouseViewAction();
 	}
 
 	public static WareHouseTransferAction getWareHouseTransferAction() {
-		return new WareHouseTransferAction(messages.wareHouseTransfer());
+		return new WareHouseTransferAction();
 	}
 
 	public static WarehouseListAction getWarehouseListAction() {
-		return new WarehouseListAction(messages.warehouseList());
+		return new WarehouseListAction();
 	}
 
 	public static WareHouseItemsListAction getWareHouseItemsListAction(
 			long wareHouse) {
-		return new WareHouseItemsListAction(wareHouse,
-				messages.wareHouseItems());
+		return new WareHouseItemsListAction(wareHouse);
 	}
 
 	public static WarehouseTransferListAction getWarehouseTransferListAction() {
-		return new WarehouseTransferListAction(messages.warehouseTransferList());
+		return new WarehouseTransferListAction();
 	}
 
 	// Banking action factory
 
 	public static BankingHomeAction getBankingHomeAction() {
-		return new BankingHomeAction(messages.bankingHome());
+		return new BankingHomeAction();
 	}
 
 	public static NewBankAccountAction getNewBankAccountAction() {
-		return new NewBankAccountAction(messages.newAccount());
+		return new NewBankAccountAction();
 	}
 
 	public static AccountRegisterAction getAccountRegisterAction() {
-		return new AccountRegisterAction(messages.accountRegister());
-
+		return new AccountRegisterAction();
 	}
 
 	public static WriteChecksAction getWriteChecksAction() {
-		return new WriteChecksAction(messages.writeCheck());
+		return new WriteChecksAction();
 	}
 
 	public static WriteChecksAction getWriteChecksAction(
 			ClientWriteCheck writeCheck,
 			AccounterAsyncCallback<Object> callBackObject) {
-		return new WriteChecksAction(messages.writeCheck(), writeCheck,
+		return new WriteChecksAction(writeCheck,
 				callBackObject);
 	}
 
 	public static MakeDepositAction getMakeDepositAction() {
-		return new MakeDepositAction(messages.makeDeposit());
+		return new MakeDepositAction();
 	}
 
 	public static MakeDepositAction getMakeDepositAction(
 			ClientMakeDeposit makeDeposit,
 			AccounterAsyncCallback<Object> callBackObject) {
-		return new MakeDepositAction(messages.makeDeposit(), makeDeposit,
+		return new MakeDepositAction(makeDeposit,
 				callBackObject);
 	}
 
 	public static TransferFundsAction getTransferFundsAction() {
-		return new TransferFundsAction(messages.transferFunds());
+		return new TransferFundsAction();
 	}
 
 	public static EnterPaymentsAction getEnterPaymentsAction() {
-		return new EnterPaymentsAction(messages.enterPayments());
+		return new EnterPaymentsAction();
 	}
 
 	public static SyncOnlinePayeesAction getSyncOnlinePayeesAction() {
-		return new SyncOnlinePayeesAction(messages.syncOnlinePayees());
+		return new SyncOnlinePayeesAction();
 	}
 
 	public static ImportBankFilesAction getImportBankFilesAction() {
-		return new ImportBankFilesAction(messages.importBankFiles());
+		return new ImportBankFilesAction();
 	}
 
 	public static CreditCardChargeAction getCreditCardChargeAction() {
-		return new CreditCardChargeAction(messages.creditCardCharge());
+		return new CreditCardChargeAction();
 	}
 
 	public static PrintChecksAction getPrintChecksAction() {
-		return new PrintChecksAction(messages.printChecks());
+		return new PrintChecksAction();
 	}
 
 	public static ChartsOfAccountsAction getChartsOfAccountsAction() {
-		return new ChartsOfAccountsAction(messages.chartOfAccounts());
+		return new ChartsOfAccountsAction();
 	}
 
 	public static PaymentsAction getPaymentsAction(int category) {
-		PaymentsAction action = new PaymentsAction(messages.payments(),
-				category);
+		PaymentsAction action = new PaymentsAction(category);
 		return action;
 	}
 
 	public static MatchTrasactionsAction getMatchTrasactionsAction() {
-		return new MatchTrasactionsAction(messages.matchTrasactions());
+		return new MatchTrasactionsAction();
 	}
 
 	// ActionFactory
 
 	public static CompanyHomeAction getCompanyHomeAction() {
-		return new CompanyHomeAction(messages.home());
+		return new CompanyHomeAction();
 	}
 
 	public static MakeActiveAction getMakeActiveAction() {
-		return new MakeActiveAction(messages.makeActive());
+		return new MakeActiveAction();
 
 	}
 
 	public static MakeInActiveAction getMakeInActiveAction() {
-		return new MakeInActiveAction(messages.makeInActive());
+		return new MakeInActiveAction();
 
 	}
 
 	public static PreferencesAction getPreferencesAction() {
-		return new PreferencesAction(messages.companyPreferences());
+		return new PreferencesAction();
 	}
 
 	public static IntegrateWithBusinessContactManagerAction getIntegrateWithBusinessContactManagerAction() {
-		return new IntegrateWithBusinessContactManagerAction(
-				messages.integrateWithBusinessContactManager());
+		return new IntegrateWithBusinessContactManagerAction();
 	}
 
 	public static NewJournalEntryAction getNewJournalEntryAction() {
-		return new NewJournalEntryAction(messages.newJournalEntry());
+		return new NewJournalEntryAction();
 	}
 
 	public static NewCashBasisJournalEntryAction getNewCashBasisJournalEntryAction() {
-		return new NewCashBasisJournalEntryAction(
-				messages.newCashBasisJournalEntry());
+		return new NewCashBasisJournalEntryAction();
 	}
 
 	public static NewAccountAction getNewAccountAction() {
-		return new NewAccountAction(messages.newAccount());
+		return new NewAccountAction();
 	}
 
-	public static MergeAccountsAction getMergeVendorsAction() {
-		return new MergeAccountsAction(messages.mergeVendors(Global.get()
-				.vendors()));
-	}
+//	public static MergeAccountsAction getMergeVendorsAction() {
+//		return new MergeAccountsAction(messages.mergeVendors(Global.get()
+//				.vendors()));
+//	}
 
-	public static MergeItemsAction getMergeItemsAction() {
-		return new MergeItemsAction(messages.mergeItems());
-	}
+//	public static MergeItemsAction getMergeItemsAction() {
+//		return new MergeItemsAction(messages.mergeItems());
+//	}
 
 	public static MergeFinancialAccountsAction getMergeFinancialAccountsAction() {
-		return new MergeFinancialAccountsAction(
-				messages.mergeFinancialAccounts());
+		return new MergeFinancialAccountsAction();
 	}
 
 	public static ManageSalesTaxGroupsAction getManageSalesTaxGroupsAction() {
-		String text;
-		if (Accounter.getUser().canDoInvoiceTransactions())
-			text = messages.manageSalesGroups();
-		else
-			text = messages.salesTaxGroups();
-		return new ManageSalesTaxGroupsAction(text);
+		return new ManageSalesTaxGroupsAction();
 	}
 
 	// public static ManageSalesTaxCodesAction getManageSalesTaxCodesAction() {
@@ -452,13 +441,11 @@ public class ActionFactory {
 	}
 
 	public static PaySalesTaxAction getPaySalesTaxAction() {
-		String constant = null;
-		constant = messages.payTax();
-		return new PaySalesTaxAction(constant);
+		return new PaySalesTaxAction();
 	}
 
 	public static SalesTaxLiabilityAction getViewSalesTaxLiabilityAction() {
-		return new SalesTaxLiabilityAction(messages.salesTaxLiability());
+		return new SalesTaxLiabilityAction();
 	}
 
 	// public static NewTaxAgencyAction getNewTaxAgencyAction() {
@@ -466,78 +453,75 @@ public class ActionFactory {
 	// }
 
 	public static CustomerGroupListAction getCustomerGroupListAction() {
-		return new CustomerGroupListAction(messages.payeeGroupList(Global.get()
-				.Customer()));
+		return new CustomerGroupListAction();
 	}
 
 	public static VendorGroupListAction getVendorGroupListAction() {
-		return new VendorGroupListAction(Global.get().messages()
-				.payeeGroupList(Global.get().Vendor()));
+		return new VendorGroupListAction();
 	}
 
 	public static PaymentTermListAction getPaymentTermListAction() {
-		return new PaymentTermListAction(messages.paymentTermList());
+		return new PaymentTermListAction();
 	}
 
 	public static ShippingMethodListAction getShippingMethodListAction() {
-		return new ShippingMethodListAction(messages.shippingMethodList());
+		return new ShippingMethodListAction();
 	}
 
 	public static ShippingTermListAction getShippingTermListAction() {
-		return new ShippingTermListAction(messages.shippingTermList());
+		return new ShippingTermListAction();
 	}
 
 	public static PriceLevelListAction getPriceLevelListAction() {
-		return new PriceLevelListAction(messages.priceLevelList());
+		return new PriceLevelListAction();
 	}
 
 	public static ItemGroupListAction getItemGroupListAction() {
-		return new ItemGroupListAction(messages.itemGroupList());
+		return new ItemGroupListAction();
 	}
 
 	public static CreditRatingListAction getCreditRatingListAction() {
-		return new CreditRatingListAction(messages.creditRatingList());
+		return new CreditRatingListAction();
 	}
 
 	public static CountryRegionListAction getCountryRegionListAction() {
-		return new CountryRegionListAction(messages.countryRegionList());
+		return new CountryRegionListAction();
 	}
 
 	public static CurrencyGroupListAction getCurrencyGroupListAction() {
-		return new CurrencyGroupListAction(messages.currencyList());
+		return new CurrencyGroupListAction();
 	}
 
 	public static FormLayoutsListAction getFormLayoutsListAction() {
-		return new FormLayoutsListAction(messages.formLayoutsList());
+		return new FormLayoutsListAction();
 	}
 
 	public static PayTypeListAction getPayTypeListAction() {
-		return new PayTypeListAction(messages.payTypeList());
+		return new PayTypeListAction();
 	}
 
 	public static ManageFiscalYearAction getManageFiscalYearAction() {
-		return new ManageFiscalYearAction(messages.manageFiscalYear());
+		return new ManageFiscalYearAction();
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction() {
-		return new ChartOfAccountsAction(messages.accounterCategoryList());
+		return new ChartOfAccountsAction();
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction(int accountType) {
-		return new ChartOfAccountsAction(messages.accounterCategoryList(),
-				accountType);
+		return new ChartOfAccountsAction(accountType);
 	}
 
 	public static SalesPersonListsAction getSalesPersonListAction() {
-		return new SalesPersonListsAction(messages.salesPersons());
+		return new SalesPersonListsAction();
 	}
 
 	public static JournalEntriesAction getJournalEntriesAction() {
-		return new JournalEntriesAction(messages.journalEntries());
+		return new JournalEntriesAction();
 	}
 
 	public static NewbankAction getNewbankAction() {
-		return new NewbankAction(messages.newBank());
+		return new NewbankAction();
 	}
 
 	public static ManageItemTaxAction getNewItemTaxAction() {
@@ -545,7 +529,7 @@ public class ActionFactory {
 	}
 
 	public static NewItemAction getNewItemAction(boolean forCustomer) {
-		return new NewItemAction(messages.newItem(), forCustomer);
+		return new NewItemAction(forCustomer);
 	}
 
 	// public static NewItemAction getNewItemAction(ClientItem item,
@@ -554,23 +538,16 @@ public class ActionFactory {
 	// }
 
 	public static DepreciationAction getDepriciationAction() {
-		return new DepreciationAction(messages.depreciation());
+		return new DepreciationAction();
 
 	}
 
 	public static NewTAXAgencyAction getNewTAXAgencyAction() {
-		String flag = messages.newTAXAgency();
-
-		return new NewTAXAgencyAction(flag);
+		return new NewTAXAgencyAction();
 	}
 
 	public static ManageSalesTaxItemsAction getManageSalesTaxItemsAction() {
-		String constant;
-		if (Accounter.getUser().canDoInvoiceTransactions())
-			constant = messages.manageSalesItems();
-		else
-			constant = messages.salesTaxItems();
-		return new ManageSalesTaxItemsAction(constant);
+		return new ManageSalesTaxItemsAction();
 	}
 
 	// public static NewTaxItemAction getTaxItemAction() {
@@ -579,17 +556,16 @@ public class ActionFactory {
 	// }
 
 	public static AdjustTAXAction getAdjustTaxAction() {
-		String flag = messages.taxAdjustment();
-		return new AdjustTAXAction(flag);
+		return new AdjustTAXAction(2);
 	}
 
 	public static ChangePasswordAction getChangePasswordAction() {
-		return new ChangePasswordAction(messages.changePassword());
+		return new ChangePasswordAction();
 
 	}
 
 	public static UserDetailsAction getUserDetailsAction() {
-		return new UserDetailsAction(messages.userDetails());
+		return new UserDetailsAction();
 	}
 
 	// public static ForgetPasswordAction getForgetPasswordAction(){
@@ -600,41 +576,37 @@ public class ActionFactory {
 	// Customers actions Factory
 
 	public static NewCustomerAction getNewCustomerAction() {
-		return new NewCustomerAction(messages.newPayee(Global.get().Customer()));
+		return new NewCustomerAction();
 	}
 
 	public static NewCustomerAction getNewCustomerAction(String quickAddText) {
-		return new NewCustomerAction(
-				messages.newPayee(Global.get().Customer()), quickAddText);
+		return new NewCustomerAction(quickAddText);
 	}
 
 	public static NewVendorAction getNewVendorAction(String quickAddText) {
-		return new NewVendorAction(messages.newPayee(Global.get().vendor()),
-				quickAddText);
+		return new NewVendorAction(quickAddText);
 	}
 
 	public static NewCustomerAction getNewCustomerAction(
 			ClientCustomer customer,
 			AccounterAsyncCallback<Object> callBackObject) {
-		return new NewCustomerAction(
-				messages.newPayee(Global.get().Customer()), customer,
+		return new NewCustomerAction(customer,
 				callBackObject);
 	}
 
 	public static CustomersHomeAction getCustomersHomeAction() {
-		return new CustomersHomeAction(messages.payeesHome(Global.get()
-				.Customers()));
+		return new CustomersHomeAction();
 	}
 
-	public static NewQuoteAction getNewQuoteAction(int type, String title) {
-		return new NewQuoteAction(title, type);
+	public static NewQuoteAction getNewQuoteAction(int type) {
+		return new NewQuoteAction(type);
 	}
 
-	public static NewQuoteAction getNewQuoteAction(ClientEstimate quote,
-			AccounterAsyncCallback<Object> callBackObject, int type) {
-		return new NewQuoteAction(messages.newQuote(), quote, callBackObject,
-				type);
-	}
+	// public static NewQuoteAction getNewQuoteAction(ClientEstimate quote,
+	// AccounterAsyncCallback<Object> callBackObject, int type) {
+	// return new NewQuoteAction(quote, callBackObject,
+	// type);
+	// }
 
 	// public static NewItemAction getNewItemAction(ClientItem item,
 	// AccounterAsyncCallback<Object> callBackObject) {
@@ -642,43 +614,43 @@ public class ActionFactory {
 	// }
 
 	public static TaxDialogAction getTaxAction() {
-		return new TaxDialogAction(messages.tax());
+		return new TaxDialogAction();
 	}
 
 	public static NewInvoiceAction getNewInvoiceAction() {
-		return new NewInvoiceAction(messages.newInvoice());
+		return new NewInvoiceAction();
 	}
 
 	public static NewInvoiceAction getNewInvoiceAction(ClientInvoice invoice,
 			AccounterAsyncCallback<Object> callBackObject) {
-		return new NewInvoiceAction(messages.newInvoice(), invoice,
+		return new NewInvoiceAction(invoice,
 				callBackObject);
 	}
 
 	public static NewCashSaleAction getNewCashSaleAction() {
-		return new NewCashSaleAction(messages.newCashSale());
+		return new NewCashSaleAction();
 	}
 
 	public static NewCashSaleAction getNewCashSaleAction(
 			ClientCashSales cashSales,
 			AccounterAsyncCallback<Object> callBackObject) {
-		return new NewCashSaleAction(messages.newCashSale(), cashSales,
+		return new NewCashSaleAction(cashSales,
 				callBackObject);
 	}
 
 	public static NewCreditsAndRefundsAction getNewCreditsAndRefundsAction() {
-		return new NewCreditsAndRefundsAction(messages.newCreditNotes());
+		return new NewCreditsAndRefundsAction();
 	}
 
-	public static NewCreditsAndRefundsAction getNewCreditsAndRefundsAction(
-			ClientCustomerCreditMemo creditMemo,
-			AccounterAsyncCallback<Object> callBackObject) {
-		return new NewCreditsAndRefundsAction(messages.newCreditsAndRefunds(),
-				creditMemo, callBackObject);
-	}
+//	public static NewCreditsAndRefundsAction getNewCreditsAndRefundsAction(
+//			ClientCustomerCreditMemo creditMemo,
+//			AccounterAsyncCallback<Object> callBackObject) {
+//		return new NewCreditsAndRefundsAction(messages.newCreditsAndRefunds(),
+//				creditMemo, callBackObject);
+//	}
 
 	public static ReceivePaymentAction getReceivePaymentAction() {
-		return new ReceivePaymentAction(messages.receivePayment());
+		return new ReceivePaymentAction();
 	}
 
 	public static ReceivePaymentAction getReceivePaymentAction(
@@ -689,8 +661,7 @@ public class ActionFactory {
 	}
 
 	public static CustomerRefundAction getCustomerRefundAction() {
-		return new CustomerRefundAction(messages.customerRefund(Global.get()
-				.Customer()));
+		return new CustomerRefundAction();
 	}
 
 	// public static CustomerRefundAction getCustomerRefundAction(
@@ -701,109 +672,105 @@ public class ActionFactory {
 	// }
 
 	public static CreateStatementAction getCreateStatementAction() {
-		return new CreateStatementAction(messages.createStatement());
+		return new CreateStatementAction();
 	}
 
 	public static CustomersAction getCustomersAction() {
-		return new CustomersAction(messages.payees(Global.get().Customers()));
+		return new CustomersAction();
 	}
 
 	public static ItemsAction getItemsAction(boolean customer, boolean vendor) {
 		if (customer) {
-			return new ItemsAction(messages.items(), Global.get().customer());
+			return new ItemsAction(Global.get().customer());
 		} else if (vendor) {
-			return new ItemsAction(messages.items(), Global.get().vendor());
+			return new ItemsAction( Global.get().vendor());
 		} else
-			return new ItemsAction(messages.items(), Accounter.messages()
+			return new ItemsAction(Accounter.messages()
 					.bothCustomerAndVendor(Global.get().Customer(),
 							Global.get().Vendor()));
 	}
 
-	public static QuotesAction getQuotesAction(String title, int type) {
-		return new QuotesAction(title, type);
+	public static QuotesAction getQuotesAction(int type) {
+		return new QuotesAction(type);
 	}
 
 	public static ReceivedPaymentsAction getReceivedPaymentsAction() {
-		return new ReceivedPaymentsAction(messages.receivedPayments());
+		return new ReceivedPaymentsAction();
 	}
 
 	public static InvoicesAction getInvoicesAction(String viewType) {
-		return new InvoicesAction(messages.invoices(), viewType);
+		return new InvoicesAction(viewType);
 	}
 
 	public static CustomerRefundsAction getCustomerRefundsAction() {
-		return new CustomerRefundsAction(messages.customerRefunds(Global.get()
-				.Customer()));
+		return new CustomerRefundsAction();
 	}
 
 	public static SalesOrderAction getSalesOrderAction() {
-		return new SalesOrderAction(messages.newSalesOrder());
+		return new SalesOrderAction();
 	}
 
 	public static SalesOrderListAction getSalesOrderListAction() {
-		return new SalesOrderListAction(messages.salesOrderList());
+		return new SalesOrderListAction();
 	}
 
 	public static NewSalesperSonAction getNewSalesperSonAction() {
-		return new NewSalesperSonAction(messages.newSalesPerson());
+		return new NewSalesperSonAction();
 	}
 
 	public static SalesPersonAction getSalesPersonAction() {
-		return new SalesPersonAction(messages.salesPersons());
+		return new SalesPersonAction();
 	}
 
 	public static CustomerPaymentsAction getNewCustomerPaymentAction() {
-		return new CustomerPaymentsAction(messages.payeePrePayment(Global.get()
-				.Customer()));
+		return new CustomerPaymentsAction();
 	}
 
 	public static BrandingThemeComboAction getBrandingThemeComboAction() {
-		return new BrandingThemeComboAction(messages.brandingThemeCombo());
+		return new BrandingThemeComboAction();
 	}
 
 	public static EmailViewAction getEmailViewAction() {
-		return new EmailViewAction(messages.email());
+		return new EmailViewAction();
 	}
 
 	public static InvoiceListViewAction getInvoiceListViewAction() {
-		return new InvoiceListViewAction("");
+		return new InvoiceListViewAction();
 	}
 
 	public static PaymentDialogAction getPaymentDialogAction() {
-		return new PaymentDialogAction(messages.payments());
+		return new PaymentDialogAction();
 	}
 
 	// Fixed Assests action factory
 
 	public static NewFixedAssetAction getNewFixedAssetAction() {
-		return new NewFixedAssetAction(messages.newFixedAsset());
+		return new NewFixedAssetAction();
 	}
 
 	public static SellingRegisteredItemAction getSellingRegisteredItemAction() {
-		return new SellingRegisteredItemAction(messages.sellingRegisteredItem());
+		return new SellingRegisteredItemAction();
 	}
 
 	public static DisposingRegisteredItemAction getDiposingRegisteredItemAction() {
-		return new DisposingRegisteredItemAction(
-				messages.disposingRegisteredItem());
+		return new DisposingRegisteredItemAction();
 	}
 
 	public static PendingItemsListAction getPendingItemsListAction() {
-		return new PendingItemsListAction(messages.pendingItemsList());
+		return new PendingItemsListAction();
 
 	}
 
 	public static RegisteredItemsListAction getRegisteredItemsListAction() {
-		return new RegisteredItemsListAction(messages.registeredItemsList());
+		return new RegisteredItemsListAction();
 	}
 
 	public static SoldDisposedFixedAssetsListAction getSoldDisposedListAction() {
-		return new SoldDisposedFixedAssetsListAction(
-				messages.soldDisposedItems());
+		return new SoldDisposedFixedAssetsListAction();
 	}
 
 	public static HistoryListAction getHistoryListAction() {
-		return new HistoryListAction(messages.history());
+		return new HistoryListAction();
 	}
 
 	// Purchase order action
@@ -817,53 +784,50 @@ public class ActionFactory {
 	// }
 
 	public static PurchaseOpenOrderAction getPurchaseOpenOrderListAction() {
-		return new PurchaseOpenOrderAction(messages.purchaseOrderReport());
+		return new PurchaseOpenOrderAction();
 	}
 
 	// reports action factory
 
 	public static ReportsHomeAction getReportsHomeAction() {
-		return new ReportsHomeAction(messages.reportsHome());
+		return new ReportsHomeAction();
 	}
 
-	public static VendorsListAction getVendorListAction() {
-		return new VendorsListAction(Global.get().messages()
-				.payeesList(Global.get().Vendors()));
-	}
+//	public static VendorsListAction getVendorListAction() {
+//		return new VendorsListAction(Global.get().messages()
+//				.payeesList(Global.get().Vendors()));
+//	}
 
 	public static TAXAgencyListAction getTAXAgencyListAction() {
-		return new TAXAgencyListAction(messages.payeesList(messages
-				.taxAgencies()));
+		return new TAXAgencyListAction();
 	}
 
 	public static BalanceSheetAction getBalanceSheetAction() {
-		return new BalanceSheetAction(messages.balanceSheet());
+		return new BalanceSheetAction();
 	}
 
 	public static CashFlowStatementAction getCashFlowStatementAction() {
-		return new CashFlowStatementAction(messages.cashFlowReport());
+		return new CashFlowStatementAction();
 	}
 
 	public static TrialBalanceAction getTrialBalanceAction() {
-		return new TrialBalanceAction(messages.trialBalance());
+		return new TrialBalanceAction();
 	}
 
 	public static TransactionDetailByAccountAction getTransactionDetailByAccountAction() {
-		return new TransactionDetailByAccountAction(
-				messages.transactionDetailByAccount());
+		return new TransactionDetailByAccountAction();
 	}
 
 	public static GLReportAction getGlReportAction() {
-		return new GLReportAction(messages.generalLedgerReport());
+		return new GLReportAction();
 	}
 
 	public static SalesTaxLiabilityAction getSalesTaxLiabilityAction() {
-		return new SalesTaxLiabilityAction(messages.salesTaxLiability());
+		return new SalesTaxLiabilityAction();
 	}
 
 	public static TransactionDetailByTaxItemAction getTransactionDetailByTaxItemAction() {
-		return new TransactionDetailByTaxItemAction(
-				messages.transactionDetailByTaxItem());
+		return new TransactionDetailByTaxItemAction();
 	}
 
 	// public static YtdProfitComparedToLastYearAction
@@ -872,35 +836,31 @@ public class ActionFactory {
 	// }
 
 	public static ARAgingDetailAction getArAgingDetailAction() {
-		return new ARAgingDetailAction(messages.arAgeingDetail());
+		return new ARAgingDetailAction();
 	}
 
 	public static CustomerTransactionHistoryAction getCustomerTransactionHistoryAction() {
-		return new CustomerTransactionHistoryAction(
-				messages.payeeTransactionHistory(Global.get().Customer()));
+		return new CustomerTransactionHistoryAction();
 	}
 
 	public static MostProfitableCustomersAction getMostProfitableCustomersAction() {
-		return new MostProfitableCustomersAction(
-				messages.mostProfitableCustomers(Global.get().customers()));
+		return new MostProfitableCustomersAction();
 	}
 
 	public static SalesByCustomerSummaryAction getSalesByCustomerSummaryAction() {
-		return new SalesByCustomerSummaryAction(
-				messages.salesByCustomerSummary(Global.get().customer()));
+		return new SalesByCustomerSummaryAction();
 	}
 
 	public static SalesByCustomerDetailAction getSalesByCustomerDetailAction() {
-		return new SalesByCustomerDetailAction(
-				messages.salesByCustomerDetail(Global.get().Customer()));
+		return new SalesByCustomerDetailAction();
 	}
 
 	public static SalesByItemSummaryAction getSalesByItemSummmaryAction() {
-		return new SalesByItemSummaryAction(messages.salesByItemSummary());
+		return new SalesByItemSummaryAction();
 	}
 
 	public static SalesByItemDetailAction getSalesByItemDetailAction() {
-		return new SalesByItemDetailAction(messages.salesByItemDetail());
+		return new SalesByItemDetailAction();
 	}
 
 	// public static YtdSalesComparedToLastYearAction
@@ -909,12 +869,11 @@ public class ActionFactory {
 	// }
 
 	public static APAgingDetailAction getAorpAgingDetailAction() {
-		return new APAgingDetailAction(messages.apAgeingDetail());
+		return new APAgingDetailAction();
 	}
 
 	public static VendorTransactionHistoryAction getVendorTransactionHistoryAction() {
-		return new VendorTransactionHistoryAction(Global.get().messages()
-				.payeeTransactionHistory(Global.get().Vendor()));
+		return new VendorTransactionHistoryAction();
 	}
 
 	// public static AmountsDueToVendorsAction getAmountsDueToVendorsAction() {
@@ -923,119 +882,109 @@ public class ActionFactory {
 	// }
 
 	public static ProfitAndLossAction getProfitAndLossAction() {
-		return new ProfitAndLossAction(messages.profitAndLoss());
+		return new ProfitAndLossAction();
 	}
 
 	public static SalesByItemSummaryAction getSalesByItemSummaryAction() {
-		return new SalesByItemSummaryAction(messages.salesByItemSummary());
+		return new SalesByItemSummaryAction();
 	}
 
 	public static PurchaseByVendorSummaryAction getPurchaseByVendorSummaryAction() {
-		return new PurchaseByVendorSummaryAction(Global.get().messages()
-				.purchaseByVendorSummary(Global.get().Vendor()));
+		return new PurchaseByVendorSummaryAction();
 	}
 
 	public static PurchaseByVendorDetailsAction getPurchaseByVendorDetailAction() {
-		return new PurchaseByVendorDetailsAction(Global.get().messages()
-				.purchaseByVendorDetail(Global.get().Vendor()));
+		return new PurchaseByVendorDetailsAction();
 	}
 
 	public static PurchaseByItemSummaryAction getPurchaseByItemSummaryAction() {
-		return new PurchaseByItemSummaryAction(messages.purchaseByItemSummary());
+		return new PurchaseByItemSummaryAction();
 	}
 
 	public static PurchaseByItemDetailsAction getPurchaseByItemAction() {
-		return new PurchaseByItemDetailsAction(messages.purchaseByItemDetail());
+		return new PurchaseByItemDetailsAction();
 	}
 
 	public static PurchaseOpenOrderAction getPurchaseOpenOrderAction() {
-		return new PurchaseOpenOrderAction(messages.purchaseOrderReport());
+		return new PurchaseOpenOrderAction();
 	}
 
 	public static PurchaseClosedOrderAction getPurchaseClosedOrderAction() {
-		return new PurchaseClosedOrderAction(messages.purchaseClosedOrder());
+		return new PurchaseClosedOrderAction();
 	}
 
 	public static SalesOpenOrderAction getSalesOpenOrderAction() {
-		return new SalesOpenOrderAction(messages.salesOrderReport());
+		return new SalesOpenOrderAction();
 	}
 
 	public static SalesClosedOrderAction getSalesCloseOrderAction() {
-		return new SalesClosedOrderAction(messages.salesCloseOrder());
+		return new SalesClosedOrderAction();
 	}
 
 	public static VATDetailsReportAction getVATDetailsReportAction() {
-		return new VATDetailsReportAction(messages.vatDetail());
+		return new VATDetailsReportAction();
 	}
 
 	public static VATSummaryReportAction getVATSummaryReportAction() {
-		return new VATSummaryReportAction(messages.priorVATReturns());
+		return new VATSummaryReportAction();
 	}
 
 	public static VAT100ReportAction getVAT100ReportAction() {
-		return new VAT100ReportAction(messages.vat100());
+		return new VAT100ReportAction();
 	}
 
 	public static VATUncategorisedAmountsReportAction getVATUncategorisedAmountsReportAction() {
-		return new VATUncategorisedAmountsReportAction(
-				messages.uncategorisedVATAmounts());
+		return new VATUncategorisedAmountsReportAction();
 	}
 
 	public static VATItemSummaryReportAction getVATItemSummaryReportAction() {
-		return new VATItemSummaryReportAction(messages.vatItemSummary());
+		return new VATItemSummaryReportAction();
 	}
 
 	public static ECSalesListAction getECSalesListAction() {
-		return new ECSalesListAction(messages.ecSalesList());
+		return new ECSalesListAction();
 	}
 
 	public static ECSalesListDetailAction getECSalesListDetailAction() {
-		return new ECSalesListDetailAction(messages.ecSalesListDetailReport());
+		return new ECSalesListDetailAction();
 	}
 
 	public static ReverseChargeListAction getReverseChargeListAction() {
-		return new ReverseChargeListAction(messages.reverseChargeList());
+		return new ReverseChargeListAction();
 	}
 
 	public static ReverseChargeListDetailAction getReverseChargeListDetailAction() {
-		return new ReverseChargeListDetailAction(
-				messages.reverseChargeListDetailReport());
+		return new ReverseChargeListDetailAction();
 	}
 
 	public static VaTItemDetailAction getVaTItemDetailAction() {
-		return new VaTItemDetailAction(messages.vatItemDetailReport());
+		return new VaTItemDetailAction();
 	}
 
 	public static ARAgingSummaryReportAction getArAgingSummaryReportAction() {
-		return new ARAgingSummaryReportAction(messages.arAgeingSummary());
+		return new ARAgingSummaryReportAction();
 	}
 
 	public static APAgingSummaryReportAction getAorpAgingSummaryReportAction() {
-		return new APAgingSummaryReportAction(messages.apAgeingSummary());
+		return new APAgingSummaryReportAction();
 	}
 
 	public static ExpenseReportAction getExpenseReportAction() {
-		return new ExpenseReportAction(messages.expenseReport());
+		return new ExpenseReportAction();
 	}
 
 	public static DepositDetailAction getDetailReportAction() {
-		return new DepositDetailAction(messages.depositDetail());
+		return new DepositDetailAction();
 	}
 
 	public static CheckDetailReportAction getCheckDetailReport() {
-		return new CheckDetailReportAction(messages.checkDetail(), "");
+		return new CheckDetailReportAction("");
 	}
 
 	public static StatementReportAction getStatementReport(boolean isVendor,
 			long payeeId) {
 		try {
-			if (isVendor) {
-				return new StatementReportAction(payeeId,
-						messages.payeeStatement(Global.get().Vendor()), true);
-			} else {
-				return new StatementReportAction(payeeId,
-						messages.payeeStatement(Global.get().Customer()), false);
-			}
+			return new StatementReportAction(payeeId, isVendor);
 		} catch (Exception e) {
 			System.err.println(e);
 		}
@@ -1062,16 +1011,15 @@ public class ActionFactory {
 	// vat action factory
 
 	public static NewVatItemAction getNewVatItemAction() {
-		String flag = messages.newTaxItem();
-		return new NewVatItemAction(flag);
+		return new NewVatItemAction();
 	}
 
 	public static FileTAXAction getFileTAXAction() {
-		return new FileTAXAction(messages.fileTAX());
+		return new FileTAXAction();
 	}
 
 	public static VatItemListAction getVatItemListAction() {
-		return new VatItemListAction(messages.taxItemsList());
+		return new VatItemListAction();
 	}
 
 	// public static VatGroupAction getVatGroupAction() {
@@ -1079,11 +1027,11 @@ public class ActionFactory {
 	// }
 
 	public static ManageTAXCodesListAction getTAXCodeListAction() {
-		return new ManageTAXCodesListAction(messages.taxCodesList());
+		return new ManageTAXCodesListAction();
 	}
 
 	public static NewTAXCodeAction getNewTAXCodeAction() {
-		return new NewTAXCodeAction(messages.newTaxCode());
+		return new NewTAXCodeAction();
 	}
 
 	// public static Action getManageVATCodeAction() {
@@ -1099,37 +1047,34 @@ public class ActionFactory {
 	// }
 
 	public static AdjustTAXAction getVatAdjustmentAction() {
-		return new AdjustTAXAction(messages.vatAdjustment());
+		return new AdjustTAXAction(1);
 
 	}
 
 	public static PayTAXAction getpayTAXAction() {
-		return new PayTAXAction(messages.payTax());
+		return new PayTAXAction();
 
 	}
 
 	public static ReceiveVATAction getreceiveVATAction() {
-		return new ReceiveVATAction(messages.tAXRefund());
+		return new ReceiveVATAction();
 	}
 
 	public static VendorsHomeAction getVendorsHomeAction() {
-		return new VendorsHomeAction(Global.get().messages()
-				.payeesHome(Global.get().Vendors().trim()));
+		return new VendorsHomeAction();
 	}
 
 	public static NewVendorAction getNewVendorAction() {
-		return new NewVendorAction(Global.get().messages()
-				.newPayee(Global.get().Vendor()));
+		return new NewVendorAction();
 	}
 
 	public static NewVendorAction getNewVendorAction(ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
-		return new NewVendorAction(Global.get().messages()
-				.newPayee(Global.get().Vendor()));
+		return new NewVendorAction();
 	}
 
 	public static PurchaseItemsAction getPurchaseItemsAction() {
-		return new PurchaseItemsAction(messages.items(), Global.get().Vendor());
+		return new PurchaseItemsAction(Global.get().Vendor());
 	}
 
 	// public static NewItemAction getNewItemAction() {
@@ -1144,64 +1089,59 @@ public class ActionFactory {
 	// }
 
 	public static NewCashPurchaseAction getNewCashPurchaseAction() {
-		return new NewCashPurchaseAction(messages.newCashPurchase());
+		return new NewCashPurchaseAction();
 	}
 
 	public static NewCashPurchaseAction getNewCashPurchaseAction(
 			ClientCashPurchase cashPurchase,
 			AccounterAsyncCallback<Object> callback) {
-		return new NewCashPurchaseAction(messages.newCashPurchase(),
-				cashPurchase, callback);
+		return new NewCashPurchaseAction(cashPurchase, callback);
 	}
 
 	public static NewCreditMemoAction getNewCreditMemoAction() {
-		return new NewCreditMemoAction(Global.get().messages()
-				.payeeCredit(Global.get().Vendor()));
+		return new NewCreditMemoAction();
 	}
 
-	public static NewCreditMemoAction getNewCreditMemoAction(
-			ClientVendorCreditMemo vendorCreditMemo,
-			AccounterAsyncCallback<Object> callBack) {
-		return new NewCreditMemoAction(messages.newCreditMemo(),
-				vendorCreditMemo, callBack);
-	}
+//	public static NewCreditMemoAction getNewCreditMemoAction(
+//			ClientVendorCreditMemo vendorCreditMemo,
+//			AccounterAsyncCallback<Object> callBack) {
+//		return new NewCreditMemoAction(vendorCreditMemo, callBack);
+//	}
 
 	public static NewCheckAction getNewCheckAction() {
-		return new NewCheckAction(messages.newCheck());
+		return new NewCheckAction();
 	}
 
 	public static EnterBillsAction getEnterBillsAction() {
-		return new EnterBillsAction(messages.enterBill());
+		return new EnterBillsAction();
 	}
 
 	public static PayBillsAction getPayBillsAction() {
-		return new PayBillsAction(messages.payBill());
+		return new PayBillsAction();
 	}
 
 	public static IssuePaymentsAction getIssuePaymentsAction() {
-		return new IssuePaymentsAction(messages.issuePayment());
+		return new IssuePaymentsAction();
 	}
 
 	public static VendorPaymentsAction getNewVendorPaymentAction() {
-		return new VendorPaymentsAction(Global.get().messages()
-				.payeePrePayment(Global.get().Vendor()));
+		return new VendorPaymentsAction();
 	}
 
 	public static RecordExpensesAction getRecordExpensesAction() {
-		return new RecordExpensesAction(messages.recordExpenses());
+		return new RecordExpensesAction();
 	}
 
 	public static ServicesOverviewAction getServicesOverviewAction() {
-		return new ServicesOverviewAction(messages.servicesOverview());
+		return new ServicesOverviewAction();
 	}
 
 	public static BuyChecksAndFormsAction getBuyChecksAndFormsAction() {
-		return new BuyChecksAndFormsAction(messages.buyChecksAndForms(), "");
+		return new BuyChecksAndFormsAction("");
 	}
 
 	public static VendorsListAction getVendorsAction() {
-		return new VendorsListAction(Global.get().messages()
-				.payees(Global.get().Vendors()));
+		return new VendorsListAction();
 	}
 
 	// public static Item getItemAction() {
@@ -1209,164 +1149,147 @@ public class ActionFactory {
 	// }
 
 	public static BillsAction getBillsAction() {
-		return new BillsAction(messages.billsAndItemReceipts());
+		return new BillsAction();
 	}
 
 	public static ExpensesAction getExpensesAction(String viewType) {
-		return new ExpensesAction(messages.recordExpenses(), viewType);
+		return new ExpensesAction(viewType);
 	}
 
 	public static VendorPaymentsListAction getVendorPaymentsAction() {
 
-		return new VendorPaymentsListAction(Global.get().messages()
-				.payeePayment(Global.get().Vendor()));
+		return new VendorPaymentsListAction();
 	}
 
 	public static PurchaseOrderAction getPurchaseOrderAction() {
-		return new PurchaseOrderAction(messages.purchaseOrder());
+		return new PurchaseOrderAction();
 	}
 
 	public static PurchaseOrderListAction getPurchaseOrderListAction() {
-		return new PurchaseOrderListAction(messages.purchaseOrderList());
+		return new PurchaseOrderListAction();
 	}
 
 	public static NewItemReceiptAction getItemReceiptAction() {
-		return new NewItemReceiptAction(messages.itemReceipt());
+		return new NewItemReceiptAction();
 	}
 
 	public static CashExpenseAction CashExpenseAction() {
-		return new CashExpenseAction(messages.cashExpense());
+		return new CashExpenseAction();
 	}
 
 	public static EmployeeExpenseAction EmployeeExpenseAction() {
-		return new EmployeeExpenseAction(messages.employeeExpense());
+		return new EmployeeExpenseAction();
 	}
 
 	public static CreditCardExpenseAction CreditCardExpenseAction() {
-		return new CreditCardExpenseAction(messages.creditCardCharge());
+		return new CreditCardExpenseAction();
 	}
 
 	public static AwaitingAuthorisationAction getAwaitingAuthorisationAction() {
-		return new AwaitingAuthorisationAction(messages.awaitingAuthorisation());
+		return new AwaitingAuthorisationAction();
 
 	}
 
 	public static PreviousClaimAction getPreviousClaimAction() {
-		return new PreviousClaimAction(messages.previousClaims());
+		return new PreviousClaimAction();
 
 	}
 
 	public static ExpenseClaimsAction getExpenseClaimsAction(int selectedTab) {
-		return new ExpenseClaimsAction(messages.expenseClaims(), selectedTab);
+		return new ExpenseClaimsAction(selectedTab);
 	}
 
 	public static MeasurementListAction getMeasurementsAction() {
-		return new MeasurementListAction(messages.measurement());
+		return new MeasurementListAction();
 	}
 
 	public static AddMeasurementAction getAddMeasurementAction() {
-		return new AddMeasurementAction(messages.addMeasurementName());
+		return new AddMeasurementAction();
 	}
 
 	public static NewCurrencyAction getNewCurrencyAction() {
-		return new NewCurrencyAction(messages.newCurrency());
+		return new NewCurrencyAction();
 	}
 
 	public static EditProfileAction getEditProfileAction() {
-		return new EditProfileAction(messages.editProfile());
+		return new EditProfileAction();
 	}
 
 	public static RecurringsListAction getRecurringsListAction() {
-		return new RecurringsListAction("Recurrings List action");
+		return new RecurringsListAction();
 	}
 
 	public static Prepare1099MISCAction getPrepare1099MISCAction() {
-		return new Prepare1099MISCAction(messages.prepare1099MiscForms());
+		return new Prepare1099MISCAction();
 	}
 
 	public static SalesByLocationDetailsAction getSalesByLocationDetailsAction(
 			boolean isLocation) {
-		String actionsting = messages.getSalesByLocationDetails(Global.get()
-				.Location());
-		if (!isLocation) {
-			actionsting = messages.salesByClassDetails();
-		}
-		return new SalesByLocationDetailsAction(actionsting, isLocation);
+		return new SalesByLocationDetailsAction(isLocation);
 	}
 
 	public static SalesByLocationSummaryAction getSalesByLocationSummaryAction(
 			boolean isLocation) {
-		String actionsting = messages.salesByLocationSummary(Global.get()
-				.Location());
-		if (!isLocation) {
-			actionsting = messages.salesByClassSummary();
-		}
-		return new SalesByLocationSummaryAction(actionsting, isLocation);
+		
+		return new SalesByLocationSummaryAction(isLocation);
 	}
 
 	public static ProfitAndLossByLocationAction getProfitAndLossByLocationAction(
 			boolean isLocation) {
-		String actionstring = messages.profitAndLoss() + " By "
-				+ Global.get().Location();
-		if (!isLocation) {
-			actionstring = messages.profitAndLossbyClass();
-		}
-		return new ProfitAndLossByLocationAction(actionstring, isLocation);
+		
+		return new ProfitAndLossByLocationAction( isLocation);
 	}
 
 	public static BudgetAction getBudgetActions() {
-		return new BudgetAction(messages.budgetView());
+		return new BudgetAction();
 	}
 
 	public static NewBudgetAction getNewBudgetAction() {
-		return new NewBudgetAction(messages.newBudget());
+		return new NewBudgetAction();
 	}
 
 	public static UsersActivityListAction getUsersActivityListAction() {
-		return new UsersActivityListAction(messages.usersActivityLogTitle());
+		return new UsersActivityListAction();
 	}
 
 	public static TDSVendorsListAction getTDSVendorsAction(boolean isTDSView) {
-		return new TDSVendorsListAction(messages.tdsVendorsList(), isTDSView);
+		return new TDSVendorsListAction(isTDSView);
 	}
 
 	public static NewReconcileAccountAction getNewReconciliationAction() {
-		return new NewReconcileAccountAction(messages.Reconciliation());
+		return new NewReconcileAccountAction();
 	}
 
 	public static ReconciliationsListAction getReconciliationsListAction() {
-		return new ReconciliationsListAction(messages.ReconciliationsList());
+		return new ReconciliationsListAction();
 	}
 
 	public static LocationGroupListAction getLocationGroupListAction() {
-		return new LocationGroupListAction(messages.locationGroupList(Global
-				.get().Location()));
+		return new LocationGroupListAction();
 	}
 
 	public static AccounterClassListAction getAccounterClassGroupListAction() {
-		return new AccounterClassListAction(messages.accounterClassList());
+		return new AccounterClassListAction();
 	}
 
 	public static TDSPayAction getpayTDSAction() {
-		return new TDSPayAction(messages.payTDS());
+		return new TDSPayAction();
 	}
 
 	public static MISC1099TransactionDetailAction getMisc1099TransactionDetailAction() {
-		return new MISC1099TransactionDetailAction(
-				messages.MISC1099TransactionDetailByVendor(Global.get()
-						.Vendor()));
+		return new MISC1099TransactionDetailAction();
 	}
 
 	public static StockSettingsAction getStockSettingsAction() {
-		return new StockSettingsAction(messages.stockSettings());
+		return new StockSettingsAction();
 	}
 
 	public static StockAdjustmentAction getStockAdjustmentAction() {
-		return new StockAdjustmentAction(messages.stockAdjustment());
+		return new StockAdjustmentAction();
 	}
 
 	public static StockAdjustmentsListAction getStockAdjustmentsListAction() {
-		return new StockAdjustmentsListAction(messages.stockAdjustments());
+		return new StockAdjustmentsListAction();
 	}
 
 	/*
@@ -1381,58 +1304,55 @@ public class ActionFactory {
 	 */
 
 	public static TaxHistoryAction getTaxHistoryAction() {
-		return new TaxHistoryAction(messages.taxHistory());
+		return new TaxHistoryAction();
 	}
 
 	public static VatExceptionDetailReportAction getVATExceptionDetailsReportAction() {
-		return new VatExceptionDetailReportAction(messages.vatExceptionDetail());
+		return new VatExceptionDetailReportAction();
 	}
 
 	public static TaxItemDetailReportAction getTaxItemDetailReportAction() {
-		return new TaxItemDetailReportAction(messages.taxItemDetailReport());
+		return new TaxItemDetailReportAction();
 	}
 
 	public static TAXItemExceptionDetailReport getTaxItemExceptionDetailReportAction() {
-		return new TAXItemExceptionDetailReport(
-				messages.taxItemExceptionDetailReport());
+		return new TAXItemExceptionDetailReport();
 	}
 
 	public static TranslationAction getTranslationAction() {
-		return new TranslationAction(messages.translation());
+		return new TranslationAction();
 	}
 
 	public static SearchInputAction getSearchInputAction() {
-		return new SearchInputAction(messages.search());
+		return new SearchInputAction();
 	}
 
 	public static MergeCustomerAction getCustomerMergeAction() {
-		return new MergeCustomerAction(messages.mergeCustomers(Global.get()
-				.customers()));
+		return new MergeCustomerAction();
 	}
 
 	public static MergeVendorAction getVendorMergeAction() {
-		return new MergeVendorAction(messages.mergeVendors(Global.get()
-				.vendors()));
+		return new MergeVendorAction();
 	}
 
 	public static MergeAccountsAction getAccountMergeAction() {
-		return new MergeAccountsAction(messages.mergeAccounts());
+		return new MergeAccountsAction();
 	}
 
 	public static MergeItemsAction getItemMergeAction() {
-		return new MergeItemsAction(messages.mergeItems());
+		return new MergeItemsAction();
 	}
 
 	public static BudgetOverviewReportAction getBudgetOverView() {
-		return new BudgetOverviewReportAction(messages.budgetOverview());
+		return new BudgetOverviewReportAction();
 	}
 
 	public static AuditHistoryAction getAuditHistory(ClientActivity object) {
-		return new AuditHistoryAction(messages.history(), object);
+		return new AuditHistoryAction(object);
 
 	}
 
 	public static DepreciationSheduleAction getDepreciationSheduleAction() {
-		return new DepreciationSheduleAction(messages.depreciationShedule());
+		return new DepreciationSheduleAction();
 	}
 }

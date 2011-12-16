@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.customers.EmailView;
 
 public class EmailViewAction extends Action {
 
-	public EmailViewAction(String text) {
-		super(text);
+	public EmailViewAction() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -46,6 +46,11 @@ public class EmailViewAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "email-view";
+	}
+
+	@Override
+	public String getText() {
+		return messages.email();
 	}
 
 }

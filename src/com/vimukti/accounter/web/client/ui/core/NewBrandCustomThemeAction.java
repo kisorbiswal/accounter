@@ -10,8 +10,8 @@ public class NewBrandCustomThemeAction extends Action {
 	private boolean isNew;
 	private NewCustomThemeDialog customThemeDialog;
 
-	public NewBrandCustomThemeAction(String text) {
-		super(text);
+	public NewBrandCustomThemeAction() {
+		super();
 
 	}
 
@@ -50,6 +50,11 @@ public class NewBrandCustomThemeAction extends Action {
 	public String getHelpToken() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return messages.customTheme();
 	}
 
 }
