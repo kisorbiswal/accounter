@@ -480,16 +480,17 @@ table tr.gridHeaderRow td {
 .invoice_zoho_table tr,.invoice_zoho_table td,.credito_vimukti,.credito_vimukti tr,.credito_vimukti th,
 .credito_vimukti td,.credit_note_vimukti,.credit_note_vimukti td,.credit_note_vimukti tr,.credit_note_vimukti th,
 .main_credit_vimukti,.main_credit_vimukti td,.main_credit_vimukti tr,.main_credit_vimukti th,.credit_zoho_table ,.credit_zoho_table td,.credit_zoho_table  tr,
-.credit_zoho_main,.credit_zoho_main th,.credit_zoho_main td,.credit_zoho_main tr,.xero_credit_memo,.xero_credit_memo tr,.xero_credit_memo td,.quick_credit_total,.quick_credit_total tr,.quick_credit_total td,.xero_credit_memo th,
+.credit_zoho_main,.credit_zoho_main th,.credit_zoho_main td,.credit_zoho_main tr,.xero_credit_memo,.xero_credit_memo tr,.xero_credit_memo td,
+.quick_credit_total,.quick_credit_total tr,.quick_credit_total td,.xero_credit_memo th,
 #vat_sort_bankaccount,#vat_sort_bankaccount tr,#vat_sort_bankaccount td{
-border:1px solid #000 !important;
+   border:2px solid #000 !important;
 }
 .invoice_zoho_table{
   width:500px;
 }
 .credit_zoho_table,.credit_zoho_table tr,.credit_zoho_table td{
-	border:1px solid #000 !important;
+	border:2px solid #000 !important;
 }
 th.credit-head{
-	border:1px solid #000 !important;
+	border:2px solid #000 !important;
 }
