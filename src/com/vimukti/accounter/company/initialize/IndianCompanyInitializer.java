@@ -74,6 +74,7 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		defaultTDSAgency.setName("TDS Tax Agency");
 		defaultTDSAgency.setVATReturn(0);
 		defaultTDSAgency.setPurchaseLiabilityAccount(tdsPayable);
+		defaultTDSAgency.setSalesLiabilityAccount(tdsPayable);
 		defaultTDSAgency.setDefault(true);
 		defaultTDSAgency.setCompany(company);
 		defaultTDSAgency.setPaymentTerm(paymentTerms);

@@ -94,7 +94,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	Button addCustomFieldButton;
 	CustomFieldDialog customFieldDialog;
 
-	CheckboxItem statusCheck, selectCheckBox;
+	CheckboxItem statusCheck, selectCheckBox, tdsCheckBox;
 
 	PriceLevelCombo priceLevelSelect;
 	CreditRatingCombo creditRatingSelect;
@@ -481,6 +481,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				data.setServiceTaxRegistrationNumber(serviceTaxRegistrationNo
 						.getValue().toString());
 			}
+
+			data.setDeductTDS(tdsCheckBox.getValue());
 		}
 		// Setting customer Since
 		if (customerSinceDate != null
@@ -1038,13 +1040,21 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customFieldForm = UIUtils.CustomFieldsform(messages.terms());
 		termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect);
 
+		tdsCheckBox = new CheckboxItem(Accounter.messages()
+				.willDeductTDSforUs());
+		tdsCheckBox.setDisabled(isInViewMode());
+
 		if (getPreferences().isTrackTax()) {
 			if (getCountryPreferences().isVatAvailable()) {
 				termsForm.setFields(vatregno);
 			}
 			termsForm.setFields(custTaxCode);
 			// custTaxCode.setRequired(true);
+			if (getPreferences().isTDSEnabled()) {
+				termsForm.setFields(tdsCheckBox);
+			}
 		}
+
 		if (getPreferences().isDoProductShipMents()) {
 			termsForm.setFields(shipMethSelect);
 		}
@@ -1292,6 +1302,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			selectVatCodeFromDetailsTab = getCompany().getTAXCode(
 					data.getTAXCode());
 		}
+		tdsCheckBox.setValue(data.willDeductTDS());
 	}
 
 	@Override
@@ -1409,6 +1420,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		custTaxCode.setDisabled(isInViewMode());
 		customFieldForm.setDisabled(isInViewMode());
 		addCustomFieldButton.setEnabled(!isInViewMode());
+		tdsCheckBox.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

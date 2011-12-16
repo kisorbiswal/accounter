@@ -77,6 +77,8 @@ public class ClientCustomer extends ClientPayee {
 
 	private ClientLocation location;
 
+	private boolean willDeductTDS;
+
 	public ClientCustomer() {
 	}
 
@@ -549,6 +551,18 @@ public class ClientCustomer extends ClientPayee {
 			return this.getID() == customer.getID() ? true : false;
 		}
 		return false;
+	}
+
+	public boolean willDeductTDS() {
+		return this.willDeductTDS;
+	}
+
+	/**
+	 * @param willDeductTDS
+	 *            the willDeductTDS to set
+	 */
+	public void setDeductTDS(boolean willDeductTDS) {
+		this.willDeductTDS = willDeductTDS;
 	}
 
 }

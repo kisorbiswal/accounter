@@ -1828,6 +1828,13 @@
 		where es=:estimate
 
 	</query>
+	
+	<query name="getTDSAgencyOfCompany">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.TAXAgency ta where ta.taxType=4 and ta.company=:company 
+		order by ta.id
+	</query>
+	
 
 	<query name="getCheckNumber">
 		<query-param name="accountId" type="long" />

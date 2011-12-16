@@ -99,6 +99,8 @@ public class Customer extends Payee implements IAccounterServerCore,
 	double lastYear = 0D;
 	double lifeTimeSales = 0D;
 
+	private boolean willDeductTDS;
+
 	/*
 	 * =================================================================
 	 */
@@ -553,6 +555,21 @@ public class Customer extends Payee implements IAccounterServerCore,
 		if (this.taxGroup != null)
 			w.put(messages.taxGroup(), this.taxGroup.getName());
 
+	}
+
+	/**
+	 * @return the willDeductTDS
+	 */
+	public boolean isWillDeductTDS() {
+		return willDeductTDS;
+	}
+
+	/**
+	 * @param willDeductTDS
+	 *            the willDeductTDS to set
+	 */
+	public void setWillDeductTDS(boolean willDeductTDS) {
+		this.willDeductTDS = willDeductTDS;
 	}
 
 }

@@ -937,10 +937,10 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			liabilitySalesAccountCombo.setVisible(true);
 			liabilityPurchaseAccountCombo.setVisible(false);
 		} else if (type == ClientTAXAgency.TAX_TYPE_TDS) {
-			liabilitySalesAccountCombo.setRequired(false);
+			liabilitySalesAccountCombo.setRequired(true);
 			liabilityPurchaseAccountCombo.setRequired(true);
 
-			liabilitySalesAccountCombo.setVisible(false);
+			liabilitySalesAccountCombo.setVisible(true);
 			liabilityPurchaseAccountCombo.setVisible(true);
 		} else {
 			liabilitySalesAccountCombo.setRequired(false);

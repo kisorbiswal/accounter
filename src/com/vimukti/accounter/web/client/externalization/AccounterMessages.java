@@ -5043,8 +5043,6 @@ public interface AccounterMessages extends Messages {
 
 	public String customerCredit();
 
-	// public String customerRefund();
-
 	public String customerPayment();
 
 	public String receiveTAX();
@@ -5143,9 +5141,12 @@ public interface AccounterMessages extends Messages {
 
 	public String warehouseAlreadyExistsWithCode();
 
+	public String willDeductTDSforUs();
+
 	public String messagesAndTasks();
 
 	public String gotoTasksAndMessages();
 
 	public String printCheque();
+
 }

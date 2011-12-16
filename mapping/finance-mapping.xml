@@ -1012,6 +1012,7 @@
 			<property name="yearToDate" column="YEAR_TO_DATE"></property>
 			<property name="lastYear" column="LAST_YEAR"></property>
 			<property name="lifeTimeSales" column="LIFE_TIME_SALES"></property>
+			<property name="willDeductTDS" column="DEDUCT_TDS"/>
 		</joined-subclass>
 		<joined-subclass name="Vendor" table="VENDOR">
 			<key column="ID" />

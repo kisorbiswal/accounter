@@ -42,6 +42,7 @@ public abstract class FormItem<T> {
 	private boolean isHighlighted = false;
 	private String titleStyleName;
 	private boolean ishelp = false;
+	private boolean isVisible;
 
 	public T getValue() {
 		return this.value;
@@ -245,6 +246,7 @@ public abstract class FormItem<T> {
 	}
 
 	public void setVisible(boolean visible) {
+		this.isVisible = visible;
 		getMainWidget().setVisible(visible);
 		if (label != null)
 			label.setVisible(visible);
@@ -379,6 +381,13 @@ public abstract class FormItem<T> {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * @return the isVisible
+	 */
+	public boolean isVisible() {
+		return isVisible;
 	}
 
 }

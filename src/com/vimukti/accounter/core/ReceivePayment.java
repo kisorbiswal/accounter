@@ -126,6 +126,8 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	 */
 	double totalAppliedCredits = 0D;
 
+	private double tdsTotal;
+
 	// TaxCode VATCode;
 	//
 	// double VATFraction;
@@ -365,7 +367,27 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		else if (DecimalUtil.isEquals(this.unUsedPayments, 0D)) {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
+
+		if (DecimalUtil.isGreaterThan(tdsTotal, 0)
+				&& getCompany().getPreferences().isTDSEnabled()
+				&& this.getCustomer().isWillDeductTDS()) {
+			Account tdsAccount = getTDSAccount();
+			if (tdsAccount != null) {
+				tdsAccount
+						.updateCurrentBalance(this, -tdsTotal, currencyFactor);
+			}
+		}
 		return false;
+	}
+
+	private Account getTDSAccount() {
+		List list = (List) HibernateUtil.getCurrentSession()
+				.getNamedQuery("getTDSAgencyOfCompany")
+				.setEntity("company", getCompany()).list();
+		if (list != null && !list.isEmpty()) {
+			return ((TAXAgency) list.get(0)).getSalesLiabilityAccount();
+		}
+		return null;
 	}
 
 	@Override
@@ -496,6 +518,12 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			}
 
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+
+			Account tdsAccount = getTDSAccount();
+			if (tdsAccount != null) {
+				tdsAccount.updateCurrentBalance(this, tdsTotal, currencyFactor);
+				session.save(tdsAccount);
+			}
 		}
 	}
 
@@ -599,5 +627,20 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 
 		w.put(messages.details(), this.transactionReceivePayment);
 
+	}
+
+	/**
+	 * @return the tdsTotal
+	 */
+	public double getTdsTotal() {
+		return tdsTotal;
+	}
+
+	/**
+	 * @param tdsTotal
+	 *            the tdsTotal to set
+	 */
+	public void setTdsTotal(double tdsTotal) {
+		this.tdsTotal = tdsTotal;
 	}
 }

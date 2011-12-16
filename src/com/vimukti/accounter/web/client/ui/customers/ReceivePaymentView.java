@@ -62,10 +62,16 @@ public class ReceivePaymentView extends
 
 	public AmountLabel unUsedCreditsText, unUsedPaymentsText;
 
+	/**
+	 * This amount is same as AmountReceived if TDS not enabled or customer
+	 * don't have TDS
+	 */
+	private AmountLabel totalWithTDS;
+
 	// public AmountLabel unUsedCreditsTextForeignCurrency,
 	// unUsedPaymentsTextForeignCurrency;
 
-	public AmountField amtText;
+	public AmountField amtText, tdsAmount;
 	private DynamicForm payForm;
 	private TextItem checkNo;
 
@@ -111,6 +117,7 @@ public class ReceivePaymentView extends
 
 		ClientCurrency currency = getCurrency(selectedCustomer.getCurrency());
 		amtText.setCurrency(currency);
+		tdsAmount.setCurrency(currency);
 		customerNonEditablebalText.setCurrency(currency);
 
 		if (selectedCustomer == null) {
@@ -122,6 +129,13 @@ public class ReceivePaymentView extends
 					selectedCustomer.getID()));
 		}
 		this.setCustomer(selectedCustomer);
+
+		tdsAmount.setVisible(isTDSEnable());
+		totalWithTDS.setVisible(isTDSEnable());
+		if (!tdsAmount.isVisible()) {
+			tdsAmount.setAmount(0.00D);
+		}
+
 		this.gridView.setCustomer(getCustomer());
 
 		/*
@@ -160,6 +174,7 @@ public class ReceivePaymentView extends
 			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
 		}
+
 	}
 
 	private void getTransactionReceivePayments(
@@ -203,6 +218,7 @@ public class ReceivePaymentView extends
 									totalInoiceAmt = 0.00d;
 									totalDueAmt = 0.00d;
 									transactionTotal = 0.00d;
+									totalWithTDS.setAmount(0.00D);
 									// updateFooterValues();
 								}
 							}
@@ -313,6 +329,7 @@ public class ReceivePaymentView extends
 	public void setAmountRecieved(Double amountRecieved) {
 		this.amountRecieved = amountRecieved;
 		this.amtText.setAmount(amountRecieved);
+		updateTotalWithTDS();
 	}
 
 	public Double getAmountRecieved() {
@@ -510,9 +527,20 @@ public class ReceivePaymentView extends
 					}
 					amtText.setAmount(0.00D);
 				}
-
+				updateTotalWithTDS();
 			}
 
+		});
+
+		tdsAmount = new AmountField(Accounter.messages().tdsAmount(), this,
+				getBaseCurrency());
+		tdsAmount.setDisabled(isInViewMode());
+		tdsAmount.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				paymentAmountChanged(amountRecieved);
+			}
 		});
 
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -551,6 +579,10 @@ public class ReceivePaymentView extends
 			classListCombo = createAccounterClassListCombo();
 			depoForm.setFields(classListCombo);
 		}
+
+		depoForm.setFields(tdsAmount);
+		tdsAmount.setVisible(getCompany().getPreferences().isTDSEnabled());
+
 		currencyWidget = createCurrencyFactorWidget();
 		Label lab1 = new Label(Accounter.messages().dueForPayment());
 
@@ -583,6 +615,10 @@ public class ReceivePaymentView extends
 				textForm.setFields(unUsedPaymentsText);
 			}
 		}
+
+		totalWithTDS = new AmountLabel(messages.total());
+		totalWithTDS.setHelpInformation(true);
+		textForm.setFields(totalWithTDS);
 		// textForm.addStyleName("textbold");
 
 		DynamicForm memoForm = new DynamicForm();
@@ -665,6 +701,17 @@ public class ReceivePaymentView extends
 
 	}
 
+	protected void updateTotalWithTDS() {
+		totalWithTDS.setAmount(getTDSAmount() + amtText.getAmount());
+	}
+
+	private double getTDSAmount() {
+		if (customer != null && customer.willDeductTDS()) {
+			return tdsAmount.getAmount();
+		}
+		return 0.00D;
+	}
+
 	private void settabIndexes() {
 		customerCombo.setTabIndex(1);
 		amtText.setTabIndex(2);
@@ -677,6 +724,7 @@ public class ReceivePaymentView extends
 		saveAndCloseButton.setTabIndex(9);
 		saveAndNewButton.setTabIndex(10);
 		cancelButton.setTabIndex(11);
+		tdsAmount.setTabIndex(12);
 	}
 
 	protected void paymentAmountChanged(Double amount) {
@@ -722,12 +770,16 @@ public class ReceivePaymentView extends
 				.setTransactionReceivePayment(getTransactionRecievePayments(transaction));
 
 		transaction.setUnUsedPayments(this.unUsedPayments);
-		transaction.setTotal(this.transactionTotal);
+		transaction.setTotal(totalWithTDS.getAmount());
 		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
 
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
+
+		if (getPreferences().isTDSEnabled() && customer.willDeductTDS()) {
+			transaction.setTdsTotal(tdsAmount.getAmount());
+		}
 	}
 
 	public void setUnusedPayments(Double unusedAmounts) {
@@ -791,6 +843,15 @@ public class ReceivePaymentView extends
 
 			depositInAccountSelected(getCompany().getAccount(
 					transaction.getDepositIn()));
+
+			if (tdsAmount != null) {
+				tdsAmount.setAmount(transaction.getTdsTotal());
+			}
+			if (!isTDSEnable()) {
+				tdsAmount.setVisible(transaction.getTdsTotal() != 0);
+			} else {
+				tdsAmount.setVisible(true);
+			}
 
 			this.transactionItems = transaction.getTransactionItems();
 			memoTextAreaItem.setDisabled(true);
@@ -858,7 +919,7 @@ public class ReceivePaymentView extends
 
 	public void recalculateGridAmounts() {
 		this.transactionTotal = getGridTotal();
-		this.unUsedPayments = (amountRecieved - transactionTotal);
+		this.unUsedPayments = (totalWithTDS.getAmount() - transactionTotal);
 		setUnusedPayments(unUsedPayments);
 		calculateUnusedCredits();
 	}
@@ -915,21 +976,17 @@ public class ReceivePaymentView extends
 			result.add(gridView.validateGrid());
 
 		if (!isInViewMode()) {
-			try {
-				if (!AccounterValidator.isValidRecievePaymentAmount(
-						DataUtils.getAmountStringAsDouble(amtText.getValue()
-								.toString()), this.transactionTotal)) {
-					result.addError(amtText, Accounter.messages()
-							.recievePaymentTotalAmount());
-				}
-			} catch (Exception e) {
-				result.addError(amtText, messages.invalidAmount());
+			if (!AccounterValidator.isValidRecievePaymentAmount(
+					totalWithTDS.getAmount(), this.transactionTotal)) {
+				result.addError(amtText, Accounter.messages()
+						.recievePaymentTotalAmount());
 			}
 		}
 
 		if (!isInViewMode()
-				&& DecimalUtil.isGreaterThan(unUsedPaymentsText.getAmount(), 0))
+				&& DecimalUtil.isGreaterThan(unUsedPaymentsText.getAmount(), 0)) {
 			result.addWarning(unUsedPaymentsText, messages.W_107());
+		}
 
 		return result;
 	}
@@ -1061,6 +1118,8 @@ public class ReceivePaymentView extends
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		tdsAmount.setDisabled(isInViewMode());
+		tdsAmount.setVisible(isTDSEnable());
 	}
 
 	@Override
@@ -1177,6 +1236,14 @@ public class ReceivePaymentView extends
 				currencyWidget.getSelectedCurrency().getFormalName()));
 		amtText.setTitle(Accounter.messages().amountReceivedWithCurrencyName(
 				currencyWidget.getSelectedCurrency().getFormalName()));
+	}
+
+	private boolean isTDSEnable() {
+		if (customer != null) {
+			return (getPreferences().isTDSEnabled() && customer.willDeductTDS());
+		} else {
+			return getPreferences().isTDSEnabled();
+		}
 	}
 
 }

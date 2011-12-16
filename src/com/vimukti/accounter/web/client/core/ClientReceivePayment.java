@@ -48,6 +48,8 @@ public class ClientReceivePayment extends ClientTransaction {
 
 	private double unusedAmount = 0D;
 
+	private double tdsTotal;
+
 	// ClientTaxCode VATCode;
 	//
 	// double VATFraction;
@@ -350,4 +352,20 @@ public class ClientReceivePayment extends ClientTransaction {
 
 		return receivePayment;
 	}
+
+	/**
+	 * @return the tdsTotal
+	 */
+	public double getTdsTotal() {
+		return tdsTotal;
+	}
+
+	/**
+	 * @param tdsTotal
+	 *            the tdsTotal to set
+	 */
+	public void setTdsTotal(double tdsTotal) {
+		this.tdsTotal = tdsTotal;
+	}
+
 }

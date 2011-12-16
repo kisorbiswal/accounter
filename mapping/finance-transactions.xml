@@ -721,6 +721,7 @@
 			<property name="totalCashDiscount" column="TOTAL_CASH_DISCOUNT"></property>
 			<property name="totalWriteOff" column="TOTAL_WRITE_OFF"></property>
 			<property name="totalAppliedCredits" column="TOTAL_APPLIED_CREDITS"></property>
+			<property name="tdsTotal" column="TDS_TOTAL"/>
 			<!-- <many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode" -->
 			<!-- > -->
 			<!-- </many-to-one> -->
