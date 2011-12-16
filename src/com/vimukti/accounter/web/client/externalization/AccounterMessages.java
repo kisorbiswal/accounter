@@ -5143,5 +5143,9 @@ public interface AccounterMessages extends Messages {
 
 	public String warehouseAlreadyExistsWithCode();
 
+	public String messagesAndTasks();
+
+	public String gotoTasksAndMessages();
+
 	public String printCheque();
 }
