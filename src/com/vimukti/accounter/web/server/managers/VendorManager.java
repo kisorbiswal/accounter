@@ -76,13 +76,22 @@ public class VendorManager extends Manager {
 	}
 
 	public ArrayList<BillsList> getBillsList(boolean isExpensesList,
-			long companyId) throws DAOException {
+			long companyId, int transactionType, long fromDate, long toDate)
+			throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			// FIXME:: change the sql query to hql query
-			Query query = session.getNamedQuery("getBillsList").setParameter(
-					"companyId", companyId);
-			;
+
+			Query query = session.getNamedQuery("getBillsList")
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", fromDate)
+					.setParameter("toDate", toDate);
+			if (transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) {
+				query = session.getNamedQuery("getVendorCreditMemos")
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", fromDate)
+						.setParameter("toDate", toDate);
+			}
 			List list = query.list();
 			if (list != null) {
 				Object[] object = null;
@@ -974,13 +983,15 @@ public class VendorManager extends Manager {
 
 	}
 
-	public ArrayList<PaymentsList> getVendorPaymentsList(long companyId)
-			throws DAOException {
+	public ArrayList<PaymentsList> getVendorPaymentsList(long companyId,
+			long fromDate, long toDate) throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("getVendorPaymentsList")
-					.setParameter("companyId", companyId);
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", fromDate)
+					.setParameter("toDate", toDate);
 			;
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
@@ -1700,5 +1711,48 @@ public class VendorManager extends Manager {
 		ClientEnterBill enterBillId = new ClientConvertUtil().toClientObject(
 				((EnterBill) uniqueResult[0]), ClientEnterBill.class);
 		return enterBillId;
+	}
+
+	public List<PaymentsList> getPayeeChecks(Long companyId,
+			boolean isCustomerChecks, FinanceDate fromDate, FinanceDate toDate) {
+		Session session = HibernateUtil.getCurrentSession();
+		List<PaymentsList> issuePaymentTransactionsList = new ArrayList<PaymentsList>();
+		Query query = session.getNamedQuery("getVendorWriteChecks")
+				.setParameter("company", getCompany(companyId))
+				.setParameter("fromDate", fromDate)
+				.setParameter("toDate", toDate);
+		if (isCustomerChecks) {
+			query = session.getNamedQuery("getCustomerWriteChecks")
+					.setParameter("company", getCompany(companyId))
+					.setParameter("fromDate", fromDate)
+					.setParameter("toDate", toDate);
+		}
+		List list = query.list();
+		if (list != null) {
+			Iterator i = list.iterator();
+			while (i.hasNext()) {
+				PaymentsList issuePaymentTransaction = new PaymentsList();
+				WriteCheck wc = (WriteCheck) i.next();
+				issuePaymentTransaction.setTransactionId(wc.getID());
+				issuePaymentTransaction.setType(wc.getType());
+				issuePaymentTransaction.setPaymentDate((new ClientFinanceDate(
+						wc.getDate().getDate())));
+				issuePaymentTransaction.setCheckNumber(wc.getCheckNumber());
+				issuePaymentTransaction.setName((wc.getCustomer() != null) ? wc
+						.getCustomer().getName()
+						: ((wc.getVendor() != null) ? wc.getVendor().getName()
+								: null));
+				issuePaymentTransaction.setPaymentNumber(wc.getNumber());
+				issuePaymentTransaction.setAmountPaid(wc.getTotal());
+				issuePaymentTransaction.setCurrency(wc.getCurrency().getID());
+				issuePaymentTransaction.setIssuedDate(wc.getDate()
+						.toClientFinanceDate());
+				issuePaymentTransaction.setPaymentMethodName(wc
+						.getPaymentMethod());
+				issuePaymentTransaction.setStatus(wc.getStatus());
+				issuePaymentTransactionsList.add(issuePaymentTransaction);
+			}
+		}
+		return issuePaymentTransactionsList;
 	}
 }
