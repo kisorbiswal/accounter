@@ -5172,4 +5172,46 @@ public interface AccounterMessages extends Messages {
 	public String vendorchecks();
 
 	public String transactionscenter();
+
+	public String CustomerCreditNotes();
+
+	public String getallInvoices();
+
+	public String getOpendInvoices();
+
+	public String getOverdueInvoices();
+
+	public String receivedPaymentsbyCash();
+
+	public String receivedPaymentsbyCheque();
+
+	public String receivedPaymentsbyCreditCard();
+
+	public String receivedPaymentsbyDirectDebit();
+
+	public String receivedPaymentsbyMastercard();
+
+	public String receivedPaymentsbyOnlineBanking();
+
+	public String receivedPaymentsbyStandingOrder();
+
+	public String receivedPaymentsbySwitchMaestro();
+
+	public String allCreditMemos();
+
+	public String openCreditMemos();
+
+	public String allCustomerRefunds();
+
+	public String refundsByCash();
+
+	public String refundsByCheck();
+
+	public String refundsByCreditCard();
+
+	public String allcashSales();
+
+	public String allTransactions();
+
+	public String customerCentre(String Customer);
 }
