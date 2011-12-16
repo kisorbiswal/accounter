@@ -1032,7 +1032,9 @@ public class VendorManager extends Manager {
 						vendorPaymentsList
 								.setVoided(object[10] != null ? (Boolean) object[10]
 										: false);
-						vendorPaymentsList.setCheckNumber((String) object[11]);
+						vendorPaymentsList
+								.setCheckNumber((String) object[11] == null ? ""
+										: (String) object[11]);
 						vendorPaymentsList.setCurrency((Long) object[12]);
 						queryResult.add(vendorPaymentsList);
 					}
@@ -1737,7 +1739,9 @@ public class VendorManager extends Manager {
 				issuePaymentTransaction.setType(wc.getType());
 				issuePaymentTransaction.setPaymentDate((new ClientFinanceDate(
 						wc.getDate().getDate())));
-				issuePaymentTransaction.setCheckNumber(wc.getCheckNumber());
+				issuePaymentTransaction
+						.setCheckNumber(wc.getCheckNumber() == null ? " " : wc
+								.getCheckNumber());
 				issuePaymentTransaction.setName((wc.getCustomer() != null) ? wc
 						.getCustomer().getName()
 						: ((wc.getVendor() != null) ? wc.getVendor().getName()

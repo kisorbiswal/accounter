@@ -440,7 +440,9 @@ public class CustomerManager extends Manager {
 					paymentsList
 							.setPayBillType(object[10] != null ? (Integer) object[10]
 									: 0);
-					paymentsList.setCheckNumber((String) object[11]);
+					paymentsList
+							.setCheckNumber((String) object[11] == null ? ""
+									: (String) object[11]);
 					paymentsList.setCurrency((Long) object[12]);
 					queryResult.add(paymentsList);
 					// }
