@@ -4,27 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
-import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.RecurringsListGrid;
 
 public class RecurringTransactionsListView extends
-		BaseListView<ClientRecurringTransaction> {
-
-	private final static String ALL = Accounter.messages().all();
-	private final static String SCHEDULES = Accounter.messages().schedule();
-	private final static String REMAINDERS = Accounter.messages().remainder();
-	private final static String TEMPLATES = Accounter.messages()
-			.noneJustTemplate();
-
-	private String viewType;
+		TransactionsListView<ClientRecurringTransaction> {
 
 	private List<ClientRecurringTransaction> recurringTransactions;
 
 	public RecurringTransactionsListView() {
-		super();
+		super(Accounter.messages().all());
 	}
 
 	@Override
@@ -36,7 +26,6 @@ public class RecurringTransactionsListView extends
 	@Override
 	public void onSuccess(ArrayList<ClientRecurringTransaction> result) {
 		super.onSuccess(result);
-
 		recurringTransactions = result;
 		filterList(viewSelect.getValue().toString());
 		grid.setViewType(viewSelect.getValue().toString());
@@ -50,65 +39,37 @@ public class RecurringTransactionsListView extends
 	}
 
 	@Override
-	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.messages().currentView());
-		viewSelect.setHelpInformation(true);
-		listOfTypes = new ArrayList<String>();
-		listOfTypes.add(ALL);
-		listOfTypes.add(SCHEDULES);
-		listOfTypes.add(REMAINDERS);
-		listOfTypes.add(TEMPLATES);
-		viewSelect.initCombo(listOfTypes);
-
-		if (viewType != null && !viewType.equals(""))
-			viewSelect.setComboItem(viewType);
-		else
-			viewSelect.setComboItem(ALL);
-
-		// if (UIUtils.isMSIEBrowser())
-		// viewSelect.setWidth("105px");
-
-		viewSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						if (viewSelect.getSelectedValue() != null) {
-							grid.setViewType(viewSelect.getSelectedValue());
-							filterList(viewSelect.getSelectedValue());
-						}
-
-					}
-				});
-		viewSelect.addStyleName("recurringListCombo");
-
-		return viewSelect;
+	protected List<String> getViewSelectTypes() {
+		List<String> listOfTypes = new ArrayList<String>();
+		listOfTypes.add(messages().all());
+		listOfTypes.add(messages().schedule());
+		listOfTypes.add(messages().remainder());
+		listOfTypes.add(messages().noneJustTemplate());
+		return listOfTypes;
 	}
 
-	private void filterList(String text) {
-
+	@Override
+	protected void filterList(String text) {
 		grid.removeAllRecords();
-
 		for (ClientRecurringTransaction recTransaction : recurringTransactions) {
-
-			if (text.equals(ALL)) {
+			if (text.equals(messages().all())) {
 				grid.addData(recTransaction);
 				continue;
 			}
 
-			if (text.equals(SCHEDULES)
+			if (text.equals(messages().schedule())
 					&& recTransaction.getType() == ClientRecurringTransaction.RECURRING_SCHEDULE) {
 				grid.addData(recTransaction);
 				continue;
 			}
 
-			if (text.equals(REMAINDERS)
+			if (text.equals(messages().remainder())
 					&& recTransaction.getType() == ClientRecurringTransaction.RECURRING_REMAINDER) {
 				grid.addData(recTransaction);
 				continue;
 			}
 
-			if (text.equals(TEMPLATES)
+			if (text.equals(messages().noneJustTemplate())
 					&& recTransaction.getType() == ClientRecurringTransaction.RECURRING_NONE) {
 				grid.addData(recTransaction);
 				continue;
@@ -116,7 +77,7 @@ public class RecurringTransactionsListView extends
 		}
 
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 		}
 	}
 
@@ -128,8 +89,8 @@ public class RecurringTransactionsListView extends
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-
-		Accounter.createHomeService().getRecurringsList(this);
+		Accounter.createHomeService().getRecurringsList(
+				getStartDate().getDate(), getEndDate().getDate(), this);
 	}
 
 	@Override

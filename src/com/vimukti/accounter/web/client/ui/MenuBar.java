@@ -719,6 +719,8 @@ public class MenuBar {
 			customerListMenuBar.addMenuItem(
 					messages.customerRefunds(Global.get().Customer()),
 					HistoryTokens.CUSTOMERREFUNDS);
+			customerListMenuBar.addMenuItem(messages.transactionscenter(),
+					HistoryTokens.TRANSACTIONS_CENTER);
 		}
 
 		return customerListMenuBar;

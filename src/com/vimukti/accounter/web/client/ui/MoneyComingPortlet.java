@@ -189,8 +189,8 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 				if (title.equals(messages.invoicesDue())) {
 					ActionFactory.getInvoicesAction(null).run(null, true);
 				} else {
-					ActionFactory.getInvoicesAction(InvoiceListView.OVER_DUE)
-							.run(null, true);
+					ActionFactory.getInvoicesAction(messages.overDue()).run(
+							null, true);
 				}
 
 			}

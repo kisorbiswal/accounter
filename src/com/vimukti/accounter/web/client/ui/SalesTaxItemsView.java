@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -23,7 +24,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.messages().addaNewTaxItem();
+			return messages().addaNewTaxItem();
 		else
 			return "";
 	}
@@ -31,7 +32,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected String getListViewHeading() {
 
-		return Accounter.messages().taxItemsList();
+		return messages().taxItemsList();
 	}
 
 	@Override
@@ -84,14 +85,19 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 
 	}
 
+	@Override
+	public void onSuccess(ArrayList<ClientTAXItem> result) {
+		super.onSuccess(result);
+		grid.sort(10, false);
+	}
 
 	@Override
 	protected String getViewTitle() {
 		String constant;
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			constant = Accounter.messages().manageSalesItems();
+			constant = messages().manageSalesItems();
 		else
-			constant = Accounter.messages().salesTaxItems();
+			constant = messages().salesTaxItems();
 		return constant;
 	}
 

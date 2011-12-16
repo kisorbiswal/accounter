@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -26,8 +25,6 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 	// ActionFactory.getNewBudgetAction().run((ClientBudget) data, false);
 	//
 	// }
-
-	SelectCombo currentView;
 
 	// BudgetListGrid gridView = new BudgetListGrid();
 
@@ -48,7 +45,6 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected void initGrid() {
-
 		grid = new BudgetListGrid();
 		grid.init();
 	}
@@ -66,7 +62,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().budgetList();
+		return messages().budgetList();
 	}
 
 	@Override
@@ -77,13 +73,12 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.messages().addNewBudget();
+		return messages().addNewBudget();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().payees(Global.get().messages().budgets());
-
+		return messages().payees(Global.get().messages().budgets());
 	}
 
 	@Override
@@ -140,7 +135,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 
 		getTotalLayout(grid);
 	}
@@ -166,7 +161,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 
 		getTotalLayout(grid);
 	}
@@ -175,6 +170,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 	public void onSuccess(ArrayList<ClientBudget> result) {
 		this.listOfBudgets = result;
 		super.onSuccess(result);
+		grid.sort(10, false);
 	}
 
 	// @Override

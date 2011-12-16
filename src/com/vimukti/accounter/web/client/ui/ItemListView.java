@@ -68,7 +68,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 				total += item.getSalesPrice();
 		}
 		if (totalLabel != null) {
-			totalLabel.setText(Accounter.messages().totalSalesPrice() + " = "
+			totalLabel.setText(messages().totalSalesPrice() + " = "
 					+ DataUtils.getAmountAsString(total));
 		}
 	}
@@ -91,14 +91,14 @@ public class ItemListView extends BaseListView<ClientItem> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return Accounter.messages().addNewItem();
+			return messages().addNewItem();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().productList();
+		return messages().productList();
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
+			grid.addEmptyMessage(messages().noRecordsToShow());
 	}
 
 	public void setCatageoryType(String catagory) {
@@ -151,13 +151,12 @@ public class ItemListView extends BaseListView<ClientItem> {
 		if (this.catageory.equals(Global.get().customer())) {
 			isSalesType = true;
 			isPurchaseType = false;
-		} else if (this.catageory.equals(Accounter.messages().vendor())
-				|| this.catageory.equals(Accounter.messages().vendor())) {
+		} else if (this.catageory.equals(messages().vendor())
+				|| this.catageory.equals(messages().vendor())) {
 			isPurchaseType = true;
 			isSalesType = false;
-		} else if (this.catageory.equals(Accounter.messages()
-				.bothCustomerAndVendor(Global.get().Customer(),
-						Global.get().Vendor()))) {
+		} else if (this.catageory.equals(messages().bothCustomerAndVendor(
+				Global.get().Customer(), Global.get().Vendor()))) {
 			isSalesType = isPurchaseType = true;
 		}
 	}
@@ -187,7 +186,12 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().items();
+		return messages().items();
 	}
 
+	@Override
+	public void onSuccess(ArrayList<ClientItem> result) {
+		super.onSuccess(result);
+		grid.sort(10, false);
+	}
 }
