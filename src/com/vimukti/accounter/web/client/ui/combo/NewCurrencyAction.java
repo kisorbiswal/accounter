@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class NewCurrencyAction extends Action<ClientCurrency> {
 	
 
-	public NewCurrencyAction(String text) {
-		super(text);
+	public NewCurrencyAction() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -52,6 +52,11 @@ public class NewCurrencyAction extends Action<ClientCurrency> {
 	@Override
 	public String getHelpToken() {
 		return "currency";
+	}
+
+	@Override
+	public String getText() {
+		return messages.newCurrency();
 	}
 
 }
