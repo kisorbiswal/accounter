@@ -54,13 +54,11 @@ public class AdminHomePage extends HorizontalPanel implements EntryPoint {
 	}
 
 	public static AdminUserListAction getAdminUserListAction() {
-		return new AdminUserListAction(AdminHomePage.getAdminConstants()
-				.usersList());
+		return new AdminUserListAction();
 	}
 
 	public static AddNewAdminuserAction getNewAdminUserAction() {
-		return new AddNewAdminuserAction(AdminHomePage.getAdminConstants()
-				.addNewUser());
+		return new AddNewAdminuserAction();
 	}
 
 	public static AdminCRUDServiceAsync createCRUDService() {

@@ -5,9 +5,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class AddNewAdminuserAction extends Action {
 
-	public AddNewAdminuserAction(String text) {
-		super(text);
-		// TODO Auto-generated constructor stub
+	public AddNewAdminuserAction() {
+		super();
 	}
 
 	@Override
@@ -39,6 +38,11 @@ public class AddNewAdminuserAction extends Action {
 		AddNewAdminUserDialog addAdminUserDialog = new AddNewAdminUserDialog(
 				"Add new User");
 		addAdminUserDialog.show();
+	}
+
+	@Override
+	public String getText() {
+		return AdminHomePage.getAdminConstants().addNewUser();
 	}
 
 }

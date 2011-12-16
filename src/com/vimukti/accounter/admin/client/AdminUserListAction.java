@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class AdminUserListAction extends Action {
 	AdminUsersListView usersListView;
 
-	public AdminUserListAction(String text) {
-		super(text);
+	public AdminUserListAction() {
+		super();
 	}
 
 	@Override
@@ -39,5 +39,10 @@ public class AdminUserListAction extends Action {
 		AdminHomePage.getViewManager().showView(usersListView,
 				AdminUserListAction.this, false);
 
+	}
+
+	@Override
+	public String getText() {
+		return AdminHomePage.getAdminConstants().usersList();
 	}
 }
