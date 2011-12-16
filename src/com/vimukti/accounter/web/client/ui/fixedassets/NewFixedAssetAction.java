@@ -11,8 +11,8 @@ public class NewFixedAssetAction extends Action {
 
 	private NewFixedAssetView view;
 
-	public NewFixedAssetAction(String text) {
-		super(text);
+	public NewFixedAssetAction() {
+		super();
 		this.catagory = Accounter.messages().fixedAssets();
 	}
 
@@ -69,6 +69,11 @@ public class NewFixedAssetAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "new-fixed-assets";
+	}
+
+	@Override
+	public String getText() {
+		return messages.newFixedAsset();
 	}
 
 }

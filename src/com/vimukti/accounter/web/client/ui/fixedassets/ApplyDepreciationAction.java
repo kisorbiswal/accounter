@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class ApplyDepreciationAction extends Action {
 
-	public ApplyDepreciationAction(String text) {
-		super(text);
+	public ApplyDepreciationAction() {
+		super();
 		this.catagory = Accounter.messages().fixedAssets();
 	}
 
@@ -43,6 +43,12 @@ public class ApplyDepreciationAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "depreciation";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

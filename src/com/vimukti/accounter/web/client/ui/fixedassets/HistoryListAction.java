@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class HistoryListAction extends Action {
 	private HistoryListView view;
 
-	public HistoryListAction(String text) {
-		super(text);
+	public HistoryListAction() {
+		super();
 	}
 
 	@Override
@@ -57,6 +57,11 @@ public class HistoryListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "history-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.history();
 	}
 
 }

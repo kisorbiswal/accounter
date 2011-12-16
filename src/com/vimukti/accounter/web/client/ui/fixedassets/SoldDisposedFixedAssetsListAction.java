@@ -21,8 +21,8 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 	/**
 	 * @param text
 	 */
-	public SoldDisposedFixedAssetsListAction(String text) {
-		super(text);
+	public SoldDisposedFixedAssetsListAction() {
+		super();
 		this.catagory = Accounter.messages().fixedAssets();
 	}
 
@@ -84,6 +84,11 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "sold-disposed-fixed-assets";
+	}
+
+	@Override
+	public String getText() {
+		return messages.soldDisposedItems();
 	}
 
 }

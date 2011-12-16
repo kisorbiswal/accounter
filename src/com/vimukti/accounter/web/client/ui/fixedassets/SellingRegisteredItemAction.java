@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class SellingRegisteredItemAction extends Action {
 	private SellingRegisteredItemView view;
 
-	public SellingRegisteredItemAction(String text) {
-		super(text);
+	public SellingRegisteredItemAction() {
+		super();
 		this.catagory = Accounter.messages().fixedAssets();
 	}
 
@@ -61,5 +61,10 @@ public class SellingRegisteredItemAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "selling-registered-item";
+	}
+
+	@Override
+	public String getText() {
+		return messages.sellingRegisteredItem();
 	}
 }

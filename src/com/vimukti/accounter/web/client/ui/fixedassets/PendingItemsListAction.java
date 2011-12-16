@@ -18,8 +18,8 @@ public class PendingItemsListAction extends Action {
 
 	private PendingItemsListView view;
 
-	public PendingItemsListAction(String text) {
-		super(text);
+	public PendingItemsListAction() {
+		super();
 		this.catagory = Accounter.messages().fixedAssets();
 
 	}
@@ -70,6 +70,11 @@ public class PendingItemsListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "pending-item-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.pendingItemsList();
 	}
 
 }

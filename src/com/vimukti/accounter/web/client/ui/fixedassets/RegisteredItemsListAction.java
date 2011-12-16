@@ -21,8 +21,8 @@ public class RegisteredItemsListAction extends Action {
 	/**
 	 * @param text
 	 */
-	public RegisteredItemsListAction(String text) {
-		super(text);
+	public RegisteredItemsListAction() {
+		super();
 		this.catagory = Accounter.messages().fixedAssets();
 	}
 
@@ -84,6 +84,11 @@ public class RegisteredItemsListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "registered-item-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.registeredItemsList();
 	}
 
 }
