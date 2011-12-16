@@ -169,17 +169,14 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 		int estimateType = obj.getEstimateType();
 		if (Accounter.getUser().canDoInvoiceTransactions()
 				&& estimateType == ClientEstimate.QUOTES) {
-			ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
-					messages.newQuote()).run(obj, false);
+			ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES).run(obj, false);
 		}
 
 		if (getPreferences().isDelayedchargesEnabled()) {
 			if (estimateType == ClientEstimate.CHARGES) {
-				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
-						messages.newCharge()).run(obj, false);
+				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES).run(obj, false);
 			} else if (estimateType == ClientEstimate.CREDITS) {
-				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS,
-						messages.newCredit()).run(obj, false);
+				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS).run(obj, false);
 			}
 		}
 	}
