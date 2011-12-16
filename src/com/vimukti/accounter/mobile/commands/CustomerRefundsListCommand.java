@@ -3,19 +3,19 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class CustomerRefundsListCommand extends NewAbstractCommand {
+public class CustomerRefundsListCommand extends AbstractTransactionListCommand {
 
 	private static final int NO_OF_RECORD_TO_SHOW = 20;
 	private static final int STATUS_NOT_ISSUED = 0;
@@ -41,13 +41,13 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		super.setDefaultValues(context);
 		get(VIEW_BY).setDefaultValue(getMessages().issued());
 
 	}
 
 	@Override
 	public String getSuccessMessage() {
-
 		return "Success";
 
 	}
@@ -60,19 +60,7 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-
-		list.add(new CommandsRequirement(VIEW_BY) {
-
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add(getMessages().notIssued());
-				list.add(getMessages().issued());
-				list.add(getMessages().voided());
-				list.add(getMessages().all());
-				return list;
-			}
-		});
+		super.addRequirements(list);
 		list.add(new ShowListRequirement<CustomerRefundsList>(getMessages()
 				.customerRefund(Global.get().Customer()), getMessages()
 				.pleaseSelect(
@@ -138,14 +126,14 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 	}
 
 	protected List<CustomerRefundsList> getList(Context context) {
-
 		String viewType = get(VIEW_BY).getValue();
-
 		List<CustomerRefundsList> customerRefundsList = null;
 		try {
 
 			customerRefundsList = new FinanceTool().getCustomerManager()
-					.getCustomerRefundsList(context.getCompany().getId());
+					.getCustomerRefundsList(context.getCompany().getId(),
+							new FinanceDate(getStartDate()),
+							new FinanceDate(getEndDate()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -174,5 +162,15 @@ public class CustomerRefundsListCommand extends NewAbstractCommand {
 		}
 		return newList;
 
+	}
+
+	@Override
+	protected List<String> getViewByList() {
+		List<String> list = new ArrayList<String>();
+		list.add(getMessages().notIssued());
+		list.add(getMessages().issued());
+		list.add(getMessages().voided());
+		list.add(getMessages().all());
+		return list;
 	}
 }

@@ -8,7 +8,6 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -20,9 +19,8 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * @author Lingarao.R
  * 
  */
-public class ExpensesListCommand extends NewAbstractCommand {
+public class ExpensesListCommand extends AbstractTransactionListCommand {
 
-	protected static final String CURRENT_VIEW = "currentView";
 	String type = " ";
 
 	String name = "";
@@ -43,7 +41,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 		if (type.isEmpty()) {
 			type = getMessages().all();
 		}
-		get(CURRENT_VIEW).setDefaultValue(type);
+		get(VIEW_BY).setDefaultValue(type);
 		return null;
 	}
 
@@ -59,7 +57,8 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(CURRENT_VIEW).setDefaultValue(getMessages().all());
+		super.setDefaultValues(context);
+		get(VIEW_BY).setDefaultValue(getMessages().all());
 	}
 
 	@Override
@@ -74,18 +73,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new CommandsRequirement(CURRENT_VIEW) {
-
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add(getMessages().all());
-				list.add(getMessages().cash());
-				list.add(getMessages().creditCard());
-				list.add(getMessages().voided());
-				return list;
-			}
-		});
+		super.addRequirements(list);
 		list.add(new ShowListRequirement<BillsList>(getMessages()
 				.expensesList(), getMessages().pleaseSelect(
 				getMessages().expensesList()), 20) {
@@ -147,7 +135,8 @@ public class ExpensesListCommand extends NewAbstractCommand {
 		FinanceTool tool = new FinanceTool();
 		try {
 			ArrayList<BillsList> billsList = tool.getVendorManager()
-					.getBillsList(true, context.getCompany().getId());
+					.getBillsList(true, context.getCompany().getId(), 0,
+							getStartDate().getDate(), getEndDate().getDate());
 			return billsList;
 		} catch (DAOException e) {
 			e.printStackTrace();
@@ -158,7 +147,7 @@ public class ExpensesListCommand extends NewAbstractCommand {
 
 	protected List<BillsList> filterList(Context context) {
 		List<BillsList> initialRecords = getExpenses(context);
-		String text = get(CURRENT_VIEW).getValue();
+		String text = get(VIEW_BY).getValue();
 		if (text.equalsIgnoreCase(getMessages().employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
@@ -202,6 +191,16 @@ public class ExpensesListCommand extends NewAbstractCommand {
 		}
 		return new ArrayList<BillsList>();
 
+	}
+
+	@Override
+	protected List<String> getViewByList() {
+		List<String> list = new ArrayList<String>();
+		list.add(getMessages().all());
+		list.add(getMessages().cash());
+		list.add(getMessages().creditCard());
+		list.add(getMessages().voided());
+		return list;
 	}
 
 }

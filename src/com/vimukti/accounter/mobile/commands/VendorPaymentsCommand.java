@@ -8,14 +8,13 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class VendorPaymentsCommand extends NewAbstractCommand {
+public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 	private String commandString = null;
 
 	@Override
@@ -36,6 +35,7 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		super.setDefaultValues(context);
 		get(VIEW_BY).setDefaultValue(getMessages().notIssued());
 	}
 
@@ -51,19 +51,7 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-
-		list.add(new CommandsRequirement(VIEW_BY) {
-
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add(getMessages().notIssued());
-				list.add(getMessages().issued());
-				list.add(getMessages().voided());
-				list.add(getMessages().all());
-				return list;
-			}
-		});
+		super.addRequirements(list);
 
 		list.add(new ShowListRequirement<PaymentsList>(getMessages()
 				.payeePaymentList(Global.get().Vendor()), "", 20) {
@@ -148,7 +136,6 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 	 * @return {@link List<paymentsList>}
 	 */
 	protected List<PaymentsList> getListData(Context context) {
-
 		String currentView = get(VIEW_BY).getValue();
 		FinanceTool tool = new FinanceTool();
 		List<PaymentsList> result = new ArrayList<PaymentsList>();
@@ -156,10 +143,12 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 		try {
 			if (commandString.contains("Vendor")) {
 				paymentsLists = tool.getVendorManager().getVendorPaymentsList(
-						context.getCompany().getId());
+						context.getCompany().getId(), getStartDate().getDate(),
+						getEndDate().getDate());
 			} else {
 				paymentsLists = tool.getCustomerManager().getPaymentsList(
-						context.getCompany().getId());
+						context.getCompany().getId(), getStartDate().getDate(),
+						getEndDate().getDate());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -192,5 +181,15 @@ public class VendorPaymentsCommand extends NewAbstractCommand {
 		}
 		return null;
 
+	}
+
+	@Override
+	protected List<String> getViewByList() {
+		List<String> list = new ArrayList<String>();
+		list.add(getMessages().notIssued());
+		list.add(getMessages().issued());
+		list.add(getMessages().voided());
+		list.add(getMessages().all());
+		return list;
 	}
 }

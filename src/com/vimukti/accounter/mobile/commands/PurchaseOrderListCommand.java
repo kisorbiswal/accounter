@@ -7,28 +7,17 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class PurchaseOrderListCommand extends NewAbstractCommand {
-
-	private static final String CURRENT_VIEW = "currentView";
-	private static String OPEN = "Open";
-	private static String COMPLETED = "Completed";
-	private static String CANCELLED = "Cancelled";
-
-	@Override
-	public String getId() {
-		return null;
-	}
+public class PurchaseOrderListCommand extends AbstractTransactionListCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-
+		super.addRequirements(list);
 		list.add(new ShowListRequirement<PurchaseOrdersList>(
 				"purchaseOrderList", getMessages().pleaseSelect(
 						getMessages().purchaseOrder()), 5) {
@@ -58,20 +47,20 @@ public class PurchaseOrderListCommand extends NewAbstractCommand {
 			protected List<PurchaseOrdersList> getLists(Context context) {
 				List<PurchaseOrdersList> list = new ArrayList<PurchaseOrdersList>();
 				List<PurchaseOrdersList> completeList = getPurchaseOrder(context);
-				String type = PurchaseOrderListCommand.this.get(CURRENT_VIEW)
+				String type = PurchaseOrderListCommand.this.get(VIEW_BY)
 						.getValue();
 				for (PurchaseOrdersList order : completeList) {
 
-					if (type.equals(OPEN)) {
+					if (type.equals(getMessages().open())) {
 						if (order.getStatus() == ClientTransaction.STATUS_OPEN
 								|| order.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
 							list.add(order);
 					}
-					if (type.equals(COMPLETED)) {
+					if (type.equals(getMessages().completed())) {
 						if (order.getStatus() == ClientTransaction.STATUS_COMPLETED)
 							list.add(order);
 					}
-					if (type.equals(CANCELLED)) {
+					if (type.equals(getMessages().cancelled())) {
 						if (order.getStatus() == ClientTransaction.STATUS_CANCELLED)
 							list.add(order);
 					}
@@ -94,26 +83,14 @@ public class PurchaseOrderListCommand extends NewAbstractCommand {
 				return null;
 			}
 		});
-
-		list.add(new CommandsRequirement(CURRENT_VIEW) {
-
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add("Open");
-				list.add("Completed");
-				list.add("Cancelled");
-				return list;
-			}
-		});
-
 	}
 
 	private List<PurchaseOrdersList> getPurchaseOrder(Context context) {
 		FinanceTool tool = new FinanceTool();
 		try {
 			return tool.getPurchageManager().getPurchaseOrdersList(
-					context.getCompany().getID());
+					context.getCompany().getID(), getStartDate().getDate(),
+					getEndDate().getDate());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -138,12 +115,22 @@ public class PurchaseOrderListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(CURRENT_VIEW).setDefaultValue("Open");
+		super.setDefaultValues(context);
+		get(VIEW_BY).setDefaultValue(getMessages().open());
 	}
 
 	@Override
 	public String getSuccessMessage() {
 		return "Success";
+	}
+
+	@Override
+	protected List<String> getViewByList() {
+		List<String> list = new ArrayList<String>();
+		list.add(getMessages().open());
+		list.add(getMessages().cancelled());
+		list.add(getMessages().completed());
+		return list;
 	}
 
 }

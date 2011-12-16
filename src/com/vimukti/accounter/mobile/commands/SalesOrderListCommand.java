@@ -8,23 +8,16 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class SalesOrderListCommand extends NewAbstractCommand {
-
-	private static final String CURRENT_VIEW = "currentView";
-
-	@Override
-	public String getId() {
-		return null;
-	}
+public class SalesOrderListCommand extends AbstractTransactionListCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		super.addRequirements(list);
 
 		list.add(new ShowListRequirement<SalesOrdersList>("SalesOrderList",
 				"Please Select", 5) {
@@ -54,18 +47,21 @@ public class SalesOrderListCommand extends NewAbstractCommand {
 				List<SalesOrdersList> completeList = getSalesOrders(context);
 				List<SalesOrdersList> list = new ArrayList<SalesOrdersList>();
 
-				String type = SalesOrderListCommand.this.get(CURRENT_VIEW)
+				String type = SalesOrderListCommand.this.get(VIEW_BY)
 						.getValue();
 				for (SalesOrdersList salesOrder : completeList) {
-					if (type.equals("Open")) {
+					if (type.equals(SalesOrderListCommand.this.getMessages()
+							.open())) {
 						if (salesOrder.getStatus() == Transaction.STATUS_OPEN)
 							list.add(salesOrder);
 					}
-					if (type.equals("Completed")) {
+					if (type.equals(SalesOrderListCommand.this.getMessages()
+							.completed())) {
 						if (salesOrder.getStatus() == Transaction.STATUS_COMPLETED)
 							list.add(salesOrder);
 					}
-					if (type.equals("Cancelled")) {
+					if (type.equals(SalesOrderListCommand.this.getMessages()
+							.cancelled())) {
 						if (salesOrder.getStatus() == Transaction.STATUS_CANCELLED)
 							list.add(salesOrder);
 					}
@@ -89,17 +85,6 @@ public class SalesOrderListCommand extends NewAbstractCommand {
 				return null;
 			}
 		});
-
-		list.add(new CommandsRequirement(CURRENT_VIEW) {
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add("Open");
-				list.add("Completed");
-				list.add("Cancelled");
-				return list;
-			}
-		});
 	}
 
 	@Override
@@ -119,7 +104,8 @@ public class SalesOrderListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(CURRENT_VIEW).setDefaultValue("Open");
+		super.setDefaultValues(context);
+		get(VIEW_BY).setDefaultValue(getMessages().open());
 	}
 
 	@Override
@@ -131,10 +117,20 @@ public class SalesOrderListCommand extends NewAbstractCommand {
 		FinanceTool tool = new FinanceTool();
 		try {
 			return tool.getSalesManager().getSalesOrdersList(
-					context.getCompany().getID());
+					context.getCompany().getID(), getStartDate().getDate(),
+					getEndDate().getDate());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	protected List<String> getViewByList() {
+		List<String> list = new ArrayList<String>();
+		list.add(getMessages().open());
+		list.add(getMessages().completed());
+		list.add(getMessages().cancelled());
+		return list;
 	}
 }

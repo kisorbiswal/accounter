@@ -8,9 +8,6 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -21,7 +18,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * @author Sai Prasad N
  * 
  */
-public class QuotesListCommand extends NewAbstractCommand {
+public class QuotesListCommand extends AbstractTransactionListCommand {
 	int estimateType;
 
 	@Override
@@ -63,6 +60,7 @@ public class QuotesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		super.setDefaultValues(context);
 		get(VIEW_BY).setDefaultValue(getMessages().open());
 	}
 
@@ -85,27 +83,7 @@ public class QuotesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new CommandsRequirement(VIEW_BY) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (estimateType == ClientEstimate.QUOTES) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-			}
-
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add(getMessages().open());
-				list.add(getMessages().rejected());
-				list.add(getMessages().accepted());
-				list.add(getMessages().expired());
-				list.add(getMessages().all());
-				return list;
-			}
-		});
+		super.addRequirements(list);
 
 		list.add(new ShowListRequirement<Estimate>("Estimates",
 				"Please select.", 20) {
@@ -218,5 +196,16 @@ public class QuotesListCommand extends NewAbstractCommand {
 		}
 		return result;
 
+	}
+
+	@Override
+	protected List<String> getViewByList() {
+		List<String> list = new ArrayList<String>();
+		list.add(getMessages().open());
+		list.add(getMessages().rejected());
+		list.add(getMessages().accepted());
+		list.add(getMessages().expired());
+		list.add(getMessages().all());
+		return list;
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -13,7 +14,7 @@ import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class JournalEntryListCommand extends NewAbstractCommand {
+public class JournalEntryListCommand extends AbstractTransactionListCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
@@ -47,7 +48,7 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-
+		super.addRequirements(list);
 		list.add(new ShowListRequirement<ClientJournalEntry>(getMessages()
 				.journalEntryList(), "", 20) {
 
@@ -100,8 +101,10 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 				List<ClientJournalEntry> clientJournalEntries = new ArrayList<ClientJournalEntry>();
 				List<JournalEntry> serverJournalEntries = null;
 				try {
-					serverJournalEntries = new FinanceTool()
-							.getJournalEntries(context.getCompany().getID());
+					serverJournalEntries = new FinanceTool().getJournalEntries(
+							context.getCompany().getID(), new FinanceDate(
+									getStartDate()), new FinanceDate(
+									getEndDate()));
 					for (JournalEntry journalEntry : serverJournalEntries) {
 						clientJournalEntries.add(new ClientConvertUtil()
 								.toClientObject(journalEntry,
@@ -115,5 +118,10 @@ public class JournalEntryListCommand extends NewAbstractCommand {
 			}
 		});
 
+	}
+
+	@Override
+	protected List<String> getViewByList() {
+		return null;
 	}
 }

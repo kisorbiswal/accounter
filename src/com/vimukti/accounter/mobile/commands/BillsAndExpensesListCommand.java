@@ -8,7 +8,6 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
@@ -23,12 +22,12 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * @author Sai Prasad N
  * 
  */
-public class BillsAndExpensesListCommand extends NewAbstractCommand {
+public class BillsAndExpensesListCommand extends AbstractTransactionListCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isKeepTrackofBills()) {
-			addFirstMessage(context, "You dnt have permission to do this.");
+			addFirstMessage(context, "You do not have permissions to do this.");
 			return "cancel";
 		}
 		return null;
@@ -36,50 +35,29 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-
 		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-
 		return null;
 	}
 
 	@Override
 	protected void setDefaultValues(Context context) {
-
+		super.setDefaultValues(context);
 		get(VIEW_BY).setDefaultValue(getMessages().open());
 
 	}
 
 	@Override
 	public String getSuccessMessage() {
-
 		return "Success";
-
-	}
-
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new CommandsRequirement(VIEW_BY) {
-
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add(getMessages().open());
-				list.add(getMessages().voided());
-				list.add(getMessages().overDue());
-				list.add(getMessages().all());
-				return list;
-			}
-		});
+		super.addRequirements(list);
 
 		list.add(new ShowListRequirement<BillsList>("BillsAndExpenses", "", 20) {
 
@@ -140,7 +118,8 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 		ArrayList<BillsList> allRecords = null;
 		try {
 			allRecords = new FinanceTool().getVendorManager().getBillsList(
-					false, context.getCompany().getID());
+					false, context.getCompany().getID(), 0,
+					getStartDate().getDate(), getEndDate().getDate());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -175,6 +154,16 @@ public class BillsAndExpensesListCommand extends NewAbstractCommand {
 		if (viewBY.equalsIgnoreCase(getMessages().all())) {
 			list.addAll(allRecords);
 		}
+		return list;
+	}
+
+	@Override
+	protected List<String> getViewByList() {
+		List<String> list = new ArrayList<String>();
+		list.add(getMessages().open());
+		list.add(getMessages().voided());
+		list.add(getMessages().overDue());
+		list.add(getMessages().all());
 		return list;
 	}
 

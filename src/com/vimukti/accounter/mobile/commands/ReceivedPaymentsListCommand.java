@@ -7,65 +7,43 @@ import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class ReceivedPaymentsListCommand extends NewAbstractCommand {
+public class ReceivedPaymentsListCommand extends AbstractTransactionListCommand {
 
 	private static final int NO_OF_RECORDS_TO_SHOW = 20;
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-
 		return null;
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-
 		return null;
 	}
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		super.setDefaultValues(context);
 		get(VIEW_BY).setDefaultValue(getMessages().open());
-
 	}
 
 	@Override
 	public String getSuccessMessage() {
-
 		return "Success";
 	}
 
 	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new CommandsRequirement(VIEW_BY) {
-
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add(getMessages().all());
-				list.add(getMessages().paid());
-				list.add(getMessages().voided());
-
-				return list;
-			}
-		});
+		super.addRequirements(list);
 
 		list.add(new ShowListRequirement<ReceivePaymentsList>(getMessages()
 				.receivedPayments(), "", NO_OF_RECORDS_TO_SHOW) {
@@ -130,8 +108,9 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 		List<ReceivePaymentsList> result = new ArrayList<ReceivePaymentsList>();
 		try {
 			List<ReceivePaymentsList> receivePaymentsLists = tool
-					.getCustomerManager().getReceivePaymentsList(
-							context.getCompany().getID());
+					.getCustomerManager()
+					.getReceivePaymentsList(context.getCompany().getID(),
+							getStartDate().getDate(), getEndDate().getDate(), 0);
 			if (receivePaymentsLists != null) {
 				result = filterList(receivePaymentsLists);
 			}
@@ -161,6 +140,15 @@ public class ReceivedPaymentsListCommand extends NewAbstractCommand {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	protected List<String> getViewByList() {
+		List<String> list = new ArrayList<String>();
+		list.add(getMessages().all());
+		list.add(getMessages().paid());
+		list.add(getMessages().voided());
+		return list;
 	}
 
 }
