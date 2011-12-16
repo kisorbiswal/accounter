@@ -10,8 +10,8 @@ public class MeasurementListAction extends Action<ClientMeasurement> {
 
 	MeasurementListView view;
 
-	public MeasurementListAction(String text) {
-		super(text);
+	public MeasurementListAction() {
+		super();
 		this.catagory = Accounter.messages().inventory();
 
 	}
@@ -51,6 +51,11 @@ public class MeasurementListAction extends Action<ClientMeasurement> {
 	@Override
 	public String getHelpToken() {
 		return "MeasurementList";
+	}
+
+	@Override
+	public String getText() {
+		return messages.measurement();
 	}
 
 }

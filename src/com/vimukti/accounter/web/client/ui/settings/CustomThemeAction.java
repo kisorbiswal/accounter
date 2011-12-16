@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class CustomThemeAction extends Action {
 
-	public CustomThemeAction(String text) {
-		super(text);
+	public CustomThemeAction() {
+		super();
 	}
 
 	@Override
@@ -50,5 +50,10 @@ public class CustomThemeAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "custom-theme";
+	}
+
+	@Override
+	public String getText() {
+		return messages.newBrandThemeLabel();
 	}
 }

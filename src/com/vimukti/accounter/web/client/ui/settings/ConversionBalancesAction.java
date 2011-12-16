@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class ConversionBalancesAction extends Action {
 	private ConversionBalancesView view;
 
-	public ConversionBalancesAction(String text) {
-		super(text);
+	public ConversionBalancesAction() {
+		super();
 	}
 
 	@Override
@@ -61,6 +61,12 @@ public class ConversionBalancesAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "conversion-balance";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return messages.conversionBalance();
 	}
 
 }

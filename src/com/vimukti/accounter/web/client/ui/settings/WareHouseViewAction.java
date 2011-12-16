@@ -10,8 +10,8 @@ public class WareHouseViewAction extends Action<ClientWarehouse> {
 
 	private WareHouseView view;
 
-	public WareHouseViewAction(String text) {
-		super(text);
+	public WareHouseViewAction() {
+		super();
 		this.catagory = Accounter.messages().inventory();
 	}
 
@@ -56,6 +56,12 @@ public class WareHouseViewAction extends Action<ClientWarehouse> {
 	@Override
 	public String getHelpToken() {
 		return "warehouse";
+	}
+
+	@Override
+	public String getText() {
+		return Accounter
+				.messages().wareHouse();
 	}
 
 }

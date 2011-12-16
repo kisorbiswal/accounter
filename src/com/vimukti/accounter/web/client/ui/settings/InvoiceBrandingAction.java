@@ -14,8 +14,8 @@ public class InvoiceBrandingAction extends Action {
 
 	private InvoiceBrandingView view;
 
-	public InvoiceBrandingAction(String text) {
-		super(text);
+	public InvoiceBrandingAction() {
+		super();
 		this.catagory = Accounter.messages().settings();
 	}
 
@@ -54,6 +54,11 @@ public class InvoiceBrandingAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "new-branding-theme";
+	}
+
+	@Override
+	public String getText() {
+		return messages.invoiceBranding();
 	}
 
 }

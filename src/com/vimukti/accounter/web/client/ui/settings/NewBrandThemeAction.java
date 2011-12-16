@@ -15,8 +15,8 @@ public class NewBrandThemeAction extends Action<ClientBrandingTheme> {
 
 	private NewBrandingThemeView view;
 
-	public NewBrandThemeAction(String text) {
-		super(text);
+	public NewBrandThemeAction() {
+		super();
 		this.catagory = Accounter.messages().settings();
 	}
 
@@ -69,5 +69,10 @@ public class NewBrandThemeAction extends Action<ClientBrandingTheme> {
 	@Override
 	public String getHelpToken() {
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return messages.newBrandTheme();
 	}
 }

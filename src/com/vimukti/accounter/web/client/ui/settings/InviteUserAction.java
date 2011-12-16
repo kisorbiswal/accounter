@@ -9,8 +9,8 @@ public class InviteUserAction extends Action {
 
 	InviteUserView view;
 
-	public InviteUserAction(String text) {
-		super(text);
+	public InviteUserAction() {
+		super();
 		this.catagory = Accounter.messages().settings() + " > "
 				+ Accounter.messages().users();
 	}
@@ -52,6 +52,11 @@ public class InviteUserAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "add-user";
+	}
+
+	@Override
+	public String getText() {
+		return messages.inviteUser();
 	}
 
 }

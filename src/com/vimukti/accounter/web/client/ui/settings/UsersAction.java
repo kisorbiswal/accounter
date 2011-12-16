@@ -8,8 +8,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class UsersAction extends Action {
 	private UsersView view;
 
-	public UsersAction(String text) {
-		super(text);
+	public UsersAction() {
+		super();
 		this.catagory = Accounter.messages().settings();
 	}
 
@@ -49,6 +49,11 @@ public class UsersAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "user";
+	}
+
+	@Override
+	public String getText() {
+		return messages.users();
 	}
 
 }

@@ -11,8 +11,8 @@ public class WareHouseItemsListAction extends Action<ClientItemStatus> {
 	WareHouseItemsListView view;
 	long wareHouse;
 
-	public WareHouseItemsListAction(long wareHouse, String text) {
-		super(text);
+	public WareHouseItemsListAction(long wareHouse) {
+		super();
 		this.wareHouse = wareHouse;
 		this.catagory = Accounter.messages().wareHouse();
 	}
@@ -48,6 +48,11 @@ public class WareHouseItemsListAction extends Action<ClientItemStatus> {
 	@Override
 	public String getHelpToken() {
 		return "wareHouseItems";
+	}
+
+	@Override
+	public String getText() {
+		return messages.wareHouseItems();
 	}
 
 }

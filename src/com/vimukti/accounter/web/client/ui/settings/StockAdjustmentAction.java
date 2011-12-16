@@ -10,8 +10,8 @@ public class StockAdjustmentAction extends Action<ClientStockAdjustment> {
 
 	StockAdjustmentView view;
 
-	public StockAdjustmentAction(String text) {
-		super(text);
+	public StockAdjustmentAction() {
+		super();
 		this.catagory = Accounter.messages().inventory();
 	}
 
@@ -46,6 +46,11 @@ public class StockAdjustmentAction extends Action<ClientStockAdjustment> {
 	@Override
 	public String getHelpToken() {
 		return "stockAdjustment";
+	}
+
+	@Override
+	public String getText() {
+		return messages.stockAdjustment();
 	}
 
 }

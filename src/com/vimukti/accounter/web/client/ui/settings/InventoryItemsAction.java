@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class InventoryItemsAction extends Action<ClientItem> {
 
-	public InventoryItemsAction(String text) {
-		super(text);
+	public InventoryItemsAction() {
+		super();
 		this.catagory = Accounter.messages().inventory();
 	}
 
@@ -51,6 +51,11 @@ public class InventoryItemsAction extends Action<ClientItem> {
 	@Override
 	public String getHelpToken() {
 		return "inventoryItem";
+	}
+
+	@Override
+	public String getText() {
+		return messages.inventoryItems();
 	}
 
 }

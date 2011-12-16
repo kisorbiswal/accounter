@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class GeneralSettingsAction extends Action {
 	public GeneralSettingsView view;
 
-	public GeneralSettingsAction(String text) {
-		super(text);
+	public GeneralSettingsAction() {
+		super();
 		this.catagory = Accounter.messages().settings();
 	}
 
@@ -66,6 +66,11 @@ public class GeneralSettingsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "settings";
+	}
+
+	@Override
+	public String getText() {
+		return messages.generalSettings();
 	}
 
 }

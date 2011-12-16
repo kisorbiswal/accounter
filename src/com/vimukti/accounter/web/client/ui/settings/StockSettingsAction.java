@@ -11,8 +11,8 @@ public class StockSettingsAction extends Action {
 
 	StockSettingsView view;
 
-	public StockSettingsAction(String text) {
-		super(text);
+	public StockSettingsAction() {
+		super();
 		this.catagory = Accounter.messages().stockSettings();
 	}
 
@@ -53,6 +53,11 @@ public class StockSettingsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "stockSettings";
+	}
+
+	@Override
+	public String getText() {
+		return messages.stockSettings();
 	}
 
 }

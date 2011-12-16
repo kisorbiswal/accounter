@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class AddMeasurementAction extends Action<ClientMeasurement> {
 
-	public AddMeasurementAction(String text) {
-		super(text);
+	public AddMeasurementAction() {
+		super();
 		this.catagory = Accounter.messages().inventory();
 	}
 
@@ -62,6 +62,11 @@ public class AddMeasurementAction extends Action<ClientMeasurement> {
 	@Override
 	public String getHelpToken() {
 		return "add-measurement";
+	}
+
+	@Override
+	public String getText() {
+		return messages.addMeasurementName();
 	}
 
 }

@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class ConversionDateAction extends Action {
 	private ConversionDateView view;
 
-	public ConversionDateAction(String text) {
-		super(text);
+	public ConversionDateAction() {
+		super();
 	}
 
 	@Override
@@ -48,6 +48,11 @@ public class ConversionDateAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "conversion-date";
+	}
+
+	@Override
+	public String getText() {
+		return messages.conversionDate();
 	}
 
 }

@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class CopyThemeAction extends Action {
 
-	public CopyThemeAction(String text) {
-		super(text);
+	public CopyThemeAction() {
+		super();
 	}
 
 	@Override
@@ -48,6 +48,12 @@ public class CopyThemeAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "copy-theme";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return messages.copyTheme();
 	}
 
 }

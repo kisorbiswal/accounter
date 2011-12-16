@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class DeleteThemeAction extends Action {
 
-	public DeleteThemeAction(String text) {
-		super(text);
+	public DeleteThemeAction() {
+		super();
 	}
 
 	@Override
@@ -47,5 +47,11 @@ public class DeleteThemeAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "delete-theme";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return messages.users();
 	}
 }

@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class AutomaticSequenceAction extends Action {
 
-	public AutomaticSequenceAction(String text) {
-		super(text);
+	public AutomaticSequenceAction() {
+		super();
 	}
 
 	@Override
@@ -46,6 +46,11 @@ public class AutomaticSequenceAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "new-branding-theme";
+	}
+
+	@Override
+	public String getText() {
+		return messages.automaticSequencing();
 	}
 
 }

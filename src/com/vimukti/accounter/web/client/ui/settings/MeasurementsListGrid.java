@@ -140,8 +140,7 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 	public void onDoubleClick(ClientMeasurement obj) {
 		if (!Accounter.getUser().getUserRole()
 				.equalsIgnoreCase(messages.readOnly())) {
-			AddMeasurementAction action = new AddMeasurementAction(Accounter
-					.messages().measurement());
+			AddMeasurementAction action = new AddMeasurementAction();
 			action.run(obj, false);
 		}
 	}
