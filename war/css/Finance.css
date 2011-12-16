@@ -2338,6 +2338,17 @@ input.date-field-textbox {
 .frame_manager iframe {
 	border:0px;
 }
+.expense_label_tabel a:HOVER {
+	text-decoration: underline;
+}
+.expense_label_tabel a{
+	color: #000;
+	text-decoration: none;
+}
+.expense_label_tabel a:ACTIVE{
+	color: #000;
+	text-decoration: none;
+}
 .audit_history_item{
 	border-collapse: collapse;
 }

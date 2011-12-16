@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasAlignment;
@@ -72,9 +73,21 @@ public class ExpenseClaimPortlet extends Portlet {
 			}
 		});
 
-		Label allExpLabel = new Label(messages.allExpenses());
+		Anchor allExpLabel = new Anchor(messages.allExpenses());
+		allExpLabel.addClickHandler(new ClickHandler() {
 
-		Label cashExpLabel = new Label(messages.cashExpenses());
+			@Override
+			public void onClick(ClickEvent event) {
+				ExpenseList expenseList = new ExpenseList();
+				expenseList.setStartDate(toolBar.getStartDate());
+				expenseList.setEndDate(toolBar.getEndDate());
+				expenseList.setDateRange(toolBar.getSelectedDateRange());
+				UIUtils.runAction(expenseList,
+						ActionFactory.getExpenseReportAction());
+			}
+		});
+
+		Anchor cashExpLabel = new Anchor(messages.cashExpenses());
 		cashExpLabel.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -92,7 +105,7 @@ public class ExpenseClaimPortlet extends Portlet {
 		cashExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		// Label empExpLabel =
 		// getLabel(Accounter.messages().employeeExpenses());
-		Label ccExpLabel = new Label(messages.creditCardExpenses());
+		Anchor ccExpLabel = new Anchor(messages.creditCardExpenses());
 		ccExpLabel.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -122,7 +135,7 @@ public class ExpenseClaimPortlet extends Portlet {
 		ccExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
 				+ amountAsString(ccExpenseAmount));
 		ccExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-
+		fTable.addStyleName("expense_label_tabel");
 		fTable.setWidget(0, 0, allExpLabel);
 		fTable.setWidget(1, 0, allExpAmtLabel);
 
