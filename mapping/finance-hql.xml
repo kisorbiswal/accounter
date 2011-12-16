@@ -143,9 +143,11 @@
 	</query>
 	<query name="list.RecurringTransaction">
 		<query-param name="company" type="Company" />
+		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.RecurringTransaction
 		rt where
-		rt.company=:company order by rt.name
+		rt.company=:company and rt.startDate between :fromDate and :toDate order by rt.name
 	</query>
 	<query name="list.currentRecTransactions">
 		<query-param name="company" type="Company" />
