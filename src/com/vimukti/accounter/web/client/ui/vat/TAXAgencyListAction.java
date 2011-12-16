@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class TAXAgencyListAction extends Action {
 
-	public TAXAgencyListAction(String text) {
-		super(text);
+	public TAXAgencyListAction() {
+		super();
 		this.catagory = messages.tax();
 	}
 
@@ -46,6 +46,12 @@ public class TAXAgencyListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "taxAgency-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.payeesList(messages
+				.taxAgencies());
 	}
 
 }

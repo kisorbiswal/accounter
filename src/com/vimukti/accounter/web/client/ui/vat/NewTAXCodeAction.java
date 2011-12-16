@@ -17,8 +17,8 @@ public class NewTAXCodeAction extends Action<ClientTAXCode> {
 	private NewTAXCodeView view;
 	private String taxCodeName;
 
-	public NewTAXCodeAction(String text) {
-		super(text);
+	public NewTAXCodeAction() {
+		super();
 		this.catagory = Accounter.messages().tax();
 	}
 
@@ -69,6 +69,11 @@ public class NewTAXCodeAction extends Action<ClientTAXCode> {
 
 	public void setTaxCodeName(String text) {
 		this.taxCodeName = text;
+	}
+
+	@Override
+	public String getText() {
+		return messages.newTaxCode();
 	}
 
 }

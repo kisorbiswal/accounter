@@ -12,8 +12,10 @@ public class AdjustTAXAction extends Action {
 	protected AdjustTAXView view;
 	private ClientTAXAgency vatAgency;
 
-	public AdjustTAXAction(String text) {
-		super(text);
+	int type;
+	public AdjustTAXAction(int type) {
+		super();
+		type = type;
 		this.catagory = Accounter.messages().tax();
 	}
 
@@ -69,6 +71,15 @@ public class AdjustTAXAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "adjust-tax";
+	}
+
+	@Override
+	public String getText() {
+		if(type == 1){
+			return messages.vatAdjustment();
+		}else{
+		    return messages.taxAdjustment();
+		}
 	}
 
 }

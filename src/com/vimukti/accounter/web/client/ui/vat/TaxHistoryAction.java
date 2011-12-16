@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class TaxHistoryAction extends Action {
 
-	public TaxHistoryAction(String text) {
-		super(text);
+	public TaxHistoryAction() {
+		super();
 		catagory = Accounter.messages().tax();
 	}
 
@@ -51,6 +51,11 @@ public class TaxHistoryAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "taxHistory";
+	}
+
+	@Override
+	public String getText() {
+		return messages.taxHistory();
 	}
 
 }

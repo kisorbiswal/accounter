@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class ReceiveVATAction extends Action {
 
-	public ReceiveVATAction(String text) {
-		super(text);
+	public ReceiveVATAction() {
+		super();
 		this.catagory = Accounter.messages().tax();
 	}
 
@@ -72,6 +72,11 @@ public class ReceiveVATAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "tax-refund";
+	}
+
+	@Override
+	public String getText() {
+		return messages.tAXRefund();
 	}
 
 }

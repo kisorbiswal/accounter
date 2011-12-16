@@ -11,8 +11,8 @@ import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class FileTAXAction extends Action {
 
-	public FileTAXAction(String text) {
-		super(text);
+	public FileTAXAction() {
+		super();
 		this.catagory = Accounter.messages().tax();
 	}
 
@@ -84,6 +84,11 @@ public class FileTAXAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return Accounter.messages().filetaxHelp();
+	}
+
+	@Override
+	public String getText() {
+		return messages.fileTAX();
 	}
 
 }

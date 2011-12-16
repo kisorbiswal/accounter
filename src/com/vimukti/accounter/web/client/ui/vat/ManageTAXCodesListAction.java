@@ -21,8 +21,8 @@ public class ManageTAXCodesListAction extends Action {
 	/**
 	 * @param text
 	 */
-	public ManageTAXCodesListAction(String text) {
-		super(text);
+	public ManageTAXCodesListAction() {
+		super();
 		this.catagory = Accounter.messages().tax();
 	}
 
@@ -85,5 +85,10 @@ public class ManageTAXCodesListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "manage-tax-code";
+	}
+
+	@Override
+	public String getText() {
+		return messages.taxCodesList();
 	}
 }

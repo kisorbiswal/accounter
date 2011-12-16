@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class PayTAXAction extends Action {
 
-	public PayTAXAction(String text) {
-		super(text);
+	public PayTAXAction() {
+		super();
 		this.catagory = Accounter.messages().tax();
 	}
 
@@ -65,6 +65,11 @@ public class PayTAXAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "pay-tax";
+	}
+
+	@Override
+	public String getText() {
+		return messages.payTax();
 	}
 
 }

@@ -11,8 +11,8 @@ public class ManageVATCodeAction extends Action {
 
 	protected ManageVATView view;
 
-	public ManageVATCodeAction(String text) {
-		super(text);
+	public ManageVATCodeAction() {
+		super();
 		this.catagory = Accounter.messages().tax();
 	}
 
@@ -61,5 +61,11 @@ public class ManageVATCodeAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "manage-vat-code";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

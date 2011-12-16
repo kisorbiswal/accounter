@@ -12,8 +12,8 @@ public class NewVatItemAction extends Action<ClientTAXItem> {
 
 	protected NewVATItemView view;
 
-	public NewVatItemAction(String text) {
-		super(text);
+	public NewVatItemAction() {
+		super();
 		this.catagory = Accounter.messages().tax();
 	}
 
@@ -65,5 +65,11 @@ public class NewVatItemAction extends Action<ClientTAXItem> {
 	@Override
 	public String getHelpToken() {
 		return "new-vat-item";
+	}
+
+	@Override
+	public String getText() {
+		String flag = messages.newTaxItem();
+		return flag;
 	}
 }

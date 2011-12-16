@@ -11,8 +11,8 @@ public class VatItemListAction extends Action {
 
 	private VatItemsListView view;
 
-	public VatItemListAction(String text) {
-		super(text);
+	public VatItemListAction() {
+		super();
 		this.catagory = Accounter.messages().tax();
 	}
 
@@ -64,6 +64,11 @@ public class VatItemListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "vat-item-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.taxItemsList();
 	}
 
 }
