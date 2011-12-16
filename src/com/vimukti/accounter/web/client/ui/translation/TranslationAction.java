@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class TranslationAction extends Action {
 	private TranslationView view;
 
-	public TranslationAction(String text) {
-		super(text);
+	public TranslationAction() {
+		super();
 	}
 
 	@Override
@@ -50,6 +50,11 @@ public class TranslationAction extends Action {
 						isDependent, TranslationAction.this);
 			}
 		});
+	}
+
+	@Override
+	public String getText() {
+		return messages.translation();
 	}
 
 }
