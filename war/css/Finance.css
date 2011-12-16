@@ -181,7 +181,7 @@ body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSel
 	padding: 0;
 }
 
-.gwt-TextBox,.gwt-TextArea,.memoTextArea,.gwt-ListBox,.refer_listbox,.fiscal_listbox,.currency_listbox,.gridTextBoxCell input[type="text"],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled'],.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled'],.custom-combo,textarea[disabled],.gwt-DateBox
+.gwt-TextBox,.gwt-TextArea,.memoTextArea,.gwt-ListBox,.refer_listbox,.fiscal_listbox,.currency_listbox,.gridTextBoxCell input[type="text"],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled'],.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled'],.custom-combo,textarea[disabled],.gwt-DateBox,.gwt-ListBox[disabled]
 	{
 	border: 1px solid #B1B1B1;
 }
@@ -609,9 +609,13 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 	background: none repeat scroll 0 0 #F0F0F0;
 }
 
-.handCursor {
+.handCursor,.tree_menu {
 	color: #44700C;
-	font-size: 15px;
+	font-size: 15px!important;
+}
+.tree_menu {
+	margin-left: -10px;
+	font-weight:bold;
 }
 
 .ReportGrid .gridBody tr td {
@@ -741,7 +745,7 @@ input.dropdown-button {
 	padding-left: 3px;
 }
 
-.disable-TextField {
+.disable-TextField,.gwt-ListBox[disabled] {
 	background: none repeat scroll 0 0 #E6E0DA !important;
 }
 
@@ -918,7 +922,7 @@ input.dropdown-button {
 	width: 359px !important;
 }
 
-.memoTextArea[disabled],textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled'],.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled'],.disable-TextField
+.memoTextArea[disabled],textarea[disabled],.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled'],.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled'],.disable-TextField,.gwt-ListBox[disabled]
 	{
 	color: #000000;
 }
@@ -2336,4 +2340,40 @@ input.date-field-textbox {
 }
 .audit_history_item{
 	border-collapse: collapse;
+}
+.Transactions_center .gwt-StackPanel{
+    margin-right: 10px;
+    width: 170px;
+}
+.tree_menu_item {
+	text-decoration: none;
+	color:black;
+}
+.tree_list_panel {
+	width: 175px;
+	background:#ccc;
+	border-collapse: collapse;
+}
+.transations_list_table input.dropdown-button,.transations_list_table input.date-field-textbox{
+	width:115px !important;
+}
+.menu_item_clicked {
+	background: -moz-linear-gradient(center top , #3299A4, #1A5158) repeat scroll 0 0 transparent;
+	font-weight:bold;
+}
+.menu_item_clicked a ,.menu_item_hover a{
+	color: white;
+}
+.tree_list_panel td{
+   padding: 4px 5px 4px 18px;
+}
+.Transactions_center{
+	 margin: -15px 0 0 -20px;
+}
+.menu_item_hover{
+	background: none repeat scroll 0 0 #3299A4;
+}
+.depreciation_table .gwt-ListBox{
+	width:200px;
+	height:24px;
 }
