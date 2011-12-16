@@ -10,14 +10,14 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class TransferFundsAction extends Action {
 
-	public TransferFundsAction(String text) {
-		super(text);
+	public TransferFundsAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
-	public TransferFundsAction(String text, ClientTransferFund transferFund,
+	public TransferFundsAction(ClientTransferFund transferFund,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
@@ -54,5 +54,10 @@ public class TransferFundsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "deposit_transfer-funds";
+	}
+
+	@Override
+	public String getText() {
+		return messages.transferFunds();
 	}
 }

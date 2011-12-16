@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class MatchTrasactionsAction extends Action {
 
-	public MatchTrasactionsAction(String text) {
-		super(text);
+	public MatchTrasactionsAction() {
+		super();
 	}
 
 	/**
@@ -43,6 +43,11 @@ public class MatchTrasactionsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "match-transactions";
+	}
+
+	@Override
+	public String getText() {
+		return messages.matchTrasactions();
 	}
 
 }

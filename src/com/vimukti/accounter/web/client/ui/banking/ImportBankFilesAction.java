@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class ImportBankFilesAction extends Action {
 
-	public ImportBankFilesAction(String text) {
-		super(text);
+	public ImportBankFilesAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
@@ -48,6 +48,11 @@ public class ImportBankFilesAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "importbankfile";
+	}
+
+	@Override
+	public String getText() {
+		return messages.importBankFiles();
 	}
 
 }

@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class ManageCreditCardProcessingAction extends Action {
 
-	public ManageCreditCardProcessingAction(String text) {
-		super(text);
+	public ManageCreditCardProcessingAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
@@ -45,6 +45,12 @@ public class ManageCreditCardProcessingAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "managecreditcards";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

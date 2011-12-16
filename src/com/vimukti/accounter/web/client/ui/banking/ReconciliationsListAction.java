@@ -21,15 +21,14 @@ public class ReconciliationsListAction extends Action {
 	/**
 	 * Creates new Instance
 	 */
-	public ReconciliationsListAction(String text) {
-		super(Accounter.messages().ReconciliationsList());
+	public ReconciliationsListAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
-	public ReconciliationsListAction(String text,
-			ClientReconciliation reconcilation,
+	public ReconciliationsListAction(ClientReconciliation reconcilation,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
@@ -76,6 +75,11 @@ public class ReconciliationsListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "recounciliations-list";
+	}
+
+	@Override
+	public String getText() {
+		return Accounter.messages().ReconciliationsList();
 	}
 
 }

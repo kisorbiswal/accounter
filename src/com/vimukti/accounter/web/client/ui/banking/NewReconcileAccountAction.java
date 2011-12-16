@@ -20,8 +20,8 @@ public class NewReconcileAccountAction extends Action<ClientReconciliation> {
 	/**
 	 * Creates new Instance
 	 */
-	public NewReconcileAccountAction(String text) {
-		super(text);
+	public NewReconcileAccountAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
@@ -59,6 +59,11 @@ public class NewReconcileAccountAction extends Action<ClientReconciliation> {
 	@Override
 	public String getHelpToken() {
 		return "reconcile-account";
+	}
+
+	@Override
+	public String getText() {
+		return messages.Reconciliation();
 	}
 
 }

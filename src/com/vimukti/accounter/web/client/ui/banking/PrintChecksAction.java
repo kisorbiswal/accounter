@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class PrintChecksAction extends Action {
 
-	public PrintChecksAction(String text) {
-		super(text);
+	public PrintChecksAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
@@ -48,6 +48,11 @@ public class PrintChecksAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "print-check";
+	}
+
+	@Override
+	public String getText() {
+		return messages.printChecks();
 	}
 
 }

@@ -16,14 +16,14 @@ public class MakeDepositAction extends Action {
 	// private boolean isEdit;
 	// private ClientMakeDeposit makeDeposit;
 
-	public MakeDepositAction(String text) {
-		super(text);
+	public MakeDepositAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
-	public MakeDepositAction(String text, ClientMakeDeposit makeDeposit,
+	public MakeDepositAction(ClientMakeDeposit makeDeposit,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Accounter.messages().banking();
 
 	}
@@ -68,5 +68,10 @@ public class MakeDepositAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "deposite_transfer-funds";
+	}
+
+	@Override
+	public String getText() {
+		return messages.makeDeposit();
 	}
 }

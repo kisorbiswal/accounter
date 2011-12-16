@@ -11,14 +11,14 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class WriteChecksAction extends Action {
 
-	public WriteChecksAction(String text) {
-		super(text);
+	public WriteChecksAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
-	public WriteChecksAction(String text, ClientWriteCheck writeCheck,
+	public WriteChecksAction(ClientWriteCheck writeCheck,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
@@ -65,5 +65,10 @@ public class WriteChecksAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "write-check";
+	}
+
+	@Override
+	public String getText() {
+		return messages.writeCheck();
 	}
 }

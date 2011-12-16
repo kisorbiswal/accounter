@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class SignupforCreditcardprocessingAction extends Action {
 
-	public SignupforCreditcardprocessingAction(String text) {
-		super(text);
+	public SignupforCreditcardprocessingAction() {
+		super();
 	}
 
 	/**
@@ -45,6 +45,12 @@ public class SignupforCreditcardprocessingAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "creditcard-signup";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

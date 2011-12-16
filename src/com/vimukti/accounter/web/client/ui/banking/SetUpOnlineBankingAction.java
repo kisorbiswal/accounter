@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class SetUpOnlineBankingAction extends Action {
 
-	public SetUpOnlineBankingAction(String text) {
-		super(text);
+	public SetUpOnlineBankingAction() {
+		super();
 	}
 
 	/**
@@ -46,6 +46,12 @@ public class SetUpOnlineBankingAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "online-banking";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

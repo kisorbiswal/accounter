@@ -16,16 +16,15 @@ public class CreditCardChargeAction extends Action {
 	// private ClientCreditCardCharge creditCardCharge;
 	protected CreditCardChargeView view;
 
-	public CreditCardChargeAction(String text) {
-		super(Accounter.messages().newCreditCardCharge());
+	public CreditCardChargeAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 
 	}
 
-	public CreditCardChargeAction(String text,
-			ClientCreditCardCharge creditCardCharge,
+	public CreditCardChargeAction(ClientCreditCardCharge creditCardCharge,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
@@ -70,5 +69,10 @@ public class CreditCardChargeAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "newcreditcardcharge";
+	}
+
+	@Override
+	public String getText() {
+		return messages.creditCardCharge();
 	}
 }

@@ -10,8 +10,8 @@ public class BankingHomeAction extends Action {
 
 	private BankingSectionHomeView view;
 
-	public BankingHomeAction(String text) {
-		super(text);
+	public BankingHomeAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
@@ -50,5 +50,10 @@ public class BankingHomeAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "banking";
+	}
+
+	@Override
+	public String getText() {
+		return messages.bankingHome();
 	}
 }

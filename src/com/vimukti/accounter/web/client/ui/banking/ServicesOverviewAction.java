@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class ServicesOverviewAction extends Action {
 
-	public ServicesOverviewAction(String text) {
-		super(text);
+	public ServicesOverviewAction() {
+		super();
 	}
 
 	/**
@@ -46,6 +46,12 @@ public class ServicesOverviewAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "customer-service";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return messages.servicesOverview();
 	}
 
 }

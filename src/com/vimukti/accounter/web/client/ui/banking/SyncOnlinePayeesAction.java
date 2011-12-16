@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class SyncOnlinePayeesAction extends Action {
 
-	public SyncOnlinePayeesAction(String text) {
-		super(text);
+	public SyncOnlinePayeesAction() {
+		super();
 
 	}
 
@@ -48,6 +48,11 @@ public class SyncOnlinePayeesAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "sync-online-payee";
+	}
+
+	@Override
+	public String getText() {
+		return messages.syncOnlinePayees();
 	}
 
 }

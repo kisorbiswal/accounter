@@ -13,14 +13,14 @@ public class AccountRegisterAction extends Action<ClientAccount> {
 
 	private ClientAccount account;
 
-	public AccountRegisterAction(String text, ClientAccount account) {
-		super(text);
+	public AccountRegisterAction(ClientAccount account) {
+		super();
 		this.account = account;
 		this.catagory = Accounter.messages().banking();
 	}
 
-	public AccountRegisterAction(String text) {
-		super(text);
+	public AccountRegisterAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
@@ -70,6 +70,11 @@ public class AccountRegisterAction extends Action<ClientAccount> {
 	@Override
 	public String getHelpToken() {
 		return "accounterregister";
+	}
+
+	@Override
+	public String getText() {
+		return messages.accountRegister();
 	}
 
 }

@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class DownloadonlineTransactionAction extends Action {
 
-	public DownloadonlineTransactionAction(String text) {
-		super(text);
+	public DownloadonlineTransactionAction() {
+		super();
 	}
 
 	/**
@@ -43,6 +43,12 @@ public class DownloadonlineTransactionAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "downloadtransactions";
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

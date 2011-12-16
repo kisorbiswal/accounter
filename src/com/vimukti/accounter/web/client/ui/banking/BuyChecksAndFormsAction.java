@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class BuyChecksAndFormsAction extends Action {
 
-	public BuyChecksAndFormsAction(String text, String iconString) {
-		super(text);
+	public BuyChecksAndFormsAction( String iconString) {
+		super();
 	}
 
 	/**
@@ -43,6 +43,11 @@ public class BuyChecksAndFormsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "buychecksforms";
+	}
+
+	@Override
+	public String getText() {
+		return messages.buyChecksAndForms();
 	}
 
 }

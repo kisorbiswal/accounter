@@ -11,8 +11,8 @@ public class ChartsOfAccountsAction extends Action {
 
 	protected ChartOfAccountsView view;
 
-	public ChartsOfAccountsAction(String text) {
-		super(text);
+	public ChartsOfAccountsAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
@@ -52,5 +52,10 @@ public class ChartsOfAccountsAction extends Action {
 	public String getHelpToken() {
 		// This class not using
 		return "accountcharts";
+	}
+
+	@Override
+	public String getText() {
+		return messages.chartOfAccounts();
 	}
 }

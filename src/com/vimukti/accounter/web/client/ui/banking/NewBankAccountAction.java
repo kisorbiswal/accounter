@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class NewBankAccountAction extends Action<ClientBankAccount> {
 	private List<Integer> accountTypes;
 
-	public NewBankAccountAction(String text) {
-		super(text);
+	public NewBankAccountAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 
 	}
@@ -69,5 +69,10 @@ public class NewBankAccountAction extends Action<ClientBankAccount> {
 	@Override
 	public String getHelpToken() {
 		return "new-bank-account";
+	}
+
+	@Override
+	public String getText() {
+		return messages.newAccount();
 	}
 }

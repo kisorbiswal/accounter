@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class EnterPaymentsAction extends Action {
 
-	public EnterPaymentsAction(String text) {
-		super(text);
+	public EnterPaymentsAction() {
+		super();
 		this.catagory = Accounter.messages().banking();
 	}
 
@@ -49,6 +49,11 @@ public class EnterPaymentsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "enterpayment";
+	}
+
+	@Override
+	public String getText() {
+		return messages.enterPayments();
 	}
 
 }
