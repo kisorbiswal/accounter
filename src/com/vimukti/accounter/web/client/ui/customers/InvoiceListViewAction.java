@@ -8,8 +8,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class InvoiceListViewAction extends Action {
 
-	public InvoiceListViewAction(String text) {
-		super(text);
+	public InvoiceListViewAction() {
+		super();
 
 	}
 
@@ -53,6 +53,11 @@ public class InvoiceListViewAction extends Action {
 	public String getHelpToken() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getText() {
+		return "";
 	}
 
 }

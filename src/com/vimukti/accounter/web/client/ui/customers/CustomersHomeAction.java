@@ -15,8 +15,8 @@ public class CustomersHomeAction extends Action {
 
 	private CustomerSectionHomeView view;
 
-	public CustomersHomeAction(String text) {
-		super(text);
+	public CustomersHomeAction() {
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
@@ -60,5 +60,10 @@ public class CustomersHomeAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "customers";
+	}
+
+	@Override
+	public String getText() {
+		return messages.payeesHome(Global.get().Customers());
 	}
 }

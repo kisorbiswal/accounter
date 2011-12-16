@@ -15,23 +15,23 @@ public class NewCustomerAction extends Action<ClientCustomer> {
 	private CustomerView view;
 	private String quickAddText;
 
-	public NewCustomerAction(String text) {
-		super(text);
+	public NewCustomerAction() {
+		super();
 		this.catagory = Global.get().Customer();
 		super.setToolTip(Global.get().Customer());
 	}
 
-	public NewCustomerAction(String text, String quickAddText) {
-		super(text);
+	public NewCustomerAction(String quickAddText) {
+		super();
 		this.catagory = Global.get().Customer();
 		super.setToolTip(Global.get().Customer());
 		this.quickAddText = quickAddText;
 
 	}
 
-	public NewCustomerAction(String text, ClientCustomer customer,
+	public NewCustomerAction(ClientCustomer customer,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Global.get().customer();
 	}
 
@@ -89,5 +89,10 @@ public class NewCustomerAction extends Action<ClientCustomer> {
 
 	public void setCustomerName(String text) {
 		this.quickAddText = text;
+	}
+
+	@Override
+	public String getText() {
+		return messages.newPayee(Global.get().Customer());
 	}
 }

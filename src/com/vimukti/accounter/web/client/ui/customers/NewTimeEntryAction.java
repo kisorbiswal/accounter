@@ -11,8 +11,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class NewTimeEntryAction extends Action {
 
-	public NewTimeEntryAction(String text) {
-		super(text);
+	public NewTimeEntryAction() {
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
@@ -45,6 +45,12 @@ public class NewTimeEntryAction extends Action {
 
 	@Override
 	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getText() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class CustomerPaymentsAction extends Action {
 
-	public CustomerPaymentsAction(String text) {
-		super(text);
+	public CustomerPaymentsAction() {
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
@@ -64,5 +64,10 @@ public class CustomerPaymentsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "customer-prepayments";
+	}
+
+	@Override
+	public String getText() {
+		return messages.payeePrePayment(Global.get().Customer());
 	}
 }

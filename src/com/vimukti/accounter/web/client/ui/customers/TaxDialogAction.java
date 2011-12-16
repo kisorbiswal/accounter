@@ -5,8 +5,8 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class TaxDialogAction extends Action<ClientTAXCode> {
-	public TaxDialogAction(String text) {
-		super(text);
+	public TaxDialogAction() {
+		super();
 	}
 
 	// @Override
@@ -40,5 +40,10 @@ public class TaxDialogAction extends Action<ClientTAXCode> {
 	@Override
 	public String getHelpToken() {
 		return "tax-dialog";
+	}
+
+	@Override
+	public String getText() {
+		return messages.tax();
 	}
 }

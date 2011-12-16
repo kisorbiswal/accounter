@@ -21,10 +21,9 @@ public class NewQuoteAction extends Action {
 	private int type;
 	private String title;
 
-	public NewQuoteAction(String text, int type) {
-		super(text);
+	public NewQuoteAction(int type) {
+		super();
 		this.type = type;
-		this.title = text;
 
 		if (type == ClientEstimate.QUOTES) {
 			title = Accounter.messages().quote();
@@ -36,9 +35,9 @@ public class NewQuoteAction extends Action {
 
 	}
 
-	public NewQuoteAction(String text, ClientEstimate quote,
+	public NewQuoteAction(ClientEstimate quote,
 			AccounterAsyncCallback<Object> callback, int type) {
-		super(text);
+		super();
 		this.catagory = Global.get().Customer();
 		this.type = type;
 	}
@@ -116,5 +115,17 @@ public class NewQuoteAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "customer-quote";
+	}
+
+	@Override
+	public String getText() {
+		if (type == ClientEstimate.QUOTES) {
+			title = Accounter.messages().newQuote();
+		} else if (type == ClientEstimate.CHARGES) {
+			title = Accounter.messages().newCharge();
+		} else if (type == ClientEstimate.CREDITS) {
+			title = Accounter.messages().newCredit();
+		}
+		return title;
 	}
 }

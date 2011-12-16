@@ -12,8 +12,8 @@ public class SalesPersonAction extends Action {
 
 	protected SalesPersonListView view;
 
-	public SalesPersonAction(String text) {
-		super(text);
+	public SalesPersonAction() {
+		super();
 		this.catagory = Accounter.messages().company();
 	}
 
@@ -63,5 +63,10 @@ public class SalesPersonAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "sales-person-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.salesPersons();
 	}
 }

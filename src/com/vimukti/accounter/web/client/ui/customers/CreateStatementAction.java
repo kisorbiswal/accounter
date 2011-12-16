@@ -13,8 +13,8 @@ public class CreateStatementAction extends Action {
 
 	private boolean isEdit;
 
-	public CreateStatementAction(String text) {
-		super(text);
+	public CreateStatementAction() {
+		super();
 	}
 
 	//
@@ -46,6 +46,11 @@ public class CreateStatementAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "create-statement";
+	}
+
+	@Override
+	public String getText() {
+		return messages.createStatement();
 	}
 
 }

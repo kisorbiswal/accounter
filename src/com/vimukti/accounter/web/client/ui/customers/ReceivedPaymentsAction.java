@@ -17,8 +17,8 @@ public class ReceivedPaymentsAction extends Action {
 
 	protected ReceivedPaymentListView view;
 
-	public ReceivedPaymentsAction(String text) {
-		super(text);
+	public ReceivedPaymentsAction() {
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
@@ -69,5 +69,10 @@ public class ReceivedPaymentsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "receive-payment";
+	}
+
+	@Override
+	public String getText() {
+		return messages.receivedPayments();
 	}
 }

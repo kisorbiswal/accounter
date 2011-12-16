@@ -19,15 +19,14 @@ public class CustomerRefundAction extends Action {
 
 	protected CustomerRefundView view;
 
-	public CustomerRefundAction(String text) {
-		super(text);
+	public CustomerRefundAction() {
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
-	public CustomerRefundAction(String text,
-			ClientCustomerRefund customerRefund,
+	public CustomerRefundAction(ClientCustomerRefund customerRefund,
 			AccounterAsyncCallback<Object> callBack) {
-		super(text);
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
@@ -79,5 +78,10 @@ public class CustomerRefundAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "customer-refund";
+	}
+
+	@Override
+	public String getText() {
+		return messages.customerRefund(Global.get().Customer());
 	}
 }

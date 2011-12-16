@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
  */
 public class RecurringsListAction extends Action {
 
-	public RecurringsListAction(String text) {
-		super(text);
+	public RecurringsListAction() {
+		super();
 
 	}
 
@@ -61,5 +61,10 @@ public class RecurringsListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "recurring-list";
+	}
+
+	@Override
+	public String getText() {
+		return "Recurrings List action";
 	}
 }

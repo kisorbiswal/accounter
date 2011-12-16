@@ -14,14 +14,14 @@ public class SalesOrderListAction extends Action {
 
 	private SalesOrderListView view;
 
-	public SalesOrderListAction(String text) {
-		super(text);
+	public SalesOrderListAction() {
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
-	public SalesOrderListAction(String text, ClientSalesOrder salesOrder,
+	public SalesOrderListAction(ClientSalesOrder salesOrder,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
@@ -72,6 +72,11 @@ public class SalesOrderListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "sales_order-list";
+	}
+
+	@Override
+	public String getText() {
+		return messages.salesOrderList();
 	}
 
 }

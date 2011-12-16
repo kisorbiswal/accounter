@@ -19,14 +19,14 @@ public class NewInvoiceAction extends Action<ClientInvoice> {
 
 	protected InvoiceView view;
 
-	public NewInvoiceAction(String text) {
-		super(text);
+	public NewInvoiceAction() {
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
-	public NewInvoiceAction(String text, ClientInvoice invoice,
+	public NewInvoiceAction(ClientInvoice invoice,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
@@ -75,5 +75,10 @@ public class NewInvoiceAction extends Action<ClientInvoice> {
 	@Override
 	public String getHelpToken() {
 		return "customer-invoice";
+	}
+
+	@Override
+	public String getText() {
+		return messages.newInvoice();
 	}
 }

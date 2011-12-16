@@ -46,14 +46,12 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	protected Action getAddNewAction() {
 		if (type == ClientEstimate.QUOTES
 				&& Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewQuoteAction(type, messages.newQuote());
+			return ActionFactory.getNewQuoteAction(type);
 		else if (getPreferences().isDelayedchargesEnabled()) {
 			if (type == ClientEstimate.CHARGES) {
-				return ActionFactory.getNewQuoteAction(type,
-						messages.newCharge());
+				return ActionFactory.getNewQuoteAction(type);
 			} else if (type == ClientEstimate.CREDITS) {
-				return ActionFactory.getNewQuoteAction(type,
-						messages.newCredit());
+				return ActionFactory.getNewQuoteAction(type);
 			}
 		}
 		return null;

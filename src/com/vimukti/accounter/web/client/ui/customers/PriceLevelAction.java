@@ -11,8 +11,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class PriceLevelAction extends Action {
 
-	public PriceLevelAction(String text) {
-		super(text);
+	public PriceLevelAction() {
+		super();
 		this.catagory = Global.get().customer();
 	}
 
@@ -45,6 +45,12 @@ public class PriceLevelAction extends Action {
 
 	@Override
 	public String getHelpToken() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getText() {
 		// TODO Auto-generated method stub
 		return null;
 	}

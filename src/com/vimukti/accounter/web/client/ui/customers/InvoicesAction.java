@@ -18,13 +18,13 @@ public class InvoicesAction extends Action {
 	protected InvoiceListView view;
 	public String viewType;
 
-	public InvoicesAction(String text) {
-		super(text);
+	public InvoicesAction() {
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
-	public InvoicesAction(String text, String viewType) {
-		super(text);
+	public InvoicesAction(String viewType) {
+		super();
 		this.catagory = Global.get().Customer();
 		this.viewType = viewType;
 	}
@@ -89,5 +89,10 @@ public class InvoicesAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "about-invoice";
+	}
+
+	@Override
+	public String getText() {
+		return messages.invoices();
 	}
 }

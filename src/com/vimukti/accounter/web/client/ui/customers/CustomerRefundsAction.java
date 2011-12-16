@@ -17,8 +17,8 @@ public class CustomerRefundsAction extends Action {
 
 	protected CustomerRefundListView view;
 
-	public CustomerRefundsAction(String text) {
-		super(text);
+	public CustomerRefundsAction() {
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
@@ -71,5 +71,10 @@ public class CustomerRefundsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "customer-refund";
+	}
+
+	@Override
+	public String getText() {
+		return messages.customerRefunds(Global.get().Customer());
 	}
 }

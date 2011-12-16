@@ -19,14 +19,14 @@ public class NewCashSaleAction extends Action {
 
 	protected CashSalesView view;
 
-	public NewCashSaleAction(String text) {
-		super(text);
+	public NewCashSaleAction() {
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
-	public NewCashSaleAction(String text, ClientCashSales cashSales,
+	public NewCashSaleAction(ClientCashSales cashSales,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
@@ -82,5 +82,10 @@ public class NewCashSaleAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "new_cash-sale";
+	}
+
+	@Override
+	public String getText() {
+		return messages.newCashSale();
 	}
 }

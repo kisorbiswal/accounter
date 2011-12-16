@@ -19,8 +19,8 @@ public class QuotesAction extends Action {
 	protected QuoteListView view;
 	private int type;
 
-	public QuotesAction(String text, int type) {
-		super(text);
+	public QuotesAction(int type) {
+		super();
 		this.type = type;
 		this.catagory = Global.get().customer();
 	}
@@ -79,5 +79,18 @@ public class QuotesAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "customer-quote";
+	}
+
+	@Override
+	public String getText() {
+		String text="";
+		if (type == ClientEstimate.CHARGES) {
+			text = messages.Charges();
+		}else if (type == ClientEstimate.CREDITS) {
+			text = messages.credits();
+		}else if(type == ClientEstimate.QUOTES){
+			text = messages.quotes();
+		}
+		return text;
 	}
 }

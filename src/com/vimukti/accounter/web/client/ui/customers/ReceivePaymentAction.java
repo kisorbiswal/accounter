@@ -19,15 +19,15 @@ public class ReceivePaymentAction extends Action {
 
 	protected ReceivePaymentView view;
 
-	public ReceivePaymentAction(String text) {
-		super(Accounter.messages().newReceivePayment());
+	public ReceivePaymentAction() {
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
 	public ReceivePaymentAction(String text,
 			ClientReceivePayment receivePayment,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
@@ -79,5 +79,10 @@ public class ReceivePaymentAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "receive-payment";
+	}
+
+	@Override
+	public String getText() {
+		return messages.receivePayment();
 	}
 }

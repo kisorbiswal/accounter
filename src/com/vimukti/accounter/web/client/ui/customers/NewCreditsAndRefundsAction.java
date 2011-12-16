@@ -19,15 +19,14 @@ public class NewCreditsAndRefundsAction extends Action {
 
 	protected CustomerCreditMemoView view;
 
-	public NewCreditsAndRefundsAction(String text) {
-		super(text);
+	public NewCreditsAndRefundsAction() {
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
-	public NewCreditsAndRefundsAction(String text,
-			ClientCustomerCreditMemo creditMemo,
+	public NewCreditsAndRefundsAction(ClientCustomerCreditMemo creditMemo,
 			AccounterAsyncCallback<Object> callback) {
-		super(text);
+		super();
 		this.catagory = Global.get().Customer();
 	}
 
@@ -79,5 +78,10 @@ public class NewCreditsAndRefundsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "new-credit_refund";
+	}
+
+	@Override
+	public String getText() {
+		return messages.newCreditNotes();
 	}
 }
