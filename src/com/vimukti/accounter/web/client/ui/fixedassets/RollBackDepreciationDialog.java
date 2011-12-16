@@ -29,6 +29,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	public RollBackDepreciationDialog() {
 		super(Accounter.messages().rollBackDepreciation(), "");
 		getLastDepreciationDate();
+		this.addStyleName("depreciation_table");
 		// getAllDepreciationDates();
 		Timer timer = new Timer() {
 			@Override
