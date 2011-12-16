@@ -121,7 +121,7 @@ public class MenuBar {
 
 		Menu inventoryMenuBar = new Menu(string);
 
-		if (Accounter.getUser().getUserRole()
+		if (!Accounter.getUser().getUserRole()
 				.equalsIgnoreCase(messages.readOnly())) {
 			inventoryMenuBar.addMenuItem(messages.stockAdjustment(),
 					HistoryTokens.STOCKADJUSTMENT);
@@ -580,8 +580,8 @@ public class MenuBar {
 						HistoryTokens.PAYBILL);
 				vendorMenuBar.addMenuItem(messages.issuePayments(),
 						HistoryTokens.ISSUEPAYMENTS);
-//				vendorMenuBar.addMenuItem(messages.printCheque(),
-//						HistoryTokens.PRINTCHEQUE);
+				// vendorMenuBar.addMenuItem(messages.printCheque(),
+				// HistoryTokens.PRINTCHEQUE);
 			}
 			vendorMenuBar.addMenuItem(
 					messages.payeePrePayment(Global.get().Vendor()),
