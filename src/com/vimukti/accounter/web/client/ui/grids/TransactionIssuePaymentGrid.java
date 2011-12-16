@@ -29,8 +29,7 @@ public class TransactionIssuePaymentGrid extends
 		// addFooterValue("Total", 3);
 		return new String[] { Accounter.messages().date(),
 				Accounter.messages().number(), Accounter.messages().name(),
-				Accounter.messages().memo(), Accounter.messages().amount(),
-				Accounter.messages().paymentMethod() };
+				Accounter.messages().memo(), Accounter.messages().amount() };
 	}
 
 	public boolean isSelected(ClientTransactionIssuePayment transactionList) {
@@ -70,11 +69,9 @@ public class TransactionIssuePaymentGrid extends
 		case 3:
 			return issuepayment.getMemo();
 		case 4:
-			return DataUtils.amountAsStringWithCurrency(issuepayment.getAmount(), getCompany()
-					.getPrimaryCurrency());
-		case 5:
-			return issuepayment.getPaymentMethod() != null ? issuepayment
-					.getPaymentMethod() : Accounter.messages().check();
+			return DataUtils
+					.amountAsStringWithCurrency(issuepayment.getAmount(),
+							getCompany().getPrimaryCurrency());
 		default:
 			return null;
 		}
@@ -126,8 +123,6 @@ public class TransactionIssuePaymentGrid extends
 		case 3:
 			return 220;
 		case 4:
-			return 120;
-		case 5:
 			return 120;
 		default:
 			return -1;

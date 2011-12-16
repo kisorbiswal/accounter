@@ -580,6 +580,8 @@ public class MenuBar {
 						HistoryTokens.PAYBILL);
 				vendorMenuBar.addMenuItem(messages.issuePayments(),
 						HistoryTokens.ISSUEPAYMENTS);
+//				vendorMenuBar.addMenuItem(messages.printCheque(),
+//						HistoryTokens.PRINTCHEQUE);
 			}
 			vendorMenuBar.addMenuItem(
 					messages.payeePrePayment(Global.get().Vendor()),

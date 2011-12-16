@@ -492,9 +492,9 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 		this.vendor = vendor;
 	}
 
-	public void setDepositedTransaction(IssuePayment depositedTransaction) {
-		this.depositedTransaction = depositedTransaction;
-	}
+	// public void setDepositedTransaction(IssuePayment depositedTransaction) {
+	// this.depositedTransaction = depositedTransaction;
+	// }
 
 	public void setPayments(double payments) {
 		this.payments = payments;

@@ -759,7 +759,7 @@
 		<query-param name="company" type="Company" />
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.Account a where a.id
-		=:id
+		=:id and a.company=:company
 	</query>
 
 	<query name="getTaxCalc.by.TaxAgencyId.and.withOtherDetails">
@@ -1752,14 +1752,10 @@
 		account.id=:fromID and company=:company
 	</query>
 
-	<query name="update.merge.issuepayment.old.tonew">
-		<query-param name="fromID" type="long" />
-		<query-param name="toID" type="long" />
-		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.IssuePayment set account.id=:toID
-		where
-		account.id=:fromID and company=:company
-	</query>
+	<!-- <query name="update.merge.issuepayment.old.tonew"> <query-param name="fromID" 
+		type="long" /> <query-param name="toID" type="long" /> <query-param name="company" 
+		type="Company" /> update com.vimukti.accounter.core.IssuePayment set account.id=:toID 
+		where account.id=:fromID and company=:company </query> -->
 
 	<query name="update.merge.accounttrasactionexpense.old.tonew">
 		<query-param name="fromID" type="long" />
@@ -1828,7 +1824,23 @@
 	</query>
 	<query name="getEnterBillByEstimate">
 		<query-param name="estimate" type="Estimate" />
-		from com.vimukti.accounter.core.EnterBill eb left join eb.estimates es where es=:estimate 
-		
+		from com.vimukti.accounter.core.EnterBill eb left join eb.estimates es
+		where es=:estimate
+
+	</query>
+
+	<query name="getCheckNumber">
+		<query-param name="accountId" type="long" />
+		<query-param name="companyId" type="long" />
+		select a.lastCheckNum from com.vimukti.accounter.core.Account a
+		where a.id=:accountId and a.company.id=:companyId
+	</query>
+
+	<query name="getTransaction.by.id">
+		<query-param name="transactionId" type="long" />
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Transaction t
+		where t.id=:transactionId
+		and t.company=:company
 	</query>
 </hibernate-mapping>

@@ -23,6 +23,8 @@ public class ClientPayTAX extends ClientTransaction {
 
 	List<ClientTransactionPayTAX> transactionPayTAX;
 
+	private String checkNumber;
+
 	public ClientPayTAX() {
 
 	}
@@ -66,7 +68,6 @@ public class ClientPayTAX extends ClientTransaction {
 	public void setTaxAgency(long taxAgency) {
 		this.taxAgency = taxAgency;
 	}
-
 
 	public List<ClientTransactionPayTAX> getTransactionPayTax() {
 		return transactionPayTAX;
@@ -112,5 +113,13 @@ public class ClientPayTAX extends ClientTransaction {
 	public ClientPayTAX clone() {
 		ClientPayTAX clientPaySalesTaxClone = (ClientPayTAX) this.clone();
 		return clientPaySalesTaxClone;
+	}
+
+	public String getCheckNumber() {
+		return checkNumber;
+	}
+
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
 	}
 }

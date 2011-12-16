@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -167,7 +168,7 @@ public class ItemReceiptView extends
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
 				.getPrimaryCurrency());
 
-		vatTotalNonEditableText = createVATTotalNonEditableItem();
+		vatTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableItem();
 
 		HTML lab2 = new HTML("<strong>"
 				+ Accounter.messages().itemsAndExpenses() + "</strong>");
@@ -253,12 +254,29 @@ public class ItemReceiptView extends
 		// refText.setWidth(100);
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
-		DynamicForm totalForm = new DynamicForm();
+		VerticalPanel totalForm = new VerticalPanel();
 		totalForm.setWidth("80%");
-		totalForm.setNumCols(2);
 		totalForm.setWidth("80%");
-		totalForm.setFields(netAmount, vatTotalNonEditableText,
-				transactionTotalNonEditableText);
+
+		DynamicForm netAmountForm = new DynamicForm();
+		netAmountForm.setNumCols(2);
+		netAmountForm.setFields(netAmount);
+
+		DynamicForm transactionTotalForm = new DynamicForm();
+		transactionTotalForm.setNumCols(2);
+
+		totalForm.add(netAmountForm);
+		totalForm.add(vatTotalNonEditableText);
+
+		transactionTotalForm.setFields(transactionTotalNonEditableText);
+
+		totalForm.add(transactionTotalForm);
+
+		totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
+		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
+				ALIGN_RIGHT);
+		totalForm.setCellHorizontalAlignment(transactionTotalForm, ALIGN_RIGHT);
+
 		DynamicForm memoForm = new DynamicForm();
 		// memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
@@ -331,7 +349,7 @@ public class ItemReceiptView extends
 		listforms.add(vendorForm);
 		listforms.add(termsForm);
 		listforms.add(vatCheckform);
-		listforms.add(totalForm);
+		listforms.add(transactionTotalForm);
 		listforms.add(memoForm);
 		listforms.add(amountForm);
 
@@ -445,8 +463,7 @@ public class ItemReceiptView extends
 
 			if (getPreferences().isTrackPaidTax()) {
 				netAmount.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setAmount(transaction.getTotal()
-						- transaction.getNetAmount());
+				vatTotalNonEditableText.setTransaction(transaction);
 			}
 			transactionTotalNonEditableText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
@@ -485,7 +502,14 @@ public class ItemReceiptView extends
 				.setAmount(getAmountInBaseCurrency(grandTotal));
 		netAmount.setAmount(lineTotal);
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			if ((transaction.getTransactionItems() != null && transaction
+					.getTransactionItems().isEmpty()) || !isInViewMode()) {
+				transaction.setTransactionItems(vendorAccountTransactionTable
+						.getAllRows());
+				transaction.getTransactionItems().addAll(
+						vendorItemTransactionTable.getAllRows());
+			}
+			vatTotalNonEditableText.setTransaction(transaction);
 		}
 	}
 

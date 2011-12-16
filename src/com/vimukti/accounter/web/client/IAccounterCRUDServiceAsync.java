@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 /**
@@ -53,5 +54,8 @@ public interface IAccounterCRUDServiceAsync {
 			AsyncCallback<Long> callback);
 
 	void deleteTransactionFromDb(IAccounterCore obj,
+			AsyncCallback<Boolean> transactionCallBack);
+
+	void doCreateIssuePaymentEffect(ClientIssuePayment obj,
 			AsyncCallback<Boolean> transactionCallBack);
 }

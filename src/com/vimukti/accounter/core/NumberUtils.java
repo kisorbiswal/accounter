@@ -50,6 +50,36 @@ public class NumberUtils {
 		return "0";
 	}
 
+	public static String getNextCheckNumber(long companyId, long accountId) {
+		String prevNumber = getPreviousCheckNumber(companyId, accountId);
+
+		return getStringwithIncreamentedDigit(prevNumber);
+	}
+
+	private static String getPreviousCheckNumber(long companyId, long accountId) {
+		Query query = HibernateUtil.getCurrentSession()
+				.getNamedQuery("getCheckNumber")
+				.setLong("accountId", accountId)
+				.setLong("companyId", companyId);
+
+		List list = query.list();
+		if ((list.size() == 0)) {
+			return "0";
+		}
+
+		long max = list.get(0) != null ? Long.parseLong((String) list.get(0))
+				: 0;
+		for (int i = 1; i < list.size(); i++) {
+			Long num = list.get(i) != null ? Long.parseLong(((String) list
+					.get(i))) : 0;
+			if (num > max) {
+				max = num;
+			}
+		}
+
+		return "" + max;
+	}
+
 	// public static String getNextVoucherNumber(Company company) {
 	//
 	// Session session = HibernateUtil.getCurrentSession();

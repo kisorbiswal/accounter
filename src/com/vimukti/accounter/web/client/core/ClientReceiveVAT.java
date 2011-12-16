@@ -32,6 +32,8 @@ public class ClientReceiveVAT extends ClientTransaction {
 
 	List<ClientTransactionReceiveVAT> transactionReceiveVAT;
 
+	private String checkNumber;
+
 	@Override
 	public String getClientClassSimpleName() {
 		// its not using any where
@@ -208,5 +210,13 @@ public class ClientReceiveVAT extends ClientTransaction {
 		receiveVAT.transactionReceiveVAT = transactionReceiveVATs;
 
 		return receiveVAT;
+	}
+
+	public String getCheckNumber() {
+		return checkNumber;
+	}
+
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
 	}
 }

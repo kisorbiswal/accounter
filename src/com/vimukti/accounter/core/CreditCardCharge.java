@@ -329,4 +329,8 @@ public class CreditCardCharge extends Transaction {
 
 	}
 
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
+	}
+
 }

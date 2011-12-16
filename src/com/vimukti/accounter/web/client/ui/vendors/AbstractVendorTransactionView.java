@@ -41,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -77,8 +78,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected AddressCombo billToCombo;
 	protected PayFromAccountsCombo payFromCombo;
 	protected AmountLabel netAmount, transactionTotalNonEditableText,
-			transactionTotalinForeignCurrency, vatTotalNonEditableText,
-			paymentsNonEditableText, salesTaxTextNonEditable;
+			transactionTotalinForeignCurrency, paymentsNonEditableText;
+	protected TaxItemsForm vatTotalNonEditableText, salesTaxTextNonEditable;
 
 	protected AmountLabel balanceDueNonEditableText;// protected
 
@@ -190,7 +191,9 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 					taxCodeID = getCompany().getDefaultTaxCode();
 				}
 				ClientTAXCode taxCode = getCompany().getTAXCode(taxCodeID);
-				taxCodeSelected(taxCode);
+				if (taxCode != null) {
+					taxCodeSelected(taxCode);
+				}
 			}
 		}
 	}

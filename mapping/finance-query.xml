@@ -2735,7 +2735,6 @@
 		<return-scalar column="PAY_EXPENSE_ID" type="long" />
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
 		<return-scalar column="TRANSFER_FUND_ID" type="long" />
-		<return-scalar column="ISSUE_PAYMENT_ID" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TRANSACTION_MAKE_DEPOSIT_ID"
 			type="long" />
@@ -2781,8 +2780,6 @@
 		WC.ID AS WRITE_CHECK_ID,
 		TF.ID AS
 		TRANSFER_FUND_ID,
-		IP.ID
-		AS ISSUE_PAYMENT_ID,
 		TI.ID AS
 		TRANSACTION_ITEM_ID,
 		TMD.ID AS
@@ -2909,10 +2906,6 @@
 		TRANSFER_FUND TF
 		ON A.ID = TF.TRANSFER_FROM
 		OR A.ID = TF.TRANSFER_TO
-		LEFT OUTER JOIN
-		ISSUEPAYMENT IP
-		ON A.ID =
-		IP.ACCOUNT_ID
 		LEFT OUTER
 		JOIN
 		TRANSACTION_ITEM TI
@@ -3279,22 +3272,16 @@
 	<sql-query name="canDeletePaySalesTax">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="TRANSACTION_ISSUE_PAYMENT_ID"
+		<return-scalar column="ID"
 			type="long" />
 
-		SELECT
-		TIP.ID AS TRANSACTION_ISSUE_PAYMENT_ID
+		SELECT P.ID AS ID
 
 		FROM PAY_TAX P
+		LEFT JOIN TRANSACTION T ON T.ID=P.ID
 
-		LEFT
-		OUTER
-		JOIN
-		TRANSACTION_ISSUE_PAYMENT TIP
-		ON P.ID = TIP.PAY_TAX_ID
-
-		WHERE TIP.ID
-		= :inputId AND P.COMPANY_ID=:companyId LIMIT 1
+		WHERE P.ID IS NULL AND P.ID =:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteTAXAgency">
@@ -3491,7 +3478,6 @@
 		<return-scalar column="PAY_EXPENSE_ID" type="long" />
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
 		<return-scalar column="TRANSFER_FUND_ID" type="long" />
-		<return-scalar column="ISSUE_PAYMENT_ID" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TRANSACTION_MAKE_DEPOSIT_ID"
 			type="long" />
@@ -3537,8 +3523,6 @@
 		WC.ID AS WRITE_CHECK_ID,
 		TF.ID AS
 		TRANSFER_FUND_ID,
-		IP.ID
-		AS ISSUE_PAYMENT_ID,
 		TI.ID AS
 		TRANSACTION_ITEM_ID,
 		TMD.ID AS
@@ -3665,10 +3649,6 @@
 		TRANSFER_FUND TF
 		ON A.ID = TF.TRANSFER_FROM
 		OR A.ID = TF.TRANSFER_TO
-		LEFT OUTER JOIN
-		ISSUEPAYMENT IP
-		ON A.ID =
-		IP.ACCOUNT_ID
 		LEFT OUTER
 		JOIN
 		TRANSACTION_ITEM TI
@@ -3785,12 +3765,15 @@
 	<sql-query name="canDeleteCreditCardCharge">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="ISSUE_PAYMENT_ID" type="long" />
-		SELECT TI.ID AS ISSUE_PAYMENT_ID FROM CREDIT_CARD_CHARGES CC LEFT JOIN
-		TRANSACTION T ON
-		T.ID=CC.ID LEFT JOIN TRANSACTION_ISSUE_PAYMENT TI ON
-		TI.CREDIT_CARD_CHARGE_ID = CC.ID WHERE CC.ID=:inputId AND
+		<return-scalar column="ID" type="long" />
+		SELECT CC.ID AS ID
+
+		FROM CREDIT_CARD_CHARGES CC
+		LEFT JOIN TRANSACTION T ON T.ID=CC.ID
+
+		WHERE CC.ID IS NULL AND CC.ID =:inputId AND
 		T.COMPANY_ID=:companyId LIMIT 1
+		
 	</sql-query>
 
 	<sql-query name="canDeleteBudget">
@@ -3810,11 +3793,13 @@
 	<sql-query name="canDeleteCashPurchase">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="ISSUE_PAYMENT_ID" type="long" />
-		SELECT TI.ID AS ISSUE_PAYMENT_ID FROM CASH_PURCHASE CP LEFT JOIN
-		TRANSACTION T ON
-		T.ID=CP.ID LEFT JOIN TRANSACTION_ISSUE_PAYMENT TI ON
-		TI.CASH_PURCHASE_ID = CP.ID WHERE CP.ID=:inputId AND
+		<return-scalar column="ID" type="long" />
+		SELECT CC.ID AS ID
+
+		FROM CASH_PURCHASE CC
+		LEFT JOIN TRANSACTION T ON T.ID=CC.ID
+
+		WHERE CC.ID IS NULL AND CC.ID =:inputId AND
 		T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
@@ -3844,11 +3829,9 @@
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
 		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
-		<return-scalar column="ISSUE_PAYMENT_ID" type="long" />
-		SELECT TR.ID AS RECEIVE_PAYMENT_ID,TI.ID AS ISSUE_PAYMENT_ID FROM
+		SELECT TR.ID AS RECEIVE_PAYMENT_ID FROM
 		CUSTOMER_REFUND CR LEFT JOIN TRANSACTION T ON T.ID=CR.ID LEFT JOIN
-		TRANSACTION_RECEIVE_PAYMENT TR ON TR.CUSTOMER_REFUND_ID=CR.ID LEFT
-		JOIN TRANSACTION_ISSUE_PAYMENT TI ON TI.CUSTOMER_REFUND_ID = CR.ID
+		TRANSACTION_RECEIVE_PAYMENT TR ON TR.CUSTOMER_REFUND_ID=CR.ID
 		WHERE CR.ID=:inputId AND T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
@@ -3886,12 +3869,12 @@
 	<sql-query name="canDeleteWriteCheck">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="ISSUE_PAYMENT_ID" type="long" />
-		SELECT TI.ID AS ISSUE_PAYMENT_ID FROM WRITE_CHECKS WC LEFT JOIN
-		TRANSACTION T ON
-		T.ID=WC.ID LEFT JOIN TRANSACTION_ISSUE_PAYMENT TI ON
-		TI.CASH_PURCHASE_ID = WC.ID WHERE WC.ID=:inputId AND
+		<return-scalar column="ID" type="long" />
+		SELECT C.ID AS ID FROM WRITE_CHECKS C LEFT JOIN TRANSACTION T
+		ON
+		T.ID=C.ID WHERE C.ID IS NULL AND C.ID =:inputId AND
 		T.COMPANY_ID=:companyId LIMIT 1
+		
 	</sql-query>
 
 	<sql-query name="createSalesPurchasesView">

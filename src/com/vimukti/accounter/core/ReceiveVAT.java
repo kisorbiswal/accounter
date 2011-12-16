@@ -50,6 +50,8 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 
 	boolean isEdited = false;
 
+	private String checkNumber;
+
 	List<TransactionReceiveVAT> transactionReceiveVAT;
 
 	/**
@@ -273,5 +275,13 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
+	}
+
+	public String getCheckNumber() {
+		return checkNumber;
+	}
+
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
 	}
 }

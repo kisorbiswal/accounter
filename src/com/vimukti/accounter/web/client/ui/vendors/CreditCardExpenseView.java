@@ -6,8 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -48,9 +52,11 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -348,7 +354,7 @@ public class CreditCardExpenseView extends
 
 		foreignCurrencyamountLabel = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
-		vatTotalNonEditableText = createVATTotalNonEditableLabel();
+		vatTotalNonEditableText = new TaxItemsForm();
 
 		// vatinclusiveCheck = new CheckboxItem(messages
 		// .amountIncludesVat());
@@ -453,8 +459,7 @@ public class CreditCardExpenseView extends
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
 
-		DynamicForm totalForm = new DynamicForm();
-		totalForm.setNumCols(2);
+		VerticalPanel totalForm = new VerticalPanel();
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
 		// totText = new AmountField(FinanceApplication.constants()
@@ -472,15 +477,33 @@ public class CreditCardExpenseView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 		currencyWidget = createCurrencyFactorWidget();
+
+		DynamicForm transactionTotalForm = new DynamicForm();
+		transactionTotalForm.setNumCols(2);
+
 		if (isTrackTax()) {
+			DynamicForm netAmountForm = new DynamicForm();
+			netAmountForm.setNumCols(2);
+			netAmountForm.setFields(netAmount);
+
+			totalForm.add(netAmountForm);
+			totalForm.add(vatTotalNonEditableText);
+
 			if (isMultiCurrencyEnabled()) {
-				totalForm.setFields(netAmount, vatTotalNonEditableText,
+				transactionTotalForm.setFields(
 						transactionTotalBaseCurrencyText,
 						foreignCurrencyamountLabel);
 			} else {
-				totalForm.setFields(netAmount, vatTotalNonEditableText,
-						transactionTotalBaseCurrencyText);
+				transactionTotalForm
+						.setFields(transactionTotalBaseCurrencyText);
 			}
+			totalForm.add(transactionTotalForm);
+			totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
+			totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
+					ALIGN_RIGHT);
+			totalForm.setCellHorizontalAlignment(transactionTotalForm,
+					ALIGN_RIGHT);
+
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.setWidth("100%");
@@ -572,7 +595,7 @@ public class CreditCardExpenseView extends
 		listforms.add(termsForm);
 		listforms.add(memoForm);
 		listforms.add(vatCheckform);
-		listforms.add(totalForm);
+		listforms.add(transactionTotalForm);
 		listforms.add(totForm);
 
 		if (isInViewMode()) {
@@ -701,8 +724,7 @@ public class CreditCardExpenseView extends
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
 					netAmount.setAmount(transaction.getNetAmount());
-					vatTotalNonEditableText.setAmount(transaction.getTotal()
-							- transaction.getNetAmount());
+					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -1085,7 +1107,14 @@ public class CreditCardExpenseView extends
 		foreignCurrencyamountLabel.setAmount(grandTotal);
 		netAmount.setAmount(lineTotal);
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			if ((transaction.getTransactionItems() != null && transaction
+					.getTransactionItems().isEmpty()) || !isInViewMode()) {
+				transaction.setTransactionItems(vendorAccountTransactionTable
+						.getAllRows());
+				transaction.getTransactionItems().addAll(
+						vendorItemTransactionTable.getAllRows());
+			}
+			vatTotalNonEditableText.setTransaction(transaction);
 		}
 
 	}

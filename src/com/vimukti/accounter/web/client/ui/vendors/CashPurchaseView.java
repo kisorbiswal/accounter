@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -35,9 +39,11 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -62,6 +68,9 @@ public class CashPurchaseView extends
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	protected AddNewButton accountTableButton, itemTableButton;
 	protected DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private TextItem checkNoText;
+	private CheckboxItem printCheck;
+	private boolean isChecked = false;
 
 	// private WarehouseAllocationTable inventoryTransactionTable;
 	// private DisclosurePanel inventoryDisclosurePanel;
@@ -158,9 +167,9 @@ public class CashPurchaseView extends
 		payFromCombo = createPayFromCombo(Accounter.messages().payFrom());
 		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
-		checkNo = createCheckNumberItem(Accounter.messages().chequeNo());
-		checkNo.setDisabled(true);
-		checkNo.setWidth(100);
+		// checkNo = createCheckNumberItem(Accounter.messages().chequeNo());
+		// checkNo.setDisabled(true);
+		// checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
 		// deliveryDateItem.setWidth(100);
 
@@ -173,29 +182,62 @@ public class CashPurchaseView extends
 					public void selectedComboBoxItem(String selectItem) {
 						paymentMethodSelected(paymentMethodCombo
 								.getSelectedValue());
-						if (paymentMethodCombo.getSelectedValue().equals(
-								Accounter.messages().check())
-								|| paymentMethodCombo.getSelectedValue()
-										.equals(Accounter.messages().cheque())) {
-							checkNo.setDisabled(false);
-						} else {
-							checkNo.setDisabled(true);
-						}
-
-						if (paymentMethod.equals(Accounter.messages().check())
-								&& isInViewMode() && payFromAccount != null) {
-							ClientCashPurchase cashPurchase = transaction;
-							checkNo.setValue(cashPurchase.getCheckNumber());
-						}
 					}
 				});
+
+		printCheck = new CheckboxItem(messages.toBePrinted());
+		printCheck.setValue(true);
+		printCheck.setWidth(100);
+		printCheck.setDisabled(true);
+		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				isChecked = event.getValue();
+				if (isChecked) {
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
+						checkNoText
+								.setValue(Accounter.messages().toBePrinted());
+						checkNoText.setDisabled(true);
+					} else {
+						if (payFromCombo.getValue() == null)
+							checkNoText.setValue(Accounter.messages()
+									.toBePrinted());
+						else if (transaction != null) {
+							checkNoText.setValue(transaction.getCheckNumber());
+						}
+					}
+				} else
+					checkNoText.setValue("");
+				checkNoText.setDisabled(false);
+
+			}
+		});
+
+		checkNoText = new TextItem(messages.chequeNo());
+		checkNoText.setValue(Accounter.messages().toBePrinted());
+		checkNoText.setHelpInformation(true);
+		checkNoText.setWidth(100);
+		if (paymentMethodCombo.getSelectedValue() != null
+				&& !paymentMethodCombo.getSelectedValue().equals(
+						UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
+								.messages().check())))
+			checkNoText.setDisabled(true);
+		checkNoText.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				checkNumber = checkNoText.getValue().toString();
+			}
+		});
 
 		termsForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
 		// termsForm.setWidth("100%");
-		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo,
-				deliveryDateItem);
+		termsForm.setFields(paymentMethodCombo, printCheck, checkNoText,
+				payFromCombo, deliveryDateItem);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -222,7 +264,7 @@ public class CashPurchaseView extends
 		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
-		vatTotalNonEditableText = createVATTotalNonEditableItem();
+		vatTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
@@ -332,8 +374,7 @@ public class CashPurchaseView extends
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
-		DynamicForm totalForm = new DynamicForm();
-		totalForm.setNumCols(2);
+		VerticalPanel totalForm = new VerticalPanel();
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
 
@@ -368,14 +409,21 @@ public class CashPurchaseView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
+		DynamicForm transactionTotalForm = new DynamicForm();
+		transactionTotalForm.setNumCols(2);
+
 		if (isTrackTax() && isTrackPaidTax()) {
+			DynamicForm netAmountForm = new DynamicForm();
+			netAmountForm.setNumCols(2);
+			netAmountForm.setFields(netAmount);
+			totalForm.add(netAmountForm);
+			totalForm.add(vatTotalNonEditableText);
+			totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
 			if (isMultiCurrencyEnabled()) {
-				totalForm.setFields(netAmount, vatTotalNonEditableText,
-						transactionTotalNonEditableText,
+				transactionTotalForm.setFields(transactionTotalNonEditableText,
 						foreignCurrencyamountLabel);
 			} else {
-				totalForm.setFields(netAmount, vatTotalNonEditableText,
-						transactionTotalNonEditableText);
+				transactionTotalForm.setFields(transactionTotalNonEditableText);
 			}
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
@@ -412,15 +460,19 @@ public class CashPurchaseView extends
 			memoForm.setStyleName("align-form");
 			bottomLayout.add(memoForm);
 			if (isMultiCurrencyEnabled()) {
-				totalForm.setFields(transactionTotalNonEditableText,
+				transactionTotalForm.setFields(transactionTotalNonEditableText,
 						foreignCurrencyamountLabel);
 			} else {
-				totalForm.setFields(transactionTotalNonEditableText);
+				transactionTotalForm.setFields(transactionTotalNonEditableText);
 			}
 
 			bottomLayout.add(totalForm);
 			bottompanel.add(bottomLayout);
 		}
+		totalForm.add(transactionTotalForm);
+		totalForm.setCellHorizontalAlignment(transactionTotalForm, ALIGN_RIGHT);
+		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
+				ALIGN_RIGHT);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
@@ -446,7 +498,7 @@ public class CashPurchaseView extends
 		listforms.add(termsForm);
 		listforms.add(memoForm);
 		listforms.add(vatCheckform);
-		listforms.add(totalForm);
+		listforms.add(transactionTotalForm);
 
 		// if (UIUtils.isMSIEBrowser())
 		// resetFormView();
@@ -473,37 +525,8 @@ public class CashPurchaseView extends
 						.equalsIgnoreCase(Accounter.messages().cheque())
 				&& isInViewMode()) {
 			ClientCashPurchase cashPurchase = transaction;
-			checkNo.setValue(cashPurchase.getCheckNumber());
 			// setCheckNumber();
-		} else if (account == null) {
-			checkNo.setValue("");
 		}
-	}
-
-	protected void setCheckNumber() {
-
-		rpcUtilService.getNextCheckNumber(payFromAccount.getID(),
-				new AccounterAsyncCallback<Long>() {
-
-					@Override
-					public void onException(AccounterException t) {
-						// //UIUtils.logError(
-						// "Failed to get the next check number!!", t);
-						checkNo.setValue(Accounter.messages().toBePrinted());
-						return;
-					}
-
-					@Override
-					public void onResultSuccess(Long result) {
-						if (result == null)
-							onFailure(null);
-
-						checkNumber = String.valueOf(result);
-						checkNo.setValue(result.toString());
-					}
-
-				});
-
 	}
 
 	@Override
@@ -543,15 +566,32 @@ public class CashPurchaseView extends
 			// .getPaymentMethod()
 			// : "");
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
+			if (transaction.getPaymentMethod().equals(messages.check())) {
+				printCheck.setDisabled(isInViewMode());
+				checkNoText.setDisabled(isInViewMode());
+			} else {
+				printCheck.setDisabled(true);
+				checkNoText.setDisabled(true);
+			}
+
+			if (transaction.getCheckNumber() != null) {
+				if (transaction.getCheckNumber().equals(
+						Accounter.messages().toBePrinted())) {
+					checkNoText.setValue(Accounter.messages().toBePrinted());
+					printCheck.setValue(true);
+				} else {
+					checkNoText.setValue(transaction.getCheckNumber());
+					printCheck.setValue(false);
+				}
+			}
+
 			accountSelected(getCompany().getAccount(transaction.getPayFrom()));
 			// transactionDateItem.setEnteredDate(cashPurchaseToBeEdited.get)
 			initMemoAndReference();
-			checkNo.setDisabled(true);
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
 					netAmount.setAmount(transaction.getNetAmount());
-					vatTotalNonEditableText.setAmount(transaction.getTotal()
-							- transaction.getNetAmount());
+					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -666,28 +706,40 @@ public class CashPurchaseView extends
 
 	@Override
 	protected void paymentMethodSelected(String paymentMethod) {
-		super.paymentMethodSelected(paymentMethod);
-		setDisableStateForCheckNo(paymentMethod);
-		paymentMethodCombo.setComboItem(paymentMethod);
-	}
+		if (paymentMethod == null)
+			return;
 
-	private void setDisableStateForCheckNo(String paymentMethod) {
-
-		if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
-			checkNo.setDisabled(false);
-		} else {
-			checkNo.setValue("");
-			checkNo.setDisabled(true);
-
-		}
-		if (isInViewMode()) {
+		if (paymentMethod != null) {
+			this.paymentMethod = paymentMethod;
 			if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
-				checkNo.setDisabled(false);
+				printCheck.setDisabled(false);
+				checkNoText.setDisabled(false);
 			} else {
-				checkNo.setDisabled(true);
+				// paymentMethodCombo.setComboItem(paymentMethod);
+				printCheck.setDisabled(true);
+				checkNoText.setDisabled(true);
 			}
 		}
+
 	}
+
+	// private void setDisableStateForCheckNo(String paymentMethod) {
+	//
+	// if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
+	// checkNo.setDisabled(false);
+	// } else {
+	// checkNo.setValue("");
+	// checkNo.setDisabled(true);
+	//
+	// }
+	// if (isInViewMode()) {
+	// if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
+	// checkNo.setDisabled(false);
+	// } else {
+	// checkNo.setDisabled(true);
+	// }
+	// }
+	// }
 
 	@Override
 	public void saveAndUpdateView() {
@@ -728,14 +780,19 @@ public class CashPurchaseView extends
 
 		// Setting Payment Methods
 		transaction.setPaymentMethod(paymentMethodCombo.getValue().toString());
+		if (checkNoText.getValue() != null
+				&& !checkNoText.getValue().equals("")) {
+			transaction.setCheckNumber(getCheckValue());
+		} else
+			transaction.setCheckNumber("");
+
+		// transaction.setIsToBePrinted(isChecked);
 
 		// Setting Pay From Account
 		transaction
 				.setPayFrom(payFromCombo.getSelectedValue() != null ? payFromCombo
 						.getSelectedValue().getID() : 0);
 
-		// Setting Check number
-		transaction.setCheckNumber(checkNo.getValue().toString());
 		// transaction
 		// .setCheckNumber(getCheckNoValue() ==
 		// ClientWriteCheck.IS_TO_BE_PRINTED ? "0"
@@ -760,6 +817,29 @@ public class CashPurchaseView extends
 		// && getCompany().getPreferences().iswareHouseEnabled())
 		// transaction.setWareHouseAllocations(inventoryTransactionTable
 		// .getAllRows());
+	}
+
+	private String getCheckValue() {
+		String value;
+		if (!isInViewMode()) {
+			if (checkNoText.getValue().equals(
+					Accounter.messages().toBePrinted())) {
+				value = String.valueOf(Accounter.messages().toBePrinted());
+
+			} else
+				value = String.valueOf(checkNoText.getValue());
+		} else {
+			String checknumber;
+			checknumber = this.checkNumber;
+			if (checknumber == null) {
+				checknumber = Accounter.messages().toBePrinted();
+			}
+			if (checknumber.equals(Accounter.messages().toBePrinted()))
+				value = Accounter.messages().toBePrinted();
+			else
+				value = String.valueOf(checknumber);
+		}
+		return value;
 	}
 
 	public void createAlterObject() {
@@ -788,7 +868,14 @@ public class CashPurchaseView extends
 
 		netAmount.setAmount(lineTotal);
 		if (getCompany().getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			if ((transaction.getTransactionItems() != null && transaction
+					.getTransactionItems().isEmpty()) || !isInViewMode()) {
+				transaction.setTransactionItems(vendorAccountTransactionTable
+						.getAllRows());
+				transaction.getTransactionItems().addAll(
+						vendorItemTransactionTable.getAllRows());
+			}
+			vatTotalNonEditableText.setTransaction(transaction);
 		}
 		transactionTotalNonEditableText
 				.setAmount(getAmountInBaseCurrency(grandTotal));
@@ -906,11 +993,8 @@ public class CashPurchaseView extends
 		transactionDateItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
-		if (paymentMethod.equals(Accounter.messages().check())
-				|| paymentMethod.equals(Accounter.messages().cheque())) {
-			checkNo.setDisabled(isInViewMode());
-		} else {
-			checkNo.setDisabled(!isInViewMode());
+		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
+			checkNoText.setValue(Accounter.messages().toBePrinted());
 		}
 		deliveryDateItem.setDisabled(isInViewMode());
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
@@ -1014,7 +1098,7 @@ public class CashPurchaseView extends
 		transactionNumber.setTabIndex(6);
 		paymentMethodCombo.setTabIndex(7);
 		payFromCombo.setTabIndex(8);
-		checkNo.setTabIndex(9);
+		checkNoText.setTabIndex(9);
 		deliveryDateItem.setTabIndex(10);
 		memoTextAreaItem.setTabIndex(11);
 		// menuButton.setTabIndex(12);

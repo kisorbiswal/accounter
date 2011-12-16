@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
-import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
@@ -37,7 +36,6 @@ import com.vimukti.accounter.web.client.ui.grids.TransactionIssuePaymentGrid;
 public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 	private PayFromAccountsCombo accountCombo;
-	private SelectCombo payMethodSelect;
 	private List<String> payMethodItemList;
 
 	private TransactionIssuePaymentGrid grid;
@@ -131,12 +129,24 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	// }
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
+		// ImageButton printButton = new
+		// ImageButton(Accounter.messages().print(),
+		// Accounter.getFinanceImages().Print1Icon());
+		// printButton.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// // TODO Auto-generated method stub
+		//
+		// }
+		// });
 		saveAndCloseButton = new SaveAndCloseButton(messages.save());
-		cancelButton = new CancelButton(this);
 		saveAndCloseButton.setView(this);
 		if (!isInViewMode()) {
 			buttonBar.add(saveAndCloseButton);
 		}
+		cancelButton = new CancelButton(this);
+		// buttonBar.add(printButton);
 		buttonBar.add(cancelButton);
 	}
 
@@ -221,27 +231,13 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		Label titleLabel = new Label(messages.issuePayment());
 		titleLabel.setStyleName(Accounter.messages().labelTitle());
 
-		payMethodSelect = new SelectCombo(messages.paymentMethod());
-		payMethodSelect.setHelpInformation(true);
-		payMethodSelect.setRequired(true);
 		payMethodItemList = new ArrayList<String>();
-		payMethodItemList
-				.add(UIUtils
-						.getpaymentMethodCheckBy_CompanyType(messages.check()));
-		payMethodSelect.initCombo(payMethodItemList);
-		payMethodSelect.setSelectedItem(0);
+		payMethodItemList.add(UIUtils
+				.getpaymentMethodCheckBy_CompanyType(messages.check()));
 
-		payMethodSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						payMethodSelect.getSelectedValue();
-						paymentMethodSelected(payMethodSelect
-								.getSelectedValue());
-					}
-
-				});
+		checkNoText = new TextItem(messages.startingChequeNo());
+		checkNoText.setHelpInformation(true);
+		checkNoText.setWidth(100);
 
 		accountCombo = new PayFromAccountsCombo(messages.Account(), false);
 		accountCombo.setHelpInformation(true);
@@ -261,8 +257,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 		payForm = new DynamicForm();
 		payForm.setWidth("50%");
-		payForm.setFields(payMethodSelect, accountCombo);
-		paymentMethodSelected(payMethodSelect.getSelectedValue());
+		payForm.setFields(accountCombo, checkNoText);
 
 		Label label = new Label();
 		label.setText(messages.paymentsToBeIssued());
@@ -312,8 +307,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = FormItem.validate(payMethodSelect,
-				accountCombo);
+		ValidationResult result = FormItem.validate(accountCombo);
 		if (grid.getRecords().isEmpty()) {
 			result.addError(grid,
 					messages.noTransactionIsAvailableToIssuePayments());
@@ -342,7 +336,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	protected void createIssuePayment() {
 
 		ClientIssuePayment issuePayment = getIssuePaymentObject();
-		saveOrUpdate(issuePayment);
+		Accounter.doCreateIssuePaymentEffect(this, issuePayment);
 		// Accounter.showError(AccounterErrorType.FAILEDREQUEST);
 
 		// public void onSuccess(String result) {
@@ -493,24 +487,6 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 	}
 
-	private void paymentMethodSelected(String selectedpaymentMethod1) {
-		selectedpaymentMethod = selectedpaymentMethod1;
-		if (!selectedpaymentMethod.isEmpty()) {
-			checkNoText = new TextItem(messages.startingChequeNo());
-			checkNoText.setHelpInformation(true);
-			checkNoText.setWidth(100);
-			// checkNoText.setRequired(true);
-			// if (selectedPayFromAccount != null)
-			// setStartingCheckNumber(selectedPayFromAccount);
-			payForm.removeAllRows();
-			payForm.setFields(payMethodSelect, accountCombo, checkNoText);
-			changeGridData(selectedPayFromAccount);
-		} else {
-			payForm.removeAllRows();
-			payForm.setFields(payMethodSelect, accountCombo);
-		}
-	}
-
 	private List<ClientTransactionIssuePayment> getTransactionIssuePayments(
 			ClientIssuePayment issuePayment) {
 		List<ClientTransactionIssuePayment> transactionIssuePaymentsList = new ArrayList<ClientTransactionIssuePayment>();
@@ -597,7 +573,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 	@Override
 	public void setFocus() {
-		payMethodSelect.setFocus();
+		accountCombo.setFocus();
 
 	}
 

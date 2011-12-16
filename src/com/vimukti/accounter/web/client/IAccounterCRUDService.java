@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -56,5 +57,8 @@ public interface IAccounterCRUDService extends RemoteService {
 			throws AccounterException;
 
 	boolean deleteTransactionFromDb(IAccounterCore obj)
+			throws AccounterException;
+
+	boolean doCreateIssuePaymentEffect(ClientIssuePayment obj)
 			throws AccounterException;
 }

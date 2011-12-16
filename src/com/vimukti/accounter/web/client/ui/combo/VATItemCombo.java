@@ -66,27 +66,28 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 	/* VATItmes whose 'isPercentage' is true, only allowed into the list */
 	public List<ClientTAXItemGroup> getFilteredVATItems(boolean salesItems) {
 		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
-		ArrayList<ClientTAXItemGroup> taxItemGroups = getCompany()
-				.getTaxItemGroups();
-		taxItemGroups.addAll(getCompany().getActiveTaxItems());
-		for (ClientTAXItem vatItem : getCompany().getActiveTaxItems()) {
-			if (vatItem.isPercentage()) {
-				ClientTAXAgency taxAgency = getCompany().getTaxAgency(
-						vatItem.getTaxAgency());
-				if (salesItems) {
-					if (taxAgency.getSalesLiabilityAccount() != 0) {
-						vatItmsList.add(vatItem);
-					}
-				}
-				if (!salesItems) {
-					if (taxAgency.getPurchaseLiabilityAccount() != 0
-							&& taxAgency.getTaxType() != ClientTAXAgency.TAX_TYPE_TDS) {
-						vatItmsList.add(vatItem);
-					}
-				}
-
-			}
-		}
+		ArrayList<ClientTAXGroup> taxGroups = getCompany().getTaxGroups();
+		vatItmsList.addAll(taxGroups);
+		vatItmsList.addAll(getCompany().getActiveTaxItems());
+		// for (ClientTAXItem vatItem : getCompany().getActiveTaxItems()) {
+		// if (vatItem.isPercentage()) {
+		// ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+		// vatItem.getTaxAgency());
+		// if (salesItems) {
+		// if (taxAgency.getSalesLiabilityAccount() != 0) {
+		// vatItmsList.add(vatItem);
+		// }
+		// }
+		// if (!salesItems) {
+		// if (taxAgency.getPurchaseLiabilityAccount() != 0
+		// && taxAgency.getTaxType() != ClientTAXAgency.TAX_TYPE_TDS) {
+		// vatItmsList.add(vatItem);
+		// }
+		// }
+		//
+		// }
+		// }
+		// vatItmsList.addAll(taxItemGroups);
 
 		return vatItmsList;
 	}

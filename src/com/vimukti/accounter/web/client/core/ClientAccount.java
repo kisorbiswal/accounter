@@ -149,6 +149,8 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	private int version;
 
+	private String lastCheckNum;
+
 	// ClientTaxCode VATcode;
 
 	public String getFlow() {
@@ -722,5 +724,13 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	public String getPaypalEmail() {
 		return paypalEmail;
+	}
+
+	public String getLastCheckNum() {
+		return lastCheckNum;
+	}
+
+	public void setLastCheckNum(String lastCheckNum) {
+		this.lastCheckNum = lastCheckNum;
 	}
 }

@@ -40,16 +40,20 @@ import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Advertisement;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Budget;
+import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CloneUtil;
 import com.vimukti.accounter.core.CloneUtil2;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreatableObject;
+import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.CreditNotePDFTemplete;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerCreditMemo;
+import com.vimukti.accounter.core.CustomerPrePayment;
+import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.IAccounterServerCore;
@@ -61,9 +65,11 @@ import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.PayBill;
+import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.PrintTemplete;
+import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.ReconciliationItem;
 import com.vimukti.accounter.core.RecurringTransaction;
@@ -95,6 +101,7 @@ import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -695,16 +702,7 @@ public class FinanceTool {
 	}
 
 	public String getNextIssuePaymentCheckNumber(long account, long companyId) {
-		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getNextIssuePaymentCheckNumber")
-				.setParameter("accountID", account)
-				.setParameter("companyId", companyId);
-		String number = (String) query.uniqueResult();
-
-		if (number != null) {
-			return NumberUtils.getStringwithIncreamentedDigit(number);
-		} else
-			return "1";
+		return NumberUtils.getNextCheckNumber(companyId, account);
 	}
 
 	public String getNextFixedAssetNumber(long companyId) throws DAOException {
@@ -1249,62 +1247,101 @@ public class FinanceTool {
 		return new ArrayList<ClientFinanceDate>(startDates);
 	}
 
+	public long getSub(long accountId, long companyId, List<Long> list) {
+		if (accountId == 0) {
+			return 0;
+		} else {
+
+			for (Account account : getCompany(companyId).getAccounts()) {
+				if (account.getParent() != null
+						&& account.getParent().getID() == accountId) {
+					list.add(account.getID());
+					return getSub(account.getID(), companyId, list);
+				}
+			}
+		}
+		return 0;
+	}
+
+	public List<Long> getSubAccs(long accountId, long companyId) {
+		ArrayList<Long> list = new ArrayList<Long>();
+		if (accountId == 0) {
+			return new ArrayList<Long>();
+		} else {
+			if (getSub(accountId, companyId, list) == 0) {
+				return list;
+			}
+		}
+		return new ArrayList<Long>();
+	}
+
 	public ArrayList<AccountRegister> getAccountRegister(
 			final FinanceDate startDate, final FinanceDate endDate,
 			final long accountId, long companyId) throws DAOException {
 
-		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getAccountRegister")
-				.setParameter("companyId", companyId)
-				.setParameter("accountId", accountId)
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate());
+		List<Long> parents = new ArrayList<Long>();
+		parents.add(accountId);
+		parents.addAll(getSubAccs(accountId, companyId));
 
-		List l = query.list();
-
-		Object[] object = null;
-		Iterator iterator = l.iterator();
 		List<AccountRegister> queryResult = new ArrayList<AccountRegister>();
-		while ((iterator).hasNext()) {
 
-			AccountRegister accountRegister = new AccountRegister();
-			object = (Object[]) iterator.next();
+		for (Long account : parents) {
 
-			accountRegister.setDate(new ClientFinanceDate((Long) object[0]));
-			accountRegister
-					.setType(object[1] == null ? 0 : (Integer) object[1]);
-			accountRegister.setNumber((String) object[2]);
-			accountRegister.setAmount(object[3] == null ? 0
-					: ((Double) object[3]).doubleValue());
-			accountRegister.setPayTo((String) object[4]);
-			accountRegister.setCheckNumber(object[5] == null ? null
-					: ((String) object[5]));
-			accountRegister.setAccount((String) object[6]);
-			/*
-			 * Clob cl = (Clob) object[7]; if (cl == null) {
-			 * 
-			 * accountRegister.setMemo("");
-			 * 
-			 * } else {
-			 * 
-			 * StringBuffer strOut = new StringBuffer(); String aux; try {
-			 * BufferedReader br = new BufferedReader(cl .getCharacterStream());
-			 * while ((aux = br.readLine()) != null) strOut.append(aux);
-			 * accountRegister.setMemo(strOut.toString()); } catch
-			 * (java.sql.SQLException e1) {
-			 * 
-			 * } catch (java.io.IOException e2) {
-			 * 
-			 * } }
-			 */
-			accountRegister.setMemo((String) object[7]);
-			accountRegister.setBalance(object[8] == null ? 0
-					: ((Double) object[8]).doubleValue());
-			accountRegister.setTransactionId((Long) object[9]);
-			accountRegister.setVoided(object[10] == null ? false
-					: (Boolean) object[10]);
+			Session session = HibernateUtil.getCurrentSession();
+			Query query = session.getNamedQuery("getAccountRegister")
+					.setParameter("companyId", companyId)
+					.setParameter("accountId", account)
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate());
 
-			queryResult.add(accountRegister);
+			List l = query.list();
+
+			Object[] object = null;
+			Iterator iterator = l.iterator();
+
+			while ((iterator).hasNext()) {
+
+				AccountRegister accountRegister = new AccountRegister();
+				object = (Object[]) iterator.next();
+
+				accountRegister
+						.setDate(new ClientFinanceDate((Long) object[0]));
+				accountRegister.setType(object[1] == null ? 0
+						: (Integer) object[1]);
+				accountRegister.setNumber((String) object[2]);
+				accountRegister.setAmount(object[3] == null ? 0
+						: ((Double) object[3]).doubleValue());
+				accountRegister.setPayTo((String) object[4]);
+				accountRegister.setCheckNumber(object[5] == null ? null
+						: ((String) object[5]));
+				accountRegister.setAccount((String) object[6]);
+				/*
+				 * Clob cl = (Clob) object[7]; if (cl == null) {
+				 * 
+				 * accountRegister.setMemo("");
+				 * 
+				 * } else {
+				 * 
+				 * StringBuffer strOut = new StringBuffer(); String aux; try {
+				 * BufferedReader br = new BufferedReader(cl
+				 * .getCharacterStream()); while ((aux = br.readLine()) != null)
+				 * strOut.append(aux);
+				 * accountRegister.setMemo(strOut.toString()); } catch
+				 * (java.sql.SQLException e1) {
+				 * 
+				 * } catch (java.io.IOException e2) {
+				 * 
+				 * } }
+				 */
+				accountRegister.setMemo((String) object[7]);
+				accountRegister.setBalance(object[8] == null ? 0
+						: ((Double) object[8]).doubleValue());
+				accountRegister.setTransactionId((Long) object[9]);
+				accountRegister.setVoided(object[10] == null ? false
+						: (Boolean) object[10]);
+
+				queryResult.add(accountRegister);
+			}
 		}
 		return new ArrayList<AccountRegister>(queryResult);
 	}
@@ -1927,10 +1964,10 @@ public class FinanceTool {
 					.setLong("toID", toClientAccount.getID())
 					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.issuepayment.old.tonew")
-					.setLong("fromID", fromClientAccount.getID())
-					.setLong("toID", toClientAccount.getID())
-					.setEntity("company", company).executeUpdate();
+			// session.getNamedQuery("update.merge.issuepayment.old.tonew")
+			// .setLong("fromID", fromClientAccount.getID())
+			// .setLong("toID", toClientAccount.getID())
+			// .setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery(
 					"update.merge.accounttrasactionexpense.old.tonew")
@@ -3292,6 +3329,124 @@ public class FinanceTool {
 		transaction.commit();
 
 		return true;
+	}
+
+	public void doCreateIssuePaymentEffect(Long companyId,
+			ClientIssuePayment obj) {
+
+		List<ClientTransactionIssuePayment> transactionIssuePayment = obj
+				.getTransactionIssuePayment();
+		long accountId = obj.getAccount();
+		for (ClientTransactionIssuePayment clientTransactionIssuePayment : transactionIssuePayment) {
+			Company company = getCompany(companyId);
+			String nextCheckNumber = NumberUtils.getNextCheckNumber(companyId,
+					accountId);
+			if (UIUtils.toLong(obj.getCheckNumber()) > UIUtils
+					.toLong(nextCheckNumber)) {
+				nextCheckNumber = obj.getCheckNumber();
+			}
+
+			Transaction transaction = null;
+			int recordType = clientTransactionIssuePayment.getRecordType();
+			switch (recordType) {
+			case ClientTransaction.TYPE_WRITE_CHECK:
+				transaction = getTransactionById(
+						clientTransactionIssuePayment.getWriteCheck(), company);
+				WriteCheck writeCheck = (WriteCheck) transaction;
+				writeCheck.setCheckNumber(nextCheckNumber);
+				transaction = writeCheck;
+				break;
+
+			case ClientTransaction.TYPE_CASH_PURCHASE:
+			case ClientTransaction.TYPE_CASH_EXPENSE:
+			case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+				transaction = getTransactionById(
+						clientTransactionIssuePayment.getCashPurchase(),
+						company);
+				CashPurchase cashPurchase = (CashPurchase) transaction;
+				cashPurchase.setCheckNumber(nextCheckNumber);
+				transaction = cashPurchase;
+				break;
+
+			case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+				transaction = getTransactionById(
+						clientTransactionIssuePayment.getCustomerRefund(),
+						company);
+				CustomerRefund customerRefund = (CustomerRefund) transaction;
+				customerRefund.setCheckNumber(nextCheckNumber);
+				transaction = customerRefund;
+				break;
+
+			case ClientTransaction.TYPE_PAY_TAX:
+				transaction = getTransactionById(
+						clientTransactionIssuePayment.getPaySalesTax(), company);
+				PayTAX payTax = (PayTAX) transaction;
+				payTax.setCheckNumber(nextCheckNumber);
+				transaction = payTax;
+				break;
+
+			case ClientTransaction.TYPE_PAY_BILL:
+				transaction = getTransactionById(
+						clientTransactionIssuePayment.getPayBill(), company);
+				PayBill payBill = (PayBill) transaction;
+				payBill.setCheckNumber(nextCheckNumber);
+				transaction = payBill;
+				break;
+
+			case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
+			case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+				transaction = getTransactionById(
+						clientTransactionIssuePayment.getCreditCardCharge(),
+						company);
+				CreditCardCharge creditCardCharge = (CreditCardCharge) transaction;
+				creditCardCharge.setCheckNumber(nextCheckNumber);
+				transaction = creditCardCharge;
+				break;
+
+			case ClientTransaction.TYPE_RECEIVE_TAX:
+				transaction = getTransactionById(
+						clientTransactionIssuePayment.getReceiveVAT(), company);
+				ReceiveVAT receiveVat = (ReceiveVAT) transaction;
+				receiveVat.setCheckNumber(nextCheckNumber);
+				transaction = receiveVat;
+				break;
+
+			case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+				transaction = getTransactionById(
+						clientTransactionIssuePayment.getCustomerPrepayment(),
+						company);
+				CustomerPrePayment customerPrePayment = (CustomerPrePayment) transaction;
+				customerPrePayment.setCheckNumber(nextCheckNumber);
+				transaction = customerPrePayment;
+				break;
+
+			}
+			Session session = HibernateUtil.getCurrentSession();
+
+			org.hibernate.Transaction beginTransaction = session
+					.beginTransaction();
+
+			transaction.setStatus(Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
+			session.save(transaction);
+
+			Query query = session.getNamedQuery("getAccount.by.id")
+					.setLong("id", accountId).setEntity("company", company);
+			Account account = (Account) query.uniqueResult();
+			account.setLastCheckNum(nextCheckNumber);
+			session.save(account);
+
+			beginTransaction.commit();
+		}
+
+	}
+
+	public Transaction getTransactionById(long transactionId, Company company) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getTransaction.by.id")
+				.setParameter("transactionId", transactionId)
+				.setEntity("company", company);
+		Transaction trans = (Transaction) query.uniqueResult();
+		return trans;
 	}
 
 	List<ClientAdvertisement> getAdvertisements() {

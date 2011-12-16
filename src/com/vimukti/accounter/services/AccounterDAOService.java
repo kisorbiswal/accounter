@@ -31,7 +31,6 @@ import com.vimukti.accounter.core.Expense;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.Invoice;
-import com.vimukti.accounter.core.IssuePayment;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.MakeDeposit;
@@ -1135,29 +1134,29 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@Override
-	public IssuePayment getIssuePayment(long companyId, long issuePaymentId)
-			throws DAOException {
-
-		try {
-			HibernateTemplate template = getHibernateTemplate();
-
-			List list = template.find(
-					"from IssuePayment i where i.id = ? and i.company.id = ? ",
-					new Object[] { issuePaymentId, companyId });
-
-			if (list.size() > 0) {
-				IssuePayment issuePayment = new IssuePayment();
-				issuePayment = (IssuePayment) list.get(0);
-				return issuePayment;
-			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DataAccessException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		}
-
-	}
+	// @Override
+	// public IssuePayment getIssuePayment(long companyId, long issuePaymentId)
+	// throws DAOException {
+	//
+	// try {
+	// HibernateTemplate template = getHibernateTemplate();
+	//
+	// List list = template.find(
+	// "from IssuePayment i where i.id = ? and i.company.id = ? ",
+	// new Object[] { issuePaymentId, companyId });
+	//
+	// if (list.size() > 0) {
+	// IssuePayment issuePayment = new IssuePayment();
+	// issuePayment = (IssuePayment) list.get(0);
+	// return issuePayment;
+	// } else
+	// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
+	// null));
+	// } catch (DataAccessException e) {
+	// throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+	// }
+	//
+	// }
 
 	@Override
 	public Item getItem(long companyId, String itemName) throws DAOException {

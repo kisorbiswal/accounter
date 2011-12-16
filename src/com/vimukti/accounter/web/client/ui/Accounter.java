@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -610,6 +611,26 @@ public class Accounter implements EntryPoint {
 			AsyncCallback<Client1099Form> myCallback, long vendorId) {
 		Accounter.createCRUDService().get1099InformationByVendor(vendorId,
 				myCallback);
+	}
+
+	public static void doCreateIssuePaymentEffect(final ISaveCallback source,
+			final ClientIssuePayment obj) {
+		final AccounterAsyncCallback<Boolean> transactionCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			public void onException(AccounterException caught) {
+				source.saveFailed(caught);
+				caught.printStackTrace();
+				// TODO handle other kind of errors
+			}
+
+			public void onResultSuccess(Boolean result) {
+				company.processUpdateOrCreateObject(obj);
+				source.saveSuccess(obj);
+			}
+
+		};
+		Accounter.createCRUDService().doCreateIssuePaymentEffect(obj,
+				transactionCallBack);
 	}
 
 }

@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -353,7 +354,7 @@ public class CashExpenseView extends
 		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
-		vatTotalNonEditableText = createVATTotalNonEditableItem();
+		vatTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
@@ -448,8 +449,7 @@ public class CashExpenseView extends
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		DynamicForm totalForm = new DynamicForm();
-		totalForm.setNumCols(2);
+		VerticalPanel totalForm = new VerticalPanel();
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
 
@@ -487,16 +487,26 @@ public class CashExpenseView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
+		DynamicForm transactionTotalForm = new DynamicForm();
+		transactionTotalForm.setNumCols(2);
+
 		if (isTrackTax() && isTrackPaidTax()) {
+			DynamicForm netAmountForm = new DynamicForm();
+			netAmountForm.setNumCols(2);
+			netAmountForm.setFields(netAmount);
+
+			totalForm.add(netAmountForm);
+			totalForm.add(vatTotalNonEditableText);
+			totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
+
 			VerticalPanel vpanel = new VerticalPanel();
 			vpanel.setWidth("100%");
 			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 
-			totalForm.setFields(netAmount, vatTotalNonEditableText,
-					transactionTotalNonEditableText);
+			transactionTotalForm.setFields(transactionTotalNonEditableText);
 
 			if (isMultiCurrencyEnabled())
-				totalForm.setFields(foreignCurrencyamountLabel);
+				transactionTotalForm.setFields(foreignCurrencyamountLabel);
 
 			vpanel.add(totalForm);
 
@@ -529,14 +539,19 @@ public class CashExpenseView extends
 			memoForm.setStyleName("align-form");
 			bottomLayout.add(memoForm);
 
-			totalForm.setFields(transactionTotalNonEditableText);
+			transactionTotalForm.setFields(transactionTotalNonEditableText);
 
 			if (isMultiCurrencyEnabled())
-				totalForm.setFields(foreignCurrencyamountLabel);
+				transactionTotalForm.setFields(foreignCurrencyamountLabel);
 
 			bottomLayout.add(totalForm);
 			bottompanel.add(bottomLayout);
 		}
+		totalForm.add(transactionTotalForm);
+
+		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
+				ALIGN_RIGHT);
+		totalForm.setCellHorizontalAlignment(transactionTotalForm, ALIGN_RIGHT);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
@@ -557,7 +572,7 @@ public class CashExpenseView extends
 		listforms.add(dateNoForm);
 		listforms.add(vendorForm);
 		listforms.add(memoForm);
-		listforms.add(totalForm);
+		listforms.add(transactionTotalForm);
 
 		settabIndexes();
 		if (isMultiCurrencyEnabled()) {
@@ -649,8 +664,7 @@ public class CashExpenseView extends
 
 				if (getPreferences().isTaxPerDetailLine()) {
 					netAmount.setAmount(transaction.getNetAmount());
-					vatTotalNonEditableText.setAmount(transaction.getTotal()
-							- transaction.getNetAmount());
+					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -788,7 +802,14 @@ public class CashExpenseView extends
 
 		netAmount.setAmount(lineTotal);
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			if ((transaction.getTransactionItems() != null && transaction
+					.getTransactionItems().isEmpty()) || !isInViewMode()) {
+				transaction.setTransactionItems(vendorAccountTransactionTable
+						.getAllRows());
+				transaction.getTransactionItems().addAll(
+						vendorItemTransactionTable.getAllRows());
+			}
+			vatTotalNonEditableText.setTransaction(transaction);
 		}
 		transactionTotalNonEditableText
 				.setAmount(getAmountInBaseCurrency(grandTotal));

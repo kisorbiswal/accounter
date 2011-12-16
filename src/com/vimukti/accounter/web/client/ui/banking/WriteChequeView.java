@@ -50,6 +50,7 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -68,7 +69,7 @@ public class WriteChequeView extends
 	private HorizontalPanel labelLayout;
 	public AmountLabel netAmount;
 
-	AmountLabel vatTotalNonEditableText;
+	TaxItemsForm vatTotalNonEditableText;
 	private TextAreaItem addrArea;
 	private DynamicForm payForm;
 
@@ -846,18 +847,22 @@ public class WriteChequeView extends
 
 		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
-		vatTotalNonEditableText = new AmountLabel("Tax");
+		vatTotalNonEditableText = new TaxItemsForm();
 
 		netAmount = new AmountLabel(messages.netAmount());
 
 		HorizontalPanel bottomPanel = new HorizontalPanel();
 		bottomPanel.setWidth("100%");
 		bottomPanel.add(memoForm);
-		DynamicForm totalForm = new DynamicForm();
-		totalForm.setFields(netAmount);
+		VerticalPanel totalForm = new VerticalPanel();
+
+		DynamicForm netAmountForm = new DynamicForm();
+		netAmountForm.setNumCols(2);
+		netAmountForm.setFields(netAmount);
+		totalForm.add(netAmountForm);
 
 		if (isTrackTax()) {
-			totalForm.setFields(vatTotalNonEditableText);
+			totalForm.add(vatTotalNonEditableText);
 			if (!isTaxPerDetailLine()) {
 				DynamicForm vatCheckForm = new DynamicForm();
 				taxCodeSelect = createTaxCodeSelectItem();
@@ -875,13 +880,21 @@ public class WriteChequeView extends
 
 			}
 		}
-		totalForm.setFields(foreignCurrencyamountLabel);
+		DynamicForm transactionTotalForm = new DynamicForm();
+		transactionTotalForm.setNumCols(2);
+
+		transactionTotalForm.setFields(foreignCurrencyamountLabel);
 
 		if (isMultiCurrencyEnabled()) {
-			totalForm.setFields(transactionTotalBaseCurrencyText);
+			transactionTotalForm.setFields(transactionTotalBaseCurrencyText);
 		}
-
+		totalForm.add(transactionTotalForm);
 		totalForm.addStyleName("boldtext");
+		totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
+		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
+				ALIGN_RIGHT);
+		totalForm.setCellHorizontalAlignment(transactionTotalForm, ALIGN_RIGHT);
+
 		unassignedAmountPanel = new HorizontalPanel();
 
 		amountPanel.add(unassignedAmountPanel);
@@ -1160,7 +1173,12 @@ public class WriteChequeView extends
 		}
 		double grandTotal = transactionVendorAccountTable.getLineTotal();
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText.setAmount(total - grandTotal);
+			if ((transaction.getTransactionItems() != null && transaction
+					.getTransactionItems().isEmpty()) || !isInViewMode()) {
+				transaction.setTransactionItems(transactionVendorAccountTable
+						.getAllRows());
+			}
+			vatTotalNonEditableText.setTransaction(transaction);
 		}
 		netAmount.setAmount(grandTotal);
 
@@ -1463,8 +1481,7 @@ public class WriteChequeView extends
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
 					netAmount.setAmount(transaction.getNetAmount());
-					vatTotalNonEditableText.setAmount(transaction.getTotal()
-							- transaction.getNetAmount());
+					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {

@@ -66,6 +66,7 @@ public class IssuePaymentsAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "issuePayments";
+//		return "printCheque";
 	}
 
 	@Override

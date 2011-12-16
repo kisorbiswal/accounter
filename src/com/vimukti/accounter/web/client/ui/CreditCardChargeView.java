@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -237,8 +238,7 @@ public class CreditCardChargeView extends
 		super.paymentMethodSelected(paymentMethod2);
 		AccounterMessages messages = Global.get().messages();
 		if (paymentMethod != null
-				&& (paymentMethod
-						.equals(messages.check()) || paymentMethod
+				&& (paymentMethod.equals(messages.check()) || paymentMethod
 						.equals(messages.cheque()))) {
 			if (isInViewMode()) {
 				cheqNoText
@@ -278,8 +278,7 @@ public class CreditCardChargeView extends
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
 					netAmount.setAmount(transaction.getNetAmount());
-					vatTotalNonEditableText.setAmount(transaction.getTotal()
-							- transaction.getNetAmount());
+					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
 							.getTransactionItems());
@@ -536,7 +535,7 @@ public class CreditCardChargeView extends
 
 		foreignCurrencyamountLabel = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
-		vatTotalNonEditableText = createVATTotalNonEditableLabel();
+		vatTotalNonEditableText = new TaxItemsForm();
 
 		vatinclusiveCheck = new CheckboxItem(Accounter.messages()
 				.amountIncludesVat());
@@ -637,8 +636,7 @@ public class CreditCardChargeView extends
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
 
-		DynamicForm totalForm = new DynamicForm();
-		totalForm.setNumCols(2);
+		VerticalPanel totalForm = new VerticalPanel();
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
 		// totText = new AmountField(FinanceApplication.constants()
@@ -656,15 +654,32 @@ public class CreditCardChargeView extends
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
+		DynamicForm transactionTotalForm = new DynamicForm();
+		transactionTotalForm.setNumCols(2);
+
 		if (isTrackPaidTax()) {
+			DynamicForm netAmountForm = new DynamicForm();
+			netAmountForm.setNumCols(2);
+			netAmountForm.setFields(netAmount);
+
+			totalForm.add(netAmountForm);
+			totalForm.add(vatTotalNonEditableText);
+
 			if (isMultiCurrencyEnabled()) {
-				totalForm.setFields(netAmount, vatTotalNonEditableText,
+				transactionTotalForm.setFields(
 						transactionTotalBaseCurrencyText,
 						foreignCurrencyamountLabel);
 			} else {
-				totalForm.setFields(netAmount, vatTotalNonEditableText,
-						transactionTotalBaseCurrencyText);
+				transactionTotalForm
+						.setFields(transactionTotalBaseCurrencyText);
 			}
+			totalForm.add(transactionTotalForm);
+			totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
+			totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
+					ALIGN_RIGHT);
+			totalForm.setCellHorizontalAlignment(transactionTotalForm,
+					ALIGN_RIGHT);
+
 			VerticalPanel vPanel = new VerticalPanel();
 			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 			vPanel.setWidth("100%");
@@ -750,7 +765,7 @@ public class CreditCardChargeView extends
 		listforms.add(termsForm);
 		listforms.add(memoForm);
 		listforms.add(vatCheckform);
-		listforms.add(totalForm);
+		listforms.add(transactionTotalForm);
 		listforms.add(totForm);
 		initViewType();
 
@@ -884,7 +899,14 @@ public class CreditCardChargeView extends
 		foreignCurrencyamountLabel.setAmount(grandTotal);
 		if (isTrackTax()) {
 			netAmount.setAmount(lineTotal);
-			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			if ((transaction.getTransactionItems() != null && transaction
+					.getTransactionItems().isEmpty()) || !isInViewMode()) {
+				transaction.setTransactionItems(vendorAccountTransactionTable
+						.getAllRows());
+				transaction.getTransactionItems().addAll(
+						vendorItemTransactionTable.getAllRows());
+			}
+			vatTotalNonEditableText.setTransaction(transaction);
 		}
 	}
 

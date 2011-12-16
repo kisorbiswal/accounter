@@ -110,6 +110,7 @@
 				column="TAX_AGENCY_ID">
 			</many-to-one>
 			<property name="isEdited" column="IS_EDITED"></property>
+			<property name="checkNumber" column="CHECK_NUMBER"></property>
 			<list name="transactionPayTAX" cascade="save-update,delete-orphan">
 				<key column="PAY_TAX_ID" />
 				<list-index column="IDX" />
@@ -128,6 +129,7 @@
 			</many-to-one>
 			<property name="endingBalance" column="ENDING_BALANCE"></property>
 			<property name="isEdited" column="IS_EDITED"></property>
+			<property name="checkNumber" column="CHECK_NUMBER"></property>
 			<list name="transactionReceiveVAT" cascade="save-update,delete">
 				<key column="RECEIVE_VAT_ID" />
 				<list-index column="IDX" />
@@ -883,18 +885,12 @@
 				column="TRANSFER_TO">
 			</many-to-one>
 		</joined-subclass>
-		<joined-subclass name="IssuePayment" table="ISSUEPAYMENT">
-			<key column="ID" />
-			<many-to-one name="account" class="Account" cascade="save-update"
-				column="ACCOUNT_ID">
-			</many-to-one>
-			<property name="checkNumber" column="CHECK_NUMBER"></property>
-			<list name="transactionIssuePayment" cascade="save-update,delete">
-				<key column="TRANSACTION_ID" />
-				<list-index column="IDX" />
-				<one-to-many class="TransactionIssuePayment" />
-			</list>
-		</joined-subclass>
+		<!--<joined-subclass name="IssuePayment" table="ISSUEPAYMENT"> <key column="ID" 
+			/> <many-to-one name="account" class="Account" cascade="save-update" column="ACCOUNT_ID"> 
+			</many-to-one> <property name="checkNumber" column="CHECK_NUMBER"></property> 
+			<list name="transactionIssuePayment" cascade="save-update,delete"> <key column="TRANSACTION_ID" 
+			/> <list-index column="IDX" /> <one-to-many class="TransactionIssuePayment" 
+			/> </list> </joined-subclass> -->
 		<joined-subclass name="JournalEntry" table="JOURNAL_ENTRY">
 			<key column="ID" />
 			<property name="debitTotal" column="DEBIT_TOTAL"></property>
@@ -1188,36 +1184,21 @@
 		</many-to-one>
 		<property name="number" column="NUMBER"></property>
 	</class>
-	<class name="TransactionIssuePayment" table="TRANSACTION_ISSUE_PAYMENT">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<property name="date" column="DATE"
-			type="com.vimukti.accounter.core.LongUseType"></property>
-		<many-to-one name="writeCheck" class="WriteCheck" column="WRITE_CHECK_ID">
-		</many-to-one>
-		<many-to-one name="customerRefund" class="CustomerRefund"
-			column="CUSTOMER_REFUND_ID">
-		</many-to-one>
-		<many-to-one name="payBill" class="PayBill" column="PAYBILL_ID">
-		</many-to-one>
-		<many-to-one name="creditCardCharge" class="CreditCardCharge"
-			column="CREDIT_CARD_CHARGE_ID">
-		</many-to-one>
-		<many-to-one name="cashPurchase" class="CashPurchase"
-			column="CASH_PURCHASE_ID">
-		</many-to-one>
-		<many-to-one name="paySalesTax" class="PayTAX" column="PAY_SALES_TAX_ID">
-		</many-to-one>
-		<property name="number" column="NUMBER"></property>
-		<property name="name" column="NAME"></property>
-		<property name="memo" type="text" column="MEMO"></property>
-		<property name="amount" column="AMOUNT"></property>
-		<many-to-one name="transaction" class="Transaction"
-			column="TRANSACTION_ID">
-		</many-to-one>
-		<property name="version" column="VERSION"></property>
-	</class>
+	<!--<class name="TransactionIssuePayment" table="TRANSACTION_ISSUE_PAYMENT"> 
+		<id name="id" column="ID"> <generator class="identity" /> </id> <property 
+		name="date" column="DATE" type="com.vimukti.accounter.core.LongUseType"></property> 
+		<many-to-one name="writeCheck" class="WriteCheck" column="WRITE_CHECK_ID"> 
+		</many-to-one> <many-to-one name="customerRefund" class="CustomerRefund" 
+		column="CUSTOMER_REFUND_ID"> </many-to-one> <many-to-one name="payBill" class="PayBill" 
+		column="PAYBILL_ID"> </many-to-one> <many-to-one name="creditCardCharge" 
+		class="CreditCardCharge" column="CREDIT_CARD_CHARGE_ID"> </many-to-one> <many-to-one 
+		name="cashPurchase" class="CashPurchase" column="CASH_PURCHASE_ID"> </many-to-one> 
+		<many-to-one name="paySalesTax" class="PayTAX" column="PAY_SALES_TAX_ID"> 
+		</many-to-one> <property name="number" column="NUMBER"></property> <property 
+		name="name" column="NAME"></property> <property name="memo" type="text" column="MEMO"></property> 
+		<property name="amount" column="AMOUNT"></property> <many-to-one name="transaction" 
+		class="Transaction" column="TRANSACTION_ID"> </many-to-one> <property name="version" 
+		column="VERSION"></property> </class> -->
 	<class name="TransactionPayTAX" table="TRANSACTION_PAY_TAX">
 		<id name="id" column="ID">
 			<generator class="identity" />

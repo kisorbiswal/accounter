@@ -4739,7 +4739,7 @@ public interface AccounterMessages extends Messages {
 
 	public String customerprePayment();
 
-	public String customerrefund();
+	// public String customerRefund();
 
 	public String financeLogger();
 
@@ -4755,15 +4755,15 @@ public interface AccounterMessages extends Messages {
 
 	public String editingCreditsFailed();
 
-	// public String parentAccount();
+	public String parentAccount();
 
 	public String companyDefaultTaxCode(String TAX);
 
-	// public String isSubAccount();
+	public String isSubAccount();
 
-	// public String parenAccountTypeShouldBeSame();
+	public String parenAccountTypeShouldBeSame();
 
-	// public String parenAccountCurrencyShouldBeSame();
+	public String parenAccountCurrencyShouldBeSame();
 
 	public String addBankAccount();
 
@@ -5099,6 +5099,8 @@ public interface AccounterMessages extends Messages {
 
 	public String readTermsAndConditions();
 
+	public String taxAtOnValue(String taxRate, String value);
+
 	public String invoiceUsedInEstimates();
 
 	public String pleaseenteryourfirstname();
@@ -5140,4 +5142,6 @@ public interface AccounterMessages extends Messages {
 	public String pleaseEnterCodeItShouldNotBeEmpty();
 
 	public String warehouseAlreadyExistsWithCode();
+
+	public String printCheque();
 }

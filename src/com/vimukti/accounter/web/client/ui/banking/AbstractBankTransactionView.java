@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
+import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -66,7 +67,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected CheckboxItem vatinclusiveCheck;
 
 	protected List<ClientAccount> accounts;
-	protected AmountLabel netAmount, vatTotalNonEditableText;
+	protected AmountLabel netAmount;
+	protected TaxItemsForm vatTotalNonEditableText;
 	protected ClientVendor selectedVendor;
 	protected ClientTAXCode taxCode;
 

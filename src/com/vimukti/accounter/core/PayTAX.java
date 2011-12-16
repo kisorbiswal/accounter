@@ -52,6 +52,8 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 
 	boolean isEdited = false;
 
+	private String checkNumber;
+
 	List<TransactionPayTAX> transactionPayTAX;
 
 	//
@@ -302,6 +304,14 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 		w.put(messages.paymentMethod(), this.paymentMethod).gap();
 		w.put(messages.memo(), this.memo);
 
+	}
+
+	public String getCheckNumber() {
+		return checkNumber;
+	}
+
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
 	}
 
 }

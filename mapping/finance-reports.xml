@@ -2567,9 +2567,9 @@
 		:startDate AND :endDate
 		AND AT.AMOUNT != 0 AND T.STATUS != 3
 		GROUP BY
-		T.ID,PB.ID,A.NAME,P.NAME
+		T.ID,PB.ID,A.FLOW,A.NAME,P.NAME
 		ORDER BY
-		A.NAME,T.T_DATE
+		A.FLOW,A.NAME,T.T_DATE
 
 	</sql-query>
 

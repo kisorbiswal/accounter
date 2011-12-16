@@ -52,6 +52,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -83,7 +84,7 @@ public class PurchaseOrderView extends
 	private long despatchDate;
 	private long deliveryDate;
 
-	DynamicForm amountsForm;
+	VerticalPanel amountsForm;
 
 	private ArrayList<DynamicForm> listforms;
 	private TextItem purchaseOrderText;
@@ -155,7 +156,7 @@ public class PurchaseOrderView extends
 		labeldateNoLayout.add(datepanel);
 		// final TextItem disabletextbox = new TextItem();
 		// disabletextbox.setVisible(false);
-		amountsForm = new DynamicForm();
+		amountsForm = new VerticalPanel();
 		amountsForm.setWidth("100%");
 
 		netAmount = createNetAmountLabel();
@@ -166,13 +167,16 @@ public class PurchaseOrderView extends
 		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
-		vatTotalNonEditableText = createVATTotalNonEditableLabelforPurchase();
+		vatTotalNonEditableText = new TaxItemsForm();
 
 		// vendorCombo =
 		// createVendorComboItem(messages.vendorName());
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
+
+		DynamicForm transactionTotalForm = new DynamicForm();
+		transactionTotalForm.setNumCols(2);
 
 		if (isTrackTax() && isTrackPaidTax()) {
 
@@ -196,15 +200,21 @@ public class PurchaseOrderView extends
 				// this.transactionTotalNonEditableText.setAmount(transaction
 				// .getTotal());
 			}
+
+			DynamicForm netAmountForm = new DynamicForm();
+			netAmountForm.setNumCols(2);
+			netAmountForm.setFields(netAmount);
+
+			amountsForm.add(netAmountForm);
+			amountsForm.add(vatTotalNonEditableText);
+			amountsForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
 			if (isMultiCurrencyEnabled()) {
-				amountsForm.setFields(netAmount, vatTotalNonEditableText,
-						transactionTotalNonEditableText,
+
+				transactionTotalForm.setFields(transactionTotalNonEditableText,
 						foreignCurrencyamountLabel);
 			} else {
-				amountsForm.setFields(netAmount, vatTotalNonEditableText,
-						transactionTotalNonEditableText);
+				transactionTotalForm.setFields(transactionTotalNonEditableText);
 			}
-
 			amountsForm.setStyleName("boldtext");
 			// forms.add(priceLevelForm);
 			// prodAndServiceHLay.add(priceLevelForm);
@@ -217,7 +227,7 @@ public class PurchaseOrderView extends
 
 		} else {
 
-			salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
+			salesTaxTextNonEditable = new TaxItemsForm();// createSalesTaxNonEditableLabel();
 			transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
 
 			paymentsNonEditableText = new AmountLabel(messages.payments());
@@ -236,19 +246,25 @@ public class PurchaseOrderView extends
 			// transactionTotalNonEditableText, ,
 			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
 
-			amountsForm.setNumCols(2);
 			amountsForm.addStyleName("boldtext");
 			if (isMultiCurrencyEnabled()) {
-				amountsForm.setFields(transactionTotalNonEditableText,
+				transactionTotalForm.setFields(transactionTotalNonEditableText,
 						foreignCurrencyamountLabel);
 			} else {
-				amountsForm.setFields(transactionTotalNonEditableText);
+				transactionTotalForm.setFields(transactionTotalNonEditableText);
 			}
 
 			// prodAndServiceHLay.add(amountsForm);
 			// prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
 			// ALIGN_RIGHT);
 		}
+		amountsForm.add(transactionTotalForm);
+
+		amountsForm.setCellHorizontalAlignment(transactionTotalForm,
+				ALIGN_RIGHT);
+		amountsForm.setCellHorizontalAlignment(vatTotalNonEditableText,
+				ALIGN_RIGHT);
+
 		prodAndServiceHLay.add(amountsForm);
 		prodAndServiceHLay.setCellHorizontalAlignment(amountsForm, ALIGN_RIGHT);
 		prodAndServiceHLay.setCellVerticalAlignment(amountsForm,
@@ -1022,7 +1038,14 @@ public class PurchaseOrderView extends
 		netAmount.setAmount(lineTotal);
 		// vatTotalNonEditableText.setValue(vendorTransactionGrid.getVatTotal());
 		if (getPreferences().isTrackPaidTax()) {
-			vatTotalNonEditableText.setAmount(grandTotal - lineTotal);
+			if ((transaction.getTransactionItems() != null && transaction
+					.getTransactionItems().isEmpty()) || !isInViewMode()) {
+				transaction.setTransactionItems(vendorAccountTransactionTable
+						.getAllRows());
+				transaction.getTransactionItems().addAll(
+						vendorItemTransactionTable.getAllRows());
+			}
+			vatTotalNonEditableText.setTransaction(transaction);
 		}
 
 	}

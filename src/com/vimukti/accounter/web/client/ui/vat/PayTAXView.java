@@ -3,6 +3,10 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -30,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPayTAXGrid;
@@ -54,6 +59,9 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private String transactionNumber;
 	private ClientFinanceDate dueDateOnOrBefore;
 	private TextItem transNumber;
+	private TextItem checkNoText;
+	private CheckboxItem printCheck;
+	private boolean isChecked = false;
 
 	List<ClientTransactionPayTAX> records = new ArrayList<ClientTransactionPayTAX>();
 
@@ -111,6 +119,53 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth(100);
+
+		printCheck = new CheckboxItem(messages.toBePrinted());
+		printCheck.setValue(true);
+		printCheck.setWidth(100);
+		printCheck.setDisabled(true);
+		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				isChecked = event.getValue();
+				if (isChecked) {
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
+						checkNoText
+								.setValue(Accounter.messages().toBePrinted());
+						checkNoText.setDisabled(true);
+					} else {
+						if (payFromCombo.getValue() == null)
+							checkNoText.setValue(Accounter.messages()
+									.toBePrinted());
+						else if (transaction != null) {
+							checkNoText.setValue(transaction.getCheckNumber());
+						}
+					}
+				} else
+					checkNoText.setValue("");
+				checkNoText.setDisabled(false);
+
+			}
+		});
+
+		checkNoText = new TextItem(messages.chequeNo());
+		checkNoText.setValue(Accounter.messages().toBePrinted());
+		checkNoText.setHelpInformation(true);
+		checkNoText.setWidth(100);
+		if (paymentMethodCombo.getSelectedValue() != null
+				&& !paymentMethodCombo.getSelectedValue().equals(
+						UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
+								.messages().check())))
+			checkNoText.setDisabled(true);
+		checkNoText.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				checkNumber = checkNoText.getValue().toString();
+			}
+		});
 
 		billsDue = new DateField(messages.returnsDueOnOrBefore());
 		billsDue.setHelpInformation(true);
@@ -174,7 +229,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		balForm = new DynamicForm();
 		balForm = UIUtils.form(messages.balances());
-		balForm.setFields(amountText, endingBalanceText);
+		balForm.setFields(amountText, endingBalanceText, printCheck,
+				checkNoText);
 		// balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -231,6 +287,25 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 					.getTotalBalanceInAccountCurrency());
 		}
 		settabIndexes();
+
+	}
+
+	@Override
+	protected void paymentMethodSelected(String paymentMethod) {
+		if (paymentMethod == null)
+			return;
+
+		if (paymentMethod != null) {
+			this.paymentMethod = paymentMethod;
+			if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
+				printCheck.setDisabled(false);
+				checkNoText.setDisabled(false);
+			} else {
+				// paymentMethodCombo.setComboItem(paymentMethod);
+				printCheck.setDisabled(true);
+				checkNoText.setDisabled(true);
+			}
+		}
 
 	}
 
@@ -373,6 +448,25 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 					.getTotalBalanceInAccountCurrency());
 		}
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
+		if (transaction.getPaymentMethod().equals(messages.check())) {
+			printCheck.setDisabled(isInViewMode());
+			checkNoText.setDisabled(isInViewMode());
+		} else {
+			printCheck.setDisabled(true);
+			checkNoText.setDisabled(true);
+		}
+
+		if (transaction.getCheckNumber() != null) {
+			if (transaction.getCheckNumber().equals(
+					Accounter.messages().toBePrinted())) {
+				checkNoText.setValue(Accounter.messages().toBePrinted());
+				printCheck.setValue(true);
+			} else {
+				checkNoText.setValue(transaction.getCheckNumber());
+				printCheck.setValue(false);
+			}
+		}
+
 		amountText.setAmount(transaction.getTotal());
 		if (selectedPayFromAccount != null) {
 			amountText.setCurrency(getCurrency(selectedPayFromAccount
@@ -535,6 +629,14 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 		transaction.setPaymentMethod(paymentMethod);
 
+		if (checkNoText.getValue() != null
+				&& !checkNoText.getValue().equals("")) {
+			transaction.setCheckNumber(getCheckValue());
+		} else
+			transaction.setCheckNumber("");
+
+		// transaction.setIsToBePrinted(isChecked);
+
 		if (billsDue.getValue() != null) {
 			transaction.setBillsDueOnOrBefore((billsDue.getValue()).getDate());
 		}
@@ -547,6 +649,29 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 		transaction.setTransactionPayTax(getTransactionPayVATList());
+	}
+
+	private String getCheckValue() {
+		String value;
+		if (!isInViewMode()) {
+			if (checkNoText.getValue().equals(
+					Accounter.messages().toBePrinted())) {
+				value = String.valueOf(Accounter.messages().toBePrinted());
+
+			} else
+				value = String.valueOf(checkNoText.getValue());
+		} else {
+			String checknumber;
+			checknumber = this.checkNumber;
+			if (checknumber == null) {
+				checknumber = Accounter.messages().toBePrinted();
+			}
+			if (checknumber.equals(Accounter.messages().toBePrinted()))
+				value = Accounter.messages().toBePrinted();
+			else
+				value = String.valueOf(checknumber);
+		}
+		return value;
 	}
 
 	private List<ClientTransactionPayTAX> getTransactionPayVATList() {
@@ -619,6 +744,9 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		billsDue.setDisabled(isInViewMode());
 		taxAgencyCombo.setDisabled(isInViewMode());
 		payFromAccCombo.setDisabled(isInViewMode());
+		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
+			checkNoText.setValue(Accounter.messages().toBePrinted());
+		}
 		super.onEdit();
 
 		// fillGrid();

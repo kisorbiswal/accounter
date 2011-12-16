@@ -14,6 +14,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -36,6 +38,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.BankNameCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.DropDownCombo;
@@ -132,6 +135,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private TextItem paypalEmail;
 	private double currencyFactor = 1.0;
 	CurrencyComboWidget currencyCombo;
+	private AccountCombo parentAccountCombo;
+	private CheckboxItem isSubAccountBox;
 
 	public NewAccountView() {
 		super();
@@ -288,6 +293,40 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		statusBox.setValue(true);
 		statusBox.setDisabled(isInViewMode());
 
+		isSubAccountBox = new CheckboxItem(messages.isSubAccount());
+		isSubAccountBox.setWidth(100);
+		isSubAccountBox.setDisabled(isInViewMode());
+		isSubAccountBox.addChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				parentAccountCombo.setVisible(event.getValue());
+			}
+		});
+
+		parentAccountCombo = new AccountCombo(messages.parentAccount()) {
+
+			@Override
+			protected List<ClientAccount> getAccounts() {
+				return getCompany().getAccounts();
+			}
+		};
+		parentAccountCombo.setDisabled(isInViewMode());
+
+		parentAccountCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientAccount selectItem) {
+						if (selectItem.getType() != getAccountType(accTypeSelect
+								.getSelectedValue())) {
+							Accounter.showError(messages
+									.parenAccountTypeShouldBeSame());
+						}
+
+					}
+				});
+
 		cashFlowCatSelect = new SelectItem(messages.cashFlowCategory());
 		cashFlowCatSelect.addChangeHandler(new ChangeHandler() {
 
@@ -414,13 +453,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (getPreferences().getUseAccountNumbers()) {
 
 			accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-					statusBox);
+					statusBox, isSubAccountBox, parentAccountCombo);
 			balanceForm.setFields(opBalText, asofDate, currentBalanceText);
 		} else {
 			accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
-			accInfoForm.setFields(accTypeSelect, accNameText, statusBox);
+			accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
+					isSubAccountBox, parentAccountCombo);
 			balanceForm.setFields(opBalText, asofDate, currentBalanceText);
 		}
+		parentAccountCombo.setVisible(false);
 
 		if (getData() == null) {
 			ClientAccount account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount(
@@ -1063,6 +1104,18 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				messages.openingBalances()))) {
 			validateAccountNumber(accNoText.getNumber());
 		}
+		if (isSubAccountBox.getValue()) {
+			ClientAccount selectedValue = parentAccountCombo.getSelectedValue();
+			if (selectedValue.getType() != getAccountType(accTypeSelect
+					.getSelectedValue())) {
+				result.addError(accTypeSelect,
+						messages.parenAccountTypeShouldBeSame());
+			}
+			if (selectedValue.getCurrency() != selectCurrency.getID()) {
+				result.addError(accTypeSelect,
+						messages.parenAccountCurrencyShouldBeSame());
+			}
+		}
 		if (AccounterValidator.isPriorToCompanyPreventPostingDate(asofDate
 				.getEnteredDate())) {
 			result.addError(asofDate, messages.priorasOfDate());
@@ -1119,6 +1172,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		data.setOpeningBalance(opBalText.getAmount());
 		data.setAsOf(asofDate.getEnteredDate().getDate());
 		data.setCurrencyFactor(currencyFactor);
+		if (isSubAccountBox.getValue()) {
+			data.setParent(parentAccountCombo.getSelectedValue().getID());
+		}
 		switch (accountType) {
 		case ClientAccount.TYPE_BANK:
 			((ClientBankAccount) data).setBank(Utility.getID(selectedBank));
@@ -1240,6 +1296,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// }
 		// Enable Opening Balance to All Balancesheet accounts
 		enableOpeningBalaceTxtByType();
+
+		isSubAccountBox.setValue(data.getParent() != 0);
+		ClientAccount account = getCompany().getAccount(data.getParent());
+		if (account != null) {
+			parentAccountCombo.setVisible(true);
+			parentAccountCombo.setValue(account);
+		}
 
 		asofDate.setValue(new ClientFinanceDate(
 				data.getAsOf() == 0 ? new ClientFinanceDate().getDate() : data
@@ -1629,6 +1692,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			typeSelect.setDisabled(isInViewMode());
 			paypalEmail.setDisabled(isInViewMode());
 		}
+		isSubAccountBox.setDisabled(isInViewMode());
+		parentAccountCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

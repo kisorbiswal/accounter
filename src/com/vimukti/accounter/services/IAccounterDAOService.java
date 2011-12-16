@@ -21,7 +21,6 @@ import com.vimukti.accounter.core.Expense;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.Invoice;
-import com.vimukti.accounter.core.IssuePayment;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.MakeDeposit;
@@ -322,8 +321,8 @@ public interface IAccounterDAOService {
 	public Invoice getInvoice(long companyId, long invoiceId)
 			throws DAOException;
 
-	public IssuePayment getIssuePayment(long companyId, long issuePaymentId)
-			throws DAOException;
+	// public IssuePayment getIssuePayment(long companyId, long issuePaymentId)
+	// throws DAOException;
 
 	public MakeDeposit getMakeDeposit(long companyId, long makeDepositId)
 			throws DAOException;

@@ -257,6 +257,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	int boxNumber;
 
+	private String lastCheckNum;
+
 	private Currency currency;
 
 	/**
@@ -1418,6 +1420,14 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			return true;
 		}
 		return false;
+	}
+
+	public String getLastCheckNum() {
+		return lastCheckNum;
+	}
+
+	public void setLastCheckNum(String lastCheckNum) {
+		this.lastCheckNum = lastCheckNum;
 	}
 
 }

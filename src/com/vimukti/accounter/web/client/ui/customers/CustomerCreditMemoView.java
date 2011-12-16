@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -61,7 +62,8 @@ public class CustomerCreditMemoView extends
 	private CustomerItemTransactionTable customerItemTransactionTable;
 	protected ClientPriceLevel priceLevel;
 	protected ClientSalesPerson salesPerson;
-	private AmountLabel netAmountLabel, taxTotalNonEditableText;
+	private AmountLabel netAmountLabel;
+	private TaxItemsForm taxTotalNonEditableText;
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel accountsDisclosurePanel;
 	private DisclosurePanel itemsDisclosurePanel;
@@ -174,7 +176,7 @@ public class CustomerCreditMemoView extends
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 
-		taxTotalNonEditableText = createVATTotalNonEditableLabel();
+		taxTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableLabel();
 		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getCompany()
 				.getPrimaryCurrency());
 		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
@@ -264,27 +266,36 @@ public class CustomerCreditMemoView extends
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 		itemsDisclosurePanel.setWidth("100%");
 
-		DynamicForm prodAndServiceForm2 = new DynamicForm();
+		VerticalPanel nonEditablePanel = new VerticalPanel();
 		// prodAndServiceForm2.setWidth("100%");
-		prodAndServiceForm2.setNumCols(2);
+		DynamicForm netAmountForm = new DynamicForm();
+		netAmountForm.setNumCols(2);
+		DynamicForm totalForm = new DynamicForm();
+		totalForm.setNumCols(2);
 
 		DynamicForm form = new DynamicForm();
 		form.setWidth("100%");
-		prodAndServiceForm2.addStyleName("boldtext");
+		nonEditablePanel.addStyleName("boldtext");
 
 		if (isTrackTax()) {
-			prodAndServiceForm2.setFields(netAmountLabel,
-					taxTotalNonEditableText);
+			netAmountForm.setFields(netAmountLabel);
+			nonEditablePanel.add(netAmountForm);
+			nonEditablePanel.add(taxTotalNonEditableText);
 			if (!isTaxPerDetailLine()) {
 				form.setFields(taxCodeSelect, vatinclusiveCheck);
 			}
 		}
-		prodAndServiceForm2.setFields(transactionTotalBaseCurrencyText);
+		totalForm.setFields(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			prodAndServiceForm2.setFields(foreignCurrencyamountLabel);
+			totalForm.setFields(foreignCurrencyamountLabel);
 		}
+		nonEditablePanel.add(totalForm);
+		nonEditablePanel.addStyleName("boldtext");
 
-		prodAndServiceForm2.addStyleName("boldtext");
+		nonEditablePanel.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
+		nonEditablePanel.setCellHorizontalAlignment(taxTotalNonEditableText,
+				ALIGN_RIGHT);
+		nonEditablePanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
@@ -293,11 +304,11 @@ public class CustomerCreditMemoView extends
 		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vpanel.setWidth("100%");
 
-		vpanel.add(prodAndServiceForm2);
+		vpanel.add(nonEditablePanel);
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(form);
-		prodAndServiceHLay.add(prodAndServiceForm2);
+		prodAndServiceHLay.add(nonEditablePanel);
 		// prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 
 		VerticalPanel mainPanel = new VerticalPanel();
@@ -353,7 +364,8 @@ public class CustomerCreditMemoView extends
 		listforms.add(dateNoForm);
 		listforms.add(phoneForm);
 		listforms.add(prodAndServiceForm1);
-		listforms.add(prodAndServiceForm2);
+		listforms.add(netAmountForm);
+		listforms.add(totalForm);
 
 		settabIndexes();
 		if (isMultiCurrencyEnabled()) {
@@ -510,7 +522,7 @@ public class CustomerCreditMemoView extends
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 					}
 				}
-				taxTotalNonEditableText.setAmount(transaction.getTaxTotal());
+				taxTotalNonEditableText.setTransaction(transaction);
 				if (vatinclusiveCheck != null) {
 					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
 				}
@@ -589,7 +601,7 @@ public class CustomerCreditMemoView extends
 		if (transaction != null) {
 			Double salesTaxAmout = transaction.getTaxTotal();
 			if (salesTaxAmout != null) {
-				taxTotalNonEditableText.setAmount(salesTaxAmout);
+				taxTotalNonEditableText.setTransaction(transaction);
 			}
 
 		}
@@ -646,7 +658,7 @@ public class CustomerCreditMemoView extends
 			double lineTotal = customerAccountTransactionTable.getLineTotal()
 					+ customerItemTransactionTable.getLineTotal();
 			netAmountLabel.setAmount(lineTotal);
-			taxTotalNonEditableText.setAmount(total - lineTotal);
+			setSalesTax(total - lineTotal);
 
 		}
 
@@ -676,8 +688,16 @@ public class CustomerCreditMemoView extends
 			salesTax = 0.0D;
 		this.salesTax = salesTax;
 
-		if (taxTotalNonEditableText != null)
-			taxTotalNonEditableText.setAmount(salesTax);
+		if (taxTotalNonEditableText != null) {
+			if ((transaction.getTransactionItems() != null && transaction
+					.getTransactionItems().isEmpty()) || !isInViewMode()) {
+				transaction.setTransactionItems(customerAccountTransactionTable
+						.getAllRows());
+				transaction.getTransactionItems().addAll(
+						customerItemTransactionTable.getAllRows());
+			}
+			taxTotalNonEditableText.setTransaction(transaction);
+		}
 
 	}
 

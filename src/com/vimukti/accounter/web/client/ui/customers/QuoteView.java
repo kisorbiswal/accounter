@@ -37,7 +37,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -49,6 +48,7 @@ import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -74,8 +74,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private List<ClientPaymentTerms> paymentTermsList;
 	protected ClientSalesPerson salesPerson;
 	protected ClientPaymentTerms paymentTerm;
-	private AmountLabel netAmountLabel, vatTotalNonEditableText,
-			salesTaxTextNonEditable;
+	private TaxItemsForm vatTotalNonEditableText, salesTaxTextNonEditable;
+	private AmountLabel netAmountLabel;
 
 	private Double salesTax;
 	private ShipToForm shipToAddress;
@@ -498,14 +498,14 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		memoTextAreaItem.setWidth(100);
 		taxCodeSelect = createTaxCodeSelectItem();
 
-		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
+		salesTaxTextNonEditable = new TaxItemsForm();// createSalesTaxNonEditableLabel();
 
 		// priceLevelSelect = createPriceLevelSelectItem();
 		// refText = createRefereceText();
 		// refText.setWidth(100);
 		netAmountLabel = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		vatTotalNonEditableText = createVATTotalNonEditableLabel();
+		vatTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableLabel();
 
 		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getCompany()
 				.getPrimaryCurrency());
@@ -557,27 +557,34 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 
-		DynamicForm prodAndServiceForm2 = new DynamicForm();
-		prodAndServiceForm2.setWidth("100%");
-		prodAndServiceForm2.setNumCols(2);
-		prodAndServiceForm2.setCellSpacing(5);
+		VerticalPanel nonEditablePanel = new VerticalPanel();
+		nonEditablePanel.setWidth("100%");
+
+		DynamicForm totalForm = new DynamicForm();
+		totalForm.setNumCols(2);
+		totalForm.setCellSpacing(5);
+
+		DynamicForm netAmountForm = new DynamicForm();
+		netAmountForm.setNumCols(2);
+		netAmountForm.setCellSpacing(5);
 
 		DynamicForm vatForm = new DynamicForm();
-		prodAndServiceForm2.addStyleName("boldtext");
+		nonEditablePanel.addStyleName("boldtext");
 
 		if (isTrackTax()) {
-			prodAndServiceForm2.setFields(netAmountLabel);
+			netAmountForm.setFields(netAmountLabel);
+			nonEditablePanel.add(netAmountForm);
 			if (isTaxPerDetailLine()) {
-				prodAndServiceForm2.setFields(vatTotalNonEditableText);
+				nonEditablePanel.add(vatTotalNonEditableText);
 			} else {
 				vatForm.setFields(taxCodeSelect, vatinclusiveCheck);
-				prodAndServiceForm2.setFields(salesTaxTextNonEditable);
+				nonEditablePanel.add(salesTaxTextNonEditable);
 			}
 		}
 
-		prodAndServiceForm2.setFields(transactionTotalBaseCurrencyText);
+		totalForm.setFields(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			prodAndServiceForm2.setFields(foreignCurrencyamountLabel);
+			totalForm.setFields(foreignCurrencyamountLabel);
 		}
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
@@ -587,16 +594,26 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vPanel.setWidth("100%");
 
-		vPanel.add(prodAndServiceForm2);
+		// vPanel.add(prodAndServiceForm2);
+		nonEditablePanel.add(totalForm);
+
+		nonEditablePanel.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
+		nonEditablePanel.setCellHorizontalAlignment(vatTotalNonEditableText,
+				ALIGN_RIGHT);
+		nonEditablePanel.setCellHorizontalAlignment(salesTaxTextNonEditable,
+				ALIGN_RIGHT);
+		nonEditablePanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
+		vPanel.add(nonEditablePanel);
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(vatForm);
-		prodAndServiceHLay.add(prodAndServiceForm2);
+		prodAndServiceHLay.add(nonEditablePanel);
+
 		if (isTaxPerDetailLine()) {
-			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "30%");
+			prodAndServiceHLay.setCellWidth(nonEditablePanel, "30%");
 		} else
-			prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "");
-		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
+			prodAndServiceHLay.setCellWidth(nonEditablePanel, "");
+		prodAndServiceHLay.setCellHorizontalAlignment(nonEditablePanel,
 				ALIGN_RIGHT);
 
 		VerticalPanel mainpanel = new VerticalPanel();
@@ -663,7 +680,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		listforms.add(dateNoForm);
 		listforms.add(phoneForm);
 		listforms.add(prodAndServiceForm1);
-		listforms.add(prodAndServiceForm2);
+		listforms.add(totalForm);
+		listforms.add(netAmountForm);
 		settabIndexes();
 		if (isMultiCurrencyEnabled()) {
 			foreignCurrencyamountLabel.hide();
@@ -709,9 +727,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	protected void initSalesTaxNonEditableItem() {
 		if (transaction != null) {
 			Double salesTaxAmout = transaction.getTaxTotal();
-			if (salesTaxAmout != null) {
-				salesTaxTextNonEditable.setAmount(salesTaxAmout);
-			}
+			// if (salesTaxAmout != null) {
+			// salesTaxTextNonEditable.setAmount(salesTaxAmout);
+			// }
+			salesTaxTextNonEditable.setTransaction(transaction);
 
 		}
 
@@ -800,6 +819,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			}
 
 			if (!isTaxPerDetailLine() && taxCodeSelect != null) {
+				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 				this.taxCodeSelect
 						.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 			}
@@ -810,9 +830,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			// refText.setValue(estimate.getReference());
 			if (isTrackTax()) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setValue(DataUtils
-						.getAmountAsString(transaction.getTotal()
-								- transaction.getNetAmount()));
+				// vatTotalNonEditableText.setValue(DataUtils
+				// .getAmountAsString(transaction.getTotal()
+				// - transaction.getNetAmount()));
+				vatTotalNonEditableText.setTransaction(transaction);
 			}
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
@@ -891,10 +912,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// priceLevel.getID()));
 		//
 		// }
-		 if (transaction == null && customerTransactionTable != null) {
-			 customerTransactionTable.setPricingLevel(priceLevel);
-//		 customerTransactionTable.updatePriceLevel();
-		 }
+		if (transaction == null && customerTransactionTable != null) {
+			customerTransactionTable.setPricingLevel(priceLevel);
+			// customerTransactionTable.updatePriceLevel();
+		}
 		updateNonEditableItems();
 
 	}
@@ -905,8 +926,15 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			return;
 		if (isTrackTax()) {
 			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
-			vatTotalNonEditableText.setAmount(customerTransactionTable
-					.getTotalTax());
+			// vatTotalNonEditableText.setAmount(customerTransactionTable
+			// .getTotalTax());
+			if (transaction.getTransactionItems() != null
+					&& transaction.getTransactionItems().isEmpty()
+					|| !isInViewMode())
+				transaction.setTransactionItems(customerTransactionTable
+						.getAllRows());
+			vatTotalNonEditableText.setTransaction(transaction);
+
 			setSalesTax(customerTransactionTable.getTotalTax());
 		}
 		setTransactionTotal(customerTransactionTable.getGrandTotal());
@@ -924,7 +952,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		if (salesTax == null)
 			salesTax = 0.0D;
 		this.salesTax = salesTax;
-		salesTaxTextNonEditable.setAmount(salesTax);
+		if ((transaction.getTransactionItems() != null && transaction
+				.getTransactionItems().isEmpty()) || !isInViewMode())
+			transaction.setTransactionItems(customerTransactionTable
+					.getAllRows());
+		salesTaxTextNonEditable.setTransaction(transaction);
 	}
 
 	@Override

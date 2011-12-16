@@ -37,6 +37,7 @@
 		<property name="version" column="VERSION"></property>
 		<property name="flow" column="FLOW"></property>
 		<property name="paypalEmail" column="PAYPAL_EMAIL"></property>
+		<property name="lastCheckNum" column="LAST_CHECK_NUMBER"></property>
 		<many-to-one name="currency" column="ACCOUNT_CURRENCY"
 			class="Currency" not-null="true">
 		</many-to-one>
