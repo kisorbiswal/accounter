@@ -429,20 +429,14 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getNewCustomerAction());
 
 		actions.put(
-				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
-						messages.newQuote()).getHistoryToken(),
-				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
-						messages.newQuote()));
+				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES).getHistoryToken(),
+				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES));
 		actions.put(
-				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
-						messages.newCharge()).getHistoryToken(), ActionFactory
-						.getNewQuoteAction(ClientEstimate.CHARGES,
-								messages.newCharge()));
+				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES).getHistoryToken(), ActionFactory
+						.getNewQuoteAction(ClientEstimate.CHARGES));
 		actions.put(
-				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS,
-						messages.newCredit()).getHistoryToken(), ActionFactory
-						.getNewQuoteAction(ClientEstimate.CREDITS,
-								messages.newCredit()));
+				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS).getHistoryToken(), ActionFactory
+						.getNewQuoteAction(ClientEstimate.CREDITS));
 
 		actions.put(ActionFactory.getNewInvoiceAction().getHistoryToken(),
 				ActionFactory.getNewInvoiceAction());
@@ -464,20 +458,14 @@ public class MainFinanceWindow extends VerticalPanel {
 		// actions.put(ActionFactory.getItemsAction().getHistoryToken(),
 		// ActionFactory.getItemsAction());
 		actions.put(
-				ActionFactory.getQuotesAction(messages.quotes(),
-						ClientEstimate.QUOTES).getHistoryToken(), ActionFactory
-						.getQuotesAction(messages.quotes(),
-								ClientEstimate.QUOTES));
+				ActionFactory.getQuotesAction(ClientEstimate.QUOTES).getHistoryToken(), ActionFactory
+						.getQuotesAction(ClientEstimate.QUOTES));
 		actions.put(
-				ActionFactory.getQuotesAction(messages.Charges(),
-						ClientEstimate.CHARGES).getHistoryToken(),
-				ActionFactory.getQuotesAction(messages.Charges(),
-						ClientEstimate.CHARGES));
+				ActionFactory.getQuotesAction(ClientEstimate.CHARGES).getHistoryToken(),
+				ActionFactory.getQuotesAction(ClientEstimate.CHARGES));
 		actions.put(
-				ActionFactory.getQuotesAction(messages.credits(),
-						ClientEstimate.CREDITS).getHistoryToken(),
-				ActionFactory.getQuotesAction(messages.credits(),
-						ClientEstimate.CREDITS));
+				ActionFactory.getQuotesAction(ClientEstimate.CREDITS).getHistoryToken(),
+				ActionFactory.getQuotesAction(ClientEstimate.CREDITS));
 		actions.put(ActionFactory.getInvoicesAction(null).getHistoryToken(),
 				ActionFactory.getInvoicesAction(null));
 		actions.put(

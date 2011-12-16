@@ -51,13 +51,11 @@ public class QuickLinksPortlet extends Portlet {
 				.CreditCardExpenseAction().getHistoryToken());
 		quickLinksMap.put(
 				messages.newQuote(),
-				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES,
-						messages.newQuote()).getHistoryToken());
+				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES).getHistoryToken());
 		if (Accounter.getCompany().getPreferences().isDelayedchargesEnabled()) {
 			quickLinksMap.put(
 					messages.newCharge(),
-					ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES,
-							messages.newCharge()).getHistoryToken());
+					ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES).getHistoryToken());
 		}
 		quickLinksMap.put(messages.newJournalEntry(), ActionFactory
 				.getNewJournalEntryAction().getHistoryToken());
@@ -66,7 +64,7 @@ public class QuickLinksPortlet extends Portlet {
 		quickLinksMap.put(messages.Reconcile(), ActionFactory
 				.getReconciliationsListAction().getHistoryToken());
 		quickLinksMap.put(messages.payees(Global.get().Vendor()), ActionFactory
-				.getVendorListAction().getHistoryToken());
+				.getVendorsAction().getHistoryToken());
 		quickLinksMap.put(messages.writeCheck(), ActionFactory
 				.getWriteChecksAction().getHistoryToken());
 		if (Accounter.getCompany().getPreferences().isKeepTrackofBills()) {

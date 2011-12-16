@@ -85,32 +85,28 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 			String radio = typeRadio.getValue().toString();
 
 			if (radio.equals(Accounter.messages().serviceItem())) {
-				NewItemAction action = new NewItemAction(Accounter.messages()
-						.newItem(), forCustomer);
+				NewItemAction action = new NewItemAction(forCustomer);
 				action.setDependent(isDependent);
 				action.setType(ClientItem.TYPE_SERVICE);
 				action.setCallback(getCallback());
 				action.setItemText(itemname);
 				action.run();
 			} else if (radio.equals(Accounter.messages().inventoryItem())) {
-				NewItemAction action = new NewItemAction(Accounter.messages()
-						.newItem(), forCustomer);
+				NewItemAction action = new NewItemAction(forCustomer);
 				action.setDependent(isDependent);
 				action.setType(ClientItem.TYPE_INVENTORY_PART);
 				action.setCallback(getCallback());
 				action.setItemText(itemname);
 				action.run();
 			} else if (radio.equals(Accounter.messages().nonInventoryItem())) {
-				NewItemAction action = new NewItemAction(Accounter.messages()
-						.newItem(), forCustomer);
+				NewItemAction action = new NewItemAction( forCustomer);
 				action.setDependent(isDependent);
 				action.setType(ClientItem.TYPE_NON_INVENTORY_PART);
 				action.setCallback(getCallback());
 				action.setItemText(itemname);
 				action.run();
 			} else if (radio.equals(Accounter.messages().productItem())) {
-				NewItemAction action = new NewItemAction(Accounter.messages()
-						.newItem(), forCustomer);
+				NewItemAction action = new NewItemAction(forCustomer);
 				action.setDependent(isDependent);
 				action.setType(ClientItem.TYPE_NON_INVENTORY_PART);
 				action.setCallback(getCallback());
