@@ -2723,7 +2723,7 @@ public interface AccounterMessages extends Messages {
 
 	public String payeeCredit(String payee);
 
-	// public String payeeDetails(String payee);
+	public String payeeDetails(String payee);
 
 	public String payeeFrom(String payee);
 
@@ -5214,4 +5214,6 @@ public interface AccounterMessages extends Messages {
 	public String allTransactions();
 
 	public String customerCentre(String Customer);
+
+	public String pleaseSelectAnyPayee(String Customer);
 }
