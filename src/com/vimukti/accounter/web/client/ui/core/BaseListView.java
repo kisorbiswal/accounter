@@ -81,7 +81,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	public DateItem toItem;
 	public Button updateButton;
 	public Button prepare1099MiscForms;
-	public Button budgetDetails;
+	public Button budgetEdit;
 
 	@Override
 	public void init() {
@@ -250,9 +250,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			}
 		});
 
-		budgetDetails = new Button(Accounter.messages().edit());
-		budgetDetails.setWidth("10");
-		budgetDetails.addClickHandler(new ClickHandler() {
+		budgetEdit = new Button(Accounter.messages().edit());
+		budgetEdit.setWidth("10");
+		budgetEdit.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -288,7 +288,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		} else if (this instanceof BudgetListView) {
 			form.setFields(viewSelect);
 			hlay.add(form);
-			hlay.add(budgetDetails);
+			hlay.add(budgetEdit);
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 		} else {
 
@@ -299,8 +299,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlay.add(form);
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 		}
-		// hlay.add(form);
-		// hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 		VerticalPanel vlayTop = new VerticalPanel();
 		HorizontalPanel hlayTop = new HorizontalPanel();
 		hlayTop.setWidth("100%");
