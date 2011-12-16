@@ -52,7 +52,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
-
+		getCompany().deleteItem(result.getID());
 		allItems.remove(toBeDeletedItem);
 		refreshTotal();
 		// Accounter.showInformation(FinanceApplication.constants()
@@ -116,19 +116,23 @@ public class ItemListView extends BaseListView<ClientItem> {
 		grid.init();
 
 		// isPurchaseType = !isSalesType;
+		createFilteredItemsObj();
+		filterList(true);
+	}
+
+	private void createFilteredItemsObj() {
 		if (isSalesType && isPurchaseType) {
 			listOfItems = getCompany().getAllItems();
 		} else if (isPurchaseType)
 			listOfItems = getCompany().getPurchaseItems();
 		else if (isSalesType)
 			listOfItems = getCompany().getSalesItems();
-
-		filterList(true);
 	}
 
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();
+		createFilteredItemsObj();
 		for (ClientItem item : listOfItems) {
 			if (isActive) {
 				if (item.isActive() == true)
