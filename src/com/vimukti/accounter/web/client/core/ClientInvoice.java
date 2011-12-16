@@ -545,9 +545,9 @@ public class ClientInvoice extends ClientTransaction {
 		if (getEstimates() != null) {
 			transactions.addAll(getEstimates());
 		}
-		for (ClientTransaction clientTransaction : this.getSalesOrders()) {
-			transactions.add(clientTransaction);
-		}
+		// for (ClientTransaction clientTransaction : this.getSalesOrders()) {
+		// transactions.add(clientTransaction);
+		// }
 		return transactions;
 	}
 }
