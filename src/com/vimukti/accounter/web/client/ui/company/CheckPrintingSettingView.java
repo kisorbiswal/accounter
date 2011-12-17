@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -14,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -46,7 +48,6 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 	@Override
 	public void initData() {
-
 		accountCombo.setComboItem(getCompany().getAccount(layout.getAccount()));
 		signatureItem.setValue(layout.getAuthorisedSignature());
 		chequeWidth.setAmount(layout.getChequeWidth());
@@ -87,6 +88,17 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 				return getCompany().getAccounts(ClientAccount.TYPE_BANK);
 			}
 		};
+		accountCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientAccount selectItem) {
+						ClientChequeLayout checkLayout = getCompany()
+								.getCheckLayout(selectItem.getID());
+						layout = checkLayout;
+						initData();
+					}
+				});
 		signatureItem = new TextItem();
 		signatureItem.setTitle(messages.authorisedSignatory());
 		signatureItem.addBlurHandler(new BlurHandler() {
