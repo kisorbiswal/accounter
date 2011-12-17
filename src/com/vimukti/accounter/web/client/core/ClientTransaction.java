@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
@@ -143,6 +144,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 	private ClientAccounterClass accounterClass;
 
 	private ClientActivity lastActivity;
+
+	private Set<ClientAttachment> attachments;
 
 	// boolean showPricesWithVATOrVATInclusive;
 	// boolean EUVATExemptPayee;
@@ -928,5 +931,13 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public void setWareHouseAllocations(
 			List<ClientWareHouseAllocation> wareHouseAllocations) {
 		this.wareHouseAllocations = wareHouseAllocations;
+	}
+
+	public Set<ClientAttachment> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(Set<ClientAttachment> attachments) {
+		this.attachments = attachments;
 	}
 }
