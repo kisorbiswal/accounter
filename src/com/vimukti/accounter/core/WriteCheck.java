@@ -363,10 +363,10 @@ public class WriteCheck extends Transaction {
 			// "You can't void or edit because it has been deposited from Undeposited Funds");
 		}
 		checkForReconciliation((Transaction) clientObject);
-		if (this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new AccounterException(
-					AccounterException.WRITECHECK_PAID_VOID_IT);
-		}
+		// if (this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
+		// throw new AccounterException(
+		// AccounterException.WRITECHECK_PAID_VOID_IT);
+		// }
 		return true;
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.CallbackException;
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
@@ -303,7 +304,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		this.subTotal = this.amount;
+		this.subTotal = this.amount + tdsTotal;
 
 		// this.total = this.amount;
 		//
@@ -381,11 +382,20 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	}
 
 	private Account getTDSAccount() {
-		List list = (List) HibernateUtil.getCurrentSession()
-				.getNamedQuery("getTDSAgencyOfCompany")
-				.setEntity("company", getCompany()).list();
-		if (list != null && !list.isEmpty()) {
-			return ((TAXAgency) list.get(0)).getSalesLiabilityAccount();
+		Session session = HibernateUtil.getCurrentSession();
+		FlushMode flushMode = session.getFlushMode();
+		session.setFlushMode(FlushMode.COMMIT);
+
+		try {
+			List list = (List) session.getNamedQuery("getTDSAgencyOfCompany")
+					.setEntity("company", getCompany()).list();
+			if (list != null && !list.isEmpty()) {
+				return ((TAXAgency) list.get(0)).getSalesLiabilityAccount();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.setFlushMode(flushMode);
 		}
 		return null;
 	}

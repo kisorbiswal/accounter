@@ -6,12 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -56,7 +52,6 @@ import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
-import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -1110,9 +1105,9 @@ public class CreditCardExpenseView extends
 			if ((transaction.getTransactionItems() != null && transaction
 					.getTransactionItems().isEmpty()) || !isInViewMode()) {
 				transaction.setTransactionItems(vendorAccountTransactionTable
-						.getAllRows());
+						.getTransactionItems());
 				transaction.getTransactionItems().addAll(
-						vendorItemTransactionTable.getAllRows());
+						vendorItemTransactionTable.getTransactionItems());
 			}
 			vatTotalNonEditableText.setTransaction(transaction);
 		}
