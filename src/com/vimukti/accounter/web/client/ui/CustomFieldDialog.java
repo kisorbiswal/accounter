@@ -136,6 +136,11 @@ public class CustomFieldDialog extends BaseDialog {
 	}
 
 	@Override
+	protected boolean onCancel() {
+		return true;
+	}
+
+	@Override
 	protected ValidationResult validate() {
 		return super.validate();
 		// ValidationResult v = new ValidationResult();
