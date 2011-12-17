@@ -283,7 +283,7 @@ public class MobileSession {
 		this.lastReply = lastReply;
 	}
 
-	public void removeAllCommands() {
+	public void removeAllMessages() {
 		commandStack.clear();
 	}
 
@@ -294,10 +294,8 @@ public class MobileSession {
 	public void refreshLastMessage() {
 		if (!commandStack.isEmpty()) {
 			UserMessage pop = commandStack.pop();
-			// if (!commandStack.isEmpty()) {
-			// pop = commandStack.pop();
+			setCurrentCommand(pop.getCommand());
 			setLastMessage(pop);
-			// }
 			return;
 		}
 		setLastMessage(null);
