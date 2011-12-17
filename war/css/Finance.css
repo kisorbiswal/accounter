@@ -261,7 +261,7 @@ table tr.ReportGridRow:HOVER,table.dropdownFlex tr:hover,.gwt-ListBox option:HOV
 	overflow-x: hidden;
 }
 
-#branding,.group-toolbar,.editTable .editheader,.gwt-StackPanel .gwt-StackPanelItem,.recounciliation_grid thead tr,.gridHeader,.user_activity_log thead tr,.headerlabel,.pageformatpanel
+#branding,.group-toolbar,.editTable .editheader,.gwt-StackPanel .gwt-StackPanelItem,.recounciliation_grid thead tr,.gridHeader,.user_activity_log thead tr,.headerlabel,.pageformatpanel,.customers_detail_panel
 	{
 	background: #2D8B93;
 	background: -moz-linear-gradient(top, #3299A4, #2D8B93);
@@ -1592,7 +1592,7 @@ a#fdbk_tab,#overlay {
 	border-bottom: 0 none;
 }
 
-.user_activity_log,.recounciliation_grid,.editTable,.company_stackpanel_view,.gwt-StackPanelContent,.ReportGrid .gridHeader .gridHeaderRow,.listgrid,.ReportGrid,.selectedview
+.user_activity_log,.recounciliation_grid,.editTable,.company_stackpanel_view,.gwt-StackPanelContent,.ReportGrid .gridHeader .gridHeaderRow,.listgrid,.ReportGrid,.selectedview,.details-Panel,.cusotmerCentrGrid
 	{
 	border: 1px solid #2D8B93;
 }
@@ -2335,6 +2335,22 @@ input.date-field-textbox {
 .search_textbox_labels td table td:FIRST-CHILD {
 	width:85px;
 }
+.cusotmerCentrGrid  .gridBodyContainer{
+	height :600px;
+}
+.details-Panel  {
+    vertical-align: top;
+}
+.Customer-Centre .custom-combo{
+	width:102px;
+}
+.customers_detail_panel{
+    padding: 3px;
+}
+.customers_detail_panel .gwt-Label{
+	color:white;
+}
+
 .frame_manager iframe {
 	border:0px;
 }
