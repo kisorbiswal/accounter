@@ -26,12 +26,10 @@ $(document).ready(function() {
 				emailId: {
 					required: true,
 					email: true
-				},
-				companyName: "required"
 			},
 			messages: {
-				emailId: "<i18n:i18n msg='pleaseenteravalidemailaddress'/>",
-				companyName: "<i18n:i18n msg='pleaseentercompanyID'/>"
+				emailId: "<i18n:i18n msg='pleaseenteravalidemailaddress'/>"
+				 
 			}
 		});
 	});
