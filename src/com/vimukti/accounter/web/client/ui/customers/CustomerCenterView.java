@@ -90,6 +90,7 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 		custGrid = new CustomersListGrid();
 		custGrid.init();
 		leftVpPanel.add(custGrid);
+		leftVpPanel.setSpacing(5);
 
 		custGrid.getElement().getParentElement().setAttribute("width", "15%");
 		custGrid.setStyleName("cusotmerCentrGrid");
