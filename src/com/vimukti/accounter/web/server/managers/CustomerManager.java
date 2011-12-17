@@ -30,6 +30,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
@@ -834,4 +835,219 @@ public class CustomerManager extends Manager {
 		return new ArrayList<TransactionHistory>(queryResult);
 	}
 
+	public ArrayList<TransactionHistory> getCustomerTransactionsList(
+			long customerId, int transactionType, int transactionStatusType,
+			long startDate, long endDate, Long companyId) {
+
+		List l = getResultListbyType(customerId, transactionType,
+				transactionStatusType, startDate, endDate, companyId);
+
+		Object[] object = null;
+		Iterator iterator = l.iterator();
+		List<TransactionHistory> queryResult = new ArrayList<TransactionHistory>();
+		Set<String> payee = new HashSet<String>();
+		Map<String, TransactionHistory> openingBalnaceEntries = new HashMap<String, TransactionHistory>();
+		while ((iterator).hasNext()) {
+
+			TransactionHistory transactionHistory = new TransactionHistory();
+			object = (Object[]) iterator.next();
+
+			transactionHistory.setName(Utility
+					.getTransactionName((Integer) object[2]));
+
+			transactionHistory.setType((Integer) object[2]);
+			// transactionHistory
+			// .setType((object[2] == null || ((String) object[16] != null ?
+			// (String) object[16]
+			// : "")
+			// .equals(AccounterServerConstants.MEMO_OPENING_BALANCE)) ? 0
+			// : ((Integer) object[1]).intValue());
+			transactionHistory.setNumber((String) object[3]);
+
+			transactionHistory.setDate(new ClientFinanceDate((Long) object[1]));
+
+			// transactionHistory.setInvoicedAmount(object[4] == null ? 0
+			// : ((Double) object[4]).doubleValue());
+			// transactionHistory.setPaidAmount(object[5] == null ? 0
+			// : ((Double) object[5]).doubleValue());
+			// transactionHistory.setPaymentTerm((String) object[6]);
+			transactionHistory.setDueDate(((Long) object[4]) == null ? null
+					: new ClientFinanceDate((Long) object[4]));
+			// transactionHistory.setDebit(object[8] == null ? 0
+			// : ((Double) object[8]).doubleValue());
+			// transactionHistory.setCredit(object[9] == null ? 0
+			// : ((Double) object[9]).doubleValue());
+			// transactionHistory.setDiscount(object[10] == null ? 0
+			// : ((Double) object[10]).doubleValue());
+			// transactionHistory.setWriteOff(object[11] == null ? 0
+			// : ((Double) object[11]).doubleValue());
+			// transactionHistory.setTransactionId(((BigInteger) object[12])
+			// .longValue());
+			//
+			// transactionHistory
+			// .setBeginningBalance((object[13] != null ? ((Double) object[13])
+			// .doubleValue() : 0.0));
+			transactionHistory
+					.setIsVoid(object[6] != null ? (Boolean) object[6] : false);
+			// transactionHistory
+			// .setStatus((object[15] != null) ? (Integer) object[15] : 0);
+			transactionHistory.setMemo((String) object[7]);
+
+			// transactionHistory.setAccount((String) object[17]);
+			transactionHistory.setAmount((object[5] == null ? 0
+					: ((Double) object[5]).doubleValue()));
+
+			if (transactionHistory.getType() == 0) {
+				openingBalnaceEntries.put(transactionHistory.getName(),
+						transactionHistory);
+			} else {
+
+				queryResult.add(transactionHistory);
+			}
+			payee.add(transactionHistory.getName());
+		}
+
+		mergeOpeningBalanceEntries(queryResult, payee, openingBalnaceEntries);
+
+		// return prepareEntriesForVoid(queryResult);
+		return new ArrayList<TransactionHistory>(queryResult);
+	}
+
+	private List getResultListbyType(long customerId, int transactionType,
+			int transactionStatusType, long startDate, long endDate,
+			Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = null;
+		String queryName = null;
+		if (transactionType == Transaction.TYPE_INVOICE) {
+
+			if (transactionStatusType == TransactionHistory.ALL_INVOICES) {
+				queryName = "getInvoicesListByCustomer";
+				query = session.getNamedQuery(queryName)
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("customerId", customerId);
+			}
+			if (transactionStatusType == TransactionHistory.OPENED_INVOICES) {
+				queryName = "getOpenInvoicesListByCustomer";
+				query = session.getNamedQuery(queryName)
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("customerId", customerId);
+			}
+			if (transactionStatusType == TransactionHistory.OVER_DUE_INVOICES) {
+				queryName = "getOverdueInvoicesListByCustomer";
+				query = session
+						.getNamedQuery(queryName)
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("currentDate",
+								new FinanceDate().getDate())
+						.setParameter("customerId", customerId);
+			}
+
+		} else if (transactionType == Transaction.TYPE_CASH_SALES) {
+			queryName = "getCashSalesByCustomer";
+			query = session.getNamedQuery("getCashSalesByCustomer")
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setParameter("customerId", customerId);
+
+		} else if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+			if (transactionStatusType == TransactionHistory.ALL_CREDITMEMOS) {
+				queryName = "getAllCustomerCreditMemosByCustomer";
+				query = session.getNamedQuery(queryName)
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("customerId", customerId);
+			} else {
+				queryName = "getOpendCustomerCreditMemosByCustomer";
+				query = session.getNamedQuery(queryName)
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("customerId", customerId);
+			}
+		} else if (transactionType == Transaction.TYPE_RECEIVE_PAYMENT) {
+			String typeOfRPString = null;
+			if (transactionStatusType == TransactionHistory.ALL_RECEIVEDPAYMENTS) {
+				queryName = "getAllReceivePaymentsByCustomer";
+				query = session.getNamedQuery(queryName)
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("customerId", customerId);
+			} else {
+
+				if (transactionStatusType == TransactionHistory.RECEV_PAY_BY_CASH) {
+					typeOfRPString = "Cash";
+
+				} else if (transactionStatusType == TransactionHistory.RECEV_PAY_BY_CHEQUE) {
+					typeOfRPString = "Cheque";
+				} else if (transactionStatusType == TransactionHistory.RECEV_PAY_BY_CREDITCARD) {
+					typeOfRPString = "Credit Card";
+				} else if (transactionStatusType == TransactionHistory.RECEV_PAY_BY_STANDING_ORDER) {
+					typeOfRPString = "Standing Order";
+				} else if (transactionStatusType == TransactionHistory.RECEV_PAY_BY_MAESTRO) {
+					typeOfRPString = "Switch/Maestro";
+				} else if (transactionStatusType == TransactionHistory.RECEV_PAY_BY_ONLINE) {
+					typeOfRPString = "Online Banking";
+				} else if (transactionStatusType == TransactionHistory.RECEV_PAY_BY_MASTERCARD) {
+					typeOfRPString = "Master card";
+				} else {
+					// (transactionStatusType ==
+					// TransactionHistory.RECEV_PAY_BY_DIRECT_DEBIT)
+					typeOfRPString = "Direct Debit";
+				}
+				query = session
+						.getNamedQuery("getReceivePaymentsbyTypeByCustomer")
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("customerId", customerId)
+						.setParameter("paymentmethod", typeOfRPString);
+
+			}
+		} else if (transactionType == Transaction.TYPE_CUSTOMER_REFUNDS) {
+			if (transactionStatusType == TransactionHistory.ALL_CUSTOMER_REFUNDS) {
+				queryName = "getAllCustomerRefundsByCustomer";
+				query = session.getNamedQuery(queryName)
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("customerId", customerId);
+			} else {
+				String typeOfRPString = null;
+				if (transactionStatusType == TransactionHistory.REFUNDS_BYCASH) {
+					typeOfRPString = "Cash";
+				} else if (transactionStatusType == TransactionHistory.REFUNDS_BYCHEQUE) {
+					typeOfRPString = "Cheque";
+				} else {
+					// if (transactionStatusType ==
+					// TransactionHistory.REFUNDS_BY_CREDITCARD)
+					typeOfRPString = "Credit Card";
+				}
+				query = session
+						.getNamedQuery("getCustomerRefundsByTypeByCustomer")
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("customerId", customerId)
+						.setParameter("paymentmethod", typeOfRPString);
+			}
+		} else {
+			queryName = "getAllTransactionsByCustomer";
+			query = session.getNamedQuery(queryName)
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setParameter("customerId", customerId);
+		}
+		return query.list();
+	}
 }
