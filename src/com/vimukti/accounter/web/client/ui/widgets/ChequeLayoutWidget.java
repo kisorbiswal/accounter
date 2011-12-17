@@ -93,7 +93,7 @@ public class ChequeLayoutWidget extends SimplePanel {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		VerticalPanel vertScale = new VerticalPanel();
 		Label left = new Label(
-				"_ _ _ _ 1 _ _ _ _ 2 _ _ _ _ 3 _ _ _ _ 4 _ _ _ _ 5");
+				"- - - - 1 - - - - 2 - - - - 3 - - - - 4 - - - - 5");
 		vertScale.add(left);
 		vertScale.setStyleName("chequeLeftScal");
 		SimplePanel chequeBg = new SimplePanel();
@@ -101,10 +101,14 @@ public class ChequeLayoutWidget extends SimplePanel {
 		chequeBg.setStyleName("chequeBackground");
 		horizontalPanel.add(vertScale);
 		horizontalPanel.add(chequeBg);
+		horizontalPanel.setCellWidth(vertScale, "20px");
 		VerticalPanel verticalPanel = new VerticalPanel();
 		verticalPanel.add(topScale);
+		verticalPanel.setWidth("100%");
 		verticalPanel.add(horizontalPanel);
+		horizontalPanel.setWidth("100%");
 		this.add(verticalPanel);
+		this.addStyleName("checkpanel");
 	}
 
 	private void createParameter(Label label, double top, double left,
