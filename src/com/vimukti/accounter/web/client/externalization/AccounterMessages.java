@@ -5252,4 +5252,12 @@ public interface AccounterMessages extends Messages {
 	public String chequeHeight();
 
 	public String chequePrintSetting();
+
+	public String attachmentName();
+
+	public String attachmentSize();
+
+	public String creatorName();
+
+	public String uploadAttachment();
 }
