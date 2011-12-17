@@ -10,7 +10,7 @@ input[type="submit"]::-moz-focus-inner,input [type="checkbox"]::-moz-focus-inner
 	border: none;
 }
 .signup-submit-button,.signup-submit-mid,#contact_form_cont,#services_form_cont,.right-middle,.remaining-header-part-login,
-.maintainence_message,.delete_company,.createbutton,.loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton,.mandatory{
+.maintainence_message,.createbutton,.loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton,.mandatory{
 	float: right;
 }
 #label_holder,#label_holder,.right-side-options,.signup-submit #openid-cancel,p,div ul li,.delete_company,.create_new_company,
@@ -20,12 +20,12 @@ input[type="submit"]::-moz-focus-inner,input [type="checkbox"]::-moz-focus-inner
 body,.email,.password,.company-name,.body-container,.company_list_buttons,#mainFooter{
 	text-align: center;
 }
-.unavailable_page,.maintanance_subcont,#maintananceContainer,.companies-list,.form-box,#commanContainer form,.form-box,.new_login_page,.admin_details_header{
+.unavailable_page,.maintanance_subcont,#maintananceContainer,.form-box,#commanContainer form,.new_login_page,.admin_details_header{
 	overflow: auto;
 }
 #mid-2,#mid,#but-g,#but-mid,.invoicing,#bank-layout,#contact-layout,.left-side-options,.terms-error input[type="checkbox"],.seperator,.left-middle,.image-text-button,
 .find-an-acciuntant,.try-free,.Benifits,.Pricing-Plans,.features-tree,.menu-bar,#mid-right,#mid-left,#about-layout,#support-width,#about-1,#privacy-layout,#home-bg,
-#fea-bg,#abt-bg,#sup-bg,#blog-bg,.maintainence_logo,.companies-list a:FIRST-CHILD,.rememberMe,#feedDiv,.new_login_accounterform,.left-arrow,#contact_content,.stepcarousel .panel  {
+#fea-bg,#abt-bg,#sup-bg,#blog-bg,.maintainence_logo,.rememberMe,#feedDiv,.new_login_accounterform,.left-arrow,#contact_content,.stepcarousel .panel  {
 	float: left;
 }
 #banner-mid2,#banner-mid1,#banner-mid-tab,#banner-mid,.signup-submit #openid-cancel,.easiest-label,.account-sys-label,.forget-but,#signup-mid
@@ -33,7 +33,7 @@ body,.email,.password,.company-name,.body-container,.company_list_buttons,#mainF
 	color:white;
 }
 #about-1,#privacy-layout,#contact-layout,#mid-2,#mid,#top,#bot,.shadow-line,#down,#mid-left,#about-layout,#support-width,.pricing-box-shadow,
-.box-shadow,.monthly-box ul,.Annaul-box ul,#mainFooter,.companies-list,.admin_details_header,
+.box-shadow,.monthly-box ul,.Annaul-box ul,#mainFooter,.admin_details_header,
 .newsletter,.form-bottom-options,.activate-code {
 	clear: both;
 }
@@ -754,7 +754,7 @@ input [type="checkbox"] {
 	margin-top: 20px;
 }
 .form-box {
-	height: 200px;
+	min-height: 200px;
 }
 .check_label {
 	margin: 16px 0px 0px !important;
@@ -974,6 +974,19 @@ a#fdbk_tab:hover {
 }
 .delete-account-options input[type="checkbox"]{
 	margin:5px;
+}
+.form-box,.companies-list{
+	overflow:auto;
+}
+.company_lists{
+	overflow: visible;
+    white-space: nowrap;
+    width: 100%;
+}
+.delete_company{
+    font-weight: bold;
+    margin-left: 15px;
+    color:red !important;
 }
 
 /* End of the new Login and forgot password page*/
