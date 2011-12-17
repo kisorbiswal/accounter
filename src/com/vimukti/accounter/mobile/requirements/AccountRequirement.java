@@ -32,7 +32,7 @@ public abstract class AccountRequirement extends ListRequirement<Account> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().Account()));
+		list.add("createAccount");
 	}
 
 	@Override

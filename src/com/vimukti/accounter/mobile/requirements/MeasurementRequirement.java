@@ -3,10 +3,13 @@ package com.vimukti.accounter.mobile.requirements;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public abstract class MeasurementRequirement extends
 		ListRequirement<Measurement> {
@@ -16,6 +19,22 @@ public abstract class MeasurementRequirement extends
 			ChangeListner<Measurement> listner) {
 		super(requirementName, enterString, recordName, isOptional,
 				isAllowFromContext, listner);
+	}
+
+	@Override
+	public void setValue(Object value) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Measurement measurement = (Measurement) value;
+		super.setValue(currentSession.load(Measurement.class,
+				measurement.getID()));
+	}
+
+	@Override
+	public void setDefaultValue(Object defaultValue) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Measurement measurement = (Measurement) defaultValue;
+		super.setDefaultValue(currentSession.load(Measurement.class,
+				measurement.getID()));
 	}
 
 	@Override
