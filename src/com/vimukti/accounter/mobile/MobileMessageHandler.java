@@ -224,21 +224,7 @@ public class MobileMessageHandler extends Thread {
 			command = session.getCurrentCommand();
 		}
 
-		if (command == null && !session.isAuthenticated()) {
-			command = new AuthenticationCommand();
-			userMessage.setCommandString("logIn");
-			if (networkType != AccounterChatServer.NETWORK_TYPE_MOBILE) {
-				userMessage.setOriginalMsg("");// To know it is first
-				message = "";
-			}
-		}
-		if (command == null) {
-			long companyId = session.getCompanyID();
-			if (companyId == 0) {
-				command = new SelectCompanyCommand();
-				userMessage.setCommandString("selectCompany");
-			}
-		}
+		// ****** SELECT PATTERNS AND COMMANDS *******//
 		Company company = session.getCompany();
 		Result result = PatternStore.INSTANCE.find(clientMessage,
 				session.isAuthenticated(), company);
@@ -266,6 +252,62 @@ public class MobileMessageHandler extends Thread {
 			}
 		}
 
+		// ******* CHECKING BACK FUNCTION *******//
+		if (command == null && message.equalsIgnoreCase("back")) {
+			session.refreshLastMessage();
+			UserMessage lastMessage2 = session.getLastMessage();
+			if (lastMessage2 != null) {
+				message = lastMessage2.getCommandString();
+			} else {
+				message = "menu";
+			}
+			result = PatternStore.INSTANCE.find(message,
+					session.isAuthenticated(), company);
+			if (result != null) {
+				if (lastMessage2 != null) {
+					Result lastResult2 = lastMessage2.getResult();
+					result.setShowBack(lastResult2 != null ? lastResult2
+							.isShowBack() : false);
+					lastMessage2.setResult(result);
+					return lastMessage2;
+				}
+
+				result.setShowBack(session.getLastMessage() != null);
+				userMessage.setType(Type.HELP);
+				userMessage.setResult(result);
+				userMessage.setCommandString(message);
+				userMessage.setOriginalMsg(message);
+				return userMessage;
+			} else {
+				lastMessage2.setResult(lastMessage2.getLastResult());
+				message = lastMessage2.getOriginalMsg();
+				clientMessage = message;
+				command = session.getCurrentCommand();
+			}
+
+		}
+
+		// ***** CHECKING AUTHENTICATION *******//
+		if (command == null && !session.isAuthenticated()) {
+			command = new AuthenticationCommand();
+			userMessage.setCommandString("logIn");
+			if (networkType != AccounterChatServer.NETWORK_TYPE_MOBILE) {
+				userMessage.setOriginalMsg("");// To know it is first
+				message = "";
+			}
+		}
+
+		// ***** CHECKING COMOANY SELECTION *****//
+		if (command == null) {
+			long companyId = session.getCompanyID();
+			if (companyId == 0) {
+				session.removeAllMessages();
+				command = new SelectCompanyCommand();
+				userMessage.setCommandString("selectCompany");
+			}
+		}
+
+		// **** CHECKING LAST MESSAGE ******//
 		UserMessage lastMessage = session.getLastMessage();
 		Result lastResult = lastMessage == null ? null : lastMessage
 				.getResult();
@@ -300,34 +342,8 @@ public class MobileMessageHandler extends Thread {
 				command = selectCommand;
 			}
 		}
-		if (command == null && message.equalsIgnoreCase("back")) {
-			session.refreshLastMessage();
-			UserMessage lastMessage2 = session.getLastMessage();
-			if (lastMessage2 != null) {
-				message = lastMessage2.getCommandString();
-			} else {
-				message = "menu";
-			}
-			result = PatternStore.INSTANCE.find(message,
-					session.isAuthenticated(), company);
-			if (lastMessage2 != null) {
-				Result lastResult2 = lastMessage2.getResult();
-				result.setShowBack(lastResult2 != null ? lastResult2
-						.isShowBack() : false);
-				lastMessage2.setResult(result);
-				return lastMessage2;
-			}
 
-			if (result != null) {
-				result.setShowBack(session.getLastMessage() != null);
-				userMessage.setType(Type.HELP);
-				userMessage.setResult(result);
-				userMessage.setCommandString(message);
-				userMessage.setOriginalMsg(message);
-				return userMessage;
-			}
-
-		}
+		// **** CREATING USER MESSAGE ******//
 		userMessage.setLastResult(lastResult);
 
 		if (command != null) {
