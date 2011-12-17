@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class CheckPrintSettingAction extends Action {
 
-	public CheckPrintSettingAction(String text) {
+	public CheckPrintSettingAction() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -57,7 +57,7 @@ public class CheckPrintSettingAction extends Action {
 
 	@Override
 	public String getText() {
-		return null;
+		return messages.chequePrintSetting();
 	}
 
 }

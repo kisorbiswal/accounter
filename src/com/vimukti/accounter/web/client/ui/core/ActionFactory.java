@@ -1354,6 +1354,6 @@ public class ActionFactory {
 	}
 
 	public static CheckPrintSettingAction getCheckPrintSettingAction() {
-		return new CheckPrintSettingAction(messages.chequePrintSetting());
+		return new CheckPrintSettingAction();
 	}
 }
