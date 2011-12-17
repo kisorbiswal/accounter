@@ -63,6 +63,8 @@ public class MenuBar {
 
 	private boolean isInventoryEnabled;
 
+	private boolean notReadOnlyUser;
+
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
 
@@ -121,8 +123,7 @@ public class MenuBar {
 
 		Menu inventoryMenuBar = new Menu(string);
 
-		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly())) {
+		if (notReadOnlyUser == true) {
 			inventoryMenuBar.addMenuItem(messages.stockAdjustment(),
 					HistoryTokens.STOCKADJUSTMENT);
 			inventoryMenuBar.addMenuItem(getNewInventoryMenu(messages.new1()));
@@ -981,6 +982,9 @@ public class MenuBar {
 		this.isInventoryEnabled = preferences.isInventoryEnabled();
 
 		this.company = countryPreferences;
+
+		this.notReadOnlyUser = !clientUser.getUserRole().equalsIgnoreCase(
+				messages.readOnly());
 
 		getMenuBar();
 	}
