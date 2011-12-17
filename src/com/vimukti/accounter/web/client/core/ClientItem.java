@@ -64,6 +64,12 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 
 	Set<ClientItemStatus> itemStatuses;
 
+	private long assestsAccount;
+	private int reorderPoint;
+	private long onhandQuantity;
+	private double itemTotalValue;
+	private ClientFinanceDate asOfDate;
+
 	public ClientItem() {
 	}
 
@@ -403,7 +409,7 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 	}
 
 	public ClientItem clone() {
-		ClientItem item = (ClientItem) this.clone();
+		ClientItem item = this.clone();
 		return item;
 
 	}
@@ -456,6 +462,46 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 
 	public void setMeasurement(long measurement) {
 		this.measurement = measurement;
+	}
+
+	public long getAssestsAccount() {
+		return assestsAccount;
+	}
+
+	public void setAssestsAccount(long assestsAccount) {
+		this.assestsAccount = assestsAccount;
+	}
+
+	public int getReorderPoint() {
+		return reorderPoint;
+	}
+
+	public void setReorderPoint(int reorderPoint) {
+		this.reorderPoint = reorderPoint;
+	}
+
+	public long getOnhandQuantity() {
+		return onhandQuantity;
+	}
+
+	public void setOnhandQuantity(int onhandQuantity) {
+		this.onhandQuantity = onhandQuantity;
+	}
+
+	public ClientFinanceDate getAsOfDate() {
+		return asOfDate;
+	}
+
+	public void setAsOfDate(ClientFinanceDate asOfDate) {
+		this.asOfDate = asOfDate;
+	}
+
+	public double getItemTotalValue() {
+		return itemTotalValue;
+	}
+
+	public void setItemTotalValue(double itemTotalValue) {
+		this.itemTotalValue = itemTotalValue;
 	}
 
 }

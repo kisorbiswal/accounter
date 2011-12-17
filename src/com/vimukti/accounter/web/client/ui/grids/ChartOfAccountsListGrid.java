@@ -44,10 +44,8 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 						.getCurrency(obj.getCurrency()).getSymbol());
 			case 5:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
-				// return "/images/find.png";
 			case 6:
 				return Accounter.getFinanceMenuImages().delete();
-				// return "/images/delete.png";
 			default:
 				break;
 			}
@@ -66,10 +64,8 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 						.getCurrency(obj.getCurrency()).getSymbol());
 			case 4:
 				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
-				// return "/images/find.png";
 			case 5:
 				return Accounter.getFinanceMenuImages().delete();
-				// return "/images/delete.png";
 			default:
 				break;
 			}
@@ -83,15 +79,14 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 		if (getPreferences().getUseAccountNumbers() == true) {
 			messages = Accounter.messages();
-			return new String[] { messages.active(),
-					messages.no(), messages.name(),
-					messages.type(), messages.balance(),
+			return new String[] { messages.active(), messages.no(),
+					messages.name(), messages.type(), messages.balance(),
 					messages.register(), "" };
 		} else {
 			messages = Accounter.messages();
-			return new String[] { messages.active(),
-					messages.name(), messages.type(),
-					messages.balance(), messages.register(), "" };
+			return new String[] { messages.active(), messages.name(),
+					messages.type(), messages.balance(), messages.register(),
+					"" };
 		}
 
 	}
