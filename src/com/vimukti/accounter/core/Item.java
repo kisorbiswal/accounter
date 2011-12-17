@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -127,6 +128,12 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	private Measurement measurement;
 
 	Set<ItemStatus> itemStatuses;
+
+	private FinanceDate asOfDate;
+	private Account assestsAccount;
+	private int reorderPoint;
+	private long onhandQuantity;
+	private double itemTotalValue;
 
 	// TaxCode VATCode;
 
@@ -422,7 +429,75 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
+		if (type == TYPE_INVENTORY_PART) {
+			doCreateEffectForInventoryItem();
+		}
 		return false;
+
+	}
+
+	public void doCreateEffectForInventoryItem() {
+		if (warehouse == null) {
+			return;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+
+		JournalEntry journalEntry = createJournalEntry();
+		session.save(journalEntry);
+
+		Unit selectedUnit = this.getMeasurement().getDefaultUnit();
+		Measurement defaultMeasurement = this.getMeasurement();
+		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
+		Double value = (this.onhandQuantity * selectedUnit.getFactor())
+				/ defaultUnit.getFactor();
+		warehouse.updateItemStatus(this, value, false);
+		warehouse.onUpdate(session);
+		session.saveOrUpdate(warehouse);
+
+		ChangeTracker.put(warehouse);
+	}
+
+	protected JournalEntry createJournalEntry() {
+
+		String number = NumberUtils.getNextTransactionNumber(
+				Transaction.TYPE_JOURNAL_ENTRY, getCompany());
+
+		JournalEntry journalEntry = new JournalEntry();
+		// journalEntry.setInvolvedPayee(this);
+		journalEntry.setCompany(getCompany());
+		journalEntry.number = number;
+		journalEntry.transactionDate = asOfDate;
+		journalEntry.memo = "Opening Balance";
+		journalEntry.balanceDue = itemTotalValue;
+
+		List<TransactionItem> items = new ArrayList<TransactionItem>();
+		// Line 1
+		TransactionItem item1 = new TransactionItem();
+		item1.setAccount(getCompany().getOpeningBalancesAccount());
+		item1.setType(TransactionItem.TYPE_ACCOUNT);
+		item1.setDescription(getName());
+		item1.setLineTotal(-1 * itemTotalValue);
+		items.add(item1);
+
+		TransactionItem item2 = new TransactionItem();
+		item2.setAccount(assestsAccount);
+		item2.setType(TransactionItem.TYPE_ACCOUNT);
+		item2.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
+		item2.setLineTotal(itemTotalValue);
+		items.add(item2);
+
+		journalEntry.setDebitTotal(items.get(1).getLineTotal());
+		journalEntry.setCreditTotal(items.get(0).getLineTotal());
+
+		journalEntry.setTransactionItems(items);
+
+		journalEntry.setCurrency(getCompany().getPrimaryCurrency());
+
+		return journalEntry;
+	}
+
+	public void doReverseEffectForInventoryItem() {
+
 	}
 
 	private void checkAccountsNull() throws AccounterException {
@@ -508,6 +583,46 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	public void setWarehouse(Warehouse warehouse) {
 		this.warehouse = warehouse;
+	}
+
+	public FinanceDate getAsOfDate() {
+		return asOfDate;
+	}
+
+	public void setAsOfDate(FinanceDate asOfDate) {
+		this.asOfDate = asOfDate;
+	}
+
+	public Account getAssestsAccount() {
+		return assestsAccount;
+	}
+
+	public void setAssestsAccount(Account assestsAccount) {
+		this.assestsAccount = assestsAccount;
+	}
+
+	public int getReorderPoint() {
+		return reorderPoint;
+	}
+
+	public void setReorderPoint(int reorderPoint) {
+		this.reorderPoint = reorderPoint;
+	}
+
+	public long getOnhandQuantity() {
+		return onhandQuantity;
+	}
+
+	public void setOnhandQuantity(long onhandQuantity) {
+		this.onhandQuantity = onhandQuantity;
+	}
+
+	public double getItemTotalValue() {
+		return itemTotalValue;
+	}
+
+	public void setItemTotalValue(double itemTotalValue) {
+		this.itemTotalValue = itemTotalValue;
 	}
 
 	@Override

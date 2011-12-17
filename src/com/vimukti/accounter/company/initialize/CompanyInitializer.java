@@ -39,7 +39,7 @@ public abstract class CompanyInitializer {
 	 */
 	protected CompanyPreferences preferences;
 
-	private HashMap<Integer, Integer> accountNoMap = new HashMap<Integer, Integer>();
+	private final HashMap<Integer, Integer> accountNoMap = new HashMap<Integer, Integer>();
 
 	/**
 	 * Creates new Instance
@@ -173,7 +173,7 @@ public abstract class CompanyInitializer {
 		int fiscalYearFirstMonth = this.company.getPreferences()
 				.getFiscalYearFirstMonth();
 		FinanceDate fiscalYearStartDate = new FinanceDate(
-				(int) currentDate.getYear(), fiscalYearFirstMonth, 1);
+				currentDate.getYear(), fiscalYearFirstMonth, 1);
 		Calendar endCal = Calendar.getInstance();
 		endCal.setTime(fiscalYearStartDate.getAsDateObject());
 		endCal.set(Calendar.MONTH, endCal.get(Calendar.MONTH) + 11);
@@ -750,6 +750,13 @@ public abstract class CompanyInitializer {
 				AccounterServerConstants.ACCOUNTS_RECEIVABLE,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 		company.setAccountsReceivableAccount(accountsReceivableAccount);
+
+		/**
+		 * this inventory assets account is used while creating the inventory
+		 * item
+		 */
+		createAccount(Account.TYPE_OTHER_CURRENT_ASSET, "Inventory Assets",
+				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		// createAccount(Account.TYPE_OTHER_CURRENT_ASSET,
 		// AccounterServerConstants.DEBTORS_ACCOUNTS_RECEIVABLE,

@@ -729,11 +729,19 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<property name="isDefault" column="IS_DEFAULT"></property>
+		<property name="asOfDate" column="AS_OF_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<many-to-one name="assestsAccount" class="Account"
+			column="ASSETS_ACCOUNT_ID">
+		</many-to-one>
+		<property name="reorderPoint" column="REORDER_POINT"></property>
+		<property name="onhandQuantity" column="ON_HAND" ></property>
+		<property name="itemTotalValue" column="ITEM_TOTAL_VALUE"></property>
 		<set name="itemStatuses" inverse="true" cascade="delete">
 			<key column="ITEM_ID" />
 			<one-to-many class="ItemStatus" />
 		</set>
 	</class>
+	
 	<class name="TAXItemGroup" table="TAX_ITEM_GROUPS">
 		<id name="id" column="ID">
 			<generator class="identity"></generator>
@@ -1935,7 +1943,7 @@
 
 	</class>
 
-		<class name="Advertisement" table="ADVERTISEMENT">
+	<class name="Advertisement" table="ADVERTISEMENT">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
@@ -1943,7 +1951,7 @@
 		<property name="height" column="HEIGHT" type='double'></property>
 		<property name="width" column="WIDTH" type='double'></property>
 	</class>
-	
+
 	<class name="ChequeLayout" table="CHEQUE_LAYOUT">
 		<id name="id" column="ID">
 			<generator class="identity" />
