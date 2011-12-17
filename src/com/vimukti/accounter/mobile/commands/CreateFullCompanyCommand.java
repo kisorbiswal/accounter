@@ -200,6 +200,15 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				return null;
 			}
 
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (CreateFullCompanyCommand.this.get(COUNTRY).getValue()
+						.equals("United States")) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 		});
 
 		list.add(new StringListRequirement(CUSTOMER_TERMINOLOGY, getMessages()

@@ -8,6 +8,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
@@ -234,6 +235,16 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected String getSetMessage() {
+				return null;
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (CreatePartialCompanyCommand.this.get(COUNTRY).getValue()
+						.equals("United States")) {
+					return super.run(context, makeResult, list, actions);
+				}
 				return null;
 			}
 
