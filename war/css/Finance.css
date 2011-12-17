@@ -2418,3 +2418,34 @@ input.date-field-textbox {
 .checkprintbox{
 	border:1px solid #aaa;
 }
+.chequeBody{
+	background: none repeat scroll 0 0 white;
+    box-shadow: 5px 5px #000000;
+     margin-top: 4px;
+}
+.chequeBackground{
+	 background: none repeat scroll 0 0 #AAAAAA;
+     padding: 16px 10px 10px 17px
+}
+.chequeLeftScal{
+	background: none repeat scroll 0 0 white;
+    margin-top: 20px;
+    padding: 5px;
+}
+.chequeTopScal{
+	background: none repeat scroll 0 0 white;
+    margin-left: 40px;
+    padding: 0 5px;
+}
+.checkpanel{
+	height:280px;
+	overflow: scroll;
+	padding:20px;
+}
+.chequeLeftScal .gwt-Label{
+	line-height: 0.6;
+    width: 11px;
+}
+.chequeTopScal .gwt-Label{
+	 font-size: 11px;
+}
