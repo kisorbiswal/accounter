@@ -57,7 +57,7 @@ public abstract class VendorRequirement extends ListRequirement<Vendor> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(Global.get().Vendor()));
+		list.add("createVendor");
 	}
 
 	@Override

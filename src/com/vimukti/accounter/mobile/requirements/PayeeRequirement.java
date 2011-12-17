@@ -54,7 +54,9 @@ public abstract class PayeeRequirement extends ListRequirement<Payee> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().payee()));
+		list.add("createVendor");
+		list.add("createCustomer");
+		list.add("newTAXAgency");
 	}
 
 	@Override
