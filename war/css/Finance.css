@@ -261,7 +261,7 @@ table tr.ReportGridRow:HOVER,table.dropdownFlex tr:hover,.gwt-ListBox option:HOV
 	overflow-x: hidden;
 }
 
-#branding,.group-toolbar,.editTable .editheader,.gwt-StackPanel .gwt-StackPanelItem,.recounciliation_grid thead tr,.gridHeader,.user_activity_log thead tr,.headerlabel
+#branding,.group-toolbar,.editTable .editheader,.gwt-StackPanel .gwt-StackPanelItem,.recounciliation_grid thead tr,.gridHeader,.user_activity_log thead tr,.headerlabel,.pageformatpanel
 	{
 	background: #2D8B93;
 	background: -moz-linear-gradient(top, #3299A4, #2D8B93);
@@ -2374,7 +2374,7 @@ input.date-field-textbox {
 	background: -moz-linear-gradient(center top , #3299A4, #1A5158) repeat scroll 0 0 transparent;
 	font-weight:bold;
 }
-.menu_item_clicked a ,.menu_item_hover a{
+.menu_item_clicked a ,.menu_item_hover a,.pageformatpanel .gwt-Label{
 	color: white;
 }
 .tree_list_panel td{
@@ -2389,4 +2389,16 @@ input.date-field-textbox {
 .depreciation_table .gwt-ListBox{
 	width:200px;
 	height:24px;
+}
+.cheque_print_text{
+	font-weight: bold;
+}
+.cheque_form .gwt-Label{
+	margin-right:108px;
+}
+.pageformatpanel{
+	padding:5px;
+}
+.checkprintbox{
+	border:1px solid #aaa;
 }

@@ -37,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.company.AuditHistoryAction;
 import com.vimukti.accounter.web.client.ui.company.BudgetAction;
 import com.vimukti.accounter.web.client.ui.company.ChangePasswordAction;
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
+import com.vimukti.accounter.web.client.ui.company.CheckPrintSettingAction;
 import com.vimukti.accounter.web.client.ui.company.CompanyHomeAction;
 import com.vimukti.accounter.web.client.ui.company.CountryRegionListAction;
 import com.vimukti.accounter.web.client.ui.company.CreditRatingListAction;
@@ -220,6 +221,7 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorsHomeAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsListAction;
 
 public class ActionFactory {
+
 	public static AccounterMessages messages = Accounter.messages();
 
 	public static GeneralSettingsAction getGeneralSettingsAction() {
@@ -1349,5 +1351,9 @@ public class ActionFactory {
 
 	public static DepreciationSheduleAction getDepreciationSheduleAction() {
 		return new DepreciationSheduleAction();
+	}
+
+	public static CheckPrintSettingAction getCheckPrintSettingAction() {
+		return new CheckPrintSettingAction(messages.chequePrintSetting());
 	}
 }

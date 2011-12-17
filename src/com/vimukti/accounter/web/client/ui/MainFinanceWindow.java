@@ -814,6 +814,9 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getSearchInputAction().getHistoryToken(),
 				ActionFactory.getSearchInputAction());
 
+		actions.put(ActionFactory.getCheckPrintSettingAction()
+				.getHistoryToken(), ActionFactory.getCheckPrintSettingAction());
+
 	}
 
 	public ClientCompany getCompany() {

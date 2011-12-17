@@ -18,7 +18,8 @@ public class TextBoxItem extends TextBox {
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
 				if (keyPressHandler != null)
-					keyPressHandler.onKeyPress(event.getCharCode());
+					keyPressHandler.onKeyPress(event.getNativeEvent()
+							.getKeyCode());
 			}
 		});
 	}

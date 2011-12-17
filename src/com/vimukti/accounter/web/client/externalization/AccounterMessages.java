@@ -5216,4 +5216,34 @@ public interface AccounterMessages extends Messages {
 	public String customerCentre(String Customer);
 
 	public String pleaseSelectAnyPayee(String Customer);
+
+	public String chequeParameters();
+
+	public String size();
+
+	public String pageFormats();
+
+	public String chequeSize();
+
+	public String noteAllDimensions();
+
+	public String nameOfPayee();
+
+	public String amountInWordsLineOne();
+
+	public String amountInWordsLineTwo();
+
+	public String authorisedSignatory();
+
+	public String forCompany();
+
+	public String chequeDate();
+
+	public String amountInFigures();
+
+	public String chequeWidth();
+
+	public String chequeHeight();
+
+	public String chequePrintSetting();
 }
