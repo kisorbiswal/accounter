@@ -317,6 +317,7 @@
 		name="TtransactionDetailByTaxItem">
 		<alias>transactionDetailbyTaxItemReport</alias>
 		<alias>transactionDetailByTaxItem</alias>
+		<alias>transactionDetailedbyTaxItem</alias>
 	</command>
 
 	<command
@@ -393,6 +394,7 @@
 		name="userActivityLog">
 		<alias>activity</alias>
 		<alias>log</alias>
+		<alias>usersActivityLogTitle</alias>
 		<alias>userLog</alias>
 	</command>
 
@@ -687,7 +689,7 @@
 		<alias>newReceivePayment</alias>
 		<alias>paymentReceive</alias>
 		<alias>createReceivePayment</alias>
-		<alias>Customer Payment</alias>
+		<alias>customerPayment</alias>
 		<alias>createReceivePayment</alias>
 		<alias>addReceivePayment</alias>
 		<alias>updateReceivePayment</alias>
@@ -1026,7 +1028,7 @@
 		Item</alias> <alias>Edit Product Item</alias> </command> -->
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.NewCustomerGroupCommand"
-		name="Customer Group">
+		name="customerGroup">
 		<alias>createcustomergroup</alias>
 		<alias>updatecustomergroup</alias>
 		<alias>modifycustomergroup</alias>
@@ -1094,6 +1096,7 @@
 		clazz="com.vimukti.accounter.mobile.commands.preferences.CompanyInfoPreferenceCommand"
 		name="comapnyInfo">
 		<alias>comapnyInfoPreferences</alias>
+		<alias>setCompanyInfo</alias>
 	</command>
 
 	<command
@@ -1105,6 +1108,7 @@
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.preferences.ProductAndServicePreferencesCommand"
 		name="productandServicesPreferences">
+		<alias>productAndServices</alias>
 	</command>
 
 	<command

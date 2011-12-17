@@ -153,7 +153,7 @@
 	</pattern>
 
 	<pattern login="true">
-		<input>Customer Overview</input>
+		<input>customerOverview</input>
 		<outputs>
 			<command title="Customers" />
 			<command value="items customer" title="items" />
@@ -202,7 +202,7 @@
 	</pattern>
 
 	<pattern login="true">
-		<input>Vendor Overview</input>
+		<input>vendorOverview</input>
 		<outputs>
 			<command title="Vendors" />
 			<command value="items vendor" title="items" />
