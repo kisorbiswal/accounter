@@ -759,7 +759,8 @@
 		<query-param name="company" type="Company" />
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.Account a where a.id
-		=:id and a.company=:company
+		=:id and
+		a.company=:company
 	</query>
 
 	<query name="getTaxCalc.by.TaxAgencyId.and.withOtherDetails">
@@ -1516,6 +1517,8 @@
 		re.account.id=:accountID and re.company=:company
 	</query>
 
+
+
 	<query name="get.OpeningBalance.Of.Account.from.Reconciliations">
 		<query-param name="accountID" type="long" />
 		<query-param name="company" type="Company" />
@@ -1828,19 +1831,21 @@
 		where es=:estimate
 
 	</query>
-	
+
 	<query name="getTDSAgencyOfCompany">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.TAXAgency ta where ta.taxType=4 and ta.company=:company 
+		from com.vimukti.accounter.core.TAXAgency ta where ta.taxType=4 and
+		ta.company=:company
 		order by ta.id
 	</query>
-	
+
 
 	<query name="getCheckNumber">
 		<query-param name="accountId" type="long" />
 		<query-param name="companyId" type="long" />
 		select a.lastCheckNum from com.vimukti.accounter.core.Account a
-		where a.id=:accountId and a.company.id=:companyId
+		where
+		a.id=:accountId and a.company.id=:companyId
 	</query>
 
 	<query name="getTransaction.by.id">

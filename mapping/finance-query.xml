@@ -250,7 +250,8 @@
 		ON
 		P.ID=S.CUSTOMER_ID
 		WHERE T.T_TYPE = 21 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE BETWEEN :fromDate AND :toDate
 		ORDER
 		BY
 		T.T_DATE
@@ -336,7 +337,8 @@
 		PAYEE P
 		ON P.ID=PO.VENDOR_ID
 		WHERE T.T_TYPE = 22 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate ORDER BY T.T_DATE
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate
+		ORDER BY T.T_DATE
 	</sql-query>
 	<sql-query name="getNotReceivedPurchaseOrdersList">
 		<query-param name="vendorId" type="String" />
@@ -654,7 +656,8 @@
 
 		WHERE T.T_TYPE
 		IN(12,29) AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate
+		AND :toDate
 	</sql-query>
 	<!-- To generate the Payments List which Includes Cash Purchases, Credit 
 		Card Charges, Customer Refunds,PayBills and Write Checks -->
@@ -2791,7 +2794,8 @@
 		WC.ID AS WRITE_CHECK_ID,
 		TF.ID AS
 		TRANSFER_FUND_ID,
-		TI.ID AS
+		TI.ID
+		AS
 		TRANSACTION_ITEM_ID,
 		TMD.ID AS
 		TRANSACTION_MAKE_DEPOSIT_ID,
@@ -2964,7 +2968,8 @@
 		TE.ID AS
 		TRANSACTION_EXPENSE_ID,
 		SA.ID AS STOCK_ADJUSTMENT_ID,
-		ST.ID AS STOCK_TRANSFER_ID
+		ST.ID AS
+		STOCK_TRANSFER_ID
 		FROM ITEM I
 		LEFT OUTER JOIN
 		SALES_ORDER SO
@@ -2976,14 +2981,16 @@
 		LEFT OUTER JOIN
 		TRANSACTION_EXPENSE TE
 		ON I.ID = TE.ITEM_ID
-		LEFT OUTER JOIN
+		LEFT OUTER
+		JOIN
 		STOCK_ADJUSTMENT_ITEM SA
 		ON SA.ITEM = I.ID
 		LEFT OUTER JOIN
 		STOCK_TRANSFER_ITEM ST
 		ON ST.ITEM = I.ID
 		WHERE I.ID =
-		:inputId AND I.COMPANY_ID=:companyId LIMIT 1
+		:inputId AND
+		I.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 
@@ -3283,8 +3290,7 @@
 	<sql-query name="canDeletePaySalesTax">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="ID"
-			type="long" />
+		<return-scalar column="ID" type="long" />
 
 		SELECT P.ID AS ID
 
@@ -3292,7 +3298,8 @@
 		LEFT JOIN TRANSACTION T ON T.ID=P.ID
 
 		WHERE P.ID IS NULL AND P.ID =:inputId AND
-		T.COMPANY_ID=:companyId LIMIT 1
+		T.COMPANY_ID=:companyId LIMIT
+		1
 	</sql-query>
 
 	<sql-query name="canDeleteTAXAgency">
@@ -3534,7 +3541,8 @@
 		WC.ID AS WRITE_CHECK_ID,
 		TF.ID AS
 		TRANSFER_FUND_ID,
-		TI.ID AS
+		TI.ID
+		AS
 		TRANSACTION_ITEM_ID,
 		TMD.ID AS
 		TRANSACTION_MAKE_DEPOSIT_ID,
@@ -3781,11 +3789,12 @@
 		SELECT CC.ID AS ID
 
 		FROM CREDIT_CARD_CHARGES CC
-		LEFT JOIN TRANSACTION T ON T.ID=CC.ID
+		LEFT JOIN TRANSACTION T
+		ON T.ID=CC.ID
 
 		WHERE CC.ID IS NULL AND CC.ID =:inputId AND
 		T.COMPANY_ID=:companyId LIMIT 1
-		
+
 	</sql-query>
 
 	<sql-query name="canDeleteBudget">
@@ -3809,7 +3818,8 @@
 		SELECT CC.ID AS ID
 
 		FROM CASH_PURCHASE CC
-		LEFT JOIN TRANSACTION T ON T.ID=CC.ID
+		LEFT JOIN TRANSACTION T ON
+		T.ID=CC.ID
 
 		WHERE CC.ID IS NULL AND CC.ID =:inputId AND
 		T.COMPANY_ID=:companyId LIMIT 1
@@ -3842,9 +3852,12 @@
 		<query-param name="companyId" type="long" />
 		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
 		SELECT TR.ID AS RECEIVE_PAYMENT_ID FROM
-		CUSTOMER_REFUND CR LEFT JOIN TRANSACTION T ON T.ID=CR.ID LEFT JOIN
-		TRANSACTION_RECEIVE_PAYMENT TR ON TR.CUSTOMER_REFUND_ID=CR.ID
-		WHERE CR.ID=:inputId AND T.COMPANY_ID=:companyId LIMIT 1
+		CUSTOMER_REFUND CR LEFT JOIN
+		TRANSACTION T ON T.ID=CR.ID LEFT JOIN
+		TRANSACTION_RECEIVE_PAYMENT TR ON
+		TR.CUSTOMER_REFUND_ID=CR.ID
+		WHERE CR.ID=:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteJournalEntry">
@@ -3886,7 +3899,7 @@
 		ON
 		T.ID=C.ID WHERE C.ID IS NULL AND C.ID =:inputId AND
 		T.COMPANY_ID=:companyId LIMIT 1
-		
+
 	</sql-query>
 
 	<sql-query name="createSalesPurchasesView">
@@ -6785,53 +6798,54 @@
 		<query-param name="budgets" type="boolean" />
 		<query-param name="reconciliations" type="boolean" />
 		<!-- <query-param name="recurringTransactions" type="boolean" /> -->
-		
-		<return-scalar column="ID" type="long" />
-		
 
-		SELECT 
-			AT.ID AS ID
-		FROM 
-			ACTIVITY AT 
-		WHERE 
-			CASE
-				WHEN :logoutOrLogin
-					THEN (AT.ACTIVITY_TYPE='0' OR AT.ACTIVITY_TYPE='1')
-			END
-			OR
-			CASE
-				WHEN :preferences
-					THEN AT.ACTIVITY_TYPE='5'
-			END
-			OR
-			CASE
-				WHEN :transactions
-					THEN (AT.OBJECT_TYPE BETWEEN '1' AND '30')
-			END
-			OR
-			CASE
-				WHEN :budgets
-					THEN AT.OBJECT_TYPE='81'
-			END
-			OR
-			CASE
-				WHEN :reconciliations
-					THEN AT.OBJECT_TYPE='82'
-			END
-			<!-- OR
-			CASE
-				WHEN :recurringTransactions
-					THEN AT.OBJECT_TYPE='83'
-			END -->
+		<return-scalar column="ID" type="long" />
+
+
+		SELECT
+		AT.ID AS ID
+		FROM
+		ACTIVITY AT
+		WHERE
+		CASE
+		WHEN :logoutOrLogin
+		THEN
+		(AT.ACTIVITY_TYPE='0' OR AT.ACTIVITY_TYPE='1')
+		END
+		OR
+		CASE
+		WHEN
+		:preferences
+		THEN AT.ACTIVITY_TYPE='5'
+		END
+		OR
+		CASE
+		WHEN :transactions
+		THEN
+		(AT.OBJECT_TYPE BETWEEN '1' AND '30')
+		END
+		OR
+		CASE
+		WHEN :budgets
+		THEN
+		AT.OBJECT_TYPE='81'
+		END
+		OR
+		CASE
+		WHEN :reconciliations
+		THEN
+		AT.OBJECT_TYPE='82'
+		END
+		<!-- OR CASE WHEN :recurringTransactions THEN AT.OBJECT_TYPE='83' END -->
 		AND
-			(AT.TIME_STAMP BETWEEN :fromDate AND :endDate) 
-		AND 
-			AT.COMPANY_ID=:companyId
-		ORDER BY 
-			AT.TIME_STAMP desc
+		(AT.TIME_STAMP BETWEEN :fromDate AND :endDate)
+		AND
+		AT.COMPANY_ID=:companyId
+		ORDER BY
+		AT.TIME_STAMP desc
 
 	</sql-query>
-	
+
 	<sql-query name="getCountByCustomiseValues">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="timestamp" />
@@ -6842,48 +6856,48 @@
 		<query-param name="budgets" type="boolean" />
 		<query-param name="reconciliations" type="boolean" />
 		<!-- <query-param name="recurringTransactions" type="boolean" /> -->
-		
+
 		<return-scalar column="COUNT" type="int" />
 
-		SELECT 
-			COUNT(*) AS COUNT 
-		FROM 
-			ACTIVITY AT 
-		WHERE 
-			CASE
-				WHEN :logoutOrLogin
-					THEN (AT.ACTIVITY_TYPE='0' OR AT.ACTIVITY_TYPE='1')
-			END
+		SELECT
+		COUNT(*) AS COUNT
+		FROM
+		ACTIVITY AT
+		WHERE
+		CASE
+		WHEN :logoutOrLogin
+		THEN (AT.ACTIVITY_TYPE='0' OR AT.ACTIVITY_TYPE='1')
+		END
 		OR
-			CASE
-				WHEN :preferences
-					THEN AT.ACTIVITY_TYPE='5'
-			END
+		CASE
+		WHEN
+		:preferences
+		THEN AT.ACTIVITY_TYPE='5'
+		END
 		OR
-			CASE
-				WHEN :transactions
-					THEN (AT.OBJECT_TYPE BETWEEN '1' AND '30')
-			END
+		CASE
+		WHEN :transactions
+		THEN
+		(AT.OBJECT_TYPE BETWEEN '1' AND '30')
+		END
 		OR
-			CASE
-				WHEN :budgets
-					THEN AT.OBJECT_TYPE='81'
-			END
+		CASE
+		WHEN :budgets
+		THEN
+		AT.OBJECT_TYPE='81'
+		END
 		OR
-			CASE
-				WHEN :reconciliations
-					THEN AT.OBJECT_TYPE='82'
-			END
-		<!-- OR
-			CASE
-				WHEN :recurringTransactions
-					THEN AT.OBJECT_TYPE='83'
-			END-->
+		CASE
+		WHEN :reconciliations
+		THEN
+		AT.OBJECT_TYPE='82'
+		END
+		<!-- OR CASE WHEN :recurringTransactions THEN AT.OBJECT_TYPE='83' END -->
 		AND
-			(AT.TIME_STAMP BETWEEN :fromDate AND :endDate) 
-		AND 
-			AT.COMPANY_ID=:companyId
-		
+		(AT.TIME_STAMP BETWEEN :fromDate AND :endDate)
+		AND
+		AT.COMPANY_ID=:companyId
+
 	</sql-query>
 
 	<sql-query name="getCustomerStatement">
@@ -7332,7 +7346,28 @@
 		WHERE U.ID=:userId;
 	</sql-query>
 
+	<sql-query name="get.all.reconciliations.group.by.account.id">
+		<query-param name="company_Id" type="long" />
 
+		<return-scalar column="ACCOUNT_ID" type="long" />
+		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="ACCOUNT_TYPE" type="int" />
+		<return-scalar column="START_DATE" type="long" />
+		<return-scalar column="END_DATE" type="long" />
+
+		SELECT
+		A.ID AS ACCOUNT_ID,
+		A.NAME AS ACCOUNT_NAME,
+		A.A_TYPE AS
+		ACCOUNT_TYPE,
+		MIN(START_DATE) AS START_DATE,
+		MAX(END_DATE) AS END_DATE
+		FROM
+		RECONCILIATION R
+		LEFT JOIN ACCOUNT A ON A.ID=R.ACCOUNT WHERE
+		R.COMPANY_ID=:company_Id
+		GROUP BY A.ID;
+	</sql-query>
 	<sql-query name="getAllTAXReturnEntries.groupby.transaction.id">
 		<query-param name="companyId" type="long" />
 		<query-param name="taxAgency" type="long" />
@@ -7378,6 +7413,46 @@
 		GROUP BY
 		TI.ID,TRE.TRANSACTION_TYPE,TRE.TRANSACTION_DATE,T.ID;
 
+
+	</sql-query>
+
+	<sql-query name="get.reconciliations.by.accountId_by_dates">
+
+		<query-param name="account_Id" type="long" />
+		<query-param name="company_Id" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+
+		<return-scalar column="RECONCILATION_ID" type="long" />
+		<return-scalar column="BANKNAME" type="string" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+
+		SELECT
+		RI.ID AS RECONCILATION_ID,
+		A.NAME AS BANKNAME,
+		RI.TRANSACTION_TYPE AS TYPE,
+		RI.TRANSACTION_NUMBER AS
+		TRANSACTION_NUMBER,
+		RI.TRANSACTION_DATE AS
+		TRANSACTION_DATE,
+		RI.TRANSACTION_ID AS
+		TRANSACTION_ID,
+		RI.AMOUNT AS AMOUNT
+		FROM
+		RECONCILIATION_ITEM RI LEFT JOIN
+		RECONCILIATION R
+		ON
+		R.ID=RI.RECONCILIATION_ID LEFT JOIN ACCOUNT A ON
+		A.ID=:account_Id
+		WHERE
+		RI.TRANSACTION_DATE BETWEEN :startDate
+		AND :endDate
+		AND
+		R.ACCOUNT=:account_Id AND R.COMPANY_ID=:company_Id
 
 	</sql-query>
 
@@ -7561,9 +7636,8 @@
 		AND
 		T.T_DATE
 		BETWEEN :startDate AND :endDate GROUP BY
-		A.NAME
-		ORDER BY
-		AMOUNT DESC
+		AT.AMOUNT,A.NAME
+		ORDER BY AMOUNT DESC
 	</sql-query>
 
 	<sql-query name="deleteCompany">
@@ -7581,9 +7655,9 @@
 
 		SET CONSTRAINTS ALL DEFERRED;
 
+
 		delete from account_amounts using account where account_id=account.id
-		and
-		account.company_id=cid;
+		and account.company_id=cid;
 		delete from account_transaction where
 		company_id=cid;
 		delete from adjustment_reason where company_id=cid;
@@ -7843,6 +7917,281 @@
 
 		return
 		true;
+
+		delete from account_amounts using account where
+		account_id=account.id
+		and
+		account.company_id=cid;
+		delete from
+		account_transaction where
+		company_id=cid;
+		delete from adjustment_reason
+		where company_id=cid;
+		delete from adjustment_reason where
+		company_id=cid;
+		delete from
+		reconciliation_item using reconciliation
+		where
+		reconciliation_id=reconciliation.id and
+		reconciliation.company_id=cid;
+		delete from reconciliation where
+		company_id=cid;
+		delete from
+		bank_account using account where
+		bank_account.id=account.id and
+		account.company_id=cid;
+		delete from bank
+		where company_id=cid;
+		delete
+		from branding_theme where company_id=cid;
+		delete from budgetitem where
+		company_id=cid;
+		delete from budget where
+		company_id=cid;
+		delete from
+		cash_purchase using transaction where
+		cash_purchase.id=transaction.id
+		and transaction.company_id=cid;
+		delete
+		from cash_sales using
+		transaction where cash_sales.id=transaction.id
+		and
+		transaction.company_id=cid;
+		delete from credit_card_charges using
+		transaction where
+		credit_card_charges.id=transaction.id and
+		transaction.company_id=cid;
+		delete from creditrating where
+		company_id=cid;
+
+		delete from customer_credit_memo using transaction
+		where
+		customer_credit_memo.id=transaction.id and
+		transaction.company_id=cid;
+		delete from customer_group where
+		company_id=cid;
+		delete from customer_prepayment using transaction where
+		customer_prepayment.id=transaction.id and transaction.company_id=cid;
+		delete from customer_refund using transaction where
+		customer_refund.id=transaction.id and transaction.company_id=cid;
+		delete from customfield where company_id=cid;
+		delete from depreciation
+		where company_id=cid;
+		delete from enter_bill using transaction where
+		enter_bill.id=transaction.id
+		and transaction.company_id=cid;
+		delete from
+		enterbill_estimates using estimate , transaction where
+		enterbill_estimates.elt=estimate.id and transaction.id=estimate.id and
+		transaction.company_id=cid;
+		delete from fiscal_year where
+		company_id=cid;
+		delete from fixed_asset where company_id=cid;
+		delete
+		from fixed_asset_history where company_id=cid;
+		delete from
+		fixed_asset_note where company_id=cid;
+		delete from invoice_estimates
+		using estimate , transaction where
+		invoice_estimates.estimate_id=estimate.id and
+		transaction.id=estimate.id and transaction.company_id=cid;
+		delete from
+		invoice_sales_orders using invoice , transaction where
+		invoice_sales_orders.invoice_id=invoice.id and
+		transaction.id=invoice.id and transaction.company_id=cid;
+		delete from
+		invoice using transaction where invoice.id=transaction.id and
+		transaction.company_id=cid;
+		delete from estimate using transaction
+		where estimate.id=transaction.id and
+		transaction.company_id=cid;
+		delete
+		from issuepayment using transaction where
+		issuepayment.id=transaction.id and transaction.company_id=cid;
+
+		delete
+		from item_receipt using transaction where
+		item_receipt.id=transaction.id and transaction.company_id=cid;
+		delete
+		from item_status using item where item_id=item.id and
+		item.company_id=cid;
+
+		delete from itemgroup where company_id=cid;
+		delete
+		from journal_entry using transaction where
+		journal_entry.id=transaction.id and transaction.company_id=cid;
+		delete
+		from location where company_id=cid;
+		delete from measurement where
+		company_id=cid;
+		delete from pay_expense using account where
+		account_id=account.id and
+		account.company_id=cid;
+		delete from
+		pay_tax_entries using transaction where
+		pay_tax_entries.transaction_id=transaction.id and
+		transaction.company_id=cid;
+		delete from payee_address using payee where
+		payee_address.payee_id=payee.id
+		and payee.company_id=cid;
+		delete from
+		payee_contact using payee where payee_contact.payee_id=payee.id
+		and
+		payee.company_id=cid;
+		delete from payee_customfields using payee where
+		payee_customfields.payee_id=payee.id and payee.company_id=cid;
+		delete
+		from paymentterms where company_id=cid;
+		delete from pricelevel where
+		company_id=cid;
+		delete from purchase_order using transaction where
+		purchase_order.id=transaction.id and transaction.company_id=cid;
+		delete from recurring_transaction where company_id=cid;
+		delete from
+		sales_order using transaction where
+		sales_order.id=transaction.id and
+		transaction.company_id=cid;
+		delete from sales_person where
+		company_id=cid;
+		delete from shippingmethod where company_id=cid;
+		delete
+		from shippingterms where company_id=cid;
+		delete from stock_adjustment
+		where company_id=cid;
+		delete from stock_adjustment_item using
+		stock_adjustment where
+		stock_adjustment.id=stock_adjustment_item.stock_adjustment and
+		stock_adjustment.company_id=cid;
+		delete from item where company_id=cid;
+		delete from stock_transfer where company_id=cid;
+		delete from
+		stock_transfer_item where company_id=cid;
+		delete from tax_adjustment
+		using transaction where
+		tax_adjustment.id=transaction.id and
+		transaction.company_id=cid;
+		delete from tax_code where company_id=cid;
+		delete from tax_group_tax_item using tax_group where
+		tax_group_id=tax_group.id and tax_group.company_id=cid;
+		delete from
+		tax_group where company_id=cid;
+		delete from tax_item where
+		company_id=cid;
+		delete from tax_item_groups where company_id=cid;
+		delete from tax_rate_calculation using transaction where
+		transaction_id=transaction.id and transaction.company_id=cid;
+		delete
+		from tax_return using transaction where tax_return.id=transaction.id
+		and transaction.company_id=cid;
+		delete from tax_return_entry using
+		transaction where
+		transaction_id=transaction.id and
+		transaction.company_id=cid;
+		delete from taxagency where company_id=cid;
+		delete from taxrates where company_id=cid;
+		delete from
+		transaction_credits_and_payments using credits_and_payments ,
+		transaction where
+		transaction_credits_and_payments.credits_and_payments_id=credits_and_payments.id
+		and credits_and_payments.transaction_id=transaction.id and
+		transaction.company_id=cid;
+		delete from credits_and_payments using
+		transaction where
+		transaction_id=transaction.id and
+		transaction.company_id=cid;
+		delete from transaction_history using
+		transaction where
+		transaction_id=transaction.id and
+		transaction.company_id=cid;
+		delete from transaction_issue_payment using
+		transaction where
+		transaction_id=transaction.id and
+		transaction.company_id=cid;
+		delete from transaction_item using
+		transaction where
+		transaction_id=transaction.id and
+		transaction.company_id=cid;
+		delete from transaction_make_deposit using
+		make_deposit , transaction where
+		transaction_make_deposit.make_deposit_id=make_deposit.id and
+		transaction.id=make_deposit.id and transaction.company_id=cid;
+		delete
+		from make_deposit using transaction where
+		make_deposit.id=transaction.id and transaction.company_id=cid;
+		delete
+		from transaction_make_deposit_entries using transaction where
+		transaction_id=transaction.id and transaction.company_id=cid;
+		delete
+		from transaction_pay_tax using pay_tax , transaction where
+		pay_tax_id=pay_tax.id and transaction.id=pay_tax.id and
+		transaction.company_id=cid;
+		delete from pay_tax using transaction where
+		pay_tax.id=transaction.id and
+		transaction.company_id=cid;
+		delete from
+		transaction_paybill using pay_bill , transaction where
+		paybill_id=pay_bill.id and transaction.id=pay_bill.id and
+		transaction.company_id=cid;
+		delete from pay_bill using transaction
+		where pay_bill.id=transaction.id and
+		transaction.company_id=cid;
+		delete
+		from transaction_receive_payment using transaction where
+		transaction_id=transaction.id and transaction.company_id=cid;
+		delete
+		from receive_payment using transaction where
+		receive_payment.id=transaction.id and transaction.company_id=cid;
+		delete from transaction_receive_vat using receive_vat, transaction
+		where transaction_receive_vat.receive_vat_id=receive_vat.id and
+		transaction.id=receive_vat.id and transaction.company_id=cid;
+		delete
+		from receive_vat using transaction where
+		receive_vat.id=transaction.id
+		and transaction.company_id=cid;
+		delete from unit where company_id=cid;
+		delete from unit_of_measure where company_id=cid;
+		delete from
+		nominal_code_range where company_id=cid;
+		delete from vatreturnbox where
+		company_id=cid;
+		delete from vendor where company_id=cid;
+		delete from
+		vendor_credit_memo using transaction where
+		vendor_credit_memo.id=transaction.id and transaction.company_id=cid;
+		delete from vendor_group where company_id=cid;
+		delete from warehouse
+		where company_id=cid;
+		delete from write_checks using transaction where
+		write_checks.id=transaction.id and transaction.company_id=cid;
+		delete
+		from customer where company_id=cid;
+		delete from portlet_configuration
+		using portlet_page_configuration, users
+		where
+		portlet_configuration.portlet_config_id=portlet_page_configuration.id
+		and portlet_page_configuration.user_id=users.id and
+		users.company_id=cid;
+		delete from portlet_page_configuration using
+		users where user_id=users.id
+		and users.company_id=cid;
+
+		delete from
+		account where company_id=cid;
+		delete from transaction where
+		company_id=cid;
+		delete from accounter_class where company_id=cid;
+		delete from payee where company_id=cid;
+		delete from users where
+		company_id=cid;
+		delete from activity where company_id=cid;
+		delete from
+		currency where company_id=cid;
+
+		delete from company where id=cid;
+
+		return
+		true;
+
 		end;$BODY$
 		LANGUAGE plpgsql VOLATILE;
 
@@ -8992,7 +9341,7 @@
 		CUSTOMER C
 		ON
 		C.ID
-		= RP.CUSTOMER_ID		
+		= RP.CUSTOMER_ID
 		LEFT
 		OUTER JOIN
 		PAYEE P
@@ -9000,8 +9349,10 @@
 		P.ID =
 		C.ID
 
-		WHERE T.T_TYPE=12 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate
+		WHERE
+		T.T_TYPE=12 AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate
+		AND :toDate
 	</sql-query>
 	<sql-query name="getCustomerPrepaymentsList">
 		<query-param name="companyId" type="long" />
@@ -9058,7 +9409,8 @@
 		C.ID
 
 		WHERE T.T_TYPE=29 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND :toDate
 	</sql-query>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
