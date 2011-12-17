@@ -5141,6 +5141,8 @@ public interface AccounterMessages extends Messages {
 
 	public String warehouseAlreadyExistsWithCode();
 
+	
+
 	public String willDeductTDSforUs();
 
 	public String messagesAndTasks();
@@ -5216,6 +5218,10 @@ public interface AccounterMessages extends Messages {
 	public String customerCentre(String Customer);
 
 	public String pleaseSelectAnyPayee(String Customer);
+	
+	public String reconciliationsReport();
+
+	public String reconcilationDetailByAccount();
 
 	public String chequeParameters();
 
