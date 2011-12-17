@@ -39,6 +39,8 @@ import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
+import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
+import com.vimukti.accounter.web.client.core.reports.Reconciliation;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -247,6 +249,48 @@ public class ReportManager extends Manager {
 			queryResult.add(TransactionDetailByTaxItem);
 		}
 		return new ArrayList<TransactionDetailByTaxItem>(queryResult);
+	}
+
+	/**
+	 * 
+	 * @param accountID
+	 * @param startDate
+	 * @param endDate
+	 * @param companyID
+	 * @return
+	 */
+	public ArrayList<ReconcilationItemList> getReconciliationItemslistByDates(
+			long accountID, ClientFinanceDate startDate,
+			ClientFinanceDate endDate, long companyID) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyID);
+		List list = (session
+				.getNamedQuery("get.reconciliations.by.accountId_by_dates")
+				.setParameter("account_Id", accountID)
+				.setParameter("company_Id", company.getId())
+				.setParameter("startDate", startDate.getDate()).setParameter(
+				"endDate", endDate.getDate())).list();
+		Object[] object = null;
+		Iterator iterator = list.iterator();
+		ArrayList<ReconcilationItemList> queryResult = new ArrayList<ReconcilationItemList>();
+		while (iterator.hasNext()) {
+			object = (Object[]) iterator.next();
+			ReconcilationItemList itemList = new ReconcilationItemList();
+			itemList.setId((Long) (object[0]));
+			itemList.setBankAccountName(object[1] != null ? (String) object[1]
+					: null);
+			itemList.setTransationType(object[2] == null ? 0
+					: ((Integer) object[2]).intValue());
+			itemList.setTransactionNo(object[3] != null ? (String) object[3]
+					: null);
+			itemList.setTransactionDate(object[4] == null ? null
+					: new ClientFinanceDate((Long) object[4]));
+			itemList.setTransaction((Long) (object[5]));
+			itemList.setAmount(object[6] == null ? 0 : (Double) object[6]);
+			queryResult.add(itemList);
+		}
+		return queryResult;
 	}
 
 	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocation(
@@ -2699,6 +2743,49 @@ public class ReportManager extends Manager {
 					companyId);
 		}
 		return statementsLists;
+	}
+
+	/**
+	 * 
+	 * @param financeDates
+	 * @param financeDates2
+	 * @param companyID
+	 * @return
+	 */
+	public ArrayList<Reconciliation> getAllReconciliationslist(
+			FinanceDate financeDates, FinanceDate financeDates2, long companyID) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		Query query = session.getNamedQuery(
+				"get.all.reconciliations.group.by.account.id").setParameter(
+				"company_Id", companyID);
+		List list = query.list();
+		if (list != null) {
+			Object[] object = null;
+			Iterator iterator = list.iterator();
+			List<Reconciliation> queryResult = new ArrayList<Reconciliation>();
+			while (iterator.hasNext()) {
+				Reconciliation reconcilationList = new Reconciliation();
+				object = (Object[]) iterator.next();
+				reconcilationList.setAccountId(object[0] == null ? null
+						: (Long) object[0]);
+				reconcilationList.setAccountName(object[1] == null ? null
+						: (String) object[1]);
+
+				reconcilationList.setAccountType(object[2] == null ? null
+						: (Integer) object[2]);
+				reconcilationList.setStatementdate(object[3] == null ? null
+						: new ClientFinanceDate((Long) object[3]));
+				reconcilationList
+						.setReconcilationdate((object[4] == null ? null
+								: new ClientFinanceDate((Long) object[4])));
+				queryResult.add(reconcilationList);
+			}
+			return new ArrayList<Reconciliation>(queryResult);
+		}
+
+		return null;
+
 	}
 
 	private ArrayList<PayeeStatementsList> getCustomerStatementsList(long id,
