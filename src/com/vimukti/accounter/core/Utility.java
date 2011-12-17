@@ -181,7 +181,7 @@ public class Utility {
 		return transactionName;
 	}
 
-	public static String getAccountTypeString(int accountingType,
+	public static String getAccountTypeString(long accountingType,
 			int accountType) {
 
 		String accountTypeName = null;

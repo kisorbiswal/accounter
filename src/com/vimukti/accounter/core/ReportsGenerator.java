@@ -31,6 +31,8 @@ import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByVendorDetailS
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByVendorSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseClosedOrderServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseOpenOrderServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.ReconcilationDetailsByAccountServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.ReconcilationsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReportGridTemplate;
 import com.vimukti.accounter.web.client.ui.serverreports.ReverseChargeListDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReverseChargeListServerReport;
@@ -114,6 +116,8 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_VAT_EXCEPTION_DETAIL = 166;
 	public final static int REPORT_TYPE_VENDORSTATEMENT = 167;
 	public final static int REPORT_TYPE_DEPRECIATIONSHEDULE = 168;
+	public final static int REPORT_TYPE_RECONCILATIONS = 169;
+	public final static int REPORT_TYPE_RECONCILATION_ACCOUNTSLIST = 170;
 
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
@@ -215,6 +219,51 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return depreciationSheduleServerReport.getGridTemplate();
+		case REPORT_TYPE_RECONCILATIONS:
+			ReconcilationDetailsByAccountServerReport reconcilationDetailsByAccountServerReport = new ReconcilationDetailsByAccountServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(reconcilationDetailsByAccountServerReport, finaTool);
+			reconcilationDetailsByAccountServerReport.resetVariables();
+			try {
+				reconcilationDetailsByAccountServerReport
+						.onResultSuccess(reportsSerivce
+								.getReconciliationItemByBankAccountID(
+										startDate.toClientFinanceDate(),
+										endDate.toClientFinanceDate(),
+										Long.parseLong(navigateObjectName),
+										getCompany().getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return reconcilationDetailsByAccountServerReport.getGridTemplate();
+		case REPORT_TYPE_RECONCILATION_ACCOUNTSLIST:
+			ReconcilationsServerReport reconcilationsReport = new ReconcilationsServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(reconcilationsReport, finaTool);
+			// reconcilationsReport.resetVariables();
+			try {
+				reconcilationsReport.onResultSuccess(reportsSerivce
+						.getAllReconciliations(startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate(), getCompany()
+										.getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return reconcilationsReport.getGridTemplate();
 		case REPORT_TYPE_PROFITANDLOSS:
 
 			ProfitAndLossServerReport profitAndLossServerReport = new ProfitAndLossServerReport(
@@ -1452,8 +1501,12 @@ public class ReportsGenerator {
 			return "Profit And Loss Report";
 		case REPORT_TYPE_DEPRECIATIONSHEDULE:
 			return "Depreciation Shedule Report";
+		case REPORT_TYPE_RECONCILATIONS:
+			return "ReconcilationDetails By Account Report";
 		case REPORT_TYPE_BALANCESHEET:
 			return "Balance Sheet Report";
+		case REPORT_TYPE_RECONCILATION_ACCOUNTSLIST:
+			return "Reconcilation Reports";
 		case REPORT_TYPE_TRIALBALANCE:
 			return "Trial Balance Report";
 		case REPORT_TYPE_TRANSACTIONDETAILBYTAXITEM:
