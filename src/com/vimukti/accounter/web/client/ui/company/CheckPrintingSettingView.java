@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientChequeLayout;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -21,7 +22,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextBoxItem.KeyPressListener;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.widgets.ChequeLayoutWidget;
 
-public class CheckPrintingSettingView extends BaseView {
+public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 	private VerticalPanel allPanel;
 	private ChequeLayoutWidget widget;
@@ -65,7 +66,7 @@ public class CheckPrintingSettingView extends BaseView {
 		form.setWidth("100%");
 		form.setFields(accountCombo, signatureItem);
 		form.addStyleName("cheque_print_text");
-		layout = new ClientChequeLayout();
+		layout = getCompany().getCheckLayout(0);// Loading default cheque layout
 		widget = new ChequeLayoutWidget(layout);
 
 		HorizontalPanel pageFormatPanel = new HorizontalPanel();
