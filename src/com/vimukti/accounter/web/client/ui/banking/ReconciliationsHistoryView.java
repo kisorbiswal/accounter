@@ -18,17 +18,20 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.ReconciliationAccountCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.customers.InvoicePrintDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
  * @author Prasanna Kumar G
  * 
  */
+
 public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 
 	private ReconciliationAccountCombo bankAccountsCombo;
 	private ReconciliationsTable grid;
 	private ClientAccount selectedAccount;
+	private List<ClientReconciliation> listOfReconcilation;
 
 	private void createControls() {
 
@@ -80,7 +83,9 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 					@Override
 					public void onResultSuccess(
 							List<ClientReconciliation> result) {
+						listOfReconcilation = result;
 						grid.setData(result);
+
 					}
 				});
 	}
@@ -141,5 +146,21 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 	@Override
 	protected boolean canDelete() {
 		return false;
+	}
+
+	@Override
+	public void print() {
+	}
+
+	@Override
+	public void printPreview() {
+
+	}
+
+	public void showDialogBox(String description) {
+		InvoicePrintDialog printDialog = new InvoicePrintDialog(Accounter
+				.messages().selectReports(), "", description);
+		printDialog.show();
+		printDialog.center();
 	}
 }
