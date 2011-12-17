@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -77,9 +76,9 @@ public class TaxItemsForm extends DynamicForm {
 			}
 
 			long taxItemGroupId = 0;
-			if (category == Transaction.CATEGORY_CUSTOMER) {
+			if (category == ClientTransaction.CATEGORY_CUSTOMER) {
 				taxItemGroupId = taxCode.getTAXItemGrpForSales();
-			} else if (category == Transaction.CATEGORY_VENDOR) {
+			} else if (category == ClientTransaction.CATEGORY_VENDOR) {
 				taxItemGroupId = taxCode.getTAXItemGrpForPurchases();
 			}
 			ClientTAXItemGroup taxItemGroup = company
