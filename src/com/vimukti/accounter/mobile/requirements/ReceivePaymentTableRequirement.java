@@ -23,7 +23,8 @@ public abstract class ReceivePaymentTableRequirement extends
 	private static final String PAYMENT = "receivePayment";
 	private static final String AMOUNT_DUE = "amountDue";
 	private static final String DUE_DATE = "BillDueDate";
-	private static final String APPLIED_CREDITS = "appliedcredits";
+
+	// private static final String APPLIED_CREDITS = "appliedcredits";
 
 	public ReceivePaymentTableRequirement(String requirementName,
 			String enterString, String recordName) {
@@ -126,7 +127,6 @@ public abstract class ReceivePaymentTableRequirement extends
 		Double due = obj.getAmountDue() - amount;
 		obj.setPayment(amount);
 		obj.setAmountDue(due);
-		obj.setAppliedCredits((Double) get(APPLIED_CREDITS).getValue());
 
 	}
 
@@ -138,7 +138,6 @@ public abstract class ReceivePaymentTableRequirement extends
 		get(INVOICE_AMOUNT).setDefaultValue(obj.getInvoiceAmount());
 		get(AMOUNT_DUE).setDefaultValue(obj.getAmountDue());
 		get(PAYMENT).setDefaultValue(obj.getAmountDue());
-		get(APPLIED_CREDITS).setValue(obj.getAppliedCredits());
 	}
 
 	@Override
@@ -201,7 +200,8 @@ public abstract class ReceivePaymentTableRequirement extends
 
 	public List<ClientTransactionCreditsAndPayments> getTransactionCredits(
 			ClientTransactionReceivePayment payment) {
-		ApplyCreditsRequirement requirement = (ApplyCreditsRequirement) get(APPLIED_CREDITS);
-		return requirement.getTransactionCredits(payment);
+		// ApplyCreditsRequirement requirement = (ApplyCreditsRequirement)
+		// get(APPLIED_CREDITS);
+		return null;// requirement.getTransactionCredits(payment);
 	}
 }

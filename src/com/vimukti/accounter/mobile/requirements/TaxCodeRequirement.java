@@ -37,7 +37,7 @@ public abstract class TaxCodeRequirement extends ListRequirement<TAXCode> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().taxCode()));
+		list.add("createTAXCode");
 	}
 
 	@Override

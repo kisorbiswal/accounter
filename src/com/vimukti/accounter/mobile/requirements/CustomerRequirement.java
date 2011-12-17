@@ -4,7 +4,10 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 
@@ -18,10 +21,17 @@ public abstract class CustomerRequirement extends ListRequirement<Customer> {
 	}
 
 	@Override
-	public void setValue(Object value) {
-		Session currentSession = HibernateUtil.getCurrentSession();
-		Customer customer = (Customer) value;
-		super.setValue(currentSession.load(Customer.class, customer.getID()));
+	public Result run(Context context, Result makeResult, ResultList list,
+			ResultList actions) {
+		Object value = getValue();
+		if (value != null) {
+			Session currentSession = HibernateUtil.getCurrentSession();
+			Customer customer = (Customer) value;
+			customer = (Customer) currentSession.load(Customer.class,
+					customer.getID());
+			super.setValue(customer);
+		}
+		return super.run(context, makeResult, list, actions);
 	}
 
 	@Override
@@ -65,4 +75,9 @@ public abstract class CustomerRequirement extends ListRequirement<Customer> {
 		return record;
 	}
 
+	@Override
+	public <T> T getValue() {
+		// TODO Auto-generated method stub
+		return super.getValue();
+	}
 }

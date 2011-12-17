@@ -4,7 +4,10 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 
@@ -18,10 +21,16 @@ public abstract class VendorRequirement extends ListRequirement<Vendor> {
 	}
 
 	@Override
-	public void setValue(Object value) {
-		Session currentSession = HibernateUtil.getCurrentSession();
-		Vendor vendor = (Vendor) value;
-		super.setValue(currentSession.load(Vendor.class, vendor.getID()));
+	public Result run(Context context, Result makeResult, ResultList list,
+			ResultList actions) {
+		Object value = getValue();
+		if (value != null) {
+			Session currentSession = HibernateUtil.getCurrentSession();
+			Vendor vendor = (Vendor) value;
+			vendor = (Vendor) currentSession.load(Vendor.class, vendor.getID());
+			super.setValue(vendor);
+		}
+		return super.run(context, makeResult, list, actions);
 	}
 
 	@Override

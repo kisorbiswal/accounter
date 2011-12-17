@@ -4,7 +4,10 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public abstract class PayeeRequirement extends ListRequirement<Payee> {
@@ -17,10 +20,15 @@ public abstract class PayeeRequirement extends ListRequirement<Payee> {
 	}
 
 	@Override
-	public void setValue(Object value) {
-		Session currentSession = HibernateUtil.getCurrentSession();
-		Payee payee = (Payee) value;
-		super.setValue(currentSession.load(Payee.class, payee.getID()));
+	public Result run(Context context, Result makeResult, ResultList list,
+			ResultList actions) {
+		Object value = getValue();
+		if (value != null) {
+			Session currentSession = HibernateUtil.getCurrentSession();
+			Payee payee = (Payee) value;
+			super.setValue(currentSession.load(Payee.class, payee.getID()));
+		}
+		return super.run(context, makeResult, list, actions);
 	}
 
 	@Override
