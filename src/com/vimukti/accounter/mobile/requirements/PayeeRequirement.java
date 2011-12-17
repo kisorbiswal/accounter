@@ -23,12 +23,21 @@ public abstract class PayeeRequirement extends ListRequirement<Payee> {
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
 		Object value = getValue();
+		setPayeeValue(value);
+		return super.run(context, makeResult, list, actions);
+	}
+
+	private void setPayeeValue(Object value) {
 		if (value != null) {
 			Session currentSession = HibernateUtil.getCurrentSession();
 			Payee payee = (Payee) value;
 			super.setValue(currentSession.load(Payee.class, payee.getID()));
 		}
-		return super.run(context, makeResult, list, actions);
+	}
+
+	@Override
+	public void setValue(Object value) {
+		setPayeeValue(value);
 	}
 
 	@Override

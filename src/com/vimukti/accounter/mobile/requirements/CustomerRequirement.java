@@ -23,7 +23,11 @@ public abstract class CustomerRequirement extends ListRequirement<Customer> {
 	@Override
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
-		Object value = getValue();
+		setCustomerValue(getValue());
+		return super.run(context, makeResult, list, actions);
+	}
+
+	private void setCustomerValue(Object value) {
 		if (value != null) {
 			Session currentSession = HibernateUtil.getCurrentSession();
 			Customer customer = (Customer) value;
@@ -31,7 +35,11 @@ public abstract class CustomerRequirement extends ListRequirement<Customer> {
 					customer.getID());
 			super.setValue(customer);
 		}
-		return super.run(context, makeResult, list, actions);
+	}
+
+	@Override
+	public void setValue(Object value) {
+		setCustomerValue(value);
 	}
 
 	@Override

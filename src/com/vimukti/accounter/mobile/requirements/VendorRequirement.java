@@ -24,13 +24,22 @@ public abstract class VendorRequirement extends ListRequirement<Vendor> {
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
 		Object value = getValue();
+		setVendorValue(value);
+		return super.run(context, makeResult, list, actions);
+	}
+
+	private void setVendorValue(Object value) {
 		if (value != null) {
 			Session currentSession = HibernateUtil.getCurrentSession();
 			Vendor vendor = (Vendor) value;
 			vendor = (Vendor) currentSession.load(Vendor.class, vendor.getID());
 			super.setValue(vendor);
 		}
-		return super.run(context, makeResult, list, actions);
+	}
+
+	@Override
+	public void setValue(Object value) {
+		setVendorValue(value);
 	}
 
 	@Override
