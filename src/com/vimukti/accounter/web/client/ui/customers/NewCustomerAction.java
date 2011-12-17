@@ -14,6 +14,7 @@ public class NewCustomerAction extends Action<ClientCustomer> {
 
 	private CustomerView view;
 	private String quickAddText;
+	private boolean isEditable;
 
 	public NewCustomerAction() {
 		super();
@@ -52,10 +53,17 @@ public class NewCustomerAction extends Action<ClientCustomer> {
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewCustomerAction.this);
+				if (isCustomerViewEditable()) {
+					view.onEdit();
+				}
 
 			}
 
 		});
+	}
+
+	public boolean isCustomerViewEditable() {
+		return isEditable;
 	}
 
 	// @Override
@@ -91,8 +99,13 @@ public class NewCustomerAction extends Action<ClientCustomer> {
 		this.quickAddText = text;
 	}
 
+	public void setisCustomerViewEditable(boolean isEditable) {
+		this.isEditable = isEditable;
+	}
+
 	@Override
 	public String getText() {
 		return messages.newPayee(Global.get().Customer());
 	}
+
 }
