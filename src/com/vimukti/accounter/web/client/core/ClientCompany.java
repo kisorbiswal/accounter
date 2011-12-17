@@ -3158,7 +3158,8 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	/**
-	 * If bankAccountId is zero then it returns the default cheque layout
+	 * If bankAccountId is zero then it returns the default cheque layout If not
+	 * found any Layout for given account Id, then it will return default layout
 	 * 
 	 * @param bankAccountId
 	 * @return
@@ -3168,6 +3169,10 @@ public class ClientCompany implements IAccounterCore {
 			if (layout.getAccount() == bankAccountId) {
 				return layout;
 			}
+		}
+		// To suspend from recursive;
+		if (bankAccountId != 0) {
+			return getCheckLayout(0);
 		}
 		return null;
 	}
