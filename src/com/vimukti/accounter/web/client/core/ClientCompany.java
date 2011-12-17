@@ -192,6 +192,8 @@ public class ClientCompany implements IAccounterCore {
 	private ArrayList<ClientQuantity> quantities;
 
 	private ArrayList<ClientCustomField> customFields;
+
+	private Set<ClientChequeLayout> chequeLayouts;
 	// private ArrayList<ClientTAXItemGroup> vatItemGroups;
 
 	Set<ClientNominalCodeRange> nominalCodeRange = new HashSet<ClientNominalCodeRange>();
@@ -3155,4 +3157,18 @@ public class ClientCompany implements IAccounterCore {
 		this.advertisements = advertisements;
 	}
 
+	/**
+	 * If bankAccountId is zero then it returns the default cheque layout
+	 * 
+	 * @param bankAccountId
+	 * @return
+	 */
+	public ClientChequeLayout getCheckLayout(long bankAccountId) {
+		for (ClientChequeLayout layout : chequeLayouts) {
+			if (layout.getAccount() == bankAccountId) {
+				return layout;
+			}
+		}
+		return null;
+	}
 }
