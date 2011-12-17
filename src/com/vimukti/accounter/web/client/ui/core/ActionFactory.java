@@ -134,6 +134,7 @@ import com.vimukti.accounter.web.client.ui.reports.PurchaseByVendorDetailsAction
 import com.vimukti.accounter.web.client.ui.reports.PurchaseByVendorSummaryAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseClosedOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseOpenOrderAction;
+import com.vimukti.accounter.web.client.ui.reports.ReconcilationsAction;
 import com.vimukti.accounter.web.client.ui.reports.ReportsHomeAction;
 import com.vimukti.accounter.web.client.ui.reports.ReverseChargeListAction;
 import com.vimukti.accounter.web.client.ui.reports.ReverseChargeListDetailAction;
@@ -1358,7 +1359,17 @@ public class ActionFactory {
 		return new CheckPrintSettingAction();
 	}
 
+	public static ReconcilationDetailByAccountAction getReconcilationDetailByAccount(
+			long id) {
+		return new ReconcilationDetailByAccountAction(id);
+	}
+
 	public static CustomerCentreAction getCustomerCentre() {
 		return new CustomerCentreAction();
 	}
+	public static ReconcilationsAction getReconcilationsAction() {
+		return new ReconcilationsAction();
+
+	}
+
 }
