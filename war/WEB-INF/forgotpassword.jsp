@@ -13,11 +13,6 @@
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 
 <script  type="text/javascript" >
-$.validator.setDefaults({
-	submitHandler: function() {
-		$('#accounterForm').submit();
-	}
-});
 
 $(document).ready(function() {
 	$('#submitButton').click(function() {
@@ -30,6 +25,7 @@ $(document).ready(function() {
 			messages: {
 				emailId: "<i18n:i18n msg='pleaseenteravalidemailaddress'/>"
 				 
+			}
 			}
 		});
 	});
