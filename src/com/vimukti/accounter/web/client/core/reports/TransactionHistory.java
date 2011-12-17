@@ -13,6 +13,26 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static final int ALL_INVOICES = 2;
+	public static final int OPENED_INVOICES = 3;
+	public static final int OVER_DUE_INVOICES = 4;
+	public static final int REFUNDS_BY_CREDITCARD = 5;
+	public static final int REFUNDS_BYCHEQUE = 6;
+	public static final int REFUNDS_BYCASH = 7;
+	public static final int ALL_CUSTOMER_REFUNDS = 8;
+	public static final int OPEND_CREDITMEMOS = 9;
+	public static final int ALL_CREDITMEMOS = 10;
+	public static final int RECEV_PAY_BY_MAESTRO = 11;
+	public static final int RECEV_PAY_BY_STANDING_ORDER = 12;
+	public static final int RECEV_PAY_BY_ONLINE = 13;
+	public static final int RECEV_PAY_BY_MASTERCARD = 14;
+	public static final int RECEV_PAY_BY_DIRECT_DEBIT = 15;
+	public static final int RECEV_PAY_BY_CREDITCARD = 16;
+	public static final int RECEV_PAY_BY_CHEQUE = 17;
+	public static final int RECEV_PAY_BY_CASH = 18;
+	public static final int ALL_CASHSALES = 19;
+	public static final int ALL_RECEIVEDPAYMENTS = 20;
+	public static final int ALL_TRANSACTIONS = 21;
 
 	String name;
 
