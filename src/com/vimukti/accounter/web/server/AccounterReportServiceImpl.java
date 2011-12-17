@@ -2852,4 +2852,37 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return list;
 	}
 
+	@Override
+	public ArrayList<TransactionHistory> getCustomerTransactionsList(long id,
+			int transactionType, int transactionStatusType,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		return getcustomerTransactionlist(id, transactionType,
+				transactionStatusType, startDate, endDate, getCompanyId());
+	}
+
+	private ArrayList<TransactionHistory> getcustomerTransactionlist(
+			long customerId, int transactionType, int transactionStatusType,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate, Long companyId) {
+
+		FinanceDate[] dates = getMinimumAndMaximumDates(fromDate, toDate,
+				getCompanyId());
+		ArrayList<TransactionHistory> resultList = new ArrayList<TransactionHistory>();
+		try {
+
+			resultList = getFinanceTool().getCustomerManager()
+					.getCustomerTransactionsList(customerId, transactionType,
+							transactionStatusType, dates[0].getDate(),
+							dates[1].getDate(), companyId);
+
+			TransactionHistory obj = new TransactionHistory();
+			if (resultList != null)
+				// resultList.add((TransactionHistory) setStartEndDates(obj,
+				// financeDates));
+				return resultList;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultList;
+	}
+
 }
