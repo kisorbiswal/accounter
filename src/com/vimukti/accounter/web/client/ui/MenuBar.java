@@ -722,7 +722,9 @@ public class MenuBar {
 			customerListMenuBar.addMenuItem(messages.transactionscenter(),
 					HistoryTokens.TRANSACTIONS_CENTER);
 		}
-
+		customerListMenuBar.addMenuItem(
+				messages.customerCentre(Global.get().Customer()),
+				HistoryTokens.CUSTOMERCENTRE);
 		return customerListMenuBar;
 	}
 

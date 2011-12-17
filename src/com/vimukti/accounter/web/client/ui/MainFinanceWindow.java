@@ -428,15 +428,15 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getNewCustomerAction().getHistoryToken(),
 				ActionFactory.getNewCustomerAction());
 
-		actions.put(
-				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES).getHistoryToken(),
-				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES));
-		actions.put(
-				ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES).getHistoryToken(), ActionFactory
-						.getNewQuoteAction(ClientEstimate.CHARGES));
-		actions.put(
-				ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS).getHistoryToken(), ActionFactory
-						.getNewQuoteAction(ClientEstimate.CREDITS));
+		actions.put(ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES)
+				.getHistoryToken(), ActionFactory
+				.getNewQuoteAction(ClientEstimate.QUOTES));
+		actions.put(ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES)
+				.getHistoryToken(), ActionFactory
+				.getNewQuoteAction(ClientEstimate.CHARGES));
+		actions.put(ActionFactory.getNewQuoteAction(ClientEstimate.CREDITS)
+				.getHistoryToken(), ActionFactory
+				.getNewQuoteAction(ClientEstimate.CREDITS));
 
 		actions.put(ActionFactory.getNewInvoiceAction().getHistoryToken(),
 				ActionFactory.getNewInvoiceAction());
@@ -457,15 +457,15 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getCustomersAction());
 		// actions.put(ActionFactory.getItemsAction().getHistoryToken(),
 		// ActionFactory.getItemsAction());
-		actions.put(
-				ActionFactory.getQuotesAction(ClientEstimate.QUOTES).getHistoryToken(), ActionFactory
-						.getQuotesAction(ClientEstimate.QUOTES));
-		actions.put(
-				ActionFactory.getQuotesAction(ClientEstimate.CHARGES).getHistoryToken(),
-				ActionFactory.getQuotesAction(ClientEstimate.CHARGES));
-		actions.put(
-				ActionFactory.getQuotesAction(ClientEstimate.CREDITS).getHistoryToken(),
-				ActionFactory.getQuotesAction(ClientEstimate.CREDITS));
+		actions.put(ActionFactory.getQuotesAction(ClientEstimate.QUOTES)
+				.getHistoryToken(), ActionFactory
+				.getQuotesAction(ClientEstimate.QUOTES));
+		actions.put(ActionFactory.getQuotesAction(ClientEstimate.CHARGES)
+				.getHistoryToken(), ActionFactory
+				.getQuotesAction(ClientEstimate.CHARGES));
+		actions.put(ActionFactory.getQuotesAction(ClientEstimate.CREDITS)
+				.getHistoryToken(), ActionFactory
+				.getQuotesAction(ClientEstimate.CREDITS));
 		actions.put(ActionFactory.getInvoicesAction(null).getHistoryToken(),
 				ActionFactory.getInvoicesAction(null));
 		actions.put(ActionFactory.getTransactionCenterAction()
@@ -814,6 +814,10 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getSearchInputAction().getHistoryToken(),
 				ActionFactory.getSearchInputAction());
 
+		actions.put(ActionFactory.getCustomerCentre().getHistoryToken(),
+				ActionFactory.getCustomerCentre());
+
+ 
 		actions.put(ActionFactory.getCheckPrintSettingAction()
 				.getHistoryToken(), ActionFactory.getCheckPrintSettingAction());
 

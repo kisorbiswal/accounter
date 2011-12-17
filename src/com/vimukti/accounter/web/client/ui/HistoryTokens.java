@@ -302,6 +302,8 @@ public class HistoryTokens {
 
 	public static final String DEPRECIATIONSHEDULE = "depreciationShedule";
 
+	public static final String CUSTOMERCENTRE = "customercentre";
+
 	public static final String CHECK_PRINT_SETTING = "checkPrintSetting";
 
 	public static final String TRANSACTIONS_CENTER = "transactionscenter";
