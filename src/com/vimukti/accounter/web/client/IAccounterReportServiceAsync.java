@@ -324,7 +324,8 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			AsyncCallback<ArrayList<MISC1099TransactionDetail>> callback);
 
-	public void getBudgetItemsList(long budgetID, AsyncCallback<ArrayList<ClientBudgetList>> callback);
+	public void getBudgetItemsList(long budgetID,
+			AsyncCallback<ArrayList<ClientBudgetList>> callback);
 
 	void getTAXItemDetailReport(long taxAgency, long startDate, long endDate,
 			AsyncCallback<ArrayList<TAXItemDetail>> callback);
@@ -334,4 +335,9 @@ public interface IAccounterReportServiceAsync {
 
 	public void getTAXItemExceptionDetailReport(long taxAgency, long startDate,
 			long endDate, AsyncCallback<ArrayList<TAXItemDetail>> callback);
+
+	public void getCustomerTransactionsList(long id, int transactionType,
+			int transactionStatusType, ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
+			AsyncCallback<ArrayList<TransactionHistory>> callback);
 }

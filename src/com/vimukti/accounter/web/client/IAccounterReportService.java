@@ -281,4 +281,9 @@ public interface IAccounterReportService extends RemoteService {
 	ArrayList<DepreciationShedule> getDepreciationSheduleReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int status,
 			long comapnyId);
+
+	public ArrayList<TransactionHistory> getCustomerTransactionsList(long id,
+			int transactionType, int transactionStatusType,
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
 }
