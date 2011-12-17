@@ -2317,11 +2317,11 @@ public class FinanceTool {
 	/**
 	 * @param accountID
 	 */
-	public List<ClientReconciliation> getReconciliationsByBankAccountID(
+	public ArrayList<ClientReconciliation> getReconciliationsByBankAccountID(
 			long accountID, long companyID) throws AccounterException {
 		List<Reconciliation> reconciliations = getReconciliationslist(
 				accountID, companyID);
-		List<ClientReconciliation> reconciliationsList = new ArrayList<ClientReconciliation>();
+		ArrayList<ClientReconciliation> reconciliationsList = new ArrayList<ClientReconciliation>();
 		Iterator iterator = reconciliations.iterator();
 		ClientConvertUtil convertUtil = new ClientConvertUtil();
 		while (iterator.hasNext()) {
@@ -2345,6 +2345,8 @@ public class FinanceTool {
 		return list;
 
 	}
+
+	
 
 	/**
 	 * @param accountID

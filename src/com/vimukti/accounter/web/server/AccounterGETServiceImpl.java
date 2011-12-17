@@ -2105,4 +2105,5 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				.getAllTAXReturns(getCompanyId());
 	}
 
+	
 }

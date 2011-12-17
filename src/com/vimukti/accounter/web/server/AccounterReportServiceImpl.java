@@ -8,11 +8,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.ReconciliationItem;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.services.DAOException;
@@ -23,6 +25,8 @@ import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientReconciliation;
+import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
@@ -41,6 +45,8 @@ import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
+import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
+import com.vimukti.accounter.web.client.core.reports.Reconciliation;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -1372,6 +1378,31 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		return profitAndLossByLocationList;
 	}
+
+	// public ArrayList<ClientReconciliation> getReconcilationByBankIdReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate,
+	// long accountId) {
+	// FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+	// endDate, getCompanyId());
+	// ArrayList<ClientReconciliation> reconciliationsByBankAccountIDList = new
+	// ArrayList<ClientReconciliation>();
+	// try {
+	// reconciliationsByBankAccountIDList = getFinanceTool()
+	// .getReportManager().getReconciliationsByBankAccountID(
+	// accountId, getCompanyId());
+	//
+	// ClientReconciliation obj = new ClientReconciliation();
+	//
+	// if (reconciliationsByBankAccountIDList != null)
+	// reconciliationsByBankAccountList
+	// .add((ClientReconciliation) setStartEndDates(obj,
+	// financeDates));
+	// } catch (AccounterException e) {
+	// e.printStackTrace();
+	// }
+	// return null;
+	//
+	// }
 
 	@Override
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
@@ -2832,6 +2863,27 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
+	public ArrayList<Reconciliation> getAllReconciliations(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate, companyId);
+		ArrayList<Reconciliation> reconciliations = new ArrayList<Reconciliation>();
+		try {
+			reconciliations = getFinanceTool().getReportManager()
+					.getAllReconciliationslist(financeDates[0],
+							financeDates[1], companyId);
+			Reconciliation reconcilationList = new Reconciliation();
+			if (reconciliations != null)
+				reconciliations.add((Reconciliation) setStartEndDates(
+						reconcilationList, financeDates));
+			return reconciliations;
+		} catch (AccounterException e) {
+			return reconciliations;
+		}
+	}
+
+	@Override
 	public ArrayList<DepreciationShedule> getDepreciationSheduleReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int status,
 			long companyId) {
@@ -2850,6 +2902,30 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public ArrayList<ReconcilationItemList> getReconciliationItemByBankAccountID(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long bankAccountId, long companyId) {
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate, companyId);
+		ArrayList<ReconcilationItemList> clientReconciliationItems = new ArrayList<ReconcilationItemList>();
+		try {
+			clientReconciliationItems = getFinanceTool().getReportManager()
+					.getReconciliationItemslistByDates(bankAccountId,
+							startDate, endDate, companyId);
+			ReconcilationItemList reconcilationItemList = new ReconcilationItemList();
+			if (clientReconciliationItems != null)
+				clientReconciliationItems
+						.add((ReconcilationItemList) setStartEndDates(
+								reconcilationItemList, financeDates));
+
+			return clientReconciliationItems;
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<ReconcilationItemList>();
 	}
 
 	@Override
