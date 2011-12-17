@@ -32,7 +32,9 @@
 	</script>
   </head>
   <body>
-  <div id="commanContainer">
+  <table id="commanContainer">
+  <tr>
+  <td>
 	<div>
 		<img src="/images/Accounter_logo_title.png" class="accounterLogo" alt="loading" />
 		
@@ -61,7 +63,9 @@
       <a style="float:left" href="/main/logout"><i18n:i18n msg='logoutHTML'/></a>
       <a style="float:right" href="/main/deleteAccount"><i18n:i18n msg='deleteAccount'/></a>
     </div>
-   </div>
+      </td>
+   </tr>
+</table>
    
    <!-- Footer Section-->
    
