@@ -83,6 +83,9 @@ public class AuthenticationCommand extends Command {
 		if (networkType == AccounterChatServer.NETWORK_TYPE_MOBILE) {
 
 			String string = context.getString();
+			if (string.isEmpty()) {
+				context.setAttribute("input", null);
+			}
 			Object last = context.getLast(RequirementType.STRING);
 			if (last != null) {
 				string = (String) context.getLast(RequirementType.STRING);
