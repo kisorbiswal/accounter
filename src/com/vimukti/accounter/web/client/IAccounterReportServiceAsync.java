@@ -23,6 +23,8 @@ import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
+import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
+import com.vimukti.accounter.web.client.core.reports.Reconciliation;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -336,8 +338,16 @@ public interface IAccounterReportServiceAsync {
 	public void getTAXItemExceptionDetailReport(long taxAgency, long startDate,
 			long endDate, AsyncCallback<ArrayList<TAXItemDetail>> callback);
 
+	public void getAllReconciliations(ClientFinanceDate start,
+			ClientFinanceDate end, long companyId,
+			AsyncCallback<ArrayList<Reconciliation>> callback);
+	
 	public void getCustomerTransactionsList(long id, int transactionType,
 			int transactionStatusType, ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TransactionHistory>> callback);
+	
+	void getReconciliationItemByBankAccountID(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, long bankAccountId, long comapnyId,
+			AsyncCallback<ArrayList<ReconcilationItemList>> callback);
 }

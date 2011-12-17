@@ -23,6 +23,8 @@ import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
+import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
+import com.vimukti.accounter.web.client.core.reports.Reconciliation;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -278,12 +280,18 @@ public interface IAccounterReportService extends RemoteService {
 	ArrayList<PayeeStatementsList> getStatements(boolean isVendor, long id,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
+	ArrayList<Reconciliation> getAllReconciliations(ClientFinanceDate start,
+			ClientFinanceDate end, long companyId);
+
 	ArrayList<DepreciationShedule> getDepreciationSheduleReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int status,
 			long comapnyId);
 
+	ArrayList<ReconcilationItemList> getReconciliationItemByBankAccountID(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long bankAccountId, long comapnyId);
+	
 	public ArrayList<TransactionHistory> getCustomerTransactionsList(long id,
 			int transactionType, int transactionStatusType,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
 }
