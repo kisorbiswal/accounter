@@ -508,6 +508,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		memoForm.setStyleName("align-form");
 		memoForm.setItems(memoArea);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		memoForm.setDisabled(isInViewMode());
 
 		VerticalPanel bottomPanel = new VerticalPanel();
 		bottomPanel.setWidth("100%");
@@ -563,6 +564,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		mainVlay.add(topHLay);
 		mainVlay.add(contHLay);
 		mainVlay.add(panel);
+		mainVlay.add(bottomPanel);
 
 		/* Adding dynamic forms in list */
 		listforms.add(vendorForm);
@@ -1461,6 +1463,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		taxID.setDisabled(isInViewMode());
 		customFieldForm.setDisabled(isInViewMode());
 		addCustomFieldButton.setEnabled(!isInViewMode());
+		memoArea.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

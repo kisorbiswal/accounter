@@ -343,7 +343,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	@Override
 	public void saveSuccess(IAccounterCore result) {
 		if (result != null) {
-				ClientCustomer customer = (ClientCustomer) result;
+			ClientCustomer customer = (ClientCustomer) result;
 			if (getMode() == EditMode.CREATE) {
 				customer.setBalance(customer.getOpeningBalance());
 			}
@@ -768,7 +768,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		hPanel.getElement().getStyle().setFloat(Float.LEFT);
 		panel.add(hPanel);
 		memoArea = new TextAreaItem();
-		// memoArea.setWidth("400px");
+		memoArea.setWidth("400px");
 		memoArea.setTitle(messages.memo());
 		memoArea.setToolTip(messages.writeCommentsForThis(this.getAction()
 				.getViewName()));
@@ -776,7 +776,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// linksText = new TextItem("");
 		// linksText.setWidth(100);
 		DynamicForm memoForm = new DynamicForm();
-		// memoForm.setWidth("100%");
+		memoForm.setWidth("100%");
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		// memoForm.setWidget(2, 0, addLinksButt);
@@ -841,7 +841,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		mainVlay.add(contHLay);
 		mainVlay.add(panel);
 		// mainVlay.add(memoForm);
-		// mainVlay.add(bottomLayout);
+		memoForm.setDisabled(isInViewMode());
+		mainVlay.add(bottomLayout);
 		mainVlay.setWidth("100%");
 
 		// if (UIUtils.isMSIEBrowser())
@@ -1421,6 +1422,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customFieldForm.setDisabled(isInViewMode());
 		addCustomFieldButton.setEnabled(!isInViewMode());
 		tdsCheckBox.setDisabled(isInViewMode());
+		memoArea.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}
