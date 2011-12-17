@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
@@ -17,7 +20,10 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.IMessageStats;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class Header extends HorizontalPanel {
@@ -84,8 +90,8 @@ public class Header extends HorizontalPanel {
 			if (!Accounter.isLoggedInFromDomain()
 					&& Accounter.getCompany().isConfigured()) {
 				userName.addStyleName("userName-style");
-				userName.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				userName.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 				userName.getElement().getStyle().setCursor(Cursor.POINTER);
 
 				userName.addClickHandler(new ClickHandler() {
@@ -97,7 +103,7 @@ public class Header extends HorizontalPanel {
 				});
 			}
 		}
-//		userName.setWidth("100%");
+		// userName.setWidth("100%");
 		logout = new Anchor(Accounter.messages().logoutHTML(), "/main/logout");
 		logout.addStyleName("logout-html");
 		// logout.setWidth(((messages.logout().length() * 4) + 19)+
@@ -147,12 +153,13 @@ public class Header extends HorizontalPanel {
 		headerLinks.addStyleName("header_links");
 
 		panel3 = new VerticalPanel();
-//		panel3.setWidth("100%");
+		// panel3.setWidth("100%");
 		panel3.addStyleName("logout-help-welcome");
 		panel3.add(userName);
 		panel3.add(help);
 		panel3.add(logout);
-//		panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
+		panel3.add(createStatisticsLink());
+		// panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
 
 		this.add(panel1);
 		this.setCellHorizontalAlignment(panel1, ALIGN_LEFT);
@@ -162,10 +169,10 @@ public class Header extends HorizontalPanel {
 		this.setCellWidth(panel2, "50%");
 		headerLinks.add(panel3);
 		this.setCellHorizontalAlignment(headerLinks, ALIGN_RIGHT);
-		
+
 		this.add(headerLinks);
 		this.setCellWidth(headerLinks, "25%");
-		
+
 		// Element spanEle = DOM.createSpan();
 		// spanEle.setInnerText("Vimukti Technologies Pvt Ltd");
 		// spanEle.addClassName("vimutki-text");
@@ -173,6 +180,39 @@ public class Header extends HorizontalPanel {
 
 		this.setWidth("100%");
 
+	}
+
+	private Anchor createStatisticsLink() {
+		Anchor saveStatistics = new Anchor("Save Statistics");
+		saveStatistics.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				IMessageStats messageStats = (IMessageStats) Accounter
+						.messages();
+				ArrayList<String> messagesUsageOrder = messageStats
+						.getMessagesUsageOrder();
+				HashMap<String, Integer> messgaesUsageCount = messageStats
+						.getMessgaesUsageCount();
+				Accounter.createTranslateService().updateMessgaeStats(
+						messagesUsageOrder, messgaesUsageCount,
+						new AccounterAsyncCallback<Boolean>() {
+
+							@Override
+							public void onException(AccounterException exception) {
+								Accounter
+										.showInformation("Messgae Statistics Updation Failed!");
+							}
+
+							@Override
+							public void onResultSuccess(Boolean result) {
+								Accounter
+										.showInformation("Messgae Statistics Updated!");
+							}
+						});
+			}
+		});
+		return saveStatistics;
 	}
 
 	public void initializeHelpBar() {

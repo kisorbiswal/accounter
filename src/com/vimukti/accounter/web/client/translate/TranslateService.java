@@ -1,11 +1,13 @@
 package com.vimukti.accounter.web.client.translate;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public interface TranslateService extends RemoteService {
 
@@ -31,4 +33,7 @@ public interface TranslateService extends RemoteService {
 	public Set<String> getServerMatchList();
 
 	boolean canApprove(String lang);
+
+	boolean updateMessgaeStats(List<String> byOrder,
+			Map<String, Integer> byCount) throws AccounterException;
 }

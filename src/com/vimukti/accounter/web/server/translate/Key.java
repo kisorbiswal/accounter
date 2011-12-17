@@ -11,6 +11,10 @@ public class Key implements Serializable {
 	long id;
 	String key;
 
+	private int usageCount;
+
+	private int usageOrder;
+
 	public long getId() {
 		return id;
 	}
@@ -25,6 +29,36 @@ public class Key implements Serializable {
 
 	public void setKey(String key) {
 		this.key = key;
+	}
+
+	/**
+	 * @return the usageCount
+	 */
+	public int getUsageCount() {
+		return usageCount;
+	}
+
+	/**
+	 * @param usageCount
+	 *            the usageCount to set
+	 */
+	public void setUsageCount(int usageCount) {
+		this.usageCount = usageCount;
+	}
+
+	/**
+	 * @return the usageOrder
+	 */
+	public int getUsageOrder() {
+		return usageOrder;
+	}
+
+	/**
+	 * @param usageOrder
+	 *            the usageOrder to set
+	 */
+	public void setUsageOrder(int usageOrder) {
+		this.usageOrder = usageOrder;
 	}
 
 }

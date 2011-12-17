@@ -36,8 +36,9 @@ public abstract class AbstractTransactionTable extends
 
 	protected ICurrencyProvider currencyProvider;
 
-	public AbstractTransactionTable(int rowsPerObject,boolean needDiscount, boolean isSales,
-			boolean isCustomerAllowedToAdd, ICurrencyProvider currencyProvider) {
+	public AbstractTransactionTable(int rowsPerObject, boolean needDiscount,
+			boolean isSales, boolean isCustomerAllowedToAdd,
+			ICurrencyProvider currencyProvider) {
 		super(rowsPerObject);
 		this.currencyProvider = currencyProvider;
 		this.needDiscount = needDiscount;
@@ -45,9 +46,9 @@ public abstract class AbstractTransactionTable extends
 		this.isSales = isSales;
 	}
 
-	public AbstractTransactionTable(int rowsPerObject,boolean needDiscount, boolean isSales,
-			ICurrencyProvider currencyProvider) {
-		this(rowsPerObject,needDiscount,isSales,false,currencyProvider);
+	public AbstractTransactionTable(int rowsPerObject, boolean needDiscount,
+			boolean isSales, ICurrencyProvider currencyProvider) {
+		this(rowsPerObject, needDiscount, isSales, false, currencyProvider);
 	}
 
 	protected abstract void addEmptyRecords();
@@ -345,4 +346,15 @@ public abstract class AbstractTransactionTable extends
 		}
 		return isEmpty;
 	}
+
+	public List<ClientTransactionItem> getTransactionItems() {
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		for (ClientTransactionItem item : getRecords()) {
+			if (!item.isEmpty()) {
+				list.add(item);
+			}
+		}
+		return list;
+	}
+
 }

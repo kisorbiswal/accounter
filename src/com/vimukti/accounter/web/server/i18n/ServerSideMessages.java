@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.MissingResourceException;
 
 import org.hibernate.Session;
@@ -16,6 +20,14 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ServerSideMessages {
+
+	public static final boolean TRACK_MESSAGE_STATISTICS = Boolean.TRUE;
+
+	private static Map<String, String> keyMessages = new HashMap<String, String>();
+
+	public static List<String> usageByOrder = new ArrayList<String>();
+
+	public static Map<String, Integer> usageByCount = new HashMap<String, Integer>();
 
 	static class Handler implements InvocationHandler {
 		@SuppressWarnings("unused")
@@ -51,6 +63,14 @@ public class ServerSideMessages {
 	 * @return
 	 */
 	public static String getMessage(String key) {
+		if (TRACK_MESSAGE_STATISTICS) {
+			updateStats(key);
+		}
+
+		String messgae = keyMessages.get(key);
+		if (messgae != null) {
+			return messgae;
+		}
 		User user = AccounterThreadLocal.get();
 		Locale locale = ServerLocal.get();
 		Session session = HibernateUtil.getCurrentSession();
@@ -80,7 +100,9 @@ public class ServerSideMessages {
 						.printStackTrace();
 				return "";
 			}
-			return msg.replace("'", "\\'");
+			String replace = msg.replace("'", "\\'");
+			keyMessages.put(key, replace);
+			return replace;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -89,6 +111,17 @@ public class ServerSideMessages {
 			}
 		}
 		return "";
+	}
+
+	private static void updateStats(String key) {
+		if (!usageByOrder.contains(key)) {
+			usageByOrder.add(key);
+		}
+		if (usageByCount.containsKey(key)) {
+			usageByCount.put(key, usageByCount.get(key) + 1);
+		} else {
+			usageByCount.put(key, 1);
+		}
 	}
 
 }

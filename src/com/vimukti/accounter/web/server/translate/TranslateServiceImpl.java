@@ -3,19 +3,26 @@ package com.vimukti.accounter.web.server.translate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.main.ServerLocal;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.translate.TranslateService;
 import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.i18n.ServerSideMessages;
 
 public class TranslateServiceImpl extends RemoteServiceServlet implements
 		TranslateService {
@@ -153,5 +160,39 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 			return false;
 		}
 		return new FinanceTool().canApprove(userEmail, lang);
+	}
+
+	@Override
+	public boolean updateMessgaeStats(List<String> byOrder,
+			Map<String, Integer> byCount) throws AccounterException {
+
+		Session session = HibernateUtil.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			List<String> list = new ArrayList<String>(
+					ServerSideMessages.usageByOrder);
+			for (String name : byOrder) {
+				if (!list.contains(name)) {
+					list.add(name);
+				}
+			}
+			for (String keyName : list) {
+				Key key = (Key) session.getNamedQuery("getKeyByValue")
+						.setParameter("value", keyName).list().get(0);
+				int index = list.indexOf(keyName) + 1;
+				key.setUsageOrder(index);
+				Integer count = byCount.get(keyName);
+				key.setUsageCount(count == null ? 0 : count);
+				session.update(key);
+			}
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+			throw new AccounterException();
+		} finally {
+			session.close();
+		}
+		return false;
 	}
 }

@@ -26,6 +26,8 @@
 			<generator class="identity" />
 		</id>
 		<property name="key" column="KEY"></property>
+		<property name="usageOrder" column="USAGE_ORDER"></property>
+		<property name="usageCount" column="USAGE_COUNT"></property>
 	</class>
 
 	<class name="Message" table="MESSAGE">

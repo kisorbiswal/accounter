@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.translate;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -36,5 +37,8 @@ public interface TranslateServiceAsync {
 	void getServerMatchList(AsyncCallback<Set<String>> callback);
 
 	public void canApprove(String lang, AsyncCallback<Boolean> callback);
+
+	public void updateMessgaeStats(List<String> byOrder,
+			Map<String, Integer> byCount, AsyncCallback<Boolean> callback);
 
 }
