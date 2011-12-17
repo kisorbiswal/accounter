@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -93,6 +94,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	public Button updateButton;
 	public Button prepare1099MiscForms;
 	public Button budgetEdit;
+	protected ClientPayee selectedPayee;
 
 	@Override
 	public void init() {
@@ -617,6 +619,14 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		if (this.viewSelect != null) {
 			this.viewSelect.setDisabled(true);
 		}
+	}
+
+	public void setSelectedPayee(ClientPayee selectedPayee) {
+		this.selectedPayee = selectedPayee;
+	}
+
+	public ClientPayee getSelectedPayee() {
+		return selectedPayee;
 	}
 
 }

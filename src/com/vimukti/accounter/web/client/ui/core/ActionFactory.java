@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.company.CompanyHomeAction;
 import com.vimukti.accounter.web.client.ui.company.CountryRegionListAction;
 import com.vimukti.accounter.web.client.ui.company.CreditRatingListAction;
 import com.vimukti.accounter.web.client.ui.company.CurrencyGroupListAction;
+import com.vimukti.accounter.web.client.ui.company.CustomerCentreAction;
 import com.vimukti.accounter.web.client.ui.company.CustomerGroupListAction;
 import com.vimukti.accounter.web.client.ui.company.CustomersAction;
 import com.vimukti.accounter.web.client.ui.company.DepreciationAction;
@@ -1355,5 +1356,9 @@ public class ActionFactory {
 
 	public static CheckPrintSettingAction getCheckPrintSettingAction() {
 		return new CheckPrintSettingAction();
+	}
+
+	public static CustomerCentreAction getCustomerCentre() {
+		return new CustomerCentreAction();
 	}
 }
