@@ -512,7 +512,9 @@ public class MenuBar {
 					messages.profitAndLossbyClass(),
 					HistoryTokens.PROFITANDLOSSBYCLASS);
 		}
-
+		companyAndFinancialMenuBar.addMenuItem(
+				messages.reconciliationsReport(),
+				HistoryTokens.RECONCILATION_LIST);
 		return companyAndFinancialMenuBar;
 	}
 

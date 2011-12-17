@@ -62,8 +62,6 @@ public class HistoryTokens {
 
 	public static final String ISSUEPAYMENTS = "issuePayments";
 
-	public static final String PRINTCHEQUE = "printCheque";
-
 	public static final String VENDORPREPAYMENT = "vendorPrePayment";
 
 	public static final String RECORDEXPENSES = "recordExpenses";
@@ -302,6 +300,7 @@ public class HistoryTokens {
 
 	public static final String DEPRECIATIONSHEDULE = "depreciationShedule";
 
+	public static final String RECONCILATION_LIST = "Reconciliation Reports";
 	public static final String CUSTOMERCENTRE = "customercentre";
 
 	public static final String CHECK_PRINT_SETTING = "checkPrintSetting";

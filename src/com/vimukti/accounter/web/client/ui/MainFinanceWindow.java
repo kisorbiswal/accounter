@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossByLocationAction;
+import com.vimukti.accounter.web.client.ui.reports.ReconcilationsAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByLocationDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByLocationSummaryAction;
 
@@ -682,7 +683,10 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(profitAndLossByLocationActionFalse.getHistoryToken(),
 				profitAndLossByLocationActionFalse);
-
+		ReconcilationsAction reconcilationsAction = ActionFactory
+				.getReconcilationsAction();
+		actions.put(reconcilationsAction.getHistoryToken(),
+				reconcilationsAction);
 		SalesByLocationDetailsAction salesByLocationDetailActionTrue = ActionFactory
 				.getSalesByLocationDetailsAction(true);
 		SalesByLocationSummaryAction salesByLocationSummaryActionTrue = ActionFactory
