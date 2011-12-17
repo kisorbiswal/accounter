@@ -16,7 +16,6 @@ public class ChequeLayoutWidget extends SimplePanel {
 	private String amountFigr;
 	private String checkDate;
 	private String companyName;
-	private String authoritySignatory;
 	private Label payeeNameLbl;
 	private Label amountWordLin1Lbl;
 	private Label amountWordLin2Lbl;
@@ -35,7 +34,6 @@ public class ChequeLayoutWidget extends SimplePanel {
 		amountFigr = "15868.00";
 		checkDate = "12/15/2011";
 		companyName = "vimukti";
-		authoritySignatory = chequeLayout.getAuthorisedSignature();
 		createControls();
 	}
 
@@ -74,7 +72,7 @@ public class ChequeLayoutWidget extends SimplePanel {
 				chequeLayout.getCompanyNameLeft(),
 				chequeLayout.getCompanyNameWidth());
 
-		authoritySignatoryLbl = new Label(authoritySignatory);
+		authoritySignatoryLbl = new Label(chequeLayout.getAuthorisedSignature());
 		createParameter(authoritySignatoryLbl, chequeLayout.getSignatoryTop(),
 				chequeLayout.getSignatoryLeft(),
 				chequeLayout.getSignatoryWidth());
@@ -131,6 +129,43 @@ public class ChequeLayoutWidget extends SimplePanel {
 
 	public void setChequeLayout(ClientChequeLayout chequeLayout) {
 		this.chequeLayout = chequeLayout;
+
+		// Have to do re-inialize the labels
+		updateParameter(payeeNameLbl, chequeLayout.getPayeeNameLeft(),
+				chequeLayout.getPayeeNameTop());
+		payeeNameLbl.setWidth(chequeLayout.getPayeeNameWidth() + "cm");
+
+		updateParameter(amountWordLin1Lbl,
+				chequeLayout.getAmountWordsLin1Left(),
+				chequeLayout.getAmountWordsLin1Top());
+		amountWordLin1Lbl.setWidth(chequeLayout.getAmountWordsLin1Width()
+				+ "cm");
+
+		updateParameter(amountWordLin2Lbl,
+				chequeLayout.getAmountWordsLin2Left(),
+				chequeLayout.getAmountWordsLin2Top());
+		amountWordLin2Lbl.setWidth(chequeLayout.getAmountWordsLin2Width()
+				+ "cm");
+
+		updateParameter(amountFigrLbl, chequeLayout.getAmountFigLeft(),
+				chequeLayout.getAmountFigTop());
+		amountFigrLbl.setWidth(chequeLayout.getAmountFigWidth() + "cm");
+
+		updateParameter(chequeDateLbl, chequeLayout.getChequeDateLeft(),
+				chequeLayout.getChequeDateTop());
+		chequeDateLbl.setWidth(chequeLayout.getChequeDateWidth() + "cm");
+
+		updateParameter(companyNameLbl, chequeLayout.getCompanyNameLeft(),
+				chequeLayout.getCompanyNameTop());
+		companyNameLbl.setWidth(chequeLayout.getCompanyNameWidth() + "cm");
+
+		updateParameter(authoritySignatoryLbl, chequeLayout.getSignatoryLeft(),
+				chequeLayout.getSignatoryTop());
+		authoritySignatoryLbl.setWidth(chequeLayout.getSignatoryWidth() + "cm");
+		authoritySignatoryLbl.setText(chequeLayout.getAuthorisedSignature());
+
+		chequeBody.setHeight(chequeLayout.getChequeHeight() + "cm");
+		chequeBody.setWidth(chequeLayout.getChequeHeight() + "cm");
 	}
 
 	public void setPayeeNameTop(double payeeNameTop) {
@@ -267,7 +302,6 @@ public class ChequeLayoutWidget extends SimplePanel {
 	}
 
 	public void setAuthoritySignatory(String authoritySignatory) {
-		this.authoritySignatory = authoritySignatory;
 		authoritySignatoryLbl.setText(authoritySignatory);
 	}
 }
