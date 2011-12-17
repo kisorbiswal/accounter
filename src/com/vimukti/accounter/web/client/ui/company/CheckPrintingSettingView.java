@@ -29,7 +29,13 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 	private ClientChequeLayout layout;
 	private AccountCombo accountCombo;
 	private TextItem signatureItem;
-
+	private AmountField chequeWidth, chequeHeight, payeeTop, payeeLeft,
+			payeeWidth, amountWordsTopOne, amountWordsLeftOne,
+			amountWordsWidthOne, amountWordsTopTwo, amountWordsLeftTwo,
+			amountWordsWidthTwo, amountFigTop, amountFigLeft, amountFigWidth,
+			chequeDateTop, chequeDateLeft, chequeDateWidth, companyTop,
+			companyLeft, companyWidth, signatoryTop, signatoryLeft,
+			signatoryWidth;
 	private Label noteLabel, pageFormatsLabel;
 
 	@Override
@@ -38,11 +44,41 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		createControls();
 	}
 
+	@Override
+	public void initData() {
+
+		accountCombo.setComboItem(getCompany().getAccount(layout.getAccount()));
+		signatureItem.setValue(layout.getAuthorisedSignature());
+		chequeWidth.setAmount(layout.getChequeWidth());
+		chequeHeight.setAmount(layout.getChequeHeight());
+		payeeTop.setAmount(layout.getPayeeNameTop());
+		payeeLeft.setAmount(layout.getPayeeNameLeft());
+		payeeWidth.setAmount(layout.getPayeeNameWidth());
+		amountWordsTopOne.setAmount(layout.getAmountWordsLin1Top());
+		amountWordsLeftOne.setAmount(layout.getAmountWordsLin1Left());
+		amountWordsWidthOne.setAmount(layout.getAmountWordsLin1Width());
+		amountWordsTopTwo.setAmount(layout.getAmountWordsLin2Top());
+		amountWordsLeftTwo.setAmount(layout.getAmountWordsLin2Left());
+		amountWordsWidthTwo.setAmount(layout.getAmountWordsLin2Width());
+		amountFigTop.setAmount(layout.getAmountFigTop());
+		amountFigLeft.setAmount(layout.getAmountFigLeft());
+		amountFigWidth.setAmount(layout.getAmountFigWidth());
+		chequeDateTop.setAmount(layout.getChequeDateTop());
+		chequeDateLeft.setAmount(layout.getChequeDateLeft());
+		chequeDateWidth.setAmount(layout.getChequeDateWidth());
+		companyTop.setAmount(layout.getCompanyNameTop());
+		companyLeft.setAmount(layout.getCompanyNameLeft());
+		companyWidth.setAmount(layout.getCompanyNameWidth());
+		signatoryTop.setAmount(layout.getSignatoryTop());
+		signatoryLeft.setAmount(layout.getSignatoryLeft());
+		signatoryWidth.setAmount(layout.getSignatoryWidth());
+
+	}
+
 	private void createControls() {
 
 		allPanel = new VerticalPanel();
 		VerticalPanel panel = new VerticalPanel();
-		DynamicForm allFields = new DynamicForm();
 
 		accountCombo = new AccountCombo(messages.bankAccount()) {
 
@@ -94,8 +130,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		widthLabelItem.addStyleName("cheque_print_text");
 		sizesForm.setWidth("100%");
 
-		AmountField chequeWidth = new AmountField(messages.chequeWidth(), this);
-		chequeWidth.setAmount(5d);
+		chequeWidth = new AmountField(messages.chequeWidth(), this);
 		addHandelers(chequeWidth, new ValueChangeHandler() {
 
 			@Override
@@ -104,9 +139,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField chequeHeight = new AmountField(messages.chequeHeight(),
-				this);
-		chequeHeight.setAmount(5d);
+		chequeHeight = new AmountField(messages.chequeHeight(), this);
 		addHandelers(chequeHeight, new ValueChangeHandler() {
 
 			@Override
@@ -118,7 +151,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 		LabelItem payeeLabel = new LabelItem();
 		payeeLabel.setTitle(messages.nameOfPayee());
-		AmountField payeeTop = new AmountField("", this);
+		payeeTop = new AmountField("", this);
 		addHandelers(payeeTop, new ValueChangeHandler() {
 
 			@Override
@@ -127,7 +160,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField payeeLeft = new AmountField("", this);
+		payeeLeft = new AmountField("", this);
 		addHandelers(payeeLeft, new ValueChangeHandler() {
 
 			@Override
@@ -136,7 +169,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField payeeWidth = new AmountField("", this);
+		payeeWidth = new AmountField("", this);
 		addHandelers(payeeWidth, new ValueChangeHandler() {
 
 			@Override
@@ -148,7 +181,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 		LabelItem amountWordsLineOne = new LabelItem();
 		amountWordsLineOne.setTitle(messages.amountInWordsLineOne());
-		AmountField amountWordsTopOne = new AmountField("", this);
+		amountWordsTopOne = new AmountField("", this);
 		addHandelers(amountWordsTopOne, new ValueChangeHandler() {
 
 			@Override
@@ -157,7 +190,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 		});
 
-		AmountField amountWordsLeftOne = new AmountField("", this);
+		amountWordsLeftOne = new AmountField("", this);
 		addHandelers(amountWordsLeftOne, new ValueChangeHandler() {
 
 			@Override
@@ -166,7 +199,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField amountWordsWidthOne = new AmountField("", this);
+		amountWordsWidthOne = new AmountField("", this);
 		addHandelers(amountWordsWidthOne, new ValueChangeHandler() {
 
 			@Override
@@ -175,9 +208,10 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
+
 		LabelItem amountWordsLineTwo = new LabelItem();
 		amountWordsLineTwo.setTitle(messages.amountInWordsLineTwo());
-		AmountField amountWordsTopTwo = new AmountField("", this);
+		amountWordsTopTwo = new AmountField("", this);
 		addHandelers(amountWordsTopTwo, new ValueChangeHandler() {
 
 			@Override
@@ -186,7 +220,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField amountWordsLeftTwo = new AmountField("", this);
+		amountWordsLeftTwo = new AmountField("", this);
 		addHandelers(amountWordsLeftTwo, new ValueChangeHandler() {
 
 			@Override
@@ -195,7 +229,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField amountWordsWidthTwo = new AmountField("", this);
+		amountWordsWidthTwo = new AmountField("", this);
 		addHandelers(amountWordsWidthTwo, new ValueChangeHandler() {
 
 			@Override
@@ -205,10 +239,10 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 		});
 
-		LabelItem amountInFiguresLabel = new LabelItem();
-		amountInFiguresLabel.setTitle(messages.amountInFigures());
-		AmountField amountInFiguresTopField = new AmountField("", this);
-		addHandelers(amountInFiguresTopField, new ValueChangeHandler() {
+		LabelItem amountFigLabel = new LabelItem();
+		amountFigLabel.setTitle(messages.amountInFigures());
+		amountFigTop = new AmountField("", this);
+		addHandelers(amountFigTop, new ValueChangeHandler() {
 
 			@Override
 			public void onChange(double value) {
@@ -216,8 +250,8 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField amountInFiguresLeftField = new AmountField("", this);
-		addHandelers(amountInFiguresLeftField, new ValueChangeHandler() {
+		amountFigLeft = new AmountField("", this);
+		addHandelers(amountFigLeft, new ValueChangeHandler() {
 
 			@Override
 			public void onChange(double value) {
@@ -225,8 +259,8 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField amountInFiguresWidthField = new AmountField("", this);
-		addHandelers(amountInFiguresWidthField, new ValueChangeHandler() {
+		amountFigWidth = new AmountField("", this);
+		addHandelers(amountFigWidth, new ValueChangeHandler() {
 
 			@Override
 			public void onChange(double value) {
@@ -237,8 +271,8 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 		LabelItem chequeDateLabel = new LabelItem();
 		chequeDateLabel.setTitle(messages.chequeDate());
-		AmountField chequeDateTopField = new AmountField("", this);
-		addHandelers(chequeDateTopField, new ValueChangeHandler() {
+		chequeDateTop = new AmountField("", this);
+		addHandelers(chequeDateTop, new ValueChangeHandler() {
 
 			@Override
 			public void onChange(double value) {
@@ -246,8 +280,8 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField chequeDateLeftField = new AmountField("", this);
-		addHandelers(chequeDateLeftField, new ValueChangeHandler() {
+		chequeDateLeft = new AmountField("", this);
+		addHandelers(chequeDateLeft, new ValueChangeHandler() {
 
 			@Override
 			public void onChange(double value) {
@@ -256,8 +290,8 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField chequeDateWidthField = new AmountField("", this);
-		addHandelers(chequeDateWidthField, new ValueChangeHandler() {
+		chequeDateWidth = new AmountField("", this);
+		addHandelers(chequeDateWidth, new ValueChangeHandler() {
 
 			@Override
 			public void onChange(double value) {
@@ -266,10 +300,10 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 		});
 
-		LabelItem forCompanyLabel = new LabelItem();
-		forCompanyLabel.setTitle(messages.forCompany());
-		AmountField forCompanyTopField = new AmountField("", this);
-		addHandelers(forCompanyTopField, new ValueChangeHandler() {
+		LabelItem companyLabel = new LabelItem();
+		companyLabel.setTitle(messages.forCompany());
+		companyTop = new AmountField("", this);
+		addHandelers(companyTop, new ValueChangeHandler() {
 
 			@Override
 			public void onChange(double value) {
@@ -277,8 +311,8 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField forCompanyLeftField = new AmountField("", this);
-		addHandelers(forCompanyLeftField, new ValueChangeHandler() {
+		companyLeft = new AmountField("", this);
+		addHandelers(companyLeft, new ValueChangeHandler() {
 
 			@Override
 			public void onChange(double value) {
@@ -286,8 +320,8 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField forCompanyWidthField = new AmountField("", this);
-		addHandelers(forCompanyWidthField, new ValueChangeHandler() {
+		companyWidth = new AmountField("", this);
+		addHandelers(companyWidth, new ValueChangeHandler() {
 
 			@Override
 			public void onChange(double value) {
@@ -296,10 +330,10 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 		});
 
-		LabelItem authorisedSignatoryLabel = new LabelItem();
-		authorisedSignatoryLabel.setTitle(messages.authorisedSignatory());
-		AmountField authorisedSignatoryTopField = new AmountField("", this);
-		addHandelers(authorisedSignatoryTopField, new ValueChangeHandler() {
+		LabelItem signatoryLabel = new LabelItem();
+		signatoryLabel.setTitle(messages.authorisedSignatory());
+		signatoryTop = new AmountField("", this);
+		addHandelers(signatoryTop, new ValueChangeHandler() {
 
 			@Override
 			public void onChange(double value) {
@@ -307,7 +341,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField signatoryLeft = new AmountField("", this);
+		signatoryLeft = new AmountField("", this);
 		addHandelers(signatoryLeft, new ValueChangeHandler() {
 
 			@Override
@@ -316,7 +350,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		AmountField signatoryWidth = new AmountField("", this);
+		signatoryWidth = new AmountField("", this);
 		addHandelers(signatoryWidth, new ValueChangeHandler() {
 
 			@Override
@@ -326,21 +360,22 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
+
 		LabelItem item = new LabelItem();
 		item.setValue("");
+
+		DynamicForm allFields = new DynamicForm();
 		allFields.setWidth("100%");
 		allFields.setNumCols(8);
 		allFields.setFields(item, topLabelItem, leftLabelItem, widthLabelItem,
 				payeeLabel, payeeTop, payeeLeft, payeeWidth,
 				amountWordsLineOne, amountWordsTopOne, amountWordsLeftOne,
 				amountWordsWidthOne, amountWordsLineTwo, amountWordsTopTwo,
-				amountWordsLeftTwo, amountWordsWidthTwo, amountInFiguresLabel,
-				amountInFiguresTopField, amountInFiguresLeftField,
-				amountInFiguresWidthField, chequeDateLabel, chequeDateTopField,
-				chequeDateLeftField, chequeDateWidthField, forCompanyLabel,
-				forCompanyTopField, forCompanyLeftField, forCompanyWidthField,
-				authorisedSignatoryLabel, authorisedSignatoryTopField,
-				signatoryLeft, signatoryWidth);
+				amountWordsLeftTwo, amountWordsWidthTwo, amountFigLabel,
+				amountFigTop, amountFigLeft, amountFigWidth, chequeDateLabel,
+				chequeDateTop, chequeDateLeft, chequeDateWidth, companyLabel,
+				companyTop, companyLeft, companyWidth, signatoryLabel,
+				signatoryTop, signatoryLeft, signatoryWidth);
 
 		DynamicForm chequeForm = new DynamicForm();
 		chequeForm.setNumCols(2);
