@@ -141,6 +141,7 @@ public class SelectCompanyCommand extends Command {
 		}
 		Company value = companyReq.getValue();
 		context.selectCompany(value, client);
+		makeResult.setNextCommand("menu");
 		markDone();
 		return makeResult;
 	}

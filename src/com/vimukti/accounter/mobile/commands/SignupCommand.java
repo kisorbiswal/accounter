@@ -10,7 +10,6 @@ import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.mail.EMailJob;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.Context;

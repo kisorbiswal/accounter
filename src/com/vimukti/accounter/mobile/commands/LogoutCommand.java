@@ -31,7 +31,7 @@ public class LogoutCommand extends Command {
 		MobileSession ioSession = context.getIOSession();
 		ioSession.setAuthentication(false);
 		ioSession.setExpired(true);
-		ioSession.removeAllCommands();
+		ioSession.removeAllMessages();
 
 		Result result = new Result();
 		result.add("You are successfully logged out.");
