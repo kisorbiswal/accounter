@@ -91,8 +91,6 @@ public class CustomerRefundsListCommand extends AbstractTransactionListCommand {
 				record.add(getMessages().paymentDate(), value.getPaymentDate());
 				record.add(getMessages().issueDate(), value.getIssueDate());
 				record.add(getMessages().name(), value.getName());
-				record.add(getMessages().transactionName(),
-						Utility.getTransactionName(value.getType()));
 				record.add(getMessages().paymentMethod(),
 						value.getPaymentMethod());
 				record.add(getMessages().amountPaid(), value.getAmountPaid());

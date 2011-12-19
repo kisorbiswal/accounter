@@ -210,8 +210,8 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("Create BankAccount", "Bank"));
-				list.add(new UserCommand("Create BankAccount",
+				list.add(new UserCommand("newBankAccount", "Bank"));
+				list.add(new UserCommand("newBankAccount",
 						"Create Other CurrentAsset Account",
 						"Other Current Asset"));
 
@@ -322,8 +322,11 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				setEditable((Boolean) get(TO_BE_PRINTED).getValue());
-				return super.run(context, makeResult, list, actions);
+				String paymentMethod = get(PAYMENT_METHOD).getValue();
+				if (paymentMethod.equals(getMessages().check())) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
 			}
 		});
 

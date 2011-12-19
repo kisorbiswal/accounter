@@ -68,7 +68,7 @@ public class AddNewCurrencyCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(ClientCurrency value) {
 				Record record = new Record(value);
-				record.add(getMessages().name(), value.getDisplayName());
+				record.add(value.getDisplayName());
 				return record;
 			}
 
