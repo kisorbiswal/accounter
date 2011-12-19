@@ -3,7 +3,7 @@
 	<include>reportpattern.xml</include>
 
 	<pattern>
-		<input>About</input>
+		<input>about</input>
 		<outputs>
 			<text name="welcomeToStartup" />
 			<text name="accounterIsAFinancialMangement" />
