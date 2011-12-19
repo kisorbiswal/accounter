@@ -2,10 +2,7 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -302,10 +299,7 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 	}
 
 	protected String getDefaultTzOffsetStr() {
-		Locale locale = ServerLocal.get();
-		Date date = new Date();
-		TimeZone timeZone = TimeZone.getDefault();
-		return timeZone.getID();
+		return "UTC+5:30 Asia/Kolkata";
 	}
 
 	protected void setStartDateOfFiscalYear(ClientCompanyPreferences preferences) {
