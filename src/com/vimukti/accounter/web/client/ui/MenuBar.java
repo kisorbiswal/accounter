@@ -196,14 +196,6 @@ public class MenuBar {
 
 		fixedAssetMenu.addSeparatorItem();
 
-		fixedAssetMenu.addMenuItem(messages.pendingItemsList(),
-				HistoryTokens.PENDINGITEMS);
-		fixedAssetMenu.addMenuItem(messages.registeredItemsList(),
-				HistoryTokens.REGISTEREDITEMS);
-
-		fixedAssetMenu.addMenuItem(messages.soldDisposedItems(),
-				HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
-
 		return fixedAssetMenu;
 	}
 
@@ -863,6 +855,13 @@ public class MenuBar {
 				HistoryTokens.SALESPRESONS);
 		companyListMenuBar.addMenuItem(messages.usersActivityLogTitle(),
 				HistoryTokens.USERACTIVITY);
+		companyListMenuBar.addMenuItem(messages.pendingItemsList(),
+				HistoryTokens.PENDINGITEMS);
+		companyListMenuBar.addMenuItem(messages.registeredItemsList(),
+				HistoryTokens.REGISTEREDITEMS);
+
+		companyListMenuBar.addMenuItem(messages.soldDisposedItems(),
+				HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
 
 		return companyListMenuBar;
 	}
