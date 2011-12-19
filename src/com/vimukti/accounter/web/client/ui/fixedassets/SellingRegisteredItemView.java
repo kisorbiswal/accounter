@@ -464,9 +464,11 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	protected TempFixedAsset getTempFixedAssetObject() {
 		TempFixedAsset tempFixedAsset = getPreparedTempAssetObject();
+		if (this.salepriceText != null){
 		tempFixedAsset.setSalesPrice(salepriceText.getAmount());
 		if (this.accountForSale != null)
 			tempFixedAsset.setSalesAccountName(this.accountForSale.getName());
+		}
 		return tempFixedAsset;
 	}
 
