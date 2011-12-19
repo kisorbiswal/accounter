@@ -33,7 +33,7 @@ public class JournalEntryListCommand extends AbstractTransactionListCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-
+		super.setDefaultValues(context);
 	}
 
 	@Override

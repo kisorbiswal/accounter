@@ -21,7 +21,10 @@ public abstract class AbstractTransactionListCommand extends NewAbstractCommand 
 		List<ClientFinanceDate> dates = CommandUtils
 				.getMinimumAndMaximumTransactionDate(getCompanyId());
 		startDate = dates.get(0);
-		get(FROM_DATE).setDefaultValue(dates.get(0));
+		if (startDate == null) {
+			startDate = new ClientFinanceDate();
+		}
+		get(FROM_DATE).setDefaultValue(startDate);
 		endDate = CommandUtils.getCurrentFiscalYearEndDate(getPreferences());
 		get(TO_DATE).setDefaultValue(endDate);
 		get(DATE_RANGE).setDefaultValue(getMessages().all());
@@ -185,6 +188,9 @@ public abstract class AbstractTransactionListCommand extends NewAbstractCommand 
 					.getCurrentFiscalYearStartDate(getPreferences()));
 			setEndDate(new ClientFinanceDate());
 		}
+
+		get(FROM_DATE).setValue(getStartDate());
+		get(TO_DATE).setValue(getEndDate());
 	}
 
 	public ClientFinanceDate getWeekStartDate() {
