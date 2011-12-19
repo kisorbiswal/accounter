@@ -356,6 +356,8 @@ public class MenuBar {
 
 		budgetMenu.addMenuItem(messages.budgetOverview(),
 				HistoryTokens.BUDGETREPORTOVERVIEW);
+		// budgetMenu.addMenuItem(messages.budgetvsActuals(),
+		// HistoryTokens.BUDGETVSACTUALS);
 
 		return budgetMenu;
 	}

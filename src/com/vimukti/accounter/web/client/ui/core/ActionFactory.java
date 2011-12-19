@@ -116,6 +116,7 @@ import com.vimukti.accounter.web.client.ui.reports.ARAgingDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.ARAgingSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.BalanceSheetAction;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewReportAction;
+import com.vimukti.accounter.web.client.ui.reports.BudgetvsActualsAction;
 import com.vimukti.accounter.web.client.ui.reports.CashFlowStatementAction;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.CustomerTransactionHistoryAction;
@@ -1342,6 +1343,10 @@ public class ActionFactory {
 		return new BudgetOverviewReportAction();
 	}
 
+	public static BudgetvsActualsAction getBudgetVsActionReport() {
+		return new BudgetvsActualsAction();
+	}
+
 	public static AuditHistoryAction getAuditHistory(ClientActivity object) {
 		return new AuditHistoryAction(object);
 
@@ -1367,6 +1372,7 @@ public class ActionFactory {
 	public static CustomerCentreAction getCustomerCentre() {
 		return new CustomerCentreAction();
 	}
+
 	public static ReconcilationsAction getReconcilationsAction() {
 		return new ReconcilationsAction();
 

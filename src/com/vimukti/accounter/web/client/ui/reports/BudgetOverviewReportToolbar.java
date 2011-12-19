@@ -3,10 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -17,8 +14,7 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 
 	protected SelectCombo budgetName;
 
-	protected List<String> statusList, dateRangeList, yearRangeList;
-	// private Button updateButton;
+	protected List<String> statusList;
 	List<String> budgetArray = new ArrayList<String>();
 	List<Long> idArray = new ArrayList<Long>();
 
@@ -71,30 +67,6 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 						changeDates(startDate, endDate);
 					}
 				});
-
-		// updateButton = new Button(Accounter.messages().update());
-		// updateButton.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// changeDates(startDate, endDate);
-		// }
-		// });
-
-		// fromItem.setDisabled(true);
-		// toItem.setDisabled(true);
-		// updateButton.setEnabled(false);
-
-		Button printButton = new Button(Accounter.messages().print());
-		// printButton.setTop(2);
-		// printButton.setWidth(40);
-		printButton.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-
-			}
-
-		});
 
 		addItems(budgetName);
 	}

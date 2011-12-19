@@ -45,7 +45,8 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public static final int TOOLBAR_TYPE_SALES_PURCAHASE = 5;
 	public static final int TOOLBAR_TYPE_EXPENSE = 6;
 	public static final int TOOLBAR_TYPE_CHECKDETAIl = 7;
-	public static final int TOOLBAR_TYPE_BUDGET = 9;
+	public static final int TOOLBAR_TYPE_BUDGETOOVERVIEW = 9;
+	public static final int TOOLBAR_TYPE_BUDGETVSACTUALS = 10;
 	public static final int TOOLBAR_TYPE_TAXAGENCY = 13;
 	public static final int TOP_MARGIN = 305;
 	public static final int TOOLBAR_TYPE_VENDOR = 14;
@@ -468,8 +469,11 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			case TOOLBAR_TYPE_EXPENSE:
 				toolbar = new ExpenseReportToolbar();
 				break;
-			case TOOLBAR_TYPE_BUDGET:
+			case TOOLBAR_TYPE_BUDGETOOVERVIEW:
 				toolbar = new BudgetOverviewReportToolbar();
+				break;
+			case TOOLBAR_TYPE_BUDGETVSACTUALS:
+				toolbar = new BudgetVsActualsReportToolbar();
 				break;
 			case TOOLBAR_TYPE_CUSTOMER:
 				toolbar = new CreateStatementToolBar(false, this);

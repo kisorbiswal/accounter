@@ -307,6 +307,8 @@ public class HistoryTokens {
 
 	public static final String TRANSACTIONS_CENTER = "transactionscenter";
 
+	public static final String BUDGETVSACTUALS = "budgetVSactuals";
+
 	public HistoryTokens() {
 
 	}

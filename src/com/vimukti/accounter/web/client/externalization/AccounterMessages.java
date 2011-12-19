@@ -5262,4 +5262,20 @@ public interface AccounterMessages extends Messages {
 	public String uploadAttachment();
 
 	public String companies();
+
+	public String budgetvsActuals();
+
+	public String accountsVsMonths();
+
+	public String accountsVsQuaters();
+
+	public String accountsVsTotal();
+
+	public String actual();
+
+	public String remaining();
+
+	public String ofBudget();
+
+	public String overBudget();
 }

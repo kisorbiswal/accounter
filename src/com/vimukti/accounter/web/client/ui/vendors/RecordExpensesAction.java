@@ -2,7 +2,9 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 /**
  * 
@@ -23,8 +25,21 @@ public class RecordExpensesAction extends Action {
 
 	@Override
 	public void run() {
-		new SelectExpenseType().show();
 
+		runAsync(data, isDependent);
+	}
+
+	private void runAsync(Object data, Boolean isDependent) {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+
+			@Override
+			public void onCreated() {
+				SelectExpenseType dialog = new SelectExpenseType();
+				dialog.show();
+
+			}
+
+		});
 	}
 
 	public ImageResource getBigImage() {

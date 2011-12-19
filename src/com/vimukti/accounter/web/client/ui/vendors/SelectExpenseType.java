@@ -107,4 +107,9 @@ public class SelectExpenseType extends BaseDialog {
 		removeFromParent();
 		return true;
 	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }

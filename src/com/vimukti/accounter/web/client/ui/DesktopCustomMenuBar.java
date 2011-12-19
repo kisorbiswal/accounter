@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenu;
@@ -19,7 +20,7 @@ class UrlCommand implements Command {
 
 	@Override
 	public void execute() {
-		Accounter.getMainFinanceWindow().historyChanged(url);
+		History.newItem(url, true);
 	}
 
 }
