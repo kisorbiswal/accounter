@@ -79,8 +79,7 @@ public class VendorGroupListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(
-						getMessages().vendor() + " " + getMessages().group()));
+				list.add("newVendorGroup");
 
 			}
 

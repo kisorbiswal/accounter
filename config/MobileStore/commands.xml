@@ -56,7 +56,12 @@
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.AddNewCurrencyCommand"
-		name="addCurrency"></command>
+		name="addCurrency">
+		<alias>updateCurrency</alias>
+	</command>
+
+	<command clazz="com.vimukti.accounter.mobile.commands.CurrencyListCommand"
+		name="currencyList"></command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.NewAccountCommand"
 		name="newAccount">

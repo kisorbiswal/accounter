@@ -79,7 +79,7 @@
 			<command title="paymentTermList" />
 			<command title="shippingTermList" />
 			<command title="creditRatingList" />
-			<command title="customerGroupList" />
+			<command title="customergroupList" />
 			<command title="shippingMethodList" />
 		</outputs>
 	</pattern>
