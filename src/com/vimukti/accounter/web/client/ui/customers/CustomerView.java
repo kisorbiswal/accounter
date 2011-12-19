@@ -413,6 +413,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customFieldForm.setDisabled(isInViewMode());
 	}
 
+	@Override
+	public ClientCustomer saveView() {
+		if (data != null) {
+			updateData();
+		}
+		return super.saveView();
+	}
+
 	private void updateData() {
 
 		customFieldForm.updateValues(data.getCustomFieldValues(), getCompany(),

@@ -7,7 +7,8 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
-public abstract class AbstractView<T> extends VerticalPanel {
+public abstract class AbstractView<T> extends VerticalPanel implements
+		ISavableView<T> {
 
 	abstract public void init();
 
@@ -119,6 +120,14 @@ public abstract class AbstractView<T> extends VerticalPanel {
 	public ICountryPreferences getCountryPreferences() {
 		return Accounter.getCompany().getCountryPreferences();
 	}
+
+	@Override
+	public T saveView() {
+		return getData();
+	}
+
+	public void restoreView(T viewDate) {
+	};
 
 	@Override
 	protected void onAttach() {

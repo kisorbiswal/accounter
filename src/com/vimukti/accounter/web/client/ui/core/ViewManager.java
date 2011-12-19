@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.dom.client.Style.Float;
@@ -53,6 +55,8 @@ public class ViewManager extends HorizontalPanel {
 	 * AbstractBaseView, it is may be AbstractReportView also
 	 */
 	public AbstractView<?> existingView;
+
+	private Map<String, Object> viewDataHistory = new HashMap<String, Object>();
 
 	private final MainFinanceWindow mainWindow;
 
@@ -245,6 +249,10 @@ public class ViewManager extends HorizontalPanel {
 
 	private void showView(final AbstractView<?> newview, final Action action,
 			boolean shouldAskToSave) {
+		Object object = viewDataHistory.get(action.getHistoryToken());
+		if (action.getInput() == null) {
+			action.setInput(object);
+		}
 		if (this.existingView != null) {
 			// We already have some view visible
 			if (this.existingView instanceof IEditableView) {
@@ -319,7 +327,11 @@ public class ViewManager extends HorizontalPanel {
 			newview.initData();
 
 		}
-
+		// Save history
+		if (existingView != null) {
+			viewDataHistory.put(existingView.getAction().getHistoryToken(),
+					existingView.saveView());
+		}
 		this.views.add(new HistoryItem(newview, action));
 
 		if (input instanceof IAccounterCore) {
@@ -429,7 +441,9 @@ public class ViewManager extends HorizontalPanel {
 
 		this.existingView.removeFromParent();
 		HistoryItem current = this.views.current();
+
 		HistoryItem item = this.views.previous();
+
 		if (restorePreviousView) {
 			if (item.view == null) {
 				item.action.run();
