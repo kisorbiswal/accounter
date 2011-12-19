@@ -193,10 +193,10 @@
 	<pattern login="true">
 		<input>others</input>
 		<outputs>
-			<command title="New Vendor " />
+			<command title="newVendor" />
 			<command title="newItem" />
 			<command title="newCashPurchase" />
-			<command title="Vendor Credit" />
+			<command title="vendorCredit" />
 			<command title="newCheck" />
 		</outputs>
 	</pattern>
