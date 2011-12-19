@@ -1104,8 +1104,10 @@
 
 	<query name="getJournalEntry">
 		<query-param name="company" type="Company" />
+		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.JournalEntry j where
-		j.company=:company
+		j.company=:company and j.transactionDate between :fromDate and :toDate
 	</query>
 
 	<query name="getJournalEntry.by.id">
