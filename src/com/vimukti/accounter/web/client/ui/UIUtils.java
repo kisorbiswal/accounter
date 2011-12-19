@@ -111,13 +111,14 @@ public class UIUtils {
 	}
 
 	public static boolean isValidEmail(String email) {
+		email = email.toLowerCase();
 		return (email
 				.matches("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"));
 	}
 
 	public static boolean isValidMultipleEmailIds(String email) {
 		boolean result = false;
-
+		email = email.toLowerCase();
 		String[] ids = email.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			String id = ids[i].trim();
