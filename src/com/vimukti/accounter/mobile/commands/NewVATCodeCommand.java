@@ -60,6 +60,11 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			protected String getFalseString() {
 				return getMessages().taxExempt();
 			}
+
+			@Override
+			public boolean isOptional() {
+				return false;
+			}
 		});
 
 		list.add(new BooleanRequirement(IS_ACTIVE, true) {
