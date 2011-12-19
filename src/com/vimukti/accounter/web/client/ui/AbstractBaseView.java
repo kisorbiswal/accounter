@@ -347,6 +347,8 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 		this.errorPanel.setVisible(false);
 	}
 
+	private boolean isSaveCliecked = false;
+
 	/**
 	 * Clears the given Error
 	 * 
@@ -399,7 +401,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 						public boolean onYesClick() {
 							saveAndUpdateView();
 							saveActivity();
-							setData(null);
+							isSaveCliecked = true;
 							return true;
 						}
 
@@ -419,8 +421,18 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 
 			saveAndUpdateView();
 			saveActivity();
-			setData(null);
+			isSaveCliecked = true;
 		}
+	}
+
+	@Override
+	public T saveView() {
+		T saveView = super.saveView();
+		if (isSaveCliecked) {
+			saveView = null;
+		}
+		isSaveCliecked = false;
+		return saveView;
 	}
 
 	private void saveActivity() {
