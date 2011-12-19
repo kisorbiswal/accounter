@@ -7327,23 +7327,42 @@
 		ORDER BY TAXI.ID
 	</sql-query>
 
-	<sql-query name="get.CompanyId.Tradingname.and.Country.of.user">
-		<query-param name="userid" type="long" />
-
+	<sql-query name="get.CompanyId.Tradingname.and.Country.of.supportUser">
 		<return-scalar column="COMPANY_ID" type="long" />
 		<return-scalar column="TRADING_NAME" type="string" />
 		<return-scalar column="REGISTRED_COUNTRY" type="string" />
-
 		SELECT
-		C.ID AS COMPANY_ID,
+		B.COMPANY_ID AS COMPANY_ID,
+		B.TRADING_NAME TRADING_NAME,
+		B.REGISTRED_COUNTRY REGISTRED_COUNTRY
+		from (select C.ID AS COMPANY_ID,
 		C.TRADING_NAME TRADING_NAME,
-		C.REGISTRED_COUNTRY
-		REGISTRED_COUNTRY
+		C.REGISTRED_COUNTRY REGISTRED_COUNTRY from
+		company c left join transaction t on t.company_id=c.id group by c.id,
+		t.id order by t.last_modified_date desc) as B group by
+		COMPANY_ID,TRADING_NAME,REGISTRED_COUNTRY
+	</sql-query>
 
-		FROM USERS U
-		LEFT JOIN COMPANY C ON
-		U.COMPANY_ID=C.ID
-		WHERE U.ID=:userId;
+	<sql-query name="get.CompanyId.Tradingname.and.Country.of.user">
+		<query-param name="userIds" type="long" />
+		<return-scalar column="COMPANY_ID" type="long" />
+		<return-scalar column="TRADING_NAME" type="string" />
+		<return-scalar column="REGISTRED_COUNTRY" type="string" />
+		SELECT
+		B.COMPANY_ID AS COMPANY_ID,
+		B.TRADING_NAME TRADING_NAME,
+		B.REGISTRED_COUNTRY REGISTRED_COUNTRY
+		from (select C.ID AS COMPANY_ID,
+		C.TRADING_NAME TRADING_NAME,
+		C.REGISTRED_COUNTRY REGISTRED_COUNTRY from
+		company c left join transaction t on t.company_id=c.id
+		left join users
+		u on u.company_id=c.id where
+		u.id in :userIds group by c.id,
+		t.id order
+		by t.last_modified_date desc) as B group by
+		COMPANY_ID,TRADING_NAME,REGISTRED_COUNTRY
+
 	</sql-query>
 
 	<sql-query name="get.all.reconciliations.group.by.account.id">
