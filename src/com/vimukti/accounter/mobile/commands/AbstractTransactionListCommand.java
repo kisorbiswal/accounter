@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
@@ -189,8 +190,10 @@ public abstract class AbstractTransactionListCommand extends NewAbstractCommand 
 			setEndDate(new ClientFinanceDate());
 		}
 
-		get(FROM_DATE).setValue(getStartDate());
-		get(TO_DATE).setValue(getEndDate());
+		FinanceDate[] dates = CommandUtils.getMinimumAndMaximumDates(
+				getStartDate(), getEndDate(), getCompanyId());
+		get(FROM_DATE).setValue(dates[0].toClientFinanceDate());
+		get(TO_DATE).setValue(dates[1].toClientFinanceDate());
 	}
 
 	public ClientFinanceDate getWeekStartDate() {
