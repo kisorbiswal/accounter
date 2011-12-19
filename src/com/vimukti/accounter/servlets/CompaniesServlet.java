@@ -2,9 +2,6 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,6 +15,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.SupportedUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -35,6 +33,7 @@ public class CompaniesServlet extends BaseServlet {
 
 	private String companiedListView = "/WEB-INF/companylist.jsp";
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -66,57 +65,63 @@ public class CompaniesServlet extends BaseServlet {
 				redirectExternal(req, resp, LOGIN_URL);
 				return;
 			}
-
+			boolean isSupportedUser = isSupportUser(emailID);
+			httpSession.setAttribute(IS_SUPPORTED_USER, isSupportedUser);
 			Set<User> users = client.getUsers();
-			if (users.isEmpty()) {
+			if (!isSupportedUser && users.isEmpty()) {
 				if (httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
 					req.setAttribute("message",
 							"You don't have any companies now.");
 				}
 			} else {
 				List<Company> list = new ArrayList<Company>();
-				Company com = null;
-				for (User user : users) {
-					if (!user.isDeleted()) {
-						List<Object[]> objects = session
-								.getNamedQuery(
-										"get.CompanyId.Tradingname.and.Country.of.user")
-								.setParameter("userId;", user.getID()).list();
-						for (Object[] obj : objects) {
-							com = new Company();
-							com.setId((Long) obj[0]);
-							com.getPreferences()
-									.setTradingName((String) obj[1]);
-							com.getRegisteredAddress().setCountryOrRegion(
-									(String) obj[2]);
-
-							list.add(com);
+				if (isSupportedUser) {
+					// get.CompanyId.Tradingname.and.Country.of.supportUser
+					List<Object[]> objects = session
+							.getNamedQuery(
+									"get.CompanyId.Tradingname.and.Country.of.supportUser")
+							.list();
+					addCompanies(list, objects);
+					req.getSession().setAttribute(SUPPORTED_EMAIL_ID, emailID);
+				} else {
+					List<Long> userIds = new ArrayList<Long>();
+					for (User user : users) {
+						if (!user.isDeleted()) {
+							userIds.add(user.getID());
 						}
-
 					}
+					List<Object[]> objects = session
+							.getNamedQuery(
+									"get.CompanyId.Tradingname.and.Country.of.user")
+							.setParameterList("userIds", userIds).list();
+					addCompanies(list, objects);
 				}
-				Collections.sort(list, new Comparator<Company>() {
-
-					@Override
-					public int compare(Company company1, Company company2) {
-						return company1.getTradingName().compareTo(
-								company2.getTradingName());
-					}
-
-				});
-				Set<Company> sortedCompanies = new HashSet<Company>();
-				for (Company company : list) {
-					sortedCompanies.add(company);
-				}
-
 				req.setAttribute(ATTR_COMPANY_LIST, list);
 			}
-			// addUserCookies(resp, client);
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			if (session != null && session.isOpen()) {
 			}
 		}
 		dispatch(req, resp, companiedListView);
+	}
+
+	private void addCompanies(List<Company> list, List<Object[]> objects) {
+		for (Object[] obj : objects) {
+			Company com = new Company();
+			com.setId((Long) obj[0]);
+			com.getPreferences().setTradingName((String) obj[1]);
+			com.getRegisteredAddress().setCountryOrRegion((String) obj[2]);
+
+			list.add(com);
+		}
+	}
+
+	private boolean isSupportUser(String emailId) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Object load = currentSession.get(SupportedUser.class, emailId);
+		return load != null;
 	}
 
 	private void createCompany(HttpServletRequest req, HttpServletResponse resp)
@@ -189,7 +194,6 @@ public class CompaniesServlet extends BaseServlet {
 		httpSession.setAttribute(COMPANY_ID, companyID);
 		httpSession.setAttribute(IS_TOUCH, req.getParameter(IS_TOUCH));
 		addMacAppCookie(req, resp);
-
 
 		Session session = HibernateUtil.getCurrentSession();
 

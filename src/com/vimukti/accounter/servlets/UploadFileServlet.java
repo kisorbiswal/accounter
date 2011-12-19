@@ -36,8 +36,10 @@ public class UploadFileServlet extends HttpServlet {
 				String fileID = (String) files.nextElement();
 				File file = multi.getFile(fileID);
 				if (file != null) {
-					file.renameTo(new File(ServerConfiguration.getTmpDir()
-							+ File.separator + attachmentId));
+					file.renameTo(new File(ServerConfiguration
+							.getAttachmentsDir()
+							+ File.separator
+							+ attachmentId));
 					UploadAttachment attachment = new UploadAttachment(
 							attachmentId, UploadAttachment.CREATE);
 					UploadFileServer.put(attachment);

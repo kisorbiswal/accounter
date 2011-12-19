@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.MissingResourceException;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -88,23 +90,38 @@ public class OpenCompanyServlet extends BaseServlet {
 
 			try {
 				Transaction transaction = session.beginTransaction();
+
 				Company company = getCompany(request);
-				User user = (User) session.getNamedQuery("user.by.emailid")
-						.setParameter("company", company)
-						.setParameter("emailID", emailID).uniqueResult();
+				HttpSession httpSession = request.getSession();
+				Boolean isSupportedUser = (Boolean) httpSession
+						.getAttribute(IS_SUPPORTED_USER);
+				User user = null;
+				if (isSupportedUser) {
+					Set<User> users = company.getUsers();
+					for (User u : users) {
+						if (u.isAdmin()) {
+							user = u;
+							httpSession.setAttribute(EMAIL_ID, user.getClient()
+									.getEmailId());
+							break;
+						}
+					}
+				} else {
+					user = (User) session.getNamedQuery("user.by.emailid")
+							.setParameter("company", company)
+							.setParameter("emailID", emailID).uniqueResult();
+				}
 				if (user == null) {
 					response.sendRedirect(COMPANIES_URL);
 					return;
 				}
-				Activity activity = new Activity(getCompany(request), user,
-						ActivityType.LOGIN);
-
-				session.save(activity);
+				if (!isSupportedUser) {
+					Activity activity = new Activity(getCompany(request), user,
+							ActivityType.LOGIN);
+					session.save(activity);
+				}
 				transaction.commit();
 				user = HibernateUtil.initializeAndUnproxy(user);
-				// there is no session, so do external redirect to login page
-				// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-				// response.setHeader("Location", "/Accounter.jsp");
 
 				request.setAttribute(EMAIL_ID, user.getClient().getEmailId());
 				request.setAttribute(USER_NAME, user.getClient().getFullName());

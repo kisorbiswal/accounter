@@ -77,7 +77,8 @@ public class BaseServlet extends HttpServlet {
 	public static final String ACT_FROM_RESET = "109";
 	public static final String ACT_FROM_RESEND = "110";
 	public static final String ACT_FROM_LOGIN = "111";
-
+	public static final String IS_SUPPORTED_USER = "isSupportedUser";
+	public static final String SUPPORTED_EMAIL_ID = "supportedEmialId";
 	/**
 	 * 
 	 */

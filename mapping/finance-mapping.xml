@@ -1020,7 +1020,7 @@
 			<property name="yearToDate" column="YEAR_TO_DATE"></property>
 			<property name="lastYear" column="LAST_YEAR"></property>
 			<property name="lifeTimeSales" column="LIFE_TIME_SALES"></property>
-			<property name="willDeductTDS" column="DEDUCT_TDS"/>
+			<property name="willDeductTDS" column="DEDUCT_TDS" />
 		</joined-subclass>
 		<joined-subclass name="Vendor" table="VENDOR">
 			<key column="ID" />
@@ -2001,5 +2001,11 @@
 		<property name="signatoryLeft" column="SIGNATORY_LEFT" />
 		<property name="signatoryWidth" column="SIGNATORY_WIDTH" />
 	</class>
+
+	<class name="SupportedUser" table="SUPPORTED_USER">
+		<id name="emailId" column="EMAIL_ID">
+		</id>
+	</class>
+
 </hibernate-mapping>
 
