@@ -225,9 +225,6 @@ public interface FinanceImages extends ClientBundle {
 	@Source("arrow_up.gif")
 	ImageResource upArrow();
 
-	@Source("arrow_down.gif")
-	ImageResource downArrow();
-
 	@Source("arrow_left.png")
 	ImageResource leftArrow();
 
