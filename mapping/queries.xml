@@ -984,8 +984,10 @@
 
 	<query name="getCustomerRefund">
 		<query-param name="company" type="Company" />
+		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.CustomerRefund cr where
-		cr.company=:company
+		cr.company=:company and cr.transactionDate between :fromDate and :toDate
 	</query>
 
 	<query name="getWriteCheck.by.payToType">
