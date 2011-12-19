@@ -77,13 +77,12 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 		list.add(new ListRequirement<TAXItemGroup>(VATITEM_FOR_SALES,
 				getMessages().pleaseSelect(getMessages().taxItemForSales()),
-				getMessages().taxItemForSales(), true, true, null) {
+				getMessages().taxItemForSales(), false, true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				Boolean value = get(IS_TAXABLE).getValue();
-				if (value.booleanValue()
-						&& context.getPreferences().isTrackPaidTax()) {
+				if (value && context.getPreferences().isTrackPaidTax()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -157,8 +156,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				Boolean value = get(IS_TAXABLE).getValue();
-				if (value.booleanValue()
-						&& context.getPreferences().isTrackPaidTax()) {
+				if (value && context.getPreferences().isTrackPaidTax()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
