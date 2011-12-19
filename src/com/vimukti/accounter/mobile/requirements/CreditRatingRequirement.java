@@ -33,7 +33,7 @@ public abstract class CreditRatingRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().creditRating()));
+		list.add("newCreditRating");
 	}
 
 	@Override
