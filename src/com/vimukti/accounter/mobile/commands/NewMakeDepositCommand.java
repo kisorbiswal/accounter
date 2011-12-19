@@ -21,6 +21,7 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -60,14 +61,20 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 			@Override
 			public void setValue(Object value) {
 				Account account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
-				super.setValue(value);
 				if (account != null) {
+					account = (Account) HibernateUtil.getCurrentSession().load(
+							Account.class, account.getID());
 					Account from = (Account) value;
-					if (checkDifferentAccounts(from, account) != null) {
-						super.setValue(null);
+					from = (Account) HibernateUtil.getCurrentSession().load(
+							Account.class, from.getID());
+					String checkDifferentAccounts = checkDifferentAccounts(
+							from, account);
+					if (checkDifferentAccounts != null) {
+						addFirstMessage(checkDifferentAccounts);
 						return;
 					}
 				}
+				super.setValue(value);
 			}
 
 			@Override
@@ -111,12 +118,15 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 			public void setValue(Object value) {
 				Account fromAcc = get(DEPOSIT_OR_TRANSFER_FROM).getValue();
 				Account depositTo = (Account) value;
-				super.setValue(value);
-				if (checkDifferentAccounts(fromAcc, depositTo) != null) {
-					addFirstMessage(getMessages()
-							.dipositAccountAndTransferAccountShouldBeDiff());
-					super.setValue(null);
+				depositTo = (Account) HibernateUtil.getCurrentSession().load(
+						Account.class, depositTo.getID());
+				String checkDifferentAccounts = checkDifferentAccounts(fromAcc,
+						depositTo);
+				if (checkDifferentAccounts != null) {
+					addFirstMessage(checkDifferentAccounts);
+					return;
 				}
+				super.setValue(value);
 			}
 
 			@Override
@@ -176,8 +186,9 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 		if (getPreferences().isEnableMultiCurrency()) {
 			long primaryCurrencyId = getPreferences().getPrimaryCurrency()
 					.getID();
-			if (primaryCurrencyId != depositFrom.getCurrency().getID()
-					&& primaryCurrencyId != depositTo.getCurrency().getID()) {
+			long from = depositFrom.getCurrency().getID();
+			long to = depositTo.getCurrency().getID();
+			if (primaryCurrencyId != from && primaryCurrencyId != to) {
 				return getMessages()
 						.oneOfTheAccountCurrencyShouldBePrimaryCurrency();
 			}
