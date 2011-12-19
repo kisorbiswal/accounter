@@ -71,6 +71,7 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 							from, account);
 					if (checkDifferentAccounts != null) {
 						addFirstMessage(checkDifferentAccounts);
+						super.setValue(null);
 						return;
 					}
 				}
@@ -124,6 +125,7 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 						depositTo);
 				if (checkDifferentAccounts != null) {
 					addFirstMessage(checkDifferentAccounts);
+					super.setValue(null);
 					return;
 				}
 				super.setValue(value);
