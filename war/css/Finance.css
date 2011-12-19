@@ -100,7 +100,8 @@ html,body,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td 
 	font-weight: bold;
 }
 
-.image-pointer,select[multiple] option,.gridHeadCell,.gridRow,.gridBody1 tr:HOVER,.gwt-MenuBar-horizontal .gwt-MenuItem,.cross-dialog,.refresh,.link,.loading,.Image-action td table,.blue-month-line,.blue-day-grid,.close,.gwt-Tree .gwt-TreeItem,.gridBody tbody,.gridHeader,.imageLink,a,.image-button,.falseHyperlink,.handCursor,.widget img,.gwt-DecoratedTabBar .tabMiddleCenter,.users-grid tr:hover,.logo img,.general-image,.helpBar,.calendar-picker,.custom-button,.gwt-DecoratedTabBar .tabMiddleCenter,#contactable,form#contactForm .submit,.gwt-Button,.gwt-MenuBar table tr,.Empty-text,.gwt-StackPanel .gwt-StackPanelItem	{
+.image-pointer,select[multiple] option,.gridHeadCell,.gridRow,.gridBody1 tr:HOVER,.gwt-MenuBar-horizontal .gwt-MenuItem,.cross-dialog,.refresh,.link,.loading,.Image-action td table,.blue-month-line,.blue-day-grid,.close,.gwt-Tree .gwt-TreeItem,.gridBody tbody,.gridHeader,.imageLink,a,.image-button,.falseHyperlink,.handCursor,.widget img,.gwt-DecoratedTabBar .tabMiddleCenter,.users-grid tr:hover,.logo img,.general-image,.helpBar,.calendar-picker,.custom-button,.gwt-DecoratedTabBar .tabMiddleCenter,#contactable,form#contactForm .submit,.gwt-Button,.gwt-MenuBar table tr,.Empty-text,.gwt-StackPanel .gwt-StackPanelItem
+	{
 	cursor: pointer;
 }
 
@@ -611,11 +612,12 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 
 .handCursor,.tree_menu {
 	color: #44700C;
-	font-size: 15px!important;
+	font-size: 15px !important;
 }
+
 .tree_menu {
 	margin-left: -10px;
-	font-weight:bold;
+	font-weight: bold;
 }
 
 .ReportGrid .gridBody tr td {
@@ -762,7 +764,7 @@ input.dropdown-button {
 	border: 1px solid #858585;
 }
 
-.gwt-MenuBar-horizontal,.empty_menu_bar,.menubar-devider,td.td01,.decor02,.finance-portlet .decor00
+.gwt-MenuBar-horizontal,.empty_menu_bar,.menubar-devider,td.td01,.decor02,.finance-portlet .decor00,.menu_item_clicked
 	{
 	background: #226B73;
 	background: -moz-linear-gradient(top, #3299A4, #1A5158);
@@ -874,8 +876,8 @@ input.dropdown-button {
 }
 
 .header_links {
-	background: url("/images/Seperator_right.png") repeat-y scroll 0 0
-		transparent;
+	/*background: url("/images/Seperator_right.png") repeat-y scroll 0 0
+		transparent;*/
 	padding-left: 10px;
 }
 
@@ -992,10 +994,19 @@ iframe,.address div {
 	font-weight: normal;
 }
 
-.companyName {
+.companies_list_down {
 	background: none repeat scroll 0 0 #B8BCC0;
-	padding: 4px 0;
-	margin: 20px 0 0 10px;
+}
+
+.companyName-parent .companyName {
+	font-size: 1.4em;
+	padding: 4px 0 0;
+	color:#454343;
+}
+
+.companies_list_down {
+	margin-top: 5px !important;
+	padding: 10px 8px 3px 0;
 }
 
 .general-setting-invoice {
@@ -1008,10 +1019,6 @@ iframe,.address div {
 
 .general-main-class p {
 	margin-bottom: 0px;
-}
-
-.logo,.header_links {
-	margin: 14px 0 0 25px;
 }
 
 .report-toolbar input[type="text"] {
@@ -1065,7 +1072,9 @@ iframe,.address div {
 	border-width: 1px;
 }
 
-.date-number td:nth-child       (2),.datenumber-panel table {
+.date-number td:nth-child                                           
+	                                                                 (2),.datenumber-panel table
+	{
 	padding-right: 15px;
 }
 
@@ -1117,12 +1126,12 @@ iframe,.address div {
 	color: #4C787E;
 }
 
-.page_header .companyName,.progress_header,.label-title {
+.progress_header,.label-title {
 	font-size: 1.6em;
 }
 
-.MENU_BAR_BG,.button-expense {
-	margin-top: 18px;
+.button-expense {
+	margin-top: 5px;
 }
 
 .help-panel tr td table td,.service-item-group td,.new_service_table td,.purchase_info_form td,.companyInfoPanel .gwt-Label
@@ -1347,8 +1356,7 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay
 	color: #1A5158;
 	margin-right: 8px;
 }
-
-.companyName,#mainFooter,#mainFooter a,#mainFooter span {
+#mainFooter,#mainFooter a,#mainFooter span {
 	color: #666666;
 }
 
@@ -1453,6 +1461,10 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay
 
 .logout-help-welcome,form#contactForm p,.panel-title {
 	font-size: 0.9em;
+}
+
+.logout-help-welcome {
+	padding: 4px 8px 0 10px;
 }
 
 .main-finance-window,.gwt-MenuBar-vertical .gwt-MenuItem,.gwt-DialogBox,#mainFooter,.popup,.setup_panel,.gwt-PopupPanel,.dateBoxPopup
@@ -1939,6 +1951,7 @@ button.disable,button.disable:hover {
 }
 /*need to add these styles to tabletcss also */
 .gwt-TreeItem .transactionPanel {
+	
 }
 
 .gwt-TreeItem .transactionPanel td {
@@ -2174,9 +2187,11 @@ input.date-field-textbox {
 	cursor: pointer;
 	color: #FFFFFF;
 }
-.customfileddialog .no_records .norecord-empty-message{
-	margin-left:265px;
+
+.customfileddialog .no_records .norecord-empty-message {
+	margin-left: 265px;
 }
+
 .no_records .norecord-empty-message {
 	margin-left: 400px;
 	position: absolute;
@@ -2190,7 +2205,6 @@ input.date-field-textbox {
 .search-width table {
 	width: 100%;
 }
-
 
 .label-status {
 	margin-top: 20px;
@@ -2321,131 +2335,217 @@ input.date-field-textbox {
 	width: 100%;
 }
 
-.title_voided_label {
+.title_voided_panel .gwt-Label {
 	color: #FF0000;
 	font-size: 19px;
 	text-transform: uppercase;
 }
 
-.transactionPanel .editTable_disable_anchor{
-	color:black;
-	background:none;
+.transactionPanel .editTable_disable_anchor {
+	color: black;
+	background: none;
 	cursor: auto;
 }
+
+.page_header {
+	width: 100%;
+	margin: 6px;
+	overflow: auto;
+	/*box-shadow: 1px 0 6px #1A5158;*/
+}
+
+.company_list_panel .gwt-Label,.company_list_panel a {
+	padding: 4px;
+}
+
+.company_list_panel a {
+	text-decoration: none;
+}
+
 .search_textbox_labels td table td:FIRST-CHILD {
-	width:85px;
+	width: 85px;
 }
-.cusotmerCentrGrid  .gridBodyContainer{
-	height :600px;
+
+.cusotmerCentrGrid  .gridBodyContainer {
+	height: 600px;
 }
-.details-Panel  {
-    vertical-align: top;
+
+.details-Panel {
+	vertical-align: top;
 }
-.Customer-Centre .custom-combo{
-	width:102px;
+
+.Customer-Centre .custom-combo {
+	width: 102px;
 }
-.customers_detail_panel{
-    padding: 3px;
+
+.customers_detail_panel {
+	padding: 3px;
 }
-.customers_detail_panel .gwt-Label{
-	color:white;
+
+.customers_detail_panel .gwt-Label {
+	color: white;
 }
 
 .frame_manager iframe {
-	border:0px;
+	border: 0px;
 }
+
 .expense_label_tabel a:HOVER {
 	text-decoration: underline;
 }
-.expense_label_tabel a{
+
+.expense_label_tabel a {
 	color: #000;
 	text-decoration: none;
 }
-.expense_label_tabel a:ACTIVE{
+
+.expense_label_tabel a:ACTIVE {
 	color: #000;
 	text-decoration: none;
 }
-.audit_history_item{
+
+.audit_history_item {
 	border-collapse: collapse;
 }
-.Transactions_center .gwt-StackPanel{
-    margin-right: 10px;
-    width: 170px;
+
+.Transactions_center .gwt-StackPanel {
+	margin-right: 10px;
+	width: 170px;
 }
+
 .tree_menu_item {
 	color: black;
-    display: block;
-    text-decoration: none;
-    width: 100%;
+	display: block;
+	text-decoration: none;
+	width: 100%;
 }
+
 .tree_list_panel {
 	width: 175px;
-	background:#ccc;
+	background: #ccc;
 	border-collapse: collapse;
 }
-.transations_list_table input.dropdown-button,.transations_list_table input.date-field-textbox{
-	width:115px !important;
+
+.transations_list_table input.dropdown-button,.transations_list_table input.date-field-textbox
+	{
+	width: 115px !important;
 }
+
 .menu_item_clicked {
-	background: -moz-linear-gradient(center top , #3299A4, #1A5158) repeat scroll 0 0 transparent;
-	font-weight:bold;
-}
-.menu_item_clicked a ,.menu_item_hover a,.pageformatpanel .gwt-Label{
-	color: white;
-}
-.tree_list_panel td{
-   padding: 4px 5px 4px 18px;
-}
-.Transactions_center{
-	 margin: -15px 0 0 -20px;
-}
-.menu_item_hover{
-	background: none repeat scroll 0 0 #3299A4;
-}
-.depreciation_table .gwt-ListBox{
-	width:200px;
-	height:24px;
-}
-.cheque_print_text{
 	font-weight: bold;
 }
-.cheque_form .gwt-Label{
-	margin-right:108px;
+
+.menu_item_clicked a,.menu_item_hover a,.pageformatpanel .gwt-Label {
+	color: white;
 }
-.pageformatpanel{
-	padding:5px;
+
+.tree_list_panel td {
+	padding: 4px 5px 4px 18px;
 }
-.checkprintbox{
-	border:1px solid #aaa;
+
+.Transactions_center {
+	margin: -15px 0 0 -20px;
 }
-.chequeBody{
+
+.menu_item_hover {
+	background: none repeat scroll 0 0 #3299A4;
+}
+
+.depreciation_table .gwt-ListBox {
+	width: 200px;
+	height: 24px;
+}
+
+.cheque_print_text {
+	font-weight: bold;
+}
+
+.cheque_form .gwt-Label {
+	margin-right: 108px;
+}
+
+.pageformatpanel {
+	padding: 5px;
+}
+
+.checkprintbox {
+	border: 1px solid #aaa;
+}
+
+.chequeBody {
 	background: none repeat scroll 0 0 white;
-    box-shadow: 5px 5px #000000;
-     margin-top: 4px;
+	box-shadow: 5px 5px #000000;
+	margin-top: 4px;
 }
-.chequeBackground{
-	 background: none repeat scroll 0 0 #AAAAAA;
-     padding: 16px 10px 10px 17px
+
+.chequeBackground {
+	background: none repeat scroll 0 0 #AAAAAA;
+	padding: 16px 10px 10px 17px
 }
-.chequeLeftScal{
+
+.chequeLeftScal {
 	background: none repeat scroll 0 0 white;
-    margin-top: 20px;
-    padding: 5px;
+	margin-top: 20px;
+	padding: 5px;
 }
-.chequeTopScal{
+
+.chequeTopScal {
 	background: none repeat scroll 0 0 white;
-    margin-left: 40px;
-    padding: 0 5px;
+	margin-left: 40px;
+	padding: 0 5px;
 }
-.checkpanel{
-	height:280px;
+
+.checkpanel {
+	height: 280px;
 	overflow: scroll;
-	padding:20px;
+	padding: 20px;
 }
-.chequeLeftScal .gwt-Label{
+
+.chequeLeftScal .gwt-Label {
 	line-height: 0.6;
-    width: 11px;
+	width: 11px;
 }
-.chequeTopScal .gwt-Label{
-	 font-size: 11px;
+
+.chequeTopScal .gwt-Label {
+	font-size: 11px;
+}
+
+.page_header table,.page_header .header_links {
+	float: left;
+}
+
+.arrow-right {
+	float:left;
+	border-color: transparent transparent transparent #DED9D9;
+	border-style: solid;
+	border-width: 15px 0 15px 18px;
+	display: block;
+	height: 0;
+	vertical-align: top;
+	width: 0;
+	padding-right: 4px;
+}
+
+.companies_link_parent {
+	width: 75px;
+	vertical-align: middle !important;
+	padding-left: 12px;
+}
+
+.companies_link_parent a {
+	color: #666666;
+    display: block;
+    font-size: 1.4em;
+    padding: 3px 5px 6px;
+    text-decoration: none;
+    width: 66px;
+    color:#454343;
+}
+
+.companyName-parent {
+	float: left;
+	width: 65%;
+}
+.company_title{
+	background:none repeat scroll 0 0 #DED9D9;
 }

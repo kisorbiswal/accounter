@@ -1,8 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
@@ -12,40 +9,40 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.IMessageStats;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
-public class Header extends HorizontalPanel {
+public class Header extends FlowPanel {
 
 	private Image userImage;
-	private HorizontalPanel usernamePanel;
 
 	public static Label companyNameLabel;
 
-	public static HTML userName;
+	public static Anchor userName;
 
 	private SimplePanel headerLinks;
 
 	private Anchor logout, help;
-	private HTML logo;
 
-	private VerticalPanel panel1, panel2;
-	private VerticalPanel panel3;
+	private VerticalPanel panel1;
+	private HorizontalPanel panel2, panel3;
 	private String gettingStartedStatus = Accounter.messages()
 			.hideGettingStarted();
 	private MenuBar helpBar;
 	private ClientCompany company = null;
+
+	protected PopupPanel popupPanel;
+
+	private Anchor companiesLink;
 
 	/**
 	 * Creates new Instance
@@ -75,14 +72,12 @@ public class Header extends HorizontalPanel {
 
 		if (company != null) {
 			if (Accounter.getCompany().isConfigured()) {
-				userName = new HTML("<a><font color=\"#3299A4\">"
-						+ Accounter.getUser().getFullName() + "<font></a>");
+				userName = new Anchor(Accounter.getUser().getFullName());
 			} else {
-				userName = new HTML("<font color=\"#3299A4\">"
-						+ Accounter.getUser().getFullName() + "<font>");
+				userName = new Anchor(Accounter.getUser().getFullName());
 			}
 		} else {
-			userName = new HTML();
+			userName = new Anchor();
 		}
 
 		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
@@ -128,91 +123,58 @@ public class Header extends HorizontalPanel {
 			}
 		});
 
-		logo = new HTML(
-				"<div class='logo'><img src='/images/Accounter_logo_title.png'></div>");
-		logo.addClickHandler(new ClickHandler() {
+		Image logoImg = new Image();
+		logoImg.setUrl("/images/Accounter_logo.png");
+		logoImg.setStyleName("logo");
+		logoImg.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				ActionFactory.getCompanyHomeAction().run(null, false);
 			}
 		});
-		Image image = new Image();
-		image.setUrl("/images/Accounter_logo_title.png");
-		image.setStyleName("logo");
+		companiesLink = new Anchor(Accounter.messages().companies(),
+				"/main/companies");
+		companiesLink.addStyleName("companiesLink");
 
 		panel1 = new VerticalPanel();
-		panel1.setWidth("100%");
-		panel1.add(logo);
+		panel1.setWidth("25%");
+		panel1.add(logoImg);
+		SimplePanel companiesLinkPanel = new SimplePanel();
 
-		panel2 = new VerticalPanel();
+		panel2 = new HorizontalPanel();
+		panel2.add(companiesLink);
+		panel2.add(companiesLinkPanel);
 		panel2.add(companyNameLabel);
-		panel2.setWidth("100%");
+		companiesLinkPanel.getElement().getParentElement()
+				.addClassName("arrow-right");
+		companiesLink.getElement().getParentElement()
+				.addClassName("companies_link_parent");
+		panel2.setWidth("50%");
+		companyNameLabel.getElement().getParentElement()
+				.addClassName("companyName-parent");
 
 		headerLinks = new SimplePanel();
 		headerLinks.addStyleName("header_links");
 
-		panel3 = new VerticalPanel();
-		// panel3.setWidth("100%");
+		panel3.addStyleName("company_title");
+		panel3 = new HorizontalPanel();
+		panel3.setSpacing(6);
 		panel3.addStyleName("logout-help-welcome");
 		panel3.add(userName);
 		panel3.add(help);
 		panel3.add(logout);
-		panel3.add(createStatisticsLink());
 		// panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
 
 		this.add(panel1);
-		this.setCellHorizontalAlignment(panel1, ALIGN_LEFT);
-		this.setCellWidth(panel1, "25%");
 		this.add(panel2);
-		this.setCellHorizontalAlignment(panel2, ALIGN_CENTER);
-		this.setCellWidth(panel2, "50%");
 		headerLinks.add(panel3);
-		this.setCellHorizontalAlignment(headerLinks, ALIGN_RIGHT);
-
 		this.add(headerLinks);
-		this.setCellWidth(headerLinks, "25%");
 
 		// Element spanEle = DOM.createSpan();
 		// spanEle.setInnerText("Vimukti Technologies Pvt Ltd");
 		// spanEle.addClassName("vimutki-text");
 		// DOM.appendChild(panel1.getElement(), spanEle);
-
-		this.setWidth("100%");
-
-	}
-
-	private Anchor createStatisticsLink() {
-		Anchor saveStatistics = new Anchor("Save Statistics");
-		saveStatistics.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				IMessageStats messageStats = (IMessageStats) Accounter
-						.messages();
-				ArrayList<String> messagesUsageOrder = messageStats
-						.getMessagesUsageOrder();
-				HashMap<String, Integer> messgaesUsageCount = messageStats
-						.getMessgaesUsageCount();
-				Accounter.createTranslateService().updateMessgaeStats(
-						messagesUsageOrder, messgaesUsageCount,
-						new AccounterAsyncCallback<Boolean>() {
-
-							@Override
-							public void onException(AccounterException exception) {
-								Accounter
-										.showInformation("Messgae Statistics Updation Failed!");
-							}
-
-							@Override
-							public void onResultSuccess(Boolean result) {
-								Accounter
-										.showInformation("Messgae Statistics Updated!");
-							}
-						});
-			}
-		});
-		return saveStatistics;
 	}
 
 	public void initializeHelpBar() {

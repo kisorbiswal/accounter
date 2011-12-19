@@ -5260,4 +5260,6 @@ public interface AccounterMessages extends Messages {
 	public String creatorName();
 
 	public String uploadAttachment();
+
+	public String companies();
 }
