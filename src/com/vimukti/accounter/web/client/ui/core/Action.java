@@ -39,7 +39,7 @@ public abstract class Action<T> implements Command {
 	/**
 	 * This action's text, or <code>null</code> if none.
 	 */
-	//private String text;
+	// private String text;
 	private String viewName;
 	/**
 	 * This action's tool tip text, or <code>null</code> if none.
@@ -119,9 +119,9 @@ public abstract class Action<T> implements Command {
 	 * 
 	 * @param text
 	 */
-//	public void setText(String text) {
-//		this. = text;
-//	}
+	// public void setText(String text) {
+	// this. = text;
+	// }
 
 	/**
 	 * Setter for Tool tip
