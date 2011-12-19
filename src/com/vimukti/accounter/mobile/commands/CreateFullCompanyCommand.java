@@ -634,7 +634,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		String country = context.getUser().getClient().getCountry();
+		String country = context.getIOSession().getClient().getCountry();
 		if (country != null) {
 			get(COUNTRY).setValue(country);
 			countrySelected(country);

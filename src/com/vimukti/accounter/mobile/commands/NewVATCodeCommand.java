@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.mobile.CommandList;
@@ -114,8 +115,8 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("Create VAT Item");
-				list.add("New Tax Group");
+				list.add("newTaxItem");
+				list.add("newTaxGroup");
 			}
 
 			@Override
@@ -132,6 +133,19 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			@Override
 			protected List<TAXItemGroup> getLists(Context context) {
 				return getFilteredVATItems(context, true);
+			}
+
+			@Override
+			public void setValue(Object value) {
+				String validateResult = validateTAXItem((TAXItemGroup) value,
+						true);
+				if (validateResult == null) {
+					setEnterString(getMessages().pleaseSelect(
+							getMessages().taxItemForSales()));
+					super.setValue(value);
+				} else {
+					setEnterString(validateResult);
+				}
 			}
 		});
 
@@ -194,6 +208,19 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			protected List<TAXItemGroup> getLists(Context context) {
 				return getFilteredVATItems(context, false);
 			}
+
+			@Override
+			public void setValue(Object value) {
+				String validateResult = validateTAXItem((TAXItemGroup) value,
+						false);
+				if (validateResult == null) {
+					setEnterString(getMessages().pleaseSelect(
+							getMessages().taxItemForPurchases()));
+					super.setValue(value);
+				} else {
+					setEnterString(validateResult);
+				}
+			}
 		});
 
 	}
@@ -212,6 +239,12 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 		if (isTaxable && context.getPreferences().isTrackPaidTax()) {
 			TAXItemGroup salesVatItem = get(VATITEM_FOR_SALES).getValue();
 			TAXItemGroup purchaseVatItem = get(VATITEM_FOR_PURCHASE).getValue();
+			if (salesVatItem == null) {
+				addFirstMessage(context,
+						getMessages()
+								.pleaseSelect(getMessages().salesTaxItem()));
+				return new Result();
+			}
 			taxCode.setTAXItemGrpForSales(salesVatItem.getID());
 			taxCode.setTAXItemGrpForPurchases(purchaseVatItem.getID());
 		}
@@ -329,4 +362,42 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 		return vatItmsList;
 	}
+
+	private String validateTAXItem(TAXItemGroup selectedValue, boolean isSales) {
+		if (selectedValue != null) {
+			if (selectedValue instanceof TAXItem) {
+				TAXAgency taxAgency = ((TAXItem) selectedValue).getTaxAgency();
+				if (taxAgency != null) {
+					if (isSales) {
+						if (taxAgency.getSalesLiabilityAccount() == null) {
+							return getMessages()
+									.pleaseSelectAnotherSalesTAXItem();
+						}
+					} else if (taxAgency.getPurchaseLiabilityAccount() == null) {
+						return getMessages()
+								.pleaseSelectAnotherPurchaseTAXItem();
+					}
+				}
+			} else {
+				List<TAXItem> taxItems = ((TAXGroup) selectedValue)
+						.getTAXItems();
+				for (TAXItem item : taxItems) {
+					TAXAgency taxAgency = item.getTaxAgency();
+					if (taxAgency != null) {
+						if (isSales) {
+							if (taxAgency.getSalesLiabilityAccount() == null) {
+								return getMessages()
+										.pleaseSelectAnotherSalesTAXItem();
+							}
+						} else if (taxAgency.getPurchaseLiabilityAccount() == null) {
+							return getMessages()
+									.pleaseSelectAnotherPurchaseTAXItem();
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 }
