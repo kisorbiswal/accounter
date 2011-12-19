@@ -255,6 +255,12 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						}
 					}
 				});
+		if (data.getAssetAccount() != 0
+				? (getCompany().getAccount(data.getAssetAccount()) != null ? getCompany()
+				.getAccount(data.getAssetAccount())
+				.getLinkedAccumulatedDepreciationAccount() == 0 : false) : true) {
+			showAccumltdAccountForm();
+		}
 		accountCombo.initCombo(getFixedAssetAccounts());
 		purchaseDateTxt = new DateField(messages.purchaseDate());
 		purchaseDateTxt.setDatethanFireEvent(new ClientFinanceDate());
@@ -424,11 +430,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				assetOptions.setValueMap("", messages.edit(), messages.sell(),
 						messages.dispose());
 			} else if (data.getStatus() == ClientFixedAsset.STATUS_PENDING) {
-				assetOptions.setValueMap("", messages.edit(),
-						messages.addNote(), messages.showHistory());
+				assetOptions.setValueMap("", messages.edit());
 			} else {
-				assetOptions.setValueMap("", messages.addNote(),
-						messages.showHistory());
+				assetOptions.setValueMap("");
 			}
 			assetOptions.addChangeHandler(new ChangeHandler() {
 
@@ -478,6 +482,15 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		mainVPanel.add(itmInfoVPanel);
 		mainVPanel.add(descriptionVPanel);
 		mainVPanel.add(depreciationHPanel);
+		if (data.getAssetAccount() != 0
+				? (getCompany().getAccount(data.getAssetAccount()) != null ? getCompany()
+				.getAccount(data.getAssetAccount())
+				.getLinkedAccumulatedDepreciationAccount() == 0 : false) : true) {
+		accumltdAccVPanel.add(infoLabl2);
+		accumltdAccVPanel.add(accumulatedDepreciationAccountForm);
+		mainVPanel.remove(accumltdAccVPanel);
+		mainVPanel.add(accumltdAccVPanel);
+		}
 
 		showAccumultdDepAmountForm(purchaseDateTxt.getEnteredDate());
 
@@ -531,7 +544,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				if (strID != 0)
 					data.setLinkedAccumulatedDepreciationAccount(strID);
 			}
-			if (data.getLinkedAccumulatedDepreciationAccount() != 0) {
+			if (data.getLinkedAccumulatedDepreciationAccount() == 0) {
 				showAccumltdAccountForm();
 			}
 			showAccumultdDepAmountForm(purchaseDateTxt.getEnteredDate());
@@ -566,6 +579,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		listforms.add(depreciationForm);
 		listforms.add(emptyPanel);
 		listforms.add(assetTypeForm);
+		listforms.add(accumulatedDepreciationAccountForm);
 	}
 
 	private void setRequiredFields() {
@@ -670,11 +684,14 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		List<ClientFixedAsset> fixedAssets = getCompany().getFixedAssets();
 		for (ClientFixedAsset asset : fixedAssets) {
 			for (ClientAccount accumulatedAccount : accumulatedAccounts) {
-				if (asset.getAssetAccount() != accumulatedAccount.getID()
-						&& selectedAssetAccount.getID() != accumulatedAccount
-								.getID())
-					accumulatedDepreciationAccount.setValue(accumulatedAccount);
-				// data.setAccumulatedDepreciationAmount(accumulatedAccount.getID());
+				if (selectedAssetAccount != null) {
+					if (asset.getAssetAccount() != accumulatedAccount.getID()
+							&& selectedAssetAccount.getID() != accumulatedAccount
+									.getID())
+						accumulatedDepreciationAccount
+								.setValue(accumulatedAccount);
+					// data.setAccumulatedDepreciationAmount(accumulatedAccount.getID());
+				}
 			}
 		}
 
@@ -706,11 +723,13 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		accumulatedDepreciationAccountForm = new DynamicForm();
 		accumulatedDepreciationAccountForm
 				.setFields(accumulatedDepreciationAccount);
-		accumltdAccVPanel.add(infoLabl2);
-		accumltdAccVPanel.add(accumulatedDepreciationAccountForm);
-		mainVPanel.remove(accumltdAccVPanel);
-		mainVPanel.add(accumltdAccVPanel);
-		listforms.add(accumulatedDepreciationAccountForm);
+		if (accumltdAccVPanel != null && mainVPanel != null && !isInViewMode()) {
+			accumltdAccVPanel.add(infoLabl2);
+			accumltdAccVPanel.add(accumulatedDepreciationAccountForm);
+			mainVPanel.remove(accumltdAccVPanel);
+			mainVPanel.add(accumltdAccVPanel);
+		}
+
 	}
 
 	protected boolean validateAccount() {
@@ -1085,10 +1104,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	private ValidationResult validateAccumulatedDepreciationAccount() {
 		ValidationResult result = new ValidationResult();
 		if (accumulatedDepreciationAccount != null) {
-			if (accumulatedDepreciationAccount.getSelectedValue() == null) {
-				result.addError(accumulatedDepreciationAccount,
-						messages.pleaseChooseAnAccount());
-			}
+			// if (accumulatedDepreciationAccount.getSelectedValue() == null) {
+			// result.addError(accumulatedDepreciationAccount,
+			// messages.pleaseChooseAnAccount());
+			// }
 		}
 		return result;
 	}
