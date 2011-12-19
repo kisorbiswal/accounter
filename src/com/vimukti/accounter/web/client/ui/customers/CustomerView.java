@@ -415,10 +415,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	@Override
 	public ClientCustomer saveView() {
-		if (data != null) {
+		ClientCustomer saveView = super.saveView();
+		if (saveView != null) {
 			updateData();
 		}
-		return super.saveView();
+		return saveView;
 	}
 
 	private void updateData() {
