@@ -5278,4 +5278,12 @@ public interface AccounterMessages extends Messages {
 	public String ofBudget();
 
 	public String overBudget();
+
+	public String newcashExpenses();
+
+	public String newCreditCardExpenses();
+
+	public String cashExpensesList();
+
+	public String creditCardExpensesList();
 }
