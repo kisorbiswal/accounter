@@ -2,7 +2,10 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -299,7 +302,10 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 	}
 
 	protected String getDefaultTzOffsetStr() {
-		return "UTC+5:30 Asia/Calcutta";
+		Locale locale = ServerLocal.get();
+		Date date = new Date();
+		TimeZone timeZone = TimeZone.getDefault();
+		return timeZone.getID();
 	}
 
 	protected void setStartDateOfFiscalYear(ClientCompanyPreferences preferences) {
@@ -367,17 +373,18 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 	 * @param value
 	 * @return
 	 */
-	protected ClientCurrency countrySelected(String value) {
+	protected void countrySelected(String value) {
 		ICountryPreferences countryPreferences = CountryPreferenceFactory
 				.get(value);
+		get(STATE).setValue(countryPreferences.getStates()[0]);
 		List<ClientCurrency> currenciesList = CoreUtils
 				.getCurrencies(new ArrayList<ClientCurrency>());
 		for (int i = 0; i < currenciesList.size(); i++) {
 			if (countryPreferences.getPreferredCurrency().trim()
 					.equals(currenciesList.get(i).getFormalName())) {
-				return currenciesList.get(i);
+				get(PRIMARY_CURRENCY).setValue(currenciesList.get(i));
+				return;
 			}
 		}
-		return null;
 	}
 }

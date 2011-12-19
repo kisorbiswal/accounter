@@ -50,9 +50,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 					@Override
 					public void onSelection(String value) {
-						ClientCurrency currency = countrySelected(value);
-						get(PRIMARY_CURRENCY).setValue(currency);
-						get(STATE).setValue(null);
+						countrySelected(value);
 					}
 				}));
 
@@ -357,8 +355,8 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		ICountryPreferences countryPreferences = CountryPreferenceFactory
 				.get(countryName);
 		if (countryPreferences != null) {
-			// preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
-			// countryPreferences.getDefaultFiscalYearStartingMonth()));
+			preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
+					countryPreferences.getDefaultFiscalYearStartingMonth()));
 		}
 
 		ClientAddress address = new ClientAddress();
@@ -397,6 +395,9 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		get(COUNTRY).setDefaultValue("United Kingdom");
+		get(STATE).setDefaultValue("Buckinghamshire");
+		countrySelected("United Kingdom");
 		get(TIME_ZONE).setDefaultValue(getDefaultTzOffsetStr());
 		get(ORGANIZATION_REFER).setDefaultValue(getOrganizationTypes().get(0));
 		get(FISCAL_YEAR).setDefaultValue(getMessages().april());
@@ -414,7 +415,11 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		String country = context.getUser().getClient().getCountry();
+		if (country != null) {
+			get(COUNTRY).setValue(country);
+			countrySelected(country);
+		}
 		return null;
 	}
 }

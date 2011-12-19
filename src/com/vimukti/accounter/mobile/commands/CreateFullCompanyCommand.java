@@ -63,9 +63,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 					@Override
 					public void onSelection(String value) {
-						ClientCurrency currency = countrySelected(value);
-						get(PRIMARY_CURRENCY).setValue(currency);
-						get(STATE).setValue(null);
+						countrySelected(value);
 					}
 
 				}));
@@ -506,6 +504,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	protected void setDefaultValues(Context context) {
 		get(COUNTRY).setDefaultValue("United Kingdom");
 		get(STATE).setDefaultValue("Buckinghamshire");
+		countrySelected("United Kingdom");
 		get(TIME_ZONE).setDefaultValue(getDefaultTzOffsetStr());
 		get(ORGANIZATION_REFER).setDefaultValue(getOrganizationTypes().get(0));
 		get(CUSTOMER_TERMINOLOGY).setDefaultValue(
@@ -635,6 +634,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		String country = context.getUser().getClient().getCountry();
+		if (country != null) {
+			get(COUNTRY).setValue(country);
+			countrySelected(country);
+		}
 		return null;
 	}
 
