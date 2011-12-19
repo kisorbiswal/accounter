@@ -60,12 +60,14 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 			@Override
 			public void setValue(Object value) {
 				Account account = get(DEPOSIT_OR_TRANSFER_TO).getValue();
-				if (account == null) {
-					addFirstMessage(getMessages()
-							.oneOfTheAccountCurrencyShouldBePrimaryCurrency());
-					return;
-				}
 				super.setValue(value);
+				if (account != null) {
+					Account from = (Account) value;
+					if (checkDifferentAccounts(from, account) != null) {
+						super.setValue(null);
+						return;
+					}
+				}
 			}
 
 			@Override
@@ -107,17 +109,13 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			public void setValue(Object value) {
+				Account fromAcc = get(DEPOSIT_OR_TRANSFER_FROM).getValue();
 				Account depositTo = (Account) value;
-				if (depositTo == null) {
-					return;
-				} else if (!NewMakeDepositCommand.this
-						.isDifferentAccounts(depositTo)) {
-					addFirstMessage(getMessages().pleaseEnterName(
-							getMessages().depositAccount()));
-					super.setValue(value);
-				} else {
+				super.setValue(value);
+				if (checkDifferentAccounts(fromAcc, depositTo) != null) {
 					addFirstMessage(getMessages()
 							.dipositAccountAndTransferAccountShouldBeDiff());
+					super.setValue(null);
 				}
 			}
 
@@ -171,6 +169,23 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
+	}
+
+	protected String checkDifferentAccounts(Account depositFrom,
+			Account depositTo) {
+		if (getPreferences().isEnableMultiCurrency()) {
+			long primaryCurrencyId = getPreferences().getPrimaryCurrency()
+					.getID();
+			if (primaryCurrencyId != depositFrom.getCurrency().getID()
+					&& primaryCurrencyId != depositTo.getCurrency().getID()) {
+				return getMessages()
+						.oneOfTheAccountCurrencyShouldBePrimaryCurrency();
+			}
+		}
+		if (depositFrom.getID() == depositTo.getID()) {
+			return getMessages().dipositAccountAndTransferAccountShouldBeDiff();
+		}
+		return null;
 	}
 
 	protected void addCreateAccountCommands(CommandList list) {
