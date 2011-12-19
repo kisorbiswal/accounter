@@ -178,10 +178,10 @@ public class ProductAndServicePreferencesCommand extends
 		}
 
 		get(TRACK_EXPENSEANDPRODUCT).setValue(
-				preferences.isTrackEmployeeExpenses());
-		get(TRACK_EXPENSEANDPRODUCT).setValue(
-				preferences.isDoProductShipMents());
-		get(BILLABLE_EXPENSES).setValue(preferences.isDoProductShipMents());
+				preferences.isProductandSerivesTrackingByCustomerEnabled());
+
+		get(BILLABLE_EXPENSES).setValue(
+				preferences.isBillableExpsesEnbldForProductandServices());
 
 		return null;
 
