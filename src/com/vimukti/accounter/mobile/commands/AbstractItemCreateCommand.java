@@ -28,6 +28,7 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -54,6 +55,7 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 	private static final String TAXCODE = "taxCode";
 	protected static final String WARE_HOUSE = "wareHouse";
 	protected static final String MEASUREMENT = "measurement";
+	protected static final String AS_OF = "asOf";
 
 	private int itemType;
 	private ClientItem item;
@@ -518,6 +520,13 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			Measurement measurement = measurementreq.getValue();
 			item.setMeasurement(measurement.getID());
 		}
+
+		Requirement asOfRequiremnt = get(AS_OF);
+		if (asOfRequiremnt != null) {
+			ClientFinanceDate asof = asOfRequiremnt.getValue();
+			item.setAsOfDate(asof);
+		}
+
 		create(item, context);
 		return null;
 	}
@@ -628,6 +637,11 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			get(MEASUREMENT).setValue(
 					CommandUtils.getServerObjectById(item.getMeasurement(),
 							AccounterCoreType.MEASUREMENT));
+		}
+
+		Requirement asOfRequiremnt = get(AS_OF);
+		if (asOfRequiremnt != null) {
+			asOfRequiremnt.setValue(item.getAsOfDate());
 		}
 	}
 
