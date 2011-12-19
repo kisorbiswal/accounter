@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -138,9 +139,9 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 			protected void setCreateCommand(CommandList list) {
 				if (estimateType == ClientEstimate.QUOTES) {
 					list.add("createQuote");
-				} else if (estimateType == ClientEstimate.CREDITS) {
-					list.add("newCharge");
 				} else if (estimateType == ClientEstimate.CHARGES) {
+					list.add("newCharge");
+				} else if (estimateType == ClientEstimate.CREDITS) {
 					list.add("newCredit");
 				}
 
@@ -168,7 +169,9 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 		List<Estimate> data = null;
 		try {
 			data = new FinanceTool().getCustomerManager().getEstimates(
-					context.getCompany().getID(), estimateType);
+					context.getCompany().getID(), estimateType,
+					new FinanceDate(getStartDate()),
+					new FinanceDate(getEndDate()));
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
