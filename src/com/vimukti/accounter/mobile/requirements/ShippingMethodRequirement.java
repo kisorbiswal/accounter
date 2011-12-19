@@ -29,7 +29,7 @@ public abstract class ShippingMethodRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().shippingMethod()));
+		list.add("newShippingMethod");
 	}
 
 	@Override
