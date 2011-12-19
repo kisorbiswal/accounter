@@ -193,9 +193,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<PaymentsList> getPaymentsList(long fromDate, long toDate) {
 		List<PaymentsList> paymentsList = null;
 		try {
-
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
 			paymentsList = getFinanceTool().getCustomerManager()
-					.getPaymentsList(getCompanyId(), fromDate, toDate);
+					.getPaymentsList(getCompanyId(), dates[0].getDate(),
+							dates[1].getDate());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -315,9 +318,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		ArrayList<PaymentsList> vendorPaymentsList = new ArrayList<PaymentsList>();
 
 		try {
-
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
 			vendorPaymentsList = getFinanceTool().getVendorManager()
-					.getVendorPaymentsList(getCompanyId(), fromDate, toDate);
+					.getVendorPaymentsList(getCompanyId(), dates[0].getDate(),
+							dates[1].getDate());
 
 			// vendorPaymentsList = (List<PaymentsList>) manager
 			// .merge(vendorPaymentsList);
@@ -655,12 +661,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			long toDate) {
 		List<CustomerRefundsList> customerRefundsList = null;
 		try {
-
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
 			customerRefundsList = getFinanceTool().getCustomerManager()
-					.getCustomerRefundsList(getCompanyId(),
-							new FinanceDate(fromDate), new FinanceDate(toDate));
-			// customerRefundsList = (List<CustomerRefundsList>) manager
-			// .merge(customerRefundsList);
+					.getCustomerRefundsList(getCompanyId(), dates[0], dates[1]);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -673,9 +678,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<ClientEstimate> clientEstimate = new ArrayList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
 		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
 			serverEstimates = getFinanceTool().getCustomerManager()
-					.getEstimates(getCompanyId(), type,
-							new FinanceDate(fromDate), new FinanceDate(toDate));
+					.getEstimates(getCompanyId(), type, dates[0], dates[1]);
 			for (Estimate estimate : serverEstimates) {
 				clientEstimate.add(new ClientConvertUtil().toClientObject(
 						estimate, ClientEstimate.class));
@@ -714,9 +721,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			int type) {
 		List<InvoicesList> invoicesList = null;
 		try {
-
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
 			invoicesList = getFinanceTool().getInventoryManager()
-					.getInvoiceList(getCompanyId(), fromDate, toDate, type);
+					.getInvoiceList(getCompanyId(), dates[0].getDate(),
+							dates[1].getDate(), type);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -772,10 +782,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<ClientJournalEntry> clientJournalEntries = new ArrayList<ClientJournalEntry>();
 		List<JournalEntry> serverJournalEntries = null;
 		try {
-
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
 			serverJournalEntries = getFinanceTool().getJournalEntries(
-					getCompanyId(), new FinanceDate(fromDate),
-					new FinanceDate(toDate));
+					getCompanyId(), dates[0], dates[1]);
 			for (JournalEntry journalEntry : serverJournalEntries) {
 				clientJournalEntries
 						.add(new ClientConvertUtil().toClientObject(
@@ -963,9 +974,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			long toDate, int transactionType) {
 
 		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
 			return getFinanceTool().getCustomerManager()
-					.getReceivePaymentsList(getCompanyId(), fromDate, toDate,
-							transactionType);
+					.getReceivePaymentsList(getCompanyId(), dates[0].getDate(),
+							dates[1].getDate(), transactionType);
 
 			// receivePaymentList = (List<ReceivePaymentsList>) manager
 			// .merge(receivePaymentList);
@@ -1089,9 +1103,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 
 		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
 			return tool != null ? tool.getPurchageManager()
-					.getPurchaseOrdersList(getCompanyId(), fromDate, toDate)
-					: null;
+					.getPurchaseOrdersList(getCompanyId(), dates[0].getDate(),
+							dates[1].getDate()) : null;
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1113,8 +1130,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 
 		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
 			return tool != null ? tool.getSalesManager().getSalesOrdersList(
-					getCompanyId(), fromDate, toDate) : null;
+					getCompanyId(), dates[0].getDate(), dates[1].getDate())
+					: null;
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -1538,8 +1559,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 
 		if (tool != null) {
-			return tool.getAllRecurringTransactions(getCompanyId(),
-					new FinanceDate(fromDate), new FinanceDate(toDate));
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
+			return tool.getAllRecurringTransactions(getCompanyId(), dates[0],
+					dates[1]);
 		}
 		return null;
 	}
@@ -1799,9 +1823,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			long fromDate, long toDate) {
 		List<PaymentsList> checks = null;
 		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
 			checks = getFinanceTool().getVendorManager().getPayeeChecks(
-					getCompanyId(), isCustomerChecks,
-					new FinanceDate(fromDate), new FinanceDate(toDate));
+					getCompanyId(), isCustomerChecks, dates[0], dates[1]);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1814,9 +1840,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			long toDate) {
 		List<BillsList> billList = null;
 		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
 			billList = getFinanceTool().getVendorManager().getBillsList(
-					isExpensesList, getCompanyId(), transactionType, fromDate,
-					toDate);
+					isExpensesList, getCompanyId(), transactionType,
+					dates[0].getDate(), dates[1].getDate());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
