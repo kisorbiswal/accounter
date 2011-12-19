@@ -29,7 +29,7 @@ public abstract class ShippingTermRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().shippingTerm()));
+		list.add("newShippingTerm");
 	}
 
 	@Override

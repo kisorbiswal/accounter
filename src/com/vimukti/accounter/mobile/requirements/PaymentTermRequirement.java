@@ -38,7 +38,7 @@ public abstract class PaymentTermRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().paymentTerm()));
+		list.add("newPaymentTerm");
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public abstract class MeasurementRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().measurement()));
+		list.add("createMeasurement");
 
 	}
 

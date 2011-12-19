@@ -52,8 +52,7 @@ public abstract class ContactRequirement extends ListRequirement<Contact> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(new UserCommand(getMessages().create(getMessages().contact()),
-				getPayee().getID()));
+		list.add(new UserCommand("newContact", getPayee().getID()));
 	}
 
 	@Override

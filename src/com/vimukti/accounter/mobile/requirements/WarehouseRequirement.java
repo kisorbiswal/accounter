@@ -39,7 +39,7 @@ public class WarehouseRequirement extends ListRequirement<Warehouse> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().wareHouse()));
+		list.add("newWareHouse");
 
 	}
 
