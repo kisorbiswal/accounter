@@ -163,7 +163,8 @@ public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
 		issuePayment.setCheckNumber(chequenum);
 		issuePayment.setTransactionIssuePayment(getTransactionIssuePayments());
 		issuePayment.setTotal(getTransactionTotal());
-		create(issuePayment, context);
+		new FinanceTool().doCreateIssuePaymentEffect(getCompanyId(),
+				issuePayment);
 	}
 
 	/**
