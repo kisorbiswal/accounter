@@ -33,7 +33,7 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionListCommand 
 	@Override
 	protected void setDefaultValues(Context context) {
 		super.setDefaultValues(context);
-		get(VIEW_BY).setDefaultValue(getMessages().open());
+		get(VIEW_BY).setDefaultValue(getMessages().paid());
 	}
 
 	@Override
