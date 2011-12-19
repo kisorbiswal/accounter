@@ -157,11 +157,12 @@ public class Header extends FlowPanel {
 		headerLinks = new SimplePanel();
 		headerLinks.addStyleName("header_links");
 
-		panel3.addStyleName("company_title");
+		
 		panel3 = new HorizontalPanel();
 		panel3.setSpacing(6);
 		panel3.addStyleName("logout-help-welcome");
 		panel3.add(userName);
+		panel3.addStyleName("company_title");
 		panel3.add(help);
 		panel3.add(logout);
 		// panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
