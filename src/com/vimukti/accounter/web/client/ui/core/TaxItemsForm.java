@@ -78,7 +78,8 @@ public class TaxItemsForm extends DynamicForm {
 			long taxItemGroupId = 0;
 			if (category == ClientTransaction.CATEGORY_CUSTOMER) {
 				taxItemGroupId = taxCode.getTAXItemGrpForSales();
-			} else if (category == ClientTransaction.CATEGORY_VENDOR) {
+			} else if (category == ClientTransaction.CATEGORY_VENDOR
+					|| category == ClientTransaction.CATEGORY_BANKING) {
 				taxItemGroupId = taxCode.getTAXItemGrpForPurchases();
 			}
 			ClientTAXItemGroup taxItemGroup = company
@@ -172,6 +173,7 @@ public class TaxItemsForm extends DynamicForm {
 
 		case MAKEDEPOSIT:
 		case TRANSFERFUND:
+		case WRITECHECK:
 			return ClientTransaction.CATEGORY_BANKING;
 
 		default:
