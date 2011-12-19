@@ -35,22 +35,44 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 
 	@Override
 	protected Action getAddNewAction() {
-		if (Accounter.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			if (viewType == messages().cashExpenses()) {
+				return ActionFactory.CashExpenseAction();
+			} else if (viewType.equals(messages().creditCardExpenses())) {
+				return ActionFactory.CreditCardExpenseAction();
+			}
 			return ActionFactory.getRecordExpensesAction();
-		else
+		} else {
 			return null;
+		}
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages().addNewExpense();
-		else
-			return "";
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			if (viewType == null || viewType.equals(messages().all())
+					|| viewType.equals(messages().voided())) {
+				return messages().addNewExpense();
+			}
+			if (viewType.equals(messages().cash())) {
+				return messages().newcashExpenses();
+			} else if (viewType.equals(messages().creditCard())) {
+				return messages().newCreditCardExpenses();
+			}
+		}
+		return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
+		if (viewType == null || viewType.equals(messages().all())) {
+			return messages().expensesList();
+		}
+		if (viewType.equals(messages().cashExpenses())) {
+			return messages().cashExpensesList();
+		} else if (viewType.equals(messages().creditCardExpenses())) {
+			return messages().creditCardExpensesList();
+		}
 		return messages().expensesList();
 	}
 
