@@ -168,16 +168,11 @@ public abstract class TransactionItemTableRequirement extends
 		obj.getQuantity().setValue((Double) get(QUANITY).getValue());
 		obj.setUnitPrice((Double) get(UNITPTICE).getValue());
 		obj.setDiscount((Double) get(DISCOUNT).getValue());
-		if (getPreferences().isTrackTax()) {
-			if (getPreferences().isTaxPerDetailLine()) {
-				TAXCode taxCode = get(TAXCODE).getValue();
-				if (taxCode != null) {
-					obj.setTaxCode(taxCode.getID());
-				}
-			} else {
-				obj.setTaxable((Boolean) get(TAX).getValue());
-			}
+		TAXCode taxCode = get(TAXCODE).getValue();
+		if (taxCode != null) {
+			obj.setTaxCode(taxCode.getID());
 		}
+		obj.setTaxable((Boolean) get(TAX).getValue());
 		if (get(IS_BILLABLE) != null) {
 			Boolean isBillable = get(IS_BILLABLE).getValue();
 			obj.setIsBillable(isBillable);
@@ -202,15 +197,10 @@ public abstract class TransactionItemTableRequirement extends
 		get(UNITPTICE).setValue(obj.getUnitPrice());
 
 		get(DISCOUNT).setDefaultValue(obj.getDiscount());
-		if (getPreferences().isTrackTax()
-				&& getPreferences().isTaxPerDetailLine()) {
-			get(TAXCODE).setValue(
-					CommandUtils.getServerObjectById(obj.getTaxCode(),
-							AccounterCoreType.TAX_CODE));
-			get(TAX).setDefaultValue(false);
-		} else if (getPreferences().isTrackTax()) {
-			get(TAX).setDefaultValue(obj.isTaxable());
-		}
+		get(TAXCODE).setValue(
+				CommandUtils.getServerObjectById(obj.getTaxCode(),
+						AccounterCoreType.TAX_CODE));
+		get(TAX).setDefaultValue(obj.isTaxable());
 		get(DESCRIPTION).setDefaultValue(obj.getDescription());
 		if (get(IS_BILLABLE) != null) {
 			get(IS_BILLABLE).setDefaultValue(obj.isBillable());
