@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -83,6 +85,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	private VerticalPanel topLayout;
 
 	private int fitHeight;
+	protected boolean isDatesArranged;
 
 	public AbstractReportView() {
 		emptyMsg = Accounter.messages().noRecordsToShow();
@@ -401,7 +404,6 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	@Override
 	public void initData() {
 		grid.addLoadingImagePanel();
-		Object data = getData();
 		if (data != null) {
 			String dateRange = null;
 			dateRange = getPreviousReportDateRange(data);
@@ -413,11 +415,16 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			toolbar.setSelectedDateRange(dateRange);
 
 		} else {
-			toolbar.setDefaultDateRange(getDefaultDateRange());
-			toolbar.setSelectedDateRange(getDefaultDateRange());
-			this.serverReport.setStartAndEndDates(toolbar.getStartDate(),
-					toolbar.getEndDate());
-
+			if (!isDatesArranged) {
+				toolbar.getStartDate();
+				toolbar.getEndDate();
+				toolbar.setDefaultDateRange(getDefaultDateRange());
+				if (toolbar.getSelectedDateRange().isEmpty()) {
+					toolbar.setSelectedDateRange(getDefaultDateRange());
+				}
+				this.serverReport.setStartAndEndDates(toolbar.getStartDate(),
+						toolbar.getEndDate());
+			}
 		}
 		// makeReportRequest(toolbar.getStartDate(), toolbar.getEndDate());
 	}
@@ -828,5 +835,26 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 	public void removeEmptyStyle() {
 		this.grid.removeEmptyStyle();
+	}
+
+	@Override
+	public final void restoreView(Object viewDate) {
+		restoreView((Map<String, Object>) viewDate);
+	}
+
+	public void restoreView(Map<String, Object> map) {
+
+	}
+
+	@Override
+	public final Object saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		saveView(map);
+		return map;
+	}
+
+	public void saveView(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+
 	}
 }

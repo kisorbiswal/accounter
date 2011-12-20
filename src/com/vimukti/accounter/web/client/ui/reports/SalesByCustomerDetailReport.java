@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.Map;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -56,6 +58,31 @@ public class SalesByCustomerDetailReport extends
 				}
 			}
 		}
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> map) {
+		if (map == null || map.isEmpty()) {
+			isDatesArranged = false;
+			return;
+		}
+		ClientFinanceDate startDate = (ClientFinanceDate) map.get("startDate");
+		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
+		this.serverReport.setStartAndEndDates(startDate, endDate);
+		toolbar.setEndDate(endDate);
+		toolbar.setStartDate(startDate);
+		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
+		isDatesArranged = true;
+	}
+
+	@Override
+	public void saveView(Map<String, Object> map) {
+		String selectedDateRange = toolbar.getSelectedDateRange();
+		ClientFinanceDate startDate = toolbar.getStartDate();
+		ClientFinanceDate endDate = toolbar.getEndDate();
+		map.put("selectedDateRange", selectedDateRange);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
 	}
 
 	@Override

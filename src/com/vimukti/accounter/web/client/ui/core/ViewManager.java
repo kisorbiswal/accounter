@@ -249,10 +249,6 @@ public class ViewManager extends HorizontalPanel {
 
 	private void showView(final AbstractView<?> newview, final Action action,
 			boolean shouldAskToSave) {
-		Object object = viewDataHistory.get(action.getHistoryToken());
-		if (action.getInput() == null) {
-			action.setInput(object);
-		}
 		if (this.existingView != null) {
 			// We already have some view visible
 			if (this.existingView instanceof IEditableView) {
@@ -324,8 +320,11 @@ public class ViewManager extends HorizontalPanel {
 				newview.setData(input);
 			}
 			newview.init();
+			if (input == null) {
+				Object object = viewDataHistory.get(action.getHistoryToken());
+				newview.restoreView(object);
+			}
 			newview.initData();
-
 		}
 		// Save history
 		if (existingView != null) {

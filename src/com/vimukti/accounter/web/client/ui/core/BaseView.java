@@ -230,8 +230,14 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		return getCompany().getCurrency(currency);
 	}
 
-	/**
-	 * Creates HistoryView
-	 */
+	@Override
+	public Object saveView() {
+		Object saveView = getData();
+		if (isSaveCliecked()) {
+			saveView = null;
+		}
+		setSaveCliecked(false);
+		return saveView;
+	}
 
 }

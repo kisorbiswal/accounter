@@ -401,7 +401,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 						public boolean onYesClick() {
 							saveAndUpdateView();
 							saveActivity();
-							isSaveCliecked = true;
+							setSaveCliecked(true);
 							return true;
 						}
 
@@ -421,18 +421,8 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 
 			saveAndUpdateView();
 			saveActivity();
-			isSaveCliecked = true;
+			setSaveCliecked(true);
 		}
-	}
-
-	@Override
-	public T saveView() {
-		T saveView = super.saveView();
-		if (isSaveCliecked) {
-			saveView = null;
-		}
-		isSaveCliecked = false;
-		return saveView;
 	}
 
 	private void saveActivity() {
@@ -516,5 +506,13 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 
 	protected ClientCurrency getCurrency(long currency) {
 		return getCompany().getCurrency(currency);
+	}
+
+	public boolean isSaveCliecked() {
+		return isSaveCliecked;
+	}
+
+	public void setSaveCliecked(boolean isSaveCliecked) {
+		this.isSaveCliecked = isSaveCliecked;
 	}
 }
