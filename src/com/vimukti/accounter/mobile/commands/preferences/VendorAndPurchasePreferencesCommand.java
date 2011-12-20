@@ -64,12 +64,12 @@ public class VendorAndPurchasePreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().onepertransaction();
+				return getMessages().oneperdetailline();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().oneperdetailline();
+				return getMessages().onepertransaction();
 			}
 		});
 
@@ -196,19 +196,13 @@ public class VendorAndPurchasePreferencesCommand extends
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-
 		ClientCompanyPreferences preferences = context.getPreferences();
+
 		get(MANAGE_BILLS).setValue(preferences.isKeepTrackofBills());
 		get(CHARGE_TRACK_TAX).setValue(preferences.isTrackTax());
-		boolean ischargingtax = get(CHARGE_TRACK_TAX).getValue();
-		if (ischargingtax) {
-			get(TAXITEM_TRANSACTIONS)
-					.setValue(preferences.isTaxPerDetailLine());
-			get(ENABLE_TRACKING_TAXPAID).setValue(preferences.isTrackPaidTax());
-
-			get(ENABLE_TDS).setValue(preferences.isTDSEnabled());
-		}
-
+		get(TAXITEM_TRANSACTIONS).setValue(preferences.isTaxPerDetailLine());
+		get(ENABLE_TRACKING_TAXPAID).setValue(preferences.isTrackPaidTax());
+		get(ENABLE_TDS).setValue(preferences.isTDSEnabled());
 		String string = null;
 		if (!preferences.isDoyouwantEstimates()) {
 			string = getMessages().doNottrackingEstimates();
