@@ -105,7 +105,7 @@ public class TaxAgenciesListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getMessages().taxAgency()));
+				list.add("createTAXAgency");
 
 			}
 
