@@ -7335,12 +7335,17 @@
 		B.COMPANY_ID AS COMPANY_ID,
 		B.TRADING_NAME TRADING_NAME,
 		B.REGISTRED_COUNTRY REGISTRED_COUNTRY
-		from (select C.ID AS COMPANY_ID,
+		FROM (
+		SELECT C.ID AS COMPANY_ID,
 		C.TRADING_NAME TRADING_NAME,
-		C.REGISTRED_COUNTRY REGISTRED_COUNTRY from
-		company c left join transaction t on t.company_id=c.id group by c.id,
-		t.id order by t.last_modified_date desc) as B group by
-		COMPANY_ID,TRADING_NAME,REGISTRED_COUNTRY
+		C.REGISTRED_COUNTRY
+		REGISTRED_COUNTRY,MAX(T.LAST_MODIFIED_DATE) T_DATE,COUNT(T) T_COUNT
+		FROM
+		COMPANY C LEFT JOIN TRANSACTION T ON T.COMPANY_ID=C.ID GROUP BY
+		C.ID
+		) AS B GROUP BY
+		COMPANY_ID,TRADING_NAME,REGISTRED_COUNTRY,T_DATE,T_COUNT ORDER BY
+		T_COUNT=0,T_DATE DESC
 	</sql-query>
 
 	<sql-query name="get.CompanyId.Tradingname.and.Country.of.user">
@@ -7352,16 +7357,16 @@
 		B.COMPANY_ID AS COMPANY_ID,
 		B.TRADING_NAME TRADING_NAME,
 		B.REGISTRED_COUNTRY REGISTRED_COUNTRY
-		from (select C.ID AS COMPANY_ID,
+		FROM (
+		SELECT C.ID AS COMPANY_ID,
 		C.TRADING_NAME TRADING_NAME,
-		C.REGISTRED_COUNTRY REGISTRED_COUNTRY from
-		company c left join transaction t on t.company_id=c.id
-		left join users
-		u on u.company_id=c.id where
-		u.id in :userIds group by c.id,
-		t.id order
-		by t.last_modified_date desc) as B group by
-		COMPANY_ID,TRADING_NAME,REGISTRED_COUNTRY
+		C.REGISTRED_COUNTRY REGISTRED_COUNTRY,
+		MAX(T.LAST_MODIFIED_DATE) T_DATE,COUNT(T) T_COUNT FROM
+		COMPANY C LEFT JOIN TRANSACTION T
+		ON T.COMPANY_ID=C.ID LEFT JOIN USERS U ON
+		U.COMPANY_ID=C.ID WHERE U.ID IN :userIds GROUP BY C.ID,T.ID ORDER BY T_DATE DESC
+		) AS B GROUP BY
+		COMPANY_ID,TRADING_NAME,REGISTRED_COUNTRY ORDER BY MIN(T_COUNT)=0,MAX(T_DATE) desc
 
 	</sql-query>
 
@@ -8216,7 +8221,7 @@
 
 	</sql-query>
 
-	
+
 	<!-- To generate the Invoices List which includes Cash Sales, Customer Credit 
 		Memos, Invoices and Write Checks -->
 	<sql-query name="getInvoicesListByPayee">
@@ -8304,18 +8309,19 @@
 		C.ID
 		WHERE T.T_TYPE
 		IN(1,4,8) AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND I.CUSTOMER_ID=:payeeId
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		I.CUSTOMER_ID=:payeeId
 		ORDER BY DUE_DATE
 	</sql-query>
-	
-	
-	
+
+
+
 	<sql-query name="getInvoicesListByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="customerId" type="long" />
-		
+
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -8329,11 +8335,12 @@
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
-		
+
 		SELECT
 		T.CURRENCY AS CURRENCY_ID,
 		T.MEMO AS TRANSACTION_MEMO,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -8385,17 +8392,18 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE=8
-		 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND C.ID=:customerId
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		C.ID=:customerId
 		ORDER BY DUE_DATE
 	</sql-query>
-	
+
 	<sql-query name="getOpenInvoicesListByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="customerId" type="long" />
-		
+
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -8409,11 +8417,12 @@
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
-		
+
 		SELECT
 		T.CURRENCY AS CURRENCY_ID,
 		T.MEMO AS TRANSACTION_MEMO,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -8465,18 +8474,19 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE=8
-		  AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND C.ID=:customerId AND I.BALANCE_DUE > 0
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		C.ID=:customerId AND I.BALANCE_DUE > 0
 		ORDER BY DUE_DATE
 	</sql-query>
-	
+
 	<sql-query name="getOverdueInvoicesListByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="customerId" type="long" />
 		<query-param name="currentDate" type="long" />
-		
+
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -8490,11 +8500,12 @@
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
-		
+
 		SELECT
 		T.CURRENCY AS CURRENCY_ID,
 		T.MEMO AS TRANSACTION_MEMO,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -8546,18 +8557,19 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE=8
-		  AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND I.DUE_DATE &lt;= :currentDate AND C.ID=:customerId 
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		I.DUE_DATE &lt;= :currentDate AND C.ID=:customerId
 		ORDER BY DUE_DATE
 	</sql-query>
-	
-	
-		<sql-query name="getCashSalesByCustomer">
+
+
+	<sql-query name="getCashSalesByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="customerId" type="long" />
-		
+
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -8571,11 +8583,12 @@
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 		<return-scalar column="CUSTOMER_NAME" type="string" />
-		
+
 		SELECT
 		T.MEMO AS TRANSACTION_MEMO,
 		T.CURRENCY AS CURRENCY_ID,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -8598,31 +8611,34 @@
 		TRANSACTION T
 		LEFT OUTER JOIN
 		CASH_SALES CS
-		ON T.ID=CS.ID
+		ON
+		T.ID=CS.ID
 		LEFT OUTER JOIN
 		CUSTOMER C
 		ON
 		C.ID =
 		CS.CUSTOMER_ID
 		LEFT
-		OUTER JOIN
+		OUTER
+		JOIN
 		PAYEE P
 		ON
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE=1 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE BETWEEN
 		:fromDate AND :toDate AND C.ID=:customerId
-			</sql-query>
-			
-			
-			
-		<sql-query name="getAllCustomerCreditMemosByCustomer">
+	</sql-query>
+
+
+
+	<sql-query name="getAllCustomerCreditMemosByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="customerId" type="long" />
-		
+
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -8636,11 +8652,12 @@
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
-		
+
 		SELECT
 		T.MEMO AS TRANSACTION_MEMO,
 		T.CURRENCY AS CURRENCY_ID,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -8651,7 +8668,8 @@
 		CUSTOMER_NAME,
 		T.NET_AMOUNT AS
 		TRANSACTION_NET_AMOUNT,
-		T.TOTAL AS TOTAL_PRICE,
+		T.TOTAL AS
+		TOTAL_PRICE,
 		T.IS_VOID AS
 		ISVOIDED,
 		NULL AS DUE_DATE,
@@ -8676,18 +8694,20 @@
 		ON
 		P.ID =
 		C.ID
-		WHERE T.T_TYPE=4 AND
+		WHERE T.T_TYPE=4
+		AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
-		BETWEEN :fromDate AND :toDate and C.ID=:customerId
-		</sql-query>
-			
-			
-			<sql-query name="getOpendCustomerCreditMemosByCustomer">
+		BETWEEN :fromDate AND :toDate
+		and C.ID=:customerId
+	</sql-query>
+
+
+	<sql-query name="getOpendCustomerCreditMemosByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="customerId" type="long" />
-		
+
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -8701,11 +8721,12 @@
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
-		
+
 		SELECT
 		T.MEMO AS TRANSACTION_MEMO,
 		T.CURRENCY AS CURRENCY_ID,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -8716,7 +8737,8 @@
 		CUSTOMER_NAME,
 		T.NET_AMOUNT AS
 		TRANSACTION_NET_AMOUNT,
-		T.TOTAL AS TOTAL_PRICE,
+		T.TOTAL AS
+		TOTAL_PRICE,
 		T.IS_VOID AS
 		ISVOIDED,
 		NULL AS DUE_DATE,
@@ -8741,18 +8763,20 @@
 		ON
 		P.ID =
 		C.ID
-		WHERE T.T_TYPE=4 AND T.STATUS=101 AND
+		WHERE T.T_TYPE=4
+		AND T.STATUS=101 AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
-		BETWEEN :fromDate AND :toDate and C.ID=:customerId
-		</sql-query>
-		
-		
-		<sql-query name="getAllReceivePaymentsByCustomer">
+		BETWEEN
+		:fromDate AND :toDate and C.ID=:customerId
+	</sql-query>
+
+
+	<sql-query name="getAllReceivePaymentsByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="customerId" type="long" />
-		
+
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -8766,11 +8790,12 @@
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CHECK_NUMBER" type="string" />
 		<return-scalar column="CURRENCY" type="long" />
-		 
+
 		SELECT
-		NULL  AS DUE_DATE,
+		NULL AS DUE_DATE,
 		T.MEMO AS TRANSACTION_MEMO,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS
 		TRANSACTION_DATE,
@@ -8786,7 +8811,8 @@
 		RP.CHECK_NUMBER
 		AS
 		CHECK_NUMBER,
-		T.CURRENCY AS CURRENCY
+		T.CURRENCY AS
+		CURRENCY
 		FROM
 		TRANSACTION T
 		LEFT OUTER JOIN
@@ -8805,20 +8831,22 @@
 		ON
 		P.ID =
 		C.ID
-		WHERE T.T_TYPE=12 
+		WHERE T.T_TYPE=12
 		AND
-		T.COMPANY_ID=:companyId AND T.T_DATE
-		BETWEEN :fromDate AND :toDate and C.ID=:customerId
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE
+		BETWEEN :fromDate AND :toDate and
+		C.ID=:customerId
 	</sql-query>
-	
-	
+
+
 	<sql-query name="getReceivePaymentsbyTypeByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="customerId" type="long" />
 		<query-param name="paymentmethod" type="string" />
-		
+
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -8832,11 +8860,12 @@
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CHECK_NUMBER" type="string" />
 		<return-scalar column="CURRENCY" type="long" />
-		 
+
 		SELECT
-		NULL  AS DUE_DATE,
+		NULL AS DUE_DATE,
 		T.MEMO AS TRANSACTION_MEMO,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS
 		TRANSACTION_DATE,
@@ -8852,7 +8881,8 @@
 		RP.CHECK_NUMBER
 		AS
 		CHECK_NUMBER,
-		T.CURRENCY AS CURRENCY
+		T.CURRENCY AS
+		CURRENCY
 		FROM
 		TRANSACTION T
 		LEFT OUTER JOIN
@@ -8871,17 +8901,20 @@
 		ON
 		P.ID =
 		C.ID
-		WHERE T.T_TYPE=12 
+		WHERE T.T_TYPE=12
 		AND T.PAYMENT_METHOD
-		LIKE :paymentmethod  AND
-		T.COMPANY_ID=:companyId AND T.T_DATE
-		BETWEEN :fromDate AND :toDate and C.ID=:customerId
+		LIKE
+		:paymentmethod AND
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE
+		BETWEEN :fromDate
+		AND :toDate and C.ID=:customerId
 	</sql-query>
 	<sql-query name="getAllCustomerRefundsByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
-		<query-param name="customerId" type="long" />		
+		<query-param name="customerId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -8895,11 +8928,12 @@
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
-		
+
 		SELECT
 		T.MEMO AS TRANSACTION_MEMO,
 		T.CURRENCY AS CURRENCY_ID,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -8910,7 +8944,8 @@
 		CUSTOMER_NAME,
 		T.NET_AMOUNT AS
 		TRANSACTION_NET_AMOUNT,
-		T.TOTAL AS TOTAL_PRICE,
+		T.TOTAL AS
+		TOTAL_PRICE,
 		T.IS_VOID AS
 		ISVOIDED,
 		NULL AS DUE_DATE,
@@ -8935,18 +8970,19 @@
 		ON
 		P.ID =
 		C.ID
-		WHERE T.T_TYPE=5 AND 
+		WHERE T.T_TYPE=5 AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
-		BETWEEN :fromDate AND :toDate and C.ID=:customerId
-		</sql-query>
-		
-		<sql-query name="getCustomerRefundsByTypeByCustomer">
+		BETWEEN :fromDate AND :toDate and
+		C.ID=:customerId
+	</sql-query>
+
+	<sql-query name="getCustomerRefundsByTypeByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="customerId" type="long" />
 		<query-param name="paymentmethod" type="long" />
-					
+
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -8960,11 +8996,12 @@
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
-		
+
 		SELECT
 		T.MEMO AS TRANSACTION_MEMO,
 		T.CURRENCY AS CURRENCY_ID,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -8975,7 +9012,8 @@
 		CUSTOMER_NAME,
 		T.NET_AMOUNT AS
 		TRANSACTION_NET_AMOUNT,
-		T.TOTAL AS TOTAL_PRICE,
+		T.TOTAL AS
+		TOTAL_PRICE,
 		T.IS_VOID AS
 		ISVOIDED,
 		NULL AS DUE_DATE,
@@ -9000,12 +9038,14 @@
 		ON
 		P.ID =
 		C.ID
-		WHERE T.T_TYPE=5 AND  T.PAYMENT_METHOD
+		WHERE T.T_TYPE=5 AND
+		T.PAYMENT_METHOD
 		LIKE :paymentmethod AND
-		T.COMPANY_ID=:companyId AND T.T_DATE
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE
 		BETWEEN :fromDate AND :toDate and C.ID=:customerId
-		</sql-query>
-	
+	</sql-query>
+
 	<sql-query name="getAllTransactionsByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -9035,7 +9075,8 @@
 		AS DUE_DATE,
 		T.IS_VOID AS
 		ISVOIDED,
-		T.MEMO AS TRANSACTION_MEMO,
+		T.MEMO AS
+		TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
 		T.T_DATE AS TRANSACTION_DATE,
 		T.T_TYPE AS
@@ -9049,31 +9090,34 @@
 		LEFT JOIN CASH_SALES CS ON
 		CS.ID=T.ID
 		LEFT JOIN
-		CUSTOMER_CREDIT_MEMO CCM ON CCM.ID=T.ID
+		CUSTOMER_CREDIT_MEMO CCM
+		ON CCM.ID=T.ID
 		LEFT
 		JOIN CUSTOMER_REFUND CR ON
 		CR.ID=T.ID
-		LEFT JOIN ESTIMATE E ON
+		LEFT JOIN
+		ESTIMATE E ON
 		E.ID=T.ID
 		LEFT JOIN
 		RECEIVE_PAYMENT RP ON RP.ID=T.ID
 		LEFT
 		JOIN PAYEE P ON
-		P.ID=I.CUSTOMER_ID  OR
+		P.ID=I.CUSTOMER_ID OR
 		P.ID=CS.CUSTOMER_ID
 		OR
-		 P.ID=CCM.CUSTOMER_ID OR
+		P.ID=CCM.CUSTOMER_ID OR
 		P.ID=CR.CUSTOMER_ID OR
-		 P.ID=E.CUSTOMER_ID OR
-		
-		 P.ID=RP.CUSTOMER_ID
-		WHERE  
-		 
+		P.ID=E.CUSTOMER_ID OR
+
+		P.ID=RP.CUSTOMER_ID
+		WHERE
+
 		T.COMPANY_ID=:companyId AND T.T_DATE
-		BETWEEN :fromDate AND :toDate and P.ID=:customerId
+		BETWEEN
+		:fromDate AND :toDate and P.ID=:customerId
 	</sql-query>
-	
-	
+
+
 
 
 	<sql-query name="getCustomerCreditMemos">
