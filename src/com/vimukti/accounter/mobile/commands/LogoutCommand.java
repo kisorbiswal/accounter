@@ -52,6 +52,7 @@ public class LogoutCommand extends Command {
 		}
 		beginTransaction.commit();
 		markDone();
+		result.setNextCommand("login");
 		return result;
 	}
 
