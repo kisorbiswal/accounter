@@ -76,10 +76,10 @@ noindex:-o-prefocus,.ibutton {
 	}
 	.gridHeader td,.gridBody td {
 		padding: 0 0 0 2px !important;
-    }
-    .gridHeader td{
-        font-size:12px !important;
-    }
+	}
+	.gridHeader td {
+		font-size: 12px !important;
+	}
 	.delete-table-image {
 		padding: 0px !important;
 	}
@@ -770,7 +770,7 @@ input.dropdown-button {
 	border: 1px solid #858585;
 }
 
-.gwt-MenuBar-horizontal,.empty_menu_bar,.menubar-devider,td.td01,.decor02,.finance-portlet .decor00,.menu_item_clicked
+.gwt-MenuBar-horizontal,.empty_menu_bar,.menubar-devider,td.td01,.decor02,.finance-portlet .decor00,.menu_item_clicked,.optionClicked
 	{
 	background: #226B73;
 	background: -moz-linear-gradient(top, #3299A4, #1A5158);
@@ -1007,7 +1007,7 @@ iframe,.address div {
 .companyName-parent .companyName {
 	font-size: 1.4em;
 	padding: 4px 0 0;
-	color:#454343;
+	color: #454343;
 }
 
 .companies_list_down {
@@ -1079,8 +1079,8 @@ iframe,.address div {
 }
 
 .date-number td:nth-child                                           
-	                                                                 (2),.datenumber-panel table
-	{
+	                                                                   
+	    (2),.datenumber-panel table {
 	padding-right: 15px;
 }
 
@@ -1362,6 +1362,7 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay
 	color: #1A5158;
 	margin-right: 8px;
 }
+
 #mainFooter,#mainFooter a,#mainFooter span {
 	color: #666666;
 }
@@ -1533,7 +1534,7 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay
 	width: 300px;
 }
 
-.accounts_label,.industry_list_table .select_industry,.contentSelected,.contentSelected_LastChild
+.accounts_label,.industry_list_table .select_industry
 	/*,.gwt-Tree .gwt-TreeItem-selected*/ {
 	background: #ccc;
 }
@@ -1575,14 +1576,6 @@ body,div,table td,select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt
 .companyInfoPanel {
 	border-bottom: 1px solid #2D8B93;
 	border-top: 1px solid #2D8B93;
-}
-
-.contentSelected_LastChild {
-	border-radius: 0 0 8px 8px !important;
-}
-
-.stackPanelLink {
-	color: #2D8B93;
 }
 
 .viewholder {
@@ -2521,7 +2514,7 @@ input.date-field-textbox {
 }
 
 .arrow-right {
-	float:left;
+	float: left;
 	border-color: transparent transparent transparent #DED9D9;
 	border-style: solid;
 	border-width: 15px 0 15px 18px;
@@ -2540,18 +2533,63 @@ input.date-field-textbox {
 
 .companies_title td:FIRST-CHILD a {
 	color: #666666;
-    display: block;
-    font-size: 1.4em;
-    padding: 3px 5px 6px;
-    text-decoration: none;
-    width: 66px;
-    color:#454343;
+	display: block;
+	font-size: 1.4em;
+	padding: 3px 5px 6px;
+	text-decoration: none;
+	width: 66px;
+	color: #454343;
 }
 
 .companyName-parent {
 	float: left;
 	width: 65%;
 }
-.companies_title{
-	background:none repeat scroll 0 0 #DED9D9;
+
+.companies_title {
+	background: none repeat scroll 0 0 #DED9D9;
+}
+
+.company_settings_panel {
+	
+}
+
+.company_settings_panel .page_details_panel_td {
+	width: 80%;
+	border: 1px solid #1A5158;
+}
+
+.company_settings_panel .titles_panel_td {
+	width: 20%;
+	background: none repeat scroll 0 0 #F0F0F0;
+}
+
+.company_settings_panel .page_details_panel_td .pre_scroll_table {
+	height: 720px;
+}
+
+.options_panel a {
+	color: #000000;
+	text-decoration: none;
+	margin: 12px;
+}
+
+.options_panel a:HOVER {
+	color: #fff;
+}
+
+.optionFocused {
+	background: none repeat scroll 0 0 #3299A4;
+}
+
+.optionClicked a {
+	color: #fff;
+}
+
+.preferences_option {
+	padding: 5px 0 4px 9px;
+}
+
+.preferences_option_title {
+	font-weight: bold;
 }
