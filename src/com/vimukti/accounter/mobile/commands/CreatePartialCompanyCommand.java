@@ -253,15 +253,9 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 
 			@Override
 			protected List<ClientCurrency> getLists(Context context) {
-
-				List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
 				List<ClientCurrency> currencies = CoreUtils
 						.getCurrencies(new ArrayList<ClientCurrency>());
-				for (ClientCurrency currency : currencies) {
-					currenciesList.add(currency);
-				}
-				return currenciesList;
-
+				return currencies;
 			}
 		});
 
