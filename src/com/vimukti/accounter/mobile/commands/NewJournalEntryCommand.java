@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -52,7 +53,7 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getMessages().journalEntryDate()), getMessages()
-				.journalEntryDate(), false, true));
+				.journalEntryDate(), true, true));
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().journalEntryNo()),
@@ -381,6 +382,12 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		get(NUMBER).setValue(
+				NumberUtils.getNextTransactionNumber(
+						ClientTransaction.TYPE_JOURNAL_ENTRY,
+						context.getCompany()));
+
+		get(DATE).setDefaultValue(new ClientFinanceDate());
 	}
 
 	@Override
