@@ -86,7 +86,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 				items.add(clientTransactionItem);
 			}
 		}
-		if (getPreferences().isTrackTax()
+		if (getPreferences().isTrackTax() && getPreferences().isTrackPaidTax()
 				&& !getPreferences().isTaxPerDetailLine()) {
 			get(TAXCODE).setValue(
 					getTaxCodeForTransactionItems(
@@ -345,6 +345,11 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
+			@Override
+			protected boolean isTrackTaxPaidAccount() {
+				return false;
+			}
+
 		});
 
 		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
@@ -403,6 +408,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (getPreferences().isTrackTax()
+						&& getPreferences().isTrackPaidTax()
 						&& !getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -439,6 +445,7 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
+						&& getPreferences().isTrackPaidTax()
 						&& !preferences.isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -491,7 +498,8 @@ public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
 		cashPurchase.setTransactionItems(accounts);
 
 		ClientCompanyPreferences preferences = context.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
+				&& !preferences.isTaxPerDetailLine()) {
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());

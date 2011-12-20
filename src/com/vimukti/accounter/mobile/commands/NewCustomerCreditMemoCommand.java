@@ -169,6 +169,11 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				return (Customer) NewCustomerCreditMemoCommand.this.get(
 						CUSTOMER).getValue();
 			}
+
+			@Override
+			protected boolean isTrackTaxPaidAccount() {
+				return true;
+			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
 				.pleaseEnter(getMessages().itemName()), getMessages().items(),

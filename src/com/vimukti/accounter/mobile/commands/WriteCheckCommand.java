@@ -201,6 +201,11 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				return (Payee) WriteCheckCommand.this.get(PAYEE).getValue();
 			}
 
+			@Override
+			protected boolean isTrackTaxPaidAccount() {
+				return false;
+			}
+
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
@@ -215,8 +220,9 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getPreferences().isTrackTax()
-						&& !context.getPreferences().isTaxPerDetailLine()) {
+				if (getPreferences().isTrackTax()
+						&& getPreferences().isTrackPaidTax()
+						&& !getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -417,7 +423,8 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 							AccounterCoreType.PAYEE));
 		}
 		ClientCompanyPreferences preferences = context.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+		if (preferences.isTrackTax() && preferences.isTrackPaidTax()
+				&& !preferences.isTaxPerDetailLine()) {
 			get(TAXCODE).setValue(
 					getTaxCodeForTransactionItems(
 							writeCheck.getTransactionItems(), context));
@@ -462,6 +469,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		List<ClientTransactionItem> accountItems = get(ACCOUNTS).getValue();
 		ClientCompanyPreferences preferences = getPreferences();
 		if (!accountItems.isEmpty() && preferences.isTrackTax()
+				&& preferences.isTrackPaidTax()
 				&& !preferences.isTaxPerDetailLine()) {
 			TAXCode taxCode = (TAXCode) (get(TAXCODE) == null ? null : get(
 					TAXCODE).getValue());

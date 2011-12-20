@@ -191,6 +191,11 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
+			@Override
+			protected boolean isTrackTaxPaidAccount() {
+				return false;
+			}
+
 		});
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getMessages().date()), getMessages().date(), true, true));
@@ -285,6 +290,16 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 						setTaxCodeToItems(value);
 					}
 				}) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackTax()
+						&& getPreferences().isTrackPaidTax()
+						&& !getPreferences().isTaxPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 
 			@Override
 			protected List<TAXCode> getLists(Context context) {
@@ -296,6 +311,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			protected boolean filter(TAXCode e, String name) {
 				return e.getName().toLowerCase().startsWith(name);
 			}
+
 		});
 
 		list.add(new BooleanRequirement(IS_VAT_INCLUSIVE, true) {
@@ -304,6 +320,7 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
+						&& getPreferences().isTrackPaidTax()
 						&& !preferences.isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -359,7 +376,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		creditCardCharge.setTransactionItems(items);
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
+				&& !preferences.isTaxPerDetailLine()) {
 			creditCardCharge.setAmountsIncludeVAT(isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
@@ -461,7 +479,8 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 				CommandUtils.getServerObjectById(creditCardCharge.getPayFrom(),
 						AccounterCoreType.ACCOUNT));
 		ClientCompanyPreferences preferences = context.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
+				&& !preferences.isTaxPerDetailLine()) {
 			get(TAXCODE).setValue(
 					getTaxCodeForTransactionItems(
 							creditCardCharge.getTransactionItems(), context));

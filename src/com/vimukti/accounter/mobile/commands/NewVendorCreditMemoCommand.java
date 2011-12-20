@@ -182,6 +182,11 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
+			@Override
+			protected boolean isTrackTaxPaidAccount() {
+				return false;
+			}
+
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
@@ -233,6 +238,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (context.getPreferences().isTrackTax()
+						&& getPreferences().isTrackPaidTax()
 						&& !context.getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -257,6 +263,7 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
+						&& getPreferences().isTrackPaidTax()
 						&& !preferences.isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -308,7 +315,8 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 		vendorCreditMemo.setPhone(phone);
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
+				&& !preferences.isTaxPerDetailLine()) {
 			vendorCreditMemo.setAmountsIncludeVAT(isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
@@ -393,7 +401,8 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 		get(ACCOUNTS).setValue(accountsList);
 		get(ITEMS).setValue(itemsList);
 		ClientCompanyPreferences preferences = context.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
+				&& !preferences.isTaxPerDetailLine()) {
 			get(TAXCODE).setValue(
 					getTaxCodeForTransactionItems(
 							vendorCreditMemo.getTransactionItems(), context));

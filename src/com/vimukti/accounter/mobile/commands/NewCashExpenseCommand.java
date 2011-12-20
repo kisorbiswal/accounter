@@ -258,6 +258,11 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
+			@Override
+			protected boolean isTrackTaxPaidAccount() {
+				return false;
+			}
+
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
 				.pleaseEnter(getMessages().name()), getMessages().items(),
@@ -301,6 +306,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (getPreferences().isTrackTax()
+						&& getPreferences().isTrackPaidTax()
 						&& !getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -324,6 +330,7 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
+						&& getPreferences().isTrackPaidTax()
 						&& !preferences.isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
@@ -382,7 +389,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 		items.addAll(accounts);
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
+				&& !preferences.isTaxPerDetailLine()) {
 			cashPurchase.setAmountsIncludeVAT(isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
@@ -449,7 +457,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 			}
 		}
 		ClientCompanyPreferences preferences = context.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
+				&& !preferences.isTaxPerDetailLine()) {
 			get(TAXCODE).setValue(
 					getTaxCodeForTransactionItems(
 							cashPurchase.getTransactionItems(), context));

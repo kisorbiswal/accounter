@@ -194,6 +194,11 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
+			@Override
+			protected boolean isTrackTaxPaidAccount() {
+				return true;
+			}
+
 		});
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
 				.pleaseEnterName(getMessages().paymentMethod()), getMessages()

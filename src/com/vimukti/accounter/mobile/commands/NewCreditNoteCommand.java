@@ -152,6 +152,11 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 				return (Customer) NewCreditNoteCommand.this.get(CUSTOMER)
 						.getValue();
 			}
+
+			@Override
+			protected boolean isTrackTaxPaidAccount() {
+				return true;
+			}
 		});
 
 		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()

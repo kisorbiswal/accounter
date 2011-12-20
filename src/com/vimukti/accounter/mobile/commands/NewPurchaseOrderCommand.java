@@ -260,6 +260,12 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 				return null;
 			}
 
+			@Override
+			protected boolean isTrackTaxPaidAccount() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),

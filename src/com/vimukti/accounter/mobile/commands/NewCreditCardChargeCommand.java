@@ -180,6 +180,11 @@ public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
 						.getValue();
 			}
 
+			@Override
+			protected boolean isTrackTaxPaidAccount() {
+				return false;
+			}
+
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
