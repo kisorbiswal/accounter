@@ -916,8 +916,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 			return false;
 		}
 		for (ClientTransactionItem item : this.transactionItems) {
-			double discount = item.getDiscount();
-			if (discount != 0) {
+			Double discount = item.getDiscount();
+			if (discount != null && discount != 0) {
 				return true;
 			}
 		}
