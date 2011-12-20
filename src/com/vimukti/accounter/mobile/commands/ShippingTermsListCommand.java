@@ -33,7 +33,7 @@ public class ShippingTermsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().newShippingTerm());
+				list.add("newShippingTerm");
 			}
 
 			@Override

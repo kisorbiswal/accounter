@@ -49,7 +49,7 @@ public class ShippingMethodListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getMessages().shippingMethod()));
+				list.add("newShippingMethod");
 			}
 
 			@Override

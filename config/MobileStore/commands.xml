@@ -931,7 +931,6 @@
 		<alias>newItemGroup</alias>
 		<alias>addItemGroup</alias>
 		<alias>createItemGroup</alias>
-		<alias>createItemGroup</alias>
 		<alias>updateItemGroup</alias>
 		<alias>editItemGroup</alias>
 		<alias>modifyItemGroup</alias>
@@ -1095,6 +1094,7 @@
 		name="paymentTermsList">
 		<alias>paymentTermslist</alias>
 		<alias>paymentTerms</alias>
+		<alias>paymentTermList</alias>
 	</command>
 
 	<command

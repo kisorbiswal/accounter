@@ -85,7 +85,7 @@ public class ItemGroupsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getMessages().itemGroup()));
+				list.add("createItemGroup");
 
 			}
 
