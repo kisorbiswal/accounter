@@ -111,7 +111,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 			public void run() {
 				httpSession.setAttribute(COMPANY_DELETION_STATUS,
 						COMPANY_DELETING);
-				Session session = HibernateUtil.getCurrentSession();
+				Session session = HibernateUtil.openSession();
 				Transaction transaction = null;
 				try {
 					boolean canDeleteFromSingle = true, canDeleteFromAll = true;
@@ -217,6 +217,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 							"Internal Error Occured");
 				} finally {
 					httpSession.removeAttribute(COMPANY_ID);
+					session.close();
 				}
 			}
 		}).start();
