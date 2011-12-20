@@ -576,7 +576,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return vendor != null ? "deleteVendor " + vendor.getID() : null;
+		return vendor.getID() != 0 ? "deleteVendor " + vendor.getID() : null;
 	}
 
 	@Override

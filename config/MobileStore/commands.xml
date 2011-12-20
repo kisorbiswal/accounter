@@ -493,6 +493,7 @@
 		name="newTaxGroup">
 		<alias>createTaxGroup</alias>
 		<alias>addTaxGroup</alias>
+		<alias>updateTaxGroup</alias>
 	</command>
 
 	<!-- <command clazz="com.vimukti.accounter.mobile.commands.PaySalesTaxCommand" -->
@@ -1186,5 +1187,8 @@
 		clazz="com.vimukti.accounter.mobile.commands.StockAdjustmentListCommand"
 		name="stockAdjustmentList">
 		<alias>stockAdjustments</alias>
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.TaxGroupListCommand"
+		name="manageSalesGroups">
 	</command>
 </commands>
