@@ -328,8 +328,11 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 		get(FAX).setValue(taxAgency.getFaxNo());
 		get(EMAIL).setValue(taxAgency.getEmail());
 		get(WEBSITE).setValue(taxAgency.getWebPageAddress());
-		get(ADREESS).setValue(
-				new ArrayList<ClientAddress>(taxAgency.getAddress()));
+		List<ClientAddress> address = new ArrayList<ClientAddress>(
+				taxAgency.getAddress());
+		if (!address.isEmpty()) {
+			get(ADREESS).setValue(address.get(0));
+		}
 		get(CONTACTS).setValue(
 				new ArrayList<ClientContact>(taxAgency.getContacts()));
 		get(PURCHASE_ACCOUNT).setValue(
