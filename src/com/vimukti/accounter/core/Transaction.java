@@ -1034,15 +1034,17 @@ public abstract class Transaction extends CreatableObject implements
 			return false;
 		}
 
+		double lineTotal = this.isAmountsIncludeVAT() ? transactionItem
+				.getLineTotal() - transactionItem.getVATfraction()
+				: transactionItem.getLineTotal();
+
 		if (taxItemGroup instanceof TAXItem) {
 			TAXItem vatItem = ((TAXItem) taxItemGroup);
-			addTAXRateCalculation(vatItem, transactionItem.getLineTotal(),
-					false);
+			addTAXRateCalculation(vatItem, lineTotal, false);
 		} else {
 			TAXGroup vatGroup = (TAXGroup) taxItemGroup;
 			for (TAXItem taxItem : vatGroup.getTAXItems()) {
-				addTAXRateCalculation(taxItem, transactionItem.getLineTotal(),
-						true);
+				addTAXRateCalculation(taxItem, lineTotal, true);
 			}
 		}
 
