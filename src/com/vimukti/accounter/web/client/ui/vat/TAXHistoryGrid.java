@@ -61,6 +61,19 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 
 	@Override
 	protected int getCellWidth(int index) {
+		switch (index) {
+		case 1:
+		case 2:
+		case 3:
+			return 120;
+		case 4:
+			return 80;
+		case 5:
+			return 130;
+		case 6:
+			return 120;
+
+		}
 		return -1;
 
 	}
@@ -69,7 +82,7 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 	protected String[] getColumns() {
 		return new String[] { messages.taxAgency(), messages.periodStartDate(),
 				messages.periodEndDate(), messages.taxFiledDate(),
-				messages.taxDue(), messages.totalPaymentMade(),
+				messages.taxAmount(), messages.totalPaymentMade(),
 				messages.report() };
 	}
 
@@ -147,11 +160,11 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 		case 3:
 			return new ClientFinanceDate(obj.getTransactionDate());
 		case 4:
-			return DataUtils.amountAsStringWithCurrency((obj.getBalance()),
-					currency);
+			return DataUtils.amountAsStringWithCurrency(
+					obj.getTotalTAXAmount(), currency);
 		case 5:
 			return DataUtils.amountAsStringWithCurrency(
-					(obj.getTotal() - obj.getBalance()), currency);
+					(obj.getTotalTAXAmount() - obj.getBalance()), currency);
 		case 6:
 			return messages.exceptionDetails();
 		default:

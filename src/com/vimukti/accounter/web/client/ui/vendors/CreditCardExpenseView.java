@@ -1163,8 +1163,7 @@ public class CreditCardExpenseView extends
 
 	@Override
 	public void setFocus() {
-		this.vendorCombo.setFocus();
-
+		this.creditCardCombo.setFocus();
 	}
 
 	@Override
