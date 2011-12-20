@@ -62,7 +62,7 @@
 		<input>itemTax</input>
 		<outputs>
 			<command title="manageSalesGroups" />
-			<command value = "manageSalesItems company" title="manageSalesItems" />
+			<command value="manageSalesItems company" title="manageSalesItems" />
 			<command title="payTax" />
 			<command title="taxAdjustment" />
 			<command title="newTAXAgency" />
@@ -174,7 +174,7 @@
 			<command if="manageBills" title="enterBill" />
 			<command if="manageBills" title="payBill" />
 			<command if="manageBills" title="issuePayment" />
-			<command if="manageBills" title="vendorPrepayment" />
+			<command title="vendorPrepayment" />
 			<command title="recordExpenses" />
 			<command title="createCashPurchase" />
 			<command title="createVendorCredit" />
