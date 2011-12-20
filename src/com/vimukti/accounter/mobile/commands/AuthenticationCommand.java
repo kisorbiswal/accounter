@@ -70,6 +70,8 @@ public class AuthenticationCommand extends Command {
 			sendUserActivationMail(client, activationCode);
 			makeResult.add("Activation code has been sent to your email Id.");
 			makeResult.add("Please Enter Activation code.");
+			makeResult.add(new InputType(
+					AbstractRequirement.INPUT_TYPE_STRING));
 			ResultList list = new ResultList("activation");
 			Record activationRec = new Record("resendActivation");
 			activationRec.add("Re-send activation code");
