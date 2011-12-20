@@ -23,11 +23,12 @@ public abstract class AccountRequirement extends ListRequirement<Account> {
 	@Override
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
-		setAccountValue(getValue());
+		setAccountValue();
 		return super.run(context, makeResult, list, actions);
 	}
 
-	private void setAccountValue(Object value) {
+	private void setAccountValue() {
+		Object value = getValue();
 		if (value != null) {
 			Session currentSession = HibernateUtil.getCurrentSession();
 			Account account = (Account) value;
@@ -39,7 +40,8 @@ public abstract class AccountRequirement extends ListRequirement<Account> {
 
 	@Override
 	public void setValue(Object value) {
-		setAccountValue(value);
+		super.setValue(value);
+		setAccountValue();
 	}
 
 	@Override

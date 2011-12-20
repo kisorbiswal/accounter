@@ -170,12 +170,8 @@ public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
 			protected void getRequirementsValues(ClientEntry obj) {
 				Account account = get(ACCOUNT).getValue();
 				String memo = get(MEMO).getValue();
-				// double debits = get(DEBITS).getValue();
-				// double credits = get(CREDITS).getValue();
 				obj.setAccount(account.getID());
 				obj.setMemo(memo);
-				// obj.setDebit(debits);
-				// obj.setCredit(credits);
 			}
 
 			@Override
