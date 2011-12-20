@@ -119,6 +119,7 @@
 			<command title="taxHistory" />
 			<command title="taxItemsList" />
 			<command title="taxCodesList" />
+			<command title="taxAgenciesList" />
 		</outputs>
 	</pattern>
 
