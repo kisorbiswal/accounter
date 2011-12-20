@@ -74,9 +74,9 @@ public class InvoiceListCommand extends AbstractTransactionListCommand {
 						Utility.getTransactionName(value.getType()));
 				record.add(getMessages().name(), value.getCustomerName());
 				record.add(getMessages().date(), value.getDate());
-				record.add(getMessages().balance(),
+				record.add(getMessages().total(),
 						getCurrency(value.getCurrency()).getSymbol() + " "
-								+ value.getBalance());
+								+ value.getTotalPrice());
 				return record;
 			}
 
