@@ -313,6 +313,12 @@ public class ViewManager extends HorizontalPanel {
 		Object input = action.getInput();
 		String token = action.getHistoryToken();
 
+		// Save history
+		if (existingView instanceof ISavableView) {
+			viewDataHistory.put(existingView.getAction().getHistoryToken(),
+					((ISavableView) existingView).saveView());
+		}
+
 		if (newview.getManager() == null) {
 			newview.setManager(this);
 			// newview.setPreferences(Accounter.getCompany().getPreferences());
@@ -322,15 +328,13 @@ public class ViewManager extends HorizontalPanel {
 			newview.init();
 			if (input == null && newview instanceof ISavableView) {
 				Object object = viewDataHistory.get(action.getHistoryToken());
-				((ISavableView) newview).restoreView(object);
+				if (object != null) {
+					((ISavableView) newview).restoreView(object);
+				}
 			}
 			newview.initData();
 		}
-		// Save history
-		if (existingView instanceof ISavableView) {
-			viewDataHistory.put(existingView.getAction().getHistoryToken(),
-					((ISavableView) existingView).saveView());
-		}
+
 		this.views.add(new HistoryItem(newview, action));
 
 		if (input instanceof IAccounterCore) {
