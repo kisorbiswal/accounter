@@ -489,9 +489,12 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
 	private List<String> getServiceProductBothList() {
 		ArrayList<String> arrayList = new ArrayList<String>();
-		arrayList.add(getMessages().servicesOnly());
-		arrayList.add(getMessages().productsOnly());
-		arrayList.add(getMessages().bothServicesandProducts());
+		arrayList.add(getMessages().services_labelonly() + "\n"
+				+ getMessages().servicesOnly());
+		arrayList.add(getMessages().products_labelonly() + "\n"
+				+ getMessages().productsOnly());
+		arrayList.add(getMessages().bothservicesandProduct_labelonly() + "\n"
+				+ getMessages().bothServicesandProducts());
 		return arrayList;
 	}
 
