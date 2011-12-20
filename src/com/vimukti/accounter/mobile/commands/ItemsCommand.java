@@ -16,8 +16,14 @@ import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 public class ItemsCommand extends NewAbstractCommand {
 
 	private static final String ITEMS_TYPE = "itemsType";
-	private boolean isCustomer;
-	private boolean isInventory;
+
+	private static final int CUSTOMER_ITEMS = 1;
+
+	private static final int VENDOR_ITEMS = 2;
+
+	private static final int INVENTORY_ITEMS = 3;
+
+	private int itemType;
 
 	@Override
 	public String getId() {
@@ -83,8 +89,11 @@ public class ItemsCommand extends NewAbstractCommand {
 						: false;
 				for (Item item : items) {
 					if (isActive == item.isActive()) {
-						if (isInventory ? item.getType() == Item.TYPE_INVENTORY_PART
-								: isCustomer ? item.isISellThisItem() : item
+						if (itemType == 0) {
+							result.add(item);
+						} else if (itemType == INVENTORY_ITEMS ? item.getType() == Item.TYPE_INVENTORY_PART
+								: itemType == CUSTOMER_ITEMS ? item
+										.isISellThisItem() : item
 										.isIBuyThisItem()) {
 							result.add(item);
 						}
@@ -127,19 +136,19 @@ public class ItemsCommand extends NewAbstractCommand {
 	}
 
 	protected void setCreateCommand(CommandList list) {
-		if (isInventory) {
+		if (itemType == INVENTORY_ITEMS) {
 			list.add(new UserCommand("createNewInventoryItem", "sell"));
 			return;
 		}
-		if (isCustomer) {
-			list.add(new UserCommand("createNewServiceItem", "sell"));
-			list.add(new UserCommand("createNewNonInventoryItem", "sell"));
-			list.add(new UserCommand("createNewInventoryItem", "sell"));
-		} else {
+		if (itemType == VENDOR_ITEMS) {
 			list.add(new UserCommand("createNewServiceItem", "buy"));
 			list.add(new UserCommand("createNewNonInventoryItem", "buy"));
 			list.add(new UserCommand("createNewInventoryItem", "buy"));
 		}
+
+		list.add(new UserCommand("createNewServiceItem", "sell"));
+		list.add(new UserCommand("createNewNonInventoryItem", "sell"));
+		list.add(new UserCommand("createNewInventoryItem", "sell"));
 	}
 
 	protected Set<Item> getItems(Context context) {
@@ -149,10 +158,14 @@ public class ItemsCommand extends NewAbstractCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (context.getString().equalsIgnoreCase("customer")) {
-			isCustomer = true;
+			itemType = CUSTOMER_ITEMS;
 		}
 		if (context.getString().equalsIgnoreCase("inventory")) {
-			isInventory = true;
+			itemType = INVENTORY_ITEMS;
+		}
+
+		if (context.getString().equalsIgnoreCase("vendor")) {
+			itemType = VENDOR_ITEMS;
 		}
 		context.setString("");
 		return null;
