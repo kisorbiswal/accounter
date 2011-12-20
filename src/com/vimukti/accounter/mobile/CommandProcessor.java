@@ -44,7 +44,7 @@ public class CommandProcessor {
 				Result result = new Result(
 						"Sorry, We are unable to find the answer for '"
 								+ message.getOriginalMsg() + "'");
-				result.setNextCommand("Menu");
+				result.setNextCommand("menu");
 				message.setResult(result);
 			}
 
