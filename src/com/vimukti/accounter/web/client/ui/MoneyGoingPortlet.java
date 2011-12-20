@@ -35,7 +35,8 @@ public class MoneyGoingPortlet extends GraphPointsPortlet {
 	public Label overDueAmtLabel;
 
 	public MoneyGoingPortlet(ClientPortletConfiguration pc) {
-		super(pc, messages.moneyGoingOut(), messages.goToAccountsPayable());
+		super(pc, messages.moneyGoingOut(), messages.goToAccountsPayable(),
+				"62%");
 	}
 
 	@Override

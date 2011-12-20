@@ -10,7 +10,7 @@ public class WhoIOwePortlet extends Portlet {
 	private DashboardOweGrid grid;
 
 	public WhoIOwePortlet(ClientPortletConfiguration configuration) {
-		super(configuration, messages.whoIOwe(), "");
+		super(configuration, messages.whoIOwe(), "", "100%");
 	}
 
 	@Override

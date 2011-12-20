@@ -10,7 +10,7 @@ public class WhoOwesMePortlet extends Portlet {
 	private DashboardOweGrid grid;
 
 	public WhoOwesMePortlet(ClientPortletConfiguration configuration) {
-		super(configuration, messages.whoOwesMe(), "");
+		super(configuration, messages.whoOwesMe(), "", "100%");
 	}
 
 	@Override

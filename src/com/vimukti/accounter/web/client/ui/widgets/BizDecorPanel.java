@@ -39,6 +39,11 @@ public abstract class BizDecorPanel extends FlexTable {
 		setTitleActions();
 	}
 
+	public BizDecorPanel(String title, String gotoString, String width) {
+		this(title, gotoString);
+		TC.getElement().getParentElement().setAttribute("width", width);
+	}
+
 	private void setTitleActions() {
 		closeImage.addClickHandler(new ClickHandler() {
 

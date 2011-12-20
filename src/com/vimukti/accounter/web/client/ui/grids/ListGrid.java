@@ -172,26 +172,29 @@ public abstract class ListGrid<T> extends CustomTable {
 		if (isContinueToexecuteEvent(row, col)) {
 			currentCol = isMultiSelectionEnable ? col - 1 : col;
 			currentRow = row;
-			selectedObject = objects.get(row);
+			if (!objects.isEmpty()) {
+				selectedObject = objects.get(row);
 
-			onClick(selectedObject, currentRow, currentCol);
+				onClick(selectedObject, currentRow, currentCol);
 
-			if (selectedObject == null)
-				return;
+				if (selectedObject == null)
+					return;
 
-			if (editEventType == EDIT_EVENT_CLICK) {
-				if (isEditEnable) {
+				if (editEventType == EDIT_EVENT_CLICK) {
+					if (isEditEnable) {
 
-					if (!isEditable(selectedObject, currentRow, currentCol)) {
-						selectRow(currentRow);
-						return;
+						if (!isEditable(selectedObject, currentRow, currentCol)) {
+							selectRow(currentRow);
+							return;
+						}
+						// get text of clicked Cell
+						editCell(DOM
+								.getChild(rowFormatter.getElement(row), col)
+								.getInnerText());
 					}
-					// get text of clicked Cell
-					editCell(DOM.getChild(rowFormatter.getElement(row), col)
-							.getInnerText());
 				}
-			}
 
+			}
 		}
 	}
 
@@ -642,10 +645,10 @@ public abstract class ListGrid<T> extends CustomTable {
 			selectbox.addChangeHandler(new ChangeHandler() {
 				@Override
 				public void onChange(ChangeEvent event) {
-					onValueChange(selectedObject, currentCol, values[selectbox
-							.getSelectedIndex()]);
-					onWidgetValueChanged(selectbox, values[selectbox
-							.getSelectedIndex()]);
+					onValueChange(selectedObject, currentCol,
+							values[selectbox.getSelectedIndex()]);
+					onWidgetValueChanged(selectbox,
+							values[selectbox.getSelectedIndex()]);
 				}
 			});
 			if (value != null)
@@ -679,8 +682,8 @@ public abstract class ListGrid<T> extends CustomTable {
 				@Override
 				public void onValueChange(ValueChangeEvent<Date> event) {
 
-					onWidgetValueChanged(datePicker, UIUtils
-							.stringToDate((Date) event.getValue()));
+					onWidgetValueChanged(datePicker,
+							UIUtils.stringToDate((Date) event.getValue()));
 
 				}
 			});

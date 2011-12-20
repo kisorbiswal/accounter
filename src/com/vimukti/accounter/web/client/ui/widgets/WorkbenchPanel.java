@@ -10,6 +10,10 @@ public abstract class WorkbenchPanel extends BizDecorPanel {
 		super(title, gotoString);
 	}
 
+	public WorkbenchPanel(String title, String gotoString, String width) {
+		super(title, gotoString, width);
+	}
+
 	@Override
 	public void add(Widget w) {
 		super.add(w);

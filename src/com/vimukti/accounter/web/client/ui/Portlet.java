@@ -48,8 +48,19 @@ public abstract class Portlet extends WorkbenchPanel {
 		this.setConfiguration(configuration);
 	}
 
-	public Portlet(String title, String gotoString) {
-		super(title, gotoString);
+	public Portlet(ClientPortletConfiguration configuration, String title,
+			String gotoString, String titleWidth) {
+		this(title, gotoString, titleWidth);
+		setName(title);
+		this.setConfiguration(configuration);
+	}
+
+	public Portlet(String title, String gotoString, String titleWidth) {
+		super(title, gotoString, titleWidth);
+		createControls();
+	}
+
+	private void createControls() {
 		vPanel = new ScrollPanel();
 		body = new VerticalPanel();
 		body.setStyleName("portlet-body");
@@ -58,7 +69,11 @@ public abstract class Portlet extends WorkbenchPanel {
 		vPanel.add(body);
 		vPanel.setWidth("100%");
 		super.add(vPanel);
+	}
 
+	public Portlet(String title, String gotoString) {
+		super(title, gotoString);
+		createControls();
 	}
 
 	public ClientCompany getCompany() {
@@ -180,7 +195,8 @@ public abstract class Portlet extends WorkbenchPanel {
 	@Override
 	protected void onClose() {
 		this.removeFromParent();
-		portletPage.config.getPortletConfigurations().remove(getConfiguration());
+		portletPage.config.getPortletConfigurations()
+				.remove(getConfiguration());
 		portletPage.haveToRefresh = false;
 		portletPage.updatePortletPage();
 	}

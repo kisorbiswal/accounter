@@ -144,10 +144,14 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 						public void selectedComboBoxItem(String selectItem) {
 							if (activeInActiveSelect.getSelectedValue() != null) {
 								if (activeInActiveSelect.getSelectedValue()
-										.toString().equalsIgnoreCase("Active"))
+										.toString().equalsIgnoreCase("Active")) {
 									custGrid.filterList(true);
-								else
+								} else {
 									custGrid.filterList(false);
+								}
+								detailsPanel.setCustomer(null);
+								selectedCustomer = null;
+								callRPC();
 							}
 
 						}
@@ -415,6 +419,10 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 						}
 					});
 
+		} else {
+			custHistoryGrid.clear();
+			custHistoryGrid.addEmptyMessage(messages.thereAreNo(messages
+					.transactions()));
 		}
 	}
 

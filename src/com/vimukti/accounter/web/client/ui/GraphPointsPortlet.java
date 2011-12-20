@@ -9,6 +9,11 @@ public abstract class GraphPointsPortlet extends Portlet {
 		super(configuration, title, gotoString);
 	}
 
+	public GraphPointsPortlet(ClientPortletConfiguration configuration,
+			String title, String gotoString, String width) {
+		super(configuration, title, gotoString, width);
+	}
+
 	@Override
 	protected void onAttach() {
 		super.onAttach();

@@ -21,10 +21,7 @@ public class CustomerDetailsPanel extends VerticalPanel {
 	public CustomerDetailsPanel(ClientCustomer clientCustomer) {
 		this.selectedCustomer = clientCustomer;
 		createControls();
-		if (clientCustomer != null) {
-			showCustomerDetails(clientCustomer);
-		}
-
+		showCustomerDetails(clientCustomer);
 	}
 
 	private void createControls() {
@@ -101,11 +98,21 @@ public class CustomerDetailsPanel extends VerticalPanel {
 
 			openingBalance.setAmount(selectedCustomer.getOpeningBalance());
 
+		} else {
+			name.setValue("");
+			email.setValue("");
+			balance.setAmount(0.00);
+			currency.setValue("");
+			fax.setValue("");
+			customersince.setValue("");
+			webpageadress.setValue("");
+			openingBalance.setAmount(0.00);
 		}
 	}
 
 	public void setCustomer(ClientCustomer customer) {
 		this.selectedCustomer = customer;
+		showCustomerDetails(customer);
 	}
 
 	public ClientCustomer getCustomer() {

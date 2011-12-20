@@ -20,7 +20,7 @@ public class QuickLinksPortlet extends Portlet {
 	private Map<String, String> quickLinksMap;
 
 	public QuickLinksPortlet(ClientPortletConfiguration configuration) {
-		super(configuration, messages.quickLinks(), null);
+		super(configuration, messages.quickLinks(), "", "100%");
 	}
 
 	@Override
@@ -49,13 +49,13 @@ public class QuickLinksPortlet extends Portlet {
 				.getChartOfAccountsAction().getHistoryToken());
 		quickLinksMap.put(messages.creditCardExpense(), ActionFactory
 				.CreditCardExpenseAction().getHistoryToken());
-		quickLinksMap.put(
-				messages.newQuote(),
-				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES).getHistoryToken());
+		quickLinksMap.put(messages.newQuote(),
+				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES)
+						.getHistoryToken());
 		if (Accounter.getCompany().getPreferences().isDelayedchargesEnabled()) {
-			quickLinksMap.put(
-					messages.newCharge(),
-					ActionFactory.getNewQuoteAction(ClientEstimate.CHARGES).getHistoryToken());
+			quickLinksMap.put(messages.newCharge(), ActionFactory
+					.getNewQuoteAction(ClientEstimate.CHARGES)
+					.getHistoryToken());
 		}
 		quickLinksMap.put(messages.newJournalEntry(), ActionFactory
 				.getNewJournalEntryAction().getHistoryToken());

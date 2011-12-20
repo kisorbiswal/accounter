@@ -16,7 +16,7 @@ public class RecentTransactionsPortlet extends Portlet {
 	private List<String> limitList;
 
 	public RecentTransactionsPortlet(ClientPortletConfiguration configuration) {
-		super(configuration, messages.recentTransactions(), "");
+		super(configuration, messages.recentTransactions(), "", "100%");
 	}
 
 	@Override

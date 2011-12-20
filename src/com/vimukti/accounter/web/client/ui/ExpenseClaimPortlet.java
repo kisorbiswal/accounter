@@ -42,7 +42,7 @@ public class ExpenseClaimPortlet extends Portlet {
 	public Label ccExpAmtLabel;
 
 	public ExpenseClaimPortlet(ClientPortletConfiguration pc) {
-		super(pc, messages.expenses(), "");
+		super(pc, messages.expenses(), "", "100%");
 		this.setConfiguration(pc);
 	}
 

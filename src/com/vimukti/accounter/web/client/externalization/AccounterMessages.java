@@ -5279,6 +5279,28 @@ public interface AccounterMessages extends Messages {
 
 	public String overBudget();
 
+	public String trackOrChargeTax();
+	
+	public String negativeNumberFormat();
+
+	public String normalFormat();
+
+	public String negativeNumberWithInTheParathesis();
+
+	public String negativeNumberMinusWithInTheParathesis();
+
+	public String numberWithTrailingMinus();
+
+	public String normalFormatComment();
+
+	public String negativeNumberWithInTheParathesisComment();
+
+	public String negativeNumberMinusWithInTheParathesisComment();
+
+	public String numberWithTrailingMinusComment();
+
+	public String decimalDigitLimit();
+
 	public String newcashExpenses();
 
 	public String newCreditCardExpenses();
