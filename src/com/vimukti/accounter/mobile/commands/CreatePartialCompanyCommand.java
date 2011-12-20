@@ -273,7 +273,7 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		});
 		list.add(new StringListRequirement(FISCAL_YEAR, getMessages()
 				.pleaseSelect(getMessages().fiscalYear()), getMessages()
-				.fiscalYear(), true, true, null) {
+				.fiscalYear(), false, true, null) {
 
 			@Override
 			protected Record createRecord(String value) {
@@ -340,19 +340,15 @@ public class CreatePartialCompanyCommand extends AbstractCompanyCommad {
 		ClientCurrency primaryCurrency = get(PRIMARY_CURRENCY).getValue();
 		Boolean ismultiCurrencyEnabled = get(IS_MULTI_CURRENCY_ENBLED)
 				.getValue();
+		String fiscalYear = get(FISCAL_YEAR).getValue();
 
 		Integer industryType = getIndustryList().indexOf(industry);
 
 		List<TemplateAccount> accounts = getDefaultTemplateAccounts(industryType);
 		ClientCompanyPreferences preferences = new ClientCompanyPreferences();
 
-		ICountryPreferences countryPreferences = CountryPreferenceFactory
-				.get(countryName);
-		if (countryPreferences != null) {
-			preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
-					countryPreferences.getDefaultFiscalYearStartingMonth()));
-		}
-
+		preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
+				fiscalYear));
 		ClientAddress address = new ClientAddress();
 		preferences.setTradingName(companyName);
 		preferences.setLegalName(legalName);
