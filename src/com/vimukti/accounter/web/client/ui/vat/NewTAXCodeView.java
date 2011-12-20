@@ -306,12 +306,15 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				data.setTAXItemGrpForSales(selectedVATSAlesAcc);
 			} else {
 				data.setTaxable(false);
-				// data.setTAXItemGrpForPurchases(0);
-				// data.setTAXItemGrpForSales(0);
 			}
-		} else
+		} else {
 			data.setTaxable(false);
+		}
 
+		if (!data.isTaxable()) {
+			data.setTAXItemGrpForPurchases(0);
+			data.setTAXItemGrpForSales(0);
+		}
 	}
 
 	@Override
