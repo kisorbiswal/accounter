@@ -975,6 +975,7 @@
 		name="taxItemsList">
 		<alias>vATItems</alias>
 		<alias>vatItemsList</alias>
+		<alias>manageSalesItems</alias>
 		<alias>taxitems</alias>
 	</command>
 

@@ -16,6 +16,8 @@ public class VATItemsListCommand extends NewAbstractCommand {
 
 	private static final String CURRENT_VIEW = "currentView";
 
+	private boolean isCompany;
+
 	@Override
 	public String getId() {
 		return null;
@@ -40,8 +42,29 @@ public class VATItemsListCommand extends NewAbstractCommand {
 			@Override
 			protected Record createRecord(TAXItem value) {
 				Record record = new Record(value);
-				record.add(getMessages().name(), value.getName());
-				record.add(getMessages().description(), value.getDescription());
+				if (isCompany) {
+					record.add(getMessages().taxItemName(), value.getName());
+					record.add(getMessages().description(),
+							value.getDescription());
+					record.add(getMessages().taxRate(), value.getTaxRate());
+					if (value.getTaxAgency() != null) {
+						record.add(getMessages().taxAgency(), value
+								.getTaxAgency().getName());
+					} else {
+						record.add(getMessages().taxAgency(), " ");
+					}
+				} else {
+					record.add(getMessages().product(), value.getName());
+					if (value.getTaxAgency() != null) {
+						record.add(getMessages().taxAgency(), value
+								.getTaxAgency().getName());
+					} else {
+						record.add(getMessages().taxAgency(), " ");
+					}
+					record.add(getMessages().description(),
+							value.getDescription());
+					record.add(getMessages().taxRate(), value.getTaxRate());
+				}
 				return record;
 			}
 
@@ -52,7 +75,7 @@ public class VATItemsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getMessages().taxItem()));
+				list.add("createTaxItem");
 			}
 
 			@Override
@@ -107,6 +130,11 @@ public class VATItemsListCommand extends NewAbstractCommand {
 			addFirstMessage(context, "You dnt have permission to do this.");
 			return "cancel";
 		}
+
+		if (context.getString().equals("company")) {
+			isCompany = true;
+		}
+		context.setString("");
 		return null;
 	}
 

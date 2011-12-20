@@ -62,7 +62,7 @@
 		<input>itemTax</input>
 		<outputs>
 			<command title="manageSalesGroups" />
-			<command title="manageSalesItems" />
+			<command value = "manageSalesItems company" title="manageSalesItems" />
 			<command title="payTax" />
 			<command title="taxAdjustment" />
 			<command title="newTAXAgency" />
