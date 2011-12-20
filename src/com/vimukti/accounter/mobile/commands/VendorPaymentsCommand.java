@@ -141,7 +141,8 @@ public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 		List<PaymentsList> result = new ArrayList<PaymentsList>();
 		List<PaymentsList> paymentsLists = null;
 		try {
-			if (commandString.contains("Vendor")) {
+			if (commandString.contains("vendor")
+					|| commandString.contains("Vendor")) {
 				paymentsLists = tool.getVendorManager().getVendorPaymentsList(
 						context.getCompany().getId(), getStartDate().getDate(),
 						getEndDate().getDate());

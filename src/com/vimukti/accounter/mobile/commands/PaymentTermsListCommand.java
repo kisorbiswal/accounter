@@ -33,7 +33,7 @@ public class PaymentTermsListCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getMessages().paymentTerm()));
+				list.add("createPaymentTerm");
 			}
 
 			@Override
