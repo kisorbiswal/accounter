@@ -8,6 +8,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -269,14 +270,13 @@ public class CreditCardCharge extends Transaction {
 						this.currencyFactor);
 				payFrom.onUpdate(session);
 
-			} else if (this.payFrom.getID() != creditCardCharge.getPayFrom()
-					.getID()) {
+			} else if (!DecimalUtil.isEquals(this.getTotal(),
+					creditCardCharge.getTotal())) {
 				this.payFrom.updateCurrentBalance(this, this.total
 						- creditCardCharge.total,
 						creditCardCharge.currencyFactor);
 				// session.update(this.payFrom);
 				this.payFrom.onUpdate(session);
-
 			}
 
 		}

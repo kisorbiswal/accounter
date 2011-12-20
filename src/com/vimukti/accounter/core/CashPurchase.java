@@ -450,7 +450,9 @@ public class CashPurchase extends Transaction {
 
 		w.put(messages.date(), this.transactionDate.toString()).gap();
 
-		w.put(messages.vendor(), this.vendor.getName());
+		if (getVendor() != null) {
+			w.put(messages.vendor(), this.getVendor().getName());
+		}
 
 		w.put(messages.currency(), this.currencyFactor).gap();
 
