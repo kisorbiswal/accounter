@@ -11,7 +11,6 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
-import com.vimukti.accounter.mobile.requirements.ClientCurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
@@ -30,7 +29,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	private static final String SERVICE_PRODUCTS_BOTH = "serprobothlist";
 	private static final String TRACK_TAX = "trackTax";
 	private static final String CREATE_ESTIMATES = "createestimates";
-	private static final String SELECT_CURRENCY = "selectcurrency";
 	private static final String MANAGE_BILLS_OWE = "managebills";
 	private static final String TRACK_TAX_PAD = "tracktaxpad";
 	private static final String ONE_PER_TRANSACTION = "onepertrans";
@@ -306,13 +304,9 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				true, null) {
 			@Override
 			protected List<ClientCurrency> getLists(Context context) {
-				List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
 				List<ClientCurrency> currencies = CoreUtils
 						.getCurrencies(new ArrayList<ClientCurrency>());
-				for (ClientCurrency currency : currencies) {
-					currenciesList.add(currency);
-				}
-				return currenciesList;
+				return currencies;
 			}
 		});
 
@@ -426,17 +420,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new ClientCurrencyRequirement(SELECT_CURRENCY, getMessages()
-				.pleaseSelect(getMessages().currency()), getMessages()
-				.currency(), true, true, null) {
-
-			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return getCurrenciesList();
-			}
-
-		});
-
 		list.add(new BooleanRequirement(MANAGE_BILLS_OWE, true) {
 
 			@Override
@@ -519,7 +502,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		get(SERVICE_PRODUCTS_BOTH).setDefaultValue(
 				getServiceProductBothList().get(0));
 		// get(ONE_PER_TRANSACTION).setDefaultValue(true);
-		get(SELECT_CURRENCY).setDefaultValue(getCurrenciesList().get(0));
 		get(FISCAL_YEAR).setDefaultValue(getMessages().april());
 	}
 
@@ -544,7 +526,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		Boolean onePerTrans = get(ONE_PER_TRANSACTION).getValue();
 		Boolean trackTaxPad = get(TRACK_TAX_PAD).getValue();
 		Boolean createEstimates = get(CREATE_ESTIMATES).getValue();
-		ClientCurrency currency = get(SELECT_CURRENCY).getValue();
 		Boolean manageBills = get(MANAGE_BILLS_OWE).getValue();
 		List<TemplateAccount> accounts = get(ACCOUNTS).getValue();
 		ClientCurrency primaryCurrency = get(PRIMARY_CURRENCY).getValue();
@@ -552,7 +533,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				.getValue();
 
 		ClientCompanyPreferences preferences = new ClientCompanyPreferences();
-		preferences.setPrimaryCurrency(currency);
 
 		String fiscalYear = get(FISCAL_YEAR).getValue();
 		preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(

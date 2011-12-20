@@ -218,7 +218,7 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 				break;
 			}
 			T r = records.get(i);
-			if (CommandUtils.contains(skipRecords, r)) {
+			if (contains(skipRecords, r)) {
 				continue;
 			}
 			num++;
@@ -241,6 +241,10 @@ public abstract class ListRequirement<T> extends AbstractRequirement<T> {
 			actions.add(inActiveRec);
 		}
 		return result;
+	}
+
+	protected boolean contains(List<T> skipRecords, T r) {
+		return CommandUtils.contains(skipRecords, r);
 	}
 
 	private List<T> getLists(Context context, final String name) {

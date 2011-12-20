@@ -1,5 +1,7 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.List;
+
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Record;
@@ -25,8 +27,7 @@ public abstract class CurrencyRequirement extends
 	@Override
 	protected Record createRecord(ClientCurrency value) {
 		Record record = new Record(value);
-		record.add(getMessages().currency(), value.getFormalName() + " - "
-				+ value.getDisplayName());
+		record.add(value.getFormalName() + " - " + value.getDisplayName());
 		return record;
 	}
 
@@ -60,4 +61,14 @@ public abstract class CurrencyRequirement extends
 		return getMessages().youDontHaveAny(getMessages().currency());
 	}
 
+	@Override
+	protected boolean contains(List<ClientCurrency> skipRecords,
+			ClientCurrency r) {
+		for (ClientCurrency clientCurrency : skipRecords) {
+			if (clientCurrency.getFormalName().equals(r.getFormalName())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
