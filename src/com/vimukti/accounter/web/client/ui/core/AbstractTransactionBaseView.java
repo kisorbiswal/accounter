@@ -209,8 +209,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected HorizontalPanel voidedPanel;
 
-	private Label voidedLabel;
-
 	public boolean isVatInclusive() {
 		return isVATInclusive;
 	}
@@ -221,7 +219,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public AbstractTransactionBaseView(int transactionType) {
 		super();
 		this.transactionType = transactionType;
-		getVoidedPanel();
+		createVoidedPanel();
 		// this.gridType = transactionViewType;
 
 	}
@@ -269,13 +267,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return taxCode;
 	}
 
-	protected HorizontalPanel getVoidedPanel() {
+	protected void createVoidedPanel() {
 		voidedPanel = new HorizontalPanel();
-		voidedLabel = new Label();
+		Label voidedLabel = new Label();
 		voidedPanel.add(voidedLabel);
 		voidedPanel.setCellHorizontalAlignment(voidedLabel,
 				HasAlignment.ALIGN_CENTER);
-		return voidedPanel;
+		voidedLabel.setText(messages.Voided());
+		voidedPanel.addStyleName("title_voided_panel");
 	}
 
 	public double getVATRate(long VATCodeID) {
@@ -771,22 +770,16 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	@Override
 	public void init() {
 		super.init();
-		getVoidedPanel();
+		createVoidedPanel();
 		createControls();
 		setSize("100%", "100%");
 	}
 
 	@Override
 	public void initData() {
-
 		initTransactionViewData();
-		if (transaction.isVoid()) {
-			voidedLabel.setText(messages.Voided());
-			voidedPanel.addStyleName("title_voided_panel");
-			voidedLabel.addStyleName("title_voided_label");
-		}
+		voidedPanel.setVisible(transaction.isVoid());
 		super.initData();
-
 	}
 
 	protected boolean checkOpen(Collection<ClientTransactionItem> items,
