@@ -16,6 +16,7 @@
 			<command title="companyFinancialReports" />
 			<command title="customersandReceivablesReports" />
 			<command title="salesReports" />
+			<command title="vendorsandPayableReports" />
 			<command title="purchasesReports" />
 			<command if="trackTax" title="vATReports" />
 		</outputs>
@@ -39,7 +40,7 @@
 		<input>customersandReceivablesReports</input>
 		<input>customerreports</input>
 		<outputs>
-			<text name="salesReports" />
+			<text name="customersandReceivablesReports" />
 			<command title="arAgeingSummary" />
 			<command title="arAgeingDetail" />
 			<command title="customerStatement" />
@@ -65,6 +66,7 @@
 		<outputs>
 			<command title="apAgeingSummary" />
 			<command title="apAgeingDetail" />
+			<command title="vendorTransactionHistory" />
 		</outputs>
 	</pattern>
 
