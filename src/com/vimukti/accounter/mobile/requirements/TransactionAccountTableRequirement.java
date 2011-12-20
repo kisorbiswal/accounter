@@ -82,8 +82,9 @@ public abstract class TransactionAccountTableRequirement extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getPreferences().isTrackTax()
-						&& getPreferences().isTaxPerDetailLine()) {
+				if (getPreferences().isTrackTax() && isTrackTaxPaidAccount() ? false
+						: getPreferences().isTrackPaidTax()
+								&& getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -122,8 +123,9 @@ public abstract class TransactionAccountTableRequirement extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getPreferences().isTrackTax()
-						&& !getPreferences().isTaxPerDetailLine()) {
+				if (getPreferences().isTrackTax() && isTrackTaxPaidAccount() ? false
+						: getPreferences().isTrackPaidTax()
+								&& !getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -153,7 +155,9 @@ public abstract class TransactionAccountTableRequirement extends
 		double amount = get(AMOUNT).getValue();
 		obj.setUnitPrice(amount);
 		Boolean isTaxable = get(TAX).getValue();
-		obj.setTaxable(isTaxable);
+		if (getPreferences().isTrackTax() && isTrackTaxPaidAccount() ? false
+				: getPreferences().isTrackPaidTax())
+			obj.setTaxable(isTaxable);
 		TAXCode taxCode = get(TAXCODE).getValue();
 		if (taxCode != null) {
 			obj.setTaxCode(taxCode.getID());
@@ -184,7 +188,9 @@ public abstract class TransactionAccountTableRequirement extends
 		get(TAXCODE).setValue(
 				CommandUtils.getServerObjectById(obj.getTaxCode(),
 						AccounterCoreType.TAX_CODE));
-		get(TAX).setDefaultValue(obj.isTaxable());
+		if (getPreferences().isTrackTax() && isTrackTaxPaidAccount() ? false
+				: getPreferences().isTrackPaidTax())
+			get(TAX).setDefaultValue(obj.isTaxable());
 		get(DISCOUNT).setDefaultValue(obj.getDiscount());
 		if (get(IS_BILLABLE) != null) {
 			get(IS_BILLABLE).setDefaultValue(obj.isBillable());
@@ -198,7 +204,9 @@ public abstract class TransactionAccountTableRequirement extends
 	protected ClientTransactionItem getNewObject() {
 		ClientTransactionItem clientTransactionItem = new ClientTransactionItem();
 		clientTransactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-		clientTransactionItem.setTaxable(true);
+		if (getPreferences().isTrackTax() && isTrackTaxPaidAccount() ? false
+				: getPreferences().isTrackPaidTax())
+			clientTransactionItem.setTaxable(true);
 		clientTransactionItem.setIsBillable(false);
 		ClientQuantity clientQuantity = new ClientQuantity();
 		clientQuantity.setValue(1.0);
@@ -224,7 +232,8 @@ public abstract class TransactionAccountTableRequirement extends
 		}
 		record.add(getMessages().unitPrice() + "(" + formalName + ")",
 				t.getUnitPrice());
-		if (getPreferences().isTrackTax()) {
+		if (getPreferences().isTrackTax() && isTrackTaxPaidAccount() ? false
+				: getPreferences().isTrackPaidTax()) {
 			if (getPreferences().isTaxPerDetailLine()) {
 				ClientTAXCode taxCode = (ClientTAXCode) CommandUtils
 						.getClientObjectById(t.getTaxCode(),
@@ -272,6 +281,8 @@ public abstract class TransactionAccountTableRequirement extends
 		}
 		return false;
 	}
+
+	protected abstract boolean isTrackTaxPaidAccount();
 
 	protected abstract Payee getPayee();
 

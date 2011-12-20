@@ -101,8 +101,9 @@ public abstract class TransactionItemTableRequirement extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getPreferences().isTrackTax()
-						&& getPreferences().isTaxPerDetailLine()) {
+				if (getPreferences().isTrackTax() && isSales() ? false
+						: getPreferences().isTrackPaidTax()
+								&& getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -131,8 +132,9 @@ public abstract class TransactionItemTableRequirement extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getPreferences().isTrackTax()
-						&& !getPreferences().isTaxPerDetailLine()) {
+				if (getPreferences().isTrackTax() && isSales() ? false
+						: getPreferences().isTrackPaidTax()
+								&& !getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -214,7 +216,8 @@ public abstract class TransactionItemTableRequirement extends
 	protected ClientTransactionItem getNewObject() {
 		ClientTransactionItem clientTransactionItem = new ClientTransactionItem();
 		clientTransactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-		clientTransactionItem.setTaxable(true);
+		if (isSales() ? false : getPreferences().isTrackPaidTax())
+			clientTransactionItem.setTaxable(true);
 		clientTransactionItem.setIsBillable(false);
 		ClientQuantity clientQuantity = new ClientQuantity();
 		clientQuantity.setValue(1.0);
@@ -244,7 +247,8 @@ public abstract class TransactionItemTableRequirement extends
 				getMessages().unitPrice() + "(" + formalName + ")",
 				Global.get().toCurrencyFormat(
 						t.getUnitPrice() == null ? 0d : t.getUnitPrice()));
-		if (getPreferences().isTrackTax()) {
+		if (getPreferences().isTrackTax() && isSales() ? false
+				: getPreferences().isTrackPaidTax()) {
 			if (getPreferences().isTaxPerDetailLine()) {
 				record.add(getMessages().taxCode(),
 						((ClientTAXCode) (CommandUtils.getClientObjectById(
