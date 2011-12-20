@@ -70,8 +70,8 @@ public class AuthenticationCommand extends Command {
 			sendUserActivationMail(client, activationCode);
 			makeResult.add("Activation code has been sent to your email Id.");
 			makeResult.add("Please Enter Activation code.");
-			makeResult.add(new InputType(
-					AbstractRequirement.INPUT_TYPE_STRING));
+			makeResult
+					.add(new InputType(AbstractRequirement.INPUT_TYPE_STRING));
 			ResultList list = new ResultList("activation");
 			Record activationRec = new Record("resendActivation");
 			activationRec.add("Re-send activation code");
@@ -225,7 +225,7 @@ public class AuthenticationCommand extends Command {
 								client.getEmailId());
 						makeResult
 								.add("Activation code has been sent to your email Id.");
-						makeResult.add("Please Enter Activation code.");
+						makeResult.add("Please Enter IM Activation code.");
 					} else {
 						if (!context.getString().isEmpty()) {
 							makeResult
@@ -244,11 +244,17 @@ public class AuthenticationCommand extends Command {
 					if (!context.getString().isEmpty()) {
 						makeResult.add("Wrong Activation code");
 					}
-					makeResult.add("Please Enter Activation code");
+					makeResult.add("Please Enter IM Activation code");
 
 				}
 
 			} else {
+				// DELETE IM ACTIVATION
+				Session currentSession = HibernateUtil.getCurrentSession();
+				Transaction beginTransaction = currentSession
+						.beginTransaction();
+				currentSession.delete(activation);
+				beginTransaction.commit();
 				imUser = createIMUser(context.getNetworkType(),
 						activation.getNetworkId(),
 						getClient(activation.getEmailId()));
@@ -279,6 +285,7 @@ public class AuthenticationCommand extends Command {
 						Transaction beginTransaction = currentSession
 								.beginTransaction();
 						client.setActive(true);
+						currentSession.delete(activation);
 						beginTransaction.commit();
 
 						makeResult.add("Activation Success");
