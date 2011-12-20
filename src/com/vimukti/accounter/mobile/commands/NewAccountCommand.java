@@ -362,7 +362,6 @@ public class NewAccountCommand extends NewAbstractCommand {
 			get(CARD_OR_LOAD_NUMBER).setValue(account.getCardOrLoanNumber());
 		}
 		get(OPENINGBALANCE).setValue(account.getOpeningBalance());
-		get(OPENINGBALANCE).setEditable(false);
 		get(ACTIVE).setValue(account.getIsActive());
 		get(CONSIDER_AS_CASH_ACCOUNT).setValue(
 				account.isConsiderAsCashAccount());
