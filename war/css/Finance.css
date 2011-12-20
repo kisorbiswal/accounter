@@ -74,6 +74,12 @@ noindex:-o-prefocus,.ibutton {
 	.image-button {
 		padding: 0 5px 0 27px !important;
 	}
+	.gridHeader td,.gridBody td {
+		padding: 0 0 0 2px !important;
+    }
+    .gridHeader td{
+        font-size:12px !important;
+    }
 	.delete-table-image {
 		padding: 0px !important;
 	}
@@ -2526,13 +2532,13 @@ input.date-field-textbox {
 	padding-right: 4px;
 }
 
-.companies_link_parent {
+.companies_title td:FIRST-CHILD {
 	width: 100px;
 	vertical-align: middle !important;
 	padding-left: 12px;
 }
 
-.companies_link_parent a {
+.companies_title td:FIRST-CHILD a {
 	color: #666666;
     display: block;
     font-size: 1.4em;
