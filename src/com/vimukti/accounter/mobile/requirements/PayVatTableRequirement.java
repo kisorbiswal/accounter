@@ -48,7 +48,7 @@ public abstract class PayVatTableRequirement extends
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getMessages().billsToPay());
+		return getMessages().youDontHaveAny(getMessages().noFiledTaxEntriesToReceive());
 	}
 
 	@Override

@@ -41,7 +41,8 @@ public abstract class ReceiveVatTableRequirement extends
 
 	@Override
 	protected String getEmptyString() {
-		return getMessages().youDontHaveAny(getMessages().billsToPay());
+		return getMessages().youDontHaveAny(
+				getMessages().noFiledTaxEntriesToReceive());
 	}
 
 	@Override

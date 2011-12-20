@@ -220,7 +220,7 @@
 			<command title="writeCheck" />
 			<command if="manageBills" title="payBill" />
 			<command if="manageBills" title="issuePayment" />
-			<command title="newCreditCardCharge" />
+			<!-- <command title="newCreditCardCharge" /> -->
 			<command title="depositandTransferFunds" />
 			<!-- <command title="Reconciliations History " /> -->
 			<command title="bankingOverview" />
