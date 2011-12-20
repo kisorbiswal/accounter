@@ -33,13 +33,13 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 		}
 
 		if (commandString.contains("quote")) {
-			if (!context.getPreferences().isDelayedchargesEnabled()) {
+			if (!context.getPreferences().isDoyouwantEstimates()) {
 				addFirstMessage(context, getMessages()
 						.youDntHavePermissionToDoThis());
 				return "cancel";
 			}
 		} else {
-			if (!context.getPreferences().isDoyouwantEstimates()) {
+			if (!context.getPreferences().isDelayedchargesEnabled()) {
 				addFirstMessage(context, getMessages()
 						.youDntHavePermissionToDoThis());
 				return "cancel";
