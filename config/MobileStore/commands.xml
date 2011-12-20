@@ -416,6 +416,7 @@
 		<alias>newEnterBill</alias>
 		<alias>newEnterBill</alias>
 		<alias>updatevendorBill</alias>
+		<alias>updateVendorBill</alias>
 	</command>
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.UpdateTransactionCommand"
@@ -478,12 +479,14 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.PayVATCommand"
 		name="payVAT">
 		<alias>payTax</alias>
+		<alias>updatePayTax</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.ReceiveVATCommand"
 		name="receiveVAT">
 		<alias>newReceiveVat</alias>
 		<alias>taxRefund</alias>
+		<alias>updateReceiveVAT</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.NewTaxGroupCommand"
@@ -540,18 +543,12 @@
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.NewCreditCardExpenseCommand"
 		name="newCreditCardExpense">
-
 		<alias>creditCardExpense</alias>
-
-
-
 		<alias>addCreditCardExpense</alias>
 		<alias>editCreditCardExpense</alias>
 		<alias>modifyCreditCardExpense</alias>
 		<alias>updateCreditCardExpense</alias>
 		<alias>createCreditCardExpense</alias>
-
-
 	</command>
 
 	<command
@@ -589,6 +586,7 @@
 		<alias>newDepositsAndTransferFunds</alias>
 		<alias>depositandTransferFunds</alias>
 		<alias>depositsandTransferFunds</alias>
+		<alias>updateTransferFund</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.NewLocationCommand"
@@ -604,6 +602,7 @@
 		name="NnewIssuePayment">
 		<alias>issuePayment</alias>
 		<alias>createIssuePayment</alias>
+		<alias>updateIssuePayment</alias>
 	</command>
 
 	<command
@@ -680,10 +679,10 @@
 		<alias>createCustomerPayment</alias>
 		<alias>addCustomerPrepayment</alias>
 		<alias>editCustomerPrepayment</alias>
+		<alias>updateCustomerprepayment</alias>
 		<alias>updateCustomerPrepayment</alias>
 		<alias>modifyCustomerPrepayment</alias>
 		<alias>customerPrepayment</alias>
-		<alias>updateCustomerPayment</alias>
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.UpdateItemCommand"
 		name="Update Item"></command>
@@ -701,6 +700,7 @@
 		<alias>editReceivePayment</alias>
 		<alias>modifyReceivePayment</alias>
 		<alias>addreceivepayment</alias>
+		<alias>updateCustomerPayment</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.NewQuoteCommand"
@@ -924,6 +924,7 @@
 		<alias>modifyWriteCheck</alias>
 		<alias>editWriteCheck</alias>
 		<alias>WriteCheck</alias>
+		<alias>updateCheck</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.NewItemGroupCommand"
