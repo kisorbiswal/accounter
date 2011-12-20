@@ -344,6 +344,9 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 		} else if (vatReturn == ClientTAXAgency.RETURN_TYPE_IRELAND_VAT) {
 			get(VAT_RETURN).setValue(null);
 		}
+		String taxTypeString = getTaxTypeString(taxAgency.getTaxType());
+		get(TAX_TYPE).setValue(taxTypeString);
+		taxTypeSelected(taxTypeString);
 	}
 
 	@Override
@@ -484,5 +487,26 @@ public class NewVATAgencyCommand extends NewAbstractCommand {
 		} else {
 			return 0;
 		}
+	}
+
+	private String getTaxTypeString(int taxType) {
+		if (taxType == ClientTAXAgency.TAX_TYPE_SERVICETAX) {
+			return getMessages().serviceTax();
+		}
+		if (taxType == ClientTAXAgency.TAX_TYPE_VAT) {
+			return getMessages().vat();
+		}
+
+		if (taxType == ClientTAXAgency.TAX_TYPE_SALESTAX) {
+			return getMessages().salesTax();
+		}
+		if (taxType == ClientTAXAgency.TAX_TYPE_SALESTAX) {
+			return getMessages().tds();
+		}
+		if (taxType == ClientTAXAgency.TAX_TYPE_OTHER) {
+			getMessages().other();
+		}
+
+		return null;
 	}
 }
