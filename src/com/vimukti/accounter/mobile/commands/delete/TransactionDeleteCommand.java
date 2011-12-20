@@ -23,12 +23,11 @@ public class TransactionDeleteCommand extends AbstractDeleteCommand {
 		String transactionName = Utility.getTransactionName(Integer
 				.parseInt(split[0]));
 		try {
-			deleteTransaction(accounterCoreType, Long.parseLong(split[1]),
-					context);
+			delete(accounterCoreType, Long.parseLong(split[1]), context);
 			addFirstMessage(context, "The transaction has been deleted.");
 		} catch (AccounterException e) {
 			addFirstMessage(context, e.getMessage());
 		}
-		return transactionName + "List";
+		return transactionName.replace(" ", "") + "List";
 	}
 }
