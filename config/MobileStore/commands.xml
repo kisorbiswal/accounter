@@ -531,16 +531,11 @@
 		<alias>createCashSale</alias>
 	</command>
 
-	<command
-		clazz="com.vimukti.accounter.mobile.commands.NewCreditCardChargeCommand"
-		name="newCreditcardCharge">
-		<alias>creditCardCharge</alias>
-		<alias>createCreditCardCharge</alias>
-		<alias>addCreditCardCharge</alias>
-		<alias>createCreditCardCharge</alias>
-		<alias>editCreditCardCharge</alias>
-		<alias>updateCreditCardCharge</alias>
-	</command>
+	<!-- <command clazz="com.vimukti.accounter.mobile.commands.NewCreditCardChargeCommand" 
+		name="newCreditcardCharge"> <alias>creditCardCharge</alias> <alias>createCreditCardCharge</alias> 
+		<alias>addCreditCardCharge</alias> <alias>createCreditCardCharge</alias> 
+		<alias>editCreditCardCharge</alias> <alias>updateCreditCardCharge</alias> 
+		</command> -->
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.NewCreditCardExpenseCommand"
@@ -868,6 +863,7 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.VendorPaymentsCommand"
 		name="vendorPayments">
 		<alias>vendorPaymentsList</alias>
+		<alias>VendorPaymentList</alias>
 		<alias>payments</alias>
 		<alias>vendorPrepaymentList</alias>
 		<alias>writeCheckList</alias>
