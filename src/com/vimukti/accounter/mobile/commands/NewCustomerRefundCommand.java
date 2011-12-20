@@ -349,7 +349,6 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		String cheqNum = get(CHEQUE_NO).getValue();
 		customerRefund.setCheckNumber(cheqNum);
 		customerRefund.setNumber((String) get(NUMBER).getValue());
-
 		customerRefund.setMemo(get(MEMO).getValue() == null ? "" : get(MEMO)
 				.getValue().toString());
 		customerRefund.setTotal(amount);
@@ -357,8 +356,9 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		customerRefund.setType(ClientCustomerRefund.TYPE_CUSTOMER_REFUNDS);
 		customerRefund.setStatus(ClientCustomerRefund.STATUS_OPEN);
 		adjustBalance(amount, clientcustomer, customerRefund, context);
-
-		customerRefund.setCurrency(clientcustomer.getID());
+		if (clientcustomer.getCurrency() != null) {
+			customerRefund.setCurrency(clientcustomer.getCurrency().getID());
+		}
 		customerRefund.setCurrencyFactor((Double) get(CURRENCY_FACTOR)
 				.getValue());
 
