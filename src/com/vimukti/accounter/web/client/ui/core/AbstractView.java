@@ -7,8 +7,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
-public abstract class AbstractView<T> extends VerticalPanel implements
-		ISavableView {
+public abstract class AbstractView<T> extends VerticalPanel {
 
 	abstract public void init();
 
@@ -125,17 +124,5 @@ public abstract class AbstractView<T> extends VerticalPanel implements
 	protected void onAttach() {
 		super.onAttach();
 		setFocus();
-	}
-
-	@Override
-	public Object saveView() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void restoreView(Object viewDate) {
-		// TODO Auto-generated method stub
-
 	}
 }

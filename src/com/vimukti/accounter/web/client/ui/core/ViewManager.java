@@ -320,16 +320,16 @@ public class ViewManager extends HorizontalPanel {
 				newview.setData(input);
 			}
 			newview.init();
-			if (input == null) {
+			if (input == null && newview instanceof ISavableView) {
 				Object object = viewDataHistory.get(action.getHistoryToken());
-				newview.restoreView(object);
+				((ISavableView) newview).restoreView(object);
 			}
 			newview.initData();
 		}
 		// Save history
-		if (existingView != null) {
+		if (existingView instanceof ISavableView) {
 			viewDataHistory.put(existingView.getAction().getHistoryToken(),
-					existingView.saveView());
+					((ISavableView) existingView).saveView());
 		}
 		this.views.add(new HistoryItem(newview, action));
 

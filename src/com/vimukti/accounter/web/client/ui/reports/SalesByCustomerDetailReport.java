@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -76,13 +77,15 @@ public class SalesByCustomerDetailReport extends
 	}
 
 	@Override
-	public void saveView(Map<String, Object> map) {
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
 		String selectedDateRange = toolbar.getSelectedDateRange();
 		ClientFinanceDate startDate = toolbar.getStartDate();
 		ClientFinanceDate endDate = toolbar.getEndDate();
 		map.put("selectedDateRange", selectedDateRange);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
+		return map;
 	}
 
 	@Override

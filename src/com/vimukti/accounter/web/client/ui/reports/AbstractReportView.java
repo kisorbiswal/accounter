@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.ui.core.AbstractView;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.core.ISavableView;
 
 /**
  * Subclasses must pass the Record type.
@@ -36,7 +37,7 @@ import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 
 public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		implements ISorting<R>, IFinanceReport<R>, AsyncCallback<ArrayList<R>>,
-		IPrintableView {
+		IPrintableView, ISavableView<Map<String, Object>> {
 	public final static int REPORT_TYPE_GENERAL_LEDGER_REPORT = 162;
 	public final static int REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT = 115;
 	public final static int REPORT_TYPE_DEPRECIATIONSHEDULE = 168;
@@ -838,23 +839,12 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	}
 
 	@Override
-	public final void restoreView(Object viewDate) {
-		restoreView((Map<String, Object>) viewDate);
-	}
-
 	public void restoreView(Map<String, Object> map) {
 
 	}
 
 	@Override
-	public final Object saveView() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		saveView(map);
-		return map;
-	}
-
-	public void saveView(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-
+	public Map<String, Object> saveView() {
+		return null;
 	}
 }

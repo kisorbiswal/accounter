@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public abstract class BaseView<T extends IAccounterCore> extends
-		AbstractBaseView<T> implements IEditableView {
+		AbstractBaseView<T> implements IEditableView, ISavableView<T> {
 
 	private ButtonBar buttonBar;
 
@@ -231,8 +231,8 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	}
 
 	@Override
-	public Object saveView() {
-		Object saveView = getData();
+	public T saveView() {
+		T saveView = getData();
 		if (isSaveCliecked()) {
 			saveView = null;
 		}
@@ -240,4 +240,8 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		return saveView;
 	}
 
+	@Override
+	public void restoreView(T viewDate) {
+		setData(viewDate);
+	}
 }
