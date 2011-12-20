@@ -439,6 +439,7 @@
 		<alias>creditCardExpenseList</alias>
 		<alias>cashExpenseList</alias>
 		<alias>vendorList</alias>
+		<alias>VendorBillList</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.NewVATCodeCommand"
