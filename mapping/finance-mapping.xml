@@ -916,7 +916,7 @@
 		<property name="bankName" column="BANK_NAME"></property>
 		<property name="bankBranch" column="BANK_BRANCH"></property>
 
-		<set name="customFieldValues" cascade="save-update,delete-orphan">
+		<set name="customFieldValues"  inverse="true" cascade="save-update,delete,delete-orphan">
 			<key column="PAYEE_ID" />
 			<one-to-many class="CustomFieldValue" />
 		</set>
