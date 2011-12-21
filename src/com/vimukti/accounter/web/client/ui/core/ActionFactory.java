@@ -194,6 +194,7 @@ import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 import com.vimukti.accounter.web.client.ui.vat.PayTAXAction;
 import com.vimukti.accounter.web.client.ui.vat.ReceiveVATAction;
 import com.vimukti.accounter.web.client.ui.vat.TAXAgencyListAction;
+import com.vimukti.accounter.web.client.ui.vat.TDSChalanDetailsAction;
 import com.vimukti.accounter.web.client.ui.vat.TaxHistoryAction;
 import com.vimukti.accounter.web.client.ui.vat.VatItemListAction;
 import com.vimukti.accounter.web.client.ui.vendors.AwaitingAuthorisationAction;
@@ -1375,7 +1376,10 @@ public class ActionFactory {
 
 	public static ReconcilationsAction getReconcilationsAction() {
 		return new ReconcilationsAction();
+	}
 
+	public static TDSChalanDetailsAction getTDSChalanDetailsView() {
+		return new TDSChalanDetailsAction();
 	}
 
 }

@@ -80,6 +80,7 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionLog;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransactionMakeDepositEntries;
+import com.vimukti.accounter.core.TransactionPayBill;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Util;
@@ -109,6 +110,7 @@ import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -2346,8 +2348,6 @@ public class FinanceTool {
 
 	}
 
-	
-
 	/**
 	 * @param accountID
 	 * @return
@@ -3473,5 +3473,38 @@ public class FinanceTool {
 		}
 		return null;
 
+	}
+
+	public List<ClientTDSTransactionItem> getTDSTransactionItemsList(
+			Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		// Query query = session.getNamedQuery("getTDSPayBillTransactionsList")
+		// .setParameter("companyId", companyId);
+		// List list = query.list();
+
+		ArrayList<TransactionPayBill> budgetList = new ArrayList<TransactionPayBill>(
+				session.getNamedQuery("list.TransactionPayBill")
+						.setEntity("company", getCompany(companyId)).list());
+
+		ArrayList<ClientTDSTransactionItem> arrayList = new ArrayList<ClientTDSTransactionItem>();
+
+//		if (list != null) {
+//			Object[] object = null;
+//			Iterator iterator = list.iterator();
+//
+//			while ((iterator).hasNext()) {
+//
+//				ClientTDSTransactionItem transactionItem = new ClientTDSTransactionItem();
+//				object = (Object[]) iterator.next();
+//				transactionItem.setVendorID(((Vendor) object[3]).getID());
+//				transactionItem.setTransactionDate((Long) object[2]);
+//				transactionItem.setTaxAmount((Long) object[5]);
+//				transactionItem.setTotalAmount((Long) object[7]);
+//
+//				arrayList.add(transactionItem);
+//			}
+//
+//		}
+		return arrayList;
 	}
 }

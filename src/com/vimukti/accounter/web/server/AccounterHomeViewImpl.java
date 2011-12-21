@@ -58,6 +58,7 @@ import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
@@ -1851,6 +1852,21 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 		return new ArrayList<BillsList>(billList);
 
+	}
+
+	@Override
+	public ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList() {
+
+		List<ClientTDSTransactionItem> transactionItemList = null;
+		try {
+
+			transactionItemList = getFinanceTool().getTDSTransactionItemsList(
+					getCompanyId());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<ClientTDSTransactionItem>(transactionItemList);
 	}
 
 }

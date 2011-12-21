@@ -40,22 +40,10 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 		List<ClientBudgetItem> list = listDataProvider.getList();
 
 		List<ClientAccount> listOfExpenseAccounts = Accounter.getCompany()
-				.getAccounts(ClientAccount.TYPE_EXPENSE);
-		List<ClientAccount> listOfOtherExpenseAccounts = Accounter.getCompany()
-				.getAccounts(ClientAccount.TYPE_OTHER_EXPENSE);
-		List<ClientAccount> listOfIncomeAccounts = Accounter.getCompany()
-				.getAccounts(ClientAccount.TYPE_INCOME);
-		List<ClientAccount> listOfOtherIncomeAccounts = Accounter.getCompany()
-				.getAccounts(ClientAccount.TYPE_OTHER_INCOME);
-		List<ClientAccount> listOfCostOFGoodAccounts = Accounter.getCompany()
-				.getAccounts(ClientAccount.TYPE_COST_OF_GOODS_SOLD);
+				.getAccounts();
 
 		List<ClientAccount> listOfAccounts = new ArrayList<ClientAccount>(
 				listOfExpenseAccounts);
-		listOfAccounts.addAll(listOfOtherExpenseAccounts);
-		listOfAccounts.addAll(listOfIncomeAccounts);
-		listOfAccounts.addAll(listOfOtherIncomeAccounts);
-		listOfAccounts.addAll(listOfCostOFGoodAccounts);
 
 		for (ClientAccount account : listOfAccounts) {
 
@@ -401,22 +389,20 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 		redraw();
 	}
 
-	private void openLinkAction(final ClientBudgetItem object) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		String budgetTitle = "Add Budget for " + object.getAccountsName();
-		AddBudgetAmountDialogue assignAccountsTo1099Dialog = new AddBudgetAmountDialogue(
-				budgetTitle, "", map, object);
-		assignAccountsTo1099Dialog
-				.setCallback(new ActionCallback<HashMap<String, String>>() {
-
-					@Override
-					public void actionResult(HashMap<String, String> result) {
-						refreshView(result, object);
-
-					}
-				});
-		assignAccountsTo1099Dialog.show();
-	}
+	/*
+	 * private void openLinkAction(final ClientBudgetItem object) {
+	 * HashMap<String, String> map = new HashMap<String, String>(); String
+	 * budgetTitle = "Add Budget for " + object.getAccountsName();
+	 * AddBudgetAmountDialogue assignAccountsTo1099Dialog = new
+	 * AddBudgetAmountDialogue( budgetTitle, "", map, object);
+	 * assignAccountsTo1099Dialog .setCallback(new
+	 * ActionCallback<HashMap<String, String>>() {
+	 * 
+	 * @Override public void actionResult(HashMap<String, String> result) {
+	 * refreshView(result, object);
+	 * 
+	 * } }); assignAccountsTo1099Dialog.show(); }
+	 */
 
 	private void refreshView(HashMap<String, String> result,
 			ClientBudgetItem obj) {

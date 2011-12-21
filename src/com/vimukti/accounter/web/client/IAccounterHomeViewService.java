@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
@@ -332,6 +333,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 			throws Exception, IOException, AccounterException;
 
 	public ArrayList<ClientBudget> getBudgetList();
+
+	public ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList();
 
 	// for TDS
 

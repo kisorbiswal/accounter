@@ -729,19 +729,20 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<property name="isDefault" column="IS_DEFAULT"></property>
-		<property name="asOfDate" column="AS_OF_DATE" type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="asOfDate" column="AS_OF_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<many-to-one name="assestsAccount" class="Account"
 			column="ASSETS_ACCOUNT_ID">
 		</many-to-one>
 		<property name="reorderPoint" column="REORDER_POINT"></property>
-		<property name="onhandQuantity" column="ON_HAND" ></property>
+		<property name="onhandQuantity" column="ON_HAND"></property>
 		<property name="itemTotalValue" column="ITEM_TOTAL_VALUE"></property>
 		<set name="itemStatuses" inverse="true" cascade="delete">
 			<key column="ITEM_ID" />
 			<one-to-many class="ItemStatus" />
 		</set>
 	</class>
-	
+
 	<class name="TAXItemGroup" table="TAX_ITEM_GROUPS">
 		<id name="id" column="ID">
 			<generator class="identity"></generator>
@@ -2006,6 +2007,52 @@
 		<id name="emailId" column="EMAIL_ID">
 		</id>
 	</class>
+
+
+
+	<!-- TDSTransactionItem class -->
+	<class name="TDSTransactionItem" table="TDSTRANSACTIONITEM">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
+		<many-to-one name="vendor" column="VENDOR" class="Vendor"
+			not-null="true">
+		</many-to-one>
+		<property name="taxAmount" column="TAX_AMOUNT"></property>
+		<property name="totalAmount" column="TOTAL_AMOUNT"></property>
+		<property name="transactionDate" column="TRANSACTION_DATE"></property>
+	</class>
+
+
+	<!-- TDSChalanDetail class -->
+	<class name="TDSChalanDetail" table="TDSTRANSACTIONDETAIL">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
+		<property name="incomeTaxAmount" column="INCOME_TAX_AMOUNT"></property>
+		<property name="surchangePaidAmount" column="SURCHANGE_PAID_AMOUNT"></property>
+		<property name="educationCessAmount" column="EDUCATIONCESS_AMOUNT"></property>
+		<property name="interestPaidAmount" column="INTERESTPAID_AMOUNT"></property>
+		<property name="penaltyPaidAmount" column="PENALTYPAID_AMOUNT"></property>
+		<property name="otherAmount" column="OTHER_AMOUNT"></property>
+		<property name="paymentSection" column="PAYMENT_SECTION"></property>
+		<property name="paymentMethod" column="PAYMENT_METHOD"></property>
+		<property name="bankChalanNumber" column="BANKCHALAN_NUMBER"></property>
+		<property name="checkNumber" column="CHECK_NUMBER"></property>
+		<property name="bsrCode" column="BSR_CODE"></property>
+		<list name="tdsTransactionItem" cascade="save-update,delete-orphan">
+			<key column="TRANSACTION_ITEMS"></key>
+			<list-index column="IDX" />
+			<one-to-many class="TDSTransactionItem" />
+		</list>
+	</class>
+
 
 </hibernate-mapping>
 

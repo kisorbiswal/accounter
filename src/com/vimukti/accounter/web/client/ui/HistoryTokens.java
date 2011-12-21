@@ -309,6 +309,8 @@ public class HistoryTokens {
 
 	public static final String BUDGETVSACTUALS = "budgetVSactuals";
 
+	public static final String CHALANDETAILS = "chalanDetails";
+
 	public HistoryTokens() {
 
 	}

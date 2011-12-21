@@ -103,10 +103,6 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		// }
 	}
 
-	private void initView() {
-
-	}
-
 	private void createControls() {
 
 		listforms = new ArrayList<DynamicForm>();

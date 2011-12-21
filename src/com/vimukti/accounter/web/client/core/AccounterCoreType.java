@@ -227,8 +227,13 @@ public enum AccounterCoreType implements IsSerializable {
 	PORTLET_PAGE_CONFIG("ClientPortletPageConfiguration",
 			"PortletPageConfiguration"),
 
-	CHEQUE_LAYOUT("ClientChequeLayout", "ChequeLayout"), ATTACHMENT(
-			"ClientAttachment", "Attachment");
+	CHEQUE_LAYOUT("ClientChequeLayout", "ChequeLayout"),
+
+	ATTACHMENT("ClientAttachment", "Attachment"),
+
+	TDSCHALANDETAIL("ClientTDSChalanDetail", "TDSChalanDetail"),
+
+	TDSCHALANTRANSACTIONITEM("ClientTDSTransactionItem", "TDSTransactionItem");
 
 	private String clientName;
 	private String serverName;

@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
@@ -419,5 +420,8 @@ public interface IAccounterHomeViewServiceAsync {
 	void getBillsAndItemReceiptList(boolean isExpensesList,
 			int transactionType, long fromDate, long toDate,
 			AsyncCallback<ArrayList<BillsList>> callback);
+
+	void getTDSTransactionItemsList(
+			AsyncCallback<ArrayList<ClientTDSTransactionItem>> callback);
 
 }

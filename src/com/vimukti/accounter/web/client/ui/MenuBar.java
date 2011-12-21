@@ -226,10 +226,22 @@ public class MenuBar {
 			vatmenu.addMenuItem(messages.tAXRefund(), HistoryTokens.TAXREFUND);
 			vatmenu.addMenuItem(messages.taxHistory(), HistoryTokens.TAXHISTORY);
 		}
+
+		vatmenu.addMenuItem(getForm16AMenu("TDS"));
+
 		vatmenu.addSeparatorItem();
 		vatmenu.addMenuItem(getVATsListMenu(messages.taxList()));
 
 		return vatmenu;
+	}
+
+	private MenuItem getForm16AMenu(String string) {
+
+		Menu formMenu = new Menu(string);
+
+		formMenu.addMenuItem("Chalan Details", HistoryTokens.CHALANDETAILS);
+
+		return formMenu;
 	}
 
 	private Menu getVATsListMenu(String string) {
