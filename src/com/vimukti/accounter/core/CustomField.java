@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -51,6 +53,16 @@ public class CustomField extends CreatableObject implements
 
 	public void setShowVendor(boolean showVendor) {
 		this.showVendor = showVendor;
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		super.onDelete(session);
+
+		session.getNamedQuery("delete.customFiledValuesByCustomField")
+				.setParameter("Id", this.getID()).executeUpdate();
+
+		return false;
 	}
 
 	@Override
