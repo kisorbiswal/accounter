@@ -620,6 +620,10 @@ public class MenuBar {
 	private Menu getVendorListMenu(String string) {
 		Menu vendorListMenuBar = new Menu(string);
 
+		vendorListMenuBar.addMenuItem(
+				messages.vendorCentre(Global.get().Vendor()),
+				HistoryTokens.VENDORCENTRE);
+
 		vendorListMenuBar.addMenuItem(messages.payees(Global.get().Vendors()),
 				HistoryTokens.VENDORLIST);
 
@@ -706,6 +710,10 @@ public class MenuBar {
 		Menu customerListMenuBar = new Menu(string);
 
 		customerListMenuBar.addMenuItem(
+				messages.customerCentre(Global.get().Customer()),
+				HistoryTokens.CUSTOMERCENTRE);
+
+		customerListMenuBar.addMenuItem(
 				messages.payees(Global.get().Customers()),
 				HistoryTokens.CUSTOMERS);
 		if (canSeeInvoiceTransactions) {
@@ -736,9 +744,7 @@ public class MenuBar {
 			customerListMenuBar.addMenuItem(messages.transactionscenter(),
 					HistoryTokens.TRANSACTIONS_CENTER);
 		}
-		customerListMenuBar.addMenuItem(
-				messages.customerCentre(Global.get().Customer()),
-				HistoryTokens.CUSTOMERCENTRE);
+
 		return customerListMenuBar;
 	}
 

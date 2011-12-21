@@ -22,6 +22,7 @@ public class NewVendorAction extends Action<ClientVendor> {
 
 	private int openedFrom;
 	private String quickAddText;
+	private boolean isEditable;
 
 	public NewVendorAction() {
 		super();
@@ -108,9 +109,12 @@ public class NewVendorAction extends Action<ClientVendor> {
 		this.quickAddText = text;
 	}
 
+	public void setisVendorViewEditable(boolean isEditable) {
+		this.isEditable = isEditable;
+	}
+
 	@Override
 	public String getText() {
-		return Global.get().messages()
-				.newPayee(Global.get().Vendor());
+		return Global.get().messages().newPayee(Global.get().Vendor());
 	}
 }

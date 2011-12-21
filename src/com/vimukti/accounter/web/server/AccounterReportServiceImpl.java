@@ -8,13 +8,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Item;
-import com.vimukti.accounter.core.ReconciliationItem;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.services.DAOException;
@@ -25,8 +23,6 @@ import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
-import com.vimukti.accounter.web.client.core.ClientReconciliation;
-import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
@@ -2987,6 +2983,30 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			if (resultList != null)
 				// resultList.add((TransactionHistory) setStartEndDates(obj,
 				// financeDates));
+				return resultList;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultList;
+	}
+
+	@Override
+	public ArrayList<TransactionHistory> getVendorTransactionsList(
+			long vendorId, int transactionType, int transactionStatusType,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
+
+		FinanceDate[] dates = getMinimumAndMaximumDates(fromDate, toDate,
+				getCompanyId());
+		ArrayList<TransactionHistory> resultList = new ArrayList<TransactionHistory>();
+		try {
+
+			resultList = getFinanceTool().getVendorManager()
+					.getVendorTransactionsList(vendorId, transactionType,
+							transactionStatusType, dates[0].getDate(),
+							dates[1].getDate(), getCompanyId());
+
+			TransactionHistory obj = new TransactionHistory();
+			if (resultList != null)
 				return resultList;
 		} catch (Exception e) {
 			e.printStackTrace();

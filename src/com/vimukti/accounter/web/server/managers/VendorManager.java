@@ -45,6 +45,7 @@ import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
@@ -1758,5 +1759,128 @@ public class VendorManager extends Manager {
 			}
 		}
 		return issuePaymentTransactionsList;
+	}
+
+	public ArrayList<TransactionHistory> getVendorTransactionsList(
+			long vendorId, int transactionType, int transactionStatusType,
+			long startDate, long endDate, Long companyId) {
+
+		List l = getResultListbyType(vendorId, transactionType,
+				transactionStatusType, startDate, endDate, companyId);
+
+		Object[] object = null;
+		Iterator iterator = l.iterator();
+		List<TransactionHistory> queryResult = new ArrayList<TransactionHistory>();
+		Set<String> payee = new HashSet<String>();
+		Map<String, TransactionHistory> openingBalnaceEntries = new HashMap<String, TransactionHistory>();
+		while ((iterator).hasNext()) {
+
+			TransactionHistory transactionHistory = new TransactionHistory();
+			object = (Object[]) iterator.next();
+
+			transactionHistory.setName(Utility
+					.getTransactionName((Integer) object[2]));
+
+			transactionHistory.setType((Integer) object[2]);
+			transactionHistory.setNumber((String) object[3]);
+
+			transactionHistory.setDate(new ClientFinanceDate((Long) object[1]));
+
+			transactionHistory.setDueDate(((Long) object[4]) == null ? null
+					: new ClientFinanceDate((Long) object[4]));
+			transactionHistory
+					.setIsVoid(object[6] != null ? (Boolean) object[6] : false);
+			transactionHistory.setMemo((String) object[7]);
+
+			transactionHistory.setAmount((object[5] == null ? 0
+					: ((Double) object[5]).doubleValue()));
+
+			transactionHistory.setAccType(object[8] == null ? 0
+					: (Long) object[8]);
+
+			if (transactionHistory.getType() == 0) {
+				openingBalnaceEntries.put(transactionHistory.getName(),
+						transactionHistory);
+			} else {
+
+				queryResult.add(transactionHistory);
+			}
+			payee.add(transactionHistory.getName());
+		}
+
+		mergeOpeningBalanceEntries(queryResult, payee, openingBalnaceEntries);
+
+		return new ArrayList<TransactionHistory>(queryResult);
+	}
+
+	private List getResultListbyType(long vendorId, int transactionType,
+			int transactionStatusType, long startDate, long endDate,
+			Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = null;
+		String queryName = null;
+		if (transactionType == Transaction.TYPE_CASH_PURCHASE) {
+			if (transactionStatusType == TransactionHistory.ALL_CASH_PURCHASES) {
+				queryName = "getCashPurchaseListByVendor";
+
+			}
+
+		} else if (transactionType == Transaction.TYPE_ENTER_BILL) {
+			if (transactionStatusType == TransactionHistory.ALL_BILLS) {
+				queryName = "getBillsListByVendor";
+			} else if (transactionStatusType == TransactionHistory.OPEND_BILLS) {
+				queryName = "getOpenBillsListByVendor";
+
+			} else if (transactionStatusType == TransactionHistory.OVERDUE_BILLS) {
+				queryName = "getOverDueBillsListByVendor";
+				query = session
+						.getNamedQuery(queryName)
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("vendorId", vendorId)
+						.setParameter("currentDate",
+								new FinanceDate().getDate());
+				return query.list();
+			}
+
+		} else if (transactionType == Transaction.TYPE_PAY_BILL) {
+			if (transactionStatusType == TransactionHistory.ALL_PAYBILLS) {
+				queryName = "getAllPayBillsListByVendor";
+			}
+		} else if (transactionType == Transaction.TYPE_WRITE_CHECK) {
+			if (transactionStatusType == TransactionHistory.ALL_CHEQUES) {
+				queryName = "getAllChequesListByVendor";
+			}
+		} else if (transactionType == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
+			if (transactionStatusType == TransactionHistory.ALL_VENDOR_CREDITNOTES) {
+				queryName = "getAllCreditMemosByVendor";
+			}
+		} else if (transactionType == Transaction.TYPE_EXPENSE) {
+			if (transactionStatusType == TransactionHistory.ALL_EXPENSES) {
+				queryName = "getAllExpensesByVendor";
+			} else if (transactionStatusType == TransactionHistory.CREDIT_CARD_EXPENSES) {
+				queryName = "getAllCreditExpensesByVendor";
+			} else if (transactionStatusType == TransactionHistory.CASH_EXPENSES) {
+				queryName = "getAllCashExpensesByVendor";
+			}
+
+		} else if (transactionType == Transaction.TYPE_PURCHASE_ORDER) {
+			if (transactionStatusType == TransactionHistory.ALL_PURCHASE_ORDERS) {
+				queryName = "getPurchaseOrderListByVendor";
+			} else if (transactionStatusType == TransactionHistory.OPEN_PURCHASE_ORDERS) {
+				queryName = "getOpenPurchaseOrderListByVendor";
+			}
+
+		} else {
+			queryName = "getAllTransactionsListByVendor";
+		}
+
+		query = session.getNamedQuery(queryName)
+				.setParameter("companyId", companyId)
+				.setParameter("fromDate", startDate)
+				.setParameter("toDate", endDate)
+				.setParameter("vendorId", vendorId);
+		return query.list();
 	}
 }

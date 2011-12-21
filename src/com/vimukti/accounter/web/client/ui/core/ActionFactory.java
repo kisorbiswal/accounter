@@ -83,6 +83,7 @@ import com.vimukti.accounter.web.client.ui.company.ShippingMethodListAction;
 import com.vimukti.accounter.web.client.ui.company.ShippingTermListAction;
 import com.vimukti.accounter.web.client.ui.company.UserDetailsAction;
 import com.vimukti.accounter.web.client.ui.company.UsersActivityListAction;
+import com.vimukti.accounter.web.client.ui.company.VendorCenterAction;
 import com.vimukti.accounter.web.client.ui.company.VendorGroupListAction;
 import com.vimukti.accounter.web.client.ui.customers.CreateStatementAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerPaymentsAction;
@@ -1392,4 +1393,7 @@ public class ActionFactory {
 		return new TDSChalanDetailsAction();
 	}
 
+	public static VendorCenterAction getVendorCentreAction() {
+		return new VendorCenterAction();
+	}
 }

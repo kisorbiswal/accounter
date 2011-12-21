@@ -317,6 +317,8 @@ public class HistoryTokens {
 
 	public static final String CHALANDETAILS = "chalanDetails";
 
+	public static final String VENDORCENTRE = "vendorCenter";
+
 	public HistoryTokens() {
 
 	}

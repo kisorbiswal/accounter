@@ -33,6 +33,18 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 	public static final int ALL_CASHSALES = 19;
 	public static final int ALL_RECEIVEDPAYMENTS = 20;
 	public static final int ALL_TRANSACTIONS = 21;
+	public static final int ALL_CASH_PURCHASES = 22;
+	public static final int ALL_BILLS = 23;
+	public static final int OPEND_BILLS = 24;
+	public static final int OVERDUE_BILLS = 25;
+	public static final int ALL_PAYBILLS = 26;
+	public static final int ALL_CHEQUES = 27;
+	public static final int ALL_PURCHASE_ORDERS = 28;
+	public static final int OPEN_PURCHASE_ORDERS = 29;
+	public static final int ALL_VENDOR_CREDITNOTES = 30;
+	public static final int ALL_EXPENSES = 31;
+	public static final int CREDIT_CARD_EXPENSES = 32;
+	public static final int CASH_EXPENSES = 33;
 
 	String name;
 
@@ -71,6 +83,7 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 	double beginningBalance = 0D;
 
 	int status;
+	long accType;
 
 	double amount;
 
@@ -377,6 +390,14 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 
 	public void setBeginningBalance(double beginningBalance) {
 		this.beginningBalance = beginningBalance;
+	}
+
+	public void setAccType(long accType) {
+		this.accType = accType;
+	}
+
+	public long getAccType() {
+		return accType;
 	}
 
 	public boolean equals(TransactionHistory th) {

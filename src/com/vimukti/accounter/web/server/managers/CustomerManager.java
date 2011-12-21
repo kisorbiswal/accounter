@@ -923,19 +923,11 @@ public class CustomerManager extends Manager {
 
 			if (transactionStatusType == TransactionHistory.ALL_INVOICES) {
 				queryName = "getInvoicesListByCustomer";
-				query = session.getNamedQuery(queryName)
-						.setParameter("companyId", companyId)
-						.setParameter("fromDate", startDate)
-						.setParameter("toDate", endDate)
-						.setParameter("customerId", customerId);
+
 			}
 			if (transactionStatusType == TransactionHistory.OPENED_INVOICES) {
 				queryName = "getOpenInvoicesListByCustomer";
-				query = session.getNamedQuery(queryName)
-						.setParameter("companyId", companyId)
-						.setParameter("fromDate", startDate)
-						.setParameter("toDate", endDate)
-						.setParameter("customerId", customerId);
+
 			}
 			if (transactionStatusType == TransactionHistory.OVER_DUE_INVOICES) {
 				queryName = "getOverdueInvoicesListByCustomer";
@@ -947,41 +939,25 @@ public class CustomerManager extends Manager {
 						.setParameter("currentDate",
 								new FinanceDate().getDate())
 						.setParameter("customerId", customerId);
+				return query.list();
 			}
 
 		} else if (transactionType == Transaction.TYPE_CASH_SALES) {
 			queryName = "getCashSalesByCustomer";
-			query = session.getNamedQuery("getCashSalesByCustomer")
-					.setParameter("companyId", companyId)
-					.setParameter("fromDate", startDate)
-					.setParameter("toDate", endDate)
-					.setParameter("customerId", customerId);
 
 		} else if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 			if (transactionStatusType == TransactionHistory.ALL_CREDITMEMOS) {
 				queryName = "getAllCustomerCreditMemosByCustomer";
-				query = session.getNamedQuery(queryName)
-						.setParameter("companyId", companyId)
-						.setParameter("fromDate", startDate)
-						.setParameter("toDate", endDate)
-						.setParameter("customerId", customerId);
 			} else {
 				queryName = "getOpendCustomerCreditMemosByCustomer";
-				query = session.getNamedQuery(queryName)
-						.setParameter("companyId", companyId)
-						.setParameter("fromDate", startDate)
-						.setParameter("toDate", endDate)
-						.setParameter("customerId", customerId);
+
 			}
+
 		} else if (transactionType == Transaction.TYPE_RECEIVE_PAYMENT) {
 			String typeOfRPString = null;
 			if (transactionStatusType == TransactionHistory.ALL_RECEIVEDPAYMENTS) {
 				queryName = "getAllReceivePaymentsByCustomer";
-				query = session.getNamedQuery(queryName)
-						.setParameter("companyId", companyId)
-						.setParameter("fromDate", startDate)
-						.setParameter("toDate", endDate)
-						.setParameter("customerId", customerId);
+
 			} else {
 
 				if (transactionStatusType == TransactionHistory.RECEV_PAY_BY_CASH) {
@@ -1011,16 +987,13 @@ public class CustomerManager extends Manager {
 						.setParameter("toDate", endDate)
 						.setParameter("customerId", customerId)
 						.setParameter("paymentmethod", typeOfRPString);
+				return query.list();
 
 			}
 		} else if (transactionType == Transaction.TYPE_CUSTOMER_REFUNDS) {
 			if (transactionStatusType == TransactionHistory.ALL_CUSTOMER_REFUNDS) {
 				queryName = "getAllCustomerRefundsByCustomer";
-				query = session.getNamedQuery(queryName)
-						.setParameter("companyId", companyId)
-						.setParameter("fromDate", startDate)
-						.setParameter("toDate", endDate)
-						.setParameter("customerId", customerId);
+
 			} else {
 				String typeOfRPString = null;
 				if (transactionStatusType == TransactionHistory.REFUNDS_BYCASH) {
@@ -1039,15 +1012,17 @@ public class CustomerManager extends Manager {
 						.setParameter("toDate", endDate)
 						.setParameter("customerId", customerId)
 						.setParameter("paymentmethod", typeOfRPString);
+				return query.list();
 			}
 		} else {
 			queryName = "getAllTransactionsByCustomer";
-			query = session.getNamedQuery(queryName)
-					.setParameter("companyId", companyId)
-					.setParameter("fromDate", startDate)
-					.setParameter("toDate", endDate)
-					.setParameter("customerId", customerId);
+
 		}
+		query = session.getNamedQuery(queryName)
+				.setParameter("companyId", companyId)
+				.setParameter("fromDate", startDate)
+				.setParameter("toDate", endDate)
+				.setParameter("customerId", customerId);
 		return query.list();
 	}
 }

@@ -4,25 +4,28 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
-public class CustomerDetailsPanel extends VerticalPanel {
-	ClientCustomer selectedCustomer;
-	LabelItem name, email, currency, fax, customersince, webpageadress;
+public class VendorDetailsPanel extends VerticalPanel {
+	ClientVendor selectedVendor;
+	LabelItem name, email, currency, fax, vendorsince, webpageadress;
 	AmountLabel balance, openingBalance;
-	Label heading, custname;
+	Label heading, vendName;
 	protected static final AccounterMessages messages = Global.get().messages();
 
-	public CustomerDetailsPanel(ClientCustomer clientCustomer) {
-		this.selectedCustomer = clientCustomer;
+	public VendorDetailsPanel(ClientVendor clientVendor) {
+		this.selectedVendor = clientVendor;
 		createControls();
-		showCustomerDetails(clientCustomer);
+		if (clientVendor != null) {
+			showVendorDetails(clientVendor);
+		}
+
 	}
 
 	private void createControls() {
@@ -41,8 +44,8 @@ public class CustomerDetailsPanel extends VerticalPanel {
 		fax = new LabelItem();
 		fax.setTitle(messages.faxNumber());
 
-		customersince = new LabelItem();
-		customersince.setTitle(messages.payeeSince(Global.get().Customer()));
+		vendorsince = new LabelItem();
+		vendorsince.setTitle(messages.payeeSince(Global.get().Vendor()));
 
 		webpageadress = new LabelItem();
 		webpageadress.setTitle(messages.webPageAddress());
@@ -54,20 +57,21 @@ public class CustomerDetailsPanel extends VerticalPanel {
 
 		leftform.setFields(name, balance, openingBalance, currency);
 
-		rightform.setFields(customersince, email, fax, webpageadress);
+		rightform.setFields(vendorsince, email, fax, webpageadress);
 
 		HorizontalPanel hp = new HorizontalPanel();
 		HorizontalPanel headingPanel = new HorizontalPanel();
 		headingPanel.addStyleName("customers_detail_panel");
-		heading = new Label(messages.payeeDetails(Global.get().Customers())
+		heading = new Label(messages.payeeDetails(Global.get().Vendors())
 				+ " :");
-		custname = new Label();
-		custname.setText(messages.no() + " "
-				+ messages.payeeSelected(Global.get().Customer()));
 		headingPanel.add(heading);
-		headingPanel.add(custname);
+		vendName = new Label();
+		vendName.setText(messages.no() + " "
+				+ messages.payeeSelected(Global.get().Vendor()));
+		headingPanel.add(heading);
+		headingPanel.add(vendName);
 		headingPanel.setCellWidth(heading, "50%");
-		headingPanel.setCellWidth(custname, "50%");
+		headingPanel.setCellWidth(vendName, "50%");
 		add(headingPanel);
 		hp.add(leftform);
 		hp.add(rightform);
@@ -83,27 +87,26 @@ public class CustomerDetailsPanel extends VerticalPanel {
 		hp.getElement().getParentElement().addClassName("details-Panel");
 	}
 
-	protected void showCustomerDetails(ClientCustomer selectedCustomer) {
-		if (selectedCustomer != null) {
-			custname.setText(selectedCustomer.getName());
-			name.setValue(selectedCustomer.getName());
+	protected void showVendorDetails(ClientVendor selectedVendor) {
+		if (selectedVendor != null) {
+			vendName.setText(selectedVendor.getName());
+			name.setValue(selectedVendor.getName());
 
-			email.setValue(selectedCustomer.getEmail());
+			email.setValue(selectedVendor.getEmail());
 
-			balance.setAmount(selectedCustomer.getBalance());
+			balance.setAmount(selectedVendor.getBalance());
 
 			currency.setValue(Accounter.getCompany()
-					.getCurrency(selectedCustomer.getCurrency())
-					.getFormalName());
+					.getCurrency(selectedVendor.getCurrency()).getFormalName());
 
-			fax.setValue(selectedCustomer.getFaxNo());
+			fax.setValue(selectedVendor.getFaxNo());
 
-			customersince.setValue(new ClientFinanceDate(selectedCustomer
+			vendorsince.setValue(new ClientFinanceDate(selectedVendor
 					.getPayeeSince()).toString());
 
-			webpageadress.setValue(selectedCustomer.getWebPageAddress());
+			webpageadress.setValue(selectedVendor.getWebPageAddress());
 
-			openingBalance.setAmount(selectedCustomer.getOpeningBalance());
+			openingBalance.setAmount(selectedVendor.getOpeningBalance());
 
 		} else {
 			name.setValue("");
@@ -111,19 +114,18 @@ public class CustomerDetailsPanel extends VerticalPanel {
 			balance.setAmount(0.00);
 			currency.setValue("");
 			fax.setValue("");
-			customersince.setValue("");
+			vendorsince.setValue("");
 			webpageadress.setValue("");
 			openingBalance.setAmount(0.00);
 		}
 	}
 
-	public void setCustomer(ClientCustomer customer) {
-		this.selectedCustomer = customer;
-		showCustomerDetails(customer);
+	public void setVendor(ClientVendor vendor) {
+		this.selectedVendor = vendor;
 	}
 
-	public ClientCustomer getCustomer() {
-		return selectedCustomer;
+	public ClientVendor getVendor() {
+		return selectedVendor;
 	}
 
 }

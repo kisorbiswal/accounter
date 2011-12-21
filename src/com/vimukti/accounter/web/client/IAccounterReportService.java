@@ -297,4 +297,8 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<TransactionHistory> getCustomerTransactionsList(long id,
 			int transactionType, int transactionStatusType,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
+	public ArrayList<TransactionHistory> getVendorTransactionsList(long id,
+			int transactionType, int transactionStatusType,
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
 }

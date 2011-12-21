@@ -345,13 +345,18 @@ public interface IAccounterReportServiceAsync {
 	public void getAllReconciliations(ClientFinanceDate start,
 			ClientFinanceDate end, long companyId,
 			AsyncCallback<ArrayList<Reconciliation>> callback);
-	
+
 	public void getCustomerTransactionsList(long id, int transactionType,
 			int transactionStatusType, ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TransactionHistory>> callback);
-	
+
 	void getReconciliationItemByBankAccountID(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long bankAccountId, long comapnyId,
 			AsyncCallback<ArrayList<ReconcilationItemList>> callback);
+
+	public void getVendorTransactionsList(long id, int transactionType,
+			int transactionStatusType, ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
+			AsyncCallback<ArrayList<TransactionHistory>> callback);
 }
