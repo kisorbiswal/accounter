@@ -50,18 +50,16 @@ public class ManageVATView extends AbstractBaseView {
 				.relatedTask());
 
 		vatButton = new Button(Accounter.messages().fileVATReturn());
-		Button closeButton = new Button(Accounter.messages()
-				.close());
-		Button helpButton = new Button(Accounter.messages()
-				.help());
+		Button closeButton = new Button(Accounter.messages().close());
+		Button helpButton = new Button(Accounter.messages().help());
 
 		final Image icon = new Image();
 		icon.setResource(Accounter.getFinanceImages().justifyLeft());
 
 		Hyperlink assignlink = new Hyperlink(Accounter.messages()
 				.assignVatCodesToItems(), "foo");
-		Hyperlink viewLink = new Hyperlink(
-				Accounter.messages().viewVATItems(), "link1");
+		Hyperlink viewLink = new Hyperlink(Accounter.messages().viewVATItems(),
+				"link1");
 		Hyperlink openLink = new Hyperlink(Accounter.messages()
 				.openVATCodeList(), "link2");
 		Hyperlink adjLink = new Hyperlink(Accounter.messages().adjustVATDue(),
@@ -85,7 +83,6 @@ public class ManageVATView extends AbstractBaseView {
 		payVatPanel.add(vatLabel, 30, 10);
 		payVatPanel.add(vatButton, 30, 50);
 		capPayVatPanel.add(payVatPanel);
-
 
 		taskPanel.add(viewLink, 50, 10);
 		taskPanel.add(openLink, 50, 30);
@@ -117,7 +114,7 @@ public class ManageVATView extends AbstractBaseView {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 
 	}
@@ -127,7 +124,6 @@ public class ManageVATView extends AbstractBaseView {
 		// TODO Auto-generated method stub
 
 	}
-
 
 	@Override
 	public void onEdit() {
