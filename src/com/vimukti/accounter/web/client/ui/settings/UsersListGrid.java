@@ -35,11 +35,6 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	}
 
 	@Override
-	public void init() {
-		super.init();
-	}
-
-	@Override
 	protected int getCellWidth(int index) {
 		switch (index) {
 
@@ -64,8 +59,8 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 		return new String[] { Accounter.messages().firstName(),
 				Accounter.messages().lastName(),
 				Accounter.messages().userRole(),
-				Accounter.messages().emailId(),
-				Accounter.messages().status(), "" };
+				Accounter.messages().emailId(), Accounter.messages().status(),
+				"" };
 	}
 
 	public void setUsersView(UsersView usersView) {
