@@ -215,6 +215,13 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		result.add(DynamicForm.validate(form1));
 		return result;
 	}
+	public ClientTAXItem saveView() {
+		ClientTAXItem saveView = super.saveView();
+		if (saveView != null){
+			updateObject();
+			}
+		return saveView;
+	}
 
 	@Override
 	public void saveAndUpdateView() {
