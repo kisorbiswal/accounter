@@ -10,7 +10,7 @@ public interface ICountryPreferences extends IsSerializable, Serializable,
 
 	String getPreferredCurrency();
 
-	// String getDefaultTimeZone(String state);
+	String getDefaultTimeZone(String state);
 
 	OrganizationType[] getOrganizationTypes();
 
