@@ -538,14 +538,12 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 					grid.setRecords(budgetItems);
 				}
 
-			} else {
-				grid.setRecords(result);
-			}
-
-			if (this instanceof CustomerListView
+			} else if (this instanceof CustomerListView
 					|| this instanceof VendorListView
 					|| this instanceof BudgetListView) {
 				filterList(true);
+			} else {
+				grid.setRecords(result);
 			}
 		} else {
 			Accounter.showInformation(messages.noRecordsToShow());
