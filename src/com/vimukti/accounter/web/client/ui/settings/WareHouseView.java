@@ -325,6 +325,15 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	}
 
 	@Override
+	public ClientWarehouse saveView() {
+		ClientWarehouse saveView = super.saveView();
+		if (saveView != null) {
+			updateData();
+		}
+		return saveView;
+	}
+
+	@Override
 	public void saveAndUpdateView() {
 
 		updateData();
