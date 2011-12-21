@@ -359,6 +359,15 @@ public class CustomerRefundView extends
 	}
 
 	@Override
+	public ClientCustomerRefund saveView() {
+		ClientCustomerRefund saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
+	}
+
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		transaction.setDate(transactionDateItem.getEnteredDate().getDate());
@@ -432,6 +441,7 @@ public class CustomerRefundView extends
 
 		if (memo != null) {
 			memoTextAreaItem.setValue(memo);
+			memoTextAreaItem.setDisabled(isInViewMode());
 		}
 
 	}
