@@ -414,6 +414,15 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		result.add(salesPersonForm.validate());
 		return result;
 	}
+	
+	@Override
+	public ClientSalesPerson saveView() {
+		ClientSalesPerson saveView = super.saveView();
+		if (saveView != null){
+			updateSalesPersonObject();
+			}
+		return saveView;
+	}
 
 	@Override
 	public void saveAndUpdateView() {
