@@ -1124,6 +1124,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			if (invoice.getMemo() != null) {
 				memoTextAreaItem.setValue(invoice.getMemo());
+				memoTextAreaItem.setDisabled(isInViewMode());
 			}
 
 		}
@@ -1150,6 +1151,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				dueDateItem.setValue(dueDate);
 			}
 		}
+	}
+
+	@Override
+	public ClientInvoice saveView() {
+		ClientInvoice saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
 	}
 
 	@Override
