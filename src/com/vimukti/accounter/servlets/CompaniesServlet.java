@@ -98,11 +98,9 @@ public class CompaniesServlet extends BaseServlet {
 				}
 				req.setAttribute(ATTR_COMPANY_LIST, list);
 			}
+			req.getSession().removeAttribute(COMPANY_ID);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (session != null && session.isOpen()) {
-			}
 		}
 		dispatch(req, resp, companiedListView);
 	}
