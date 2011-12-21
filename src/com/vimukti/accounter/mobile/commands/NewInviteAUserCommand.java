@@ -378,9 +378,9 @@ public class NewInviteAUserCommand extends NewAbstractCommand {
 	@Override
 	protected String getDeleteCommand(Context context) {
 		User currentUser = context.getUser();
-		if (currentUser.isCanDoUserManagement()
+		if (currentUser.isCanDoUserManagement() && user.getID() != 0
 				&& user.getID() != currentUser.getID()) {
-			return "delete User " + user.getID();
+			return "deleteUser " + user.getID();
 		}
 		return null;
 	}
