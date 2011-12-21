@@ -1190,4 +1190,7 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.TaxGroupListCommand"
 		name="manageSalesGroups">
 	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.PrintInvoiceCommand"
+		name="printAndSendEmail">
+	</command>
 </commands>

@@ -17,10 +17,17 @@ public abstract class CommandsRequirement extends AbstractRequirement<String> {
 	@Override
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
-		String value = context.getSelection(getName());
+		boolean canAddToResult = canAddToResult();
+		String value = null;
+		if (canAddToResult) {
+			value = context.getSelection(getName());
+		} else {
+			value = context.getSelection(ACTIONS);
+		}
 		Object attribute = context.getAttribute("onSelection");
 		context.removeAttribute("onSelection");
-		if (attribute == null && value != null) {
+		List<String> actionNames = getList();
+		if (attribute == null && actionNames.contains(value)) {
 			setValue(value);
 			String onSelection = onSelection(value);
 			if (onSelection != null) {
@@ -34,14 +41,23 @@ public abstract class CommandsRequirement extends AbstractRequirement<String> {
 			context.setString("");
 		}
 		ResultList resultList = new ResultList(getName());
-		List<String> actionNames = getList();
+		if (canAddToResult) {
+			makeResult.add(resultList);
+		} else {
+			resultList = actions;
+		}
+
 		for (String n : actionNames) {
 			Record record = new Record(n);
 			record.add(n);
 			resultList.add(record);
 		}
-		makeResult.add(resultList);
+
 		return null;
+	}
+
+	protected boolean canAddToResult() {
+		return true;
 	}
 
 	public String onSelection(String value) {

@@ -1917,6 +1917,8 @@ public interface AccounterMessages extends Messages {
 
 	public String invoicedAmount();
 
+	public String invoiceHasbeenPrintedAndSentToYourEmail();
+
 	public String invoiceList();
 
 	public String invoiceMailMessage(String payee, String number,
@@ -3011,6 +3013,8 @@ public interface AccounterMessages extends Messages {
 
 	public String printAlignmentAndSetup();
 
+	public String printAndSendEmail();
+
 	public String printChecks();
 
 	public String PrintIsNotProvidedForCashSale();
@@ -3449,6 +3453,8 @@ public interface AccounterMessages extends Messages {
 	public String selectIndustryInfoHTML4();
 
 	public String selectIndustryType();
+
+	public String selectInvoiceToPrint();
 
 	public String selectItemType();
 
@@ -5280,7 +5286,7 @@ public interface AccounterMessages extends Messages {
 	public String overBudget();
 
 	public String trackOrChargeTax();
-	
+
 	public String normalFormat();
 
 	public String negativeNumberWithInTheParathesis();

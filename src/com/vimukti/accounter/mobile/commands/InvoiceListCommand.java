@@ -18,9 +18,11 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class InvoiceListCommand extends AbstractTransactionListCommand {
 
+	private boolean isPrinting;
+
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		// TODO Auto-generated method stub
+		isPrinting = context.getString().contains("print");
 		return null;
 	}
 
@@ -53,6 +55,9 @@ public class InvoiceListCommand extends AbstractTransactionListCommand {
 						getMessages().invoice()), 20) {
 			@Override
 			protected String onSelection(InvoicesList value) {
+				if (isPrinting) {
+					return "printAndSendEmail " + value.getTransactionId();
+				}
 				return "editTransaction " + value.getTransactionId();
 			}
 

@@ -23,6 +23,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
@@ -278,6 +279,34 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected String getFalseString() {
 				return getMessages().includeVATwithAmountDisabled();
+			}
+		});
+		list.add(new CommandsRequirement("InvoiceCommand") {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (invoice.getID() != 0) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+			@Override
+			public String onSelection(String value) {
+				return "printAndSendEmail " + invoice.getID();
+			}
+
+			@Override
+			protected boolean canAddToResult() {
+				return false;
+			}
+
+			@Override
+			protected List<String> getList() {
+				List<String> list = new ArrayList<String>();
+				list.add(getMessages().printAndSendEmail());
+				return list;
 			}
 		});
 	}
