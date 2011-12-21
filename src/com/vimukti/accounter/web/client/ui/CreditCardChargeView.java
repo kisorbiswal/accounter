@@ -786,6 +786,17 @@ public class CreditCardChargeView extends
 	// this.account = account2;
 	//
 	// }
+	
+	@Override
+	public ClientCreditCardCharge saveView() {
+		ClientCreditCardCharge saveView = super.saveView();
+		if (saveView != null){
+			updateTransaction();
+			if (isTrackTax())
+				transaction.setNetAmount(netAmount.getAmount());
+		}
+		return saveView;
+	}
 
 	@Override
 	public void saveAndUpdateView() {
