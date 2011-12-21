@@ -38,7 +38,7 @@
             <br>
             <div class="company_list_buttons">
 	            <input type="submit" value="<i18n:i18n msg='delete'/>" class="allviews-common-button">
-	            <input type="button" value="<i18n:i18n msg='cancel'/>" class="allviews-common-button" onclick="parent.location='/main/companies'">
+	            <input type="button" value="<i18n:i18n msg='cancel'/>" class="allviews-common-button" onclick="parent.location='/main/deletecompany?isCancel=true'">
             </div>
         </form>
 	    

@@ -448,7 +448,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 		super.canEdit(clientObject);
 		Session session = HibernateUtil.getCurrentSession();
 		Customer customer = (Customer) clientObject;
-
+		super.canEdit(clientObject);
 		// if (this.name.equals(customer.name)
 		// && this.number.equals(customer.number)
 		// && this.id == customer.id)

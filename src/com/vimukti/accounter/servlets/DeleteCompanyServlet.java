@@ -41,6 +41,15 @@ public class DeleteCompanyServlet extends BaseServlet {
 			redirectExternal(req, resp, LOGIN_URL);
 			return;
 		}
+
+		String parameter = req.getParameter("isCancel");
+
+		if (parameter != null && parameter.equalsIgnoreCase("true")) {
+			req.getSession().removeAttribute(COMPANY_ID);
+			redirectExternal(req, resp, COMPANIES_URL);
+			return;
+		}
+
 		String companyId = req.getParameter(COMPANY_ID);
 		setOptions(req, companyId, emailID);
 		dispatch(req, resp, deleteCompanyView);
@@ -77,7 +86,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 		}
 		req.setAttribute("canDeleteFromSingle", canDeleteFromSingle);
 		req.setAttribute("canDeleteFromAll", canDeleteFromAll);
-		req.getSession().setAttribute(COMPANY_ID, companyId);
+		req.getSession().setAttribute(COMPANY_ID, Long.parseLong(companyId));
 
 	}
 

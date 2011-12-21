@@ -97,6 +97,8 @@ public class BaseServlet extends HttpServlet {
 			Session session = HibernateUtil.openSession();
 			try {
 				super.service(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
 			} finally {
 				session.close();
 			}
