@@ -203,6 +203,15 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 	}
 
 	@Override
+	public ClientStockTransfer saveView() {
+		ClientStockTransfer saveview = super.saveView();
+		if (saveview != null) {
+			updateData();
+		}
+		return saveview;
+	}
+
+	@Override
 	public void saveAndUpdateView() {
 		updateData();
 		saveOrUpdate(getData());
