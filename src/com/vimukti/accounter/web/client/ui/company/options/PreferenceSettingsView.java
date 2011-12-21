@@ -5,10 +5,15 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
@@ -27,111 +32,87 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
-	private ScrollPanel pageDetailsPane;
+	private ScrollPanel pageDetailsPanel;
 	private AccounterMessages messages = Accounter.messages();
 	private List<PreferencePage> preferencePages;
-	private List<HTML> optionLinks = new ArrayList<HTML>();
 
 	@Override
 	public void init() {
 		super.init();
 		createControls();
-		addStyleName("fullSizePanel");
 	}
 
 	private void createControls() {
 		HorizontalPanel mainPanel = new HorizontalPanel();
-		final StackPanel stackPanel = new StackPanel();
-		pageDetailsPane = new ScrollPanel();
-		pageDetailsPane.addStyleName("pre_scroll_table");
+		VerticalPanel titlesPanel = new VerticalPanel();
+		pageDetailsPanel = new ScrollPanel();
+		pageDetailsPanel.addStyleName("pre_scroll_table");
 		preferencePages = getPreferencePages();
-		for (PreferencePage page : preferencePages) {
+		for (final PreferencePage page : preferencePages) {
 			VerticalPanel pageView = createPageView(page);
-			stackPanel.add(pageView, page.getTitle());
-			pageView.getElement().getParentElement()
-					.setAttribute("height", "230px");
+			Label title = new Label(page.getTitle());
+			title.addStyleName("preferences_option_title");
+			titlesPanel.add(title);
+			titlesPanel.add(pageView);
+			/**
+			 * title.addClickHandler(new ClickHandler() {
+			 * 
+			 * @Override public void onClick(ClickEvent event) {
+			 *           pageDetailsPanel.clear(); pageDetailsPanel.add(page); }
+			 *           });
+			 **/
+			pageDetailsPanel.clear();
+			pageDetailsPanel.add(preferencePages.get(0));
 		}
-		stackPanel.addHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				int selectedIndex = stackPanel.getSelectedIndex();
-				PreferencePage selectedPage = preferencePages
-						.get(selectedIndex);
-				pageDetailsPane.clear();
-				pageDetailsPane.add(selectedPage);
-
-			}
-		}, ClickEvent.getType());
-
-		pageDetailsPane.clear();
-		pageDetailsPane.add(preferencePages.get(0));
-		mainPanel.add(stackPanel);
-		mainPanel.add(pageDetailsPane);
-		mainPanel.setCellWidth(pageDetailsPane, "70%");
-		mainPanel.setCellWidth(stackPanel, "30%");
-
-		mainPanel.setCellHeight(pageDetailsPane, "96%");
-		mainPanel.setCellHeight(stackPanel, "100%");
-
-		pageDetailsPane.setSize("100%", "400px");
-		mainPanel.setSize("100%", "100%");
-		stackPanel.setSize("250px", "100%");
-		mainPanel.addStyleName("fullSizePanel");
-		mainPanel.addStyleName("company_stackpanel_view");
+		mainPanel.add(titlesPanel);
+		mainPanel.add(pageDetailsPanel);
+		titlesPanel.getElement().getParentElement()
+				.addClassName("titles_panel_td");
+		pageDetailsPanel.getElement().getParentElement()
+				.addClassName("page_details_panel_td");
+		mainPanel.addStyleName("company_settings_panel");
 		this.add(mainPanel);
 		setSize("100%", "100%");
 	}
 
 	private List<PreferencePage> getPreferencePages() {
 		List<PreferencePage> preferenceList = new ArrayList<PreferencePage>();
-		preferenceList.add(getCompanyContactInfoPage());
 		preferenceList.add(getCompanyInfoPage());
 		preferenceList.add(getCatogiriesInfoPage());
-		preferenceList.add(getCustomerAndVendorPage());
-		preferenceList.add(getAgningDetailsPage());
-		preferenceList.add(getTerminoligies());
+		preferenceList.add(getVendorAndPurchasesPage());
+		preferenceList.add(getCustomerAndSalesPage());
 		return preferenceList;
 	}
 
-	private PreferencePage getAgningDetailsPage() {
-		PreferencePage agningDetailsPage = new PreferencePage(
-				messages.productAndServices());
+	private PreferencePage getCustomerAndSalesPage() {
+		PreferencePage customerAndSalesPage = new PreferencePage(
+				messages.customersAndSales(Global.get().Customer()));
 		AgeingAndSellingDetailsOption ageingAndSellingDetailsOption = new AgeingAndSellingDetailsOption();
 		ProductAndServicesOption productAndServicesOption = new ProductAndServicesOption();
-		BillableExpenseTrackingByCustomer billableExpenseTrackingByCustomer = new BillableExpenseTrackingByCustomer();
-
-		agningDetailsPage.addPreferenceOption(productAndServicesOption);
-		agningDetailsPage.addPreferenceOption(ageingAndSellingDetailsOption);
-		agningDetailsPage
-				.addPreferenceOption(billableExpenseTrackingByCustomer);
-		return agningDetailsPage;
-	}
-
-	private PreferencePage getCustomerAndVendorPage() {
-		PreferencePage customerAndVendorPage = new PreferencePage(
-				messages.vendorAndPurchases(Global.get().Vendor()));
-		CustomerAndVendorsSettingsOption customerAndVendorsSettingsPage = new CustomerAndVendorsSettingsOption();
-		ManageBillsOption manageBillsOption = new ManageBillsOption();
 		TrackDiscountsOption discountsOption = new TrackDiscountsOption();
 		TrackEstimatesOption estimatesOption = new TrackEstimatesOption();
-
 		DoyouUseShipingsOption shipingsOption = new DoyouUseShipingsOption();
-		customerAndVendorPage.addPreferenceOption(manageBillsOption);
-		customerAndVendorPage
-				.addPreferenceOption(customerAndVendorsSettingsPage);
 
-		customerAndVendorPage.addPreferenceOption(discountsOption);
-		customerAndVendorPage.addPreferenceOption(estimatesOption);
+		customerAndSalesPage.addPreferenceOption(productAndServicesOption);
+		customerAndSalesPage.addPreferenceOption(ageingAndSellingDetailsOption);
+		customerAndSalesPage.addPreferenceOption(discountsOption);
+		customerAndSalesPage.addPreferenceOption(estimatesOption);
+		customerAndSalesPage.addPreferenceOption(shipingsOption);
 
-		customerAndVendorPage.addPreferenceOption(shipingsOption);
-		return customerAndVendorPage;
+		return customerAndSalesPage;
 	}
 
-	private PreferencePage getProductAndServicePage() {
-		PreferencePage productAndServicePage = new PreferencePage(
-				messages.productAndServices());
+	private PreferencePage getVendorAndPurchasesPage() {
+		PreferencePage vendorsAndPurchasesPage = new PreferencePage(
+				messages.vendorAndPurchases(Global.get().Vendor()));
 
-		return productAndServicePage;
+		ManageBillsOption manageBillsOption = new ManageBillsOption();
+		ExpensesByCustomerOption expensesByCustomerOption = new ExpensesByCustomerOption();
+
+		vendorsAndPurchasesPage.addPreferenceOption(manageBillsOption);
+		vendorsAndPurchasesPage.addPreferenceOption(expensesByCustomerOption);
+
+		return vendorsAndPurchasesPage;
 	}
 
 	private PreferencePage getCatogiriesInfoPage() {
@@ -148,55 +129,29 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		PreferencePage companyInfoPage = new PreferencePage(Accounter
 				.messages().company());
 
-		// OrganisationTypeOption formOption = new OrganisationTypeOption();
+		CompanyInfoOption companyInfoOption = new CompanyInfoOption();
 		CompanyDateFormateOption formateOption = new CompanyDateFormateOption();
 		CompanyEinOption einOption = new CompanyEinOption();
 		CompanyFiscalYearOption fiscalYearOption = new CompanyFiscalYearOption();
 		DoyouUseOption doyouUseOption = new DoyouUseOption();
 		CompanyCurrencyOption currencyOption = new CompanyCurrencyOption();
 		CompanyTimeZoneOption timeZoneOption = new CompanyTimeZoneOption();
+		TerminologyOption terminologyOption = new TerminologyOption();
+		TrackOrChargeTaxOption taxOption = new TrackOrChargeTaxOption();
+		NumberFormatOption numberFormatOption = new NumberFormatOption();
 
-		// if (getCompany().getCountry().equals(
-		// CountryPreferenceFactory.UNITED_STATES)) {
-		// companyInfoPage.addPreferenceOption(formOption);
-		// }
+		companyInfoPage.addPreferenceOption(companyInfoOption);
 		companyInfoPage.addPreferenceOption(formateOption);
 		companyInfoPage.addPreferenceOption(einOption);
 		companyInfoPage.addPreferenceOption(fiscalYearOption);
 		companyInfoPage.addPreferenceOption(doyouUseOption);
 		companyInfoPage.addPreferenceOption(currencyOption);
 		companyInfoPage.addPreferenceOption(timeZoneOption);
+		companyInfoPage.addPreferenceOption(terminologyOption);
+		companyInfoPage.addPreferenceOption(taxOption);
+		companyInfoPage.addPreferenceOption(numberFormatOption);
 
 		return companyInfoPage;
-	}
-
-	private PreferencePage getCompanyContactInfoPage() {
-		PreferencePage companyContactInfoPage = new PreferencePage(Accounter
-				.messages().comapnyInfo());
-		CompanyNameOption name = new CompanyNameOption();
-		CompanyAddressOption address = new CompanyAddressOption();
-		CompanyEmailOption email = new CompanyEmailOption();
-		ComapnyWebsiteOption website = new ComapnyWebsiteOption();
-		CompanyPhoneNumberOption phone = new CompanyPhoneNumberOption();
-
-		companyContactInfoPage.addPreferenceOption(name);
-		companyContactInfoPage.addPreferenceOption(address);
-		companyContactInfoPage.addPreferenceOption(email);
-		companyContactInfoPage.addPreferenceOption(website);
-		companyContactInfoPage.addPreferenceOption(phone);
-
-		return companyContactInfoPage;
-	}
-
-	private PreferencePage getTerminoligies() {
-		PreferencePage teriminalogyPreferencePage = new PreferencePage(
-				messages.accounterTerminologies());
-		CustomerTerminologyOption productAndServicesOption = new CustomerTerminologyOption();
-		VendorTerninalogyOption terminalogyOption = new VendorTerninalogyOption();
-		teriminalogyPreferencePage
-				.addPreferenceOption(productAndServicesOption);
-		teriminalogyPreferencePage.addPreferenceOption(terminalogyOption);
-		return teriminalogyPreferencePage;
 	}
 
 	private VerticalPanel createPageView(final PreferencePage page) {
@@ -205,26 +160,55 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		List<AbstractPreferenceOption> options = page.getOptions();
 		for (int index = 0; index < options.size(); index++) {
 			final AbstractPreferenceOption option = options.get(index);
-			final HTML optionLink = new HTML("<a class='stackPanelLink'>"
-					+ option.getTitle() + "</a>");
+			final Anchor optionLink = new Anchor(option.getTitle());
 			pageView.add(optionLink);
-			// PreferenceOptionLinks.addLink(optionLink);
-			if (index == 0) {
-				optionLink.getElement().getParentElement()
-						.addClassName("contentSelected");
-			}
+			pageView.addStyleName("options_panel");
+			optionLink.getElement().getParentElement()
+					.addClassName("preferences_option");
+
+			optionLink.addMouseOverHandler(new MouseOverHandler() {
+
+				@Override
+				public void onMouseOver(MouseOverEvent event) {
+					optionLink.getElement().getParentElement()
+							.addClassName("optionFocused");
+				}
+			});
+			optionLink.addMouseOutHandler(new MouseOutHandler() {
+
+				@Override
+				public void onMouseOut(MouseOutEvent event) {
+					optionLink.getElement().getParentElement()
+							.removeClassName("optionFocused");
+				}
+			});
 			optionLink.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					for (int index = 0; index < pageView.getWidgetCount(); index++) {
-						Widget widget = pageView.getWidget(index);
-						widget.getElement().getParentElement()
-								.removeClassName("contentSelected");
+					for (int superIndex = 0; superIndex < ((ComplexPanel) pageView
+							.getParent()).getWidgetCount(); superIndex++) {
+						if (((ComplexPanel) pageView.getParent())
+								.getWidget(superIndex) instanceof VerticalPanel) {
+							Widget pageview = ((ComplexPanel) pageView
+									.getParent()).getWidget(superIndex);
+							for (int index = 0; index < ((ComplexPanel) pageview)
+									.getWidgetCount(); index++) {
+								Widget widget = ((ComplexPanel) pageview)
+										.getWidget(index);
+								widget.getElement().getParentElement()
+										.removeClassName("optionClicked");
+							}
+						}
 					}
+
 					optionLink.getElement().getParentElement()
-							.addClassName("contentSelected");
-					pageDetailsPane.ensureVisible(option);
+							.addClassName("optionClicked");
+					if (!page.isAttached()) {
+						pageDetailsPanel.clear();
+						pageDetailsPanel.add(page);
+					}
+					pageDetailsPanel.ensureVisible(option);
 
 				}
 			});

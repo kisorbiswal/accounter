@@ -18,10 +18,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author vimukti2
  * 
  */
-public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
+public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 
-	private static CustomerAndVendorsSettingsOptionUiBinder uiBinder = GWT
-			.create(CustomerAndVendorsSettingsOptionUiBinder.class);
+	private static TrackOrChargeTaxOptionUiBinder uiBinder = GWT
+			.create(TrackOrChargeTaxOptionUiBinder.class);
 
 	@UiField
 	RadioButton onepeTransactionRadioButton;
@@ -52,8 +52,8 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	@UiField
 	Label enableTDSdecs;
 
-	interface CustomerAndVendorsSettingsOptionUiBinder extends
-			UiBinder<Widget, CustomerAndVendorsSettingsOption> {
+	interface TrackOrChargeTaxOptionUiBinder extends
+			UiBinder<Widget, TrackOrChargeTaxOption> {
 	}
 
 	/**
@@ -65,13 +65,13 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	 * depending on the widget that is used, it may be necessary to implement
 	 * HasHTML instead of HasText.
 	 */
-	public CustomerAndVendorsSettingsOption() {
+	public TrackOrChargeTaxOption() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
 		initData();
 	}
 
-	public CustomerAndVendorsSettingsOption(String firstName) {
+	public TrackOrChargeTaxOption(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
 
 	}
@@ -136,7 +136,7 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 	@Override
 	public String getTitle() {
 
-		return messages.customerAndvendorSettings();
+		return messages.trackOrChargeTax();
 	}
 
 	@Override
@@ -155,7 +155,7 @@ public class CustomerAndVendorsSettingsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return messages.customerAndvendorSettings();
+		return messages.trackOrChargeTax();
 	}
 
 }

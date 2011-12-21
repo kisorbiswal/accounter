@@ -5281,8 +5281,6 @@ public interface AccounterMessages extends Messages {
 
 	public String trackOrChargeTax();
 	
-	public String negativeNumberFormat();
-
 	public String normalFormat();
 
 	public String negativeNumberWithInTheParathesis();
@@ -5308,4 +5306,12 @@ public interface AccounterMessages extends Messages {
 	public String cashExpensesList();
 
 	public String creditCardExpensesList();
+
+	public String customersAndSales(String customers);
+
+	public String numberFormat();
+
+	public String negativeNumberFormat();
+	
+	public String nameAddress();
 }

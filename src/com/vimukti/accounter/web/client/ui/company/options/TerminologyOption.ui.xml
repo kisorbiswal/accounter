@@ -40,5 +40,23 @@
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
 		</g:VerticalPanel>
+		<g:VerticalPanel>
+			<g:VerticalPanel spacing="6">
+				<g:HorizontalPanel spacing="6">
+					<g:Label ui:field="vendorsHeaderLabel" styleName="header" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel spacing="6">
+					<g:Label ui:field="vendorsDescriptionLabel" />
+				</g:HorizontalPanel>
+				<g:VerticalPanel spacing="6">
+					<g:HorizontalPanel>
+						<g:RadioButton name="new name" ui:field="vendorRadioButton" />
+					</g:HorizontalPanel>
+					<g:HorizontalPanel>
+						<g:RadioButton name="new name" ui:field="supplierRadioButton" />
+					</g:HorizontalPanel>
+				</g:VerticalPanel>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

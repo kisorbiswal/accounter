@@ -11,15 +11,16 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 
 /**
  * @author vimukti36
  * 
  */
-public class CustomerTerminologyOption extends AbstractPreferenceOption {
+public class TerminologyOption extends AbstractPreferenceOption {
 
-	private static CustomerTerminologyOptionUiBinder uiBinder = GWT
-			.create(CustomerTerminologyOptionUiBinder.class);
+	private static TerminologyOptionUiBinder uiBinder = GWT
+			.create(TerminologyOptionUiBinder.class);
 	@UiField
 	Label terminologyforCustomerLabel;
 	@UiField
@@ -38,18 +39,26 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 	RadioButton PatientRadioButton;
 	@UiField
 	Label customerDescriptionLabel;
+	@UiField
+	RadioButton vendorRadioButton;
+	@UiField
+	RadioButton supplierRadioButton;
+	@UiField
+	Label vendorsHeaderLabel;
+	@UiField
+	Label vendorsDescriptionLabel;
 
-	interface CustomerTerminologyOptionUiBinder extends
-			UiBinder<Widget, CustomerTerminologyOption> {
+	interface TerminologyOptionUiBinder extends
+			UiBinder<Widget, TerminologyOption> {
 	}
 
-	public CustomerTerminologyOption() {
+	public TerminologyOption() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
 		initData();
 	}
 
-	public CustomerTerminologyOption(String firstName) {
+	public TerminologyOption(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
@@ -72,11 +81,20 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 		clientsRadioButton.setHTML(messages.Client());
 		DonorsRadioButton.setName(messages.group());
 		DonorsRadioButton.setHTML(messages.Donar());
+
+		vendorsHeaderLabel.setText(messages.useTerminologyFor(Global.get()
+				.Vendor()));
+		vendorsDescriptionLabel.setText(messages.vendorDescription());
+		vendorsDescriptionLabel.setStyleName("organisation_comment");
+		vendorRadioButton.setName(messages.Vendor());
+		vendorRadioButton.setHTML(messages.Vendor());
+		supplierRadioButton.setName(messages.Vendor());
+		supplierRadioButton.setHTML(messages.Supplier());
 	}
 
 	@Override
 	public String getTitle() {
-		return "Customer Terminology";
+		return messages.terminology();
 	}
 
 	@Override
@@ -98,11 +116,17 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 			getCompanyPreferences().setReferCustomers(ClientCustomer.DONAR);
 		}
 
+		if (vendorRadioButton.getValue()) {
+			getCompanyPreferences().setReferVendors(ClientVendor.VENDOR);
+		} else if (supplierRadioButton.getValue()) {
+			getCompanyPreferences().setReferVendors(ClientVendor.SUPPLIER);
+		}
+
 	}
 
 	@Override
 	public String getAnchor() {
-		return messages.company();
+		return messages.terminology();
 	}
 
 	@Override
@@ -132,6 +156,15 @@ public class CustomerTerminologyOption extends AbstractPreferenceOption {
 			break;
 		case ClientCustomer.DONAR:
 			DonorsRadioButton.setValue(true);
+			break;
+		}
+		int referVendors = getCompanyPreferences().getReferVendors();
+		switch (referVendors) {
+		case ClientVendor.VENDOR:
+			vendorRadioButton.setValue(true);
+			break;
+		case ClientVendor.SUPPLIER:
+			supplierRadioButton.setValue(true);
 			break;
 		}
 

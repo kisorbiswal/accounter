@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -10,6 +12,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -18,93 +21,67 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.ui.Header;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
-public class CompanyAddressOption extends AbstractPreferenceOption {
+public class CompanyInfoOption extends AbstractPreferenceOption {
 
 	@UiField
 	Label tradingAddressTitle;
-
 	@UiField
 	Label tAddress1Label;
-
 	@UiField
 	TextBox tAddress1TextBox;
-
 	@UiField
 	Label tAddress2Label;
-
 	@UiField
 	TextBox tAddress2TextBox;
-
 	@UiField
 	Label tCityLabel;
-
 	@UiField
 	TextBox tCityTextBox;
-
 	@UiField
 	Label tPostalCodeLabel;
-
 	@UiField
 	TextBox tPostalCodeTextBox;
-
 	@UiField
 	Label tCountryLabel;
-
 	@UiField
 	ListBox tCountryCombo;
-
 	@UiField
 	Label tStateLabel;
-
 	@UiField
 	ListBox tStateCombo;
-
 	@UiField
 	Label registeredAddressTitle;
-
 	@UiField
 	Label rAddress1Label;
-
 	@UiField
 	TextBox rAddress1TextBox;
-
 	@UiField
 	Label rAddress2Label;
-
 	@UiField
 	TextBox rAddress2TextBox;
-
 	@UiField
 	Label rCityLabel;
-
 	@UiField
 	TextBox rCityTextBox;
-
 	@UiField
 	Label rPostalCodeLabel;
-
 	@UiField
 	TextBox rPostalCodeTextbox;
-
 	@UiField
 	Label rCountryComboLabel;
-
 	@UiField
 	ListBox rCountryCombo;
-
 	@UiField
 	Label rStateComboLabel;
-
 	@UiField
 	ListBox rStateCombo;
 	@UiField
 	Label registeredAddressDescription;
 	@UiField
 	Label tradingAddressDescription;
-	// @UiField
-	// CheckBox companyLegalCheckBox;
-
 	@UiField
 	VerticalPanel registeredAddressSubPanel;
 	@UiField
@@ -115,15 +92,45 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 	VerticalPanel registeredAddressPanel;
 	@UiField
 	CheckBox isShowRegisteredAddressCheckBox;
+	// Website
+	@UiField
+	Label companyWebsiteHeaderLabel;
+	@UiField
+	TextBox companyWebsiteTextBox;
+	// Email
+	@UiField
+	Label companyEmailHeaderLabel;
+	@UiField
+	TextBox companyEmailTextBox;
+	@UiField
+	Label emailIDDescriptionLabel;
+	// Name
+	@UiField
+	Label companyNameLabel;
+	@UiField
+	TextBox companyNameTextBox;
+	@UiField
+	TextBox legalNameTextBox;
+	@UiField
+	Label legalNameLabel;
+	@UiField
+	CheckBox isShowLegalName;
+	@UiField
+	HorizontalPanel legalNamePanel;
+	// Phone Number
+	@UiField
+	Label companyPhoneNumberLabel;
+	@UiField
+	TextBox companyPhoneNumberTextBox;
 
-	private static CompanyAddressOptionUiBinder uiBinder = GWT
-			.create(CompanyAddressOptionUiBinder.class);
+	private static CompanyInfoOptionUiBinder uiBinder = GWT
+			.create(CompanyInfoOptionUiBinder.class);
 
-	interface CompanyAddressOptionUiBinder extends
-			UiBinder<Widget, CompanyAddressOption> {
+	interface CompanyInfoOptionUiBinder extends
+			UiBinder<Widget, CompanyInfoOption> {
 	}
 
-	public CompanyAddressOption() {
+	public CompanyInfoOption() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
 		initData();
@@ -153,13 +160,22 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 				.isShowRegisteredAddress());
 		registeredAddressPanel.setVisible(getCompany()
 				.isShowRegisteredAddress());
+		// Website
+		companyWebsiteTextBox.setText(getCompany().getWebSite());
+		// Email
+		companyEmailTextBox.setText(getCompanyPreferences().getCompanyEmail());
+		// Name
+		isShowLegalName.setValue(getCompanyPreferences().isShowLegalName());
+		legalNameTextBox.setText(getCompanyPreferences().getLegalName());
+		companyNameTextBox.setText(getCompany().getDisplayName());
+		legalNamePanel.setVisible(getCompanyPreferences().isShowLegalName());
+		// Phone Number
+		companyPhoneNumberTextBox.setText(getCompany().getPhone());
 	}
 
 	public void createControls() {
 		List<String> countriesList = CoreUtils.getCountriesAsList();
-
-		tradingAddressDescription
-				.setText(messages.tradingAddressDescription());
+		tradingAddressDescription.setText(messages.tradingAddressDescription());
 		tradingAddressDescription.setStyleName("organisation_comment");
 		tradingAddressTitle.setText(messages.tradingAddress());
 		tAddress1Label.setText(messages.address1());
@@ -215,6 +231,34 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 		rCountryChanged();
 		isShowRegisteredAddressCheckBox.setText(messages
 				.registeredAddressComment());
+		// Website
+		companyWebsiteHeaderLabel.setText(Accounter.messages().webSite());
+
+		// Email
+		emailIDDescriptionLabel.setText(messages.emailIdDescription());
+		emailIDDescriptionLabel.setStyleName("organisation_comment");
+
+		companyEmailHeaderLabel.setText(Accounter.messages().emailId());
+		companyEmailTextBox.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				String email = companyEmailTextBox.getValue();
+				if (email != null && !email.isEmpty()
+						&& !UIUtils.isValidEmail(email)) {
+					companyEmailTextBox.setText("");
+					Accounter.showError(Accounter.messages().invalidEmail());
+				}
+			}
+		});
+
+		// Name
+		legalNameLabel.setText(Accounter.messages().legalName());
+		companyNameLabel.setText(Accounter.messages().companyName());
+		isShowLegalName.setText(messages.registeredAddressComment());
+
+		// Phone Number
+		companyPhoneNumberLabel.setText(Accounter.messages().phoneNumber());
 	}
 
 	private void rCountryChanged() {
@@ -259,13 +303,13 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 		}
 	}
 
-	public CompanyAddressOption(String firstName) {
+	public CompanyInfoOption(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().address();
+		return messages.nameAddress();
 	}
 
 	@Override
@@ -308,16 +352,43 @@ public class CompanyAddressOption extends AbstractPreferenceOption {
 		getCompany().setRegisteredAddress(rAddress);
 		getCompany().setShowRegisteredAddress(
 				isShowRegisteredAddressCheckBox.getValue());
+		// Website
+		getCompany().setWebSite(companyWebsiteTextBox.getValue());
+		// Email
+		getCompanyPreferences().setCompanyEmail(companyEmailTextBox.getValue());
+		// Name
+		getCompany().setLegalName(legalNameTextBox.getValue());
+		getCompany().setTradingName(companyNameTextBox.getValue());
+		getCompanyPreferences().setShowLegalName(isShowLegalName.getValue());
+		Header.companyNameLabel.setText(companyNameTextBox.getValue());
+		// Phone Number
+		getCompany().setPhone(companyPhoneNumberTextBox.getValue());
+	}
+
+	@Override
+	public boolean isValidate() {
+		if (companyNameTextBox.getValue().length() == 0) {
+			Accounter
+					.showError(messages.pleaseEnter(companyNameLabel.getText()));
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	@Override
 	public String getAnchor() {
-		return messages.address();
+		return messages.nameAddress();
 	}
 
 	@UiHandler("isShowRegisteredAddressCheckBox")
 	void onIsShowRegisteredAddressCheckBoxValueChange(
 			ValueChangeEvent<Boolean> event) {
 		registeredAddressPanel.setVisible(event.getValue());
+	}
+
+	@UiHandler("isShowLegalName")
+	void onIsShowLegalNameValueChange(ValueChangeEvent<Boolean> event) {
+		legalNamePanel.setVisible(event.getValue());
 	}
 }

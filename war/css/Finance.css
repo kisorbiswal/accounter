@@ -1080,7 +1080,7 @@ iframe,.address div {
 
 .date-number td:nth-child                                           
 	                                                                   
-	    (2),.datenumber-panel table {
+	      (2),.datenumber-panel table {
 	padding-right: 15px;
 }
 
@@ -2551,7 +2551,7 @@ input.date-field-textbox {
 }
 
 .company_settings_panel {
-	
+	width: 100%;
 }
 
 .company_settings_panel .page_details_panel_td {
@@ -2565,7 +2565,8 @@ input.date-field-textbox {
 }
 
 .company_settings_panel .page_details_panel_td .pre_scroll_table {
-	height: 720px;
+	height: 540px;
+	background: none repeat scroll 0 0 #FFFFFF;
 }
 
 .options_panel a {

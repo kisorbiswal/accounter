@@ -6,20 +6,20 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class BillableExpenseTrackingByCustomer extends AbstractPreferenceOption {
+public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 
-	private static BillableExpenseTrackingByCustomerUiBinder uiBinder = GWT
-			.create(BillableExpenseTrackingByCustomerUiBinder.class);
+	private static ExpensesByCustomerOptionUiBinder uiBinder = GWT
+			.create(ExpensesByCustomerOptionUiBinder.class);
 	@UiField
 	CheckBox expenseandProductandServiceTrackingbyCustomer;
 	@UiField
 	CheckBox UseBillableExpenseCheckBox;
 
-	interface BillableExpenseTrackingByCustomerUiBinder extends
-			UiBinder<Widget, BillableExpenseTrackingByCustomer> {
+	interface ExpensesByCustomerOptionUiBinder extends
+			UiBinder<Widget, ExpensesByCustomerOption> {
 	}
 
-	public BillableExpenseTrackingByCustomer() {
+	public ExpensesByCustomerOption() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
 		initData();
