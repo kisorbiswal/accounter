@@ -567,6 +567,15 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	}
 
 	@Override
+	public ClientIssuePayment saveView() {
+		ClientIssuePayment saveView = super.saveView();
+		if (saveView != null) {
+			createIssuePayment();
+		}
+		return saveView;
+	}
+
+	@Override
 	public void saveAndUpdateView() {
 		createIssuePayment();
 	}
