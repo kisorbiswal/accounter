@@ -608,6 +608,14 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// }
 		return result;
 	}
+	@Override
+	public ClientPayTAX saveView() {
+		ClientPayTAX saveView = super.saveView();
+		if (saveView != null){
+			updateTransaction();
+			}
+		return saveView;
+	}
 
 	@Override
 	public void saveAndUpdateView() {
