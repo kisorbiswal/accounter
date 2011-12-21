@@ -102,8 +102,8 @@ public class DeleteCompanyServlet extends BaseServlet {
 
 		String message = "";
 
-		final String companyID = (String) req.getSession().getAttribute(
-				COMPANY_ID);
+		final String companyID = String.valueOf(req.getSession().getAttribute(
+				COMPANY_ID));
 		String delete = req.getParameter("delete");
 		if (delete == null) {
 			req.setAttribute("message", "Please select the option.");
