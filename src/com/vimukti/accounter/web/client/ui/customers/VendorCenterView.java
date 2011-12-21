@@ -431,6 +431,10 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 						}
 					});
 
+		} else {
+			vendHistoryGrid.clear();
+			vendHistoryGrid.addEmptyMessage(messages.thereAreNo(messages
+					.transactions()));
 		}
 	}
 
