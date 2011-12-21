@@ -274,7 +274,7 @@ public class CashExpenseView extends
 
 		vendorCombo = createVendorComboItem(messages.payeeName(Global.get()
 				.Vendor()));
-		vendorCombo.setRequired(true);
+		vendorCombo.setRequired(false);
 		vendorCombo.setHelpInformation(true);
 
 		// formItems.add(contactCombo);
@@ -683,7 +683,9 @@ public class CashExpenseView extends
 			deliveryDateItem.setValue(new ClientFinanceDate(transaction
 					.getDeliveryDate()));
 			initAccounterClass();
-			vendorBalText.setAmount(vendor.getBalance());
+			if (vendor != null) {
+				vendorBalText.setAmount(vendor.getBalance());
+			}
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
