@@ -9615,7 +9615,833 @@
 		TRANSACTION T ON T.ID=P.ID WHERE P.TDS_TOTAL!=0 AND
 		T.COMPANY_ID=:companyId
 	</sql-query>
-
+	
+	<sql-query name="getCashPurchaseListByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+		
+		SELECT
+		T.MEMO AS TRANSACTION_MEMO,
+		CP.PAYFROM_ACCOUNT_ID AS TRANSACTION_ACCOUNT,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		null AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.IS_VOID AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		CASH_PURCHASE CP
+		on
+		T.ID=CP.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		CP.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =2
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND V.ID =:vendorId 
+		 
+	</sql-query>
+	
+	<sql-query name="getBillsListByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+		
+		SELECT
+		null as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		null AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.IS_VOID AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		ENTER_BILL CP
+		on
+		T.ID=CP.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		CP.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =6
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND V.ID =:vendorId 
+		 
+	</sql-query>
+	
+		<sql-query name="getOpenBillsListByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+		
+		SELECT
+		null as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		null AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.IS_VOID AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		ENTER_BILL EB
+		on
+		T.ID=EB.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		EB.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =6
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND V.ID =:vendorId AND EB.BALANCE_DUE >0
+		 
+	</sql-query>
+	
+	
+		<sql-query name="getOverDueBillsListByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<query-param name="currentDate" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+		
+		SELECT
+		null as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		null AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.IS_VOID AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		ENTER_BILL EB
+		on
+		T.ID=EB.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		EB.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =6
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND EB.DUE_DATE &lt;= :currentDate AND V.ID =:vendorId 
+		
+			</sql-query>
+			
+			
+			<sql-query name="getAllPayBillsListByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+		
+		SELECT
+		PB.PAYFROM_ID as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		PB.BILL_DUE_ONORBEFORE AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.IS_VOID AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		PAY_BILL PB
+		on
+		T.ID=PB.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		PB.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =11
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND V.ID =:vendorId 
+		 
+	</sql-query>
+	
+		
+			<sql-query name="getAllChequesListByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+		
+		SELECT
+		WC.ACCOUNT_ID as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		null AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.IS_VOID AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		WRITE_CHECKS WC
+		on
+		T.ID=WC.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		WC.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =15
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND V.ID =:vendorId 
+	</sql-query>
+	
+	
+			<sql-query name="getPurchaseOrderListByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+		
+		SELECT
+		null as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		PO.DUE_DATE AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.IS_VOID AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		PURCHASE_ORDER PO
+		on
+		T.ID=PO.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		PO.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =22
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND V.ID =:vendorId
+	</sql-query>
+	
+	
+		<sql-query name="getOpenPurchaseOrderListByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+		
+		SELECT
+		null as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		PO.DUE_DATE AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.IS_VOID AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		PURCHASE_ORDER PO
+		on
+		T.ID=PO.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		PO.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =22
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND V.ID =:vendorId
+	</sql-query>
+	
+	
+		<sql-query name="getAllTransactionsListByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+		SELECT		
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.IS_VOID AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		CASE
+		WHEN T.T_TYPE =2 
+		THEN
+		CP.PAYFROM_ACCOUNT_ID 
+		WHEN T.T_TYPE =15
+		THEN 
+		WC.ACCOUNT_ID
+		WHEN 
+		T.T_TYPE =11
+		THEN 
+		PB.PAYFROM_ID  ELSE null END AS TRANSACTION_ACCOUNT,
+		CASE
+		WHEN T.T_TYPE =2 
+		THEN
+		CP.DELIVERY_DATE 
+		WHEN T.T_TYPE =6
+		THEN 
+		EB.DUE_DATE
+		WHEN 
+		T.T_TYPE =11
+		THEN 
+		PB.BILL_DUE_ONORBEFORE  ELSE null END AS DUE_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT 
+		JOIN
+		WRITE_CHECKS WC
+		on
+		T.ID=WC.ID
+		LEFT 
+		JOIN
+		CASH_PURCHASE CP
+		on
+		T.ID=CP.ID
+		LEFT 
+		JOIN
+		PAY_BILL PB
+		on
+		T.ID=PB.ID
+		LEFT JOIN ENTER_BILL EB
+		on T.ID =EB.ID 
+		LEFT JOIN VENDOR_CREDIT_MEMO VCM
+		on T.ID =VCM.ID	
+		LEFT JOIN 
+		VENDOR V
+		on V.ID =
+		WC.VENDOR_ID OR V.ID =CP.VENDOR_ID OR V.ID =PB.VENDOR_ID OR V.ID =EB.VENDOR_ID OR V.ID =VCM.VENDOR_ID
+		WHERE
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND V.ID =:vendorId
+	</sql-query>
+	
+	
+	<sql-query name="getAllCreditMemosByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+		
+		SELECT
+		null as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		null AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.IS_VOID AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		VENDOR_CREDIT_MEMO VCM
+		on
+		T.ID=VCM.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		VCM.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =14
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND V.ID =:vendorId
+	</sql-query>
+	
+	
+	<sql-query name="getAllExpensesByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+		
+		SELECT
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		CCC.DELIVERY_DATE AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.IS_VOID AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS,
+		CASE 
+		WHEN 
+		T.T_TYPE =26 THEN
+		CP.PAYFROM_ACCOUNT_ID 
+		WHEN T.T_TYPE=27 THEN
+		CCC.PAYFROM_ACCOUNT_ID  ELSE NULL END 
+		AS TRANSACTION_ACCOUNT, 
+		CASE 
+		WHEN 
+		T.T_TYPE =26 THEN
+		CP.DELIVERY_DATE ELSE NULL
+		END AS DUE_DATE		
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		CREDIT_CARD_CHARGES CCC
+		on
+		T.ID=CCC.ID
+		LEFT OUTER
+		JOIN
+		CASH_PURCHASE CP
+		on
+		T.ID=CP.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		CCC.VENDOR_ID OR V.ID =CP.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE IN (27,26)
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND V.ID =:vendorId
+	</sql-query>
+	
+	
+	<sql-query name="getAllCreditExpensesByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+		
+		SELECT
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		CCC.DELIVERY_DATE AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.IS_VOID AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS,
+		CCC.PAYFROM_ACCOUNT_ID   
+		AS TRANSACTION_ACCOUNT, 
+		null AS DUE_DATE		
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		CREDIT_CARD_CHARGES CCC
+		on
+		T.ID=CCC.ID 
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		CCC.VENDOR_ID 
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =27
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND V.ID =:vendorId
+	</sql-query>
+	
+	
+	<sql-query name="getAllCashExpensesByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+		
+		SELECT
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		null AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.IS_VOID AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS,
+		CP.PAYFROM_ACCOUNT_ID 
+		AS TRANSACTION_ACCOUNT, 
+		NULL AS DUE_DATE		
+		FROM
+		TRANSACTION T
+		 
+		LEFT OUTER
+		JOIN
+		CASH_PURCHASE CP
+		on
+		T.ID=CP.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		CP.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE=26
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND V.ID =:vendorId 
+	</sql-query>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
