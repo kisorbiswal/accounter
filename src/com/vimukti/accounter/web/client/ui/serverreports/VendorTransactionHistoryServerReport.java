@@ -109,8 +109,9 @@ public class VendorTransactionHistoryServerReport extends
 		case 4:
 			return record.getAccount();
 		case 5:
-			return DecimalUtil.isEquals(record.getInvoicedAmount(), 0.0) ? record
-					.getPaidAmount() : record.getInvoicedAmount();
+			return DecimalUtil.isEquals(record.getInvoicedAmount(), 0.0) ? Math
+					.abs(record.getPaidAmount()) : Math.abs(record
+					.getInvoicedAmount());
 
 		}
 		return null;
