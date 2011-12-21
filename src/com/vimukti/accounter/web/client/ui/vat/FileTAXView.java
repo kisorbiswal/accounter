@@ -93,6 +93,12 @@ public class FileTAXView extends AbstractFileTAXView {
 	}
 
 	@Override
+	public ClientTAXReturn saveView() {
+		updateTransaction();
+		return super.saveView();
+	}
+
+	@Override
 	public void saveAndUpdateView() {
 		updateTransaction();
 		saveOrUpdate(getData());
@@ -100,7 +106,9 @@ public class FileTAXView extends AbstractFileTAXView {
 
 	private void updateTransaction() {
 		ClientTAXReturn taxReturn = new ClientTAXReturn();
-		taxReturn.setTAXAgency(selectedTaxAgency.getID());
+		if (selectedTaxAgency != null) {
+			taxReturn.setTAXAgency(selectedTaxAgency.getID());
+		}
 		taxReturn.setTaxReturnEntries(grid.getRecords());
 		taxReturn.setTransactionDate(new ClientFinanceDate().getDate());
 		taxReturn.setPeriodStartDate(fromDate.getDate().getDate());
