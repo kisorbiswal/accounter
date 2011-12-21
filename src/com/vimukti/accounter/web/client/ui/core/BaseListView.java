@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -49,9 +50,9 @@ import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
  */
 
 public abstract class BaseListView<T> extends AbstractBaseView<T> implements
-		IAccounterList<T>, AsyncCallback<ArrayList<T>> {
+		IAccounterList<T>, AsyncCallback<ArrayList<T>>,
+		ISavableView<Map<String, Object>> {
 	protected BaseListGrid grid;
-
 	boolean budgetItemsExists = false;
 	private AccounterMessages messages;
 
@@ -392,9 +393,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			AccounterDOM.setParentElementHeight(lab1.getElement(), 5);
 			mainVLay.add(gridLayout);
 		}
-
+		// PaginationPanle<T> paginationPanle = new PaginationPanle<T>();
+		// grid.setPaginationPanel(paginationPanle, 10);
+		// mainVLay.add(paginationPanle);
 		add(mainVLay);
-
 		setSize("100%", "100%");
 
 	}
@@ -629,4 +631,15 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		return selectedPayee;
 	}
 
+	@Override
+	public void restoreView(Map<String, Object> viewDate) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
