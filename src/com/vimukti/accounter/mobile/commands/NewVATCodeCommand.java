@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TAXItem;
@@ -19,6 +21,7 @@ import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 
@@ -88,6 +91,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 					ResultList list, ResultList actions) {
 				Boolean value = get(IS_TAXABLE).getValue();
 				if (value && context.getPreferences().isTrackPaidTax()) {
+					setSalesVATItemValue();
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -141,14 +145,37 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			public void setValue(Object value) {
-				String validateResult = validateTAXItem((TAXItemGroup) value,
-						true);
+				super.setValue(value);
+				setSalesVATItemValue();
+				String validateResult = validateTAXItem(
+						(TAXItemGroup) getValue(), true);
 				if (validateResult == null) {
 					setEnterString(getMessages().pleaseSelect(
 							getMessages().taxItemForSales()));
 					super.setValue(value);
 				} else {
+					super.setValue(null);
 					setEnterString(validateResult);
+				}
+				setSalesVATItemValue();
+			}
+
+			private void setSalesVATItemValue() {
+				Object value = getValue();
+				if (value != null) {
+					Session currentSession = HibernateUtil.getCurrentSession();
+					TAXItemGroup taxItemGroup = (TAXItemGroup) value;
+					if (taxItemGroup instanceof TAXItem) {
+						taxItemGroup = (TAXItem) currentSession.load(
+								TAXItem.class, taxItemGroup.getID());
+					} else if (taxItemGroup instanceof TAXGroup) {
+						taxItemGroup = (TAXGroup) currentSession.load(
+								TAXGroup.class, taxItemGroup.getID());
+					} else {
+						taxItemGroup = (TAXItemGroup) currentSession.load(
+								TAXItemGroup.class, taxItemGroup.getID());
+					}
+					super.setValue(taxItemGroup);
 				}
 			}
 		});
@@ -162,9 +189,29 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 					ResultList list, ResultList actions) {
 				Boolean value = get(IS_TAXABLE).getValue();
 				if (value && context.getPreferences().isTrackPaidTax()) {
+					setPurchaseVATItemValue();
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
+				}
+			}
+
+			private void setPurchaseVATItemValue() {
+				Object value = getValue();
+				if (value != null) {
+					Session currentSession = HibernateUtil.getCurrentSession();
+					TAXItemGroup taxItemGroup = (TAXItemGroup) value;
+					if (taxItemGroup instanceof TAXItem) {
+						taxItemGroup = (TAXItem) currentSession.load(
+								TAXItem.class, taxItemGroup.getID());
+					} else if (taxItemGroup instanceof TAXGroup) {
+						taxItemGroup = (TAXGroup) currentSession.load(
+								TAXGroup.class, taxItemGroup.getID());
+					} else {
+						taxItemGroup = (TAXItemGroup) currentSession.load(
+								TAXItemGroup.class, taxItemGroup.getID());
+					}
+					super.setValue(taxItemGroup);
 				}
 			}
 
@@ -214,15 +261,19 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			public void setValue(Object value) {
-				String validateResult = validateTAXItem((TAXItemGroup) value,
-						false);
+				super.setValue(value);
+				setPurchaseVATItemValue();
+				String validateResult = validateTAXItem(
+						(TAXItemGroup) getValue(), false);
 				if (validateResult == null) {
 					setEnterString(getMessages().pleaseSelect(
 							getMessages().taxItemForPurchases()));
 					super.setValue(value);
 				} else {
+					super.setValue(null);
 					setEnterString(validateResult);
 				}
+				setPurchaseVATItemValue();
 			}
 		});
 
@@ -337,8 +388,8 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 	private List<TAXItemGroup> getFilteredVATItems(Context context,
 			boolean salesItems) {
 		List<TAXItemGroup> vatItmsList = new ArrayList<TAXItemGroup>();
-		Set<TAXItemGroup> taxItemGroups = context.getCompany()
-				.getTaxItemGroups();
+		Set<TAXGroup> taxGroups = context.getCompany().getTaxGroups();
+		vatItmsList.addAll(taxGroups);
 		Set<TAXItem> taxItems = context.getCompany().getTaxItems();
 		List<TAXItem> activeItems = new ArrayList<TAXItem>();
 		for (TAXItem taxItem : taxItems) {
@@ -346,23 +397,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 				activeItems.add(taxItem);
 			}
 		}
-		taxItemGroups.addAll(activeItems);
-		for (TAXItem vatItem : activeItems) {
-			if (vatItem.isPercentage()) {
-				TAXAgency taxAgency = vatItem.getTaxAgency();
-				if (salesItems) {
-					if (taxAgency.getSalesLiabilityAccount() != null) {
-						vatItmsList.add(vatItem);
-					}
-				}
-				if (!salesItems) {
-					if (taxAgency.getPurchaseLiabilityAccount() != null) {
-						vatItmsList.add(vatItem);
-					}
-				}
-			}
-		}
-
+		vatItmsList.addAll(activeItems);
 		return vatItmsList;
 	}
 
