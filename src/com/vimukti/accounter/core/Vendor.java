@@ -311,6 +311,7 @@ public class Vendor extends Payee {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		super.canEdit(clientObject);
 		Session session = HibernateUtil.getCurrentSession();
 		Vendor vendor = (Vendor) clientObject;
 		Query query = session.getNamedQuery("getVendor.by.name")

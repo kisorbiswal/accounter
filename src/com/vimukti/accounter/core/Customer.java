@@ -445,6 +445,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
+		super.canEdit(clientObject);
 		Session session = HibernateUtil.getCurrentSession();
 		Customer customer = (Customer) clientObject;
 
