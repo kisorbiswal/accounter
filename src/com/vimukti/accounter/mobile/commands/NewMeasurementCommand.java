@@ -154,6 +154,9 @@ public class NewMeasurementCommand extends NewAbstractCommand {
 			}
 			ClientUnit clientUnit = new ClientUnit(unit.getType(),
 					unit.getFactor());
+			clientUnit.setId(unit.getID());
+			clientUnit.setMeasurement(measurement);
+			clientUnit.setVersion(unit.getVersion());
 			clientUnit.setDefault(unit.isDefault());
 			clientUnits.add(clientUnit);
 		}

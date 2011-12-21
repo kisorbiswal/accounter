@@ -77,7 +77,8 @@ public class NewWareHouseCommand extends NewAbstractCommand {
 
 		ClientContact contact = warehouse.getContact();
 		get(CONTACT_NAME).setValue(contact == null ? null : contact.getName());
-		get(CONTACT_NUM).setValue(contact.getBusinessPhone());
+		get(CONTACT_NUM).setValue(
+				contact == null ? null : contact.getBusinessPhone());
 	}
 
 	@Override
