@@ -73,6 +73,14 @@ public class JournalEntryView extends
 		locationTrackingEnabled = ClientCompanyPreferences.get()
 				.isLocationTrackingEnabled();
 	}
+	@Override
+	public ClientJournalEntry saveView() {
+		ClientJournalEntry saveView = super.saveView();
+		if (saveView != null){
+			updateTransaction();
+			}
+		return saveView;
+	}
 
 	@Override
 	public void saveAndUpdateView() {
