@@ -682,7 +682,9 @@
 		<alias>customerPrepayment</alias>
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.UpdateItemCommand"
-		name="Update Item"></command>
+		name="Update Item">
+		<alias>updateItem</alias>
+	</command>
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.NewReceivePaymentCommand"
