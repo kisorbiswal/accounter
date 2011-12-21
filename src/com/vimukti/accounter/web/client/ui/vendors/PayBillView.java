@@ -1239,6 +1239,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	@Override
 	public void onEdit() {
+		ClientTAXItem tdsTaxItem = transaction.getTdsTaxItem();
+
 		if (!transaction.isVoid()) {
 			Accounter.showWarning(messages.W_115(), AccounterType.WARNING,
 					new ErrorDialogHandler() {
@@ -1342,12 +1344,14 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		getTransactionPayBills(this.getVendor());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		transaction = new ClientPayBill();
+		transaction.setTdsTaxItem(tdsCombo.getSelectedValue());
 		transaction.setAmountIncludeTDS(true);
 		data = transaction;
 		tdsCombo.setDisabled(isInViewMode());
 		textForm.clear();
 		addTextFormFields();
 		grid.initCreditsAndPayments(this.getVendor());
+		grid.setTds(transaction.getTdsTaxItem());
 	}
 
 	@Override
