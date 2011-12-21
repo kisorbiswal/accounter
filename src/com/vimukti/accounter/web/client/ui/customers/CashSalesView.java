@@ -474,7 +474,9 @@ public class CashSalesView extends
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
-
+		if (customer == null) {
+			return;
+		}
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
@@ -589,6 +591,15 @@ public class CashSalesView extends
 
 		saveOrUpdate(transaction);
 
+	}
+
+	@Override
+	public ClientCashSales saveView() {
+		ClientCashSales saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
 	}
 
 	@Override
@@ -722,6 +733,7 @@ public class CashSalesView extends
 			ClientCompany company = getCompany();
 
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
+			customerSelected(this.customer);
 			if (this.getCustomer() != null) {
 
 				this.contacts = getCustomer().getContacts();
@@ -879,6 +891,7 @@ public class CashSalesView extends
 				memoTextAreaItem
 						.setValue(cashSales.getMemo() != null ? cashSales
 								.getMemo() : "");
+				memoTextAreaItem.setDisabled(isInViewMode());
 				// refText.setValue(cashSales.getReference() != null ? cashSales
 				// .getReference() : "");
 
