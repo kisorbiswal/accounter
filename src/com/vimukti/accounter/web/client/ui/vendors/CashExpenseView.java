@@ -274,7 +274,7 @@ public class CashExpenseView extends
 
 		vendorCombo = createVendorComboItem(messages.payeeName(Global.get()
 				.Vendor()));
-		vendorCombo.setRequired(false);
+		vendorCombo.setRequired(true);
 		vendorCombo.setHelpInformation(true);
 
 		// formItems.add(contactCombo);
