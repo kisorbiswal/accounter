@@ -70,18 +70,12 @@ public class CustomerPrePaymentView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (isInViewMode()) {
-
-			ClientCustomerPrePayment customerPrePayment = transaction;
-
-			if (customerPrePayment != null) {
-				memoTextAreaItem.setDisabled(true);
-				setMemoTextAreaItem(customerPrePayment.getMemo());
-				// setRefText(customerPrePayment.getReference());
-
-			}
+		ClientCustomerPrePayment customerPrePayment = transaction;
+		if (customerPrePayment != null) {
+			memoTextAreaItem.setDisabled(isInViewMode());
+			setMemoTextAreaItem(customerPrePayment.getMemo());
+			// setRefText(customerPrePayment.getReference());
 		}
-
 	}
 
 	@Override
@@ -132,6 +126,15 @@ public class CustomerPrePaymentView extends
 		// endBalText.setAmount(getAmountInTransactionCurrency(0D));
 		// customerBalText.setAmount(getAmountInTransactionCurrency(0D));
 		memoTextAreaItem.setValue("");
+	}
+
+	@Override
+	public ClientCustomerPrePayment saveView() {
+		ClientCustomerPrePayment saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
 	}
 
 	@Override
