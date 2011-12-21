@@ -5318,11 +5318,34 @@ public interface AccounterMessages extends Messages {
 	public String includeVATwithAmountDisabled();
 
 	public String totalTax();
+
 	public String customersAndSales(String customers);
 
 	public String numberFormat();
 
 	public String negativeNumberFormat();
-	
+
 	public String nameAddress();
+
+	public String vendorCentre(String vendor);
+
+	public String allBills();
+
+	public String openedBills();
+
+	public String cheques();
+
+	public String allcheques();
+
+	public String allPurchaseOrders();
+
+	public String openPurchaseOrders();
+
+	public String allCashPurchases();
+
+	public String allCreditCardExpenses();
+
+	public String allCashExpenses();
+
+	public String payeeSelected(String payee);
 }
