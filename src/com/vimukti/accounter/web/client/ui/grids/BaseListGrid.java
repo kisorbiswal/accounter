@@ -62,11 +62,6 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		this.columnType = setColTypes();
 	}
 
-	public void init() {
-		super.init();
-		// addLoadingImagePanel();
-	}
-
 	@Override
 	protected int getCellWidth(int index) {
 		if (cellsWidth.size() > index)
