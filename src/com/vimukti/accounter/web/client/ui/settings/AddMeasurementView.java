@@ -137,6 +137,15 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		updateData();
 		saveOrUpdate(getData());
 	}
+	
+	@Override
+	public ClientMeasurement saveView() {
+		ClientMeasurement saveView = super.saveView();
+		if (saveView != null){
+			updateData();
+			}
+		return saveView;
+	}
 
 	private void updateData() {
 		data.setName(nameItem.getValue());
