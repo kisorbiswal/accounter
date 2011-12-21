@@ -357,6 +357,15 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 	}
 
 	@Override
+	public ClientBudget saveView() {
+		ClientBudget saveView = super.saveView();
+		if (data != null) {
+			updateBudgetObject();
+		}
+		return saveView;
+	}
+
+	@Override
 	public void saveAndUpdateView() {
 		updateBudgetObject();
 
