@@ -272,12 +272,12 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			protected String getTrueString() {
-				return "Include VAT with Amount enabled";
+				return getMessages().includeVATwithAmountenabled();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "Include VAT with Amount disabled";
+				return getMessages().includeVATwithAmountDisabled();
 			}
 		});
 	}
@@ -486,22 +486,22 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 			}
 		}
 		if (context.getPreferences().isTrackTax()) {
-			makeResult.add("Total Tax: " + result[1]);
+			makeResult.add(getMessages().totalTax() + result[1]);
 		}
 		Customer customer = get(CUSTOMER).getValue();
 		Currency currency = customer.getCurrency();
 		String formalName = getPreferences().getPrimaryCurrency()
 				.getFormalName();
 		if (!currency.getFormalName().equalsIgnoreCase(formalName))
-			makeResult.add("Total"
+			makeResult.add(getMessages().total()
 					+ "("
 					+ formalName
 					+ ")"
 					+ ": "
 					+ (result[0] * getCurrencyFactor() + result[1]
 							* getCurrencyFactor()));
-		makeResult.add("Total" + "(" + currency.getFormalName() + ")" + ": "
-				+ (result[0] + result[1]));
+		makeResult.add(getMessages().total() + "(" + currency.getFormalName()
+				+ ")" + ": " + (result[0] + result[1]));
 	}
 
 	@Override
