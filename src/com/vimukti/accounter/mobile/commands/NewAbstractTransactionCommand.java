@@ -10,6 +10,8 @@ import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.TransactionAccountTableRequirement;
+import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -210,14 +212,18 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 	@Override
 	public void beforeFinishing(Context context, Result makeResult) {
 		// TODO
+		boolean isSales = false;
 		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();
 		if (get(ITEMS) != null) {
-			List<ClientTransactionItem> itemReqValue = get(ITEMS).getValue();
+			TransactionItemTableRequirement req = (TransactionItemTableRequirement) get(ITEMS);
+			List<ClientTransactionItem> itemReqValue = req.getValue();
+			isSales = req.isSales();
 			allrecords.addAll(itemReqValue);
 		}
 		if (get(ACCOUNTS) != null) {
-			List<ClientTransactionItem> accountReqValue = get(ACCOUNTS)
-					.getValue();
+			TransactionAccountTableRequirement req = (TransactionAccountTableRequirement) get(ACCOUNTS);
+			List<ClientTransactionItem> accountReqValue = req.getValue();
+			isSales = req.isSales();
 			allrecords.addAll(accountReqValue);
 		}
 		if (allrecords.isEmpty()) {
@@ -239,9 +245,11 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 		if (get(IS_VAT_INCLUSIVE) != null) {
 			isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		}
-		double[] result = getTransactionTotal(isVatInclusive, allrecords, true);
+		double[] result = getTransactionTotal(isVatInclusive, allrecords,
+				isSales);
 
-		if (context.getPreferences().isTrackTax()) {
+		if (context.getPreferences().isTrackTax()
+				&& (isSales ? true : context.getPreferences().isTrackPaidTax())) {
 			makeResult.add("Total Tax: " + result[1]);
 		}
 
