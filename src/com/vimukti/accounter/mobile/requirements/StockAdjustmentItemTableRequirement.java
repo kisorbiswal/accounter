@@ -63,9 +63,9 @@ public abstract class StockAdjustmentItemTableRequirement extends
 		list.add(new StringRequirement(COMMENT, getMessages().pleaseEnter(
 				getMessages().comment()), getMessages().comment(), true, true));
 
-		list.add(new QuantityRequirement(ADJUSTMENT_QTY,
-				getMessages().pleaseEnter(getMessages().adjustmentQty()),
-				getMessages().adjustmentQty()) {
+		list.add(new QuantityRequirement(ADJUSTMENT_QTY, getMessages()
+				.pleaseEnter(getMessages().adjustmentQty()), getMessages()
+				.adjustmentQty()) {
 
 			@Override
 			protected List<Unit> getLists(Context context) {
@@ -133,10 +133,10 @@ public abstract class StockAdjustmentItemTableRequirement extends
 		Unit clientUnit = (Unit) CommandUtils.getServerObjectById(t
 				.getAdjustmentQty().getUnit(), AccounterCoreType.UNIT);
 		if (clientUnit != null) {
-			record.add(getMessages().availableQty(), t.getAdjustmentQty()
+			record.add(getMessages().adjustmentQty(), t.getAdjustmentQty()
 					.getValue() + " " + clientUnit.getType());
 		} else {
-			record.add(getMessages().availableQty(), t.getAdjustmentQty()
+			record.add(getMessages().adjustmentQty(), t.getAdjustmentQty()
 					.getValue());
 		}
 		return record;

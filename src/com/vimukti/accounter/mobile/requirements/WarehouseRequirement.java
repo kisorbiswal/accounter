@@ -9,6 +9,8 @@ import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class WarehouseRequirement extends ListRequirement<Warehouse> {
@@ -18,6 +20,30 @@ public class WarehouseRequirement extends ListRequirement<Warehouse> {
 			ChangeListner<Warehouse> listner) {
 		super(requirementName, enterString, recordName, isOptional,
 				isAllowFromContext, listner);
+	}
+
+	@Override
+	public Result run(Context context, Result makeResult, ResultList list,
+			ResultList actions) {
+		setWareHouseValue();
+		return super.run(context, makeResult, list, actions);
+	}
+
+	private void setWareHouseValue() {
+		Object value = getValue();
+		if (value != null) {
+			Session currentSession = HibernateUtil.getCurrentSession();
+			Warehouse warehouse = (Warehouse) value;
+			warehouse = (Warehouse) currentSession.load(Warehouse.class,
+					warehouse.getID());
+			super.setValue(warehouse);
+		}
+	}
+
+	@Override
+	public void setValue(Object value) {
+		super.setValue(value);
+		setWareHouseValue();
 	}
 
 	@Override
@@ -61,13 +87,6 @@ public class WarehouseRequirement extends ListRequirement<Warehouse> {
 	@Override
 	protected String getSetMessage() {
 		return null;
-	}
-
-	@Override
-	public void setValue(Object value) {
-		Session currentSession = HibernateUtil.getCurrentSession();
-		Warehouse warehouse = (Warehouse) value;
-		super.setValue(currentSession.load(Warehouse.class, warehouse.getID()));
 	}
 
 	@Override

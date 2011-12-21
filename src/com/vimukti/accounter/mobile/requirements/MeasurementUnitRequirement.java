@@ -34,6 +34,16 @@ public abstract class MeasurementUnitRequirement extends
 		list.add(new BooleanRequirement(IS_DEFAULT, true) {
 
 			@Override
+			public void setValue(Object value) {
+				Boolean isDefault = (Boolean) value;
+				if (isDefault != null && isDefault) {
+					MeasurementUnitRequirement.this
+							.setOtherRecordsDefalutValue();
+				}
+				super.setValue(value);
+			}
+
+			@Override
 			protected String getTrueString() {
 				return getMessages().unitDefault();
 			}
@@ -43,6 +53,15 @@ public abstract class MeasurementUnitRequirement extends
 				return getMessages().unitNotDefault();
 			}
 		});
+	}
+
+	protected void setOtherRecordsDefalutValue() {
+		List<Unit> units = getValue();
+		for (Unit unit : units) {
+			if (!unit.getType().equals(currentValue.getType())) {
+				unit.setDefault(false);
+			}
+		}
 	}
 
 	@Override

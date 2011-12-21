@@ -1,9 +1,15 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public abstract class ItemRequirement extends ListRequirement<Item> {
 
@@ -15,6 +21,29 @@ public abstract class ItemRequirement extends ListRequirement<Item> {
 		super(requirementName, enterString, recordName, isOptional,
 				isAllowFromContext, listner);
 		this.isSales = isSales;
+	}
+
+	@Override
+	public Result run(Context context, Result makeResult, ResultList list,
+			ResultList actions) {
+		setItemValue();
+		return super.run(context, makeResult, list, actions);
+	}
+
+	private void setItemValue() {
+		Object value = getValue();
+		if (value != null) {
+			Session currentSession = HibernateUtil.getCurrentSession();
+			Item item = (Item) value;
+			item = (Item) currentSession.load(Item.class, item.getID());
+			super.setValue(item);
+		}
+	}
+
+	@Override
+	public void setValue(Object value) {
+		super.setValue(value);
+		setItemValue();
 	}
 
 	@Override

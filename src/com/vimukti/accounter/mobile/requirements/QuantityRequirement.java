@@ -65,7 +65,7 @@ public abstract class QuantityRequirement extends
 
 			@Override
 			protected String getSelectString() {
-				return null;
+				return getMessages().pleaseSelect(getMessages().unit());
 			}
 
 			@Override
