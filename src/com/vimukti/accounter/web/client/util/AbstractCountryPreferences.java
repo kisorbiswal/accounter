@@ -7,22 +7,17 @@ public abstract class AbstractCountryPreferences implements ICountryPreferences 
 	 */
 	private static final long serialVersionUID = 1L;
 
-
 	@Override
 	public OrganizationType[] getOrganizationTypes() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-
 	@Override
 	public boolean allowFlexibleFiscalYear() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
@@ -71,7 +66,7 @@ public abstract class AbstractCountryPreferences implements ICountryPreferences 
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	@Override
 	public boolean isServiceTaxIdAndCompanyTaxIdSame() {
 		// TODO Auto-generated method stub
@@ -84,11 +79,14 @@ public abstract class AbstractCountryPreferences implements ICountryPreferences 
 		return false;
 	}
 
-
 	@Override
 	public boolean isServiceTaxDeductable() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC-12:00";
+	}
 }
