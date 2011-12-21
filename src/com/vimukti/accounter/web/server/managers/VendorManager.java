@@ -1645,10 +1645,10 @@ public class VendorManager extends Manager {
 			salesByCustomerDetail.setDeliveryDate(object[11] == null ? null
 					: new ClientFinanceDate(((BigInteger) object[11])
 							.longValue()));
-			salesByCustomerDetail.setIsVoid(object[12] == null ? true
-					: ((Boolean) object[12]).booleanValue());
-			salesByCustomerDetail.setReference((String) object[13]);
-			salesByCustomerDetail.setTransactionId(((BigInteger) object[14])
+			// salesByCustomerDetail.setIsVoid(object[12] == null ? true
+			// : ((Boolean) object[12]).booleanValue());
+			salesByCustomerDetail.setReference((String) object[12]);
+			salesByCustomerDetail.setTransactionId(((BigInteger) object[13])
 					.longValue());
 			queryResult.add(salesByCustomerDetail);
 		}

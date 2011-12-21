@@ -317,6 +317,10 @@ public class Invoice extends Transaction implements Lifecycle {
 		return deliverydate;
 	}
 
+	public void setDeliverydate(FinanceDate deliverydate) {
+		this.deliverydate = deliverydate;
+	}
+
 	/**
 	 * @return the allLineTotal
 	 */
@@ -418,7 +422,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid) {
+		if (!this.isVoid()) {
 			doVoidEffect(session, this);
 		}
 		return super.onDelete(session);
@@ -430,6 +434,9 @@ public class Invoice extends Transaction implements Lifecycle {
 			return true;
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
+		if (isDraftOrTemplate()) {
+			return false;
+		}
 		if (this.total < 0) {
 			if (creditsAndPayments != null
 					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
@@ -503,7 +510,7 @@ public class Invoice extends Transaction implements Lifecycle {
 						for (TransactionItem item : estimate.transactionItems) {
 							TransactionItem clone = item.clone();
 							clone.transaction = this;
-							clone.referringTransactionItem = item;
+							clone.setReferringTransactionItem(item);
 							if (estimate.getEstimateType() == Estimate.CREDITS) {
 								clone.updateAsCredit();
 							}
@@ -512,7 +519,7 @@ public class Invoice extends Transaction implements Lifecycle {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					if (!this.isVoid) {
+					if (!this.isVoid()) {
 						estimate.setUsedInvoice(invoice, session);
 					}
 				}
@@ -533,11 +540,10 @@ public class Invoice extends Transaction implements Lifecycle {
 			 * it's came from any Sales Order.
 			 */
 
-			if (transactionItem.referringTransactionItem != null) {
+			if (transactionItem.getReferringTransactionItem() != null) {
 				TransactionItem referringTransactionItem = (TransactionItem) session
-						.get(TransactionItem.class,
-								transactionItem.referringTransactionItem
-										.getID());
+						.get(TransactionItem.class, transactionItem
+								.getReferringTransactionItem().getID());
 				double amount = 0d;
 
 				if (!isCreated) {
@@ -689,11 +695,11 @@ public class Invoice extends Transaction implements Lifecycle {
 						 * new one or it's came from any Sales Order.
 						 */
 
-						if (transactionItem.referringTransactionItem != null) {
+						if (transactionItem.getReferringTransactionItem() != null) {
 							TransactionItem referringTransactionItem = (TransactionItem) session
-									.get(TransactionItem.class,
-											transactionItem.referringTransactionItem
-													.getID());
+									.get(TransactionItem.class, transactionItem
+											.getReferringTransactionItem()
+											.getID());
 							double amount = 0d;
 
 							if (!isAddition)
@@ -825,11 +831,6 @@ public class Invoice extends Transaction implements Lifecycle {
 		this.number = number;
 	}
 
-	@Override
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	public double getTaxTotal() {
 		return taxTotal;
 	}
@@ -899,6 +900,12 @@ public class Invoice extends Transaction implements Lifecycle {
 		Session session = HibernateUtil.getCurrentSession();
 
 		this.balanceDue = this.total - payments;
+
+		if (isDraftOrTemplate()) {
+			super.onEdit(invoice);
+			return;
+		}
+
 		/**
 		 * if present transaction is deleted or voided & previous transaction is
 		 * not voided then only it will enter the loop
@@ -994,7 +1001,7 @@ public class Invoice extends Transaction implements Lifecycle {
 					break;
 				}
 			}
-			if (est != null && !this.isVoid) {
+			if (est != null && !this.isVoid()) {
 				est.setUsedInvoice(newInvoice, session);
 			} else {
 				est = (Estimate) session.get(Estimate.class,
@@ -1012,7 +1019,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 					TransactionItem clone = item.clone();
 					clone.transaction = this;
-					clone.referringTransactionItem = item;
+					clone.setReferringTransactionItem(item);
 					if (est.getEstimateType() == Estimate.CREDITS) {
 						clone.updateAsCredit();
 					}
@@ -1022,7 +1029,7 @@ public class Invoice extends Transaction implements Lifecycle {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if (!estimatesExistsInOldInvoice.contains(est) && !this.isVoid) {
+			if (!estimatesExistsInOldInvoice.contains(est) && !this.isVoid()) {
 				est.setUsedInvoice(newInvoice, session);
 				session.saveOrUpdate(est);
 			}
@@ -1147,5 +1154,23 @@ public class Invoice extends Transaction implements Lifecycle {
 
 		w.put(messages.details(), this.transactionItems);
 
+	}
+
+	@Override
+	public boolean isValidTransaction() {
+		boolean valid = super.isValidTransaction();
+		if (customer == null) {
+			valid = false;
+		} else if (transactionItems != null && !transactionItems.isEmpty()) {
+			for (TransactionItem item : transactionItems) {
+				if (!item.isValid()) {
+					valid = false;
+					break;
+				}
+			}
+		} else {
+			valid = false;
+		}
+		return valid;
 	}
 }

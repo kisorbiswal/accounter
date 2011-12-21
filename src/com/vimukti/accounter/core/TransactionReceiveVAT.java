@@ -192,7 +192,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		if (this.id == 0l) {
+		if (this.id == 0l && !receiveVAT.isDraftOrTemplate()) {
 
 			this.taxAgency.updateBalance(session, this.taxReturn,
 					this.amountToReceive);

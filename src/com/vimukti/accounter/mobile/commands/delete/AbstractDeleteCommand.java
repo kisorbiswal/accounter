@@ -159,6 +159,7 @@ public abstract class AbstractDeleteCommand extends NewAbstractCommand {
 	 * @return
 	 * @throws AccounterException
 	 */
+
 	public Boolean voidTransaction(AccounterCoreType accounterCoreType,
 			long id, Context context) throws AccounterException {
 		IAccounterServerCore serverCore = CommandUtils.getServerObjectById(id,
@@ -166,8 +167,10 @@ public abstract class AbstractDeleteCommand extends NewAbstractCommand {
 		if (serverCore instanceof Transaction) {
 			IAccounterCore clientObject = (IAccounterCore) new ClientConvertUtil()
 					.toClientObject(serverCore, Util.getClientClass(serverCore));
-			((ClientTransaction) clientObject).setVoid(true);
+			((ClientTransaction) clientObject)
+					.setSaveStatus(ClientTransaction.STATUS_VOID);
 			update(clientObject, context);
+
 			return true;
 		}
 		return false;

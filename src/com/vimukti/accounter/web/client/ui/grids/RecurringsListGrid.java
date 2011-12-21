@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.customers.RecurringTransactionDialog;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class RecurringsListGrid extends
@@ -27,20 +26,15 @@ public class RecurringsListGrid extends
 	protected int getCellWidth(int index) {
 		switch (index) {
 		case 1:
-			return 130;
-		case 2:
-			return 130;
-		case 3:
-			return 130;
+			return 75;
 		case 4:
-			return 130;
 		case 5:
-			return 150;
-		case 6:
-			return 130;
-
+			return 110;
+		case 7:
+			return 15;
+		default:
+			return -1;
 		}
-		return -1;
 	}
 
 	@Override
@@ -53,20 +47,24 @@ public class RecurringsListGrid extends
 		switch (index) {
 		case 0:// Name
 			return obj.getName();
-		case 1: // Transaction Type
-			return Utility.getTransactionName(obj.getRefTransactionType());
-		case 2: // Frequency
-			return obj.getFrequencyString();
-		case 3: // prevScheduleOn
+		case 1: // Recurring Type
+			return getRecurringType(obj.getType());
+		case 2: // Transaction Type
+			return Utility.getTransactionName(obj.getTransaction().getType());
+		case 3:
+			if (obj.getType() != ClientRecurringTransaction.RECURRING_UNSCHEDULED) {
+				return obj.getFrequencyString();
+			} else {
+				return "";
+			}
+		case 4: // prevScheduleOn
 			return obj.getPrevScheduleOn() == 0 ? null : new ClientFinanceDate(
 					obj.getPrevScheduleOn());
-		case 4: // nextScheduleOn
+		case 5: // nextScheduleOn
 			return obj.getNextScheduleOn() == 0 ? null : new ClientFinanceDate(
 					obj.getNextScheduleOn());
-		case 5: // occurrences completed
-			return String.valueOf(obj.getOccurencesCompleted());
 		case 6: // transaction amount
-			return obj.getRefTransactionTotal();
+			return obj.getTransaction().getTotal();
 		case 7: // delete image
 			return Accounter.getFinanceMenuImages().delete();
 		default:
@@ -75,33 +73,43 @@ public class RecurringsListGrid extends
 		return null;
 	}
 
+	private String getRecurringType(int type) {
+		switch (type) {
+		case 0:
+			return messages.scheduled();
+		case 1:
+			return messages.reminder();
+		case 2:
+			return messages.unScheduled();
+		}
+		return "";
+	}
+
 	@Override
 	public void onDoubleClick(ClientRecurringTransaction obj) {
 
-		ReportsRPC.openTransactionView(obj.getRefTransactionType(), obj
-				.getReferringTransaction());
+		ReportsRPC.openTransactionView(obj.getTransaction().getType(), obj
+				.getTransaction().getID());
 
 		// TODO need to open dialog also.
-		RecurringTransactionDialog dialog = null;
-		dialog = new RecurringTransactionDialog(obj);
-		dialog.show();
+		// RecurringTransactionDialog dialog = null;
+		// dialog = new RecurringTransactionDialog(obj);
+		// dialog.show();
 	}
 
 	@Override
 	protected void onClick(ClientRecurringTransaction obj, int row, int col) {
 
-		if (col == 7) { // click on delete
-			executeDelete(obj);
-			return;
+		if (col == 7) {
+			showWarnDialog(obj);
 		}
-		super.onClick(obj, row, col);
 	}
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.name(), messages.transactionType(),
-				messages.frequency(), messages.prevScheduleOn(),
-				messages.nextScheduleOn(), messages.occurrencesCompleted(),
-				messages.transactionAmount(), "" };
+		return new String[] { messages.name(), messages.type(),
+				messages.transactionType(), messages.interval(),
+				messages.prevScheduleOn(), messages.nextScheduleOn(),
+				messages.amount(), "" };
 	}
 }

@@ -1491,4 +1491,9 @@ public class SalesOrderView extends
 	protected boolean canVoid() {
 		return false;
 	}
+
+	@Override
+	protected boolean canRecur() {
+		return false;
+	}
 }

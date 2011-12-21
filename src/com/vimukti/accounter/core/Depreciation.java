@@ -353,7 +353,7 @@ public class Depreciation extends CreatableObject implements
 
 							}
 
-							trans.setVoid(true);
+							trans.setSaveStatus(Transaction.STATUS_VOID);
 							if (trans instanceof Lifecycle) {
 								Lifecycle lifeCycle = trans;
 								lifeCycle.onUpdate(session);

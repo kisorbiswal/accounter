@@ -34,16 +34,17 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Advertisement;
+import com.vimukti.accounter.core.Attachment;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Budget;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
-import com.vimukti.accounter.core.CloneUtil;
 import com.vimukti.accounter.core.CloneUtil2;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreatableObject;
@@ -54,6 +55,8 @@ import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
+import com.vimukti.accounter.core.EnterBill;
+import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.IAccounterServerCore;
@@ -62,6 +65,7 @@ import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.MakeDeposit;
+import com.vimukti.accounter.core.MessageOrTask;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.PayBill;
@@ -73,13 +77,18 @@ import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.ReconciliationItem;
 import com.vimukti.accounter.core.RecurringTransaction;
+import com.vimukti.accounter.core.Reminder;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXRateCalculation;
 import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionLog;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransactionMakeDepositEntries;
+import com.vimukti.accounter.core.TransactionReceivePayment;
+import com.vimukti.accounter.core.TransactionPayBill;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Util;
@@ -109,15 +118,12 @@ import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
-import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
-import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
-import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
-import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -1900,14 +1906,6 @@ public class FinanceTool {
 			ClientRecurringTransaction clientObject = new ClientConvertUtil()
 					.toClientObject(recurringTransaction,
 							ClientRecurringTransaction.class);
-			clientObject.setRefTransactionTotal(recurringTransaction
-					.getReferringTransaction().getTotal());
-			clientObject.setRefTransactionType(recurringTransaction
-					.getReferringTransaction().getType());
-
-			// TODO doubt
-			clientObject.setReferringTransaction(recurringTransaction
-					.getReferringTransaction().getID());
 
 			clientObjs.add(clientObject);
 		}
@@ -2103,65 +2101,79 @@ public class FinanceTool {
 
 	}
 
+	/**
+	 * This method will create a duplicate transaction for argument transaction.
+	 * 
+	 * @param recurringTransaction
+	 * @return {@link Transaction}
+	 * @throws AccounterException
+	 * @throws CloneNotSupportedException
+	 */
 	public static Transaction createDuplicateTransaction(
 			RecurringTransaction recurringTransaction)
 			throws AccounterException, CloneNotSupportedException {
-		Transaction transaction = recurringTransaction
-				.getReferringTransaction();
-
-		// Instead of cloning directly on transaction, we'll perform cloning on
-		// client transacton.
-		ClientTransaction clientTransaction = (ClientTransaction) new ClientConvertUtil()
-				.toClientObject(transaction, Util.getClientClass(transaction));
-
-		ClientTransaction clone = new CloneUtil<IAccounterCore>(
-				IAccounterCore.class).clone(null, clientTransaction, true);
-
-		// reset IDs
-		clone.setID(0);
-		clone.setRecurringTransaction(0);
-		clone.setNumber(NumberUtils.getNextTransactionNumber(clone.getType(),
-				transaction.getCompany()));
-
-		List<ClientTransactionItem> transactionItems2 = clone
-				.getTransactionItems();
-		for (ClientTransactionItem clientTransactionItem : transactionItems2) {
-			clientTransactionItem.setID(0);
-		}
-
-		// reset credits and payments
-		// clone.setCreditsAndPayments(null);
-		clone.setTransactionMakeDeposit(new ArrayList<ClientTransactionMakeDeposit>());
-		clone.setTransactionPayBill(new ArrayList<ClientTransactionPayBill>());
-		clone.setTransactionReceivePayment(new ArrayList<ClientTransactionReceivePayment>());
-		clone.setTransactionIssuePayment(new ArrayList<ClientTransactionIssuePayment>());
-		clone.setTransactionPaySalesTax(new ArrayList<ClientTransactionPayTAX>());
 
 		Session session = HibernateUtil.getCurrentSession();
+		FlushMode flushMode = session.getFlushMode();
+		session.setFlushMode(FlushMode.COMMIT);
 
-		Transaction transaction2 = null;/*
-										 * (Transaction) session.get(
-										 * transaction.getClass(),
-										 * transaction.getID())
-										 */
+		Transaction transaction = recurringTransaction.getTransaction();
 
-		transaction2 = new ServerConvertUtil().toServerObject(null, clone,
-				session);
-
-		// set transaction date and duedate
-		transaction2.setDate(recurringTransaction
-				.getNextScheduledTransactionDate());
-		if (recurringTransaction.canHaveDueDate()) {
-			if (transaction2 instanceof Invoice) {
-				((Invoice) transaction2).setDueDate(recurringTransaction
-						.getNextTransactionDueDate());
-			} else {
-				((PayBill) transaction2)
-						.setBillDueOnOrBefore(recurringTransaction
-								.getNextTransactionDueDate());
+		Transaction newTransaction = transaction.clone();
+		newTransaction.setCompany(recurringTransaction.getCompany());
+		newTransaction.setRecurringTransaction(recurringTransaction);
+		newTransaction.setNumber(NumberUtils.getNextTransactionNumber(
+				newTransaction.getType(), recurringTransaction.getCompany()));
+		for (TransactionItem transactionItem : newTransaction
+				.getTransactionItems()) {
+			transactionItem.setTransaction(newTransaction);
+			transactionItem.setReferringTransactionItem(null);
+		}
+		FinanceDate transactionDate = recurringTransaction
+				.getNextScheduledTransactionDate();
+		if (transactionDate != null) {
+			newTransaction.setDate(transactionDate);
+			if (newTransaction instanceof Invoice) {
+				((Invoice) newTransaction).setDueDate(transactionDate);
+				((Invoice) newTransaction).setDeliverydate(transactionDate);
+			} else if (newTransaction instanceof EnterBill) {
+				((EnterBill) newTransaction).setDueDate(transactionDate);
+				((EnterBill) newTransaction).setDeliveryDate(transactionDate);
+			} else if (newTransaction instanceof CashPurchase) {
+				((CashPurchase) newTransaction)
+						.setDeliveryDate(transactionDate);
+			} else if (newTransaction instanceof Estimate) {
+				((Estimate) newTransaction).setExpirationDate(transactionDate);
+				((Estimate) newTransaction).setDeliveryDate(transactionDate);
 			}
 		}
-		return transaction2;
+		newTransaction
+				.setAccountTransactionEntriesList(new HashSet<AccountTransaction>());
+		newTransaction
+				.setTaxRateCalculationEntriesList(new HashSet<TAXRateCalculation>());
+		newTransaction
+				.setReconciliationItems(new HashSet<ReconciliationItem>());
+		newTransaction.setAttachments(new HashSet<Attachment>());
+		newTransaction.setLastActivity(null);
+		newTransaction.setHistory(null);
+
+		if (newTransaction instanceof Invoice) {
+			((Invoice) newTransaction).setEstimates(null);
+			((Invoice) newTransaction).setSalesOrders(null);
+			((Invoice) newTransaction)
+					.setTransactionReceivePayments(new HashSet<TransactionReceivePayment>());
+		} else if (newTransaction instanceof EnterBill) {
+			((EnterBill) newTransaction).setEstimates(null);
+			((EnterBill) newTransaction)
+					.setTransactionPayBills(new HashSet<TransactionPayBill>());
+		} else if (newTransaction instanceof JournalEntry) {
+			((JournalEntry) newTransaction).transactionReceivePayments = new HashSet<TransactionReceivePayment>();
+			((JournalEntry) newTransaction).transactionPayBills = new HashSet<TransactionPayBill>();
+		}
+
+		session.setFlushMode(flushMode);
+
+		return newTransaction;
 	}
 
 	/**
@@ -3335,6 +3347,75 @@ public class FinanceTool {
 		transaction.commit();
 
 		return true;
+	}
+
+	public boolean createOrSkipTransactions(List<ClientReminder> records,
+			boolean isCreate, long companyId) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction hibernateTransaction = session
+				.beginTransaction();
+		if (!isCreate) {
+			// If user wanted to skip transactions.
+			for (ClientReminder obj : records) {
+				Reminder reminder = null;
+				reminder = new ServerConvertUtil().toServerObject(reminder,
+						obj, session);
+				RecurringTransaction recurringTransaction = reminder
+						.getRecurringTransaction();
+				recurringTransaction.getReminders().remove(reminder);
+				session.saveOrUpdate(recurringTransaction);
+			}
+		} else {
+			for (ClientReminder obj : records) {
+				Reminder reminder = null;
+				reminder = new ServerConvertUtil().toServerObject(reminder,
+						obj, session);
+
+				Transaction transaction = null;
+				try {
+					transaction = createDuplicateTransaction(reminder
+							.getRecurringTransaction());
+				} catch (CloneNotSupportedException e) {
+					e.printStackTrace();
+					throw new AccounterException(e.getMessage());
+				}
+				FinanceDate transactionDate = reminder.getTransactionDate();
+				if (transactionDate != null) {
+					transaction.setDate(transactionDate);
+					if (transaction instanceof Invoice) {
+						((Invoice) transaction).setDueDate(transactionDate);
+					} else if (transaction instanceof EnterBill) {
+						((EnterBill) transaction).setDueDate(transactionDate);
+					} else if (transaction instanceof CashPurchase) {
+						((CashPurchase) transaction)
+								.setDeliveryDate(transactionDate);
+					} else if (transaction instanceof Estimate) {
+						((Estimate) transaction).setExpirationDate(transactionDate);
+						((Estimate) transaction).setDeliveryDate(transactionDate);
+					}
+				}
+				session.saveOrUpdate(transaction);
+				RecurringTransaction recurringTransaction = reminder
+						.getRecurringTransaction();
+				recurringTransaction.getReminders().remove(reminder);
+				session.saveOrUpdate(recurringTransaction);
+			}
+		}
+		deleteRecurringTask(session, companyId);
+		hibernateTransaction.commit();
+		return true;
+	}
+
+	public void deleteRecurringTask(Session session, long companyId) {
+		List<Reminder> list = session.getNamedQuery("getReminders")
+				.setLong("companyId", companyId).list();
+
+		if (list == null || list.isEmpty()) {
+			MessageOrTask task = (MessageOrTask) session
+					.getNamedQuery("getRecurringReminderTask")
+					.setParameter("companyId", companyId).uniqueResult();
+			session.delete(task);
+		}
 	}
 
 	public void doCreateIssuePaymentEffect(Long companyId,

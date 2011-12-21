@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.RemindersListAction;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
 import com.vimukti.accounter.web.client.ui.banking.BankingHomeAction;
 import com.vimukti.accounter.web.client.ui.banking.BuyChecksAndFormsAction;
@@ -114,6 +115,7 @@ import com.vimukti.accounter.web.client.ui.reports.APAgingDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.APAgingSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.ARAgingDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.ARAgingSummaryReportAction;
+import com.vimukti.accounter.web.client.ui.reports.AutomaticTransactionsAction;
 import com.vimukti.accounter.web.client.ui.reports.BalanceSheetAction;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewReportAction;
 import com.vimukti.accounter.web.client.ui.reports.BudgetvsActualsAction;
@@ -815,6 +817,10 @@ public class ActionFactory {
 		return new TransactionDetailByAccountAction();
 	}
 
+	public static AutomaticTransactionsAction getAutomaticTransactionsAction() {
+		return new AutomaticTransactionsAction();
+	}
+
 	public static GLReportAction getGlReportAction() {
 		return new GLReportAction();
 	}
@@ -1214,6 +1220,10 @@ public class ActionFactory {
 
 	public static RecurringsListAction getRecurringsListAction() {
 		return new RecurringsListAction();
+	}
+
+	public static RemindersListAction getRemindersListAction() {
+		return new RemindersListAction();
 	}
 
 	public static Prepare1099MISCAction getPrepare1099MISCAction() {

@@ -42,7 +42,8 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 		case 2:
 			return obj.getMemo() != null ? obj.getMemo() : "";
 		case 3:
-			return DataUtils.amountAsStringWithCurrency(obj.getTotal(), getCompany().getPrimaryCurrency());
+			return DataUtils.amountAsStringWithCurrency(obj.getTotal(),
+					getCompany().getPrimaryCurrency());
 		case 4:
 			if (!obj.isVoid())
 				return Accounter.getFinanceImages().notvoid();
@@ -87,9 +88,8 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	@Override
 	protected String[] getColumns() {
 		messages = Accounter.messages();
-		return new String[] { messages.no(), messages.date(),
-				messages.memo(), messages.amount(),
-				messages.Voided()
+		return new String[] { messages.no(), messages.date(), messages.memo(),
+				messages.amount(), messages.Voided()
 
 		};
 	}
@@ -200,7 +200,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 					deleteRecord(obj);
 				obj.setStatus(ClientTransaction.STATUS_DELETED);
 				isDeleted = true;
-				obj.setVoid(true);
+				obj.setSaveStatus(ClientTransaction.STATUS_VOID);
 				updateData(obj);
 
 			}

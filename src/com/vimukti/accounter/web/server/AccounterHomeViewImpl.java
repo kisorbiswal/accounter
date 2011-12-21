@@ -49,16 +49,19 @@ import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
@@ -1785,6 +1788,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
+	public List<ClientMessageOrTask> getMessagesAndTasks()
+			throws AccounterException {
+		FinanceTool tool = new FinanceTool();
+		return tool.getCompanyManager().getMessagesAndTasks(getCompanyId());
+	}
+
+	@Override
 	public ArrayList<ClientActivity> getAuditHistory(int objectType,
 			long objectID, long activityID) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
@@ -1796,6 +1806,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
+	public ArrayList<ClientReminder> getRemindersList()
+			throws AccounterException {
+		FinanceTool tool = new FinanceTool();
+		return tool.getCompanyManager().getRemindersList(getCompanyId());
+	}
+
 	public ExpensePortletData getAccountsAndValues(long startDate, long endDate) {
 		FinanceTool tool = new FinanceTool();
 		FinanceDate[] dates = getMinimumAndMaximumDates(new ClientFinanceDate(
@@ -1817,6 +1833,18 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public List<ClientAdvertisement> getAdvertisements() {
 		FinanceTool financeTool = new FinanceTool();
 		return financeTool.getAdvertisements();
+	}
+
+	@Override
+	public ClientTransaction getTransactionToCreate(ClientReminder obj)
+			throws AccounterException {
+		try {
+			return new FinanceTool().getCompanyManager()
+					.getTransactionToCreate(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AccounterException(e.getMessage());
+		}
 	}
 
 	@Override

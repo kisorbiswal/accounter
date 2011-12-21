@@ -462,4 +462,21 @@ public class Estimate extends Transaction {
 
 	}
 
+	@Override
+	public boolean isValidTransaction() {
+		boolean valid = super.isValidTransaction();
+		if (customer == null) {
+			valid = false;
+		} else if (transactionItems != null && !transactionItems.isEmpty()) {
+			for (TransactionItem item : transactionItems) {
+				if (!item.isValid()) {
+					valid = false;
+					break;
+				}
+			}
+		} else {
+			valid = false;
+		}
+		return valid;
+	}
 }

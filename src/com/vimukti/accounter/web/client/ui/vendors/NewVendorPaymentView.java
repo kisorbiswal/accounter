@@ -869,4 +869,8 @@ public class NewVendorPaymentView extends
 		adjustBalance();
 	}
 
+	@Override
+	protected boolean canRecur() {
+		return false;
+	}
 }

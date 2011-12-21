@@ -1655,4 +1655,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 									.getFormalName()));
 		}
 	}
+
+	@Override
+	protected ValidationResult validateBaseRequirement() {
+		ValidationResult result = new ValidationResult();
+		result.add(custForm.validate());
+		result.add(super.validateBaseRequirement());
+		return result;
+	}
 }

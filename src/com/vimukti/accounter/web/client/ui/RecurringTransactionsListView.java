@@ -4,12 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.RecurringsListGrid;
 
 public class RecurringTransactionsListView extends
 		TransactionsListView<ClientRecurringTransaction> {
+
+	private final static String ALL = Accounter.messages().all();
+	private final static String SCHEDULED = Accounter.messages().scheduled();
+	private final static String REMAINDER = Accounter.messages().reminder();
+	private final static String UNSCHEDULED = Accounter.messages()
+			.unScheduled();
+
+	List<String> listOfTypes;
+
+	private String viewType;
 
 	private List<ClientRecurringTransaction> recurringTransactions;
 
@@ -39,13 +51,39 @@ public class RecurringTransactionsListView extends
 	}
 
 	@Override
-	protected List<String> getViewSelectTypes() {
-		List<String> listOfTypes = new ArrayList<String>();
-		listOfTypes.add(messages().all());
-		listOfTypes.add(messages().schedule());
-		listOfTypes.add(messages().remainder());
-		listOfTypes.add(messages().noneJustTemplate());
-		return listOfTypes;
+	protected SelectCombo getSelectItem() {
+		viewSelect = new SelectCombo(Accounter.messages().currentView());
+		viewSelect.setHelpInformation(true);
+		listOfTypes = new ArrayList<String>();
+		listOfTypes.add(ALL);
+		listOfTypes.add(SCHEDULED);
+		listOfTypes.add(REMAINDER);
+		listOfTypes.add(UNSCHEDULED);
+		viewSelect.initCombo(listOfTypes);
+
+		if (viewType != null && !viewType.equals(""))
+			viewSelect.setComboItem(viewType);
+		else
+			viewSelect.setComboItem(ALL);
+
+		// if (UIUtils.isMSIEBrowser())
+		// viewSelect.setWidth("105px");
+
+		viewSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (viewSelect.getSelectedValue() != null) {
+							grid.setViewType(viewSelect.getSelectedValue());
+							filterList(viewSelect.getSelectedValue());
+						}
+
+					}
+				});
+		viewSelect.addStyleName("recurringListCombo");
+
+		return viewSelect;
 	}
 
 	@Override
@@ -57,20 +95,20 @@ public class RecurringTransactionsListView extends
 				continue;
 			}
 
-			if (text.equals(messages().schedule())
-					&& recTransaction.getType() == ClientRecurringTransaction.RECURRING_SCHEDULE) {
+			if (text.equals(SCHEDULED)
+					&& recTransaction.getType() == ClientRecurringTransaction.RECURRING_SCHEDULED) {
 				grid.addData(recTransaction);
 				continue;
 			}
 
-			if (text.equals(messages().remainder())
-					&& recTransaction.getType() == ClientRecurringTransaction.RECURRING_REMAINDER) {
+			if (text.equals(REMAINDER)
+					&& recTransaction.getType() == ClientRecurringTransaction.RECURRING_REMINDER) {
 				grid.addData(recTransaction);
 				continue;
 			}
 
-			if (text.equals(messages().noneJustTemplate())
-					&& recTransaction.getType() == ClientRecurringTransaction.RECURRING_NONE) {
+			if (text.equals(UNSCHEDULED)
+					&& recTransaction.getType() == ClientRecurringTransaction.RECURRING_UNSCHEDULED) {
 				grid.addData(recTransaction);
 				continue;
 			}
@@ -83,7 +121,7 @@ public class RecurringTransactionsListView extends
 
 	@Override
 	protected String getListViewHeading() {
-		return "Recurring Transactions List";
+		return Accounter.messages().recurringTransactionsList();
 	}
 
 	@Override
@@ -94,21 +132,19 @@ public class RecurringTransactionsListView extends
 	}
 
 	@Override
-	protected Action getAddNewAction() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected String getAddNewLabelString() {
-		// TODO Auto-generated method stub
-		return "Recurring Label string";
+		return "";
 	}
 
 	@Override
 	protected String getViewTitle() {
+		return Accounter.messages().recurringTransactions();
+	}
+
+	@Override
+	protected Action getAddNewAction() {
 		// TODO Auto-generated method stub
-		return "RecurringTransactions";
+		return null;
 	}
 
 }

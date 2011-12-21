@@ -93,7 +93,7 @@ public class TransferFund extends Transaction {
 			return true;
 		this.isOnSaveProccessed = true;
 		super.onSave(session);
-		if (this.getID() == 0l) {
+		if (this.getID() == 0l && !isDraftOrTemplate()) {
 			Account account = this.transferFrom;
 			account.updateCurrentBalance(this, this.total, currencyFactor);
 			session.update(account);
@@ -141,10 +141,6 @@ public class TransferFund extends Transaction {
 		return AccounterServerConstants.TYPE_TRANSFER_FUND;
 	}
 
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	public void setNumber(String number) {
 		this.number = number;
 	}
@@ -189,12 +185,18 @@ public class TransferFund extends Transaction {
 
 		TransferFund transferFund = (TransferFund) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (isDraftOrTemplate()) {
+			super.onEdit(transferFund);
+			return;
+		}
+
 		/**
 		 * if present transaction is deleted or voided & previous transaction is
 		 * not voided then only it will enter the loop
 		 */
 
-		if (this.isVoid && !transferFund.isVoid) {
+		if (this.isVoid() && !transferFund.isVoid()) {
 
 			transferFund.effectAccount(session, transferFund.transferFrom,
 					-transferFund.total);
@@ -239,7 +241,7 @@ public class TransferFund extends Transaction {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid) {
+		if (!this.isVoid()) {
 			this.effectAccount(session, this.transferFrom, -this.total);
 		}
 		return super.onDelete(session);
@@ -265,7 +267,7 @@ public class TransferFund extends Transaction {
 		/**
 		 * If Transfer Fund is already void or deleted we can't edit it
 		 */
-		if (this.isVoid && !transferFund.isVoid) {
+		if (this.isVoid() && !transferFund.isVoid()) {
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 			// "Transfer Fund is already voided or deleted we can't Edit");

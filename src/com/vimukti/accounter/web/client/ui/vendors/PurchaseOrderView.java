@@ -1549,4 +1549,8 @@ public class PurchaseOrderView extends
 		return false;
 	}
 
+	@Override
+	protected boolean canRecur() {
+		return false;
+	}
 }

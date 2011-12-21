@@ -130,21 +130,6 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	}
 
 	/**
-	 * @return the isVoid
-	 */
-	public boolean isVoid() {
-		return isVoid;
-	}
-
-	/**
-	 * @param isVoid
-	 *            the isVoid to set
-	 */
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
-	/**
 	 * @return the transactionReceiveVAT
 	 */
 	public List<TransactionReceiveVAT> getTransactionReceiveVAT() {
@@ -254,11 +239,6 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 			depositIn.updateCurrentBalance(this, total, this.currencyFactor);
 		}
 		return false;
-	}
-
-	@Override
-	public void onEdit(Transaction clonedObject) {
-
 	}
 
 	@Override

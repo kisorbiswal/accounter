@@ -19,16 +19,22 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.BankAccount;
+import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Depreciation;
+import com.vimukti.accounter.core.EnterBill;
+import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.FixedAsset;
+import com.vimukti.accounter.core.Invoice;
+import com.vimukti.accounter.core.MessageOrTask;
 import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.RecurringTransaction;
+import com.vimukti.accounter.core.Reminder;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Unit;
@@ -44,6 +50,9 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
+import com.vimukti.accounter.web.client.core.ClientReminder;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
@@ -799,6 +808,20 @@ public class CompanyManager extends Manager {
 		return result;
 	}
 
+	public ArrayList<ClientReminder> getRemindersList(Long companyId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		List<Reminder> list = session.getNamedQuery("getReminders")
+				.setLong("companyId", companyId).list();
+		ArrayList<ClientReminder> result = new ArrayList<ClientReminder>();
+		for (Reminder reminder : list) {
+			ClientReminder clientReminder = new ClientConvertUtil()
+					.toClientObject(reminder, ClientReminder.class);
+			result.add(clientReminder);
+		}
+		return result;
+	}
+
 	public PaginationList<SearchResultlist> getSearchByInput(SearchInput input,
 			int start, int length, Long companyId) {
 
@@ -1474,4 +1497,65 @@ public class CompanyManager extends Manager {
 		return null;
 	}
 
+	public List<ClientMessageOrTask> getMessagesAndTasks(long companyId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		List<MessageOrTask> list = session.getNamedQuery("getMessagesAndTasks")
+				.setParameter("companyId", companyId).list();
+		ClientConvertUtil convertUtil = new ClientConvertUtil();
+
+		List<ClientMessageOrTask> result = new ArrayList<ClientMessageOrTask>();
+
+		for (MessageOrTask mt : list) {
+			ClientMessageOrTask cmt = convertUtil.toClientObject(mt,
+					ClientMessageOrTask.class);
+			result.add(cmt);
+		}
+		return result;
+	}
+
+	public ClientTransaction getTransactionToCreate(ClientReminder obj)
+			throws AccounterException, ClassNotFoundException {
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		Reminder reminder = null;
+		reminder = new ServerConvertUtil().toServerObject(reminder, obj,
+				session);
+
+		Transaction transaction = null;
+		try {
+			transaction = FinanceTool.createDuplicateTransaction(reminder
+					.getRecurringTransaction());
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			throw new AccounterException(e.getMessage());
+		}
+		FinanceDate transactionDate = reminder.getTransactionDate();
+		if (transactionDate != null) {
+			transaction.setDate(transactionDate);
+			if (transaction instanceof Invoice) {
+				((Invoice) transaction).setDueDate(transactionDate);
+			} else if (transaction instanceof EnterBill) {
+				((EnterBill) transaction).setDueDate(transactionDate);
+			} else if (transaction instanceof CashPurchase) {
+				((CashPurchase) transaction).setDeliveryDate(transactionDate);
+			} else if (transaction instanceof Estimate) {
+				((Estimate) transaction).setExpirationDate(transactionDate);
+				((Estimate) transaction).setDeliveryDate(transactionDate);
+			}
+		}
+		
+		transaction.setSaveStatus(0);
+
+		String simpleName = transaction.getClass().getSimpleName();
+		StringBuffer clientName = new StringBuffer(
+				"com.vimukti.accounter.web.client.core.Client");
+		clientName.append(simpleName);
+
+		Class<ClientTransaction> clazz = (Class<ClientTransaction>) Class
+				.forName(clientName.toString());
+
+		return new ClientConvertUtil().toClientObject(transaction, clazz);
+	}
 }

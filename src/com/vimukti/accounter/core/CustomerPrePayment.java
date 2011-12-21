@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -75,13 +74,6 @@ public class CustomerPrePayment extends Transaction {
 	}
 
 	/**
-	 * @return the isVoid
-	 */
-	public boolean getIsVoid() {
-		return isVoid;
-	}
-
-	/**
 	 * @return the address
 	 */
 	public Address getAddress() {
@@ -117,7 +109,8 @@ public class CustomerPrePayment extends Transaction {
 
 		// Inserting this Customer prePayment entry in to Credits And Payments
 		// table.
-		if (DecimalUtil.isGreaterThan(this.getTotal(), 0.0)) {
+		if (!isDraftOrTemplate()
+				&& DecimalUtil.isGreaterThan(this.getTotal(), 0.0)) {
 			this.balanceDue = this.total;
 			if (creditsAndPayments != null
 					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
@@ -196,10 +189,6 @@ public class CustomerPrePayment extends Transaction {
 		this.depositIn = account;
 	}
 
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_CUSTOMER;
@@ -211,16 +200,15 @@ public class CustomerPrePayment extends Transaction {
 	}
 
 	@Override
-	public void onLoad(Session session, Serializable arg1) {
-		super.onLoad(session, arg1);
-	}
-
-	@Override
 	public void onEdit(Transaction clonedObject) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		CustomerPrePayment customerPrePayment = (CustomerPrePayment) clonedObject;
-		if (this.isVoid && !clonedObject.isVoid) {
+		if (isDraftOrTemplate()) {
+			super.onEdit(customerPrePayment);
+			return;
+		}
+		if (this.isVoid() && !clonedObject.isVoid()) {
 
 		} else {
 

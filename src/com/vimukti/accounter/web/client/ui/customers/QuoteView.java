@@ -247,58 +247,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientEstimate quote = transaction != null ? (ClientEstimate) transaction
-				: new ClientEstimate();
-
-		if (quoteExpiryDate.getEnteredDate() != null)
-			quote.setExpirationDate(quoteExpiryDate.getEnteredDate().getDate());
-		if (getCustomer() != null)
-			quote.setCustomer(getCustomer());
-		if (contact != null)
-			quote.setContact(contact);
-		if (phoneSelect.getValue() != null)
-			quote.setPhone(phoneSelect.getValue().toString());
-
-		if (deliveryDate.getEnteredDate() != null)
-			quote.setDeliveryDate(deliveryDate.getEnteredDate().getDate());
-
-		if (salesPerson != null)
-			quote.setSalesPerson(salesPerson);
-
-		if (priceLevel != null)
-			quote.setPriceLevel(priceLevel);
-
-		quote.setMemo(memoTextAreaItem.getValue().toString());
-
-		if (billingAddress != null)
-			quote.setAddress(billingAddress);
-
-		if (shippingAddress != null) {
-			quote.setShippingAdress(shippingAddress);
-		}
-		// quote.setReference(this.refText.getValue() != null ? this.refText
-		// .getValue().toString() : "");
-		quote.setPaymentTerm(Utility.getID(paymentTerm));
-		quote.setNetAmount(netAmountLabel.getAmount());
-
-		if (isTrackTax()) {
-			if (vatinclusiveCheck != null) {
-				quote.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
-			}
-			if (salesTax == null)
-				salesTax = 0.0D;
-			quote.setTaxTotal(this.salesTax);
-		}
-
-		quote.setTotal(foreignCurrencyamountLabel.getAmount());
-
-		String selectedValue = statusCombo.getSelectedValue();
-		quote.setStatus(getStatus(selectedValue));
-
-		transaction = quote;
-
-		super.saveAndUpdateView();
-
+		updateTransaction();
 		saveOrUpdate(transaction);
 
 	}
@@ -691,6 +640,51 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
+
+		if (quoteExpiryDate.getEnteredDate() != null)
+			transaction.setExpirationDate(quoteExpiryDate.getEnteredDate()
+					.getDate());
+		if (getCustomer() != null)
+			transaction.setCustomer(getCustomer());
+		if (contact != null)
+			transaction.setContact(contact);
+		if (phoneSelect.getValue() != null)
+			transaction.setPhone(phoneSelect.getValue().toString());
+
+		if (deliveryDate.getEnteredDate() != null)
+			transaction
+					.setDeliveryDate(deliveryDate.getEnteredDate().getDate());
+
+		if (salesPerson != null)
+			transaction.setSalesPerson(salesPerson);
+
+		if (priceLevel != null)
+			transaction.setPriceLevel(priceLevel);
+
+		transaction.setMemo(memoTextAreaItem.getValue().toString());
+
+		if (billingAddress != null)
+			transaction.setAddress(billingAddress);
+
+		if (shippingAddress != null) {
+			transaction.setShippingAdress(shippingAddress);
+		}
+		// quote.setReference(this.refText.getValue() != null ? this.refText
+		// .getValue().toString() : "");
+		transaction.setPaymentTerm(Utility.getID(paymentTerm));
+		transaction.setNetAmount(netAmountLabel.getAmount());
+
+		if (isTrackTax()) {
+			if (vatinclusiveCheck != null) {
+				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
+			}
+			if (salesTax == null)
+				salesTax = 0.0D;
+			transaction.setTaxTotal(this.salesTax);
+		}
+
+		String selectedValue = statusCombo.getSelectedValue();
+		transaction.setStatus(getStatus(selectedValue));
 
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 

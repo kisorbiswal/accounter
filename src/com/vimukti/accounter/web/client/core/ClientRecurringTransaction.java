@@ -6,9 +6,9 @@ public class ClientRecurringTransaction implements IAccounterCore {
 	/*-------------------------
 	 * Recurring types
 	 *---------------------------*/
-	public final static int RECURRING_SCHEDULE = 0;
-	public final static int RECURRING_REMAINDER = 1;
-	public final static int RECURRING_NONE = 2;
+	public final static int RECURRING_SCHEDULED = 0;
+	public final static int RECURRING_REMINDER = 1;
+	public final static int RECURRING_UNSCHEDULED = 2;
 
 	/*-----------------------
 	 * Interval types
@@ -82,7 +82,7 @@ public class ClientRecurringTransaction implements IAccounterCore {
 	private int month;
 
 	private int version;
-	
+
 	/**
 	 * Include unbilled changes when these transactions[like invoices] are
 	 * updated.
@@ -90,13 +90,28 @@ public class ClientRecurringTransaction implements IAccounterCore {
 	private boolean unbilledChargesEnabled;
 
 	/**
+	 * Is it necessary to alert the user when recurring occurrences completed or
+	 * crossed the end date.
+	 */
+	private boolean alertWhenEnded;
+
+	/**
+	 * To store whether need to notify about automatically created transactions
+	 * or not if recurring type is schedule.
+	 */
+	private boolean notifyCreatedTransaction;
+
+	/**
 	 * create the instance of this recurring template in advance to specified
 	 * days. <br>
-	 * <br>
-	 * For <b>Remainders</b>, this field will be the value for 'days before to
-	 * remind'
 	 */
 	private int daysInAdvanceToCreate;
+
+	/**
+	 * Need to remind the user these many days before when recurring type is
+	 * reminder.
+	 */
+	private int daysBeforeToRemind;
 
 	/**
 	 * type of recurring. Schedule, Remainder, or NoShcedule[just template]
@@ -110,17 +125,13 @@ public class ClientRecurringTransaction implements IAccounterCore {
 
 	private long id;
 
-	// Extra client fields, will be used for displaying in grid
-	private double refTransactionTotal;
-	private int refTransactionType;
-
 	/**
 	 * {@link #ACTION_SAVE_DRAFT}, {@link #ACTION_APPROVE},
 	 * {@link #ACTION_APPROVE_SEND}
 	 */
 	private int actionType;
 	private String name;
-	private long referringTransaction;
+	private ClientTransaction transaction;
 	private boolean stopped;
 
 	public ClientRecurringTransaction() {
@@ -146,8 +157,7 @@ public class ClientRecurringTransaction implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 	public int getDueDateType() {
@@ -215,18 +225,6 @@ public class ClientRecurringTransaction implements IAccounterCore {
 
 	public long getPrevScheduleOn() {
 		return prevScheduleOn;
-	}
-
-	public long getReferringTransaction() {
-		return referringTransaction;
-	}
-
-	public double getRefTransactionTotal() {
-		return refTransactionTotal;
-	}
-
-	public int getRefTransactionType() {
-		return refTransactionType;
 	}
 
 	public long getStartDate() {
@@ -330,18 +328,6 @@ public class ClientRecurringTransaction implements IAccounterCore {
 		this.prevScheduleOn = prevScheduleOn;
 	}
 
-	public void setReferringTransaction(long referringTransaction) {
-		this.referringTransaction = referringTransaction;
-	}
-
-	public void setRefTransactionTotal(double transactionTotal) {
-		this.refTransactionTotal = transactionTotal;
-	}
-
-	public void setRefTransactionType(int transactionType) {
-		this.refTransactionType = transactionType;
-	}
-
 	public void setStartDate(long startDate) {
 		this.startDate = startDate;
 	}
@@ -412,7 +398,39 @@ public class ClientRecurringTransaction implements IAccounterCore {
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
-		
+
+	}
+
+	public ClientTransaction getTransaction() {
+		return transaction;
+	}
+
+	public void setTransaction(ClientTransaction transaction) {
+		this.transaction = transaction;
+	}
+
+	public boolean isAlertWhenEnded() {
+		return alertWhenEnded;
+	}
+
+	public void setAlertWhenEnded(boolean alertWhenEnded) {
+		this.alertWhenEnded = alertWhenEnded;
+	}
+
+	public int getDaysBeforeToRemind() {
+		return daysBeforeToRemind;
+	}
+
+	public void setDaysBeforeToRemind(int daysBeforeToRemind) {
+		this.daysBeforeToRemind = daysBeforeToRemind;
+	}
+
+	public boolean isNotifyCreatedTransaction() {
+		return notifyCreatedTransaction;
+	}
+
+	public void setNotifyCreatedTransaction(boolean notifyCreatedTransaction) {
+		this.notifyCreatedTransaction = notifyCreatedTransaction;
 	}
 
 }

@@ -423,11 +423,11 @@ public class Company implements IAccounterServerCore {
 		getPreferences().setLegalName(legalName);
 	}
 
-	public String gettimezone() {
+	public String getTimezone() {
 		return getPreferences().getTimezone();
 	}
 
-	public void settimezone(String timezone) {
+	public void setTimezone(String timezone) {
 		getPreferences().setTimezone(timezone);
 	}
 

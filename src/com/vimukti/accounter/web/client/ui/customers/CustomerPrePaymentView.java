@@ -864,4 +864,8 @@ public class CustomerPrePaymentView extends
 		adjustBalance(amountText.getAmount());
 	}
 
+	@Override
+	protected boolean canRecur() {
+		return false;
+	}
 }

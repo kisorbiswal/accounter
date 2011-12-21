@@ -965,6 +965,39 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	public ArrayList<TransactionDetailByAccount> getAutomaticTransactions(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		ArrayList<TransactionDetailByAccount> automaticTransactions = new ArrayList<TransactionDetailByAccount>();
+
+		long companyId = getCompanyId();
+
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate, companyId);
+
+		try {
+
+			automaticTransactions = getFinanceTool().getReportManager()
+					.getAutomaticTransactions(financeDates[0], financeDates[1],
+							companyId);
+
+			TransactionDetailByAccount obj = new TransactionDetailByAccount();
+			if (automaticTransactions != null)
+				automaticTransactions
+						.add((TransactionDetailByAccount) setStartEndDates(obj,
+								financeDates));
+
+			// transDetailByAccountList = (List<TransactionDetailByAccount>)
+			// manager
+			// .merge(transDetailByAccountList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return automaticTransactions;
+
+	}
+
 	@Override
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
 			String itemName, ClientFinanceDate startDate,

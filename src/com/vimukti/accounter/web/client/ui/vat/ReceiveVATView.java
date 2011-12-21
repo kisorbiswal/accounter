@@ -750,7 +750,7 @@ public class ReceiveVATView extends
 	@Override
 	public void onEdit() {
 
-		if (!transaction.isVoid()) {
+		if (transaction.canEdit) {
 			Accounter.showWarning(messages.W_116(), AccounterType.WARNING,
 					new ErrorDialogHandler() {
 
@@ -803,8 +803,6 @@ public class ReceiveVATView extends
 							return true;
 						}
 					});
-		} else if (transaction.isVoid() || transaction.isDeleted()) {
-			Accounter.showError(Accounter.messages().failedtovoidTransaction());
 		}
 
 	}
@@ -874,6 +872,10 @@ public class ReceiveVATView extends
 
 	}
 
+	@Override
+	protected boolean canRecur() {
+		return false;
+	}
 	@Override
 	protected boolean canDelete() {
 		return false;

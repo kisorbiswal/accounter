@@ -713,6 +713,16 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getUsersActivityListAction()
 				.getHistoryToken(), ActionFactory.getUsersActivityListAction());
 
+		actions.put(ActionFactory.getRecurringsListAction().getHistoryToken(),
+				ActionFactory.getRecurringsListAction());
+
+		actions.put(ActionFactory.getRemindersListAction().getHistoryToken(),
+				ActionFactory.getRemindersListAction());
+
+		actions.put(ActionFactory.getAutomaticTransactionsAction()
+				.getHistoryToken(), ActionFactory
+				.getAutomaticTransactionsAction());
+
 		NewItemAction supplierItem = ActionFactory.getNewItemAction(false);
 		actions.put(supplierItem.getHistoryToken(), supplierItem);
 

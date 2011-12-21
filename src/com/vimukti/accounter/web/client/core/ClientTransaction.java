@@ -62,7 +62,9 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int STATUS_DELETED = 3;
 
 	public static final int STATUS_DRAFT = 201;
-	public static final int STATUS_APPROVE = 202;
+	public static final int STATUS_TEMPLATE = 202;
+	public static final int STATUS_APPROVE = 203;
+	public static final int STATUS_VOID = 204;
 
 	public static final int STATUS_OPEN = 101;
 	public static final int STATUS_COMPLETED = 102;
@@ -111,7 +113,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 */
 	private int saveStatus = 0;
 
-	boolean isVoid;
+	// boolean isVoid;
 	boolean isDeleted;
 	boolean isEdited;
 	double total;
@@ -144,6 +146,11 @@ public abstract class ClientTransaction implements IAccounterCore {
 	private ClientAccounterClass accounterClass;
 
 	private ClientActivity lastActivity;
+
+	/**
+	 * This is temporary variable used to delete the reminder.
+	 */
+	private long tobeDeleteReminder;
 
 	private Set<ClientAttachment> attachments;
 
@@ -329,7 +336,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 * @return the isVoid
 	 */
 	public boolean isVoid() {
-		return isVoid;
+		return saveStatus == STATUS_VOID;
 	}
 
 	/**
@@ -337,14 +344,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 */
 	public boolean isDeleted() {
 		return isDeleted;
-	}
-
-	/**
-	 * @param isVoid
-	 *            the isVoid to set
-	 */
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
 	}
 
 	public boolean isEdited() {
@@ -711,7 +710,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	}
 
 	protected boolean isBecameVoid() {
-		return isVoid && !this.isDeleted;
+		return isVoid() && !this.isDeleted;
 	}
 
 	public boolean isReceivePayment() {
@@ -931,6 +930,14 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public void setWareHouseAllocations(
 			List<ClientWareHouseAllocation> wareHouseAllocations) {
 		this.wareHouseAllocations = wareHouseAllocations;
+	}
+
+	public long getTobeDeleteReminder() {
+		return tobeDeleteReminder;
+	}
+
+	public void setTobeDeleteReminder(long tobeDeleteReminder) {
+		this.tobeDeleteReminder = tobeDeleteReminder;
 	}
 
 	public Set<ClientAttachment> getAttachments() {

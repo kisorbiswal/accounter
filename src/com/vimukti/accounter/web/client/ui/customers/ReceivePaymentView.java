@@ -1238,6 +1238,10 @@ public class ReceivePaymentView extends
 				currencyWidget.getSelectedCurrency().getFormalName()));
 	}
 
+	@Override
+	protected boolean canRecur() {
+		return false;
+	}
 	private boolean isTDSEnable() {
 		if (customer != null) {
 			return (getPreferences().isTDSEnabled() && customer.willDeductTDS());

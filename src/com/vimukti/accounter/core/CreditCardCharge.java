@@ -168,10 +168,6 @@ public class CreditCardCharge extends Transaction {
 		return null;
 	}
 
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	public void setVendor(Vendor vendor) {
 		this.vendor = vendor;
 	}
@@ -243,7 +239,12 @@ public class CreditCardCharge extends Transaction {
 
 		CreditCardCharge creditCardCharge = (CreditCardCharge) clonedObject;
 
-		if (this.isVoid && !creditCardCharge.isVoid) {
+		if (isDraftOrTemplate()) {
+			super.onEdit(creditCardCharge);
+			return;
+		}
+
+		if (this.isVoid() && !creditCardCharge.isVoid()) {
 
 			// if (this.status != Transaction.STATUS_DELETED)
 			// this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
@@ -329,6 +330,23 @@ public class CreditCardCharge extends Transaction {
 
 	}
 
+	@Override
+	public boolean isValidTransaction() {
+		boolean valid = super.isValidTransaction();
+		if (payFrom == null) {
+			valid = false;
+		} else if (transactionItems != null && !transactionItems.isEmpty()) {
+			for (TransactionItem item : transactionItems) {
+				if (!item.isValid()) {
+					valid = false;
+					break;
+				}
+			}
+		} else {
+			valid = false;
+		}
+		return valid;
+	}
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
 	}

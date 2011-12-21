@@ -58,6 +58,7 @@ import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.core.ValidationResult.Error;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -207,7 +208,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	private ArrayList<ClientAccounterClass> clientAccounterClasses = new ArrayList<ClientAccounterClass>();
 
+	public RecurringTransactionDialog recurringDialog;
+
+	protected boolean isTemplate;
+
 	protected HorizontalPanel voidedPanel;
+
+	private Label voidedLabel;
 
 	public boolean isVatInclusive() {
 		return isVATInclusive;
@@ -219,9 +226,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public AbstractTransactionBaseView(int transactionType) {
 		super();
 		this.transactionType = transactionType;
-		createVoidedPanel();
-		// this.gridType = transactionViewType;
-
+		getVoidedPanel();
 	}
 
 	protected abstract void createControls();
@@ -267,14 +272,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return taxCode;
 	}
 
-	protected void createVoidedPanel() {
+	protected HorizontalPanel getVoidedPanel() {
 		voidedPanel = new HorizontalPanel();
-		Label voidedLabel = new Label();
+		voidedLabel = new Label();
 		voidedPanel.add(voidedLabel);
 		voidedPanel.setCellHorizontalAlignment(voidedLabel,
 				HasAlignment.ALIGN_CENTER);
-		voidedLabel.setText(messages.Voided());
-		voidedPanel.addStyleName("title_voided_panel");
+		return voidedPanel;
 	}
 
 	public double getVATRate(long VATCodeID) {
@@ -607,78 +611,52 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	// return menuButton;
 	// }
 
-	private Button createMakeRecurringButton() {
-		Button recurringButton = new Button();
-		recurringButton.setText(messages.makeItRecurring());
-		recurringButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				if (transaction.getRecurringTransaction() == 0) {
-					// create new recurring for this transaction
-					openRecurringDialog();
-				} else {
-					// open existing recurring transaction.
-					Accounter.createGETService().getObjectById(
-							AccounterCoreType.RECURRING_TRANSACTION,
-							transaction.getRecurringTransaction(),
-							new AsyncCallback<ClientRecurringTransaction>() {
-
-								@Override
-								public void onFailure(Throwable caught) {
-									Accounter
-											.showError("Unable to open recurring transaction "
-													+ caught);
-								}
-
-								@Override
-								public void onSuccess(
-										ClientRecurringTransaction result) {
-									openRecurringDialog(result);
-								}
-							});
-				}
-
-			}
-		});
-
-		return recurringButton;
-	}
-
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		// FIXME > Need to complete Recurring transaction feature.
-		// if (canRecur()) {
-		// recurringButton = createMakeRecurringButton();
-		// buttonBar.add(recurringButton);
-		// }
+		if (canRecur()) {
+			recurringButton = new RecurringButton(this);
+			if (!isTemplate) {
+				buttonBar.add(recurringButton);
+			}
+		}
 		super.createButtons(buttonBar);
 	}
 
+	@Override
+	protected void showSaveButtons() {
+		if (isTemplate) {
+			if (saveAndCloseButton != null) {
+				saveAndCloseButton.setText(messages.saveTemplate());
+				this.buttonBar.insert(saveAndCloseButton, 0);
+			}
+		} else {
+			super.showSaveButtons();
+		}
+	}
+
 	// for new recurring
-	private void openRecurringDialog() {
+	public void openRecurringDialog() {
 		openRecurringDialog(null);
 	}
 
 	// for editing existing recurring
-	private void openRecurringDialog(ClientRecurringTransaction result) {
+	public void openRecurringDialog(ClientRecurringTransaction result) {
 
-		RecurringTransactionDialog dialog = null;
-		if (result == null) {
-			dialog = new RecurringTransactionDialog(this);
-		} else {
-			dialog = new RecurringTransactionDialog(result);
+		if (recurringDialog == null) {
+			recurringDialog = new RecurringTransactionDialog(this, result);
+
+			recurringDialog
+					.setCallback(new ActionCallback<ClientRecurringTransaction>() {
+
+						@Override
+						public void actionResult(
+								ClientRecurringTransaction result) {
+							System.out.println("Recurring result" + result);
+						}
+					});
 		}
-
-		dialog.setCallback(new ActionCallback<ClientRecurringTransaction>() {
-
-			@Override
-			public void actionResult(ClientRecurringTransaction result) {
-				System.out.println("Recurring result" + result);
-			}
-		});
-		dialog.show();
+		recurringDialog.show();
 	}
 
 	@Override
@@ -769,17 +747,72 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	@Override
 	public void init() {
+		if (data != null) {
+			this.isTemplate = data.getSaveStatus() == ClientTransaction.STATUS_TEMPLATE;
+		}
 		super.init();
-		createVoidedPanel();
+		if (isTemplate) {
+			createRecurringPanel();
+		}
+		getVoidedPanel();
 		createControls();
 		setSize("100%", "100%");
 	}
 
+	private void createRecurringPanel() {
+		HorizontalPanel panel = new HorizontalPanel();
+
+		HTML text = new HTML();
+		text.setHTML("<a>This is a template used in Recurring. </a>");
+		Anchor click = new Anchor();
+		click.setHTML("Click here");
+		click.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				getAndOpenRecurringDialog();
+			}
+		});
+		HTML recur = new HTML();
+		recur.setHTML("<a> to change the recurring schedule.");
+
+		panel.add(text);
+		panel.add(click);
+		panel.add(recur);
+		super.insert(panel, 0);
+	}
+
+	protected void getAndOpenRecurringDialog() {
+		Accounter.createGETService().getObjectById(
+				AccounterCoreType.RECURRING_TRANSACTION,
+				transaction.getRecurringTransaction(),
+				new AsyncCallback<ClientRecurringTransaction>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Accounter
+								.showError("Unable to open recurring transaction "
+										+ caught);
+					}
+
+					@Override
+					public void onSuccess(ClientRecurringTransaction result) {
+						openRecurringDialog(result);
+					}
+				});
+	}
+
 	@Override
 	public void initData() {
+
 		initTransactionViewData();
-		voidedPanel.setVisible(transaction.isVoid());
+		if (transaction.isVoid()) {
+			voidedLabel.setText(messages.Voided());
+			voidedPanel.addStyleName("title_voided_panel");
+			voidedLabel.addStyleName("title_voided_label");
+		}
 		super.initData();
+
 	}
 
 	protected boolean checkOpen(Collection<ClientTransactionItem> items,
@@ -1440,10 +1473,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	 * Decides whether to add the "make it recurring" button to this view.
 	 * Default value is <b>true</b>.
 	 * 
+	 * If you don't need recurring button then override this method in that
+	 * specific view and return <b>false</b>.
+	 * 
 	 * @return
 	 */
 	protected boolean canRecur() {
-		return transaction != null && transaction.getID() != 0;
+		return true;
 	}
 
 	public ClassListCombo createAccounterClassListCombo() {
@@ -1835,5 +1871,43 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 						messages.pleaseEntervalidCurrencyFactor());
 			}
 		}
+	}
+
+	public boolean validateAndUpdateTransaction(boolean shouldValidateAll) {
+		for (Object errorSource : lastErrorSourcesFromValidation) {
+			clearError(errorSource);
+		}
+		lastErrorSourcesFromValidation.clear();
+		ValidationResult validationResult = null;
+		if (shouldValidateAll) {
+			validationResult = this.validate();
+		} else {
+			validationResult = this.validateBaseRequirement();
+		}
+		if (validationResult.haveErrors()) {
+			for (Error error : validationResult.getErrors()) {
+				addError(error.getSource(), error.getMessage());
+				lastErrorSourcesFromValidation.add(error.getSource());
+			}
+			return false;
+		}
+		return true;
+	}
+
+	protected ValidationResult validateBaseRequirement() {
+
+		updateTransaction();
+
+		ValidationResult result = new ValidationResult();
+
+		if (!(this instanceof NewVendorPaymentView
+				|| this instanceof CustomerPrePaymentView
+				|| this instanceof CustomerRefundView || this instanceof MakeDepositView)) {
+			if (transactionItems == null || transactionItems.isEmpty()) {
+				result.addError("TransactionItem",
+						messages.thereAreNoTransactionItemsToSave());
+			}
+		}
+		return result;
 	}
 }

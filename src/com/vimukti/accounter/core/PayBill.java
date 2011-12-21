@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -264,13 +263,6 @@ public class PayBill extends Transaction {
 	}
 
 	/**
-	 * @return the isVoid
-	 */
-	public boolean getIsVoid() {
-		return isVoid;
-	}
-
-	/**
 	 * @return the unusedAmount
 	 */
 	public double getUnusedAmount() {
@@ -345,6 +337,10 @@ public class PayBill extends Transaction {
 			this.subTotal = this.total - this.unusedAmount;
 
 			super.onSave(session);
+
+			if (isDraftOrTemplate()) {
+				return false;
+			}
 
 			if (DecimalUtil.isGreaterThan(this.getUnusedAmount(), 0.0)) {
 				// insert this vendorPayment into CreditsAndPayments
@@ -503,10 +499,6 @@ public class PayBill extends Transaction {
 		this.payFrom = payFrom;
 	}
 
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	//
 	// public TaxCode getVATCode() {
 	// return VATCode;
@@ -535,21 +527,21 @@ public class PayBill extends Transaction {
 	}
 
 	@Override
-	public void onLoad(Session session, Serializable arg1) {
-		// NOTHING TO DO.
-		super.onLoad(session, arg1);
-	}
-
-	@Override
 	public void onEdit(Transaction clonedObject) {
 		Session session = HibernateUtil.getCurrentSession();
 		PayBill payBill = (PayBill) clonedObject;
+
+		if (isDraftOrTemplate()) {
+			super.onEdit(payBill);
+			return;
+		}
+
 		/**
 		 * If present transaction is deleted or voided & the previous
 		 * transaction is not voided then it will entered into the loop
 		 */
 
-		if (this.isVoid && !payBill.isVoid) {
+		if (this.isVoid() && !payBill.isVoid()) {
 			doVoidEffect(session, this);
 		} else {
 
@@ -628,7 +620,7 @@ public class PayBill extends Transaction {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid) {
+		if (!this.isVoid()) {
 			doVoidEffect(session, this);
 		}
 		return super.onDelete(session);

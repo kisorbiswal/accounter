@@ -104,7 +104,7 @@ public class VendorCreditMemo extends Transaction {
 			return true;
 		this.isOnSaveProccessed = true;
 		super.onSave(session);
-		if (this.getID() == 0) {
+		if (this.getID() == 0 && !isDraftOrTemplate()) {
 
 			/**
 			 * If the total is greater than 0.0, then we need to add to
@@ -196,10 +196,6 @@ public class VendorCreditMemo extends Transaction {
 		this.vendor = vendor;
 	}
 
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_VENDOR;
@@ -221,6 +217,12 @@ public class VendorCreditMemo extends Transaction {
 
 		VendorCreditMemo vendorCreditMemo = (VendorCreditMemo) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (isDraftOrTemplate()) {
+			super.onEdit(vendorCreditMemo);
+			return;
+		}
+
 		/**
 		 * If present transaction is deleted or voided & the previous
 		 * transaction is not voided then it will entered into the loop
@@ -233,7 +235,7 @@ public class VendorCreditMemo extends Transaction {
 		// this.vendor.updateBalance(session, this, this.total);
 		//
 		// } else
-		if (this.isVoid && !vendorCreditMemo.isVoid) {
+		if (this.isVoid() && !vendorCreditMemo.isVoid()) {
 
 			this.balanceDue = 0d;
 
@@ -292,7 +294,7 @@ public class VendorCreditMemo extends Transaction {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid) {
+		if (!this.isVoid()) {
 			this.balanceDue = 0d;
 		}
 		return super.onDelete(session);
@@ -331,4 +333,21 @@ public class VendorCreditMemo extends Transaction {
 
 	}
 
+	@Override
+	public boolean isValidTransaction() {
+		boolean valid = super.isValidTransaction();
+		if (vendor == null) {
+			valid = false;
+		} else if (transactionItems != null && !transactionItems.isEmpty()) {
+			for (TransactionItem item : transactionItems) {
+				if (!item.isValid()) {
+					valid = false;
+					break;
+				}
+			}
+		} else {
+			valid = false;
+		}
+		return valid;
+	}
 }

@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.RecurringTransactionsListView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -13,11 +15,11 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
  * @author vimukti3
  * 
  */
-public class RecurringsListAction extends Action {
+public class RecurringsListAction extends Action<ClientRecurringTransaction> {
 
 	public RecurringsListAction() {
 		super();
-
+		this.catagory = Accounter.messages().company();
 	}
 
 	@Override
@@ -55,7 +57,7 @@ public class RecurringsListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "RecurringTransactions";
+		return "recurringTransactions";
 	}
 
 	@Override

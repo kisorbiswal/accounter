@@ -351,10 +351,10 @@ public class PurchaseManager extends Manager {
 			salesByCustomerDetail.setDeliveryDate(object[10] == null ? null
 					: new ClientFinanceDate(((BigInteger) object[10])
 							.longValue()));
-			salesByCustomerDetail.setIsVoid(object[11] == null ? true
-					: ((Boolean) object[11]).booleanValue());
-			salesByCustomerDetail.setReference((String) object[12]);
-			salesByCustomerDetail.setTransactionId(((BigInteger) object[13])
+			// salesByCustomerDetail.setIsVoid(object[11] == null ? true
+			// : ((Boolean) object[11]).booleanValue());
+			salesByCustomerDetail.setReference((String) object[11]);
+			salesByCustomerDetail.setTransactionId(((BigInteger) object[12])
 					.longValue());
 			queryResult.add(salesByCustomerDetail);
 		}

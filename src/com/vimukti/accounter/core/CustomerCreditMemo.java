@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -246,7 +245,8 @@ public class CustomerCreditMemo extends Transaction implements
 
 		// Inserting this Customer Credit Memo entry in to Credits And Payments
 		// table.
-		if (DecimalUtil.isGreaterThan(this.getTotal(), 0.0)) {
+		if (!isDraftOrTemplate()
+				&& DecimalUtil.isGreaterThan(this.getTotal(), 0.0)) {
 			this.balanceDue = this.total;
 			if (creditsAndPayments != null
 					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
@@ -285,12 +285,6 @@ public class CustomerCreditMemo extends Transaction implements
 	}
 
 	@Override
-	public void onLoad(Session session, Serializable arg1) {
-		// NOTHING TO DO
-		super.onLoad(session, arg1);
-	}
-
-	@Override
 	public boolean isDebitTransaction() {
 		return true;
 	}
@@ -309,11 +303,6 @@ public class CustomerCreditMemo extends Transaction implements
 	public Payee getPayee() {
 		// return this.customer;
 		return null;
-	}
-
-	@Override
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
 	}
 
 	public void setSalesPerson(SalesPerson salesPerson) {
@@ -379,7 +368,11 @@ public class CustomerCreditMemo extends Transaction implements
 
 		CustomerCreditMemo customerCreditMemo = (CustomerCreditMemo) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
-		//
+
+		if (isDraftOrTemplate()) {
+			super.onEdit(customerCreditMemo);
+			return;
+		}
 		// Customer cust = (Customer) session.get(Customer.class,
 		// customerCreditMemo.customer.id);
 		// cust.updateBalance(session, clonedObject, -customerCreditMemo.total);
@@ -512,5 +505,23 @@ public class CustomerCreditMemo extends Transaction implements
 		if (this.transactionItems != null)
 			w.put(messages.details(), this.transactionItems);
 
+	}
+
+	@Override
+	public boolean isValidTransaction() {
+		boolean valid = super.isValidTransaction();
+		if (customer == null) {
+			valid = false;
+		} else if (transactionItems != null && !transactionItems.isEmpty()) {
+			for (TransactionItem item : transactionItems) {
+				if (!item.isValid()) {
+					valid = false;
+					break;
+				}
+			}
+		} else {
+			valid = false;
+		}
+		return valid;
 	}
 }

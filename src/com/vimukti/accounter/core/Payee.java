@@ -484,7 +484,7 @@ public abstract class Payee extends CreatableObject implements
 
 	protected void modifyJournalEntry(JournalEntry existEntry) {
 		Session session = HibernateUtil.getCurrentSession();
-		existEntry.setVoid(true);
+		existEntry.setSaveStatus(Transaction.STATUS_VOID);
 		session.delete(existEntry);
 		if (!DecimalUtil.isEquals(this.openingBalance, 0)) {
 			JournalEntry journalEntry = createJournalEntry();
@@ -535,6 +535,8 @@ public abstract class Payee extends CreatableObject implements
 
 		journalEntry.setCurrency(currency);
 		journalEntry.setCurrencyFactor(currencyFactor);
+
+		journalEntry.setSaveStatus(Transaction.STATUS_APPROVE);
 
 		return journalEntry;
 	}

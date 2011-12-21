@@ -1016,5 +1016,4 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected abstract void addAccountTransactionItem(ClientTransactionItem item);
 
 	protected abstract void addItemTransactionItem(ClientTransactionItem item);
-
 }

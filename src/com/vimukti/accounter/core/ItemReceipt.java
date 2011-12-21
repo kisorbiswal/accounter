@@ -564,7 +564,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		 * previous transaction then it is entered into the loop
 		 */
 
-		if (this.isVoid && !itemReceipt.isVoid) {
+		if (this.isVoid() && !itemReceipt.isVoid()) {
 			doVoidEffect(session, this);
 
 		} else {
@@ -604,7 +604,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid) {
+		if (!this.isVoid()) {
 			doVoidEffect(session, this);
 		}
 		return super.onDelete(session);
@@ -643,12 +643,11 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 				for (TransactionItem transactionItem : itemReceipt.transactionItems) {
 
-					if (transactionItem.referringTransactionItem != null) {
+					if (transactionItem.getReferringTransactionItem() != null) {
 
 						TransactionItem referringTransactionItem = (TransactionItem) session
-								.get(TransactionItem.class,
-										transactionItem.referringTransactionItem
-												.getID());
+								.get(TransactionItem.class, transactionItem
+										.getReferringTransactionItem().getID());
 
 						double amount = referringTransactionItem.usedamt;
 

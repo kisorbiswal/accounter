@@ -224,9 +224,9 @@ public class SalesManager extends Manager {
 							.longValue()));
 			salesByCustomerDetail.setItemGroup((String) object[13]);
 			salesByCustomerDetail.setDescription((String) object[14]);
-			salesByCustomerDetail.setIsVoid(object[15] == null ? true
-					: ((Boolean) object[15]).booleanValue());
-			salesByCustomerDetail.setPaymentTermName((String) object[16]);
+			// salesByCustomerDetail.setIsVoid(object[15] == null ? true
+			// : ((Boolean) object[15]).booleanValue());
+			salesByCustomerDetail.setPaymentTermName((String) object[15]);
 
 			/*
 			 * Clob cl = (Clob) object[17]; if (cl == null) {
@@ -245,9 +245,9 @@ public class SalesManager extends Manager {
 			 * 
 			 * } }
 			 */
-			salesByCustomerDetail.setMemo((String) object[17]);
-			salesByCustomerDetail.setReference((String) object[18]);
-			salesByCustomerDetail.setTransactionId(((BigInteger) object[19])
+			salesByCustomerDetail.setMemo((String) object[16]);
+			salesByCustomerDetail.setReference((String) object[17]);
+			salesByCustomerDetail.setTransactionId(((BigInteger) object[18])
 					.longValue());
 			queryResult.add(salesByCustomerDetail);
 		}

@@ -347,12 +347,6 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	// public void setDiscountTotal(double discountTotal) {
 	// this.discountTotal = discountTotal;
 	// }
-	/**
-	 * @return the isVoid
-	 */
-	public boolean getIsVoid() {
-		return isVoid;
-	}
 
 	/**
 	 * @param isVoid
@@ -484,11 +478,6 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	// return false;
 	// }
 
-	@Override
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	public void setTaxTotal(double salesTax) {
 		this.taxTotal = salesTax;
 	}
@@ -529,12 +518,17 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	public void onEdit(Transaction clonedObject) {
 		CashSales cashSales = (CashSales) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (isDraftOrTemplate()) {
+			super.onEdit(cashSales);
+			return;
+		}
 		/**
 		 * 
 		 * If present transaction is deleted or voided & the previous
 		 * transaction is not voided then only it will entered into the loop
 		 */
-		if (this.isVoid && !cashSales.isVoid) {
+		if (this.isVoid() && !cashSales.isVoid()) {
 
 		} else {
 
@@ -634,5 +628,25 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		if (this.priceLevel != null)
 			w.put(messages.priceLevel(), this.priceLevel.toString()).gap();
 
+	}
+
+	@Override
+	public boolean isValidTransaction() {
+		boolean valid = super.isValidTransaction();
+		if (depositIn == null) {
+			valid = false;
+		} else if (paymentMethod == null || paymentMethod.isEmpty()) {
+			valid = false;
+		} else if (transactionItems != null && !transactionItems.isEmpty()) {
+			for (TransactionItem item : transactionItems) {
+				if (!item.isValid()) {
+					valid = false;
+					break;
+				}
+			}
+		} else {
+			valid = false;
+		}
+		return valid;
 	}
 }

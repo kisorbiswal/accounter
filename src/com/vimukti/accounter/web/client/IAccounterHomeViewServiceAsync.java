@@ -26,15 +26,18 @@ import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
@@ -403,6 +406,12 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getRecentTransactions(int limit,
 			AsyncCallback<List<ClientActivity>> asyncCallback);
 
+	public void getMessagesAndTasks(
+			AsyncCallback<List<ClientMessageOrTask>> callBack);
+
+	public void getRemindersList(
+			AsyncCallback<ArrayList<ClientReminder>> callBack);
+
 	void getAccountsAndValues(long startDate, long endDate,
 			AsyncCallback<ExpensePortletData> callback);
 
@@ -413,6 +422,9 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<List<ClientFixedAsset>> callback);
 
 	void getAdvertisements(AsyncCallback<List<ClientAdvertisement>> callback);
+
+	public void getTransactionToCreate(ClientReminder obj,
+			AsyncCallback<ClientTransaction> callBack);
 
 	public void getPayeeChecks(boolean isCustomerChecks, long fromDate,
 			long toDate, AsyncCallback<ArrayList<PaymentsList>> callBack);

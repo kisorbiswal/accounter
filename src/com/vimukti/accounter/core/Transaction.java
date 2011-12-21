@@ -15,6 +15,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SpecialReference;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * 
@@ -81,7 +82,9 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int STATUS_APPLIED = 5;
 
 	public static final int STATUS_DRAFT = 201;
-	public static final int STATUS_APPROVE = 202;
+	public static final int STATUS_TEMPLATE = 202;
+	public static final int STATUS_APPROVE = 203;
+	public static final int STATUS_VOID = 204;
 
 	public static final int STATUS_OPEN = 101;
 	public static final int STATUS_COMPLETED = 102;
@@ -133,8 +136,8 @@ public abstract class Transaction extends CreatableObject implements
 	int status = 0;
 
 	/**
-	 * To set the status of transaction whether it is approved or saved as
-	 * draft.
+	 * To set the status of transaction whether it is approved or saved as draft
+	 * or voided or recurring template.
 	 */
 	private int saveStatus = 0;
 
@@ -151,7 +154,7 @@ public abstract class Transaction extends CreatableObject implements
 	/**
 	 * To know that whether the transaction is voided or not.
 	 */
-	boolean isVoid;
+	// boolean isVoid;
 
 	transient boolean isEdited;
 
@@ -198,6 +201,11 @@ public abstract class Transaction extends CreatableObject implements
 	private Activity lastActivity;
 
 	/**
+	 * This is temporary variable used to delete the reminder.
+	 */
+	private Reminder tobeDeleteReminder;
+
+	/**
 	 * For every Transaction there are one or more {@link AccountTransaction}
 	 * entries. So a set of AccountTransaction are to be maintained here.
 	 */
@@ -223,6 +231,12 @@ public abstract class Transaction extends CreatableObject implements
 
 	private AccounterClass accounterClass;
 	private List<TransactionLog> history;
+
+	/**
+	 * This will be true when a transaction created automatically by recurring
+	 * or anything else.
+	 */
+	private boolean isAutomaticTransaction;
 
 	public String getPaymentMethod() {
 		return paymentMethod;
@@ -349,10 +363,6 @@ public abstract class Transaction extends CreatableObject implements
 		this.total = total;
 	}
 
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	/**
 	 * @return the netAmount
 	 */
@@ -372,7 +382,7 @@ public abstract class Transaction extends CreatableObject implements
 	 * @return the isVoid
 	 */
 	public boolean isVoid() {
-		return isVoid;
+		return saveStatus == STATUS_VOID;
 	}
 
 	/**
@@ -661,7 +671,7 @@ public abstract class Transaction extends CreatableObject implements
 	@Override
 	public void onLoad(Session session, Serializable arg1) {
 		this.previousTotal = total;
-		this.isVoidBefore = isVoid;
+		this.isVoidBefore = isVoid();
 	}
 
 	/**
@@ -672,7 +682,9 @@ public abstract class Transaction extends CreatableObject implements
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		super.onSave(session);
-		doCreateEffect(session);
+		if (!isDraftOrTemplate()) {
+			doCreateEffect(session);
+		}
 		addCreateHistory();
 		if (currency == null) {
 			currency = getCompany().getPrimaryCurrency();
@@ -687,26 +699,26 @@ public abstract class Transaction extends CreatableObject implements
 
 	protected void addCreateHistory() {
 		TransactionLog log = new TransactionLog(TransactionLog.TYPE_CREATE);
-		if (this.history == null) {
-			this.history = new ArrayList<TransactionLog>();
+		if (this.getHistory() == null) {
+			this.setHistory(new ArrayList<TransactionLog>());
 		}
-		this.history.add(log);
+		this.getHistory().add(log);
 	}
 
 	protected void addUpdateHistory() {
 		TransactionLog log = new TransactionLog(TransactionLog.TYPE_EDIT);
-		if (this.history == null) {
-			this.history = new ArrayList<TransactionLog>();
+		if (this.getHistory() == null) {
+			this.setHistory(new ArrayList<TransactionLog>());
 		}
-		this.history.add(log);
+		this.getHistory().add(log);
 	}
 
 	protected void addVoidHistory() {
 		TransactionLog log = new TransactionLog(TransactionLog.TYPE_VOID);
-		if (this.history == null) {
-			this.history = new ArrayList<TransactionLog>();
+		if (this.getHistory() == null) {
+			this.setHistory(new ArrayList<TransactionLog>());
 		}
-		this.history.add(log);
+		this.getHistory().add(log);
 	}
 
 	private void doCreateEffect(Session session) {
@@ -747,6 +759,14 @@ public abstract class Transaction extends CreatableObject implements
 		this.updateTaxAndNonTaxableAmounts();
 		// }
 		// }
+		if (tobeDeleteReminder != null) {
+			RecurringTransaction recurringTransaction = tobeDeleteReminder
+					.getRecurringTransaction();
+			recurringTransaction.getReminders().remove(tobeDeleteReminder);
+			session.saveOrUpdate(recurringTransaction);
+			new FinanceTool()
+					.deleteRecurringTask(session, getCompany().getId());
+		}
 	}
 
 	private void updateTaxAndNonTaxableAmounts() {
@@ -819,7 +839,7 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!isVoid) {
+		if (!isVoid()) {
 			doDeleteEffect(this);
 		}
 		return false;
@@ -928,7 +948,7 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	protected boolean isBecameVoid() {
-		return isVoid && !this.isVoidBefore;
+		return isVoid() && !this.isVoidBefore;
 	}
 
 	public boolean isReceivePayment() {
@@ -962,7 +982,7 @@ public abstract class Transaction extends CreatableObject implements
 		 * transaction is not voided then it will entered into the loop
 		 */
 
-		if (this.isVoid && !clonedObject.isVoid) {
+		if (this.isVoid() && !clonedObject.isVoid()) {
 			// voidTransactionItems();
 			doDeleteEffect(clonedObject);
 
@@ -977,7 +997,20 @@ public abstract class Transaction extends CreatableObject implements
 		else {
 			addUpdateHistory();
 		}
+		if (saveStatus == STATUS_TEMPLATE) {
+			updateReminders();
+		}
+	}
 
+	private void updateReminders() {
+		Session session = HibernateUtil.getCurrentSession();
+		RecurringTransaction result = (RecurringTransaction) session
+				.getNamedQuery("getRecurring.for.template")
+				.setLong("templateId", this.getID()).uniqueResult();
+		for (Reminder reminder : result.getReminders()) {
+			reminder.setValid(this.isValidTransaction());
+		}
+		session.saveOrUpdate(result);
 	}
 
 	private void doDeleteEffect(Transaction clonedObject) {
@@ -1236,8 +1269,10 @@ public abstract class Transaction extends CreatableObject implements
 		clone.setId(0);
 
 		List<TransactionItem> items = new ArrayList<TransactionItem>();
-		for (TransactionItem transactionItem : transactionItems) {
-			items.add(transactionItem.clone());
+		if (transactionItems != null) {
+			for (TransactionItem transactionItem : transactionItems) {
+				items.add(transactionItem.clone());
+			}
 		}
 		clone.setTransactionItems(items);
 
@@ -1270,8 +1305,9 @@ public abstract class Transaction extends CreatableObject implements
 		this.saveStatus = saveStatus;
 	}
 
-	public boolean isDraft() {
-		return this.saveStatus == STATUS_DRAFT;
+	public boolean isDraftOrTemplate() {
+		return this.saveStatus == STATUS_DRAFT
+				|| this.saveStatus == STATUS_TEMPLATE;
 	}
 
 	/**
@@ -1392,6 +1428,10 @@ public abstract class Transaction extends CreatableObject implements
 		this.taxRateCalculationEntriesList = taxRateCalculationEntriesList;
 	}
 
+	public void setHistory(List<TransactionLog> history) {
+		this.history = history;
+	}
+
 	protected void checkingCustomerNull(Customer customer)
 			throws AccounterException {
 		if (customer == null) {
@@ -1429,5 +1469,59 @@ public abstract class Transaction extends CreatableObject implements
 		if (vendor == null) {
 			throw new AccounterException(AccounterException.ERROR_VENDOR_NULL);
 		}
+	}
+
+	/**
+	 * This method will check and tell you whether this transaction is valid or
+	 * not.
+	 * 
+	 * Need to override this method in individual transaction to check.
+	 * 
+	 * @return valid transaction or not
+	 */
+	public boolean isValidTransaction() {
+		boolean valid = true;
+		if (isInPreventPostingBeforeDate(transactionDate)) {
+			valid = false;
+		} else if (DecimalUtil.isEquals(currencyFactor, 0)) {
+			valid = false;
+		} else if (!DecimalUtil.isGreaterThan(total, 0)) {
+			valid = false;
+		}
+		return valid;
+	}
+
+	protected boolean isInPreventPostingBeforeDate(FinanceDate transactionDate) {
+		FinanceDate postingBeforeDate = getCompany().getPreferences()
+				.getPreventPostingBeforeDate();
+		if (postingBeforeDate != null) {
+			return transactionDate.before(postingBeforeDate);
+		} else {
+			return false;
+		}
+	}
+
+	public boolean isAutomaticTransaction() {
+		return isAutomaticTransaction;
+	}
+
+	public void setAutomaticTransaction(boolean isAutomaticTransaction) {
+		this.isAutomaticTransaction = isAutomaticTransaction;
+	}
+
+	public Set<Attachment> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(Set<Attachment> attachments) {
+		this.attachments = attachments;
+	}
+
+	public Reminder getTobeDeleteReminder() {
+		return tobeDeleteReminder;
+	}
+
+	public void setTobeDeleteReminder(Reminder tobeDeleteReminder) {
+		this.tobeDeleteReminder = tobeDeleteReminder;
 	}
 }

@@ -402,6 +402,51 @@ public class ReportManager extends Manager {
 
 	}
 
+	public ArrayList<TransactionDetailByAccount> getAutomaticTransactions(
+			FinanceDate startDate, FinanceDate endDate, long companyId)
+			throws DAOException {
+
+		try {
+
+			Session session = HibernateUtil.getCurrentSession();
+
+			List<TransactionDetailByAccount> automaticTransactions = new ArrayList<TransactionDetailByAccount>();
+
+			Query query = session.getNamedQuery("getAutomaticTransactions")
+					.setParameter("companyId", companyId)
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate());
+
+			List list = query.list();
+
+			Iterator iterator = list.iterator();
+			while (iterator.hasNext()) {
+				Object[] object = (Object[]) iterator.next();
+
+				TransactionDetailByAccount record = new TransactionDetailByAccount();
+				record.setName((object[0] == null ? null : ((String) object[0])));
+				record.setTransactionId((Long) object[1]);
+				record.setTransactionType(object[2] == null ? 0
+						: (((Integer) object[2]).intValue()));
+				record.setTransactionDate(object[3] == null ? null
+						: new ClientFinanceDate((Long) object[3]));
+				record.setTransactionNumber((object[4] == null ? null
+						: ((String) object[4])));
+				record.setTotal(object[5] != null ? (Double) object[5] : 0.0);
+				record.setMemo(object[6] == null ? null : ((String) object[6]));
+
+				automaticTransactions.add(record);
+			}
+
+			return new ArrayList<TransactionDetailByAccount>(
+					automaticTransactions);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+		}
+
+	}
+
 	private void createTransasctionDetailByAccount(List list,
 			List<TransactionDetailByAccount> transactionMakeDepositsList)
 			throws DAOException {
@@ -878,11 +923,11 @@ public class ReportManager extends Manager {
 			salesByCustomerDetail.setDeliveryDate(object[11] == null ? null
 					: new ClientFinanceDate(((BigInteger) object[11])
 							.longValue()));
-			salesByCustomerDetail.setIsVoid(object[12] == null ? true
-					: ((Boolean) object[12]).booleanValue());
-			salesByCustomerDetail.setReference((String) object[13]);
-			salesByCustomerDetail.setTransactionId((object[14] == null ? 0
-					: (((BigInteger) object[14]).longValue())));
+			// salesByCustomerDetail.setIsVoid(object[12] == null ? true
+			// : ((Boolean) object[12]).booleanValue());
+			salesByCustomerDetail.setReference((String) object[12]);
+			salesByCustomerDetail.setTransactionId((object[13] == null ? 0
+					: (((BigInteger) object[13]).longValue())));
 			queryResult.add(salesByCustomerDetail);
 		}
 		// return prepareSalesPurchaseEntriesForVoid(queryResult);

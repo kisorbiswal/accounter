@@ -433,7 +433,12 @@
 		NULL
 		END
 		AS BALANCE,
-		T.IS_VOID AS ISVOIDED,
+		CASE 
+			WHEN T.SAVE_STATUS = 204
+			THEN TRUE
+			ELSE
+			FALSE
+		END AS ISVOIDED,
 		T.STATUS AS
 		TRANSACTION_STATUS,
 		T.T_DATE AS TRANSACTION_DATE,
@@ -495,7 +500,8 @@
 		WHERE
 		T.T_TYPE in (2,3,6,14,23,26,27,28)
 		AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate
+		T.COMPANY_ID=:companyId AND T.SAVE_STATUS != 202 
+		AND T.T_DATE BETWEEN :fromDate AND :toDate
 		ORDER
 		BY
 		VENDOR_NAME
@@ -549,8 +555,12 @@
 		ELSE
 		0.0
 		END AS BALANCE,
-		T.IS_VOID AS
-		ISVOIDED,
+		CASE 
+			WHEN T.SAVE_STATUS = 204
+			THEN TRUE
+			ELSE
+			FALSE
+		END AS ISVOIDED,
 		T.STATUS AS
 		TRANSACTION_STATUS
 		FROM
@@ -587,7 +597,8 @@
 		C.ID
 		WHERE T.T_TYPE
 		IN(1,4,8) AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate
+		T.COMPANY_ID=:companyId AND T.SAVE_STATUS !=202
+		AND T.T_DATE BETWEEN :fromDate AND :toDate
 		ORDER BY DUE_DATE
 	</sql-query>
 	<sql-query name="getAllCustomersPaymentsList">
@@ -616,9 +627,13 @@
 		T.PAYMENT_METHOD AS PAYMENT_METHOD_NAME,
 		T.TOTAL AS
 		AMOUNT,
-		T.IS_VOID AS IS_VOIDED,
-		T.STATUS AS
-		TRANSACTION_STATUS,
+		CASE 
+			WHEN T.SAVE_STATUS = 204
+			THEN TRUE
+			ELSE
+			FALSE
+		END AS IS_VOIDED,
+		T.STATUS AS TRANSACTION_STATUS,
 		CASE WHEN
 		T.T_TYPE = 12
 		THEN RP.CHECK_NUMBER
@@ -627,7 +642,7 @@
 		END AS
 		CHECK_NUMBER,
 		T.CURRENCY AS CURRENCY
-
+		
 		FROM
 		TRANSACTION T
 		LEFT OUTER JOIN
@@ -737,8 +752,12 @@
 		WHERE RV1.ID = T.ID)
 
 		END AS AMOUNT_PAID,
-		T.IS_VOID AS
-		ISVOIDED ,
+		CASE 
+			WHEN T.SAVE_STATUS = 204
+			THEN TRUE
+			ELSE
+			FALSE
+		END AS ISVOIDED,
 		PB.PAYBILL_TYPE AS PAYBILL_TYPE,
 
 		CASE WHEN T.T_TYPE = 2
@@ -841,8 +860,8 @@
 		OR
 		P.ID = TG.ID
 		WHERE T.T_TYPE in
-		(2,3,5,11,15,17,30,31) AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate
+		(2,3,5,11,15,17,30,31) AND T.COMPANY_ID=:companyId AND T.SAVE_STATUS != 202
+ 		AND T.T_DATE BETWEEN :fromDate AND :toDate
 	</sql-query>
 	<!-- To generate the Vendor Payments List which Includes PayBills and Write 
 		Checks created for Vendors -->
@@ -887,9 +906,13 @@
 		T.PAYMENT_METHOD AS PAYMENT_METHOD,
 		T.TOTAL AS
 		AMOUNT_PAID,
-		PB.PAYBILL_TYPE AS
-		PAYBILL_TYPE,
-		T.IS_VOID AS VOIDED,
+		PB.PAYBILL_TYPE AS PAYBILL_TYPE,
+		CASE 
+			WHEN T.SAVE_STATUS = 204
+			THEN TRUE
+			ELSE
+			FALSE
+		END AS VOIDED,
 		CASE
 		WHEN T.T_TYPE = 11
 		THEN
@@ -937,7 +960,8 @@
 		TA.ID
 		WHERE T.T_TYPE
 		in(11,15,17,25) AND NAME IS NOT NULL AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate
+		T.COMPANY_ID=:companyId AND T.SAVE_STATUS != 202
+		AND T.T_DATE BETWEEN :fromDate AND :toDate
 		ORDER BY T.T_DATE DESC
 	</sql-query>
 
@@ -1825,10 +1849,8 @@
 		AND
 		(I.CUSTOMER_ID
 		=:customerId OR
-		CR.CUSTOMER_ID
-		=:customerId)
-		AND
-		T.IS_VOID=false AND
+		CR.CUSTOMER_ID =:customerId)
+		AND T.SAVE_STATUS=203 AND
 		T.COMPANY_ID=:companyId
 	</sql-query>
 
@@ -2133,8 +2155,8 @@
 		END AS
 		AMOUNT_PAID,
 		T.CURRENCY AS CURRENCY
-
-
+		
+		
 		FROM
 		TRANSACTION T
 		LEFT OUTER
@@ -4010,7 +4032,7 @@
 
 		IT.SALES_DESCRIPTION,
 		IT.PURCHASE_DESCRIPTION,
-		T.IS_VOID as VOID,
+		T.SAVE_STATUS as SAVE_STATUS,
 		T.REFERENCE as REFERENCE,
 		T.CURRENCY_FACTOR as CURRENCY_FACTOR
 		from
@@ -4087,9 +4109,7 @@
 		ACCOUNT A
 		on
 		A.ID = TI.ACCOUNT_ID
-		where T.IS_VOID=false
-		and (TI.ITEM_ID is not null
-		or TI.ACCOUNT_ID is
+		where T.SAVE_STATUS=203 and (TI.ITEM_ID is not null or TI.ACCOUNT_ID is
 		not null) order by T.ID
 
 
@@ -4359,7 +4379,7 @@
 
 		PT.NAME as PAYMENT_TERMS,
 
-		T.IS_VOID as VOID,
+		T.SAVE_STATUS as SAVE_STATUS,
 		T.REFERENCE as REFERENCE,
 
 		CASE
@@ -4599,7 +4619,7 @@
 
 		IT.SALES_DESCRIPTION,
 		IT.PURCHASE_DESCRIPTION,
-		T.IS_VOID as VOID,
+		T.SAVE_STATUS as SAVE_STATUS,
 		T.REFERENCE as REFERENCE
 		from
 		TRANSACTION T
@@ -4927,7 +4947,7 @@
 
 		PT.NAME as PAYMENT_TERMS,
 
-		T.IS_VOID as VOID,
+		T.SAVE_STATUS as SAVE_STATUS,
 		T.REFERENCE as REFERENCE,
 		T.MEMO as MEMO,
 
@@ -5085,9 +5105,8 @@
 		COUNT(T1.TOTAL) FROM
 		TRANSACTION T1 WHERE T.ID=T1.ID AND T1.T_DATE
 		BETWEEN
-		:currentMonthStartDateCal AND :currentMonthEndDateCal AND T1.IS_VOID
-		=
-		FALSE AND T1.STATUS!=3) = 0
+		:currentMonthStartDateCal AND :currentMonthEndDateCal AND 
+		T1.SAVE_STATUS =203 AND T1.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
@@ -5107,8 +5126,7 @@
 		AND T1.T_DATE
 		BETWEEN
 		:currentMonthStartDateCal AND
-		:currentMonthEndDateCal AND T1.IS_VOID =
-		FALSE AND T1.STATUS!=3)
+		:currentMonthEndDateCal AND T1.SAVE_STATUS =203 AND T1.STATUS!=3)
 		END) AS CURRENT_MONTH_TOTAL,
 
 		(CASE
@@ -5116,7 +5134,7 @@
 		(SELECT
 		COUNT(T2.TOTAL) FROM TRANSACTION T2 WHERE T.ID=T2.ID AND T2.T_DATE
 		BETWEEN :previousFirstMonthStartDateCal AND
-		:previousFirstMonthEndDateCal AND T2.IS_VOID = FALSE AND T2.STATUS!=3)
+		:previousFirstMonthEndDateCal AND T2.SAVE_STATUS =203 AND T2.STATUS!=3)
 		= 0
 		THEN 0
 		ELSE
@@ -5138,7 +5156,7 @@
 		BETWEEN
 		:previousFirstMonthStartDateCal
 		AND
-		:previousFirstMonthEndDateCal AND T2.IS_VOID = FALSE AND
+		:previousFirstMonthEndDateCal AND T2.SAVE_STATUS =203 AND
 		T2.STATUS!=3)
 		END) AS PREVIOUS_FIRST_MONTH_TOTAL,
 
@@ -5149,7 +5167,7 @@
 		TRANSACTION T3 WHERE T.ID=T3.ID AND T3.T_DATE
 		BETWEEN
 		:previousSecondMonthStartDateCal AND
-		:previousSecondMonthEndDateCal AND T3.IS_VOID = FALSE AND
+		:previousSecondMonthEndDateCal AND T3.SAVE_STATUS =203 AND
 		T3.STATUS!=3) =
 		0
 		THEN 0
@@ -5171,7 +5189,7 @@
 		BETWEEN
 		:previousSecondMonthStartDateCal AND
 		:previousSecondMonthEndDateCal AND
-		T3.IS_VOID = FALSE AND T3.STATUS!=3)
+		T3.SAVE_STATUS =203 AND T3.STATUS!=3)
 		END) AS
 		PREVIOUS_SECOND_MONTH_TOTAL,
 
@@ -5183,7 +5201,7 @@
 		BETWEEN
 		:previousThirdMonthStartDateCal AND
 		:previousThirdMonthEndDateCal AND
-		T4.IS_VOID = FALSE AND T4.STATUS!=3) = 0
+		T4.SAVE_STATUS =203 AND T4.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
@@ -5203,7 +5221,7 @@
 		BETWEEN
 		:previousThirdMonthStartDateCal AND
 		:previousThirdMonthEndDateCal AND
-		T4.IS_VOID = FALSE AND T4.STATUS!=3)
+		T4.SAVE_STATUS =203 AND T4.STATUS!=3)
 		END) AS
 		PREVIOUS_THIRD_MONTH_TOTAL,
 
@@ -5214,7 +5232,7 @@
 		BETWEEN
 		:previousFourthMonthStartDateCal AND
 		:previousFourthMonthEndDateCal AND
-		T5.IS_VOID = FALSE AND T5.STATUS!=3) =
+		T5.SAVE_STATUS =203 AND T5.STATUS!=3) =
 		0
 		THEN 0
 		ELSE
@@ -5235,7 +5253,7 @@
 		BETWEEN
 		:previousFourthMonthStartDateCal AND
 		:previousFourthMonthEndDateCal AND
-		T5.IS_VOID = FALSE AND T5.STATUS!=3)
+		T5.SAVE_STATUS =203 AND T5.STATUS!=3)
 		END
 		) AS
 		PREVIOUS_FOURTH_MONTH_TOTAL,
@@ -5248,7 +5266,7 @@
 		BETWEEN
 		:previousFifthMonthStartDateCal AND
 		:previousFifthMonthEndDateCal AND
-		T6.IS_VOID = FALSE AND T6.STATUS!=3) = 0
+		T6.SAVE_STATUS =203 AND T6.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
@@ -5268,7 +5286,7 @@
 		BETWEEN
 		:previousFifthMonthStartDateCal AND
 		:previousFifthMonthEndDateCal AND
-		T6.IS_VOID = FALSE AND T6.STATUS!=3)
+		T6.SAVE_STATUS =203 AND T6.STATUS!=3)
 		END
 		)
 		AS PREVIOUS_FIFTH_MONTH_TOTAL,
@@ -5277,7 +5295,7 @@
 		WHEN
 		(SELECT COUNT(T7.TOTAL) FROM
 		TRANSACTION T7 WHERE T.ID=T7.ID
-		AND T7.IS_VOID = FALSE AND T7.STATUS!=3) = 0
+		AND T7.SAVE_STATUS =203 AND T7.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
@@ -5294,7 +5312,7 @@
 		WHERE CR1.ID = T.ID)
 		END
 		FROM TRANSACTION T7
-		WHERE T.ID=T7.ID AND T7.IS_VOID = FALSE AND
+		WHERE T.ID=T7.ID AND T7.SAVE_STATUS =203 AND
 		T7.STATUS!=3)
 		END
 		) AS
@@ -5381,8 +5399,7 @@
 		COUNT(T1.TOTAL) FROM
 		TRANSACTION T1 WHERE T.ID=T1.ID AND T1.T_DATE
 		BETWEEN
-		:currentMonthStartDateCal AND :currentMonthEndDateCal AND T1.IS_VOID =
-		FALSE AND T1.STATUS!=3) = 0
+		:currentMonthStartDateCal AND :currentMonthEndDateCal AND T1.SAVE_STATUS =203 AND T1.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
@@ -5400,8 +5417,7 @@
 		AND T1.T_DATE
 		BETWEEN
 		:currentMonthStartDateCal AND
-		:currentMonthEndDateCal AND T1.IS_VOID =
-		FALSE AND T1.STATUS!=3)
+		:currentMonthEndDateCal AND T1.SAVE_STATUS =203 AND T1.STATUS!=3)
 		END
 		) AS CURRENT_MONTH_TOTAL,
 
@@ -5410,7 +5426,7 @@
 		(SELECT
 		COUNT(T2.TOTAL) FROM TRANSACTION T2 WHERE T.ID=T2.ID AND T2.T_DATE
 		BETWEEN :previousFirstMonthStartDateCal AND
-		:previousFirstMonthEndDateCal AND T2.IS_VOID = FALSE AND T2.STATUS!=3)
+		:previousFirstMonthEndDateCal AND T2.SAVE_STATUS =203 AND T2.STATUS!=3)
 		= 0
 		THEN 0
 		ELSE
@@ -5428,7 +5444,7 @@
 		BETWEEN
 		:previousFirstMonthStartDateCal AND
 		:previousFirstMonthEndDateCal AND
-		T2.IS_VOID = FALSE AND T2.STATUS!=3)
+		T2.SAVE_STATUS =203 AND T2.STATUS!=3)
 		END
 		)
 		AS PREVIOUS_FIRST_MONTH_TOTAL,
@@ -5442,7 +5458,7 @@
 		BETWEEN
 		:previousSecondMonthStartDateCal AND
 		:previousSecondMonthEndDateCal AND
-		T3.IS_VOID = FALSE AND
+		T3.SAVE_STATUS =203 AND
 		T3.STATUS!=3) =
 		0
 		THEN 0
@@ -5462,7 +5478,7 @@
 		BETWEEN
 		:previousSecondMonthStartDateCal AND
 		:previousSecondMonthEndDateCal AND
-		T3.IS_VOID = FALSE AND T3.STATUS!=3)
+		T3.SAVE_STATUS =203 AND T3.STATUS!=3)
 		END
 		) AS
 		PREVIOUS_SECOND_MONTH_TOTAL,
@@ -5475,7 +5491,7 @@
 		BETWEEN
 		:previousThirdMonthStartDateCal AND
 		:previousThirdMonthEndDateCal AND
-		T4.IS_VOID = FALSE AND T4.STATUS!=3) = 0
+		T4.SAVE_STATUS =203 AND T4.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
@@ -5493,7 +5509,7 @@
 		BETWEEN
 		:previousThirdMonthStartDateCal AND
 		:previousThirdMonthEndDateCal AND
-		T4.IS_VOID = FALSE AND T4.STATUS!=3)
+		T4.SAVE_STATUS =203 AND T4.STATUS!=3)
 		END
 		)
 		AS PREVIOUS_THIRD_MONTH_TOTAL,
@@ -5505,7 +5521,7 @@
 		AND T5.T_DATE
 		BETWEEN
 		:previousFourthMonthStartDateCal AND
-		:previousFourthMonthEndDateCal AND T5.IS_VOID = FALSE AND
+		:previousFourthMonthEndDateCal AND T5.SAVE_STATUS =203 AND
 		T5.STATUS!=3) =
 		0
 		THEN 0
@@ -5525,7 +5541,7 @@
 		BETWEEN
 		:previousFourthMonthStartDateCal AND
 		:previousFourthMonthEndDateCal AND
-		T5.IS_VOID = FALSE AND T5.STATUS!=3)
+		T5.SAVE_STATUS =203 AND T5.STATUS!=3)
 		END
 		) AS
 		PREVIOUS_FOURTH_MONTH_TOTAL,
@@ -5539,7 +5555,7 @@
 		BETWEEN
 		:previousFifthMonthStartDateCal AND
 		:previousFifthMonthEndDateCal AND
-		T6.IS_VOID = FALSE AND T6.STATUS!=3) = 0
+		T6.SAVE_STATUS =203 AND T6.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
@@ -5557,7 +5573,7 @@
 		BETWEEN
 		:previousFifthMonthStartDateCal AND
 		:previousFifthMonthEndDateCal AND
-		T6.IS_VOID = FALSE AND T6.STATUS!=3)
+		T6.SAVE_STATUS =203 AND T6.STATUS!=3)
 		END
 		)
 		AS PREVIOUS_FIFTH_MONTH_TOTAL,
@@ -5566,7 +5582,7 @@
 		WHEN
 		(SELECT COUNT(T7.TOTAL) FROM
 		TRANSACTION T7 WHERE T.ID=T7.ID
-		AND T7.IS_VOID = FALSE AND T7.STATUS!=3) = 0
+		AND T7.SAVE_STATUS =203 AND T7.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
@@ -5579,7 +5595,7 @@
 		(SELECT EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID =
 		T.ID)
 		END
-		FROM TRANSACTION T7 WHERE T.ID=T7.ID AND T7.IS_VOID = FALSE
+		FROM TRANSACTION T7 WHERE T.ID=T7.ID AND T7.SAVE_STATUS =203
 		AND
 		T7.STATUS!=3)
 		END
@@ -5650,8 +5666,7 @@
 		COUNT(T1.TOTAL) FROM
 		TRANSACTION T1 WHERE T.ID=T1.ID AND T1.T_DATE
 		BETWEEN
-		:currentMonthStartDateCal AND :currentMonthEndDateCal AND T1.IS_VOID =
-		FALSE AND T1.STATUS!=3) = 0
+		:currentMonthStartDateCal AND :currentMonthEndDateCal AND T1.SAVE_STATUS =203 AND T1.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
@@ -5669,8 +5684,7 @@
 		AND T1.T_DATE
 		BETWEEN
 		:currentMonthStartDateCal AND
-		:currentMonthEndDateCal AND T1.IS_VOID =
-		FALSE AND T1.STATUS!=3)
+		:currentMonthEndDateCal AND T1.SAVE_STATUS =203 AND T1.STATUS!=3)
 		END
 		) AS CURRENT_MONTH_TOTAL,
 
@@ -5679,7 +5693,7 @@
 		(SELECT
 		COUNT(T2.TOTAL) FROM TRANSACTION T2 WHERE T.ID=T2.ID AND T2.T_DATE
 		BETWEEN :previousFirstMonthStartDateCal AND
-		:previousFirstMonthEndDateCal AND T2.IS_VOID = FALSE AND T2.STATUS!=3)
+		:previousFirstMonthEndDateCal AND T2.SAVE_STATUS =203 AND T2.STATUS!=3)
 		= 0
 		THEN 0
 		ELSE
@@ -5697,7 +5711,7 @@
 		BETWEEN
 		:previousFirstMonthStartDateCal AND
 		:previousFirstMonthEndDateCal AND
-		T2.IS_VOID = FALSE AND T2.STATUS!=3)
+		T2.SAVE_STATUS =203 AND T2.STATUS!=3)
 		END
 		)
 		AS PREVIOUS_FIRST_MONTH_TOTAL,
@@ -5711,7 +5725,7 @@
 		BETWEEN
 		:previousSecondMonthStartDateCal AND
 		:previousSecondMonthEndDateCal AND
-		T3.IS_VOID = FALSE AND
+		T3.SAVE_STATUS =203 AND
 		T3.STATUS!=3) =
 		0
 		THEN 0
@@ -5731,7 +5745,7 @@
 		BETWEEN
 		:previousSecondMonthStartDateCal AND
 		:previousSecondMonthEndDateCal AND
-		T3.IS_VOID = FALSE AND T3.STATUS!=3)
+		T3.SAVE_STATUS =203 AND T3.STATUS!=3)
 		END
 		) AS
 		PREVIOUS_SECOND_MONTH_TOTAL,
@@ -5744,7 +5758,7 @@
 		BETWEEN
 		:previousThirdMonthStartDateCal AND
 		:previousThirdMonthEndDateCal AND
-		T4.IS_VOID = FALSE AND T4.STATUS!=3) = 0
+		T4.SAVE_STATUS =203 AND T4.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
@@ -5762,7 +5776,7 @@
 		BETWEEN
 		:previousThirdMonthStartDateCal AND
 		:previousThirdMonthEndDateCal AND
-		T4.IS_VOID = FALSE AND T4.STATUS!=3)
+		T4.SAVE_STATUS =203 AND T4.STATUS!=3)
 		END
 		)
 		AS PREVIOUS_THIRD_MONTH_TOTAL,
@@ -5774,7 +5788,7 @@
 		AND T5.T_DATE
 		BETWEEN
 		:previousFourthMonthStartDateCal AND
-		:previousFourthMonthEndDateCal AND T5.IS_VOID = FALSE AND
+		:previousFourthMonthEndDateCal AND T5.SAVE_STATUS =203 AND
 		T5.STATUS!=3) =
 		0
 		THEN 0
@@ -5794,7 +5808,7 @@
 		BETWEEN
 		:previousFourthMonthStartDateCal AND
 		:previousFourthMonthEndDateCal AND
-		T5.IS_VOID = FALSE AND T5.STATUS!=3)
+		T5.SAVE_STATUS =203 AND T5.STATUS!=3)
 		END
 		) AS
 		PREVIOUS_FOURTH_MONTH_TOTAL,
@@ -5808,7 +5822,7 @@
 		BETWEEN
 		:previousFifthMonthStartDateCal AND
 		:previousFifthMonthEndDateCal AND
-		T6.IS_VOID = FALSE AND T6.STATUS!=3) = 0
+		T6.SAVE_STATUS =203 AND T6.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
@@ -5826,7 +5840,7 @@
 		BETWEEN
 		:previousFifthMonthStartDateCal AND
 		:previousFifthMonthEndDateCal AND
-		T6.IS_VOID = FALSE AND T6.STATUS!=3)
+		T6.SAVE_STATUS =203 AND T6.STATUS!=3)
 		END
 		)
 		AS PREVIOUS_FIFTH_MONTH_TOTAL,
@@ -5835,7 +5849,7 @@
 		WHEN
 		(SELECT COUNT(T7.TOTAL) FROM
 		TRANSACTION T7 WHERE T.ID=T7.ID
-		AND T7.IS_VOID = FALSE AND T7.STATUS!=3) = 0
+		AND T7.SAVE_STATUS =203 AND T7.STATUS!=3) = 0
 		THEN 0
 		ELSE
 		(SELECT CASE
@@ -5848,7 +5862,7 @@
 		(SELECT EB1.BALANCE_DUE FROM ENTER_BILL EB1 WHERE EB1.ID =
 		T.ID)
 		END
-		FROM TRANSACTION T7 WHERE T.ID=T7.ID AND T7.IS_VOID = FALSE
+		FROM TRANSACTION T7 WHERE T.ID=T7.ID AND T7.SAVE_STATUS =203
 		AND
 		T7.STATUS!=3)
 		END
@@ -6190,7 +6204,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="name" type="String" />
 		<query-param name="id" type="long" />
-
+		
 		<return-scalar column="NAME" type="string" />
 
 		SELECT T.NAME FROM TAX_CODE T WHERE
@@ -6328,8 +6342,8 @@
 		AND P.ID =:payeeId AND
 		T.T_TYPE IN (4, 5,
 		8,
-		12, 16, 29) AND T.IS_VOID =
-		FALSE AND
+		12, 16, 29) AND T.SAVE_STATUS =
+		203 AND
 		CASE WHEN (SELECT
 		COUNT(PA2.TYPE)
 		FROM PAYEE_ADDRESS PA2 WHERE
@@ -6469,8 +6483,7 @@
 		JOIN TRANSACTION T
 		ON T.ID = I.ID
 
-		WHERE T.COMPANY_ID=:companyId AND
-		T.IS_VOID = FALSE AND
+		WHERE T.COMPANY_ID=:companyId AND T.SAVE_STATUS =203 AND
 		CASE WHEN :presentDate = 0
 		THEN TRUE
 		ELSE
@@ -6491,8 +6504,7 @@
 		T
 		ON T.ID = E.ID
 
-		WHERE T.COMPANY_ID=:companyId AND
-		T.IS_VOID = FALSE AND
+		WHERE T.COMPANY_ID=:companyId AND T.SAVE_STATUS =203 AND
 		CASE WHEN :presentDate = 0
 		THEN TRUE
 		ELSE
@@ -6618,8 +6630,7 @@
 		TRANSACTION T
 		WHERE
 		T.T_TYPE = 26 AND
-		T.IS_VOID = FALSE AND
-		T.COMPANY_ID=:companyId
+		T.SAVE_STATUS =203 AND T.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
 
@@ -6632,8 +6643,7 @@
 		FROM
 		TRANSACTION T
 		WHERE T.T_TYPE = 27 AND
-		T.IS_VOID = FALSE AND
-		T.COMPANY_ID=:companyId
+		T.SAVE_STATUS =203 AND T.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
 
@@ -6647,8 +6657,7 @@
 		TRANSACTION T
 		WHERE
 		T.T_TYPE = 28 AND
-		T.IS_VOID = FALSE AND
-		T.COMPANY_ID=:companyId
+		T.SAVE_STATUS =203 AND T.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
 
@@ -6943,7 +6952,7 @@
 		WHERE T.T_TYPE IN (1,5,8,12,29)
 		AND C.ID =:customerId
 		AND T.T_DATE BETWEEN :fromDate AND :toDate
-		AND T.IS_VOID = false AND
+		AND T.SAVE_STATUS =203 AND
 		T.COMPANY_ID=:companyId
 
 	</sql-query>
@@ -7084,7 +7093,7 @@
 
 		WHERE
 		AT.ACCOUNT_ID=:accountId AND
-		T.IS_VOID=false AND
+		T.SAVE_STATUS =203 AND
 
 		T.ID NOT IN(SELECT RI.TRANSACTION_ID FROM
 		RECONCILIATION_ITEM RI
@@ -7412,10 +7421,15 @@
 		TRANSACTION_DATE,
 		CASE
 		WHEN(T.ID IS NOT NULL)
-		THEN T.IS_VOID
+		THEN
+		CASE 
+			WHEN T.SAVE_STATUS = 204
+			THEN TRUE
+			ELSE
+			FALSE
+		END
 		ELSE TRUE
 		END AS IS_VOID,
-
 		SUM(TRE.TAX_AMOUNT) TAX_AMOUNT,
 		SUM(TRE.NET_AMOUNT) AS NET_AMOUNT,
 		TI.ID AS TAX_ITEM
@@ -7505,10 +7519,15 @@
 		TRANSACTION_DATE,
 		CASE WHEN(T.ID
 		IS NOT NULL)
-		THEN T.IS_VOID
+		THEN
+		CASE 
+			WHEN T.SAVE_STATUS = 204
+			THEN TRUE
+			ELSE
+			FALSE
+			END
 		ELSE TRUE
-		END
-		AS IS_VOID,
+		END AS IS_VOID,
 		SUM(TRE.TAX_AMOUNT)
 		TAX_AMOUNT,
 		SUM(TRE.NET_AMOUNT) AS
@@ -7541,7 +7560,7 @@
 		T.ID,TI.ID,TIG.ID,TRE.TRANSACTION_TYPE,TRE.TRANSACTION_DATE;
 
 	</sql-query>
-
+	
 	<sql-query name="update.primay.currency.in.company">
 		<query-param name="companyId" type="long" />
 		<query-param name="currencyId" type="long" />
@@ -7609,7 +7628,7 @@
 		SELECT a.ID FROM ACTIVITY a
 		LEFT JOIN TRANSACTION T ON
 		T.ID=a.OBJECT_ID
-		WHERE T.IS_VOID=false AND
+		WHERE T.SAVE_STATUS=203 AND
 		a.OBJECT_TYPE BETWEEN 1 AND
 		31 AND
 		a.OBJECT_TYPE!=9 AND

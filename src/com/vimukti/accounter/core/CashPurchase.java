@@ -287,10 +287,6 @@ public class CashPurchase extends Transaction {
 		this.number = number;
 	}
 
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_VENDOR;
@@ -307,7 +303,6 @@ public class CashPurchase extends Transaction {
 				&& this.expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return false;
 
-		// super.onSave(session);
 		/**
 		 * update status if payment method is check, it will used to get list of
 		 * cash purchase for issue payment transaction
@@ -368,13 +363,18 @@ public class CashPurchase extends Transaction {
 				&& this.expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return;
 
+		if (isDraftOrTemplate()) {
+			super.onEdit(cashPurchase);
+			return;
+		}
+
 		/**
 		 * 
 		 * if present transaction is deleted or voided & the previous
 		 * transaction is not voided then it will entered into the loop
 		 */
 
-		if (this.isVoid && !cashPurchase.isVoid) {
+		if (this.isVoid() && !cashPurchase.isVoid()) {
 
 		} else {
 
@@ -488,4 +488,27 @@ public class CashPurchase extends Transaction {
 		w.put(messages.paymentMethod(), this.expenseStatus).gap();
 	}
 
+	@Override
+	public boolean isValidTransaction() {
+		boolean valid = super.isValidTransaction();
+		if (payFrom == null) {
+			valid = false;
+		} else if (paymentMethod == null || paymentMethod.isEmpty()) {
+			valid = false;
+		} else if (transactionItems != null && !transactionItems.isEmpty()) {
+			for (TransactionItem item : transactionItems) {
+				if (!item.isValid()) {
+					valid = false;
+					break;
+				}
+			}
+		} else {
+			valid = false;
+		}
+		return valid;
+	}
+
+	public void setDeliveryDate(FinanceDate deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
 }

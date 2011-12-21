@@ -107,7 +107,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid) {
+		if (!this.isVoid()) {
 			this.balanceDue = 0;
 			doVoidEffect(session, this);
 		}
@@ -132,6 +132,10 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 			return true;
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
+
+		if (isDraftOrTemplate()) {
+			return false;
+		}
 
 		FlushMode flushMode = session.getFlushMode();
 		session.setFlushMode(FlushMode.COMMIT);
@@ -224,7 +228,12 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 		TAXAdjustment taxAdjustment = (TAXAdjustment) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
 
-		if (this.isVoid && !taxAdjustment.isVoid) {
+		if (isDraftOrTemplate()) {
+			super.onEdit(taxAdjustment);
+			return;
+		}
+
+		if (this.isVoid() && !taxAdjustment.isVoid()) {
 			this.balanceDue = 0;
 			doVoidEffect(session, this);
 		} else {
@@ -232,6 +241,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 			this.balanceDue = this.total;
 			doCreateEffect(session, this);
 		}
+		super.onEdit(taxAdjustment);
 	}
 
 	private void doVoidEffect(Session session, TAXAdjustment taxAdjustment) {

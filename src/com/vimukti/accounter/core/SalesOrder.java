@@ -349,13 +349,6 @@ public class SalesOrder extends Transaction {
 	}
 
 	/**
-	 * @return the isVoid
-	 */
-	public boolean getIsVoid() {
-		return isVoid;
-	}
-
-	/**
 	 * @return the estimate
 	 */
 	public Estimate getEstimate() {
@@ -410,10 +403,10 @@ public class SalesOrder extends Transaction {
 					 * one or it's came from any Sales Order.
 					 */
 
-					if (transactionItem.referringTransactionItem != null) {
+					if (transactionItem.getReferringTransactionItem() != null) {
 						TransactionItem referringTransactionItem = (TransactionItem) session
 								.get(TransactionItem.class,
-										transactionItem.referringTransactionItem
+										transactionItem.getReferringTransactionItem()
 												.getID());
 						double amount = 0d;
 						if (!isAddition)
@@ -671,12 +664,12 @@ public class SalesOrder extends Transaction {
 					modifyEstimate(this, true);
 				} else {
 					for (TransactionItem transactionItem : salesOrder.transactionItems) {
-						if (transactionItem.referringTransactionItem != null
+						if (transactionItem.getReferringTransactionItem() != null
 								&& DecimalUtil
 										.isGreaterThan(
-												transactionItem.referringTransactionItem.usedamt,
+												transactionItem.getReferringTransactionItem().usedamt,
 												0)) {
-							transactionItem.referringTransactionItem.usedamt -= transactionItem.lineTotal;
+							transactionItem.getReferringTransactionItem().usedamt -= transactionItem.lineTotal;
 						}
 					}
 					modifyEstimate(this, true);

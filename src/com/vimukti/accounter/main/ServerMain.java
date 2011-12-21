@@ -12,9 +12,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimerTask;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Timer;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
@@ -38,6 +41,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.RecurringTool;
 import com.vimukti.accounter.web.server.translate.Key;
 import com.vimukti.accounter.web.server.translate.Message;
 
@@ -73,9 +77,22 @@ public class ServerMain extends Main {
 
 		stratChatServers();
 
+		startRecurringTimer();
+
 		JettyServer.start(ServerConfiguration.getMainServerPort());
 		JettyServer.jettyServer.join();
 
+	}
+
+	private static void startRecurringTimer() {
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+
+			@Override
+			public void run() {
+				new RecurringTool().start();
+			}
+		}, 0, 60 * 1000);
 	}
 
 	private static void loadAccounterMessages() throws IOException {

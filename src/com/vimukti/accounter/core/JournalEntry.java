@@ -61,7 +61,7 @@ public class JournalEntry extends Transaction {
 
 	public Set<TransactionReceivePayment> transactionReceivePayments = new HashSet<TransactionReceivePayment>();
 
-	Set<TransactionPayBill> transactionPayBills = new HashSet<TransactionPayBill>();
+	public Set<TransactionPayBill> transactionPayBills = new HashSet<TransactionPayBill>();
 
 	//
 
@@ -135,7 +135,7 @@ public class JournalEntry extends Transaction {
 
 	@Override
 	public void onLoad(Session session, Serializable arg1) {
-		this.isVoidBefore = isVoid;
+		this.isVoidBefore = isVoid();
 		super.onLoad(session, arg1);
 	}
 
@@ -176,7 +176,7 @@ public class JournalEntry extends Transaction {
 	}
 
 	protected boolean isBecameVoid() {
-		return isVoid && !this.isVoidBefore;
+		return isVoid() && !this.isVoidBefore;
 	}
 
 	@Override
@@ -201,7 +201,7 @@ public class JournalEntry extends Transaction {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!isVoid) {
+		if (!isVoid()) {
 			doReverseEffect(session);
 		}
 		return super.onDelete(session);
@@ -274,4 +274,10 @@ public class JournalEntry extends Transaction {
 		this.involvedAccount = involvedAccount;
 	}
 
+	@Override
+	public boolean isValidTransaction() {
+		boolean valid = super.isValidTransaction();
+
+		return valid;
+	}
 }

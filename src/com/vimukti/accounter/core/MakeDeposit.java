@@ -98,6 +98,9 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 			return true;
 		this.isOnSaveProccessed = true;
 		super.onSave(session);
+		if (isDraftOrTemplate()) {
+			return false;
+		}
 		if (this.cashBackAccount != null) {
 
 			this.cashBackAccount.updateCurrentBalance(this,
@@ -161,10 +164,6 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	@Override
 	public Payee getPayee() {
 		return null;
-	}
-
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
 	}
 
 	public void setNumber(String number) {
@@ -237,7 +236,11 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		Session session = HibernateUtil.getCurrentSession();
 		MakeDeposit makeDeposit = (MakeDeposit) clonedObject;
 
-		if (this.isVoid && !makeDeposit.isVoid) {
+		if (isDraftOrTemplate()) {
+			super.onEdit(makeDeposit);
+			return;
+		}
+		if (this.isVoid() && !makeDeposit.isVoid()) {
 			this.doVoidEffect(session);
 
 		} else {
@@ -275,7 +278,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid) {
+		if (!this.isVoid()) {
 			doVoidEffect(session);
 		}
 		return super.onDelete(session);
@@ -324,5 +327,16 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		w.put(messages.amount(), this.total).gap();
 		w.put(messages.paymentMethod(), this.paymentMethod);
 		w.put(messages.memo(), this.memo).gap();
+	}
+
+	@Override
+	public boolean isValidTransaction() {
+		boolean valid = super.isValidTransaction();
+		if (depositFrom == null) {
+			valid = false;
+		} else if (depositIn == null) {
+			valid = false;
+		}
+		return valid;
 	}
 }

@@ -2,12 +2,17 @@ package com.vimukti.accounter.core;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.hibernate.CallbackException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.sun.istack.internal.Nullable;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -32,9 +37,9 @@ public class RecurringTransaction extends CreatableObject implements
 	/*-------------------------
 	 * Recurring types
 	 *---------------------------*/
-	public final static int RECURRING_SCHEDULE = 0;
-	public final static int RECURRING_REMAINDER = 1;
-	public final static int RECURRING_NONE = 2;
+	public final static int RECURRING_SCHEDULED = 0;
+	public final static int RECURRING_REMINDER = 1;
+	public final static int RECURRING_UNSCHEDULED = 2;
 
 	/*-----------------------
 	 * Interval types
@@ -115,13 +120,28 @@ public class RecurringTransaction extends CreatableObject implements
 	private boolean unbilledChargesEnabled;
 
 	/**
+	 * Is it necessary to alert the user when recurring occurrences completed or
+	 * crossed the end date.
+	 */
+	private boolean alertWhenEnded;
+
+	/**
+	 * To store whether need to notify about automatically created transactions
+	 * or not if recurring type is schedule.
+	 */
+	private boolean notifyCreatedTransaction;
+
+	/**
 	 * create the instance of this recurring template in advance to specified
 	 * days. <br>
-	 * <br>
-	 * For <b>Remainders</b>, this field will be the value for 'days before to
-	 * remind'
 	 */
 	private int daysInAdvanceToCreate;
+
+	/**
+	 * Need to remind the user these many days before when recurring type is
+	 * reminder.
+	 */
+	private int daysBeforeToRemind;
 	/**
 	 * type of recurring. Schedule, Remainder, or NoShcedule[just template]
 	 */
@@ -140,7 +160,9 @@ public class RecurringTransaction extends CreatableObject implements
 
 	private String name;
 
-	private Transaction referringTransaction;
+	private Transaction transaction;
+
+	private Set<Reminder> reminders = new HashSet<Reminder>();
 
 	/**
 	 * This field indicates this transaction status. if this field is false, it
@@ -155,7 +177,15 @@ public class RecurringTransaction extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// TODO
+		Session session = HibernateUtil.getCurrentSession();
+		RecurringTransaction data = (RecurringTransaction) clientObject;
+		Query query = session.getNamedQuery("getRecurringTransaction.by.Name")
+				.setEntity("company", data.getCompany())
+				.setLong("id", data.getID()).setString("name", data.name);
+		List list = query.list();
+		if (list != null && !list.isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);
+		}
 		return true;
 	}
 
@@ -218,10 +248,6 @@ public class RecurringTransaction extends CreatableObject implements
 
 	public int getOccurencesCount() {
 		return occurencesCount;
-	}
-
-	public Transaction getReferringTransaction() {
-		return referringTransaction;
 	}
 
 	/**
@@ -351,12 +377,6 @@ public class RecurringTransaction extends CreatableObject implements
 		this.occurencesCount = occurencesCount;
 	}
 
-	public void setReferringTransaction(Transaction referringTransaction) {
-		this.referringTransaction = referringTransaction;
-		if (referringTransaction != null)
-			referringTransaction.setRecurringTransaction(this);
-	}
-
 	public void setStartDate(FinanceDate startDate) {
 		this.startDate = startDate;
 	}
@@ -430,10 +450,13 @@ public class RecurringTransaction extends CreatableObject implements
 		public Date next() {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(getInitialDateForNextSchedule().getAsDateObject());
-			calendar.add(Calendar.DATE, intervalPeriod);
-			if (!isScheduled()) {
-				// reduce the daysInAdvanceToCreate days from actual date.
-				calendar.add(Calendar.DAY_OF_MONTH, -daysInAdvanceToCreate);
+			// This is condition is placed because for the first time no need to
+			// add interval period.
+			if (isScheduled()) {
+				calendar.add(Calendar.DATE, intervalPeriod);
+			} else {
+				// add the daysInAdvanceToCreate days from actual date.
+				calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
 			}
 			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
 					.getTime() : null;
@@ -461,7 +484,7 @@ public class RecurringTransaction extends CreatableObject implements
 			} else {
 				// not scheduled yet, so we need to reduce the
 				// daysInAdvanced from the actual date
-				calendar.add(Calendar.DAY_OF_MONTH, -daysInAdvanceToCreate);
+				calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
 			}
 
 			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
@@ -514,7 +537,7 @@ public class RecurringTransaction extends CreatableObject implements
 			if (!isScheduled()) {
 				// not yet scheduled, reduce the daysInAdvance from the actual
 				// date.
-				calendar.add(Calendar.DAY_OF_MONTH, -daysInAdvanceToCreate);
+				calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
 			}
 
 			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
@@ -548,7 +571,7 @@ public class RecurringTransaction extends CreatableObject implements
 				calendar.add(Calendar.YEAR, intervalPeriod);
 			} else {
 				// not yet scheduled, reduce the daysInAdvance from actual date
-				calendar.add(Calendar.DAY_OF_MONTH, -daysInAdvanceToCreate);
+				calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
 			}
 
 			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
@@ -597,7 +620,7 @@ public class RecurringTransaction extends CreatableObject implements
 			} else {
 				// not yet scheduled, reduce the daysInAdvance from the actual
 				// date
-				calendar.add(Calendar.DAY_OF_MONTH, -daysInAdvanceToCreate);
+				calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
 			}
 			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
 					.getTime() : null;
@@ -616,32 +639,47 @@ public class RecurringTransaction extends CreatableObject implements
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (type != RECURRING_NONE && !isStopped() && !isScheduled()) {
+		if (type != RECURRING_UNSCHEDULED && !isStopped()) {
 			// looks new recurring is going to be created.
 			do {
-				if (!scheduleAgain2()) {
-					// unable to create next schedule.
-					break;
-				}
-
-				Transaction duplicateTransaction;
-				try {
-					duplicateTransaction = FinanceTool
-							.createDuplicateTransaction(this);
-				} catch (Exception e) {
-					e.printStackTrace();
-					continue;
-				}
-
-				// TODO notify user
-				session.save(duplicateTransaction);
+				scheduleAgain2();
 
 				// if nextscheduleOn <= current date then iterate again
 				// NOTE: checking with server current time for now, it has to be
 				// changed to client time.
 			} while (!nextScheduleOn.after(new FinanceDate()));
 		}
+		// Need to clone the transaction object because it is coming from
+		// transaction view we need to save a transaction template.
+		try {
+			transaction = FinanceTool.createDuplicateTransaction(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		transaction.setNumber("");
+		transaction.setSaveStatus(Transaction.STATUS_TEMPLATE);
 		return super.onSave(session);
+	}
+
+	@Override
+	public boolean onUpdate(Session session) throws CallbackException {
+		if (type != RECURRING_UNSCHEDULED && !isStopped()) {
+			nextScheduleOn = null;
+			do {
+				Date nextDate = next();
+				if (nextDate == null) {
+					// can't schedule next again.
+					nextScheduleOn = null;
+					stopped = true;
+				} else {
+					nextScheduleOn = new FinanceDate(nextDate);
+				}
+
+			} while (nextScheduleOn == null
+					|| !nextScheduleOn.after(new FinanceDate()));
+		}
+		transaction.setCompany(getCompany());
+		return super.onUpdate(session);
 	}
 
 	/**
@@ -659,7 +697,7 @@ public class RecurringTransaction extends CreatableObject implements
 	 * @return
 	 */
 	private boolean scheduleAgain2() {
-		if (endDateType == END_DATE_OCCURRENCES && isScheduled()) {
+		if (isScheduled()) {
 			// checks only if nextScheduleOn available. nextScheduleOn will be
 			// updated next below.
 			occurencesCompleted++;
@@ -687,11 +725,13 @@ public class RecurringTransaction extends CreatableObject implements
 		// As nextScheduleOn includes daysInAdvance, we need to add those
 		// daysInAdvance value to the nextScheduleOn to get original
 		// nextScheduledTransaction date
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(nextScheduleOn.getAsDateObject());
-		calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
+		if (nextScheduleOn != null) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(nextScheduleOn.getAsDateObject());
 
-		return new FinanceDate(calendar.getTime());
+			return new FinanceDate(calendar.getTime());
+		}
+		return null;
 	}
 
 	public void setStopped(boolean stopped) {
@@ -728,14 +768,56 @@ public class RecurringTransaction extends CreatableObject implements
 	}
 
 	public boolean canHaveDueDate() {
-		int transactionType = referringTransaction.getType();
+		int transactionType = transaction.getType();
 		return transactionType == Transaction.TYPE_INVOICE
-				|| transactionType == Transaction.TYPE_PAY_BILL;
+				|| transactionType == Transaction.TYPE_ENTER_BILL;
+	}
+
+	public Transaction getTransaction() {
+		return transaction;
+	}
+
+	public void setTransaction(Transaction transaction) {
+		this.transaction = transaction;
+		if (transaction != null)
+			transaction.setRecurringTransaction(this);
+	}
+
+	public boolean isAlertWhenEnded() {
+		return alertWhenEnded;
+	}
+
+	public void setAlertWhenEnded(boolean alertWhenEnded) {
+		this.alertWhenEnded = alertWhenEnded;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public Set<Reminder> getReminders() {
+		return reminders;
+	}
+
+	public void setReminders(Set<Reminder> reminders) {
+		this.reminders = reminders;
+	}
+
+	public int getDaysBeforeToRemind() {
+		return daysBeforeToRemind;
+	}
+
+	public void setDaysBeforeToRemind(int daysBeforeToRemind) {
+		this.daysBeforeToRemind = daysBeforeToRemind;
+	}
+
+	public boolean isNotifyCreatedTransaction() {
+		return notifyCreatedTransaction;
+	}
+
+	public void setNotifyCreatedTransaction(boolean notifyCreatedTransaction) {
+		this.notifyCreatedTransaction = notifyCreatedTransaction;
 	}
 }

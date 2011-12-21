@@ -29,14 +29,6 @@ public class ClientPayTAX extends ClientTransaction {
 
 	}
 
-	public boolean getIsVoid() {
-		return isVoid;
-	}
-
-	public void setIsVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	public boolean getIsEdited() {
 		return isEdited;
 	}

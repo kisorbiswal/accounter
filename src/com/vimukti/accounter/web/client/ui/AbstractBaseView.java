@@ -135,7 +135,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	private Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
 	protected boolean isDirty;
 
-	private Set<Object> lastErrorSourcesFromValidation = new HashSet<Object>();
+	protected Set<Object> lastErrorSourcesFromValidation = new HashSet<Object>();
 
 	// /**
 	// * Convenience Method to Set CallBack

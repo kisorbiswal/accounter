@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.server;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -16,6 +17,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -117,7 +119,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		if (serverCore instanceof Transaction) {
 			IAccounterCore clientObject = (IAccounterCore) new ClientConvertUtil()
 					.toClientObject(serverCore, Util.getClientClass(serverCore));
-			((ClientTransaction) clientObject).setVoid(true);
+			((ClientTransaction) clientObject)
+					.setSaveStatus(ClientTransaction.STATUS_VOID);
 			update(clientObject);
 
 			return true;
@@ -132,7 +135,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 				accounterCoreType.getServerClassSimpleName(), id);
 		if (serverCore instanceof Transaction) {
 			Transaction trans = (Transaction) serverCore;
-			trans.setVoid(true);
+			trans.setSaveStatus(Transaction.STATUS_VOID);
 			update((IAccounterCore) new ClientConvertUtil().toClientObject(
 					serverCore, Util.getClientClass(serverCore)));
 
@@ -262,6 +265,13 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 					.deleteTransactionFromDb(getCompanyId(), obj);
 		}
 		return false;
+	}
+
+	@Override
+	public boolean createOrSkipTransactions(List<ClientReminder> records,
+			boolean isCreate) throws AccounterException {
+		FinanceTool tool = new FinanceTool();
+		return tool.createOrSkipTransactions(records, isCreate, getCompanyId());
 	}
 
 	@Override

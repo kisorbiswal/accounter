@@ -1239,6 +1239,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 		journalEntry.setTransactionItems(items);
 
+		journalEntry.setSaveStatus(Transaction.STATUS_APPROVE);
+
 		return journalEntry;
 	}
 

@@ -306,6 +306,11 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		this.isOnSaveProccessed = true;
 		this.subTotal = this.amount + tdsTotal;
 
+		super.onSave(session);
+
+		if (isDraftOrTemplate()) {
+			return false;
+		}
 		// this.total = this.amount;
 		//
 		// this.subTotal = this.total - this.unUsedPayments;
@@ -318,8 +323,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			// -(this.amount != 0 ? this.amount : this.total));
 			this.depositIn.onUpdate(session);
 		}
-
-		super.onSave(session);
 
 		// the following condition checking is for UK
 		// if (Company.getCompany().accountingType == Company.ACCOUNTING_TYPE_UK
@@ -426,10 +429,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		}
 	}
 
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	public void setTotalCashDiscount(double totalCashDiscount) {
 		this.totalCashDiscount = totalCashDiscount;
 	}
@@ -498,12 +497,17 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	@Override
 	public void onEdit(Transaction clonedObject) {
 
+		if (isDraftOrTemplate()) {
+			super.onEdit(clonedObject);
+			return;
+		}
+
 		/**
 		 * If present transaction is deleted or voided & the previous
 		 * transaction is not voided then it is entered into the loop
 		 */
 
-		if (this.isVoid && !clonedObject.isVoid) {
+		if (this.isVoid() && !clonedObject.isVoid()) {
 
 			super.onEdit(clonedObject);
 
@@ -539,7 +543,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid) {
+		if (!this.isVoid()) {
 			this.depositIn.updateCurrentBalance(this, this.amount,
 					currencyFactor);
 			this.depositIn.onUpdate(session);

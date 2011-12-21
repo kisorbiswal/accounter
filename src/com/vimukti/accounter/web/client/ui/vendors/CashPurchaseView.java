@@ -1136,5 +1136,4 @@ public class CashPurchaseView extends
 									.getFormalName()));
 		}
 	}
-
 }

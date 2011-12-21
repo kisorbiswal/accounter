@@ -153,7 +153,9 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		doVoidEffect(session);
+		if (!payTAX.isDraftOrTemplate()) {
+			doVoidEffect(session);
+		}
 		return false;
 	}
 
@@ -169,7 +171,7 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		if (this.id == 0l) {
+		if (this.id == 0l && !payTAX.isDraftOrTemplate()) {
 			// this.liabilityAccount=this.vatAgency.getLiabilityAccount();
 
 			// We need to update the corresponding VATAgency's balance with this

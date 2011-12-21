@@ -232,6 +232,8 @@ public interface AccounterMessages extends Messages {
 
 	public String agingDetailsDescription();
 
+	public String alertWhenRangeHasEnded();
+
 	public String all();
 
 	public String allDepreciationUpToIncluding();
@@ -369,6 +371,8 @@ public interface AccounterMessages extends Messages {
 	public String automaticSequencing();
 
 	public String automaticSequencingData();
+	
+	public String automaticTransactions();
 
 	public String available();
 
@@ -880,6 +884,8 @@ public interface AccounterMessages extends Messages {
 
 	public String createFascalYear();
 
+	public String createSelected();
+	
 	public String createStatement();
 
 	public String createSuccessfully(String transactionName);
@@ -1060,6 +1066,8 @@ public interface AccounterMessages extends Messages {
 	public String days90();
 
 	public String daysAfterTheInvoiceDate();
+	
+	public String daysBefore();
 
 	public String daysFromzeroto60();
 
@@ -1264,6 +1272,8 @@ public interface AccounterMessages extends Messages {
 	public String ecSalesListDetails();
 
 	public String edit();
+	
+	public String editAndCreate();
 
 	public String editBrandThemeLabel();
 
@@ -1342,6 +1352,10 @@ public interface AccounterMessages extends Messages {
 	public String endDate();
 
 	public String endDateAfter();
+
+	public String endDateMustBeAfterToday();
+	
+	public String endDateMustBeAfterStartDate();
 
 	public String endDateType();
 
@@ -1852,6 +1866,8 @@ public interface AccounterMessages extends Messages {
 	public String integrateWithBusinessContactManager();
 
 	public String internal();
+	
+	public String interval();
 
 	public String intervalType();
 
@@ -2509,7 +2525,7 @@ public interface AccounterMessages extends Messages {
 
 	public String noNegativeAmountsReceived();
 
-	public String noneJustTemplate();
+	public String unScheduled();
 
 	// public String nonInventory();
 
@@ -2545,6 +2561,8 @@ public interface AccounterMessages extends Messages {
 
 	public String notes();
 
+	public String notifyAboutCreatedTransactions();
+	
 	public String notIssued();
 
 	// public String notIssuedPayments();
@@ -3205,6 +3223,10 @@ public interface AccounterMessages extends Messages {
 	public String recurring();
 
 	public String recurringDescription();
+	
+	public String recurringTemplateHasEnded(String name);
+	
+	public String recurringTransactionsList();
 
 	public String recurringType();
 
@@ -3234,7 +3256,11 @@ public interface AccounterMessages extends Messages {
 
 	public String relatedTask();
 
-	public String remainder();
+	public String remindMe();
+	
+	public String reminder();
+	
+	public String remindersList();
 
 	public String remainingTotal();
 
@@ -3267,6 +3293,8 @@ public interface AccounterMessages extends Messages {
 	public String requiredField();
 
 	public String requiredFields();
+	
+	public String respondToYourRemindersAboutRecurringTemplates();
 
 	public String restoreRecommendations();
 
@@ -3365,8 +3393,10 @@ public interface AccounterMessages extends Messages {
 	public String saveAndClose();
 
 	public String saveAndNew();
+	
+	public String saveTemplate();
 
-	public String schedule();
+	public String scheduled();
 
 	public String sCorporation();
 
@@ -3628,6 +3658,8 @@ public interface AccounterMessages extends Messages {
 
 	public String signoutafterInactivity();
 
+	public String skipSelected();
+	
 	public String skipSetup();
 
 	public String skipSetupInfo();
@@ -3639,6 +3671,8 @@ public interface AccounterMessages extends Messages {
 	public String soleProprietorship();
 
 	public String soleProprietorshipDesc();
+	
+	public String someSelectedRecordsAreNeedToBeEdited();
 
 	public String sorryFailedToAdd();
 
@@ -3665,6 +3699,8 @@ public interface AccounterMessages extends Messages {
 	public String startDate();
 
 	public String startDateForManagingFixedAsset();
+
+	public String startDateMustBeAfterToday();
 
 	public String startFiscalHTML();
 
@@ -4434,6 +4470,8 @@ public interface AccounterMessages extends Messages {
 			String vendor);
 
 	public String youCannotEdiClosedFiscalYear();
+	
+	public String youCannotSaveAblankRecurringTemplate();
 
 	public String youCantDeleteYourSelf();
 
@@ -4624,6 +4662,8 @@ public interface AccounterMessages extends Messages {
 	public String taxAgencies();
 
 	public String transactions();
+	
+	public String transactionsWereAutomaticallyCreated();
 
 	// public String openBalances();
 

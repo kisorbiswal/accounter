@@ -14,9 +14,9 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 public abstract class BaseView<T extends IAccounterCore> extends
 		AbstractBaseView<T> implements IEditableView, ISavableView<T> {
 
-	private ButtonBar buttonBar;
+	protected ButtonBar buttonBar;
 
-	private EditMode mode;
+	protected EditMode mode;
 	// private boolean isInViewMode;
 
 	protected SaveAndCloseButton saveAndCloseButton;
@@ -199,7 +199,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		return this.mode == EditMode.VIEW;
 	}
 
-	private void showSaveButtons() {
+	protected void showSaveButtons() {
 		// if (approveButton != null) {
 		// this.buttonBar.insert(approveButton, 0);
 		// }

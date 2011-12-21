@@ -467,7 +467,7 @@
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PayBill pst where pst.company=:company
-		and pst.payFrom.id =:accountId and pst.isVoid=false and pst.status
+		and pst.payFrom.id =:accountId and pst.saveStatus!=204 and pst.status
 		=:status
 	</query>
 
@@ -476,7 +476,7 @@
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PayTAX pv where pv.company=:company
-		and pv.payFrom.id =:accountId and pv.isVoid=false and pv.status
+		and pv.payFrom.id =:accountId and pv.saveStatus!=204 and pv.status
 		=:status
 	</query>
 
@@ -486,7 +486,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.ReceiveVAT rv where
 		rv.company=:company and rv.depositIn.id
-		=:accountId and rv.isVoid=false
+		=:accountId and rv.saveStatus!=204
 		and rv.status =:status
 	</query>
 
@@ -497,7 +497,7 @@
 		from com.vimukti.accounter.core.CreditCardCharge pst where
 		pst.company=:company and
 		pst.payFrom.id =:accountId and
-		pst.isVoid=false
+		pst.saveStatus!=204
 		and pst.status
 		=:status
 	</query>
@@ -509,7 +509,7 @@
 		from com.vimukti.accounter.core.CashPurchase pst where
 		pst.company=:company and pst.payFrom.id
 		=:accountId and
-		pst.isVoid=false and pst.status =:status
+		pst.saveStatus!=204 and pst.status =:status
 	</query>
 
 	<query name="getCustomerPrePayment.form.accountId.and.status">
@@ -519,7 +519,7 @@
 		from com.vimukti.accounter.core.CustomerPrePayment cpp where
 		cpp.company=:company and
 		cpp.depositIn.id =:accountId and
-		cpp.isVoid=false
+		cpp.saveStatus!=204
 		and cpp.status
 		=:status
 	</query>
@@ -615,6 +615,15 @@
 		from com.vimukti.accounter.core.Item I where
 		I.company=:company and
 		I.name=:name
+	</query>
+	
+	<query name="getRecurringTransaction.by.Name">
+		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.RecurringTransaction r where
+		r.company=:company and
+		r.name=:name and r.id !=:id
 	</query>
 
 	<query name="getNameofAccount.by.Name">
@@ -933,7 +942,7 @@
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.bankAccount.id=:id and wc.isVoid=false and wc.status=:status and
+		wc.bankAccount.id=:id and wc.saveStatus!=204 and wc.status=:status and
 		wc.company=:company
 	</query>
 
@@ -941,7 +950,7 @@
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CustomerRefund cr
-		where cr.isVoid=false
+		where cr.saveStatus!=204
 		and cr.status=status and cr.company=:company
 	</query>
 
@@ -960,7 +969,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CustomerRefund cr
 		where cr.payFrom.id
-		=:id and cr.isVoid=false and cr.status=:status and cr.company=:company
+		=:id and cr.saveStatus!=204 and cr.status=:status and cr.company=:company
 	</query>
 
 	<query name="getPaySalesTax.by.payFromand.isvoid.status">
@@ -970,7 +979,7 @@
 		from com.vimukti.accounter.core.PayTAX pst where
 		pst.payFrom.id =
 		:id
-		and pst.isVoid=false and pst.status =:status and
+		and pst.saveStatus!=204 and pst.status =:status and
 		pst.company=:company
 	</query>
 
@@ -1050,7 +1059,7 @@
 		cp.company=:company and
 		cp.expenseStatus=:expenseStatus
 		and
-		cp.type=:type and cp.isVoid=false
+		cp.type=:type and cp.saveStatus!=204
 	</query>
 
 	<query name="getCashPurchase.by.expenseStatusandtype">
@@ -1060,7 +1069,7 @@
 		from com.vimukti.accounter.core.CashPurchase cp where
 		cp.company=:company and
 		cp.expenseStatus=:expenseStatus and
-		cp.type=:type and cp.isVoid=false
+		cp.type=:type and cp.saveStatus!=204
 	</query>
 
 
@@ -1070,7 +1079,8 @@
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.Estimate e where e.company=:company
-		and e.estimateType=:estimateType and e.transactionDate between :fromDate and :toDate
+		and e.estimateType=:estimateType and e.saveStatus != 202
+		and e.transactionDate between :fromDate and :toDate
 	</query>
 
 	<query name="getEstimate.by.check.id.status">
@@ -1078,7 +1088,7 @@
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.Estimate e
 		where e.company=:company and
-		e.customer.id =:id and e.status = 0
+		e.customer.id =:id and e.status = 0 and e.saveStatus != 202
 	</query>
 
 	<query name="getFiscalYear.by.check.status.startDate">
@@ -1111,7 +1121,8 @@
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.JournalEntry j where
-		j.company=:company and j.transactionDate between :fromDate and :toDate
+		j.company=:company and j.saveStatus != 202
+		and j.transactionDate between :fromDate and :toDate
 	</query>
 
 	<query name="getJournalEntry.by.id">
@@ -1217,8 +1228,7 @@
 		<query-param name="company" type="Company" />
 		from
 		com.vimukti.accounter.core.TransactionMakeDepositEntries at where
-		at.transaction.isDeposited = false and at.transaction.isVoid =
-		false
+		at.transaction.isDeposited = false and at.transaction.saveStatus!=204
 		and at.transaction.company=:company
 	</query>
 
@@ -1484,14 +1494,14 @@
 		from com.vimukti.accounter.core.EnterBill e where
 		e.vendor.isTrackPaymentsFor1099=true and e.company=:company
 		and
-		e.isVoid=false
+		e.saveStatus!=204
 	</query>
 
 	<query name="get.notselected.vendors.enterbills.list">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.EnterBill e where
 		e.vendor.isTrackPaymentsFor1099=false and e.company=:company and
-		e.isVoid=false
+		e.saveStatus!=204
 	</query>
 
 	<query name="get.1099.vendors">
@@ -1504,7 +1514,7 @@
 		<query-param name="vendorId" type="long" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.EnterBill e where
-		e.vendor.id=:vendorId and e.company=:company and e.isVoid=false
+		e.vendor.id=:vendorId and e.company=:company and e.saveStatus!=204
 	</query>
 
 	<query name="get.Activities.by.date">
@@ -1831,13 +1841,64 @@
 		where
 		bankAccount.id=:fromID and company=:company
 	</query>
+	
+	<query name="getCompany.has.recurrings">
+		from com.vimukti.accounter.core.Company c
+		where (select count(r.id) from com.vimukti.accounter.core.RecurringTransaction r 
+		where r.company.id = c.id and r.type !=2) > 0
+	</query>
+	
+	<query name="getRecurrringsBeforeDate">
+		<query-param name="date" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.RecurringTransaction r
+		where r.company=:company and r.nextScheduleOn &lt;=:date and r.stopped = false
+		and r.type !=2 and r.daysBeforeToRemind =0
+	</query>
+	
+	<query name="getRecurrrings.remind.days.before">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.RecurringTransaction r
+		where r.company=:company and r.stopped = false
+		and r.type =1 and r.daysBeforeToRemind !=0
+	</query>
+	
+	<query name="getReminders">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.Reminder r
+		where r.company.id=:companyId order by r.transactionDate
+	</query>
+
 	<query name="getEnterBillByEstimate">
 		<query-param name="estimate" type="Estimate" />
 		from com.vimukti.accounter.core.EnterBill eb left join eb.estimates es
 		where es=:estimate
 
 	</query>
-
+	<query name="getRecurring.for.template">
+		<query-param name="templateId" type="long" />
+		from com.vimukti.accounter.core.RecurringTransaction r
+		where r.transaction.id =:templateId
+	</query>
+	
+	<query name="getRecurringReminderTask">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.MessageOrTask m 
+		where m.contentType=1 and m.company.id =:companyId
+	</query>
+	
+	<query name="getAutomaticTransactionsMessage">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.MessageOrTask m 
+		where m.contentType=2 and m.company.id =:companyId
+	</query>
+	
+	<query name="getMessagesAndTasks">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.MessageOrTask m
+		where m.company.id =:companyId
+	</query>
+	
 	<query name="getTDSAgencyOfCompany">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXAgency ta where ta.taxType=4 and

@@ -74,15 +74,6 @@ public class ClientCustomerRefund extends ClientTransaction {
 		this.isToBePrinted = isToBePrinted;
 	}
 
-
-	public boolean getIsVoid() {
-		return isVoid;
-	}
-
-	public void setIsVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	public boolean getIsPaid() {
 		return isPaid;
 	}

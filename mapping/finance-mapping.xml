@@ -1793,6 +1793,53 @@
 		</set>
 
 	</class>
+	
+	<class name="Reminder" table="REMINDER">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
+		<many-to-one name="recurringTransaction" class="RecurringTransaction" 
+			lazy="false" column="RECURRING_TRANSACTION">
+		</many-to-one>
+		<property name="transactionDate" type="com.vimukti.accounter.core.LongUseType"
+			column="TRANSACTION_DATE"></property>
+		<property name="isValid" column="IS_VALID"></property>
+		<property name="version" column="VERSION"></property>
+		<many-to-one name="createdBy" class="User" column="CREATED_BY"
+			not-null="true" />
+		<many-to-one name="lastModifier" class="User" column="LAST_MODIFIER"
+			not-null="true" />
+		<property name="createdDate" column="CREATED_ON" not-null="true" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_ON"
+			not-null="true" />
+	</class>
+	
+	<class name="MessageOrTask" table="MESSAGE_OR_TASK">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true" lazy="false">
+		</many-to-one>
+		<property name="type" column="TYPE"></property>
+		<property name="systemCreated" column="SYSTEM_CREATED"></property>
+		<property name="content" column="CONTENT"></property>
+		<property name="contentType" column="CONTENT_TYPE"></property>
+		<property name="actionToken" column="ACTION_TOKEN"></property>
+		<property name="date" type="com.vimukti.accounter.core.LongUseType"
+			column="DATE"></property>
+		<property name="version" column="VERSION"></property>
+		<many-to-one name="createdBy" class="User" column="CREATED_BY"
+			not-null="true" />
+		<many-to-one name="lastModifier" class="User" column="LAST_MODIFIER"
+			not-null="true" />
+		<property name="createdDate" column="CREATED_ON" not-null="true" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_ON"
+			not-null="true" />
+	</class>
 
 	<!-- budget item class -->
 	<class name="BudgetItem" table="BUDGETITEM">

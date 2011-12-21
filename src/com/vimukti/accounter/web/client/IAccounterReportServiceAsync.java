@@ -136,6 +136,10 @@ public interface IAccounterReportServiceAsync {
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TransactionDetailByAccount>> callBackResult);
 
+	public void getAutomaticTransactions(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
+			AsyncCallback<ArrayList<TransactionDetailByAccount>> callBack);
+
 	public void getSalesTaxLiabilityReport(final ClientFinanceDate startDate,
 			final ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesTaxLiability>> callBack);

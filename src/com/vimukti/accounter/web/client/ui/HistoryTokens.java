@@ -234,6 +234,8 @@ public class HistoryTokens {
 
 	public static final String USERACTIVITY = "userActivity";
 
+	public static final String RECURRINGTRANSACTIONS = "recurringTransactions";
+
 	public static final String NEWACCOUNTACTION = "newAccountAction";
 
 	public static final String COMPANYPREFERENCES = "companyPreferences";
@@ -299,6 +301,10 @@ public class HistoryTokens {
 	public static final String SEARCH = "search";
 
 	public static final String DEPRECIATIONSHEDULE = "depreciationShedule";
+
+	public static final String AUTOMATICTRANSACTIONS = "automaticTransactions";
+
+	public static final String RECURRINGREMINDERS = "recurringReminders";
 
 	public static final String RECONCILATION_LIST = "Reconciliation Reports";
 	public static final String CUSTOMERCENTRE = "customercentre";

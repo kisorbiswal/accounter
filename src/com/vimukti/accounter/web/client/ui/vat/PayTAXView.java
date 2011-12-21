@@ -787,6 +787,10 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	}
 
 	@Override
+	protected boolean canRecur() {
+		return false;
+	}
+	@Override
 	protected boolean canDelete() {
 		return false;
 	}

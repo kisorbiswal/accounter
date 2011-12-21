@@ -115,21 +115,6 @@ public class ClientPayVAT extends ClientTransaction {
 	}
 
 	/**
-	 * @return the isVoid
-	 */
-	public boolean isVoid() {
-		return isVoid;
-	}
-
-	/**
-	 * @param isVoid
-	 *            the isVoid to set
-	 */
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
-	/**
 	 * @return the isEdited
 	 */
 	public boolean isEdited() {

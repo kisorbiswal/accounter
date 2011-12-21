@@ -652,14 +652,16 @@ public class MakeDepositView extends
 			// .setValue(DataUtils
 			// .getAmountAsString(getAmountInTransactionCurrency(transaction
 			// .getTotal())));
-			if (transaction.getCurrency() == selectedDepositFromAccount
-					.getCurrency()) {
-				amtText.setAmount(transaction.getTotal());
-			} else {
-				amtText.setAmount(transaction.getTotal());
+			if (selectedDepositFromAccount != null) {
+				if (transaction.getCurrency() == selectedDepositFromAccount
+						.getCurrency()) {
+					amtText.setAmount(transaction.getTotal());
+				} else {
+					amtText.setAmount(transaction.getTotal());
+				}
+				amtText.setCurrency(getCurrency(selectedDepositFromAccount
+						.getCurrency()));
 			}
-			amtText.setCurrency(getCurrency(selectedDepositFromAccount
-					.getCurrency()));
 			gridView.setRecords(transaction.getTransactionMakeDeposit());
 			initAccounterClass();
 			// gridView.setCanEdit(false);
@@ -1422,5 +1424,18 @@ public class MakeDepositView extends
 	@Override
 	protected boolean canVoid() {
 		return false;
+	}
+
+	@Override
+	protected ValidationResult validateBaseRequirement() {
+		updateTransaction();
+		ValidationResult result = new ValidationResult();
+		if ((depositFromSelect.getSelectedValue() == null || depositInSelect
+				.getSelectedValue() == null)
+				&& !AccounterValidator.isPositiveAmount(amtText.getAmount())) {
+			result.addError(this,
+					messages.youCannotSaveAblankRecurringTemplate());
+		}
+		return result;
 	}
 }

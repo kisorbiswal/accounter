@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ImageButton;
@@ -32,8 +33,8 @@ public class SaveAndCloseButton extends ImageButton {
 	 */
 	public SaveAndCloseButton(AbstractBaseView<?> baseView) {
 
-		super(Accounter.messages().saveAndClose(), Accounter
-				.getFinanceImages().saveAndClose());
+		super(Accounter.messages().saveAndClose(), Accounter.getFinanceImages()
+				.saveAndClose());
 		this.view = baseView;
 		this.addStyleName("saveAndClose-Btn");
 		this.setTitle(Accounter.messages().clickThisTo(this.getText(),
@@ -47,6 +48,14 @@ public class SaveAndCloseButton extends ImageButton {
 			@Override
 			public void onClick(ClickEvent arg0) {
 
+				// Need to clarify after implemented approval process.
+				if (view instanceof AbstractTransactionBaseView) {
+					AbstractTransactionBaseView<?> transactionView = (AbstractTransactionBaseView<?>) view;
+					if (!transactionView.isTemplate) {
+						transactionView.getTransactionObject().setSaveStatus(
+								ClientTransaction.STATUS_APPROVE);
+					}
+				}
 				view.onSave(false);
 			}
 		});

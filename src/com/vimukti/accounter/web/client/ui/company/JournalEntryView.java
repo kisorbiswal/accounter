@@ -652,4 +652,14 @@ public class JournalEntryView extends
 	protected boolean canVoid() {
 		return false;
 	}
+
+	@Override
+	protected ValidationResult validateBaseRequirement() {
+		ValidationResult result = new ValidationResult();
+		if (transactionItems == null || transactionItems.isEmpty()) {
+			result.addError(this,
+					messages.youCannotSaveAblankRecurringTemplate());
+		}
+		return result;
+	}
 }

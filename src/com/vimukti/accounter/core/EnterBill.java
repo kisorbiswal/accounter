@@ -108,7 +108,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	 * which PayBill this Bill is being paid.
 	 */
 	@ReffereredObject
-	Set<TransactionPayBill> transactionPayBills = new HashSet<TransactionPayBill>();
+	private Set<TransactionPayBill> transactionPayBills = new HashSet<TransactionPayBill>();
 
 	private Set<Estimate> estimates = new HashSet<Estimate>();
 	/**
@@ -231,6 +231,10 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		super.onSave(session);
 		this.balanceDue = this.total;
 
+		if (isDraftOrTemplate()) {
+			return false;
+		}
+
 		/**
 		 * To check if any Purchase Order is involved in this Purchase Invoice.
 		 * If this Purchase Invoice uses any Purchase Order then we should
@@ -295,7 +299,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		 * Make void the corresponding Item Receipt.
 		 */
 		if (this.itemReceipt != null) {
-			this.itemReceipt.isVoid = true;
+			this.itemReceipt.setSaveStatus(STATUS_VOID);
 			this.itemReceipt.isBilled = true;
 			this.itemReceipt.balanceDue = 0;
 			this.itemReceipt.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
@@ -541,10 +545,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 	}
 
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_VENDOR;
@@ -569,12 +569,18 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				0.0)) ? 0.0 : (this.total - payments);
 		// this.balanceDue = (this.balanceDue = this.total - payments) == 0.0 ?
 		// 0.0 : this.balanceDue;
+
+		if (isDraftOrTemplate()) {
+			super.onEdit(enterBill);
+			return;
+		}
+
 		/**
 		 * If present transaction is deleted or voided & the previous
 		 * transaction is not voided then it will entered into the loop
 		 */
 
-		if (this.isVoid && !enterBill.isVoid) {
+		if (this.isVoid() && !enterBill.isVoid()) {
 
 			doVoidEffect(session, this);
 
@@ -621,12 +627,11 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 				} else {
 					for (TransactionItem transactionItem : enterBill.transactionItems) {
-						if (transactionItem.referringTransactionItem != null
-								&& DecimalUtil
-										.isGreaterThan(
-												transactionItem.referringTransactionItem.usedamt,
-												0)) {
-							transactionItem.referringTransactionItem.usedamt -= transactionItem.lineTotal;
+						if (transactionItem.getReferringTransactionItem() != null
+								&& DecimalUtil.isGreaterThan(transactionItem
+										.getReferringTransactionItem().usedamt,
+										0)) {
+							transactionItem.getReferringTransactionItem().usedamt -= transactionItem.lineTotal;
 						}
 					}
 					modifyPurchaseOrder(this, true);
@@ -665,7 +670,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid) {
+		if (!this.isVoid()) {
 			doVoidEffect(session, this);
 		}
 		return super.onDelete(session);
@@ -708,7 +713,8 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		if (enterBill.itemReceipt != null
 				&& enterBill.itemReceipt.purchaseOrder != null) {
 			for (TransactionItem transactionItem : enterBill.itemReceipt.transactionItems) {
-				TransactionItem referringTransactionItem = transactionItem.referringTransactionItem;
+				TransactionItem referringTransactionItem = transactionItem
+						.getReferringTransactionItem();
 				// if (referringTransactionItem != null
 				// && !referringTransactionItem.isVoid()) {
 				// referringTransactionItem.usedamt -=
@@ -821,11 +827,10 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				 * or it's came from any Sales Order.
 				 */
 
-				if (transactionItem.referringTransactionItem != null) {
+				if (transactionItem.getReferringTransactionItem() != null) {
 					TransactionItem referringTransactionItem = (TransactionItem) session
-							.get(TransactionItem.class,
-									transactionItem.referringTransactionItem
-											.getID());
+							.get(TransactionItem.class, transactionItem
+									.getReferringTransactionItem().getID());
 					double amount = 0d;
 
 					if (!isAddition)
@@ -922,7 +927,8 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					&& enterBill.transactionItems.size() > 0) {
 
 				for (TransactionItem transactionItem : this.transactionItems) {
-					TransactionItem referringTransactionItem = transactionItem.referringTransactionItem;
+					TransactionItem referringTransactionItem = transactionItem
+							.getReferringTransactionItem();
 
 					if (referringTransactionItem != null) {
 						if (!isAddition)
@@ -1080,6 +1086,15 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		updateStatus();
 	}
 
+	public Set<TransactionPayBill> getTransactionPayBills() {
+		return transactionPayBills;
+	}
+
+	public void setTransactionPayBills(
+			Set<TransactionPayBill> transactionPayBills) {
+		this.transactionPayBills = transactionPayBills;
+	}
+
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
@@ -1122,4 +1137,23 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			w.put(messages.discountDate(), this.discountDate.toString());
 
 	}
+
+	@Override
+	public boolean isValidTransaction() {
+		boolean valid = super.isValidTransaction();
+		if (vendor == null) {
+			valid = false;
+		} else if (transactionItems != null && !transactionItems.isEmpty()) {
+			for (TransactionItem item : transactionItems) {
+				if (!item.isValid()) {
+					valid = false;
+					break;
+				}
+			}
+		} else {
+			valid = false;
+		}
+		return valid;
+	}
+
 }

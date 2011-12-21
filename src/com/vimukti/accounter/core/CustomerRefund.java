@@ -133,10 +133,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		return isToBePrinted;
 	}
 
-	public boolean getIsVoid() {
-		return isVoid;
-	}
-
 	public boolean getIsPaid() {
 		return isPaid;
 	}
@@ -169,8 +165,10 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		this.isOnSaveProccessed = true;
 		this.balanceDue = this.total;
 		super.onSave(session);
-		this.payFrom.updateCurrentBalance(this, this.total, currencyFactor);
-		this.payFrom.onUpdate(session);
+		if (!isDraftOrTemplate()) {
+			this.payFrom.updateCurrentBalance(this, this.total, currencyFactor);
+			this.payFrom.onUpdate(session);
+		}
 
 		if (this.paymentMethod != null) {
 			// update the status of the customer refund based on the selected
@@ -266,10 +264,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 
 	}
 
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	public Set<TransactionReceivePayment> getTransactionReceivePayments() {
 		// NOTHING TO DO
 		return null;
@@ -326,11 +320,15 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		CustomerRefund customerRefund = (CustomerRefund) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
 
+		if (isDraftOrTemplate()) {
+			super.onEdit(customerRefund);
+			return;
+		}
 		/**
 		 * if present transaction is deleted,without voided & delete the
 		 * previous transaction then it is entered into the loop
 		 */
-		if (this.isVoid && !customerRefund.isVoid) {
+		if (this.isVoid() && !customerRefund.isVoid()) {
 			doVoidEffect(session);
 		} else {
 
@@ -381,7 +379,7 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid) {
+		if (!this.isVoid()) {
 			doVoidEffect(session);
 		}
 		return super.onDelete(session);

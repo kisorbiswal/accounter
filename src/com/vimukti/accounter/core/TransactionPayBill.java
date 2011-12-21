@@ -305,12 +305,12 @@ public class TransactionPayBill extends CreatableObject implements
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		if (this.getID() == 0l) {
+		if (payBill != null)
+			setCompany(payBill.getCompany());
+		if (this.getID() == 0l && !payBill.isDraftOrTemplate()) {
 
 			// this.enterBill.getVendor().updateBalance(session, this.payBill,
 			// -this.payment);
-			if (payBill != null)
-				setCompany(payBill.getCompany());
 
 			if (this.getDiscountAccount() != null
 					&& DecimalUtil.isGreaterThan(this.getCashDiscount(), 0.0)) {
@@ -365,6 +365,10 @@ public class TransactionPayBill extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+
+		if (payBill.isDraftOrTemplate()) {
+			return false;
+		}
 
 		if (this.isVoid) {
 

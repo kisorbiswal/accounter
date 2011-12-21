@@ -104,21 +104,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	}
 
 	/**
-	 * @return the isVoid
-	 */
-	public boolean isVoid() {
-		return isVoid;
-	}
-
-	/**
-	 * @param isVoid
-	 *            the isVoid to set
-	 */
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
-	/**
 	 * @return the isEdited
 	 */
 	public boolean isEdited() {
@@ -190,7 +175,12 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	public void onEdit(Transaction clonedObject) {
 		PayTAX oldPayTAX = (PayTAX) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
-		if (this.isVoid && !oldPayTAX.isVoid) {
+
+		if (isDraftOrTemplate()) {
+			return;
+		}
+
+		if (this.isVoid() && !oldPayTAX.isVoid()) {
 			doVoidEffect(session);
 		} else {
 			if ((payFrom.getID() != oldPayTAX.payFrom.getID())
@@ -215,7 +205,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid) {
+		if (!this.isVoid()) {
 			doVoidEffect(session);
 		}
 		return super.onDelete(session);
@@ -274,7 +264,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		if (this.isVoid) {
+		if (this.isVoid()) {
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}

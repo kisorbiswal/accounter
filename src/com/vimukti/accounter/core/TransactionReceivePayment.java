@@ -331,6 +331,10 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			return true;
 		this.isOnSaveProccessed = true;
 
+		if (receivePayment.isDraftOrTemplate()) {
+			return false;
+		}
+
 		if (this.discountAccount != null
 				&& DecimalUtil.isGreaterThan(this.cashDiscount, 0D)) {
 
@@ -399,6 +403,10 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+
+		if (receivePayment.isDraftOrTemplate()) {
+			return false;
+		}
 
 		if (this.getIsVoid()) {
 

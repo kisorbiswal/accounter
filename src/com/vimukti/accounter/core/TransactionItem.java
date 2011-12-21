@@ -12,6 +12,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -347,11 +348,12 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 
-		if (transaction.isVoid) {
+		if (transaction.isVoid()) {
 			return false;
 		}
 
-		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE)
+		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
+				|| transaction.isDraftOrTemplate())
 			return false;
 
 		if (shouldUpdateAccounts(true)) {
@@ -413,7 +415,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return false;
 
-		doCreateEffect(session);
+		if (!transaction.isDraftOrTemplate()) {
+			doCreateEffect(session);
+		}
 		return false;
 	}
 
@@ -581,7 +585,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				this.updateWareHouse(true);
 			}
 		}
-
 		// else if (this.type == TYPE_SALESTAX) {
 		// if (Company.getCompany().getAccountingType() ==
 		// Company.ACCOUNTING_TYPE_US) {
@@ -773,6 +776,15 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		this.updateAmount = -this.updateAmount;
 	}
 
+	public TransactionItem getReferringTransactionItem() {
+		return referringTransactionItem;
+	}
+
+	public void setReferringTransactionItem(
+			TransactionItem referringTransactionItem) {
+		this.referringTransactionItem = referringTransactionItem;
+	}
+
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
@@ -826,5 +838,27 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 		w.put(messages.isBillable(), this.isBillable);
 
+	}
+
+	public boolean isValid() {
+		boolean valid = true;
+		if (account == null && item == null) {
+			valid = false;
+		} else if (isTaxable && taxCode == null) {
+			valid = false;
+		} else if (isBillable) {
+			if (customer == null) {
+				valid = false;
+			} else if (item != null) {
+				if (!item.isISellThisItem()) {
+					valid = false;
+				}
+			} else {
+				valid = false;
+			}
+		} else if (!DecimalUtil.isGreaterThan(lineTotal, 0.0)) {
+			valid = false;
+		}
+		return valid;
 	}
 }

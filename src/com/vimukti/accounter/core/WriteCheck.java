@@ -255,10 +255,6 @@ public class WriteCheck extends Transaction {
 		this.number = number;
 	}
 
-	public void setVoid(boolean isVoid) {
-		this.isVoid = isVoid;
-	}
-
 	@Override
 	public int getTransactionCategory() {
 		// if (this.getCustomer() != null)
@@ -320,7 +316,7 @@ public class WriteCheck extends Transaction {
 		WriteCheck writeCheck = (WriteCheck) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
 
-		if (!this.isVoid && !writeCheck.isVoid) {
+		if (!this.isVoid() && !writeCheck.isVoid() && !isDraftOrTemplate()) {
 
 			if (this.bankAccount.getID() != writeCheck.bankAccount.getID()
 					|| !DecimalUtil.isEquals(this.total, writeCheck.total)) {
@@ -401,4 +397,21 @@ public class WriteCheck extends Transaction {
 
 	}
 
+	@Override
+	public boolean isValidTransaction() {
+		boolean valid = super.isValidTransaction();
+		if (bankAccount == null) {
+			valid = false;
+		} else if (transactionItems != null && !transactionItems.isEmpty()) {
+			for (TransactionItem item : transactionItems) {
+				if (!item.isValid()) {
+					valid = false;
+					break;
+				}
+			}
+		} else {
+			valid = false;
+		}
+		return valid;
+	}
 }

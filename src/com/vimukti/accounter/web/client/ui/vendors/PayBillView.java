@@ -1519,4 +1519,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					|| transaction.getTdsTaxItem() != null;
 		}
 	}
+
+	@Override
+	protected boolean canRecur() {
+		return false;
+	}
 }

@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BankAccountsPortlet;
 import com.vimukti.accounter.web.client.ui.BankingPortlet;
 import com.vimukti.accounter.web.client.ui.ExpenseClaimPortlet;
+import com.vimukti.accounter.web.client.ui.MessagesAndTasksPortlet;
 import com.vimukti.accounter.web.client.ui.MoneyComingPortlet;
 import com.vimukti.accounter.web.client.ui.MoneyGoingPortlet;
 import com.vimukti.accounter.web.client.ui.Portlet;
@@ -26,7 +27,7 @@ public class PortletFactory {
 	public static final String WHO_I_OWE = "WHO_I_OWE";
 	public static final String WHO_OWES_ME = "WHO_OWES_ME";
 	public static final String RECENT_TRANSACTIONS = "RECENT_TRANSACTIONS";
-	// public static final String MESSAGES_AND_TASKS = "Messages And Tasks";
+	public static final String MESSAGES_AND_TASKS = "Messages And Tasks";
 	public static final String QUICK_LINKS = "QUICK_LINKS";
 	public static final String BANKING = "BANKING";
 
@@ -59,11 +60,9 @@ public class PortletFactory {
 			portlet = new QuickLinksPortlet(pc);
 		} else if (name.equals(BANKING)) {
 			portlet = new BankingPortlet(pc);
+		} else if (name.equals(MESSAGES_AND_TASKS)) {
+			portlet = new MessagesAndTasksPortlet(pc);
 		}
-		/*
-		 * else if (name.equals(Portlet.MESSAGES_AND_TASKS)) { portlet = new
-		 * MessagesAndTasksPortlet(pc); }
-		 */
 		return portlet;
 	}
 
@@ -89,6 +88,8 @@ public class PortletFactory {
 			portletName = messages.quickLinks();
 		} else if (name.equals(BANKING)) {
 			portletName = messages.banking();
+		} else if (name.equals(MESSAGES_AND_TASKS)) {
+			portletName = messages.messagesAndTasks();
 		}
 		return portletName;
 	}
@@ -109,7 +110,8 @@ public class PortletFactory {
 							{ BANKING, EXPENSES_CLAIM, WHO_I_OWE,
 									RECENT_TRANSACTIONS },
 							{ BANK_ACCOUNT, MONEY_COMING, MONEY_GOING,
-									WHO_OWES_ME, QUICK_LINKS } });
+									WHO_OWES_ME, QUICK_LINKS,
+									MESSAGES_AND_TASKS } });
 		}
 		return null;
 	}

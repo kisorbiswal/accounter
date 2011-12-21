@@ -501,6 +501,11 @@ public class MenuBar {
 
 		companyAndFinancialMenuBar.addMenuItem(messages.expenseReport(),
 				HistoryTokens.EXPENSEREPORT);
+
+		companyAndFinancialMenuBar.addMenuItem(
+				messages.automaticTransactions(),
+				HistoryTokens.AUTOMATICTRANSACTIONS);
+
 		if (isTaxTracking) {
 			companyAndFinancialMenuBar.addMenuItem(
 					messages.salesTaxLiability(),
@@ -869,6 +874,8 @@ public class MenuBar {
 				HistoryTokens.SALESPRESONS);
 		companyListMenuBar.addMenuItem(messages.usersActivityLogTitle(),
 				HistoryTokens.USERACTIVITY);
+		companyListMenuBar.addMenuItem(messages.recurringTransactions(),
+				HistoryTokens.RECURRINGTRANSACTIONS);
 		companyListMenuBar.addMenuItem(messages.pendingItemsList(),
 				HistoryTokens.PENDINGITEMS);
 		companyListMenuBar.addMenuItem(messages.registeredItemsList(),

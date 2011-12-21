@@ -119,6 +119,9 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
+	public ArrayList<TransactionDetailByAccount> getAutomaticTransactions(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
 	public ArrayList<SalesTaxLiability> getSalesTaxLiabilityReport(
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
