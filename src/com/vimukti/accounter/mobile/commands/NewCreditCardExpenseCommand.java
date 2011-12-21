@@ -10,10 +10,12 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
@@ -248,7 +250,6 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		list.add(new AccountRequirement(PAY_FROM, getMessages()
 				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
 				false, false, null) {
-
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(getMessages().payFrom());
@@ -274,6 +275,11 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			@Override
 			protected boolean filter(Account e, String name) {
 				return false;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(new UserCommand("createAccount", "Credit card"));
 			}
 		});
 
@@ -367,10 +373,10 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 		String phone = get(PHONE).getValue();
 		creditCardCharge.setPhone(phone);
 
-		Account account = get("payFrom").getValue();
+		Account account = get(PAY_FROM).getValue();
 		creditCardCharge.setPayFrom(account.getID());
 
-		ClientFinanceDate deliveryDate = get("deliveryDate").getValue();
+		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();
 		creditCardCharge.setDeliveryDate(deliveryDate.getDate());
 		items.addAll(accounts);
 		creditCardCharge.setTransactionItems(items);

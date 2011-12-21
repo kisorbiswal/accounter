@@ -56,8 +56,7 @@ public class NewAccountCommand extends NewAbstractCommand {
 
 	@Override
 	protected String getDeleteCommand(Context context) {
-		return account.getID() == 0 ? null : "deleteAccount "
-				+ account.getID();
+		return account.getID() == 0 ? null : "deleteAccount " + account.getID();
 	}
 
 	@Override
@@ -331,11 +330,13 @@ public class NewAccountCommand extends NewAbstractCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		String string = context.getString();
-		if (string.isEmpty()) {
-			if (!isUpdate) {
-				account = new ClientAccount();
-				return null;
+		if (!isUpdate) {
+			account = new ClientAccount();
+			if (!string.isEmpty()) {
+				get(ACCOUNT_TYPE).setValue(string);
+				get(ACCOUNT_TYPE).setEditable(false);
 			}
+			return null;
 		}
 
 		account = CommandUtils.getAccountByName(context.getCompany(), string);
