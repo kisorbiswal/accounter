@@ -244,9 +244,15 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 		return false;
 	}
-
 	@Override
-	public void saveAndUpdateView() {
+	public ClientUserInfo saveView() {
+		ClientUserInfo saveView = super.saveView();
+		if (saveView != null){
+			updateData();
+			}
+		return saveView;
+	}
+	private void updateData(){
 		data.setFirstName(firstNametext.getValue().toString());
 		data.setLastName(lastNametext.getValue().toString());
 		data.setFullName(data.getName());
@@ -278,6 +284,11 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 			data.setCanDoUserManagement(selectedRole.isCanDoUserManagement());
 		}
 
+	}
+
+	@Override
+	public void saveAndUpdateView() {
+		updateData();
 		saveOrUpdateUser(data);
 	}
 
