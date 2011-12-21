@@ -142,6 +142,12 @@ public class AccounterExceptions {
 
 		case AccounterException.ERROR_INVOICE_USED_IN_ESTIMATES:
 			return accounterMessages.invoiceUsedInEstimates();
+
+		case AccounterException.ERROR_NAME_NULL:
+			return accounterMessages.nameShouldnotbeempty();
+
+		case AccounterException.ERROR_NUMBER_NULL:
+			return accounterMessages.numberShouldNotBeEmptyOr0();
 		default:
 			return null;
 		}
