@@ -149,11 +149,7 @@
 		T.T_DATE
 	</sql-query>
 
-	<query name="getItemsGroupByCompany">
-		<query-param name="companyID" type="Company" />
-		from com.vimukti.accounter.core.ItemsGroup IG where
-		IG.company=:companyID
-	</query>
+
 	<sql-query name="getEstimatesAndSalesOrdersList">
 		<query-param name="customerId" type="long" />
 		<query-param name="companyId" type="long" />
