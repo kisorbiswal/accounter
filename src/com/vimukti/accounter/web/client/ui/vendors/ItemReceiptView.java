@@ -357,6 +357,9 @@ public class ItemReceiptView extends
 
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
+		if (vendor == null) {
+			return;
+		}
 		super.vendorSelected(vendor);
 
 		if (transaction == null)
@@ -511,6 +514,15 @@ public class ItemReceiptView extends
 			}
 			vatTotalNonEditableText.setTransaction(transaction);
 		}
+	}
+
+	@Override
+	public ClientItemReceipt saveView() {
+		ClientItemReceipt saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
 	}
 
 	@Override

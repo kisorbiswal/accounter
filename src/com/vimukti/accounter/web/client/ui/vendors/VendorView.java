@@ -208,6 +208,15 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	@Override
+	public ClientVendor saveView() {
+		ClientVendor saveView = super.saveView();
+		if (saveView != null) {
+			updateVendorObject();
+		}
+		return saveView;
+	}
+
+	@Override
 	public void saveAndUpdateView() {
 		if (!wait) {
 			updateVendorObject();

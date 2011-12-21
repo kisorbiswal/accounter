@@ -185,7 +185,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		transaction.setDate(date.getEnteredDate().getDate());
 
 		// Setting Pay From
-		transaction.setPayFrom(payFromAccount);
+		if (payFromAccount != null)
+			transaction.setPayFrom(payFromAccount);
 
 		// Setting payment method
 		transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
@@ -970,6 +971,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						.getCurrencyFactor());
 				currencyWidget.setDisabled(isInViewMode());
 			}
+			this.setVendor(getCompany().getVendor(transaction.getVendor()));
+			vendorSelected(getCompany().getVendor(transaction.getVendor()));
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			paymentMethodCombo.setDisabled(isInViewMode());
 
@@ -977,8 +980,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				printCheck.setDisabled(isInViewMode());
 				checkNoText.setDisabled(isInViewMode());
 			} else {
-				printCheck.setDisabled(true);
-				checkNoText.setDisabled(true);
+				printCheck.setDisabled(!isInViewMode());
+				checkNoText.setDisabled(!isInViewMode());
 			}
 
 			if (transaction.getCheckNumber() != null) {
@@ -998,18 +1001,16 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					transaction.getPayFrom()));
 
 			date.setValue(transaction.getDate());
-			date.setDisabled(true);
+			date.setDisabled(isInViewMode());
 			accountSelected(getCompany().getAccount(transaction.getPayFrom()));
 
 			dueDate.setValue(new ClientFinanceDate(transaction
 					.getBillDueOnOrBefore()));
-			dueDate.setDisabled(true);
+			dueDate.setDisabled(isInViewMode());
 
 			transactionNumber.setValue(transaction.getNumber());
 			transactionNumber.setDisabled(isInViewMode());
 
-			this.setVendor(getCompany().getVendor(transaction.getVendor()));
-			vendorSelected(getCompany().getVendor(transaction.getVendor()));
 			if (tdsCombo != null && transaction.getTdsTaxItem() != null) {
 				tdsCombo.setComboItem(transaction.getTdsTaxItem());
 			}
@@ -1025,7 +1026,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			endBalText.setAmount(transaction.getEndingBalance());
 			initListGridData(this.transaction.getTransactionPayBill());
 			initTransactionTotalNonEditableItem();
-			memoTextAreaItem.setDisabled(true);
+			initMemoAndReference();
 			initAccounterClass();
 		}
 
@@ -1034,16 +1035,17 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		try {
-			this.initMemoAndReference();
-		} catch (Exception e) {
-			System.err.println(e);
-		}
 
 		initPayFromAccounts();
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
+	}
+
+	@Override
+	protected void initMemoAndReference() {
+		memoTextAreaItem.setDisabled(isInViewMode());
+		memoTextAreaItem.setValue(transaction.getMemo());
 	}
 
 	private void initListGridData(List<ClientTransactionPayBill> list) {
@@ -1127,6 +1129,14 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			}
 		}
 		return result;
+	}
+
+	public ClientPayBill saveView() {
+		ClientPayBill saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
 	}
 
 	@Override

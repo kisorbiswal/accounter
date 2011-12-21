@@ -63,6 +63,22 @@ public class CashExpenseView extends
 	}
 
 	@Override
+	public ClientCashPurchase saveView() {
+		ClientCashPurchase saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+			if (getPreferences().isTrackPaidTax()) {
+				transaction.setNetAmount(netAmount.getAmount());
+				if (vatinclusiveCheck != null)
+					transaction.setAmountsIncludeVAT(vatinclusiveCheck
+							.getValue());
+			}
+
+		}
+		return saveView;
+	}
+
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		// Setting Type
@@ -707,6 +723,9 @@ public class CashExpenseView extends
 
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
+		if (vendor == null) {
+			return;
+		}
 		if (this.getVendor() != null && this.getVendor() != vendor) {
 			ClientCashPurchase ent = this.transaction;
 
@@ -786,7 +805,7 @@ public class CashExpenseView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		memoTextAreaItem.setDisabled(true);
+		memoTextAreaItem.setDisabled(isInViewMode());
 		setMemoTextAreaItem(transaction.getMemo());
 		// setRefText(((ClientCashPurchase) transactionObject).getReference());
 	}

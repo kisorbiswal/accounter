@@ -647,6 +647,9 @@ public class CashPurchaseView extends
 
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
+		if (vendor == null) {
+			return;
+		}
 		if (this.getVendor() != null && this.getVendor() != vendor) {
 			ClientCashPurchase ent = this.transaction;
 
@@ -753,6 +756,19 @@ public class CashPurchaseView extends
 		super.saveAndUpdateView();
 
 		createAlterObject();
+	}
+
+	@Override
+	public ClientCashPurchase saveView() {
+		ClientCashPurchase saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+			transaction.setNetAmount(netAmount.getAmount());
+			// if (vatinclusiveCheck != null)
+			// cashPurchase.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+			// .getValue());
+		}
+		return saveView;
 	}
 
 	@Override

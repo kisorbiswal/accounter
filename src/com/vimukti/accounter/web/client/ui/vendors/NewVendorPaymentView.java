@@ -121,7 +121,7 @@ public class NewVendorPaymentView extends
 			this.payFromAccount = comapny.getAccount(transaction.getPayFrom());
 			if (payFromAccount != null)
 				payFromCombo.select(payFromAccount);
-			amountText.setDisabled(true);
+			amountText.setDisabled(isInViewMode());
 			paymentMethodSelected(transaction.getPaymentMethod());
 			if (transaction != null) {
 				printCheck.setDisabled(true);
@@ -129,7 +129,7 @@ public class NewVendorPaymentView extends
 				ClientPayBill clientPayBill = transaction;
 				paymentMethodCombo.setComboItem(clientPayBill
 						.getPaymentMethod());
-				paymentMethodCombo.setDisabled(true);
+				paymentMethodCombo.setDisabled(isInViewMode());
 			}
 
 			// if (currency != null) {
@@ -165,6 +165,12 @@ public class NewVendorPaymentView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+	}
+
+	@Override
+	protected void initMemoAndReference() {
+		memoTextAreaItem.setValue(transaction.getMemo());
+		memoTextAreaItem.setDisabled(isInViewMode());
 	}
 
 	@Override
@@ -416,9 +422,16 @@ public class NewVendorPaymentView extends
 		cancelButton.setTabIndex(15);
 	}
 
+	public ClientPayBill saveView() {
+		ClientPayBill saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
+	}
+
 	@Override
 	public void saveAndUpdateView() {
-
 		updateTransaction();
 		super.saveAndUpdateView();
 		if (transaction != null) {

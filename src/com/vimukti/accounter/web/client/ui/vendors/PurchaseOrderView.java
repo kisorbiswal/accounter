@@ -1065,6 +1065,14 @@ public class PurchaseOrderView extends
 		// }
 
 	}
+	@Override
+	public ClientPurchaseOrder saveView() {
+		ClientPurchaseOrder saveView = super.saveView();
+		if (saveView != null){
+			updateTransaction();
+			}
+		return saveView;
+	}
 
 	@Override
 	protected void updateTransaction() {

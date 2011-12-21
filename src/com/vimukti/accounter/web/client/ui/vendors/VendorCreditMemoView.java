@@ -55,7 +55,9 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
-
+		if (vendor == null) {
+			return;
+		}
 		if (this.getVendor() != null && this.getVendor() != vendor) {
 			ClientVendorCreditMemo ent = this.transaction;
 
@@ -503,6 +505,15 @@ public class VendorCreditMemoView extends
 
 			}
 		}
+	}
+
+	@Override
+	public ClientVendorCreditMemo saveView() {
+		ClientVendorCreditMemo saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
 	}
 
 	@Override

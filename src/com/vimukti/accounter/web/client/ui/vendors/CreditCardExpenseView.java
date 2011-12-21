@@ -703,6 +703,10 @@ public class CreditCardExpenseView extends
 			// vendorNameSelect.setComboItem(vendor);
 			// phoneSelect.setValue(vendor.getPhoneNo());
 			// }
+			vendorSelected(getCompany().getVendor(transaction.getVendor()));
+			vendorCombo.setComboItem(getCompany().getVendor(
+					transaction.getVendor()));
+			vendorCombo.setDisabled(isInViewMode());
 			transactionDateItem.setValue(transaction.getDate());
 			contact = transaction.getContact();
 			if (contact != null) {
@@ -1042,6 +1046,17 @@ public class CreditCardExpenseView extends
 	}
 
 	@Override
+	public ClientCreditCardCharge saveView() {
+		ClientCreditCardCharge saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+			if (getPreferences().isTrackPaidTax())
+				transaction.setNetAmount(netAmount.getAmount());
+		}
+		return saveView;
+	}
+
+	@Override
 	public void saveAndUpdateView() {
 
 		updateTransaction();
@@ -1074,10 +1089,8 @@ public class CreditCardExpenseView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (isInViewMode()) {
-			memoTextAreaItem.setDisabled(true);
-			setMemoTextAreaItem(transaction.getMemo());
-		}
+		memoTextAreaItem.setDisabled(isInViewMode());
+		setMemoTextAreaItem(transaction.getMemo());
 	}
 
 	@Override

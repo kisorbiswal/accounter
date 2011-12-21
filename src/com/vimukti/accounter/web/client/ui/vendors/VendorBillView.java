@@ -141,7 +141,7 @@ public class VendorBillView extends
 			selectedVendor(vendor);
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
-			phoneSelect.setDisabled(true);
+			phoneSelect.setDisabled(isInViewMode());
 			transactionNumber.setValue(transaction.getNumber());
 			// if (isTrackTax()) {
 			// netAmount.setAmount(transaction.getNetAmount());
@@ -254,7 +254,9 @@ public class VendorBillView extends
 
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
-
+		if (vendor == null) {
+			return;
+		}
 		updatePurchaseOrderOrItemReceipt(vendor);
 
 		super.vendorSelected(vendor);
@@ -859,6 +861,15 @@ public class VendorBillView extends
 	}
 
 	@Override
+	public ClientEnterBill saveView() {
+		ClientEnterBill saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
+	}
+
+	@Override
 	public void saveAndUpdateView() {
 		updateTransaction();
 		super.saveAndUpdateView();
@@ -971,8 +982,7 @@ public class VendorBillView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		memoTextAreaItem.setDisabled(true);
-
+		memoTextAreaItem.setDisabled(isInViewMode());
 		setMemoTextAreaItem(transaction.getMemo());
 		// setRefText(((ClientEnterBill) transactionObject).getReference());
 
