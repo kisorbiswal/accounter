@@ -392,6 +392,15 @@ public class AdjustTAXView extends
 		saveOrUpdate(getData());
 	}
 
+	@Override
+	public ClientTAXAdjustment saveView() {
+		ClientTAXAdjustment saveView = super.saveView();
+		if (saveView != null) {
+			updateData();
+		}
+		return saveView;
+	}
+
 	private void updateData() {
 
 		data.setNumber(entryNo.getValue().toString());
@@ -399,13 +408,19 @@ public class AdjustTAXView extends
 		data.setTransactionDate(adjustDate.getDate().getDate());
 
 		// vatAdjustment.setVatAgency(clientVATAgency.getID());s
-		data.setTaxItem(vatItemCombo.getSelectedValue().getID());
-		data.setTaxAgency(clientTAXAgency.getID());
+		if (vatItemCombo.getSelectedValue() != null) {
+			data.setTaxItem(vatItemCombo.getSelectedValue().getID());
+		}
 
-		data.setAdjustmentAccount(adjustAccountCombo.getSelectedValue().getID());
+		data.setTaxAgency(clientTAXAgency.getID());
+		if (adjustAccountCombo.getSelectedValue() != null) {
+			data.setAdjustmentAccount(adjustAccountCombo.getSelectedValue()
+					.getID());
+		}
 
 		data.setTotal(amount.getAmount());
-		if (typeRadio.getValue().equals(messages.increaseTAXLine()))
+		if (typeRadio.getValue() != null ? typeRadio.getValue().equals(
+				messages.increaseTAXLine()) : false)
 			data.setIncreaseVATLine(true);
 		else
 			data.setIncreaseVATLine(false);
