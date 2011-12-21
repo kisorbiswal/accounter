@@ -35,7 +35,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 				Accounter.messages().accrual() };
 
 		taxAgencyCombo = new TAXAgencyCombo(Accounter.messages()
-				.selectTaxAgency(), false);
+				.selectTAXAgency(), false);
 		taxAgencyCombo.setHelpInformation(true);
 		taxAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
