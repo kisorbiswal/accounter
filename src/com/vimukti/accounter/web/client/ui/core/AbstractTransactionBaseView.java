@@ -1461,7 +1461,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			ClientPayBill payBill = (ClientPayBill) transaction;
 
 			if (payBill != null) {
-				memoTextAreaItem.setDisabled(true);
+				memoTextAreaItem.setDisabled(isInViewMode());
 				setMemoTextAreaItem(payBill.getMemo());
 				// setRefText(payBill.getReference());
 
