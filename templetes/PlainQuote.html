@@ -90,16 +90,29 @@
 						  <td align="right"> ${currency} </td>
 						 </tr>
 						 <!-- $EndBlock currency -->
-						 <!-- $BeginBlock dueDateDetails -->
-						 <tr>
-                            <td class="table-head" id="duedate">${i18_Due_Date}</td>
-	                        <td align="right">${dueDate}</td>
-						 </tr><!-- $EndBlock dueDateDetails -->
-						  <!-- $BeginBlock customerVat -->
+						<!-- $BeginBlock customerVat -->
 						 <tr>
                             <td class="table-head" id="duedate">${i18_Customer_TAX_Registration_Number}</td>
 	                        <td align="right">${customerVATNumber}</td>
 						 </tr><!-- $EndBlock customerVat -->
+						 	 <tr>
+                           		   <td class="table-head" id="duedate">${i18_DeliveryDate}</td>
+	                        	 <td align="right">${deliveryDate}</td>
+						</tr>
+						<tr>
+                           		   <td class="table-head" id="duedate">${i18_ExpirationDate}</td>
+	                        	 <td align="right">${expirationDate}</td>
+						</tr>
+						 <!-- $BeginBlock phoneBlock -->
+						<tr>
+                           		  <td class="table-head" id="duedate">${i18_Phone}</td>
+	                        	 <td align="right">${phone}</td>
+						</tr>
+						<!-- $EndBlock phoneBlock -->
+						<tr>
+                           		   <td class="table-head" id="duedate">${i18_Status}</td>
+	                        	 <td align="right">${status}</td>
+						</tr>
 					 </table> 
 				  </td>
 				</tr>
@@ -148,20 +161,7 @@
 			</tr>
 			</table>
 			<table>
-			<tr>
-			<!-- $BeginBlock shippingmethodhead -->
-	        <td id = "shippingMethod"  class="gridHeaderBackGround">
-			   <center><p class="fontSetting">${i18_Shipping_Method}</p></center>
-			</td>
-			<!-- $EndBlock shippingmethodhead -->
-			</tr>
-			 <tr>
-			<!-- $BeginBlock shippingmethod -->
-			<td align="center">
-			   <p class="fontSetting">${shippingMethodName}</p>            
-			</td>
-			<!-- $EndBlock shippingmethod -->
-		 </tr>
+			
 		 </table>
 		 </tr>
  </table>
@@ -186,7 +186,7 @@
   </tr>
 </thead>
 <tbody height="400">
- <!-- $BeginBlock invoiceRecord --> <tr class="item-row">
+ <!-- $BeginBlock quoteRecord --> <tr class="item-row">
  <td class="description">
 	   <div><p class="fontSetting">${name}</p></div>
 	</td>
@@ -221,16 +221,16 @@
 	   <div><p class="fontSetting">${itemVatAmount}</p></div>
 	</td>
 	<!-- $EndBlock vatValueBlock -->
-  </tr><!-- $EndBlock invoiceRecord -->
+  </tr><!-- $EndBlock quoteRecord -->
   </tbody>
   </table>
   <table  width="50%" class="quick_total_table margin" style="float:right" >
   <tr>
-	<!-- $BeginBlock memoblock -->
-	<td class="blank memo-text" colspan="4" rowspan="5" width="40%">
+	 <!-- $BeginBlock memoblock -->
+	<td class="blank" colspan="4" rowspan="5" width="63%">
 	  <p class="fontSetting">${blankText}</p>
 	</td>
-	<!-- $EndBlock memoblock -->
+	 <!-- $EndBlock memoblock -->
 	 <!-- $BeginBlock subtotal -->
 	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;${i18_NetAmount}</p></td>
 	<td class="total-value, item-column">
@@ -257,18 +257,8 @@
 	  <div class="total"><p class="fontSetting">${total}</p></div>
 	</td>
   </tr>
-     <tr>
-	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;${i18_Payments}</p></td>
-	<td class="total-value, item-column" align="right">
-	  <div class="total"><p class="fontSetting">${payment}</p></div>
-	</td>
-  </tr>
-  <tr>
-	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;${i18_Balance_Due}</p></td>
-	<td class="total-value, item-column" align="right">
-	  <div class="total"><p class="fontSetting">${balancedue}</p></div>
-	</td>
-  </tr>
+     
+ 
 <!-- $EndBlock itemDetails -->
 </table>
 <!-- $BeginBlock termsNpaypalId -->

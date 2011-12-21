@@ -330,10 +330,12 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	// for sending pdf in email
 
-	public void sendPdfInMail(long objectID, int type, long brandingThemeId,
-			String mimeType, String subject, String content,
+	public void sendPdfInMail(String fileName, String subject, String content,
 			String senderEmail, String recipientEmail, String ccEmail)
 			throws Exception, IOException, AccounterException;
+
+	public String createPdfFile(long objectID, int type, long brandingThemeId)
+			throws Exception;
 
 	public ArrayList<ClientBudget> getBudgetList();
 

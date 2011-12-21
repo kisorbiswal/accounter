@@ -14,12 +14,13 @@ public class EmailViewAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+		runAsync(data, id, isDependent);
 
 	}
 
-	private void runAsync(Object invoice, Boolean boolean1) {
+	private void runAsync(Object invoice, long themeId, Boolean boolean1) {
 		EmailView emailView = new EmailView((ClientInvoice) data);
+		emailView.setThemeId(themeId);
 
 		MainFinanceWindow.getViewManager().showView(emailView, data,
 				isDependent, EmailViewAction.this);

@@ -249,4 +249,16 @@ public interface FinanceImages extends ClientBundle {
 	@Source("search.png")
 	ImageResource searchButton();
 
+	@Source("classicQuote.png")
+	ImageResource classicQuote();
+
+	@Source("plainQuote.png")
+	ImageResource plainQuote();
+
+	@Source("modernQuote.png")
+	ImageResource modernQuote();
+
+	@Source("professionalQuote.png")
+	ImageResource professionalQuote();
+
 }

@@ -1522,6 +1522,8 @@
 		</property>
 		<property name="statementTitle" column="STATEMENT_TITLE">
 		</property>
+		<property name="quoteTitle" column="QUOTE_TITLE">
+		</property>
 		<property name="isShowTaxNumber" column="IS_SHOW_TAX_NUMBER">
 		</property>
 		<property name="isShowColumnHeadings" column="IS_SHOW_COLUMN_HEADING">
@@ -1564,6 +1566,8 @@
 		<property name="invoiceTempleteName" column="INVOICE_TEMPLETE_NAME"
 			not-null="true" />
 		<property name="creditNoteTempleteName" column="CREDITNOTE_TEMPLETE_NAME"
+			not-null="true" />
+			<property name="quoteTemplateName" column="QUOTE_TEMPLETE_NAME"
 			not-null="true" />
 	</class>
 

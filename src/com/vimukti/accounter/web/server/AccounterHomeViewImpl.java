@@ -3,7 +3,6 @@
  */
 package com.vimukti.accounter.web.server;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1645,19 +1644,34 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	// }
 	// return null;
 	// }
+
 	// this method is used to send Pdf as an attachment in email
 	@Override
-	public void sendPdfInMail(long objectID, int type, long brandingThemeId,
-			String mimeType, String subject, String content,
+	public void sendPdfInMail(String fileName, String subject, String content,
 			String senderEmail, String recipientEmail, String ccEmail)
-			throws Exception, IOException, AccounterException {
+			throws Exception {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
-			tool.sendPdfInMail(objectID, type, brandingThemeId, mimeType,
-					subject, content, senderEmail, recipientEmail, ccEmail,
-					getCompanyId());
+			long id = getCompanyId();
+			tool.sendPdfInMail(fileName, subject, content, senderEmail,
+					recipientEmail, ccEmail, id);
+
 		}
 
+	}
+
+	/**
+	 * to generate PDF File for Invoice
+	 */
+
+	public String createPdfFile(long objectID, int type, long brandingThemeId)
+			throws Exception {
+		FinanceTool tool = getFinanceTool();
+		if (tool != null) {
+			long id = getCompanyId();
+			return tool.createPdfFile(objectID, type, brandingThemeId, id);
+		}
+		return null;
 	}
 
 	@Override

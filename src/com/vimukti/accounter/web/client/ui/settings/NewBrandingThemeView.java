@@ -55,7 +55,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
 	private TextItem overdueBox, creditNoteBox, statementBox, paypalTextBox,
-			logoNameBox;
+			logoNameBox, quoteBox;
 	private AmountField topMarginBox, bottomMarginBox, addressPadBox;
 	private TextItem nameItem;
 	private String[] fontNameArray, fontSizeArray;
@@ -70,11 +70,10 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private DynamicForm nameForm;
 	private ArrayList<String> templatesList;
 
-	private TemplateCombo invoiceCombo, creditMemoCombo;
+	private TemplateCombo invoiceCombo, creditMemoCombo, quoteCombo;
 	private final FinanceImages financeImages = Accounter.getFinanceImages();
-	private Image invoiceTempImage;
-	private Image creditTempImage;
-	private String invVal, creditVal;
+	private Image invoiceTempImage, creditTempImage, quoteTempImage;
+	private String invVal, creditVal, quoteVal;
 
 	public NewBrandingThemeView(String title, String desc) {
 	}
@@ -124,6 +123,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		creditNoteBox.setValue(brandingTheme.getCreditMemoTitle());
 		overdueBox.setValue(brandingTheme.getOverDueInvoiceTitle());
 		statementBox.setValue(brandingTheme.getStatementTitle());
+		quoteBox.setValue(brandingTheme.getQuoteTitle());
 		taxNumItem.setValue(brandingTheme.isShowTaxNumber());
 		headingItem.setValue(brandingTheme.isShowColumnHeadings());
 		unitPriceItem.setValue(brandingTheme.isShowUnitPrice_And_Quantity());
@@ -136,6 +136,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		logoNameBox.setValue(brandingTheme.getFileName());
 		invoiceCombo.setValue(brandingTheme.getInvoiceTempleteName());
 		creditMemoCombo.setValue(brandingTheme.getCreditNoteTempleteName());
+		quoteCombo.setValue(brandingTheme.getQuoteTemplateName());
 
 	}
 
@@ -297,6 +298,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		data.setCreditMemoTitle(String.valueOf(creditNoteBox.getValue()));
 		data.setOverDueInvoiceTitle(String.valueOf(overdueBox.getValue()));
 		data.setStatementTitle(String.valueOf(statementBox.getValue()));
+		data.setQuoteTitle(String.valueOf(quoteBox.getValue()));
 		data.setShowTaxNumber(taxNumItem.isChecked());
 		data.setShowColumnHeadings(headingItem.isChecked());
 		data.setShowUnitPrice_And_Quantity(unitPriceItem.isChecked());
@@ -315,9 +317,12 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 				.classicTemplate() : invoiceCombo.getValue().toString();
 		String creditNote = creditMemoCombo.getValue().toString().isEmpty() ? messages
 				.classicTemplate() : creditMemoCombo.getValue().toString();
+		String quote = quoteCombo.getValue().toString().isEmpty() ? messages
+				.classicTemplate() : quoteCombo.getValue().toString();
 
 		data.setInvoiceTempleteName(invoice);
 		data.setCreditNoteTempleteName(creditNote);
+		data.setQuoteTemplateName(quote);
 
 		if (logoNameBox.getValue().toString().isEmpty()) {
 			data.setFileName(null);
@@ -385,6 +390,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 		VerticalPanel vPanel1 = new VerticalPanel();
 		VerticalPanel vPanel2 = new VerticalPanel();
+		VerticalPanel vPanel3 = new VerticalPanel();
 
 		DynamicForm invForm = UIUtils.form(messages.type());
 		invoiceCombo = new TemplateCombo(messages.invoiceTemplete(),
@@ -415,7 +421,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 				});
 
-		// for displaying the templetes combo boxes
+		// for displaying the credit templetes combo boxes
 		DynamicForm crediteForm = UIUtils.form(messages.type());
 		creditMemoCombo = new TemplateCombo(messages.creditNoteTemplete(),
 				"Credit.html");
@@ -442,8 +448,39 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 					}
 
 				});
+
+		// for Estimate template selection
+		DynamicForm estimateForm = UIUtils.form(messages.type());
+		quoteCombo = new TemplateCombo(messages.quoteTemplate(), "quote.html");
+		templatesList = quoteCombo.getTempletes();
+		estimateForm.setFields(quoteCombo);
+
+		// setting the template invoice image
+		quoteTempImage = new Image();
+		changeTemplateImage(templatesList.get(0), "quote");
+
+		vPanel3.add(estimateForm);
+		vPanel3.add(quoteTempImage);
+
+		quoteVal = templatesList.get(0);
+		quoteCombo.setComboItem(templatesList.get(0));
+		quoteCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+
+						quoteCombo.setComboItem(selectItem);
+						quoteVal = selectItem;
+						changeTemplateImage(selectItem, "quote");
+
+					}
+
+				});
+
 		hPanel.add(vPanel1);
 		hPanel.add(vPanel2);
+		hPanel.add(vPanel3);
 		return hPanel;
 	}
 
@@ -513,6 +550,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		creditNoteBox.setValue(messages.creditNoteValue());
 		statementBox = new TextItem(messages.statementTitle());
 		statementBox.setValue(messages.statement());
+		quoteBox = new TextItem(messages.quoteTitle());
+		quoteBox.setValue(messages.QuoteOverDueTitle());
 
 		a4Button = new RadioButton(messages.pageType(), "A4");
 		usLetterButton = new RadioButton(messages.pageType(),
@@ -527,8 +566,9 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 				messages.cambria(), messages.georgia(), messages.myriad(),
 				messages.tahoma(), messages.timesNewRoman(),
 				messages.trebuchet() };
-		fontSizeArray = new String[] { messages.pointnumber(8), messages.pointnumber(9),
-				messages.pointnumber(10), messages.pointnumber(11),
+		fontSizeArray = new String[] { messages.pointnumber(8),
+				messages.pointnumber(9), messages.pointnumber(10),
+				messages.pointnumber(11),
 		// messages.point13(),
 		// messages.point14(),
 		// messages.point15()
@@ -625,7 +665,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		dynamicForm.setNumCols(2);
 		dynamicForm.setFields(topMarginBox, bottomMarginBox, addressPadBox,
 				fontNameBox, fontSizeBox, overdueBox, creditNoteBox,
-				statementBox, logoNameBox);
+				statementBox, quoteBox, logoNameBox);
 
 		// textBoxTable.setWidget(2, 1, );
 		// textBoxTable.setWidget(3, 0, bottomMarginLabel);
@@ -767,7 +807,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			} else if (selectItem.contains("Plain")) {
 				invoiceTempImage.setResource(financeImages.quickbooksInvoice());
 			}
-		} else {
+		} else if (compareText.equalsIgnoreCase("credit")) {
 			// for credit reports
 			if (selectItem.contains("Classic")) {
 				creditTempImage.setResource(financeImages.vimuktiCredit());
@@ -777,6 +817,17 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 				creditTempImage.setResource(financeImages.zohoCredit());
 			} else if (selectItem.contains("Plain")) {
 				creditTempImage.setResource(financeImages.quickbooksCredit());
+			}
+		} else if (compareText.equalsIgnoreCase("quote")) {
+			// for quote reports
+			if (selectItem.contains("Classic")) {
+				quoteTempImage.setResource(financeImages.classicQuote());
+			} else if (selectItem.contains("Professional")) {
+				quoteTempImage.setResource(financeImages.professionalQuote());
+			} else if (selectItem.contains("Modern")) {
+				quoteTempImage.setResource(financeImages.modernQuote());
+			} else if (selectItem.contains("Plain")) {
+				quoteTempImage.setResource(financeImages.plainQuote());
 			}
 		}
 

@@ -13,7 +13,7 @@ public class NewCustomThemeDialog extends BaseDialog {
 
 	private DynamicForm form;
 	private TextItem themeName, overdueBox, creditNoteBox, statementBox,
-			payPalEmail;
+			quoteBox, payPalEmail;
 	private ClientBrandingTheme brandingTheme;
 	private boolean isEdit;
 
@@ -47,6 +47,9 @@ public class NewCustomThemeDialog extends BaseDialog {
 			statementBox = new TextItem(messages.statementTitle());
 			statementBox.setValue(messages.statement());
 
+			quoteBox = new TextItem(messages.quoteTitle());
+			quoteBox.setValue(messages.QuoteOverDueTitle());
+
 			payPalEmail = new TextItem("PayPal Email");
 			payPalEmail.setHelpInformation(true);
 			String emailId = brandingTheme.getPayPalEmailID() != null ? brandingTheme
@@ -54,7 +57,7 @@ public class NewCustomThemeDialog extends BaseDialog {
 			payPalEmail.setValue(emailId);
 
 			form.setItems(themeName, overdueBox, creditNoteBox, statementBox,
-					payPalEmail);
+					quoteBox, payPalEmail);
 		} else {
 			form.setItems(themeName);
 		}
@@ -70,6 +73,7 @@ public class NewCustomThemeDialog extends BaseDialog {
 			brandingTheme = new ClientBrandingTheme();
 			brandingTheme.setInvoiceTempleteName("Classic Template");
 			brandingTheme.setCreditNoteTempleteName("Classic Template");
+			brandingTheme.setQuoteTemplateName("Classic Template");
 
 		}
 
@@ -80,6 +84,7 @@ public class NewCustomThemeDialog extends BaseDialog {
 					.toString());
 			brandingTheme.setStatementTitle(this.statementBox.getValue()
 					.toString());
+			brandingTheme.setQuoteTitle(this.quoteBox.getValue().toString());
 			brandingTheme.setPayPalEmailID(this.payPalEmail.getValue()
 					.toString());
 		}

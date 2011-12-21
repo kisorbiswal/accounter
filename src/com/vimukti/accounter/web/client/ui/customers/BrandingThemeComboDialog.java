@@ -73,14 +73,18 @@ public class BrandingThemeComboDialog extends BaseDialog {
 			// for printing individual invoice and customer credit memo pdf
 			// documents
 			if (ClientTransaction.TYPE_INVOICE == clientTransaction.getType()) {
-				UIUtils.downloadAttachment(((ClientInvoice) clientTransaction)
-						.getID(), ClientTransaction.TYPE_INVOICE, brandingTheme
-						.getID());
+				UIUtils.downloadAttachment(
+						((ClientInvoice) clientTransaction).getID(),
+						ClientTransaction.TYPE_INVOICE, brandingTheme.getID());
 			} else if (ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO == clientTransaction
 					.getType()) {
 				UIUtils.downloadAttachment(clientTransaction.getID(),
 						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
 						brandingTheme.getID());
+			} else if (ClientTransaction.TYPE_ESTIMATE == clientTransaction
+					.getType()) {
+				UIUtils.downloadAttachment(clientTransaction.getID(),
+						ClientTransaction.TYPE_ESTIMATE, brandingTheme.getID());
 			}
 		} else {
 			// for printing multiple documents
@@ -120,6 +124,10 @@ public class BrandingThemeComboDialog extends BaseDialog {
 				UIUtils.downloadMultipleAttachment(ids.toString(),
 						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
 						brandingTheme.getID());
+
+			} else if (type == ClientTransaction.TYPE_ESTIMATE) {
+				UIUtils.downloadMultipleAttachment(ids.toString(),
+						ClientTransaction.TYPE_ESTIMATE, brandingTheme.getID());
 
 			}
 

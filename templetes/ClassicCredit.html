@@ -122,9 +122,11 @@
 </table>
 <table  width="100%" class="main_credit_vimukti">
   <tr>
+   <!-- $BeginBlock memoblock -->
 	<td class="blank" colspan="4" rowspan="3" width="63%" >
 	  <p class="fontSetting">${memoText}</p>
 	</td>
+	<!-- $EndBlock memoblock -->
 	 <!-- $BeginBlock subtotal -->
 	<td class="total-line, item-column" ><p class="fontSetting">&nbsp;&nbsp;${i18_NetAmount}</p></td>
 	<td class="total-value, item-column">
@@ -167,27 +169,7 @@
 </table>
 <!-- $EndBlock termsNpaypalId -->
 <table  border="0" style="clear:both" class="margin" width="100%" >
-    	<tr>
-			<td style="vertical-align: top;" align="left" colspan="2">
-				<table  style="font-size:13px; width: 100%;">
-				<colgroup><col></colgroup>
-			
-				<tr>
-					<!-- $BeginBlock vatCodeDetails -->
-					<td style="padding:5px"><center> ${vatCode}</center></td>
-					<!-- $EndBlock vatCodeDetails -->
-					<!-- $BeginBlock sortCodeDetails -->
-					<td style="padding:5px"><center> ${sortCode}</center></td>
-					<!-- $EndBlock sortCodeDetails -->
-					<!-- $BeginBlock bankAccountDetails -->
-					<td style="padding:5px"><center> ${bankAccount}</center></td>
-					<!-- $EndBlock bankAccountDetails -->
-				</tr>
-				
-				</table>
-			</td>
-		</tr>
-		<tr>
+ 	<tr>
 			<td style="vertical-align: top;" align="center">
 			<table style="margin:40px 0" width="100%">
 				<tr>

@@ -1357,7 +1357,23 @@ public class Utility {
 	}
 
 	public static String decimalConversation(double amount) {
-		return Global.get().toCurrencyFormat(amount);
+		try {
+			return Global.get().toCurrencyFormat(amount);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public static String getDateInSelectedFormat(FinanceDate date) {
+		try {
+			SimpleDateFormat dateFormatter = new SimpleDateFormat(Global.get()
+					.preferences().getDateFormat());
+			return dateFormatter.format(date.getAsDateObject());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 	public static String splitString(String val) {

@@ -3,8 +3,10 @@
  */
 package com.vimukti.accounter.web.server;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -49,10 +51,8 @@ import com.vimukti.accounter.core.CloneUtil2;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.CreditCardCharge;
-import com.vimukti.accounter.core.CreditNotePDFTemplete;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
@@ -62,6 +62,7 @@ import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
+import com.vimukti.accounter.core.InvoicePdfGeneration;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.MakeDeposit;
@@ -97,6 +98,7 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -153,6 +155,14 @@ import com.vimukti.accounter.web.server.translate.Language;
 import com.vimukti.accounter.web.server.translate.LocalMessage;
 import com.vimukti.accounter.web.server.translate.Message;
 import com.vimukti.accounter.web.server.translate.Vote;
+
+import fr.opensagres.xdocreport.converter.ConverterTypeTo;
+import fr.opensagres.xdocreport.converter.ConverterTypeVia;
+import fr.opensagres.xdocreport.converter.Options;
+import fr.opensagres.xdocreport.document.IXDocReport;
+import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
+import fr.opensagres.xdocreport.template.IContext;
+import fr.opensagres.xdocreport.template.TemplateEngineKind;
 
 /**
  * @author Fernandez
@@ -2188,67 +2198,90 @@ public class FinanceTool {
 	 * @param senderEmail
 	 * @param toEmail
 	 * @param ccEmail
+	 * @return
 	 * @throws TemplateSyntaxException
 	 * @throws IOException
 	 */
-	public void sendPdfInMail(long objectID, int type, long brandingThemeId,
-			String mimeType, String subject, String content,
+	public void sendPdfInMail(String fileName, String subject, String content,
 			String senderEmail, String toEmail, String ccEmail, long companyId)
-			throws Exception, IOException {
+			throws Exception {
+
+		Company company = getCompany(companyId);
+		String companyName = company.getTradingName();
+		File file = new File(fileName);
+		UsersMailSendar.sendPdfMail(file, companyName, subject, content,
+				senderEmail, toEmail, ccEmail);
+
+	}
+
+	/**
+	 * to generate PDF File for Invoice
+	 * 
+	 * @throws Exception
+	 */
+	public String createPdfFile(long objectID, int type, long brandingThemeId,
+			long companyId) throws Exception {
+
 		Manager manager = getManager();
 		BrandingTheme brandingTheme = (BrandingTheme) manager
 				.getServerObjectForid(AccounterCoreType.BRANDINGTHEME,
 						brandingThemeId);
 
 		String fileName = "";
-		String output = "";
 		Company company = getCompany(companyId);
-		String companyName = company.getTradingName();
 		PrintTemplete printTemplete = null;
-		// for printing individual pdf documents
+		File file = null;
 		if (type == Transaction.TYPE_INVOICE) {
 			Invoice invoice = (Invoice) manager.getServerObjectForid(
 					AccounterCoreType.INVOICE, objectID);
 
-			// template = new InvoiceTemplete(invoice,
-			// brandingTheme, footerImg, style);
+			if (brandingTheme.isCustomFile()) {
+				// for custom Branding Theme
 
-			printTemplete = new InvoicePDFTemplete(invoice, brandingTheme,
-					company, "ClassicInvoice");
+				InvoicePdfGeneration pdf = new InvoicePdfGeneration(invoice,
+						company, brandingTheme);
 
-			fileName = printTemplete.getFileName();
+				String templeteName = ServerConfiguration.getAttachmentsDir()
+						+ "/" + company.getId() + "/" + "templateFiles" + "/"
+						+ brandingTheme.getID() + "/"
+						+ brandingTheme.getInvoiceTempleteName();
+				InputStream in = new BufferedInputStream(new FileInputStream(
+						templeteName));
 
-			output = printTemplete.getPdfData();
+				IXDocReport report = XDocReportRegistry.getRegistry()
+						.loadReport(in, TemplateEngineKind.Velocity);
+				IContext context = report.createContext();
+				context = pdf.assignValues(context, report);
 
-		} else if (type == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-			// for Credit Note
-			CustomerCreditMemo memo = (CustomerCreditMemo) manager
-					.getServerObjectForid(AccounterCoreType.CUSTOMERCREDITMEMO,
-							objectID);
+				Options options = Options.getTo(ConverterTypeTo.PDF).via(
+						ConverterTypeVia.ITEXT);
+				fileName = "Invoice_" + invoice.getNumber();
+				file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
+				java.io.FileOutputStream fos = new java.io.FileOutputStream(
+						file);
+				report.convert(context, options, fos);
 
-			printTemplete = new CreditNotePDFTemplete(memo, brandingTheme,
-					company, "ClassicCredit");
+			} else {
+				// for regular html branding theme
+				printTemplete = new InvoicePDFTemplete(invoice, brandingTheme,
+						company, "ClassicInvoice");
 
-			fileName = printTemplete.getFileName();
+				fileName = printTemplete.getFileName();
 
-			output = printTemplete.getPdfData();
+				String output = printTemplete.getPdfData();
 
+				InputStream inputStream = new ByteArrayInputStream(
+						output.getBytes());
+				InputStreamReader reader = new InputStreamReader(inputStream);
+
+				Converter converter = new Converter();
+				file = converter.getPdfFile(printTemplete, reader);
+			}
+			// UsersMailSendar.sendPdfMail(file, companyName, subject, content,
+			// senderEmail, toEmail, ccEmail);
 		}
+		return file.getPath();
 
-		InputStream inputStream = new ByteArrayInputStream(output.getBytes());
-		InputStreamReader reader = new InputStreamReader(inputStream);
-
-		Converter converter = new Converter();
-		File file = converter.getPdfFile(printTemplete, reader);
-		// converter.getPdfFile(fileName, reader);
-		// InputStream inputStream = new
-		// ByteArrayInputStream(output.getBytes());
-
-		// UsersMailSendar.sendPdfMail(fileName, inputStream, mimeType,
-		// companyName, subject, content, senderEmail, toEmail, ccEmail);
-
-		UsersMailSendar.sendPdfMail(file, companyName, subject, content,
-				senderEmail, toEmail, ccEmail);
 	}
 
 	/**

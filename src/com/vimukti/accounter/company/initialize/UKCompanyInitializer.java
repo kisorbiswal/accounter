@@ -9,7 +9,6 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
-import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.NominalCodeRange;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -20,7 +19,6 @@ import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.SecureUtils;
 
 public class UKCompanyInitializer extends CompanyInitializer {
 
@@ -874,15 +872,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			e.printStackTrace();
 		}
 
-	}
-
-	private void createDefaultBrandingTheme(Session session) {
-		BrandingTheme brandingTheme = new BrandingTheme("Standard",
-				SecureUtils.createID(), 1.35, 1.00, 1.00, "Times New Roman",
-				"10pt", "INVOICE", "CREDIT", "STATEMENT", "(None Added)", true,
-				"(None Added)", "(None Added)", "Classic Tempalate",
-				"Classic Template");
-		session.save(brandingTheme);
 	}
 
 	@Override

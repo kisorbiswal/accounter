@@ -54,6 +54,7 @@ public abstract class Action<T> implements Command {
 
 	protected T data;
 	public List<T> listData;
+	public long id;
 
 	protected boolean isDependent;
 
@@ -191,6 +192,14 @@ public abstract class Action<T> implements Command {
 		run();
 	}
 
+	public void run(T object, long id, boolean isDependent) {
+
+		setInput(object);
+		setId(id);
+		setDependent(isDependent);
+		run();
+	}
+
 	public void run(List<T> object) {
 
 		setListData(object);
@@ -235,5 +244,13 @@ public abstract class Action<T> implements Command {
 					.messages().edit());
 		}
 		return editText;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }

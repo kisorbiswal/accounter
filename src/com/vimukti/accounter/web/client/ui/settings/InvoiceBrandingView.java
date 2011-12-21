@@ -47,8 +47,8 @@ public class InvoiceBrandingView<T> extends
 	private HTML generalSettingsHTML, allLabelsHtml, ShowHtml, checkBoxHtml,
 			headingsHtml, paypalEmailHtml, termsHtml, radioButtonHtml,
 			contactDetailsHtml, titleHtml, invoiceHtml, creditNoteHtml,
-			invoiceFileName, creditNoteFileName, downloadOdtHtml,
-			downloadDocxHtml, uploadHtml;
+			quoteHtml, invoiceFileName, creditNoteFileName, quoteFileName,
+			downloadOdtHtml, downloadDocxHtml, uploadHtml;
 	private Label titleLabel;
 	// helpHtml;
 	private VerticalPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
@@ -187,13 +187,13 @@ public class InvoiceBrandingView<T> extends
 	 * This method is used to display the Branding Menu
 	 */
 	private IMenu getBrandingMenu() {
-		IMenu themesMenuBar = getSubMenu();
+		IMenu themesMenuBar = createMenu();
 		themesMenuBar.addMenuItem(ActionFactory.getNewBrandThemeAction());
 		themesMenuBar.addMenuItem(ActionFactory.getNewBrandCustomThemeAction());
 		return themesMenuBar;
 	}
 
-	private IMenu getSubMenu() {
+	private IMenu createMenu() {
 		return menuFactory.createMenu();
 	}
 
@@ -321,12 +321,20 @@ public class InvoiceBrandingView<T> extends
 		VerticalPanel creditPanel = new VerticalPanel();
 		creditNoteHtml = new HTML("<p>" + messages.creditNoteTitle()
 				+ "<br/><br/><br/></p>");
-		creditNoteFileName = new HTML("<p>" + theme.getCreditNoteTempleteName()
-				+ "</p>");
+		creditNoteFileName = new HTML("<p>"
+				+ theme.getCreditNoteTempleteName().trim() + "</p>");
 		creditPanel.add(creditNoteHtml);
 		creditPanel.add(creditNoteFileName);
 		creditPanel.setSpacing(10);
 		creditPanel.setStyleName("rightBorder");
+
+		VerticalPanel quotePanel = new VerticalPanel();
+		quoteHtml = new HTML("<p>" + messages.quote() + "<br/><br/><br/></p>");
+		quoteFileName = new HTML("<p>" + theme.getQuoteTemplateName() + "</p>");
+		quotePanel.add(quoteHtml);
+		quotePanel.add(quoteFileName);
+		quotePanel.setSpacing(10);
+		quotePanel.setStyleName("rightBorder");
 
 		downloadOdtHtml = new HTML("<p>" + messages.odtDownloadMessage()
 				+ "</p>");
@@ -356,6 +364,7 @@ public class InvoiceBrandingView<T> extends
 
 		detailsPanel.add(invoicePanel);
 		detailsPanel.add(creditPanel);
+		detailsPanel.add(quotePanel);
 		detailsPanel.add(downloadPanel);
 		detailsPanel.add(uploadPanel);
 
@@ -464,11 +473,13 @@ public class InvoiceBrandingView<T> extends
 				.none() : theme.getCreditMemoTitle();
 		String statementTitle = theme.getStatementTitle() == null ? messages
 				.none() : theme.getStatementTitle();
+		String quoteTitle = theme.getQuoteTitle() == null ? messages.none()
+				: theme.getQuoteTitle();
 
 		headingsHtml = new HTML("<p>" + messages.headings() + " : "
 				// + theme.getOpenInvoiceTitle()
 				+ overDueTitle + " , " + creditMemoTitle + " , "
-				+ statementTitle + "</p>");
+				+ statementTitle + "," + quoteTitle + "</p>");
 
 		// adding paypal email......
 		String paypalEmail = theme.getPayPalEmailID() == null ? messages.none()
@@ -490,12 +501,19 @@ public class InvoiceBrandingView<T> extends
 		invoiceHtml = new HTML("<p>" + messages.invoiceTemplete() + " : "
 				+ invoiceTemp + "</p>");
 
-		// adding credit note templete note
+		// adding credit note template name
 		String creditTemp = theme.getCreditNoteTempleteName() == null ? messages
 				.classicTemplate() : theme.getCreditNoteTempleteName();
 
 		creditNoteHtml = new HTML("<p>" + messages.creditNoteTemplete() + " : "
 				+ creditTemp + "</p>");
+
+		// adding quote template name
+		String quote = theme.getQuoteTemplateName() == null ? messages
+				.classicTemplate() : theme.getQuoteTemplateName();
+
+		quoteHtml = new HTML("<p>" + messages.quoteTemplate() + " : " + quote
+				+ "</p>");
 
 		showPanel = new HorizontalPanel();
 		showPanel.add(checkBoxHtml);
@@ -652,6 +670,7 @@ public class InvoiceBrandingView<T> extends
 		subLayPanel.add(termsHtml);
 		subLayPanel.add(invoiceHtml);
 		subLayPanel.add(creditNoteHtml);
+		subLayPanel.add(quoteHtml);
 		// subLayPanel.setWidth("560px");
 
 		subLayPanel.setStyleName("general-setting-invoice");

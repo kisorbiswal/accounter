@@ -30,10 +30,11 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 	private ClientBrandingTheme brandingTheme;
 
 	private String title;
-	private HTML detailsHtml1, detailsHtml2, detailsHtml3, detailsHtml4;
+	private HTML detailsHtml1, detailsHtml2, detailsHtml3, detailsHtml4,
+			detailsHtml5;
 	AccounterMessages messages;
 
-	private TextItem invoiceBox, creditNoteBox;
+	private TextItem invoiceBox, creditNoteBox, quoteBox;
 
 	public UploadTemplateFileDialog(String title, String parentID,
 			ValueCallBack<ClientBrandingTheme> callback,
@@ -68,6 +69,8 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		detailsHtml3.addStyleName("bold_HTML");
 		detailsHtml4 = new HTML(messages.creditNote());
 		detailsHtml4.addStyleName("bold_HTML");
+		detailsHtml5 = new HTML(messages.quote());
+		detailsHtml5.addStyleName("bold_HTML");
 
 		invoiceBox = new TextItem();
 		invoiceBox.addClickHandler(new ClickHandler() {
@@ -101,26 +104,49 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 				};
 
 				FileUploadDilaog uploadDialog = new FileUploadDilaog(
-						"Upload .CreditNote template", "parent", callback,
-						null, brandingTheme, true);
+						"Upload CreditNote template", "parent", callback, null,
+						brandingTheme, true);
 			}
 		});
 
+		quoteBox = new TextItem();
+		quoteBox.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ValueCallBack<ClientBrandingTheme> callback = new ValueCallBack<ClientBrandingTheme>() {
+					@Override
+					public void execute(ClientBrandingTheme value) {
+						quoteBox.setValue(value.getQuoteTemplateName());
+					}
+				};
+
+				FileUploadDilaog uploadDialog = new FileUploadDilaog(
+						"Upload Quote template", "parent", callback, null,
+						brandingTheme, true);
+			}
+		});
 		panel.add(detailsHtml1);
 		panel.setSpacing(5);
 		panel.add(detailsHtml2);
 		panel.setSpacing(5);
 		panel.add(detailsHtml3);
 		panel.setSpacing(5);
-		DynamicForm dynamicForm = new DynamicForm();
-		dynamicForm.setFields(invoiceBox);
-		panel.add(dynamicForm);
+		DynamicForm invoiceForm = new DynamicForm();
+		invoiceForm.setFields(invoiceBox);
+		panel.add(invoiceForm);
 		panel.setSpacing(5);
 		panel.add(detailsHtml4);
 		panel.setSpacing(5);
-		DynamicForm dynamicForm1 = new DynamicForm();
-		dynamicForm1.setFields(creditNoteBox);
-		panel.add(dynamicForm1);
+		DynamicForm creditNoteForm = new DynamicForm();
+		creditNoteForm.setFields(creditNoteBox);
+		panel.add(creditNoteForm);
+		panel.setSpacing(5);
+		panel.add(detailsHtml5);
+		panel.setSpacing(5);
+		DynamicForm quoteForm = new DynamicForm();
+		quoteForm.setFields(quoteBox);
+		panel.add(quoteForm);
 
 		vpaPanel.add(panel);
 

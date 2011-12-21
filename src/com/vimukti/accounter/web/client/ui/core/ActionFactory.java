@@ -730,6 +730,10 @@ public class ActionFactory {
 		return new BrandingThemeComboAction();
 	}
 
+	public static EmailThemeComboAction getEmailThemeComboAction() {
+		return new EmailThemeComboAction();
+	}
+
 	public static EmailViewAction getEmailViewAction() {
 		return new EmailViewAction();
 	}

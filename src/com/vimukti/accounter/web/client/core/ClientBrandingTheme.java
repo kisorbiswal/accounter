@@ -30,9 +30,10 @@ public class ClientBrandingTheme implements IAccounterCore {
 	// public static final int SHOW_TAXES_AS_EXCLUSIVE = 1;
 	// public static final int SHOW_TAXES_AS_INCLUSIVE = 2;
 
-	// id of selected invoice and credit note templetes
-	String invoiceTempleteName;
-	String creditNoteTempleteName;
+	// selected invoice , credit note & Estimate template names
+	private String invoiceTempleteName;
+	private String creditNoteTempleteName;
+	private String quoteTemplateName;
 
 	private long id;
 	private String themeName;
@@ -47,6 +48,7 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private String overDueInvoiceTitle;
 	private String creditMemoTitle;
 	private String statementTitle;
+	private String quoteTitle;
 
 	private boolean isShowTaxNumber;
 	private boolean isShowColumnHeadings;
@@ -377,6 +379,22 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	public void setCustomFile(boolean isCustomFile) {
 		this.isCustomFile = isCustomFile;
+	}
+
+	public String getQuoteTitle() {
+		return quoteTitle;
+	}
+
+	public void setQuoteTitle(String quoteTitle) {
+		this.quoteTitle = quoteTitle;
+	}
+
+	public String getQuoteTemplateName() {
+		return quoteTemplateName;
+	}
+
+	public void setQuoteTemplateName(String quoteTemplateName) {
+		this.quoteTemplateName = quoteTemplateName;
 	}
 
 }

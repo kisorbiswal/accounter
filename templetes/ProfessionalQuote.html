@@ -35,13 +35,7 @@
 						  <td> ${invoiceDate}  </td>
 						</tr>
 						 <!-- $EndBlock invDateHead -->
-						 <!-- $BeginBlock invOrderNumHead -->
-						<tr>
-						  <td id = "orderNumber">${i18_Order_Number}</td>
-						  <td >	${invoiceOrderNumber}  </td>
-						</tr>
-						<!-- $EndBlock invOrderNumHead -->
-                        <!-- $BeginBlock invCustNumHead -->
+						 <!-- $BeginBlock invCustNumHead -->
 						<tr>
 						  <td id = "customerNumber">${i18_Customer_Number}</td>
 						  <td >	 ${invoiceCustomerNumber} </td>
@@ -59,18 +53,30 @@
 						  <td >	 ${paymentTerms} </td>
 						 </tr>
 						 <!-- $EndBlock paymentTermsBlock -->
-						 <!-- $BeginBlock dueDateDetails -->
-						  <tr>
-								<td id="duedate">${i18_Due_Date}</td>
-								<td>${dueDate}</td>
-						  </tr>
-						 <!-- $EndBlock dueDateDetails -->
 						 <!-- $BeginBlock customerVat -->
 						 <tr>
                            		 <td id="duedate">${i18_Customer_TAX_Registration_Number}</td>
 	                        	 <td>${customerVATNumber}</td>
 						 </tr>
 						 <!-- $EndBlock customerVat -->
+							 <tr>
+                           		 <td id="duedate">${i18_DeliveryDate}</td>
+	                        	 <td >${deliveryDate}</td>
+						</tr>
+						<tr>
+                           		 <td id="duedate">${i18_ExpirationDate}</td>
+	                        	 <td >${expirationDate}</td>
+						</tr>
+						 <!-- $BeginBlock phoneBlock -->
+						<tr>
+                           		 <td id="duedate">${i18_Phone}</td>
+	                        	 <td >${phone}</td>
+						</tr>
+						<!-- $EndBlock phoneBlock -->
+						<tr>
+                           		 <td id="duedate">${i18_Status}</td>
+	                        	 <td >${status}</td>
+						</tr>
 					 </table> 
 		   </td>
 		   <td style="vertical-align: top;" align="right">
@@ -132,20 +138,6 @@
 			</tr>
 			</table>
 			<table>
-			<tr>
-			<!-- $BeginBlock shippingmethodhead -->
-	        <td id = "shippingMethod"  class="gridHeaderBackGround">
-			   <center><p class="fontSetting">${i18_Shipping_Method}</p></center>
-			</td>
-			<!-- $EndBlock shippingmethodhead -->
-			</tr>
-			 <tr>
-			<!-- $BeginBlock shippingmethod -->
-			<td align="center">
-			   <p class="fontSetting">${shippingMethodName}</p>            
-			</td>
-			<!-- $EndBlock shippingmethod -->
-		 </tr>
 		 </table>
 		 </tr>
  </table>
@@ -167,7 +159,7 @@
 	<!-- $EndBlock vatBlock -->
 	<!-- $EndBlock showLabels -->
    </tr>
- <!-- $BeginBlock invoiceRecord --> <tr class="item-row">
+ <!-- $BeginBlock quoteRecord --> <tr class="item-row">
     <td class="description" align="center">
 	   <div><p class="fontSetting">${name}</p></div>
 	</td>
@@ -203,15 +195,15 @@
 	</td>
 	<!-- $EndBlock vatValueBlock -->
   </tr>
-   <!-- $EndBlock invoiceRecord -->
+   <!-- $EndBlock quoteRecord -->
   </table>
   <table class="xero_sub_total " >
   <tr>
-	<!-- $BeginBlock memoblock -->
-	<td class="blank memo-text" colspan="4" rowspan="5" width="40%">
+	 <!-- $BeginBlock memoblock -->
+	<td class="blank" colspan="4" rowspan="5" width="63%">
 	  <p class="fontSetting">${blankText}</p>
 	</td>
-	<!-- $EndBlock memoblock -->
+	 <!-- $EndBlock memoblock -->
 	 <!-- $BeginBlock subtotal -->
 	<td class="total-line item-column" ><p class="fontSetting">&nbsp;&nbsp;${i18_NetAmount}</p></td>
 <td class="total-value item-column">
@@ -237,12 +229,6 @@
 	<td class="total-value item-column" >
 	  <div class="total"><p class="fontSetting">${total}</p></div>
 	</td>
-  </tr>
-  <tr>
-	<td class="total-line balance item-column"><p class="fontSetting">&nbsp;&nbsp;${i18_Payments}</p></td>
-	<td class="total-value item-column" align="right">
-	  <div class="total"><p class="fontSetting">${payment}</p></div>
-  </td>
   </tr>
   <tr>
 	<td class="total-line balance item-column"><p class="fontSetting">&nbsp;&nbsp;${i18_Balance_Due}</p></td>

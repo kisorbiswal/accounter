@@ -1436,16 +1436,18 @@ public class UIUtils {
 	}
 
 	public static String getDateByCompanyType(ClientFinanceDate date) {
+		try {
+			if (date == null) {
+				return "";
+			}
 
-		if (date == null) {
-			return "";
+			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Global
+					.get().preferences().getDateFormat());
+
+			return dateFormatter.format(date.getDateAsObject());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Global.get()
-				.preferences().getDateFormat());
-
-		return dateFormatter.format(date.getDateAsObject());
-
 		/*
 		 * if (getCompany().getAccountingType() ==
 		 * ClientCompany.ACCOUNTING_TYPE_UK) { DateTimeFormat dateFormatter =
@@ -1460,6 +1462,7 @@ public class UIUtils {
 		 * .constants().dateFormatWithSlash()); String format =
 		 * dateFormatter.format(date.getDateAsObject()); return format; }
 		 */
+		return null;
 	}
 
 	/**

@@ -52,9 +52,10 @@ public class BrandingTheme extends CreatableObject implements
 	// public static final int SHOW_TAXES_AS_EXCLUSIVE = 1;
 	// public static final int SHOW_TAXES_AS_INCLUSIVE = 2;
 
-	// id of selected invoice and credit note templetes
+	// selected invoice , credit note & Estimate template names
 	private String invoiceTempleteName;
 	private String creditNoteTempleteName;
+	private String quoteTemplateName;
 
 	private String themeName;
 	private int pageSizeType;
@@ -67,6 +68,7 @@ public class BrandingTheme extends CreatableObject implements
 	private String overDueInvoiceTitle;
 	private String creditMemoTitle;
 	private String statementTitle;
+	private String quoteTitle;
 
 	private boolean isShowTaxNumber;
 	private boolean isShowColumnHeadings;
@@ -456,16 +458,18 @@ public class BrandingTheme extends CreatableObject implements
 
 	}
 
-	public BrandingTheme(String themeName, String id, double topMargin,
+	public BrandingTheme(String themeName, String id,
+			double topMargin,
 			double bottomMargin,
 			double addressPadding,
 			String font,
 			String fontSize,
 			// String openInvoiceTitle,
 			String overDueInvoiceTitle, String creditMemoTitle,
-			String statementTitle, String payPalEmailID, boolean isDefault,
-			String contactDetails, String Terms_And_Payment_Advice,
-			String invoiceTemplete, String creditNoteTemplete) {
+			String statementTitle, String quoteTitle, String payPalEmailID,
+			boolean isDefault, String contactDetails,
+			String Terms_And_Payment_Advice, String invoiceTemplete,
+			String creditNoteTemplete, String quoteTemplateName) {
 
 		this.themeName = themeName;
 		this.pageSizeType = PAGE_SIZE_US_LETTER;
@@ -479,6 +483,7 @@ public class BrandingTheme extends CreatableObject implements
 		this.overDueInvoiceTitle = overDueInvoiceTitle;
 		this.creditMemoTitle = creditMemoTitle;
 		this.statementTitle = statementTitle;
+		this.quoteTitle = quoteTitle;
 		this.isShowTaxNumber = true;
 		this.isShowColumnHeadings = true;
 		this.isShowUnitPrice_And_Quantity = true;
@@ -494,6 +499,7 @@ public class BrandingTheme extends CreatableObject implements
 		this.Terms_And_Payment_Advice = Terms_And_Payment_Advice;
 		this.invoiceTempleteName = invoiceTemplete;
 		this.creditNoteTempleteName = creditNoteTemplete;
+		this.quoteTemplateName = quoteTemplateName;
 	}
 
 	@Override
@@ -651,6 +657,22 @@ public class BrandingTheme extends CreatableObject implements
 
 	public void setCustomFile(boolean isCustomFile) {
 		this.isCustomFile = isCustomFile;
+	}
+
+	public String getQuoteTitle() {
+		return quoteTitle;
+	}
+
+	public void setQuoteTitle(String quoteTitle) {
+		this.quoteTitle = quoteTitle;
+	}
+
+	public String getQuoteTemplateName() {
+		return quoteTemplateName;
+	}
+
+	public void setQuoteTemplateName(String quoteTemplateName) {
+		this.quoteTemplateName = quoteTemplateName;
 	}
 
 }

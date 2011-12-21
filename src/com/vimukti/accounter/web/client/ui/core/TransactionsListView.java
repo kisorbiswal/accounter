@@ -190,7 +190,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 	}
 
 	public ClientFinanceDate getStartDate() {
-		return startDate == null ? new ClientFinanceDate(0) : startDate;
+		return startDate == null ? new ClientFinanceDate() : startDate;
 	}
 
 	public void setStartDate(ClientFinanceDate startDate) {

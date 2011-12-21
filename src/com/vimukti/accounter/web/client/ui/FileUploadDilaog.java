@@ -240,6 +240,8 @@ public class FileUploadDilaog extends CustomDialog {
 						brandingTheme.setInvoiceTempleteName(value);
 					} else if (title.toLowerCase().contains("credit")) {
 						brandingTheme.setCreditNoteTempleteName(value);
+					} else if (title.toLowerCase().contains("quote")) {
+						brandingTheme.setQuoteTemplateName(value);
 					}
 				} else {
 					// for CompanyLogo upload for BrandingTheme

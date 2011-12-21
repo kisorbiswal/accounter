@@ -6,6 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.images.ClassPathImageProvider;
@@ -13,15 +16,15 @@ import fr.opensagres.xdocreport.document.images.IImageProvider;
 import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 
-public class InvoicePdfGeneration {
+public class QuotePdfGeneration {
 
-	private Invoice invoice;
+	private Estimate estimate;
 	private Company company;
 	private BrandingTheme brandingTheme;
 
-	public InvoicePdfGeneration(Invoice invoice, Company company,
+	public QuotePdfGeneration(Estimate estimate, Company company,
 			BrandingTheme brandingTheme) {
-		this.invoice = invoice;
+		this.estimate = estimate;
 		this.company = company;
 		this.brandingTheme = brandingTheme;
 
@@ -43,32 +46,32 @@ public class InvoicePdfGeneration {
 			report.setFieldsMetadata(imgMetaData);
 
 			// assigning the original values
-			DummyInvoice i = new DummyInvoice();
-			String title = brandingTheme.getOverDueInvoiceTitle() == null ? "Invoice"
-					: brandingTheme.getOverDueInvoiceTitle().toString();
-			i.setTitle(title);
-			i.setBillAddress(getBillingAddress());
-			i.setInvoiceNumber(invoice.getNumber());
-			i.setInvoiceDate(Utility.getDateInSelectedFormat(invoice.getDate()));
+			DummyQuote qut = new DummyQuote();
+			String title = brandingTheme.getQuoteTitle() == null ? "Quote"
+					: brandingTheme.getQuoteTitle().toString();
+			qut.setTitle(title);
+			qut.setBillAddress(getBillingAddress());
+			qut.setNumber(estimate.getNumber());
+			qut.setDeliveryDate(Utility.getDateInSelectedFormat(estimate
+					.getDeliveryDate()));
+			qut.setExpirationDate(Utility.getDateInSelectedFormat(estimate
+					.getExpirationDate()));
+			qut.setPhone(estimate.getPhone());
+			String status = getStatusString(estimate.getStatus());
+			qut.setStatus(status);
 
 			// for primary curreny
-			Currency currency = invoice.getCustomer().getCurrency();
+			Currency currency = estimate.getCustomer().getCurrency();
 			if (currency != null)
 				if (currency.getFormalName().trim().length() > 0) {
-					i.setCurrency(currency.getFormalName().trim());
+					qut.setCurrency(currency.getFormalName().trim());
 				}
 
-			PaymentTerms paymentterm = invoice.getPaymentTerm();
+			PaymentTerms paymentterm = estimate.getPaymentTerm();
 			String payterm = paymentterm != null ? paymentterm.getName() : "";
-			i.setTerms(payterm);
+			qut.setTerms(payterm);
 
-			i.setDueDate(Utility.getDateInSelectedFormat(invoice.getDueDate()));
-			i.setShipAddress(getShippingAddress());
-			i.setSalesPersonName(getSalesPersonName());
-
-			ShippingMethod shipMtd = invoice.getShippingMethod();
-			String shipMtdName = shipMtd != null ? shipMtd.getName() : "";
-			i.setShippingMethod(shipMtdName);
+			qut.setShipAddress(getShippingAddress());
 
 			// for transactions
 
@@ -83,10 +86,10 @@ public class InvoicePdfGeneration {
 			headersMetaData.addFieldAsList("item.itemVatAmount");
 			report.setFieldsMetadata(headersMetaData);
 			List<ItemList> itemList = new ArrayList<ItemList>();
-			List<TransactionItem> transactionItems = invoice
+			List<TransactionItem> transactionItems = estimate
 					.getTransactionItems();
 
-			double currencyFactor = invoice.getCurrencyFactor();
+			double currencyFactor = estimate.getCurrencyFactor();
 
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
@@ -127,31 +130,31 @@ public class InvoicePdfGeneration {
 			}
 
 			context.put("item", itemList);
-			String total = Utility.decimalConversation(invoice.getTotal());
+			String total = Utility.decimalConversation(estimate.getTotal());
+			String netAmount = Utility.decimalConversation(estimate
+					.getNetAmount());
+			qut.setTotal(total);
+			qut.setNetAmount(netAmount);
 
-			i.setTotal(total);
-			i.setPayment(Utility.decimalConversation(invoice.getPayments()));
-			i.setBalancedue(Utility.decimalConversation(invoice.getBalanceDue()));
-
-			i.setMemo(invoice.getMemo());
+			qut.setMemo(estimate.getMemo());
 			String termsNCondn = forNullValue(brandingTheme
 					.getTerms_And_Payment_Advice());
 
 			if (termsNCondn.equalsIgnoreCase("(None Added)")) {
 				termsNCondn = " ";
 			}
-			i.setAdviceTerms(termsNCondn);
+			qut.setAdviceTerms(termsNCondn);
 
 			String paypalEmail = forNullValue(brandingTheme.getPayPalEmailID());
 			if (paypalEmail.equalsIgnoreCase("(None Added)")) {
 				paypalEmail = " ";
 			}
-			i.setEmail(paypalEmail);
+			qut.setEmail(paypalEmail);
 
-			i.setRegistrationAddress(getRegistrationAddress());
+			qut.setRegistrationAddress(getRegistrationAddress());
 
 			context.put("logo", logo);
-			context.put("invoice", i);
+			context.put("quote", qut);
 			context.put("companyImg", footerImg);
 
 			return context;
@@ -183,20 +186,6 @@ public class InvoicePdfGeneration {
 
 	}
 
-	private String getSalesPersonName() {
-		SalesPerson salesPerson = invoice.getSalesPerson();
-		String salesPersname = salesPerson != null ? ((salesPerson
-				.getFirstName() != null ? salesPerson.getFirstName() : "") + (salesPerson
-				.getLastName() != null ? salesPerson.getLastName() : ""))
-				: "";
-
-		if (salesPersname.trim().length() > 0) {
-			return salesPersname;
-		}
-
-		return "";
-	}
-
 	public String getImage() {
 		StringBuffer original = new StringBuffer();
 
@@ -212,7 +201,7 @@ public class InvoicePdfGeneration {
 		String cname = "";
 		String phone = "";
 		boolean hasPhone = false;
-		Contact selectedContact = invoice.getContact();
+		Contact selectedContact = estimate.getContact();
 		if (selectedContact != null) {
 			cname = selectedContact.getName().trim();
 			if (selectedContact.getBusinessPhone().trim().length() > 0)
@@ -225,9 +214,9 @@ public class InvoicePdfGeneration {
 		}
 
 		// setting billing address
-		Address bill = invoice.getBillingAddress();
-		String customerName = forUnusedAddress(invoice.getCustomer().getName(),
-				false);
+		Address bill = estimate.getAddress();
+		String customerName = forUnusedAddress(
+				estimate.getCustomer().getName(), false);
 		StringBuffer billAddress = new StringBuffer();
 		if (bill != null) {
 			billAddress = billAddress.append(forUnusedAddress(cname, false)
@@ -261,9 +250,9 @@ public class InvoicePdfGeneration {
 	private String getShippingAddress() {
 		// setting shipping address
 		String shipAddress = "";
-		Address shpAdres = invoice.getShippingAdress();
+		Address shpAdres = estimate.getShippingAdress();
 		if (shpAdres != null) {
-			shipAddress = forUnusedAddress(invoice.getCustomer().getName(),
+			shipAddress = forUnusedAddress(estimate.getCustomer().getName(),
 					false)
 					+ forUnusedAddress(shpAdres.getAddress1(), false)
 					+ forUnusedAddress(shpAdres.getStreet(), false)
@@ -311,41 +300,25 @@ public class InvoicePdfGeneration {
 		return amount;
 	}
 
-	public class DummyInvoice {
+	public class DummyQuote {
 
 		private String title;
-		private String invoiceNumber;
-		private String invoiceDate;
+		private String number;
+		private String deliveryDate;
+		private String expirationDate;
+		private String phone;
+		private String status;
 		private String currency;
 		private String terms;
 		private String dueDate;
 		private String billAddress;
 		private String shipAddress;
-		private String salesPersonName;
-		private String shippingMethod;
 		private String total;
-		private String payment;
-		private String balancedue;
+		private String netAmount;
 		private String memo;
 		private String adviceTerms;
 		private String email;
 		private String registrationAddress;
-
-		public String getInvoiceNumber() {
-			return invoiceNumber;
-		}
-
-		public void setInvoiceNumber(String invoiceNumber) {
-			this.invoiceNumber = invoiceNumber;
-		}
-
-		public String getInvoiceDate() {
-			return invoiceDate;
-		}
-
-		public void setInvoiceDate(String invoiceDate) {
-			this.invoiceDate = invoiceDate;
-		}
 
 		public String getCurrency() {
 			return currency;
@@ -363,36 +336,12 @@ public class InvoicePdfGeneration {
 			this.dueDate = dueDate;
 		}
 
-		public String getSalesPersonName() {
-			return salesPersonName;
-		}
-
-		public void setSalesPersonName(String salesPersonName) {
-			this.salesPersonName = salesPersonName;
-		}
-
 		public String getTotal() {
 			return total;
 		}
 
 		public void setTotal(String total) {
 			this.total = total;
-		}
-
-		public String getPayment() {
-			return payment;
-		}
-
-		public void setPayment(String payment) {
-			this.payment = payment;
-		}
-
-		public String getBalancedue() {
-			return balancedue;
-		}
-
-		public void setBalancedue(String balancedue) {
-			this.balancedue = balancedue;
 		}
 
 		public String getMemo() {
@@ -409,14 +358,6 @@ public class InvoicePdfGeneration {
 
 		public void setEmail(String email) {
 			this.email = email;
-		}
-
-		public String getShippingMethod() {
-			return shippingMethod;
-		}
-
-		public void setShippingMethod(String shippingMethod) {
-			this.shippingMethod = shippingMethod;
 		}
 
 		public String getBillAddress() {
@@ -465,6 +406,54 @@ public class InvoicePdfGeneration {
 
 		public void setRegistrationAddress(String registrationAddress) {
 			this.registrationAddress = registrationAddress;
+		}
+
+		public String getNumber() {
+			return number;
+		}
+
+		public void setNumber(String number) {
+			this.number = number;
+		}
+
+		public String getDeliveryDate() {
+			return deliveryDate;
+		}
+
+		public void setDeliveryDate(String deliveryDate) {
+			this.deliveryDate = deliveryDate;
+		}
+
+		public String getExpirationDate() {
+			return expirationDate;
+		}
+
+		public void setExpirationDate(String expirationDate) {
+			this.expirationDate = expirationDate;
+		}
+
+		public String getPhone() {
+			return phone;
+		}
+
+		public void setPhone(String phone) {
+			this.phone = phone;
+		}
+
+		public String getStatus() {
+			return status;
+		}
+
+		public void setStatus(String status) {
+			this.status = status;
+		}
+
+		public String getNetAmount() {
+			return netAmount;
+		}
+
+		public void setNetAmount(String netAmount) {
+			this.netAmount = netAmount;
 		}
 
 	}
@@ -556,5 +545,32 @@ public class InvoicePdfGeneration {
 			this.itemVatAmount = itemVatAmount;
 		}
 
+	}
+
+	/**
+	 * this method is used to get the Status String value based on int value
+	 */
+	private String getStatusString(int status) {
+		AccounterMessages messages = Global.get().messages();
+		switch (status) {
+		case ClientEstimate.STATUS_OPEN:
+			return messages.open();
+
+		case ClientEstimate.STATUS_ACCECPTED:
+			return messages.accepted();
+
+		case ClientEstimate.STATUS_CLOSE:
+			return messages.closed();
+
+		case ClientEstimate.STATUS_REJECTED:
+			return messages.rejected();
+
+		case ClientEstimate.STATUS_APPLIED:
+			return messages.closed();
+
+		default:
+			break;
+		}
+		return "";
 	}
 }

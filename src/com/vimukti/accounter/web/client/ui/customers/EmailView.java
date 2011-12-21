@@ -38,6 +38,8 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	private TextItem subject;
 	private TextAreaItem emailBody;
 	private Label attachmentLabel;
+	private long brandingThemeId;
+	private String ToAdd, ccAdd, sub, body, companyName, fileName;
 
 	private EmailCombo fromAddcombo;
 
@@ -57,9 +59,30 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		super.init();
+		preparePdfFile();
 		createControls();
+
+	}
+
+	private void preparePdfFile() {
+
+		AsyncCallback callback = new AsyncCallback<String>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void onSuccess(String result) {
+				fileName = result.toString();
+			};
+		};
+
+		Accounter.createHomeService().createPdfFile(
+				((ClientInvoice) invoice).getID(),
+				ClientTransaction.TYPE_INVOICE, brandingThemeId, callback);
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -129,7 +152,9 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 			@Override
 			public void onClick(ClickEvent event) {
 				// for checking the From and To email address
+
 				onSave(false);
+
 			}
 
 		});
@@ -196,24 +221,30 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	}
 
 	private void updateControls() {
-
-		String ToAdd = toAddress.getValue().toString() != null ? toAddress
-				.getValue().toString() : "";
-		getValidMail(toAddress.getValue().toString());
-		String ccAdd = ccAddress.getValue().toString() != null ? ccAddress
-				.getValue().toString() : "";
-		String sub = subject.getValue().toString() != null ? subject.getValue()
+		companyName = getPreferences().getTradingName();
+		ToAdd = toAddress.getValue().toString() != null ? toAddress.getValue()
 				.toString() : "";
-		String body = emailBody.getValue().toString() != null ? emailBody
-				.getValue().toString() : "";
+		getValidMail(toAddress.getValue().toString());
+		ccAdd = ccAddress.getValue().toString() != null ? ccAddress.getValue()
+				.toString() : "";
+		sub = subject.getValue().toString() != null ? subject.getValue()
+				.toString() : "";
+		body = emailBody.getValue().toString() != null ? emailBody.getValue()
+				.toString() : "";
 		body = body.replaceAll("\n", "<br/>");
 
-		Accounter.createHomeService().sendPdfInMail(
-				((ClientInvoice) invoice).getID(),
-				ClientTransaction.TYPE_INVOICE, 1, "application/pdf", sub,
-				body, from, ToAdd, ccAdd, this);
+		Accounter.createHomeService().sendPdfInMail(fileName, sub, body, from,
+				ToAdd, ccAdd, new AsyncCallback<Void>() {
+					@Override
+					public void onFailure(Throwable caught) {
+					}
 
-		MainFinanceWindow.getViewManager().closeCurrentView();
+					@Override
+					public void onSuccess(Void result) {
+						MainFinanceWindow.getViewManager().closeCurrentView();
+					}
+				});
+
 	}
 
 	@Override
@@ -226,25 +257,21 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 					Accounter.messages().pleaseEnter(
 							Accounter.messages().to() + " & "
 									+ Accounter.messages().from()));
+		} else if (from.trim().length() == 0) {
+			result.addError(
+					fromAddcombo,
+					Accounter.messages().pleaseEnter(
+							Accounter.messages().from()));
+		} else if (toAddress.getValue().trim().length() == 0) {
+			result.addError(toAddress,
+					Accounter.messages().pleaseEnter(Accounter.messages().to()));
 		} else if (UIUtils.isValidEmail(from)
 				&& UIUtils.isValidMultipleEmailIds(toAddress.getValue()
 						.toString())) {
 			updateControls();
-		} else {
-			if (from.trim().length() == 0) {
-				result.addError(
-						fromAddcombo,
-						Accounter.messages().pleaseEnter(
-								Accounter.messages().from()));
-			} else if (toAddress.getValue().trim().length() == 0) {
-				result.addError(
-						toAddress,
-						Accounter.messages().pleaseEnter(
-								Accounter.messages().to()));
-			} else
-				result.addError(from, Accounter.messages().invalidEmail());
 
 		}
+
 		return result;
 	}
 
@@ -281,6 +308,11 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
+
+	}
+
+	public void setThemeId(long themeId) {
+		this.brandingThemeId = themeId;
 
 	}
 }

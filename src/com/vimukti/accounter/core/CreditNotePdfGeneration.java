@@ -18,14 +18,12 @@ public class CreditNotePdfGeneration {
 	private CustomerCreditMemo memo;
 	private Company company;
 	private BrandingTheme brandingTheme;
-	private int maxDecimalPoints;
 
 	public CreditNotePdfGeneration(CustomerCreditMemo memo, Company company,
 			BrandingTheme brandingTheme) {
 		this.memo = memo;
 		this.company = company;
 		this.brandingTheme = brandingTheme;
-		this.maxDecimalPoints = getMaxDecimals(memo);
 
 	}
 
@@ -53,7 +51,7 @@ public class CreditNotePdfGeneration {
 			i.setTitle(title);
 			i.setCustomerNameNBillAddress(getBillingAddress());
 			i.setCreditNoteNumber(memo.getNumber());
-			i.setCreditNoteDate(memo.getDate().toString());
+			i.setCreditNoteDate(Utility.getDateInSelectedFormat(memo.getDate()));
 
 			// for primary curreny
 			Currency currency = memo.getCustomer().getCurrency();
@@ -117,7 +115,6 @@ public class CreditNotePdfGeneration {
 						discount, totalPrice, vatRate, vatAmount));
 			}
 
-			context.put("item", itemList);
 			String total = Utility.decimalConversation(memo.getTotal());
 
 			i.setTotal(total);
@@ -141,13 +138,11 @@ public class CreditNotePdfGeneration {
 			}
 			i.setEmail(paypalEmail);
 
-			i.setVatCode(getVatNumber());
-			i.setSortCode(getSortCode());
-			i.setBankAccountNo(getBankAccountNumbere());
 			i.setRegistrationAddress(getRegistrationAddress());
 
 			context.put("logo", logo);
 			context.put("credit", i);
+			context.put("item", itemList);
 			context.put("companyImg", footerImg);
 
 			return context;
@@ -177,56 +172,6 @@ public class CreditNotePdfGeneration {
 
 		return regestrationAddress;
 
-	}
-
-	private String getSortCode() {
-		String sortCode = " Sort Code: " + forNullValue(company.getSortCode());
-		if (company.getSortCode() != null) {
-			if (company.getSortCode().length() > 0) {
-				return sortCode;
-			}
-		}
-		return "";
-	}
-
-	private String getBankAccountNumbere() {
-		String bankAccountNum = "Bank Account No: "
-				+ forNullValue(company.getBankAccountNo());
-		if (company.getBankAccountNo() != null) {
-			if (company.getBankAccountNo().length() > 0) {
-				return bankAccountNum;
-			}
-		}
-		return "";
-	}
-
-	private String getVatNumber() {
-		String vatString = "Tax No: "
-				+ forNullValue(company.getPreferences()
-						.getVATregistrationNumber());
-		if (company.getPreferences().getVATregistrationNumber().length() > 0) {
-			if (brandingTheme.isShowTaxNumber()) {
-				return vatString;
-			}
-		}
-		return "";
-	}
-
-	private int getMaxDecimals(CustomerCreditMemo memo) {
-		String qty;
-		String max;
-		int temp = 0;
-		for (TransactionItem item : memo.getTransactionItems()) {
-			qty = String.valueOf(item.getQuantity());
-			max = qty.substring(qty.indexOf(".") + 1);
-			if (!max.equals("0")) {
-				if (temp < max.length()) {
-					temp = max.length();
-				}
-			}
-
-		}
-		return temp;
 	}
 
 	public String getImage() {
@@ -315,53 +260,12 @@ public class CreditNotePdfGeneration {
 		return logoAlignment;
 	}
 
-	private String getDecimalsUsingMaxDecimals(double quantity, String amount,
-			int maxDecimalPoint) {
-		String qty = "";
-		String max;
-		if (maxDecimalPoint != 0) {
-			if (amount == null)
-				qty = String.valueOf(quantity);
-			else
-				qty = amount;
-			max = qty.substring(qty.indexOf(".") + 1);
-			if (maxDecimalPoint > max.length()) {
-				for (int i = max.length(); maxDecimalPoint != i; i++) {
-					qty = qty + "0";
-				}
-			}
-		} else {
-			qty = String.valueOf((long) quantity);
-		}
-
-		String temp = qty.contains(".") ? qty.replace(".", "-").split("-")[0]
-				: qty;
-		return insertCommas(temp)
-				+ (qty.contains(".") ? "."
-						+ qty.replace(".", "-").split("-")[1] : "");
-	}
-
 	public String forZeroAmounts(String amount) {
 		String[] amt = amount.replace(".", "-").split("-");
 		if (amt[0].equals("0")) {
 			return "";
 		}
 		return amount;
-	}
-
-	private static String insertCommas(String str) {
-
-		if (str.length() < 4) {
-			return str;
-		}
-		return insertCommas(str.substring(0, str.length() - 3)) + ","
-				+ str.substring(str.length() - 3, str.length());
-	}
-
-	private String largeAmountConversation(double amount) {
-		String amt = Utility.decimalConversation(amount);
-		amt = getDecimalsUsingMaxDecimals(0.0, amt, 2);
-		return (amt);
 	}
 
 	public class DummyCredit {
@@ -377,9 +281,6 @@ public class CreditNotePdfGeneration {
 		private String memo;
 		private String adviceTerms;
 		private String email;
-		private String vatCode;
-		private String sortCode;
-		private String BankAccountNo;
 		private String registrationAddress;
 
 		public String getCreditNoteNumber() {
@@ -460,30 +361,6 @@ public class CreditNotePdfGeneration {
 
 		public void setEmail(String email) {
 			this.email = email;
-		}
-
-		public String getVatCode() {
-			return vatCode;
-		}
-
-		public void setVatCode(String vatCode) {
-			this.vatCode = vatCode;
-		}
-
-		public String getSortCode() {
-			return sortCode;
-		}
-
-		public void setSortCode(String sortCode) {
-			this.sortCode = sortCode;
-		}
-
-		public String getBankAccountNo() {
-			return BankAccountNo;
-		}
-
-		public void setBankAccountNo(String bankAccountNo) {
-			BankAccountNo = bankAccountNo;
 		}
 
 		public String getTitle() {

@@ -57,7 +57,8 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			}
 
 			t.setVariable("creditNoteNumber", memo.getNumber());
-			t.setVariable("creditNoteDate", memo.getDate().toString());
+			t.setVariable("creditNoteDate",
+					Utility.getDateInSelectedFormat(memo.getDate()));
 
 			// for title
 			t.setVariable("title", brandingTheme.getCreditMemoTitle());
@@ -188,7 +189,10 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			String total = Utility.decimalConversation(memo.getTotal()
 					/ currencyFactor);
 
-			t.setVariable("memoText", memoVal);
+			if (memo.getMemo().trim().length() > 0) {
+				t.setVariable("memoText", memoVal);
+				t.addBlock("memoblock");
+			}
 			if (company.getPreferences().isTrackTax()) {
 				t.setVariable("subTotal", subTotal);
 				t.addBlock("subtotal");
@@ -230,39 +234,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 				t.addBlock("termsNpaypalId");
 			}
 
-			// for Vat String
-			String vatString = "Tax No: "
-					+ forNullValue(company.getPreferences()
-							.getVATregistrationNumber());
-			if (company.getPreferences().getVATregistrationNumber() != null) {
-				if (company.getPreferences().getVATregistrationNumber()
-						.length() > 0) {
-
-					// if (brandingTheme.isShowTaxNumber()) {
-					t.setVariable("vatCode", vatString);
-					t.addBlock("vatCodeDetails");
-				}
-			}
-
-			// for sortCode
-			String sortCode = " Sort Code: "
-					+ forNullValue(company.getSortCode());
-			if (company.getSortCode() != null) {
-				if (company.getSortCode().length() > 0) {
-					t.setVariable("sortCode", sortCode);
-					t.addBlock("sortCodeDetails");
-				}
-			}
-
-			// for BankAccountNumber
-			String bankAccountNum = "Bank Account No: "
-					+ forNullValue(company.getBankAccountNo());
-			if (company.getBankAccountNo() != null) {
-				if (company.getBankAccountNo().length() > 0) {
-					t.setVariable("bankAccount", bankAccountNum);
-					t.addBlock("bankAccountDetails");
-				}
-			}
 			// TODO for displaying regestration address and Company Registration
 			// Number
 			String regestrationAddress = "";
