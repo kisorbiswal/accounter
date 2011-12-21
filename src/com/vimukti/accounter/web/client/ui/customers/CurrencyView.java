@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -74,6 +75,15 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 		data.setName(currencyNameText.getValue().toString());
 		data.setFormalName(formalNameText.getValue().toString());
 	}
+	@Override
+	public ClientCurrency saveView() {
+		ClientCurrency saveView = super.saveView();
+		if (saveView != null){
+			updateData();
+			}
+		return saveView;
+	}
+	
 
 	public void saveAndUpdateView() {
 
