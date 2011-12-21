@@ -244,7 +244,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	}
 
 	protected void customerSelected(ClientCustomer customer) {
-
+		if (customer == null) {
+			return;
+		}
 		this.setCustomer(customer);
 		if (customer == null)
 			return;
