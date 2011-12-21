@@ -243,6 +243,11 @@
 		company=:company
 
 	</query>
+	<query name="delete.customFiledValuesByCustomField">
+		<query-param name="Id" type="long" />
+		delete from com.vimukti.accounter.core.CustomFieldValue cv where
+		cv.customField.id=:Id
+	</query>
 	<query name="update.merge.writeCheck.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
