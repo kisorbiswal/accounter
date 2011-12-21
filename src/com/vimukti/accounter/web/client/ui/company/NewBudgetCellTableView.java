@@ -339,6 +339,15 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 	}
 
 	@Override
+	public ClientBudget saveView() {
+		ClientBudget saveView = super.saveView();
+		if (data != null) {
+			updateBudgetObject();
+		}
+		return saveView;
+	}
+
+	@Override
 	public void saveAndUpdateView() {
 		updateBudgetObject();
 		saveOrUpdate(getData());
