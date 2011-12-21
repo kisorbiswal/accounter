@@ -103,8 +103,7 @@ public abstract class TemplateAccountRequirement extends
 		}
 
 		Record record = new Record("accountsNumber");
-		record.add(values.size()
-				+ getMessages().hasSelected(getMessages().Account()));
+		record.add("default accounts are selected");
 		list.add(record);
 
 		if (valuesSelection == "accountsNumber") {
