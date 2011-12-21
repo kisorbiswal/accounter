@@ -556,7 +556,7 @@
 			<command value="InventoryItems inventory" title="InventoryItems" />
 			<command title="warehouseList" />
 			<command title="warehouseTransferList" />
-			<command title="warehouseList" />
+			<command title="stockAdjustmentList" />
 			<command title="measurementsList" />
 		</outputs>
 	</pattern>
