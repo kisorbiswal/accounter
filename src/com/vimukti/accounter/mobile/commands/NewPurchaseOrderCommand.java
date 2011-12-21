@@ -255,6 +255,11 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
+			public boolean isSales() {
+				return false;
+			}
+
+			@Override
 			protected Payee getPayee() {
 				// TODO Auto-generated method stub
 				return null;

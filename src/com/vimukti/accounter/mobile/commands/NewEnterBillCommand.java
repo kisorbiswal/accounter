@@ -272,6 +272,11 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
+			public boolean isSales() {
+				return false;
+			}
+
+			@Override
 			protected Payee getPayee() {
 				return (Vendor) NewEnterBillCommand.this.get(VENDOR).getValue();
 			}

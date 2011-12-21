@@ -177,6 +177,11 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
+			public boolean isSales() {
+				return false;
+			}
+
+			@Override
 			protected Payee getPayee() {
 				return (Vendor) NewVendorCreditMemoCommand.this.get(VENDOR)
 						.getValue();

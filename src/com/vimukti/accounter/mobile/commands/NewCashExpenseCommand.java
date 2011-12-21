@@ -263,6 +263,11 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				return false;
 			}
 
+			@Override
+			public boolean isSales() {
+				return false;
+			}
+
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
 				.pleaseEnter(getMessages().name()), getMessages().items(),

@@ -82,9 +82,10 @@ public abstract class TransactionAccountTableRequirement extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getPreferences().isTrackTax() && isTrackTaxPaidAccount() ? false
-						: getPreferences().isTrackPaidTax()
-								&& getPreferences().isTaxPerDetailLine()) {
+				if (getPreferences().isTrackTax()
+						&& (isSales() ? true : getPreferences()
+								.isTrackPaidTax())
+						&& getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -136,6 +137,8 @@ public abstract class TransactionAccountTableRequirement extends
 				getMessages().description()), getMessages().description(),
 				true, true));
 	}
+
+	public abstract boolean isSales();
 
 	protected List<Account> getAccounts(Context context) {
 		return new ArrayList<Account>(context.getCompany().getAccounts());

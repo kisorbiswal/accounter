@@ -189,6 +189,11 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
+			public boolean isSales() {
+				return true;
+			}
+
+			@Override
 			protected Payee getPayee() {
 				return (Customer) NewCashSaleCommand.this.get(CUSTOMER)
 						.getValue();

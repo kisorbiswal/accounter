@@ -206,6 +206,11 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				return false;
 			}
 
+			@Override
+			public boolean isSales() {
+				return false;
+			}
+
 		});
 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(

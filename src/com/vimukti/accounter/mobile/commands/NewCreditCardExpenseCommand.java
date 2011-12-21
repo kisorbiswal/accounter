@@ -188,6 +188,11 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
+			public boolean isSales() {
+				return false;
+			}
+
+			@Override
 			protected Payee getPayee() {
 				return (Vendor) NewCreditCardExpenseCommand.this.get(VENDOR)
 						.getValue();
