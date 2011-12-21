@@ -737,6 +737,15 @@ public class ReceivePaymentView extends
 	}
 
 	@Override
+	public ClientReceivePayment saveView() {
+		ClientReceivePayment saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
+	}
+
+	@Override
 	public void saveAndUpdateView() {
 
 		updateTransaction();
@@ -854,7 +863,7 @@ public class ReceivePaymentView extends
 			}
 
 			this.transactionItems = transaction.getTransactionItems();
-			memoTextAreaItem.setDisabled(true);
+			memoTextAreaItem.setDisabled(isInViewMode());
 			if (transaction.getMemo() != null)
 				memoTextAreaItem.setValue(transaction.getMemo());
 			if (transaction.getPaymentMethod() != null) {
