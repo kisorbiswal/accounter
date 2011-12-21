@@ -5280,9 +5280,7 @@ public interface AccounterMessages extends Messages {
 	public String overBudget();
 
 	public String trackOrChargeTax();
-
-	public String negativeNumberFormat();
-
+	
 	public String normalFormat();
 
 	public String negativeNumberWithInTheParathesis();
