@@ -106,6 +106,12 @@ public class NewWareHouseTransferCommand extends NewAbstractCommand {
 				NewWareHouseTransferCommand.this.get(TRANSFERED_ITEMS)
 						.setValue(new ArrayList<ClientStockTransferItem>());
 			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(
+						"from " + getMessages().wareHouse());
+			}
 		});
 		list.add(new WarehouseRequirement(WAREHOUSE_TO, getMessages()
 				.pleaseSelect("to " + getMessages().wareHouse()), "to "
@@ -114,13 +120,19 @@ public class NewWareHouseTransferCommand extends NewAbstractCommand {
 			public void setValue(Object value) {
 				if (NewWareHouseTransferCommand.this
 						.isFromToWareHousesSame((Warehouse) value)) {
-					addFirstMessage(getMessages()
+					setEnterString(getMessages()
 							.pleaseSelectDiffWarehousesToTransfer());
 					return;
 				}
-				addFirstMessage(getMessages().pleaseSelect(
+				setEnterString(getMessages().pleaseSelect(
 						"to " + getMessages().wareHouse()));
 				super.setValue(value);
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(
+						"to " + getMessages().wareHouse());
 			}
 
 		});
