@@ -208,7 +208,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 
 			@Override
 			public boolean isSales() {
-				return false;
+				return true;
 			}
 
 		});
