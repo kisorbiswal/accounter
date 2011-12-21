@@ -547,56 +547,6 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 		this.add(mainVLay);
 
-		if (getData() != null) {
-
-			nameText.setValue(data.getName());
-			name = data.getName();
-			stdCostText.setAmount(data.getStandardCost());
-
-			weightText.setValue(String.valueOf(data.getWeight()));
-
-			isellCheck.setValue(data.isISellThisItem());
-			if (data.getSalesDescription() != null)
-				salesDescArea.setValue(data.getSalesDescription());
-			salesPriceText.setAmount(data.getSalesPrice());
-
-			ClientCompany company = getCompany();
-			selectAccount = company.getAccount(data.getIncomeAccount());
-			comCheck.setValue(data.isCommissionItem());
-
-			selectItemGroup = company.getItemGroup(data.getItemGroup());
-
-			activeCheck.setValue((data.isActive()));
-
-			ibuyCheck.setValue(data.isIBuyThisItem());
-			if (data.getPurchaseDescription() != null)
-				purchaseDescArea.setValue(data.getPurchaseDescription());
-			purchasePriceTxt.setAmount(data.getPurchasePrice());
-
-			selectVendor = company.getVendor(data.getPreferredVendor());
-			if (data.getVendorItemNumber() != null) {
-				vendItemNumText.setValue(data.getVendorItemNumber());
-			}
-			if (getPreferences().isTrackTax()
-					&& getPreferences().isTaxPerDetailLine()) {
-				selectTaxCode = company.getTAXCode(data.getTaxCode());
-			}
-			itemTaxCheck.setValue(data.isTaxable());
-
-			assetsAccount.setSelected(getCompany().getAccount(
-					data.getAssestsAccount()).getName());
-
-			reorderPoint.setValue(Integer.toString(data.getReorderPoint()));
-			// onHandQuantity.setValue(Long.toString(data.getOnhandQuantity()));
-			onHandQuantity.setValue("0");
-			getItemStatus();
-			itemTotalValue.setValue(Double.toString(data.getItemTotalValue()));
-			asOfDate.setValue(data.getAsOfDate());
-
-		} else {
-			setData(new ClientItem());
-		}
-
 		/* Adding dynamic forms in list */
 		listforms.add(itemForm);
 		listforms.add(salesInfoForm);
@@ -667,6 +617,15 @@ public class ItemView extends BaseView<ClientItem> {
 		stockPanel.setWidth("100%");
 		return stockPanel;
 
+	}
+
+	@Override
+	public ClientItem saveView() {
+		ClientItem saveView = super.saveView();
+		if (saveView != null) {
+			updateItem();
+		}
+		return saveView;
 	}
 
 	@Override
@@ -839,6 +798,57 @@ public class ItemView extends BaseView<ClientItem> {
 
 	@Override
 	public void initData() {
+		if (getData() != null) {
+
+			nameText.setValue(data.getName());
+			name = data.getName();
+			stdCostText.setAmount(data.getStandardCost());
+
+			weightText.setValue(String.valueOf(data.getWeight()));
+
+			isellCheck.setValue(data.isISellThisItem());
+			if (data.getSalesDescription() != null)
+				salesDescArea.setValue(data.getSalesDescription());
+			salesPriceText.setAmount(data.getSalesPrice());
+
+			ClientCompany company = getCompany();
+			selectAccount = company.getAccount(data.getIncomeAccount());
+			comCheck.setValue(data.isCommissionItem());
+
+			selectItemGroup = company.getItemGroup(data.getItemGroup());
+			itemGroupCombo.setComboItem(selectItemGroup);
+
+			activeCheck.setValue((data.isActive()));
+
+			ibuyCheck.setValue(data.isIBuyThisItem());
+			if (data.getPurchaseDescription() != null)
+				purchaseDescArea.setValue(data.getPurchaseDescription());
+			purchasePriceTxt.setAmount(data.getPurchasePrice());
+
+			selectVendor = company.getVendor(data.getPreferredVendor());
+			if (data.getVendorItemNumber() != null) {
+				vendItemNumText.setValue(data.getVendorItemNumber());
+			}
+			if (getPreferences().isTrackTax()
+					&& getPreferences().isTaxPerDetailLine()) {
+				selectTaxCode = company.getTAXCode(data.getTaxCode());
+			}
+			itemTaxCheck.setValue(data.isTaxable());
+			if (data.getAssestsAccount() != 0) {
+				assetsAccount.setSelected(getCompany().getAccount(
+						data.getAssestsAccount()).getName());
+			}
+
+			reorderPoint.setValue(Integer.toString(data.getReorderPoint()));
+			// onHandQuantity.setValue(Long.toString(data.getOnhandQuantity()));
+			onHandQuantity.setValue("0");
+			getItemStatus();
+			itemTotalValue.setValue(Double.toString(data.getItemTotalValue()));
+			asOfDate.setValue(data.getAsOfDate());
+
+		} else {
+			setData(new ClientItem());
+		}
 		initAccountList();
 		initVendorsList();
 		initItemGroups();
@@ -912,7 +922,7 @@ public class ItemView extends BaseView<ClientItem> {
 		List<ClientVendor> clientVendor = getCompany().getActiveVendors();
 		if (clientVendor != null) {
 			prefVendorCombo.initCombo(clientVendor);
-			if (!isInViewMode()) {
+			if (data != null && !isInViewMode()) {
 				prefVendorCombo.setComboItem(getCompany().getVendor(
 						data.getPreferredVendor()));
 				if (data.isIBuyThisItem() == false)
@@ -954,15 +964,17 @@ public class ItemView extends BaseView<ClientItem> {
 			}
 		}
 		if (!isInViewMode()) {
-
-			accountCombo.setComboItem(getCompany().getAccount(
-					data.getIncomeAccount()));
-			if (data.isISellThisItem() == false)
+			if (data != null && data.getIncomeAccount() != 0) {
+				accountCombo.setComboItem(getCompany().getAccount(
+						data.getIncomeAccount()));
+			}
+			if (data != null && data.isISellThisItem() == false) {
 				accountCombo.setDisabled(true);
-			selectExpAccount = getCompany()
-					.getAccount(data.getExpenseAccount());
-			expAccCombo.setComboItem(selectExpAccount);
-			if (data.isIBuyThisItem() == false)
+				selectExpAccount = getCompany().getAccount(
+						data.getExpenseAccount());
+				expAccCombo.setComboItem(selectExpAccount);
+			}
+			if (data != null && data.isIBuyThisItem() == false)
 				expAccCombo.setDisabled(true);
 			else
 				expAccCombo.setDisabled(false);
