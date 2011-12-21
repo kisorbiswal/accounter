@@ -112,7 +112,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
-
+		if (customer == null) {
+			return;
+		}
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
@@ -244,6 +246,14 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	}
 
+	@Override
+	public ClientEstimate saveView() {
+		ClientEstimate saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
+	}
 	@Override
 	public void saveAndUpdateView() {
 
@@ -640,51 +650,54 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
+		ClientEstimate quote = transaction != null ? (ClientEstimate) transaction
+				: new ClientEstimate();
 
 		if (quoteExpiryDate.getEnteredDate() != null)
-			transaction.setExpirationDate(quoteExpiryDate.getEnteredDate()
-					.getDate());
+			quote.setExpirationDate(quoteExpiryDate.getEnteredDate().getDate());
 		if (getCustomer() != null)
-			transaction.setCustomer(getCustomer());
+			quote.setCustomer(getCustomer());
 		if (contact != null)
-			transaction.setContact(contact);
+			quote.setContact(contact);
 		if (phoneSelect.getValue() != null)
-			transaction.setPhone(phoneSelect.getValue().toString());
+			quote.setPhone(phoneSelect.getValue().toString());
 
 		if (deliveryDate.getEnteredDate() != null)
-			transaction
-					.setDeliveryDate(deliveryDate.getEnteredDate().getDate());
+			quote.setDeliveryDate(deliveryDate.getEnteredDate().getDate());
 
 		if (salesPerson != null)
-			transaction.setSalesPerson(salesPerson);
-
+			quote.setSalesPerson(salesPerson);
 		if (priceLevel != null)
-			transaction.setPriceLevel(priceLevel);
+			quote.setPriceLevel(priceLevel);
 
-		transaction.setMemo(memoTextAreaItem.getValue().toString());
+		quote.setMemo(memoTextAreaItem.getValue().toString());
 
 		if (billingAddress != null)
-			transaction.setAddress(billingAddress);
+			quote.setAddress(billingAddress);
 
 		if (shippingAddress != null) {
-			transaction.setShippingAdress(shippingAddress);
+			quote.setShippingAdress(shippingAddress);
 		}
 		// quote.setReference(this.refText.getValue() != null ? this.refText
 		// .getValue().toString() : "");
-		transaction.setPaymentTerm(Utility.getID(paymentTerm));
-		transaction.setNetAmount(netAmountLabel.getAmount());
+		quote.setPaymentTerm(Utility.getID(paymentTerm));
+		quote.setNetAmount(netAmountLabel.getAmount());
 
 		if (isTrackTax()) {
 			if (vatinclusiveCheck != null) {
-				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
+				quote.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 			}
 			if (salesTax == null)
 				salesTax = 0.0D;
-			transaction.setTaxTotal(this.salesTax);
+			quote.setTaxTotal(this.salesTax);
 		}
 
+		quote.setTotal(foreignCurrencyamountLabel.getAmount());
+
 		String selectedValue = statusCombo.getSelectedValue();
-		transaction.setStatus(getStatus(selectedValue));
+		quote.setStatus(getStatus(selectedValue));
+
+		transaction = quote;
 
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 
@@ -815,7 +828,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			if (!isTaxPerDetailLine() && taxCodeSelect != null) {
 				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 				this.taxCodeSelect
-						.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+						.setComboItem(getTaxCodeForTransactionItems(this.transactionItems) == null ? taxCodeSelect
+								.getComboItems().get(0)
+								: getTaxCodeForTransactionItems(this.transactionItems));
 			}
 
 			statusCombo.setComboItem(getStatusString(transaction.getStatus()));
