@@ -384,10 +384,10 @@ public class CustomerCreditMemoView extends
 		//
 		// }
 		//
-		 if (transaction == null && customerItemTransactionTable != null) {
-		 customerItemTransactionTable.setPricingLevel(priceLevel);
-//		 customerAccountTransactionTable.updatePriceLevel();
-		 }
+		if (transaction == null && customerItemTransactionTable != null) {
+			customerItemTransactionTable.setPricingLevel(priceLevel);
+			// customerAccountTransactionTable.updatePriceLevel();
+		}
 		updateNonEditableItems();
 
 	}
@@ -427,6 +427,15 @@ public class CustomerCreditMemoView extends
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public ClientCustomerCreditMemo saveView() {
+		ClientCustomerCreditMemo saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
 	}
 
 	@Override
@@ -487,6 +496,7 @@ public class CustomerCreditMemoView extends
 			}
 			this.setCustomer(getCompany()
 					.getCustomer(transaction.getCustomer()));
+			customerSelected(this.customer);
 			this.billingAddress = transaction.getBillingAddress();
 			this.contact = transaction.getContact();
 			this.phoneNo = transaction.getPhone();
@@ -587,6 +597,7 @@ public class CustomerCreditMemoView extends
 			if (creditMemo.getMemo() != null) {
 
 				memoTextAreaItem.setValue(creditMemo.getMemo());
+				memoTextAreaItem.setDisabled(isInViewMode());
 				// if (creditMemo.getReference() != null)
 				// refText.setValue(creditMemo.getReference());
 
@@ -703,6 +714,9 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
+		if (customer == null) {
+			return;
+		}
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCustomerCreditMemo ent = this.transaction;
 
