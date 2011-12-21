@@ -463,14 +463,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 		parentAccountCombo.setVisible(false);
 
-		if (getData() == null) {
-			ClientAccount account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount(
-					getCompany().getPrimaryCurrency().getID())
-					: new ClientBankAccount(getCompany().getPrimaryCurrency()
-							.getID());
-			setData(account);
-		}
-
 		leftLayout.add(accInfoForm);
 		leftLayout.add(currencyCombo);
 		leftLayout.add(balanceForm);
@@ -1010,6 +1002,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	@Override
+	public ClientAccount saveView() {
+		ClientAccount saveView = super.saveView();
+		if (saveView != null) {
+			updateAccountObject();
+		}
+		return saveView;
+	}
+
+	@Override
 	public void saveAndUpdateView() {
 		updateAccountObject();
 
@@ -1242,17 +1243,24 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	@Override
 	public void initData() {
-
-		initAccountTypeSelect();
-		if (accountType != ClientAccount.TYPE_BANK
-				&& accountType != ClientAccount.TYPE_CREDIT_CARD)
-			getSubAccounts();
-		if (accountType == ClientAccount.TYPE_PAYPAL) {
-			getPaypalData();
-		}
-		if (isInViewMode())
+		if (getData() == null) {
+			ClientAccount account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount(
+					getCompany().getPrimaryCurrency().getID())
+					: new ClientBankAccount(getCompany().getPrimaryCurrency()
+							.getID());
+			setData(account);
+			initAccountTypeSelect();
+		} else {
+			initAccountTypeSelect();
+			if (accountType != ClientAccount.TYPE_BANK
+					&& accountType != ClientAccount.TYPE_CREDIT_CARD)
+				getSubAccounts();
+			if (accountType == ClientAccount.TYPE_PAYPAL) {
+				getPaypalData();
+			}
 			initView();
-		super.initData();
+			super.initData();
+		}
 		// if (takenAccount == null)
 		// getNextAccountNumber();
 
@@ -1272,7 +1280,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				.getNumber()) : "");
 		accountNo = data.getNumber() != null ? data.getNumber() : "0";
 		if (data.getID() == getCompany().getOpeningBalancesAccount())
-			accNoText.setDisabled(true);
+			accNoText.setDisabled(isInViewMode());
 
 		accNameText.setValue(data.getName());
 		accountName = data.getName();
@@ -1280,7 +1288,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (id == getCompany().getOpeningBalancesAccount()
 				|| id == getCompany().getAccountsReceivableAccountId()
 				|| id == getCompany().getAccountsPayableAccount())
-			accNameText.setDisabled(true);
+			accNameText.setDisabled(isInViewMode());
 		// statusBox.setValue(data.getIsActive() != null ? data
 		// .getIsActive() : Boolean.FALSE);
 		statusBox.setValue(data.getIsActive());
@@ -1307,7 +1315,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		asofDate.setValue(new ClientFinanceDate(
 				data.getAsOf() == 0 ? new ClientFinanceDate().getDate() : data
 						.getAsOf()));
-		asofDate.setDisabled(true);
+		asofDate.setDisabled(isInViewMode());
 		cashAccountCheck.setValue(data.isConsiderAsCashAccount());
 		commentsArea.setValue(data.getComment());
 		if (accountType == ClientAccount.TYPE_BANK) {
@@ -1319,7 +1327,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				bankAccNumText.setValue(((ClientBankAccount) data)
 						.getBankAccountNumber());
 
-				bankAccNumText.setDisabled(true);
+				bankAccNumText.setDisabled(isInViewMode());
 			}
 
 		} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
@@ -1372,11 +1380,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				ClientAccount.TYPE_FIXED_ASSET,
 				ClientAccount.TYPE_LONG_TERM_LIABILITY,
 				ClientAccount.TYPE_EQUITY).contains(data.getType());
-
-		long number = Long.parseLong(data.getNumber());
-		// Checking whether type is under others accounts category.
-		isBalanceSheetTye = !isBalanceSheetTye ? number >= 9501
-				&& number <= 9600 : isBalanceSheetTye;
+		if (data.getNumber() != null) {
+			long number = Long.parseLong(data.getNumber());
+			// Checking whether type is under others accounts category.
+			isBalanceSheetTye = !isBalanceSheetTye ? number >= 9501
+					&& number <= 9600 : isBalanceSheetTye;
+		}
 
 		// if (isBalanceSheetTye
 		// && !DecimalUtil.isEquals(data.getTotalBalance(), 0.0)) {
