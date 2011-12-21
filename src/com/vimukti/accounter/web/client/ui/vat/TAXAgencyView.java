@@ -96,7 +96,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private void initPaymentTermsCombo() {
 
 		paymentTermsCombo.initCombo(getCompany().getPaymentsTerms());
-		if (isInViewMode() && (data.getPaymentTerm()) != 0) {
+		if ((data.getPaymentTerm()) != 0) {
 			selectedPaymentTerm = getCompany().getPaymentTerms(
 					data.getPaymentTerm());
 			paymentTermsCombo.setComboItem(selectedPaymentTerm);
@@ -116,6 +116,15 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		this.add(mainVLay);
 		setSize("100%", "100%");
+	}
+
+	@Override
+	public ClientTAXAgency saveView() {
+		ClientTAXAgency saveview = super.saveView();
+		if (saveview != null) {
+			updateTaxAgency();
+		}
+		return saveview;
 	}
 
 	@Override
@@ -193,7 +202,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		data.setName(taxAgencyText.getValue().toString());
 		if (vatReturnCombo.getSelectedValue() == "") {
 			data.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
-		} else if (vatReturnCombo.getSelectedValue().equals("UK VAT")) {
+		} else if (vatReturnCombo.getSelectedValue() != null ? vatReturnCombo
+				.getSelectedValue().equals("UK VAT") : false) {
 			data.setVATReturn(ClientTAXAgency.RETURN_TYPE_UK_VAT);
 		} else {
 			data.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
@@ -225,7 +235,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		data.setActive((Boolean) statusCheck.getValue());
 
 		// Setting Payment Terms
-		data.setPaymentTerm(selectedPaymentTerm.getID());
+		if (selectedPaymentTerm != null) {
+			data.setPaymentTerm(selectedPaymentTerm.getID());
+		}
 
 		// Setting Sales Liability account
 		if (selectedSalesAccount != null) {
@@ -441,14 +453,126 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			@Override
 			public void onClick(ClickEvent event) {
 				ClientContact clientContact = new ClientContact();
-				gridView.setDisabled(false);
+				gridView.setDisabled(isInViewMode());
 				// clientContact.setName("");
 				gridView.add(clientContact);
 			}
 		});
 
 		// For Editing taxAgency
-		if (getData() != null) {
+
+		// phoneFaxForm.getCellFormatter().setWidth(0, 0, "235");
+		// phoneFaxForm.getCellFormatter().setWidth(0, 1, "");
+		//
+		// addrsForm.getCellFormatter().setWidth(0, 0, "50");
+		// addrsForm.getCellFormatter().setWidth(0, 1, "125");
+		//
+		// emailForm.getCellFormatter().setWidth(0, 0, "235");
+		// emailForm.getCellFormatter().setWidth(0, 1, "");
+
+		VerticalPanel leftVLay = new VerticalPanel();
+		leftVLay.setWidth("100%");
+		leftVLay.add(taxAgencyForm);
+		leftVLay.add(accInfoForm);
+
+		VerticalPanel rightVLay = new VerticalPanel();
+		addrsForm = new AddressForm(null);
+		// addrsForm.setWidth("100%");
+		addrsForm.setDisabled(isInViewMode());
+		phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
+				.getViewName());
+		// phoneFaxForm.setWidth("100%");
+		emailForm = new EmailForm(null, null, this, this.getAction()
+				.getViewName());
+		// emailForm.setWidth("100%");
+
+		// rightVLay.setWidth("100%");
+		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
+		rightVLay.add(addrsForm);
+		rightVLay.add(phoneFaxForm);
+		rightVLay.add(emailForm);
+		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
+		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
+
+		HorizontalPanel topHLay = new HorizontalPanel();
+		topHLay.addStyleName("fields-panel");
+		topHLay.setWidth("100%");
+		topHLay.setSpacing(5);
+		topHLay.add(leftVLay);
+		topHLay.add(rightVLay);
+		topHLay.setCellWidth(leftVLay, "50%");
+		topHLay.setCellWidth(rightVLay, "50%");
+		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+
+		HorizontalPanel contHLay = new HorizontalPanel();
+		contHLay.setSpacing(5);
+		contHLay.add(contacts);
+
+		VerticalPanel mainVlay = new VerticalPanel();
+		mainVlay.add(lab);
+		mainVlay.add(topHLay);
+		mainVlay.add(contHLay);
+
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		panel.add(addButton);
+		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
+		panel.getElement().getStyle().setFloat(Float.RIGHT);
+
+		mainVlay.add(gridView);
+		mainVlay.setWidth("100%");
+		mainVlay.add(panel);
+		// mainVlay.add(memoForm);
+
+		/* Adding dynamic forms in list */
+		listforms.add(taxAgencyForm);
+		listforms.add(accInfoForm);
+		listforms.add(memoForm);
+
+		// if (UIUtils.isMSIEBrowser()) {
+		// accInfoForm.getCellFormatter().setWidth(0, 1, "200px");
+		// accInfoForm.setWidth("68%");
+		// }
+
+		return mainVlay;
+	}
+
+	private List<String> getTAXFilingFrequencies() {
+		List<String> list = new ArrayList<String>();
+		list.add(messages.monthly());
+		list.add(messages.quarterly());
+		list.add(messages.halfYearly());
+		list.add(messages.yearly());
+		return list;
+	}
+
+	private void initListGrid() {
+		gridView = new ContactsTable() {
+
+			@Override
+			protected boolean isInViewMode() {
+				return TAXAgencyView.this.isInViewMode();
+			}
+		};
+		gridView.setDisabled(true);
+		// gridView.setCanEdit(true);
+		// gridView.isEnable = false;
+		// gridView.init();
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		createControls();
+		setSize("100%", "100%");
+	}
+
+	@Override
+	public void initData() {
+
+		if (getData() == null) {
+			setData(new ClientTAXAgency());
+		} else {
 
 			// Setting TaxAgency Name
 			taxAgencyText
@@ -552,129 +676,15 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			// Setting Memo
 			memoArea.setValue(data.getMemo() != null ? data.getMemo() : "");
 
-		} else {
-			// For Creating TaxAgency
-			setData(new ClientTAXAgency());
-			addrsForm = new AddressForm(null);
-			// addrsForm.setWidth("100%");
-			addrsForm.setDisabled(isInViewMode());
-			phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
-					.getViewName());
-			// phoneFaxForm.setWidth("100%");
-			emailForm = new EmailForm(null, null, this, this.getAction()
-					.getViewName());
-			// emailForm.setWidth("100%");
-		}
-
-		// phoneFaxForm.getCellFormatter().setWidth(0, 0, "235");
-		// phoneFaxForm.getCellFormatter().setWidth(0, 1, "");
-		//
-		// addrsForm.getCellFormatter().setWidth(0, 0, "50");
-		// addrsForm.getCellFormatter().setWidth(0, 1, "125");
-		//
-		// emailForm.getCellFormatter().setWidth(0, 0, "235");
-		// emailForm.getCellFormatter().setWidth(0, 1, "");
-
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
-		leftVLay.add(taxAgencyForm);
-		leftVLay.add(accInfoForm);
-
-		VerticalPanel rightVLay = new VerticalPanel();
-		// rightVLay.setWidth("100%");
-		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
-		rightVLay.add(addrsForm);
-		rightVLay.add(phoneFaxForm);
-		rightVLay.add(emailForm);
-		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
-		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
-
-		HorizontalPanel topHLay = new HorizontalPanel();
-		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
-		topHLay.setSpacing(5);
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
-
-		HorizontalPanel contHLay = new HorizontalPanel();
-		contHLay.setSpacing(5);
-		contHLay.add(contacts);
-
-		VerticalPanel mainVlay = new VerticalPanel();
-		mainVlay.add(lab);
-		mainVlay.add(topHLay);
-		mainVlay.add(contHLay);
-
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.setHorizontalAlignment(ALIGN_RIGHT);
-		panel.add(addButton);
-		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
-		panel.getElement().getStyle().setFloat(Float.RIGHT);
-
-		mainVlay.add(gridView);
-		mainVlay.setWidth("100%");
-		mainVlay.add(panel);
-		// mainVlay.add(memoForm);
-
-		/* Adding dynamic forms in list */
-		listforms.add(taxAgencyForm);
-		listforms.add(accInfoForm);
-		listforms.add(memoForm);
-
-		// if (UIUtils.isMSIEBrowser()) {
-		// accInfoForm.getCellFormatter().setWidth(0, 1, "200px");
-		// accInfoForm.setWidth("68%");
-		// }
-
-		return mainVlay;
-	}
-
-	private List<String> getTAXFilingFrequencies() {
-		List<String> list = new ArrayList<String>();
-		list.add(messages.monthly());
-		list.add(messages.quarterly());
-		list.add(messages.halfYearly());
-		list.add(messages.yearly());
-		return list;
-	}
-
-	private void initListGrid() {
-		gridView = new ContactsTable() {
-
-			@Override
-			protected boolean isInViewMode() {
-				return TAXAgencyView.this.isInViewMode();
-			}
-		};
-		gridView.setDisabled(true);
-		// gridView.setCanEdit(true);
-		// gridView.isEnable = false;
-		// gridView.init();
-	}
-
-	@Override
-	public void init() {
-		super.init();
-		createControls();
-		setSize("100%", "100%");
-	}
-
-	@Override
-	public void initData() {
-
-		if (getData() == null) {
-			setData(new ClientTAXAgency());
-		} else {
+			// } else {
+			// // For Creating TaxAgency
+			// setData(new ClientTAXAgency());
+			// }
 			initPaymentTermsCombo();
-			if (isInViewMode()) {
-				this.selectedSalesAccount = getCompany().getAccount(
-						data.getSalesLiabilityAccount());
-				this.selectedPurchaseAccount = getCompany().getAccount(
-						data.getPurchaseLiabilityAccount());
-			}
+			this.selectedSalesAccount = getCompany().getAccount(
+					data.getSalesLiabilityAccount());
+			this.selectedPurchaseAccount = getCompany().getAccount(
+					data.getPurchaseLiabilityAccount());
 			taxTypeSelected(getTaxTypeString(data.getTaxType()));
 			liabilitySalesAccountCombo.select(selectedSalesAccount);
 			liabilityPurchaseAccountCombo.select(selectedPurchaseAccount);

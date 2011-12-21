@@ -613,7 +613,15 @@ public class ReceiveVATView extends
 		return result;
 
 	}
-
+	
+@Override
+public ClientReceiveVAT saveView() {
+	ClientReceiveVAT saveView = super.saveView();
+	if (saveView != null){
+		updateTransaction();
+		}
+	return saveView;
+}
 	@Override
 	public void saveAndUpdateView() {
 		updateTransaction();
