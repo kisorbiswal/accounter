@@ -337,7 +337,7 @@ public class WriteChequeView extends
 		payFromAccounts = bankAccSelect.getAccounts();
 
 		bankAccSelect.initCombo(payFromAccounts);
-		if (isInViewMode()) {
+		if (isInViewMode() || transaction.getBankAccount() != 0) {
 
 			selectBankAcc = this.company.getAccount(transaction
 					.getBankAccount());
@@ -367,7 +367,7 @@ public class WriteChequeView extends
 
 			paytoSelect.initCombo(payees);
 
-			if (isInViewMode()) {
+			if (isInViewMode() || transaction.getPayToType() != 0) {
 				ClientCustomer customer = null;
 				if (transaction.getPayToType() == ClientPayee.TYPE_CUSTOMER) {
 					customer = getCompany().getCustomer(
@@ -564,6 +564,14 @@ public class WriteChequeView extends
 		double total = 0.0;
 		total += transactionVendorAccountTable.getGrandTotal();
 		return AccounterValidator.isPositiveAmount(total);
+	}
+
+	public ClientWriteCheck saveView() {
+		ClientWriteCheck saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
 	}
 
 	@Override
@@ -1116,7 +1124,7 @@ public class WriteChequeView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		memoTextAreaItem.setDisabled(true);
+		memoTextAreaItem.setDisabled(isInViewMode());
 		setMemoTextAreaItem(transaction.getMemo());
 
 	}
@@ -1468,7 +1476,8 @@ public class WriteChequeView extends
 				this.currency = getCompany().getCurrency(
 						transaction.getCurrency());
 				this.currencyFactor = transaction.getCurrencyFactor();
-				currencyWidget.setSelectedCurrency(this.currency);
+				if (currency != null)
+					currencyWidget.setSelectedCurrency(this.currency);
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
@@ -1503,6 +1512,10 @@ public class WriteChequeView extends
 		setDisableFields();
 		initBankaccountCombo();
 		updateAddressAndGrid();
+		amtText.setAmount(transaction.getAmount());
+		if (transaction.getAmount() != 0) {
+			validateAmountAndTotal();
+		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
