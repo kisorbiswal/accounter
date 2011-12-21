@@ -26,7 +26,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.ExpensePortletToolBar;
 import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
 
-public class ExpenseClaimPortlet extends Portlet {
+public class ExpenseClaimPortlet extends GraphPointsPortlet {
 
 	private PortletToolBar toolBar;
 	private VerticalPanel graphPanel;
