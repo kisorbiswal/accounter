@@ -23,9 +23,10 @@ public abstract class ShowListRequirement<T> extends ListRequirement<T> {
 			ResultList actions) {
 
 		T values = context.getSelection(getName());
-		if (values != null) {
+		Object attribute = context.getAttribute("onShowlistSelection");
+		context.removeAttribute("onShowlistSelection");
+		if (attribute == null && values != null) {
 			CommandList commandList = new CommandList();
-			// setSelectCommands(commandList, values);
 			if (commandList.size() != 0) {
 				Result result = new Result();
 				result.add(commandList);
@@ -33,9 +34,11 @@ public abstract class ShowListRequirement<T> extends ListRequirement<T> {
 			}
 			String onSelection = onSelection(values);
 			if (onSelection != null) {
+				context.setAttribute("onShowlistSelection", "");
+				context.getIOSession().getCurrentCommand()
+						.setCanTrackRequirements(false);
 				Result result = new Result();
 				result.setNextCommand(onSelection);
-				context.getIOSession().getCurrentCommand().markDone();
 				return result;
 			}
 			context.setString("");
