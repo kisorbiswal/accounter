@@ -324,11 +324,9 @@ public class NewBankAccountCommand extends NewAbstractCommand {
 		AccounterMessages messages = Global.get().messages();
 		if (type.equals(messages.saving()))
 			return Account.BANK_ACCCOUNT_TYPE_SAVING;
-		else if (type
-				.equals(messages.checking()))
+		else if (type.equals(messages.checking()))
 			return Account.BANK_ACCCOUNT_TYPE_CHECKING;
-		else if (type
-				.equals(messages.moneyMarket()))
+		else if (type.equals(messages.moneyMarket()))
 			return Account.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
 		else
 			return Account.BANK_ACCCOUNT_TYPE_NONE;
