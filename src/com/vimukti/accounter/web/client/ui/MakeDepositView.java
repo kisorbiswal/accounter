@@ -419,6 +419,14 @@ public class MakeDepositView extends
 
 	}
 
+	public ClientMakeDeposit saveView() {
+		ClientMakeDeposit saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
+	}
+
 	@Override
 	public void saveAndUpdateView() {
 
@@ -569,6 +577,7 @@ public class MakeDepositView extends
 		TYPE_FINANCIAL_ACCOUNT = ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT;
 		TYPE_VENDOR = ClientTransactionMakeDeposit.TYPE_VENDOR;
 		TYPE_CUSTOMER = ClientTransactionMakeDeposit.TYPE_CUSTOMER;
+		initTransactionNumber();
 
 		// createControls();
 		// setSize("100%", "100%");
@@ -579,18 +588,14 @@ public class MakeDepositView extends
 	public void initData() {
 		super.initData();
 		getDepositInAccounts();
-
-		if (isInViewMode()) {
-			depositInSelect.setComboItem(getCompany().getAccount(
-					((ClientMakeDeposit) transaction).getDepositIn()));
-			this.selectedDepositInAccount = getCompany().getAccount(
-					((ClientMakeDeposit) transaction).getDepositIn());
-			depositFromSelect.setComboItem(getCompany().getAccount(
-					((ClientMakeDeposit) transaction).getDepositFrom()));
-			this.selectedDepositFromAccount = getCompany().getAccount(
-					((ClientMakeDeposit) transaction).getDepositFrom());
-		}
-
+		depositInSelect.setComboItem(getCompany().getAccount(
+				((ClientMakeDeposit) transaction).getDepositIn()));
+		this.selectedDepositInAccount = getCompany().getAccount(
+				((ClientMakeDeposit) transaction).getDepositIn());
+		depositFromSelect.setComboItem(getCompany().getAccount(
+				((ClientMakeDeposit) transaction).getDepositFrom()));
+		this.selectedDepositFromAccount = getCompany().getAccount(
+				((ClientMakeDeposit) transaction).getDepositFrom());
 		initFianancialAccounts();
 		initCashBackAccounts();
 
@@ -667,7 +672,6 @@ public class MakeDepositView extends
 			// gridView.setCanEdit(false);
 			updateTotals();
 		}
-		initTransactionNumber();
 		// FIXME--need to implement this feature
 		// gridView.setEnableMenu(false);
 
@@ -930,42 +934,6 @@ public class MakeDepositView extends
 		vPanel.add(panel);
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vPanel.add(botHLay);
-
-		if (isInViewMode()) {
-			date.setValue(transaction.getDate());
-			depositInSelect.setComboItem(getCompany().getAccount(
-					((ClientMakeDeposit) transaction).getDepositIn()));
-			memoText.setDisabled(true);
-			if (((ClientMakeDeposit) transaction).getMemo() != null)
-				memoText.setValue(((ClientMakeDeposit) transaction).getMemo());
-			cashBackAccountSelect.setComboItem(getCompany().getAccount(
-					((ClientMakeDeposit) transaction).getCashBackAccount()));
-			if (((ClientMakeDeposit) transaction).getCashBackMemo() != null)
-				cashBackMemoText.setValue(((ClientMakeDeposit) transaction)
-						.getCashBackMemo());
-			// totAmtText
-			// .setValue(UIUtils.format(((MakeDeposit) transactionObject)
-			// .getTotalAmount()));
-			// totAmtText.setAmount(((ClientMakeDeposit) transactionObject)
-			// .getTotal());
-			// totText.setValue(UIUtils.format(((MakeDeposit) transactionObject)
-			// .getTotal()));
-			transactionTotalBaseCurrencyText
-					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
-			// cashBackAmountText.setValue(UIUtils
-			// .format(((MakeDeposit) transactionObject)
-			// .getCashBackAmount()));
-			cashBackAmountText.setAmount(transaction.getCashBackAmount());
-			addTransactionMakeDepositsToGrid(transaction
-					.getTransactionMakeDeposit());
-
-			date.setDisabled(true);
-			depositInSelect.setDisabled(true);
-			cashBackAccountSelect.setDisabled(true);
-			cashBackAmountText.setDisabled(true);
-			cashBackMemoText.setDisabled(true);
-
-		}
 
 		initListGrid();
 
