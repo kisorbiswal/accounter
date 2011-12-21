@@ -5327,6 +5327,8 @@ public interface AccounterMessages extends Messages {
 
 	public String nameAddress();
 
+	public String numberShouldNotBeEmptyOr0();
+
 	public String vendorCentre(String vendor);
 
 	public String allBills();
