@@ -325,24 +325,30 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 	protected void initRPCService() {
 		super.initRPCService();
 
-		Accounter
-				.createHomeService()
-				.getTDSTransactionItemsList(
-						new AccounterAsyncCallback<ArrayList<ClientTDSTransactionItem>>() {
+		if (chalanPeriod != null) {
+			int chalanPer = chalanPeriod.getSelectedIndex();
 
-							@Override
-							public void onException(AccounterException exception) {
-								// TODO Auto-generated method stub
+			Accounter
+					.createHomeService()
+					.getTDSTransactionItemsList(
+							chalanPer,
+							new AccounterAsyncCallback<ArrayList<ClientTDSTransactionItem>>() {
 
-							}
+								@Override
+								public void onException(
+										AccounterException exception) {
+									// TODO Auto-generated method stub
 
-							@Override
-							public void onResultSuccess(
-									ArrayList<ClientTDSTransactionItem> result) {
-								// TODO Auto-generated method stub
+								}
 
-							}
-						});
+								@Override
+								public void onResultSuccess(
+										ArrayList<ClientTDSTransactionItem> result) {
+									// TODO Auto-generated method stub
+
+								}
+							});
+		}
 	}
 
 }

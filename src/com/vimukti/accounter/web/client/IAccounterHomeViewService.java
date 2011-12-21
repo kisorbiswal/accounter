@@ -334,7 +334,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public ArrayList<ClientBudget> getBudgetList();
 
-	public ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList();
+	ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList(int chalanPer);
 
 	// for TDS
 

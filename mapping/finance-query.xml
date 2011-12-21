@@ -9475,6 +9475,18 @@
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
 		:fromDate AND :toDate
 	</sql-query>
+	
+	<sql-query name="getTDSPayBillTransactionsList">
+		<query-param name="companyId" type="long" />
+		<return-scalar column="VENDOR_ID" type="long" />
+		<return-scalar column="TDS_TOTAL" type="double" />
+		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		SELECT P.VENDOR_ID AS VENDOR_ID,P.TDS_TOTAL AS TDS_TOTAL,T.TOTAL AS
+		TOTAL,T.T_DATE AS TRANSACTION_DATE FROM PAY_BILL P LEFT JOIN
+		TRANSACTION T ON T.ID=P.ID WHERE P.TDS_TOTAL!=0 AND T.COMPANY_ID=:companyId
+	</sql-query>
+	
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 

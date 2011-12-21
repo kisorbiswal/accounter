@@ -421,7 +421,7 @@ public interface IAccounterHomeViewServiceAsync {
 			int transactionType, long fromDate, long toDate,
 			AsyncCallback<ArrayList<BillsList>> callback);
 
-	void getTDSTransactionItemsList(
+	void getTDSTransactionItemsList(int chalanPer,
 			AsyncCallback<ArrayList<ClientTDSTransactionItem>> callback);
 
 }

@@ -80,7 +80,6 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionLog;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransactionMakeDepositEntries;
-import com.vimukti.accounter.core.TransactionPayBill;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Util;
@@ -3476,35 +3475,82 @@ public class FinanceTool {
 	}
 
 	public List<ClientTDSTransactionItem> getTDSTransactionItemsList(
-			Long companyId) {
-		Session session = HibernateUtil.getCurrentSession();
-		// Query query = session.getNamedQuery("getTDSPayBillTransactionsList")
-		// .setParameter("companyId", companyId);
-		// List list = query.list();
-
-		ArrayList<TransactionPayBill> budgetList = new ArrayList<TransactionPayBill>(
-				session.getNamedQuery("list.TransactionPayBill")
-						.setEntity("company", getCompany(companyId)).list());
-
+			int chalanPer, Long companyId) {
+		int[] janToMar = { 1, 2, 3 };
+		int[] aprToJun = { 4, 5, 6 };
+		int[] julToSep = { 7, 8, 9 };
+		int[] octToDec = { 10, 11, 12 };
 		ArrayList<ClientTDSTransactionItem> arrayList = new ArrayList<ClientTDSTransactionItem>();
 
-//		if (list != null) {
-//			Object[] object = null;
-//			Iterator iterator = list.iterator();
-//
-//			while ((iterator).hasNext()) {
-//
-//				ClientTDSTransactionItem transactionItem = new ClientTDSTransactionItem();
-//				object = (Object[]) iterator.next();
-//				transactionItem.setVendorID(((Vendor) object[3]).getID());
-//				transactionItem.setTransactionDate((Long) object[2]);
-//				transactionItem.setTaxAmount((Long) object[5]);
-//				transactionItem.setTotalAmount((Long) object[7]);
-//
-//				arrayList.add(transactionItem);
-//			}
-//
-//		}
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getTDSPayBillTransactionsList")
+				.setParameter("companyId", companyId);
+		List list = query.list();
+		Iterator iterator = list.iterator();
+		while (iterator.hasNext()) {
+			ClientTDSTransactionItem clientTDSTransactionItem = new ClientTDSTransactionItem();
+
+			Object[] next = (Object[]) iterator.next();
+
+			Long vendorId = (Long) next[0];
+			clientTDSTransactionItem.setVendorID(vendorId);
+
+			Double tdsTotal = (Double) next[1];
+			clientTDSTransactionItem.setTaxAmount(tdsTotal);
+
+			Double total = (Double) next[2];
+			clientTDSTransactionItem.setTotalAmount(total);
+
+			Long date = (Long) next[3];
+			clientTDSTransactionItem.setTransactionDate(date);
+
+			ClientFinanceDate financeDate = new ClientFinanceDate(date);
+
+			boolean isContains = false;
+
+			switch (chalanPer) {
+			case 0:
+				if (isContains(janToMar, financeDate.getMonth())) {
+					isContains = true;
+				}
+				break;
+
+			case 1:
+				if (isContains(aprToJun, financeDate.getMonth())) {
+					isContains = true;
+				}
+				break;
+
+			case 2:
+				if (isContains(julToSep, financeDate.getMonth())) {
+					isContains = true;
+				}
+				break;
+
+			case 3:
+				if (isContains(octToDec, financeDate.getMonth())) {
+					isContains = true;
+				}
+				break;
+
+			default:
+				break;
+			}
+
+			if (isContains) {
+				arrayList.add(clientTDSTransactionItem);
+			}
+
+		}
 		return arrayList;
+	}
+
+	private boolean isContains(int[] janToMar, int month) {
+		for (int i : janToMar) {
+			if (i == month) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

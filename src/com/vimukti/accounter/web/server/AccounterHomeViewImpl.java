@@ -1855,13 +1855,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList() {
+	public ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList(
+			int chalanPer) {
 
 		List<ClientTDSTransactionItem> transactionItemList = null;
 		try {
 
 			transactionItemList = getFinanceTool().getTDSTransactionItemsList(
-					getCompanyId());
+					chalanPer, getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
