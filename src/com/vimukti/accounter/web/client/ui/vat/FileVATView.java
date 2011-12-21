@@ -41,8 +41,15 @@ public class FileVATView extends AbstractFileTAXView {
 	}
 
 	@Override
-	public void saveAndUpdateView() {
+	public ClientTAXReturn saveView() {
+		ClientTAXReturn saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
+	}
 
+	private void updateTransaction() {
 		if (this.selectedTaxAgency != null && !isInViewMode()) {
 			data.setTransactionDate(new ClientFinanceDate().getDate());
 		}
@@ -67,7 +74,11 @@ public class FileVATView extends AbstractFileTAXView {
 		vatReturn.setSalesTaxTotal(vatReturn.getBoxes().get(2).getAmount());
 		vatReturn.setPurchaseTaxTotal(vatReturn.getBoxes().get(3).getAmount());
 		vatReturn.setTotalTAXAmount(amount);
+	}
 
+	@Override
+	public void saveAndUpdateView() {
+		updateTransaction();
 		saveOrUpdate(data);
 		// else {
 		//
