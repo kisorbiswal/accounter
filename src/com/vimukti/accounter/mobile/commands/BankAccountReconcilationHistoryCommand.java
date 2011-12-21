@@ -109,11 +109,10 @@ public class BankAccountReconcilationHistoryCommand extends NewAbstractCommand {
 		});
 
 		list.add(new ShowListRequirement<Reconciliation>(
-				"Reconsolation history", "", 20) {
+				"Reconsolationhistory", "", 20) {
 
 			@Override
 			protected String onSelection(Reconciliation value) {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
