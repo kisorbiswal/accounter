@@ -103,7 +103,7 @@ public abstract class TemplateAccountRequirement extends
 		}
 
 		Record record = new Record("accountsNumber");
-		record.add("default accounts are selected");
+		record.add("Default accounts are selected");
 		list.add(record);
 
 		if (valuesSelection == "accountsNumber") {
