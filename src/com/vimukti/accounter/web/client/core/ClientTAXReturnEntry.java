@@ -31,6 +31,8 @@ public class ClientTAXReturnEntry implements IAccounterCore {
 
 	private boolean isTAXGroupEntry;
 
+	private int transactionCategory;
+
 	public long getTransaction() {
 		return transaction;
 	}
@@ -202,6 +204,14 @@ public class ClientTAXReturnEntry implements IAccounterCore {
 	 */
 	public void setTAXGroupEntry(boolean isTAXGroupEntry) {
 		this.isTAXGroupEntry = isTAXGroupEntry;
+	}
+
+	public int getCategory() {
+		return this.transactionCategory;
+	}
+
+	public void setCategory(int category) {
+		this.transactionCategory = category;
 	}
 
 }

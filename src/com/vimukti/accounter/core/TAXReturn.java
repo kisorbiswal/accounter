@@ -11,7 +11,6 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class TAXReturn extends Transaction {
 
@@ -174,10 +173,9 @@ public class TAXReturn extends Transaction {
 
 	protected void updateTaxLiabilityAccounts() {
 		for (TAXReturnEntry entry : taxReturnEntries) {
-			if (UIUtils.getTransactionCategory(entry.getTransactionType()) == Transaction.CATEGORY_CUSTOMER) {
+			if (entry.getCategory() == Transaction.CATEGORY_CUSTOMER) {
 				salesTaxTotal += entry.getTaxAmount();
-			} else if (UIUtils.getTransactionCategory(entry
-					.getTransactionType()) == Transaction.CATEGORY_VENDOR) {
+			} else if (entry.getCategory() == Transaction.CATEGORY_VENDOR) {
 				purchaseTaxTotal += entry.getTaxAmount();
 			}
 		}
@@ -352,6 +350,6 @@ public class TAXReturn extends Transaction {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

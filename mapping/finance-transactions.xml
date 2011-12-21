@@ -1252,6 +1252,7 @@
 		<property name="transactionDate" column="TRANSACTION_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="transactionType" column="TRANSACTION_TYPE"></property>
+		<property name="transactionCategory" column="TRANSACTION_CATEGORY"></property>
 	</class>
 	<!-- <class name="PayTAXEntries" table="PAY_TAX_ENTRIES"> <id name="id" 
 		column="ID"> <generator class="identity" /> </id> <many-to-one name="transaction" 

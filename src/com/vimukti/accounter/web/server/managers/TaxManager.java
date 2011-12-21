@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class TaxManager extends Manager {
 	public void createVATItemsOfIreland(Company company, Session session,
@@ -1089,7 +1090,8 @@ public class TaxManager extends Manager {
 				taxReturnEntry.setTaxAmount((Double) objects[0]);
 				taxReturnEntry.setNetAmount((Double) objects[1]);
 				taxReturnEntry.setTransaction((Long) objects[2]);
-				taxReturnEntry.setTransactionType((Integer) objects[3]);
+				int transactionType = (Integer) objects[3];
+				taxReturnEntry.setTransactionType(transactionType);
 				taxReturnEntry.setTransactionDate((Long) objects[4]);
 				taxReturnEntry.setGrassAmount(taxReturnEntry.getNetAmount()
 						+ taxReturnEntry.getTaxAmount());
@@ -1098,6 +1100,10 @@ public class TaxManager extends Manager {
 				taxReturnEntry.setTaxAgency((Long) objects[6]);
 
 				taxReturnEntry.setTAXGroupEntry((Boolean) objects[7]);
+
+				int category = UIUtils.getTransactionCategory(transactionType);
+				taxReturnEntry.setCategory(category);
+
 				resultTAXReturnEntries.add(taxReturnEntry);
 			}
 		}
@@ -1122,6 +1128,11 @@ public class TaxManager extends Manager {
 						.getDate());
 				taxReturnEntry
 						.setTransactionType(Transaction.TYPE_ADJUST_SALES_TAX);
+				if (taxAdjustment.isSales()) {
+					taxReturnEntry.setCategory(Transaction.CATEGORY_CUSTOMER);
+				} else {
+					taxReturnEntry.setCategory(Transaction.CATEGORY_VENDOR);
+				}
 				resultTAXReturnEntries.add(taxReturnEntry);
 			}
 		}

@@ -52,6 +52,8 @@ public class TAXReturnEntry implements IAccounterServerCore, Lifecycle {
 
 	private double filedTAXAmount;
 
+	private int transactionCategory;
+
 	public TAXReturnEntry() {
 	}
 
@@ -274,6 +276,14 @@ public class TAXReturnEntry implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public int getCategory() {
+		return transactionCategory;
+	}
+
+	public void setCategory(int category) {
+		this.transactionCategory = category;
 	}
 }
