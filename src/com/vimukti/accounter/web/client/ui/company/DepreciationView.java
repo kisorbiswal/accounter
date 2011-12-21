@@ -60,6 +60,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	private Label fromLabel;
 	private DateTimeFormat format;
 	private Map<Long, List<DepreciableFixedAssetsEntry>> assets;
+	FixedAssetLinkedAccountMap map;
 
 	public DepreciationView() {
 		super();
@@ -312,7 +313,15 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	}
 
 	@Override
-	public void saveAndUpdateView() {
+	public ClientDepreciation saveView() {
+		ClientDepreciation saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
+	}
+
+	private void updateTransaction() {
 		if (data == null) {
 			setData(new ClientDepreciation());
 		}
@@ -336,10 +345,14 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 				}
 			}
 		}
-		FixedAssetLinkedAccountMap map = new FixedAssetLinkedAccountMap();
+		map = new FixedAssetLinkedAccountMap();
 		map.setFixedAssetLinkedAccounts(linkedAccounts);
 		// depreciation.setLinkedAccounts(map);
+	}
 
+	@Override
+	public void saveAndUpdateView() {
+		updateTransaction();
 		saveOrUpdate(data);
 		Accounter.createHomeService().runDepreciation(
 				depreciationStartDate.getDate(), depreciationEndDate.getDate(),
