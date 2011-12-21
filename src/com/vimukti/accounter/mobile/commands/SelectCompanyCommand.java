@@ -1,10 +1,10 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+
+import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
@@ -18,6 +18,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 /**
  * Selects the Company
@@ -40,6 +41,7 @@ public class SelectCompanyCommand extends Command {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Result run(Context context) {
 		Result makeResult = context.makeResult();
@@ -92,12 +94,30 @@ public class SelectCompanyCommand extends Command {
 			if (client != null) {
 				Set<User> users = client.getUsers();
 				List<Company> companies = new ArrayList<Company>();
-
-				for (User user : users) {
-					if (!user.isDeleted()) {
-						companies.add(user.getCompany());
+				Session session = HibernateUtil.getCurrentSession();
+				try {
+					if (!users.isEmpty()) {
+						List<Long> userIds = new ArrayList<Long>();
+						for (User user : users) {
+							if (!user.isDeleted()) {
+								userIds.add(user.getID());
+							}
+						}
+						List<Object[]> objects = session
+								.getNamedQuery(
+										"get.CompanyId.Tradingname.and.Country.of.user")
+								.setParameterList("userIds", userIds).list();
+						addCompanies(companies, objects);
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+
+				// for (User user : users) {
+				// if (!user.isDeleted()) {
+				// companies.add(user.getCompany());
+				// }
+				// }
 				if (companies.size() == 1) {
 					Company company = companies.get(0);
 					companyReq.setValue(company);
@@ -116,15 +136,15 @@ public class SelectCompanyCommand extends Command {
 						return makeResult;
 					}
 					makeResult.add("Select a company");
-					Collections.sort(companies, new Comparator<Company>() {
-
-						@Override
-						public int compare(Company company1, Company company2) {
-							return company1.getTradingName().compareTo(
-									company2.getTradingName());
-						}
-
-					});
+					// Collections.sort(companies, new Comparator<Company>() {
+					//
+					// @Override
+					// public int compare(Company company1, Company company2) {
+					// return company1.getTradingName().compareTo(
+					// company2.getTradingName());
+					// }
+					//
+					// });
 					for (Company company : companies) {
 						Record record = new Record(company);
 						record.add("Name", company.getDisplayName());
@@ -134,6 +154,7 @@ public class SelectCompanyCommand extends Command {
 					makeResult.add(companyList);
 					CommandList commandList = new CommandList();
 					commandList.add("createCompany");
+					commandList.add("deletecompany");
 					makeResult.add(commandList);
 					return makeResult;
 				}
@@ -144,5 +165,16 @@ public class SelectCompanyCommand extends Command {
 		makeResult.setNextCommand("menu");
 		markDone();
 		return makeResult;
+	}
+
+	private void addCompanies(List<Company> list, List<Object[]> objects) {
+		for (Object[] obj : objects) {
+			Company com = new Company();
+			com.setId((Long) obj[0]);
+			com.getPreferences().setTradingName((String) obj[1]);
+			com.getRegisteredAddress().setCountryOrRegion((String) obj[2]);
+
+			list.add(com);
+		}
 	}
 }

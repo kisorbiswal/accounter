@@ -1193,4 +1193,12 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.PrintInvoiceCommand"
 		name="printAndSendEmail">
 	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.delete.DeleteCompanyCommand"
+		name="deletecompany">
+	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.delete.DeleteUserCommand"
+		name="deleteUser">
+	</command>
 </commands>
