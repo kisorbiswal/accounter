@@ -692,6 +692,14 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public ClientBrandingTheme saveView() {
+		ClientBrandingTheme saveView = super.saveView();
+		if (saveView != null){
+			getBrandingThemeObject();
+		}
+		return saveView;
+	}
 
 	@Override
 	public void saveAndUpdateView() {
