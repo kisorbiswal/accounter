@@ -718,8 +718,10 @@ public class MakeDepositView extends
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(6);
 		dateForm.setStyleName("datenumber-panel");
-		dateForm.setFields(date, transactionNumber);
-
+		if(!isTemplate){
+			dateForm.setFields(date, transactionNumber);
+		}
+		
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateForm);
