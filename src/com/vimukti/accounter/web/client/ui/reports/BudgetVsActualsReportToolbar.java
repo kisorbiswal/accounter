@@ -136,7 +136,7 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 
 		datesList.add("Q1" + " " + DayAndMonthUtil.jan() + " - " + DayAndMonthUtil.mar());
 		datesList.add("Q2" + " " + DayAndMonthUtil.apr() + " - " + DayAndMonthUtil.jun());
-		datesList.add("Q3" + " " + DayAndMonthUtil.jul() + " - " + DayAndMonthUtil.sept());
+		datesList.add("Q3" + " " + DayAndMonthUtil.jul() + " - " + DayAndMonthUtil.sep());
 		datesList.add("Q4" + " " + DayAndMonthUtil.oct() + " - " + DayAndMonthUtil.dec());
 
 		return datesList;

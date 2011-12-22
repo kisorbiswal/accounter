@@ -267,8 +267,7 @@ public class PopupCalendar extends PopupPanel {
 					0,
 					i,
 					dayNameFormat
-							.format(DatePickerUtils.addDays(weekFirstday, i))
-							.substring(0, 1).toUpperCase());
+							.format(DatePickerUtils.addDays(weekFirstday, i)));
 		}
 		panel.add(weekLine);
 	}

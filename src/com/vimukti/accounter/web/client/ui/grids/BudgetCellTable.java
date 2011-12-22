@@ -387,11 +387,11 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 		this.addColumn(febMonthColumn, DayAndMonthUtil.feb());
 		this.addColumn(marMonthColumn, DayAndMonthUtil.mar());
 		this.addColumn(aprMonthColumn, DayAndMonthUtil.apr());
-		this.addColumn(mayMonthColumn, DayAndMonthUtil.may_short());
+		this.addColumn(mayMonthColumn, DayAndMonthUtil.mayS());
 		this.addColumn(juneMonthColumn, DayAndMonthUtil.jun());
 		this.addColumn(julMonthColumn, DayAndMonthUtil.jul());
 		this.addColumn(augMonthCoulmn, DayAndMonthUtil.aug());
-		this.addColumn(septMonthColumn, DayAndMonthUtil.sept());
+		this.addColumn(septMonthColumn, DayAndMonthUtil.sep());
 		this.addColumn(octMonthColumn, DayAndMonthUtil.oct());
 		this.addColumn(novMonthColumn, DayAndMonthUtil.nov());
 		this.addColumn(decMonthColumn, DayAndMonthUtil.dec());

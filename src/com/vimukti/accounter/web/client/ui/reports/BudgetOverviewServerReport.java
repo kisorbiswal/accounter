@@ -145,8 +145,8 @@ public class BudgetOverviewServerReport extends
 
 		return new String[] { getMessages().name(), DayAndMonthUtil.jan(),
 				DayAndMonthUtil.feb(), DayAndMonthUtil.mar(), DayAndMonthUtil.apr(),
-				DayAndMonthUtil.may_short(), DayAndMonthUtil.jun(), DayAndMonthUtil.jul(),
-				DayAndMonthUtil.aug(), DayAndMonthUtil.sept(), DayAndMonthUtil.oct(),
+				DayAndMonthUtil.mayS(), DayAndMonthUtil.jun(), DayAndMonthUtil.jul(),
+				DayAndMonthUtil.aug(), DayAndMonthUtil.sep(), DayAndMonthUtil.oct(),
 				DayAndMonthUtil.nov(), DayAndMonthUtil.dec(), getMessages().total() };
 
 	}
@@ -473,8 +473,8 @@ public class BudgetOverviewServerReport extends
 
 		return new String[] { getMessages().name(), DayAndMonthUtil.jan(),
 				DayAndMonthUtil.feb(), DayAndMonthUtil.mar(), DayAndMonthUtil.apr(),
-				DayAndMonthUtil.may_short(), DayAndMonthUtil.jun(), DayAndMonthUtil.jul(),
-				DayAndMonthUtil.aug(), DayAndMonthUtil.sept(), DayAndMonthUtil.oct(),
+				DayAndMonthUtil.mayS(), DayAndMonthUtil.jun(), DayAndMonthUtil.jul(),
+				DayAndMonthUtil.aug(), DayAndMonthUtil.sep(), DayAndMonthUtil.oct(),
 				DayAndMonthUtil.nov(), DayAndMonthUtil.dec(), getMessages().total() };
 
 	}

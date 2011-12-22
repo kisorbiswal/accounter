@@ -281,7 +281,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 					+ Double.parseDouble(marAmount.getValue())));
 
 			quater2Amount = new IntegerField(this, messages.quarterPeriod("2",
-					DayAndMonthUtil.apr(), DayAndMonthUtil.may_short()));
+					DayAndMonthUtil.apr(), DayAndMonthUtil.mayS()));
 			quater2Amount.setHelpInformation(true);
 			quater2Amount.setRequired(false);
 			quater2Amount.setWidth(100);
@@ -291,7 +291,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 					+ Double.parseDouble(junAmount.getValue())));
 
 			quater3Amount = new IntegerField(this, messages.quarterPeriod("3",
-					DayAndMonthUtil.jun(), DayAndMonthUtil.sept()));
+					DayAndMonthUtil.jun(), DayAndMonthUtil.sep()));
 			quater3Amount.setHelpInformation(true);
 			quater3Amount.setRequired(false);
 			quater3Amount.setWidth(100);

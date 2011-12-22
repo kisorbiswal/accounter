@@ -316,7 +316,7 @@ public class GraphChart {
 		case 3:
 			return DayAndMonthUtil.apr();
 		case 4:
-			return DayAndMonthUtil.may_short();
+			return DayAndMonthUtil.mayS();
 		case 5:
 			return DayAndMonthUtil.jun();
 		case 6:
@@ -326,7 +326,7 @@ public class GraphChart {
 			return DayAndMonthUtil.aug();
 		case 8:
 		case -4:
-			return DayAndMonthUtil.sept();
+			return DayAndMonthUtil.sep();
 		case 9:
 		case -3:
 			return DayAndMonthUtil.oct();

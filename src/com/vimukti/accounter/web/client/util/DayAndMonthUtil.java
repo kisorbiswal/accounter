@@ -37,7 +37,7 @@ public class DayAndMonthUtil {
 	private static String jun = monthNameShort[5];
 	private static String jul = monthNameShort[6];
 	private static String aug = monthNameShort[7];
-	private static String sept = monthNameShort[8];
+	private static String sep = monthNameShort[8];
 	private static String oct = monthNameShort[9];
 	private static String nov = monthNameShort[10];
 	private static String dec = monthNameShort[11];
@@ -435,16 +435,8 @@ public class DayAndMonthUtil {
 	/**
 	 * @return the sept
 	 */
-	public static String sept() {
-		return sept;
-	}
-
-	/**
-	 * @param sept
-	 *            the sept to set
-	 */
-	public static void setSept(String sept) {
-		DayAndMonthUtil.sept = sept;
+	public static String sep() {
+		return sep;
 	}
 
 	/**
@@ -495,7 +487,7 @@ public class DayAndMonthUtil {
 	/**
 	 * @return the may_short
 	 */
-	public static String may_short() {
+	public static String mayS() {
 		return may_short;
 	}
 

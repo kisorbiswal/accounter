@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 /**
  * 
@@ -31,9 +32,12 @@ public class DatePopupCalendar extends PopupPanel {
 	private Button nextButton, prevButton;
 	private Date displayMonth;
 	final private VerticalPanel panel;
-	String months[][] = { { "Jan", "July" }, { "Feb", "Aug" },
-			{ "Mar", "Sep" }, { "Apr", "Oct" }, { "May", "Nov" },
-			{ "Jun", "Dec" } };
+	String months[][] = { { DayAndMonthUtil.jan(), DayAndMonthUtil.jul() },
+			{ DayAndMonthUtil.feb(), DayAndMonthUtil.aug() },
+			{ DayAndMonthUtil.mar(), DayAndMonthUtil.sep() },
+			{ DayAndMonthUtil.apr(), DayAndMonthUtil.oct() },
+			{ DayAndMonthUtil.mayS(), DayAndMonthUtil.nov() },
+			{ DayAndMonthUtil.jun(), DayAndMonthUtil.dec() } };
 	private int year;
 	private String month;
 
@@ -248,7 +252,7 @@ public class DatePopupCalendar extends PopupPanel {
 		if (getDisplayMonth() != null) {
 			setYear(getDisplayMonth().getYear() + 1900);
 			month = DateUtills.getMonthNameByNumber(getDisplayMonth()
-					.getMonth()+1);
+					.getMonth() + 1);
 		}
 		panel.clear();
 

@@ -250,7 +250,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
 		list.add("Q1" + " " + DayAndMonthUtil.jan() + " - " + DayAndMonthUtil.mar());
 		list.add("Q2" + " " + DayAndMonthUtil.apr() + " - " + DayAndMonthUtil.jun());
-		list.add("Q3" + " " + DayAndMonthUtil.jul() + " - " + DayAndMonthUtil.sept());
+		list.add("Q3" + " " + DayAndMonthUtil.jul() + " - " + DayAndMonthUtil.sep());
 		list.add("Q4" + " " + DayAndMonthUtil.oct() + " - " + DayAndMonthUtil.dec());
 
 		return list;

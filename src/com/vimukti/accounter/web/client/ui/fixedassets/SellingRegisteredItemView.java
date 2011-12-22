@@ -332,9 +332,9 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	private String[] getMonthStrings() {
 		return new String[] { DayAndMonthUtil.jan(),
 				DayAndMonthUtil.feb(), DayAndMonthUtil.mar(),
-				DayAndMonthUtil.apr(), DayAndMonthUtil.may_short(),
+				DayAndMonthUtil.apr(), DayAndMonthUtil.mayS(),
 				DayAndMonthUtil.jun(), DayAndMonthUtil.jul(),
-				DayAndMonthUtil.aug(), DayAndMonthUtil.sept(),
+				DayAndMonthUtil.aug(), DayAndMonthUtil.sep(),
 				DayAndMonthUtil.oct(), DayAndMonthUtil.nov(),
 				DayAndMonthUtil.dec(), };
 	}
