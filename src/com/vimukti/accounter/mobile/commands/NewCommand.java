@@ -163,6 +163,7 @@ public abstract class NewCommand extends Command {
 			for (Object object : result.getResultParts()) {
 				resultParts.add(0, object);
 			}
+			makeResult.setNextCommand(result.getNextCommand());
 			return makeResult;
 		}
 
