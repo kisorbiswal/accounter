@@ -69,6 +69,7 @@ public abstract class NewCommand extends Command {
 		String backString = context.getString();
 		if (backString != null && backString.equalsIgnoreCase("back")) {
 			context.setString("");
+			boolean canCancel = false;
 			if (requirementSequence.size() > 1) {
 				requirementSequence.pop();
 				// Current req
@@ -86,8 +87,13 @@ public abstract class NewCommand extends Command {
 						requirementSequence.push(lastRequirement);
 						return process;
 					}
+				} else {
+					canCancel = !(requirementSequence.size() > 1);
 				}
 			} else {
+				canCancel = true;
+			}
+			if (canCancel) {
 				Result result = new Result();
 				result.setNextCommand("cancel");
 				return result;
