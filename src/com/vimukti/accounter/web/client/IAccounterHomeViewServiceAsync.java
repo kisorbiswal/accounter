@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -405,8 +406,8 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getOwePayees(int oweType,
 			AsyncCallback<List<ClientPayee>> callback);
 
-	public void getRecentTransactions(int limit,
-			AsyncCallback<List<ClientActivity>> asyncCallback);
+	void getRecentTransactions(int limit,
+			AsyncCallback<List<RecentTransactionsList>> asyncCallback);
 
 	public void getMessagesAndTasks(
 			AsyncCallback<List<ClientMessageOrTask>> callBack);

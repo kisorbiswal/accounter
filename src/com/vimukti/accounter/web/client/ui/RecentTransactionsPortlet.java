@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
+import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -52,10 +52,10 @@ public class RecentTransactionsPortlet extends Portlet {
 	private void updateData() {
 		Accounter.createHomeService().getRecentTransactions(
 				getLimit(limitCombo.getSelectedIndex()),
-				new AsyncCallback<List<ClientActivity>>() {
+				new AsyncCallback<List<RecentTransactionsList>>() {
 
 					@Override
-					public void onSuccess(List<ClientActivity> result) {
+					public void onSuccess(List<RecentTransactionsList> result) {
 						if (grid != null) {
 							body.remove(grid);
 						}

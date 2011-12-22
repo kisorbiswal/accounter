@@ -69,6 +69,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -1781,22 +1782,22 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientActivity> getRecentTransactions(int limit) {
+	public List<RecentTransactionsList> getRecentTransactions(int limit) {
 		FinanceTool tool = new FinanceTool();
-		List<ClientActivity> activities = tool.getRecentTransactionsList(
-				getCompanyId(), limit);
+		List<RecentTransactionsList> activities = tool
+				.getRecentTransactionsList(getCompanyId(), limit);
 		// CHECKING WHETHER THAT TRANSACTION DELETED OR NOT..
-		for (int i = 0; i < activities.size(); i++) {
-			ClientActivity clientActivity = activities.get(i);
-			if (clientActivity.getActivityType() == 4) {
-				for (int j = 0; j < activities.size(); j++) {
-					if (activities.get(j).getObjectID() == clientActivity
-							.getObjectID()) {
-						activities.remove(activities.get(j));
-					}
-				}
-			}
-		}
+		// for (int i = 0; i < activities.size(); i++) {
+		// ClientActivity clientActivity = activities.get(i);
+		// if (clientActivity.getActivityType() == 4) {
+		// for (int j = 0; j < activities.size(); j++) {
+		// if (activities.get(j).getObjectID() == clientActivity
+		// .getObjectID()) {
+		// activities.remove(activities.get(j));
+		// }
+		// }
+		// }
+		// }
 
 		return activities;
 	}

@@ -1,10 +1,12 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.core.RecentTransactionsList;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
-public class RecentTransactionHistoryGrid extends ListGrid<ClientActivity> {
+public class RecentTransactionHistoryGrid extends
+		ListGrid<RecentTransactionsList> {
 
 	public RecentTransactionHistoryGrid() {
 		super(false);
@@ -30,17 +32,18 @@ public class RecentTransactionHistoryGrid extends ListGrid<ClientActivity> {
 	}
 
 	@Override
-	protected Object getColumnValue(ClientActivity obj, int index) {
+	protected Object getColumnValue(RecentTransactionsList obj, int index) {
 		switch (index) {
 		case 1:
-			return obj.getDataType();
+			return Utility.getTransactionName(obj.getType());
 		case 2:
-			return DataUtils.amountAsStringWithCurrency(obj.getAmount(),
-					obj.getCurrency());
+			return DataUtils.amountAsStringWithCurrency(
+					Math.abs(obj.getAmount()),
+					getCompany().getCurrency(obj.getCurrecyId()));
 		case 0:
-			return obj.getDate();
+			return obj.getTransactionDate();
 		case 3:
-			return obj.getUserName();
+			return obj.getName();
 		default:
 			break;
 		}
@@ -48,32 +51,34 @@ public class RecentTransactionHistoryGrid extends ListGrid<ClientActivity> {
 	}
 
 	@Override
-	protected String[] getSelectValues(ClientActivity obj, int index) {
+	protected String[] getSelectValues(RecentTransactionsList obj, int index) {
 		return null;
 	}
 
 	@Override
-	protected void onValueChange(ClientActivity obj, int index, Object value) {
+	protected void onValueChange(RecentTransactionsList obj, int index,
+			Object value) {
 
 	}
 
 	@Override
-	protected boolean isEditable(ClientActivity obj, int row, int index) {
+	protected boolean isEditable(RecentTransactionsList obj, int row, int index) {
 		return false;
 	}
 
 	@Override
-	protected void onClick(ClientActivity obj, int row, int index) {
+	protected void onClick(RecentTransactionsList obj, int row, int index) {
 
 	}
 
 	@Override
-	public void onDoubleClick(ClientActivity obj) {
-		ReportsRPC.openTransactionView(obj.getObjType(), obj.getObjectID());
+	public void onDoubleClick(RecentTransactionsList obj) {
+		ReportsRPC.openTransactionView(obj.getType(), obj.getID());
 	}
 
 	@Override
-	protected int sort(ClientActivity obj1, ClientActivity obj2, int index) {
+	protected int sort(RecentTransactionsList obj1,
+			RecentTransactionsList obj2, int index) {
 		return 0;
 	}
 

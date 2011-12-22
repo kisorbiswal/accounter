@@ -35,6 +35,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
+import com.gargoylesoftware.htmlunit.OnbeforeunloadHandler;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.AccounterThreadLocal;
@@ -130,6 +131,7 @@ import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
@@ -3314,21 +3316,40 @@ public class FinanceTool {
 		}
 	}
 
-	public List<ClientActivity> getRecentTransactionsList(long companyId,
-			int limit) {
+	/**
+	 * getting the recent Transactions
+	 * 
+	 * @param companyId
+	 * @param limit
+	 * @return List<RecentTransactionsList>
+	 */
+	public List<RecentTransactionsList> getRecentTransactionsList(
+			long companyId, int limit) {
 		Session session = HibernateUtil.getCurrentSession();
 		try {
-			Query query = session.getNamedQuery("getRecentTransactionList")
+			List l = session.getNamedQuery("getRecentTransactionList")
 					.setParameter("companyId", companyId)
-					.setParameter("limit", limit);
-			Iterator<BigInteger> iterator = query.list().iterator();
-
-			List<ClientActivity> activities = new ArrayList<ClientActivity>();
+					.setParameter("limit", limit).list();
+			Object[] object = null;
+			Iterator iterator = l.iterator();
+			List<RecentTransactionsList> activities = new ArrayList<RecentTransactionsList>();
 			while (iterator.hasNext()) {
-				ClientActivity activity = getManager().getObjectById(
-						AccounterCoreType.ACTIVITY,
-						iterator.next().longValue(), companyId);
-				activities.add(activity);
+				RecentTransactionsList recentTransactionsList = new RecentTransactionsList();
+				object = (Object[]) iterator.next();
+				recentTransactionsList.setID(((BigInteger) object[0])
+						.longValue());
+				recentTransactionsList.setType((Integer) (object[1]));
+				recentTransactionsList.setAmount((Double) (object[2]));
+				recentTransactionsList.setName(object[3] != null ? String
+						.valueOf(object[3]) : null);
+				recentTransactionsList
+						.setTransactionDate(object[4] == null ? null
+								: new ClientFinanceDate(
+										((BigInteger) object[4]).longValue()));
+				recentTransactionsList.setCurrecyId(object[5] == null ? null
+						: ((BigInteger) object[5]).longValue());
+
+				activities.add(recentTransactionsList);
 			}
 			return activities;
 		} catch (Exception e) {
@@ -3423,8 +3444,10 @@ public class FinanceTool {
 						((CashPurchase) transaction)
 								.setDeliveryDate(transactionDate);
 					} else if (transaction instanceof Estimate) {
-						((Estimate) transaction).setExpirationDate(transactionDate);
-						((Estimate) transaction).setDeliveryDate(transactionDate);
+						((Estimate) transaction)
+								.setExpirationDate(transactionDate);
+						((Estimate) transaction)
+								.setDeliveryDate(transactionDate);
 					}
 				}
 				session.saveOrUpdate(transaction);

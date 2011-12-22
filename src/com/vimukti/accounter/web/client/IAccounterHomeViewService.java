@@ -45,6 +45,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -377,7 +378,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	List<ClientPayee> getOwePayees(int oweType);
 
-	List<ClientActivity> getRecentTransactions(int limit);
+	List<RecentTransactionsList> getRecentTransactions(int limit);
 
 	List<ClientMessageOrTask> getMessagesAndTasks() throws AccounterException;
 
