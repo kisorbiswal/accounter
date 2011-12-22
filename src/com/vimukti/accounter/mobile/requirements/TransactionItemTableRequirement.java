@@ -133,9 +133,10 @@ public abstract class TransactionItemTableRequirement extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (getPreferences().isTrackTax() && isSales() ? false
-						: getPreferences().isTrackPaidTax()
-								&& !getPreferences().isTaxPerDetailLine()) {
+				if (getPreferences().isTrackTax()
+						&& (isSales() ? true : getPreferences()
+								.isTrackPaidTax())
+						&& !getPreferences().isTaxPerDetailLine()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
