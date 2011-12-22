@@ -293,7 +293,7 @@ public class AccounterDateTimeFormatInfoImpl extends DateTimeFormatInfoImpl {
 	@Override
 	public native String[] weekdaysShort() /*-{
 		
-		return $wnd['accounter_locale']['weekdaysShort'];
+		return $wnd['accounter_locale']['shortWeekdays'];
 	}-*/;
 
 	@Override
