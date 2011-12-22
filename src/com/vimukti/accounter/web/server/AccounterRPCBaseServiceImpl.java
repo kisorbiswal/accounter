@@ -24,11 +24,13 @@ import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -108,9 +110,10 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 
 	/**
 	 * @param request
+	 * @throws AccounterException
 	 */
 	private boolean CheckUserExistanceAndsetAccounterThreadLocal(
-			HttpServletRequest request) {
+			HttpServletRequest request) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Long serverCompanyID = (Long) request.getSession().getAttribute(
 				COMPANY_ID);
@@ -127,6 +130,10 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			return false;
 		}
 		AccounterThreadLocal.set(user);
+		ClientCompanyPreferences preferences = getFinanceTool()
+				.getCompanyManager().getClientCompanyPreferences(company);
+		CompanyPreferenceThreadLocal.set(preferences);
+
 		return true;
 	}
 
