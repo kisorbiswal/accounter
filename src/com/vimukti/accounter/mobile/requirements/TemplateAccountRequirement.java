@@ -68,8 +68,7 @@ public abstract class TemplateAccountRequirement extends
 			} else if (actionName == ActionNames.CLOSE) {
 				context.setAttribute(INPUT_ATTR, "");
 				Record record = new Record("accountsNumber");
-				record.add(values.size()
-						+ getMessages().hasSelected(getMessages().Account()));
+				record.add("Default accounts are selected");
 				list.add(record);
 				return null;
 			}
