@@ -24,12 +24,30 @@
   		<%
   		HashMap<String,String> messages=(HashMap<String,String>)request.getAttribute("messages");
   		if(messages!=null){
-  		for(String key:messages.keySet()){
-  			String value=messages.get(key);
-  		%>
-  			'<%= key %>': '<%= value %>',
-  		<%
+	  		for(String key:messages.keySet()){
+	  			String value=messages.get(key);
+	  				%>'<%= key %>': '<%= value %>',
+	  				<%
+	  		}
   		}
+  		%>
+  			last: 'end'
+  		};
+  		
+  		var accounter_locale={
+  		<%
+  		HashMap<String,String> accounterLocale=(HashMap<String,String>)request.getAttribute("accounterLocale");
+  		if(accounterLocale!=null){
+	  		for(String key:accounterLocale.keySet()){
+	  			String value=accounterLocale.get(key);
+	  			if(value.startsWith("['")){
+	  				%>'<%= key %>': <%= value %>,
+	  				<%	  			
+	  			}else{
+	  				%>'<%= key %>': '<%= value %>',
+	  				<%
+	  			}
+  			}
   		}
   		%>
   			last: 'end'
