@@ -36,8 +36,6 @@ public class NameRequirement extends SingleRequirement<String> {
 				setEnterString("Please enter Valid " + getRecordName());
 				return;
 			}
-		} else if (objVal.trim().length() <= 0) {
-			return;
 		}
 		super.setValue(value);
 	}
