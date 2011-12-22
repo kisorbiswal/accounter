@@ -273,7 +273,7 @@ public abstract class CustomTable extends VerticalPanel {
 	public void enableOrDisableCheckBox(boolean isEnable) {
 		if (disable)
 			return;
-		for (int i = 0; i < this.getRowCount(); i++) {
+		for (int i = 0; i < this.getTableRowCount(); i++) {
 			Widget wdget = this.getWidget(i, 0);
 			if (wdget != null && wdget instanceof CheckBox) {
 				CheckBox box = (CheckBox) this.getWidget(i, 0);
@@ -312,7 +312,7 @@ public abstract class CustomTable extends VerticalPanel {
 
 	protected abstract void cellDoubleClicked(int row, int col);
 
-	public int getRowCount() {
+	public int getTableRowCount() {
 		return this.body.getRowCount();
 	}
 
@@ -457,7 +457,7 @@ public abstract class CustomTable extends VerticalPanel {
 	}
 
 	public Widget getWidget(int row, int col) {
-		if (row < this.getRowCount())
+		if (row < this.getTableRowCount())
 			return this.body.getWidget(row, col);
 		return null;
 	}
@@ -730,7 +730,7 @@ public abstract class CustomTable extends VerticalPanel {
 	public void setDisabled(boolean disable) {
 		this.disable = disable;
 		this.addStyleName("disableGrid");
-		for (int i = 0; i < this.getRowCount(); i++) {
+		for (int i = 0; i < this.getTableRowCount(); i++) {
 			Widget widget = this.getWidget(i, 0);
 			if (widget instanceof CheckBox) {
 				((CheckBox) widget).setEnabled(!disable);

@@ -84,7 +84,7 @@ public class ReportGrid<R> extends CustomTable {
 			boolean underline, boolean border) {
 
 		list.add(record);
-		int rowCount = this.getRowCount();
+		int rowCount = this.getTableRowCount();
 
 		addDefaultStyleNames(rowCount, bold, underline);
 

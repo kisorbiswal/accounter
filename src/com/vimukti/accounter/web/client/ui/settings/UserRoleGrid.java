@@ -99,7 +99,7 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 	}
 
 	private void disableOtherCheckBoxes() {
-		for (int i = 0; i < this.getRowCount(); i++) {
+		for (int i = 0; i < this.getTableRowCount(); i++) {
 			Widget wdget = this.getWidget(i, 0);
 			if (i != currentRow && wdget != null && wdget instanceof CheckBox) {
 				CheckBox box = (CheckBox) this.getWidget(i, 0);

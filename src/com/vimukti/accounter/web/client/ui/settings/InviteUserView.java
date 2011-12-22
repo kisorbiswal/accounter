@@ -293,7 +293,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	}
 
 	private RolePermissions getSelectedRolePermission() {
-		for (int i = 0; i < grid.getRowCount(); i++) {
+		for (int i = 0; i < grid.getTableRowCount(); i++) {
 			if (((CheckBox) grid.getWidget(i, 0)).getValue() == true)
 				return grid.getRecordByIndex(i);
 		}

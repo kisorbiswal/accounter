@@ -218,7 +218,7 @@ public class CheckDetailReportView extends
 		String firsRow = "<TR class=ReportGridRow>"
 				+ grid.rowFormatter.getElement(0).getInnerHTML() + "</TR>";
 		String lastRow = "<TR class=ReportGridRow>"
-				+ grid.rowFormatter.getElement(grid.getRowCount() - 1)
+				+ grid.rowFormatter.getElement(grid.getTableRowCount() - 1)
 						.getInnerHTML() + "</TR>";
 
 		firsRow = firsRow.replaceAll("\r\n", "");
@@ -261,7 +261,7 @@ public class CheckDetailReportView extends
 		String firsRow = "<tr class=\"ReportGridRow\">"
 				+ grid.rowFormatter.getElement(0).getInnerHTML() + "</tr>";
 		String lastRow = "<tr class=\"ReportGridRow\">"
-				+ grid.rowFormatter.getElement(grid.getRowCount() - 1)
+				+ grid.rowFormatter.getElement(grid.getTableRowCount() - 1)
 						.getInnerHTML() + "</tr>";
 
 		headerhtml = headerhtml + firsRow;

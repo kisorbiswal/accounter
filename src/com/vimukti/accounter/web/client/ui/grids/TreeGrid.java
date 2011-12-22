@@ -80,7 +80,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 		String display = isCollapse ? "none" : "";
 		parentName = parentName.replace(" ", "");
 
-		for (int i = row + 1; i < this.getRowCount(); i++) {
+		for (int i = row + 1; i < this.getTableRowCount(); i++) {
 			Element Ele = rowFormatter.getElement(i);
 			String clName = Ele.getClassName();
 			if ((Arrays.asList(clName.split(" ")).contains(parentName))) {
@@ -114,7 +114,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 
 	public void addParentWithChilds(String name, List<T> childNodes) {
 
-		currentRow = this.getRowCount();
+		currentRow = this.getTableRowCount();
 		currentParent = name;
 
 		if (!this.objects.contains(name)) {
@@ -226,7 +226,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 
 	public void addNodes(List<T> nodes) {
 		for (T t : nodes) {
-			currentRow = this.getRowCount();
+			currentRow = this.getTableRowCount();
 			addOrUpdateNode(t);
 		}
 		if (nodes.size() == 0) {
@@ -428,7 +428,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 
 	public List<T> getSelectedNodes() {
 		List<T> list = new ArrayList<T>();
-		for (int i = 0; i < this.getRowCount(); i++) {
+		for (int i = 0; i < this.getTableRowCount(); i++) {
 
 		}
 		return list;

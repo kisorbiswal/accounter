@@ -239,7 +239,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	@Override
 	public void headerCellClicked(int colIndex) {
 		super.headerCellClicked(colIndex);
-		for (int i = 0; i < this.getRowCount(); i++) {
+		for (int i = 0; i < this.getTableRowCount(); i++) {
 			((CheckBox) this.getWidget(i, 0)).setEnabled(false);
 		}
 	}

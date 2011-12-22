@@ -800,7 +800,7 @@ public abstract class ListGrid<T> extends CustomTable {
 	}
 
 	public void deleteSelectionRecords() {
-		for (int i = 0; i < this.getRowCount(); i++) {
+		for (int i = 0; i < this.getTableRowCount(); i++) {
 			CheckBox box = (CheckBox) this.getWidget(i, 0);
 			if (box.getValue()) {
 				deleteRecord(i);
@@ -850,7 +850,7 @@ public abstract class ListGrid<T> extends CustomTable {
 	public List<T> getSelectedRecords() {
 		List<T> list = new ArrayList<T>();
 		if (isMultiSelectionEnable)
-			for (int i = 0; i < this.getRowCount(); i++) {
+			for (int i = 0; i < this.getTableRowCount(); i++) {
 				Widget widget = this.getWidget(i, 0);
 				if (widget instanceof CheckBox) {
 					CheckBox box = (CheckBox) widget;

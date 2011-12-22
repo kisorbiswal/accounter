@@ -335,7 +335,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		openFiscalYearButoon.setEnabled(false);
 		editFiscalYear.setEnabled(false);
 		deleteFiscalYear.setEnabled(false);
-		for (int i = 0; i <= listOfperiods.getRowCount() - 1; i++) {
+		for (int i = 0; i <= listOfperiods.getTableRowCount() - 1; i++) {
 			if (listOfperiods.getRecordByIndex(i).getStatus() == ClientFiscalYear.STATUS_OPEN) {
 
 				if (listOfperiods.getSelection() == listOfperiods
@@ -357,7 +357,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 			}
 			if (listOfperiods.getSelectedRecordIndex() == listOfperiods
-					.getRowCount() - 1
+					.getTableRowCount() - 1
 					&& listOfperiods.getSelection().getStatus() == ClientFiscalYear.STATUS_CLOSE) {
 				openFiscalYearButoon.setEnabled(true);
 				closeFiscalYearButton.setEnabled(false);

@@ -44,7 +44,7 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 			@Override
 			public void onThirdButtonClick() {
 				deleteObject((IAccounterCore) listGridView.getSelection());
-				if (listGridView.getRowCount() == 0) {
+				if (listGridView.getTableRowCount() == 0) {
 
 				}
 				enableEditRemoveButtons(false);
