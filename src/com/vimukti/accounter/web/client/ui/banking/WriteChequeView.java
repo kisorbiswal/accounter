@@ -692,7 +692,11 @@ public class WriteChequeView extends
 		numForm = new DynamicForm();
 		numForm.setNumCols(6);
 		numForm.addStyleName("datenumber-panel");
-		numForm.setFields(date, transactionNumber);
+		if(isTemplate){
+			numForm.setFields(transactionNumber);
+		}else{
+			numForm.setFields(date, transactionNumber);
+		}
 
 		nHPanel = new VerticalPanel();
 		nHPanel.setCellHorizontalAlignment(numForm,
