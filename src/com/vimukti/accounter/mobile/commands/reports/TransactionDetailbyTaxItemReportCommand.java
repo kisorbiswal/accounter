@@ -108,6 +108,9 @@ public class TransactionDetailbyTaxItemReportCommand extends
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		if (transactionDetailByTaxItems == null) {
+			transactionDetailByTaxItems = new ArrayList<TransactionDetailByTaxItem>();
+		}
 		return transactionDetailByTaxItems;
 	}
 
