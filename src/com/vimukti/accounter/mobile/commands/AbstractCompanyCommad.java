@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.Context;
@@ -14,9 +15,15 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
+import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -25,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
 import com.vimukti.accounter.web.server.AccountsTemplateManager;
 
 public abstract class AbstractCompanyCommad extends NewAbstractCommand {
@@ -57,6 +65,8 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 	protected static final String IS_MULTI_CURRENCY_ENBLED = "ismultiCurrecnyEnbled";
 
 	List<AccountsTemplate> allAccounts = new ArrayList<AccountsTemplate>();
+
+	ClientCompanyPreferences preferences;
 
 	protected Result numberListRequirement(Context context, String name,
 			List<String> displayList, String selectionName,
@@ -299,8 +309,7 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 	}
 
 	protected String getDefaultTzOffsetStr() {
-		
-		
+
 		return "UTC+5:30 Asia/Kolkata";
 	}
 
@@ -382,5 +391,344 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 				return;
 			}
 		}
+	}
+
+	protected Requirement getCountryRequirement() {
+		return new CountryRequirement(COUNTRY, getMessages().pleaseEnter(
+				getMessages().country()), getMessages().country(), false, true,
+				new ChangeListner<String>() {
+
+					@Override
+					public void onSelection(String value) {
+						countrySelected(value);
+					}
+
+				});
+	}
+
+	@Override
+	protected void addRequirements(List<Requirement> list) {
+		list.add(getCompanyNameRequirement());
+
+		list.add(new NameRequirement(LEGAL_NAME, getMessages().pleaseEnter(
+				getMessages().legalName()), getMessages().legalName(), true,
+				true));
+
+		list.add(new NameRequirement(TAX_ID, getMessages().pleaseEnter(
+				getMessages().taxId()), getMessages().taxId(), true, true));
+
+		list.add(getCountryRequirement());
+
+		list.add(getStateRequirement());
+
+		list.add(new NameRequirement(ADDRESS1, getMessages().pleaseEnter(
+				getMessages().address1()), getMessages().address1(), true, true));
+
+		list.add(new NameRequirement(ADDRESS2, getMessages().pleaseEnter(
+				getMessages().address2()), getMessages().address2(), true, true));
+
+		list.add(new NameRequirement(CITY, getMessages().pleaseEnter(
+				getMessages().city()), getMessages().city(), true, true));
+
+		list.add(new NameRequirement(ZIPCODE, getMessages().pleaseEnter(
+				getMessages().zipCode()), getMessages().zipCode(), true, true));
+
+		list.add(new NameRequirement(PHONE, getMessages().pleaseEnter(
+				getMessages().phone()), getMessages().phone(), true, true));
+
+		list.add(new NameRequirement(FAX, getMessages().pleaseEnter(
+				getMessages().fax()), getMessages().fax(), true, true));
+
+		list.add(new EmailRequirement(EMAIL, getMessages().pleaseEnter(
+				getMessages().email()), getMessages().email(), true, true));
+
+		list.add(new NameRequirement(WEB_SITE, getMessages().pleaseEnter(
+				getMessages().webSite()), getMessages().webSite(), true, true));
+
+		list.add(new StringListRequirement(TIME_ZONE, getMessages()
+				.pleaseSelect(getMessages().timezone()), getMessages()
+				.timezone(), true, true, null) {
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(getMessages().timezone());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getTimeZonesList();
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().timezone());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+		});
+
+		// Second Page
+		list.add(new StringListRequirement(INDUSTRY, getMessages().pleaseEnter(
+				getMessages().industry()), getMessages().industry(), false,
+				true, new ChangeListner<String>() {
+
+					@Override
+					public void onSelection(String value) {
+						if (get(ACCOUNTS) != null) {
+							get(ACCOUNTS).setValue(null);
+						}
+					}
+				}) {
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(getMessages().industry());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getIndustryList();
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().industry());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+
+		});
+
+		list.add(new StringListRequirement(ORGANIZATION_REFER, getMessages()
+				.pleaseEnter(getMessages().organisation()), getMessages()
+				.organisation(), true, true, null) {
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().howisYourCompanyOrganized();
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getOrganizationTypes();
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(
+						getMessages().companyOrganization());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (AbstractCompanyCommad.this.get(COUNTRY).getValue()
+						.equals("United States")) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+	}
+
+	protected Requirement getStateRequirement() {
+		return new StringListRequirement(STATE, getMessages().pleaseEnter(
+				getMessages().state()), getMessages().state(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().state());
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(getMessages().state());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getStatesList((String) get(COUNTRY).getValue());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+		};
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(COUNTRY).setDefaultValue("United Kingdom");
+		get(STATE).setDefaultValue("Buckinghamshire");
+		countrySelected("United Kingdom");
+		get(TIME_ZONE).setDefaultValue(getDefaultTzOffsetStr());
+		get(ORGANIZATION_REFER).setDefaultValue(getOrganizationTypes().get(0));
+		get(FISCAL_YEAR).setDefaultValue(getMessages().april());
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		preferences = new ClientCompanyPreferences();
+		String country = context.getIOSession().getClient().getCountry();
+		if (country != null) {
+			get(COUNTRY).setValue(country);
+			countrySelected(country);
+		}
+		return null;
+	}
+
+	@Override
+	protected Result onCompleteProcess(Context context) {
+		String companyName = get(COMPANY_NAME).getValue();
+		String industryType = get(INDUSTRY).getValue();
+		String legalName = get(LEGAL_NAME).getValue();
+		String taxId = get(TAX_ID).getValue();
+		String countryName = get(COUNTRY).getValue();
+		String state = get(STATE).getValue();
+		String phoneNum = get(PHONE).getValue();
+		String fax = get(FAX).getValue();
+		String emailId = get(EMAIL).getValue();
+		String webSite = get(WEB_SITE).getValue();
+		String timeZone = get(TIME_ZONE).getValue();
+		String address1 = get(ADDRESS1).getValue();
+		String address2 = get(ADDRESS2).getValue();
+		String city = get(CITY).getValue();
+		String zipCode = get(ZIPCODE).getValue();
+		String organizationRefer = get(ORGANIZATION_REFER).getValue();
+		preferences.setTradingName(companyName);
+		preferences.setLegalName(legalName);
+		preferences.setPhone(phoneNum);
+		preferences.setCompanyEmail(emailId);
+		preferences.setTaxId(taxId);
+		preferences.setFax(fax);
+		preferences.setWebSite(webSite);
+
+		ClientAddress address = new ClientAddress();
+		address.setAddress1(address1);
+		address.setStreet(address2);
+		address.setCity(city);
+		address.setZipOrPostalCode(zipCode);
+		address.setStateOrProvinence(state);
+		address.setCountryOrRegion(countryName);
+
+		preferences.setTradingAddress(address);
+		preferences.setTimezone(timeZone);
+		preferences.setIndustryType(getIndustryList().indexOf(industryType));
+		preferences.setOrganizationType(getOrganizationTypes().indexOf(
+				organizationRefer));
+		preferences.setDateFormat(getDateFormat(countryName));
+		List<TemplateAccount> accounts = new ArrayList<TemplateAccount>();
+		if (get(ACCOUNTS) == null) {
+			accounts = getDefaultTemplateAccounts(getIndustryList().indexOf(
+					industryType));
+		} else {
+			accounts = get(ACCOUNTS).getValue();
+		}
+		ClientCurrency primaryCurrency = get(PRIMARY_CURRENCY).getValue();
+		Boolean ismultiCurrencyEnabled = get(IS_MULTI_CURRENCY_ENBLED)
+				.getValue();
+		String fiscalYear = get(FISCAL_YEAR).getValue();
+		preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
+				fiscalYear));
+		preferences.setPrimaryCurrency(primaryCurrency);
+		preferences.setEnableMultiCurrency(ismultiCurrencyEnabled);
+
+		setStartDateOfFiscalYear(preferences);
+
+		setPreferences();
+
+		Company company = AccounterCompanyInitializationServiceImpl
+				.intializeCompany(preferences, accounts, context.getIOSession()
+						.getClient());
+		if (company == null) {
+			return new Result(getMessages().ProblemWhileCreating(
+					getMessages().company()));
+		}
+		return null;
+	}
+
+	private String getDateFormat(String countryName) {
+		if (countryName.equals(CountryPreferenceFactory.UNITED_STATES)) {
+			return AccounterServerConstants.MMddyyyy;
+		} else if (countryName.equals(CountryPreferenceFactory.UNITED_KINGDOM)) {
+			return AccounterServerConstants.ddMMyyyy;
+		} else if (countryName.equals(CountryPreferenceFactory.INDIA)) {
+			return AccounterServerConstants.ddMMyyyy;
+		} else {
+			return AccounterServerConstants.ddMMyyyy;
+		}
+	}
+
+	protected void setPreferences() {
+
+	}
+
+	protected Requirement getFiscalYearRequirement() {
+		return new StringListRequirement(FISCAL_YEAR, getMessages()
+				.pleaseSelect(getMessages().fiscalYear()), getMessages()
+				.fiscalYear(), true, true, null) {
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(getMessages().fiscalYear());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getFiscalYearMonths();
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().fiscalYear());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+		};
+	}
+
+	@Override
+	public String getId() {
+		return null;
+	}
+
+	protected void addCurrencyRequirements(List<Requirement> list) {
+		list.add(new CurrencyRequirement(PRIMARY_CURRENCY, getMessages()
+				.primaryCurrency(), getMessages().primaryCurrency(), true,
+				true, null) {
+			@Override
+			protected List<ClientCurrency> getLists(Context context) {
+				List<ClientCurrency> currencies = CoreUtils
+						.getCurrencies(new ArrayList<ClientCurrency>());
+				return currencies;
+			}
+		});
+
+		list.add(new BooleanRequirement(IS_MULTI_CURRENCY_ENBLED, true) {
+
+			@Override
+			protected String getTrueString() {
+				return " Multi currency enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return " Multi currency is not enabled";
+			}
+		});
 	}
 }
