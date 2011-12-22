@@ -740,8 +740,6 @@ public class MenuBar {
 			customerListMenuBar.addMenuItem(
 					messages.customerRefunds(Global.get().Customer()),
 					HistoryTokens.CUSTOMERREFUNDS);
-			customerListMenuBar.addMenuItem(messages.transactionscenter(),
-					HistoryTokens.TRANSACTIONS_CENTER);
 		}
 
 		return customerListMenuBar;
@@ -797,9 +795,12 @@ public class MenuBar {
 
 		companyMenuBar.addSeparatorItem();
 
-		if (canDoBanking)
+		if (canDoBanking) {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
 					HistoryTokens.NEWJOURNALENTRY);
+		}
+		companyMenuBar.addMenuItem(messages.transactionscenter(),
+				HistoryTokens.TRANSACTIONS_CENTER);
 
 		if (canDoInvoiceTransactions) {
 			companyMenuBar.addMenuItem(messages.newPayee(messages.Account()),
