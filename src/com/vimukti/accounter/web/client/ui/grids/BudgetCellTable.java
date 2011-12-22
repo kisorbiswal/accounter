@@ -41,10 +41,22 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 		List<ClientBudgetItem> list = listDataProvider.getList();
 
 		List<ClientAccount> listOfExpenseAccounts = Accounter.getCompany()
-				.getAccounts();
+				.getAccounts(ClientAccount.TYPE_EXPENSE);
+		List<ClientAccount> listOfOtherExpenseAccounts = Accounter.getCompany()
+				.getAccounts(ClientAccount.TYPE_OTHER_EXPENSE);
+		List<ClientAccount> listOfIncomeAccounts = Accounter.getCompany()
+				.getAccounts(ClientAccount.TYPE_INCOME);
+		List<ClientAccount> listOfOtherIncomeAccounts = Accounter.getCompany()
+				.getAccounts(ClientAccount.TYPE_OTHER_INCOME);
+		List<ClientAccount> listOfCostOFGoodAccounts = Accounter.getCompany()
+				.getAccounts(ClientAccount.TYPE_COST_OF_GOODS_SOLD);
 
 		List<ClientAccount> listOfAccounts = new ArrayList<ClientAccount>(
 				listOfExpenseAccounts);
+		listOfAccounts.addAll(listOfOtherExpenseAccounts);
+		listOfAccounts.addAll(listOfIncomeAccounts);
+		listOfAccounts.addAll(listOfOtherIncomeAccounts);
+		listOfAccounts.addAll(listOfCostOFGoodAccounts);
 
 		for (ClientAccount account : listOfAccounts) {
 

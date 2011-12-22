@@ -17,13 +17,6 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 		super(false, true);
 	}
 
-	// public void initBudgetItems(ClientBudgetItem budgetItems) {
-	//
-	// ClientBudgetItem budgetItem = new ClientBudgetItem();
-	//
-	// // this.setRecords(budgetItem);
-	// }
-
 	public void initBudgetItems(List<ClientBudgetItem> allBudgetItems) {
 		this.setRecords(allBudgetItems);
 
@@ -34,34 +27,12 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 		switch (col) {
 		case 0:
 			return budget.getAccountsName();
-			// case 1:
-			// return amountAsString(budget.getJanuaryAmount());
-			// case 2:
-			// return amountAsString(budget.getFebruaryAmount());
-			// case 3:
-			// return amountAsString(budget.getMarchAmount());
-			// case 4:
-			// return amountAsString(budget.getAprilAmount());
-			// case 5:
-			// return amountAsString(budget.getMayAmount());
-			// case 6:
-			// return amountAsString(budget.getJuneAmount());
-			// case 7:
-			// return amountAsString(budget.getJulyAmount());
-			// case 8:
-			// return amountAsString(budget.getAugustAmount());
-			// case 9:
-			// return amountAsString(budget.getSpetemberAmount());
-			// case 10:
-			// return amountAsString(budget.getOctoberAmount());
-			// case 11:
-			// return amountAsString(budget.getNovemberAmount());
-			// case 12:
-			// return amountAsString(budget.getDecemberAmount());
-		case 1:
-			return DataUtils.amountAsStringWithCurrency(budget.getTotalAmount(),
 
-			getCompany().getPrimaryCurrency());
+		case 1:
+			return DataUtils.amountAsStringWithCurrency(
+					budget.getTotalAmount(),
+
+					getCompany().getPrimaryCurrency());
 		default:
 			break;
 		}
@@ -77,42 +48,7 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 			case 0:
 				colArray[index] = messages.Account();
 				break;
-			// case 1:
-			// colArray[index] = messages.jan();
-			// break;
-			// case 2:
-			// colArray[index] = messages.feb();
-			// break;
-			// case 3:
-			// colArray[index] = messages.mar();
-			// break;
-			// case 4:
-			// colArray[index] = messages.apr();
-			// break;
-			// case 5:
-			// colArray[index] = messages.may();
-			// break;
-			// case 6:
-			// colArray[index] = messages.jun();
-			// break;
-			// case 7:
-			// colArray[index] = messages.jul();
-			// break;
-			// case 8:
-			// colArray[index] = messages.aug();
-			// break;
-			// case 9:
-			// colArray[index] = messages.sept();
-			// break;
-			// case 10:
-			// colArray[index] = messages.oct();
-			// break;
-			// case 11:
-			// colArray[index] = messages.nov();
-			// break;
-			// case 12:
-			// colArray[index] = messages.dec();
-			// break;
+
 			case 1:
 				colArray[index] = Accounter.messages().total();
 				break;
@@ -155,19 +91,8 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				// ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT };
+
+		ListGrid.COLUMN_TYPE_DECIMAL_TEXT };
 	}
 
 	protected void updateTotal(ClientBudgetItem customer, boolean add) {
@@ -186,28 +111,7 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 	protected int getCellWidth(int index) {
 		if (index == 0) {
 			return 300;
-			// } else if (index == 1) {
-			// return 65;
-			// } else if (index == 2) {
-			// return 65;
-			// } else if (index == 3) {
-			// return 65;
-			// } else if (index == 4) {
-			// return 65;
-			// } else if (index == 5) {
-			// return 65;
-			// } else if (index == 6) {
-			// return 65;
-			// } else if (index == 7) {
-			// return 65;
-			// } else if (index == 8) {
-			// return 65;
-			// } else if (index == 9) {
-			// return 65;
-			// } else if (index == 10) {
-			// return 65;
-			// } else if (index == 11) {
-			// return 65;
+
 		} else {
 			return 65;
 		}
