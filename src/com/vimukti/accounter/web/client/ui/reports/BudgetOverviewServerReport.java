@@ -365,20 +365,20 @@ public class BudgetOverviewServerReport extends
 				}
 				if (section.footer.equals(messages.netAmount())) {
 
-					section.data[1] = janincome - janexpense;
-					section.data[2] = febincome - febexpense;
-					section.data[3] = marincome - marexpense;
-					section.data[4] = aprincome - aprexpense;
-					section.data[5] = mayincome - mayexpense;
-					section.data[6] = junincome - junexpense;
-					section.data[7] = julincome - julexpense;
-					section.data[8] = augincome - augexpense;
-					section.data[9] = septincome - septexpense;
-					section.data[10] = octincome - octexpense;
-					section.data[11] = novincome - novexpense;
-					section.data[12] = decincome - decexpense;
-					section.data[13] = totalincome - totalexpense;
-
+					section.data[1] = Double.toString(janincome - janexpense);
+					section.data[2] = Double.toString(febincome - febexpense);
+					section.data[3] = Double.toString(marincome - marexpense);
+					section.data[4] = Double.toString(aprincome - aprexpense);
+					section.data[5] = Double.toString(mayincome - mayexpense);
+					section.data[6] = Double.toString(junincome - junexpense);
+					section.data[7] = Double.toString(julincome - julexpense);
+					section.data[8] = Double.toString(augincome - augexpense);
+					section.data[9] = Double.toString(septincome - septexpense);
+					section.data[10] = Double.toString(octincome - octexpense);
+					section.data[11] = Double.toString(novincome - novexpense);
+					section.data[12] = Double.toString(decincome - decexpense);
+					section.data[13] = Double.toString(totalincome
+							- totalexpense);
 					initVariables();
 
 				}
