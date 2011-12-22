@@ -112,7 +112,9 @@ public class CashPurchaseView extends
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
-		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if(!isTemplate){
+			dateNoForm.setFields(transactionDateItem, transactionNumber);
+		}
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
@@ -236,8 +238,13 @@ public class CashPurchaseView extends
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
 		// termsForm.setWidth("100%");
-		termsForm.setFields(paymentMethodCombo, printCheck, checkNoText,
-				payFromCombo, deliveryDateItem);
+		if(isTemplate){
+		   termsForm.setFields(paymentMethodCombo, printCheck, checkNoText,
+					  payFromCombo);
+		}else{
+		   termsForm.setFields(paymentMethodCombo, printCheck, checkNoText,
+				  payFromCombo, deliveryDateItem);
+		}
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {

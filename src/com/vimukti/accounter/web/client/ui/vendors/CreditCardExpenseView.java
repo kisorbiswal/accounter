@@ -211,7 +211,12 @@ public class CreditCardExpenseView extends
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(8);
 		dateNoForm.setStyleName("datenumber-panel");
-		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if(isTemplate){
+			dateNoForm.setFields(transactionNumber);
+		}else{
+			dateNoForm.setFields(transactionDateItem, transactionNumber);
+		}
+		
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 

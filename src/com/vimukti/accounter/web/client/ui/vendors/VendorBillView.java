@@ -385,7 +385,12 @@ public class VendorBillView extends
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
-		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if(isTemplate){
+			dateNoForm.setFields(transactionNumber);
+		}else{
+			dateNoForm.setFields(transactionDateItem, transactionNumber);
+		}
+		
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -490,8 +495,12 @@ public class VendorBillView extends
 		dateform.setNumCols(2);
 		if (locationTrackingEnabled)
 			dateform.setFields(locationCombo);
-		dateform.setItems(phoneSelect, paymentTermsCombo, dueDateItem,
+		if(isTemplate){
+			dateform.setItems(phoneSelect, paymentTermsCombo);
+		}else{
+		  dateform.setItems(phoneSelect, paymentTermsCombo, dueDateItem,
 				deliveryDateItem);
+		}
 		// dateform.getCellFormatter().setWidth(0, 0, "200px");
 		netAmount = new AmountLabel(Accounter.messages().netAmount());
 		netAmount.setDefaultValue("£0.00");

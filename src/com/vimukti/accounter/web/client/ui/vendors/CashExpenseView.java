@@ -262,7 +262,12 @@ public class CashExpenseView extends
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
-		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if(isTemplate){
+			dateNoForm.setFields(transactionNumber);
+		}else{
+			dateNoForm.setFields(transactionDateItem, transactionNumber);
+		}
+		
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,

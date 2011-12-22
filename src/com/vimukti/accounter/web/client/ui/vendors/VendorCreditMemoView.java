@@ -197,7 +197,12 @@ public class VendorCreditMemoView extends
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
-		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if(isTemplate){
+			dateNoForm.setFields(transactionNumber);
+		}else{
+			dateNoForm.setFields(transactionDateItem, transactionNumber);
+		}
+		
 		VerticalPanel datepanel = new VerticalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
