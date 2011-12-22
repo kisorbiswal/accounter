@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 
 public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
-
+	public static final String MULTI_PROCESS_ATR = "multiprocessAttr";
 	private List<Requirement> requirements;
 	private boolean isDone;
 
@@ -45,7 +45,7 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 	@Override
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
-		String process = (String) context.getAttribute(PROCESS_ATR + getName());
+		String process = (String) context.getAttribute(MULTI_PROCESS_ATR);
 		if (process != null && process.equals(getName())) {
 			Result res = edit(context);
 			if (res != null) {
@@ -65,7 +65,6 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 		Object selection = context.getSelection(VALUES);
 		if (!isDone() || selection != null && selection.equals(getName())) {
 			if (isEditable()) {
-				addFirstMessage(context, getRecordName());
 				Result result = edit(context);
 				if (result != null) {
 					return result;
@@ -84,7 +83,7 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 
 	private Result edit(Context context) {
 		setDefaultValues();
-		context.setAttribute(PROCESS_ATR + getName(), getName());
+		context.setAttribute(MULTI_PROCESS_ATR, getName());
 		Result result = new Result();
 		ResultList list = new ResultList("values");
 		list.setTitle(getRecordName());
@@ -107,7 +106,7 @@ public abstract class MultiRequirement<T> extends AbstractRequirement<T> {
 				return finish;
 			}
 			isDone = true;
-			context.removeAttribute(PROCESS_ATR + getName());
+			context.removeAttribute(MULTI_PROCESS_ATR);
 			return null;
 		}
 		context.removeSelection("actions");
