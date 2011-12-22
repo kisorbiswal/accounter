@@ -1915,6 +1915,8 @@ public interface AccounterMessages extends Messages {
 
 	public String invoicedAmount();
 
+	public String invoiceFor();
+
 	public String invoiceHasbeenPrintedAndSentToYourEmail();
 
 	public String invoiceList();
@@ -2868,6 +2870,8 @@ public interface AccounterMessages extends Messages {
 	public String pleaseEntervalidCurrencyFactor();
 
 	public String pleaseEnterVendorNumberItShouldNotBeEmpty(String payee);
+
+	public String pleaseFindAttachedInvoice();
 
 	public String pleaseImplementMe();
 
