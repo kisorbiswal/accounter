@@ -142,7 +142,15 @@ public abstract class TransactionAccountTableRequirement extends
 	public abstract boolean isSales();
 
 	protected List<Account> getAccounts(Context context) {
-		return new ArrayList<Account>(context.getCompany().getAccounts());
+		List<Account> listAccounts = new ArrayList<Account>();
+		Set<Account> accounts = context.getCompany().getAccounts();
+		for (Account account : accounts) {
+			if (account.getIsActive()) {
+				listAccounts.add(account);
+
+			}
+		}
+		return listAccounts;
 	}
 
 	@Override

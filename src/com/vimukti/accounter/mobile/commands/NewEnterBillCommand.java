@@ -259,9 +259,10 @@ public class NewEnterBillCommand extends NewAbstractTransactionCommand {
 
 							@Override
 							public boolean filter(Account account) {
-								if (account.getType() == Account.TYPE_EXPENSE
-										|| account.getType() == Account.TYPE_COST_OF_GOODS_SOLD
-										|| account.getType() == Account.TYPE_OTHER_EXPENSE) {
+								if (account.getIsActive()
+										&& (account.getType() == Account.TYPE_EXPENSE
+												|| account.getType() == Account.TYPE_COST_OF_GOODS_SOLD || account
+												.getType() == Account.TYPE_OTHER_EXPENSE)) {
 									return true;
 								} else {
 									return false;

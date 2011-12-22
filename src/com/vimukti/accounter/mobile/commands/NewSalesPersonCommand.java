@@ -107,8 +107,9 @@ public class NewSalesPersonCommand extends NewAbstractCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							if (e.getType() == Account.TYPE_EXPENSE
-									|| e.getType() == Account.TYPE_OTHER_ASSET) {
+							if (e.getIsActive()
+									&& (e.getType() == Account.TYPE_EXPENSE || e
+											.getType() == Account.TYPE_OTHER_ASSET)) {
 								return true;
 							}
 							return false;

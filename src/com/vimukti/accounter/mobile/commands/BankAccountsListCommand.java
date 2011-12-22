@@ -110,16 +110,6 @@ public class BankAccountsListCommand extends NewAbstractCommand {
 			}
 
 		});
-
-		list.add(new CommandsRequirement(VIEW_TYPE) {
-			@Override
-			protected List<String> getList() {
-				List<String> list = new ArrayList<String>();
-				list.add(getMessages().active());
-				list.add(getMessages().inActive());
-				return list;
-			}
-		});
 	}
 
 	private List<Account> getAccounts(Context context) {

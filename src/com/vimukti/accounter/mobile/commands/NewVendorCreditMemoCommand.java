@@ -161,10 +161,11 @@ public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							if (e.getType() == Account.TYPE_COST_OF_GOODS_SOLD
-									|| e.getType() == Account.TYPE_FIXED_ASSET
-									|| e.getType() == Account.TYPE_EXPENSE
-									|| e.getType() == Account.TYPE_OTHER_EXPENSE) {
+							if (e.getIsActive()
+									&& (e.getType() == Account.TYPE_COST_OF_GOODS_SOLD
+											|| e.getType() == Account.TYPE_FIXED_ASSET
+											|| e.getType() == Account.TYPE_EXPENSE || e
+											.getType() == Account.TYPE_OTHER_EXPENSE)) {
 								return true;
 							}
 							return false;

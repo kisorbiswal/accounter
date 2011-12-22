@@ -240,8 +240,14 @@ public class NewVendorCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<Account> getLists(Context context) {
-				return new ArrayList<Account>(context.getCompany()
-						.getAccounts());
+				List<Account> lists = new ArrayList<Account>();
+				Set<Account> accounts = context.getCompany().getAccounts();
+				for (Account account : accounts) {
+					if (account.getIsActive()) {
+						lists.add(account);
+					}
+				}
+				return lists;
 			}
 
 			@Override

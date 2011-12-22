@@ -167,8 +167,9 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							if (e.getType() == Account.TYPE_BANK
-									|| e.getType() == Account.TYPE_OTHER_ASSET) {
+							if (e.getIsActive()
+									&& (e.getType() == Account.TYPE_BANK || e
+											.getType() == Account.TYPE_OTHER_ASSET)) {
 								return true;
 							}
 							return false;

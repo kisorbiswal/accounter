@@ -242,10 +242,11 @@ public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							return Arrays.asList(Account.TYPE_EXPENSE,
-									Account.TYPE_COST_OF_GOODS_SOLD,
-									Account.TYPE_OTHER_EXPENSE).contains(
-									e.getType());
+							return e.getIsActive()
+									&& Arrays.asList(Account.TYPE_EXPENSE,
+											Account.TYPE_COST_OF_GOODS_SOLD,
+											Account.TYPE_OTHER_EXPENSE)
+											.contains(e.getType());
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);

@@ -69,11 +69,13 @@ public class ReceiveVATCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							return Arrays.asList(ClientAccount.TYPE_BANK,
-									ClientAccount.TYPE_CREDIT_CARD,
-									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-									ClientAccount.TYPE_FIXED_ASSET).contains(
-									e.getType())
+							return e.getIsActive()
+									&& Arrays
+											.asList(ClientAccount.TYPE_BANK,
+													ClientAccount.TYPE_CREDIT_CARD,
+													ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+													ClientAccount.TYPE_FIXED_ASSET)
+											.contains(e.getType())
 									&& e.getID() != context.getCompany()
 											.getAccountsReceivableAccount()
 											.getID();

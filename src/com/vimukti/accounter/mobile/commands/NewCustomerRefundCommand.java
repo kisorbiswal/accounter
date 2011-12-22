@@ -225,7 +225,8 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							if (e.getType() == Account.TYPE_BANK) {
+							if (e.getIsActive()
+									&& e.getType() == Account.TYPE_BANK) {
 								return true;
 							}
 							return false;

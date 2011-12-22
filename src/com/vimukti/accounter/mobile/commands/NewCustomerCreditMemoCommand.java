@@ -151,8 +151,9 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 
 						@Override
 						public boolean filter(Account e) {
-							if (e.getType() == Account.TYPE_INCOME
-									|| e.getType() == Account.TYPE_FIXED_ASSET) {
+							if (e.getIsActive()
+									&& (e.getType() == Account.TYPE_INCOME || e
+											.getType() == Account.TYPE_FIXED_ASSET)) {
 								return true;
 							}
 							return false;

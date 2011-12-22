@@ -159,7 +159,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 
 					@Override
 					public boolean filter(Account account) {
-						if (account.getType() != Account.TYPE_CASH
+						if (account.getIsActive()
+								&& account.getType() != Account.TYPE_CASH
 								&& account.getType() != Account.TYPE_BANK
 								&& account.getType() != Account.TYPE_INVENTORY_ASSET
 								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
@@ -361,7 +362,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 						return Arrays.asList(Account.TYPE_EXPENSE,
 								Account.TYPE_COST_OF_GOODS_SOLD,
 								Account.TYPE_OTHER_EXPENSE).contains(
-								e.getType());
+								e.getType())
+								&& e.getIsActive();
 					}
 				}, new ArrayList<Account>(context.getCompany().getAccounts()));
 			}

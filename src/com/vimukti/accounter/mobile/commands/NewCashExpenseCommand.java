@@ -194,9 +194,11 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							return Arrays.asList(ClientAccount.TYPE_BANK,
-									ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-									.contains(e.getType());
+							return e.getIsActive()
+									&& Arrays
+											.asList(ClientAccount.TYPE_BANK,
+													ClientAccount.TYPE_OTHER_CURRENT_ASSET)
+											.contains(e.getType());
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);
@@ -228,7 +230,8 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account account) {
-							if (account.getType() != Account.TYPE_CASH
+							if (account.getIsActive()
+									&& account.getType() != Account.TYPE_CASH
 									&& account.getType() != Account.TYPE_BANK
 									&& account.getType() != Account.TYPE_INVENTORY_ASSET
 									&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE

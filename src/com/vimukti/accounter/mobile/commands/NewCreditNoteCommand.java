@@ -134,7 +134,8 @@ public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account account) {
-							if (account.getType() == ClientAccount.TYPE_INCOME) {
+							if (account.getIsActive()
+									&& account.getType() == ClientAccount.TYPE_INCOME) {
 								return true;
 							} else {
 								return false;

@@ -52,11 +52,13 @@ public abstract class MakeDepositTableRequirement extends
 
 						@Override
 						public boolean filter(Account e) {
-							return Arrays.asList(ClientAccount.TYPE_BANK,
-									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-									ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-									ClientAccount.TYPE_EQUITY).contains(
-									e.getType());
+							return e.getIsActive()
+									&& Arrays
+											.asList(ClientAccount.TYPE_BANK,
+													ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+													ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+													ClientAccount.TYPE_EQUITY)
+											.contains(e.getType());
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);

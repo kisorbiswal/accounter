@@ -89,11 +89,12 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							return Arrays.asList(Account.TYPE_BANK,
-									Account.TYPE_CREDIT_CARD,
-									Account.TYPE_OTHER_CURRENT_ASSET,
-									Account.TYPE_FIXED_ASSET).contains(
-									e.getType())
+							return e.getIsActive()
+									&& Arrays.asList(Account.TYPE_BANK,
+											Account.TYPE_CREDIT_CARD,
+											Account.TYPE_OTHER_CURRENT_ASSET,
+											Account.TYPE_FIXED_ASSET).contains(
+											e.getType())
 									&& e.getID() != context.getCompany()
 											.getAccountsReceivableAccount()
 											.getID();
