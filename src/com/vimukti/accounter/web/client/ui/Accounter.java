@@ -9,6 +9,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.i18n.client.constants.NumberConstants;
+import com.google.gwt.i18n.shared.DateTimeFormatInfo;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -631,6 +633,16 @@ public class Accounter implements EntryPoint {
 		};
 		Accounter.createCRUDService().doCreateIssuePaymentEffect(obj,
 				transactionCallBack);
+	}
+	
+	
+	public NumberConstants getNumberFormat(){
+		return null;
+		
+	}
+	public DateTimeFormatInfo getDateTimeConstants(){
+		return null;
+		
 	}
 
 }

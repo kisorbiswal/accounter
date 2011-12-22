@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
@@ -26,6 +27,8 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
+
+import d.e.v;
 
 public class OpenCompanyServlet extends BaseServlet {
 
@@ -70,6 +73,11 @@ public class OpenCompanyServlet extends BaseServlet {
 					client.getID(), language);
 
 			request.setAttribute("messages", keyAndValues);
+			// Load locale aware date time constants, number format constants
+
+			HashMap<String, String> accounterLocale = getLocaleConstants();
+			request.setAttribute("accounterLocale", accounterLocale);
+
 			Long serverCompanyID = (Long) request.getSession().getAttribute(
 					COMPANY_ID);
 			String create = (String) request.getSession().getAttribute(CREATE);
@@ -138,6 +146,47 @@ public class OpenCompanyServlet extends BaseServlet {
 			// Session is there, so show the main page
 
 		}
+	}
+
+	private HashMap<String, String> getLocaleConstants() {
+		HashMap<String, String> result = new HashMap<String, String>();
+
+		String files[] = { "DateTimeConstantsImpl", "NumberConstantsImpl" };
+
+		for (String file : files) {
+			ResourceBundle dateTimeConstants = ResourceBundle.getBundle(
+					"com.vimukti.accounter.web.server.i18n.constants." + file,
+					getlocale());
+			for (String key : dateTimeConstants.keySet()) {
+				String value = dateTimeConstants.getString(key);
+				if(value.indexOf(',')<=0){
+					result.put(key,value);
+				} else {
+					result.put(key, joinArray(value.split("(?<!\\\\), ")));
+				}
+			}
+		}
+
+		return result;
+	}
+
+	private String joinArray(String[] value) {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append('[');
+		if (value.length > 0) {
+			for (int x = 0; x < value.length - 1; x++) {
+				buffer.append('\'');
+				buffer.append(value[x]);
+				buffer.append('\'');
+				buffer.append(", ");
+			}
+			//add last one
+			buffer.append('\'');
+			buffer.append(value[value.length-1]);
+			buffer.append('\'');
+		}
+		buffer.append(']');
+		return buffer.toString();
 	}
 
 	private Locale getlocale() {
