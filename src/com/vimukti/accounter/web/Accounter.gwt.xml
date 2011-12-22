@@ -36,8 +36,4 @@
 	</generate-with>
 	<define-property name="useOwnLocale" values="true, false"/>
 	<set-property name="useOwnLocale" value="true"/>
-	<generate-with class="com.vimukti.accounter.web.server.i18n.LocaleGenerator">
-		<when-type-is class="com.google.gwt.i18n.client.impl.LocaleInfoImpl" />
-		 <when-property-is name="useOwnLocale" value="true"/>
-	</generate-with>
 </module>
