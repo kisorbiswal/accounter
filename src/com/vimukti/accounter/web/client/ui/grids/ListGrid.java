@@ -20,6 +20,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
@@ -37,6 +39,10 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.view.client.HasRows;
+import com.google.gwt.view.client.Range;
+import com.google.gwt.view.client.RangeChangeEvent;
+import com.google.gwt.view.client.RangeChangeEvent.Handler;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -58,7 +64,7 @@ import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordC
  * @param <T>
  *            is Object that consider as Row in the table
  */
-public abstract class ListGrid<T> extends CustomTable {
+public abstract class ListGrid<T> extends CustomTable implements HasRows {
 
 	public static final int COLUMN_TYPE_IMAGE = 1;
 	public static final int COLUMN_TYPE_TEXT = 2;
@@ -1007,5 +1013,84 @@ public abstract class ListGrid<T> extends CustomTable {
 	public void setDisabled(boolean disable) {
 		super.setDisabled(disable);
 		refreshAllRecords();
+	}
+
+	// HasRows
+	private Range visibleRange;
+	private boolean isRowCountExact;
+	private int rowCount;
+	private Handler handler;
+	private Handler handler2;
+
+	@Override
+	public void fireEvent(GwtEvent<?> event) {
+	}
+
+	@Override
+	public HandlerRegistration addRangeChangeHandler(Handler handler) {
+		this.handler = handler;
+		return null;
+	}
+
+	public HandlerRegistration addRangeChangeHandler2(Handler handler) {
+		this.handler2 = handler;
+		return null;
+	}
+
+	@Override
+	public HandlerRegistration addRowCountChangeHandler(
+			com.google.gwt.view.client.RowCountChangeEvent.Handler handler) {
+		return null;
+	}
+
+	@Override
+	public int getRowCount() {
+		return rowCount;
+	}
+
+	@Override
+	public Range getVisibleRange() {
+		return visibleRange;
+	}
+
+	@Override
+	public boolean isRowCountExact() {
+		return isRowCountExact;
+	}
+
+	@Override
+	public void setRowCount(int count) {
+		rowCount = count;
+	}
+
+	@Override
+	public void setRowCount(int count, boolean isExact) {
+		rowCount = count;
+		isRowCountExact = isExact;
+		if (handler != null) {
+			RangeChangeEvent rangeChangeEvent = new RangeChangeEvent(
+					visibleRange) {
+			};
+			handler.onRangeChange(rangeChangeEvent);
+		}
+	}
+
+	@Override
+	public void setVisibleRange(int start, int length) {
+		setVisibleRange(new Range(start, length));
+	}
+
+	@Override
+	public void setVisibleRange(Range range) {
+		visibleRange = range;
+		RangeChangeEvent rangeChangeEvent = new RangeChangeEvent(range) {
+		};
+		if (handler2 != null) {
+			handler2.onRangeChange(rangeChangeEvent);
+		}
+	}
+
+	public void updateRange(Range range) {
+		visibleRange = range;
 	}
 }
