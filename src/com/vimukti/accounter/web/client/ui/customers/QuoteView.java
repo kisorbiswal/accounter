@@ -333,7 +333,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
-		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if(!isTemplate){
+			dateNoForm.setFields(transactionDateItem, transactionNumber);
+		}		
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -431,11 +433,19 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			}
 		}
 		if (getPreferences().isSalesPersonEnabled()) {
-			phoneForm.setFields(statusCombo, salesPersonCombo, payTermsSelect,
-					quoteExpiryDate, deliveryDate);
+			if(isTemplate){
+				phoneForm.setFields(statusCombo, salesPersonCombo, payTermsSelect);
+			}else{
+				phoneForm.setFields(statusCombo, salesPersonCombo, payTermsSelect,
+						quoteExpiryDate, deliveryDate);
+			}
 		} else {
-			phoneForm.setFields(statusCombo, payTermsSelect, quoteExpiryDate,
-					deliveryDate);
+			if(isTemplate){
+				phoneForm.setFields(statusCombo, payTermsSelect);
+			}else{
+				phoneForm.setFields(statusCombo, payTermsSelect, quoteExpiryDate,
+						deliveryDate);
+			}
 		}
 		phoneForm.setStyleName("align-form");
 		// phoneForm.getCellFormatter().getElement(0, 0)

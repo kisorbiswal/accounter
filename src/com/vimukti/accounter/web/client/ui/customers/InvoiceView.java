@@ -225,7 +225,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// DATE form
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
-		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		if(!isTemplate){
+			dateNoForm.setFields(transactionDateItem, transactionNumber);
+		}
+		
 		// ---date--
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
@@ -349,14 +352,22 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		termsForm.setGroupTitle(messages.terms());
 		termsForm.setNumCols(2);
 		if (getPreferences().isSalesPersonEnabled()) {
-			termsForm.setFields(salesPersonCombo, payTermsSelect, dueDateItem,
-					orderNumText);
+			if(isTemplate){
+				termsForm.setFields(salesPersonCombo, payTermsSelect, orderNumText);
+			}else{
+				termsForm.setFields(salesPersonCombo, payTermsSelect, dueDateItem,
+						orderNumText);
+			}
 
 			if (getPreferences().isDoProductShipMents())
 				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
 		} else {
-			termsForm.setFields(payTermsSelect, dueDateItem, orderNumText);
+			if(isTemplate){
+				termsForm.setFields(payTermsSelect, orderNumText);
+			}else{
+				termsForm.setFields(payTermsSelect, dueDateItem, orderNumText);
+			}
 			if (getPreferences().isDoProductShipMents())
 				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
