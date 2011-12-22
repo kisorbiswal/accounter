@@ -641,7 +641,7 @@ public class RecurringTransactionDialog extends
 			intervalTypeCombo.setSelected(getIntervalTypeOptions().get(2));
 			onSpecificWeekRadioBtn.setValue(true);
 
-			weekOfMonthCombo.setSelectedItem(data.getWeekOfMonth());
+			weekOfMonthCombo.setSelectedItem(data.getWeekOfMonth() - 1);
 			dayOfWeekCombo.setSelectedItem(data.getWeekDay() - 1);
 			break;
 		case 4: // yearly
@@ -813,10 +813,10 @@ public class RecurringTransactionDialog extends
 						.setIntervalType(ClientRecurringTransaction.INTERVAL_TYPE_MONTHLY_WEEK);
 				// need selected nth week, and selected week
 				recTransaction.setWeekDay(getWeekOptions().indexOf(
-						weekOfMonthCombo.getSelectedValue()) + 1);
+						dayOfWeekCombo.getSelectedValue()) + 1);
 
 				recTransaction.setWeekOfMonth(getMonthWeekOptions().indexOf(
-						weekOfMonthCombo.getSelectedValue()));
+						weekOfMonthCombo.getSelectedValue()) + 1);
 			}
 
 			break;

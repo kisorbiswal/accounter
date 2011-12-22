@@ -2477,7 +2477,7 @@ public interface AccounterMessages extends Messages {
 
 	public String nextPage();
 
-	public String nextScheduleOn();
+	public String nextSchedule();
 
 	public String nextVATQuarter();
 
@@ -3013,7 +3013,7 @@ public interface AccounterMessages extends Messages {
 
 	public String prevPage();
 
-	public String prevScheduleOn();
+	public String prevSchedule();
 
 	public String price();
 

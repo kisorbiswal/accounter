@@ -64,7 +64,7 @@ public class RecurringTool extends Thread {
 			if (hibernateTransaction != null) {
 				hibernateTransaction.rollback();
 			}
-			log.error(e.getMessage());
+			log.error("Error occured");
 		} finally {
 			session.close();
 		}

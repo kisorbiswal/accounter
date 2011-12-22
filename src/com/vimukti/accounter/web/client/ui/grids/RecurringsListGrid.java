@@ -27,9 +27,14 @@ public class RecurringsListGrid extends
 		switch (index) {
 		case 1:
 			return 75;
+		case 2:
+			return 150;
+		case 3:
+			return 110;
 		case 4:
 		case 5:
-			return 110;
+		case 6:
+			return 100;
 		case 7:
 			return 15;
 		default:
@@ -109,7 +114,7 @@ public class RecurringsListGrid extends
 	protected String[] getColumns() {
 		return new String[] { messages.name(), messages.type(),
 				messages.transactionType(), messages.interval(),
-				messages.prevScheduleOn(), messages.nextScheduleOn(),
+				messages.prevSchedule(), messages.nextSchedule(),
 				messages.amount(), "" };
 	}
 }

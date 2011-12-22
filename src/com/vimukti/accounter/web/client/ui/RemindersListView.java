@@ -25,7 +25,7 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 	public static String ALL = Accounter.messages().all();
 	public static String BILL = Accounter.messages().bill();
 	public static String CASH_EXPENSE = Accounter.messages().cashExpense();
-	public static String CASH_SALES = Accounter.messages().cashSales();
+	public static String CASH_SALES = Accounter.messages().cashSale();
 	public static String CASH_PURCHASE = Accounter.messages().cashPurchase();
 	public static String CREDIT_CARD_EXPENSE = Accounter.messages()
 			.creditCardExpense();

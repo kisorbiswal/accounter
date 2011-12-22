@@ -214,6 +214,7 @@
 		P.ID=:customerId
 		AND
 		T.COMPANY_ID=:companyId
+		AND T.SAVE_STATUS != 202
 		ORDER BY T.T_DATE
 	</sql-query>
 	<sql-query name="getSalesOrdersList">
