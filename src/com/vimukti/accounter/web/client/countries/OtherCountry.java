@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class OtherCountry extends AbstractCountryPreferences {
 
@@ -17,12 +17,17 @@ public class OtherCountry extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.messages().april();
+		return DayAndMonthUtil.april();
 	}
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
 		return true;
+	}
+
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return null;
 	}
 
 }

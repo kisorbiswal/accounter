@@ -320,10 +320,6 @@ public interface AccounterMessages extends Messages {
 
 	public String approved();
 
-	public String apr();
-
-	public String april();
-
 	public String arAgeing();
 
 	public String arAgeingDetail();
@@ -361,10 +357,6 @@ public interface AccounterMessages extends Messages {
 	public String attachments();
 
 	public String atwoCode();
-
-	public String aug();
-
-	public String august();
 
 	public String australia();
 
@@ -1093,10 +1085,6 @@ public interface AccounterMessages extends Messages {
 
 	public String debtors();
 
-	public String dec();
-
-	public String december();
-
 	public String decline();
 
 	public String decrease();
@@ -1531,10 +1519,6 @@ public interface AccounterMessages extends Messages {
 
 	public String faxNumber();
 
-	public String feb();
-
-	public String february();
-
 	public String female();
 
 	public String fieldError();
@@ -1632,8 +1616,6 @@ public interface AccounterMessages extends Messages {
 	public String france();
 
 	public String frequency();
-
-	public String friday();
 
 	public String from();
 
@@ -2034,12 +2016,6 @@ public interface AccounterMessages extends Messages {
 
 	public String itemType();
 
-	public String jan();
-
-	public String january();
-
-	public String january01();
-
 	public String jobTitle();
 
 	public String journalEntries();
@@ -2053,14 +2029,6 @@ public interface AccounterMessages extends Messages {
 	public String journalEntryNo();
 
 	public String journalView();
-
-	public String jul();
-
-	public String july();
-
-	public String jun();
-
-	public String june();
 
 	public String kenya();
 
@@ -2265,10 +2233,6 @@ public interface AccounterMessages extends Messages {
 
 	public String managingList3();
 
-	public String mar();
-
-	public String march();
-
 	public String marginTop();
 
 	public String masterCard();
@@ -2276,8 +2240,6 @@ public interface AccounterMessages extends Messages {
 	public String matchTrasactions();
 
 	public String mauritius();
-
-	public String may();
 
 	public String measure();
 
@@ -2324,8 +2286,6 @@ public interface AccounterMessages extends Messages {
 	public String mobileNumber();
 
 	public String modifiedTime();
-
-	public String monday();
 
 	public String moneyComingIn();
 
@@ -2579,10 +2539,6 @@ public interface AccounterMessages extends Messages {
 
 	public String notyetimplemented();
 
-	public String nov();
-
-	public String november();
-
 	public String num();
 
 	public String number();
@@ -2600,10 +2556,6 @@ public interface AccounterMessages extends Messages {
 	public String objectModified();
 
 	public String occurrencesCompleted();
-
-	public String oct();
-
-	public String october();
 
 	public String ofTheCurrentMonth();
 
@@ -3386,8 +3338,6 @@ public interface AccounterMessages extends Messages {
 
 	public String salesType();
 
-	public String saturday();
-
 	public String save();
 
 	public String saveAndClose();
@@ -3551,10 +3501,6 @@ public interface AccounterMessages extends Messages {
 	public String sellingRegisteredItem();
 
 	public String send();
-
-	public String sept();
-
-	public String september();
 
 	public String service();
 
@@ -3764,8 +3710,6 @@ public interface AccounterMessages extends Messages {
 
 	public String submitForApproval();
 
-	public String sunday();
-
 	public String Supplier();
 
 	public String supplier();
@@ -3950,8 +3894,6 @@ public interface AccounterMessages extends Messages {
 
 	public String thisWndHelpYoyManageVATTasks();
 
-	public String thursday();
-
 	public String timesNewRoman();
 
 	public String timezone();
@@ -4125,8 +4067,6 @@ public interface AccounterMessages extends Messages {
 	public String trebuchet();
 
 	public String trialBalance();
-
-	public String tuesday();
 
 	public String type();
 
@@ -4409,8 +4349,6 @@ public interface AccounterMessages extends Messages {
 	public String webSite();
 
 	public String wecantDeleteThisTheme(String themeName);
-
-	public String wednesday();
 
 	public String weekly();
 

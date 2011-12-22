@@ -15,4 +15,9 @@ public class IsleOfMan extends AbstractCountryPreferences {
 				"Peel", "Port Erin", "Port Saint Mary", "Ramsey" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+0:00 Europe/Isle_of_Man";
+	}
+
 }

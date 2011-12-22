@@ -17,4 +17,9 @@ public class Iraq extends AbstractCountryPreferences {
 				"Karbala", "Maysan", "Ninawa", "Salah?-ad-Din", "Wasit" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+3:00 Asia/Baghdad";
+	}
+
 }

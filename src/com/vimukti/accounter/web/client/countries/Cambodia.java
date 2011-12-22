@@ -20,4 +20,9 @@ public class Cambodia extends AbstractCountryPreferences {
 				"Stueng Traeng", "Svay Rieng", "Takaev" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+7:00 Asia/Phnom_Penh";
+	}
+
 }

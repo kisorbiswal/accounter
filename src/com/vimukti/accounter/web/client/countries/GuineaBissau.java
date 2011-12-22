@@ -16,4 +16,9 @@ public class GuineaBissau extends AbstractCountryPreferences {
 				"Gabú", "Oio", "Quinara", "Tombali" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+0:00 Africa/Bissau";
+	}
+
 }

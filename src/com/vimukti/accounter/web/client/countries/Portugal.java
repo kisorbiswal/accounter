@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class Portugal extends AbstractCountryPreferences {
 
@@ -24,8 +24,18 @@ public class Portugal extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-
-		return Accounter.messages().january();
+		return DayAndMonthUtil.january();
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		if (state.equals("Madeira")) {
+			return "UTC+0:00 Atlantic/Madeira";
+		} else if (state.equals("Acores")) {
+			return "UTC-1:00 Atlantic/Azores";
+		} else {
+			return "UTC+0:00 Europe/Lisbon";
+		}
+
+	}
 }

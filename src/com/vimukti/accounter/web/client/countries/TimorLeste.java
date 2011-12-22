@@ -16,14 +16,17 @@ public class TimorLeste extends AbstractCountryPreferences {
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+9:00 Asia/Dili";
 	}
 
 }

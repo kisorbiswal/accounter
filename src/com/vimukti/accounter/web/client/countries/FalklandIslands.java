@@ -14,4 +14,9 @@ public class FalklandIslands extends AbstractCountryPreferences {
 		return new String[] { "Falkland Islands", "South Georgia" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC-4:00 Atlantic/Stanley";
+	}
+
 }

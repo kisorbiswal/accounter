@@ -15,4 +15,9 @@ public class Zambia extends AbstractCountryPreferences {
 				"Lusaka", "Northern", "North-Western", "Southern", "Western" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+2:00 Africa/Lusaka";
+	}
+
 }

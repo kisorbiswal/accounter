@@ -15,4 +15,9 @@ public class Martinique extends AbstractCountryPreferences {
 				"Saint-Pierre" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC-4:00 America/Martinique";
+	}
+
 }

@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class Bermuda extends AbstractCountryPreferences {
 
@@ -18,14 +18,17 @@ public class Bermuda extends AbstractCountryPreferences {
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
+		return DayAndMonthUtil.april();
+	}
 
-		return Accounter.messages().april();
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC-4:00 Atlantic/Bermuda";
 	}
 
 }

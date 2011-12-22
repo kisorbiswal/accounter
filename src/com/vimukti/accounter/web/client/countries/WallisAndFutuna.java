@@ -14,4 +14,9 @@ public class WallisAndFutuna extends AbstractCountryPreferences {
 		return new String[] { "Alo", "Hahake", "Hihifo", "Mua", "Sigave" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+12:00 Pacific/Wallis";
+	}
+
 }

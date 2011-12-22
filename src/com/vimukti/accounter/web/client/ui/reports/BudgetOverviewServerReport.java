@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class BudgetOverviewServerReport extends
 		AbstractFinaneReport<ClientBudgetList> {
@@ -142,11 +143,11 @@ public class BudgetOverviewServerReport extends
 	@Override
 	public String[] getColunms() {
 
-		return new String[] { getMessages().name(), getMessages().jan(),
-				getMessages().feb(), getMessages().mar(), getMessages().apr(),
-				getMessages().may(), getMessages().jun(), getMessages().jul(),
-				getMessages().aug(), getMessages().sept(), getMessages().oct(),
-				getMessages().nov(), getMessages().dec(), getMessages().total() };
+		return new String[] { getMessages().name(), DayAndMonthUtil.jan(),
+				DayAndMonthUtil.feb(), DayAndMonthUtil.mar(), DayAndMonthUtil.apr(),
+				DayAndMonthUtil.may_short(), DayAndMonthUtil.jun(), DayAndMonthUtil.jul(),
+				DayAndMonthUtil.aug(), DayAndMonthUtil.sept(), DayAndMonthUtil.oct(),
+				DayAndMonthUtil.nov(), DayAndMonthUtil.dec(), getMessages().total() };
 
 	}
 
@@ -470,11 +471,11 @@ public class BudgetOverviewServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 
-		return new String[] { getMessages().name(), getMessages().jan(),
-				getMessages().feb(), getMessages().mar(), getMessages().apr(),
-				getMessages().may(), getMessages().jun(), getMessages().jul(),
-				getMessages().aug(), getMessages().sept(), getMessages().oct(),
-				getMessages().nov(), getMessages().dec(), getMessages().total() };
+		return new String[] { getMessages().name(), DayAndMonthUtil.jan(),
+				DayAndMonthUtil.feb(), DayAndMonthUtil.mar(), DayAndMonthUtil.apr(),
+				DayAndMonthUtil.may_short(), DayAndMonthUtil.jun(), DayAndMonthUtil.jul(),
+				DayAndMonthUtil.aug(), DayAndMonthUtil.sept(), DayAndMonthUtil.oct(),
+				DayAndMonthUtil.nov(), DayAndMonthUtil.dec(), getMessages().total() };
 
 	}
 

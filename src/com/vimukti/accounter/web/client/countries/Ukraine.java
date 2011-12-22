@@ -15,4 +15,9 @@ public class Ukraine extends AbstractCountryPreferences {
 		return new String[] { "Central", "Eastern", "Northern", "Western" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+2:00 Europe/Kiev";
+	}
+
 }

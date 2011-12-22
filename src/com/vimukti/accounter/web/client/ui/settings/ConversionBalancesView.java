@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class ConversionBalancesView extends BaseView {
 	private HTML superHeaderHtml, headerHtml, footerCommentHtml;
@@ -56,8 +57,8 @@ public class ConversionBalancesView extends BaseView {
 
 	public void addNewTab(String endingDate, String year) {
 		createControls();
-		tabPanel.add(getBodyControls(), messages.january01() + year + " _ "
-				+ endingDate);
+		tabPanel.add(getBodyControls(), DayAndMonthUtil.january() + year
+				+ " _ " + endingDate);
 	}
 
 	private void createControls() {

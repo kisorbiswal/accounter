@@ -17,4 +17,9 @@ public class Maldives extends AbstractCountryPreferences {
 				"Nuun", "Raa", "Shaviyani", "Siin", "Thaa", "Vaav" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+5:00 Indian/Maldives";
+	}
+
 }

@@ -18,4 +18,9 @@ public class Georgia extends AbstractCountryPreferences {
 				"Shida Kartli", "Tiflis" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+4:00 Asia/Tbilisi";
+	}
+
 }

@@ -15,4 +15,9 @@ public class Haiti extends AbstractCountryPreferences {
 				"Nord-Est", "Nord-Ouest", "Ouest", "Sud", "Sud-Est" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC-5:00 America/Port-au-Prince";
+	}
+
 }

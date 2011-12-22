@@ -18,4 +18,9 @@ public class Mozambique extends AbstractCountryPreferences {
 		return "MZN";
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+2:00 Africa/Maputo";
+	}
+
 }

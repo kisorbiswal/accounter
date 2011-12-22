@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class Spain extends AbstractCountryPreferences {
 
@@ -22,14 +22,22 @@ public class Spain extends AbstractCountryPreferences {
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
+		return DayAndMonthUtil.january();
+	}
 
-		return Accounter.messages().january();
+	@Override
+	public String getDefaultTimeZone(String state) {
+
+		if (state.equals("Ceuta") || state.equals("Melilla")) {
+			return "UTC+1:00 Africa/Ceuta";
+		} else {
+			return "UTC+1:00 Europe/Madrid";
+		}
 	}
 
 }

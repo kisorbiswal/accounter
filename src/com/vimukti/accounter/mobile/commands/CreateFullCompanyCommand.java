@@ -10,6 +10,14 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TemplateAccountRequirement;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.TemplateAccount;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
+import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
 
 public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
@@ -275,6 +283,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		// getAccountTerminologies().get(0));
 		get(SERVICE_PRODUCTS_BOTH).setDefaultValue(
 				getServiceProductBothList().get(0));
+		// get(ONE_PER_TRANSACTION).setDefaultValue(true);
+		get(FISCAL_YEAR).setDefaultValue(DayAndMonthUtil.april());
 		get(ONE_PER_TRANSACTION).setDefaultValue(true);
 	}
 

@@ -23,47 +23,43 @@ public class AccounterDateTimeFormatInfoImpl extends DateTimeFormatInfoImpl {
 	}-*/;
 
 	@Override
-	public native String dateFormat() /*-{
-
-		return $wnd['accounter_locale']['dateFormat'];
-	}-*/;
-
-	@Override
 	public native String dateFormatFull() /*-{
 
-		return $wnd['accounter_locale']['dateFormatFull'];
+		return $wnd['accounter_locale']['dateFormats'][0];
 	}-*/;
 
 	@Override
 	public native String dateFormatLong() /*-{
 
-		return $wnd['accounter_locale']['dateFormatLong'];
+		return $wnd['accounter_locale']['dateFormats'][1];
 	}-*/;
 
 	@Override
 	public native String dateFormatMedium() /*-{
 
-		return $wnd['accounter_locale']['dateFormatMedium'];
+		return $wnd['accounter_locale']['dateFormats'][2];
 	}-*/;
 
 	@Override
 	public native String dateFormatShort() /*-{
 
-		return $wnd['accounter_locale']['dateFormatShort'];
+		return $wnd['accounter_locale']['dateFormats'][3];
 	}-*/;
 
 	@Override
 	public String[] erasFull() {
 		return toArray(_erasFull());
 	}
+
 	public native JsArrayString _erasFull() /*-{
-		return $wnd['accounter_locale']['erasFull'];
+		return $wnd['accounter_locale']['eraNames'];
 	}-*/;
 
 	@Override
 	public String[] erasShort() {
 		return toArray(_erasShort());
 	}
+
 	public native JsArrayString _erasShort() /*-{
 
 		return $wnd['accounter_locale']['erasShort'];
@@ -76,280 +72,154 @@ public class AccounterDateTimeFormatInfoImpl extends DateTimeFormatInfoImpl {
 	}-*/;
 
 	@Override
-	public native String formatDay() /*-{
-
-		return $wnd['accounter_locale']['formatDay'];
-	}-*/;
-
-	@Override
-	public native String formatHour12Minute() /*-{
-
-		return $wnd['accounter_locale']['formatHour12Minute'];
-	}-*/;
-
-	@Override
-	public native String formatHour12MinuteSecond() /*-{
-
-		return $wnd['accounter_locale']['formatHour12MinuteSecond'];
-	}-*/;
-
-	@Override
-	public native String formatHour24Minute() /*-{
-
-		return $wnd['accounter_locale']['formatHour24Minute'];
-	}-*/;
-
-	@Override
-	public native String formatHour24MinuteSecond() /*-{
-
-		return $wnd['accounter_locale']['formatHour24MinuteSecond'];
-	}-*/;
-
-	@Override
-	public native String formatMinuteSecond() /*-{
-
-		return $wnd['accounter_locale']['formatMinuteSecond'];
-	}-*/;
-
-	@Override
-	public native String formatMonthAbbrev() /*-{
-
-		return $wnd['accounter_locale']['formatMonthAbbrev'];
-	}-*/;
-
-	@Override
-	public native String formatMonthAbbrevDay() /*-{
-
-		return $wnd['accounter_locale']['formatMonthAbbrevDay'];
-	}-*/;
-
-	@Override
-	public native String formatMonthFull() /*-{
-
-		return $wnd['accounter_locale']['formatMonthFull'];
-	}-*/;
-
-	@Override
-	public native String formatMonthFullDay() /*-{
-
-		return $wnd['accounter_locale']['formatMonthFullDay'];
-	}-*/;
-
-	@Override
-	public native String formatMonthFullWeekdayDay() /*-{
-
-		return $wnd['accounter_locale']['formatMonthFullWeekdayDay'];
-	}-*/;
-
-	@Override
-	public native String formatMonthNumDay() /*-{
-
-		return $wnd['accounter_locale']['formatMonthNumDay'];
-	}-*/;
-
-	@Override
-	public native String formatYear() /*-{
-
-		return $wnd['accounter_locale']['formatYear'];
-	}-*/;
-
-	@Override
-	public native String formatYearMonthAbbrev() /*-{
-
-		return $wnd['accounter_locale']['formatYearMonthAbbrev'];
-	}-*/;
-
-	@Override
-	public native String formatYearMonthAbbrevDay() /*-{
-
-		return $wnd['accounter_locale']['formatYearMonthAbbrevDay'];
-	}-*/;
-
-	@Override
-	public native String formatYearMonthFull() /*-{
-
-		return $wnd['accounter_locale']['formatYearMonthFull'];
-	}-*/;
-
-	@Override
-	public native String formatYearMonthFullDay() /*-{
-
-		return $wnd['accounter_locale']['formatYearMonthFullDay'];
-	}-*/;
-
-	@Override
-	public native String formatYearMonthNum() /*-{
-
-		return $wnd['accounter_locale']['formatYearMonthNum'];
-	}-*/;
-
-	@Override
-	public native String formatYearMonthNumDay() /*-{
-
-		return $wnd['accounter_locale']['formatYearMonthNumDay'];
-	}-*/;
-
-	@Override
-	public native String formatYearMonthWeekdayDay() /*-{
-
-		return $wnd['accounter_locale']['formatYearMonthWeekdayDay'];
-	}-*/;
-
-	@Override
-	public native String formatYearQuarterFull() /*-{
-
-		return $wnd['accounter_locale']['formatYearQuarterFull'];
-	}-*/;
-
-	@Override
-	public native String formatYearQuarterShort() /*-{
-
-		return $wnd['accounter_locale']['formatYearQuarterShort'];
-	}-*/;
-
-	@Override
 	public String[] monthsFull() {
 		return toArray(_monthsFull());
 	}
+
 	public native JsArrayString _monthsFull() /*-{
 
-		return $wnd['accounter_locale']['monthsFull'];
+		return $wnd['accounter_locale']['months'];
 	}-*/;
-	
+
 	@Override
 	public String[] monthsFullStandalone() {
 		return toArray(_monthsFullStandalone());
 	}
-	
+
 	public native JsArrayString _monthsFullStandalone() /*-{
 
-		return $wnd['accounter_locale']['monthsFullStandalone'];
+		return $wnd['accounter_locale']['standaloneMonths'];
 	}-*/;
 
 	@Override
 	public String[] monthsNarrow() {
 		return toArray(_monthsNarrow());
 	}
+
 	public native JsArrayString _monthsNarrow() /*-{
 
-		return $wnd['accounter_locale']['monthsNarrow'];
+		return $wnd['accounter_locale']['narrowMonths'];
 	}-*/;
 
 	@Override
 	public String[] monthsNarrowStandalone() {
 		return toArray(_monthsNarrowStandalone());
 	}
+
 	public native JsArrayString _monthsNarrowStandalone() /*-{
 
-		return $wnd['accounter_locale']['monthsNarrowStandalone'];
+		return $wnd['accounter_locale']['standaloneNarrowMonths'];
 	}-*/;
 
 	@Override
 	public String[] monthsShort() {
 		return toArray(_monthsShort());
 	}
+
 	public native JsArrayString _monthsShort() /*-{
 
-		return $wnd['accounter_locale']['monthsShort'];
+		return $wnd['accounter_locale']['shortMonths'];
 	}-*/;
 
 	@Override
 	public String[] monthsShortStandalone() {
 		return toArray(_monthsShortStandalone());
 	}
+
 	public native JsArrayString _monthsShortStandalone() /*-{
 
-		return $wnd['accounter_locale']['monthsShortStandalone'];
+		return $wnd['accounter_locale']['standaloneShortMonths'];
 	}-*/;
 
 	@Override
 	public String[] quartersFull() {
 		return toArray(_quartersFull());
 	}
+
 	public native JsArrayString _quartersFull() /*-{
 
-		return $wnd['accounter_locale']['quartersFull'];
+		return $wnd['accounter_locale']['quarters'];
 	}-*/;
 
 	@Override
 	public String[] quartersShort() {
 		return toArray(_quartersShort());
 	}
+
 	public native JsArrayString _quartersShort() /*-{
 
-		return $wnd['accounter_locale']['quartersShort'];
-	}-*/;
-
-	@Override
-	public native String timeFormat() /*-{
-
-		return $wnd['accounter_locale']['timeFormat'];
+		return $wnd['accounter_locale']['shortQuarters'];
 	}-*/;
 
 	@Override
 	public native String timeFormatFull() /*-{
 
-		return $wnd['accounter_locale']['timeFormatFull'];
+		return $wnd['accounter_locale']['timeFormats'][0];
 	}-*/;
 
 	@Override
 	public native String timeFormatLong() /*-{
 
-		return $wnd['accounter_locale']['timeFormatLong'];
+		return $wnd['accounter_locale']['timeFormats'][1];
 	}-*/;
 
 	@Override
 	public native String timeFormatMedium() /*-{
 
-		return $wnd['accounter_locale']['timeFormatMedium'];
+		return $wnd['accounter_locale']['timeFormats'][2];
 	}-*/;
 
 	@Override
 	public native String timeFormatShort() /*-{
 
-		return $wnd['accounter_locale']['timeFormatShort'];
+		return $wnd['accounter_locale']['timeFormats'][3];
 	}-*/;
 
 	@Override
 	public String[] weekdaysFull() {
 		return toArray(_weekdaysFull());
 	}
+
 	public native JsArrayString _weekdaysFull() /*-{
 
-		return $wnd['accounter_locale']['weekdaysFull'];
+		return $wnd['accounter_locale']['weekdays'];
 	}-*/;
 
 	@Override
 	public String[] weekdaysFullStandalone() {
 		return toArray(_weekdaysFullStandalone());
 	}
+
 	public native JsArrayString _weekdaysFullStandalone() /*-{
 
-		return $wnd['accounter_locale']['weekdaysFullStandalone'];
+		return $wnd['accounter_locale']['standaloneWeekdays'];
 	}-*/;
 
 	@Override
 	public String[] weekdaysNarrow() {
 		return toArray(_weekdaysNarrow());
 	}
+
 	public native JsArrayString _weekdaysNarrow() /*-{
 
-		return $wnd['accounter_locale']['weekdaysNarrow'];
+		return $wnd['accounter_locale']['narrowWeekdays'];
 	}-*/;
 
 	@Override
 	public String[] weekdaysNarrowStandalone() {
 		return toArray(_weekdaysNarrowStandalone());
 	}
+
 	public native JsArrayString _weekdaysNarrowStandalone() /*-{
 
-		return $wnd['accounter_locale']['weekdaysNarrowStandalone'];
+		return $wnd['accounter_locale']['standaloneNarrowWeekdays'];
 	}-*/;
 
 	@Override
 	public String[] weekdaysShort() {
 		return toArray(_weekdaysShort());
 	}
+
 	public native JsArrayString _weekdaysShort() /*-{
 
 		return $wnd['accounter_locale']['shortWeekdays'];
@@ -359,21 +229,19 @@ public class AccounterDateTimeFormatInfoImpl extends DateTimeFormatInfoImpl {
 	public String[] weekdaysShortStandalone() {
 		return toArray(_weekdaysShortStandalone());
 	}
-	public native JsArrayString _weekdaysShortStandalone() /*-{
 
-		return $wnd['accounter_locale']['weekdaysShortStandalone'];
+	public native JsArrayString _weekdaysShortStandalone() /*-{
+		return $wnd['accounter_locale']['standaloneShortWeekdays'];
 	}-*/;
 
 	@Override
 	public native int weekendEnd() /*-{
-
-		return $wnd['accounter_locale']['weekendEnd'];
+		return $wnd['accounter_locale']['weekendRange'][1];
 	}-*/;
 
 	@Override
 	public native int weekendStart() /*-{
-
-		return $wnd['accounter_locale']['weekendStart'];
+		return $wnd['accounter_locale']['weekendRange'][0];
 	}-*/;
 
 }

@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class Russia extends AbstractCountryPreferences {
 
@@ -36,14 +36,34 @@ public class Russia extends AbstractCountryPreferences {
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
+		return DayAndMonthUtil.january();
+	}
 
-		return Accounter.messages().january();
+	@Override
+	public String getDefaultTimeZone(String state) {
+		// TODO
+		// Europe/Kaliningrad Moscow-01 - Kaliningrad
+		// Europe/Moscow Moscow+00 - west Russia
+		// Europe/Volgograd Moscow+00 - Caspian Sea
+		// Europe/Samara Moscow - Samara, Udmurtia
+		// Asia/Yekaterinburg Moscow+02 - Urals
+		// Asia/Omsk Moscow+03 - west Siberia
+		// Asia/Novosibirsk Moscow+03 - Novosibirsk
+		// Asia/Novokuznetsk Moscow+03 - Novokuznetsk
+		// Asia/Krasnoyarsk Moscow+04 - Yenisei River
+		// Asia/Irkutsk Moscow+05 - Lake Baikal
+		// Asia/Yakutsk Moscow+06 - Lena River
+		// Asia/Vladivostok Moscow+07 - Amur River
+		// Asia/Sakhalin Moscow+07 - Sakhalin Island
+		// Asia/Magadan Moscow+08 - Magadan
+		// Asia/Kamchatka Moscow+08 - Kamchatka
+		// Asia/Anadyr Moscow+08 - Bering Sea
+		return "UTC+7:00 Asia/Krasnoyarsk";
 	}
 
 }

@@ -16,4 +16,9 @@ public class CongoRepublic extends AbstractCountryPreferences {
 				"Plateaux", "Pool", "Sangha" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+1:00 Africa/Brazzaville";
+	}
+
 }

@@ -14,4 +14,9 @@ public class JanMayen extends AbstractCountryPreferences {
 		return new String[] { "Länsimaa " };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+1:00 Arctic/Longyearbyen";
+	}
+
 }

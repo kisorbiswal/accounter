@@ -21,4 +21,9 @@ public class Libya extends AbstractCountryPreferences {
 				"Wadi aš-Šati", "Yafran wa Jadu" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+2:00 Africa/Tripoli";
+	}
+
 }

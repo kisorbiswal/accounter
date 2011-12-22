@@ -18,4 +18,9 @@ public class Laos extends AbstractCountryPreferences {
 				"Xiang Khuang" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+7:00 Asia/Vientiane";
+	}
+
 }

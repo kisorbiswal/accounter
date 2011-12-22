@@ -16,4 +16,9 @@ public class Eritrea extends AbstractCountryPreferences {
 				"Gash-Barka", "Maekel", "Semien-Keih-Bahri" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+3:00 Africa/Asmara";
+	}
+
 }

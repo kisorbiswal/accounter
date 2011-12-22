@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TDSTransactionItemGrid;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
@@ -247,10 +248,10 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 	private List<String> getChalanPeriodList() {
 		ArrayList<String> list = new ArrayList<String>();
 
-		list.add("Q1" + " " + messages.jan() + " - " + messages.mar());
-		list.add("Q2" + " " + messages.apr() + " - " + messages.jun());
-		list.add("Q3" + " " + messages.jul() + " - " + messages.sept());
-		list.add("Q4" + " " + messages.oct() + " - " + messages.dec());
+		list.add("Q1" + " " + DayAndMonthUtil.jan() + " - " + DayAndMonthUtil.mar());
+		list.add("Q2" + " " + DayAndMonthUtil.apr() + " - " + DayAndMonthUtil.jun());
+		list.add("Q3" + " " + DayAndMonthUtil.jul() + " - " + DayAndMonthUtil.sept());
+		list.add("Q4" + " " + DayAndMonthUtil.oct() + " - " + DayAndMonthUtil.dec());
 
 		return list;
 	}

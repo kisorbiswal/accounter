@@ -15,4 +15,9 @@ public class BritishIndianOceanTerritory extends AbstractCountryPreferences {
 		return new String[] { "Tortola" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+6:00 Indian/Chagos";
+	}
+
 }

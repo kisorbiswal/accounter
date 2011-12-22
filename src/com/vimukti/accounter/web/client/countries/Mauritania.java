@@ -16,4 +16,9 @@ public class Mauritania extends AbstractCountryPreferences {
 				"Inširi", "Nawakšut", "Takant", "Tiris Zammur", "Trarza" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+0:00 Africa/Nouakchott";
+	}
+
 }

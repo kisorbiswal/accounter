@@ -13,6 +13,7 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class CompanyPreferenceCommand extends AbstractCompanyPreferencesCommand {
 	// protected static final String COMPANY_DATEFORMAT = "companydate";
@@ -193,13 +194,13 @@ public class CompanyPreferenceCommand extends AbstractCompanyPreferencesCommand 
 
 	private List<String> getFiscalYearMonths() {
 
-		String[] names = new String[] { getMessages().january(),
-				getMessages().february(), getMessages().march(),
-				getMessages().april(), getMessages().may(),
-				getMessages().june(), getMessages().july(),
-				getMessages().august(), getMessages().september(),
-				getMessages().october(), getMessages().november(),
-				getMessages().december() };
+		String[] names = new String[] { DayAndMonthUtil.january(),
+				DayAndMonthUtil.february(), DayAndMonthUtil.march(),
+				DayAndMonthUtil.april(), DayAndMonthUtil.may_full(),
+				DayAndMonthUtil.june(), DayAndMonthUtil.july(),
+				DayAndMonthUtil.august(), DayAndMonthUtil.september(),
+				DayAndMonthUtil.october(), DayAndMonthUtil.november(),
+				DayAndMonthUtil.december() };
 		List<String> fiscalYearMonths = new ArrayList<String>();
 		for (int i = 0; i < names.length; i++) {
 			fiscalYearMonths.add(names[i]);

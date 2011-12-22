@@ -14,4 +14,9 @@ public class Comoros extends AbstractCountryPreferences {
 		return new String[] { "Mwali", "Ndzouani", "Ngazidja" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+3:00 Indian/Comoro";
+	}
+
 }

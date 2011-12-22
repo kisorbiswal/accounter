@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -18,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class AddBudgetAmountDialogue extends BaseDialog {
 
@@ -95,71 +95,62 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 				});
 
-		janAmount = new IntegerField(this, Global.get().messages().january()
-				+ ":");
+		janAmount = new IntegerField(this, DayAndMonthUtil.january() + ":");
 		janAmount.setHelpInformation(true);
 		janAmount.setRequired(false);
 		janAmount.setWidth(100);
 
-		febAmount = new IntegerField(this, Global.get().messages().february()
-				+ ":");
+		febAmount = new IntegerField(this, DayAndMonthUtil.february() + ":");
 		febAmount.setHelpInformation(true);
 		febAmount.setRequired(false);
 		febAmount.setWidth(100);
 
-		marAmount = new IntegerField(this, Global.get().messages().march()
-				+ ":");
+		marAmount = new IntegerField(this, DayAndMonthUtil.march() + ":");
 		marAmount.setHelpInformation(true);
 		marAmount.setRequired(false);
 		marAmount.setWidth(100);
 
-		aprAmount = new IntegerField(this, Global.get().messages().april()
-				+ ":");
+		aprAmount = new IntegerField(this, DayAndMonthUtil.april() + ":");
 		aprAmount.setHelpInformation(true);
 		aprAmount.setRequired(false);
 		aprAmount.setWidth(100);
 
-		mayAmount = new IntegerField(this, Global.get().messages().may() + ":");
+		mayAmount = new IntegerField(this, DayAndMonthUtil.may_full() + ":");
 		mayAmount.setHelpInformation(true);
 		mayAmount.setRequired(false);
 		mayAmount.setWidth(100);
 
-		junAmount = new IntegerField(this, Global.get().messages().june() + ":");
+		junAmount = new IntegerField(this, DayAndMonthUtil.june() + ":");
 		junAmount.setHelpInformation(true);
 		junAmount.setRequired(false);
 		junAmount.setWidth(100);
 
-		julAmount = new IntegerField(this, Global.get().messages().july() + ":");
+		julAmount = new IntegerField(this, DayAndMonthUtil.july() + ":");
 		julAmount.setHelpInformation(true);
 		julAmount.setRequired(false);
 		julAmount.setWidth(100);
 
-		augAmount = new IntegerField(this, Global.get().messages().august()
-				+ ":");
+		augAmount = new IntegerField(this, DayAndMonthUtil.august() + ":");
 		augAmount.setHelpInformation(true);
 		augAmount.setRequired(false);
 		augAmount.setWidth(100);
 
-		septAmount = new IntegerField(this, Global.get().messages().september()
-				+ ":");
+		septAmount = new IntegerField(this, DayAndMonthUtil.september() + ":");
 		septAmount.setHelpInformation(true);
 		septAmount.setRequired(false);
 		septAmount.setWidth(100);
 
-		octAmount = new IntegerField(this, Global.get().messages().october()
-				+ ":");
+		octAmount = new IntegerField(this, DayAndMonthUtil.october() + ":");
 		octAmount.setHelpInformation(true);
 		octAmount.setRequired(false);
 		octAmount.setWidth(100);
 
-		novAmount = new IntegerField(this, Global.get().messages().november()
-				+ ":");
+		novAmount = new IntegerField(this, DayAndMonthUtil.november() + ":");
 		novAmount.setHelpInformation(true);
 		novAmount.setRequired(false);
 		novAmount.setWidth(100);
 
-		decAmount = new IntegerField(this, Global.get().messages().december()
-				+ ":");
+		decAmount = new IntegerField(this, DayAndMonthUtil.december() + ":");
 		decAmount.setHelpInformation(true);
 		decAmount.setRequired(false);
 		decAmount.setWidth(100);
@@ -280,7 +271,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		} else if (viewType == QUARTERS) {
 
 			quater1Amount = new IntegerField(this, messages.quarterPeriod("1",
-					messages.jan(), messages.apr()));
+					DayAndMonthUtil.jan(), DayAndMonthUtil.apr()));
 			quater1Amount.setHelpInformation(true);
 			quater1Amount.setRequired(false);
 			quater1Amount.setWidth(100);
@@ -290,7 +281,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 					+ Double.parseDouble(marAmount.getValue())));
 
 			quater2Amount = new IntegerField(this, messages.quarterPeriod("2",
-					messages.apr(), messages.may()));
+					DayAndMonthUtil.apr(), DayAndMonthUtil.may_short()));
 			quater2Amount.setHelpInformation(true);
 			quater2Amount.setRequired(false);
 			quater2Amount.setWidth(100);
@@ -300,7 +291,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 					+ Double.parseDouble(junAmount.getValue())));
 
 			quater3Amount = new IntegerField(this, messages.quarterPeriod("3",
-					messages.jun(), messages.sept()));
+					DayAndMonthUtil.jun(), DayAndMonthUtil.sept()));
 			quater3Amount.setHelpInformation(true);
 			quater3Amount.setRequired(false);
 			quater3Amount.setWidth(100);
@@ -310,7 +301,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 					+ Double.parseDouble(septAmount.getValue())));
 
 			quater4Amount = new IntegerField(this, messages.quarterPeriod("4",
-					messages.oct(), messages.dec()));
+					DayAndMonthUtil.oct(), DayAndMonthUtil.dec()));
 			quater4Amount.setHelpInformation(true);
 			quater4Amount.setRequired(false);
 			quater4Amount.setWidth(100);

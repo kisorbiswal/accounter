@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
 import com.vimukti.accounter.web.server.AccountsTemplateManager;
@@ -232,13 +233,13 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 	}
 
 	protected List<String> getFiscalYearMonths() {
-		String[] names = new String[] { getMessages().january(),
-				getMessages().february(), getMessages().march(),
-				getMessages().april(), getMessages().may(),
-				getMessages().june(), getMessages().july(),
-				getMessages().august(), getMessages().september(),
-				getMessages().october(), getMessages().november(),
-				getMessages().december() };
+		String[] names = new String[] { DayAndMonthUtil.january(),
+				DayAndMonthUtil.february(), DayAndMonthUtil.march(),
+				DayAndMonthUtil.april(), DayAndMonthUtil.may_full(),
+				DayAndMonthUtil.june(), DayAndMonthUtil.july(),
+				DayAndMonthUtil.august(), DayAndMonthUtil.september(),
+				DayAndMonthUtil.october(), DayAndMonthUtil.november(),
+				DayAndMonthUtil.december() };
 		List<String> fiscalYearMonths = new ArrayList<String>();
 		for (int i = 0; i < names.length; i++) {
 			fiscalYearMonths.add(names[i]);
@@ -574,7 +575,7 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 		countrySelected("United Kingdom");
 		get(TIME_ZONE).setDefaultValue(getDefaultTzOffsetStr());
 		get(ORGANIZATION_REFER).setDefaultValue(getOrganizationTypes().get(0));
-		get(FISCAL_YEAR).setDefaultValue(getMessages().april());
+		get(FISCAL_YEAR).setDefaultValue(DayAndMonthUtil.april());
 	}
 
 	@Override

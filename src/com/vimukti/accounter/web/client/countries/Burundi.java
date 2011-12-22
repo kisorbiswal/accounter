@@ -16,4 +16,9 @@ public class Burundi extends AbstractCountryPreferences {
 				"Makamba", "Muramvya", "Muyinga", "Ngozi", "Rutana", "Ruyigi" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+2:00 Africa/Bujumbura";
+	}
+
 }

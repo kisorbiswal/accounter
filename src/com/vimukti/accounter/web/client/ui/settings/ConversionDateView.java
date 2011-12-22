@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 	private VerticalPanel mainPanel, headerPanel, bodyPanel;
@@ -71,11 +72,11 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 		saveButton = new Button(messages.save());
 		cancelButton = new Button(messages.cancel());
 
-		monthArray = new String[] { messages.january(), messages.february(),
-				messages.march(), messages.april(), messages.may(),
-				messages.june(), messages.july(), messages.august(),
-				messages.september(), messages.october(), messages.november(),
-				messages.december() };
+		monthArray = new String[] { DayAndMonthUtil.january(), DayAndMonthUtil.february(),
+				DayAndMonthUtil.march(), DayAndMonthUtil.april(), DayAndMonthUtil.may_full(),
+				DayAndMonthUtil.june(), DayAndMonthUtil.july(), DayAndMonthUtil.august(),
+				DayAndMonthUtil.september(), DayAndMonthUtil.october(), DayAndMonthUtil.november(),
+				DayAndMonthUtil.december() };
 		yearArray = new String[] { 2011 + "", 2012 + "" };
 		monthCombo = new SelectCombo(messages.month());
 		monthCombo.setHelpInformation(true);
@@ -199,7 +200,7 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 		String returnValue = null;
 		if (month == null || year == null) {
 			returnValue = "";
-		} else if (month.equals(messages.january())) {
+		} else if (month.equals(DayAndMonthUtil.january())) {
 			returnValue = String.valueOf(Integer.parseInt(year) - 1);
 		} else {
 			returnValue = year;
@@ -211,35 +212,35 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 		String returnValue = null;
 		if (month == null || year == null) {
 			returnValue = "";
-		} else if (month.equals(messages.january())) {
-			returnValue = messages.datenumber(31) + " " + messages.december();
-		} else if (month.equals(messages.february())) {
-			returnValue = messages.datenumber(31) + " " + messages.january();
-		} else if (month.equals(messages.march())) {
+		} else if (month.equals(DayAndMonthUtil.january())) {
+			returnValue =  messages.datenumber(31) + " " + DayAndMonthUtil.december();
+		} else if (month.equals(DayAndMonthUtil.february())) {
+			returnValue =  messages.datenumber(31) + " " + DayAndMonthUtil.january();
+		} else if (month.equals(DayAndMonthUtil.march())) {
 			if (Integer.parseInt(year) % 4 == 0) {
-				returnValue = messages.datenumber(29) + " " + messages.february();
+				returnValue =  messages.datenumber(29) + " " + DayAndMonthUtil.february();
 			} else {
-				returnValue = messages.datenumber(28) + " " + messages.february();
+				returnValue =  messages.datenumber(28) + " " + DayAndMonthUtil.february();
 			}
 
-		} else if (month.equals(messages.april())) {
-			returnValue = messages.datenumber(31) + " " + messages.march();
-		} else if (month.equals(messages.may())) {
-			returnValue = messages.datenumber(30) + " " + messages.april();
-		} else if (month.equals(messages.june())) {
-			returnValue = messages.april() + " " + messages.may();
-		} else if (month.equals(messages.july())) {
-			returnValue = messages.datenumber(30) + " " + messages.june();
-		} else if (month.equals(messages.august())) {
-			returnValue = messages.datenumber(31) + " " + messages.july();
-		} else if (month.equals(messages.september())) {
-			returnValue = messages.datenumber(31) + " " + messages.august();
-		} else if (month.equals(messages.october())) {
-			returnValue = messages.datenumber(30) + " " + messages.september();
-		} else if (month.equals(messages.november())) {
-			returnValue = messages.datenumber(31) + " " + messages.october();
-		} else if (month.equals(messages.december())) {
-			returnValue = messages.datenumber(31) + " " + messages.november();
+		} else if (month.equals(DayAndMonthUtil.april())) {
+			returnValue =  messages.datenumber(31) + " " + DayAndMonthUtil.march();
+		} else if (month.equals(DayAndMonthUtil.may_full())) {
+			returnValue = messages.datenumber(30) + " " + DayAndMonthUtil.april();
+		} else if (month.equals(DayAndMonthUtil.june())) {
+			returnValue = DayAndMonthUtil.april() + " " + DayAndMonthUtil.may_full();
+		} else if (month.equals(DayAndMonthUtil.july())) {
+			returnValue =  messages.datenumber(30) + " " + DayAndMonthUtil.june();
+		} else if (month.equals(DayAndMonthUtil.august())) {
+			returnValue =  messages.datenumber(31) + " " + DayAndMonthUtil.july();
+		} else if (month.equals(DayAndMonthUtil.september())) {
+			returnValue =  messages.datenumber(31) + " " + DayAndMonthUtil.august();
+		} else if (month.equals(DayAndMonthUtil.october())) {
+			returnValue =  messages.datenumber(30) + " " + DayAndMonthUtil.september();
+		} else if (month.equals(DayAndMonthUtil.november())) {
+			returnValue =  messages.datenumber(31) + " " + DayAndMonthUtil.october();
+		} else if (month.equals(DayAndMonthUtil.december())) {
+			returnValue = messages.datenumber(31) + " " + DayAndMonthUtil.november();
 		}
 
 		return returnValue;

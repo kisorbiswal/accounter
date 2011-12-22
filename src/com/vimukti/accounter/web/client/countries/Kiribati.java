@@ -19,4 +19,13 @@ public class Kiribati extends AbstractCountryPreferences {
 				"Teraina" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		// TODO
+		// Pacific/Tarawa Gilbert Islands
+		// Pacific/Enderbury Phoenix Islands
+		// Pacific/Kiritimati Line Islands
+		return "UTC+12:00 Pacific/Tarawa";
+	}
+
 }

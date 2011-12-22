@@ -11,7 +11,12 @@ public class BouvetIsland extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		return new String[]{""};
+		return new String[] { "" };
+	}
+
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+1:00 Europe/Andorra";
 	}
 
 }

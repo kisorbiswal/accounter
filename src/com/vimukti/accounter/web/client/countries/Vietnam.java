@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class Vietnam extends AbstractCountryPreferences {
 
@@ -30,8 +30,7 @@ public class Vietnam extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-
-		return Accounter.messages().january();
+		return DayAndMonthUtil.january();
 	}
 
 	@Override
@@ -52,6 +51,11 @@ public class Vietnam extends AbstractCountryPreferences {
 	@Override
 	public boolean isSalesTaxIdAndCompanyTaxIdSame() {
 		return false;
+	}
+
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+7:00 Asia/Ho_Chi_Minh";
 	}
 
 }

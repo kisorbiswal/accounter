@@ -14,4 +14,9 @@ public class ChristmasIsland extends AbstractCountryPreferences {
 		return new String[] {};
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+7:00 Indian/Christmas";
+	}
+
 }

@@ -14,4 +14,9 @@ public class Fiji extends AbstractCountryPreferences {
 		return new String[] { "Central", "Eastern", "Northern", "Western" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+12:00 Pacific/Fiji";
+	}
+
 }

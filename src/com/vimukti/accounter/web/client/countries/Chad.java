@@ -17,4 +17,9 @@ public class Chad extends AbstractCountryPreferences {
 				"Salamat", "Tandjilé" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+1:00 Africa/Ndjamena";
+	}
+
 }

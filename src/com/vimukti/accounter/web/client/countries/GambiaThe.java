@@ -15,4 +15,9 @@ public class GambiaThe extends AbstractCountryPreferences {
 				"Kanifing", "Kerewan", "Kuntaur", "Mansakonko" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+0:00 Africa/Banjul";
+	}
+
 }

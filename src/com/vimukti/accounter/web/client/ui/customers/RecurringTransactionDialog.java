@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class RecurringTransactionDialog extends
 		BaseDialog<ClientRecurringTransaction> {
@@ -433,18 +434,18 @@ public class RecurringTransactionDialog extends
 
 	private List<String> getMonthOptions() {
 		List<String> options = new ArrayList<String>();
-		options.add(messages.january());
-		options.add(messages.february());
-		options.add(messages.march());
-		options.add(messages.april());
-		options.add(messages.may());
-		options.add(messages.june());
-		options.add(messages.july());
-		options.add(messages.august());
-		options.add(messages.september());
-		options.add(messages.october());
-		options.add(messages.november());
-		options.add(messages.december());
+		options.add(DayAndMonthUtil.january());
+		options.add(DayAndMonthUtil.february());
+		options.add(DayAndMonthUtil.march());
+		options.add(DayAndMonthUtil.april());
+		options.add(DayAndMonthUtil.may_full());
+		options.add(DayAndMonthUtil.june());
+		options.add(DayAndMonthUtil.july());
+		options.add(DayAndMonthUtil.august());
+		options.add(DayAndMonthUtil.september());
+		options.add(DayAndMonthUtil.october());
+		options.add(DayAndMonthUtil.november());
+		options.add(DayAndMonthUtil.december());
 		return options;
 	}
 
@@ -469,13 +470,13 @@ public class RecurringTransactionDialog extends
 
 	private List<String> getWeekOptions() {
 		List<String> weeks = new ArrayList<String>();
-		weeks.add(messages.sunday());
-		weeks.add(messages.monday());
-		weeks.add(messages.tuesday());
-		weeks.add(messages.wednesday());
-		weeks.add(messages.thursday());
-		weeks.add(messages.friday());
-		weeks.add(messages.saturday());
+		weeks.add(DayAndMonthUtil.sunday());
+		weeks.add(DayAndMonthUtil.monday());
+		weeks.add(DayAndMonthUtil.tuesday());
+		weeks.add(DayAndMonthUtil.wednesday());
+		weeks.add(DayAndMonthUtil.thursday());
+		weeks.add(DayAndMonthUtil.friday());
+		weeks.add(DayAndMonthUtil.saturday());
 		return weeks;
 	}
 

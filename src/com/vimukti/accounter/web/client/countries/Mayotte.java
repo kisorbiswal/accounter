@@ -14,4 +14,9 @@ public class Mayotte extends AbstractCountryPreferences {
 		return new String[] { "Mayotte", "Pamanzi" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+3:00 Indian/Mayotte";
+	}
+
 }

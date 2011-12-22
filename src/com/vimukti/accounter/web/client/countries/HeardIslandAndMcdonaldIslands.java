@@ -14,4 +14,9 @@ public class HeardIslandAndMcdonaldIslands extends AbstractCountryPreferences {
 		return new String[] {};
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+1:00 Europe/Andorra";
+	}
+
 }

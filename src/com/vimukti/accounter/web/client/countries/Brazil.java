@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class Brazil extends AbstractCountryPreferences {
 
@@ -25,14 +25,34 @@ public class Brazil extends AbstractCountryPreferences {
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
+		return DayAndMonthUtil.january();
+	}
 
-		return Accounter.messages().january();
+	@Override
+	public String getDefaultTimeZone(String state) {
+		// TODO
+		// America/Noronha Atlantic islands
+		// America/Belem Amapa, E Para
+		// America/Fortaleza NE Brazil (MA, PI, CE, RN, PB)
+		// America/Recife Pernambuco
+		// America/Araguaina Tocantins
+		// America/Maceio Alagoas, Sergipe
+		// America/Bahia Bahia
+		// America/Sao_Paulo S & SE Brazil (GO, DF, MG, ES, RJ, SP, PR, SC, RS)
+		// America/Campo_Grande Mato Grosso do Sul
+		// America/Cuiaba Mato Grosso
+		// America/Santarem W Para
+		// America/Porto_Velho Rondonia
+		// America/Boa_Vista Roraima
+		// America/Manaus E Amazonas
+		// America/Eirunepe W Amazonas
+		// America/Rio_Branco Acre
+		return "UTC-3:00 America/Sao_Paulo";
 	}
 
 }

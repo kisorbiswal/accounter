@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class SaintHelena extends AbstractCountryPreferences {
 
@@ -15,7 +15,7 @@ public class SaintHelena extends AbstractCountryPreferences {
 	public String getPreferredCurrency() {
 		return "SHP";
 	}
-	
+
 	@Override
 	public boolean allowFlexibleFiscalYear() {
 		return true;
@@ -23,7 +23,12 @@ public class SaintHelena extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.messages().january();
+		return DayAndMonthUtil.january();
+	}
+
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+0:00 Atlantic/St_Helena";
 	}
 
 }

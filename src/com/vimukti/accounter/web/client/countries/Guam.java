@@ -17,4 +17,9 @@ public class Guam extends AbstractCountryPreferences {
 				"Sinajana", "Talofofo", "Tamuning", "Yigo", "Yona" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+10:00 Pacific/Guam";
+	}
+
 }

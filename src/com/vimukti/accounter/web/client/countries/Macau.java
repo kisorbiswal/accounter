@@ -14,4 +14,9 @@ public class Macau extends AbstractCountryPreferences {
 		return new String[] { "Macau" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+8:00 Asia/Macau";
+	}
+
 }

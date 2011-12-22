@@ -15,4 +15,9 @@ public class Cameroon extends AbstractCountryPreferences {
 				"Nord Extrème", "Nordouest", "Ouest", "Sud", "Sudouest" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+1:00 Africa/Douala";
+	}
+
 }

@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.KeyFinancialIndicator;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> {
 
@@ -160,34 +161,34 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 	private String getMonthAsString(int month) {
 		switch (month) {
 		case 0:
-			return messages.jan();
+			return DayAndMonthUtil.jan();
 		case 1:
-			return messages.feb();
+			return DayAndMonthUtil.feb();
 		case 2:
-			return messages.mar();
+			return DayAndMonthUtil.mar();
 		case 3:
-			return messages.apr();
+			return DayAndMonthUtil.apr();
 		case 4:
-			return messages.may();
+			return DayAndMonthUtil.may_short();
 		case 5:
-			return messages.jun();
+			return DayAndMonthUtil.jun();
 		case 6:
-			return messages.jul();
+			return DayAndMonthUtil.jul();
 		case 7:
 		case -5:
-			return messages.aug();
+			return DayAndMonthUtil.aug();
 		case 8:
 		case -4:
-			return messages.sept();
+			return DayAndMonthUtil.sept();
 		case 9:
 		case -3:
-			return messages.oct();
+			return DayAndMonthUtil.oct();
 		case 10:
 		case -2:
-			return messages.nov();
+			return DayAndMonthUtil.nov();
 		case 11:
 		case -1:
-			return messages.dec();
+			return DayAndMonthUtil.dec();
 
 		}
 		return "";

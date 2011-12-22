@@ -16,4 +16,9 @@ public class FaroeIslands extends AbstractCountryPreferences {
 				"Vága" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+0:00 Atlantic/Faroe";
+	}
+
 }

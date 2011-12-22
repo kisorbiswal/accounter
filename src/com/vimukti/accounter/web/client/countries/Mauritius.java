@@ -19,14 +19,17 @@ public class Mauritius extends AbstractCountryPreferences {
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+4:00 Indian/Mauritius";
 	}
 
 }

@@ -16,4 +16,9 @@ public class Gabon extends AbstractCountryPreferences {
 				"Ogooué-Maritime", "Woleu-Ntem" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+1:00 Africa/Libreville";
+	}
+
 }

@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class Gibraltar extends AbstractCountryPreferences {
 
@@ -17,13 +17,17 @@ public class Gibraltar extends AbstractCountryPreferences {
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.messages().july();
+		return DayAndMonthUtil.july();
+	}
+
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+1:00 Europe/Gibraltar";
 	}
 
 }

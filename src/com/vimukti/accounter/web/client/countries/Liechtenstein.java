@@ -16,4 +16,9 @@ public class Liechtenstein extends AbstractCountryPreferences {
 				"Triesenberg", "Vaduz", };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+1:00 Europe/Vaduz";
+	}
+
 }

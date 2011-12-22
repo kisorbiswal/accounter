@@ -5,7 +5,7 @@ public abstract class AbstractCountryPreferences implements ICountryPreferences 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	// private static final long serialVersionUID = 1L;
 
 	@Override
 	public OrganizationType[] getOrganizationTypes() {
@@ -86,7 +86,5 @@ public abstract class AbstractCountryPreferences implements ICountryPreferences 
 	}
 
 	@Override
-	public String getDefaultTimeZone(String state) {
-		return "UTC-12:00";
-	}
+	public abstract String getDefaultTimeZone(String state);
 }

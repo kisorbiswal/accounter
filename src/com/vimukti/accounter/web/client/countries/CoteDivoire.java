@@ -15,4 +15,9 @@ public class CoteDivoire extends AbstractCountryPreferences {
 				"Yamoussoukro" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+0:00 Africa/Abidjan";
+	}
+
 }

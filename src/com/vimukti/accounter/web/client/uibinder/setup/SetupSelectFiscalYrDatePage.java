@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 /**
  * @author Administrator
@@ -60,13 +61,13 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 		headerLabel.setText(messages.selectFirstMonthOfFiscalYear());
 
 		fiscalStarts.setText(messages.myFiscalYearsStartsIn());
-		monthNames = new String[] { messages.january(),
-				messages.february(), messages.march(),
-				messages.april(), messages.may(),
-				messages.june(), messages.july(),
-				messages.august(), messages.september(),
-				messages.october(), messages.november(),
-				messages.december() };
+		monthNames = new String[] { DayAndMonthUtil.january(),
+				DayAndMonthUtil.february(), DayAndMonthUtil.march(),
+				DayAndMonthUtil.april(), DayAndMonthUtil.may_full(),
+				DayAndMonthUtil.june(), DayAndMonthUtil.july(),
+				DayAndMonthUtil.august(), DayAndMonthUtil.september(),
+				DayAndMonthUtil.october(), DayAndMonthUtil.november(),
+				DayAndMonthUtil.december() };
 		monthsList = new ArrayList<String>();
 		// fiscalStartsList = null;
 		for (int i = 0; i < monthNames.length; i++) {

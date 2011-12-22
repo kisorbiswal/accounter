@@ -16,4 +16,9 @@ public class CookIslands extends AbstractCountryPreferences {
 				"Rarotonga", "Tongareva" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC-10:00 Pacific/Rarotonga";
+	}
+
 }

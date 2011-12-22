@@ -17,4 +17,9 @@ public class Zimbabwe extends AbstractCountryPreferences {
 				"Midlands" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+2:00 Africa/Harare";
+	}
+
 }

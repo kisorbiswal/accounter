@@ -40,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 /**
  * 
@@ -329,13 +330,13 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	}
 
 	private String[] getMonthStrings() {
-		return new String[] { Accounter.messages().jan(),
-				Accounter.messages().feb(), Accounter.messages().mar(),
-				Accounter.messages().apr(), Accounter.messages().may(),
-				Accounter.messages().jun(), Accounter.messages().jul(),
-				Accounter.messages().aug(), Accounter.messages().sept(),
-				Accounter.messages().oct(), Accounter.messages().nov(),
-				Accounter.messages().dec(), };
+		return new String[] { DayAndMonthUtil.jan(),
+				DayAndMonthUtil.feb(), DayAndMonthUtil.mar(),
+				DayAndMonthUtil.apr(), DayAndMonthUtil.may_short(),
+				DayAndMonthUtil.jun(), DayAndMonthUtil.jul(),
+				DayAndMonthUtil.aug(), DayAndMonthUtil.sept(),
+				DayAndMonthUtil.oct(), DayAndMonthUtil.nov(),
+				DayAndMonthUtil.dec(), };
 	}
 
 	private int[] getLastDateValues() {

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.countries;
 
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 import com.vimukti.accounter.web.client.util.OrganizationType;
 
 public class UnitedStates extends AbstractCountryPreferences {
@@ -62,7 +63,7 @@ public class UnitedStates extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.messages().october();
+		return DayAndMonthUtil.october();
 	}
 
 	@Override
@@ -75,7 +76,6 @@ public class UnitedStates extends AbstractCountryPreferences {
 		return false;
 	}
 
-
 	@Override
 	public boolean isSalesTaxAvailable() {
 		return true;
@@ -85,7 +85,6 @@ public class UnitedStates extends AbstractCountryPreferences {
 	public boolean isSalesTaxIdAndCompanyTaxIdSame() {
 		return true;
 	}
-
 
 	@Override
 	public boolean isServiceTaxAvailable() {
@@ -97,5 +96,41 @@ public class UnitedStates extends AbstractCountryPreferences {
 		return false;
 	}
 
-	
+	@Override
+	public String getDefaultTimeZone(String state) {
+		// TODO
+		// America/New_York Eastern Time
+		// America/Detroit Eastern Time - Michigan - most locations
+		// America/Kentucky/Louisville Eastern Time - Kentucky - Louisville area
+		// America/Kentucky/Monticello Eastern Time - Kentucky - Wayne County
+		// America/Indiana/Indianapolis Eastern Time - Indiana - most locations
+		// America/Indiana/Vincennes Eastern Time - Indiana - Daviess, Dubois,
+		// Knox & Martin Counties
+		// America/Indiana/Winamac Eastern Time - Indiana - Pulaski County
+		// America/Indiana/Marengo Eastern Time - Indiana - Crawford County
+		// America/Indiana/Petersburg Eastern Time - Indiana - Pike County
+		// America/Indiana/Vevay Eastern Time - Indiana - Switzerland County
+		// America/Chicago Central Time
+		// America/Indiana/Tell_City Central Time - Indiana - Perry County
+		// America/Indiana/Knox Central Time - Indiana - Starke County
+		// America/Menominee Central Time - Michigan - Dickinson, Gogebic, Iron
+		// & Menominee Counties
+		// America/North_Dakota/Center Central Time - North Dakota - Oliver
+		// County
+		// America/North_Dakota/New_Salem Central Time - North Dakota - Morton
+		// County (except Mandan area)
+		// America/Denver Mountain Time
+		// America/Boise Mountain Time - south Idaho & east Oregon
+		// America/Shiprock Mountain Time - Navajo
+		// America/Phoenix Mountain Standard Time - Arizona
+		// America/Los_Angeles Pacific Time
+		// America/Anchorage Alaska Time
+		// America/Juneau Alaska Time - Alaska panhandle
+		// America/Yakutat Alaska Time - Alaska panhandle neck
+		// America/Nome Alaska Time - west Alaska
+		// America/Adak Aleutian Islands
+		// Pacific/Honolulu Hawaii
+		return "UTC-7:00 America/Denver";
+	}
+
 }

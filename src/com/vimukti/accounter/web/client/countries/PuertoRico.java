@@ -6,13 +6,17 @@ public class PuertoRico extends AbstractCountryPreferences {
 
 	@Override
 	public String[] getStates() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getPreferredCurrency() {
 		return "USD";
+	}
+
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC-4:00 America/Puerto_Rico" ;
 	}
 
 }

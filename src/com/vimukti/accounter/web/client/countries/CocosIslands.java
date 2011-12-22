@@ -14,4 +14,9 @@ public class CocosIslands extends AbstractCountryPreferences {
 		return new String[] { "Home Island", "West Island" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+6:30 Indian/Cocos";
+	}
+
 }

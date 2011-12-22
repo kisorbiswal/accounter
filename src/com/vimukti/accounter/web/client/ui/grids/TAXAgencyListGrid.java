@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class TAXAgencyListGrid extends BaseListGrid<PayeeList> {
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
@@ -84,35 +85,35 @@ public class TAXAgencyListGrid extends BaseListGrid<PayeeList> {
 	private String getMonthAsString(int month) {
 		switch (month) {
 		case 1:
-			return Accounter.messages().jan();
+			return DayAndMonthUtil.jan();
 		case 2:
-			return Accounter.messages().feb();
+			return DayAndMonthUtil.feb();
 		case 3:
-			return Accounter.messages().mar();
+			return DayAndMonthUtil.mar();
 		case 4:
-			return Accounter.messages().apr();
+			return DayAndMonthUtil.apr();
 		case 5:
-			return Accounter.messages().may();
+			return DayAndMonthUtil.may_short();
 		case 6:
-			return Accounter.messages().jun();
+			return DayAndMonthUtil.jun();
 		case 7:
 		case -5:
-			return Accounter.messages().jul();
+			return DayAndMonthUtil.jul();
 		case 8:
 		case -4:
-			return Accounter.messages().aug();
+			return DayAndMonthUtil.aug();
 		case 9:
 		case -3:
-			return Accounter.messages().sept();
+			return DayAndMonthUtil.sept();
 		case 10:
 		case -2:
-			return Accounter.messages().oct();
+			return DayAndMonthUtil.oct();
 		case 11:
 		case -1:
-			return Accounter.messages().nov();
+			return DayAndMonthUtil.nov();
 		case 12:
 		case 0:
-			return Accounter.messages().dec();
+			return DayAndMonthUtil.dec();
 
 		}
 		return "";

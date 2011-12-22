@@ -14,4 +14,9 @@ public class FrenchSouthernAndAntarcticLands extends AbstractCountryPreferences 
 		return new String[] { "Amsterdam", "Crozet Islands", "Kerguelen" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+5:00 Indian/Kerguelen";
+	}
+
 }

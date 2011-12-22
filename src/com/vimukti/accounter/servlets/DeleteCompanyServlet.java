@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientUser;
  * 
  */
 
+@SuppressWarnings("serial")
 public class DeleteCompanyServlet extends BaseServlet {
 
 	private static final String deleteCompanyView = "/WEB-INF/deleteCompany.jsp";

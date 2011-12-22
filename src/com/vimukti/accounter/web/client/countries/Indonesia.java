@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class Indonesia extends AbstractCountryPreferences {
 
@@ -26,13 +26,23 @@ public class Indonesia extends AbstractCountryPreferences {
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.messages().january();
+		return DayAndMonthUtil.january();
+	}
+
+	@Override
+	public String getDefaultTimeZone(String state) {
+		// TODO
+		// Asia/Jakarta Java & Sumatra
+		// Asia/Pontianak west & central Borneo
+		// Asia/Makassar east & south Borneo, Celebes, Bali, Nusa Tengarra, west
+		// Timor
+		// Asia/Jayapura Irian Jaya & the Moluccas
+		return "UTC+8:00 Asia/Makassar";
 	}
 
 }

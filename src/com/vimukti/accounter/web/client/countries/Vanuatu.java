@@ -15,4 +15,9 @@ public class Vanuatu extends AbstractCountryPreferences {
 				"Torba" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+11:00 Pacific/Efate";
+	}
+
 }

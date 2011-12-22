@@ -16,4 +16,9 @@ public class Ethiopia extends AbstractCountryPreferences {
 				"Southern", "Tigray" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+3:00 Africa/Addis_Ababa";
+	}
+
 }

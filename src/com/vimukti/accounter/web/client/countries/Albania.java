@@ -19,4 +19,9 @@ public class Albania extends AbstractCountryPreferences {
 				"Pogradec", "Pukë", "Sarandë", "Shkodër", "Skrapar",
 				"Tepelenë", "Tirana", "Tropojë", "Vlorë" };
 	}
+
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+1:00 Europe/Tirane";
+	}
 }

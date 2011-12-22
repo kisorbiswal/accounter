@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class Yemen extends AbstractCountryPreferences {
 
@@ -31,7 +31,7 @@ public class Yemen extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.messages().january();
+		return DayAndMonthUtil.january();
 	}
 
 	@Override
@@ -47,6 +47,11 @@ public class Yemen extends AbstractCountryPreferences {
 	@Override
 	public boolean isServiceTaxAvailable() {
 		return false;
+	}
+
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+3:00 Asia/Aden";
 	}
 
 }

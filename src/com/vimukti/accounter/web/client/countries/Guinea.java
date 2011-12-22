@@ -15,4 +15,9 @@ public class Guinea extends AbstractCountryPreferences {
 				"Haute Guinée", "Moyenne Guinée" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+0:00 Africa/Conakry";
+	}
+
 }

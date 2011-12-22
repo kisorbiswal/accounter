@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class Ghana extends AbstractCountryPreferences {
 
@@ -20,13 +20,17 @@ public class Ghana extends AbstractCountryPreferences {
 
 	@Override
 	public boolean allowFlexibleFiscalYear() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.messages().january();
+		return DayAndMonthUtil.january();
+	}
+
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+0:00 Africa/Accra";
 	}
 
 }

@@ -15,4 +15,9 @@ public class Kyrgyzstan extends AbstractCountryPreferences {
 				"Issik-Göl", "Narin", "Os", "Talas" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+6:00 Asia/Bishkek";
+	}
+
 }

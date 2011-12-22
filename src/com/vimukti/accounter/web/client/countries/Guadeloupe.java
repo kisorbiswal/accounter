@@ -16,4 +16,9 @@ public class Guadeloupe extends AbstractCountryPreferences {
 				"Saint Barthélemy", "Saint Martin" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC-4:00 America/Guadeloupe";
+	}
+
 }

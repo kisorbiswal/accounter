@@ -18,4 +18,9 @@ public class CentralAfricanRepublic extends AbstractCountryPreferences {
 				"Sangha-Mbaéré", "Vakaga" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+1:00 Africa/Bangui";
+	}
+
 }

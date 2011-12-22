@@ -16,4 +16,9 @@ public class WesternSahara extends AbstractCountryPreferences {
 				"Wad-ad-Ðahab" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+0:00 Africa/El_Aaiun";
+	}
+
 }

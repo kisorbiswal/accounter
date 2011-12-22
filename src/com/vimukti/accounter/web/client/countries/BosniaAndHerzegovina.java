@@ -15,4 +15,9 @@ public class BosniaAndHerzegovina extends AbstractCountryPreferences {
 				"Federacija Bosna i Hercegovina", "Republika Srpska" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+1:00 Europe/Sarajevo";
+	}
+
 }

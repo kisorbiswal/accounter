@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class MicronesiaFederated extends AbstractCountryPreferences {
 
@@ -23,7 +23,18 @@ public class MicronesiaFederated extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultFiscalYearStartingMonth() {
-		return Accounter.messages().january();
+		return DayAndMonthUtil.january();
+	}
+
+	@Override
+	public String getDefaultTimeZone(String state) {
+		if (state.equals("Chuuk") || state.equals("Yap")) {
+			return "UTC+10:00 Pacific/Chuuk";
+		} else if (state.equals("Pohnpei")) {
+			return "UTC+11:00 Pacific/Pohnpei";
+		} else {
+			return "UTC+11:00 Pacific/Kosrae";
+		}
 	}
 
 }

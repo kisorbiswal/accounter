@@ -21,4 +21,9 @@ public class Iran extends AbstractCountryPreferences {
 				"Sistan-e Baluchestan", "Teheran", "Yazd", "Zanjan" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+3:30 Asia/Tehran";
+	}
+
 }

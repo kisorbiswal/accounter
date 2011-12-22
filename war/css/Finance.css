@@ -1080,7 +1080,7 @@ iframe,.address div {
 
 .date-number td:nth-child                                           
 	                                                                   
-	      (2),.datenumber-panel table {
+	            (2),.datenumber-panel table {
 	padding-right: 15px;
 }
 
@@ -2241,7 +2241,7 @@ input.date-field-textbox {
 	margin-right: 20px;
 }
 
-.quick-links-table .gwt-Anchor {
+.quick-links-table .gwt-Anchor,.portlet_link {
 	color: #2D8B93;
 }
 
@@ -2593,4 +2593,8 @@ input.date-field-textbox {
 
 .preferences_option_title {
 	font-weight: bold;
+}
+
+.finance-portlet .listgrid {
+	border-width: 1px 0 0;
 }

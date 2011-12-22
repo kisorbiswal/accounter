@@ -18,4 +18,9 @@ public class Cuba extends AbstractCountryPreferences {
 				"Villa Clara" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC-5:00 America/Havana";
+	}
+
 }

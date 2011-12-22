@@ -17,4 +17,9 @@ public class Lesotho extends AbstractCountryPreferences {
 				"Quthing", "Thaba-Tseka" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		return "UTC+2:00 Africa/Maseru";
+	}
+
 }

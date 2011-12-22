@@ -17,4 +17,12 @@ public class CongoDemocratic extends AbstractCountryPreferences {
 				"Kinshasa", "Maniema", "Nord-Kivu", "Sud-Kivu" };
 	}
 
+	@Override
+	public String getDefaultTimeZone(String state) {
+		// West
+		return "UTC+1:00 Africa/Kinshasa";
+		// East
+		// "UTC+2:00 Africa/Lubumbashi"
+	}
+
 }

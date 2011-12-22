@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.AddBudgetAmountDialogue;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 
@@ -370,18 +371,18 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 		this.setColumnWidth(decMonthColumn, "53px");
 
 		this.addColumn(accountLinkColumn, messages.Account());
-		this.addColumn(janMonthColumn, messages.jan());
-		this.addColumn(febMonthColumn, messages.feb());
-		this.addColumn(marMonthColumn, messages.mar());
-		this.addColumn(aprMonthColumn, messages.apr());
-		this.addColumn(mayMonthColumn, messages.may());
-		this.addColumn(juneMonthColumn, messages.jun());
-		this.addColumn(julMonthColumn, messages.jul());
-		this.addColumn(augMonthCoulmn, messages.aug());
-		this.addColumn(septMonthColumn, messages.sept());
-		this.addColumn(octMonthColumn, messages.oct());
-		this.addColumn(novMonthColumn, messages.nov());
-		this.addColumn(decMonthColumn, messages.dec());
+		this.addColumn(janMonthColumn, DayAndMonthUtil.jan());
+		this.addColumn(febMonthColumn, DayAndMonthUtil.feb());
+		this.addColumn(marMonthColumn, DayAndMonthUtil.mar());
+		this.addColumn(aprMonthColumn, DayAndMonthUtil.apr());
+		this.addColumn(mayMonthColumn, DayAndMonthUtil.may_short());
+		this.addColumn(juneMonthColumn, DayAndMonthUtil.jun());
+		this.addColumn(julMonthColumn, DayAndMonthUtil.jul());
+		this.addColumn(augMonthCoulmn, DayAndMonthUtil.aug());
+		this.addColumn(septMonthColumn, DayAndMonthUtil.sept());
+		this.addColumn(octMonthColumn, DayAndMonthUtil.oct());
+		this.addColumn(novMonthColumn, DayAndMonthUtil.nov());
+		this.addColumn(decMonthColumn, DayAndMonthUtil.dec());
 
 	}
 
