@@ -74,14 +74,18 @@ public abstract class NewCommand extends Command {
 				// Current req
 				lastRequirement = requirementSequence.pop();// Last Req
 				context.setAttribute("processAttr", "");
-				Requirement requirement = allRequirements.get(lastRequirement);
-				context.putSelection("values", requirement.getName());
-				ResultList list2 = new ResultList("");
-				Result process = requirement.process(context,
-						context.makeResult(), list2, actions);
-				if (process != null) {
-					requirementSequence.push(lastRequirement);
-					return process;
+				context.setAttribute("multiprocessAttr", "");
+				if (lastRequirement != -1) {
+					Requirement requirement = allRequirements
+							.get(lastRequirement);
+					context.putSelection("values", requirement.getName());
+					ResultList list2 = new ResultList("");
+					Result process = requirement.process(context,
+							context.makeResult(), list2, actions);
+					if (process != null) {
+						requirementSequence.push(lastRequirement);
+						return process;
+					}
 				}
 			} else {
 				Result result = new Result();
@@ -92,9 +96,9 @@ public abstract class NewCommand extends Command {
 		ResultList list = new ResultList("values");
 		makeResult.add(list);
 		actions = new ResultList("actions");
-		if (lastRequirement == -1) {
-			requirementSequence.pop();
-		}
+		// if (lastRequirement == -1) {
+		// requirementSequence.pop();
+		// }
 		for (int i = 0; i < allRequirements.size(); i++) {
 			Result result = allRequirements.get(i).process(context, makeResult,
 					list, actions);
