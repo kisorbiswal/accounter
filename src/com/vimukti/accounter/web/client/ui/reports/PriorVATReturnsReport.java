@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
@@ -11,7 +13,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerRe
 public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 
 	private int row = -1;
-	private long vatAgency;
+	private static long vatAgency;
 
 	public PriorVATReturnsReport() {
 
@@ -124,4 +126,31 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 						.getDate())), 136, "", "", vatAgency);
 	}
 
+	@Override
+	public void restoreView(Map<String, Object> map) {
+		if (map == null || map.isEmpty()) {
+			isDatesArranged = false;
+			return;
+		}
+		ClientFinanceDate startDate = (ClientFinanceDate) map.get("startDate");
+		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
+		this.serverReport.setStartAndEndDates(startDate, endDate);
+		toolbar.setEndDate(endDate);
+		toolbar.setStartDate(startDate);
+		long status1 = (Long) map.get("SelectTAXAgency");
+		PriorVATReturnsReport.vatAgency = status1;
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		long status = PriorVATReturnsReport.vatAgency;
+		ClientFinanceDate startDate = toolbar.getStartDate();
+		ClientFinanceDate endDate = toolbar.getEndDate();
+		map.put("SelectTAXAgency", status);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		return map;
+	}
+	
 }

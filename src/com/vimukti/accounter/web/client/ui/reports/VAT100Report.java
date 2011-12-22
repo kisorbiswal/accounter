@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -14,7 +16,7 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	private String sectionName = "";
 
 	private int row = -1;
-	private long vatAgency;
+	private static long vatAgency;
 
 	protected Double box3amount = 0.0D;
 	protected Double box4amount = 0.0D;
@@ -135,6 +137,37 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 
 	public void setVatAgency(long vatAgency) {
 		this.vatAgency = vatAgency;
+	}
+	
+	@Override
+	public void restoreView(Map<String, Object> map) {
+		if (map == null || map.isEmpty()) {
+			isDatesArranged = false;
+			return;
+		}
+		ClientFinanceDate startDate = (ClientFinanceDate) map.get("startDate");
+		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
+		this.serverReport.setStartAndEndDates(startDate, endDate);
+		toolbar.setEndDate(endDate);
+		toolbar.setStartDate(startDate);
+		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
+		long status1 = ((Long) map.get("vat100"));
+		VAT100Report.vatAgency = status1;
+		isDatesArranged = true;
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String selectedDateRange = toolbar.getSelectedDateRange();
+		ClientFinanceDate startDate = toolbar.getStartDate();
+		ClientFinanceDate endDate = toolbar.getEndDate();
+		long status = VAT100Report.vatAgency;
+		map.put("selectedDateRange", selectedDateRange);
+		map.put("vat100", status);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		return map;
 	}
 
 }

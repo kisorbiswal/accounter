@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -63,5 +66,27 @@ public class BalanceSheetReport extends AbstractReportView<TrialBalance> {
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 112, "",
 				"");
+	}
+	
+	@Override
+	public void restoreView(Map<String, Object> map) {
+		if (map == null || map.isEmpty()) {
+			isDatesArranged = false;
+			return;
+		}
+		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
+		toolbar.setEndDate(endDate);
+		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
+		isDatesArranged = true;
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String selectedDateRange = toolbar.getSelectedDateRange();
+		ClientFinanceDate endDate = toolbar.getEndDate();
+		map.put("selectedDateRange", selectedDateRange);
+		map.put("endDate", endDate);
+		return map;
 	}
 }

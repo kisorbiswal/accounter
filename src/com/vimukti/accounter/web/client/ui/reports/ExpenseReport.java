@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -87,6 +90,37 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 				Integer.parseInt(String.valueOf(endDate.getDate())), 116, "",
 				"", status);
 
+	}
+	
+	@Override
+	public void restoreView(Map<String, Object> map) {
+		if (map == null || map.isEmpty()) {
+			isDatesArranged = false;
+			return;
+		}
+		ClientFinanceDate startDate = (ClientFinanceDate) map.get("startDate");
+		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
+		this.serverReport.setStartAndEndDates(startDate, endDate);
+		toolbar.setEndDate(endDate);
+		toolbar.setStartDate(startDate);
+		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
+		int status1 =(Integer) map.get("Expense related to");
+		isDatesArranged = true;
+		ExpenseReport.status = status1;
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String selectedDateRange = toolbar.getSelectedDateRange();
+		int expenserelatedto = ExpenseReport.status;
+		ClientFinanceDate startDate = toolbar.getStartDate();
+		ClientFinanceDate endDate = toolbar.getEndDate();
+		map.put("Expense related to",expenserelatedto);
+		map.put("selectedDateRange", selectedDateRange);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		return map;
 	}
 
 	/*
