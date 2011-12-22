@@ -372,22 +372,28 @@ public class MobileMessageHandler extends Thread {
 
 	private CommandResult findCommand(String message) {
 		String commandString = message;
-		commandString = message.split(" ")[0];
+		message = message.trim();
 		Command matchedCommand = null;
-		// while (!commandString.isEmpty()) {
-		// matchedCommand = CommandsFactory.INSTANCE.getCommand(commandString);
-		// if (matchedCommand != null) {
-		// break;
-		// }
-		// int lastIndexOf = commandString.lastIndexOf(" ");
-		// if (lastIndexOf > 0) {
-		// commandString = commandString.substring(0, lastIndexOf);
-		// }
-		// if (lastIndexOf < 0) {
-		// break;
-		// }
-		// }
-		matchedCommand = CommandsFactory.INSTANCE.getCommand(commandString);
+		if (!message.isEmpty()) {
+			String[] split = message.split(" ");
+			commandString = split[0];
+
+			// while (!commandString.isEmpty()) {
+			// matchedCommand =
+			// CommandsFactory.INSTANCE.getCommand(commandString);
+			// if (matchedCommand != null) {
+			// break;
+			// }
+			// int lastIndexOf = commandString.lastIndexOf(" ");
+			// if (lastIndexOf > 0) {
+			// commandString = commandString.substring(0, lastIndexOf);
+			// }
+			// if (lastIndexOf < 0) {
+			// break;
+			// }
+			// }
+			matchedCommand = CommandsFactory.INSTANCE.getCommand(commandString);
+		}
 		CommandResult result = new CommandResult();
 		result.command = matchedCommand;
 		result.commandString = commandString;
