@@ -57,6 +57,10 @@ public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
 	protected static final String FILTER_BY_DUE_ON_BEFORE = "filterByDueOnBefore";
 	protected static final String BILLS_DUE = "BillsDue";
 	protected static final String IS_VAT_INCLUSIVE = "isVatInclusive";
+	protected static final String SALES_PERSON = "sales_person";
+	protected static final String SHIPPING_TERM = "shippingterm";
+	protected static final String SHIPPING_METHOD = "shippingmethod";
+
 	private ClientTransaction transaction;
 
 	public double updateTotals(Context context, ClientTransaction transaction,

@@ -49,7 +49,7 @@ public class MISCInformationTemplate {
 			t.addBlock("changeCompanyAddress3");
 
 			t.setVariable("companyAddress4",
-					myCompany.getTradingAddress().zipOrPostalCode);
+					myCompany.getTradingAddress().getZipOrPostalCode());
 			t.addBlock("changeCompanyAddress4");
 
 			t.setVariable("companyId", Long.toString(myCompany.getID()));

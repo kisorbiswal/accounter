@@ -207,6 +207,24 @@ public abstract class NewAbstractCommand extends NewCommand {
 		return clientAddress;
 	}
 
+	protected Address toServerAddress(ClientAddress clientAddress) {
+		if (clientAddress == null) {
+			return null;
+		}
+		Address address = new Address();
+		address.setAddress1(address.getAddress1());
+		address.setCity(address.getCity());
+		address.setCountryOrRegion(address.getCountryOrRegion());
+		address.setId(address.getID());
+		address.setSelected(address.getIsSelected());
+		address.setStateOrProvinence(address.getStateOrProvinence());
+		address.setStreet(address.getStreet());
+		address.setType(address.getType());
+		address.setVersion(address.getVersion());
+		address.setZipOrPostalCode(address.getZipOrPostalCode());
+		return address;
+	}
+
 	protected List<Customer> getCustomers() {
 		Session currentSession = HibernateUtil.getCurrentSession();
 		@SuppressWarnings("unchecked")

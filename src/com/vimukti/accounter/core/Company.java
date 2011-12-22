@@ -339,10 +339,10 @@ public class Company implements IAccounterServerCore {
 
 		this.preferences = new CompanyPreferences();
 		Address tradingAddress = new Address();
-		tradingAddress.type = Address.TYPE_COMPANY;
+		tradingAddress.setType(Address.TYPE_COMPANY);
 		preferences.setTradingAddress(tradingAddress);
 		registeredAddress = new Address();
-		registeredAddress.type = Address.TYPE_COMPANY_REGISTRATION;
+		registeredAddress.setType(Address.TYPE_COMPANY_REGISTRATION);
 
 		// if (accountingType == ACCOUNTING_TYPE_UK) {
 		// preferences.setReferVendors(ClientVendor.SUPPLIER);

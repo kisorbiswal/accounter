@@ -25,15 +25,15 @@ public class Address implements IAccounterServerCore {
 	public static final int TYPE_COMPANY = 9;
 	public static final int TYPE_COMPANY_REGISTRATION = 10;
 
-	int type = 0;
+	private int type = 0;
 	String address1 = "";
 	String street = "";
 	String city = "";
 	String stateOrProvinence = "";
-	String zipOrPostalCode = "";
+	private String zipOrPostalCode = "";
 	String countryOrRegion = "";
-	boolean isSelected = false;
-	public long id;
+	private boolean isSelected = false;
+	private long id;
 	private int version;
 
 	public Address() {
@@ -135,7 +135,7 @@ public class Address implements IAccounterServerCore {
 	 * @return the isSelected
 	 */
 	public boolean getIsSelected() {
-		return isSelected;
+		return isSelected();
 	}
 
 	/**
@@ -161,11 +161,13 @@ public class Address implements IAccounterServerCore {
 
 	public boolean equals(Address address) {
 
-		if (this.type == address.type && this.isSelected == address.isSelected
+		if (this.getType() == address.getType()
+				&& this.isSelected() == address.isSelected()
 				&& this.street.equals(address.street)
 				&& this.city.equals(address.city)
 				&& this.stateOrProvinence.equals(address.stateOrProvinence)
-				&& this.zipOrPostalCode.equals(address.zipOrPostalCode)
+				&& this.getZipOrPostalCode().equals(
+						address.getZipOrPostalCode())
 				&& this.countryOrRegion.equals(address.countryOrRegion))
 			return true;
 		return false;
@@ -190,7 +192,7 @@ public class Address implements IAccounterServerCore {
 
 	@Override
 	public long getID() {
-		return this.id;
+		return this.getId();
 	}
 
 	@Override
@@ -257,8 +259,32 @@ public class Address implements IAccounterServerCore {
 			w.put(messages.country(), this.countryOrRegion).gap();
 		}
 
-		if (this.zipOrPostalCode != null) {
-			w.put(messages.zipCode(), this.zipOrPostalCode);
+		if (this.getZipOrPostalCode() != null) {
+			w.put(messages.zipCode(), this.getZipOrPostalCode());
 		}
+	}
+
+	public void setZipOrPostalCode(String zipOrPostalCode) {
+		this.zipOrPostalCode = zipOrPostalCode;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
 	}
 }

@@ -9,11 +9,13 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.SalesPerson;
+import com.vimukti.accounter.core.ShippingMethod;
+import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.mobile.Context;
@@ -32,6 +34,9 @@ import com.vimukti.accounter.mobile.requirements.EstimatesAndSalesOrderTableRequ
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
+import com.vimukti.accounter.mobile.requirements.SalesPersonRequirement;
+import com.vimukti.accounter.mobile.requirements.ShippingMethodRequirement;
+import com.vimukti.accounter.mobile.requirements.ShippingTermRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
@@ -125,7 +130,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 						} catch (AccounterException e) {
 							e.printStackTrace();
 						}
-
 					}
 				}) {
 
@@ -229,6 +233,106 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 
 		list.add(new NumberRequirement(ORDER_NO, getMessages().pleaseEnter(
 				getMessages().orderNo()), getMessages().orderNo(), true, true));
+
+		list.add(new DateRequirement(DELIVERY_DATE, getMessages().pleaseEnter(
+				getMessages().deliveryDate()), getMessages().deliveryDate(),
+				true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isDoProductShipMents()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new SalesPersonRequirement(SALES_PERSON, getMessages()
+				.pleaseSelect(getMessages().salesPerson()), getMessages()
+				.salesPerson(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().pleaseSelect(getMessages().salesPerson());
+			}
+
+			@Override
+			protected List<SalesPerson> getLists(Context context) {
+				List<SalesPerson> salesPersonList = new ArrayList<SalesPerson>();
+				Set<SalesPerson> salesPersons = context.getCompany()
+						.getSalesPersons();
+				for (SalesPerson salesPerson : salesPersons) {
+					if (salesPerson.isActive()) {
+						salesPersonList.add(salesPerson);
+					}
+				}
+				return salesPersonList;
+			}
+
+			@Override
+			protected boolean filter(SalesPerson e, String name) {
+				return e.getFirstName().equalsIgnoreCase(name);
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isSalesPersonEnabled()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new ShippingTermRequirement(SHIPPING_TERM, getMessages()
+				.pleaseSelect(getMessages().shippingTerm()), getMessages()
+				.shippingTerm(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().pleaseSelect(getMessages().shippingTerm());
+			}
+
+			@Override
+			protected List<ShippingTerms> getLists(Context context) {
+				return new ArrayList<ShippingTerms>(context.getCompany()
+						.getShippingTerms());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getMessages().shippingTerms());
+			}
+
+			@Override
+			protected boolean filter(ShippingTerms e, String name) {
+				return e.getName().equalsIgnoreCase(name);
+			}
+		});
+
+		list.add(new ShippingMethodRequirement(SHIPPING_METHOD, getMessages()
+				.pleaseSelect(getMessages().shippingMethod()), getMessages()
+				.shippingMethod(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().pleaseSelect(
+						getMessages().shippingMethod());
+			}
+
+			@Override
+			protected List<ShippingMethod> getLists(Context context) {
+				return new ArrayList<ShippingMethod>(context.getCompany()
+						.getShippingMethods());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getMessages().shippingMethodList());
+			}
+		});
 
 		list.add(new NameRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
@@ -355,17 +459,63 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		if (items.isEmpty() && e.isEmpty()) {
 			return new Result();
 		}
+
 		Customer customer = get(CUSTOMER).getValue();
+		ClientAddress billTo = get(BILL_TO).getValue();
+		// ClientAddress shippingAddress = null;
+		// List<Address> serverShiptAddrs = new ArrayList<Address>();
+		// List<ClientAddress> addr = get("ship_to").getValue();
+		// for (ClientAddress clientAddress : addr) {
+		// serverShiptAddrs.add(toServerAddress(clientAddress));
+		// }
+		// if (billTo != null) {
+		// for (ClientAddress clientAddress : addr) {
+		// if (clientAddress.getType() == ClientAddress.TYPE_BILL_TO) {
+		// addr.remove(clientAddress);
+		// }
+		// }
+		// addr.add(billTo);
+		// }
+		// if (!addr.isEmpty()) {
+		// Set<Address> addresses = new HashSet<Address>();
+		// for (ClientAddress clientAddress : addr) {
+		// addresses.add(toServerAddress(clientAddress));
+		// }
+		// customer.setAddress(addresses);
+		// // Accounter.createOrUpdate(this, getCustomer());
+		//
+		// for (ClientAddress clientAddress : addr) {
+		// if (clientAddress.getType() == ClientAddress.TYPE_SHIP_TO)
+		// shippingAddress = clientAddress;
+		// }
+		// }
+		SalesPerson salesPerson = get(SALES_PERSON).getValue();
+		if (salesPerson == null) {
+			salesPerson = customer.getSalesPerson();
+		}
+
+		if (salesPerson != null) {
+			invoice.setSalesPerson(salesPerson.getID());
+		}
+
 		invoice.setCustomer(customer.getID());
 
 		ClientFinanceDate dueDate = get(DUE_DATE).getValue();
 		invoice.setDueDate(dueDate.getDate());
 
+		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();
+		invoice.setDeliverydate(deliveryDate.getDate());
+
 		Contact contact = get(CONTACT).getValue();
 		invoice.setContact(toClientContact(contact));
 
-		ClientAddress billTo = get(BILL_TO).getValue();
-		invoice.setBillingAddress(billTo);
+		if (billTo != null) {
+			invoice.setBillingAddress(billTo);
+		}
+
+		// if (shippingAddress != null) {
+		// invoice.setShippingAdress(shippingAddress);
+		// }
 
 		PaymentTerms paymentTerm = get(PAYMENT_TERMS).getValue();
 		invoice.setPaymentTerm(paymentTerm.getID());
@@ -373,9 +523,18 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		String orderNo = get(ORDER_NO).getValue();
 		invoice.setOrderNum(orderNo);
 
+		ShippingMethod method = get(SHIPPING_METHOD).getValue();
+		if (method != null) {
+			invoice.setShippingMethod(method.getID());
+		}
+
+		ShippingTerms shippingTerms = get(SHIPPING_TERM).getValue();
+		if (shippingTerms != null) {
+			invoice.setShippingTerm(shippingTerms.getID());
+		}
+
 		String memo = get(MEMO).getValue();
 		invoice.setMemo(memo);
-		invoice.setStatus(Invoice.STATUS_OPEN);
 		// Adding selecting estimate or salesOrder to Invoice
 		invoice.setCurrencyFactor(1);
 		ClientCompanyPreferences preferences = context.getPreferences();
@@ -397,6 +556,7 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				}
 			}
 		}
+		invoice.setSaveStatus(ClientTransaction.STATUS_APPROVE);
 		invoice.setEstimates(estimates);
 		invoice.setSalesOrders(salesOrders);
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
@@ -407,7 +567,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-
 		invoice.setTransactionItems(items);
 		double taxTotal = updateTotals(context, invoice, true);
 		double totalAmount = 0.0;
@@ -428,10 +587,14 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				taxTotal += clientEstimate.getTaxTotal();
 			}
 		}
+		invoice.setDiscountDate(invoice.getTransactionDate());
 		invoice.setNetAmount(invoice.getNetAmount() + totalNetAmount);
 		invoice.setTotal(invoice.getTotal() + totalAmount);
 		invoice.setTaxTotal(taxTotal);
 		invoice.setCurrency(customer.getCurrency().getID());
+		if (customer.getPriceLevel() != null) {
+			invoice.setPriceLevel(customer.getPriceLevel().getID());
+		}
 		invoice.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		create(invoice, context);
 		return null;
@@ -447,6 +610,8 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
+		get(DELIVERY_DATE).setDefaultValue(new ClientFinanceDate());
+		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
 						ClientTransaction.TYPE_INVOICE, context.getCompany()));
@@ -459,7 +624,6 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 		}
 		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
-
 	}
 
 	@Override
