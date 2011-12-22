@@ -32,6 +32,7 @@ import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 /**
  * @author Prasanna Kumar G
@@ -58,8 +59,31 @@ public class AuthenticationCommand extends Command {
 
 		// Re-Sending the Activation mail
 		if (context.getSelection("activation") != null) {
-			String userName = (String) context.getAttribute("userName");
-			Client client = getClient(userName);
+			context.setAttribute("input", "activationEmailId");
+			makeResult.add("Enter registered Email-ID");
+			makeResult.add(new InputType(AbstractRequirement.INPUT_TYPE_EMAIL));
+			makeResult.setCookie(context.getNetworkId());
+			return makeResult;
+		}
+		Object emailIdAttr = context.getAttribute("input");
+		if (emailIdAttr != null && emailIdAttr.equals("activationEmailId")) {
+			String userName = context.getString();
+			Client client = null;
+			if (isValidEmailId(userName)) {
+				client = getClient(userName);
+			}
+			if (client == null) {
+				makeResult
+						.add("Invalid email id, please enter the email id that you used during sign up process.");
+				context.setAttribute("input", "activationEmailId");
+				makeResult.add("Please enter email.");
+				makeResult.add(new InputType(
+						AbstractRequirement.INPUT_TYPE_EMAIL));
+				makeResult.setCookie(context.getNetworkId());
+				return makeResult;
+			}
+			context.setAttribute("userName", userName);
+			context.setAttribute("input", "activation");
 			String activationCode = getUserActivationCode(client);
 			if (activationCode == null) {
 				Session session = HibernateUtil.getCurrentSession();
@@ -456,5 +480,12 @@ public class AuthenticationCommand extends Command {
 		namedQuery.setParameter("emailId", emailId.toLowerCase().trim());
 		Client client = (Client) namedQuery.uniqueResult();
 		return client;
+	}
+
+	protected boolean isValidEmailId(String emailId) {
+		if (emailId != null && UIUtils.isValidEmail(emailId)) {
+			return true;
+		}
+		return false;
 	}
 }
