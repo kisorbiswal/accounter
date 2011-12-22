@@ -1,12 +1,27 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.io.File;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.AccounterThreadLocal;
+import com.vimukti.accounter.core.BrandingTheme;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Invoice;
+import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class PrintInvoiceCommand extends NewAbstractCommand {
 
@@ -22,12 +37,63 @@ public class PrintInvoiceCommand extends NewAbstractCommand {
 		addFirstMessage(context, getMessages()
 				.invoiceHasbeenPrintedAndSentToYourEmail());
 		String emailId = context.getEmailId();
-		sendPrintAndInvoiceToEmail(invoice, emailId);
-		return "cancel";
+		try {
+			sendPrintAndInvoiceToEmail(invoice, emailId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "cancel";// To close this command
 	}
 
-	private void sendPrintAndInvoiceToEmail(Invoice invoice, String emailId) {
-		System.out.println("invoice printed..." + emailId);
+	private void sendPrintAndInvoiceToEmail(Invoice invoice,
+			final String emailId) {
+		Company company = getCompany();
+		Set<BrandingTheme> brandingTheme = company.getBrandingTheme();
+		Iterator<BrandingTheme> iterator = brandingTheme.iterator();
+		if (!iterator.hasNext()) {
+			return;
+		}
+		// Sending to mail in a separate thread.
+		BrandingTheme next = iterator.next();
+		final long brandingThemeId = next.getID();
+		final long companyId = company.getID();
+		final long invoiceId = invoice.getID();
+		final String tradingName = company.getTradingName();
+		final String customerName = invoice.getCustomer().getName();
+		final Locale locale = ServerLocal.get();
+		final ClientCompanyPreferences clientCompanyPreferences = CompanyPreferenceThreadLocal
+				.get();
+		final User user = AccounterThreadLocal.get();
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					HibernateUtil.openSession();
+					ServerLocal.set(locale);
+					CompanyPreferenceThreadLocal.set(clientCompanyPreferences);
+					AccounterThreadLocal.set(user);
+					FinanceTool tool = new FinanceTool();
+					String createPdfFile = tool.createPdfFile(invoiceId,
+							Transaction.TYPE_INVOICE, brandingThemeId,
+							companyId);
+
+					UsersMailSendar.sendPdfMail(new File(createPdfFile),
+							tradingName, getMessages().invoiceFor() + " "
+									+ customerName, getMessages()
+									.pleaseFindAttachedInvoice(), emailId,
+							emailId, "");
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					Session currentSession = HibernateUtil.getCurrentSession();
+					if (currentSession.isOpen()) {
+						currentSession.close();
+					}
+				}
+			}
+		}).start();
+
 	}
 
 	@Override
