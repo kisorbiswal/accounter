@@ -1,10 +1,16 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.MissingResourceException;
+import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.ResourceBundle.Control;
 import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
@@ -27,8 +33,6 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
-
-import d.e.v;
 
 public class OpenCompanyServlet extends BaseServlet {
 
@@ -156,18 +160,55 @@ public class OpenCompanyServlet extends BaseServlet {
 		for (String file : files) {
 			ResourceBundle dateTimeConstants = ResourceBundle.getBundle(
 					"com.vimukti.accounter.web.server.i18n.constants." + file,
-					getlocale());
+					getlocale(), new UTF8Control());
 			for (String key : dateTimeConstants.keySet()) {
 				String value = dateTimeConstants.getString(key);
-				if(value.indexOf(',')<=0){
-					result.put(key,value);
+				String[] splites=value.split("(?<!\\\\), ");
+				if (splites.length ==1) {
+					result.put(key, value);
 				} else {
-					result.put(key, joinArray(value.split("(?<!\\\\), ")));
+					result.put(key, joinArray(splites));
 				}
 			}
 		}
 
 		return result;
+	}
+
+	public class UTF8Control extends Control {
+		public ResourceBundle newBundle(String baseName, Locale locale,
+				String format, ClassLoader loader, boolean reload)
+				throws IllegalAccessException, InstantiationException,
+				IOException {
+			// The below is a copy of the default implementation.
+			String bundleName = toBundleName(baseName, locale);
+			String resourceName = toResourceName(bundleName, "properties");
+			ResourceBundle bundle = null;
+			InputStream stream = null;
+			if (reload) {
+				URL url = loader.getResource(resourceName);
+				if (url != null) {
+					URLConnection connection = url.openConnection();
+					if (connection != null) {
+						connection.setUseCaches(false);
+						stream = connection.getInputStream();
+					}
+				}
+			} else {
+				stream = loader.getResourceAsStream(resourceName);
+			}
+			if (stream != null) {
+				try {
+					// Only this line is changed to make it to read properties
+					// files as UTF-8.
+					bundle = new PropertyResourceBundle(new InputStreamReader(
+							stream, "UTF-8"));
+				} finally {
+					stream.close();
+				}
+			}
+			return bundle;
+		}
 	}
 
 	private String joinArray(String[] value) {
@@ -180,9 +221,9 @@ public class OpenCompanyServlet extends BaseServlet {
 				buffer.append('\'');
 				buffer.append(", ");
 			}
-			//add last one
+			// add last one
 			buffer.append('\'');
-			buffer.append(value[value.length-1]);
+			buffer.append(value[value.length - 1]);
 			buffer.append('\'');
 		}
 		buffer.append(']');
