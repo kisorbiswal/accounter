@@ -664,7 +664,9 @@ public class RecurringTransaction extends CreatableObject implements
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		if (type != RECURRING_UNSCHEDULED && !isStopped()) {
-			nextScheduleOn = null;
+			if (occurencesCompleted == 0) {
+				nextScheduleOn = null;
+			}
 			do {
 				Date nextDate = next();
 				if (nextDate == null) {
