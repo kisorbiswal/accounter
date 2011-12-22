@@ -1201,4 +1201,7 @@
 		clazz="com.vimukti.accounter.mobile.commands.delete.DeleteUserCommand"
 		name="deleteUser">
 	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.ChangeCompanyCommand"
+		name="changeCompany">
+	</command>
 </commands>
