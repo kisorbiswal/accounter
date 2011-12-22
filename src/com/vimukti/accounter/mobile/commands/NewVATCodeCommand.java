@@ -83,15 +83,24 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 			}
 		});
 
-		list.add(new ListRequirement<TAXItemGroup>(VATITEM_FOR_SALES,
-				getMessages().pleaseSelect(getMessages().taxItemForSales()),
-				getMessages().taxItemForSales(), false, true, null) {
+		list.add(getVatItemRequirement(VATITEM_FOR_SALES, getMessages()
+				.taxItemForSales(), true));
+
+		list.add(getVatItemRequirement(VATITEM_FOR_PURCHASE, getMessages()
+				.taxItemForPurchases(), false));
+
+	}
+
+	private Requirement getVatItemRequirement(String reqName,
+			final String recordName, final boolean isSales) {
+		return new ListRequirement<TAXItemGroup>(reqName, getMessages()
+				.pleaseSelect(recordName), recordName, false, true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				Boolean value = get(IS_TAXABLE).getValue();
 				if (value && context.getPreferences().isTrackPaidTax()) {
-					setSalesVATItemValue();
+					setVATItemValue();
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -129,8 +138,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getMessages().taxItemForSales());
+				return getMessages().pleaseSelect(recordName);
 			}
 
 			@Override
@@ -140,27 +148,26 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 
 			@Override
 			protected List<TAXItemGroup> getLists(Context context) {
-				return getFilteredVATItems(context, true);
+				return getFilteredVATItems(context, isSales);
 			}
 
 			@Override
 			public void setValue(Object value) {
 				super.setValue(value);
-				setSalesVATItemValue();
+				setVATItemValue();
 				String validateResult = validateTAXItem(
-						(TAXItemGroup) getValue(), true);
+						(TAXItemGroup) getValue(), isSales);
 				if (validateResult == null) {
-					setEnterString(getMessages().pleaseSelect(
-							getMessages().taxItemForSales()));
+					setEnterString(getMessages().pleaseSelect(recordName));
 					super.setValue(value);
 				} else {
 					super.setValue(null);
 					setEnterString(validateResult);
 				}
-				setSalesVATItemValue();
+				setVATItemValue();
 			}
 
-			private void setSalesVATItemValue() {
+			private void setVATItemValue() {
 				Object value = getValue();
 				if (value != null) {
 					Session currentSession = HibernateUtil.getCurrentSession();
@@ -178,105 +185,7 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 					super.setValue(taxItemGroup);
 				}
 			}
-		});
-
-		list.add(new ListRequirement<TAXItemGroup>(
-				VATITEM_FOR_PURCHASE,
-				getMessages().pleaseSelect(getMessages().taxItemForPurchases()),
-				getMessages().taxItemForPurchases(), false, true, null) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				Boolean value = get(IS_TAXABLE).getValue();
-				if (value && context.getPreferences().isTrackPaidTax()) {
-					setPurchaseVATItemValue();
-					return super.run(context, makeResult, list, actions);
-				} else {
-					return null;
-				}
-			}
-
-			private void setPurchaseVATItemValue() {
-				Object value = getValue();
-				if (value != null) {
-					Session currentSession = HibernateUtil.getCurrentSession();
-					TAXItemGroup taxItemGroup = (TAXItemGroup) value;
-					if (taxItemGroup instanceof TAXItem) {
-						taxItemGroup = (TAXItem) currentSession.load(
-								TAXItem.class, taxItemGroup.getID());
-					} else if (taxItemGroup instanceof TAXGroup) {
-						taxItemGroup = (TAXGroup) currentSession.load(
-								TAXGroup.class, taxItemGroup.getID());
-					} else {
-						taxItemGroup = (TAXItemGroup) currentSession.load(
-								TAXItemGroup.class, taxItemGroup.getID());
-					}
-					super.setValue(taxItemGroup);
-				}
-			}
-
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
-			protected String getSetMessage() {
-				return "vat item or group has been selected";
-			}
-
-			@Override
-			protected Record createRecord(TAXItemGroup value) {
-				Record record = new Record(value);
-				record.add(getMessages().name(), value.getName());
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(TAXItemGroup value) {
-				return value != null ? value.getName() : "";
-			}
-
-			@Override
-			protected void setCreateCommand(CommandList list) {
-				list.add("newTaxItem");
-				list.add("newTaxGroup");
-			}
-
-			@Override
-			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getMessages().taxItemForPurchases());
-			}
-
-			@Override
-			protected boolean filter(TAXItemGroup e, String name) {
-				return e.getName().toLowerCase().startsWith(name.toLowerCase());
-			}
-
-			@Override
-			protected List<TAXItemGroup> getLists(Context context) {
-				return getFilteredVATItems(context, false);
-			}
-
-			@Override
-			public void setValue(Object value) {
-				super.setValue(value);
-				setPurchaseVATItemValue();
-				String validateResult = validateTAXItem(
-						(TAXItemGroup) getValue(), false);
-				if (validateResult == null) {
-					setEnterString(getMessages().pleaseSelect(
-							getMessages().taxItemForPurchases()));
-					super.setValue(value);
-				} else {
-					super.setValue(null);
-					setEnterString(validateResult);
-				}
-				setPurchaseVATItemValue();
-			}
-		});
-
+		};
 	}
 
 	@Override
