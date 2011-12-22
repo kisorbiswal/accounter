@@ -269,36 +269,36 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(new StringListRequirement(ACCOUNT_TERMINOLOGY, getMessages()
-				.payeeTerminology(getMessages().Account()), getMessages()
-				.Account(), true, true, null) {
-
-			@Override
-			protected String getSelectString() {
-				return getMessages()
-						.pleaseSelect(
-								getMessages().payeeTerminology(
-										getMessages().Account()));
-			}
-
-			@Override
-			protected List<String> getLists(Context context) {
-				return getAccountTerminologies();
-			}
-
-			@Override
-			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(
-								getMessages().payeeTerminology(
-										getMessages().Account()));
-			}
-
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-		});
+		// list.add(new StringListRequirement(ACCOUNT_TERMINOLOGY, getMessages()
+		// .payeeTerminology(getMessages().Account()), getMessages()
+		// .Account(), true, true, null) {
+		//
+		// @Override
+		// protected String getSelectString() {
+		// return getMessages()
+		// .pleaseSelect(
+		// getMessages().payeeTerminology(
+		// getMessages().Account()));
+		// }
+		//
+		// @Override
+		// protected List<String> getLists(Context context) {
+		// return getAccountTerminologies();
+		// }
+		//
+		// @Override
+		// protected String getSetMessage() {
+		// return getMessages()
+		// .hasSelected(
+		// getMessages().payeeTerminology(
+		// getMessages().Account()));
+		// }
+		//
+		// @Override
+		// protected String getEmptyString() {
+		// return null;
+		// }
+		// });
 		list.add(new CurrencyRequirement(PRIMARY_CURRENCY, getMessages()
 				.primaryCurrency(), getMessages().primaryCurrency(), true,
 				true, null) {
@@ -497,11 +497,11 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 				getCustomerTerminologies().get(0));
 		get(SUPPLIER_TERMINOLOGY).setDefaultValue(
 				getSupplierTerminologies().get(0));
-		get(ACCOUNT_TERMINOLOGY).setDefaultValue(
-				getAccountTerminologies().get(0));
+		// get(ACCOUNT_TERMINOLOGY).setDefaultValue(
+		// getAccountTerminologies().get(0));
 		get(SERVICE_PRODUCTS_BOTH).setDefaultValue(
 				getServiceProductBothList().get(0));
-		// get(ONE_PER_TRANSACTION).setDefaultValue(true);
+		get(ONE_PER_TRANSACTION).setDefaultValue(true);
 		get(FISCAL_YEAR).setDefaultValue(getMessages().april());
 	}
 
@@ -568,7 +568,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		preferences.setReferCustomers(getCustomerTerminologies().indexOf(
 				customerTerm));
 		preferences.setReferVendors(getSupplierTerminologies().indexOf(
-				supplierTerm));
+				supplierTerm) + 1);
 		String serviceProductBoth = get(SERVICE_PRODUCTS_BOTH).getValue();
 		Integer servProBoth = getServiceProductBothList().indexOf(
 				serviceProductBoth);

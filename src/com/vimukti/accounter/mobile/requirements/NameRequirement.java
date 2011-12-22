@@ -28,9 +28,24 @@ public class NameRequirement extends SingleRequirement<String> {
 	}
 
 	@Override
-	public boolean isDone() {
+	public void setValue(Object value) {
+		String objVal = (String) value;
 		if (!isOptional()) {
-			String value = getValue();
+			if (value == null || objVal.trim().length() <= 0
+					|| objVal.isEmpty()) {
+				setEnterString("Please enter Valid " + getRecordName());
+				return;
+			}
+		} else if (objVal.trim().length() <= 0) {
+			return;
+		}
+		super.setValue(value);
+	}
+
+	@Override
+	public boolean isDone() {
+		String value = getValue();
+		if (!isOptional()) {
 			return value != null && value.trim().length() > 0
 					&& !value.isEmpty();
 		}
