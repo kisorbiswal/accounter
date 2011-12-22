@@ -655,7 +655,11 @@ public abstract class AbstractCompanyCommad extends NewAbstractCommand {
 			return new Result(getMessages().ProblemWhileCreating(
 					getMessages().company()));
 		}
-		return null;
+		markDone();
+		Result result = new Result();
+		result.add(getSuccessMessage());
+		result.setNextCommand("changeCompany");
+		return result;
 	}
 
 	private String getDateFormat(String countryName) {
