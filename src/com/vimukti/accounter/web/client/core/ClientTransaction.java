@@ -947,4 +947,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public void setAttachments(Set<ClientAttachment> attachments) {
 		this.attachments = attachments;
 	}
+
+	public boolean isTemplate() {
+		return this.saveStatus == STATUS_TEMPLATE;
+	}
 }

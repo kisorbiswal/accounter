@@ -839,7 +839,7 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!isVoid()) {
+		if (!isVoid() && !isTemplate()) {
 			doDeleteEffect(this);
 		}
 		return false;
@@ -1523,5 +1523,9 @@ public abstract class Transaction extends CreatableObject implements
 
 	public void setTobeDeleteReminder(Reminder tobeDeleteReminder) {
 		this.tobeDeleteReminder = tobeDeleteReminder;
+	}
+
+	public boolean isTemplate() {
+		return this.saveStatus == STATUS_TEMPLATE;
 	}
 }
