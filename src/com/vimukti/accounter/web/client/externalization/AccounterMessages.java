@@ -2875,6 +2875,8 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseImplementMe();
 
+	public String pleaseSelectARowTo(String name);
+	
 	public String pleaseSelecPaymentType();
 
 	public String pleaseSelect(String comboName);
