@@ -193,10 +193,22 @@ public class MenuBar {
 		fixedAssetMenu.addSeparatorItem();
 		fixedAssetMenu.addMenuItem(messages.depreciation(),
 				HistoryTokens.DEPRICATION);
-
+		fixedAssetMenu.addMenuItem(getFixedAssetListMenu(messages
+				.fixedAssetsList()));
 		fixedAssetMenu.addSeparatorItem();
 
 		return fixedAssetMenu;
+	}
+
+	private Menu getFixedAssetListMenu(String listMessage) {
+		Menu fixedAssetListMenu = new Menu(listMessage);
+		fixedAssetListMenu.addMenuItem(messages.pendingItemsList(),
+				HistoryTokens.PENDINGITEMS);
+		fixedAssetListMenu.addMenuItem(messages.registeredItemsList(),
+				HistoryTokens.REGISTEREDITEMS);
+		fixedAssetListMenu.addMenuItem(messages.registeredItemsList(),
+				HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
+		return fixedAssetListMenu;
 	}
 
 	private Menu getVATMenu(String string) {
