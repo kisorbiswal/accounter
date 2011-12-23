@@ -6,8 +6,6 @@ package com.vimukti.accounter.web.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jetty.server.handler.ConnectHandler.ClientToProxyConnection;
-
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
@@ -1927,8 +1925,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(
-			int type, ClientFinanceDate startDate, ClientFinanceDate endDate)
-			throws AccounterException {
+			int type, long startDate, long endDate) throws AccounterException {
 		return getFinanceTool().getDashboardManager()
 				.getIncomeExpensePortletInfo(getCompanyId(), type,
 						new FinanceDate(startDate), new FinanceDate(endDate));
@@ -1943,9 +1940,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<PayeesBySalesPortletData> getTopCustomersBySlaesPortletData(
-			long startDate, long endDate) {
-		// TODO Auto-generated method stub
-		return null;
+			long startDate, long endDate, int limit) throws AccounterException {
+		return getFinanceTool().getDashboardManager().getCustomersBySales(
+				getCompanyId(), new FinanceDate(startDate),
+				new FinanceDate(endDate), limit);
 	}
 
 	@Override

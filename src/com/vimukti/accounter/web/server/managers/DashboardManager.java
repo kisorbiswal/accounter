@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AccountDetail;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.GraphChart;
+import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
 
 public class DashboardManager extends Manager {
@@ -812,13 +813,39 @@ public class DashboardManager extends Manager {
 
 		Query query = session.getNamedQuery("getIncomeExpensePortletInfo")
 				.setParameter("companyId", companyId)
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		Object[] object = (Object[]) query.uniqueResult();
 
 		incomeExpensePortletInfo.setIncome((Double) object[0]);
 		incomeExpensePortletInfo.setExpense((Double) object[1]);
 		incomeExpensePortletInfo.setMonth("" + "" + startDate.getMonth());
 		return incomeExpensePortletInfo;
+	}
+
+	public ArrayList<PayeesBySalesPortletData> getCustomersBySales(
+			Long companyId, FinanceDate startDate, FinanceDate endDate,
+			int limit) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		ArrayList<PayeesBySalesPortletData> payeesBySales = new ArrayList<PayeesBySalesPortletData>();
+
+		// Query query = session.getNamedQuery("getPayeesBySales")
+		// .setParameter("companyId", companyId)
+		// .setParameter("startDate", startDate)
+		// .setParameter("endDate", endDate).setParameter("limit", limit);
+		// List list = query.list();
+		// Iterator iterator = list.iterator();
+		//
+		// while (iterator.hasNext()) {
+		// PayeesBySalesPortletData payeesBySalesPortletData = new
+		// PayeesBySalesPortletData();
+		// Object[] next = (Object[]) iterator.next();
+		// payeesBySalesPortletData.setName((String) next[0]);
+		// payeesBySalesPortletData.setNoOfTrans((Integer) next[1]);
+		// payeesBySalesPortletData.setAmount((Double) next[2]);
+		// payeesBySales.add(payeesBySalesPortletData);
+		// }
+		return payeesBySales;
 	}
 }
