@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.SelectPaymentTypeDialog;
@@ -78,26 +79,18 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	public void initListCallback() {
-		super.initListCallback();
-		if (checkType == 0) {
-			Accounter.createHomeService().getPaymentsList(
-					getStartDate().getDate(), getEndDate().getDate(), this);
-		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
-			Accounter.createHomeService().getPayeeChecks(true,
-					getStartDate().getDate(), getEndDate().getDate(), this);
-		} else {
-			Accounter.createHomeService().getPayeeChecks(false,
-					getStartDate().getDate(), getEndDate().getDate(), this);
-		}
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
-	public void onSuccess(ArrayList<PaymentsList> result) {
+	public void onSuccess(PaginationList<PaymentsList> result) {
 		super.onSuccess(result);
 		listOfPayments = result;
 		filterList(viewSelect.getSelectedValue());
 		grid.setViewType(viewSelect.getSelectedValue());
 		grid.sort(10, false);
+		updateRecordsCount(result.getStart(), grid.getRowCount(),
+				result.getTotalCount());
 	}
 
 	@Override
@@ -191,4 +184,26 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 		return messages().payments();
 	}
 
+	@Override
+	protected int getPageSize() {
+		return 25;
+	}
+
+	@Override
+	protected void onPageChange(int start, int length) {
+
+		if (checkType == 0) {
+			Accounter.createHomeService().getPaymentsList(
+					getStartDate().getDate(), getEndDate().getDate(), start,
+					length, this);
+		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
+			Accounter.createHomeService().getPayeeChecks(true,
+					getStartDate().getDate(), getEndDate().getDate(), start,
+					length, this);
+		} else {
+			Accounter.createHomeService().getPayeeChecks(false,
+					getStartDate().getDate(), getEndDate().getDate(), start,
+					length, this);
+		}
+	}
 }

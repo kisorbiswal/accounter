@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -53,7 +54,7 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<ClientReminder> result) {
+	public void onSuccess(PaginationList<ClientReminder> result) {
 		reminders = result;
 		filterList(viewSelect.getSelectedValue());
 		grid.setViewType(viewSelect.getSelectedValue());

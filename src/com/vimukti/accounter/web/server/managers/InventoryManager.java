@@ -25,13 +25,14 @@ import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 public class InventoryManager extends Manager {
 
-	public ArrayList<InvoicesList> getInvoiceList(long companyId,
+	public PaginationList<InvoicesList> getInvoiceList(long companyId,
 			long fromDate, long toDate, int invoicesType) throws DAOException {
 
 		try {
@@ -63,7 +64,7 @@ public class InventoryManager extends Manager {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<InvoicesList> queryResult = new ArrayList<InvoicesList>();
+				PaginationList<InvoicesList> queryResult = new PaginationList<InvoicesList>();
 				while ((iterator).hasNext()) {
 
 					InvoicesList invoicesList = new InvoicesList();
@@ -89,7 +90,7 @@ public class InventoryManager extends Manager {
 					invoicesList.setCurrency((Long) object[11]);
 					queryResult.add(invoicesList);
 				}
-				return new ArrayList<InvoicesList>(queryResult);
+				return queryResult;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -143,7 +144,7 @@ public class InventoryManager extends Manager {
 		}
 	}
 
-	public ArrayList<ClientMeasurement> getAllUnits(Long companyId) {
+	public PaginationList<ClientMeasurement> getAllUnits(Long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("list.All.Units").setEntity(
@@ -152,7 +153,7 @@ public class InventoryManager extends Manager {
 		if (measurements == null) {
 			return null;
 		}
-		ArrayList<ClientMeasurement> clientMeasurements = new ArrayList<ClientMeasurement>();
+		PaginationList<ClientMeasurement> clientMeasurements = new PaginationList<ClientMeasurement>();
 		for (Measurement measurement : measurements) {
 			ClientMeasurement clientMeasurement;
 			try {
@@ -166,7 +167,7 @@ public class InventoryManager extends Manager {
 		return clientMeasurements;
 	}
 
-	public ArrayList<ClientWarehouse> getWarehouses(long companyId) {
+	public PaginationList<ClientWarehouse> getWarehouses(long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("list.Warehouse").setEntity(
@@ -175,7 +176,7 @@ public class InventoryManager extends Manager {
 		if (warehouses == null) {
 			return null;
 		}
-		ArrayList<ClientWarehouse> clientWarehouses = new ArrayList<ClientWarehouse>();
+		PaginationList<ClientWarehouse> clientWarehouses = new PaginationList<ClientWarehouse>();
 		for (Warehouse warehouse : warehouses) {
 			ClientWarehouse clientWarehouse;
 			try {

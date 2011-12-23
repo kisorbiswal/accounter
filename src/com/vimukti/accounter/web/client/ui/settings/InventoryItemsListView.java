@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -32,7 +33,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<ClientItem> result) {
+	public void onSuccess(PaginationList<ClientItem> result) {
 		super.onSuccess(result);
 		grid.sort(10, false);
 	}

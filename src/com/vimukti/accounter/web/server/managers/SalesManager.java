@@ -20,6 +20,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -599,7 +600,7 @@ public class SalesManager extends Manager {
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
-	public ArrayList<SalesOrdersList> getSalesOrdersList(long companyId,
+	public PaginationList<SalesOrdersList> getSalesOrdersList(long companyId,
 			long fromDate, long toDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -611,7 +612,7 @@ public class SalesManager extends Manager {
 		;
 
 		List list = query.list();
-		List<SalesOrdersList> esl = new ArrayList<SalesOrdersList>();
+		PaginationList<SalesOrdersList> esl = new PaginationList<SalesOrdersList>();
 
 		for (int i = 0; i < list.size(); i++) {
 
@@ -632,7 +633,7 @@ public class SalesManager extends Manager {
 			}
 		}
 
-		return new ArrayList<SalesOrdersList>(esl);
+		return esl;
 	}
 
 	public ArrayList<OpenAndClosedOrders> getSalesOrders(FinanceDate startDate,

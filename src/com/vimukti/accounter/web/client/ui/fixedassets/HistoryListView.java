@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetHistory;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.grids.HistoryListGrid;
@@ -95,7 +96,7 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<ClientFixedAssetHistory> result) {
+	public void onSuccess(PaginationList<ClientFixedAssetHistory> result) {
 		super.onSuccess(result);
 		grid.sort(10, false);
 	}

@@ -96,14 +96,14 @@ public interface IAccounterHomeViewServiceAsync {
 			ClientFinanceDate paymentDate,
 			AsyncCallback<ArrayList<PayBillTransactionList>> callback);
 
-	public void getVendorPaymentsList(long fromDate, long toDate,
-			AsyncCallback<ArrayList<PaymentsList>> callBack);
+	public void getVendorPaymentsList(long fromDate, long toDate, int start,
+			int length, AsyncCallback<PaginationList<PaymentsList>> callBack);
 
-	public void getPaymentsList(long fromDate, long toDate,
-			AsyncCallback<ArrayList<PaymentsList>> callBack);
+	public void getPaymentsList(long fromDate, long toDate, int start,
+			int length, AsyncCallback<PaginationList<PaymentsList>> callBack);
 
 	public void getRecurringsList(long fromDate, long toDate,
-			AsyncCallback<ArrayList<ClientRecurringTransaction>> callBack);
+			AsyncCallback<PaginationList<ClientRecurringTransaction>> callBack);
 
 	public void getVendorCreditsAndPayments(long vendorId,
 			AsyncCallback<ArrayList<ClientCreditsAndPayments>> callBack);
@@ -169,7 +169,7 @@ public interface IAccounterHomeViewServiceAsync {
 
 	// To get all the Estimates/Quotes in a company
 	public void getEstimates(int type, long fromDate, long toDate,
-			AsyncCallback<ArrayList<ClientEstimate>> callback);
+			AsyncCallback<PaginationList<ClientEstimate>> callback);
 
 	// To get the Estimates/Quotes of a particular customer in the company
 	public void getEstimates(long customerId,
@@ -205,7 +205,7 @@ public interface IAccounterHomeViewServiceAsync {
 
 	// To get all the Journal Entries in a company
 	public void getJournalEntries(long fromDate, long toDate,
-			AsyncCallback<ArrayList<ClientJournalEntry>> callback);
+			AsyncCallback<PaginationList<ClientJournalEntry>> callback);
 
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)
@@ -213,15 +213,15 @@ public interface IAccounterHomeViewServiceAsync {
 
 	// To get all Customer Refunds and Write Checks -> for Customer
 	public void getCustomerRefundsList(long fromDate, long toDate,
-			AsyncCallback<ArrayList<CustomerRefundsList>> callback);
+			AsyncCallback<PaginationList<CustomerRefundsList>> callback);
 
 	// To display the liabilityAccount combo box of New Tax Agency window
 	public void getTaxAgencyAccounts(
 			AsyncCallback<ArrayList<ClientAccount>> callback);
 
 	public void getReceivePaymentsList(long fromDate, long toDate,
-			int transactionType,
-			AsyncCallback<ArrayList<ReceivePaymentsList>> callback);
+			int transactionType, int start, int length,
+			AsyncCallback<PaginationList<ReceivePaymentsList>> callback);
 
 	public void getLatestPurchaseItems(
 			AsyncCallback<ArrayList<ClientItem>> callback);
@@ -239,10 +239,10 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<List<ClientTransactionMakeDeposit>> callback);
 
 	public void getSalesOrders(long fromDate, long endDate,
-			AsyncCallback<ArrayList<SalesOrdersList>> callback);
+			AsyncCallback<PaginationList<SalesOrdersList>> callback);
 
 	public void getPurchaseOrders(long fromDate, long toDate,
-			AsyncCallback<ArrayList<PurchaseOrdersList>> callback);
+			AsyncCallback<PaginationList<PurchaseOrdersList>> callback);
 
 	/*
 	 * public void getSalesOrdersForCustomer(long customerID,
@@ -319,10 +319,10 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<List<ClientTransactionPayTAX>> callBack);
 
 	public void getPayeeList(int transactionCategory,
-			AsyncCallback<ArrayList<PayeeList>> callBack);
+			AsyncCallback<PaginationList<PayeeList>> callBack);
 
 	public void getInvoiceList(long fromDate, long toDate, int invoicesType,
-			AsyncCallback<ArrayList<InvoicesList>> callback);
+			AsyncCallback<PaginationList<InvoicesList>> callback);
 
 	public void getCustomerNumber(AsyncCallback<String> callback);
 
@@ -369,15 +369,18 @@ public interface IAccounterHomeViewServiceAsync {
 	public void createPdfFile(long objectID, int type, long brandingThemeId,
 			AsyncCallback<String> callback);
 
-	public void getBudgetList(AsyncCallback<ArrayList<ClientBudget>> callBack);
+	public void getBudgetList(
+			AsyncCallback<PaginationList<ClientBudget>> callBack);
 
 	// For tds
 	public void getPayBillsByTDS(
 			AsyncCallback<ArrayList<ClientTDSInfo>> callback);
 
-	public void getWarehouses(AsyncCallback<ArrayList<ClientWarehouse>> callBack);
+	public void getWarehouses(
+			AsyncCallback<PaginationList<ClientWarehouse>> callBack);
 
-	public void getAllUnits(AsyncCallback<ArrayList<ClientMeasurement>> callBack);
+	public void getAllUnits(
+			AsyncCallback<PaginationList<ClientMeasurement>> callBack);
 
 	public void getStockTransferItems(long wareHouse,
 			AsyncCallback<ArrayList<ClientStockTransferItem>> callBack);
@@ -392,7 +395,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ArrayList<ClientItemStatus>> callback);
 
 	public void getAccounts(int typeOfAccount,
-			AsyncCallback<ArrayList<ClientAccount>> callBack);
+			AsyncCallback<PaginationList<ClientAccount>> callBack);
 
 	void getSearchResultByInput(SearchInput input, int start, int length,
 			AsyncCallback<PaginationList<SearchResultlist>> callBack);
@@ -416,7 +419,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<List<ClientMessageOrTask>> callBack);
 
 	public void getRemindersList(
-			AsyncCallback<ArrayList<ClientReminder>> callBack);
+			AsyncCallback<PaginationList<ClientReminder>> callBack);
 
 	void getAccountsAndValues(long startDate, long endDate,
 			AsyncCallback<ExpensePortletData> callback);
@@ -433,11 +436,12 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ClientTransaction> callBack);
 
 	public void getPayeeChecks(boolean isCustomerChecks, long fromDate,
-			long toDate, AsyncCallback<ArrayList<PaymentsList>> callBack);
+			long toDate, int start, int length,
+			AsyncCallback<PaginationList<PaymentsList>> callBack);
 
 	void getBillsAndItemReceiptList(boolean isExpensesList,
-			int transactionType, long fromDate, long toDate,
-			AsyncCallback<ArrayList<BillsList>> callback);
+			int transactionType, long fromDate, long toDate, int start,
+			int length, AsyncCallback<PaginationList<BillsList>> callback);
 
 	void getTDSTransactionItemsList(int chalanPer,
 			AsyncCallback<ArrayList<ClientTDSTransactionItem>> callback);

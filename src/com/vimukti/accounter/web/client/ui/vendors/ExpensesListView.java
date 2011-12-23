@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -30,7 +31,7 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 	public void initListCallback() {
 		super.initListCallback();
 		Accounter.createHomeService().getBillsAndItemReceiptList(true, 0,
-				getStartDate().getDate(), getEndDate().getDate(), this);
+				getStartDate().getDate(), getEndDate().getDate(), 0, 0, this);
 	}
 
 	@Override
@@ -152,11 +153,13 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<BillsList> result) {
+	public void onSuccess(PaginationList<BillsList> result) {
+
 		super.onSuccess(result);
 		filterList(viewSelect.getSelectedValue().toString());
 		grid.setViewType(viewSelect.getSelectedValue().toString());
 		grid.sort(10, false);
+
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -74,7 +75,7 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 	public void createData() {
 
 		Accounter.createHomeService().getBudgetList(
-				new AsyncCallback<ArrayList<ClientBudget>>() {
+				new AsyncCallback<PaginationList<ClientBudget>>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -83,9 +84,10 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 					}
 
 					@Override
-					public void onSuccess(ArrayList<ClientBudget> budgetList) {
+					public void onSuccess(
+							PaginationList<ClientBudget> budgetList) {
 						if (budgetList == null) {
-							budgetList = new ArrayList<ClientBudget>();
+							budgetList = new PaginationList<ClientBudget>();
 						}
 						for (ClientBudget budget : budgetList) {
 							budgetArray.add(budget.getBudgetName());

@@ -14,6 +14,7 @@ import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.sun.corba.se.impl.oa.toa.TOA;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.CashPurchase;
@@ -45,6 +46,7 @@ import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
@@ -76,9 +78,11 @@ public class VendorManager extends Manager {
 		boxThresholds.put(14, 0);
 	}
 
-	public ArrayList<BillsList> getBillsList(boolean isExpensesList,
-			long companyId, int transactionType, long fromDate, long toDate)
-			throws DAOException {
+	public PaginationList<BillsList> getBillsList(boolean isExpensesList,
+			long companyId, int transactionType, long fromDate, long toDate,
+			int start, int length) throws DAOException {
+		int total = 0;
+		List list;
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			// FIXME:: change the sql query to hql query
@@ -93,11 +97,13 @@ public class VendorManager extends Manager {
 						.setParameter("fromDate", fromDate)
 						.setParameter("toDate", toDate);
 			}
-			List list = query.list();
+
+			total = query.list().size();
+			list = query.setFirstResult(start).setMaxResults(length).list();
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<BillsList> queryResult = new ArrayList<BillsList>();
+				PaginationList<BillsList> queryResult = new PaginationList<BillsList>();
 				while ((iterator).hasNext()) {
 
 					BillsList billsList = new BillsList();
@@ -139,8 +145,9 @@ public class VendorManager extends Manager {
 							queryResult.set(j + 1, tmpBillsList);
 						}
 				}
-
-				return new ArrayList<BillsList>(queryResult);
+				queryResult.setTotalCount(total);
+				queryResult.setStart(start);
+				return queryResult;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -984,8 +991,11 @@ public class VendorManager extends Manager {
 
 	}
 
-	public ArrayList<PaymentsList> getVendorPaymentsList(long companyId,
-			long fromDate, long toDate) throws DAOException {
+	public PaginationList<PaymentsList> getVendorPaymentsList(long companyId,
+			long fromDate, long toDate, int start, int length)
+			throws DAOException {
+		int total;
+		List list;
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -993,15 +1003,14 @@ public class VendorManager extends Manager {
 					.setParameter("companyId", companyId)
 					.setParameter("fromDate", fromDate)
 					.setParameter("toDate", toDate);
-			;
-			// FIXME ::: check the sql query and change it to hql query if
-			// required
-			List list = query.list();
+
+			total = query.list().size();
+			list = query.setFirstResult(start).setMaxResults(length).list();
 
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				ArrayList<PaymentsList> queryResult = new ArrayList<PaymentsList>();
+				PaginationList<PaymentsList> queryResult = new PaginationList<PaymentsList>();
 				while ((iterator).hasNext()) {
 
 					PaymentsList vendorPaymentsList = new PaymentsList();
@@ -1040,7 +1049,9 @@ public class VendorManager extends Manager {
 						queryResult.add(vendorPaymentsList);
 					}
 				}
-				return new ArrayList<PaymentsList>(queryResult);
+				queryResult.setTotalCount(total);
+				queryResult.setStart(start);
+				return queryResult;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1716,10 +1727,12 @@ public class VendorManager extends Manager {
 		return enterBillId;
 	}
 
-	public List<PaymentsList> getPayeeChecks(Long companyId,
-			boolean isCustomerChecks, FinanceDate fromDate, FinanceDate toDate) {
+	public PaginationList<PaymentsList> getPayeeChecks(Long companyId,
+			boolean isCustomerChecks, FinanceDate fromDate, FinanceDate toDate,
+			int start, int length) {
 		Session session = HibernateUtil.getCurrentSession();
-		List<PaymentsList> issuePaymentTransactionsList = new ArrayList<PaymentsList>();
+		int total;
+		PaginationList<PaymentsList> issuePaymentTransactionsList = new PaginationList<PaymentsList>();
 		Query query = session.getNamedQuery("getVendorWriteChecks")
 				.setParameter("company", getCompany(companyId))
 				.setParameter("fromDate", fromDate)
@@ -1730,7 +1743,10 @@ public class VendorManager extends Manager {
 					.setParameter("fromDate", fromDate)
 					.setParameter("toDate", toDate);
 		}
-		List list = query.list();
+		List list;
+		total = query.list().size();
+		list = query.setFirstResult(start).setMaxResults(length).list();
+
 		if (list != null) {
 			Iterator i = list.iterator();
 			while (i.hasNext()) {
@@ -1758,6 +1774,8 @@ public class VendorManager extends Manager {
 				issuePaymentTransactionsList.add(issuePaymentTransaction);
 			}
 		}
+		issuePaymentTransactionsList.setTotalCount(total);
+		issuePaymentTransactionsList.setStart(start);
 		return issuePaymentTransactionsList;
 	}
 

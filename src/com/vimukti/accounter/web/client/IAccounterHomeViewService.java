@@ -87,18 +87,20 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public ArrayList<ClientEstimate> getLatestQuotes();
 
-	ArrayList<BillsList> getBillsAndItemReceiptList(boolean isExpensesList,
-			int transactionType, long fromDate, long toDate);
+	PaginationList<BillsList> getBillsAndItemReceiptList(
+			boolean isExpensesList, int transactionType, long fromDate,
+			long toDate, int start, int length);
 
 	public ArrayList<PayBillTransactionList> getTransactionPayBills();
 
 	public ArrayList<PayBillTransactionList> getTransactionPayBills(
 			long vendorId, ClientFinanceDate paymentDate);
 
-	public ArrayList<PaymentsList> getVendorPaymentsList(long fromDate,
-			long toDate);
+	PaginationList<PaymentsList> getVendorPaymentsList(long fromDate,
+			long toDate, int start, int length);
 
-	public ArrayList<PaymentsList> getPaymentsList(long fromDate, long toDate);
+	PaginationList<PaymentsList> getPaymentsList(long fromDate, long toDate,
+			int start, int length);
 
 	public ArrayList<ClientCreditsAndPayments> getVendorCreditsAndPayments(
 			long vendorId);
@@ -141,7 +143,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public String getNextIssuepaymentCheckNumber(long accountId)
 			throws AccounterException;
 
-	// To check whether an Account is a Tax Agency Account or not
+	// To check whether an Account is a Tax Agency Account or noto
 	public boolean isTaxAgencyAccount(long accountId);
 
 	// To check whether an Account is a Sales Tax Payable Account or not
@@ -151,7 +153,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public boolean isSalesTaxPayableAccountByName(String accountName);
 
 	// To get all the Estimates/Quotes in a company
-	public ArrayList<ClientEstimate> getEstimates(int type, long fromDate,
+	public PaginationList<ClientEstimate> getEstimates(int type, long fromDate,
 			long toDate);
 
 	// To get the Estimates/Quotes of a particular customer in the company
@@ -183,7 +185,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ClientJournalEntry getJournalEntry(long journalEntryId);
 
 	// To get all the Journal Entries in a company
-	public ArrayList<ClientJournalEntry> getJournalEntries(long fromDate,
+	public PaginationList<ClientJournalEntry> getJournalEntries(long fromDate,
 			long toDate);
 
 	// to get the Account Register of a particular account
@@ -191,15 +193,14 @@ public interface IAccounterHomeViewService extends RemoteService {
 	// throws DAOException;
 
 	// To get all Customer Refunds and Write Checks -> for Customer
-	public ArrayList<CustomerRefundsList> getCustomerRefundsList(long fromDate,
-			long toDate);
+	public PaginationList<CustomerRefundsList> getCustomerRefundsList(
+			long fromDate, long toDate);
 
 	// To display the liabilityAccount combo box of New Tax Agency window
 	public ArrayList<ClientAccount> getTaxAgencyAccounts();
 
-	// To display Received payments in list View.
-	public ArrayList<ReceivePaymentsList> getReceivePaymentsList(long fromDate,
-			long toDate, int transactionType);
+	PaginationList<ReceivePaymentsList> getReceivePaymentsList(long fromDate,
+			long toDate, int transactionType, int start, int length);
 
 	public ArrayList<ClientItem> getLatestPurchaseItems();
 
@@ -212,10 +213,10 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public List<ClientTransactionMakeDeposit> getTransactionMakeDeposits();
 
-	public ArrayList<SalesOrdersList> getSalesOrders(long fromDate, long endDate)
-			throws AccounterException;
+	public PaginationList<SalesOrdersList> getSalesOrders(long fromDate,
+			long endDate) throws AccounterException;
 
-	public ArrayList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
+	public PaginationList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
 			long toDate) throws AccounterException;
 
 	/*
@@ -287,11 +288,11 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<ClientReceiveVATEntries> getReceiveVATEntries()
 			throws AccounterException;
 
-	public ArrayList<PayeeList> getPayeeList(int transactionCategory)
+	public PaginationList<PayeeList> getPayeeList(int transactionCategory)
 			throws AccounterException;
 
-	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate,
-			int type);
+	public PaginationList<InvoicesList> getInvoiceList(long fromDate,
+			long toDate, int type);
 
 	public String getCustomerNumber();
 
@@ -308,7 +309,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public ArrayList<ClientUserInfo> getAllUsers() throws AccounterException;
 
-	ArrayList<ClientRecurringTransaction> getRecurringsList(long fromDate,
+	PaginationList<ClientRecurringTransaction> getRecurringsList(long fromDate,
 			long toDate) throws AccounterException;
 
 	// For merging
@@ -341,7 +342,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public String createPdfFile(long objectID, int type, long brandingThemeId)
 			throws Exception;
 
-	public ArrayList<ClientBudget> getBudgetList();
+	public PaginationList<ClientBudget> getBudgetList();
 
 	ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList(int chalanPer);
 
@@ -350,9 +351,9 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<ClientTDSInfo> getPayBillsByTDS()
 			throws AccounterException;
 
-	public ArrayList<ClientWarehouse> getWarehouses();
+	public PaginationList<ClientWarehouse> getWarehouses();
 
-	public ArrayList<ClientMeasurement> getAllUnits();
+	public PaginationList<ClientMeasurement> getAllUnits();
 
 	public ArrayList<ClientStockTransferItem> getStockTransferItems(
 			long wareHouse);
@@ -366,7 +367,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ArrayList<ClientItemStatus> getItemStatuses(long wareHouse)
 			throws AccounterException;
 
-	ArrayList<ClientAccount> getAccounts(int typeOfAccount)
+	PaginationList<ClientAccount> getAccounts(int typeOfAccount)
 			throws AccounterException;
 
 	PaginationList<SearchResultlist> getSearchResultByInput(SearchInput input,
@@ -385,7 +386,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	List<ClientMessageOrTask> getMessagesAndTasks() throws AccounterException;
 
-	ArrayList<ClientReminder> getRemindersList() throws AccounterException;
+	PaginationList<ClientReminder> getRemindersList() throws AccounterException;
 
 	ExpensePortletData getAccountsAndValues(long startDate, long endDate);
 
@@ -399,8 +400,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ClientTransaction getTransactionToCreate(ClientReminder obj)
 			throws AccounterException;
 
-	ArrayList<PaymentsList> getPayeeChecks(boolean isCustomerChecks,
-			long fromDate, long toDate);
+	PaginationList<PaymentsList> getPayeeChecks(boolean isCustomerChecks,
+			long fromDate, long toDate, int start, int length);
 
 	ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(int type,
 			FinanceDate startDate, FinanceDate endDate)

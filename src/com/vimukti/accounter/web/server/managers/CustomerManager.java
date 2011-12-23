@@ -30,6 +30,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
@@ -47,14 +48,14 @@ public class CustomerManager extends Manager {
 		// return NumberUtils.getNextCustomerNumber();
 	}
 
-	public ArrayList<CustomerRefundsList> getCustomerRefundsList(
+	public PaginationList<CustomerRefundsList> getCustomerRefundsList(
 			long companyId, FinanceDate fromDate, FinanceDate toDate)
 			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
-			List<CustomerRefundsList> customerRefundsList = new ArrayList<CustomerRefundsList>();
+			PaginationList<CustomerRefundsList> customerRefundsList = new PaginationList<CustomerRefundsList>();
 			Query query = session.getNamedQuery("getCustomerRefund")
 					.setEntity("company", company)
 					.setParameter("fromDate", fromDate)
@@ -121,7 +122,7 @@ public class CustomerManager extends Manager {
 			}
 
 			if (customerRefundsList != null) {
-				return new ArrayList<CustomerRefundsList>(customerRefundsList);
+				return customerRefundsList;
 			} else
 				throw new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null);
@@ -297,9 +298,11 @@ public class CustomerManager extends Manager {
 					null));
 	}
 
-	public ArrayList<ReceivePaymentsList> getReceivePaymentsList(
-			long companyId, long fromDate, long toDate, int transactionType)
-			throws DAOException {
+	public PaginationList<ReceivePaymentsList> getReceivePaymentsList(
+			long companyId, long fromDate, long toDate, int transactionType,
+			int start, int length) throws DAOException {
+		int total;
+		List list;
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -318,12 +321,12 @@ public class CustomerManager extends Manager {
 						.setParameter("fromDate", fromDate)
 						.setParameter("toDate", toDate);
 			}
-			List list = query.list();
-
+			total = query.list().size();
+			list = query.setFirstResult(start).setMaxResults(length).list();
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				ArrayList<ReceivePaymentsList> queryResult = new ArrayList<ReceivePaymentsList>();
+				PaginationList<ReceivePaymentsList> queryResult = new PaginationList<ReceivePaymentsList>();
 				while ((iterator).hasNext()) {
 
 					ReceivePaymentsList receivePaymentsList = new ReceivePaymentsList();
@@ -348,6 +351,8 @@ public class CustomerManager extends Manager {
 
 					queryResult.add(receivePaymentsList);
 				}
+				queryResult.setTotalCount(total);
+				queryResult.setStart(start);
 				return queryResult;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -400,19 +405,23 @@ public class CustomerManager extends Manager {
 		}
 	}
 
-	public ArrayList<PaymentsList> getPaymentsList(long companyId,
-			long fromDate, long toDate) throws DAOException {
-		List<PaymentsList> queryResult = new ArrayList<PaymentsList>();
+	public PaginationList<PaymentsList> getPaymentsList(long companyId,
+			long fromDate, long toDate, int start, int length)
+			throws DAOException {
+		PaginationList<PaymentsList> queryResult = new PaginationList<PaymentsList>();
+		int total;
+		List list;
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("getPaymentsList")
 					.setParameter("companyId", companyId)
 					.setParameter("fromDate", fromDate)
 					.setParameter("toDate", toDate);
-			;
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
-			List list = query.list();
+			total = query.list().size();
+			list = query.setFirstResult(start).setMaxResults(length).list();
+
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
@@ -448,7 +457,9 @@ public class CustomerManager extends Manager {
 					queryResult.add(paymentsList);
 					// }
 				}
-				return new ArrayList<PaymentsList>(queryResult);
+				queryResult.setTotalCount(total);
+				queryResult.setStart(start);
+				return queryResult;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));

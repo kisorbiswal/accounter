@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 import java.util.ArrayList;
 
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -27,7 +28,7 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<ClientMeasurement> result) {
+	public void onSuccess(PaginationList<ClientMeasurement> result) {
 		super.onSuccess(result);
 		grid.sort(10, false);
 	}

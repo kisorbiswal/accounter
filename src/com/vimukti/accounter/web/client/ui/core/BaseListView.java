@@ -4,16 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.SimplePager.Resources;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.Range;
+import com.google.gwt.view.client.RangeChangeEvent;
+import com.google.gwt.view.client.RangeChangeEvent.Handler;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBudget;
@@ -22,6 +29,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -50,7 +58,7 @@ import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
  */
 
 public abstract class BaseListView<T> extends AbstractBaseView<T> implements
-		IAccounterList<T>, AsyncCallback<ArrayList<T>>,
+		IAccounterList<T>, AsyncCallback<PaginationList<T>>,
 		ISavableView<Map<String, Object>> {
 	protected BaseListGrid grid;
 	boolean budgetItemsExists = false;
@@ -393,11 +401,51 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			AccounterDOM.setParentElementHeight(lab1.getElement(), 5);
 			mainVLay.add(gridLayout);
 		}
-		// PaginationPanle<T> paginationPanle = new PaginationPanle<T>();
-		// grid.setPaginationPanel(paginationPanle, 10);
-		// mainVLay.add(paginationPanle);
+		int pageSize = getPageSize();
+		if (pageSize != -1) {
+			grid.addRangeChangeHandler2(new Handler() {
+
+				@Override
+				public void onRangeChange(RangeChangeEvent event) {
+					onPageChange(event.getNewRange().getStart(), event
+							.getNewRange().getLength());
+				}
+			});
+			grid.setVisibleRange(0, pageSize);
+			SimplePager pager = new SimplePager(TextLocation.CENTER,
+					(Resources) GWT.create(Resources.class), true,
+					pageSize * 2, true);
+			pager.setDisplay(grid);
+			mainVLay.add(pager);
+
+			// paginationPanle = new PaginationPanle<T>(pageSize);
+			// paginationPanle.addPageChangeListner(new PageChangeHandler<T>() {
+			//
+			// @Override
+			// public void onPageChange(int start, int length) {
+			// BaseListView.this.onPageChange(start, length);
+			// }
+			//
+			// });
+			// mainVLay.add(paginationPanle);
+		}
 		add(mainVLay);
 		setSize("100%", "100%");
+
+	}
+
+	protected int getPageSize() {
+		return -1;
+	}
+
+	public void updateRecordsCount(int start, int length, int total) {
+		grid.updateRange(new Range(start, getPageSize()));
+		grid.setRowCount(total, (start + length) == total);
+
+	}
+
+	protected void onPageChange(int start, int length) {
+		// TODO Auto-generated method stub
 
 	}
 
@@ -508,7 +556,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	}
 
 	@Override
-	public void onSuccess(ArrayList<T> result) {
+	public void onSuccess(PaginationList<T> result) {
 		grid.removeLoadingImage();
 		if (result != null) {
 			initialRecords = result;
@@ -549,6 +597,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			Accounter.showInformation(messages.noRecordsToShow());
 			grid.removeLoadingImage();
 		}
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+				result.getTotalCount());
 	}
 
 	public List<ClientFixedAsset> getAssetsByType(int type,

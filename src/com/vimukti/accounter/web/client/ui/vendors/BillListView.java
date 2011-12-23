@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -74,10 +75,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 
 	@Override
 	public void initListCallback() {
-		super.initListCallback();
-		Accounter.createHomeService().getBillsAndItemReceiptList(false,
-				transactionType, getStartDate().getDate(),
-				getEndDate().getDate(), this);
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
@@ -105,12 +103,14 @@ public class BillListView extends TransactionsListView<BillsList> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<BillsList> result) {
+	public void onSuccess(PaginationList<BillsList> result) {
 		super.onSuccess(result);
 		allEnterBills = result;
 		filterList(viewSelect.getValue().toString());
 		grid.setViewType(viewSelect.getValue().toString());
 		grid.sort(10, false);
+		updateRecordsCount(result.getStart(), grid.getRowCount(),
+				result.getTotalCount());
 	}
 
 	@Override
@@ -210,5 +210,17 @@ public class BillListView extends TransactionsListView<BillsList> {
 	@Override
 	protected String getViewTitle() {
 		return messages().billsAndItemReceipts();
+	}
+
+	@Override
+	protected int getPageSize() {
+		return 10;
+	}
+
+	@Override
+	protected void onPageChange(int start, int length) {
+		Accounter.createHomeService().getBillsAndItemReceiptList(false,
+				transactionType, getStartDate().getDate(),
+				getEndDate().getDate(), start, length, this);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -36,7 +37,7 @@ public class RecurringTransactionsListView extends
 	}
 
 	@Override
-	public void onSuccess(ArrayList<ClientRecurringTransaction> result) {
+	public void onSuccess(PaginationList<ClientRecurringTransaction> result) {
 		super.onSuccess(result);
 		recurringTransactions = result;
 		filterList(viewSelect.getValue().toString());

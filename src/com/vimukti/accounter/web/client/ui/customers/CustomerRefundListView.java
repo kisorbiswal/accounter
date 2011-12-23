@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -70,7 +71,7 @@ public class CustomerRefundListView extends
 	}
 
 	@Override
-	public void onSuccess(ArrayList<CustomerRefundsList> result) {
+	public void onSuccess(PaginationList<CustomerRefundsList> result) {
 		super.onSuccess(result);
 		listOfCustomerRefund = result;
 		filterList(viewSelect != null ? viewSelect.getSelectedValue()

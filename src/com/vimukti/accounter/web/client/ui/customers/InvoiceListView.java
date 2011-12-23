@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -106,7 +107,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	}
 
 	@Override
-	public void onSuccess(ArrayList<InvoicesList> result) {
+	public void onSuccess(PaginationList<InvoicesList> result) {
 		grid.removeLoadingImage();
 		listOfInvoices = result;
 		filterList(viewSelect.getValue().toString());

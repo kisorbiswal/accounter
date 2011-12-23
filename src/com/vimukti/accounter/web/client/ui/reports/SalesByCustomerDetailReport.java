@@ -60,7 +60,6 @@ public class SalesByCustomerDetailReport extends
 			}
 		}
 	}
-
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

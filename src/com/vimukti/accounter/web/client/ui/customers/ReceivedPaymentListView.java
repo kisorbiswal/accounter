@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -58,19 +59,18 @@ public class ReceivedPaymentListView extends
 
 	@Override
 	public void initListCallback() {
-		super.initListCallback();
-		Accounter.createHomeService().getReceivePaymentsList(
-				getStartDate().getDate(), getEndDate().getDate(),
-				transactionType, this);
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
-	public void onSuccess(ArrayList<ReceivePaymentsList> result) {
+	public void onSuccess(PaginationList<ReceivePaymentsList> result) {
 		super.onSuccess(result);
 		listOfRecievePayments = result;
 		filterList(viewSelect.getSelectedValue());
 		grid.setViewType(viewSelect.getSelectedValue());
 		grid.sort(10, false);
+		updateRecordsCount(result.getStart(), grid.getRowCount(),
+				result.getTotalCount());
 	}
 
 	@Override
@@ -157,4 +157,14 @@ public class ReceivedPaymentListView extends
 		return messages().recievePayments();
 	}
 
+	@Override
+	protected int getPageSize() {
+		return 1;
+	}
+
+	protected void onPageChange(int start, int length) {
+		Accounter.createHomeService().getReceivePaymentsList(
+				getStartDate().getDate(), getEndDate().getDate(),
+				transactionType, start, length, this);
+	};
 }

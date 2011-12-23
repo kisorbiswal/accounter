@@ -196,19 +196,20 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<PaymentsList> getPaymentsList(long fromDate, long toDate) {
-		List<PaymentsList> paymentsList = null;
+	public PaginationList<PaymentsList> getPaymentsList(long fromDate,
+			long toDate, int start, int length) {
+		PaginationList<PaymentsList> paymentsList = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
 							toDate), getCompanyId());
 			paymentsList = getFinanceTool().getCustomerManager()
 					.getPaymentsList(getCompanyId(), dates[0].getDate(),
-							dates[1].getDate());
+							dates[1].getDate(), start, length);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<PaymentsList>(paymentsList);
+		return paymentsList;
 	}
 
 	@Override
@@ -318,10 +319,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<PaymentsList> getVendorPaymentsList(long fromDate,
-			long toDate) {
+	public PaginationList<PaymentsList> getVendorPaymentsList(long fromDate,
+			long toDate, int start, int length) {
 
-		ArrayList<PaymentsList> vendorPaymentsList = new ArrayList<PaymentsList>();
+		PaginationList<PaymentsList> vendorPaymentsList = new PaginationList<PaymentsList>();
 
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
@@ -329,7 +330,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 							toDate), getCompanyId());
 			vendorPaymentsList = getFinanceTool().getVendorManager()
 					.getVendorPaymentsList(getCompanyId(), dates[0].getDate(),
-							dates[1].getDate());
+							dates[1].getDate(), start, length);
 
 			// vendorPaymentsList = (List<PaymentsList>) manager
 			// .merge(vendorPaymentsList);
@@ -448,9 +449,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientBudget> getBudgetList() {
+	public PaginationList<ClientBudget> getBudgetList() {
 
-		List<ClientBudget> budgetList = null;
+		PaginationList<ClientBudget> budgetList = null;
 		try {
 
 			budgetList = getFinanceTool().getBudgetList(getCompanyId());
@@ -458,7 +459,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<ClientBudget>(budgetList);
+		return budgetList;
 	}
 
 	@Override
@@ -663,9 +664,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<CustomerRefundsList> getCustomerRefundsList(long fromDate,
-			long toDate) {
-		List<CustomerRefundsList> customerRefundsList = null;
+	public PaginationList<CustomerRefundsList> getCustomerRefundsList(
+			long fromDate, long toDate) {
+		PaginationList<CustomerRefundsList> customerRefundsList = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
@@ -675,13 +676,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<CustomerRefundsList>(customerRefundsList);
+		return customerRefundsList;
 	}
 
 	@Override
-	public ArrayList<ClientEstimate> getEstimates(int type, long fromDate,
+	public PaginationList<ClientEstimate> getEstimates(int type, long fromDate,
 			long toDate) {
-		List<ClientEstimate> clientEstimate = new ArrayList<ClientEstimate>();
+		PaginationList<ClientEstimate> clientEstimate = new PaginationList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
@@ -699,7 +700,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ClientEstimate>(clientEstimate);
+		return clientEstimate;
 	}
 
 	@Override
@@ -723,9 +724,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate,
+	public PaginationList<InvoicesList> getInvoiceList(long fromDate, long toDate,
 			int type) {
-		List<InvoicesList> invoicesList = null;
+		PaginationList<InvoicesList> invoicesList = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
@@ -737,7 +738,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<InvoicesList>(invoicesList);
+		return invoicesList;
 	}
 
 	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(
@@ -783,9 +784,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientJournalEntry> getJournalEntries(long fromDate,
+	public PaginationList<ClientJournalEntry> getJournalEntries(long fromDate,
 			long toDate) {
-		List<ClientJournalEntry> clientJournalEntries = new ArrayList<ClientJournalEntry>();
+		PaginationList<ClientJournalEntry> clientJournalEntries = new PaginationList<ClientJournalEntry>();
 		List<JournalEntry> serverJournalEntries = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
@@ -805,7 +806,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ClientJournalEntry>(clientJournalEntries);
+		return clientJournalEntries;
 	}
 
 	@Override
@@ -976,8 +977,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ReceivePaymentsList> getReceivePaymentsList(long fromDate,
-			long toDate, int transactionType) {
+	public PaginationList<ReceivePaymentsList> getReceivePaymentsList(
+			long fromDate, long toDate, int transactionType, int start,
+			int length) {
 
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
@@ -985,7 +987,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 							toDate), getCompanyId());
 			return getFinanceTool().getCustomerManager()
 					.getReceivePaymentsList(getCompanyId(), dates[0].getDate(),
-							dates[1].getDate(), transactionType);
+							dates[1].getDate(), transactionType, start, length);
 
 			// receivePaymentList = (List<ReceivePaymentsList>) manager
 			// .merge(receivePaymentList);
@@ -994,7 +996,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ReceivePaymentsList>();
+		return new PaginationList<ReceivePaymentsList>();
 	}
 
 	@Override
@@ -1104,7 +1106,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
+	public PaginationList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
 			long toDate) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 
@@ -1130,8 +1132,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	 * return tool != null ? tool.getPurchaseOrdersForVendor(vendorID) : null; }
 	 */
 	@Override
-	public ArrayList<SalesOrdersList> getSalesOrders(long fromDate, long toDate)
-			throws AccounterException {
+	public PaginationList<SalesOrdersList> getSalesOrders(long fromDate,
+			long toDate) throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
 
@@ -1439,7 +1441,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<PayeeList> getPayeeList(int transactionCategory)
+	public PaginationList<PayeeList> getPayeeList(int transactionCategory)
 			throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		return tool != null ? tool.getPayeeList(transactionCategory,
@@ -1560,7 +1562,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientRecurringTransaction> getRecurringsList(
+	public PaginationList<ClientRecurringTransaction> getRecurringsList(
 			long fromDate, long toDate) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 
@@ -1688,13 +1690,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientWarehouse> getWarehouses() {
+	public PaginationList<ClientWarehouse> getWarehouses() {
 		FinanceTool tool = new FinanceTool();
 		return tool.getInventoryManager().getWarehouses(getCompanyId());
 	}
 
 	@Override
-	public ArrayList<ClientMeasurement> getAllUnits() {
+	public PaginationList<ClientMeasurement> getAllUnits() {
 		FinanceTool tool = new FinanceTool();
 		return tool.getInventoryManager().getAllUnits(getCompanyId());
 	}
@@ -1731,7 +1733,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientAccount> getAccounts(int typeOfAccount)
+	public PaginationList<ClientAccount> getAccounts(int typeOfAccount)
 			throws AccounterException {
 		FinanceTool tool = new FinanceTool();
 		if (typeOfAccount == ClientAccount.TYPE_BANK) {
@@ -1823,7 +1825,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientReminder> getRemindersList()
+	public PaginationList<ClientReminder> getRemindersList()
 			throws AccounterException {
 		FinanceTool tool = new FinanceTool();
 		return tool.getCompanyManager().getRemindersList(getCompanyId());
@@ -1865,37 +1867,39 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<PaymentsList> getPayeeChecks(boolean isCustomerChecks,
-			long fromDate, long toDate) {
-		List<PaymentsList> checks = null;
+	public PaginationList<PaymentsList> getPayeeChecks(
+			boolean isCustomerChecks, long fromDate, long toDate, int start,
+			int length) {
+		PaginationList<PaymentsList> checks = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
 							toDate), getCompanyId());
 			checks = getFinanceTool().getVendorManager().getPayeeChecks(
-					getCompanyId(), isCustomerChecks, dates[0], dates[1]);
+					getCompanyId(), isCustomerChecks, dates[0], dates[1],
+					start, length);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<PaymentsList>(checks);
+		return checks;
 	}
 
 	@Override
-	public ArrayList<BillsList> getBillsAndItemReceiptList(
+	public PaginationList<BillsList> getBillsAndItemReceiptList(
 			boolean isExpensesList, int transactionType, long fromDate,
-			long toDate) {
-		List<BillsList> billList = null;
+			long toDate, int start, int length) {
+		PaginationList<BillsList> billList = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
 							toDate), getCompanyId());
 			billList = getFinanceTool().getVendorManager().getBillsList(
 					isExpensesList, getCompanyId(), transactionType,
-					dates[0].getDate(), dates[1].getDate());
+					dates[0].getDate(), dates[1].getDate(), start, length);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<BillsList>(billList);
+		return billList;
 
 	}
 

@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -195,10 +196,10 @@ public class CustomerSectionHomeView extends BaseHomeView {
 		listGrid.init();
 
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
+				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override
-					public void onResultSuccess(ArrayList<PayeeList> result) {
+					public void onResultSuccess(PaginationList<PayeeList> result) {
 						listGrid.clear();
 						listGrid.addRecords(result);
 						if (listGrid.getRecords().isEmpty())
@@ -269,10 +270,10 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	public void setPrevoiusOutput(Object preObject) {
 
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
+				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override
-					public void onResultSuccess(ArrayList<PayeeList> result) {
+					public void onResultSuccess(PaginationList<PayeeList> result) {
 						listGrid.clear();
 						listGrid.addRecords(result);
 

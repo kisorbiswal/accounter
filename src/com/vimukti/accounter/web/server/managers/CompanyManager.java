@@ -767,7 +767,7 @@ public class CompanyManager extends Manager {
 		return employees;
 	}
 
-	public ArrayList<ClientAccount> getAccounts(int type, Long companyId)
+	public PaginationList<ClientAccount> getAccounts(int type, Long companyId)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<Account> list;
@@ -778,7 +778,7 @@ public class CompanyManager extends Manager {
 		} else {
 			list = new ArrayList<Account>(getCompany(companyId).getAccounts());
 		}
-		ArrayList<ClientAccount> result = new ArrayList<ClientAccount>();
+		PaginationList<ClientAccount> result = new PaginationList<ClientAccount>();
 		for (Account a : list) {
 			ClientAccount account;
 			if (a instanceof BankAccount) {
@@ -793,12 +793,12 @@ public class CompanyManager extends Manager {
 		return result;
 	}
 
-	public ArrayList<ClientAccount> getBankAccounts(Long companyId)
+	public PaginationList<ClientAccount> getBankAccounts(Long companyId)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<BigInteger> list = session.getNamedQuery("getBankAccountsOfType")
 				.setLong("companyId", companyId).list();
-		ArrayList<ClientAccount> result = new ArrayList<ClientAccount>();
+		PaginationList<ClientAccount> result = new PaginationList<ClientAccount>();
 		ClientCompany company = new ClientConvertUtil().toClientObject(
 				getCompany(companyId), ClientCompany.class);
 		for (BigInteger id : list) {
@@ -808,12 +808,12 @@ public class CompanyManager extends Manager {
 		return result;
 	}
 
-	public ArrayList<ClientReminder> getRemindersList(Long companyId)
+	public PaginationList<ClientReminder> getRemindersList(Long companyId)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<Reminder> list = session.getNamedQuery("getReminders")
 				.setLong("companyId", companyId).list();
-		ArrayList<ClientReminder> result = new ArrayList<ClientReminder>();
+		PaginationList<ClientReminder> result = new PaginationList<ClientReminder>();
 		for (Reminder reminder : list) {
 			ClientReminder clientReminder = new ClientConvertUtil()
 					.toClientObject(reminder, ClientReminder.class);
@@ -1545,7 +1545,7 @@ public class CompanyManager extends Manager {
 				((Estimate) transaction).setDeliveryDate(transactionDate);
 			}
 		}
-		
+
 		transaction.setSaveStatus(0);
 
 		String simpleName = transaction.getClass().getSimpleName();

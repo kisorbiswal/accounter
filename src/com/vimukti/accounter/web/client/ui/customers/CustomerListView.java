@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -113,7 +114,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<PayeeList> result) {
+	public void onSuccess(PaginationList<PayeeList> result) {
 		this.listOfCustomers = result;
 		super.onSuccess(result);
 		grid.sort(10, false);

@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -81,10 +82,10 @@ public class CustomersListGrid extends BaseListGrid<PayeeList> {
 
 	private void addDataToGrid() {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				new AsyncCallback<ArrayList<PayeeList>>() {
+				new AsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override
-					public void onSuccess(ArrayList<PayeeList> result) {
+					public void onSuccess(PaginationList<PayeeList> result) {
 						if (result.size() == 0) {
 							addEmptyMessage(messages.youDontHaveAny(Global
 									.get().Customers()));

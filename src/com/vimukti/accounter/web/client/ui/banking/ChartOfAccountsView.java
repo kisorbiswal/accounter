@@ -7,6 +7,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -93,7 +94,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<ClientAccount> result) {
+	public void onSuccess(PaginationList<ClientAccount> result) {
 		listOfAccounts = result;
 		filterList(true);
 		grid.sort(12, false);

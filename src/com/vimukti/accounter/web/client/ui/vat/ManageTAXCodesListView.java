@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -31,7 +32,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<ClientTAXCode> result) {
+	public void onSuccess(PaginationList<ClientTAXCode> result) {
 		super.onSuccess(result);
 		grid.sort(10, false);
 	}

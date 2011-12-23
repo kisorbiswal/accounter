@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -167,10 +168,12 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<ClientBudget> result) {
+	public void onSuccess(PaginationList<ClientBudget> result) {
+		super.onSuccess(result);
 		this.listOfBudgets = result;
 		super.onSuccess(result);
 		grid.sort(10, false);
+
 	}
 
 	// @Override

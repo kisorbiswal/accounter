@@ -1516,7 +1516,7 @@ public class FinanceTool {
 				.setParameter("companyId", companyId).executeUpdate();
 	}
 
-	public ArrayList<PayeeList> getPayeeList(int category, long companyId)
+	public PaginationList<PayeeList> getPayeeList(int category, long companyId)
 			throws AccounterException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
@@ -1779,7 +1779,7 @@ public class FinanceTool {
 				String payeeName = null;
 				PayeeList payeeList = null;
 				Iterator iterator = list.iterator();
-				List<PayeeList> queryResult = new ArrayList<PayeeList>();
+				PaginationList<PayeeList> queryResult = new PaginationList<PayeeList>();
 				while ((iterator).hasNext()) {
 
 					object = (Object[]) iterator.next();
@@ -1846,7 +1846,7 @@ public class FinanceTool {
 						queryResult.add(payeeList);
 					}
 				}
-				return new ArrayList<PayeeList>(queryResult);
+				return queryResult;
 			} else
 				throw (new AccounterException(
 						AccounterException.ERROR_ILLEGAL_ARGUMENT));
@@ -1905,7 +1905,7 @@ public class FinanceTool {
 		return new ArrayList<DepositDetail>(depositDetails);
 	}
 
-	public ArrayList<ClientRecurringTransaction> getAllRecurringTransactions(
+	public PaginationList<ClientRecurringTransaction> getAllRecurringTransactions(
 			long companyId, FinanceDate fromDate, FinanceDate toDate)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -1915,7 +1915,7 @@ public class FinanceTool {
 				.setParameter("fromDate", fromDate)
 				.setParameter("toDate", toDate).list();
 
-		List<ClientRecurringTransaction> clientObjs = new ArrayList<ClientRecurringTransaction>();
+		PaginationList<ClientRecurringTransaction> clientObjs = new PaginationList<ClientRecurringTransaction>();
 		for (RecurringTransaction recurringTransaction : transactions) {
 			ClientRecurringTransaction clientObject = new ClientConvertUtil()
 					.toClientObject(recurringTransaction,
@@ -1924,7 +1924,7 @@ public class FinanceTool {
 			clientObjs.add(clientObject);
 		}
 
-		return new ArrayList<ClientRecurringTransaction>(clientObjs);
+		return clientObjs;
 	}
 
 	/**
@@ -2298,7 +2298,8 @@ public class FinanceTool {
 	 * @return {@link ArrayList<ProfitAndLossByLocation>}
 	 */
 
-	public List<ClientBudget> getBudgetList(long companyId) throws DAOException {
+	public PaginationList<ClientBudget> getBudgetList(long companyId)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -2308,7 +2309,7 @@ public class FinanceTool {
 					.getNamedQuery("list.Budget")
 					.setEntity("company", getCompany(companyId)).list());
 
-			List<ClientBudget> clientBudgetObjs = new ArrayList<ClientBudget>();
+			PaginationList<ClientBudget> clientBudgetObjs = new PaginationList<ClientBudget>();
 
 			for (Budget budget : budgetList) {
 				ClientBudget clientObject = new ClientConvertUtil()
@@ -2317,7 +2318,7 @@ public class FinanceTool {
 				clientBudgetObjs.add(clientObject);
 			}
 
-			return new ArrayList<ClientBudget>(clientBudgetObjs);
+			return clientBudgetObjs;
 
 		} catch (Exception e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));

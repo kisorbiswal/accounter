@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -54,9 +55,7 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	public void initListCallback() {
-		super.initListCallback();
-		Accounter.createHomeService().getVendorPaymentsList(
-				getStartDate().getDate(), getEndDate().getDate(), this);
+		onPageChange(0, getPageSize());
 
 	}
 
@@ -72,12 +71,21 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 		grid.setViewType(messages().notIssued());
 	}
 
+	// @Override
+	// public void onSuccess(ArrayList<PaymentsList> result) {
+	// super.onSuccess(result);
+	// grid.setViewType(messages().all());
+	// filterList(messages().all());
+	// grid.sort(10, false);
+	// }
 	@Override
-	public void onSuccess(ArrayList<PaymentsList> result) {
+	public void onSuccess(PaginationList<PaymentsList> result) {
 		super.onSuccess(result);
 		grid.setViewType(messages().all());
 		filterList(messages().all());
 		grid.sort(10, false);
+		updateRecordsCount(result.getStart(), grid.getRowCount(),
+				result.getTotalCount());
 	}
 
 	@Override
@@ -171,5 +179,17 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 	@Override
 	protected String getViewTitle() {
 		return messages().payeePayments(Global.get().Vendor());
+	}
+
+	@Override
+	protected int getPageSize() {
+		return 10;
+	}
+
+	@Override
+	protected void onPageChange(int start, int length) {
+		Accounter.createHomeService().getVendorPaymentsList(
+				getStartDate().getDate(), getEndDate().getDate(), start,
+				length, this);
 	}
 }

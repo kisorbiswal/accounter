@@ -17,6 +17,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
@@ -214,8 +215,8 @@ public class PurchaseManager extends Manager {
 					null));
 	}
 
-	public ArrayList<PurchaseOrdersList> getPurchaseOrdersList(long companyId,
-			long fromDate, long toDate) throws DAOException {
+	public PaginationList<PurchaseOrdersList> getPurchaseOrdersList(
+			long companyId, long fromDate, long toDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -226,7 +227,7 @@ public class PurchaseManager extends Manager {
 
 		// FIXME ::: check the sql query and change it to hql query if required
 		List list = query.list();
-		List<PurchaseOrdersList> pil = new ArrayList<PurchaseOrdersList>();
+		PaginationList<PurchaseOrdersList> pil = new PaginationList<PurchaseOrdersList>();
 
 		for (int i = 0; i < list.size(); i++) {
 
@@ -247,7 +248,7 @@ public class PurchaseManager extends Manager {
 			}
 		}
 
-		return new ArrayList<PurchaseOrdersList>(pil);
+		return pil;
 	}
 
 	public ArrayList<OpenAndClosedOrders> getClosedPurchaseOrders(

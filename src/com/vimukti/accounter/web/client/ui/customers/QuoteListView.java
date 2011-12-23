@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -78,7 +79,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<ClientEstimate> result) {
+	public void onSuccess(PaginationList<ClientEstimate> result) {
 		super.onSuccess(result);
 		listOfEstimates = result;
 		filterList(viewSelect.getSelectedValue());

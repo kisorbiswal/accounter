@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -108,7 +109,7 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 	}
 
 	@Override
-	public void onSuccess(ArrayList<SalesOrdersList> result) {
+	public void onSuccess(PaginationList<SalesOrdersList> result) {
 		super.onSuccess(result);
 		listOfSalesOrder = result;
 		filterList(viewSelect.getValue().toString());
