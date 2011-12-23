@@ -3178,6 +3178,8 @@ public interface AccounterMessages extends Messages {
 
 	public String recurring();
 
+	public String recurringTemplateDeleteWarning(String transactionName);
+
 	public String recurringDescription();
 
 	public String recurringTemplateHasEnded(String name);
