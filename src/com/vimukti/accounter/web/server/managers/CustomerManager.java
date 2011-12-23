@@ -301,7 +301,7 @@ public class CustomerManager extends Manager {
 	public PaginationList<ReceivePaymentsList> getReceivePaymentsList(
 			long companyId, long fromDate, long toDate, int transactionType,
 			int start, int length) throws DAOException {
-		int total;
+		int total = 0;
 		List list;
 		try {
 
@@ -321,8 +321,14 @@ public class CustomerManager extends Manager {
 						.setParameter("fromDate", fromDate)
 						.setParameter("toDate", toDate);
 			}
-			total = query.list().size();
-			list = query.setFirstResult(start).setMaxResults(length).list();
+
+			// /If length will be -1 then get list for mobile With out limits
+			if (length == -1) {
+				list = query.list();
+			} else {
+				total = query.list().size();
+				list = query.setFirstResult(start).setMaxResults(length).list();
+			}
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
@@ -409,7 +415,7 @@ public class CustomerManager extends Manager {
 			long fromDate, long toDate, int start, int length)
 			throws DAOException {
 		PaginationList<PaymentsList> queryResult = new PaginationList<PaymentsList>();
-		int total;
+		int total = 0;
 		List list;
 		try {
 			Session session = HibernateUtil.getCurrentSession();
@@ -419,8 +425,13 @@ public class CustomerManager extends Manager {
 					.setParameter("toDate", toDate);
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
-			total = query.list().size();
-			list = query.setFirstResult(start).setMaxResults(length).list();
+			// /If length will be -1 then get list for mobile With out limits
+			if (length == -1) {
+				list = query.list();
+			} else {
+				total = query.list().size();
+				list = query.setFirstResult(start).setMaxResults(length).list();
+			}
 
 			if (list != null) {
 				Object[] object = null;

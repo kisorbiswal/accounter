@@ -14,7 +14,6 @@ import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.sun.corba.se.impl.oa.toa.TOA;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.CashPurchase;
@@ -97,9 +96,13 @@ public class VendorManager extends Manager {
 						.setParameter("fromDate", fromDate)
 						.setParameter("toDate", toDate);
 			}
-
-			total = query.list().size();
-			list = query.setFirstResult(start).setMaxResults(length).list();
+			// /If length will be -1 then get list for mobile With out limits
+			if (length == -1) {
+				list = query.list();
+			} else {
+				total = query.list().size();
+				list = query.setFirstResult(start).setMaxResults(length).list();
+			}
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
@@ -994,7 +997,7 @@ public class VendorManager extends Manager {
 	public PaginationList<PaymentsList> getVendorPaymentsList(long companyId,
 			long fromDate, long toDate, int start, int length)
 			throws DAOException {
-		int total;
+		int total = 0;
 		List list;
 		try {
 
@@ -1004,8 +1007,13 @@ public class VendorManager extends Manager {
 					.setParameter("fromDate", fromDate)
 					.setParameter("toDate", toDate);
 
-			total = query.list().size();
-			list = query.setFirstResult(start).setMaxResults(length).list();
+			// /If length will be -1 then get list for mobile With out limits
+			if (length == -1) {
+				list = query.list();
+			} else {
+				total = query.list().size();
+				list = query.setFirstResult(start).setMaxResults(length).list();
+			}
 
 			if (list != null) {
 				Object[] object = null;
