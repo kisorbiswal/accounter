@@ -10700,7 +10700,7 @@
 		V.ID =:vendorId
 	</sql-query>
 
-	<sql-query name="getAllCashExpensesByVendor">
+	<sql-query name="getIncomeExpensePortletInfo">
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
