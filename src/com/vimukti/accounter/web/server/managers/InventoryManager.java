@@ -33,10 +33,12 @@ import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 public class InventoryManager extends Manager {
 
 	public PaginationList<InvoicesList> getInvoiceList(long companyId,
-			long fromDate, long toDate, int invoicesType) throws DAOException {
+			long fromDate, long toDate, int invoicesType, int start, int length)
+			throws DAOException {
 
 		try {
 			Session session = HibernateUtil.getCurrentSession();
+			int total = 0;
 			// FIXME :: query optimization
 			Query query = session.getNamedQuery("getInvoicesList")
 					.setParameter("companyId", companyId)
@@ -58,8 +60,9 @@ public class InventoryManager extends Manager {
 						.setLong("fromDate", fromDate)
 						.setLong("toDate", toDate);
 			}
-
-			List list = query.list();
+			total = query.list().size();
+			List list = query.setFirstResult(start).setMaxResults(length)
+					.list();
 
 			if (list != null) {
 				Object[] object = null;
@@ -90,6 +93,8 @@ public class InventoryManager extends Manager {
 					invoicesList.setCurrency((Long) object[11]);
 					queryResult.add(invoicesList);
 				}
+				queryResult.setTotalCount(total);
+				queryResult.setStart(start);
 				return queryResult;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
