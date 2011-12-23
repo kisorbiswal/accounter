@@ -144,4 +144,10 @@ public abstract class WareHouseTransferTableRequirement extends
 		Set<Unit> units = item.getMeasurement().getUnits();
 		return new ArrayList<Unit>(units);
 	}
+
+	@Override
+	public void setEditable(boolean isEditable) {
+		get(QUANTITY).setEditable(isEditable);
+		super.setEditable(isEditable);
+	}
 }
