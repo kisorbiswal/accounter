@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -23,7 +25,6 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
-import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -129,24 +130,23 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	// }
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
-		// ImageButton printButton = new
-		// ImageButton(Accounter.messages().print(),
-		// Accounter.getFinanceImages().Print1Icon());
-		// printButton.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// // TODO Auto-generated method stub
-		//
+		ImageButton printButton = new ImageButton(Accounter.messages().print(),
+				Accounter.getFinanceImages().Print1Icon());
+		printButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+		// saveAndCloseButton = new SaveAndCloseButton(messages.save());
+		// saveAndCloseButton.setView(this);
+		// if (!isInViewMode()) {
+		// buttonBar.add(saveAndCloseButton);
 		// }
-		// });
-		saveAndCloseButton = new SaveAndCloseButton(messages.save());
-		saveAndCloseButton.setView(this);
-		if (!isInViewMode()) {
-			buttonBar.add(saveAndCloseButton);
-		}
 		cancelButton = new CancelButton(this);
-		// buttonBar.add(printButton);
+		buttonBar.add(printButton);
 		buttonBar.add(cancelButton);
 	}
 
