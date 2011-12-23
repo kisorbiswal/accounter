@@ -44,9 +44,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
-import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.PaginationList;
-import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -70,7 +68,6 @@ import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
-import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
@@ -288,8 +285,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<ClientReceiveVATEntries> getReceiveVATEntries()
 			throws AccounterException;
 
-	public PaginationList<PayeeList> getPayeeList(int transactionCategory)
-			throws AccounterException;
+	PaginationList<PayeeList> getPayeeList(int transactionCategory,
+			boolean isActive, int strat, int length) throws AccounterException;
 
 	public PaginationList<InvoicesList> getInvoiceList(long fromDate,
 			long toDate, int type, int start, int length);
@@ -367,12 +364,13 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ArrayList<ClientItemStatus> getItemStatuses(long wareHouse)
 			throws AccounterException;
 
-	PaginationList<ClientAccount> getAccounts(int typeOfAccount)
+	PaginationList<ClientAccount> getAccounts(int typeOfAccount,
+			boolean isActiveAccount, int start, int length)
 			throws AccounterException;
 
 	PaginationList<SearchResultlist> getSearchResultByInput(SearchInput input,
 			int start, int length);
-
+	
 	boolean savePortletConfig(ClientPortletPageConfiguration config);
 
 	public double getMostRecentTransactionCurrencyFactor(long companyId,
