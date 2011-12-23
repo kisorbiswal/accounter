@@ -204,6 +204,8 @@ public interface IAccounterHomeViewServiceAsync {
 
 	// To get all the Journal Entries in a company
 	public void getJournalEntries(long fromDate, long toDate,
+
+	int start, int length,
 			AsyncCallback<PaginationList<ClientJournalEntry>> callback);
 
 	// to get the Account Register of a particular account

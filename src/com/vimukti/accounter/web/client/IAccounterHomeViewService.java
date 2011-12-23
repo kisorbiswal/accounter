@@ -183,9 +183,10 @@ public interface IAccounterHomeViewService extends RemoteService {
 	// To get a particular Journal Entry
 	public ClientJournalEntry getJournalEntry(long journalEntryId);
 
+	PaginationList<ClientJournalEntry> getJournalEntries(long fromDate,
+			long toDate, int start, int length);
+
 	// To get all the Journal Entries in a company
-	public PaginationList<ClientJournalEntry> getJournalEntries(long fromDate,
-			long toDate);
 
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)

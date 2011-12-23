@@ -681,21 +681,32 @@ public class FinanceTool {
 
 	}
 
-	public ArrayList<JournalEntry> getJournalEntries(long companyId,
-			FinanceDate fromDate, FinanceDate toDate) throws DAOException {
+	public PaginationList<JournalEntry> getJournalEntries(long companyId,
+			FinanceDate fromDate, FinanceDate toDate, int start, int length)
+			throws DAOException {
 		try {
-
+			int total = 0;
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
 			Query query = session.getNamedQuery("getJournalEntry")
 					.setEntity("company", company)
 					.setParameter("fromDate", fromDate)
 					.setParameter("toDate", toDate);
-			;
-			List<JournalEntry> list = query.list();
+			total = query.list().size();
+			List<JournalEntry> list = query.setFirstResult(start)
+					.setMaxResults(length).list();
+
+			PaginationList<JournalEntry> result = new PaginationList<JournalEntry>();
+
+			for (JournalEntry j : list) {
+				result.add(j);
+			}
+			result.setTotalCount(total);
+
+			result.setStart(start);
 
 			if (list != null) {
-				return new ArrayList<JournalEntry>(list);
+				return result;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));

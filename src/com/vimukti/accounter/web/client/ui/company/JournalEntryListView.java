@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -42,9 +43,10 @@ public class JournalEntryListView extends
 
 	@Override
 	public void initListCallback() {
+
 		super.initListCallback();
-		rpcUtilService.getJournalEntries(getStartDate().getDate(), getEndDate()
-				.getDate(), this);
+
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
@@ -54,13 +56,27 @@ public class JournalEntryListView extends
 	}
 
 	@Override
+	protected int getPageSize() {
+
+		return 10;
+	}
+
+	@Override
+	protected void onPageChange(int start, int length) {
+		rpcUtilService.getJournalEntries(getStartDate().getDate(), getEndDate()
+				.getDate(), start, length, this);
+
+	}
+
 	public void onSuccess(PaginationList<ClientJournalEntry> result) {
 		super.onSuccess(result);
 		if (grid.getRecords().isEmpty())
 			grid.addEmptyMessage(messages().noRecordsToShow());
-		// grid.setViewType(FinanceApplication.constants().all());
-		// filterList(FinanceApplication.constants().all());
+
 		grid.sort(10, false);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+				result.getTotalCount());
 	}
 
 	@Override

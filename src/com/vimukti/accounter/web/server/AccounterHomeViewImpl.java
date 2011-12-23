@@ -6,6 +6,8 @@ package com.vimukti.accounter.web.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jetty.server.handler.ConnectHandler.ClientToProxyConnection;
+
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
@@ -724,8 +726,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public PaginationList<InvoicesList> getInvoiceList(long fromDate, long toDate,
-			int type) {
+	public PaginationList<InvoicesList> getInvoiceList(long fromDate,
+			long toDate, int type) {
 		PaginationList<InvoicesList> invoicesList = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
@@ -785,15 +787,18 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public PaginationList<ClientJournalEntry> getJournalEntries(long fromDate,
-			long toDate) {
+			long toDate, int start, int length) {
 		PaginationList<ClientJournalEntry> clientJournalEntries = new PaginationList<ClientJournalEntry>();
-		List<JournalEntry> serverJournalEntries = null;
+		PaginationList<JournalEntry> serverJournalEntries = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
 							toDate), getCompanyId());
 			serverJournalEntries = getFinanceTool().getJournalEntries(
-					getCompanyId(), dates[0], dates[1]);
+					getCompanyId(), dates[0], dates[1], start, length);
+			clientJournalEntries.setTotalCount(serverJournalEntries
+					.getTotalCount());
+			clientJournalEntries.setStart(serverJournalEntries.getStart());
 			for (JournalEntry journalEntry : serverJournalEntries) {
 				clientJournalEntries
 						.add(new ClientConvertUtil().toClientObject(
