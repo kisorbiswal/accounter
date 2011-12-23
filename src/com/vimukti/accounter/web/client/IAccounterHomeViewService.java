@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
@@ -404,7 +403,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			long fromDate, long toDate, int start, int length);
 
 	ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(int type,
-			FinanceDate startDate, FinanceDate endDate)
+			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException;
 
 	ExpensePortletData getExpenseBreakdownPortletData(long startDate,

@@ -1921,7 +1921,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(
-			int type, FinanceDate startDate, FinanceDate endDate)
+			int type, ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException {
 		return getFinanceTool().getDashboardManager()
 				.getIncomeExpensePortletInfo(getCompanyId(), type, startDate,
