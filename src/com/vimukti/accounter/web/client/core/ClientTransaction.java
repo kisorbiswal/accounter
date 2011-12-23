@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -152,7 +153,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 */
 	private long tobeDeleteReminder;
 
-	private Set<ClientAttachment> attachments;
+	private Set<ClientAttachment> attachments = new HashSet<ClientAttachment>();
 
 	// boolean showPricesWithVATOrVATInclusive;
 	// boolean EUVATExemptPayee;

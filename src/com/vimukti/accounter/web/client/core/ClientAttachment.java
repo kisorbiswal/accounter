@@ -15,7 +15,7 @@ public class ClientAttachment implements IAccounterCore {
 
 	private String name;
 
-	private long creator;
+	private long createdBy;
 
 	private String attachmentId;
 
@@ -71,19 +71,19 @@ public class ClientAttachment implements IAccounterCore {
 		this.size = size;
 	}
 
-	public long getCreator() {
-		return creator;
-	}
-
-	public void setCreator(long creator) {
-		this.creator = creator;
-	}
-
 	public String getAttachmentId() {
 		return attachmentId;
 	}
 
 	public void setAttachmentId(String attachmentId) {
 		this.attachmentId = attachmentId;
+	}
+
+	public long getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(long createdBy) {
+		this.createdBy = createdBy;
 	}
 }
