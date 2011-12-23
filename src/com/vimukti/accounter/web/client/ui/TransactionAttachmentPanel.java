@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Element;
@@ -22,9 +23,12 @@ import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.ui.edittable.AttachmentTable;
 
 public abstract class TransactionAttachmentPanel extends SimplePanel {
-	AttachmentTable attachmentTable;
+	private static final String ATTACHMENT_URL = "/do/uploadattachment";
 
+	AttachmentTable attachmentTable;
+	private boolean isFileSelected;
 	private String[] fileTypes = { "*" };
+	private List<ClientAttachment> attachments = new ArrayList<ClientAttachment>();
 
 	public TransactionAttachmentPanel() {
 		createControls();
@@ -36,27 +40,28 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 		VerticalPanel mainPanel = new VerticalPanel();
 
 		attachmentTable = new AttachmentTable();
-		attachmentTable.setDisabled(isinViewMode());
+		attachmentTable.setDisabled(isInViewMode());
 		mainPanel.add(attachmentTable);
 		mainPanel.setWidth("100%");
 
 		final FormPanel uploadForm = new FormPanel();
-		uploadForm.setAction("");
+		uploadForm.setAction(ATTACHMENT_URL);
 		uploadForm.setEncoding(FormPanel.ENCODING_MULTIPART);
 		uploadForm.setMethod(FormPanel.METHOD_POST);
 		HorizontalPanel hPanel = new HorizontalPanel();
 
 		final FileUpload uploadFile = new FileUpload();
-		uploadFile.setEnabled(isinViewMode());
+		uploadFile.setEnabled(!isInViewMode());
 		final Anchor browseFileAnchor = new Anchor(Accounter.messages()
 				.uploadAttachment());
-		browseFileAnchor.setEnabled(isinViewMode());
+		browseFileAnchor.setEnabled(!isInViewMode());
 		uploadFile.setVisible(false);
 		uploadFile.setName(createID());
 		uploadFile.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
+				isFileSelected = true;
 				String filename = uploadFile.getFilename();
 				browseFileAnchor.setText(filename);
 			}
@@ -83,9 +88,22 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
+				String text = browseFileAnchor.getText();
+				String results = event.getResults();
+				String[] split = results.split("#");
+				if (split.length != 2) {
+					return;// Failed
+				}
+				ClientAttachment attachment = new ClientAttachment();
+				attachment.setCreatedBy(Accounter.getUser().getID());
+				attachment.setAttachmentId(split[0]);
+				attachment.setName(text);
+				attachment.setSize(Long.parseLong(split[1]));
 				browseFileAnchor.setText(Accounter.messages()
 						.uploadAttachment());
-				saveAttachment(event.getResults());
+				attachmentTable.add(attachment);
+				attachments.add(attachment);
+				saveAttachment(attachment);
 			}
 		});
 
@@ -105,10 +123,15 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				uploadForm.submit();
+				if (isFileSelected) {
+					isFileSelected = false;
+					uploadForm.submit();
+				} else {
+					// TODO Ask user to select a file.
+				}
 			}
 		});
-		uploadButton.setEnabled(!isinViewMode());
+		uploadButton.setEnabled(!isInViewMode());
 		hPanel.add(uploadButton);
 
 		mainPanel.add(uploadForm);
@@ -116,7 +139,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 		this.add(mainPanel);
 	}
 
-	public abstract boolean isinViewMode();
+	public abstract boolean isInViewMode();
 
 	private static native void clickOnInputFile(Element elem) /*-{
 		elem.click();
@@ -134,10 +157,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 
 	}
 
-	protected void saveAttachment(String string) {
-		// TODO Auto-generated method stub
-
-	}
+	protected abstract void saveAttachment(ClientAttachment attachment);
 
 	public void setAttachments(List<ClientAttachment> attachments) {
 		attachmentTable.setAllRows(attachments);
@@ -172,5 +192,18 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 		};
 		return mes_generateUniqueId();
 	}-*/;
+
+	public List<ClientAttachment> getAttachments() {
+		return attachmentTable.getAllRows();
+	}
+
+	public void addAttachments(List<ClientAttachment> attachments2) {
+		attachments = attachments2;
+		attachmentTable.setAllRows(attachments2);
+	}
+
+	public void setEnable(boolean b) {
+		
+	}
 
 }
