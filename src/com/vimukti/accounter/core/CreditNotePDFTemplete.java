@@ -189,10 +189,10 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			String total = Utility.decimalConversation(memo.getTotal()
 					/ currencyFactor);
 
-			if (memo.getMemo().trim().length() > 0) {
-				t.setVariable("memoText", memoVal);
-				t.addBlock("memoblock");
-			}
+			// if (memo.getMemo().trim().length() > 0) {
+			t.setVariable("memoText", memoVal);
+			// t.addBlock("memoblock");
+			// }
 			if (company.getPreferences().isTrackTax()) {
 				t.setVariable("subTotal", subTotal);
 				t.addBlock("subtotal");

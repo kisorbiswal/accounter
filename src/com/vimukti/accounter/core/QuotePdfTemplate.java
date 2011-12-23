@@ -312,10 +312,10 @@ public class QuotePdfTemplate implements PrintTemplete {
 					/ currencyFactor);
 			t.setVariable("total", total);
 
-			if (estimate.getMemo().trim().length() > 0) {
-				t.setVariable("blankText", estimate.getMemo());
-				t.addBlock("memoblock");
-			}
+			// if (estimate.getMemo().trim().length() > 0) {
+			t.setVariable("blankText", estimate.getMemo());
+			// t.addBlock("memoblock");
+			// }
 			t.addBlock("itemDetails");
 			boolean hasTermsNpaypalId = false;
 			String termsNCondn = forNullValue(
