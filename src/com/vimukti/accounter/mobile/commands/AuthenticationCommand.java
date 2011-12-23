@@ -163,6 +163,19 @@ public class AuthenticationCommand extends Command {
 			if (attribute.equals("userName")) {
 				context.setAttribute("userName", string.toLowerCase().trim());
 				client = getClient(string);
+				if (client == null) {
+					context.setAttribute("userName", null);
+					makeResult
+							.add("There is no account found with given Email Id.");
+					makeResult.add("Please enter valid accounter email.");
+					makeResult.add(new InputType(
+							AbstractRequirement.INPUT_TYPE_EMAIL));
+					CommandList commandList = new CommandList();
+					commandList.add(new UserCommand("signup",
+							"I don't have an account, create", ""));
+					makeResult.add(commandList);
+					return makeResult;
+				}
 				if (client != null && !client.isActive()) {
 					context.setAttribute("input", "activation");
 					makeResult.add("Please Enter Activation Code");
@@ -189,10 +202,10 @@ public class AuthenticationCommand extends Command {
 						.toLowerCase() + string));
 				client = getClient(userName);
 				if (client == null || !client.getPassword().equals(password)) {
-					context.setAttribute("userName", null);
-					makeResult
-							.add("There is no account found with given Email Id and Password.");
-					makeResult.add("Please enter valid accounter email.");
+					context.setAttribute("password", null);
+					context.setAttribute("input", "password");
+					makeResult.add("Entered password was wrong.");
+					makeResult.add("Please enter correct password");
 					makeResult.add(new InputType(
 							AbstractRequirement.INPUT_TYPE_EMAIL));
 					CommandList commandList = new CommandList();
