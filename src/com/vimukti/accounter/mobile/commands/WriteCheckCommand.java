@@ -367,7 +367,7 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 		writeCheck.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 
 		writeCheck.setTransactionItems(accounts);
-		updateTotals(context, writeCheck, false);
+		updateTotals(context, writeCheck, true);
 		// if (amount < writeCheck.getTotal()) {
 		// amount = writeCheck.getTotal();
 		// writeCheck.setTotal(amount);
