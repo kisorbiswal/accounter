@@ -83,7 +83,7 @@ public class EMailMonitor extends Thread {
 			inbox.open(IMAPFolder.READ_ONLY);
 			System.out.println("Inbox opend " + inbox.getMessageCount());
 			while (true) {
-				inbox.idle(false);
+				inbox.idle();
 				System.out.println("re-idle");
 			}
 		} catch (Exception e) {
