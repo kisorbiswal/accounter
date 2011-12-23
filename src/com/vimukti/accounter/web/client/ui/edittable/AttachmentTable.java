@@ -1,12 +1,9 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class AttachmentTable extends EditTable<ClientAttachment> {
 
@@ -28,7 +25,9 @@ public class AttachmentTable extends EditTable<ClientAttachment> {
 
 			@Override
 			protected void onClick(ClientAttachment row) {
-				// TODO
+
+				UIUtils.downloadTransactionAttachment(row.getAttachmentId(),
+						row.getName());
 			}
 
 			@Override
@@ -70,7 +69,7 @@ public class AttachmentTable extends EditTable<ClientAttachment> {
 			@Override
 			public String getValue(ClientAttachment object) {
 				ClientUserInfo userById = Accounter.getCompany().getUserById(
-						object.getCreator());
+						object.getCreatedBy());
 				return userById.getName();
 			}
 
@@ -90,23 +89,7 @@ public class AttachmentTable extends EditTable<ClientAttachment> {
 			}
 		};
 
-		DeleteColumn<ClientAttachment> deleteAttachmentCol = new DeleteColumn<ClientAttachment>() {
-			@Override
-			public IsWidget getWidget(
-					final RenderContext<ClientAttachment> context) {
-				Image image = new Image();
-				image.addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						if (!getTable().isDisabled()) {
-							// TODO
-						}
-					}
-				});
-				return image;
-			}
-		};
+		DeleteColumn<ClientAttachment> deleteAttachmentCol = new DeleteColumn<ClientAttachment>();
 
 		this.addColumn(attachmentNameColumn);
 
@@ -125,7 +108,7 @@ public class AttachmentTable extends EditTable<ClientAttachment> {
 
 	@Override
 	protected boolean isInViewMode() {
-		return true;
+		return false;
 	}
 
 }
