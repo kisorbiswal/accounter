@@ -13,16 +13,19 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.rackspacecloud.client.cloudfiles.FilesClient;
-import com.vimukti.accounter.main.FileDeleteManager;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class UploadFileServer extends Thread {
+public class AttachmentFileServer extends Thread {
+	private static AttachmentFileServer INSTANCE = null;
 	private static LinkedBlockingQueue<UploadAttachment> queue = new LinkedBlockingQueue<UploadAttachment>();
 
-	public synchronized static void put(UploadAttachment attachment)
-			throws InterruptedException {
-		queue.put(attachment);
+	public synchronized static void put(UploadAttachment attachment) {
+		try {
+			queue.put(attachment);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static byte[] encriptionKey = "123456789ABCDEFG".getBytes();
@@ -39,8 +42,15 @@ public class UploadFileServer extends Thread {
 		}
 	}
 
+	/**
+	 * Decrypt
+	 * 
+	 * @param attachmentId
+	 * @return
+	 * @throws Exception
+	 */
 	public static File getAttachmentFile(String attachmentId) throws Exception {
-		File tmpfile = new File(ServerConfiguration.getEncriptTmpDir(),
+		File tmpfile = new File(ServerConfiguration.getEncryptTmpDir(),
 				attachmentId);
 		boolean exists = tmpfile.exists();
 		if (!ServerConfiguration.uploadToRackSpace()) {
@@ -66,7 +76,7 @@ public class UploadFileServer extends Thread {
 	private void process(UploadAttachment take) throws Exception {
 		switch (take.processType) {
 		case UploadAttachment.CREATE:
-			uploadAttachment(take.attachmentId);
+			uploadAttachment(take.attachmentId, take.fileName);
 			break;
 		case UploadAttachment.DELETE:
 			deleteAttachment(take.attachmentId);
@@ -82,15 +92,15 @@ public class UploadFileServer extends Thread {
 			client.login();
 			client.deleteObject(getContainerName(), attId);
 		} else {
-			File encrFile = new File(ServerConfiguration.getEncriptTmpDir(),
+			File encrFile = new File(ServerConfiguration.getEncryptTmpDir(),
 					attId);
-			FileDeleteManager.deleteFile(encrFile);
+			encrFile.delete();
 		}
 	}
 
-	private void uploadAttachment(String attachmentId)
+	private void uploadAttachment(String attachmentId, String fileName)
 			throws AccounterException {
-		File encrFile = checkAndReturnEncryptFile(attachmentId);
+		File encrFile = checkAndReturnEncryptFile(attachmentId, fileName);
 		if (encrFile == null) {
 			throw new AccounterException("Unable to find the encrypted file");
 		}
@@ -111,7 +121,7 @@ public class UploadFileServer extends Thread {
 		} catch (Exception e) {
 			throw new AccounterException(e.getMessage());
 		}
-		FileDeleteManager.deleteFile(encrFile);
+		encrFile.delete();
 
 	}
 
@@ -119,24 +129,24 @@ public class UploadFileServer extends Thread {
 		return ServerConfiguration.getAttachmentsContainerName();
 	}
 
-	private File checkAndReturnEncryptFile(String attachmentId) {
+	private File checkAndReturnEncryptFile(String attachmentId, String fileName) {
 		// Check is File is in in EncryptedFolder
-		File tempFile = new File(ServerConfiguration.getEncriptTmpDir(),
+		File encriptFile = new File(ServerConfiguration.getEncryptTmpDir(),
 				attachmentId);
-		if (tempFile.exists()) {
+		if (encriptFile.exists()) {
 			// File is Exists in Encrypted Folder
-			return tempFile;
+			return encriptFile;
 		}
 		// File Not exists in Encrypted FOlder, Check in
 		// Un-EncryptedFolder
-		File unencrypted = new File(ServerConfiguration.getAttachmentsDir(),
-				attachmentId);
+		File unencrypted = new File(ServerConfiguration.getTmpDir(), fileName);
 		if (!unencrypted.exists()) {
 			// File Not Exists, then return
 			return null;
 		}
-		copyWithEncryptionFile(unencrypted, tempFile, attachmentId);
-		return tempFile;
+		copyWithEncryptionFile(unencrypted, encriptFile, attachmentId);
+		unencrypted.delete();
+		return encriptFile;
 	}
 
 	private boolean copyWithEncryptionFile(File fs, File fd, String attID) {
@@ -169,10 +179,16 @@ public class UploadFileServer extends Thread {
 
 	private CipherOutputStream createCipherOutputStream(SecretKey key,
 			OutputStream fos) throws Exception {
-		Cipher cip = null;
-		cip = Cipher.getInstance("AES", "BC"); //$NON-NLS-1$ //$NON-NLS-2$
+		Cipher cip = Cipher.getInstance("AES/CTR/NoPadding"); //$NON-NLS-1$ //$NON-NLS-2$
 		SecureRandom ran = new SecureRandom();
 		cip.init(Cipher.ENCRYPT_MODE, key, ran);
 		return new CipherOutputStream(fos, cip);
+	}
+
+	public static AttachmentFileServer getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new AttachmentFileServer();
+		}
+		return INSTANCE;
 	}
 }
