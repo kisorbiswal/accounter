@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
@@ -28,6 +30,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	private ClientAccount toBeDelete;
 	private List<ClientAccount> listOfAccounts;
 	public int typeOfAccount;
+	public int start, length;
 
 	public ChartOfAccountsView() {
 		this(0);
@@ -90,14 +93,54 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getAccounts(typeOfAccount, this);
+	}
+
+	@Override
+	protected int getPageSize() {
+		return 10;
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isActive", isActiveAccounts);
+		map.put("start", start);
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> viewDate) {
+		if (viewDate == null || viewDate.isEmpty()) {
+			return;
+		}
+		isActiveAccounts = (Boolean) viewDate.get("isActive");
+		start = (Integer) viewDate.get("start");
+		onPageChange(start, getPageSize());
+		if (isActiveAccounts) {
+			viewSelect.setComboItem(messages().active());
+		} else {
+			viewSelect.setComboItem(messages().inActive());
+		}
+	}
+
+	private boolean isActiveAccounts = true;
+
+	@Override
+	protected void onPageChange(int start, int length) {
+		Accounter.createHomeService().getAccounts(typeOfAccount,
+				isActiveAccounts, start, length, this);
 	}
 
 	@Override
 	public void onSuccess(PaginationList<ClientAccount> result) {
 		listOfAccounts = result;
-		filterList(true);
+		start = result.getStart();
+		grid.removeAllRecords();
+		grid.setRecords(result);
 		grid.sort(12, false);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+				result.getTotalCount());
 	}
 
 	@Override
@@ -122,26 +165,24 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	}
 
 	@Override
-	protected void filterList(final boolean isActive) {
-		grid.removeAllRecords();
-		for (ClientAccount account : listOfAccounts) {
-			if (isActive) {
-				if (account.getIsActive() == true)
-					grid.addData(account);
-				// if (grid.getRecords().isEmpty()) {
-				// grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
-				// }
-			} else if (account.getIsActive() == false) {
-				grid.addData(account);
-				if (grid.getRecords().isEmpty()) {
-					grid.addEmptyMessage(messages().noRecordsToShow());
-				}
-			}
-		}
-		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages().noRecordsToShow());
-		}
-		Window.scrollTo(0, 0);
+	protected void filterList(boolean isActive) {
+		isActiveAccounts = isActive;
+		onPageChange(0, getPageSize());
+		// grid.removeAllRecords();
+		// for (ClientAccount account : listOfAccounts) {
+		// if (isActive) {
+		// if (account.getIsActive() == true)
+		// grid.addData(account);
+		// // if (grid.getRecords().isEmpty()) {
+		// // grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+		// // }
+		// } else if (account.getIsActive() == false) {
+		// grid.addData(account);
+		// }
+		// }
+		// if (grid.getRecords().isEmpty()) {
+		// grid.addEmptyMessage(messages().noRecordsToShow());
+		// }
 	}
 
 	@Override
