@@ -686,16 +686,20 @@ public class FinanceTool {
 			throws DAOException {
 		try {
 			int total = 0;
+			List<JournalEntry> list;
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
 			Query query = session.getNamedQuery("getJournalEntry")
 					.setEntity("company", company)
 					.setParameter("fromDate", fromDate)
 					.setParameter("toDate", toDate);
-			total = query.list().size();
-			List<JournalEntry> list = query.setFirstResult(start)
-					.setMaxResults(length).list();
-
+			// /If length will be -1 then get list for mobile With out limits
+			if (length == -1) {
+				list = query.list();
+			} else {
+				total = query.list().size();
+				list = query.setFirstResult(start).setMaxResults(length).list();
+			}
 			PaginationList<JournalEntry> result = new PaginationList<JournalEntry>();
 
 			for (JournalEntry j : list) {
