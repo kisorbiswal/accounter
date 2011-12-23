@@ -51,6 +51,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
+import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUnit;
@@ -1514,24 +1515,31 @@ public class CompanyManager extends Manager {
 		return result;
 	}
 
-	public ClientTransaction getTransactionToCreate(ClientReminder obj)
+	public ClientTransaction getTransactionToCreate(
+			ClientRecurringTransaction obj, long date)
 			throws AccounterException, ClassNotFoundException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Reminder reminder = null;
-		reminder = new ServerConvertUtil().toServerObject(reminder, obj,
-				session);
+		FinanceDate transactionDate;
+		if (date == 0) {
+			transactionDate = new FinanceDate();
+		} else {
+			transactionDate = new FinanceDate(date);
+		}
+
+		RecurringTransaction recurringTransaction = null;
+		recurringTransaction = new ServerConvertUtil().toServerObject(
+				recurringTransaction, obj, session);
 
 		Transaction transaction = null;
 		try {
-			transaction = FinanceTool.createDuplicateTransaction(reminder
-					.getRecurringTransaction());
+			transaction = FinanceTool
+					.createDuplicateTransaction(recurringTransaction);
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 			throw new AccounterException(e.getMessage());
 		}
-		FinanceDate transactionDate = reminder.getTransactionDate();
 		if (transactionDate != null) {
 			transaction.setDate(transactionDate);
 			if (transaction instanceof Invoice) {
@@ -1547,6 +1555,7 @@ public class CompanyManager extends Manager {
 		}
 
 		transaction.setSaveStatus(0);
+		transaction.setRecurringTransaction(null);
 
 		String simpleName = transaction.getClass().getSimpleName();
 		StringBuffer clientName = new StringBuffer(

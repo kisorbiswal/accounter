@@ -1855,11 +1855,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ClientTransaction getTransactionToCreate(ClientReminder obj)
+	public ClientTransaction getTransactionToCreate(
+			ClientRecurringTransaction obj, long transactionDate)
 			throws AccounterException {
 		try {
 			return new FinanceTool().getCompanyManager()
-					.getTransactionToCreate(obj);
+					.getTransactionToCreate(obj, transactionDate);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AccounterException(e.getMessage());

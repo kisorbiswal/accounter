@@ -431,8 +431,8 @@ public interface IAccounterHomeViewServiceAsync {
 
 	void getAdvertisements(AsyncCallback<List<ClientAdvertisement>> callback);
 
-	public void getTransactionToCreate(ClientReminder obj,
-			AsyncCallback<ClientTransaction> callBack);
+	public void getTransactionToCreate(ClientRecurringTransaction obj,
+			long transactionDate, AsyncCallback<ClientTransaction> callBack);
 
 	public void getPayeeChecks(boolean isCustomerChecks, long fromDate,
 			long toDate, int start, int length,

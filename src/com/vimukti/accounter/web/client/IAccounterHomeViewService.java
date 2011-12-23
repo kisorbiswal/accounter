@@ -396,8 +396,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	List<ClientAdvertisement> getAdvertisements();
 
-	ClientTransaction getTransactionToCreate(ClientReminder obj)
-			throws AccounterException;
+	ClientTransaction getTransactionToCreate(ClientRecurringTransaction obj,
+			long transactionDate) throws AccounterException;
 
 	PaginationList<PaymentsList> getPayeeChecks(boolean isCustomerChecks,
 			long fromDate, long toDate, int start, int length);
