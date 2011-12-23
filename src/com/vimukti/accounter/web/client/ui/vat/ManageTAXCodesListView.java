@@ -3,7 +3,6 @@
  */
 package com.vimukti.accounter.web.client.ui.vat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXCode;

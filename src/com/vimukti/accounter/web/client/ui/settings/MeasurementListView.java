@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import java.util.ArrayList;
-
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;

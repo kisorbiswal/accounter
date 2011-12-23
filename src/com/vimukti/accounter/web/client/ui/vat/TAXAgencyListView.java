@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;

@@ -3,8 +3,6 @@
  */
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
-import java.util.ArrayList;
-
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetHistory;
 import com.vimukti.accounter.web.client.core.PaginationList;

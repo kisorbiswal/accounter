@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.ArrayList;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
