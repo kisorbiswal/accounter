@@ -118,9 +118,10 @@ public class InvoiceListCommand extends AbstractTransactionListCommand {
 		String viewType = get(VIEW_BY).getValue();
 		try {
 			List<InvoicesList> invoices = new FinanceTool()
-					.getInventoryManager()
-					.getInvoiceList(context.getCompany().getId(),
-							getStartDate().getDate(), getEndDate().getDate(), 0);
+					.getInventoryManager().getInvoiceList(
+							context.getCompany().getId(),
+							getStartDate().getDate(), getEndDate().getDate(),
+							0, 1, -1);
 			List<InvoicesList> list = new ArrayList<InvoicesList>(
 					invoices.size());
 			for (InvoicesList invoice : invoices) {
