@@ -40,9 +40,7 @@ public class DeleteButton extends ImageButton {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				String name = getObjectName(obj);
-				String warning = Accounter.messages()
-						.doyouwanttoDeleteObj(name);
+				String warning = getWarning(obj);
 				Accounter.showWarning(warning, AccounterType.WARNING,
 						new ErrorDialogHandler() {
 
@@ -67,18 +65,26 @@ public class DeleteButton extends ImageButton {
 
 	}
 
-	protected String getObjectName(IAccounterCore accounterCore) {
+	private String getWarning(IAccounterCore obj) {
 		String name = "";
-		if (accounterCore instanceof ClientTransaction) {
-			name = ReportUtility
-					.getTransactionName(((ClientTransaction) accounterCore)
-							.getType());
+		String warning = null;
+		if (obj instanceof ClientTransaction) {
+			ClientTransaction transaction = (ClientTransaction) obj;
+			name = ReportUtility.getTransactionName(((ClientTransaction) obj)
+					.getType());
+			if (transaction.isTemplate()) {
+				warning = Accounter.messages().recurringTemplateDeleteWarning(
+						name.toLowerCase());
+			}
 		} else {
-			if (accounterCore.getName() != null) {
-				name = accounterCore.getName();
+			if (obj.getName() != null) {
+				name = obj.getName();
 			}
 		}
-		return name;
+		if (warning == null || warning.isEmpty()) {
+			warning = Accounter.messages().doyouwanttoDeleteObj(name);
+		}
+		return warning;
 	}
 
 	private void executeDelete(IAccounterCore obj) {
