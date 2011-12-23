@@ -1930,8 +1930,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			int type, ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException {
 		return getFinanceTool().getDashboardManager()
-				.getIncomeExpensePortletInfo(getCompanyId(), type, startDate,
-						endDate);
+				.getIncomeExpensePortletInfo(getCompanyId(), type,
+						new FinanceDate(startDate), new FinanceDate(endDate));
 	}
 
 	@Override

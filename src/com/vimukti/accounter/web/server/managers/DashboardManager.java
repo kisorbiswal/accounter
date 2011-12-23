@@ -740,8 +740,7 @@ public class DashboardManager extends Manager {
 	}
 
 	public ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(
-			long companyId, int type, ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
+			long companyId, int type, FinanceDate startDate, FinanceDate endDate) {
 		ArrayList<IncomeExpensePortletInfo> result = new ArrayList<IncomeExpensePortletInfo>();
 
 		if (type == PortletToolBar.THIS_MONTH
@@ -765,22 +764,21 @@ public class DashboardManager extends Manager {
 	}
 
 	private List<IncomeExpensePortletInfo> getIncomExpenseRecordsOfMonths(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId, int j) {
+			FinanceDate startDate, FinanceDate endDate, long companyId, int j) {
 		Session session = HibernateUtil.getCurrentSession();
 
-		ClientFinanceDate currentDate = startDate;
+		FinanceDate currentDate = startDate;
 
 		List<IncomeExpensePortletInfo> incomeExpensePortletInfos = new ArrayList<IncomeExpensePortletInfo>();
 		for (int i = 0; i < j; i++) {
 			Calendar startDateCal = Calendar.getInstance();
-			startDateCal.setTime(currentDate.getDateAsObject());
+			startDateCal.setTime(currentDate.getAsDateObject());
 			startDateCal.set(Calendar.MONTH, startDateCal.get(Calendar.MONTH)
 					+ i);
 			startDateCal.set(Calendar.DATE, 1);
 
 			Calendar endDateCal = Calendar.getInstance();
-			endDateCal.setTime(currentDate.getDateAsObject());
+			endDateCal.setTime(currentDate.getAsDateObject());
 			endDateCal.set(Calendar.MONTH, endDateCal.get(Calendar.MONTH) + i);
 			endDateCal.set(Calendar.DATE,
 					endDateCal.getActualMaximum(Calendar.DAY_OF_MONTH));
@@ -807,8 +805,7 @@ public class DashboardManager extends Manager {
 	}
 
 	private IncomeExpensePortletInfo getIncomExpenseRecordsByMonth(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
+			FinanceDate startDate, FinanceDate endDate, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 
 		IncomeExpensePortletInfo incomeExpensePortletInfo = new IncomeExpensePortletInfo();
