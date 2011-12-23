@@ -317,7 +317,13 @@ public class HistoryTokens {
 
 	public static final String CHALANDETAILS = "chalanDetails";
 
+	public static final String CHALANDETAILSLIST = "chalanDetailsList";
+
 	public static final String VENDORCENTRE = "vendorCenter";
+
+	public static final String PERSONDETAILS = "personDetails";
+
+	public static final String DEDUCTORDETAILS = "deductorDetails";
 
 	public HistoryTokens() {
 
