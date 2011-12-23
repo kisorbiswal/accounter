@@ -120,6 +120,9 @@ public class ServerMain extends Main {
 			BufferedReader br = new BufferedReader(reader);
 			String line = null;
 			while ((line = br.readLine()) != null) {
+				if (line.startsWith("#")) {
+					continue;
+				}
 				String[] split = line.split("=");
 				if (split.length < 2) {
 					continue;
