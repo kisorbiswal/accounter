@@ -94,8 +94,6 @@ public class JournalEntryListCommand extends AbstractTransactionListCommand {
 								"" + getNumberFromString(name));
 			}
 
-			;
-
 			@Override
 			protected List<ClientJournalEntry> getLists(Context context) {
 				List<ClientJournalEntry> clientJournalEntries = new ArrayList<ClientJournalEntry>();
@@ -106,7 +104,7 @@ public class JournalEntryListCommand extends AbstractTransactionListCommand {
 					serverJournalEntries = new FinanceTool().getJournalEntries(
 							context.getCompany().getID(), new FinanceDate(
 									getStartDate()), new FinanceDate(
-									getEndDate()), 0, 10);
+									getEndDate()), 0, -1);
 					for (JournalEntry journalEntry : serverJournalEntries) {
 						clientJournalEntries.add(new ClientConvertUtil()
 								.toClientObject(journalEntry,
