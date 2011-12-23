@@ -225,10 +225,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// DATE form
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
-		if(!isTemplate){
+		if (!isTemplate) {
 			dateNoForm.setFields(transactionDateItem, transactionNumber);
 		}
-		
+
 		// ---date--
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
@@ -352,20 +352,21 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		termsForm.setGroupTitle(messages.terms());
 		termsForm.setNumCols(2);
 		if (getPreferences().isSalesPersonEnabled()) {
-			if(isTemplate){
-				termsForm.setFields(salesPersonCombo, payTermsSelect, orderNumText);
-			}else{
-				termsForm.setFields(salesPersonCombo, payTermsSelect, dueDateItem,
+			if (isTemplate) {
+				termsForm.setFields(salesPersonCombo, payTermsSelect,
 						orderNumText);
+			} else {
+				termsForm.setFields(salesPersonCombo, payTermsSelect,
+						dueDateItem, orderNumText);
 			}
 
 			if (getPreferences().isDoProductShipMents())
 				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
 		} else {
-			if(isTemplate){
+			if (isTemplate) {
 				termsForm.setFields(payTermsSelect, orderNumText);
-			}else{
+			} else {
 				termsForm.setFields(payTermsSelect, dueDateItem, orderNumText);
 			}
 			if (getPreferences().isDoProductShipMents())
@@ -963,8 +964,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						.getAddressesTypes(shippingAddress.getType()));
 				shipToAddress.setAddres(shippingAddress);
 			}
-
-			this.addressListOfCustomer = getCustomer().getAddress();
+			if (getCustomer() != null) {
+				this.addressListOfCustomer = getCustomer().getAddress();
+			}
 
 			if (billingAddress != null) {
 
@@ -1004,10 +1006,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						this.taxCodeSelect
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 					} else {
-						this.taxCode = getCompany().getTAXCode(
-								getCustomer().getTAXCode());
-						if (taxCode != null) {
-							this.taxCodeSelect.setComboItem(taxCode);
+						if (getCustomer() != null) {
+							this.taxCode = getCompany().getTAXCode(
+									getCustomer().getTAXCode());
+							if (taxCode != null) {
+								this.taxCodeSelect.setComboItem(taxCode);
+							}
 						}
 					}
 					this.salesTaxTextNonEditable.setTransaction(transaction);
