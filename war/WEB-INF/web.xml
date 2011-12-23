@@ -384,14 +384,34 @@
 
 	<servlet>
 		<servlet-name>uploadFile</servlet-name>
-		<servlet-class>com.vimukti.accounter.servlets.UploadAttachmentServlet
+		<servlet-class>com.vimukti.accounter.servlets.UploadFileServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>uploadFile</servlet-name>
 		<url-pattern>/do/uploadfile</url-pattern>
 	</servlet-mapping>
-	
+
+	<servlet>
+		<servlet-name>Upload Attachment</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.UploadAttachmentServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Upload Attachment</servlet-name>
+		<url-pattern>/do/uploadattachment</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Download Attachment</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.DownloadAttachmentServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Download Attachment</servlet-name>
+		<url-pattern>/do/downloadattachment</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>uploadtemplatefile</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.UploadTemplateFileServlet
@@ -401,8 +421,8 @@
 		<servlet-name>uploadtemplatefile</servlet-name>
 		<url-pattern>/do/uploadtemplatefile</url-pattern>
 	</servlet-mapping>
-	
-	
+
+
 
 	<servlet>
 		<servlet-name>downloadFileFromFile</servlet-name>
@@ -413,7 +433,7 @@
 		<servlet-name>downloadFileFromFile</servlet-name>
 		<url-pattern>/do/downloadFileFromFile</url-pattern>
 	</servlet-mapping>
-		<servlet>
+	<servlet>
 		<servlet-name>default</servlet-name>
 		<servlet-class>
 			org.eclipse.jetty.servlet.DefaultServlet
@@ -425,7 +445,7 @@
 			<param-value>true</param-value>
 		</init-param>
 	</servlet>
-	
+
 	<servlet>
 		<servlet-name>downloadfiles</servlet-name>
 		<servlet-class>
