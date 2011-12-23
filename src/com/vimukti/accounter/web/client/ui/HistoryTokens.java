@@ -62,6 +62,8 @@ public class HistoryTokens {
 
 	public static final String ISSUEPAYMENTS = "issuePayments";
 
+	public static final String PRINTCHEQUE = "printCheque";
+
 	public static final String VENDORPREPAYMENT = "vendorPrePayment";
 
 	public static final String RECORDEXPENSES = "recordExpenses";
@@ -313,6 +315,8 @@ public class HistoryTokens {
 
 	public static final String TRANSACTIONS_CENTER = "transactionscenter";
 
+	public static final String DEPOSIT = "deposit";
+
 	public static final String BUDGETVSACTUALS = "budgetVSactuals";
 
 	public static final String CHALANDETAILS = "chalanDetails";
@@ -320,6 +324,10 @@ public class HistoryTokens {
 	public static final String CHALANDETAILSLIST = "chalanDetailsList";
 
 	public static final String VENDORCENTRE = "vendorCenter";
+
+	public static final String USERS = "users";
+
+	public static final String INVOICEBRANDING = "invoiceBranding";
 
 	public static final String PERSONDETAILS = "personDetails";
 
