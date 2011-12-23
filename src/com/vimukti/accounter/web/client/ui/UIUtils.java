@@ -2176,4 +2176,17 @@ public class UIUtils {
 		return f;
 	}
 
+	public native static void downloadTransactionAttachment(
+			String attachmentId, String name)/*-{
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src", "/do/downloadattachment?attachmentId="
+					+ attachmentId + "&name=" + name);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
+
 }
