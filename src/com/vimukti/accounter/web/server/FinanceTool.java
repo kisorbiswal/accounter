@@ -35,7 +35,6 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-import com.gargoylesoftware.htmlunit.OnbeforeunloadHandler;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.AccounterThreadLocal;
@@ -107,7 +106,6 @@ import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -451,6 +449,10 @@ public class FinanceTool {
 				session.delete(serverObject);
 			} else if (serverObject instanceof Budget) {
 				session.delete(serverObject);
+			} else if (serverObject instanceof Transaction
+					&& ((Transaction) serverObject).isTemplate()) {
+				session.delete(((Transaction) serverObject)
+						.getRecurringTransaction());
 			} else {
 				if (canDelete(serverClass.getSimpleName(),
 						Long.parseLong(arg1), company.getID())) {
