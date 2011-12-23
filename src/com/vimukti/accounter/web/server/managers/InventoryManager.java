@@ -39,6 +39,7 @@ public class InventoryManager extends Manager {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			int total = 0;
+			List list;
 			// FIXME :: query optimization
 			Query query = session.getNamedQuery("getInvoicesList")
 					.setParameter("companyId", companyId)
@@ -60,9 +61,13 @@ public class InventoryManager extends Manager {
 						.setLong("fromDate", fromDate)
 						.setLong("toDate", toDate);
 			}
-			total = query.list().size();
-			List list = query.setFirstResult(start).setMaxResults(length)
-					.list();
+			// /If length will be -1 then get list for mobile With out limits
+			if (length == -1) {
+				list = query.list();
+			} else {
+				total = query.list().size();
+				list = query.setFirstResult(start).setMaxResults(length).list();
+			}
 
 			if (list != null) {
 				Object[] object = null;
