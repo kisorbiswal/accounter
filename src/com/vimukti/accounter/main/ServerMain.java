@@ -30,6 +30,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.ServerMaintanance;
 import com.vimukti.accounter.mail.EmailManager;
+import com.vimukti.accounter.main.upload.AttachmentFileServer;
 import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.AccounterMobileException;
 import com.vimukti.accounter.mobile.ConsoleChatServer;
@@ -68,8 +69,9 @@ public class ServerMain extends Main {
 		} finally {
 			session.close();
 		}
+		AttachmentFileServer.getInstance().start();
 		EmailManager.getInstance().start();
-
+		// EMailMonitor.getInstance().start();
 		Global.set(new ServerGlobal());
 
 		loadAccounterMessages();
