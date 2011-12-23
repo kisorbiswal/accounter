@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -78,9 +79,10 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	public void initListCallback() {
-		super.initListCallback();
-		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				this);
+		// super.initListCallback();
+		// Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
+		// this);
+		onPageChange(0, getPageSize());
 
 	}
 
@@ -96,28 +98,47 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected void filterList(boolean isActive) {
-		grid.removeAllRecords();
-		grid.setTotal();
-		for (PayeeList customer : listOfCustomers) {
-			if (isActive) {
-				if (customer.isActive() == true) {
-					grid.addData(customer);
-				}
-			} else if (customer.isActive() == false) {
-				grid.addData(customer);
-			}
-		}
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+		isActiveAccounts = isActive;
+		onPageChange(0, getPageSize());
 
-		getTotalLayout(grid);
+		// grid.removeAllRecords();
+		// grid.setTotal();
+		// for (PayeeList customer : listOfCustomers) {
+		// if (isActive) {
+		// if (customer.isActive() == true) {
+		// grid.addData(customer);
+		// }
+		// } else if (customer.isActive() == false) {
+		// grid.addData(customer);
+		// }
+		// }
+		// if (grid.getRecords().isEmpty())
+		// grid.addEmptyMessage(messages().noRecordsToShow());
+		//
+		// getTotalLayout(grid);
+	}
+
+	@Override
+	protected int getPageSize() {
+		return 10;
+	}
+
+	private boolean isActiveAccounts = true;
+
+	@Override
+	protected void onPageChange(int start, int length) {
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
+				isActiveAccounts, start, length, this);
 	}
 
 	@Override
 	public void onSuccess(PaginationList<PayeeList> result) {
 		this.listOfCustomers = result;
-		super.onSuccess(result);
 		grid.sort(10, false);
+		grid.setRecords(result);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+				result.getTotalCount());
 	}
 
 	@Override
