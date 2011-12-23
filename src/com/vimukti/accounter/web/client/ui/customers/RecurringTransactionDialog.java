@@ -239,6 +239,7 @@ public class RecurringTransactionDialog extends
 
 		// --------
 
+		mainLayout.addStyleName("fields-panel");
 		setBodyLayout(mainLayout);
 	}
 
@@ -490,12 +491,14 @@ public class RecurringTransactionDialog extends
 	private CellPanel getDailyIntervalLayout() {
 		VerticalPanel panel = new VerticalPanel();
 		panel.add(intervalValueField);
+		panel.getElement().addClassName("interval_Value");
 		return panel;
 	}
 
 	private CellPanel getWeeklyIntervalLayout() {
 		VerticalPanel panel = new VerticalPanel();
 		panel.add(intervalValueField);
+		panel.getElement().addClassName("interval_Value");
 		panel.add(dayOfWeekCombo.getMainWidget());
 		return panel;
 	}
@@ -503,6 +506,7 @@ public class RecurringTransactionDialog extends
 	private CellPanel getMonthlyIntervalLayout() {
 		VerticalPanel panel = new VerticalPanel();
 		panel.add(intervalValueField);
+		panel.getElement().addClassName("interval_Value");
 		panel.add(onSpecificDayRadioBtn);
 		panel.add(dayOfMonthCombo.getMainWidget());
 		panel.add(onSpecificWeekRadioBtn);
@@ -526,6 +530,7 @@ public class RecurringTransactionDialog extends
 	private CellPanel getYearlyIntervalLayout() {
 		VerticalPanel panel = new VerticalPanel();
 		panel.add(intervalValueField);
+		panel.getElement().addClassName("interval_Value");
 
 		HorizontalPanel tempPanel = new HorizontalPanel();
 		tempPanel.add(monthOfYearCombo.getMainWidget());
@@ -906,7 +911,7 @@ public class RecurringTransactionDialog extends
 	private class IntervalValueInputField extends DynamicForm {
 		private TextItem intervalValueField;
 		private LabelItem intervalTypeLabel;
-
+		
 		public IntervalValueInputField() {
 			// setGroupTitle(title);
 			setNumCols(4);
