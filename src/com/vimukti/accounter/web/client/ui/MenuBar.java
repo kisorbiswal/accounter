@@ -896,6 +896,8 @@ public class MenuBar {
 				HistoryTokens.USERACTIVITY);
 		companyListMenuBar.addMenuItem(messages.recurringTransactions(),
 				HistoryTokens.RECURRINGTRANSACTIONS);
+		companyListMenuBar.addMenuItem(messages.remindersList(),
+				HistoryTokens.RECURRINGREMINDERS);
 		companyListMenuBar.addMenuItem(messages.pendingItemsList(),
 				HistoryTokens.PENDINGITEMS);
 		companyListMenuBar.addMenuItem(messages.registeredItemsList(),
