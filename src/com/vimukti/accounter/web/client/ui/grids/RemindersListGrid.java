@@ -1,16 +1,14 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 
@@ -77,56 +75,13 @@ public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 				public void onResultSuccess(ClientTransaction result) {
 					if (result != null) {
 						result.setTobeDeleteReminder(obj.getID());
-						openTransactionView(result);
+						ReportsRPC.openTransactionView(result);
 					}
 				}
 			};
-			Accounter.createHomeService().getTransactionToCreate(obj, callBack);
-		}
-	}
-
-	private void openTransactionView(ClientTransaction transaction) {
-		switch (transaction.getType()) {
-
-		case ClientTransaction.TYPE_MAKE_DEPOSIT:
-			ActionFactory.getMakeDepositAction().run(transaction, false);
-			break;
-		case ClientTransaction.TYPE_ENTER_BILL:
-			ActionFactory.getEnterBillsAction().run(
-					(ClientEnterBill) transaction, false);
-			break;
-		case ClientTransaction.TYPE_CASH_PURCHASE:
-			ActionFactory.getNewCashPurchaseAction().run(transaction, false);
-			break;
-		case ClientTransaction.TYPE_CASH_SALES:
-			ActionFactory.getNewCashSaleAction().run(transaction, false);
-			break;
-		case ClientTransaction.TYPE_WRITE_CHECK:
-			ActionFactory.getWriteChecksAction().run(transaction, false);
-			break;
-		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
-			ActionFactory.getNewCreditsAndRefundsAction().run(transaction,
-					false);
-			break;
-		case ClientTransaction.TYPE_INVOICE:
-			ActionFactory.getNewInvoiceAction().run(
-					(ClientInvoice) transaction, false);
-			break;
-		case ClientTransaction.TYPE_ESTIMATE:
-			ActionFactory.getNewQuoteAction(0).run(transaction, false);
-			break;
-		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
-			ActionFactory.getNewCreditMemoAction().run(transaction, false);
-			break;
-
-		case ClientTransaction.TYPE_CASH_EXPENSE:
-			ActionFactory.CashExpenseAction().run(transaction, false);
-			break;
-
-		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
-			ActionFactory.CreditCardExpenseAction().run(transaction, false);
-			break;
-
+			Accounter.createHomeService().getTransactionToCreate(
+					obj.getRecurringTransaction(), obj.getTransactionDate(),
+					callBack);
 		}
 	}
 }

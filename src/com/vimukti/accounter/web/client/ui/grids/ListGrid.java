@@ -852,6 +852,10 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	public T getSelection() {
 		return selectedObject;
 	}
+	
+	public void setSelection(T selectedObject) {
+		this.selectedObject = selectedObject;
+	}
 
 	public List<T> getSelectedRecords() {
 		List<T> list = new ArrayList<T>();
