@@ -68,9 +68,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
-import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.PaginationList;
-import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -94,7 +92,6 @@ import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
-import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
@@ -1444,11 +1441,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public PaginationList<PayeeList> getPayeeList(int transactionCategory)
-			throws AccounterException {
+	public PaginationList<PayeeList> getPayeeList(int transactionCategory,
+			boolean isActive, int strat, int length) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
-		return tool != null ? tool.getPayeeList(transactionCategory,
-				getCompanyId()) : null;
+		return tool != null ? tool.getPayeeList(transactionCategory, isActive,
+				strat, length, getCompanyId()) : null;
 	}
 
 	@Override
@@ -1736,14 +1733,16 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public PaginationList<ClientAccount> getAccounts(int typeOfAccount)
+	public PaginationList<ClientAccount> getAccounts(int typeOfAccount,
+			boolean isActiveAccounts, int start, int length)
 			throws AccounterException {
 		FinanceTool tool = new FinanceTool();
 		if (typeOfAccount == ClientAccount.TYPE_BANK) {
-			return tool.getCompanyManager().getBankAccounts(getCompanyId());
+			return tool.getCompanyManager().getBankAccounts(getCompanyId(),
+					isActiveAccounts, start, length);
 		} else {
 			return tool.getCompanyManager().getAccounts(typeOfAccount,
-					getCompanyId());
+					isActiveAccounts, start, length, getCompanyId());
 		}
 	}
 
