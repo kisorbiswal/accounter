@@ -707,7 +707,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		super.createButtons(buttonBar);
-		if (isInViewMode()) {
+		if (isInViewMode() && (data != null && !data.isTemplate())) {
 			emailButton = new Button(messages.email());
 			buttonBar.add(emailButton);
 
@@ -943,7 +943,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			this.orderNumText
 					.setValue(transaction.getOrderNum() != null ? transaction
 							.getOrderNum() : "");
-			if (getCustomer() != null && customerCombo != null) {
+			if (getCustomer() != null && customerCombo != null
+					&& !data.isTemplate()) {
 				customerCombo.setComboItem(getCustomer());
 				getEstimatesAndSalesOrder();
 			}
@@ -1523,7 +1524,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		setMode(EditMode.EDIT);
 
-		if (!isInViewMode()) {
+		if (!isInViewMode() && !data.isTemplate()) {
 
 			getButtonBar().remove(emailButton);
 		}
