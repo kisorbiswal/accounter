@@ -3,13 +3,21 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.RecurringsListGrid;
+import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class RecurringTransactionsListView extends
 		TransactionsListView<ClientRecurringTransaction> {
@@ -19,6 +27,8 @@ public class RecurringTransactionsListView extends
 	private final static String REMAINDER = Accounter.messages().reminder();
 	private final static String UNSCHEDULED = Accounter.messages()
 			.unScheduled();
+
+	private Button useButton, newButton, editButton;
 
 	List<String> listOfTypes;
 
@@ -38,10 +48,94 @@ public class RecurringTransactionsListView extends
 
 	@Override
 	public void onSuccess(PaginationList<ClientRecurringTransaction> result) {
-		super.onSuccess(result);
+		grid.removeLoadingImage();
 		recurringTransactions = result;
+		initialRecords = result;
+		this.records = result;
 		filterList(viewSelect.getValue().toString());
 		grid.setViewType(viewSelect.getValue().toString());
+	}
+
+	@Override
+	protected void createControls() {
+		super.createControls();
+
+		HorizontalPanel panel = new HorizontalPanel();
+
+		useButton = new Button(messages().use());
+		useButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				openUsableTransactionView();
+			}
+		});
+
+		newButton = new Button(messages().new1());
+		newButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				openNewRecurrableTemplate();
+			}
+		});
+
+		editButton = new Button(messages().edit());
+		editButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				openTemplateView();
+			}
+		});
+
+		panel.add(useButton);
+		panel.add(editButton);
+
+		add(panel);
+	}
+
+	protected void openTemplateView() {
+		ClientRecurringTransaction selection = (ClientRecurringTransaction) grid
+				.getSelection();
+		if (selection != null) {
+			grid.onDoubleClick(selection);
+		} else {
+			Accounter.showError(messages()
+					.pleaseSelectARowTo(messages().edit()));
+		}
+	}
+
+	protected void openNewRecurrableTemplate() {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void openUsableTransactionView() {
+		ClientRecurringTransaction selection = (ClientRecurringTransaction) grid
+				.getSelection();
+		if (selection != null) {
+			AccounterAsyncCallback<ClientTransaction> callBack = new AccounterAsyncCallback<ClientTransaction>() {
+
+				@Override
+				public void onException(AccounterException exception) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void onResultSuccess(ClientTransaction result) {
+					if (result != null) {
+						ReportsRPC.openTransactionView(result);
+					}
+				}
+			};
+			Accounter.createHomeService().getTransactionToCreate(selection, 0,
+					callBack);
+		} else {
+			Accounter
+					.showError(messages().pleaseSelectARowTo(messages().use()));
+		}
 	}
 
 	@Override
@@ -114,6 +208,8 @@ public class RecurringTransactionsListView extends
 				continue;
 			}
 		}
+
+		grid.setSelection(null);
 
 		if (grid.getRecords().isEmpty()) {
 			grid.addEmptyMessage(messages().noRecordsToShow());
