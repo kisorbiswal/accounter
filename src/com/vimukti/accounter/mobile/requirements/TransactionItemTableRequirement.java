@@ -7,8 +7,11 @@ import java.util.Set;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Unit;
+import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -17,7 +20,6 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -26,6 +28,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 public abstract class TransactionItemTableRequirement extends
 		AbstractTableRequirement<ClientTransactionItem> {
 	private static final String QUANITY = "Quantity";
+	private static final String INVENTORY_QUANITY = "InventoryQuantity";
 	private static final String ITEM = "Item";
 	private static final String UNITPTICE = "UnitPrice";
 	private static final String DISCOUNT = "Discount";
@@ -34,6 +37,7 @@ public abstract class TransactionItemTableRequirement extends
 	private static final String DESCRIPTION = "Description";
 	protected static final String IS_BILLABLE = "isBillable";
 	protected static final String ITEM_CUSTOMER = "itemcustomer";
+	private static final String WARE_HOUSE = "itemwarehouse";
 
 	public TransactionItemTableRequirement(String requirementName,
 			String enterString, String recordName, boolean isOptional,
@@ -47,40 +51,80 @@ public abstract class TransactionItemTableRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		list.add(new ItemRequirement(ITEM, getMessages().pleaseSelect(
-				getMessages().item()), getMessages().item(), false, true,
-				new ChangeListner<Item>() {
-
-					@Override
-					public void onSelection(Item item) {
-						if (item != null) {
-							if (isSales()) {
-								get(UNITPTICE).setValue(
-
-								item.getSalesPrice() / getCurrencyFactor());
-							} else {
-								get(UNITPTICE).setValue(
-
-								item.getPurchasePrice() / getCurrencyFactor());
-							}
-							get(TAXCODE).setValue(
-									get(TAXCODE).getValue() == null ? item
-											.getTaxCode() : get(TAXCODE)
-											.getValue());
-							get(TAX).setValue(item.isTaxable());
-						}
-
-					}
-				}, isSales()) {
+				getMessages().item()), getMessages().item(), false, true, null,
+				isSales()) {
 
 			@Override
 			protected List<Item> getLists(Context context) {
 				return getItems(context);
 			}
 
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				Item item = getValue();
+				if (item != null) {
+					setOtherRequirementValues(item);
+				}
+			}
+
 		});
 
 		list.add(new AmountRequirement(QUANITY, getMessages().pleaseEnter(
-				getMessages().quantity()), getMessages().quantity(), true, true));
+				getMessages().quantity()), getMessages().quantity(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				Item item = get(ITEM).getValue();
+				if (item.getType() != Item.TYPE_INVENTORY_PART) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new QuantityRequirement(INVENTORY_QUANITY, getMessages()
+				.pleaseEnter(getMessages().quantity()), getMessages()
+				.quantity(), true) {
+
+			@Override
+			protected List<Unit> getLists(Context context) {
+				Item item = get(ITEM).getValue();
+				if (item.getType() == Item.TYPE_INVENTORY_PART) {
+					return new ArrayList<Unit>(item.getMeasurement().getUnits());
+				}
+				return new ArrayList<Unit>();
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				Item item = get(ITEM).getValue();
+				if (item.getType() == Item.TYPE_INVENTORY_PART) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getValueRecordName() {
+				return getMessages().value();
+			}
+		});
+
+		list.add(new WarehouseRequirement(WARE_HOUSE, getMessages()
+				.pleaseSelect(getMessages().wareHouse()), getMessages()
+				.wareHouse(), true, true, null) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				Item item = get(ITEM).getValue();
+				if (item.getType() == Item.TYPE_INVENTORY_PART) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new CurrencyAmountRequirement(UNITPTICE, getMessages()
 				.pleaseEnter(getMessages().unitPrice()), getMessages()
@@ -158,6 +202,30 @@ public abstract class TransactionItemTableRequirement extends
 				true, true));
 	}
 
+	protected void setOtherRequirementValues(Item item) {
+		if (isSales()) {
+			get(UNITPTICE).setValue(
+
+			item.getSalesPrice() / getCurrencyFactor());
+		} else {
+			get(UNITPTICE).setValue(
+
+			item.getPurchasePrice() / getCurrencyFactor());
+		}
+		get(TAXCODE).setValue(
+				get(TAXCODE).getValue() == null ? item.getTaxCode() : get(
+						TAXCODE).getValue());
+		get(TAX).setValue(item.isTaxable());
+		get(QUANITY).setValue(1.0);
+		if (item.getType() == Item.TYPE_INVENTORY_PART) {
+			ClientQuantity quantity = new ClientQuantity();
+			quantity.setUnit(item.getMeasurement().getDefaultUnit().getID());
+			quantity.setValue(1.0);
+			get(INVENTORY_QUANITY).setValue(quantity);
+			get(WARE_HOUSE).setValue(item.getWarehouse());
+		}
+	}
+
 	public abstract List<Item> getItems(Context context);
 
 	@Override
@@ -169,7 +237,21 @@ public abstract class TransactionItemTableRequirement extends
 	protected void getRequirementsValues(ClientTransactionItem obj) {
 		Item clientItem = get(ITEM).getValue();
 		obj.setItem(clientItem.getID());
-		obj.getQuantity().setValue((Double) get(QUANITY).getValue());
+		Warehouse warehouse = get(WARE_HOUSE).getValue();
+		if (warehouse == null) {
+			warehouse = clientItem.getWarehouse();
+		}
+		obj.setWareHouse(warehouse == null ? 0 : warehouse.getID());
+		ClientQuantity quantity = get(INVENTORY_QUANITY).getValue();
+		if (clientItem.getType() != Item.TYPE_INVENTORY_PART) {
+			double value = get(QUANITY).getValue();
+			quantity.setValue(value);
+		}
+		obj.setQuantity(quantity);
+		Measurement measurement = clientItem.getMeasurement();
+		if (quantity.getUnit() == 0 && measurement != null) {
+			obj.getQuantity().setUnit(measurement.getDefaultUnit().getID());
+		}
 		obj.setUnitPrice((Double) get(UNITPTICE).getValue());
 		obj.setDiscount((Double) get(DISCOUNT).getValue());
 		TAXCode taxCode = get(TAXCODE).getValue();
@@ -197,7 +279,11 @@ public abstract class TransactionItemTableRequirement extends
 		Item item = (Item) CommandUtils.getServerObjectById(obj.getItem(),
 				AccounterCoreType.ITEM);
 		get(ITEM).setValue(item);
-		get(QUANITY).setDefaultValue(obj.getQuantity().getValue());
+		if (item != null) {
+			get(WARE_HOUSE).setValue(item.getWarehouse());
+		}
+		get(QUANITY).setValue(obj.getQuantity().getValue());
+		get(INVENTORY_QUANITY).setValue(obj.getQuantity());
 		get(UNITPTICE).setValue(obj.getUnitPrice());
 
 		get(DISCOUNT).setDefaultValue(obj.getDiscount());
@@ -232,13 +318,28 @@ public abstract class TransactionItemTableRequirement extends
 	@Override
 	protected Record createFullRecord(ClientTransactionItem t) {
 		Record record = new Record(t);
-		ClientItem iAccounterCore = (ClientItem) CommandUtils
-				.getClientObjectById(t.getItem(), AccounterCoreType.ITEM,
-						getCompanyId());
-		if (iAccounterCore != null) {
-			record.add(getMessages().name(), iAccounterCore.getDisplayName());
+		Item item = (Item) CommandUtils.getServerObjectById(t.getItem(),
+				AccounterCoreType.ITEM);
+		if (item != null) {
+			record.add(getMessages().name(), item.getName());
 		}
-		record.add(getMessages().quantity(), t.getQuantity().getValue());
+		if (item != null && item.getType() == Item.TYPE_INVENTORY_PART) {
+			Warehouse warehouse = (Warehouse) CommandUtils.getServerObjectById(
+					t.getWareHouse(), AccounterCoreType.WAREHOUSE);
+			long unitId = t.getQuantity().getUnit();
+			Unit unit;
+			if (unitId == 0) {
+				unit = item.getMeasurement().getDefaultUnit();
+			} else {
+				unit = (Unit) CommandUtils.getServerObjectById(unitId,
+						AccounterCoreType.UNIT);
+			}
+			record.add(getMessages().quantity(),
+					t.getQuantity().getValue() + " " + unit.getType() + " W"
+							+ warehouse.getWarehouseCode());
+		} else {
+			record.add(getMessages().quantity(), t.getQuantity().getValue());
+		}
 		String formalName;
 		if (getPreferences().isEnableMultiCurrency()) {
 			formalName = getCurrency().getFormalName();

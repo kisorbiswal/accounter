@@ -8,6 +8,8 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 
 public abstract class QuantityRequirement extends
@@ -17,8 +19,8 @@ public abstract class QuantityRequirement extends
 	private static final String UNIT = "itemunit";
 
 	public QuantityRequirement(String requirementName, String enterString,
-			String recordName) {
-		super(requirementName, enterString, recordName, false, true);
+			String recordName, boolean isOptional) {
+		super(requirementName, enterString, recordName, isOptional, true);
 		ClientQuantity clientQuantity = new ClientQuantity();
 		clientQuantity.setValue(1.0);
 		setDefaultValue(clientQuantity);
@@ -31,8 +33,7 @@ public abstract class QuantityRequirement extends
 	@Override
 	protected void addRequirement(List<Requirement> list) {
 		list.add(new AmountRequirement(VALUE, getMessages().pleaseEnter(
-				getMessages().adjustmentQty()), getMessages().adjustmentQty()
-				+ " " + getMessages().value(), false, true));
+				getValueRecordName()), getValueRecordName(), false, true));
 
 		list.add(new ListRequirement<Unit>(UNIT, getMessages().pleaseSelect(
 				getMessages().unit()), getMessages().unit(), true, true, null) {
@@ -80,6 +81,10 @@ public abstract class QuantityRequirement extends
 		});
 	}
 
+	protected String getValueRecordName() {
+		return getMessages().adjustmentQty();
+	}
+
 	protected abstract List<Unit> getLists(Context context);
 
 	@Override
@@ -92,7 +97,8 @@ public abstract class QuantityRequirement extends
 	@Override
 	protected Result onFinish(Context context) {
 		ClientQuantity quantity = getValue();
-		quantity.setUnit(((Unit) getRequirement(UNIT).getValue()).getID());
+		Unit unit = getRequirement(UNIT).getValue();
+		quantity.setUnit(unit == null ? 0 : unit.getID());
 		quantity.setValue((Double) getRequirement(VALUE).getValue());
 		return null;
 	}
@@ -106,5 +112,17 @@ public abstract class QuantityRequirement extends
 		getRequirement(UNIT).setEditable(isEditable);
 		getRequirement(VALUE).setEditable(isEditable);
 		super.setEditable(isEditable);
+	}
+
+	@Override
+	public void setValue(Object value) {
+		ClientQuantity clientQuantity = (ClientQuantity) value;
+		if (clientQuantity != null) {
+			getRequirement(UNIT).setValue(
+					CommandUtils.getServerObjectById(clientQuantity.getUnit(),
+							AccounterCoreType.UNIT));
+			getRequirement(VALUE).setValue(clientQuantity.getValue());
+		}
+		super.setValue(value);
 	}
 }
