@@ -206,7 +206,7 @@ public class MenuBar {
 				HistoryTokens.PENDINGITEMS);
 		fixedAssetListMenu.addMenuItem(messages.registeredItemsList(),
 				HistoryTokens.REGISTEREDITEMS);
-		fixedAssetListMenu.addMenuItem(messages.registeredItemsList(),
+		fixedAssetListMenu.addMenuItem(messages.soldAndDisposedItems(),
 				HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
 		return fixedAssetListMenu;
 	}
