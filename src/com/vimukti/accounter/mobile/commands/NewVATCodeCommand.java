@@ -284,7 +284,6 @@ public class NewVATCodeCommand extends NewAbstractCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
-		get(IS_TAXABLE).setDefaultValue(Boolean.TRUE);
 	}
 
 	@Override
