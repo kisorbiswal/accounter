@@ -778,7 +778,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		panel.add(hPanel);
 		memoArea = new TextAreaItem();
 		memoArea.setWidth("400px");
-		memoArea.setTitle(messages.memo());
+		memoArea.setTitle(messages.notes());
 		memoArea.setToolTip(messages.writeCommentsForThis(this.getAction()
 				.getViewName()));
 		// Button addLinksButt = new Button("AddLinks");

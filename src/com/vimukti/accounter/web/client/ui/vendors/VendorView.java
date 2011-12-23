@@ -503,7 +503,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				this.getAction().getViewName()));
 		memoArea.setHelpInformation(true);
 		memoArea.setWidth("400px");
-		memoArea.setTitle(Accounter.messages().memo());
+		memoArea.setTitle(Accounter.messages().notes());
 
 		addrsForm = new AddressForm(null);
 		addrsForm.setDisabled(isInViewMode());
