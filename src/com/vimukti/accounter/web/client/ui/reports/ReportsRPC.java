@@ -149,8 +149,8 @@ public class ReportsRPC {
 					ActionFactory.getCreditCardChargeAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_ESTIMATE:
-			initCallBack(new ClientEstimate(), ActionFactory.getNewQuoteAction(
-					0), transactionId);
+			initCallBack(new ClientEstimate(),
+					ActionFactory.getNewQuoteAction(0), transactionId);
 			break;
 		case ClientTransaction.TYPE_ISSUE_PAYMENT:
 			initCallBack(new ClientIssuePayment(),
@@ -339,5 +339,50 @@ public class ReportsRPC {
 			break;
 		}
 
+	}
+
+	public static void openTransactionView(ClientTransaction transaction) {
+		switch (transaction.getType()) {
+
+		case ClientTransaction.TYPE_MAKE_DEPOSIT:
+			ActionFactory.getMakeDepositAction().run(transaction, false);
+			break;
+		case ClientTransaction.TYPE_ENTER_BILL:
+			ActionFactory.getEnterBillsAction().run(
+					(ClientEnterBill) transaction, false);
+			break;
+		case ClientTransaction.TYPE_CASH_PURCHASE:
+			ActionFactory.getNewCashPurchaseAction().run(transaction, false);
+			break;
+		case ClientTransaction.TYPE_CASH_SALES:
+			ActionFactory.getNewCashSaleAction().run(transaction, false);
+			break;
+		case ClientTransaction.TYPE_WRITE_CHECK:
+			ActionFactory.getWriteChecksAction().run(transaction, false);
+			break;
+		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
+			ActionFactory.getNewCreditsAndRefundsAction().run(transaction,
+					false);
+			break;
+		case ClientTransaction.TYPE_INVOICE:
+			ActionFactory.getNewInvoiceAction().run(
+					(ClientInvoice) transaction, false);
+			break;
+		case ClientTransaction.TYPE_ESTIMATE:
+			ActionFactory.getNewQuoteAction(0).run(transaction, false);
+			break;
+		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
+			ActionFactory.getNewCreditMemoAction().run(transaction, false);
+			break;
+
+		case ClientTransaction.TYPE_CASH_EXPENSE:
+			ActionFactory.CashExpenseAction().run(transaction, false);
+			break;
+
+		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+			ActionFactory.CreditCardExpenseAction().run(transaction, false);
+			break;
+
+		}
 	}
 }
