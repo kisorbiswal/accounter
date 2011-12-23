@@ -128,6 +128,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	}
 
+	@Override
+	protected boolean canAddAttachmentPanel() {
+		return true;
+	}
+
 	public Double getBalanceDue() {
 		return balanceDue;
 	}
@@ -1558,6 +1563,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			paymentsNonEditableText.setVisible(isInViewMode());
 		}
 		transactionsTree.setEnabled(!isInViewMode());
+		enableAttachmentPanel(!isInViewMode());
 	}
 
 	@Override
