@@ -1204,4 +1204,11 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.ChangeCompanyCommand"
 		name="changeCompany">
 	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.ShowWareHouseCommand"
+		name="showWareHouse">
+	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.delete.DeleteWareHouseCommand"
+		name="deleteWareHouse">
+	</command>
 </commands>
