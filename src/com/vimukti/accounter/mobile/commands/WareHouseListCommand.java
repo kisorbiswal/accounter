@@ -51,7 +51,7 @@ public class WareHouseListCommand extends NewAbstractCommand {
 
 			@Override
 			protected String onSelection(Warehouse value) {
-				return "updateWarehouse " + value.getName();
+				return "showWareHouse " + value.getName();
 			}
 
 			@Override

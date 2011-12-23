@@ -7,6 +7,8 @@ import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.WareHouseTransferTableRequirement;
 import com.vimukti.accounter.mobile.requirements.WarehouseRequirement;
@@ -14,14 +16,16 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.OperationContext;
 
 public class NewWareHouseTransferCommand extends NewAbstractCommand {
 	private final static String WAREHOUSE_FROM = "warehousefrom";
 	private final static String WAREHOUSE_TO = "warehouseto";
 	private final static String COMMENT = "comment";
 	private final static String TRANSFERED_ITEMS = "transfereditems";
-
+	private static final String DELETE_CREATE_NEW = "canDeleteWareHouseTransfer";
 	ClientStockTransfer stockTransfer;
 
 	@Override
@@ -45,6 +49,8 @@ public class NewWareHouseTransferCommand extends NewAbstractCommand {
 				return "warehouseTransferList " + string;
 			}
 			stockTransfer = clientWarehouse;
+			lists.add("Yes,I want to delete this warehouse transfer and create new warehouse transfer");
+			lists.add("No,I do not want to delete this warehouse transfer");
 			setValues();
 		} else {
 			stockTransfer = new ClientStockTransfer();
@@ -63,6 +69,7 @@ public class NewWareHouseTransferCommand extends NewAbstractCommand {
 						AccounterCoreType.WAREHOUSE));
 		get(COMMENT).setValue(stockTransfer.getMemo());
 		get(TRANSFERED_ITEMS).setValue(stockTransfer.getStockTransferItems());
+		updateRequirementsStatus(false);
 	}
 
 	@Override
@@ -81,6 +88,8 @@ public class NewWareHouseTransferCommand extends NewAbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		get(DELETE_CREATE_NEW).setValue(
+				"No,I do not want to delete this warehouse transfer");
 	}
 
 	@Override
@@ -97,6 +106,40 @@ public class NewWareHouseTransferCommand extends NewAbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		list.add(new StringListRequirement(DELETE_CREATE_NEW,
+				"Choose any one option to perform next action", "Edit", true,
+				true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return "Select any one Option";
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect("any one option");
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return lists;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (canEdit()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
 		list.add(new WarehouseRequirement(WAREHOUSE_FROM, getMessages()
 				.pleaseSelect("from " + getMessages().wareHouse()), "from "
 				+ getMessages().wareHouse(), false, true, null) {
@@ -180,5 +223,50 @@ public class NewWareHouseTransferCommand extends NewAbstractCommand {
 		stockTransfer.setStockTransferItems(stockTransferItems);
 		create(stockTransfer, context);
 		return super.onCompleteProcess(context);
+	}
+
+	protected boolean canEdit() {
+		return stockTransfer.getID() != 0;
+	}
+
+	List<String> lists = new ArrayList<String>();
+
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		String canDelte = get(DELETE_CREATE_NEW).getValue();
+		if (canDelte != null && lists.indexOf(canDelte) == 0) {
+			try {
+				String serverClassFullyQualifiedName = stockTransfer
+						.getObjectType().getClientClassSimpleName();
+
+				OperationContext opContext = new OperationContext(context
+						.getCompany().getID(), stockTransfer, context
+						.getIOSession().getUserEmail(),
+						String.valueOf(stockTransfer.getID()),
+						serverClassFullyQualifiedName);
+				new FinanceTool().delete(opContext);
+			} catch (AccounterException e) {
+				addFirstMessage(context, "" + e.getErrorCode());
+				updateRequirementsStatus(false);
+			}
+			get(DELETE_CREATE_NEW).setEditable(false);
+			get(DELETE_CREATE_NEW).setValue(
+					"No,I do not want to delete this warehouse transfer");
+			updateRequirementsStatus(true);
+			List<ClientStockTransferItem> stockTransferItems = get(
+					TRANSFERED_ITEMS).getValue();
+			for (ClientStockTransferItem clientStockTransferItem : stockTransferItems) {
+				clientStockTransferItem.setID(0);
+			}
+			stockTransfer = new ClientStockTransfer();
+			this.run(context);
+		}
+	}
+
+	private void updateRequirementsStatus(boolean isEditable) {
+		get(WAREHOUSE_FROM).setEditable(isEditable);
+		get(WAREHOUSE_TO).setEditable(isEditable);
+		get(COMMENT).setEditable(isEditable);
+		get(TRANSFERED_ITEMS).setEditable(isEditable);
 	}
 }

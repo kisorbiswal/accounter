@@ -133,9 +133,6 @@ public class NewWareHouseCommand extends NewAbstractCommand {
 		list.add(new StringRequirement(CONTACT_NAME, getMessages().pleaseEnter(
 				getMessages().contactName()), getMessages().contactName(),
 				true, true));
-		list.add(new StringRequirement(CONTACT_NAME, getMessages().pleaseEnter(
-				getMessages().contactName()), getMessages().contactName(),
-				true, true));
 		list.add(new PhoneRequirement(CONTACT_NUM, getMessages().pleaseEnter(
 				getMessages().contactNumber()), getMessages().contactNumber(),
 				true, true));
