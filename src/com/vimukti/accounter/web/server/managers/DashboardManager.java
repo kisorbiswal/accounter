@@ -27,6 +27,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
 import com.vimukti.accounter.web.client.core.Lists.OverDueInvoicesList;
@@ -34,6 +35,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AccountDetail;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.GraphChart;
+import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
 
 public class DashboardManager extends Manager {
 
@@ -737,4 +739,86 @@ public class DashboardManager extends Manager {
 		return keyFinancialIndicators;
 	}
 
+	public ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(
+			long companyId, int type, FinanceDate startDate, FinanceDate endDate) {
+		ArrayList<IncomeExpensePortletInfo> result = new ArrayList<IncomeExpensePortletInfo>();
+
+		if (type == PortletToolBar.THIS_MONTH
+				|| type == PortletToolBar.LAST_MONTH) {
+			IncomeExpensePortletInfo incomeExpensePortletInfo = getIncomExpenseRecordsByMonth(
+					startDate, endDate, companyId);
+			result.add(incomeExpensePortletInfo);
+		} else if (type == PortletToolBar.THIS_QUARTER
+				|| type == PortletToolBar.LAST_QUARTER) {
+			List<IncomeExpensePortletInfo> incomeExpensePortletInfos = getIncomExpenseRecordsOfMonths(
+					startDate, endDate, companyId, 3);
+			result.addAll(incomeExpensePortletInfos);
+		} else if (type == PortletToolBar.THIS_FINANCIAL_YEAR
+				|| type == PortletToolBar.LAST_FINANCIAL_YEAR) {
+			List<IncomeExpensePortletInfo> incomeExpensePortletInfos = getIncomExpenseRecordsOfMonths(
+					startDate, endDate, companyId, 12);
+			result.addAll(incomeExpensePortletInfos);
+		}
+
+		return result;
+	}
+
+	private List<IncomeExpensePortletInfo> getIncomExpenseRecordsOfMonths(
+			FinanceDate startDate, FinanceDate endDate, long companyId, int j) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		FinanceDate currentDate = startDate;
+
+		List<IncomeExpensePortletInfo> incomeExpensePortletInfos = new ArrayList<IncomeExpensePortletInfo>();
+		for (int i = 0; i < j; i++) {
+			Calendar startDateCal = Calendar.getInstance();
+			startDateCal.setTime(currentDate.getAsDateObject());
+			startDateCal.set(Calendar.MONTH, startDateCal.get(Calendar.MONTH)
+					+ i);
+			startDateCal.set(Calendar.DATE, 1);
+
+			Calendar endDateCal = Calendar.getInstance();
+			endDateCal.setTime(currentDate.getAsDateObject());
+			endDateCal.set(Calendar.MONTH, endDateCal.get(Calendar.MONTH) + i);
+			endDateCal.set(Calendar.DATE,
+					endDateCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+			IncomeExpensePortletInfo incomeExpensePortletInfo = new IncomeExpensePortletInfo();
+
+			Query query = session
+					.getNamedQuery("getIncomeExpensePortletInfo")
+					.setParameter("companyId", companyId)
+					.setParameter("startDate",
+							new FinanceDate(startDateCal.getTime()).getDate())
+					.setParameter("endDate",
+							new FinanceDate(endDateCal.getTime()).getDate());
+			Object[] object = (Object[]) query.uniqueResult();
+
+			incomeExpensePortletInfo.setIncome((Double) object[0]);
+			incomeExpensePortletInfo.setExpense((Double) object[1]);
+			incomeExpensePortletInfo.setMonth(""
+					+ (startDateCal.get(Calendar.MONTH) + i));
+
+			incomeExpensePortletInfos.add(incomeExpensePortletInfo);
+		}
+		return incomeExpensePortletInfos;
+	}
+
+	private IncomeExpensePortletInfo getIncomExpenseRecordsByMonth(
+			FinanceDate startDate, FinanceDate endDate, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		IncomeExpensePortletInfo incomeExpensePortletInfo = new IncomeExpensePortletInfo();
+
+		Query query = session.getNamedQuery("getIncomeExpensePortletInfo")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate);
+		Object[] object = (Object[]) query.uniqueResult();
+
+		incomeExpensePortletInfo.setIncome((Double) object[0]);
+		incomeExpensePortletInfo.setExpense((Double) object[1]);
+		incomeExpensePortletInfo.setMonth("" + "" + startDate.getMonth());
+		return incomeExpensePortletInfo;
+	}
 }

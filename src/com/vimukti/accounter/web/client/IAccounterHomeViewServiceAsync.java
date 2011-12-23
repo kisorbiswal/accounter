@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
@@ -46,6 +47,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
@@ -70,6 +72,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
+import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
@@ -438,5 +441,18 @@ public interface IAccounterHomeViewServiceAsync {
 
 	void getTDSTransactionItemsList(int chalanPer,
 			AsyncCallback<ArrayList<ClientTDSTransactionItem>> callback);
+
+	void getIncomeExpensePortletInfo(int type, FinanceDate startDate,
+			FinanceDate endDate,
+			AsyncCallback<ArrayList<IncomeExpensePortletInfo>> callback);
+
+	void getExpenseBreakdownPortletData(long startDate, long endDate,
+			AsyncCallback<ExpensePortletData> callback);
+
+	void getTopCustomersBySlaesPortletData(long startDate, long endDate,
+			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
+
+	void getTopVendorsBySlaesPortletData(long startDate, long endDate,
+			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
 
 }

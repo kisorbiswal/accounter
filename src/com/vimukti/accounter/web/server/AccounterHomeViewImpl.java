@@ -68,6 +68,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
@@ -93,6 +94,7 @@ import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
+import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
@@ -1911,6 +1913,36 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return new ArrayList<ClientTDSTransactionItem>(transactionItemList);
+	}
+
+	@Override
+	public ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(
+			int type, FinanceDate startDate, FinanceDate endDate)
+			throws AccounterException {
+		return getFinanceTool().getDashboardManager()
+				.getIncomeExpensePortletInfo(getCompanyId(), type, startDate,
+						endDate);
+	}
+
+	@Override
+	public ExpensePortletData getExpenseBreakdownPortletData(long startDate,
+			long endDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<PayeesBySalesPortletData> getTopCustomersBySlaesPortletData(
+			long startDate, long endDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<PayeesBySalesPortletData> getTopVendorsBySlaesPortletData(
+			long startDate, long endDate) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
