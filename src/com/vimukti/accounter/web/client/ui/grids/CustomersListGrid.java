@@ -26,7 +26,7 @@ public class CustomersListGrid extends BaseListGrid<PayeeList> {
 
 	public CustomersListGrid() {
 		super(false, true);
-		addDataToGrid();
+//		addDataToGrid();
 	}
 
 	@Override
