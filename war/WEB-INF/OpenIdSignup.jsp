@@ -21,12 +21,7 @@
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 <script src="/jscripts/passwordStrength.js" type="text/javascript"></script>
 <script  type="text/javascript" >
-$.validator.setDefaults({
-	submitHandler: function() {
-		$.blockUI({ message: $("#hiddenLoaderDiv"), css: {height: '80px', width: '300px', display: 'block'} });
-		$('#accounterForm').submit();
-	}
-});
+
 $.validator.addMethod("no_special_characters", function(value, element) {
     return this.optional(element) ||
         value.match(/^[a-zA-Z0-9_]*[a-zA-Z][a-zA-Z0-9_]*$/);
