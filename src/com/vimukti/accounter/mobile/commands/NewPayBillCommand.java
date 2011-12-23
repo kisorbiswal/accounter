@@ -278,6 +278,12 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				return (Vendor) NewPayBillCommand.this.get(VENDOR).getValue();
 			}
 
+			@Override
+			protected List<ClientCreditsAndPayments> getCreditsPayments() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		});
 
 	}

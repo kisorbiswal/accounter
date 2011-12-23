@@ -108,9 +108,10 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionListCommand 
 		List<ReceivePaymentsList> result = new ArrayList<ReceivePaymentsList>();
 		try {
 			List<ReceivePaymentsList> receivePaymentsLists = tool
-					.getCustomerManager()
-					.getReceivePaymentsList(context.getCompany().getID(),
-							getStartDate().getDate(), getEndDate().getDate(), 0);
+					.getCustomerManager().getReceivePaymentsList(
+							context.getCompany().getID(),
+							getStartDate().getDate(), getEndDate().getDate(),
+							0, 0, -1);
 			if (receivePaymentsLists != null) {
 				result = filterList(receivePaymentsLists);
 			}

@@ -136,7 +136,7 @@ public class ExpensesListCommand extends AbstractTransactionListCommand {
 		try {
 			ArrayList<BillsList> billsList = tool.getVendorManager()
 					.getBillsList(true, context.getCompany().getId(), 0,
-							getStartDate().getDate(), getEndDate().getDate());
+							getStartDate().getDate(), getEndDate().getDate(),0,-1);
 			return billsList;
 		} catch (DAOException e) {
 			e.printStackTrace();
