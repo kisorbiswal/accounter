@@ -91,10 +91,8 @@ public class WarehouseRequirement extends ListRequirement<Warehouse> {
 
 	@Override
 	public void setDefaultValue(Object defaultValue) {
-		Session currentSession = HibernateUtil.getCurrentSession();
-		Warehouse warehouse = (Warehouse) defaultValue;
-		super.setDefaultValue(currentSession.load(Warehouse.class,
-				warehouse.getID()));
+		super.setDefaultValue(defaultValue);
+		setWareHouseValue();
 	}
 
 }
