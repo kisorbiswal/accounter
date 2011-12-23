@@ -39,10 +39,8 @@ public class IssuePaymentsAction extends Action {
 
 			@Override
 			public void onCreated() {
-				view = new IssuePaymentView(messages
-.selectPaymentsToIssue(),
-						messages
-						.selectPaymentMethod());
+				view = new IssuePaymentView(messages.selectPaymentsToIssue(),
+						messages.selectPaymentMethod());
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, IssuePaymentsAction.this);
 			}
@@ -65,8 +63,8 @@ public class IssuePaymentsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "issuePayments";
-//		return "printCheque";
+		// return "issuePayments";
+		return "printCheque";
 	}
 
 	@Override
