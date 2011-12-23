@@ -65,7 +65,7 @@ public abstract class StockAdjustmentItemTableRequirement extends
 
 		list.add(new QuantityRequirement(ADJUSTMENT_QTY, getMessages()
 				.pleaseEnter(getMessages().adjustmentQty()), getMessages()
-				.adjustmentQty()) {
+				.adjustmentQty(), false) {
 
 			@Override
 			protected List<Unit> getLists(Context context) {
