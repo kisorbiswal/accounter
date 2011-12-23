@@ -39,6 +39,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -811,6 +812,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			voidedPanel.addStyleName("title_voided_panel");
 			voidedLabel.addStyleName("title_voided_label");
 		}
+		if (canAddAttachmentPanel()) {
+
+			addAttachments(new ArrayList<ClientAttachment>(
+					transaction.getAttachments()));
+		}
 		super.initData();
 
 	}
@@ -1195,6 +1201,15 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			}
 			if (currency == null) {
 				currency = getCompany().getPrimaryCurrency();
+			}
+
+			if (canAddAttachmentPanel()) {
+				Set<ClientAttachment> attachments = transaction
+						.getAttachments();
+				attachments.clear();
+				for (ClientAttachment attachment : getAttachments()) {
+					attachments.add(attachment);
+				}
 			}
 		}
 	}

@@ -5,10 +5,12 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
+import com.vimukti.accounter.web.client.ui.TransactionAttachmentPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public abstract class BaseView<T extends IAccounterCore> extends
@@ -32,6 +34,8 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	protected VoidButton voidButton;
 
 	protected String quickAddText;
+
+	private TransactionAttachmentPanel transactionAttachmentPanel;
 
 	public BaseView() {
 		super();
@@ -69,6 +73,38 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		if (data != null && mode != EditMode.CREATE) {
 			super.add(createHistoryView());
 		}
+		if (canAddAttachmentPanel()) {
+			transactionAttachmentPanel = new TransactionAttachmentPanel() {
+
+				@Override
+				public boolean isInViewMode() {
+					return BaseView.this.isInViewMode();
+				}
+
+				@Override
+				protected void saveAttachment(ClientAttachment attachment) {
+					BaseView.this.saveAttachment(attachment);
+				}
+			};
+			super.add(transactionAttachmentPanel);
+		}
+	}
+
+	public void addAttachments(List<ClientAttachment> attachments) {
+		transactionAttachmentPanel.addAttachments(attachments);
+	}
+
+	public List<ClientAttachment> getAttachments() {
+		return transactionAttachmentPanel.getAttachments();
+	}
+
+	protected void saveAttachment(ClientAttachment attachment) {
+		// TODO Auto-generated method stub
+		System.out.println();
+	}
+
+	protected boolean canAddAttachmentPanel() {
+		return false;
 	}
 
 	protected VerticalPanel createHistoryView() {
@@ -90,6 +126,10 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	public ButtonBar getButtonBar() {
 		return this.buttonBar;
+	}
+
+	protected void enableAttachmentPanel(boolean b) {
+		transactionAttachmentPanel.setEnable(b);
 	}
 
 	/**
