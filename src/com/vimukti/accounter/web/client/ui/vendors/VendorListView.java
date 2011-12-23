@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -26,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.grids.VendorListGrid;
 public class VendorListView extends BaseListView<PayeeList> {
 
 	private List<PayeeList> listOfPayees;
+	private boolean isActiveAccounts = true;
 
 	public VendorListView() {
 		super();
@@ -117,10 +119,10 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	public void initListCallback() {
-		super.initListCallback();
+		// super.initListCallback();
 		// Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
 		// this);
-
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
@@ -134,36 +136,46 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected void filterList(boolean isActive) {
-		grid.removeAllRecords();
-		grid.setTotal();
-		for (PayeeList payee : listOfPayees) {
-			if (isActive) {
-				if (payee.isActive() == true) {
-					if (payee.getType() == ClientPayee.TYPE_TAX_AGENCY
-							&& !(getCompany().getPreferences().isTrackTax())) {
-						continue;
-					}
-					grid.addData(payee);
-				}
+		isActiveAccounts = isActive;
+		onPageChange(0, getPageSize());
+		// grid.removeAllRecords();
+		// grid.setTotal();
+		// for (PayeeList payee : listOfPayees) {
+		// if (isActive) {
+		// if (payee.isActive() == true) {
+		// if (payee.getType() == ClientPayee.TYPE_TAX_AGENCY
+		// && !(getCompany().getPreferences().isTrackTax())) {
+		// continue;
+		// }
+		// grid.addData(payee);
+		// }
+		//
+		// } else if (payee.isActive() == false) {
+		// grid.addData(payee);
+		//
+		// }
+		//
+		// }
+		// if (grid.getRecords().isEmpty())
+		// grid.addEmptyMessage(messages().noRecordsToShow());
+		//
+		// getTotalLayout(grid);
+	}
 
-			} else if (payee.isActive() == false) {
-				grid.addData(payee);
-
-			}
-
-		}
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
-
-		getTotalLayout(grid);
+	@Override
+	protected void onPageChange(int start, int length) {
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
+				isActiveAccounts, start, length, this);
 	}
 
 	@Override
 	public void onSuccess(PaginationList<PayeeList> result) {
 		this.listOfPayees = result;
-		super.onSuccess(result);
 		grid.sort(10, false);
-
+		grid.addRecords(result);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+				result.getTotalCount());
 	}
 
 	@Override
