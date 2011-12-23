@@ -830,22 +830,48 @@ public class DashboardManager extends Manager {
 
 		ArrayList<PayeesBySalesPortletData> payeesBySales = new ArrayList<PayeesBySalesPortletData>();
 
-		// Query query = session.getNamedQuery("getPayeesBySales")
-		// .setParameter("companyId", companyId)
-		// .setParameter("startDate", startDate)
-		// .setParameter("endDate", endDate).setParameter("limit", limit);
-		// List list = query.list();
-		// Iterator iterator = list.iterator();
-		//
-		// while (iterator.hasNext()) {
-		// PayeesBySalesPortletData payeesBySalesPortletData = new
-		// PayeesBySalesPortletData();
-		// Object[] next = (Object[]) iterator.next();
-		// payeesBySalesPortletData.setName((String) next[0]);
-		// payeesBySalesPortletData.setNoOfTrans((Integer) next[1]);
-		// payeesBySalesPortletData.setAmount((Double) next[2]);
-		// payeesBySales.add(payeesBySalesPortletData);
-		// }
+		Query query = session.getNamedQuery("getCustomersBySales")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("limit", limit);
+		List list = query.list();
+		Iterator iterator = list.iterator();
+
+		while (iterator.hasNext()) {
+			PayeesBySalesPortletData payeesBySalesPortletData = new PayeesBySalesPortletData();
+			Object[] next = (Object[]) iterator.next();
+			payeesBySalesPortletData.setName((String) next[0]);
+			payeesBySalesPortletData.setNoOfTrans((Integer) next[1]);
+			payeesBySalesPortletData.setAmount((Double) next[2]);
+			payeesBySales.add(payeesBySalesPortletData);
+		}
+		return payeesBySales;
+	}
+
+	public ArrayList<PayeesBySalesPortletData> getVendorsBySales(
+			Long companyId, FinanceDate startDate, FinanceDate endDate,
+			int limit) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		ArrayList<PayeesBySalesPortletData> payeesBySales = new ArrayList<PayeesBySalesPortletData>();
+
+		Query query = session.getNamedQuery("getVendorsBySales")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("limit", limit);
+		List list = query.list();
+		Iterator iterator = list.iterator();
+
+		while (iterator.hasNext()) {
+			PayeesBySalesPortletData payeesBySalesPortletData = new PayeesBySalesPortletData();
+			Object[] next = (Object[]) iterator.next();
+			payeesBySalesPortletData.setName((String) next[0]);
+			payeesBySalesPortletData.setNoOfTrans((Integer) next[1]);
+			payeesBySalesPortletData.setAmount((Double) next[2]);
+			payeesBySales.add(payeesBySalesPortletData);
+		}
 		return payeesBySales;
 	}
 }

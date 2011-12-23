@@ -373,7 +373,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	PaginationList<SearchResultlist> getSearchResultByInput(SearchInput input,
 			int start, int length);
-	
+
 	boolean savePortletConfig(ClientPortletPageConfiguration config);
 
 	public double getMostRecentTransactionCurrencyFactor(long companyId,
@@ -408,11 +408,11 @@ public interface IAccounterHomeViewService extends RemoteService {
 			long startDate, long endDate) throws AccounterException;
 
 	ExpensePortletData getExpenseBreakdownPortletData(long startDate,
-			long endDate);
+			long endDate) throws AccounterException;
 
 	ArrayList<PayeesBySalesPortletData> getTopCustomersBySlaesPortletData(
 			long startDate, long endDate, int limit) throws AccounterException;
 
 	ArrayList<PayeesBySalesPortletData> getTopVendorsBySlaesPortletData(
-			long startDate, long endDate);
+			long startDate, long endDate, int limit) throws AccounterException;
 }

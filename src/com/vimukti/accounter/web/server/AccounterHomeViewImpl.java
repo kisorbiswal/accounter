@@ -68,7 +68,9 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -92,6 +94,7 @@ import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
+import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
@@ -1932,7 +1935,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ExpensePortletData getExpenseBreakdownPortletData(long startDate,
-			long endDate) {
+			long endDate) throws AccounterException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -1947,9 +1950,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<PayeesBySalesPortletData> getTopVendorsBySlaesPortletData(
-			long startDate, long endDate) {
-		// TODO Auto-generated method stub
-		return null;
+			long startDate, long endDate, int limit) throws AccounterException {
+		return getFinanceTool().getDashboardManager().getVendorsBySales(
+				getCompanyId(), new FinanceDate(startDate),
+				new FinanceDate(endDate), limit);
 	}
 
 }

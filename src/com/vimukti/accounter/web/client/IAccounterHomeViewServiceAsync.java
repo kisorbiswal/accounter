@@ -460,6 +460,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
 
 	void getTopVendorsBySlaesPortletData(long startDate, long endDate,
+			int limit,
 			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
 
 }
