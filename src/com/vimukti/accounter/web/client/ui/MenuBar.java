@@ -227,12 +227,24 @@ public class MenuBar {
 			vatmenu.addMenuItem(messages.taxHistory(), HistoryTokens.TAXHISTORY);
 		}
 
-		vatmenu.addMenuItem(getForm16AMenu("TDS"));
-
+		// if (company instanceof India) {
+		// vatmenu.addMenuItem(getForm16AMenu("TDS"));
+		// vatmenu.addMenuItem(getDeductorMasterMenu("Deductor Master"));
+		// }
 		vatmenu.addSeparatorItem();
 		vatmenu.addMenuItem(getVATsListMenu(messages.taxList()));
 
 		return vatmenu;
+	}
+
+	private MenuItem getDeductorMasterMenu(String string) {
+		Menu formMenu = new Menu(string);
+
+		formMenu.addMenuItem("Deductor Details", HistoryTokens.DEDUCTORDETAILS);
+		formMenu.addMenuItem("Responsible Person Details",
+				HistoryTokens.PERSONDETAILS);
+
+		return formMenu;
 	}
 
 	private MenuItem getForm16AMenu(String string) {
@@ -251,22 +263,24 @@ public class MenuBar {
 		vatmenus.addMenuItem(messages.taxCodesList(), HistoryTokens.VATCODES);
 		vatmenus.addMenuItem(messages.payeesList(messages.taxAgencies()),
 				HistoryTokens.TAXAGENCYLIST);
+		vatmenus.addMenuItem(messages.payeesList("Chalan Details"),
+				HistoryTokens.CHALANDETAILSLIST);
 
 		return vatmenus;
 	}
 
-	private Menu getFixedAssetsListMenu(String string) {
-		Menu fixedAssetListMenu = new Menu(string);
-
-		fixedAssetListMenu.addMenuItem(messages.pendingItemsList(),
-				HistoryTokens.PENDINGITEMS);
-		fixedAssetListMenu.addMenuItem(messages.registeredItemsList(),
-				HistoryTokens.REGISTEREDITEMS);
-
-		fixedAssetListMenu.addMenuItem(messages.soldDisposedItems(),
-				HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
-		return fixedAssetListMenu;
-	}
+	/*
+	 * private Menu getFixedAssetsListMenu(String string) { Menu
+	 * fixedAssetListMenu = new Menu(string);
+	 * 
+	 * fixedAssetListMenu.addMenuItem(messages.pendingItemsList(),
+	 * HistoryTokens.PENDINGITEMS);
+	 * fixedAssetListMenu.addMenuItem(messages.registeredItemsList(),
+	 * HistoryTokens.REGISTEREDITEMS);
+	 * 
+	 * fixedAssetListMenu.addMenuItem(messages.soldDisposedItems(),
+	 * HistoryTokens.SOLIDDISPOSEDFIXEDASSETS); return fixedAssetListMenu; }
+	 */
 
 	private Menu getReportMenu(String string) {
 		Menu reportMenuBar = new Menu(string);
