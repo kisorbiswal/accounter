@@ -12,16 +12,11 @@
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 <script  type="text/javascript" >
-$.validator.setDefaults({
-	submitHandler: function() {
-		$('#contactform').submit();
-	}
-});
+
 $.validator.addMethod("no_special_characters", function(value, element) {
     return this.optional(element) ||
         value.match(/^[a-zA-Z0-9@_ ]*$/);
 }, "shouldn't contain any special characters");
-
 	$(document).ready(function() {
 	$('#blog-bg').click(function(event){
 		event.preventDefault();
