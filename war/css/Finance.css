@@ -2595,6 +2595,10 @@ input.date-field-textbox {
 	font-weight: bold;
 }
 
+.interval_Value table td:last-child div{
+	padding-left:25px !important;
+}
+
 .finance-portlet .listgrid {
 	border-width: 1px 0 0;
 }
