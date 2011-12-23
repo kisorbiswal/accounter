@@ -957,4 +957,9 @@ public class RecurringTransactionDialog extends
 	public void setFocus() {
 		nameField.setFocus();
 	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }
