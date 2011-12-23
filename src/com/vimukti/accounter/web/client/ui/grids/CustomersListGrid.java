@@ -81,29 +81,29 @@ public class CustomersListGrid extends BaseListGrid<PayeeList> {
 	}
 
 	private void addDataToGrid() {
-		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				new AsyncCallback<PaginationList<PayeeList>>() {
-
-					@Override
-					public void onSuccess(PaginationList<PayeeList> result) {
-						if (result.size() == 0) {
-							addEmptyMessage(messages.youDontHaveAny(Global
-									.get().Customers()));
-						} else {
-							for (PayeeList payeeList : result) {
-								listOfCustomers = result;
-								if (payeeList.isActive())
-									addData(payeeList);
-							}
-						}
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
-				});
+//		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
+//				new AsyncCallback<PaginationList<PayeeList>>() {
+//
+//					@Override
+//					public void onSuccess(PaginationList<PayeeList> result) {
+//						if (result.size() == 0) {
+//							addEmptyMessage(messages.youDontHaveAny(Global
+//									.get().Customers()));
+//						} else {
+//							for (PayeeList payeeList : result) {
+//								listOfCustomers = result;
+//								if (payeeList.isActive())
+//									addData(payeeList);
+//							}
+//						}
+//					}
+//
+//					@Override
+//					public void onFailure(Throwable caught) {
+//						// TODO Auto-generated method stub
+//
+//					}
+//				});
 
 	}
 
