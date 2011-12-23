@@ -118,8 +118,8 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
-				this);
+		// Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
+		// this);
 
 	}
 
