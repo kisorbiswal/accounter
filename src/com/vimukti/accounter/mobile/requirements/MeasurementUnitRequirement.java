@@ -58,7 +58,8 @@ public abstract class MeasurementUnitRequirement extends
 	protected void setOtherRecordsDefalutValue() {
 		List<Unit> units = getValue();
 		for (Unit unit : units) {
-			if (!unit.getType().equals(currentValue.getType())) {
+			if (unit.getType() != null
+					&& !unit.getType().equals(currentValue.getType())) {
 				unit.setDefault(false);
 			}
 		}
