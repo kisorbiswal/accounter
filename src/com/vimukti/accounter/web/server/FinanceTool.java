@@ -1531,11 +1531,12 @@ public class FinanceTool {
 				.setParameter("companyId", companyId).executeUpdate();
 	}
 
-	public PaginationList<PayeeList> getPayeeList(int category, long companyId)
+	public PaginationList<PayeeList> getPayeeList(int category,
+			boolean isActive, int start, int length, long companyId)
 			throws AccounterException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-
+			int total = 0;
 			FinanceDate currentDate = new FinanceDate();
 
 			Calendar currentMonthStartDateCal = new GregorianCalendar();
@@ -1787,8 +1788,10 @@ public class FinanceTool {
 								new FinanceDate(previousFifthMonthEndDateCal
 										.getTime()).getDate());
 			}
+			total = query.list().size();
+			List list = query.setFirstResult(start).setMaxResults(length)
+					.list();
 
-			List list = query.list();
 			if (list != null) {
 				Object[] object = null;
 				String payeeName = null;
@@ -1861,7 +1864,16 @@ public class FinanceTool {
 						queryResult.add(payeeList);
 					}
 				}
-				return queryResult;
+
+				PaginationList<PayeeList> result = new PaginationList<PayeeList>();
+				for (PayeeList payee : queryResult) {
+					if (payee.isActive() == isActive) {
+						result.add(payee);
+					}
+				}
+				result.setTotalCount(total);
+				result.setStart(start);
+				return result;
 			} else
 				throw (new AccounterException(
 						AccounterException.ERROR_ILLEGAL_ARGUMENT));
