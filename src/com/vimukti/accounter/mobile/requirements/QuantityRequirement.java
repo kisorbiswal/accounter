@@ -100,4 +100,11 @@ public abstract class QuantityRequirement extends
 	public void setDefaultUnit(Unit defaultUnit) {
 		getRequirement(UNIT).setValue(defaultUnit);
 	}
+
+	@Override
+	public void setEditable(boolean isEditable) {
+		getRequirement(UNIT).setEditable(isEditable);
+		getRequirement(VALUE).setEditable(isEditable);
+		super.setEditable(isEditable);
+	}
 }
