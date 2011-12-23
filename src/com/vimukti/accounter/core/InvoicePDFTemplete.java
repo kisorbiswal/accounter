@@ -339,10 +339,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			String total = Utility.decimalConversation(invoice.getTotal()
 					/ currencyFactor);
 			t.setVariable("total", total);
-			if (invoice.getMemo().trim().length() > 0) {
-				t.setVariable("blankText", invoice.getMemo());
-				t.addBlock("memoblock");
-			}
+			// if (invoice.getMemo().trim().length() > 0) {
+			t.setVariable("blankText", invoice.getMemo());
+			// t.addBlock("memoblock");
+			// }
 			t.setVariable(
 					"payment",
 					Utility.decimalConversation(invoice.getPayments()
