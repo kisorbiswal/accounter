@@ -1,6 +1,18 @@
 package com.vimukti.accounter.core;
 
-public class Attachment extends CreatableObject {
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+import org.json.JSONException;
+
+import com.vimukti.accounter.main.upload.UploadAttachment;
+import com.vimukti.accounter.main.upload.AttachmentFileServer;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
+public class Attachment extends CreatableObject implements IAccounterServerCore {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String attachmentId;
 	private String name;
 	private long size;
@@ -27,5 +39,35 @@ public class Attachment extends CreatableObject {
 
 	public void setSize(long size) {
 		this.size = size;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		if (getID() == 0) {
+			UploadAttachment attachment = new UploadAttachment(attachmentId,
+					UploadAttachment.CREATE, getName());
+			AttachmentFileServer.put(attachment);
+		}
+		return super.onSave(session);
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws AccounterException {
+		return true;
+	}
+
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		UploadAttachment attachment = new UploadAttachment(attachmentId,
+				UploadAttachment.DELETE, getName());
+		AttachmentFileServer.put(attachment);
+		return super.onDelete(arg0);
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 }
