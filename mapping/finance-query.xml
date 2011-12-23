@@ -10633,7 +10633,6 @@
 		V.ID =:vendorId
 	</sql-query>
 
-
 	<sql-query name="getAllCashExpensesByVendor">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -10699,6 +10698,23 @@
 		AND
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
 		V.ID =:vendorId
+	</sql-query>
+
+	<sql-query name="getAllCashExpensesByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<return-scalar column="INCOME_AMOUNT" type="double" />
+		<return-scalar column="EXPENSE_AMOUNT" type="double" />
+		SELECT SUM(CASE WHEN A.A_TYPE=14 THEN AT.AMOUNT END)AS INCOME_AMOUNT,
+		SUM(CASE WHEN A.A_TYPE=16 THEN AT.AMOUNT END)AS EXPENSE_AMOUNT
+		FROM
+		ACCOUNT_TRANSACTION AT LEFT JOIN ACCOUNT A ON A.ID=AT.ACCOUNT_ID
+		LEFT
+		JOIN TRANSACTION T ON T.ID=AT.TRANSACTION_ID
+		WHERE (T.T_DATE BETWEEN
+		:startDate AND :endDate) AND T.COMPANY_ID=:companyId
+
 	</sql-query>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
