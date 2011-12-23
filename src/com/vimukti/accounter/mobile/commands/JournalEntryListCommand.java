@@ -101,10 +101,12 @@ public class JournalEntryListCommand extends AbstractTransactionListCommand {
 				List<ClientJournalEntry> clientJournalEntries = new ArrayList<ClientJournalEntry>();
 				List<JournalEntry> serverJournalEntries = null;
 				try {
+
+					// FIXME
 					serverJournalEntries = new FinanceTool().getJournalEntries(
 							context.getCompany().getID(), new FinanceDate(
 									getStartDate()), new FinanceDate(
-									getEndDate()));
+									getEndDate()), 0, 10);
 					for (JournalEntry journalEntry : serverJournalEntries) {
 						clientJournalEntries.add(new ClientConvertUtil()
 								.toClientObject(journalEntry,
