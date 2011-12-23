@@ -1,9 +1,11 @@
 <% 
 String version = application.getInitParameter("version");
 String isTouch = (String)request.getAttribute( "isTouch" );
+String emailId = (String)request.getSession().getAttribute( "emailId" );
 %>
 <script src="/jscripts/jquery-1.7.min.js" type="text/javascript"></script>
 <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+
 <%
 if("true".equals(isTouch)){
 %>
@@ -11,15 +13,20 @@ if("true".equals(isTouch)){
 <% }else{ %>
 <link type="text/css" rel="stylesheet" href="/css/Finance.css?version=<%= version%>" />
 <% } %>
+
 <script type="text/javascript" src="/jscripts/jquery.contactable.packed.js"></script>
 <script  type="text/javascript" >
+
 	$(document).ready(function() {
 	jQuery(function(){
+		
 		jQuery('#contact').contactable({
 	recipient: 'test@test.com',
-	subject: 'A Feeback Message'
+	subject: 'A Feeback Message',
+	email:emailId
 });		
-});
 });	
+});
+	var emailId="<%= emailId%>";
 var isTouch=<%= isTouch%>;
 </script>
