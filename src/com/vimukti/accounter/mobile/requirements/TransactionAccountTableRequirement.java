@@ -200,9 +200,7 @@ public abstract class TransactionAccountTableRequirement extends
 		get(TAXCODE).setValue(
 				CommandUtils.getServerObjectById(obj.getTaxCode(),
 						AccounterCoreType.TAX_CODE));
-		if (getPreferences().isTrackTax() && isTrackTaxPaidAccount() ? false
-				: getPreferences().isTrackPaidTax())
-			get(TAX).setDefaultValue(obj.isTaxable());
+		get(TAX).setDefaultValue(obj.isTaxable());
 		get(DISCOUNT).setDefaultValue(obj.getDiscount());
 		if (get(IS_BILLABLE) != null) {
 			get(IS_BILLABLE).setDefaultValue(obj.isBillable());
@@ -216,9 +214,7 @@ public abstract class TransactionAccountTableRequirement extends
 	protected ClientTransactionItem getNewObject() {
 		ClientTransactionItem clientTransactionItem = new ClientTransactionItem();
 		clientTransactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-		if (getPreferences().isTrackTax() && isTrackTaxPaidAccount() ? false
-				: getPreferences().isTrackPaidTax())
-			clientTransactionItem.setTaxable(true);
+		clientTransactionItem.setTaxable(true);
 		clientTransactionItem.setIsBillable(false);
 		ClientQuantity clientQuantity = new ClientQuantity();
 		clientQuantity.setValue(1.0);
