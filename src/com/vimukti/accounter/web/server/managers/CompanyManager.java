@@ -768,16 +768,33 @@ public class CompanyManager extends Manager {
 		return employees;
 	}
 
-	public PaginationList<ClientAccount> getAccounts(int type, Long companyId)
+	public PaginationList<ClientAccount> getAccounts(int type,
+			Boolean isAciveAccount, int start, int length, Long companyId)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+		int total = 0;
 		List<Account> list;
 		if (type != 0) {
-			list = session.getNamedQuery("getAccountsOfType")
+			Query query = session.getNamedQuery("getAccountsOfType")
 					.setLong("companyId", companyId).setInteger("type", type)
-					.list();
+					.setBoolean("isActive", isAciveAccount);
+			total = query.list().size();
+			list = query.setFirstResult(start).setMaxResults(length).list();
 		} else {
-			list = new ArrayList<Account>(getCompany(companyId).getAccounts());
+			// Dont know
+			list = new ArrayList<Account>();
+			Set<Account> accounts = getCompany(companyId).getAccounts();
+			for (Account a : accounts) {
+				if (a.getIsActive() == isAciveAccount) {
+					list.add(a);
+				}
+			}
+			total = list.size();
+			int max = start + length;
+			if (max > total) {
+				max = total;
+			}
+			list = list.subList(start, max);
 		}
 		PaginationList<ClientAccount> result = new PaginationList<ClientAccount>();
 		for (Account a : list) {
@@ -791,21 +808,32 @@ public class CompanyManager extends Manager {
 			}
 			result.add(account);
 		}
+		result.setTotalCount(total);
+		result.setStart(start);
 		return result;
 	}
 
-	public PaginationList<ClientAccount> getBankAccounts(Long companyId)
+	public PaginationList<ClientAccount> getBankAccounts(Long companyId,
+			boolean isActiveaccount, int start, int length)
 			throws AccounterException {
+		int total = 0;
 		Session session = HibernateUtil.getCurrentSession();
-		List<BigInteger> list = session.getNamedQuery("getBankAccountsOfType")
-				.setLong("companyId", companyId).list();
+		Query query = session.getNamedQuery("getBankAccountsOfType").setLong(
+				"companyId", companyId);
+		total = query.list().size();
+		List<BigInteger> list = query.setFirstResult(start)
+				.setMaxResults(length).list();
 		PaginationList<ClientAccount> result = new PaginationList<ClientAccount>();
 		ClientCompany company = new ClientConvertUtil().toClientObject(
 				getCompany(companyId), ClientCompany.class);
 		for (BigInteger id : list) {
 			ClientAccount account = company.getAccount(id.longValue());
-			result.add(account);
+			if (account.getIsActive() == isActiveaccount) {
+				result.add(account);
+			}
 		}
+		result.setTotalCount(total);
+		result.setStart(start);
 		return result;
 	}
 
