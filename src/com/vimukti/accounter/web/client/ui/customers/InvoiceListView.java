@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -102,8 +103,10 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	@Override
 	public void initListCallback() {
-		super.initListCallback();
-		refreshDatesAndRecords();
+		// super.initListCallback();
+		// refreshDatesAndRecords();
+
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
@@ -113,6 +116,9 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		filterList(viewSelect.getValue().toString());
 		grid.setViewType(viewSelect.getValue().toString());
 		grid.sort(10, false);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+				result.getTotalCount());
 	}
 
 	@Override
@@ -366,8 +372,19 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	}
 
 	private void callRPCMethod() {
-		Accounter.createHomeService().getInvoiceList(getStartDate().getDate(),
-				getEndDate().getDate(), transactionType, this);
+		// Accounter.createHomeService().getInvoiceList(getStartDate().getDate(),
+		// getEndDate().getDate(), transactionType, this);
 	}
 
+	@Override
+	protected int getPageSize() {
+		return 10;
+	}
+
+	@Override
+	protected void onPageChange(int start, int length) {
+		Accounter.createHomeService().getInvoiceList(getStartDate().getDate(),
+				getEndDate().getDate(), transactionType, start, length, this);
+
+	}
 }
