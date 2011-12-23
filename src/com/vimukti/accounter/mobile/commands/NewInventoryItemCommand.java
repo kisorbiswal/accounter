@@ -54,7 +54,8 @@ public class NewInventoryItemCommand extends NewNonInventoryItemCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().inventoryItem();
+		return getItem().getID() == 0 ? getMessages().creating(
+				getMessages().inventoryItem()) : "Updating Inventory Item";
 	}
 
 	@Override
