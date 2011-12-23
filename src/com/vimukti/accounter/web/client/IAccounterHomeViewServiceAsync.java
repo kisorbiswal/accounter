@@ -323,6 +323,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<PaginationList<PayeeList>> callBack);
 
 	public void getInvoiceList(long fromDate, long toDate, int invoicesType,
+			int start, int length,
 			AsyncCallback<PaginationList<InvoicesList>> callback);
 
 	public void getCustomerNumber(AsyncCallback<String> callback);
