@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -38,6 +39,8 @@ import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.HistoryList.HistoryItem;
+import com.vimukti.accounter.web.client.ui.customers.CustomerCenterView;
+import com.vimukti.accounter.web.client.ui.customers.VendorCenterView;
 
 /**
  * 
@@ -80,6 +83,10 @@ public class ViewManager extends HorizontalPanel {
 
 	private ImageButton configButton;
 
+	private ImageButton addCustomerButton;
+
+	private ImageButton addVendorButton;
+
 	private ImageButton searchButton;
 
 	private Label viewTitleLabel;
@@ -93,6 +100,8 @@ public class ViewManager extends HorizontalPanel {
 	ButtonGroup group4;
 	ButtonGroup group5;
 	ButtonGroup group6;
+	ButtonGroup group7;
+	ButtonGroup group8;
 
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
@@ -383,6 +392,14 @@ public class ViewManager extends HorizontalPanel {
 		group5.remove(configButton);
 	}
 
+	public void removeAddCustomerButton() {
+		group7.remove(addCustomerButton);
+	}
+
+	public void removeAddVendorButton() {
+		group8.remove(addVendorButton);
+	}
+
 	public void updateButtons() {
 		if (existingView instanceof IEditableView
 				&& ((IEditableView) existingView).canEdit()) {
@@ -411,6 +428,18 @@ public class ViewManager extends HorizontalPanel {
 			group5.add(configButton);
 		} else {
 			removeConfigButton();
+		}
+
+		if (existingView instanceof CustomerCenterView) {
+			group7.add(addCustomerButton);
+		} else {
+			removeAddCustomerButton();
+		}
+
+		if (existingView instanceof VendorCenterView) {
+			group8.add(addVendorButton);
+		} else {
+			removeAddVendorButton();
 		}
 	}
 
@@ -525,6 +554,8 @@ public class ViewManager extends HorizontalPanel {
 		group4 = new ButtonGroup();
 		group5 = new ButtonGroup();
 		group6 = new ButtonGroup();
+		group7 = new ButtonGroup();
+		group8 = new ButtonGroup();
 		viewTitleLabel = new Label(Accounter.messages().dashBoard());
 		viewTitleLabel.addStyleName("viewTitle");
 
@@ -597,6 +628,30 @@ public class ViewManager extends HorizontalPanel {
 			}
 		});
 
+		addCustomerButton = new ImageButton(Accounter.messages().addNew(
+				Global.get().Customer()), Accounter.getFinanceImages()
+				.portletPageSettings());
+		addCustomerButton.addStyleName("settingsButton");
+		addCustomerButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ActionFactory.getNewCustomerAction().run();
+			}
+		});
+
+		addVendorButton = new ImageButton(Accounter.messages().addNew(
+				Global.get().Vendor()), Accounter.getFinanceImages()
+				.portletPageSettings());
+		addVendorButton.addStyleName("settingsButton");
+		addVendorButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ActionFactory.getNewVendorAction().run();
+			}
+		});
+
 		closeButton = new ImageButton(Accounter.getFinanceImages()
 				.closeButton());
 		closeButton.setTitle(Accounter.messages().clickThisTo(
@@ -635,7 +690,8 @@ public class ViewManager extends HorizontalPanel {
 		group5.add(configButton);
 
 		group6.add(searchButton);
-
+		group7.add(addCustomerButton);
+		group8.add(addVendorButton);
 		toolBar.add(group1);
 		group1.getElement().getStyle().setFloat(Float.LEFT);
 		toolBar.add(group3);
@@ -643,7 +699,8 @@ public class ViewManager extends HorizontalPanel {
 		toolBar.add(group5);
 		toolBar.add(group2);
 		toolBar.add(group4);
-
+		toolBar.add(group7);
+		toolBar.add(group8);
 		toolBar.addStyleName("group-toolbar");
 	}
 
