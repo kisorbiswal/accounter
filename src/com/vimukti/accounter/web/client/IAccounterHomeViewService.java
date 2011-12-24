@@ -96,7 +96,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			long vendorId, ClientFinanceDate paymentDate);
 
 	PaginationList<PaymentsList> getVendorPaymentsList(long fromDate,
-			long toDate, int start, int length);
+			long toDate, int start, int length, int viewType);
 
 	PaginationList<PaymentsList> getPaymentsList(long fromDate, long toDate,
 			int start, int length);
