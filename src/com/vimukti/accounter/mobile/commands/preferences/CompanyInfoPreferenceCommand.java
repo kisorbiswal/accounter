@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.commands.preferences;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -206,6 +207,7 @@ public class CompanyInfoPreferenceCommand extends
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		String country = context.getUser().getClient().getCountry();
 		ClientCompanyPreferences preferences = context.getPreferences();
 		get(COMPANY_NAME).setValue(preferences.getTradingName());
 		get(IS_DIFFERENT_NAME).setValue(preferences.isShowLegalName());
@@ -221,9 +223,18 @@ public class CompanyInfoPreferenceCommand extends
 		get(ENABLE_TRACKING_TAXPAID).setValue(preferences.isTrackPaidTax());
 		get(ENABLE_TDS).setValue(preferences.isTDSEnabled());
 		get(HAS_DIFF_ADDRESS).setValue(preferences.isShowRegisteredAddress());
-		get(TRADING_ADRESS).setValue(preferences.getTradingAddress());
-		get(REGISTERED_ADDRESS).setValue(
-				toClientAddress(context.getCompany().getRegisteredAddress()));
+		ClientAddress tradingAddress = preferences.getTradingAddress();
+		if (tradingAddress.getCountryOrRegion() == null
+				|| tradingAddress.getCountryOrRegion().isEmpty()) {
+			tradingAddress.setCountryOrRegion(country);
+		}
+		get(TRADING_ADRESS).setValue(tradingAddress);
+		Address registeredAddress = context.getCompany().getRegisteredAddress();
+		if (registeredAddress.getCountryOrRegion() == null
+				|| registeredAddress.getCountryOrRegion().isEmpty()) {
+			registeredAddress.setCountryOrRegion(country);
+		}
+		get(REGISTERED_ADDRESS).setValue(toClientAddress(registeredAddress));
 		return null;
 
 	}
