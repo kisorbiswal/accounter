@@ -88,7 +88,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	PaginationList<BillsList> getBillsAndItemReceiptList(
 			boolean isExpensesList, int transactionType, long fromDate,
-			long toDate, int start, int length);
+			long toDate, int start, int length, int viewType);
 
 	public ArrayList<PayBillTransactionList> getTransactionPayBills();
 

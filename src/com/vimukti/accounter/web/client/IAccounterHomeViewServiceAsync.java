@@ -444,7 +444,8 @@ public interface IAccounterHomeViewServiceAsync {
 
 	void getBillsAndItemReceiptList(boolean isExpensesList,
 			int transactionType, long fromDate, long toDate, int start,
-			int length, AsyncCallback<PaginationList<BillsList>> callback);
+			int length, int viewType,
+			AsyncCallback<PaginationList<BillsList>> callback);
 
 	void getTDSTransactionItemsList(int chalanPer,
 			AsyncCallback<ArrayList<ClientTDSTransactionItem>> callback);
