@@ -117,7 +117,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private PreferencePage getCatogiriesInfoPage() {
 		PreferencePage catogiriesInfoPage = new PreferencePage(Accounter
-				.messages().Categories());
+				.messages().categories());
 		LocationTrackingOption locationTrackingOption = new LocationTrackingOption();
 		ClassTrackingOption classTrackingPage = new ClassTrackingOption();
 		catogiriesInfoPage.addPreferenceOption(locationTrackingOption);
@@ -132,7 +132,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		CompanyInfoOption companyInfoOption = new CompanyInfoOption();
 		CompanyDateFormateOption formateOption = new CompanyDateFormateOption();
 		CompanyEinOption einOption = new CompanyEinOption();
-		CompanyFiscalYearOption fiscalYearOption = new CompanyFiscalYearOption();
+		// CompanyFiscalYearOption fiscalYearOption = new
+		// CompanyFiscalYearOption();
 		DoyouUseOption doyouUseOption = new DoyouUseOption();
 		CompanyCurrencyOption currencyOption = new CompanyCurrencyOption();
 		CompanyTimeZoneOption timeZoneOption = new CompanyTimeZoneOption();
@@ -143,7 +144,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		companyInfoPage.addPreferenceOption(companyInfoOption);
 		companyInfoPage.addPreferenceOption(formateOption);
 		companyInfoPage.addPreferenceOption(einOption);
-		companyInfoPage.addPreferenceOption(fiscalYearOption);
+		// companyInfoPage.addPreferenceOption(fiscalYearOption);
 		companyInfoPage.addPreferenceOption(doyouUseOption);
 		companyInfoPage.addPreferenceOption(currencyOption);
 		companyInfoPage.addPreferenceOption(timeZoneOption);
