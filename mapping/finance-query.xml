@@ -4199,7 +4199,15 @@
 		P.NAME
 		end as NAME,
 
-		T.T_TYPE as Type,
+		case when T.T_TYPE = 11
+		THEN CASE 
+				WHEN PB.PAYBILL_TYPE = 2
+					THEN 25
+				ELSE T.T_TYPE
+				END			
+		ELSE 
+		T.T_TYPE
+		END as Type,
 
 		T.T_DATE as DATE,
 
