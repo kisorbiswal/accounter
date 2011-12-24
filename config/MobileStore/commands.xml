@@ -1210,4 +1210,7 @@
 		clazz="com.vimukti.accounter.mobile.commands.delete.DeleteWareHouseCommand"
 		name="deleteWareHouse">
 	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.NewPriceLivelCommand"
+		name="addNewPriceLevel">
+	</command>
 </commands>
