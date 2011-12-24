@@ -9,6 +9,7 @@ import java.util.Set;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
@@ -31,6 +32,7 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
 import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
+import com.vimukti.accounter.mobile.requirements.PriceLevelRequirement;
 import com.vimukti.accounter.mobile.requirements.SalesPersonRequirement;
 import com.vimukti.accounter.mobile.requirements.ShippingMethodRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
@@ -78,6 +80,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 	private static final String SHIPTO = "shipTo";
 	private static final String BILLTO = "billTo";
 	private static final String ACTIVE = "active";
+	private static final String PRICE_LEVEL = "priceLevel";
 
 	private ClientCustomer customer;
 
@@ -254,7 +257,18 @@ public class NewCustomerCommand extends NewAbstractCommand {
 
 		});
 
-		// TODO list.add(new Requirement(PRICE_LEVEL, true, true));
+		list.add(new PriceLevelRequirement(PRICE_LEVEL, getMessages()
+				.pleaseSelect(getMessages().priceLevel()), getMessages()
+				.priceLevel()) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isPricingLevelsEnabled()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new CreditRatingRequirement(CREDIT_RATING, getMessages()
 				.pleaseEnter(getMessages().creditRating()), getMessages()
@@ -490,7 +504,6 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		String webaddress = get(WEBADRESS).getValue();
 		SalesPerson salesPerson = get(SALESPERSON).getValue();
 		CreditRating creditRating = get(CREDIT_RATING).getValue();
-		// ClientPriceLevel priceLevel = get(PRICE_LEVEL).getValue();
 		String bankName = get(BANK_NAME).getValue();
 		String bankAccountNum = get(BANK_ACCOUNT_NUM).getValue();
 		String bankBranch = get(BANK_BRANCH).getValue();
@@ -514,6 +527,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			addresses.add(billToAdress);
 		}
 		customer.setName(name);
+		customer.setType(ClientPayee.TYPE_CUSTOMER);
 		if (preferences.getUseCustomerId())
 			customer.setNumber(number);
 		customer.setContacts(new HashSet<ClientContact>(contact));
@@ -533,9 +547,6 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		if (salesPerson != null) {
 			customer.setSalesPerson(salesPerson.getID());
 		}
-		// if (priceLevel != null) {
-		// customer.setPriceLevel(priceLevel.getID());
-		// }
 		if (creditRating != null) {
 			customer.setCreditRating(creditRating.getID());
 		}
@@ -569,6 +580,10 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		if (getPreferences().isEnableMultiCurrency()) {
 			customer.setCurrency(currency.getID());
 		}
+
+		PriceLevel priceLevel = get(PRICE_LEVEL).getValue();
+		customer.setPriceLevel(priceLevel == null ? 0 : priceLevel.getID());
+
 		customer.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		create(customer, context);
 		return null;
@@ -712,6 +727,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		get(TIN_NUM).setValue(customer.getTinNumber());
 		get(CURRENCY).setValue(getCurrency(customer.getCurrency()));
 		get(CURRENCY_FACTOR).setValue(customer.getCurrencyFactor());
+		get(PRICE_LEVEL).setValue(
+				CommandUtils.getServerObjectById(customer.getPriceLevel(),
+						AccounterCoreType.PRICE_LEVEL));
 	}
 
 }
