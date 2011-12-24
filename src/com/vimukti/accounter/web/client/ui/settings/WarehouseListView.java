@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -7,6 +10,8 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 
 public class WarehouseListView extends BaseListView<ClientWarehouse> {
+
+	private int start;
 
 	// private ArrayList<ClientWarehouse> listOfWarehouses = new
 	// ArrayList<ClientWarehouse>();
@@ -74,6 +79,31 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 			return Accounter.messages().addNewWarehouse();
 		else
 			return "";
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// map.put("isActive", isActiveAccounts);
+		map.put("start", start);
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> viewDate) {
+
+		if (viewDate == null || viewDate.isEmpty()) {
+			return;
+		}
+		// isActiveAccounts = (Boolean) viewDate.get("isActive");
+		start = (Integer) viewDate.get("start");
+		onPageChange(start, getPageSize());
+		// if (isActiveAccounts) {
+		// viewSelect.setComboItem(messages().active());
+		// } else {
+		// viewSelect.setComboItem(messages().inActive());
+		// }
+
 	}
 
 	@Override
