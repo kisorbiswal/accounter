@@ -3,10 +3,10 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -23,6 +23,7 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 
 	protected List<PaymentsList> allPayments;
 	private int transactionType;
+	private int viewType;
 
 	private VendorPaymentsListView() {
 		super(Accounter.messages().notIssued());
@@ -71,21 +72,18 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 		grid.setViewType(messages().notIssued());
 	}
 
-	// @Override
-	// public void onSuccess(ArrayList<PaymentsList> result) {
-	// super.onSuccess(result);
-	// grid.setViewType(messages().all());
-	// filterList(messages().all());
-	// grid.sort(10, false);
-	// }
 	@Override
 	public void onSuccess(PaginationList<PaymentsList> result) {
-		super.onSuccess(result);
-		grid.setViewType(messages().all());
-		filterList(messages().all());
-		grid.sort(10, false);
-		updateRecordsCount(result.getStart(), grid.getRowCount(),
+		grid.removeAllRecords();
+		grid.setRecords(result);
+		if (grid.getRecords().isEmpty())
+			grid.addEmptyMessage(messages().noRecordsToShow());
+
+		grid.sort(12, false);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
+
 	}
 
 	@Override
@@ -98,61 +96,20 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 		return listOfTypes;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void filterList(String text) {
+
 		grid.removeAllRecords();
 		if (viewSelect.getSelectedValue().equalsIgnoreCase("Not Issued")) {
-			List<PaymentsList> notIssuedRecs = new ArrayList<PaymentsList>();
-			List<PaymentsList> allRecs = initialRecords;
-			for (PaymentsList rec : allRecs) {
-				if (Utility.getStatus(rec.getType(), rec.getStatus())
-						.equalsIgnoreCase("Not Issued") && !rec.isVoided()) {
-					notIssuedRecs.add(rec);
-				}
-			}
-			grid.setRecords(notIssuedRecs);
+			viewType = ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Issued")) {
-			List<PaymentsList> issued = new ArrayList<PaymentsList>();
-			List<PaymentsList> allRecs = initialRecords;
-			for (PaymentsList rec : allRecs) {
-				if (Utility.getStatus(rec.getType(), rec.getStatus())
-						.equalsIgnoreCase("Issued") && !rec.isVoided()) {
-					issued.add(rec);
-				}
-			}
-			grid.setRecords(issued);
+			viewType = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Voided")) {
-			List<PaymentsList> voidedRecs = new ArrayList<PaymentsList>();
-			List<PaymentsList> allRecs = initialRecords;
-			for (PaymentsList rec : allRecs) {
-				if (rec.isVoided()
-						&& rec.getStatus() != ClientTransaction.STATUS_DELETED) {
-					voidedRecs.add(rec);
-				}
-			}
-			grid.setRecords(voidedRecs);
+			viewType = ClientTransaction.VIEW_VOIDED;
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("All")) {
+			viewType = ClientTransaction.TYPE_ALL;
 		}
-		// else if (currentView.getValue().toString().equalsIgnoreCase(
-		// "Deleted")) {
-		// List<PaymentsList> deletedRecs = new
-		// ArrayList<PaymentsList>();
-		// List<PaymentsList> allRecs = initialRecords;
-		// for (PaymentsList rec : allRecs) {
-		// if (rec.getStatus() == ClientTransaction.STATUS_DELETED) {
-		// deletedRecs.add(rec);
-		// }
-		// }
-		// grid.setRecords(deletedRecs);
-		//
-		// }
-		if (viewSelect.getSelectedValue().equalsIgnoreCase("All")) {
-			grid.setRecords(initialRecords);
-		}
-
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
-
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
@@ -190,6 +147,6 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getVendorPaymentsList(
 				getStartDate().getDate(), getEndDate().getDate(), start,
-				length, this);
+				length, viewType, this);
 	}
 }
