@@ -412,7 +412,7 @@ public class CustomerManager extends Manager {
 	}
 
 	public PaginationList<PaymentsList> getPaymentsList(long companyId,
-			long fromDate, long toDate, int start, int length)
+			long fromDate, long toDate, int start, int length, int viewType)
 			throws DAOException {
 		PaginationList<PaymentsList> queryResult = new PaginationList<PaymentsList>();
 		int total = 0;
@@ -422,7 +422,8 @@ public class CustomerManager extends Manager {
 			Query query = session.getNamedQuery("getPaymentsList")
 					.setParameter("companyId", companyId)
 					.setParameter("fromDate", fromDate)
-					.setParameter("toDate", toDate);
+					.setParameter("toDate", toDate)
+					.setParameter("viewType", viewType);
 			// FIXME ::: check the sql query and change it to hql query if
 			// required
 			// /If length will be -1 then get list for mobile With out limits

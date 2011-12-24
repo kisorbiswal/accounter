@@ -100,7 +100,8 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<PaginationList<PaymentsList>> callBack);
 
 	public void getPaymentsList(long fromDate, long toDate, int start,
-			int length, AsyncCallback<PaginationList<PaymentsList>> callBack);
+			int length, int viewType,
+			AsyncCallback<PaginationList<PaymentsList>> callBack);
 
 	public void getRecurringsList(long fromDate, long toDate,
 			AsyncCallback<PaginationList<ClientRecurringTransaction>> callBack);

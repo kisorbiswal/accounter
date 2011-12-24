@@ -99,7 +99,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			long toDate, int start, int length, int viewType);
 
 	PaginationList<PaymentsList> getPaymentsList(long fromDate, long toDate,
-			int start, int length);
+			int start, int length, int viewType);
 
 	public ArrayList<ClientCreditsAndPayments> getVendorCreditsAndPayments(
 			long vendorId);

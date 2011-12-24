@@ -3,7 +3,9 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -23,7 +25,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 	List<PaymentsList> allPayments;
 	private List<PaymentsList> listOfPayments;
 	private int checkType;
-
+	private int viewType;
 	// private static String DELETED = "Deleted";
 
 	private static final int STATUS_NOT_ISSUED = 0;
@@ -84,13 +86,16 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	public void onSuccess(PaginationList<PaymentsList> result) {
-		super.onSuccess(result);
-		listOfPayments = result;
-		filterList(viewSelect.getSelectedValue());
-		grid.setViewType(viewSelect.getSelectedValue());
-		grid.sort(10, false);
-		updateRecordsCount(result.getStart(), grid.getRowCount(),
+		grid.removeAllRecords();
+		grid.setRecords(result);
+		if (grid.getRecords().isEmpty())
+			grid.addEmptyMessage(messages().noRecordsToShow());
+
+		grid.sort(12, false);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
+
 	}
 
 	@Override
@@ -118,42 +123,52 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 	protected void filterList(String text) {
 
 		grid.removeAllRecords();
-
-		for (PaymentsList payment : listOfPayments) {
-			if (text.equals(messages().notIssued())) {
-				if ((payment.getStatus() == STATUS_NOT_ISSUED || payment
-						.getStatus() == STATUS_PARTIALLY_PAID)
-						&& (!payment.isVoided()))
-					grid.addData(payment);
-				// else
-				// grid.addEmptyMessage("No records to show");
-				continue;
-			}
-			if (text.equals(messages().issued())) {
-				if (payment.getStatus() == STATUS_ISSUED
-						&& (!payment.isVoided()))
-					grid.addData(payment);
-
-				continue;
-			}
-			if (text.equals(messages().Voided())) {
-				if (payment.isVoided()
-				// && payment.getStatus()!=ClientTransaction.STATUS_DELETED
-				)
-					grid.addData(payment);
-				continue;
-			}
-			// if (text.equals(DELETED)) {
-			// if(payment.getStatus()==ClientTransaction.STATUS_DELETED)
-			// grid.addData(payment);
-			// continue;
-			// }
-			if (text.equals(messages().all())) {
-				grid.addData(payment);
-			}
+		if (viewSelect.getSelectedValue().equalsIgnoreCase("Not Issued")) {
+			viewType = STATUS_NOT_ISSUED;
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Issued")) {
+			viewType = STATUS_ISSUED;
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Voided")) {
+			viewType = ClientTransaction.VIEW_VOIDED;
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("All")) {
+			viewType = ClientTransaction.TYPE_ALL;
 		}
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+		onPageChange(0, getPageSize());
+
+		// for (PaymentsList payment : listOfPayments) {
+		// if (text.equals(messages().notIssued())) {
+		// if ((payment.getStatus() == STATUS_NOT_ISSUED || payment
+		// .getStatus() == STATUS_PARTIALLY_PAID)
+		// && (!payment.isVoided()))
+		// grid.addData(payment);
+		// // else
+		// // grid.addEmptyMessage("No records to show");
+		// continue;
+		// }
+		// if (text.equals(messages().issued())) {
+		// if (payment.getStatus() == STATUS_ISSUED
+		// && (!payment.isVoided()))
+		// grid.addData(payment);
+		//
+		// continue;
+		// }
+		// if (text.equals(messages().Voided())) {
+		// if (payment.isVoided()
+		// // && payment.getStatus()!=ClientTransaction.STATUS_DELETED
+		// )
+		// grid.addData(payment);
+		// continue;
+		// }
+		// // if (text.equals(DELETED)) {
+		// // if(payment.getStatus()==ClientTransaction.STATUS_DELETED)
+		// // grid.addData(payment);
+		// // continue;
+		// // }
+		// if (text.equals(messages().all())) {
+		// grid.addData(payment);
+		// }
+		// }
+		// if (grid.getRecords().isEmpty())
+		// grid.addEmptyMessage(messages().noRecordsToShow());
 	}
 
 	@Override
@@ -195,7 +210,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 		if (checkType == 0) {
 			Accounter.createHomeService().getPaymentsList(
 					getStartDate().getDate(), getEndDate().getDate(), start,
-					length, this);
+					length, viewType, this);
 		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
 			Accounter.createHomeService().getPayeeChecks(true,
 					getStartDate().getDate(), getEndDate().getDate(), start,
