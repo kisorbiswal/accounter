@@ -3,6 +3,9 @@
  */
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetHistory;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -16,7 +19,8 @@ import com.vimukti.accounter.web.client.ui.grids.HistoryListGrid;
  */
 public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 
-	private ClientFixedAsset asset;
+	private final ClientFixedAsset asset;
+	private int start;
 
 	public HistoryListView(ClientFixedAsset asset) {
 		this.asset = asset;
@@ -90,6 +94,31 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 
 	@Override
 	public void onEdit() {
+
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// map.put("isActive", isActiveAccounts);
+		map.put("start", start);
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> viewDate) {
+
+		if (viewDate == null || viewDate.isEmpty()) {
+			return;
+		}
+		// isActiveAccounts = (Boolean) viewDate.get("isActive");
+		start = (Integer) viewDate.get("start");
+		onPageChange(start, getPageSize());
+		// if (isActiveAccounts) {
+		// viewSelect.setComboItem(messages().active());
+		// } else {
+		// viewSelect.setComboItem(messages().inActive());
+		// }
 
 	}
 
