@@ -76,6 +76,7 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 	public void init() {
 		super.init();
 		creatControls();
+
 	}
 
 	private void creatControls() {
@@ -85,8 +86,10 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 		DynamicForm viewform = new DynamicForm();
 		viewform.setFields(activeInActiveSelect);
 		leftVpPanel.add(viewform);
+		viewform.getElement().getParentElement()
+				.setAttribute("margin-top", "-8px");
+		leftVpPanel.setCellHorizontalAlignment(viewform, ALIGN_RIGHT);
 		viewform.setNumCols(2);
-		viewform.getElement().getParentElement().setAttribute("align", "left");
 		custGrid = new CustomersListGrid();
 		custGrid.init();
 		leftVpPanel.add(custGrid);
@@ -361,6 +364,13 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 		custHistoryGrid.setSelectedCustomer(selectedCustomer);
 		MainFinanceWindow.getViewManager().updateButtons();
 		callRPC();
+	}
+
+	@Override
+	public void onClose() {
+		Accounter.showError("");
+		super.onClose();
+
 	}
 
 	@Override

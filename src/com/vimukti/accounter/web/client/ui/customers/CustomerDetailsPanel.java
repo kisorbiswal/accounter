@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class CustomerDetailsPanel extends VerticalPanel {
 	ClientCustomer selectedCustomer;
-	LabelItem name, email, currency, fax, customersince, webpageadress;
+	LabelItem name, email, currency, fax, customersince, webpageadress, notes;
 	AmountLabel balance, openingBalance;
 	Label heading, custname;
 	protected static final AccounterMessages messages = Global.get().messages();
@@ -47,14 +47,18 @@ public class CustomerDetailsPanel extends VerticalPanel {
 		webpageadress = new LabelItem();
 		webpageadress.setTitle(messages.webPageAddress());
 
+		notes = new LabelItem();
+		notes.setTitle(messages.notes());
+
 		openingBalance = new AmountLabel(messages.balanceAsOf());
 
 		DynamicForm leftform = new DynamicForm();
 		DynamicForm rightform = new DynamicForm();
 
-		leftform.setFields(name, balance, openingBalance, currency);
+		leftform.setFields(name, balance, openingBalance, currency,
+				customersince);
 
-		rightform.setFields(customersince, email, fax, webpageadress);
+		rightform.setFields(email, fax, webpageadress, notes);
 
 		HorizontalPanel hp = new HorizontalPanel();
 		HorizontalPanel headingPanel = new HorizontalPanel();
@@ -105,6 +109,8 @@ public class CustomerDetailsPanel extends VerticalPanel {
 
 			openingBalance.setAmount(selectedCustomer.getOpeningBalance());
 
+			notes.setValue(selectedCustomer.getMemo());
+
 		} else {
 			name.setValue("");
 			email.setValue("");
@@ -114,6 +120,7 @@ public class CustomerDetailsPanel extends VerticalPanel {
 			customersince.setValue("");
 			webpageadress.setValue("");
 			openingBalance.setAmount(0.00);
+			notes.setValue("");
 		}
 	}
 
