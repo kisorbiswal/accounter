@@ -24,7 +24,7 @@ public class CustomerTransactionsHistoryGrid extends
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE, };
 	}
@@ -80,7 +80,7 @@ public class CustomerTransactionsHistoryGrid extends
 	}
 
 	protected void onClick(TransactionHistory obj, int row, int col) {
-		// TO DO
+		onDoubleClick(obj);
 	}
 
 	@Override
