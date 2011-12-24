@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -10,6 +12,8 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 
 public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> {
+
+	private int start;
 
 	@Override
 	public void updateInGrid(StockAdjustmentList objectTobeModified) {
@@ -65,6 +69,31 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 			return ActionFactory.getStockAdjustmentAction();
 		else
 			return null;
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// map.put("isActive", isActiveAccounts);
+		map.put("start", start);
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> viewDate) {
+
+		if (viewDate == null || viewDate.isEmpty()) {
+			return;
+		}
+		// isActiveAccounts = (Boolean) viewDate.get("isActive");
+		start = (Integer) viewDate.get("start");
+		onPageChange(start, getPageSize());
+		// if (isActiveAccounts) {
+		// viewSelect.setComboItem(messages().active());
+		// } else {
+		// viewSelect.setComboItem(messages().inActive());
+		// }
+
 	}
 
 	@Override
