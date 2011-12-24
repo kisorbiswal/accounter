@@ -77,6 +77,10 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	public static final int TYPE_MISC_SAMPLE_FORM = 33;
 
+	public static final int VIEW_ALL = 0;
+	public static final int VIEW_VOIDED = 3;
+	public static final int VIEW_OVERDUE = 2;
+	public static final int VIEW_OPEN = 1;
 	/**
 	 * in Edit mode of transaction, if any transaction has reference in
 	 * VATRETURN(FILE VAT), then edit should be disabled.user cant edit them,
