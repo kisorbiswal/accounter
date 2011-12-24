@@ -7895,7 +7895,7 @@
 		ACCOUNT A ON AT.ACCOUNT_ID=A.ID
 		LEFT JOIN TRANSACTION T ON
 		T.ID=AT.TRANSACTION_ID
-		WHERE A.A_TYPE=16 AND AT.COMPANY_ID=:companyId
+		WHERE A.A_TYPE=15 OR A.A_TYPE=16 OR A.A_TYPE=18 AND AT.COMPANY_ID=:companyId
 		AND
 		T.T_DATE
 		BETWEEN :startDate AND :endDate GROUP BY
@@ -10826,6 +10826,13 @@
 		AND
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
 		V.ID =:vendorId
+	</sql-query>
+	
+	<sql-query  name="update.TaxReturnEntry.make.Transaction.null">
+		<query-param name="transactionId" type="long"/>
+		
+		UPDATE TAX_RETURN_ENTRY SET TRANSACTION_ID=NULL WHERE TRANSACTION_ID=:transactionId
+		
 	</sql-query>
 
 	<sql-query name="getIncomeExpensePortletInfo">

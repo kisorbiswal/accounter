@@ -573,7 +573,7 @@
 			<!-- > -->
 			<!-- </many-to-one> -->
 			<!-- <property name="VATFraction" column="VAT_FRACTION"></property> -->
-			<list name="transactionPayBill" cascade="save-update,delete">
+			<list name="transactionPayBill" cascade="save-update,delete,delete-orphan">
 				<key column="TRANSACTION_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionPayBill" />
@@ -730,7 +730,7 @@
 			<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
 				column="CREDITS_AND_PAYMENTS_ID">
 			</many-to-one>
-			<list name="transactionReceivePayment" cascade="save-update,delete">
+			<list name="transactionReceivePayment" cascade="save-update,delete,delete-orphan">
 				<key column="TRANSACTION_ID" />
 				<list-index column="IDX" />
 				<one-to-many class="TransactionReceivePayment" />
