@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -31,7 +33,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	public void deleteFailed(AccounterException caught) {
 		super.deleteFailed(caught);
-		AccounterException accounterException = (AccounterException) caught;
+		AccounterException accounterException = caught;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -124,6 +126,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	}
 
 	private boolean isActiveAccounts = true;
+	private int start;
 
 	@Override
 	protected void onPageChange(int start, int length) {
@@ -139,6 +142,31 @@ public class CustomerListView extends BaseListView<PayeeList> {
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isActive", isActiveAccounts);
+		map.put("start", start);
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> viewDate) {
+
+		if (viewDate == null || viewDate.isEmpty()) {
+			return;
+		}
+		isActiveAccounts = (Boolean) viewDate.get("isActive");
+		start = (Integer) viewDate.get("start");
+		onPageChange(start, getPageSize());
+		if (isActiveAccounts) {
+			viewSelect.setComboItem(messages().active());
+		} else {
+			viewSelect.setComboItem(messages().inActive());
+		}
+
 	}
 
 	@Override
