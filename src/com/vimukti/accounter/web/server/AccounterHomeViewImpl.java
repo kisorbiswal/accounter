@@ -1893,7 +1893,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public PaginationList<BillsList> getBillsAndItemReceiptList(
 			boolean isExpensesList, int transactionType, long fromDate,
-			long toDate, int start, int length) {
+			long toDate, int start, int length, int viewType) {
 		PaginationList<BillsList> billList = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
@@ -1901,12 +1901,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 							toDate), getCompanyId());
 			billList = getFinanceTool().getVendorManager().getBillsList(
 					isExpensesList, getCompanyId(), transactionType,
-					dates[0].getDate(), dates[1].getDate(), start, length);
+					dates[0].getDate(), dates[1].getDate(), start, length,
+					viewType);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return billList;
-
 	}
 
 	@Override
