@@ -277,6 +277,9 @@ public abstract class BaseView<T extends IAccounterCore> extends
 			saveView = null;
 		}
 		setSaveCliecked(false);
+		if (saveView == null || saveView.getID() != 0) {
+			return null;
+		}
 		return saveView;
 	}
 

@@ -250,6 +250,8 @@ public class ViewManager extends HorizontalPanel {
 		// Check if it some thing we have kept alive
 		HistoryItem item = getViewFromHistory(token.getToken());
 		if (item != null && item.view != null) {
+			// I think we have to remove this view from history.
+			views.list.remove(item);
 			showView(item.view, item.action, true);
 		} else {
 			this.mainWindow.historyChanged(value);
