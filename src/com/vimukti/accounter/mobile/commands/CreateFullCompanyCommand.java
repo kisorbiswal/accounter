@@ -10,7 +10,6 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TemplateAccountRequirement;
-import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 
@@ -235,7 +234,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			}
 		});
 
-		list.add(getFiscalYearRequirement());
+		// list.add(getFiscalYearRequirement());
 
 		list.add(new TemplateAccountRequirement(ACCOUNTS, getMessages()
 				.pleaseSelect(getMessages().account()),
@@ -261,11 +260,6 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 	}
 
 	@Override
-	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getMessages().company());
-	}
-
-	@Override
 	protected void setDefaultValues(Context context) {
 		super.setDefaultValues(context);
 		get(CUSTOMER_TERMINOLOGY).setDefaultValue(
@@ -277,13 +271,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		get(SERVICE_PRODUCTS_BOTH).setDefaultValue(
 				getServiceProductBothList().get(0));
 		// get(ONE_PER_TRANSACTION).setDefaultValue(true);
-		get(FISCAL_YEAR).setDefaultValue(DayAndMonthUtil.april());
 		get(ONE_PER_TRANSACTION).setDefaultValue(true);
-	}
-
-	@Override
-	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getMessages().company());
 	}
 
 	@Override

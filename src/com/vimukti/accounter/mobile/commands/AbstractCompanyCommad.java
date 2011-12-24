@@ -17,6 +17,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
+import com.vimukti.accounter.mobile.requirements.CompanyAddressRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyRequirement;
 import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
@@ -31,7 +32,6 @@ import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
-import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
 import com.vimukti.accounter.web.server.AccountsTemplateManager;
@@ -44,16 +44,11 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 	protected static final String COMPANY_NAME = "companyName";
 	protected static final String LEGAL_NAME = "legalName";
 	protected static final String TAX_ID = "taxId";
-	protected static final String STATE = "state";
 	protected static final String FAX = "fax";
 	protected static final String WEB_SITE = "website";
 	protected static final String TIME_ZONE = "timezone";
 	protected static final String VALUES = "values";
 	protected static final String STATES = "statesList";
-	protected static final String ADDRESS1 = "address1";
-	protected static final String ADDRESS2 = "address2";
-	protected static final String CITY = "city";
-	protected static final String ZIPCODE = "zipcode";
 	protected static final String TIME_ZONES = "timezoneslist";
 	protected static final String INDUSTRY = "industry";
 	protected static final String ORGANIZATION_REFER = "organizationrefer";
@@ -64,6 +59,7 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 	protected static final String FISCAL_YEAR_LIST = "fiscalyearsList";
 	protected static final String PRIMARY_CURRENCY = "Primary Currency";
 	protected static final String IS_MULTI_CURRENCY_ENBLED = "ismultiCurrecnyEnbled";
+	private static final String TRADING_ADDRESS = "tradingaddress";
 
 	List<AccountsTemplate> allAccounts = new ArrayList<AccountsTemplate>();
 
@@ -233,13 +229,20 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 	}
 
 	protected List<String> getFiscalYearMonths() {
-		String[] names = new String[] { DayAndMonthUtil.january(),
-				DayAndMonthUtil.february(), DayAndMonthUtil.march(),
-				DayAndMonthUtil.april(), DayAndMonthUtil.may_full(),
-				DayAndMonthUtil.june(), DayAndMonthUtil.july(),
-				DayAndMonthUtil.august(), DayAndMonthUtil.september(),
-				DayAndMonthUtil.october(), DayAndMonthUtil.november(),
-				DayAndMonthUtil.december() };
+		String[] names = new String[] {/*
+										 * DayAndMonthUtil.january(),
+										 * DayAndMonthUtil.february(),
+										 * DayAndMonthUtil.march(),
+										 * DayAndMonthUtil.april(),
+										 * DayAndMonthUtil.may_full(),
+										 * DayAndMonthUtil.june(),
+										 * DayAndMonthUtil.july(),
+										 * DayAndMonthUtil.august(),
+										 * DayAndMonthUtil.september(),
+										 * DayAndMonthUtil.october(),
+										 * DayAndMonthUtil.november(),
+										 * DayAndMonthUtil.december()
+										 */};
 		List<String> fiscalYearMonths = new ArrayList<String>();
 		for (int i = 0; i < names.length; i++) {
 			fiscalYearMonths.add(names[i]);
@@ -376,13 +379,10 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 	/**
 	 * WHEN SELECT THE COUNTRY THEN GET THE CURRENCY OF THAT COUNTRY
 	 * 
-	 * @param value
+	 * @param countryPreferences2
 	 * @return
 	 */
-	protected void countrySelected(String value) {
-		ICountryPreferences countryPreferences = CountryPreferenceFactory
-				.get(value);
-		get(STATE).setValue(countryPreferences.getStates()[0]);
+	protected void countrySelected(ICountryPreferences countryPreferences) {
 		List<ClientCurrency> currenciesList = CoreUtils
 				.getCurrencies(new ArrayList<ClientCurrency>());
 		for (int i = 0; i < currenciesList.size(); i++) {
@@ -392,19 +392,6 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 				return;
 			}
 		}
-	}
-
-	protected Requirement getCountryRequirement() {
-		return new CountryRequirement(COUNTRY, getMessages().pleaseEnter(
-				getMessages().country()), getMessages().country(), false, true,
-				new ChangeListner<String>() {
-
-					@Override
-					public void onSelection(String value) {
-						countrySelected(value);
-					}
-
-				});
 	}
 
 	@Override
@@ -418,21 +405,19 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		list.add(new NameRequirement(TAX_ID, getMessages().pleaseEnter(
 				getMessages().taxId()), getMessages().taxId(), true, true));
 
-		list.add(getCountryRequirement());
+		list.add(new CompanyAddressRequirement(TRADING_ADDRESS, getMessages()
+				.tradingAddress(), getMessages().tradingAddress()) {
+			@Override
+			protected void countrySelected(
+					ICountryPreferences countryPreferences) {
+				AbstractCompanyCommad.this.countrySelected(countryPreferences);
+			}
 
-		list.add(getStateRequirement());
-
-		list.add(new NameRequirement(ADDRESS1, getMessages().pleaseEnter(
-				getMessages().address1()), getMessages().address1(), true, true));
-
-		list.add(new NameRequirement(ADDRESS2, getMessages().pleaseEnter(
-				getMessages().address2()), getMessages().address2(), true, true));
-
-		list.add(new NameRequirement(CITY, getMessages().pleaseEnter(
-				getMessages().city()), getMessages().city(), true, true));
-
-		list.add(new NameRequirement(ZIPCODE, getMessages().pleaseEnter(
-				getMessages().zipCode()), getMessages().zipCode(), true, true));
+			@Override
+			protected boolean canEdit() {
+				return true;
+			}
+		});
 
 		list.add(new NameRequirement(PHONE, getMessages().pleaseEnter(
 				getMessages().phone()), getMessages().phone(), true, true));
@@ -533,8 +518,8 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (AbstractCompanyCommad.this.get(COUNTRY).getValue()
-						.equals("United States")) {
+				ClientAddress address = get(TRADING_ADDRESS).getValue();
+				if (address.getStateOrProvinence().equals("United States")) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -542,40 +527,18 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		});
 	}
 
-	protected Requirement getStateRequirement() {
-		return new StringListRequirement(STATE, getMessages().pleaseEnter(
-				getMessages().state()), getMessages().state(), true, true, null) {
-
-			@Override
-			protected String getSetMessage() {
-				return getMessages().hasSelected(getMessages().state());
-			}
-
-			@Override
-			protected String getSelectString() {
-				return getMessages().pleaseSelect(getMessages().state());
-			}
-
-			@Override
-			protected List<String> getLists(Context context) {
-				return getStatesList((String) get(COUNTRY).getValue());
-			}
-
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-		};
-	}
-
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(COUNTRY).setDefaultValue("United Kingdom");
-		get(STATE).setDefaultValue("Buckinghamshire");
-		countrySelected("United Kingdom");
+		ClientAddress address = get(TRADING_ADDRESS).getValue();
+		if (address == null) {
+			address = new ClientAddress();
+		}
+		address.setCountryOrRegion("United Kingdom");
+		address.setStateOrProvinence("Buckinghamshire");
+		get(TRADING_ADDRESS).setValue(address);
 		get(TIME_ZONE).setDefaultValue(getDefaultTzOffsetStr());
 		get(ORGANIZATION_REFER).setDefaultValue(getOrganizationTypes().get(0));
-		get(FISCAL_YEAR).setDefaultValue(DayAndMonthUtil.april());
+		// get(FISCAL_YEAR).setDefaultValue("april");// DayAndMonthUtil.april()
 	}
 
 	@Override
@@ -583,8 +546,11 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		preferences = new ClientCompanyPreferences();
 		String country = context.getIOSession().getClient().getCountry();
 		if (country != null) {
-			get(COUNTRY).setValue(country);
-			countrySelected(country);
+			ClientAddress address = get(TRADING_ADDRESS).getValue();
+			address.setCountryOrRegion(country);
+			String state = getStatesList(country).get(0);
+			address.setStateOrProvinence(state);
+			get(TRADING_ADDRESS).setValue(address);
 		}
 		return null;
 	}
@@ -595,17 +561,11 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		String industryType = get(INDUSTRY).getValue();
 		String legalName = get(LEGAL_NAME).getValue();
 		String taxId = get(TAX_ID).getValue();
-		String countryName = get(COUNTRY).getValue();
-		String state = get(STATE).getValue();
 		String phoneNum = get(PHONE).getValue();
 		String fax = get(FAX).getValue();
 		String emailId = get(EMAIL).getValue();
 		String webSite = get(WEB_SITE).getValue();
 		String timeZone = get(TIME_ZONE).getValue();
-		String address1 = get(ADDRESS1).getValue();
-		String address2 = get(ADDRESS2).getValue();
-		String city = get(CITY).getValue();
-		String zipCode = get(ZIPCODE).getValue();
 		String organizationRefer = get(ORGANIZATION_REFER).getValue();
 		preferences.setTradingName(companyName);
 		preferences.setLegalName(legalName);
@@ -614,21 +574,14 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		preferences.setTaxId(taxId);
 		preferences.setFax(fax);
 		preferences.setWebSite(webSite);
-
-		ClientAddress address = new ClientAddress();
-		address.setAddress1(address1);
-		address.setStreet(address2);
-		address.setCity(city);
-		address.setZipOrPostalCode(zipCode);
-		address.setStateOrProvinence(state);
-		address.setCountryOrRegion(countryName);
-
-		preferences.setTradingAddress(address);
+		ClientAddress tradingAddress = get(TRADING_ADDRESS).getValue();
+		preferences.setTradingAddress(tradingAddress);
 		preferences.setTimezone(timeZone);
 		preferences.setIndustryType(getIndustryList().indexOf(industryType));
 		preferences.setOrganizationType(getOrganizationTypes().indexOf(
 				organizationRefer));
-		preferences.setDateFormat(getDateFormat(countryName));
+		preferences.setDateFormat(getDateFormat(tradingAddress
+				.getCountryOrRegion()));
 		List<TemplateAccount> accounts = new ArrayList<TemplateAccount>();
 		if (get(ACCOUNTS) == null) {
 			accounts = getDefaultTemplateAccounts(getIndustryList().indexOf(
@@ -639,9 +592,9 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		ClientCurrency primaryCurrency = get(PRIMARY_CURRENCY).getValue();
 		Boolean ismultiCurrencyEnabled = get(IS_MULTI_CURRENCY_ENBLED)
 				.getValue();
-		String fiscalYear = get(FISCAL_YEAR).getValue();
-		preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
-				fiscalYear));
+		// String fiscalYear = get(FISCAL_YEAR).getValue();
+		preferences.setFiscalYearFirstMonth(3);// getFiscalYearMonths().indexOf(
+		// fiscalYear)
 		preferences.setPrimaryCurrency(primaryCurrency);
 		preferences.setEnableMultiCurrency(ismultiCurrencyEnabled);
 
@@ -735,5 +688,15 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 				return " Multi currency is not enabled";
 			}
 		});
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().readyToCreate(getMessages().company());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().createSuccessfully(getMessages().company());
 	}
 }

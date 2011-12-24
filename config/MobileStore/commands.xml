@@ -1112,20 +1112,18 @@
 	</command>
 
 	<command
-		clazz="com.vimukti.accounter.mobile.commands.preferences.ProductAndServicePreferencesCommand"
-		name="productandServicesPreferences">
-		<alias>productAndServices</alias>
+		clazz="com.vimukti.accounter.mobile.commands.preferences.CustomerAndSalesPreferencesCommand"
+		name="customersAndSales">
 	</command>
 
 	<command
-		clazz="com.vimukti.accounter.mobile.commands.preferences.TerminologyPreferencesCommand"
-		name="terminologyPreferences">
-		<alias>accounterTerminologies</alias>
+		clazz="com.vimukti.accounter.mobile.commands.preferences.NumberFormatPreferencesCommand"
+		name="datenumberFormatPreferences">
 	</command>
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.preferences.CategoriesPreferencesCommand"
-		name="categoriesPreferences">
+		name="categories">
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.ForgotPasswordCommand"

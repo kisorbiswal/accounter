@@ -53,8 +53,9 @@
 		<outputs>
 			<command title="setCompanyInfo" />
 			<command title="vendorAndPurchases" />
-			<command title="productAndServices" />
-			<command title="accounterTerminologies" />
+			<command title="customersAndSales" />
+			<command title="categories" />
+			<command title="datenumberFormatPreferences" />
 		</outputs>
 	</pattern>
 

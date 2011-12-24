@@ -9,8 +9,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
 import com.vimukti.accounter.web.server.managers.CompanyManager;
 
-public abstract class AbstractCompanyPreferencesCommand extends
-		AbstractCommand {
+public abstract class AbstractCompanyPreferencesCommand extends AbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
@@ -43,4 +42,19 @@ public abstract class AbstractCompanyPreferencesCommand extends
 		}
 	}
 
+	@Override
+	protected String getWelcomeMessage() {
+		return "Updating Company Preferences";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return getMessages().readyToUpdate(getMessages().companyPreferences());
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return getMessages().updateSuccessfully(
+				getMessages().companyPreferences());
+	}
 }

@@ -57,8 +57,8 @@ public abstract class TemplateAccountRequirement extends
 
 		List<TemplateAccount> values = getValue();
 		Object selection = context.getSelection(ACTIONS);
-		ActionNames actionName = (ActionNames) selection;
-		if (actionName != null) {
+		if (selection instanceof ActionNames) {
+			ActionNames actionName = (ActionNames) selection;
 			if (actionName == ActionNames.ADD_MORE_ACCOUNTS) {
 				context.setString(null);
 				return showList(context, values);
@@ -72,9 +72,7 @@ public abstract class TemplateAccountRequirement extends
 				list.add(record);
 				return null;
 			}
-
 		}
-
 		if (attribute.equals(getName())) {
 			if (objSelection != null) {
 				if (!objSelection.equals("Back")) {

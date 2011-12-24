@@ -14,16 +14,27 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 public class CategoriesPreferencesCommand extends
 		AbstractCompanyPreferencesCommand {
-
-	private static final String LOCATION_TRACKING = "locationtrackin";
+	private static final String TRACKING_LOCATION = "enableLocationTracking";
+	private static final String LOCATION_TRACKING_LIST = "locationtrackin";
 	private static final String CLASS_TRACKING = "classtracking";
 	private static final String CLASS_WARNING = "classwarning";
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		list.add(new BooleanRequirement(TRACKING_LOCATION, true) {
 
+			@Override
+			protected String getTrueString() {
+				return "Tracking Location tracking enabled";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Tracking Location tracking disabled";
+			}
+		});
 		list.add(new StringListRequirement(
-				LOCATION_TRACKING,
+				LOCATION_TRACKING_LIST,
 				getMessages().useTerminologyFor(Global.get().Location() + " :"),
 				getMessages().useTerminologyFor(Global.get().Location() + " :"),
 				true, true, null) {
@@ -44,6 +55,16 @@ public class CategoriesPreferencesCommand extends
 
 			@Override
 			protected String getEmptyString() {
+				return null;
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				Boolean trackLocaion = get(TRACKING_LOCATION).getValue();
+				if (trackLocaion) {
+					return super.run(context, makeResult, list, actions);
+				}
 				return null;
 			}
 		});
@@ -68,8 +89,8 @@ public class CategoriesPreferencesCommand extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				boolean inventoryTracking = get(CLASS_TRACKING).getValue();
-				if (inventoryTracking) {
+				boolean isClassTrackingEnabled = get(CLASS_TRACKING).getValue();
+				if (isClassTrackingEnabled) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -129,8 +150,9 @@ public class CategoriesPreferencesCommand extends
 		} else {
 			string = getMessages().territory();
 		}
-
-		get(LOCATION_TRACKING).setValue(string);
+		get(TRACKING_LOCATION)
+				.setValue(preferences.isLocationTrackingEnabled());
+		get(LOCATION_TRACKING_LIST).setValue(string);
 
 		get(CLASS_TRACKING).setValue(preferences.isClassTrackingEnabled());
 		get(CLASS_WARNING).setValue(preferences.isWarnOnEmptyClass());
@@ -143,7 +165,7 @@ public class CategoriesPreferencesCommand extends
 	protected Result onCompleteProcess(Context context) {
 		ClientCompanyPreferences preferences = context.getPreferences();
 
-		String locTrack = get(LOCATION_TRACKING).getValue();
+		String locTrack = get(LOCATION_TRACKING_LIST).getValue();
 		Integer incluestimate = getLocationsList().indexOf(locTrack);
 
 		if (incluestimate == 0) {// location
@@ -176,7 +198,8 @@ public class CategoriesPreferencesCommand extends
 
 		boolean classreack = get(CLASS_TRACKING).getValue();
 		boolean classwarn = get(CLASS_WARNING).getValue();
-
+		Boolean trackLocaion = get(TRACKING_LOCATION).getValue();
+		preferences.setLocationTrackingEnabled(trackLocaion);
 		preferences.setClassTrackingEnabled(classreack);
 		preferences.setWarnOnEmptyClass(classwarn);
 
@@ -185,31 +208,8 @@ public class CategoriesPreferencesCommand extends
 	}
 
 	@Override
-	protected String getWelcomeMessage() {
-		return "Updating Preferences";
-	}
-
-	@Override
-	protected String getDetailsMessage() {
-		return getMessages().readyToUpdate(getMessages().companyPreferences());
-	}
-
-	@Override
 	protected void setDefaultValues(Context context) {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public String getSuccessMessage() {
-		return getMessages().updateSuccessfully(
-				getMessages().companyPreferences());
-	}
-
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

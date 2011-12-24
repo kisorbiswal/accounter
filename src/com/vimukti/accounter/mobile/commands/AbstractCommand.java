@@ -32,7 +32,7 @@ public abstract class AbstractCommand extends AbstractBaseCommand {
 	private IGlobal global;
 	private AccounterMessages messages;
 	protected static final String AMOUNTS_INCLUDE_TAX = "Amounts Include tax";
-	protected static final String COUNTRY = "country";
+	// protected static final String COUNTRY = "country";
 	protected static final String PHONE = "phone";
 	protected static final String EMAIL = "email";
 	protected static final String ACTIONS = "actions";

@@ -11,14 +11,17 @@ import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
-public class ProductAndServicePreferencesCommand extends
+public class CustomerAndSalesPreferencesCommand extends
 		AbstractCompanyPreferencesCommand {
 	private static final String SERVICE_PRODUCTS_BOTH = "serprobothlist";
 	private static final String INVENTORY_TRACKING = "inventorytracking";
 	private static final String MULTIPLE_WAREHOUSES = "multiplewarehouses";
 	private static final String AGING_DETAILS = "aagingdetails";
-	private static final String TRACK_EXPENSEANDPRODUCT = "trackexpenses";
-	private static final String BILLABLE_EXPENSES = "billableexpenses";
+	private static final String ENABLE_DISCOUNTS = "enablediscounts";
+	private static final String INCLUDE_ESTIMATES = "includeestimates";
+	private static final String USE_DELAYED_CHARGES = "usedelayedcharges";
+	private static final String DO_YOU_Do_SHIPPING = "doyoudoshipping";
+	private static final String CUSTOMER_TERMINOLOGY = "customerterminalogy";
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -112,29 +115,101 @@ public class ProductAndServicePreferencesCommand extends
 			}
 		});
 
-		list.add(new BooleanRequirement(TRACK_EXPENSEANDPRODUCT, true) {
+		list.add(new BooleanRequirement(ENABLE_DISCOUNTS, true) {
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().trackProducandServicesbyCustomer();
+				return "Tracking Discounts enabled";
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().nottrackProducandServicesbyCustomer();
+				return "Tracking Discounts disabled";
 			}
 		});
 
-		list.add(new BooleanRequirement(BILLABLE_EXPENSES, true) {
+		list.add(new StringListRequirement(INCLUDE_ESTIMATES, getMessages()
+				.accept() + " " + getMessages().estimate(), getMessages()
+				.accept() + " " + getMessages().estimate(), true, true, null) {
+			@Override
+			protected String getSelectString() {
+				return getMessages()
+						.pleaseSelect(
+								getMessages().accept() + " "
+										+ getMessages().estimate());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getAcceptEstimateList();
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return null;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+		});
+
+		list.add(new BooleanRequirement(USE_DELAYED_CHARGES, true) {
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().useBillabelExpenses();
+				return getMessages().delayedCharges();
+
 			}
 
 			@Override
 			protected String getFalseString() {
-				return getMessages().doNotuseBillabelExpenses();
+				return getMessages().donotUsedelayedCharges();
+			}
+		});
+
+		list.add(new BooleanRequirement(DO_YOU_Do_SHIPPING, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().iDoShipping();
+
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().iDontdoShipping();
+			}
+		});
+
+		list.add(new StringListRequirement(CUSTOMER_TERMINOLOGY, getMessages()
+				.Customer() + " " + getMessages().terminology(), getMessages()
+				.Customer() + " " + getMessages().terminology(), true, true,
+				null) {
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(
+						getMessages().Customer() + " "
+								+ getMessages().terminology());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getCustomerTerminologies();
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(
+						getMessages().Customer() + " "
+								+ getMessages().terminology());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
 			}
 		});
 	}
@@ -177,12 +252,28 @@ public class ProductAndServicePreferencesCommand extends
 			get(AGING_DETAILS).setValue(false);
 		}
 
-		get(TRACK_EXPENSEANDPRODUCT).setValue(
-				preferences.isProductandSerivesTrackingByCustomerEnabled());
+		string = null;
+		if (!preferences.isDoyouwantEstimates()) {
+			string = getMessages().doNottrackingEstimates();
+		}
+		if (preferences.isDontIncludeEstimates()) {
+			string = getMessages().dontWantToIncludeEstimates();
+		} else if (preferences.isIncludeAcceptedEstimates()) {
+			string = getMessages().includeAcceptedEstimates();
+		} else if (preferences.isIncludePendingAcceptedEstimates()) {
+			string = getMessages().includePendingAndAcceptedEstimates();
+		}
 
-		get(BILLABLE_EXPENSES).setValue(
-				preferences.isBillableExpsesEnbldForProductandServices());
+		get(INCLUDE_ESTIMATES).setValue(string);
 
+		get(USE_DELAYED_CHARGES)
+				.setValue(preferences.isDelayedchargesEnabled());
+		get(DO_YOU_Do_SHIPPING).setValue(preferences.isDoProductShipMents());
+		get(ENABLE_DISCOUNTS).setValue(preferences.isTrackDiscounts());
+		get(CUSTOMER_TERMINOLOGY)
+				.setValue(
+						getCustomerTerminologies().get(
+								preferences.getReferCustomers()));
 		return null;
 
 	}
@@ -213,49 +304,71 @@ public class ProductAndServicePreferencesCommand extends
 			}
 		}
 		boolean agingdetails = get(AGING_DETAILS).getValue();
-		boolean trackexpenses = get(TRACK_EXPENSEANDPRODUCT).getValue();
-		boolean billableexpenses = get(BILLABLE_EXPENSES).getValue();
+		String includeestimates = get(INCLUDE_ESTIMATES).getValue();
+		Integer incluestimate = getAcceptEstimateList().indexOf(
+				includeestimates);
+		if (incluestimate == 0) {// setDontIncludeEstimates
+			preferences.setDontIncludeEstimates(true);
+			preferences.setIncludeAcceptedEstimates(false);
+			preferences.setIncludePendingAcceptedEstimates(false);
+			preferences.setDoyouwantEstimates(true);
+		} else if (incluestimate == 1) {// setIncludeAcceptedEstimates
+			preferences.setIncludeAcceptedEstimates(true);
+			preferences.setDontIncludeEstimates(false);
+			preferences.setIncludePendingAcceptedEstimates(false);
+			preferences.setDoyouwantEstimates(true);
+		} else if (incluestimate == 2) {// setIncludePendingAcceptedEstimates
+			preferences.setIncludePendingAcceptedEstimates(true);
+			preferences.setDontIncludeEstimates(false);
+			preferences.setIncludeAcceptedEstimates(false);
+			preferences.setDoyouwantEstimates(true);
+		} else {
+			preferences.setIncludePendingAcceptedEstimates(false);
+			preferences.setDontIncludeEstimates(false);
+			preferences.setIncludeAcceptedEstimates(false);
+			preferences.setDoyouwantEstimates(false);
+		}
 
+		boolean delayedcharges = get(USE_DELAYED_CHARGES).getValue();
+		boolean doyoushipping = get(DO_YOU_Do_SHIPPING).getValue();
 		if (agingdetails) {
 			preferences.setAgeingFromTransactionDateORDueDate(1);
 		} else {
 			preferences.setAgeingFromTransactionDateORDueDate(2);
 		}
-		preferences
-				.setProductandSerivesTrackingByCustomerEnabled(trackexpenses);
-		preferences
-				.setBillableExpsesEnbldForProductandServices(billableexpenses);
-
+		preferences.setDelayedchargesEnabled(delayedcharges);
+		preferences.setDoProductShipMents(doyoushipping);
+		Boolean trackDiscounts = get(ENABLE_DISCOUNTS).getValue();
+		preferences.setTrackDiscounts(trackDiscounts);
+		String customerTerm = get(CUSTOMER_TERMINOLOGY).getValue();
+		preferences.setReferCustomers(getCustomerTerminologies().indexOf(
+				customerTerm));
 		savePreferences(context, preferences);
 		return null;
 	}
 
 	@Override
-	protected String getWelcomeMessage() {
-		return "Updating Preferences";
-	}
-
-	@Override
-	protected String getDetailsMessage() {
-		return getMessages().readyToUpdate(getMessages().companyPreferences());
-	}
-
-	@Override
 	protected void setDefaultValues(Context context) {
-		// TODO Auto-generated method stub
-
 	}
 
-	@Override
-	public String getSuccessMessage() {
-		return getMessages().updateSuccessfully(
-				getMessages().companyPreferences());
+	private List<String> getAcceptEstimateList() {
+		ArrayList<String> arrayList = new ArrayList<String>();
+		arrayList.add(getMessages().dontWantToIncludeEstimates());
+		arrayList.add(getMessages().includeAcceptedEstimates());
+		arrayList.add(getMessages().includePendingAndAcceptedEstimates());
+		arrayList.add(getMessages().doNottrackingEstimates());
+		return arrayList;
 	}
 
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+	protected List<String> getCustomerTerminologies() {
+		List<String> customerTerms = new ArrayList<String>();
+		customerTerms.add(getMessages().Customer());
+		customerTerms.add(getMessages().Client());
+		customerTerms.add(getMessages().Tenant());
+		customerTerms.add(getMessages().Donar());
+		customerTerms.add(getMessages().Guest());
+		customerTerms.add(getMessages().Member());
+		customerTerms.add(getMessages().Patient());
+		return customerTerms;
 	}
-
 }
