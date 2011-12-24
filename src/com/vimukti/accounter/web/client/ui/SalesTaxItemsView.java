@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -89,6 +91,31 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	public void onSuccess(PaginationList<ClientTAXItem> result) {
 		super.onSuccess(result);
 		grid.sort(10, false);
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// map.put("isActive", isActiveAccounts);
+		map.put("start", start);
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> viewDate) {
+
+		if (viewDate == null || viewDate.isEmpty()) {
+			return;
+		}
+		// isActiveAccounts = (Boolean) viewDate.get("isActive");
+		start = (Integer) viewDate.get("start");
+		onPageChange(start, getPageSize());
+		// if (isActiveAccounts) {
+		// viewSelect.setComboItem(messages().active());
+		// } else {
+		// viewSelect.setComboItem(messages().inActive());
+		// }
+
 	}
 
 	@Override
