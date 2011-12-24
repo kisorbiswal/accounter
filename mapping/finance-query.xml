@@ -6889,6 +6889,7 @@
 	<sql-query name="getWarehouse">
 		<query-param name="companyId" type="long" />
 		<query-param name="name" type="string" />
+		<query-param name="id" type="Long" />
 		<return-scalar column="NAME" type="string" />
 
 		SELECT
@@ -6900,7 +6901,7 @@
 		WHERE
 		W.NAME
 		=:name AND
-		W.COMPANY_ID=:companyId
+		W.COMPANY_ID=:companyId AND W.ID!=:id
 	</sql-query>
 
 	<sql-query name="canDeleteBrandingTheme">
@@ -10892,10 +10893,96 @@
 		JOIN CASH_PURCHASE CP ON CP.ID=T.ID LEFT JOIN CREDIT_CARD_CHARGES CC
 		ON CC.ID=T.ID LEFT JOIN PAYEE C ON (C.ID=EB.VENDOR_ID OR C.ID =
 		CP.VENDOR_ID OR C.ID =CC.VENDOR_ID) WHERE C.ID IS NOT NULL AND
-		T.T_DATE BETWEEN 20111201 AND 20111230 AND T.COMPANY_ID =1 GROUP BY
-		C.ID LIMIT 5
+		T.T_DATE BETWEEN :startDate AND :endDate AND T.COMPANY_ID =:companyId
+		GROUP BY
+		C.ID LIMIT :limit
 
 	</sql-query>
+
+	<sql-query name="getIncomeAccounts">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		SELECT A.NAME,SUM(AT.AMOUNT) AS AMOUNT FROM ACCOUNT_TRANSACTION AT
+		LEFT JOIN ACCOUNT A ON AT.ACCOUNT_ID=A.ID LEFT JOIN TRANSACTION T ON
+		T.ID=AT.TRANSACTION_ID WHERE A.A_TYPE=14 AND AT.COMPANY_ID=:companyId
+		AND
+		T.T_DATE BETWEEN :startDate AND :endDate GROUP BY A.NAME ORDER BY
+		AMOUNT
+		DESC
+	</sql-query>
+
+	<sql-query name="getItemsBySalesQuantity">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="limit" type="int" />
+		<return-scalar column="ITEM" type="string" />
+		<return-scalar column="QUANTITY" type="double" />
+		SELECT I.NAME,
+		SUM(CASE
+		WHEN T.T_TYPE IN (1,4,5,7,8,12,21,29)
+		THEN
+		TI.QTY_VALUE
+		ELSE 0 END)
+		FROM ITEM I LEFT JOIN TRANSACTION_ITEM TI ON
+		TI.ITEM_ID=I.ID LEFT JOIN
+		TRANSACTION T ON T.ID=TI.TRANSACTION_ID
+		WHERE
+		I.IS_SELL_ITEM=TRUE AND
+		I.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:startDate AND :endDate
+		GROUP BY I.ID LIMIT :limit;
+
+	</sql-query>
+
+	<sql-query name="getItemsByPurchaseQuantity">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="limit" type="int" />
+		<return-scalar column="ITEM" type="string" />
+		<return-scalar column="QUANTITY" type="double" />
+		SELECT I.NAME,
+		SUM(CASE
+		WHEN T.T_TYPE IN (2,3,6,9,11,14,22,23,26,27,28)
+		THEN TI.QTY_VALUE
+		ELSE 0 END)
+		FROM ITEM I LEFT JOIN TRANSACTION_ITEM
+		TI
+		ON TI.ITEM_ID=I.ID LEFT JOIN
+		TRANSACTION T ON
+		T.ID=TI.TRANSACTION_ID
+		WHERE I.IS_BUY_ITEM=TRUE AND
+		I.COMPANY_ID=:companyId AND
+		T.T_DATE
+		BETWEEN :startDate AND :endDate
+		GROUP BY I.ID LIMIT :limit;
+
+	</sql-query>
+
+	<sql-query name="getAccountBalances">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="limit" type="int" />
+		<return-scalar column="ACCOUNT" type="string" />
+		<return-scalar column="AMOUNT" type="double" />
+		SELECT A.NAME AS ACCOUNT, SUM(CASE WHEN AT.ID IS NOT NULL THEN
+		AT.AMOUNT
+		ELSE 0 END) AS AMOUNT FROM ACCOUNT A LEFT JOIN
+		ACCOUNT_TRANSACTION AT ON
+		AT.ACCOUNT_ID =A.ID LEFT JOIN TRANSACTION T
+		ON T.ID=AT.TRANSACTION_ID
+		WHERE A.COMPANY_ID =:companyId AND (CASE WHEN
+		T.ID IS NOT NULL THEN T.T_DATE
+		BETWEEN :startDate AND :endDate ELSE
+		TRUE END) GROUP BY A.ID ORDER BY
+		A.NAME LIMIT :limit
+
+	</sql-query>
+
+
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
