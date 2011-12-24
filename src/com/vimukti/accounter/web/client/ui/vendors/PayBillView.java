@@ -778,7 +778,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			ClientFinanceDate newDate = date.getValue();
 			if (newDate != null) {
 				setTransactionDate(newDate);
-				if (vendor != null) {
+				if (vendor != null && !isInViewMode()) {
 					getTransactionPayBills(vendor);
 				}
 			}
