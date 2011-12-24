@@ -124,6 +124,9 @@ public class BillListView extends TransactionsListView<BillsList> {
 		allEnterBills = result;
 		grid.removeAllRecords();
 		grid.setRecords(result);
+		if (grid.getRecords().isEmpty())
+			grid.addEmptyMessage(messages().noRecordsToShow());
+
 		grid.sort(12, false);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
