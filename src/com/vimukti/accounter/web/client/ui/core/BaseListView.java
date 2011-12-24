@@ -148,8 +148,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	}
 
 	protected void createControls() {
-		Label addNewLabel = createAddNewLabel();
-
 		HorizontalPanel hlay = new HorizontalPanel();
 		hlay.setWidth("100%");
 
@@ -335,15 +333,16 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		HorizontalPanel hlayTop = new HorizontalPanel();
 		hlayTop.setWidth("100%");
 		if (isTransactionListView()) {
-			vlayTop.add(addNewLabel);
+			// vlayTop.add(addNewLabel);
 			vlayTop.add(hlayTop);
-			addNewLabel.setWidth((getAddNewLabelString().length() * 6) + "px");
+			// addNewLabel.setWidth((getAddNewLabelString().length() * 6) +
+			// "px");
 		} else {
-			hlayTop.add(addNewLabel);
-			if (getAddNewLabelString().length() != 0) {
-				hlayTop.setCellWidth(addNewLabel, getAddNewLabelString()
-						.length() + "px");
-			}
+			// hlayTop.add(addNewLabel);
+			// if (getAddNewLabelString().length() != 0) {
+			// hlayTop.setCellWidth(addNewLabel, getAddNewLabelString()
+			// .length() + "px");
+			// }
 		}
 		if (isViewSelectRequired)
 			hlayTop.add(hlay);
@@ -493,26 +492,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	protected void updateTotal(T t, boolean add) {
 
-	}
-
-	private Label createAddNewLabel() {
-
-		Label addNewLabel = new Label(getAddNewLabelString());
-		addNewLabel.setStyleName("handCursor");
-
-		addNewLabel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				Action action = getAddNewAction();
-				if (action != null) {
-					action.run(null, false);
-				}
-			}
-
-		});
-
-		return addNewLabel;
 	}
 
 	protected abstract Action getAddNewAction();

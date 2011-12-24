@@ -12,8 +12,10 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.company.options.TreeListPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundListView;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 import com.vimukti.accounter.web.client.ui.customers.QuoteListView;
@@ -23,11 +25,12 @@ import com.vimukti.accounter.web.client.ui.vendors.BillListView;
 import com.vimukti.accounter.web.client.ui.vendors.ExpensesListView;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListView;
 
-public class TransactionsCenterView<T> extends AbstractBaseView<T> {
+public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
+		IPrintableView {
 
 	AccounterMessages messages = Accounter.messages();
 
-	BaseListView<T> baseListView;
+	public BaseListView<T> baseListView;
 	private HorizontalPanel mainPanel;
 
 	// private String selectedType;
@@ -172,6 +175,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> {
 			// TODO
 		}
 		mainPanel.add(baseListView);
+		MainFinanceWindow.getViewManager().updateButtons();
 		baseListView.init();
 		baseListView.initData();
 		baseListView.removeStyleName("abstract_base_view");
@@ -243,6 +247,22 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> {
 
 	@Override
 	public void setFocus() {
+	}
+
+	@Override
+	public boolean canPrint() {
+		if (baseListView instanceof IPrintableView) {
+			return ((IPrintableView) baseListView).canPrint();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		if (baseListView instanceof IPrintableView) {
+			return ((IPrintableView) baseListView).canExportToCsv();
+		}
+		return false;
 	}
 
 	// @Override

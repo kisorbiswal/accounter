@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.HistoryToken;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.company.TransactionsCenterView;
 import com.vimukti.accounter.web.client.ui.core.HistoryList.HistoryItem;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCenterView;
 import com.vimukti.accounter.web.client.ui.customers.VendorCenterView;
@@ -90,6 +91,8 @@ public class ViewManager extends HorizontalPanel {
 	private ImageButton searchButton;
 
 	private Label viewTitleLabel;
+
+	ImageButton addNewButton;
 
 	ButtonGroup group1;
 	ButtonGroup group2;
@@ -205,6 +208,8 @@ public class ViewManager extends HorizontalPanel {
 	}
 
 	String url = "";
+
+	private ButtonGroup group9;
 
 	private String getUrl() {
 		return "http://help.accounterlive.com/" + url;
@@ -410,6 +415,26 @@ public class ViewManager extends HorizontalPanel {
 			group4.remove(editButton);
 		}
 
+		if ((existingView instanceof BaseListView)
+				|| (existingView instanceof TransactionsCenterView)) {
+			String labelString;
+			if (existingView instanceof TransactionsCenterView) {
+				TransactionsCenterView centerView = (TransactionsCenterView) existingView;
+				labelString = centerView.baseListView.getAddNewLabelString();
+			} else {
+				labelString = ((BaseListView) existingView)
+						.getAddNewLabelString();
+			}
+			if (labelString != null) {
+				addNewButton.setText(labelString);
+				group9.add(addNewButton);
+			} else {
+				group9.remove(addNewButton);
+			}
+		} else {
+			group9.remove(addNewButton);
+		}
+
 		if (existingView instanceof IPrintableView) {
 			if (((IPrintableView) existingView).canExportToCsv()) {
 				group2.add(exportButton);
@@ -558,6 +583,7 @@ public class ViewManager extends HorizontalPanel {
 		group6 = new ButtonGroup();
 		group7 = new ButtonGroup();
 		group8 = new ButtonGroup();
+		group9 = new ButtonGroup();
 		viewTitleLabel = new Label(Accounter.messages().dashBoard());
 		viewTitleLabel.addStyleName("viewTitle");
 
@@ -678,6 +704,27 @@ public class ViewManager extends HorizontalPanel {
 			}
 		});
 
+		addNewButton = new ImageButton("", Accounter.getFinanceImages()
+				.createAction());
+		addNewButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				BaseListView baseListView;
+				if (existingView instanceof TransactionsCenterView) {
+					TransactionsCenterView centerView = (TransactionsCenterView) existingView;
+					baseListView = centerView.baseListView;
+				} else {
+					baseListView = (BaseListView) existingView;
+				}
+				Action action = baseListView.getAddNewAction();
+				if (action != null) {
+					action.run(null, false);
+				}
+			}
+
+		});
+
 		group1.add(previousButton);
 		group1.add(nextButton);
 
@@ -685,6 +732,7 @@ public class ViewManager extends HorizontalPanel {
 
 		group4.add(editButton);
 
+		group9.add(addNewButton);
 		group2.add(exportButton);
 		group2.add(printButton);
 
@@ -700,6 +748,7 @@ public class ViewManager extends HorizontalPanel {
 		toolBar.add(group6);
 		toolBar.add(group5);
 		toolBar.add(group2);
+		toolBar.add(group9);
 		toolBar.add(group4);
 		toolBar.add(group7);
 		toolBar.add(group8);
@@ -831,5 +880,4 @@ public class ViewManager extends HorizontalPanel {
 	public boolean isHelpPanelEnabled() {
 		return this.isHelpPanelEnabled;
 	}
-
 }

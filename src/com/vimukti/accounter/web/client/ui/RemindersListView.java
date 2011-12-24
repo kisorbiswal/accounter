@@ -178,7 +178,7 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 	@Override
 	protected String getAddNewLabelString() {
 		// No need to create add new label
-		return "";
+		return null;
 	}
 
 	@Override
