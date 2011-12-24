@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -160,6 +162,31 @@ public class VendorListView extends BaseListView<PayeeList> {
 		// grid.addEmptyMessage(messages().noRecordsToShow());
 		//
 		// getTotalLayout(grid);
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isActive", isActiveAccounts);
+		map.put("start", start);
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> viewDate) {
+
+		if (viewDate == null || viewDate.isEmpty()) {
+			return;
+		}
+		isActiveAccounts = (Boolean) viewDate.get("isActive");
+		start = (Integer) viewDate.get("start");
+		onPageChange(start, getPageSize());
+		if (isActiveAccounts) {
+			viewSelect.setComboItem(messages().active());
+		} else {
+			viewSelect.setComboItem(messages().inActive());
+		}
+
 	}
 
 	@Override
