@@ -918,6 +918,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
+		<query-param name="viewType" type="int" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="PAYMENT_DATE" type="long" />
@@ -932,8 +933,7 @@
 		<return-scalar column="CHECK_NUMBER" type="string" />
 		<return-scalar column="CURRENCY" type="long" />
 
-		SELECT
-		T.ID AS TRANSACTION_ID,
+		SELECT T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS
 		PAYMENT_DATE ,
@@ -1009,11 +1009,24 @@
 		ON P.ID = V.ID
 		OR P.ID =
 		TA.ID
+
 		WHERE T.T_TYPE
 		in(11,15,17,25) AND NAME IS NOT NULL AND
+		CASE
+		WHEN 2=:viewType
+		THEN (T.STATUS=2 AND T.SAVE_STATUS != 204)
+		WHEN 0=:viewType 
+		THEN(T.STATUS=0	AND	T.SAVE_STATUS != 204)
+		WHEN 3=:viewType 
+		THEN (T.SAVE_STATUS = 204)
+		ELSE true
+		END
+		AND
 		T.COMPANY_ID=:companyId AND
 		T.SAVE_STATUS != 202
-		AND T.T_DATE BETWEEN
+		AND
+		T.T_DATE
+		BETWEEN
 		:fromDate AND :toDate
 		ORDER BY
 		T.T_DATE DESC
@@ -4218,12 +4231,13 @@
 		end as NAME,
 
 		case when T.T_TYPE = 11
-		THEN CASE 
-				WHEN PB.PAYBILL_TYPE = 2
-					THEN 25
-				ELSE T.T_TYPE
-				END			
-		ELSE 
+		THEN CASE
+		WHEN PB.PAYBILL_TYPE = 2
+		THEN 25
+		ELSE
+		T.T_TYPE
+		END
+		ELSE
 		T.T_TYPE
 		END as Type,
 
@@ -4234,28 +4248,34 @@
 		case
 		when
 		T.T_TYPE = 1 or
-		T.T_TYPE = 3 or
+		T.T_TYPE
+		= 3 or
 		T.T_TYPE = 8 or T.T_TYPE = 2 or
 		T.T_TYPE
-		= 6 or T.T_TYPE
+		=
+		6 or T.T_TYPE
 		= 27
 		then
 		T.TOTAL * T.CURRENCY_FACTOR
-		when T.T_TYPE = 4 or T.T_TYPE =
+		when T.T_TYPE = 4 or
+		T.T_TYPE =
 		14
 		or
 		T.T_TYPE = 29
 		then
 		-1*T.TOTAL * T.CURRENCY_FACTOR
-		when T.T_TYPE = 10
+		when
+		T.T_TYPE = 10
 		then
 		case
 		when
 		TMD.TYPE = 3
 		then
-		-1*TMD.AMOUNT * T.CURRENCY_FACTOR
+		-1*TMD.AMOUNT *
+		T.CURRENCY_FACTOR
 		when
-		TMD.TYPE = 2
+		TMD.TYPE
+		= 2
 		then
 		TMD.AMOUNT * T.CURRENCY_FACTOR
 		else
@@ -4273,7 +4293,8 @@
 		when
 		WC.PAY_TO_TYPE = 2
 		then
-		T.TOTAL * T.CURRENCY_FACTOR
+		T.TOTAL *
+		T.CURRENCY_FACTOR
 		else
 		0.0
 		end
@@ -4296,7 +4317,8 @@
 		case
 		when
 		T.T_TYPE = 1
-		or T.T_TYPE = 3
+		or
+		T.T_TYPE = 3
 		or
 		T.T_TYPE = 2 or T.T_TYPE = 26 or
 		T.T_TYPE = 27
@@ -4305,7 +4327,8 @@
 		T.CURRENCY_FACTOR
 		when
 		T.T_TYPE = 5 or
-		T.T_TYPE = 15 or T.T_TYPE =
+		T.T_TYPE = 15 or T.T_TYPE
+		=
 		11 or
 		T.T_TYPE = 12
 		then
