@@ -7,7 +7,6 @@ import java.util.Vector;
 import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
@@ -15,7 +14,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.InvoiceListGrid;
@@ -29,9 +27,10 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	private ClientBrandingTheme brandingTheme;
 
 	private int transactionType;
+	private int viewId;
 
 	public InvoiceListView() {
-		super(Accounter.messages().all());
+		super(Accounter.messages().open());
 		isDeleteDisable = true;
 		// getLastandOpenedFiscalYearEndDate();
 	}
@@ -113,8 +112,8 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	public void onSuccess(PaginationList<InvoicesList> result) {
 		grid.removeLoadingImage();
 		listOfInvoices = result;
-		filterList(viewSelect.getValue().toString());
-		grid.setViewType(viewSelect.getValue().toString());
+		grid.setViewType(viewType);
+		grid.setRecords(result);
 		grid.sort(10, false);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
@@ -153,55 +152,68 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	@Override
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equals(messages().all())) {
-			for (InvoicesList invoice : listOfInvoices) {
-				invoice.setPrint(false);
-				grid.addData(invoice);
-			}
-		} else if (text.equals(messages().open())) {
-			for (InvoicesList invoice : listOfInvoices) {
-				if (invoice.getBalance() != null
-						&& DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
-						&& invoice.getDueDate() != null
-						&& (invoice.getStatus() != ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)
-						&& !invoice.isVoided()) {
-					invoice.setPrint(false);
-					grid.addData(invoice);
-				}
-			}
-
-		} else if (text.equals(messages().overDue())) {
-			for (InvoicesList invoice : listOfInvoices) {
-				if (invoice.getBalance() != null
-						&& DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
-						&& invoice.getDueDate() != null
-						&& (invoice.getDueDate().compareTo(
-								new ClientFinanceDate()) < 0)
-						&& !invoice.isVoided()) {
-					invoice.setPrint(false);
-					grid.addData(invoice);
-				}
-			}
-		} else if (text.equals(messages().voided())) {
-			for (InvoicesList invoice : listOfInvoices) {
-				if (invoice.isVoided()) {
-					invoice.setPrint(false);
-					grid.addData(invoice);
-				}
-			}
-		} else if (text.equals(messages().draft())) {
-			for (InvoicesList invoice : listOfInvoices) {
-				if (invoice.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
-					invoice.setPrint(false);
-					grid.addData(invoice);
-				}
-			}
-
+		if (text.equalsIgnoreCase(messages().open())) {
+			viewId = ClientTransaction.VIEW_OPEN;
+		} else if (text.equalsIgnoreCase(messages().voided())) {
+			viewId = ClientTransaction.VIEW_VOIDED;
+		} else if (text.equalsIgnoreCase(messages().overDue())) {
+			viewId = ClientTransaction.VIEW_OVERDUE;
+		} else if (text.equalsIgnoreCase(messages().all())) {
+			viewId = ClientTransaction.VIEW_ALL;
 		}
+		onPageChange(0, getPageSize());
 
-		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages().noRecordsToShow());
-		}
+		// grid.removeAllRecords();
+		// if (text.equals(messages().all())) {
+		// for (InvoicesList invoice : listOfInvoices) {
+		// invoice.setPrint(false);
+		// grid.addData(invoice);
+		// }
+		// } else if (text.equals(messages().open())) {
+		// for (InvoicesList invoice : listOfInvoices) {
+		// if (invoice.getBalance() != null
+		// && DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
+		// && invoice.getDueDate() != null
+		// && (invoice.getStatus() !=
+		// ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)
+		// && !invoice.isVoided()) {
+		// invoice.setPrint(false);
+		// grid.addData(invoice);
+		// }
+		// }
+		//
+		// } else if (text.equals(messages().overDue())) {
+		// for (InvoicesList invoice : listOfInvoices) {
+		// if (invoice.getBalance() != null
+		// && DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
+		// && invoice.getDueDate() != null
+		// && (invoice.getDueDate().compareTo(
+		// new ClientFinanceDate()) < 0)
+		// && !invoice.isVoided()) {
+		// invoice.setPrint(false);
+		// grid.addData(invoice);
+		// }
+		// }
+		// } else if (text.equals(messages().voided())) {
+		// for (InvoicesList invoice : listOfInvoices) {
+		// if (invoice.isVoided()) {
+		// invoice.setPrint(false);
+		// grid.addData(invoice);
+		// }
+		// }
+		// } else if (text.equals(messages().draft())) {
+		// for (InvoicesList invoice : listOfInvoices) {
+		// if (invoice.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+		// invoice.setPrint(false);
+		// grid.addData(invoice);
+		// }
+		// }
+		//
+		// }
+		//
+		// if (grid.getRecords().isEmpty()) {
+		// grid.addEmptyMessage(messages().noRecordsToShow());
+		// }
 	}
 
 	private void refreshDatesAndRecords() {
@@ -383,8 +395,23 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	@Override
 	protected void onPageChange(int start, int length) {
+		viewId = checkViewType(viewType);
 		Accounter.createHomeService().getInvoiceList(getStartDate().getDate(),
-				getEndDate().getDate(), transactionType, start, length, this);
+				getEndDate().getDate(), transactionType, viewId, start, length,
+				this);
 
+	}
+
+	private int checkViewType(String view) {
+		if (viewType.equalsIgnoreCase(messages().open())) {
+			viewId = ClientTransaction.VIEW_OPEN;
+		} else if (viewType.equalsIgnoreCase(messages().voided())) {
+			viewId = ClientTransaction.VIEW_VOIDED;
+		} else if (viewType.equalsIgnoreCase(messages().overDue())) {
+			viewId = ClientTransaction.VIEW_OVERDUE;
+		} else if (viewType.equalsIgnoreCase(messages().all())) {
+			viewId = ClientTransaction.VIEW_ALL;
+		}
+		return viewId;
 	}
 }

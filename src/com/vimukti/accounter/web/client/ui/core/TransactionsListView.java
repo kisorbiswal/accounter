@@ -52,6 +52,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 					public void selectedComboBoxItem(String selectItem) {
 						if (viewSelect.getSelectedValue() != null) {
 							grid.setViewType(viewSelect.getSelectedValue());
+							viewType = selectItem;
 							filterList(viewSelect.getSelectedValue());
 						}
 					}

@@ -9,6 +9,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.ItemStatus;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.StockAdjustment;
@@ -33,8 +34,8 @@ import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 public class InventoryManager extends Manager {
 
 	public PaginationList<InvoicesList> getInvoiceList(long companyId,
-			long fromDate, long toDate, int invoicesType, int start, int length)
-			throws DAOException {
+			long fromDate, long toDate, int invoicesType, int viewType,
+			int start, int length) throws DAOException {
 
 		try {
 			Session session = HibernateUtil.getCurrentSession();
@@ -43,23 +44,31 @@ public class InventoryManager extends Manager {
 			// FIXME :: query optimization
 			Query query = session.getNamedQuery("getInvoicesList")
 					.setParameter("companyId", companyId)
-					.setLong("fromDate", fromDate).setLong("toDate", toDate);
+					.setLong("fromDate", fromDate).setLong("toDate", toDate)
+					.setParameter("viewType", viewType)
+					.setParameter("todayDate", new FinanceDate().getDate());
 
 			if (invoicesType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 				query = session.getNamedQuery("getCustomerCreditMemos")
 						.setParameter("companyId", companyId)
 						.setLong("fromDate", fromDate)
-						.setLong("toDate", toDate);
+						.setLong("toDate", toDate)
+						.setParameter("viewType", viewType)
+						.setParameter("todayDate", new FinanceDate().getDate());
 			} else if (invoicesType == Transaction.TYPE_INVOICE) {
 				query = session.getNamedQuery("getInvoicesOnly")
 						.setParameter("companyId", companyId)
 						.setLong("fromDate", fromDate)
-						.setLong("toDate", toDate);
+						.setLong("toDate", toDate)
+						.setParameter("viewType", viewType)
+						.setParameter("todayDate", new FinanceDate().getDate());
 			} else if (invoicesType == Transaction.TYPE_CASH_SALES) {
 				query = session.getNamedQuery("getCashSalesList")
 						.setParameter("companyId", companyId)
 						.setLong("fromDate", fromDate)
-						.setLong("toDate", toDate);
+						.setLong("toDate", toDate)
+						.setParameter("viewType", viewType)
+						.setParameter("todayDate", new FinanceDate().getDate());
 			}
 			// /If length will be -1 then get list for mobile With out limits
 			if (length == -1) {
