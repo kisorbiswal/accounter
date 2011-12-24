@@ -982,7 +982,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public PaginationList<ReceivePaymentsList> getReceivePaymentsList(
 			long fromDate, long toDate, int transactionType, int start,
-			int length) {
+			int length, int viewType) {
 
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
@@ -990,7 +990,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 							toDate), getCompanyId());
 			return getFinanceTool().getCustomerManager()
 					.getReceivePaymentsList(getCompanyId(), dates[0].getDate(),
-							dates[1].getDate(), transactionType, start, length);
+							dates[1].getDate(), transactionType, start, length,
+							viewType);
 
 			// receivePaymentList = (List<ReceivePaymentsList>) manager
 			// .merge(receivePaymentList);

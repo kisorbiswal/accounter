@@ -144,11 +144,11 @@ public interface IAccounterClientService {
 	public ClientTAXAgency alterTaxAgency(long company,
 			ClientTAXAgency taxAgency) throws DAOException;
 
-	 public ClientTAXCode createTaxCode(long company, ClientTAXCode taxCode)
-	 throws DAOException;
-	
-	 public ClientTAXCode alterTaxCode(long company, ClientTAXCode taxCode)
-	 throws DAOException;
+	public ClientTAXCode createTaxCode(long company, ClientTAXCode taxCode)
+			throws DAOException;
+
+	public ClientTAXCode alterTaxCode(long company, ClientTAXCode taxCode)
+			throws DAOException;
 
 	public ClientTAXGroup createTaxGroup(long company, ClientTAXGroup taxGroup)
 			throws DAOException;
@@ -288,13 +288,12 @@ public interface IAccounterClientService {
 	public ClientBank createBank(long company, ClientBank bank)
 			throws DAOException;
 
-	public ClientPayTAX createPaySalesTax(long company,
-			ClientPayTAX paySalesTax) throws DAOException;
+	public ClientPayTAX createPaySalesTax(long company, ClientPayTAX paySalesTax)
+			throws DAOException;
 
-	public ClientPayTAX alterPaySalesTax(long company,
-			ClientPayTAX paySalesTax) throws DAOException;
+	public ClientPayTAX alterPaySalesTax(long company, ClientPayTAX paySalesTax)
+			throws DAOException;
 
-	
 	public Boolean deleteObject(final Class class1, final long Id)
 			throws DAOException;
 

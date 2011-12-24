@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -23,6 +24,7 @@ public class ReceivedPaymentListView extends
 
 	private List<ReceivePaymentsList> listOfRecievePayments;
 	private int transactionType;
+	private int viewType;
 
 	public ReceivedPaymentListView() {
 		super(Accounter.messages().paid());
@@ -66,10 +68,14 @@ public class ReceivedPaymentListView extends
 	public void onSuccess(PaginationList<ReceivePaymentsList> result) {
 		super.onSuccess(result);
 		listOfRecievePayments = result;
-		filterList(viewSelect.getSelectedValue());
-		grid.setViewType(viewSelect.getSelectedValue());
-		grid.sort(10, false);
-		updateRecordsCount(result.getStart(), grid.getRowCount(),
+		grid.removeAllRecords();
+		grid.setRecords(result);
+		if (grid.getRecords().isEmpty())
+			grid.addEmptyMessage(messages().noRecordsToShow());
+
+		grid.sort(12, false);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
 	}
 
@@ -97,39 +103,14 @@ public class ReceivedPaymentListView extends
 
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		for (ReceivePaymentsList recievePayment : listOfRecievePayments) {
-			// if (text.equals(OPEN)) {
-			// if ((recievePayment.getStatus() == STATUS_UNAPPLIED ||
-			// recievePayment
-			// .getStatus() == STATUS_PARTIALLY_APPLIED)
-			// && (!recievePayment.isVoided()))
-			// grid.addData(recievePayment);
-			//
-			// continue;
-			// }
-			// if (text.equals(FULLY_APPLIED)) {
-			// if (recievePayment.getStatus() == STATUS_APPLIED
-			// && !recievePayment.isVoided())
-			// grid.addData(recievePayment);
-			//
-			// continue;
-			// }
-			if (text.equals(messages().paid())) {
-				if (!recievePayment.isVoided()) {
-					grid.addData(recievePayment);
-				}
-			} else if (text.equals(messages().voided())) {
-				if (recievePayment.isVoided() && !recievePayment.isDeleted()) {
-					grid.addData(recievePayment);
-				}
-				continue;
-			} else if (text.equals(messages().all())) {
-				grid.addData(recievePayment);
-			}
+		if (text.equals(messages().paid())) {
+			viewType = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		} else if (text.equals(messages().voided())) {
+			viewType = ClientTransaction.VIEW_VOIDED;
+		} else if (text.equals(messages().all())) {
+			viewType = ClientTransaction.VIEW_ALL;
 		}
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
-
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
@@ -159,12 +140,12 @@ public class ReceivedPaymentListView extends
 
 	@Override
 	protected int getPageSize() {
-		return 1;
+		return 25;
 	}
 
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getReceivePaymentsList(
 				getStartDate().getDate(), getEndDate().getDate(),
-				transactionType, start, length, this);
+				transactionType, start, length, viewType, this);
 	};
 }

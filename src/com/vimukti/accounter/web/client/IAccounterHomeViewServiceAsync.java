@@ -223,7 +223,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ArrayList<ClientAccount>> callback);
 
 	public void getReceivePaymentsList(long fromDate, long toDate,
-			int transactionType, int start, int length,
+			int transactionType, int start, int length, int viewType,
 			AsyncCallback<PaginationList<ReceivePaymentsList>> callback);
 
 	public void getLatestPurchaseItems(

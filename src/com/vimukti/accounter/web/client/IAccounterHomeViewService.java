@@ -200,7 +200,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<ClientAccount> getTaxAgencyAccounts();
 
 	PaginationList<ReceivePaymentsList> getReceivePaymentsList(long fromDate,
-			long toDate, int transactionType, int start, int length);
+			long toDate, int transactionType, int start, int length,
+			int viewType);
 
 	public ArrayList<ClientItem> getLatestPurchaseItems();
 

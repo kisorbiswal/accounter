@@ -300,7 +300,7 @@ public class CustomerManager extends Manager {
 
 	public PaginationList<ReceivePaymentsList> getReceivePaymentsList(
 			long companyId, long fromDate, long toDate, int transactionType,
-			int start, int length) throws DAOException {
+			int start, int length, int viewType) throws DAOException {
 		int total = 0;
 		List list;
 		try {
@@ -309,17 +309,20 @@ public class CustomerManager extends Manager {
 			Query query = session.getNamedQuery("getAllCustomersPaymentsList")
 					.setParameter("companyId", companyId)
 					.setParameter("fromDate", fromDate)
-					.setParameter("toDate", toDate);
+					.setParameter("toDate", toDate)
+					.setParameter("viewType", viewType);
 			if (transactionType == Transaction.TYPE_RECEIVE_PAYMENT) {
 				query = session.getNamedQuery("getCustomerReceivePaymentsList")
 						.setParameter("companyId", companyId)
 						.setParameter("fromDate", fromDate)
-						.setParameter("toDate", toDate);
+						.setParameter("toDate", toDate)
+						.setParameter("viewType", viewType);
 			} else if (transactionType == Transaction.TYPE_CUSTOMER_PRE_PAYMENT) {
 				query = session.getNamedQuery("getCustomerPrepaymentsList")
 						.setParameter("companyId", companyId)
 						.setParameter("fromDate", fromDate)
-						.setParameter("toDate", toDate);
+						.setParameter("toDate", toDate)
+						.setParameter("viewType", viewType);
 			}
 
 			// /If length will be -1 then get list for mobile With out limits
