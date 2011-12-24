@@ -320,7 +320,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public PaginationList<PaymentsList> getVendorPaymentsList(long fromDate,
-			long toDate, int start, int length) {
+			long toDate, int start, int length, int viewType) {
 
 		PaginationList<PaymentsList> vendorPaymentsList = new PaginationList<PaymentsList>();
 
@@ -330,7 +330,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 							toDate), getCompanyId());
 			vendorPaymentsList = getFinanceTool().getVendorManager()
 					.getVendorPaymentsList(getCompanyId(), dates[0].getDate(),
-							dates[1].getDate(), start, length);
+							dates[1].getDate(), start, length, viewType);
 
 			// vendorPaymentsList = (List<PaymentsList>) manager
 			// .merge(vendorPaymentsList);
