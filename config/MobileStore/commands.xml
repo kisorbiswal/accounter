@@ -306,9 +306,8 @@
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.reports.VATItemSummaryReportCommand"
-		name="vATItemSummary">
+		name="vatItemSummary">
 		<alias>vATItemSummaryReport</alias>
-		<alias>vatItemSummary</alias>
 	</command>
 
 	<command

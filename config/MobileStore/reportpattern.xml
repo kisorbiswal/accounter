@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <patterns>
-	<!-- <pattern login="true"> <input>Report</input> <input>Reports</input> 
-		<input>How to see the Reports</input> <outputs> <text name=""Report is a 
-		formatted and organized presentation of your company data. " /> <command 
-		value="Company &amp; Financial Reports">Company &amp; Financial Reports" 
-		/> <command value="Customers and Receivables Reports">Customers and Receivables 
-		Reports" /> <command value="Sales Reports">Sales Reports" /> <command value="Suppliers 
-		and Payables Reports">Suppliers and Payable Reports" /> <command value="Purchases 
-		Reports">Purchases Reports" /> <command value="VAT Reports">VAT Reports" 
-		/> </outputs> </pattern> -->
-
 	<pattern login="true">
 		<input>reports</input>
 		<outputs>
@@ -86,7 +76,6 @@
 		<input>vATReports</input>
 		<input>tAXReports</input>
 		<outputs>
-			<text name="VAT Reports" />
 			<command if="isUK" title="priorVATReturns" />
 			<command if="isUK" title="vatDetail" />
 			<command if="isNotUK" title="taxItemDetailReport" />
@@ -95,7 +84,7 @@
 			<command if="isNotUK" title="taxItemExceptionDetailReport" />
 			<command if="isUK" title="uncategorizedVATAmounts" />
 			<command if="isUK" title="ecSalesList" />
-			<command if="isUK" title="vATItemSummary" />
+			<command if="isUK" title="vatItemSummary" />
 			<command if="isNotUK" title="vatItemSummary" />
 		</outputs>
 	</pattern>
