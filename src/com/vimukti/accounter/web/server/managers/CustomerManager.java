@@ -873,6 +873,7 @@ public class CustomerManager extends Manager {
 
 			TransactionHistory transactionHistory = new TransactionHistory();
 			object = (Object[]) iterator.next();
+			transactionHistory.setTransactionId((Long) object[0]);
 
 			transactionHistory.setName(Utility
 					.getTransactionName((Integer) object[2]));
