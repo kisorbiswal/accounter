@@ -89,8 +89,6 @@ public class CommandUtils {
 		try {
 			return new FinanceTool().getManager().getObjectById(type, id,
 					companyId);
-		} catch (DAOException e) {
-			e.printStackTrace();
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
@@ -1151,7 +1149,7 @@ public class CommandUtils {
 			accountTypeName = messages.income();
 			break;
 		case ClientAccount.TYPE_OTHER_INCOME:
-			accountTypeName =messages.otherIncome();
+			accountTypeName = messages.otherIncome();
 			break;
 		case ClientAccount.TYPE_EXPENSE:
 			accountTypeName = messages.expense();
@@ -1190,7 +1188,7 @@ public class CommandUtils {
 			accountTypeName = messages.payrollLiability();
 			break;
 		case ClientAccount.TYPE_OTHER_CURRENT_LIABILITY:
-			accountTypeName =  messages.currentLiability();
+			accountTypeName = messages.currentLiability();
 			break;
 		case ClientAccount.TYPE_LONG_TERM_LIABILITY:
 			accountTypeName = messages.longTermLiability();

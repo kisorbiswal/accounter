@@ -35,7 +35,6 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
-import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -415,9 +414,7 @@ public class NewPayBillCommand extends AbstractTransactionCommand {
 
 			TAXItem taxItem = vendor.getTAXItem();
 			if (taxItem != null) {
-				paybill.setTdsTaxItem((ClientTAXItem) CommandUtils
-						.getClientObjectById(taxItem.getID(),
-								AccounterCoreType.TAXITEM, getCompanyId()));
+				paybill.setTdsTaxItem(taxItem.getID());
 			}
 		}
 		paybill.setCurrency(vendor.getCurrency().getID());

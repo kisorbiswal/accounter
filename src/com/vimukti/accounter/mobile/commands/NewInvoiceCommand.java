@@ -41,7 +41,6 @@ import com.vimukti.accounter.mobile.requirements.ShippingTermRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -421,8 +420,6 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			cEstimate = new FinanceTool().getManager().getObjectById(
 					AccounterCoreType.ESTIMATE, transactionId,
 					context.getCompany().getID());
-		} catch (DAOException e1) {
-			e1.printStackTrace();
 		} catch (AccounterException e1) {
 			e1.printStackTrace();
 		}
@@ -435,8 +432,6 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			cSalesOrder = new FinanceTool().getManager().getObjectById(
 					AccounterCoreType.SALESORDER, transactionId,
 					context.getCompany().getID());
-		} catch (DAOException e1) {
-			e1.printStackTrace();
 		} catch (AccounterException e1) {
 			e1.printStackTrace();
 		}
