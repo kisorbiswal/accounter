@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -59,6 +62,31 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 			return Accounter.messages().addNewMeasurement();
 		else
 			return "";
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// map.put("isActive", isActiveAccounts);
+		map.put("start", start);
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> viewDate) {
+
+		if (viewDate == null || viewDate.isEmpty()) {
+			return;
+		}
+		// isActiveAccounts = (Boolean) viewDate.get("isActive");
+		start = (Integer) viewDate.get("start");
+		onPageChange(start, getPageSize());
+		// if (isActiveAccounts) {
+		// viewSelect.setComboItem(messages().active());
+		// } else {
+		// viewSelect.setComboItem(messages().inActive());
+		// }
+
 	}
 
 	@Override
