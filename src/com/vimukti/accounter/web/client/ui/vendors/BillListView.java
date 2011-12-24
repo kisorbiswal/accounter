@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -13,7 +14,6 @@ import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.BillsListGrid;
 
@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.grids.BillsListGrid;
 public class BillListView extends TransactionsListView<BillsList> {
 	protected List<BillsList> allEnterBills;
 	private int transactionType;
+	private int viewType;
 
 	private BillListView() {
 		super(Accounter.messages().all());
@@ -112,20 +113,6 @@ public class BillListView extends TransactionsListView<BillsList> {
 	public void updateInGrid(BillsList objectTobeModified) {
 	}
 
-	// @Override
-	// protected void createControls() {
-	// super.createControls();
-	// ((VerticalPanel) gridLayout.getParent()).add(table);
-	// HorizontalPanel panel = new HorizontalPanel();
-	// panel.add(table);
-	// panel.setWidth("100%");
-	// panel.setCellHeight(table, "100%");
-	// panel.setCellWidth(table, "70%");
-	// table.setWidth("100%");
-	// ((VerticalPanel) gridLayout.getParent()).add(panel);
-	// // add(table);
-	// }
-
 	@Override
 	protected void initGrid() {
 		grid = new BillsListGrid(false, transactionType);
@@ -134,12 +121,12 @@ public class BillListView extends TransactionsListView<BillsList> {
 
 	@Override
 	public void onSuccess(PaginationList<BillsList> result) {
-		super.onSuccess(result);
 		allEnterBills = result;
-		filterList(viewSelect.getValue().toString());
-		grid.setViewType(viewSelect.getValue().toString());
-		grid.sort(10, false);
-		updateRecordsCount(result.getStart(), grid.getRowCount(),
+		grid.removeAllRecords();
+		grid.setRecords(result);
+		grid.sort(12, false);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
 	}
 
@@ -157,64 +144,18 @@ public class BillListView extends TransactionsListView<BillsList> {
 
 	@Override
 	protected void filterList(String text) {
+
 		grid.removeAllRecords();
 		if (text.equalsIgnoreCase(messages().open())) {
-			ArrayList<BillsList> openRecs = new ArrayList<BillsList>();
-			List<BillsList> allRecs = initialRecords;
-			for (BillsList rec : allRecs) {
-				if ((rec.getType() == ClientTransaction.TYPE_ENTER_BILL || rec
-						.getType() == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO)
-						&& DecimalUtil.isGreaterThan(rec.getBalance(), 0)) {
-					if (!rec.isDeleted() && !rec.isVoided()) {
-						openRecs.add(rec);
-					}
-				}
-			}
-			grid.setRecords(openRecs);
-
+			viewType = ClientTransaction.VIEW_OPEN;
 		} else if (text.equalsIgnoreCase(messages().voided())) {
-			ArrayList<BillsList> voidedRecs = new ArrayList<BillsList>();
-			List<BillsList> allRecs = initialRecords;
-			for (BillsList rec : allRecs) {
-				if (rec.isVoided() && !rec.isDeleted()) {
-					voidedRecs.add(rec);
-				}
-			}
-			grid.setRecords(voidedRecs);
-
+			viewType = ClientTransaction.VIEW_VOIDED;
 		} else if (text.equalsIgnoreCase(messages().overDue())) {
-			ArrayList<BillsList> overDueRecs = new ArrayList<BillsList>();
-			List<BillsList> allRecs = initialRecords;
-			for (BillsList rec : allRecs) {
-				if (rec.getType() == ClientTransaction.TYPE_ENTER_BILL
-						&& new ClientFinanceDate().after(rec.getDueDate())
-						&& DecimalUtil.isGreaterThan(rec.getBalance(), 0)) {
-					overDueRecs.add(rec);
-				}
-			}
-			grid.setRecords(overDueRecs);
+			viewType = ClientTransaction.VIEW_OVERDUE;
+		} else if (text.equalsIgnoreCase(messages().all())) {
+			viewType = ClientTransaction.VIEW_ALL;
 		}
-		// else if (currentView.getValue().toString().equalsIgnoreCase(
-		// "Deleted")) {
-		// List<BillsList> deletedRecs = new ArrayList<BillsList>();
-		// List<BillsList> allRecs = initialRecords;
-		// for (BillsList rec : allRecs) {
-		// if (rec.isDeleted()) {
-		// deletedRecs.add(rec);
-		// }
-		// }
-		//
-		// grid.setRecords(deletedRecs);
-		// }
-		if (text.equalsIgnoreCase(messages().all())) {
-			ArrayList<BillsList> list = new ArrayList<BillsList>();
-			list.addAll(initialRecords);
-			grid.setRecords(initialRecords);
-		}
-		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages().noRecordsToShow());
-		}
-
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
@@ -244,13 +185,13 @@ public class BillListView extends TransactionsListView<BillsList> {
 
 	@Override
 	protected int getPageSize() {
-		return 10;
+		return 25;
 	}
 
 	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getBillsAndItemReceiptList(false,
 				transactionType, getStartDate().getDate(),
-				getEndDate().getDate(), start, length, this);
+				getEndDate().getDate(), start, length, viewType, this);
 	}
 }
