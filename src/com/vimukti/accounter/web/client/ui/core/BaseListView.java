@@ -62,7 +62,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		ISavableView<Map<String, Object>> {
 	protected BaseListGrid grid;
 	boolean budgetItemsExists = false;
-	private AccounterMessages messages;
+	private final AccounterMessages messages;
+	public int start, length;
 
 	public BaseListView() {
 		messages = Accounter.messages();
@@ -131,6 +132,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	// }
 	// }
 
+	@Override
 	public void deleteFromGrid(T objectToBeRemoved) {
 
 		// this.grid.deleteRecord((IsSerializable) objectToBeRemoved);
@@ -411,7 +413,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 							.getNewRange().getLength());
 				}
 			});
-			grid.setVisibleRange(0, pageSize);
+			grid.setVisibleRange(start, pageSize);
 			SimplePager pager = new SimplePager(TextLocation.CENTER,
 					(Resources) GWT.create(Resources.class), true,
 					pageSize * 2, true);
@@ -480,6 +482,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	protected abstract String getListViewHeading();
 
+	@Override
 	public void addToGrid(T objectToBeAdded) {
 		grid.addData(objectToBeAdded);
 		if (totalLabel != null) {
