@@ -293,7 +293,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			boolean isActive, int strat, int length) throws AccounterException;
 
 	public PaginationList<InvoicesList> getInvoiceList(long fromDate,
-			long toDate, int type, int start, int length);
+			long toDate, int type,int viewType, int start, int length);
 
 	public String getCustomerNumber();
 

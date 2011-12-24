@@ -325,7 +325,7 @@ public interface IAccounterHomeViewServiceAsync {
 			int strat, int length,
 			AsyncCallback<PaginationList<PayeeList>> callBack);
 
-	public void getInvoiceList(long fromDate, long toDate, int invoicesType,
+	public void getInvoiceList(long fromDate, long toDate, int invoicesType,int viewType,
 			int start, int length,
 			AsyncCallback<PaginationList<InvoicesList>> callback);
 
