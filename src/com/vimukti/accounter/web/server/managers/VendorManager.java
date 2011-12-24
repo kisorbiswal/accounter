@@ -79,24 +79,28 @@ public class VendorManager extends Manager {
 
 	public PaginationList<BillsList> getBillsList(boolean isExpensesList,
 			long companyId, int transactionType, long fromDate, long toDate,
-			int start, int length) throws DAOException {
+			int start, int length, int viewType) throws DAOException {
 		int total = 0;
 		List list;
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-			// FIXME:: change the sql query to hql query
 
 			Query query = session.getNamedQuery("getBillsList")
 					.setParameter("companyId", companyId)
 					.setParameter("fromDate", fromDate)
-					.setParameter("toDate", toDate);
+					.setParameter("toDate", toDate)
+					.setParameter("todayDate", new FinanceDate().getDate())
+					.setParameter("viewType", viewType);
 			if (transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) {
 				query = session.getNamedQuery("getVendorCreditMemos")
 						.setParameter("companyId", companyId)
 						.setParameter("fromDate", fromDate)
-						.setParameter("toDate", toDate);
+						.setParameter("toDate", toDate)
+						.setParameter("todayDate", new FinanceDate().getDate())
+						.setParameter("viewType", viewType);
 			}
 			// /If length will be -1 then get list for mobile With out limits
+
 			if (length == -1) {
 				list = query.list();
 			} else {
