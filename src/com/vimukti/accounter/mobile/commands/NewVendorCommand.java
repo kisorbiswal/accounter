@@ -7,9 +7,11 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -32,6 +34,7 @@ import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorGroupRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -138,21 +141,20 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientCurrency e, String name) {
+			protected boolean filter(Currency e, String name) {
 				return e.getFormalName().startsWith(name);
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return getCurrencies(context.getCompany().getCurrencies());
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(getCompany().getCurrencies());
 			}
 		});
 
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
 				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
-
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
+			protected Currency getCurrency() {
 				return get(CURRENCY).getValue();
 			}
 		});
@@ -165,9 +167,8 @@ public class NewVendorCommand extends NewAbstractCommand {
 				.openingBalance(), true, true) {
 
 			@Override
-			protected String getFormalName() {
-				ClientCurrency currency = get(CURRENCY).getValue();
-				return currency.getFormalName();
+			protected Currency getCurrency() {
+				return get(CURRENCY).getValue();
 			}
 		});
 
@@ -570,7 +571,7 @@ public class NewVendorCommand extends NewAbstractCommand {
 			}
 			// customer.setPANno(panNum);
 		}
-		ClientCurrency currency = get(CURRENCY).getValue();
+		Currency currency = get(CURRENCY).getValue();
 		if (getPreferences().isEnableMultiCurrency()) {
 			vendor.setCurrency(currency.getID());
 		}
@@ -672,7 +673,9 @@ public class NewVendorCommand extends NewAbstractCommand {
 		get(SERVICE_TAX_NUM).setValue(vendor.getServiceTaxRegistrationNumber());
 		get(TIN_NUM).setValue(vendor.getTinNumber());
 		get(TRACK_PAYMENTS_FOR_1099).setValue(vendor.isTrackPaymentsFor1099());
-		get(CURRENCY).setValue(getCurrency(vendor.getCurrency()));
+		get(CURRENCY).setValue(
+				HibernateUtil.getCurrentSession().get(Currency.class,
+						vendor.getCurrency()));
 		get(CURRENCY_FACTOR).setValue(vendor.getCurrencyFactor());
 	}
 

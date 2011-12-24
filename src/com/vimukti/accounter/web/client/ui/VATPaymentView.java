@@ -160,7 +160,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 						calculateEndingBalance();
 
 						endingBalanceText.setValue(DataUtils
-								.getAmountAsString(endingBalance));
+								.getAmountAsStringInPrimaryCurrency(endingBalance));
 
 					}
 

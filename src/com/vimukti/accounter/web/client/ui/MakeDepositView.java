@@ -649,7 +649,7 @@ public class MakeDepositView extends
 			memoText.setValue(transaction.getMemo());
 			transactionNumber.setValue(transaction.getNumber());
 			this.transactionItems = transaction.getTransactionItems();
-			cashBackAmountText.setValue(DataUtils.getAmountAsString(transaction
+			cashBackAmountText.setValue(DataUtils.getAmountAsStringInPrimaryCurrency(transaction
 					.getCashBackAmount()));
 			cashBackMemoText.setValue(transaction.getCashBackMemo());
 			cashBackAccountSelect.setValue(transaction.getCashBackAccount());

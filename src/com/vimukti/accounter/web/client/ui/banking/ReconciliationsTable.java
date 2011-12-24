@@ -69,7 +69,7 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 
 			@Override
 			public String getValue(ClientReconciliation object) {
-				return DataUtils.getAmountAsString(object.getOpeningBalance());
+				return DataUtils.getAmountAsStringInPrimaryCurrency(object.getOpeningBalance());
 			}
 		};
 
@@ -77,7 +77,7 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 
 			@Override
 			public String getValue(ClientReconciliation object) {
-				return DataUtils.getAmountAsString(object.getClosingBalance());
+				return DataUtils.getAmountAsStringInPrimaryCurrency(object.getClosingBalance());
 			}
 		};
 

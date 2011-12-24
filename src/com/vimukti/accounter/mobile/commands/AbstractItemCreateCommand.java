@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.Measurement;
@@ -134,9 +135,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected String getFormalName() {
-				return getCompany().getPreferences().getPrimaryCurrency()
-						.getFormalName();
+			protected Currency getCurrency() {
+				return null;
 			}
 		});
 
@@ -247,9 +247,8 @@ public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
 				.standardCost(), true, true) {
 
 			@Override
-			protected String getFormalName() {
-				return getCompany().getPreferences().getPrimaryCurrency()
-						.getFormalName();
+			protected Currency getCurrency() {
+				return null;
 			}
 
 		});

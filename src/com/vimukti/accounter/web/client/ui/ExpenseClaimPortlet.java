@@ -126,15 +126,15 @@ public class ExpenseClaimPortlet extends GraphPointsPortlet {
 
 		Label empExpLabel = new Label();
 
-		allExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(allExpensesAmount));
-		cashExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(cashExpenseAmount));
+		allExpAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsStringInPrimaryCurrency(allExpensesAmount));
+		cashExpAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsStringInPrimaryCurrency(cashExpenseAmount));
 		cashExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		empExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(employeeExpenseAmount));
-		ccExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(ccExpenseAmount));
+		empExpAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsStringInPrimaryCurrency(employeeExpenseAmount));
+		ccExpAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsStringInPrimaryCurrency(ccExpenseAmount));
 		ccExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		fTable.addStyleName("expense_label_tabel");
 		fTable.setWidget(0, 0, allExpLabel);
@@ -180,15 +180,14 @@ public class ExpenseClaimPortlet extends GraphPointsPortlet {
 	}
 
 	public void updateAmountLabels() {
-		cashExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(cashExpenseAmount));
-		ccExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(ccExpenseAmount));
-		empExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(employeeExpenseAmount));
-
-		allExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(allExpensesAmount));
+		cashExpAmtLabel.setText(DataUtils
+				.getAmountAsStringInPrimaryCurrency(cashExpenseAmount));
+		ccExpAmtLabel.setText(DataUtils
+				.getAmountAsStringInPrimaryCurrency(ccExpenseAmount));
+		empExpAmtLabel.setText(DataUtils
+				.getAmountAsStringInPrimaryCurrency(employeeExpenseAmount));
+		allExpAmtLabel.setText(DataUtils
+				.getAmountAsStringInPrimaryCurrency(allExpensesAmount));
 	}
 
 	private void toolBarInitilization() {

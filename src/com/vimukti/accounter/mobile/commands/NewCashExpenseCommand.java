@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
@@ -33,7 +34,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -122,10 +122,10 @@ public class NewCashExpenseCommand extends NewAbstractTransactionCommand {
 				.pleaseEnter(getMessages().currencyFactor()), getMessages()
 				.currencyFactor()) {
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
+			protected Currency getCurrency() {
 				Vendor vendor = (Vendor) NewCashExpenseCommand.this.get(VENDOR)
 						.getValue();
-				return getCurrency(vendor.getCurrency().getID());
+				return vendor.getCurrency();
 			}
 
 		});

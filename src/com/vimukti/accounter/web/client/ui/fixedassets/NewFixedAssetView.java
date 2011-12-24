@@ -767,11 +767,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 								+ UIUtils.getDateStringByDate(enteredDate
 										.toString()), this, getBaseCurrency());
 				accmulatdDepreciationTxt.setValue(DataUtils
-						.getAmountAsString(getDepreciationAmount()));
+						.getAmountAsStringInPrimaryCurrency(getDepreciationAmount()));
 
 				if (isInViewMode())
 					accmulatdDepreciationTxt.setValue(DataUtils
-							.getAmountAsString(data
+							.getAmountAsStringInPrimaryCurrency(data
 									.getAccumulatedDepreciationAmount()));
 
 				acumulatedDeprcForm = new DynamicForm();

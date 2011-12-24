@@ -554,12 +554,12 @@ public abstract class AdminCustomTable extends VerticalPanel {
 			// }
 
 			if (isMultiSelectionEnable) {
-//				if (UIUtils.isMSIEBrowser())
-//					table.getCellFormatter().getElement(row, 0)
-//							.setAttribute("width", "" + 25);
-//				else
-//					table.getCellFormatter().getElement(row, 0)
-//						.setAttribute("width", "" + 15);
+				// if (UIUtils.isMSIEBrowser())
+				// table.getCellFormatter().getElement(row, 0)
+				// .setAttribute("width", "" + 25);
+				// else
+				// table.getCellFormatter().getElement(row, 0)
+				// .setAttribute("width", "" + 15);
 			}
 
 		} catch (Exception e) {
@@ -721,9 +721,5 @@ public abstract class AdminCustomTable extends VerticalPanel {
 
 	public boolean isShowFooter() {
 		return isShowFooter;
-	}
-
-	public String amountAsString(Double amount) {
-		return DataUtils.getAmountAsString(amount);
 	}
 }

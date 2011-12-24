@@ -6,6 +6,8 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
@@ -107,10 +109,10 @@ public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
 				.pleaseEnter(getMessages().currencyFactor()), getMessages()
 				.currencyFactor()) {
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
+			protected Currency getCurrency() {
 				Vendor vendor = (Vendor) NewCreditCardExpenseCommand.this.get(
 						VENDOR).getValue();
-				return getCurrency(vendor.getCurrency().getID());
+				return vendor.getCurrency();
 			}
 
 		});

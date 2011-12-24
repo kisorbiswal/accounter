@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.BrandingTheme;
+import com.vimukti.accounter.core.ChequeLayout;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.FinanceDate;
@@ -84,10 +85,18 @@ public abstract class CompanyInitializer {
 
 		createDefaultFiledAccount();
 
+		// createDefaultChequeLayout();
+
 		session.saveOrUpdate(company);
 
 		init();
 
+	}
+
+	private void createDefaultChequeLayout() {
+		ChequeLayout layout = new ChequeLayout();
+
+		company.getChequeLayouts().add(layout);
 	}
 
 	private void createDefaultFiledAccount() {

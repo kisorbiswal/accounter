@@ -1,12 +1,14 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 
-public abstract class CurrencyFactorRequirement extends AmountRequirement {
+public abstract class CurrencyFactorRequirement extends
+		CurrencyAmountRequirement {
 
 	public CurrencyFactorRequirement(String requirementName,
 			String displayString, String recordName) {
@@ -17,11 +19,11 @@ public abstract class CurrencyFactorRequirement extends AmountRequirement {
 	@Override
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
-		ClientCurrency currency = getSelectedCurrency();
+		Currency currency = getCurrency();
 		ClientCurrency primaryCurrency = getPreferences().getPrimaryCurrency();
 		if (getPreferences().isEnableMultiCurrency()
-				&& !currency.getDisplayName().equalsIgnoreCase(
-						primaryCurrency.getDisplayName())) {
+				&& !currency.getFormalName().equalsIgnoreCase(
+						primaryCurrency.getFormalName())) {
 			return super.run(context, makeResult, list, actions);
 		}
 		return null;
@@ -32,7 +34,7 @@ public abstract class CurrencyFactorRequirement extends AmountRequirement {
 		Double t = getValue();
 		Record nameRecord = new Record(getName());
 
-		String currencyName = getSelectedCurrency().getFormalName();
+		String currencyName = getCurrency().getFormalName();
 		ClientCurrency primaryCurrency = getPreferences().getPrimaryCurrency();
 		String val = "1" + currencyName + "=" + t + "  "
 				+ primaryCurrency.getFormalName();
@@ -40,6 +42,7 @@ public abstract class CurrencyFactorRequirement extends AmountRequirement {
 		list.add(nameRecord);
 	}
 
-	protected abstract ClientCurrency getSelectedCurrency();
+	@Override
+	protected abstract Currency getCurrency();
 
 }

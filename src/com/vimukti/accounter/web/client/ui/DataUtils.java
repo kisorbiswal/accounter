@@ -225,11 +225,11 @@ public class DataUtils {
 		return buffer.toString();
 	}
 
-	public static String getAmountAsString(Double amount) {
+	public static String getAmountAsStringInPrimaryCurrency(Double amount) {
 		if (amount == null)
 			amount = 0.00;
-
-		return Global.get().toCurrencyFormat(amount);
+		return getAmountAsStringInCurrency(amount, Global.get().preferences()
+				.getPrimaryCurrency().getSymbol());
 
 		// String decimalCharacter = Global.get().preferences()
 		// .getDecimalCharacter();
@@ -336,79 +336,17 @@ public class DataUtils {
 		if (currency == null) {
 			currency = Accounter.getCompany().getPrimaryCurrency();
 		}
-		if (amount < 0) {
-			ClientCompanyPreferences preferences = Accounter.getCompany()
-					.getPreferences();
-			switch (preferences.getNegativeNumberShownType()) {
-			case ClientCompanyPreferences.NEGATIVE_NUMBER_NORMAL:
-				return currency.getSymbol() + " "
-						+ DataUtils.getAmountAsString(amount);
-			case ClientCompanyPreferences.NEGATIVE_NUMBER_WITHIN_PARENTHESES:
-				return currency.getSymbol() + " " + "("
-						+ DataUtils.getAmountAsString(amount * -1) + ")";
-			case ClientCompanyPreferences.NEGATIVE_NUMBER_WITH_TRAILING_MINUS:
-				return currency.getSymbol() + " "
-						+ DataUtils.getAmountAsString(amount * -1) + "-";
-			case ClientCompanyPreferences.NEGATIVE_NUMBER_MINUS_WITHIN_PARENTHESES:
-				return currency.getSymbol() + " " + "(-)"
-						+ DataUtils.getAmountAsString(amount * -1);
-			}
-		} else {
-			return currency.getSymbol() + " "
-					+ DataUtils.getAmountAsString(amount);
-		}
-		return null;
+		return amountAsStringWithCurrency(amount, currency);
 	}
 
 	public static String amountAsStringWithCurrency(Double amount,
 			ClientCurrency currency) {
-		if (amount < 0) {
-			ClientCompanyPreferences preferences = Accounter.getCompany()
-					.getPreferences();
-			switch (preferences.getNegativeNumberShownType()) {
-			case ClientCompanyPreferences.NEGATIVE_NUMBER_NORMAL:
-				return currency.getSymbol() + " "
-						+ DataUtils.getAmountAsString(amount);
-			case ClientCompanyPreferences.NEGATIVE_NUMBER_WITHIN_PARENTHESES:
-				return currency.getSymbol() + " " + "("
-						+ DataUtils.getAmountAsString(amount * -1) + ")";
-			case ClientCompanyPreferences.NEGATIVE_NUMBER_WITH_TRAILING_MINUS:
-				return currency.getSymbol() + " "
-						+ DataUtils.getAmountAsString(amount * -1) + "-";
-			case ClientCompanyPreferences.NEGATIVE_NUMBER_MINUS_WITHIN_PARENTHESES:
-				return currency.getSymbol() + " " + "(-)"
-						+ DataUtils.getAmountAsString(amount * -1);
-			}
-		} else {
-			return currency.getSymbol() + " "
-					+ DataUtils.getAmountAsString(amount);
-		}
-		return null;
+		return getAmountAsStringInCurrency(amount, currency.getSymbol());
 	}
 
-	public static String getAmountAsString(double amount, String currencySymbol) {
-		if (amount < 0) {
-			ClientCompanyPreferences preferences = Accounter.getCompany()
-					.getPreferences();
-			switch (preferences.getNegativeNumberShownType()) {
-			case ClientCompanyPreferences.NEGATIVE_NUMBER_NORMAL:
-				return currencySymbol + " "
-						+ DataUtils.getAmountAsString(amount);
-			case ClientCompanyPreferences.NEGATIVE_NUMBER_WITHIN_PARENTHESES:
-				return currencySymbol + " " + "("
-						+ DataUtils.getAmountAsString(amount * -1) + ")";
-			case ClientCompanyPreferences.NEGATIVE_NUMBER_WITH_TRAILING_MINUS:
-				return currencySymbol + " "
-						+ DataUtils.getAmountAsString(amount * -1) + "-";
-			case ClientCompanyPreferences.NEGATIVE_NUMBER_MINUS_WITHIN_PARENTHESES:
-				return currencySymbol + " " + "(-)"
-						+ DataUtils.getAmountAsString(amount * -1);
-			}
-		} else {
-			return currencySymbol + " "
-					+ DataUtils.getAmountAsString(amount);
-		}
-		return null;
+	public static String getAmountAsStringInCurrency(double amount,
+			String currencySymbol) {
+		return Global.get().toCurrencyFormat(amount, currencySymbol);
 	}
 
 }

@@ -48,8 +48,8 @@ public abstract class ReceivePaymentTableRequirement extends
 				INVOICE_AMOUNT, "", getMessages().originalAmount(), true, true) {
 
 			@Override
-			protected String getFormalName() {
-				return getCurrency().getFormalName();
+			protected Currency getCurrency() {
+				return ReceivePaymentTableRequirement.this.getCurrency();
 			}
 
 		};
@@ -62,8 +62,8 @@ public abstract class ReceivePaymentTableRequirement extends
 						.amountDue(), true, true) {
 
 			@Override
-			protected String getFormalName() {
-				return getCurrency().getFormalName();
+			protected Currency getCurrency() {
+				return ReceivePaymentTableRequirement.this.getCurrency();
 			}
 
 		};
@@ -89,8 +89,8 @@ public abstract class ReceivePaymentTableRequirement extends
 						.receivedPayment(), true, true) {
 
 			@Override
-			protected String getFormalName() {
-				return getCurrency().getFormalName();
+			protected Currency getCurrency() {
+				return ReceivePaymentTableRequirement.this.getCurrency();
 			}
 
 		};

@@ -3,11 +3,13 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -76,9 +78,12 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionListCommand 
 				record.add(getMessages().name(), value.getCustomerName());
 				record.add(getMessages().paymentMethod(),
 						value.getPaymentMethodName());
-				record.add(getMessages().amountPaid(),
-						getCurrency(value.getCurrency()).getSymbol() + " "
-								+ value.getAmountPaid());
+				record.add(
+						getMessages().amountPaid(),
+						Global.get().toCurrencyFormat(
+								value.getAmountPaid(),
+								getServerObject(Currency.class,
+										value.getCurrency()).getSymbol()));
 				return record;
 			}
 

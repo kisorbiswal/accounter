@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -10,6 +11,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
@@ -79,9 +82,14 @@ public class InvoiceListCommand extends AbstractTransactionListCommand {
 						Utility.getTransactionName(value.getType()));
 				record.add(getMessages().name(), value.getCustomerName());
 				record.add(getMessages().date(), value.getDate());
-				record.add(getMessages().total(),
-						getCurrency(value.getCurrency()).getSymbol() + " "
-								+ value.getTotalPrice());
+
+				Currency currency = (Currency) HibernateUtil
+						.getCurrentSession().get(Currency.class,
+								value.getCurrency());
+				record.add(
+						getMessages().total(),
+						Global.get().toCurrencyFormat(value.getTotalPrice(),
+								currency.getSymbol()));
 				return record;
 			}
 

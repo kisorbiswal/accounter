@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.mobile.CommandList;
@@ -11,6 +12,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -72,9 +74,12 @@ public class JournalEntryListCommand extends AbstractTransactionListCommand {
 				Record record = new Record(entry);
 				record.add(getMessages().voucherNo(), entry.getNumber());
 				record.add(getMessages().date(), entry.getDate());
-				record.add(getMessages().amount(),
-						getCurrency(entry.getCurrency()).getSymbol() + " "
-								+ entry.getTotal());
+				record.add(
+						getMessages().amount(),
+						Global.get().toCurrencyFormat(
+								entry.getTotal(),
+								getServerObject(Currency.class,
+										entry.getCurrency()).getSymbol()));
 				record.add(getMessages().memo(), entry.getMemo());
 				record.add(getMessages().voided(),
 						entry.isVoid() == true ? getMessages().Voided()

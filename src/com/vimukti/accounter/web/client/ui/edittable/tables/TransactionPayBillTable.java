@@ -278,7 +278,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getValue(ClientTransactionPayBill row) {
-				return DataUtils.getAmountAsString(row.getCashDiscount());
+				return DataUtils.getAmountAsStringInPrimaryCurrency(row.getCashDiscount());
 			}
 
 			@Override
@@ -306,7 +306,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getValue(ClientTransactionPayBill row) {
-				return DataUtils.getAmountAsString(row.getAppliedCredits());
+				return DataUtils.getAmountAsStringInPrimaryCurrency(row.getAppliedCredits());
 			}
 
 			@Override
@@ -401,7 +401,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
-					return DataUtils.getAmountAsString(row.getPayment());
+					return DataUtils.getAmountAsStringInPrimaryCurrency(row.getPayment());
 				}
 
 				@Override

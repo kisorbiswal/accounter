@@ -7,6 +7,7 @@ import java.util.Set;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
@@ -35,7 +36,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -120,10 +120,10 @@ public class NewQuoteCommand extends NewAbstractTransactionCommand {
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
 				.pleaseEnter(getMessages().currencyFactor()), CURRENCY_FACTOR) {
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
+			protected Currency getCurrency() {
 				Customer customer = (Customer) NewQuoteCommand.this.get(
 						CUSTOMER).getValue();
-				return getCurrency(customer.getCurrency().getID());
+				return customer.getCurrency();
 			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()

@@ -243,31 +243,16 @@ public abstract class NewAbstractCommand extends NewCommand {
 		return new ArrayList<Vendor>(customers);
 	}
 
-	/**
-	 * get client currency object by id
-	 * 
-	 * @param currency
-	 * @return {@link ClientCurrency}
-	 */
-	protected ClientCurrency getCurrency(long currency) {
-		return (ClientCurrency) CommandUtils.getClientObjectById(currency,
-				AccounterCoreType.CURRENCY, getCompanyId());
-	}
-
-	/**
-	 * get client currencies
-	 * 
-	 * @param currencies
-	 * @return {@link ClientCurrencies}
-	 */
-	protected List<ClientCurrency> getCurrencies(Set<Currency> currencies) {
-		List<ClientCurrency> clientCurrencies = new ArrayList<ClientCurrency>();
-		for (Currency currency : currencies) {
-			ClientCurrency curency = getCurrency(currency.getID());
-			clientCurrencies.add(curency);
-		}
-		return clientCurrencies;
-	}
+	// /**
+	// * get client currency object by id
+	// *
+	// * @param currency
+	// * @return {@link ClientCurrency}
+	// */
+	// protected ClientCurrency getCurrency(long currency) {
+	// return (ClientCurrency) CommandUtils.getClientObjectById(currency,
+	// AccounterCoreType.CURRENCY, getCompanyId());
+	// }
 
 	public long autoGenerateAccountnumber(int range1, int range2,
 			Company company) {
@@ -414,5 +399,9 @@ public abstract class NewAbstractCommand extends NewCommand {
 		default:
 			return null;
 		}
+	}
+
+	public <T> T getServerObject(Class<T> class1, long id) {
+		return (T) HibernateUtil.getCurrentSession().get(class1, id);
 	}
 }

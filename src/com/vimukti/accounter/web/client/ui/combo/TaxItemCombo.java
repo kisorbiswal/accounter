@@ -69,7 +69,7 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 		case 0:
 			return getDisplayName(object);
 		case 1:
-			return DataUtils.getAmountAsString(object.getTaxRate()) + "%";
+			return DataUtils.getAmountAsStringInPrimaryCurrency(object.getTaxRate()) + "%";
 		}
 		return null;
 	}

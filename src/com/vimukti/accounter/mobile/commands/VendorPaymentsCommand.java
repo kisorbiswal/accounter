@@ -3,12 +3,14 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
@@ -97,10 +99,14 @@ public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 				payment.add(getMessages().paymentMethod(),
 						p.getPaymentMethodName());
 				payment.add(getMessages().checkNo(), p.getCheckNumber());
+
+				Currency currency = (Currency) HibernateUtil
+						.getCurrentSession().get(Currency.class,
+								p.getCurrency());
 				payment.add(
 						getMessages().amountPaid(),
-						getCurrency(p.getCurrency()).getSymbol() + " "
-								+ p.getAmountPaid());
+						Global.get().toCurrencyFormat(p.getAmountPaid(),
+								currency.getSymbol()));
 				return payment;
 			}
 

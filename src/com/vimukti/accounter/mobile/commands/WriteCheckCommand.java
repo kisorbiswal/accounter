@@ -5,9 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -99,10 +101,10 @@ public class WriteCheckCommand extends NewAbstractTransactionCommand {
 				.pleaseEnter(getMessages().currencyFactor()), getMessages()
 				.currencyFactor()) {
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
+			protected Currency getCurrency() {
 				Payee payee = (Payee) WriteCheckCommand.this.get(PAYEE)
 						.getValue();
-				return getCurrency(payee.getCurrency().getID());
+				return payee.getCurrency();
 			}
 		});
 		list.add(new AccountRequirement(BANK_ACCOUNT, getMessages()

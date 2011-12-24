@@ -808,7 +808,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					} catch (Exception e) {
 						Accounter.showError(messages.invalidCreditLimit());
 					} finally {
-						limitText.setValue(DataUtils.getAmountAsString(limit));
+						limitText.setValue(DataUtils.getAmountAsStringInPrimaryCurrency(limit));
 						setCreditLimit(limit);
 					}
 				}
@@ -1333,7 +1333,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
 			setCreditLimit(!DecimalUtil.isEquals(data.getCreditLimit(), 0) ? data
 					.getCreditLimit() : 0D);
-			limitText.setValue(DataUtils.getAmountAsString(getCreditLimit()));
+			limitText.setValue(DataUtils.getAmountAsStringInPrimaryCurrency(getCreditLimit()));
 			cardNumText.setValue(data.getCardOrLoanNumber() != null ? data
 					.getCardOrLoanNumber() : "");
 		} else {

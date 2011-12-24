@@ -34,6 +34,8 @@ public class ServerConfiguration {
 	private static String encryptTmpDir;
 	private static boolean uploadToRackSpace;
 	private static String attchmentContainerName;
+	private static String uploadAttachmentEmailId;
+	private static String uploadAttachmentPassword;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -86,6 +88,11 @@ public class ServerConfiguration {
 					null);
 			uploadToRackSpace = prop.getProperty("uploadToRackSpace", "false")
 					.equalsIgnoreCase("true");
+
+			uploadAttachmentEmailId = prop.getProperty(
+					"uploadAttachmentEmailId", null);
+			uploadAttachmentPassword = prop.getProperty(
+					"uploadAttachmentPassword", null);
 
 			/*
 			 * mobilePort = Integer.parseInt(prop.getProperty("mobilePort",
@@ -267,6 +274,14 @@ public class ServerConfiguration {
 
 	public static String getAttachmentsContainerName() {
 		return attchmentContainerName;
+	}
+
+	public static String getUploadAttachmentEmailId() {
+		return uploadAttachmentEmailId;
+	}
+
+	public static String getUploadAttachmentPassword() {
+		return uploadAttachmentPassword;
 	}
 
 }

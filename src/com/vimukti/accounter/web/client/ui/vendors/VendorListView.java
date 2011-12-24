@@ -104,7 +104,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 			total -= t.getBalance();
 		totalLabel.setText(messages().totalOutStandingBalance()
 
-		+ DataUtils.getAmountAsString(total) + "");
+		+ DataUtils.getAmountAsStringInPrimaryCurrency(total) + "");
 	}
 
 	@Override

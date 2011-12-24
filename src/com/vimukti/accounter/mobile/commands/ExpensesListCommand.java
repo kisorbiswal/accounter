@@ -132,15 +132,15 @@ public class ExpensesListCommand extends AbstractTransactionListCommand {
 	 * @return
 	 */
 	private List<BillsList> getExpenses(Context context) {
-		FinanceTool tool = new FinanceTool();
-		try {
-			ArrayList<BillsList> billsList = tool.getVendorManager()
-					.getBillsList(true, context.getCompany().getId(), 0,
-							getStartDate().getDate(), getEndDate().getDate(),0,-1);
-			return billsList;
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
+		// FinanceTool tool = new FinanceTool();
+		// try {
+		// ArrayList<BillsList> billsList = tool.getVendorManager()
+		// .getBillsList(true, context.getCompany().getId(), 0,
+		// getStartDate().getDate(), getEndDate().getDate(),0,-1);
+		// return billsList;
+		// } catch (DAOException e) {
+		// e.printStackTrace();
+		// }
 		return null;
 
 	}

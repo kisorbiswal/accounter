@@ -48,7 +48,7 @@ public class TDSVendorsTable extends CellTable<ClientTDSInfo> implements
 			@Override
 			public String getValue(ClientTDSInfo object) {
 
-				return DataUtils.getAmountAsString(object.getOrginalBalance());
+				return DataUtils.getAmountAsStringInPrimaryCurrency(object.getOrginalBalance());
 			}
 		};
 		TextColumn<ClientTDSInfo> payment = new TextColumn<ClientTDSInfo>() {
@@ -56,7 +56,7 @@ public class TDSVendorsTable extends CellTable<ClientTDSInfo> implements
 			@Override
 			public String getValue(ClientTDSInfo object) {
 
-				return DataUtils.getAmountAsString(object.getPayment());
+				return DataUtils.getAmountAsStringInPrimaryCurrency(object.getPayment());
 			}
 		};
 
@@ -75,7 +75,7 @@ public class TDSVendorsTable extends CellTable<ClientTDSInfo> implements
 
 			@Override
 			public String getValue(ClientTDSInfo object) {
-				return DataUtils.getAmountAsString(object.getTdsAmount());
+				return DataUtils.getAmountAsStringInPrimaryCurrency(object.getTdsAmount());
 			}
 		};
 

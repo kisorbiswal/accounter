@@ -9,6 +9,7 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Payee;
@@ -16,6 +17,7 @@ import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -108,11 +110,12 @@ public class NewCashSaleCommand extends NewAbstractTransactionCommand {
 		});
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
 				.pleaseEnter("Currency Factor"), getMessages().currencyFactor()) {
+
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
+			protected Currency getCurrency() {
 				Customer customer = (Customer) NewCashSaleCommand.this.get(
 						CUSTOMER).getValue();
-				return getCurrency(customer.getCurrency().getID());
+				return customer.getCurrency();
 			}
 
 		});

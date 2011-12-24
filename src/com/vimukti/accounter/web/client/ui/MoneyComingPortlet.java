@@ -37,7 +37,8 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 	public Label overDueAmtLabel;
 
 	public MoneyComingPortlet(ClientPortletConfiguration pc) {
-		super(pc, messages.moneyComingIn(), messages.goToAccountReceivable(),"60%");
+		super(pc, messages.moneyComingIn(), messages.goToAccountReceivable(),
+				"60%");
 	}
 
 	@Override
@@ -83,10 +84,10 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 
 		updateAmounts();
 
-		draftAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
-				+ DataUtils.getAmountAsString(draftInvoiceAmount));
-		overDueAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
-				+ DataUtils.getAmountAsString(overDueInvoiceAmount));
+		draftAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsStringInPrimaryCurrency(draftInvoiceAmount));
+		overDueAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsStringInPrimaryCurrency(overDueInvoiceAmount));
 		overDueAmtLabel.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 
 		fTable.setWidget(0, 0, draftLabel);
@@ -118,14 +119,16 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 				if (result != null && result.size() > 0) {
 					overDueInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					overDueAmtLabel.setText(getPrimaryCurrencySymbol() + " "
-							+ amountAsString(overDueInvoiceAmount));
+					overDueAmtLabel
+							.setText(DataUtils
+									.getAmountAsStringInPrimaryCurrency(overDueInvoiceAmount));
 				}
 				if (result != null && result.size() > 0) {
 					draftInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					draftAmtLabel.setText(getPrimaryCurrencySymbol() + " "
-							+ amountAsString(draftInvoiceAmount));
+					draftAmtLabel
+							.setText(DataUtils
+									.getAmountAsStringInPrimaryCurrency(draftInvoiceAmount));
 				}
 
 				Runnable runnable = new Runnable() {

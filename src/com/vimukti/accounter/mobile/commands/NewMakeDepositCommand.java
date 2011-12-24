@@ -6,8 +6,10 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -160,22 +162,20 @@ public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
 			}
 
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
-				Account account = NewMakeDepositCommand.this.get(
-						DEPOSIT_OR_TRANSFER_FROM).getValue();
-				return getCurrency(account.getCurrency().getID());
+			protected Currency getCurrency() {
+				Account account = (Account) get(DEPOSIT_OR_TRANSFER_FROM)
+						.getValue();
+				return account.getCurrency();
 			}
-
 		});
 		list.add(new CurrencyAmountRequirement(AMOUNT, getMessages()
 				.pleaseEnter(getMessages().amount()), getMessages().amount(),
 				false, true) {
-
 			@Override
-			protected String getFormalName() {
-				Account account = NewMakeDepositCommand.this.get(
+			protected Currency getCurrency() {
+				Account account = (Account) NewMakeDepositCommand.this.get(
 						DEPOSIT_OR_TRANSFER_FROM).getValue();
-				return account.getCurrency().getFormalName();
+				return account.getCurrency();
 			}
 		});
 

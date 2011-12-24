@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -10,6 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
@@ -76,9 +78,13 @@ public class VendorsListCommand extends NewAbstractCommand {
 				Record record = new Record(value);
 				record.add(getMessages().payeeName(Global.get().Vendor()),
 						value.getPayeeName());
-				record.add(getMessages().balance(),
-						getCurrency(value.getCurrecny()).getSymbol() + " "
-								+ value.getBalance());
+				Currency currency = (Currency) HibernateUtil
+						.getCurrentSession().get(Currency.class,
+								value.getCurrecny());
+				record.add(
+						getMessages().balance(),
+						Global.get().toCurrencyFormat(value.getBalance(),
+								currency.getSymbol()));
 				return record;
 			}
 
@@ -144,7 +150,7 @@ public class VendorsListCommand extends NewAbstractCommand {
 		FinanceTool financeTool = new FinanceTool();
 		try {
 			return financeTool.getPayeeList(ClientTransaction.CATEGORY_VENDOR,
-					context.getCompany().getID());
+					true, 0, 0, context.getCompany().getID());
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}

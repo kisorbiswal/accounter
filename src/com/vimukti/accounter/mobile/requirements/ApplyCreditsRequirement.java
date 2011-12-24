@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.requirements;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -37,10 +38,9 @@ public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 				AMOUNT_DUE, getMessages()
 						.pleaseEnter(getMessages().amountDue()), getMessages()
 						.amountDue(), false, true) {
-
 			@Override
-			protected String getFormalName() {
-				return ApplyCreditsRequirement.this.getFormalName();
+			protected Currency getCurrency() {
+				return ApplyCreditsRequirement.this.getCurrency();
 			}
 		};
 		amountDue.setEditable(false);
@@ -96,13 +96,13 @@ public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 				.amountToUse(), false, true) {
 
 			@Override
-			protected String getFormalName() {
-				return ApplyCreditsRequirement.this.getFormalName();
+			protected Currency getCurrency() {
+				return ApplyCreditsRequirement.this.getCurrency();
 			}
 		});
 	}
 
-	protected abstract String getFormalName();
+	protected abstract Currency getCurrency();
 
 	protected abstract List<ClientCreditsAndPayments> getCreditsPayments();
 

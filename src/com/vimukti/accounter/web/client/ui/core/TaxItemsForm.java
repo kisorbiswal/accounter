@@ -130,8 +130,8 @@ public class TaxItemsForm extends DynamicForm {
 				if (taxRate != 0) {
 					AmountLabel amountLabel = new AmountLabel(Accounter
 							.messages().taxAtOnValue(
-									DataUtils.getAmountAsString(taxRate),
-									DataUtils.getAmountAsString(value)));
+									DataUtils.getAmountAsStringInPrimaryCurrency(taxRate),
+									DataUtils.getAmountAsStringInPrimaryCurrency(value)));
 					amountLabel.setAmount(taxAmount);
 
 					items[i] = amountLabel;

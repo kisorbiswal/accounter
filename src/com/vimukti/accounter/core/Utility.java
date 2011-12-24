@@ -1356,9 +1356,9 @@ public class Utility {
 		return 0.0;
 	}
 
-	public static String decimalConversation(double amount) {
+	public static String decimalConversation(double amount, String curencySymbol) {
 		try {
-			return Global.get().toCurrencyFormat(amount);
+			return Global.get().toCurrencyFormat(amount, curencySymbol);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

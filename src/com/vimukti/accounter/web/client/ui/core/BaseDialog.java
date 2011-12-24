@@ -408,7 +408,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	}
 
 	public String amountAsString(Double amount) {
-		return DataUtils.getAmountAsString(amount);
+		return DataUtils.getAmountAsStringInPrimaryCurrency(amount);
 	}
 
 	public abstract void setFocus();
@@ -426,6 +426,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		});
 
 	}
+
 	protected ClientCurrency getBaseCurrency() {
 		return getCompany().getPrimaryCurrency();
 	}

@@ -100,10 +100,10 @@ public class TransactionPayTAXGrid extends
 			return payVAT.getFiledDate() != null ? payVAT.getFiledDate()
 					.toString() : "";
 		case 1:
-			return DataUtils.getAmountAsString(payVAT.getTaxDue());
+			return DataUtils.getAmountAsStringInPrimaryCurrency(payVAT.getTaxDue());
 
 		case 2:
-			return DataUtils.getAmountAsString(payVAT.getAmountToPay());
+			return DataUtils.getAmountAsStringInPrimaryCurrency(payVAT.getAmountToPay());
 		default:
 			break;
 		}

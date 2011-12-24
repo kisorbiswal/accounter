@@ -39,7 +39,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 3:
 				return Utility.getAccountTypeString(obj.getType());
 			case 4:
-				return DataUtils.getAmountAsString(obj
+				return DataUtils.getAmountAsStringInCurrency(obj
 						.getTotalBalanceInAccountCurrency(), getCompany()
 						.getCurrency(obj.getCurrency()).getSymbol());
 			case 5:
@@ -59,7 +59,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 2:
 				return Utility.getAccountTypeString(obj.getType());
 			case 3:
-				return DataUtils.getAmountAsString(obj
+				return DataUtils.getAmountAsStringInCurrency(obj
 						.getTotalBalanceInAccountCurrency(), getCompany()
 						.getCurrency(obj.getCurrency()).getSymbol());
 			case 4:

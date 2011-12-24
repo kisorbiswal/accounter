@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client;
 
+import com.google.gwt.i18n.client.DateTimeFormatInfo;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
@@ -19,7 +20,7 @@ public interface IGlobal {
 
 	public String Location();
 
-	public String toCurrencyFormat(double amount);
+	public String toCurrencyFormat(double amount, String currencyCode);
 
 	public String customers();
 
@@ -28,5 +29,7 @@ public interface IGlobal {
 	public String Customers();
 
 	public String Vendors();
+
+	public DateTimeFormatInfo createDateTimeFormatInfo();
 
 }

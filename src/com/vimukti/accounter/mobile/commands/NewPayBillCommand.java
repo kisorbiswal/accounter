@@ -135,10 +135,10 @@ public class NewPayBillCommand extends NewAbstractTransactionCommand {
 				.pleaseEnter(getMessages().currencyFactor()), getMessages()
 				.currencyFactor()) {
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
+			protected Currency getCurrency() {
 				Vendor vendor = (Vendor) NewPayBillCommand.this.get(VENDOR)
 						.getValue();
-				return getCurrency(vendor.getCurrency().getID());
+				return vendor.getCurrency();
 			}
 
 		});

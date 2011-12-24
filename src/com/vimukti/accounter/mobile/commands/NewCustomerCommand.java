@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.CreditRating;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -44,7 +44,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -144,25 +143,23 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 
 			@Override
-			protected boolean filter(ClientCurrency e, String name) {
+			protected boolean filter(Currency e, String name) {
 				return e.getFormalName().startsWith(name);
 			}
 
 			@Override
-			protected List<ClientCurrency> getLists(Context context) {
-				return getCurrencies(context.getCompany().getCurrencies());
+			protected List<Currency> getLists(Context context) {
+				return new ArrayList<Currency>(getCompany().getCurrencies());
 			}
 		});
 
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
 				.pleaseEnter(getMessages().currencyFactor()), getMessages()
 				.currencyFactor()) {
-
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
+			protected Currency getCurrency() {
 				return get(CURRENCY).getValue();
 			}
-
 		});
 
 		list.add(new DateRequirement(CUSTOMER_SINCEDATE,
@@ -173,11 +170,9 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		list.add(new CurrencyAmountRequirement(BALANCE, getMessages()
 				.pleaseEnter(getMessages().openingBalance()), getMessages()
 				.openingBalance(), true, true) {
-
 			@Override
-			protected String getFormalName() {
-				ClientCurrency currency = get(CURRENCY).getValue();
-				return currency.getFormalName();
+			protected Currency getCurrency() {
+				return get(CURRENCY).getValue();
 			}
 		});
 
@@ -576,7 +571,7 @@ public class NewCustomerCommand extends NewAbstractCommand {
 			}
 			// customer.setPANno(panNum);
 		}
-		ClientCurrency currency = get(CURRENCY).getValue();
+		Currency currency = get(CURRENCY).getValue();
 		if (getPreferences().isEnableMultiCurrency()) {
 			customer.setCurrency(currency.getID());
 		}
@@ -615,7 +610,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		get(BILLTO).setDefaultValue(new ClientAddress());
 		get(SHIPTO).setDefaultValue(new ClientAddress());
 		get(CURRENCY).setValue(
-				CompanyPreferenceThreadLocal.get().getPrimaryCurrency());
+				getServerObject(Currency.class, getPreferences()
+						.getPrimaryCurrency().getID()));
 	}
 
 	@Override
@@ -725,7 +721,8 @@ public class NewCustomerCommand extends NewAbstractCommand {
 		get(SERVICE_TAX_NUM).setValue(
 				customer.getServiceTaxRegistrationNumber());
 		get(TIN_NUM).setValue(customer.getTinNumber());
-		get(CURRENCY).setValue(getCurrency(customer.getCurrency()));
+		get(CURRENCY).setValue(
+				getServerObject(Currency.class, customer.getCurrency()));
 		get(CURRENCY_FACTOR).setValue(customer.getCurrencyFactor());
 		get(PRICE_LEVEL).setValue(
 				CommandUtils.getServerObjectById(customer.getPriceLevel(),

@@ -114,7 +114,7 @@ public class BankingPortlet extends GraphPointsPortlet {
 				final String currencySymbol = currency == null ? getPrimaryCurrencySymbol()
 						: currency.getSymbol();
 				final Label amountLabel = new Label(
-						DataUtils.getAmountAsString(
+						DataUtils.getAmountAsStringInCurrency(
 								account.getTotalBalanceInAccountCurrency(),
 								currencySymbol));
 				// amountLabel.setStyleName("tool-box");
@@ -175,7 +175,7 @@ public class BankingPortlet extends GraphPointsPortlet {
 								LineChart.PACKAGE);
 						if (!result.isEmpty()
 								&& result.get(result.size() - 1) != null) {
-							amountLabel.setText(DataUtils.getAmountAsString(
+							amountLabel.setText(DataUtils.getAmountAsStringInCurrency(
 									result.get(result.size() - 1),
 									currencySymbol));
 						}

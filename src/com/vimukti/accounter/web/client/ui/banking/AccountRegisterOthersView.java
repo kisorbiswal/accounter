@@ -115,7 +115,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 
 		totalLabel = new Label();
 		totalLabel.setText(messages.totalEndingBalance()
-				+ DataUtils.getAmountAsString(total));
+				+ DataUtils.getAmountAsStringInPrimaryCurrency(total));
 		mainVLay = new VerticalPanel();
 		mainVLay.setHeight("100%");
 		mainVLay.setWidth("100%");

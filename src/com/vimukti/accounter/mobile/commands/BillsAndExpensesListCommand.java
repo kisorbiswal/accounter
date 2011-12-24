@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -83,12 +84,14 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 						Utility.getTransactionName((value.getType())));
 				rec.add(getMessages().number(), value.getNumber());
 				rec.add(Global.get().Vendor(), value.getVendorName());
-				rec.add(getMessages().originalAmount(),
-						getCurrency(value.getCurrency()).getSymbol() + " "
-								+ value.getOriginalAmount());
+				String symbol = getServerObject(Currency.class,
+						value.getCurrency()).getSymbol();
+
+				rec.add(getMessages().originalAmount(), Global.get()
+						.toCurrencyFormat(value.getOriginalAmount(), symbol));
 				rec.add(getMessages().balance(),
-						getCurrency(value.getCurrency()).getSymbol() + " "
-								+ value.getBalance());
+						Global.get().toCurrencyFormat(value.getBalance(),
+								symbol));
 				return rec;
 			}
 
@@ -116,13 +119,13 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 		String viewBY = get(VIEW_BY).getValue();
 		ArrayList<BillsList> list = new ArrayList<BillsList>();
 		ArrayList<BillsList> allRecords = null;
-		try {
-			allRecords = new FinanceTool().getVendorManager().getBillsList(
-					false, context.getCompany().getID(), 0,
-					getStartDate().getDate(), getEndDate().getDate(),0,-1);
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
+		// try {
+		// allRecords = new FinanceTool().getVendorManager().getBillsList(
+		// false, context.getCompany().getID(), 0,
+		// getStartDate().getDate(), getEndDate().getDate(), 0, -1);
+		// } catch (DAOException e) {
+		// e.printStackTrace();
+		// }
 		if (viewBY.equalsIgnoreCase(getMessages().open())) {
 
 			for (BillsList rec : allRecords) {

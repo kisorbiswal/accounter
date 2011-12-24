@@ -5,9 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -151,12 +153,11 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 				.amountReceived(), true, true) {
 
 			@Override
-			protected String getFormalName() {
+			protected Currency getCurrency() {
 				Customer customer = (Customer) NewReceivePaymentCommand.this
 						.get(CUSTOMER).getValue();
-				return customer.getCurrency().getFormalName();
+				return customer.getCurrency();
 			}
-
 		});
 
 		list.add(new ReceivePaymentTableRequirement(TRANSACTIONS, getMessages()
@@ -192,12 +193,11 @@ public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
 				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
+			protected Currency getCurrency() {
 				Customer customer = (Customer) NewReceivePaymentCommand.this
 						.get(CUSTOMER).getValue();
-				return getCurrency(customer.getCurrency().getID());
+				return customer.getCurrency();
 			}
-
 		});
 	}
 

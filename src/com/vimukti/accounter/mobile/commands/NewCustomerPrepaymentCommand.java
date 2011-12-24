@@ -8,9 +8,11 @@ import java.util.Set;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -19,6 +21,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.ApplyCreditsRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CurrencyAmountRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
@@ -289,12 +292,11 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 				false, true) {
 
 			@Override
-			protected String getFormalName() {
+			protected Currency getCurrency() {
 				Customer customer = (Customer) NewCustomerPrepaymentCommand.this
 						.get(CUSTOMER).getValue();
-				return customer.getCurrency().getFormalName();
+				return customer.getCurrency();
 			}
-
 		});
 
 		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(
@@ -309,12 +311,11 @@ public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand 
 				.pleaseEnter(getMessages().currencyFactor()), getMessages()
 				.currencyFactor()) {
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
+			protected Currency getCurrency() {
 				Customer customer = (Customer) NewCustomerPrepaymentCommand.this
 						.get(CUSTOMER).getValue();
-				return getCurrency(customer.getCurrency().getID());
+				return customer.getCurrency();
 			}
-
 		});
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));

@@ -90,7 +90,7 @@ public class QuotePdfGeneration {
 					.getTransactionItems();
 
 			double currencyFactor = estimate.getCurrencyFactor();
-
+			String symbol = estimate.getCurrency().getSymbol();
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
 
@@ -103,22 +103,22 @@ public class QuotePdfGeneration {
 				if (item.getQuantity() != null) {
 					qty = String.valueOf(item.getQuantity().getValue());
 				}
-				String unitPrice = Utility.decimalConversation(item
-						.getUnitPrice() / currencyFactor);
-				String totalPrice = Utility.decimalConversation(item
-						.getLineTotal() / currencyFactor);
+				String unitPrice = Utility.decimalConversation(
+						item.getUnitPrice() / currencyFactor, symbol);
+				String totalPrice = Utility.decimalConversation(
+						item.getLineTotal() / currencyFactor, symbol);
 
 				Double vaTfraction = item.getVATfraction();
 				String vatAmount = " ";
 				if (vaTfraction != null) {
-					vatAmount = Utility.decimalConversation(item
-							.getVATfraction() / currencyFactor);
+					vatAmount = Utility.decimalConversation(
+							item.getVATfraction() / currencyFactor, symbol);
 				}
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
 
-				String discount = Utility.decimalConversation(item
-						.getDiscount());
+				String discount = Utility.decimalConversation(
+						item.getDiscount(), symbol);
 
 				TAXCode taxCode = item.getTaxCode();
 				String vatRate = " ";
@@ -130,9 +130,10 @@ public class QuotePdfGeneration {
 			}
 
 			context.put("item", itemList);
-			String total = Utility.decimalConversation(estimate.getTotal());
-			String netAmount = Utility.decimalConversation(estimate
-					.getNetAmount());
+			String total = Utility.decimalConversation(estimate.getTotal(),
+					symbol);
+			String netAmount = Utility.decimalConversation(
+					estimate.getNetAmount(), symbol);
 			qut.setTotal(total);
 			qut.setNetAmount(netAmount);
 

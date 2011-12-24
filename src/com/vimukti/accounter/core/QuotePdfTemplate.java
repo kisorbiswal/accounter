@@ -245,7 +245,7 @@ public class QuotePdfTemplate implements PrintTemplete {
 					.getTransactionItems();
 
 			double currencyFactor = estimate.getCurrencyFactor();
-
+			String symbol = estimate.getCurrency().getSymbol();
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
 				TransactionItem item = (TransactionItem) iterator.next();
@@ -256,13 +256,13 @@ public class QuotePdfTemplate implements PrintTemplete {
 				if (item.getQuantity() != null) {
 					qty = String.valueOf(item.getQuantity().getValue());
 				}
-				String unitPrice = Utility.decimalConversation(item
-						.getUnitPrice() / currencyFactor);
-				String totalPrice = Utility.decimalConversation(item
-						.getLineTotal() / currencyFactor);
+				String unitPrice = Utility.decimalConversation(
+						item.getUnitPrice() / currencyFactor, symbol);
+				String totalPrice = Utility.decimalConversation(
+						item.getLineTotal() / currencyFactor, symbol);
 
-				String vatAmount = Utility.decimalConversation(item
-						.getVATfraction() / currencyFactor);
+				String vatAmount = Utility.decimalConversation(
+						item.getVATfraction() / currencyFactor, symbol);
 
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
@@ -274,8 +274,8 @@ public class QuotePdfTemplate implements PrintTemplete {
 				if (company.getPreferences().isTrackDiscounts()) {
 					// if Discounts is enabled in Company Preferences, then
 					// only we need to show Discount Column
-					t.setVariable("discount",
-							Utility.decimalConversation(item.getDiscount()));
+					t.setVariable("discount", Utility.decimalConversation(
+							item.getDiscount(), symbol));
 					t.addBlock("discountValueBlock");
 				}
 				t.setVariable("itemTotalPrice", totalPrice);
@@ -294,22 +294,21 @@ public class QuotePdfTemplate implements PrintTemplete {
 			}
 
 			// for displaying sub total, vat total, total
-			String subtotal = Utility.decimalConversation(estimate
-					.getNetAmount() / currencyFactor);
+			String subtotal = Utility.decimalConversation(
+					estimate.getNetAmount() / currencyFactor, symbol);
 			if (company.getPreferences().isTrackTax()) {
 
 				t.setVariable("subTotal", subtotal);
 				t.addBlock("subtotal");
 				if (brandingTheme.isShowTaxColumn()) {
-					t.setVariable(
-							"vatTotal",
-							Utility.decimalConversation((estimate.getTaxTotal() / currencyFactor)));
+					t.setVariable("vatTotal", Utility.decimalConversation(
+							(estimate.getTaxTotal() / currencyFactor), symbol));
 					t.addBlock("VatTotal");
 				}
 			}
 
 			String total = Utility.decimalConversation(estimate.getTotal()
-					/ currencyFactor);
+					/ currencyFactor, symbol);
 			t.setVariable("total", total);
 
 			// if (estimate.getMemo().trim().length() > 0) {

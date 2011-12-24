@@ -1,18 +1,17 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 
-public abstract class CurrencyListRequirement extends
-		ListRequirement<ClientCurrency> {
+public abstract class CurrencyListRequirement extends ListRequirement<Currency> {
 
 	public CurrencyListRequirement(String requirementName, String enterString,
 			String recordName, boolean isOptional, boolean isAllowFromContext,
-			ChangeListner<ClientCurrency> listner) {
+			ChangeListner<Currency> listner) {
 		super(requirementName, enterString, recordName, isOptional,
 				isAllowFromContext, listner);
 	}
@@ -32,14 +31,14 @@ public abstract class CurrencyListRequirement extends
 	}
 
 	@Override
-	protected Record createRecord(ClientCurrency value) {
+	protected Record createRecord(Currency value) {
 		Record record = new Record(value);
 		record.add("Name", value.getFormalName());
 		return record;
 	}
 
 	@Override
-	protected String getDisplayValue(ClientCurrency value) {
+	protected String getDisplayValue(Currency value) {
 		return value != null ? value.getFormalName() : "";
 	}
 

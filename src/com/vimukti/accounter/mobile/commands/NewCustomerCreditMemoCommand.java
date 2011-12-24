@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
@@ -125,12 +126,11 @@ public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand 
 				.pleaseEnter(getMessages().currencyFactor()), getMessages()
 				.currencyFactor()) {
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
+			protected Currency getCurrency() {
 				Customer customer = (Customer) NewCustomerCreditMemoCommand.this
 						.get(CUSTOMER).getValue();
-				return getCurrency(customer.getCurrency().getID());
+				return customer.getCurrency();
 			}
-
 		});
 
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(

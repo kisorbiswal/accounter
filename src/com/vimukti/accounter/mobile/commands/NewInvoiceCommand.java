@@ -18,6 +18,7 @@ import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -155,10 +156,9 @@ public class NewInvoiceCommand extends NewAbstractTransactionCommand {
 				.pleaseEnter(getMessages().currencyFactor()), getMessages()
 				.currencyFactor()) {
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
-				Customer customer = (Customer) NewInvoiceCommand.this.get(
-						CUSTOMER).getValue();
-				return getCurrency(customer.getCurrency().getID());
+			protected Currency getCurrency() {
+				Customer customer = (Customer) get(CUSTOMER).getValue();
+				return customer.getCurrency();
 			}
 
 		});

@@ -25,7 +25,7 @@ public class TransactionDiscountColumn extends
 		if (amount == null) {
 			return "";
 		}
-		return DataUtils.getAmountAsString(amount);
+		return DataUtils.getAmountAsStringInPrimaryCurrency(amount);
 	}
 
 	@Override

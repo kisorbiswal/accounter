@@ -137,7 +137,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			}
 
 			double currencyFactor = memo.getCurrencyFactor();
-
+			String symbol = memo.getCurrency().getSymbol();
 			// for displaying the credit item details
 			if (!memo.getTransactionItems().isEmpty()) {
 
@@ -146,13 +146,13 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					String description = forNullValue(item.getDescription());
 					description = description.replace("\n", "<br/>");
 					String qty = String.valueOf(item.getQuantity().getValue());
-					String unitPrice = Utility.decimalConversation(item
-							.getUnitPrice() / currencyFactor);
-					String totalPrice = Utility.decimalConversation(item
-							.getLineTotal() / currencyFactor);
+					String unitPrice = Utility.decimalConversation(
+							item.getUnitPrice() / currencyFactor, symbol);
+					String totalPrice = Utility.decimalConversation(
+							item.getLineTotal() / currencyFactor, symbol);
 					String vatRate = item.getTaxCode().getName();
-					String vatAmount = Utility.decimalConversation(item
-							.getVATfraction() / currencyFactor);
+					String vatAmount = Utility.decimalConversation(
+							item.getVATfraction() / currencyFactor, symbol);
 
 					String name = "";
 					if (item.type == TransactionItem.TYPE_ITEM)
@@ -161,8 +161,8 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 						name = item.getAccount().getName();
 
 					t.setVariable("name", name);
-					t.setVariable("discount",
-							Utility.decimalConversation(item.getDiscount()));
+					t.setVariable("discount", Utility.decimalConversation(
+							item.getDiscount(), symbol));
 
 					t.setVariable("description", description);
 					t.setVariable("quantity", qty);
@@ -182,12 +182,12 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 			String memoVal = forNullValue(memo.getMemo());
 			String subTotal = Utility.decimalConversation(memo.getNetAmount()
-					/ currencyFactor);
-			String vatTotal = Utility
-					.decimalConversation((memo.getTotal() - memo.getNetAmount())
-							/ currencyFactor);
+					/ currencyFactor, symbol);
+			String vatTotal = Utility.decimalConversation(
+					(memo.getTotal() - memo.getNetAmount()) / currencyFactor,
+					symbol);
 			String total = Utility.decimalConversation(memo.getTotal()
-					/ currencyFactor);
+					/ currencyFactor, symbol);
 
 			// if (memo.getMemo().trim().length() > 0) {
 			t.setVariable("memoText", memoVal);

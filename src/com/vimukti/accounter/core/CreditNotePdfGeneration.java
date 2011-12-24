@@ -76,7 +76,7 @@ public class CreditNotePdfGeneration {
 			List<TransactionItem> transactionItems = memo.getTransactionItems();
 
 			double currencyFactor = memo.getCurrencyFactor();
-
+			String symbol = memo.getCurrency().getSymbol();
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
 
@@ -89,22 +89,22 @@ public class CreditNotePdfGeneration {
 				if (item.getQuantity() != null) {
 					qty = String.valueOf(item.getQuantity().getValue());
 				}
-				String unitPrice = Utility.decimalConversation(item
-						.getUnitPrice() / currencyFactor);
-				String totalPrice = Utility.decimalConversation(item
-						.getLineTotal() / currencyFactor);
+				String unitPrice = Utility.decimalConversation(
+						item.getUnitPrice() / currencyFactor, symbol);
+				String totalPrice = Utility.decimalConversation(
+						item.getLineTotal() / currencyFactor, symbol);
 
 				Double vaTfraction = item.getVATfraction();
 				String vatAmount = " ";
 				if (vaTfraction != null) {
-					vatAmount = Utility.decimalConversation(item
-							.getVATfraction() / currencyFactor);
+					vatAmount = Utility.decimalConversation(
+							item.getVATfraction() / currencyFactor, symbol);
 				}
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
 
-				String discount = Utility.decimalConversation(item
-						.getDiscount());
+				String discount = Utility.decimalConversation(
+						item.getDiscount(), symbol);
 
 				TAXCode taxCode = item.getTaxCode();
 				String vatRate = " ";
@@ -115,12 +115,12 @@ public class CreditNotePdfGeneration {
 						discount, totalPrice, vatRate, vatAmount));
 			}
 
-			String total = Utility.decimalConversation(memo.getTotal());
+			String total = Utility.decimalConversation(memo.getTotal(), symbol);
 
 			i.setTotal(total);
 
 			String subtotal = Utility.decimalConversation(memo.getNetAmount()
-					/ currencyFactor);
+					/ currencyFactor, symbol);
 			i.setNetAmount(subtotal);
 
 			i.setMemo(memo.getMemo());

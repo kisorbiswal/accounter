@@ -132,7 +132,7 @@ public class AccountMergeDialog extends BaseDialog implements
 	private void customerSelected(ClientAccount selectItem) {
 
 		accountNumberTextItem.setValue(String.valueOf(selectItem.getNumber()));
-		balanceTextItem.setValue(DataUtils.getAmountAsString(selectItem
+		balanceTextItem.setValue(DataUtils.getAmountAsStringInPrimaryCurrency(selectItem
 				.getOpeningBalance()));
 
 		name.setValue(selectItem.getName());
@@ -141,7 +141,7 @@ public class AccountMergeDialog extends BaseDialog implements
 
 	private void customerSelected1(ClientAccount selectItem) {
 		accountNumberTextItem1.setValue(String.valueOf(selectItem.getNumber()));
-		balanceTextItem1.setValue(DataUtils.getAmountAsString(selectItem
+		balanceTextItem1.setValue(DataUtils.getAmountAsStringInPrimaryCurrency(selectItem
 				.getOpeningBalance()));
 
 		name1.setValue(selectItem.getName());

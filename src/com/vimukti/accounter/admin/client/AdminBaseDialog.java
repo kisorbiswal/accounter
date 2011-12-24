@@ -396,6 +396,6 @@ public abstract class AdminBaseDialog<T extends IAccounterCore> extends
 	}
 
 	public String amountAsString(Double amount) {
-		return DataUtils.getAmountAsString(amount);
+		return DataUtils.getAmountAsStringInPrimaryCurrency(amount);
 	}
 }

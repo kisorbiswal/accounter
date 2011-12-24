@@ -8,6 +8,8 @@ import java.util.Set;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.Vendor;
@@ -210,12 +212,10 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 				.pleaseEnter(getMessages().currencyFactor()), getMessages()
 				.currencyFactor()) {
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
-				Vendor vendor = (Vendor) NewVendorPrepaymentCommand.this.get(
-						VENDOR).getValue();
-				return getCurrency(vendor.getCurrency().getID());
+			protected Currency getCurrency() {
+				Vendor vendor = (Vendor) get(VENDOR).getValue();
+				return vendor.getCurrency();
 			}
-
 		});
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().billNo()), getMessages().billNo(), true, true));
@@ -319,10 +319,10 @@ public class NewVendorPrepaymentCommand extends NewAbstractTransactionCommand {
 				false, true) {
 
 			@Override
-			protected String getFormalName() {
-				Vendor vendor = (Vendor) NewVendorPrepaymentCommand.this.get(
-						VENDOR).getValue();
-				return vendor.getCurrency().getFormalName();
+			protected Currency getCurrency() {
+				Customer customer = (Customer) NewVendorPrepaymentCommand.this
+						.get(VENDOR).getValue();
+				return customer.getCurrency();
 			}
 		});
 

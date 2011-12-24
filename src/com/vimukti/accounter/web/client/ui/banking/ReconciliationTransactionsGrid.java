@@ -80,7 +80,7 @@ public class ReconciliationTransactionsGrid extends
 			public String getValue(ClientReconciliationItem object) {
 				setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 				if (DecimalUtil.isLessThan(object.getAmount(), 0.00D)) {
-					return DataUtils.getAmountAsString(-object.getAmount());
+					return DataUtils.getAmountAsStringInPrimaryCurrency(-object.getAmount());
 				}
 				return "";
 			}
@@ -92,7 +92,7 @@ public class ReconciliationTransactionsGrid extends
 			public String getValue(ClientReconciliationItem object) {
 				setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 				if (DecimalUtil.isGreaterThan(object.getAmount(), 0.00D)) {
-					return DataUtils.getAmountAsString(object.getAmount());
+					return DataUtils.getAmountAsStringInPrimaryCurrency(object.getAmount());
 				}
 				return "";
 			}

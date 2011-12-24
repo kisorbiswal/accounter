@@ -268,7 +268,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 					.getTransactionItems();
 
 			double currencyFactor = invoice.getCurrencyFactor();
-
+			String symbol = invoice.getCurrency().getSymbol();
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
 				TransactionItem item = (TransactionItem) iterator.next();
@@ -282,15 +282,15 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				String unitPrice = null;
 				try {
 					unitPrice = Utility.decimalConversation(item.getUnitPrice()
-							/ currencyFactor);
+							/ currencyFactor, symbol);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				String totalPrice = Utility.decimalConversation(item
-						.getLineTotal() / currencyFactor);
+				String totalPrice = Utility.decimalConversation(
+						item.getLineTotal() / currencyFactor, symbol);
 
-				String vatAmount = Utility.decimalConversation(item
-						.getVATfraction() / currencyFactor);
+				String vatAmount = Utility.decimalConversation(
+						item.getVATfraction() / currencyFactor, symbol);
 
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
@@ -302,8 +302,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				if (company.getPreferences().isTrackDiscounts()) {
 					// if Discounts is enabled in Company Preferences, then
 					// only we need to show Discount Column
-					t.setVariable("discount",
-							Utility.decimalConversation(item.getDiscount()));
+					t.setVariable("discount", Utility.decimalConversation(
+							item.getDiscount(), symbol));
 					t.addBlock("discountValueBlock");
 				}
 				t.setVariable("itemTotalPrice", totalPrice);
@@ -322,22 +322,21 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			}
 
 			// for displaying sub total, vat total, total
-			String subtotal = Utility.decimalConversation(invoice
-					.getNetAmount() / currencyFactor);
+			String subtotal = Utility.decimalConversation(
+					invoice.getNetAmount() / currencyFactor, symbol);
 			if (company.getPreferences().isTrackTax()) {
 
 				t.setVariable("subTotal", subtotal);
 				t.addBlock("subtotal");
 				if (brandingTheme.isShowTaxColumn()) {
-					t.setVariable(
-							"vatTotal",
-							Utility.decimalConversation((invoice.getTaxTotal() / currencyFactor)));
+					t.setVariable("vatTotal", Utility.decimalConversation(
+							(invoice.getTaxTotal() / currencyFactor), symbol));
 					t.addBlock("VatTotal");
 				}
 			}
 
 			String total = Utility.decimalConversation(invoice.getTotal()
-					/ currencyFactor);
+					/ currencyFactor, symbol);
 			t.setVariable("total", total);
 			// if (invoice.getMemo().trim().length() > 0) {
 			t.setVariable("blankText", invoice.getMemo());
@@ -346,11 +345,11 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			t.setVariable(
 					"payment",
 					Utility.decimalConversation(invoice.getPayments()
-							/ currencyFactor));
+							/ currencyFactor, symbol));
 			t.setVariable(
 					"balancedue",
 					Utility.decimalConversation(invoice.getBalanceDue()
-							/ currencyFactor));
+							/ currencyFactor, symbol));
 			t.addBlock("itemDetails");
 
 			t.setVariable("dueDate", invoice.getDueDate().toString());

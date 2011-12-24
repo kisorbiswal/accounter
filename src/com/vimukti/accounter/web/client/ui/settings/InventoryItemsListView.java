@@ -66,7 +66,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 		}
 		if (totalLabel != null) {
 			totalLabel.setText(messages().totalSalesPrice() + " = "
-					+ DataUtils.getAmountAsString(total));
+					+ DataUtils.getAmountAsStringInPrimaryCurrency(total));
 		}
 	}
 

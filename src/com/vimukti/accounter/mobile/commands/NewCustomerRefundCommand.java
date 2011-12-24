@@ -8,9 +8,11 @@ import java.util.Set;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -187,12 +189,11 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 				.pleaseEnter(getMessages().currencyFactor()), getMessages()
 				.currencyFactor()) {
 			@Override
-			protected ClientCurrency getSelectedCurrency() {
+			protected Currency getCurrency() {
 				Customer customer = (Customer) NewCustomerRefundCommand.this
 						.get(CUSTOMER).getValue();
-				return getCurrency(customer.getCurrency().getID());
+				return customer.getCurrency();
 			}
-
 		});
 		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
 				getMessages().billNo()), getMessages().billNo(), true, true));
@@ -296,14 +297,12 @@ public class NewCustomerRefundCommand extends NewAbstractTransactionCommand {
 		list.add(new CurrencyAmountRequirement(AMOUNT, getMessages()
 				.pleaseEnter(getMessages().amount()), getMessages().amount(),
 				false, true) {
-
 			@Override
-			protected String getFormalName() {
+			protected Currency getCurrency() {
 				Customer customer = (Customer) NewCustomerRefundCommand.this
 						.get(CUSTOMER).getValue();
-				return customer.getCurrency().getFormalName();
+				return customer.getCurrency();
 			}
-
 		});
 
 		list.add(new BooleanRequirement(TO_BE_PRINTED, true) {

@@ -131,8 +131,8 @@ public abstract class TransactionItemTableRequirement extends
 				.unitPrice(), false, true) {
 
 			@Override
-			protected String getFormalName() {
-				return getCurrency().getFormalName();
+			protected Currency getCurrency() {
+				return TransactionItemTableRequirement.this.getCurrency();
 			}
 		});
 
@@ -341,15 +341,20 @@ public abstract class TransactionItemTableRequirement extends
 			record.add(getMessages().quantity(), t.getQuantity().getValue());
 		}
 		String formalName;
+		String curencySymbol;
 		if (getPreferences().isEnableMultiCurrency()) {
-			formalName = getCurrency().getFormalName();
+			Currency currency = getCurrency();
+			formalName = currency.getFormalName();
+			curencySymbol = currency.getSymbol();
 		} else {
 			formalName = getPreferences().getPrimaryCurrency().getFormalName();
+			curencySymbol = getPreferences().getPrimaryCurrency().getSymbol();
 		}
 		record.add(
 				getMessages().unitPrice() + "(" + formalName + ")",
 				Global.get().toCurrencyFormat(
-						t.getUnitPrice() == null ? 0d : t.getUnitPrice()));
+						t.getUnitPrice() == null ? 0d : t.getUnitPrice(),
+						curencySymbol));
 		if (getPreferences().isTrackTax() && isSales() ? false
 				: getPreferences().isTrackPaidTax()) {
 			if (getPreferences().isTaxPerDetailLine()) {

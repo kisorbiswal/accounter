@@ -77,11 +77,11 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 			if (isSales) {
 				ClientTAXItem item = getCompany().getTaxItem(
 						object.getTAXItemGrpForSales());
-				return DataUtils.getAmountAsString(item.getTaxRate()) + "%";
+				return DataUtils.getAmountAsStringInPrimaryCurrency(item.getTaxRate()) + "%";
 			} else {
 				ClientTAXItem item = getCompany().getTaxItem(
 						object.getTAXItemGrpForPurchases());
-				return DataUtils.getAmountAsString(item.getTaxRate()) + "%";
+				return DataUtils.getAmountAsStringInPrimaryCurrency(item.getTaxRate()) + "%";
 			}
 		}
 		return null;

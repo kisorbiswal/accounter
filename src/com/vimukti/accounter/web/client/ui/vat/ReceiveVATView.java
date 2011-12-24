@@ -363,7 +363,7 @@ public class ReceiveVATView extends
 		if (selectedDepositInAccount != null) {
 			endingBalance = initialEndingBalance + totalAmount;
 			endingBalanceText.setValue(DataUtils
-					.getAmountAsString(endingBalance));
+					.getAmountAsStringInPrimaryCurrency(endingBalance));
 
 		}
 	}
@@ -449,7 +449,7 @@ public class ReceiveVATView extends
 		}
 
 		amountText
-				.setValue(DataUtils.getAmountAsString(transaction.getTotal()));
+				.setValue(DataUtils.getAmountAsStringInPrimaryCurrency(transaction.getTotal()));
 		List<ClientTransactionReceiveVAT> list = transaction
 				.getClientTransactionReceiveVAT();
 		int count = 0;

@@ -113,7 +113,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	public String getValue(Object object) {
 
 		return (object instanceof Double ? DataUtils
-				.getAmountAsString((Double) object) : object.toString());
+				.getAmountAsStringInPrimaryCurrency((Double) object) : object.toString());
 	}
 
 	@Override

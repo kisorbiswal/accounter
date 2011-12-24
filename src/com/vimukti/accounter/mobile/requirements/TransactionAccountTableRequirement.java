@@ -68,8 +68,8 @@ public abstract class TransactionAccountTableRequirement extends
 				false, true) {
 
 			@Override
-			protected String getFormalName() {
-				return getCurrency().getFormalName();
+			protected Currency getCurrency() {
+				return TransactionAccountTableRequirement.this.getCurrency();
 			}
 		});
 

@@ -359,7 +359,8 @@ public class InvoiceExcelTemplete {
 	}
 
 	private String largeAmountConversation(double amount) {
-		String amt = Utility.decimalConversation(amount);
+		String amt = Utility.decimalConversation(amount, invoice.getCurrency()
+				.getSymbol());
 		amt = getDecimalsUsingMaxDecimals(0.0, amt, 2);
 		return (amt);
 	}
