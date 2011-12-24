@@ -94,7 +94,7 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 				.getNamedQuery("getWarehouse")
 				.setParameter("companyId",
 						((Warehouse) clientObject).getCompany().getID())
-				.setString("name", this.name);
+				.setString("name", this.name).setLong("id", this.getID());
 		List list = query.list();
 
 		if (list != null || list.size() > 0 || list.get(0) != null) {
