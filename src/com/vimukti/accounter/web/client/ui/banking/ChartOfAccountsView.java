@@ -30,7 +30,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	private ClientAccount toBeDelete;
 	private List<ClientAccount> listOfAccounts;
 	public int typeOfAccount;
-	public int start, length;
 
 	public ChartOfAccountsView() {
 		this(0);
