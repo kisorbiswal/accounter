@@ -999,7 +999,7 @@ public class VendorManager extends Manager {
 	}
 
 	public PaginationList<PaymentsList> getVendorPaymentsList(long companyId,
-			long fromDate, long toDate, int start, int length)
+			long fromDate, long toDate, int start, int length, int viewType)
 			throws DAOException {
 		int total = 0;
 		List list;
@@ -1009,7 +1009,8 @@ public class VendorManager extends Manager {
 			Query query = session.getNamedQuery("getVendorPaymentsList")
 					.setParameter("companyId", companyId)
 					.setParameter("fromDate", fromDate)
-					.setParameter("toDate", toDate);
+					.setParameter("toDate", toDate)
+					.setParameter("viewType", viewType);
 
 			// /If length will be -1 then get list for mobile With out limits
 			if (length == -1) {
