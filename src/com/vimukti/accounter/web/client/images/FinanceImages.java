@@ -261,4 +261,6 @@ public interface FinanceImages extends ClientBundle {
 	@Source("professionalQuote.png")
 	ImageResource professionalQuote();
 
+	@Source("new.jpg")
+	ImageResource createAction();
 }
