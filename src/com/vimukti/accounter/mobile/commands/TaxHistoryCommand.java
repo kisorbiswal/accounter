@@ -100,7 +100,6 @@ public class TaxHistoryCommand extends NewAbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().taxHistory());
 			}
 
 			@Override
