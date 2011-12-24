@@ -10,14 +10,12 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
-import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public class InvoiceListCommand extends AbstractTransactionListCommand {
 
@@ -125,11 +123,14 @@ public class InvoiceListCommand extends AbstractTransactionListCommand {
 	private List<InvoicesList> getInvoices(Context context) {
 		String viewType = get(VIEW_BY).getValue();
 		try {
-			List<InvoicesList> invoices = new FinanceTool()
-					.getInventoryManager().getInvoiceList(
-							context.getCompany().getId(),
-							getStartDate().getDate(), getEndDate().getDate(),
-							0, 1, -1);
+			List<InvoicesList> invoices = null;
+			// TODO need to pass ViewType and Date as parameter
+
+			// List<InvoicesList> invoices = new FinanceTool()
+			// .getInventoryManager().getInvoiceList(
+			// context.getCompany().getId(),
+			// getStartDate().getDate(), getEndDate().getDate(),
+			// 0, 1, -1);
 			List<InvoicesList> list = new ArrayList<InvoicesList>(
 					invoices.size());
 			for (InvoicesList invoice : invoices) {
@@ -163,7 +164,7 @@ public class InvoiceListCommand extends AbstractTransactionListCommand {
 			}
 
 			return list;
-		} catch (DAOException e) {
+		} catch (Exception e) {
 		}
 		return null;
 	}
