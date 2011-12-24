@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -23,6 +25,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 	private ArrayList<ClientItem> listOfItems = new ArrayList<ClientItem>();
 
 	private String catageory;
+	private boolean isActiveAccounts;
 
 	public InventoryItemsListView() {
 		super();
@@ -41,7 +44,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 	@Override
 	public void deleteFailed(AccounterException caught) {
 		super.deleteFailed(caught);
-		AccounterException accounterException = (AccounterException) caught;
+		AccounterException accounterException = caught;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -133,6 +136,31 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 	@Override
 	public void fitToSize(int height, int width) {
 		super.fitToSize(height, width);
+
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isActive", isActiveAccounts);
+		map.put("start", start);
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> viewDate) {
+
+		if (viewDate == null || viewDate.isEmpty()) {
+			return;
+		}
+		isActiveAccounts = (Boolean) viewDate.get("isActive");
+		start = (Integer) viewDate.get("start");
+		onPageChange(start, getPageSize());
+		if (isActiveAccounts) {
+			viewSelect.setComboItem(messages().active());
+		} else {
+			viewSelect.setComboItem(messages().inActive());
+		}
 
 	}
 
