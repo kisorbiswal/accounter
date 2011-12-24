@@ -640,7 +640,7 @@ public interface AccounterMessages extends Messages {
 
 	public String cashSales();
 
-	public String Categories();
+	public String categories();
 
 	// public String category();
 
