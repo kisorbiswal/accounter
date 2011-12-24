@@ -100,6 +100,11 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_MISC_SAMPLE_FORM = 33;
 	public static final int ALL = 1000;
 
+	public static final int VIEW_ALL = 0;
+	public static final int VIEW_VOIDED = 3;
+	public static final int VIEW_OVERDUE = 2;
+	public static final int VIEW_OPEN = 1;
+
 	int type;
 	FinanceDate transactionDate;
 	String number = "0";
