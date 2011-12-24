@@ -1185,8 +1185,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			initVatCodeList();
 		}
 		if (data != null && data.getPriceLevel() != 0) {
-			priceLevelSelect.setValue(company.getPriceLevel(data
-					.getPriceLevel()));
+			priceLevelSelect.setValue(company.getPriceLevel(
+					data.getPriceLevel()).getDisplayName());
 		}
 
 		super.initData();
