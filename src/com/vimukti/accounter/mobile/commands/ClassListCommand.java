@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class ClassListCommand extends NewAbstractCommand {
+public class ClassListCommand extends AbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {

@@ -42,7 +42,7 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-public class NewCustomerPrepaymentCommand extends NewAbstractTransactionCommand {
+public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 	ClientCustomerPrePayment prePayment;
 
 	@Override

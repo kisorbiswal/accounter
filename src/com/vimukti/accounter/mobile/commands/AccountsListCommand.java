@@ -17,7 +17,7 @@ import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
  * @author Sai Prasad N
  * 
  */
-public class AccountsListCommand extends NewAbstractCommand {
+public class AccountsListCommand extends AbstractCommand {
 
 	private static final String ACCOUNT_TYPE = "accountType";
 

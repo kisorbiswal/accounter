@@ -15,7 +15,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-public class MeasurementListCommand extends NewAbstractCommand {
+public class MeasurementListCommand extends AbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {

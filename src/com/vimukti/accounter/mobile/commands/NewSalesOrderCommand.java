@@ -42,7 +42,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class NewSalesOrderCommand extends NewAbstractTransactionCommand {
+public class NewSalesOrderCommand extends AbstractTransactionCommand {
 
 	public static final String STATUS = "status";
 	public static final String CUSTOMER_ORDER_NO = "customerOrderNumber";

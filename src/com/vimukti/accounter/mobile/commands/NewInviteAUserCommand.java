@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
 
-public class NewInviteAUserCommand extends NewAbstractCommand {
+public class NewInviteAUserCommand extends AbstractCommand {
 
 	private static final String FIRST_NAME = "First Name";
 	private static final String LAST_NAME = "Last Name";

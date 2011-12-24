@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 
-public class NewLocationCommand extends NewAbstractCommand {
+public class NewLocationCommand extends AbstractCommand {
 
 	private static final String LOCATION_NAME = "location name";
 	ClientLocation location;

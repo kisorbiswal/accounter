@@ -47,7 +47,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Sai Prasad N
  * 
  */
-public class NewCustomerCreditMemoCommand extends NewAbstractTransactionCommand {
+public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 	ClientCustomerCreditMemo creditMemo;
 
 	@Override

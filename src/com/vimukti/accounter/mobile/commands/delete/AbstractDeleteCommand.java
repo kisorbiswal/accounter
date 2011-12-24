@@ -10,7 +10,7 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.commands.NewAbstractCommand;
+import com.vimukti.accounter.mobile.commands.AbstractCommand;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -24,7 +24,7 @@ import com.vimukti.accounter.web.server.OperationContext;
  * @author Lingarao.R
  * 
  */
-public abstract class AbstractDeleteCommand extends NewAbstractCommand {
+public abstract class AbstractDeleteCommand extends AbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {

@@ -24,7 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
  * @author Sai Prasad N
  * 
  */
-public class NewAccountCommand extends NewAbstractCommand {
+public class NewAccountCommand extends AbstractCommand {
 
 	private static final String ACCOUNT_NAME = "Account Name";
 	private static final String ACCOUNT_NUMBER = "Account Number";

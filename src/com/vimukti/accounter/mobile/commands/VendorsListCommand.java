@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class VendorsListCommand extends NewAbstractCommand {
+public class VendorsListCommand extends AbstractCommand {
 	private static final String VENDOR_TYPE = "vendorType";
 
 	@Override

@@ -13,7 +13,7 @@ import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.managers.TaxManager;
 
-public class TaxHistoryCommand extends NewAbstractCommand {
+public class TaxHistoryCommand extends AbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {

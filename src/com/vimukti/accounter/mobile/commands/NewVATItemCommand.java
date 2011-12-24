@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
-public class NewVATItemCommand extends NewAbstractCommand {
+public class NewVATItemCommand extends AbstractCommand {
 
 	private static final String DESCRIPTION = "description";
 	private static final String IS_ACTIVE = "isActive";

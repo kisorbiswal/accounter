@@ -12,7 +12,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 
-public class NewCreditRatingCommand extends NewAbstractCommand {
+public class NewCreditRatingCommand extends AbstractCommand {
 
 	private static final String CREDIT_RATING_NAME = "CreditRationgName";
 

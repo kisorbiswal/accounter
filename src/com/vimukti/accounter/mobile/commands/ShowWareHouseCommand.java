@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 
-public class ShowWareHouseCommand extends NewAbstractCommand {
+public class ShowWareHouseCommand extends AbstractCommand {
 
 	ClientWarehouse warehouse;
 

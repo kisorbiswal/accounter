@@ -16,7 +16,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 
-public class NewMeasurementCommand extends NewAbstractCommand {
+public class NewMeasurementCommand extends AbstractCommand {
 
 	private static final String MEASUREMENT_NAME = "Measurement Name";
 	private static final String MEASUREMENT_DESCRIPTION = "Measurement Description";

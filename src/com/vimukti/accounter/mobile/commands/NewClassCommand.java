@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 
-public class NewClassCommand extends NewAbstractCommand {
+public class NewClassCommand extends AbstractCommand {
 	private static final String CLASS_NAME = "Class";
 	ClientAccounterClass accounterClass;
 

@@ -31,7 +31,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
-public class NewVATAgencyCommand extends NewAbstractCommand {
+public class NewVATAgencyCommand extends AbstractCommand {
 
 	private static final String PAYMENT_TERM = "paymentTerm";
 	private static final String SALES_ACCOUNT = "salesLiabilityAccount";

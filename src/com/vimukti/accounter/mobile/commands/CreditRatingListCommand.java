@@ -10,7 +10,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class CreditRatingListCommand extends NewAbstractCommand {
+public class CreditRatingListCommand extends AbstractCommand {
 
 	@Override
 	public String getId() {

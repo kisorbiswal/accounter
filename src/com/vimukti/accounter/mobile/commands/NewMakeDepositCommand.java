@@ -32,7 +32,7 @@ import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
-public class NewMakeDepositCommand extends NewAbstractTransactionCommand {
+public class NewMakeDepositCommand extends AbstractTransactionCommand {
 	private static final String DEPOSIT_OR_TRANSFER_FROM = "depositOrTransferFrom";
 	private static final String DEPOSIT_OR_TRANSFER_TO = "DepositOrTransferTo";
 	ClientMakeDeposit makeDeposit;

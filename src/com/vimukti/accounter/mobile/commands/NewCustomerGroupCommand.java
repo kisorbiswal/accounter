@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
  * @author Lingarao.R
  * 
  */
-public class NewCustomerGroupCommand extends NewAbstractCommand {
+public class NewCustomerGroupCommand extends AbstractCommand {
 	private static final String CUSTPMERGROUP_NAME = "CustomerGroup Name";
 
 	private ClientCustomerGroup customerGroup;

@@ -36,7 +36,7 @@ import com.vimukti.accounter.web.client.util.ICountryPreferences;
 import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
 import com.vimukti.accounter.web.server.AccountsTemplateManager;
 
-public abstract class AbstractCompanyCommad extends NewAbstractCommand {
+public abstract class AbstractCompanyCommad extends AbstractCommand {
 	protected static final String CUSTOMER_TERMINOLOGY = "customerterm";
 	protected static final String SUPPLIER_TERMINOLOGY = "vendorterm";
 	protected static final String ACCOUNT_TERMINOLOGY = "accountterm";

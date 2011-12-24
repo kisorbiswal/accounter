@@ -40,7 +40,7 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-public class WriteCheckCommand extends NewAbstractTransactionCommand {
+public class WriteCheckCommand extends AbstractTransactionCommand {
 
 	private static final String PAYEE = "payee";
 	private static final String BANK_ACCOUNT = "bankAccount";

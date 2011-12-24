@@ -45,7 +45,7 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class NewCreditCardExpenseCommand extends NewAbstractTransactionCommand {
+public class NewCreditCardExpenseCommand extends AbstractTransactionCommand {
 
 	private static final String DELIVERY_DATE = "deliveryDate";
 	ClientCreditCardCharge creditCardCharge;

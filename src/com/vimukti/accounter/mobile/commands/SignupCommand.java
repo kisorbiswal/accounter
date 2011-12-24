@@ -28,7 +28,7 @@ import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.Global;
 
-public class SignupCommand extends NewAbstractCommand {
+public class SignupCommand extends AbstractCommand {
 	private static final String FIRST_NAME = "firstname";
 	private static final String LAST_NAME = "lastname";
 	private static final String SUBSCRIBED_NEWSLETTER = "subscribed";

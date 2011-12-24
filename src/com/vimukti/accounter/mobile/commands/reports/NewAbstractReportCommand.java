@@ -9,7 +9,7 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.mobile.commands.NewAbstractCommand;
+import com.vimukti.accounter.mobile.commands.AbstractCommand;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
@@ -17,7 +17,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
-public abstract class NewAbstractReportCommand<T> extends NewAbstractCommand {
+public abstract class NewAbstractReportCommand<T> extends AbstractCommand {
 	protected static final int REPORTS_TO_SHOW = 20;
 	protected static final int VATAGENCIES_TO_SHOW = 20;
 	protected static final int CUSTOMERS_TO_SHOW = 20;

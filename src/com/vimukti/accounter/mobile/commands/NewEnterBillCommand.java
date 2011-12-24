@@ -49,7 +49,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Sai Prasad N
  * 
  */
-public class NewEnterBillCommand extends NewAbstractTransactionCommand {
+public class NewEnterBillCommand extends AbstractTransactionCommand {
 
 	private ClientEnterBill enterBill;
 

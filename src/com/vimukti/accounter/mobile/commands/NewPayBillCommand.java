@@ -48,7 +48,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * @author Sai Prasad N
  * 
  */
-public class NewPayBillCommand extends NewAbstractTransactionCommand {
+public class NewPayBillCommand extends AbstractTransactionCommand {
 	ClientPayBill paybill;
 
 	@Override

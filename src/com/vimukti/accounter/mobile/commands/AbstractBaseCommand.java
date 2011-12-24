@@ -19,7 +19,7 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
-public abstract class NewCommand extends Command {
+public abstract class AbstractBaseCommand extends Command {
 	private long companyId;
 	private Company company;
 	private ClientCompanyPreferences preferences;

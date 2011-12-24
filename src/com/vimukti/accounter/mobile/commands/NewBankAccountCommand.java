@@ -30,7 +30,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
  * @author Sai Parasad N
  * 
  */
-public class NewBankAccountCommand extends NewAbstractCommand {
+public class NewBankAccountCommand extends AbstractCommand {
 	private static final int BANK_CAT_BEGIN_NO = 1100;
 	private static final int BANK_CAT_END_NO = 1179;
 	private static final String ACCOUNT_NUMBER = "Account Number";

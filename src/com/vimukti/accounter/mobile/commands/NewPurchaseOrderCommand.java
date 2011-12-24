@@ -40,7 +40,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
-public class NewPurchaseOrderCommand extends NewAbstractTransactionCommand {
+public class NewPurchaseOrderCommand extends AbstractTransactionCommand {
 
 	public static final String STATUS = "status";
 	public static final String VENDOR_ORDER_NO = "vendorOrderNo";

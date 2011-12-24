@@ -12,7 +12,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 
-public abstract class AbstractTransactionListCommand extends NewAbstractCommand {
+public abstract class AbstractTransactionListCommand extends AbstractCommand {
 
 	private ClientFinanceDate startDate;
 	private ClientFinanceDate endDate;

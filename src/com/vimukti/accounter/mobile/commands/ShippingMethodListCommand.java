@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class ShippingMethodListCommand extends NewAbstractCommand {
+public class ShippingMethodListCommand extends AbstractCommand {
 	private static final String SHIPPING_METHODS = "ShiipingMethods";
 
 	@Override

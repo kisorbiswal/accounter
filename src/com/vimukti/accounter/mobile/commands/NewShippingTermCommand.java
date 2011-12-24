@@ -9,7 +9,7 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 
-public class NewShippingTermCommand extends NewAbstractCommand {
+public class NewShippingTermCommand extends AbstractCommand {
 
 	protected static final String SHIPPING_TERMNAME = "shippingTermsName";
 	protected static final String DESCRIPTION = "description";

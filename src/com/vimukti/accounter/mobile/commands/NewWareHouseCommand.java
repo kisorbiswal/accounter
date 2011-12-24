@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 
-public class NewWareHouseCommand extends NewAbstractCommand {
+public class NewWareHouseCommand extends AbstractCommand {
 	private final static String WAREHOUSECODE = "warehouseCode";
 	private final static String WAREHOUSE_NAME = "warehousename";
 	private final static String CONTACT_NAME = "contactname";

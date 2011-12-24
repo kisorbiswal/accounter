@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class PayVATCommand extends NewAbstractTransactionCommand {
+public class PayVATCommand extends AbstractTransactionCommand {
 
 	private static final String VAT_RETURN_END_DATE = "vatReturnEndDate";
 	private static final String BILLS_TO_PAY = "billToPay";

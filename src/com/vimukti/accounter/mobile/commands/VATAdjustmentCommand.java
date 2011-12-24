@@ -27,7 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
-public class VATAdjustmentCommand extends NewAbstractTransactionCommand {
+public class VATAdjustmentCommand extends AbstractTransactionCommand {
 
 	private static final String IS_INCREASE_VATLINE = "isIncreaseVatLine";
 	private static final String ADJUSTMENT_ACCOUNT = "adjustmentAccount";

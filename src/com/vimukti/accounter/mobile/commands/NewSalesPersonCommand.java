@@ -25,7 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
-public class NewSalesPersonCommand extends NewAbstractCommand {
+public class NewSalesPersonCommand extends AbstractCommand {
 
 	private static final String SALES_PERSON_NAME = "salesPersonName";
 	private static final String FILE_AS = "fileAs";

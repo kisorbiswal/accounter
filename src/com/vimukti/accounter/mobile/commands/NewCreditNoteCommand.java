@@ -49,7 +49,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Lingarao.R
  * 
  */
-public class NewCreditNoteCommand extends NewAbstractTransactionCommand {
+public class NewCreditNoteCommand extends AbstractTransactionCommand {
 	ClientCustomerCreditMemo creditMemo;
 
 	@Override

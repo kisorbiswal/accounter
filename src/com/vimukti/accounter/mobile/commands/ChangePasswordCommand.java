@@ -13,7 +13,7 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.Security;
 
-public class ChangePasswordCommand extends NewAbstractCommand {
+public class ChangePasswordCommand extends AbstractCommand {
 	private static final String OLDPASSWORD = "oldpass";
 	private static final String NEWPASSWORD = "newpass";
 	private static final String CONFORMPASSWORD = "conformpass";

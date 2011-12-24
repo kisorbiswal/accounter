@@ -1,7 +1,7 @@
 package com.vimukti.accounter.mobile.commands.preferences;
 
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.commands.NewAbstractCommand;
+import com.vimukti.accounter.mobile.commands.AbstractCommand;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.server.OperationContext;
 import com.vimukti.accounter.web.server.managers.CompanyManager;
 
 public abstract class AbstractCompanyPreferencesCommand extends
-		NewAbstractCommand {
+		AbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {

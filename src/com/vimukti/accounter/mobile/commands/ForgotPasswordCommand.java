@@ -14,7 +14,7 @@ import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
 
-public class ForgotPasswordCommand extends NewAbstractCommand {
+public class ForgotPasswordCommand extends AbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {

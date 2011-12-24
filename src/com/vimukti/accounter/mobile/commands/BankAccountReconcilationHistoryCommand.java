@@ -21,7 +21,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * @author Lingarao.R
  * 
  */
-public class BankAccountReconcilationHistoryCommand extends NewAbstractCommand {
+public class BankAccountReconcilationHistoryCommand extends AbstractCommand {
 
 	private static final String BANK_ACCOUNT = "BankAccount";
 

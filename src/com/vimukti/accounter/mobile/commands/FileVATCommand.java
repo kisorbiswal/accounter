@@ -27,7 +27,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateUtil;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class FileVATCommand extends NewAbstractTransactionCommand {
+public class FileVATCommand extends AbstractTransactionCommand {
 
 	private static final String FROM_DATE = "fromDate";
 	private static final String TO_DATE = "toDate";

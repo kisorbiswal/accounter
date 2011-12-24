@@ -44,7 +44,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class NewCashPurchaseCommand extends NewAbstractTransactionCommand {
+public class NewCashPurchaseCommand extends AbstractTransactionCommand {
 	ClientCashPurchase cashPurchase;
 
 	@Override

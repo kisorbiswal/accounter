@@ -10,7 +10,7 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 
-public class NewPaymentTermCommand extends NewAbstractCommand {
+public class NewPaymentTermCommand extends AbstractCommand {
 
 	private final static String PAYMENT_TERMS = "Payment Terms";
 	private final static String DESCRIPTION = "Description";

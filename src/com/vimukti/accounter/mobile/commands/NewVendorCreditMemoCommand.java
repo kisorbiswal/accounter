@@ -40,7 +40,7 @@ import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class NewVendorCreditMemoCommand extends NewAbstractTransactionCommand {
+public class NewVendorCreditMemoCommand extends AbstractTransactionCommand {
 	ClientVendorCreditMemo vendorCreditMemo;
 
 	@Override

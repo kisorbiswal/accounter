@@ -12,7 +12,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class BankAccountsListCommand extends NewAbstractCommand {
+public class BankAccountsListCommand extends AbstractCommand {
 	private static final String VIEW_TYPE = "Current View";
 
 	@Override

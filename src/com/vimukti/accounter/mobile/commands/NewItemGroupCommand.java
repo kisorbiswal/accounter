@@ -9,7 +9,7 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 
-public class NewItemGroupCommand extends NewAbstractCommand {
+public class NewItemGroupCommand extends AbstractCommand {
 	private static final String ITEMGROUP_NAME = "itemGroupName";
 	private ClientItemGroup itemGroup;
 

@@ -12,7 +12,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class VATCodesListCommand extends NewAbstractCommand {
+public class VATCodesListCommand extends AbstractCommand {
 
 	private static final String CURRENT_VIEW = "currentView";
 

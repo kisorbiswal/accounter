@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class UserActivityLogCommand extends NewAbstractCommand {
+public class UserActivityLogCommand extends AbstractCommand {
 
 	// private static final String FROM_DATE = "fromdate";
 	// private static final String END_DATE = "enddate";

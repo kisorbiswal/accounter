@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.web.client.Global;
 
-public class LocationListCommand extends NewAbstractCommand {
+public class LocationListCommand extends AbstractCommand {
 
 	private static final String LOCATIONS = "Locations";
 

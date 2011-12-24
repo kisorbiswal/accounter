@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.Global;
  * @author Lingarao.R
  * 
  */
-public class CustomerListCommand extends NewAbstractCommand {
+public class CustomerListCommand extends AbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {

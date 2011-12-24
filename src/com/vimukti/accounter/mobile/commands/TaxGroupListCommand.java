@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class TaxGroupListCommand extends NewAbstractCommand {
+public class TaxGroupListCommand extends AbstractCommand {
 
 	@Override
 	public String getId() {

@@ -12,7 +12,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ForwardRequirement;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
 
-public class UpdateItemCommand extends NewAbstractCommand {
+public class UpdateItemCommand extends AbstractCommand {
 
 	private static final String ITEM = "item";
 

@@ -47,7 +47,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author SaiPrasad N
  * 
  */
-public class NewQuoteCommand extends NewAbstractTransactionCommand {
+public class NewQuoteCommand extends AbstractTransactionCommand {
 
 	private static final String PHONE = "phone";
 	private static final String DELIVERY_DATE = "deliveryDate";

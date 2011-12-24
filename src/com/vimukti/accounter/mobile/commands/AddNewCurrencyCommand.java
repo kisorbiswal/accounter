@@ -12,7 +12,7 @@ import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 
-public class AddNewCurrencyCommand extends NewAbstractCommand {
+public class AddNewCurrencyCommand extends AbstractCommand {
 
 	private static final String ADDCURRENCY = "Add New Currency";
 

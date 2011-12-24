@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 
-public class NewContactCommand extends NewAbstractCommand {
+public class NewContactCommand extends AbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {

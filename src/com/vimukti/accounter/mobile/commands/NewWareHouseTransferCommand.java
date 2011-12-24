@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
 
-public class NewWareHouseTransferCommand extends NewAbstractCommand {
+public class NewWareHouseTransferCommand extends AbstractCommand {
 	private final static String WAREHOUSE_FROM = "warehousefrom";
 	private final static String WAREHOUSE_TO = "warehouseto";
 	private final static String COMMENT = "comment";

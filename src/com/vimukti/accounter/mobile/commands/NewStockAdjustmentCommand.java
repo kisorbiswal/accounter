@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class NewStockAdjustmentCommand extends NewAbstractCommand {
+public class NewStockAdjustmentCommand extends AbstractCommand {
 	private static final String WAREHOUSE = "warehouse";
 	private static final String STOCK_ADJUSTMENT = "stockadjustment";
 	ClientStockAdjustment stockAdjustment;

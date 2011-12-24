@@ -64,7 +64,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * 
  */
 
-public class NewInvoiceCommand extends NewAbstractTransactionCommand {
+public class NewInvoiceCommand extends AbstractTransactionCommand {
 
 	private static final String ESTIMATEANDSALESORDER = "estimateAndSalesOrder";
 	private static final String PAYMENT_TERMS = "paymentTerms";

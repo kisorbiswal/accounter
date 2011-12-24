@@ -5,7 +5,7 @@ import java.util.List;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 
-public class ChangeCompanyCommand extends NewAbstractCommand {
+public class ChangeCompanyCommand extends AbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {

@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientFiscalYear;
  * @author Sai Prasad N
  * 
  */
-public class NewFiscalYearCommand extends NewAbstractCommand {
+public class NewFiscalYearCommand extends AbstractCommand {
 
 	private static final String START_DATE = "start date";
 	private static final String END_DATE = "end date";

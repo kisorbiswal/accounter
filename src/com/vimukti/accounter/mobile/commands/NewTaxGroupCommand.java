@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 
-public class NewTaxGroupCommand extends NewAbstractCommand {
+public class NewTaxGroupCommand extends AbstractCommand {
 
 	private static final String TAX_ITEMS_LIST = "taxItemsList";
 	private static final String NAME = "name";

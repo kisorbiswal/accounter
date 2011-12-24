@@ -42,7 +42,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class NewCreditCardChargeCommand extends NewAbstractTransactionCommand {
+public class NewCreditCardChargeCommand extends AbstractTransactionCommand {
 
 	private static final String DELIVERY_DATE = "deliveryDate";
 	ClientCreditCardCharge creditCardCharge;

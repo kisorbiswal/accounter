@@ -27,7 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionReceiveVAT;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class ReceiveVATCommand extends NewAbstractTransactionCommand {
+public class ReceiveVATCommand extends AbstractTransactionCommand {
 
 	private static final String VAT_RETURN_END_DATE = "vatReturnEndDate";
 	private static final String BILLS_TO_RECEIVE = "billToReceive";

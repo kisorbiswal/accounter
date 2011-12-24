@@ -49,7 +49,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
-public class NewCustomerCommand extends NewAbstractCommand {
+public class NewCustomerCommand extends AbstractCommand {
 
 	protected static final String NUMBER = "customerNumber";
 	protected static final String BALANCE = "balance";

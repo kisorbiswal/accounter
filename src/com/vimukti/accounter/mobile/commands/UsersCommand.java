@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class UsersCommand extends NewAbstractCommand {
+public class UsersCommand extends AbstractCommand {
 
 	@Override
 	public String getId() {

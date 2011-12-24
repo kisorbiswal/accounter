@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * @author Lingarao.R
  * 
  */
-public class AccountRegisterCommand extends NewAbstractCommand {
+public class AccountRegisterCommand extends AbstractCommand {
 
 	private static final String SHOWTRANSACTION_TYPE = "ShowTransactions Type";
 	private static final String ACCOUNT = "account";

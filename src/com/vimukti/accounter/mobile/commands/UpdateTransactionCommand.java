@@ -13,7 +13,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ForwardRequirement;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
 
-public class UpdateTransactionCommand extends NewAbstractCommand {
+public class UpdateTransactionCommand extends AbstractCommand {
 
 	private static final String TRANSACTION = "transaction";
 

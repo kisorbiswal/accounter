@@ -34,7 +34,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 
-public abstract class AbstractItemCreateCommand extends NewAbstractCommand {
+public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
 	private static final String NAME = "name";
 	private static final String I_SELL_THIS = "iSellthis";

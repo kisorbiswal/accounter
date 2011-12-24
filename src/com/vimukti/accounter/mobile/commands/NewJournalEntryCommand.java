@@ -33,7 +33,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
  * 
  */
 
-public class NewJournalEntryCommand extends NewAbstractTransactionCommand {
+public class NewJournalEntryCommand extends AbstractTransactionCommand {
 
 	private static final String VOUCHER = "Voucher";
 	private static final String DATE = "date";

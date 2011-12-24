@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class PaymentTermsListCommand extends NewAbstractCommand {
+public class PaymentTermsListCommand extends AbstractCommand {
 	private static final String PAYMENT_TERMS = "PaymentTerms";
 
 	@Override

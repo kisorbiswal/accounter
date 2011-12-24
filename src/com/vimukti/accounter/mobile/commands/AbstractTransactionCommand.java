@@ -27,7 +27,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public abstract class NewAbstractTransactionCommand extends NewAbstractCommand {
+public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String CUSTOMER = "customer";
 	protected static final String ITEMS = "items";
 	protected static final String DATE = "date";

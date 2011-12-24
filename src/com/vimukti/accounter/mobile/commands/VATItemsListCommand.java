@@ -12,7 +12,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class VATItemsListCommand extends NewAbstractCommand {
+public class VATItemsListCommand extends AbstractCommand {
 
 	private static final String CURRENT_VIEW = "currentView";
 

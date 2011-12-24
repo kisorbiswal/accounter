@@ -37,7 +37,7 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class NewReceivePaymentCommand extends NewAbstractTransactionCommand {
+public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 	private static final String AMOUNT_RECEIVED = "amountreceived";
 	private static final String CHECK_NUMBER = "checknum";
 	private static final String TRANSACTIONS = "transactions";

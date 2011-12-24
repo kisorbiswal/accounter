@@ -25,7 +25,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 
-public class NewVATCodeCommand extends NewAbstractCommand {
+public class NewVATCodeCommand extends AbstractCommand {
 
 	private static final String DESCRIPTION = "description";
 	private static final String IS_TAXABLE = "isTaxable";

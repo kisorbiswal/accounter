@@ -11,19 +11,15 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -31,7 +27,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
 
-public abstract class NewAbstractCommand extends NewCommand {
+public abstract class AbstractCommand extends AbstractBaseCommand {
 	public static final String FIRST_MESSAGE = "firstMessage";
 	private IGlobal global;
 	private AccounterMessages messages;
@@ -49,7 +45,7 @@ public abstract class NewAbstractCommand extends NewCommand {
 	protected static final String CURRENCY = "Currency";
 	protected static final String CURRENCY_FACTOR = "Currency Factor";
 
-	public NewAbstractCommand() {
+	public AbstractCommand() {
 
 	}
 

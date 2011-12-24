@@ -10,7 +10,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class CurrencyListCommand extends NewAbstractCommand {
+public class CurrencyListCommand extends AbstractCommand {
 
 	private static final String CURRENCIES = "currencies";
 

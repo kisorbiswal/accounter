@@ -23,7 +23,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class PrintInvoiceCommand extends NewAbstractCommand {
+public class PrintInvoiceCommand extends AbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {

@@ -13,7 +13,7 @@ import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class ItemsCommand extends NewAbstractCommand {
+public class ItemsCommand extends AbstractCommand {
 
 	private static final String ITEMS_TYPE = "itemsType";
 

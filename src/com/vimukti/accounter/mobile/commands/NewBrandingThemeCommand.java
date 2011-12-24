@@ -15,7 +15,7 @@ import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 
-public class NewBrandingThemeCommand extends NewAbstractCommand {
+public class NewBrandingThemeCommand extends AbstractCommand {
 
 	private List<String> fontList;
 	private ArrayList<String> fontSizeArrayList;

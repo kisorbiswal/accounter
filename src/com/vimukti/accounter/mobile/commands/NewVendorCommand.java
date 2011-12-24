@@ -46,7 +46,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
-public class NewVendorCommand extends NewAbstractCommand {
+public class NewVendorCommand extends AbstractCommand {
 
 	protected static final String ACCOUNT = "Account";
 	protected static final String CREDIT_LIMIT = "Credit Limit";

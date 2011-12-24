@@ -54,7 +54,7 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class NewCashSaleCommand extends NewAbstractTransactionCommand {
+public class NewCashSaleCommand extends AbstractTransactionCommand {
 
 	private static final String DELIVERY_DATE = "deliveryDate";
 	private static final String DEPOSIT_OR_TRANSFER_TO = "depositOrTransferTo";

@@ -10,7 +10,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 
-public class NewShippingMethodCommand extends NewAbstractCommand {
+public class NewShippingMethodCommand extends AbstractCommand {
 
 	private static final String SHIPPING_METHOD_NAME = "Shipping Mehtod";
 	private static final String DESCRIPTION = "description";

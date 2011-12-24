@@ -10,7 +10,7 @@ import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 
-public class NewPriceLivelCommand extends NewAbstractCommand {
+public class NewPriceLivelCommand extends AbstractCommand {
 
 	private static final String PRICE_LEVEL_NAME = "pricelevelName";
 

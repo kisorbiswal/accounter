@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 
-public class ShippingTermsListCommand extends NewAbstractCommand {
+public class ShippingTermsListCommand extends AbstractCommand {
 	private static final String SHIPPING_TERMS = "ShiipingTerms";
 
 	@Override

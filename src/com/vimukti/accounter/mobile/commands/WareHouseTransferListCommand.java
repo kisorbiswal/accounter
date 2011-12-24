@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class WareHouseTransferListCommand extends NewAbstractCommand {
+public class WareHouseTransferListCommand extends AbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {

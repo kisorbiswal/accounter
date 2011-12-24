@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class NewIssuePaymentCommand extends NewAbstractTransactionCommand {
+public class NewIssuePaymentCommand extends AbstractTransactionCommand {
 	private static final String PAYMENTS_TO_ISSUED = "paymentstoissued";
 	private static final String CHEQUE_NO = "checknum";
 	private static final String PAYMENT_METHOD = "paymentMethod";
