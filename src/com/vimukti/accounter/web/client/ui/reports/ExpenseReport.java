@@ -13,7 +13,7 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 
 	private String currentsectionName = "";
 
-	private static int status;
+	private static int type;
 
 	public ExpenseReport() {
 		this.serverReport = new ExpenseServerReport(this);
@@ -40,12 +40,18 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 	}
 
 	@Override
+	public void init() {
+		super.init();
+		((ExpenseReportToolbar) toolbar).setSelectedType(type);
+	}
+
+	@Override
 	public void makeReportRequest(int status, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		Accounter.createReportService().getExpenseReportByType(status,
 				startDate, endDate, this);
 
-		ExpenseReport.status = status;
+		ExpenseReport.type = status;
 	}
 
 	@Override
@@ -53,7 +59,7 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 116, "",
-				"", status);
+				"", type);
 
 	}
 
@@ -88,10 +94,10 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 116, "",
-				"", status);
+				"", type);
 
 	}
-	
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {
@@ -104,23 +110,27 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 		toolbar.setEndDate(endDate);
 		toolbar.setStartDate(startDate);
 		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
-		int status1 =(Integer) map.get("Expense related to");
+		int status1 = (Integer) map.get("Expense related to");
 		isDatesArranged = true;
-		ExpenseReport.status = status1;
+		ExpenseReport.type = status1;
 	}
 
 	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String selectedDateRange = toolbar.getSelectedDateRange();
-		int expenserelatedto = ExpenseReport.status;
+		int expenserelatedto = ExpenseReport.type;
 		ClientFinanceDate startDate = toolbar.getStartDate();
 		ClientFinanceDate endDate = toolbar.getEndDate();
-		map.put("Expense related to",expenserelatedto);
+		map.put("Expense related to", expenserelatedto);
 		map.put("selectedDateRange", selectedDateRange);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
 		return map;
+	}
+
+	public void setType(Integer type) {
+		this.type = type == null ? 0 : type;
 	}
 
 	/*

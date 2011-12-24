@@ -25,6 +25,7 @@ import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.services.DAOException;
@@ -179,18 +180,20 @@ public class Manager {
 	}
 
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			long id, long companyId) throws DAOException, AccounterException {
+			long id, long companyId) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
 
 		Object serverObject = getServerObjectForid(type, id);
 
 		Class<?> serverClass = getClientEquivalentServerClass(type);
 
 		if (serverObject != null) {
+			if (serverObject instanceof User) {
+				return (T) ((User) serverObject).getClientUser().toUserInfo();
+			}
+
 			T t = (T) new ClientConvertUtil().toClientObject(serverObject,
 					Util.getClientEqualentClass(serverClass));
-			// if (t instanceof ClientTransaction
-			// && companyType == Company.ACCOUNTING_TYPE_UK) {
-			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
 			Query query2 = session
 					.getNamedQuery("getTAXRateCalculation.by.check.idandvatReturn");
@@ -200,7 +203,7 @@ public class Manager {
 					&& t instanceof ClientTransaction) {
 				((ClientTransaction) t).setCanEdit(false);
 			}
-			// }
+
 			return t;
 
 		}

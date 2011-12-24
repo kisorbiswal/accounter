@@ -43,16 +43,14 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 	}
 
 	public Double getCashDiscountValue() {
-		writeOffAmount = discAmtText
-				.getAmount();
+		writeOffAmount = discAmtText.getAmount();
 		return writeOffAmount;
 	}
 
 	public WriteOffDialog(List<ClientAccount> allAccounts,
 			ClientTransactionReceivePayment record, boolean canEdit,
 			ClientAccount clientAccount, ICurrencyProvider currencyProvider) {
-		super(messages.writeOff(), messages
-				.writeOffPleaseAddDetails());
+		super(messages.writeOff(), messages.writeOffPleaseAddDetails());
 		this.currencyProvider = currencyProvider;
 		this.record = record;
 		this.allAccounts = allAccounts;
@@ -66,16 +64,15 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 	}
 
 	public WriteOffDialog() {
-		super(messages.cashDiscount(), messages
-				.writeOffPleaseAddDetails());
+		super(messages.cashDiscount(), messages.writeOffPleaseAddDetails());
 
 		createControls();
 	}
 
 	private void createControls() {
 
-		discAccSelect = new OtherAccountsCombo(messages
-				.writeOffAccount(), false);
+		discAccSelect = new OtherAccountsCombo(messages.writeOffAccount(),
+				false);
 		discAccSelect.initCombo(allAccounts);
 		discAccSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -91,7 +88,8 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 		if (getSelectedWriteOffAccount() != null)
 			discAccSelect.setComboItem(getSelectedWriteOffAccount());
 
-		discAmtText = new AmountField(messages.writeOffAmount(), this,getBaseCurrency());
+		discAmtText = new AmountField(messages.writeOffAmount(), this,
+				getBaseCurrency());
 		discAmtText.setDisabled(!canEdit);
 		setCashDiscountValue(writeOffAmount);
 
@@ -159,6 +157,11 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 	protected boolean onOK() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 
 }

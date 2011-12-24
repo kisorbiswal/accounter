@@ -954,4 +954,9 @@ public class SearchInputDialog extends BaseDialog {
 		transactionTypeCombo.setFocus();
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
+
 }

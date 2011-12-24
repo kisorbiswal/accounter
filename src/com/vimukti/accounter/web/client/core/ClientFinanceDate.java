@@ -272,4 +272,12 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 		return 0;
 	}
 
+	public static ClientFinanceDate emptyDate() {
+		ClientFinanceDate date = new ClientFinanceDate();
+		date.setDay(0);
+		date.setMonth(0);
+		date.setYear(0);
+		return date;
+	}
+
 }

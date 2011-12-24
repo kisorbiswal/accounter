@@ -3037,10 +3037,7 @@ public class ReportManager extends Manager {
 
 			TAXItemDetail tid = new TAXItemDetail();
 
-			tid.setNetAmount(v.getNetAmount());
-			tid.setNetAmount(-1 * v.getNetAmount());
-			tid.setTotal(v.getTotal());
-			tid.setTaxAmount(v.getTotalTaxableAmount());
+			tid.setTaxAmount(v.getTotal());
 			tid.setTaxItemName(v.getTaxItem().getName());
 			tid.setTAXRate(v.getTaxItem().getTaxRate());
 

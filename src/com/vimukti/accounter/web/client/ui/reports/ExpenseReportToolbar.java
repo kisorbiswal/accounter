@@ -26,7 +26,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 	public static int EMPLOYEE = 1;
 	public static int CASH = 2;
 	public static int CREDITCARD = 3;
-	private int status;
+	private int expenseType;
 
 	public ExpenseReportToolbar() {
 		createControls();
@@ -79,22 +79,22 @@ public class ExpenseReportToolbar extends ReportToolbar {
 							 * Credit Card
 							 */
 
-							status = 0;
+							expenseType = 0;
 						} else if (selectItem.toString().equals(
 								Accounter.messages().cash())) {
-							status = ClientTransaction.TYPE_CASH_EXPENSE;
+							expenseType = ClientTransaction.TYPE_CASH_EXPENSE;
 						} else if (selectItem.toString().equals(
 								Accounter.messages().creditCard())) {
-							status = ClientTransaction.TYPE_CREDIT_CARD_EXPENSE;
+							expenseType = ClientTransaction.TYPE_CREDIT_CARD_EXPENSE;
 						} else if (selectItem.toString().equals(
 								Accounter.messages().employee())) {
-							status = ClientTransaction.TYPE_EMPLOYEE_EXPENSE;
+							expenseType = ClientTransaction.TYPE_EMPLOYEE_EXPENSE;
 						}
 
 						ClientFinanceDate startDate = fromItem.getDate();
 						ClientFinanceDate endDate = toItem.getDate();
-						reportview
-								.makeReportRequest(status, startDate, endDate);
+						reportview.makeReportRequest(expenseType, startDate,
+								endDate);
 
 					}
 				});
@@ -107,8 +107,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		}
 		dateRangeCombo.initCombo(dateRangeList);
 		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
-		dateRangeCombo
-				.setComboItem(Accounter.messages().financialYearToDate());
+		dateRangeCombo.setComboItem(Accounter.messages().financialYearToDate());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -192,7 +191,7 @@ public class ExpenseReportToolbar extends ReportToolbar {
 			ClientFinanceDate endDate) {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
-		reportview.makeReportRequest(status, startDate, endDate);
+		reportview.makeReportRequest(expenseType, startDate, endDate);
 
 		// itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,
 		// endDate);
@@ -219,5 +218,22 @@ public class ExpenseReportToolbar extends ReportToolbar {
 			setStartDate(startDate);
 			setEndDate(endDate);
 		}
+	}
+
+	public void setSelectedType(int type) {
+		switch (type) {
+		case 0:
+			expenseCombo.select(messages.allExpenses());
+			break;
+		case ClientTransaction.TYPE_CASH_EXPENSE:
+			expenseCombo.select(messages.cash());
+			break;
+		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+			expenseCombo.select(messages.creditCard());
+			break;
+		case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+			expenseCombo.select(messages.employee());
+		}
+		this.expenseType = type;
 	}
 }
