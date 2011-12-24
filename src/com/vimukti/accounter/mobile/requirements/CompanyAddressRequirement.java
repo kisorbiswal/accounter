@@ -85,9 +85,14 @@ public class CompanyAddressRequirement extends MultiRequirement<ClientAddress> {
 	}
 
 	private void countrySelected(String value) {
+		if (value == null || value.isEmpty()) {
+			return;
+		}
 		ICountryPreferences countryPreferences = CountryPreferenceFactory
 				.get(value);
-		getRequirement(STATE).setValue(countryPreferences.getStates()[0]);
+		if (countryPreferences.getStates().length >= 0) {
+			getRequirement(STATE).setValue(countryPreferences.getStates()[0]);
+		}
 		countrySelected(countryPreferences);
 	}
 
