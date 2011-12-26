@@ -32,7 +32,7 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 				} else
 					return false;
 			} else {
-				if (obj.getRoleName().equals(RolePermissions.BASIC_EMPLOYEE))
+				if (obj.getRoleName().equals(RolePermissions.CUSTOM))
 					return true;
 				else
 					return false;
@@ -42,17 +42,17 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 		case 2:
 			return getPermissionType(obj.getTypeOfBankReconcilation());
 		case 3:
-			return getPermissionType(obj.getTypeOfInvoices());
+			return getPermissionType(obj.getTypeOfInvoicesBills());
 			/*
 			 * case 4: return
 			 * getPermissionTypeForExpences(obj.getTypeOfExpences());
 			 */
 		case 4:
-			return getPermissionType(obj.getTypeOfSystemSettings());
+			return getPermissionType(obj.getTypeOfCompanySettingsLockDates());
 		case 5:
 			return getPermissionType(obj.getTypeOfViewReports());
 		case 6:
-			return getPermissionType(obj.getTypeOfLockDates());
+			return getPermissionType(obj.getTypeOfManageAccounts());
 			// return getPermissionType(obj.getTypeOfPublishReports());
 		case 7:
 			if (obj.isCanDoUserManagement())

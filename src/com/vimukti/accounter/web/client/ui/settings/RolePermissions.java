@@ -2,11 +2,12 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 public class RolePermissions {
 
+	public static final String CUSTOM = "Custom";
 	public static String READ_ONLY = "Read Only";
-	public static String INVOICE_ONLY = "Invoice Only";
-	public static String BASIC_EMPLOYEE = "Basic Employee";
+	// public static String INVOICE_ONLY = "Invoice Only";
+	// public static String BASIC_EMPLOYEE = "Basic Employee";
 	public static String FINANCIAL_ADVISER = "Financial Adviser";
-	public static String FINANCE_ADMIN = "Finance Admin";
+	// public static String FINANCE_ADMIN = "Finance Admin";
 	public static String ADMIN = "Admin";
 
 	public static String BANK_RECONCILATION = "Bank Reconcilation";
@@ -28,19 +29,18 @@ public class RolePermissions {
 
 	int typeOfBankReconcilation;
 
-	int typeOfInvoices;
-	
-	int typeOfExpences;
+	int typeOfInvoicesBills;
 
-	int typeOfSystemSettings;
+	int typeOfPayBillsPayments;
+
+	int typeOfCompanySettingsLockDates;
 
 	int typeOfViewReports;
 
-	int typeOfPublishReports;
+	int typeOfMangeAccounts;
 
-	int typeOfLockDates;
-	
 	boolean canDoUserManagement;
+	private int typeOfInventoryWarehouse;
 
 	public String getRoleName() {
 		return roleName;
@@ -58,28 +58,29 @@ public class RolePermissions {
 		this.typeOfBankReconcilation = typeOfBankReconcilation;
 	}
 
-	public int getTypeOfInvoices() {
-		return typeOfInvoices;
+	public int getTypeOfInvoicesBills() {
+		return typeOfInvoicesBills;
 	}
 
-	public void setTypeOfInvoices(int typeOfInvoices) {
-		this.typeOfInvoices = typeOfInvoices;
+	public void setTypeOfInvoicesBills(int typeOfInvoices) {
+		this.typeOfInvoicesBills = typeOfInvoices;
 	}
 
-	public int getTypeOfExpences() {
-		return typeOfExpences;
+	public int getTypeOfPayBillsPayments() {
+		return typeOfPayBillsPayments;
 	}
 
-	public void setTypeOfExpences(int typeOfExpences) {
-		this.typeOfExpences = typeOfExpences;
+	public void setTypeOfPayBillsPayments(int typeOfPayBillsPayments) {
+		this.typeOfPayBillsPayments = typeOfPayBillsPayments;
 	}
 
-	public int getTypeOfSystemSettings() {
-		return typeOfSystemSettings;
+	public int getTypeOfCompanySettingsLockDates() {
+		return typeOfCompanySettingsLockDates;
 	}
 
-	public void setTypeOfSystemSettings(int typeOfSystemSettings) {
-		this.typeOfSystemSettings = typeOfSystemSettings;
+	public void setTypeOfCompanySettingsLockDates(
+			int typeOfCompanySettingsLockDates) {
+		this.typeOfCompanySettingsLockDates = typeOfCompanySettingsLockDates;
 	}
 
 	public int getTypeOfViewReports() {
@@ -90,20 +91,12 @@ public class RolePermissions {
 		this.typeOfViewReports = typeOfViewReports;
 	}
 
-	public int getTypeOfPublishReports() {
-		return typeOfPublishReports;
+	public int getTypeOfManageAccounts() {
+		return typeOfMangeAccounts;
 	}
 
-	public void setTypeOfPublishReports(int typeOfPublishReports) {
-		this.typeOfPublishReports = typeOfPublishReports;
-	}
-
-	public int getTypeOfLockDates() {
-		return typeOfLockDates;
-	}
-
-	public void setTypeOfLockDates(int typeOfLockDates) {
-		this.typeOfLockDates = typeOfLockDates;
+	public void setTypeOfManageAccounts(int typeOfMangeAccounts) {
+		this.typeOfMangeAccounts = typeOfMangeAccounts;
 	}
 
 	public boolean isCanDoUserManagement() {
@@ -114,4 +107,11 @@ public class RolePermissions {
 		this.canDoUserManagement = canDoUserManagement;
 	}
 
+	public int getTypeOfInventoryWarehouse() {
+		return typeOfInventoryWarehouse;
+	}
+
+	public void setTypeOfInventoryWarehouse(int typeOfInventoryWarehouse) {
+		this.typeOfInventoryWarehouse = typeOfInventoryWarehouse;
+	}
 }
