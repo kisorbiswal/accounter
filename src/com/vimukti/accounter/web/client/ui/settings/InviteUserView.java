@@ -626,7 +626,8 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		if (list == null || list.isEmpty())
 			return false;
 		for (ClientUserInfo user : list) {
-			if (user.getEmail().equals(object.getEmail())) {
+			if (user.getEmail() != null
+					&& user.getEmail().equals(object.getEmail())) {
 				if (user.getID() != object.getID()) {
 					return true;
 				}
