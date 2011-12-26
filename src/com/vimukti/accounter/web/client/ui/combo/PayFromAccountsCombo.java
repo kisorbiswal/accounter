@@ -73,7 +73,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 		action.setAccountTypes(Arrays.asList(ClientAccount.TYPE_BANK,
 				ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 				ClientAccount.TYPE_CASH, ClientAccount.TYPE_INVENTORY_ASSET,
-				ClientAccount.TYPE_CREDIT_CARD));
+				ClientAccount.TYPE_CREDIT_CARD, ClientAccount.TYPE_PAYPAL));
 
 		action.run(null, true);
 
