@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -80,29 +83,30 @@ public class VendorsListGrid extends BaseListGrid<PayeeList> {
 	}
 
 	private void addDataToGrid() {
-		// Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
-		// new AsyncCallback<PaginationList<PayeeList>>() {
-		//
-		// @Override
-		// public void onSuccess(PaginationList<PayeeList> result) {
-		// if (result.size() == 0) {
-		// addEmptyMessage(messages.youDontHaveAny(Global
-		// .get().Vendors()));
-		// } else {
-		// for (PayeeList payeeList : result) {
-		// listOfVendors = result;
-		// if (payeeList.isActive())
-		// addData(payeeList);
-		// }
-		// }
-		// }
-		//
-		// @Override
-		// public void onFailure(Throwable caught) {
-		// // TODO Auto-generated method stub
-		//
-		// }
-		// });
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
+				true, 0, 0, false,
+				new AsyncCallback<PaginationList<PayeeList>>() {
+
+					@Override
+					public void onSuccess(PaginationList<PayeeList> result) {
+						if (result.size() == 0) {
+							addEmptyMessage(messages.youDontHaveAny(Global
+									.get().Vendors()));
+						} else {
+							for (PayeeList payeeList : result) {
+								listOfVendors = result;
+								if (payeeList.isActive())
+									addData(payeeList);
+							}
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 
 	}
 
