@@ -113,7 +113,6 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		form.setFields(accountCombo, signatureItem);
 		form.addStyleName("cheque_print_text");
 		layout = getCompany().getCheckLayout(0);// Loading default cheque layout
-		layout = new ClientChequeLayout();
 		widget = new ChequeLayoutWidget(layout);
 
 		HorizontalPanel pageFormatPanel = new HorizontalPanel();
