@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -26,7 +25,6 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	ArrayList<String> addablePortletList = new ArrayList<String>();
 	private CustomerSectionHomeView customerHomeView = null;
-	private CustomerListGrid listGrid;
 	private PortalLayout portalLayout;
 	private String customerSectionPreference;
 	private String[] widgetOnSectionPage;
@@ -41,6 +39,8 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	public CustomerSectionHomeView() {
 		customerHomeView = this;
+		payeeGrid = new CustomerListGrid();
+		payeeGrid.init();
 		// customerSectionPreference = FinanceApplication.getUser() != null ?
 		// FinanceApplication
 		// .getUser().getUserPreferences()
@@ -51,14 +51,13 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	@Override
 	public void init() {
 		super.init();
-		getLeftLayout().add(createControl());
+		createControl();
 		setSize("100%", "100%");
 
 	}
 
-	private VerticalPanel createControl() {
+	private void createControl() {
 		creator = new WidgetCreator();
-
 		HorizontalPanel addWidgetLinkLayout = new HorizontalPanel();
 		// addWidgetLinkLayout.setHeight(20);
 
@@ -184,40 +183,36 @@ public class CustomerSectionHomeView extends BaseHomeView {
 				}
 			}
 		}
-
 		getAddableWidgets(widgetOnSectionPage);
 
-		VerticalPanel leftLayout = new VerticalPanel();
-		// leftLayout.add(addWidgetLinkLayout);
-		// leftLayout.add(portalLayout);
-		// view.setSize("100%", "100%");
-		// view.getGrid().setHeight("100%");
+	}
 
-		listGrid = new CustomerListGrid();
-		listGrid.init();
-
+	@Override
+	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				true, 0, 0, false,
+				true, start, length, true,
 				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override
 					public void onResultSuccess(PaginationList<PayeeList> result) {
-						listGrid.clear();
-						listGrid.addRecords(result);
-						if (listGrid.getRecords().isEmpty())
-							listGrid.addEmptyMessage(messages.noRecordsToShow());
-						listGrid.sort(12, false);
+						payeeGrid.removeAllRecords();
+						payeeGrid.removeAllRows();
+						if (!result.isEmpty()) {
+							payeeGrid.addRecords(result);
+							payeeGrid.sort(12, false);
+							updateRecordsCount(result.getStart(),
+									payeeGrid.getTableRowCount(),
+									result.getTotalCount());
+						} else if (payeeGrid.getRecords().isEmpty()) {
+							payeeGrid.addEmptyMessage(messages
+									.noRecordsToShow());
+						}
 					}
 
 					@Override
 					public void onException(AccounterException caught) {
 					}
 				});
-		leftLayout.setSpacing(10);
-		leftLayout.add(listGrid);
-
-		return leftLayout;
-
 	}
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
@@ -265,7 +260,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		this.listGrid.setHeight((height - 130) + "px");
+		this.payeeGrid.setHeight((height - 130) + "px");
 
 	}
 
@@ -277,11 +272,12 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 					@Override
 					public void onResultSuccess(PaginationList<PayeeList> result) {
-						listGrid.clear();
-						listGrid.addRecords(result);
+						payeeGrid.clear();
+						payeeGrid.addRecords(result);
 
-						if (listGrid.getRecords().isEmpty())
-							listGrid.addEmptyMessage(messages.noRecordsToShow());
+						if (payeeGrid.getRecords().isEmpty())
+							payeeGrid.addEmptyMessage(messages
+									.noRecordsToShow());
 					}
 
 					@Override
