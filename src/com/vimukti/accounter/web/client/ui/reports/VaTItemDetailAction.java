@@ -72,6 +72,6 @@ public class VaTItemDetailAction extends Action {
 
 	@Override
 	public String getText() {
-		return messages.vatItemDetailReport();
+		return messages.vatItemDetail();
 	}
 }
