@@ -705,9 +705,8 @@ public class NewVendorCommand extends AbstractCommand {
 		get(BILL_TO).setDefaultValue(new ClientAddress());
 		get(PAYMENT_METHOD).setDefaultValue(getMessages().cash());
 		get(CURRENCY).setValue(
-				CommandUtils.getServerObjectById(getPreferences()
-						.getPrimaryCurrency().getID(),
-						AccounterCoreType.CURRENCY));
+				getServerObject(Currency.class, getPreferences()
+						.getPrimaryCurrency().getID()));
 	}
 
 	@Override
