@@ -451,7 +451,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			addCellStyles("gridLabelCell");
 			break;
 		case COLUMN_TYPE_LINK:
-			addLink(obj, (String) data);
+			addLink(obj,(String) data);
 			addCellStyles("gridLabelCell");
 			break;
 		case COLUMN_TYPE_DECIMAL_TEXTBOX:
@@ -472,7 +472,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			addCellStyles("gridDecimalCell");
 			break;
 		case COLUMN_TYPE_QUANTITY_POPUP:
-			data = ((String) data);
+			data =((String) data);
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			break;
 		}
@@ -689,7 +689,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 				public void onValueChange(ValueChangeEvent<Date> event) {
 
 					onWidgetValueChanged(datePicker,
-							UIUtils.stringToDate((Date) event.getValue()));
+							UIUtils.stringToDate(event.getValue()));
 
 				}
 			});

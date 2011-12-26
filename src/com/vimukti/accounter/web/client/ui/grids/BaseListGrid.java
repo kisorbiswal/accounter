@@ -20,10 +20,10 @@ import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
 public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		IAccounterWidget, ISaveCallback, IDeleteCallback {
 
-	private List<Integer> cellsWidth = new ArrayList<Integer>();
+	private final List<Integer> cellsWidth = new ArrayList<Integer>();
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
 	protected AccounterMessages messages = Accounter.messages();
-	private int[] columnType;
+	private final int[] columnType;
 	protected double total;
 	protected String viewType;
 
@@ -229,7 +229,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		// Accounter.showError(exception.getMessage());
 		// } else
 		// Accounter.showError(messages.updationFailed());
-		AccounterException accounterException = (AccounterException) exception;
+		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);

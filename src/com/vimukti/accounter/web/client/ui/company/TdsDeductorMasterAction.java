@@ -1,59 +1,51 @@
-package com.vimukti.accounter.web.client.ui.vat;
+package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
+import com.vimukti.accounter.web.client.ui.vat.TDSDeductorDetailsView;
 
-public class TDSChalanDetailsAction extends Action {
+public class TdsDeductorMasterAction extends Action {
 
-	protected TDSChalanDetailsView view;
+	protected TDSDeductorDetailsView view;
 
-	public TDSChalanDetailsAction() {
+	public TdsDeductorMasterAction() {
 		super();
-		this.catagory = "TDS";
-
-	}
-
-	@Override
-	public ImageResource getBigImage() {
-		return null;
-	}
-
-	@Override
-	public ImageResource getSmallImage() {
-		return Accounter.getFinanceMenuImages().vatAdjustment();
-	}
-
-	// @Override
-	// public ParentCanvas getView() {
-	// return null;
-	// }
-
-	@Override
-	public void run() {
-		runAsync(data, isDependent);
+		this.catagory = "Deductor Masters";
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
+
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
 			public void onCreated() {
-				view = new TDSChalanDetailsView();
+				view = new TDSDeductorDetailsView();
 				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, TDSChalanDetailsAction.this);
-
+						isDependent, TdsDeductorMasterAction.this);
 			}
 
 		});
 	}
 
 	@Override
+	public void run() {
+		runAsync(data, isDependent);
+	}
+
+	public ImageResource getBigImage() {
+		return null;
+	}
+
+	public ImageResource getSmallImage() {
+		return null;
+	}
+
+	@Override
 	public String getHistoryToken() {
-		return "chalanDetails";
+		return "deductorDetails";
 	}
 
 	@Override
@@ -63,7 +55,7 @@ public class TDSChalanDetailsAction extends Action {
 
 	@Override
 	public String getText() {
-		return "Chalan Details";
+		// TODO Auto-generated method stub
+		return "Deductor Masters Details";
 	}
-
 }

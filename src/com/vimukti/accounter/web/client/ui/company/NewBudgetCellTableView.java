@@ -256,7 +256,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 		mainVLay.add(lab1);
 		mainVLay.add(topHLay);
 		mainVLay.add(budgetCellTable);
-
+		budgetCellTable.setStyleName("user_activity_log");
 		this.add(mainVLay);
 
 		listforms.add(budgetInfoForm);

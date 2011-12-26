@@ -83,6 +83,8 @@ import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXRateCalculation;
 import com.vimukti.accounter.core.TAXReturnEntry;
+import com.vimukti.accounter.core.TDSChalanDetail;
+import com.vimukti.accounter.core.TDSDeductorMasters;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionLog;
@@ -110,6 +112,7 @@ import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientETDSFilling;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -120,6 +123,8 @@ import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
+import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
+import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
@@ -3651,10 +3656,12 @@ public class FinanceTool {
 
 	public List<ClientTDSTransactionItem> getTDSTransactionItemsList(
 			int chalanPer, Long companyId) {
+
 		int[] janToMar = { 1, 2, 3 };
 		int[] aprToJun = { 4, 5, 6 };
 		int[] julToSep = { 7, 8, 9 };
 		int[] octToDec = { 10, 11, 12 };
+
 		ArrayList<ClientTDSTransactionItem> arrayList = new ArrayList<ClientTDSTransactionItem>();
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3678,6 +3685,10 @@ public class FinanceTool {
 
 			Long date = (Long) next[3];
 			clientTDSTransactionItem.setTransactionDate(date);
+
+			clientTDSTransactionItem.setSurchargeAmount(0);
+
+			clientTDSTransactionItem.setEduCess(0);
 
 			ClientFinanceDate financeDate = new ClientFinanceDate(date);
 
@@ -3727,5 +3738,119 @@ public class FinanceTool {
 			}
 		}
 		return false;
+	}
+
+	public PaginationList<ClientTDSChalanDetail> getTDSChalanDetailsList(
+			Long companyId) throws DAOException {
+		Session session = HibernateUtil.getCurrentSession();
+		PaginationList<ClientTDSChalanDetail> chalanList = new PaginationList<ClientTDSChalanDetail>();
+
+		try {
+
+			ArrayList<TDSChalanDetail> chalansGot = new ArrayList<TDSChalanDetail>(
+					session.getNamedQuery("list.TdsChalanDetails")
+							.setEntity("company", getCompany(companyId)).list());
+
+			for (TDSChalanDetail chalan : chalansGot) {
+				ClientTDSChalanDetail clientObject = new ClientConvertUtil()
+						.toClientObject(chalan, ClientTDSChalanDetail.class);
+
+				chalanList.add(clientObject);
+			}
+
+			return chalanList;
+
+		} catch (Exception e) {
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+		}
+	}
+
+	public List<ClientTDSDeductorMasters> getTDSDeductorMasterDetails(
+			Long companyId) throws DAOException {
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		try {
+
+			ArrayList<TDSDeductorMasters> listMasters = new ArrayList<TDSDeductorMasters>(
+					session.getNamedQuery("list.TDSDeductorMasters")
+							.setEntity("company", getCompany(companyId)).list());
+
+			List<ClientTDSDeductorMasters> masterDetails = new ArrayList<ClientTDSDeductorMasters>();
+
+			for (TDSDeductorMasters master : listMasters) {
+				ClientTDSDeductorMasters clientObject = new ClientConvertUtil()
+						.toClientObject(master, ClientTDSDeductorMasters.class);
+
+				masterDetails.add(clientObject);
+			}
+
+			return new ArrayList<ClientTDSDeductorMasters>(masterDetails);
+
+		} catch (Exception e) {
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+		}
+	}
+
+	public List<ClientETDSFilling> getEtdsList(int formNo, int quater,
+			int startYear, int endYear, Long companyId) throws DAOException {
+		Session session = HibernateUtil.getCurrentSession();
+
+		List<ClientETDSFilling> etdsList = new ArrayList<ClientETDSFilling>();
+
+		try {
+
+			ArrayList<TDSChalanDetail> chalansGot = new ArrayList<TDSChalanDetail>(
+					session.getNamedQuery("list.TdsChalanDetails")
+							.setEntity("company", getCompany(companyId)).list());
+			int i = 0;
+			for (TDSChalanDetail chalan : chalansGot) {
+
+				ClientTDSChalanDetail clientObject = new ClientConvertUtil()
+						.toClientObject(chalan, ClientTDSChalanDetail.class);
+
+				ClientETDSFilling eTDSObj = new ClientETDSFilling();
+				for (ClientTDSTransactionItem items : clientObject
+						.getTransactionItems()) {
+
+					eTDSObj.setSerialNo(i++);
+
+					double total = clientObject.getIncomeTaxAmount()
+							+ clientObject.getSurchangePaidAmount()
+							+ clientObject.getEducationCessAmount()
+							+ clientObject.getOtherAmount()
+							+ clientObject.getPenaltyPaidAmount();
+
+					eTDSObj.setBankBSRCode(clientObject.getBankBsrCode());
+					eTDSObj.setChalanSerialNumber(clientObject
+							.getChalanSerialNumber());
+					eTDSObj.setSectionForPayment(clientObject
+							.getPaymentSection());
+					eTDSObj.setTotalTDSfordeductees(total);
+					eTDSObj.setDeducteeID(items.getVendorID());
+					eTDSObj.setTotalTaxDeposited(0.00);
+					eTDSObj.setDateOFpayment(clientObject.getDateTaxPaid());
+					eTDSObj.setAmountPaid(0.00);
+					eTDSObj.setTds(items.getTaxAmount());
+					eTDSObj.setSurcharge(items.getSurchargeAmount());
+					eTDSObj.setEducationCess(items.getEduCess());
+					eTDSObj.setTotalTaxDEducted(total);
+					eTDSObj.setTotalTaxDeposited(0.00);
+					eTDSObj.setDateofDeduction(items.getTransactionDate());
+					if (clientObject.isBookEntry())
+						eTDSObj.setBookEntry("YES");
+					else
+						eTDSObj.setBookEntry("NO");
+
+					etdsList.add(eTDSObj);
+				}
+
+			}
+
+			return etdsList;
+
+		} catch (Exception e) {
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+		}
 	}
 }

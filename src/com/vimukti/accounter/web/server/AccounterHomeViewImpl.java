@@ -39,6 +39,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
+import com.vimukti.accounter.web.client.core.ClientETDSFilling;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -59,6 +60,8 @@ import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
+import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
@@ -1928,6 +1931,35 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
+	public PaginationList<ClientTDSChalanDetail> getTDSChalanDetailsList() {
+		PaginationList<ClientTDSChalanDetail> chalanList = new PaginationList<ClientTDSChalanDetail>();
+		try {
+
+			chalanList = getFinanceTool().getTDSChalanDetailsList(
+					getCompanyId());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return chalanList;
+	}
+
+	@Override
+	public ArrayList<ClientTDSDeductorMasters> getDeductorMasterDetails() {
+
+		List<ClientTDSDeductorMasters> transactionItemList = null;
+		try {
+
+			transactionItemList = getFinanceTool().getTDSDeductorMasterDetails(
+					getCompanyId());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<ClientTDSDeductorMasters>(transactionItemList);
+	}
+
+	@Override
 	public ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(
 			int type, long startDate, long endDate) throws AccounterException {
 		return getFinanceTool().getDashboardManager()
@@ -1963,6 +1995,23 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				new FinanceDate(endDate), limit);
 	}
 
+
+	@Override
+	public ArrayList<ClientETDSFilling> getEtdsDetails(int formNo, int quater,
+			int startYear, int endYear) {
+		List<ClientETDSFilling> etdsList = null;
+		try {
+
+			etdsList = getFinanceTool().getEtdsList(formNo, quater, startYear,
+					endYear, getCompanyId());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<ClientETDSFilling>(etdsList);
+	}
+
+
 	@Override
 	public ArrayList<PayeesBySalesPortletData> getItemsBySalesQuantity(
 			long startDate, long endDate, int limit) throws AccounterException {
@@ -1988,5 +2037,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 						new FinanceDate(startDate), new FinanceDate(endDate),
 						limit);
 	}
+
 
 }

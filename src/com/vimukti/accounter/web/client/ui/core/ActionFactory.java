@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.combo.NewCurrencyAction;
 import com.vimukti.accounter.web.client.ui.company.AccounterClassListAction;
 import com.vimukti.accounter.web.client.ui.company.AuditHistoryAction;
 import com.vimukti.accounter.web.client.ui.company.BudgetAction;
+import com.vimukti.accounter.web.client.ui.company.ChalanListViewAction;
 import com.vimukti.accounter.web.client.ui.company.ChangePasswordAction;
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 import com.vimukti.accounter.web.client.ui.company.CheckPrintSettingAction;
@@ -81,6 +82,8 @@ import com.vimukti.accounter.web.client.ui.company.PurchaseItemsAction;
 import com.vimukti.accounter.web.client.ui.company.SalesPersonListsAction;
 import com.vimukti.accounter.web.client.ui.company.ShippingMethodListAction;
 import com.vimukti.accounter.web.client.ui.company.ShippingTermListAction;
+import com.vimukti.accounter.web.client.ui.company.TDSResponsiblePersonAction;
+import com.vimukti.accounter.web.client.ui.company.TdsDeductorMasterAction;
 import com.vimukti.accounter.web.client.ui.company.UserDetailsAction;
 import com.vimukti.accounter.web.client.ui.company.UsersActivityListAction;
 import com.vimukti.accounter.web.client.ui.company.VendorCenterAction;
@@ -190,6 +193,7 @@ import com.vimukti.accounter.web.client.ui.settings.WarehouseListAction;
 import com.vimukti.accounter.web.client.ui.settings.WarehouseTransferListAction;
 import com.vimukti.accounter.web.client.ui.translation.TranslationAction;
 import com.vimukti.accounter.web.client.ui.vat.AdjustTAXAction;
+import com.vimukti.accounter.web.client.ui.vat.ETdsFillingAction;
 import com.vimukti.accounter.web.client.ui.vat.FileTAXAction;
 import com.vimukti.accounter.web.client.ui.vat.ManageTAXCodesListAction;
 import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
@@ -1397,7 +1401,24 @@ public class ActionFactory {
 		return new TDSChalanDetailsAction();
 	}
 
+	public static TdsDeductorMasterAction getTdsDeductorMasters() {
+		return new TdsDeductorMasterAction();
+	}
+
+	public static TDSResponsiblePersonAction getTDSResponsiblePerson() {
+		return new TDSResponsiblePersonAction();
+	}
+
+	public static ChalanListViewAction getTDSChalanListView() {
+		return new ChalanListViewAction();
+	}
+
+	public static ETdsFillingAction getETdsFillingView() {
+		return new ETdsFillingAction();
+	}
+
 	public static VendorCenterAction getVendorCentreAction() {
 		return new VendorCenterAction();
 	}
+
 }

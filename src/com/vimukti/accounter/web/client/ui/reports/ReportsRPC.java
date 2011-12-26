@@ -46,6 +46,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -332,10 +333,14 @@ public class ReportsRPC {
 		case IAccounterCore.BUDGET:
 			initCallBack(new ClientBudget(),
 					ActionFactory.getNewBudgetAction(), transactionId);
-
+			break;
 		case IAccounterCore.RECONCILIATION:
 			initCallBack(new ClientReconciliation(),
 					ActionFactory.getNewReconciliationAction(), transactionId);
+			break;
+		case IAccounterCore.TDSCHALANDETAIL:
+			initCallBack(new ClientTDSChalanDetail(),
+					ActionFactory.getTDSChalanDetailsView(), transactionId);
 			break;
 		}
 
