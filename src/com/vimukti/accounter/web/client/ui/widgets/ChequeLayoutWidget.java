@@ -27,13 +27,13 @@ public class ChequeLayoutWidget extends SimplePanel {
 	private AbsolutePanel chequeBody;
 
 	public ChequeLayoutWidget(ClientChequeLayout chequeLayout) {
-		this.setChequeLayout(chequeLayout);
-		payeeName = "Nagaraju Palla";
+		this.chequeLayout = chequeLayout;
+		payeeName = "Payee Name";
 		amountWordLin1 = "Fiteen Thousad Eight Hundred Sixty";
 		amountWordLin2 = "Eight Only";
 		amountFigr = "15868.00";
 		checkDate = "12/15/2011";
-		companyName = "vimukti";
+		companyName = "Company name";
 		createControls();
 	}
 
@@ -86,15 +86,27 @@ public class ChequeLayoutWidget extends SimplePanel {
 				chequeLayout.getChequeHeight() + "cm");
 
 		HorizontalPanel topScale = new HorizontalPanel();
-		Label top = new Label(
-				" | | | | 1 | | | | 2 | | | | 3 | | | | 4 | | | | 5 | | | | 6 | | | | 7 | | | | 8 | | | | 9 | | | | 10");
-		topScale.add(top);
+		for (int i = 1; i < 20; i++) {
+			for (int j = 1; j < 5; j++) {
+				Label label = new Label("|");
+				label.setStyleName("horizontalScale");
+				topScale.add(label);
+			}
+			Label label = new Label(String.valueOf(i));
+			topScale.add(label);
+		}
 		topScale.addStyleName("chequeTopScal");
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		VerticalPanel vertScale = new VerticalPanel();
-		Label left = new Label(
-				"- - - - 1 - - - - 2 - - - - 3 - - - - 4 - - - - 5");
-		vertScale.add(left);
+		for (int i = 1; i < 10; i++) {
+			for (int j = 1; j < 5; j++) {
+				Label label = new Label("-");
+				label.setStyleName("vericalScale");
+				vertScale.add(label);
+			}
+			Label label = new Label(String.valueOf(i));
+			vertScale.add(label);
+		}
 		vertScale.setStyleName("chequeLeftScal");
 		SimplePanel chequeBg = new SimplePanel();
 		chequeBg.add(chequeBody);
@@ -120,7 +132,7 @@ public class ChequeLayoutWidget extends SimplePanel {
 	}
 
 	private int getPixel(double cm) {
-		return (int) (72 * cm * 100 / 254);// ScreenResolution.centimeterAsPixel(cm);
+		return (int) (96 * cm * 100 / 254);// ScreenResolution.centimeterAsPixel(cm);
 	}
 
 	private void updateParameter(Label label, double left, double top) {
