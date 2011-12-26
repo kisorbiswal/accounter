@@ -328,6 +328,9 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		if (!updatedCreditsAndPayments.isEmpty()
 				&& DecimalUtil.isEquals(appliedCredits, 0)) {
 			checkTotalAmount(false);
+		}else
+		{
+			checkTotalAmount(false);
 		}
 	}
 
