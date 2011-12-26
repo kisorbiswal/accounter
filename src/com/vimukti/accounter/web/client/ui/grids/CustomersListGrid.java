@@ -26,7 +26,7 @@ public class CustomersListGrid extends BaseListGrid<PayeeList> {
 
 	public CustomersListGrid() {
 		super(false, true);
-//		addDataToGrid();
+		addDataToGrid();
 	}
 
 	@Override
@@ -59,9 +59,11 @@ public class CustomersListGrid extends BaseListGrid<PayeeList> {
 
 		AccounterAsyncCallback<ClientCustomer> callback = new AccounterAsyncCallback<ClientCustomer>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 			}
 
+			@Override
 			public void onResultSuccess(ClientCustomer result) {
 				if (result != null) {
 					setSelectedCustomer(result);
@@ -81,29 +83,30 @@ public class CustomersListGrid extends BaseListGrid<PayeeList> {
 	}
 
 	private void addDataToGrid() {
-//		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-//				new AsyncCallback<PaginationList<PayeeList>>() {
-//
-//					@Override
-//					public void onSuccess(PaginationList<PayeeList> result) {
-//						if (result.size() == 0) {
-//							addEmptyMessage(messages.youDontHaveAny(Global
-//									.get().Customers()));
-//						} else {
-//							for (PayeeList payeeList : result) {
-//								listOfCustomers = result;
-//								if (payeeList.isActive())
-//									addData(payeeList);
-//							}
-//						}
-//					}
-//
-//					@Override
-//					public void onFailure(Throwable caught) {
-//						// TODO Auto-generated method stub
-//
-//					}
-//				});
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
+				true, 0, 0, false,
+				new AsyncCallback<PaginationList<PayeeList>>() {
+
+					@Override
+					public void onSuccess(PaginationList<PayeeList> result) {
+						if (result.size() == 0) {
+							addEmptyMessage(messages.youDontHaveAny(Global
+									.get().Customers()));
+						} else {
+							for (PayeeList payeeList : result) {
+								listOfCustomers = result;
+								if (payeeList.isActive())
+									addData(payeeList);
+							}
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 
 	}
 
@@ -133,6 +136,7 @@ public class CustomersListGrid extends BaseListGrid<PayeeList> {
 
 	}
 
+	@Override
 	protected void executeDelete(final PayeeList recordToBeDeleted) {
 
 	}
@@ -160,10 +164,12 @@ public class CustomersListGrid extends BaseListGrid<PayeeList> {
 			total -= customer.getBalance();
 	}
 
+	@Override
 	public Double getTotal() {
 		return total;
 	}
 
+	@Override
 	public void setTotal() {
 		this.total = 0.0D;
 	}
@@ -194,6 +200,7 @@ public class CustomersListGrid extends BaseListGrid<PayeeList> {
 		return 0;
 	}
 
+	@Override
 	public AccounterCoreType getType() {
 		return AccounterCoreType.CUSTOMER;
 	}
