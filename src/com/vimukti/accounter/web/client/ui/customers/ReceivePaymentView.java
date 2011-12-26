@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -1075,8 +1076,14 @@ public class ReceivePaymentView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.messages()
-						.failedtovoidReceivePayment());
+				int errorCode = caught.getErrorCode();
+				if (errorCode > 0) {
+					Accounter.showError(AccounterExceptions
+							.getErrorString(errorCode));
+				} else {
+					Accounter.showError(Accounter.messages()
+							.failedtovoidReceivePayment());
+				}
 			}
 
 			@Override
@@ -1251,6 +1258,7 @@ public class ReceivePaymentView extends
 	protected boolean canRecur() {
 		return false;
 	}
+
 	private boolean isTDSEnable() {
 		if (customer != null) {
 			return (getPreferences().isTDSEnabled() && customer.willDeductTDS());
