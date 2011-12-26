@@ -595,8 +595,8 @@
 			<one-to-many class="AccounterClass" />
 		</set>
 
-		<set name="chequeLayouts" inverse="true" cascade="save-update,delete">
-			<key column="CHEQUE_LAYOUT_ID" />
+		<set name="chequeLayouts" inverse="true" cascade="save-update,delete-orphan">
+			<key column="COMPANY_ID" />
 			<one-to-many class="ChequeLayout" />
 		</set>
 	</class>
