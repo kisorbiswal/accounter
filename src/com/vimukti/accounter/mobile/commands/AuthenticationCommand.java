@@ -340,7 +340,7 @@ public class AuthenticationCommand extends Command {
 	}
 
 	private String createUserActivationCode(String emailId) {
-		String token = SecureUtils.createID(16).toLowerCase().trim();
+		String token = SecureUtils.createNumberID(10).toLowerCase().trim();
 		Activation activation = new Activation();
 		activation.setEmailId(emailId);
 		activation.setToken(token);
@@ -444,7 +444,8 @@ public class AuthenticationCommand extends Command {
 	}
 
 	private void sendActivationMail(String networkId, String emailId) {
-		String activationCode = SecureUtils.createID(16).toLowerCase().trim();
+		String activationCode = SecureUtils.createNumberID(10).toLowerCase()
+				.trim();
 		System.out.println("NetWorkID: " + networkId);
 		System.out.println("EmailId: " + emailId);
 		System.out.println("Activation Code: " + activationCode);

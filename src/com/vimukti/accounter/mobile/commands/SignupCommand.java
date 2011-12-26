@@ -138,7 +138,7 @@ public class SignupCommand extends AbstractCommand {
 	}
 
 	protected String createActivation(String emailID, Context context) {
-		String token = SecureUtils.createID(16).toLowerCase().trim();
+		String token = SecureUtils.createNumberID(10).toLowerCase().trim();
 		Activation activation = new Activation();
 		activation.setEmailId(emailID);
 		activation.setToken(token);
@@ -192,7 +192,7 @@ public class SignupCommand extends AbstractCommand {
 			password = get(PASSOWRD).getValue();
 			context.setLast(RequirementType.STRING, emailId);
 		} else {
-			password = SecureUtils.createID(16);
+			password = SecureUtils.createNumberID(10);
 			sendPasswordMail(password, emailId);
 		}
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId

@@ -40,6 +40,11 @@ public class CompanyTypeCommand extends Command {
 			Record skip = new Record(ActionNames.PARTIAL_SETUP);
 			skip.add("Partial Setup");
 			list.add(skip);
+
+			Record logout = new Record(ActionNames.LOG_OUT);
+			logout.add("Logout");
+			list.add(logout);
+
 			makeResult.add(list);
 			return makeResult;
 		}
@@ -49,6 +54,9 @@ public class CompanyTypeCommand extends Command {
 		}
 		if (selection == ActionNames.PARTIAL_SETUP) {
 			makeResult.setNextCommand("partialCompanySetup");
+		}
+		if (selection == ActionNames.LOG_OUT) {
+			makeResult.setNextCommand("signout");
 		}
 		return makeResult;
 	}

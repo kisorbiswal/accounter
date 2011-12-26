@@ -155,6 +155,7 @@ public class SelectCompanyCommand extends Command {
 					CommandList commandList = new CommandList();
 					commandList.add("createCompany");
 					commandList.add("deletecompany");
+					commandList.add("logoutHTML");
 					makeResult.add(commandList);
 					return makeResult;
 				}

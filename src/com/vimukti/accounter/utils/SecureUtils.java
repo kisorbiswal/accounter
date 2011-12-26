@@ -42,6 +42,11 @@ public class SecureUtils {
 
 	}
 
+	public static String createNumberID(int numberOfChars) {
+		return IDFactory.createNumberID(numberOfChars);
+
+	}
+
 	public static String createID(String str1, String str2) {
 		return IDFactory.createID((str1 + str2).getBytes());
 	}

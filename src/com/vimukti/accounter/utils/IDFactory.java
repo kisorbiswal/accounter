@@ -42,6 +42,26 @@ public class IDFactory {
 		return sb.toString();
 	}
 
+	public synchronized static String createNumberID(int numOfChars) {
+		if (prng == null) {
+			try {
+				// Initialize SecureRandom
+				// This is a lengthy operation, to be done only upon
+				// initialization of the application
+				prng = SecureRandom.getInstance("SHA1PRNG"); //$NON-NLS-1$				
+			} catch (NoSuchAlgorithmException ex) {
+				System.err.println(ex);
+			}
+		}
+		String code = "0123456789";
+		StringBuffer sb = new StringBuffer(40);
+		for (int x = 0; x < numOfChars; x++) {
+			sb.append(code.charAt(prng.nextInt(9)));
+		}
+
+		return sb.toString();
+	}
+
 	/**
 	 * The byte[] returned by MessageDigest does not have a nice textual
 	 * representation, so some form of encoding is usually performed.
