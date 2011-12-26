@@ -199,7 +199,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	public void onSuccess(PaginationList<PayeeList> result) {
 		this.listOfPayees = result;
 		grid.sort(10, false);
-		grid.addRecords(result);
+		grid.setRecords(result);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
