@@ -52,6 +52,8 @@ public interface IAccounterCore extends IsSerializable, Serializable,
 	public static final int RECONCILIATION = 82;
 	public static final int TDSCHALANDETAIL = 83;
 	public static final int TDSTRANSACTIONITEM = 84;
+	public static final int TDSRESPONSIBLEPERSON = 85;
+	public static final int TDSDEDUCTORMASTER = 86;
 
 	String getName();
 

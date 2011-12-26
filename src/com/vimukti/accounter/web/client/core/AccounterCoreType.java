@@ -237,7 +237,11 @@ public enum AccounterCoreType implements IsSerializable {
 
 	TDSCHALANDETAIL("ClientTDSChalanDetail", "TDSChalanDetail"),
 
-	TDSCHALANTRANSACTIONITEM("ClientTDSTransactionItem", "TDSTransactionItem");
+	TDSCHALANTRANSACTIONITEM("ClientTDSTransactionItem", "TDSTransactionItem"),
+
+	TDSRESPONSIBLEPERSON("ClientTDSResponsiblePerson", "TDSResponsiblePerson"),
+
+	TDSDEDUCTORMASTER("ClientTDSDeductorMasters", "TDSDeductorMasters");
 
 	private String clientName;
 	private String serverName;

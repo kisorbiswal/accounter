@@ -15,11 +15,23 @@ public class TDSTransactionItem extends CreatableObject implements
 
 	private Company company;
 
-	private Vendor vendor;
+	public Company getCompany() {
+		return company;
+	}
 
-	private Double taxAmount;
+	public void setCompany(Company company) {
+		this.company = company;
+	}
 
-	private Double totalAmount;
+	private long vendor;
+
+	private double taxAmount;
+
+	private double totalAmount;
+
+	private double surchargeAmount;
+
+	private double eduCess;
 
 	private long transactionDate;
 
@@ -39,11 +51,11 @@ public class TDSTransactionItem extends CreatableObject implements
 		return IAccounterCore.TDSTRANSACTIONITEM;
 	}
 
-	public Vendor getVendor() {
+	public long getVendor() {
 		return vendor;
 	}
 
-	public void setVendor(Vendor vendor) {
+	public void setVendor(long vendor) {
 		this.vendor = vendor;
 	}
 
@@ -82,6 +94,22 @@ public class TDSTransactionItem extends CreatableObject implements
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
+	}
+
+	public double getSurchargeAmount() {
+		return surchargeAmount;
+	}
+
+	public void setSurchargeAmount(double surchargeAmount) {
+		this.surchargeAmount = surchargeAmount;
+	}
+
+	public double getEduCess() {
+		return eduCess;
+	}
+
+	public void setEduCess(double eduCess) {
+		this.eduCess = eduCess;
 	}
 
 }

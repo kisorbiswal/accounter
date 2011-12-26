@@ -147,7 +147,8 @@
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.RecurringTransaction
 		rt where
-		rt.company=:company and rt.startDate between :fromDate and :toDate order by rt.name
+		rt.company=:company and rt.startDate between :fromDate and :toDate
+		order by rt.name
 	</query>
 	<query name="list.currentRecTransactions">
 		<query-param name="company" type="Company" />
@@ -252,10 +253,8 @@
 		vig.company=:company order by vig.name
 	</query>
 
-	<!-- <query name="list.Box">
-		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.Box b where b.company=:company
-	</query> -->
+	<!-- <query name="list.Box"> <query-param name="company" type="Company" 
+		/> from com.vimukti.accounter.core.Box b where b.company=:company </query> -->
 
 	<query name="list.VATReturnBox">
 		<query-param name="company" type="Company" />
@@ -287,7 +286,8 @@
 		<query-param name="company" type="Company" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="endDate" type="long" />
-		from com.vimukti.accounter.core.Activity at where at.company=:company and at.time between :fromDate and :endDate
+		from com.vimukti.accounter.core.Activity at where at.company=:company
+		and at.time between :fromDate and :endDate
 		order by at.id desc
 	</query>
 
@@ -295,6 +295,17 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Location bt where bt.company=:company
 		order by bt.id
+	</query>
+	<query name="list.TdsChalanDetails">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.TDSChalanDetail bt where
+		bt.company=:company
+	</query>
+
+	<query name="list.TDSDeductorMasters">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.TDSDeductorMasters bt where
+		bt.company=:company
 	</query>
 	<query name="list.Budget">
 		<query-param name="company" type="Company" />
@@ -371,7 +382,7 @@
 		from com.vimukti.accounter.core.ResetPasswordToken r
 		where r.token=?
 	</query>
-		<query name="getallMaintanaceInfoUsers">
+	<query name="getallMaintanaceInfoUsers">
 		from com.vimukti.accounter.core.MaintananceInfoUser m
 	</query>
 </hibernate-mapping>

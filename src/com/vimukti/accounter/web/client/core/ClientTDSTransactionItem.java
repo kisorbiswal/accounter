@@ -10,13 +10,21 @@ public class ClientTDSTransactionItem implements IAccounterCore {
 	private int version;
 	private long id;
 
-	private long vendorID;
+	private boolean boxSelected;
+
+	private long vendor;
 
 	private double taxAmount;
+
+	private double surchargeAmount;
+
+	private double eduCess;
 
 	private double totalAmount;
 
 	private long transactionDate;
+
+	private double tdsTotal;
 
 	@Override
 	public int getVersion() {
@@ -59,11 +67,11 @@ public class ClientTDSTransactionItem implements IAccounterCore {
 	}
 
 	public long getVendorID() {
-		return vendorID;
+		return vendor;
 	}
 
 	public void setVendorID(long vendorID) {
-		this.vendorID = vendorID;
+		this.vendor = vendorID;
 	}
 
 	public double getTaxAmount() {
@@ -88,6 +96,38 @@ public class ClientTDSTransactionItem implements IAccounterCore {
 
 	public void setTransactionDate(long transactionDate) {
 		this.transactionDate = transactionDate;
+	}
+
+	public double getSurchargeAmount() {
+		return surchargeAmount;
+	}
+
+	public void setSurchargeAmount(double surchargeAmount) {
+		this.surchargeAmount = surchargeAmount;
+	}
+
+	public double getEduCess() {
+		return eduCess;
+	}
+
+	public void setEduCess(double eduCess) {
+		this.eduCess = eduCess;
+	}
+
+	public double getTdsTotal() {
+		return tdsTotal;
+	}
+
+	public void setTdsTotal(double tdsTotal) {
+		this.tdsTotal = tdsTotal;
+	}
+
+	public boolean isBoxSelected() {
+		return boxSelected;
+	}
+
+	public void setBoxSelected(boolean boxSelected) {
+		this.boxSelected = boxSelected;
 	}
 
 }

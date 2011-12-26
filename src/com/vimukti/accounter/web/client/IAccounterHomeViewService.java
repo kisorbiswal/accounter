@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
+import com.vimukti.accounter.web.client.core.ClientETDSFilling;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -35,6 +36,8 @@ import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
+import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
@@ -346,7 +349,14 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public PaginationList<ClientBudget> getBudgetList();
 
+	public PaginationList<ClientTDSChalanDetail> getTDSChalanDetailsList();
+
 	ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList(int chalanPer);
+
+	ArrayList<ClientETDSFilling> getEtdsDetails(int formNo, int quater,
+			int startYear, int endYear);
+
+	ArrayList<ClientTDSDeductorMasters> getDeductorMasterDetails();
 
 	// for TDS
 

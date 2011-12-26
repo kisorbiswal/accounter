@@ -3,6 +3,8 @@ package com.vimukti.accounter.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -16,20 +18,28 @@ public class TDSChalanDetail extends CreatableObject implements
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Double incomeTaxAmount;
-	private Double surchangePaidAmount;
-	private Double educationCessAmount;
-	private Double interestPaidAmount;
-	private Double penaltyPaidAmount;
-	private Double otherAmount;
+	private double incomeTaxAmount;
+	private double surchangePaidAmount;
+	private double educationCessAmount;
+	private double interestPaidAmount;
+	private double penaltyPaidAmount;
+	private double otherAmount;
 
-	private Integer paymentSection;
-	private Integer paymentMethod;
-	private Long bankChalanNumber;
-	private Long checkNumber;
-	private Long bsrCode;
+	private String paymentSection;
+	private int paymentMethod;
+	private long bankChalanNumber;
+	private long checkNumber;
+	private long bankBsrCode;
 
-	private final List<TDSTransactionItem> tdsTransactionItem = new ArrayList<TDSTransactionItem>();
+	private boolean bookEntry;
+	private long dateTaxPaid;
+	private int chalanPeriod;
+	private long chalanSerialNumber;
+	private int formType;
+	private int assesmentYearStart;
+	private int assessmentYearEnd;
+
+	private List<TDSTransactionItem> tdsTransactionItems = new ArrayList<TDSTransactionItem>();
 
 	@Override
 	public String getName() {
@@ -44,13 +54,6 @@ public class TDSChalanDetail extends CreatableObject implements
 	@Override
 	public int getObjType() {
 		return IAccounterCore.TDSCHALANDETAIL;
-	}
-
-	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	public Double getIncomeTaxAmount() {
@@ -101,19 +104,19 @@ public class TDSChalanDetail extends CreatableObject implements
 		this.otherAmount = otherAmount;
 	}
 
-	public Integer getPaymentSection() {
+	public String getPaymentSection() {
 		return paymentSection;
 	}
 
-	public void setPaymentSection(Integer paymentSection) {
+	public void setPaymentSection(String paymentSection) {
 		this.paymentSection = paymentSection;
 	}
 
-	public Integer getPaymentMethod() {
+	public int getPaymentMethod() {
 		return paymentMethod;
 	}
 
-	public void setPaymentMethod(Integer paymentMethod) {
+	public void setPaymentMethod(int paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
 
@@ -133,16 +136,101 @@ public class TDSChalanDetail extends CreatableObject implements
 		this.checkNumber = checkNumber;
 	}
 
-	public Long getBsrCode() {
-		return bsrCode;
+	public Long getBankBsrCode() {
+		return bankBsrCode;
 	}
 
-	public void setBsrCode(Long bsrCode) {
-		this.bsrCode = bsrCode;
+	public void setBankBsrCode(Long bankBsrCode) {
+		this.bankBsrCode = bankBsrCode;
 	}
 
-	public List<TDSTransactionItem> getTdsTransactionItem() {
-		return tdsTransactionItem;
+	public boolean isBookEntry() {
+		return bookEntry;
+	}
+
+	public void setBookEntry(boolean bookEntry) {
+		this.bookEntry = bookEntry;
+	}
+
+	public Long getDateTaxPaid() {
+		return dateTaxPaid;
+	}
+
+	public void setDateTaxPaid(Long dateTaxPaid) {
+		this.dateTaxPaid = dateTaxPaid;
+	}
+
+	public int getChalanPeriod() {
+		return chalanPeriod;
+	}
+
+	public void setChalanPeriod(int chalanPeriod) {
+		this.chalanPeriod = chalanPeriod;
+	}
+
+	public Long getChalanSerialNumber() {
+		return chalanSerialNumber;
+	}
+
+	public void setChalanSerialNumber(Long chalanSerialNumber) {
+		this.chalanSerialNumber = chalanSerialNumber;
+	}
+
+	public int getFormType() {
+		return formType;
+	}
+
+	public void setFormType(int formType) {
+		this.formType = formType;
+	}
+
+	public int getAssesmentYearStart() {
+		return assesmentYearStart;
+	}
+
+	public void setAssesmentYearStart(int assesmentYearStart) {
+		this.assesmentYearStart = assesmentYearStart;
+	}
+
+	public int getAssessmentYearEnd() {
+		return assessmentYearEnd;
+	}
+
+	public void setAssessmentYearEnd(int assessmentYearEnd) {
+		this.assessmentYearEnd = assessmentYearEnd;
+	}
+
+	public List<TDSTransactionItem> getTdsTransactionItems() {
+		return tdsTransactionItems;
+	}
+
+	public void setTdsTransactionItems(List<TDSTransactionItem> list) {
+		this.tdsTransactionItems = list;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+
+		for (TDSTransactionItem item : tdsTransactionItems) {
+			item.setCompany(getCompany());
+		}
+		return super.onSave(session);
+	}
+
+	@Override
+	public boolean onUpdate(Session session) throws CallbackException {
+
+		for (TDSTransactionItem item : tdsTransactionItems) {
+			item.setCompany(getCompany());
+		}
+		return super.onUpdate(session);
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override

@@ -916,7 +916,8 @@
 		<property name="bankName" column="BANK_NAME"></property>
 		<property name="bankBranch" column="BANK_BRANCH"></property>
 
-		<set name="customFieldValues"  inverse="true" cascade="save-update,delete,delete-orphan">
+		<set name="customFieldValues" inverse="true"
+			cascade="save-update,delete,delete-orphan">
 			<key column="PAYEE_ID" />
 			<one-to-many class="CustomFieldValue" />
 		</set>
@@ -1567,7 +1568,7 @@
 			not-null="true" />
 		<property name="creditNoteTempleteName" column="CREDITNOTE_TEMPLETE_NAME"
 			not-null="true" />
-			<property name="quoteTemplateName" column="QUOTE_TEMPLETE_NAME"
+		<property name="quoteTemplateName" column="QUOTE_TEMPLETE_NAME"
 			not-null="true" />
 	</class>
 
@@ -1797,7 +1798,7 @@
 		</set>
 
 	</class>
-	
+
 	<class name="Reminder" table="REMINDER">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -1805,7 +1806,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true" lazy="false">
 		</many-to-one>
-		<many-to-one name="recurringTransaction" class="RecurringTransaction" 
+		<many-to-one name="recurringTransaction" class="RecurringTransaction"
 			lazy="false" column="RECURRING_TRANSACTION">
 		</many-to-one>
 		<property name="transactionDate" type="com.vimukti.accounter.core.LongUseType"
@@ -1820,7 +1821,7 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_ON"
 			not-null="true" />
 	</class>
-	
+
 	<class name="MessageOrTask" table="MESSAGE_OR_TASK">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -2069,41 +2070,108 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<many-to-one name="vendor" column="VENDOR" class="Vendor"
-			not-null="true">
-		</many-to-one>
+		<property name="vendor" column="VENDORID"></property>
 		<property name="taxAmount" column="TAX_AMOUNT"></property>
+		<property name="surchargeAmount" column="SURCHARGE_AMOUNT"></property>
+		<property name="eduCess" column="EDU_CESS"></property>
 		<property name="totalAmount" column="TOTAL_AMOUNT"></property>
 		<property name="transactionDate" column="TRANSACTION_DATE"></property>
 	</class>
 
 
 	<!-- TDSChalanDetail class -->
-	<class name="TDSChalanDetail" table="TDSTRANSACTIONDETAIL">
+	<class name="TDSChalanDetail" table="TDSCHALANDETAIL">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="incomeTaxAmount" column="INCOME_TAX_AMOUNT"></property>
-		<property name="surchangePaidAmount" column="SURCHANGE_PAID_AMOUNT"></property>
-		<property name="educationCessAmount" column="EDUCATIONCESS_AMOUNT"></property>
-		<property name="interestPaidAmount" column="INTERESTPAID_AMOUNT"></property>
-		<property name="penaltyPaidAmount" column="PENALTYPAID_AMOUNT"></property>
-		<property name="otherAmount" column="OTHER_AMOUNT"></property>
-		<property name="paymentSection" column="PAYMENT_SECTION"></property>
-		<property name="paymentMethod" column="PAYMENT_METHOD"></property>
-		<property name="bankChalanNumber" column="BANKCHALAN_NUMBER"></property>
-		<property name="checkNumber" column="CHECK_NUMBER"></property>
-		<property name="bsrCode" column="BSR_CODE"></property>
-		<list name="tdsTransactionItem" cascade="save-update,delete-orphan">
-			<key column="TRANSACTION_ITEMS"></key>
+		<property name="incomeTaxAmount"></property>
+		<property name="surchangePaidAmount"></property>
+		<property name="educationCessAmount"></property>
+		<property name="interestPaidAmount"></property>
+		<property name="penaltyPaidAmount"></property>
+		<property name="otherAmount"></property>
+		<property name="paymentSection"></property>
+		<property name="paymentMethod"></property>
+		<property name="bankChalanNumber"></property>
+		<property name="checkNumber"></property>
+		<property name="bankBsrCode"></property>
+		<property name="bookEntry"></property>
+		<property name="dateTaxPaid"></property>
+		<property name="chalanPeriod"></property>
+		<property name="chalanSerialNumber"></property>
+		<property name="formType"></property>
+		<property name="assesmentYearStart"></property>
+		<property name="assessmentYearEnd"></property>
+		<list name="tdsTransactionItems" cascade="save-update,delete-orphan">
+			<key column="TDS_CHALLANDETAIL_ID"></key>
 			<list-index column="IDX" />
 			<one-to-many class="TDSTransactionItem" />
 		</list>
 	</class>
 
+	<!-- TDSDeductorMasters class -->
+	<class name="TDSDeductorMasters" table="TDSDEDUCTORMASTERS">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
+		<property name="deductorName"></property>
+		<property name="branch"></property>
+		<property name="flatNo"></property>
+		<property name="buildingName"></property>
+		<property name="roadName"></property>
+		<property name="area"></property>
+		<property name="city"></property>
+		<property name="state"></property>
+		<property name="pinCode"></property>
+		<property name="addressdChanged"></property>
+		<property name="telephoneNumber"></property>
+		<property name="faxNo"></property>
+		<property name="emailID"></property>
+		<property name="status"></property>
+		<property name="deductorType"></property>
+		<property name="govtState"></property>
+		<property name="paoCode"></property>
+		<property name="paoRegistration"></property>
+		<property name="ddoCode"></property>
+		<property name="ddoRegistration"></property>
+		<property name="ministryDeptName"></property>
+		<property name="ministryDeptOtherName"></property>
+	</class>
 
+	<!-- TDSDeductorMasters class -->
+	<class name="TDSResponsiblePerson" table="TDSRESPONSIBLEPERSON">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
+		<property name="deductorName"></property>
+		<property name="designation"></property>
+		<property name="branch"></property>
+		<property name="flatNo"></property>
+		<property name="buildingName"></property>
+		<property name="street"></property>
+		<property name="area"></property>
+		<property name="city"></property>
+		<property name="stateName"></property>
+		<property name="pinCode"></property>
+		<property name="addressChanged"></property>
+		<property name="telephoneNumber"></property>
+		<property name="faxNo"></property>
+		<property name="emailAddress"></property>
+		<property name="financialYear"></property>
+		<property name="assesmentYear"></property>
+		<property name="returnType"></property>
+		<property name="existingTDSassesse"></property>
+		<property name="panNumber"></property>
+		<property name="panRegistrationNumber"></property>
+	</class>
 </hibernate-mapping>
 

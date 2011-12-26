@@ -19,13 +19,21 @@ public class ClientTDSChalanDetail implements IAccounterCore {
 	private double penaltyPaidAmount;
 	private double otherAmount;
 
-	private int paymentSection;
+	private String paymentSection;
 	private int paymentMethod;
 	private long bankChalanNumber;
 	private long checkNumber;
-	private long bsrCode;
+	private long bankBsrCode;
 
-	private List<ClientTDSTransactionItem> budgetItems = new ArrayList<ClientTDSTransactionItem>();
+	private boolean bookEntry;
+	private long dateTaxPaid;
+	private int chalanPeriod;
+	private long chalanSerialNumber;
+	private int formType;
+	private int assesmentYearStart;
+	private int assessmentYearEnd;
+
+	private List<ClientTDSTransactionItem> tdsTransactionItems = new ArrayList<ClientTDSTransactionItem>();
 
 	@Override
 	public int getVersion() {
@@ -115,12 +123,12 @@ public class ClientTDSChalanDetail implements IAccounterCore {
 		this.otherAmount = otherAmount;
 	}
 
-	public int getPaymentSection() {
+	public String getPaymentSection() {
 		return paymentSection;
 	}
 
-	public void setPaymentSection(int paymentSection) {
-		this.paymentSection = paymentSection;
+	public void setPaymentSection(String paymentSectionSelected) {
+		this.paymentSection = paymentSectionSelected;
 	}
 
 	public int getPaymentMethod() {
@@ -148,19 +156,86 @@ public class ClientTDSChalanDetail implements IAccounterCore {
 	}
 
 	public long getBsrCode() {
-		return bsrCode;
+		return bankBsrCode;
 	}
 
 	public void setBsrCode(long bsrCode) {
-		this.bsrCode = bsrCode;
+		this.bankBsrCode = bsrCode;
 	}
 
-	public List<ClientTDSTransactionItem> getBudgetItems() {
-		return budgetItems;
+	public long getBankBsrCode() {
+		return bankBsrCode;
 	}
 
-	public void setBudgetItems(List<ClientTDSTransactionItem> budgetItems) {
-		this.budgetItems = budgetItems;
+	public void setBankBsrCode(long bankBsrCode) {
+		this.bankBsrCode = bankBsrCode;
 	}
 
+	public boolean isBookEntry() {
+		return bookEntry;
+	}
+
+	public void setBookEntry(boolean bookEntry) {
+		this.bookEntry = bookEntry;
+	}
+
+	public long getDateTaxPaid() {
+		return dateTaxPaid;
+	}
+
+	public void setDateTaxPaid(long dateTaxPaid) {
+		this.dateTaxPaid = dateTaxPaid;
+	}
+
+	public int getChalanPeriod() {
+		return chalanPeriod;
+	}
+
+	public void setChalanPeriod(int chalanPeriod) {
+		this.chalanPeriod = chalanPeriod;
+	}
+
+	public long getChalanSerialNumber() {
+		return chalanSerialNumber;
+	}
+
+	public void setChalanSerialNumber(long chalanSerialNumber) {
+		this.chalanSerialNumber = chalanSerialNumber;
+	}
+
+	public int getFormType() {
+		return formType;
+	}
+
+	public void setFormType(int formType) {
+		this.formType = formType;
+	}
+
+	public int getAssesmentYearStart() {
+		return assesmentYearStart;
+	}
+
+	public void setAssesmentYearStart(int assesmentYearStart) {
+		this.assesmentYearStart = assesmentYearStart;
+	}
+
+	public int getAssessmentYearEnd() {
+		return assessmentYearEnd;
+	}
+
+	public void setAssessmentYearEnd(int assessmentYearEnd) {
+		this.assessmentYearEnd = assessmentYearEnd;
+	}
+
+	public List<ClientTDSTransactionItem> getTransactionItems() {
+		return tdsTransactionItems;
+	}
+
+	public void setTdsTransactionItems(List<ClientTDSTransactionItem> list) {
+		this.tdsTransactionItems = list;
+	}
+
+	public int getType() {
+		return IAccounterCore.TDSCHALANDETAIL;
+	}
 }
