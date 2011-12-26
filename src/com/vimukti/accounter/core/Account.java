@@ -82,6 +82,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	public static final int TYPE_OTHER_EXPENSE = 18;
 	public static final int TYPE_LIABILITY = 19;
 	public static final int TYPE_ASSET = 20;
+	public static final int TYPE_PAYPAL = 21;
 
 	/**
 	 * Types of cash flow
@@ -920,7 +921,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				this.setBaseType(Account.BASETYPE_OTHER_INCOME_OR_EXPENSE);
 				this.setSubBaseType(Account.SUBBASETYPE_OTHER_EXPENSE);
 				break;
-
+			case Account.TYPE_PAYPAL:
+				this.setSubBaseType(Account.SUBBASETYPE_CURRENT_ASSET);
+				break;
 			}
 
 			String className = this.getClass().getName();
