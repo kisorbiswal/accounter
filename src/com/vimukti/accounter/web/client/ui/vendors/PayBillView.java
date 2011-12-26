@@ -249,12 +249,15 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			// gridView.indexOf(tpbRecord)));
 			// if (cashAcc != null)
 			// tpbRecord.setDiscountAccount(cashAcc.getID());
-
-			List<ClientTransactionCreditsAndPayments> trpList = grid
-					.getCreditsAndPaymentsDialiog() != null ? grid
-					.getCreditsAndPaymentsDialiog().getTransactionCredits(
-							tpbRecord)
-					: new ArrayList<ClientTransactionCreditsAndPayments>();
+			List<ClientTransactionCreditsAndPayments> trpList = null;
+			if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
+				trpList = getTransactionCredits(tpbRecord);
+			} else {
+				trpList = grid.getCreditsAndPaymentsDialiog() != null ? grid
+						.getCreditsAndPaymentsDialiog().getTransactionCredits(
+								tpbRecord)
+						: new ArrayList<ClientTransactionCreditsAndPayments>();
+			}
 			if (trpList != null)
 				for (ClientTransactionCreditsAndPayments temp : trpList) {
 					temp.setTransactionPayBill(tpbRecord);
@@ -266,6 +269,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 			transactionPayBill.add(tpbRecord);
 		}
+
 		transaction.setTransactionPayBill(transactionPayBill);
 
 		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
@@ -273,6 +277,29 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
+	}
+
+	private List<ClientTransactionCreditsAndPayments> getTransactionCredits(
+			ClientTransactionPayBill trPayBill) {
+		List<ClientTransactionCreditsAndPayments> clientTransactionCreditsAndPayments = new ArrayList<ClientTransactionCreditsAndPayments>();
+
+		for (ClientCreditsAndPayments crdPayment : grid
+				.getUpdatedCustomerCreditsAndPayments()) {
+
+			crdPayment.setBalance(crdPayment.getBalance()
+					- trPayBill.getAppliedCredits());
+			crdPayment.setRemaoningBalance(crdPayment.getBalance());
+			crdPayment.setAmtTouse(trPayBill.getAppliedCredits());
+			ClientTransactionCreditsAndPayments creditsAndPayments = new ClientTransactionCreditsAndPayments();
+			creditsAndPayments.setAmountToUse(trPayBill.getAppliedCredits());
+			creditsAndPayments.setDate(crdPayment.getTransaction()
+					.getTransactionDate());
+			creditsAndPayments.setMemo(crdPayment.getMemo());
+			creditsAndPayments.setCreditsAndPayments(crdPayment);
+			clientTransactionCreditsAndPayments.add(creditsAndPayments);
+
+		}
+		return clientTransactionCreditsAndPayments;
 	}
 
 	private String getCheckValue() {
@@ -827,8 +854,29 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				totalCredits += credit.getBalance();
 			}
 		}
-
 		this.unUsedCreditsText.setAmount(totalCredits);
+
+		if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
+
+			for (ClientTransactionPayBill c : grid.getAllRows()) {
+
+				if (c.getAmountDue() > totalCredits && totalCredits != 0) {
+					if (c.getPayment() == 0)
+						c.setAppliedCredits(totalCredits);
+
+					totalCredits = 0D;
+					this.unUsedCreditsText.setAmount(totalCredits);
+				} else if (totalCredits != 0) {
+					c.setAppliedCredits(c.getAmountDue());
+					totalCredits = totalCredits - c.getAmountDue();
+
+				}
+
+				c.setCreditsApplied(true);
+				this.unUsedCreditsText.setAmount(totalCredits);
+				grid.update(c);
+			}
+		}
 
 	}
 
@@ -900,6 +948,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
 		}
+		calculateUnusedCredits();
 
 	}
 
